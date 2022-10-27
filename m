@@ -2,83 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1632B60F646
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:33:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9332A60F640
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:32:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo15v-0007oY-DT; Thu, 27 Oct 2022 07:30:43 -0400
+	id 1oo16v-0008Ro-Kt; Thu, 27 Oct 2022 07:31:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oo15b-0007Rc-Lw
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:30:24 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oo15Z-00039n-FO
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:30:23 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id d24so1136697pls.4
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 04:30:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Czkx8jVudvN8i3MngWDp53Vjdn1G8IyMGXiWOl6yJus=;
- b=jqXXCzzpO1FIYGMbE4fgdiu9L5pV84zXIQ9FMKS4IPWqkjecb22t0kiOI5zIju95Bg
- cCZIwumARfLASZQ9nRSzDd2wG8pkQi7HmBiQxFYyL8ywk6nCQ6ZI9n3dz/TfwTAFh4bG
- 03u3z6MzP+rkkuaBWfEgMx/djF8gh7helB+sg3yh1EhGNoOSuRMkutcSswGXeQqrbjfO
- 1s+OvdByASR6L4ukmkqqmnlvc1B8y6HQQ6+uv8WEbNfwIeifk/532JO32+eELUx57zGx
- KQVU5FplTT4bgt4BEu6TmGz6WDr8Td9akKUV11n97iDUrlgbx4vD8qkXPihqtSQAS7I9
- G1HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Czkx8jVudvN8i3MngWDp53Vjdn1G8IyMGXiWOl6yJus=;
- b=CYCQ1tg/6V+H1VE93BGrHFpMXyel2wGS45UxIM5PEOAvj1+j8z4QVX+APqZA8b7z5t
- Cc6ahjCjAQqzjZGDkCykpvBVySxSE6dVkhAxLlaSudUzNGYwfmWph2ctJFqe8EHK+HBA
- 616R/OmQ7ks5A/7wQORLRM6PB6Rkxdpb3EGPZELR04NvXDb9k5x6uHnFZMYeMKng97JN
- SzajIzM4ADadnZYsi6inls7C1dhVyLJbk8IVQm4C/LWIPxknypW9OzMR6jDLmklvpP1C
- O+6r1wRUxPvOwsuimbpWee1IZIL5RUzQfGoJolaHYKEJB93L+MRvjpM0uUgC3iVx4c/P
- CNuA==
-X-Gm-Message-State: ACrzQf0BYSCNY5dBDthhov1SNCVJFx9F3t0BkU7yPdfTmsF5h0ZhLA/t
- RJJowOGnZEACOFJd+/VRH+DL1A==
-X-Google-Smtp-Source: AMsMyM5P5EP63IEfFpmX962L1VnlAnTNMRTnO8eeRIjWNcAL/Rm/e41U5u13ey7NO14RbKwFWNsi5A==
-X-Received: by 2002:a17:90b:17c5:b0:20d:3520:2e2a with SMTP id
- me5-20020a17090b17c500b0020d35202e2amr9842902pjb.7.1666870219141; 
- Thu, 27 Oct 2022 04:30:19 -0700 (PDT)
-Received: from ?IPV6:2001:8003:501a:d301:3a91:9408:3918:55a?
- ([2001:8003:501a:d301:3a91:9408:3918:55a])
- by smtp.gmail.com with ESMTPSA id
- b2-20020a17090a488200b00205db4ff6dfsm831534pjh.46.2022.10.27.04.30.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 04:30:18 -0700 (PDT)
-Message-ID: <7809009d-72c2-139b-6469-328bef3a067b@linaro.org>
-Date: Thu, 27 Oct 2022 21:30:12 +1000
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oo15q-0007x0-As
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:30:42 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oo15o-0003Lc-Hn
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:30:37 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29RAtqWm017109;
+ Thu, 27 Oct 2022 11:30:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=PBEphsV3Pk4oQvtOQy/b0rfqB6CaKSrMikw+5Jy8BRk=;
+ b=lwPtZF6OavDxTERqt/gmV0CGp0V8ZIhXtKNArrPu5IIjvJQvxYTP4mc6T4MjuTkO/f4y
+ MSpp5wx+iO+2XF8mrlJrJ7UQVNoEFp/JgEDzxqL5AgY9K9Ddq7w9ZY5C56z8ZejV8V7o
+ 7EQ4arpa9cQ7ZipPcancNbYbq1tMtCOKnibVk30BkYGvo2W/n5zR8lt13ba4pHGND/By
+ QuhqpZmkczzlAzjqNDUteBtbBOFHQaz1pVndSG791kbZwFDvmV+tY1uX0qnBIUPa8+uX
+ c5FDduBE+A7DWX2N9gbQDNyunQy37a4T3+gQitFWl2y0umeeokgRSIHtVefYktm4n103 WQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfrnwh6av-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 11:30:34 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29RAttlo017226;
+ Thu, 27 Oct 2022 11:30:33 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfrnwh69v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 11:30:33 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29RBLB0P002743;
+ Thu, 27 Oct 2022 11:30:31 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3kfahu1vtm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 11:30:31 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 29RBV45K53215670
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 27 Oct 2022 11:31:04 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4C474AE051;
+ Thu, 27 Oct 2022 11:30:29 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D9916AE045;
+ Thu, 27 Oct 2022 11:30:28 +0000 (GMT)
+Received: from heavy.ibmuc.com (unknown [9.171.39.72])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 27 Oct 2022 11:30:28 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Cc: qemu-devel@nongnu.org, Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH] tests/vm: use -o IdentitiesOnly=yes for ssh
+Date: Thu, 27 Oct 2022 13:30:26 +0200
+Message-Id: <20221027113026.2280863-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 1/6] accel/tcg: Introduce cpu_unwind_state_data
-Content-Language: en-US
-To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
-References: <20221027100254.215253-1-richard.henderson@linaro.org>
- <20221027100254.215253-2-richard.henderson@linaro.org>
- <5d82d4c4-8de1-4419-19b8-b5de878c5eb3@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <5d82d4c4-8de1-4419-19b8-b5de878c5eb3@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Xh5PCivWcyLOTt6nnZN7VJ5WgREbWYuq
+X-Proofpoint-GUID: KuD66Npq8yP_Dc4uTuNYDXJWoIoUz8zc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-27_05,2022-10-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ lowpriorityscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
+ adultscore=0 bulkscore=0 clxscore=1015 spamscore=0 phishscore=0
+ suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2210270061
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,125 +111,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/27/22 20:40, Claudio Fontana wrote:
-> On 10/27/22 12:02, Richard Henderson wrote:
->> Add a way to examine the unwind data without actually
->> restoring the data back into env.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>   accel/tcg/internal.h      |  4 +--
->>   include/exec/exec-all.h   | 21 ++++++++---
->>   accel/tcg/translate-all.c | 74 ++++++++++++++++++++++++++-------------
->>   3 files changed, 68 insertions(+), 31 deletions(-)
->>
->> diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
->> index 1227bb69bd..9c06b320b7 100644
->> --- a/accel/tcg/internal.h
->> +++ b/accel/tcg/internal.h
->> @@ -106,8 +106,8 @@ void tb_reset_jump(TranslationBlock *tb, int n);
->>   TranslationBlock *tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
->>                                  tb_page_addr_t phys_page2);
->>   bool tb_invalidate_phys_page_unwind(tb_page_addr_t addr, uintptr_t pc);
->> -int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->> -                              uintptr_t searched_pc, bool reset_icount);
->> +void cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->> +                               uintptr_t host_pc, bool reset_icount);
->>   
->>   /* Return the current PC from CPU, which may be cached in TB. */
->>   static inline target_ulong log_pc(CPUState *cpu, const TranslationBlock *tb)
->> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
->> index e948992a80..7d851f5907 100644
->> --- a/include/exec/exec-all.h
->> +++ b/include/exec/exec-all.h
->> @@ -39,20 +39,33 @@ typedef ram_addr_t tb_page_addr_t;
->>   #define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
->>   #endif
->>   
->> +/**
->> + * cpu_unwind_state_data:
->> + * @cpu: the cpu context
->> + * @host_pc: the host pc within the translation
->> + * @data: output data
->> + *
->> + * Attempt to load the the unwind state for a host pc occurring in
->> + * translated code.  If @host_pc is not in translated code, the
->> + * function returns false; otherwise @data is loaded.
->> + * This is the same unwind info as given to restore_state_to_opc.
->> + */
->> +bool cpu_unwind_state_data(CPUState *cpu, uintptr_t host_pc, uint64_t *data);
->> +
->>   /**
->>    * cpu_restore_state:
->> - * @cpu: the vCPU state is to be restore to
->> - * @searched_pc: the host PC the fault occurred at
->> + * @cpu: the cpu context
->> + * @host_pc: the host pc within the translation
->>    * @will_exit: true if the TB executed will be interrupted after some
->>                  cpu adjustments. Required for maintaining the correct
->>                  icount valus
->>    * @return: true if state was restored, false otherwise
->>    *
->>    * Attempt to restore the state for a fault occurring in translated
->> - * code. If the searched_pc is not in translated code no state is
->> + * code. If @host_pc is not in translated code no state is
->>    * restored and the function returns false.
->>    */
->> -bool cpu_restore_state(CPUState *cpu, uintptr_t searched_pc, bool will_exit);
->> +bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit);
->>   
->>   G_NORETURN void cpu_loop_exit_noexc(CPUState *cpu);
->>   G_NORETURN void cpu_loop_exit(CPUState *cpu);
->> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
->> index f185356a36..319becb698 100644
->> --- a/accel/tcg/translate-all.c
->> +++ b/accel/tcg/translate-all.c
->> @@ -247,52 +247,66 @@ static int encode_search(TranslationBlock *tb, uint8_t *block)
->>       return p - block;
->>   }
->>   
->> -/* The cpu state corresponding to 'searched_pc' is restored.
->> - * When reset_icount is true, current TB will be interrupted and
->> - * icount should be recalculated.
->> - */
->> -int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->> -                              uintptr_t searched_pc, bool reset_icount)
-> 
-> 
-> Maybe add a small comment about what the return value of this static function means?
-> It can be indirectly inferred from its point of use:
-> 
->   +    int insns_left = cpu_unwind_data_from_tb(tb, host_pc, data);
-> 
-> But I find having the information about the meaning of a function and return value useful to be available there.
-> 
-> IIUC for external functions the standard way is to document in the header files, but for the static functions I would think we can do it here.
-> 
-> With that Reviewed-by: Claudio Fontana <cfontana@suse.de>
+When one has a lot of keys in ~/.ssh directory, the ssh command will
+try all of them before the one specified on the command line, and this
+may cause the remote ssh server to reject the connection due to too
+many failed authentication attempts.
 
+Fix by adding -o IdentitiesOnly=yes, which makes the ssh client
+consider only the keys specified on the command line.
 
-I added
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ tests/vm/basevm.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-+/**
-+ * cpu_unwind_data_from_tb: Load unwind data for TB
-+ * @tb: translation block
-+ * @host_pc: the host pc within translation
-+ * @data: output array
-+ *
-+ * Within @tb, locate the guest insn whose translation contains @host_pc,
-+ * then load the unwind data created by INDEX_opc_start_insn for that
-+ * guest insn.  Return the number of guest insns which remain un-executed
-+ * within @tb -- these must be credited back to the cpu's icount budget.
-+ *
-+ * If we could not determine which guest insn to which @host_pc belongs,
-+ * return -1 and do not load unwind data.
-+ * FIXME: Such a failure is likely to break the guest, as we were not
-+ * expecting to unwind from such a location.  This may be some sort of
-+ * backend code generation problem.  Consider asserting instead.
-   */
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 4fd9af10b7f..2276364c42f 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -233,7 +233,8 @@ def _ssh_do(self, user, cmd, check):
+                    "-o", "UserKnownHostsFile=" + os.devnull,
+                    "-o",
+                    "ConnectTimeout={}".format(self._config["ssh_timeout"]),
+-                   "-p", str(self.ssh_port), "-i", self._ssh_tmp_key_file]
++                   "-p", str(self.ssh_port), "-i", self._ssh_tmp_key_file,
++                   "-o", "IdentitiesOnly=yes"]
+         # If not in debug mode, set ssh to quiet mode to
+         # avoid printing the results of commands.
+         if not self.debug:
+-- 
+2.37.2
 
-Which I think captures some of your v1 comments as well.
-
-
-r~
 
