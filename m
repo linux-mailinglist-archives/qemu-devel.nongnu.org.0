@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C4D6101AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 21:30:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4374E6100A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 20:51:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo7hP-0003Tm-Ew; Thu, 27 Oct 2022 14:33:51 -0400
+	id 1oo7hQ-0003Zo-BL; Thu, 27 Oct 2022 14:33:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gL-0001qP-SN
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:32:45 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gN-0001rB-62
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:32:48 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gD-0002TE-DM
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:32:45 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gE-0002TR-BV
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:32:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666895556;
+ s=mimecast20190719; t=1666895557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jYAlZOHBYOevW/Gsp5EqDFgsms2N9mt6LpiDPG1M3TQ=;
- b=BxAUvaWPH4I+womAzxDO0Db0y8NsRHFT9bwv+X3ueJoiYmKmlQE2K/jvRw/H7BEa+gAw8U
- ZtR8YAh0LSWvjV4EuDQ5ugjaOXaVjkNjcP/r8ab4NEfLdStYuRatM3+Wc+1UGQV20ds7bj
- c6HYJdT94eViiIfxys2KpMh0J1VrmFI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gLpIcLnFj5ZTKERfnqCNXZFPD94KaYdW9E3/f2Qx06c=;
+ b=FLLUn8havj0JayzWB4I882XK76JFCO6ITVFjn13NFNW7BxCrAb/BaKdprYGzkGK+69mKBz
+ JgdOSpOCBdBfHyN5NPrMvvLBVx/x7xAENSDRmZnhj4XIHMbqDbQqO75b+ghP+Epm7V0sMP
+ LzrZbg9Z2MCEbTgr3dwdOUblQjcaIsI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-227-zTx6G_ZWNT6yebatph86Tg-1; Thu, 27 Oct 2022 14:32:33 -0400
-X-MC-Unique: zTx6G_ZWNT6yebatph86Tg-1
+ us-mta-591-onJMj2e8ON-QLTiO8NCk5Q-1; Thu, 27 Oct 2022 14:32:34 -0400
+X-MC-Unique: onJMj2e8ON-QLTiO8NCk5Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7B9D811E81;
- Thu, 27 Oct 2022 18:32:32 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D2F7C3C0F66E;
+ Thu, 27 Oct 2022 18:32:33 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 22C551121320;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1ABC11121320;
  Thu, 27 Oct 2022 18:32:32 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 22/58] block: refactor bdrv_remove_file_or_backing_child to
- bdrv_remove_child
-Date: Thu, 27 Oct 2022 20:31:10 +0200
-Message-Id: <20221027183146.463129-23-kwolf@redhat.com>
+Subject: [PULL 23/58] block.c: assert bs->aio_context is written under BQL and
+ drains
+Date: Thu, 27 Oct 2022 20:31:11 +0200
+Message-Id: <20221027183146.463129-24-kwolf@redhat.com>
 In-Reply-To: <20221027183146.463129-1-kwolf@redhat.com>
 References: <20221027183146.463129-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -62,7 +62,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,94 +78,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-Now the function can remove any child, so give it more common name.
-Drop assertions and drop bs argument which becomes unused. Function
-would be reused in a further commit.
+Also here ->aio_context is read by I/O threads and written
+under BQL.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220726201134.924743-16-vsementsov@yandex-team.ru>
+Message-Id: <20221025084952.2139888-2-eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 27 +++++++++------------------
- 1 file changed, 9 insertions(+), 18 deletions(-)
+ block.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/block.c b/block.c
-index ed11a421b0..2d74bfe665 100644
+index 2d74bfe665..4d727aa38c 100644
 --- a/block.c
 +++ b/block.c
-@@ -92,9 +92,7 @@ static bool bdrv_recurse_has_child(BlockDriverState *bs,
+@@ -7153,6 +7153,7 @@ static void bdrv_detach_aio_context(BlockDriverState *bs)
+     if (bs->quiesce_counter) {
+         aio_enable_external(bs->aio_context);
+     }
++    assert_bdrv_graph_writable(bs);
+     bs->aio_context = NULL;
+ }
  
- static void bdrv_replace_child_noperm(BdrvChild *child,
-                                       BlockDriverState *new_bs);
--static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
--                                              BdrvChild *child,
--                                              Transaction *tran);
-+static void bdrv_remove_child(BdrvChild *child, Transaction *tran);
- static void bdrv_remove_filter_or_cow_child(BlockDriverState *bs,
-                                             Transaction *tran);
- 
-@@ -3342,7 +3340,7 @@ static int bdrv_set_file_or_backing_noperm(BlockDriverState *parent_bs,
- 
-     if (child) {
-         bdrv_unset_inherits_from(parent_bs, child, tran);
--        bdrv_remove_file_or_backing_child(parent_bs, child, tran);
-+        bdrv_remove_child(child, tran);
+@@ -7166,6 +7167,7 @@ static void bdrv_attach_aio_context(BlockDriverState *bs,
+         aio_disable_external(new_context);
      }
  
-     if (!child_bs) {
-@@ -5023,26 +5021,19 @@ static bool should_update_child(BdrvChild *c, BlockDriverState *to)
-     return ret;
- }
++    assert_bdrv_graph_writable(bs);
+     bs->aio_context = new_context;
  
--static void bdrv_remove_filter_or_cow_child_commit(void *opaque)
-+static void bdrv_remove_child_commit(void *opaque)
- {
-     GLOBAL_STATE_CODE();
-     bdrv_child_free(opaque);
- }
- 
--static TransactionActionDrv bdrv_remove_filter_or_cow_child_drv = {
--    .commit = bdrv_remove_filter_or_cow_child_commit,
-+static TransactionActionDrv bdrv_remove_child_drv = {
-+    .commit = bdrv_remove_child_commit,
- };
- 
--/*
-- * A function to remove backing or file child of @bs.
-- * Function doesn't update permissions, caller is responsible for this.
-- */
--static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
--                                              BdrvChild *child,
--                                              Transaction *tran)
-+/* Function doesn't update permissions, caller is responsible for this. */
-+static void bdrv_remove_child(BdrvChild *child, Transaction *tran)
- {
--    assert(child == bs->backing || child == bs->file);
--
-     if (!child) {
-         return;
-     }
-@@ -5051,7 +5042,7 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
-         bdrv_replace_child_tran(child, NULL, tran);
-     }
- 
--    tran_add(tran, &bdrv_remove_filter_or_cow_child_drv, child);
-+    tran_add(tran, &bdrv_remove_child_drv, child);
- }
- 
- /*
-@@ -5062,7 +5053,7 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
- static void bdrv_remove_filter_or_cow_child(BlockDriverState *bs,
-                                             Transaction *tran)
- {
--    bdrv_remove_file_or_backing_child(bs, bdrv_filter_or_cow_child(bs), tran);
-+    bdrv_remove_child(bdrv_filter_or_cow_child(bs), tran);
- }
- 
- static int bdrv_replace_node_noperm(BlockDriverState *from,
+     if (bs->drv && bs->drv->bdrv_attach_aio_context) {
 -- 
 2.37.3
 
