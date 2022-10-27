@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E559610059
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 20:35:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6DD6101D1
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 21:38:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo7hU-0003pP-OO; Thu, 27 Oct 2022 14:33:56 -0400
+	id 1oo7kX-0001Vs-BY; Thu, 27 Oct 2022 14:37:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gP-0001rL-4g
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:32:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gR-0001sA-9e
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:32:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gF-0002Ts-DB
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:32:48 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oo7gG-0002U9-AU
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:32:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666895558;
+ s=mimecast20190719; t=1666895559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wnT6kIn389H2GBarnMB2psv4KJIMOGrdfRB3+dT2x3E=;
- b=CMW1rZZ11UXuWdjaTOFz4+ezN+XMjv6+zF/v0vzReMDiV4XPK5CElAZAZoDyOQQwLibPzC
- K57KEogH7tBIHLeYXljc5c1FQhvUbu5A8V/z4O+syf8N6VopUd4sNUTxUINoY4Xd1sHWVq
- tOYuwjg+2aSm4x5HD4i/d9FkH45JOww=
+ bh=oM8lm9g9YMl/DO8Kl7CbQjDZAx89jx8QUyj64Nbl9+U=;
+ b=UIxEKZJt1qf5SBxQ3s50YEXePZJ7NoGt4IvYkP4lfj7xNu/PprHMWzkWQI74vf5GvDi/KM
+ CzfdBjbzsRkNioc99IFokq3Aslzspt+1rEWJ5pJ4OKVhnx2hlOs++Ca0NcXd0uuYyTV5w4
+ 0SikHsVO6flQgSXQ0OqcVYbuZD1nm1U=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-82-89U_P0glOHq_AxaeoAn4gg-1; Thu, 27 Oct 2022 14:32:37 -0400
-X-MC-Unique: 89U_P0glOHq_AxaeoAn4gg-1
+ us-mta-257-mPEjk6ZMMqG2Kxt4CpcBFg-1; Thu, 27 Oct 2022 14:32:38 -0400
+X-MC-Unique: mPEjk6ZMMqG2Kxt4CpcBFg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C1000185A78B;
- Thu, 27 Oct 2022 18:32:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BB576811E67;
+ Thu, 27 Oct 2022 18:32:37 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B8CD1121320;
- Thu, 27 Oct 2022 18:32:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 056A71121320;
+ Thu, 27 Oct 2022 18:32:36 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 26/58] blockjob: implement .change_aio_ctx in child_job
-Date: Thu, 27 Oct 2022 20:31:14 +0200
-Message-Id: <20221027183146.463129-27-kwolf@redhat.com>
+Subject: [PULL 27/58] block: implement .change_aio_ctx in child_of_bds
+Date: Thu, 27 Oct 2022 20:31:15 +0200
+Message-Id: <20221027183146.463129-28-kwolf@redhat.com>
 In-Reply-To: <20221027183146.463129-1-kwolf@redhat.com>
 References: <20221027183146.463129-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -79,13 +79,9 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-child_job_change_aio_ctx() is very similar to
-child_job_can_set_aio_ctx(), but it implements a new transaction
-so that if all check pass, the new transaction's .commit()
-will take care of changin the BlockJob AioContext.
-child_job_set_aio_ctx_commit() is similar to child_job_set_aio_ctx(),
-but it doesn't need to invoke the recursion, as this is already
-taken care by child_job_change_aio_ctx().
+bdrv_child_cb_change_aio_ctx() is identical to
+bdrv_child_cb_can_set_aio_ctx(), as we only need
+to recursively go on the parent bs.
 
 Note: bdrv_child_try_change_aio_context() is not called by
 anyone at this point.
@@ -93,74 +89,38 @@ anyone at this point.
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20221025084952.2139888-5-eesposit@redhat.com>
+Message-Id: <20221025084952.2139888-6-eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- blockjob.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ block.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/blockjob.c b/blockjob.c
-index bdf20a0e35..5a783b75c6 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -126,6 +126,50 @@ static void child_job_drained_end(BdrvChild *c, int *drained_end_counter)
-     job_resume(&job->job);
+diff --git a/block.c b/block.c
+index 59319d9b0f..3386457083 100644
+--- a/block.c
++++ b/block.c
+@@ -1242,6 +1242,14 @@ static int bdrv_child_cb_inactivate(BdrvChild *child)
+     return 0;
  }
  
-+typedef struct BdrvStateChildJobContext {
-+    AioContext *new_ctx;
-+    BlockJob *job;
-+} BdrvStateChildJobContext;
-+
-+static void child_job_set_aio_ctx_commit(void *opaque)
++static bool bdrv_child_cb_change_aio_ctx(BdrvChild *child, AioContext *ctx,
++                                         GHashTable *visited, Transaction *tran,
++                                         Error **errp)
 +{
-+    BdrvStateChildJobContext *s = opaque;
-+    BlockJob *job = s->job;
-+
-+    job_set_aio_context(&job->job, s->new_ctx);
++    BlockDriverState *bs = child->opaque;
++    return bdrv_change_aio_context(bs, ctx, visited, tran, errp);
 +}
 +
-+static TransactionActionDrv change_child_job_context = {
-+    .commit = child_job_set_aio_ctx_commit,
-+    .clean = g_free,
-+};
-+
-+static bool child_job_change_aio_ctx(BdrvChild *c, AioContext *ctx,
-+                                     GHashTable *visited, Transaction *tran,
-+                                     Error **errp)
-+{
-+    BlockJob *job = c->opaque;
-+    BdrvStateChildJobContext *s;
-+    GSList *l;
-+
-+    for (l = job->nodes; l; l = l->next) {
-+        BdrvChild *sibling = l->data;
-+        if (!bdrv_child_change_aio_context(sibling, ctx, visited,
-+                                           tran, errp)) {
-+            return false;
-+        }
-+    }
-+
-+    s = g_new(BdrvStateChildJobContext, 1);
-+    *s = (BdrvStateChildJobContext) {
-+        .new_ctx = ctx,
-+        .job = job,
-+    };
-+
-+    tran_add(tran, &change_child_job_context, s);
-+    return true;
-+}
-+
- static bool child_job_can_set_aio_ctx(BdrvChild *c, AioContext *ctx,
-                                       GSList **ignore, Error **errp)
+ static bool bdrv_child_cb_can_set_aio_ctx(BdrvChild *child, AioContext *ctx,
+                                           GSList **ignore, Error **errp)
  {
-@@ -174,6 +218,7 @@ static const BdrvChildClass child_job = {
-     .drained_end        = child_job_drained_end,
-     .can_set_aio_ctx    = child_job_can_set_aio_ctx,
-     .set_aio_ctx        = child_job_set_aio_ctx,
-+    .change_aio_ctx     = child_job_change_aio_ctx,
-     .stay_at_node       = true,
-     .get_parent_aio_context = child_job_get_parent_aio_context,
+@@ -1534,6 +1542,7 @@ const BdrvChildClass child_of_bds = {
+     .inactivate      = bdrv_child_cb_inactivate,
+     .can_set_aio_ctx = bdrv_child_cb_can_set_aio_ctx,
+     .set_aio_ctx     = bdrv_child_cb_set_aio_ctx,
++    .change_aio_ctx  = bdrv_child_cb_change_aio_ctx,
+     .update_filename = bdrv_child_cb_update_filename,
+     .get_parent_aio_context = child_of_bds_get_parent_aio_context,
  };
 -- 
 2.37.3
