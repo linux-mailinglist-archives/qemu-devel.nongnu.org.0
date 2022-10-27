@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55E1460EE11
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 04:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4977A60EE22
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 04:56:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onstt-0007qc-UT; Wed, 26 Oct 2022 22:45:45 -0400
+	id 1ont1k-0004aY-Po; Wed, 26 Oct 2022 22:53:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1onstr-0007bz-0j; Wed, 26 Oct 2022 22:45:43 -0400
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1onstp-0002b4-9S; Wed, 26 Oct 2022 22:45:42 -0400
-Received: by mail-qt1-x82b.google.com with SMTP id cr19so276514qtb.0;
- Wed, 26 Oct 2022 19:45:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=a6JI4zLVLk11SkPKzXAmdOBQP7aGxeIjU5f3ycHacnw=;
- b=HaU1P7FjAdCIPy+ONxVgcwWzqMJv1h44dPYmycumWXJawyCFQouRfOsoBkFMvXZMQJ
- mAaQSh4tp4HWist1C1Z2JUPprs/wA883j7PdFkFCmxIsu8n5O5wTElWXmf/HgI+iFdTc
- j4keM6trGj5Zo0jeydpSyfQJ17CQMkGvjhRaHsD4IbENZuRh/tCUa/6E4AKVbgP7MEA0
- c/sFxLoCIQsJjSx9QdiT0DoWZf3EHTsoDwWr067fX5I2EGdpIXj4gsEF1VULrllCc6u9
- WaluEUqKU0NpzAEKwVGSa4/nSIzkYlws5njRSEzqIcL1awEOVbyd+mDbW2dW9SXZd5LR
- y3cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=a6JI4zLVLk11SkPKzXAmdOBQP7aGxeIjU5f3ycHacnw=;
- b=QjaZcxt0mOjLVYJmsmM1lLrHkH+o5i/foYmlefXBXNhVX+DjOUNIZBRskalyyWAW0d
- s4Z8iTjZc/5E8nDf+EQggnllH+cIb+fOXKwPdpOLgMt2wBXmsQbjziHPZhJA69vAHwHP
- DdSsfN692L3thh6tIc9yR8oSP4G/Q5q4i63YkBA1s9nwpH3GFJWXO9pCBFAjwuHACD2z
- LRLTUaaAqozFgYvVM0C9O2f1o4Eyp3cRQKF7mikQfr06FL3+fiexcT4rPSEEm29yJmSF
- LIrT3DCmfjrtu5e0sJR6lvNb1+W+5h3oJQLtcCiLYMhrLFjeNu0NBrfJcW4qN03YlG3W
- 5boA==
-X-Gm-Message-State: ACrzQf2ryj+dpqOqKAQkMyKJIZ7KbmX12ysq6mfuIYJi7lo4phAoM8Gb
- 3w/G4qlbOHkYpXDD0KVa69fTBoCPXB2VR9K5gtw=
-X-Google-Smtp-Source: AMsMyM4pf62PxeOgv2qIPDt1iBXhNlko9tEYvBAZlJ5jktTm2UA80Uqouw9mWf7Qy9gMR/L5YyM67wrSiE7KU/oZG3Y=
-X-Received: by 2002:ac8:5dce:0:b0:3a4:f665:453d with SMTP id
- e14-20020ac85dce000000b003a4f665453dmr2319448qtx.276.1666838739572; Wed, 26
- Oct 2022 19:45:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
+ id 1ont1g-0004Sw-O4
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 22:53:48 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <maobibo@loongson.cn>) id 1ont1d-0003hW-7S
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 22:53:47 -0400
+Received: from loongson.cn (unknown [10.20.42.170])
+ by gateway (Coremail) with SMTP id _____8DxOdiu8lljB8MCAA--.8809S3;
+ Thu, 27 Oct 2022 10:53:35 +0800 (CST)
+Received: from [10.20.42.170] (unknown [10.20.42.170])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8DxbuCt8lljYo0FAA--.20368S3; 
+ Thu, 27 Oct 2022 10:53:34 +0800 (CST)
+Message-ID: <21a0d24e-145e-c34c-ed4e-d0f7745331ec@loongson.cn>
+Date: Thu, 27 Oct 2022 10:53:33 +0800
 MIME-Version: 1.0
-References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
- <20220908132817.1831008-6-bmeng.cn@gmail.com>
- <f3447651-dadb-c0ed-f1f8-4ad80b551acf@amsat.org>
- <DM4PR11MB53589BB8CFF45CE67683E762914F9@DM4PR11MB5358.namprd11.prod.outlook.com>
- <CAEUhbmWv3F-5rPnE37XbmdSyfuKAXb7JOwywqVPnzA7dq361Og@mail.gmail.com>
-In-Reply-To: <CAEUhbmWv3F-5rPnE37XbmdSyfuKAXb7JOwywqVPnzA7dq361Og@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 27 Oct 2022 10:45:28 +0800
-Message-ID: <CAEUhbmXka0i8Jt_kO_LHNpLWEix17Q7GiMP+U+6kEf4v9M7Rfg@mail.gmail.com>
-Subject: Re: [PATCH 5/7] block/nfs: Fix 32-bit Windows build
-To: "Meng, Bin" <Bin.Meng@windriver.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, 
- Kevin Wolf <kwolf@redhat.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, Peter Lieven <pl@kamp.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x82b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v1 1/3] hw/loongarch: Change FDT base addr to 2 MiB
+Content-Language: en-US
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, gaosong@loongson.cn, f4bug@amsat.org,
+ philmd@linaro.org
+References: <20221021035419.2632878-1-yangxiaojuan@loongson.cn>
+ <20221021035419.2632878-2-yangxiaojuan@loongson.cn>
+From: maobibo <maobibo@loongson.cn>
+In-Reply-To: <20221021035419.2632878-2-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxbuCt8lljYo0FAA--.20368S3
+X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxWFykWryrXw1fZw47Gw4fuFg_yoW5Ar4DpF
+ 9rAFn3Wr40qr97Wrn2qF98uFyDAwn7Ga429r17Cr4FkFnrWr10grW8Aw4qkFy8A395JF4F
+ vFyvgFZ3X3W8X3DanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
+ IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4U
+ McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
+ AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+ Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwI
+ xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
+ JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
+ C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUrNtxDUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,94 +80,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Kevin,
+Xiaojuan,
 
-On Sat, Sep 24, 2022 at 9:19 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi,
->
-> On Wed, Sep 21, 2022 at 8:10 PM Meng, Bin <Bin.Meng@windriver.com> wrote:
-> >
-> > -----Original Message-----
-> > From: Philippe Mathieu-Daud=C3=A9 <philippe.mathieu.daude@gmail.com> On=
- Behalf Of Philippe Mathieu-Daud=C3=A9
-> > Sent: Sunday, September 18, 2022 5:32 AM
-> > To: Bin Meng <bmeng.cn@gmail.com>; qemu-devel@nongnu.org
-> > Cc: Meng, Bin <Bin.Meng@windriver.com>; Hanna Reitz <hreitz@redhat.com>=
-; Kevin Wolf <kwolf@redhat.com>; Peter Lieven <pl@kamp.de>; qemu-block@nong=
-nu.org
-> > Subject: Re: [PATCH 5/7] block/nfs: Fix 32-bit Windows build
-> >
-> > [Please note: This e-mail is from an EXTERNAL e-mail address]
-> >
-> > On 8/9/22 15:28, Bin Meng wrote:
-> > > From: Bin Meng <bin.meng@windriver.com>
-> > >
-> > > libnfs.h declares nfs_fstat() as the following for win32:
-> > >
-> > >    int nfs_fstat(struct nfs_context *nfs, struct nfsfh *nfsfh,
-> > >                  struct __stat64 *st);
-> > >
-> > > The 'st' parameter should be of type 'struct __stat64'. The codes
-> > > happen to build successfully for 64-bit Windows, but it does not buil=
-d
-> > > for 32-bit Windows.
-> > >
-> > > Fixes: 6542aa9c75bc ("block: add native support for NFS")
-> > > Fixes: 18a8056e0bc7 ("block/nfs: cache allocated filesize for
-> > > read-only files")
-> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > > ---
-> > >
-> > >   block/nfs.c | 8 ++++++++
-> > >   1 file changed, 8 insertions(+)
-> > >
-> > > diff --git a/block/nfs.c b/block/nfs.c index 444c40b458..d5d67937dd
-> > > 100644
-> > > --- a/block/nfs.c
-> > > +++ b/block/nfs.c
-> > > @@ -418,7 +418,11 @@ static int64_t nfs_client_open(NFSClient *client=
-, BlockdevOptionsNfs *opts,
-> > >                                  int flags, int open_flags, Error **e=
-rrp)
-> > >   {
-> > >       int64_t ret =3D -EINVAL;
-> > > +#ifdef _WIN32
-> > > +    struct __stat64 st;
-> > > +#else
-> > >       struct stat st;
-> > > +#endif
-> > >       char *file =3D NULL, *strp =3D NULL;
-> > >
-> > >       qemu_mutex_init(&client->mutex); @@ -781,7 +785,11 @@ static in=
-t
-> > > nfs_reopen_prepare(BDRVReopenState *state,
-> > >                                 BlockReopenQueue *queue, Error **errp=
-)
-> > >   {
-> > >       NFSClient *client =3D state->bs->opaque;
-> > > +#ifdef _WIN32
-> > > +    struct __stat64 st;
-> > > +#else
-> > >       struct stat st;
-> > > +#endif
-> > >       int ret =3D 0;
-> > >
-> > >       if (state->flags & BDRV_O_RDWR && bdrv_is_read_only(state->bs))
-> > > {
-> >
-> > What about the field in struct NFSRPC?
-> >
-> > NFSRPC::struct stat is used in nfs_get_allocated_file_size_cb() and nfs=
-_get_allocated_file_size() that are not built on win32, so there is no prob=
-lem.
-> >
->
-> Any further comments?
->
+can you modify the tile like "Load FDT table into dram memory space"
+rather than "change base addr to 2MiB" ?
 
-Will you queue this patch via the block tree?
+regards
+bibo,mao
 
-Regards,
-Bin
+在 2022/10/21 11:54, Xiaojuan Yang 写道:
+> Change FDT base addr to 2 MiB in lowmem region. Since lowmem
+> region starts from 0, FDT base address is located at 2 MiB to
+> avoid NULL pointer access.
+> 
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> ---
+>  hw/loongarch/virt.c         | 18 +++++++++++-------
+>  include/hw/loongarch/virt.h |  3 ---
+>  2 files changed, 11 insertions(+), 10 deletions(-)
+> 
+> diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+> index 29df99727d..fe33e7e3e4 100644
+> --- a/hw/loongarch/virt.c
+> +++ b/hw/loongarch/virt.c
+> @@ -159,7 +159,6 @@ static void fdt_add_pcie_node(const LoongArchMachineState *lams)
+>                                   1, FDT_PCI_RANGE_MMIO, 2, base_mmio,
+>                                   2, base_mmio, 2, size_mmio);
+>      g_free(nodename);
+> -    qemu_fdt_dumpdtb(ms->fdt, lams->fdt_size);
+>  }
+>  
+>  static void fdt_add_irqchip_node(LoongArchMachineState *lams)
+> @@ -689,6 +688,7 @@ static void loongarch_init(MachineState *machine)
+>      MemoryRegion *address_space_mem = get_system_memory();
+>      LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
+>      int i;
+> +    hwaddr fdt_base;
+>  
+>      if (!cpu_model) {
+>          cpu_model = LOONGARCH_CPU_TYPE_NAME("la464");
+> @@ -793,12 +793,16 @@ static void loongarch_init(MachineState *machine)
+>      lams->machine_done.notify = virt_machine_done;
+>      qemu_add_machine_init_done_notifier(&lams->machine_done);
+>      fdt_add_pcie_node(lams);
+> -
+> -    /* load fdt */
+> -    MemoryRegion *fdt_rom = g_new(MemoryRegion, 1);
+> -    memory_region_init_rom(fdt_rom, NULL, "fdt", VIRT_FDT_SIZE, &error_fatal);
+> -    memory_region_add_subregion(get_system_memory(), VIRT_FDT_BASE, fdt_rom);
+> -    rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, VIRT_FDT_BASE);
+> +    /*
+> +     * Since lowmem region starts from 0, FDT base address is located
+> +     * at 2 MiB to avoid NULL pointer access.
+> +     *
+> +     * Put the FDT into the memory map as a ROM image: this will ensure
+> +     * the FDT is copied again upon reset, even if addr points into RAM.
+> +     */
+> +    fdt_base = 2 * MiB;
+> +    qemu_fdt_dumpdtb(machine->fdt, lams->fdt_size);
+> +    rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, fdt_base);
+>  }
+>  
+>  bool loongarch_is_acpi_enabled(LoongArchMachineState *lams)
+> diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
+> index 09f1c88ee5..45c383f5a7 100644
+> --- a/include/hw/loongarch/virt.h
+> +++ b/include/hw/loongarch/virt.h
+> @@ -28,9 +28,6 @@
+>  #define VIRT_GED_MEM_ADDR       (VIRT_GED_EVT_ADDR + ACPI_GED_EVT_SEL_LEN)
+>  #define VIRT_GED_REG_ADDR       (VIRT_GED_MEM_ADDR + MEMORY_HOTPLUG_IO_LEN)
+>  
+> -#define VIRT_FDT_BASE           0x1c400000
+> -#define VIRT_FDT_SIZE           0x100000
+> -
+>  struct LoongArchMachineState {
+>      /*< private >*/
+>      MachineState parent_obj;
+
 
