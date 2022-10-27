@@ -2,84 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1431D60F1F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 10:12:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7BBB60F1FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 10:15:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onxzc-0004ic-0D; Thu, 27 Oct 2022 04:12:00 -0400
+	id 1ony0g-0002ka-J7; Thu, 27 Oct 2022 04:13:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1onxzY-0004R9-Eg
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 04:11:56 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ony0X-0002Jw-79
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 04:13:01 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1onxzW-00038N-9J
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 04:11:56 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ony0U-0003Du-VO
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 04:12:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666858313;
+ s=mimecast20190719; t=1666858374;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q42HD+egj9lbRfZABShNymw+inI8Nd2cLLcTAmcwrvE=;
- b=LxkTooTtoDLPKJKF6cVD5cE3ZebIneAC8Gc1SqUGOmyPd3QFWioPVdMN0SqFoxLzgsCeZu
- cZKjJKIUiODUzG/ME/nPzi25D627uWHteUkwHf4SEWmie2V4Faz04b+8+1XeBnsHk/D2gE
- dmRv66KBY+Cu7H5NF9BVIavNBs66mUw=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=yMLmrjTYt/Ew4fpwtFpLeNDhZq2bPxydwKRGSfT/icc=;
+ b=NuTAHoiYf1Awa9J71en/aeTGcfPWrza6hMgNWhZkHrpdPpvcR26uNj36ZzSGL62HoTrxy2
+ Ns6uMWG9uYn34rLo4FSA3bAbJXpevuonsrYRigWKOcPVAb4vbDS3A+ByAd+SycYS3aGm4v
+ yIXIcA377G1vqVgvQ2ILTd0XJ0qA6ZQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-495-Kn2mMTuONcm2PMTKJC_O3w-1; Thu, 27 Oct 2022 04:11:52 -0400
-X-MC-Unique: Kn2mMTuONcm2PMTKJC_O3w-1
-Received: by mail-oo1-f69.google.com with SMTP id
- v10-20020a4a860a000000b00480b3e2b5afso389084ooh.12
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 01:11:52 -0700 (PDT)
+ us-mta-203-6sNKYCYMPVqJ0gY9r1Zuhg-1; Thu, 27 Oct 2022 04:12:52 -0400
+X-MC-Unique: 6sNKYCYMPVqJ0gY9r1Zuhg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ h204-20020a1c21d5000000b003cf4e055442so369739wmh.1
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 01:12:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=q42HD+egj9lbRfZABShNymw+inI8Nd2cLLcTAmcwrvE=;
- b=7N85sprXb3sX0coOBs25K2jOBc4d/dzT9WtyQ+oMjwA8vx55pZUgjvgX9WPV1qRpBo
- w/ty9jTHbyjfYKPhFT/LqF4VYwPlfXU/OomjvQOtGPaJ1cbcEfxBzaegYGNfRXDaGMz2
- XzfGA9VZ6tnfWsx8FiBainFI17vdrYU1D1h4pOmAEvnPeFWv5Dm3PBGdDr/NKuXsXsNs
- JCjLx67j8WVG2UzTwHcht4bl3kK5x1HRjd045Ya1wRXPla0q5qqEW8TDoM993rNF9Mh7
- 6Kdib9a+zb4MozZ+40YP9QDfK4japaJrTZPWSPc5HNyAAzXG+zb/1SD5f9Oe+aWfj49A
- aj5w==
-X-Gm-Message-State: ACrzQf0o5ikTVhFQg2eMk5WTfblNrPEvAlHc1CowkdLU/Bg5hQ1iXqyJ
- zo6dS6PgmPQTw73haUUrH9R+W6hQJJ2HKSk9qLGBNnFPmARBXDnO2QQZJM92Hz2g1OoYkarw9QY
- AxHZnLCED7iAONRM0LWE+SdwXCImMJL8=
-X-Received: by 2002:a4a:c590:0:b0:480:5ecf:85f4 with SMTP id
- x16-20020a4ac590000000b004805ecf85f4mr20711816oop.93.1666858311476; 
- Thu, 27 Oct 2022 01:11:51 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6NJBTnmP4kCuNZywxdEcq9gEK7BZbEZRVopIQe8eJEez3VRQAgelzYhzQa4pDthzxvpWgA/GTFsVcRlK6iJjo=
-X-Received: by 2002:a4a:c590:0:b0:480:5ecf:85f4 with SMTP id
- x16-20020a4ac590000000b004805ecf85f4mr20711800oop.93.1666858311190; Thu, 27
- Oct 2022 01:11:51 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yMLmrjTYt/Ew4fpwtFpLeNDhZq2bPxydwKRGSfT/icc=;
+ b=fUuKFhDO38GzaA2CNnATSBpCCbVRYy9fXcFCIyvCwsrmbJ0AfKRuiiGSFqB3n4d1vS
+ aenxs+c3IlgXaKSN+9T/wVmkAvqMEUZF2nOX1z40wZmjfJPNLPfP5U6/eePBZLm8QdCH
+ n09EwyJPiLQtPHc/+9KaLS4Q/XwZE/PUc6ZEZA9JfB8nx7B9TcsZQNZhlVggVxRyMcN6
+ N+KRjaZRWRSiQyrdMPDdVtev+v4kzosyvgcNrxdnW83tG7rDaJBjMLPfoqLE6rzs0v3S
+ 4gnOV5eNtzvRudg8yV2U5PMqNHobpdd9bLzSFPrDGgB5Fv5QjbN1syIN1z+WtajFt14w
+ uhoA==
+X-Gm-Message-State: ACrzQf3Y80lTmHDFp2uiPO2sMosQMjlhq0a0uiYg4N6Lq5HKxvKZTEEI
+ KPeQyt5F9ZUh3JRzTapUPbLuqIeTxgrXTUjB7zvSjbvMN3icmAb7TTkgXIga6RSvo3Aj2W569PF
+ 6TXG1rIxkeQ/24/c=
+X-Received: by 2002:a5d:64c7:0:b0:22e:43a6:2801 with SMTP id
+ f7-20020a5d64c7000000b0022e43a62801mr32489036wri.612.1666858371530; 
+ Thu, 27 Oct 2022 01:12:51 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6Y7mu9Z/eNIgZoHr+NeSQKewBR2APxBCg/cG4RpWK4mzK9+m00W4RBznbgMhNNbGRx93BMdA==
+X-Received: by 2002:a5d:64c7:0:b0:22e:43a6:2801 with SMTP id
+ f7-20020a5d64c7000000b0022e43a62801mr32489007wri.612.1666858371285; 
+ Thu, 27 Oct 2022 01:12:51 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-176-195.web.vodafone.de.
+ [109.43.176.195]) by smtp.gmail.com with ESMTPSA id
+ l18-20020a05600c1d1200b003a342933727sm4397657wms.3.2022.10.27.01.12.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Oct 2022 01:12:50 -0700 (PDT)
+Message-ID: <f3f6d325-08a7-3e3d-6d4d-6b5b55c172f0@redhat.com>
+Date: Thu, 27 Oct 2022 10:12:48 +0200
 MIME-Version: 1.0
-References: <20221027074032.1101939-1-lulu@redhat.com>
- <20221027074032.1101939-2-lulu@redhat.com>
-In-Reply-To: <20221027074032.1101939-2-lulu@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 27 Oct 2022 16:11:39 +0800
-Message-ID: <CACGkMEtV4m2Na_XjCLBEW=JVU5fcWyTaPt41s4rrfPLpaaBgnw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] vfio: move the function vfio_get_xlat_addr() to
- memory.c
-To: Cindy Lu <lulu@redhat.com>
-Cc: alex.williamson@redhat.com, mst@redhat.com, pbonzini@redhat.com, 
- peterx@redhat.com, david@redhat.com, f4bug@amsat.org, sgarzare@redhat.com, 
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v10 2/9] s390x/cpu topology: reporting the CPU topology to
+ the guest
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20221012162107.91734-1-pmorel@linux.ibm.com>
+ <20221012162107.91734-3-pmorel@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221012162107.91734-3-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,251 +106,240 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 3:41 PM Cindy Lu <lulu@redhat.com> wrote:
->
-> Move the function vfio_get_xlat_addr to softmmu/memory.c, and
-> change the name to memory_get_xlat_addr().So we can use this
-> function in other devices,such as vDPA device.
->
-> Signed-off-by: Cindy Lu <lulu@redhat.com>
-
-Acked-by: Jason Wang <jasowang@redhat.com>
-
+On 12/10/2022 18.21, Pierre Morel wrote:
+> The guest can use the STSI instruction to get a buffer filled
+> with the CPU topology description.
+> 
+> Let us implement the STSI instruction for the basis CPU topology
+> level, level 2.
+> 
+> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 > ---
->  hw/vfio/common.c      | 92 ++-----------------------------------------
->  include/exec/memory.h |  4 ++
->  softmmu/memory.c      | 84 +++++++++++++++++++++++++++++++++++++++
->  3 files changed, 92 insertions(+), 88 deletions(-)
->
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index ace9562a9b..2b5a9f3d8d 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -574,92 +574,6 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
->             section->offset_within_address_space & (1ULL << 63);
->  }
->
-> -/* Called with rcu_read_lock held.  */
-> -static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-> -                               ram_addr_t *ram_addr, bool *read_only)
-> -{
-> -    MemoryRegion *mr;
-> -    hwaddr xlat;
-> -    hwaddr len = iotlb->addr_mask + 1;
-> -    bool writable = iotlb->perm & IOMMU_WO;
-> -
-> -    /*
-> -     * The IOMMU TLB entry we have just covers translation through
-> -     * this IOMMU to its immediate target.  We need to translate
-> -     * it the rest of the way through to memory.
-> -     */
-> -    mr = address_space_translate(&address_space_memory,
-> -                                 iotlb->translated_addr,
-> -                                 &xlat, &len, writable,
-> -                                 MEMTXATTRS_UNSPECIFIED);
-> -    if (!memory_region_is_ram(mr)) {
-> -        error_report("iommu map to non memory area %"HWADDR_PRIx"",
-> -                     xlat);
-> -        return false;
-> -    } else if (memory_region_has_ram_discard_manager(mr)) {
-> -        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(mr);
-> -        MemoryRegionSection tmp = {
-> -            .mr = mr,
-> -            .offset_within_region = xlat,
-> -            .size = int128_make64(len),
-> -        };
-> -
-> -        /*
-> -         * Malicious VMs can map memory into the IOMMU, which is expected
-> -         * to remain discarded. vfio will pin all pages, populating memory.
-> -         * Disallow that. vmstate priorities make sure any RamDiscardManager
-> -         * were already restored before IOMMUs are restored.
-> -         */
-> -        if (!ram_discard_manager_is_populated(rdm, &tmp)) {
-> -            error_report("iommu map to discarded memory (e.g., unplugged via"
-> -                         " virtio-mem): %"HWADDR_PRIx"",
-> -                         iotlb->translated_addr);
-> -            return false;
-> -        }
-> -
-> -        /*
-> -         * Malicious VMs might trigger discarding of IOMMU-mapped memory. The
-> -         * pages will remain pinned inside vfio until unmapped, resulting in a
-> -         * higher memory consumption than expected. If memory would get
-> -         * populated again later, there would be an inconsistency between pages
-> -         * pinned by vfio and pages seen by QEMU. This is the case until
-> -         * unmapped from the IOMMU (e.g., during device reset).
-> -         *
-> -         * With malicious guests, we really only care about pinning more memory
-> -         * than expected. RLIMIT_MEMLOCK set for the user/process can never be
-> -         * exceeded and can be used to mitigate this problem.
-> -         */
-> -        warn_report_once("Using vfio with vIOMMUs and coordinated discarding of"
-> -                         " RAM (e.g., virtio-mem) works, however, malicious"
-> -                         " guests can trigger pinning of more memory than"
-> -                         " intended via an IOMMU. It's possible to mitigate "
-> -                         " by setting/adjusting RLIMIT_MEMLOCK.");
-> -    }
-> -
-> -    /*
-> -     * Translation truncates length to the IOMMU page size,
-> -     * check that it did not truncate too much.
-> -     */
-> -    if (len & iotlb->addr_mask) {
-> -        error_report("iommu has granularity incompatible with target AS");
-> -        return false;
-> -    }
-> -
-> -    if (vaddr) {
-> -        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
-> -    }
-> -
-> -    if (ram_addr) {
-> -        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
-> -    }
-> -
-> -    if (read_only) {
-> -        *read_only = !writable || mr->readonly;
-> -    }
-> -
-> -    return true;
-> -}
-> -
->  static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
->  {
->      VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
-> @@ -682,7 +596,8 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
->      if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
->          bool read_only;
->
-> -        if (!vfio_get_xlat_addr(iotlb, &vaddr, NULL, &read_only)) {
-> +        if (!memory_get_xlat_addr(iotlb, &vaddr, NULL, &read_only,
-> +                                  &address_space_memory)) {
->              goto out;
->          }
->          /*
-> @@ -1359,7 +1274,8 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
->      }
->
->      rcu_read_lock();
-> -    if (vfio_get_xlat_addr(iotlb, NULL, &translated_addr, NULL)) {
-> +    if (memory_get_xlat_addr(iotlb, NULL, &translated_addr, NULL,
-> +                             &address_space_memory)) {
->          int ret;
->
->          ret = vfio_get_dirty_bitmap(container, iova, iotlb->addr_mask + 1,
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index bfb1de8eea..282de1d5ad 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -713,6 +713,10 @@ void ram_discard_manager_register_listener(RamDiscardManager *rdm,
->  void ram_discard_manager_unregister_listener(RamDiscardManager *rdm,
->                                               RamDiscardListener *rdl);
->
-> +bool memory_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-> +                          ram_addr_t *ram_addr, bool *read_only,
-> +                          AddressSpace *as);
+>   include/hw/s390x/cpu-topology.h |   3 +
+>   target/s390x/cpu.h              |  48 ++++++++++++++
+>   hw/s390x/cpu-topology.c         |   8 ++-
+>   target/s390x/cpu_topology.c     | 109 ++++++++++++++++++++++++++++++++
+>   target/s390x/kvm/kvm.c          |   6 +-
+>   target/s390x/meson.build        |   1 +
+>   6 files changed, 172 insertions(+), 3 deletions(-)
+>   create mode 100644 target/s390x/cpu_topology.c
+> 
+> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+> index 66c171d0bc..61c11db017 100644
+> --- a/include/hw/s390x/cpu-topology.h
+> +++ b/include/hw/s390x/cpu-topology.h
+> @@ -13,6 +13,8 @@
+>   #include "hw/qdev-core.h"
+>   #include "qom/object.h"
+>   
+> +#define S390_TOPOLOGY_POLARITY_H  0x00
 > +
->  typedef struct CoalescedMemoryRange CoalescedMemoryRange;
->  typedef struct MemoryRegionIoeventfd MemoryRegionIoeventfd;
->
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 7ba2048836..8586863ffa 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -2121,6 +2121,90 @@ void ram_discard_manager_unregister_listener(RamDiscardManager *rdm,
->      rdmc->unregister_listener(rdm, rdl);
->  }
->
-> +/* Called with rcu_read_lock held.  */
-> +bool memory_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-> +                          ram_addr_t *ram_addr, bool *read_only,
-> +                          AddressSpace *as)
+>   typedef struct S390TopoContainer {
+>       int active_count;
+>   } S390TopoContainer;
+> @@ -29,6 +31,7 @@ struct S390Topology {
+>       S390TopoContainer *socket;
+>       S390TopoTLE *tle;
+>       MachineState *ms;
+> +    QemuMutex topo_mutex;
+>   };
+>   
+>   #define TYPE_S390_CPU_TOPOLOGY "s390-topology"
+> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> index 7d6d01325b..d604aa9c78 100644
+> --- a/target/s390x/cpu.h
+> +++ b/target/s390x/cpu.h
+> @@ -565,6 +565,52 @@ typedef union SysIB {
+>   } SysIB;
+>   QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
+>   
+> +/* CPU type Topology List Entry */
+> +typedef struct SysIBTl_cpu {
+> +        uint8_t nl;
+> +        uint8_t reserved0[3];
+> +        uint8_t reserved1:5;
+> +        uint8_t dedicated:1;
+> +        uint8_t polarity:2;
+> +        uint8_t type;
+> +        uint16_t origin;
+> +        uint64_t mask;
+> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_cpu;
+> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
+> +
+> +/* Container type Topology List Entry */
+> +typedef struct SysIBTl_container {
+> +        uint8_t nl;
+> +        uint8_t reserved[6];
+> +        uint8_t id;
+> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_container;
+> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
+> +
+> +#define TOPOLOGY_NR_MAG  6
+> +#define TOPOLOGY_NR_MAG6 0
+> +#define TOPOLOGY_NR_MAG5 1
+> +#define TOPOLOGY_NR_MAG4 2
+> +#define TOPOLOGY_NR_MAG3 3
+> +#define TOPOLOGY_NR_MAG2 4
+> +#define TOPOLOGY_NR_MAG1 5
+> +/* Configuration topology */
+> +typedef struct SysIB_151x {
+> +    uint8_t  reserved0[2];
+> +    uint16_t length;
+> +    uint8_t  mag[TOPOLOGY_NR_MAG];
+> +    uint8_t  reserved1;
+> +    uint8_t  mnest;
+> +    uint32_t reserved2;
+> +    char tle[0];
+> +} QEMU_PACKED QEMU_ALIGNED(8) SysIB_151x;
+> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
+> +
+> +/* Maxi size of a SYSIB structure is when all CPU are alone in a container */
+> +#define S390_TOPOLOGY_SYSIB_SIZE (sizeof(SysIB_151x) +                         \
+> +                                  S390_MAX_CPUS * (sizeof(SysIBTl_container) + \
+> +                                                   sizeof(SysIBTl_cpu)))
+> +
+> +
+>   /* MMU defines */
+>   #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin             */
+>   #define ASCE_SUBSPACE         0x200       /* subspace group control           */
+> @@ -843,4 +889,6 @@ S390CPU *s390_cpu_addr2state(uint16_t cpu_addr);
+>   
+>   #include "exec/cpu-all.h"
+>   
+> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
+> +
+>   #endif
+> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+> index 42b22a1831..c73cebfe6f 100644
+> --- a/hw/s390x/cpu-topology.c
+> +++ b/hw/s390x/cpu-topology.c
+> @@ -54,8 +54,6 @@ void s390_topology_new_cpu(int core_id)
+>           return;
+>       }
+>   
+> -    socket_id = core_id / topo->cpus;
+> -
+>       /*
+>        * At the core level, each CPU is represented by a bit in a 64bit
+>        * unsigned long which represent the presence of a CPU.
+> @@ -76,8 +74,13 @@ void s390_topology_new_cpu(int core_id)
+>       bit %= 64;
+>       bit = 63 - bit;
+>   
+> +    qemu_mutex_lock(&topo->topo_mutex);
+> +
+> +    socket_id = core_id / topo->cpus;
+>       topo->socket[socket_id].active_count++;
+>       set_bit(bit, &topo->tle[socket_id].mask[origin]);
+> +
+> +    qemu_mutex_unlock(&topo->topo_mutex);
+>   }
+>   
+>   /**
+> @@ -101,6 +104,7 @@ static void s390_topology_realize(DeviceState *dev, Error **errp)
+>       topo->tle = g_new0(S390TopoTLE, ms->smp.max_cpus);
+>   
+>       topo->ms = ms;
+> +    qemu_mutex_init(&topo->topo_mutex);
+>   }
+>   
+>   /**
+> diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
+> new file mode 100644
+> index 0000000000..df86a98f23
+> --- /dev/null
+> +++ b/target/s390x/cpu_topology.c
+> @@ -0,0 +1,109 @@
+> +/*
+> + * QEMU S390x CPU Topology
+> + *
+> + * Copyright IBM Corp. 2022
+> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or (at
+> + * your option) any later version. See the COPYING file in the top-level
+> + * directory.
+> + */
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "hw/s390x/pv.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/s390x/cpu-topology.h"
+> +#include "hw/s390x/sclp.h"
+> +
+> +#define S390_TOPOLOGY_MAX_STSI_SIZE (S390_MAX_CPUS *              \
+> +                                     (sizeof(SysIB_151x) +        \
+> +                                      sizeof(SysIBTl_container) + \
+> +                                      sizeof(SysIBTl_cpu)))
+> +
+> +static char *fill_container(char *p, int level, int id)
 > +{
-> +    MemoryRegion *mr;
-> +    hwaddr xlat;
-> +    hwaddr len = iotlb->addr_mask + 1;
-> +    bool writable = iotlb->perm & IOMMU_WO;
+> +    SysIBTl_container *tle = (SysIBTl_container *)p;
 > +
-> +    /*
-> +     * The IOMMU TLB entry we have just covers translation through
-> +     * this IOMMU to its immediate target.  We need to translate
-> +     * it the rest of the way through to memory.
-> +     */
-> +    mr = address_space_translate(as, iotlb->translated_addr, &xlat, &len,
-> +                                 writable, MEMTXATTRS_UNSPECIFIED);
-> +    if (!memory_region_is_ram(mr)) {
-> +        error_report("iommu map to non memory area %" HWADDR_PRIx "", xlat);
-> +        return false;
-> +    } else if (memory_region_has_ram_discard_manager(mr)) {
-> +        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(mr);
-> +        MemoryRegionSection tmp = {
-> +            .mr = mr,
-> +            .offset_within_region = xlat,
-> +            .size = int128_make64(len),
-> +        };
-> +
-> +        /*
-> +         * Malicious VMs can map memory into the IOMMU, which is expected
-> +         * to remain discarded. device will pin all pages, populating memory.
-> +         * Disallow that. vmstate priorities make sure any RamDiscardManager
-> +         * were already restored before IOMMUs are restored.
-> +         */
-> +        if (!ram_discard_manager_is_populated(rdm, &tmp)) {
-> +            error_report("iommu map to discarded memory (e.g., unplugged via"
-> +                         " virtio-mem): %" HWADDR_PRIx "",
-> +                         iotlb->translated_addr);
-> +            return false;
-> +        }
-> +
-> +        /*
-> +         * Malicious VMs might trigger discarding of IOMMU-mapped memory. The
-> +         * pages will remain pinned inside device until unmapped, resulting in a
-> +         * higher memory consumption than expected. If memory would get
-> +         * populated again later, there would be an inconsistency between pages
-> +         * pinned by device and pages seen by QEMU. This is the case until
-> +         * unmapped from the IOMMU (e.g., during device reset).
-> +         *
-> +         * With malicious guests, we really only care about pinning more memory
-> +         * than expected. RLIMIT_MEMLOCK set for the user/process can never be
-> +         * exceeded and can be used to mitigate this problem.
-> +         */
-> +        warn_report_once("Using device with vIOMMUs and coordinated discarding"
-> +                         " of RAM (e.g., virtio-mem) works, however, malicious"
-> +                         " guests can trigger pinning of more memory than"
-> +                         " intended via an IOMMU. It's possible to mitigate "
-> +                         " by setting/adjusting RLIMIT_MEMLOCK.");
-> +    }
-> +
-> +    /*
-> +     * Translation truncates length to the IOMMU page size,
-> +     * check that it did not truncate too much.
-> +     */
-> +    if (len & iotlb->addr_mask) {
-> +        error_report("iommu has granularity incompatible with target AS");
-> +        return false;
-> +    }
-> +
-> +    if (vaddr) {
-> +        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
-> +    }
-> +
-> +    if (ram_addr) {
-> +        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
-> +    }
-> +
-> +    if (read_only) {
-> +        *read_only = !writable || mr->readonly;
-> +    }
-> +
-> +    return true;
+> +    tle->nl = level;
+> +    tle->id = id;
+> +    return p + sizeof(*tle);
 > +}
 > +
->  void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client)
->  {
->      uint8_t mask = 1 << client;
-> --
-> 2.34.3
->
+> +static char *fill_tle_cpu(char *p, uint64_t mask, int origin)
+> +{
+> +    SysIBTl_cpu *tle = (SysIBTl_cpu *)p;
+> +
+> +    tle->nl = 0;
+> +    tle->dedicated = 1;
+> +    tle->polarity = S390_TOPOLOGY_POLARITY_H;
+> +    tle->type = S390_TOPOLOGY_CPU_IFL;
+> +    tle->origin = cpu_to_be64(origin * 64);
+> +    tle->mask = cpu_to_be64(mask);
+> +    return p + sizeof(*tle);
+> +}
+> +
+> +static char *s390_top_set_level2(S390Topology *topo, char *p)
+> +{
+> +    MachineState *ms = topo->ms;
+> +    int i, origin;
+> +
+> +    for (i = 0; i < ms->smp.sockets; i++) {
+> +        if (!topo->socket[i].active_count) {
+> +            continue;
+> +        }
+> +        p = fill_container(p, 1, i);
+> +        for (origin = 0; origin < S390_TOPOLOGY_MAX_ORIGIN; origin++) {
+> +            uint64_t mask = 0L;
+> +
+> +            mask = topo->tle[i].mask[origin];
+> +            if (mask) {
+> +                p = fill_tle_cpu(p, mask, origin);
+> +            }
+> +        }
+> +    }
+> +    return p;
+> +}
+> +
+> +static int setup_stsi(SysIB_151x *sysib, int level)
+> +{
+> +    S390Topology *topo = s390_get_topology();
+> +    MachineState *ms = topo->ms;
+> +    char *p = sysib->tle;
+> +
+> +    qemu_mutex_lock(&topo->topo_mutex);
+> +
+> +    sysib->mnest = level;
+> +    switch (level) {
+> +    case 2:
+> +        sysib->mag[TOPOLOGY_NR_MAG2] = ms->smp.sockets;
+> +        sysib->mag[TOPOLOGY_NR_MAG1] = topo->cpus;
+> +        p = s390_top_set_level2(topo, p);
+> +        break;
+> +    }
+> +
+> +    qemu_mutex_unlock(&topo->topo_mutex);
+
+Could you elaborate (maybe in the commit description) why you need a 
+separate mutex here? ... I'd expect that all the STSI stuff is run with the 
+BQL (big qemu lock) held (see kvm_arch_handle_exit()), so yet another mutex 
+sounds rendundant to me here?
+
+  Thomas
 
 
