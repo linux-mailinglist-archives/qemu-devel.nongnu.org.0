@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1544A60FF5D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 19:33:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 074D260FF71
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 19:39:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo6kY-0000to-Hx; Thu, 27 Oct 2022 13:33:02 -0400
+	id 1oo6p0-00032k-6H; Thu, 27 Oct 2022 13:37:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oo6jt-0007ny-DH
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 13:32:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oo6jl-00012r-5n
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 13:32:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666891932;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DepC1jmS4hv3EJdblzOts0Bm6mnbIDWFvzBu25+c284=;
- b=VwiQG+ty8njAyMWOQoMxeHroHnwNHjaR+v0eAETryBw5joD7/m35aHy5v8zXbhNqKvdjcK
- gP7+pXoTQaU3MWFSzn061jA1rgBVaM97ibCP/1Ee7DNDtn0Z+TYKM/JYnmPGvRMBBfQgMB
- 9lcMpK1Kxt+tO2KP5tlatgiwWCxfrBE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-647-zIMu1_UHOOOLLD4DoUlfbg-1; Thu, 27 Oct 2022 13:32:08 -0400
-X-MC-Unique: zIMu1_UHOOOLLD4DoUlfbg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17E5412496F9
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 17:31:31 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E19740C6EC3;
- Thu, 27 Oct 2022 17:31:30 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Richard W . M . Jones" <rjones@redhat.com>
-Subject: [PULL 20/20] crypto: add test cases for many malformed LUKS header
- scenarios
-Date: Thu, 27 Oct 2022 18:31:03 +0100
-Message-Id: <20221027173103.299479-21-berrange@redhat.com>
-In-Reply-To: <20221027173103.299479-1-berrange@redhat.com>
-References: <20221027173103.299479-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oo6ol-0002mZ-Cv
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 13:37:26 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oo6oj-0001ns-EX
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 13:37:22 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id m125so3047392ybb.6
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 10:37:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=PHUFn9d3mwG+LPtBv+YyQ2sVugRZYahqtsdQhadKyZc=;
+ b=J9T+jt3O3bOPobiU929uz10vGbeJijX6MvoSdGLgdfNRP6qp/AUJdiGjwa9Jbc7n6m
+ czQ/nFPng9PfoxBtnxueRMdnjSpfjPCp7u/Grb07CNNPuDUtzneqwA4ZO0ODhbxaFbcT
+ Ot6XIq8Afi1eSKiJTRC/rGYszqqUcUSKeoko7oStf/Aqt3TbhcmuITtWU+mTT/J/n2YE
+ ox6XIkSk5OAOd+dDdflhkjWvZrkGGaTI0iP+X6523gfS8gSHLVan+LmsQtGkwGNw8dL7
+ U9DsWH86zMEWmx4TtZBKC3b9f4Vi443r22N0t+u2oBZzh630pzQEyLnfDM3ejrIkk27i
+ TsUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PHUFn9d3mwG+LPtBv+YyQ2sVugRZYahqtsdQhadKyZc=;
+ b=2x6N3AzDwHgfuWfoB+MUCzZE70clIzd1utbkdrXsnXgQcNsz9A3xOSaTlWCMnf3jvF
+ OvUvS/uYH8dfKN2umRjqbHe150ZnAVJvGjCMs0jHafeSDbo9bsdUke2YuNh1kGOirLx0
+ RKPA10q5N1IIkhLakVq3qKcTU7kDpNeuS3XXP5Ysiv6C6571FPEVjf19Ul4IYBDmvF9J
+ 0jnXcTaqhfDkFSbsDGL5dLWXWwLO7De8mnbUt5gnMMwGNwzsSikaYgsrXKnRe9quTXP+
+ RJVDmbNska1M8oqDiESW1sSBIlLu/4W8iw13xLRSFNKM2zxLdW81je+j2lJOOI3rSE6Y
+ PjaA==
+X-Gm-Message-State: ACrzQf3+/zytnQecZzHPdQSQ6wV59WOkiACi5wbpKPpTnzEJ9wOlPGgZ
+ Qz+rXn9SBAQOuOzv7lvY0Dt8dF1/capPOXUWdvY=
+X-Google-Smtp-Source: AMsMyM5J8xrnbx6f/36lMaZATEq4j26oM1KDFsHGiOf9Bw3uR8aFAIOzv18m0x7q0sbYY3s1LqSSCzoqTbyqoGgoxiY=
+X-Received: by 2002:a25:bfc2:0:b0:6c0:fec7:ae64 with SMTP id
+ q2-20020a25bfc2000000b006c0fec7ae64mr41747011ybm.366.1666892239466; Thu, 27
+ Oct 2022 10:37:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <cover.1666608862.git.qemu_oss@crudebyte.com>
+ <4ad773a9-2173-3667-47f8-2713efffa053@redhat.com>
+ <3438372.x9l1EUDYgq@silver>
+In-Reply-To: <3438372.x9l1EUDYgq@silver>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 27 Oct 2022 13:37:07 -0400
+Message-ID: <CAJSP0QU62wy6sN7CULhDtcXMufQvpF8CgRQDOSVw5w7JYC_p-g@mail.gmail.com>
+Subject: Re: [PULL 00/23] 9p queue 2022-10-24
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Greg Kurz <groug@kaod.org>, 
+ Linus Heckemann <git@sphalerite.org>, Bin Meng <bin.meng@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb34.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,339 +86,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Validate that we diagnose each malformed LUKS header scenario with a
-distinct error report.
+On Thu, 27 Oct 2022 at 12:38, Christian Schoenebeck
+<qemu_oss@crudebyte.com> wrote:
+>
+> On Thursday, October 27, 2022 5:53:47 PM CEST Thomas Huth wrote:
+> > On 24/10/2022 12.54, Christian Schoenebeck wrote:
+> > > The following changes since commit 0529245488865038344d64fff7ee05864d3d17f6:
+> > >
+> > >    Merge tag 'pull-target-arm-20221020' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-10-20 14:36:12 -0400)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >    https://github.com/cschoenebeck/qemu.git tags/pull-9p-20221024
+> > >
+> > > for you to fetch changes up to 3ce77865bf813f313cf79c00fd951bfc95a50165:
+> > >
+> > >    tests/9p: remove unnecessary g_strdup() calls (2022-10-24 12:24:32 +0200)
+> > >
+> > > ----------------------------------------------------------------
+> > > 9pfs: performance, Windows host prep, tests restructure
+> > >
+> > > * Highlight of this PR is Linus Heckemann's GHashTable patch which
+> > >    brings massive general performance improvements of 9p server
+> > >    somewhere between factor 6 .. 12.
+> > >
+> > > * Bin Meng's g_mkdir patch is a preparatory patch for upcoming
+> > >    Windows host support of 9p server.
+> > >
+> > > * The rest of the patches in this PR are 9p test code restructuring
+> > >    and refactoring changes to improve readability and to ease
+> > >    maintenance of 9p test code on the long-term.
+> >
+> >   Hi Christian,
+> >
+> > I think this PR broke the FreeBSD CI jobs:
+> >
+> >   https://gitlab.com/qemu-project/qemu/-/jobs/3219611457#L3116
+> >
+> >   https://gitlab.com/qemu-project/qemu/-/jobs/3219611460#L3372
+> >
+> > Could you please have a look?
+> >
+> >   Thanks!
+> >    Thomas
+>
+> I try, but will certainly take some days, especially as I currently don't have
+> a BSD installation at hand to try the changes.
 
-Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- tests/unit/test-crypto-block.c | 299 +++++++++++++++++++++++++++++++++
- 1 file changed, 299 insertions(+)
+QEMU has the automation to run FreeBSD builds locally (in a VM):
+$ make vm-build-freebsd
 
-diff --git a/tests/unit/test-crypto-block.c b/tests/unit/test-crypto-block.c
-index 3d50eb4b6e..b629e240a9 100644
---- a/tests/unit/test-crypto-block.c
-+++ b/tests/unit/test-crypto-block.c
-@@ -22,6 +22,7 @@
- #include "qapi/error.h"
- #include "crypto/init.h"
- #include "crypto/block.h"
-+#include "crypto/block-luks-priv.h"
- #include "qemu/buffer.h"
- #include "qemu/module.h"
- #include "crypto/secret.h"
-@@ -345,6 +346,230 @@ static void test_block(gconstpointer opaque)
- }
- 
- 
-+#ifdef TEST_LUKS
-+typedef const char *(*LuksHeaderDoBadStuff)(QCryptoBlockLUKSHeader *hdr);
-+
-+static void
-+test_luks_bad_header(gconstpointer data)
-+{
-+    LuksHeaderDoBadStuff badstuff = data;
-+    QCryptoBlock *blk;
-+    Buffer buf;
-+    Object *sec = test_block_secret();
-+    QCryptoBlockLUKSHeader hdr;
-+    Error *err = NULL;
-+    const char *msg;
-+
-+    memset(&buf, 0, sizeof(buf));
-+    buffer_init(&buf, "header");
-+
-+    /* Correctly create the volume initially */
-+    blk = qcrypto_block_create(&luks_create_opts_default, NULL,
-+                               test_block_init_func,
-+                               test_block_write_func,
-+                               &buf,
-+                               &error_abort);
-+    g_assert(blk);
-+
-+    qcrypto_block_free(blk);
-+
-+    /* Mangle it in some unpleasant way */
-+    g_assert(buf.offset >= sizeof(hdr));
-+    memcpy(&hdr, buf.buffer, sizeof(hdr));
-+    qcrypto_block_luks_to_disk_endian(&hdr);
-+
-+    msg = badstuff(&hdr);
-+
-+    qcrypto_block_luks_from_disk_endian(&hdr);
-+    memcpy(buf.buffer, &hdr, sizeof(hdr));
-+
-+    /* Check that we fail to open it again */
-+    blk = qcrypto_block_open(&luks_open_opts, NULL,
-+                             test_block_read_func,
-+                             &buf,
-+                             0,
-+                             1,
-+                             &err);
-+    g_assert(!blk);
-+    g_assert(err);
-+
-+    g_assert_cmpstr(error_get_pretty(err), ==, msg);
-+    error_free(err);
-+
-+    object_unparent(sec);
-+
-+    buffer_free(&buf);
-+}
-+
-+static const char *luks_bad_null_term_cipher_name(QCryptoBlockLUKSHeader *hdr)
-+{
-+    /* Replace NUL termination with spaces */
-+    char *offset = hdr->cipher_name + strlen(hdr->cipher_name);
-+    memset(offset, ' ', sizeof(hdr->cipher_name) - (offset - hdr->cipher_name));
-+
-+    return "LUKS header cipher name is not NUL terminated";
-+}
-+
-+static const char *luks_bad_null_term_cipher_mode(QCryptoBlockLUKSHeader *hdr)
-+{
-+    /* Replace NUL termination with spaces */
-+    char *offset = hdr->cipher_mode + strlen(hdr->cipher_mode);
-+    memset(offset, ' ', sizeof(hdr->cipher_mode) - (offset - hdr->cipher_mode));
-+
-+    return "LUKS header cipher mode is not NUL terminated";
-+}
-+
-+static const char *luks_bad_null_term_hash_spec(QCryptoBlockLUKSHeader *hdr)
-+{
-+    /* Replace NUL termination with spaces */
-+    char *offset = hdr->hash_spec + strlen(hdr->hash_spec);
-+    memset(offset, ' ', sizeof(hdr->hash_spec) - (offset - hdr->hash_spec));
-+
-+    return "LUKS header hash spec is not NUL terminated";
-+}
-+
-+static const char *luks_bad_cipher_name_empty(QCryptoBlockLUKSHeader *hdr)
-+{
-+    memcpy(hdr->cipher_name, "", 1);
-+
-+    return "Algorithm '' with key size 32 bytes not supported";
-+}
-+
-+static const char *luks_bad_cipher_name_unknown(QCryptoBlockLUKSHeader *hdr)
-+{
-+    memcpy(hdr->cipher_name, "aess", 5);
-+
-+    return "Algorithm 'aess' with key size 32 bytes not supported";
-+}
-+
-+static const char *luks_bad_cipher_xts_size(QCryptoBlockLUKSHeader *hdr)
-+{
-+    hdr->master_key_len = 33;
-+
-+    return "XTS cipher key length should be a multiple of 2";
-+}
-+
-+static const char *luks_bad_cipher_cbc_size(QCryptoBlockLUKSHeader *hdr)
-+{
-+    hdr->master_key_len = 33;
-+    memcpy(hdr->cipher_mode, "cbc-essiv", 10);
-+
-+    return "Algorithm 'aes' with key size 33 bytes not supported";
-+}
-+
-+static const char *luks_bad_cipher_mode_empty(QCryptoBlockLUKSHeader *hdr)
-+{
-+    memcpy(hdr->cipher_mode, "", 1);
-+
-+    return "Unexpected cipher mode string format ''";
-+}
-+
-+static const char *luks_bad_cipher_mode_unknown(QCryptoBlockLUKSHeader *hdr)
-+{
-+    memcpy(hdr->cipher_mode, "xfs", 4);
-+
-+    return "Unexpected cipher mode string format 'xfs'";
-+}
-+
-+static const char *luks_bad_ivgen_separator(QCryptoBlockLUKSHeader *hdr)
-+{
-+    memcpy(hdr->cipher_mode, "xts:plain64", 12);
-+
-+    return "Unexpected cipher mode string format 'xts:plain64'";
-+}
-+
-+static const char *luks_bad_ivgen_name_empty(QCryptoBlockLUKSHeader *hdr)
-+{
-+    memcpy(hdr->cipher_mode, "xts-", 5);
-+
-+    return "IV generator '' not supported";
-+}
-+
-+static const char *luks_bad_ivgen_name_unknown(QCryptoBlockLUKSHeader *hdr)
-+{
-+    memcpy(hdr->cipher_mode, "xts-plain65", 12);
-+
-+    return "IV generator 'plain65' not supported";
-+}
-+
-+static const char *luks_bad_ivgen_hash_empty(QCryptoBlockLUKSHeader *hdr)
-+{
-+    memcpy(hdr->cipher_mode, "xts-plain65:", 13);
-+
-+    return "Hash algorithm '' not supported";
-+}
-+
-+static const char *luks_bad_ivgen_hash_unknown(QCryptoBlockLUKSHeader *hdr)
-+{
-+    memcpy(hdr->cipher_mode, "xts-plain65:sha257", 19);
-+
-+    return "Hash algorithm 'sha257' not supported";
-+}
-+
-+static const char *luks_bad_hash_spec_empty(QCryptoBlockLUKSHeader *hdr)
-+{
-+    memcpy(hdr->hash_spec, "", 1);
-+
-+    return "Hash algorithm '' not supported";
-+}
-+
-+static const char *luks_bad_hash_spec_unknown(QCryptoBlockLUKSHeader *hdr)
-+{
-+    memcpy(hdr->hash_spec, "sha2566", 8);
-+
-+    return "Hash algorithm 'sha2566' not supported";
-+}
-+
-+static const char *luks_bad_stripes(QCryptoBlockLUKSHeader *hdr)
-+{
-+    hdr->key_slots[0].stripes = 3999;
-+
-+    return "Keyslot 0 is corrupted (stripes 3999 != 4000)";
-+}
-+
-+static const char *luks_bad_key_overlap_header(QCryptoBlockLUKSHeader *hdr)
-+{
-+    hdr->key_slots[0].key_offset_sector = 2;
-+
-+    return "Keyslot 0 is overlapping with the LUKS header";
-+}
-+
-+static const char *luks_bad_key_overlap_key(QCryptoBlockLUKSHeader *hdr)
-+{
-+    hdr->key_slots[0].key_offset_sector = hdr->key_slots[1].key_offset_sector;
-+
-+    return "Keyslots 0 and 1 are overlapping in the header";
-+}
-+
-+static const char *luks_bad_key_overlap_payload(QCryptoBlockLUKSHeader *hdr)
-+{
-+    hdr->key_slots[0].key_offset_sector = hdr->payload_offset_sector + 42;
-+
-+    return "Keyslot 0 is overlapping with the encrypted payload";
-+}
-+
-+static const char *luks_bad_payload_overlap_header(QCryptoBlockLUKSHeader *hdr)
-+{
-+    hdr->payload_offset_sector = 2;
-+
-+    return "LUKS payload is overlapping with the header";
-+}
-+
-+static const char *luks_bad_key_iterations(QCryptoBlockLUKSHeader *hdr)
-+{
-+    hdr->key_slots[0].iterations = 0;
-+
-+    return "Keyslot 0 iteration count is zero";
-+}
-+
-+static const char *luks_bad_iterations(QCryptoBlockLUKSHeader *hdr)
-+{
-+    hdr->master_key_iterations = 0;
-+
-+    return "LUKS key iteration count is zero";
-+}
-+#endif
-+
- int main(int argc, char **argv)
- {
-     gsize i;
-@@ -365,5 +590,79 @@ int main(int argc, char **argv)
-         }
-     }
- 
-+#ifdef TEST_LUKS
-+    if (g_test_slow()) {
-+        g_test_add_data_func("/crypto/block/luks/bad/cipher-name-nul-term",
-+                             luks_bad_null_term_cipher_name,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/cipher-mode-nul-term",
-+                             luks_bad_null_term_cipher_mode,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/hash-spec-nul-term",
-+                             luks_bad_null_term_hash_spec,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/cipher-name-empty",
-+                             luks_bad_cipher_name_empty,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/cipher-name-unknown",
-+                             luks_bad_cipher_name_unknown,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/cipher-xts-size",
-+                             luks_bad_cipher_xts_size,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/cipher-cbc-size",
-+                             luks_bad_cipher_cbc_size,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/cipher-mode-empty",
-+                             luks_bad_cipher_mode_empty,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/cipher-mode-unknown",
-+                             luks_bad_cipher_mode_unknown,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/ivgen-separator",
-+                             luks_bad_ivgen_separator,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/ivgen-name-empty",
-+                             luks_bad_ivgen_name_empty,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/ivgen-name-unknown",
-+                             luks_bad_ivgen_name_unknown,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/ivgen-hash-empty",
-+                             luks_bad_ivgen_hash_empty,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/ivgen-hash-unknown",
-+                             luks_bad_ivgen_hash_unknown,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/hash-spec-empty",
-+                             luks_bad_hash_spec_empty,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/hash-spec-unknown",
-+                             luks_bad_hash_spec_unknown,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/stripes",
-+                             luks_bad_stripes,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/key-overlap-header",
-+                             luks_bad_key_overlap_header,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/key-overlap-key",
-+                             luks_bad_key_overlap_key,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/key-overlap-payload",
-+                             luks_bad_key_overlap_payload,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/payload-overlap-header",
-+                             luks_bad_payload_overlap_header,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/iterations",
-+                             luks_bad_iterations,
-+                             test_luks_bad_header);
-+        g_test_add_data_func("/crypto/block/luks/bad/key-iterations",
-+                             luks_bad_key_iterations,
-+                             test_luks_bad_header);
-+    }
-+#endif
-+
-     return g_test_run();
- }
--- 
-2.37.3
+Not sure if that FreeBSD environment matches the one in Cirrus CI
+though. If they are different then maybe it won't reproduce locally.
 
+Stefan
 
