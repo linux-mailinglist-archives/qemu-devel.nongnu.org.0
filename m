@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456FF60F6D8
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 14:10:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5A660F6D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 14:10:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo1fa-0003rf-7G; Thu, 27 Oct 2022 08:07:34 -0400
+	id 1oo1ez-0002cb-1D; Thu, 27 Oct 2022 08:06:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oo1f1-0003C9-6i
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:07:00 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oo1ev-0002LX-CS
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:06:53 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oo1ep-0001Xo-4H
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:06:58 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oo1es-0001Yv-QZ
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:06:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666872405;
+ s=mimecast20190719; t=1666872409;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UCTHn1WlnN2yoHWqVjZ4PAhPqm/fGH6JhO81t/1haYo=;
- b=LjtYQ6ELluyDZS0deCa564WeImFJtG0/00nogZYj6BvzNrEFZoWUqmQunqSKgLNMHRzAUu
- qgZds3VarwTT1SUgfCBrSm+wCCrAXuPgx2rJVR4ho0Ktho/vB3Aw60RvJxKPW0rizxKMbz
- s6OH42fbD5040mULuKrfBfZujXqq0is=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oyjjWgqrmAsqxa52pNkY2lNa6CwhU0oHn6V3WUAs0X4=;
+ b=AFvEDaNzXEmPC8bZJEo/pQGLE0MmuMfoT76L5jRXrFBKGzlDZ58x5kdzDVPHFP3iGL729t
+ Na6+N8dJmAmSCpI5BP5qufZaRUFeAmkbLWT5mXnF6vw9r3mZ2/j49RiMbMQ4ewyEyIe6of
+ juGwG7ihOZW2jlvZ/0R5o9OwkkuUrP0=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-263-w53weENyOCWWOv8WYDXpaQ-1; Thu, 27 Oct 2022 08:06:43 -0400
-X-MC-Unique: w53weENyOCWWOv8WYDXpaQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r18-20020a05600c35d200b003cb2ba79692so625323wmq.5
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 05:06:43 -0700 (PDT)
+ us-mta-625-Gx--wkVCNHOqI6q16tLaUg-1; Thu, 27 Oct 2022 08:06:47 -0400
+X-MC-Unique: Gx--wkVCNHOqI6q16tLaUg-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ hr26-20020a1709073f9a00b007a20c586f1eso900147ejc.20
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 05:06:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=UCTHn1WlnN2yoHWqVjZ4PAhPqm/fGH6JhO81t/1haYo=;
- b=qx1pSAcN4m5zpcy397RzpHXrDT00HHCtlP9cpUWnoADnCDHh0/xIPOLsy/Wd6Z8hSx
- pDXgTzQGby8sNIZJHz9QkhG9hlCcO2fI/ZJfn3OUq6OEmOhYKmVh7h37QKFkIHin019i
- tjx47UOaY/ZwzbaFpK62bwZsbtAhzLFJh6lhOrecbzMpEPf4hKV3i26MxBKJLgEJVZHj
- 8v+K35dtEtljn4iKHpMmPromJiMrjhM0fGvqUhCxJM23vq65PhPbU42T6hrjzqARyfNt
- L0BP6qY50wu+0xZ0Cw5mTH3xGrYtrLkEhyF0ylvgzYWj8sXIaHQprhPSZpX140XhsadA
- tVDA==
-X-Gm-Message-State: ACrzQf2OvTHgf3b72pmeuPi+yFbHuSuxc/ncj6pudfodhL9dIufkxLCW
- L81mcv9YPCBHy1FtKCB8vPiGWtJl/nesZg/TmHL17wM6gWEuBY/zYIM8WTL/OlCzdfhAh1IZM+l
- A19YCwbunM94IWu+tEBVbvMzSt4uPxOcOdwyOBJgqV/F9yS9DUaf5PkLcDz+5aUf1UPc=
-X-Received: by 2002:a5d:510d:0:b0:236:720e:9afb with SMTP id
- s13-20020a5d510d000000b00236720e9afbmr12773789wrt.639.1666872402143; 
- Thu, 27 Oct 2022 05:06:42 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6FtLRU/MIuyAA6OzR98Rf8r1yL+7NQsrnmv6LMaouQ8ubB7wKPq9/wvOS/uZn0V0734x87uA==
-X-Received: by 2002:a5d:510d:0:b0:236:720e:9afb with SMTP id
- s13-20020a5d510d000000b00236720e9afbmr12773773wrt.639.1666872401794; 
- Thu, 27 Oct 2022 05:06:41 -0700 (PDT)
-Received: from fedora (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oyjjWgqrmAsqxa52pNkY2lNa6CwhU0oHn6V3WUAs0X4=;
+ b=rXd/SOMkA0U+a3OIWeiQ+G9rIuvOiBKh35QKZSizvAk5JRzFIYRxwwVUW2i6hLpVsQ
+ KtE3G+eHGUcrnspnu48QuSjEbCCI8D+qbRgqKb3jZVOITBfrQW7aNQJr7VWroc8qmJM6
+ Vk8zqtdlFgGcfukU68Ef9sNNoHOAMa2BW9Dl0TFDuzLBlLErclodHLXrG2wz4ihuA11H
+ Vnbs1yeQgwPGZ2FYrDGyE9+PxHeXSaimCGzV90PMcyhDtwyD2REMbgf0mldvpJIu4D/V
+ 6HlxtS/7IRdrmYuMTuaC4z6/XRtdb2il+3xPtTI5rRdUzRwXX2v5QgnWuD1ZcxdnRr6u
+ 1waA==
+X-Gm-Message-State: ACrzQf1brPoY83i7T/rVyWDydT6F7CouGZ6F4oZwK7GnH01YhmAIu8Kc
+ LspUoZ48mvTiJca6WmyP9hJ4tyVGj7IOpUIqcPKqZ0lelgaH34tjKA4o10muFur2XYwpzpxN5kK
+ rjpnyu4nMfDhtR7Q=
+X-Received: by 2002:a17:907:97c1:b0:791:98b8:9ab8 with SMTP id
+ js1-20020a17090797c100b0079198b89ab8mr40943940ejc.425.1666872406495; 
+ Thu, 27 Oct 2022 05:06:46 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM72dCjQPCQIY2X5223OaUtfFZuZTTnyafLQn+In+QxPImS86o0UyZFeeHiSYo2lPK0D56dUYw==
+X-Received: by 2002:a17:907:97c1:b0:791:98b8:9ab8 with SMTP id
+ js1-20020a17090797c100b0079198b89ab8mr40943925ejc.425.1666872406350; 
+ Thu, 27 Oct 2022 05:06:46 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
+ ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
  by smtp.gmail.com with ESMTPSA id
- m22-20020a05600c3b1600b003b50428cf66sm1328117wms.33.2022.10.27.05.06.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 05:06:40 -0700 (PDT)
-Date: Thu, 27 Oct 2022 14:06:40 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com
-Subject: Re: [PATCH 00/11] x86: clean up ACPI PCI code part 2
-Message-ID: <20221027140640.2da44a4b@fedora>
-In-Reply-To: <20221017102146.2254096-1-imammedo@redhat.com>
-References: <20221017102146.2254096-1-imammedo@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ v5-20020aa7d9c5000000b004580862ffdbsm880056eds.59.2022.10.27.05.06.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Oct 2022 05:06:45 -0700 (PDT)
+Message-ID: <b081a2f4-5dbe-ec8e-b4de-b9ba0d427453@redhat.com>
+Date: Thu, 27 Oct 2022 14:06:44 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] vl: change PID file path resolve error to warning
+Content-Language: en-US
+To: Fiona Ebner <f.ebner@proxmox.com>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, t.lamprecht@proxmox.com, d.csapak@proxmox.com
+References: <20221027101443.118049-1-f.ebner@proxmox.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20221027101443.118049-1-f.ebner@proxmox.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,92 +100,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 17 Oct 2022 12:21:35 +0200
-Igor Mammedov <imammedo@redhat.com> wrote:
+On 27.10.22 12:14, Fiona Ebner wrote:
+> Commit 85c4bf8aa6 ("vl: Unlink absolute PID file path") made it a
+> critical error when the PID file path cannot be resolved. Before this
+> commit, it was possible to invoke QEMU when the PID file was a file
+> created with mkstemp that was already unlinked at the time of the
+> invocation. There might be other similar scenarios.
+>
+> It should not be a critical error when the PID file unlink notifier
+> can't be registered, because the path can't be resolved. Turn it into
+> a warning instead.
+>
+> Fixes: 85c4bf8aa6 ("vl: Unlink absolute PID file path")
+> Reported-by: Dominik Csapak <d.csapak@proxmox.com>
+> Suggested-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
+> Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
+> ---
 
-> Series continues refactoring started at recently merged [1].
-> It replaces special cases/quirks for ISA/SMB bridges and PCI
-> attached VGA devices with generic AcpiDevAmlIf interface,
-> which allows device to provide its own AML description
-> without need for adhoc plumbing in generic DSDT or PCI
-> enumeration code.
-> 
-> PS:
-> at the end, \_GPE clean up patches which are not part of
-> AcpiDevAmlIf refactoring but iti's still related to PCI,
-> so I've included them there as well.
-
-
-ping
-
-> 
->  1)
->   https://patchwork.ozlabs.org/project/qemu-devel/list/?series=303856
-> 
-> Igor Mammedov (11):
->   acpi: pc: vga: use AcpiDevAmlIf interface to build VGA device
->     descriptors
->   tests: acpi: whitelist DSDT before generating PCI-ISA bridge AML
->     automatically
->   acpi: pc/q35: drop ad-hoc PCI-ISA bridge AML routines and let bus
->     ennumeration generate AML
->   tests: acpi: update expected DSDT after ISA bridge is moved directly
->     under PCI host bridge
->   tests: acpi: whitelist DSDT before generating ICH9_SMB AML
->     automatically
->   acpi: add get_dev_aml_func() helper
->   acpi: enumerate SMB bridge automatically along with other PCI devices
->   tests: acpi: update expected blobs
->   tests: acpi: pc/q35 whitelist DSDT before \_GPE cleanup
->   acpi: pc/35: sanitize _GPE declaration order
->   tests: acpi: update expected blobs
-> 
->  hw/display/vga_int.h                  |   2 +
->  include/hw/acpi/acpi_aml_interface.h  |  13 +-
->  hw/display/acpi-vga-stub.c            |   7 ++
->  hw/display/acpi-vga.c                 |  26 ++++
->  hw/display/meson.build                |  17 +++
->  hw/display/vga-pci.c                  |   4 +
->  hw/i386/acpi-build.c                  | 175 +++++---------------------
->  hw/isa/lpc_ich9.c                     |  23 ++++
->  hw/isa/piix3.c                        |  17 ++-
->  tests/data/acpi/pc/DSDT               | Bin 6422 -> 6501 bytes
->  tests/data/acpi/pc/DSDT.acpierst      | Bin 6382 -> 6461 bytes
->  tests/data/acpi/pc/DSDT.acpihmat      | Bin 7747 -> 7826 bytes
->  tests/data/acpi/pc/DSDT.bridge        | Bin 9496 -> 9575 bytes
->  tests/data/acpi/pc/DSDT.cphp          | Bin 6886 -> 6965 bytes
->  tests/data/acpi/pc/DSDT.dimmpxm       | Bin 8076 -> 8155 bytes
->  tests/data/acpi/pc/DSDT.hpbridge      | Bin 6382 -> 6461 bytes
->  tests/data/acpi/pc/DSDT.hpbrroot      | Bin 3069 -> 3107 bytes
->  tests/data/acpi/pc/DSDT.ipmikcs       | Bin 6494 -> 6573 bytes
->  tests/data/acpi/pc/DSDT.memhp         | Bin 7781 -> 7860 bytes
->  tests/data/acpi/pc/DSDT.nohpet        | Bin 6280 -> 6359 bytes
->  tests/data/acpi/pc/DSDT.numamem       | Bin 6428 -> 6507 bytes
->  tests/data/acpi/pc/DSDT.roothp        | Bin 6656 -> 6699 bytes
->  tests/data/acpi/q35/DSDT              | Bin 8320 -> 8412 bytes
->  tests/data/acpi/q35/DSDT.acpierst     | Bin 8337 -> 8429 bytes
->  tests/data/acpi/q35/DSDT.acpihmat     | Bin 9645 -> 9737 bytes
->  tests/data/acpi/q35/DSDT.applesmc     | Bin 8366 -> 8458 bytes
->  tests/data/acpi/q35/DSDT.bridge       | Bin 11449 -> 11541 bytes
->  tests/data/acpi/q35/DSDT.cphp         | Bin 8784 -> 8876 bytes
->  tests/data/acpi/q35/DSDT.cxl          | Bin 9646 -> 9738 bytes
->  tests/data/acpi/q35/DSDT.dimmpxm      | Bin 9974 -> 10066 bytes
->  tests/data/acpi/q35/DSDT.ipmibt       | Bin 8395 -> 8487 bytes
->  tests/data/acpi/q35/DSDT.ipmismbus    | Bin 8409 -> 8500 bytes
->  tests/data/acpi/q35/DSDT.ivrs         | Bin 8337 -> 8429 bytes
->  tests/data/acpi/q35/DSDT.memhp        | Bin 9679 -> 9771 bytes
->  tests/data/acpi/q35/DSDT.mmio64       | Bin 9450 -> 9542 bytes
->  tests/data/acpi/q35/DSDT.multi-bridge | Bin 8640 -> 8732 bytes
->  tests/data/acpi/q35/DSDT.nohpet       | Bin 8178 -> 8270 bytes
->  tests/data/acpi/q35/DSDT.numamem      | Bin 8326 -> 8418 bytes
->  tests/data/acpi/q35/DSDT.pvpanic-isa  | Bin 8421 -> 8513 bytes
->  tests/data/acpi/q35/DSDT.tis.tpm12    | Bin 8926 -> 9018 bytes
->  tests/data/acpi/q35/DSDT.tis.tpm2     | Bin 8952 -> 9044 bytes
->  tests/data/acpi/q35/DSDT.viot         | Bin 9429 -> 9521 bytes
->  tests/data/acpi/q35/DSDT.xapic        | Bin 35683 -> 35775 bytes
->  43 files changed, 135 insertions(+), 149 deletions(-)
->  create mode 100644 hw/display/acpi-vga-stub.c
->  create mode 100644 hw/display/acpi-vga.c
-> 
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
