@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517E460F662
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:42:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F7D160F6A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 14:01:15 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo1Fg-0004Wx-5E; Thu, 27 Oct 2022 07:40:52 -0400
+	id 1oo1Xq-0005rr-Mv; Thu, 27 Oct 2022 07:59:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oo1EA-0007Bz-76
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:39:18 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oo1E3-0004wu-DM
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:39:13 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 39C9E1FDF8;
- Thu, 27 Oct 2022 11:39:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1666870744; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oo1XR-0005kk-K0
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:59:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oo1XP-0008Hg-Kg
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:59:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666871946;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8E1sK+IQw9ZTjQ1wMEUflPGpI0htZFiLCSaJy1U/IEE=;
- b=cFuhvi9VGhIgIf2P23W/+2DvScpb68EBOyRv1MC3YED0T9ni+ycwUVSH9IpkwiI6U7JbcL
- MLGuH2+8MZ80NEc2jQToGsLo5MyUM7YjdUxou2jPlEB+YDg5r9AKtsd8sbH3B9ZWnHjuWS
- dfKpuMvru9FObvKg7Tmh3xRngZl/KAo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1666870744;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8E1sK+IQw9ZTjQ1wMEUflPGpI0htZFiLCSaJy1U/IEE=;
- b=Bm+GTdTluGu5wF8BgTTaxsAmfj5IAwoXd7ASmc37lwspbHAeEaFPuQCHntc8EshkVKXdXV
- kXXgLKNYhFpxehDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=MhSH0voz7iGgCKPzIIFNMR0lSvRFny6RBvpA512b9Pw=;
+ b=em+MqLpjQ6QhW9nBwnFRl/V7SdvOmjVJr0bmP9DeuxjkmSowcTFB1QYHDacFu6tRhqAQIE
+ 0C/j/EqYfnECUpTBggbJukm71qhdi3l8rkBcjtllc6UOlSunnfNKkATa+fmnhO5u+Ai8WZ
+ 7gVBRn/D0/IryLxCr9ByoKS5t7jdBP8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-84-9dFDbAzQOOKXONCjBH6xxg-1; Thu, 27 Oct 2022 07:59:04 -0400
+X-MC-Unique: 9dFDbAzQOOKXONCjBH6xxg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 19D6013357;
- Thu, 27 Oct 2022 11:39:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id q5gtBNhtWmO0KgAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 27 Oct 2022 11:39:04 +0000
-Message-ID: <20677811-2e48-d957-f0f9-423d2fdbecdb@suse.de>
-Date: Thu, 27 Oct 2022 13:39:03 +0200
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 389D23826A4F
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 11:59:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AD402024CB7;
+ Thu, 27 Oct 2022 11:59:03 +0000 (UTC)
+Date: Thu, 27 Oct 2022 12:59:00 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 06/11] crypto: check that LUKS PBKDF2 iterations count is
+ non-zero
+Message-ID: <Y1pyhJ5CoqDdJPxx@redhat.com>
+References: <20220906084147.1423045-1-berrange@redhat.com>
+ <20220906084147.1423045-7-berrange@redhat.com>
+ <20220906092635.GM7484@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2 1/6] accel/tcg: Introduce cpu_unwind_state_data
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221027100254.215253-1-richard.henderson@linaro.org>
- <20221027100254.215253-2-richard.henderson@linaro.org>
- <5d82d4c4-8de1-4419-19b8-b5de878c5eb3@suse.de>
- <7809009d-72c2-139b-6469-328bef3a067b@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <7809009d-72c2-139b-6469-328bef3a067b@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220906092635.GM7484@redhat.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,137 +81,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/27/22 13:30, Richard Henderson wrote:
-> On 10/27/22 20:40, Claudio Fontana wrote:
->> On 10/27/22 12:02, Richard Henderson wrote:
->>> Add a way to examine the unwind data without actually
->>> restoring the data back into env.
->>>
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>> ---
->>>   accel/tcg/internal.h      |  4 +--
->>>   include/exec/exec-all.h   | 21 ++++++++---
->>>   accel/tcg/translate-all.c | 74 ++++++++++++++++++++++++++-------------
->>>   3 files changed, 68 insertions(+), 31 deletions(-)
->>>
->>> diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
->>> index 1227bb69bd..9c06b320b7 100644
->>> --- a/accel/tcg/internal.h
->>> +++ b/accel/tcg/internal.h
->>> @@ -106,8 +106,8 @@ void tb_reset_jump(TranslationBlock *tb, int n);
->>>   TranslationBlock *tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
->>>                                  tb_page_addr_t phys_page2);
->>>   bool tb_invalidate_phys_page_unwind(tb_page_addr_t addr, uintptr_t pc);
->>> -int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->>> -                              uintptr_t searched_pc, bool reset_icount);
->>> +void cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->>> +                               uintptr_t host_pc, bool reset_icount);
->>>   
->>>   /* Return the current PC from CPU, which may be cached in TB. */
->>>   static inline target_ulong log_pc(CPUState *cpu, const TranslationBlock *tb)
->>> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
->>> index e948992a80..7d851f5907 100644
->>> --- a/include/exec/exec-all.h
->>> +++ b/include/exec/exec-all.h
->>> @@ -39,20 +39,33 @@ typedef ram_addr_t tb_page_addr_t;
->>>   #define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
->>>   #endif
->>>   
->>> +/**
->>> + * cpu_unwind_state_data:
->>> + * @cpu: the cpu context
->>> + * @host_pc: the host pc within the translation
->>> + * @data: output data
->>> + *
->>> + * Attempt to load the the unwind state for a host pc occurring in
->>> + * translated code.  If @host_pc is not in translated code, the
->>> + * function returns false; otherwise @data is loaded.
->>> + * This is the same unwind info as given to restore_state_to_opc.
->>> + */
->>> +bool cpu_unwind_state_data(CPUState *cpu, uintptr_t host_pc, uint64_t *data);
->>> +
->>>   /**
->>>    * cpu_restore_state:
->>> - * @cpu: the vCPU state is to be restore to
->>> - * @searched_pc: the host PC the fault occurred at
->>> + * @cpu: the cpu context
->>> + * @host_pc: the host pc within the translation
->>>    * @will_exit: true if the TB executed will be interrupted after some
->>>                  cpu adjustments. Required for maintaining the correct
->>>                  icount valus
->>>    * @return: true if state was restored, false otherwise
->>>    *
->>>    * Attempt to restore the state for a fault occurring in translated
->>> - * code. If the searched_pc is not in translated code no state is
->>> + * code. If @host_pc is not in translated code no state is
->>>    * restored and the function returns false.
->>>    */
->>> -bool cpu_restore_state(CPUState *cpu, uintptr_t searched_pc, bool will_exit);
->>> +bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit);
->>>   
->>>   G_NORETURN void cpu_loop_exit_noexc(CPUState *cpu);
->>>   G_NORETURN void cpu_loop_exit(CPUState *cpu);
->>> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
->>> index f185356a36..319becb698 100644
->>> --- a/accel/tcg/translate-all.c
->>> +++ b/accel/tcg/translate-all.c
->>> @@ -247,52 +247,66 @@ static int encode_search(TranslationBlock *tb, uint8_t *block)
->>>       return p - block;
->>>   }
->>>   
->>> -/* The cpu state corresponding to 'searched_pc' is restored.
->>> - * When reset_icount is true, current TB will be interrupted and
->>> - * icount should be recalculated.
->>> - */
->>> -int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
->>> -                              uintptr_t searched_pc, bool reset_icount)
->>
->>
->> Maybe add a small comment about what the return value of this static function means?
->> It can be indirectly inferred from its point of use:
->>
->>   +    int insns_left = cpu_unwind_data_from_tb(tb, host_pc, data);
->>
->> But I find having the information about the meaning of a function and return value useful to be available there.
->>
->> IIUC for external functions the standard way is to document in the header files, but for the static functions I would think we can do it here.
->>
->> With that Reviewed-by: Claudio Fontana <cfontana@suse.de>
+On Tue, Sep 06, 2022 at 10:26:35AM +0100, Richard W.M. Jones wrote:
+> On Tue, Sep 06, 2022 at 09:41:42AM +0100, Daniel P. Berrangé wrote:
+> > Both the master key and key slot passphrases are run through the PBKDF2
+> > algorithm. The iterations count is expected to be generally very large
+> > (many 10's or 100's of 1000s). It is hard to define a low level cutoff,
+> > but we can certainly say that iterations count should be non-zero. A
+> > zero count likely indicates an initialization mistake so reject it.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  crypto/block-luks.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+> > index e6ee8506b2..254490c256 100644
+> > --- a/crypto/block-luks.c
+> > +++ b/crypto/block-luks.c
+> > @@ -579,6 +579,11 @@ qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **errp)
+> >          return -1;
+> >      }
+> >  
+> > +    if (luks->header.master_key_iterations == 0) {
+> > +        error_setg(errp, "LUKS key iteration count is zero");
+> > +        return -1;
+> > +    }
+> > +
+> >      /* Check all keyslots for corruption  */
+> >      for (i = 0 ; i < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS ; i++) {
+> >  
+> > @@ -602,6 +607,12 @@ qcrypto_block_luks_check_header(const QCryptoBlockLUKS *luks, Error **errp)
+> >              return -1;
+> >          }
+> >  
+> > +        if (slot1->active == QCRYPTO_BLOCK_LUKS_KEY_SLOT_ENABLED &&
+> > +            slot1->iterations == 0) {
+> > +            error_setg(errp, "Keyslot %zu iteration count is zero", i);
+> > +            return -1;
+> > +        }
+> > +
+> >          if (start1 < DIV_ROUND_UP(QCRYPTO_BLOCK_LUKS_KEY_SLOT_OFFSET,
+> >                                    QCRYPTO_BLOCK_LUKS_SECTOR_SIZE)) {
+> >              error_setg(errp,
 > 
+> Equivalent checks were missing in nbdkit - I've added them.
 > 
-> I added
-> 
-> +/**
-> + * cpu_unwind_data_from_tb: Load unwind data for TB
-> + * @tb: translation block
-> + * @host_pc: the host pc within translation
-> + * @data: output array
-> + *
-> + * Within @tb, locate the guest insn whose translation contains @host_pc,
-> + * then load the unwind data created by INDEX_opc_start_insn for that
-> + * guest insn.  Return the number of guest insns which remain un-executed
-> + * within @tb -- these must be credited back to the cpu's icount budget.
-> + *
-> + * If we could not determine which guest insn to which @host_pc belongs,
-> + * return -1 and do not load unwind data.
-> + * FIXME: Such a failure is likely to break the guest, as we were not
-> + * expecting to unwind from such a location.  This may be some sort of
-> + * backend code generation problem.  Consider asserting instead.
->    */
-> 
-> Which I think captures some of your v1 comments as well.
-> 
-> 
-> r~
-> 
+> I wonder if there's a problem that a very large number here would
+> cause long delays opening the device.  In general it's not very clear
+> to me if the aim is to prevent malicious LUKS input, or if we're just
+> trying to sanity check the device hasn't been corrupted or improperly
+> prepared.  The test above is the latter, I think.
 
-Very clear thanks,
+Yes, we're checking for corruption.
 
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
+A large value of iterations will indeed make it slow to open
+the device, but that is entirely the point of the iterations
+parameter. It must be picked to be large enough to intentionally
+make opening slow, in order to prevent brute force checking
+many passwords. It is hard to claim that any specific value
+is "too large", because the volume might have been created on
+a machine whose CPU is way faster than the current machine,
+and thus chose big iterations.
 
-
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
