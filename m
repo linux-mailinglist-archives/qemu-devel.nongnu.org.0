@@ -2,56 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F22560EE8D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 05:29:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D89560EEB5
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 05:38:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ontXw-0006jl-31; Wed, 26 Oct 2022 23:27:08 -0400
+	id 1ontYa-0000C4-EP; Wed, 26 Oct 2022 23:27:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
- id 1ontXt-0006Kh-8C
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 23:27:05 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
- id 1ontXl-0003LB-Mh
- for qemu-devel@nongnu.org; Wed, 26 Oct 2022 23:27:05 -0400
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MyWF10B9DzmVVL;
- Thu, 27 Oct 2022 11:21:57 +0800 (CST)
-Received: from localhost.localdomain (10.67.164.66) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 27 Oct 2022 11:26:50 +0800
-To: <mst@redhat.com>, <peter.maydell@linaro.org>, <imammedo@redhat.com>,
- <ani@anisinha.ca>, <eduardo@habkost.net>, <marcel.apfelbaum@gmail.com>,
- <f4bug@amsat.org>, <wangyanan55@huawei.com>, <qemu-devel@nongnu.org>
-CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
- <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
- <hesham.almatary@huawei.com>, <ionela.voinescu@arm.com>,
- <darren@os.amperecomputing.com>
-Subject: [PATCH v2 4/4] tests: acpi: aarch64: add *.topology tables
-Date: Thu, 27 Oct 2022 11:26:13 +0800
-Message-ID: <20221027032613.18377-5-yangyicong@huawei.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20221027032613.18377-1-yangyicong@huawei.com>
-References: <20221027032613.18377-1-yangyicong@huawei.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ontYU-0000Ba-Hh; Wed, 26 Oct 2022 23:27:42 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ontYS-0003WD-F3; Wed, 26 Oct 2022 23:27:42 -0400
+Received: by mail-pg1-x534.google.com with SMTP id f9so37243pgj.2;
+ Wed, 26 Oct 2022 20:27:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=30/CWtZumxL8cO3B69tDETNOttBFlSjbDfPjujGfQ6U=;
+ b=HvJtuALOL2ppHXnCl7e9ikEhsG9j5BhYyjrgkp5QN0R7ewKvrhNANRHNDlr9HBvsNA
+ 1Y1TLRgtqsE4ezZh0TRTQVJ5CRHHQBuGmoeG6Ei4ShigW2KAWn1WJtapi2JvxL1jUY99
+ chEF4Kn5Co61jpo3OrcLQgTZpoNbwdyW5O2U685RpHPoHt9gtTOCAun4WzSsnOQMWyoN
+ OZ3hKrEMH881KxHn/370M4pLib6sOPoVcL5tA8o98s+OQYgumYxJKSWZVtFz1H2TLt6p
+ 8iS5XqCIOXw6xZTlhmnyyaZOb1noKSyQRofTYWKiPTnV2+Wf7ot2CfhWCUwDKoBKkU6B
+ a1Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=30/CWtZumxL8cO3B69tDETNOttBFlSjbDfPjujGfQ6U=;
+ b=pj7Gz4W+SIuTkA83vLC+82cOnUOWXI2DmAyzoOvF669hiKMZ8ZQHl6HlMk86VZg2eE
+ qg29TGnek/V0UDloINJNjjUApwhYN5pnd+fwmJx4NIhZNUwuVvnVRiGMij3MJme3xPWX
+ gnCHg9WZ8nCovRDK3uUPjpyW5/xaNgJhacZBigWE8vSXObUb5C5hUV2dKRk00BzIExgQ
+ Oc1ZbmO9xRKI0zsIJAA37pfn9TtQbPm6MiSD7GzeyegwIdnxiPKh+hqOsBWkVNCxyV2u
+ aonBP1pKImUImVlQ2WVcf7U/Wf1husGBrxikVJIAOpyUp3CzPuVOVA++P/PNaTKRoBOT
+ +iSA==
+X-Gm-Message-State: ACrzQf3ZUZAoNV9UD84Dv+YC7OMtSsgdArfZg6LSzi8/4kVTFKi48ELx
+ srXMSfRjuHlmxmzMo2pmvGue7eI+bp+gy8+qRuM=
+X-Google-Smtp-Source: AMsMyM6UCzhwpSJrjctbvQ04BrW5NJXDn8oReZOWd9biYLBTq1E4vFe+IzEQNyenwz6f5SHBX089mWqdpMSUvc0J3As=
+X-Received: by 2002:a63:ce43:0:b0:45b:d6ed:6c2 with SMTP id
+ r3-20020a63ce43000000b0045bd6ed06c2mr40076715pgi.406.1666841258621; Wed, 26
+ Oct 2022 20:27:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.67.164.66]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=yangyicong@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221005144948.3421504-1-christoph.muellner@vrull.eu>
+In-Reply-To: <20221005144948.3421504-1-christoph.muellner@vrull.eu>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 27 Oct 2022 13:27:12 +1000
+Message-ID: <CAKmqyKOEzE+jyp2bg+voLoBXzHK6yb-Pd166d22D5oTrmxB60g@mail.gmail.com>
+Subject: Re: [PATCH v4] RISC-V: Add Zawrs ISA extension support
+To: Christoph Muellner <christoph.muellner@vrull.eu>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko.stuebner@vrull.eu>, 
+ Aaron Durbin <adurbin@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,90 +86,195 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
-Reply-to:  Yicong Yang <yangyicong@huawei.com>
-From:  Yicong Yang via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Yicong Yang <yangyicong@hisilicon.com>
+On Thu, Oct 6, 2022 at 12:52 AM Christoph Muellner
+<christoph.muellner@vrull.eu> wrote:
+>
+> This patch adds support for the Zawrs ISA extension.
+> Given the current (incomplete) implementation of reservation sets
+> there seems to be no way to provide a full emulation of the WRS
+> instruction (wake on reservation set invalidation or timeout or
+> interrupt). Therefore, we just exit the TB and return to the main loop.
+>
+> The specification can be found here:
+>   https://github.com/riscv/riscv-zawrs/blob/main/zawrs.adoc
+>
+> Note, that the Zawrs extension is frozen, but not ratified yet.
+>
+> Changes since v3:
+> * Remove "RFC" since the extension is frozen
+> * Rebase on master and fix integration issues
+> * Fix entry ordering in extension list
+>
+> Changes since v2:
+> * Rebase on master and resolve conflicts
+> * Adjustments according to a specification change
+> * Inline REQUIRE_ZAWRS() since it has only one user
+>
+> Changes since v1:
+> * Adding zawrs to the ISA string that is passed to the kernel
+>
+> Signed-off-by: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
 
-Add *.topology tables for the aarch64's topology test.
+Thanks!
 
-Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
----
- tests/data/acpi/virt/APIC.topology | Bin 0 -> 700 bytes
- tests/data/acpi/virt/DSDT.topology | Bin 0 -> 5398 bytes
- tests/data/acpi/virt/PPTT.topology | Bin 0 -> 336 bytes
- 3 files changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 tests/data/acpi/virt/APIC.topology
- create mode 100644 tests/data/acpi/virt/DSDT.topology
- create mode 100644 tests/data/acpi/virt/PPTT.topology
+Applied to riscv-to-apply.next
 
-diff --git a/tests/data/acpi/virt/APIC.topology b/tests/data/acpi/virt/APIC.topology
-new file mode 100644
-index 0000000000000000000000000000000000000000..558a1856981531b0e18e6d4aa12569cd80aa0015
-GIT binary patch
-literal 700
-zcmbV~OA5k35JW4P_<@+UE_0Na*(d}Y$i~BZHNk$8j<`%06xH*o$1LVr?)g<q={-L3
-zZSKcs$-SwP#7w$Q7oT+W$*O86UrB!d{M)jrTJASXrnUcf%@(j=xH;d-@;AWZec1Q5
-zvgjgM$r49dbP=q^5=U8d5v-jhj<V<?SbIwxWzj{j4wg8|qKmrq-__rL18-2#2XL1S
-A0RR91
+Alistair
 
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/virt/DSDT.topology b/tests/data/acpi/virt/DSDT.topology
-new file mode 100644
-index 0000000000000000000000000000000000000000..501314c91be01d927fd125e0c72e919fdd85592e
-GIT binary patch
-literal 5398
-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
-My@B5+&m2qr5A>`*Jpcdz
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/virt/PPTT.topology b/tests/data/acpi/virt/PPTT.topology
-new file mode 100644
-index 0000000000000000000000000000000000000000..3fbcae5ff08aaf16fedf4da45e941661d79c1174
-GIT binary patch
-literal 336
-zcmWFt2nh*bWME*baq@Te2v%^42yj*a0-z8Bhz+6{L>L&rG>8oYKrs+dflv?<DrSKu
-z#s}p4;1GkGi=-D>45YUMh?!vef$Csl%t&G&Cde(wdO>1GKm-gx_1*yTS+Iz)B8h>R
-aAic=uf$S9l3b27BK>%tVNQ@mK!T<mOd=3Es
-
-literal 0
-HcmV?d00001
-
--- 
-2.24.0
-
+> ---
+>  target/riscv/cpu.c                          |  7 +++
+>  target/riscv/cpu.h                          |  1 +
+>  target/riscv/insn32.decode                  |  4 ++
+>  target/riscv/insn_trans/trans_rvzawrs.c.inc | 51 +++++++++++++++++++++
+>  target/riscv/translate.c                    |  1 +
+>  5 files changed, 64 insertions(+)
+>  create mode 100644 target/riscv/insn_trans/trans_rvzawrs.c.inc
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index b29c88b9f0..b08ce94ba6 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -76,6 +76,7 @@ static const struct isa_ext_data isa_edata_arr[] =3D {
+>      ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
+>      ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei)=
+,
+>      ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihin=
+tpause),
+> +    ISA_EXT_DATA_ENTRY(zawrs, true, PRIV_VERSION_1_12_0, ext_zawrs),
+>      ISA_EXT_DATA_ENTRY(zfh, true, PRIV_VERSION_1_12_0, ext_zfh),
+>      ISA_EXT_DATA_ENTRY(zfhmin, true, PRIV_VERSION_1_12_0, ext_zfhmin),
+>      ISA_EXT_DATA_ENTRY(zfinx, true, PRIV_VERSION_1_12_0, ext_zfinx),
+> @@ -744,6 +745,11 @@ static void riscv_cpu_realize(DeviceState *dev, Erro=
+r **errp)
+>              return;
+>          }
+>
+> +        if ((cpu->cfg.ext_zawrs) && !cpu->cfg.ext_a) {
+> +            error_setg(errp, "Zawrs extension requires A extension");
+> +            return;
+> +        }
+> +
+>          if ((cpu->cfg.ext_zfh || cpu->cfg.ext_zfhmin) && !cpu->cfg.ext_f=
+) {
+>              error_setg(errp, "Zfh/Zfhmin extensions require F extension"=
+);
+>              return;
+> @@ -999,6 +1005,7 @@ static Property riscv_cpu_extensions[] =3D {
+>      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+>      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+>      DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true)=
+,
+> +    DEFINE_PROP_BOOL("Zawrs", RISCVCPU, cfg.ext_zawrs, true),
+>      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+>      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
+>      DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index b131fa8c8e..2b87966373 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -446,6 +446,7 @@ struct RISCVCPUConfig {
+>      bool ext_svnapot;
+>      bool ext_svpbmt;
+>      bool ext_zdinx;
+> +    bool ext_zawrs;
+>      bool ext_zfh;
+>      bool ext_zfhmin;
+>      bool ext_zfinx;
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index d0253b8104..b7e7613ea2 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -718,6 +718,10 @@ vsetvli         0 ........... ..... 111 ..... 101011=
+1  @r2_zimm11
+>  vsetivli        11 .......... ..... 111 ..... 1010111  @r2_zimm10
+>  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
+>
+> +# *** Zawrs Standard Extension ***
+> +wrs_nto    000000001101 00000 000 00000 1110011
+> +wrs_sto    000000011101 00000 000 00000 1110011
+> +
+>  # *** RV32 Zba Standard Extension ***
+>  sh1add     0010000 .......... 010 ..... 0110011 @r
+>  sh2add     0010000 .......... 100 ..... 0110011 @r
+> diff --git a/target/riscv/insn_trans/trans_rvzawrs.c.inc b/target/riscv/i=
+nsn_trans/trans_rvzawrs.c.inc
+> new file mode 100644
+> index 0000000000..f0da2fe50a
+> --- /dev/null
+> +++ b/target/riscv/insn_trans/trans_rvzawrs.c.inc
+> @@ -0,0 +1,51 @@
+> +/*
+> + * RISC-V translation routines for the RISC-V Zawrs Extension.
+> + *
+> + * Copyright (c) 2022 Christoph Muellner, christoph.muellner@vrull.io
+> + *
+> + * This program is free software; you can redistribute it and/or modify =
+it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOU=
+T
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License alo=
+ng with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +static bool trans_wrs(DisasContext *ctx)
+> +{
+> +    if (!ctx->cfg_ptr->ext_zawrs) {
+> +        return false;
+> +    }
+> +
+> +    /*
+> +     * The specification says:
+> +     * While stalled, an implementation is permitted to occasionally
+> +     * terminate the stall and complete execution for any reason.
+> +     *
+> +     * So let's just exit TB and return to the main loop.
+> +     */
+> +
+> +    /* Clear the load reservation  (if any).  */
+> +    tcg_gen_movi_tl(load_res, -1);
+> +
+> +    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
+> +    tcg_gen_exit_tb(NULL, 0);
+> +    ctx->base.is_jmp =3D DISAS_NORETURN;
+> +
+> +    return true;
+> +}
+> +
+> +#define GEN_TRANS_WRS(insn)                                            \
+> +static bool trans_ ## insn(DisasContext *ctx, arg_ ## insn *a)         \
+> +{                                                                      \
+> +       (void)a;                                                        \
+> +       return trans_wrs(ctx);                                          \
+> +}
+> +
+> +GEN_TRANS_WRS(wrs_nto)
+> +GEN_TRANS_WRS(wrs_sto)
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index db123da5ec..e22de88e97 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -1029,6 +1029,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase,=
+ target_ulong pc)
+>  #include "insn_trans/trans_rvh.c.inc"
+>  #include "insn_trans/trans_rvv.c.inc"
+>  #include "insn_trans/trans_rvb.c.inc"
+> +#include "insn_trans/trans_rvzawrs.c.inc"
+>  #include "insn_trans/trans_rvzfh.c.inc"
+>  #include "insn_trans/trans_rvk.c.inc"
+>  #include "insn_trans/trans_privileged.c.inc"
+> --
+> 2.37.3
+>
+>
 
