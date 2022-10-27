@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B77A60F213
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 10:19:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A43D60F24E
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 10:26:31 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ony5F-0003tL-8P; Thu, 27 Oct 2022 04:17:52 -0400
+	id 1ony95-000353-58; Thu, 27 Oct 2022 04:21:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ony4g-0008D6-Ca; Thu, 27 Oct 2022 04:17:15 -0400
-Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1ony8n-00028t-Kl; Thu, 27 Oct 2022 04:21:32 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ony4e-0003vS-Ij; Thu, 27 Oct 2022 04:17:13 -0400
-Received: by mail-qv1-xf2e.google.com with SMTP id o8so622217qvw.5;
- Thu, 27 Oct 2022 01:17:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1ony8g-0004eh-CF; Thu, 27 Oct 2022 04:21:29 -0400
+Received: by mail-ed1-x533.google.com with SMTP id 21so1441498edv.3;
+ Thu, 27 Oct 2022 01:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/c/JR5g3/GuczY+ftncW7CC21UEqXD/T3gMa6VxSfak=;
- b=joZ6rcFYRImbIoch6KX3sk+YAY8ZutAg6U6fn/P65Hc7kuSEBjIcjU/8OcllqJKgVK
- EscfanzQGttvPj5ExFgvGw6xtye8dg8GOvW0rMzSuQc2mzPTJeuiETeFpUmCVqNtd9Hd
- 6CZ6xT8BwFy78UV8neazP6XztCnane1NHmkkEqQH2HjGruTBg3XUk5r6vSHnxOinjeqz
- nCFiwppr1A6Xy9w4jzfnfmrJnRtsb6SjVGH5dEHP7X/jEqo+JA0mBzhJP+yLLLcjSwn9
- sNfvj7JyU6MpNM+uo9Elb7VOzuhdmAtIc4We51m0WIvw0e8mQf+lRRo7XTp0j5c+GICa
- fDlQ==
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZeaVPseicQY+J7u2d6tH2WEF+3YejWRLeAUXvXQgu8A=;
+ b=k9jNVr+Z84vCrDCfL+YPEfR5LGnLAN21ouAEWw3x/1OJRlozWwjiprVGgk0weNLZsH
+ 5f2N3N/yHgX4JsYc+sZ422lz03yCs9P5NxMSuR3gsgNClrydcWOk9kT9H8k9b9sK2Xyh
+ 2Tm5E+65doWi+KGNJe3TQVve9etPyyE525pXSvub1G8ejVCtf5cP0sBfoZZcLkJZ7v4k
+ wK2MRCt4nNlEnEmkaJp5y0RzTPsBwgI/ZuklBLdqCIEVdc5nwTGDlfAtvRQUCVu1OxAC
+ j1yGPU7WrO1WBs8eIvT89meXLLs2j7eOhcxXctHa+1292RiXmnlQ4eWChrPbWy+uCNKh
+ rstQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/c/JR5g3/GuczY+ftncW7CC21UEqXD/T3gMa6VxSfak=;
- b=uZhCJOjxfiMb0phTy0PfZy7na/Bd5UTj3sABmg2xY4uiMS9CTTBRDxULbvGEljLPm0
- AFR4gKdCb7GqB1o+tZV7E+/SPFUKLnnvEnH1VrQcgkfcxbog+wRYdWtBtiEjFFk5rcWn
- JjdK7SL81f2Luxgm4NyVQ7hmGaiKhk+pisTEJDlE3LZQctZS72BQOmtr8WvjLBe/3r19
- nK2lCPnjztsONwgAW0pPWVoGq8P4Z3mAwCMbiXEyJ2EhSxhr36m1VZNssQF0OujX9jzR
- 76xnrwbnoakTGuhNC1xGx5vW7RbgpiQbjM6aLL/NfigCzGIEbNwJW3ir7h32rP300ZEu
- pJvw==
-X-Gm-Message-State: ACrzQf3GM+sUFqwVsoYyppHMz/T0kNgN5hI+pxnm2L2/NBMX4evCkU9Z
- 3GRZKvyRr63+D18YGPb2TgF8Sw/AFFTx5oNKPgc=
-X-Google-Smtp-Source: AMsMyM7qC5ElX4zX1FZn4fjHFuYT+zxkZSnsWqaguLfLQq2DWleW/cAEd3DJVtvXCjPySF9EeAKHGd4X7T6pwZgVdKc=
-X-Received: by 2002:a0c:e00c:0:b0:4bb:7807:d2ce with SMTP id
- j12-20020a0ce00c000000b004bb7807d2cemr15017047qvk.51.1666858630283; Thu, 27
- Oct 2022 01:17:10 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZeaVPseicQY+J7u2d6tH2WEF+3YejWRLeAUXvXQgu8A=;
+ b=f5bod6H8FCvjx4DpcJaULzCNuRABrXstApY1Da0GdFmC7n4lXlCJ03Luxhk47gu2Ws
+ HgCYFArD6leB2eWufLhmQQbtTSbDrKSamqBAizlRsXwF4KoknluzPLVFNAVSxwbqkDzN
+ DcOZEqKG3NXUQTsRSaGVTk6RrFvUGC0ppmvErv44d26aVhS2R1ug2+qzndRwvw2VGKvk
+ R0XPeS4BRufN1Gc9hyly1h44B0KW6Uw76905Eer77f55af2Jt61L9Y/iRwNYcJ5jr4vx
+ sDX2ydhwvLKERYdoGH6a7gQOzq8n+xMIVrQRTA6SHveHfsj1+c8YfF7z4dqMQFKipkdy
+ tLPA==
+X-Gm-Message-State: ACrzQf2c/PtYXbgwOvsFjzbpwj2ULcZwbfemWdos0K4axSswmc/y5YSD
+ eDlKkHFmqrWrKg/LWxLLu+c=
+X-Google-Smtp-Source: AMsMyM4utI+WuBuRmsxER5SmACnZbmlLjYxuoO4J95cT/hGzhm19bcpP1COCBIgGf0+VS5LHBB5byg==
+X-Received: by 2002:a05:6402:268f:b0:462:7cbe:953a with SMTP id
+ w15-20020a056402268f00b004627cbe953amr4269646edd.385.1666858877288; 
+ Thu, 27 Oct 2022 01:21:17 -0700 (PDT)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb20095e0bdce03702654.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:95e0:bdce:370:2654])
+ by smtp.gmail.com with ESMTPSA id
+ d24-20020a1709064c5800b0073bdf71995dsm404906ejw.139.2022.10.27.01.21.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Oct 2022 01:21:16 -0700 (PDT)
+Date: Thu, 27 Oct 2022 08:21:10 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+CC: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH v5 00/13] Instantiate VT82xx functions in host device
+In-Reply-To: <25b0a116-7098-c285-cb20-af05dd03768b@amsat.org>
+References: <20220901114127.53914-1-shentey@gmail.com>
+ <E2820A94-3E30-46DB-9F83-8157C9A6FE1B@gmail.com>
+ <25b0a116-7098-c285-cb20-af05dd03768b@amsat.org>
+Message-ID: <1D5930DC-EA4A-411F-BA3A-AA7FB0315368@gmail.com>
 MIME-Version: 1.0
-References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
- <20220908132817.1831008-6-bmeng.cn@gmail.com>
- <f3447651-dadb-c0ed-f1f8-4ad80b551acf@amsat.org>
- <DM4PR11MB53589BB8CFF45CE67683E762914F9@DM4PR11MB5358.namprd11.prod.outlook.com>
- <CAEUhbmWv3F-5rPnE37XbmdSyfuKAXb7JOwywqVPnzA7dq361Og@mail.gmail.com>
- <CAEUhbmXka0i8Jt_kO_LHNpLWEix17Q7GiMP+U+6kEf4v9M7Rfg@mail.gmail.com>
- <Y1o5Slh7H+scVmYi@redhat.com>
-In-Reply-To: <Y1o5Slh7H+scVmYi@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 27 Oct 2022 16:16:58 +0800
-Message-ID: <CAEUhbmWzCFpmwV2dTjrMqO7ieFTZjh6dktY9gdYFytj7k-ZO1A@mail.gmail.com>
-Subject: Re: [PATCH 5/7] block/nfs: Fix 32-bit Windows build
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: "Meng, Bin" <Bin.Meng@windriver.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, Peter Lieven <pl@kamp.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2e.google.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,18 +96,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 3:55 PM Kevin Wolf <kwolf@redhat.com> wrote:
+Am 16=2E September 2022 14:36:05 UTC schrieb "Philippe Mathieu-Daud=C3=A9" =
+<f4bug@amsat=2Eorg>:
+>On 12/9/22 21:50, Bernhard Beschow wrote:
+>> Am 1=2E September 2022 11:41:14 UTC schrieb Bernhard Beschow <shentey@g=
+mail=2Ecom>:
 >
-> Am 27.10.2022 um 04:45 hat Bin Meng geschrieben:
-> > Hi Kevin,
-> > [...]
-> > Will you queue this patch via the block tree?
+>>> Testing done:
+>>>=20
+>>> * `qemu-system-ppc -machine pegasos2 -rtc base=3Dlocaltime -device ati=
+-vga,guest_hwcursor=3Dtrue,romfile=3D"" -cdrom morphos-3=2E17=2Eiso -kernel=
+ morphos-3=2E17/boot=2Eimg`
+>>>=20
+>>>   Boots successfully and it is possible to open games and tools=2E
+>>>=20
+>>>=20
+>>>=20
+>>> * I was unable to test the fuloong2e board even before this series sin=
+ce it seems to be unfinished [1]=2E
+>>>=20
+>>>   A buildroot-baked kernel [2] booted but doesn't find its root partit=
+ion, though the issues could be in the buildroot receipt I created=2E
+>>>=20
+>>>=20
+>>>=20
+>>> [1] https://osdn=2Enet/projects/qmiga/wiki/SubprojectPegasos2
+>>>=20
+>>> [2] https://github=2Ecom/shentok/buildroot/commits/fuloong2e
+>>>=20
+>>=20
+>> Copying from v2 (just found it in my spam folder :/):
+>> Series:
+>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=2Eorg>
+>>=20
+>> Review seems complete, thanks to all who participated! Now we just need=
+ someone to queue this series=2E
+>>=20
+>> Best regards,
+>> Bernhard
 >
-> Just to be sure, you mean only patch 5? Yes, I can do that.
->
+>Excellent cleanup! Series queued to mips-next=2E
 
-Yes, only this one. Thank you.
+Hi Phil,
 
-Regards,
-Bin
+would you mind doing a pull request in time for 7=2E2?
+
+Thanks,
+Bernhard
+
 
