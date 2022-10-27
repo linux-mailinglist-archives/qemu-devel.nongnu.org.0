@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D052F60F606
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:17:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 210CA60F5FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:14:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo0pA-0006Zh-8c; Thu, 27 Oct 2022 07:13:25 -0400
+	id 1oo0pE-0006zg-By; Thu, 27 Oct 2022 07:13:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oo0p2-0005QM-Q7
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:13:16 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+ id 1oo0pB-0006uz-9e
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:13:25 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oo0p0-0008Mi-JB
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:13:16 -0400
-Received: by mail-pf1-x429.google.com with SMTP id g62so1134451pfb.10
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 04:13:14 -0700 (PDT)
+ id 1oo0p7-0008N2-D2
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:13:24 -0400
+Received: by mail-pf1-x432.google.com with SMTP id v28so959422pfi.12
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 04:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=N5gJDBJrC0M+T7l6w/7vi7ZpQaw4NHSxWx3wQd1ZGd4=;
- b=m7997IWTIsex9XbqhI2Ow/lnvBJzMOoMFSw0y/AouaCvuxxoTNjXBJVr8OXMaYE61U
- 3K42ZWMUH4vsuUrtRBR/7QZoTxjh/56WZDFkvCb+6Jwo4bdQXR/1EpgyHnbxVuFoDAeB
- 0ZcFZRfIjIL5pAzlMUUor5CAJuKt0WO5KKspC63r63bguFpn565HifqgGAOrzLYRiOuv
- HOW6VC2YZI2lWV0i7vRjRCSAd7C0poC6hDqnCVp9hAxR1O++HGaps48RQnFfOsRLo1HE
- TkyPr9szSAOtnoS/TcJ2tQWA/79vUOOSduh2/v6xq/fY/0eg9qZu5HCQTDQ+Hk3C6bVh
- JWmg==
+ bh=k5qNhSL3kMUVJoVjQYHVgz9UDskdweotSXs/RKjB8Gg=;
+ b=FLol80kU4HE/DFX/0g+f4q4VzpWxK4xn0oacFUtcZ51CGG3f/d6YMCrkLzlfhQ6/2T
+ Ta8MW0Uwbp1IE4Hgk8IoAheDU607j4/7lpp8a0PdFrybstoVK72LH8irUWzDxyTcNKAe
+ rqJgBmi95iAV5cTiOTsP+UahNpojABbFGC7H+DSIed11AIXUOpEoe8s2karKTonxviu/
+ QkHmLTHwukF+Lezpq2v89Mv45tLPnCRDHUz5juqnnUyfgyzVfnyy0gym5PEJ4nkUyfTS
+ 7NyAUvGhK7T35u0JQ8WWq0eYasH2CQQxIA4oX75lH52lK4y8q17NyPYj/T95h5C0WyqJ
+ K+ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=N5gJDBJrC0M+T7l6w/7vi7ZpQaw4NHSxWx3wQd1ZGd4=;
- b=6vCBipeHKOZqLFLCCIcSW4alCs6l5YOrQsQMzwCrloLmRssWAsmCFviyUUIWnFmUVG
- V8ET6aCT7zOghtWFFxXQ5JLUWpusOSrxpiloB8TAFGdHJ5thNRNOQlYadbhUIzgrfgQt
- ppTHxpmWjzLT2Ps6PGdeZskzJS3A5FimLycf7tTgecrHKlj6w193N/Blqmce9GduQCU1
- Z9H1XjQbJDr71XtUma/1jXbNmTXNzXdUZBqYd00aVygPTINmkPqjA6afQ0H6VlvJcWC5
- UDmOlA3TUznT0qrI4fS/UYda8iw8i5AzNG73H+VgWeBxe4r8oLzElP1XdEyxpkIsGSlC
- ueJw==
-X-Gm-Message-State: ACrzQf3Yrbpqwn/+cqRjoD5qyTi3XSFmAbosrEpFDiaX5QUeP8kWdvQ6
- GPVoOSuYteRhkjW4I3sgEHKf9WL2UPqo/7DH
-X-Google-Smtp-Source: AMsMyM78IvxyDR+ycOwDUCuuzen+LRWlqb3c7016glZzGgA/UzCsRBWUletNm3UrogB65WSRIyVRRQ==
-X-Received: by 2002:a05:6a00:1482:b0:56c:6a9c:3d7 with SMTP id
- v2-20020a056a00148200b0056c6a9c03d7mr7153166pfu.0.1666869193138; 
- Thu, 27 Oct 2022 04:13:13 -0700 (PDT)
+ bh=k5qNhSL3kMUVJoVjQYHVgz9UDskdweotSXs/RKjB8Gg=;
+ b=G26aGxFnbmP4rAMao843lW6J+aniKUipKtXzc+/sbbS2KkmMTHMAf0qd8fru3qlO7m
+ WFy3ZpJVQ2oFzTAYrSobwXG53zlft0pz/9DvY9poZEDt+wi2ucblesire+NtzDJIOJNZ
+ oUtp8TkW/GnHIqPpBIZ7OCvAp9QjCc88PnIdAoxfMqlvIQJFosMyDSZauXEmtMvggb+x
+ eq8IV2annrg3/pmmfPVH8OgQk2zb0kTGYDqyYEKoKHokudscOw3k9R+RKZCfOM9R70Yh
+ RE4ZFtVbyhreT5/GfqF6IAbtllgbuI2yCnenWERViFDGnsDxVNOYIZhUU75GeCAD1xMt
+ VB9Q==
+X-Gm-Message-State: ACrzQf0aARWITujNldPhB8cAPKzKxmr+lUkGXH/vAy+Qtw66o+hCrCJN
+ s7Su7YNuoGPZqf+48yQqynC7rLHlgHkotfvZ
+X-Google-Smtp-Source: AMsMyM6b5g7eUOzcbCuV7O8jWrm8QMaPkXPszllbSTuXoaaVUxxOU19s7ZNIUs6yt3GdOcWwRw371g==
+X-Received: by 2002:a62:19cd:0:b0:56b:6a55:ffba with SMTP id
+ 196-20020a6219cd000000b0056b6a55ffbamr30338390pfz.85.1666869195803; 
+ Thu, 27 Oct 2022 04:13:15 -0700 (PDT)
 Received: from localhost.localdomain ([2001:8003:501a:d301:3a91:9408:3918:55a])
  by smtp.gmail.com with ESMTPSA id
- j5-20020a170902c3c500b00172ea8ff334sm969621plj.7.2022.10.27.04.13.10
+ j5-20020a170902c3c500b00172ea8ff334sm969621plj.7.2022.10.27.04.13.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 04:13:12 -0700 (PDT)
+ Thu, 27 Oct 2022 04:13:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org,
 	laurent@vivier.eu
-Subject: [PATCH v2 3/7] accel/tcg: Use interval tree for TARGET_PAGE_DATA_SIZE
-Date: Thu, 27 Oct 2022 22:12:54 +1100
-Message-Id: <20221027111258.348196-4-richard.henderson@linaro.org>
+Subject: [PATCH v2 4/7] accel/tcg: Move page_{get,set}_flags to user-exec.c
+Date: Thu, 27 Oct 2022 22:12:55 +1100
+Message-Id: <20221027111258.348196-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221027111258.348196-1-richard.henderson@linaro.org>
 References: <20221027111258.348196-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,155 +91,771 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Continue weaning user-only away from PageDesc.
+This page tracking implementation is specific to user-only,
+since the system softmmu version is in cputlb.c.  Move it
+out of translate-all.c to user-exec.c.
 
-Use an interval tree to record target data.
-Chunk the data, to minimize allocation overhead.
-
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/internal.h  |  1 -
- accel/tcg/user-exec.c | 99 ++++++++++++++++++++++++++++++++-----------
- 2 files changed, 74 insertions(+), 26 deletions(-)
+ accel/tcg/internal.h      |  17 ++
+ accel/tcg/translate-all.c | 350 --------------------------------------
+ accel/tcg/user-exec.c     | 346 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 363 insertions(+), 350 deletions(-)
 
 diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-index 1bd5a02911..8731dc52e2 100644
+index 8731dc52e2..250f0daac9 100644
 --- a/accel/tcg/internal.h
 +++ b/accel/tcg/internal.h
-@@ -26,7 +26,6 @@
- typedef struct PageDesc {
- #ifdef CONFIG_USER_ONLY
-     unsigned long flags;
--    void *target_data;
- #else
-     QemuSpin lock;
-     /* list of TBs intersecting this ram page */
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index fb7d6ee9e9..42a04bdb21 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -210,47 +210,96 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
-     return addr;
+@@ -33,6 +33,23 @@ typedef struct PageDesc {
+ #endif
+ } PageDesc;
+ 
++/*
++ * In system mode we want L1_MAP to be based on ram offsets,
++ * while in user mode we want it to be based on virtual addresses.
++ *
++ * TODO: For user mode, see the caveat re host vs guest virtual
++ * address spaces near GUEST_ADDR_MAX.
++ */
++#if !defined(CONFIG_USER_ONLY)
++#if HOST_LONG_BITS < TARGET_PHYS_ADDR_SPACE_BITS
++# define L1_MAP_ADDR_SPACE_BITS  HOST_LONG_BITS
++#else
++# define L1_MAP_ADDR_SPACE_BITS  TARGET_PHYS_ADDR_SPACE_BITS
++#endif
++#else
++# define L1_MAP_ADDR_SPACE_BITS  MIN(HOST_LONG_BITS, TARGET_ABI_BITS)
++#endif
++
+ /* Size of the L2 (and L3, etc) page tables.  */
+ #define V_L2_BITS 10
+ #define V_L2_SIZE (1 << V_L2_BITS)
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index dc7973eb3b..0f8f8e5bef 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -109,23 +109,6 @@ struct page_collection {
+     struct page_entry *max;
+ };
+ 
+-/*
+- * In system mode we want L1_MAP to be based on ram offsets,
+- * while in user mode we want it to be based on virtual addresses.
+- *
+- * TODO: For user mode, see the caveat re host vs guest virtual
+- * address spaces near GUEST_ADDR_MAX.
+- */
+-#if !defined(CONFIG_USER_ONLY)
+-#if HOST_LONG_BITS < TARGET_PHYS_ADDR_SPACE_BITS
+-# define L1_MAP_ADDR_SPACE_BITS  HOST_LONG_BITS
+-#else
+-# define L1_MAP_ADDR_SPACE_BITS  TARGET_PHYS_ADDR_SPACE_BITS
+-#endif
+-#else
+-# define L1_MAP_ADDR_SPACE_BITS  MIN(HOST_LONG_BITS, TARGET_ABI_BITS)
+-#endif
+-
+ /* Make sure all possible CPU event bits fit in tb->trace_vcpu_dstate */
+ QEMU_BUILD_BUG_ON(CPU_TRACE_DSTATE_MAX_EVENTS >
+                   sizeof_field(TranslationBlock, trace_vcpu_dstate)
+@@ -1222,339 +1205,6 @@ void cpu_interrupt(CPUState *cpu, int mask)
+     qatomic_set(&cpu_neg(cpu)->icount_decr.u16.high, -1);
  }
  
-+#ifdef TARGET_PAGE_DATA_SIZE
-+/*
-+ * Allocate chunks of target data together.  For the only current user,
-+ * if we allocate one hunk per page, we have overhead of 40/128 or 40%.
-+ * Therefore, allocate memory for 64 pages at a time for overhead < 1%.
-+ */
-+#define TPD_PAGES  64
-+#define TBD_MASK   (TARGET_PAGE_MASK * TPD_PAGES)
-+
-+typedef struct TargetPageDataNode {
-+    IntervalTreeNode itree;
-+    char data[TPD_PAGES][TARGET_PAGE_DATA_SIZE] __attribute__((aligned));
-+} TargetPageDataNode;
-+
-+static IntervalTreeRoot targetdata_root;
-+
- void page_reset_target_data(target_ulong start, target_ulong end)
- {
--#ifdef TARGET_PAGE_DATA_SIZE
+-/*
+- * Walks guest process memory "regions" one by one
+- * and calls callback function 'fn' for each region.
+- */
+-struct walk_memory_regions_data {
+-    walk_memory_regions_fn fn;
+-    void *priv;
+-    target_ulong start;
+-    int prot;
+-};
+-
+-static int walk_memory_regions_end(struct walk_memory_regions_data *data,
+-                                   target_ulong end, int new_prot)
+-{
+-    if (data->start != -1u) {
+-        int rc = data->fn(data->priv, data->start, end, data->prot);
+-        if (rc != 0) {
+-            return rc;
+-        }
+-    }
+-
+-    data->start = (new_prot ? end : -1u);
+-    data->prot = new_prot;
+-
+-    return 0;
+-}
+-
+-static int walk_memory_regions_1(struct walk_memory_regions_data *data,
+-                                 target_ulong base, int level, void **lp)
+-{
+-    target_ulong pa;
+-    int i, rc;
+-
+-    if (*lp == NULL) {
+-        return walk_memory_regions_end(data, base, 0);
+-    }
+-
+-    if (level == 0) {
+-        PageDesc *pd = *lp;
+-
+-        for (i = 0; i < V_L2_SIZE; ++i) {
+-            int prot = pd[i].flags;
+-
+-            pa = base | (i << TARGET_PAGE_BITS);
+-            if (prot != data->prot) {
+-                rc = walk_memory_regions_end(data, pa, prot);
+-                if (rc != 0) {
+-                    return rc;
+-                }
+-            }
+-        }
+-    } else {
+-        void **pp = *lp;
+-
+-        for (i = 0; i < V_L2_SIZE; ++i) {
+-            pa = base | ((target_ulong)i <<
+-                (TARGET_PAGE_BITS + V_L2_BITS * level));
+-            rc = walk_memory_regions_1(data, pa, level - 1, pp + i);
+-            if (rc != 0) {
+-                return rc;
+-            }
+-        }
+-    }
+-
+-    return 0;
+-}
+-
+-int walk_memory_regions(void *priv, walk_memory_regions_fn fn)
+-{
+-    struct walk_memory_regions_data data;
+-    uintptr_t i, l1_sz = v_l1_size;
+-
+-    data.fn = fn;
+-    data.priv = priv;
+-    data.start = -1u;
+-    data.prot = 0;
+-
+-    for (i = 0; i < l1_sz; i++) {
+-        target_ulong base = i << (v_l1_shift + TARGET_PAGE_BITS);
+-        int rc = walk_memory_regions_1(&data, base, v_l2_levels, l1_map + i);
+-        if (rc != 0) {
+-            return rc;
+-        }
+-    }
+-
+-    return walk_memory_regions_end(&data, 0, 0);
+-}
+-
+-static int dump_region(void *priv, target_ulong start,
+-    target_ulong end, unsigned long prot)
+-{
+-    FILE *f = (FILE *)priv;
+-
+-    (void) fprintf(f, TARGET_FMT_lx"-"TARGET_FMT_lx
+-        " "TARGET_FMT_lx" %c%c%c\n",
+-        start, end, end - start,
+-        ((prot & PAGE_READ) ? 'r' : '-'),
+-        ((prot & PAGE_WRITE) ? 'w' : '-'),
+-        ((prot & PAGE_EXEC) ? 'x' : '-'));
+-
+-    return 0;
+-}
+-
+-/* dump memory mappings */
+-void page_dump(FILE *f)
+-{
+-    const int length = sizeof(target_ulong) * 2;
+-    (void) fprintf(f, "%-*s %-*s %-*s %s\n",
+-            length, "start", length, "end", length, "size", "prot");
+-    walk_memory_regions(f, dump_region);
+-}
+-
+-int page_get_flags(target_ulong address)
+-{
+-    PageDesc *p;
+-
+-    p = page_find(address >> TARGET_PAGE_BITS);
+-    if (!p) {
+-        return 0;
+-    }
+-    return p->flags;
+-}
+-
+-/*
+- * Allow the target to decide if PAGE_TARGET_[12] may be reset.
+- * By default, they are not kept.
+- */
+-#ifndef PAGE_TARGET_STICKY
+-#define PAGE_TARGET_STICKY  0
+-#endif
+-#define PAGE_STICKY  (PAGE_ANON | PAGE_PASSTHROUGH | PAGE_TARGET_STICKY)
+-
+-/* Modify the flags of a page and invalidate the code if necessary.
+-   The flag PAGE_WRITE_ORG is positioned automatically depending
+-   on PAGE_WRITE.  The mmap_lock should already be held.  */
+-void page_set_flags(target_ulong start, target_ulong end, int flags)
+-{
 -    target_ulong addr, len;
-+    IntervalTreeNode *n, *next;
-+    target_ulong last;
- 
--    /*
--     * This function should never be called with addresses outside the
--     * guest address space.  If this assert fires, it probably indicates
--     * a missing call to h2g_valid.
--     */
+-    bool reset, inval_tb = false;
+-
+-    /* This function should never be called with addresses outside the
+-       guest address space.  If this assert fires, it probably indicates
+-       a missing call to h2g_valid.  */
 -    assert(end - 1 <= GUEST_ADDR_MAX);
 -    assert(start < end);
-     assert_memory_lock();
- 
-     start = start & TARGET_PAGE_MASK;
+-    /* Only set PAGE_ANON with new mappings. */
+-    assert(!(flags & PAGE_ANON) || (flags & PAGE_RESET));
+-    assert_memory_lock();
+-
+-    start = start & TARGET_PAGE_MASK;
 -    end = TARGET_PAGE_ALIGN(end);
-+    last = TARGET_PAGE_ALIGN(end) - 1;
- 
+-
+-    if (flags & PAGE_WRITE) {
+-        flags |= PAGE_WRITE_ORG;
+-    }
+-    reset = !(flags & PAGE_VALID) || (flags & PAGE_RESET);
+-    if (reset) {
+-        page_reset_target_data(start, end);
+-    }
+-    flags &= ~PAGE_RESET;
+-
 -    for (addr = start, len = end - start;
 -         len != 0;
 -         len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
--        PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, 1);
-+    for (n = interval_tree_iter_first(&targetdata_root, start, last),
-+         next = n ? interval_tree_iter_next(n, start, last) : NULL;
-+         n != NULL;
-+         n = next,
-+         next = next ? interval_tree_iter_next(n, start, last) : NULL) {
-+        target_ulong n_start, n_last, p_ofs, p_len;
-+        TargetPageDataNode *t;
- 
--        g_free(p->target_data);
--        p->target_data = NULL;
-+        if (n->start >= start && n->last <= last) {
-+            interval_tree_remove(n, &targetdata_root);
-+            g_free(n);
-+            continue;
-+        }
-+
-+        if (n->start < start) {
-+            n_start = start;
-+            p_ofs = (start - n->start) >> TARGET_PAGE_BITS;
-+        } else {
-+            n_start = n->start;
-+            p_ofs = 0;
-+        }
-+        n_last = MIN(last, n->last);
-+        p_len = (n_last + 1 - n_start) >> TARGET_PAGE_BITS;
-+
-+        t = container_of(n, TargetPageDataNode, itree);
-+        memset(t->data[p_ofs], 0, p_len * TARGET_PAGE_DATA_SIZE);
-     }
+-        PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, true);
+-
+-        /*
+-         * If the page was executable, but is reset, or is no longer
+-         * executable, or has become writable, then invalidate any code.
+-         */
+-        if ((p->flags & PAGE_EXEC)
+-            && (reset ||
+-                !(flags & PAGE_EXEC) ||
+-                (flags & ~p->flags & PAGE_WRITE))) {
+-            inval_tb = true;
+-        }
+-        /* Using mprotect on a page does not change sticky bits. */
+-        p->flags = (reset ? 0 : p->flags & PAGE_STICKY) | flags;
+-    }
+-
+-    if (inval_tb) {
+-        tb_invalidate_phys_range(start, end);
+-    }
+-}
+-
+-int page_check_range(target_ulong start, target_ulong len, int flags)
+-{
+-    PageDesc *p;
+-    target_ulong end;
+-    target_ulong addr;
+-
+-    /* This function should never be called with addresses outside the
+-       guest address space.  If this assert fires, it probably indicates
+-       a missing call to h2g_valid.  */
+-    if (TARGET_ABI_BITS > L1_MAP_ADDR_SPACE_BITS) {
+-        assert(start < ((target_ulong)1 << L1_MAP_ADDR_SPACE_BITS));
+-    }
+-
+-    if (len == 0) {
+-        return 0;
+-    }
+-    if (start + len - 1 < start) {
+-        /* We've wrapped around.  */
+-        return -1;
+-    }
+-
+-    /* must do before we loose bits in the next step */
+-    end = TARGET_PAGE_ALIGN(start + len);
+-    start = start & TARGET_PAGE_MASK;
+-
+-    for (addr = start, len = end - start;
+-         len != 0;
+-         len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
+-        p = page_find(addr >> TARGET_PAGE_BITS);
+-        if (!p) {
+-            return -1;
+-        }
+-        if (!(p->flags & PAGE_VALID)) {
+-            return -1;
+-        }
+-
+-        if ((flags & PAGE_READ) && !(p->flags & PAGE_READ)) {
+-            return -1;
+-        }
+-        if (flags & PAGE_WRITE) {
+-            if (!(p->flags & PAGE_WRITE_ORG)) {
+-                return -1;
+-            }
+-            /* unprotect the page if it was put read-only because it
+-               contains translated code */
+-            if (!(p->flags & PAGE_WRITE)) {
+-                if (!page_unprotect(addr, 0)) {
+-                    return -1;
+-                }
+-            }
+-        }
+-    }
+-    return 0;
+-}
+-
+-void page_protect(tb_page_addr_t page_addr)
+-{
+-    target_ulong addr;
+-    PageDesc *p;
+-    int prot;
+-
+-    p = page_find(page_addr >> TARGET_PAGE_BITS);
+-    if (p && (p->flags & PAGE_WRITE)) {
+-        /*
+-         * Force the host page as non writable (writes will have a page fault +
+-         * mprotect overhead).
+-         */
+-        page_addr &= qemu_host_page_mask;
+-        prot = 0;
+-        for (addr = page_addr; addr < page_addr + qemu_host_page_size;
+-             addr += TARGET_PAGE_SIZE) {
+-
+-            p = page_find(addr >> TARGET_PAGE_BITS);
+-            if (!p) {
+-                continue;
+-            }
+-            prot |= p->flags;
+-            p->flags &= ~PAGE_WRITE;
+-        }
+-        mprotect(g2h_untagged(page_addr), qemu_host_page_size,
+-                 (prot & PAGE_BITS) & ~PAGE_WRITE);
+-    }
+-}
+-
+-/* called from signal handler: invalidate the code and unprotect the
+- * page. Return 0 if the fault was not handled, 1 if it was handled,
+- * and 2 if it was handled but the caller must cause the TB to be
+- * immediately exited. (We can only return 2 if the 'pc' argument is
+- * non-zero.)
+- */
+-int page_unprotect(target_ulong address, uintptr_t pc)
+-{
+-    unsigned int prot;
+-    bool current_tb_invalidated;
+-    PageDesc *p;
+-    target_ulong host_start, host_end, addr;
+-
+-    /* Technically this isn't safe inside a signal handler.  However we
+-       know this only ever happens in a synchronous SEGV handler, so in
+-       practice it seems to be ok.  */
+-    mmap_lock();
+-
+-    p = page_find(address >> TARGET_PAGE_BITS);
+-    if (!p) {
+-        mmap_unlock();
+-        return 0;
+-    }
+-
+-    /* if the page was really writable, then we change its
+-       protection back to writable */
+-    if (p->flags & PAGE_WRITE_ORG) {
+-        current_tb_invalidated = false;
+-        if (p->flags & PAGE_WRITE) {
+-            /* If the page is actually marked WRITE then assume this is because
+-             * this thread raced with another one which got here first and
+-             * set the page to PAGE_WRITE and did the TB invalidate for us.
+-             */
+-#ifdef TARGET_HAS_PRECISE_SMC
+-            TranslationBlock *current_tb = tcg_tb_lookup(pc);
+-            if (current_tb) {
+-                current_tb_invalidated = tb_cflags(current_tb) & CF_INVALID;
+-            }
 -#endif
+-        } else {
+-            host_start = address & qemu_host_page_mask;
+-            host_end = host_start + qemu_host_page_size;
+-
+-            prot = 0;
+-            for (addr = host_start; addr < host_end; addr += TARGET_PAGE_SIZE) {
+-                p = page_find(addr >> TARGET_PAGE_BITS);
+-                p->flags |= PAGE_WRITE;
+-                prot |= p->flags;
+-
+-                /* and since the content will be modified, we must invalidate
+-                   the corresponding translated code. */
+-                current_tb_invalidated |=
+-                    tb_invalidate_phys_page_unwind(addr, pc);
+-            }
+-            mprotect((void *)g2h_untagged(host_start), qemu_host_page_size,
+-                     prot & PAGE_BITS);
+-        }
+-        mmap_unlock();
+-        /* If current TB was invalidated return to main loop */
+-        return current_tb_invalidated ? 2 : 1;
+-    }
+-    mmap_unlock();
+-    return 0;
+-}
+ #endif /* CONFIG_USER_ONLY */
+ 
+ /*
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 42a04bdb21..22ef780900 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -135,6 +135,352 @@ bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
+     }
  }
  
--#ifdef TARGET_PAGE_DATA_SIZE
- void *page_get_target_data(target_ulong address)
- {
--    PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
--    void *ret = p->target_data;
-+    IntervalTreeNode *n;
-+    TargetPageDataNode *t;
-+    target_ulong page, region;
- 
--    if (!ret) {
--        ret = g_malloc0(TARGET_PAGE_DATA_SIZE);
--        p->target_data = ret;
-+    page = address & TARGET_PAGE_MASK;
-+    region = address & TBD_MASK;
++/*
++ * Walks guest process memory "regions" one by one
++ * and calls callback function 'fn' for each region.
++ */
++struct walk_memory_regions_data {
++    walk_memory_regions_fn fn;
++    void *priv;
++    target_ulong start;
++    int prot;
++};
 +
-+    n = interval_tree_iter_first(&targetdata_root, page, page);
-+    if (!n) {
++static int walk_memory_regions_end(struct walk_memory_regions_data *data,
++                                   target_ulong end, int new_prot)
++{
++    if (data->start != -1u) {
++        int rc = data->fn(data->priv, data->start, end, data->prot);
++        if (rc != 0) {
++            return rc;
++        }
++    }
++
++    data->start = (new_prot ? end : -1u);
++    data->prot = new_prot;
++
++    return 0;
++}
++
++static int walk_memory_regions_1(struct walk_memory_regions_data *data,
++                                 target_ulong base, int level, void **lp)
++{
++    target_ulong pa;
++    int i, rc;
++
++    if (*lp == NULL) {
++        return walk_memory_regions_end(data, base, 0);
++    }
++
++    if (level == 0) {
++        PageDesc *pd = *lp;
++
++        for (i = 0; i < V_L2_SIZE; ++i) {
++            int prot = pd[i].flags;
++
++            pa = base | (i << TARGET_PAGE_BITS);
++            if (prot != data->prot) {
++                rc = walk_memory_regions_end(data, pa, prot);
++                if (rc != 0) {
++                    return rc;
++                }
++            }
++        }
++    } else {
++        void **pp = *lp;
++
++        for (i = 0; i < V_L2_SIZE; ++i) {
++            pa = base | ((target_ulong)i <<
++                (TARGET_PAGE_BITS + V_L2_BITS * level));
++            rc = walk_memory_regions_1(data, pa, level - 1, pp + i);
++            if (rc != 0) {
++                return rc;
++            }
++        }
++    }
++
++    return 0;
++}
++
++int walk_memory_regions(void *priv, walk_memory_regions_fn fn)
++{
++    struct walk_memory_regions_data data;
++    uintptr_t i, l1_sz = v_l1_size;
++
++    data.fn = fn;
++    data.priv = priv;
++    data.start = -1u;
++    data.prot = 0;
++
++    for (i = 0; i < l1_sz; i++) {
++        target_ulong base = i << (v_l1_shift + TARGET_PAGE_BITS);
++        int rc = walk_memory_regions_1(&data, base, v_l2_levels, l1_map + i);
++        if (rc != 0) {
++            return rc;
++        }
++    }
++
++    return walk_memory_regions_end(&data, 0, 0);
++}
++
++static int dump_region(void *priv, target_ulong start,
++    target_ulong end, unsigned long prot)
++{
++    FILE *f = (FILE *)priv;
++
++    (void) fprintf(f, TARGET_FMT_lx"-"TARGET_FMT_lx
++        " "TARGET_FMT_lx" %c%c%c\n",
++        start, end, end - start,
++        ((prot & PAGE_READ) ? 'r' : '-'),
++        ((prot & PAGE_WRITE) ? 'w' : '-'),
++        ((prot & PAGE_EXEC) ? 'x' : '-'));
++
++    return 0;
++}
++
++/* dump memory mappings */
++void page_dump(FILE *f)
++{
++    const int length = sizeof(target_ulong) * 2;
++    (void) fprintf(f, "%-*s %-*s %-*s %s\n",
++            length, "start", length, "end", length, "size", "prot");
++    walk_memory_regions(f, dump_region);
++}
++
++int page_get_flags(target_ulong address)
++{
++    PageDesc *p;
++
++    p = page_find(address >> TARGET_PAGE_BITS);
++    if (!p) {
++        return 0;
++    }
++    return p->flags;
++}
++
++/*
++ * Allow the target to decide if PAGE_TARGET_[12] may be reset.
++ * By default, they are not kept.
++ */
++#ifndef PAGE_TARGET_STICKY
++#define PAGE_TARGET_STICKY  0
++#endif
++#define PAGE_STICKY  (PAGE_ANON | PAGE_PASSTHROUGH | PAGE_TARGET_STICKY)
++
++/*
++ * Modify the flags of a page and invalidate the code if necessary.
++ * The flag PAGE_WRITE_ORG is positioned automatically depending
++ * on PAGE_WRITE.  The mmap_lock should already be held.
++ */
++void page_set_flags(target_ulong start, target_ulong end, int flags)
++{
++    target_ulong addr, len;
++    bool reset, inval_tb = false;
++
++    /* This function should never be called with addresses outside the
++       guest address space.  If this assert fires, it probably indicates
++       a missing call to h2g_valid.  */
++    assert(end - 1 <= GUEST_ADDR_MAX);
++    assert(start < end);
++    /* Only set PAGE_ANON with new mappings. */
++    assert(!(flags & PAGE_ANON) || (flags & PAGE_RESET));
++    assert_memory_lock();
++
++    start = start & TARGET_PAGE_MASK;
++    end = TARGET_PAGE_ALIGN(end);
++
++    if (flags & PAGE_WRITE) {
++        flags |= PAGE_WRITE_ORG;
++    }
++    reset = !(flags & PAGE_VALID) || (flags & PAGE_RESET);
++    if (reset) {
++        page_reset_target_data(start, end);
++    }
++    flags &= ~PAGE_RESET;
++
++    for (addr = start, len = end - start;
++         len != 0;
++         len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
++        PageDesc *p = page_find_alloc(addr >> TARGET_PAGE_BITS, true);
++
 +        /*
-+         * See util/interval-tree.c re lockless lookups: no false positives
-+         * but there are false negatives.  If we find nothing, retry with
-+         * the mmap lock acquired.  We also need the lock for the
-+         * allocation + insert.
++         * If the page was executable, but is reset, or is no longer
++         * executable, or has become writable, then invalidate any code.
 +         */
-+        mmap_lock();
-+        n = interval_tree_iter_first(&targetdata_root, page, page);
-+        if (!n) {
-+            t = g_new0(TargetPageDataNode, 1);
-+            n = &t->itree;
-+            n->start = region;
-+            n->last = region | ~TBD_MASK;
-+            interval_tree_insert(n, &targetdata_root);
++        if ((p->flags & PAGE_EXEC)
++            && (reset ||
++                !(flags & PAGE_EXEC) ||
++                (flags & ~p->flags & PAGE_WRITE))) {
++            inval_tb = true;
++        }
++        /* Using mprotect on a page does not change sticky bits. */
++        p->flags = (reset ? 0 : p->flags & PAGE_STICKY) | flags;
++    }
++
++    if (inval_tb) {
++        tb_invalidate_phys_range(start, end);
++    }
++}
++
++int page_check_range(target_ulong start, target_ulong len, int flags)
++{
++    PageDesc *p;
++    target_ulong end;
++    target_ulong addr;
++
++    /*
++     * This function should never be called with addresses outside the
++     * guest address space.  If this assert fires, it probably indicates
++     * a missing call to h2g_valid.
++     */
++    if (TARGET_ABI_BITS > L1_MAP_ADDR_SPACE_BITS) {
++        assert(start < ((target_ulong)1 << L1_MAP_ADDR_SPACE_BITS));
++    }
++
++    if (len == 0) {
++        return 0;
++    }
++    if (start + len - 1 < start) {
++        /* We've wrapped around.  */
++        return -1;
++    }
++
++    /* must do before we loose bits in the next step */
++    end = TARGET_PAGE_ALIGN(start + len);
++    start = start & TARGET_PAGE_MASK;
++
++    for (addr = start, len = end - start;
++         len != 0;
++         len -= TARGET_PAGE_SIZE, addr += TARGET_PAGE_SIZE) {
++        p = page_find(addr >> TARGET_PAGE_BITS);
++        if (!p) {
++            return -1;
++        }
++        if (!(p->flags & PAGE_VALID)) {
++            return -1;
++        }
++
++        if ((flags & PAGE_READ) && !(p->flags & PAGE_READ)) {
++            return -1;
++        }
++        if (flags & PAGE_WRITE) {
++            if (!(p->flags & PAGE_WRITE_ORG)) {
++                return -1;
++            }
++            /* unprotect the page if it was put read-only because it
++               contains translated code */
++            if (!(p->flags & PAGE_WRITE)) {
++                if (!page_unprotect(addr, 0)) {
++                    return -1;
++                }
++            }
++        }
++    }
++    return 0;
++}
++
++void page_protect(tb_page_addr_t page_addr)
++{
++    target_ulong addr;
++    PageDesc *p;
++    int prot;
++
++    p = page_find(page_addr >> TARGET_PAGE_BITS);
++    if (p && (p->flags & PAGE_WRITE)) {
++        /*
++         * Force the host page as non writable (writes will have a page fault +
++         * mprotect overhead).
++         */
++        page_addr &= qemu_host_page_mask;
++        prot = 0;
++        for (addr = page_addr; addr < page_addr + qemu_host_page_size;
++             addr += TARGET_PAGE_SIZE) {
++
++            p = page_find(addr >> TARGET_PAGE_BITS);
++            if (!p) {
++                continue;
++            }
++            prot |= p->flags;
++            p->flags &= ~PAGE_WRITE;
++        }
++        mprotect(g2h_untagged(page_addr), qemu_host_page_size,
++                 (prot & PAGE_BITS) & ~PAGE_WRITE);
++    }
++}
++
++/*
++ * Called from signal handler: invalidate the code and unprotect the
++ * page. Return 0 if the fault was not handled, 1 if it was handled,
++ * and 2 if it was handled but the caller must cause the TB to be
++ * immediately exited. (We can only return 2 if the 'pc' argument is
++ * non-zero.)
++ */
++int page_unprotect(target_ulong address, uintptr_t pc)
++{
++    unsigned int prot;
++    bool current_tb_invalidated;
++    PageDesc *p;
++    target_ulong host_start, host_end, addr;
++
++    /*
++     * Technically this isn't safe inside a signal handler.  However we
++     * know this only ever happens in a synchronous SEGV handler, so in
++     * practice it seems to be ok.
++     */
++    mmap_lock();
++
++    p = page_find(address >> TARGET_PAGE_BITS);
++    if (!p) {
++        mmap_unlock();
++        return 0;
++    }
++
++    /*
++     * If the page was really writable, then we change its
++     * protection back to writable.
++     */
++    if (p->flags & PAGE_WRITE_ORG) {
++        current_tb_invalidated = false;
++        if (p->flags & PAGE_WRITE) {
++            /*
++             * If the page is actually marked WRITE then assume this is because
++             * this thread raced with another one which got here first and
++             * set the page to PAGE_WRITE and did the TB invalidate for us.
++             */
++#ifdef TARGET_HAS_PRECISE_SMC
++            TranslationBlock *current_tb = tcg_tb_lookup(pc);
++            if (current_tb) {
++                current_tb_invalidated = tb_cflags(current_tb) & CF_INVALID;
++            }
++#endif
++        } else {
++            host_start = address & qemu_host_page_mask;
++            host_end = host_start + qemu_host_page_size;
++
++            prot = 0;
++            for (addr = host_start; addr < host_end; addr += TARGET_PAGE_SIZE) {
++                p = page_find(addr >> TARGET_PAGE_BITS);
++                p->flags |= PAGE_WRITE;
++                prot |= p->flags;
++
++                /*
++                 * Since the content will be modified, we must invalidate
++                 * the corresponding translated code.
++                 */
++                current_tb_invalidated |=
++                    tb_invalidate_phys_page_unwind(addr, pc);
++            }
++            mprotect((void *)g2h_untagged(host_start), qemu_host_page_size,
++                     prot & PAGE_BITS);
 +        }
 +        mmap_unlock();
-     }
--    return ret;
++        /* If current TB was invalidated return to main loop */
++        return current_tb_invalidated ? 2 : 1;
++    }
++    mmap_unlock();
++    return 0;
++}
 +
-+    t = container_of(n, TargetPageDataNode, itree);
-+    return t->data[(page - region) >> TARGET_PAGE_BITS];
- }
--#endif
-+#else
-+void page_reset_target_data(target_ulong start, target_ulong end) { }
-+#endif /* TARGET_PAGE_DATA_SIZE */
- 
- /* The softmmu versions of these helpers are in cputlb.c.  */
- 
+ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+                                  int fault_size, MMUAccessType access_type,
+                                  bool nonfault, uintptr_t ra)
 -- 
 2.34.1
 
