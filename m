@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6DD160FA57
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 16:24:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06DBD60FA4F
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 16:22:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo3io-0007P2-Hn; Thu, 27 Oct 2022 10:19:02 -0400
+	id 1oo3iq-0007cD-OJ; Thu, 27 Oct 2022 10:19:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oo3iI-00079B-UY
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:18:33 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oo3iE-0007rM-F3
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:18:30 -0400
-Received: by mail-wm1-x335.google.com with SMTP id y10so1150582wma.0
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 07:18:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=sHYyMytvaRwCrcUxnHHFfEwhoSYAHml8PTkMZH1b3Uw=;
- b=s0SQQT2W7t4NgUVAG2OcZemaN6JCVGChS9WW6wQBcHaT1BBVDIztRC43QT1uOVcOIe
- YLsTDMcutIanFkR7VyXP5nrdrKtay0JUoFMKpw0K/ARCvnWl7HxtCxKt670prxxboM/1
- 3YlwA0u+k89TBHjHy13Maeo1F/gt8Xl/5Q8ZvNHhpAr5hkgwSK0tF2HuQYfOOpknhM5t
- iFGFa2SdroS5WhpFgToH8Rsm0Gz4U9UJqy/homfcxueu5sClQT0jOCCrwbvGZrzlaNnX
- 7LxKHJfNx2FWZRk/MGGcEqWp9YkEsTaDUYk9hOg6xvxUva0aubrBoX57/vArM+XcMT+H
- 966A==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oo3im-0007JG-C1
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:19:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oo3iV-0007u6-Bx
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:18:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666880322;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G33OFMIR8UVWx112leGMlcFJ1Poq+r4qHQb9VCBxjOw=;
+ b=ISWjbr3KU3PakGM5Q/hd4eoUbi6YqJKIGfUM/Jz8aYIob8dLMHv2WRatRsjx9d9sf2JATa
+ wlejIDj6/v7LG46YkF0F0oe1VoGFmB87mbSIfSWZi5NFUiwin+uGN8jErWNkGNlM7SifUp
+ BUlV4P5eIPWRJ90k8Leai/a65SKBszg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-57-73aMd-oaOPiBcjmQ24IrMA-1; Thu, 27 Oct 2022 10:18:40 -0400
+X-MC-Unique: 73aMd-oaOPiBcjmQ24IrMA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ x10-20020a05600c420a00b003cf4dbff2e4so335726wmh.8
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 07:18:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sHYyMytvaRwCrcUxnHHFfEwhoSYAHml8PTkMZH1b3Uw=;
- b=DAdBdF7RHzOx/FLjC6XBavwqyiCyaUhstnpeB9kH3LYVzgVuFBh3EYNEO6WxDkk9zq
- TtE79nomIGdllaPwmyywwe6y3aTLNRpeTYU5geqBuXnD9lWgh4r/Zjshh6oDeM3H2y/A
- aaHNCJavFkjpHCj7bzCcuDvZQbxTAX2LCpMFIIdXIabpu2GEctsFKO6T89lWPWGyx12j
- UWwwDfvb5p9tqiGdan1Gqnz4Fg6sQglIxUKTX4ELdvfKjVeWiiwSh1bdBYXurC27xZkh
- 3x83iPee1fQOl+wm5mb5pbMUG5VVlvSWZiA/BKCuLV+0U8ORFVKfYt0uUBbP1KRtfOyU
- AlWw==
-X-Gm-Message-State: ACrzQf1Bfw25L+/7s2I0ZV28PniyUn5j666eM7LAhs0ywr52PpsGMNcg
- n3XZ0/8NvsYmph3/HLdz0uILNw==
-X-Google-Smtp-Source: AMsMyM66n6kOVtqW+J5K5OxgBfIEkxVCq899u0YDUV8Y1ttLpS9DGmkqQefVpGKusWAcMx5zvmKrOQ==
-X-Received: by 2002:a1c:7215:0:b0:3c7:130c:a77f with SMTP id
- n21-20020a1c7215000000b003c7130ca77fmr6313784wmc.151.1666880299527; 
- Thu, 27 Oct 2022 07:18:19 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- h7-20020a5d4307000000b002366e3f1497sm1307155wrq.6.2022.10.27.07.18.19
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=G33OFMIR8UVWx112leGMlcFJ1Poq+r4qHQb9VCBxjOw=;
+ b=Hy9SST/7Od26Oq4AxrZMyWtvJSAc4TFg4YyFxmrxZjhmpv5MUFbdqesnSQL4PPuonS
+ Z1T2+pOTtHf1Vo88LZuawRrEfvODErPABlC4Lbf2OZM1K0qXFCMZGu1h9zy51v297sAO
+ J4EW2JBmfEV8fc1npJYX15nItM+8oGNSZpTNLHTfxQWqAMMT4UEtCF1krn3ImXi0Xndr
+ NeOqg/mGn0A3TGX7+mKIictHVRQmhvpdwONauaAUqkLJ8fE2879lWDnrvt2x61r3ujli
+ ti61PxcglsNxOeUZhSoOzHn/tKPfrQtr7r6gCU1WpJgCaEy3DneJHmUR4egOyOtKvLKh
+ 34xA==
+X-Gm-Message-State: ACrzQf1Wenl8nJDGcNbgsZokvFjWRalXgnJ1480/NvPQOgP6IPVMbASU
+ mQqiyPfiGfhWgNcjP3fhwOpKTXxJjRJrBXQuu8tq5FqSeJN6yGokIRA8kWpTP5wdIfIg1nK94do
+ 7CPqv9ALI2uGZh/w=
+X-Received: by 2002:a05:600c:5023:b0:3c7:1526:fdb8 with SMTP id
+ n35-20020a05600c502300b003c71526fdb8mr6209820wmr.28.1666880319436; 
+ Thu, 27 Oct 2022 07:18:39 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6y0zTErd1TcBKWQMme7ZkRmfqvrn+oyq3UCSI+DPu8pNEn5dyNSYNb5q8eV6NyKV77k8rIbA==
+X-Received: by 2002:a05:600c:5023:b0:3c7:1526:fdb8 with SMTP id
+ n35-20020a05600c502300b003c71526fdb8mr6209808wmr.28.1666880319178; 
+ Thu, 27 Oct 2022 07:18:39 -0700 (PDT)
+Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
+ m5-20020adfe945000000b0022e36c1113fsm1283762wrn.13.2022.10.27.07.18.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 07:18:19 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AAAAF1FFB7;
- Thu, 27 Oct 2022 15:18:18 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: [RFC PATCH] tests/unit: cleanups for test-io-channel-command
-Date: Thu, 27 Oct 2022 15:18:15 +0100
-Message-Id: <20221027141815.2571621-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ Thu, 27 Oct 2022 07:18:38 -0700 (PDT)
+Date: Thu, 27 Oct 2022 10:18:36 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 00/11] x86: clean up ACPI PCI code part 2
+Message-ID: <20221027101722-mutt-send-email-mst@kernel.org>
+References: <20221017102146.2254096-1-imammedo@redhat.com>
+ <20221027140640.2da44a4b@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221027140640.2da44a4b@fedora>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,115 +94,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This test is hanging under heavy load when the two socats race while
-trying to create the socket. I've tried various approaches to avoid
-the race but it seems "creat=0" won't stop socat trying to create a
-pipe if it executes first. In the end I just use a small sleep which
-seems to be reliable enough on the load situations I've tried.
+On Thu, Oct 27, 2022 at 02:06:40PM +0200, Igor Mammedov wrote:
+> On Mon, 17 Oct 2022 12:21:35 +0200
+> Igor Mammedov <imammedo@redhat.com> wrote:
+> 
+> > Series continues refactoring started at recently merged [1].
+> > It replaces special cases/quirks for ISA/SMB bridges and PCI
+> > attached VGA devices with generic AcpiDevAmlIf interface,
+> > which allows device to provide its own AML description
+> > without need for adhoc plumbing in generic DSDT or PCI
+> > enumeration code.
+> > 
+> > PS:
+> > at the end, \_GPE clean up patches which are not part of
+> > AcpiDevAmlIf refactoring but iti's still related to PCI,
+> > so I've included them there as well.
+> 
+> 
+> ping
 
-While I was there I also properly created a tmpdir for the socket to
-live in which is cleaned up at the end of the test.
+it's in my tree, testing found some issues (looks like they are
+unrelated to this patchset), debugging.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Daniel P. Berrangé <berrange@redhat.com>
-Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>
----
- tests/unit/test-io-channel-command.c | 45 +++++++++++++++++-----------
- 1 file changed, 28 insertions(+), 17 deletions(-)
-
-diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
-index 7eee939c07..54bb0f139a 100644
---- a/tests/unit/test-io-channel-command.c
-+++ b/tests/unit/test-io-channel-command.c
-@@ -19,6 +19,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include <glib/gstdio.h>
- #include "io/channel-command.h"
- #include "io-channel-helpers.h"
- #include "qapi/error.h"
-@@ -26,32 +27,32 @@
- 
- #define TEST_FIFO "test-io-channel-command.fifo"
- 
--#define SOCAT_SRC "PIPE:" TEST_FIFO ",wronly"
--#define SOCAT_DST "PIPE:" TEST_FIFO ",rdonly"
--
- static char *socat = NULL;
- 
- static void test_io_channel_command_fifo(bool async)
- {
-+    g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
-+    g_autofree gchar *fifo = g_strdup_printf("%s/%s", tmpdir, TEST_FIFO);
-+    g_autoptr(GString) srcargs = g_string_new(socat);
-+    g_autoptr(GString) dstargs = g_string_new(socat);
-+    g_auto(GStrv) srcargv;
-+    g_auto(GStrv) dstargv;
-     QIOChannel *src, *dst;
-     QIOChannelTest *test;
--    const char *srcargv[] = {
--        socat, "-", SOCAT_SRC, NULL,
--    };
--    const char *dstargv[] = {
--        socat, SOCAT_DST, "-", NULL,
--    };
- 
--    if (!socat) {
--        g_test_skip("socat is not found in PATH");
--        return;
--    }
-+    g_string_append_printf(srcargs, " - PIPE:%s,wronly", fifo);
-+    g_string_append_printf(dstargs, " PIPE:%s,rdonly -", fifo);
-+
-+    srcargv = g_strsplit(srcargs->str, " ", -1);
-+    dstargv = g_strsplit(dstargs->str, " ", -1);
- 
--    unlink(TEST_FIFO);
--    src = QIO_CHANNEL(qio_channel_command_new_spawn(srcargv,
-+    src = QIO_CHANNEL(qio_channel_command_new_spawn((const char**) srcargv,
-                                                     O_WRONLY,
-                                                     &error_abort));
--    dst = QIO_CHANNEL(qio_channel_command_new_spawn(dstargv,
-+    /* try to avoid a race to create the socket */
-+    g_usleep(1000);
-+
-+    dst = QIO_CHANNEL(qio_channel_command_new_spawn((const char**) dstargv,
-                                                     O_RDONLY,
-                                                     &error_abort));
- 
-@@ -62,17 +63,27 @@ static void test_io_channel_command_fifo(bool async)
-     object_unref(OBJECT(src));
-     object_unref(OBJECT(dst));
- 
--    unlink(TEST_FIFO);
-+    g_rmdir(tmpdir);
- }
- 
- 
- static void test_io_channel_command_fifo_async(void)
- {
-+    if (!socat) {
-+        g_test_skip("socat is not found in PATH");
-+        return;
-+    }
-+
-     test_io_channel_command_fifo(true);
- }
- 
- static void test_io_channel_command_fifo_sync(void)
- {
-+    if (!socat) {
-+        g_test_skip("socat is not found in PATH");
-+        return;
-+    }
-+
-     test_io_channel_command_fifo(false);
- }
- 
--- 
-2.34.1
+> > 
+> >  1)
+> >   https://patchwork.ozlabs.org/project/qemu-devel/list/?series=303856
+> > 
+> > Igor Mammedov (11):
+> >   acpi: pc: vga: use AcpiDevAmlIf interface to build VGA device
+> >     descriptors
+> >   tests: acpi: whitelist DSDT before generating PCI-ISA bridge AML
+> >     automatically
+> >   acpi: pc/q35: drop ad-hoc PCI-ISA bridge AML routines and let bus
+> >     ennumeration generate AML
+> >   tests: acpi: update expected DSDT after ISA bridge is moved directly
+> >     under PCI host bridge
+> >   tests: acpi: whitelist DSDT before generating ICH9_SMB AML
+> >     automatically
+> >   acpi: add get_dev_aml_func() helper
+> >   acpi: enumerate SMB bridge automatically along with other PCI devices
+> >   tests: acpi: update expected blobs
+> >   tests: acpi: pc/q35 whitelist DSDT before \_GPE cleanup
+> >   acpi: pc/35: sanitize _GPE declaration order
+> >   tests: acpi: update expected blobs
+> > 
+> >  hw/display/vga_int.h                  |   2 +
+> >  include/hw/acpi/acpi_aml_interface.h  |  13 +-
+> >  hw/display/acpi-vga-stub.c            |   7 ++
+> >  hw/display/acpi-vga.c                 |  26 ++++
+> >  hw/display/meson.build                |  17 +++
+> >  hw/display/vga-pci.c                  |   4 +
+> >  hw/i386/acpi-build.c                  | 175 +++++---------------------
+> >  hw/isa/lpc_ich9.c                     |  23 ++++
+> >  hw/isa/piix3.c                        |  17 ++-
+> >  tests/data/acpi/pc/DSDT               | Bin 6422 -> 6501 bytes
+> >  tests/data/acpi/pc/DSDT.acpierst      | Bin 6382 -> 6461 bytes
+> >  tests/data/acpi/pc/DSDT.acpihmat      | Bin 7747 -> 7826 bytes
+> >  tests/data/acpi/pc/DSDT.bridge        | Bin 9496 -> 9575 bytes
+> >  tests/data/acpi/pc/DSDT.cphp          | Bin 6886 -> 6965 bytes
+> >  tests/data/acpi/pc/DSDT.dimmpxm       | Bin 8076 -> 8155 bytes
+> >  tests/data/acpi/pc/DSDT.hpbridge      | Bin 6382 -> 6461 bytes
+> >  tests/data/acpi/pc/DSDT.hpbrroot      | Bin 3069 -> 3107 bytes
+> >  tests/data/acpi/pc/DSDT.ipmikcs       | Bin 6494 -> 6573 bytes
+> >  tests/data/acpi/pc/DSDT.memhp         | Bin 7781 -> 7860 bytes
+> >  tests/data/acpi/pc/DSDT.nohpet        | Bin 6280 -> 6359 bytes
+> >  tests/data/acpi/pc/DSDT.numamem       | Bin 6428 -> 6507 bytes
+> >  tests/data/acpi/pc/DSDT.roothp        | Bin 6656 -> 6699 bytes
+> >  tests/data/acpi/q35/DSDT              | Bin 8320 -> 8412 bytes
+> >  tests/data/acpi/q35/DSDT.acpierst     | Bin 8337 -> 8429 bytes
+> >  tests/data/acpi/q35/DSDT.acpihmat     | Bin 9645 -> 9737 bytes
+> >  tests/data/acpi/q35/DSDT.applesmc     | Bin 8366 -> 8458 bytes
+> >  tests/data/acpi/q35/DSDT.bridge       | Bin 11449 -> 11541 bytes
+> >  tests/data/acpi/q35/DSDT.cphp         | Bin 8784 -> 8876 bytes
+> >  tests/data/acpi/q35/DSDT.cxl          | Bin 9646 -> 9738 bytes
+> >  tests/data/acpi/q35/DSDT.dimmpxm      | Bin 9974 -> 10066 bytes
+> >  tests/data/acpi/q35/DSDT.ipmibt       | Bin 8395 -> 8487 bytes
+> >  tests/data/acpi/q35/DSDT.ipmismbus    | Bin 8409 -> 8500 bytes
+> >  tests/data/acpi/q35/DSDT.ivrs         | Bin 8337 -> 8429 bytes
+> >  tests/data/acpi/q35/DSDT.memhp        | Bin 9679 -> 9771 bytes
+> >  tests/data/acpi/q35/DSDT.mmio64       | Bin 9450 -> 9542 bytes
+> >  tests/data/acpi/q35/DSDT.multi-bridge | Bin 8640 -> 8732 bytes
+> >  tests/data/acpi/q35/DSDT.nohpet       | Bin 8178 -> 8270 bytes
+> >  tests/data/acpi/q35/DSDT.numamem      | Bin 8326 -> 8418 bytes
+> >  tests/data/acpi/q35/DSDT.pvpanic-isa  | Bin 8421 -> 8513 bytes
+> >  tests/data/acpi/q35/DSDT.tis.tpm12    | Bin 8926 -> 9018 bytes
+> >  tests/data/acpi/q35/DSDT.tis.tpm2     | Bin 8952 -> 9044 bytes
+> >  tests/data/acpi/q35/DSDT.viot         | Bin 9429 -> 9521 bytes
+> >  tests/data/acpi/q35/DSDT.xapic        | Bin 35683 -> 35775 bytes
+> >  43 files changed, 135 insertions(+), 149 deletions(-)
+> >  create mode 100644 hw/display/acpi-vga-stub.c
+> >  create mode 100644 hw/display/acpi-vga.c
+> > 
 
 
