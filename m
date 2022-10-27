@@ -2,77 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D89560EEB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 05:38:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B81BF60EF12
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 06:35:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ontYa-0000C4-EP; Wed, 26 Oct 2022 23:27:48 -0400
+	id 1onuYr-0006pE-NP; Thu, 27 Oct 2022 00:32:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ontYU-0000Ba-Hh; Wed, 26 Oct 2022 23:27:42 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ontYS-0003WD-F3; Wed, 26 Oct 2022 23:27:42 -0400
-Received: by mail-pg1-x534.google.com with SMTP id f9so37243pgj.2;
- Wed, 26 Oct 2022 20:27:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=30/CWtZumxL8cO3B69tDETNOttBFlSjbDfPjujGfQ6U=;
- b=HvJtuALOL2ppHXnCl7e9ikEhsG9j5BhYyjrgkp5QN0R7ewKvrhNANRHNDlr9HBvsNA
- 1Y1TLRgtqsE4ezZh0TRTQVJ5CRHHQBuGmoeG6Ei4ShigW2KAWn1WJtapi2JvxL1jUY99
- chEF4Kn5Co61jpo3OrcLQgTZpoNbwdyW5O2U685RpHPoHt9gtTOCAun4WzSsnOQMWyoN
- OZ3hKrEMH881KxHn/370M4pLib6sOPoVcL5tA8o98s+OQYgumYxJKSWZVtFz1H2TLt6p
- 8iS5XqCIOXw6xZTlhmnyyaZOb1noKSyQRofTYWKiPTnV2+Wf7ot2CfhWCUwDKoBKkU6B
- a1Tg==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1onuYp-0006h9-2m
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 00:32:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1onuYm-0007jE-Sn
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 00:32:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666845120;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mYQqBuByPwLQauWAP4mysKoGAkTCi2Y4NGE3x9EAbhI=;
+ b=QG0UMoz5eOsuWpjCiVqr0ihmBXoeW40VNC4ZS7qhRn8KG0d0Rc8cc2btYB0WxW/EPgSzl9
+ kBK76Wx/qGkeu/Adlw50MhycJVkYjgS8O7eRp83mKUWZAewJbWfuTtireT87NS7uLSwCSA
+ HItqq8ZppLxYsRovSzkIuvYsdAtoqaY=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-546-v-vFBYDPOom3gzKoiDAxtw-1; Thu, 27 Oct 2022 00:31:58 -0400
+X-MC-Unique: v-vFBYDPOom3gzKoiDAxtw-1
+Received: by mail-pl1-f198.google.com with SMTP id
+ x18-20020a170902ec9200b001869f20da7eso198039plg.10
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 21:31:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=30/CWtZumxL8cO3B69tDETNOttBFlSjbDfPjujGfQ6U=;
- b=pj7Gz4W+SIuTkA83vLC+82cOnUOWXI2DmAyzoOvF669hiKMZ8ZQHl6HlMk86VZg2eE
- qg29TGnek/V0UDloINJNjjUApwhYN5pnd+fwmJx4NIhZNUwuVvnVRiGMij3MJme3xPWX
- gnCHg9WZ8nCovRDK3uUPjpyW5/xaNgJhacZBigWE8vSXObUb5C5hUV2dKRk00BzIExgQ
- Oc1ZbmO9xRKI0zsIJAA37pfn9TtQbPm6MiSD7GzeyegwIdnxiPKh+hqOsBWkVNCxyV2u
- aonBP1pKImUImVlQ2WVcf7U/Wf1husGBrxikVJIAOpyUp3CzPuVOVA++P/PNaTKRoBOT
- +iSA==
-X-Gm-Message-State: ACrzQf3ZUZAoNV9UD84Dv+YC7OMtSsgdArfZg6LSzi8/4kVTFKi48ELx
- srXMSfRjuHlmxmzMo2pmvGue7eI+bp+gy8+qRuM=
-X-Google-Smtp-Source: AMsMyM6UCzhwpSJrjctbvQ04BrW5NJXDn8oReZOWd9biYLBTq1E4vFe+IzEQNyenwz6f5SHBX089mWqdpMSUvc0J3As=
-X-Received: by 2002:a63:ce43:0:b0:45b:d6ed:6c2 with SMTP id
- r3-20020a63ce43000000b0045bd6ed06c2mr40076715pgi.406.1666841258621; Wed, 26
- Oct 2022 20:27:38 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mYQqBuByPwLQauWAP4mysKoGAkTCi2Y4NGE3x9EAbhI=;
+ b=gj2LHBG6/JWDdrhlaz5ZMqjYTfVJL/MAGSASuMSfIwPM6cKOBD1Mj7sBtx4k5Sfcmo
+ 4ulUQGjqwZlQN5frdNK4pkqu6whfFlB69IAiVZQisgoPo/0nn8QSUGuFS2cV9Qp3UTmL
+ w/Pe0nQ83HT9Av1y82YOQcNPgm9DvbH1PwtcSMnQDtUVttIr9c4LUWluIaC9isT3gjLH
+ LUwdRDQB+Kna9rgwuQ2EWpbPb8RQ1mfLy3U4u0I7II5mDFNq5VDMdsJuGA2lqNvaIcoS
+ PTh8lBe2efMS+y6Td1y4oZ7b7rbBXxqW7OrCaj9ywGyNy2E4iqWrmXpxXyyp3/BuNoEi
+ /TEw==
+X-Gm-Message-State: ACrzQf3jjtidAdT4PFYzRbNg4GLArWXvairMUjdtGRQyVemsr4mpBdmC
+ 6oBUJlNq+5ll4X+AHhX8fWG0HVHJDk6mgBb6wgfWk8WPdCIoO70zAykx1EhQr8KxUQwxYA9wrOJ
+ CN9oi8By6YMDmmSo=
+X-Received: by 2002:a17:90b:1d12:b0:20c:8edd:59a3 with SMTP id
+ on18-20020a17090b1d1200b0020c8edd59a3mr7881301pjb.222.1666845112305; 
+ Wed, 26 Oct 2022 21:31:52 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7m9qnYjZnnT2UWbahU2UzvDd/Qkqtd2Lr4L7sr5bJsBinDz9ZUlaKewZwxTmjlAgHzmmeY6A==
+X-Received: by 2002:a17:90b:1d12:b0:20c:8edd:59a3 with SMTP id
+ on18-20020a17090b1d1200b0020c8edd59a3mr7881264pjb.222.1666845111873; 
+ Wed, 26 Oct 2022 21:31:51 -0700 (PDT)
+Received: from [10.72.12.115] ([43.228.180.230])
+ by smtp.gmail.com with ESMTPSA id
+ b2-20020a1709027e0200b00180033438a0sm163661plm.106.2022.10.26.21.31.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 26 Oct 2022 21:31:50 -0700 (PDT)
+Message-ID: <53480725-89de-f289-c5cc-4b37ede72c31@redhat.com>
+Date: Thu, 27 Oct 2022 12:31:45 +0800
 MIME-Version: 1.0
-References: <20221005144948.3421504-1-christoph.muellner@vrull.eu>
-In-Reply-To: <20221005144948.3421504-1-christoph.muellner@vrull.eu>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 27 Oct 2022 13:27:12 +1000
-Message-ID: <CAKmqyKOEzE+jyp2bg+voLoBXzHK6yb-Pd166d22D5oTrmxB60g@mail.gmail.com>
-Subject: Re: [PATCH v4] RISC-V: Add Zawrs ISA extension support
-To: Christoph Muellner <christoph.muellner@vrull.eu>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko.stuebner@vrull.eu>, 
- Aaron Durbin <adurbin@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.1
+Subject: Re: [PATCH 3/3] vdpa: Expose VIRTIO_NET_F_STATUS unconditionally
+Content-Language: en-US
+To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
+Cc: Gautam Dawar <gdawar@xilinx.com>, Parav Pandit <parav@mellanox.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Laurent Vivier <lvivier@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>
+References: <20221026095303.37907-1-eperezma@redhat.com>
+ <20221026095303.37907-4-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20221026095303.37907-4-eperezma@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,193 +108,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 6, 2022 at 12:52 AM Christoph Muellner
-<christoph.muellner@vrull.eu> wrote:
->
-> This patch adds support for the Zawrs ISA extension.
-> Given the current (incomplete) implementation of reservation sets
-> there seems to be no way to provide a full emulation of the WRS
-> instruction (wake on reservation set invalidation or timeout or
-> interrupt). Therefore, we just exit the TB and return to the main loop.
->
-> The specification can be found here:
->   https://github.com/riscv/riscv-zawrs/blob/main/zawrs.adoc
->
-> Note, that the Zawrs extension is frozen, but not ratified yet.
->
-> Changes since v3:
-> * Remove "RFC" since the extension is frozen
-> * Rebase on master and fix integration issues
-> * Fix entry ordering in extension list
->
-> Changes since v2:
-> * Rebase on master and resolve conflicts
-> * Adjustments according to a specification change
-> * Inline REQUIRE_ZAWRS() since it has only one user
->
-> Changes since v1:
-> * Adding zawrs to the ISA string that is passed to the kernel
->
-> Signed-off-by: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
 
-Thanks!
+在 2022/10/26 17:53, Eugenio Pérez 写道:
+> Now that qemu can handle and emulate it if the vdpa backend does not
+> support it we can offer it always.
+>
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 
-Applied to riscv-to-apply.next
 
-Alistair
+I may miss something but isn't more easier to simply remove the 
+_F_STATUS from vdpa_feature_bits[]?
+
+Thanks
+
 
 > ---
->  target/riscv/cpu.c                          |  7 +++
->  target/riscv/cpu.h                          |  1 +
->  target/riscv/insn32.decode                  |  4 ++
->  target/riscv/insn_trans/trans_rvzawrs.c.inc | 51 +++++++++++++++++++++
->  target/riscv/translate.c                    |  1 +
->  5 files changed, 64 insertions(+)
->  create mode 100644 target/riscv/insn_trans/trans_rvzawrs.c.inc
+>   include/net/vhost-vdpa.h |  1 +
+>   hw/net/vhost_net.c       | 16 ++++++++++++++--
+>   net/vhost-vdpa.c         |  3 +++
+>   3 files changed, 18 insertions(+), 2 deletions(-)
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index b29c88b9f0..b08ce94ba6 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -76,6 +76,7 @@ static const struct isa_ext_data isa_edata_arr[] =3D {
->      ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
->      ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei)=
-,
->      ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihin=
-tpause),
-> +    ISA_EXT_DATA_ENTRY(zawrs, true, PRIV_VERSION_1_12_0, ext_zawrs),
->      ISA_EXT_DATA_ENTRY(zfh, true, PRIV_VERSION_1_12_0, ext_zfh),
->      ISA_EXT_DATA_ENTRY(zfhmin, true, PRIV_VERSION_1_12_0, ext_zfhmin),
->      ISA_EXT_DATA_ENTRY(zfinx, true, PRIV_VERSION_1_12_0, ext_zfinx),
-> @@ -744,6 +745,11 @@ static void riscv_cpu_realize(DeviceState *dev, Erro=
-r **errp)
->              return;
->          }
->
-> +        if ((cpu->cfg.ext_zawrs) && !cpu->cfg.ext_a) {
-> +            error_setg(errp, "Zawrs extension requires A extension");
-> +            return;
-> +        }
-> +
->          if ((cpu->cfg.ext_zfh || cpu->cfg.ext_zfhmin) && !cpu->cfg.ext_f=
-) {
->              error_setg(errp, "Zfh/Zfhmin extensions require F extension"=
-);
->              return;
-> @@ -999,6 +1005,7 @@ static Property riscv_cpu_extensions[] =3D {
->      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
->      DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true)=
-,
-> +    DEFINE_PROP_BOOL("Zawrs", RISCVCPU, cfg.ext_zawrs, true),
->      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
->      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
->      DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index b131fa8c8e..2b87966373 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -446,6 +446,7 @@ struct RISCVCPUConfig {
->      bool ext_svnapot;
->      bool ext_svpbmt;
->      bool ext_zdinx;
-> +    bool ext_zawrs;
->      bool ext_zfh;
->      bool ext_zfhmin;
->      bool ext_zfinx;
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index d0253b8104..b7e7613ea2 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -718,6 +718,10 @@ vsetvli         0 ........... ..... 111 ..... 101011=
-1  @r2_zimm11
->  vsetivli        11 .......... ..... 111 ..... 1010111  @r2_zimm10
->  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
->
-> +# *** Zawrs Standard Extension ***
-> +wrs_nto    000000001101 00000 000 00000 1110011
-> +wrs_sto    000000011101 00000 000 00000 1110011
-> +
->  # *** RV32 Zba Standard Extension ***
->  sh1add     0010000 .......... 010 ..... 0110011 @r
->  sh2add     0010000 .......... 100 ..... 0110011 @r
-> diff --git a/target/riscv/insn_trans/trans_rvzawrs.c.inc b/target/riscv/i=
-nsn_trans/trans_rvzawrs.c.inc
-> new file mode 100644
-> index 0000000000..f0da2fe50a
-> --- /dev/null
-> +++ b/target/riscv/insn_trans/trans_rvzawrs.c.inc
-> @@ -0,0 +1,51 @@
-> +/*
-> + * RISC-V translation routines for the RISC-V Zawrs Extension.
-> + *
-> + * Copyright (c) 2022 Christoph Muellner, christoph.muellner@vrull.io
-> + *
-> + * This program is free software; you can redistribute it and/or modify =
-it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOU=
-T
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
- for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License alo=
-ng with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +static bool trans_wrs(DisasContext *ctx)
+> diff --git a/include/net/vhost-vdpa.h b/include/net/vhost-vdpa.h
+> index b81f9a6f2a..cfbcce6427 100644
+> --- a/include/net/vhost-vdpa.h
+> +++ b/include/net/vhost-vdpa.h
+> @@ -17,5 +17,6 @@
+>   struct vhost_net *vhost_vdpa_get_vhost_net(NetClientState *nc);
+>   
+>   extern const int vdpa_feature_bits[];
+> +extern const uint64_t vhost_vdpa_net_added_feature_bits;
+>   
+>   #endif /* VHOST_VDPA_H */
+> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> index d28f8b974b..7c15cc6e8f 100644
+> --- a/hw/net/vhost_net.c
+> +++ b/hw/net/vhost_net.c
+> @@ -109,10 +109,22 @@ static const int *vhost_net_get_feature_bits(struct vhost_net *net)
+>       return feature_bits;
+>   }
+>   
+> +static uint64_t vhost_net_add_feature_bits(struct vhost_net *net)
 > +{
-> +    if (!ctx->cfg_ptr->ext_zawrs) {
-> +        return false;
+> +    if (net->nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
+> +        return vhost_vdpa_net_added_feature_bits;
 > +    }
 > +
-> +    /*
-> +     * The specification says:
-> +     * While stalled, an implementation is permitted to occasionally
-> +     * terminate the stall and complete execution for any reason.
-> +     *
-> +     * So let's just exit TB and return to the main loop.
-> +     */
-> +
-> +    /* Clear the load reservation  (if any).  */
-> +    tcg_gen_movi_tl(load_res, -1);
-> +
-> +    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-> +    tcg_gen_exit_tb(NULL, 0);
-> +    ctx->base.is_jmp =3D DISAS_NORETURN;
-> +
-> +    return true;
+> +    return 0;
 > +}
 > +
-> +#define GEN_TRANS_WRS(insn)                                            \
-> +static bool trans_ ## insn(DisasContext *ctx, arg_ ## insn *a)         \
-> +{                                                                      \
-> +       (void)a;                                                        \
-> +       return trans_wrs(ctx);                                          \
-> +}
+>   uint64_t vhost_net_get_features(struct vhost_net *net, uint64_t features)
+>   {
+> -    return vhost_get_features(&net->dev, vhost_net_get_feature_bits(net),
+> -            features);
+> +    uint64_t ret = vhost_get_features(&net->dev,
+> +                                      vhost_net_get_feature_bits(net),
+> +                                      features);
 > +
-> +GEN_TRANS_WRS(wrs_nto)
-> +GEN_TRANS_WRS(wrs_sto)
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index db123da5ec..e22de88e97 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -1029,6 +1029,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase,=
- target_ulong pc)
->  #include "insn_trans/trans_rvh.c.inc"
->  #include "insn_trans/trans_rvv.c.inc"
->  #include "insn_trans/trans_rvb.c.inc"
-> +#include "insn_trans/trans_rvzawrs.c.inc"
->  #include "insn_trans/trans_rvzfh.c.inc"
->  #include "insn_trans/trans_rvk.c.inc"
->  #include "insn_trans/trans_privileged.c.inc"
-> --
-> 2.37.3
->
->
+> +    return ret | vhost_net_add_feature_bits(net);
+>   }
+>   int vhost_net_get_config(struct vhost_net *net,  uint8_t *config,
+>                            uint32_t config_len)
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index 6d64000202..24d2857593 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -99,6 +99,9 @@ static const uint64_t vdpa_svq_device_features =
+>       BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
+>       BIT_ULL(VIRTIO_NET_F_STANDBY);
+>   
+> +const uint64_t vhost_vdpa_net_added_feature_bits =
+> +    BIT_ULL(VIRTIO_NET_F_STATUS);
+> +
+>   VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
+>   {
+>       VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
+
 
