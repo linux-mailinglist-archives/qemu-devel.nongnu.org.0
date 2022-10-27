@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB79660EFD8
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 08:05:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512E660EFEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 08:13:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onvyM-00062z-JR; Thu, 27 Oct 2022 02:02:34 -0400
+	id 1onw7T-0005RL-JO; Thu, 27 Oct 2022 02:12:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onvyG-0005fB-9O
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:02:31 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onw75-00028m-CJ
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:11:38 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onvyE-00067B-IA
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:02:27 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onw71-0007x8-BM
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:11:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666850545;
+ s=mimecast20190719; t=1666851090;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=5pTPM49/AK/UdLu+U0viZ+3u/ci/c97wfc/It+T7ABc=;
- b=FwQoeEQA7oyeXgBxMex+Viu0AdpRmBXWpjRCKGBqzh6yq381CYIbaK18Z5Uo/sFUKC4udj
- yqLi76AXTYnNM1qgNJ6qL3uomlTsUqRvMiP1qWXLAA5yuUIQHI3y1Uq4xYWy5UC2GmM9KJ
- Y9LO1ZO5WztzKmBk/Gofw5sLSw1M3OU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-304-nFxG4zOtMHGTLH2lYXydyg-1; Thu, 27 Oct 2022 02:02:22 -0400
-X-MC-Unique: nFxG4zOtMHGTLH2lYXydyg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4E77C101A56D;
- Thu, 27 Oct 2022 06:02:16 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 605F12084854;
- Thu, 27 Oct 2022 06:02:12 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1B5F121E6921; Thu, 27 Oct 2022 08:02:10 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org,  arei.gonglei@huawei.com,  lvivier@redhat.com,
- amit@kernel.org,  mst@redhat.com,  pbonzini@redhat.com,
- berrange@redhat.com,  eduardo@habkost.net,  david@redhat.com
-Subject: Re: [PATCH 3/4] qtest: Improve error messages when property can not
- be set right now
-References: <20221012153801.2604340-1-armbru@redhat.com>
- <20221012153801.2604340-4-armbru@redhat.com>
- <e5dd172e-1b9f-3817-a87f-3ed52a0ce120@redhat.com>
- <87r0zc1fk9.fsf@pond.sub.org>
-Date: Thu, 27 Oct 2022 08:02:10 +0200
-In-Reply-To: <87r0zc1fk9.fsf@pond.sub.org> (Markus Armbruster's message of
- "Thu, 13 Oct 2022 07:02:46 +0200")
-Message-ID: <87h6zpby8t.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=z5EHVHYuy/LmWmnbtfu7h+IjkDoxbhSQ6dKzQInpkVQ=;
+ b=Vl3HK2xO0aTkk3cGQvZ7L3eaLSFt66hVyzpvkiVfWqV60AOywtaUF+ycdzdAzvWQ/7N2UT
+ KStyc/TESGnKQQjL1tGOa+XEYnUUh0nHaJJYTmaU4dtif/RyjMheh3qJikLDB52ExezSK9
+ V1Jzlaql1WjSCBTYpwrVX0Mn0l1mldU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-186-csKsZJ8iMDSW0TnnpYRwCQ-1; Thu, 27 Oct 2022 02:11:28 -0400
+X-MC-Unique: csKsZJ8iMDSW0TnnpYRwCQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r18-20020a05600c35d200b003cb2ba79692so221345wmq.5
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 23:11:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=z5EHVHYuy/LmWmnbtfu7h+IjkDoxbhSQ6dKzQInpkVQ=;
+ b=IyF1nMTVT97NpMV4F/zLZFONbUtC4xVK0soSTzLc9xVgxeV1FWJH7mqATvySQo8FCv
+ jEDhUqESR000GIa3ro0psXLwUvE7uBP1WYcuyanj2yIiDAQ7h1n6v6QLw7NfYCqSp1yp
+ 9zqoSn/f2Fh2/yX6Vy09ccPENj+IgytN70a47A7j3c3lNZmLaydz6IurDG8b4ylqPp6h
+ 3CS7rc3r39rgKM4PHSDfVXeCW/uqeZm9uwHmnJvVn68CBQ7y86UMApZjRl1mhjut+69W
+ lJneI5MyhFZtzbTtqGACWuKN+CGpAseYAD0LR0XrIbb1Vj338YbMA96ATUu1NYu84ua2
+ SZ/w==
+X-Gm-Message-State: ACrzQf3YBqmEql59x5fbvrCK+1gvsTT1d+Q5W0g/Tuv8hoGjjvank37v
+ gqOz4hNG8I5pk33ZRRcDovd7HnSYhB5h+WpNPzFmyIkagmNhVPvXBndYkBbLdNfggY6iDBHE4tR
+ 7ET4aSbtgXTfrJ2A=
+X-Received: by 2002:a05:6000:15cd:b0:236:9701:7bad with SMTP id
+ y13-20020a05600015cd00b0023697017badmr837152wry.679.1666851087385; 
+ Wed, 26 Oct 2022 23:11:27 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6UUcI/nKXQNsgtWIpY54plqG/D+lIJ26yBdc+OG32EeGSu2fjT08I5g2BJa2Xj38nCnqFKkQ==
+X-Received: by 2002:a05:6000:15cd:b0:236:9701:7bad with SMTP id
+ y13-20020a05600015cd00b0023697017badmr837133wry.679.1666851087062; 
+ Wed, 26 Oct 2022 23:11:27 -0700 (PDT)
+Received: from redhat.com ([2.52.15.7]) by smtp.gmail.com with ESMTPSA id
+ bp6-20020a5d5a86000000b00228a6ce17b4sm264547wrb.37.2022.10.26.23.11.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Oct 2022 23:11:26 -0700 (PDT)
+Date: Thu, 27 Oct 2022 02:11:23 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Julia Suvorova <jusual@redhat.com>
+Cc: qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v3 5/5] tests/acpi: update tables for new core count test
+Message-ID: <20221027021016-mutt-send-email-mst@kernel.org>
+References: <20221011111731.101412-1-jusual@redhat.com>
+ <20221011111731.101412-6-jusual@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221011111731.101412-6-jusual@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -84,44 +96,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Markus Armbruster <armbru@redhat.com> writes:
+On Tue, Oct 11, 2022 at 01:17:31PM +0200, Julia Suvorova wrote:
+> Changes in the tables (for 275 cores):
+> FACP:
+> +                 Use APIC Cluster Model (V4) : 1
+> 
+> APIC:
+> +[02Ch 0044   1]                Subtable Type : 00 [Processor Local APIC]
+> +[02Dh 0045   1]                       Length : 08
+> +[02Eh 0046   1]                 Processor ID : 00
+> +[02Fh 0047   1]                Local Apic ID : 00
+> +[030h 0048   4]        Flags (decoded below) : 00000001
+> +                           Processor Enabled : 1
+> ...
+> +
+> +[81Ch 2076   1]                Subtable Type : 00 [Processor Local APIC]
+> +[81Dh 2077   1]                       Length : 08
+> +[81Eh 2078   1]                 Processor ID : FE
+> +[81Fh 2079   1]                Local Apic ID : FE
+> +[820h 2080   4]        Flags (decoded below) : 00000001
+> +                           Processor Enabled : 1
+> +                      Runtime Online Capable : 0
+> +
+> +[824h 2084   1]                Subtable Type : 09 [Processor Local x2APIC]
+> +[825h 2085   1]                       Length : 10
+> +[826h 2086   2]                     Reserved : 0000
+> +[828h 2088   4]          Processor x2Apic ID : 000000FF
+> +[82Ch 2092   4]        Flags (decoded below) : 00000001
+> +                           Processor Enabled : 1
+> +[830h 2096   4]                Processor UID : 000000FF
+> ...
+> 
+> DSDT:
+> +            Processor (C001, 0x01, 0x00000000, 0x00)
+> +            {
+> +                Method (_STA, 0, Serialized)  // _STA: Status
+> +                {
+> +                    Return (CSTA (One))
+> +                }
+> +
+> +                Name (_MAT, Buffer (0x08)  // _MAT: Multiple APIC Table Entry
+> +                {
+> +                     0x00, 0x08, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00   // ........
+> +                })
+> +                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
+> +                {
+> +                    CEJ0 (One)
+> +                }
+> +
+> +                Method (_OST, 3, Serialized)  // _OST: OSPM Status Indication
+> +                {
+> +                    COST (One, Arg0, Arg1, Arg2)
+> +                }
+> +            }
+> ...
+> +            Processor (C0FE, 0xFE, 0x00000000, 0x00)
+> +            {
+> +                Method (_STA, 0, Serialized)  // _STA: Status
+> +                {
+> +                    Return (CSTA (0xFE))
+> +                }
+> +
+> +                Name (_MAT, Buffer (0x08)  // _MAT: Multiple APIC Table Entry
+> +                {
+> +                     0x00, 0x08, 0xFE, 0xFE, 0x01, 0x00, 0x00, 0x00   // ........
+> +                })
+> +                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
+> +                {
+> +                    CEJ0 (0xFE)
+> +                }
+> +
+> +                Method (_OST, 3, Serialized)  // _OST: OSPM Status Indication
+> +                {
+> +                    COST (0xFE, Arg0, Arg1, Arg2)
+> +                }
+> +            }
+> +
+> +            Device (C0FF)
+> +            {
+> +                Name (_HID, "ACPI0007" /* Processor Device */)  // _HID: Hardware ID
+> +                Name (_UID, 0xFF)  // _UID: Unique ID
+> +                Method (_STA, 0, Serialized)  // _STA: Status
+> +                {
+> +                    Return (CSTA (0xFF))
+> +                }
+> +
+> +                Name (_MAT, Buffer (0x10)  // _MAT: Multiple APIC Table Entry
+> +                {
+> +                    /* 0000 */  0x09, 0x10, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00,  // ........
+> +                    /* 0008 */  0x01, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00   // ........
+> +                })
+> +                Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
+> +                {
+> +                    CEJ0 (0xFF)
+> +                }
+> +
+> +                Method (_OST, 3, Serialized)  // _OST: OSPM Status Indication
+> +                {
+> +                    COST (0xFF, Arg0, Arg1, Arg2)
+> +                }
+> +            }
+> +
+> ...
+> 
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> Message-Id: <20220731162141.178443-6-jusual@redhat.com>
 
-> Thomas Huth <thuth@redhat.com> writes:
->
->> On 12/10/2022 17.38, Markus Armbruster wrote:
->>> When you try to set qtest property "log" while the qtest object is
->>> active, the error message blames "insufficient permission":
->>> 
->>>      $ qemu-system-x86_64 -S -display none -nodefaults -monitor stdio -chardev socket,id=chrqt0,path=qtest.socket,server=on,wait=off -object qtest,id=qt0,chardev=chrqt0,log=/dev/null
->>>      QEMU 7.1.50 monitor - type 'help' for more information
->>>      (qemu) qom-set /objects/qt0 log qtest.log
->>>      Error: Insufficient permission to perform this operation
->>> 
->>> This implies it could work with "sufficient permission".  It can't.
->>> Change the error message to:
->>> 
->>>      Error: Property 'log' can not be set now
->>
->> Can it be set later? ... if not, that error message is almost as confusing 
->> as the original one. Maybe it's better to tell the users *when* they can set 
->> the property?
->
-> The property cannot be set while the object is "active", i.e. global
-> @qtest points to it.
->
-> Right now, @qtest points to the object from completion with
-> user_creatable_complete() to unparent.
->
-> Completion fails when @qtest already points to another object, i.e. only
-> one object can be complete at any time.
->
-> Since Paolo took the trouble to code an unparent method, I assume
-> unparent can happen.  I can't tell offhand when.
->
-> Help!
 
-Since users are unlikely to hit this error, the new message feels good
-enough to me.  Happy to take rewordings, or to redo the patch so that it
-preserves the old message while getting rid of QERR_PERMISSION_DENIED.
+
+I had to rebase pushed last update to my tree. Could you pls
+disassemble and verify it's correct? Thanks!
+
+-- 
+MST
 
 
