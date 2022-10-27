@@ -2,110 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B29760F661
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:42:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A65C560F639
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:31:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo126-0007Rn-21; Thu, 27 Oct 2022 07:26:46 -0400
+	id 1oo12U-0007xM-Kd; Thu, 27 Oct 2022 07:27:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oo0zt-0005Tu-Lv; Thu, 27 Oct 2022 07:24:50 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oo0zp-0001x1-3B; Thu, 27 Oct 2022 07:24:28 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29RBCJgD025133;
- Thu, 27 Oct 2022 11:24:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=LI3awupvUzF6o517fA70c6wYBxy/8X3IarcJGF5WHz8=;
- b=j9Dc6JDi8aeIwtKj50+5oLhGJyFlX4s7WWvGnZO7GsDeiJsWkHMyl7W/GBiDwpsbuhhp
- 8SHOs48u41AO/H2CFx/bOHWrjvre06SyO9M+fTjW11q9QsXA2ku1tYQRUFgcP6nJFfi6
- VrdhkW+kuI54PFguMQJy366wAnTOvSlU8hfWLByUKaWHD7FfLyUV7Lf1K0mxbbOn6OZn
- lbp215IW7Iv4wysc0WxT/XwHxQLqUh5EZq0Z5QHQ2LPR2npyPIrN42YEMIGKt2c3rWrG
- OL6QaTVD5aNPJ9pzsMp1FToSiA4dilMw+IOyUil9Vq85ctMB6eNGgoQ16fMGKIANNIna Ow== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfrwc0b2e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 11:24:08 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29RBDhXi001867;
- Thu, 27 Oct 2022 11:24:08 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfrwc0b1c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 11:24:08 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29RBL3Zm023918;
- Thu, 27 Oct 2022 11:24:05 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma02fra.de.ibm.com with ESMTP id 3kfahmh864-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 11:24:05 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 29RBIjaZ47251712
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 27 Oct 2022 11:18:45 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 342C9A405F;
- Thu, 27 Oct 2022 11:24:02 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3EB27A4054;
- Thu, 27 Oct 2022 11:24:01 +0000 (GMT)
-Received: from [9.179.10.218] (unknown [9.179.10.218])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 27 Oct 2022 11:24:01 +0000 (GMT)
-Message-ID: <df3eb187-9390-80a9-99f7-50fb4f9a0294@linux.ibm.com>
-Date: Thu, 27 Oct 2022 13:24:00 +0200
+ (Exim 4.90_1) (envelope-from <tkutergin@gmail.com>)
+ id 1oo11m-0007b9-ET
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:26:44 -0400
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tkutergin@gmail.com>)
+ id 1oo11k-0002Nq-7I
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:26:26 -0400
+Received: by mail-lf1-x134.google.com with SMTP id d25so1731508lfb.7
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 04:26:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vmf3VSvVLIrnwSIypw7sdeLLB+aO0SyQfleISwOgc/4=;
+ b=k2/8R5kODBJ4UTRhOceh/ymHNCp9Rz5fzsCQuJoSFVW48MXnAJEH0d/DAAYN85rhvP
+ xQ5iA1Aenv4okCxTqiVmTJp1T6mp9gVOf3PnNUji5516StpbAwEzIcPL0KLKR6K3Cvkm
+ t5ayL7ZSesjoW9mhAKp1qY9zMykBSNf/aVmAf2lIolg2DgovgoiX8YgUsJg760Tb2RHU
+ W/3EbFL7/+ZR+uBuZxf/36qcO9qGJqLplCLwhuplAx4BOHDHfwUi+c3OYFzRgffqhJ87
+ tD6EmwxjjHOgu4UTDIKcRLalGiYp3kDn5aEnclbPvWuNWnOAY/NkKJ7vhtwm5qBXtFHY
+ o1Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Vmf3VSvVLIrnwSIypw7sdeLLB+aO0SyQfleISwOgc/4=;
+ b=WdpSK4VImA+6/+QYiuTlGfBeIJBnrdhK1yTrreJzYT1pR4S8lbiZxfXfsxVA7ePtlB
+ TqI0bkTDhQWAukLmnoT9ZS9V95rC2kXvkkxKQMgzNwM67ODiJBm8FOVeBgJXWXNv0WeI
+ Ezq+plYfP+5bhwnwY6FSnXV2TrofPBX0iUdzy7UHNfBBoz1t9KYo2Lyh3MOpiiAigkbt
+ PEN8xSX+JoSsikrhFbctJdhVjuOAW5+7VacrH3fy4e7R69GehyXK35JVLXdyfq4UmD3b
+ VHQuYD5seFwGQCkIKnAzs5JyseiTDQc9LyzjLS/258nBgJd6gPjm52dMsvVO8tx3fwus
+ VKiw==
+X-Gm-Message-State: ACrzQf0yA9gpL7sr9sPPqnrlJFQgmBGPQHiHRIh84Ph9lFBaZoTtjkuD
+ kDpTewwXzst455QkaOeU/7U=
+X-Google-Smtp-Source: AMsMyM7FPqrPowbyZHY131RZoRnaZ2tHlSFpOp2nkcFptnGuW5K6x8zNdu5Y85ZiK3lT4+5Bb3PiFA==
+X-Received: by 2002:a05:6512:54a:b0:4af:b4ac:c2bb with SMTP id
+ h10-20020a056512054a00b004afb4acc2bbmr2437171lfl.650.1666869982330; 
+ Thu, 27 Oct 2022 04:26:22 -0700 (PDT)
+Received: from NBK05906.kdtln.ru (79-126-2-255.dynamic.mts-nn.ru.
+ [79.126.2.255]) by smtp.gmail.com with ESMTPSA id
+ e11-20020a05651236cb00b0048a9e18ae67sm152792lfs.84.2022.10.27.04.26.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Oct 2022 04:26:21 -0700 (PDT)
+From: Timofey Kutergin <tkutergin@gmail.com>
+To: peter.maydell@linaro.org
+Cc: qemu-devel@nongnu.org,
+	tkutergin@gmail.com
+Subject: [PATCH] target/arm: Fixed Privileged Access Never (PAN) for aarch32
+Date: Thu, 27 Oct 2022 14:26:19 +0300
+Message-Id: <20221027112619.2205229-1-tkutergin@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v10 2/9] s390x/cpu topology: reporting the CPU topology to
- the guest
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-3-pmorel@linux.ibm.com>
- <f3f6d325-08a7-3e3d-6d4d-6b5b55c172f0@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <f3f6d325-08a7-3e3d-6d4d-6b5b55c172f0@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: zCqMzMz091PlwDRzYvLM048bH0yw1Fod
-X-Proofpoint-GUID: T3hVlMLNDOBjEBdfeb9QYgObFK1A_n55
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-27_05,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- priorityscore=1501 impostorscore=0 spamscore=0 suspectscore=0
- malwarescore=0 adultscore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
- mlxscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2210270061
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=tkutergin@gmail.com; helo=mail-lf1-x134.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,250 +87,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+    - Use CPSR.PAN to check for PAN state in aarch32 mode
+    - throw permission fault during address translation when PAN is
+      enabled and kernel tries to access user acessible page
+    - ignore SCTLR_XP bit for armv7 and armv8 (conflicts with SCTLR_SPAN).
 
+Signed-off-by: Timofey Kutergin <tkutergin@gmail.com>
+---
+ target/arm/helper.c | 13 +++++++++++--
+ target/arm/ptw.c    | 35 ++++++++++++++++++++++++++++++-----
+ 2 files changed, 41 insertions(+), 7 deletions(-)
 
-On 10/27/22 10:12, Thomas Huth wrote:
-> On 12/10/2022 18.21, Pierre Morel wrote:
->> The guest can use the STSI instruction to get a buffer filled
->> with the CPU topology description.
->>
->> Let us implement the STSI instruction for the basis CPU topology
->> level, level 2.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   include/hw/s390x/cpu-topology.h |   3 +
->>   target/s390x/cpu.h              |  48 ++++++++++++++
->>   hw/s390x/cpu-topology.c         |   8 ++-
->>   target/s390x/cpu_topology.c     | 109 ++++++++++++++++++++++++++++++++
->>   target/s390x/kvm/kvm.c          |   6 +-
->>   target/s390x/meson.build        |   1 +
->>   6 files changed, 172 insertions(+), 3 deletions(-)
->>   create mode 100644 target/s390x/cpu_topology.c
->>
->> diff --git a/include/hw/s390x/cpu-topology.h 
->> b/include/hw/s390x/cpu-topology.h
->> index 66c171d0bc..61c11db017 100644
->> --- a/include/hw/s390x/cpu-topology.h
->> +++ b/include/hw/s390x/cpu-topology.h
->> @@ -13,6 +13,8 @@
->>   #include "hw/qdev-core.h"
->>   #include "qom/object.h"
->> +#define S390_TOPOLOGY_POLARITY_H  0x00
->> +
->>   typedef struct S390TopoContainer {
->>       int active_count;
->>   } S390TopoContainer;
->> @@ -29,6 +31,7 @@ struct S390Topology {
->>       S390TopoContainer *socket;
->>       S390TopoTLE *tle;
->>       MachineState *ms;
->> +    QemuMutex topo_mutex;
->>   };
->>   #define TYPE_S390_CPU_TOPOLOGY "s390-topology"
->> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
->> index 7d6d01325b..d604aa9c78 100644
->> --- a/target/s390x/cpu.h
->> +++ b/target/s390x/cpu.h
->> @@ -565,6 +565,52 @@ typedef union SysIB {
->>   } SysIB;
->>   QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
->> +/* CPU type Topology List Entry */
->> +typedef struct SysIBTl_cpu {
->> +        uint8_t nl;
->> +        uint8_t reserved0[3];
->> +        uint8_t reserved1:5;
->> +        uint8_t dedicated:1;
->> +        uint8_t polarity:2;
->> +        uint8_t type;
->> +        uint16_t origin;
->> +        uint64_t mask;
->> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_cpu;
->> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
->> +
->> +/* Container type Topology List Entry */
->> +typedef struct SysIBTl_container {
->> +        uint8_t nl;
->> +        uint8_t reserved[6];
->> +        uint8_t id;
->> +} QEMU_PACKED QEMU_ALIGNED(8) SysIBTl_container;
->> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
->> +
->> +#define TOPOLOGY_NR_MAG  6
->> +#define TOPOLOGY_NR_MAG6 0
->> +#define TOPOLOGY_NR_MAG5 1
->> +#define TOPOLOGY_NR_MAG4 2
->> +#define TOPOLOGY_NR_MAG3 3
->> +#define TOPOLOGY_NR_MAG2 4
->> +#define TOPOLOGY_NR_MAG1 5
->> +/* Configuration topology */
->> +typedef struct SysIB_151x {
->> +    uint8_t  reserved0[2];
->> +    uint16_t length;
->> +    uint8_t  mag[TOPOLOGY_NR_MAG];
->> +    uint8_t  reserved1;
->> +    uint8_t  mnest;
->> +    uint32_t reserved2;
->> +    char tle[0];
->> +} QEMU_PACKED QEMU_ALIGNED(8) SysIB_151x;
->> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
->> +
->> +/* Maxi size of a SYSIB structure is when all CPU are alone in a 
->> container */
->> +#define S390_TOPOLOGY_SYSIB_SIZE (sizeof(SysIB_151x) 
->> +                         \
->> +                                  S390_MAX_CPUS * 
->> (sizeof(SysIBTl_container) + \
->> +                                                   sizeof(SysIBTl_cpu)))
->> +
->> +
->>   /* MMU defines */
->>   #define ASCE_ORIGIN           (~0xfffULL) /* segment table 
->> origin             */
->>   #define ASCE_SUBSPACE         0x200       /* subspace group 
->> control           */
->> @@ -843,4 +889,6 @@ S390CPU *s390_cpu_addr2state(uint16_t cpu_addr);
->>   #include "exec/cpu-all.h"
->> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar);
->> +
->>   #endif
->> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->> index 42b22a1831..c73cebfe6f 100644
->> --- a/hw/s390x/cpu-topology.c
->> +++ b/hw/s390x/cpu-topology.c
->> @@ -54,8 +54,6 @@ void s390_topology_new_cpu(int core_id)
->>           return;
->>       }
->> -    socket_id = core_id / topo->cpus;
->> -
->>       /*
->>        * At the core level, each CPU is represented by a bit in a 64bit
->>        * unsigned long which represent the presence of a CPU.
->> @@ -76,8 +74,13 @@ void s390_topology_new_cpu(int core_id)
->>       bit %= 64;
->>       bit = 63 - bit;
->> +    qemu_mutex_lock(&topo->topo_mutex);
->> +
->> +    socket_id = core_id / topo->cpus;
->>       topo->socket[socket_id].active_count++;
->>       set_bit(bit, &topo->tle[socket_id].mask[origin]);
->> +
->> +    qemu_mutex_unlock(&topo->topo_mutex);
->>   }
->>   /**
->> @@ -101,6 +104,7 @@ static void s390_topology_realize(DeviceState 
->> *dev, Error **errp)
->>       topo->tle = g_new0(S390TopoTLE, ms->smp.max_cpus);
->>       topo->ms = ms;
->> +    qemu_mutex_init(&topo->topo_mutex);
->>   }
->>   /**
->> diff --git a/target/s390x/cpu_topology.c b/target/s390x/cpu_topology.c
->> new file mode 100644
->> index 0000000000..df86a98f23
->> --- /dev/null
->> +++ b/target/s390x/cpu_topology.c
->> @@ -0,0 +1,109 @@
->> +/*
->> + * QEMU S390x CPU Topology
->> + *
->> + * Copyright IBM Corp. 2022
->> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2 or 
->> (at
->> + * your option) any later version. See the COPYING file in the top-level
->> + * directory.
->> + */
->> +#include "qemu/osdep.h"
->> +#include "cpu.h"
->> +#include "hw/s390x/pv.h"
->> +#include "hw/sysbus.h"
->> +#include "hw/s390x/cpu-topology.h"
->> +#include "hw/s390x/sclp.h"
->> +
->> +#define S390_TOPOLOGY_MAX_STSI_SIZE (S390_MAX_CPUS *              \
->> +                                     (sizeof(SysIB_151x) +        \
->> +                                      sizeof(SysIBTl_container) + \
->> +                                      sizeof(SysIBTl_cpu)))
->> +
->> +static char *fill_container(char *p, int level, int id)
->> +{
->> +    SysIBTl_container *tle = (SysIBTl_container *)p;
->> +
->> +    tle->nl = level;
->> +    tle->id = id;
->> +    return p + sizeof(*tle);
->> +}
->> +
->> +static char *fill_tle_cpu(char *p, uint64_t mask, int origin)
->> +{
->> +    SysIBTl_cpu *tle = (SysIBTl_cpu *)p;
->> +
->> +    tle->nl = 0;
->> +    tle->dedicated = 1;
->> +    tle->polarity = S390_TOPOLOGY_POLARITY_H;
->> +    tle->type = S390_TOPOLOGY_CPU_IFL;
->> +    tle->origin = cpu_to_be64(origin * 64);
->> +    tle->mask = cpu_to_be64(mask);
->> +    return p + sizeof(*tle);
->> +}
->> +
->> +static char *s390_top_set_level2(S390Topology *topo, char *p)
->> +{
->> +    MachineState *ms = topo->ms;
->> +    int i, origin;
->> +
->> +    for (i = 0; i < ms->smp.sockets; i++) {
->> +        if (!topo->socket[i].active_count) {
->> +            continue;
->> +        }
->> +        p = fill_container(p, 1, i);
->> +        for (origin = 0; origin < S390_TOPOLOGY_MAX_ORIGIN; origin++) {
->> +            uint64_t mask = 0L;
->> +
->> +            mask = topo->tle[i].mask[origin];
->> +            if (mask) {
->> +                p = fill_tle_cpu(p, mask, origin);
->> +            }
->> +        }
->> +    }
->> +    return p;
->> +}
->> +
->> +static int setup_stsi(SysIB_151x *sysib, int level)
->> +{
->> +    S390Topology *topo = s390_get_topology();
->> +    MachineState *ms = topo->ms;
->> +    char *p = sysib->tle;
->> +
->> +    qemu_mutex_lock(&topo->topo_mutex);
->> +
->> +    sysib->mnest = level;
->> +    switch (level) {
->> +    case 2:
->> +        sysib->mag[TOPOLOGY_NR_MAG2] = ms->smp.sockets;
->> +        sysib->mag[TOPOLOGY_NR_MAG1] = topo->cpus;
->> +        p = s390_top_set_level2(topo, p);
->> +        break;
->> +    }
->> +
->> +    qemu_mutex_unlock(&topo->topo_mutex);
-> 
-> Could you elaborate (maybe in the commit description) why you need a 
-> separate mutex here? ... I'd expect that all the STSI stuff is run with 
-> the BQL (big qemu lock) held (see kvm_arch_handle_exit()), so yet 
-> another mutex sounds rendundant to me here?
-> 
->   Thomas
-> 
-
-Right and since BQL is hold for the hotplug, there is no need.
-Thanks.
-
-Pierre
-
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index c672903f43..4301478ed8 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -10992,6 +10992,15 @@ ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
+ }
+ #endif
+ 
++static bool arm_pan_enabled(CPUARMState *env)
++{
++    if (is_a64(env)) {
++        return env->pstate & PSTATE_PAN;
++    } else {
++        return env->uncached_cpsr & CPSR_PAN;
++    }
++}
++
+ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
+ {
+     ARMMMUIdx idx;
+@@ -11012,7 +11021,7 @@ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
+         }
+         break;
+     case 1:
+-        if (env->pstate & PSTATE_PAN) {
++        if (arm_pan_enabled(env)) {
+             idx = ARMMMUIdx_E10_1_PAN;
+         } else {
+             idx = ARMMMUIdx_E10_1;
+@@ -11021,7 +11030,7 @@ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
+     case 2:
+         /* Note that TGE does not apply at EL2.  */
+         if (arm_hcr_el2_eff(env) & HCR_E2H) {
+-            if (env->pstate & PSTATE_PAN) {
++            if (arm_pan_enabled(env)) {
+                 idx = ARMMMUIdx_E20_2_PAN;
+             } else {
+                 idx = ARMMMUIdx_E20_2;
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index 6c5ed56a10..a82accab40 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -433,12 +433,11 @@ static bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
+  * @mmu_idx:     MMU index indicating required translation regime
+  * @ap:          The 3-bit access permissions (AP[2:0])
+  * @domain_prot: The 2-bit domain access permissions
++ * @is_user: TRUE if accessing from PL0
+  */
+-static int ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx,
+-                         int ap, int domain_prot)
++static int ap_to_rw_prot_is_user(CPUARMState *env, ARMMMUIdx mmu_idx,
++                         int ap, int domain_prot, bool is_user)
+ {
+-    bool is_user = regime_is_user(env, mmu_idx);
+-
+     if (domain_prot == 3) {
+         return PAGE_READ | PAGE_WRITE;
+     }
+@@ -482,6 +481,20 @@ static int ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx,
+     }
+ }
+ 
++/*
++ * Translate section/page access permissions to page R/W protection flags
++ * @env:         CPUARMState
++ * @mmu_idx:     MMU index indicating required translation regime
++ * @ap:          The 3-bit access permissions (AP[2:0])
++ * @domain_prot: The 2-bit domain access permissions
++ */
++static int ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx,
++                         int ap, int domain_prot)
++{
++   return ap_to_rw_prot_is_user(env, mmu_idx, ap, domain_prot,
++                                regime_is_user(env, mmu_idx));
++}
++
+ /*
+  * Translate section/page access permissions to page R/W protection flags.
+  * @ap:      The 2-bit simple AP (AP[2:1])
+@@ -644,6 +657,7 @@ static bool get_phys_addr_v6(CPUARMState *env, S1Translate *ptw,
+     hwaddr phys_addr;
+     uint32_t dacr;
+     bool ns;
++    int user_prot;
+ 
+     /* Pagetable walk.  */
+     /* Lookup l1 descriptor.  */
+@@ -749,8 +763,10 @@ static bool get_phys_addr_v6(CPUARMState *env, S1Translate *ptw,
+                 goto do_fault;
+             }
+             result->f.prot = simple_ap_to_rw_prot(env, mmu_idx, ap >> 1);
++            user_prot = simple_ap_to_rw_prot_is_user(ap >> 1, 1);
+         } else {
+             result->f.prot = ap_to_rw_prot(env, mmu_idx, ap, domain_prot);
++            user_prot = ap_to_rw_prot_is_user(env, mmu_idx, ap, domain_prot, 1);
+         }
+         if (result->f.prot && !xn) {
+             result->f.prot |= PAGE_EXEC;
+@@ -760,6 +776,14 @@ static bool get_phys_addr_v6(CPUARMState *env, S1Translate *ptw,
+             fi->type = ARMFault_Permission;
+             goto do_fault;
+         }
++        if (regime_is_pan(env, mmu_idx) &&
++            !regime_is_user(env, mmu_idx) &&
++            user_prot &&
++            access_type != MMU_INST_FETCH) {
++            /* Privileged Access Never fault */
++            fi->type = ARMFault_Permission;
++            goto do_fault;
++        }
+     }
+     if (ns) {
+         /* The NS bit will (as required by the architecture) have no effect if
+@@ -2606,7 +2630,8 @@ static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
+     if (regime_using_lpae_format(env, mmu_idx)) {
+         return get_phys_addr_lpae(env, ptw, address, access_type, false,
+                                   result, fi);
+-    } else if (regime_sctlr(env, mmu_idx) & SCTLR_XP) {
++    } else if (arm_feature(env, ARM_FEATURE_V7) ||
++               regime_sctlr(env, mmu_idx) & SCTLR_XP) {
+         return get_phys_addr_v6(env, ptw, address, access_type, result, fi);
+     } else {
+         return get_phys_addr_v5(env, ptw, address, access_type, result, fi);
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+2.25.1
+
 
