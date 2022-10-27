@@ -2,81 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C58496102CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 22:38:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17028610315
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 22:46:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo9bo-0002oa-AA; Thu, 27 Oct 2022 16:36:12 -0400
+	id 1oo9it-0006SP-Fc; Thu, 27 Oct 2022 16:43:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oo9bl-0002oF-9e
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 16:36:09 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oo9bi-0005Wd-BF
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 16:36:08 -0400
-Received: by mail-pl1-x630.google.com with SMTP id 4so2854560pli.0
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 13:36:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hdebx3tzUmJF7U+kcB/kQdQHGF8UvL2rRBV2Pr8gbo4=;
- b=ux7/XesMzX8OLc/I3DZ+fmdD6djQzbrKO2vDU738q0gH7dG5fV9qiFnNIHwKFqOxgf
- crI4hyI5bwPM1c4BhwyJeKZv14PjehgsnsHkuPTh5dEhVwggBQ9Ce5CxLUnWTV/uJYVH
- an1dxDOQs/JljudA+fUeHVNnxanoHFqX7Ef7ebfX7JJxNBLeYBSjaM32dSvbMek2usCm
- 2AZsFdAyFHHtMDvIHlTXM02tPgrO48t1aumn93EF/HBZn1Sea70ZMICGHTfp7Vq0/WiM
- TyV/ujA8tdh90PHxG0emoq3hLMiVEk3sqRiPzKrtq1Hj9BG8N7Va0oMeOYlwzEs4BpbO
- X1qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hdebx3tzUmJF7U+kcB/kQdQHGF8UvL2rRBV2Pr8gbo4=;
- b=dKjl/ZRKtEPGhA5Tpa8QOuA4ZEgS6xkO0Gev5ID6whMyXgPtQMQ8NciaOc7dCoFFAp
- Xg7zFlxwO25wd1LOW6lKy9iduPIDBzaMLuWyBBvVa7yHLRA0wwo9QHRv1Xx+FmCAIrFF
- 3nu9RZIt84iA+HmpVxDfa/m8GP+oS7hbQfpnw1uPGJryTdUlGPiMR/9ARQp+CIGAB7ob
- l+SiLWobH0H1Ljp3ZcvHwShLp4GIjQ6lt2c4IeQOrR9QXV3+rCWOADs3dA+Qh9hYZd7+
- q/A3bodA/eHSx2ZD3rMX+DpzAmKWksU1GwHWfkA+623DdLtXNiCGl/CcJKZLFtTQAyXA
- PdTA==
-X-Gm-Message-State: ACrzQf185vQUyg5A6u0fpIRF2tX+RyHdTb0EqUf2qK1+KjO1J3PKCEuX
- 4CSUnVM4ds7j5pZ6EElamHpJXw==
-X-Google-Smtp-Source: AMsMyM79Cs8Vu8ww9TZK7mg1TcDJqbySxEN6/9nzV1xFbZneQrju+2Ho8sRyHkRcs1RSVBKuDYWk0w==
-X-Received: by 2002:a17:90b:1e46:b0:20a:c49f:9929 with SMTP id
- pi6-20020a17090b1e4600b0020ac49f9929mr11945953pjb.221.1666902964315; 
- Thu, 27 Oct 2022 13:36:04 -0700 (PDT)
-Received: from ?IPV6:2001:8003:501a:d301:93c4:c1c9:4368:47fa?
- ([2001:8003:501a:d301:93c4:c1c9:4368:47fa])
- by smtp.gmail.com with ESMTPSA id
- m8-20020a170902f64800b0017f5ba1fffasm1547312plg.297.2022.10.27.13.36.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 13:36:03 -0700 (PDT)
-Message-ID: <9b144f7d-8012-544b-dc59-6c8d702425a7@linaro.org>
-Date: Fri, 28 Oct 2022 06:35:58 +1000
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oo9ii-0006Mk-EP
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 16:43:20 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oo9if-0006ge-GH
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 16:43:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=hJbz0Pjpiu7Px4nv3GhFZwfCFUrdQGDRoMv+lwe/PZ8=; b=mqiXxRmTzRwE/UP57MzQViDnJj
+ dHkjHz0x6LZ7NCkIfCAzWVYKR8LJ4nfv/aum3vHaFMfu9TFGUEKtepwjjKGApBcp2aFLX4Ya8LQaM
+ 2gHT8/1s3uWR2O99wmp5jY/i0VY6y+4kX3VANQEWTLqHl17yp3QUDcBgrwie0Z3nU3DP+tlAcztIz
+ hlNIyfthgemYbluTxGntytgBLnUn/MCPLQoDfLJ31CDjRaOKXP12e6gR+VrY6Jo+BBtub7mNQ9fgs
+ rYnu95IjcWptRsF2XaseMeEF9Iryjj54cKdj9XvODm3idEiwFx7Rvk7EXofMAmGL27GYAJa050E7U
+ 47KLDkcy8kBi340w9TcgUXPyqnEK0+l7/iH0eI/IHLt8eJPi4LJ/yFfu+CSp3LdQh+Xshl5NZh+0W
+ ZhogP+7lQ6jXF8esE7UKEyfE/P1Ssmi7SRX0h30U4zAAOci2oGM1CNoYjFxxxB+c/w1mSZp6dLKJb
+ R37uyBVVueTzt25SjoMh+9aDeSIqEqTVdLAqJCGnCuiVYx3btxZ2xpDYKihC5JODIh2YQ4da/1u2Q
+ 5MJFq0csAY3focxq81bJrnbM8qyRQbXOT6JLIY2KWRLw9qOall3JbTFN5LlzKTdmOpGBPQ/IuLdIO
+ 9gjDj8cYuwxegw89yy9Tr5OKhIW60Zzca0VYPCZEU=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Linus Heckemann <git@sphalerite.org>, Bin Meng <bin.meng@windriver.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [PULL 00/23] 9p queue 2022-10-24
+Date: Thu, 27 Oct 2022 22:42:11 +0200
+Message-ID: <11340963.ZY6gCF45se@silver>
+In-Reply-To: <CAJSP0QU62wy6sN7CULhDtcXMufQvpF8CgRQDOSVw5w7JYC_p-g@mail.gmail.com>
+References: <cover.1666608862.git.qemu_oss@crudebyte.com>
+ <3438372.x9l1EUDYgq@silver>
+ <CAJSP0QU62wy6sN7CULhDtcXMufQvpF8CgRQDOSVw5w7JYC_p-g@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] target/hppa: Fix fid instruction emulation
-Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <Y1q5ye59TmjfojwZ@p100>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <Y1q5ye59TmjfojwZ@p100>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,38 +70,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/28/22 03:03, Helge Deller wrote:
-> The fid instruction (Floating-Point Identify) puts the FPU model and
-> revision into the Status Register. Since those values shouldn't be 0,
-> store values there which a PCX-L2 (for 32-bit) or a PCX-W2 (for 64-bit)
-> would return. Noticed while trying to install MPE/iX.
+On Thursday, October 27, 2022 7:37:07 PM CEST Stefan Hajnoczi wrote:
+> On Thu, 27 Oct 2022 at 12:38, Christian Schoenebeck
+> <qemu_oss@crudebyte.com> wrote:
+> >
+> > On Thursday, October 27, 2022 5:53:47 PM CEST Thomas Huth wrote:
+> > > On 24/10/2022 12.54, Christian Schoenebeck wrote:
+> > > > The following changes since commit 0529245488865038344d64fff7ee05864d3d17f6:
+> > > >
+> > > >    Merge tag 'pull-target-arm-20221020' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-10-20 14:36:12 -0400)
+> > > >
+> > > > are available in the Git repository at:
+> > > >
+> > > >    https://github.com/cschoenebeck/qemu.git tags/pull-9p-20221024
+> > > >
+> > > > for you to fetch changes up to 3ce77865bf813f313cf79c00fd951bfc95a50165:
+> > > >
+> > > >    tests/9p: remove unnecessary g_strdup() calls (2022-10-24 12:24:32 +0200)
+> > > >
+> > > > ----------------------------------------------------------------
+> > > > 9pfs: performance, Windows host prep, tests restructure
+> > > >
+> > > > * Highlight of this PR is Linus Heckemann's GHashTable patch which
+> > > >    brings massive general performance improvements of 9p server
+> > > >    somewhere between factor 6 .. 12.
+> > > >
+> > > > * Bin Meng's g_mkdir patch is a preparatory patch for upcoming
+> > > >    Windows host support of 9p server.
+> > > >
+> > > > * The rest of the patches in this PR are 9p test code restructuring
+> > > >    and refactoring changes to improve readability and to ease
+> > > >    maintenance of 9p test code on the long-term.
+> > >
+> > >   Hi Christian,
+> > >
+> > > I think this PR broke the FreeBSD CI jobs:
+> > >
+> > >   https://gitlab.com/qemu-project/qemu/-/jobs/3219611457#L3116
+> > >
+> > >   https://gitlab.com/qemu-project/qemu/-/jobs/3219611460#L3372
+> > >
+> > > Could you please have a look?
+> > >
+> > >   Thanks!
+> > >    Thomas
+> >
+> > I try, but will certainly take some days, especially as I currently don't have
+> > a BSD installation at hand to try the changes.
 > 
-> Signed-off-by: Helge Deller <deller@gmx.de>
+> QEMU has the automation to run FreeBSD builds locally (in a VM):
+> $ make vm-build-freebsd
 > 
-> ---
-> v2: Add ULL to integer constants, enhanced commit message.
-> 
-> diff --git a/target/hppa/insns.decode b/target/hppa/insns.decode
-> index c7a7e997f9..3ba5f9885a 100644
-> --- a/target/hppa/insns.decode
-> +++ b/target/hppa/insns.decode
-> @@ -388,10 +388,8 @@ fmpyfadd_d      101110 rm1:5 rm2:5 ... 0 1 ..0 0 0 neg:1 t:5    ra3=%rc32
-> 
->   # Floating point class 0
-> 
-> -# FID.  With r = t = 0, which via fcpy puts 0 into fr0.
-> -# This is machine/revision = 0, which is reserved for simulator.
-> -fcpy_f          001100 00000 00000 00000 000000 00000   \
-> -                &fclass01 r=0 t=0
-> +# FID.  Basically like fcpy with r = t = 0. Puts machine/revision into fr0.
-> +fid_f           001100 00000 00000 000 00 000000 00000
+> Not sure if that FreeBSD environment matches the one in Cirrus CI
+> though. If they are different then maybe it won't reproduce locally.
 
-Need to remove the r = t = 0 comment, because that was for (ab)using trand_fcpy_f to store 
-zero into f0.  Now you have a proper trans_fid_f function instead.
+Something must be different, because e750a7ace492f0b450653d4ad368a77d6f660fb8
+compiles fine locally with `make vm-build-freebsd` and all tests pass, too.
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Ideas?
+
+Best regards,
+Christian Schoenebeck
 
 
-r~
 
