@@ -2,111 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D28260EFB0
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 07:55:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE0EE60EFC9
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 08:03:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onvrA-0000OL-CG; Thu, 27 Oct 2022 01:55:08 -0400
+	id 1onvvZ-0006xU-Oz; Thu, 27 Oct 2022 01:59:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1onvqx-00072J-BV; Thu, 27 Oct 2022 01:54:59 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onvvR-0006dJ-MV
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 01:59:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1onvqv-0004g7-I5; Thu, 27 Oct 2022 01:54:55 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29R5Gr7I012205;
- Thu, 27 Oct 2022 05:54:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : from : to : references : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=IhYYXjkLO9y4+WL/c9Kc6LDIw4R/msY/faNAYUhdojo=;
- b=J2lsnc8vA+wkdPEGHKePf/DlSSAvsfRN7pSfkVkFP8sLYBz35DqfIh68BdqctPtX4H7f
- GKHikIw1AiqEw0e29Sce5EdtgbgX6EcasodLLSsz+Nh65zb7oCUBIh+7XDxhmw1DDoA7
- xurd3Uh1co60v1suHr/Ymdw3qabUBCsAa1BlPqPtuhLjpV12TRnKZTw0iKDzRUY6wCad
- Dnddbni8a1a2DKa3N2+w+qy7IB3KqyIodUPtPazhuRlFBSU17mjLK6+KtK59MZA1PXae
- bo8Xu/r6pzMsMpPdrDw9Xg0hYIV1kYSVBdxnCB6394pn0hGuvQxhkmFIag/KsVBBtvrQ vQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfkpq9682-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 05:54:49 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29R5snDl002995;
- Thu, 27 Oct 2022 05:54:49 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfkpq966w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 05:54:49 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29R5qHNT002239;
- Thu, 27 Oct 2022 05:54:47 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma04fra.de.ibm.com with ESMTP id 3kfah90q10-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 05:54:47 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29R5sjYf4653712
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 27 Oct 2022 05:54:45 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0D38DA405B;
- Thu, 27 Oct 2022 05:54:45 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BBCF2A4054;
- Thu, 27 Oct 2022 05:54:44 +0000 (GMT)
-Received: from [9.171.42.156] (unknown [9.171.42.156])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 27 Oct 2022 05:54:44 +0000 (GMT)
-Message-ID: <a73fbe58-507e-fdae-a0ad-809de110ade6@linux.ibm.com>
-Date: Thu, 27 Oct 2022 07:54:44 +0200
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1onvvQ-0005SO-9e
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 01:59:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666850370;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=tLi7/cHa0QxH2Bbd2oDLD+dZ0J6j7LE9gCV5PY9v6vM=;
+ b=LG4G+aRh2IQ88KFkFsJEFY9cpb3WKkCaVW3uPMyp5COsrs/7hKNIL9A2TNI6B7xKY6WKwO
+ 97bP2QHhfxmDhvnvqM9ZWmkN0QBeFon5/YiGbjz9Mzc1yoTTyGARRC4772gtacrXiYGImw
+ kEiPQC2ye4Tw/K/NPKkZu7dYgz/F/qs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-55-8yRwCemQNmC62ng3RerXGg-1; Thu, 27 Oct 2022 01:59:28 -0400
+X-MC-Unique: 8yRwCemQNmC62ng3RerXGg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 189-20020a1c02c6000000b003cf4d3b6644so205745wmc.6
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 22:59:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tLi7/cHa0QxH2Bbd2oDLD+dZ0J6j7LE9gCV5PY9v6vM=;
+ b=HCydp+X5OjAesezgp7CMij+HeGJ/B4x7uxpOdfCC051uuohLtc/QCWOAHdcosK6aBf
+ gursXx0+Zd86m9Q/Z7KSAsL9Dwc6osfj4pymlyGhiFYWM/faZqnC0Xk0sFYSJFR4w+Lr
+ Ny5lwhOVHF31278IOOiqNp6hB9bP99Qn26MqWh0oVx4amUNw2kOOPshSUbRtud5+LuiH
+ owVD5AAY2xVSF/jELJZvyNt9YzIj1z43XvbDCRakWttBlYI3ZuZ+M4gh5aprlIz6e+1M
+ 7VdwrOtARAabwA8SUV73SPHWBFF4fWiY+cizuXBFp+iSgi361s2Fe7DpHO5nFSlgdEwx
+ hzJA==
+X-Gm-Message-State: ACrzQf36IT5+D/mZBlybMaMUvDtl24FRHbGLgqi1yfl9BbS3Sk06riwM
+ IxsYrn3Pe0smFptpiaMoINSi507AtldILFut2aw+8bksKatENoSeoUewN9mZ9suVHIAwTQrfFpa
+ xEfhkRZQX+QrHbsc=
+X-Received: by 2002:a05:600c:4f54:b0:3c6:edec:2787 with SMTP id
+ m20-20020a05600c4f5400b003c6edec2787mr4687167wmq.109.1666850366832; 
+ Wed, 26 Oct 2022 22:59:26 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5MlXQ/IS81WRMSwoLQehdRNVyBoOoEI0LKkCVNPHASm4MxDeqar3uP83FB8GPOhFmQbUDD0Q==
+X-Received: by 2002:a05:600c:4f54:b0:3c6:edec:2787 with SMTP id
+ m20-20020a05600c4f5400b003c6edec2787mr4687156wmq.109.1666850366565; 
+ Wed, 26 Oct 2022 22:59:26 -0700 (PDT)
+Received: from redhat.com ([2.52.15.7]) by smtp.gmail.com with ESMTPSA id
+ n16-20020a1c7210000000b003c6deb5c1edsm450935wmc.45.2022.10.26.22.59.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Oct 2022 22:59:26 -0700 (PDT)
+Date: Thu, 27 Oct 2022 01:59:22 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: type mismatch in SSDT
+Message-ID: <20221027015833-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: qemu iotest 161 and make check
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- qemu block <qemu-block@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <36201311-39e2-0b94-1b06-74a2df988553@linux.ibm.com>
- <45589fd7-bf18-8950-34f5-86a90b99c8c1@virtuozzo.com>
- <586f035a-91b7-4743-9285-09996aa32b4f@linux.ibm.com>
- <a4955275-6cdd-f54d-81b1-8380aad0461f@redhat.com>
- <6d73af8a-4620-f702-5367-6bed666b61a8@virtuozzo.com>
- <54616427-1784-d12b-1a54-131796b56c07@linux.ibm.com>
- <d6d24f79-24bd-46ac-6332-a066410e0217@linux.ibm.com>
- <2592efbf-ec8f-d6ef-2708-37958b514a02@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <2592efbf-ec8f-d6ef-2708-37958b514a02@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: VNADNv1dL2SAZSd5dQJT-kNl7cHMksXw
-X-Proofpoint-ORIG-GUID: aWMF9odcmoyVwmctlVw5_Jcup7D0phxg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-27_02,2022-10-26_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0
- bulkscore=0 lowpriorityscore=0 clxscore=1011 impostorscore=0 phishscore=0
- mlxlogscore=999 priorityscore=1501 adultscore=0 mlxscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2210270031
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -123,96 +90,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Just noticed this when disassembling:
 
+Parsing completed
+ACPI Warning: NsLookup: Type mismatch on ODAT (RegionField), searching for (Buffer) (20210604/nsaccess-760)
+Disassembly completed
+ASL Output:    /tmp/old-asl2/tests/data/acpi/virt/SSDT.memhp.dsl - 14945 bytes
 
-Am 31.03.22 um 10:25 schrieb Christian Borntraeger:
-> 
-> 
-> Am 31.03.22 um 09:44 schrieb Christian Borntraeger:
->>
->>
->> Am 21.02.22 um 11:27 schrieb Christian Borntraeger:
->>>
->>> Am 10.02.22 um 18:44 schrieb Vladimir Sementsov-Ogievskiy:
->>>> 10.02.2022 20:13, Thomas Huth wrote:
->>>>> On 10/02/2022 15.51, Christian Borntraeger wrote:
->>>>>>
->>>>>>
->>>>>> Am 10.02.22 um 15:47 schrieb Vladimir Sementsov-Ogievskiy:
->>>>>>> 10.02.2022 10:57, Christian Borntraeger wrote:
->>>>>>>> Hello,
->>>>>>>>
->>>>>>>> I do see spurious failures of 161 in our CI, but only when I use
->>>>>>>> make check with parallelism (-j).
->>>>>>>> I have not yet figured out which other testcase could interfere
->>>>>>>>
->>>>>>>> @@ -34,6 +34,8 @@
->>>>>>>>   *** Commit and then change an option on the backing file
->>>>>>>>
->>>>>>>>   Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=1048576
->>>>>>>> +qemu-img: TEST_DIR/t.IMGFMT.base: Failed to get "write" lock
->>
->> FWIW, qemu_lock_fd_test returns -11 (EAGAIN)
->> and raw_check_lock_bytes spits this error.
-> 
-> 
-> And its coming from here (ret is 0)
-> 
-> int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive)
-> {
->      int ret;
->      struct flock fl = {
->          .l_whence = SEEK_SET,
->          .l_start  = start,
->          .l_len    = len,
->          .l_type   = exclusive ? F_WRLCK : F_RDLCK,
->      };
->      qemu_probe_lock_ops();
->      ret = fcntl(fd, fcntl_op_getlk, &fl);
->      if (ret == -1) {
->          return -errno;
->      } else {
-> ----->        return fl.l_type == F_UNLCK ? 0 : -EAGAIN;
->      }
-> }
-> 
->>
->>
->> Is this just some overload situation that we do not recover because we do not handle EAGAIN any special.
+Did not look into this yet but it seems new.
 
-Restarted my investigation. Looks like the file lock from qemu is not fully cleaned up when the process is gone.
-Something like
-diff --git a/tests/qemu-iotests/common.qemu b/tests/qemu-iotests/common.qemu
-index 0f1fecc68e..b28a6c187c 100644
---- a/tests/qemu-iotests/common.qemu
-+++ b/tests/qemu-iotests/common.qemu
-@@ -403,4 +403,5 @@ _cleanup_qemu()
-          unset QEMU_IN[$i]
-          unset QEMU_OUT[$i]
-      done
-+    sleep 0.5
-  }
+-- 
+MST
 
-
-makes the problem go away.
-
-Looks like we do use the OFD variant of the file lock, so any clone, fork etc will keep the lock.
-
-So I tested the following:
-
-diff --git a/tests/qemu-iotests/common.qemu b/tests/qemu-iotests/common.qemu
-index 0f1fecc68e..01bdb05575 100644
---- a/tests/qemu-iotests/common.qemu
-+++ b/tests/qemu-iotests/common.qemu
-@@ -388,7 +388,7 @@ _cleanup_qemu()
-                  kill -KILL ${QEMU_PID} 2>/dev/null
-              fi
-              if [ -n "${QEMU_PID}" ]; then
--                wait ${QEMU_PID} 2>/dev/null # silent kill
-+                wait 2>/dev/null # silent kill
-              fi
-          fi
-
-
-And this also helps. Still trying to find out what clone/fork happens here.
 
