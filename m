@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25FB460FC44
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 17:48:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F99060FC63
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 17:52:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo55T-0002g4-9p; Thu, 27 Oct 2022 11:46:31 -0400
+	id 1oo57L-00065l-7n; Thu, 27 Oct 2022 11:48:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oo55Q-0002d8-1z; Thu, 27 Oct 2022 11:46:28 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oo57J-00064f-C2
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 11:48:25 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oo55L-0001LQ-L0; Thu, 27 Oct 2022 11:46:27 -0400
-Received: by mail-pl1-x629.google.com with SMTP id c2so1899571plz.11;
- Thu, 27 Oct 2022 08:46:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oo57G-0001YU-Bz
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 11:48:25 -0400
+Received: by mail-wr1-x430.google.com with SMTP id z14so2964259wrn.7
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 08:48:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5xermXZz2dzDd2OOV3cCqQeQVqHekRDRYxUpyHfIJKs=;
- b=Xd7yLwxhtgzcSNfwIK5R9WTI1lqeut8pN80SGWV08iMsUql2cHF1IVsgG1sQjKKElu
- 1xFXwJYkGtxfz4AqJTH+VST0wrPWuNs3fcaso9iOL8dNkEnXyATqDo3owyLwN1F1u8Od
- G1ltiR7RzvcOv/xVESbBRU+YajjHvNuQ2Q1ocZpryYQuH3DgjIdGxsVvKgCD8ZxE9QVU
- N9/VhW8aKFxB4XA7FVefW5Ti8vZ4TDVqL/hNmTbKAVbdpc91YD0wnFdaZkfd9kVWwEkY
- cgmK6ERZ5Hv9uQ5Zn9HRXsdAIk4j0OZuPQ+2WPzx6242qxSvOihFlCEfY+4z2GqHfkUS
- z66A==
+ bh=5kS2/zX/tI+DJfIwcgpktm8ra82H+ZLEfhpkdYQgz2w=;
+ b=BBHJKK/Zem51R90c4Oyl6IlHxnlvmF+ZAHniXYIcCjAXV9DHA3vcbMXj5hCkox4OAL
+ tFzcd39FBw5Ar274+IXGpcV60RYY5dGBzSTJtovw06jFZBbSphTQlj5PT4ycGTBTUX1h
+ vcAg0xFtcWXqWJ7jN8Jn7YqIMAUQ/Rvw+NRUn49uL8W9ua6pd7ocgQ//Lyxi3T+5y4ob
+ EPiITrE6CI5S/M4SO71PKnPx8so+oIIE3I2x1i3hZbgSA1iiy6MV9TxkKhwh1Kt9/7Jz
+ kwluQQRa2Mkg3X89aCylJGGRM8S3VU4oaQNeeBaggEmyitjxTHoF80b/nET4zKgR6/5e
+ Jnhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5xermXZz2dzDd2OOV3cCqQeQVqHekRDRYxUpyHfIJKs=;
- b=A6i/StWBfHZNWpKas3QDCVKS4RSnrZ5Xw0dIrONsEiKeAuck2nPLDzyEuKinzZ0i+C
- WSdzo4UgSiKsw+ONNFeIbh8iwIXf5VaJ5p0RqefWxQQhZyn+B0S3d5a5dM+MeRAuvdNR
- JAYGYXBPKCcEVD4Xlr+br9o9vEWXFOhKa31EDi05nBKsKBSpqZuZOGNw5cr8p1IeeKov
- 4fBwolxHKuNqx+zGkeYGqPH0Wjp+WU9dDY6qOQh6L198Iri7+VgYLuo7QLywB8wOaKxK
- vsBuupD6ikAiLf9YasmqH/yVxJD0czZ3BXUlzz+B5ATjWMzuszJLyAV8tArEOaBjB1w8
- b5Zw==
-X-Gm-Message-State: ACrzQf3apK8SpGkkslWnGOhr3z5B4cPoEel+dSZ0xUwNCU7eSSTvlmhg
- XxEiViiQeTLOR6ATHt0CiQf8znHut/D3/Khf
-X-Google-Smtp-Source: AMsMyM4QmPSDSSr/4fY7PUF3+EwRFnpnu/RGA5tVjjPMCcse6PJ5URqOL3B6gR47YC+ceJB0yga8gA==
-X-Received: by 2002:a17:90a:4b02:b0:212:f63f:6deb with SMTP id
- g2-20020a17090a4b0200b00212f63f6debmr10951913pjh.241.1666885581421; 
- Thu, 27 Oct 2022 08:46:21 -0700 (PDT)
-Received: from roots.. ([112.44.202.248]) by smtp.gmail.com with ESMTPSA id
- q9-20020a63d609000000b004405c6eb962sm1232801pgg.4.2022.10.27.08.46.14
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=5kS2/zX/tI+DJfIwcgpktm8ra82H+ZLEfhpkdYQgz2w=;
+ b=aOvROfHHoppJQBFbRWNfT/WhqTTmenrTVzMWWGl9Zhj/5fP0ToKLp6jIMks5FMf/kX
+ APdsRjJiYHJv9SxRgQ2q8pKFkIuW3jFuMM+Oa2FXbeHHbvvINz1GQ2WXStq6ukubfF2Z
+ 4/SEqTAG0aA05tIVyuEuKjHMYh//je6oAuDt2A0D/jOfEsJVyTfV5G1fG/EDFYUgRtXk
+ 6z2xWCz7qCozdOvFVOmBlDKbP+ii8vn2pT6ifpnjboVv9Ud0jMcrshPLGBgYAH8Rix4T
+ TFtAJ10Yta9IluxnbjhKsLyR7h8jte8Yp/LIREfpOx+jKkjV7Oyl8Uwa4EcXkc5q1tRd
+ mElQ==
+X-Gm-Message-State: ACrzQf2CuKqUtd5VrRstsh4M6dy2vSq1tCSl0m6Wfdu/dPa9CxvPVvgZ
+ lqZ9cjjFedOLZ9hE8sYMWXgCcY8C4BGryg==
+X-Google-Smtp-Source: AMsMyM6Ohsq8f6TpU7b8tGdpdr9ELdPTH/EY3WPJwNUcNSbZM91Vf2mf1gni04p4SZKBa+E/4LpohQ==
+X-Received: by 2002:a05:6000:1548:b0:22e:3469:b726 with SMTP id
+ 8-20020a056000154800b0022e3469b726mr32150658wry.10.1666885688817; 
+ Thu, 27 Oct 2022 08:48:08 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ ay19-20020a05600c1e1300b003a1980d55c4sm5286716wmb.47.2022.10.27.08.48.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 08:46:21 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Fam Zheng <fam@euphon.net>, Hanna Reitz <hreitz@redhat.com>,
- damien.lemoal@opensource.wdc.com, qemu-block@nongnu.org,
- stefanha@redhat.com, Markus Armbruster <armbru@redhat.com>, hare@suse.de,
- Kevin Wolf <kwolf@redhat.com>, dmitry.fomichev@wdc.com,
- Eric Blake <eblake@redhat.com>, Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v13 8/8] docs/zoned-storage: add zoned device documentation
-Date: Thu, 27 Oct 2022 23:45:04 +0800
-Message-Id: <20221027154504.20684-9-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221027154504.20684-1-faithilikerun@gmail.com>
-References: <20221027154504.20684-1-faithilikerun@gmail.com>
+ Thu, 27 Oct 2022 08:48:08 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E695D1FFB7;
+ Thu, 27 Oct 2022 16:48:07 +0100 (BST)
+References: <20221027113026.2280863-1-iii@linux.ibm.com>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Thomas Huth
+ <thuth@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] tests/vm: use -o IdentitiesOnly=yes for ssh
+Date: Thu, 27 Oct 2022 16:48:01 +0100
+In-reply-to: <20221027113026.2280863-1-iii@linux.ibm.com>
+Message-ID: <87czad1d54.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=faithilikerun@gmail.com; helo=mail-pl1-x629.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,86 +95,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add the documentation about the zoned device support to virtio-blk
-emulation.
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
----
- docs/devel/zoned-storage.rst           | 43 ++++++++++++++++++++++++++
- docs/system/qemu-block-drivers.rst.inc |  6 ++++
- 2 files changed, 49 insertions(+)
- create mode 100644 docs/devel/zoned-storage.rst
+Ilya Leoshkevich <iii@linux.ibm.com> writes:
 
-diff --git a/docs/devel/zoned-storage.rst b/docs/devel/zoned-storage.rst
-new file mode 100644
-index 0000000000..03e52efe2e
---- /dev/null
-+++ b/docs/devel/zoned-storage.rst
-@@ -0,0 +1,43 @@
-+=============
-+zoned-storage
-+=============
-+
-+Zoned Block Devices (ZBDs) divide the LBA space into block regions called zones
-+that are larger than the LBA size. They can only allow sequential writes, which
-+can reduce write amplification in SSDs, and potentially lead to higher
-+throughput and increased capacity. More details about ZBDs can be found at:
-+
-+https://zonedstorage.io/docs/introduction/zoned-storage
-+
-+1. Block layer APIs for zoned storage
-+-------------------------------------
-+QEMU block layer supports three zoned storage models:
-+- BLK_Z_HM: The host-managed zoned model only allows sequential writes access
-+to zones. It supports ZBD-specific I/O commands that can be used by a host to
-+manage the zones of a device.
-+- BLK_Z_HA: The host-aware zoned model allows random write operations in
-+zones, making it backward compatible with regular block devices.
-+- BLK_Z_NONE: The non-zoned model has no zones support. It includes both
-+regular and drive-managed ZBD devices. ZBD-specific I/O commands are not
-+supported.
-+
-+The block device information resides inside BlockDriverState. QEMU uses
-+BlockLimits struct(BlockDriverState::bl) that is continuously accessed by the
-+block layer while processing I/O requests. A BlockBackend has a root pointer to
-+a BlockDriverState graph(for example, raw format on top of file-posix). The
-+zoned storage information can be propagated from the leaf BlockDriverState all
-+the way up to the BlockBackend. If the zoned storage model in file-posix is
-+set to BLK_Z_HM, then block drivers will declare support for zoned host device.
-+
-+The block layer APIs support commands needed for zoned storage devices,
-+including report zones, four zone operations, and zone append.
-+
-+2. Emulating zoned storage controllers
-+--------------------------------------
-+When the BlockBackend's BlockLimits model reports a zoned storage device, users
-+like the virtio-blk emulation or the qemu-io-cmds.c utility can use block layer
-+APIs for zoned storage emulation or testing.
-+
-+For example, to test zone_report on a null_blk device using qemu-io is:
-+$ path/to/qemu-io --image-opts -n driver=zoned_host_device,filename=/dev/nullb0
-+-c "zrp offset nr_zones"
-diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-block-drivers.rst.inc
-index dfe5d2293d..0b97227fd9 100644
---- a/docs/system/qemu-block-drivers.rst.inc
-+++ b/docs/system/qemu-block-drivers.rst.inc
-@@ -430,6 +430,12 @@ Hard disks
-   you may corrupt your host data (use the ``-snapshot`` command
-   line option or modify the device permissions accordingly).
- 
-+Zoned block devices
-+  Zoned block devices can be passed through to the guest if the emulated storage
-+  controller supports zoned storage. Use ``--blockdev zoned_host_device,
-+  node-name=drive0,filename=/dev/nullb0`` to pass through ``/dev/nullb0``
-+  as ``drive0``.
-+
- Windows
- ^^^^^^^
- 
--- 
-2.38.1
+> When one has a lot of keys in ~/.ssh directory, the ssh command will
+> try all of them before the one specified on the command line, and this
+> may cause the remote ssh server to reject the connection due to too
+> many failed authentication attempts.
+>
+> Fix by adding -o IdentitiesOnly=3Dyes, which makes the ssh client
+> consider only the keys specified on the command line.
+>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
+Queued to testing/next, thanks.
+
+--=20
+Alex Benn=C3=A9e
 
