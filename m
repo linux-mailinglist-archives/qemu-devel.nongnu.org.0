@@ -2,89 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B9D610430
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 23:15:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF28561044E
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 23:23:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooAB5-000389-U0; Thu, 27 Oct 2022 17:12:39 -0400
+	id 1ooAJm-0000VD-Tb; Thu, 27 Oct 2022 17:21:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooAB3-00037e-Jv
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:12:37 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ooAJk-0000UL-CS
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:21:36 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooAB1-0002xv-NY
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:12:37 -0400
-Received: by mail-wr1-x431.google.com with SMTP id bp11so4254959wrb.9
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 14:12:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ooAJi-0004bs-S7
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:21:36 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id m2so2850874pjr.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 14:21:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Uk4PKUN41u2ml651A9Iwj+QGAFZESqRPSm/ASQZfBFE=;
- b=C7Z5/49wYrtVINQWv8teiqN7YyK+CGpXsbGPqI0vNkAZhi5GcVVQGVrMNeJW9nILLy
- ZUXbbOpkJct7veUoIOj5lyfppwZ7oaDT3fMTUlOkdPKjT2SRZKHMStHtNB9WhBo5vPBZ
- JtxAnAJ5AWnfV/80UqIhKHu7KXtVijJXC09dt+QXVeWFa13vQsGH1vLyI9y+qZHFEvQM
- N8ZgsbeB/auBQPGOHP/7gAJMlNZQxC4AKQAyzPA4MOShjBqjDsovCfebCw8vV6Z/Vfgc
- 6rrwngTIu8BG47EaPgGi1U18oMj/a6cLJYHu8ijqB7fp+l7WUErB9WwPjCog8qML2a6y
- yI1g==
+ bh=t83/Oi6HC4DM1T013Qejv3ohOBLG5XXfkGofTOjBT4I=;
+ b=HKXvE8Kyet0+NnTZIElt9s+Q77nbbBGoG2s8e+DPuS6ilm51+WXLwN8q/zx1h2WKbm
+ AWkMdZ5GruJ1Ltj8aWeqoTnp8C3ePoPwzjiJVx/PZHamYs4BWD3lyJYYis2ZdTgmYgRU
+ lGqwPMRVbIuI2IRT6Fe6m81u37dyAPd4gYhO02f4NNZwOk+wwHOUPI7cntiS2nB/nsP3
+ 5WFXP3GpbANb9DHggY8A8FzkcW8HJnjy7UP20gUXleyqznH2O7tzyygN1tyOhRucYUQu
+ EB2xwuuDcStOuJAYhNPZFdDnBRjLajHXFgg4kMa/3R3GfOamoXHm5PryKSAa17klCVde
+ AY1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Uk4PKUN41u2ml651A9Iwj+QGAFZESqRPSm/ASQZfBFE=;
- b=6GT9Pi6ok/Hs2YKboNrC7il5/JvgQ+ZHcA0pgSMlRczw7R2dJoV86SLYkp2f7UzVuG
- 6ORFmjnWusDncLcoXaYNFipUU7as/ms51BXLp48BYTadJZtqidatic+XSnrTIkGthLtO
- oTa7E/fj3wkZsvn3rGHMIRFPVkpKOvw7xkOaaPdDwnxwyDKiQPgaJQbOH905cGLfh/ZA
- unEO8G6SybLGnxAYVnA/FMO3OtYs2gD0ikdyCMutg+wj1wLfzn0QE2dzyC5D7PBLbUb8
- dRWBmaqi1ul/ImHaQwcCpvQ3hUVX8igRSodsQiVzAFjstoIHsFFxLIx4VTdm7aFzBPSc
- t64g==
-X-Gm-Message-State: ACrzQf00cnnV8CAd5/pfs9KnQcIK3Y+g3+nPuOkJi45PuCfZ0tuHPdhy
- EVpGItX81jvgjQhtY/X1VWys0Q==
-X-Google-Smtp-Source: AMsMyM4kSNJezT2NKgytUsmIRdNG9bewP7nevjF16YaMjWl1tcQzqIqIAgU0zYyJDVGYo1iiOJrKKw==
-X-Received: by 2002:adf:fd4a:0:b0:236:87bc:a900 with SMTP id
- h10-20020adffd4a000000b0023687bca900mr8230139wrs.706.1666905154263; 
- Thu, 27 Oct 2022 14:12:34 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ bh=t83/Oi6HC4DM1T013Qejv3ohOBLG5XXfkGofTOjBT4I=;
+ b=yvVNNfehpUcQiwYCQiFUHQ3l4wyu/U8/QjGFUmtAYF/M4kMTRD6zjJuOVrSWmedJld
+ qeaQAkGcPBum3B9RRenJ3anJBkLKdHTAghdFJuJU35MX2j91FS8igTD2NCEzuKWMzqoj
+ HP/E2ROtp7Gzx80tb6iCcJpqhiTRE2M084MZAvS+GTVih0MllPyEaDHl8yHWJuUEJ6Pu
+ cKRkvFcCBncCezq7jEwh6HGPdnmIWLfsKXjVB9Ch4QOAox6slYA8mcHb8AXi0A8woiJl
+ 4GwBAA+sG0M35fKM36Zw2cjUbc5twV89JUpwKerLq/YkjaLz3K0Eu97vb3heaIgPd5So
+ N+AQ==
+X-Gm-Message-State: ACrzQf3MH+ss18Ls9AKam2b1q6bIsaJ/KZsIXssDxoKIDHqVK3iC11Sb
+ g10gi+bBgGIM7yvhADFuhNLwAA==
+X-Google-Smtp-Source: AMsMyM5rMe2eRyfjfih5AkvTAlsit5PBY9WbgY62V22VIQBLRSdi0S6Mlx7T0oWXO7PmfrP/urcZ6g==
+X-Received: by 2002:a17:902:8e84:b0:178:57e4:805b with SMTP id
+ bg4-20020a1709028e8400b0017857e4805bmr50773192plb.144.1666905693208; 
+ Thu, 27 Oct 2022 14:21:33 -0700 (PDT)
+Received: from ?IPV6:2001:8003:501a:d301:93c4:c1c9:4368:47fa?
+ ([2001:8003:501a:d301:93c4:c1c9:4368:47fa])
  by smtp.gmail.com with ESMTPSA id
- t14-20020a5d690e000000b00225307f43fbsm1932329wru.44.2022.10.27.14.12.32
+ u16-20020a170902e5d000b00186e34524e3sm1656178plf.136.2022.10.27.14.21.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 14:12:33 -0700 (PDT)
-Message-ID: <656ed959-7b40-a357-5e58-c353f548fe10@linaro.org>
-Date: Thu, 27 Oct 2022 23:12:31 +0200
+ Thu, 27 Oct 2022 14:21:32 -0700 (PDT)
+Message-ID: <1c92aac3-a672-86a0-8a75-c5230d629d77@linaro.org>
+Date: Fri, 28 Oct 2022 07:21:25 +1000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH v4 7/7] hw/ppc/e500: Add Freescale eSDHC to e500plat
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v4 28/30] contrib/plugins: protect execlog's last_exec
+ expansion
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Antony Pavlov <antonynpavlov@gmail.com>, BALATON Zoltan
- <balaton@eik.bme.hu>, Alistair Francis <alistair@alistair23.me>,
- Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Jan Kiszka <jan.kiszka@web.de>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, qemu-arm@nongnu.org,
- Magnus Damm <magnus.damm@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org
-References: <20221018210146.193159-1-shentey@gmail.com>
- <20221018210146.193159-8-shentey@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221018210146.193159-8-shentey@gmail.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>
+References: <20221027183637.2772968-1-alex.bennee@linaro.org>
+ <20221027183637.2772968-29-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221027183637.2772968-29-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,19 +99,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/10/22 23:01, Bernhard Beschow wrote:
-> Adds missing functionality to e500plat machine which increases the
-> chance of given "real" firmware images to access SD cards.
+On 10/28/22 04:36, Alex Bennée wrote:
+> We originally naively treated expansion as safe because we expected
+> each new CPU/thread to appear in order. However the -M raspi2 model
+> triggered a case where a new high cpu_index thread started executing
+> just before a smaller one.
 > 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Clean this up by converting the GArray into the simpler GPtrArray and
+> then holding a lock for the expansion.
+> 
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Cc: Alexandre Iooss<erdnaxe@crans.org>
 > ---
->   docs/system/ppc/ppce500.rst | 12 ++++++++++++
->   hw/ppc/Kconfig              |  1 +
->   hw/ppc/e500.c               | 35 ++++++++++++++++++++++++++++++++++-
->   hw/ppc/e500.h               |  1 +
->   hw/ppc/e500plat.c           |  1 +
->   5 files changed, 49 insertions(+), 1 deletion(-)
+>   contrib/plugins/execlog.c | 38 ++++++++++++++++++++++++++++++--------
+>   1 file changed, 30 insertions(+), 8 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+r~
 
