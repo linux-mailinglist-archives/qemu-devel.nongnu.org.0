@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E4860F59A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 12:44:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6665560F5B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 12:50:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo0MB-0002B9-8m; Thu, 27 Oct 2022 06:43:27 -0400
+	id 1oo0SX-000544-1j; Thu, 27 Oct 2022 06:50:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tkutergin@gmail.com>)
- id 1oo0M9-00023t-HU
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:43:25 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oo0SO-000507-GS
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:49:54 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tkutergin@gmail.com>)
- id 1oo0M7-0002CU-RY
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:43:25 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id z192so1420766yba.0
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 03:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=z/EbK7sRF/Sigj1k2Kcez9Dx94XU/H/hSuVScEaoQLk=;
- b=UFwbjQ/QWBwRBS0g2iOc0vRBotChAzTSNRME2BD37vmojBbD3Y0UNvsf1WTM8kxJa7
- 4DcTXA1LtFbImLcbB/M+QF3hjVrj12j84jH8jOwbERD0bWCKLbh/cJDiBDc7mOwgdBQ7
- vyT9pYna+JSqMSn4GKjWg4hhUiGlwrO9JsPc+Wdwac9pFl09mn9y7ai2Z14CFa3pp1vx
- 9gfHOGykv0E7DLWJacVm03UlNn26fasZmgEuXLzyPeYDrHNRUOZZab50bRGSO0c1+sJ/
- NmGZQc0XPZ1E9m/t8Btmf+dp3rY5acQbvLnw/j7d8obpQnkcBvqkwajlzRie6I8twL2V
- v7TQ==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oo0SM-0003Ok-9L
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:49:51 -0400
+Received: by mail-wr1-x434.google.com with SMTP id v1so1462661wrt.11
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 03:49:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=h/1BSKWYbnVJgVunMdmyWDVP09r5sddp/Z6Oi1LIxII=;
+ b=dGC+lbhc6gJ01lO7CdMOmagoXs0ZIWUDgTSTxbvukdp0uyp72kRaxvGSwUoNfQKlCP
+ /+NKN9EuOwH0F9st0tfz0Hwx+wq/GZWxPsBnedNFzSbsPI/HOvAhkb5NFs2TNjAiRVYT
+ cIKkZmjHazKXjlKRccTyWv63RYqNgEYJG43C0bT8z6MsILTqootummpJVj0Vh7/LRmpn
+ kg8HY4YbOmHtXAWgRIDPxYGdAwU74v86e+hz1dU3Aq4xy9bDTkf+bW0e9Pz4/gfUbk6a
+ ZdWIgPsspJ8Z6EArUEIc+Jf1YjqyX9Zo2JTaW3TmuaoiSQbcqwZFeEARwYHSQrMY9W+v
+ QN4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=z/EbK7sRF/Sigj1k2Kcez9Dx94XU/H/hSuVScEaoQLk=;
- b=vQrNImcrk9u96NACWTjMcrY2j4aWXMCWakd2VB/eTM6Ju+9aIhhXPqmGfvKyJe9wgp
- Awuh5zEB5nWtaDdRoe+vJl4ROQox8LnT1cCUtqnvkq6GnZvJeA/znoSH6gROAhuxJN21
- ZOaeJq0IwkbERULl86PuVsRybuJgQdcri05whQxQP1bDqMycHSw6gRV7U0dbSkVZNaM6
- 8lbaC02MpiXTfP8xYDkY5q8q3EqBw6GTw14LmgobPE4NhxXsOhjKcxIg3pYrG9+bv0mZ
- 6Pc5OKfOFAofqhPsQ/qYtEbDCVUXkV6yl38HkDL66bPvE6rY9VxjDtIfkfc79lyEkSDx
- 50rQ==
-X-Gm-Message-State: ACrzQf2pUaqfTzzK1zoV0g3ax0a3shv1dI1IMbxu+nx23jB287JG8VYE
- hlY9EYD4VXMsgtBSynrK90H9gborTnu9jEQ+DfU=
-X-Google-Smtp-Source: AMsMyM4l3RInt72eCii+nPLIePI+C8+Cc15rdXJVkWYBplYYka90y/6eC/KArg2Ji8vb9HB9bruHYPff4WQ+/rYqAEg=
-X-Received: by 2002:a05:6902:1006:b0:6ca:b5af:ee35 with SMTP id
- w6-20020a056902100600b006cab5afee35mr23415397ybt.48.1666867401485; Thu, 27
- Oct 2022 03:43:21 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=h/1BSKWYbnVJgVunMdmyWDVP09r5sddp/Z6Oi1LIxII=;
+ b=nZEn1AQyNJJP4LRBtJEQishxfvBLVRUyNiF0fOebPSNXYyWbRdDqvE5sNbiSSMBfbg
+ ZF/NHfFYg4K5SngLE0Sqk1KK436Dw7zA49KZB0XGMvWKmsKCOI2UypPwE1tvaA89dD1O
+ lMPfXeZvdQfvmXnzGKcrR3//WHAwTcKEWU1l7lMOEsXsEC7OIe4u7b81ZWQtMMLRA1vi
+ pcv2LvvLUjo28oOg0sLTF4ZW1fWB7rGUCVlyuXdoJ1iN7OvKV9f3w02TmhyEVI1ypdc9
+ 2uggD8CoGJIZoK6EPJeyFERE1lBaGcCrXRLX1o6f4IT0v1Fk/rxavlGrVzqlNAiIb3zS
+ k6rA==
+X-Gm-Message-State: ACrzQf3cL42lXzbxQ0k8Rij5g2yJtnt6cSOUJvyTvVaeKRwiF6GswFqM
+ BrvnoqCoO7vfd+H+taVnDGW6QA==
+X-Google-Smtp-Source: AMsMyM6YiRCzgo7bYL2AWqSKIhu38/WgyhBMhYxdK+keihMzd8nOGAdtrIX/lLHuOUtaIREE63NoTg==
+X-Received: by 2002:a05:6000:1f0f:b0:234:eb90:cf91 with SMTP id
+ bv15-20020a0560001f0f00b00234eb90cf91mr26459631wrb.192.1666867787484; 
+ Thu, 27 Oct 2022 03:49:47 -0700 (PDT)
+Received: from [192.168.242.175] (186.red-88-28-30.dynamicip.rima-tde.net.
+ [88.28.30.186]) by smtp.gmail.com with ESMTPSA id
+ f4-20020adfdb44000000b00236627c078esm827394wrj.110.2022.10.27.03.49.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Oct 2022 03:49:46 -0700 (PDT)
+Message-ID: <f4415297-d5e4-b1fc-8dc6-e068a07fd372@linaro.org>
+Date: Thu, 27 Oct 2022 12:49:44 +0200
 MIME-Version: 1.0
-References: <20221019121537.255477-1-tkutergin@gmail.com>
- <CAFEAcA-6ZyWbRvy9VOFJd0RR1h3bk9GNNzH4Uh0pznzT6RkOnA@mail.gmail.com>
- <CACKEeROBkPn0pPcH1vv4pRDFYztS3eWSLVZ3=rPN1dqopeRPng@mail.gmail.com>
- <CAFEAcA_X5qrMMDmJS=pkvdeuGa_Ux4aX-pkwKKHDZ2aUYBBVoA@mail.gmail.com>
-In-Reply-To: <CAFEAcA_X5qrMMDmJS=pkvdeuGa_Ux4aX-pkwKKHDZ2aUYBBVoA@mail.gmail.com>
-From: Timofey Kutergin <tkutergin@gmail.com>
-Date: Thu, 27 Oct 2022 13:43:10 +0300
-Message-ID: <CACKEeRP7cJoEQ+DkuH9AxQytAcp1XbdjbizV=aCZ4uTvMY3XSg@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Fixed Privileged Access Never (PAN) for
- aarch32
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000005a718f05ec01cf52"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=tkutergin@gmail.com; helo=mail-yb1-xb29.google.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+Subject: Re: [PATCH v2 3/6] target/openrisc: Always exit after mtspr npc
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: cfontana@suse.de
+References: <20221027100254.215253-1-richard.henderson@linaro.org>
+ <20221027100254.215253-4-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221027100254.215253-4-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,67 +91,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000005a718f05ec01cf52
-Content-Type: text/plain; charset="UTF-8"
+On 27/10/22 12:02, Richard Henderson wrote:
+> We have called cpu_restore_state asserting will_exit.
+> Do not go back on that promise.  This affects icount.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/openrisc/sys_helper.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Understood, thank you a lot :)
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Best regards
-Timofey
-
-
-On Thu, Oct 27, 2022 at 12:35 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> On Thu, 27 Oct 2022 at 10:22, Timofey Kutergin <tkutergin@gmail.com>
-> wrote:
-> > > V8 always implies V7, so we only need to check V7 here.
->
-> > From silicon perspective - yes, but as I see in qemu,
-> > ARM_FEATURE_V7 and ARM_FEATURE_V8 are independent bits which do not
-> affect each
-> > other in arm_feature() and set_feature() so they should be tested
-> separately.
-> > Did I miss something?
->
-> In arm_cpu_realizefn() there is code which sets feature flags
-> that are always implied by other feature flags. There we set
-> the V7VE flag if V8 is set, and the V7 flag if V7VE is set.
-> So we can rely on any v8 CPU having the V7 feature flag set.
->
-> thanks
-> -- PMM
->
-
---0000000000005a718f05ec01cf52
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Understood, thank you a lot :)<br><br>Best regards<div>Tim=
-ofey</div><div><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Thu, Oct 27, 2022 at 12:35 PM Peter Maydell &lt=
-;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu=
-, 27 Oct 2022 at 10:22, Timofey Kutergin &lt;<a href=3D"mailto:tkutergin@gm=
-ail.com" target=3D"_blank">tkutergin@gmail.com</a>&gt; wrote:<br>
-&gt; &gt; V8 always implies V7, so we only need to check V7 here.<br>
-<br>
-&gt; From silicon perspective - yes, but as I see in qemu,<br>
-&gt; ARM_FEATURE_V7 and ARM_FEATURE_V8 are independent bits which do not af=
-fect each<br>
-&gt; other in arm_feature() and set_feature() so they should be tested sepa=
-rately.<br>
-&gt; Did I miss something?<br>
-<br>
-In arm_cpu_realizefn() there is code which sets feature flags<br>
-that are always implied by other feature flags. There we set<br>
-the V7VE flag if V8 is set, and the V7 flag if V7VE is set.<br>
-So we can rely on any v8 CPU having the V7 feature flag set.<br>
-<br>
-thanks<br>
--- PMM<br>
-</blockquote></div>
-
---0000000000005a718f05ec01cf52--
 
