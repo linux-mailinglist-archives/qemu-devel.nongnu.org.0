@@ -2,48 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE1660F71D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 14:25:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E906960F737
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 14:27:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo1uN-0000kX-Q7; Thu, 27 Oct 2022 08:22:51 -0400
+	id 1oo1uv-0003AA-Lj; Thu, 27 Oct 2022 08:23:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oo1u6-00009r-Cl; Thu, 27 Oct 2022 08:22:36 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oo1ty-0004Bl-Ks; Thu, 27 Oct 2022 08:22:31 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id CA43D74638A;
- Thu, 27 Oct 2022 14:22:21 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 83E5F74633D; Thu, 27 Oct 2022 14:22:21 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 81D3974632B;
- Thu, 27 Oct 2022 14:22:21 +0200 (CEST)
-Date: Thu, 27 Oct 2022 14:22:21 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH v4 00/19] Misc ppc/mac machines clean up
-In-Reply-To: <CABLmASFGAS-ck2XN2FOTKqTB346UB_+j+BhpumhFj0eomAjp4A@mail.gmail.com>
-Message-ID: <173f8ca1-78ff-5e37-46dd-d61c14fba064@eik.bme.hu>
-References: <cover.1666715145.git.balaton@eik.bme.hu>
- <CABLmASFGAS-ck2XN2FOTKqTB346UB_+j+BhpumhFj0eomAjp4A@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oo1uA-0000Pk-8o
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:22:39 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oo1u8-0004Dq-Dc
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:22:38 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A7C1821AE9;
+ Thu, 27 Oct 2022 12:22:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1666873354; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lecz/t+BKWHBo4XtmI3OTePTd/GXcarV/NMekuvz+sQ=;
+ b=Y4Aks8EUxDetYTrdu6OPWdih5sJ1JtsLiojifop7XY8oa1aU4vyAbdWsGZGk/khl5l5dqH
+ 0MimifsfkfZpec10fxIsfFW67gAXTm3kRJ/CP8TiLlKxbEgUQbDhEoHe5/iKB+ZrQ/AOpO
+ q0RTQGvBmM9cEoEAUMo3Efw8uI9Bdlc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1666873354;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lecz/t+BKWHBo4XtmI3OTePTd/GXcarV/NMekuvz+sQ=;
+ b=vProAya9zNcKJa4ttm0cuCW87vlXRKtjKUpgu+MBDOaMbEk1KugcazPwMAES+lHBo4eRP1
+ gnrCZMoOZ3z1EHBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8C47313357;
+ Thu, 27 Oct 2022 12:22:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id LBm1IAp4WmOFRAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 27 Oct 2022 12:22:34 +0000
+Message-ID: <9705b542-d81b-5299-9aba-098dc335d5ef@suse.de>
+Date: Thu, 27 Oct 2022 14:22:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 2/6] target/i386: Use cpu_unwind_state_data for tpr
+ access
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221027100254.215253-1-richard.henderson@linaro.org>
+ <20221027100254.215253-3-richard.henderson@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <20221027100254.215253-3-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,105 +88,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 27 Oct 2022, Howard Spoelstra wrote:
-> I applied these patches and they seem to work as expected. I like the way
-> this makes it clearer which machine is actually emulated, even though it is
-> still not easy to understand which default hardware the emulated machine
-> actually presents.
+On 10/27/22 12:02, Richard Henderson wrote:
+> Avoid cpu_restore_state, and modifying env->eip out from
+> underneath the translator with TARGET_TB_PCREL.  There is
+> some slight duplication from x86_restore_state_to_opc,
+> but it's just a few lines.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1269
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/i386/helper.c | 21 +++++++++++++++++++--
+>  1 file changed, 19 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/i386/helper.c b/target/i386/helper.c
+> index b62a1e48e2..2cd1756f1a 100644
+> --- a/target/i386/helper.c
+> +++ b/target/i386/helper.c
+> @@ -509,6 +509,23 @@ void cpu_x86_inject_mce(Monitor *mon, X86CPU *cpu, int bank,
+>      }
+>  }
+>  
+> +static target_ulong get_memio_eip(CPUX86State *env)
+> +{
+> +    uint64_t data[TARGET_INSN_START_WORDS];
+> +    CPUState *cs = env_cpu(env);
+> +
+> +    if (!cpu_unwind_state_data(cs, cs->mem_io_pc, data)) {
+> +        return env->eip;
+> +    }
+> +
+> +    /* Per x86_restore_state_to_opc. */
+> +    if (TARGET_TB_PCREL) {
+> +        return (env->eip & TARGET_PAGE_MASK) | data[0];
+> +    } else {
+> +        return data[0] - env->segs[R_CS].base;
 
-Thanks for the feed back and testing. The emulation is not perfect so 
-there are some differences from the actual machines. These could be 
-documented in qemu/docs/system/ppc/powermac.rst patches are welcome). Some 
-of these are not yet implemented like sound or i2c (see: 
-https://osdn.net/projects/qmiga/wiki/SubprojectMac99I2C and 
-https://patchew.org/QEMU/cover.1593456926.git.balaton@eik.bme.hu/93758f65ef21d977fe835364bb1386fb4c03a6ce.1593456926.git.balaton@eik.bme.hu/ 
-if anybody is interested to finish these) or some are missing due to 
-OpenBIOS can't yet handle it like a PCI bridge on some PCI bus which was 
-there in code commented out for a while but looks like it's gone now or I 
-couldn't find it. But the presented hardware should be close enough to 
-these machines for OSes and it also shows what machines we should aim for 
-so it's not an undefined machine any more. The mac99 machine may not be an 
-actual existing config, according to
+here we switch from taking cs_base from the TranslationBlock to taking it from env-> .
 
-http://macos9lives.com/smforum/index.php/topic,2408.msg28843.html?PHPSESSID=ce15448df7a74e13c82c59eedf624db7#msg28843
+I traced the tb->cs_base use back to
 
-which says no Mac had Uninorth, Keylargo and CUDA, although this forum 
-post may not list every machine, e.g. powermac1,2 (the first PCI Power Mac 
-G4) according to <https://en.wikipedia.org/wiki/Power_Mac_G4> had CUDA but 
-used Grackle (the same motherboard as the Blue&White G3 PowerMac 
-powermac1,1 <https://en.wikipedia.org/wiki/Power_Macintosh_G3_(Blue_and_White)> )
-but had no ADB ports so you could not have ADB keyboard and mouse attached 
-to it like we have in mac99. The powermac1,2 is maybe more similar to 
-g3beige but g3beige has old world ROM while the B&W G3 powermac1,1 is the 
-first new world ROM machine but may have more differences I don't know 
-about. (That also means maybe our naming mac_oldworld and mac_newworld is 
-misleading but that's OK for now as it's only in the source code and not 
-user visible.)
+cpu_exec() and cpu_exec_step_atomic()
 
-> I also like the more consistent way a new rom file for a VGA device can be
-> added. The deprecation warnings are clear.
+and from there it seems ok, as the sequence is
 
-Some more info on this last ndrv via romfile patch: OpenBIOS has two ways 
-to add an NDRV in the device tree for MacOS to a vga card:
+cpu_get_tb_cpu_state(cpu->env_ptr, &pc, &cs_base, &flags), which gets it from env,
 
-1. It adds it in openbios/drivers/pci.c::vga_config_cb() if the ROM 
-contains an NDRV
+followed by
 
-2. Then in vga-driver-fcode defined in vga.fs (that OpenBIOS 
-unconditionally calls for vga devices it knows about) it also checks for a 
-file called ndrv/qemu_vga.ndrv in fw_cfg and adds that to the device tree. 
-The vga-ndrv? option controls this second way and defaults to true.
+tb_gen_code(...cs_base) which sets the TranslationBlock cs_base, and tb->cs_base does not seem to change again.
 
-Problems with 2.
+I mention this in the case there can be some weird situation in which env and tb can end up not being consistent,
+does a TranslationBlock that is initialized with a certain cs_base from the env that contains user code to load / change the CS segment base potentially constitute a problem?
 
-- The ndrv/qemu_vga.ndrv is added by the machine not the card so it will 
-be used for other cards (liek ati-vga) that it shouldn't be used for and 
-there's no good way to control or fix it other than the user having to set 
-vga-ndrv? to false when adding -device ati-vga.
+Ciao,
 
-- It's too complex for no good reason so after my patch this could be 
-dropped altogether simpifying the code both in QEMU and OpenBIOS.
+Claudio
 
-My patch sets the default value for the romfile property of the VGA device 
-to qemu_vga.ndrv instead so QEMU will put the ndrv in the ROM and OpenBIOS 
-detects that and adds it to the property without going through fw_cfg (it 
-still checks fw_cfg but since we don't add the ndrv there any more that 
-part won't do anything so that can be dropped later from OpenBIOS together 
-with the vga-ndrv? option. If you want to disable the ndrv with my patch 
-you can use -device VGA,romfile="" instead which replaces the default with 
-empty romfile so OpenBIOS won't find it neither in the ROM not in fw_cfg. 
-Additionally you can pass a real FCode ROM or different NDRV the same way 
-via romfile now without having to replace the file in QEMU install which 
-might come handy for someone developing NDRVs or experimenting with ROMs 
-or pass-thorugh. So I think this simple patch really helps users and makes 
-the code overall simpler too.
 
-> Qemu-system-ppc defaults to the g3beige machine, which does not reflect the
-> (in my opinion) main use case of running Mac OS/X with the powermac3_1
-> machine and will not boot the main versions of ppc Mac OS/X anyway.
 
-We can't easily change the default wihtout breaking existing commands and 
-it's also debatable what should be a new default so I think we're stuck 
-with that now. In any case we need an at least 2 release long deprecation 
-period so what we could do is to deprecare g3beige as the default to 
-require users to always specify a machine option explicitly so we can do 
-something with it in the future but I don't know how to add such warning, 
-i.e. how to detect if g3beige was chosen via -M or by default. Maybe this 
-warning should be issued by command line parsing not the g3beige board 
-code? So I've only added warnings for the mac99 with via option and G5 CPU 
-for now and left qemu-system-ppc -M mac99 and g3beige alone for now. If 
-you think these also need some warnings added now then we should find out 
-how and what should be done instead. I could not decide on those so opted 
-for preserving backwards compatibility for these.
-
-Regards,
-BALATON Zoltan
-
-> So for qemu-system-ppc:
->
-> Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
->
-> Best,
-> Howard
+> +    }
+> +}
+> +
+>  void cpu_report_tpr_access(CPUX86State *env, TPRAccess access)
+>  {
+>      X86CPU *cpu = env_archcpu(env);
+> @@ -519,9 +536,9 @@ void cpu_report_tpr_access(CPUX86State *env, TPRAccess access)
+>  
+>          cpu_interrupt(cs, CPU_INTERRUPT_TPR);
+>      } else if (tcg_enabled()) {
+> -        cpu_restore_state(cs, cs->mem_io_pc, false);
+> +        target_ulong eip = get_memio_eip(env);
+>  
+> -        apic_handle_tpr_access_report(cpu->apic_state, env->eip, access);
+> +        apic_handle_tpr_access_report(cpu->apic_state, eip, access);
+>      }
+>  }
+>  #endif /* !CONFIG_USER_ONLY */
 
 
