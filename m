@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E43560F83E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 14:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C827D60F8D1
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 15:15:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo2S6-00008l-4y; Thu, 27 Oct 2022 08:57:42 -0400
+	id 1oo2hi-0004VN-U5; Thu, 27 Oct 2022 09:13:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oo2S3-0007rI-E3
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:57:39 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oo2S1-0002lD-Ck
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:57:39 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id bp11so2017726wrb.9
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 05:57:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=9N1tVJ1QPefxzd86dc7+4uzKAmDca1+CTaoHd0AHvLQ=;
- b=LB1DUmwPBH2fN45OzLi+Ah+9OlD184L6K791elEAmjP/4p/hS9Lz6NYuzRrYz/vDaS
- YuitbOND0o7oLaCcjMye8EDq95KHYkZ+t8J8/5ZVjviQLRbcuGDeXOw4yW9dvEcTUU65
- H+Bc/TtKhbYTWE6570R+UF6nvZKLRuzOTeMGdYUnamwVBxfzWW+1qf6kF5vrXYHiMivD
- KyhjsPQGr/RnGzDE7BxvOKwkUP6w1bpz3CASTdvQ2ZuHHE4mkAhgx+F90No70CGHOKHW
- xU5RtLNAbtmL1qLM8RVWjcof1gZpbAptDGRe6AyhO0Ewo+R7ogPAHUaFNaLsWqjO/4Hi
- LPVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9N1tVJ1QPefxzd86dc7+4uzKAmDca1+CTaoHd0AHvLQ=;
- b=rEEZ+lbEg3mKF7rwg0GMylSjFzrA+SNAXKJ2L7PLbbgWoDfgU9IIi2QduwW5MVzxKc
- jMOq/1y5hgZdQZR/IzH6bK3jp+JJEdHDkd99NppVu9UAT6+zGou0HYKVe+HKjGwD7kvm
- 6cr5TdnONVL8G5uspUhITWwhl8h4ruV1FaPqFcejD2Ga2+OsKcXfJp3RoMOEwIB6dYZk
- yuqDDqFN33/qQr1+x0qoeZJITb7BXubdqkKYntBKuTY8+oxBey4pgtvpSJFcFRnoIQ/k
- y0ES7ZSREX7nw3Gs9rdnWjceVM753k+PhtoIhJ5RkmVOQzJTMkaImYb56a2tditToneE
- rl+A==
-X-Gm-Message-State: ACrzQf3bBmDo23m1b1RRkkbGJfpXX8MYStgpcN8xxGIJvDU/EZEQ+qMp
- mkDHOmAkSZP5jdMjLHj6Tcp1rTa01P0uiw==
-X-Google-Smtp-Source: AMsMyM7r/X5LX809SoHXQKdId+D+A1XP4EGRhwnl63EixA36YrjAgis+j3p+ZFflRbBJkU4sx+Q+sQ==
-X-Received: by 2002:a5d:654d:0:b0:235:197d:72d1 with SMTP id
- z13-20020a5d654d000000b00235197d72d1mr26345010wrv.680.1666875455239; 
- Thu, 27 Oct 2022 05:57:35 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- l8-20020a5d6d88000000b0022b315b4649sm1396822wrs.26.2022.10.27.05.57.33
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 05:57:34 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/31] target-arm queue
-Date: Thu, 27 Oct 2022 13:57:31 +0100
-Message-Id: <20221027125731.321978-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oo2hb-0004VC-JE
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 09:13:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oo2hZ-0005LT-IH
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 09:13:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666876420;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R8Rhij1kBLZ8FbgoPOuySZtlzd4HAzv1wT5oSUMZv+s=;
+ b=BpWOeFjUX7gS5D3cg0Sp7zZxJSb7i5gDQlsNvZhkBngu0p/5k28IEIAvizloczRkfyFk99
+ 1eT/HpO4xrS2Sy5hNYQUIRFzPy6LUMI5pvDV2cTiMV6VCVPXF9JfcunJ0AfC0ur4Yzr2V8
+ 2/vgtDMrMI9/clKK8RvzWzw4rRcHjOU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-21--UA_3KXQNzSZ9TmUfklDrg-1; Thu, 27 Oct 2022 09:13:38 -0400
+X-MC-Unique: -UA_3KXQNzSZ9TmUfklDrg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D3FF101A54E;
+ Thu, 27 Oct 2022 13:13:38 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 988AFC15BA8;
+ Thu, 27 Oct 2022 13:13:37 +0000 (UTC)
+Date: Thu, 27 Oct 2022 14:13:35 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+Subject: Re: QEMU Summit Minutes
+Message-ID: <Y1qD//rEJ9vAFedm@redhat.com>
+References: <CAFEAcA-7oY=988uLFEDgdSS8CjSSmyeZOYKsq9Vm-9vKXLms8A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <CAFEAcA-7oY=988uLFEDgdSS8CjSSmyeZOYKsq9Vm-9vKXLms8A@mail.gmail.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,127 +78,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-v2: fixes two build failures, and adds the mips/malta RNG reset patch.
+On Thu, Oct 27, 2022 at 01:50:37PM +0100, Peter Maydell wrote:
+> Infrastructure
+> ==============
 
-thanks
--- PMM
+snip
 
-The following changes since commit 344744e148e6e865f5a57e745b02a87e5ea534ad:
+> Alex Bennee has successfully signed the QEMU project up for the GitLab
+> Open Source Program, which grants Ultimate tier features. This includes
+> 50,000 CI minutes per month, 500 GB of transfer per month, and 250 GB of
+> storage. I have not seen confirmation yet that personal forks of
+> qemu.git share the CI minutes but Daniel Berrangé, Alex Bennée, and I
+> believe this should be the case.
 
-  Merge tag 'dump-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2022-10-26 10:53:49 -0400)
+NB, in case anymore missed discussion since the summit, this
+is *NOT* the case for forks.
 
-are available in the Git repository at:
+Standard user accounts or group namespaces on gitlab.com get 400
+CI minutes and cost factor of 1.0 by default. NB some users / groups
+might be grandfathered into a 2000 CI minute quota, but its not
+clear if that's going to remain so.
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20221027
+With joining the OSP, QEMU gets its quota increased to 50,000 CI
+minutes, and the cost factor reduced to 0.5
 
-for you to fetch changes up to 6233a138599bea89ad683b883dca38388f12fd2d:
+Forks of QEMU still consume from the user's own CI quota, but
+they benefit from a reduced cost factor of 0.008.
 
-  mips/malta: pass RNG seed via env var and re-randomize on reboot (2022-10-27 11:47:45 +0100)
+For further details see here:
 
-----------------------------------------------------------------
-target-arm queue:
- * Implement FEAT_E0PD
- * Implement FEAT_HAFDBS
- * honor HCR_E2H and HCR_TGE in arm_excp_unmasked()
- * hw/arm/virt: Fix devicetree warnings about the virtio-iommu node
- * hw/core/resettable: fix reset level counting
- * hw/hyperv/hyperv.c: Use device_cold_reset() instead of device_legacy_reset()
- * imx: reload cmp timer outside of the reload ptimer transaction
- * x86: do not re-randomize RNG seed on snapshot load
- * m68k/virt: do not re-randomize RNG seed on snapshot load
- * m68k/q800: do not re-randomize RNG seed on snapshot load
- * arm: re-randomize rng-seed on reboot
- * riscv: re-randomize rng-seed on reboot
- * mips/boston: re-randomize rng-seed on reboot
- * openrisc: re-randomize rng-seed on reboot
- * rx: re-randomize rng-seed on reboot
+  https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg00244.html
 
-----------------------------------------------------------------
-Ake Koomsin (1):
-      target/arm: honor HCR_E2H and HCR_TGE in arm_excp_unmasked()
+> Bug Tracking System
+> ===================
+> 
+> We discussed the state of our bug tracker now we've had time
+> to see how the migration from Launchpad to Gitlab has gone.
+> 
+> At point of conversion we had about ~450 bugs; we're up to
+> ~650 open bugs now. Gitlab doesn't have the same kind of
+> automated close-stale-bugs machinery that Launchpad did, so
+> we probably have more stale bugs than we did. There was
+> no consensus about whether we should be more active/automated
+> about closing old bugs.
+> 
+> 
+> It was noted that it's now harder to CC somebody on a bug
+> because you can't just cc them on a reply on the mailing list.
+> We agreed that we should have some way (probably in MAINTAINERS)
+> for developers to note their gitlab user ID, so it's easier to
+> find out the right ID to @ to get somebody's attention on a bug.
 
-Axel Heider (1):
-      target/imx: reload cmp timer outside of the reload ptimer transaction
+I would like to see at minimum, *all* people acting as subsystem
+MAINTAINERS (ie 'Status == Supported/Maintained) having a gitlab.com
+account, and be added to the /qemu-project membership list. It is
+pretty unhelpful to have maintainers of subsystems be uncontactable
+via / ignoring the project's official bug tracker, as that puts a
+bigger burden on people doing bug triage and will lead to growing
+backlog.
 
-Damien Hedde (1):
-      hw/core/resettable: fix reset level counting
+We've got 44 people as members in gitlab.com/qemu-project right
+now.
 
-Jason A. Donenfeld (11):
-      reset: allow registering handlers that aren't called by snapshot loading
-      device-tree: add re-randomization helper function
-      x86: do not re-randomize RNG seed on snapshot load
-      arm: re-randomize rng-seed on reboot
-      riscv: re-randomize rng-seed on reboot
-      m68k/virt: do not re-randomize RNG seed on snapshot load
-      m68k/q800: do not re-randomize RNG seed on snapshot load
-      mips/boston: re-randomize rng-seed on reboot
-      openrisc: re-randomize rng-seed on reboot
-      rx: re-randomize rng-seed on reboot
-      mips/malta: pass RNG seed via env var and re-randomize on reboot
+We have 167 distinct maintainer email addrs in MAINTAINERS.
 
-Jean-Philippe Brucker (1):
-      hw/arm/virt: Fix devicetree warnings about the virtio-iommu node
+We have 192 subsystems listed as 'maintained' and 96 as 'supported',
+81 'odd fixes' and '12' orphan.
 
-Peter Maydell (2):
-      target/arm: Implement FEAT_E0PD
-      hw/hyperv/hyperv.c: Use device_cold_reset() instead of device_legacy_reset()
+This suggests there is a big gap in our gitlab.com membership wrt
+supported /maintained subsystems.
 
-Richard Henderson (14):
-      target/arm: Introduce regime_is_stage2
-      target/arm: Add ptw_idx to S1Translate
-      target/arm: Add isar predicates for FEAT_HAFDBS
-      target/arm: Extract HA and HD in aa64_va_parameters
-      target/arm: Move S1_ptw_translate outside arm_ld[lq]_ptw
-      target/arm: Add ARMFault_UnsuppAtomicUpdate
-      target/arm: Remove loop from get_phys_addr_lpae
-      target/arm: Fix fault reporting in get_phys_addr_lpae
-      target/arm: Don't shift attrs in get_phys_addr_lpae
-      target/arm: Consider GP an attribute in get_phys_addr_lpae
-      target/arm: Tidy merging of attributes from descriptor and table
-      target/arm: Implement FEAT_HAFDBS, access flag portion
-      target/arm: Implement FEAT_HAFDBS, dirty bit portion
-      target/arm: Use the max page size in a 2-stage ptw
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
- docs/devel/reset.rst          |   8 +-
- docs/system/arm/emulation.rst |   2 +
- qapi/run-state.json           |   6 +-
- include/hw/boards.h           |   2 +-
- include/sysemu/device_tree.h  |   9 +
- include/sysemu/reset.h        |   5 +-
- target/arm/cpu.h              |  15 ++
- target/arm/internals.h        |  30 +++
- hw/arm/aspeed.c               |   4 +-
- hw/arm/boot.c                 |   2 +
- hw/arm/mps2-tz.c              |   4 +-
- hw/arm/virt.c                 |   5 +-
- hw/core/reset.c               |  17 +-
- hw/core/resettable.c          |   3 +-
- hw/hppa/machine.c             |   4 +-
- hw/hyperv/hyperv.c            |   2 +-
- hw/i386/microvm.c             |   4 +-
- hw/i386/pc.c                  |   6 +-
- hw/i386/x86.c                 |   2 +-
- hw/m68k/q800.c                |  33 ++-
- hw/m68k/virt.c                |  20 +-
- hw/mips/boston.c              |   3 +
- hw/mips/malta.c               |  27 +++
- hw/openrisc/boot.c            |   3 +
- hw/ppc/pegasos2.c             |   4 +-
- hw/ppc/pnv.c                  |   4 +-
- hw/ppc/spapr.c                |   4 +-
- hw/riscv/boot.c               |   3 +
- hw/rx/rx-gdbsim.c             |   3 +
- hw/s390x/s390-virtio-ccw.c    |   4 +-
- hw/timer/imx_epit.c           |   9 +-
- migration/savevm.c            |   2 +-
- softmmu/device_tree.c         |  21 ++
- softmmu/runstate.c            |  11 +-
- target/arm/cpu.c              |  24 +-
- target/arm/cpu64.c            |   2 +
- target/arm/helper.c           |  31 ++-
- target/arm/ptw.c              | 525 ++++++++++++++++++++++++++++--------------
- 38 files changed, 600 insertions(+), 263 deletions(-)
 
