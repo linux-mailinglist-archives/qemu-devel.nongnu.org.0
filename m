@@ -2,75 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65C560F639
+	by mail.lfdr.de (Postfix) with ESMTPS id B11FD60F63A
 	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:31:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo12U-0007xM-Kd; Thu, 27 Oct 2022 07:27:10 -0400
+	id 1oo12c-0008Bz-I7; Thu, 27 Oct 2022 07:27:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tkutergin@gmail.com>)
- id 1oo11m-0007b9-ET
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:26:44 -0400
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tkutergin@gmail.com>)
- id 1oo11k-0002Nq-7I
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:26:26 -0400
-Received: by mail-lf1-x134.google.com with SMTP id d25so1731508lfb.7
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 04:26:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Vmf3VSvVLIrnwSIypw7sdeLLB+aO0SyQfleISwOgc/4=;
- b=k2/8R5kODBJ4UTRhOceh/ymHNCp9Rz5fzsCQuJoSFVW48MXnAJEH0d/DAAYN85rhvP
- xQ5iA1Aenv4okCxTqiVmTJp1T6mp9gVOf3PnNUji5516StpbAwEzIcPL0KLKR6K3Cvkm
- t5ayL7ZSesjoW9mhAKp1qY9zMykBSNf/aVmAf2lIolg2DgovgoiX8YgUsJg760Tb2RHU
- W/3EbFL7/+ZR+uBuZxf/36qcO9qGJqLplCLwhuplAx4BOHDHfwUi+c3OYFzRgffqhJ87
- tD6EmwxjjHOgu4UTDIKcRLalGiYp3kDn5aEnclbPvWuNWnOAY/NkKJ7vhtwm5qBXtFHY
- o1Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Vmf3VSvVLIrnwSIypw7sdeLLB+aO0SyQfleISwOgc/4=;
- b=WdpSK4VImA+6/+QYiuTlGfBeIJBnrdhK1yTrreJzYT1pR4S8lbiZxfXfsxVA7ePtlB
- TqI0bkTDhQWAukLmnoT9ZS9V95rC2kXvkkxKQMgzNwM67ODiJBm8FOVeBgJXWXNv0WeI
- Ezq+plYfP+5bhwnwY6FSnXV2TrofPBX0iUdzy7UHNfBBoz1t9KYo2Lyh3MOpiiAigkbt
- PEN8xSX+JoSsikrhFbctJdhVjuOAW5+7VacrH3fy4e7R69GehyXK35JVLXdyfq4UmD3b
- VHQuYD5seFwGQCkIKnAzs5JyseiTDQc9LyzjLS/258nBgJd6gPjm52dMsvVO8tx3fwus
- VKiw==
-X-Gm-Message-State: ACrzQf0yA9gpL7sr9sPPqnrlJFQgmBGPQHiHRIh84Ph9lFBaZoTtjkuD
- kDpTewwXzst455QkaOeU/7U=
-X-Google-Smtp-Source: AMsMyM7FPqrPowbyZHY131RZoRnaZ2tHlSFpOp2nkcFptnGuW5K6x8zNdu5Y85ZiK3lT4+5Bb3PiFA==
-X-Received: by 2002:a05:6512:54a:b0:4af:b4ac:c2bb with SMTP id
- h10-20020a056512054a00b004afb4acc2bbmr2437171lfl.650.1666869982330; 
- Thu, 27 Oct 2022 04:26:22 -0700 (PDT)
-Received: from NBK05906.kdtln.ru (79-126-2-255.dynamic.mts-nn.ru.
- [79.126.2.255]) by smtp.gmail.com with ESMTPSA id
- e11-20020a05651236cb00b0048a9e18ae67sm152792lfs.84.2022.10.27.04.26.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 04:26:21 -0700 (PDT)
-From: Timofey Kutergin <tkutergin@gmail.com>
-To: peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org,
-	tkutergin@gmail.com
-Subject: [PATCH] target/arm: Fixed Privileged Access Never (PAN) for aarch32
-Date: Thu, 27 Oct 2022 14:26:19 +0300
-Message-Id: <20221027112619.2205229-1-tkutergin@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oo12Y-00083t-Gp; Thu, 27 Oct 2022 07:27:14 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oo12W-0002US-8Y; Thu, 27 Oct 2022 07:27:13 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29RAj0ds000302;
+ Thu, 27 Oct 2022 11:27:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=tH/Y3ccWV58Ne4I7NI1QWcbYOo2VJJlqfPRJxEExBrc=;
+ b=dGV3x92wyMXCvTnYR35Zt3oBUYMxFggRQgqc9ekp6oyvsUcZ1kQ5WdNZ83lWiSwElCeh
+ DEbjmMuwEGDqGJmEiJK7Tb4pNL1LXelncLv2lBjoWwV4y4DywvWyaNimv1qC8dY5IQrg
+ pXY4dCj61jXStVHTxbIQG+XZH+kcyaOiNr3fCdoaZS94AVJQTwrqsAsnrFIV5e33i/ng
+ wfsluQB20KuZEg5gT1RnEDymZ5D3fI/Zyb66YMinOoh+eBgjf9kk9+/Jz2o5vqZ8oIhy
+ GGGscB4O5TTatZHDEAhGOdSJQCezKStB9GLPZSEM3c175I/0jOcKOidZtuAIgXa72MGs 3A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfrgsh81n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 11:27:01 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29RAjWLJ002179;
+ Thu, 27 Oct 2022 11:27:01 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfrgsh80v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 11:27:00 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29RBL3j6000615;
+ Thu, 27 Oct 2022 11:26:58 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3kfahqhw06-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 11:26:58 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29RBQtoe63373598
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 27 Oct 2022 11:26:55 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6A7E8A405B;
+ Thu, 27 Oct 2022 11:26:55 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7B2C5A4054;
+ Thu, 27 Oct 2022 11:26:54 +0000 (GMT)
+Received: from [9.179.10.218] (unknown [9.179.10.218])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 27 Oct 2022 11:26:54 +0000 (GMT)
+Message-ID: <443be3c8-0da8-8b6c-0067-59ff19b0bc4e@linux.ibm.com>
+Date: Thu, 27 Oct 2022 13:26:54 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v10 3/9] s390x/cpu_topology: resetting the
+ Topology-Change-Report
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ frankja@linux.ibm.com, berrange@redhat.com
+References: <20221012162107.91734-1-pmorel@linux.ibm.com>
+ <20221012162107.91734-4-pmorel@linux.ibm.com>
+ <450544bf-4ff0-9d72-f57c-4274692916a5@redhat.com>
+ <77d52b82-aa44-ed79-2345-1b3c3a15fb7d@linux.ibm.com>
+ <cca5db4f-4c05-1fda-de77-19d1cc161748@kaod.org>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <cca5db4f-4c05-1fda-de77-19d1cc161748@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::134;
- envelope-from=tkutergin@gmail.com; helo=mail-lf1-x134.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: GgsuIxG674P1NmpHQqEW9OF6Qdty-yHs
+X-Proofpoint-GUID: fpnwRWn2NNrzDvtou7l-VaBz35q5M15_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-27_05,2022-10-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 impostorscore=0
+ priorityscore=1501 phishscore=0 malwarescore=0 spamscore=0 suspectscore=0
+ clxscore=1015 mlxscore=0 bulkscore=0 lowpriorityscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2210270061
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,141 +125,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-    - Use CPSR.PAN to check for PAN state in aarch32 mode
-    - throw permission fault during address translation when PAN is
-      enabled and kernel tries to access user acessible page
-    - ignore SCTLR_XP bit for armv7 and armv8 (conflicts with SCTLR_SPAN).
 
-Signed-off-by: Timofey Kutergin <tkutergin@gmail.com>
----
- target/arm/helper.c | 13 +++++++++++--
- target/arm/ptw.c    | 35 ++++++++++++++++++++++++++++++-----
- 2 files changed, 41 insertions(+), 7 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c672903f43..4301478ed8 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -10992,6 +10992,15 @@ ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
- }
- #endif
- 
-+static bool arm_pan_enabled(CPUARMState *env)
-+{
-+    if (is_a64(env)) {
-+        return env->pstate & PSTATE_PAN;
-+    } else {
-+        return env->uncached_cpsr & CPSR_PAN;
-+    }
-+}
-+
- ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
- {
-     ARMMMUIdx idx;
-@@ -11012,7 +11021,7 @@ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
-         }
-         break;
-     case 1:
--        if (env->pstate & PSTATE_PAN) {
-+        if (arm_pan_enabled(env)) {
-             idx = ARMMMUIdx_E10_1_PAN;
-         } else {
-             idx = ARMMMUIdx_E10_1;
-@@ -11021,7 +11030,7 @@ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
-     case 2:
-         /* Note that TGE does not apply at EL2.  */
-         if (arm_hcr_el2_eff(env) & HCR_E2H) {
--            if (env->pstate & PSTATE_PAN) {
-+            if (arm_pan_enabled(env)) {
-                 idx = ARMMMUIdx_E20_2_PAN;
-             } else {
-                 idx = ARMMMUIdx_E20_2;
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 6c5ed56a10..a82accab40 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -433,12 +433,11 @@ static bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
-  * @mmu_idx:     MMU index indicating required translation regime
-  * @ap:          The 3-bit access permissions (AP[2:0])
-  * @domain_prot: The 2-bit domain access permissions
-+ * @is_user: TRUE if accessing from PL0
-  */
--static int ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx,
--                         int ap, int domain_prot)
-+static int ap_to_rw_prot_is_user(CPUARMState *env, ARMMMUIdx mmu_idx,
-+                         int ap, int domain_prot, bool is_user)
- {
--    bool is_user = regime_is_user(env, mmu_idx);
--
-     if (domain_prot == 3) {
-         return PAGE_READ | PAGE_WRITE;
-     }
-@@ -482,6 +481,20 @@ static int ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx,
-     }
- }
- 
-+/*
-+ * Translate section/page access permissions to page R/W protection flags
-+ * @env:         CPUARMState
-+ * @mmu_idx:     MMU index indicating required translation regime
-+ * @ap:          The 3-bit access permissions (AP[2:0])
-+ * @domain_prot: The 2-bit domain access permissions
-+ */
-+static int ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx,
-+                         int ap, int domain_prot)
-+{
-+   return ap_to_rw_prot_is_user(env, mmu_idx, ap, domain_prot,
-+                                regime_is_user(env, mmu_idx));
-+}
-+
- /*
-  * Translate section/page access permissions to page R/W protection flags.
-  * @ap:      The 2-bit simple AP (AP[2:1])
-@@ -644,6 +657,7 @@ static bool get_phys_addr_v6(CPUARMState *env, S1Translate *ptw,
-     hwaddr phys_addr;
-     uint32_t dacr;
-     bool ns;
-+    int user_prot;
- 
-     /* Pagetable walk.  */
-     /* Lookup l1 descriptor.  */
-@@ -749,8 +763,10 @@ static bool get_phys_addr_v6(CPUARMState *env, S1Translate *ptw,
-                 goto do_fault;
-             }
-             result->f.prot = simple_ap_to_rw_prot(env, mmu_idx, ap >> 1);
-+            user_prot = simple_ap_to_rw_prot_is_user(ap >> 1, 1);
-         } else {
-             result->f.prot = ap_to_rw_prot(env, mmu_idx, ap, domain_prot);
-+            user_prot = ap_to_rw_prot_is_user(env, mmu_idx, ap, domain_prot, 1);
-         }
-         if (result->f.prot && !xn) {
-             result->f.prot |= PAGE_EXEC;
-@@ -760,6 +776,14 @@ static bool get_phys_addr_v6(CPUARMState *env, S1Translate *ptw,
-             fi->type = ARMFault_Permission;
-             goto do_fault;
-         }
-+        if (regime_is_pan(env, mmu_idx) &&
-+            !regime_is_user(env, mmu_idx) &&
-+            user_prot &&
-+            access_type != MMU_INST_FETCH) {
-+            /* Privileged Access Never fault */
-+            fi->type = ARMFault_Permission;
-+            goto do_fault;
-+        }
-     }
-     if (ns) {
-         /* The NS bit will (as required by the architecture) have no effect if
-@@ -2606,7 +2630,8 @@ static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
-     if (regime_using_lpae_format(env, mmu_idx)) {
-         return get_phys_addr_lpae(env, ptw, address, access_type, false,
-                                   result, fi);
--    } else if (regime_sctlr(env, mmu_idx) & SCTLR_XP) {
-+    } else if (arm_feature(env, ARM_FEATURE_V7) ||
-+               regime_sctlr(env, mmu_idx) & SCTLR_XP) {
-         return get_phys_addr_v6(env, ptw, address, access_type, result, fi);
-     } else {
-         return get_phys_addr_v5(env, ptw, address, access_type, result, fi);
+On 10/27/22 11:58, Cédric Le Goater wrote:
+> On 10/27/22 11:11, Pierre Morel wrote:
+>>
+>>
+>> On 10/27/22 10:14, Thomas Huth wrote:
+>>> On 12/10/2022 18.21, Pierre Morel wrote:
+>>>> During a subsystem reset the Topology-Change-Report is cleared
+>>>> by the machine.
+>>>> Let's ask KVM to clear the Modified Topology Change Report (MTCR)
+>>>>   bit of the SCA in the case of a subsystem reset.
+>>>>
+>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>>>> Reviewed-by: Nico Boehr <nrb@linux.ibm.com>
+>>>> Reviewed-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+>>>> ---
+>>>>   target/s390x/cpu.h           |  1 +
+>>>>   target/s390x/kvm/kvm_s390x.h |  1 +
+>>>>   hw/s390x/cpu-topology.c      | 12 ++++++++++++
+>>>>   hw/s390x/s390-virtio-ccw.c   |  1 +
+>>>>   target/s390x/cpu-sysemu.c    |  7 +++++++
+>>>>   target/s390x/kvm/kvm.c       | 23 +++++++++++++++++++++++
+>>>>   6 files changed, 45 insertions(+)
+>>>>
+>>>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>>>> index d604aa9c78..9b35795ac8 100644
+>>>> --- a/target/s390x/cpu.h
+>>>> +++ b/target/s390x/cpu.h
+>>>> @@ -825,6 +825,7 @@ void s390_enable_css_support(S390CPU *cpu);
+>>>>   void s390_do_cpu_set_diag318(CPUState *cs, run_on_cpu_data arg);
+>>>>   int s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t 
+>>>> sch_id,
+>>>>                                   int vq, bool assign);
+>>>> +void s390_cpu_topology_reset(void);
+>>>>   #ifndef CONFIG_USER_ONLY
+>>>>   unsigned int s390_cpu_set_state(uint8_t cpu_state, S390CPU *cpu);
+>>>>   #else
+>>>> diff --git a/target/s390x/kvm/kvm_s390x.h 
+>>>> b/target/s390x/kvm/kvm_s390x.h
+>>>> index aaae8570de..a13c8fb9a3 100644
+>>>> --- a/target/s390x/kvm/kvm_s390x.h
+>>>> +++ b/target/s390x/kvm/kvm_s390x.h
+>>>> @@ -46,5 +46,6 @@ void kvm_s390_crypto_reset(void);
+>>>>   void kvm_s390_restart_interrupt(S390CPU *cpu);
+>>>>   void kvm_s390_stop_interrupt(S390CPU *cpu);
+>>>>   void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info);
+>>>> +int kvm_s390_topology_set_mtcr(uint64_t attr);
+>>>>   #endif /* KVM_S390X_H */
+>>>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+>>>> index c73cebfe6f..9f202621d0 100644
+>>>> --- a/hw/s390x/cpu-topology.c
+>>>> +++ b/hw/s390x/cpu-topology.c
+>>>> @@ -107,6 +107,17 @@ static void s390_topology_realize(DeviceState 
+>>>> *dev, Error **errp)
+>>>>       qemu_mutex_init(&topo->topo_mutex);
+>>>>   }
+>>>> +/**
+>>>> + * s390_topology_reset:
+>>>> + * @dev: the device
+>>>> + *
+>>>> + * Calls the sysemu topology reset
+>>>> + */
+>>>> +static void s390_topology_reset(DeviceState *dev)
+>>>> +{
+>>>> +    s390_cpu_topology_reset();
+>>>> +}
+>>>> +
+>>>>   /**
+>>>>    * topology_class_init:
+>>>>    * @oc: Object class
+>>>> @@ -120,6 +131,7 @@ static void topology_class_init(ObjectClass *oc, 
+>>>> void *data)
+>>>>       dc->realize = s390_topology_realize;
+>>>>       set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>>>> +    dc->reset = s390_topology_reset;
+>>>>   }
+>>>>   static const TypeInfo cpu_topology_info = {
+>>>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>>>> index aa99a62e42..362378454a 100644
+>>>> --- a/hw/s390x/s390-virtio-ccw.c
+>>>> +++ b/hw/s390x/s390-virtio-ccw.c
+>>>> @@ -113,6 +113,7 @@ static const char *const reset_dev_types[] = {
+>>>>       "s390-flic",
+>>>>       "diag288",
+>>>>       TYPE_S390_PCI_HOST_BRIDGE,
+>>>> +    TYPE_S390_CPU_TOPOLOGY,
+>>>>   };
+>>>>   static void subsystem_reset(void)
+>>>> diff --git a/target/s390x/cpu-sysemu.c b/target/s390x/cpu-sysemu.c
+>>>> index 948e4bd3e0..707c0b658c 100644
+>>>> --- a/target/s390x/cpu-sysemu.c
+>>>> +++ b/target/s390x/cpu-sysemu.c
+>>>> @@ -306,3 +306,10 @@ void s390_do_cpu_set_diag318(CPUState *cs, 
+>>>> run_on_cpu_data arg)
+>>>>           kvm_s390_set_diag318(cs, arg.host_ulong);
+>>>>       }
+>>>>   }
+>>>> +
+>>>> +void s390_cpu_topology_reset(void)
+>>>> +{
+>>>> +    if (kvm_enabled()) {
+>>>> +        kvm_s390_topology_set_mtcr(0);
+>>>> +    }
+>>>> +}
+>>>> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+>>>> index f96630440b..9c994d27d5 100644
+>>>> --- a/target/s390x/kvm/kvm.c
+>>>> +++ b/target/s390x/kvm/kvm.c
+>>>> @@ -2585,3 +2585,26 @@ int kvm_s390_get_zpci_op(void)
+>>>>   {
+>>>>       return cap_zpci_op;
+>>>>   }
+>>>> +
+>>>> +int kvm_s390_topology_set_mtcr(uint64_t attr)
+>>>> +{
+>>>> +    struct kvm_device_attr attribute = {
+>>>> +        .group = KVM_S390_VM_CPU_TOPOLOGY,
+>>>> +        .attr  = attr,
+>>>> +    };
+>>>> +    int ret;
+>>>> +
+>>>> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
+>>>> +        return -EFAULT;
+>>>
+>>> EFAULT is something that indicates a bad address (e.g. a segmentation 
+>>> fault) ... so this definitely sounds like a bad choice for an error 
+>>> code here.
+>>
+>> Hum, yes, ENODEV seems besser no?
+> 
+> -ENOTSUP would be 'meilleur' may be ?  :)
+
+yes better :)
+
+thanks,
+Pierre
+
 -- 
-2.25.1
-
+Pierre Morel
+IBM Lab Boeblingen
 
