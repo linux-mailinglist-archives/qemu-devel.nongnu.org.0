@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBC660F3A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 11:26:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0B8F60F3D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 11:38:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onz8a-00052i-GH; Thu, 27 Oct 2022 05:25:20 -0400
+	id 1onzIf-0005HK-VR; Thu, 27 Oct 2022 05:35:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1onz8X-0004d6-Mx
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 05:25:17 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1onzIT-00051t-6O
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 05:35:33 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1onz8J-0006dw-Vv
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 05:25:16 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id n14so515866wmq.3
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 02:25:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1onzIR-0008NS-Ka
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 05:35:32 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id m6so975722pfb.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 02:35:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YY9Ng2PsN+r3bVqkwHdcUcMdh+l8M2oMBt/2Ia02hho=;
- b=GA+qQ24FT4EvcOPtmFCdCiZjSHbANz+QV/2WxEnIxQEvDN/U2+d09sVeyqnpNs+fOh
- JXo326bUoJlzM6h4W9wMcIsjpPVSRknVrvBKUj0MAMq5LbP/YXGy3ToATr/xkldgKcj9
- kNbe9TSooavGU5lYw288BHNCwFDE7+NAdIWpQBsKyj9SL1k5LN3ku5M3B+ecGFUqtVD4
- bd+tD4kdHtzNAOsofFJOtann6pT2MonzmYal+SHVoZH0NM9BL5kMk8xwp1WlLjrNCvmL
- Ru6tW/vEv5InwOUwqzERSI2rFX0es+YA8GkHIiFLllF26Uwfuql0dYmjzWjLadArfaMJ
- kFag==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=pNONiEtWJ8MKdKouCuGZb5fVAwZiitkUik81FMagC88=;
+ b=RAn+XSraUBGJZ/ie61k2uqOjdbaRPRtFBlj8fglAGB1UByhU/Ql8I88VAexdUoreRw
+ VOVsNwHiSdSw/Fota27brx+3lH0dqpevycqSGRP7dXtgL58COCbUCCz13aq7s/mn7pHo
+ 5JcwyRYrq9RqUIwjJaiwBEgGj4ackvduPRVWfWmc3z0NfIxDNXcw5TW8fi2Gv/NDtVxd
+ WynE9EZZwOmuadausY129gyA+7aQ8qH1vMxJsQ9qXmipB7VGPkGT813BmypqLrnUzJ0g
+ vTaYNWRuXgpss6hZHLwPRnG+K4YZ0tqye044BxKzqor/8wO3mefgYqrCHw/w9kWcB2M+
+ SAVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=YY9Ng2PsN+r3bVqkwHdcUcMdh+l8M2oMBt/2Ia02hho=;
- b=Db+nMDhL8Zrqv7P1FIufNqSNhlxkcGvPi7RZpy7asO5lguCwRhr6rhNMxMRr7+eDsO
- mAJKlo9SBmT2Rj3hYPJHL/dSxiCFeral6YHogUajW7uCmAs1T7Zr6IYLqJgssmAxwAu7
- M9sWq4oszGBeg6xManr+NEnTK4ban9N4qnrJePQrhiYmr4BVCg+YsYBqCNd7vQRhGXU7
- BOoUmD22PbsOYFOEOJbh5NEvJN0QfuPsIlhTKQfj4++rabtrs46xEX6GkdrranJGw7dc
- Aew9uB1/y6UJTmN7cXfTCb04Hi6PpabPClmAL0lwC9q5O53uYv031rOi/yMKMz1oCYsO
- 21DA==
-X-Gm-Message-State: ACrzQf1GgLNO3cIlwRXNfMeFixbvD3D18JmnrHYxhF3+Yk+qmUCadYQQ
- BO7QTAA0xAy9R6sS+1L/Dnk+lQ==
-X-Google-Smtp-Source: AMsMyM577W5rG6gMdHWQA/3dkxQ4XpJiffHvZ/LsPiAwC5GAAgrZgvdrq+v+ka1vkBwEBHD+oqP8gA==
-X-Received: by 2002:a7b:c303:0:b0:3b4:6e89:e5d5 with SMTP id
- k3-20020a7bc303000000b003b46e89e5d5mr5201846wmj.111.1666862702101; 
- Thu, 27 Oct 2022 02:25:02 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- t13-20020a5d42cd000000b0023622d65d4bsm798381wrr.81.2022.10.27.02.25.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 02:25:01 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 588551FFB7;
- Thu, 27 Oct 2022 10:25:01 +0100 (BST)
-References: <20221015050750.4185-1-vikram.garhwal@amd.com>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Vikram Garhwal <vikram.garhwal@amd.com>
-Cc: stefano.stabellini@amd.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 00/12] Introduce xenpv machine for arm architecture
-Date: Thu, 27 Oct 2022 10:24:32 +0100
-In-reply-to: <20221015050750.4185-1-vikram.garhwal@amd.com>
-Message-ID: <87lep11uvm.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pNONiEtWJ8MKdKouCuGZb5fVAwZiitkUik81FMagC88=;
+ b=6zFT+MivHj48aUi09mWYc4mrTnAzTWZDjLmxqIvzldK2+WyH3D2xy2m+GP1VImL6aY
+ RhIqhbQZc1YaTNKToroYUgVyGsHEA3ge8z7k3ob/hwnQufPvzOw5rFFn9DIFEkq2sjke
+ cwcmiPC/YrPUiq2z5Hrm3qo7DTclQkTzJ3LUvC+EVsIqmnBs+M67HauDlFQ2wpz1L37j
+ UiwPLWHocQVxnxHZBhpAGsIA5VZGFvkFO+6OOpxXCrb90/SBFHaq61C4+yN3vBYKp7f6
+ y3XkuvciTSmHYwI1I0Lwt2oZBN3o7XvYiuguXPG1EzyZ1VhktadRn5trnKd5JMhSSCWY
+ 3ICg==
+X-Gm-Message-State: ACrzQf37jvohEeQaoQIDg1g7HSgOCI9CBLUu93hLXo94nhbMK3dkPfGe
+ vedwdTyCTjyxSJ4MBwxspmp0VwoeqZFGiqBE4aTBXQ==
+X-Google-Smtp-Source: AMsMyM5VyhOoXCLGxgXWOG41DZDhOzGejF0ziBO7gC4ua4tI6TiV8dZZ2gXEGBnIXGWlkFcNsTUzbxH0IeyD/W1vsiU=
+X-Received: by 2002:a63:85c8:0:b0:46e:c387:c85f with SMTP id
+ u191-20020a6385c8000000b0046ec387c85fmr26122385pgd.105.1666863329562; Thu, 27
+ Oct 2022 02:35:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+References: <20221019121537.255477-1-tkutergin@gmail.com>
+ <CAFEAcA-6ZyWbRvy9VOFJd0RR1h3bk9GNNzH4Uh0pznzT6RkOnA@mail.gmail.com>
+ <CACKEeROBkPn0pPcH1vv4pRDFYztS3eWSLVZ3=rPN1dqopeRPng@mail.gmail.com>
+In-Reply-To: <CACKEeROBkPn0pPcH1vv4pRDFYztS3eWSLVZ3=rPN1dqopeRPng@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 27 Oct 2022 10:35:17 +0100
+Message-ID: <CAFEAcA_X5qrMMDmJS=pkvdeuGa_Ux4aX-pkwKKHDZ2aUYBBVoA@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Fixed Privileged Access Never (PAN) for
+ aarch32
+To: Timofey Kutergin <tkutergin@gmail.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,34 +85,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, 27 Oct 2022 at 10:22, Timofey Kutergin <tkutergin@gmail.com> wrote:
+> > V8 always implies V7, so we only need to check V7 here.
 
-Vikram Garhwal <vikram.garhwal@amd.com> writes:
+> From silicon perspective - yes, but as I see in qemu,
+> ARM_FEATURE_V7 and ARM_FEATURE_V8 are independent bits which do not affect each
+> other in arm_feature() and set_feature() so they should be tested separately.
+> Did I miss something?
 
-> Hi,
-> This series add xenpv machine for aarch64. Motivation behind creating xen=
-pv
-> machine with IOREQ and TPM was to enable each guest on Xen aarch64 to hav=
-e it's
-> own unique and emulated TPM.
->
-> This series does following:
->     1. Moved common xen functionalities from hw/i386/xen to hw/xen/ so th=
-ose can
->        be used for aarch64.
->     2. We added a minimal xenpv arm machine which creates an IOREQ server=
- and
->        support TPM.
->
-> Please note that patch 05/12 breaks the build. Patch 06/12 fixes the build
-> issue. If needed we can merge patch 05/12 and 06/12. For now we kept these
-> separate to make changes easy to review.
->
-> Also, checkpatch.pl fails for 03/12 and 06/12. These fails are due to
-> moving old code to new place which was not QEMU code style compatible.
-> No new add code was added.
+In arm_cpu_realizefn() there is code which sets feature flags
+that are always implied by other feature flags. There we set
+the V7VE flag if V8 is set, and the V7 flag if V7VE is set.
+So we can rely on any v8 CPU having the V7 feature flag set.
 
-I've finished my review pass. Please CC me on v2 when it's ready ;-)
-
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
