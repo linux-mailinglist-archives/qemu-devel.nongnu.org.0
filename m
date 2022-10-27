@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B4660EFA2
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 07:48:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B25C560EFAA
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 07:51:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onvgY-0006t3-5J; Thu, 27 Oct 2022 01:44:10 -0400
+	id 1onvjY-0003w0-Id; Thu, 27 Oct 2022 01:47:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onvgR-0006sO-Gl
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 01:44:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1onvgP-00036L-Gt
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 01:44:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666849437;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MtIkbCwavHN+ceqXcDrkfgF8CrrQJZjyMLLM8HKfgxg=;
- b=IBEL3E61P3XqhGeipzK0RM1PMoeplVzTt/WfCf4PuzyFrV2+qUnF3+zrizfGARUKIBK8um
- a/zUWKgZmTBxDF16KlhF2uxB4EBUsXcUNm2UFKpyUC1rIDOKxKzDTr5BM3Bf6MVlC6LyYp
- TF++yiIkwVeFbbwks97nJbnTJ+tVUFs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-571--D-GBrc-OWWjj4BQZiMeeQ-1; Thu, 27 Oct 2022 01:43:52 -0400
-X-MC-Unique: -D-GBrc-OWWjj4BQZiMeeQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D0D1A800B23;
- Thu, 27 Oct 2022 05:43:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.195.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B24B61415117;
- Thu, 27 Oct 2022 05:43:48 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9B4C121E6921; Thu, 27 Oct 2022 07:43:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>,  qemu-devel@nongnu.org,
- qemu-block@nongnu.org,  qemu-arm@nongnu.org,  "Michael S . Tsirkin"
- <mst@redhat.com>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,  Gerd
- Hoffmann <kraxel@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,  Eduardo Habkost
- <eduardo@habkost.net>,  John Snow <jsnow@redhat.com>,  Dmitry Fleytman
- <dmitry.fleytman@gmail.com>,  Jason Wang <jasowang@redhat.com>,  Stefan
- Weil <sw@weilnetz.de>,  Keith Busch <kbusch@kernel.org>,  Klaus Jensen
- <its@irrelevant.dk>,  Peter Maydell <peter.maydell@linaro.org>,  Andrey
- Smirnov <andrew.smirnov@gmail.com>,  Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,  Yan Vugenfirer
- <yan@daynix.com>,  Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH v3 02/16] hw/i386/amd_iommu: Omit errp for
- pci_add_capability
-References: <20221026201527.24063-1-akihiko.odaki@daynix.com>
- <20221026201527.24063-3-akihiko.odaki@daynix.com>
-Date: Thu, 27 Oct 2022 07:43:46 +0200
-In-Reply-To: <20221026201527.24063-3-akihiko.odaki@daynix.com> (Akihiko
- Odaki's message of "Thu, 27 Oct 2022 05:15:13 +0900")
-Message-ID: <87pmedbz3h.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1onvjW-0003m2-B3
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 01:47:14 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1onvjQ-0003et-Bu
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 01:47:14 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ d59-20020a17090a6f4100b00213202d77e1so5259255pjk.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 22:47:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=J5GKiDqHKleGB+xWflIlAg134Iv//iu/IfRAvfEVvew=;
+ b=WXjgEtKQQykO1j283HlDMKZ4oK1NxC8MLPKMrWj8LTNXwUpsxgT0wW6odwA2hVpvcQ
+ 3ldSc6DIVO3qPBAmR5DWX4AmLpV1TOAT7dnYShz9qLZ5rjAR/UaNgPrNVbFwH5NT9dL5
+ s7rb3oJxCEQumD97H1q0iYnSdepcU3jvq8l2+2VfEUOG8nX8YltBfmZaOMH5xM4AXDfB
+ Nw2Rqx+yxlJ8E8f1MCsZlhxnWZgJ10Nz3dYpOQfSg9uC+vs47fB2Ll9bje0TjeIS/h4p
+ V8JLxX4Fg7ywV3gJeF6rDEiuUluduVdym48Mw9cTunsh+uaFHn2yzRMbCigBP9nzQ/Mb
+ n43A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=J5GKiDqHKleGB+xWflIlAg134Iv//iu/IfRAvfEVvew=;
+ b=Dvfx1Z6885DNMK9cdmHcCCnKMK2Do+IjMSJQ4e4+3F3iznDtqN3lIXVh3q/ehBuShy
+ 53VANOnVtkn8t63/9ugnWBqECCH7/vUczsMGyzO/gK3KSXxTifvZ0znnJUyJx9gPdoNL
+ CRvAmR6fxFXnyFye5lpNIuIVPi2xR5umA85cCL+1oV3dKMa74pZaDWNJLKnf7yQkjp4P
+ 0In5K7SLGzO4sd6P7BTm+Xc+6MQdiI2KYfYHeyw/N3j3Rz6NqsCZ5S821RRrmykC14q4
+ 6mAOlZmUepA5EZDBE5jYSo8J2Z3AV+gR8GAWiRRjBm5+Ptt8dsVOjDBlHyoXNDgYQAUQ
+ Fyug==
+X-Gm-Message-State: ACrzQf35ChfMDs0SU3LzI6ZSAibpEsieq7wgqwDAf3ScU/u+VSZWnJo0
+ YfcbaBc9TJo1UbAoW+2g7ivcgpiLDk5i5Q==
+X-Google-Smtp-Source: AMsMyM4Me7/X2t5701CtKJyYzsS2aNALDpQEf/9tXAlALzqRUGuMcdQxP8EQUitZmLasjHxtJdpJhQ==
+X-Received: by 2002:a17:902:bf46:b0:179:eba5:90ba with SMTP id
+ u6-20020a170902bf4600b00179eba590bamr48027509pls.16.1666849624011; 
+ Wed, 26 Oct 2022 22:47:04 -0700 (PDT)
+Received: from ThinkPad-T490.dc1.ventanamicro.com
+ ([2401:4900:519a:c85:c94:7c26:ac49:6811])
+ by smtp.googlemail.com with ESMTPSA id
+ 188-20020a6204c5000000b00562784609fbsm328217pfe.209.2022.10.26.22.47.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Oct 2022 22:47:03 -0700 (PDT)
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: Mayuresh Chitale <mchitale@ventanamicro.com>,
+	alistair.francis@wdc.com
+Subject: [PATCH v1 0/3] target/riscv: Apply KVM policy to ISA extensions
+Date: Thu, 27 Oct 2022 11:16:46 +0530
+Message-Id: <20221027054649.69228-1-mchitale@ventanamicro.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,20 +91,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Akihiko Odaki <akihiko.odaki@daynix.com> writes:
+Currently the single and multi letter ISA extensions exposed to the guest
+vcpu don't confirm to the KVM policies. This patchset updates the kvm headers
+and applies policies set in KVM to the extensions exposed to the guest.
 
-> Omitting errp for pci_add_capability() causes it to abort if
-> capabilities overlap. This behavior is appropriate heare because all of
+Mayuresh Chitale (3):
+  update-linux-headers: Version 6.1-rc2
+  target/riscv: Extend isa_ext_data for single letter extensions
+  target/riscv: kvm: Support selecting VCPU extensions
 
-Typo: here
+ include/standard-headers/drm/drm_fourcc.h     |  34 ++++-
+ include/standard-headers/linux/ethtool.h      |  63 +++++++-
+ include/standard-headers/linux/fuse.h         |   6 +-
+ .../linux/input-event-codes.h                 |   1 +
+ include/standard-headers/linux/virtio_blk.h   |  19 +++
+ linux-headers/asm-generic/hugetlb_encode.h    |  26 ++--
+ linux-headers/asm-generic/mman-common.h       |   2 +
+ linux-headers/asm-mips/mman.h                 |   2 +
+ linux-headers/asm-riscv/kvm.h                 |   4 +
+ linux-headers/linux/kvm.h                     |   1 +
+ linux-headers/linux/psci.h                    |  14 ++
+ linux-headers/linux/userfaultfd.h             |   4 +
+ linux-headers/linux/vfio.h                    | 142 ++++++++++++++++++
+ target/riscv/cpu.c                            |  52 ++++---
+ target/riscv/kvm.c                            |  88 +++++++++--
+ target/riscv/kvm_riscv.h                      |   2 +-
+ 16 files changed, 408 insertions(+), 52 deletions(-)
 
-Same for later patches.
-
-> the capabilities set in this device are defined in the program and
-> their overlap should not happen unless there is a programming error.
->
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-
-Otherwise fine.  Thank you!
+-- 
+2.34.1
 
 
