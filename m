@@ -2,85 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EE6860F5CC
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 12:57:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6192E60F5CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 12:57:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo0Yp-00063i-B4; Thu, 27 Oct 2022 06:56:31 -0400
+	id 1oo0Zp-0002W2-Nt; Thu, 27 Oct 2022 06:57:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oo0YS-0004Bs-Ge
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:56:15 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oo0YO-0004df-MJ
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:56:06 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id h9so1558816wrt.0
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 03:56:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MpXRgFo462lVMXFDx2pzXyPJn3ym+EHrop8WkCdXzh0=;
- b=Kh7/up2RJu9CCHz4V4rZ4Na82UI4RZTKoxNe40F4YjnMCyDKYkoFvkwsxsCwLu7/tY
- xCx9kAlbZF52VLA3GPuNSnBVbgHjhAZsOF2ezDulRA23U+pXdq7kT82CrQ8FNEEwlAXs
- OgD2bSth2Q9o4nbOxRZAuEO/zR3UALzgIDBfUgJNLKhqRcjjaP8by1kL7T1hTSa2kJ+A
- 3DSALQb2j1fc2hyFALb1UU+Cr048aPpQioYmKtOWaJPm6b8fpikclNaieM9inQo9Lm/U
- MTi1vEyEycu6uw2w8U5KyG2oraos+7VXSYbmPMMn7UiEQ9JgVbGpa0Q1ixCHeZ68mtDz
- 2xTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MpXRgFo462lVMXFDx2pzXyPJn3ym+EHrop8WkCdXzh0=;
- b=17zUGhz4QvCYItN39qDm9Aq7SN2Z6SQoj4H4/+CU5S1X33ZcNg/SaOKdSqM0sgjulc
- 2lz+8d1dPzPIqeDneWAonV28b6lEaeBSKw0oaLPrltQtiBTHlEwHk/zdb0slB6CBYW1e
- uXa7GYaw1/QEGv3qXbuKTdSNxaA9GzajxBu7Q9CrK1n1qFjfK7yYM5c5y4ouQ6XLZdA+
- K2sWXyYBKnHCItsBokSMo5bH8XsqdoDlark2ZqO26wGFpRxKCePf0u8n+r60PnOuG0Em
- 0X/a4NORiixkefD3XFHAp2hP1EqHV81nj6pSlciBRmD1ausHHELtDY4WJBLJVbFiFHhf
- meew==
-X-Gm-Message-State: ACrzQf0PIGCMo9kl/Dwp78SJRttfPU2BjNgLcBQktM6wopwrTPeMgdqz
- R2jXt1NH6CZqizwkd6P6/nNo5w==
-X-Google-Smtp-Source: AMsMyM69ok3B4kKnGeXtEE6b0bLe0YCyRgSFrgz9/BgjQj8DO7U83cC/qzKWccT9+bkC8y+Ne63Rpw==
-X-Received: by 2002:a5d:64a8:0:b0:22e:409f:a3cb with SMTP id
- m8-20020a5d64a8000000b0022e409fa3cbmr31180629wrp.168.1666868162983; 
- Thu, 27 Oct 2022 03:56:02 -0700 (PDT)
-Received: from [192.168.242.175] (186.red-88-28-30.dynamicip.rima-tde.net.
- [88.28.30.186]) by smtp.gmail.com with ESMTPSA id
- bg33-20020a05600c3ca100b003b49bd61b19sm4674152wmb.15.2022.10.27.03.56.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 03:56:02 -0700 (PDT)
-Message-ID: <4e465613-5de1-6671-d1b6-ffc7c3e5eb98@linaro.org>
-Date: Thu, 27 Oct 2022 12:55:59 +0200
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oo0Zj-0000qo-Rr; Thu, 27 Oct 2022 06:57:30 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oo0ZU-0004ny-OJ; Thu, 27 Oct 2022 06:57:19 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29RAiPx1031835;
+ Thu, 27 Oct 2022 10:57:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=vY1h8S+11R1uGpfl1VAuGMZH06BQqjx3pH775e1VEf4=;
+ b=OT5Zwm09LCQVTFpogD+eGWEb4BE6BYSYUssqkqZBuheKUJzccYREfM46sNoga1HfLQ/u
+ 4QS615gSuXbJxYydRoBlwxaPBIoc4mTDr0E2KgN926FY2QCo/tjH46dqHnfsHxWeoyXW
+ oSu6vd7WWZDpnBrRL42R7JoziTwJhyJ8Rjeo1yxzUPRqBssFQPxVJVJg20wWLhva9RH1
+ m1BHWUWjbWoggRYQWi6l1aCCRndn8Tivsn4E7C99MytZ1IJ14jM+Ohu5a91RLu19Pwtd
+ Hm1HYUZCyK58jxVp+NoClYkG4ShFeSVQeT2j7C2mt28YI7HWZjBabcH5W8Ia0N2HwIrp zA== 
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfrg90b4j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 10:57:10 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29RAoXOx010880;
+ Thu, 27 Oct 2022 10:57:09 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma05fra.de.ibm.com with ESMTP id 3kfahd17yp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 10:57:08 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29RAv6wk62849376
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 27 Oct 2022 10:57:06 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 74CEF42041;
+ Thu, 27 Oct 2022 10:57:06 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3B4AF4203F;
+ Thu, 27 Oct 2022 10:57:06 +0000 (GMT)
+Received: from heavy (unknown [9.171.39.72])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu, 27 Oct 2022 10:57:06 +0000 (GMT)
+Date: Thu, 27 Oct 2022 12:57:04 +0200
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org
+Subject: Re: [PATCH 6/9] target/s390x: Copy wout_x1 to wout_x1_P
+Message-ID: <20221027105704.insdlbhc5riqzjey@heavy>
+References: <20221021073006.2398819-1-richard.henderson@linaro.org>
+ <20221021073006.2398819-7-richard.henderson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH v3 0/24] Convert nanoMIPS disassembler from C++ to C
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Stefan Pejic <stefan.pejic@syrmia.com>
-Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
- pbonzini@redhat.com, vince.delvecchio@mediatek.com,
- richard.henderson@linaro.org, peter.maydell@linaro.org,
- djordje.todorovic@syrmia.com, mips32r2@gmail.com,
- dragan.mladjenovic@syrmia.com, Milica Lazarevic
- <milica.lazarevic@syrmia.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>
-References: <20220912122635.74032-1-milica.lazarevic@syrmia.com>
- <153a2c4f-6300-8570-f60e-c54503914726@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <153a2c4f-6300-8570-f60e-c54503914726@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221021073006.2398819-7-richard.henderson@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Tz84xvlEgiJLLYBSS_9BlHkrfQOMRR-C
+X-Proofpoint-GUID: Tz84xvlEgiJLLYBSS_9BlHkrfQOMRR-C
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-27_05,2022-10-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=736 spamscore=0
+ adultscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
+ clxscore=1015 impostorscore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2210270058
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,25 +102,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/10/22 09:25, Thomas Huth wrote:
-> On 12/09/2022 14.26, Milica Lazarevic wrote:
->> Hi,
->>
->> This patchset converts the nanomips disassembler to plain C. C++ features
->> like class, std::string type, exception handling, and function 
->> overloading
->> have been removed and replaced with the equivalent C code.
+On Fri, Oct 21, 2022 at 05:30:03PM +1000, Richard Henderson wrote:
+> Make a copy of wout_x1 before modifying it, as wout_x1_P
+> emphasizing that it operates on the out/out2 pair.  The insns
+> that use x1_P are data movement that will not change to Int128.
 > 
->   Hi Philippe, hi Stefan,
-> 
-> as far as I can see, this patch set has been completely reviewed, and 
-> IMHO it would be nice to get this into QEMU 7.2 to finally get rid of 
-> the C++ dependency in the QEMU code ... could one of you pick this up 
-> and send a pull request with the patches? Or is there still anything 
-> left to do here?
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/s390x/tcg/translate.c   |  8 ++++++++
+>  target/s390x/tcg/insn-data.def | 12 ++++++------
+>  2 files changed, 14 insertions(+), 6 deletions(-)
 
-Sorry I lost track of this series. I'm preparing a pull request and will
-look at it later today. Thanks for the reminder!
-
-Phil.
+Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
