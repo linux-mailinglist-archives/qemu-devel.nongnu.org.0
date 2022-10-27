@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BAA86104A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 23:43:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66826104DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 23:55:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooAe7-0002KF-Bm; Thu, 27 Oct 2022 17:42:39 -0400
+	id 1ooAol-0005G4-U2; Thu, 27 Oct 2022 17:53:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooAe4-0002Is-BV
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:42:36 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooAoj-0005FN-Ov
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:53:37 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooAe2-0007YW-Gf
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:42:35 -0400
-Received: by mail-wr1-x434.google.com with SMTP id h9so4425550wrt.0
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 14:42:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooAoi-0000nD-9E
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:53:37 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id k8so4445002wrh.1
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 14:53:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=LYeZdmKW7klyfKmK54Xa7qu1Vr0cL+u0HqvbNAYw33A=;
- b=nlAyoEHmsUehNIyc4ZW4G496h6M4/O4qRv/dx2FOKBNrEHC01muN5rQp5ibV4HL3pu
- ZNh5/7a6SJf9V+Fd0M4lgjHkenTTr3lNYrETT6Rx1+fgzCHpJzIxA8hAsAgLjzb4mwyc
- Mfay9pezCNMvwe6rfPvqAV8pGEo4nXjXAivVSEOlNGz4+5NOZg83d+puJ5dyOzNTtwpu
- aLmgZowYE0NImgv3Uu2aJDx6fIQIrIZWYTcCvX91EJgjCRiGKNnCW7QwYg6TUpo0kRFo
- ODgwdxBCx0V+v36sWgbA2EpgehaTDBumlrG8YJdboPB9g+MJ2JdUvTEq9wx/VIeh8UNm
- 8jLQ==
+ bh=/gR4v2T1q4sZL6MEvxezMFInQdUFeiDMJM3BIOJJCDM=;
+ b=r3caRZCdhsp0V1nvkI25sWXaiCHfko1CS4P001TX7YaRzxcBWr06jZar302Kr9QqAF
+ Xm+OzeoQ4BUQ3GJA3aSF4QnCjLPccyOqmkp48VJe5st8vnzH1QGnwc2WKZLIAAjCr0Go
+ wpmxTqYcQsgiFfJCe9uLhmn2acbYj3wrA7aJkunu9EtN1VEgnx3gAcBgxVGnWSYNMKDt
+ Os2ElaQqEZQlJouvwV7wCAtVlIBgwm+7QZQm3DXN9YY5DshX4RkFM7tmSaPQZP6CdqJ+
+ g+5cpjE+WiFjKwYm56FB8cqXc7NaFTayoM/hsFQBVzpPPXbqwPQdDn/WE3h5yc5gQSvB
+ YESw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LYeZdmKW7klyfKmK54Xa7qu1Vr0cL+u0HqvbNAYw33A=;
- b=SOUf2fNz4jvpsj4XvucPUOW7bkCUajaPy/OKhp0CnwK0cOlyGaOQOxTLjvxrhMGE7U
- 8hDlASoppsK9VoxwbhOHwHA1J/AG29gj8pb7Jiecz2hmxKwFsADWTiUJUscaGQp5YPVN
- VoKnyaSVXCXe+2wgNyLS2cM6vebB62EuzGawprtSgH7cqQOsSVrEN9FbTV+N7rQUZedg
- DN0V/xJasJDAV/KI/Oc8RUSUnaDLn5XaSh2Yy3tLoZ4FRZWi5OAFcLx2L6LLTu+47Vyo
- 1wjDMeJHKp5AmUuMyQTaVCUn/vFrIp9aJjB9o25JPgBlLMYhJwVaiX6dBP28ViRktNb6
- kAvA==
-X-Gm-Message-State: ACrzQf2hTV2Zlq2jB1aS9VC8DghYqm6lQCFHIkMyB4urhlegfPIon/2b
- WmB3VmjZ3RmKEyQ72BZTN9+44IrjRIHTwkru
-X-Google-Smtp-Source: AMsMyM4dxu7WnAF/4xN4uJXn2YI3o/k90qCMDGnsv44EUzwqc8BZNvlmLYWxyiCzyn9B6BOCPhBaSg==
-X-Received: by 2002:a5d:66ca:0:b0:236:6d69:e1a0 with SMTP id
- k10-20020a5d66ca000000b002366d69e1a0mr16611456wrw.558.1666906952875; 
- Thu, 27 Oct 2022 14:42:32 -0700 (PDT)
+ bh=/gR4v2T1q4sZL6MEvxezMFInQdUFeiDMJM3BIOJJCDM=;
+ b=aaqWMFEukiK4VNldHGndV0iP001S/jvMlUoeGOaayObcWZISIedMuk6mhtVZ2Y+h7Q
+ fOAium7MK0UGhEPdWwtHvyejjmcUsLJKa7rUytCaHnSD3qpBTr/tRf5bhHfGzBpN2ZmP
+ JwRgBNJJSGmNTAvrMtAIiGIW2fCYp0fXaayusNn2OUlnH4le7l+2V3BvUorDKRJsYap6
+ tn+HhvE3Nu8Ie8F3g2EjmNZUEN4UgYajhu5llx3tL5I2xvn3r4ucu5H9vVyafik8MFk1
+ +95NkkCptdp/B69yq3eAzXPY6Uoz9R4zAt8rlZyxJXgxl16yWxfAp9qL1OCZqO78Ooaq
+ 8MIQ==
+X-Gm-Message-State: ACrzQf0iUQT5eDzb0/RE1aHNcXMSmhTSyxjmszVcpwAgT+AYrisoRV67
+ V72xgkTWZo9TggTSjoPrBPQEzg==
+X-Google-Smtp-Source: AMsMyM7ueT9j/qdRqAdfro6Nd8qGi8Wmd/vFLJJM7D/Qz2ffDliiek/KQVclnw822/mlRgOMniGvpQ==
+X-Received: by 2002:adf:e19e:0:b0:22e:64de:39fa with SMTP id
+ az30-20020adfe19e000000b0022e64de39famr31886618wrb.369.1666907614065; 
+ Thu, 27 Oct 2022 14:53:34 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- x4-20020a5d60c4000000b0022cce7689d3sm2334368wrt.36.2022.10.27.14.42.31
+ l3-20020a05600c4f0300b003a5f3f5883dsm6249707wmq.17.2022.10.27.14.53.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 14:42:32 -0700 (PDT)
-Message-ID: <c77f7be2-e30d-b42b-3cc5-f488b96fa889@linaro.org>
-Date: Thu, 27 Oct 2022 23:42:31 +0200
+ Thu, 27 Oct 2022 14:53:33 -0700 (PDT)
+Message-ID: <49249e65-1ac5-7803-e617-5a2a774d3ec7@linaro.org>
+Date: Thu, 27 Oct 2022 23:53:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH v2 0/3] hw/isa/piix4: Remove MIPS Malta specific bits
+Subject: Re: [PATCH 2/4] hw/i386/acpi-build: Resolve redundant attribute
 Content-Language: en-US
-To: qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
-References: <20221027204720.33611-1-philmd@linaro.org>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-trivial@nongnu.org,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20221026133110.91828-1-shentey@gmail.com>
+ <20221026133110.91828-3-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221027204720.33611-1-philmd@linaro.org>
+In-Reply-To: <20221026133110.91828-3-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,24 +95,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/10/22 22:47, Philippe Mathieu-Daudé wrote:
-> Since v1:
-> - bswap -> tswap (Bernhard)
+On 26/10/22 15:31, Bernhard Beschow wrote:
+> The is_piix4 attribute is set once in one location and read once in
+> another. Doing both in one location allows for removing the attribute
+> altogether.
 > 
-> Bernhard posted a series merging both PIIX3/PIIX4 models
-> in one [1]. Due to Malta-specific board code forced into
-> the PIIX4 reset values, Bernhard had to include an array
-> of "register values at reset" as a class property. This
-> is not wrong, but to model properly the model, we should
-> simply use the hardware real reset values, not try to
-> bend the model to please the Malta board.
-> 
-> This series fix this issue by having the Malta bootloader
-> code setting the board-specific PIIX4 IRQ routing values.
-> 
-> Note patch 2 still misses an equivalent nanoMIPS code.
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   hw/i386/acpi-build.c | 20 ++++++--------------
+>   1 file changed, 6 insertions(+), 14 deletions(-)
 
-So this series won't be merged until this is added, but
-it should be enough to let Bernhard keep working on the
-"Consolidate PIIX series".
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
