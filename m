@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D3C060FA46
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 16:18:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DD160FA57
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 16:24:21 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo3gf-0008Db-Lw; Thu, 27 Oct 2022 10:16:49 -0400
+	id 1oo3io-0007P2-Hn; Thu, 27 Oct 2022 10:19:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oo3g0-0005v9-N6
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:16:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oo3fz-0007Yn-4o
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:16:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666880165;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vZZnrReyOpudpzzXL+2Lr2I8xbla+0Zvkw3u85Aq8nQ=;
- b=GjypV4qq7ehW7tBgB3cF55q8d04m6MSpoEzyjxNbMAqdIQhlRmvb+Adima8ovNp88MlB4j
- I6Y9Nk4N7ESLE1ArSuegkQNJHkgP3brD2ybl7RYoryq/4cyi/AdjDEYNWQ7iQkxLwdtk6X
- Fti2QAiwPYNhBK+QiRpa3ZFIbjr0SHE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-217-FCtzHFboPg2S4zTFzKo80Q-1; Thu, 27 Oct 2022 10:16:03 -0400
-X-MC-Unique: FCtzHFboPg2S4zTFzKo80Q-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u13-20020adfa18d000000b00236566b5b40so434018wru.9
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 07:16:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oo3iI-00079B-UY
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:18:33 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oo3iE-0007rM-F3
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:18:30 -0400
+Received: by mail-wm1-x335.google.com with SMTP id y10so1150582wma.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 07:18:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sHYyMytvaRwCrcUxnHHFfEwhoSYAHml8PTkMZH1b3Uw=;
+ b=s0SQQT2W7t4NgUVAG2OcZemaN6JCVGChS9WW6wQBcHaT1BBVDIztRC43QT1uOVcOIe
+ YLsTDMcutIanFkR7VyXP5nrdrKtay0JUoFMKpw0K/ARCvnWl7HxtCxKt670prxxboM/1
+ 3YlwA0u+k89TBHjHy13Maeo1F/gt8Xl/5Q8ZvNHhpAr5hkgwSK0tF2HuQYfOOpknhM5t
+ iFGFa2SdroS5WhpFgToH8Rsm0Gz4U9UJqy/homfcxueu5sClQT0jOCCrwbvGZrzlaNnX
+ 7LxKHJfNx2FWZRk/MGGcEqWp9YkEsTaDUYk9hOg6xvxUva0aubrBoX57/vArM+XcMT+H
+ 966A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vZZnrReyOpudpzzXL+2Lr2I8xbla+0Zvkw3u85Aq8nQ=;
- b=EOpxCSh2xdaDvd2cxpEkI+CfbuCwBVInisJp692djTaZtGWTVsfTK5bItQl8X7N/BO
- QmF/O1PtK+E3+ruz/OqcruNXtPOOqirFSeO1O5N/ARModV8FCqlZSwrrftVQArYL7tuz
- 68i9a5A51teG7NxDJsMtWoaa4lsLiKLm259j+NrHABLPRvg/5i+TQXlny8Zt47eBzNUu
- n87o3Wgvffum6RD0WvKkUwVCaaqvKXlZVvAflVnuWA5AcOnJRDAfBbozFxwfqWX0PgoZ
- rW3KYwS6r+duaB9Uigo8JfWU3t4cGmaPQDPQYu+Pc5fMfD4RAVVoPMf10mSeqcJ5GQ02
- ekGw==
-X-Gm-Message-State: ACrzQf37GwCTh2anZstvrA9L8vVaXm1M5cM8QEx2ZNF4wvFDMzJpb+X6
- uPVBtBrO7Grj7H+prs2Qxk7VunT9kq851SQo11PenDrm6YlJGWxBASvAUNiL1Z0+Iu+r/uYNjq6
- A4dzWzKyn4cso/jY=
-X-Received: by 2002:a05:600c:255:b0:3c6:e58d:354e with SMTP id
- 21-20020a05600c025500b003c6e58d354emr6135040wmj.168.1666880161710; 
- Thu, 27 Oct 2022 07:16:01 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5koh+moGW+i1QevcfdxBeH4SjjtOhCNNpxcqVl4A3Ke4SwxJXOn8RkQtp6dBINvcvcY93zZw==
-X-Received: by 2002:a05:600c:255:b0:3c6:e58d:354e with SMTP id
- 21-20020a05600c025500b003c6e58d354emr6135013wmj.168.1666880161397; 
- Thu, 27 Oct 2022 07:16:01 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- y16-20020adfd090000000b0022ae401e9e0sm1192592wrh.78.2022.10.27.07.16.00
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sHYyMytvaRwCrcUxnHHFfEwhoSYAHml8PTkMZH1b3Uw=;
+ b=DAdBdF7RHzOx/FLjC6XBavwqyiCyaUhstnpeB9kH3LYVzgVuFBh3EYNEO6WxDkk9zq
+ TtE79nomIGdllaPwmyywwe6y3aTLNRpeTYU5geqBuXnD9lWgh4r/Zjshh6oDeM3H2y/A
+ aaHNCJavFkjpHCj7bzCcuDvZQbxTAX2LCpMFIIdXIabpu2GEctsFKO6T89lWPWGyx12j
+ UWwwDfvb5p9tqiGdan1Gqnz4Fg6sQglIxUKTX4ELdvfKjVeWiiwSh1bdBYXurC27xZkh
+ 3x83iPee1fQOl+wm5mb5pbMUG5VVlvSWZiA/BKCuLV+0U8ORFVKfYt0uUBbP1KRtfOyU
+ AlWw==
+X-Gm-Message-State: ACrzQf1Bfw25L+/7s2I0ZV28PniyUn5j666eM7LAhs0ywr52PpsGMNcg
+ n3XZ0/8NvsYmph3/HLdz0uILNw==
+X-Google-Smtp-Source: AMsMyM66n6kOVtqW+J5K5OxgBfIEkxVCq899u0YDUV8Y1ttLpS9DGmkqQefVpGKusWAcMx5zvmKrOQ==
+X-Received: by 2002:a1c:7215:0:b0:3c7:130c:a77f with SMTP id
+ n21-20020a1c7215000000b003c7130ca77fmr6313784wmc.151.1666880299527; 
+ Thu, 27 Oct 2022 07:18:19 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ h7-20020a5d4307000000b002366e3f1497sm1307155wrq.6.2022.10.27.07.18.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 07:16:00 -0700 (PDT)
-Date: Thu, 27 Oct 2022 10:15:58 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: type mismatch in SSDT
-Message-ID: <20221027101531-mutt-send-email-mst@kernel.org>
-References: <20221027015833-mutt-send-email-mst@kernel.org>
- <20221027155253.0d81989c@fedora>
+ Thu, 27 Oct 2022 07:18:19 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AAAAF1FFB7;
+ Thu, 27 Oct 2022 15:18:18 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [RFC PATCH] tests/unit: cleanups for test-io-channel-command
+Date: Thu, 27 Oct 2022 15:18:15 +0100
+Message-Id: <20221027141815.2571621-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221027155253.0d81989c@fedora>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,59 +94,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 03:52:53PM +0200, Igor Mammedov wrote:
-> On Thu, 27 Oct 2022 01:59:22 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
-> > Just noticed this when disassembling:
-> > 
-> > Parsing completed
-> > ACPI Warning: NsLookup: Type mismatch on ODAT (RegionField), searching for (Buffer) (20210604/nsaccess-760)
-> > Disassembly completed
-> > ASL Output:    /tmp/old-asl2/tests/data/acpi/virt/SSDT.memhp.dsl - 14945 bytes
-> > 
-> > Did not look into this yet but it seems new.
-> It was there practically 'forever'.
-> 
-> ODAT should be treated as Buffer according to implicit Field/data conversion rules,
-> that's probably the reason why it works. So warning looks a bit bogus to me.
-> 
-> however:
->   DefCreateByteField := CreateByteFieldOp SourceBuff ByteIndex NameString
->   SourceBuff := TermArg => Buffer
->   TermArg := ExpressionOpcode | DataObject | ArgObj | LocalObj
-> 
-> and none of that explicitly leads to 
-> 
->   TermObj := Object | StatementOpcode | ExpressionOpcode
->   Object := NameSpaceModifierObj | NamedObj
-> 
-> So if we are to be as pedantic as IASL, we need to supply
-> field to CreateByteField not by name but via one of TermArg.
-> We could copy/assign whole buffer to a LocalObj
-> or summarily use ExpressionOpcode => ToBuffer() // this one has a bit controversial definition in 6.4 spec
-> or to avoid any copying add 'useless' DerefOf(RefOf())
-> wrapper around name to make argument of ExpressionOpcode kind.
-> 
-> following should silence warning.
-> 
-> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-> index 31e46df0bd..7488007540 100644
-> --- a/hw/acpi/nvdimm.c
-> +++ b/hw/acpi/nvdimm.c
-> @@ -1127,7 +1127,7 @@ static void nvdimm_build_common_dsm(Aml *dev,
->      /* If RLEN >= Integer size, just use CreateField() operator */
->      aml_append(method, aml_store(aml_shiftleft(dsm_out_buf_size, aml_int(3)),
->                                   dsm_out_buf_size));
-> -    aml_append(method, aml_create_field(aml_name(NVDIMM_DSM_OUT_BUF),
-> +    aml_append(method, aml_create_field(aml_derefof(aml_refof(aml_name(NVDIMM_DSM_OUT_BUF))),
->                 aml_int(0), dsm_out_buf_size, "OBUF"));
->      aml_append(method, aml_return(aml_name("OBUF")));
+This test is hanging under heavy load when the two socats race while
+trying to create the socket. I've tried various approaches to avoid
+the race but it seems "creat=0" won't stop socat trying to create a
+pipe if it executes first. In the end I just use a small sleep which
+seems to be reliable enough on the load situations I've tried.
 
+While I was there I also properly created a tmpdir for the socket to
+live in which is cleaned up at the end of the test.
 
-Thanks! Let's try to raise this with ACPI committee?
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>
+---
+ tests/unit/test-io-channel-command.c | 45 +++++++++++++++++-----------
+ 1 file changed, 28 insertions(+), 17 deletions(-)
 
+diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
+index 7eee939c07..54bb0f139a 100644
+--- a/tests/unit/test-io-channel-command.c
++++ b/tests/unit/test-io-channel-command.c
+@@ -19,6 +19,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include <glib/gstdio.h>
+ #include "io/channel-command.h"
+ #include "io-channel-helpers.h"
+ #include "qapi/error.h"
+@@ -26,32 +27,32 @@
+ 
+ #define TEST_FIFO "test-io-channel-command.fifo"
+ 
+-#define SOCAT_SRC "PIPE:" TEST_FIFO ",wronly"
+-#define SOCAT_DST "PIPE:" TEST_FIFO ",rdonly"
+-
+ static char *socat = NULL;
+ 
+ static void test_io_channel_command_fifo(bool async)
+ {
++    g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
++    g_autofree gchar *fifo = g_strdup_printf("%s/%s", tmpdir, TEST_FIFO);
++    g_autoptr(GString) srcargs = g_string_new(socat);
++    g_autoptr(GString) dstargs = g_string_new(socat);
++    g_auto(GStrv) srcargv;
++    g_auto(GStrv) dstargv;
+     QIOChannel *src, *dst;
+     QIOChannelTest *test;
+-    const char *srcargv[] = {
+-        socat, "-", SOCAT_SRC, NULL,
+-    };
+-    const char *dstargv[] = {
+-        socat, SOCAT_DST, "-", NULL,
+-    };
+ 
+-    if (!socat) {
+-        g_test_skip("socat is not found in PATH");
+-        return;
+-    }
++    g_string_append_printf(srcargs, " - PIPE:%s,wronly", fifo);
++    g_string_append_printf(dstargs, " PIPE:%s,rdonly -", fifo);
++
++    srcargv = g_strsplit(srcargs->str, " ", -1);
++    dstargv = g_strsplit(dstargs->str, " ", -1);
+ 
+-    unlink(TEST_FIFO);
+-    src = QIO_CHANNEL(qio_channel_command_new_spawn(srcargv,
++    src = QIO_CHANNEL(qio_channel_command_new_spawn((const char**) srcargv,
+                                                     O_WRONLY,
+                                                     &error_abort));
+-    dst = QIO_CHANNEL(qio_channel_command_new_spawn(dstargv,
++    /* try to avoid a race to create the socket */
++    g_usleep(1000);
++
++    dst = QIO_CHANNEL(qio_channel_command_new_spawn((const char**) dstargv,
+                                                     O_RDONLY,
+                                                     &error_abort));
+ 
+@@ -62,17 +63,27 @@ static void test_io_channel_command_fifo(bool async)
+     object_unref(OBJECT(src));
+     object_unref(OBJECT(dst));
+ 
+-    unlink(TEST_FIFO);
++    g_rmdir(tmpdir);
+ }
+ 
+ 
+ static void test_io_channel_command_fifo_async(void)
+ {
++    if (!socat) {
++        g_test_skip("socat is not found in PATH");
++        return;
++    }
++
+     test_io_channel_command_fifo(true);
+ }
+ 
+ static void test_io_channel_command_fifo_sync(void)
+ {
++    if (!socat) {
++        g_test_skip("socat is not found in PATH");
++        return;
++    }
++
+     test_io_channel_command_fifo(false);
+ }
+ 
 -- 
-MST
+2.34.1
 
 
