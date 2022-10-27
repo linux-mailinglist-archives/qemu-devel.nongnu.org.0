@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8B860FA39
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 16:13:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3C060FA46
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 16:18:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo3cf-0004eJ-N0; Thu, 27 Oct 2022 10:12:41 -0400
+	id 1oo3gf-0008Db-Lw; Thu, 27 Oct 2022 10:16:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oo3cc-0004GK-HU
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:12:38 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oo3ca-0006yQ-UT
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:12:38 -0400
-Received: by mail-wr1-x431.google.com with SMTP id h9so2439910wrt.0
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 07:12:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=YMJSx2gTMmSw9MFzQl4aHBDfdpESEmuzC0XZal9Md6s=;
- b=hf5RXSKxCg8bR9bZOZrKx4QMNOqPHrEqswHGS3Ie+v312SgCofaNVVwQFKZT3HPCmt
- /4ow4VkV6p70GdxFpRPTNfxucGWfqm7PGnb6mxMAGo9gtrWRmdBGg156wdt1hcF4HrVk
- SbNvG6huSVd4zjxiS33d7GkOH0CeYy2yXWvgWNWrfugWs30dP61VHM7p+DBMXwepE513
- M1FSkC2mBE/63e2O8EvuqioNBXzncxdZAiW92vYS9AnqCMm1hOl8rCGaAkAlI/JzyrC6
- blTjMGHjKwVR8oQGDmsLk4jI3nruy+4pyEgW+h+IM/2oWWUr27dXQ2gDPiOm5TURLzsT
- dlaQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oo3g0-0005v9-N6
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:16:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oo3fz-0007Yn-4o
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:16:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666880165;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vZZnrReyOpudpzzXL+2Lr2I8xbla+0Zvkw3u85Aq8nQ=;
+ b=GjypV4qq7ehW7tBgB3cF55q8d04m6MSpoEzyjxNbMAqdIQhlRmvb+Adima8ovNp88MlB4j
+ I6Y9Nk4N7ESLE1ArSuegkQNJHkgP3brD2ybl7RYoryq/4cyi/AdjDEYNWQ7iQkxLwdtk6X
+ Fti2QAiwPYNhBK+QiRpa3ZFIbjr0SHE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-217-FCtzHFboPg2S4zTFzKo80Q-1; Thu, 27 Oct 2022 10:16:03 -0400
+X-MC-Unique: FCtzHFboPg2S4zTFzKo80Q-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ u13-20020adfa18d000000b00236566b5b40so434018wru.9
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 07:16:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YMJSx2gTMmSw9MFzQl4aHBDfdpESEmuzC0XZal9Md6s=;
- b=bjs0VejJX/GJq7GkJH3JMtsVgAIaPxH56esdZEYZNcDvTDFCfhMtdM778AqvbytU6l
- RB98wBFM3va7A+jLTplB9fQr68is6Ckbu6yxuP+y4JKZxCHWdzs75MXBx76bIXc1Rc3z
- tAxAOtpxLtSxcIH6F+oqYqDDVm8WXg3IuucTdm0t9bXmdxmbW13IUDPCNiWTB+AUiB0U
- fYauCiKLD3MgKl21x8poAnq7xzk53xZys4lOj/SkDYmkXabKtvyq7lE5c6en8L5i8deS
- 0i/mrEwZAqcLXXCeopkoDl6py+W7EhCchcgCT7nWVMbnCXP21aCrevLkApUqKSw+3XBi
- PSSQ==
-X-Gm-Message-State: ACrzQf3wgnLUytKOp+4nVRKL276AIAJmKyTd1ENrbgAmV2JF9z11skEQ
- bFM8YmNv/Iktjc4u8ilzg4RMgw==
-X-Google-Smtp-Source: AMsMyM7EPBdAbE1vKkbt4NzFihvlBSIsMBKifmoxopRoxNvnWEpRvcMJC0pCLEnFNBWHi2tTy0Tnqw==
-X-Received: by 2002:a05:6000:23a:b0:236:71d7:5f90 with SMTP id
- l26-20020a056000023a00b0023671d75f90mr13561563wrz.322.1666879954524; 
- Thu, 27 Oct 2022 07:12:34 -0700 (PDT)
-Received: from [192.168.45.175] (101.red-95-127-41.staticip.rima-tde.net.
- [95.127.41.101]) by smtp.gmail.com with ESMTPSA id
- t15-20020a05600c2f8f00b003c64c186206sm1666042wmn.16.2022.10.27.07.12.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 07:12:32 -0700 (PDT)
-Message-ID: <9b3824be-1da3-e5bb-d324-d1f2a417b6e8@linaro.org>
-Date: Thu, 27 Oct 2022 16:12:30 +0200
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vZZnrReyOpudpzzXL+2Lr2I8xbla+0Zvkw3u85Aq8nQ=;
+ b=EOpxCSh2xdaDvd2cxpEkI+CfbuCwBVInisJp692djTaZtGWTVsfTK5bItQl8X7N/BO
+ QmF/O1PtK+E3+ruz/OqcruNXtPOOqirFSeO1O5N/ARModV8FCqlZSwrrftVQArYL7tuz
+ 68i9a5A51teG7NxDJsMtWoaa4lsLiKLm259j+NrHABLPRvg/5i+TQXlny8Zt47eBzNUu
+ n87o3Wgvffum6RD0WvKkUwVCaaqvKXlZVvAflVnuWA5AcOnJRDAfBbozFxwfqWX0PgoZ
+ rW3KYwS6r+duaB9Uigo8JfWU3t4cGmaPQDPQYu+Pc5fMfD4RAVVoPMf10mSeqcJ5GQ02
+ ekGw==
+X-Gm-Message-State: ACrzQf37GwCTh2anZstvrA9L8vVaXm1M5cM8QEx2ZNF4wvFDMzJpb+X6
+ uPVBtBrO7Grj7H+prs2Qxk7VunT9kq851SQo11PenDrm6YlJGWxBASvAUNiL1Z0+Iu+r/uYNjq6
+ A4dzWzKyn4cso/jY=
+X-Received: by 2002:a05:600c:255:b0:3c6:e58d:354e with SMTP id
+ 21-20020a05600c025500b003c6e58d354emr6135040wmj.168.1666880161710; 
+ Thu, 27 Oct 2022 07:16:01 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5koh+moGW+i1QevcfdxBeH4SjjtOhCNNpxcqVl4A3Ke4SwxJXOn8RkQtp6dBINvcvcY93zZw==
+X-Received: by 2002:a05:600c:255:b0:3c6:e58d:354e with SMTP id
+ 21-20020a05600c025500b003c6e58d354emr6135013wmj.168.1666880161397; 
+ Thu, 27 Oct 2022 07:16:01 -0700 (PDT)
+Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
+ y16-20020adfd090000000b0022ae401e9e0sm1192592wrh.78.2022.10.27.07.16.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Oct 2022 07:16:00 -0700 (PDT)
+Date: Thu, 27 Oct 2022 10:15:58 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: type mismatch in SSDT
+Message-ID: <20221027101531-mutt-send-email-mst@kernel.org>
+References: <20221027015833-mutt-send-email-mst@kernel.org>
+ <20221027155253.0d81989c@fedora>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH 0/3] target: Rename headers using .def extension to .h.inc
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>
-References: <20221025235006.7215-1-philmd@linaro.org>
- <8d197b71-937a-5693-3b7f-ea4bded8c360@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <8d197b71-937a-5693-3b7f-ea4bded8c360@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221027155253.0d81989c@fedora>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,37 +95,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/10/22 08:46, Thomas Huth wrote:
-> On 26/10/2022 01.50, Philippe Mathieu-Daudé wrote:
->> We use the .h.inc extension to include C headers. To be consistent
->> with the rest of the codebase, rename the C headers using the .def
->> extension.
->>
->> IDE/tools using our .editorconfig / .gitattributes will leverage
->> this consistency.
+On Thu, Oct 27, 2022 at 03:52:53PM +0200, Igor Mammedov wrote:
+> On Thu, 27 Oct 2022 01:59:22 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
 > 
-> Ack for this series, but I've got a meta-question: Does anybody remember 
-> why we are using .h.inc and not .inc.h for such headers? .h.inc has to 
-> be manually configured in most editors for supporting syntax 
-> highlighting here - with .inc.h most editors would get it right by 
-> default instead...
+> > Just noticed this when disassembling:
+> > 
+> > Parsing completed
+> > ACPI Warning: NsLookup: Type mismatch on ODAT (RegionField), searching for (Buffer) (20210604/nsaccess-760)
+> > Disassembly completed
+> > ASL Output:    /tmp/old-asl2/tests/data/acpi/virt/SSDT.memhp.dsl - 14945 bytes
+> > 
+> > Did not look into this yet but it seems new.
+> It was there practically 'forever'.
+> 
+> ODAT should be treated as Buffer according to implicit Field/data conversion rules,
+> that's probably the reason why it works. So warning looks a bit bogus to me.
+> 
+> however:
+>   DefCreateByteField := CreateByteFieldOp SourceBuff ByteIndex NameString
+>   SourceBuff := TermArg => Buffer
+>   TermArg := ExpressionOpcode | DataObject | ArgObj | LocalObj
+> 
+> and none of that explicitly leads to 
+> 
+>   TermObj := Object | StatementOpcode | ExpressionOpcode
+>   Object := NameSpaceModifierObj | NamedObj
+> 
+> So if we are to be as pedantic as IASL, we need to supply
+> field to CreateByteField not by name but via one of TermArg.
+> We could copy/assign whole buffer to a LocalObj
+> or summarily use ExpressionOpcode => ToBuffer() // this one has a bit controversial definition in 6.4 spec
+> or to avoid any copying add 'useless' DerefOf(RefOf())
+> wrapper around name to make argument of ExpressionOpcode kind.
+> 
+> following should silence warning.
+> 
+> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+> index 31e46df0bd..7488007540 100644
+> --- a/hw/acpi/nvdimm.c
+> +++ b/hw/acpi/nvdimm.c
+> @@ -1127,7 +1127,7 @@ static void nvdimm_build_common_dsm(Aml *dev,
+>      /* If RLEN >= Integer size, just use CreateField() operator */
+>      aml_append(method, aml_store(aml_shiftleft(dsm_out_buf_size, aml_int(3)),
+>                                   dsm_out_buf_size));
+> -    aml_append(method, aml_create_field(aml_name(NVDIMM_DSM_OUT_BUF),
+> +    aml_append(method, aml_create_field(aml_derefof(aml_refof(aml_name(NVDIMM_DSM_OUT_BUF))),
+>                 aml_int(0), dsm_out_buf_size, "OBUF"));
+>      aml_append(method, aml_return(aml_name("OBUF")));
 
-Daniel synthesized the reason here:
-https://lore.kernel.org/qemu-devel/20200817165207.GN4775@redhat.com/
 
- >> IIRC, we need to use  c.inc, because Meson has specific semantics
- >> around a file ending in ".c" that we don't want.
+Thanks! Let's try to raise this with ACPI committee?
 
-First explanation from Paolo:
+-- 
+MST
 
-https://lore.kernel.org/qemu-devel/36032642-9bea-8625-65a6-bd4afc7e459d@redhat.com/
-
-See also for generic .*.inc admitted as convention:
-https://lore.kernel.org/qemu-devel/CAFEAcA-kOs3dKhh3SRchg6Ne8QL8kwyz+2ihDC6ND2v-seuRfw@mail.gmail.com/
-
-Could be worth mentioning in docs/devel/build-system.rst...
-
-Regards,
-
-Phil.
 
