@@ -2,70 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39A360F5CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EADF260F5EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:07:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo0bv-0004eA-On; Thu, 27 Oct 2022 06:59:43 -0400
+	id 1oo0gl-0001Lo-RM; Thu, 27 Oct 2022 07:04:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oo0bo-0004a9-Af
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:59:36 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oo0gZ-0000cx-Kq; Thu, 27 Oct 2022 07:04:34 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1oo0bc-00057r-6E
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:59:35 -0400
-Received: from fraeml713-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4MyjLw6Nrvz6HJPp;
- Thu, 27 Oct 2022 18:57:44 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml713-chm.china.huawei.com (10.206.15.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 27 Oct 2022 12:59:11 +0200
-Received: from localhost (10.48.135.72) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 27 Oct
- 2022 11:59:08 +0100
-Date: Thu, 27 Oct 2022 11:58:54 +0100
-To: Gregory Price <gregory.price@memverge.com>
-CC: Adam Manzanares <a.manzanares@samsung.com>, Gregory Price
- <gourry.memverge@gmail.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "mst@redhat.com"
- <mst@redhat.com>, "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
- "imammedo@redhat.com" <imammedo@redhat.com>, "ani@anisinha.ca"
- <ani@anisinha.ca>, "alison.schofield@intel.com" <alison.schofield@intel.com>, 
- "dave@stgolabs.net" <dave@stgolabs.net>, "bwidawsk@kernel.org"
- <bwidawsk@kernel.org>, "hchkuo@avery-design.com.tw"
- <hchkuo@avery-design.com.tw>, "cbrowy@avery-design.com"
- <cbrowy@avery-design.com>, "ira.weiny@intel.com" <ira.weiny@intel.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: Re: [PATCH 0/4 v3] Multi-Region and Volatile Memory support for CXL
- Type-3 Devices
-Message-ID: <20221027115854.00001f76@huawei.com>
-In-Reply-To: <Y1mc1mvxsGS+7JBp@memverge.com>
-References: <CGME20221026004835uscas1p1d37255ba8daaba8fc7e16e5129cb94b5@uscas1p1.samsung.com>
- <20221026004737.3646-1-gregory.price@memverge.com>
- <20221026201318.GA308524@bgt-140510-bm01>
- <Y1mc1mvxsGS+7JBp@memverge.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oo0gS-00063f-77; Thu, 27 Oct 2022 07:04:31 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29RB12ms009908;
+ Thu, 27 Oct 2022 11:04:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=PHzoeDhGxBTPi2O0M9Iaw//1hVuzlpcpvANeEwruiH0=;
+ b=UUxhhMqhb3Ha4LsONjXu2WBjY4DooMVMmG6Z9tQqWmk8O5mM1xo2gmD2sHOhZR0xSIH9
+ uKJyj7FNhrFh8KjURt2z4Mt2bEPq7vpYc78r0/pR5DCoyyAUFWEqBAmq0iBdDo5F3ass
+ N3VL+sZKm9wyXQMFSly53ExVk0KqVj+fPyOFE8GO6jxwtULp7vimc3OoxUVAr9bU9zpw
+ YLaiglYS9CSY6hcenM7bukuu6kD+Z2Ab4ENCeQDZBbwn2mvmgKA9xytXKmHzvNWoty1S
+ e5LPl9SLFhq/OlCkjnietwSaAGtLBIuVJPLK2DtNq3u5fTHxmMNC1bxZAfOgKdtHeE0z Pg== 
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfrr3833y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 11:04:21 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29RAonVe007047;
+ Thu, 27 Oct 2022 11:04:19 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04fra.de.ibm.com with ESMTP id 3kfah9182v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 11:04:18 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29RB4GjP60752134
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 27 Oct 2022 11:04:16 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A4459A405B;
+ Thu, 27 Oct 2022 11:04:16 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6B3EFA4054;
+ Thu, 27 Oct 2022 11:04:16 +0000 (GMT)
+Received: from heavy (unknown [9.171.39.72])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu, 27 Oct 2022 11:04:16 +0000 (GMT)
+Date: Thu, 27 Oct 2022 13:04:15 +0200
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org
+Subject: Re: [PATCH 7/9] tests/tcg/s390x: Add long-double.c
+Message-ID: <20221027110415.rguaf3xt53w7z6je@heavy>
+References: <20221021073006.2398819-1-richard.henderson@linaro.org>
+ <20221021073006.2398819-8-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.48.135.72]
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221021073006.2398819-8-richard.henderson@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: uNOuc7w6mRr3LsKt6S0u4RDVRthpbVQf
+X-Proofpoint-GUID: uNOuc7w6mRr3LsKt6S0u4RDVRthpbVQf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-27_05,2022-10-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ impostorscore=0 adultscore=0 clxscore=1015 priorityscore=1501 mlxscore=0
+ bulkscore=0 lowpriorityscore=0 spamscore=0 phishscore=0 mlxlogscore=810
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2210270061
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,173 +101,19 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 26 Oct 2022 16:47:18 -0400
-Gregory Price <gregory.price@memverge.com> wrote:
+On Fri, Oct 21, 2022 at 05:30:04PM +1000, Richard Henderson wrote:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tests/tcg/s390x/long-double.c   | 24 ++++++++++++++++++++++++
+>  tests/tcg/s390x/Makefile.target |  1 +
+>  2 files changed, 25 insertions(+)
+>  create mode 100644 tests/tcg/s390x/long-double.c
 
-> On Wed, Oct 26, 2022 at 08:13:24PM +0000, Adam Manzanares wrote:
-> > On Tue, Oct 25, 2022 at 08:47:33PM -0400, Gregory Price wrote:  
-> > > Submitted as an extention to the multi-feature branch maintained
-> > > by Jonathan Cameron at:
-> > > https://urldefense.com/v3/__https://gitlab.com/jic23/qemu/-/tree/cxl-2022-10-24__;!!EwVzqGoTKBqv-0DWAJBm!RyiGL5B1XmQnVFwgxikKJeosPMKtoO1cTr61gIq8fwqfju8l4cbGZGwAEkKXIJB-Dbkfi_LNN2rGCbzMISz65cTxpAxI9pQ$   
-> > > 
-> > > 
-> > > Summary of Changes:
-> > > 1) E820 CFMW Bug fix.  
-> > > 2) Add CXL_CAPACITY_MULTIPLIER definition to replace magic numbers
-> > > 3) Multi-Region and Volatile Memory support for CXL Type-3 Devices
-> > > 4) CXL Type-3 SRAT Generation when NUMA node is attached to memdev
+It might be better to do this in asm in order to be sure that a
+compiler doesn't perform any magic. But at least as of today gcc
+generates all the "interesting" instructions from this code.
 
-+CC Dan for a question on status of Generic Ports ACPI code first ECN.
-Given that was done on the mailing list I can find any public tracking
-of whether it was accepted or not - hence whether we can get on with
-implementation.  There hasn't been a release ACPI spec since before
-that was proposed so we need that confirmation of the code first proposal
-being accepted to get things moving.
-
-> > > 
-> > > 
-> > > Regarding the E820 fix
-> > >   * This bugfix is required for memory regions to work on x86
-> > >   * input from Dan Williams and others suggest that E820 entry for
-> > >     the CFMW should not exist, as it is expected to be dynamically
-> > >     assigned at runtime.  If this entry exists, it instead blocks
-> > >     region creation by nature of the memory region being marked as
-> > >     reserved.  
-> > 
-> > For CXL 2.0 it is my understanding that volatile capacity present at boot will
-> > be advertised by the firmware. In the absence of EFI I would assume this would
-> > be provided in the e820 map.   
-
-Whilst this is one option, it is certainly not the case that all CXL 2.0
-platforms will decide to do any setup of CXL memory (volatile or not) in the
-firmware.  They can leave it entirely to the OS, so a cold plug flow.
-Early platforms will do the setup in BIOS to support unware OSes, once
-that's not a problem any more the only reason you'd want to do this is if
-you don't have other RAM to boot the system, or for some reason you want
-your host kernel etc in the CXL attached memory.
-
-I'd expect to see BIOS having OS managed configuration as an option in the
-intermediate period where some OSes are aware, others not.
-OS knows more about usecase / policy so can make better choices on interleaving
-etc of volatile CXL type 3 memory (let alone the fun corner of devices
-where you can dynamically change the mix of volatile and non volatile
-memory).
-
-
-> 
-> The issue in this case is very explicitly that a double-mapping occurs
-> for the same region.  An E820 mapping for RESERVED is set *and* the
-> region driver allocates a CXL CFMW mapping.  As a result the region
-> drive straight up fails to allocate regions.
-> 
-> So in either case - at least from my view - the entry added as RESERVED
-> is just wrong.
-> 
-> This is separate from type-3 device SRAT entries and default mappings
-> for volatile regions.  For this situation, if you explicitly assign the
-> memdev backing a type-3 device to a numa node, then an SRAT area is
-> generated and an explicit e820 entry is generated and marked usable -
-> though I think there are likely issues with this kind of
-> double-referencing.
-
-SRAT setup for CXL type 3 devices is to my mind is a job for a full BIOS,
-not QEMU level of faking a few things. That BIOS should also
-be doing the full configuration (HDM Decoders and all the rest).  ARM has
-a prototype for one of the fixed virtual platforms that does this (talk
-at Plumbers Uconf), we should look to do the same if we want to test
-those flows using QEMU via appropriate changes in EDK2 to walk topology
-and configure everything.  Until the devices are configured there is no
-way to configure the SLIT, HMAT entries that align with the SRAT ones
-(in theory those can be updated at runtime via _SLI, _HMA but in 
-practice, I'm fairly sure Linux doesn't support doing that.)
-
-
-> 
-> > 
-> > Is the region driver meant to cover volatile capacity present at boot? I was
-> > under the impression that it would be used for hot added volatile memory. It
-> > would be good to cover all of these assumptions for the e820 fix.  
-> 
-> This region appears to cover hotplug memory behind the CFMW.  The
-> problem is that this e820 RESERVED mapping blocks the CFMW region from
-> being used at all.
-> 
-> Without this, you can't use a type-3 persistent region, even with
-> support, let alone a volatile region.  In attempting to use a persistent
-> region as volatile via ndctl and friends, I'm seeing further issues (it
-> cannot be assigned to a numa node successfully), but that's a separate
-> issue.
-For the Numa node bit...
-
-So far, the CDAT table isn't used in Linux (read out for debug purposes
-is supported only).  That all needs to be added yet to get the NUMA node
-allocations to work correctly.  It shouldn't have anything to do with SRAT
-unless the BIOS has done the full full configuration (same way CXL will work
-with a legacy OS).  Come to think of it, that should definitely be on the
-priority list for kernel support (don't think it was on the list on Tuesday?)
-
-> 
-> > 
-> > Lastly it is my understanding that the region driver does not have support for
-> > volatile memory. It would be great to add that functionality if we make this
-> > change in QEMU.
-> >   
-> 
-> Right now this is true, but it seems a bit of a chicken/egg scenario.
-> Nothing to test against vs no support.  Nudging this along such that we
-> can at least report an (unusable) hot-add volatile memory region would
-> provide someone working with the region driver something to poke and
-> prod at.
-
-Agreed. This is same place as Ben's original CXL QEMU work on non volatile.
-Need something to develop against so we'll at least have QEMU patches
-available whilst the kernel side is in development (hopefully this cycle)
-> 
-> > > Regarding SRAT Generation for Type-3 Devices
-> > >   * Co-Developed by Davidlohr Bueso.  Built from his base patch and
-> > >     extended to work with both volatile and persistent regions.
-> > >   * This can be used to demonstrate static type-3 device mapping and
-> > >     testing numa-access to type-3 device memory regions.  
-> 
-> Regarding "volatile memory present at boot" - there is still two ways
-> for that memory to be onlined: Statically (entered as an explicit e820
-> region after reading the SRAT), or Dynamically (hot-add by the region
-> driver).
-> 
-> This patch would at least allow an SRAT to be generated if you
-> explicitly add a NUMA node mapping to it.  Although I concede that I'm
-> not entirely sure what is "correct" here.
-
-For hotplug, needs to be the region driver, not here (or BIOS if you
-are doing a BIOS driven flow - in which case the whole topology is
-discovered and mostly configured by the BIOS before the OS reaches it
-- including filling in SRAT, SLIT, HMAT etCc).
-> 
-> What this ends up looking like is mapping a memdev to both a numa node
-> and to a type-3 device.  Though that seems wrong.
-> 
-> After further testing it seems like creating a CPU-less, Memory-less
-> NUMA node with the intent of mapping volatile memory regions to it is
-> not supported (yet?).
-
-Yup, and I doubt it ever will be for reasons above. 
-
-BIOS does it all, or OS does it all.  Mixing and matching is a mess
-(there is an exception - Generic Port entries in SRAT - those we do
-need for the OS driven flow and possibly also the BIOS flow
-- patches welcome! I'd forgotten that on my list of QEMU stuff that
-needs doing.)
-
-https://lore.kernel.org/all/e1a52da9aec90766da5de51b1b839fd95d63a5af.camel@intel.com/
-
-If anyone is implementing that, also good to do Generic Initiators
-as they are very similar.
-
-Jonathan
- 
-
+Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
