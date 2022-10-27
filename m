@@ -2,108 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93339610306
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 22:45:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86AD761031D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 22:46:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo9is-0006Rh-OU; Thu, 27 Oct 2022 16:43:30 -0400
+	id 1oo9kj-00089Q-4a; Thu, 27 Oct 2022 16:45:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oo9if-0006M0-52; Thu, 27 Oct 2022 16:43:18 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oo9id-0006e5-2m; Thu, 27 Oct 2022 16:43:16 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29RKg0YG013915;
- Thu, 27 Oct 2022 20:43:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=CBERSXABllz3dTGWZ84YxKOdh+5lW7czF/kzoC5n184=;
- b=gFrniCogH150ZuDLMS1Jw3p53XoQc+vjueCSOSolt1GeKGGJ2F0CA5/0rpn3XFB3eS+V
- FBFOgdGFIpe2iun/uLCYfK8vg2BgddnvcxzwgKL4tHG60UFqtYyZXKwgtUDcRCArtfzO
- xv7ggdJxPSt01dLCGsPRDXkhekW9j3h7NGKo+9CQ/AyiOuH913vaxfYit9esRF7/TppN
- igatn4/9SsmN8MYSc4TJT2OD9x1RWyUHcetAUzpazt50FMLEh9Aaw6FZY7u5GgItSQbk
- Yrqo2tdtDee4NTB3g0gQC83kb1wDP+w5M6qHdPzMInWr76mhWCGOld3FjJ2jTiXNeFvE IA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kg18g80h5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 20:43:03 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29RKh3me016934;
- Thu, 27 Oct 2022 20:43:03 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kg18g80g9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 20:43:02 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29RKa6JG023499;
- Thu, 27 Oct 2022 20:43:00 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma06fra.de.ibm.com with ESMTP id 3kfbg29qtj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 20:43:00 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29RKgvmv39584070
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 27 Oct 2022 20:42:57 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3E9CD4C044;
- Thu, 27 Oct 2022 20:42:57 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5CE914C040;
- Thu, 27 Oct 2022 20:42:56 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.94.180])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 27 Oct 2022 20:42:56 +0000 (GMT)
-Message-ID: <4c5afcb5754cb829cd8b9ddbf4f74e610d5f6012.camel@linux.ibm.com>
-Subject: Re: [PATCH v10 2/9] s390x/cpu topology: reporting the CPU topology
- to the guest
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Thu, 27 Oct 2022 22:42:56 +0200
-In-Reply-To: <20221012162107.91734-3-pmorel@linux.ibm.com>
-References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-3-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oo9kS-00085W-4H
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 16:45:08 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oo9kQ-00073i-Dp
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 16:45:07 -0400
+Received: by mail-wm1-x330.google.com with SMTP id 5so1794825wmo.1
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 13:45:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1Y2J3CLxCUsWfpuTyv8PC3W2Pni/Qo2FLv6ih1qllYw=;
+ b=YRElwokv4GXPveh5AJj+4wDnaPNiqG1Vfo9yu5KEupiFmeeasW3oZCrBRxbRn6vEEV
+ GVzKMa6CHXSiAXS2leBsO2i8iZmWC1jrLkQMIhCDaTIv1Tzyt3ciNRVHGmc5JbYof7rq
+ haajzVIZmJTB2tvnO/zrUp/kDxCMX/r+k3Tzm27Nr318dYxNcn+pQeOUSRGc5KdoSzZQ
+ uT9Fp+4GrnN8JtiYbY41M0GHaC/kOMGKHWTV2CVQuldqAuPna0VIqFl4Gnu0b1VU6BOm
+ CzfohJwpwwDOlpY1xbylfGpfYuBHiquysICs8ks2m4rsgmlOXMoF8fPyn7ocIMUjzthI
+ g18Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1Y2J3CLxCUsWfpuTyv8PC3W2Pni/Qo2FLv6ih1qllYw=;
+ b=YkNq2aogcCiwbkRIEjwliirfy3EMBB7rjt1xUDjKdcsZBBtGHakK5cL3fUbNKQl5Vu
+ U+k7t2SZtvb7Ln3F5vjlQI+hhh67d/7Bdz8xl6xeYJdpvuH6ZXpFrxI5Xx9bD3Rhz/a0
+ MQcdPRrsVZrrr8ovmYvfw2Y7TgisjvBw8gCl/SxfFGMNzcZvQyuIsnITZ6orqnbZLU76
+ Dc3ckUwjkiRki4Zsal3gzMsG2HoA2Y/pj3SEZ1yTNLxJTfir5gIUlS2YpWojJkQCboh6
+ 3EF4oMe2TnXWctrh/UEoZOi+fV+VraUYEWpVD2wGo4QbwLTWu8Y0R1RfK1n6aiUUpM38
+ hEQg==
+X-Gm-Message-State: ACrzQf3ihbTtEMJ8iZMQBlv7yCLOEhbgQ9U7od0FhhLoFv9tczTEaLev
+ tECXqGqUBvTULJcOx2RLZmTHeQ==
+X-Google-Smtp-Source: AMsMyM6uy69/gkKDzXhwy29zwp7q8I4tJHWnx8nyuzABB52dojyxPGF/L+Za0gsXsNBdFTQ27WZe6A==
+X-Received: by 2002:a05:600c:310c:b0:3c6:f7c6:c7b6 with SMTP id
+ g12-20020a05600c310c00b003c6f7c6c7b6mr7133514wmo.81.1666903504571; 
+ Thu, 27 Oct 2022 13:45:04 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ o12-20020a5d58cc000000b00236705daefesm1942764wrf.39.2022.10.27.13.45.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Oct 2022 13:45:03 -0700 (PDT)
+Message-ID: <4e6ea923-8cc8-da32-bc30-7709fdcc6549@linaro.org>
+Date: Thu, 27 Oct 2022 22:45:02 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 2mEg6wgO-9ZnB2DOuxRIkGIsoZPZwJqS
-X-Proofpoint-GUID: ljsmVt65CWNw3WFNwknNhLNA6YOrmaVB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-27_07,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 bulkscore=0 impostorscore=0 mlxscore=0 spamscore=0
- adultscore=0 suspectscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2210270115
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+Subject: Re: [PATCH 3/3] hw/isa/piix4: Correct IRQRC[A:D] reset values
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
+References: <20221026194619.28880-1-philmd@linaro.org>
+ <20221026194619.28880-4-philmd@linaro.org>
+ <CAG4p6K5NKs59r8ODzOY6AneDuALDgjimsUUu6pO_dvwq5AuWjQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAG4p6K5NKs59r8ODzOY6AneDuALDgjimsUUu6pO_dvwq5AuWjQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,94 +94,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 2022-10-12 at 18:21 +0200, Pierre Morel wrote:
-> The guest can use the STSI instruction to get a buffer filled
-> with the CPU topology description.
+On 26/10/22 23:32, Bernhard Beschow wrote:
+> On Wed, Oct 26, 2022 at 9:46 PM Philippe Mathieu-Daudé 
+> <philmd@linaro.org <mailto:philmd@linaro.org>> wrote:
 > 
-> Let us implement the STSI instruction for the basis CPU topology
-> level, level 2.
+>     IRQRC[A:D] registers reset value is 0x80. We were forcing
+>     the MIPS Malta machine routing to be able to boot a Linux
+>     kernel without any bootloader.
+>     We now have these registers initialized in the Malta machine
+>     write_bootloader(), so we can use the correct reset values.
 > 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->  include/hw/s390x/cpu-topology.h |   3 +
->  target/s390x/cpu.h              |  48 ++++++++++++++
->  hw/s390x/cpu-topology.c         |   8 ++-
->  target/s390x/cpu_topology.c     | 109 ++++++++++++++++++++++++++++++++
->  target/s390x/kvm/kvm.c          |   6 +-
->  target/s390x/meson.build        |   1 +
->  6 files changed, 172 insertions(+), 3 deletions(-)
->  create mode 100644 target/s390x/cpu_topology.c
+>     Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org
+>     <mailto:philmd@linaro.org>>
+>     ---
+>       hw/isa/piix4.c | 8 ++++----
+>       1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
-> index 66c171d0bc..61c11db017 100644
-> --- a/include/hw/s390x/cpu-topology.h
-> +++ b/include/hw/s390x/cpu-topology.h
-> @@ -13,6 +13,8 @@
->  #include "hw/qdev-core.h"
->  #include "qom/object.h"
->  
-> +#define S390_TOPOLOGY_POLARITY_H  0x00
-> +
->  typedef struct S390TopoContainer {
->      int active_count;
->  } S390TopoContainer;
-> @@ -29,6 +31,7 @@ struct S390Topology {
->      S390TopoContainer *socket;
->      S390TopoTLE *tle;
->      MachineState *ms;
-> +    QemuMutex topo_mutex;
->  };
->  
->  #define TYPE_S390_CPU_TOPOLOGY "s390-topology"
-> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> index 7d6d01325b..d604aa9c78 100644
-> --- a/target/s390x/cpu.h
-> +++ b/target/s390x/cpu.h
+>     diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+>     index 15f344dbb7..a2165c6a49 100644
+>     --- a/hw/isa/piix4.c
+>     +++ b/hw/isa/piix4.c
+>     @@ -115,10 +115,10 @@ static void piix4_isa_reset(DeviceState *dev)
+>           pci_conf[0x4c] = 0x4d;
+>           pci_conf[0x4e] = 0x03;
+>           pci_conf[0x4f] = 0x00;
+>     -    pci_conf[0x60] = 0x0a; // PCI A -> IRQ 10
+>     -    pci_conf[0x61] = 0x0a; // PCI B -> IRQ 10
+>     -    pci_conf[0x62] = 0x0b; // PCI C -> IRQ 11
+>     -    pci_conf[0x63] = 0x0b; // PCI D -> IRQ 11
+>     +    pci_conf[0x60] = 0x80;
+>     +    pci_conf[0x61] = 0x80;
+>     +    pci_conf[0x62] = 0x80;
+>     +    pci_conf[0x63] = 0x80;
 > 
-[...]
-> +
-> +/* Maxi size of a SYSIB structure is when all CPU are alone in a container */
-
-Max or Maximum.
-
-> +#define S390_TOPOLOGY_SYSIB_SIZE (sizeof(SysIB_151x) +                         \
-> +                                  S390_MAX_CPUS * (sizeof(SysIBTl_container) + \
-> +                                                   sizeof(SysIBTl_cpu)))
-
-Currently this is 16+248*3*8 == 5968 and will grow with books, drawer support to
-16+248*5*8 == 9936 ...
-
-[...]
 > 
-> +
-> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
-> +{
-> +    uint64_t page[S390_TOPOLOGY_SYSIB_SIZE / sizeof(uint64_t)] = {};
-
-... so calling this page is a bit misleading. Also why not make it a char[]?
-And maybe use a union for type punning.
-
-> +    SysIB_151x *sysib = (SysIB_151x *) page;
-> +    int len;
-> +
-> +    if (s390_is_pv() || !s390_has_topology() ||
-> +        sel2 < 2 || sel2 > S390_TOPOLOGY_MAX_MNEST) {
-> +        setcc(cpu, 3);
-> +        return;
-> +    }
-> +
-> +    len = setup_stsi(sysib, sel2);
-
-This should now be memory safe, but might be larger than 4k,
-the maximum size of the SYSIB. I guess you want to set cc code 3
-in this case and return.
-> +
-> +    sysib->length = cpu_to_be16(len);
-> +    s390_cpu_virt_mem_write(cpu, addr, ar, sysib, len);
-> +    setcc(cpu, 0);
-> +}
-> +
+> Running `qemu-system-mips64el -M malta -kernel vmlinux-3.2.0-4-5kc-malta 
+> -hda debian_wheezy_mipsel_standard.qcow2 -append "root=/dev/sda1 
+> console=ttyS0"` with this patch Linux outputs:
 > 
-[...]
+> [    7.944000] uhci_hcd: USB Universal Host Controller Interface driver
+> [    7.944000] uhci_hcd 0000:00:0a.2: Found HC with no IRQ. Check 
+> BIOS/PCI 0000:00:0a.2 setup!
+> [    7.944000] uhci_hcd 0000:00:0a.2: init 0000:00:0a.2 fail, -19
+> 
+> Omitting this patch from the series the USB host is found.
 
+Oh, I should have used tswap() instead of bswap()! I have been moving
+and my test suite is on an offline backup, I'm not yet set up. As you
+see my testing is poor :/
 
