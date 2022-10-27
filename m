@@ -2,111 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B859560F63B
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1632B60F646
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:33:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo144-0003Fw-LX; Thu, 27 Oct 2022 07:28:51 -0400
+	id 1oo15v-0007oY-DT; Thu, 27 Oct 2022 07:30:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oo13x-0003FW-8B; Thu, 27 Oct 2022 07:28:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oo13q-0002j4-T9; Thu, 27 Oct 2022 07:28:40 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29RBIShr014647;
- Thu, 27 Oct 2022 11:28:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=dHihZSnzDxwsRXGBYmUblZVMuHUw0YOiNvbiRQEmgEA=;
- b=JyQ+WWKTzlF98+WblQG+wV9IU6rLCanZmpeDxLdCO1blIKIIJ2BvDDXefuE/EaRTldeV
- 5HEsmRsWc35Eu2RuJhU+xXhQvM4+LrzoYFBBTJGEs6UYlv+TVYG4rvVaadqiTb1fKZr2
- YfPxz1tXP0jrLZdX89Vg/IGzUewoveGsxwIbQfzbEeCKBo1FO3RhLvqu139T5y/76M3b
- JWMgwCQqcbJNpcKL4e+rSsrABUBbgxckj31h6HuMiIaSxyAM36NMbD0P54Czur47F3Wp
- n7/QpJK3BVsj5hS2qk6tlOc8BFeuyvDMrnQLRuWmR3uCjcgjTzsBuZLMhC5XlY30jl1T uw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfs0687be-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 11:28:26 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29RBKxd6021825;
- Thu, 27 Oct 2022 11:28:25 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfs0687ad-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 11:28:25 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29RBL6gm016077;
- Thu, 27 Oct 2022 11:28:23 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03fra.de.ibm.com with ESMTP id 3kfahp16ue-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 11:28:23 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 29RBStu434079222
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 27 Oct 2022 11:28:55 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6782DA405C;
- Thu, 27 Oct 2022 11:28:20 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7F0E8A4054;
- Thu, 27 Oct 2022 11:28:19 +0000 (GMT)
-Received: from [9.179.10.218] (unknown [9.179.10.218])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 27 Oct 2022 11:28:19 +0000 (GMT)
-Message-ID: <b521b6fc-7e99-6595-aac9-c4ce38c3144e@linux.ibm.com>
-Date: Thu, 27 Oct 2022 13:28:19 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oo15b-0007Rc-Lw
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:30:24 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oo15Z-00039n-FO
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:30:23 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id d24so1136697pls.4
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 04:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Czkx8jVudvN8i3MngWDp53Vjdn1G8IyMGXiWOl6yJus=;
+ b=jqXXCzzpO1FIYGMbE4fgdiu9L5pV84zXIQ9FMKS4IPWqkjecb22t0kiOI5zIju95Bg
+ cCZIwumARfLASZQ9nRSzDd2wG8pkQi7HmBiQxFYyL8ywk6nCQ6ZI9n3dz/TfwTAFh4bG
+ 03u3z6MzP+rkkuaBWfEgMx/djF8gh7helB+sg3yh1EhGNoOSuRMkutcSswGXeQqrbjfO
+ 1s+OvdByASR6L4ukmkqqmnlvc1B8y6HQQ6+uv8WEbNfwIeifk/532JO32+eELUx57zGx
+ KQVU5FplTT4bgt4BEu6TmGz6WDr8Td9akKUV11n97iDUrlgbx4vD8qkXPihqtSQAS7I9
+ G1HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Czkx8jVudvN8i3MngWDp53Vjdn1G8IyMGXiWOl6yJus=;
+ b=CYCQ1tg/6V+H1VE93BGrHFpMXyel2wGS45UxIM5PEOAvj1+j8z4QVX+APqZA8b7z5t
+ Cc6ahjCjAQqzjZGDkCykpvBVySxSE6dVkhAxLlaSudUzNGYwfmWph2ctJFqe8EHK+HBA
+ 616R/OmQ7ks5A/7wQORLRM6PB6Rkxdpb3EGPZELR04NvXDb9k5x6uHnFZMYeMKng97JN
+ SzajIzM4ADadnZYsi6inls7C1dhVyLJbk8IVQm4C/LWIPxknypW9OzMR6jDLmklvpP1C
+ O+6r1wRUxPvOwsuimbpWee1IZIL5RUzQfGoJolaHYKEJB93L+MRvjpM0uUgC3iVx4c/P
+ CNuA==
+X-Gm-Message-State: ACrzQf0BYSCNY5dBDthhov1SNCVJFx9F3t0BkU7yPdfTmsF5h0ZhLA/t
+ RJJowOGnZEACOFJd+/VRH+DL1A==
+X-Google-Smtp-Source: AMsMyM5P5EP63IEfFpmX962L1VnlAnTNMRTnO8eeRIjWNcAL/Rm/e41U5u13ey7NO14RbKwFWNsi5A==
+X-Received: by 2002:a17:90b:17c5:b0:20d:3520:2e2a with SMTP id
+ me5-20020a17090b17c500b0020d35202e2amr9842902pjb.7.1666870219141; 
+ Thu, 27 Oct 2022 04:30:19 -0700 (PDT)
+Received: from ?IPV6:2001:8003:501a:d301:3a91:9408:3918:55a?
+ ([2001:8003:501a:d301:3a91:9408:3918:55a])
+ by smtp.gmail.com with ESMTPSA id
+ b2-20020a17090a488200b00205db4ff6dfsm831534pjh.46.2022.10.27.04.30.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Oct 2022 04:30:18 -0700 (PDT)
+Message-ID: <7809009d-72c2-139b-6469-328bef3a067b@linaro.org>
+Date: Thu, 27 Oct 2022 21:30:12 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v10 7/9] s390x/cpu topology: add max_threads machine class
- attribute
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 1/6] accel/tcg: Introduce cpu_unwind_state_data
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com
-References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-8-pmorel@linux.ibm.com>
- <910308da-1cc6-03ea-c8b4-304d90271b8d@kaod.org>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <910308da-1cc6-03ea-c8b4-304d90271b8d@kaod.org>
+To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
+References: <20221027100254.215253-1-richard.henderson@linaro.org>
+ <20221027100254.215253-2-richard.henderson@linaro.org>
+ <5d82d4c4-8de1-4419-19b8-b5de878c5eb3@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <5d82d4c4-8de1-4419-19b8-b5de878c5eb3@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: vyDNanVBz8KRkbBBIP_9CKAbbwxg3x7t
-X-Proofpoint-ORIG-GUID: IPQJX7RhtQGBEUQdYUJQX7drrh8-Vbrt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-27_05,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- bulkscore=0 adultscore=0 impostorscore=0 spamscore=0 mlxscore=0
- clxscore=1015 mlxlogscore=998 phishscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2210270061
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -123,30 +94,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 10/27/22 12:00, Cédric Le Goater wrote:
-> Hello Pierre,
-> 
-> On 10/12/22 18:21, Pierre Morel wrote:
->> The S390 CPU topology accepts the smp.threads argument while
->> in reality it does not effectively allow multthreading.
+On 10/27/22 20:40, Claudio Fontana wrote:
+> On 10/27/22 12:02, Richard Henderson wrote:
+>> Add a way to examine the unwind data without actually
+>> restoring the data back into env.
 >>
->> Let's keep this behavior for machines older than 7.3 and
->> refuse to use threads in newer machines until multithreading
->> is really proposed to the guest by the machine.
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   accel/tcg/internal.h      |  4 +--
+>>   include/exec/exec-all.h   | 21 ++++++++---
+>>   accel/tcg/translate-all.c | 74 ++++++++++++++++++++++++++-------------
+>>   3 files changed, 68 insertions(+), 31 deletions(-)
+>>
+>> diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
+>> index 1227bb69bd..9c06b320b7 100644
+>> --- a/accel/tcg/internal.h
+>> +++ b/accel/tcg/internal.h
+>> @@ -106,8 +106,8 @@ void tb_reset_jump(TranslationBlock *tb, int n);
+>>   TranslationBlock *tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+>>                                  tb_page_addr_t phys_page2);
+>>   bool tb_invalidate_phys_page_unwind(tb_page_addr_t addr, uintptr_t pc);
+>> -int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+>> -                              uintptr_t searched_pc, bool reset_icount);
+>> +void cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+>> +                               uintptr_t host_pc, bool reset_icount);
+>>   
+>>   /* Return the current PC from CPU, which may be cached in TB. */
+>>   static inline target_ulong log_pc(CPUState *cpu, const TranslationBlock *tb)
+>> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+>> index e948992a80..7d851f5907 100644
+>> --- a/include/exec/exec-all.h
+>> +++ b/include/exec/exec-all.h
+>> @@ -39,20 +39,33 @@ typedef ram_addr_t tb_page_addr_t;
+>>   #define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
+>>   #endif
+>>   
+>> +/**
+>> + * cpu_unwind_state_data:
+>> + * @cpu: the cpu context
+>> + * @host_pc: the host pc within the translation
+>> + * @data: output data
+>> + *
+>> + * Attempt to load the the unwind state for a host pc occurring in
+>> + * translated code.  If @host_pc is not in translated code, the
+>> + * function returns false; otherwise @data is loaded.
+>> + * This is the same unwind info as given to restore_state_to_opc.
+>> + */
+>> +bool cpu_unwind_state_data(CPUState *cpu, uintptr_t host_pc, uint64_t *data);
+>> +
+>>   /**
+>>    * cpu_restore_state:
+>> - * @cpu: the vCPU state is to be restore to
+>> - * @searched_pc: the host PC the fault occurred at
+>> + * @cpu: the cpu context
+>> + * @host_pc: the host pc within the translation
+>>    * @will_exit: true if the TB executed will be interrupted after some
+>>                  cpu adjustments. Required for maintaining the correct
+>>                  icount valus
+>>    * @return: true if state was restored, false otherwise
+>>    *
+>>    * Attempt to restore the state for a fault occurring in translated
+>> - * code. If the searched_pc is not in translated code no state is
+>> + * code. If @host_pc is not in translated code no state is
+>>    * restored and the function returns false.
+>>    */
+>> -bool cpu_restore_state(CPUState *cpu, uintptr_t searched_pc, bool will_exit);
+>> +bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit);
+>>   
+>>   G_NORETURN void cpu_loop_exit_noexc(CPUState *cpu);
+>>   G_NORETURN void cpu_loop_exit(CPUState *cpu);
+>> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+>> index f185356a36..319becb698 100644
+>> --- a/accel/tcg/translate-all.c
+>> +++ b/accel/tcg/translate-all.c
+>> @@ -247,52 +247,66 @@ static int encode_search(TranslationBlock *tb, uint8_t *block)
+>>       return p - block;
+>>   }
+>>   
+>> -/* The cpu state corresponding to 'searched_pc' is restored.
+>> - * When reset_icount is true, current TB will be interrupted and
+>> - * icount should be recalculated.
+>> - */
+>> -int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+>> -                              uintptr_t searched_pc, bool reset_icount)
 > 
-> This change is unrelated to the rest of the series and we could merge it
-> for 7.2. We still have time for it.
+> 
+> Maybe add a small comment about what the return value of this static function means?
+> It can be indirectly inferred from its point of use:
+> 
+>   +    int insns_left = cpu_unwind_data_from_tb(tb, host_pc, data);
+> 
+> But I find having the information about the meaning of a function and return value useful to be available there.
+> 
+> IIUC for external functions the standard way is to document in the header files, but for the static functions I would think we can do it here.
+> 
+> With that Reviewed-by: Claudio Fontana <cfontana@suse.de>
 
-OK, then I send it on its own
 
-Regards,
-Pierre
+I added
 
-...
++/**
++ * cpu_unwind_data_from_tb: Load unwind data for TB
++ * @tb: translation block
++ * @host_pc: the host pc within translation
++ * @data: output array
++ *
++ * Within @tb, locate the guest insn whose translation contains @host_pc,
++ * then load the unwind data created by INDEX_opc_start_insn for that
++ * guest insn.  Return the number of guest insns which remain un-executed
++ * within @tb -- these must be credited back to the cpu's icount budget.
++ *
++ * If we could not determine which guest insn to which @host_pc belongs,
++ * return -1 and do not load unwind data.
++ * FIXME: Such a failure is likely to break the guest, as we were not
++ * expecting to unwind from such a location.  This may be some sort of
++ * backend code generation problem.  Consider asserting instead.
+   */
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+Which I think captures some of your v1 comments as well.
+
+
+r~
 
