@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 632266102A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 22:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B446102A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 22:24:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo9P3-00048C-WB; Thu, 27 Oct 2022 16:23:02 -0400
+	id 1oo9Ps-0004oO-AV; Thu, 27 Oct 2022 16:23:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oo9P1-000479-Ic
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 16:22:59 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
+ id 1oo9Pp-0004ny-Lm
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 16:23:49 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oo9Oz-0003os-Jl
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 16:22:59 -0400
-Received: by mail-pg1-x532.google.com with SMTP id s196so2705666pgs.3
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 13:22:57 -0700 (PDT)
+ id 1oo9Pj-0003tJ-Cr
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 16:23:49 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id s196so2708061pgs.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 13:23:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Z05/p2K3ed6sM4bJ8YuLT5BMHPc601IwR3lmBIIh/is=;
- b=QsQGIHS23/ZuDeJXofyyS+KOCy7RNHZnF0gGEJS+VAD4A7ZUpVR9sFWAqdlHiiza8v
- wOuKkIpxaAggo7TerEQkZ9VQKdu5fynZ/kUaGxiuj5rdUBHnRV10Wwi2b10P2MIwANbC
- 5UtV19s7URFd4M1KZlhfHa9lLp6oUAqMa467VGbKy2T91pn9+sMZoWsYh4bwR7xM8YVe
- dXN+hbR7z/N1d/jbu77dHO6tqEpvrBuzQqbzRrEHHAKjdqbjWuLwol0FxJVBpeShvmcJ
- tiLFmB4VUG5xAzWsq90MGvAijBcrrFZGwsW0JtQYKQDQHIuuC/WUop8RbH38zQpVrLKI
- oqTg==
+ bh=QV9Gn+ZSEEsFZu8EbaTf3oN3ULyfPogPWjTw7H0V79U=;
+ b=m2a56fvKh+6IYlJU+m26ZqvNioPuKbCLUticeEqIoHCEj4RzP13UL+eHCTMB4WZ77C
+ 8mm1jCOUNAebjTl/hH8qVMPWaaufnm7Wz2nU81bIC0jBGiOK2Nh0D1cm2T5gEFnnYnkQ
+ aKT8Qgmi/TPeoVIV7biz/GGsE/NTV2285BoqqyxOOYcPE+JfkWFBrqZzl7oewD+Veqx7
+ g5NfmdCUofNBawVtFbVFX9fg7KEjNZfeqpJi4/DERiCaeJbzTPxTuv9q25xn6Z7u37TW
+ N38/1fOkhpa/yESIZdmNmUG+a+GKQqgeWyKx+96Irx824Pcj2FTb2pMung57vZfc4ddE
+ Yu6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Z05/p2K3ed6sM4bJ8YuLT5BMHPc601IwR3lmBIIh/is=;
- b=vUSRH/W5lS8XpCZai7E/VVCha+WhJ22uCshhvhvgVLkJRjY8FWihJl/osrEd8r75aD
- sErXEuvQZMrpmfeTN+mIQdwHa/KucPlwb32ROJ0BYfZy1Ye4swYLwXqMOdfLx9AYhVLS
- T6gEQL9l724O2eh6SpYrhUr4KOmDlVOoer+0+YfFyQb+j4B8L5BFcVVu7E6QHFjDVnHZ
- SK0hfx5it6Fi4RZqmvadUPnHSX7ywGJFrcIHP4eLQTs8fiAGWh1YRNv1dXgMmIrMHNKj
- tPhN2lQWQXRzBQbVMlm5P3PwdUDZ//5MhjIMRgtHUjfOglcRlDLE+Gh5KOuGcmGUB80D
- NGRA==
-X-Gm-Message-State: ACrzQf3wYLHl94CuQmSSKi3O5T6wosLBQLa30kpOMRxXZswy0cn8Akes
- rl2J9xc5oe6h7fLKxZyJModH2g==
-X-Google-Smtp-Source: AMsMyM7lRLKSG8cm/wtUpb36bn0gxWgpchDa/KEsVUNb2fvQAuEWYFFFAP4p9XHjwPwyDlcYNrjxRw==
-X-Received: by 2002:a63:c111:0:b0:439:103a:6c31 with SMTP id
- w17-20020a63c111000000b00439103a6c31mr43187920pgf.149.1666902175853; 
- Thu, 27 Oct 2022 13:22:55 -0700 (PDT)
+ bh=QV9Gn+ZSEEsFZu8EbaTf3oN3ULyfPogPWjTw7H0V79U=;
+ b=7pPWtyRtlOxnOL9wRwEGgrbdE8t7xxSiFT/XX3nKyKGoXSKuKEcFVvpwdAm/yk6aVY
+ v5GboawN/khfKw9o7BXGJ97ofa+EwSa2WFBuE+Ncqd2OM/ihSG3BUUViCeRGmiTiAIg3
+ sd07z91WhUaABYlL/g5GgmhuCcPW4wp4HVuWt33wyFVX5GiJNOJhr5SVv6iWUEe6I+DA
+ 02+tcK3AGA67Al12XMSSNYBBdrpsilhBDzp7fFj8jf4/U/4UMOBgxcVT5V4T8ZIh3Fx3
+ Nz85Bwcs+RyY2xQDytYUTY01QJIsRpq7TANS5zR8y2+cBfL45LgCty5ix03zAe6gPwJA
+ 06HQ==
+X-Gm-Message-State: ACrzQf1YkbMIa/2D/LhVSQSN3DxozuJ4VgDbLKIIhnwDLV3JxPU8Nnag
+ IMiekvjaEVEOjFc841Omn1W7uq2/TTnSZced
+X-Google-Smtp-Source: AMsMyM6majxgYWp6t07O/K/V1D5sYblxObOmEGRJl/6E9GQPVVTOqrT3bzLkn3qeeyXjrAMV90a1hA==
+X-Received: by 2002:a17:902:6a86:b0:176:a6bc:54c0 with SMTP id
+ n6-20020a1709026a8600b00176a6bc54c0mr51743159plk.87.1666902210493; 
+ Thu, 27 Oct 2022 13:23:30 -0700 (PDT)
 Received: from ?IPV6:2001:8003:501a:d301:93c4:c1c9:4368:47fa?
  ([2001:8003:501a:d301:93c4:c1c9:4368:47fa])
  by smtp.gmail.com with ESMTPSA id
- u8-20020a170902714800b00177fb862a87sm1604518plm.20.2022.10.27.13.22.53
+ t8-20020a1709027fc800b00179eb1576bbsm1554171plb.190.2022.10.27.13.23.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 13:22:55 -0700 (PDT)
-Message-ID: <cab2d7ec-cd0f-a086-3d66-2ce143363a15@linaro.org>
-Date: Fri, 28 Oct 2022 06:22:49 +1000
+ Thu, 27 Oct 2022 13:23:30 -0700 (PDT)
+Message-ID: <f0536c45-d0fb-160b-e80c-41100f507cc6@linaro.org>
+Date: Fri, 28 Oct 2022 06:23:24 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH 1/2] hw/arm/boot: Set SME and SVE EL3 vector lengths when
- booting kernel
+Subject: Re: [PATCH 2/2] hw/arm/boot: Set SCR_EL3.HXEn when booting kernel
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 Cc: Jerome Forissier <jerome.forissier@linaro.org>
 References: <20221027140207.413084-1-peter.maydell@linaro.org>
- <20221027140207.413084-2-peter.maydell@linaro.org>
+ <20221027140207.413084-3-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221027140207.413084-2-peter.maydell@linaro.org>
+In-Reply-To: <20221027140207.413084-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,35 +96,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 10/28/22 00:02, Peter Maydell wrote:
-> When we direct boot a kernel on a CPU which emulates EL3, we need
-> to set up the EL3 system registers as the Linux kernel documentation
+> When we direct boot a kernel on a CPU which emulates EL3, we need to
+> set up the EL3 system registers as the Linux kernel documentation
 > specifies:
->   https://www.kernel.org/doc/Documentation/arm64/booting.rst
+>       https://www.kernel.org/doc/Documentation/arm64/booting.rst
 > 
-> For SVE and SME this includes:
->      - ZCR_EL3.LEN must be initialised to the same value for all CPUs the
->        kernel is executed on.
->      - SMCR_EL3.LEN must be initialised to the same value for all CPUs the
->        kernel will execute on.
+> For CPUs with FEAT_HCX support this includes:
+>      - SCR_EL3.HXEn (bit 38) must be initialised to 0b1.
 > 
-> Although we are technically compliant with this, the "same value" we
-> currently use by default is the reset value of 0.  This will end up
-> forcing the guest kernel's SVE and SME vector length to be only the
-> smallest supported length.
-> 
-> Initialize the vector length fields to their maximum possible value,
-> which is 0xf. If the implementation doesn't actually support that
-> vector length then the effective vector length will be constrained
-> down to the maximum supported value at point of use.
-> 
-> This allows the guest to use all the vector lengths the emulated CPU
-> supports (by programming the _EL2 and _EL1 versions of these
-> registers.)
+> but we forgot to do this when implementing FEAT_HCX, which would mean
+> that a guest trying to access the HCRX_EL2 register would crash.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/arm/boot.c | 2 ++
->   1 file changed, 2 insertions(+)
+>   hw/arm/boot.c | 3 +++
+>   1 file changed, 3 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
