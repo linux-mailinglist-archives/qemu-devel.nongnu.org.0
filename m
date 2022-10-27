@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E810A60F56F
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 12:38:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C97A60F57D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 12:40:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo0FQ-0007yN-Oq; Thu, 27 Oct 2022 06:36:28 -0400
+	id 1oo0Gj-0002JA-6Z; Thu, 27 Oct 2022 06:37:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oo0FG-00074v-Di
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:36:18 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oo0FD-0001AK-Hc
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:36:17 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id w189so1074195pfw.4
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 03:36:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jtrWVhJzWjwYLWS9PASHfq0E1uoMfGTChshx2zstuTo=;
- b=lEY3HK7Sm5j7Paw9+6RSuhrMaaEnNixwf/bfcsJJjKdkc4yYEbftpNA4BUrAJNqAF+
- RnFq72PZE6yXWbqL//DUHDNDyESEp8EayF26nJuKcuT6n0RJd6VYYcbj14Jiddx4vRjg
- En1nZjVP+Kmt3w16HYGm4La6I4NdphNVnW1kuFYItNRnpbKYZYPbvIGdyYKxHkjiOa67
- iDdGl3nN6qzxay7AUuloSh3oaueDjCipWC+ktWUSM3FZ9FWd6p9FUHgVzLoub+aahlzd
- 1R4FXii2s53uzmSq6yk89bhC63GUQrHYMnLl/OQlSDt28C3BRtBKtvMnRdvIrhC6y/rY
- Gx6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jtrWVhJzWjwYLWS9PASHfq0E1uoMfGTChshx2zstuTo=;
- b=4cb1/QUqsV6V9gntXhykkLg+hR0BQRqfU8iNlVf5zTmOD+Siqmtbr/OZSxka7h9zrX
- rur1SmSYa6vot9iMV+ShAKATbcCSNv4hDQ7jglPthU8fPlcOFLhBrR0dxq/VwE2VfKoX
- bfWLB2ynbqewtNcAMzxlRTPyvJQMG0eYf++ZLeoPWFF8PC6IlUg3eehhYbyyFTiZxP8s
- Y0vJugntiELhCY2imXQzIQLpG2Uh0iGDU2VrXCF+YaxpVXklfMOPXRFNoDV/CasDHTl+
- t9oHmvqYocr2+kNMyu8yqg2MRtWk/GwHbqOkPFuW25RDCKaEbhRopWEh1ey1/VTtvfvF
- MD1g==
-X-Gm-Message-State: ACrzQf1ToRV400XeI3mqAOg9+dFZCvkCxOOVNZqX/uu9lbiNxFe+dCaJ
- v+HGMvL9O8TvdJUxuedLPPSInnZyttrvjkzDtvTQEw==
-X-Google-Smtp-Source: AMsMyM4s5DSkvqy/vDNXEtfV3XUIuQrEiIZqN6G1LsWeiOVMELXQRr9e6AL+zSPKUGGTTchjpnRHWDT9gkSTVxsrduk=
-X-Received: by 2002:a63:5b47:0:b0:46f:4d37:ec89 with SMTP id
- l7-20020a635b47000000b0046f4d37ec89mr3509867pgm.192.1666866973529; Thu, 27
- Oct 2022 03:36:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oo0GA-0000q7-I3; Thu, 27 Oct 2022 06:37:17 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oo0Fv-0001GW-U5; Thu, 27 Oct 2022 06:37:14 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29RAHO8B003976;
+ Thu, 27 Oct 2022 10:36:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=ebvIoaIlDFrskf8lwCamNEpX5siufeAje8fUooCZTRM=;
+ b=at6LBr4w2Pru+W7tnOp77JNG/dNcmK9ABaTuRt2VYdGSzmiDbQ28Pd9zypy2lticP38j
+ ldH4YbROLpWHgrpTWxdLw46KntVKFp09cWkKsai8vaPZPfO91TD4cUPI95JSgPrk34Pu
+ cZnYo/UPxhTB/ioU5EVr4eE3ARNNRs4SNpieMrl5F4R0siph6Bdlw0lNp/hlPUjSjo1V
+ u57AvxW3W42lTmdIGyKFocNlgA1R4Zi+Z2+HSkZWGIzbF8BzhpM+cLtV05+6Eq2yMvf+
+ i1Tk6Q3d8uUetRU+MFqjnrT3Bukc/lMY+LWgagpfGnz9G0IDlaHGnaRWoRPgC1HxW0uG WA== 
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfr3vgmq1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 10:36:56 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29RANsTt027748;
+ Thu, 27 Oct 2022 10:36:54 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma06fra.de.ibm.com with ESMTP id 3kfbg294qs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 10:36:54 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29RAaqJq20382254
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 27 Oct 2022 10:36:52 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2CF9DA405D;
+ Thu, 27 Oct 2022 10:36:52 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E5937A405F;
+ Thu, 27 Oct 2022 10:36:51 +0000 (GMT)
+Received: from heavy (unknown [9.171.39.72])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu, 27 Oct 2022 10:36:51 +0000 (GMT)
+Date: Thu, 27 Oct 2022 12:36:50 +0200
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org
+Subject: Re: [PATCH 4/9] target/s390x: Use Int128 for return from CKSM
+Message-ID: <20221027103650.a7ytbkz3caxrskle@heavy>
+References: <20221021073006.2398819-1-richard.henderson@linaro.org>
+ <20221021073006.2398819-5-richard.henderson@linaro.org>
 MIME-Version: 1.0
-References: <20221025163952.4131046-1-peter.maydell@linaro.org>
- <CAJSP0QW1wAhsYUV=WPhitKfC2LdAdGJnXoPGBAxPVPg0YZ4n6Q@mail.gmail.com>
-In-Reply-To: <CAJSP0QW1wAhsYUV=WPhitKfC2LdAdGJnXoPGBAxPVPg0YZ4n6Q@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 27 Oct 2022 11:36:01 +0100
-Message-ID: <CAFEAcA-oTF-qFELo6gdGBd_iSocvvq0zkiT37-nYfSRsgnNxRQ@mail.gmail.com>
-Subject: Re: [PULL 00/30] target-arm queue
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221021073006.2398819-5-richard.henderson@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 5lFWsTsA0z3-Mr3yKt97PJ6wA9v2DSBw
+X-Proofpoint-ORIG-GUID: 5lFWsTsA0z3-Mr3yKt97PJ6wA9v2DSBw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-27_05,2022-10-26_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ phishscore=0 impostorscore=0 clxscore=1015 mlxlogscore=549 spamscore=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 lowpriorityscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2210270058
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,34 +104,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 26 Oct 2022 at 15:52, Stefan Hajnoczi <stefanha@gmail.com> wrote:
->
-> On Tue, 25 Oct 2022 at 12:51, Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
-> > target-arm queue:
-> >  * Implement FEAT_E0PD
-> >  * Implement FEAT_HAFDBS
->
-> A second CI failure:
+On Fri, Oct 21, 2022 at 05:30:01PM +1000, Richard Henderson wrote:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/s390x/helper.h         | 2 +-
+>  target/s390x/tcg/mem_helper.c | 7 +++----
+>  target/s390x/tcg/translate.c  | 6 ++++--
+>  3 files changed, 8 insertions(+), 7 deletions(-)
 
-> libqemu-aarch64-softmmu.fa.p/target_arm_ptw.c.o -MF
-> libqemu-aarch64-softmmu.fa.p/target_arm_ptw.c.o.d -o
-> libqemu-aarch64-softmmu.fa.p/target_arm_ptw.c.o -c ../target/arm/ptw.c
-> ../target/arm/ptw.c: In function =E2=80=98arm_casq_ptw=E2=80=99:
-> ../target/arm/ptw.c:449:19: error: implicit declaration of function
-> =E2=80=98qemu_mutex_iothread_locked=E2=80=99; did you mean =E2=80=98qemu_=
-mutex_trylock=E2=80=99?
-> [-Werror=3Dimplicit-function-declaration]
-> 449 | bool locked =3D qemu_mutex_iothread_locked();
-> | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-> | qemu_mutex_trylock
-
-Oops, sorry about the CI failures. The windows one is an accidental
-use of PROT_WRITE when PAGE_WRITE was intended; this one's a missing
-include of main-loop.h. I'm not sure why it doesn't show up on my
-system -- I guess we're dragging in main-loop.h via some other
-header somehow.
-
-thanks
--- PMM
+Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
