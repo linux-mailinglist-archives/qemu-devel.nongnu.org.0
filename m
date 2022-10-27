@@ -2,73 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E79E60F1A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 09:58:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1548A60F1E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 10:10:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onxjR-0004kU-6n; Thu, 27 Oct 2022 03:55:17 -0400
+	id 1onxuv-0004XD-La; Thu, 27 Oct 2022 04:07:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1onxjB-0004GN-I8
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 03:55:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1onxjA-0007lQ-9x
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 03:55:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666857299;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XK/K7cB2JpXA4lJ7vp4t2yZa74m7csVs3olNlLS9PfU=;
- b=O3/7mHlMOWOLfq9Gy2x27LImjlP+CS8bHcI12ypT0SsKxyHKPA+G7KVfLmdKkcjyHgMWOt
- 2ZUWtCh33nvNryV0v3SZdkhVVb+uYIRqnio52tdeDFy8v6DiTBKnossciskJBljSl1wOEy
- zZGtW/dkyJFPt0vlrAb520Fc/+DebKY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-487--wx7yYu6MQGqVR-hGcOMeg-1; Thu, 27 Oct 2022 03:54:54 -0400
-X-MC-Unique: -wx7yYu6MQGqVR-hGcOMeg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4996E811E81;
- Thu, 27 Oct 2022 07:54:54 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2477949BB69;
- Thu, 27 Oct 2022 07:54:52 +0000 (UTC)
-Date: Thu, 27 Oct 2022 09:54:50 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: "Meng, Bin" <Bin.Meng@windriver.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Hanna Reitz <hreitz@redhat.com>, Peter Lieven <pl@kamp.de>
-Subject: Re: [PATCH 5/7] block/nfs: Fix 32-bit Windows build
-Message-ID: <Y1o5Slh7H+scVmYi@redhat.com>
-References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
- <20220908132817.1831008-6-bmeng.cn@gmail.com>
- <f3447651-dadb-c0ed-f1f8-4ad80b551acf@amsat.org>
- <DM4PR11MB53589BB8CFF45CE67683E762914F9@DM4PR11MB5358.namprd11.prod.outlook.com>
- <CAEUhbmWv3F-5rPnE37XbmdSyfuKAXb7JOwywqVPnzA7dq361Og@mail.gmail.com>
- <CAEUhbmXka0i8Jt_kO_LHNpLWEix17Q7GiMP+U+6kEf4v9M7Rfg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1onxuB-0002D8-9u
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 04:06:37 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1onxtv-0001ju-Kj
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 04:06:22 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ az22-20020a05600c601600b003c6b72797fdso540477wmb.5
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 01:06:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=z1uurC34g6Qf9FWFyk2KxYKzqdHfrq68bhaSqBXYo5I=;
+ b=voqhycX7azc3qkNmoaEI47DED1JheWSB5FvAWFHrw81a6fImlbnNBRSDIcvG9BExml
+ 26iN6aGZtpUIqliBs2HcdUXiCK9sCNgqejR09ardAtqfe1ldJOqYwTYhsy66h6AT59DR
+ 2e9VtXnRyyT2pb8OfQeq7gsEohoR/Vuh4xOVtgr4vsfmd6t55TrG2HE8urDAq/rk8hgy
+ wnI0sfFjkvjadU1fAiW6KhI9kYv2eZsWFxUr9poXziE8F1XELnifCJiNpvsWne4sR0td
+ 2jDP3QSSJUfIwV5Wy0IznPBzh+7wPiFSIaFSWUWKoMtV23j+WIeqoVnVlMVQHW6rGVUI
+ yRdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=z1uurC34g6Qf9FWFyk2KxYKzqdHfrq68bhaSqBXYo5I=;
+ b=xYWqWhKK7sylVRn0Ri3FutPhJjxmVnqoVsUUN77dkt5wNL9pPhhZk+SgOiZFTdhl8R
+ yqui+XH3uJWHrgcK6yky4vjZ6bZQeFUy90w6ogCjDlccaYDycxj8fXfUyJiRYYG0PGWB
+ 0CwvAh5Np51cBd45QvHX5KKpQDfGV0b2ZXbITdoCbNu0/+/M3pBorto55YJrWcLHXlja
+ Mvs9Aq7yv+59IeSwCSYNovYDIVUcQaBrxTQrDd9+WyM4FT1tcZloC9QQFz3VKEcFox3m
+ RMLy6Kmsx2KFAE5/P6vRen/XsqNzOPFhe2+YJW5iqfmcrcf6/cJ4gpfXjr0bv+mtM/Pw
+ 5Keg==
+X-Gm-Message-State: ACrzQf1DpotPTfdtHAItOuVDQh3t8RUP8G9UEUtqlesuTDamoZAa+gck
+ ENVDhr3hYh3Zom+7G1vGZwxcxQ==
+X-Google-Smtp-Source: AMsMyM5GL4qb1MFYnFCbiDZDc7xYJjB+hmZlm/UCDT+/BW/Bb1iQZ3miWz9BLFpOIdi8TqX2va0aTw==
+X-Received: by 2002:a1c:25c1:0:b0:3cf:4dc4:5a97 with SMTP id
+ l184-20020a1c25c1000000b003cf4dc45a97mr3556803wml.147.1666857961556; 
+ Thu, 27 Oct 2022 01:06:01 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ j21-20020a05600c42d500b003b492753826sm739610wme.43.2022.10.27.01.06.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Oct 2022 01:06:01 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 919ED1FFB7;
+ Thu, 27 Oct 2022 09:06:00 +0100 (BST)
+References: <20221015050750.4185-1-vikram.garhwal@amd.com>
+ <20221015050750.4185-11-vikram.garhwal@amd.com>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Vikram Garhwal <vikram.garhwal@amd.com>
+Cc: qemu-devel@nongnu.org, stefano.stabellini@amd.com, Peter Maydell
+ <peter.maydell@linaro.org>, Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v1 10/12] hw/arm: introduce xenpv machine
+Date: Thu, 27 Oct 2022 09:02:54 +0100
+In-reply-to: <20221015050750.4185-11-vikram.garhwal@amd.com>
+Message-ID: <87wn8l3d3r.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEUhbmXka0i8Jt_kO_LHNpLWEix17Q7GiMP+U+6kEf4v9M7Rfg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,13 +98,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 27.10.2022 um 04:45 hat Bin Meng geschrieben:
-> Hi Kevin,
-> [...]
-> Will you queue this patch via the block tree?
 
-Just to be sure, you mean only patch 5? Yes, I can do that.
+Vikram Garhwal <vikram.garhwal@amd.com> writes:
 
-Kevin
+<snip>
+> Optional: When CONFIG_TPM is enabled, it also creates a tpm-tis-device, a=
+dds a
+> TPM emulator and connects to swtpm running on host machine via chardev so=
+cket
+> and support TPM functionalities for a guest domain.
+>
+> Extra command line for aarch64 xenpv QEMU to connect to swtpm:
+>     -chardev socket,id=3Dchrtpm,path=3D/tmp/myvtpm2/swtpm-sock \
+>     -tpmdev emulator,id=3Dtpm0,chardev=3Dchrtpm \
+>
+> swtpm implements a TPM software emulator(TPM 1.2 & TPM 2) built on libtpm=
+s and
+> provides access to TPM functionality over socket, chardev and CUSE interf=
+ace.
+> Github repo: https://github.com/stefanberger/swtpm
+> Example for starting swtpm on host machine:
+>     mkdir /tmp/vtpm2
+>     swtpm socket --tpmstate dir=3D/tmp/vtpm2 \
+>     --ctrl type=3Dunixio,path=3D/tmp/vtpm2/swtpm-sock &
 
+<snip>
+> +static void xen_enable_tpm(void)
+> +{
+> +/* qemu_find_tpm_be is only available when CONFIG_TPM is enabled. */
+> +#ifdef CONFIG_TPM
+> +    Error *errp =3D NULL;
+> +    DeviceState *dev;
+> +    SysBusDevice *busdev;
+> +
+> +    TPMBackend *be =3D qemu_find_tpm_be("tpm0");
+> +    if (be =3D=3D NULL) {
+> +        DPRINTF("Couldn't fine the backend for tpm0\n");
+> +        return;
+> +    }
+> +    dev =3D qdev_new(TYPE_TPM_TIS_SYSBUS);
+> +    object_property_set_link(OBJECT(dev), "tpmdev", OBJECT(be), &errp);
+> +    object_property_set_str(OBJECT(dev), "tpmdev", be->id, &errp);
+> +    busdev =3D SYS_BUS_DEVICE(dev);
+> +    sysbus_realize_and_unref(busdev, &error_fatal);
+> +    sysbus_mmio_map(busdev, 0, GUEST_TPM_BASE);
+
+I'm not sure what has gone wrong here but I'm getting:
+
+  ../../hw/arm/xen_arm.c: In function =E2=80=98xen_enable_tpm=E2=80=99:
+  ../../hw/arm/xen_arm.c:120:32: error: =E2=80=98GUEST_TPM_BASE=E2=80=99 un=
+declared (first use in this function); did you mean =E2=80=98GUEST_RAM_BASE=
+=E2=80=99?
+    120 |     sysbus_mmio_map(busdev, 0, GUEST_TPM_BASE);
+        |                                ^~~~~~~~~~~~~~
+        |                                GUEST_RAM_BASE
+  ../../hw/arm/xen_arm.c:120:32: note: each undeclared identifier is report=
+ed only once for each function it appears in
+
+In my cross build:
+
+  # Configured with: '../../configure' '--disable-docs' '--target-list=3Daa=
+rch64-softmmu' '--disable-kvm' '--enable-xen' '--disable-opengl' '--disable=
+-libudev' '--enable-tpm' '--disable-xen-pci-passthrough' '--cross-prefix=3D=
+aarch64-linux-gnu-' '--skip-meson'
+
+which makes me wonder if this is a configure failure or a confusion
+about being able to have host swtpm implementations during emulation but
+needing target tpm for Xen?
+
+--=20
+Alex Benn=C3=A9e
 
