@@ -2,91 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5886560F59B
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 12:44:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8445860F57E
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 12:40:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo0JG-0007r5-TU; Thu, 27 Oct 2022 06:40:26 -0400
+	id 1oo0JC-0005fA-5G; Thu, 27 Oct 2022 06:40:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oo0JB-00072z-Nd; Thu, 27 Oct 2022 06:40:22 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oo0J7-0001p5-6f; Thu, 27 Oct 2022 06:40:19 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29RABcgs003250;
- Thu, 27 Oct 2022 10:40:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=aAHBGpkbHcpbpfc3VElImHSzVm/EjZe+L3Pnpa/H1HI=;
- b=swYky5SnUYQDMKNMGcXAc9ekYVzk+4R+eyE7d8l+miZ0lKaDLEz8mTyB7JEvbFI8sEzM
- wC3wo7qtxMZCpPYatfZOZCtamLFQ4fjbIDOgDSjIy1kLA1ViIHcBYkU+AO9yQv8UTEkq
- VlLPCsvqbAFYE3+m+cslfnnkbTdYz5HEIJXPFB3H+YVorfY2NRQWT/IqXuRGXG4oBvio
- vEhiVsZJSuJgTTOsGmViRRLSAJ1F1acG+L9/y3T5EXVGC58j8n1uAUenujs4UZ9SEE8K
- mnmyycJCym5vhps5uK2PXmtK9nreNawsh44Ymk8BLjSDdeTHAgc9pRpqBkb9SL/4pb+a FQ== 
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfr13gv7b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 10:40:14 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29RAODYq019421;
- Thu, 27 Oct 2022 10:40:11 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma04fra.de.ibm.com with ESMTP id 3kfah917cg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 10:40:11 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29RAe9UN64356750
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 27 Oct 2022 10:40:09 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 35D1A4204B;
- Thu, 27 Oct 2022 10:40:09 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 07CB342045;
- Thu, 27 Oct 2022 10:40:09 +0000 (GMT)
-Received: from heavy (unknown [9.171.39.72])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Thu, 27 Oct 2022 10:40:08 +0000 (GMT)
-Date: Thu, 27 Oct 2022 12:40:04 +0200
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org
-Subject: Re: [PATCH 5/9] target/s390x: Use Int128 for return from TRE
-Message-ID: <20221027104004.7l2p3pjfwxcger57@heavy>
-References: <20221021073006.2398819-1-richard.henderson@linaro.org>
- <20221021073006.2398819-6-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oo0J3-0005WT-Q1
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:40:13 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oo0J1-0001mT-CV
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:40:13 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1BDEC1FDC2;
+ Thu, 27 Oct 2022 10:40:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1666867208; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qvOm3ieJ4IfOBoPDzE+A5B+no/kBTibZFh/0kEfVyjk=;
+ b=kADY0l3zZGwzGfU3CD2bsZnZywLK0A43tzHvy1UccPVgnXRJ+aV84kQ+o82yqPWSTMh4Su
+ G8NxMsi5GeeKNEphNw0jhGE/SvhNlkYwbkkY6FY55YJ8LnsBxyJ3IlLqJ+WinkiuPu/nmR
+ uH7W9RqH9hJtWV8vNx6UNNxxb4Xtybc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1666867208;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qvOm3ieJ4IfOBoPDzE+A5B+no/kBTibZFh/0kEfVyjk=;
+ b=w11fl4kX3KMoCelPatJZhy1w1uz4c85De5Kgeugx6S11H8o91paaVcDamZjYMqKVVTA0ib
+ 8+feOm2PuO6a2AAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 016B6134CA;
+ Thu, 27 Oct 2022 10:40:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Yw1HOgdgWmPgCAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 27 Oct 2022 10:40:07 +0000
+Message-ID: <5d82d4c4-8de1-4419-19b8-b5de878c5eb3@suse.de>
+Date: Thu, 27 Oct 2022 12:40:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221021073006.2398819-6-richard.henderson@linaro.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _X5-avA8sKUYR-tCVMu3IKO51ZqP-bPD
-X-Proofpoint-ORIG-GUID: _X5-avA8sKUYR-tCVMu3IKO51ZqP-bPD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-27_05,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0
- adultscore=0 suspectscore=0 spamscore=0 mlxlogscore=561 clxscore=1015
- priorityscore=1501 bulkscore=0 impostorscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2210270058
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 1/6] accel/tcg: Introduce cpu_unwind_state_data
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221027100254.215253-1-richard.henderson@linaro.org>
+ <20221027100254.215253-2-richard.henderson@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <20221027100254.215253-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,13 +87,208 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Oct 21, 2022 at 05:30:02PM +1000, Richard Henderson wrote:
+On 10/27/22 12:02, Richard Henderson wrote:
+> Add a way to examine the unwind data without actually
+> restoring the data back into env.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/s390x/helper.h         | 2 +-
->  target/s390x/tcg/mem_helper.c | 7 +++----
->  target/s390x/tcg/translate.c  | 7 +++++--
->  3 files changed, 9 insertions(+), 7 deletions(-)
+>  accel/tcg/internal.h      |  4 +--
+>  include/exec/exec-all.h   | 21 ++++++++---
+>  accel/tcg/translate-all.c | 74 ++++++++++++++++++++++++++-------------
+>  3 files changed, 68 insertions(+), 31 deletions(-)
+> 
+> diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
+> index 1227bb69bd..9c06b320b7 100644
+> --- a/accel/tcg/internal.h
+> +++ b/accel/tcg/internal.h
+> @@ -106,8 +106,8 @@ void tb_reset_jump(TranslationBlock *tb, int n);
+>  TranslationBlock *tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+>                                 tb_page_addr_t phys_page2);
+>  bool tb_invalidate_phys_page_unwind(tb_page_addr_t addr, uintptr_t pc);
+> -int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+> -                              uintptr_t searched_pc, bool reset_icount);
+> +void cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+> +                               uintptr_t host_pc, bool reset_icount);
+>  
+>  /* Return the current PC from CPU, which may be cached in TB. */
+>  static inline target_ulong log_pc(CPUState *cpu, const TranslationBlock *tb)
+> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+> index e948992a80..7d851f5907 100644
+> --- a/include/exec/exec-all.h
+> +++ b/include/exec/exec-all.h
+> @@ -39,20 +39,33 @@ typedef ram_addr_t tb_page_addr_t;
+>  #define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
+>  #endif
+>  
+> +/**
+> + * cpu_unwind_state_data:
+> + * @cpu: the cpu context
+> + * @host_pc: the host pc within the translation
+> + * @data: output data
+> + *
+> + * Attempt to load the the unwind state for a host pc occurring in
+> + * translated code.  If @host_pc is not in translated code, the
+> + * function returns false; otherwise @data is loaded.
+> + * This is the same unwind info as given to restore_state_to_opc.
+> + */
+> +bool cpu_unwind_state_data(CPUState *cpu, uintptr_t host_pc, uint64_t *data);
+> +
+>  /**
+>   * cpu_restore_state:
+> - * @cpu: the vCPU state is to be restore to
+> - * @searched_pc: the host PC the fault occurred at
+> + * @cpu: the cpu context
+> + * @host_pc: the host pc within the translation
+>   * @will_exit: true if the TB executed will be interrupted after some
+>                 cpu adjustments. Required for maintaining the correct
+>                 icount valus
+>   * @return: true if state was restored, false otherwise
+>   *
+>   * Attempt to restore the state for a fault occurring in translated
+> - * code. If the searched_pc is not in translated code no state is
+> + * code. If @host_pc is not in translated code no state is
+>   * restored and the function returns false.
+>   */
+> -bool cpu_restore_state(CPUState *cpu, uintptr_t searched_pc, bool will_exit);
+> +bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit);
+>  
+>  G_NORETURN void cpu_loop_exit_noexc(CPUState *cpu);
+>  G_NORETURN void cpu_loop_exit(CPUState *cpu);
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index f185356a36..319becb698 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -247,52 +247,66 @@ static int encode_search(TranslationBlock *tb, uint8_t *block)
+>      return p - block;
+>  }
+>  
+> -/* The cpu state corresponding to 'searched_pc' is restored.
+> - * When reset_icount is true, current TB will be interrupted and
+> - * icount should be recalculated.
+> - */
+> -int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+> -                              uintptr_t searched_pc, bool reset_icount)
 
-Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
+
+Maybe add a small comment about what the return value of this static function means?
+It can be indirectly inferred from its point of use:
+
+ +    int insns_left = cpu_unwind_data_from_tb(tb, host_pc, data);
+
+But I find having the information about the meaning of a function and return value useful to be available there.
+
+IIUC for external functions the standard way is to document in the header files, but for the static functions I would think we can do it here.
+
+With that Reviewed-by: Claudio Fontana <cfontana@suse.de>
+
+
+> +static int cpu_unwind_data_from_tb(TranslationBlock *tb, uintptr_t host_pc,
+> +                                   uint64_t *data)
+>  {
+> -    uint64_t data[TARGET_INSN_START_WORDS];
+> -    uintptr_t host_pc = (uintptr_t)tb->tc.ptr;
+> +    uintptr_t iter_pc = (uintptr_t)tb->tc.ptr;
+>      const uint8_t *p = tb->tc.ptr + tb->tc.size;
+>      int i, j, num_insns = tb->icount;
+> -#ifdef CONFIG_PROFILER
+> -    TCGProfile *prof = &tcg_ctx->prof;
+> -    int64_t ti = profile_getclock();
+> -#endif
+>  
+> -    searched_pc -= GETPC_ADJ;
+> +    host_pc -= GETPC_ADJ;
+>  
+> -    if (searched_pc < host_pc) {
+> +    if (host_pc < iter_pc) {
+>          return -1;
+>      }
+>  
+> -    memset(data, 0, sizeof(data));
+> +    memset(data, 0, sizeof(uint64_t) * TARGET_INSN_START_WORDS);
+>      if (!TARGET_TB_PCREL) {
+>          data[0] = tb_pc(tb);
+>      }
+>  
+> -    /* Reconstruct the stored insn data while looking for the point at
+> -       which the end of the insn exceeds the searched_pc.  */
+> +    /*
+> +     * Reconstruct the stored insn data while looking for the point
+> +     * at which the end of the insn exceeds host_pc.
+> +     */
+>      for (i = 0; i < num_insns; ++i) {
+>          for (j = 0; j < TARGET_INSN_START_WORDS; ++j) {
+>              data[j] += decode_sleb128(&p);
+>          }
+> -        host_pc += decode_sleb128(&p);
+> -        if (host_pc > searched_pc) {
+> -            goto found;
+> +        iter_pc += decode_sleb128(&p);
+> +        if (iter_pc > host_pc) {
+> +            return num_insns - i;
+>          }
+>      }
+>      return -1;
+> +}
+> +
+> +/*
+> + * The cpu state corresponding to 'host_pc' is restored.
+> + * When reset_icount is true, current TB will be interrupted and
+> + * icount should be recalculated.
+> + */
+> +void cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+> +                               uintptr_t host_pc, bool reset_icount)
+> +{
+> +    uint64_t data[TARGET_INSN_START_WORDS];
+> +#ifdef CONFIG_PROFILER
+> +    TCGProfile *prof = &tcg_ctx->prof;
+> +    int64_t ti = profile_getclock();
+> +#endif
+> +    int insns_left = cpu_unwind_data_from_tb(tb, host_pc, data);
+> +
+> +    if (insns_left < 0) {
+> +        return;
+> +    }
+>  
+> - found:
+>      if (reset_icount && (tb_cflags(tb) & CF_USE_ICOUNT)) {
+>          assert(icount_enabled());
+> -        /* Reset the cycle counter to the start of the block
+> -           and shift if to the number of actually executed instructions */
+> -        cpu_neg(cpu)->icount_decr.u16.low += num_insns - i;
+> +        /*
+> +         * Reset the cycle counter to the start of the block and
+> +         * shift if to the number of actually executed instructions.
+> +         */
+> +        cpu_neg(cpu)->icount_decr.u16.low += insns_left;
+>      }
+>  
+>      cpu->cc->tcg_ops->restore_state_to_opc(cpu, tb, data);
+> @@ -302,7 +316,6 @@ int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
+>                  prof->restore_time + profile_getclock() - ti);
+>      qatomic_set(&prof->restore_count, prof->restore_count + 1);
+>  #endif
+> -    return 0;
+>  }
+>  
+>  bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
+> @@ -335,6 +348,17 @@ bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
+>      return false;
+>  }
+>  
+> +bool cpu_unwind_state_data(CPUState *cpu, uintptr_t host_pc, uint64_t *data)
+> +{
+> +    if (in_code_gen_buffer((const void *)(host_pc - tcg_splitwx_diff))) {
+> +        TranslationBlock *tb = tcg_tb_lookup(host_pc);
+> +        if (tb) {
+> +            return cpu_unwind_data_from_tb(tb, host_pc, data) >= 0;
+> +        }
+> +    }
+> +    return false;
+> +}
+> +
+>  void page_init(void)
+>  {
+>      page_size_init();
+
 
