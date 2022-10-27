@@ -2,85 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5533160FA85
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 16:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4C860FA89
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 16:38:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo3zi-0006fi-OR; Thu, 27 Oct 2022 10:36:30 -0400
+	id 1oo40J-00021R-VR; Thu, 27 Oct 2022 10:37:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oo3yr-000556-MM
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:35:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oo40E-0001tb-7r
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:37:03 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oo3yq-0003m9-41
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:35:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666881331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MLqnpIPxEKxLLJj68XhbmT5hGlUNKCSvofIXVWR2Z3A=;
- b=ekOYRbNmug42xHymbbUaE3L408wEunwaseaj1TCVFISSKrKE1zqTeQuT9oXP7gW0OEUhQ8
- w4tHFi7Waabb8SQRpTr/pTRmLlI0RbplhhAcRdDwp8b7ttHK1ECvRuBLwXFh6gm4Tw4DHk
- U1RxYD1T5LHBrUJa9pi/73+mjbIIarg=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-118-k-3PJ2y_OOKaoG17qrIOdw-1; Thu, 27 Oct 2022 10:35:28 -0400
-X-MC-Unique: k-3PJ2y_OOKaoG17qrIOdw-1
-Received: by mail-qt1-f200.google.com with SMTP id
- cp8-20020a05622a420800b003a4f4f7b621so1289741qtb.6
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 07:35:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MLqnpIPxEKxLLJj68XhbmT5hGlUNKCSvofIXVWR2Z3A=;
- b=r3Zxo7wyyeq1ugFV9MHxn2Ueo+qktDCHA4yOaAnP9+Vsd7qWZ+8l8VUN/oV/BIbVaJ
- I5YR1toq5UfCNAj2E1VzywCYFxRGueWd7jT/RAbxF/NXeSR9ulAKHQNdZb0JR8XyCyMB
- RCS4VXJQVCotdqTppQLqUAOlPPxOVblEDJzGZVElllrJtfzV/RZxXL0ZXp64DCfxHO3f
- EEiEX2x1CUebAFqTg7tgRZH3Pzmdn7PQ71K3wId+bhlhkgbffBHc1DXgf6pxY7qG8G7c
- uUgCt6MpujNaL/e4Mc9CMIO4ISsQcRcet7Ggt1z9E9+XEowQlXR7EJ2aE9vxJzZukb6d
- JawQ==
-X-Gm-Message-State: ACrzQf3UYJnWY6xDGV1VFjwINxOtTq2ryiK/86i7WSZYnU8Ra24Jp4H4
- GQd934mssB08rSK7eCjZSf/RomcNHIAcYo6A6bDDHGDvij3MMD8zqa+0ygtHT7dojhM+O7FUXvM
- p9RqbU8ZuA6jgMQ8=
-X-Received: by 2002:a05:620a:448e:b0:6ce:8dd2:bc46 with SMTP id
- x14-20020a05620a448e00b006ce8dd2bc46mr35914696qkp.705.1666881328332; 
- Thu, 27 Oct 2022 07:35:28 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5Uzcx7offmG8QxX9P8oMg/eQDjtojH+FvsonzNk34WU7yulwYIdtOPXa4Lub3RH+E1CunoUQ==
-X-Received: by 2002:a05:620a:448e:b0:6ce:8dd2:bc46 with SMTP id
- x14-20020a05620a448e00b006ce8dd2bc46mr35914674qkp.705.1666881328110; 
- Thu, 27 Oct 2022 07:35:28 -0700 (PDT)
-Received: from x1n (bras-base-aurron9127w-grc-46-70-31-27-79.dsl.bell.ca.
- [70.31.27.79]) by smtp.gmail.com with ESMTPSA id
- l13-20020a05620a28cd00b006f8665f483fsm1082234qkp.85.2022.10.27.07.35.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 07:35:27 -0700 (PDT)
-Date: Thu, 27 Oct 2022 10:35:26 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, yi.l.liu@intel.com,
- yi.y.sun@linux.intel.com, eperezma@redhat.com, lulu@redhat.com
-Subject: Re: [PATCH V4 0/4] PASID support for Intel IOMMU
-Message-ID: <Y1qXLtXnAwjN87wF@x1n>
-References: <20221027075042.16894-1-jasowang@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oo406-0003xl-EG
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 10:37:02 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.123])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 15A8A13715254;
+ Thu, 27 Oct 2022 16:36:31 +0200 (CEST)
+Received: from kaod.org (37.59.142.108) by DAG8EX2.mxp5.local (172.16.2.72)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Thu, 27 Oct
+ 2022 16:36:31 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-108S002ba7d64b6-4bdd-49c8-a7f5-92e99578f79c,
+ 12214A5382596B9A7152AE05734170724E9AD55A) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Thu, 27 Oct 2022 16:36:30 +0200
+From: Greg Kurz <groug@kaod.org>
+To: <qemu-devel@nongnu.org>
+CC: Paolo Bonzini <pbonzini@redhat.com>, Alex =?UTF-8?B?QmVubsOpZQ==?=
+ <alex.bennee@linaro.org>, "Daniel P . =?UTF-8?B?QmVycmFuZ8Op?="
+ <berrange@redhat.com>, <richard.henderson@linaro.org>,
+ <qemu-stable@nongnu.org>
+Subject: Re: [PATCH] util/log: Close per-thread log file on thread termination
+Message-ID: <20221027163630.4863d4be@bahia>
+In-Reply-To: <20221021105734.555797-1-groug@kaod.org>
+References: <20221021105734.555797-1-groug@kaod.org>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221027075042.16894-1-jasowang@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.108]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG8EX2.mxp5.local
+ (172.16.2.72)
+X-Ovh-Tracer-GUID: 162aacd5-1783-4dc8-a203-9f98acd2d467
+X-Ovh-Tracer-Id: 10911940422978345254
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeggdejjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeegkeejtdevgeekieelffdvtedvvdegtdduudeigffhhffgvdfhgeejteekheefkeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehgrhhouhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdprghlvgigrdgsvghnnhgvvgeslhhinhgrrhhordhorhhgpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdhrihgthhgrrhgurdhhvghnuggvrhhsohhnsehlihhnrghrohdrohhrghdpqhgvmhhuqdhsthgrsghlvgesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehvdelpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,34 +73,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 03:50:38PM +0800, Jason Wang wrote:
-> Hi All:
-> 
-> This series tries to introduce PASID support for Intel IOMMU. The work
-> is based on the previous scalabe mode support by implement the
-> ECAP_PASID. A new "x-pasid-mode" is introduced to enable this
-> mode. All internal vIOMMU codes were extended to support PASID instead
-> of the current RID2PASID method. The code is also capable of
-> provisiong address space with PASID. Note that no devices can issue
-> PASID DMA right now, this needs future work.
-> 
-> This will be used for prototying PASID based device like virtio or
-> future vPASID support for Intel IOMMU.
-> 
-> Test has been done with the Linux guest with scalalbe mode enabled and
-> disabled. A virtio prototype[1][2] that can issue PAISD based DMA
-> request were also tested, different PASID were used in TX and RX in
-> those testing drivers.
-> 
-> Changes since V3:
-> 
-> - rearrange the member for vtd_iotlb_key structure
-> - reorder the pasid parameter ahead of addr for vtd_lookup_iotlb()
-> - allow access size from 1 to 8 for vtd_mem_ir_fault_ops
+Cc'ing stable
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+On Fri, 21 Oct 2022 12:57:34 +0200
+Greg Kurz <groug@kaod.org> wrote:
 
--- 
-Peter Xu
+> When `-D ${logfile} -d tid` is passed, qemu_log_trylock() creates
+> a dedicated log file for the current thread and opens it. The
+> corresponding file descriptor is cached in a __thread variable.
+> Nothing is done to close the corresponding file descriptor when the
+> thread terminates though and the file descriptor is leaked.
+> 
+> The issue was found during code inspection and reproduced manually.
+> 
+> Fix that with an atexit notifier.
+> 
+> Fixes: 4e51069d6793 ("util/log: Support per-thread log files")
+> Cc: richard.henderson@linaro.org
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+>  util/log.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/util/log.c b/util/log.c
+> index d6eb0378c3a3..39866bdaf2fa 100644
+> --- a/util/log.c
+> +++ b/util/log.c
+> @@ -42,6 +42,7 @@ static QemuMutex global_mutex;
+>  static char *global_filename;
+>  static FILE *global_file;
+>  static __thread FILE *thread_file;
+> +static __thread Notifier qemu_log_thread_cleanup_notifier;
+>  
+>  int qemu_loglevel;
+>  static bool log_append;
+> @@ -77,6 +78,12 @@ static int log_thread_id(void)
+>  #endif
+>  }
+>  
+> +static void qemu_log_thread_cleanup(Notifier *n, void *unused)
+> +{
+> +    fclose(thread_file);
+> +    thread_file = NULL;
+> +}
+> +
+>  /* Lock/unlock output. */
+>  
+>  FILE *qemu_log_trylock(void)
+> @@ -93,6 +100,8 @@ FILE *qemu_log_trylock(void)
+>                  return NULL;
+>              }
+>              thread_file = logfile;
+> +            qemu_log_thread_cleanup_notifier.notify = qemu_log_thread_cleanup;
+> +            qemu_thread_atexit_add(&qemu_log_thread_cleanup_notifier);
+>          } else {
+>              rcu_read_lock();
+>              /*
 
 
