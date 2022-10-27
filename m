@@ -2,41 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3ED460F4B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 12:17:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29DE160F4BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 12:19:23 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onzv0-0003Tq-P3; Thu, 27 Oct 2022 06:15:22 -0400
+	id 1onzyI-0003Ub-8B; Thu, 27 Oct 2022 06:18:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1onzuv-0002kO-L6
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:15:17 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1onzyF-000380-9F
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:18:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1onzur-000610-Mh
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:15:17 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 31D0044038;
- Thu, 27 Oct 2022 12:14:59 +0200 (CEST)
-From: Fiona Ebner <f.ebner@proxmox.com>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, hreitz@redhat.com, t.lamprecht@proxmox.com,
- d.csapak@proxmox.com
-Subject: [PATCH] vl: change PID file path resolve error to warning
-Date: Thu, 27 Oct 2022 12:14:43 +0200
-Message-Id: <20221027101443.118049-1-f.ebner@proxmox.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1onzyC-0006d3-P9
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:18:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666865919;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wgDB/YSTz4eEMj1pIyGz67wnGjDyD7D3moR8yFhatAU=;
+ b=Sm7osJ48vaCFxJb4K67dP5cMpZqjpxNGEBnHSInF8JrOYHC6t7nl15aEVE1pTfyS1rm+DV
+ SDKicwEYziEXh5mCuNImb6fHZNKbv9CE40rP8rWQHjeznjHJmilXQdydSVn8hctvLLwHLQ
+ dDSXua+Hm5RPcrb2vvpgHQl2NkSc2wc=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-446-hhVPNl41PD-uBovugpoQyA-1; Thu, 27 Oct 2022 06:18:30 -0400
+X-MC-Unique: hhVPNl41PD-uBovugpoQyA-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ i17-20020a170902cf1100b00183e2a963f5so763030plg.5
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 03:18:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wgDB/YSTz4eEMj1pIyGz67wnGjDyD7D3moR8yFhatAU=;
+ b=d3vvV2smbe7PHOIdWiVgdvljUqNxOEb6SHg7GRRi6HyYxUQxJLcuUHSa14hbCSWGIN
+ byHBY1QJAW6o7vye5u42vX2NpQ+EhmVCnGQF461iOQJWP4XbyZs5Wnaf1MXZW/+cKXtM
+ +xzLgxbTNwcGF5eK27IaVdjv6A77fwI5ZkA7eyDvFT/EZy9fSpzf73kgCVSLlaLuyyV0
+ nVzKnb13wgAnNPqTQdjgV83w842dJXmyL/RJrEs/keaNmx5oSdQufbz2pF7+4rY1WlLd
+ K9IGmMyyRf/cdoIeY8nT3EcUfPytihxaSr5NKzXSoP2RuRQ9JfzZA7/Yw8lEaxrx3EZL
+ vr7Q==
+X-Gm-Message-State: ACrzQf1hWeIUOo1XN/L7ZUCZ3X7FuIywjZqIei8fyY8chl/X7H5TWFql
+ va2RXEifExU7lf5ujpv+hCsmPeFqiB9S9ItQJ6tfjfjcpfdFcBOdbkA00qhtZMd7ou+G2usazqD
+ SYc96PIIp19NIhsAJ3TII1uKSgXE3arA=
+X-Received: by 2002:a17:903:1303:b0:186:969d:97cf with SMTP id
+ iy3-20020a170903130300b00186969d97cfmr24545817plb.17.1666865908308; 
+ Thu, 27 Oct 2022 03:18:28 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5Az+IqX4TGwJDivXcBAl+ZthhQrkF6DsaQjzljNgeTAMrbq+kXVo8vdlDHubx56juYVkrhu6ijJGvKLenn98Y=
+X-Received: by 2002:a17:903:1303:b0:186:969d:97cf with SMTP id
+ iy3-20020a170903130300b00186969d97cfmr24545779plb.17.1666865908024; Thu, 27
+ Oct 2022 03:18:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20221026095303.37907-1-eperezma@redhat.com>
+ <20221026095303.37907-4-eperezma@redhat.com>
+ <53480725-89de-f289-c5cc-4b37ede72c31@redhat.com>
+ <CAJaqyWdr1_eJmS1otXd0RBKUdu5BZk87_t7F6jZm5Mg8sK9kBQ@mail.gmail.com>
+ <CACGkMEuv2zNLAr_BxPcQ3RCH5S91bm6sJFvhL7QetJNXaM_FmQ@mail.gmail.com>
+In-Reply-To: <CACGkMEuv2zNLAr_BxPcQ3RCH5S91bm6sJFvhL7QetJNXaM_FmQ@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 27 Oct 2022 12:17:51 +0200
+Message-ID: <CAJaqyWfyDWAe18MYzKmwjm8icCR7Ju4eHx1XRQCVb3M1p9uu+A@mail.gmail.com>
+Subject: Re: [PATCH 3/3] vdpa: Expose VIRTIO_NET_F_STATUS unconditionally
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Gautam Dawar <gdawar@xilinx.com>, 
+ Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Eli Cohen <eli@mellanox.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,89 +103,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Commit 85c4bf8aa6 ("vl: Unlink absolute PID file path") made it a
-critical error when the PID file path cannot be resolved. Before this
-commit, it was possible to invoke QEMU when the PID file was a file
-created with mkstemp that was already unlinked at the time of the
-invocation. There might be other similar scenarios.
+On Thu, Oct 27, 2022 at 8:54 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Thu, Oct 27, 2022 at 2:47 PM Eugenio Perez Martin
+> <eperezma@redhat.com> wrote:
+> >
+> > On Thu, Oct 27, 2022 at 6:32 AM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > >
+> > > =E5=9C=A8 2022/10/26 17:53, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > > > Now that qemu can handle and emulate it if the vdpa backend does no=
+t
+> > > > support it we can offer it always.
+> > > >
+> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > >
+> > >
+> > > I may miss something but isn't more easier to simply remove the
+> > > _F_STATUS from vdpa_feature_bits[]?
+> > >
+> >
+> > How is that? if we remove it, the guest cannot ack it so it cannot
+> > access the net status, isn't it?
+>
+> My understanding is that the bits stored in the vdpa_feature_bits[]
+> are the features that must be explicitly supported by the vhost
+> device.
 
-It should not be a critical error when the PID file unlink notifier
-can't be registered, because the path can't be resolved. Turn it into
-a warning instead.
+(Non English native here, so maybe I don't get what you mean :) ) The
+device may not support them. net simulator lacks some of them
+actually, and it works.
 
-Fixes: 85c4bf8aa6 ("vl: Unlink absolute PID file path")
-Reported-by: Dominik Csapak <d.csapak@proxmox.com>
-Suggested-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
-Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
----
+From what I see these are the only features that will be forwarded to
+the guest as device_features. If it is not in the list, the feature
+will be masked out, as if the device does not support it.
 
-For completeness, here is a reproducer based on our actual invocation
-written in Rust (depends on the "nix" crate). It works fine with QEMU
-7.0, but not anymore with 7.1.
+So now _F_STATUS it was forwarded only if the device supports it. If
+we remove it from bit_mask, it will never be offered to the guest. But
+we want to offer it always, since we will need it for
+_F_GUEST_ANNOUNCE.
 
-use std::fs::File;
-use std::io::Read;
-use std::os::unix::io::{AsRawFd, FromRawFd};
-use std::path::{Path, PathBuf};
-use std::process::Command;
+Things get more complex because we actually need to ack it back if the
+device offers it, so the vdpa device can report link_down. We will
+only emulate LINK_UP always in the case the device does not support
+_F_STATUS.
 
-fn make_tmp_file<P: AsRef<Path>>(path: P) -> (File, PathBuf) {
-    let path = path.as_ref();
+> So if we remove _F_STATUS, Qemu vhost code won't validate if
+> vhost-vdpa device has this support:
+>
+> uint64_t vhost_get_features(struct vhost_dev *hdev, const int *feature_bi=
+ts,
+>                             uint64_t features)
+> {
+>     const int *bit =3D feature_bits;
+>     while (*bit !=3D VHOST_INVALID_FEATURE_BIT) {
+>         uint64_t bit_mask =3D (1ULL << *bit);
+>         if (!(hdev->features & bit_mask)) {
+>             features &=3D ~bit_mask;
+>         }
+>         bit++;
+>     }
+>     return features;
+> }
+>
 
-    let mut template = path.to_owned();
-    template.set_extension("tmp_XXXXXX");
-    match nix::unistd::mkstemp(&template) {
-        Ok((fd, path)) => (unsafe { File::from_raw_fd(fd) }, path),
-        Err(err) => panic!("mkstemp {:?} failed: {}", template, err),
-    }
-}
+Now maybe I'm the one missing something, but why is this not done as a
+masking directly?
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let (mut pidfile, pid_path) = make_tmp_file("/tmp/unlinked.pid.tmp");
-    nix::unistd::unlink(&pid_path)?;
+Instead of making feature_bits an array of ints, to declare it as a
+uint64_t with the valid feature bits and simply return features &
+feature_bits.
 
-    let mut qemu_cmd = Command::new("./qemu-system-x86_64");
-    qemu_cmd.args([
-        "-daemonize",
-        "-pidfile",
-        &format!("/dev/fd/{}", pidfile.as_raw_fd()),
-    ]);
+Thanks!
 
-    let res = qemu_cmd.spawn()?.wait_with_output()?;
-
-    if res.status.success() {
-        let mut pidstr = String::new();
-        pidfile.read_to_string(&mut pidstr)?;
-        println!("got PID {}", pidstr);
-    } else {
-        panic!("QEMU command unsuccessful");
-    }
-    Ok(())
-}
-
- softmmu/vl.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index b464da25bc..10dfe773a7 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2432,10 +2432,9 @@ static void qemu_maybe_daemonize(const char *pid_file)
- 
-         pid_file_realpath = g_malloc0(PATH_MAX);
-         if (!realpath(pid_file, pid_file_realpath)) {
--            error_report("cannot resolve PID file path: %s: %s",
--                         pid_file, strerror(errno));
--            unlink(pid_file);
--            exit(1);
-+            warn_report("not removing PID file on exit: cannot resolve PID file"
-+                        " path: %s: %s", pid_file, strerror(errno));
-+            return;
-         }
- 
-         qemu_unlink_pidfile_notifier = (struct UnlinkPidfileNotifier) {
--- 
-2.30.2
-
+> Thanks
+>
+>
+>
+> >
+> > The goal with this patch series is to let the guest access the status
+> > always, even if the device doesn't support _F_STATUS.
+> >
+> > > Thanks
+> > >
+> > >
+> > > > ---
+> > > >   include/net/vhost-vdpa.h |  1 +
+> > > >   hw/net/vhost_net.c       | 16 ++++++++++++++--
+> > > >   net/vhost-vdpa.c         |  3 +++
+> > > >   3 files changed, 18 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/include/net/vhost-vdpa.h b/include/net/vhost-vdpa.h
+> > > > index b81f9a6f2a..cfbcce6427 100644
+> > > > --- a/include/net/vhost-vdpa.h
+> > > > +++ b/include/net/vhost-vdpa.h
+> > > > @@ -17,5 +17,6 @@
+> > > >   struct vhost_net *vhost_vdpa_get_vhost_net(NetClientState *nc);
+> > > >
+> > > >   extern const int vdpa_feature_bits[];
+> > > > +extern const uint64_t vhost_vdpa_net_added_feature_bits;
+> > > >
+> > > >   #endif /* VHOST_VDPA_H */
+> > > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> > > > index d28f8b974b..7c15cc6e8f 100644
+> > > > --- a/hw/net/vhost_net.c
+> > > > +++ b/hw/net/vhost_net.c
+> > > > @@ -109,10 +109,22 @@ static const int *vhost_net_get_feature_bits(=
+struct vhost_net *net)
+> > > >       return feature_bits;
+> > > >   }
+> > > >
+> > > > +static uint64_t vhost_net_add_feature_bits(struct vhost_net *net)
+> > > > +{
+> > > > +    if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA) {
+> > > > +        return vhost_vdpa_net_added_feature_bits;
+> > > > +    }
+> > > > +
+> > > > +    return 0;
+> > > > +}
+> > > > +
+> > > >   uint64_t vhost_net_get_features(struct vhost_net *net, uint64_t f=
+eatures)
+> > > >   {
+> > > > -    return vhost_get_features(&net->dev, vhost_net_get_feature_bit=
+s(net),
+> > > > -            features);
+> > > > +    uint64_t ret =3D vhost_get_features(&net->dev,
+> > > > +                                      vhost_net_get_feature_bits(n=
+et),
+> > > > +                                      features);
+> > > > +
+> > > > +    return ret | vhost_net_add_feature_bits(net);
+> > > >   }
+> > > >   int vhost_net_get_config(struct vhost_net *net,  uint8_t *config,
+> > > >                            uint32_t config_len)
+> > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > > index 6d64000202..24d2857593 100644
+> > > > --- a/net/vhost-vdpa.c
+> > > > +++ b/net/vhost-vdpa.c
+> > > > @@ -99,6 +99,9 @@ static const uint64_t vdpa_svq_device_features =
+=3D
+> > > >       BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
+> > > >       BIT_ULL(VIRTIO_NET_F_STANDBY);
+> > > >
+> > > > +const uint64_t vhost_vdpa_net_added_feature_bits =3D
+> > > > +    BIT_ULL(VIRTIO_NET_F_STATUS);
+> > > > +
+> > > >   VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
+> > > >   {
+> > > >       VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > >
+> >
+>
 
 
