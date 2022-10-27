@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A4160F089
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 08:44:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774EB60F075
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 08:41:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onwZ2-0004Zg-4e; Thu, 27 Oct 2022 02:40:28 -0400
+	id 1onwa9-00077R-Ub; Thu, 27 Oct 2022 02:41:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1onwWs-0004Im-4T
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:38:19 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
+ id 1onwX8-0005bk-D9
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:38:36 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1onwWk-0003Eu-BW
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:38:13 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id g62so562592pfb.10
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 23:38:02 -0700 (PDT)
+ id 1onwWz-0003O7-8L
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:38:29 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id b185so568352pfb.9
+ for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 23:38:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1STM3PpWdsCtuLQ0E6sPy5DYW3VO2819dTVvZ/ugr5w=;
- b=0R0dLN0fopu74Fk/OlRoU+7syV3ruF03VFa72rTKpV33/1YAMzPs/wXjWIZf0H42+b
- NGvlHOy3hlBsXH3GGbd9KzTqBqfy7TsDVpIOk+rblE2Gsm6sTTuP26AT4sd1/FSbTBYn
- KXz4XlxyBtPokylEPUM9c3yOEDj8zo6LW1DXZaDYWDPe3T8ykm4+1GQ1eSQXytQzDbsw
- QHRMk5Rcxve8ekqTvcSiFH7xCNrZpgy5bUrkTJBN3K3UoeAnAfNFbCPu2XFyP9KV5S4O
- GUvLGG0m4UCW1/qP4VlGFQ+lSEfmq98Iq7yRABSTHHIEbHsFZM4fI0fg0xptdHsHWTHv
- OM6w==
+ bh=ioCZhzqEnb3ki2vdALK3OP9iHUGb5QKRaFPg84jt8ho=;
+ b=ua110L3v2fffCnSH6mL405jUPqsFnmOdBr6aDdAwGFEhHX0+8Skfum7B0GbZh+EivC
+ tfnb63hFm6dekZZOxRBGKSqrhDeO4iuYYsOtF++pK6CfzJH8v8NPYACYscc54FcyC5Nk
+ dqVciIQdhT82FdSrMDjPZQ4TpCTxfAzC2O2ufmpyH4S++lI/DFmKIPHY68vtDR/XcNhc
+ /tigw94ax0Qk1pqzrZupJOaJxQV/hplJyKw5di/4jlM7bxXawFoG/SoTU5PH1IxBuOYD
+ dNngXzhOlVPFD32xIawumiee8jhV4WK6CR3ArPQh4lM6gOKIpIVvTjjoDG89SRv/RBL2
+ Wqsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1STM3PpWdsCtuLQ0E6sPy5DYW3VO2819dTVvZ/ugr5w=;
- b=QRP/GwnsPx/zDGvibNBu3kaPXWkrBqUM5EtWBMcWrY2yxjgMe/y2OVcjq/f6b9x/va
- vbRFm0O1SKsqE0dLfVUdtGEw9m60OQCA16DyDGrJP47zDJlKqLv5ZZrSGIZXkPP/Ipfz
- i1uNGEkfx+Fb5BLekL/2/cDaQnZOIY9/I+JBUCF+aA+NZstAs+eyyong9iz96lO2JD3O
- GNdhf9WGz7Ex4iOp9OIbpf3b0EubZA1NB94vwwhNhaoKX7RqtfimMS1VUjGSEjha8B+f
- 05juXruHr6KjcBSrnyMO4GEteDa5wFb/Is9Hv+/BDS7K/kkeLKJ+tBahBZHPwZtThOYj
- VfMw==
-X-Gm-Message-State: ACrzQf2Wu9pzrYVbQOPUXmhgtDhXE1eMooCICIs7FWHQ/i2FC7vkL7VD
- DetJOgupF4jw+3mEWyDuusBQsQ==
-X-Google-Smtp-Source: AMsMyM57UyVa5PdIS66/0QYq76mBU0FC25k+O+7hsPGX8zN9yFMVGt/+a7Um01GZ5KKxe+7yHm+NYg==
-X-Received: by 2002:a63:8bc3:0:b0:461:c9af:94e0 with SMTP id
- j186-20020a638bc3000000b00461c9af94e0mr39762736pge.421.1666852681539; 
- Wed, 26 Oct 2022 23:38:01 -0700 (PDT)
+ bh=ioCZhzqEnb3ki2vdALK3OP9iHUGb5QKRaFPg84jt8ho=;
+ b=gbn5dQRvXvZOOkfrdUJT7YDw49S+KwuB2inWgP/753oU7Tgd+lD1V0PB7FTY7l276w
+ WUEFTLBgEjQsD+kBft5YjeAE4VIKTfqJpbTnYCC0G8B7lZZ6H+CtTXYKDYo9dAG2wnpZ
+ 9qO78aa5tvnaJBjcOy+ydShY2Paj1kcAbCUBeZ2f5aWCnyHHdH3OQEccPi6h70dnDhyV
+ FyHHwDCbK+7jMDPCefhcuUw/XqDiX4UBpEg8suFKZeSsf7HIfWXFt9wClKHZJcr+tdRk
+ hQis2dzS/4pPAdnXj2ZzCWqSO9UtTFoyth42ZnPXO5+OfexztcFc1lFJGix7SIgBHd71
+ kOJQ==
+X-Gm-Message-State: ACrzQf2AR21yRua0nW0OP88egAEmlZxdHFcsYtTDfPHS5RoiiYbB/8d5
+ 5yzQ5PiScYy131Xb+uVID1gJwubKyAxz0Wco
+X-Google-Smtp-Source: AMsMyM4yT2Xmx6qsJdnVNsoaMELF4YL3yDpGFU8NwcFWfmVcj7cMwDFuqecEJJ0KKQUimv5JemTVAw==
+X-Received: by 2002:a17:902:db0b:b0:185:51cc:8113 with SMTP id
+ m11-20020a170902db0b00b0018551cc8113mr46181220plx.64.1666852686999; 
+ Wed, 26 Oct 2022 23:38:06 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- z17-20020aa79491000000b0056b818142a2sm448872pfk.109.2022.10.26.23.37.56
+ z17-20020aa79491000000b0056b818142a2sm448872pfk.109.2022.10.26.23.38.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 23:38:01 -0700 (PDT)
+ Wed, 26 Oct 2022 23:38:06 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
@@ -73,23 +73,24 @@ Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Yan Vugenfirer <yan@daynix.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v4 09/17] hw/pci/pci_bridge: Omit errp for pci_add_capability
-Date: Thu, 27 Oct 2022 15:36:57 +0900
-Message-Id: <20221027063705.4093-10-akihiko.odaki@daynix.com>
+ Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PATCH v4 10/17] pcie: Omit errp for pci_add_capability
+Date: Thu, 27 Oct 2022 15:36:58 +0900
+Message-Id: <20221027063705.4093-11-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221027063705.4093-1-akihiko.odaki@daynix.com>
 References: <20221027063705.4093-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::42f;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: none client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,164 +107,429 @@ Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Omitting errp for pci_add_capability() causes it to abort if
-capabilities overlap. A caller of pci_bridge_ssvid_init(), which calls
-pci_add_capability() in turn, is expected to ensure that will not
+capabilities overlap. A caller of a PCIe function which calls
+pci_add_capability() in turn is expected to ensure that will not
 happen.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> (for CXL parts)
 ---
- hw/pci-bridge/i82801b11.c          | 14 ++------------
- hw/pci-bridge/pcie_root_port.c     |  7 +------
- hw/pci-bridge/xio3130_downstream.c |  8 ++------
- hw/pci-bridge/xio3130_upstream.c   |  8 ++------
- hw/pci/pci_bridge.c                | 21 ++++++---------------
- include/hw/pci/pci_bridge.h        |  5 ++---
- 6 files changed, 15 insertions(+), 48 deletions(-)
+ docs/pcie_sriov.txt                |  4 +--
+ hw/display/bochs-display.c         |  4 +--
+ hw/net/e1000e.c                    |  4 +--
+ hw/pci-bridge/cxl_downstream.c     |  9 ++----
+ hw/pci-bridge/cxl_upstream.c       |  8 ++---
+ hw/pci-bridge/pcie_pci_bridge.c    |  6 +---
+ hw/pci-bridge/pcie_root_port.c     |  9 +-----
+ hw/pci-bridge/xio3130_downstream.c |  7 +---
+ hw/pci-bridge/xio3130_upstream.c   |  7 +---
+ hw/pci-host/designware.c           |  3 +-
+ hw/pci-host/xilinx-pcie.c          |  4 +--
+ hw/pci/pcie.c                      | 52 ++++++++----------------------
+ hw/usb/hcd-xhci-pci.c              |  3 +-
+ hw/virtio/virtio-pci.c             |  3 +-
+ include/hw/pci/pcie.h              | 11 +++----
+ 15 files changed, 35 insertions(+), 99 deletions(-)
 
-diff --git a/hw/pci-bridge/i82801b11.c b/hw/pci-bridge/i82801b11.c
-index f28181e210..f45dcdbacc 100644
---- a/hw/pci-bridge/i82801b11.c
-+++ b/hw/pci-bridge/i82801b11.c
-@@ -61,21 +61,11 @@ typedef struct I82801b11Bridge {
- 
- static void i82801b11_bridge_realize(PCIDevice *d, Error **errp)
+diff --git a/docs/pcie_sriov.txt b/docs/pcie_sriov.txt
+index 11158dbf88..728a73ba7b 100644
+--- a/docs/pcie_sriov.txt
++++ b/docs/pcie_sriov.txt
+@@ -49,7 +49,7 @@ setting up a BAR for a VF.
+    pci_your_pf_dev_realize( ... )
+    {
+       ...
+-      int ret = pcie_endpoint_cap_init(d, 0x70);
++      pcie_endpoint_cap_init(d, 0x70);
+       ...
+       pcie_ari_init(d, 0x100, 1);
+       ...
+@@ -79,7 +79,7 @@ setting up a BAR for a VF.
+    pci_your_vf_dev_realize( ... )
+    {
+       ...
+-      int ret = pcie_endpoint_cap_init(d, 0x60);
++      pcie_endpoint_cap_init(d, 0x60);
+       ...
+       pcie_ari_init(d, 0x100, 1);
+       ...
+diff --git a/hw/display/bochs-display.c b/hw/display/bochs-display.c
+index 8ed734b195..111cabcfb3 100644
+--- a/hw/display/bochs-display.c
++++ b/hw/display/bochs-display.c
+@@ -265,7 +265,6 @@ static void bochs_display_realize(PCIDevice *dev, Error **errp)
  {
--    int rc;
--
-     pci_bridge_initfn(d, TYPE_PCI_BUS);
+     BochsDisplayState *s = BOCHS_DISPLAY(dev);
+     Object *obj = OBJECT(dev);
+-    int ret;
  
--    rc = pci_bridge_ssvid_init(d, I82801ba_SSVID_OFFSET,
--                               I82801ba_SSVID_SVID, I82801ba_SSVID_SSID,
--                               errp);
--    if (rc < 0) {
--        goto err_bridge;
+     if (s->vgamem < 4 * MiB) {
+         error_setg(errp, "bochs-display: video memory too small");
+@@ -302,8 +301,7 @@ static void bochs_display_realize(PCIDevice *dev, Error **errp)
+     }
+ 
+     if (pci_bus_is_express(pci_get_bus(dev))) {
+-        ret = pcie_endpoint_cap_init(dev, 0x80);
+-        assert(ret > 0);
++        pcie_endpoint_cap_init(dev, 0x80);
+     } else {
+         dev->cap_present &= ~QEMU_PCI_CAP_EXPRESS;
+     }
+diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
+index e433b8f9a5..aea4305c43 100644
+--- a/hw/net/e1000e.c
++++ b/hw/net/e1000e.c
+@@ -462,9 +462,7 @@ static void e1000e_pci_realize(PCIDevice *pci_dev, Error **errp)
+ 
+     e1000e_init_msix(s);
+ 
+-    if (pcie_endpoint_cap_v1_init(pci_dev, e1000e_pcie_offset) < 0) {
+-        hw_error("Failed to initialize PCIe capability");
 -    }
-+    pci_bridge_ssvid_init(d, I82801ba_SSVID_OFFSET,
-+                          I82801ba_SSVID_SVID, I82801ba_SSVID_SSID);
-     pci_config_set_prog_interface(d->config, PCI_CLASS_BRIDGE_PCI_INF_SUB);
--    return;
--
--err_bridge:
--    pci_bridge_exitfn(d);
- }
++    pcie_endpoint_cap_v1_init(pci_dev, e1000e_pcie_offset);
  
- static const VMStateDescription i82801b11_bridge_dev_vmstate = {
+     ret = msi_init(PCI_DEVICE(s), 0xD0, 1, true, false, NULL);
+     if (ret) {
+diff --git a/hw/pci-bridge/cxl_downstream.c b/hw/pci-bridge/cxl_downstream.c
+index a361e519d0..1980dd9c6c 100644
+--- a/hw/pci-bridge/cxl_downstream.c
++++ b/hw/pci-bridge/cxl_downstream.c
+@@ -155,12 +155,8 @@ static void cxl_dsp_realize(PCIDevice *d, Error **errp)
+         goto err_bridge;
+     }
+ 
+-    rc = pcie_cap_init(d, CXL_DOWNSTREAM_PORT_EXP_OFFSET,
+-                       PCI_EXP_TYPE_DOWNSTREAM, p->port,
+-                       errp);
+-    if (rc < 0) {
+-        goto err_msi;
+-    }
++    pcie_cap_init(d, CXL_DOWNSTREAM_PORT_EXP_OFFSET,
++                  PCI_EXP_TYPE_DOWNSTREAM, p->port);
+ 
+     pcie_cap_flr_init(d);
+     pcie_cap_deverr_init(d);
+@@ -195,7 +191,6 @@ static void cxl_dsp_realize(PCIDevice *d, Error **errp)
+     pcie_chassis_del_slot(s);
+  err_pcie_cap:
+     pcie_cap_exit(d);
+- err_msi:
+     msi_uninit(d);
+  err_bridge:
+     pci_bridge_exitfn(d);
+diff --git a/hw/pci-bridge/cxl_upstream.c b/hw/pci-bridge/cxl_upstream.c
+index a83a3e81e4..26f27ba681 100644
+--- a/hw/pci-bridge/cxl_upstream.c
++++ b/hw/pci-bridge/cxl_upstream.c
+@@ -138,11 +138,8 @@ static void cxl_usp_realize(PCIDevice *d, Error **errp)
+         goto err_bridge;
+     }
+ 
+-    rc = pcie_cap_init(d, CXL_UPSTREAM_PORT_PCIE_CAP_OFFSET,
+-                       PCI_EXP_TYPE_UPSTREAM, p->port, errp);
+-    if (rc < 0) {
+-        goto err_msi;
+-    }
++    pcie_cap_init(d, CXL_UPSTREAM_PORT_PCIE_CAP_OFFSET,
++                  PCI_EXP_TYPE_UPSTREAM, p->port);
+ 
+     pcie_cap_flr_init(d);
+     pcie_cap_deverr_init(d);
+@@ -165,7 +162,6 @@ static void cxl_usp_realize(PCIDevice *d, Error **errp)
+ 
+ err_cap:
+     pcie_cap_exit(d);
+-err_msi:
+     msi_uninit(d);
+ err_bridge:
+     pci_bridge_exitfn(d);
+diff --git a/hw/pci-bridge/pcie_pci_bridge.c b/hw/pci-bridge/pcie_pci_bridge.c
+index 1cd917a459..df5dfdd139 100644
+--- a/hw/pci-bridge/pcie_pci_bridge.c
++++ b/hw/pci-bridge/pcie_pci_bridge.c
+@@ -47,10 +47,7 @@ static void pcie_pci_bridge_realize(PCIDevice *d, Error **errp)
+         goto error;
+     }
+ 
+-    rc = pcie_cap_init(d, 0, PCI_EXP_TYPE_PCI_BRIDGE, 0, errp);
+-    if (rc < 0) {
+-        goto cap_error;
+-    }
++    pcie_cap_init(d, 0, PCI_EXP_TYPE_PCI_BRIDGE, 0);
+ 
+     pos = pci_add_capability(d, PCI_CAP_ID_PM, 0, PCI_PM_SIZEOF, errp);
+     if (pos < 0) {
+@@ -90,7 +87,6 @@ msi_error:
+ aer_error:
+ pm_error:
+     pcie_cap_exit(d);
+-cap_error:
+     shpc_cleanup(d, &pcie_br->shpc_bar);
+ error:
+     pci_bridge_exitfn(d);
 diff --git a/hw/pci-bridge/pcie_root_port.c b/hw/pci-bridge/pcie_root_port.c
-index 460e48269d..a9d8c2adb4 100644
+index a9d8c2adb4..92cebc7cce 100644
 --- a/hw/pci-bridge/pcie_root_port.c
 +++ b/hw/pci-bridge/pcie_root_port.c
-@@ -74,12 +74,7 @@ static void rp_realize(PCIDevice *d, Error **errp)
+@@ -83,13 +83,7 @@ static void rp_realize(PCIDevice *d, Error **errp)
+         }
      }
-     pcie_port_init_reg(d);
  
--    rc = pci_bridge_ssvid_init(d, rpc->ssvid_offset, dc->vendor_id,
--                               rpc->ssid, errp);
+-    rc = pcie_cap_init(d, rpc->exp_offset, PCI_EXP_TYPE_ROOT_PORT,
+-                       p->port, errp);
 -    if (rc < 0) {
--        error_append_hint(errp, "Can't init SSV ID, error %d\n", rc);
--        goto err_bridge;
+-        error_append_hint(errp, "Can't add Root Port capability, "
+-                          "error %d\n", rc);
+-        goto err_int;
 -    }
-+    pci_bridge_ssvid_init(d, rpc->ssvid_offset, dc->vendor_id, rpc->ssid);
++    pcie_cap_init(d, rpc->exp_offset, PCI_EXP_TYPE_ROOT_PORT, p->port);
  
-     if (rpc->interrupts_init) {
-         rc = rpc->interrupts_init(d, errp);
+     pcie_cap_arifwd_init(d);
+     pcie_cap_deverr_init(d);
+@@ -120,7 +114,6 @@ err:
+     pcie_chassis_del_slot(s);
+ err_pcie_cap:
+     pcie_cap_exit(d);
+-err_int:
+     if (rpc->interrupts_uninit) {
+         rpc->interrupts_uninit(d);
+     }
 diff --git a/hw/pci-bridge/xio3130_downstream.c b/hw/pci-bridge/xio3130_downstream.c
-index 05e2b06c0c..eea3d3a2df 100644
+index eea3d3a2df..37307c8c23 100644
 --- a/hw/pci-bridge/xio3130_downstream.c
 +++ b/hw/pci-bridge/xio3130_downstream.c
-@@ -81,12 +81,8 @@ static void xio3130_downstream_realize(PCIDevice *d, Error **errp)
-         goto err_bridge;
-     }
+@@ -84,11 +84,7 @@ static void xio3130_downstream_realize(PCIDevice *d, Error **errp)
+     pci_bridge_ssvid_init(d, XIO3130_SSVID_OFFSET,
+                           XIO3130_SSVID_SVID, XIO3130_SSVID_SSID);
  
--    rc = pci_bridge_ssvid_init(d, XIO3130_SSVID_OFFSET,
--                               XIO3130_SSVID_SVID, XIO3130_SSVID_SSID,
--                               errp);
+-    rc = pcie_cap_init(d, XIO3130_EXP_OFFSET, PCI_EXP_TYPE_DOWNSTREAM,
+-                       p->port, errp);
 -    if (rc < 0) {
 -        goto err_msi;
 -    }
-+    pci_bridge_ssvid_init(d, XIO3130_SSVID_OFFSET,
-+                          XIO3130_SSVID_SVID, XIO3130_SSVID_SSID);
- 
-     rc = pcie_cap_init(d, XIO3130_EXP_OFFSET, PCI_EXP_TYPE_DOWNSTREAM,
-                        p->port, errp);
++    pcie_cap_init(d, XIO3130_EXP_OFFSET, PCI_EXP_TYPE_DOWNSTREAM, p->port);
+     pcie_cap_flr_init(d);
+     pcie_cap_deverr_init(d);
+     pcie_cap_slot_init(d, s);
+@@ -113,7 +109,6 @@ err:
+     pcie_chassis_del_slot(s);
+ err_pcie_cap:
+     pcie_cap_exit(d);
+-err_msi:
+     msi_uninit(d);
+ err_bridge:
+     pci_bridge_exitfn(d);
 diff --git a/hw/pci-bridge/xio3130_upstream.c b/hw/pci-bridge/xio3130_upstream.c
-index 5ff46ef050..d954906d79 100644
+index d954906d79..546224d97c 100644
 --- a/hw/pci-bridge/xio3130_upstream.c
 +++ b/hw/pci-bridge/xio3130_upstream.c
-@@ -71,12 +71,8 @@ static void xio3130_upstream_realize(PCIDevice *d, Error **errp)
-         goto err_bridge;
-     }
+@@ -74,11 +74,7 @@ static void xio3130_upstream_realize(PCIDevice *d, Error **errp)
+     pci_bridge_ssvid_init(d, XIO3130_SSVID_OFFSET,
+                           XIO3130_SSVID_SVID, XIO3130_SSVID_SSID);
  
--    rc = pci_bridge_ssvid_init(d, XIO3130_SSVID_OFFSET,
--                               XIO3130_SSVID_SVID, XIO3130_SSVID_SSID,
--                               errp);
+-    rc = pcie_cap_init(d, XIO3130_EXP_OFFSET, PCI_EXP_TYPE_UPSTREAM,
+-                       p->port, errp);
 -    if (rc < 0) {
 -        goto err_msi;
 -    }
-+    pci_bridge_ssvid_init(d, XIO3130_SSVID_OFFSET,
-+                          XIO3130_SSVID_SVID, XIO3130_SSVID_SSID);
++    pcie_cap_init(d, XIO3130_EXP_OFFSET, PCI_EXP_TYPE_UPSTREAM, p->port);
+     pcie_cap_flr_init(d);
+     pcie_cap_deverr_init(d);
  
-     rc = pcie_cap_init(d, XIO3130_EXP_OFFSET, PCI_EXP_TYPE_UPSTREAM,
-                        p->port, errp);
-diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
-index da34c8ebcd..30032fed64 100644
---- a/hw/pci/pci_bridge.c
-+++ b/hw/pci/pci_bridge.c
-@@ -42,21 +42,15 @@
- #define PCI_SSVID_SVID          4
- #define PCI_SSVID_SSID          6
+@@ -92,7 +88,6 @@ static void xio3130_upstream_realize(PCIDevice *d, Error **errp)
  
--int pci_bridge_ssvid_init(PCIDevice *dev, uint8_t offset,
--                          uint16_t svid, uint16_t ssid,
--                          Error **errp)
-+void pci_bridge_ssvid_init(PCIDevice *dev, uint8_t offset,
-+                           uint16_t svid, uint16_t ssid)
+ err:
+     pcie_cap_exit(d);
+-err_msi:
+     msi_uninit(d);
+ err_bridge:
+     pci_bridge_exitfn(d);
+diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
+index bde3a343a2..3e4972ad76 100644
+--- a/hw/pci-host/designware.c
++++ b/hw/pci-host/designware.c
+@@ -414,8 +414,7 @@ static void designware_pcie_root_realize(PCIDevice *dev, Error **errp)
+ 
+     pcie_port_init_reg(dev);
+ 
+-    pcie_cap_init(dev, 0x70, PCI_EXP_TYPE_ROOT_PORT,
+-                  0, &error_fatal);
++    pcie_cap_init(dev, 0x70, PCI_EXP_TYPE_ROOT_PORT, 0);
+ 
+     msi_nonbroken = true;
+     msi_init(dev, 0x50, 32, true, true, &error_fatal);
+diff --git a/hw/pci-host/xilinx-pcie.c b/hw/pci-host/xilinx-pcie.c
+index 38d5901a45..49f0ac5e35 100644
+--- a/hw/pci-host/xilinx-pcie.c
++++ b/hw/pci-host/xilinx-pcie.c
+@@ -282,9 +282,7 @@ static void xilinx_pcie_root_realize(PCIDevice *pci_dev, Error **errp)
+ 
+     pci_bridge_initfn(pci_dev, TYPE_PCI_BUS);
+ 
+-    if (pcie_endpoint_cap_v1_init(pci_dev, 0x80) < 0) {
+-        error_setg(errp, "Failed to initialize PCIe capability");
+-    }
++    pcie_endpoint_cap_v1_init(pci_dev, 0x80);
+ }
+ 
+ static void xilinx_pcie_root_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index 68a62da0b5..923ad29c52 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -151,21 +151,15 @@ static void pcie_cap_fill_slot_lnk(PCIDevice *dev)
+     }
+ }
+ 
+-int pcie_cap_init(PCIDevice *dev, uint8_t offset,
+-                  uint8_t type, uint8_t port,
+-                  Error **errp)
++void pcie_cap_init(PCIDevice *dev, uint8_t offset, uint8_t type, uint8_t port)
  {
+     /* PCIe cap v2 init */
 -    int pos;
 +    uint8_t pos;
+     uint8_t *exp_cap;
  
--    pos = pci_add_capability(dev, PCI_CAP_ID_SSVID, offset,
--                             PCI_SSVID_SIZEOF, errp);
+     assert(pci_is_express(dev));
+ 
+-    pos = pci_add_capability(dev, PCI_CAP_ID_EXP, offset,
+-                             PCI_EXP_VER2_SIZEOF, errp);
 -    if (pos < 0) {
 -        return pos;
 -    }
-+    pos = pci_add_capability(dev, PCI_CAP_ID_SSVID, offset, PCI_SSVID_SIZEOF);
++    pos = pci_add_capability(dev, PCI_CAP_ID_EXP, offset, PCI_EXP_VER2_SIZEOF);
+     dev->exp.exp_cap = pos;
+     exp_cap = dev->config + pos;
  
-     pci_set_word(dev->config + pos + PCI_SSVID_SVID, svid);
-     pci_set_word(dev->config + pos + PCI_SSVID_SSID, ssid);
+@@ -185,38 +179,26 @@ int pcie_cap_init(PCIDevice *dev, uint8_t offset,
+         /* read-only to behave like a 'NULL' Extended Capability Header */
+         pci_set_long(dev->wmask + PCI_CONFIG_SPACE_SIZE, 0);
+     }
+-
 -    return pos;
  }
  
- /* Accessor function to get parent bridge device from pci bus. */
-@@ -455,11 +449,8 @@ int pci_bridge_qemu_reserve_cap_init(PCIDevice *dev, int cap_offset,
-             .mem_pref_64 = cpu_to_le64(res_reserve.mem_pref_64)
-     };
+-int pcie_cap_v1_init(PCIDevice *dev, uint8_t offset, uint8_t type,
+-                     uint8_t port)
++void pcie_cap_v1_init(PCIDevice *dev, uint8_t offset, uint8_t type,
++                      uint8_t port)
+ {
+     /* PCIe cap v1 init */
+-    int pos;
+-    Error *local_err = NULL;
++    uint8_t pos;
  
--    int offset = pci_add_capability(dev, PCI_CAP_ID_VNDR,
--                                    cap_offset, cap_len, errp);
--    if (offset < 0) {
--        return offset;
+     assert(pci_is_express(dev));
+ 
+-    pos = pci_add_capability(dev, PCI_CAP_ID_EXP, offset,
+-                             PCI_EXP_VER1_SIZEOF, &local_err);
+-    if (pos < 0) {
+-        error_report_err(local_err);
+-        return pos;
 -    }
-+    uint8_t offset = pci_add_capability(dev, PCI_CAP_ID_VNDR,
-+                                        cap_offset, cap_len);
++    pos = pci_add_capability(dev, PCI_CAP_ID_EXP, offset, PCI_EXP_VER1_SIZEOF);
+     dev->exp.exp_cap = pos;
  
-     memcpy(dev->config + offset + PCI_CAP_FLAGS,
-            (char *)&cap + PCI_CAP_FLAGS,
-diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
-index ba4bafac7c..e499482972 100644
---- a/include/hw/pci/pci_bridge.h
-+++ b/include/hw/pci/pci_bridge.h
-@@ -101,9 +101,8 @@ typedef struct PXBDev PXBDev;
- DECLARE_INSTANCE_CHECKER(PXBDev, PXB_CXL_DEV,
-                          TYPE_PXB_CXL_DEVICE)
+     pcie_cap_v1_fill(dev, port, type, PCI_EXP_FLAGS_VER1);
+-
+-    return pos;
+ }
  
--int pci_bridge_ssvid_init(PCIDevice *dev, uint8_t offset,
--                          uint16_t svid, uint16_t ssid,
--                          Error **errp);
-+void pci_bridge_ssvid_init(PCIDevice *dev, uint8_t offset,
-+                           uint16_t svid, uint16_t ssid);
+-static int
++static void
+ pcie_endpoint_cap_common_init(PCIDevice *dev, uint8_t offset, uint8_t cap_size)
+ {
+     uint8_t type = PCI_EXP_TYPE_ENDPOINT;
+-    Error *local_err = NULL;
+-    int ret;
  
- PCIDevice *pci_bridge_get_device(PCIBus *bus);
- PCIBus *pci_bridge_get_sec_bus(PCIBridge *br);
+     /*
+      * Windows guests will report Code 10, device cannot start, if
+@@ -229,26 +211,20 @@ pcie_endpoint_cap_common_init(PCIDevice *dev, uint8_t offset, uint8_t cap_size)
+     }
+ 
+     if (cap_size == PCI_EXP_VER1_SIZEOF) {
+-        return pcie_cap_v1_init(dev, offset, type, 0);
++        pcie_cap_v1_init(dev, offset, type, 0);
+     } else {
+-        ret = pcie_cap_init(dev, offset, type, 0, &local_err);
+-
+-        if (ret < 0) {
+-            error_report_err(local_err);
+-        }
+-
+-        return ret;
++        pcie_cap_init(dev, offset, type, 0);
+     }
+ }
+ 
+-int pcie_endpoint_cap_init(PCIDevice *dev, uint8_t offset)
++void pcie_endpoint_cap_init(PCIDevice *dev, uint8_t offset)
+ {
+-    return pcie_endpoint_cap_common_init(dev, offset, PCI_EXP_VER2_SIZEOF);
++    pcie_endpoint_cap_common_init(dev, offset, PCI_EXP_VER2_SIZEOF);
+ }
+ 
+-int pcie_endpoint_cap_v1_init(PCIDevice *dev, uint8_t offset)
++void pcie_endpoint_cap_v1_init(PCIDevice *dev, uint8_t offset)
+ {
+-    return pcie_endpoint_cap_common_init(dev, offset, PCI_EXP_VER1_SIZEOF);
++    pcie_endpoint_cap_common_init(dev, offset, PCI_EXP_VER1_SIZEOF);
+ }
+ 
+ void pcie_cap_exit(PCIDevice *dev)
+diff --git a/hw/usb/hcd-xhci-pci.c b/hw/usb/hcd-xhci-pci.c
+index e934b1a5b1..0eba2b36ae 100644
+--- a/hw/usb/hcd-xhci-pci.c
++++ b/hw/usb/hcd-xhci-pci.c
+@@ -150,8 +150,7 @@ static void usb_xhci_pci_realize(struct PCIDevice *dev, Error **errp)
+ 
+     if (pci_bus_is_express(pci_get_bus(dev)) ||
+         xhci_get_flag(&s->xhci, XHCI_FLAG_FORCE_PCIE_ENDCAP)) {
+-        ret = pcie_endpoint_cap_init(dev, 0xa0);
+-        assert(ret > 0);
++        pcie_endpoint_cap_init(dev, 0xa0);
+     }
+ 
+     if (s->msix != ON_OFF_AUTO_OFF) {
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 45327f0b31..c37bdc77ea 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1862,8 +1862,7 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+         int pos;
+         uint16_t last_pcie_cap_offset = PCI_CONFIG_SPACE_SIZE;
+ 
+-        pos = pcie_endpoint_cap_init(pci_dev, 0);
+-        assert(pos > 0);
++        pcie_endpoint_cap_init(pci_dev, 0);
+ 
+         pos = pci_add_capability(pci_dev, PCI_CAP_ID_PM, 0,
+                                  PCI_PM_SIZEOF, errp);
+diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
+index 798a262a0a..7a35851ae8 100644
+--- a/include/hw/pci/pcie.h
++++ b/include/hw/pci/pcie.h
+@@ -92,13 +92,12 @@ struct PCIExpressDevice {
+ #define COMPAT_PROP_PCP "power_controller_present"
+ 
+ /* PCI express capability helper functions */
+-int pcie_cap_init(PCIDevice *dev, uint8_t offset, uint8_t type,
+-                  uint8_t port, Error **errp);
+-int pcie_cap_v1_init(PCIDevice *dev, uint8_t offset,
+-                     uint8_t type, uint8_t port);
+-int pcie_endpoint_cap_init(PCIDevice *dev, uint8_t offset);
++void pcie_cap_init(PCIDevice *dev, uint8_t offset, uint8_t type, uint8_t port);
++void pcie_cap_v1_init(PCIDevice *dev, uint8_t offset,
++                      uint8_t type, uint8_t port);
++void pcie_endpoint_cap_init(PCIDevice *dev, uint8_t offset);
+ void pcie_cap_exit(PCIDevice *dev);
+-int pcie_endpoint_cap_v1_init(PCIDevice *dev, uint8_t offset);
++void pcie_endpoint_cap_v1_init(PCIDevice *dev, uint8_t offset);
+ void pcie_cap_v1_exit(PCIDevice *dev);
+ uint8_t pcie_cap_get_type(const PCIDevice *dev);
+ void pcie_cap_flags_set_vector(PCIDevice *dev, uint8_t vector);
 -- 
 2.37.3
 
