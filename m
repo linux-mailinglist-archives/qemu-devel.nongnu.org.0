@@ -2,77 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACAA660EE6A
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 05:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C8D60EEB6
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 05:38:32 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ontIx-0004yb-Pi; Wed, 26 Oct 2022 23:11:39 -0400
+	id 1ontXt-0006C6-Gl; Wed, 26 Oct 2022 23:27:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ontIt-0004e4-Qt; Wed, 26 Oct 2022 23:11:35 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ontIr-0007oq-Le; Wed, 26 Oct 2022 23:11:35 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id 4so126053pli.0;
- Wed, 26 Oct 2022 20:11:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=avIdSGVesf/tq+o0KdPMytyGSHV9BEH4NO1Mx6lrS6c=;
- b=Atuu5NJjabvqtpWc4PwUxtxnrC8skBEEs4Si2Cm5GXBlOlpyfeFxPASk1xTJBncyRg
- 2zbA4V/xllo7mAQvUutvCa9lHbJSUpqqt9+Wq9oSQR4OHB6h8zo6UsZORdfrX0v39WfX
- Q6KbFiAYCS6iSds2dOR0vgJfuwEO0TdUwPOTY8JS51NwUXXsrVkRNEsBB/ASUYOz+KUv
- /QmTJk+2UsZ/m0KIjlY6T8zZybeQFOBxl/7fpZBKQpLMUSEyaYCNstDTwaMFRTYlownH
- E2ZCPvTqG08eKg/YqBK2I1bKBpPK72/aoKTbBWxTpal63JNU9Vc4bKFIWxDS84XlRbn2
- mtsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=avIdSGVesf/tq+o0KdPMytyGSHV9BEH4NO1Mx6lrS6c=;
- b=TV84VKwmBX2x+nkcBHh4TgLdZ7m9gU/qaqpI2ABbwowdCY/V9Ba4ins/VTQeeCmCVB
- jA9P/fQeG+XTjAml1WQoAwwr3ufXT6R9S8f4B7ew6SrRav9ZJYT+QvaGgTfnVJxfsQ3U
- VY+9xv5lNQ323ZhWSz50uC9mbNG44RML4qpeZTVzOlDpsz/JIO8ybMG85wM9z86Madhs
- MvArNKfhX0kdnIhULKLsn51gpGE2sLl6rDqGb26SwNqKm0ExBSWEkS/q6tb0tN8JvaFv
- 6Xv6Hm8zRe/gv6PiWbbml0qqGSz5rLeS4upfrI6pfTZcvpqNLZLMYNzPdgkLlM0hhXD3
- Aaww==
-X-Gm-Message-State: ACrzQf1b+QtlQoYUVtCb2T/Hr+9dplf6SIPS6doVZ5URUnqtN3faC37K
- r20a3K9axeYTPo0urBmNHoSzmE7UmkvshI+Lax4=
-X-Google-Smtp-Source: AMsMyM6P//IFxq1Zt6AD7rHwh6xqMX2s6oiUniqokmgEQTJsBEz0Xn7bFz7domKJUAjaqF/MfZAEi6KapkIRmkfCEeE=
-X-Received: by 2002:a17:902:8693:b0:17a:f71:98fd with SMTP id
- g19-20020a170902869300b0017a0f7198fdmr47397341plo.25.1666840291061; Wed, 26
- Oct 2022 20:11:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
+ id 1ontXr-00067h-N6
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 23:27:03 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
+ id 1ontXl-0003L6-M9
+ for qemu-devel@nongnu.org; Wed, 26 Oct 2022 23:27:03 -0400
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MyWGg51gyzpVtd;
+ Thu, 27 Oct 2022 11:23:23 +0800 (CST)
+Received: from localhost.localdomain (10.67.164.66) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 27 Oct 2022 11:26:50 +0800
+To: <mst@redhat.com>, <peter.maydell@linaro.org>, <imammedo@redhat.com>,
+ <ani@anisinha.ca>, <eduardo@habkost.net>, <marcel.apfelbaum@gmail.com>,
+ <f4bug@amsat.org>, <wangyanan55@huawei.com>, <qemu-devel@nongnu.org>
+CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
+ <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
+ <hesham.almatary@huawei.com>, <ionela.voinescu@arm.com>,
+ <darren@os.amperecomputing.com>
+Subject: [PATCH v2 0/4] Only generate cluster node in PPTT when specified
+Date: Thu, 27 Oct 2022 11:26:09 +0800
+Message-ID: <20221027032613.18377-1-yangyicong@huawei.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-References: <20221005144948.3421504-1-christoph.muellner@vrull.eu>
-In-Reply-To: <20221005144948.3421504-1-christoph.muellner@vrull.eu>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 27 Oct 2022 13:11:04 +1000
-Message-ID: <CAKmqyKP++EL4C1wtRWthLtXNxBco5Lv2qxjJkPBsuFsnfnRDGg@mail.gmail.com>
-Subject: Re: [PATCH v4] RISC-V: Add Zawrs ISA extension support
-To: Christoph Muellner <christoph.muellner@vrull.eu>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko.stuebner@vrull.eu>, 
- Aaron Durbin <adurbin@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.67.164.66]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=yangyicong@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,193 +63,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Yicong Yang <yangyicong@huawei.com>
+From:  Yicong Yang via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 6, 2022 at 12:52 AM Christoph Muellner
-<christoph.muellner@vrull.eu> wrote:
->
-> This patch adds support for the Zawrs ISA extension.
-> Given the current (incomplete) implementation of reservation sets
-> there seems to be no way to provide a full emulation of the WRS
-> instruction (wake on reservation set invalidation or timeout or
-> interrupt). Therefore, we just exit the TB and return to the main loop.
->
-> The specification can be found here:
->   https://github.com/riscv/riscv-zawrs/blob/main/zawrs.adoc
->
-> Note, that the Zawrs extension is frozen, but not ratified yet.
->
-> Changes since v3:
-> * Remove "RFC" since the extension is frozen
-> * Rebase on master and fix integration issues
-> * Fix entry ordering in extension list
->
-> Changes since v2:
-> * Rebase on master and resolve conflicts
-> * Adjustments according to a specification change
-> * Inline REQUIRE_ZAWRS() since it has only one user
->
-> Changes since v1:
-> * Adding zawrs to the ISA string that is passed to the kernel
->
-> Signed-off-by: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
+From: Yicong Yang <yangyicong@hisilicon.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+This series mainly change the policy for building a cluster topology node
+in PPTT. Previously we'll always build a cluster node in PPTT without
+asking the user, after this set the cluster node will be built only the
+the user specify through "-smp clusters=X".
 
-Alistair
+One problem is related to this but not fully caused by this, see the
+discussion in [*]. When booting the VM with `-smp 8` and 4 numa nodes,
+the linux scheduling domains in the VM misses the NUMA domains. It's
+because the MC level span extends to Cluster level (which is generated
+by the Qemu by default) that spans all the cpus in the system, then the
+scheduling domain building stops at MC level since it already includes all
+the cpus.
 
-> ---
->  target/riscv/cpu.c                          |  7 +++
->  target/riscv/cpu.h                          |  1 +
->  target/riscv/insn32.decode                  |  4 ++
->  target/riscv/insn_trans/trans_rvzawrs.c.inc | 51 +++++++++++++++++++++
->  target/riscv/translate.c                    |  1 +
->  5 files changed, 64 insertions(+)
->  create mode 100644 target/riscv/insn_trans/trans_rvzawrs.c.inc
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index b29c88b9f0..b08ce94ba6 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -76,6 +76,7 @@ static const struct isa_ext_data isa_edata_arr[] =3D {
->      ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
->      ISA_EXT_DATA_ENTRY(zifencei, true, PRIV_VERSION_1_10_0, ext_ifencei)=
-,
->      ISA_EXT_DATA_ENTRY(zihintpause, true, PRIV_VERSION_1_10_0, ext_zihin=
-tpause),
-> +    ISA_EXT_DATA_ENTRY(zawrs, true, PRIV_VERSION_1_12_0, ext_zawrs),
->      ISA_EXT_DATA_ENTRY(zfh, true, PRIV_VERSION_1_12_0, ext_zfh),
->      ISA_EXT_DATA_ENTRY(zfhmin, true, PRIV_VERSION_1_12_0, ext_zfhmin),
->      ISA_EXT_DATA_ENTRY(zfinx, true, PRIV_VERSION_1_12_0, ext_zfinx),
-> @@ -744,6 +745,11 @@ static void riscv_cpu_realize(DeviceState *dev, Erro=
-r **errp)
->              return;
->          }
->
-> +        if ((cpu->cfg.ext_zawrs) && !cpu->cfg.ext_a) {
-> +            error_setg(errp, "Zawrs extension requires A extension");
-> +            return;
-> +        }
-> +
->          if ((cpu->cfg.ext_zfh || cpu->cfg.ext_zfhmin) && !cpu->cfg.ext_f=
-) {
->              error_setg(errp, "Zfh/Zfhmin extensions require F extension"=
-);
->              return;
-> @@ -999,6 +1005,7 @@ static Property riscv_cpu_extensions[] =3D {
->      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
->      DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true)=
-,
-> +    DEFINE_PROP_BOOL("Zawrs", RISCVCPU, cfg.ext_zawrs, true),
->      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
->      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
->      DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index b131fa8c8e..2b87966373 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -446,6 +446,7 @@ struct RISCVCPUConfig {
->      bool ext_svnapot;
->      bool ext_svpbmt;
->      bool ext_zdinx;
-> +    bool ext_zawrs;
->      bool ext_zfh;
->      bool ext_zfhmin;
->      bool ext_zfinx;
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index d0253b8104..b7e7613ea2 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -718,6 +718,10 @@ vsetvli         0 ........... ..... 111 ..... 101011=
-1  @r2_zimm11
->  vsetivli        11 .......... ..... 111 ..... 1010111  @r2_zimm10
->  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
->
-> +# *** Zawrs Standard Extension ***
-> +wrs_nto    000000001101 00000 000 00000 1110011
-> +wrs_sto    000000011101 00000 000 00000 1110011
-> +
->  # *** RV32 Zba Standard Extension ***
->  sh1add     0010000 .......... 010 ..... 0110011 @r
->  sh2add     0010000 .......... 100 ..... 0110011 @r
-> diff --git a/target/riscv/insn_trans/trans_rvzawrs.c.inc b/target/riscv/i=
-nsn_trans/trans_rvzawrs.c.inc
-> new file mode 100644
-> index 0000000000..f0da2fe50a
-> --- /dev/null
-> +++ b/target/riscv/insn_trans/trans_rvzawrs.c.inc
-> @@ -0,0 +1,51 @@
-> +/*
-> + * RISC-V translation routines for the RISC-V Zawrs Extension.
-> + *
-> + * Copyright (c) 2022 Christoph Muellner, christoph.muellner@vrull.io
-> + *
-> + * This program is free software; you can redistribute it and/or modify =
-it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOU=
-T
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
- for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License alo=
-ng with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +static bool trans_wrs(DisasContext *ctx)
-> +{
-> +    if (!ctx->cfg_ptr->ext_zawrs) {
-> +        return false;
-> +    }
-> +
-> +    /*
-> +     * The specification says:
-> +     * While stalled, an implementation is permitted to occasionally
-> +     * terminate the stall and complete execution for any reason.
-> +     *
-> +     * So let's just exit TB and return to the main loop.
-> +     */
-> +
-> +    /* Clear the load reservation  (if any).  */
-> +    tcg_gen_movi_tl(load_res, -1);
-> +
-> +    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-> +    tcg_gen_exit_tb(NULL, 0);
-> +    ctx->base.is_jmp =3D DISAS_NORETURN;
-> +
-> +    return true;
-> +}
-> +
-> +#define GEN_TRANS_WRS(insn)                                            \
-> +static bool trans_ ## insn(DisasContext *ctx, arg_ ## insn *a)         \
-> +{                                                                      \
-> +       (void)a;                                                        \
-> +       return trans_wrs(ctx);                                          \
-> +}
-> +
-> +GEN_TRANS_WRS(wrs_nto)
-> +GEN_TRANS_WRS(wrs_sto)
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index db123da5ec..e22de88e97 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -1029,6 +1029,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase,=
- target_ulong pc)
->  #include "insn_trans/trans_rvh.c.inc"
->  #include "insn_trans/trans_rvv.c.inc"
->  #include "insn_trans/trans_rvb.c.inc"
-> +#include "insn_trans/trans_rvzawrs.c.inc"
->  #include "insn_trans/trans_rvzfh.c.inc"
->  #include "insn_trans/trans_rvk.c.inc"
->  #include "insn_trans/trans_privileged.c.inc"
-> --
-> 2.37.3
->
->
+Considering cluster is an optional level and most platforms don't have it,
+they may even don't realize this is built and a always build policy cannot
+emulate the topology on these platforms. So in this series improve the
+policy to only generate cluster when the user explicitly want.
+
+Update the tests and test tables accordingly.
+
+[*] https://lore.kernel.org/lkml/2c079860-ee82-7719-d3d2-756192f41704@huawei.com/
+
+Change since v1:
+- Only includes the test tables which is really needed
+- Enrich the commit
+Link: https://lore.kernel.org/qemu-devel/20220922131143.58003-1-yangyicong@huawei.com/
+
+Yicong Yang (4):
+  hw/acpi/aml-build: Only generate cluster node in PPTT when specified
+  tests: virt: update expected ACPI tables for virt test
+  tests: acpi: aarch64: add topology test for aarch64
+  tests: acpi: aarch64: add *.topology tables
+
+ hw/acpi/aml-build.c                |   2 +-
+ hw/core/machine-smp.c              |   3 +++
+ include/hw/boards.h                |   2 ++
+ qemu-options.hx                    |   2 ++
+ tests/data/acpi/virt/APIC.topology | Bin 0 -> 700 bytes
+ tests/data/acpi/virt/DSDT.topology | Bin 0 -> 5398 bytes
+ tests/data/acpi/virt/PPTT          | Bin 96 -> 76 bytes
+ tests/data/acpi/virt/PPTT.topology | Bin 0 -> 336 bytes
+ tests/qtest/bios-tables-test.c     |  22 ++++++++++++++++++++++
+ 9 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 tests/data/acpi/virt/APIC.topology
+ create mode 100644 tests/data/acpi/virt/DSDT.topology
+ create mode 100644 tests/data/acpi/virt/PPTT.topology
+
+-- 
+2.24.0
+
 
