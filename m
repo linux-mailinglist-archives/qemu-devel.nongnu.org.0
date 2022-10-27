@@ -2,100 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C69B60F325
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 11:03:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5FE960F35F
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 11:12:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onymU-0001tn-9o; Thu, 27 Oct 2022 05:02:30 -0400
+	id 1onyvL-0001rN-Af; Thu, 27 Oct 2022 05:11:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1onymS-0001pM-3f
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 05:02:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1onyvJ-0001aA-0a; Thu, 27 Oct 2022 05:11:37 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1onymQ-0002wr-C9
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 05:02:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666861345;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Xim0qupnotOLbc5D0H9fN+rx0BDFmOABHGtdick0HO0=;
- b=ToxpA5KyStXfSInv/qdMtdCSwIJfNgdr0WrdcFnbUcL7U3UhNjn52OfjHXNmV2iaQCAXmm
- k7S+/Wo67VerXIPrcE78Fe9QQa2OlwhT7Oy83t1g8mee3VdPllqRMo2TvHXRccmGbDUVwN
- desoDt6m9TH0e+AKSl74Rr/rnX41BC8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-460-nD2Fm5CBMtymyFZNHqqzrA-1; Thu, 27 Oct 2022 05:02:18 -0400
-X-MC-Unique: nD2Fm5CBMtymyFZNHqqzrA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- az11-20020a05600c600b00b003c6e3d4d5b1so410497wmb.7
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 02:02:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Xim0qupnotOLbc5D0H9fN+rx0BDFmOABHGtdick0HO0=;
- b=8HHGgsJ2AKA+N+h6P0siL07SQ3oqXyeSoUs0ADcJzzNxs+i7cOt33AzQRiSHeE+Eeh
- 8VDCf3m31zj22gWgpk8PORLEM810nc/n7lRYvo8db3RKfLVVnhvGI/Sswmxg2N8+QC6f
- t/kT3hC0xH1BVH0uJthxEYcnUG3/U4ZfXiLroifV3tTrd0E9qOZSB+QXTD77FQHI5fO/
- VPAO/qW8mhlC/fhoIeGdyOyLGMpYusnUcCIqXGOQwSYTeL/nCH6lFo9Rbl/ptAKSRkAH
- DQUrse2M/AZYrwoCslatEE4jWd/nFb7Z1GGOIY67ZwfP8SOj0B6LqlHhQcxHcRI7MSss
- jFEw==
-X-Gm-Message-State: ACrzQf3BKZPgLCqeuVtJGXEbedX+jecNZxbwGqsYL1kez1JQ7qiGmhcH
- JSqu9YaQJSx6zbuQtmMmR0TojpVVHllsqemIOUdiUALE34V0//aOTbJRlG3LjptcMD7KgIMnBQb
- DeFK2P3crZp4NTunKnqpNPKPLVqKZh2Foaa9sVNy8qXJ9VGuVv1v2RA0WNtWsqqM=
-X-Received: by 2002:a5d:5643:0:b0:236:699c:6cd8 with SMTP id
- j3-20020a5d5643000000b00236699c6cd8mr15688442wrw.435.1666861337669; 
- Thu, 27 Oct 2022 02:02:17 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5FJgyg46yXuz2pEvsUCfvvWaCZSRIs4rXp9Kbmrc6LdGB22i137hcN69j/fQ07Sicy5VhpYw==
-X-Received: by 2002:a5d:5643:0:b0:236:699c:6cd8 with SMTP id
- j3-20020a5d5643000000b00236699c6cd8mr15688405wrw.435.1666861337264; 
- Thu, 27 Oct 2022 02:02:17 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c707:1400:56d0:60d4:f71c:2091?
- (p200300cbc707140056d060d4f71c2091.dip0.t-ipconnect.de.
- [2003:cb:c707:1400:56d0:60d4:f71c:2091])
- by smtp.gmail.com with ESMTPSA id
- q16-20020a05600c46d000b003c6f426467fsm4257070wmo.40.2022.10.27.02.02.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 02:02:16 -0700 (PDT)
-Message-ID: <312f188d-9b0c-839f-d747-9f7c4ac95683@redhat.com>
-Date: Thu, 27 Oct 2022 11:02:15 +0200
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1onyv4-0004QM-Fa; Thu, 27 Oct 2022 05:11:35 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29R90tXo009318;
+ Thu, 27 Oct 2022 09:11:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=rAKUecHQEdrjwui7E1JnKA/Yfyl9COz5CxxYDX2rcV4=;
+ b=ktJLnWp8zIgmuOXyBZiu7Se5rZc3k+jitsmA7yptzJ4foSHcZ1Dz1UgJN6c65yjOnvt4
+ ye9usPwVlEk+k1g6WBSL2h8ko80FagpfE80XL+xJB2GwTsKprzJJQfh8Yxfy3E1zqN2h
+ j/AGxyyJWrwIUxzC6p+rpgQWn8xOBdvEFbuYWsf/CoRu3sp6kq4tliMKwYkm2DwBhuC8
+ vab40emo6XiaYCiAYYy3off8p5loPfnbzLhNDBzVWStbfmL53zihFlubfGjLO2FF8Ttg
+ uRVQKyy+6buoLlbZ5mi0FE+cLgR5f9eQuINOjohH6kqjUXw7du1do71zGvDlROq3oAJP OA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfq018dpt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 09:11:11 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29R91CFM010631;
+ Thu, 27 Oct 2022 09:11:11 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfq018dns-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 09:11:11 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29R9650V024546;
+ Thu, 27 Oct 2022 09:11:09 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma05fra.de.ibm.com with ESMTP id 3kfahd137m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 09:11:09 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29R9B6Cq4063844
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 27 Oct 2022 09:11:06 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F0C96A405C;
+ Thu, 27 Oct 2022 09:11:05 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E1A23A405B;
+ Thu, 27 Oct 2022 09:11:04 +0000 (GMT)
+Received: from [9.179.10.218] (unknown [9.179.10.218])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 27 Oct 2022 09:11:04 +0000 (GMT)
+Message-ID: <77d52b82-aa44-ed79-2345-1b3c3a15fb7d@linux.ibm.com>
+Date: Thu, 27 Oct 2022 11:11:04 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.1
-Subject: Re: [PATCH v3 0/7] hostmem: NUMA-aware memory preallocation using
- ThreadContext
+Subject: Re: [PATCH v10 3/9] s390x/cpu_topology: resetting the
+ Topology-Change-Report
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20221012162107.91734-1-pmorel@linux.ibm.com>
+ <20221012162107.91734-4-pmorel@linux.ibm.com>
+ <450544bf-4ff0-9d72-f57c-4274692916a5@redhat.com>
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: Michal Privoznik <mprivozn@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Weil <sw@weilnetz.de>
-References: <20221014134720.168738-1-david@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20221014134720.168738-1-david@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <450544bf-4ff0-9d72-f57c-4274692916a5@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: SqwhlG6aOcjCG_Nro-FGrOtSDFyXA_5o
+X-Proofpoint-ORIG-GUID: jpjxv0SKC5t0-xG9gkJKBj_2o4Hf_YQp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-27_03,2022-10-26_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0
+ adultscore=0 spamscore=0 phishscore=0 mlxscore=0 mlxlogscore=999
+ impostorscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2210270051
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,127 +123,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 14.10.22 15:47, David Hildenbrand wrote:
-> This is a follow-up on "util: NUMA aware memory preallocation" [1] by
-> Michal.
-> 
-> Setting the CPU affinity of threads from inside QEMU usually isn't
-> easily possible, because we don't want QEMU -- once started and running
-> guest code -- to be able to mess up the system. QEMU disallows relevant
-> syscalls using seccomp, such that any such invocation will fail.
-> 
-> Especially for memory preallocation in memory backends, the CPU affinity
-> can significantly increase guest startup time, for example, when running
-> large VMs backed by huge/gigantic pages, because of NUMA effects. For
-> NUMA-aware preallocation, we have to set the CPU affinity, however:
-> 
-> (1) Once preallocation threads are created during preallocation, management
->      tools cannot intercept anymore to change the affinity. These threads
->      are created automatically on demand.
-> (2) QEMU cannot easily set the CPU affinity itself.
-> (3) The CPU affinity derived from the NUMA bindings of the memory backend
->      might not necessarily be exactly the CPUs we actually want to use
->      (e.g., CPU-less NUMA nodes, CPUs that are pinned/used for other VMs).
-> 
-> There is an easy "workaround". If we have a thread with the right CPU
-> affinity, we can simply create new threads on demand via that prepared
-> context. So, all we have to do is setup and create such a context ahead
-> of time, to then configure preallocation to create new threads via that
-> environment.
-> 
-> So, let's introduce a user-creatable "thread-context" object that
-> essentially consists of a context thread used to create new threads.
-> QEMU can either try setting the CPU affinity itself ("cpu-affinity",
-> "node-affinity" property), or upper layers can extract the thread id
-> ("thread-id" property) to configure it externally.
-> 
-> Make memory-backends consume a thread-context object
-> (via the "prealloc-context" property) and use it when preallocating to
-> create new threads with the desired CPU affinity. Further, to make it
-> easier to use, allow creation of "thread-context" objects, including
-> setting the CPU affinity directly from QEMU, before enabling the
-> sandbox option.
-> 
-> 
-> Quick test on a system with 2 NUMA nodes:
-> 
-> Without CPU affinity:
->      time qemu-system-x86_64 \
->          -object memory-backend-memfd,id=md1,hugetlb=on,hugetlbsize=2M,size=64G,prealloc-threads=12,prealloc=on,host-nodes=0,policy=bind \
->          -nographic -monitor stdio
-> 
->      real    0m5.383s
->      real    0m3.499s
->      real    0m5.129s
->      real    0m4.232s
->      real    0m5.220s
->      real    0m4.288s
->      real    0m3.582s
->      real    0m4.305s
->      real    0m5.421s
->      real    0m4.502s
-> 
->      -> It heavily depends on the scheduler CPU selection
-> 
-> With CPU affinity:
->      time qemu-system-x86_64 \
->          -object thread-context,id=tc1,node-affinity=0 \
->          -object memory-backend-memfd,id=md1,hugetlb=on,hugetlbsize=2M,size=64G,prealloc-threads=12,prealloc=on,host-nodes=0,policy=bind,prealloc-context=tc1 \
->          -sandbox enable=on,resourcecontrol=deny \
->          -nographic -monitor stdio
-> 
->      real    0m1.959s
->      real    0m1.942s
->      real    0m1.943s
->      real    0m1.941s
->      real    0m1.948s
->      real    0m1.964s
->      real    0m1.949s
->      real    0m1.948s
->      real    0m1.941s
->      real    0m1.937s
-> 
-> On reasonably large VMs, the speedup can be quite significant.
-> 
-> While this concept is currently only used for short-lived preallocation
-> threads, nothing major speaks against reusing the concept for other
-> threads that are harder to identify/configure -- except that
-> we need additional (idle) context threads that are otherwise left unused.
-> 
-> This series does not yet tackle concurrent preallocation of memory
-> backends. Memory backend objects are created and memory is preallocated one
-> memory backend at a time -- and there is currently no way to do
-> preallocation asynchronously.
-> 
-> [1] https://lkml.kernel.org/r/ffdcd118d59b379ede2b64745144165a40f6a813.1652165704.git.mprivozn@redhat.com
-> 
-> v2 -> v3:
-> * "util: Introduce ThreadContext user-creatable object"
->   -> Further impove documentation and patch description and add ACK. [Markus]
-> * "util: Add write-only "node-affinity" property for ThreadContext"
->   -> Further impove documentation and patch description and add ACK. [Markus]
-> 
-> v1 -> v2:
-> * Fixed some minor style nits
-> * "util: Introduce ThreadContext user-creatable object"
->   -> Impove documentation and patch description. [Markus]
-> * "util: Add write-only "node-affinity" property for ThreadContext"
->   -> Impove documentation and patch description. [Markus]
-> 
-> RFC -> v1:
-> * "vl: Allow ThreadContext objects to be created before the sandbox option"
->   -> Move parsing of the "name" property before object_create_pre_sandbox
-> * Added RB's
 
-I'm queuing this to
 
-https://github.com/davidhildenbrand/qemu.git mem-next
+On 10/27/22 10:14, Thomas Huth wrote:
+> On 12/10/2022 18.21, Pierre Morel wrote:
+>> During a subsystem reset the Topology-Change-Report is cleared
+>> by the machine.
+>> Let's ask KVM to clear the Modified Topology Change Report (MTCR)
+>>   bit of the SCA in the case of a subsystem reset.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> Reviewed-by: Nico Boehr <nrb@linux.ibm.com>
+>> Reviewed-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+>> ---
+>>   target/s390x/cpu.h           |  1 +
+>>   target/s390x/kvm/kvm_s390x.h |  1 +
+>>   hw/s390x/cpu-topology.c      | 12 ++++++++++++
+>>   hw/s390x/s390-virtio-ccw.c   |  1 +
+>>   target/s390x/cpu-sysemu.c    |  7 +++++++
+>>   target/s390x/kvm/kvm.c       | 23 +++++++++++++++++++++++
+>>   6 files changed, 45 insertions(+)
+>>
+>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>> index d604aa9c78..9b35795ac8 100644
+>> --- a/target/s390x/cpu.h
+>> +++ b/target/s390x/cpu.h
+>> @@ -825,6 +825,7 @@ void s390_enable_css_support(S390CPU *cpu);
+>>   void s390_do_cpu_set_diag318(CPUState *cs, run_on_cpu_data arg);
+>>   int s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t 
+>> sch_id,
+>>                                   int vq, bool assign);
+>> +void s390_cpu_topology_reset(void);
+>>   #ifndef CONFIG_USER_ONLY
+>>   unsigned int s390_cpu_set_state(uint8_t cpu_state, S390CPU *cpu);
+>>   #else
+>> diff --git a/target/s390x/kvm/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
+>> index aaae8570de..a13c8fb9a3 100644
+>> --- a/target/s390x/kvm/kvm_s390x.h
+>> +++ b/target/s390x/kvm/kvm_s390x.h
+>> @@ -46,5 +46,6 @@ void kvm_s390_crypto_reset(void);
+>>   void kvm_s390_restart_interrupt(S390CPU *cpu);
+>>   void kvm_s390_stop_interrupt(S390CPU *cpu);
+>>   void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info);
+>> +int kvm_s390_topology_set_mtcr(uint64_t attr);
+>>   #endif /* KVM_S390X_H */
+>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+>> index c73cebfe6f..9f202621d0 100644
+>> --- a/hw/s390x/cpu-topology.c
+>> +++ b/hw/s390x/cpu-topology.c
+>> @@ -107,6 +107,17 @@ static void s390_topology_realize(DeviceState 
+>> *dev, Error **errp)
+>>       qemu_mutex_init(&topo->topo_mutex);
+>>   }
+>> +/**
+>> + * s390_topology_reset:
+>> + * @dev: the device
+>> + *
+>> + * Calls the sysemu topology reset
+>> + */
+>> +static void s390_topology_reset(DeviceState *dev)
+>> +{
+>> +    s390_cpu_topology_reset();
+>> +}
+>> +
+>>   /**
+>>    * topology_class_init:
+>>    * @oc: Object class
+>> @@ -120,6 +131,7 @@ static void topology_class_init(ObjectClass *oc, 
+>> void *data)
+>>       dc->realize = s390_topology_realize;
+>>       set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+>> +    dc->reset = s390_topology_reset;
+>>   }
+>>   static const TypeInfo cpu_topology_info = {
+>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+>> index aa99a62e42..362378454a 100644
+>> --- a/hw/s390x/s390-virtio-ccw.c
+>> +++ b/hw/s390x/s390-virtio-ccw.c
+>> @@ -113,6 +113,7 @@ static const char *const reset_dev_types[] = {
+>>       "s390-flic",
+>>       "diag288",
+>>       TYPE_S390_PCI_HOST_BRIDGE,
+>> +    TYPE_S390_CPU_TOPOLOGY,
+>>   };
+>>   static void subsystem_reset(void)
+>> diff --git a/target/s390x/cpu-sysemu.c b/target/s390x/cpu-sysemu.c
+>> index 948e4bd3e0..707c0b658c 100644
+>> --- a/target/s390x/cpu-sysemu.c
+>> +++ b/target/s390x/cpu-sysemu.c
+>> @@ -306,3 +306,10 @@ void s390_do_cpu_set_diag318(CPUState *cs, 
+>> run_on_cpu_data arg)
+>>           kvm_s390_set_diag318(cs, arg.host_ulong);
+>>       }
+>>   }
+>> +
+>> +void s390_cpu_topology_reset(void)
+>> +{
+>> +    if (kvm_enabled()) {
+>> +        kvm_s390_topology_set_mtcr(0);
+>> +    }
+>> +}
+>> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+>> index f96630440b..9c994d27d5 100644
+>> --- a/target/s390x/kvm/kvm.c
+>> +++ b/target/s390x/kvm/kvm.c
+>> @@ -2585,3 +2585,26 @@ int kvm_s390_get_zpci_op(void)
+>>   {
+>>       return cap_zpci_op;
+>>   }
+>> +
+>> +int kvm_s390_topology_set_mtcr(uint64_t attr)
+>> +{
+>> +    struct kvm_device_attr attribute = {
+>> +        .group = KVM_S390_VM_CPU_TOPOLOGY,
+>> +        .attr  = attr,
+>> +    };
+>> +    int ret;
+>> +
+>> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
+>> +        return -EFAULT;
+> 
+> EFAULT is something that indicates a bad address (e.g. a segmentation 
+> fault) ... so this definitely sounds like a bad choice for an error code 
+> here.
 
-And most probably send a MR tomorrow before soft-freeze.
+Hum, yes, ENODEV seems besser no?
+
+> 
+>   Thomas
+> 
+> 
 
 -- 
-Thanks,
-
-David / dhildenb
-
+Pierre Morel
+IBM Lab Boeblingen
 
