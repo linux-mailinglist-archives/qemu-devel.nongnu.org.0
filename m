@@ -2,65 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD8560FFC9
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 20:03:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E8FA60FFE1
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 20:12:12 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo7D2-0002dH-L9; Thu, 27 Oct 2022 14:02:28 -0400
+	id 1oo7L2-000543-S2; Thu, 27 Oct 2022 14:10:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.derrick@linux.dev>)
- id 1oo7Cy-0002Rr-Ul
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:02:24 -0400
-Received: from resqmta-c1p-023465.sys.comcast.net ([2001:558:fd00:56::5])
+ (Exim 4.90_1) (envelope-from <a.manzanares@samsung.com>)
+ id 1oo7Kz-0004z0-Qn
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:10:41 -0400
+Received: from mailout2.w2.samsung.com ([211.189.100.12])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.derrick@linux.dev>)
- id 1oo7Cv-0005sX-NA
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:02:24 -0400
-Received: from resomta-c1p-023266.sys.comcast.net ([96.102.18.234])
- by resqmta-c1p-023465.sys.comcast.net with ESMTP
- id o3goos7Lcq2C4o7CvoHwG8; Thu, 27 Oct 2022 18:02:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=comcastmailservice.net; s=20211018a; t=1666893741;
- bh=rziYTYinIhVEwE/s4LSd6GoYFKM6qWjGhNOnddqSKk4=;
- h=Received:Received:From:To:Subject:Date:Message-Id:MIME-Version:
- Xfinity-Spam-Result;
- b=kk5hSGVy7TMhfxdq53Qv7uUsk03Tet857Xh/talW4hkXymNpO/nJvQASsqgnObrD7
- qxQvKCFav0wlrL6WlBY6CWlhybsypfiqkaH1VUwaXwz/TCFl3HfKcPz6IK3Wl8itTn
- goVrVC2cn1hS4gb6v2cyVWaPLHcU8KWZJ993fvFaMQiu014pAKUPPR6Qx8FQoqpb61
- ddnNVE1fzF5XrA5lD1LEuWj+imAQCRhw525a3/iKmcYjsTN/+ZOlyTVck5q1zIaKG9
- u0B8KC8ka0eRepLSkJ7oveA2HGzkf5GFPyV4DNdwysox7bbRnwH+AfP9JxM8par9vJ
- myTH36vHNS0qg==
-Received: from jderrick-mobl4.Home ([75.163.75.236])
- by resomta-c1p-023266.sys.comcast.net with ESMTPA
- id o7BQo587p62udo7CEodDFQ; Thu, 27 Oct 2022 18:01:57 +0000
-X-Xfinity-VAAS: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeggdduudejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuvehomhgtrghsthdqtfgvshhipdfqfgfvpdfpqffurfetoffkrfenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomheplfhonhgrthhhrghnucffvghrrhhitghkuceojhhonhgrthhhrghnrdguvghrrhhitghksehlihhnuhigrdguvghvqeenucggtffrrghtthgvrhhnpedtteeljeffgfffveehhfetveefuedvheevffffhedtjeeuvdevgfeftddtheeftdenucfkphepjeehrdduieefrdejhedrvdefieenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhephhgvlhhopehjuggvrhhrihgtkhdqmhhosghlgedrjfhomhgvpdhinhgvthepjeehrdduieefrdejhedrvdefiedpmhgrihhlfhhrohhmpehjohhnrghthhgrnhdruggvrhhrihgtkheslhhinhhugidruggvvhdpnhgspghrtghpthhtohepkedprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhrtghpthhtohepjhhonhgrthhhrghnrdguvghrrhhitghksehlihhnuhigrdguvghvpdhrtghpthhtohepmhhitghhrggvlhdrkhhrohhprggtiigvkhesshholhhiughighhmrdgtohhmpdhrtghpthhtohepqhgvmhhuqdgslhhotghksehnohhnghhnuhdrohhrghdprhgtphhtthhopehksghushgthheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepihhtshesihhrrhgvlhgvvhgrnhhtrdgukhdprhgtphhtthhopehkfiholhhfsehrvgguhhgrthdrtghomhdprhgtphhtthhopehhrhgvihhtiiesrhgvughhrghtrdgtohhm
-X-Xfinity-VMeta: sc=-100.00;st=legit
-From: Jonathan Derrick <jonathan.derrick@linux.dev>
-To: qemu-devel@nongnu.org
-Cc: Jonathan Derrick <jonathan.derrick@linux.dev>,
- Michael Kropaczek <michael.kropaczek@solidigm.com>, qemu-block@nongnu.org,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-Subject: [PATCH v3 2/2] hw/nvme: Support for Namespaces Management from guest
- OS - delete-ns
-Date: Thu, 27 Oct 2022 13:00:46 -0500
-Message-Id: <20221027180046.250-3-jonathan.derrick@linux.dev>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221027180046.250-1-jonathan.derrick@linux.dev>
-References: <20221027180046.250-1-jonathan.derrick@linux.dev>
+ (Exim 4.90_1) (envelope-from <a.manzanares@samsung.com>)
+ id 1oo7Kn-0007N5-1Q
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:10:40 -0400
+Received: from uscas1p2.samsung.com (unknown [182.198.245.207])
+ by mailout2.w2.samsung.com (KnoxPortal) with ESMTP id
+ 20221027181024usoutp02cce04495bbfba2e17cbcbf286c15c77c~h-3dAoqHb2200222002usoutp02C;
+ Thu, 27 Oct 2022 18:10:24 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w2.samsung.com
+ 20221027181024usoutp02cce04495bbfba2e17cbcbf286c15c77c~h-3dAoqHb2200222002usoutp02C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1666894224;
+ bh=4cEBsY7P/n7f7rqafPlpfb6vFTUeosTvgkB/Fs62bDM=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+ b=qUSKnXrwXMQ3GBozfA187HpUplo85+jfZffedTQQ6TwjkJzcHPQJkccswEcsbxd+Y
+ q0YRI2mm//M2PO5MG2N2169BMe2Mu03ifUURjfeak37/+e+SWJgdXgAqh8W6hSt4nd
+ i7O/z6EyZYxv/VZIxDtcUqHXpZTn5Wn5Vt62Kzt4=
+Received: from ussmges1new.samsung.com (u109.gpu85.samsung.co.kr
+ [203.254.195.109]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20221027181024uscas1p1a24f43734521ff9f237b1bb2617343d1~h-3crzXw92972729727uscas1p1a;
+ Thu, 27 Oct 2022 18:10:24 +0000 (GMT)
+Received: from uscas1p1.samsung.com ( [182.198.245.206]) by
+ ussmges1new.samsung.com (USCPEMTA) with SMTP id D6.A5.65516.099CA536; Thu,
+ 27 Oct 2022 14:10:24 -0400 (EDT)
+Received: from ussmgxs3new.samsung.com (u92.gpu85.samsung.co.kr
+ [203.254.195.92]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20221027181023uscas1p1216cd5d4492751caa92c1bf8f8f7a95d~h-3cPXw7t2970929709uscas1p1y;
+ Thu, 27 Oct 2022 18:10:23 +0000 (GMT)
+X-AuditID: cbfec36d-59dff7000000ffec-9f-635ac990712f
+Received: from SSI-EX4.ssi.samsung.com ( [105.128.2.145]) by
+ ussmgxs3new.samsung.com (USCPEXMTA) with SMTP id D9.A1.32876.F89CA536; Thu,
+ 27 Oct 2022 14:10:23 -0400 (EDT)
+Received: from SSI-EX3.ssi.samsung.com (105.128.2.228) by
+ SSI-EX4.ssi.samsung.com (105.128.2.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.2375.24; Thu, 27 Oct 2022 11:10:23 -0700
+Received: from SSI-EX3.ssi.samsung.com ([105.128.5.228]) by
+ SSI-EX3.ssi.samsung.com ([105.128.5.228]) with mapi id 15.01.2375.024; Thu,
+ 27 Oct 2022 11:10:23 -0700
+From: Adam Manzanares <a.manzanares@samsung.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+CC: Gregory Price <gregory.price@memverge.com>, Gregory Price
+ <gourry.memverge@gmail.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "linux-cxl@vger.kernel.org"
+ <linux-cxl@vger.kernel.org>, "mst@redhat.com" <mst@redhat.com>,
+ "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>, "ani@anisinha.ca"
+ <ani@anisinha.ca>, "alison.schofield@intel.com"
+ <alison.schofield@intel.com>, "dave@stgolabs.net" <dave@stgolabs.net>,
+ "bwidawsk@kernel.org" <bwidawsk@kernel.org>, "hchkuo@avery-design.com.tw"
+ <hchkuo@avery-design.com.tw>, "cbrowy@avery-design.com"
+ <cbrowy@avery-design.com>, "ira.weiny@intel.com" <ira.weiny@intel.com>, "Dan
+ Williams" <dan.j.williams@intel.com>
+Subject: Re: [PATCH 0/4 v3] Multi-Region and Volatile Memory support for CXL
+ Type-3 Devices
+Thread-Topic: [PATCH 0/4 v3] Multi-Region and Volatile Memory support for
+ CXL Type-3 Devices
+Thread-Index: AQHY6NSuNZ2oFYZywUOITvc1nl0Cqa4hknmAgAAJfACAAO3vAIAAeImA
+Date: Thu, 27 Oct 2022 18:10:23 +0000
+Message-ID: <20221027181014.GA317461@bgt-140510-bm01>
+In-Reply-To: <20221027115854.00001f76@huawei.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [105.128.2.176]
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <A2C312128442F74D97A7E362CE5FCC5A@ssi.samsung.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=2001:558:fd00:56::5;
- envelope-from=jonathan.derrick@linux.dev;
- helo=resqmta-c1p-023465.sys.comcast.net
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, SPF_HELO_PASS=-0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-CFilter-Loop: Reflected
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrLKsWRmVeSWpSXmKPExsWy7djXc7oTTkYlG/yeI2Jx9/EFNosd5+4x
+ WTRPXsxo0X1+A6PF9KkXGC1W31zDaPHiz3Mmi4amRywWLbvfM1mcPtrBbLH/6XMWi1ULr7FZ
+ nJ91isXiZfsJZov/v16xWhzv3cHiIODxvf89u8eFyRNYPRY3uHrsnHWX3aPlyFsgb89LJo9N
+ qzrZPDZ+/M/u8eTaZiaP9/uusnlMnV3v8XmTXABPFJdNSmpOZllqkb5dAlfGtqarrAUrXCsO
+ T73N1MC4xqyLkZNDQsBEYveMjYxdjFwcQgIrGSV2z7sD5bQySZyf85AdpurT+kesEIm1jBLH
+ /vVAOZ8YJT6/uM4O4SxjlFh9dD8zSAubgIHE7+MbwWwRASOJdzcmMYLYzAKPWCVuPCwGsYUF
+ YiXeXN/CAlETJ3H6ywR2CNtN4sKXaWD1LAKqEpd6toHV8AqYShw5MgHM5hQwlLg1YyqYzSgg
+ JvH91BomiPniEreezGeCOFtQYtHsPcwQtpjEv10P2SBsRYn731+yQ9TrSCzY/YkNwraT2H4P
+ Jq4tsWzha2aIvYISJ2c+YYHolZQ4uOIGC8jDEgKnOCU+dj9hhUi4SPy5dwVqgbTE9DWXoYra
+ GSU+TNjHCuFMYJS48/YnVJW1xL/Oa+wTGFVmIbl8FpKrZiG5ahaSq2YhuWoBI+sqRvHS4uLc
+ 9NRiw7zUcr3ixNzi0rx0veT83E2MwBR6+t/h3B2MO2591DvEyMTBeIhRgoNZSYT37I3wZCHe
+ lMTKqtSi/Pii0pzU4kOM0hwsSuK8UTO0koUE0hNLUrNTUwtSi2CyTBycUg1MO7ZI7C08YsMS
+ eeuLwdQKJZM9GozOTMs9V93q6Qvetak4PXFCqONztU8F2cfsp2h6H3tYwFV3bnVE/173m/e7
+ jk9/7mly8lPYLT3fFz3Xg+ZEhL+8Mlf7qoHQit13GttX8GvZH/wcWJFoduAE86Vtv1KkBd/N
+ FOpdq9myLryhYtHKhmr+XJua+rkup8pY9DgZCvh7s2OjJNe7vFj4YvZLRaZFX52NoiTEbQtW
+ rVBLqKvlmi9/2jfueLDrLSYjmSs8vzU77Oob2+oZL4uaT3j/ldHr8vr63eKbgh42L4hVuix7
+ YJWD+aJ6C8UDH35V35KM/6D4v4BFhpnjx6cNFsWHUyYGTCqZeu2YuI0gv4oSS3FGoqEWc1Fx
+ IgCMbjEwEAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprJKsWRmVeSWpSXmKPExsWS2cA0Ubf/ZFSywZ2XBhZ3H19gs9hx7h6T
+ RfPkxYwW3ec3MFpMn3qB0WL1zTWMFi/+PGeyaGh6xGLRsvs9k8Xpox3MFvufPmexWLXwGpvF
+ +VmnWCxetp9gtvj/6xWrxfHeHSwOAh7f+9+ze1yYPIHVY3GDq8fOWXfZPVqOvAXy9rxk8ti0
+ qpPNY+PH/+weT65tZvJ4v+8qm8fU2fUenzfJBfBEcdmkpOZklqUW6dslcGVsa7rKWrDCteLw
+ 1NtMDYxrzLoYOTkkBEwkPq1/xApiCwmsZpT40pvRxcgFZH9ilPi//CgbhLOMUWJS9zEWkCo2
+ AQOJ38c3MoPYIgJGEu9uTGIEKWIWeMAqMXP+V7CEsECsxJvrW1ggiuIk+p7dZ4Ww3SQufJnG
+ CGKzCKhKXOrZBlbDK2AqceTIBBaIba1MEq/fbwIr4hQwlLg1YypYEaOAmMT3U2uYQGxmAXGJ
+ W0/mM0H8ICCxZM95ZghbVOLl43+sELaixP3vL9kh6nUkFuz+xAZh20lsvwcT15ZYtvA1M8QR
+ ghInZz5hgeiVlDi44gbLBEaJWUjWzUIyahaSUbOQjJqFZNQCRtZVjOKlxcW56RXFxnmp5XrF
+ ibnFpXnpesn5uZsYgann9L/DMTsY7936qHeIkYmD8RCjBAezkgjv2RvhyUK8KYmVValF+fFF
+ pTmpxYcYpTlYlMR5PWInxgsJpCeWpGanphakFsFkmTg4pRqYAtxmRs/Trj+4y/Ok7vdktm0J
+ YqEsxXl++z3fMaz56WdjrXNmgd0uy6KUi+oSypMXPNBLWVTw0Pj3C/eNHuHHV0X2FW+Ypvdj
+ 1s/LwTXTmdm6SpNE30uqsrkqvV0pd+mYQ1XLizWbp4Rp7VqS46b+/P5al6iqjhkTF5UJm62c
+ KtEutfDwk90vtmcETjfdKnuyMPorW8093aYzJw2Ufy5NlDaUumD6qe1u8ZlWx+39NXEy7KyT
+ uSd9uqGns5vvlHuQl6Tuv7T9M+s7OXevbBfWqXHZpLJw2iyho9cbXxxPv7c3ZV9Mr9Wf/LXd
+ 5/QtjoUf+ufgv/rv9GjBXL5FlgeiZbf9n824/I6tfo9fUt81JZbijERDLeai4kQAZklQv6wD
+ AAA=
+X-CMS-MailID: 20221027181023uscas1p1216cd5d4492751caa92c1bf8f8f7a95d
+CMS-TYPE: 301P
+X-CMS-RootMailID: 20221026004835uscas1p1d37255ba8daaba8fc7e16e5129cb94b5
+References: <CGME20221026004835uscas1p1d37255ba8daaba8fc7e16e5129cb94b5@uscas1p1.samsung.com>
+ <20221026004737.3646-1-gregory.price@memverge.com>
+ <20221026201318.GA308524@bgt-140510-bm01> <Y1mc1mvxsGS+7JBp@memverge.com>
+ <20221027115854.00001f76@huawei.com>
+Received-SPF: pass client-ip=211.189.100.12;
+ envelope-from=a.manzanares@samsung.com; helo=mailout2.w2.samsung.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,344 +150,195 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Michael Kropaczek <michael.kropaczek@solidigm.com>
+On Thu, Oct 27, 2022 at 11:58:54AM +0100, Jonathan Cameron wrote:
+> On Wed, 26 Oct 2022 16:47:18 -0400
+> Gregory Price <gregory.price@memverge.com> wrote:
+>=20
+> > On Wed, Oct 26, 2022 at 08:13:24PM +0000, Adam Manzanares wrote:
+> > > On Tue, Oct 25, 2022 at 08:47:33PM -0400, Gregory Price wrote: =20
+> > > > Submitted as an extention to the multi-feature branch maintained
+> > > > by Jonathan Cameron at:
+> > > > https://urldefense.com/v3/__https://gitlab.com/jic23/qemu/-/tree/cx=
+l-2022-10-24__;!!EwVzqGoTKBqv-0DWAJBm!RyiGL5B1XmQnVFwgxikKJeosPMKtoO1cTr61g=
+Iq8fwqfju8l4cbGZGwAEkKXIJB-Dbkfi_LNN2rGCbzMISz65cTxpAxI9pQ$  =20
+> > > >=20
+> > > >=20
+> > > > Summary of Changes:
+> > > > 1) E820 CFMW Bug fix. =20
+> > > > 2) Add CXL_CAPACITY_MULTIPLIER definition to replace magic numbers
+> > > > 3) Multi-Region and Volatile Memory support for CXL Type-3 Devices
+> > > > 4) CXL Type-3 SRAT Generation when NUMA node is attached to memdev
+>=20
+> +CC Dan for a question on status of Generic Ports ACPI code first ECN.
+> Given that was done on the mailing list I can find any public tracking
+> of whether it was accepted or not - hence whether we can get on with
+> implementation.  There hasn't been a release ACPI spec since before
+> that was proposed so we need that confirmation of the code first proposal
+> being accepted to get things moving.
+>=20
+> > > >=20
+> > > >=20
+> > > > Regarding the E820 fix
+> > > >   * This bugfix is required for memory regions to work on x86
+> > > >   * input from Dan Williams and others suggest that E820 entry for
+> > > >     the CFMW should not exist, as it is expected to be dynamically
+> > > >     assigned at runtime.  If this entry exists, it instead blocks
+> > > >     region creation by nature of the memory region being marked as
+> > > >     reserved. =20
+> > >=20
+> > > For CXL 2.0 it is my understanding that volatile capacity present at =
+boot will
+> > > be advertised by the firmware. In the absence of EFI I would assume t=
+his would
+> > > be provided in the e820 map.  =20
+>=20
+> Whilst this is one option, it is certainly not the case that all CXL 2.0
+> platforms will decide to do any setup of CXL memory (volatile or not) in =
+the
+> firmware.  They can leave it entirely to the OS, so a cold plug flow.
+> Early platforms will do the setup in BIOS to support unware OSes, once
+> that's not a problem any more the only reason you'd want to do this is if
+> you don't have other RAM to boot the system, or for some reason you want
+> your host kernel etc in the CXL attached memory.
+>=20
+> I'd expect to see BIOS having OS managed configuration as an option in th=
+e
+> intermediate period where some OSes are aware, others not.
+> OS knows more about usecase / policy so can make better choices on interl=
+eaving
+> etc of volatile CXL type 3 memory (let alone the fun corner of devices
+> where you can dynamically change the mix of volatile and non volatile
+> memory).
+>=20
+>=20
+> >=20
+> > The issue in this case is very explicitly that a double-mapping occurs
+> > for the same region.  An E820 mapping for RESERVED is set *and* the
+> > region driver allocates a CXL CFMW mapping.  As a result the region
+> > drive straight up fails to allocate regions.
+> >=20
+> > So in either case - at least from my view - the entry added as RESERVED
+> > is just wrong.
+> >=20
+> > This is separate from type-3 device SRAT entries and default mappings
+> > for volatile regions.  For this situation, if you explicitly assign the
+> > memdev backing a type-3 device to a numa node, then an SRAT area is
+> > generated and an explicit e820 entry is generated and marked usable -
+> > though I think there are likely issues with this kind of
+> > double-referencing.
+>=20
+> SRAT setup for CXL type 3 devices is to my mind is a job for a full BIOS,
+> not QEMU level of faking a few things. That BIOS should also
+> be doing the full configuration (HDM Decoders and all the rest).  ARM has
+> a prototype for one of the fixed virtual platforms that does this (talk
+> at Plumbers Uconf), we should look to do the same if we want to test
+> those flows using QEMU via appropriate changes in EDK2 to walk topology
+> and configure everything.  Until the devices are configured there is no
+> way to configure the SLIT, HMAT entries that align with the SRAT ones
+> (in theory those can be updated at runtime via _SLI, _HMA but in=20
+> practice, I'm fairly sure Linux doesn't support doing that.)
+>=20
+>=20
+> >=20
+> > >=20
+> > > Is the region driver meant to cover volatile capacity present at boot=
+? I was
+> > > under the impression that it would be used for hot added volatile mem=
+ory. It
+> > > would be good to cover all of these assumptions for the e820 fix. =20
+> >=20
+> > This region appears to cover hotplug memory behind the CFMW.  The
+> > problem is that this e820 RESERVED mapping blocks the CFMW region from
+> > being used at all.
+> >=20
+> > Without this, you can't use a type-3 persistent region, even with
+> > support, let alone a volatile region.  In attempting to use a persisten=
+t
+> > region as volatile via ndctl and friends, I'm seeing further issues (it
+> > cannot be assigned to a numa node successfully), but that's a separate
+> > issue.
+> For the Numa node bit...
+>=20
+> So far, the CDAT table isn't used in Linux (read out for debug purposes
+> is supported only).  That all needs to be added yet to get the NUMA node
+> allocations to work correctly.  It shouldn't have anything to do with SRA=
+T
+> unless the BIOS has done the full full configuration (same way CXL will w=
+ork
+> with a legacy OS).  Come to think of it, that should definitely be on the
+> priority list for kernel support (don't think it was on the list on Tuesd=
+ay?)
+>=20
+> >=20
+> > >=20
+> > > Lastly it is my understanding that the region driver does not have su=
+pport for
+> > > volatile memory. It would be great to add that functionality if we ma=
+ke this
+> > > change in QEMU.
+> > >  =20
+> >=20
+> > Right now this is true, but it seems a bit of a chicken/egg scenario.
+> > Nothing to test against vs no support.  Nudging this along such that we
+> > can at least report an (unusable) hot-add volatile memory region would
+> > provide someone working with the region driver something to poke and
+> > prod at.
+>=20
+> Agreed. This is same place as Ben's original CXL QEMU work on non volatil=
+e.
+> Need something to develop against so we'll at least have QEMU patches
+> available whilst the kernel side is in development (hopefully this cycle)
+> >=20
+> > > > Regarding SRAT Generation for Type-3 Devices
+> > > >   * Co-Developed by Davidlohr Bueso.  Built from his base patch and
+> > > >     extended to work with both volatile and persistent regions.
+> > > >   * This can be used to demonstrate static type-3 device mapping an=
+d
+> > > >     testing numa-access to type-3 device memory regions. =20
+> >=20
+> > Regarding "volatile memory present at boot" - there is still two ways
+> > for that memory to be onlined: Statically (entered as an explicit e820
+> > region after reading the SRAT), or Dynamically (hot-add by the region
+> > driver).
+> >=20
+> > This patch would at least allow an SRAT to be generated if you
+> > explicitly add a NUMA node mapping to it.  Although I concede that I'm
+> > not entirely sure what is "correct" here.
+>=20
+> For hotplug, needs to be the region driver, not here (or BIOS if you
+> are doing a BIOS driven flow - in which case the whole topology is
+> discovered and mostly configured by the BIOS before the OS reaches it
+> - including filling in SRAT, SLIT, HMAT etCc).
+> >=20
+> > What this ends up looking like is mapping a memdev to both a numa node
+> > and to a type-3 device.  Though that seems wrong.
+> >=20
+> > After further testing it seems like creating a CPU-less, Memory-less
+> > NUMA node with the intent of mapping volatile memory regions to it is
+> > not supported (yet?).
+>=20
+> Yup, and I doubt it ever will be for reasons above.=20
+>=20
+> BIOS does it all, or OS does it all.  Mixing and matching is a mess
+> (there is an exception - Generic Port entries in SRAT - those we do
+> need for the OS driven flow and possibly also the BIOS flow
+> - patches welcome! I'd forgotten that on my list of QEMU stuff that
+> needs doing.)
 
-Added support for NVMEe NameSpaces Mangement allowing the guest OS to
-delete namespaces by issuing nvme delete-ns command.
-It is an extension to currently implemented Qemu nvme virtual device.
-Virtual devices representing namespaces will be created and/or deleted
-during Qemu's running session, at anytime.
+Based on the discussions is it safe to say we have settled on an OS driven =
+flow
+for the current QEMU CXL emulation.=20
 
-Signed-off-by: Michael Kropaczek <michael.kropaczek@solidigm.com>
----
- docs/system/devices/nvme.rst |  9 ++--
- hw/nvme/ctrl.c               | 86 ++++++++++++++++++++++++++++++++++--
- hw/nvme/ns-backend.c         |  5 +++
- hw/nvme/ns.c                 | 74 +++++++++++++++++++++++++++++++
- hw/nvme/nvme.h               |  2 +
- hw/nvme/trace-events         |  1 +
- include/block/nvme.h         |  1 +
- 7 files changed, 170 insertions(+), 8 deletions(-)
-
-diff --git a/docs/system/devices/nvme.rst b/docs/system/devices/nvme.rst
-index 13e2fbc0d6..97b2453a00 100644
---- a/docs/system/devices/nvme.rst
-+++ b/docs/system/devices/nvme.rst
-@@ -103,12 +103,12 @@ Parameters:
- 
- ``auto-ns-path=<path to nvme storage location>``
-   If specified indicates a support for dynamic management of nvme namespaces
--  by means of nvme create-ns command. This path points
-+  by means of nvme create-ns and nvme delete-ns commands. This path points
-   to the storage area for backend images must exist. Additionally it requires
-   that parameter `ns-subsys` must be specified whereas parameter `drive`
-   must not. The legacy namespace backend is disabled, instead, a pair of
-   files 'nvme_<ctrl SN>_ns_<NS-ID>.cfg' and 'nvme_<ctrl SN>_ns_<NS-ID>.img'
--  will refer to respective namespaces. The create-ns, attach-ns
-+  will refer to respective namespaces. The create-ns, delete-ns, attach-ns
-   and detach-ns commands, issued at the guest side, will make changes to
-   those files accordingly.
-   For each namespace exists an image file in raw format and a config file
-@@ -140,8 +140,9 @@ Please note that ``nvme-ns`` device is not required to support of dynamic
- namespaces management feature. It is not prohibited to assign a such device to
- ``nvme`` device specified to support dynamic namespace management if one has
- an use case to do so, however, it will only coexist and be out of the scope of
--Namespaces Management. NsIds will be consistently managed, creation (create-ns)
--of a namespace will not allocate the NsId already being taken. If ``nvme-ns``
-+Namespaces Management. Deletion (delete-ns) will render an error for this
-+namespace. NsIds will be consistently managed, creation (create-ns) of
-+a namespace will not allocate the NsId already being taken. If ``nvme-ns``
- device conflicts with previously created one by create-ns (the same NsId),
- it will break QEMU's start up.
- 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index d2b9d65eb9..87eb88486a 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -144,12 +144,12 @@
-  *
-  * - `auto-ns-path`
-  *   If specified indicates a support for dynamic management of nvme namespaces
-- *   by means of nvme create-ns command. This path pointing
-+ *   by means of nvme create-ns and nvme delete-ns commands. This path pointing
-  *   to a storage area for backend images must exist. Additionally it requires
-  *   that parameter `ns-subsys` must be specified whereas parameter `drive`
-  *   must not. The legacy namespace backend is disabled, instead, a pair of
-  *   files 'nvme_<ctrl SN>_ns_<NS-ID>.cfg' and 'nvme_<ctrl SN>_ns_<NS-ID>.img'
-- *   will refer to respective namespaces. The create-ns, attach-ns
-+ *   will refer to respective namespaces. The create-ns, delete-ns, attach-ns
-  *   and detach-ns commands, issued at the guest side, will make changes to
-  *   those files accordingly.
-  *   For each namespace exists an image file in raw format and a config file
-@@ -5738,6 +5738,23 @@ static NvmeNamespace *nvme_ns_mgmt_create(NvmeCtrl *n, uint32_t nsid, NvmeIdNsMg
-     return ns;
- }
- 
-+static void nvme_ns_mgmt_delete(NvmeCtrl *n, uint32_t nsid, Error **errp)
-+{
-+    Error *local_err = NULL;
-+
-+    if (!n->params.ns_directory) {
-+        error_setg(&local_err, "delete-ns not supported if 'auto-ns-path' is not specified");
-+    } else if (n->namespace.blkconf.blk) {
-+        error_setg(&local_err, "delete-ns not supported if 'drive' is specified");
-+    } else {
-+        nvme_ns_delete(n, nsid, &local_err);
-+    }
-+
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+    }
-+}
-+
- static uint16_t nvme_ns_mgmt(NvmeCtrl *n, NvmeRequest *req)
- {
-     NvmeIdCtrl *id = &n->id_ctrl;
-@@ -5750,6 +5767,7 @@ static uint16_t nvme_ns_mgmt(NvmeCtrl *n, NvmeRequest *req)
-     uint8_t sel = dw10 & 0xf;
-     uint8_t csi = (dw11 >> 24) & 0xf;
-     uint16_t i;
-+    uint64_t image_size;
-     uint16_t ret;
-     Error *local_err = NULL;
- 
-@@ -5807,14 +5825,15 @@ static uint16_t nvme_ns_mgmt(NvmeCtrl *n, NvmeRequest *req)
-                 return NVME_INVALID_FIELD | NVME_DNR;
-             }
- 
-+            /* ns->size is the real image size after creation */
-             if (nvme_cfg_update(n, ns->size, NVME_NS_ALLOC_CHK)) {
--                /* place for delete-ns */
-+                nvme_ns_mgmt_delete(n, nsid, NULL);
-                 return NVME_NS_INSUFFICIENT_CAPAC | NVME_DNR;
-             }
-             (void)nvme_cfg_update(n, ns->size, NVME_NS_ALLOC);
-             if (nvme_cfg_save(n)) {
-                 (void)nvme_cfg_update(n, ns->size, NVME_NS_DEALLOC);
--                /* place for delete-ns */
-+                nvme_ns_mgmt_delete(n, nsid, NULL);
-                 return NVME_INVALID_FIELD | NVME_DNR;
-             }
-             req->cqe.result = cpu_to_le32(nsid);
-@@ -5825,6 +5844,65 @@ static uint16_t nvme_ns_mgmt(NvmeCtrl *n, NvmeRequest *req)
-             return NVME_INVALID_FIELD | NVME_DNR;
- 	    }
-         break;
-+    case NVME_NS_MANAGEMENT_DELETE:
-+        switch (csi) {
-+        case NVME_CSI_NVM:
-+            if (!nsid) {
-+                return NVME_INVALID_FIELD | NVME_DNR;
-+            }
-+
-+            if (nsid != NVME_NSID_BROADCAST) {
-+                ns = nvme_subsys_ns(n->subsys, nsid);
-+                if (n->params.ns_directory && ns && ns_auto_check(n, ns, nsid)) {
-+                    error_setg(&local_err, "ns[%"PRIu32"] cannot be deleted, configured via '-device nvme-ns...'", nsid);
-+                } else if (ns) {
-+                    image_size = ns->size;
-+                    nvme_ns_mgmt_delete(n, nsid, &local_err);
-+                    if (!local_err) {
-+                        (void)nvme_cfg_update(n, image_size, NVME_NS_DEALLOC);
-+                        if (nvme_cfg_save(n)) {
-+                            error_setg(&local_err, "Could not save nvme-cfg");
-+                        }
-+                    }
-+                } else {
-+                    return NVME_INVALID_FIELD | NVME_DNR;
-+                }
-+            } else {
-+                for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
-+                    ns = nvme_subsys_ns(n->subsys, (uint32_t)i);
-+                    if (n->params.ns_directory && ns && ns_auto_check(n, ns, (uint32_t)i)) {
-+                        error_setg(&local_err, "ns[%"PRIu32"] cannot be deleted, configured via '-device nvme-ns...'", i);
-+                        error_report_err(local_err);
-+                        local_err = NULL;       /* we are skipping */
-+                    } else if (ns) {
-+                        image_size = ns->size;
-+                        nvme_ns_mgmt_delete(n, (uint16_t)i, &local_err);
-+                        if (!local_err) {
-+                            (void)nvme_cfg_update(n, image_size, NVME_NS_DEALLOC);
-+                            if (nvme_cfg_save(n)) {
-+                                error_setg(&local_err, "Could not save nvme-cfg");
-+                            }
-+                        }
-+                    }
-+                    if (local_err) {
-+                        break;
-+                    }
-+                }
-+            }
-+
-+            if (local_err) {
-+                error_report_err(local_err);
-+                return NVME_INVALID_FIELD | NVME_DNR;
-+            }
-+
-+            nvme_update_dmrsl(n);
-+            break;
-+        case NVME_CSI_ZONED:
-+            /* fall through for now */
-+        default:
-+            return NVME_INVALID_FIELD | NVME_DNR;
-+	    }
-+        break;
-     default:
-         return NVME_INVALID_FIELD | NVME_DNR;
-     }
-diff --git a/hw/nvme/ns-backend.c b/hw/nvme/ns-backend.c
-index 82f9fcd5d9..8b9c1e5a3d 100644
---- a/hw/nvme/ns-backend.c
-+++ b/hw/nvme/ns-backend.c
-@@ -76,6 +76,11 @@ void ns_blockdev_activate(BlockBackend *blk,  uint64_t image_size, Error **errp)
-                        errp);
- }
- 
-+void ns_blockdev_deactivate(BlockBackend *blk, Error **errp)
-+{
-+    ns_blockdev_activate(blk,  0, errp);
-+}
-+
- int ns_storage_path_check(NvmeCtrl *n, Error **errp)
- {
-     return storage_path_check(n->params.ns_directory,  n->params.serial, errp);
-diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index 2aa7b01c3d..73630c27c3 100644
---- a/hw/nvme/ns.c
-+++ b/hw/nvme/ns.c
-@@ -592,6 +592,8 @@ NvmeNamespace * nvme_ns_create(NvmeCtrl *n, uint32_t nsid, NvmeIdNsMgmt *id_ns,
-                 blk = NULL;
-             }
-             object_unref(OBJECT(dev));
-+        } else if (ns) {                /* in a very rare case when ns_cfg_save() failed */
-+            nvme_ns_delete(n, nsid, NULL);
-         }
-         error_propagate(errp, local_err);
-         ns = NULL;
-@@ -600,6 +602,78 @@ NvmeNamespace * nvme_ns_create(NvmeCtrl *n, uint32_t nsid, NvmeIdNsMgmt *id_ns,
-     return ns;
- }
- 
-+static void nvme_ns_unrealize(DeviceState *dev);
-+
-+void nvme_ns_delete(NvmeCtrl *n, uint32_t nsid, Error **errp)
-+{
-+    NvmeNamespace *ns = NULL;
-+    NvmeSubsystem *subsys = n->subsys;
-+    int i;
-+    int ret = 0;
-+    Error *local_err = NULL;
-+
-+    trace_pci_nvme_ns_delete(nsid);
-+
-+    if (subsys) {
-+        ns = nvme_subsys_ns(subsys, (uint32_t)nsid);
-+        if (ns) {
-+            if (ns->params.shared) {
-+                for (i = 0; i < ARRAY_SIZE(subsys->ctrls); i++) {
-+                    NvmeCtrl *ctrl = subsys->ctrls[i];
-+
-+                    if (ctrl && ctrl->namespaces[nsid]) {
-+                        ctrl->namespaces[nsid] = NULL;
-+                        ns->attached--;
-+                    }
-+                }
-+            }
-+            subsys->namespaces[nsid] = NULL;
-+        }
-+    }
-+
-+    if (!ns) {
-+        ns = nvme_ns(n, (uint32_t)nsid);
-+    }
-+
-+    if (!ns) {
-+        error_setg(&local_err, "Namespace %d does not exist", nsid);
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-+    n->namespaces[nsid] = NULL;
-+    if (ns->attached > 0) {
-+        error_setg(&local_err, "Could not detach all ns references for ns[%d], still %d left", nsid, ns->attached);
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-+    /* here is actual deletion */
-+    nvme_ns_unrealize(&ns->parent_obj);
-+    qdev_unrealize(&ns->parent_obj);
-+    ns_blockdev_deactivate(ns->blkconf.blk, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-+    ns->params.detached = true;
-+    ns_cfg_clear(ns);
-+    ret = ns_cfg_save(n, ns, nsid);
-+    if (ret == -1) {
-+        error_setg(&local_err, "Unable to save ns-cnf");
-+        error_propagate(errp, local_err);
-+        return;
-+    } else if (ret == 1) {  /* should not occur here, check and error message prior to call to nvme_ns_delete() */
-+        return;
-+    }
-+
-+    /* disassociating refernces to the back-end and keeping it as preloaded */
-+    n->preloaded_blk[nsid] = ns->blkconf.blk;
-+    ns->blkconf.blk = NULL;
-+
-+}
-+
- int nvme_ns_setup(NvmeNamespace *ns, Error **errp)
- {
-     if (nvme_ns_check_constraints(ns, errp)) {
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index c6194773e6..56cfb99b39 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -280,6 +280,7 @@ void nvme_ns_shutdown(NvmeNamespace *ns);
- void nvme_ns_cleanup(NvmeNamespace *ns);
- void nvme_validate_flbas(uint8_t flbas,  Error **errp);
- NvmeNamespace * nvme_ns_create(NvmeCtrl *n, uint32_t nsid, NvmeIdNsMgmt *id_ns, Error **errp);
-+void nvme_ns_delete(NvmeCtrl *n, uint32_t nsid, Error **errp);
- 
- typedef struct NvmeAsyncEvent {
-     QTAILQ_ENTRY(NvmeAsyncEvent) entry;
-@@ -582,6 +583,7 @@ static inline NvmeSecCtrlEntry *nvme_sctrl_for_cntlid(NvmeCtrl *n,
- 
- BlockBackend *ns_blockdev_init(const char *file, Error **errp);
- void ns_blockdev_activate(BlockBackend *blk,  uint64_t image_size, Error **errp);
-+void ns_blockdev_deactivate(BlockBackend *blk, Error **errp);
- int nvme_ns_backend_setup(NvmeCtrl *n, Error **errp);
- void nvme_attach_ns(NvmeCtrl *n, NvmeNamespace *ns);
- uint16_t nvme_bounce_data(NvmeCtrl *n, void *ptr, uint32_t len,
-diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index 28b025ac42..0dd0c23208 100644
---- a/hw/nvme/trace-events
-+++ b/hw/nvme/trace-events
-@@ -79,6 +79,7 @@ pci_nvme_aer_masked(uint8_t type, uint8_t mask) "type 0x%"PRIx8" mask 0x%"PRIx8"
- pci_nvme_aer_post_cqe(uint8_t typ, uint8_t info, uint8_t log_page) "type 0x%"PRIx8" info 0x%"PRIx8" lid 0x%"PRIx8""
- pci_nvme_ns_mgmt(uint16_t cid, uint32_t nsid, uint8_t sel, uint8_t csi, uint8_t psdt) "cid %"PRIu16", nsid=%"PRIu32", sel=0x%"PRIx8", csi=0x%"PRIx8", psdt=0x%"PRIx8""
- pci_nvme_ns_create(uint16_t nsid, uint64_t nsze, uint64_t ncap, uint8_t flbas) "nsid %"PRIu16", nsze=%"PRIu64", ncap=%"PRIu64", flbas=%"PRIu8""
-+pci_nvme_ns_delete(uint16_t nsid) "nsid %"PRIu16""
- pci_nvme_ns_attachment(uint16_t cid, uint8_t sel) "cid %"PRIu16", sel=0x%"PRIx8""
- pci_nvme_ns_attachment_attach(uint16_t cntlid, uint32_t nsid) "cntlid=0x%"PRIx16", nsid=0x%"PRIx32""
- pci_nvme_enqueue_event(uint8_t typ, uint8_t info, uint8_t log_page) "type 0x%"PRIx8" info 0x%"PRIx8" lid 0x%"PRIx8""
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 9d2e121f1a..0fe7fe9bb1 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -1191,6 +1191,7 @@ enum NvmeIdCtrlCmic {
- 
- enum NvmeNsManagementOperation {
-     NVME_NS_MANAGEMENT_CREATE = 0x0,
-+    NVME_NS_MANAGEMENT_DELETE = 0x1,
- };
- 
- enum NvmeNsAttachmentOperation {
--- 
-2.37.3
-
+>=20
+> https://urldefense.com/v3/__https://lore.kernel.org/all/e1a52da9aec90766d=
+a5de51b1b839fd95d63a5af.camel@intel.com/__;!!EwVzqGoTKBqv-0DWAJBm!XLqjPd1aX=
+t3i5NXrZhakQlGdgJ5o4tcfV_5iUEp8vwBLv8T1Ft1OVHPI0p7KpYSFDYzhAGj_ulMz1LfZVmJg=
+rOvrO-_v7udl$ =20
+>=20
+> If anyone is implementing that, also good to do Generic Initiators
+> as they are very similar.
+>=20
+> Jonathan
+> =20
+> =
 
