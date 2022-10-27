@@ -2,88 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF28561044E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 23:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A71610453
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 23:25:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooAJm-0000VD-Tb; Thu, 27 Oct 2022 17:21:38 -0400
+	id 1ooAMR-0003Ae-OZ; Thu, 27 Oct 2022 17:24:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ooAJk-0000UL-CS
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:21:36 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ooAJi-0004bs-S7
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:21:36 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id m2so2850874pjr.3
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 14:21:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=t83/Oi6HC4DM1T013Qejv3ohOBLG5XXfkGofTOjBT4I=;
- b=HKXvE8Kyet0+NnTZIElt9s+Q77nbbBGoG2s8e+DPuS6ilm51+WXLwN8q/zx1h2WKbm
- AWkMdZ5GruJ1Ltj8aWeqoTnp8C3ePoPwzjiJVx/PZHamYs4BWD3lyJYYis2ZdTgmYgRU
- lGqwPMRVbIuI2IRT6Fe6m81u37dyAPd4gYhO02f4NNZwOk+wwHOUPI7cntiS2nB/nsP3
- 5WFXP3GpbANb9DHggY8A8FzkcW8HJnjy7UP20gUXleyqznH2O7tzyygN1tyOhRucYUQu
- EB2xwuuDcStOuJAYhNPZFdDnBRjLajHXFgg4kMa/3R3GfOamoXHm5PryKSAa17klCVde
- AY1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t83/Oi6HC4DM1T013Qejv3ohOBLG5XXfkGofTOjBT4I=;
- b=yvVNNfehpUcQiwYCQiFUHQ3l4wyu/U8/QjGFUmtAYF/M4kMTRD6zjJuOVrSWmedJld
- qeaQAkGcPBum3B9RRenJ3anJBkLKdHTAghdFJuJU35MX2j91FS8igTD2NCEzuKWMzqoj
- HP/E2ROtp7Gzx80tb6iCcJpqhiTRE2M084MZAvS+GTVih0MllPyEaDHl8yHWJuUEJ6Pu
- cKRkvFcCBncCezq7jEwh6HGPdnmIWLfsKXjVB9Ch4QOAox6slYA8mcHb8AXi0A8woiJl
- 4GwBAA+sG0M35fKM36Zw2cjUbc5twV89JUpwKerLq/YkjaLz3K0Eu97vb3heaIgPd5So
- N+AQ==
-X-Gm-Message-State: ACrzQf3MH+ss18Ls9AKam2b1q6bIsaJ/KZsIXssDxoKIDHqVK3iC11Sb
- g10gi+bBgGIM7yvhADFuhNLwAA==
-X-Google-Smtp-Source: AMsMyM5rMe2eRyfjfih5AkvTAlsit5PBY9WbgY62V22VIQBLRSdi0S6Mlx7T0oWXO7PmfrP/urcZ6g==
-X-Received: by 2002:a17:902:8e84:b0:178:57e4:805b with SMTP id
- bg4-20020a1709028e8400b0017857e4805bmr50773192plb.144.1666905693208; 
- Thu, 27 Oct 2022 14:21:33 -0700 (PDT)
-Received: from ?IPV6:2001:8003:501a:d301:93c4:c1c9:4368:47fa?
- ([2001:8003:501a:d301:93c4:c1c9:4368:47fa])
- by smtp.gmail.com with ESMTPSA id
- u16-20020a170902e5d000b00186e34524e3sm1656178plf.136.2022.10.27.14.21.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 14:21:32 -0700 (PDT)
-Message-ID: <1c92aac3-a672-86a0-8a75-c5230d629d77@linaro.org>
-Date: Fri, 28 Oct 2022 07:21:25 +1000
+ (Exim 4.90_1) (envelope-from <Peter.Jin@ibm.com>)
+ id 1ooAMP-00037H-G1; Thu, 27 Oct 2022 17:24:21 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Peter.Jin@ibm.com>)
+ id 1ooAM2-0004nz-29; Thu, 27 Oct 2022 17:24:21 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29RKtNja001910;
+ Thu, 27 Oct 2022 21:23:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=SS/rsLZL7oOPbAXV7spcuF2OjDWykQN4AfL+jAuUPlo=;
+ b=JUEHNkqbHj7dN+mR0GXxPQ6wiP1ZFiMtVUXCd/OZ0UigNOeQoAy0atLadikfZe7MP1YW
+ iZfa+IKErcJ+9LxrfpDbchymMGOOiyQjlBTruFdmtSKVbquyWzz+bxRY8QSrow5PuIdZ
+ QlZb2+rW9xoTeaJ6MfUhcvb8Hrp9gnHGE/IkEwPBfH5skG4IM42RM7a5fzge1kCXJPeq
+ HGzb9ZvKgRdBLesQs1kvbjlK8vt+5FIX7fmu+ihsfzMOo9ovs3OcABRgJYwqIAJOgVQy
+ /OeqSMHi5F4uNEeUKuF94Ge5/EZyynKMf963/hVsm3nvs02JXMFToejr3NoVR7CplFPI Yg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3kg1b6rxq7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 21:23:55 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29RKo1TT011848;
+ Thu, 27 Oct 2022 21:23:55 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3kg1b6rxpa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 21:23:55 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29RLLMmx026783;
+ Thu, 27 Oct 2022 21:23:53 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06ams.nl.ibm.com with ESMTP id 3kfahu2qsq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 21:23:53 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29RLNoRa4981334
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 27 Oct 2022 21:23:50 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 144D511C04C;
+ Thu, 27 Oct 2022 21:23:50 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EE34911C04A;
+ Thu, 27 Oct 2022 21:23:49 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu, 27 Oct 2022 21:23:49 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 55807)
+ id AD95EE0139; Thu, 27 Oct 2022 23:23:49 +0200 (CEST)
+From: Peter Jin <pjin@linux.ibm.com>
+To: pasic@linux.ibm.com, borntraeger@linux.ibm.com, farman@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ thuth@redhat.com, mjrosato@linux.ibm.com
+Cc: peter@peterjin.org, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Peter Jin <pjin@linux.ibm.com>
+Subject: [PATCH v2] s390x/css: revert SCSW ctrl/flag bits on error
+Date: Thu, 27 Oct 2022 23:23:41 +0200
+Message-Id: <20221027212341.2904795-1-pjin@linux.ibm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v4 28/30] contrib/plugins: protect execlog's last_exec
- expansion
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Alexandre Iooss <erdnaxe@crans.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>
-References: <20221027183637.2772968-1-alex.bennee@linaro.org>
- <20221027183637.2772968-29-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221027183637.2772968-29-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: DayGgwFPxaItYYquqR8gSu6J9t6x96qq
+X-Proofpoint-ORIG-GUID: zN0vR-KMHa-04PksXQedzIHoAenpoGff
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-27_07,2022-10-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 mlxlogscore=999
+ clxscore=1015 impostorscore=0 malwarescore=0 priorityscore=1501
+ adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2210270118
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=Peter.Jin@ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,22 +113,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/28/22 04:36, Alex Bennée wrote:
-> We originally naively treated expansion as safe because we expected
-> each new CPU/thread to appear in order. However the -M raspi2 model
-> triggered a case where a new high cpu_index thread started executing
-> just before a smaller one.
-> 
-> Clean this up by converting the GArray into the simpler GPtrArray and
-> then holding a lock for the expansion.
-> 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Cc: Alexandre Iooss<erdnaxe@crans.org>
-> ---
->   contrib/plugins/execlog.c | 38 ++++++++++++++++++++++++++++++--------
->   1 file changed, 30 insertions(+), 8 deletions(-)
+Revert the control and flag bits in the subchannel status word in case
+the SSCH operation fails with non-zero CC (ditto for CSCH and HSCH).
+According to POPS, the control and flag bits are only changed if SSCH,
+CSCH, and HSCH return CC 0, and no other action should be taken otherwise.
+In order to simulate that after the fact, the bits need to be reverted on
+non-zero CC.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This change is necessary due to the fact that the pwrite() in vfio-ccw
+which triggers the SSCH can fail at any time. Previously, there was
+only virtio-ccw, whose do_subchannel_work function was only able to
+return CC0. However, once vfio-ccw went into the mix, it has become
+necessary to handle errors in code paths that were previously assumed
+to always return success.
 
-r~
+In our case, we found that in case of pwrite() failure (which was
+discovered by strace injection), the subchannel could be stuck in start
+pending state, which could be problematic if the pwrite() call returns
+CC2. Experimentation shows that the guest tries to retry the SSCH call as
+normal for CC2, but it actually continously fails due to the fact that
+the subchannel is stuck in start pending state even though no start
+function is actually taking place.
+
+Signed-off-by: Peter Jin <pjin@linux.ibm.com>
+---
+ hw/s390x/css.c | 51 +++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 48 insertions(+), 3 deletions(-)
+
+diff --git a/hw/s390x/css.c b/hw/s390x/css.c
+index 7d9523f811..95d1b3a3ce 100644
+--- a/hw/s390x/css.c
++++ b/hw/s390x/css.c
+@@ -1522,21 +1522,37 @@ IOInstEnding css_do_xsch(SubchDev *sch)
+ IOInstEnding css_do_csch(SubchDev *sch)
+ {
+     SCHIB *schib = &sch->curr_status;
++    uint16_t old_scsw_ctrl;
++    IOInstEnding ccode;
+ 
+     if (~(schib->pmcw.flags) & (PMCW_FLAGS_MASK_DNV | PMCW_FLAGS_MASK_ENA)) {
+         return IOINST_CC_NOT_OPERATIONAL;
+     }
+ 
++    /*
++     * Save the current scsw.ctrl in case CSCH fails and we need
++     * to revert the scsw to the status quo ante.
++     */
++    old_scsw_ctrl = schib->scsw.ctrl;
++
+     /* Trigger the clear function. */
+     schib->scsw.ctrl &= ~(SCSW_CTRL_MASK_FCTL | SCSW_CTRL_MASK_ACTL);
+     schib->scsw.ctrl |= SCSW_FCTL_CLEAR_FUNC | SCSW_ACTL_CLEAR_PEND;
+ 
+-    return do_subchannel_work(sch);
++    ccode = do_subchannel_work(sch);
++
++    if (ccode != IOINST_CC_EXPECTED) {
++        schib->scsw.ctrl = old_scsw_ctrl;
++    }
++
++    return ccode;
+ }
+ 
+ IOInstEnding css_do_hsch(SubchDev *sch)
+ {
+     SCHIB *schib = &sch->curr_status;
++    uint16_t old_scsw_ctrl;
++    IOInstEnding ccode;
+ 
+     if (~(schib->pmcw.flags) & (PMCW_FLAGS_MASK_DNV | PMCW_FLAGS_MASK_ENA)) {
+         return IOINST_CC_NOT_OPERATIONAL;
+@@ -1553,6 +1569,12 @@ IOInstEnding css_do_hsch(SubchDev *sch)
+         return IOINST_CC_BUSY;
+     }
+ 
++    /*
++     * Save the current scsw.ctrl in case HSCH fails and we need
++     * to revert the scsw to the status quo ante.
++     */
++    old_scsw_ctrl = schib->scsw.ctrl;
++
+     /* Trigger the halt function. */
+     schib->scsw.ctrl |= SCSW_FCTL_HALT_FUNC;
+     schib->scsw.ctrl &= ~SCSW_FCTL_START_FUNC;
+@@ -1564,7 +1586,13 @@ IOInstEnding css_do_hsch(SubchDev *sch)
+     }
+     schib->scsw.ctrl |= SCSW_ACTL_HALT_PEND;
+ 
+-    return do_subchannel_work(sch);
++    ccode = do_subchannel_work(sch);
++
++    if (ccode != IOINST_CC_EXPECTED) {
++        schib->scsw.ctrl = old_scsw_ctrl;
++    }
++
++    return ccode;
+ }
+ 
+ static void css_update_chnmon(SubchDev *sch)
+@@ -1605,6 +1633,8 @@ static void css_update_chnmon(SubchDev *sch)
+ IOInstEnding css_do_ssch(SubchDev *sch, ORB *orb)
+ {
+     SCHIB *schib = &sch->curr_status;
++    uint16_t old_scsw_ctrl, old_scsw_flags;
++    IOInstEnding ccode;
+ 
+     if (~(schib->pmcw.flags) & (PMCW_FLAGS_MASK_DNV | PMCW_FLAGS_MASK_ENA)) {
+         return IOINST_CC_NOT_OPERATIONAL;
+@@ -1626,11 +1656,26 @@ IOInstEnding css_do_ssch(SubchDev *sch, ORB *orb)
+     }
+     sch->orb = *orb;
+     sch->channel_prog = orb->cpa;
++
++    /*
++     * Save the current scsw.ctrl and scsw.flags in case SSCH fails and we need
++     * to revert the scsw to the status quo ante.
++     */
++    old_scsw_ctrl = schib->scsw.ctrl;
++    old_scsw_flags = schib->scsw.flags;
++
+     /* Trigger the start function. */
+     schib->scsw.ctrl |= (SCSW_FCTL_START_FUNC | SCSW_ACTL_START_PEND);
+     schib->scsw.flags &= ~SCSW_FLAGS_MASK_PNO;
+ 
+-    return do_subchannel_work(sch);
++    ccode = do_subchannel_work(sch);
++
++    if (ccode != IOINST_CC_EXPECTED) {
++        schib->scsw.ctrl = old_scsw_ctrl;
++        schib->scsw.flags = old_scsw_flags;
++    }
++
++    return ccode;
+ }
+ 
+ static void copy_irb_to_guest(IRB *dest, const IRB *src, const PMCW *pmcw,
+-- 
+2.37.3
+
 
