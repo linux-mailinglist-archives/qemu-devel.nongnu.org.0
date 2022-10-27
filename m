@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 546D860F602
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:15:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A15460F5FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:14:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo0pT-0008A3-Bd; Thu, 27 Oct 2022 07:13:43 -0400
+	id 1oo0pS-00088q-Mz; Thu, 27 Oct 2022 07:13:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oo0pP-0007sl-Of
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:13:39 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+ id 1oo0pL-0007TU-T3
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:13:35 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oo0p9-0008Nb-WC
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:13:38 -0400
-Received: by mail-pf1-x431.google.com with SMTP id 192so1149607pfx.5
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 04:13:22 -0700 (PDT)
+ id 1oo0pD-0008Nq-2e
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:13:35 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ v4-20020a17090a088400b00212cb0ed97eso1123213pjc.5
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 04:13:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Bzfc5hZ1G0r8dqs+MeLFwKQ+2GaFMruqmaEyQHnQRYQ=;
- b=caIIOVQr72fWZd9oyqmmd3ebZE7LTrr6qn3sCwXbbIbmnTpKBBAA1MZfhNk+EE/MT9
- aJDl3CCbiNaB4zZZAJaKbjv4NlLyermwbHQbdfAv/X2X08Pg7IVtoujthPXbipLes0p6
- xLfAnaoDZ4etXpFdlSW8hL4ZrQQS4XN24rvqxvJ6QRduoG8ENhjqYg6Gcbil3ZofxP0I
- drhO6e20YaGLYE7JrlfU32ZDkJiuvt4f+L86d7IjPGAO62RpgrO/obzehcbWYoTPZ12X
- dvwyUeTgfB8+F7zVKjvPYtnULUqNpWL8hm3jSWY3pPlB5ARYbOY3vqIXJ9LlUjWbI1Ci
- rWiw==
+ bh=Ty3oGmlM7f4hplMtWOPLY+NiWfyNOHywgsyJrGuNkek=;
+ b=lx1fFmDPtkrAZGDGxdH1c3rNhICu5HIeuIxcGCIYGv99x2AqYbjYlCweV+kXdPzhs2
+ ES/jp5rheavYRU+CfVz47IVqM+Jjs2Y6jFTL8nCc7v8qY+D/OsAylRrB1NiUMfGJSCoJ
+ 69DdBb7/zlIF9QEielqvIDSSJIS3uiufodGqO/1xgO8+VE72vsX7vOihZAaHtFfXbwee
+ muujCAlMZsqmVicetBJvYk8v8+Os+b/hNx7xYJ3imLc8zi2rUZDxgqeaP8ct7oDOuySM
+ sMll2Nnzf3m51TL8SzhQZjI7kJCTjcR6U3zns2wtO7VfILjxm+VJqvFMCarTSU/i0KEo
+ pv/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Bzfc5hZ1G0r8dqs+MeLFwKQ+2GaFMruqmaEyQHnQRYQ=;
- b=LkoUpH/aYqaWDHWHfwRRKA4IH5l5HjQQzoSjyJk60dFzKT4tXzEmgdnV+LbGTtbR9p
- 9fab0gm1E9XuPNdz2cqM51duHXMYa48F/Ta8RWgPZa9GYLSoPYAj5RszO43C7F8hK2CD
- 84zmDcgvyhDegkjIhQHqoh2e9hKGuJXcayWvZ/EUfQGocVgZwhZ6d31iUHsQIQmI34we
- wgXB1posW50yPalQYh7gk5LOyarWrIRxCB9lKckNhfgu+7bITAVQR38zG7M45k9ovfFY
- tW+UYEk070Eu4TUMKhoibx8zDO4I7JLkMErnmCDYG+KkPUTl9nyOTccHUr3ovpmzsRwP
- 17LQ==
-X-Gm-Message-State: ACrzQf3HCOc1TPHkZv5LPx/uSV6NyX0VosJhG+9Vkai6PFoB68X7kJCq
- 50RBSlQF+8PrmSLwtLgVxJCkGIO0mikNPum7
-X-Google-Smtp-Source: AMsMyM6fH3AaefxxPIt7Vmz6ke0ozUP0EgIL0QeIoJfz+3rOIEQQJEF6jJwN/G9I0FgCNV9f4QRIDg==
-X-Received: by 2002:aa7:8b46:0:b0:56c:349f:191e with SMTP id
- i6-20020aa78b46000000b0056c349f191emr11190114pfd.29.1666869201443; 
- Thu, 27 Oct 2022 04:13:21 -0700 (PDT)
+ bh=Ty3oGmlM7f4hplMtWOPLY+NiWfyNOHywgsyJrGuNkek=;
+ b=GK1e7zfcnO3zgini69ySgeN05sKfQ4wVPu+zZZpUkry1bszU/u/kG127YF9rTnCXTs
+ xerigaLO5KriryM/Q9NoJihQPF3h6Sg3RSe7Gwf1FabeCpmJbU+jzzzXe+0Uii9vVjYY
+ 39ymo2wJhTYYkHtjSZwGz8/YpRimjH5W4F3k/TJtN1KaDDeCr7ypw69Nnvg823jUk8sj
+ AuLdJ5oktK/t4wZnnk8MWDi/H1cbQEld/rO+gt9D8snRfbyAqZHVwOltwJslFnO7gM2h
+ vllr/OfeaC3Dmks4LMv9bXngowGMvTl0GjnE+fgxBimMtvVz7MdiQJbuqOAMaxy2wRXM
+ FE5Q==
+X-Gm-Message-State: ACrzQf3RXNZifcD0bKAi0nz7oVYNF//MF2JI+ju81EKwdkkOvL62HDVy
+ iZ14u+3JXRzCQ8zqjykniIr/k+P5m2KiHat2
+X-Google-Smtp-Source: AMsMyM7AZ8bzYnZsIs4OcRBhijU6B7U/FntgrU4CTgHLqhleCJPF7G0SeuoKxRX4389QkJ9ap0QqMA==
+X-Received: by 2002:a17:90a:4588:b0:205:d605:8bcc with SMTP id
+ v8-20020a17090a458800b00205d6058bccmr9716904pjg.205.1666869204233; 
+ Thu, 27 Oct 2022 04:13:24 -0700 (PDT)
 Received: from localhost.localdomain ([2001:8003:501a:d301:3a91:9408:3918:55a])
  by smtp.gmail.com with ESMTPSA id
- j5-20020a170902c3c500b00172ea8ff334sm969621plj.7.2022.10.27.04.13.19
+ j5-20020a170902c3c500b00172ea8ff334sm969621plj.7.2022.10.27.04.13.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 04:13:21 -0700 (PDT)
+ Thu, 27 Oct 2022 04:13:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org,
 	laurent@vivier.eu
-Subject: [PATCH v2 6/7] accel/tcg: Move PageDesc tree into tb-maint.c for
- system
-Date: Thu, 27 Oct 2022 22:12:57 +1100
-Message-Id: <20221027111258.348196-7-richard.henderson@linaro.org>
+Subject: [PATCH v2 7/7] accel/tcg: Move remainder of page locking to tb-maint.c
+Date: Thu, 27 Oct 2022 22:12:58 +1100
+Message-Id: <20221027111258.348196-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221027111258.348196-1-richard.henderson@linaro.org>
 References: <20221027111258.348196-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,222 +92,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now that PageDesc is not used for user-only, and for system
-it is only used for tb maintenance, move the implementation
-into tb-main.c appropriately ifdefed.
+The only thing that still touches PageDesc in translate-all.c
+are some locking routines related to tb-maint.c which have not
+yet been moved.  Do so now.
 
-We have not yet eliminated all references to PageDesc for
-user-only, so retain a typedef to the structure without definition.
+Move some code up in tb-maint.c as well, to untangle the maze
+of ifdefs, and allow a sensible final ordering.
 
+Move some declarations from exec/translate-all.h to internal.h,
+as they are only used within accel/tcg/.
+
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/internal.h      |  49 +++-----------
- accel/tcg/tb-maint.c      | 130 ++++++++++++++++++++++++++++++++++++--
- accel/tcg/translate-all.c |  95 ----------------------------
- 3 files changed, 134 insertions(+), 140 deletions(-)
+ accel/tcg/internal.h         |  68 ++-----
+ include/exec/translate-all.h |   6 -
+ accel/tcg/tb-maint.c         | 352 +++++++++++++++++++++++++++++++++--
+ accel/tcg/translate-all.c    | 301 ------------------------------
+ 4 files changed, 352 insertions(+), 375 deletions(-)
 
 diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-index c7e157d1cd..c6c9e02cfd 100644
+index c6c9e02cfd..6ce1437c58 100644
 --- a/accel/tcg/internal.h
 +++ b/accel/tcg/internal.h
-@@ -23,51 +23,13 @@
+@@ -23,62 +23,28 @@
  #define assert_memory_lock() tcg_debug_assert(have_mmap_lock())
  #endif
  
--typedef struct PageDesc {
-+typedef struct PageDesc PageDesc;
- #ifndef CONFIG_USER_ONLY
-+struct PageDesc {
-     QemuSpin lock;
-     /* list of TBs intersecting this ram page */
-     uintptr_t first_tb;
--#endif
--} PageDesc;
+-typedef struct PageDesc PageDesc;
+-#ifndef CONFIG_USER_ONLY
+-struct PageDesc {
+-    QemuSpin lock;
+-    /* list of TBs intersecting this ram page */
+-    uintptr_t first_tb;
+-};
 -
--/*
-- * In system mode we want L1_MAP to be based on ram offsets,
-- * while in user mode we want it to be based on virtual addresses.
-- *
-- * TODO: For user mode, see the caveat re host vs guest virtual
-- * address spaces near GUEST_ADDR_MAX.
-- */
--#if !defined(CONFIG_USER_ONLY)
--#if HOST_LONG_BITS < TARGET_PHYS_ADDR_SPACE_BITS
--# define L1_MAP_ADDR_SPACE_BITS  HOST_LONG_BITS
+-PageDesc *page_find_alloc(tb_page_addr_t index, bool alloc);
+-
+-static inline PageDesc *page_find(tb_page_addr_t index)
+-{
+-    return page_find_alloc(index, false);
+-}
+-
+-void page_table_config_init(void);
 -#else
--# define L1_MAP_ADDR_SPACE_BITS  TARGET_PHYS_ADDR_SPACE_BITS
+-static inline void page_table_config_init(void) { }
 -#endif
+-
+-/* list iterators for lists of tagged pointers in TranslationBlock */
+-#define TB_FOR_EACH_TAGGED(head, tb, n, field)                          \
+-    for (n = (head) & 1, tb = (TranslationBlock *)((head) & ~1);        \
+-         tb; tb = (TranslationBlock *)tb->field[n], n = (uintptr_t)tb & 1, \
+-             tb = (TranslationBlock *)((uintptr_t)tb & ~1))
+-
+-#define TB_FOR_EACH_JMP(head_tb, tb, n)                                 \
+-    TB_FOR_EACH_TAGGED((head_tb)->jmp_list_head, tb, n, jmp_list_next)
+-
+-/* In user-mode page locks aren't used; mmap_lock is enough */
+-#ifdef CONFIG_USER_ONLY
+-#define assert_page_locked(pd) tcg_debug_assert(have_mmap_lock())
+-static inline void page_lock(PageDesc *pd) { }
+-static inline void page_unlock(PageDesc *pd) { }
 -#else
--# define L1_MAP_ADDR_SPACE_BITS  MIN(HOST_LONG_BITS, TARGET_ABI_BITS)
+-#ifdef CONFIG_DEBUG_TCG
+-void do_assert_page_locked(const PageDesc *pd, const char *file, int line);
+-#define assert_page_locked(pd) do_assert_page_locked(pd, __FILE__, __LINE__)
+-#else
+-#define assert_page_locked(pd)
 -#endif
+-void page_lock(PageDesc *pd);
+-void page_unlock(PageDesc *pd);
 -
--/* Size of the L2 (and L3, etc) page tables.  */
--#define V_L2_BITS 10
--#define V_L2_SIZE (1 << V_L2_BITS)
+-/* TODO: For now, still shared with translate-all.c for system mode. */
+-typedef int PageForEachNext;
+-#define PAGE_FOR_EACH_TB(start, end, pagedesc, tb, n) \
+-    TB_FOR_EACH_TAGGED((pagedesc)->first_tb, tb, n, page_next)
 -
--/*
-- * L1 Mapping properties
-- */
--extern int v_l1_size;
--extern int v_l1_shift;
--extern int v_l2_levels;
--
--/*
-- * The bottom level has pointers to PageDesc, and is indexed by
-- * anything from 4 to (V_L2_BITS + 3) bits, depending on target page size.
-- */
--#define V_L1_MIN_BITS 4
--#define V_L1_MAX_BITS (V_L2_BITS + 3)
--#define V_L1_MAX_SIZE (1 << V_L1_MAX_BITS)
--
--extern void *l1_map[V_L1_MAX_SIZE];
-+};
- 
- PageDesc *page_find_alloc(tb_page_addr_t index, bool alloc);
- 
-@@ -76,6 +38,11 @@ static inline PageDesc *page_find(tb_page_addr_t index)
-     return page_find_alloc(index, false);
- }
- 
-+void page_table_config_init(void);
-+#else
-+static inline void page_table_config_init(void) { }
-+#endif
-+
- /* list iterators for lists of tagged pointers in TranslationBlock */
- #define TB_FOR_EACH_TAGGED(head, tb, n, field)                          \
-     for (n = (head) & 1, tb = (TranslationBlock *)((head) & ~1);        \
-diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
-index 694440cb4a..31d0a74aa9 100644
---- a/accel/tcg/tb-maint.c
-+++ b/accel/tcg/tb-maint.c
-@@ -127,6 +127,121 @@ static PageForEachNext foreach_tb_next(PageForEachNext tb,
- }
- 
+-#endif
+-#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_DEBUG_TCG)
++#if defined(CONFIG_SOFTMMU) && defined(CONFIG_DEBUG_TCG)
+ void assert_no_pages_locked(void);
  #else
-+/*
-+ * In system mode we want L1_MAP to be based on ram offsets.
-+ */
-+#if HOST_LONG_BITS < TARGET_PHYS_ADDR_SPACE_BITS
-+# define L1_MAP_ADDR_SPACE_BITS  HOST_LONG_BITS
-+#else
-+# define L1_MAP_ADDR_SPACE_BITS  TARGET_PHYS_ADDR_SPACE_BITS
-+#endif
-+
-+/* Size of the L2 (and L3, etc) page tables.  */
-+#define V_L2_BITS 10
-+#define V_L2_SIZE (1 << V_L2_BITS)
-+
-+/*
-+ * L1 Mapping properties
-+ */
-+static int v_l1_size;
-+static int v_l1_shift;
-+static int v_l2_levels;
-+
-+/*
-+ * The bottom level has pointers to PageDesc, and is indexed by
-+ * anything from 4 to (V_L2_BITS + 3) bits, depending on target page size.
-+ */
-+#define V_L1_MIN_BITS 4
-+#define V_L1_MAX_BITS (V_L2_BITS + 3)
-+#define V_L1_MAX_SIZE (1 << V_L1_MAX_BITS)
-+
-+static void *l1_map[V_L1_MAX_SIZE];
-+
-+void page_table_config_init(void)
-+{
-+    uint32_t v_l1_bits;
-+
-+    assert(TARGET_PAGE_BITS);
-+    /* The bits remaining after N lower levels of page tables.  */
-+    v_l1_bits = (L1_MAP_ADDR_SPACE_BITS - TARGET_PAGE_BITS) % V_L2_BITS;
-+    if (v_l1_bits < V_L1_MIN_BITS) {
-+        v_l1_bits += V_L2_BITS;
-+    }
-+
-+    v_l1_size = 1 << v_l1_bits;
-+    v_l1_shift = L1_MAP_ADDR_SPACE_BITS - TARGET_PAGE_BITS - v_l1_bits;
-+    v_l2_levels = v_l1_shift / V_L2_BITS - 1;
-+
-+    assert(v_l1_bits <= V_L1_MAX_BITS);
-+    assert(v_l1_shift % V_L2_BITS == 0);
-+    assert(v_l2_levels >= 0);
-+}
-+
-+PageDesc *page_find_alloc(tb_page_addr_t index, bool alloc)
-+{
-+    PageDesc *pd;
-+    void **lp;
-+    int i;
-+
-+    /* Level 1.  Always allocated.  */
-+    lp = l1_map + ((index >> v_l1_shift) & (v_l1_size - 1));
-+
-+    /* Level 2..N-1.  */
-+    for (i = v_l2_levels; i > 0; i--) {
-+        void **p = qatomic_rcu_read(lp);
-+
-+        if (p == NULL) {
-+            void *existing;
-+
-+            if (!alloc) {
-+                return NULL;
-+            }
-+            p = g_new0(void *, V_L2_SIZE);
-+            existing = qatomic_cmpxchg(lp, NULL, p);
-+            if (unlikely(existing)) {
-+                g_free(p);
-+                p = existing;
-+            }
-+        }
-+
-+        lp = p + ((index >> (i * V_L2_BITS)) & (V_L2_SIZE - 1));
-+    }
-+
-+    pd = qatomic_rcu_read(lp);
-+    if (pd == NULL) {
-+        void *existing;
-+
-+        if (!alloc) {
-+            return NULL;
-+        }
-+        pd = g_new0(PageDesc, V_L2_SIZE);
-+#ifndef CONFIG_USER_ONLY
-+        {
-+            int i;
-+
-+            for (i = 0; i < V_L2_SIZE; i++) {
-+                qemu_spin_init(&pd[i].lock);
-+            }
-+        }
-+#endif
-+        existing = qatomic_cmpxchg(lp, NULL, pd);
-+        if (unlikely(existing)) {
-+#ifndef CONFIG_USER_ONLY
-+            {
-+                int i;
-+
-+                for (i = 0; i < V_L2_SIZE; i++) {
-+                    qemu_spin_destroy(&pd[i].lock);
-+                }
-+            }
-+#endif
-+            g_free(pd);
-+            pd = existing;
-+        }
-+    }
-+
-+    return pd + (index & (V_L2_SIZE - 1));
-+}
- 
- /* Set to NULL all the 'first_tb' fields in all PageDescs. */
- static void page_flush_tb_1(int level, void **lp)
-@@ -420,6 +535,17 @@ static void tb_phys_invalidate__locked(TranslationBlock *tb)
-     qemu_thread_jit_execute();
- }
+ static inline void assert_no_pages_locked(void) { }
+ #endif
  
 +#ifdef CONFIG_USER_ONLY
++static inline void page_table_config_init(void) { }
++#else
++void page_table_config_init(void);
++#endif
++
++#ifdef CONFIG_SOFTMMU
++struct page_collection;
++void tb_invalidate_phys_page_fast(struct page_collection *pages,
++                                  tb_page_addr_t start, int len,
++                                  uintptr_t retaddr);
++struct page_collection *page_collection_lock(tb_page_addr_t start,
++                                             tb_page_addr_t end);
++void page_collection_unlock(struct page_collection *set);
++#endif /* CONFIG_SOFTMMU */
++
+ TranslationBlock *tb_gen_code(CPUState *cpu, target_ulong pc,
+                               target_ulong cs_base, uint32_t flags,
+                               int cflags);
+diff --git a/include/exec/translate-all.h b/include/exec/translate-all.h
+index 3e9cb91565..88602ae8d8 100644
+--- a/include/exec/translate-all.h
++++ b/include/exec/translate-all.h
+@@ -23,12 +23,6 @@
+ 
+ 
+ /* translate-all.c */
+-struct page_collection *page_collection_lock(tb_page_addr_t start,
+-                                             tb_page_addr_t end);
+-void page_collection_unlock(struct page_collection *set);
+-void tb_invalidate_phys_page_fast(struct page_collection *pages,
+-                                  tb_page_addr_t start, int len,
+-                                  uintptr_t retaddr);
+ void tb_invalidate_phys_page(tb_page_addr_t addr);
+ void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr);
+ 
+diff --git a/accel/tcg/tb-maint.c b/accel/tcg/tb-maint.c
+index 31d0a74aa9..8fe2d322db 100644
+--- a/accel/tcg/tb-maint.c
++++ b/accel/tcg/tb-maint.c
+@@ -30,6 +30,15 @@
+ #include "internal.h"
+ 
+ 
++/* List iterators for lists of tagged pointers in TranslationBlock. */
++#define TB_FOR_EACH_TAGGED(head, tb, n, field)                          \
++    for (n = (head) & 1, tb = (TranslationBlock *)((head) & ~1);        \
++         tb; tb = (TranslationBlock *)tb->field[n], n = (uintptr_t)tb & 1, \
++             tb = (TranslationBlock *)((uintptr_t)tb & ~1))
++
++#define TB_FOR_EACH_JMP(head_tb, tb, n)                                 \
++    TB_FOR_EACH_TAGGED((head_tb)->jmp_list_head, tb, n, jmp_list_next)
++
+ static bool tb_cmp(const void *ap, const void *bp)
+ {
+     const TranslationBlock *a = ap;
+@@ -51,7 +60,28 @@ void tb_htable_init(void)
+     qht_init(&tb_ctx.htable, tb_cmp, CODE_GEN_HTABLE_SIZE, mode);
+ }
+ 
++typedef struct PageDesc PageDesc;
++
+ #ifdef CONFIG_USER_ONLY
++
++/*
++ * In user-mode page locks aren't used; mmap_lock is enough.
++ */
++#define assert_page_locked(pd) tcg_debug_assert(have_mmap_lock())
++
 +static inline void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
 +                                  PageDesc **ret_p2, tb_page_addr_t phys2,
 +                                  bool alloc)
@@ -313,138 +252,712 @@ index 694440cb4a..31d0a74aa9 100644
 +    *ret_p1 = NULL;
 +    *ret_p2 = NULL;
 +}
++
++static inline void page_lock(PageDesc *pd) { }
++static inline void page_unlock(PageDesc *pd) { }
 +static inline void page_lock_tb(const TranslationBlock *tb) { }
 +static inline void page_unlock_tb(const TranslationBlock *tb) { }
-+#else
- static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
-                            PageDesc **ret_p2, tb_page_addr_t phys2, bool alloc)
++
+ /*
+  * For user-only, since we are protecting all of memory with a single lock,
+  * and because the two pages of a TranslationBlock are always contiguous,
+@@ -157,6 +187,12 @@ static int v_l2_levels;
+ 
+ static void *l1_map[V_L1_MAX_SIZE];
+ 
++struct PageDesc {
++    QemuSpin lock;
++    /* list of TBs intersecting this ram page */
++    uintptr_t first_tb;
++};
++
+ void page_table_config_init(void)
  {
-@@ -460,10 +586,6 @@ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
-     }
- }
- 
--#ifdef CONFIG_USER_ONLY
--static inline void page_lock_tb(const TranslationBlock *tb) { }
--static inline void page_unlock_tb(const TranslationBlock *tb) { }
--#else
- /* lock the page(s) of a TB in the correct acquisition order */
- static void page_lock_tb(const TranslationBlock *tb)
- {
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 0f8f8e5bef..dec8eb2200 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -114,37 +114,8 @@ QEMU_BUILD_BUG_ON(CPU_TRACE_DSTATE_MAX_EVENTS >
-                   sizeof_field(TranslationBlock, trace_vcpu_dstate)
-                   * BITS_PER_BYTE);
- 
--/*
-- * L1 Mapping properties
-- */
--int v_l1_size;
--int v_l1_shift;
--int v_l2_levels;
--
--void *l1_map[V_L1_MAX_SIZE];
--
- TBContext tb_ctx;
- 
--static void page_table_config_init(void)
--{
--    uint32_t v_l1_bits;
--
--    assert(TARGET_PAGE_BITS);
--    /* The bits remaining after N lower levels of page tables.  */
--    v_l1_bits = (L1_MAP_ADDR_SPACE_BITS - TARGET_PAGE_BITS) % V_L2_BITS;
--    if (v_l1_bits < V_L1_MIN_BITS) {
--        v_l1_bits += V_L2_BITS;
--    }
--
--    v_l1_size = 1 << v_l1_bits;
--    v_l1_shift = L1_MAP_ADDR_SPACE_BITS - TARGET_PAGE_BITS - v_l1_bits;
--    v_l2_levels = v_l1_shift / V_L2_BITS - 1;
--
--    assert(v_l1_bits <= V_L1_MAX_BITS);
--    assert(v_l1_shift % V_L2_BITS == 0);
--    assert(v_l2_levels >= 0);
--}
--
- /* Encode VAL as a signed leb128 sequence at P.
-    Return P incremented past the encoded value.  */
- static uint8_t *encode_sleb128(uint8_t *p, target_long val)
-@@ -389,72 +360,6 @@ void page_init(void)
- #endif
+     uint32_t v_l1_bits;
+@@ -177,7 +213,7 @@ void page_table_config_init(void)
+     assert(v_l2_levels >= 0);
  }
  
 -PageDesc *page_find_alloc(tb_page_addr_t index, bool alloc)
++static PageDesc *page_find_alloc(tb_page_addr_t index, bool alloc)
+ {
+     PageDesc *pd;
+     void **lp;
+@@ -243,6 +279,303 @@ PageDesc *page_find_alloc(tb_page_addr_t index, bool alloc)
+     return pd + (index & (V_L2_SIZE - 1));
+ }
+ 
++static inline PageDesc *page_find(tb_page_addr_t index)
++{
++    return page_find_alloc(index, false);
++}
++
++/**
++ * struct page_entry - page descriptor entry
++ * @pd:     pointer to the &struct PageDesc of the page this entry represents
++ * @index:  page index of the page
++ * @locked: whether the page is locked
++ *
++ * This struct helps us keep track of the locked state of a page, without
++ * bloating &struct PageDesc.
++ *
++ * A page lock protects accesses to all fields of &struct PageDesc.
++ *
++ * See also: &struct page_collection.
++ */
++struct page_entry {
++    PageDesc *pd;
++    tb_page_addr_t index;
++    bool locked;
++};
++
++/**
++ * struct page_collection - tracks a set of pages (i.e. &struct page_entry's)
++ * @tree:   Binary search tree (BST) of the pages, with key == page index
++ * @max:    Pointer to the page in @tree with the highest page index
++ *
++ * To avoid deadlock we lock pages in ascending order of page index.
++ * When operating on a set of pages, we need to keep track of them so that
++ * we can lock them in order and also unlock them later. For this we collect
++ * pages (i.e. &struct page_entry's) in a binary search @tree. Given that the
++ * @tree implementation we use does not provide an O(1) operation to obtain the
++ * highest-ranked element, we use @max to keep track of the inserted page
++ * with the highest index. This is valuable because if a page is not in
++ * the tree and its index is higher than @max's, then we can lock it
++ * without breaking the locking order rule.
++ *
++ * Note on naming: 'struct page_set' would be shorter, but we already have a few
++ * page_set_*() helpers, so page_collection is used instead to avoid confusion.
++ *
++ * See also: page_collection_lock().
++ */
++struct page_collection {
++    GTree *tree;
++    struct page_entry *max;
++};
++
++typedef int PageForEachNext;
++#define PAGE_FOR_EACH_TB(start, end, pagedesc, tb, n) \
++    TB_FOR_EACH_TAGGED((pagedesc)->first_tb, tb, n, page_next)
++
++#ifdef CONFIG_DEBUG_TCG
++
++static __thread GHashTable *ht_pages_locked_debug;
++
++static void ht_pages_locked_debug_init(void)
++{
++    if (ht_pages_locked_debug) {
++        return;
++    }
++    ht_pages_locked_debug = g_hash_table_new(NULL, NULL);
++}
++
++static bool page_is_locked(const PageDesc *pd)
++{
++    PageDesc *found;
++
++    ht_pages_locked_debug_init();
++    found = g_hash_table_lookup(ht_pages_locked_debug, pd);
++    return !!found;
++}
++
++static void page_lock__debug(PageDesc *pd)
++{
++    ht_pages_locked_debug_init();
++    g_assert(!page_is_locked(pd));
++    g_hash_table_insert(ht_pages_locked_debug, pd, pd);
++}
++
++static void page_unlock__debug(const PageDesc *pd)
++{
++    bool removed;
++
++    ht_pages_locked_debug_init();
++    g_assert(page_is_locked(pd));
++    removed = g_hash_table_remove(ht_pages_locked_debug, pd);
++    g_assert(removed);
++}
++
++static void do_assert_page_locked(const PageDesc *pd,
++                                  const char *file, int line)
++{
++    if (unlikely(!page_is_locked(pd))) {
++        error_report("assert_page_lock: PageDesc %p not locked @ %s:%d",
++                     pd, file, line);
++        abort();
++    }
++}
++#define assert_page_locked(pd) do_assert_page_locked(pd, __FILE__, __LINE__)
++
++void assert_no_pages_locked(void)
++{
++    ht_pages_locked_debug_init();
++    g_assert(g_hash_table_size(ht_pages_locked_debug) == 0);
++}
++
++#else /* !CONFIG_DEBUG_TCG */
++
++static inline void page_lock__debug(const PageDesc *pd) { }
++static inline void page_unlock__debug(const PageDesc *pd) { }
++static inline void assert_page_locked(const PageDesc *pd) { }
++
++#endif /* CONFIG_DEBUG_TCG */
++
++static void page_lock(PageDesc *pd)
++{
++    page_lock__debug(pd);
++    qemu_spin_lock(&pd->lock);
++}
++
++static void page_unlock(PageDesc *pd)
++{
++    qemu_spin_unlock(&pd->lock);
++    page_unlock__debug(pd);
++}
++
++static inline struct page_entry *
++page_entry_new(PageDesc *pd, tb_page_addr_t index)
++{
++    struct page_entry *pe = g_malloc(sizeof(*pe));
++
++    pe->index = index;
++    pe->pd = pd;
++    pe->locked = false;
++    return pe;
++}
++
++static void page_entry_destroy(gpointer p)
++{
++    struct page_entry *pe = p;
++
++    g_assert(pe->locked);
++    page_unlock(pe->pd);
++    g_free(pe);
++}
++
++/* returns false on success */
++static bool page_entry_trylock(struct page_entry *pe)
++{
++    bool busy;
++
++    busy = qemu_spin_trylock(&pe->pd->lock);
++    if (!busy) {
++        g_assert(!pe->locked);
++        pe->locked = true;
++        page_lock__debug(pe->pd);
++    }
++    return busy;
++}
++
++static void do_page_entry_lock(struct page_entry *pe)
++{
++    page_lock(pe->pd);
++    g_assert(!pe->locked);
++    pe->locked = true;
++}
++
++static gboolean page_entry_lock(gpointer key, gpointer value, gpointer data)
++{
++    struct page_entry *pe = value;
++
++    do_page_entry_lock(pe);
++    return FALSE;
++}
++
++static gboolean page_entry_unlock(gpointer key, gpointer value, gpointer data)
++{
++    struct page_entry *pe = value;
++
++    if (pe->locked) {
++        pe->locked = false;
++        page_unlock(pe->pd);
++    }
++    return FALSE;
++}
++
++/*
++ * Trylock a page, and if successful, add the page to a collection.
++ * Returns true ("busy") if the page could not be locked; false otherwise.
++ */
++static bool page_trylock_add(struct page_collection *set, tb_page_addr_t addr)
++{
++    tb_page_addr_t index = addr >> TARGET_PAGE_BITS;
++    struct page_entry *pe;
++    PageDesc *pd;
++
++    pe = g_tree_lookup(set->tree, &index);
++    if (pe) {
++        return false;
++    }
++
++    pd = page_find(index);
++    if (pd == NULL) {
++        return false;
++    }
++
++    pe = page_entry_new(pd, index);
++    g_tree_insert(set->tree, &pe->index, pe);
++
++    /*
++     * If this is either (1) the first insertion or (2) a page whose index
++     * is higher than any other so far, just lock the page and move on.
++     */
++    if (set->max == NULL || pe->index > set->max->index) {
++        set->max = pe;
++        do_page_entry_lock(pe);
++        return false;
++    }
++    /*
++     * Try to acquire out-of-order lock; if busy, return busy so that we acquire
++     * locks in order.
++     */
++    return page_entry_trylock(pe);
++}
++
++static gint tb_page_addr_cmp(gconstpointer ap, gconstpointer bp, gpointer udata)
++{
++    tb_page_addr_t a = *(const tb_page_addr_t *)ap;
++    tb_page_addr_t b = *(const tb_page_addr_t *)bp;
++
++    if (a == b) {
++        return 0;
++    } else if (a < b) {
++        return -1;
++    }
++    return 1;
++}
++
++/*
++ * Lock a range of pages ([@start,@end[) as well as the pages of all
++ * intersecting TBs.
++ * Locking order: acquire locks in ascending order of page index.
++ */
++struct page_collection *
++page_collection_lock(tb_page_addr_t start, tb_page_addr_t end)
++{
++    struct page_collection *set = g_malloc(sizeof(*set));
++    tb_page_addr_t index;
++    PageDesc *pd;
++
++    start >>= TARGET_PAGE_BITS;
++    end   >>= TARGET_PAGE_BITS;
++    g_assert(start <= end);
++
++    set->tree = g_tree_new_full(tb_page_addr_cmp, NULL, NULL,
++                                page_entry_destroy);
++    set->max = NULL;
++    assert_no_pages_locked();
++
++ retry:
++    g_tree_foreach(set->tree, page_entry_lock, NULL);
++
++    for (index = start; index <= end; index++) {
++        TranslationBlock *tb;
++        PageForEachNext n;
++
++        pd = page_find(index);
++        if (pd == NULL) {
++            continue;
++        }
++        if (page_trylock_add(set, index << TARGET_PAGE_BITS)) {
++            g_tree_foreach(set->tree, page_entry_unlock, NULL);
++            goto retry;
++        }
++        assert_page_locked(pd);
++        PAGE_FOR_EACH_TB(unused, unused, pd, tb, n) {
++            if (page_trylock_add(set, tb_page_addr0(tb)) ||
++                (tb_page_addr1(tb) != -1 &&
++                 page_trylock_add(set, tb_page_addr1(tb)))) {
++                /* drop all locks, and reacquire in order */
++                g_tree_foreach(set->tree, page_entry_unlock, NULL);
++                goto retry;
++            }
++        }
++    }
++    return set;
++}
++
++void page_collection_unlock(struct page_collection *set)
++{
++    /* entries are unlocked and freed via page_entry_destroy */
++    g_tree_destroy(set->tree);
++    g_free(set);
++}
++
+ /* Set to NULL all the 'first_tb' fields in all PageDescs. */
+ static void page_flush_tb_1(int level, void **lp)
+ {
+@@ -338,7 +671,6 @@ static void tb_page_remove(TranslationBlock *tb)
+         tb_page_remove1(tb, pd);
+     }
+ }
+-
+ #endif
+ 
+ /* flush all the translation blocks */
+@@ -536,15 +868,6 @@ static void tb_phys_invalidate__locked(TranslationBlock *tb)
+ }
+ 
+ #ifdef CONFIG_USER_ONLY
+-static inline void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
+-                                  PageDesc **ret_p2, tb_page_addr_t phys2,
+-                                  bool alloc)
 -{
+-    *ret_p1 = NULL;
+-    *ret_p2 = NULL;
+-}
+-static inline void page_lock_tb(const TranslationBlock *tb) { }
+-static inline void page_unlock_tb(const TranslationBlock *tb) { }
+ #else
+ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
+                            PageDesc **ret_p2, tb_page_addr_t phys2, bool alloc)
+@@ -756,8 +1079,7 @@ bool tb_invalidate_phys_page_unwind(tb_page_addr_t addr, uintptr_t pc)
+ #else
+ /*
+  * @p must be non-NULL.
+- * user-mode: call with mmap_lock held.
+- * !user-mode: call with all @pages locked.
++ * Call with all @pages locked.
+  */
+ static void
+ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
+@@ -828,8 +1150,6 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
+ /*
+  * Invalidate all TBs which intersect with the target physical
+  * address page @addr.
+- *
+- * Called with mmap_lock held for user-mode emulation
+  */
+ void tb_invalidate_phys_page(tb_page_addr_t addr)
+ {
+@@ -855,8 +1175,6 @@ void tb_invalidate_phys_page(tb_page_addr_t addr)
+  * 'is_cpu_write_access' should be true if called from a real cpu write
+  * access: the virtual CPU will exit the current TB if code is modified inside
+  * this TB.
+- *
+- * Called with mmap_lock held for user-mode emulation.
+  */
+ void tb_invalidate_phys_range(tb_page_addr_t start, tb_page_addr_t end)
+ {
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index dec8eb2200..db0b70037a 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -63,52 +63,6 @@
+ #include "tb-context.h"
+ #include "internal.h"
+ 
+-/* make various TB consistency checks */
+-
+-/**
+- * struct page_entry - page descriptor entry
+- * @pd:     pointer to the &struct PageDesc of the page this entry represents
+- * @index:  page index of the page
+- * @locked: whether the page is locked
+- *
+- * This struct helps us keep track of the locked state of a page, without
+- * bloating &struct PageDesc.
+- *
+- * A page lock protects accesses to all fields of &struct PageDesc.
+- *
+- * See also: &struct page_collection.
+- */
+-struct page_entry {
 -    PageDesc *pd;
--    void **lp;
--    int i;
+-    tb_page_addr_t index;
+-    bool locked;
+-};
 -
--    /* Level 1.  Always allocated.  */
--    lp = l1_map + ((index >> v_l1_shift) & (v_l1_size - 1));
+-/**
+- * struct page_collection - tracks a set of pages (i.e. &struct page_entry's)
+- * @tree:   Binary search tree (BST) of the pages, with key == page index
+- * @max:    Pointer to the page in @tree with the highest page index
+- *
+- * To avoid deadlock we lock pages in ascending order of page index.
+- * When operating on a set of pages, we need to keep track of them so that
+- * we can lock them in order and also unlock them later. For this we collect
+- * pages (i.e. &struct page_entry's) in a binary search @tree. Given that the
+- * @tree implementation we use does not provide an O(1) operation to obtain the
+- * highest-ranked element, we use @max to keep track of the inserted page
+- * with the highest index. This is valuable because if a page is not in
+- * the tree and its index is higher than @max's, then we can lock it
+- * without breaking the locking order rule.
+- *
+- * Note on naming: 'struct page_set' would be shorter, but we already have a few
+- * page_set_*() helpers, so page_collection is used instead to avoid confusion.
+- *
+- * See also: page_collection_lock().
+- */
+-struct page_collection {
+-    GTree *tree;
+-    struct page_entry *max;
+-};
 -
--    /* Level 2..N-1.  */
--    for (i = v_l2_levels; i > 0; i--) {
--        void **p = qatomic_rcu_read(lp);
--
--        if (p == NULL) {
--            void *existing;
--
--            if (!alloc) {
--                return NULL;
--            }
--            p = g_new0(void *, V_L2_SIZE);
--            existing = qatomic_cmpxchg(lp, NULL, p);
--            if (unlikely(existing)) {
--                g_free(p);
--                p = existing;
--            }
--        }
--
--        lp = p + ((index >> (i * V_L2_BITS)) & (V_L2_SIZE - 1));
--    }
--
--    pd = qatomic_rcu_read(lp);
--    if (pd == NULL) {
--        void *existing;
--
--        if (!alloc) {
--            return NULL;
--        }
--        pd = g_new0(PageDesc, V_L2_SIZE);
--#ifndef CONFIG_USER_ONLY
--        {
--            int i;
--
--            for (i = 0; i < V_L2_SIZE; i++) {
--                qemu_spin_init(&pd[i].lock);
--            }
--        }
--#endif
--        existing = qatomic_cmpxchg(lp, NULL, pd);
--        if (unlikely(existing)) {
--#ifndef CONFIG_USER_ONLY
--            {
--                int i;
--
--                for (i = 0; i < V_L2_SIZE; i++) {
--                    qemu_spin_destroy(&pd[i].lock);
--                }
--            }
--#endif
--            g_free(pd);
--            pd = existing;
--        }
--    }
--
--    return pd + (index & (V_L2_SIZE - 1));
+ /* Make sure all possible CPU event bits fit in tb->trace_vcpu_dstate */
+ QEMU_BUILD_BUG_ON(CPU_TRACE_DSTATE_MAX_EVENTS >
+                   sizeof_field(TranslationBlock, trace_vcpu_dstate)
+@@ -360,261 +314,6 @@ void page_init(void)
+ #endif
+ }
+ 
+-/* In user-mode page locks aren't used; mmap_lock is enough */
+-#ifdef CONFIG_USER_ONLY
+-struct page_collection *
+-page_collection_lock(tb_page_addr_t start, tb_page_addr_t end)
+-{
+-    return NULL;
 -}
 -
- /* In user-mode page locks aren't used; mmap_lock is enough */
- #ifdef CONFIG_USER_ONLY
- struct page_collection *
+-void page_collection_unlock(struct page_collection *set)
+-{ }
+-#else /* !CONFIG_USER_ONLY */
+-
+-#ifdef CONFIG_DEBUG_TCG
+-
+-static __thread GHashTable *ht_pages_locked_debug;
+-
+-static void ht_pages_locked_debug_init(void)
+-{
+-    if (ht_pages_locked_debug) {
+-        return;
+-    }
+-    ht_pages_locked_debug = g_hash_table_new(NULL, NULL);
+-}
+-
+-static bool page_is_locked(const PageDesc *pd)
+-{
+-    PageDesc *found;
+-
+-    ht_pages_locked_debug_init();
+-    found = g_hash_table_lookup(ht_pages_locked_debug, pd);
+-    return !!found;
+-}
+-
+-static void page_lock__debug(PageDesc *pd)
+-{
+-    ht_pages_locked_debug_init();
+-    g_assert(!page_is_locked(pd));
+-    g_hash_table_insert(ht_pages_locked_debug, pd, pd);
+-}
+-
+-static void page_unlock__debug(const PageDesc *pd)
+-{
+-    bool removed;
+-
+-    ht_pages_locked_debug_init();
+-    g_assert(page_is_locked(pd));
+-    removed = g_hash_table_remove(ht_pages_locked_debug, pd);
+-    g_assert(removed);
+-}
+-
+-void do_assert_page_locked(const PageDesc *pd, const char *file, int line)
+-{
+-    if (unlikely(!page_is_locked(pd))) {
+-        error_report("assert_page_lock: PageDesc %p not locked @ %s:%d",
+-                     pd, file, line);
+-        abort();
+-    }
+-}
+-
+-void assert_no_pages_locked(void)
+-{
+-    ht_pages_locked_debug_init();
+-    g_assert(g_hash_table_size(ht_pages_locked_debug) == 0);
+-}
+-
+-#else /* !CONFIG_DEBUG_TCG */
+-
+-static inline void page_lock__debug(const PageDesc *pd) { }
+-static inline void page_unlock__debug(const PageDesc *pd) { }
+-
+-#endif /* CONFIG_DEBUG_TCG */
+-
+-void page_lock(PageDesc *pd)
+-{
+-    page_lock__debug(pd);
+-    qemu_spin_lock(&pd->lock);
+-}
+-
+-void page_unlock(PageDesc *pd)
+-{
+-    qemu_spin_unlock(&pd->lock);
+-    page_unlock__debug(pd);
+-}
+-
+-static inline struct page_entry *
+-page_entry_new(PageDesc *pd, tb_page_addr_t index)
+-{
+-    struct page_entry *pe = g_malloc(sizeof(*pe));
+-
+-    pe->index = index;
+-    pe->pd = pd;
+-    pe->locked = false;
+-    return pe;
+-}
+-
+-static void page_entry_destroy(gpointer p)
+-{
+-    struct page_entry *pe = p;
+-
+-    g_assert(pe->locked);
+-    page_unlock(pe->pd);
+-    g_free(pe);
+-}
+-
+-/* returns false on success */
+-static bool page_entry_trylock(struct page_entry *pe)
+-{
+-    bool busy;
+-
+-    busy = qemu_spin_trylock(&pe->pd->lock);
+-    if (!busy) {
+-        g_assert(!pe->locked);
+-        pe->locked = true;
+-        page_lock__debug(pe->pd);
+-    }
+-    return busy;
+-}
+-
+-static void do_page_entry_lock(struct page_entry *pe)
+-{
+-    page_lock(pe->pd);
+-    g_assert(!pe->locked);
+-    pe->locked = true;
+-}
+-
+-static gboolean page_entry_lock(gpointer key, gpointer value, gpointer data)
+-{
+-    struct page_entry *pe = value;
+-
+-    do_page_entry_lock(pe);
+-    return FALSE;
+-}
+-
+-static gboolean page_entry_unlock(gpointer key, gpointer value, gpointer data)
+-{
+-    struct page_entry *pe = value;
+-
+-    if (pe->locked) {
+-        pe->locked = false;
+-        page_unlock(pe->pd);
+-    }
+-    return FALSE;
+-}
+-
+-/*
+- * Trylock a page, and if successful, add the page to a collection.
+- * Returns true ("busy") if the page could not be locked; false otherwise.
+- */
+-static bool page_trylock_add(struct page_collection *set, tb_page_addr_t addr)
+-{
+-    tb_page_addr_t index = addr >> TARGET_PAGE_BITS;
+-    struct page_entry *pe;
+-    PageDesc *pd;
+-
+-    pe = g_tree_lookup(set->tree, &index);
+-    if (pe) {
+-        return false;
+-    }
+-
+-    pd = page_find(index);
+-    if (pd == NULL) {
+-        return false;
+-    }
+-
+-    pe = page_entry_new(pd, index);
+-    g_tree_insert(set->tree, &pe->index, pe);
+-
+-    /*
+-     * If this is either (1) the first insertion or (2) a page whose index
+-     * is higher than any other so far, just lock the page and move on.
+-     */
+-    if (set->max == NULL || pe->index > set->max->index) {
+-        set->max = pe;
+-        do_page_entry_lock(pe);
+-        return false;
+-    }
+-    /*
+-     * Try to acquire out-of-order lock; if busy, return busy so that we acquire
+-     * locks in order.
+-     */
+-    return page_entry_trylock(pe);
+-}
+-
+-static gint tb_page_addr_cmp(gconstpointer ap, gconstpointer bp, gpointer udata)
+-{
+-    tb_page_addr_t a = *(const tb_page_addr_t *)ap;
+-    tb_page_addr_t b = *(const tb_page_addr_t *)bp;
+-
+-    if (a == b) {
+-        return 0;
+-    } else if (a < b) {
+-        return -1;
+-    }
+-    return 1;
+-}
+-
+-/*
+- * Lock a range of pages ([@start,@end[) as well as the pages of all
+- * intersecting TBs.
+- * Locking order: acquire locks in ascending order of page index.
+- */
+-struct page_collection *
+-page_collection_lock(tb_page_addr_t start, tb_page_addr_t end)
+-{
+-    struct page_collection *set = g_malloc(sizeof(*set));
+-    tb_page_addr_t index;
+-    PageDesc *pd;
+-
+-    start >>= TARGET_PAGE_BITS;
+-    end   >>= TARGET_PAGE_BITS;
+-    g_assert(start <= end);
+-
+-    set->tree = g_tree_new_full(tb_page_addr_cmp, NULL, NULL,
+-                                page_entry_destroy);
+-    set->max = NULL;
+-    assert_no_pages_locked();
+-
+- retry:
+-    g_tree_foreach(set->tree, page_entry_lock, NULL);
+-
+-    for (index = start; index <= end; index++) {
+-        TranslationBlock *tb;
+-        PageForEachNext n;
+-
+-        pd = page_find(index);
+-        if (pd == NULL) {
+-            continue;
+-        }
+-        if (page_trylock_add(set, index << TARGET_PAGE_BITS)) {
+-            g_tree_foreach(set->tree, page_entry_unlock, NULL);
+-            goto retry;
+-        }
+-        assert_page_locked(pd);
+-        PAGE_FOR_EACH_TB(unused, unused, pd, tb, n) {
+-            if (page_trylock_add(set, tb_page_addr0(tb)) ||
+-                (tb_page_addr1(tb) != -1 &&
+-                 page_trylock_add(set, tb_page_addr1(tb)))) {
+-                /* drop all locks, and reacquire in order */
+-                g_tree_foreach(set->tree, page_entry_unlock, NULL);
+-                goto retry;
+-            }
+-        }
+-    }
+-    return set;
+-}
+-
+-void page_collection_unlock(struct page_collection *set)
+-{
+-    /* entries are unlocked and freed via page_entry_destroy */
+-    g_tree_destroy(set->tree);
+-    g_free(set);
+-}
+-
+-#endif /* !CONFIG_USER_ONLY */
+-
+ /* Called with mmap_lock held for user mode emulation.  */
+ TranslationBlock *tb_gen_code(CPUState *cpu,
+                               target_ulong pc, target_ulong cs_base,
 -- 
 2.34.1
 
