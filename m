@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D023260F0C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 08:56:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C389660F0DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 09:02:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onwn9-0001JD-H3; Thu, 27 Oct 2022 02:55:06 -0400
+	id 1onwr3-0006QQ-4Z; Thu, 27 Oct 2022 02:59:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1onwn1-0001CU-82
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:54:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1onwqj-0006BF-0i
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:58:46 -0400
+Received: from mout.gmx.net ([212.227.15.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1onwml-0006Fh-Vg
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:54:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666853676;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=um7V3PnEgPVO+LZ8Lc5wUOEN407J5CnAC2iBWnpGTns=;
- b=a7k/Ho2X/LDY6FiNLpuKP/IRV+VAu3ixS1Q4sTsJHHJ/cNx/kmKdsaf/oEUwTEFLeEsE4v
- 0vN3jPDwmkoQ1cGFzdr6HSmlQKGDlbTG5C87x1kg1/r5IUgmBpJwlm7osrqfM357TCg7Fk
- PGRwfzqwfobXBydR6u8iCNCKgeaZThc=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-465-N3_OBRPFNMq5gPqML-_DMQ-1; Thu, 27 Oct 2022 02:54:35 -0400
-X-MC-Unique: N3_OBRPFNMq5gPqML-_DMQ-1
-Received: by mail-ot1-f72.google.com with SMTP id
- a22-20020a0568300b9600b0065c0cef3662so297909otv.14
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 23:54:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=um7V3PnEgPVO+LZ8Lc5wUOEN407J5CnAC2iBWnpGTns=;
- b=7g1ccGi6Qw/NJVg4lGier3pAbp4KzXUQpwUw2GKrIlI3a3KTu2nMFj8prGqKmRg6Ax
- bRSW9hPkml+MFTDmQ+hhqZllHWscoWAn27c+r82lagyRf7/frrOmt6x3D4KxFGif0kdj
- 1q7A+ZdqXPvTAnazLOPuHpceCxQM/h0/9pUTkJh4SLJilPkqfHtbekmJvtDq6CbDc6Cd
- a39brbJkqqNflfjyFn0oVdOUJS33OXoMD67g4Q7LFGU02RWNZ9V3mgw7sSeWCJARdoyv
- UapBPEF9XcudRr8UVFH55Lp84/sqoC785GoHN+0hvsXJKH2xo2id//06g6IsxZZa5jys
- b18Q==
-X-Gm-Message-State: ACrzQf0ReDTcPvrUTtZptNYKTraaCDt5D/Oy2nvx0xJJKzH+UOU0QIUN
- bLIx86mOqcD+L+iJcqsLXR1f/FIvwY63uDnUP2ES8ohyVMdPhSvc4j73skgzEPZdCBqal1i5wj4
- 86ee8oUaYgW3z8aY74gDABgNNLB2gElo=
-X-Received: by 2002:a05:6870:eca8:b0:132:df46:5c66 with SMTP id
- eo40-20020a056870eca800b00132df465c66mr4543961oab.280.1666853673429; 
- Wed, 26 Oct 2022 23:54:33 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7SiDABFZNETYAeJP2g8JlaquAjUxfiRgPBLQ4mSQdIwSoEG8zcGDrERC8+UGAPwHuVmz4YSegbD8glITqpQPQ=
-X-Received: by 2002:a05:6870:eca8:b0:132:df46:5c66 with SMTP id
- eo40-20020a056870eca800b00132df465c66mr4543942oab.280.1666853673204; Wed, 26
- Oct 2022 23:54:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1onwqg-0006uW-GF
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:58:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1666853919; bh=T25pljQnIusPjzDPi4ssIlPiCYIn3r7qd1HK4PXbz60=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=jo4ACq5mAEiMqg8RKZJCFGATCiayceGMayJrvWcYSWS9u/aLQ9UXrhqjNkiYltAIy
+ whIPERo6bRCOkIQyTRF3DK5jEehqeZ8pP7+BnUQQpyxUvdzpiCZZZO8J4BxGL0TVMr
+ dq4vSwTBGsz23EDCbEU6HEumCDGpbzO3kXQQVI6NukS/jV61G+0BlVU16zBy6ZaH54
+ uOhb1XJox4WSaZZ75Kutn62GkmisbWPLWl0jqJjVZDEDEY94Aqg/eXu1EOxLIEQpiw
+ lwqz4GFe38JJiPN6FtIca/VF1vv4AL/XRus3lClhbI2O4lnpQgxHYCjODRW3LDjMBy
+ QzmNJC8VlG5lA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from p100 ([92.116.164.228]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MHXBj-1osbgU1SS1-00DU0v; Thu, 27
+ Oct 2022 08:58:39 +0200
+Date: Thu, 27 Oct 2022 08:58:37 +0200
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Subject: [PATCH] linux-user/hppa: Detect glibc ABORT_INSTRUCTION and
+ EXCP_BREAK handler
+Message-ID: <Y1osHVsylkuZNUnY@p100>
 MIME-Version: 1.0
-References: <20221026095303.37907-1-eperezma@redhat.com>
- <20221026095303.37907-4-eperezma@redhat.com>
- <53480725-89de-f289-c5cc-4b37ede72c31@redhat.com>
- <CAJaqyWdr1_eJmS1otXd0RBKUdu5BZk87_t7F6jZm5Mg8sK9kBQ@mail.gmail.com>
-In-Reply-To: <CAJaqyWdr1_eJmS1otXd0RBKUdu5BZk87_t7F6jZm5Mg8sK9kBQ@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 27 Oct 2022 14:54:21 +0800
-Message-ID: <CACGkMEuv2zNLAr_BxPcQ3RCH5S91bm6sJFvhL7QetJNXaM_FmQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] vdpa: Expose VIRTIO_NET_F_STATUS unconditionally
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Gautam Dawar <gdawar@xilinx.com>, 
- Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Cindy Lu <lulu@redhat.com>, 
- Eli Cohen <eli@mellanox.com>, Laurent Vivier <lvivier@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:5W1IATQXUnViYZogmQCIhgoiAOsAQ4aShw+IQjdqb75oCNOCkTd
+ l1KmhrZUjwrhH8EXJjfI1EFvWF6s4QcpUihMEPoRNNuauX4Lzq5CUKW3EljWWJt9yrQCmO1
+ SFun+qZS2y5D+hOOJg5Yp2318X39oT3Z6XhgxCYwORYR+hL+ULtekcEVxy2yEE42Q9wsFXR
+ w0D1APTOvCdupE5oVDvow==
+UI-OutboundReport: notjunk:1;M01:P0:YKRPiQSPN88=;uUjlE02XsOe2NEboBCmRKCQf5xS
+ mBNkK3Vh7rfziXxRQH8EbZd5WdK5KBKyjPj7fEZHSF1ht4lRSKJmBW3N/JPUoMAX2Zdt5C7W9
+ huriv3XEcMLN5Ufb+kRjkiYWyPoN7rBcgC7OfJff4Ag0Th2Z0Iwo6EPLhq+Hm8yDwQcx910P2
+ rFOcn38Pw0VRCfkozQuuXyEhckF8fmJ1RWY0zeKn1OWWQIm7rtV8I6mcFRswKdDtfdotvD2Ls
+ lLWXyLItCCQPU5LHgWavinXBCYGnpXdFRkTb8+lMLYXk6CSX8gcPUjHXYiEbWgNGk3UFFEEpf
+ feHc+ukZFYkpH6QpODYQcN7bQukIaG6+FU0DHJlhG0MF/qNpDZNLG8z322mC2JRpuU1xWhmYV
+ gBKpR4fvDR5Ptl4YLkZNfrlqqj0gD9zti8FAK4D3TqXK5CVHMzK3wwx9OK77NrNWMfBh/lXZy
+ JHUFRDaSC9Y1ImGPF4kRBTtx5AcRn6XVikkf63EntNMls5K5Zhkiiz5r8ZQ+/eBaBuWQ0uUdX
+ 8bZGvvnggOloX7KE8Zvfb7buhnNYzn+TIOZR5sR94LMblo4hO0m+ZyiC2cxZKdcYn4gPwjhPM
+ Cx0fxwFwNNQNf3QXeNuJRG1XH/ijb100vo2YpKbpkJtUSQMnjORdb4S7ERBNsM1fF5jjP/uCa
+ gYQbWV4vK0xKf9DeblV7e/lSox6lj6wy6a/KP9aEIKxRsg3qZpSqmIqaPg+y+fjL4irDLO4j4
+ N2mlp6hFndN/moC+7YiaVt5GV25j6LliNyzwaBuCML+i1EHKLHqYhtj3vXquTY1wkViur1NSP
+ UWCTadzyKdyGmbnXHIolownUOy1Q4r8XhgbNUS4XQo832e9LdIgP+1sHtfUrgMR+KqPFwmGwJ
+ acdVLn+O5rf2nlZcoUg99e98u0sMl6cHNXzXW1iXTTnv3BIKjso9Wew6g+1nEq0RU3wSF882e
+ UBrALKxJH+DYb5R8m+X3Owh32ig=
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,122 +82,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 2:47 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
->
-> On Thu, Oct 27, 2022 at 6:32 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> >
-> > =E5=9C=A8 2022/10/26 17:53, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > > Now that qemu can handle and emulate it if the vdpa backend does not
-> > > support it we can offer it always.
-> > >
-> > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >
-> >
-> > I may miss something but isn't more easier to simply remove the
-> > _F_STATUS from vdpa_feature_bits[]?
-> >
->
-> How is that? if we remove it, the guest cannot ack it so it cannot
-> access the net status, isn't it?
+The glibc on the hppa platform uses the "iitlbp %r0,(%sr0, %r0)"
+assembler instruction as ABORT_INSTRUCTION.
+If this (in userspace context) illegal assembler statement is found,
+dump the registers and report the failure to userspace the same way as
+the Linux kernel on physical hardware.
 
-My understanding is that the bits stored in the vdpa_feature_bits[]
-are the features that must be explicitly supported by the vhost
-device. So if we remove _F_STATUS, Qemu vhost code won't validate if
-vhost-vdpa device has this support:
+For other illegal instructions report TARGET_ILL_ILLOPC instead of
+TARGET_ILL_ILLOPN as si_code.
 
-uint64_t vhost_get_features(struct vhost_dev *hdev, const int *feature_bits=
-,
-                            uint64_t features)
-{
-    const int *bit =3D feature_bits;
-    while (*bit !=3D VHOST_INVALID_FEATURE_BIT) {
-        uint64_t bit_mask =3D (1ULL << *bit);
-        if (!(hdev->features & bit_mask)) {
-            features &=3D ~bit_mask;
-        }
-        bit++;
-    }
-    return features;
-}
+Additionally add the missing EXCP_BREAK exception handler which occurs
+when the "break x,y" assembler instruction is executed and report
+EXCP_ASSIST traps.
 
-Thanks
+Signed-off-by: Helge Deller <deller@gmx.de>
 
-
-
->
-> The goal with this patch series is to let the guest access the status
-> always, even if the device doesn't support _F_STATUS.
->
-> > Thanks
-> >
-> >
-> > > ---
-> > >   include/net/vhost-vdpa.h |  1 +
-> > >   hw/net/vhost_net.c       | 16 ++++++++++++++--
-> > >   net/vhost-vdpa.c         |  3 +++
-> > >   3 files changed, 18 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/include/net/vhost-vdpa.h b/include/net/vhost-vdpa.h
-> > > index b81f9a6f2a..cfbcce6427 100644
-> > > --- a/include/net/vhost-vdpa.h
-> > > +++ b/include/net/vhost-vdpa.h
-> > > @@ -17,5 +17,6 @@
-> > >   struct vhost_net *vhost_vdpa_get_vhost_net(NetClientState *nc);
-> > >
-> > >   extern const int vdpa_feature_bits[];
-> > > +extern const uint64_t vhost_vdpa_net_added_feature_bits;
-> > >
-> > >   #endif /* VHOST_VDPA_H */
-> > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > > index d28f8b974b..7c15cc6e8f 100644
-> > > --- a/hw/net/vhost_net.c
-> > > +++ b/hw/net/vhost_net.c
-> > > @@ -109,10 +109,22 @@ static const int *vhost_net_get_feature_bits(st=
-ruct vhost_net *net)
-> > >       return feature_bits;
-> > >   }
-> > >
-> > > +static uint64_t vhost_net_add_feature_bits(struct vhost_net *net)
-> > > +{
-> > > +    if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA) {
-> > > +        return vhost_vdpa_net_added_feature_bits;
-> > > +    }
-> > > +
-> > > +    return 0;
-> > > +}
-> > > +
-> > >   uint64_t vhost_net_get_features(struct vhost_net *net, uint64_t fea=
-tures)
-> > >   {
-> > > -    return vhost_get_features(&net->dev, vhost_net_get_feature_bits(=
-net),
-> > > -            features);
-> > > +    uint64_t ret =3D vhost_get_features(&net->dev,
-> > > +                                      vhost_net_get_feature_bits(net=
-),
-> > > +                                      features);
-> > > +
-> > > +    return ret | vhost_net_add_feature_bits(net);
-> > >   }
-> > >   int vhost_net_get_config(struct vhost_net *net,  uint8_t *config,
-> > >                            uint32_t config_len)
-> > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > index 6d64000202..24d2857593 100644
-> > > --- a/net/vhost-vdpa.c
-> > > +++ b/net/vhost-vdpa.c
-> > > @@ -99,6 +99,9 @@ static const uint64_t vdpa_svq_device_features =3D
-> > >       BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-> > >       BIT_ULL(VIRTIO_NET_F_STANDBY);
-> > >
-> > > +const uint64_t vhost_vdpa_net_added_feature_bits =3D
-> > > +    BIT_ULL(VIRTIO_NET_F_STATUS);
-> > > +
-> > >   VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
-> > >   {
-> > >       VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> >
->
-
+diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
+index 98c51e9b8b..a42c34e549 100644
+--- a/linux-user/hppa/cpu_loop.c
++++ b/linux-user/hppa/cpu_loop.c
+@@ -196,15 +196,20 @@ void cpu_loop(CPUHPPAState *env)
+             force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR, env->iaoq_f);
+             break;
+         case EXCP_ILL:
+-            EXCP_DUMP(env, "qemu: got CPU exception 0x%x - aborting\n", trapnr);
+-            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->iaoq_f);
++            EXCP_DUMP(env, "qemu: EXCP_ILL exception %#x\n", trapnr);
++            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC, env->iaoq_f);
+             break;
+         case EXCP_PRIV_OPR:
+-            EXCP_DUMP(env, "qemu: got CPU exception 0x%x - aborting\n", trapnr);
+-            force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC, env->iaoq_f);
++            /* check for glibc ABORT_INSTRUCTION "iitlbp %r0,(%sr0, %r0)" */
++            EXCP_DUMP(env, "qemu: EXCP_PRIV_OPR exception %#x\n", trapnr);
++            if (env->cr[CR_IIR] == 0x04000000) {
++		    force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC, env->iaoq_f);
++            } else {
++		    force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC, env->iaoq_f);
++            }
+             break;
+         case EXCP_PRIV_REG:
+-            EXCP_DUMP(env, "qemu: got CPU exception 0x%x - aborting\n", trapnr);
++            EXCP_DUMP(env, "qemu: EXCP_PRIV_REG exception %#x\n", trapnr);
+             force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVREG, env->iaoq_f);
+             break;
+         case EXCP_OVERFLOW:
+@@ -216,6 +221,10 @@ void cpu_loop(CPUHPPAState *env)
+         case EXCP_ASSIST:
+             force_sig_fault(TARGET_SIGFPE, 0, env->iaoq_f);
+             break;
++        case EXCP_BREAK:
++            EXCP_DUMP(env, "qemu: EXCP_BREAK exception %#x\n", trapnr);
++            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->iaoq_f & ~3);
++            break;
+         case EXCP_DEBUG:
+             force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->iaoq_f);
+             break;
 
