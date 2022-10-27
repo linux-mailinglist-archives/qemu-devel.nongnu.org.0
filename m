@@ -2,86 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46125610566
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 00:13:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A69D61063A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 01:12:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooB64-00035Z-1k; Thu, 27 Oct 2022 18:11:32 -0400
+	id 1ooC0T-0007RL-7m; Thu, 27 Oct 2022 19:09:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooB60-00033u-5l
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 18:11:28 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ooC0R-0007RA-Qq; Thu, 27 Oct 2022 19:09:47 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooB5y-0003ub-4Q
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 18:11:27 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id y10so1945828wma.0
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 15:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=F211f8O4Kly9T9Al1W6ZdgsuSY0Bk+zV2+Vsioa11s8=;
- b=Qgi6DAVUemunRogSZZKW60VWrV6uILYsluoF5QKzTktuOpsxdVafdtzvvgM8bsCqbB
- kZd81G0N/yuybusvIoQfuoVTnwuUR2A+SZlJhb7aC9ytcYL8cCA0e5JfKuLehzDKsAQW
- BP0z69hhag6m4fE2c57t38/PMe2GT89Ke7FhdJY6+50a/uAtIgMuvgfm4ItKWe3ova1a
- MKUKhsu4JZxxEuFJ1CN28lPXvztuAfe+7ZfNX4f/g6XSqu9NHfpjoDSX/S5kfIYAIRgw
- yW3PFbhE/eeHR3Ycj1OPCxMJaPFuSlk8jA5bP8LRz7sfEdfJeSNd2ZGsfBSM+U4CVwcV
- vOsw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ooC0P-0003kU-77; Thu, 27 Oct 2022 19:09:46 -0400
+Received: by mail-pf1-x436.google.com with SMTP id d10so3254299pfh.6;
+ Thu, 27 Oct 2022 16:09:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=CpcmgDljznbEuECx79wDHdpCI1KBI6CJPnorIT788PI=;
+ b=Qxc4oZ4r1UjLwATWpAJN5moOmbSS4LmLn1GG/mzrTcOtbEXCiCIJ0BAIwNyquo4owu
+ haWTJMy/T+S2cDsy77q0RaBD/KUEPdhUAhs2jUjoBqU50HzvExYgVq/AW+uISE3Dz0nF
+ Ncmtigl4Qn2y/vN0QhR0zr9GvbhxbUCLIm666+nsrqg7IL4umK/Yuq6mdL5n6pCkPr3K
+ g+86rlLAuEVPUNYSIf8XXG/yu5WuNRFP/QCxpQwGdrH3SV8/rabSCBhy6JBOuCp65XQ7
+ +oqzNXAWubZu/10GjEVeOrdVp8NCjvRccw2MyszK14RDy/lnVyP2R7WNuEnz59YUSezq
+ pCaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=F211f8O4Kly9T9Al1W6ZdgsuSY0Bk+zV2+Vsioa11s8=;
- b=ga/8ptHU0fdcqlUhR8/a4dZlUyK/a4qz/9U/dWte5QoRpMZ6whVWBAXLkXA/3VdDsL
- QziVGD6RfcaE0c3lutDsbAsge0Xug/JaEnQDpIlBDpbKP+MTYJRqJYhPgEjvgJh/5ScZ
- X1HRdMhjUl6SsThvNCI+vJ6G4tZTYCdiPSAiDOFbr+Pbyu2zouG3y9Gb4rYbNKNUR96E
- fr7Snoefr3lsKLoRXPzvQ6a42qofE/Vth+ChBs5AA/V757rSnasno6MXBGB5rVj/CUTi
- 7qEudEahxQl++Yk7GFIofq5o08fDFsB21LQDZUOEKFh8z9Et0PcMaDS25S2PtWJz48S+
- 8ciw==
-X-Gm-Message-State: ACrzQf3rs5ZLCEXIDwZxwPjb8w3K6taerkWq2/2bTApwUQ+znVRNh+Wz
- apYIdCJLd0tfiqlI5jVnNB1pOQ==
-X-Google-Smtp-Source: AMsMyM6sgJNOvQB0kgm60dURTHgjEvXHiF1UD90Lle/NHtgQxUaBaiou+CfTdnq3gT9frGOT53UvzQ==
-X-Received: by 2002:a1c:7405:0:b0:3cf:5d41:be8b with SMTP id
- p5-20020a1c7405000000b003cf5d41be8bmr304215wmc.1.1666908684347; 
- Thu, 27 Oct 2022 15:11:24 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- o21-20020a05600c4fd500b003c43dc42b4dsm6404789wmq.16.2022.10.27.15.11.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 15:11:23 -0700 (PDT)
-Message-ID: <38e64cb2-4409-dc5b-16a1-53e91c0f3dc1@linaro.org>
-Date: Fri, 28 Oct 2022 00:11:21 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=CpcmgDljznbEuECx79wDHdpCI1KBI6CJPnorIT788PI=;
+ b=MG5iRw1yDkOL6M1etgCrmApWFIn3Vwr8W4VQLJpJI2PfXmIDx7vQjXgYEEywuFLiky
+ z/vlKmpWZJrFz/v7QKNh7sTQ8AzO3xxb/grTdyVY7q9hx0Ifk1TKBb6w+0MmgdbSAWOu
+ Dfm+xRcax1eZCnCfY9/fdH6nJ98FXd5Sug//Znz+iwnYPQyVeJSbktV9BZtwU7zEm9e6
+ Qm85RiDdNlu1+L2Jjff6D/EOhikwjSgf/JqY9duA6kZGuOHLfSlaDMO79xVZh3+7P1Xm
+ AEBM58T2oi715Qu92RsILPE+GezWY61ZD5+1bJWZl9OGEkjiTAW8r7CHu2PCA62ken1j
+ Treg==
+X-Gm-Message-State: ACrzQf088lttpaH4FMYz1WWON2Nsn6vL+Dn2b83vuCsCM415W8rvE2Y/
+ AGeC7FPgaROCJEU0T0e5gXpgLMgSfQ8+Ev0gxpc=
+X-Google-Smtp-Source: AMsMyM6l4NVvM4cb6F0yxcvltauJzMNce23flJZDaM7Z6SBU9sbfK/duLYJJ3ZjDulUNic178ROaCM1rjAQ0cr80D5Q=
+X-Received: by 2002:a63:ce43:0:b0:45b:d6ed:6c2 with SMTP id
+ r3-20020a63ce43000000b0045bd6ed06c2mr43870616pgi.406.1666912183127; Thu, 27
+ Oct 2022 16:09:43 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH v5 00/13] Instantiate VT82xx functions in host device
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>,
- Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
- BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20220901114127.53914-1-shentey@gmail.com>
- <E2820A94-3E30-46DB-9F83-8157C9A6FE1B@gmail.com>
- <25b0a116-7098-c285-cb20-af05dd03768b@amsat.org>
- <1D5930DC-EA4A-411F-BA3A-AA7FB0315368@gmail.com>
- <de35a684-6fe4-e5f2-3f6b-ca42d4ccbe22@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <de35a684-6fe4-e5f2-3f6b-ca42d4ccbe22@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20221027054649.69228-1-mchitale@ventanamicro.com>
+ <20221027054649.69228-3-mchitale@ventanamicro.com>
+In-Reply-To: <20221027054649.69228-3-mchitale@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 28 Oct 2022 09:09:16 +1000
+Message-ID: <CAKmqyKPVbujUa96C_8Lrk_EmZxTuheeQ0QUkRo4yzC1bnuRMgA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] target/riscv: Extend isa_ext_data for single
+ letter extensions
+To: Mayuresh Chitale <mchitale@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,70 +83,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Daniel, Bernhard,
+On Thu, Oct 27, 2022 at 3:50 PM Mayuresh Chitale
+<mchitale@ventanamicro.com> wrote:
+>
+> Currently the ISA string for a CPU is generated from two different
+> arrays, one for single letter extensions and another for multi letter
+> extensions. Add all the single letter extensions to the isa_ext_data
+> array and use it for generating the ISA string. Also drop 'P' and 'Q'
+> extensions from the list of single letter extensions as those are not
+> supported yet.
+>
+> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
 
-On 27/10/22 11:47, Daniel Henrique Barboza wrote:
-> On 10/27/22 05:21, Bernhard Beschow wrote:
->> Am 16. September 2022 14:36:05 UTC schrieb "Philippe Mathieu-Daudé" 
->> <f4bug@amsat.org>:
->>> On 12/9/22 21:50, Bernhard Beschow wrote:
->>>> Am 1. September 2022 11:41:14 UTC schrieb Bernhard Beschow 
->>>> <shentey@gmail.com>:
->>>
->>>>> Testing done:
->>>>>
->>>>> * `qemu-system-ppc -machine pegasos2 -rtc base=localtime -device 
->>>>> ati-vga,guest_hwcursor=true,romfile="" -cdrom morphos-3.17.iso 
->>>>> -kernel morphos-3.17/boot.img`
->>>>>
->>>>>    Boots successfully and it is possible to open games and tools.
->>>>>
->>>>>
->>>>>
->>>>> * I was unable to test the fuloong2e board even before this series 
->>>>> since it seems to be unfinished [1].
->>>>>
->>>>>    A buildroot-baked kernel [2] booted but doesn't find its root 
->>>>> partition, though the issues could be in the buildroot receipt I 
->>>>> created.
->>>>>
->>>>>
->>>>>
->>>>> [1] https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
->>>>>
->>>>> [2] https://github.com/shentok/buildroot/commits/fuloong2e
->>>>>
->>>>
->>>> Copying from v2 (just found it in my spam folder :/):
->>>> Series:
->>>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>
->>>> Review seems complete, thanks to all who participated! Now we just 
->>>> need someone to queue this series.
->>>>
->>>> Best regards,
->>>> Bernhard
->>>
->>> Excellent cleanup! Series queued to mips-next.
->>
->> Hi Phil,
->>
->> would you mind doing a pull request in time for 7.2?
-> 
-> I believe Phil was having problems with his amsat.org email. It's
-> better to CC him using his work email philmd@linaro.org (just added
-> it).
-> 
-> Phil, since this has pegasos2 changes I can queue it up via ppc-next
-> if you like. I'll toss a PR tomorrow.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-This series is already queued. I apologize for the loooong delay, I am
-trying to run my usual tests but various fileservers I was using to
-fetch MIPS binaries disappeared over the last year, so I have to pull
-these files from offline backups. The PR will be in time for 7.2
-however :)
+Alistair
 
-Regards,
-
-Phil.
+> ---
+>  target/riscv/cpu.c | 41 +++++++++++++++++++++++------------------
+>  1 file changed, 23 insertions(+), 18 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index e6d9c706bb..35320a8547 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -41,8 +41,6 @@
+>                               (QEMU_VERSION_MICRO))
+>  #define RISCV_CPU_MIMPID    RISCV_CPU_MARCHID
+>
+> -static const char riscv_single_letter_exts[] = "IEMAFDQCPVH";
+> -
+>  struct isa_ext_data {
+>      const char *name;
+>      bool multi_letter;
+> @@ -71,6 +69,13 @@ struct isa_ext_data {
+>   *    extensions by an underscore.
+>   */
+>  static const struct isa_ext_data isa_edata_arr[] = {
+> +    ISA_EXT_DATA_ENTRY(i, false, PRIV_VERSION_1_10_0, ext_i),
+> +    ISA_EXT_DATA_ENTRY(e, false, PRIV_VERSION_1_10_0, ext_e),
+> +    ISA_EXT_DATA_ENTRY(m, false, PRIV_VERSION_1_10_0, ext_m),
+> +    ISA_EXT_DATA_ENTRY(a, false, PRIV_VERSION_1_10_0, ext_a),
+> +    ISA_EXT_DATA_ENTRY(f, false, PRIV_VERSION_1_10_0, ext_f),
+> +    ISA_EXT_DATA_ENTRY(d, false, PRIV_VERSION_1_10_0, ext_d),
+> +    ISA_EXT_DATA_ENTRY(c, false, PRIV_VERSION_1_10_0, ext_c),
+>      ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
+>      ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_12_0, ext_v),
+>      ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
+> @@ -1182,16 +1187,23 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+>      device_class_set_props(dc, riscv_cpu_properties);
+>  }
+>
+> -static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
+> +static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str)
+>  {
+>      char *old = *isa_str;
+>      char *new = *isa_str;
+>      int i;
+>
+>      for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
+> -        if (isa_edata_arr[i].multi_letter &&
+> -            isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
+> -            new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
+> +        if (isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
+> +            if (isa_edata_arr[i].multi_letter) {
+> +                if (cpu->cfg.short_isa_string) {
+> +                    continue;
+> +                }
+> +                new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
+> +            } else {
+> +                new = g_strconcat(old, isa_edata_arr[i].name, NULL);
+> +            }
+> +
+>              g_free(old);
+>              old = new;
+>          }
+> @@ -1202,19 +1214,12 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
+>
+>  char *riscv_isa_string(RISCVCPU *cpu)
+>  {
+> -    int i;
+> -    const size_t maxlen = sizeof("rv128") + sizeof(riscv_single_letter_exts);
+> +    const size_t maxlen = sizeof("rv128");
+>      char *isa_str = g_new(char, maxlen);
+> -    char *p = isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
+> -    for (i = 0; i < sizeof(riscv_single_letter_exts) - 1; i++) {
+> -        if (cpu->env.misa_ext & RV(riscv_single_letter_exts[i])) {
+> -            *p++ = qemu_tolower(riscv_single_letter_exts[i]);
+> -        }
+> -    }
+> -    *p = '\0';
+> -    if (!cpu->cfg.short_isa_string) {
+> -        riscv_isa_string_ext(cpu, &isa_str, maxlen);
+> -    }
+> +
+> +    snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
+> +    riscv_isa_string_ext(cpu, &isa_str);
+> +
+>      return isa_str;
+>  }
+>
+> --
+> 2.34.1
+>
+>
 
