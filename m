@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB20560FC1E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 17:37:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D7B660FC56
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 17:51:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo4rh-000697-Sj; Thu, 27 Oct 2022 11:32:17 -0400
+	id 1oo54v-0000mu-9U; Thu, 27 Oct 2022 11:45:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oo4rb-0005wD-KA
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 11:32:14 -0400
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829])
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oo54p-0000Vc-LQ; Thu, 27 Oct 2022 11:45:55 -0400
+Received: from mail-vk1-xa2a.google.com ([2607:f8b0:4864:20::a2a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oo4rN-00072n-Qs
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 11:32:11 -0400
-Received: by mail-qt1-x829.google.com with SMTP id bb5so1364438qtb.11
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 08:31:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=lnuBXb4qCtJog5W3rh/ExwfT7IvuOooiaHZqyx4K6oc=;
- b=PvS1ZuSu/AAWE0tRa3hXiWpcd4R02AZFrbuSnKYncSQUMtXMJ0nBLViAc4yb5bhC/x
- 6auX8yIjD3iNMWjXNLgoweWcZxPrjr5mdqqnT09dbiw+G7Kz/h8f62jS/jCfniHmkZoo
- NW8YG2q1sPLLsMdRJ7wjXJSRyKi/MZEbMWL+QYcSlbBWvPD1ewrc7qmE5HbFHjL6H5Fc
- BIL5Ckqj8c2aG1/HXT5w+xIGtnLIi/2e2yxuBResPB6MJa9in8fP5Amx3lfjJvEzLUhn
- 01Wen4x9A2XllaQfMh1nqvGV5ncHcr5nsK3p61+i6fGCc2RMlwzBTXscFHob8kgkRism
- 8j3g==
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oo54X-00012F-44; Thu, 27 Oct 2022 11:45:38 -0400
+Received: by mail-vk1-xa2a.google.com with SMTP id a66so990359vkc.3;
+ Thu, 27 Oct 2022 08:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XiJhs67ihuVICUTm2wuX0Ply2yxfOUASIAuWNep4Ezc=;
+ b=RCAAS6qLe7OevT2Gli4oPg6NICsn2anaHc4IbYIHtQ5c1vgyHLl6r8jEbHxc9P+xdu
+ 0QTf1qpX55uTCLWZ1ibsNxZ5w2sLfwGqe8Dt20r3/objj8j2E3kXklnFM1ePLRxVG6ko
+ OUjwglNmeO2mlpT6J/fHTkTpk8oCzb7DB4GX0ItpdHIi4E+dx8TpbrXCehohgNp2ES92
+ jCTgjS3H8LcO+tarsMOkfOxA3VJOcAPeEQjLC6CNg/HVuNnnYfSIp4n497J7cwaJSE8T
+ TfFezMaeYjAQHrj5LxQQFcLSRikwxggxMB89W+kogTqJzQ4aI27HiPMjnLzQQgMZe1Ty
+ uoFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=lnuBXb4qCtJog5W3rh/ExwfT7IvuOooiaHZqyx4K6oc=;
- b=yq/T0Pix1Tpa+l512VO32P4x5sHwJ1/qU8+4xte3JY01exgtdMWPvF0d3Ee8xmhlpe
- 043gA4HSux4gys6ZEivUp/H6IPNdJqOBZn7eI+SiLd+WQVFTU2Ta8ltBg3KU2hcbnGUi
- OwWBxQDPelY+x6RPURXmjnG/0s/RO/V/n/hKwMrMs5LwusPONqKIUpfhvvSxzjDGXJxz
- cQpVaeX98YIky98ZqJDYs9Gz3ElCYJiOIRVzl5riXeYm72qYghkc2b13fBqii0hXxu77
- 2XLWJRWzB/8Q7efuHWKVJpDBu2UkM10Gd+W6Ux73NmssRQzsVe/OnpWhPcGAFfOV+4oh
- xQdA==
-X-Gm-Message-State: ACrzQf0wYyMwrtDU2nDh5Y6L1d2n/aI4FB2bsmgI0zICO0HjQlE2Mr4v
- y0in/ElvRaEWLLjaCJQCTdDGqtle9aTj7inXlLEPPw==
-X-Google-Smtp-Source: AMsMyM4NTbJCbKsBK53OVgCgTrdQwGtJ/Gp74rpfUbFde/7/aEUnQuL4lR0HVVdFBiATAcFS0Jyeyyhkj0OzRfuml6o=
-X-Received: by 2002:a05:622a:58d:b0:39c:e0d5:1338 with SMTP id
- c13-20020a05622a058d00b0039ce0d51338mr42152183qtb.591.1666884716307; Thu, 27
- Oct 2022 08:31:56 -0700 (PDT)
+ bh=XiJhs67ihuVICUTm2wuX0Ply2yxfOUASIAuWNep4Ezc=;
+ b=oiV5gGvHXLRsknCorwthqWtQIKxW95VKoqFDotQ5pwYpObWCuhalGNGKuZf5Tans1k
+ sY3DggkdBfVkpLNjIk1+12xgB4m5ewrlNlTEAmUCyypNiYw4HP0XXjZzgQx7jEkmBU46
+ FpNIhUQyWUoyclecbqS/9SbelZ39YZAQK4hUUryLgVeM1PGC+lde1yNvpdqqNBdITtAn
+ OTDskGTjplCwwn84vDH+iBC6CLsBVA/h8hZ3Axc1pgTYa5nVb6lCofU7Mq+2+KUERgmA
+ BDhxN4R0M02qMxM3lZy34O+p+n6GSp9o/2lrQYSQibfumocF51OkHeBPKmIWKmaT5MV7
+ 8kQw==
+X-Gm-Message-State: ACrzQf37+mqhI6hbLyxQW2W1piGnc3+7Gp15Sv7NRfAsSCw65JmPE/Dy
+ M7n93OORwHzaGMuz5Z5nwT4PMUzF5Bum3eFC
+X-Google-Smtp-Source: AMsMyM7DgSKVq8s7JPEcUDscKq/+Egg2hAqNZ9HydTYAJyh/b+8gkLHlkCr6/FKhv+f8F5WeHMTnzg==
+X-Received: by 2002:a17:902:ccc2:b0:178:29f9:5c5e with SMTP id
+ z2-20020a170902ccc200b0017829f95c5emr47482730ple.21.1666885520346; 
+ Thu, 27 Oct 2022 08:45:20 -0700 (PDT)
+Received: from roots.. ([112.44.202.248]) by smtp.gmail.com with ESMTPSA id
+ q9-20020a63d609000000b004405c6eb962sm1232801pgg.4.2022.10.27.08.45.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Oct 2022 08:45:19 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Hanna Reitz <hreitz@redhat.com>,
+ damien.lemoal@opensource.wdc.com, qemu-block@nongnu.org,
+ stefanha@redhat.com, Markus Armbruster <armbru@redhat.com>, hare@suse.de,
+ Kevin Wolf <kwolf@redhat.com>, dmitry.fomichev@wdc.com,
+ Eric Blake <eblake@redhat.com>, Sam Li <faithilikerun@gmail.com>
+Subject: [PATCH v13 0/8] Add support for zoned device
+Date: Thu, 27 Oct 2022 23:44:56 +0800
+Message-Id: <20221027154504.20684-1-faithilikerun@gmail.com>
+X-Mailer: git-send-email 2.38.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20221027151135.496368-1-mst@redhat.com>
-In-Reply-To: <20221027151135.496368-1-mst@redhat.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Thu, 27 Oct 2022 21:01:45 +0530
-Message-ID: <CAARzgwxJxBjJrQ=CyvdDuAD8DtSnhfvDBsz8GRTcRL4SFiwZFg@mail.gmail.com>
-Subject: Re: [PATCH] bios-tables-test: do not ignore allowed diff list
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2607:f8b0:4864:20::829;
- envelope-from=ani@anisinha.ca; helo=mail-qt1-x829.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2a;
+ envelope-from=faithilikerun@gmail.com; helo=mail-vk1-xa2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,49 +88,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 8:41 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> we had such a beautiful structure for updating
-> expected files, designed to keep bisect working.
-> It turns out that we ignored the result of
-> the allow list checks unless all tables matched
-> anyway.
+Zoned Block Devices (ZBDs) devide the LBA space to block regions called zones
+that are larger than the LBA size. It can only allow sequential writes, which
+reduces write amplification in SSD, leading to higher throughput and increased
+capacity. More details about ZBDs can be found at:
 
+https://zonedstorage.io/docs/introduction/zoned-storage
 
-Doh! Seems the bug is present from the beginning?
+The zoned device support aims to let guests (virtual machines) access zoned
+storage devices on the host (hypervisor) through a virtio-blk device. This
+involves extending QEMU's block layer and virtio-blk emulation code.  In its
+current status, the virtio-blk device is not aware of ZBDs but the guest sees
+host-managed drives as regular drive that will runs correctly under the most
+common write workloads.
 
->
-> Sigh.
->
-> Let's at least make it work going forward.
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Fixes: df7cafdeb68b6572fa81 ("bios-tables-test: list all tables that differ")
+This patch series extend the block layer APIs with the minimum set of zoned
+commands that are necessary to support zoned devices. The commands are - Report
+Zones, four zone operations and Zone Append (developing).
 
-other than that,
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
+It can be tested on a null_blk device using qemu-io or qemu-iotests. For
+example, to test zone report using qemu-io:
+$ path/to/qemu-io --image-opts -n driver=zoned_host_device,filename=/dev/nullb0
+-c "zrp offset nr_zones"
 
+v13:
+- add some tracing points for new zone APIs [Dmitry]
+- change error handling in zone_mgmt [Damien, Stefan]
 
+v12:
+- address review comments
+  * drop BLK_ZO_RESET_ALL bit [Damien]
+  * fix error messages, style, and typos[Damien, Hannes]
 
+v11:
+- address review comments
+  * fix possible BLKZONED config compiling warnings [Stefan]
+  * fix capacity field compiling warnings on older kernel [Stefan,Damien]
 
-> ---
->  tests/qtest/bios-tables-test.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index e6096e7f73..a72f6ca326 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -458,7 +458,7 @@ static void test_acpi_asl(test_data *data)
->                  "for instructions on how to update expected files.\n",
->                  exp_sdt->aml, sdt->aml_file, exp_sdt->aml_file);
->
-> -        all_tables_match = all_tables_match &&
-> +        all_tables_match = all_tables_match ||
->              test_acpi_find_diff_allowed(exp_sdt);
->
->          /*
-> --
-> MST
->
+v10:
+- address review comments
+  * deal with the last small zone case in zone_mgmt operations [Damien]
+  * handle the capacity field outdated in old kernel(before 5.9) [Damien]
+  * use byte unit in block layer to be consistent with QEMU [Eric]
+  * fix coding style related problems [Stefan]
+
+v9:
+- address review comments
+  * specify units of zone commands requests [Stefan]
+  * fix some error handling in file-posix [Stefan]
+  * introduce zoned_host_devcie in the commit message [Markus]
+
+v8:
+- address review comments
+  * solve patch conflicts and merge sysfs helper funcations into one patch
+  * add cache.direct=on check in config
+
+v7:
+- address review comments
+  * modify sysfs attribute helper funcations
+  * move the input validation and error checking into raw_co_zone_* function
+  * fix checks in config
+
+v6:
+- drop virtio-blk emulation changes
+- address Stefan's review comments
+  * fix CONFIG_BLKZONED configs in related functions
+  * replace reading fd by g_file_get_contents() in get_sysfs_str_val()
+  * rewrite documentation for zoned storage
+
+v5:
+- add zoned storage emulation to virtio-blk device
+- add documentation for zoned storage
+- address review comments
+  * fix qemu-iotests
+  * fix check to block layer
+  * modify interfaces of sysfs helper functions
+  * rename zoned device structs according to QEMU styles
+  * reorder patches
+
+v4:
+- add virtio-blk headers for zoned device
+- add configurations for zoned host device
+- add zone operations for raw-format
+- address review comments
+  * fix memory leak bug in zone_report
+  * add checks to block layers
+  * fix qemu-iotests format
+  * fix sysfs helper functions
+
+v3:
+- add helper functions to get sysfs attributes
+- address review comments
+  * fix zone report bugs
+  * fix the qemu-io code path
+  * use thread pool to avoid blocking ioctl() calls
+
+v2:
+- add qemu-io sub-commands
+- address review comments
+  * modify interfaces of APIs
+
+v1:
+- add block layer APIs resembling Linux ZoneBlockDevice ioctls
+
+Sam Li (8):
+  include: add zoned device structs
+  file-posix: introduce helper functions for sysfs attributes
+  block: add block layer APIs resembling Linux ZonedBlockDevice ioctls
+  raw-format: add zone operations to pass through requests
+  config: add check to block layer
+  qemu-iotests: test new zone operations
+  block: add some trace events for new block layer APIs
+  docs/zoned-storage: add zoned device documentation
+
+ block.c                                |  19 +
+ block/block-backend.c                  | 147 ++++++++
+ block/file-posix.c                     | 487 +++++++++++++++++++++++--
+ block/io.c                             |  41 +++
+ block/raw-format.c                     |  14 +
+ block/trace-events                     |   2 +
+ docs/devel/zoned-storage.rst           |  43 +++
+ docs/system/qemu-block-drivers.rst.inc |   6 +
+ include/block/block-common.h           |  43 +++
+ include/block/block-io.h               |   7 +
+ include/block/block_int-common.h       |  29 ++
+ include/block/raw-aio.h                |   6 +-
+ include/sysemu/block-backend-io.h      |  18 +
+ meson.build                            |   4 +
+ qapi/block-core.json                   |   8 +-
+ qemu-io-cmds.c                         | 149 ++++++++
+ tests/qemu-iotests/tests/zoned.out     |  53 +++
+ tests/qemu-iotests/tests/zoned.sh      |  86 +++++
+ 18 files changed, 1123 insertions(+), 39 deletions(-)
+ create mode 100644 docs/devel/zoned-storage.rst
+ create mode 100644 tests/qemu-iotests/tests/zoned.out
+ create mode 100755 tests/qemu-iotests/tests/zoned.sh
+
+-- 
+2.38.1
+
 
