@@ -2,87 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DCFD6101DC
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 21:40:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0EA0610128
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 21:11:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo82r-0001TF-4q; Thu, 27 Oct 2022 14:56:01 -0400
+	id 1oo879-0002bx-JO; Thu, 27 Oct 2022 15:00:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oo829-0008WE-VK
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:55:19 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oo81n-0006A7-Gl
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 14:55:17 -0400
-Received: by mail-wr1-x433.google.com with SMTP id bs21so3753509wrb.4
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 11:54:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=A0SXCM+KSqiVxWBvTd3VpYjIcK+dRrJ055VbgsI9csQ=;
- b=iiY712eK6CAp/VUCSHW2N8lxgtMOfRVKPbT0gYFgxNFHerCMtSxI5VueLLe1rKicLq
- dHfTjENXN2cFJLTXWuZbCTLhZ6V9PvSYD5GtYBgK50zNgnwwR0YV7ncR/jn7sR4fc7Ac
- LkrlXEXsZFyP8dcODFAMODxma/FkcAUqG5uv7DEQQI6XvdK4biIO52LgSYEJeEMffkCd
- lOKUfP1rodoyxuMohKXDg8I8vYowuAegIu9hK7FY0idW5BlNmZs7/hq4oRNUpzeyQpEA
- ALFxYJGzN6va2V1eiCiYUwNAnukgWIXOF859xmd1qhEzZdsjqb4V3pYAuZvbRyuyo79n
- raNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=A0SXCM+KSqiVxWBvTd3VpYjIcK+dRrJ055VbgsI9csQ=;
- b=B/wS46UKypH5EJdoe+E8uRzjCkKc/6rw88SOykNJS/5tQOajjJxqAvyWwgBopZwJAz
- PGqpkFfPGErtBf1ictUbGO+W5xI6qlYO6QvdMKg6SVHGlMfNA0lEef+JTMWIYbddQKR1
- e1+g9uj7RlOE7kzz5Cq4u7NTvkQPSPYxbNkpsNvuOYd1bDfqfbR9VVwpq5g0UskUA5Hl
- D9UsNOHUtIjygby5gmMzTqGlFVXq1m/nqlqjR98fz2xWXe5b8epC+XdeQmoBOEJ8SKEw
- kDNdRqZzREbKekW41LMiCqcQ2qlikgmkj/Jz64MWA+tHnT9f5POHnx71ZXUE4VzPB34V
- U1mA==
-X-Gm-Message-State: ACrzQf2J4FuMVGFQZnfODXNUEy9n/QedHhMcNWBlAUG7AlFbovl+PoIV
- vSoCc0IzFzbjkx0qO2xmH8fMew==
-X-Google-Smtp-Source: AMsMyM74fEyJ7J/m3diPZFLh4nEuazLf7elEEB5eHQwk8zBGEVMXjg3A1FFyp2LjsFEo9wgVrI0P5Q==
-X-Received: by 2002:adf:e84f:0:b0:235:d53a:2d7f with SMTP id
- d15-20020adfe84f000000b00235d53a2d7fmr27219508wrn.334.1666896892149; 
- Thu, 27 Oct 2022 11:54:52 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- j8-20020a5d6188000000b0022e035a4e93sm1886126wru.87.2022.10.27.11.54.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 11:54:51 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 26A0B1FFD3;
- Thu, 27 Oct 2022 19:36:40 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oo86u-0002b7-0R
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 15:00:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oo86r-0006vb-NH
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 15:00:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666897207;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XwjCKwZkYO76WGB1XuQy+uVijiHxFq5fTbHZ5p4xypA=;
+ b=TwXmgaTEDFiwpctowiqpGLquj+v7QuMj2aH8COMTTE1wF4mXRcJUCELvFwMqju7jxW7dKl
+ oLlSiWAE8eVqkFK2l51rGgazgHVhRW3gpyRaSyToo+rat20BCHZdwY+Th2UQV4wuX87emP
+ UD906HHkj/5y4XhxfzGseG2evOlTj8M=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-1-vf3X8GOWMBa3YNfGc8FA8w-1; Thu, 27 Oct 2022 14:59:03 -0400
+X-MC-Unique: vf3X8GOWMBa3YNfGc8FA8w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE184101A5B3
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 18:58:36 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.33.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 94AFA2024CB7;
+ Thu, 27 Oct 2022 18:58:36 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
- pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- Ilya Leoshkevich <iii@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH  v4 30/30] tests/vm: use -o IdentitiesOnly=yes for ssh
-Date: Thu, 27 Oct 2022 19:36:36 +0100
-Message-Id: <20221027183637.2772968-31-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221027183637.2772968-1-alex.bennee@linaro.org>
-References: <20221027183637.2772968-1-alex.bennee@linaro.org>
+Cc: John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH v2 0/2] python: misc machine.py improvements
+Date: Thu, 27 Oct 2022 14:58:34 -0400
+Message-Id: <20221027185836.1455810-1-jsnow@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,39 +75,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-
-When one has a lot of keys in ~/.ssh directory, the ssh command will
-try all of them before the one specified on the command line, and this
-may cause the remote ssh server to reject the connection due to too
-many failed authentication attempts.
-
-Fix by adding -o IdentitiesOnly=yes, which makes the ssh client
-consider only the keys specified on the command line.
-
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20221027113026.2280863-1-iii@linux.ibm.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/vm/basevm.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 4fd9af10b7..2276364c42 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -233,7 +233,8 @@ def _ssh_do(self, user, cmd, check):
-                    "-o", "UserKnownHostsFile=" + os.devnull,
-                    "-o",
-                    "ConnectTimeout={}".format(self._config["ssh_timeout"]),
--                   "-p", str(self.ssh_port), "-i", self._ssh_tmp_key_file]
-+                   "-p", str(self.ssh_port), "-i", self._ssh_tmp_key_file,
-+                   "-o", "IdentitiesOnly=yes"]
-         # If not in debug mode, set ssh to quiet mode to
-         # avoid printing the results of commands.
-         if not self.debug:
--- 
-2.34.1
+Improve machine.py logging and fix a shutdown bug that we *probably*=0D
+weren't actually hitting anywhere.=0D
+=0D
+Changes for console input logging are on the way, but separate because=0D
+it will touch avocado.=0D
+=0D
+More comprehensive fixes for multiple socket polling are also on the=0D
+way, but decidedly separate. This is the simple stuff that might make it=0D
+easier to diagnose failures in the meantime.=0D
+=0D
+V2:=0D
+ - Adjusted messages just a pinch. (Can't leave well enough alone.)=0D
+ - Added exc_info=3DTrue for a log message in the shutdown failover case.=0D
+   (danpb)=0D
+=0D
+John Snow (2):=0D
+  python/machine: Add debug logging to key state changes=0D
+  python/machine: Handle termination cases without QMP=0D
+=0D
+ python/qemu/machine/machine.py | 31 +++++++++++++++++++++++++++++++=0D
+ 1 file changed, 31 insertions(+)=0D
+=0D
+-- =0D
+2.37.3=0D
+=0D
 
 
