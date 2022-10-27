@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C0960F833
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 14:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E43560F83E
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 14:58:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo2Pk-0004KK-AQ; Thu, 27 Oct 2022 08:55:16 -0400
+	id 1oo2S6-00008l-4y; Thu, 27 Oct 2022 08:57:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1oo2Pf-0003li-Bn
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:55:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1oo2Pb-0002Y3-Fo
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:55:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666875306;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KTWz5EiTcVniVQWJsZ11CW8gxKOyrN72mwW3MijDf8o=;
- b=f6jKwWeR6KlnJO/32ceutyQrYXntMNaaN2JJhAqCZKUOfZZfYk2WWd3Bk75ZEW8UY2bjtn
- x4BX+Vt5lUCCXpHNzhYxCfvc/I6s4jev9+NWUYw4CmuEY8RyVb1hydNvGigh7hbsnn46ZF
- wPtESXi3vSDTW4nTGqk7pTeB72FpZjo=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-197-RwQGVqrJO7Swf7nYEMi9GQ-1; Thu, 27 Oct 2022 08:55:04 -0400
-X-MC-Unique: RwQGVqrJO7Swf7nYEMi9GQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- x18-20020a05640226d200b00461e027f704so1041455edd.7
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 05:55:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oo2S3-0007rI-E3
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:57:39 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oo2S1-0002lD-Ck
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 08:57:39 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id bp11so2017726wrb.9
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 05:57:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9N1tVJ1QPefxzd86dc7+4uzKAmDca1+CTaoHd0AHvLQ=;
+ b=LB1DUmwPBH2fN45OzLi+Ah+9OlD184L6K791elEAmjP/4p/hS9Lz6NYuzRrYz/vDaS
+ YuitbOND0o7oLaCcjMye8EDq95KHYkZ+t8J8/5ZVjviQLRbcuGDeXOw4yW9dvEcTUU65
+ H+Bc/TtKhbYTWE6570R+UF6nvZKLRuzOTeMGdYUnamwVBxfzWW+1qf6kF5vrXYHiMivD
+ KyhjsPQGr/RnGzDE7BxvOKwkUP6w1bpz3CASTdvQ2ZuHHE4mkAhgx+F90No70CGHOKHW
+ xU5RtLNAbtmL1qLM8RVWjcof1gZpbAptDGRe6AyhO0Ewo+R7ogPAHUaFNaLsWqjO/4Hi
+ LPVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=KTWz5EiTcVniVQWJsZ11CW8gxKOyrN72mwW3MijDf8o=;
- b=LFZ+GiBGKd35+CRBH/2PWnU4pRdH50jRbW2McPsa+BBBX+/nk16lPwhkso/YF598Je
- zrwawlHI1haqsxIqXU8WFYBqs9QLPEONNVaKIUE/ZbvMGfPWy+EDQOccOpi2eZrVVW5B
- 5RBfz28sOnNXRfx9K0qqtjfLhZAm1lJCT+yoRyr39agXlQczvjLbdsDS+f59lif2Tyf/
- VB/D7s44a6KSgrl6gXu2XGHpf9qs/d4w0JH93q+CZNf8pVnWi3YYKXGhTHDZQyyEZE9D
- xtkoIILgVW8UNcDkTKDRuHueqmbH00q37dKJw/JyiWAzOWUuRbajgufTaZYx2BBLuerx
- RbeQ==
-X-Gm-Message-State: ACrzQf0dl2Y15JVbIpqoDbKd1LxZKa7iZ4UBXbSuaDE6ZUq59R1oz5VN
- g6WPVrDpgbgvhP3K7Z8YE6fLadA+Nnip7Uc44+MEtGiwJ/gW22U4Z2aqe8Fo+9Pb3Goz7M+FnD/
- 3nlA/X1tX8sOQ/HY=
-X-Received: by 2002:a05:6402:2486:b0:460:8f86:1fca with SMTP id
- q6-20020a056402248600b004608f861fcamr35214240eda.70.1666875303687; 
- Thu, 27 Oct 2022 05:55:03 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5EkQEetexm9SyPgr++2YQhES/s9VCt2h6v3IkJwTDYVDg15IvapGn75SJlSf2DYfSk50Zksw==
-X-Received: by 2002:a05:6402:2486:b0:460:8f86:1fca with SMTP id
- q6-20020a056402248600b004608f861fcamr35214224eda.70.1666875303432; 
- Thu, 27 Oct 2022 05:55:03 -0700 (PDT)
-Received: from [10.43.2.39] (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9N1tVJ1QPefxzd86dc7+4uzKAmDca1+CTaoHd0AHvLQ=;
+ b=rEEZ+lbEg3mKF7rwg0GMylSjFzrA+SNAXKJ2L7PLbbgWoDfgU9IIi2QduwW5MVzxKc
+ jMOq/1y5hgZdQZR/IzH6bK3jp+JJEdHDkd99NppVu9UAT6+zGou0HYKVe+HKjGwD7kvm
+ 6cr5TdnONVL8G5uspUhITWwhl8h4ruV1FaPqFcejD2Ga2+OsKcXfJp3RoMOEwIB6dYZk
+ yuqDDqFN33/qQr1+x0qoeZJITb7BXubdqkKYntBKuTY8+oxBey4pgtvpSJFcFRnoIQ/k
+ y0ES7ZSREX7nw3Gs9rdnWjceVM753k+PhtoIhJ5RkmVOQzJTMkaImYb56a2tditToneE
+ rl+A==
+X-Gm-Message-State: ACrzQf3bBmDo23m1b1RRkkbGJfpXX8MYStgpcN8xxGIJvDU/EZEQ+qMp
+ mkDHOmAkSZP5jdMjLHj6Tcp1rTa01P0uiw==
+X-Google-Smtp-Source: AMsMyM7r/X5LX809SoHXQKdId+D+A1XP4EGRhwnl63EixA36YrjAgis+j3p+ZFflRbBJkU4sx+Q+sQ==
+X-Received: by 2002:a5d:654d:0:b0:235:197d:72d1 with SMTP id
+ z13-20020a5d654d000000b00235197d72d1mr26345010wrv.680.1666875455239; 
+ Thu, 27 Oct 2022 05:57:35 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- ds4-20020a170907724400b0072a881b21d8sm801082ejc.119.2022.10.27.05.55.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 05:55:02 -0700 (PDT)
-Message-ID: <e8d750e3-b48e-8695-887b-de04af8bfd86@redhat.com>
-Date: Thu, 27 Oct 2022 14:55:02 +0200
+ l8-20020a5d6d88000000b0022b315b4649sm1396822wrs.26.2022.10.27.05.57.33
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Oct 2022 05:57:34 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/31] target-arm queue
+Date: Thu, 27 Oct 2022 13:57:31 +0100
+Message-Id: <20221027125731.321978-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v2] seccomp: Get actual errno value from failed seccomp
- functions
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <80c86614e3b21dda074b81fe9c3866fdbbb7420e.1666769319.git.mprivozn@redhat.com>
- <Y1kpKGP+a2toN/4w@redhat.com>
-Content-Language: en-US
-From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
-In-Reply-To: <Y1kpKGP+a2toN/4w@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,36 +86,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/26/22 14:33, Daniel P. Berrangé wrote:
-> On Wed, Oct 26, 2022 at 09:30:24AM +0200, Michal Privoznik wrote:
->> Upon failure, a libseccomp API returns actual errno value very
->> rarely. Fortunately, after its commit 34bf78ab (contained in
->> 2.5.0 release), the SCMP_FLTATR_API_SYSRAWRC attribute can be set
->> which makes subsequent APIs return true errno on failure.
->>
->> This is especially critical when seccomp_load() fails, because
->> generic -ECANCELED says nothing.
->>
->> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->> ---
->>
->> v2 of:
->>
->> https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg04509.html
->>
->> diff to v1:
->> - added comment when setting SYSRAWRC attribute per Philippe's
->>   suggestion
->>
->>  meson.build            |  9 +++++++++
->>  softmmu/qemu-seccomp.c | 13 +++++++++++++
->>  2 files changed, 22 insertions(+)
-> 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+v2: fixes two build failures, and adds the mips/malta RNG reset patch.
 
-Thank you. Can somebody merge this please? I don't have commit access.
+thanks
+-- PMM
 
-Michal
+The following changes since commit 344744e148e6e865f5a57e745b02a87e5ea534ad:
 
+  Merge tag 'dump-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2022-10-26 10:53:49 -0400)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20221027
+
+for you to fetch changes up to 6233a138599bea89ad683b883dca38388f12fd2d:
+
+  mips/malta: pass RNG seed via env var and re-randomize on reboot (2022-10-27 11:47:45 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * Implement FEAT_E0PD
+ * Implement FEAT_HAFDBS
+ * honor HCR_E2H and HCR_TGE in arm_excp_unmasked()
+ * hw/arm/virt: Fix devicetree warnings about the virtio-iommu node
+ * hw/core/resettable: fix reset level counting
+ * hw/hyperv/hyperv.c: Use device_cold_reset() instead of device_legacy_reset()
+ * imx: reload cmp timer outside of the reload ptimer transaction
+ * x86: do not re-randomize RNG seed on snapshot load
+ * m68k/virt: do not re-randomize RNG seed on snapshot load
+ * m68k/q800: do not re-randomize RNG seed on snapshot load
+ * arm: re-randomize rng-seed on reboot
+ * riscv: re-randomize rng-seed on reboot
+ * mips/boston: re-randomize rng-seed on reboot
+ * openrisc: re-randomize rng-seed on reboot
+ * rx: re-randomize rng-seed on reboot
+
+----------------------------------------------------------------
+Ake Koomsin (1):
+      target/arm: honor HCR_E2H and HCR_TGE in arm_excp_unmasked()
+
+Axel Heider (1):
+      target/imx: reload cmp timer outside of the reload ptimer transaction
+
+Damien Hedde (1):
+      hw/core/resettable: fix reset level counting
+
+Jason A. Donenfeld (11):
+      reset: allow registering handlers that aren't called by snapshot loading
+      device-tree: add re-randomization helper function
+      x86: do not re-randomize RNG seed on snapshot load
+      arm: re-randomize rng-seed on reboot
+      riscv: re-randomize rng-seed on reboot
+      m68k/virt: do not re-randomize RNG seed on snapshot load
+      m68k/q800: do not re-randomize RNG seed on snapshot load
+      mips/boston: re-randomize rng-seed on reboot
+      openrisc: re-randomize rng-seed on reboot
+      rx: re-randomize rng-seed on reboot
+      mips/malta: pass RNG seed via env var and re-randomize on reboot
+
+Jean-Philippe Brucker (1):
+      hw/arm/virt: Fix devicetree warnings about the virtio-iommu node
+
+Peter Maydell (2):
+      target/arm: Implement FEAT_E0PD
+      hw/hyperv/hyperv.c: Use device_cold_reset() instead of device_legacy_reset()
+
+Richard Henderson (14):
+      target/arm: Introduce regime_is_stage2
+      target/arm: Add ptw_idx to S1Translate
+      target/arm: Add isar predicates for FEAT_HAFDBS
+      target/arm: Extract HA and HD in aa64_va_parameters
+      target/arm: Move S1_ptw_translate outside arm_ld[lq]_ptw
+      target/arm: Add ARMFault_UnsuppAtomicUpdate
+      target/arm: Remove loop from get_phys_addr_lpae
+      target/arm: Fix fault reporting in get_phys_addr_lpae
+      target/arm: Don't shift attrs in get_phys_addr_lpae
+      target/arm: Consider GP an attribute in get_phys_addr_lpae
+      target/arm: Tidy merging of attributes from descriptor and table
+      target/arm: Implement FEAT_HAFDBS, access flag portion
+      target/arm: Implement FEAT_HAFDBS, dirty bit portion
+      target/arm: Use the max page size in a 2-stage ptw
+
+ docs/devel/reset.rst          |   8 +-
+ docs/system/arm/emulation.rst |   2 +
+ qapi/run-state.json           |   6 +-
+ include/hw/boards.h           |   2 +-
+ include/sysemu/device_tree.h  |   9 +
+ include/sysemu/reset.h        |   5 +-
+ target/arm/cpu.h              |  15 ++
+ target/arm/internals.h        |  30 +++
+ hw/arm/aspeed.c               |   4 +-
+ hw/arm/boot.c                 |   2 +
+ hw/arm/mps2-tz.c              |   4 +-
+ hw/arm/virt.c                 |   5 +-
+ hw/core/reset.c               |  17 +-
+ hw/core/resettable.c          |   3 +-
+ hw/hppa/machine.c             |   4 +-
+ hw/hyperv/hyperv.c            |   2 +-
+ hw/i386/microvm.c             |   4 +-
+ hw/i386/pc.c                  |   6 +-
+ hw/i386/x86.c                 |   2 +-
+ hw/m68k/q800.c                |  33 ++-
+ hw/m68k/virt.c                |  20 +-
+ hw/mips/boston.c              |   3 +
+ hw/mips/malta.c               |  27 +++
+ hw/openrisc/boot.c            |   3 +
+ hw/ppc/pegasos2.c             |   4 +-
+ hw/ppc/pnv.c                  |   4 +-
+ hw/ppc/spapr.c                |   4 +-
+ hw/riscv/boot.c               |   3 +
+ hw/rx/rx-gdbsim.c             |   3 +
+ hw/s390x/s390-virtio-ccw.c    |   4 +-
+ hw/timer/imx_epit.c           |   9 +-
+ migration/savevm.c            |   2 +-
+ softmmu/device_tree.c         |  21 ++
+ softmmu/runstate.c            |  11 +-
+ target/arm/cpu.c              |  24 +-
+ target/arm/cpu64.c            |   2 +
+ target/arm/helper.c           |  31 ++-
+ target/arm/ptw.c              | 525 ++++++++++++++++++++++++++++--------------
+ 38 files changed, 600 insertions(+), 263 deletions(-)
 
