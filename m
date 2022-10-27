@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3405B60F057
+	by mail.lfdr.de (Postfix) with ESMTPS id 3656460F058
 	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 08:33:30 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onwNg-00089v-7E; Thu, 27 Oct 2022 02:28:45 -0400
+	id 1onwQr-00041a-En; Thu, 27 Oct 2022 02:32:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1onwNL-0007xe-Qd
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:28:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1onwQk-0003ah-Ck
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:31:55 -0400
+Received: from mout.gmx.net ([212.227.17.22])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1onwNA-0001r4-Kj
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:28:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666852088;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XRVGW0Z25dj4RPGxzoEW3xNCVCF6lDd5mxqW21GBDLc=;
- b=e8Vs2po4+vdl4Jz59QrqUwEGWXFBpoh049t8HBMtuYOQtsbdz7SFuNCzIw1SnCNaPms+Q6
- xfhIJHeTe6BTn2MeZzIc4sY5lle1c6S3lakTvpUMy7qa3/rSiXkqdsfO02xtpoG3n4pM2x
- SxYY7aSiHjtbNq1UZAXu0F7Uz0wj3/s=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-637-dxmLC4h1NdOcJaxk5MZyag-1; Thu, 27 Oct 2022 02:28:07 -0400
-X-MC-Unique: dxmLC4h1NdOcJaxk5MZyag-1
-Received: by mail-ed1-f72.google.com with SMTP id
- f16-20020a056402355000b00461cf923fdcso421329edd.13
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 23:28:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XRVGW0Z25dj4RPGxzoEW3xNCVCF6lDd5mxqW21GBDLc=;
- b=z9gAV+5wIX7mfhNYMtSvVW6F6IDXvCyFXI/5yYQZXMAxjIZoX/72FCuilQUO4kkeIz
- SlXZgOBa24l/hTSXYlbfDK7cntSStOI8C1KtPmR2gmGa0C0vDcM4Y0PpXAyF7pz32+7h
- tkT4btiVvTJjunmDviZULVfWWsXSlOm585NVTbEXoTDlh0ZLoVzDbod6YGE8GNGhSq5m
- OhkU1fZdMbV0tr+KPrpsTfH02IF8NtlrohhMutNxwAklOGVihl9Hjw4vh9cJX7eNK1GR
- RHew555Qjz8K/CSrwGcksI3s9lwPWRkXJzh1etTw7dVYhSm84Ajp/uTQOxZZAsC4otxq
- MEXA==
-X-Gm-Message-State: ACrzQf3PbMvJWt7vlgHBIJixEnE0Yo81zkr2aXCU5/X3q4RajnV77ReH
- 23SqJXf6l4Dur7MM16ghDZwlXo0TjuFbsaQKqTtvqxZ9WFTtLmq+kTMZy7Bq5OL59DqhNo6MONl
- oNYaUMt/fwlgSpcYmiCmyZTfmx8KhXJs=
-X-Received: by 2002:a05:6402:4148:b0:440:cb9f:d10f with SMTP id
- x8-20020a056402414800b00440cb9fd10fmr43804318eda.77.1666852085936; 
- Wed, 26 Oct 2022 23:28:05 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM40Gt5wGPTN9k2QXAerTLq0avgxxveSTODNewWYB/dURfrGwkvQt+HFdSArvKitsI1lCTCprmAOa8TnPS+UB1Y=
-X-Received: by 2002:a05:6402:4148:b0:440:cb9f:d10f with SMTP id
- x8-20020a056402414800b00440cb9fd10fmr43804298eda.77.1666852085762; Wed, 26
- Oct 2022 23:28:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1onwQi-0002Su-7Z
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 02:31:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1666852305; bh=ICbMXheNHq45v9RQNSYXaSxgo29J4VK3ICo55TCDGwc=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=bMql6H5rtcs/pE0YI/nxMfJtvL9jVwLEpW85fRLAww3F0PmxORfjh/vhkvEiyMCFM
+ wGMGdRDWdlHHsUs8qW9N+C+Q3HSJ2e/5JkOhIJaVSP1DP4lhbQPG7NF7vsqiq4mSHA
+ WdyPaMu6zXPJ5SdmIQaKZAn5aEhz4vQN0nSICPh1iQk1iKxy7m0neZwWWUCNFh03L+
+ VuB50/qWPlkVObgjzEn14eiYFzTKlA6qQsf+dmEHVHtyWXmTnyd7irf4I340wXLt+d
+ iq/aEpUscaQ4F/4pkd4G1cAx0X8uvIMHklrd+hLAWOFEmqatONCg/yfpdpbyhhTOOk
+ zoXkhcrdZoXYA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from p100 ([92.116.164.228]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MJmGP-1oUUfY3Fbl-00K7mg; Thu, 27
+ Oct 2022 08:31:45 +0200
+Date: Thu, 27 Oct 2022 08:31:44 +0200
+From: Helge Deller <deller@gmx.de>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Subject: [PATCH] target/hppa: Fix fid instruction emulation
+Message-ID: <Y1ol0OCotNwb6ccV@p100>
 MIME-Version: 1.0
-References: <20221025163734.965367-1-lulu@redhat.com>
- <20221025163734.965367-2-lulu@redhat.com>
- <20221025105518.0a56c662.alex.williamson@redhat.com>
- <20221026164001-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20221026164001-mutt-send-email-mst@kernel.org>
-From: Cindy Lu <lulu@redhat.com>
-Date: Thu, 27 Oct 2022 14:27:26 +0800
-Message-ID: <CACLfguWLiSkUzPXuaxpV9wmKsQiirWekOHHYrZLYPTGpz6=v2Q@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] vfio: move the function vfio_get_xlat_addr() to
- memory.c
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>, jasowang@redhat.com,
- pbonzini@redhat.com, 
- peterx@redhat.com, david@redhat.com, f4bug@amsat.org, sgarzare@redhat.com, 
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:2cBptxlB2WQUT+baxDPz4gWefQEUFCSFJn6qlkTjjKEPIgUe4WB
+ PKJmwv6skNYOc0TZ1cesLws/iTbc4X5KnyB1hZRCvvpfz1oDvcRIss+SjQbhfGeLGGooJZE
+ R8hWg4TS+wtirNxtzMVVawKl9qVc9R360gLcGvKViK7Jwm6ZdZimIu2ZZWhKmqH0C3grCf1
+ 0UNyMLyqzF6dfxJKq/Uaw==
+UI-OutboundReport: notjunk:1;M01:P0:0cNq2mtFntQ=;J9pXy+6ccOAjOKuZ7cnlujI1wpo
+ hv+ZI67LIQVQFSBU+dHl/3eLjdCzG+Evxdjud7kCGjqHPFxsmPBodMEZ5ZzjVYjaC8ZFoUwjo
+ gWZpcp2NXh7hyP6LpGadqaHjG9ZU8yKA7L1yrPvFxvRSI2vuV543Gb+NZBhUHu3BogBZdeRxA
+ hwkvMNKArgI2waf/Kkyh9bGdd9KolorMaldfI+QEyM0M6DXHkaj18TCG0YCh8Cq6Xe9SmltHi
+ MbRVAJSONricRUv6sHuGaCxzdyw0yroVAIIFxomsmeKG/Xt2BuzNxQ369S/9kPGUTmTVgMJWd
+ Ec7MrBg/QeEe125wN68Q9mmPpgT17TQMYqffjH1ACWaggQT3CrHxdT8igUmMGbkQnhzg/iw36
+ 5v4XT8T04P80X9klj8+MYVaTyZHLfOupN+u7z1xnuD+U90kig4tjTdRIBTxv6XpCGgMO89/nN
+ 1OT3ApReDs5LFUBNfQ3UUYIjCY35ghH/+xkdfRQ8tKGz37sFB5p/cQfwYFVPijCtlqX1kbJ/D
+ 1bqUQjqlURdR4IPV5qXpVt3Ws3dcicQJ11C2NmJRWsX7znGxu0qKOHWVLwjrOhZWC2LpEDppl
+ kquoU9aCMYAqChJ8WmfW1WvuG0urbbFdlF52itza68X6DKS/FJoL+6fpZYAHrd8D3/TjlxZv8
+ rsh4MrNXac4ZbFquDG2x0vjzjOR5fbSarIesUN5uzwWS2jJ+iyUtldf15TZv21iXFyWHraggU
+ hgBgzZvmvsssKXTOFdXfEZi9N1nbOGtkhqyrQ6/Isw7V0LsnfNVoPLq2/EnJ3DWV7siUJVG27
+ YHoVz09bl5qMvG9e6SD0c+ofdRHln0Wr1cLJRNf2/XjYiV+pP9U9UEtzYebNiBoLB51ILlXwc
+ k3Js8ht8TSwzPETUT9P5va6S2CV8lutnZQRBmGmF5LYNdA9V41lMEq1LuYTnKYdTvZgx1fdN4
+ YKn8WiggMIKCLirCvGj6ytCuYbc=
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,43 +81,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 27 Oct 2022 at 04:40, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Tue, Oct 25, 2022 at 10:55:18AM -0600, Alex Williamson wrote:
-> > On Wed, 26 Oct 2022 00:37:33 +0800
-> > Cindy Lu <lulu@redhat.com> wrote:
-> > > diff --git a/softmmu/memory.c b/softmmu/memory.c
-> > > index 7ba2048836..03940c551d 100644
-> > > --- a/softmmu/memory.c
-> > > +++ b/softmmu/memory.c
-> > ...
-> > > +        /*
-> > > +         * Malicious VMs might trigger discarding of IOMMU-mapped memory. The
-> > > +         * pages will remain pinned inside vfio until unmapped, resulting in a
-> > > +         * higher memory consumption than expected. If memory would get
-> > > +         * populated again later, there would be an inconsistency between pages
-> > > +         * pinned by vfio and pages seen by QEMU. This is the case until
-> > > +         * unmapped from the IOMMU (e.g., during device reset).
-> > > +         *
-> > > +         * With malicious guests, we really only care about pinning more memory
-> > > +         * than expected. RLIMIT_MEMLOCK set for the user/process can never be
-> > > +         * exceeded and can be used to mitigate this problem.
-> > > +         */
-> > > +        warn_report_once("Using vfio with vIOMMUs and coordinated discarding of"
-> > > +                         " RAM (e.g., virtio-mem) works, however, malicious"
-> > > +                         " guests can trigger pinning of more memory than"
-> > > +                         " intended via an IOMMU. It's possible to mitigate "
-> > > +                         " by setting/adjusting RLIMIT_MEMLOCK.");
-> >
-> > Looks like the comment and warning still need to be generalized for
-> > shared use here.  Thanks,
-> >
-> > Alex
->
-> can be a patch on top? concerned about meeting the soft freeze here.
->
-Thanks Alex and Micheal, I will send a new version with this fix very soon
-Thanks
-Cindy
+The fid instruction (Floating-Point Identify) puts the FPU model and
+revision into the Status Register. Since those values shouldn't be 0,
+store values there which a PCX-L2 (for 32-bit) or a PCX-W2 (for 64-bit)
+would return.
 
+Signed-off-by: Helge Deller <deller@gmx.de>
+
+diff --git a/target/hppa/insns.decode b/target/hppa/insns.decode
+index c7a7e997f9..3ba5f9885a 100644
+=2D-- a/target/hppa/insns.decode
++++ b/target/hppa/insns.decode
+@@ -388,10 +388,8 @@ fmpyfadd_d      101110 rm1:5 rm2:5 ... 0 1 ..0 0 0 ne=
+g:1 t:5    ra3=3D%rc32
+
+ # Floating point class 0
+
+-# FID.  With r =3D t =3D 0, which via fcpy puts 0 into fr0.
+-# This is machine/revision =3D 0, which is reserved for simulator.
+-fcpy_f          001100 00000 00000 00000 000000 00000   \
+-                &fclass01 r=3D0 t=3D0
++# FID.  Basically like fcpy with r =3D t =3D 0. Puts machine/revision int=
+o fr0.
++fid_f           001100 00000 00000 000 00 000000 00000
+
+ fcpy_f          001100 ..... ..... 010 00 ...... .....  @f0c_0
+ fabs_f          001100 ..... ..... 011 00 ...... .....  @f0c_0
+diff --git a/target/hppa/translate.c b/target/hppa/translate.c
+index d15b9e27c7..845c00fc4a 100644
+=2D-- a/target/hppa/translate.c
++++ b/target/hppa/translate.c
+@@ -3622,6 +3622,17 @@ static void gen_fcpy_f(TCGv_i32 dst, TCGv_env unuse=
+d, TCGv_i32 src)
+     tcg_gen_mov_i32(dst, src);
+ }
+
++static bool trans_fid_f(DisasContext *ctx, arg_fid_f *a)
++{
++    nullify_over(ctx);
++#if TARGET_REGISTER_BITS =3D=3D 64
++    save_frd(0, tcg_const_i64(0x13080000000000)); /* PA8700 (PCX-W2) */
++#else
++    save_frd(0, tcg_const_i64(0x0f080000000000)); /* PA7300LC (PCX-L2) */
++#endif
++    return nullify_end(ctx);
++}
++
+ static bool trans_fcpy_f(DisasContext *ctx, arg_fclass01 *a)
+ {
+     return do_fop_wew(ctx, a->t, a->r, gen_fcpy_f);
 
