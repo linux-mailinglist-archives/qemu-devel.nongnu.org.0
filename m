@@ -2,82 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F79160EFAB
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 07:51:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D28260EFB0
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 07:55:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onvk1-0004MT-Bp; Thu, 27 Oct 2022 01:47:52 -0400
+	id 1onvrA-0000OL-CG; Thu, 27 Oct 2022 01:55:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1onvjc-00048u-L6
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 01:47:20 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1onvjY-0003l0-V2
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 01:47:20 -0400
-Received: by mail-pg1-x529.google.com with SMTP id 78so265325pgb.13
- for <qemu-devel@nongnu.org>; Wed, 26 Oct 2022 22:47:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=atP0aG6QBRcXiDE1MuILR7UzOwm3XRtvOUBcUNOKg9M=;
- b=SSpxjAvJliB0h3AcH6VT3X2zT/2lL5FOUeKY3WbV2jxNHIDIrJf0OF9SgTPHJBqUwJ
- B7SNxpM+mLIfoG/URVouqQW1HpQn22VU6aY0dZlReUoF4Nx9KjvftSmhfFbvwdbhw0zT
- PIvNEpoNjJ22Y5BUyIPODqL9ns8COl1S45jpvOAN04jzru1UFnUMJL/O62vinUycQJAD
- zyTBgnyAs7theh5gTXmIQWtEJb6yNgma007rQZIO5KVWHXf+pNGndSvJ3cdtBYSTO5YU
- sUHeq3iDU86ilUDuFJi/+kqIascdDaekMQEZm0VBtPTDMSv5FGQAZBxaEn5B3DGUpXIs
- 7dhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=atP0aG6QBRcXiDE1MuILR7UzOwm3XRtvOUBcUNOKg9M=;
- b=qmRu9U2EgMGqFSGZeFeGu7f8UI5viY0K935TUoRAbpvpwuMSwTCfILJxueIwP8Oe10
- dAtKlcZPwaHBL5Aq4ulOqjIP1/f9oLDh5yVL+cGxI3Badrwq1lT5mR5zz0heKO3uVcND
- G4QM3Mqp/AdWW/f6KQ4z5GHqx3vduXhj1PymuuUfIwOim1ptaKgt9BP/rfypzyV2Qd7J
- BAUIYM3prYwjpf3uE67XxLH+GmXFVD3jeOcsG9KHRkg+hK864jQ/rZ9vS/oPkNSWCEOr
- JYXQgIyhJP+GMsUkc2SOKQwglfJO6msx2I68aWir+95i/aGLbowe+vUFeRGbz7S4JZId
- zWTA==
-X-Gm-Message-State: ACrzQf0Pc6Dei3erlL7xVnwrsmT5XX5u9as+CbnGOBzSlBXcQbczvK1k
- mFUhHHACKMdLYl68ofX6GcGfCeYNI1rpwg==
-X-Google-Smtp-Source: AMsMyM4RJiWrLEdt0rIDQbAfzS6Ax5XP9ThRIBc6CXS8uAWXzUlxdHh0ZMcB71jruGme833pjd6mQA==
-X-Received: by 2002:a63:e54:0:b0:46a:ff3d:5ee1 with SMTP id
- 20-20020a630e54000000b0046aff3d5ee1mr41294465pgo.194.1666849635051; 
- Wed, 26 Oct 2022 22:47:15 -0700 (PDT)
-Received: from ThinkPad-T490.dc1.ventanamicro.com
- ([2401:4900:519a:c85:c94:7c26:ac49:6811])
- by smtp.googlemail.com with ESMTPSA id
- 188-20020a6204c5000000b00562784609fbsm328217pfe.209.2022.10.26.22.47.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Oct 2022 22:47:14 -0700 (PDT)
-From: Mayuresh Chitale <mchitale@ventanamicro.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: Mayuresh Chitale <mchitale@ventanamicro.com>,
-	alistair.francis@wdc.com
-Subject: [PATCH v1 3/3] target/riscv: kvm: Support selecting VCPU extensions
-Date: Thu, 27 Oct 2022 11:16:49 +0530
-Message-Id: <20221027054649.69228-4-mchitale@ventanamicro.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221027054649.69228-1-mchitale@ventanamicro.com>
-References: <20221027054649.69228-1-mchitale@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1onvqx-00072J-BV; Thu, 27 Oct 2022 01:54:59 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1onvqv-0004g7-I5; Thu, 27 Oct 2022 01:54:55 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29R5Gr7I012205;
+ Thu, 27 Oct 2022 05:54:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : from : to : references : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=IhYYXjkLO9y4+WL/c9Kc6LDIw4R/msY/faNAYUhdojo=;
+ b=J2lsnc8vA+wkdPEGHKePf/DlSSAvsfRN7pSfkVkFP8sLYBz35DqfIh68BdqctPtX4H7f
+ GKHikIw1AiqEw0e29Sce5EdtgbgX6EcasodLLSsz+Nh65zb7oCUBIh+7XDxhmw1DDoA7
+ xurd3Uh1co60v1suHr/Ymdw3qabUBCsAa1BlPqPtuhLjpV12TRnKZTw0iKDzRUY6wCad
+ Dnddbni8a1a2DKa3N2+w+qy7IB3KqyIodUPtPazhuRlFBSU17mjLK6+KtK59MZA1PXae
+ bo8Xu/r6pzMsMpPdrDw9Xg0hYIV1kYSVBdxnCB6394pn0hGuvQxhkmFIag/KsVBBtvrQ vQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfkpq9682-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 05:54:49 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29R5snDl002995;
+ Thu, 27 Oct 2022 05:54:49 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kfkpq966w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 05:54:49 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29R5qHNT002239;
+ Thu, 27 Oct 2022 05:54:47 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04fra.de.ibm.com with ESMTP id 3kfah90q10-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 27 Oct 2022 05:54:47 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29R5sjYf4653712
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 27 Oct 2022 05:54:45 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0D38DA405B;
+ Thu, 27 Oct 2022 05:54:45 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BBCF2A4054;
+ Thu, 27 Oct 2022 05:54:44 +0000 (GMT)
+Received: from [9.171.42.156] (unknown [9.171.42.156])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 27 Oct 2022 05:54:44 +0000 (GMT)
+Message-ID: <a73fbe58-507e-fdae-a0ad-809de110ade6@linux.ibm.com>
+Date: Thu, 27 Oct 2022 07:54:44 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: qemu iotest 161 and make check
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ qemu block <qemu-block@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <36201311-39e2-0b94-1b06-74a2df988553@linux.ibm.com>
+ <45589fd7-bf18-8950-34f5-86a90b99c8c1@virtuozzo.com>
+ <586f035a-91b7-4743-9285-09996aa32b4f@linux.ibm.com>
+ <a4955275-6cdd-f54d-81b1-8380aad0461f@redhat.com>
+ <6d73af8a-4620-f702-5367-6bed666b61a8@virtuozzo.com>
+ <54616427-1784-d12b-1a54-131796b56c07@linux.ibm.com>
+ <d6d24f79-24bd-46ac-6332-a066410e0217@linux.ibm.com>
+ <2592efbf-ec8f-d6ef-2708-37958b514a02@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <2592efbf-ec8f-d6ef-2708-37958b514a02@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=mchitale@ventanamicro.com; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: VNADNv1dL2SAZSd5dQJT-kNl7cHMksXw
+X-Proofpoint-ORIG-GUID: aWMF9odcmoyVwmctlVw5_Jcup7D0phxg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-27_02,2022-10-26_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0
+ bulkscore=0 lowpriorityscore=0 clxscore=1011 impostorscore=0 phishscore=0
+ mlxlogscore=999 priorityscore=1501 adultscore=0 mlxscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2210270031
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,166 +123,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Set the state of each ISA extension on the vcpu depending on what
-is set in the CPU property and what is allowed by KVM for that extension.
 
-Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
----
- target/riscv/cpu.c       | 11 ++++-
- target/riscv/kvm.c       | 88 ++++++++++++++++++++++++++++++++++------
- target/riscv/kvm_riscv.h |  2 +-
- 3 files changed, 87 insertions(+), 14 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 35320a8547..e52577d59d 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -1191,10 +1191,19 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str)
- {
-     char *old = *isa_str;
-     char *new = *isa_str;
--    int i;
-+    int i, offset;
- 
-     for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-         if (isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
-+            offset = isa_edata_arr[i].ext_enable_offset;
-+            if (kvm_enabled() && !kvm_riscv_ext_supported(offset)) {
-+#ifndef CONFIG_USER_ONLY
-+                info_report("disabling %s extension for hart 0x%lx because "
-+                            "kvm does not support it", isa_edata_arr[i].name,
-+                            (unsigned long)cpu->env.mhartid);
-+#endif
-+                    continue;
-+            }
-             if (isa_edata_arr[i].multi_letter) {
-                 if (cpu->cfg.short_isa_string) {
-                     continue;
-diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-index 30f21453d6..ea0715c9e4 100644
---- a/target/riscv/kvm.c
-+++ b/target/riscv/kvm.c
-@@ -42,6 +42,29 @@
- #include "migration/migration.h"
- #include "sysemu/runstate.h"
- 
-+struct isa_ext_info {
-+    const char *name;
-+    target_ulong misa_bit;
-+    int ext_enable_offset;
-+};
-+
-+#define ISA_EXT_DATA_ENTRY(_name, _bit, _prop) \
-+    {#_name, _bit, offsetof(struct RISCVCPUConfig, _prop)}
-+
-+static const struct isa_ext_info isa_info_arr[] = {
-+    ISA_EXT_DATA_ENTRY(a, RVA, ext_a),
-+    ISA_EXT_DATA_ENTRY(c, RVC, ext_c),
-+    ISA_EXT_DATA_ENTRY(d, RVD, ext_d),
-+    ISA_EXT_DATA_ENTRY(f, RVF, ext_f),
-+    ISA_EXT_DATA_ENTRY(h, RVH, ext_h),
-+    ISA_EXT_DATA_ENTRY(i, RVI, ext_i),
-+    ISA_EXT_DATA_ENTRY(m, RVM, ext_m),
-+    ISA_EXT_DATA_ENTRY(svpbmt, 0, ext_svpbmt),
-+    ISA_EXT_DATA_ENTRY(sstc, 0, ext_sstc),
-+    ISA_EXT_DATA_ENTRY(svinval, 0, ext_svinval),
-+    ISA_EXT_DATA_ENTRY(zihintpause, 0, ext_zihintpause),
-+};
-+
- static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type,
-                                  uint64_t idx)
- {
-@@ -394,25 +417,66 @@ void kvm_arch_init_irq_routing(KVMState *s)
- {
- }
- 
-+bool kvm_riscv_ext_supported(int offset)
-+{
-+    int i;
-+
-+    for (i = 0; i < KVM_RISCV_ISA_EXT_MAX; ++i) {
-+        if (isa_info_arr[i].ext_enable_offset == offset) {
-+            return true;
-+        }
-+    }
-+    return false;
-+}
-+
-+static void kvm_riscv_set_isa_ext(CPUState *cs, CPURISCVState *env)
-+{
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+    unsigned long isa_ext_out;
-+    bool *ext_state;
-+    uint64_t id;
-+    int i, ret;
-+
-+    env->misa_ext = 0;
-+    for (i = 0; i < ARRAY_SIZE(isa_info_arr); i++) {
-+        ext_state = (void *)&cpu->cfg + isa_info_arr[i].ext_enable_offset;
-+        id = kvm_riscv_reg_id(env, KVM_REG_RISCV_ISA_EXT, i);
-+        ret = kvm_get_one_reg(cs, id, &isa_ext_out);
-+        if (ret) {
-+            warn_report("Disabling ext %s due to failure.",
-+                        isa_info_arr[i].name);
-+            *ext_state = false;
-+            continue;
-+        }
-+        if (isa_ext_out != (*ext_state)) {
-+            isa_ext_out = *ext_state;
-+            ret = kvm_set_one_reg(cs, id, &isa_ext_out);
-+            if (ret) {
-+                warn_report("Could not %s ext %s.",
-+                            (isa_ext_out ? "enable" : "disable"),
-+                            isa_info_arr[i].name);
-+                *ext_state = !isa_ext_out;
-+            }
-+        }
-+        /*
-+         * If the sigle letter extension is supported by KVM then set
-+         * the corresponding misa bit for the guest vcpu.
-+         */
-+        if (isa_info_arr[i].misa_bit && (*ext_state)) {
-+            env->misa_ext |= isa_info_arr[i].misa_bit;
-+        }
-+    }
-+}
-+
- int kvm_arch_init_vcpu(CPUState *cs)
- {
--    int ret = 0;
--    target_ulong isa;
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
--    uint64_t id;
- 
-     qemu_add_vm_change_state_handler(kvm_riscv_vm_state_change, cs);
- 
--    id = kvm_riscv_reg_id(env, KVM_REG_RISCV_CONFIG,
--                          KVM_REG_RISCV_CONFIG_REG(isa));
--    ret = kvm_get_one_reg(cs, id, &isa);
--    if (ret) {
--        return ret;
--    }
--    env->misa_ext = isa;
--
--    return ret;
-+    kvm_riscv_set_isa_ext(cs, env);
-+    return 0;
- }
- 
- int kvm_arch_msi_data_to_gsi(uint32_t data)
-diff --git a/target/riscv/kvm_riscv.h b/target/riscv/kvm_riscv.h
-index ed281bdce0..bdcccc0da4 100644
---- a/target/riscv/kvm_riscv.h
-+++ b/target/riscv/kvm_riscv.h
-@@ -21,5 +21,5 @@
- 
- void kvm_riscv_reset_vcpu(RISCVCPU *cpu);
- void kvm_riscv_set_irq(RISCVCPU *cpu, int irq, int level);
--
-+bool kvm_riscv_ext_supported(int offset);
- #endif
--- 
-2.34.1
+Am 31.03.22 um 10:25 schrieb Christian Borntraeger:
+> 
+> 
+> Am 31.03.22 um 09:44 schrieb Christian Borntraeger:
+>>
+>>
+>> Am 21.02.22 um 11:27 schrieb Christian Borntraeger:
+>>>
+>>> Am 10.02.22 um 18:44 schrieb Vladimir Sementsov-Ogievskiy:
+>>>> 10.02.2022 20:13, Thomas Huth wrote:
+>>>>> On 10/02/2022 15.51, Christian Borntraeger wrote:
+>>>>>>
+>>>>>>
+>>>>>> Am 10.02.22 um 15:47 schrieb Vladimir Sementsov-Ogievskiy:
+>>>>>>> 10.02.2022 10:57, Christian Borntraeger wrote:
+>>>>>>>> Hello,
+>>>>>>>>
+>>>>>>>> I do see spurious failures of 161 in our CI, but only when I use
+>>>>>>>> make check with parallelism (-j).
+>>>>>>>> I have not yet figured out which other testcase could interfere
+>>>>>>>>
+>>>>>>>> @@ -34,6 +34,8 @@
+>>>>>>>>   *** Commit and then change an option on the backing file
+>>>>>>>>
+>>>>>>>>   Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=1048576
+>>>>>>>> +qemu-img: TEST_DIR/t.IMGFMT.base: Failed to get "write" lock
+>>
+>> FWIW, qemu_lock_fd_test returns -11 (EAGAIN)
+>> and raw_check_lock_bytes spits this error.
+> 
+> 
+> And its coming from here (ret is 0)
+> 
+> int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive)
+> {
+>      int ret;
+>      struct flock fl = {
+>          .l_whence = SEEK_SET,
+>          .l_start  = start,
+>          .l_len    = len,
+>          .l_type   = exclusive ? F_WRLCK : F_RDLCK,
+>      };
+>      qemu_probe_lock_ops();
+>      ret = fcntl(fd, fcntl_op_getlk, &fl);
+>      if (ret == -1) {
+>          return -errno;
+>      } else {
+> ----->        return fl.l_type == F_UNLCK ? 0 : -EAGAIN;
+>      }
+> }
+> 
+>>
+>>
+>> Is this just some overload situation that we do not recover because we do not handle EAGAIN any special.
 
+Restarted my investigation. Looks like the file lock from qemu is not fully cleaned up when the process is gone.
+Something like
+diff --git a/tests/qemu-iotests/common.qemu b/tests/qemu-iotests/common.qemu
+index 0f1fecc68e..b28a6c187c 100644
+--- a/tests/qemu-iotests/common.qemu
++++ b/tests/qemu-iotests/common.qemu
+@@ -403,4 +403,5 @@ _cleanup_qemu()
+          unset QEMU_IN[$i]
+          unset QEMU_OUT[$i]
+      done
++    sleep 0.5
+  }
+
+
+makes the problem go away.
+
+Looks like we do use the OFD variant of the file lock, so any clone, fork etc will keep the lock.
+
+So I tested the following:
+
+diff --git a/tests/qemu-iotests/common.qemu b/tests/qemu-iotests/common.qemu
+index 0f1fecc68e..01bdb05575 100644
+--- a/tests/qemu-iotests/common.qemu
++++ b/tests/qemu-iotests/common.qemu
+@@ -388,7 +388,7 @@ _cleanup_qemu()
+                  kill -KILL ${QEMU_PID} 2>/dev/null
+              fi
+              if [ -n "${QEMU_PID}" ]; then
+-                wait ${QEMU_PID} 2>/dev/null # silent kill
++                wait 2>/dev/null # silent kill
+              fi
+          fi
+
+
+And this also helps. Still trying to find out what clone/fork happens here.
 
