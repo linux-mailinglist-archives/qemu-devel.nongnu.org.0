@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC5E61049C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 23:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B11261049E
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 23:41:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooAaY-0000db-1G; Thu, 27 Oct 2022 17:38:58 -0400
+	id 1ooAbj-0000q3-96; Thu, 27 Oct 2022 17:40:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ooAaW-0000dS-CO
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:38:56 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooAbg-0000iM-JI
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:40:08 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ooAaU-0006nE-IO
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:38:56 -0400
-Received: by mail-pf1-x436.google.com with SMTP id m6so3068329pfb.0
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 14:38:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooAbe-00074Q-Nr
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 17:40:08 -0400
+Received: by mail-wr1-x434.google.com with SMTP id bp11so4354461wrb.9
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 14:40:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6rE4mHZTJUDqhUs59YE/Zf+Wj9BHnhQjKxvXsu1+muc=;
- b=D6gn2pQbnSwnKtuGny28PuyV70i9vCcRVXU4CDSZJp3h5daCNaf4iNjNilhwbH5FB4
- fBDKxACbC3NYU0lr+DAyiHzXihJA5iuMG7qOxTjnY9uH6zjS6Px/HZ7zEUtDzl89V0yj
- ic8kknfcrZLzR+TRRYopN6c03xAkPSIqOR8gjyLyWtCSR1V9YWvERIWnGCJlhqQkrmGP
- VkbckQRKM58KasUsh/LW2Vi3SfSTUdhac++8QYT3F56bnf61PhjaTPNSW6ny74lQ5zQE
- JQaRlTazjdW0vkLnOSheuYpaD6NpPALil1bRqcxCOwx8QWwOnrTHn8PaIax98Amz5GJ6
- XvGQ==
+ bh=Tqz37kYB6uHx5KPzbhm445J/fwRI3Pyt1inJhMkHi6M=;
+ b=UqmNUduYk6+GVF5ZnkIamxcaHVEl/QehBh0mSQB9SvFLBSZhTqazB8xO7ztwVJqpF1
+ otgFpLnLZavXSeRASKvyIrs8Ip1LDJzKUEldpWbewpnXhP40Dn9HmUf+UsMPPBYAp5l6
+ p0CGIz4IyEB2E1Y80ooG/LSt9+/E27WNdjRNS9BHtFjzAdoLOuf26G9jh4JBhdNMTC6j
+ jU3h9B8YQq40NhyZ9hnjk+2hpKip9eHfmsVkr2vVo3py1bWKcbBXA4TpS1yi2bcWSL6I
+ 6V9JObNHDWWsFtJh9spfh+pg6Wk7r6y+S2qPAnGtFd1EZoQ6hjy2sZiyILQlJJiopLUK
+ dkIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6rE4mHZTJUDqhUs59YE/Zf+Wj9BHnhQjKxvXsu1+muc=;
- b=Re9NSem7Qk2gAXbYgAMWcgb0/YuRU1MJY9xJhFb6Hj1d/AvQ6oOOpoFwIIq2JZosSz
- LyigDf3EXJm7TP9k0PzxOy7NsAX7bjAtEwhYEwTCcJw7smRMKDub4KTw4vAasmgU1Dyv
- rEZjJMA4HuH6F2dpwX2IClxgZaNFZZzW8zQQD0ZnR13qgas9SQNPldDR79O1MDMJ4PyX
- bu7yY2MKAzkqKi+2vPK/RI1hTKH3ynuFiLYFgjzaz2CghvLykaDIwa8QxYgIB4R5hY9Y
- qM6vHBtAC6RxLlYiZnPUwdzaxfW+qQHOKzZs6NNL8i2KwEysY/PwGThDvtt6pQY34fZd
- iNDw==
-X-Gm-Message-State: ACrzQf3thzZgNX7sMHpYhixR0wP6fDQQ5ywuvw3gKnS14nO6wHdHoXSi
- 8db5r3y3Rtbp096O/4Uwdy14fg==
-X-Google-Smtp-Source: AMsMyM6dtiJsizvC0MJUgjkiQct8IX7982MGn7nW5QXWLl2ug5lvRkZO+IPSJSuJFy2q7rjZX3zfaQ==
-X-Received: by 2002:a63:594b:0:b0:46f:325:20c4 with SMTP id
- j11-20020a63594b000000b0046f032520c4mr19453816pgm.505.1666906732514; 
- Thu, 27 Oct 2022 14:38:52 -0700 (PDT)
-Received: from ?IPV6:2001:8003:501a:d301:93c4:c1c9:4368:47fa?
- ([2001:8003:501a:d301:93c4:c1c9:4368:47fa])
+ bh=Tqz37kYB6uHx5KPzbhm445J/fwRI3Pyt1inJhMkHi6M=;
+ b=vLNrgAHeFRMX93emBQS2IdL/1l2+MKDzl9zHGk3ZueFkrRhu/SZ8RGjYV4IokQ/nex
+ PDMYCq9NgHb4jpEKVr522oyb5Fo3iKCCEQlF+a9vk0z7jgRmNvRNyJL+XGA0rdMmyKB1
+ uGZg6484cWAPRb5FdLXbQlJl0LJSTObQ9OIsyEgcC/tT2FeqnrX3gTQRbIYk8z5kBFvT
+ UAZV8WcrsNkMv2pJQUhguHUehCuNsh4j02bZOM+DCQ5gjHxLGpMDaItjPkn9ut4mm4SF
+ cwSr/BC3At2rMl1yOj9G43/lcR/haqwvvaTRlRqAdbHLz9qHoEEG3lEcwRARsUJmjADf
+ QVQQ==
+X-Gm-Message-State: ACrzQf2KdXf93Ipbg6psPAv1Oij7JVUzfEXbd7tTPQHcIDEyasijyNLS
+ iZH1CmOxrbLVqgYhk8bi0TwOUQ==
+X-Google-Smtp-Source: AMsMyM5o4tPMKVKLbTt6UBcuZij0IXOI4hjd0qXympvqLLHJ/MmmXvfmnI0iyvG6Hx3MAOVraJXl8Q==
+X-Received: by 2002:a05:6000:1686:b0:230:e1f7:71f5 with SMTP id
+ y6-20020a056000168600b00230e1f771f5mr32487228wrd.185.1666906805094; 
+ Thu, 27 Oct 2022 14:40:05 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- g13-20020a65580d000000b00429c5270710sm1484178pgr.1.2022.10.27.14.38.49
+ n15-20020a056000170f00b0022cd0c8c696sm2163244wrc.103.2022.10.27.14.40.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Oct 2022 14:38:51 -0700 (PDT)
-Message-ID: <bbb345b8-5f04-40a7-12ba-5b4fcb52cd9f@linaro.org>
-Date: Fri, 28 Oct 2022 07:38:45 +1000
+ Thu, 27 Oct 2022 14:40:03 -0700 (PDT)
+Message-ID: <f9dd1e1e-65b6-c74d-d957-43774393c2a4@linaro.org>
+Date: Thu, 27 Oct 2022 23:40:01 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 22/24] accel/tcg: Use interval tree for user-only page
- tracking
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+Subject: Re: [PATCH v4 6/7] hw/sd/sdhci: Implement Freescale eSDHC device model
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, laurent@vivier.eu, pbonzini@redhat.com,
- imp@bsdimp.com, f4bug@amsat.org
-References: <20221006031113.1139454-1-richard.henderson@linaro.org>
- <20221006031113.1139454-23-richard.henderson@linaro.org>
- <87eduu4rzo.fsf@linaro.org> <4df39234-6697-61b8-6c56-1bd17b4f9fa8@linaro.org>
- <87y1t1yw32.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87y1t1yw32.fsf@linaro.org>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Antony Pavlov <antonynpavlov@gmail.com>, BALATON Zoltan
+ <balaton@eik.bme.hu>, Alistair Francis <alistair@alistair23.me>,
+ Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-arm@nongnu.org,
+ Magnus Damm <magnus.damm@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org
+References: <20221018210146.193159-1-shentey@gmail.com>
+ <20221018210146.193159-7-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221018210146.193159-7-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,45 +100,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/28/22 01:59, Alex Bennée wrote:
->> I'm unwilling to put an expensive test like a function call
->> (have_mmap_lock) before an inexpensive test like pointer != NULL.
+Hi Bernhard,
+
+On 18/10/22 23:01, Bernhard Beschow wrote:
+> Will allow e500 boards to access SD cards using just their own devices.
 > 
-> Is it really that more expensive?
-
-Well, yes.  I mean, the function call isn't really slow, but it isn't single-cycle like a 
-comparison against 0.
-
-> Sure, I guess I'm just trying to avoid having so many returns out of
-> the code at various levels of nesting. The page_get_target_data code is
-> harder to follow. What about:
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   hw/sd/sdhci.c         | 120 +++++++++++++++++++++++++++++++++++++++++-
+>   include/hw/sd/sdhci.h |   3 ++
+>   2 files changed, 122 insertions(+), 1 deletion(-)
 > 
-> int page_get_flags(target_ulong address)
-> {
->      PageFlagsNode *p = pageflags_find(address, address);
-> 
->      /*
->       * See util/interval-tree.c re lockless lookups: no false positives but
->       * there are false negatives.  If we had the lock and found
->       * nothing we are done, otherwise retry with the mmap lock acquired.
->       */
->      if (p) {
->          return p->flags;
->      } else if (have_mmap_lock()) {
->          return 0;
->      }
-> 
->      mmap_lock();
->      p = pageflags_find(address, address);
->      mmap_unlock();
-> 
->      return p ? p->flags : 0;
-> }
+> diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+> index 306070c872..8d8ad9ff24 100644
+> --- a/hw/sd/sdhci.c
+> +++ b/hw/sd/sdhci.c
+> @@ -1369,6 +1369,7 @@ void sdhci_initfn(SDHCIState *s)
+>       s->transfer_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, sdhci_data_transfer, s);
+>   
+>       s->io_ops = &sdhci_mmio_ops;
+> +    s->io_registers_map_size = SDHC_REGISTERS_MAP_SIZE;
+>   }
+>   
+>   void sdhci_uninitfn(SDHCIState *s)
+> @@ -1392,7 +1393,7 @@ void sdhci_common_realize(SDHCIState *s, Error **errp)
+>       s->fifo_buffer = g_malloc0(s->buf_maxsz);
+>   
+>       memory_region_init_io(&s->iomem, OBJECT(s), s->io_ops, s, "sdhci",
+> -                          SDHC_REGISTERS_MAP_SIZE);
+> +                          s->io_registers_map_size);
 
-Ok, I can use this.  In for v3.
+I don't think we want to change this region size. [see below]
 
-As for page_get_target_data, see v2, in which there has been clean up.
+>   void sdhci_common_unrealize(SDHCIState *s)
+> @@ -1575,6 +1576,122 @@ static const TypeInfo sdhci_bus_info = {
+>       .class_init = sdhci_bus_class_init,
+>   };
+>   
+> +/* --- qdev Freescale eSDHC --- */
+> +
+> +/* Watermark Level Register */
+> +#define ESDHC_WML                    0x44
+> +
+> +/* Control Register for DMA transfer */
+> +#define ESDHC_DMA_SYSCTL            0x40c
+> +
+> +#define ESDHC_REGISTERS_MAP_SIZE    0x410
 
+My preferred approach would be to create a container region with a
+size of ESDHC_REGISTERS_MAP_SIZE. Map the SDHC_REGISTERS_MAP region
+in the container at offset 0, priority -1. Add 2 register regions
+for ESDHC_WML and ESDHC_DMA_SYSCTL, and map them with priority 1 in
+the container. ...
 
-r~
+> +static uint64_t esdhci_read(void *opaque, hwaddr offset, unsigned size)
+> +{
+> +    uint64_t ret;
+> +
+> +    switch (offset) {
+> +    case SDHC_SYSAD:
+> +    case SDHC_BLKSIZE:
+> +    case SDHC_ARGUMENT:
+> +    case SDHC_TRNMOD:
+> +    case SDHC_RSPREG0:
+> +    case SDHC_RSPREG1:
+> +    case SDHC_RSPREG2:
+> +    case SDHC_RSPREG3:
+> +    case SDHC_BDATA:
+> +    case SDHC_PRNSTS:
+> +    case SDHC_HOSTCTL:
+> +    case SDHC_CLKCON:
+> +    case SDHC_NORINTSTS:
+> +    case SDHC_NORINTSTSEN:
+> +    case SDHC_NORINTSIGEN:
+> +    case SDHC_ACMD12ERRSTS:
+> +    case SDHC_CAPAB:
+> +    case SDHC_SLOT_INT_STATUS:
+> +        ret = sdhci_read(opaque, offset, size);
+> +        break;
+
+... Then you don't need these cases.
+
+> +    case ESDHC_WML:
+> +    case ESDHC_DMA_SYSCTL:
+> +        ret = 0;
+> +        qemu_log_mask(LOG_UNIMP, "ESDHC rd @0x%02" HWADDR_PRIx
+> +                      " not implemented\n", offset);
+
+But then I realize you only treat these 2 registers as UNIMP.
+
+So now, I'd create 1 UNIMP region for ESDHC_WML and map it
+into SDHC_REGISTERS_MAP (s->iomem) with priority 1, and add
+another UNIMP region of ESDHC_REGISTERS_MAP_SIZE - 
+SDHC_REGISTERS_MAP_SIZE (= 0x310) and map it normally at offset
+0x100 (SDHC_REGISTERS_MAP_SIZE). Look at create_unimp() in
+hw/arm/bcm2835_peripherals.c.
+
+But the ESDHC_WML register has address 0x44 and fits inside the
+SDHC_REGISTERS_MAP region, so likely belong there. 0x44 is the
+upper part of the SDHC_CAPAB register. These bits are undefined
+on the spec v2, which I see you are setting in esdhci_init().
+So this register should already return 0, otherwise we have
+a bug. Thus we don't need to handle this ESDHC_WML particularly.
+
+And your model is reduced to handling create_unimp() in esdhci_realize().
+
+Am I missing something?
+
+Regards,
+
+Phil.
 
