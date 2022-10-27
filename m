@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A41A60F601
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:15:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D415560F5FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 13:14:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo0ox-0003lv-OZ; Thu, 27 Oct 2022 07:13:11 -0400
+	id 1oo0pL-00078v-UW; Thu, 27 Oct 2022 07:13:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oo0ov-0003io-Hf
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:13:09 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
+ id 1oo0pC-0006yp-Ae
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:13:26 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oo0os-0008Lv-CT
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:13:09 -0400
-Received: by mail-pl1-x631.google.com with SMTP id l2so1058614pld.13
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 04:13:05 -0700 (PDT)
+ id 1oo0ox-0008M7-Me
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 07:13:25 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id f9so1034737pgj.2
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 04:13:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jxquUY8639+3yb9rm/83g2e4/0fMtxF688t00ZVP6ys=;
- b=gsQorsyh1c8uDvQyKGCva8gCOWRs496wJOK6c3ZtUv2eRWMrre1fhEJZnLcrLd8ogg
- OOWoVzTksFwzwnBjOzAlxkjpc+6g4kMlPddlCX8X1TrhrWhSZzjD2I0p2wSPbM+kXtvZ
- YzLkuBpUACRpuhmm8GU2J9P5PI42Iyf3iS3HdCQzSJDy4E5WaPGW0hhueaVXFOV+qOiu
- w5lOMSW/Xv+czeIn3pT86l24AmyBsgjsK5ULeBs/+EOLn1igP+LnNIa11uIKlK6UShZJ
- iAX2bTFdSa5ouL+k672ioPj4VxAwGigHYvZRaq5/ee3LlI4fmzRsBTciSKv+oOcMv0rG
- oIsA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mXN7N6fq5k3qM/yqvukj886GvHtnQ5Lx/doESqyky+A=;
+ b=jfWV6GxXdH+qmd3K69x2H5pzxIHrN/V+M480rejShaCV45lIE5/f7kaXDQxHElN9uQ
+ bfrEOJSR0CO748OeUeqfWj6NpVpKQN1u8pNa0YYyOM6mBxTFynR3Bc3BA01cbtHbUde3
+ 9lQoNv/D5WQkhnMDgMRC2covXgeJ7sKp7BI46557f/4XWD0cACi/iow8qPgst52arqHH
+ KZjpzfCI8N4wQknyb2I44q6eW0DHsEmEJo1DLqZS1J/MR2FY6XpFVIaskMYIGn35UJY6
+ s3MzhBi8VwTTp2GYYqqeIZAmN/ApEbGzbth3JnsV/hNm7Z7/DfNqrNGt4GAU7S0tsZVV
+ qpMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jxquUY8639+3yb9rm/83g2e4/0fMtxF688t00ZVP6ys=;
- b=GMo/XqrD9kSez1tSJjigeQF3okSu0az7sWtadU/g2NeJN9AkFv1Ihss2WCBp1D2HWV
- WV4qCjz1nhj3Iws/JhG0nBsDnOjl7pdimclUI5TmSKL8QEP6NXbe4neknEIssa8Cf45e
- ch9leFAN5Lc+cNKPzN86Cj8u6E5Z7/7qXlY1X4z9fSc72HKRChPwGHkpaOqEtj378+Gq
- Y1MW2+bvfrSEul6hxUgj8YekayhJgXFtvruB5Y5ugehiV5TRDkPxxl7Eo6+DpatrKoOM
- NzS/MkpHOu/+b3AkkscgXSN8F0G8kHGfs5DvQ3w2XxP+5mM+zvIxZqo92mi2gF/gzAMj
- /mdg==
-X-Gm-Message-State: ACrzQf0kOhrwy/UehVVWpuZrr2Df5SQUbONzobVMowF4wLnsNv6gUHYS
- tb72UY6Oez2jPIb8lg90uYSX2sQ+Awy68BE3
-X-Google-Smtp-Source: AMsMyM5qtdP+2CYaDXJq33vfpZ0S9FV5/SFa6/NHiVInVdeywQY45PoMr2KkMsDGe+N0f+uinzUQjQ==
-X-Received: by 2002:a17:90a:582:b0:20a:97f6:f52e with SMTP id
- i2-20020a17090a058200b0020a97f6f52emr9656279pji.126.1666869184711; 
- Thu, 27 Oct 2022 04:13:04 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mXN7N6fq5k3qM/yqvukj886GvHtnQ5Lx/doESqyky+A=;
+ b=ZQeM5HszDfMzC0Z8bhdnKtWNC+p5WpVIyxJcVTBQlcNLS4NmAy7fG+XAQvXHGv8WPc
+ HQFe7iLz2yPjEuOQAhvktlcuD21nEX40SDHxCmjZzhv7afgTJjNBhnDWX/JXbb0Tb5Qx
+ jBEI6vYbIfGsvdfUhDX0ENng75IMnzOAj/JPpu+ZRIvvRNPHv5ijgVCwNksCddg6iw+w
+ b9s1lATMXLlmZPGQaKdh/skiDJ+ZU+vB4Lo1FtmdYSyyBBHrONgV9af33XaI/O952XCO
+ nmXwMo45wvq8wWc3baPNI0BbOSDfeIkDSZ4LKtklJKPf0HjWY6U+frGZIcxWHc3th2si
+ jm+A==
+X-Gm-Message-State: ACrzQf3XKEfZwFTAhPPzQGdCcNl0E6fCbWLri0cVmvmedrt/5Ebe72Uj
+ V7e6bVfVZGKOn524qQtV8nrVRPznrv0GrUTX
+X-Google-Smtp-Source: AMsMyM6O1GkF4kzFoAjAUavdXsBve3oxBtDkIv8bgkRKEbfDxEQoPb9KDIKTu7S93YvwrXQq6OYSqw==
+X-Received: by 2002:aa7:8e03:0:b0:56b:f5af:1d1 with SMTP id
+ c3-20020aa78e03000000b0056bf5af01d1mr17780265pfr.16.1666869187657; 
+ Thu, 27 Oct 2022 04:13:07 -0700 (PDT)
 Received: from localhost.localdomain ([2001:8003:501a:d301:3a91:9408:3918:55a])
  by smtp.gmail.com with ESMTPSA id
- j5-20020a170902c3c500b00172ea8ff334sm969621plj.7.2022.10.27.04.13.02
+ j5-20020a170902c3c500b00172ea8ff334sm969621plj.7.2022.10.27.04.13.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 04:13:04 -0700 (PDT)
+ Thu, 27 Oct 2022 04:13:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org,
 	laurent@vivier.eu
-Subject: [PATCH v2 0/7] accel/tcg: Rewrite user-only vma tracking
-Date: Thu, 27 Oct 2022 22:12:51 +1100
-Message-Id: <20221027111258.348196-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 1/7] util: Add interval-tree.c
+Date: Thu, 27 Oct 2022 22:12:52 +1100
+Message-Id: <20221027111258.348196-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221027111258.348196-1-richard.henderson@linaro.org>
+References: <20221027111258.348196-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,61 +91,1254 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The primary motivator here are the numerous bug reports (e.g. #290)
-about not being able to handle very large memory allocations.
-I presume all or most of these are due to guest use of the clang
-address sanitizer, which allocates a massive shadow vma.
+Copy and simplify the Linux kernel's interval_tree_generic.h,
+instantiating for uint64_t.
 
-This patch set copies the linux kernel code for interval trees,
-which is what the kernel itself uses for managing vmas.  I then
-purge all (real) use of PageDesc from user-only.  This is easy
-for user-only because everything tricky happens under mmap_lock();
-
-I have thought only briefly about using interval trees for system
-mode too, but the locking situation there is more difficult.  So
-for now that code gets moved around but not substantially changed.
-
-The test case from #290 is added to test/tcg/multiarch/.
-Before this patch set, on my moderately beefy laptop, it takes 39s
-and has an RSS of 28GB before the qemu process is killed.  After
-the patch set, the test case successfully allocates 16TB and
-completes in 0.013s.
-
-Changes for v2:
-  * Rebase on master, 17 patches merged.
-  * Structure of page_get_target_data adjusted (ajb).
-
-
-r~
-
-
-Richard Henderson (7):
-  util: Add interval-tree.c
-  accel/tcg: Use interval tree for TBs in user-only mode
-  accel/tcg: Use interval tree for TARGET_PAGE_DATA_SIZE
-  accel/tcg: Move page_{get,set}_flags to user-exec.c
-  accel/tcg: Use interval tree for user-only page tracking
-  accel/tcg: Move PageDesc tree into tb-maint.c for system
-  accel/tcg: Move remainder of page locking to tb-maint.c
-
- accel/tcg/internal.h            |  85 +--
- include/exec/exec-all.h         |  43 +-
- include/exec/translate-all.h    |   6 -
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
  include/qemu/interval-tree.h    |  99 ++++
- accel/tcg/tb-maint.c            | 856 +++++++++++++++++++++++++------
- accel/tcg/translate-all.c       | 746 ---------------------------
- accel/tcg/user-exec.c           | 659 +++++++++++++++++++++++-
- tests/tcg/multiarch/test-vma.c  |  22 +
  tests/unit/test-interval-tree.c | 209 ++++++++
  util/interval-tree.c            | 882 ++++++++++++++++++++++++++++++++
  tests/unit/meson.build          |   1 +
  util/meson.build                |   1 +
- 12 files changed, 2592 insertions(+), 1017 deletions(-)
+ 5 files changed, 1192 insertions(+)
  create mode 100644 include/qemu/interval-tree.h
- create mode 100644 tests/tcg/multiarch/test-vma.c
  create mode 100644 tests/unit/test-interval-tree.c
  create mode 100644 util/interval-tree.c
 
+diff --git a/include/qemu/interval-tree.h b/include/qemu/interval-tree.h
+new file mode 100644
+index 0000000000..25006debe8
+--- /dev/null
++++ b/include/qemu/interval-tree.h
+@@ -0,0 +1,99 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Interval trees.
++ *
++ * Derived from include/linux/interval_tree.h and its dependencies.
++ */
++
++#ifndef QEMU_INTERVAL_TREE_H
++#define QEMU_INTERVAL_TREE_H
++
++/*
++ * For now, don't expose Linux Red-Black Trees separately, but retain the
++ * separate type definitions to keep the implementation sane, and allow
++ * the possibility of disentangling them later.
++ */
++typedef struct RBNode
++{
++    /* Encodes parent with color in the lsb. */
++    uintptr_t rb_parent_color;
++    struct RBNode *rb_right;
++    struct RBNode *rb_left;
++} RBNode;
++
++typedef struct RBRoot
++{
++    RBNode *rb_node;
++} RBRoot;
++
++typedef struct RBRootLeftCached {
++    RBRoot rb_root;
++    RBNode *rb_leftmost;
++} RBRootLeftCached;
++
++typedef struct IntervalTreeNode
++{
++    RBNode rb;
++
++    uint64_t start;    /* Start of interval */
++    uint64_t last;     /* Last location _in_ interval */
++    uint64_t subtree_last;
++} IntervalTreeNode;
++
++typedef RBRootLeftCached IntervalTreeRoot;
++
++/**
++ * interval_tree_is_empty
++ * @root: root of the tree.
++ *
++ * Returns true if the tree contains no nodes.
++ */
++static inline bool interval_tree_is_empty(const IntervalTreeRoot *root)
++{
++    return root->rb_root.rb_node == NULL;
++}
++
++/**
++ * interval_tree_insert
++ * @node: node to insert,
++ * @root: root of the tree.
++ *
++ * Insert @node into @root, and rebalance.
++ */
++void interval_tree_insert(IntervalTreeNode *node, IntervalTreeRoot *root);
++
++/**
++ * interval_tree_remove
++ * @node: node to remove,
++ * @root: root of the tree.
++ *
++ * Remove @node from @root, and rebalance.
++ */
++void interval_tree_remove(IntervalTreeNode *node, IntervalTreeRoot *root);
++
++/**
++ * interval_tree_iter_first:
++ * @root: root of the tree,
++ * @start, @last: the inclusive interval [start, last].
++ *
++ * Locate the "first" of a set of nodes within the tree at @root
++ * that overlap the interval, where "first" is sorted by start.
++ * Returns NULL if no overlap found.
++ */
++IntervalTreeNode *interval_tree_iter_first(IntervalTreeRoot *root,
++                                           uint64_t start, uint64_t last);
++
++/**
++ * interval_tree_iter_next:
++ * @node: previous search result
++ * @start, @last: the inclusive interval [start, last].
++ *
++ * Locate the "next" of a set of nodes within the tree that overlap the
++ * interval; @next is the result of a previous call to
++ * interval_tree_iter_{first,next}.  Returns NULL if @next was the last
++ * node in the set.
++ */
++IntervalTreeNode *interval_tree_iter_next(IntervalTreeNode *node,
++                                          uint64_t start, uint64_t last);
++
++#endif /* QEMU_INTERVAL_TREE_H */
+diff --git a/tests/unit/test-interval-tree.c b/tests/unit/test-interval-tree.c
+new file mode 100644
+index 0000000000..119817a019
+--- /dev/null
++++ b/tests/unit/test-interval-tree.c
+@@ -0,0 +1,209 @@
++/*
++ * Test interval trees
++ *
++ * This work is licensed under the terms of the GNU LGPL, version 2 or later.
++ * See the COPYING.LIB file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/interval-tree.h"
++
++static IntervalTreeNode nodes[20];
++static IntervalTreeRoot root;
++
++static void rand_interval(IntervalTreeNode *n, uint64_t start, uint64_t last)
++{
++    gint32 s_ofs, l_ofs, l_max;
++
++    if (last - start > INT32_MAX) {
++        l_max = INT32_MAX;
++    } else {
++        l_max = last - start;
++    }
++    s_ofs = g_test_rand_int_range(0, l_max);
++    l_ofs = g_test_rand_int_range(s_ofs, l_max);
++
++    n->start = start + s_ofs;
++    n->last = start + l_ofs;
++}
++
++static void test_empty(void)
++{
++    g_assert(root.rb_root.rb_node == NULL);
++    g_assert(root.rb_leftmost == NULL);
++    g_assert(interval_tree_iter_first(&root, 0, UINT64_MAX) == NULL);
++}
++
++static void test_find_one_point(void)
++{
++    /* Create a tree of a single node, which is the point [1,1]. */
++    nodes[0].start = 1;
++    nodes[0].last = 1;
++
++    interval_tree_insert(&nodes[0], &root);
++
++    g_assert(interval_tree_iter_first(&root, 0, 9) == &nodes[0]);
++    g_assert(interval_tree_iter_next(&nodes[0], 0, 9) == NULL);
++    g_assert(interval_tree_iter_first(&root, 0, 0) == NULL);
++    g_assert(interval_tree_iter_next(&nodes[0], 0, 0) == NULL);
++    g_assert(interval_tree_iter_first(&root, 0, 1) == &nodes[0]);
++    g_assert(interval_tree_iter_first(&root, 1, 1) == &nodes[0]);
++    g_assert(interval_tree_iter_first(&root, 1, 2) == &nodes[0]);
++    g_assert(interval_tree_iter_first(&root, 2, 2) == NULL);
++
++    interval_tree_remove(&nodes[0], &root);
++    g_assert(root.rb_root.rb_node == NULL);
++    g_assert(root.rb_leftmost == NULL);
++}
++
++static void test_find_two_point(void)
++{
++    IntervalTreeNode *find0, *find1;
++
++    /* Create a tree of a two nodes, which are both the point [1,1]. */
++    nodes[0].start = 1;
++    nodes[0].last = 1;
++    nodes[1] = nodes[0];
++
++    interval_tree_insert(&nodes[0], &root);
++    interval_tree_insert(&nodes[1], &root);
++
++    find0 = interval_tree_iter_first(&root, 0, 9);
++    g_assert(find0 == &nodes[0] || find0 == &nodes[1]);
++
++    find1 = interval_tree_iter_next(find0, 0, 9);
++    g_assert(find1 == &nodes[0] || find1 == &nodes[1]);
++    g_assert(find0 != find1);
++
++    interval_tree_remove(&nodes[1], &root);
++
++    g_assert(interval_tree_iter_first(&root, 0, 9) == &nodes[0]);
++    g_assert(interval_tree_iter_next(&nodes[0], 0, 9) == NULL);
++
++    interval_tree_remove(&nodes[0], &root);
++}
++
++static void test_find_one_range(void)
++{
++    /* Create a tree of a single node, which is the range [1,8]. */
++    nodes[0].start = 1;
++    nodes[0].last = 8;
++
++    interval_tree_insert(&nodes[0], &root);
++
++    g_assert(interval_tree_iter_first(&root, 0, 9) == &nodes[0]);
++    g_assert(interval_tree_iter_next(&nodes[0], 0, 9) == NULL);
++    g_assert(interval_tree_iter_first(&root, 0, 0) == NULL);
++    g_assert(interval_tree_iter_first(&root, 0, 1) == &nodes[0]);
++    g_assert(interval_tree_iter_first(&root, 1, 1) == &nodes[0]);
++    g_assert(interval_tree_iter_first(&root, 4, 6) == &nodes[0]);
++    g_assert(interval_tree_iter_first(&root, 8, 8) == &nodes[0]);
++    g_assert(interval_tree_iter_first(&root, 9, 9) == NULL);
++
++    interval_tree_remove(&nodes[0], &root);
++}
++
++static void test_find_one_range_many(void)
++{
++    int i;
++
++    /*
++     * Create a tree of many nodes in [0,99] and [200,299],
++     * but only one node with exactly [110,190].
++     */
++    nodes[0].start = 110;
++    nodes[0].last = 190;
++
++    for (i = 1; i < ARRAY_SIZE(nodes) / 2; ++i) {
++        rand_interval(&nodes[i], 0, 99);
++    }
++    for (; i < ARRAY_SIZE(nodes); ++i) {
++        rand_interval(&nodes[i], 200, 299);
++    }
++
++    for (i = 0; i < ARRAY_SIZE(nodes); ++i) {
++        interval_tree_insert(&nodes[i], &root);
++    }
++
++    /* Test that we find exactly the one node. */
++    g_assert(interval_tree_iter_first(&root, 100, 199) == &nodes[0]);
++    g_assert(interval_tree_iter_next(&nodes[0], 100, 199) == NULL);
++    g_assert(interval_tree_iter_first(&root, 100, 109) == NULL);
++    g_assert(interval_tree_iter_first(&root, 100, 110) == &nodes[0]);
++    g_assert(interval_tree_iter_first(&root, 111, 120) == &nodes[0]);
++    g_assert(interval_tree_iter_first(&root, 111, 199) == &nodes[0]);
++    g_assert(interval_tree_iter_first(&root, 190, 199) == &nodes[0]);
++    g_assert(interval_tree_iter_first(&root, 192, 199) == NULL);
++
++    /*
++     * Test that if there are multiple matches, we return the one
++     * with the minimal start.
++     */
++    g_assert(interval_tree_iter_first(&root, 100, 300) == &nodes[0]);
++
++    /* Test that we don't find it after it is removed. */
++    interval_tree_remove(&nodes[0], &root);
++    g_assert(interval_tree_iter_first(&root, 100, 199) == NULL);
++
++    for (i = 1; i < ARRAY_SIZE(nodes); ++i) {
++        interval_tree_remove(&nodes[i], &root);
++    }
++}
++
++static void test_find_many_range(void)
++{
++    IntervalTreeNode *find;
++    int i, n;
++
++    n = g_test_rand_int_range(ARRAY_SIZE(nodes) / 3, ARRAY_SIZE(nodes) / 2);
++
++    /*
++     * Create a fair few nodes in [2000,2999], with the others
++     * distributed around.
++     */
++    for (i = 0; i < n; ++i) {
++        rand_interval(&nodes[i], 2000, 2999);
++    }
++    for (; i < ARRAY_SIZE(nodes) * 2 / 3; ++i) {
++        rand_interval(&nodes[i], 1000, 1899);
++    }
++    for (; i < ARRAY_SIZE(nodes); ++i) {
++        rand_interval(&nodes[i], 3100, 3999);
++    }
++
++    for (i = 0; i < ARRAY_SIZE(nodes); ++i) {
++        interval_tree_insert(&nodes[i], &root);
++    }
++
++    /* Test that we find all of the nodes. */
++    find = interval_tree_iter_first(&root, 2000, 2999);
++    for (i = 0; find != NULL; i++) {
++        find = interval_tree_iter_next(find, 2000, 2999);
++    }
++    g_assert_cmpint(i, ==, n);
++
++    g_assert(interval_tree_iter_first(&root,    0,  999) == NULL);
++    g_assert(interval_tree_iter_first(&root, 1900, 1999) == NULL);
++    g_assert(interval_tree_iter_first(&root, 3000, 3099) == NULL);
++    g_assert(interval_tree_iter_first(&root, 4000, UINT64_MAX) == NULL);
++
++    for (i = 0; i < ARRAY_SIZE(nodes); ++i) {
++        interval_tree_remove(&nodes[i], &root);
++    }
++}
++
++int main(int argc, char **argv)
++{
++    g_test_init(&argc, &argv, NULL);
++
++    g_test_add_func("/interval-tree/empty", test_empty);
++    g_test_add_func("/interval-tree/find-one-point", test_find_one_point);
++    g_test_add_func("/interval-tree/find-two-point", test_find_two_point);
++    g_test_add_func("/interval-tree/find-one-range", test_find_one_range);
++    g_test_add_func("/interval-tree/find-one-range-many",
++                    test_find_one_range_many);
++    g_test_add_func("/interval-tree/find-many-range", test_find_many_range);
++
++    return g_test_run();
++}
+diff --git a/util/interval-tree.c b/util/interval-tree.c
+new file mode 100644
+index 0000000000..4c0baf108f
+--- /dev/null
++++ b/util/interval-tree.c
+@@ -0,0 +1,882 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++
++#include "qemu/osdep.h"
++#include "qemu/interval-tree.h"
++#include "qemu/atomic.h"
++
++/*
++ * Red Black Trees.
++ *
++ * For now, don't expose Linux Red-Black Trees separately, but retain the
++ * separate type definitions to keep the implementation sane, and allow
++ * the possibility of separating them later.
++ *
++ * Derived from include/linux/rbtree_augmented.h and its dependencies.
++ */
++
++/*
++ * red-black trees properties:  https://en.wikipedia.org/wiki/Rbtree
++ *
++ *  1) A node is either red or black
++ *  2) The root is black
++ *  3) All leaves (NULL) are black
++ *  4) Both children of every red node are black
++ *  5) Every simple path from root to leaves contains the same number
++ *     of black nodes.
++ *
++ *  4 and 5 give the O(log n) guarantee, since 4 implies you cannot have two
++ *  consecutive red nodes in a path and every red node is therefore followed by
++ *  a black. So if B is the number of black nodes on every simple path (as per
++ *  5), then the longest possible path due to 4 is 2B.
++ *
++ *  We shall indicate color with case, where black nodes are uppercase and red
++ *  nodes will be lowercase. Unknown color nodes shall be drawn as red within
++ *  parentheses and have some accompanying text comment.
++ *
++ * Notes on lockless lookups:
++ *
++ * All stores to the tree structure (rb_left and rb_right) must be done using
++ * WRITE_ONCE [qatomic_set for QEMU]. And we must not inadvertently cause
++ * (temporary) loops in the tree structure as seen in program order.
++ *
++ * These two requirements will allow lockless iteration of the tree -- not
++ * correct iteration mind you, tree rotations are not atomic so a lookup might
++ * miss entire subtrees.
++ *
++ * But they do guarantee that any such traversal will only see valid elements
++ * and that it will indeed complete -- does not get stuck in a loop.
++ *
++ * It also guarantees that if the lookup returns an element it is the 'correct'
++ * one. But not returning an element does _NOT_ mean it's not present.
++ *
++ * NOTE:
++ *
++ * Stores to __rb_parent_color are not important for simple lookups so those
++ * are left undone as of now. Nor did I check for loops involving parent
++ * pointers.
++ */
++
++typedef enum RBColor
++{
++    RB_RED,
++    RB_BLACK,
++} RBColor;
++
++typedef struct RBAugmentCallbacks {
++    void (*propagate)(RBNode *node, RBNode *stop);
++    void (*copy)(RBNode *old, RBNode *new);
++    void (*rotate)(RBNode *old, RBNode *new);
++} RBAugmentCallbacks;
++
++static inline RBNode *rb_parent(const RBNode *n)
++{
++    return (RBNode *)(n->rb_parent_color & ~1);
++}
++
++static inline RBNode *rb_red_parent(const RBNode *n)
++{
++    return (RBNode *)n->rb_parent_color;
++}
++
++static inline RBColor pc_color(uintptr_t pc)
++{
++    return (RBColor)(pc & 1);
++}
++
++static inline bool pc_is_red(uintptr_t pc)
++{
++    return pc_color(pc) == RB_RED;
++}
++
++static inline bool pc_is_black(uintptr_t pc)
++{
++    return !pc_is_red(pc);
++}
++
++static inline RBColor rb_color(const RBNode *n)
++{
++    return pc_color(n->rb_parent_color);
++}
++
++static inline bool rb_is_red(const RBNode *n)
++{
++    return pc_is_red(n->rb_parent_color);
++}
++
++static inline bool rb_is_black(const RBNode *n)
++{
++    return pc_is_black(n->rb_parent_color);
++}
++
++static inline void rb_set_black(RBNode *n)
++{
++    n->rb_parent_color |= RB_BLACK;
++}
++
++static inline void rb_set_parent_color(RBNode *n, RBNode *p, RBColor color)
++{
++    n->rb_parent_color = (uintptr_t)p | color;
++}
++
++static inline void rb_set_parent(RBNode *n, RBNode *p)
++{
++    rb_set_parent_color(n, p, rb_color(n));
++}
++
++static inline void rb_link_node(RBNode *node, RBNode *parent, RBNode **rb_link)
++{
++    node->rb_parent_color = (uintptr_t)parent;
++    node->rb_left = node->rb_right = NULL;
++
++    qatomic_set(rb_link, node);
++}
++
++static RBNode *rb_next(RBNode *node)
++{
++    RBNode *parent;
++
++    /* OMIT: if empty node, return null. */
++
++    /*
++     * If we have a right-hand child, go down and then left as far as we can.
++     */
++    if (node->rb_right) {
++        node = node->rb_right;
++        while (node->rb_left) {
++            node = node->rb_left;
++        }
++        return node;
++    }
++
++    /*
++     * No right-hand children. Everything down and left is smaller than us,
++     * so any 'next' node must be in the general direction of our parent.
++     * Go up the tree; any time the ancestor is a right-hand child of its
++     * parent, keep going up. First time it's a left-hand child of its
++     * parent, said parent is our 'next' node.
++     */
++    while ((parent = rb_parent(node)) && node == parent->rb_right) {
++        node = parent;
++    }
++
++    return parent;
++}
++
++static inline void rb_change_child(RBNode *old, RBNode *new,
++                                   RBNode *parent, RBRoot *root)
++{
++    if (!parent) {
++        qatomic_set(&root->rb_node, new);
++    } else if (parent->rb_left == old) {
++        qatomic_set(&parent->rb_left, new);
++    } else {
++        qatomic_set(&parent->rb_right, new);
++    }
++}
++
++static inline void rb_rotate_set_parents(RBNode *old, RBNode *new,
++                                         RBRoot *root, RBColor color)
++{
++    RBNode *parent = rb_parent(old);
++
++    new->rb_parent_color = old->rb_parent_color;
++    rb_set_parent_color(old, new, color);
++    rb_change_child(old, new, parent, root);
++}
++
++static void rb_insert_augmented(RBNode *node, RBRoot *root,
++                                const RBAugmentCallbacks *augment)
++{
++    RBNode *parent = rb_red_parent(node), *gparent, *tmp;
++
++    while (true) {
++        /*
++         * Loop invariant: node is red.
++         */
++        if (unlikely(!parent)) {
++            /*
++             * The inserted node is root. Either this is the first node, or
++             * we recursed at Case 1 below and are no longer violating 4).
++             */
++            rb_set_parent_color(node, NULL, RB_BLACK);
++            break;
++        }
++
++        /*
++         * If there is a black parent, we are done.  Otherwise, take some
++         * corrective action as, per 4), we don't want a red root or two
++         * consecutive red nodes.
++         */
++        if (rb_is_black(parent)) {
++            break;
++        }
++
++        gparent = rb_red_parent(parent);
++
++        tmp = gparent->rb_right;
++        if (parent != tmp) {    /* parent == gparent->rb_left */
++            if (tmp && rb_is_red(tmp)) {
++                /*
++                 * Case 1 - node's uncle is red (color flips).
++                 *
++                 *       G            g
++                 *      / \          / \
++                 *     p   u  -->   P   U
++                 *    /            /
++                 *   n            n
++                 *
++                 * However, since g's parent might be red, and 4) does not
++                 * allow this, we need to recurse at g.
++                 */
++                rb_set_parent_color(tmp, gparent, RB_BLACK);
++                rb_set_parent_color(parent, gparent, RB_BLACK);
++                node = gparent;
++                parent = rb_parent(node);
++                rb_set_parent_color(node, parent, RB_RED);
++                continue;
++            }
++
++            tmp = parent->rb_right;
++            if (node == tmp) {
++                /*
++                 * Case 2 - node's uncle is black and node is
++                 * the parent's right child (left rotate at parent).
++                 *
++                 *      G             G
++                 *     / \           / \
++                 *    p   U  -->    n   U
++                 *     \           /
++                 *      n         p
++                 *
++                 * This still leaves us in violation of 4), the
++                 * continuation into Case 3 will fix that.
++                 */
++                tmp = node->rb_left;
++                qatomic_set(&parent->rb_right, tmp);
++                qatomic_set(&node->rb_left, parent);
++                if (tmp) {
++                    rb_set_parent_color(tmp, parent, RB_BLACK);
++                }
++                rb_set_parent_color(parent, node, RB_RED);
++                augment->rotate(parent, node);
++                parent = node;
++                tmp = node->rb_right;
++            }
++
++            /*
++             * Case 3 - node's uncle is black and node is
++             * the parent's left child (right rotate at gparent).
++             *
++             *        G           P
++             *       / \         / \
++             *      p   U  -->  n   g
++             *     /                 \
++             *    n                   U
++             */
++            qatomic_set(&gparent->rb_left, tmp); /* == parent->rb_right */
++            qatomic_set(&parent->rb_right, gparent);
++            if (tmp) {
++                rb_set_parent_color(tmp, gparent, RB_BLACK);
++            }
++            rb_rotate_set_parents(gparent, parent, root, RB_RED);
++            augment->rotate(gparent, parent);
++            break;
++        } else {
++            tmp = gparent->rb_left;
++            if (tmp && rb_is_red(tmp)) {
++                /* Case 1 - color flips */
++                rb_set_parent_color(tmp, gparent, RB_BLACK);
++                rb_set_parent_color(parent, gparent, RB_BLACK);
++                node = gparent;
++                parent = rb_parent(node);
++                rb_set_parent_color(node, parent, RB_RED);
++                continue;
++            }
++
++            tmp = parent->rb_left;
++            if (node == tmp) {
++                /* Case 2 - right rotate at parent */
++                tmp = node->rb_right;
++                qatomic_set(&parent->rb_left, tmp);
++                qatomic_set(&node->rb_right, parent);
++                if (tmp) {
++                    rb_set_parent_color(tmp, parent, RB_BLACK);
++                }
++                rb_set_parent_color(parent, node, RB_RED);
++                augment->rotate(parent, node);
++                parent = node;
++                tmp = node->rb_left;
++            }
++
++            /* Case 3 - left rotate at gparent */
++            qatomic_set(&gparent->rb_right, tmp); /* == parent->rb_left */
++            qatomic_set(&parent->rb_left, gparent);
++            if (tmp) {
++                rb_set_parent_color(tmp, gparent, RB_BLACK);
++            }
++            rb_rotate_set_parents(gparent, parent, root, RB_RED);
++            augment->rotate(gparent, parent);
++            break;
++        }
++    }
++}
++
++static void rb_insert_augmented_cached(RBNode *node,
++                                       RBRootLeftCached *root, bool newleft,
++                                       const RBAugmentCallbacks *augment)
++{
++    if (newleft) {
++        root->rb_leftmost = node;
++    }
++    rb_insert_augmented(node, &root->rb_root, augment);
++}
++
++static void rb_erase_color(RBNode *parent, RBRoot *root,
++                           const RBAugmentCallbacks *augment)
++{
++    RBNode *node = NULL, *sibling, *tmp1, *tmp2;
++
++    while (true) {
++        /*
++         * Loop invariants:
++         * - node is black (or NULL on first iteration)
++         * - node is not the root (parent is not NULL)
++         * - All leaf paths going through parent and node have a
++         *   black node count that is 1 lower than other leaf paths.
++         */
++        sibling = parent->rb_right;
++        if (node != sibling) {  /* node == parent->rb_left */
++            if (rb_is_red(sibling)) {
++                /*
++                 * Case 1 - left rotate at parent
++                 *
++                 *     P               S
++                 *    / \             / \ 
++                 *   N   s    -->    p   Sr
++                 *      / \         / \ 
++                 *     Sl  Sr      N   Sl
++                 */
++                tmp1 = sibling->rb_left;
++                qatomic_set(&parent->rb_right, tmp1);
++                qatomic_set(&sibling->rb_left, parent);
++                rb_set_parent_color(tmp1, parent, RB_BLACK);
++                rb_rotate_set_parents(parent, sibling, root, RB_RED);
++                augment->rotate(parent, sibling);
++                sibling = tmp1;
++            }
++            tmp1 = sibling->rb_right;
++            if (!tmp1 || rb_is_black(tmp1)) {
++                tmp2 = sibling->rb_left;
++                if (!tmp2 || rb_is_black(tmp2)) {
++                    /*
++                     * Case 2 - sibling color flip
++                     * (p could be either color here)
++                     *
++                     *    (p)           (p)
++                     *    / \           / \ 
++                     *   N   S    -->  N   s
++                     *      / \           / \ 
++                     *     Sl  Sr        Sl  Sr
++                     *
++                     * This leaves us violating 5) which
++                     * can be fixed by flipping p to black
++                     * if it was red, or by recursing at p.
++                     * p is red when coming from Case 1.
++                     */
++                    rb_set_parent_color(sibling, parent, RB_RED);
++                    if (rb_is_red(parent)) {
++                        rb_set_black(parent);
++                    } else {
++                        node = parent;
++                        parent = rb_parent(node);
++                        if (parent) {
++                            continue;
++                        }
++                    }
++                    break;
++                }
++                /*
++                 * Case 3 - right rotate at sibling
++                 * (p could be either color here)
++                 *
++                 *   (p)           (p)
++                 *   / \           / \
++                 *  N   S    -->  N   sl
++                 *     / \             \
++                 *    sl  Sr            S
++                 *                       \
++                 *                        Sr
++                 *
++                 * Note: p might be red, and then bot
++                 * p and sl are red after rotation (which
++                 * breaks property 4). This is fixed in
++                 * Case 4 (in rb_rotate_set_parents()
++                 *         which set sl the color of p
++                 *         and set p RB_BLACK)
++                 *
++                 *   (p)            (sl)
++                 *   / \            /  \
++                 *  N   sl   -->   P    S
++                 *       \        /      \
++                 *        S      N        Sr
++                 *         \
++                 *          Sr
++                 */
++                tmp1 = tmp2->rb_right;
++                qatomic_set(&sibling->rb_left, tmp1);
++                qatomic_set(&tmp2->rb_right, sibling);
++                qatomic_set(&parent->rb_right, tmp2);
++                if (tmp1) {
++                    rb_set_parent_color(tmp1, sibling, RB_BLACK);
++                }
++                augment->rotate(sibling, tmp2);
++                tmp1 = sibling;
++                sibling = tmp2;
++            }
++            /*
++             * Case 4 - left rotate at parent + color flips
++             * (p and sl could be either color here.
++             *  After rotation, p becomes black, s acquires
++             *  p's color, and sl keeps its color)
++             *
++             *      (p)             (s)
++             *      / \             / \
++             *     N   S     -->   P   Sr
++             *        / \         / \
++             *      (sl) sr      N  (sl)
++             */
++            tmp2 = sibling->rb_left;
++            qatomic_set(&parent->rb_right, tmp2);
++            qatomic_set(&sibling->rb_left, parent);
++            rb_set_parent_color(tmp1, sibling, RB_BLACK);
++            if (tmp2) {
++                rb_set_parent(tmp2, parent);
++            }
++            rb_rotate_set_parents(parent, sibling, root, RB_BLACK);
++            augment->rotate(parent, sibling);
++            break;
++        } else {
++            sibling = parent->rb_left;
++            if (rb_is_red(sibling)) {
++                /* Case 1 - right rotate at parent */
++                tmp1 = sibling->rb_right;
++                qatomic_set(&parent->rb_left, tmp1);
++                qatomic_set(&sibling->rb_right, parent);
++                rb_set_parent_color(tmp1, parent, RB_BLACK);
++                rb_rotate_set_parents(parent, sibling, root, RB_RED);
++                augment->rotate(parent, sibling);
++                sibling = tmp1;
++            }
++            tmp1 = sibling->rb_left;
++            if (!tmp1 || rb_is_black(tmp1)) {
++                tmp2 = sibling->rb_right;
++                if (!tmp2 || rb_is_black(tmp2)) {
++                    /* Case 2 - sibling color flip */
++                    rb_set_parent_color(sibling, parent, RB_RED);
++                    if (rb_is_red(parent)) {
++                        rb_set_black(parent);
++                    } else {
++                        node = parent;
++                        parent = rb_parent(node);
++                        if (parent) {
++                            continue;
++                        }
++                    }
++                    break;
++                }
++                /* Case 3 - left rotate at sibling */
++                tmp1 = tmp2->rb_left;
++                qatomic_set(&sibling->rb_right, tmp1);
++                qatomic_set(&tmp2->rb_left, sibling);
++                qatomic_set(&parent->rb_left, tmp2);
++                if (tmp1) {
++                    rb_set_parent_color(tmp1, sibling, RB_BLACK);
++                }
++                augment->rotate(sibling, tmp2);
++                tmp1 = sibling;
++                sibling = tmp2;
++            }
++            /* Case 4 - right rotate at parent + color flips */
++            tmp2 = sibling->rb_right;
++            qatomic_set(&parent->rb_left, tmp2);
++            qatomic_set(&sibling->rb_right, parent);
++            rb_set_parent_color(tmp1, sibling, RB_BLACK);
++            if (tmp2) {
++                rb_set_parent(tmp2, parent);
++            }
++            rb_rotate_set_parents(parent, sibling, root, RB_BLACK);
++            augment->rotate(parent, sibling);
++            break;
++        }
++    }
++}
++
++static void rb_erase_augmented(RBNode *node, RBRoot *root,
++                               const RBAugmentCallbacks *augment)
++{
++    RBNode *child = node->rb_right;
++    RBNode *tmp = node->rb_left;
++    RBNode *parent, *rebalance;
++    uintptr_t pc;
++
++    if (!tmp) {
++        /*
++         * Case 1: node to erase has no more than 1 child (easy!)
++         *
++         * Note that if there is one child it must be red due to 5)
++         * and node must be black due to 4). We adjust colors locally
++         * so as to bypass rb_erase_color() later on.
++         */
++        pc = node->rb_parent_color;
++        parent = rb_parent(node);
++        rb_change_child(node, child, parent, root);
++        if (child) {
++            child->rb_parent_color = pc;
++            rebalance = NULL;
++        } else {
++            rebalance = pc_is_black(pc) ? parent : NULL;
++        }
++        tmp = parent;
++    } else if (!child) {
++        /* Still case 1, but this time the child is node->rb_left */
++        pc = node->rb_parent_color;
++        parent = rb_parent(node);
++        tmp->rb_parent_color = pc;
++        rb_change_child(node, tmp, parent, root);
++        rebalance = NULL;
++        tmp = parent;
++    } else {
++        RBNode *successor = child, *child2;
++        tmp = child->rb_left;
++        if (!tmp) {
++            /*
++             * Case 2: node's successor is its right child
++             *
++             *    (n)          (s)
++             *    / \          / \
++             *  (x) (s)  ->  (x) (c)
++             *        \
++             *        (c)
++             */
++            parent = successor;
++            child2 = successor->rb_right;
++
++            augment->copy(node, successor);
++        } else {
++            /*
++             * Case 3: node's successor is leftmost under
++             * node's right child subtree
++             *
++             *    (n)          (s)
++             *    / \          / \
++             *  (x) (y)  ->  (x) (y)
++             *      /            /
++             *    (p)          (p)
++             *    /            /
++             *  (s)          (c)
++             *    \
++             *    (c)
++             */
++            do {
++                parent = successor;
++                successor = tmp;
++                tmp = tmp->rb_left;
++            } while (tmp);
++            child2 = successor->rb_right;
++            qatomic_set(&parent->rb_left, child2);
++            qatomic_set(&successor->rb_right, child);
++            rb_set_parent(child, successor);
++
++            augment->copy(node, successor);
++            augment->propagate(parent, successor);
++        }
++
++        tmp = node->rb_left;
++        qatomic_set(&successor->rb_left, tmp);
++        rb_set_parent(tmp, successor);
++
++        pc = node->rb_parent_color;
++        tmp = rb_parent(node);
++        rb_change_child(node, successor, tmp, root);
++
++        if (child2) {
++            rb_set_parent_color(child2, parent, RB_BLACK);
++            rebalance = NULL;
++        } else {
++            rebalance = rb_is_black(successor) ? parent : NULL;
++        }
++        successor->rb_parent_color = pc;
++        tmp = successor;
++    }
++
++    augment->propagate(tmp, NULL);
++
++    if (rebalance) {
++        rb_erase_color(rebalance, root, augment);
++    }
++}
++
++static void rb_erase_augmented_cached(RBNode *node, RBRootLeftCached *root,
++                                      const RBAugmentCallbacks *augment)
++{
++    if (root->rb_leftmost == node) {
++        root->rb_leftmost = rb_next(node);
++    }
++    rb_erase_augmented(node, &root->rb_root, augment);
++}
++
++
++/*
++ * Interval trees.
++ *
++ * Derived from lib/interval_tree.c and its dependencies,
++ * especially include/linux/interval_tree_generic.h.
++ */
++
++#define rb_to_itree(N)  container_of(N, IntervalTreeNode, rb)
++
++static bool interval_tree_compute_max(IntervalTreeNode *node, bool exit)
++{
++    IntervalTreeNode *child;
++    uint64_t max = node->last;
++
++    if (node->rb.rb_left) {
++        child = rb_to_itree(node->rb.rb_left);
++        if (child->subtree_last > max) {
++            max = child->subtree_last;
++        }
++    }
++    if (node->rb.rb_right) {
++        child = rb_to_itree(node->rb.rb_right);
++        if (child->subtree_last > max) {
++            max = child->subtree_last;
++        }
++    }
++    if (exit && node->subtree_last == max) {
++        return true;
++    }
++    node->subtree_last = max;
++    return false;
++}
++
++static void interval_tree_propagate(RBNode *rb, RBNode *stop)
++{
++    while (rb != stop) {
++        IntervalTreeNode *node = rb_to_itree(rb);
++        if (interval_tree_compute_max(node, true)) {
++            break;
++        }
++        rb = rb_parent(&node->rb);
++    }
++}
++
++static void interval_tree_copy(RBNode *rb_old, RBNode *rb_new)
++{
++    IntervalTreeNode *old = rb_to_itree(rb_old);
++    IntervalTreeNode *new = rb_to_itree(rb_new);
++
++    new->subtree_last = old->subtree_last;
++}
++
++static void interval_tree_rotate(RBNode *rb_old, RBNode *rb_new)
++{
++    IntervalTreeNode *old = rb_to_itree(rb_old);
++    IntervalTreeNode *new = rb_to_itree(rb_new);
++
++    new->subtree_last = old->subtree_last;
++    interval_tree_compute_max(old, false);
++}
++
++static const RBAugmentCallbacks interval_tree_augment = {
++    .propagate = interval_tree_propagate,
++    .copy = interval_tree_copy,
++    .rotate = interval_tree_rotate,
++};
++
++/* Insert / remove interval nodes from the tree */
++void interval_tree_insert(IntervalTreeNode *node, IntervalTreeRoot *root)
++{
++    RBNode **link = &root->rb_root.rb_node, *rb_parent = NULL;
++    uint64_t start = node->start, last = node->last;
++    IntervalTreeNode *parent;
++    bool leftmost = true;
++
++    while (*link) {
++        rb_parent = *link;
++        parent = rb_to_itree(rb_parent);
++
++        if (parent->subtree_last < last) {
++            parent->subtree_last = last;
++        }
++        if (start < parent->start) {
++            link = &parent->rb.rb_left;
++        } else {
++            link = &parent->rb.rb_right;
++            leftmost = false;
++        }
++    }
++
++    node->subtree_last = last;
++    rb_link_node(&node->rb, rb_parent, link);
++    rb_insert_augmented_cached(&node->rb, root, leftmost,
++                               &interval_tree_augment);
++}
++
++void interval_tree_remove(IntervalTreeNode *node, IntervalTreeRoot *root)
++{
++    rb_erase_augmented_cached(&node->rb, root, &interval_tree_augment);
++}
++
++/*
++ * Iterate over intervals intersecting [start;last]
++ *
++ * Note that a node's interval intersects [start;last] iff:
++ *   Cond1: node->start <= last
++ * and
++ *   Cond2: start <= node->last
++ */
++
++static IntervalTreeNode *interval_tree_subtree_search(IntervalTreeNode *node,
++                                                      uint64_t start,
++                                                      uint64_t last)
++{
++    while (true) {
++        /*
++         * Loop invariant: start <= node->subtree_last
++         * (Cond2 is satisfied by one of the subtree nodes)
++         */
++        if (node->rb.rb_left) {
++            IntervalTreeNode *left = rb_to_itree(node->rb.rb_left);
++
++            if (start <= left->subtree_last) {
++                /*
++                 * Some nodes in left subtree satisfy Cond2.
++                 * Iterate to find the leftmost such node N.
++                 * If it also satisfies Cond1, that's the
++                 * match we are looking for. Otherwise, there
++                 * is no matching interval as nodes to the
++                 * right of N can't satisfy Cond1 either.
++                 */
++                node = left;
++                continue;
++            }
++        }
++        if (node->start <= last) {         /* Cond1 */
++            if (start <= node->last) {     /* Cond2 */
++                return node; /* node is leftmost match */
++            }
++            if (node->rb.rb_right) {
++                node = rb_to_itree(node->rb.rb_right);
++                if (start <= node->subtree_last) {
++                    continue;
++                }
++            }
++        }
++        return NULL; /* no match */
++    }
++}
++
++IntervalTreeNode *interval_tree_iter_first(IntervalTreeRoot *root,
++                                           uint64_t start, uint64_t last)
++{
++    IntervalTreeNode *node, *leftmost;
++
++    if (!root->rb_root.rb_node) {
++        return NULL;
++    }
++
++    /*
++     * Fastpath range intersection/overlap between A: [a0, a1] and
++     * B: [b0, b1] is given by:
++     *
++     *         a0 <= b1 && b0 <= a1
++     *
++     *  ... where A holds the lock range and B holds the smallest
++     * 'start' and largest 'last' in the tree. For the later, we
++     * rely on the root node, which by augmented interval tree
++     * property, holds the largest value in its last-in-subtree.
++     * This allows mitigating some of the tree walk overhead for
++     * for non-intersecting ranges, maintained and consulted in O(1).
++     */
++    node = rb_to_itree(root->rb_root.rb_node);
++    if (node->subtree_last < start) {
++        return NULL;
++    }
++
++    leftmost = rb_to_itree(root->rb_leftmost);
++    if (leftmost->start > last) {
++        return NULL;
++    }
++
++    return interval_tree_subtree_search(node, start, last);
++}
++
++IntervalTreeNode *interval_tree_iter_next(IntervalTreeNode *node,
++                                          uint64_t start, uint64_t last)
++{
++    RBNode *rb = node->rb.rb_right, *prev;
++
++    while (true) {
++        /*
++         * Loop invariants:
++         *   Cond1: node->start <= last
++         *   rb == node->rb.rb_right
++         *
++         * First, search right subtree if suitable
++         */
++        if (rb) {
++            IntervalTreeNode *right = rb_to_itree(rb);
++
++            if (start <= right->subtree_last) {
++                return interval_tree_subtree_search(right, start, last);
++            }
++        }
++
++        /* Move up the tree until we come from a node's left child */
++        do {
++            rb = rb_parent(&node->rb);
++            if (!rb) {
++                return NULL;
++            }
++            prev = &node->rb;
++            node = rb_to_itree(rb);
++            rb = node->rb.rb_right;
++        } while (prev == rb);
++
++        /* Check if the node intersects [start;last] */
++        if (last < node->start) {  /* !Cond1 */
++            return NULL;
++        }
++        if (start <= node->last) { /* Cond2 */
++            return node;
++        }
++    }
++}
++
++/* Occasionally useful for calling from within the debugger. */
++#if 0
++static void debug_interval_tree_int(IntervalTreeNode *node,
++                                    const char *dir, int level)
++{
++    printf("%4d %*s %s [%" PRIu64 ",%" PRIu64 "] subtree_last:%" PRIu64 "\n",
++           level, level + 1, dir, rb_is_red(&node->rb) ? "r" : "b",
++           node->start, node->last, node->subtree_last);
++
++    if (node->rb.rb_left) {
++        debug_interval_tree_int(rb_to_itree(node->rb.rb_left), "<", level + 1);
++    }
++    if (node->rb.rb_right) {
++        debug_interval_tree_int(rb_to_itree(node->rb.rb_right), ">", level + 1);
++    }
++}
++
++void debug_interval_tree(IntervalTreeNode *node);
++void debug_interval_tree(IntervalTreeNode *node)
++{
++    if (node) {
++        debug_interval_tree_int(node, "*", 0);
++    } else {
++        printf("null\n");
++    }
++}
++#endif
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index b497a41378..ffa444f432 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -47,6 +47,7 @@ tests = {
+   'ptimer-test': ['ptimer-test-stubs.c', meson.project_source_root() / 'hw/core/ptimer.c'],
+   'test-qapi-util': [],
+   'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-smp.c'],
++  'test-interval-tree': [],
+ }
+ 
+ if have_system or have_tools
+diff --git a/util/meson.build b/util/meson.build
+index 5e282130df..46a0d017a6 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -55,6 +55,7 @@ util_ss.add(files('guest-random.c'))
+ util_ss.add(files('yank.c'))
+ util_ss.add(files('int128.c'))
+ util_ss.add(files('memalign.c'))
++util_ss.add(files('interval-tree.c'))
+ 
+ if have_user
+   util_ss.add(files('selfmap.c'))
 -- 
 2.34.1
 
