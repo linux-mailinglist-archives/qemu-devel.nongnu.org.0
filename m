@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F99060FC63
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 17:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 832D660FC6A
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 17:53:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo57L-00065l-7n; Thu, 27 Oct 2022 11:48:27 -0400
+	id 1oo5BO-0007ZT-UX; Thu, 27 Oct 2022 11:52:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oo57J-00064f-C2
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 11:48:25 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oo5BI-0006ur-4X; Thu, 27 Oct 2022 11:52:32 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oo57G-0001YU-Bz
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 11:48:25 -0400
-Received: by mail-wr1-x430.google.com with SMTP id z14so2964259wrn.7
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 08:48:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5kS2/zX/tI+DJfIwcgpktm8ra82H+ZLEfhpkdYQgz2w=;
- b=BBHJKK/Zem51R90c4Oyl6IlHxnlvmF+ZAHniXYIcCjAXV9DHA3vcbMXj5hCkox4OAL
- tFzcd39FBw5Ar274+IXGpcV60RYY5dGBzSTJtovw06jFZBbSphTQlj5PT4ycGTBTUX1h
- vcAg0xFtcWXqWJ7jN8Jn7YqIMAUQ/Rvw+NRUn49uL8W9ua6pd7ocgQ//Lyxi3T+5y4ob
- EPiITrE6CI5S/M4SO71PKnPx8so+oIIE3I2x1i3hZbgSA1iiy6MV9TxkKhwh1Kt9/7Jz
- kwluQQRa2Mkg3X89aCylJGGRM8S3VU4oaQNeeBaggEmyitjxTHoF80b/nET4zKgR6/5e
- Jnhw==
+ (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
+ id 1oo5BG-0002ID-Hn; Thu, 27 Oct 2022 11:52:31 -0400
+Received: by mail-pl1-x635.google.com with SMTP id c24so1924639pls.9;
+ Thu, 27 Oct 2022 08:52:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=8g73c7n8Cem2dwKPJxbM5o1j72Yj3QGu26d+n50tL2g=;
+ b=o5xJcDXJE7P1t07iembD4Gs88fsYxp+9Sk0jROJkQ7faUojFN4AGFzLlxPk+fiUBbK
+ SqTupe8sbVuzl5AL35kO06AOEZjhqL0Oz2H8xhJ/V7aPUU/WHX/WYAH6prVN87g2K55N
+ NkXdlQKTrys3hMZ1Rr84lQp7AdWnEKEkZ1W2GQUE4QscwGYdLuR7x5CoMz3aHOBzZdxX
+ PNLMqLgA3S2kSR4ZDZPPEdrG+hdy56S+O5BqJsxxaBPKVW6dkSHViz8Xce4C0DhWmbPE
+ TqMWmSZpDdQbX5yRFbjsAMtMWpDwS3K31USdGpnEE/NhodTFqBrJmRDuz30l5McqfqA4
+ r1Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=5kS2/zX/tI+DJfIwcgpktm8ra82H+ZLEfhpkdYQgz2w=;
- b=aOvROfHHoppJQBFbRWNfT/WhqTTmenrTVzMWWGl9Zhj/5fP0ToKLp6jIMks5FMf/kX
- APdsRjJiYHJv9SxRgQ2q8pKFkIuW3jFuMM+Oa2FXbeHHbvvINz1GQ2WXStq6ukubfF2Z
- 4/SEqTAG0aA05tIVyuEuKjHMYh//je6oAuDt2A0D/jOfEsJVyTfV5G1fG/EDFYUgRtXk
- 6z2xWCz7qCozdOvFVOmBlDKbP+ii8vn2pT6ifpnjboVv9Ud0jMcrshPLGBgYAH8Rix4T
- TFtAJ10Yta9IluxnbjhKsLyR7h8jte8Yp/LIREfpOx+jKkjV7Oyl8Uwa4EcXkc5q1tRd
- mElQ==
-X-Gm-Message-State: ACrzQf2CuKqUtd5VrRstsh4M6dy2vSq1tCSl0m6Wfdu/dPa9CxvPVvgZ
- lqZ9cjjFedOLZ9hE8sYMWXgCcY8C4BGryg==
-X-Google-Smtp-Source: AMsMyM6Ohsq8f6TpU7b8tGdpdr9ELdPTH/EY3WPJwNUcNSbZM91Vf2mf1gni04p4SZKBa+E/4LpohQ==
-X-Received: by 2002:a05:6000:1548:b0:22e:3469:b726 with SMTP id
- 8-20020a056000154800b0022e3469b726mr32150658wry.10.1666885688817; 
- Thu, 27 Oct 2022 08:48:08 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- ay19-20020a05600c1e1300b003a1980d55c4sm5286716wmb.47.2022.10.27.08.48.08
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8g73c7n8Cem2dwKPJxbM5o1j72Yj3QGu26d+n50tL2g=;
+ b=he9+MLO3mEzk5+4XGk0G1mIftV5BVTqia6t7me6uAqTs4hyBPBQmiEdgy1+D9HR+I3
+ ioiTexh+P5BsDJxZm1A//FbevxXfhd6T2KLBaY6/D9eIJR0ZtMOPkz2td0+CIWS8XIP3
+ y42SlVWhQyPlAEf8OIE5IvMUx2wTsvmfR9Ei+AAoYStrIr0uoCHJey/ub1cCPvael8a2
+ ORUUlTmT8Ue8OnK9oa3Ah45M+Q4XlT1nZrrNRkTt1y7Gs9ETlyctsx54rP73W3zOkT5k
+ TXkZLPd0twY/0+OuFXZM9C+lOu+q9YF/fZGhGARwWHm/SAdp19K5a06n+tHv8qs2re7I
+ gkJA==
+X-Gm-Message-State: ACrzQf0weReVJuW9ktb7dmNiS4ixYwj3DMGgDJfkCDczjrh73HTnC14r
+ VqNQ+sveMFq454u7D/CquPFtAP8sGRLkaiZA
+X-Google-Smtp-Source: AMsMyM5HUkzvMqqYayGig9n2IV8fVfun3lk8CLcuex5IT5s4xeOBVgHIGGrsF8G3R1GoLPPLo9+lrA==
+X-Received: by 2002:a17:90b:1c8d:b0:203:cc25:4eb5 with SMTP id
+ oo13-20020a17090b1c8d00b00203cc254eb5mr10952175pjb.132.1666885947935; 
+ Thu, 27 Oct 2022 08:52:27 -0700 (PDT)
+Received: from roots.. ([112.44.202.248]) by smtp.gmail.com with ESMTPSA id
+ f21-20020a623815000000b0056c058ab000sm1327744pfa.155.2022.10.27.08.52.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 08:48:08 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E695D1FFB7;
- Thu, 27 Oct 2022 16:48:07 +0100 (BST)
-References: <20221027113026.2280863-1-iii@linux.ibm.com>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, Thomas Huth
- <thuth@redhat.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] tests/vm: use -o IdentitiesOnly=yes for ssh
-Date: Thu, 27 Oct 2022 16:48:01 +0100
-In-reply-to: <20221027113026.2280863-1-iii@linux.ibm.com>
-Message-ID: <87czad1d54.fsf@linaro.org>
+ Thu, 27 Oct 2022 08:52:27 -0700 (PDT)
+From: Sam Li <faithilikerun@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: damien.lemoal@opensource.wdc.com, Stefano Garzarella <sgarzare@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, dmitry.fomichev@wdc.com,
+ qemu-block@nongnu.org, Julia Suvorova <jusual@redhat.com>, hare@suse.de,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Aarushi Mehta <mehta.aaru20@gmail.com>,
+ Sam Li <faithilikerun@gmail.com>
+Subject: [PATCH v5 0/4] Add zone append write for zoned device
+Date: Thu, 27 Oct 2022 23:52:11 +0800
+Message-Id: <20221027155215.21374-1-faithilikerun@gmail.com>
+X-Mailer: git-send-email 2.38.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,21 +89,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+v5:
+- fix locking conditions and error handling
+- drop some trival optimizations
+- add tracing points for zone append
 
-Ilya Leoshkevich <iii@linux.ibm.com> writes:
+v4:
+- fix lock related issues[Damien]
+- drop all field in zone_mgmt op [Damien]
+- fix state checks in zong_mgmt command [Damien]
+- return start sector of wp when issuing zap req [Damien]
 
-> When one has a lot of keys in ~/.ssh directory, the ssh command will
-> try all of them before the one specified on the command line, and this
-> may cause the remote ssh server to reject the connection due to too
-> many failed authentication attempts.
->
-> Fix by adding -o IdentitiesOnly=3Dyes, which makes the ssh client
-> consider only the keys specified on the command line.
->
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+v3:
+- only read wps when it is locked [Damien]
+- allow last smaller zone case [Damien]
+- add zone type and state checks in zone_mgmt command [Damien]
+- fix RESET_ALL related problems
 
-Queued to testing/next, thanks.
+v2:
+- split patch to two patches for better reviewing
+- change BlockZoneWps's structure to an array of integers
+- use only mutex lock on locking conditions of zone wps
+- coding styles and clean-ups
 
---=20
-Alex Benn=C3=A9e
+v1:
+- introduce zone append write
+
+Sam Li (4):
+  file-posix: add tracking of the zone write pointers
+  block: introduce zone append write for zoned devices
+  qemu-iotests: test zone append operation
+  block: add some trace events for zone append
+
+ block/block-backend.c              |  65 +++++++++
+ block/file-posix.c                 | 212 ++++++++++++++++++++++++++++-
+ block/io.c                         |  21 +++
+ block/io_uring.c                   |   4 +
+ block/linux-aio.c                  |   3 +
+ block/raw-format.c                 |   8 ++
+ block/trace-events                 |   2 +
+ include/block/block-common.h       |  14 ++
+ include/block/block-io.h           |   3 +
+ include/block/block_int-common.h   |   8 ++
+ include/block/raw-aio.h            |   4 +-
+ include/sysemu/block-backend-io.h  |   9 ++
+ qemu-io-cmds.c                     |  63 +++++++++
+ tests/qemu-iotests/tests/zoned.out |   7 +
+ tests/qemu-iotests/tests/zoned.sh  |   9 ++
+ 15 files changed, 424 insertions(+), 8 deletions(-)
+
+-- 
+2.38.1
+
 
