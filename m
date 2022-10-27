@@ -2,8 +2,8 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E9D6100BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 20:53:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D647D6100C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 20:55:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
