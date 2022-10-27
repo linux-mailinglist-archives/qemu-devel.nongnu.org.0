@@ -2,75 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B85610378
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 22:54:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB08610390
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 22:58:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oo9sY-0002lA-GC; Thu, 27 Oct 2022 16:53:30 -0400
+	id 1oo9wN-0003Xe-4l; Thu, 27 Oct 2022 16:57:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1oo9sU-0002l1-NY
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 16:53:26 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oo9wK-0003Nq-Qn
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 16:57:24 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1oo9sS-0008Iw-Ds
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 16:53:26 -0400
-Received: by mail-ej1-x630.google.com with SMTP id kt23so8097316ejc.7
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 13:53:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=b5lxpKjf/PZOUPNZabqX95ZIxyD9c/5zN5ET+EZJveE=;
- b=HEWOAAiGwXvIFLA0LuHFRxFgizI6jFY+EcMkMiYUHgGvx/37wmWiE1zXlQpEw4Y9MS
- 9VmtUYPQ5jX7byoEf3zeBYvCKU360z2JjX9vQY9PGhY4yXQSbcrHjdAqVlSSuricqpdF
- Rfgx31+W534QJeAShYmlCuu9m9oXhswroGMGnTg1qppM1/IIhw+/CXQjG+IJVs1t54pC
- 9EjMpPSgJYUGBa31ArIDWNdvVgr/KXkPuSgsTI+N+KUL6hpBmAhjFuNqkyBgy7sNq6Td
- dMMcFCLVY5V7zRtaVm2ijnFQS+2lSDLW0wTjPpVgdB0jv2hjuTHAsIVZ/JxjEO+Kzzjd
- ZTMA==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oo9wJ-0000Or-6S
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 16:57:24 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id n14so1804782wmq.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 13:57:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=r0mdIuZ2EDTi8BBXkIa6/gg9NW4EYQWsW32okvcu420=;
+ b=i63IBY7n0m50N8gyQ5QZhPw+zQ9B+Vzcs7XBYtrK/4tHYaVxRiwWv7jbwEVVxkZv+a
+ 4obdGpH3WMHGzastM8BYmJMtpdlXNV5JxgQ5P02P139LCBzsRwwN50/ddCnWop+ASOht
+ 6Dfu8nDNPTVQIQocqrQGRnHGorSmu7fTgcvU3YQ9YrtwYQ81UgcVOFd++RBE2xBuyLIi
+ yvEfpkt59FrAOY4jR7ThIJ2b5hMDTg+WmpjsnZqCPgxdvnzjH4dGtC266Y8Lsy0/hqJM
+ qLjkcmCLF4jUiSgKQmtCMYAwTR4z3V6wmCmK5lZ8YtDXGbE/d+KizBbENVjl13pvqVw9
+ FpPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=b5lxpKjf/PZOUPNZabqX95ZIxyD9c/5zN5ET+EZJveE=;
- b=cEUP5snJoCZdMYMrvxNdxdq25cpqDpiOgV7ASZbGcHIz0Bg8VeFEj67Ye0/m3vcEsq
- ov970K4nEZBDqXzV05ea945i6cguOVoc9JFfh7Jk0fUZtJGvS5BgkmXEPxn5qA9ZhD+2
- MgatQQpFTDUCCy/Z94O0TzFS/FO8Ait3fopJg89Z73RfGLCEbJTyclCFkEMTlEDvL3Oa
- 0D7K0u0WGg6vkZJUTIARaMm64oW6Sum/Y62j4ecOCNhHW6C20JpzaFh6iifA5o9m1HxZ
- 1jhq3sQrPJwZmGnP2NPebPR68SrT/pM2glZDfgT/s2DdfLwxRZsLNtGj0JWdvtOpWOHK
- 8/VA==
-X-Gm-Message-State: ACrzQf3KkqW0ASvo1vUD8dWnJOuPYY3xwWmLE+LDAQqntHrpzAzC7Bbg
- 95t3MlOIm864FcpWVPCmyo2E+cOQH2Vwn/whxUo1wg==
-X-Google-Smtp-Source: AMsMyM5+Nsd20udA/dufEjE6Um3Sn0xfaZLzraS5VY4YqGdQvU7L3g8GNoFu1UepsQ9vpQ22SajXwU5/8lTw7G1OvzM=
-X-Received: by 2002:a17:906:730f:b0:791:9b75:2ca1 with SMTP id
- di15-20020a170906730f00b007919b752ca1mr41996171ejc.140.1666904002075; Thu, 27
- Oct 2022 13:53:22 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=r0mdIuZ2EDTi8BBXkIa6/gg9NW4EYQWsW32okvcu420=;
+ b=G96/CnggUpvag23UYJZy25QWxxdKU4xr6inqyPuSVWdl5zt/5byGzdS2pharrKqJHW
+ 4jl1opq46KPjHx5d+PAf5UQj3GqGvLmqOPD25q5KPU/c1Jt3Qvww0KWQouqJvXqHVRUh
+ QDkJ+jMHOgMCRK3T2p+O42uKAh2+MaPAh4AkbtTBumPZzH76194LLnv229HSExobgs7U
+ SZG4nixmAGO8A0MUn7z4ql9p0WkyYgsSFzafLVhtGWmm4K/afbyEg16NpFUokaJaF+vb
+ KyfdtRtBL08WA3emPu31YzCFc5mu559pA8j6B60Ef1ZMKm23JBFsV/CjcOvnyVeEd62Q
+ 7smw==
+X-Gm-Message-State: ACrzQf3cPqfEBPDpFMwR1HTS7maIJL1TRvXpgKs6+kN+PDTP7E+UoBzg
+ mwL17sVx8Mle6y05fnYdytHEfw==
+X-Google-Smtp-Source: AMsMyM4RuLXi6mDmLT1DAJ11B7EeN3U8khN8PTBKmXxckGtEBI1w+o05pkqXyOHDHIJ0HX3B4xNa8w==
+X-Received: by 2002:a05:600c:4e52:b0:3ce:3f91:70b9 with SMTP id
+ e18-20020a05600c4e5200b003ce3f9170b9mr6966089wmq.131.1666904241565; 
+ Thu, 27 Oct 2022 13:57:21 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ n3-20020a5d6b83000000b00236644228besm1988339wrx.40.2022.10.27.13.57.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Oct 2022 13:57:20 -0700 (PDT)
+Message-ID: <75f39fd2-05b7-483f-60c7-00cfd12a47e7@linaro.org>
+Date: Thu, 27 Oct 2022 22:57:18 +0200
 MIME-Version: 1.0
-References: <cover.1666608862.git.qemu_oss@crudebyte.com>
- <3438372.x9l1EUDYgq@silver>
- <CAJSP0QU62wy6sN7CULhDtcXMufQvpF8CgRQDOSVw5w7JYC_p-g@mail.gmail.com>
- <11340963.ZY6gCF45se@silver>
-In-Reply-To: <11340963.ZY6gCF45se@silver>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 27 Oct 2022 14:53:10 -0600
-Message-ID: <CANCZdfq8WdeB9NqovMSFdm+tJoiPK6zAv6Tfgd5HaE6OSXS7oA@mail.gmail.com>
-Subject: Re: [PULL 00/23] 9p queue 2022-10-24
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Greg Kurz <groug@kaod.org>, 
- Linus Heckemann <git@sphalerite.org>, Bin Meng <bin.meng@windriver.com>, 
- Stefan Hajnoczi <stefanha@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000eb386605ec0a5492"
-Received-SPF: none client-ip=2a00:1450:4864:20::630;
- envelope-from=wlosh@bsdimp.com; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+Subject: Re: [PATCH v2 09/43] hw/usb/hcd-uhci: Introduce TYPE_ defines for
+ device models
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, John Snow <jsnow@redhat.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, qemu-block@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20221022150508.26830-1-shentey@gmail.com>
+ <20221022150508.26830-10-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221022150508.26830-10-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,203 +101,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000eb386605ec0a5492
-Content-Type: text/plain; charset="UTF-8"
+On 22/10/22 17:04, Bernhard Beschow wrote:
+> Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   hw/i386/pc_piix.c |  3 ++-
+>   hw/i386/pc_q35.c  | 13 +++++++------
+>   hw/isa/piix4.c    |  2 +-
+>   hw/usb/hcd-uhci.c | 16 ++++++++--------
+>   hw/usb/hcd-uhci.h |  9 +++++++++
+>   5 files changed, 27 insertions(+), 16 deletions(-)
 
-On Thu, Oct 27, 2022, 1:45 PM Christian Schoenebeck <qemu_oss@crudebyte.com>
-wrote:
+> diff --git a/hw/usb/hcd-uhci.h b/hw/usb/hcd-uhci.h
+> index c85ab7868e..22f6e6fcfc 100644
+> --- a/hw/usb/hcd-uhci.h
+> +++ b/hw/usb/hcd-uhci.h
+> @@ -91,4 +91,13 @@ typedef struct UHCIInfo {
+>   void uhci_data_class_init(ObjectClass *klass, void *data);
+>   void usb_uhci_common_realize(PCIDevice *dev, Error **errp);
+>   
+> +#define TYPE_PIIX3_USB_UHCI "piix3-usb-uhci"
+> +#define TYPE_PIIX4_USB_UHCI "piix4-usb-uhci"
+> +#define TYPE_ICH9_USB_UHCI1 "ich9-usb-uhci1"
+> +#define TYPE_ICH9_USB_UHCI2 "ich9-usb-uhci2"
+> +#define TYPE_ICH9_USB_UHCI3 "ich9-usb-uhci3"
+> +#define TYPE_ICH9_USB_UHCI4 "ich9-usb-uhci4"
+> +#define TYPE_ICH9_USB_UHCI5 "ich9-usb-uhci5"
+> +#define TYPE_ICH9_USB_UHCI6 "ich9-usb-uhci6"
 
-> On Thursday, October 27, 2022 7:37:07 PM CEST Stefan Hajnoczi wrote:
-> > On Thu, 27 Oct 2022 at 12:38, Christian Schoenebeck
-> > <qemu_oss@crudebyte.com> wrote:
-> > >
-> > > On Thursday, October 27, 2022 5:53:47 PM CEST Thomas Huth wrote:
-> > > > On 24/10/2022 12.54, Christian Schoenebeck wrote:
-> > > > > The following changes since commit
-> 0529245488865038344d64fff7ee05864d3d17f6:
-> > > > >
-> > > > >    Merge tag 'pull-target-arm-20221020' of
-> https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-10-20
-> 14:36:12 -0400)
-> > > > >
-> > > > > are available in the Git repository at:
-> > > > >
-> > > > >    https://github.com/cschoenebeck/qemu.git tags/pull-9p-20221024
-> > > > >
-> > > > > for you to fetch changes up to
-> 3ce77865bf813f313cf79c00fd951bfc95a50165:
-> > > > >
-> > > > >    tests/9p: remove unnecessary g_strdup() calls (2022-10-24
-> 12:24:32 +0200)
-> > > > >
-> > > > > ----------------------------------------------------------------
-> > > > > 9pfs: performance, Windows host prep, tests restructure
-> > > > >
-> > > > > * Highlight of this PR is Linus Heckemann's GHashTable patch which
-> > > > >    brings massive general performance improvements of 9p server
-> > > > >    somewhere between factor 6 .. 12.
-> > > > >
-> > > > > * Bin Meng's g_mkdir patch is a preparatory patch for upcoming
-> > > > >    Windows host support of 9p server.
-> > > > >
-> > > > > * The rest of the patches in this PR are 9p test code restructuring
-> > > > >    and refactoring changes to improve readability and to ease
-> > > > >    maintenance of 9p test code on the long-term.
-> > > >
-> > > >   Hi Christian,
-> > > >
-> > > > I think this PR broke the FreeBSD CI jobs:
-> > > >
-> > > >   https://gitlab.com/qemu-project/qemu/-/jobs/3219611457#L3116
-> > > >
-> > > >   https://gitlab.com/qemu-project/qemu/-/jobs/3219611460#L3372
-> > > >
-> > > > Could you please have a look?
-> > > >
-> > > >   Thanks!
-> > > >    Thomas
-> > >
-> > > I try, but will certainly take some days, especially as I currently
-> don't have
-> > > a BSD installation at hand to try the changes.
-> >
-> > QEMU has the automation to run FreeBSD builds locally (in a VM):
-> > $ make vm-build-freebsd
-> >
-> > Not sure if that FreeBSD environment matches the one in Cirrus CI
-> > though. If they are different then maybe it won't reproduce locally.
->
-> Something must be different, because
-> e750a7ace492f0b450653d4ad368a77d6f660fb8
-> compiles fine locally with `make vm-build-freebsd` and all tests pass, too.
->
+What about defining once:
 
-I have a pull request I'm sending tomorrow that fixes a build issue on
-FreeBSD for about 6 or so months on FreeBSD current. If it's hitting
-that... but I didn't think our normal CI hit that... I'd submit it today,
-but I'm traveling and there is an issue getting to my machines at home, but
-I'll be home tomorrow.
+   #define TYPE_ICH9_USB_UHCI(fn) "ich9-usb-uhci" #fn
 
-Warner
-
-
-Ideas?
->
-> Best regards,
-> Christian Schoenebeck
->
->
->
->
-
---000000000000eb386605ec0a5492
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, Oct 27, 2022, 1:45 PM Christian Schoenebeck &l=
-t;<a href=3D"mailto:qemu_oss@crudebyte.com">qemu_oss@crudebyte.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex">On Thursday, October 27, 202=
-2 7:37:07 PM CEST Stefan Hajnoczi wrote:<br>
-&gt; On Thu, 27 Oct 2022 at 12:38, Christian Schoenebeck<br>
-&gt; &lt;<a href=3D"mailto:qemu_oss@crudebyte.com" target=3D"_blank" rel=3D=
-"noreferrer">qemu_oss@crudebyte.com</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; On Thursday, October 27, 2022 5:53:47 PM CEST Thomas Huth wrote:<=
-br>
-&gt; &gt; &gt; On 24/10/2022 12.54, Christian Schoenebeck wrote:<br>
-&gt; &gt; &gt; &gt; The following changes since commit 0529245488865038344d=
-64fff7ee05864d3d17f6:<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 Merge tag &#39;pull-target-arm-20221020&#3=
-9; of <a href=3D"https://git.linaro.org/people/pmaydell/qemu-arm" rel=3D"no=
-referrer noreferrer" target=3D"_blank">https://git.linaro.org/people/pmayde=
-ll/qemu-arm</a> into staging (2022-10-20 14:36:12 -0400)<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; are available in the Git repository at:<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 <a href=3D"https://github.com/cschoenebeck=
-/qemu.git" rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.c=
-om/cschoenebeck/qemu.git</a> tags/pull-9p-20221024<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; for you to fetch changes up to 3ce77865bf813f313cf79c00=
-fd951bfc95a50165:<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 tests/9p: remove unnecessary g_strdup() ca=
-lls (2022-10-24 12:24:32 +0200)<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; -------------------------------------------------------=
----------<br>
-&gt; &gt; &gt; &gt; 9pfs: performance, Windows host prep, tests restructure=
-<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; * Highlight of this PR is Linus Heckemann&#39;s GHashTa=
-ble patch which<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 brings massive general performance improve=
-ments of 9p server<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 somewhere between factor 6 .. 12.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; * Bin Meng&#39;s g_mkdir patch is a preparatory patch f=
-or upcoming<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 Windows host support of 9p server.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; * The rest of the patches in this PR are 9p test code r=
-estructuring<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 and refactoring changes to improve readabi=
-lity and to ease<br>
-&gt; &gt; &gt; &gt;=C2=A0 =C2=A0 maintenance of 9p test code on the long-te=
-rm.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0Hi Christian,<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; I think this PR broke the FreeBSD CI jobs:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0<a href=3D"https://gitlab.com/qemu-project/qemu/=
--/jobs/3219611457#L3116" rel=3D"noreferrer noreferrer" target=3D"_blank">ht=
-tps://gitlab.com/qemu-project/qemu/-/jobs/3219611457#L3116</a><br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0<a href=3D"https://gitlab.com/qemu-project/qemu/=
--/jobs/3219611460#L3372" rel=3D"noreferrer noreferrer" target=3D"_blank">ht=
-tps://gitlab.com/qemu-project/qemu/-/jobs/3219611460#L3372</a><br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Could you please have a look?<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0Thanks!<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 Thomas<br>
-&gt; &gt;<br>
-&gt; &gt; I try, but will certainly take some days, especially as I current=
-ly don&#39;t have<br>
-&gt; &gt; a BSD installation at hand to try the changes.<br>
-&gt; <br>
-&gt; QEMU has the automation to run FreeBSD builds locally (in a VM):<br>
-&gt; $ make vm-build-freebsd<br>
-&gt; <br>
-&gt; Not sure if that FreeBSD environment matches the one in Cirrus CI<br>
-&gt; though. If they are different then maybe it won&#39;t reproduce locall=
-y.<br>
-<br>
-Something must be different, because e750a7ace492f0b450653d4ad368a77d6f660f=
-b8<br>
-compiles fine locally with `make vm-build-freebsd` and all tests pass, too.=
-<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">=
-I have a pull request I&#39;m sending tomorrow that fixes a build issue on =
-FreeBSD for about 6 or so months on FreeBSD current. If it&#39;s hitting th=
-at... but I didn&#39;t think our normal CI hit that... I&#39;d submit it to=
-day, but I&#39;m traveling and there is an issue getting to my machines at =
-home, but I&#39;ll be home tomorrow.=C2=A0</div><div dir=3D"auto"><br></div=
-><div dir=3D"auto">Warner</div><div dir=3D"auto"><br></div><div dir=3D"auto=
-"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-Ideas?<br>
-<br>
-Best regards,<br>
-Christian Schoenebeck<br>
-<br>
-<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000eb386605ec0a5492--
+?
 
