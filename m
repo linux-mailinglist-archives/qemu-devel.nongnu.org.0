@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D5660F455
+	by mail.lfdr.de (Postfix) with ESMTPS id EB8A160F457
 	for <lists+qemu-devel@lfdr.de>; Thu, 27 Oct 2022 12:03:08 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1onzfn-0008S3-IP; Thu, 27 Oct 2022 05:59:39 -0400
+	id 1onzgm-0000R4-30; Thu, 27 Oct 2022 06:00:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1onzfb-0008M6-S6
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 05:59:29 -0400
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231])
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1onzgb-0000OT-6d
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:00:29 -0400
+Received: from mout.gmx.net ([212.227.15.18])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1onzfT-0003Vc-Rj
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 05:59:23 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.235])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 942FB223A7;
- Thu, 27 Oct 2022 09:59:00 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Thu, 27 Oct
- 2022 11:58:59 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G0059ed3a6e5-37c6-4d5c-9c32-326fccb2748d,
- 96B5E4AD3926E0A35FCB490C91431F0B86587271) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <cca5db4f-4c05-1fda-de77-19d1cc161748@kaod.org>
-Date: Thu, 27 Oct 2022 11:58:58 +0200
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1onzgY-0003tN-TT
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 06:00:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1666864824; bh=0RCCiTJc/RNkV9K4ZOw6MIyqaqOzzihDO31oOWQ34s8=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=FdVZLmgI4opgNSL1uo4c59+kWQ4D8V+78g7UuZ3u1HSqI5HK7MaOjFoU7w+UkVdS2
+ iJPJNkkkUHdYOKTdmiNKtDTCW0hj19Rga78slf6FY5ZZ2Hq//wXrhVJxZdQd3ofBLk
+ HRM/NoHDG0Y/HqMavLLb/7W5JL8QL07xNKZazXPVjmVj/+5k6lM71zTev163pvZNS/
+ UMcGFUM2GSlyGGLPnsnDl+9NeKKuODSrH35zvUR15PyKIHHtwGjjbm6awBuyc9Y+Rd
+ nUhc/yoTuZWkKKVBe8IniEZAoS0kEx3QGUo13aeXkkpmCqO7B/MzQsyVT8mgqPDrgh
+ kM2R+9VaUIo1w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([92.116.164.228]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MSKyI-1ocy8W0mVc-00ShQq; Thu, 27
+ Oct 2022 12:00:24 +0200
+Message-ID: <c2aaa3e1-a5aa-1e7a-1d24-e0bccfaed2d3@gmx.de>
+Date: Thu, 27 Oct 2022 12:00:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.0
-Subject: Re: [PATCH v10 3/9] s390x/cpu_topology: resetting the
- Topology-Change-Report
+Subject: Re: [PATCH] target/hppa: Fix fid instruction emulation
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
- <qemu-s390x@nongnu.org>
-CC: <qemu-devel@nongnu.org>, <borntraeger@de.ibm.com>, <pasic@linux.ibm.com>, 
- <richard.henderson@linaro.org>, <david@redhat.com>, <cohuck@redhat.com>,
- <mst@redhat.com>, <pbonzini@redhat.com>, <kvm@vger.kernel.org>,
- <ehabkost@redhat.com>, <marcel.apfelbaum@gmail.com>, <eblake@redhat.com>,
- <armbru@redhat.com>, <seiden@linux.ibm.com>, <nrb@linux.ibm.com>,
- <frankja@linux.ibm.com>, <berrange@redhat.com>
-References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-4-pmorel@linux.ibm.com>
- <450544bf-4ff0-9d72-f57c-4274692916a5@redhat.com>
- <77d52b82-aa44-ed79-2345-1b3c3a15fb7d@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <77d52b82-aa44-ed79-2345-1b3c3a15fb7d@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 25859d7b-9a03-4c2e-a6eb-c2671e8aadda
-X-Ovh-Tracer-Id: 6225100585256782608
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeggddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepffdufeeliedujeeffffhjeffiefghffhhfdvkeeijeehledvueffhfejtdehgeegnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpmhhorhgvlheslhhinhhugidrihgsmhdrtghomhdpnhhrsgeslhhinhhugidrihgsmhdrtghomhdpshgvihguvghnsehlihhnuhigrdhisghmrdgtohhmpdgrrhhmsghruhesrhgvughhrghtrdgtohhmpdgvsghlrghkvgesrhgvughhrghtrdgtohhmpdhmrghrtggvlhdrrghpfhgvlhgsrghumhesghhmrghilhdrtghomhdpvghhrggskhhoshhtsehrvgguhhgrthdrtghomhdpkhhvmhesvhhgvghrrdhkvghrnhgvlhdrohhrghdpphgsohhniihinhhisehrvgguhhgrthdrtghomh
- dpmhhsthesrhgvughhrghtrdgtohhmpdgtohhhuhgtkhesrhgvughhrghtrdgtohhmpdgurghvihgusehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhprghsihgtsehlihhnuhigrdhisghmrdgtohhmpdgsohhrnhhtrhgrvghgvghrseguvgdrihgsmhdrtghomhdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpqhgvmhhuqdhsfeeltdigsehnohhnghhnuhdrohhrghdpthhhuhhthhesrhgvughhrghtrdgtohhmpdhfrhgrnhhkjhgrsehlihhnuhigrdhisghmrdgtohhmpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <Y1ol0OCotNwb6ccV@p100>
+ <c7d806c1-3f3b-f29b-0578-0b562ca9d3bf@linaro.org>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <c7d806c1-3f3b-f29b-0578-0b562ca9d3bf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:je241OyHlXPpNpf3KeR6DD00dgiBOhAJnYIH2y0SC2189A50n1Q
+ 68HSvRcwTdU1dJiO1zuSstU2cav4zKRcajb/ymBFq2QM0ZAffzR87wXbhtO6LhTL5/NrZZ1
+ zE6hgwf+l/pzToz8+5gOUXb8uOy8j4MoiPf7OuT+LjNXQINI5iD52Qv68c3Foq/jgxt/TM4
+ KL5SFfHn93jeaX3tl7oWg==
+UI-OutboundReport: notjunk:1;M01:P0:YYe2ViSnOec=;WBBbHz5/z60XLk7tl+9EI2yK5XP
+ qqvdW3sIBy9meIPtW1iziz9w41/sF3qDNB6zljeNtI2VRx4O9/0bWRvWQH1kjNsUYJBfJBMqK
+ Z+6HNktGC197Kf1Dck8hfcrmVgOG+VgBw1S74F5tBTS6LKitlJrUExnpR/FbPpriltQUfilZF
+ k3adCKkCVF03fsC6wK84h3b7aE9Jq8z4G1/Xhu++9q9AvjYdN7eHDo1pL7mollnxPzx86HgVL
+ gEvFFaeRNNrWOHhwSxUvmyzoMcaNTHRAel4rZgP+8iQW0A0zUflV4fmGsP5V2aBrZ10p93tkV
+ 8rHw9RAiDAEVmlwcwOpYQzSM8PZd3nQtfEeulxFKYle33QiLAfMItEjqhwA16EgnFXmnf6RSb
+ OiD6jH7V1LmbkF3jkSYZChE9bwpTTZzwSn75yvSZmuooKA8aDimq2ltnTARsLqpnTSkSooYIU
+ 1TJoO80ucPUSIAKsUXfU7Owh5pvqeVgl0Gbmv4o4C3tqtIcsFQqGBsoYXKmdl6ry2SKVvXZM7
+ nD9wIg7zfYEfKzfuubpMrIfLx06IeMTLY5x7GiNZvWq67U1UrM7S8zOPD6SPu1DfXt54JqOEf
+ VpfZVK45CMV06OBTk9RU8HTS6YsnoQCWuaNjCtR5uI7V0DTede1tKHHMQSyDfS86+0vRbOWZE
+ R0fG3sc0EZ34YwH7Hyg+MKwK1tXj+tnwfHwWyq2FrZ1KlvI7dL8DRvRGbTSMCQyZEai9c0WHn
+ zgQ/jn/birMdtTTL/LGWIjhQFlFb/UMS4EWM9hc2PKycUuA4K8s8YKvFbnY5dHI04rs6AZEbW
+ gpOod5g8V9clBRtGh8IEoSMcIooDp7WiixkAhHITHvhdg5DNMdP/6pxqxrt1s2mJdZ3Dl0dZt
+ 4QdIc4ppYInmhrwzeXkMtbIii87rMA4uvpZfPWcU0jBSSuRLnCOOEezOm5JysXQ/5hBn4gabW
+ S/ZskjlR4ywqmwXLNJoWlarOadA=
+Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,137 +86,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/27/22 11:11, Pierre Morel wrote:
-> 
-> 
-> On 10/27/22 10:14, Thomas Huth wrote:
->> On 12/10/2022 18.21, Pierre Morel wrote:
->>> During a subsystem reset the Topology-Change-Report is cleared
->>> by the machine.
->>> Let's ask KVM to clear the Modified Topology Change Report (MTCR)
->>>   bit of the SCA in the case of a subsystem reset.
->>>
->>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>> Reviewed-by: Nico Boehr <nrb@linux.ibm.com>
->>> Reviewed-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
->>> ---
->>>   target/s390x/cpu.h           |  1 +
->>>   target/s390x/kvm/kvm_s390x.h |  1 +
->>>   hw/s390x/cpu-topology.c      | 12 ++++++++++++
->>>   hw/s390x/s390-virtio-ccw.c   |  1 +
->>>   target/s390x/cpu-sysemu.c    |  7 +++++++
->>>   target/s390x/kvm/kvm.c       | 23 +++++++++++++++++++++++
->>>   6 files changed, 45 insertions(+)
->>>
->>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
->>> index d604aa9c78..9b35795ac8 100644
->>> --- a/target/s390x/cpu.h
->>> +++ b/target/s390x/cpu.h
->>> @@ -825,6 +825,7 @@ void s390_enable_css_support(S390CPU *cpu);
->>>   void s390_do_cpu_set_diag318(CPUState *cs, run_on_cpu_data arg);
->>>   int s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t sch_id,
->>>                                   int vq, bool assign);
->>> +void s390_cpu_topology_reset(void);
->>>   #ifndef CONFIG_USER_ONLY
->>>   unsigned int s390_cpu_set_state(uint8_t cpu_state, S390CPU *cpu);
->>>   #else
->>> diff --git a/target/s390x/kvm/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
->>> index aaae8570de..a13c8fb9a3 100644
->>> --- a/target/s390x/kvm/kvm_s390x.h
->>> +++ b/target/s390x/kvm/kvm_s390x.h
->>> @@ -46,5 +46,6 @@ void kvm_s390_crypto_reset(void);
->>>   void kvm_s390_restart_interrupt(S390CPU *cpu);
->>>   void kvm_s390_stop_interrupt(S390CPU *cpu);
->>>   void kvm_s390_set_diag318(CPUState *cs, uint64_t diag318_info);
->>> +int kvm_s390_topology_set_mtcr(uint64_t attr);
->>>   #endif /* KVM_S390X_H */
->>> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
->>> index c73cebfe6f..9f202621d0 100644
->>> --- a/hw/s390x/cpu-topology.c
->>> +++ b/hw/s390x/cpu-topology.c
->>> @@ -107,6 +107,17 @@ static void s390_topology_realize(DeviceState *dev, Error **errp)
->>>       qemu_mutex_init(&topo->topo_mutex);
->>>   }
->>> +/**
->>> + * s390_topology_reset:
->>> + * @dev: the device
->>> + *
->>> + * Calls the sysemu topology reset
->>> + */
->>> +static void s390_topology_reset(DeviceState *dev)
->>> +{
->>> +    s390_cpu_topology_reset();
->>> +}
->>> +
->>>   /**
->>>    * topology_class_init:
->>>    * @oc: Object class
->>> @@ -120,6 +131,7 @@ static void topology_class_init(ObjectClass *oc, void *data)
->>>       dc->realize = s390_topology_realize;
->>>       set_bit(DEVICE_CATEGORY_MISC, dc->categories);
->>> +    dc->reset = s390_topology_reset;
->>>   }
->>>   static const TypeInfo cpu_topology_info = {
->>> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->>> index aa99a62e42..362378454a 100644
->>> --- a/hw/s390x/s390-virtio-ccw.c
->>> +++ b/hw/s390x/s390-virtio-ccw.c
->>> @@ -113,6 +113,7 @@ static const char *const reset_dev_types[] = {
->>>       "s390-flic",
->>>       "diag288",
->>>       TYPE_S390_PCI_HOST_BRIDGE,
->>> +    TYPE_S390_CPU_TOPOLOGY,
->>>   };
->>>   static void subsystem_reset(void)
->>> diff --git a/target/s390x/cpu-sysemu.c b/target/s390x/cpu-sysemu.c
->>> index 948e4bd3e0..707c0b658c 100644
->>> --- a/target/s390x/cpu-sysemu.c
->>> +++ b/target/s390x/cpu-sysemu.c
->>> @@ -306,3 +306,10 @@ void s390_do_cpu_set_diag318(CPUState *cs, run_on_cpu_data arg)
->>>           kvm_s390_set_diag318(cs, arg.host_ulong);
->>>       }
->>>   }
->>> +
->>> +void s390_cpu_topology_reset(void)
->>> +{
->>> +    if (kvm_enabled()) {
->>> +        kvm_s390_topology_set_mtcr(0);
->>> +    }
->>> +}
->>> diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
->>> index f96630440b..9c994d27d5 100644
->>> --- a/target/s390x/kvm/kvm.c
->>> +++ b/target/s390x/kvm/kvm.c
->>> @@ -2585,3 +2585,26 @@ int kvm_s390_get_zpci_op(void)
->>>   {
->>>       return cap_zpci_op;
->>>   }
->>> +
->>> +int kvm_s390_topology_set_mtcr(uint64_t attr)
->>> +{
->>> +    struct kvm_device_attr attribute = {
->>> +        .group = KVM_S390_VM_CPU_TOPOLOGY,
->>> +        .attr  = attr,
->>> +    };
->>> +    int ret;
->>> +
->>> +    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
->>> +        return -EFAULT;
+On 10/27/22 11:48, Richard Henderson wrote:
+> On 10/27/22 16:31, Helge Deller wrote:
+>> The fid instruction (Floating-Point Identify) puts the FPU model and
+>> revision into the Status Register. Since those values shouldn't be 0,
+>> store values there which a PCX-L2 (for 32-bit) or a PCX-W2 (for 64-bit)
+>> would return.
 >>
->> EFAULT is something that indicates a bad address (e.g. a segmentation fault) ... so this definitely sounds like a bad choice for an error code here.
-> 
-> Hum, yes, ENODEV seems besser no?
-
--ENOTSUP would be 'meilleur' may be ?  :)
-
-C.
-
-
-> 
+>> Signed-off-by: Helge Deller <deller@gmx.de>
 >>
->>   Thomas
+>> diff --git a/target/hppa/insns.decode b/target/hppa/insns.decode
+>> index c7a7e997f9..3ba5f9885a 100644
+>> --- a/target/hppa/insns.decode
+>> +++ b/target/hppa/insns.decode
+>> @@ -388,10 +388,8 @@ fmpyfadd_d=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 101110 rm=
+1:5 rm2:5 ... 0 1 ..0 0 0 neg:1 t:5=C2=A0=C2=A0=C2=A0 ra3=3D%rc32
 >>
+>> =C2=A0 # Floating point class 0
 >>
-> 
+>> -# FID.=C2=A0 With r =3D t =3D 0, which via fcpy puts 0 into fr0.
+>> -# This is machine/revision =3D 0, which is reserved for simulator.
+>
+> Is there something in particular for which this is failing?
+> Per the manual, 0 means simulator, which we are.
 
+I can't say yet if it's really failing.
+I noticed it while trying to get MPE/iX installed in a hppa guest.
+In some doc (sorry don't know which one right now) I saw that 0/0
+values were illegal values, which is why I changed the values to
+become those of a PA7300LC CPU from a  B160L machine (which
+we currently emulate with the hppa SeaBIOS).
+
+> So far we haven't identified as a particular cpu, have we?
+
+Not really, but as just mentioned the SeaBIOS reports back a B160L.
+If we support more machines this needs to be adjusted.
+
+>> +static bool trans_fid_f(DisasContext *ctx, arg_fid_f *a)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 nullify_over(ctx);
+>> +#if TARGET_REGISTER_BITS =3D=3D 64
+>> +=C2=A0=C2=A0=C2=A0 save_frd(0, tcg_const_i64(0x13080000000000)); /* PA=
+8700 (PCX-W2) */
+>> +#else
+>> +=C2=A0=C2=A0=C2=A0 save_frd(0, tcg_const_i64(0x0f080000000000)); /* PA=
+7300LC (PCX-L2) */
+>> +#endif
+>> +=C2=A0=C2=A0=C2=A0 return nullify_end(ctx);
+>> +}
+>
+> Missing ULL suffix.
+
+Will fix.
+
+Helge
 
