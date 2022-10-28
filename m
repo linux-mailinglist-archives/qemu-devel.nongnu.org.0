@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8770611297
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:24:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BED06112A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:26:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooPLL-0001o5-Uk; Fri, 28 Oct 2022 09:24:15 -0400
+	id 1ooPLK-0001h5-0A; Fri, 28 Oct 2022 09:24:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooPKY-0001Dh-IW
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:23:26 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooPKX-0001Bg-Qv
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:23:25 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooPKW-0005JN-Qx
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:23:26 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooPKW-0005JG-D2
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:23:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666963404;
+ s=mimecast20190719; t=1666963403;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l0JZje3qMT8Bh9koZzGLeT+y10Q0NQtcvmyjmEn5uwI=;
- b=FqimRTTta2y8GMMfgBLaPAkOfA0+o0G4P9RmCXjjHG3zJvq4OlhN+iQEhgCdtRdfPwaJYw
- a80eMFZFkJwvp5/GOVvVG0VXo8mX6byU0TxUUn0bmCcxK+6yk5khHktKAe9JbYbm3JbdrI
- dGScCE/KORluIC3pp/6GtrMf2OUk0yo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OjDk3N32Ab5GdCZWqvihrGb0LRqVad/AU2aP0FtzTpU=;
+ b=RNa/qxNt2FMH5aFb/7AfOl+Gw3+6x0840LQxJst+1UuFoePv7zYqu/nbS/cg0KjEAysXdS
+ 16V+DMPO0XWLdu/N04ygm2DZMbs6xTFIE2H8DuQqZFFlOldWZ4/DjBekJOndip47n0pa/2
+ zjmJcmZr9Fu270RFt99K3qlpvIqgbCc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-106-upEUEWTOOgWtHFyzkuX8Sw-1; Fri, 28 Oct 2022 09:23:20 -0400
-X-MC-Unique: upEUEWTOOgWtHFyzkuX8Sw-1
+ us-mta-616-g9QrhPdVNC6_mDYco3a50g-1; Fri, 28 Oct 2022 09:23:22 -0400
+X-MC-Unique: g9QrhPdVNC6_mDYco3a50g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 830CF1C0896D;
- Fri, 28 Oct 2022 13:23:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 30D1D87B2A3;
+ Fri, 28 Oct 2022 13:23:22 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D8801121319;
- Fri, 28 Oct 2022 13:23:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E883D1121319;
+ Fri, 28 Oct 2022 13:23:20 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Cc: Stefan Berger <stefanb@linux.ibm.com>
-Subject: [PULL 08/21] tests/qtest/tpm: Clean up remainders of swtpm
-Date: Fri, 28 Oct 2022 15:22:51 +0200
-Message-Id: <20221028132304.829103-9-thuth@redhat.com>
+Cc: Zhang Chen <chen.zhang@intel.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [PULL 09/21] tests/qtest/cxl-test: Remove temporary directories after
+ testing
+Date: Fri, 28 Oct 2022 15:22:52 +0200
+Message-Id: <20221028132304.829103-10-thuth@redhat.com>
 In-Reply-To: <20221028132304.829103-1-thuth@redhat.com>
 References: <20221028132304.829103-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -76,141 +78,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-After running "make check", there are remainders of the tpm
-tests left in the /tmp directory, slowly filling it up.
-Seems like "swtpm" leaves a ".lock" and a "tpm2-00.permall"
-file behind, so that the g_rmdir() calls on the temporary
-directories fail. Introduce a helper function to remove those
-leftovers before doing the g_rmdir().
+The cxl-test leaves some temporary directories behind. Let's
+clean them up now!
 
-Message-Id: <20221012084334.794253-1-thuth@redhat.com>
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+Message-Id: <20221012091435.893570-1-thuth@redhat.com>
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/tpm-util.h                  |  1 +
- tests/qtest/tpm-crb-swtpm-test.c        |  5 ++---
- tests/qtest/tpm-tis-device-swtpm-test.c |  5 ++---
- tests/qtest/tpm-tis-swtpm-test.c        |  5 ++---
- tests/qtest/tpm-util.c                  | 19 +++++++++++++++++++
- 5 files changed, 26 insertions(+), 9 deletions(-)
+ tests/qtest/cxl-test.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/qtest/tpm-util.h b/tests/qtest/tpm-util.h
-index 3b97d69017..80720afac0 100644
---- a/tests/qtest/tpm-util.h
-+++ b/tests/qtest/tpm-util.h
-@@ -53,5 +53,6 @@ void tpm_util_migration_start_qemu(QTestState **src_qemu,
-                                    const char *machine_options);
+diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
+index cbe0fb549b..61f25a72b6 100644
+--- a/tests/qtest/cxl-test.c
++++ b/tests/qtest/cxl-test.c
+@@ -101,6 +101,7 @@ static void cxl_t3d(void)
  
- void tpm_util_wait_for_migration_complete(QTestState *who);
-+void tpm_util_rmdir(const char *path);
- 
- #endif /* TESTS_TPM_UTIL_H */
-diff --git a/tests/qtest/tpm-crb-swtpm-test.c b/tests/qtest/tpm-crb-swtpm-test.c
-index 55fdb5657d..40254f762f 100644
---- a/tests/qtest/tpm-crb-swtpm-test.c
-+++ b/tests/qtest/tpm-crb-swtpm-test.c
-@@ -13,7 +13,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include <glib/gstdio.h>
- 
- #include "libqtest.h"
- #include "qemu/module.h"
-@@ -62,9 +61,9 @@ int main(int argc, char **argv)
-                         tpm_crb_swtpm_migration_test);
-     ret = g_test_run();
- 
--    g_rmdir(ts.dst_tpm_path);
-+    tpm_util_rmdir(ts.dst_tpm_path);
-     g_free(ts.dst_tpm_path);
--    g_rmdir(ts.src_tpm_path);
-+    tpm_util_rmdir(ts.src_tpm_path);
-     g_free(ts.src_tpm_path);
-     g_free(ts.uri);
- 
-diff --git a/tests/qtest/tpm-tis-device-swtpm-test.c b/tests/qtest/tpm-tis-device-swtpm-test.c
-index 7b20035142..8c067fddd4 100644
---- a/tests/qtest/tpm-tis-device-swtpm-test.c
-+++ b/tests/qtest/tpm-tis-device-swtpm-test.c
-@@ -14,7 +14,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include <glib/gstdio.h>
- 
- #include "libqtest.h"
- #include "qemu/module.h"
-@@ -66,9 +65,9 @@ int main(int argc, char **argv)
-                         tpm_tis_swtpm_migration_test);
-     ret = g_test_run();
- 
--    g_rmdir(ts.dst_tpm_path);
-+    tpm_util_rmdir(ts.dst_tpm_path);
-     g_free(ts.dst_tpm_path);
--    g_rmdir(ts.src_tpm_path);
-+    tpm_util_rmdir(ts.src_tpm_path);
-     g_free(ts.src_tpm_path);
-     g_free(ts.uri);
- 
-diff --git a/tests/qtest/tpm-tis-swtpm-test.c b/tests/qtest/tpm-tis-swtpm-test.c
-index 90131cb3c4..11539c0a52 100644
---- a/tests/qtest/tpm-tis-swtpm-test.c
-+++ b/tests/qtest/tpm-tis-swtpm-test.c
-@@ -13,7 +13,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include <glib/gstdio.h>
- 
- #include "libqtest.h"
- #include "qemu/module.h"
-@@ -61,9 +60,9 @@ int main(int argc, char **argv)
-                         tpm_tis_swtpm_migration_test);
-     ret = g_test_run();
- 
--    g_rmdir(ts.dst_tpm_path);
-+    tpm_util_rmdir(ts.dst_tpm_path);
-     g_free(ts.dst_tpm_path);
--    g_rmdir(ts.src_tpm_path);
-+    tpm_util_rmdir(ts.src_tpm_path);
-     g_free(ts.src_tpm_path);
-     g_free(ts.uri);
- 
-diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
-index e0dc5da0af..a7efe2d0d2 100644
---- a/tests/qtest/tpm-util.c
-+++ b/tests/qtest/tpm-util.c
-@@ -13,6 +13,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include <glib/gstdio.h>
- 
- #include "hw/acpi/tpm.h"
- #include "libqtest.h"
-@@ -292,3 +293,21 @@ void tpm_util_migration_start_qemu(QTestState **src_qemu,
-     g_free(src_qemu_args);
-     g_free(dst_qemu_args);
+     qtest_start(cmdline->str);
+     qtest_end();
++    rmdir(tmpfs);
  }
-+
-+/* Remove directory with remainders of swtpm */
-+void tpm_util_rmdir(const char *path)
-+{
-+    char *filename;
-+    int ret;
-+
-+    filename = g_strdup_printf("%s/tpm2-00.permall", path);
-+    g_unlink(filename);
-+    g_free(filename);
-+
-+    filename = g_strdup_printf("%s/.lock", path);
-+    g_unlink(filename);
-+    g_free(filename);
-+
-+    ret = g_rmdir(path);
-+    g_assert(!ret);
-+}
+ 
+ static void cxl_1pxb_2rp_2t3d(void)
+@@ -115,6 +116,7 @@ static void cxl_1pxb_2rp_2t3d(void)
+ 
+     qtest_start(cmdline->str);
+     qtest_end();
++    rmdir(tmpfs);
+ }
+ 
+ static void cxl_2pxb_4rp_4t3d(void)
+@@ -130,6 +132,7 @@ static void cxl_2pxb_4rp_4t3d(void)
+ 
+     qtest_start(cmdline->str);
+     qtest_end();
++    rmdir(tmpfs);
+ }
+ #endif /* CONFIG_POSIX */
+ 
 -- 
 2.31.1
 
