@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098456117F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:47:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1248761180B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:50:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooSTG-0007go-E9; Fri, 28 Oct 2022 12:44:38 -0400
+	id 1ooSTc-0000RT-9a; Fri, 28 Oct 2022 12:45:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSTD-0007C1-3O; Fri, 28 Oct 2022 12:44:35 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e])
+ id 1ooSTH-0008Bj-Ri; Fri, 28 Oct 2022 12:44:39 -0400
+Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSTB-0000x4-85; Fri, 28 Oct 2022 12:44:34 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id t10so6715073oib.5;
- Fri, 28 Oct 2022 09:44:32 -0700 (PDT)
+ id 1ooSTF-0001AU-Le; Fri, 28 Oct 2022 12:44:39 -0400
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-13ba9a4430cso6859839fac.11; 
+ Fri, 28 Oct 2022 09:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZAeQXdrkMetwm9uqzy/wODWPQSVGVNRUxj1EoJMdwYo=;
- b=bwzMVXa+52Kwvc7lbJXFc9uidBTk0J0h+nbfdWTjUq1yBgjv/T4YtFpO4kgs3EVPnl
- hCPb+CgxxHZ7tWr7QmB7070r21UCKVabYEUJrfhB2a1qnjXj2sdk42EkHvqoyLG/vkEc
- zMrkVg9OlItS68N6gQcH0XFCsrWX/RT5dAuMVrGThYDIEIbHXTej0YrpiZTUnM+lBs2t
- zIJjsrZqp42Z1aEzOFG0jmvx25J6wSAwASuYA7xCYi0jxeOtaXrM1RKGW5+E6hlEtCH9
- TDleKrZ5ekWJseOSxr1MDJKaPxkzUYUVhDbvDsI5DRmIC0ERF5haiyVP5IekqJvF281H
- 5pCg==
+ bh=ZuI/sWqN/0+9SVFkIbzFz+H5JQ8dWR3NVwh4Hgt251w=;
+ b=KeRzlHbz6koe+jeYr7K59/nxi/+2luokKqzW5J7sEz+Ur1bKx0GnyZmFxA0s35OtYw
+ kNc3L8ex8Lu2v+EPeOm32K2mCr1W/+1GS7hOjYmHHK9bEb4cu++NORvCpzWgZ3GoBP4Y
+ p20cxafpZpOD2zCOkq4ZZQ5JDpOf1xbCKvZcuPlQmntWxSbx/9Zm+8OF4cJn1sbu3H2o
+ gAE4imWFtI3Z9tDRXxlS+nKzjfuWzytMby3Ei4L0ufoSenbGW1tS70aY+LzxTVSc08CQ
+ Zq1TaFfi1rcY5D34GV6e/l6a83Wq36mgfyr6ChuiiCDoFE6f+7DdHqeOsiXWH7RCJPon
+ p9DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZAeQXdrkMetwm9uqzy/wODWPQSVGVNRUxj1EoJMdwYo=;
- b=pR0Xr9RlpyHjtBsq81WAbOH0/qrkVE1RD5tbwUIa5NUFfOgW1RPuTddodFnFr5EyXs
- VB629pebl8iV/SfFgl1EaZTsG2npUVX1pPUpbFRRiADHFiRNdh9VtsKPpJymoFrRXA+j
- BrhYdEqEo20qk+GEm/efPiHRxPr/+VmcxWmWIjdhVl0PsukbfHVn6iLAAUY/Wdx4cuXt
- kpBIFbg5LWv12ppFA3yU9uriQqHngRhO6vz6VFm66APo+nguW4FeOGj9Vna5f+cSTrTI
- toUmlvu9tfJwyHiuHDuBfkrxEeE+f/+2R+kiuxW2WNEIInq8OB2DRmGaPf/teIRR1+Mf
- sR1w==
-X-Gm-Message-State: ACrzQf10ACG9FV0W3qz5ojDG2Vfz6oUDAxuFqFU74HTGx9mBl9aJJvwO
- +4A8g2L/cnglVTlwhUmnJSsIlEmQbTMQlQ==
-X-Google-Smtp-Source: AMsMyM6QNQRt1ucvLbhkwuqB3eDChdgZ20PwcQoV0y0wQ4R8svI1e80IgpmgsVGpvzYqVpGhN5Tmqw==
-X-Received: by 2002:aca:2215:0:b0:354:d4fb:7793 with SMTP id
- b21-20020aca2215000000b00354d4fb7793mr196111oic.256.1666975471924; 
- Fri, 28 Oct 2022 09:44:31 -0700 (PDT)
+ bh=ZuI/sWqN/0+9SVFkIbzFz+H5JQ8dWR3NVwh4Hgt251w=;
+ b=GL9TRsRdq6ObMjXsH2/WqVJJ5cLbJPemNMpUi8HbmAyZNX3uwUgfDBYWg11qyZiqXe
+ Kz1gR0HHSnhgwOdfxLB7mFIulK0ACIp4cItL6+hyAjen8Mu7f/UWE3sSiiTirOc4AKcx
+ wv/gWj0FgcqfMeO3/nSjcn7eELyX/8fHMUrKft4OYU0wlIoEf5R1ffZCCDOtvcwVI0pn
+ OVZhwLW+pRoWPlDYlXtuzRXPVi0WRzYG8uj85qdv2QJcgulhRWHdd+t9A9God3m2iReq
+ IJ3IIGNcmFkBpuxwyD2+6i6Wyk5suvFiHCDmHa9TP/fkWjxDUc4z6/icm0dPlWqwjDBd
+ m3Lg==
+X-Gm-Message-State: ACrzQf1Z7b3SrIvls9ectY2+5UzjlSbwnIRcoWvMiC1hPpadhKXM16CK
+ tjKDxn7iIHWsP2C07Tw0GaTvt+LIpaEcsg==
+X-Google-Smtp-Source: AMsMyM6EfaTo5gGmcXOK129Jwy42yk2m4yuKuK9iy2Z/W0lww4s+Iu1lHR75yrJtq/WConiYkya6aQ==
+X-Received: by 2002:a05:6870:b68d:b0:12d:484a:2643 with SMTP id
+ cy13-20020a056870b68d00b0012d484a2643mr9861490oab.105.1666975475909; 
+ Fri, 28 Oct 2022 09:44:35 -0700 (PDT)
 Received: from balboa.COMFAST ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.44.28
+ s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.44.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:44:31 -0700 (PDT)
+ Fri, 28 Oct 2022 09:44:34 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
- Bernhard Beschow <shentey@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 61/62] hw/sd/sdhci: Rename ESDHC_* defines to USDHC_*
-Date: Fri, 28 Oct 2022 13:39:50 -0300
-Message-Id: <20221028163951.810456-62-danielhb413@gmail.com>
+ Bernhard Beschow <shentey@gmail.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 62/62] hw/ppc/e500: Implement pflash handling
+Date: Fri, 28 Oct 2022 13:39:51 -0300
+Message-Id: <20221028163951.810456-63-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
 References: <20221028163951.810456-1-danielhb413@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22e.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2e;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2e.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -92,153 +95,187 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-The device model's functions start with "usdhc_", so rename the defines
-accordingly for consistency.
+Allows e500 boards to have their root file system reside on flash using
+only builtin devices located in the eLBC memory region.
+
+Note that the flash memory area is only created when a -pflash argument is
+given, and that the size is determined by the given file. The idea is to
+put users into control.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-Id: <20221018210146.193159-5-shentey@gmail.com>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20221018210146.193159-6-shentey@gmail.com>
+[danielhb: use int128_get64() in mmio_size]
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/sd/sdhci.c | 66 +++++++++++++++++++++++++--------------------------
- 1 file changed, 33 insertions(+), 33 deletions(-)
+ docs/system/ppc/ppce500.rst | 15 +++++++
+ hw/ppc/Kconfig              |  1 +
+ hw/ppc/e500.c               | 79 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 95 insertions(+)
 
-diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index 6da5e2c781..306070c872 100644
---- a/hw/sd/sdhci.c
-+++ b/hw/sd/sdhci.c
-@@ -1577,24 +1577,24 @@ static const TypeInfo sdhci_bus_info = {
+diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
+index 7b5eb3c4ee..fa40e57d18 100644
+--- a/docs/system/ppc/ppce500.rst
++++ b/docs/system/ppc/ppce500.rst
+@@ -165,3 +165,18 @@ if “-device eTSEC” is given to QEMU:
+ .. code-block:: bash
  
- /* --- qdev i.MX eSDHC --- */
- 
--#define ESDHC_MIX_CTRL                  0x48
-+#define USDHC_MIX_CTRL                  0x48
- 
--#define ESDHC_VENDOR_SPEC               0xc0
--#define ESDHC_IMX_FRC_SDCLK_ON          (1 << 8)
-+#define USDHC_VENDOR_SPEC               0xc0
-+#define USDHC_IMX_FRC_SDCLK_ON          (1 << 8)
- 
--#define ESDHC_DLL_CTRL                  0x60
-+#define USDHC_DLL_CTRL                  0x60
- 
--#define ESDHC_TUNING_CTRL               0xcc
--#define ESDHC_TUNE_CTRL_STATUS          0x68
--#define ESDHC_WTMK_LVL                  0x44
-+#define USDHC_TUNING_CTRL               0xcc
-+#define USDHC_TUNE_CTRL_STATUS          0x68
-+#define USDHC_WTMK_LVL                  0x44
- 
- /* Undocumented register used by guests working around erratum ERR004536 */
--#define ESDHC_UNDOCUMENTED_REG27        0x6c
-+#define USDHC_UNDOCUMENTED_REG27        0x6c
- 
--#define ESDHC_CTRL_4BITBUS              (0x1 << 1)
--#define ESDHC_CTRL_8BITBUS              (0x2 << 1)
-+#define USDHC_CTRL_4BITBUS              (0x1 << 1)
-+#define USDHC_CTRL_8BITBUS              (0x2 << 1)
- 
--#define ESDHC_PRNSTS_SDSTB              (1 << 3)
-+#define USDHC_PRNSTS_SDSTB              (1 << 3)
- 
- static uint64_t usdhc_read(void *opaque, hwaddr offset, unsigned size)
- {
-@@ -1615,11 +1615,11 @@ static uint64_t usdhc_read(void *opaque, hwaddr offset, unsigned size)
-         hostctl1 = SDHC_DMA_TYPE(s->hostctl1) << (8 - 3);
- 
-         if (s->hostctl1 & SDHC_CTRL_8BITBUS) {
--            hostctl1 |= ESDHC_CTRL_8BITBUS;
-+            hostctl1 |= USDHC_CTRL_8BITBUS;
-         }
- 
-         if (s->hostctl1 & SDHC_CTRL_4BITBUS) {
--            hostctl1 |= ESDHC_CTRL_4BITBUS;
-+            hostctl1 |= USDHC_CTRL_4BITBUS;
-         }
- 
-         ret  = hostctl1;
-@@ -1630,21 +1630,21 @@ static uint64_t usdhc_read(void *opaque, hwaddr offset, unsigned size)
- 
-     case SDHC_PRNSTS:
-         /* Add SDSTB (SD Clock Stable) bit to PRNSTS */
--        ret = sdhci_read(opaque, offset, size) & ~ESDHC_PRNSTS_SDSTB;
-+        ret = sdhci_read(opaque, offset, size) & ~USDHC_PRNSTS_SDSTB;
-         if (s->clkcon & SDHC_CLOCK_INT_STABLE) {
--            ret |= ESDHC_PRNSTS_SDSTB;
-+            ret |= USDHC_PRNSTS_SDSTB;
-         }
-         break;
- 
--    case ESDHC_VENDOR_SPEC:
-+    case USDHC_VENDOR_SPEC:
-         ret = s->vendor_spec;
-         break;
--    case ESDHC_DLL_CTRL:
--    case ESDHC_TUNE_CTRL_STATUS:
--    case ESDHC_UNDOCUMENTED_REG27:
--    case ESDHC_TUNING_CTRL:
--    case ESDHC_MIX_CTRL:
--    case ESDHC_WTMK_LVL:
-+    case USDHC_DLL_CTRL:
-+    case USDHC_TUNE_CTRL_STATUS:
-+    case USDHC_UNDOCUMENTED_REG27:
-+    case USDHC_TUNING_CTRL:
-+    case USDHC_MIX_CTRL:
-+    case USDHC_WTMK_LVL:
-         ret = 0;
-         break;
+   -netdev tap,ifname=tap0,script=no,downscript=no,id=net0 -device eTSEC,netdev=net0
++
++Root file system on flash drive
++-------------------------------
++
++Rather than using a root file system on ram disk, it is possible to have it on
++CFI flash. Given an ext2 image whose size must be a power of two, it can be used
++as follows:
++
++.. code-block:: bash
++
++  $ qemu-system-ppc64 -M ppce500 -cpu e500mc -smp 4 -m 2G \
++      -display none -serial stdio \
++      -kernel vmlinux \
++      -drive if=pflash,file=/path/to/rootfs.ext2,format=raw \
++      -append "rootwait root=/dev/mtdblock0"
+diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+index 791fe78a50..769a1ead1c 100644
+--- a/hw/ppc/Kconfig
++++ b/hw/ppc/Kconfig
+@@ -126,6 +126,7 @@ config E500
+     select ETSEC
+     select GPIO_MPC8XXX
+     select OPENPIC
++    select PFLASH_CFI01
+     select PLATFORM_BUS
+     select PPCE500_PCI
+     select SERIAL
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 3e950ea3ba..31c54ebb3d 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -23,8 +23,10 @@
+ #include "e500-ccsr.h"
+ #include "net/net.h"
+ #include "qemu/config-file.h"
++#include "hw/block/flash.h"
+ #include "hw/char/serial.h"
+ #include "hw/pci/pci.h"
++#include "sysemu/block-backend-io.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/reset.h"
+@@ -267,6 +269,31 @@ static void sysbus_device_create_devtree(SysBusDevice *sbdev, void *opaque)
      }
-@@ -1660,18 +1660,18 @@ usdhc_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
-     uint32_t value = (uint32_t)val;
+ }
  
-     switch (offset) {
--    case ESDHC_DLL_CTRL:
--    case ESDHC_TUNE_CTRL_STATUS:
--    case ESDHC_UNDOCUMENTED_REG27:
--    case ESDHC_TUNING_CTRL:
--    case ESDHC_WTMK_LVL:
-+    case USDHC_DLL_CTRL:
-+    case USDHC_TUNE_CTRL_STATUS:
-+    case USDHC_UNDOCUMENTED_REG27:
-+    case USDHC_TUNING_CTRL:
-+    case USDHC_WTMK_LVL:
-         break;
++static void create_devtree_flash(SysBusDevice *sbdev,
++                                 PlatformDevtreeData *data)
++{
++    g_autofree char *name = NULL;
++    uint64_t num_blocks = object_property_get_uint(OBJECT(sbdev),
++                                                   "num-blocks",
++                                                   &error_fatal);
++    uint64_t sector_length = object_property_get_uint(OBJECT(sbdev),
++                                                      "sector-length",
++                                                      &error_fatal);
++    uint64_t bank_width = object_property_get_uint(OBJECT(sbdev),
++                                                   "width",
++                                                   &error_fatal);
++    hwaddr flashbase = 0;
++    hwaddr flashsize = num_blocks * sector_length;
++    void *fdt = data->fdt;
++
++    name = g_strdup_printf("%s/nor@%" PRIx64, data->node, flashbase);
++    qemu_fdt_add_subnode(fdt, name);
++    qemu_fdt_setprop_string(fdt, name, "compatible", "cfi-flash");
++    qemu_fdt_setprop_sized_cells(fdt, name, "reg",
++                                 1, flashbase, 1, flashsize);
++    qemu_fdt_setprop_cell(fdt, name, "bank-width", bank_width);
++}
++
+ static void platform_bus_create_devtree(PPCE500MachineState *pms,
+                                         void *fdt, const char *mpic)
+ {
+@@ -276,6 +303,8 @@ static void platform_bus_create_devtree(PPCE500MachineState *pms,
+     uint64_t addr = pmc->platform_bus_base;
+     uint64_t size = pmc->platform_bus_size;
+     int irq_start = pmc->platform_bus_first_irq;
++    SysBusDevice *sbdev;
++    bool ambiguous;
  
--    case ESDHC_VENDOR_SPEC:
-+    case USDHC_VENDOR_SPEC:
-         s->vendor_spec = value;
-         switch (s->vendor) {
-         case SDHCI_VENDOR_IMX:
--            if (value & ESDHC_IMX_FRC_SDCLK_ON) {
-+            if (value & USDHC_IMX_FRC_SDCLK_ON) {
-                 s->prnsts &= ~SDHC_IMX_CLOCK_GATE_OFF;
-             } else {
-                 s->prnsts |= SDHC_IMX_CLOCK_GATE_OFF;
-@@ -1740,12 +1740,12 @@ usdhc_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
-          * Second, split "Data Transfer Width" from bits 2 and 1 in to
-          * bits 5 and 1
-          */
--        if (value & ESDHC_CTRL_8BITBUS) {
-+        if (value & USDHC_CTRL_8BITBUS) {
-             hostctl1 |= SDHC_CTRL_8BITBUS;
-         }
+     /* Create a /platform node that we can put all devices into */
  
--        if (value & ESDHC_CTRL_4BITBUS) {
--            hostctl1 |= ESDHC_CTRL_4BITBUS;
-+        if (value & USDHC_CTRL_4BITBUS) {
-+            hostctl1 |= USDHC_CTRL_4BITBUS;
-         }
+@@ -302,6 +331,13 @@ static void platform_bus_create_devtree(PPCE500MachineState *pms,
+     /* Loop through all dynamic sysbus devices and create nodes for them */
+     foreach_dynamic_sysbus_device(sysbus_device_create_devtree, &data);
  
-         /*
-@@ -1768,7 +1768,7 @@ usdhc_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
-         sdhci_write(opaque, offset, value, size);
-         break;
++    sbdev = SYS_BUS_DEVICE(object_resolve_path_type("", TYPE_PFLASH_CFI01,
++                                                    &ambiguous));
++    if (sbdev) {
++        assert(!ambiguous);
++        create_devtree_flash(sbdev, &data);
++    }
++
+     g_free(node);
+ }
  
--    case ESDHC_MIX_CTRL:
-+    case USDHC_MIX_CTRL:
-         /*
-          * So, when SD/MMC stack in Linux tries to write to "Transfer
-          * Mode Register", ESDHC i.MX quirk code will translate it
+@@ -856,6 +892,7 @@ void ppce500_init(MachineState *machine)
+     unsigned int pci_irq_nrs[PCI_NUM_PINS] = {1, 2, 3, 4};
+     IrqLines *irqs;
+     DeviceState *dev, *mpicdev;
++    DriveInfo *dinfo;
+     CPUPPCState *firstenv = NULL;
+     MemoryRegion *ccsr_addr_space;
+     SysBusDevice *s;
+@@ -1024,6 +1061,48 @@ void ppce500_init(MachineState *machine)
+                                 pmc->platform_bus_base,
+                                 &pms->pbus_dev->mmio);
+ 
++    dinfo = drive_get(IF_PFLASH, 0, 0);
++    if (dinfo) {
++        BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
++        BlockDriverState *bs = blk_bs(blk);
++        uint64_t mmio_size = int128_get64(pms->pbus_dev->mmio.size);
++        uint64_t size = bdrv_getlength(bs);
++        uint32_t sector_len = 64 * KiB;
++
++        if (!is_power_of_2(size)) {
++            error_report("Size of pflash file must be a power of two.");
++            exit(1);
++        }
++
++        if (size > mmio_size) {
++            error_report("Size of pflash file must not be bigger than %" PRIu64
++                         " bytes.", mmio_size);
++            exit(1);
++        }
++
++        if (!QEMU_IS_ALIGNED(size, sector_len)) {
++            error_report("Size of pflash file must be a multiple of %" PRIu32
++                         ".", sector_len);
++            exit(1);
++        }
++
++        dev = qdev_new(TYPE_PFLASH_CFI01);
++        qdev_prop_set_drive(dev, "drive", blk);
++        qdev_prop_set_uint32(dev, "num-blocks", size / sector_len);
++        qdev_prop_set_uint64(dev, "sector-length", sector_len);
++        qdev_prop_set_uint8(dev, "width", 2);
++        qdev_prop_set_bit(dev, "big-endian", true);
++        qdev_prop_set_uint16(dev, "id0", 0x89);
++        qdev_prop_set_uint16(dev, "id1", 0x18);
++        qdev_prop_set_uint16(dev, "id2", 0x0000);
++        qdev_prop_set_uint16(dev, "id3", 0x0);
++        qdev_prop_set_string(dev, "name", "e500.flash");
++        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++
++        memory_region_add_subregion(&pms->pbus_dev->mmio, 0,
++                                    pflash_cfi01_get_memory(PFLASH_CFI01(dev)));
++    }
++
+     /*
+      * Smart firmware defaults ahead!
+      *
 -- 
 2.37.3
 
