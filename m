@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10BE6109E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 07:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0BA06109D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 07:52:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooIFI-0007Jp-F6; Fri, 28 Oct 2022 01:49:32 -0400
+	id 1ooIFJ-0007KE-0p; Fri, 28 Oct 2022 01:49:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ooIEt-00073P-H6
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 01:49:10 -0400
+ id 1ooIEy-00073y-3x
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 01:49:13 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ooIEr-0007MY-W5
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 01:49:07 -0400
+ id 1ooIEw-0007OA-Ma
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 01:49:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666936144;
+ s=mimecast20190719; t=1666936149;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w6utpzr987AvQqAinOYXkIDo364vIZiNpBH7t3AU/qg=;
- b=bEvgLqV39d2+2e8iCAy144c97ZIOzUwrY0npQQng75C8LZWuY2vLWrjtow3XvYqRFZOs0B
- opEAbd2/N37k+mrJIJIVSt3+eqZsO29h9Cs8mpX+hZG6UY2XpmglZQ7iKymzHP/sljmIi7
- RJYisXOwgRQupfMF4FGTRo9bl3DQQbg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PFx4uIYVvoeNX89RFe72Yy5IOaEyL665Vr3WFcQGcmE=;
+ b=BTKYzA1CybVvSpxY+r3f5tKFIbwErmNoTGGXZgpiTEuPxkS6pMIJDwZU8tgBwWO+Q6qZFq
+ R5lJAo2vCtuYzRkGW6hzkucf63RmCTo3k5Z0MOsTzcMY92V+Sm1sUYq4RjT0vAeRhMNyRC
+ 9AmYGXtJxph2Kd7kiez4P+1quNwIkWs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-153-nBsZLzffMoqsA1WgHA8fGQ-1; Fri, 28 Oct 2022 01:49:02 -0400
-X-MC-Unique: nBsZLzffMoqsA1WgHA8fGQ-1
+ us-mta-219-t6vdrjAqPJ6HwVa0k_wGmg-1; Fri, 28 Oct 2022 01:49:05 -0400
+X-MC-Unique: t6vdrjAqPJ6HwVa0k_wGmg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9476F101A54E
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 05:49:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8839C1C07820
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 05:49:05 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-50.pek2.redhat.com [10.72.13.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D53EC15BA8;
- Fri, 28 Oct 2022 05:48:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40604C15BA8;
+ Fri, 28 Oct 2022 05:49:02 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: stefanha@redhat.com,
 	qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL 07/26] vhost: allocate event_idx fields on vring
-Date: Fri, 28 Oct 2022 13:48:16 +0800
-Message-Id: <20221028054835.29674-8-jasowang@redhat.com>
+Subject: [PULL 08/26] vhost: toggle device callbacks using used event idx
+Date: Fri, 28 Oct 2022 13:48:17 +0800
+Message-Id: <20221028054835.29674-9-jasowang@redhat.com>
 In-Reply-To: <20221028054835.29674-1-jasowang@redhat.com>
 References: <20221028054835.29674-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -82,40 +82,53 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Eugenio Pérez <eperezma@redhat.com>
 
-There was not enough room to accomodate them.
+Actually use the new field of the used ring and tell the device if SVQ
+wants to be notified.
+
+The code is not reachable at the moment.
 
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 596d443..a518f84 100644
+index a518f84..f5c0fad 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -570,16 +570,16 @@ void vhost_svq_get_vring_addr(const VhostShadowVirtqueue *svq,
- size_t vhost_svq_driver_area_size(const VhostShadowVirtqueue *svq)
+@@ -369,15 +369,27 @@ static bool vhost_svq_more_used(VhostShadowVirtqueue *svq)
+  */
+ static bool vhost_svq_enable_notification(VhostShadowVirtqueue *svq)
  {
-     size_t desc_size = sizeof(vring_desc_t) * svq->vring.num;
--    size_t avail_size = offsetof(vring_avail_t, ring) +
--                                             sizeof(uint16_t) * svq->vring.num;
-+    size_t avail_size = offsetof(vring_avail_t, ring[svq->vring.num]) +
-+                                                              sizeof(uint16_t);
- 
-     return ROUND_UP(desc_size + avail_size, qemu_real_host_page_size());
+-    svq->vring.avail->flags &= ~cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
+-    /* Make sure the flag is written before the read of used_idx */
++    if (virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
++        uint16_t *used_event = (uint16_t *)&svq->vring.avail->ring[svq->vring.num];
++        *used_event = svq->shadow_used_idx;
++    } else {
++        svq->vring.avail->flags &= ~cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
++    }
++
++    /* Make sure the event is enabled before the read of used_idx */
+     smp_mb();
+     return !vhost_svq_more_used(svq);
  }
  
- size_t vhost_svq_device_area_size(const VhostShadowVirtqueue *svq)
+ static void vhost_svq_disable_notification(VhostShadowVirtqueue *svq)
  {
--    size_t used_size = offsetof(vring_used_t, ring) +
--                                    sizeof(vring_used_elem_t) * svq->vring.num;
-+    size_t used_size = offsetof(vring_used_t, ring[svq->vring.num]) +
-+                                                              sizeof(uint16_t);
-     return ROUND_UP(used_size, qemu_real_host_page_size());
+-    svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
++    /*
++     * No need to disable notification in the event idx case, since used event
++     * index is already an index too far away.
++     */
++    if (!virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
++        svq->vring.avail->flags |= cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
++    }
  }
  
+ static uint16_t vhost_svq_last_desc_of_chain(const VhostShadowVirtqueue *svq,
 -- 
 2.7.4
 
