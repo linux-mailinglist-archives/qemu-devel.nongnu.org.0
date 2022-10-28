@@ -2,49 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD4361119E
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 14:36:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B142261119D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 14:36:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooOaw-0003f5-7D; Fri, 28 Oct 2022 08:36:18 -0400
+	id 1ooOaz-00045C-LS; Fri, 28 Oct 2022 08:36:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ooOXE-0004rA-QE; Fri, 28 Oct 2022 08:32:32 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ooOXC-0004K7-3E; Fri, 28 Oct 2022 08:32:28 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1E21F74638A;
- Fri, 28 Oct 2022 14:32:23 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id CE42874633D; Fri, 28 Oct 2022 14:32:22 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id CC97A74632B;
- Fri, 28 Oct 2022 14:32:22 +0200 (CEST)
-Date: Fri, 28 Oct 2022 14:32:22 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v5 20/20] mac_{old, new}world: Pass MacOS VGA NDRV in
- card ROM instead of fw_cfg
-In-Reply-To: <d3bdb406-70d3-d60d-b481-7d88736a2e4b@ilande.co.uk>
-Message-ID: <24e4cba4-2f68-73a2-55d2-2dc5c0cba14e@eik.bme.hu>
-References: <cover.1666715145.git.balaton@eik.bme.hu>
- <915b28547446c1fad749fbab2943b13e3a0d856b.1666733213.git.balaton@eik.bme.hu>
- <d3bdb406-70d3-d60d-b481-7d88736a2e4b@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1ooOYy-0008NR-BO
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:34:19 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1ooOYt-0004QG-6I
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:34:14 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ d59-20020a17090a6f4100b00213202d77e1so9706060pjk.2
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 05:34:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=mJAl1UihfQy7zmh6HYsyHT66rh+sozeR1hx/iCAwGis=;
+ b=mEPf0cMor4s0m2TQuUZVGiTiyhmBjXWRHgf23GGwZq3/8E4ilBcFtdSOUUdCqp5agh
+ 2hQVm43mDvJn/bjs6UoLjLvBlzwmYZiMk19pACMpLMqeJyUvsGEIuJNqyn7CjK+d5niH
+ Y2zE1mj6ypgR8Hv1IfES4TRE9K91jqDbatJi7SEJHruxSIaVB/TEVi6FR+E+fIis0Q2e
+ SmsYHB8boerae5QyAdax+HmV+X3i0ZxUG1ZNIoyqVT0EyGYo6pcBvGLqkfimWPTyncbg
+ R0wa75AyOliq5tISRaml7X2JCVszknNRdpw2pJs8cOBXtljSciRqxQw1G3IgYcA2wWEa
+ 1b3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mJAl1UihfQy7zmh6HYsyHT66rh+sozeR1hx/iCAwGis=;
+ b=Qo8ki7NtU573vemTcBZCVtT7JpsN2a/qRg132QpWGMAig36umKz00lzRmAGZAKW1AP
+ s3PLMcnw9x2HosVVECYTJDydRyLokELNGroBa5KZWRBp+2+JiI45M0HdbBseefEX1VFr
+ aD6g/67i+4FrY9MhA5kQr53JuyQ1wF4LcYaQmu2gz/pKr/CH6Fx6nTszWjlOU17O1rwe
+ LmFzHfl+zewzu3zkxAmzeftnODOwdEDKS4KK4oIK/7QQiNSr87kps83o9x1TdYTA8XqQ
+ sT6168wI3UVrCncH0MFXyqn34V4yMFJ7Xv2GXlP4UvXWYCVqXvLupReeu9Ghtvuks0md
+ lY5w==
+X-Gm-Message-State: ACrzQf2az/ZBfytPfmBIRha3LlHJGzZ3d3SbVuRgksWswr8/fTFFjspy
+ EfSM5+bOgJ0VOsVQ1sqXgGh4FQ==
+X-Google-Smtp-Source: AMsMyM58vVKJj9hxTgIxj3sydAOq/0J69PLLwAPbJWRELfqAhC5EBIQZqwlOF3R0zSFi92wRo2I4Ug==
+X-Received: by 2002:a17:903:11cd:b0:170:cde8:18b7 with SMTP id
+ q13-20020a17090311cd00b00170cde818b7mr54859667plh.165.1666960449525; 
+ Fri, 28 Oct 2022 05:34:09 -0700 (PDT)
+Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419?
+ ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+ by smtp.gmail.com with ESMTPSA id
+ l11-20020a170903120b00b00176ba091cd3sm2958620plh.196.2022.10.28.05.34.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Oct 2022 05:34:09 -0700 (PDT)
+Message-ID: <b97a7029-045c-923c-13b7-a7d4f01f5a82@daynix.com>
+Date: Fri, 28 Oct 2022 21:34:03 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v4 01/17] hw/vfio/pci: Ensure MSI and MSI-X do not overlap
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang
+ <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Paul Burton <paulburton@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Yan Vugenfirer <yan@daynix.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>
+References: <20221027063705.4093-1-akihiko.odaki@daynix.com>
+ <20221027063705.4093-2-akihiko.odaki@daynix.com>
+ <20221027133122.0278d5e0.alex.williamson@redhat.com>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20221027133122.0278d5e0.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,142 +110,182 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 28 Oct 2022, Mark Cave-Ayland wrote:
-> On 25/10/2022 22:31, BALATON Zoltan wrote:
->> OpenBIOS cannot run FCode ROMs yet but it can detect NDRV in VGA card
->> ROM and add it to the device tree for MacOS. Pass the NDRV this way
->> instead of via fw_cfg. This solves the problem with OpenBIOS also
->> adding the NDRV to ati-vga which it does not work with. This does not
->> need any changes to OpenBIOS as this NDRV ROM handling is already
->> there but this patch also allows simplifying OpenBIOS later to remove
->> the fw_cfg ndrv handling from the vga FCode and also drop the
->> vga-ndrv? option which is not needed any more as users can disable the
->> ndrv with -device VGA,romfile="" (or override it with their own NDRV
->> or ROM). Once FCode support is implemented in OpenBIOS, the proper
->> FCode ROM can be set the same way so this paves the way to remove some
->> hacks.
->
-> This is not correct though: in a real option ROM the NDRV is included as part 
-> of the ROM payload and is not a standalone file. The IEEE-1275 PCI 
-> specification gives the correct format for an option ROM which at minimum 
-> contains a header, and likely some additional FCode.
+Hi,
 
-As the commit message says that does not work with OpenBIOS at the moment 
-but passing the NDRV does. That it's not how real hardware works is not an 
-argument after all real hardware does not have fw_cfg either and this way 
-is much simpler than fw_cfg, it fixes the problem with ati-vga and it can 
-be changed later to pass the real FCode ROM the same way so I think it's a 
-better way to handle this now as what we have currently.
+Thanks for keeping reviewing. I have just sent v5 so please check it out.
 
-> Isn't the immediate problem here that the NDRV handling in OpenBIOS needs to 
-> be improved so that it can be disabled for particular VGA devices such as 
-> ATI?
+On 2022/10/28 4:31, Alex Williamson wrote:
+> On Thu, 27 Oct 2022 15:36:49 +0900
+> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+> 
+>> vfio_add_std_cap() is designed to ensure that capabilities do not
+>> overlap, but it failed to do so for MSI and MSI-X capabilities.
+>>
+>> Ensure MSI and MSI-X capabilities do not overlap with others by omitting
+>> other overlapping capabilities.
+>>
+>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>> ---
+>>   hw/vfio/pci.c | 55 +++++++++++++++++++++++++++++++++++++++++----------
+>>   hw/vfio/pci.h |  3 +++
+>>   2 files changed, 48 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>> index 939dcc3d4a..8a4995cd68 100644
+>> --- a/hw/vfio/pci.c
+>> +++ b/hw/vfio/pci.c
+>> @@ -1278,23 +1278,42 @@ static void vfio_disable_interrupts(VFIOPCIDevice *vdev)
+>>       }
+>>   }
+>>   
+>> -static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+>> +static void vfio_msi_early_setup(VFIOPCIDevice *vdev, Error **errp)
+>>   {
+>>       uint16_t ctrl;
+>> -    bool msi_64bit, msi_maskbit;
+>> -    int ret, entries;
+>> -    Error *err = NULL;
+>> +    uint8_t pos;
+>> +
+>> +    pos = pci_find_capability(&vdev->pdev, PCI_CAP_ID_MSIX);
+> 
+> 
+> PCI_CAP_ID_MSIX???  Is this tested with MSI?
 
-No change is needed to OpenBIOS (I've discussed it more in the reply to 
-Howard on the list yesterday). With this patch only VGA device will have 
-qemu_vga.ndrv so OpenBIOS won't add it for ati-vga. Also the fw_cfg and 
-vga_ndrv? stuff can be removed from OpenBIOS after this patch as it's not 
-nedeed any more thus simplifying the vga.fs FCode in OpenBIOS a lot.
+Oops, I think I have failed it to test a device with MSI. I confirmed 
+this version does not work, and the new version I have just sent works.
+
+> 
+> 
+>> +    if (!pos) {
+>> +        return;
+>> +    }
+>>   
+>>       if (pread(vdev->vbasedev.fd, &ctrl, sizeof(ctrl),
+>>                 vdev->config_offset + pos + PCI_CAP_FLAGS) != sizeof(ctrl)) {
+>>           error_setg_errno(errp, errno, "failed reading MSI PCI_CAP_FLAGS");
+>> -        return -errno;
+>> +        return;
+>>       }
+>> -    ctrl = le16_to_cpu(ctrl);
+>> +    vdev->msi_pos = pos;
+>> +    vdev->msi_ctrl = le16_to_cpu(ctrl);
+>> +
+>> +    vdev->msi_cap_size = 0xa;
+>> +    if ((vdev->msi_ctrl & PCI_MSI_FLAGS_MASKBIT)) {
+>> +        vdev->msi_cap_size += 0xa;
+>> +    }
+>> +    if ((vdev->msi_ctrl & PCI_MSI_FLAGS_64BIT)) {
+>> +        vdev->msi_cap_size += 0x4;
+>> +    }
+>> +}
+>>   
+>> -    msi_64bit = !!(ctrl & PCI_MSI_FLAGS_64BIT);
+>> -    msi_maskbit = !!(ctrl & PCI_MSI_FLAGS_MASKBIT);
+>> -    entries = 1 << ((ctrl & PCI_MSI_FLAGS_QMASK) >> 1);
+>> +static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+>> +{
+>> +    bool msi_64bit, msi_maskbit;
+>> +    int ret, entries;
+>> +    Error *err = NULL;
+>> +
+>> +    msi_64bit = !!(vdev->msi_ctrl & PCI_MSI_FLAGS_64BIT);
+>> +    msi_maskbit = !!(vdev->msi_ctrl & PCI_MSI_FLAGS_MASKBIT);
+>> +    entries = 1 << ((vdev->msi_ctrl & PCI_MSI_FLAGS_QMASK) >> 1);
+>>   
+>>       trace_vfio_msi_setup(vdev->vbasedev.name, pos);
+>>   
+>> @@ -1306,7 +1325,6 @@ static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+>>           error_propagate_prepend(errp, err, "msi_init failed: ");
+>>           return ret;
+>>       }
+>> -    vdev->msi_cap_size = 0xa + (msi_maskbit ? 0xa : 0) + (msi_64bit ? 0x4 : 0);
+>>   
+>>       return 0;
+>>   }
+>> @@ -1524,6 +1542,7 @@ static void vfio_msix_early_setup(VFIOPCIDevice *vdev, Error **errp)
+>>       pba = le32_to_cpu(pba);
+>>   
+>>       msix = g_malloc0(sizeof(*msix));
+>> +    msix->pos = pos;
+>>       msix->table_bar = table & PCI_MSIX_FLAGS_BIRMASK;
+>>       msix->table_offset = table & ~PCI_MSIX_FLAGS_BIRMASK;
+>>       msix->pba_bar = pba & PCI_MSIX_FLAGS_BIRMASK;
+>> @@ -2025,6 +2044,16 @@ static int vfio_add_std_cap(VFIOPCIDevice *vdev, uint8_t pos, Error **errp)
+>>           }
+>>       }
+>>   
+>> +    if (cap_id != PCI_CAP_ID_MSI &&
+>> +        pos >= vdev->msi_pos && pos < vdev->msi_pos + vdev->msi_cap_size) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    if (cap_id != PCI_CAP_ID_MSIX && vdev->msix &&
+>> +        pos >= vdev->msix->pos && pos < vdev->msix->pos + MSIX_CAP_LENGTH) {
+>> +        return 0;
+>> +    }
+>> +
+> 
+> These only test a specific kind of overlap, why not use
+> ranges_overlap()?
+
+Done so in v5.
+
+> 
+> We also need to sanity test vdev->msi_pos, or are you just letting
+> msi_pos = 0, msi_cap_size = 0 fall through since we cannot overlap?
+
+Yes, It is expected that msi_cap_size will be 0 if the device does not 
+have MSI capability and nothing will overlap in the case.
+
+> 
+> Shouldn't this also jump to reporting the error rather than silently
+> dropping a capability?  Thanks,
+
+I added warnings in v5.
 
 Regards,
-BALATON Zoltan
+Akihiko Odaki
 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>   hw/ppc/mac_newworld.c | 18 ++++++------------
->>   hw/ppc/mac_oldworld.c | 18 ++++++------------
->>   2 files changed, 12 insertions(+), 24 deletions(-)
->> 
->> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
->> index de4a7bae12..1d12bd85ed 100644
->> --- a/hw/ppc/mac_newworld.c
->> +++ b/hw/ppc/mac_newworld.c
->> @@ -526,18 +526,6 @@ static void ppc_core99_init(MachineState *machine)
->>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
->>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_NVRAM_ADDR, nvram_addr);
->>   -    /* MacOS NDRV VGA driver */
->> -    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
->> -    if (filename) {
->> -        gchar *ndrv_file;
->> -        gsize ndrv_size;
->> -
->> -        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
->> -            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, 
->> ndrv_size);
->> -        }
->> -        g_free(filename);
->> -    }
->> -
->>       qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
->>   }
->>   @@ -581,6 +569,11 @@ static int core99_kvm_type(MachineState *machine, 
->> const char *arg)
->>       return 2;
->>   }
->>   +static GlobalProperty props[] = {
->> +    /* MacOS NDRV VGA driver */
->> +    { "VGA", "romfile", NDRV_VGA_FILENAME },
->> +};
+> 
+> Alex
+> 
+>>       /* Scale down size, esp in case virt caps were added above */
+>>       size = MIN(size, vfio_std_cap_max_size(pdev, pos));
+>>   
+>> @@ -3037,6 +3066,12 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+>>   
+>>       vfio_bars_prepare(vdev);
+>>   
+>> +    vfio_msi_early_setup(vdev, &err);
+>> +    if (err) {
+>> +        error_propagate(errp, err);
+>> +        goto error;
+>> +    }
 >> +
->>   static void core99_machine_class_init(ObjectClass *oc, void *data)
->>   {
->>       MachineClass *mc = MACHINE_CLASS(oc);
->> @@ -601,6 +594,7 @@ static void core99_machine_class_init(ObjectClass *oc, 
->> void *data)
->>   #endif
->>       mc->default_ram_id = "ppc_core99.ram";
->>       mc->ignore_boot_device_suffixes = true;
->> +    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
->>       fwc->get_dev_path = core99_fw_dev_path;
->>   }
->>   diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
->> index eecc54da59..e7d35135d6 100644
->> --- a/hw/ppc/mac_oldworld.c
->> +++ b/hw/ppc/mac_oldworld.c
->> @@ -344,18 +344,6 @@ static void ppc_heathrow_init(MachineState *machine)
->>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_CLOCKFREQ, CLOCKFREQ);
->>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
->>   -    /* MacOS NDRV VGA driver */
->> -    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
->> -    if (filename) {
->> -        gchar *ndrv_file;
->> -        gsize ndrv_size;
->> -
->> -        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
->> -            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, 
->> ndrv_size);
->> -        }
->> -        g_free(filename);
->> -    }
->> -
->>       qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
->>   }
->>   @@ -400,6 +388,11 @@ static int heathrow_kvm_type(MachineState *machine, 
->> const char *arg)
->>       return 2;
->>   }
->>   +static GlobalProperty props[] = {
->> +    /* MacOS NDRV VGA driver */
->> +    { "VGA", "romfile", NDRV_VGA_FILENAME },
->> +};
->> +
->>   static void heathrow_class_init(ObjectClass *oc, void *data)
->>   {
->>       MachineClass *mc = MACHINE_CLASS(oc);
->> @@ -420,6 +413,7 @@ static void heathrow_class_init(ObjectClass *oc, void 
->> *data)
->>       mc->default_display = "std";
->>       mc->ignore_boot_device_suffixes = true;
->>       mc->default_ram_id = "ppc_heathrow.ram";
->> +    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
->>       fwc->get_dev_path = heathrow_fw_dev_path;
->>   }
->> 
->
->
-> ATB,
->
-> Mark.
->
->
+>>       vfio_msix_early_setup(vdev, &err);
+>>       if (err) {
+>>           error_propagate(errp, err);
+>> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+>> index 7c236a52f4..9ae0278058 100644
+>> --- a/hw/vfio/pci.h
+>> +++ b/hw/vfio/pci.h
+>> @@ -107,6 +107,7 @@ enum {
+>>   
+>>   /* Cache of MSI-X setup */
+>>   typedef struct VFIOMSIXInfo {
+>> +    uint8_t pos;
+>>       uint8_t table_bar;
+>>       uint8_t pba_bar;
+>>       uint16_t entries;
+>> @@ -128,6 +129,8 @@ struct VFIOPCIDevice {
+>>       unsigned int rom_size;
+>>       off_t rom_offset; /* Offset of ROM region within device fd */
+>>       void *rom;
+>> +    uint8_t msi_pos;
+>> +    uint16_t msi_ctrl;
+>>       int msi_cap_size;
+>>       VFIOMSIVector *msi_vectors;
+>>       VFIOMSIXInfo *msix;
+> 
 
