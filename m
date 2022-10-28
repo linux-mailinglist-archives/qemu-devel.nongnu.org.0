@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19669610EF8
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 12:49:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C09E610F3B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 13:00:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooMuo-00062k-VQ; Fri, 28 Oct 2022 06:48:43 -0400
+	id 1ooN4G-0002Eh-Dv; Fri, 28 Oct 2022 06:58:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <john@john-millikin.com>)
- id 1ooMug-00062P-CY
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:48:34 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ooN4E-00027Z-5U
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:58:26 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <john@john-millikin.com>)
- id 1ooMuL-0003YY-EN
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:48:26 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id 78so4470959pgb.13
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 03:48:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ooN48-0004yz-8B
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:58:21 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id d13so3150956qko.5
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 03:58:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=john-millikin.com; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=lBgLaR8tURdhd8Tddkm5cba18TzcLSmzcSdP5h71IZY=;
- b=jEAiVUzvxN3kOoTvZN5h0A2Q0Yrnqdcl+3jalQhYsi1MAnFiTpEAJofXT3TAXFOorV
- V5Ad/4AqrOiG3fCPd5bEVv5fw5U1p0bUtHd0g+n0UsM7wy61p4urgREy/mOowtun8RPt
- 77vTfFFCOA8B3TknaeRnMnSvsgUZ/C0WGcOxDoY5UMOim8DotfzDtLnqK0N7EKHTevsr
- karrW+4hO2r46FjkN8v4sbo2/LJ2UAuGFnaz6QaZipn2nLSFlxdMHpOmnW/KGsrAmU6B
- yUBc4OChXjKBsqwMwcD+iZVZ1WzaRjR+Y7eJCjzLSRCmdWeEW2HPhgfvJ2O7EpSr0m/o
- D/8Q==
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=li8ne5+9LiRWxfVk4YkaTUHE07vjTVEDZzOBuh12RyU=;
+ b=uAcViUlhatpU/E2iq7LdU2tO0j4TPugvfkEmHi7tRkjxN+s4VnXpMwG8G+T7UX0+fI
+ Gtm09MznDkPhwMZsc7W43+IRl83EW9+w7i1/BiHZONxzYEqNad4nz5/T3zwVrC8Ldeq+
+ FskFLSwn0d24TKO1SP6OwciF3uUYV5hskKjdJVl5D+H2C1UQt+b2uQvOarV+WsPrzrg7
+ K8foYwLYuql1oQ9zZ9qCKuvAFrh4yMAuWFGCR/TjquRfPZ/l0xiS6c70Q/hRJMilQF2N
+ k9SdaaSBln0Rs91SnAs90g585DdFJ3DJ70cd78Jt8h5mHO4Mdh++sJD7ZgnCsWk7gvhX
+ ihfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lBgLaR8tURdhd8Tddkm5cba18TzcLSmzcSdP5h71IZY=;
- b=7tmfwBOnnBCX9FZ9zrlOJ+t8nZvEcbbrgOKVxFsRY9+wFhaD5nMIRkpoVFwePcI72T
- /Q9FkK2bDZal99anfIDHsMjthnQ2hRrMjc6sUOLN+aOaogeAhbtm5zOGubs4O3tkKZj2
- WFQ6QiEdVYv7yyUn37fRdfFja21rPRvL9rViunmFtN//OPpccgHvq0EBlu1ZQochigc7
- 7WdWvZQNfdtyJxh3hrCoFuWKsD6/+ito+7CuhYWFJuqwgFMMnsS9pyXz7CxlVm4+lvDx
- xmdn3X4ClsCgpSmoVv1Dwy6h7eYZUO6kHK191AqyyPz/1AnRFVWbpKQHK4qvqbw52foC
- rZ1w==
-X-Gm-Message-State: ACrzQf3uMUhnW1i75myK9Slli+AycWa40OTb7EFje5GfY7YWjJrrWYMy
- 383dfmkOSUIxTHc7zycXDJosXA==
-X-Google-Smtp-Source: AMsMyM479DfRfmZDWaTFblJ5i3oZ4j11ZkKBVsVDJ3DZ96NDxo0G0GyK1VnR1GnH3vG6lUoXkQ8rGA==
-X-Received: by 2002:a63:84c2:0:b0:46e:f239:354c with SMTP id
- k185-20020a6384c2000000b0046ef239354cmr25758812pgd.147.1666954090015; 
- Fri, 28 Oct 2022 03:48:10 -0700 (PDT)
-Received: from john-millikin.com (aq206251.dynamic.ppp.asahi-net.or.jp.
- [220.146.206.251]) by smtp.gmail.com with ESMTPSA id
- om2-20020a17090b3a8200b0020d3662cc77sm4012959pjb.48.2022.10.28.03.48.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 03:48:09 -0700 (PDT)
-Date: Fri, 28 Oct 2022 19:48:05 +0900
-From: John Millikin <john@john-millikin.com>
-To: John Johnson <john.g.johnson@oracle.com>
-Cc: QEMU Devel Mailing List <qemu-devel@nongnu.org>,
- Hannes Reinecke <hare@suse.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>
-Subject: Re: megasas regression in 7.1?
-Message-ID: <Y1uzZUa2HZb2Bii+@john-millikin.com>
-References: <4A0D1260-DB8D-47CA-9369-6F3C0B7296C9@oracle.com>
- <b18aa98a-e251-f5cd-ecca-4d3aa27bb374@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=li8ne5+9LiRWxfVk4YkaTUHE07vjTVEDZzOBuh12RyU=;
+ b=VrVCYhmfPeOxjDA6xFLq8LDK/qbSyNTzaZ270iDzo9+TNYNz9BaM8mWY0MxJFmzNgA
+ nYwXn9ErPqDO5wR6WHsAaF2l2iKgDk6oBD71BVuTbOTwvx7QD+qw5znaWgtVus5Fbpk2
+ AvCkZI7BpIpNoDGU7pPMwdo70ryqG4dEBsvZizbVB15knwH89O793C9sNm0yOkBfQ3oM
+ LSzL+ejSG+/QHyJxR3a0IXGS35iE7nJMPEGgnj26ViMg+Ddw5l0lQwbIjXIz9j8b3aEx
+ jfnH9kyROpujOQmsgIZdXuBq3K/ql+G0AcHiUpOkNSVNmZ11X/wQeY5JoqMjucjN7Plp
+ GSPg==
+X-Gm-Message-State: ACrzQf1pB44g3apiGXnUhQB8Oz6owyyWcudsVZYEw9POtY4aUXj3rxAw
+ 0ky7eNvINnOic6dPoGJ7KjfHFJmNyFT3jleW8SiRBA==
+X-Google-Smtp-Source: AMsMyM6d6OPFw8WOBM53MQ7gWsqzGEK8Jfyii8T4aiKPKNwQU4aul7PGjbi1KzaVhlt7QyDLfK+9fVof2yDyizSV5Xs=
+X-Received: by 2002:a05:620a:294f:b0:6cf:920e:4f3a with SMTP id
+ n15-20020a05620a294f00b006cf920e4f3amr37810584qkp.66.1666954698705; Fri, 28
+ Oct 2022 03:58:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b18aa98a-e251-f5cd-ecca-4d3aa27bb374@redhat.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=john@john-millikin.com; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221028103419.93398-1-shentey@gmail.com>
+ <20221028103419.93398-4-shentey@gmail.com>
+In-Reply-To: <20221028103419.93398-4-shentey@gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 28 Oct 2022 16:28:07 +0530
+Message-ID: <CAARzgwyMiEQUc=DEd5iJb=hgsoMn8tQaNeOnzKAG8qaxWhdRYw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] hw/i386/acpi-build: Resolve north rather than
+ south bridges
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Igor Mammedov <imammedo@redhat.com>, qemu-trivial@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=ani@anisinha.ca; helo=mail-qk1-x72e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,70 +86,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Passing `sizeof(cdb)` to `scsi_req_new()` looks like a correct fix to
-me, but I'm not familiar enough with megasas / MegaRAID to be confident.
+On Fri, Oct 28, 2022 at 4:05 PM Bernhard Beschow <shentey@gmail.com> wrote:
+>
+> The code currently assumes Q35 iff ICH9 and i440fx iff PIIX. Now that more
+> AML generation has been moved into the south bridges and since the
+> machines define themselves primarily through their north bridges, let's
+> switch to resolving the north bridges for AML generation instead. This
+> also allows for easier experimentation with different south bridges in
+> the "pc" machine, e.g. with PIIX4 and VT82xx.
 
-A possible slight alteration is to have `megasas_encode_lba()` return
-the length of the CDB it synthesized, which IMO would make the
-dependency more clear.
+Unfortunately this patch does not apply on the latest master. Also the
+code seems to be off. Can you rebase and rework the patch?
 
-Two additional thoughts:
-
-  1. The variable is called `cdb_len`, but maybe it would be better to
-     have two separate variables `megasas_cdb_len` and `scsi_cdb_len`
-     (with the buffer renamed to `scsi_cdb`).
-
-  2. There is very similar logic in `megasas_handle_scsi()`, but in that
-     function both `cdb` and `cdb_len` are obtained from the `MegasasCmd`.
-     Would it be possible to use either an auxiliary function or a comment
-     to disambiguate the expected meaning of "CDB" in both cases?
-
-In general the QEMU code is written in a much terser style than I'm used
-to, and I don't know to what extent reusing the same variable name with
-different semantics is considered idiomatic here.
-
-
-On Fri, Oct 28, 2022 at 11:10:46AM +0200, Thomas Huth wrote:
-> On 28/10/2022 07.47, John Johnson wrote:
-> > 
-> > 	I pulled 7.1, and the megasas driver stopped being able to do reads from a disk.
-> > It looks to be related to this commit:
-> > 
-> > https://github.com/qemu/qemu/commit/fe9d8927e265fd723a6dc87cd6d220f4677dbe1f#diffe3f5f30efc54747e0624dca63e5f55f0012736c1875b6e85526b3514e6911be3
-> > 
-> > which added some command buffer bounds checking to the SCSI subsysem.  Unfortunately,
-> > when the megasas QEMU emulation receives a direct I/O command from the device driver
-> > in megasas_handle_io(), it synthesizes a SCSI command from it in megasas_encode_lba(),
-> > but passes the command buffer length from the driver frame instead of the length of the
-> > buffer it synthesized the SCSI command in.  The driver (at least the Linux 4.14 version
-> > I’m using) does not fill in the command buffer length in direct I/O frames, so
-> > scsi_req_new() sees a 0 length command and fails it.
-> > 
-> > 
-> > 	I worked around this issue with:
-> > 
-> > diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-> > index 7082456..6e11607 100644
-> > --- a/hw/scsi/megasas.c
-> > +++ b/hw/scsi/megasas.c
-> > @@ -1823,7 +1823,7 @@ static int megasas_handle_io(MegasasState *s, MegasasCmd *cmd, int frame_cmd)
-> >       megasas_encode_lba(cdb, lba_start, lba_count, is_write);
-> >       cmd->req = scsi_req_new(sdev, cmd->index,
-> > -                            lun_id, cdb, cdb_len, cmd);
-> > +                            lun_id, cdb, sizeof (cdb), cmd);
-> >       if (!cmd->req) {
-> >           trace_megasas_scsi_req_alloc_failed(
-> >               mfi_frame_desc(frame_cmd), target_id, lun_id);
-> > 
-> > and the driver can read the disk again, but I’m not sure this is the correct
-> > fix since cdb_len is used for bounds checking elsewhere in megagsas_handle_io(),
-> > although a 0 won’t fail there.
-> > 
-> > 	Is there anyone with megasas experience who could comment on this?
-> 
-> No clue about that megasas problem, but it might help if you put the experts
-> on CC: (which can be found in the MAINTAINERS file). Done now.
-> 
->  Thomas
-> 
+>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>  hw/i386/acpi-build.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 73d8a59737..d9eaa5fc4d 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -60,6 +60,7 @@
+>  #include "hw/i386/fw_cfg.h"
+>  #include "hw/i386/ich9.h"
+>  #include "hw/pci/pci_bus.h"
+> +#include "hw/pci-host/i440fx.h"
+>  #include "hw/pci-host/q35.h"
+>  #include "hw/i386/x86-iommu.h"
+>
+> @@ -1322,8 +1323,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>             AcpiPmInfo *pm, AcpiMiscInfo *misc,
+>             Range *pci_hole, Range *pci_hole64, MachineState *machine)
+>  {
+> -    Object *piix = object_resolve_type_unambiguous(TYPE_PIIX4_PM);
+> -    Object *lpc = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
+> +    Object *i440fx = object_resolve_type_unambiguous(TYPE_I440FX_PCI_HOST_BRIDGE);
+> +    Object *q35 = object_resolve_type_unambiguous(TYPE_Q35_HOST_DEVICE);
+>      CrsRangeEntry *entry;
+>      Aml *dsdt, *sb_scope, *scope, *dev, *method, *field, *pkg, *crs;
+>      CrsRangeSet crs_range_set;
+> @@ -1344,13 +1345,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>      AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = x86ms->oem_id,
+>                          .oem_table_id = x86ms->oem_table_id };
+>
+> -    assert(!!piix != !!lpc);
+> +    assert(!!i440fx != !!q35);
+>
+>      acpi_table_begin(&table, table_data);
+>      dsdt = init_aml_allocator();
+>
+>      build_dbg_aml(dsdt);
+> -    if (piix) {
+> +    if (i440fx) {
+>          sb_scope = aml_scope("_SB");
+>          dev = aml_device("PCI0");
+>          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+> @@ -1363,7 +1364,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>              build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
+>          }
+>          build_piix4_pci0_int(dsdt);
+> -    } else if (lpc) {
+> +    } else if (q35) {
+>          sb_scope = aml_scope("_SB");
+>          dev = aml_device("PCI0");
+>          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+> --
+> 2.38.1
+>
 
