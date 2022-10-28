@@ -2,91 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F67610BCA
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 10:06:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8356A610BDC
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 10:08:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooKMx-0001MW-Jb; Fri, 28 Oct 2022 04:05:35 -0400
+	id 1ooKPO-0001zz-LO; Fri, 28 Oct 2022 04:08:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooKMr-0001Lk-1h
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 04:05:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1ooKNy-0001bH-Tt
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 04:06:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooKMo-0002NP-EJ
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 04:05:27 -0400
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1ooKNq-0002XZ-SI
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 04:06:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666944325;
+ s=mimecast20190719; t=1666944389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nwBA55yWam2VgQ60b6tJti/X5vSeR2M1wdkSKJ6qSko=;
- b=Ai+Vjmc+Wy6UHlOqZDwnM3/KhzHfSbylxT0llC2xT+23e6Ld/y8d8A4Pk+flrct1HZq9jZ
- 0WP4jorE8SkvmPRRgTyPziJRppNbVwcfW6TW6MhNfoiigdL5bY4eZ3y6JiT9WluIhNMdd4
- 0hVymYlTi67xVL6Z0KCDAEf0rKY62IU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6I0l/I75l3/lTy2FcqzhHKJ37Q8gEODgeQa4Dh6BvYI=;
+ b=IQ75U3+LZC+ZIemtz8lCu9JQPlmAn+pjm2KF6gy3Ji/TsKGsx/JXoabS7BegIVbsc/gtgr
+ SBr6C/pc4cpT3BkAJhAnPWfEc8Kcvp4bWFuSAO1D3Q5cdWV36MlusurIC7rdCCQgjfpmMV
+ jMhwqfcH6klF10C4RbFYRIwwl69/KRQ=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-85-yZUQTil2MTGfNFEInCX6zQ-1; Fri, 28 Oct 2022 04:05:24 -0400
-X-MC-Unique: yZUQTil2MTGfNFEInCX6zQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- d13-20020a05600c34cd00b003ce1f62ac5aso4037881wmq.4
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 01:05:23 -0700 (PDT)
+ us-mta-668-tcnNY6lONGOnV_LW1T_axQ-1; Fri, 28 Oct 2022 04:06:28 -0400
+X-MC-Unique: tcnNY6lONGOnV_LW1T_axQ-1
+Received: by mail-io1-f72.google.com with SMTP id
+ y26-20020a5d9b1a000000b006bc71505e97so3927814ion.16
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 01:06:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nwBA55yWam2VgQ60b6tJti/X5vSeR2M1wdkSKJ6qSko=;
- b=vM9oD3vNFROlptagnwztPRKAp04U2KfafmM7a2lnCVyw4JAEXqEHUorl9JOodXWpXq
- hZf7MAygYxMwP4oNP8oNh9lSj6RR/v3N+9JyHH2zXWajnZx+RYX2VhyQVqHnxWJDdhW4
- RwJdvig/DkeLU9OR0kLr/49+hKGllT2FXVSPRHlfkpDQ6mxf0yDumQ4Uh/ZC51nDC6HB
- AW+LgVcxHZtvzXa37F88eTh8nCHh+L5PhlteGl5/MxXzkpzmgH2anZh5Bj6ZZkQQjH1J
- xI07YkpG6UkQ/XnhBzUMQn3Gsq2loVx+JxdS+5mL0XHzrzW++Yjl/TI2faxMYAiqs18v
- yz7w==
-X-Gm-Message-State: ACrzQf0PXyIctXCDmT+AEgf10p4ddd9QZkQh/DW5cuqT/2WO9PqJVgYX
- x8pm8PrjUjKIhUeJdJrO+4+/NLh1XJJs2rHkhMg0SIiDgiC19Yz50HIXMTDl9ldyOcibSuLtJZ3
- MEmGzzd5WqWpZ09o=
-X-Received: by 2002:a7b:c7c1:0:b0:3c7:103:f964 with SMTP id
- z1-20020a7bc7c1000000b003c70103f964mr8550308wmk.121.1666944322907; 
- Fri, 28 Oct 2022 01:05:22 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5sQugRFh1a/yoGdpRf2GylaZ5BklwJUXDRaY5Wxwb7D3iAb3WkiRCLBM8YY4MzdRQKEqbc1A==
-X-Received: by 2002:a7b:c047:0:b0:3b4:adc7:1ecb with SMTP id
- u7-20020a7bc047000000b003b4adc71ecbmr8455734wmc.144.1666944311693; 
- Fri, 28 Oct 2022 01:05:11 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-177-14.web.vodafone.de.
- [109.43.177.14]) by smtp.gmail.com with ESMTPSA id
- i18-20020a1c5412000000b003cf54b77bfesm3239626wmb.28.2022.10.28.01.05.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Oct 2022 01:05:11 -0700 (PDT)
-Message-ID: <eb1b1498-b882-4ee0-2d5a-813e270554d7@redhat.com>
-Date: Fri, 28 Oct 2022 10:05:09 +0200
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6I0l/I75l3/lTy2FcqzhHKJ37Q8gEODgeQa4Dh6BvYI=;
+ b=vfdwn87A4RVEoXiIX69i7yNZC4OByb/6lEty5phvQnMk6brXPpm7dJZSceRV1tdtFE
+ f7jtVKw2vhkO3YWgGuUVoNERDM64b47/UTLnV8No0ljL5tUL8msXWAdznvVz6SqPWn2i
+ 0l0K1D55baD0DPo/BVSTlCAFMlOQsUInmlD+QwbYKbpy1jRRcde5JoXTakreS4OcXn06
+ zfqFcAaf4XOSInQk3HjeMcgpGBlT565xvVqVR8wIeGYkV7d/Mqqa2lR/4ck0+L0Ac2M/
+ 5UQqWNuWvbL4LZT51XhmLV4OtgSMaW9CSWYGAEUBI6njhig33lJ+sVg3f5QGhMrlbRii
+ dQHg==
+X-Gm-Message-State: ACrzQf19WvcYtENZQSTx/2CjR5G6NGgbuefPXB/qKHe5eiF+n7ASLlqT
+ K4MyBBN7Ef+wnhYL5kn4AXKtc9Lf+rd7v6XUXPvwq1K/0+O7Z4mWn+bgewQRuHUQ9PYW2RBm79S
+ e5B2blz1QXK0m2nDEmD9O1gtTvqwwGZ8=
+X-Received: by 2002:a05:6602:2c89:b0:67b:7e8c:11c1 with SMTP id
+ i9-20020a0566022c8900b0067b7e8c11c1mr33080999iow.101.1666944387442; 
+ Fri, 28 Oct 2022 01:06:27 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5O2eiPkz7f43oiD14Rb6o5Ks/mnVrpJLIFtshjJhNApUMdabM5MWKoYBcyOvswx0HKqNoG5t1RGFl/PgTUmm8=
+X-Received: by 2002:a05:6602:2c89:b0:67b:7e8c:11c1 with SMTP id
+ i9-20020a0566022c8900b0067b7e8c11c1mr33080982iow.101.1666944387207; Fri, 28
+ Oct 2022 01:06:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v6 06/11] tests/qtest: libqtest: Introduce
- qtest_wait_qemu()
-Content-Language: en-US
-To: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 References: <20221028045736.679903-1-bin.meng@windriver.com>
- <20221028045736.679903-7-bin.meng@windriver.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221028045736.679903-7-bin.meng@windriver.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+In-Reply-To: <20221028045736.679903-1-bin.meng@windriver.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Fri, 28 Oct 2022 12:06:15 +0400
+Message-ID: <CAMxuvawoU3P_eHknzzEaPnr6evzCOUij-pMnHJvpdvP4HZpc3g@mail.gmail.com>
+Subject: Re: [PATCH v6 00/11] tests/qtest: Enable running qtest on Windows
+To: Bin Meng <bin.meng@windriver.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, 
+ Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>
+Content-Type: multipart/alternative; boundary="0000000000000f6c3105ec13bcfc"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,131 +104,215 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/10/2022 06.57, Bin Meng wrote:
-> Introduce an API for qtest to wait for the QEMU process to terminate.
-> 
-> Suggested-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> 
-> ---
-> 
+--0000000000000f6c3105ec13bcfc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+On Fri, Oct 28, 2022 at 8:58 AM Bin Meng <bin.meng@windriver.com> wrote:
+
+> In preparation to adding virtio-9p support on Windows, this series
+> enables running qtest on Windows, so that we can run the virtio-9p
+> tests on Windows to make sure it does not break accidently.
+>
 > Changes in v6:
+> - drop patches that are already in Alex and Daniel's tree
+> - remove CONFIG_POSIX from meson.build
+> - include <qemu/sockets.h> in libqtest.c
+> - move documentation comments of qemu_send_full() from util/osdep.c
+>   to qemu/sockets.h
+> - save the "exit_code" in struct QTestState
+> - new patch: "tests/qtest: device-plug-test: Reverse the usage of
+> double/single quotes"
+> - new patch: "tests/qtest: Use EXIT_FAILURE instead of magic number"
 > - new patch: "tests/qtest: libqtest: Introduce qtest_wait_qemu()"
-> 
->   tests/qtest/libqtest.h |  9 ++++++
->   tests/qtest/libqtest.c | 63 +++++++++++++++++++++++++-----------------
->   2 files changed, 47 insertions(+), 25 deletions(-)
-> 
-> diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
-> index 65c040e504..91a5f7edd9 100644
-> --- a/tests/qtest/libqtest.h
-> +++ b/tests/qtest/libqtest.h
-> @@ -75,6 +75,15 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args);
->    */
->   QTestState *qtest_init_with_serial(const char *extra_args, int *sock_fd);
->   
-> +/**
-> + * qtest_wait_qemu:
-> + * @s: #QTestState instance to operate on.
-> + *
-> + * Wait for the QEMU process to terminate. It is safe to call this function
-> + * multiple times.
-> + */
-> +void qtest_wait_qemu(QTestState *s);
-> +
->   /**
->    * qtest_kill_qemu:
->    * @s: #QTestState instance to operate on.
-> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> index d12a604d78..e1e2d39a6e 100644
-> --- a/tests/qtest/libqtest.c
-> +++ b/tests/qtest/libqtest.c
-> @@ -156,37 +156,14 @@ void qtest_set_expected_status(QTestState *s, int status)
->       s->expected_status = status;
->   }
->   
-> -void qtest_kill_qemu(QTestState *s)
-> +static void qtest_check_status(QTestState *s)
->   {
-> -    pid_t pid = s->qemu_pid;
-> -#ifndef _WIN32
-> -    int wstatus;
-> -#else
-> -    DWORD ret;
-> -#endif
-> -
-> -    /* Skip wait if qtest_probe_child already reaped.  */
-> -    if (pid != -1) {
-> -#ifndef _WIN32
-> -        kill(pid, SIGTERM);
-> -        TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
-> -        assert(pid == s->qemu_pid);
-> -#else
-> -        TerminateProcess((HANDLE)pid, s->expected_status);
-> -        ret = WaitForSingleObject((HANDLE)pid, INFINITE);
-> -        assert(ret == WAIT_OBJECT_0);
-> -        GetExitCodeProcess((HANDLE)pid, &s->exit_code);
-> -        CloseHandle((HANDLE)pid);
-> -#endif
-> -        s->qemu_pid = -1;
-> -    }
-> -
->       /*
->        * Check whether qemu exited with expected exit status; anything else is
->        * fishy and should be logged with as much detail as possible.
->        */
->   #ifndef _WIN32
-> -    wstatus = s->wstatus;
-> +    int wstatus = s->wstatus;
->       if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) != s->expected_status) {
->           fprintf(stderr, "%s:%d: kill_qemu() tried to terminate QEMU "
->                   "process but encountered exit status %d (expected %d)\n",
-> @@ -212,6 +189,42 @@ void qtest_kill_qemu(QTestState *s)
->   #endif
->   }
->   
-> +void qtest_wait_qemu(QTestState *s)
-> +{
-> +#ifndef _WIN32
-> +    pid_t pid;
+> - change to use qtest_wait_qemu() API
+> - new patch: "test/qtest/libqos: meson.build: Do not build virtio-9p
+> unconditionally"
+>
+> Changes in v5:
+> - restore to v1 version which does not touch the posix implementation
+> - Drop patches that are already merged
+>
+> Changes in v3:
+> - Add a usleep(1) in the busy wait loop
+> - Drop the host test
+>
+> Changes in v2:
+> - Introduce qemu_send_full() and use it
+> - Move the enabling of building qtests on Windows to a separate
+>   patch to keep bisectablity
+> - Call socket_init() unconditionally
+> - Add a missing CloseHandle() call
+> - Change to a busy wait after migration is canceled
+> - Change the timeout limit to 90 minutes
+> - new patch: "tests/qtest: Enable qtest build on Windows"
+>
+> Bin Meng (8):
+>   tests/qtest: Support libqtest to build and run on Windows
+>   tests/qtest: device-plug-test: Reverse the usage of double/single
+>     quotes
+>   tests/qtest: Use EXIT_FAILURE instead of magic number
+>   tests/qtest: libqtest: Introduce qtest_wait_qemu()
+>   tests/qtest: libqos: Do not build virtio-9p unconditionally
+>   tests/qtest: libqtest: Correct the timeout unit of blocking receive
+>     calls for win32
+>   .gitlab-ci.d/windows.yml: Increase the timeout to 90 minutes
+>   tests/qtest: Enable qtest build on Windows
+>
+> Xuzhou Cheng (3):
+>   accel/qtest: Support qtest accelerator for Windows
+>   tests/qtest: Use send/recv for socket communication
+>   tests/qtest: migration-test: Make sure QEMU process "to" exited after
+>     migration is canceled
+>
+>  include/hw/core/cpu.h           |   1 +
+>  include/qemu/sockets.h          |  13 +++
+>  tests/qtest/libqtest.h          |   9 ++
+>  accel/dummy-cpus.c              |  14 ++-
+>  softmmu/cpus.c                  |   9 +-
+>  tests/qtest/dbus-vmstate-test.c |   2 +-
+>  tests/qtest/device-plug-test.c  |  16 ++--
+>  tests/qtest/libqmp.c            |   5 +-
+>  tests/qtest/libqtest.c          | 151 ++++++++++++++++++++++++++++----
+>  tests/qtest/migration-test.c    |   8 +-
+>  util/osdep.c                    |  22 +++++
+>  .gitlab-ci.d/windows.yml        |   4 +-
+>  accel/meson.build               |   2 +-
+>  accel/qtest/meson.build         |   3 +-
+>  tests/qtest/libqos/meson.build  |   6 +-
+>  tests/qtest/meson.build         |   6 --
+>  16 files changed, 221 insertions(+), 50 deletions(-)
+>
+> --
+> 2.25.1
+>
+>
+Series looks good to me:
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Should we have a check for  s->qemu_pid != -1 here ?
 
-> +    TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
-> +    assert(pid == s->qemu_pid);
-> +#else
-> +    DWORD ret;
-> +
-> +    ret = WaitForSingleObject((HANDLE)s->qemu_pid, INFINITE);
-> +    assert(ret == WAIT_OBJECT_0);
-> +    GetExitCodeProcess((HANDLE)s->qemu_pid, &s->exit_code);
-> +    CloseHandle((HANDLE)s->qemu_pid);
-> +#endif
-> +
-> +    qtest_check_status(s);
-> +}
-> +
-> +void qtest_kill_qemu(QTestState *s)
-> +{
-> +    /* Skip wait if qtest_probe_child() already reaped */
-> +    if (s->qemu_pid != -1) {
-> +#ifndef _WIN32
-> +        kill(s->qemu_pid, SIGTERM);
-> +#else
-> +        TerminateProcess((HANDLE)s->qemu_pid, s->expected_status);
-> +#endif
-> +        qtest_wait_qemu(s);
-> +        s->qemu_pid = -1;
-> +        return;
-> +    }
-> +
-> +    qtest_check_status(s);
-> +}
-> +
->   static void kill_qemu_hook_func(void *s)
->   {
->       qtest_kill_qemu(s);
+However, many qtests are flaky on Windows. I get a number of "broken pipe"
+exit code 3 & timeout. Should gitlab ignore windows test failures ? Or
+perhaps have a new "ignored" job for the windows qtests. What's your
+experience running gitlab CI with this series? Can you share results? (I
+kicked off one here
+https://gitlab.com/marcandre.lureau/qemu/-/pipelines/679511572)
 
-  Thomas
+--0000000000000f6c3105ec13bcfc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 28, 2022 at 8:58 AM Bin=
+ Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.m=
+eng@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">In preparation to adding virtio-9p support on Windows, thi=
+s series<br>
+enables running qtest on Windows, so that we can run the virtio-9p<br>
+tests on Windows to make sure it does not break accidently.<br>
+<br>
+Changes in v6:<br>
+- drop patches that are already in Alex and Daniel&#39;s tree<br>
+- remove CONFIG_POSIX from meson.build<br>
+- include &lt;qemu/sockets.h&gt; in libqtest.c<br>
+- move documentation comments of qemu_send_full() from util/osdep.c<br>
+=C2=A0 to qemu/sockets.h<br>
+- save the &quot;exit_code&quot; in struct QTestState<br>
+- new patch: &quot;tests/qtest: device-plug-test: Reverse the usage of doub=
+le/single quotes&quot;<br>
+- new patch: &quot;tests/qtest: Use EXIT_FAILURE instead of magic number&qu=
+ot;<br>
+- new patch: &quot;tests/qtest: libqtest: Introduce qtest_wait_qemu()&quot;=
+<br>
+- change to use qtest_wait_qemu() API<br>
+- new patch: &quot;test/qtest/libqos: meson.build: Do not build virtio-9p u=
+nconditionally&quot;<br>
+<br>
+Changes in v5:<br>
+- restore to v1 version which does not touch the posix implementation<br>
+- Drop patches that are already merged<br>
+<br>
+Changes in v3:<br>
+- Add a usleep(1) in the busy wait loop<br>
+- Drop the host test<br>
+<br>
+Changes in v2:<br>
+- Introduce qemu_send_full() and use it<br>
+- Move the enabling of building qtests on Windows to a separate<br>
+=C2=A0 patch to keep bisectablity<br>
+- Call socket_init() unconditionally<br>
+- Add a missing CloseHandle() call<br>
+- Change to a busy wait after migration is canceled<br>
+- Change the timeout limit to 90 minutes<br>
+- new patch: &quot;tests/qtest: Enable qtest build on Windows&quot;<br>
+<br>
+Bin Meng (8):<br>
+=C2=A0 tests/qtest: Support libqtest to build and run on Windows<br>
+=C2=A0 tests/qtest: device-plug-test: Reverse the usage of double/single<br=
+>
+=C2=A0 =C2=A0 quotes<br>
+=C2=A0 tests/qtest: Use EXIT_FAILURE instead of magic number<br>
+=C2=A0 tests/qtest: libqtest: Introduce qtest_wait_qemu()<br>
+=C2=A0 tests/qtest: libqos: Do not build virtio-9p unconditionally<br>
+=C2=A0 tests/qtest: libqtest: Correct the timeout unit of blocking receive<=
+br>
+=C2=A0 =C2=A0 calls for win32<br>
+=C2=A0 .gitlab-ci.d/windows.yml: Increase the timeout to 90 minutes<br>
+=C2=A0 tests/qtest: Enable qtest build on Windows<br>
+<br>
+Xuzhou Cheng (3):<br>
+=C2=A0 accel/qtest: Support qtest accelerator for Windows<br>
+=C2=A0 tests/qtest: Use send/recv for socket communication<br>
+=C2=A0 tests/qtest: migration-test: Make sure QEMU process &quot;to&quot; e=
+xited after<br>
+=C2=A0 =C2=A0 migration is canceled<br>
+<br>
+=C2=A0include/hw/core/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0=
+ =C2=A01 +<br>
+=C2=A0include/qemu/sockets.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 13 +=
+++<br>
+=C2=A0tests/qtest/libqtest.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A09 ++<br>
+=C2=A0accel/dummy-cpus.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 14 ++-<br>
+=C2=A0softmmu/cpus.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 |=C2=A0 =C2=A09 +-<br>
+=C2=A0tests/qtest/dbus-vmstate-test.c |=C2=A0 =C2=A02 +-<br>
+=C2=A0tests/qtest/device-plug-test.c=C2=A0 |=C2=A0 16 ++--<br>
+=C2=A0tests/qtest/libqmp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0=
+ =C2=A05 +-<br>
+=C2=A0tests/qtest/libqtest.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 151 ++++++=
+++++++++++++++++++++++----<br>
+=C2=A0tests/qtest/migration-test.c=C2=A0 =C2=A0 |=C2=A0 =C2=A08 +-<br>
+=C2=A0util/osdep.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 22 +++++<br>
+=C2=A0.gitlab-ci.d/windows.yml=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +=
+-<br>
+=C2=A0accel/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 =C2=A02 +-<br>
+=C2=A0accel/qtest/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
+=A03 +-<br>
+=C2=A0tests/qtest/libqos/meson.build=C2=A0 |=C2=A0 =C2=A06 +-<br>
+=C2=A0tests/qtest/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
+=A06 --<br>
+=C2=A016 files changed, 221 insertions(+), 50 deletions(-)<br>
+<br>
+-- <br>
+2.25.1<br>
+<br></blockquote><div><br></div><div>Series looks good to me:<br></div><div=
+>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau=
+@redhat.com">marcandre.lureau@redhat.com</a>&gt;<br><br><br></div><div>Howe=
+ver, many qtests are flaky on Windows. I get a number of &quot;broken pipe&=
+quot; exit code 3 &amp; timeout. Should gitlab ignore windows test failures=
+ ? Or perhaps have a new &quot;ignored&quot; job for the windows qtests. Wh=
+at&#39;s your experience running gitlab CI with this series? Can you share =
+results? (I kicked off one here <a href=3D"https://gitlab.com/marcandre.lur=
+eau/qemu/-/pipelines/679511572">https://gitlab.com/marcandre.lureau/qemu/-/=
+pipelines/679511572</a>)</div><div>=C2=A0</div></div></div>
+
+--0000000000000f6c3105ec13bcfc--
 
 
