@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5676117B8
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:41:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE076117D1
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:43:53 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooSQR-00048c-B8; Fri, 28 Oct 2022 12:41:43 -0400
+	id 1ooSQv-0008Qf-UA; Fri, 28 Oct 2022 12:42:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSPY-0006Bq-Ah; Fri, 28 Oct 2022 12:40:57 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231])
+ id 1ooSPd-0006iD-JV; Fri, 28 Oct 2022 12:40:59 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSPW-00082S-9X; Fri, 28 Oct 2022 12:40:47 -0400
-Received: by mail-oi1-x231.google.com with SMTP id y67so6717043oiy.1;
- Fri, 28 Oct 2022 09:40:45 -0700 (PDT)
+ id 1ooSPa-00083x-M4; Fri, 28 Oct 2022 12:40:53 -0400
+Received: by mail-oi1-x232.google.com with SMTP id p127so6675416oih.9;
+ Fri, 28 Oct 2022 09:40:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=A8o0YYzfiE7PvuA9z+aNAz3Kkpq0pvrGYF+dBSjiwC4=;
- b=fkTPVzePzxjy4eo1oL6rYWSC1mk8frhwv5nI/Dbmo481BWNDT2n9q/MFgM1H+4aC8C
- ZCR+rR2Pk5PHH835hplKIqZkpptI5uY3rCGeENtzqXW4ssXxDGLhyQ0/kH7UqK5jLqMX
- e/kCd5xxMrAr9BwseuSkc8PbN7ZRGNyu0GdLMXuUq1/zZY8hFWzXasxR5p2zjQOOHWxD
- tDZO5VHPSutTTnszG3ka68ZeSNzXQDyAeWUXga2cWgq1Ba1KMLWzSkWFJBQ3HNtIzPMS
- UK/iMj2sqIOIWNHLjn+jZN2to9TdcUWyO735E+ZjUj9isd2ldxR1s+DuNuZB9DjXebSj
- cyew==
+ bh=NbTZuZJWySTEeGCJDM1gWxrGKhmGf/b6AlbK9Zgdwis=;
+ b=S7b5kJAKncBpUpc3zdnBkgKzhfREGQdZffQXWqvAcbGdvacU6rSsMtKRtU9zy9oOlF
+ d1Tsw+qZ4TQoRm70AGIxYEB4TXWxvl00gUY6X4EDt20eAlmuHuWWkDlfJTyoWKOoEHkx
+ DgpL367bXxO5L8y31QXkAqVxoryL5nigIM8zYkPD8eEDXzAk9iQdqZZx3/D4pBK+4JTg
+ zgqRAW5jbuPVsfdydV1LPR47BLlMlI1rmDqwj3W3jmtLg0rWZjwN+ONLnzXRDgOdqOPO
+ aB46ED8u9/x6KRjhnQf4oEYDlbLJ0XEoU2/6IHLQ1Z/jgVlEI+Nx92hqhmwSFSyere52
+ MnBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=A8o0YYzfiE7PvuA9z+aNAz3Kkpq0pvrGYF+dBSjiwC4=;
- b=QQ7hUCGjlvXh97CIJ5ou9CYfM1aLQZ3MmP54dnWpUSiEVMKaa3QaK96Yl6shMMwXb6
- /xIX6OrioHpT8F735ePJGFEPQlPTkPudeq51bdDTd4DKYy6Itd6zJbAbanFuLmO4Ygta
- csHJShXIy3bOnnr8fnHdXd8QjEqMOaJjAfa06xwLEnJ+AfpZ+gWyi2BNttaEdE4dZfod
- pAmh1KeLeSJNWGHl+rkVQnY5JhWF48pMH+R2moei3v4uWwvdQY4z/D8RK0tWYOaaY3lj
- knfLa5VQMe6jXouhr40NS1CpN/WgwHiedkGdWeqgsHiy+pOoKR8i1top2qRQoW7ImTsx
- B/Zw==
-X-Gm-Message-State: ACrzQf2chlDIgMqu87yfl17fvidoGX1Oj4onqJ5wIzt/vijmJzQywVql
- u2FVqEJuKfkHyjc86hLl1CJL8TdK54Io9g==
-X-Google-Smtp-Source: AMsMyM6Ui9wyXKpDcKkt6eEmdOZgTMUi9GioF0V9wXkEc5V9ZtbvPLGgRXixUAJxdBJp7iXS8l5yXA==
-X-Received: by 2002:a05:6808:1205:b0:354:2815:4f3c with SMTP id
- a5-20020a056808120500b0035428154f3cmr8696549oil.26.1666975244421; 
- Fri, 28 Oct 2022 09:40:44 -0700 (PDT)
+ bh=NbTZuZJWySTEeGCJDM1gWxrGKhmGf/b6AlbK9Zgdwis=;
+ b=K6X/GuMu6cD3OINimDGlKozKmyyFmmeK0fmFoYvMmtphIasQztnvbUkyy+aXAd2MMK
+ JVTKRpX6oS1yw7+FCwrXQMocyNPTh7I5nSkFHAGbcBacy+lub/vorcxiYyfe9zqX1S/q
+ v8AoA/WWl7bx5DgtU9XOb6zNwd86y+q0nVkIMyNY1vSe6R2BBkWXqC/sgz8L9RDJ/1Wb
+ JWUH3gYyNg9bdc9dg5mzuexioqqV7S7anxXE+6xmMtN6X6JF5mFzJD18irZ1h+cHkqWI
+ X1rgONQxCkQ+7dyBibZ7QWQpgSPdLxoc0zHk5HN9lpv40rsn2zNvUX6h5PPmtXzBVZ8F
+ /vqQ==
+X-Gm-Message-State: ACrzQf3S3m+jfy4xOLXBkm4tK+2rZENiaLohOPVEGbC31URF9LNe85sK
+ mSWOT9hGr0oieGnOh7BQoSVcEL2PgII5IA==
+X-Google-Smtp-Source: AMsMyM6U+UX6qS2vM4BvvLx4JLP7VytiZTIbakMhfrHwJ6Aaf5aTqKMup6NNOSEZXcoJVyirxYl8MQ==
+X-Received: by 2002:a05:6808:188e:b0:359:e0c0:1ccd with SMTP id
+ bi14-20020a056808188e00b00359e0c01ccdmr388209oib.181.1666975248807; 
+ Fri, 28 Oct 2022 09:40:48 -0700 (PDT)
 Received: from balboa.COMFAST ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.40.40
+ s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.40.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:40:43 -0700 (PDT)
+ Fri, 28 Oct 2022 09:40:47 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
  Richard Henderson <richard.henderson@linaro.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 10/62] target/ppc: Move VNEG[WD] to decodtree and use gvec
-Date: Fri, 28 Oct 2022 13:38:59 -0300
-Message-Id: <20221028163951.810456-11-danielhb413@gmail.com>
+Subject: [PULL 11/62] target/ppc: Move VPRTYB[WDQ] to decodetree and use gvec
+Date: Fri, 28 Oct 2022 13:39:00 -0300
+Message-Id: <20221028163951.810456-12-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
 References: <20221028163951.810456-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x231.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -93,128 +93,214 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-Moved the instructions VNEGW and VNEGD to decodetree and used gvec to
-decode it.
+Moved VPRTYBW and VPRTYBD to use gvec and both of them and VPRTYBQ to
+decodetree. VPRTYBW and VPRTYBD now also use .fni4 and .fni8,
+respectively.
 
-vnegw:
+vprtybw:
 rept    loop    master             patch
-8       12500   0,01053200         0,00548400 (-47.9%)
-25      4000    0,01030500         0,00390000 (-62.2%)
-100     1000    0,01096300         0,00395400 (-63.9%)
-500     200     0,01472000         0,00712300 (-51.6%)
-2500    40      0,03809000         0,02147700 (-43.6%)
-8000    12      0,09957100         0,06202100 (-37.7%)
+8       12500   0,01198900         0,00703100 (-41.4%)
+25      4000    0,01070100         0,00571400 (-46.6%)
+100     1000    0,01123300         0,00678200 (-39.6%)
+500     200     0,01601500         0,01535600 (-4.1%)
+2500    40      0,03872900         0,05562100 (43.6%)
+8000    12      0,10047000         0,16643000 (65.7%)
 
-vnegd:
+vprtybd:
 rept    loop    master             patch
-8       12500   0,00594600         0,00543800 (-8.5%)
-25      4000    0,00575200         0,00396400 (-31.1%)
-100     1000    0,00676100         0,00394800 (-41.6%)
-500     200     0,01149300         0,00709400 (-38.3%)
-2500    40      0,03441500         0,02169600 (-37.0%)
-8000    12      0,09516900         0,06337000 (-33.4%)
+8       12500   0,00757700         0,00788100 (4.0%)
+25      4000    0,00652500         0,00669600 (2.6%)
+100     1000    0,00714400         0,00825400 (15.5%)
+500     200     0,01211000         0,01903700 (57.2%)
+2500    40      0,03483800         0,07021200 (101.5%)
+8000    12      0,09591800         0,21036200 (119.3%)
+
+vprtybq:
+rept    loop    master             patch
+8       12500   0,00675600         0,00667200 (-1.2%)
+25      4000    0,00619400         0,00643200 (3.8%)
+100     1000    0,00707100         0,00751100 (6.2%)
+500     200     0,01199300         0,01342000 (11.9%)
+2500    40      0,03490900         0,04092900 (17.2%)
+8000    12      0,09588200         0,11465100 (19.6%)
+
+I wasn't expecting such a performance lost in both VPRTYBD and VPRTYBQ,
+I'm not sure if it's worth to move those instructions. Comparing the
+assembly of the helper with the TCGop they are pretty similar, so
+I'm not sure why vprtybd took so much more time.
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221019125040.48028-5-lucas.araujo@eldorado.org.br>
+Message-Id: <20221019125040.48028-6-lucas.araujo@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/helper.h                 |  2 --
- target/ppc/insn32.decode            |  3 +++
- target/ppc/int_helper.c             | 12 ------------
- target/ppc/translate/vmx-impl.c.inc | 15 +++++++++++++--
- target/ppc/translate/vmx-ops.c.inc  |  2 --
- 5 files changed, 16 insertions(+), 18 deletions(-)
+ target/ppc/helper.h                 |  4 +-
+ target/ppc/insn32.decode            |  4 ++
+ target/ppc/int_helper.c             | 25 +----------
+ target/ppc/translate/vmx-impl.c.inc | 68 +++++++++++++++++++++++++++--
+ target/ppc/translate/vmx-ops.c.inc  |  3 --
+ 5 files changed, 71 insertions(+), 33 deletions(-)
 
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index f7047ed2aa..b2e910b089 100644
+index b2e910b089..a06193bc67 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -229,8 +229,6 @@ DEF_HELPER_FLAGS_2(VSTRIBL, TCG_CALL_NO_RWG, i32, avr, avr)
- DEF_HELPER_FLAGS_2(VSTRIBR, TCG_CALL_NO_RWG, i32, avr, avr)
- DEF_HELPER_FLAGS_2(VSTRIHL, TCG_CALL_NO_RWG, i32, avr, avr)
- DEF_HELPER_FLAGS_2(VSTRIHR, TCG_CALL_NO_RWG, i32, avr, avr)
--DEF_HELPER_FLAGS_2(vnegw, TCG_CALL_NO_RWG, void, avr, avr)
--DEF_HELPER_FLAGS_2(vnegd, TCG_CALL_NO_RWG, void, avr, avr)
- DEF_HELPER_FLAGS_2(vupkhpx, TCG_CALL_NO_RWG, void, avr, avr)
- DEF_HELPER_FLAGS_2(vupklpx, TCG_CALL_NO_RWG, void, avr, avr)
- DEF_HELPER_FLAGS_2(vupkhsb, TCG_CALL_NO_RWG, void, avr, avr)
+@@ -193,9 +193,7 @@ DEF_HELPER_FLAGS_3(vslo, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(vsro, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(vsrv, TCG_CALL_NO_RWG, void, avr, avr, avr)
+ DEF_HELPER_FLAGS_3(vslv, TCG_CALL_NO_RWG, void, avr, avr, avr)
+-DEF_HELPER_FLAGS_2(vprtybw, TCG_CALL_NO_RWG, void, avr, avr)
+-DEF_HELPER_FLAGS_2(vprtybd, TCG_CALL_NO_RWG, void, avr, avr)
+-DEF_HELPER_FLAGS_2(vprtybq, TCG_CALL_NO_RWG, void, avr, avr)
++DEF_HELPER_FLAGS_3(VPRTYBQ, TCG_CALL_NO_RWG, void, avr, avr, i32)
+ DEF_HELPER_FLAGS_5(vaddsbs, TCG_CALL_NO_RWG, void, avr, avr, avr, avr, i32)
+ DEF_HELPER_FLAGS_5(vaddshs, TCG_CALL_NO_RWG, void, avr, avr, avr, avr, i32)
+ DEF_HELPER_FLAGS_5(vaddsws, TCG_CALL_NO_RWG, void, avr, avr, avr, avr, i32)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index c985f8f1bf..2fafde075b 100644
+index 2fafde075b..b05c89efee 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -629,6 +629,9 @@ VEXTSH2D        000100 ..... 11001 ..... 11000000010    @VX_tb
- VEXTSW2D        000100 ..... 11010 ..... 11000000010    @VX_tb
- VEXTSD2Q        000100 ..... 11011 ..... 11000000010    @VX_tb
+@@ -529,6 +529,10 @@ VCTZDM          000100 ..... ..... ..... 11111000100    @VX
+ VPDEPD          000100 ..... ..... ..... 10111001101    @VX
+ VPEXTD          000100 ..... ..... ..... 10110001101    @VX
  
-+VNEGD           000100 ..... 00111 ..... 11000000010    @VX_tb
-+VNEGW           000100 ..... 00110 ..... 11000000010    @VX_tb
++VPRTYBD         000100 ..... 01001 ..... 11000000010    @VX_tb
++VPRTYBQ         000100 ..... 01010 ..... 11000000010    @VX_tb
++VPRTYBW         000100 ..... 01000 ..... 11000000010    @VX_tb
 +
- ## Vector Mask Manipulation Instructions
+ ## Vector Permute and Formatting Instruction
  
- MTVSRBM         000100 ..... 10000 ..... 11001000010    @VX_tb
+ VEXTDUBVLX      000100 ..... ..... ..... ..... 011000   @VA
 diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index f8dd12e8ae..c7fd0d1faa 100644
+index c7fd0d1faa..c6ce4665fa 100644
 --- a/target/ppc/int_helper.c
 +++ b/target/ppc/int_helper.c
-@@ -1928,18 +1928,6 @@ XXBLEND(W, 32)
- XXBLEND(D, 64)
- #undef XXBLEND
+@@ -492,31 +492,8 @@ static inline void set_vscr_sat(CPUPPCState *env)
+     env->vscr_sat.u32[0] = 1;
+ }
  
--#define VNEG(name, element)                                         \
--void helper_##name(ppc_avr_t *r, ppc_avr_t *b)                      \
--{                                                                   \
--    int i;                                                          \
--    for (i = 0; i < ARRAY_SIZE(r->element); i++) {                  \
--        r->element[i] = -b->element[i];                             \
--    }                                                               \
+-/* vprtybw */
+-void helper_vprtybw(ppc_avr_t *r, ppc_avr_t *b)
+-{
+-    int i;
+-    for (i = 0; i < ARRAY_SIZE(r->u32); i++) {
+-        uint64_t res = b->u32[i] ^ (b->u32[i] >> 16);
+-        res ^= res >> 8;
+-        r->u32[i] = res & 1;
+-    }
 -}
--VNEG(vnegw, s32)
--VNEG(vnegd, s64)
--#undef VNEG
 -
- void helper_vsro(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)
+-/* vprtybd */
+-void helper_vprtybd(ppc_avr_t *r, ppc_avr_t *b)
+-{
+-    int i;
+-    for (i = 0; i < ARRAY_SIZE(r->u64); i++) {
+-        uint64_t res = b->u64[i] ^ (b->u64[i] >> 32);
+-        res ^= res >> 16;
+-        res ^= res >> 8;
+-        r->u64[i] = res & 1;
+-    }
+-}
+-
+ /* vprtybq */
+-void helper_vprtybq(ppc_avr_t *r, ppc_avr_t *b)
++void helper_VPRTYBQ(ppc_avr_t *r, ppc_avr_t *b, uint32_t v)
  {
-     int sh = (b->VsrB(0xf) >> 3) & 0xf;
+     uint64_t res = b->u64[0] ^ b->u64[1];
+     res ^= res >> 32;
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index f52485a5f1..b9a9e83ab3 100644
+index b9a9e83ab3..cbb2a3ebe7 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -2625,8 +2625,19 @@ GEN_VXFORM_NOA(vclzb, 1, 28)
- GEN_VXFORM_NOA(vclzh, 1, 29)
- GEN_VXFORM_TRANS(vclzw, 1, 30)
- GEN_VXFORM_TRANS(vclzd, 1, 31)
--GEN_VXFORM_NOA_2(vnegw, 1, 24, 6)
--GEN_VXFORM_NOA_2(vnegd, 1, 24, 7)
+@@ -1659,9 +1659,71 @@ GEN_VXFORM_NOA_ENV(vrfim, 5, 11);
+ GEN_VXFORM_NOA_ENV(vrfin, 5, 8);
+ GEN_VXFORM_NOA_ENV(vrfip, 5, 10);
+ GEN_VXFORM_NOA_ENV(vrfiz, 5, 9);
+-GEN_VXFORM_NOA(vprtybw, 1, 24);
+-GEN_VXFORM_NOA(vprtybd, 1, 24);
+-GEN_VXFORM_NOA(vprtybq, 1, 24);
 +
-+static bool do_vneg(DisasContext *ctx, arg_VX_tb *a, unsigned vece)
++static void gen_vprtyb_vec(unsigned vece, TCGv_vec t, TCGv_vec b)
 +{
++    int i;
++    TCGv_vec tmp = tcg_temp_new_vec_matching(b);
++    /* MO_32 is 2, so 2 iteractions for MO_32 and 3 for MO_64 */
++    for (i = 0; i < vece; i++) {
++        tcg_gen_shri_vec(vece, tmp, b, (4 << (vece - i)));
++        tcg_gen_xor_vec(vece, b, tmp, b);
++    }
++    tcg_gen_and_vec(vece, t, b, tcg_constant_vec_matching(t, vece, 1));
++    tcg_temp_free_vec(tmp);
++}
++
++/* vprtybw */
++static void gen_vprtyb_i32(TCGv_i32 t, TCGv_i32 b)
++{
++    tcg_gen_ctpop_i32(t, b);
++    tcg_gen_and_i32(t, t, tcg_constant_i32(1));
++}
++
++/* vprtybd */
++static void gen_vprtyb_i64(TCGv_i64 t, TCGv_i64 b)
++{
++    tcg_gen_ctpop_i64(t, b);
++    tcg_gen_and_i64(t, t, tcg_constant_i64(1));
++}
++
++static bool do_vx_vprtyb(DisasContext *ctx, arg_VX_tb *a, unsigned vece)
++{
++    static const TCGOpcode vecop_list[] = {
++        INDEX_op_shri_vec, 0
++    };
++
++    static const GVecGen2 op[] = {
++        {
++            .fniv = gen_vprtyb_vec,
++            .fni4 = gen_vprtyb_i32,
++            .opt_opc = vecop_list,
++            .vece = MO_32
++        },
++        {
++            .fniv = gen_vprtyb_vec,
++            .fni8 = gen_vprtyb_i64,
++            .opt_opc = vecop_list,
++            .vece = MO_64
++        },
++        {
++            .fno = gen_helper_VPRTYBQ,
++            .vece = MO_128
++        },
++    };
++
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
 +    REQUIRE_VECTOR(ctx);
 +
-+    tcg_gen_gvec_neg(vece, avr_full_offset(a->vrt), avr_full_offset(a->vrb),
-+                     16, 16);
++    tcg_gen_gvec_2(avr_full_offset(a->vrt), avr_full_offset(a->vrb),
++                   16, 16, &op[vece - MO_32]);
++
 +    return true;
 +}
 +
-+TRANS(VNEGW, do_vneg, MO_32)
-+TRANS(VNEGD, do_vneg, MO_64)
++TRANS(VPRTYBW, do_vx_vprtyb, MO_32)
++TRANS(VPRTYBD, do_vx_vprtyb, MO_64)
++TRANS(VPRTYBQ, do_vx_vprtyb, MO_128)
  
- static void gen_vexts_i64(TCGv_i64 t, TCGv_i64 b, int64_t s)
+ static void gen_vsplt(DisasContext *ctx, int vece)
  {
 diff --git a/target/ppc/translate/vmx-ops.c.inc b/target/ppc/translate/vmx-ops.c.inc
-index ded0234123..27908533dd 100644
+index 27908533dd..46a620a232 100644
 --- a/target/ppc/translate/vmx-ops.c.inc
 +++ b/target/ppc/translate/vmx-ops.c.inc
-@@ -181,8 +181,6 @@ GEN_VXFORM_300_EXT(vextractd, 6, 11, 0x100000),
- GEN_VXFORM(vspltisb, 6, 12),
- GEN_VXFORM(vspltish, 6, 13),
- GEN_VXFORM(vspltisw, 6, 14),
--GEN_VXFORM_300_EO(vnegw, 0x01, 0x18, 0x06),
--GEN_VXFORM_300_EO(vnegd, 0x01, 0x18, 0x07),
- GEN_VXFORM_300_EO(vctzb, 0x01, 0x18, 0x1C),
- GEN_VXFORM_300_EO(vctzh, 0x01, 0x18, 0x1D),
- GEN_VXFORM_300_EO(vctzw, 0x01, 0x18, 0x1E),
+@@ -106,9 +106,6 @@ GEN_VXFORM_300(vsrv, 2, 28),
+ GEN_VXFORM_300(vslv, 2, 29),
+ GEN_VXFORM(vslo, 6, 16),
+ GEN_VXFORM(vsro, 6, 17),
+-GEN_HANDLER_E_2(vprtybw, 0x4, 0x1, 0x18, 8, 0, PPC_NONE, PPC2_ISA300),
+-GEN_HANDLER_E_2(vprtybd, 0x4, 0x1, 0x18, 9, 0, PPC_NONE, PPC2_ISA300),
+-GEN_HANDLER_E_2(vprtybq, 0x4, 0x1, 0x18, 10, 0, PPC_NONE, PPC2_ISA300),
+ 
+ GEN_VXFORM(xpnd04_1, 0, 22),
+ GEN_VXFORM_300(bcdsr, 0, 23),
 -- 
 2.37.3
 
