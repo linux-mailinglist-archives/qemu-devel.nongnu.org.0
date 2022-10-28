@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07BD06117DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:45:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4BF2611813
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:50:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooST9-0006FF-Rs; Fri, 28 Oct 2022 12:44:31 -0400
+	id 1ooSTB-0006hw-JD; Fri, 28 Oct 2022 12:44:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSSv-0003qF-O6; Fri, 28 Oct 2022 12:44:18 -0400
-Received: from mail-oa1-x32.google.com ([2001:4860:4864:20::32])
+ id 1ooST0-0004Re-4y; Fri, 28 Oct 2022 12:44:22 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSSt-000135-L8; Fri, 28 Oct 2022 12:44:17 -0400
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-13bd2aea61bso6949666fac.0; 
- Fri, 28 Oct 2022 09:44:14 -0700 (PDT)
+ id 1ooSSy-0000x4-DR; Fri, 28 Oct 2022 12:44:21 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id t10so6714493oib.5;
+ Fri, 28 Oct 2022 09:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NGnQWlzMtyUtHXLrjMDWd0Rce4Z/L/hcD+8jmeiuS5I=;
- b=duHeNbde1x34Zn7TDMAOaKEgRUGDbliQ89Z4W8y1kZyoSYCn2MhkT3QHnbSxmXhke7
- /C61F6cGoplAmS8WJyrA79oUGr5SeO2V6qi6q+DpvRIfGCBDzrBWlRCvNBacfKwIYJ/W
- Z3W3CG0P6hyd7DqBMbGW6uOEnxbVAeWHSTsdKUWzMbFj38yuDJt60VEn1e/ajUAhydZ7
- sGjb/GqF8HsQfuhRwdVoIV3ZkYSi5q+5h2pTXAJlTvkeS/aEb0rQJ8CfkcxrmQsEDtZA
- 04kWYu5m0jwqpvpQmxleodjQ47rh/ylw4/OxCJfIjNg5uSgXLpo+93iLy2I0L4sO5eUl
- oQ+w==
+ bh=8LRbBucj4Y7vI8Jav5c0MpNFLgAoYCOD3t1+Eh8zQLg=;
+ b=hkAf+ixaBeD963VxxLVHruhdtVo2VUZ143uMbiBmYfoeznP2GQ1O7hJdYzxa5fga+c
+ ZQJkHtmYhEmutsoISIRk7SNrtW076/jnJ4Mgl0lKQUXtftUhTfi+ym64zHRvCmVrz78z
+ oe6xxA6+1svoXRzw9ReCLqHtiM22wiTcLeMWkhHodvnepZWly17WefTGHqHtuiRL+53/
+ o9lUSizwTeWagQ9/6oKl+hWjiWqYTMls/bBM9qUAQ8dxyvpAOhcFFx2MLAo48ivwMMcC
+ DFUxnopRoVZbrh8IHK96RJT7eDHd1foHADOP4Z/EkfXAXVSiqJrl09lxLokBbtDlTX6K
+ ak1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NGnQWlzMtyUtHXLrjMDWd0Rce4Z/L/hcD+8jmeiuS5I=;
- b=z8xcNggg94yvp88qzUPMZjFzJtAfJLH4PR6qrcJiKs/JJMzvL/H/p4zgsHWrHOZ1F2
- hjXKD/Rgre7YmGoqmo7zwgU2zBPB4p/IGX6sGzUhXlzJAT7rs9/7necf5nrAaNWJsard
- /5N3Jfb/6A7xh70ZE86LrkkGQrYI12FFHH+BmQCDBleluB9aVX+3E/R3SuX/hqtvN1kk
- X+VP44z7Pb/98ayKZSWZc+rTnQxmkvl5t6OL7Cu4sYSSTMQBJSxjrSx8VW40G55aVJ91
- dZvTroSwjgq9tcbt7sWwbVdjgfCWVw9z7vv0WyCA7K49GHvAz7GC7mYWsdJwGWqNuYf2
- zCbQ==
-X-Gm-Message-State: ACrzQf2uJ4i0Sts7vevkubPI+5TYKCn3dAU3pymhPbrJsnni5zUU8yaf
- 5hKQNiNuwmJPvsz7scu68FLoNRYknhgrQw==
-X-Google-Smtp-Source: AMsMyM6as5cILvnfO4E9Xr7vQ5nSGWzuO9wBAgQ2HxkR9uuJVhdyRzwwvIfgD6jPXufUzMg0bI+6tw==
-X-Received: by 2002:a05:6870:f61a:b0:13b:9374:203e with SMTP id
- ek26-20020a056870f61a00b0013b9374203emr50229oab.18.1666975453689; 
- Fri, 28 Oct 2022 09:44:13 -0700 (PDT)
+ bh=8LRbBucj4Y7vI8Jav5c0MpNFLgAoYCOD3t1+Eh8zQLg=;
+ b=HAldXIM6Cw4NNHaDJNwNLvemN2jYhcOy//1tibaPmBaYnyB1mSeGWsayKOGvuy/Ltv
+ 6m+ONwOL/+nymSF3AWHeAxyJrtwO5Y2W0juWRPWlnSF63s7BudfXpuj+qG5oZwAjybAD
+ Y0INtk3pqbn5UzxPQ+Ip55u4WKPM954iaksOLgyNu6RPiej7SydmA8Z1cMyMZOAmzNLV
+ 1AfwzNBAbC3xAhnKttzhtALEkh2ZBQjtIMCT2DO8zOzJZIAn8ZZc0ZbTMeDn05glyea1
+ GyRWDk0s0hC/SpiB4fSUox7NYOFtj3nbQkrAq3R+72g5hzSBvb7M73cr56pWgVFE7Gf/
+ F+MA==
+X-Gm-Message-State: ACrzQf0obrKhCOKryTzGwBRddLSznxrSq3toiO8dkW+Os7NqfxIZ6e/e
+ LCP0ma0z2kADkMqkl+YXw/woFFsjVsUu1A==
+X-Google-Smtp-Source: AMsMyM7z1yP0XY/bvmRt0UamKTk7WeKvmlRkHKrfl8/Vz/T8fmTDkjGCYJt8rjzE4i7Q/atkApFeqw==
+X-Received: by 2002:a05:6808:11c5:b0:34b:75dd:2ee9 with SMTP id
+ p5-20020a05680811c500b0034b75dd2ee9mr159972oiv.285.1666975459057; 
+ Fri, 28 Oct 2022 09:44:19 -0700 (PDT)
 Received: from balboa.COMFAST ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.44.08
+ s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.44.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:44:10 -0700 (PDT)
+ Fri, 28 Oct 2022 09:44:16 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
- Leandro Lupori <leandro.lupori@eldorado.org.br>,
+ Bernhard Beschow <shentey@gmail.com>, BALATON Zoltan <balaton@eik.bme.hu>,
+ Bin Meng <bmeng.cn@gmail.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 57/62] target/ppc: Increment PMC5 with inline insns
-Date: Fri, 28 Oct 2022 13:39:46 -0300
-Message-Id: <20221028163951.810456-58-danielhb413@gmail.com>
+Subject: [PULL 58/62] docs/system/ppc/ppce500: Use qemu-system-ppc64 across
+ the board(s)
+Date: Fri, 28 Oct 2022 13:39:47 -0300
+Message-Id: <20221028163951.810456-59-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
 References: <20221028163951.810456-1-danielhb413@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::32;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22e.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -91,220 +93,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Leandro Lupori <leandro.lupori@eldorado.org.br>
+From: Bernhard Beschow <shentey@gmail.com>
 
-Profiling QEMU during Fedora 35 for PPC64 boot revealed that
-6.39% of total time was being spent in helper_insns_inc(), on a
-POWER9 machine. To avoid calling this helper every time PMCs had
-to be incremented, an inline implementation of PMC5 increment and
-check for overflow was developed. This led to a reduction of
-about 12% in Fedora's boot time.
+The documentation suggests that there is a qemu-system-ppc32 binary
+while the 32 bit version is actually just named qemu-system-ppc. Settle
+on qemu-system-ppc64 which also works for 32 bit machines and causes
+less clutter in the documentation.
 
-Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+Found-by: BALATON Zoltan <balaton@eik.bme.hu>
+Suggested-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20221025202424.195984-4-leandro.lupori@eldorado.org.br>
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Message-Id: <20221018210146.193159-2-shentey@gmail.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/helper.h     |  1 +
- target/ppc/power8-pmu.c | 74 +++++++++++++++++++++--------------------
- target/ppc/power8-pmu.h |  3 ++
- target/ppc/translate.c  | 28 ++++++++++++++--
- 4 files changed, 67 insertions(+), 39 deletions(-)
+ docs/system/ppc/ppce500.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 25533b8f33..8dd22a35e4 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -30,6 +30,7 @@ DEF_HELPER_2(store_mmcr1, void, env, tl)
- DEF_HELPER_3(store_pmc, void, env, i32, i64)
- DEF_HELPER_2(read_pmc, tl, env, i32)
- DEF_HELPER_2(insns_inc, void, env, i32)
-+DEF_HELPER_1(handle_pmc5_overflow, void, env)
- #endif
- DEF_HELPER_1(check_tlb_flush_local, void, env)
- DEF_HELPER_1(check_tlb_flush_global, void, env)
-diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-index beeab5c494..1381072b9e 100644
---- a/target/ppc/power8-pmu.c
-+++ b/target/ppc/power8-pmu.c
-@@ -22,8 +22,6 @@
+diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
+index ba6bcb7314..7b5eb3c4ee 100644
+--- a/docs/system/ppc/ppce500.rst
++++ b/docs/system/ppc/ppce500.rst
+@@ -113,7 +113,7 @@ To boot the 32-bit Linux kernel:
  
- #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+ .. code-block:: bash
  
--#define PMC_COUNTER_NEGATIVE_VAL 0x80000000UL
--
- static bool pmc_has_overflow_enabled(CPUPPCState *env, int sprn)
- {
-     if (sprn == SPR_POWER_PMC1) {
-@@ -88,49 +86,47 @@ static bool pmu_increment_insns(CPUPPCState *env, uint32_t num_insns)
-     bool overflow_triggered = false;
-     target_ulong tmp;
+-  $ qemu-system-ppc{64|32} -M ppce500 -cpu e500mc -smp 4 -m 2G \
++  $ qemu-system-ppc64 -M ppce500 -cpu e500mc -smp 4 -m 2G \
+       -display none -serial stdio \
+       -kernel vmlinux \
+       -initrd /path/to/rootfs.cpio \
+@@ -154,10 +154,10 @@ interface at PCI address 0.1.0, but we can switch that to an e1000 NIC by:
  
--    if (unlikely(ins_cnt & 0x1e)) {
--        if (ins_cnt & (1 << 1)) {
--            tmp = env->spr[SPR_POWER_PMC1];
--            tmp += num_insns;
--            if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMC1CE)) {
--                tmp = PMC_COUNTER_NEGATIVE_VAL;
--                overflow_triggered = true;
--            }
--            env->spr[SPR_POWER_PMC1] = tmp;
-+    if (ins_cnt & (1 << 1)) {
-+        tmp = env->spr[SPR_POWER_PMC1];
-+        tmp += num_insns;
-+        if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMC1CE)) {
-+            tmp = PMC_COUNTER_NEGATIVE_VAL;
-+            overflow_triggered = true;
-         }
-+        env->spr[SPR_POWER_PMC1] = tmp;
-+    }
+ .. code-block:: bash
  
--        if (ins_cnt & (1 << 2)) {
--            tmp = env->spr[SPR_POWER_PMC2];
--            tmp += num_insns;
--            if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMCjCE)) {
--                tmp = PMC_COUNTER_NEGATIVE_VAL;
--                overflow_triggered = true;
--            }
--            env->spr[SPR_POWER_PMC2] = tmp;
-+    if (ins_cnt & (1 << 2)) {
-+        tmp = env->spr[SPR_POWER_PMC2];
-+        tmp += num_insns;
-+        if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMCjCE)) {
-+            tmp = PMC_COUNTER_NEGATIVE_VAL;
-+            overflow_triggered = true;
-+        }
-+        env->spr[SPR_POWER_PMC2] = tmp;
-+    }
-+
-+    if (ins_cnt & (1 << 3)) {
-+        tmp = env->spr[SPR_POWER_PMC3];
-+        tmp += num_insns;
-+        if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMCjCE)) {
-+            tmp = PMC_COUNTER_NEGATIVE_VAL;
-+            overflow_triggered = true;
-         }
-+        env->spr[SPR_POWER_PMC3] = tmp;
-+    }
+-  $ qemu-system-ppc -M ppce500 -smp 4 -m 2G \
+-                    -display none -serial stdio \
+-                    -bios u-boot \
+-                    -nic tap,ifname=tap0,script=no,downscript=no,model=e1000
++  $ qemu-system-ppc64 -M ppce500 -smp 4 -m 2G \
++                      -display none -serial stdio \
++                      -bios u-boot \
++                      -nic tap,ifname=tap0,script=no,downscript=no,model=e1000
  
--        if (ins_cnt & (1 << 3)) {
--            tmp = env->spr[SPR_POWER_PMC3];
-+    if (ins_cnt & (1 << 4)) {
-+        target_ulong mmcr1 = env->spr[SPR_POWER_MMCR1];
-+        int sel = extract64(mmcr1, MMCR1_PMC4EVT_EXTR, MMCR1_EVT_SIZE);
-+        if (sel == 0x02 || (env->spr[SPR_CTRL] & CTRL_RUN)) {
-+            tmp = env->spr[SPR_POWER_PMC4];
-             tmp += num_insns;
-             if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMCjCE)) {
-                 tmp = PMC_COUNTER_NEGATIVE_VAL;
-                 overflow_triggered = true;
-             }
--            env->spr[SPR_POWER_PMC3] = tmp;
--        }
--
--        if (ins_cnt & (1 << 4)) {
--            target_ulong mmcr1 = env->spr[SPR_POWER_MMCR1];
--            int sel = extract64(mmcr1, MMCR1_PMC4EVT_EXTR, MMCR1_EVT_SIZE);
--            if (sel == 0x02 || (env->spr[SPR_CTRL] & CTRL_RUN)) {
--                tmp = env->spr[SPR_POWER_PMC4];
--                tmp += num_insns;
--                if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMCjCE)) {
--                    tmp = PMC_COUNTER_NEGATIVE_VAL;
--                    overflow_triggered = true;
--                }
--                env->spr[SPR_POWER_PMC4] = tmp;
--            }
-+            env->spr[SPR_POWER_PMC4] = tmp;
-         }
-     }
- 
-@@ -310,6 +306,12 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
-     raise_ebb_perfm_exception(env);
- }
- 
-+void helper_handle_pmc5_overflow(CPUPPCState *env)
-+{
-+    env->spr[SPR_POWER_PMC5] = PMC_COUNTER_NEGATIVE_VAL;
-+    fire_PMC_interrupt(env_archcpu(env));
-+}
-+
- /* This helper assumes that the PMC is running. */
- void helper_insns_inc(CPUPPCState *env, uint32_t num_insns)
- {
-diff --git a/target/ppc/power8-pmu.h b/target/ppc/power8-pmu.h
-index 9692dd765e..c0093e2219 100644
---- a/target/ppc/power8-pmu.h
-+++ b/target/ppc/power8-pmu.h
-@@ -14,6 +14,9 @@
- #define POWER8_PMU_H
- 
- #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
-+
-+#define PMC_COUNTER_NEGATIVE_VAL 0x80000000UL
-+
- void cpu_ppc_pmu_init(CPUPPCState *env);
- void pmu_update_summaries(CPUPPCState *env);
- #else
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 8d79522f98..19c1d17cb0 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -36,6 +36,7 @@
- #include "exec/log.h"
- #include "qemu/atomic128.h"
- #include "spr_common.h"
-+#include "power8-pmu.h"
- 
- #include "qemu/qemu-print.h"
- #include "qapi/error.h"
-@@ -4271,6 +4272,9 @@ static void pmu_count_insns(DisasContext *ctx)
-     }
- 
-  #if !defined(CONFIG_USER_ONLY)
-+    TCGLabel *l;
-+    TCGv t0;
-+
-     /*
-      * The PMU insns_inc() helper stops the internal PMU timer if a
-      * counter overflows happens. In that case, if the guest is
-@@ -4279,8 +4283,26 @@ static void pmu_count_insns(DisasContext *ctx)
-      */
-     gen_icount_io_start(ctx);
- 
--    gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
--#else
-+    /* Avoid helper calls when only PMC5-6 are enabled. */
-+    if (!ctx->pmc_other) {
-+        l = gen_new_label();
-+        t0 = tcg_temp_new();
-+
-+        gen_load_spr(t0, SPR_POWER_PMC5);
-+        tcg_gen_addi_tl(t0, t0, ctx->base.num_insns);
-+        gen_store_spr(SPR_POWER_PMC5, t0);
-+        /* Check for overflow, if it's enabled */
-+        if (ctx->mmcr0_pmcjce) {
-+            tcg_gen_brcondi_tl(TCG_COND_LT, t0, PMC_COUNTER_NEGATIVE_VAL, l);
-+            gen_helper_handle_pmc5_overflow(cpu_env);
-+        }
-+
-+        gen_set_label(l);
-+        tcg_temp_free(t0);
-+    } else {
-+        gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
-+    }
-+  #else
-     /*
-      * User mode can read (but not write) PMC5 and start/stop
-      * the PMU via MMCR0_FC. In this case just increment
-@@ -4293,7 +4315,7 @@ static void pmu_count_insns(DisasContext *ctx)
-     gen_store_spr(SPR_POWER_PMC5, t0);
- 
-     tcg_temp_free(t0);
--#endif /* #if !defined(CONFIG_USER_ONLY) */
-+  #endif /* #if !defined(CONFIG_USER_ONLY) */
- }
- #else
- static void pmu_count_insns(DisasContext *ctx)
+ The QEMU ``ppce500`` machine can also dynamically instantiate an eTSEC device
+ if “-device eTSEC” is given to QEMU:
 -- 
 2.37.3
 
