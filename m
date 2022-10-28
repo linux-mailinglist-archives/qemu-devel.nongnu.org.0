@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44CC6117E8
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:47:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B806117E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:47:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooSSf-0000KM-HW; Fri, 28 Oct 2022 12:44:01 -0400
+	id 1ooSSh-0000pG-SB; Fri, 28 Oct 2022 12:44:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSRv-0001NX-Nt; Fri, 28 Oct 2022 12:43:16 -0400
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234])
+ id 1ooSS2-0002YM-7v; Fri, 28 Oct 2022 12:43:22 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSRu-0000ea-8t; Fri, 28 Oct 2022 12:43:15 -0400
-Received: by mail-oi1-x234.google.com with SMTP id g10so6685257oif.10;
- Fri, 28 Oct 2022 09:43:13 -0700 (PDT)
+ id 1ooSRz-0000gc-IY; Fri, 28 Oct 2022 12:43:21 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id l5so6703082oif.7;
+ Fri, 28 Oct 2022 09:43:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xyhQI0Lbzpmp5S+5BT24WfTg1fucLHlEvq9Q5Qt6284=;
- b=WHJ1v2yMROSdj9pdZNaS2/xjQxuZSeddPhIiH1TgoG4RXimFrxw3ediSPHqOGAqCq5
- 1X2kTyPaEpQR6C8IFKoIg4D+eUOLvFaIKyK/YqzF2ej3ME8Hg0NHrAw+o1nIsAlWmkzu
- MKbqCiIztWeSvntsXzgyiDYyjVWarlGhXK6kEw63WVOLniR4jtgML3RQzCpu6QNwXFSU
- D9/Hdbw0lIXGukguqWgYYowGJMZE0bfiKiWqteMpbXSExVnSaEWZSHmS0MUzUYFgAuhh
- L5NKG24LMCWHzEjJlswIkhAMtYXW5CHFtIET0Fch154jnvIcg+z48rPqn29Rk8xpfbzN
- kSfg==
+ bh=OKLpqCzd3VhR2aV5CxTpiVjzpqLZ0hJfQFZt1uxcxCk=;
+ b=Y/xWNIhQ4sS+hjEa2S7Q5g+UKcJbnHyjPKu8FvgGR2rfjT/+cvbX7OPX5Xd0a+BJt2
+ HTtDOz6XWjaplrwyWn/gw55YTPrLWgnIYy2BehigStbNvb/Kqa3d4cGEdeGBD1iw68N2
+ VBgMUbVfytrZ89dRlNRNdV2D8DjJkE6LeMLXyCAKM6cyqNT8lC570INHGVEZuWy4nedl
+ jYTsjfKQ0wVNtiAzbfN4H+bIblNPOOhRctBtTV2R7u+iVJ6JY6BrEP/z4qx+a0Q1GMpM
+ TGACKoMxGj/mHTqYYlpNRVJjOJzgJaj1VtDvO9fy7JC0vnltYiD52Iw2OTPVQCB8wITx
+ CZVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xyhQI0Lbzpmp5S+5BT24WfTg1fucLHlEvq9Q5Qt6284=;
- b=Yqek/shn7bU7Io0C3NK6Zjs/tboKoE90E9buv0o6EEJ4vgV0xTDBWyHdottIWI92tB
- 9wzR22YZO9EFFKMiBZtS3ekScfqTdGWQm4SnflmXKQvhrd6r3wBGCa7Y3PC0VvX/uYeZ
- wVzme9pENCYPoFtOqWkS8lotTNMcp9KO3td/Na1F1BOOFPYB/8Wgy2TxUUIQlpCNF7de
- /dCfY1v5vXu4Itolgb1yG1merWvT3Ni89/xEiP/z3iLz659Cdyu8ncausVNa8ZeAqCHs
- R6zW0gFIo9F6dyk0GPx0GxrMk4cvgomhRyyv7yXZjCWR9j0AhFkbsSGJD2RQFkZC44pN
- F3iQ==
-X-Gm-Message-State: ACrzQf0RWJYciYhl4ovCyVfE+oeb68tSKDn0y/a2yiCOU/YQVJ9vDYXw
- J5MfSlBs3vR6TH7nIYQdg38RKx0nHhKj1w==
-X-Google-Smtp-Source: AMsMyM5/PpKvFwLxVQzSJke6RLjAqznHXqakTmeaOp+tclD9yY3yg/jNO0jrFGSeqfp1rxHxaP8Wig==
-X-Received: by 2002:a05:6808:2393:b0:355:39af:eb6e with SMTP id
- bp19-20020a056808239300b0035539afeb6emr8697561oib.40.1666975392347; 
- Fri, 28 Oct 2022 09:43:12 -0700 (PDT)
+ bh=OKLpqCzd3VhR2aV5CxTpiVjzpqLZ0hJfQFZt1uxcxCk=;
+ b=1eAKltuFYn0sHJxS9P0bC+FGGMYZH8K+lW/yGJq5Z+7vJTKEj9qbVzwEeipqgaqYSU
+ PwOtP//g4zrfoecfVOKQGz3U3Nz01mCDpSdNXsFrfrlaCLUqUzJQsZI+cF0kfNTukZU9
+ k9ndI5cEcwmNtUAYVYr+J9L7xDhdeLT9VMzNZMjyY/ojPdz7Zn3JAU5L+93RWlEn6bBa
+ V7VFxXOQGWNBgvLP5qAYF6GMJ6PwWIuKcRYn3LsPkkB+WsyWaColRKNVALSpmKg/H8hC
+ oHeVJh0sg01teJ4DIX+7D7uEd193fhRdeBpllwJ9MzCbotYCJIQPGWQuLfWVciX+Zjsy
+ Rl4Q==
+X-Gm-Message-State: ACrzQf3ZeJxzl4bbHE0x41ztfuGpDrGNLEOrGz1opcIa2Vm4LjT2YGgq
+ cW9V6TCtzgiN/gEO2ci1WP/a7ZiUXADlZA==
+X-Google-Smtp-Source: AMsMyM7Oh5PiKMQWEKdWFCcPZlgGPvPauqKJcXHluNozspgw+F+1shJXvcfS1z82GgEl/7oL/DiHXg==
+X-Received: by 2002:a05:6808:911:b0:359:cb34:8dd4 with SMTP id
+ w17-20020a056808091100b00359cb348dd4mr167150oih.223.1666975397708; 
+ Fri, 28 Oct 2022 09:43:17 -0700 (PDT)
 Received: from balboa.COMFAST ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.43.07
+ s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.43.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:43:10 -0700 (PDT)
+ Fri, 28 Oct 2022 09:43:14 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  Matheus Ferst <matheus.ferst@eldorado.org.br>,
- Fabiano Rosas <farosas@linux.ibm.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 44/62] target/ppc: remove ppc_store_lpcr from CONFIG_USER_ONLY
- builds
-Date: Fri, 28 Oct 2022 13:39:33 -0300
-Message-Id: <20221028163951.810456-45-danielhb413@gmail.com>
+Subject: [PULL 45/62] target/ppc: introduce ppc_maybe_interrupt
+Date: Fri, 28 Oct 2022 13:39:34 -0300
+Message-Id: <20221028163951.810456-46-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
 References: <20221028163951.810456-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x234.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22e.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -94,52 +92,307 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Writes to LPCR are hypervisor privileged.
+This new method will check if any pending interrupt was unmasked and
+then call cpu_interrupt/cpu_reset_interrupt accordingly. Code that
+raises/lowers or masks/unmasks interrupts should call this method to
+keep CPU_INTERRUPT_HARD coherent with env->pending_interrupts.
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20221011204829.1641124-27-matheus.ferst@eldorado.org.br>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20221021142156.4134411-2-matheus.ferst@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.c | 2 ++
- target/ppc/cpu.h | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ hw/ppc/pnv_core.c        |  1 +
+ hw/ppc/ppc.c             |  7 +------
+ hw/ppc/spapr_hcall.c     |  6 ++++++
+ hw/ppc/spapr_rtas.c      |  2 +-
+ target/ppc/cpu.c         |  2 ++
+ target/ppc/cpu.h         |  1 +
+ target/ppc/excp_helper.c | 42 ++++++++++++++++++++++++++++++++++++++++
+ target/ppc/helper.h      |  1 +
+ target/ppc/helper_regs.c |  2 ++
+ target/ppc/translate.c   | 11 ++++++++++-
+ 10 files changed, 67 insertions(+), 8 deletions(-)
 
+diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
+index 19e8eb885f..9ee79192dd 100644
+--- a/hw/ppc/pnv_core.c
++++ b/hw/ppc/pnv_core.c
+@@ -58,6 +58,7 @@ static void pnv_core_cpu_reset(PnvCore *pc, PowerPCCPU *cpu)
+     env->msr |= MSR_HVB; /* Hypervisor mode */
+     env->spr[SPR_HRMOR] = pc->hrmor;
+     hreg_compute_hflags(env);
++    ppc_maybe_interrupt(env);
+ 
+     pcc->intc_reset(pc->chip, cpu);
+ }
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index 77e611e81c..dc86c1c7db 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -42,7 +42,6 @@ static void cpu_ppc_tb_start (CPUPPCState *env);
+ 
+ void ppc_set_irq(PowerPCCPU *cpu, int irq, int level)
+ {
+-    CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
+     unsigned int old_pending;
+     bool locked = false;
+@@ -57,19 +56,15 @@ void ppc_set_irq(PowerPCCPU *cpu, int irq, int level)
+ 
+     if (level) {
+         env->pending_interrupts |= irq;
+-        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+     } else {
+         env->pending_interrupts &= ~irq;
+-        if (env->pending_interrupts == 0) {
+-            cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+-        }
+     }
+ 
+     if (old_pending != env->pending_interrupts) {
++        ppc_maybe_interrupt(env);
+         kvmppc_set_interrupt(cpu, irq, level);
+     }
+ 
+-
+     trace_ppc_irq_set_exit(env, irq, level, env->pending_interrupts,
+                            CPU(cpu)->interrupt_request);
+ 
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 891206e893..925ff523cc 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -490,6 +490,7 @@ static target_ulong h_cede(PowerPCCPU *cpu, SpaprMachineState *spapr,
+ 
+     env->msr |= (1ULL << MSR_EE);
+     hreg_compute_hflags(env);
++    ppc_maybe_interrupt(env);
+ 
+     if (spapr_cpu->prod) {
+         spapr_cpu->prod = false;
+@@ -500,6 +501,7 @@ static target_ulong h_cede(PowerPCCPU *cpu, SpaprMachineState *spapr,
+         cs->halted = 1;
+         cs->exception_index = EXCP_HLT;
+         cs->exit_request = 1;
++        ppc_maybe_interrupt(env);
+     }
+ 
+     return H_SUCCESS;
+@@ -521,6 +523,7 @@ static target_ulong h_confer_self(PowerPCCPU *cpu)
+     cs->halted = 1;
+     cs->exception_index = EXCP_HALTED;
+     cs->exit_request = 1;
++    ppc_maybe_interrupt(&cpu->env);
+ 
+     return H_SUCCESS;
+ }
+@@ -633,6 +636,7 @@ static target_ulong h_prod(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     spapr_cpu = spapr_cpu_state(tcpu);
+     spapr_cpu->prod = true;
+     cs->halted = 0;
++    ppc_maybe_interrupt(&cpu->env);
+     qemu_cpu_kick(cs);
+ 
+     return H_SUCCESS;
+@@ -1669,6 +1673,7 @@ static target_ulong h_enter_nested(PowerPCCPU *cpu,
+     spapr_cpu->in_nested = true;
+ 
+     hreg_compute_hflags(env);
++    ppc_maybe_interrupt(env);
+     tlb_flush(cs);
+     env->reserve_addr = -1; /* Reset the reservation */
+ 
+@@ -1810,6 +1815,7 @@ out_restore_l1:
+     spapr_cpu->in_nested = false;
+ 
+     hreg_compute_hflags(env);
++    ppc_maybe_interrupt(env);
+     tlb_flush(cs);
+     env->reserve_addr = -1; /* Reset the reservation */
+ 
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index d58b65e88f..3f664ea02c 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -214,9 +214,9 @@ static void rtas_stop_self(PowerPCCPU *cpu, SpaprMachineState *spapr,
+      * guest.
+      * For the same reason, set PSSCR_EC.
+      */
+-    ppc_store_lpcr(cpu, env->spr[SPR_LPCR] & ~pcc->lpcr_pm);
+     env->spr[SPR_PSSCR] |= PSSCR_EC;
+     cs->halted = 1;
++    ppc_store_lpcr(cpu, env->spr[SPR_LPCR] & ~pcc->lpcr_pm);
+     kvmppc_set_reg_ppc_online(cpu, 0);
+     qemu_cpu_kick(cs);
+ }
 diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
-index 0ebac04bc4..e95b4c5ee1 100644
+index e95b4c5ee1..1a97b41c6b 100644
 --- a/target/ppc/cpu.c
 +++ b/target/ppc/cpu.c
-@@ -73,6 +73,7 @@ void ppc_store_msr(CPUPPCState *env, target_ulong value)
-     hreg_store_msr(env, value, 0);
+@@ -82,6 +82,8 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
+     env->spr[SPR_LPCR] = val & pcc->lpcr_mask;
+     /* The gtse bit affects hflags */
+     hreg_compute_hflags(env);
++
++    ppc_maybe_interrupt(env);
+ }
+ #endif
+ 
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index ad758b00e5..cc2d0305ff 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1358,6 +1358,7 @@ int ppc64_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
+ int ppc32_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
+                                int cpuid, DumpState *s);
+ #ifndef CONFIG_USER_ONLY
++void ppc_maybe_interrupt(CPUPPCState *env);
+ void ppc_cpu_do_interrupt(CPUState *cpu);
+ bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ void ppc_cpu_do_system_reset(CPUState *cs);
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 14bec2490f..07480079f7 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -390,6 +390,7 @@ static void powerpc_set_excp_state(PowerPCCPU *cpu, target_ulong vector,
+     env->nip = vector;
+     env->msr = msr;
+     hreg_compute_hflags(env);
++    ppc_maybe_interrupt(env);
+ 
+     powerpc_reset_excp_state(cpu);
+ 
+@@ -2044,6 +2045,40 @@ static int ppc_next_unmasked_interrupt(CPUPPCState *env)
+     }
+ }
+ 
++/*
++ * Sets CPU_INTERRUPT_HARD if there is at least one unmasked interrupt to be
++ * delivered and clears CPU_INTERRUPT_HARD otherwise.
++ *
++ * This method is called by ppc_set_interrupt when an interrupt is raised or
++ * lowered, and should also be called whenever an interrupt masking condition
++ * is changed, e.g.:
++ *  - When relevant bits of MSR are altered, like EE, HV, PR, etc.;
++ *  - When relevant bits of LPCR are altered, like PECE, HDICE, HVICE, etc.;
++ *  - When PSSCR[EC] or env->resume_as_sreset are changed;
++ *  - When cs->halted is changed and the CPU has a different interrupt masking
++ *    logic in power-saving mode (e.g., POWER7/8/9/10);
++ */
++void ppc_maybe_interrupt(CPUPPCState *env)
++{
++    CPUState *cs = env_cpu(env);
++    bool locked = false;
++
++    if (!qemu_mutex_iothread_locked()) {
++        locked = true;
++        qemu_mutex_lock_iothread();
++    }
++
++    if (ppc_next_unmasked_interrupt(env)) {
++        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
++    } else {
++        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
++    }
++
++    if (locked) {
++        qemu_mutex_unlock_iothread();
++    }
++}
++
+ #if defined(TARGET_PPC64)
+ static void p7_deliver_interrupt(CPUPPCState *env, int interrupt)
+ {
+@@ -2479,6 +2514,11 @@ void helper_store_msr(CPUPPCState *env, target_ulong val)
+     }
+ }
+ 
++void helper_ppc_maybe_interrupt(CPUPPCState *env)
++{
++    ppc_maybe_interrupt(env);
++}
++
+ #if defined(TARGET_PPC64)
+ void helper_scv(CPUPPCState *env, uint32_t lev)
+ {
+@@ -2499,6 +2539,8 @@ void helper_pminsn(CPUPPCState *env, powerpc_pm_insn_t insn)
+     /* Condition for waking up at 0x100 */
+     env->resume_as_sreset = (insn != PPC_PM_STOP) ||
+         (env->spr[SPR_PSSCR] & PSSCR_EC);
++
++    ppc_maybe_interrupt(env);
+ }
+ #endif /* defined(TARGET_PPC64) */
+ 
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index 8344fe39c6..25533b8f33 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -10,6 +10,7 @@ DEF_HELPER_4(HASHSTP, void, env, tl, tl, tl)
+ DEF_HELPER_4(HASHCHKP, void, env, tl, tl, tl)
+ #if !defined(CONFIG_USER_ONLY)
+ DEF_HELPER_2(store_msr, void, env, tl)
++DEF_HELPER_1(ppc_maybe_interrupt, void, env)
+ DEF_HELPER_1(rfi, void, env)
+ DEF_HELPER_1(40x_rfci, void, env)
+ DEF_HELPER_1(rfci, void, env)
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index 12235ea2e9..2e85e124ab 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -260,6 +260,8 @@ int hreg_store_msr(CPUPPCState *env, target_ulong value, int alter_hv)
+     env->msr = value;
+     hreg_compute_hflags(env);
+ #if !defined(CONFIG_USER_ONLY)
++    ppc_maybe_interrupt(env);
++
+     if (unlikely(FIELD_EX64(env->msr, MSR, POW))) {
+         if (!env->pending_interrupts && (*env->check_pow)(env)) {
+             cs->halted = 1;
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 58fbc15954..29e4b728e2 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -305,6 +305,14 @@ static void gen_icount_io_start(DisasContext *ctx)
+     }
  }
  
 +#if !defined(CONFIG_USER_ONLY)
- void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
- {
-     PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
-@@ -82,6 +83,7 @@ void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val)
-     /* The gtse bit affects hflags */
-     hreg_compute_hflags(env);
- }
++static void gen_ppc_maybe_interrupt(DisasContext *ctx)
++{
++    gen_icount_io_start(ctx);
++    gen_helper_ppc_maybe_interrupt(cpu_env);
++}
 +#endif
++
+ /*
+  * Tells the caller what is the appropriate exception to generate and prepares
+  * SPR registers for this exception.
+@@ -6161,7 +6169,6 @@ static void gen_tlbilx_booke206(DisasContext *ctx)
+ #endif /* defined(CONFIG_USER_ONLY) */
+ }
  
- static inline void fpscr_set_rounding_mode(CPUPPCState *env)
+-
+ /* wrtee */
+ static void gen_wrtee(DisasContext *ctx)
  {
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 2433756973..ad758b00e5 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1370,9 +1370,9 @@ void ppc_translate_init(void);
- 
- #if !defined(CONFIG_USER_ONLY)
- void ppc_store_sdr1(CPUPPCState *env, target_ulong value);
-+void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val);
- #endif /* !defined(CONFIG_USER_ONLY) */
- void ppc_store_msr(CPUPPCState *env, target_ulong value);
--void ppc_store_lpcr(PowerPCCPU *cpu, target_ulong val);
- 
- void ppc_cpu_list(void);
- 
+@@ -6175,6 +6182,7 @@ static void gen_wrtee(DisasContext *ctx)
+     tcg_gen_andi_tl(t0, cpu_gpr[rD(ctx->opcode)], (1 << MSR_EE));
+     tcg_gen_andi_tl(cpu_msr, cpu_msr, ~(1 << MSR_EE));
+     tcg_gen_or_tl(cpu_msr, cpu_msr, t0);
++    gen_ppc_maybe_interrupt(ctx);
+     tcg_temp_free(t0);
+     /*
+      * Stop translation to have a chance to raise an exception if we
+@@ -6193,6 +6201,7 @@ static void gen_wrteei(DisasContext *ctx)
+     CHK_SV(ctx);
+     if (ctx->opcode & 0x00008000) {
+         tcg_gen_ori_tl(cpu_msr, cpu_msr, (1 << MSR_EE));
++        gen_ppc_maybe_interrupt(ctx);
+         /* Stop translation to have a chance to raise an exception */
+         ctx->base.is_jmp = DISAS_EXIT_UPDATE;
+     } else {
 -- 
 2.37.3
 
