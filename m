@@ -2,84 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E47D610EA8
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 12:36:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CE0610ED3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 12:42:10 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooMiC-0006mp-B6; Fri, 28 Oct 2022 06:35:41 -0400
+	id 1ooMln-0002As-9a; Fri, 28 Oct 2022 06:39:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ooMi7-0006lg-E4; Fri, 28 Oct 2022 06:35:35 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ooMll-0002Aa-DH
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:39:21 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ooMi5-0001jN-Pf; Fri, 28 Oct 2022 06:35:35 -0400
-Received: by mail-ed1-x532.google.com with SMTP id a5so7212676edb.11;
- Fri, 28 Oct 2022 03:35:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sjyyw6XSUvwVzBhL8WZKkTOeS8jyps+AR2UJlYWQ3zA=;
- b=ZdygQ7GZAFpUsMCLjc1nqC0+GDRsdXWukUMqPXF63SKq7nrUGi6BrQhuLv+84u97M5
- etD6o8asQCsdcvVnvTY4dYvd3AF1HecC9GRZ6HojRdRhdmNR0iv8gVh/aRT6a1gUSU8E
- ST4DW1EnG6KBsYeCR7Tf/JcJgTj4SFvJIc89Sh1B5UX6HW62ntPHTjQEe9F97pFKdixM
- Q/U5GEsGkX7psYa/swxY9wk8NUYGX1jvXHCGricw/WCuldb1Vug9qikG674/Ot3/mf0y
- FA1HA6BOWXyjcKLiTMi47OuTMCtaecBKRY1Ejr+7Ygm3LCTwbc+jv6MnM+z/5wHgzb39
- 2wgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sjyyw6XSUvwVzBhL8WZKkTOeS8jyps+AR2UJlYWQ3zA=;
- b=5TORlt8TpbOgsljMzO92H6bNTYdjZXkC1u+SA5QOjiGOW615jFL066dZVkt2No0JWC
- ajB0YMszsiyuAMrvv6AV7L7hmfArnssqyIraRiQ3jzrPTZZO3rvzNnsWTJVRvnVpC1y+
- L19V953RQGE1WR0b+WEtBQ6R58BAN4AO2LPiGDWYIKjkJr3kx5de+N6Czjx+PXKpxwru
- AzR9uLEU4LjCRmN/yx2qZl5hU8emqVO0YkY44GMHnqH8+dgd16qx/7sme0okJdbGiI43
- 0Ngp0dAsdSLicXxzP2uNvUlopPHeQW7maDZ9qMbNZZRWto2UyJcihTdlIpu6tSmeLDIc
- fErA==
-X-Gm-Message-State: ACrzQf3kxHbsSKV4nWhmQPwqCxvwSoD6RX646RC02zFvSzodhK31XDFo
- PCct4Y4zCIuk0Imi5s2ZeAfYrmhyy9I=
-X-Google-Smtp-Source: AMsMyM7FlzSUqRxrHkPo5Va1RZIhnkJoqBD4tizYoXfci8rmMdqaWukxF+zLFoV1uIcdVwB1/HtceQ==
-X-Received: by 2002:a05:6402:40d0:b0:462:7b99:d424 with SMTP id
- z16-20020a05640240d000b004627b99d424mr9809679edb.62.1666953331765; 
- Fri, 28 Oct 2022 03:35:31 -0700 (PDT)
-Received: from osoxes.fritz.box
- (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
- by smtp.gmail.com with ESMTPSA id
- p1-20020a17090653c100b0078128c89439sm2050527ejo.6.2022.10.28.03.35.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 03:35:31 -0700 (PDT)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, qemu-trivial@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 3/3] hw/i386/acpi-build: Resolve north rather than south
- bridges
-Date: Fri, 28 Oct 2022 12:34:19 +0200
-Message-Id: <20221028103419.93398-4-shentey@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221028103419.93398-1-shentey@gmail.com>
-References: <20221028103419.93398-1-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ooMlj-000200-Go
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:39:21 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A460F21982;
+ Fri, 28 Oct 2022 10:39:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1666953556; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vEyk6H9OzZv1/fP0gtH+6MrenQkGhhleFOSrtjlkvlE=;
+ b=WAhYyPU43yLDApES5PUbze6i/5IX4y5M/AMugiQ1sdlY2p4ctj7mTn0gKA5ZOwd6EHQ302
+ y5+QBuN+KAihtDowHWGJpHhbdKxdD6iXBTnatkFnoVQuxtaiRKcSOmFMkDXrEmlDvsBEXn
+ ll/tU62VTwt36MDQ80KGqSWXbzFtAHQ=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3B3A013A6E;
+ Fri, 28 Oct 2022 10:39:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id EqHaC1SxW2PVPwAAMHmgww
+ (envelope-from <nborisov@suse.com>); Fri, 28 Oct 2022 10:39:16 +0000
+From: Nikolay Borisov <nborisov@suse.com>
+To: dgilbert@redhat.com,
+	berrange@redhat.com
+Cc: qemu-devel@nongnu.org, jfehlig@suse.com, Claudio.Fontana@suse.com,
+ dfaggioli@suse.com, Nikolay Borisov <nborisov@suse.com>
+Subject: [PATCH v3 00/14] File-based migration support and fixed-ram features
+Date: Fri, 28 Oct 2022 13:39:00 +0300
+Message-Id: <20221028103914.908728-1-nborisov@suse.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=nborisov@suse.com;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,67 +75,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The code currently assumes Q35 iff ICH9 and i440fx iff PIIX. Now that more
-AML generation has been moved into the south bridges and since the
-machines define themselves primarily through their north bridges, let's
-switch to resolving the north bridges for AML generation instead. This
-also allows for easier experimentation with different south bridges in
-the "pc" machine, e.g. with PIIX4 and VT82xx.
+Here's the 3rd version of file-based migration support [0]. For background
+check the cover letter of the initial. The main changes are :
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/i386/acpi-build.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+- Updated commit message as per Daniel Berrange's suggestino for Patches 1-2
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 73d8a59737..d9eaa5fc4d 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -60,6 +60,7 @@
- #include "hw/i386/fw_cfg.h"
- #include "hw/i386/ich9.h"
- #include "hw/pci/pci_bus.h"
-+#include "hw/pci-host/i440fx.h"
- #include "hw/pci-host/q35.h"
- #include "hw/i386/x86-iommu.h"
- 
-@@ -1322,8 +1323,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-            AcpiPmInfo *pm, AcpiMiscInfo *misc,
-            Range *pci_hole, Range *pci_hole64, MachineState *machine)
- {
--    Object *piix = object_resolve_type_unambiguous(TYPE_PIIX4_PM);
--    Object *lpc = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
-+    Object *i440fx = object_resolve_type_unambiguous(TYPE_I440FX_PCI_HOST_BRIDGE);
-+    Object *q35 = object_resolve_type_unambiguous(TYPE_Q35_HOST_DEVICE);
-     CrsRangeEntry *entry;
-     Aml *dsdt, *sb_scope, *scope, *dev, *method, *field, *pkg, *crs;
-     CrsRangeSet crs_range_set;
-@@ -1344,13 +1345,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-     AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = x86ms->oem_id,
-                         .oem_table_id = x86ms->oem_table_id };
- 
--    assert(!!piix != !!lpc);
-+    assert(!!i440fx != !!q35);
- 
-     acpi_table_begin(&table, table_data);
-     dsdt = init_aml_allocator();
- 
-     build_dbg_aml(dsdt);
--    if (piix) {
-+    if (i440fx) {
-         sb_scope = aml_scope("_SB");
-         dev = aml_device("PCI0");
-         aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
-@@ -1363,7 +1364,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-             build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
-         }
-         build_piix4_pci0_int(dsdt);
--    } else if (lpc) {
-+    } else if (q35) {
-         sb_scope = aml_scope("_SB");
-         dev = aml_device("PCI0");
-         aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
--- 
-2.38.1
+- Fixed tab in various pages
+
+- Added comments better explaining how json_writer_start_object in
+qemu_savevm_state_header is matched and also squashed the analyze-migration.py
+parts into patch 3
+
+- Reworked the way pwritv/preadv are introduced. Now there are generic
+callbacks in QIOChannel that are implemented for the QIOChannelFile.
+
+- Separated the introduction of QEMUFile-related helpers from the patch
+introducing the io interfaces.
+
+- Added qtests for the file-based migration as well as for the fixed-ram
+feature.
+
+[0] https://lore.kernel.org/qemu-devel/20221004123733.2745519-1-nborisov@suse.com/
+
+Nikolay Borisov (14):
+  migration: support file: uri for source migration
+  migration: Add support for 'file:' uri for incoming migration
+  migration: Initial support of fixed-ram feature for
+    analyze-migration.py
+  io: Add generic pwritev/preadv interface
+  io: implement io_pwritev for QIOChannelFile
+  io: add and implement QIO_CHANNEL_FEATURE_SEEKABLE for channel file
+  migration/qemu-file: add utility methods for working with seekable
+    channels
+  io: Add preadv support to QIOChannelFile
+  migration: add qemu_get_buffer_at
+  migration/ram: Introduce 'fixed-ram' migration stream capability
+  migration: Refactor precopy ram loading code
+  migration: Add support for 'fixed-ram' migration restore
+  tests: Add migrate_incoming_qmp helper
+  tests/qtest: migration-test: Add tests for file-based migration
+
+ include/exec/ramblock.h             |   7 +
+ include/io/channel.h                |  50 +++++
+ include/migration/qemu-file-types.h |   2 +
+ io/channel-file.c                   |  61 ++++++
+ io/channel.c                        |  26 +++
+ migration/file.c                    |  38 ++++
+ migration/file.h                    |  10 +
+ migration/meson.build               |   1 +
+ migration/migration.c               |  61 +++++-
+ migration/migration.h               |   6 +
+ migration/qemu-file.c               |  82 +++++++
+ migration/qemu-file.h               |   4 +
+ migration/ram.c                     | 328 +++++++++++++++++++++-------
+ migration/savevm.c                  |  48 ++--
+ qapi/migration.json                 |   2 +-
+ scripts/analyze-migration.py        |  49 ++++-
+ tests/qtest/migration-helpers.c     |  19 ++
+ tests/qtest/migration-helpers.h     |   4 +
+ tests/qtest/migration-test.c        |  46 ++++
+ 19 files changed, 743 insertions(+), 101 deletions(-)
+ create mode 100644 migration/file.c
+ create mode 100644 migration/file.h
+
+--
+2.34.1
 
 
