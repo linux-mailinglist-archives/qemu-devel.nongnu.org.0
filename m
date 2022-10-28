@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87988610982
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 07:06:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0DE161097C
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 07:05:05 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooHRo-0003lW-4l; Fri, 28 Oct 2022 00:58:24 -0400
+	id 1ooHRt-0003mI-By; Fri, 28 Oct 2022 00:58:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7300ee25fa=bin.meng@windriver.com>)
- id 1ooHRk-0003ki-FQ
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 00:58:20 -0400
-Received: from mx0b-0064b401.pphosted.com ([205.220.178.238])
+ id 1ooHRo-0003ld-GF
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 00:58:24 -0400
+Received: from mx0a-0064b401.pphosted.com ([205.220.166.238])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7300ee25fa=bin.meng@windriver.com>)
- id 1ooHRi-00026i-7x
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 00:58:20 -0400
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+ id 1ooHRm-00027T-P2
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 00:58:24 -0400
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
  by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 29S4wHvC031759; Fri, 28 Oct 2022 04:58:17 GMT
+ 29S4wLMp017954; Thu, 27 Oct 2022 21:58:21 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to : cc :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=yeE4BaMqTy9r3XtCBfy2Ls2Pu0c0qV3Kyaz6ba5l6k4=;
- b=LB4bAYSPQuSSOTF/jOEhnI8mTziSACqVr0ix0lPqL4m+ifLlhhbvwELTWeEi9fL/CeeL
- nze9a+uWom9vrNLTGKnDIGkKDAri/sc37eGI0a4upqzh9U+MY055YFnFd7DNFv/1gZLC
- 5ZAHSAIsX8WF6OJaxhAG4zDvrEGvz2gyCVZLrDPyuh0XwcLWaIkE/PofdFRv51POaDrd
- r1EmAxbIlXv0+3cSY0eybonZEHKvdU6E3GNIHCju4Oqql6vErKpx3RkZdmlLkgrUPOCt
- EFfS70NttbebpTi9XLoX95vwx23ZmFqpRVhKHopMF9M4A6gXkP3+cWshg3k/SoR/05qd Tw== 
+ subject : date : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=RU0NaIOfqT5nuKq/A7791gRn6np2jXF6/QYbNcHmKmI=;
+ b=OOqIaqpWh7pnh78OqE36xSCR/rLIxpQ0dzKHniXzjfwMAqb7NUZXDd4virV4ffeS29YW
+ fmf4COwQlf9zds3PBwUX9XTH+VIYhjz/XSIBAWB8bzVhz7mbBAYczxOX0TQuFYGqwrZQ
+ XQqqYLtyzcvC/b7vKNJuSu+Ofj1T/hz/bTfgONztKd6DeXfXPJRQfxJYIKp3HDw9fs+f
+ 3qjko7b9sgEDu0UKMkyoTXt1k8I63z6Gha5UjVo/XIe+roIXL7ZJFC2dVwsJ+fIfg98c
+ YVYmKGaREV2jcs5dif2qeD7YyB4MszogStRU7OjuEKuMaFURZrgKzrSrmrCe9/mcHbOe 2w== 
 Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2173.outbound.protection.outlook.com [104.47.55.173])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg3xh30t-1
+ (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg3gs4tx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Oct 2022 04:58:17 +0000
+ Thu, 27 Oct 2022 21:58:21 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UQqpVvYCniIx/8dFV4h5YzZw7MOsmGlhGiORbPWRwR4+yDNSsjcIgdiH3wuihBLa2wFwIAptTgRviq6ZBbDP1NbWoXkwRsPrrA/ROlLbM1FLj3pvu7hJQVLCx9B8B08wBgodcXuEhaJwgFBt2umnHwLl5BFKp4TN2EmjbR0pCujv9xKTV4rg69fOG6d4s/ASs7/p3Hw3fctjiWB1G9r2FBITZ6Xax45cXfxhb/wXvxPjAu5assPScMRpnKFBtNYa3GxPmsksNs5lgaTNi9Gct2kz8knPv0PW/tLb3Eweh74sB7oHndK7z1/jgMYns2aFgmLNPWCCiFt1OKkmSwtVRw==
+ b=eqNk52HwNVYVerLNQk7gdVbeHnYnR/CJmBVyk2ICkvW8vvK6YFe2vNIopVpspztf1FYKFyMOnBfY+PKFS5nfY8Mz0d15KFdLnHAr+kNVgs9hn8U3jLGAV4IXVdA4yQZ8rxoIfTkO81jxnfAKG6Z+A6SGlNK4eqvnpFcfLztA7MiHLRz65L7OBnqyAi6eGRQu5GjfMaJ/g0Xsz2FBR5kizWlQVrFz6R/Lxac0atay3KzFb30LhFp5jYf6KlmJGDg4MY1X6XhgFIrLhGqM1zRC09Iw1ddOEuaWqFrQnaUSLFuMwJ+sk6n6o7FVnTFok7UwXd+fWc2NMa6B7xbpZebKIA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yeE4BaMqTy9r3XtCBfy2Ls2Pu0c0qV3Kyaz6ba5l6k4=;
- b=AJesfZeqLAm7jUPMTP9WADcv39LqaEKPgDMUi7KYmPwj5Ugt1VED6SoSy2p0tMycQ2nAl30pKCg5ltbjPpjgdz4Ioaod7iaM3PyygAcwy5CrU8f+WtzbjI3S+3F8tURCyFQagh8GqBwlusfGzs1Y9DvzwNLj/nJ3tp1E4nWCS2p5EC2B/T3rD8Ib6UVpNmxxDDDtCyym5f+g92tPQLrLWW9GUDb7FEjOXzBAJTIabFZ3wnSEbhU8S6Vz6SpWztZWGNgzdGeu4ieqBGRRjEUSam0Tt7TN4ABfP8RCQkeZLAqFs/H7NmYeWoXg/2c7+wxSvQqMYqma8zoSEPOICXCIyQ==
+ bh=RU0NaIOfqT5nuKq/A7791gRn6np2jXF6/QYbNcHmKmI=;
+ b=UMs81Zwrq6McVbPl7VKaQWAz9oimdguvSPYil3uVC3fuMyr+LPiWVvN3YkFZFGkKhhSttBHH+cPNcVhCH9PY6rfhBSl+9lAtTHvCWtZxpgi3dXuaRxKvFo0T1sNBFDovdHkVMIbf0gtI22nLK27FHiTvWjfCgB8k74Iv+lWgjz8PXyWtDV4TVaxlneQwKm9Jbc2lhM3PLRLLBw861ixze044VG4EIgza+TH9aJa8ztFbaU8HqsMtHm72A7lMSu4F+5bUUb0yCoqJ7h8nxl/GW+4Tz3x6JvLeudqkbLuKMXaBcbGmIv2gPK3O5+mxh0UkD0pvcFHnIb8Szu6bC5n3Ug==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -52,92 +52,100 @@ Received: from BL1PR11MB5351.namprd11.prod.outlook.com (2603:10b6:208:318::5)
  by MN2PR11MB4632.namprd11.prod.outlook.com (2603:10b6:208:24f::23)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Fri, 28 Oct
- 2022 04:58:16 +0000
+ 2022 04:58:19 +0000
 Received: from BL1PR11MB5351.namprd11.prod.outlook.com
  ([fe80::9a11:fa81:cdd8:b201]) by BL1PR11MB5351.namprd11.prod.outlook.com
  ([fe80::9a11:fa81:cdd8:b201%9]) with mapi id 15.20.5746.026; Fri, 28 Oct 2022
- 04:58:16 +0000
+ 04:58:19 +0000
 From: Bin Meng <bin.meng@windriver.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v6 05/11] tests/qtest: Use EXIT_FAILURE instead of magic number
-Date: Fri, 28 Oct 2022 12:57:30 +0800
-Message-Id: <20221028045736.679903-6-bin.meng@windriver.com>
+Subject: [PATCH v6 06/11] tests/qtest: libqtest: Introduce qtest_wait_qemu()
+Date: Fri, 28 Oct 2022 12:57:31 +0800
+Message-Id: <20221028045736.679903-7-bin.meng@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221028045736.679903-1-bin.meng@windriver.com>
 References: <20221028045736.679903-1-bin.meng@windriver.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: SL2PR04CA0009.apcprd04.prod.outlook.com
  (2603:1096:100:2d::21) To BL1PR11MB5351.namprd11.prod.outlook.com
  (2603:10b6:208:318::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BL1PR11MB5351:EE_|MN2PR11MB4632:EE_
-X-MS-Office365-Filtering-Correlation-Id: 76e83ba4-a53e-448a-1f6e-08dab8a10611
+X-MS-Office365-Filtering-Correlation-Id: f46d4ae7-1ab3-4e0b-547f-08dab8a107f0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vaOXgNG7cAu871E4CEFZquKkd1pWbW6+h8NBZpkVmZJk95+qNRCL8JP5yOXxpWVUsoq8xPVAm61l8nBOylSb5flO0hShm/0GSn+5jc6u9zsp2ze3sZE6uGAKrhpNGwNGuY57LsGy+dDhK7B09CacTym7psc/exlOueXfzXEaDGacwSf8V7taWoBfw9KAQIf9Qb6n+QK1PZxyvJGO1YacEtZGZCkyLH8G1o/O4JXacaKQ/bNijLUgSw6iM+y9aJrE/SQqsmMplqsiOgpskYTmAHP6BTLoM9eaiuPHgZrVK8ct4YPELjP3vWF6KPata9TDbKQEoTwX2hFUXTI5iJRiwZUWmSDFYAeRaZaI54knq+jCkQPtMyOkkb69v6GHr8mnHkywNkZegjmz2Kq4JyjJzVOC63wZa67vnt81tBPrkzuggmt6Abj+7AWpgHqAZreKWt3Qp0H7Sh0/4Z+gwSWtHfqhj+EcO/gL8VjnolxO3W3CRZAQPQmp4NEg9stn0B6+Q15ilVmXjwan0yvNhR1izUk/Kw2EZBEJ8iMtFT3uIssv443UMrgMD+Q9/XYfcRVXlMprdgrAgNhRxi/z/vpCdD45a6r7EBYg767skG1h9UckOPyvPdMLdhMLGvDLJnqTu4ONyg3wtoig2VC9EV+S0PwIVyZiSvdv7ByUvPqPDXjtIHCotW9Mp2ybXA7h3g6IF8QQ5zfz5IoAsmPE0OBeO2tgRwrlyoP/kTgyiX3fpZMwjFR9HDaLWN/3HFFSot1wZAJuCgaKdDVCmdDjMLt/Vw==
+X-Microsoft-Antispam-Message-Info: z3XzQhSMVLU0PxNqbwCHSwap7Cj7RPZf0+DVAZSquKGI29fuo+QZIGwKXPDyRXkxWkFGui4JbY/mu9RdSl0VdprBjE8gl86RJdD1ebrFy3ggHOs/Jkf5SWTMk+F4sD6gRSxYd+JZhOwGHp9m6IoLfJjTktnTbd66jUIi5eY5dDb50pmf557nYfrkIN9Cmvty26zyI8wvwAfRz63a23eQ6q7yusDwDoHsKjyETSxIHMlLYkkIadi67ql/o+63BvLkHs4NAlHXFG+sxE2v+ftlxgcPArB/TrMjunaKdpr6hBbD0p5d+ALX1fAnRLzsoJEFZsjD3ATnNm/EAtYJOe4JYHEHFMXKTL7HOM0jjh/0pKq4Xvp0a82aRvidV8oh94qpOQ36fRA3n123YUU4VWOYc4gMseVuG1tdIuqHFU0jB5GnYWKsGZcBjiPIpV01/qQ6Xu15MmR5TaJ9QajatOIoO6ESxBJc6svSRir4TrohALY6LebZGp1AKOXPRr40E5iEf+BBKXycqd8H033W4QY5yGp5wGG9KG648BI/pDzR5VraFz/tntfznXufE79okSCC1LXXRV8bSXvxoz6XpQoZQm6kdS3x5GrB6QedowR6Lapx1al4PP8LAsWBt15ct0oMLuwtuDH1gdHIAaAiX0FEK6BOCex4TlhSExA3q+4b7BeWq7u02BnxWZtLFl+mzHwIN2kygGoExWlhdwGHz5jOAZ59p8rHAH9lSSElNU4CgUwoo+NCUuDxoRoIxXNur2NHbsWoR1WOFT8qu5Sp1CToXg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL1PR11MB5351.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230022)(4636009)(136003)(376002)(39850400004)(346002)(366004)(396003)(451199015)(478600001)(26005)(6486002)(6506007)(36756003)(2906002)(83380400001)(52116002)(6666004)(86362001)(5660300002)(38100700002)(38350700002)(2616005)(316002)(186003)(1076003)(6512007)(66476007)(8676002)(54906003)(4326008)(6916009)(41300700001)(66946007)(66556008)(44832011)(8936002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6gUCtAITlNgslO19fUU9euR1B219fdtg5L5L9vCs2aft1yBBq22hXns/7nhO?=
- =?us-ascii?Q?gz794+KkHnd29Zif8ssinH6vndYYgakGE/qz/g4MRhJaG+3zdWqfUxemx/ss?=
- =?us-ascii?Q?CMtqNITVkpp8lobrjn9zM0JDAzcZJy5G2IJHqYFA+OfPQQ41j9unQTX2sJim?=
- =?us-ascii?Q?U34/viGinCHZ0n4dTi6NAD1u3Z8bl8Yd+r5DZrztpvDDCWFSCjllJf4A3Y4n?=
- =?us-ascii?Q?JuP9Qc4f6hyU1wCA8qre7oytGTq6WItnqURA03B23wAv1NKLEw+V18LaBjsr?=
- =?us-ascii?Q?wZZ4wX6xuEANVSbdeT8miykyE3oNTYu2RH0i7FaDxQ2fuWaV5PEgN0uGd0xD?=
- =?us-ascii?Q?2aL4FWh8Jp8Sx4rVetKT1FOGO5rRRqaXQcY+OP/o3zdFxv5MrcEoALFLpKBb?=
- =?us-ascii?Q?MuVzBvbLONid1XoLNuR/fhlaMZdERYPeOYTsU1z3SNa9oASIduC2kuZlxng8?=
- =?us-ascii?Q?zxM3I+y6Yq6QplmhVdQDsxeAKelOXokEkA/tyiDqkoNuRmcyzl3apz975t9M?=
- =?us-ascii?Q?nanv3Z3ZfdXAfu9zd/BbeiIInFwJ+w8yXC1FJSDw60JjnDs/vjoeYdTY395x?=
- =?us-ascii?Q?g+OL/nbA8LOSMwjTUicfp9vRn02sSSJcLMXkqwD5UCm30WlFFTR2lN/sQdPp?=
- =?us-ascii?Q?reAET46LSj+JhkWcRXPqzDil6hCtf8iWN+eN4FNcfUVsn9c59jD6G+J7c7VQ?=
- =?us-ascii?Q?4TswMFW89PrxXY72FYEtqbryKHNtXxiSwunqt73svZtqBdaQ8OoSUPZ4ASvv?=
- =?us-ascii?Q?lxHye9jbnLzfFq6fj1HniwUynkHfEjrRj+rIQEzFQJ426xMKvZYoY0KRoZpZ?=
- =?us-ascii?Q?SYqPNxQ5/c1wT/MZudbdOK0d2IkULOVsOJgFqh7lIpbxk6Jk88xOJIy0Oosb?=
- =?us-ascii?Q?7WUNGmMR2xWUc2YKmdZLwqGCTw7Ul8fU0bP52cuglUnDy0Y6gSalMddB6UQK?=
- =?us-ascii?Q?I97SmQK9rdZEkJBldD0tFoTXG30jUEPqD+M3UnncEOijIpdye3gdpx1fNBU+?=
- =?us-ascii?Q?Vkyyp5b4N80FquMyK0cDUXF2FPil0iWOhxuMK/XSE5JzN0vxbezTGacqts7V?=
- =?us-ascii?Q?809gndATrbswljm1CaKmDkJugZ8YzPX3ZFix0PwFOSLQxXZCIU2yJcpSZ0tk?=
- =?us-ascii?Q?o0hPDqViXcxj+SerciwB6Pb3kfwSOwkP5NiqWwnsbrjj3ysay5nSp8CdyfOz?=
- =?us-ascii?Q?vra1/ZQhD2lDYjJhIh6lY+LDXrGsAMTHvDzH3y67TRuexw78OuD7RnwPhI5X?=
- =?us-ascii?Q?zcciP2oSDiSR99AM1kMfR/uk6s7u/qcUMKRyQIXa5ip5TNq7oBY9UAZ0wLRQ?=
- =?us-ascii?Q?EYpgmYxOvkKd+lDswHefpsaKqXEhFm28sAJs8H8jaHUUaRwmiOf2w3SrHlAM?=
- =?us-ascii?Q?6rsQvCkii+4qIugbqu6MPhJBXaHG4c4vl/W8kOskTbxb3wlAKqhU/Ik45Zkc?=
- =?us-ascii?Q?hl3atV3XEK6onMCpP6qzq2fnrcWbU/ektwGkkmJq26YF+6qJUuFzEK6vcoN9?=
- =?us-ascii?Q?RotBzhbNtgU2GPiZdsCZO/eSm8vkg9bRhHfW7Dgcb3e7z31NYeYujQAqXcYV?=
- =?us-ascii?Q?rU1wIgb0cMoi1k4xsadVhsqnwYSwf3C88doVlAYI?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S2pSeG9NdEppODcxVkdCaWphZkFzbGFmWHVPVEhUVXh5eG93NWNPbjNlOU1S?=
+ =?utf-8?B?NHZtckxkT1IxL2dseXZ6TDA5YVo4Qk5rbXFWMzhVNHJONmxNOXJXcEhVWjZD?=
+ =?utf-8?B?RDVwUVUvTkc4TUpjVlJ4VDQ3Z2hLUHoxczd4b2c1aXBWMXhJUVMzQ3JRY3lO?=
+ =?utf-8?B?dTlXSkRGZGgzbng5bEZpckJiOG5LQUVuOXVvSzJQa2lnaW5yS2E0STFQbEtC?=
+ =?utf-8?B?VXpjYzFrb0Z6MkFIb2w1a3VPcnJaK3dwSHlTVkJxV1NjUnRyNG5iZUc4TUNB?=
+ =?utf-8?B?NWJER2RvcjlDSmV2NytxMFZuU0Q3M25IUnFrd0sraGd5bFVSanhyVURrVEh1?=
+ =?utf-8?B?SFM0eHN2K2JOeGw3VjlvMlcrYVp2MkQrM3ZyMFBmVHJJb21HZzBuU3Mxc2dZ?=
+ =?utf-8?B?SEtiejV1aWZ3OUFGMHdlM3lZMFJBZmVpdWNoRFdpc2ZJcHpHeUVjVkh5bDcx?=
+ =?utf-8?B?ckVTN3pZdUhkenJLTEVTa2poenZGRWpvd2pyeEdIbjNweHdzTVRHSGRoS2xr?=
+ =?utf-8?B?blN4dzFLeHlaQWIwT1pkOUFDT0o0ZFFVR0VEWDliVWg3bnZtU3MrZm5KQnNs?=
+ =?utf-8?B?VloveUJoUGgrczJvc1lRZnk0L3FML2xhUHBxM2puemFyc0dBSk5MZ1NvcEZM?=
+ =?utf-8?B?K2N5cG50aERPOVdIeWdmMVY1QWlFTldyV2FxRXRqT3JhQnhISTAyNTYwblVw?=
+ =?utf-8?B?YU1EMDFwNHNMUkY4ajdON0Fjait3QklneVVGU0t0SytZQmdFVDVkajgrMld5?=
+ =?utf-8?B?TkdJL2ZDK1laQlJhT1RWdXlvR2M0RmZ6UjN3elpCSUUzZDduYm1HUi9HQ3JZ?=
+ =?utf-8?B?VXVvTVNrV3dtTTg5SExjNFRhVTFMcHpuSFlLeVdISnJFazNZMS9ZWkxXdjZu?=
+ =?utf-8?B?TFlZU05ncFhaOVp5NE5tTnRGMzJySmZyNmw2Z2NkMzJoTWU3WWpSeWljdnVr?=
+ =?utf-8?B?ZUsrVk1NalhFZHZxY0Q2QkRYckovT21LRms2cTRXV3JRdms2RWhud2VUODEv?=
+ =?utf-8?B?a1hQYlFvOVkwbXhneDA4VFIzaUUxWWZEcmFBNzVkVFViZU1wYUpHemRXQkZO?=
+ =?utf-8?B?TXhQbkR2WHJxUnp4UEhGbVVjVFkvYld2QXNFV01mYVhJOVNBY21aV0l3NGJ0?=
+ =?utf-8?B?WWNOYk81aG9pcm9yeDJBcWtCRjU0UnBVdzV2WXNTSDFWdWdXZThJMGxseXZD?=
+ =?utf-8?B?WWFoUHdYUVJ0a0s3Y1VRNEppbHpGZVdwQ3pPYjBHOS9RM1JPY1JjeDl0MEFV?=
+ =?utf-8?B?ZHhRYVRaY1ZIVm10L0UxZmdlR0V0Nnhlc1RRSTloRGxUTXljRCtuU0R4R1B1?=
+ =?utf-8?B?TnBoU2cxL1hBMjlsalZBYkdBam5wQVJVTmR0MEMwWE1rOFRhT1ppYm52V1B3?=
+ =?utf-8?B?SWt0eW0yY1JTY3owNGNpdEJaM1ZRUTdSSTR6ZEk4NWM5ZGVhOVlSbnNKUXE3?=
+ =?utf-8?B?VEF0ekJGS1J0T3l3V1FQaTEyNFpOWXYzWFRZckxaam5CMk50dWYzY1Q0TnEx?=
+ =?utf-8?B?RXVjd1FBV3FheE8wSzRqYW4yME95bmhNSHMwdk5qOXU2T3RSaEJPc2tsSG14?=
+ =?utf-8?B?TkxpVjFGYlM1V0dCUlRncVFHbmpNc05JMlltaENUeGo5UUIzSHpyUEs1OWdz?=
+ =?utf-8?B?VmxXRGZSSFN1dlRkS0VDUDNmWUlUWFhyRHRUQ1JsR3RGRmRyeitxVE1Dakps?=
+ =?utf-8?B?STc2NnBWS01aK3VoMTg5THh3OENLU0F2Vkc1SmordElsVUt1eUh4aFJQSXNz?=
+ =?utf-8?B?LzVZQ3F6U2x5NzBrZzBuNTA3YlV0M2pka2RUZ0Y2bkgvT2IwUDlMS2g4aWlK?=
+ =?utf-8?B?enRSd1pmd1lrL2VFUW9IQ1VEeUNZYlFxUVZRNlRJdnlzd3ArSGpJWnFwendM?=
+ =?utf-8?B?bFJqVDZ4Z0xoQ0txL1BUdml4UVlXN1NlZUEraEliZzB6SnRyd0RIVU8wYW5v?=
+ =?utf-8?B?MnZsZGJPQUNJcmFFSUNHdVFhTnE2SjA0L3dlWm00dVQ2OWlUL2ttamxSK3Zn?=
+ =?utf-8?B?TTF2cGZ0c0xsQ1d6dVBwelVOZXNIcXdHNDdLNjFqdUdPNDArQ1ZpMVludlhP?=
+ =?utf-8?B?Q2IydXNER240blQ3b0NMUU9IQ1o1dVYrQ09HQ0lLUXUxYjN6T0pEMTlCL1Bq?=
+ =?utf-8?Q?9E6tBZPvMGUNtke/t0uTdMTUz?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76e83ba4-a53e-448a-1f6e-08dab8a10611
+X-MS-Exchange-CrossTenant-Network-Message-Id: f46d4ae7-1ab3-4e0b-547f-08dab8a107f0
 X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5351.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2022 04:58:16.2532 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2022 04:58:19.2687 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: atr99oLWpXz1S3PHv4JJlSLjt2IWVPl6r29FXgTWcjh2ysSUwtrGulDF7NEE5wjXZacs6+wdXo8h3gQPb1c11w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ajbS8ZFDmxziMHwW/ct3T008TmxOEk+DfoNZEew3d9nzKXlTGjj+Y0fAB1GlueffRWOfmhJO0wTAvQnKNgP/Pg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4632
-X-Proofpoint-GUID: hb57DzcHUm7Y14pQJMe9aUfIFCp3KbEe
-X-Proofpoint-ORIG-GUID: hb57DzcHUm7Y14pQJMe9aUfIFCp3KbEe
+X-Proofpoint-GUID: O_5-D2W8swr_sfmHHF0oB0Re9rN_RNM8
+X-Proofpoint-ORIG-GUID: O_5-D2W8swr_sfmHHF0oB0Re9rN_RNM8
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-10-28_02,2022-10-27_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- spamscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0
- impostorscore=0 phishscore=0 malwarescore=0 priorityscore=1501
- mlxlogscore=419 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2210280030
-Received-SPF: pass client-ip=205.220.178.238;
+ clxscore=1015 suspectscore=0
+ spamscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=933
+ mlxscore=0 impostorscore=0 malwarescore=0 priorityscore=1501 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2210280030
+Received-SPF: pass client-ip=205.220.166.238;
  envelope-from=prvs=7300ee25fa=bin.meng@windriver.com;
- helo=mx0b-0064b401.pphosted.com
+ helo=mx0a-0064b401.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -160,55 +168,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When migration fails, QEMU exits with a status code EXIT_FAILURE.
-Change qtests to use the well-defined macro instead of magic number.
+Introduce an API for qtest to wait for the QEMU process to terminate.
 
+Suggested-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
 ---
 
 Changes in v6:
-- new patch: "tests/qtest: Use EXIT_FAILURE instead of magic number"
+- new patch: "tests/qtest: libqtest: Introduce qtest_wait_qemu()"
 
- tests/qtest/dbus-vmstate-test.c | 2 +-
- tests/qtest/migration-test.c    | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ tests/qtest/libqtest.h |  9 ++++++
+ tests/qtest/libqtest.c | 63 +++++++++++++++++++++++++-----------------
+ 2 files changed, 47 insertions(+), 25 deletions(-)
 
-diff --git a/tests/qtest/dbus-vmstate-test.c b/tests/qtest/dbus-vmstate-test.c
-index 74ede651f6..6c990864e3 100644
---- a/tests/qtest/dbus-vmstate-test.c
-+++ b/tests/qtest/dbus-vmstate-test.c
-@@ -233,7 +233,7 @@ test_dbus_vmstate(Test *test)
-     test->src_qemu = src_qemu;
-     if (test->migrate_fail) {
-         wait_for_migration_fail(src_qemu, true);
--        qtest_set_expected_status(dst_qemu, 1);
-+        qtest_set_expected_status(dst_qemu, EXIT_FAILURE);
-     } else {
-         wait_for_migration_complete(src_qemu);
-     }
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index aa1ba179fa..28a06d8170 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -1342,7 +1342,7 @@ static void test_precopy_common(MigrateCommon *args)
-         wait_for_migration_fail(from, allow_active);
+diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
+index 65c040e504..91a5f7edd9 100644
+--- a/tests/qtest/libqtest.h
++++ b/tests/qtest/libqtest.h
+@@ -75,6 +75,15 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args);
+  */
+ QTestState *qtest_init_with_serial(const char *extra_args, int *sock_fd);
  
-         if (args->result == MIG_TEST_FAIL_DEST_QUIT_ERR) {
--            qtest_set_expected_status(to, 1);
-+            qtest_set_expected_status(to, EXIT_FAILURE);
-         }
-     } else {
-         if (args->iterations) {
-@@ -1738,7 +1738,7 @@ static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
-     migrate_qmp(from, uri, "{}");
++/**
++ * qtest_wait_qemu:
++ * @s: #QTestState instance to operate on.
++ *
++ * Wait for the QEMU process to terminate. It is safe to call this function
++ * multiple times.
++ */
++void qtest_wait_qemu(QTestState *s);
++
+ /**
+  * qtest_kill_qemu:
+  * @s: #QTestState instance to operate on.
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index d12a604d78..e1e2d39a6e 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -156,37 +156,14 @@ void qtest_set_expected_status(QTestState *s, int status)
+     s->expected_status = status;
+ }
  
-     if (should_fail) {
--        qtest_set_expected_status(to, 1);
-+        qtest_set_expected_status(to, EXIT_FAILURE);
-         wait_for_migration_fail(from, true);
-     } else {
-         wait_for_migration_complete(from);
+-void qtest_kill_qemu(QTestState *s)
++static void qtest_check_status(QTestState *s)
+ {
+-    pid_t pid = s->qemu_pid;
+-#ifndef _WIN32
+-    int wstatus;
+-#else
+-    DWORD ret;
+-#endif
+-
+-    /* Skip wait if qtest_probe_child already reaped.  */
+-    if (pid != -1) {
+-#ifndef _WIN32
+-        kill(pid, SIGTERM);
+-        TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
+-        assert(pid == s->qemu_pid);
+-#else
+-        TerminateProcess((HANDLE)pid, s->expected_status);
+-        ret = WaitForSingleObject((HANDLE)pid, INFINITE);
+-        assert(ret == WAIT_OBJECT_0);
+-        GetExitCodeProcess((HANDLE)pid, &s->exit_code);
+-        CloseHandle((HANDLE)pid);
+-#endif
+-        s->qemu_pid = -1;
+-    }
+-
+     /*
+      * Check whether qemu exited with expected exit status; anything else is
+      * fishy and should be logged with as much detail as possible.
+      */
+ #ifndef _WIN32
+-    wstatus = s->wstatus;
++    int wstatus = s->wstatus;
+     if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) != s->expected_status) {
+         fprintf(stderr, "%s:%d: kill_qemu() tried to terminate QEMU "
+                 "process but encountered exit status %d (expected %d)\n",
+@@ -212,6 +189,42 @@ void qtest_kill_qemu(QTestState *s)
+ #endif
+ }
+ 
++void qtest_wait_qemu(QTestState *s)
++{
++#ifndef _WIN32
++    pid_t pid;
++
++    TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
++    assert(pid == s->qemu_pid);
++#else
++    DWORD ret;
++
++    ret = WaitForSingleObject((HANDLE)s->qemu_pid, INFINITE);
++    assert(ret == WAIT_OBJECT_0);
++    GetExitCodeProcess((HANDLE)s->qemu_pid, &s->exit_code);
++    CloseHandle((HANDLE)s->qemu_pid);
++#endif
++
++    qtest_check_status(s);
++}
++
++void qtest_kill_qemu(QTestState *s)
++{
++    /* Skip wait if qtest_probe_child() already reaped */
++    if (s->qemu_pid != -1) {
++#ifndef _WIN32
++        kill(s->qemu_pid, SIGTERM);
++#else
++        TerminateProcess((HANDLE)s->qemu_pid, s->expected_status);
++#endif
++        qtest_wait_qemu(s);
++        s->qemu_pid = -1;
++        return;
++    }
++
++    qtest_check_status(s);
++}
++
+ static void kill_qemu_hook_func(void *s)
+ {
+     qtest_kill_qemu(s);
 -- 
 2.25.1
 
