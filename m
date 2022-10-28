@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27AD9610DD2
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 11:53:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13FFC610DD8
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 11:54:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooM37-0002mj-ML; Fri, 28 Oct 2022 05:53:13 -0400
+	id 1ooM48-00055E-37; Fri, 28 Oct 2022 05:54:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ooM31-0002dU-Mh
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:53:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
+ id 1ooM3p-0004lu-4H; Fri, 28 Oct 2022 05:53:57 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ooM2z-0003if-Th
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:53:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666950785;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z09OX8mf7aTaRKtsoW3ApxkW9/XaDPpq/lkwkTqpy3E=;
- b=IXBRknHoIRcljBDsctvSgCmFLgjm/CHXUTpRHr3kYzLwgLG/9ySR9H4YpnyiCHEMgUG84I
- XhaoYukLyARYyp9nEOG2ekxOAptzdzMElyfThGlooV7EQnCoMCyTH97sNUA9D01lO11pqM
- O39dYSCLuC19mUPzL4+PRIDqtvg8gbo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-587-Lev_3ZDtMAaf4urqhockhA-1; Fri, 28 Oct 2022 05:53:03 -0400
-X-MC-Unique: Lev_3ZDtMAaf4urqhockhA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 255633817A66;
- Fri, 28 Oct 2022 09:53:03 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.194.241])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A1961400C3B;
- Fri, 28 Oct 2022 09:53:01 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Igor Mammedov <imammedo@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Weil <sw@weilnetz.de>, David Hildenbrand <david@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-Subject: [GIT PULL 8/8] vl: Allow ThreadContext objects to be created before
- the sandbox option
-Date: Fri, 28 Oct 2022 11:52:25 +0200
-Message-Id: <20221028095225.86118-9-david@redhat.com>
-In-Reply-To: <20221028095225.86118-1-david@redhat.com>
-References: <20221028095225.86118-1-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
+ id 1ooM3m-0003ry-25; Fri, 28 Oct 2022 05:53:56 -0400
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4MzHqJ1XbHzFq4r;
+ Fri, 28 Oct 2022 17:50:52 +0800 (CST)
+Received: from [10.67.102.169] (10.67.102.169) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 28 Oct 2022 17:53:40 +0800
+CC: <yangyicong@hisilicon.com>, <chenxiang66@hisilicon.com>,
+ <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>, <qemu-arm@nongnu.org>,
+ <peter.maydell@linaro.org>, <imammedo@redhat.com>, <wangyanan55@huawei.com>,
+ <marcel.apfelbaum@gmail.com>, <eduardo@habkost.net>, <Brice.Goglin@inria.fr>, 
+ <mst@redhat.com>
+Subject: Re: [PATCH v3 0/8] AArch64/HMAT support and tests
+To: Hesham Almatary <hesham.almatary@huawei.com>, <qemu-devel@nongnu.org>
+References: <20221027100037.251-1-hesham.almatary@huawei.com>
+Message-ID: <434bea8e-2945-12ee-0a46-0e316bfaade5@huawei.com>
+Date: Fri, 28 Oct 2022 17:53:40 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20221027100037.251-1-hesham.almatary@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.102.169]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=yangyicong@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,148 +64,78 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Yicong Yang <yangyicong@huawei.com>
+From:  Yicong Yang via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently, there is no way to configure a CPU affinity inside QEMU when
-the sandbox option disables it for QEMU as a whole, for example, via:
-    -sandbox enable=on,resourcecontrol=deny
+Hi Hesham,
 
-While ThreadContext objects can be created on the QEMU commandline and
-the CPU affinity can be configured externally via the thread-id, this is
-insufficient if a ThreadContext with a certain CPU affinity is already
-required during QEMU startup, before we can intercept QEMU and
-configure the CPU affinity.
+On 2022/10/27 18:00, Hesham Almatary wrote:
+> This patchset adds support for AArch64/HMAT including a test.
+> It relies on other two patch sets from:
+> 
+> Brice Goglin: to support -numa without initiators on q35/x86.
+>   https://lore.kernel.org/all/ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr/
+> Xiang Chen: to enable/support HMAT on AArch64.
+>   https://lore.kernel.org/all/1643102134-15506-1-git-send-email-chenxiang66@hisilicon.com/
+> 
+> I further add a test with ACPI/HMAT tables that uses the two
+> patch sets.
+> 
 
-Blocking sched_setaffinity() was introduced in 24f8cdc57224 ("seccomp:
-add resourcecontrol argument to command line"), "to avoid any bigger of the
-process". However, we only care about once QEMU is running, not when
-the instance starting QEMU explicitly requests a certain CPU affinity
-on the QEMU comandline.
+You seems to forget my tag :)
 
-Right now, for NUMA-aware preallocation of memory backends used for initial
-machine RAM, one has to:
+Anyway tested again for this series on master of commit 052924548886, still works well and all tests passed
+for qemu-system-aarch64.
 
-1) Start QEMU with the memory-backend with "prealloc=off"
-2) Pause QEMU before it starts the guest (-S)
-3) Create ThreadContext, configure the CPU affinity using the thread-id
-4) Configure the ThreadContext as "prealloc-context" of the memory
-   backend
-5) Trigger preallocation by setting "prealloc=on"
+Tested-by: Yicong Yang <yangyicong@hisilicon.com>
 
-To simplify this handling especially for initial machine RAM,
-allow creation of ThreadContext objects before parsing sandbox options,
-such that the CPU affinity requested on the QEMU commandline alongside the
-sandbox option can be set. As ThreadContext objects essentially only create
-a persistent context thread and set the CPU affinity, this is easily
-possible.
-
-With this change, we can create a ThreadContext with a CPU affinity on
-the QEMU commandline and use it for preallocation of memory backends
-glued to the machine (simplified example):
-
-To make "-name debug-threads=on" keep working as expected for the
-context threads, perform earlier parsing of "-name".
-
-qemu-system-x86_64 -m 1G \
- -object thread-context,id=tc1,cpu-affinity=3-4 \
- -object memory-backend-ram,id=pc.ram,size=1G,prealloc=on,prealloc-threads=2,prealloc-context=tc1 \
- -machine memory-backend=pc.ram \
- -S -monitor stdio -sandbox enable=on,resourcecontrol=deny
-
-And while we can query the current CPU affinity:
-  (qemu) qom-get tc1 cpu-affinity
-  [
-      3,
-      4
-  ]
-
-We can no longer change it from QEMU directly:
-  (qemu) qom-set tc1 cpu-affinity 1-2
-  Error: Setting CPU affinity failed: Operation not permitted
-
-Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
-Message-Id: <20221014134720.168738-8-david@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- softmmu/vl.c | 36 ++++++++++++++++++++++++++++++++----
- 1 file changed, 32 insertions(+), 4 deletions(-)
-
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index b464da25bc..b5a23420ac 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1759,6 +1759,27 @@ static void object_option_parse(const char *optarg)
-     visit_free(v);
- }
- 
-+/*
-+ * Very early object creation, before the sandbox options have been activated.
-+ */
-+static bool object_create_pre_sandbox(const char *type)
-+{
-+    /*
-+     * Objects should in general not get initialized "too early" without
-+     * a reason. If you add one, state the reason in a comment!
-+     */
-+
-+    /*
-+     * Reason: -sandbox on,resourcecontrol=deny disallows setting CPU
-+     * affinity of threads.
-+     */
-+    if (g_str_equal(type, "thread-context")) {
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
- /*
-  * Initial object creation happens before all other
-  * QEMU data types are created. The majority of objects
-@@ -1773,6 +1794,11 @@ static bool object_create_early(const char *type)
-      * add one, state the reason in a comment!
-      */
- 
-+    /* Reason: already created. */
-+    if (object_create_pre_sandbox(type)) {
-+        return false;
-+    }
-+
-     /* Reason: property "chardev" */
-     if (g_str_equal(type, "rng-egd") ||
-         g_str_equal(type, "qtest")) {
-@@ -1895,7 +1921,7 @@ static void qemu_create_early_backends(void)
-  */
- static bool object_create_late(const char *type)
- {
--    return !object_create_early(type);
-+    return !object_create_early(type) && !object_create_pre_sandbox(type);
- }
- 
- static void qemu_create_late_backends(void)
-@@ -2351,6 +2377,11 @@ static int process_runstate_actions(void *opaque, QemuOpts *opts, Error **errp)
- 
- static void qemu_process_early_options(void)
- {
-+    qemu_opts_foreach(qemu_find_opts("name"),
-+                      parse_name, NULL, &error_fatal);
-+
-+    object_option_foreach_add(object_create_pre_sandbox);
-+
- #ifdef CONFIG_SECCOMP
-     QemuOptsList *olist = qemu_find_opts_err("sandbox", NULL);
-     if (olist) {
-@@ -2358,9 +2389,6 @@ static void qemu_process_early_options(void)
-     }
- #endif
- 
--    qemu_opts_foreach(qemu_find_opts("name"),
--                      parse_name, NULL, &error_fatal);
--
-     if (qemu_opts_foreach(qemu_find_opts("action"),
-                           process_runstate_actions, NULL, &error_fatal)) {
-         exit(1);
--- 
-2.37.3
-
+> Changes from v2:
+> - Rebased and fixed a merge conflict
+> 
+> Changes from v1:
+> - Generate APIC and PPTT ACPI tables for AArch64/virt
+> - Avoid using legacy syntax in numa/bios tests
+> - Delete unchanged FACP tables
+> 
+> Brice Goglin (4):
+>   hmat acpi: Don't require initiator value in -numa
+>   tests: acpi: add and whitelist *.hmat-noinitiator expected blobs
+>   tests: acpi: q35: add test for hmat nodes without initiators
+>   tests: acpi: q35: update expected blobs *.hmat-noinitiators expected
+>     HMAT:
+> 
+> Hesham Almatary (3):
+>   tests: Add HMAT AArch64/virt empty table files
+>   tests: acpi: aarch64/virt: add a test for hmat nodes with no
+>     initiators
+>   tests: virt: Update expected *.acpihmatvirt tables
+> 
+> Xiang Chen (1):
+>   hw/arm/virt: Enable HMAT on arm virt machine
+> 
+>  hw/arm/Kconfig                                |   1 +
+>  hw/arm/virt-acpi-build.c                      |   7 ++
+>  hw/core/machine.c                             |   4 +-
+>  tests/data/acpi/q35/APIC.acpihmat-noinitiator | Bin 0 -> 144 bytes
+>  tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 0 -> 8553 bytes
+>  tests/data/acpi/q35/HMAT.acpihmat-noinitiator | Bin 0 -> 288 bytes
+>  tests/data/acpi/q35/SRAT.acpihmat-noinitiator | Bin 0 -> 312 bytes
+>  tests/data/acpi/virt/APIC.acpihmatvirt        | Bin 0 -> 396 bytes
+>  tests/data/acpi/virt/DSDT.acpihmatvirt        | Bin 0 -> 5282 bytes
+>  tests/data/acpi/virt/HMAT.acpihmatvirt        | Bin 0 -> 288 bytes
+>  tests/data/acpi/virt/PPTT.acpihmatvirt        | Bin 0 -> 196 bytes
+>  tests/data/acpi/virt/SRAT.acpihmatvirt        | Bin 0 -> 240 bytes
+>  tests/qtest/bios-tables-test.c                | 109 ++++++++++++++++++
+>  13 files changed, 118 insertions(+), 3 deletions(-)
+>  create mode 100644 tests/data/acpi/q35/APIC.acpihmat-noinitiator
+>  create mode 100644 tests/data/acpi/q35/DSDT.acpihmat-noinitiator
+>  create mode 100644 tests/data/acpi/q35/HMAT.acpihmat-noinitiator
+>  create mode 100644 tests/data/acpi/q35/SRAT.acpihmat-noinitiator
+>  create mode 100644 tests/data/acpi/virt/APIC.acpihmatvirt
+>  create mode 100644 tests/data/acpi/virt/DSDT.acpihmatvirt
+>  create mode 100644 tests/data/acpi/virt/HMAT.acpihmatvirt
+>  create mode 100644 tests/data/acpi/virt/PPTT.acpihmatvirt
+>  create mode 100644 tests/data/acpi/virt/SRAT.acpihmatvirt
+> 
 
