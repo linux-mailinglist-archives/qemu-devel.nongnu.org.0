@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D32EB612098
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 07:41:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE37612093
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 07:35:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooeU1-0002Yx-Bb; Sat, 29 Oct 2022 01:34:13 -0400
+	id 1ooeU4-0002ay-4z; Sat, 29 Oct 2022 01:34:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <olekstysh@gmail.com>)
- id 1ooUgK-0004bg-OH; Fri, 28 Oct 2022 15:06:30 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ id 1ooVwD-000169-KV
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 16:26:45 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <olekstysh@gmail.com>)
- id 1ooUgH-0000qN-6P; Fri, 28 Oct 2022 15:06:16 -0400
-Received: by mail-pl1-x636.google.com with SMTP id f23so5626295plr.6;
- Fri, 28 Oct 2022 12:06:11 -0700 (PDT)
+ id 1ooVwA-0005nJ-Dl
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 16:26:45 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id b185so5705706pfb.9
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 13:26:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=OpySAI0m06R16LGE63jw0ivYx7e/ioZkfJWvMJn/6p4=;
- b=BJ33SXBipARpCCtD2oOUkdM2RwZNIXY+XMUdvUhKqF6VuaQ8miWtNBI/CdPbA7sUta
- oXy7ggplDYDuuUTyNOjOsHDFD9zVN0aKqUY/cewErZBNQcdZTk5TovbXo8pBbzYDTEZf
- 9rp+ds87gQHxqbHI3/E3ECAWJ3dklCaqNHM7iJEPXGn1DvXXh/lRT/ghGVM9uRMn9iys
- XPN7XmGEab12vjsbRHdEHg/m0eXr0IeiaUA29O7qFu7kXN2aZXTengiSAgGOFc+izg78
- UkS93zzjWQDa8e9yZusr2WX2jmsR47czjYPH6Y0puT9tbf8JfLhY3G/p9YsjDrdoIDSR
- oyfA==
+ bh=OXDBbwRSJNCji3jISCvGg1G1iOkeozCcaMRPzPzWFQ8=;
+ b=doIPLx0kLWCXHT8iMjLNP+JtDUAVuJgmQ7CzhU8FcE+H8nw0CedGgn3AYpi9MWDo0K
+ jmavq23FhbbM7zbsVYWuhF0SQI1grfrQsoXdR6tF1rHiD44jMhudTwV5O8B8uYVuxX3p
+ 4h3O6veHniM2trJPG0MEOnrGCRCA1wozEnfAvKNBx9hxfIPCDhetrXsoPgQBk2Fk7ios
+ /aWTEr7mMeTjm7+xps0/u9zzKeofLYPhz6ZICK4nScoPq9BPrfyQ0X15kLK9QwM5KTD2
+ hTVCw4S/nwSLKIOtPTVEc7Og8EJejLv4ADR+jbZdjKPyiaBfUfehA2kq5lQyOskl8b/9
+ eVBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=OpySAI0m06R16LGE63jw0ivYx7e/ioZkfJWvMJn/6p4=;
- b=AHInQhRZPTRFov+9mJT1jxq8ixtncL1G5VFqCFhE8ivm1wvgUxRWJq+5Jm6e7ppsmk
- lr5ZHXD/ZVvmBOKpeFsKhC+GTxAHczbzlDh8O3+h8c3QKhyPfvWBXLIbBN7VzjmnGjE/
- wA+OOoR2gFXW3P+PGctKlYqQK+/iDjOhgx6SvvSRoRn/CM94/aJIxhhHcJ9OUscq3Jop
- L0+Kp5yEstwM/jshXOMOg7OkPyZMPK+YtJ2wJAMTScTXWIbXRJyQMote18tMrHNVBtt5
- EoND+u6Tfbf5nnNUcWD8jCiJb3paXUWqCt+cebVNGJx16Q9LcHa7oj5JL41gv1hb/jd/
- Ju6w==
-X-Gm-Message-State: ACrzQf2UtMzl7X8xySrtcH3DWARKG5RZGz0VQjfmZV1ZI315T//DkT5o
- vd/s6VbSlnXt64Netrb8wRQ6B/ZaUht76fgX7L8=
-X-Google-Smtp-Source: AMsMyM4xKpCtA6doHrBId4kdH/4woxsla2xyPf+PNZF/ENC+dfhwTJMgv3LlYmF2OAn5rSk4ZRzuc0DmTtr8rx9IYqg=
-X-Received: by 2002:a17:902:eccc:b0:186:5f09:f9 with SMTP id
- a12-20020a170902eccc00b001865f0900f9mr490806plh.6.1666983970122; Fri, 28 Oct
- 2022 12:06:10 -0700 (PDT)
+ bh=OXDBbwRSJNCji3jISCvGg1G1iOkeozCcaMRPzPzWFQ8=;
+ b=36qkNGjQK98MVHqrtleyQztdd+fzsj0HpzPA1eHKziDH+sWuhVKahWprlLqsmMoB5c
+ H5sDzkP07nKyixY8cmJbZqXS7pFtQTWrenfnFmlJt+BTd/XxmodtbyqRfj+jNbMTQkkm
+ QSErUI06NbaimYKnIG41nJCZ9YgK5ATvTBGl+BYjR13JtkgQBA3QMTxw4Xx0oagp/elj
+ eOO433kz9/iV8CHkiZIHCCDxyIDeEwLGMqxFTZUCOVy86v7PUU/ab/8HqnV344HV6bfc
+ 5SorAfGdKU+Oj7q+IfcbIxGWcR9nRtpz1e9gk9El1CqJBcjRuwgi779N45bEFmmbG0jN
+ 2KyQ==
+X-Gm-Message-State: ACrzQf2STqr4zSVTFPuZebkGEjTveo+MpbopCPypCDeFFmfUcd8LiHJ4
+ NNguIKkdhOc8JjYjAe2ia5rmIZ18eKpAEGeSgsI=
+X-Google-Smtp-Source: AMsMyM4zrYEfDDYckj6NMgHQPAC9dscffKiIflNN9hjZpznv/3MPmKl0sySmXt0fxy8wzOwgRVaaaWMbP6g0SMgLJ0Y=
+X-Received: by 2002:a63:e806:0:b0:44b:d45b:b8a2 with SMTP id
+ s6-20020a63e806000000b0044bd45bb8a2mr1147699pgh.14.1666988799900; Fri, 28 Oct
+ 2022 13:26:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221015050750.4185-1-vikram.garhwal@amd.com>
- <20221015050750.4185-11-vikram.garhwal@amd.com>
- <87wn8l3d3r.fsf@linaro.org> <7da20a2e-81e0-b3ad-c2d6-6012fa7edee2@xen.org>
-In-Reply-To: <7da20a2e-81e0-b3ad-c2d6-6012fa7edee2@xen.org>
+ <20221015050750.4185-10-vikram.garhwal@amd.com>
+ <87pmed1uww.fsf@linaro.org>
+In-Reply-To: <87pmed1uww.fsf@linaro.org>
 From: Oleksandr Tyshchenko <olekstysh@gmail.com>
-Date: Fri, 28 Oct 2022 22:05:58 +0300
-Message-ID: <CAPD2p-nE30z9LosUkO6OdrPnuCaSwi_s2tsfbxgcOyu087tz-w@mail.gmail.com>
-Subject: Re: [PATCH v1 10/12] hw/arm: introduce xenpv machine
-To: Julien Grall <julien@xen.org>, Vikram Garhwal <vikram.garhwal@amd.com>,
- stefano.stabellini@amd.com
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, 
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, 
- Paul Durrant <paul@xen.org>, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- xen-devel@lists.xenproject.org, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000062afd005ec1cf34a"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=olekstysh@gmail.com; helo=mail-pl1-x636.google.com
+Date: Fri, 28 Oct 2022 23:26:28 +0300
+Message-ID: <CAPD2p-=gTqAevPi8-Tq_wkbd+PeVgnLLergmJVLh_eE2HumbGA@mail.gmail.com>
+Subject: Re: [PATCH v1 09/12] accel/xen/xen-all: export
+ xenstore_record_dm_state
+To: Vikram Garhwal <vikram.garhwal@amd.com>, stefano.stabellini@amd.com
+Cc: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>, 
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ xen-devel@lists.xenproject.org
+Content-Type: multipart/alternative; boundary="0000000000004340f305ec1e135c"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=olekstysh@gmail.com; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -74,7 +74,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 29 Oct 2022 00:27:01 -0400
+X-Mailman-Approved-At: Sat, 29 Oct 2022 00:27:05 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,291 +89,208 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000062afd005ec1cf34a
+--0000000000004340f305ec1e135c
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 28, 2022 at 8:58 PM Julien Grall <julien@xen.org> wrote:
+On Thu, Oct 27, 2022 at 12:24 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
 
-> Hi,
+Hello all
+
+
+
+> Vikram Garhwal <vikram.garhwal@amd.com> writes:
 >
-
-Hello all.
-
-[sorry for the possible format issues]
-
-
-
+> > xenstore_record_dm_state() will also be used in aarch64 xenpv machine.
+> >
+> > Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+> > Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
+> > ---
+> >  accel/xen/xen-all.c  | 2 +-
+> >  include/hw/xen/xen.h | 2 ++
+> >  2 files changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
+> > index 69aa7d018b..276625b78b 100644
+> > --- a/accel/xen/xen-all.c
+> > +++ b/accel/xen/xen-all.c
+> > @@ -100,7 +100,7 @@ void xenstore_store_pv_console_info(int i, Chardev
+> *chr)
+> >  }
+> >
+> >
+> > -static void xenstore_record_dm_state(struct xs_handle *xs, const char
+> *state)
+> > +void xenstore_record_dm_state(struct xs_handle *xs, const char *state)
+> >  {
+> >      char path[50];
+> >
+> > diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
+> > index afdf9c436a..31e9538a5c 100644
+> > --- a/include/hw/xen/xen.h
+> > +++ b/include/hw/xen/xen.h
+> > @@ -9,6 +9,7 @@
+> >   */
+> >
+> >  #include "exec/cpu-common.h"
+> > +#include <xenstore.h>
 >
-> On 27/10/2022 09:02, Alex Benn=C3=A9e wrote:
-> >
-> > Vikram Garhwal <vikram.garhwal@amd.com> writes:
-> >
-> > <snip>
-> >> Optional: When CONFIG_TPM is enabled, it also creates a tpm-tis-device=
-,
-> adds a
-> >> TPM emulator and connects to swtpm running on host machine via chardev
-> socket
-> >> and support TPM functionalities for a guest domain.
-> >>
-> >> Extra command line for aarch64 xenpv QEMU to connect to swtpm:
-> >>      -chardev socket,id=3Dchrtpm,path=3D/tmp/myvtpm2/swtpm-sock \
-> >>      -tpmdev emulator,id=3Dtpm0,chardev=3Dchrtpm \
-> >>
-> >> swtpm implements a TPM software emulator(TPM 1.2 & TPM 2) built on
-> libtpms and
-> >> provides access to TPM functionality over socket, chardev and CUSE
-> interface.
-> >> Github repo: https://github.com/stefanberger/swtpm
-> >> Example for starting swtpm on host machine:
-> >>      mkdir /tmp/vtpm2
-> >>      swtpm socket --tpmstate dir=3D/tmp/vtpm2 \
-> >>      --ctrl type=3Dunixio,path=3D/tmp/vtpm2/swtpm-sock &
-> >
-> > <snip>
-> >> +static void xen_enable_tpm(void)
-> >> +{
-> >> +/* qemu_find_tpm_be is only available when CONFIG_TPM is enabled. */
-> >> +#ifdef CONFIG_TPM
-> >> +    Error *errp =3D NULL;
-> >> +    DeviceState *dev;
-> >> +    SysBusDevice *busdev;
-> >> +
-> >> +    TPMBackend *be =3D qemu_find_tpm_be("tpm0");
-> >> +    if (be =3D=3D NULL) {
-> >> +        DPRINTF("Couldn't fine the backend for tpm0\n");
-> >> +        return;
-> >> +    }
-> >> +    dev =3D qdev_new(TYPE_TPM_TIS_SYSBUS);
-> >> +    object_property_set_link(OBJECT(dev), "tpmdev", OBJECT(be), &errp=
-);
-> >> +    object_property_set_str(OBJECT(dev), "tpmdev", be->id, &errp);
-> >> +    busdev =3D SYS_BUS_DEVICE(dev);
-> >> +    sysbus_realize_and_unref(busdev, &error_fatal);
-> >> +    sysbus_mmio_map(busdev, 0, GUEST_TPM_BASE);
-> >
-> > I'm not sure what has gone wrong here but I'm getting:
-> >
-> >    ../../hw/arm/xen_arm.c: In function =E2=80=98xen_enable_tpm=E2=80=99=
-:
-> >    ../../hw/arm/xen_arm.c:120:32: error: =E2=80=98GUEST_TPM_BASE=E2=80=
-=99 undeclared
-> (first use in this function); did you mean =E2=80=98GUEST_RAM_BASE=E2=80=
-=99?
-> >      120 |     sysbus_mmio_map(busdev, 0, GUEST_TPM_BASE);
-> >          |                                ^~~~~~~~~~~~~~
-> >          |                                GUEST_RAM_BASE
-> >    ../../hw/arm/xen_arm.c:120:32: note: each undeclared identifier is
-> reported only once for each function it appears in
-> >
-> > In my cross build:
-> >
-> >    # Configured with: '../../configure' '--disable-docs'
-> '--target-list=3Daarch64-softmmu' '--disable-kvm' '--enable-xen'
-> '--disable-opengl' '--disable-libudev' '--enable-tpm'
-> '--disable-xen-pci-passthrough' '--cross-prefix=3Daarch64-linux-gnu-'
-> '--skip-meson'
-> >
-> > which makes me wonder if this is a configure failure or a confusion
-> > about being able to have host swtpm implementations during emulation bu=
-t
-> > needing target tpm for Xen?
+> This is breaking a bunch of the builds and generally we try and avoid
+> adding system includes in headers (apart from osdep.h) for this reason.
+> In fact there is a comment just above to that fact.
 >
-> I was also wondering where is that value come from. Note that the
-> memory/IRQ layout exposed to the guest is not stable.
+> I think you can just add struct xs_handle to typedefs.h (or maybe just
+> xen.h) and directly include xenstore.h in xen-all.c following the usual
+> rules:
 >
-> Are we expecting the user to rebuild QEMU for every Xen versions (or
-> possibly every guest if we ever allow dynamic layout in Xen)?
 >
-
-
-This doesn't sound ideal.
-
-I am wondering what would be the correct way here assuming that we would
-likely need to have more such information in place for supporting more
-use-cases...
-For instance, the PCI host bridge emulation in Qemu. Xen toolstack (another
-software layer) generates device-tree for the guest, so creates PCI Host
-bridge node by using reserved regions from Guest OS interface (arch-arm.h):
-- GUEST_VPCI_MEM_ADDR (GUEST_VPCI_MEM_SIZE)
-- GUEST_VPCI_ECAM_BASE (GUEST_VPCI_ECAM_SIZE)
-- GUEST_VPCI_PREFETCH_MEM_ADDR (GUEST_VPCI_PREFETCH_MEM_SIZE)
-https://xenbits.xen.org/gitweb/?p=3Dxen.git;a=3Dblob;f=3Dtools/libs/light/l=
-ibxl_arm.c;h=3D2a5e93c28403738779863aded31d2df3ba72f8c0;hb=3DHEAD#l833
-
-Here in Qemu when creating a PCI Host bridge we would need to use exactly
-the same reserved regions which toolstack writes in the corresponding
-device-tree node. So how to tell Qemu about them?
-1. Introduce new cmd line arguments?
-2. Using Xenstore?
-3. Anything else?
-
-I am afraid this would be related to every device that we want to emulate
-in Qemu and for which the toolstack needs to generate device-tree node by
-using something defined with GUEST_*, unless I really missed something.
-
-
-
+> https://qemu.readthedocs.io/en/latest/devel/style.html#include-directives
 >
-> Cheers,
+> It might be worth doing an audit to see what else is including xen.h
+> needlessly or should be using sysemu/xen.h.
+>
+> >
+> >  /* xen-machine.c */
+> >  enum xen_mode {
+> > @@ -31,5 +32,6 @@ qemu_irq *xen_interrupt_controller_init(void);
+> >  void xenstore_store_pv_console_info(int i, Chardev *chr);
+> >
+> >  void xen_register_framebuffer(struct MemoryRegion *mr);
+> > +void xenstore_record_dm_state(struct xs_handle *xs, const char *state)=
+;
+> >
+> >  #endif /* QEMU_HW_XEN_H */
+>
 >
 > --
-> Julien Grall
+> Alex Benn=C3=A9e
 >
 >
+
+For considering:
+I think this patch and some other changes done in "[PATCH v1 10/12] hw/arm:
+introduce xenpv machine" (the opening of Xen interfaces and
+calling xenstore_record_dm_state() in hw/arm/xen_arm.c:xen_init_ioreq())
+could be avoided if we enable the Xen accelerator (either by passing "-M
+xenpv,accel=3Dxen" or by adding mc->default_machine_opts =3D "accel=3Dxen";
+to hw/arm/xen_arm.c:xen_arm_machine_class_init() or by some other method).
+These actions are already done in accel/xen/xen-all.c:xen_init(). Please
+note, that I am not too familiar with that code, so there might be nuances.
+
+Besides that, Xen accelerator will be needed for the xen-mapcache to be in
+use (this is needed for mapping guest memory), there are a few
+xen_enabled() checks spreading around that code to perform Xen specific
+actions.
 
 --=20
 Regards,
 
 Oleksandr Tyshchenko
 
---00000000000062afd005ec1cf34a
+--0000000000004340f305ec1e135c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 28, 2022 at 8:58 PM Julie=
-n Grall &lt;<a href=3D"mailto:julien@xen.org" target=3D"_blank">julien@xen.=
-org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">Hi,<br></blockquote><div><br></div><div>Hello all.</div><div><br></div><=
-div>[sorry for the possible format issues]</div><div><br></div><div>=C2=A0<=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 27, 2022 at 12:24 PM Alex=
+ Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org" target=3D"_blank=
+">alex.bennee@linaro.org</a>&gt; wrote:<br></div><div dir=3D"ltr" class=3D"=
+gmail_attr"><br></div><div class=3D"gmail_attr">Hello all</div><div dir=3D"=
+ltr" class=3D"gmail_attr"><br></div><div dir=3D"ltr" class=3D"gmail_attr"><=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+Vikram Garhwal &lt;<a href=3D"mailto:vikram.garhwal@amd.com" target=3D"_bla=
+nk">vikram.garhwal@amd.com</a>&gt; writes:<br>
 <br>
-On 27/10/2022 09:02, Alex Benn=C3=A9e wrote:<br>
-&gt; <br>
-&gt; Vikram Garhwal &lt;<a href=3D"mailto:vikram.garhwal@amd.com" target=3D=
-"_blank">vikram.garhwal@amd.com</a>&gt; writes:<br>
-&gt; <br>
-&gt; &lt;snip&gt;<br>
-&gt;&gt; Optional: When CONFIG_TPM is enabled, it also creates a tpm-tis-de=
-vice, adds a<br>
-&gt;&gt; TPM emulator and connects to swtpm running on host machine via cha=
-rdev socket<br>
-&gt;&gt; and support TPM functionalities for a guest domain.<br>
-&gt;&gt;<br>
-&gt;&gt; Extra command line for aarch64 xenpv QEMU to connect to swtpm:<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 -chardev socket,id=3Dchrtpm,path=3D/tmp/myvtpm=
-2/swtpm-sock \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 -tpmdev emulator,id=3Dtpm0,chardev=3Dchrtpm \<=
-br>
-&gt;&gt;<br>
-&gt;&gt; swtpm implements a TPM software emulator(TPM 1.2 &amp; TPM 2) buil=
-t on libtpms and<br>
-&gt;&gt; provides access to TPM functionality over socket, chardev and CUSE=
- interface.<br>
-&gt;&gt; Github repo: <a href=3D"https://github.com/stefanberger/swtpm" rel=
-=3D"noreferrer" target=3D"_blank">https://github.com/stefanberger/swtpm</a>=
+&gt; xenstore_record_dm_state() will also be used in aarch64 xenpv machine.=
 <br>
-&gt;&gt; Example for starting swtpm on host machine:<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 mkdir /tmp/vtpm2<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 swtpm socket --tpmstate dir=3D/tmp/vtpm2 \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 --ctrl type=3Dunixio,path=3D/tmp/vtpm2/swtpm-s=
-ock &amp;<br>
-&gt; <br>
-&gt; &lt;snip&gt;<br>
-&gt;&gt; +static void xen_enable_tpm(void)<br>
-&gt;&gt; +{<br>
-&gt;&gt; +/* qemu_find_tpm_be is only available when CONFIG_TPM is enabled.=
- */<br>
-&gt;&gt; +#ifdef CONFIG_TPM<br>
-&gt;&gt; +=C2=A0 =C2=A0 Error *errp =3D NULL;<br>
-&gt;&gt; +=C2=A0 =C2=A0 DeviceState *dev;<br>
-&gt;&gt; +=C2=A0 =C2=A0 SysBusDevice *busdev;<br>
-&gt;&gt; +<br>
-&gt;&gt; +=C2=A0 =C2=A0 TPMBackend *be =3D qemu_find_tpm_be(&quot;tpm0&quot=
-;);<br>
-&gt;&gt; +=C2=A0 =C2=A0 if (be =3D=3D NULL) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 DPRINTF(&quot;Couldn&#39;t fine the b=
-ackend for tpm0\n&quot;);<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-&gt;&gt; +=C2=A0 =C2=A0 }<br>
-&gt;&gt; +=C2=A0 =C2=A0 dev =3D qdev_new(TYPE_TPM_TIS_SYSBUS);<br>
-&gt;&gt; +=C2=A0 =C2=A0 object_property_set_link(OBJECT(dev), &quot;tpmdev&=
-quot;, OBJECT(be), &amp;errp);<br>
-&gt;&gt; +=C2=A0 =C2=A0 object_property_set_str(OBJECT(dev), &quot;tpmdev&q=
-uot;, be-&gt;id, &amp;errp);<br>
-&gt;&gt; +=C2=A0 =C2=A0 busdev =3D SYS_BUS_DEVICE(dev);<br>
-&gt;&gt; +=C2=A0 =C2=A0 sysbus_realize_and_unref(busdev, &amp;error_fatal);=
+&gt;<br>
+&gt; Signed-off-by: Vikram Garhwal &lt;<a href=3D"mailto:vikram.garhwal@amd=
+.com" target=3D"_blank">vikram.garhwal@amd.com</a>&gt;<br>
+&gt; Signed-off-by: Stefano Stabellini &lt;<a href=3D"mailto:stefano.stabel=
+lini@amd.com" target=3D"_blank">stefano.stabellini@amd.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 accel/xen/xen-all.c=C2=A0 | 2 +-<br>
+&gt;=C2=A0 include/hw/xen/xen.h | 2 ++<br>
+&gt;=C2=A0 2 files changed, 3 insertions(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c<br>
+&gt; index 69aa7d018b..276625b78b 100644<br>
+&gt; --- a/accel/xen/xen-all.c<br>
+&gt; +++ b/accel/xen/xen-all.c<br>
+&gt; @@ -100,7 +100,7 @@ void xenstore_store_pv_console_info(int i, Chardev=
+ *chr)<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 <br>
+&gt; -static void xenstore_record_dm_state(struct xs_handle *xs, const char=
+ *state)<br>
+&gt; +void xenstore_record_dm_state(struct xs_handle *xs, const char *state=
+)<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 char path[50];<br>
+&gt;=C2=A0 <br>
+&gt; diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h<br>
+&gt; index afdf9c436a..31e9538a5c 100644<br>
+&gt; --- a/include/hw/xen/xen.h<br>
+&gt; +++ b/include/hw/xen/xen.h<br>
+&gt; @@ -9,6 +9,7 @@<br>
+&gt;=C2=A0 =C2=A0*/<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 #include &quot;exec/cpu-common.h&quot;<br>
+&gt; +#include &lt;xenstore.h&gt;<br>
 <br>
-&gt;&gt; +=C2=A0 =C2=A0 sysbus_mmio_map(busdev, 0, GUEST_TPM_BASE);<br>
-&gt; <br>
-&gt; I&#39;m not sure what has gone wrong here but I&#39;m getting:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 ../../hw/arm/xen_arm.c: In function =E2=80=98xen_enable_t=
-pm=E2=80=99:<br>
-&gt;=C2=A0 =C2=A0 ../../hw/arm/xen_arm.c:120:32: error: =E2=80=98GUEST_TPM_=
-BASE=E2=80=99 undeclared (first use in this function); did you mean =E2=80=
-=98GUEST_RAM_BASE=E2=80=99?<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 120 |=C2=A0 =C2=A0 =C2=A0sysbus_mmio_map(busdev, 0=
-, GUEST_TPM_BASE);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 ^~~~~~~~~~~~~~<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 GUEST_RAM_BASE<br>
-&gt;=C2=A0 =C2=A0 ../../hw/arm/xen_arm.c:120:32: note: each undeclared iden=
-tifier is reported only once for each function it appears in<br>
-&gt; <br>
-&gt; In my cross build:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 # Configured with: &#39;../../configure&#39; &#39;--disab=
-le-docs&#39; &#39;--target-list=3Daarch64-softmmu&#39; &#39;--disable-kvm&#=
-39; &#39;--enable-xen&#39; &#39;--disable-opengl&#39; &#39;--disable-libude=
-v&#39; &#39;--enable-tpm&#39; &#39;--disable-xen-pci-passthrough&#39; &#39;=
---cross-prefix=3Daarch64-linux-gnu-&#39; &#39;--skip-meson&#39;<br>
-&gt; <br>
-&gt; which makes me wonder if this is a configure failure or a confusion<br=
->
-&gt; about being able to have host swtpm implementations during emulation b=
-ut<br>
-&gt; needing target tpm for Xen?<br>
+This is breaking a bunch of the builds and generally we try and avoid<br>
+adding system includes in headers (apart from osdep.h) for this reason.<br>
+In fact there is a comment just above to that fact.<br>
 <br>
-I was also wondering where is that value come from. Note that the <br>
-memory/IRQ layout exposed to the guest is not stable.<br>
+I think you can just add struct xs_handle to typedefs.h (or maybe just<br>
+xen.h) and directly include xenstore.h in xen-all.c following the usual<br>
+rules:<br>
 <br>
-Are we expecting the user to rebuild QEMU for every Xen versions (or <br>
-possibly every guest if we ever allow dynamic layout in Xen)?<br></blockquo=
-te><div><br></div><div><br></div><div>This doesn&#39;t sound ideal.=C2=A0</=
-div><div><br></div><div>I am wondering what would be the correct way here a=
-ssuming that we would likely need to have more such information in place fo=
-r supporting more use-cases...</div><div>For instance, the PCI host bridge =
-emulation in Qemu. Xen toolstack (another software layer) generates device-=
-tree for the guest, so creates PCI Host bridge node by using reserved regio=
-ns from=C2=A0Guest OS interface (arch-arm.h):</div><div>- GUEST_VPCI_MEM_AD=
-DR (GUEST_VPCI_MEM_SIZE)<br></div><div>- GUEST_VPCI_ECAM_BASE (GUEST_VPCI_E=
-CAM_SIZE)<br></div><div>- GUEST_VPCI_PREFETCH_MEM_ADDR (GUEST_VPCI_PREFETCH=
-_MEM_SIZE)<br></div><div><a href=3D"https://xenbits.xen.org/gitweb/?p=3Dxen=
-.git;a=3Dblob;f=3Dtools/libs/light/libxl_arm.c;h=3D2a5e93c28403738779863ade=
-d31d2df3ba72f8c0;hb=3DHEAD#l833" target=3D"_blank">https://xenbits.xen.org/=
-gitweb/?p=3Dxen.git;a=3Dblob;f=3Dtools/libs/light/libxl_arm.c;h=3D2a5e93c28=
-403738779863aded31d2df3ba72f8c0;hb=3DHEAD#l833</a><br></div><div><br></div>=
-<div>Here in Qemu when creating a PCI Host bridge we would need to use exac=
-tly the same reserved regions=C2=A0which toolstack writes in the correspond=
-ing device-tree node. So how to tell Qemu about them?=C2=A0</div><div>1. In=
-troduce new cmd line arguments?</div><div>2. Using Xenstore?</div><div>3. A=
-nything else?</div><div><br></div><div>I am afraid this would be related to=
- every device that we want to emulate in Qemu and for which the toolstack n=
-eeds to=C2=A0generate device-tree node=C2=A0by using something defined with=
- GUEST_*, unless I really missed something.</div><div><br></div><div>=C2=A0=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 <a href=3D"https://qemu.readthedocs.io/en/latest/devel/style.html#in=
+clude-directives" rel=3D"noreferrer" target=3D"_blank">https://qemu.readthe=
+docs.io/en/latest/devel/style.html#include-directives</a><br>
 <br>
-Cheers,<br>
+It might be worth doing an audit to see what else is including xen.h<br>
+needlessly or should be using sysemu/xen.h. <br>
+<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 /* xen-machine.c */<br>
+&gt;=C2=A0 enum xen_mode {<br>
+&gt; @@ -31,5 +32,6 @@ qemu_irq *xen_interrupt_controller_init(void);<br>
+&gt;=C2=A0 void xenstore_store_pv_console_info(int i, Chardev *chr);<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 void xen_register_framebuffer(struct MemoryRegion *mr);<br>
+&gt; +void xenstore_record_dm_state(struct xs_handle *xs, const char *state=
+);<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 #endif /* QEMU_HW_XEN_H */<br>
+<br>
 <br>
 -- <br>
-Julien Grall<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
-><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><span style=
-=3D"background-color:rgb(255,255,255)"><font size=3D"2"><span style=3D"colo=
-r:rgb(51,51,51);font-family:Arial,sans-serif">Regards,</span></font></span>=
-</div><div dir=3D"ltr"><br></div><div dir=3D"ltr"><div><span style=3D"backg=
-round-color:rgb(255,255,255)"><font size=3D"2">Oleksandr Tyshchenko</font><=
-/span></div></div></div></div></div></div></div></div>
+Alex Benn=C3=A9e<br>
+<br></blockquote><div><br></div><div><br></div><div>For considering:</div><=
+div>I think this patch and some other changes done in &quot;[PATCH v1 10/12=
+] hw/arm: introduce xenpv machine&quot; (the opening of Xen interfaces and =
+calling=C2=A0xenstore_record_dm_state() in hw/arm/xen_arm.c:xen_init_ioreq(=
+))</div><div>could be avoided if we enable the Xen accelerator (either by p=
+assing &quot;-M xenpv,accel=3Dxen&quot; or by adding mc-&gt;default_machine=
+_opts =3D &quot;accel=3Dxen&quot;; to=C2=A0hw/arm/xen_arm.c:xen_arm_machine=
+_class_init() or by some other method).<br></div><div>These actions are alr=
+eady done in=C2=A0accel/xen/xen-all.c:xen_init(). Please note, that I am no=
+t too familiar with that code, so there might be nuances.=C2=A0<br></div><d=
+iv><br></div>Besides that, Xen accelerator will be needed for the xen-mapca=
+che to be in use (this is needed for mapping guest memory), there are a few=
+ xen_enabled() checks=C2=A0spreading around that code to perform Xen specif=
+ic actions.</div><div><br></div>-- <br><div dir=3D"ltr"><div dir=3D"ltr"><d=
+iv><div dir=3D"ltr"><div><div dir=3D"ltr"><span style=3D"background-color:r=
+gb(255,255,255)"><font size=3D"2"><span style=3D"color:rgb(51,51,51);font-f=
+amily:Arial,sans-serif">Regards,</span></font></span></div><div dir=3D"ltr"=
+><br></div><div dir=3D"ltr"><div><span style=3D"background-color:rgb(255,25=
+5,255)"><font size=3D"2">Oleksandr Tyshchenko</font></span></div></div></di=
+v></div></div></div></div></div>
 
---00000000000062afd005ec1cf34a--
+--0000000000004340f305ec1e135c--
 
