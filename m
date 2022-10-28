@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0469611033
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 13:58:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FAE611045
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 13:59:41 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooNyR-0001iS-4c; Fri, 28 Oct 2022 07:56:31 -0400
+	id 1ooNyi-0001lt-4n; Fri, 28 Oct 2022 07:56:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ooNyK-0001go-Nw; Fri, 28 Oct 2022 07:56:24 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ id 1ooNyY-0001ix-FU; Fri, 28 Oct 2022 07:56:38 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ooNyI-0006Ko-UB; Fri, 28 Oct 2022 07:56:24 -0400
+ id 1ooNyK-0006Kz-TH; Fri, 28 Oct 2022 07:56:38 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 5AC8D75A15D;
- Fri, 28 Oct 2022 13:56:20 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 6626B75A161;
+ Fri, 28 Oct 2022 13:56:21 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 3454D75A156; Fri, 28 Oct 2022 13:56:20 +0200 (CEST)
-Message-Id: <8dac3515b29976a61dacda07752175d7531dca3c.1666957578.git.balaton@eik.bme.hu>
+ id 412D675A156; Fri, 28 Oct 2022 13:56:21 +0200 (CEST)
+Message-Id: <a6263b23757dd4a1e1b17a9aa9fb87115f3a1e71.1666957578.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1666957578.git.balaton@eik.bme.hu>
 References: <cover.1666957578.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 04/19] mac_{old|new}world: Avoid else branch by setting
- default value
+Subject: [PATCH v6 05/19] mac_newworld: Clean up creation of Uninorth devices
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Fri, 28 Oct 2022 13:56:20 +0200 (CEST)
+Date: Fri, 28 Oct 2022 13:56:21 +0200 (CEST)
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,137 +53,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Several variables are set in if-else branches where the else branch
-can be removed by setting a default value at the variable declaration
-which leads to simlpler code that is easier to follow.
+Map regions in ascending otder and eorganise code a bit to avoid some
+casts and move Uninorth parts together.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/ppc/mac_newworld.c | 19 ++++---------------
- hw/ppc/mac_oldworld.c | 18 ++++--------------
- 2 files changed, 8 insertions(+), 29 deletions(-)
+ hw/ppc/mac_newworld.c | 37 +++++++++++++++++--------------------
+ 1 file changed, 17 insertions(+), 20 deletions(-)
 
 diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 6327694f85..6bc3bd19be 100644
+index 6bc3bd19be..e2f456b547 100644
 --- a/hw/ppc/mac_newworld.c
 +++ b/hw/ppc/mac_newworld.c
-@@ -111,11 +111,11 @@ static void ppc_core99_init(MachineState *machine)
-     CPUPPCState *env = NULL;
-     char *filename;
-     IrqLines *openpic_irqs;
--    int i, j, k, ppc_boot_device, machine_arch, bios_size;
-+    int i, j, k, ppc_boot_device, machine_arch, bios_size = -1;
-     const char *bios_name = machine->firmware ?: PROM_FILENAME;
-     MemoryRegion *bios = g_new(MemoryRegion, 1);
--    hwaddr kernel_base, initrd_base, cmdline_base = 0;
--    long kernel_size, initrd_size;
-+    hwaddr kernel_base = 0, initrd_base = 0, cmdline_base = 0;
-+    long kernel_size = 0, initrd_size = 0;
-     UNINHostState *uninorth_pci;
-     PCIBus *pci_bus;
-     PCIDevice *macio;
-@@ -165,8 +165,6 @@ static void ppc_core99_init(MachineState *machine)
-             bios_size = load_image_targphys(filename, PROM_BASE, PROM_SIZE);
+@@ -228,13 +228,6 @@ static void ppc_core99_init(MachineState *machine)
          }
-         g_free(filename);
--    } else {
--        bios_size = -1;
-     }
-     if (bios_size < 0 || bios_size > PROM_SIZE) {
-         error_report("could not load PowerPC bios '%s'", bios_name);
-@@ -174,15 +172,12 @@ static void ppc_core99_init(MachineState *machine)
      }
  
-     if (machine->kernel_filename) {
--        int bswap_needed;
-+        int bswap_needed = 0;
- 
- #ifdef BSWAP_NEEDED
-         bswap_needed = 1;
--#else
--        bswap_needed = 0;
- #endif
-         kernel_base = KERNEL_LOAD_ADDR;
+-    /* UniN init */
+-    dev = qdev_new(TYPE_UNI_NORTH);
+-    s = SYS_BUS_DEVICE(dev);
+-    sysbus_realize_and_unref(s, &error_fatal);
+-    memory_region_add_subregion(get_system_memory(), 0xf8000000,
+-                                sysbus_mmio_get_region(s, 0));
 -
-         kernel_size = load_elf(machine->kernel_filename, NULL,
-                                translate_kernel_address, NULL, NULL, NULL,
-                                NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
-@@ -212,16 +207,10 @@ static void ppc_core99_init(MachineState *machine)
-             }
-             cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
-         } else {
--            initrd_base = 0;
--            initrd_size = 0;
-             cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + KERNEL_GAP);
+     openpic_irqs = g_new0(IrqLines, machine->smp.cpus);
+     for (i = 0; i < machine->smp.cpus; i++) {
+         /* Mac99 IRQ connection between OpenPIC outputs pins
+@@ -275,24 +268,30 @@ static void ppc_core99_init(MachineState *machine)
          }
-         ppc_boot_device = 'm';
-     } else {
--        kernel_base = 0;
--        kernel_size = 0;
--        initrd_base = 0;
--        initrd_size = 0;
-         ppc_boot_device = '\0';
-         /* We consider that NewWorld PowerMac never have any floppy drive
-          * For now, OHW cannot boot from the network.
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 5cabc410e7..cb67e44081 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -84,11 +84,11 @@ static void ppc_heathrow_init(MachineState *machine)
-     PowerPCCPU *cpu = NULL;
-     CPUPPCState *env = NULL;
-     char *filename;
--    int i, bios_size;
-+    int i, bios_size = -1;
-     MemoryRegion *bios = g_new(MemoryRegion, 1);
-     uint64_t bios_addr;
--    uint32_t kernel_base, initrd_base, cmdline_base = 0;
--    int32_t kernel_size, initrd_size;
-+    uint32_t kernel_base = 0, initrd_base = 0, cmdline_base = 0;
-+    int32_t kernel_size = 0, initrd_size = 0;
-     PCIBus *pci_bus;
-     PCIDevice *macio;
-     MACIOIDEState *macio_ide;
-@@ -139,8 +139,6 @@ static void ppc_heathrow_init(MachineState *machine)
-             bios_addr = PROM_BASE;
-         }
-         g_free(filename);
--    } else {
--        bios_size = -1;
-     }
-     if (bios_size < 0 || bios_addr - PROM_BASE + bios_size > PROM_SIZE) {
-         error_report("could not load PowerPC bios '%s'", bios_name);
-@@ -148,12 +146,10 @@ static void ppc_heathrow_init(MachineState *machine)
      }
  
-     if (machine->kernel_filename) {
--        int bswap_needed;
-+        int bswap_needed = 0;
- 
- #ifdef BSWAP_NEEDED
-         bswap_needed = 1;
--#else
--        bswap_needed = 0;
- #endif
-         kernel_base = KERNEL_LOAD_ADDR;
-         kernel_size = load_elf(machine->kernel_filename, NULL,
-@@ -186,16 +182,10 @@ static void ppc_heathrow_init(MachineState *machine)
-             }
-             cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
-         } else {
--            initrd_base = 0;
--            initrd_size = 0;
-             cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + KERNEL_GAP);
-         }
-         ppc_boot_device = 'm';
++    /* UniN init */
++    s = SYS_BUS_DEVICE(qdev_new(TYPE_UNI_NORTH));
++    sysbus_realize_and_unref(s, &error_fatal);
++    memory_region_add_subregion(get_system_memory(), 0xf8000000,
++                                sysbus_mmio_get_region(s, 0));
++
+     if (PPC_INPUT(env) == PPC_FLAGS_INPUT_970) {
++        machine_arch = ARCH_MAC99_U3;
+         /* 970 gets a U3 bus */
+         /* Uninorth AGP bus */
+         dev = qdev_new(TYPE_U3_AGP_HOST_BRIDGE);
+-        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+         uninorth_pci = U3_AGP_HOST_BRIDGE(dev);
+         s = SYS_BUS_DEVICE(dev);
++        sysbus_realize_and_unref(s, &error_fatal);
++        sysbus_mmio_map(s, 0, 0xf0800000);
++        sysbus_mmio_map(s, 1, 0xf0c00000);
+         /* PCI hole */
+-        memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
++        memory_region_add_subregion(get_system_memory(), 0x80000000,
+                                     sysbus_mmio_get_region(s, 2));
+         /* Register 8 MB of ISA IO space */
+         memory_region_add_subregion(get_system_memory(), 0xf2000000,
+                                     sysbus_mmio_get_region(s, 3));
+-        sysbus_mmio_map(s, 0, 0xf0800000);
+-        sysbus_mmio_map(s, 1, 0xf0c00000);
+-
+-        machine_arch = ARCH_MAC99_U3;
      } else {
--        kernel_base = 0;
--        kernel_size = 0;
--        initrd_base = 0;
--        initrd_size = 0;
-         ppc_boot_device = '\0';
-         for (i = 0; machine->boot_config.order[i] != '\0'; i++) {
-             /*
++        machine_arch = ARCH_MAC99;
+         /* Use values found on a real PowerMac */
+         /* Uninorth AGP bus */
+         uninorth_agp_dev = qdev_new(TYPE_UNI_NORTH_AGP_HOST_BRIDGE);
+@@ -309,22 +308,20 @@ static void ppc_core99_init(MachineState *machine)
+         sysbus_mmio_map(s, 0, 0xf4800000);
+         sysbus_mmio_map(s, 1, 0xf4c00000);
+ 
+-        /* Uninorth main bus */
++        /* Uninorth main bus - this must be last to make it the default */
+         dev = qdev_new(TYPE_UNI_NORTH_PCI_HOST_BRIDGE);
+         qdev_prop_set_uint32(dev, "ofw-addr", 0xf2000000);
+-        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+         uninorth_pci = UNI_NORTH_PCI_HOST_BRIDGE(dev);
+         s = SYS_BUS_DEVICE(dev);
++        sysbus_realize_and_unref(s, &error_fatal);
++        sysbus_mmio_map(s, 0, 0xf2800000);
++        sysbus_mmio_map(s, 1, 0xf2c00000);
+         /* PCI hole */
+-        memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
++        memory_region_add_subregion(get_system_memory(), 0x80000000,
+                                     sysbus_mmio_get_region(s, 2));
+         /* Register 8 MB of ISA IO space */
+         memory_region_add_subregion(get_system_memory(), 0xf2000000,
+                                     sysbus_mmio_get_region(s, 3));
+-        sysbus_mmio_map(s, 0, 0xf2800000);
+-        sysbus_mmio_map(s, 1, 0xf2c00000);
+-
+-        machine_arch = ARCH_MAC99;
+     }
+ 
+     machine->usb |= defaults_enabled() && !machine->usb_disabled;
 -- 
 2.30.6
 
