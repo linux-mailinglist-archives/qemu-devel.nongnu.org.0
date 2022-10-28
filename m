@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6016117CB
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DAD76117C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:42:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooSQl-0006rw-FS; Fri, 28 Oct 2022 12:42:03 -0400
+	id 1ooSQo-0007FV-2E; Fri, 28 Oct 2022 12:42:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSQA-0001dm-7a; Fri, 28 Oct 2022 12:41:28 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
+ id 1ooSQE-000249-4N; Fri, 28 Oct 2022 12:41:30 -0400
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSQ5-0008Ky-Io; Fri, 28 Oct 2022 12:41:24 -0400
-Received: by mail-oi1-x236.google.com with SMTP id g10so6679922oif.10;
- Fri, 28 Oct 2022 09:41:19 -0700 (PDT)
+ id 1ooSQ8-0008Mz-ED; Fri, 28 Oct 2022 12:41:28 -0400
+Received: by mail-ot1-x335.google.com with SMTP id
+ v40-20020a056830092800b00661e37421c2so3278298ott.3; 
+ Fri, 28 Oct 2022 09:41:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4PdblXmKrwDvcs6KxN1I8n8aZ9nDoE5bUtGBz1p9NeE=;
- b=OWEz79mdtcdVAM8NyWiJv3p8nvlNeIDAjCS6+vz2zfqKdwKHeaI3Y0EdNf70Ju2Lsu
- 8Qih4gz5I43syr3EV4yX4a5W2tixAP+QWMwKprR78pte91GnoZmx5pTEC/cj50J3OqaR
- MAAGW/fd7cxZ1OY8jhcDeeW0dAesGVuyWlub040GzirCTLC0z5xC8mWBDADaSJ7A9qKv
- ietRBr1/bwlYZVqwMTJmPM52OymEy1S4vCGbShY5e5UVZJJ3s6Y/XhhfeXhGhzmqyMaz
- K2wJlzxE8YXY1Qxc2KGjTeXbk9nwN6SPNZpawsbgXX0vVHvVRSC0GyovTE5YJAMjZKCR
- cUkQ==
+ bh=aQMgQBUL/z42BRPKG0+UiGd22iAyg0JcGKSHWTlylG0=;
+ b=fIvR2sjSqVerg+8PbDGDd8ViCNC5u78xXmFBnCku6hNc5OgrZRUWmICJWSfCO9rK2a
+ nle5B9+FatvxaXSpqUAw860W8NzS4zO4P9YJjMnURAcGFMYYmrkoNL+fpsihS4wugAWx
+ X7a2LVkG3SHgU8fLE/M69210yYISWJrW/dWoSJXH2WaoSwzTtI4ZqXe46bOvjzBY7Ljh
+ LruYwFJK0Xyam78zuCMnHXqeRyb+ela64SXC+cuoSQrEFn/5M2xTBVDfsdjSVFdOQCQ+
+ +vWr9AkkSAWnUSGi9DLdmMVP3larVqx5sl3msJLJmI4beOHGXd/AAb9HsrLowTqqObMx
+ 7FuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4PdblXmKrwDvcs6KxN1I8n8aZ9nDoE5bUtGBz1p9NeE=;
- b=PqMzaPJWGKkubn9EL7373nsuUrI0RBHym2wxO+XxjG/mC35+Jj8FH0Q/G2VbIurdwT
- /mr64Ty5egzSzKCOkapMCRtMZ2juXlk4+O8/25h2AS9mryuZ9i+WiaJGdrMoUP+ZO24D
- rCCIOKgyOoP26wTjh7qTl5Xfq4qRR/CMcyFKJhA19NxsVHMUv/i8/vvP2LHbeSzOztLZ
- Hfp3V9uDDmAFcEej7KhRVe4Hd7bsELPnWlHKosjMkBJUIWA7jWc67PWK4QBnmRvSn29C
- AS4L/+546FRHqsNXumCElJq2SJzyj1fo7CPw43dA6L5iCoQlX4ikYHan3kArOWOGk2XR
- 890Q==
-X-Gm-Message-State: ACrzQf25KY7ERJoCdWunIaIsNWzv/y2gadULwEKPZaFtLflvxWfDVpqW
- /3/yR/qxUvDA98iAyuQBjmjKdeeXCN+szg==
-X-Google-Smtp-Source: AMsMyM7IMLGDcrzpH/UxsLcfA0pNU3UEZw+jRD8Osu7DkVf2fCbGwv7Xn6DKyoLq/ftSib+NoRpZfg==
-X-Received: by 2002:aca:f0c2:0:b0:34f:df0b:2de9 with SMTP id
- o185-20020acaf0c2000000b0034fdf0b2de9mr8687783oih.245.1666975278942; 
- Fri, 28 Oct 2022 09:41:18 -0700 (PDT)
+ bh=aQMgQBUL/z42BRPKG0+UiGd22iAyg0JcGKSHWTlylG0=;
+ b=quH+sZ5pRxvu98OAuv0aZ42etfU4zSUlGrxG82bfqkMdRE/bZpTsr5z++a0f+WTfwq
+ CfMo0qEbg0qb2InvXcEZq+WaV7RQdvLktyvyPSE8GFBWVaDuWOFcYGmj02mHVZb/uvTq
+ fdFrVywtaITd2yDcKb87kQV2xXSDBwiPQDeIeI+tdoXbWSmZ+bZIlX6V7tjvyD5AKGXk
+ X7zcU/M8TYOUQtipeOFY0B3ZKTUwl22R5C1tCuztXLToGU6WJulO5+uXC7o6wve8X2xU
+ mv7dZTGJoVh8kricTsfJBbvB/Od2H0ZA3oszaOQPCfEhhnHAO8Zw3ojWB7B9wQue2AvQ
+ v18w==
+X-Gm-Message-State: ACrzQf2hAIGZOPjS3CmKg1Z2ypz8c0fP6lqjv3AQfi4vGeNUnuYrJcE6
+ FENvXM4TcP+IGoHUUsqA/ZSuQm2R8wgSfA==
+X-Google-Smtp-Source: AMsMyM6Gfeznshqj4O7HzZJ9feGIsvkE8qbj3sOBbBoPMqI2/e4S4ix+el8QOXtHy53DuvyMzsws8w==
+X-Received: by 2002:a9d:198c:0:b0:661:aa2e:1aa0 with SMTP id
+ k12-20020a9d198c000000b00661aa2e1aa0mr121609otk.154.1666975282288; 
+ Fri, 28 Oct 2022 09:41:22 -0700 (PDT)
 Received: from balboa.COMFAST ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.41.15
+ s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.41.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:41:18 -0700 (PDT)
+ Fri, 28 Oct 2022 09:41:21 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
- "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
- Richard Henderson <richard.henderson@linaro.org>,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ David Gibson <david@gibson.dropbear.id.au>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 18/62] target/ppc: Use gvec to decode XVTSTDC[DS]P
-Date: Fri, 28 Oct 2022 13:39:07 -0300
-Message-Id: <20221028163951.810456-19-danielhb413@gmail.com>
+Subject: [PULL 19/62] target/ppc: define PPC_INTERRUPT_* values directly
+Date: Fri, 28 Oct 2022 13:39:08 -0300
+Message-Id: <20221028163951.810456-20-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
 References: <20221028163951.810456-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x335.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -91,252 +92,541 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Used gvec to translate XVTSTDCSP and XVTSTDCDP.
+This enum defines the bit positions in env->pending_interrupts for each
+interrupt. However, except for the comparison in kvmppc_set_interrupt,
+the values are always used as (1 << PPC_INTERRUPT_*). Define them
+directly like that to save some clutter. No functional change intended.
 
-xvtstdcsp:
-rept    loop    imm     master version  prev version        current version
-25      4000    0       0,206200        0,040730 (-80.2%)    0,040740 (-80.2%)
-25      4000    1       0,205120        0,053650 (-73.8%)    0,053510 (-73.9%)
-25      4000    3       0,206160        0,058630 (-71.6%)    0,058570 (-71.6%)
-25      4000    51      0,217110        0,191490 (-11.8%)    0,192320 (-11.4%)
-25      4000    127     0,206160        0,191490 (-7.1%)     0,192640 (-6.6%)
-8000    12      0       1,234719        0,418833 (-66.1%)    0,386365 (-68.7%)
-8000    12      1       1,232417        1,435979 (+16.5%)    1,462792 (+18.7%)
-8000    12      3       1,232760        1,766073 (+43.3%)    1,743990 (+41.5%)
-8000    12      51      1,239281        1,319562 (+6.5%)     1,423479 (+14.9%)
-8000    12      127     1,231708        1,315760 (+6.8%)     1,426667 (+15.8%)
-
-xvtstdcdp:
-rept    loop    imm     master version  prev version    current version
-25      4000    0       0,159930        0,040830 (-74.5%)    0,040610 (-74.6%)
-25      4000    1       0,160640        0,053670 (-66.6%)    0,053480 (-66.7%)
-25      4000    3       0,160020        0,063030 (-60.6%)    0,062960 (-60.7%)
-25      4000    51      0,160410        0,128620 (-19.8%)    0,127470 (-20.5%)
-25      4000    127     0,160330        0,127670 (-20.4%)    0,128690 (-19.7%)
-8000    12      0       1,190365        0,422146 (-64.5%)    0,388417 (-67.4%)
-8000    12      1       1,191292        1,445312 (+21.3%)    1,428698 (+19.9%)
-8000    12      3       1,188687        1,980656 (+66.6%)    1,975354 (+66.2%)
-8000    12      51      1,191250        1,264500 (+6.1%)     1,355083 (+13.8%)
-8000    12      127     1,197313        1,266729 (+5.8%)     1,349156 (+12.7%)
-
-Overall, these instructions are the hardest ones to measure performance
-as the gvec implementation is affected by the immediate. Above there are
-5 different scenarios when it comes to immediate and 2 when it comes to
-rept/loop combination. The immediates scenarios are: all bits are 0
-therefore the target register should just be changed to 0, with 1 bit
-set, with 2 bits set in a combination the new implementation can deal
-with using gvec, 4 bits set and the new implementation can't deal with
-it using gvec and all bits set. The rept/loop scenarios are high loop
-and low rept (so it should spend more time executing it than translating
-it) and high rept low loop (so it should spend more time translating it
-than executing this code).
-These comparisons are between the upstream version, a previous similar
-implementation and a one with a cleaner code(this one).
-For a comparison with o previous different implementation:
-<20221010191356.83659-13-lucas.araujo@eldorado.org.br>
-
-Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221019125040.48028-13-lucas.araujo@eldorado.org.br>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Message-Id: <20221011204829.1641124-2-matheus.ferst@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/translate/vsx-impl.c.inc | 167 ++++++++++++++++++++++++++--
- 1 file changed, 157 insertions(+), 10 deletions(-)
+ hw/ppc/ppc.c             | 10 +++---
+ hw/ppc/trace-events      |  2 +-
+ target/ppc/cpu.h         | 40 +++++++++++-----------
+ target/ppc/cpu_init.c    | 56 +++++++++++++++---------------
+ target/ppc/excp_helper.c | 74 ++++++++++++++++++++--------------------
+ target/ppc/misc_helper.c |  6 ++--
+ 6 files changed, 94 insertions(+), 94 deletions(-)
 
-diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index af410cbf1b..4deb29ee42 100644
---- a/target/ppc/translate/vsx-impl.c.inc
-+++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -632,6 +632,8 @@ static void gen_mtvsrws(DisasContext *ctx)
- #define SGN_MASK_SP 0x8000000080000000ull
- #define EXP_MASK_DP  0x7FF0000000000000ull
- #define EXP_MASK_SP 0x7F8000007F800000ull
-+#define FRC_MASK_DP (~(SGN_MASK_DP | EXP_MASK_DP))
-+#define FRC_MASK_SP (~(SGN_MASK_SP | EXP_MASK_SP))
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index 690f448cb9..77e611e81c 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -40,7 +40,7 @@
+ static void cpu_ppc_tb_stop (CPUPPCState *env);
+ static void cpu_ppc_tb_start (CPUPPCState *env);
  
- #define VSX_SCALAR_MOVE(name, op, sgn_mask)                       \
- static void glue(gen_, name)(DisasContext *ctx)                   \
-@@ -1112,23 +1114,168 @@ GEN_VSX_HELPER_X2(xscvhpdp, 0x16, 0x15, 0x10, PPC2_ISA300)
- GEN_VSX_HELPER_R2(xscvsdqp, 0x04, 0x1A, 0x0A, PPC2_ISA300)
- GEN_VSX_HELPER_X2(xscvspdp, 0x12, 0x14, 0, PPC2_VSX)
- 
-+/* test if +Inf */
-+static void gen_is_pos_inf(unsigned vece, TCGv_vec t, TCGv_vec b, int64_t v)
-+{
-+    uint64_t exp_msk = (vece == MO_32) ? (uint32_t)EXP_MASK_SP : EXP_MASK_DP;
-+    tcg_gen_cmp_vec(TCG_COND_EQ, vece, t, b,
-+                    tcg_constant_vec_matching(t, vece, exp_msk));
-+}
-+
-+/* test if -Inf */
-+static void gen_is_neg_inf(unsigned vece, TCGv_vec t, TCGv_vec b, int64_t v)
-+{
-+    uint64_t exp_msk = (vece == MO_32) ? (uint32_t)EXP_MASK_SP : EXP_MASK_DP;
-+    uint64_t sgn_msk = (vece == MO_32) ? (uint32_t)SGN_MASK_SP : SGN_MASK_DP;
-+    tcg_gen_cmp_vec(TCG_COND_EQ, vece, t, b,
-+                    tcg_constant_vec_matching(t, vece, sgn_msk | exp_msk));
-+}
-+
-+/* test if +Inf or -Inf */
-+static void gen_is_any_inf(unsigned vece, TCGv_vec t, TCGv_vec b, int64_t v)
-+{
-+    uint64_t exp_msk = (vece == MO_32) ? (uint32_t)EXP_MASK_SP : EXP_MASK_DP;
-+    uint64_t sgn_msk = (vece == MO_32) ? (uint32_t)SGN_MASK_SP : SGN_MASK_DP;
-+    tcg_gen_andc_vec(vece, b, b, tcg_constant_vec_matching(t, vece, sgn_msk));
-+    tcg_gen_cmp_vec(TCG_COND_EQ, vece, t, b,
-+                    tcg_constant_vec_matching(t, vece, exp_msk));
-+}
-+
-+/* test if +0 */
-+static void gen_is_pos_zero(unsigned vece, TCGv_vec t, TCGv_vec b, int64_t v)
-+{
-+    tcg_gen_cmp_vec(TCG_COND_EQ, vece, t, b,
-+                    tcg_constant_vec_matching(t, vece, 0));
-+}
-+
-+/* test if -0 */
-+static void gen_is_neg_zero(unsigned vece, TCGv_vec t, TCGv_vec b, int64_t v)
-+{
-+    uint64_t sgn_msk = (vece == MO_32) ? (uint32_t)SGN_MASK_SP : SGN_MASK_DP;
-+    tcg_gen_cmp_vec(TCG_COND_EQ, vece, t, b,
-+                    tcg_constant_vec_matching(t, vece, sgn_msk));
-+}
-+
-+/* test if +0 or -0 */
-+static void gen_is_any_zero(unsigned vece, TCGv_vec t, TCGv_vec b, int64_t v)
-+{
-+    uint64_t sgn_msk = (vece == MO_32) ? (uint32_t)SGN_MASK_SP : SGN_MASK_DP;
-+    tcg_gen_andc_vec(vece, b, b, tcg_constant_vec_matching(t, vece, sgn_msk));
-+    tcg_gen_cmp_vec(TCG_COND_EQ, vece, t, b,
-+                    tcg_constant_vec_matching(t, vece, 0));
-+}
-+
-+/* test if +Denormal */
-+static void gen_is_pos_denormal(unsigned vece, TCGv_vec t,
-+                                TCGv_vec b, int64_t v)
-+{
-+    uint64_t frc_msk = (vece == MO_32) ? (uint32_t)FRC_MASK_SP : FRC_MASK_DP;
-+    tcg_gen_cmp_vec(TCG_COND_LEU, vece, t, b,
-+                    tcg_constant_vec_matching(t, vece, frc_msk));
-+    tcg_gen_cmp_vec(TCG_COND_NE, vece, b, b,
-+                    tcg_constant_vec_matching(t, vece, 0));
-+    tcg_gen_and_vec(vece, t, t, b);
-+}
-+
-+/* test if -Denormal */
-+static void gen_is_neg_denormal(unsigned vece, TCGv_vec t,
-+                                TCGv_vec b, int64_t v)
-+{
-+    uint64_t sgn_msk = (vece == MO_32) ? (uint32_t)SGN_MASK_SP : SGN_MASK_DP;
-+    uint64_t frc_msk = (vece == MO_32) ? (uint32_t)FRC_MASK_SP : FRC_MASK_DP;
-+    tcg_gen_cmp_vec(TCG_COND_LEU, vece, t, b,
-+                    tcg_constant_vec_matching(t, vece, sgn_msk | frc_msk));
-+    tcg_gen_cmp_vec(TCG_COND_GTU, vece, b, b,
-+                    tcg_constant_vec_matching(t, vece, sgn_msk));
-+    tcg_gen_and_vec(vece, t, t, b);
-+}
-+
-+/* test if +Denormal or -Denormal */
-+static void gen_is_any_denormal(unsigned vece, TCGv_vec t,
-+                                TCGv_vec b, int64_t v)
-+{
-+    uint64_t sgn_msk = (vece == MO_32) ? (uint32_t)SGN_MASK_SP : SGN_MASK_DP;
-+    uint64_t frc_msk = (vece == MO_32) ? (uint32_t)FRC_MASK_SP : FRC_MASK_DP;
-+    tcg_gen_andc_vec(vece, b, b, tcg_constant_vec_matching(t, vece, sgn_msk));
-+    tcg_gen_cmp_vec(TCG_COND_LE, vece, t, b,
-+                    tcg_constant_vec_matching(t, vece, frc_msk));
-+    tcg_gen_cmp_vec(TCG_COND_NE, vece, b, b,
-+                    tcg_constant_vec_matching(t, vece, 0));
-+    tcg_gen_and_vec(vece, t, t, b);
-+}
-+
-+/* test if NaN */
-+static void gen_is_nan(unsigned vece, TCGv_vec t, TCGv_vec b, int64_t v)
-+{
-+    uint64_t exp_msk = (vece == MO_32) ? (uint32_t)EXP_MASK_SP : EXP_MASK_DP;
-+    uint64_t sgn_msk = (vece == MO_32) ? (uint32_t)SGN_MASK_SP : SGN_MASK_DP;
-+    tcg_gen_and_vec(vece, b, b, tcg_constant_vec_matching(t, vece, ~sgn_msk));
-+    tcg_gen_cmp_vec(TCG_COND_GT, vece, t, b,
-+                    tcg_constant_vec_matching(t, vece, exp_msk));
-+}
-+
- static bool do_xvtstdc(DisasContext *ctx, arg_XX2_uim *a, unsigned vece)
+-void ppc_set_irq(PowerPCCPU *cpu, int n_IRQ, int level)
++void ppc_set_irq(PowerPCCPU *cpu, int irq, int level)
  {
--    static const GVecGen2i op[] = {
--        {
--            .fnoi = gen_helper_XVTSTDCSP,
--            .vece = MO_32
--        },
--        {
--            .fnoi = gen_helper_XVTSTDCDP,
--            .vece = MO_64
--        },
-+    static const TCGOpcode vecop_list[] = {
-+        INDEX_op_cmp_vec, 0
-+    };
-+
-+    GVecGen2i op = {
-+        .fnoi = (vece == MO_32) ? gen_helper_XVTSTDCSP : gen_helper_XVTSTDCDP,
-+        .vece = vece,
-+        .opt_opc = vecop_list
-     };
+     CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
+@@ -56,21 +56,21 @@ void ppc_set_irq(PowerPCCPU *cpu, int n_IRQ, int level)
+     old_pending = env->pending_interrupts;
  
-     REQUIRE_VSX(ctx);
+     if (level) {
+-        env->pending_interrupts |= 1 << n_IRQ;
++        env->pending_interrupts |= irq;
+         cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+     } else {
+-        env->pending_interrupts &= ~(1 << n_IRQ);
++        env->pending_interrupts &= ~irq;
+         if (env->pending_interrupts == 0) {
+             cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+         }
+     }
  
-+    switch (a->uim) {
-+    case 0:
-+        set_cpu_vsr(a->xt, tcg_constant_i64(0), true);
-+        set_cpu_vsr(a->xt, tcg_constant_i64(0), false);
-+        return true;
-+    case ((1 << 0) | (1 << 1)):
-+        /* test if +Denormal or -Denormal */
-+        op.fniv = gen_is_any_denormal;
-+        break;
-+    case (1 << 0):
-+        /* test if -Denormal */
-+        op.fniv = gen_is_neg_denormal;
-+        break;
-+    case (1 << 1):
-+        /* test if +Denormal */
-+        op.fniv = gen_is_pos_denormal;
-+        break;
-+    case ((1 << 2) | (1 << 3)):
-+        /* test if +0 or -0 */
-+        op.fniv = gen_is_any_zero;
-+        break;
-+    case (1 << 2):
-+        /* test if -0 */
-+        op.fniv = gen_is_neg_zero;
-+        break;
-+    case (1 << 3):
-+        /* test if +0 */
-+        op.fniv = gen_is_pos_zero;
-+        break;
-+    case ((1 << 4) | (1 << 5)):
-+        /* test if +Inf or -Inf */
-+        op.fniv = gen_is_any_inf;
-+        break;
-+    case (1 << 4):
-+        /* test if -Inf */
-+        op.fniv = gen_is_neg_inf;
-+        break;
-+    case (1 << 5):
-+        /* test if +Inf */
-+        op.fniv = gen_is_pos_inf;
-+        break;
-+    case (1 << 6):
-+        /* test if NaN */
-+        op.fniv = gen_is_nan;
-+        break;
-+    }
-     tcg_gen_gvec_2i(vsr_full_offset(a->xt), vsr_full_offset(a->xb),
--                    16, 16, (int32_t)(a->uim), &op[vece - MO_32]);
-+                    16, 16, a->uim, &op);
+     if (old_pending != env->pending_interrupts) {
+-        kvmppc_set_interrupt(cpu, n_IRQ, level);
++        kvmppc_set_interrupt(cpu, irq, level);
+     }
  
-     return true;
+ 
+-    trace_ppc_irq_set_exit(env, n_IRQ, level, env->pending_interrupts,
++    trace_ppc_irq_set_exit(env, irq, level, env->pending_interrupts,
+                            CPU(cpu)->interrupt_request);
+ 
+     if (locked) {
+diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+index a07d5aca0f..956938ebcd 100644
+--- a/hw/ppc/trace-events
++++ b/hw/ppc/trace-events
+@@ -127,7 +127,7 @@ ppc40x_set_tb_clk(uint32_t value) "new frequency %" PRIu32
+ ppc40x_timers_init(uint32_t value) "frequency %" PRIu32
+ 
+ ppc_irq_set(void *env, uint32_t pin, uint32_t level) "env [%p] pin %d level %d"
+-ppc_irq_set_exit(void *env, uint32_t n_IRQ, uint32_t level, uint32_t pending, uint32_t request) "env [%p] n_IRQ %d level %d => pending 0x%08" PRIx32 " req 0x%08" PRIx32
++ppc_irq_set_exit(void *env, uint32_t irq, uint32_t level, uint32_t pending, uint32_t request) "env [%p] irq 0x%05" PRIx32 " level %d => pending 0x%08" PRIx32 " req 0x%08" PRIx32
+ ppc_irq_set_state(const char *name, uint32_t level) "\"%s\" level %d"
+ ppc_irq_reset(const char *name) "%s"
+ ppc_irq_cpu(const char *action) "%s"
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index cca6c4e51c..2433756973 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -2416,27 +2416,27 @@ enum {
+ /* Hardware exceptions definitions */
+ enum {
+     /* External hardware exception sources */
+-    PPC_INTERRUPT_RESET     = 0,  /* Reset exception                      */
+-    PPC_INTERRUPT_WAKEUP,         /* Wakeup exception                     */
+-    PPC_INTERRUPT_MCK,            /* Machine check exception              */
+-    PPC_INTERRUPT_EXT,            /* External interrupt                   */
+-    PPC_INTERRUPT_SMI,            /* System management interrupt          */
+-    PPC_INTERRUPT_CEXT,           /* Critical external interrupt          */
+-    PPC_INTERRUPT_DEBUG,          /* External debug exception             */
+-    PPC_INTERRUPT_THERM,          /* Thermal exception                    */
++    PPC_INTERRUPT_RESET     = 0x00001,  /* Reset exception                    */
++    PPC_INTERRUPT_WAKEUP    = 0x00002,  /* Wakeup exception                   */
++    PPC_INTERRUPT_MCK       = 0x00004,  /* Machine check exception            */
++    PPC_INTERRUPT_EXT       = 0x00008,  /* External interrupt                 */
++    PPC_INTERRUPT_SMI       = 0x00010,  /* System management interrupt        */
++    PPC_INTERRUPT_CEXT      = 0x00020,  /* Critical external interrupt        */
++    PPC_INTERRUPT_DEBUG     = 0x00040,  /* External debug exception           */
++    PPC_INTERRUPT_THERM     = 0x00080,  /* Thermal exception                  */
+     /* Internal hardware exception sources */
+-    PPC_INTERRUPT_DECR,           /* Decrementer exception                */
+-    PPC_INTERRUPT_HDECR,          /* Hypervisor decrementer exception     */
+-    PPC_INTERRUPT_PIT,            /* Programmable interval timer interrupt */
+-    PPC_INTERRUPT_FIT,            /* Fixed interval timer interrupt       */
+-    PPC_INTERRUPT_WDT,            /* Watchdog timer interrupt             */
+-    PPC_INTERRUPT_CDOORBELL,      /* Critical doorbell interrupt          */
+-    PPC_INTERRUPT_DOORBELL,       /* Doorbell interrupt                   */
+-    PPC_INTERRUPT_PERFM,          /* Performance monitor interrupt        */
+-    PPC_INTERRUPT_HMI,            /* Hypervisor Maintenance interrupt    */
+-    PPC_INTERRUPT_HDOORBELL,      /* Hypervisor Doorbell interrupt        */
+-    PPC_INTERRUPT_HVIRT,          /* Hypervisor virtualization interrupt  */
+-    PPC_INTERRUPT_EBB,            /* Event-based Branch exception         */
++    PPC_INTERRUPT_DECR      = 0x00100, /* Decrementer exception               */
++    PPC_INTERRUPT_HDECR     = 0x00200, /* Hypervisor decrementer exception    */
++    PPC_INTERRUPT_PIT       = 0x00400, /* Programmable interval timer int.    */
++    PPC_INTERRUPT_FIT       = 0x00800, /* Fixed interval timer interrupt      */
++    PPC_INTERRUPT_WDT       = 0x01000, /* Watchdog timer interrupt            */
++    PPC_INTERRUPT_CDOORBELL = 0x02000, /* Critical doorbell interrupt         */
++    PPC_INTERRUPT_DOORBELL  = 0x04000, /* Doorbell interrupt                  */
++    PPC_INTERRUPT_PERFM     = 0x08000, /* Performance monitor interrupt       */
++    PPC_INTERRUPT_HMI       = 0x10000, /* Hypervisor Maintenance interrupt    */
++    PPC_INTERRUPT_HDOORBELL = 0x20000, /* Hypervisor Doorbell interrupt       */
++    PPC_INTERRUPT_HVIRT     = 0x40000, /* Hypervisor virtualization interrupt */
++    PPC_INTERRUPT_EBB       = 0x80000, /* Event-based Branch exception        */
+ };
+ 
+ /* Processor Compatibility mask (PCR) */
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 335351c226..07171c679c 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -5969,23 +5969,23 @@ static bool cpu_has_work_POWER7(CPUState *cs)
+         if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
+             return false;
+         }
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_EXT)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
+             (env->spr[SPR_LPCR] & LPCR_P7_PECE0)) {
+             return true;
+         }
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_DECR)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
+             (env->spr[SPR_LPCR] & LPCR_P7_PECE1)) {
+             return true;
+         }
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_MCK)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_MCK) &&
+             (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
+             return true;
+         }
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_HMI)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_HMI) &&
+             (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
+             return true;
+         }
+-        if (env->pending_interrupts & (1u << PPC_INTERRUPT_RESET)) {
++        if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
+             return true;
+         }
+         return false;
+@@ -6142,31 +6142,31 @@ static bool cpu_has_work_POWER8(CPUState *cs)
+         if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
+             return false;
+         }
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_EXT)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
+             (env->spr[SPR_LPCR] & LPCR_P8_PECE2)) {
+             return true;
+         }
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_DECR)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
+             (env->spr[SPR_LPCR] & LPCR_P8_PECE3)) {
+             return true;
+         }
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_MCK)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_MCK) &&
+             (env->spr[SPR_LPCR] & LPCR_P8_PECE4)) {
+             return true;
+         }
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_HMI)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_HMI) &&
+             (env->spr[SPR_LPCR] & LPCR_P8_PECE4)) {
+             return true;
+         }
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_DOORBELL)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_DOORBELL) &&
+             (env->spr[SPR_LPCR] & LPCR_P8_PECE0)) {
+             return true;
+         }
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_HDOORBELL)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) &&
+             (env->spr[SPR_LPCR] & LPCR_P8_PECE1)) {
+             return true;
+         }
+-        if (env->pending_interrupts & (1u << PPC_INTERRUPT_RESET)) {
++        if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
+             return true;
+         }
+         return false;
+@@ -6368,7 +6368,7 @@ static bool cpu_has_work_POWER9(CPUState *cs)
+             return true;
+         }
+         /* External Exception */
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_EXT)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
+             (env->spr[SPR_LPCR] & LPCR_EEE)) {
+             bool heic = !!(env->spr[SPR_LPCR] & LPCR_HEIC);
+             if (!heic || !FIELD_EX64_HV(env->msr) ||
+@@ -6377,31 +6377,31 @@ static bool cpu_has_work_POWER9(CPUState *cs)
+             }
+         }
+         /* Decrementer Exception */
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_DECR)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
+             (env->spr[SPR_LPCR] & LPCR_DEE)) {
+             return true;
+         }
+         /* Machine Check or Hypervisor Maintenance Exception */
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_MCK |
+-            1u << PPC_INTERRUPT_HMI)) && (env->spr[SPR_LPCR] & LPCR_OEE)) {
++        if ((env->pending_interrupts & (PPC_INTERRUPT_MCK | PPC_INTERRUPT_HMI))
++            && (env->spr[SPR_LPCR] & LPCR_OEE)) {
+             return true;
+         }
+         /* Privileged Doorbell Exception */
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_DOORBELL)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_DOORBELL) &&
+             (env->spr[SPR_LPCR] & LPCR_PDEE)) {
+             return true;
+         }
+         /* Hypervisor Doorbell Exception */
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_HDOORBELL)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) &&
+             (env->spr[SPR_LPCR] & LPCR_HDEE)) {
+             return true;
+         }
+         /* Hypervisor virtualization exception */
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_HVIRT)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_HVIRT) &&
+             (env->spr[SPR_LPCR] & LPCR_HVEE)) {
+             return true;
+         }
+-        if (env->pending_interrupts & (1u << PPC_INTERRUPT_RESET)) {
++        if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
+             return true;
+         }
+         return false;
+@@ -6601,7 +6601,7 @@ static bool cpu_has_work_POWER10(CPUState *cs)
+             return true;
+         }
+         /* External Exception */
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_EXT)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
+             (env->spr[SPR_LPCR] & LPCR_EEE)) {
+             bool heic = !!(env->spr[SPR_LPCR] & LPCR_HEIC);
+             if (!heic || !FIELD_EX64_HV(env->msr) ||
+@@ -6610,31 +6610,31 @@ static bool cpu_has_work_POWER10(CPUState *cs)
+             }
+         }
+         /* Decrementer Exception */
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_DECR)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
+             (env->spr[SPR_LPCR] & LPCR_DEE)) {
+             return true;
+         }
+         /* Machine Check or Hypervisor Maintenance Exception */
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_MCK |
+-            1u << PPC_INTERRUPT_HMI)) && (env->spr[SPR_LPCR] & LPCR_OEE)) {
++        if ((env->pending_interrupts & (PPC_INTERRUPT_MCK | PPC_INTERRUPT_HMI))
++            && (env->spr[SPR_LPCR] & LPCR_OEE)) {
+             return true;
+         }
+         /* Privileged Doorbell Exception */
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_DOORBELL)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_DOORBELL) &&
+             (env->spr[SPR_LPCR] & LPCR_PDEE)) {
+             return true;
+         }
+         /* Hypervisor Doorbell Exception */
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_HDOORBELL)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) &&
+             (env->spr[SPR_LPCR] & LPCR_HDEE)) {
+             return true;
+         }
+         /* Hypervisor virtualization exception */
+-        if ((env->pending_interrupts & (1u << PPC_INTERRUPT_HVIRT)) &&
++        if ((env->pending_interrupts & PPC_INTERRUPT_HVIRT) &&
+             (env->spr[SPR_LPCR] & LPCR_HVEE)) {
+             return true;
+         }
+-        if (env->pending_interrupts & (1u << PPC_INTERRUPT_RESET)) {
++        if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
+             return true;
+         }
+         return false;
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 43f2480e94..d168789fc0 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -1689,21 +1689,21 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+     bool async_deliver;
+ 
+     /* External reset */
+-    if (env->pending_interrupts & (1 << PPC_INTERRUPT_RESET)) {
+-        env->pending_interrupts &= ~(1 << PPC_INTERRUPT_RESET);
++    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
++        env->pending_interrupts &= ~PPC_INTERRUPT_RESET;
+         powerpc_excp(cpu, POWERPC_EXCP_RESET);
+         return;
+     }
+     /* Machine check exception */
+-    if (env->pending_interrupts & (1 << PPC_INTERRUPT_MCK)) {
+-        env->pending_interrupts &= ~(1 << PPC_INTERRUPT_MCK);
++    if (env->pending_interrupts & PPC_INTERRUPT_MCK) {
++        env->pending_interrupts &= ~PPC_INTERRUPT_MCK;
+         powerpc_excp(cpu, POWERPC_EXCP_MCHECK);
+         return;
+     }
+ #if 0 /* TODO */
+     /* External debug exception */
+-    if (env->pending_interrupts & (1 << PPC_INTERRUPT_DEBUG)) {
+-        env->pending_interrupts &= ~(1 << PPC_INTERRUPT_DEBUG);
++    if (env->pending_interrupts & PPC_INTERRUPT_DEBUG) {
++        env->pending_interrupts &= ~PPC_INTERRUPT_DEBUG;
+         powerpc_excp(cpu, POWERPC_EXCP_DEBUG);
+         return;
+     }
+@@ -1718,19 +1718,19 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+     async_deliver = FIELD_EX64(env->msr, MSR, EE) || env->resume_as_sreset;
+ 
+     /* Hypervisor decrementer exception */
+-    if (env->pending_interrupts & (1 << PPC_INTERRUPT_HDECR)) {
++    if (env->pending_interrupts & PPC_INTERRUPT_HDECR) {
+         /* LPCR will be clear when not supported so this will work */
+         bool hdice = !!(env->spr[SPR_LPCR] & LPCR_HDICE);
+         if ((async_deliver || !FIELD_EX64_HV(env->msr)) && hdice) {
+             /* HDEC clears on delivery */
+-            env->pending_interrupts &= ~(1 << PPC_INTERRUPT_HDECR);
++            env->pending_interrupts &= ~PPC_INTERRUPT_HDECR;
+             powerpc_excp(cpu, POWERPC_EXCP_HDECR);
+             return;
+         }
+     }
+ 
+     /* Hypervisor virtualization interrupt */
+-    if (env->pending_interrupts & (1 << PPC_INTERRUPT_HVIRT)) {
++    if (env->pending_interrupts & PPC_INTERRUPT_HVIRT) {
+         /* LPCR will be clear when not supported so this will work */
+         bool hvice = !!(env->spr[SPR_LPCR] & LPCR_HVICE);
+         if ((async_deliver || !FIELD_EX64_HV(env->msr)) && hvice) {
+@@ -1740,7 +1740,7 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+     }
+ 
+     /* External interrupt can ignore MSR:EE under some circumstances */
+-    if (env->pending_interrupts & (1 << PPC_INTERRUPT_EXT)) {
++    if (env->pending_interrupts & PPC_INTERRUPT_EXT) {
+         bool lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
+         bool heic = !!(env->spr[SPR_LPCR] & LPCR_HEIC);
+         /* HEIC blocks delivery to the hypervisor */
+@@ -1757,45 +1757,45 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+     }
+     if (FIELD_EX64(env->msr, MSR, CE)) {
+         /* External critical interrupt */
+-        if (env->pending_interrupts & (1 << PPC_INTERRUPT_CEXT)) {
++        if (env->pending_interrupts & PPC_INTERRUPT_CEXT) {
+             powerpc_excp(cpu, POWERPC_EXCP_CRITICAL);
+             return;
+         }
+     }
+     if (async_deliver != 0) {
+         /* Watchdog timer on embedded PowerPC */
+-        if (env->pending_interrupts & (1 << PPC_INTERRUPT_WDT)) {
+-            env->pending_interrupts &= ~(1 << PPC_INTERRUPT_WDT);
++        if (env->pending_interrupts & PPC_INTERRUPT_WDT) {
++            env->pending_interrupts &= ~PPC_INTERRUPT_WDT;
+             powerpc_excp(cpu, POWERPC_EXCP_WDT);
+             return;
+         }
+-        if (env->pending_interrupts & (1 << PPC_INTERRUPT_CDOORBELL)) {
+-            env->pending_interrupts &= ~(1 << PPC_INTERRUPT_CDOORBELL);
++        if (env->pending_interrupts & PPC_INTERRUPT_CDOORBELL) {
++            env->pending_interrupts &= ~PPC_INTERRUPT_CDOORBELL;
+             powerpc_excp(cpu, POWERPC_EXCP_DOORCI);
+             return;
+         }
+         /* Fixed interval timer on embedded PowerPC */
+-        if (env->pending_interrupts & (1 << PPC_INTERRUPT_FIT)) {
+-            env->pending_interrupts &= ~(1 << PPC_INTERRUPT_FIT);
++        if (env->pending_interrupts & PPC_INTERRUPT_FIT) {
++            env->pending_interrupts &= ~PPC_INTERRUPT_FIT;
+             powerpc_excp(cpu, POWERPC_EXCP_FIT);
+             return;
+         }
+         /* Programmable interval timer on embedded PowerPC */
+-        if (env->pending_interrupts & (1 << PPC_INTERRUPT_PIT)) {
+-            env->pending_interrupts &= ~(1 << PPC_INTERRUPT_PIT);
++        if (env->pending_interrupts & PPC_INTERRUPT_PIT) {
++            env->pending_interrupts &= ~PPC_INTERRUPT_PIT;
+             powerpc_excp(cpu, POWERPC_EXCP_PIT);
+             return;
+         }
+         /* Decrementer exception */
+-        if (env->pending_interrupts & (1 << PPC_INTERRUPT_DECR)) {
++        if (env->pending_interrupts & PPC_INTERRUPT_DECR) {
+             if (ppc_decr_clear_on_delivery(env)) {
+-                env->pending_interrupts &= ~(1 << PPC_INTERRUPT_DECR);
++                env->pending_interrupts &= ~PPC_INTERRUPT_DECR;
+             }
+             powerpc_excp(cpu, POWERPC_EXCP_DECR);
+             return;
+         }
+-        if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
+-            env->pending_interrupts &= ~(1 << PPC_INTERRUPT_DOORBELL);
++        if (env->pending_interrupts & PPC_INTERRUPT_DOORBELL) {
++            env->pending_interrupts &= ~PPC_INTERRUPT_DOORBELL;
+             if (is_book3s_arch2x(env)) {
+                 powerpc_excp(cpu, POWERPC_EXCP_SDOOR);
+             } else {
+@@ -1803,31 +1803,31 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+             }
+             return;
+         }
+-        if (env->pending_interrupts & (1 << PPC_INTERRUPT_HDOORBELL)) {
+-            env->pending_interrupts &= ~(1 << PPC_INTERRUPT_HDOORBELL);
++        if (env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) {
++            env->pending_interrupts &= ~PPC_INTERRUPT_HDOORBELL;
+             powerpc_excp(cpu, POWERPC_EXCP_SDOOR_HV);
+             return;
+         }
+-        if (env->pending_interrupts & (1 << PPC_INTERRUPT_PERFM)) {
+-            env->pending_interrupts &= ~(1 << PPC_INTERRUPT_PERFM);
++        if (env->pending_interrupts & PPC_INTERRUPT_PERFM) {
++            env->pending_interrupts &= ~PPC_INTERRUPT_PERFM;
+             powerpc_excp(cpu, POWERPC_EXCP_PERFM);
+             return;
+         }
+         /* Thermal interrupt */
+-        if (env->pending_interrupts & (1 << PPC_INTERRUPT_THERM)) {
+-            env->pending_interrupts &= ~(1 << PPC_INTERRUPT_THERM);
++        if (env->pending_interrupts & PPC_INTERRUPT_THERM) {
++            env->pending_interrupts &= ~PPC_INTERRUPT_THERM;
+             powerpc_excp(cpu, POWERPC_EXCP_THERM);
+             return;
+         }
+         /* EBB exception */
+-        if (env->pending_interrupts & (1 << PPC_INTERRUPT_EBB)) {
++        if (env->pending_interrupts & PPC_INTERRUPT_EBB) {
+             /*
+              * EBB exception must be taken in problem state and
+              * with BESCR_GE set.
+              */
+             if (FIELD_EX64(env->msr, MSR, PR) &&
+                 (env->spr[SPR_BESCR] & BESCR_GE)) {
+-                env->pending_interrupts &= ~(1 << PPC_INTERRUPT_EBB);
++                env->pending_interrupts &= ~PPC_INTERRUPT_EBB;
+ 
+                 if (env->spr[SPR_BESCR] & BESCR_PMEO) {
+                     powerpc_excp(cpu, POWERPC_EXCP_PERFM_EBB);
+@@ -2104,7 +2104,7 @@ static void do_ebb(CPUPPCState *env, int ebb_excp)
+     if (FIELD_EX64(env->msr, MSR, PR)) {
+         powerpc_excp(cpu, ebb_excp);
+     } else {
+-        env->pending_interrupts |= 1 << PPC_INTERRUPT_EBB;
++        env->pending_interrupts |= PPC_INTERRUPT_EBB;
+         cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+     }
  }
+@@ -2298,7 +2298,7 @@ void helper_msgclr(CPUPPCState *env, target_ulong rb)
+         return;
+     }
+ 
+-    env->pending_interrupts &= ~(1 << irq);
++    env->pending_interrupts &= ~irq;
+ }
+ 
+ void helper_msgsnd(target_ulong rb)
+@@ -2317,7 +2317,7 @@ void helper_msgsnd(target_ulong rb)
+         CPUPPCState *cenv = &cpu->env;
+ 
+         if ((rb & DBELL_BRDCAST) || (cenv->spr[SPR_BOOKE_PIR] == pir)) {
+-            cenv->pending_interrupts |= 1 << irq;
++            cenv->pending_interrupts |= irq;
+             cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+         }
+     }
+@@ -2342,7 +2342,7 @@ void helper_book3s_msgclr(CPUPPCState *env, target_ulong rb)
+         return;
+     }
+ 
+-    env->pending_interrupts &= ~(1 << PPC_INTERRUPT_HDOORBELL);
++    env->pending_interrupts &= ~PPC_INTERRUPT_HDOORBELL;
+ }
+ 
+ static void book3s_msgsnd_common(int pir, int irq)
+@@ -2356,7 +2356,7 @@ static void book3s_msgsnd_common(int pir, int irq)
+ 
+         /* TODO: broadcast message to all threads of the same  processor */
+         if (cenv->spr_cb[SPR_PIR].default_value == pir) {
+-            cenv->pending_interrupts |= 1 << irq;
++            cenv->pending_interrupts |= irq;
+             cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+         }
+     }
+@@ -2383,7 +2383,7 @@ void helper_book3s_msgclrp(CPUPPCState *env, target_ulong rb)
+         return;
+     }
+ 
+-    env->pending_interrupts &= ~(1 << PPC_INTERRUPT_DOORBELL);
++    env->pending_interrupts &= ~PPC_INTERRUPT_DOORBELL;
+ }
+ 
+ /*
+diff --git a/target/ppc/misc_helper.c b/target/ppc/misc_helper.c
+index b0a5e7ce76..05e35572bc 100644
+--- a/target/ppc/misc_helper.c
++++ b/target/ppc/misc_helper.c
+@@ -163,7 +163,7 @@ target_ulong helper_load_dpdes(CPUPPCState *env)
+     helper_hfscr_facility_check(env, HFSCR_MSGP, "load DPDES", HFSCR_IC_MSGP);
+ 
+     /* TODO: TCG supports only one thread */
+-    if (env->pending_interrupts & (1 << PPC_INTERRUPT_DOORBELL)) {
++    if (env->pending_interrupts & PPC_INTERRUPT_DOORBELL) {
+         dpdes = 1;
+     }
+ 
+@@ -185,10 +185,10 @@ void helper_store_dpdes(CPUPPCState *env, target_ulong val)
+     }
+ 
+     if (val & 0x1) {
+-        env->pending_interrupts |= 1 << PPC_INTERRUPT_DOORBELL;
++        env->pending_interrupts |= PPC_INTERRUPT_DOORBELL;
+         cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+     } else {
+-        env->pending_interrupts &= ~(1 << PPC_INTERRUPT_DOORBELL);
++        env->pending_interrupts &= ~PPC_INTERRUPT_DOORBELL;
+     }
+ }
+ #endif /* defined(TARGET_PPC64) */
 -- 
 2.37.3
 
