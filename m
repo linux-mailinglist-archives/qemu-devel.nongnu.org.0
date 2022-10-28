@@ -2,85 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEEB7610CF7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 11:21:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D12610D40
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 11:31:18 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooLY8-0003Sr-3B; Fri, 28 Oct 2022 05:21:12 -0400
+	id 1ooLgJ-0005MX-Gf; Fri, 28 Oct 2022 05:29:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ooLY4-0003SP-5u
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:21:09 -0400
-Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooLgH-0005Li-Q4
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:29:37 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1ooLY2-0007Ju-79
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:21:07 -0400
-Received: by mail-qv1-xf30.google.com with SMTP id w10so3686992qvr.3
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 02:21:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nTAjm6P6b/0Jtc4rTUm+DdCKdINKvTvuUU8JBMm1wno=;
- b=MSAwlIKmydKH81JuMQSB2x8rPgDAPrtzKXWc/y6HC81CWZvWdijzrckw8yxk+G8TKk
- UEEO4fVg64nD2N34ZRlyttgA/pvaxDfk7W6pGYwT6y/5eoOVuxLBAzBIYoKRRXMDRcnT
- DYp5grvFwvV9sHOITFJAD306TKlS095vMCc4a5xpou22224K97Etw6mfOTMIPwrYCgrE
- yWVuWkRPK/2LH8emNJ8AYuqxUiGdgDqmmHfzA11d4HRv5RF8LMTokPLB81hP5D6RLgvm
- 0/V7cYlYRrighIvlTZaaF9Wg96EH5nxM8kpOA/shIwcBrhu0NgxG5q5xLbNaUCJxuu3x
- hgSw==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooLgG-0008RA-3U
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:29:37 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ fn7-20020a05600c688700b003b4fb113b86so3294734wmb.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 02:29:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4pcX4DEX6sCEDtbQNzQNLM2H95FeAnRtPk5gmYa9K6Q=;
+ b=RoCdOc36jSMHDzovSbwIbyywnRR4dCMGJbXf8tVM311AaDQFuBk4aJYv0yNbxCIoVx
+ coHWWKGuI4ZKoOd7w+UaA+KMGXh8yljNMfhoQp0smHasr0WcHrqytYTCZYJYVy1J71sj
+ aCBymc/0bXVuogl/dsBa1jN5TV0QDiBwS3Z7kvUKrQMLgDzccpq0LNFW1/RZv34Q3bEJ
+ jghtF+V63UEopvmjKqwCqG03wigjuplM6yhgtbp+btfQwveXksYRHxSkYIuTkxq8mnwN
+ 3R8Nw/El38fBB/bVOv8jTWclU13HSqE4Ui3V+9Ewr9LfvkpuGIti1LbviVTIYO7AuQqS
+ zUng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=nTAjm6P6b/0Jtc4rTUm+DdCKdINKvTvuUU8JBMm1wno=;
- b=z7amO3sCW3AYpfDhBf2K9YDdt58O+VkU3DXeDqmfgy2lf7gES6dX7oN47q6FkBp5J9
- EgEVL0h2NrYKwHXG5cPFihlXdX9p+mhYSxNTICCYWQuqQ3Odg7AsLtj0kX4QgyU/jaYg
- IQsEyOF+Pn1qNyDo5r4tgTZPhQHmg6fmCPusD/DBZggKARARS+nbfAFKay364Xx4mBjn
- nX874sFKuPsGNQjLVaBDnqR89ni4wBPXFbuAiOq+bIMbUv7hVaEgzIzJyS46hIeEs8TI
- P+eWrNH/4+vgBXS22qaKH0XoONr4/znbssjaddZpkElQ8+21HA0JDAI7jezFxnNwhfq8
- XQeg==
-X-Gm-Message-State: ACrzQf1f70UDObEYcOhAcp4OamriY26fKmZnMDZeh8Sk+IjGlyc+9H7m
- m5K2GfEsrRfxUiO2MUZcjpahamMP7myuQmQy/6Q=
-X-Google-Smtp-Source: AMsMyM5r7ExFaGUU8KL7Uu7a9X09Xb82JmtgBeAGWE85lwFLqkOKwAVyOAtAs3AgoMC1iscASjg7/m6bZmiz2TDUDlU=
-X-Received: by 2002:a05:6214:2b06:b0:4bb:5716:d1c3 with SMTP id
- jx6-20020a0562142b0600b004bb5716d1c3mr30095831qvb.85.1666948861787; Fri, 28
- Oct 2022 02:21:01 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4pcX4DEX6sCEDtbQNzQNLM2H95FeAnRtPk5gmYa9K6Q=;
+ b=3uIBJthb0l0QS2DzoLcCVpWFieNKXUDC9H+3b8jdqQoTt49lZvGRXh7x3bcuKel/oq
+ Ru56Zs89UT7JBvXZz8HwOv5oOuvRt7/lFrUAWuUjjDtU7WNINlWpP4++mqKQwRT44V94
+ fic5t0KUoxYxMv5bg2kADGKuDxK3efT1EnCoHldALLRtIDhakWjEL0uXNhd9v/nbtsn5
+ eakxRNFNf4oCdb9vqq1BPDz/oktEILC9w8Jx7NtKyWpwuUb1aGXoftfdW4doYo3u9zi+
+ 7Cp0OAoQabqMmkCDFIhxs0FD5lZo6DteCjs9PI9OIbOb+mmcJAoMSorVChMm1fBIZq/F
+ mnSw==
+X-Gm-Message-State: ACrzQf0KoblP0gAD5oymm0ATHNdmS27X+pB0mOV4L4+zHPw6QJUYyew8
+ Ka6Tn44dS/xd6CpCIBSwLyiESg==
+X-Google-Smtp-Source: AMsMyM7NT9sLAdFJD0SSQd2U7Icgd4pddLu9r4cblvV/5pizHKbEyiOuJvd6jQ4KzHsCDxxnwsSMzw==
+X-Received: by 2002:a05:6000:1886:b0:22e:3921:fdc2 with SMTP id
+ a6-20020a056000188600b0022e3921fdc2mr34563906wri.565.1666949374444; 
+ Fri, 28 Oct 2022 02:29:34 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ r10-20020a05600c35ca00b003cf4ec90938sm4104359wmq.21.2022.10.28.02.29.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Oct 2022 02:29:33 -0700 (PDT)
+Message-ID: <aeda8a0a-a934-e6af-6d05-4835d1f3294a@linaro.org>
+Date: Fri, 28 Oct 2022 11:29:32 +0200
 MIME-Version: 1.0
-References: <20221028045736.679903-1-bin.meng@windriver.com>
- <CAMxuvawoU3P_eHknzzEaPnr6evzCOUij-pMnHJvpdvP4HZpc3g@mail.gmail.com>
-In-Reply-To: <CAMxuvawoU3P_eHknzzEaPnr6evzCOUij-pMnHJvpdvP4HZpc3g@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 28 Oct 2022 17:20:50 +0800
-Message-ID: <CAEUhbmWPAa+KX=pu4d5WmnxkSpHTcLKYgaK_JE8g_5X3SK_NvA@mail.gmail.com>
-Subject: Re: [PATCH v6 00/11] tests/qtest: Enable running qtest on Windows
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, 
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Yanan Wang <wangyanan55@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf30.google.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+Subject: Re: [PATCH] memory: Fix wrong end address dump
+Content-Language: en-US
+To: "Duan, Zhenzhong" <zhenzhong.duan@intel.com>,
+ David Hildenbrand <david@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "peterx@redhat.com" <peterx@redhat.com>
+References: <20220622095912.3430583-1-zhenzhong.duan@intel.com>
+ <67dedbad-9d24-2c8d-f8a7-98e5387b89ae@redhat.com>
+ <MWHPR1101MB211099D9C22D0FDFAC43554292329@MWHPR1101MB2110.namprd11.prod.outlook.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <MWHPR1101MB211099D9C22D0FDFAC43554292329@MWHPR1101MB2110.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,108 +96,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Oct 28, 2022 at 4:09 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> Hi
->
-> On Fri, Oct 28, 2022 at 8:58 AM Bin Meng <bin.meng@windriver.com> wrote:
+On 28/10/22 04:19, Duan, Zhenzhong wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: David Hildenbrand <david@redhat.com>
+>> Sent: Friday, July 22, 2022 2:44 PM
+>> To: Duan, Zhenzhong <zhenzhong.duan@intel.com>; qemu-
+>> devel@nongnu.org
+>> Cc: pbonzini@redhat.com; peterx@redhat.com; f4bug@amsat.org
+>> Subject: Re: [PATCH] memory: Fix wrong end address dump
 >>
->> In preparation to adding virtio-9p support on Windows, this series
->> enables running qtest on Windows, so that we can run the virtio-9p
->> tests on Windows to make sure it does not break accidently.
+>> On 22.06.22 11:59, Zhenzhong Duan wrote:
+>>> The end address of memory region section isn't correctly calculated
+>>> which leads to overflowed mtree dump:
+>>>
+>>>    Dispatch
+>>>      Physical sections
+>>>        ......
+>>>        #70 @0000000000002000..0000000000011fff io [ROOT]
+>>>        #71 @0000000000005000..0000000000005fff (noname)
+>>>        #72 @0000000000005000..0000000000014fff io [ROOT]
+>>>        #73 @0000000000005658..0000000000005658 vmport
+>>>        #74 @0000000000005659..0000000000015658 io [ROOT]
+>>>        #75 @0000000000006000..0000000000015fff io [ROOT]
+>>>
+>>> After fix:
+>>>        #70 @0000000000002000..0000000000004fff io [ROOT]
+>>>        #71 @0000000000005000..0000000000005fff (noname)
+>>>        #72 @0000000000005000..0000000000005657 io [ROOT]
+>>>        #73 @0000000000005658..0000000000005658 vmport
+>>>        #74 @0000000000005659..0000000000005fff io [ROOT]
+>>>        #75 @0000000000006000..000000000000ffff io [ROOT]
+>>>
+>>> Fixes: 5e8fd947e2670 ("memory: Rework "info mtree" to print flat views
+>>> and dispatch trees")
+>>> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+>>> ---
+>>>   softmmu/physmem.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c index
+>>> 214cb04c8fc3..cbabd10ac0bf 100644
+>>> --- a/softmmu/physmem.c
+>>> +++ b/softmmu/physmem.c
+>>> @@ -3701,7 +3701,7 @@ void mtree_print_dispatch(AddressSpaceDispatch
+>> *d, MemoryRegion *root)
+>>>                       " %s%s%s%s%s",
+>>>               i,
+>>>               s->offset_within_address_space,
+>>> -            s->offset_within_address_space + MR_SIZE(s->mr->size),
+>>> +            s->offset_within_address_space + MR_SIZE(s->size),
+>>>               s->mr->name ? s->mr->name : "(noname)",
+>>>               i < ARRAY_SIZE(names) ? names[i] : "",
+>>>               s->mr == root ? " [ROOT]" : "",
 >>
->> Changes in v6:
->> - drop patches that are already in Alex and Daniel's tree
->> - remove CONFIG_POSIX from meson.build
->> - include <qemu/sockets.h> in libqtest.c
->> - move documentation comments of qemu_send_full() from util/osdep.c
->>   to qemu/sockets.h
->> - save the "exit_code" in struct QTestState
->> - new patch: "tests/qtest: device-plug-test: Reverse the usage of double=
-/single quotes"
->> - new patch: "tests/qtest: Use EXIT_FAILURE instead of magic number"
->> - new patch: "tests/qtest: libqtest: Introduce qtest_wait_qemu()"
->> - change to use qtest_wait_qemu() API
->> - new patch: "test/qtest/libqos: meson.build: Do not build virtio-9p unc=
-onditionally"
->>
->> Changes in v5:
->> - restore to v1 version which does not touch the posix implementation
->> - Drop patches that are already merged
->>
->> Changes in v3:
->> - Add a usleep(1) in the busy wait loop
->> - Drop the host test
->>
->> Changes in v2:
->> - Introduce qemu_send_full() and use it
->> - Move the enabling of building qtests on Windows to a separate
->>   patch to keep bisectablity
->> - Call socket_init() unconditionally
->> - Add a missing CloseHandle() call
->> - Change to a busy wait after migration is canceled
->> - Change the timeout limit to 90 minutes
->> - new patch: "tests/qtest: Enable qtest build on Windows"
->>
->> Bin Meng (8):
->>   tests/qtest: Support libqtest to build and run on Windows
->>   tests/qtest: device-plug-test: Reverse the usage of double/single
->>     quotes
->>   tests/qtest: Use EXIT_FAILURE instead of magic number
->>   tests/qtest: libqtest: Introduce qtest_wait_qemu()
->>   tests/qtest: libqos: Do not build virtio-9p unconditionally
->>   tests/qtest: libqtest: Correct the timeout unit of blocking receive
->>     calls for win32
->>   .gitlab-ci.d/windows.yml: Increase the timeout to 90 minutes
->>   tests/qtest: Enable qtest build on Windows
->>
->> Xuzhou Cheng (3):
->>   accel/qtest: Support qtest accelerator for Windows
->>   tests/qtest: Use send/recv for socket communication
->>   tests/qtest: migration-test: Make sure QEMU process "to" exited after
->>     migration is canceled
->>
->>  include/hw/core/cpu.h           |   1 +
->>  include/qemu/sockets.h          |  13 +++
->>  tests/qtest/libqtest.h          |   9 ++
->>  accel/dummy-cpus.c              |  14 ++-
->>  softmmu/cpus.c                  |   9 +-
->>  tests/qtest/dbus-vmstate-test.c |   2 +-
->>  tests/qtest/device-plug-test.c  |  16 ++--
->>  tests/qtest/libqmp.c            |   5 +-
->>  tests/qtest/libqtest.c          | 151 ++++++++++++++++++++++++++++----
->>  tests/qtest/migration-test.c    |   8 +-
->>  util/osdep.c                    |  22 +++++
->>  .gitlab-ci.d/windows.yml        |   4 +-
->>  accel/meson.build               |   2 +-
->>  accel/qtest/meson.build         |   3 +-
->>  tests/qtest/libqos/meson.build  |   6 +-
->>  tests/qtest/meson.build         |   6 --
->>  16 files changed, 221 insertions(+), 50 deletions(-)
->>
->> --
->> 2.25.1
->>
->
-> Series looks good to me:
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
->
-> However, many qtests are flaky on Windows. I get a number of "broken pipe=
-" exit code 3 & timeout. Should gitlab ignore windows test failures ? Or pe=
-rhaps have a new "ignored" job for the windows qtests. What's your experien=
-ce running gitlab CI with this series? Can you share results? (I kicked off=
- one here https://gitlab.com/marcandre.lureau/qemu/-/pipelines/679511572)
->
+>> Reviewed-by: David Hildenbrand <david@redhat.com>
 
-This "broken pipe" error was fixed by [1] which is currently in
-Daniel's tree. Please apply it in your tree and it should have a 100%
-pass rate.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-[1] http://patchwork.ozlabs.org/project/qemu-devel/patch/20221006151927.207=
-9583-17-bmeng.cn@gmail.com/
+>> I assume this should get picked up soonish.
+> Hi Maintainers,
+> 
+> Can this patch be considered merged as it got reviewed-by and no objection for a long time. Thanks.
 
-Regards,
-Bin
+That dropped through the cracks, sorry.
+
+Paolo, except if you are planning another PR before soft-freeze, I'm
+queuing this single patch via the mips-next PR I'm backing.
+
+Thanks,
+
+Phil.
 
