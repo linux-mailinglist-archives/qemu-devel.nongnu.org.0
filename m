@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7411611D7D
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 00:44:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F7F611DB7
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 00:49:44 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooY4j-0004xn-LJ; Fri, 28 Oct 2022 18:43:41 -0400
+	id 1ooY9r-0007Tw-UL; Fri, 28 Oct 2022 18:48:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooY4c-0004ve-FS
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 18:43:35 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooY9h-0007TW-DQ
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 18:48:55 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooY4Y-0000KL-0q
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 18:43:33 -0400
-Received: by mail-wm1-x330.google.com with SMTP id n14so3986071wmq.3
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 15:43:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooY9f-0001Cp-JP
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 18:48:49 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ fn7-20020a05600c688700b003b4fb113b86so4751994wmb.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 15:48:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=DPLSvVPR+S0ni3aLPWTGaQJgz447Dpki8F0IqG6gjNc=;
- b=T+9BCqIY8iQ/khixGVBdU/nsukbeoeaIpwyJCN9pomaF/gkfenO6jiacHkGqkgicih
- Z03WhhNCsslNPcaB4RVvIXdJqxw8mWc1bRWLVky5h5GxDRQXOZ6Jnjam4aMPIZrrS5Gd
- MHTkQZ3os08kn7+yN4OKHoYZs85g93bDYtv3KZ1K2zPDHlMxkeJyVtAo5p2MpEJcxEn9
- dDYltbYalykx3nrH8xclfgu99HKLhB8P0WD9FwubVvdrfZY8xt2Aa4YTjUzESSYBHlzA
- I+q32e9y8g+v58lWpiQSJCUmxIYX2n8+EOkCGN414T6skguqYsvVAlEt5cpYDlnXsOaF
- 2nEw==
+ bh=KAdEJjo5XKzAudzIgm89dcZB/VfPdiiDziqYVs+iATI=;
+ b=qTTHMqeMkNd8/FTItPxyMZAhxrEzTheJAwXfnq2AUNFpZLNUZBmz70wYneEbkhRkIx
+ Tpqwu1MdXTnDucrIsrzg27uy2PnxrQ9WnqdN6tfEhS2JlkeBnXtdG9B0mI6dr2Xnyy7P
+ YvBGzglWiCcvc/UazUeV1groA4gjivrdRhArgAP6dfYs1SayPG6Fa4PTtUQ/78XLpK1L
+ JwxIKtjmAwLV18FGhiIOuUT1yTeHcZlZbwOLlTGh7AlHzNk50+IdMaMakFREVAXtspF1
+ unGJw5BDu4Z6b6uBAujBNzekg6pWUatgD3zytjAczHQ3AeTQLP2lVLf0slC3Uss7YgpP
+ bAQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DPLSvVPR+S0ni3aLPWTGaQJgz447Dpki8F0IqG6gjNc=;
- b=cHX6fmhFebYLu12wxvmUidGYzpElQlecSqJ0lxCsLEkjaYTd3WLC2okSQHGIiAp2qD
- qwZWhdmhinz+FuOEVhTmxfPMrfpy2UdL0T9Fajus/o1bYkV5v5BOgDX+AM1ciN8OnnfU
- z+03Nm0/UlupwtAiMoEUQSF5dt100gJU8cNTN8jJMBkRFjGMWC1MV4298SFqQp9d9oCV
- 6we8IdmLWJy7ZMeaIlw8JPjL6bFv2ZyIWMYvvG8AoKmdoVKH2+pevp7zjgqBFX7R30gy
- zIW2r4l0S7DgLr1YVJnUPeSfbKKz6Zx2ncvjepi9152ZLngwoTwL1W4odkxqfVaRZ7Vm
- M0Gg==
-X-Gm-Message-State: ACrzQf1tCNPIQvl/YkFhh02y4tbekLmtYMLYYp/3ubuc8Qx+425E/ocx
- Jhqp/kOPnHiFM3/uNz4BVv097w==
-X-Google-Smtp-Source: AMsMyM4G2XIyzKCI9Xa7PPbELtiq13plMR5cm9/wK1Qbil/SosPp7LElI+r6auDuPNoAHbuLjDw1xQ==
-X-Received: by 2002:a05:600c:3512:b0:3c8:2c4e:8680 with SMTP id
- h18-20020a05600c351200b003c82c4e8680mr11483927wmq.165.1666997006275; 
- Fri, 28 Oct 2022 15:43:26 -0700 (PDT)
+ bh=KAdEJjo5XKzAudzIgm89dcZB/VfPdiiDziqYVs+iATI=;
+ b=PcrfSvbY8n/+2M7bqFcac9h1KAiXvaninFJ9k7uOiJYH6NPi8xekdAs5eo4fCFBxBA
+ FA5jz9i3d80wBhQo0GfEgQfPFt9xyrwlnwyoIecS+4mlvFmMSnhx5RNTbyMx8b2gZ+bw
+ Mzz2p8Sm//MGY23fSzPSQpi9zHGQMFE9UAxUv22oqGEmAmn9WnfcdATidvzFLRvW0Jcx
+ c5fimq9NOOf1sWzzflmaFXn5O03HGO/oc9JW2dyrYSynqPiN0KVfYWofw4wbd/yTfsKP
+ reusPnjd6Y0ZU/kZdx5biGBnSr5+hLPtaEAGTneK39dZ6VLYfsUxSTXKbMsqkE8pCIXx
+ J98A==
+X-Gm-Message-State: ACrzQf3pXgqazg+ek2kkHcjJZOiO5bT2vyl8Z5P/YtW+HK3WxeCp0j4S
+ WyK6119T917pmUs5clbhuKDuHA==
+X-Google-Smtp-Source: AMsMyM5QpgzSZ4PmCrOTyslPdI2wh55b6wdbN+++B90axGjUyzmcXVibdSvea/LPYcq9smRXNaN7qQ==
+X-Received: by 2002:a05:600c:3789:b0:3c6:beed:fecf with SMTP id
+ o9-20020a05600c378900b003c6beedfecfmr835756wmr.174.1666997325660; 
+ Fri, 28 Oct 2022 15:48:45 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n16-20020a1c7210000000b003c6deb5c1edsm5390304wmc.45.2022.10.28.15.43.25
+ z7-20020a05600c0a0700b003a682354f63sm9930335wmp.11.2022.10.28.15.48.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Oct 2022 15:43:25 -0700 (PDT)
-Message-ID: <12a458e6-a48c-fcd8-bc7e-1185dedd2826@linaro.org>
-Date: Sat, 29 Oct 2022 00:43:24 +0200
+ Fri, 28 Oct 2022 15:48:45 -0700 (PDT)
+Message-ID: <6375bb66-91a5-d638-dd4f-2700ac3a26cc@linaro.org>
+Date: Sat, 29 Oct 2022 00:48:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH 1/4] vhost: Delete useless casting
+Subject: Re: [PATCH 2/4] vhost: convert byte order on SVQ used event write
 Content-Language: en-US
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 Cc: Stefan Hajnoczi <stefanha@redhat.com>, Jason Wang <jasowang@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>
 References: <20221028160251.268607-1-eperezma@redhat.com>
- <20221028160251.268607-2-eperezma@redhat.com>
+ <20221028160251.268607-3-eperezma@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221028160251.268607-2-eperezma@redhat.com>
+In-Reply-To: <20221028160251.268607-3-eperezma@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,13 +94,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 28/10/22 18:02, Eugenio Pérez wrote:
-> The used event is already an uint16_t pointer
+> This causes errors on virtio modern devices on big endian hosts
 > 
+> Fixes: 01f8beacea2a ("vhost: toggle device callbacks using used event idx")
 > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 > ---
 >   hw/virtio/vhost-shadow-virtqueue.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+> index 70766ea740..467099f5d9 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> @@ -382,7 +382,7 @@ static bool vhost_svq_enable_notification(VhostShadowVirtqueue *svq)
+>   {
+>       if (virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
+>           uint16_t *used_event = &svq->vring.avail->ring[svq->vring.num];
+> -        *used_event = svq->shadow_used_idx;
+> +        *used_event = cpu_to_le16(svq->shadow_used_idx);
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+This looks correct, but what about:
+
+            virtio_stw_p(svq->vdev, used_event, svq->shadow_used_idx);
+
+>       } else {
+>           svq->vring.avail->flags &= ~cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
+>       }
 
 
