@@ -2,89 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2BF610A5C
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 08:35:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDEBF610A1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 08:16:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooIvY-0005Zs-LK; Fri, 28 Oct 2022 02:33:12 -0400
+	id 1ooIdq-00064N-Li; Fri, 28 Oct 2022 02:14:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ooIvR-0005VD-54
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 02:33:05 -0400
-Received: from mga03.intel.com ([134.134.136.65])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ooIdn-00061y-PX
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 02:14:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1ooIhr-0000JV-Ux
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 02:19:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666937943; x=1698473943;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=+Xc37e1S+pXkub/JJrhuVoXoAzIONIWOhKRDpZ+Jp3Q=;
- b=HgDA9oQNyUcdq9lJn1uKVi8i9uPKPXeCJ4jMWTJCmcZpjGGFjJrmAct4
- GO6rhMVbtbJLNWau5AXWHm8CjUq3UBwcQU0K0/mIXh2RzcHRIRsIUB200
- 9c8avufyhnCzt7M4z8qxNk4QwhEktXf9GvgvGMTVr4n3bV7YB+tki2gRp
- Fn17YUmQQCq96xSdh3RwADE33jXXaTkKoJOGb4VyijGOZ8tdvtRYPZSv0
- dwwXz0OnzcWc+SNHS93t8oTHpLwTGAh95z3eKi8l2K1Nx8Tpd6PU1C+5I
- WcZ3aSvH2Xt81T6/kuHBF7S3frFMp/XtztmJo2/idmdqq2BoISFWdjxoE Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="310117885"
-X-IronPort-AV: E=Sophos;i="5.95,220,1661842800"; d="scan'208";a="310117885"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Oct 2022 23:18:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="627428346"
-X-IronPort-AV: E=Sophos;i="5.95,220,1661842800"; d="scan'208";a="627428346"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga007.jf.intel.com with ESMTP; 27 Oct 2022 23:18:42 -0700
-Date: Fri, 28 Oct 2022 14:14:13 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Fuad Tabba <tabba@google.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 3/8] KVM: Add KVM_EXIT_MEMORY_FAULT exit
-Message-ID: <20221028061413.GB3885130@chaop.bj.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-4-chao.p.peng@linux.intel.com>
- <CA+EHjTxzLDAW=MyfKFcL2cGQimw3bdVYePUgRw+=1+AbCQouUQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ooIdm-00087g-41
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 02:14:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666937689;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PyXI/tIL93HfAQVaegZ6km9M1d4iP+jbfeu/+pIU5Yg=;
+ b=ggi8478X8Z7PlDaZnxh1VwD5IlJRBqTTw9xQwnwEbXrbu5uZsaw7XRwNXK40/u3SkgR/xp
+ xvI0HPt6p/H3N3NA19/EBE4ula0+KKSVDOxCHaZ4TUhef82mLUnTEKJzQlQ/KAKdpYAhXf
+ j+4EerOvEG4vTh4bbJqrWnM4qOwJtP8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-189-hSM0UalLM1OzW20XmDF4SQ-1; Fri, 28 Oct 2022 02:14:42 -0400
+X-MC-Unique: hSM0UalLM1OzW20XmDF4SQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C4191C08798;
+ Fri, 28 Oct 2022 06:14:42 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-13-50.pek2.redhat.com [10.72.13.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CFFA84221F;
+ Fri, 28 Oct 2022 06:14:38 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: mst@redhat.com,
+	peterx@redhat.com
+Cc: qemu-devel@nongnu.org, yi.y.sun@linux.intel.com, eperezma@redhat.com,
+ lulu@redhat.com, Jason Wang <jasowang@redhat.com>
+Subject: [PATCH V5 0/4] PASID support for Intel IOMMU
+Date: Fri, 28 Oct 2022 14:14:32 +0800
+Message-Id: <20221028061436.30093-1-jasowang@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTxzLDAW=MyfKFcL2cGQimw3bdVYePUgRw+=1+AbCQouUQ@mail.gmail.com>
-Received-SPF: none client-ip=134.134.136.65;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga03.intel.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,120 +74,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 11:27:05AM +0100, Fuad Tabba wrote:
-> Hi,
-> 
-> On Tue, Oct 25, 2022 at 4:19 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> >
-> > This new KVM exit allows userspace to handle memory-related errors. It
-> > indicates an error happens in KVM at guest memory range [gpa, gpa+size).
-> > The flags includes additional information for userspace to handle the
-> > error. Currently bit 0 is defined as 'private memory' where '1'
-> > indicates error happens due to private memory access and '0' indicates
-> > error happens due to shared memory access.
-> >
-> > When private memory is enabled, this new exit will be used for KVM to
-> > exit to userspace for shared <-> private memory conversion in memory
-> > encryption usage. In such usage, typically there are two kind of memory
-> > conversions:
-> >   - explicit conversion: happens when guest explicitly calls into KVM
-> >     to map a range (as private or shared), KVM then exits to userspace
-> >     to perform the map/unmap operations.
-> >   - implicit conversion: happens in KVM page fault handler where KVM
-> >     exits to userspace for an implicit conversion when the page is in a
-> >     different state than requested (private or shared).
-> >
-> > Suggested-by: Sean Christopherson <seanjc@google.com>
-> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> 
-> Reviewed-by: Fuad Tabba <tabba@google.com>
-> 
-> I have tested the V8 version of this patch on arm64/qemu, and
-> considering this hasn't changed:
-> Tested-by: Fuad Tabba <tabba@google.com>
+Hi All:
 
-Appreciate your review and testing!
+This series tries to introduce PASID support for Intel IOMMU. The work
+is based on the previous scalabe mode support by implement the
+ECAP_PASID. A new "x-pasid-mode" is introduced to enable this
+mode. All internal vIOMMU codes were extended to support PASID instead
+of the current RID2PASID method. The code is also capable of
+provisiong address space with PASID. Note that no devices can issue
+PASID DMA right now, this needs future work.
 
-Chao
-> 
-> Cheers,
-> /fuad
-> 
-> 
-> 
-> >  Documentation/virt/kvm/api.rst | 23 +++++++++++++++++++++++
-> >  include/uapi/linux/kvm.h       |  9 +++++++++
-> >  2 files changed, 32 insertions(+)
-> >
-> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> > index f3fa75649a78..975688912b8c 100644
-> > --- a/Documentation/virt/kvm/api.rst
-> > +++ b/Documentation/virt/kvm/api.rst
-> > @@ -6537,6 +6537,29 @@ array field represents return values. The userspace should update the return
-> >  values of SBI call before resuming the VCPU. For more details on RISC-V SBI
-> >  spec refer, https://github.com/riscv/riscv-sbi-doc.
-> >
-> > +::
-> > +
-> > +               /* KVM_EXIT_MEMORY_FAULT */
-> > +               struct {
-> > +  #define KVM_MEMORY_EXIT_FLAG_PRIVATE (1 << 0)
-> > +                       __u32 flags;
-> > +                       __u32 padding;
-> > +                       __u64 gpa;
-> > +                       __u64 size;
-> > +               } memory;
-> > +
-> > +If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VCPU has
-> > +encountered a memory error which is not handled by KVM kernel module and
-> > +userspace may choose to handle it. The 'flags' field indicates the memory
-> > +properties of the exit.
-> > +
-> > + - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
-> > +   private memory access when the bit is set. Otherwise the memory error is
-> > +   caused by shared memory access when the bit is clear.
-> > +
-> > +'gpa' and 'size' indicate the memory range the error occurs at. The userspace
-> > +may handle the error and return to KVM to retry the previous memory access.
-> > +
-> >  ::
-> >
-> >      /* KVM_EXIT_NOTIFY */
-> > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> > index f1ae45c10c94..fa60b032a405 100644
-> > --- a/include/uapi/linux/kvm.h
-> > +++ b/include/uapi/linux/kvm.h
-> > @@ -300,6 +300,7 @@ struct kvm_xen_exit {
-> >  #define KVM_EXIT_RISCV_SBI        35
-> >  #define KVM_EXIT_RISCV_CSR        36
-> >  #define KVM_EXIT_NOTIFY           37
-> > +#define KVM_EXIT_MEMORY_FAULT     38
-> >
-> >  /* For KVM_EXIT_INTERNAL_ERROR */
-> >  /* Emulate instruction failed. */
-> > @@ -538,6 +539,14 @@ struct kvm_run {
-> >  #define KVM_NOTIFY_CONTEXT_INVALID     (1 << 0)
-> >                         __u32 flags;
-> >                 } notify;
-> > +               /* KVM_EXIT_MEMORY_FAULT */
-> > +               struct {
-> > +#define KVM_MEMORY_EXIT_FLAG_PRIVATE   (1 << 0)
-> > +                       __u32 flags;
-> > +                       __u32 padding;
-> > +                       __u64 gpa;
-> > +                       __u64 size;
-> > +               } memory;
-> >                 /* Fix the size of the union. */
-> >                 char padding[256];
-> >         };
-> > --
-> > 2.25.1
-> >
+This will be used for prototying PASID based device like virtio or
+future vPASID support for Intel IOMMU.
+
+Test has been done with the Linux guest with scalalbe mode enabled and
+disabled. A virtio prototype[1][2] that can issue PAISD based DMA
+request were also tested, different PASID were used in TX and RX in
+those testing drivers.
+
+Changes since V4:
+
+- rename vtd_report_qualify_fault() to vtd_report_fault()
+- Tweak the code to avoid using ret variable when getting rid2pasid
+
+Changes since V3:
+
+- rearrange the member for vtd_iotlb_key structure
+- reorder the pasid parameter ahead of addr for vtd_lookup_iotlb()
+- allow access size from 1 to 8 for vtd_mem_ir_fault_ops
+
+Changes since V2:
+
+- use PCI_BUILD_BDF() instead of vtd_make_source_id()
+- Tweak the comments above vtd_as_hash()
+- use PCI_BUS_NUM() instead of open coding
+- rename vtd_as to vtd_address_spaces
+- rename vtd_qualify_report_fault() to vtd_report_qualify_fault()
+- forbid device-iotlb with PASID
+- report PASID based qualified fault
+- log PASID during errors
+
+Changes since V1:
+
+- speed up IOMMU translation when RID2PASID is not used
+- remove the unnecessary L1 PASID invalidation descriptor support
+- adding support for catching the translation to interrupt range when
+  in the case of PT and scalable mode
+- refine the comments to explain the hash algorithm used in IOTLB
+  lookups
+
+Please review.
+
+[1] https://github.com/jasowang/qemu.git virtio-pasid
+[2] https://github.com/jasowang/linux.git virtio-pasid
+
+Jason Wang (4):
+  intel-iommu: don't warn guest errors when getting rid2pasid entry
+  intel-iommu: drop VTDBus
+  intel-iommu: convert VTD_PE_GET_FPD_ERR() to be a function
+  intel-iommu: PASID support
+
+ hw/i386/intel_iommu.c          | 692 ++++++++++++++++++++++-----------
+ hw/i386/intel_iommu_internal.h |  16 +-
+ hw/i386/trace-events           |   2 +
+ include/hw/i386/intel_iommu.h  |  18 +-
+ include/hw/pci/pci_bus.h       |   2 +
+ 5 files changed, 485 insertions(+), 245 deletions(-)
+
+-- 
+2.25.1
+
 
