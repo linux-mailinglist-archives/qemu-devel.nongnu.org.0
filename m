@@ -2,107 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6255A611F5D
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 04:40:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D32EB612098
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 07:41:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oobkB-0006wC-0X; Fri, 28 Oct 2022 22:38:43 -0400
+	id 1ooeU1-0002Yx-Bb; Sat, 29 Oct 2022 01:34:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <taisei1212@outlook.jp>)
- id 1oobg5-0003As-DY
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 22:34:29 -0400
-Received: from mail-tyzapc01olkn20827.outbound.protection.outlook.com
- ([2a01:111:f403:704b::827]
- helo=APC01-TYZ-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <taisei1212@outlook.jp>)
- id 1oobg3-0007Zp-0o
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 22:34:29 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P5LH0BRRU3VcNe1Fj3jP7ncK+JYhB1EWW8aRNQYhPkU60RQ8TQnlm4OsNpXKdLWlNrrJEHedo2CfNJNfSBhEXDt5lfXQ+F2fusX9A9E45sUkfNHpV3CaUDtBXjhc+cSn1v4YF3UoPWOLUg2ws2x8EzllsoSuIDQG2Xk0jyhaWHzGMLlNxg/bimGk6s5SGeVWY0GSU9XjtP/0O+tA962uiDjntcLQYlxlUNVme8z1nmbKvo8p/m3Oamq5zxs5ZhMYTHbtT9lAW9MDq8KQg8VDRU+Yj9/LW29cKGAdA91Sx0SJ2uUYdAiMTtD5hcJZ4ikEWed2qz4Xgv/Pl3KBAtwcUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ffemJ4AYzGIgtgpXBmoRFetlyQyp0g7SFJTwlVMWLs8=;
- b=mfr+Kj082VrbW0UDYwLeS3ypqhPAMGB+J6WChZS/cx/TK8z6K2p5iwQs22FRJmsf76JcCG5hl4enKhMtvk5WvVUXWr9KFYnQnjxaT/YLOQbq6WfGaVre9D+u5gLhGs+DernwTvLuWIA54VMo4bPBN5pA2Vn5rI9YVCdR1bX3lIrdBk85vC/5Pfjr6KAPxA5Bsqi8y8q5tvSzBBQbd06IlyZOzbqxQzTanJidYpPOtoG9FCxM98SweTGdAUkETLwGItO7M4nwPHf4ZhHMj/ok3B2ngqF7zjCW5O+yPRxOjNA40LCCgllyTEWnQVyxJ0taR3eLoJzKihdGiz6AaJkpFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
- (2603:1096:400:1b0::11) by TY0PR0101MB4119.apcprd01.prod.exchangelabs.com
- (2603:1096:400:1bd::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.15; Sat, 29 Oct
- 2022 02:29:17 +0000
-Received: from TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
- ([fe80::847c:70a1:e7f5:2a4b]) by
- TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
- ([fe80::847c:70a1:e7f5:2a4b%3]) with mapi id 15.20.5769.015; Sat, 29 Oct 2022
- 02:29:17 +0000
-From: TaiseiIto <taisei1212@outlook.jp>
-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, f4bug@amsat.org, TaiseiIto <taisei1212@outlook.jp>
-Subject: [PATCH] [PING^3] gdb-xml: Fix size of EFER register on i386
- architecture when debugged by GDB
-Date: Sat, 29 Oct 2022 11:28:51 +0900
-Message-ID: <TY0PR0101MB4285F4F5B75AB31F7FCCE751A4359@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [7vBpAQhtyCifTkI5xD4NluznFdFom41f]
-X-ClientProxiedBy: TYCP286CA0086.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b3::12) To TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
- (2603:1096:400:1b0::11)
-X-Microsoft-Original-Message-ID: <20221029022851.751-1-taisei1212@outlook.jp>
+ (Exim 4.90_1) (envelope-from <olekstysh@gmail.com>)
+ id 1ooUgK-0004bg-OH; Fri, 28 Oct 2022 15:06:30 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <olekstysh@gmail.com>)
+ id 1ooUgH-0000qN-6P; Fri, 28 Oct 2022 15:06:16 -0400
+Received: by mail-pl1-x636.google.com with SMTP id f23so5626295plr.6;
+ Fri, 28 Oct 2022 12:06:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=OpySAI0m06R16LGE63jw0ivYx7e/ioZkfJWvMJn/6p4=;
+ b=BJ33SXBipARpCCtD2oOUkdM2RwZNIXY+XMUdvUhKqF6VuaQ8miWtNBI/CdPbA7sUta
+ oXy7ggplDYDuuUTyNOjOsHDFD9zVN0aKqUY/cewErZBNQcdZTk5TovbXo8pBbzYDTEZf
+ 9rp+ds87gQHxqbHI3/E3ECAWJ3dklCaqNHM7iJEPXGn1DvXXh/lRT/ghGVM9uRMn9iys
+ XPN7XmGEab12vjsbRHdEHg/m0eXr0IeiaUA29O7qFu7kXN2aZXTengiSAgGOFc+izg78
+ UkS93zzjWQDa8e9yZusr2WX2jmsR47czjYPH6Y0puT9tbf8JfLhY3G/p9YsjDrdoIDSR
+ oyfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OpySAI0m06R16LGE63jw0ivYx7e/ioZkfJWvMJn/6p4=;
+ b=AHInQhRZPTRFov+9mJT1jxq8ixtncL1G5VFqCFhE8ivm1wvgUxRWJq+5Jm6e7ppsmk
+ lr5ZHXD/ZVvmBOKpeFsKhC+GTxAHczbzlDh8O3+h8c3QKhyPfvWBXLIbBN7VzjmnGjE/
+ wA+OOoR2gFXW3P+PGctKlYqQK+/iDjOhgx6SvvSRoRn/CM94/aJIxhhHcJ9OUscq3Jop
+ L0+Kp5yEstwM/jshXOMOg7OkPyZMPK+YtJ2wJAMTScTXWIbXRJyQMote18tMrHNVBtt5
+ EoND+u6Tfbf5nnNUcWD8jCiJb3paXUWqCt+cebVNGJx16Q9LcHa7oj5JL41gv1hb/jd/
+ Ju6w==
+X-Gm-Message-State: ACrzQf2UtMzl7X8xySrtcH3DWARKG5RZGz0VQjfmZV1ZI315T//DkT5o
+ vd/s6VbSlnXt64Netrb8wRQ6B/ZaUht76fgX7L8=
+X-Google-Smtp-Source: AMsMyM4xKpCtA6doHrBId4kdH/4woxsla2xyPf+PNZF/ENC+dfhwTJMgv3LlYmF2OAn5rSk4ZRzuc0DmTtr8rx9IYqg=
+X-Received: by 2002:a17:902:eccc:b0:186:5f09:f9 with SMTP id
+ a12-20020a170902eccc00b001865f0900f9mr490806plh.6.1666983970122; Fri, 28 Oct
+ 2022 12:06:10 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY0PR0101MB4285:EE_|TY0PR0101MB4119:EE_
-X-MS-Office365-Filtering-Correlation-Id: ca420140-9b52-46ac-3545-08dab95560de
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ezB5tXjNZnRaLVexQN94sAK4BjMhWkmRnhQsn4cptQfN/Rg8cPfI2sIQTOv5QuVxuZUSNSr7p2VFv/omxIGzNFbz81OajRg87LMexlLxkTew+ucXR0XPRHTgRx7+JpYpO9SUFq4FvWgCIZCYcx5BmRfxpSZHFjP5mqIA8kcBAEGywM8/tJf+rheaTt4mSLnMKj/BlqyN+aojjBDIXw8+rsx/nCYmYXSynnOdEEuo6MyGRgaaeLyY3V+kcH1ZJVx257zSasrZb71HbxI8SWlvyxxdaGdJIIQZgPa2FzmZsyoYgOBiAqXPmWMMkxo7ZT2qnRUCjAVPkNcWDjegth2LX1R9LWsylI9cEqlck520lsw42FJH3nvcg378bi+ZNpOKo0HGm+WqK9uzrBYifqregzvYnqwMA7O8rtAHEMdBeu7rAfItzwBQGxZNJmt/yqngVA5Vv8DxJcf2Tmzaipjr7klsxtxohxAa6tbzZhhDFY1j60qqIJUE8PWrKI0WcJsX4n/ihmuori3hcl/3ycS12zfOOHzFj0fa4nvC2HVDmmWCajF7CYGsfqoO5aFPouQxoJq8n0wXR0ZdK5Ir7SH9pgrCJW0qZIPGMjp4PR6MrwLCbXqBzu1Zz+ne2Sn2iVYZ4oyJbeNZ9VJeD6k+ObhC4q/J8+CP0b+7H5Uv7VcNogJcV90+n52JA1vjmwvbXe9MHreiW9sM296qlB7TcJkB+w==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?VetZ8vJcjWE1XQbgXjBBpzYv05INiNowXzx0IIXVY5cFb+M8r/cUGydfI+2b?=
- =?us-ascii?Q?KG7sQtx6dD8/br6c+eSm9YUKXmwkW0f+wb9o9CBJ/oh78JFwf65DMJqEHtDg?=
- =?us-ascii?Q?LEwuza7Eh6ot2zIXgZ+wWiZM740N7SN9cerNBtTy6eWc8zMR1+gJLgmLEuNW?=
- =?us-ascii?Q?m9ACckwRT6DyJcLy2/m2jBepayFnsjWnFmuVnA0THjrD2DCOaKk6pWDITy+/?=
- =?us-ascii?Q?cXDqqvl/oBpFGzdGhCNUpQywQpSFmZsxFjMZRi/Fs34H+vCoqm/hOg/e9FGQ?=
- =?us-ascii?Q?/Z2JCRuO4+sVH/uK/CAj1YaUakPmAfGo2S381KdKQ89xCjGs0Zp8DHDw8Q9L?=
- =?us-ascii?Q?Tz4FaMmvGqLyxy574LVWyog72MZ9fTbOlZP5urJXP/5YC/qjiAK2c/YQu+9X?=
- =?us-ascii?Q?rcyJXbZDdVqgHMYZIVhtQ0kJ/wvieRzxi+zr2Po1d5dMkY7qjAjVnWegxJ6V?=
- =?us-ascii?Q?fHsSIfCuGFb9e9KgQ42gm+BD0XzXDQJyKAgf/Sq08CD1xSYRuDMAAWr6WsCh?=
- =?us-ascii?Q?6vy0arj5OGhSxT3dY0oZoNP95R5GfkhHfTPqAGXWj9WLiWN7ufwlWEfAMM8Z?=
- =?us-ascii?Q?Y+4kWeGOKPw0Vs4bKiQK+zZD33lPtJQ+AN75+3ecZPq7GsctKmtQDoMhMq98?=
- =?us-ascii?Q?/xJfKEY0hf0Iu4wVI7ob6f5HeGxwK24VfZGxcyiDVRgPdN1pD6a6AIJ6LCP9?=
- =?us-ascii?Q?V0kPxiMKnKDgFOnLwraQWRyYgUjtV+ekNsUsYTRhNJre0JUotvpiI6gkzjRc?=
- =?us-ascii?Q?uGgDvZ9U7AFgX060T5EDH5yTo+kg7AxIOKrGNAJ0J7Zz4GmHXfalxUjOwX+9?=
- =?us-ascii?Q?d6QJ+1iXfEMEs7mcYyIRnTj30SwbL9dhZihZp6IIuHLtKEyJYdmxr9RfcLW8?=
- =?us-ascii?Q?vr8Gefk8i4XF04Tc79ApYqVchl4U7yXb1gM+W2ARKll4JGzSc50EA6FPGWGr?=
- =?us-ascii?Q?6hxbPqh8VWGyV0Ka+7weWrHzT6gcVeBiMFK3WU/rttq96B250CO+wJ+5MGgM?=
- =?us-ascii?Q?znVU0v4+s0roKPkCz0JMFaqAoeXyc3+F/8DwiCLvD79nLvf/ohgFje3qg6qX?=
- =?us-ascii?Q?tAOOgbKN+u06RV7bhyIr/xXg2EOY851sh5JSENWkSF/jESz69PXbsnCLZfiC?=
- =?us-ascii?Q?aIRr9J1QaXcFCFxw9jPPqHNjOhsGZYbOEgFY7nP7Si+Y8k0MId4+PJi2ydZr?=
- =?us-ascii?Q?WEfGG7MPo9YpTxpW4ZpcRb0d3oz2NFctzv558/bwebvPSH9g/6piQ6ylQXAi?=
- =?us-ascii?Q?Ibh8sY6IQj+01LT2+Ji3z9wSSaVjInMpufJJldPs2A=3D=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-d8e84.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca420140-9b52-46ac-3545-08dab95560de
-X-MS-Exchange-CrossTenant-AuthSource: TY0PR0101MB4285.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2022 02:29:17.6599 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR0101MB4119
-Received-SPF: pass client-ip=2a01:111:f403:704b::827;
- envelope-from=taisei1212@outlook.jp;
- helo=APC01-TYZ-obe.outbound.protection.outlook.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20221015050750.4185-1-vikram.garhwal@amd.com>
+ <20221015050750.4185-11-vikram.garhwal@amd.com>
+ <87wn8l3d3r.fsf@linaro.org> <7da20a2e-81e0-b3ad-c2d6-6012fa7edee2@xen.org>
+In-Reply-To: <7da20a2e-81e0-b3ad-c2d6-6012fa7edee2@xen.org>
+From: Oleksandr Tyshchenko <olekstysh@gmail.com>
+Date: Fri, 28 Oct 2022 22:05:58 +0300
+Message-ID: <CAPD2p-nE30z9LosUkO6OdrPnuCaSwi_s2tsfbxgcOyu087tz-w@mail.gmail.com>
+Subject: Re: [PATCH v1 10/12] hw/arm: introduce xenpv machine
+To: Julien Grall <julien@xen.org>, Vikram Garhwal <vikram.garhwal@amd.com>,
+ stefano.stabellini@amd.com
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, 
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, 
+ Paul Durrant <paul@xen.org>, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ xen-devel@lists.xenproject.org, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000062afd005ec1cf34a"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=olekstysh@gmail.com; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 29 Oct 2022 00:27:01 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,45 +89,291 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a ping to the patch below.
+--00000000000062afd005ec1cf34a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-https://patchew.org/QEMU/TY0PR0101MB4285F637209075C9F65FCDA6A4479@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com/
-https://lore.kernel.org/qemu-devel/TY0PR0101MB4285F637209075C9F65FCDA6A4479@TY0PR0101MB4285.apcprd01.prod.exchangelabs.com/
+On Fri, Oct 28, 2022 at 8:58 PM Julien Grall <julien@xen.org> wrote:
 
-Before this commit, there were contradictory descriptions about size of EFER
-register.
-Line 113 says the size is 8 bytes.
-Line 129 says the size is 4 bytes.
+> Hi,
+>
 
-As a result, when GDB is debugging an OS running on QEMU, the GDB cannot
-read 'g' packets correctly. This 'g' packet transmits values of each
-registers of machine emulated by QEMU to GDB. QEMU, the packet sender,
-assign 4 bytes for EFER in 'g' packet based on the line 113.
-GDB, the packet receiver, extract 8 bytes for EFER in 'g' packet based on
-the line 129. Therefore, all registers located behind EFER in 'g' packet
-has been shifted 4 bytes in GDB.
+Hello all.
 
-After this commit, GDB can read 'g' packets correctly.
+[sorry for the possible format issues]
 
-Signed-off-by: TaiseiIto <taisei1212@outlook.jp>
----
- gdb-xml/i386-32bit.xml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/gdb-xml/i386-32bit.xml b/gdb-xml/i386-32bit.xml
-index 872fcea9c2..7a66a02b67 100644
---- a/gdb-xml/i386-32bit.xml
-+++ b/gdb-xml/i386-32bit.xml
-@@ -110,7 +110,7 @@
- 	<field name="PKE" start="22" end="22"/>
-   </flags>
- 
--  <flags id="i386_efer" size="8">
-+  <flags id="i386_efer" size="4">
- 	<field name="TCE" start="15" end="15"/>
- 	<field name="FFXSR" start="14" end="14"/>
- 	<field name="LMSLE" start="13" end="13"/>
--- 
-2.34.1
 
+>
+> On 27/10/2022 09:02, Alex Benn=C3=A9e wrote:
+> >
+> > Vikram Garhwal <vikram.garhwal@amd.com> writes:
+> >
+> > <snip>
+> >> Optional: When CONFIG_TPM is enabled, it also creates a tpm-tis-device=
+,
+> adds a
+> >> TPM emulator and connects to swtpm running on host machine via chardev
+> socket
+> >> and support TPM functionalities for a guest domain.
+> >>
+> >> Extra command line for aarch64 xenpv QEMU to connect to swtpm:
+> >>      -chardev socket,id=3Dchrtpm,path=3D/tmp/myvtpm2/swtpm-sock \
+> >>      -tpmdev emulator,id=3Dtpm0,chardev=3Dchrtpm \
+> >>
+> >> swtpm implements a TPM software emulator(TPM 1.2 & TPM 2) built on
+> libtpms and
+> >> provides access to TPM functionality over socket, chardev and CUSE
+> interface.
+> >> Github repo: https://github.com/stefanberger/swtpm
+> >> Example for starting swtpm on host machine:
+> >>      mkdir /tmp/vtpm2
+> >>      swtpm socket --tpmstate dir=3D/tmp/vtpm2 \
+> >>      --ctrl type=3Dunixio,path=3D/tmp/vtpm2/swtpm-sock &
+> >
+> > <snip>
+> >> +static void xen_enable_tpm(void)
+> >> +{
+> >> +/* qemu_find_tpm_be is only available when CONFIG_TPM is enabled. */
+> >> +#ifdef CONFIG_TPM
+> >> +    Error *errp =3D NULL;
+> >> +    DeviceState *dev;
+> >> +    SysBusDevice *busdev;
+> >> +
+> >> +    TPMBackend *be =3D qemu_find_tpm_be("tpm0");
+> >> +    if (be =3D=3D NULL) {
+> >> +        DPRINTF("Couldn't fine the backend for tpm0\n");
+> >> +        return;
+> >> +    }
+> >> +    dev =3D qdev_new(TYPE_TPM_TIS_SYSBUS);
+> >> +    object_property_set_link(OBJECT(dev), "tpmdev", OBJECT(be), &errp=
+);
+> >> +    object_property_set_str(OBJECT(dev), "tpmdev", be->id, &errp);
+> >> +    busdev =3D SYS_BUS_DEVICE(dev);
+> >> +    sysbus_realize_and_unref(busdev, &error_fatal);
+> >> +    sysbus_mmio_map(busdev, 0, GUEST_TPM_BASE);
+> >
+> > I'm not sure what has gone wrong here but I'm getting:
+> >
+> >    ../../hw/arm/xen_arm.c: In function =E2=80=98xen_enable_tpm=E2=80=99=
+:
+> >    ../../hw/arm/xen_arm.c:120:32: error: =E2=80=98GUEST_TPM_BASE=E2=80=
+=99 undeclared
+> (first use in this function); did you mean =E2=80=98GUEST_RAM_BASE=E2=80=
+=99?
+> >      120 |     sysbus_mmio_map(busdev, 0, GUEST_TPM_BASE);
+> >          |                                ^~~~~~~~~~~~~~
+> >          |                                GUEST_RAM_BASE
+> >    ../../hw/arm/xen_arm.c:120:32: note: each undeclared identifier is
+> reported only once for each function it appears in
+> >
+> > In my cross build:
+> >
+> >    # Configured with: '../../configure' '--disable-docs'
+> '--target-list=3Daarch64-softmmu' '--disable-kvm' '--enable-xen'
+> '--disable-opengl' '--disable-libudev' '--enable-tpm'
+> '--disable-xen-pci-passthrough' '--cross-prefix=3Daarch64-linux-gnu-'
+> '--skip-meson'
+> >
+> > which makes me wonder if this is a configure failure or a confusion
+> > about being able to have host swtpm implementations during emulation bu=
+t
+> > needing target tpm for Xen?
+>
+> I was also wondering where is that value come from. Note that the
+> memory/IRQ layout exposed to the guest is not stable.
+>
+> Are we expecting the user to rebuild QEMU for every Xen versions (or
+> possibly every guest if we ever allow dynamic layout in Xen)?
+>
+
+
+This doesn't sound ideal.
+
+I am wondering what would be the correct way here assuming that we would
+likely need to have more such information in place for supporting more
+use-cases...
+For instance, the PCI host bridge emulation in Qemu. Xen toolstack (another
+software layer) generates device-tree for the guest, so creates PCI Host
+bridge node by using reserved regions from Guest OS interface (arch-arm.h):
+- GUEST_VPCI_MEM_ADDR (GUEST_VPCI_MEM_SIZE)
+- GUEST_VPCI_ECAM_BASE (GUEST_VPCI_ECAM_SIZE)
+- GUEST_VPCI_PREFETCH_MEM_ADDR (GUEST_VPCI_PREFETCH_MEM_SIZE)
+https://xenbits.xen.org/gitweb/?p=3Dxen.git;a=3Dblob;f=3Dtools/libs/light/l=
+ibxl_arm.c;h=3D2a5e93c28403738779863aded31d2df3ba72f8c0;hb=3DHEAD#l833
+
+Here in Qemu when creating a PCI Host bridge we would need to use exactly
+the same reserved regions which toolstack writes in the corresponding
+device-tree node. So how to tell Qemu about them?
+1. Introduce new cmd line arguments?
+2. Using Xenstore?
+3. Anything else?
+
+I am afraid this would be related to every device that we want to emulate
+in Qemu and for which the toolstack needs to generate device-tree node by
+using something defined with GUEST_*, unless I really missed something.
+
+
+
+>
+> Cheers,
+>
+> --
+> Julien Grall
+>
+>
+
+--=20
+Regards,
+
+Oleksandr Tyshchenko
+
+--00000000000062afd005ec1cf34a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 28, 2022 at 8:58 PM Julie=
+n Grall &lt;<a href=3D"mailto:julien@xen.org" target=3D"_blank">julien@xen.=
+org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">Hi,<br></blockquote><div><br></div><div>Hello all.</div><div><br></div><=
+div>[sorry for the possible format issues]</div><div><br></div><div>=C2=A0<=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+On 27/10/2022 09:02, Alex Benn=C3=A9e wrote:<br>
+&gt; <br>
+&gt; Vikram Garhwal &lt;<a href=3D"mailto:vikram.garhwal@amd.com" target=3D=
+"_blank">vikram.garhwal@amd.com</a>&gt; writes:<br>
+&gt; <br>
+&gt; &lt;snip&gt;<br>
+&gt;&gt; Optional: When CONFIG_TPM is enabled, it also creates a tpm-tis-de=
+vice, adds a<br>
+&gt;&gt; TPM emulator and connects to swtpm running on host machine via cha=
+rdev socket<br>
+&gt;&gt; and support TPM functionalities for a guest domain.<br>
+&gt;&gt;<br>
+&gt;&gt; Extra command line for aarch64 xenpv QEMU to connect to swtpm:<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 -chardev socket,id=3Dchrtpm,path=3D/tmp/myvtpm=
+2/swtpm-sock \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 -tpmdev emulator,id=3Dtpm0,chardev=3Dchrtpm \<=
+br>
+&gt;&gt;<br>
+&gt;&gt; swtpm implements a TPM software emulator(TPM 1.2 &amp; TPM 2) buil=
+t on libtpms and<br>
+&gt;&gt; provides access to TPM functionality over socket, chardev and CUSE=
+ interface.<br>
+&gt;&gt; Github repo: <a href=3D"https://github.com/stefanberger/swtpm" rel=
+=3D"noreferrer" target=3D"_blank">https://github.com/stefanberger/swtpm</a>=
+<br>
+&gt;&gt; Example for starting swtpm on host machine:<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 mkdir /tmp/vtpm2<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 swtpm socket --tpmstate dir=3D/tmp/vtpm2 \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 --ctrl type=3Dunixio,path=3D/tmp/vtpm2/swtpm-s=
+ock &amp;<br>
+&gt; <br>
+&gt; &lt;snip&gt;<br>
+&gt;&gt; +static void xen_enable_tpm(void)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +/* qemu_find_tpm_be is only available when CONFIG_TPM is enabled.=
+ */<br>
+&gt;&gt; +#ifdef CONFIG_TPM<br>
+&gt;&gt; +=C2=A0 =C2=A0 Error *errp =3D NULL;<br>
+&gt;&gt; +=C2=A0 =C2=A0 DeviceState *dev;<br>
+&gt;&gt; +=C2=A0 =C2=A0 SysBusDevice *busdev;<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 TPMBackend *be =3D qemu_find_tpm_be(&quot;tpm0&quot=
+;);<br>
+&gt;&gt; +=C2=A0 =C2=A0 if (be =3D=3D NULL) {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 DPRINTF(&quot;Couldn&#39;t fine the b=
+ackend for tpm0\n&quot;);<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt;&gt; +=C2=A0 =C2=A0 }<br>
+&gt;&gt; +=C2=A0 =C2=A0 dev =3D qdev_new(TYPE_TPM_TIS_SYSBUS);<br>
+&gt;&gt; +=C2=A0 =C2=A0 object_property_set_link(OBJECT(dev), &quot;tpmdev&=
+quot;, OBJECT(be), &amp;errp);<br>
+&gt;&gt; +=C2=A0 =C2=A0 object_property_set_str(OBJECT(dev), &quot;tpmdev&q=
+uot;, be-&gt;id, &amp;errp);<br>
+&gt;&gt; +=C2=A0 =C2=A0 busdev =3D SYS_BUS_DEVICE(dev);<br>
+&gt;&gt; +=C2=A0 =C2=A0 sysbus_realize_and_unref(busdev, &amp;error_fatal);=
+<br>
+&gt;&gt; +=C2=A0 =C2=A0 sysbus_mmio_map(busdev, 0, GUEST_TPM_BASE);<br>
+&gt; <br>
+&gt; I&#39;m not sure what has gone wrong here but I&#39;m getting:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 ../../hw/arm/xen_arm.c: In function =E2=80=98xen_enable_t=
+pm=E2=80=99:<br>
+&gt;=C2=A0 =C2=A0 ../../hw/arm/xen_arm.c:120:32: error: =E2=80=98GUEST_TPM_=
+BASE=E2=80=99 undeclared (first use in this function); did you mean =E2=80=
+=98GUEST_RAM_BASE=E2=80=99?<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 120 |=C2=A0 =C2=A0 =C2=A0sysbus_mmio_map(busdev, 0=
+, GUEST_TPM_BASE);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ^~~~~~~~~~~~~~<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 GUEST_RAM_BASE<br>
+&gt;=C2=A0 =C2=A0 ../../hw/arm/xen_arm.c:120:32: note: each undeclared iden=
+tifier is reported only once for each function it appears in<br>
+&gt; <br>
+&gt; In my cross build:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 # Configured with: &#39;../../configure&#39; &#39;--disab=
+le-docs&#39; &#39;--target-list=3Daarch64-softmmu&#39; &#39;--disable-kvm&#=
+39; &#39;--enable-xen&#39; &#39;--disable-opengl&#39; &#39;--disable-libude=
+v&#39; &#39;--enable-tpm&#39; &#39;--disable-xen-pci-passthrough&#39; &#39;=
+--cross-prefix=3Daarch64-linux-gnu-&#39; &#39;--skip-meson&#39;<br>
+&gt; <br>
+&gt; which makes me wonder if this is a configure failure or a confusion<br=
+>
+&gt; about being able to have host swtpm implementations during emulation b=
+ut<br>
+&gt; needing target tpm for Xen?<br>
+<br>
+I was also wondering where is that value come from. Note that the <br>
+memory/IRQ layout exposed to the guest is not stable.<br>
+<br>
+Are we expecting the user to rebuild QEMU for every Xen versions (or <br>
+possibly every guest if we ever allow dynamic layout in Xen)?<br></blockquo=
+te><div><br></div><div><br></div><div>This doesn&#39;t sound ideal.=C2=A0</=
+div><div><br></div><div>I am wondering what would be the correct way here a=
+ssuming that we would likely need to have more such information in place fo=
+r supporting more use-cases...</div><div>For instance, the PCI host bridge =
+emulation in Qemu. Xen toolstack (another software layer) generates device-=
+tree for the guest, so creates PCI Host bridge node by using reserved regio=
+ns from=C2=A0Guest OS interface (arch-arm.h):</div><div>- GUEST_VPCI_MEM_AD=
+DR (GUEST_VPCI_MEM_SIZE)<br></div><div>- GUEST_VPCI_ECAM_BASE (GUEST_VPCI_E=
+CAM_SIZE)<br></div><div>- GUEST_VPCI_PREFETCH_MEM_ADDR (GUEST_VPCI_PREFETCH=
+_MEM_SIZE)<br></div><div><a href=3D"https://xenbits.xen.org/gitweb/?p=3Dxen=
+.git;a=3Dblob;f=3Dtools/libs/light/libxl_arm.c;h=3D2a5e93c28403738779863ade=
+d31d2df3ba72f8c0;hb=3DHEAD#l833" target=3D"_blank">https://xenbits.xen.org/=
+gitweb/?p=3Dxen.git;a=3Dblob;f=3Dtools/libs/light/libxl_arm.c;h=3D2a5e93c28=
+403738779863aded31d2df3ba72f8c0;hb=3DHEAD#l833</a><br></div><div><br></div>=
+<div>Here in Qemu when creating a PCI Host bridge we would need to use exac=
+tly the same reserved regions=C2=A0which toolstack writes in the correspond=
+ing device-tree node. So how to tell Qemu about them?=C2=A0</div><div>1. In=
+troduce new cmd line arguments?</div><div>2. Using Xenstore?</div><div>3. A=
+nything else?</div><div><br></div><div>I am afraid this would be related to=
+ every device that we want to emulate in Qemu and for which the toolstack n=
+eeds to=C2=A0generate device-tree node=C2=A0by using something defined with=
+ GUEST_*, unless I really missed something.</div><div><br></div><div>=C2=A0=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+-- <br>
+Julien Grall<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><span style=
+=3D"background-color:rgb(255,255,255)"><font size=3D"2"><span style=3D"colo=
+r:rgb(51,51,51);font-family:Arial,sans-serif">Regards,</span></font></span>=
+</div><div dir=3D"ltr"><br></div><div dir=3D"ltr"><div><span style=3D"backg=
+round-color:rgb(255,255,255)"><font size=3D"2">Oleksandr Tyshchenko</font><=
+/span></div></div></div></div></div></div></div></div>
+
+--00000000000062afd005ec1cf34a--
 
