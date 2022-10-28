@@ -2,52 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EE8611047
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 13:59:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2C2611136
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 14:24:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooO1E-0001s1-QN; Fri, 28 Oct 2022 07:59:24 -0400
+	id 1ooONl-00053Y-PK; Fri, 28 Oct 2022 08:22:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ooO1D-0001p5-3U; Fri, 28 Oct 2022 07:59:23 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooONj-00050D-6z
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:22:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ooO1A-0006ft-RQ; Fri, 28 Oct 2022 07:59:22 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 4F6D775A15D;
- Fri, 28 Oct 2022 13:59:18 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0196875A135; Fri, 28 Oct 2022 13:59:18 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id F3BEC75A15C;
- Fri, 28 Oct 2022 13:59:17 +0200 (CEST)
-Date: Fri, 28 Oct 2022 13:59:17 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v3 05/13] mac_{old|new}world: Simplify cmdline_base
- calculation
-In-Reply-To: <16bb7a56-ed91-a829-ab5b-94b4be564e71@ilande.co.uk>
-Message-ID: <b1c8bf62-cebe-5350-222b-11f25c0abfa@eik.bme.hu>
-References: <cover.1664827008.git.balaton@eik.bme.hu>
- <2514e45b2ac438e40180cdf51e156a9dcf6a4df4.1664827008.git.balaton@eik.bme.hu>
- <1a8cace1-1401-1420-d933-0ab7c7d78bfd@ilande.co.uk>
- <2c3014a6-ad5-c595-6222-d82ae42ecf@eik.bme.hu>
- <a5fdd3f0-9f2d-4281-d73e-7cef108962a4@eik.bme.hu>
- <16bb7a56-ed91-a829-ab5b-94b4be564e71@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooNl3-0004JO-UH
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 07:42:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666957360;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=riI/BTgiASE0+JyV1vrwokPegJYeiS0ILTBEJO+1DUk=;
+ b=Rgb+X66yPSW1ASd3IREsqAzTziyG/Mcj9uDKO0aS8vOnxbRlwl/6Ow2pWKqRxW1HQ7lpQn
+ 3yH8CneesJCg5kJamZmApt/O6rAqhfz8n3NTYLYd/AqjD4XViQXCKWNMTwGITckrAZJegp
+ NLRARp4YijUCb7OuwXjG+BOIEZmjDZQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-564-VaAkY5CcNmubDMPPjHMu_g-1; Fri, 28 Oct 2022 07:42:37 -0400
+X-MC-Unique: VaAkY5CcNmubDMPPjHMu_g-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ v125-20020a1cac83000000b003bd44dc5242so4333055wme.7
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 04:42:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=riI/BTgiASE0+JyV1vrwokPegJYeiS0ILTBEJO+1DUk=;
+ b=QKpE/NKxgzvzhswv8GiNI6swqtjri3AsHiiSR6iVxkvLn/E1FWtXKV+11I4/pwh7wo
+ e6I99ZJcFAv8pT3/pcilPQoH1YvOOpJ7pvqgniiBiOeCNIXITGBM9I7NL2GTEuDAnhPF
+ TYdeeOerWRIrJ9qh5stFxjTNMh+NQymtfHhmAzjrVla1eIDizLuSiZGw5YvB+YwcTIAq
+ LAfV45r1TWQ3iE9UHEhDfTIr0Pkpuc0LQnylpUjKmMTE8tgu8sapWwt0eFTW76hVyWK6
+ SSc4ihH7pyXqCLK0bVmpj4fl/KT+FJGlTKmIZGzigfzzRnIrj/dGlZURLHKRVYUQY9z5
+ ZbnQ==
+X-Gm-Message-State: ACrzQf2aLpUdlJvrlPu9DnzRjLJZlDRSkAxoSMsXOMT6tVVtwCIDDBK7
+ Az9ruVkBHAXBlOpnb3qbpFK1sqQekREWJqroy3ebQDaDeWBRRuHUNjV5aSIaxNRr6bFp36Gv0XQ
+ eA/1/WinGUqksdXM=
+X-Received: by 2002:a05:6000:1861:b0:236:5ece:29b3 with SMTP id
+ d1-20020a056000186100b002365ece29b3mr21970160wri.274.1666957356534; 
+ Fri, 28 Oct 2022 04:42:36 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM41tj2P53dPpwzuDvxgf/M717xB6ZFKETol416n+hl4NQp7rtRf5TnWwLDMcvFTZpAgUNfnWw==
+X-Received: by 2002:a05:6000:1861:b0:236:5ece:29b3 with SMTP id
+ d1-20020a056000186100b002365ece29b3mr21970150wri.274.1666957356320; 
+ Fri, 28 Oct 2022 04:42:36 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-14.web.vodafone.de.
+ [109.43.177.14]) by smtp.gmail.com with ESMTPSA id
+ u3-20020adfdd43000000b002364c77bc96sm3498602wrm.33.2022.10.28.04.42.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Oct 2022 04:42:35 -0700 (PDT)
+Message-ID: <53df074a-c938-cbe5-caca-a0c6a7cbd3e7@redhat.com>
+Date: Fri, 28 Oct 2022 13:42:34 +0200
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1420606215-1666958357=:83784"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] 9pfs: fix missing sys/mount.h include
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Warner Losh <imp@bsdimp.com>, Bin Meng <bin.meng@windriver.com>
+References: <E1ooNWu-0002oC-76@lizzy.crudebyte.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <E1ooNWu-0002oC-76@lizzy.crudebyte.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,143 +100,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 28/10/2022 13.21, Christian Schoenebeck wrote:
+> Fixes the following build error:
+> 
+>    fsdev/file-op-9p.h:156:56: error: declaration of 'struct statfs' will
+>    not be visible outside of this function [-Werror,-Wvisibility]
+>      int (*statfs)(FsContext *s, V9fsPath *path, struct statfs *stbuf);
+>                                                         ^
+> 
+> As Windows neither has statfs, nor sys/mount.h, don't include it there.
+> 
+> Fixes: 684f91203439 ("tests/9p: split virtio-9p-test.c ...")
+> Link: https://lore.kernel.org/all/2690108.PsDodiG1Zx@silver/
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>   fsdev/file-op-9p.h | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
+> index 4997677460..700f1857b4 100644
+> --- a/fsdev/file-op-9p.h
+> +++ b/fsdev/file-op-9p.h
+> @@ -24,6 +24,8 @@
+>   #endif
+>   #ifdef CONFIG_DARWIN
+>   # include <sys/param.h>
+> +#endif
+> +#ifndef CONFIG_WIN32
+>   # include <sys/mount.h>
+>   #endif
 
---3866299591-1420606215-1666958357=:83784
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Do you feel confident that this will also work on other exotic systems? 
+(e.g. does it work with "make vm-build-haiku.x86_64" ?)
+Otherwise it might be better to add a meson.build test for this header instead.
 
-On Fri, 28 Oct 2022, Mark Cave-Ayland wrote:
-> On 14/10/2022 16:25, BALATON Zoltan wrote:
->> On Fri, 14 Oct 2022, BALATON Zoltan wrote:
->>> On Fri, 14 Oct 2022, Mark Cave-Ayland wrote:
->>>> On 03/10/2022 21:13, BALATON Zoltan wrote:
->>>> 
->>>>> By slight reorganisation we can avoid an else branch and some code
->>>>> duplication which makes it easier to follow the code.
->>>>> 
->>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>>> ---
->>>>>   hw/ppc/mac_newworld.c | 6 +++---
->>>>>   hw/ppc/mac_oldworld.c | 7 +++----
->>>>>   2 files changed, 6 insertions(+), 7 deletions(-)
->>>>> 
->>>>> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
->>>>> index 6bc3bd19be..73b01e8c6d 100644
->>>>> --- a/hw/ppc/mac_newworld.c
->>>>> +++ b/hw/ppc/mac_newworld.c
->>>>> @@ -194,9 +194,11 @@ static void ppc_core99_init(MachineState *machine)
->>>>>                            machine->kernel_filename);
->>>>>               exit(1);
->>>>>           }
->>>>> +        cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
->>>>> +                                         KERNEL_GAP);
->>>>>           /* load initrd */
->>>>>           if (machine->initrd_filename) {
->>>>> -            initrd_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + 
->>>>> KERNEL_GAP);
->>>>> +            initrd_base = cmdline_base;
->>>>>               initrd_size = 
->>>>> load_image_targphys(machine->initrd_filename,
->>>>>                                                 initrd_base,
->>>>>                                                 machine->ram_size - 
->>>>> initrd_base);
->>>>> @@ -206,8 +208,6 @@ static void ppc_core99_init(MachineState *machine)
->>>>>                   exit(1);
->>>>>               }
->>>>>               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + 
->>>>> initrd_size);
->>>>> -        } else {
->>>>> -            cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size 
->>>>> + KERNEL_GAP);
->>>>>           }
->>>>>           ppc_boot_device = 'm';
->>>>>       } else {
->>>>> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
->>>>> index cb67e44081..b424729a39 100644
->>>>> --- a/hw/ppc/mac_oldworld.c
->>>>> +++ b/hw/ppc/mac_oldworld.c
->>>>> @@ -168,10 +168,11 @@ static void ppc_heathrow_init(MachineState 
->>>>> *machine)
->>>>>                            machine->kernel_filename);
->>>>>               exit(1);
->>>>>           }
->>>>> +        cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
->>>>> +                                         KERNEL_GAP);
->>>>>           /* load initrd */
->>>>>           if (machine->initrd_filename) {
->>>>> -            initrd_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
->>>>> -                                            KERNEL_GAP);
->>>>> +            initrd_base = cmdline_base;
->>>>>               initrd_size = 
->>>>> load_image_targphys(machine->initrd_filename,
->>>>>                                                 initrd_base,
->>>>>                                                 machine->ram_size - 
->>>>> initrd_base);
->>>>> @@ -181,8 +182,6 @@ static void ppc_heathrow_init(MachineState *machine)
->>>>>                   exit(1);
->>>>>               }
->>>>>               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + 
->>>>> initrd_size);
->>>>> -        } else {
->>>>> -            cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size 
->>>>> + KERNEL_GAP);
->>>>>           }
->>>>>           ppc_boot_device = 'm';
->>>>>       } else {
->>>> 
->>>> Is there any particular reason why you would want to avoid the else 
->>>> branch? I
->>> 
->>> It avoids code duplication and to me it's easier to follow than an else 
->>> branch. With this patch cmdline_base calculation is clearly tied to 
->>> kernel_base and kernel_size if only kernel is used and initrd_base 
->>> initrd_size when initrd is used. With the else branch it's less obvious 
->>> because it's set much later in the else branch while initrd_base 
->>> duplicates it above. So avoiding this duplication makes the code easier to 
->>> read and less prone to errors if the calculation is ever modified.
->>> 
->>>> don't feel this patch is an improvement since by always setting 
->>>> cmdline_base to a non-zero value, as a reviewer I then have to check all 
->>>> other uses of cmdline_base in the file to ensure that this doesn't cause 
->>>> any issues.
->>> 
->>> There aren't that many uses that it's difficult to check and this only 
->>> need to be done once.
->>> 
->>>> I much prefer the existing version since setting the values of 
->>>> cmdline_base and initrd_base is very clearly scoped within the if 
->>>> statement.
->>> 
->>> What can I say, it's hard to argue with preferences but avoiding code 
->>> duplication is worth the effort reviewing this patch in my opinion.
->> 
->> Also compare the before and after this series:
->> 
->> https://github.com/patchew-project/qemu/blob/master/hw/ppc/mac_newworld.c
->> https://github.com/patchew-project/qemu/blob/9c1cd2828b3d3bd3a7068134a57ae9bb07f5a681/hw/ppc/mac_newworld.c 
->> 
->> I think the result is much easier to follow without else brances as you can 
->> read it from top to bottom instead of jumping around in else branches that 
->> is less clear and also more lines. Also setting default value avoids any 
->> used uninitialised cases which you would need to check if you set vars in 
->> if-else instead so unlike what you say this does not introduce such cases 
->> but closes the possibility instead. So please take the time to review it in 
->> exchange of the time I've put it in writing it.
->
-> I've revisited this looking at the links provided above, and after 
-> consideration my opinion is that that having the more localised scoping of 
-> the variables is more worthwhile (i.e. the compiler can better catch errors) 
-> rather than eliminating the duplication for a couple of lines. Please drop 
-> this patch before posting the next version of the series.
+  Thomas
 
-I think duplicating the same calculation for both initrd_base and 
-cmdline_base in the else branch is error prone so removing that is better 
-but I've sent a v6 with this patch removed so you can chose which one to 
-apply before the freeze.
-
-Regards,
-BALATON Zoltan
---3866299591-1420606215-1666958357=:83784--
 
