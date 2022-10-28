@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94DA61133F
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:43:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 651CE611341
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:43:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooPau-0008PP-Ng; Fri, 28 Oct 2022 09:40:20 -0400
+	id 1ooPbP-0008Qe-Aa; Fri, 28 Oct 2022 09:41:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ooPan-0008Lm-35
+ id 1ooPan-0008MM-Dm
  for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:40:13 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ooPaj-0007rP-SN
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:40:12 -0400
-Received: by mail-wr1-x433.google.com with SMTP id bs21so6650981wrb.4
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 06:40:08 -0700 (PDT)
+ id 1ooPak-0007qI-3l
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:40:13 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id j15so6662979wrq.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 06:40:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=/thusHPuC/cHTeKn9J5h/MSrlwz9RjeKgKHlXo/nxr4=;
- b=v2iEATvYbuwbbm/KcbdVHAVH0oh/2S0s/TL3Hx36jqmf0ukXyftkBkjhk8l0hU8y6o
- 0O/LqtQUpaWJIe8YVOEJygyhPURnFl562Kb+RrqT8zi/POS3e0q8G6RBndhc4Uy17Uoq
- lJJaIeIUgDViratBVznavGtakucgCluxluvc71zS4IYOeL5bWBnHQMANdPFvYPPjZpHQ
- BN/iF5Jz4C6Qgjv+nsV0G5aoOM9puNNcQ+348cNzdOq6KiwN7zb6GSVVSqjbvxn/T9Gm
- 74E6MJRXJI6GjoYls0u0XVTqg8NQxiIAIgtXTyOybLE4eLNGXAM4s8P9iqi5KJKjCakE
- ZIVg==
+ :reply-to; bh=iaQaLNeH+r8nV7a6wPuseUPpAMj5ZezeNV5IHkVdQkc=;
+ b=YrX08ZrtVNnQt1RdleZVdL8RulXRGnSuLF6sHz2SrmaFNFevobRGn/ausl5KUA17jg
+ +qbWSJ1EE8Ezc3EwA6Mu/dGxUxCQwRNu64DjQ5BsUhGzG2mITCOYdSYJ0r0vQGwg8nV1
+ M1GxJ/dGQUCU9fr7exqS9IDGHoArgDiexuuH0+NwYf34NBw22mNAgdiBaSF7uYUB9d+f
+ qlWWnVlfQ+VtfFRJOFMVFdQTM6EuMCaRwk1Rd7kmCSuuQk9dvXbwd39uMIWjbjjqT8LI
+ S5POHnekyYLos+Zci9dgv3KI11Y5Y/LJqLcjM3Agzx8VnCbyQ1na0owsG/yPoTuEzPmS
+ DlUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/thusHPuC/cHTeKn9J5h/MSrlwz9RjeKgKHlXo/nxr4=;
- b=u1NXkgu2RPotoghAO+GBZUDbvQXzoiQRs8REGJdzwT7WceU+BbZ7KXa1lmXnpXyZvt
- K8U1lgTmIDf98TZFoCXVQ8VHK8bkN1SaZvaXOtspG+yFd1fnpHtqiHsDZE8DH6tf3vp5
- Wt3VHtUZIVnZUeHyGDGxTYg6ZcMfxGcaFvd08fnGNybY6i21oNT8BrQwVRakhKfMWblN
- KXj4YvFhUty2eHQ4GisYTuGfkCYi5u+nxSQ1WNCLxKmDZKn4aRKT05Y1NLGJAV9EnYEK
- tO/s/RvwBSyaQVacZ97LVcuHaoF0jPtZoTXpK7woo8QElOJ4nxpF8MD5JeDtRu2Ok72L
- TbnQ==
-X-Gm-Message-State: ACrzQf2go1L9b6ArI3qva+gf86NZ7JJmTj1GZeKwgK3f8KA8rv7WaWLU
- DPHpNKSMbkuMGHyhUdVPBuQ04Q==
-X-Google-Smtp-Source: AMsMyM4hwevLNf2qskUDzQkbCElhs//55sxNUC0gMOPGWI0qRWA26If/1J27jAWa0xK5nLtNrYo8ng==
-X-Received: by 2002:a5d:6d4e:0:b0:22c:9dfd:4159 with SMTP id
- k14-20020a5d6d4e000000b0022c9dfd4159mr34196471wri.307.1666964407780; 
- Fri, 28 Oct 2022 06:40:07 -0700 (PDT)
+ bh=iaQaLNeH+r8nV7a6wPuseUPpAMj5ZezeNV5IHkVdQkc=;
+ b=sEiK/SwdtnZjQbEcqKxNTcjNW+jC3YwIQHUaH9Hgn/R7b3WdNHq73ddMRTzFIo2/T3
+ BoNoovArLvhxNyoZdeiwwx8wipCJpkVz92JLdVL8ViCl7cbOVSN6Cn2yggfNq6AmRNHZ
+ 65nekw7jikfUTEN3SGjHB6jZt8N4VnfwCGvT+RzvxYBXclG4wE24nzi/yomWEphMbvW4
+ +b3igKlWrkyrv9n7bG0p0dw7WRwuGUIgxlr4KP6uWof2CloDq4x8AEPEhjErB+bVceFL
+ ChIrWKAq4xmFTnuwJerPJYj5t/vYWKHcXHiE3g53tOs2xOamaun9qn/VaHgvfe3kqcCW
+ pZSQ==
+X-Gm-Message-State: ACrzQf0pUVs+wdr10r8ATGIecpxwETJrkjGLmcFk1GFoq3Tgv92rCRro
+ S/9M9YqUyw+gmtldd8oyZ64WdQ==
+X-Google-Smtp-Source: AMsMyM5On4xeJ/U+KOJNRpoVucNi5ktWzeEeQWKRsW5PIsdVWSs4vRzmlddzHDAFYx1hcdKeh9V0qA==
+X-Received: by 2002:a05:6000:184d:b0:22f:4ef4:47a7 with SMTP id
+ c13-20020a056000184d00b0022f4ef447a7mr35251377wri.563.1666964409382; 
+ Fri, 28 Oct 2022 06:40:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- l16-20020a5d4110000000b002365cd93d05sm3572858wrp.102.2022.10.28.06.40.06
+ l16-20020a5d4110000000b002365cd93d05sm3572858wrp.102.2022.10.28.06.40.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 06:40:07 -0700 (PDT)
+ Fri, 28 Oct 2022 06:40:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 2/7] target/arm: Allow relevant HCR bits to be written for
- FEAT_EVT
-Date: Fri, 28 Oct 2022 14:39:57 +0100
-Message-Id: <20221028134002.730598-3-peter.maydell@linaro.org>
+Subject: [PATCH 3/7] target/arm: Implement HCR_EL2.TTLBIS traps
+Date: Fri, 28 Oct 2022 14:39:58 +0100
+Message-Id: <20221028134002.730598-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221028134002.730598-1-peter.maydell@linaro.org>
 References: <20221028134002.730598-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,98 +88,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-FEAT_EVT adds five new bits to the HCR_EL2 register: TTLBIS, TTLBOS,
-TICAB, TOCU and TID4.  These allow the guest to enable trapping of
-various EL1 instructions to EL2.  In this commit, add the necessary
-code to allow the guest to set these bits if the feature is present;
-because the bit is always zero when the feature isn't present we
-won't need to use explicit feature checks in the "trap on condition"
-tests in the following commits.
+For FEAT_EVT, the HCR_EL2.TTLBIS bit allows trapping on EL1 use of
+TLB maintenance instructions that operate on the inner shareable
+domain:
 
-Note that although full implementation of the feature (mandatory from
-Armv8.5 onward) requires all five trap bits, the ID registers permit
-a value indicating that only TICAB, TOCU and TID4 are implemented,
-which might be the case for CPUs between Armv8.2 and Armv8.5.
+AArch64:
+ TLBI VMALLE1IS, TLBI VAE1IS, TLBI ASIDE1IS, TLBI VAAE1IS,
+ TLBI VALE1IS, TLBI VAALE1IS, TLBI RVAE1IS, TLBI RVAAE1IS,
+ TLBI RVALE1IS, and TLBI RVAALE1IS.
+
+AArch32:
+ TLBIALLIS, TLBIMVAIS, TLBIASIDIS, TLBIMVAAIS, TLBIMVALIS,
+ and TLBIMVAALIS.
+
+Add the trapping support.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h    | 30 ++++++++++++++++++++++++++++++
- target/arm/helper.c |  7 +++++++
- 2 files changed, 37 insertions(+)
+ target/arm/helper.c | 43 +++++++++++++++++++++++++++----------------
+ 1 file changed, 27 insertions(+), 16 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index db9ec6a0389..ae8397481d8 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3757,6 +3757,16 @@ static inline bool isar_feature_aa32_tts2uxn(const ARMISARegisters *id)
-     return FIELD_EX32(id->id_mmfr4, ID_MMFR4, XNX) != 0;
- }
- 
-+static inline bool isar_feature_aa32_half_evt(const ARMISARegisters *id)
-+{
-+    return FIELD_EX32(id->id_mmfr4, ID_MMFR4, EVT) >= 1;
-+}
-+
-+static inline bool isar_feature_aa32_evt(const ARMISARegisters *id)
-+{
-+    return FIELD_EX32(id->id_mmfr4, ID_MMFR4, EVT) >= 2;
-+}
-+
- static inline bool isar_feature_aa32_dit(const ARMISARegisters *id)
- {
-     return FIELD_EX32(id->id_pfr0, ID_PFR0, DIT) != 0;
-@@ -4029,6 +4039,16 @@ static inline bool isar_feature_aa64_ids(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, IDS) != 0;
- }
- 
-+static inline bool isar_feature_aa64_half_evt(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, EVT) >= 1;
-+}
-+
-+static inline bool isar_feature_aa64_evt(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, EVT) >= 2;
-+}
-+
- static inline bool isar_feature_aa64_bti(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, BT) != 0;
-@@ -4298,6 +4318,16 @@ static inline bool isar_feature_any_ras(const ARMISARegisters *id)
-     return isar_feature_aa64_ras(id) || isar_feature_aa32_ras(id);
- }
- 
-+static inline bool isar_feature_any_half_evt(const ARMISARegisters *id)
-+{
-+    return isar_feature_aa64_half_evt(id) || isar_feature_aa32_half_evt(id);
-+}
-+
-+static inline bool isar_feature_any_evt(const ARMISARegisters *id)
-+{
-+    return isar_feature_aa64_evt(id) || isar_feature_aa32_evt(id);
-+}
-+
- /*
-  * Forward to the above feature tests given an ARMCPU pointer.
-  */
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index dd6fc30faee..8e358d32033 100644
+index 8e358d32033..dcd3af6e7d9 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -5264,6 +5264,13 @@ static void do_hcr_write(CPUARMState *env, uint64_t value, uint64_t valid_mask)
-         }
-     }
+@@ -362,6 +362,17 @@ static CPAccessResult access_ttlb(CPUARMState *env, const ARMCPRegInfo *ri,
+     return CP_ACCESS_OK;
+ }
  
-+    if (cpu_isar_feature(any_half_evt, cpu)) {
-+        valid_mask |= HCR_TICAB | HCR_TOCU | HCR_TID4;
++/* Check for traps from EL1 due to HCR_EL2.TTLB or TTLBIS. */
++static CPAccessResult access_ttlbis(CPUARMState *env, const ARMCPRegInfo *ri,
++                                    bool isread)
++{
++    if (arm_current_el(env) == 1 &&
++        (arm_hcr_el2_eff(env) & (HCR_TTLB | HCR_TTLBIS))) {
++        return CP_ACCESS_TRAP_EL2;
 +    }
-+    if (cpu_isar_feature(any_evt, cpu)) {
-+        valid_mask |= HCR_TTLBIS | HCR_TTLBOS | HCR_TICAB | HCR_TOCU | HCR_TID4;
-+    }
++    return CP_ACCESS_OK;
++}
 +
-     /* Clear RES0 bits.  */
-     value &= valid_mask;
+ static void dacr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+ {
+     ARMCPU *cpu = env_archcpu(env);
+@@ -2206,16 +2217,16 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
+ static const ARMCPRegInfo v7mp_cp_reginfo[] = {
+     /* 32 bit TLB invalidates, Inner Shareable */
+     { .name = "TLBIALLIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 0,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlbis,
+       .writefn = tlbiall_is_write },
+     { .name = "TLBIMVAIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 1,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlbis,
+       .writefn = tlbimva_is_write },
+     { .name = "TLBIASIDIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 2,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlbis,
+       .writefn = tlbiasid_is_write },
+     { .name = "TLBIMVAAIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 3,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlbis,
+       .writefn = tlbimvaa_is_write },
+ };
  
+@@ -4945,27 +4956,27 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
+     /* TLBI operations */
+     { .name = "TLBI_VMALLE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 0,
+-      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlbis, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vmalle1is_write },
+     { .name = "TLBI_VAE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 1,
+-      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlbis, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vae1is_write },
+     { .name = "TLBI_ASIDE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 2,
+-      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlbis, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vmalle1is_write },
+     { .name = "TLBI_VAAE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 3,
+-      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlbis, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vae1is_write },
+     { .name = "TLBI_VALE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 5,
+-      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlbis, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vae1is_write },
+     { .name = "TLBI_VAALE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 7,
+-      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlbis, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vae1is_write },
+     { .name = "TLBI_VMALLE1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 0,
+@@ -5075,10 +5086,10 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
+ #endif
+     /* TLB invalidate last level of translation table walk */
+     { .name = "TLBIMVALIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 5,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlbis,
+       .writefn = tlbimva_is_write },
+     { .name = "TLBIMVAALIS", .cp = 15, .opc1 = 0, .crn = 8, .crm = 3, .opc2 = 7,
+-      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
++      .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlbis,
+       .writefn = tlbimvaa_is_write },
+     { .name = "TLBIMVAL", .cp = 15, .opc1 = 0, .crn = 8, .crm = 7, .opc2 = 5,
+       .type = ARM_CP_NO_RAW, .access = PL1_W, .accessfn = access_ttlb,
+@@ -6724,19 +6735,19 @@ static const ARMCPRegInfo pauth_reginfo[] = {
+ static const ARMCPRegInfo tlbirange_reginfo[] = {
+     { .name = "TLBI_RVAE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 2, .opc2 = 1,
+-      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlbis, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_rvae1is_write },
+     { .name = "TLBI_RVAAE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 2, .opc2 = 3,
+-      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlbis, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_rvae1is_write },
+    { .name = "TLBI_RVALE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 2, .opc2 = 5,
+-      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlbis, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_rvae1is_write },
+     { .name = "TLBI_RVAALE1IS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 2, .opc2 = 7,
+-      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
++      .access = PL1_W, .accessfn = access_ttlbis, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_rvae1is_write },
+     { .name = "TLBI_RVAE1OS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 1,
 -- 
 2.25.1
 
