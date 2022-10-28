@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BEC06117FB
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:48:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFDC36117DE
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:45:35 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooSSE-0004g0-UG; Fri, 28 Oct 2022 12:43:35 -0400
+	id 1ooSSY-0005Nf-8i; Fri, 28 Oct 2022 12:43:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSRV-0006Pj-Cd; Fri, 28 Oct 2022 12:42:49 -0400
-Received: from mail-oa1-x2d.google.com ([2001:4860:4864:20::2d])
+ id 1ooSRa-0007Fu-LM; Fri, 28 Oct 2022 12:42:58 -0400
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSRT-0000Wk-Eh; Fri, 28 Oct 2022 12:42:49 -0400
-Received: by mail-oa1-x2d.google.com with SMTP id
- 586e51a60fabf-13ae8117023so6863571fac.9; 
- Fri, 28 Oct 2022 09:42:46 -0700 (PDT)
+ id 1ooSRY-0000Y1-RE; Fri, 28 Oct 2022 12:42:54 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-13be3ef361dso6847928fac.12; 
+ Fri, 28 Oct 2022 09:42:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XkeXzKRu3IzCRK5CnD2Ad5iL9BjLmwVEpCH96Ljrr6w=;
- b=YQtOmZMLxR2iucBJjGcRqJg6HLC/ownXnscx2amaqgdVFeAWGW2x95tVGa99BxjWum
- 9XrxdiyGOw3lUoIS6H6xU5XekZ/2TcoQuSVCnETqY9PtFOmT8Yokg/EUpNvOQukK13LT
- FTydtLnGZx1S4aK7JduDFPa49q2hvUT4W6jHdrEyy3WlMYIgJjomdWgm+zD6O4HPgEd3
- pqtFmHN+f3hB5VpI2wT6wkp0U262/eVu5ooG539vD5m9FVk4jf9QPiOM//OS9gllDr3/
- nSAWekkUIGiNtNbVY4XZIbH7dcNDDAjIhpjJCU8GOQSun5Z6BkNvBzXH30T3/VghLTO1
- K4PQ==
+ bh=IE8ZDRUsEfLJ4Pv3eq+18gk7CiqMpzJtub7thmc+0lM=;
+ b=OwOHbq6Q5JEplcwDUzae8AbFawPRKqW0eGtFxrYzVxoNZSemGIbP9NxRYh+LV+BFhx
+ E+OzpM9iF9j9fWSFoHoW6z5QQ8M48IfYDOxTC37FcHDGZoDGIZprJIqULrxRtaYAuOdb
+ PR49cc9xpOfCW0xXBPTf5c01aaAEOUbMvZ2DVFVp7NzEeti9DPT7KyDBak7u051Z//qz
+ lmmLDrPQr3HqCpjVlo63TN6RIOzuIsZr3JOOJUGo7gneVX7ML821r6CFV382zG0Aq72E
+ 9bPqwpfFZl3jgZ+cQY2t5chu5EHEryZdJzocnZyHRUi5POvsUdBHGL/Y9ceTgCKOTtg8
+ NHMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XkeXzKRu3IzCRK5CnD2Ad5iL9BjLmwVEpCH96Ljrr6w=;
- b=8RcTBlat5dFmb/U0V26ECYRjTz1wpC1Z5al4QtqDrtbPs5BaWZN0qyQK5wt++bJBsg
- +ILZTnuLCyJqQyYro+yhmm8sJeLPn9KrKE6H4SnyOVS/pz2TJBye/uQIHBnnzLU7umBu
- ChfKrwUpiOrMEB8f9zYN3aRn/kcv2EC9SnOCPbyuwJK5EZbQuN/yJ79cfCrbl+RyLFVz
- h/ogFkAy22xjPcVY/HQArnrRa2R68lTNzjH3o2SW9lI1A7R7vGaJYW2FDFDokn64r2Mu
- 9X2NkTTHzPyJuRHtqWA+1eMtRUGkRWpDm6K3lQ7k3VyXVYhdk8DR0r+NUZepxdgsVPxB
- 87VQ==
-X-Gm-Message-State: ACrzQf0dKTML59zoDFRIORXsqn75GIkZIDMJPC65D4B34DUghBaKaYOT
- RwTUbPUfIsYK9FghB8TSfS6gSUaaa1lfJQ==
-X-Google-Smtp-Source: AMsMyM59HoZHmKxx2tyPn9VTqxb5tTYSJafrlRiCmWzV7cC8ht9kvk888obIDWETBFbOyIt8Bk5UfQ==
-X-Received: by 2002:a05:6870:f622:b0:130:8d6:cbdb with SMTP id
- ek34-20020a056870f62200b0013008d6cbdbmr9419222oab.265.1666975365706; 
- Fri, 28 Oct 2022 09:42:45 -0700 (PDT)
+ bh=IE8ZDRUsEfLJ4Pv3eq+18gk7CiqMpzJtub7thmc+0lM=;
+ b=E3xpRtHaclAalwYYlpPJx8BYYajLA/ZkLddtIHFMIQ6elKIgn+TlrVRnhficEPtg1f
+ SzRlm251Pi63p0XTky2ivl8O9YM+H+i/tKPa/7Y1eXCFApxwpqpVtz1DTiqXBSz+lXYh
+ 9ty21fOlCV1PSnN/MuQepoiGfnFo8D5E2ilzxIH7l+TPbU2ROc3JPs9IeFdU85w/KG4G
+ AfLfBuZh14ORw2gN7h0MmBUcTy6Yzy3fmdYsWBE/6w1qGV/We2gIMV1GEsjuMkGpjyJe
+ j2Qtq9wulUgSk0Bo9Q+pD5ZljahbNb4lcnZYT5+2IwukopgEmvMbLW+Erjn2jewfWrRu
+ /bIQ==
+X-Gm-Message-State: ACrzQf0MVJlmkB1fEKmEwxxJkGFX0g1Ay35dqNs12sAsXl6wilU8H5yC
+ 4OkL+jY1psniHUN/x7MdEgBB07Z5uwC1QA==
+X-Google-Smtp-Source: AMsMyM6dAsx/8+CYLAZXt+yS0qqqXXa2a8fTumKJQnvpubKY3lIKz09gRrYYDEJnmbMbIhgWvnD23g==
+X-Received: by 2002:a05:6870:612c:b0:132:a4d3:e0d8 with SMTP id
+ s44-20020a056870612c00b00132a4d3e0d8mr17049oae.95.1666975369785; 
+ Fri, 28 Oct 2022 09:42:49 -0700 (PDT)
 Received: from balboa.COMFAST ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.42.41
+ s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.42.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:42:44 -0700 (PDT)
+ Fri, 28 Oct 2022 09:42:48 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  Matheus Ferst <matheus.ferst@eldorado.org.br>,
  Fabiano Rosas <farosas@linux.ibm.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 38/62] target/ppc: remove unused interrupts from
- p7_next_unmasked_interrupt
-Date: Fri, 28 Oct 2022 13:39:27 -0300
-Message-Id: <20221028163951.810456-39-danielhb413@gmail.com>
+Subject: [PULL 39/62] target/ppc: create an interrupt deliver method for POWER7
+Date: Fri, 28 Oct 2022 13:39:28 -0300
+Message-Id: <20221028163951.810456-40-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
 References: <20221028163951.810456-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2d;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2d.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -95,127 +94,142 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Remove the following unused interrupts from the POWER7 interrupt masking
-method:
-- PPC_INTERRUPT_RESET: only raised for 6xx, 7xx, 970 and POWER5p;
-- Hypervisor Virtualization: introduced in Power ISA v3.0;
-- Hypervisor Doorbell and Event-Based Branch: introduced in
-  Power ISA v2.07;
-- Critical Input, Watchdog Timer, and Fixed Interval Timer: only defined
-  for embedded CPUs;
-- Doorbell and Critical Doorbell Interrupt: processor does not implement
-  the Embedded.Processor Control category;
-- Programmable Interval Timer: 40x-only;
-- PPC_INTERRUPT_THERM: only raised for 970 and POWER5p;
+The new method is identical to ppc_deliver_interrupt, processor-specific
+code will be added/removed in the following patches.
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20221011204829.1641124-21-matheus.ferst@eldorado.org.br>
+Message-Id: <20221011204829.1641124-22-matheus.ferst@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/excp_helper.c | 63 +++++-----------------------------------
- 1 file changed, 8 insertions(+), 55 deletions(-)
+ target/ppc/excp_helper.c | 107 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 107 insertions(+)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index d99b76ce22..08db3a4658 100644
+index 08db3a4658..5bb05016fd 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -1685,14 +1685,18 @@ void ppc_cpu_do_interrupt(CPUState *cs)
+@@ -2045,6 +2045,110 @@ static int ppc_next_unmasked_interrupt(CPUPPCState *env)
  }
  
  #if defined(TARGET_PPC64)
-+#define P7_UNUSED_INTERRUPTS \
-+    (PPC_INTERRUPT_RESET | PPC_INTERRUPT_HVIRT | PPC_INTERRUPT_CEXT |       \
-+     PPC_INTERRUPT_WDT | PPC_INTERRUPT_CDOORBELL | PPC_INTERRUPT_FIT |      \
-+     PPC_INTERRUPT_PIT | PPC_INTERRUPT_DOORBELL | PPC_INTERRUPT_HDOORBELL | \
-+     PPC_INTERRUPT_THERM | PPC_INTERRUPT_EBB)
++static void p7_deliver_interrupt(CPUPPCState *env, int interrupt)
++{
++    PowerPCCPU *cpu = env_archcpu(env);
++    CPUState *cs = env_cpu(env);
 +
- static int p7_next_unmasked_interrupt(CPUPPCState *env)
++    switch (interrupt) {
++    case PPC_INTERRUPT_RESET: /* External reset */
++        env->pending_interrupts &= ~PPC_INTERRUPT_RESET;
++        powerpc_excp(cpu, POWERPC_EXCP_RESET);
++        break;
++    case PPC_INTERRUPT_MCK: /* Machine check exception */
++        env->pending_interrupts &= ~PPC_INTERRUPT_MCK;
++        powerpc_excp(cpu, POWERPC_EXCP_MCHECK);
++        break;
++
++    case PPC_INTERRUPT_HDECR: /* Hypervisor decrementer exception */
++        /* HDEC clears on delivery */
++        env->pending_interrupts &= ~PPC_INTERRUPT_HDECR;
++        powerpc_excp(cpu, POWERPC_EXCP_HDECR);
++        break;
++    case PPC_INTERRUPT_HVIRT: /* Hypervisor virtualization interrupt */
++        powerpc_excp(cpu, POWERPC_EXCP_HVIRT);
++        break;
++
++    case PPC_INTERRUPT_EXT:
++        if (books_vhyp_promotes_external_to_hvirt(cpu)) {
++            powerpc_excp(cpu, POWERPC_EXCP_HVIRT);
++        } else {
++            powerpc_excp(cpu, POWERPC_EXCP_EXTERNAL);
++        }
++        break;
++    case PPC_INTERRUPT_CEXT: /* External critical interrupt */
++        powerpc_excp(cpu, POWERPC_EXCP_CRITICAL);
++        break;
++
++    case PPC_INTERRUPT_WDT: /* Watchdog timer on embedded PowerPC */
++        env->pending_interrupts &= ~PPC_INTERRUPT_WDT;
++        powerpc_excp(cpu, POWERPC_EXCP_WDT);
++        break;
++    case PPC_INTERRUPT_CDOORBELL:
++        env->pending_interrupts &= ~PPC_INTERRUPT_CDOORBELL;
++        powerpc_excp(cpu, POWERPC_EXCP_DOORCI);
++        break;
++    case PPC_INTERRUPT_FIT: /* Fixed interval timer on embedded PowerPC */
++        env->pending_interrupts &= ~PPC_INTERRUPT_FIT;
++        powerpc_excp(cpu, POWERPC_EXCP_FIT);
++        break;
++    case PPC_INTERRUPT_PIT: /* Programmable interval timer on embedded ppc */
++        env->pending_interrupts &= ~PPC_INTERRUPT_PIT;
++        powerpc_excp(cpu, POWERPC_EXCP_PIT);
++        break;
++    case PPC_INTERRUPT_DECR: /* Decrementer exception */
++        if (ppc_decr_clear_on_delivery(env)) {
++            env->pending_interrupts &= ~PPC_INTERRUPT_DECR;
++        }
++        powerpc_excp(cpu, POWERPC_EXCP_DECR);
++        break;
++    case PPC_INTERRUPT_DOORBELL:
++        env->pending_interrupts &= ~PPC_INTERRUPT_DOORBELL;
++        if (is_book3s_arch2x(env)) {
++            powerpc_excp(cpu, POWERPC_EXCP_SDOOR);
++        } else {
++            powerpc_excp(cpu, POWERPC_EXCP_DOORI);
++        }
++        break;
++    case PPC_INTERRUPT_HDOORBELL:
++        env->pending_interrupts &= ~PPC_INTERRUPT_HDOORBELL;
++        powerpc_excp(cpu, POWERPC_EXCP_SDOOR_HV);
++        break;
++    case PPC_INTERRUPT_PERFM:
++        env->pending_interrupts &= ~PPC_INTERRUPT_PERFM;
++        powerpc_excp(cpu, POWERPC_EXCP_PERFM);
++        break;
++    case PPC_INTERRUPT_THERM:  /* Thermal interrupt */
++        env->pending_interrupts &= ~PPC_INTERRUPT_THERM;
++        powerpc_excp(cpu, POWERPC_EXCP_THERM);
++        break;
++    case PPC_INTERRUPT_EBB: /* EBB exception */
++        env->pending_interrupts &= ~PPC_INTERRUPT_EBB;
++        if (env->spr[SPR_BESCR] & BESCR_PMEO) {
++            powerpc_excp(cpu, POWERPC_EXCP_PERFM_EBB);
++        } else if (env->spr[SPR_BESCR] & BESCR_EEO) {
++            powerpc_excp(cpu, POWERPC_EXCP_EXTERNAL_EBB);
++        }
++        break;
++    case 0:
++        /*
++         * This is a bug ! It means that has_work took us out of halt without
++         * anything to deliver while in a PM state that requires getting
++         * out via a 0x100
++         *
++         * This means we will incorrectly execute past the power management
++         * instruction instead of triggering a reset.
++         *
++         * It generally means a discrepancy between the wakeup conditions in the
++         * processor has_work implementation and the logic in this function.
++         */
++        assert(!env->resume_as_sreset);
++        break;
++    default:
++        cpu_abort(cs, "Invalid PowerPC interrupt %d. Aborting\n", interrupt);
++    }
++}
++
+ static void p8_deliver_interrupt(CPUPPCState *env, int interrupt)
  {
-     bool async_deliver;
- 
--    /* External reset */
--    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
--        return PPC_INTERRUPT_RESET;
--    }
-+    assert((env->pending_interrupts & P7_UNUSED_INTERRUPTS) == 0);
-+
-     /* Machine check exception */
-     if (env->pending_interrupts & PPC_INTERRUPT_MCK) {
-         return PPC_INTERRUPT_MCK;
-@@ -1716,15 +1720,6 @@ static int p7_next_unmasked_interrupt(CPUPPCState *env)
-         }
-     }
- 
--    /* Hypervisor virtualization interrupt */
--    if (env->pending_interrupts & PPC_INTERRUPT_HVIRT) {
--        /* LPCR will be clear when not supported so this will work */
--        bool hvice = !!(env->spr[SPR_LPCR] & LPCR_HVICE);
--        if ((async_deliver || !FIELD_EX64_HV(env->msr)) && hvice) {
--            return PPC_INTERRUPT_HVIRT;
--        }
--    }
--
-     /* External interrupt can ignore MSR:EE under some circumstances */
-     if (env->pending_interrupts & PPC_INTERRUPT_EXT) {
-         bool lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
-@@ -1736,56 +1731,14 @@ static int p7_next_unmasked_interrupt(CPUPPCState *env)
-             return PPC_INTERRUPT_EXT;
-         }
-     }
--    if (FIELD_EX64(env->msr, MSR, CE)) {
--        /* External critical interrupt */
--        if (env->pending_interrupts & PPC_INTERRUPT_CEXT) {
--            return PPC_INTERRUPT_CEXT;
--        }
--    }
-     if (async_deliver != 0) {
--        /* Watchdog timer on embedded PowerPC */
--        if (env->pending_interrupts & PPC_INTERRUPT_WDT) {
--            return PPC_INTERRUPT_WDT;
--        }
--        if (env->pending_interrupts & PPC_INTERRUPT_CDOORBELL) {
--            return PPC_INTERRUPT_CDOORBELL;
--        }
--        /* Fixed interval timer on embedded PowerPC */
--        if (env->pending_interrupts & PPC_INTERRUPT_FIT) {
--            return PPC_INTERRUPT_FIT;
--        }
--        /* Programmable interval timer on embedded PowerPC */
--        if (env->pending_interrupts & PPC_INTERRUPT_PIT) {
--            return PPC_INTERRUPT_PIT;
--        }
-         /* Decrementer exception */
-         if (env->pending_interrupts & PPC_INTERRUPT_DECR) {
-             return PPC_INTERRUPT_DECR;
-         }
--        if (env->pending_interrupts & PPC_INTERRUPT_DOORBELL) {
--            return PPC_INTERRUPT_DOORBELL;
--        }
--        if (env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) {
--            return PPC_INTERRUPT_HDOORBELL;
--        }
-         if (env->pending_interrupts & PPC_INTERRUPT_PERFM) {
-             return PPC_INTERRUPT_PERFM;
-         }
--        /* Thermal interrupt */
--        if (env->pending_interrupts & PPC_INTERRUPT_THERM) {
--            return PPC_INTERRUPT_THERM;
--        }
--        /* EBB exception */
--        if (env->pending_interrupts & PPC_INTERRUPT_EBB) {
--            /*
--             * EBB exception must be taken in problem state and
--             * with BESCR_GE set.
--             */
--            if (FIELD_EX64(env->msr, MSR, PR) &&
--                (env->spr[SPR_BESCR] & BESCR_GE)) {
--                return PPC_INTERRUPT_EBB;
--            }
--        }
-     }
- 
-     return 0;
+     PowerPCCPU *cpu = env_archcpu(env);
+@@ -2304,6 +2408,9 @@ static void ppc_deliver_interrupt(CPUPPCState *env, int interrupt)
+ {
+     switch (env->excp_model) {
+ #if defined(TARGET_PPC64)
++    case POWERPC_EXCP_POWER7:
++        p7_deliver_interrupt(env, interrupt);
++        break;
+     case POWERPC_EXCP_POWER8:
+         p8_deliver_interrupt(env, interrupt);
+         break;
 -- 
 2.37.3
 
