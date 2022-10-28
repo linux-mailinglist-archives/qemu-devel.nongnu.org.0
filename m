@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDCB611050
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D86961104F
 	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 14:00:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooNz6-00029U-Dg; Fri, 28 Oct 2022 07:57:12 -0400
+	id 1ooNz7-0002GR-I7; Fri, 28 Oct 2022 07:57:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ooNye-0001lZ-RY; Fri, 28 Oct 2022 07:56:44 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ id 1ooNye-0001lb-Ve; Fri, 28 Oct 2022 07:56:45 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ooNyb-0006Nl-2N; Fri, 28 Oct 2022 07:56:44 -0400
+ id 1ooNya-0006Nk-WD; Fri, 28 Oct 2022 07:56:44 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2A98775A16A;
- Fri, 28 Oct 2022 13:56:35 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 530C075A135;
+ Fri, 28 Oct 2022 13:56:36 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0917175A135; Fri, 28 Oct 2022 13:56:35 +0200 (CEST)
-Message-Id: <335a115b9ff6ea536590b9edd04278573ebb4ecb.1666957578.git.balaton@eik.bme.hu>
+ id 197E775A16B; Fri, 28 Oct 2022 13:56:36 +0200 (CEST)
+Message-Id: <61dc9f56579662f9b97c6cc9fcdc0007665c064f.1666957578.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1666957578.git.balaton@eik.bme.hu>
 References: <cover.1666957578.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 18/19] mac_newworld: Document deprecation
+Subject: [PATCH v6 19/19] mac_{old, new}world: Pass MacOS VGA NDRV in card ROM
+ instead of fw_cfg
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Fri, 28 Oct 2022 13:56:35 +0200 (CEST)
+Date: Fri, 28 Oct 2022 13:56:36 +0200 (CEST)
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -53,63 +54,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Also update PowerMac family docs with some more recent info.
+OpenBIOS cannot run FCode ROMs yet but it can detect NDRV in VGA card
+ROM and add it to the device tree for MacOS. Pass the NDRV this way
+instead of via fw_cfg. This solves the problem with OpenBIOS also
+adding the NDRV to ati-vga which it does not work with. This does not
+need any changes to OpenBIOS as this NDRV ROM handling is already
+there but this patch also allows simplifying OpenBIOS later to remove
+the fw_cfg ndrv handling from the vga FCode and also drop the
+vga-ndrv? option which is not needed any more as users can disable the
+ndrv with -device VGA,romfile="" (or override it with their own NDRV
+or ROM). Once FCode support is implemented in OpenBIOS, the proper
+FCode ROM can be set the same way so this paves the way to remove some
+hacks.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- docs/about/deprecated.rst    |  7 +++++++
- docs/system/ppc/powermac.rst | 12 ++++++++----
- 2 files changed, 15 insertions(+), 4 deletions(-)
+ hw/ppc/mac_newworld.c | 18 ++++++------------
+ hw/ppc/mac_oldworld.c | 18 ++++++------------
+ 2 files changed, 12 insertions(+), 24 deletions(-)
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 93affe3669..07661af7fe 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -248,6 +248,13 @@ These old machine types are quite neglected nowadays and thus might have
- various pitfalls with regards to live migration. Use a newer machine type
- instead.
+diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+index 4ca9ab3e03..104835b5a8 100644
+--- a/hw/ppc/mac_newworld.c
++++ b/hw/ppc/mac_newworld.c
+@@ -526,18 +526,6 @@ static void ppc_core99_init(MachineState *machine)
+     fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_NVRAM_ADDR, nvram_addr);
  
-+``mac99`` variants other than the default qemu-system-ppc version (since 7.2)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-    /* MacOS NDRV VGA driver */
+-    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
+-    if (filename) {
+-        gchar *ndrv_file;
+-        gsize ndrv_size;
+-
+-        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
+-            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, ndrv_size);
+-        }
+-        g_free(filename);
+-    }
+-
+     qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
+ }
+ 
+@@ -581,6 +569,11 @@ static int core99_kvm_type(MachineState *machine, const char *arg)
+     return 2;
+ }
+ 
++static GlobalProperty props[] = {
++    /* MacOS NDRV VGA driver */
++    { "VGA", "romfile", NDRV_VGA_FILENAME },
++};
 +
-+The ``mac99`` machine emulates different hardware depending on using
-+qemu-system-ppc64 or ``via`` property. To avoid confusion new machine
-+types has been added for these variants which are now preferred over
-+``mac99``.
+ static void core99_machine_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -601,6 +594,7 @@ static void core99_machine_class_init(ObjectClass *oc, void *data)
+ #endif
+     mc->default_ram_id = "ppc_core99.ram";
+     mc->ignore_boot_device_suffixes = true;
++    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
+     fwc->get_dev_path = core99_fw_dev_path;
+ }
  
- Backend options
- ---------------
-diff --git a/docs/system/ppc/powermac.rst b/docs/system/ppc/powermac.rst
-index 04334ba210..d4a47a6881 100644
---- a/docs/system/ppc/powermac.rst
-+++ b/docs/system/ppc/powermac.rst
-@@ -4,8 +4,12 @@ PowerMac family boards (``g3beige``, ``mac99``)
- Use the executable ``qemu-system-ppc`` to simulate a complete PowerMac
- PowerPC system.
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 558c639202..801123c507 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -345,18 +345,6 @@ static void ppc_heathrow_init(MachineState *machine)
+     fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_CLOCKFREQ, CLOCKFREQ);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
  
--- ``g3beige``              Heathrow based PowerMAC
--- ``mac99``                Mac99 based PowerMAC
-+- ``g3beige``           Heathrow based old world Power Macintosh G3
-+- ``mac99``             Core99 based generic PowerMac
-+- ``powermac3_1``       Power Mac G4 AGP (Sawtooth)
-+- ``powerbook3_2``      PowerBook G4 Titanium (Mercury)
-+- ``powermac7_3``       Power Mac G5 (Niagara) (only in ``qemu-system-ppc64``)
+-    /* MacOS NDRV VGA driver */
+-    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
+-    if (filename) {
+-        gchar *ndrv_file;
+-        gsize ndrv_size;
+-
+-        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
+-            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, ndrv_size);
+-        }
+-        g_free(filename);
+-    }
+-
+     qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
+ }
+ 
+@@ -401,6 +389,11 @@ static int heathrow_kvm_type(MachineState *machine, const char *arg)
+     return 2;
+ }
+ 
++static GlobalProperty props[] = {
++    /* MacOS NDRV VGA driver */
++    { "VGA", "romfile", NDRV_VGA_FILENAME },
++};
 +
+ static void heathrow_class_init(ObjectClass *oc, void *data)
+ {
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -421,6 +414,7 @@ static void heathrow_class_init(ObjectClass *oc, void *data)
+     mc->default_display = "std";
+     mc->ignore_boot_device_suffixes = true;
+     mc->default_ram_id = "ppc_heathrow.ram";
++    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
+     fwc->get_dev_path = heathrow_fw_dev_path;
+ }
  
- Supported devices
- -----------------
-@@ -15,9 +19,9 @@ QEMU emulates the following PowerMac peripherals:
-  *  UniNorth or Grackle PCI Bridge
-  *  PCI VGA compatible card with VESA Bochs Extensions
-  *  2 PMAC IDE interfaces with hard disk and CD-ROM support
-- *  NE2000 PCI adapters
-+ *  Sungem PCI network adapter
-  *  Non Volatile RAM
-- *  VIA-CUDA with ADB keyboard and mouse.
-+ *  VIA-CUDA or VIA-PMU99 with or without ADB or USB keyboard and mouse.
- 
- 
- Missing devices
 -- 
 2.30.6
 
