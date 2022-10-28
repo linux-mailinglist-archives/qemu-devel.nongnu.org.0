@@ -2,88 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36CD3610B95
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 09:50:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D37DA610B96
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 09:51:14 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooK74-0002Qh-0D; Fri, 28 Oct 2022 03:49:10 -0400
+	id 1ooK8Q-0002rL-3m; Fri, 28 Oct 2022 03:50:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ooK6s-0002KW-5m; Fri, 28 Oct 2022 03:49:01 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ooK6o-0007U3-9I; Fri, 28 Oct 2022 03:48:57 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id sc25so11018779ejc.12;
- Fri, 28 Oct 2022 00:48:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BfouVwLeWtIrMTlV15TwuSIl6/2DO3tS5uVZMOVRHkk=;
- b=E5XkU5t8Ll8Yo8OVNqxvxfynOUbcUNxFP6chjY+DLBQhawqJyjBtZ+KvM7HaZQ867y
- hlrEx6sVExocoT4C3RcyWvHpvPHTvvkcHdazNhF8V/f7Btu5wG0ki7ScuJIxnYdjjz0h
- qosySODDgLKGq/bZzDPEQ51kTn0VvjmsNKHZitUXKF0W5VuhoWSGcMBp/ZVYLWzChjni
- s7PGv+K0WG7/PBJX5G91924ZGABwz5QehdyLP9ujvCbdTsaSZTlVGSmTpOSs7XZa57WP
- 0fS1Vk/J9Z9KBrAU51UmG/M7K58QM6pAEcL7wFbYm9l5oW1Cs0Rp8BZ6TuqtVzp4j6lC
- RC2A==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooK7r-0002nl-Pn
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 03:50:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooK7q-0007cZ-0v
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 03:49:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666943396;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=djLB6Kvh6ALHSa0RuaTm7tEhlXLUmsGD4pHxfvrMU58=;
+ b=IV8El63bbQl79fzvE1TVKIfUjp3LDFiZO+U6PkV/SG/zJmMJq9s1Vx0/Xiw0uhVq5e5v0O
+ MfkDV0zaTo1dh0OQc44HiIXQIML8Ql9+j4Rlt4gkymxfWVvIEQIlljlOrWSlec7+GGX3dy
+ unTwTn4J8oIIMWIq5yPWizCIRnpAg+U=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-269-6EXJyikpMamBwG6mw39Whw-1; Fri, 28 Oct 2022 03:49:55 -0400
+X-MC-Unique: 6EXJyikpMamBwG6mw39Whw-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ w23-20020adf8bd7000000b002358f733307so1046518wra.17
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 00:49:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BfouVwLeWtIrMTlV15TwuSIl6/2DO3tS5uVZMOVRHkk=;
- b=wOKVPo1D0Ptr2YfZWOkl92ynFZbT7JDxf+dQQOapY6ejS0HhnGN+WhJmTnajKVNBN4
- Bb7l1wFLkIdxbLt9KW0ISDWsJV1dMBUhskT+e+50YhT3wWw8wWwBi3aQ42ucjHL9EjAL
- JVgMVjFX5pogBwx8W08AM4RVo8yYn3SQ3v8IoSITLlpKKzuN0GSkXSz/d5itLhas6SS1
- qq91XYclkCLh2zLLzv2A+UHxZpRwxoOzBC+r3IboQoxkT6yEnrP3umpi6Khhb4/RHxKE
- h2wipK3W6N7y9C6rqdFZ2FcmbB6fw0gNIe19dbVZ6U8EVCaWWKsQYlIgpeY+DfcfQqPA
- pr0Q==
-X-Gm-Message-State: ACrzQf0iaCRbT/oinnGVvn347FC6ZYCoMCZNWkSlb3s9M14nXo/ZwiLx
- RhnOpACPIpSHVFafxWDxTsw=
-X-Google-Smtp-Source: AMsMyM6oldkm1//w8qGU17i46q0vPNO9h05awS0rGmQIf//iiUaGqzeqTdR5EXe7GTVkM4XHJsB7Iw==
-X-Received: by 2002:a17:906:9b92:b0:791:9355:cb89 with SMTP id
- dd18-20020a1709069b9200b007919355cb89mr44928621ejc.498.1666943330042; 
- Fri, 28 Oct 2022 00:48:50 -0700 (PDT)
-Received: from ?IPv6:::1?
- (p200300faaf0bb20031070340668e537b.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:3107:340:668e:537b])
- by smtp.gmail.com with ESMTPSA id
- kw15-20020a170907770f00b00782fbb7f5f7sm1824032ejc.113.2022.10.28.00.48.48
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=djLB6Kvh6ALHSa0RuaTm7tEhlXLUmsGD4pHxfvrMU58=;
+ b=4ocGtZ49hy+oqSIOzZp9V+6j3nVr7EMnEh/IelmNkWIu8djSkGCOl/55k/6YXm5TCI
+ gct2Oz2agH3nt3svUNeWVpCseiy6CkWWk5508vm2508cix+A1GAsJmaZne5/YcBnOVB1
+ +xhWwKVLL4bVByhYspTpnkFHcvRNLZKhTjdUg4Kdby9GwjCATvI2FxAfU0dsxmBkcaSx
+ edVjhzlXX9Wz3pstjoEdzwoafbePgXERpGyEeK3xykRmXe/gwGguI6nG+CZvLQgjaSba
+ et0o8a73bziA7cNl5IgfU4tDwJBTliDRqm7/M9qhAAg7iASpS6xtha3sSHehkbRAfz3L
+ e7MQ==
+X-Gm-Message-State: ACrzQf1HUH5RTJSqJqHJcSsrs0jB7gqAGeWih705Emg2d4W4rZhlmWhY
+ ioEm5B6P3Cy/jR4ou927iWV9gOkGx8jKB+01RoWuxC3+zLwKAsPTde+M2PJVDNalvOoLPB24bKx
+ ulV3EVREiqAPPsus=
+X-Received: by 2002:a5d:6901:0:b0:22f:b097:7de6 with SMTP id
+ t1-20020a5d6901000000b0022fb0977de6mr35727178wru.373.1666943394142; 
+ Fri, 28 Oct 2022 00:49:54 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM616Ye0AzbT1RD/DDmGzf5foNqhOfMVbPTREqb3dBl3oJOJmnH+h/jqhpdDr9OKRBDLaSztXQ==
+X-Received: by 2002:a5d:6901:0:b0:22f:b097:7de6 with SMTP id
+ t1-20020a5d6901000000b0022fb0977de6mr35727169wru.373.1666943393880; 
+ Fri, 28 Oct 2022 00:49:53 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-14.web.vodafone.de.
+ [109.43.177.14]) by smtp.gmail.com with ESMTPSA id
+ i8-20020a1c5408000000b003c5571c27a1sm4274620wmb.32.2022.10.28.00.49.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Oct 2022 00:48:49 -0700 (PDT)
-Date: Fri, 28 Oct 2022 07:48:41 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-CC: qemu-ppc@nongnu.org, John Snow <jsnow@redhat.com>,
- Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
- BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH v5 00/13] Instantiate VT82xx functions in host device
-In-Reply-To: <38e64cb2-4409-dc5b-16a1-53e91c0f3dc1@linaro.org>
-References: <20220901114127.53914-1-shentey@gmail.com>
- <E2820A94-3E30-46DB-9F83-8157C9A6FE1B@gmail.com>
- <25b0a116-7098-c285-cb20-af05dd03768b@amsat.org>
- <1D5930DC-EA4A-411F-BA3A-AA7FB0315368@gmail.com>
- <de35a684-6fe4-e5f2-3f6b-ca42d4ccbe22@gmail.com>
- <38e64cb2-4409-dc5b-16a1-53e91c0f3dc1@linaro.org>
-Message-ID: <7CAAA1FA-6F10-4362-9BA9-3010F225A54C@gmail.com>
+ Fri, 28 Oct 2022 00:49:53 -0700 (PDT)
+Message-ID: <6142892b-a78a-bdc3-6a94-de7533386713@redhat.com>
+Date: Fri, 28 Oct 2022 09:49:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v6 04/11] tests/qtest: device-plug-test: Reverse the usage
+ of double/single quotes
+Content-Language: en-US
+To: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20221028045736.679903-1-bin.meng@windriver.com>
+ <20221028045736.679903-5-bin.meng@windriver.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221028045736.679903-5-bin.meng@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,79 +102,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 27=2E Oktober 2022 22:11:21 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <p=
-hilmd@linaro=2Eorg>:
->Hi Daniel, Bernhard,
->
->On 27/10/22 11:47, Daniel Henrique Barboza wrote:
->> On 10/27/22 05:21, Bernhard Beschow wrote:
->>> Am 16=2E September 2022 14:36:05 UTC schrieb "Philippe Mathieu-Daud=C3=
-=A9" <f4bug@amsat=2Eorg>:
->>>> On 12/9/22 21:50, Bernhard Beschow wrote:
->>>>> Am 1=2E September 2022 11:41:14 UTC schrieb Bernhard Beschow <shente=
-y@gmail=2Ecom>:
->>>>=20
->>>>>> Testing done:
->>>>>>=20
->>>>>> * `qemu-system-ppc -machine pegasos2 -rtc base=3Dlocaltime -device =
-ati-vga,guest_hwcursor=3Dtrue,romfile=3D"" -cdrom morphos-3=2E17=2Eiso -ker=
-nel morphos-3=2E17/boot=2Eimg`
->>>>>>=20
->>>>>> =C2=A0=C2=A0 Boots successfully and it is possible to open games an=
-d tools=2E
->>>>>>=20
->>>>>>=20
->>>>>>=20
->>>>>> * I was unable to test the fuloong2e board even before this series =
-since it seems to be unfinished [1]=2E
->>>>>>=20
->>>>>> =C2=A0=C2=A0 A buildroot-baked kernel [2] booted but doesn't find i=
-ts root partition, though the issues could be in the buildroot receipt I cr=
-eated=2E
->>>>>>=20
->>>>>>=20
->>>>>>=20
->>>>>> [1] https://osdn=2Enet/projects/qmiga/wiki/SubprojectPegasos2
->>>>>>=20
->>>>>> [2] https://github=2Ecom/shentok/buildroot/commits/fuloong2e
->>>>>>=20
->>>>>=20
->>>>> Copying from v2 (just found it in my spam folder :/):
->>>>> Series:
->>>>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=2Eorg>
->>>>>=20
->>>>> Review seems complete, thanks to all who participated! Now we just n=
-eed someone to queue this series=2E
->>>>>=20
->>>>> Best regards,
->>>>> Bernhard
->>>>=20
->>>> Excellent cleanup! Series queued to mips-next=2E
->>>=20
->>> Hi Phil,
->>>=20
->>> would you mind doing a pull request in time for 7=2E2?
->>=20
->> I believe Phil was having problems with his amsat=2Eorg email=2E It's
->> better to CC him using his work email philmd@linaro=2Eorg (just added
->> it)=2E
->>=20
->> Phil, since this has pegasos2 changes I can queue it up via ppc-next
->> if you like=2E I'll toss a PR tomorrow=2E
->
->This series is already queued=2E I apologize for the loooong delay, I am
->trying to run my usual tests but various fileservers I was using to
->fetch MIPS binaries disappeared over the last year, so I have to pull
->these files from offline backups=2E The PR will be in time for 7=2E2
->however :)
+On 28/10/2022 06.57, Bin Meng wrote:
+> The usage of double/single quotes in test_q35_pci_unplug_json_request()
+> should be reversed to work on both win32 and non-win32 platforms:
+> 
+> - The value of -device parameter needs to be surrounded by "" as
+>    Windows does not drop '' when passing it to QEMU which causes
+>    QEMU command line option parser failure.
+> - The JSON key/value pairs need to be surrounded by '' to make the
+>    JSON parser happy on Windows.
+> 
+> Fixes: a12f1a7e56b7 ("tests/x86: Add subtest with 'q35' machine type to device-plug-test")
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> 
+> ---
+> 
+> Changes in v6:
+> - new patch: "tests/qtest: device-plug-test: Reverse the usage of double/single quotes"
+> 
+>   tests/qtest/device-plug-test.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
+> index 3f44f731d1..5a6afa2b57 100644
+> --- a/tests/qtest/device-plug-test.c
+> +++ b/tests/qtest/device-plug-test.c
+> @@ -112,16 +112,16 @@ static void test_pci_unplug_json_request(void)
+>   
+>   static void test_q35_pci_unplug_json_request(void)
+>   {
+> -    const char *port = "-device '{\"driver\": \"pcie-root-port\", "
+> -                                      "\"id\": \"p1\"}'";
+> +    const char *port = "-device \"{'driver': 'pcie-root-port', "
+> +                                  "'id': 'p1'}\"";
+>   
+> -    const char *bridge = "-device '{\"driver\": \"pcie-pci-bridge\", "
+> -                                   "\"id\": \"b1\", "
+> -                                   "\"bus\": \"p1\"}'";
+> +    const char *bridge = "-device \"{'driver': 'pcie-pci-bridge', "
+> +                                    "'id': 'b1', "
+> +                                    "'bus': 'p1'}\"";
+>   
+> -    const char *device = "-device '{\"driver\": \"virtio-mouse-pci\", "
+> -                                   "\"bus\": \"b1\", "
+> -                                   "\"id\": \"dev0\"}'";
+> +    const char *device = "-device \"{'driver': 'virtio-mouse-pci', "
+> +                                    "'bus': 'b1', "
+> +                                    "'id': 'dev0'}\"";
+>   
+>       QTestState *qtest = qtest_initf("-machine q35 %s %s %s",
+>                                       port, bridge, device);
 
-Thanks Phil, excellent!
-
-Best regards,
-Bernhard
->
->Regards,
->
->Phil=2E
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
