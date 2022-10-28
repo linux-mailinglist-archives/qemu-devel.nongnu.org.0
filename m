@@ -2,78 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46459610CE1
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 11:17:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEEB7610CF7
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 11:21:38 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooLU9-00024U-Pg; Fri, 28 Oct 2022 05:17:05 -0400
+	id 1ooLY8-0003Sr-3B; Fri, 28 Oct 2022 05:21:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ooLU7-00022j-Be
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:17:03 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ooLY4-0003SP-5u
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:21:09 -0400
+Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ooLU5-0006rl-OT
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:17:03 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D1531219CB;
- Fri, 28 Oct 2022 09:16:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1666948619; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SJYS5qm2xqFuDr753S7Rb6dZQ5ml8ZoKUA5qyGnEOYk=;
- b=cjCULPtHig3460qJqIqyfZtsRk/z5XNEB4OWCnz5+n5LPY1bgLzKbpPuQqfSVYD34hmUsm
- G1teyCxPc9EAkEjKOSHARf3mBpWHQi+SORxsv4qQCR6rOfe6tny+6IOWzNzZb81sDIzCH2
- 2lnMU8QkbQZb008ywnMQsI6HlaiXRLk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1666948619;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SJYS5qm2xqFuDr753S7Rb6dZQ5ml8ZoKUA5qyGnEOYk=;
- b=nokaCsd+GJcc5f3geqfhY2RMBfX9CbYFqlpxQRepU/YJ+ktp0VZbvSlahF+QJ0IRIW8Gnh
- PczQZ0dGM5V1E6Bg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AED241377D;
- Fri, 28 Oct 2022 09:16:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id rbnxKAueW2NzFQAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 28 Oct 2022 09:16:59 +0000
-Message-ID: <3e38900a-cdfe-c52c-85ce-5a7b1a0586f8@suse.de>
-Date: Fri, 28 Oct 2022 11:16:59 +0200
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ooLY2-0007Ju-79
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:21:07 -0400
+Received: by mail-qv1-xf30.google.com with SMTP id w10so3686992qvr.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 02:21:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nTAjm6P6b/0Jtc4rTUm+DdCKdINKvTvuUU8JBMm1wno=;
+ b=MSAwlIKmydKH81JuMQSB2x8rPgDAPrtzKXWc/y6HC81CWZvWdijzrckw8yxk+G8TKk
+ UEEO4fVg64nD2N34ZRlyttgA/pvaxDfk7W6pGYwT6y/5eoOVuxLBAzBIYoKRRXMDRcnT
+ DYp5grvFwvV9sHOITFJAD306TKlS095vMCc4a5xpou22224K97Etw6mfOTMIPwrYCgrE
+ yWVuWkRPK/2LH8emNJ8AYuqxUiGdgDqmmHfzA11d4HRv5RF8LMTokPLB81hP5D6RLgvm
+ 0/V7cYlYRrighIvlTZaaF9Wg96EH5nxM8kpOA/shIwcBrhu0NgxG5q5xLbNaUCJxuu3x
+ hgSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nTAjm6P6b/0Jtc4rTUm+DdCKdINKvTvuUU8JBMm1wno=;
+ b=z7amO3sCW3AYpfDhBf2K9YDdt58O+VkU3DXeDqmfgy2lf7gES6dX7oN47q6FkBp5J9
+ EgEVL0h2NrYKwHXG5cPFihlXdX9p+mhYSxNTICCYWQuqQ3Odg7AsLtj0kX4QgyU/jaYg
+ IQsEyOF+Pn1qNyDo5r4tgTZPhQHmg6fmCPusD/DBZggKARARS+nbfAFKay364Xx4mBjn
+ nX874sFKuPsGNQjLVaBDnqR89ni4wBPXFbuAiOq+bIMbUv7hVaEgzIzJyS46hIeEs8TI
+ P+eWrNH/4+vgBXS22qaKH0XoONr4/znbssjaddZpkElQ8+21HA0JDAI7jezFxnNwhfq8
+ XQeg==
+X-Gm-Message-State: ACrzQf1f70UDObEYcOhAcp4OamriY26fKmZnMDZeh8Sk+IjGlyc+9H7m
+ m5K2GfEsrRfxUiO2MUZcjpahamMP7myuQmQy/6Q=
+X-Google-Smtp-Source: AMsMyM5r7ExFaGUU8KL7Uu7a9X09Xb82JmtgBeAGWE85lwFLqkOKwAVyOAtAs3AgoMC1iscASjg7/m6bZmiz2TDUDlU=
+X-Received: by 2002:a05:6214:2b06:b0:4bb:5716:d1c3 with SMTP id
+ jx6-20020a0562142b0600b004bb5716d1c3mr30095831qvb.85.1666948861787; Fri, 28
+ Oct 2022 02:21:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2 4/6] target/openrisc: Use cpu_unwind_state_data for
- mfspr
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20221027100254.215253-1-richard.henderson@linaro.org>
- <20221027100254.215253-5-richard.henderson@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-In-Reply-To: <20221027100254.215253-5-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20221028045736.679903-1-bin.meng@windriver.com>
+ <CAMxuvawoU3P_eHknzzEaPnr6evzCOUij-pMnHJvpdvP4HZpc3g@mail.gmail.com>
+In-Reply-To: <CAMxuvawoU3P_eHknzzEaPnr6evzCOUij-pMnHJvpdvP4HZpc3g@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 28 Oct 2022 17:20:50 +0800
+Message-ID: <CAEUhbmWPAa+KX=pu4d5WmnxkSpHTcLKYgaK_JE8g_5X3SK_NvA@mail.gmail.com>
+Subject: Re: [PATCH v6 00/11] tests/qtest: Enable running qtest on Windows
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, 
+ Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf30.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,56 +98,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/27/22 12:02, Richard Henderson wrote:
-> Since we do not plan to exit, use cpu_unwind_state_data
-> and extract exactly the data requested.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/openrisc/sys_helper.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
-> index a3508e421d..dde2fa1623 100644
-> --- a/target/openrisc/sys_helper.c
-> +++ b/target/openrisc/sys_helper.c
-> @@ -199,6 +199,7 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
->                             target_ulong spr)
->  {
->  #ifndef CONFIG_USER_ONLY
-> +    uint64_t data[TARGET_INSN_START_WORDS];
->      MachineState *ms = MACHINE(qdev_get_machine());
->      OpenRISCCPU *cpu = env_archcpu(env);
->      CPUState *cs = env_cpu(env);
-> @@ -232,14 +233,20 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
->          return env->evbar;
->  
->      case TO_SPR(0, 16): /* NPC (equals PC) */
-> -        cpu_restore_state(cs, GETPC(), false);
-> +        if (cpu_unwind_state_data(cs, GETPC(), data)) {
-> +            return data[0];
-> +        }
->          return env->pc;
->  
->      case TO_SPR(0, 17): /* SR */
->          return cpu_get_sr(env);
->  
->      case TO_SPR(0, 18): /* PPC */
-> -        cpu_restore_state(cs, GETPC(), false);
-> +        if (cpu_unwind_state_data(cs, GETPC(), data)) {
-> +            if (data[1] & 2) {
-> +                return data[0] - 4;
-> +            }
-> +        }
->          return env->ppc;
->  
->      case TO_SPR(0, 32): /* EPCR */
+On Fri, Oct 28, 2022 at 4:09 PM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
+>
+> Hi
+>
+> On Fri, Oct 28, 2022 at 8:58 AM Bin Meng <bin.meng@windriver.com> wrote:
+>>
+>> In preparation to adding virtio-9p support on Windows, this series
+>> enables running qtest on Windows, so that we can run the virtio-9p
+>> tests on Windows to make sure it does not break accidently.
+>>
+>> Changes in v6:
+>> - drop patches that are already in Alex and Daniel's tree
+>> - remove CONFIG_POSIX from meson.build
+>> - include <qemu/sockets.h> in libqtest.c
+>> - move documentation comments of qemu_send_full() from util/osdep.c
+>>   to qemu/sockets.h
+>> - save the "exit_code" in struct QTestState
+>> - new patch: "tests/qtest: device-plug-test: Reverse the usage of double=
+/single quotes"
+>> - new patch: "tests/qtest: Use EXIT_FAILURE instead of magic number"
+>> - new patch: "tests/qtest: libqtest: Introduce qtest_wait_qemu()"
+>> - change to use qtest_wait_qemu() API
+>> - new patch: "test/qtest/libqos: meson.build: Do not build virtio-9p unc=
+onditionally"
+>>
+>> Changes in v5:
+>> - restore to v1 version which does not touch the posix implementation
+>> - Drop patches that are already merged
+>>
+>> Changes in v3:
+>> - Add a usleep(1) in the busy wait loop
+>> - Drop the host test
+>>
+>> Changes in v2:
+>> - Introduce qemu_send_full() and use it
+>> - Move the enabling of building qtests on Windows to a separate
+>>   patch to keep bisectablity
+>> - Call socket_init() unconditionally
+>> - Add a missing CloseHandle() call
+>> - Change to a busy wait after migration is canceled
+>> - Change the timeout limit to 90 minutes
+>> - new patch: "tests/qtest: Enable qtest build on Windows"
+>>
+>> Bin Meng (8):
+>>   tests/qtest: Support libqtest to build and run on Windows
+>>   tests/qtest: device-plug-test: Reverse the usage of double/single
+>>     quotes
+>>   tests/qtest: Use EXIT_FAILURE instead of magic number
+>>   tests/qtest: libqtest: Introduce qtest_wait_qemu()
+>>   tests/qtest: libqos: Do not build virtio-9p unconditionally
+>>   tests/qtest: libqtest: Correct the timeout unit of blocking receive
+>>     calls for win32
+>>   .gitlab-ci.d/windows.yml: Increase the timeout to 90 minutes
+>>   tests/qtest: Enable qtest build on Windows
+>>
+>> Xuzhou Cheng (3):
+>>   accel/qtest: Support qtest accelerator for Windows
+>>   tests/qtest: Use send/recv for socket communication
+>>   tests/qtest: migration-test: Make sure QEMU process "to" exited after
+>>     migration is canceled
+>>
+>>  include/hw/core/cpu.h           |   1 +
+>>  include/qemu/sockets.h          |  13 +++
+>>  tests/qtest/libqtest.h          |   9 ++
+>>  accel/dummy-cpus.c              |  14 ++-
+>>  softmmu/cpus.c                  |   9 +-
+>>  tests/qtest/dbus-vmstate-test.c |   2 +-
+>>  tests/qtest/device-plug-test.c  |  16 ++--
+>>  tests/qtest/libqmp.c            |   5 +-
+>>  tests/qtest/libqtest.c          | 151 ++++++++++++++++++++++++++++----
+>>  tests/qtest/migration-test.c    |   8 +-
+>>  util/osdep.c                    |  22 +++++
+>>  .gitlab-ci.d/windows.yml        |   4 +-
+>>  accel/meson.build               |   2 +-
+>>  accel/qtest/meson.build         |   3 +-
+>>  tests/qtest/libqos/meson.build  |   6 +-
+>>  tests/qtest/meson.build         |   6 --
+>>  16 files changed, 221 insertions(+), 50 deletions(-)
+>>
+>> --
+>> 2.25.1
+>>
+>
+> Series looks good to me:
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+>
+> However, many qtests are flaky on Windows. I get a number of "broken pipe=
+" exit code 3 & timeout. Should gitlab ignore windows test failures ? Or pe=
+rhaps have a new "ignored" job for the windows qtests. What's your experien=
+ce running gitlab CI with this series? Can you share results? (I kicked off=
+ one here https://gitlab.com/marcandre.lureau/qemu/-/pipelines/679511572)
+>
 
-I am struggling to understand if the fact that we are not setting cpu->env.dflag anymore in the mfspr helper is fine;
+This "broken pipe" error was fixed by [1] which is currently in
+Daniel's tree. Please apply it in your tree and it should have a 100%
+pass rate.
 
-here I am unfamiliar with the arch, also Ccing Philippe in case he wants to step in to review this bit.
+[1] http://patchwork.ozlabs.org/project/qemu-devel/patch/20221006151927.207=
+9583-17-bmeng.cn@gmail.com/
 
-Thanks,
-
-CLaudio
+Regards,
+Bin
 
