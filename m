@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 486A8611DB9
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 00:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45E1611E35
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 01:41:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooYDx-0000a6-A7; Fri, 28 Oct 2022 18:53:13 -0400
+	id 1ooYwM-0007sy-Ox; Fri, 28 Oct 2022 19:39:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooYDu-0000Zd-8J
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 18:53:11 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooYDq-0001qb-D4
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 18:53:09 -0400
-Received: by mail-wm1-x333.google.com with SMTP id t1so322325wmi.4
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 15:53:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zSusyj+KT8uTWM25u/vF5bJAUtB3sMm4yxGjSInxXR0=;
- b=ARjNeQUXpCCO4glzyd9SCn2EgT4MLc3Y5avtSoZqNvsTbCY1eg1I4efchxhhenVsj3
- 2nA8AblTfrKgXKkndiRGxib5qjM8rwwQ67LaCfTzyQE0wtL+CQXisFdmLVddh3UpecsA
- 63RrMJU1qt0ptr+G70MKJg1J7ox/6kRWeAm5Lcj2CHZeJkTvOp8isRoZT9UzDxVypLPi
- 1rJV5FgwxqXcX9LlZvezAz70+0Ye4G9kMGD3rSD5aMksNewyQbdMpwC6Th1Y5r/bdqw8
- tijsdsbESWVt3+1PigRbxGbuMjekFLGaN3ZZCvs9WrvRGhbvkbzHz5wjrMtP0LQmiDeg
- rcxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zSusyj+KT8uTWM25u/vF5bJAUtB3sMm4yxGjSInxXR0=;
- b=iK7htBojbX76rWO0NhGH6iX5X5pzRAdNH+yr2C/AakK6nZui5au1vtQMe+VZkovBcv
- mquU7WTPjaW8ehTCQZajJI3d251R7+aqkR9eqeNVmNVWy/ddHLxAK0KwgqeksI4n7vUP
- NFvUQfdZYxuht3z0gHt26rtATXR4uOv4H4ebEc3XFC2a4IXOaL5FIAnJetzGTb/XofLd
- 0kfi3r6YSRBCjALPrBltgMoi2tqwHrf3mlj1vdToDW6cu45fInp3izI6fwX2HpKl+rWH
- w1s6wKYh++PxO8ngv2qGVXYaZl+JsbU4SVaCLERwxSklr2bGFF8YAOnCaLmHBjzfjCEl
- 6rHw==
-X-Gm-Message-State: ACrzQf12dgSi8bCnqVwzluUAwUJDqll1m9hkcC8M+UD5mbwgh2FL+NxQ
- 9r5IaZuaBLcI1NVmITNjI/QYeg==
-X-Google-Smtp-Source: AMsMyM7gGqzi9KWGy6+bKfAV0xGyRPZBpTDbRVja6owaDs+I/uijSJxLOc40tqnesYjHZI+6uWEWtw==
-X-Received: by 2002:a05:600c:3512:b0:3c8:2c4e:8680 with SMTP id
- h18-20020a05600c351200b003c82c4e8680mr11498239wmq.165.1666997582934; 
- Fri, 28 Oct 2022 15:53:02 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- k9-20020adff5c9000000b0022eafed36ebsm4662920wrp.73.2022.10.28.15.53.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Oct 2022 15:53:02 -0700 (PDT)
-Message-ID: <a08bc5b7-8481-49f7-c4fb-a4c780783e5b@linaro.org>
-Date: Sat, 29 Oct 2022 00:53:01 +0200
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1ooYwI-0007sX-O4
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 19:39:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1ooYwG-00084s-Se
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 19:39:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667000339;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dDeW5b36/zACsW5srxGOdqRHBqpoSLNWxYFdYnQHCbc=;
+ b=cnErTlMTGzGOK0bWzaxxoPl994xOiM/6PknoCVlgHEVzMbE7x8ISs1mbxGArAt3RS1pM/h
+ oqX3CdWfFki17QlqlG1eHC8P7y91Rq4oFrl2mPFArnwbpPRrHBduUiTUTIRq4Ngao0wO+y
+ 8ZFBAaS9tBi3vtffiLcpfi5ejRL5ScA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-241-fABMB80QPDmMecQge3eEoA-1; Fri, 28 Oct 2022 19:38:57 -0400
+X-MC-Unique: fABMB80QPDmMecQge3eEoA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A2773C025BE;
+ Fri, 28 Oct 2022 23:38:57 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.39.193.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7DD424EA52;
+ Fri, 28 Oct 2022 23:38:55 +0000 (UTC)
+From: Alberto Faria <afaria@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Alberto Faria <afaria@redhat.com>
+Subject: [PATCH] block/blkio: Make driver nvme-io_uring take a "path" instead
+ of a "filename"
+Date: Sat, 29 Oct 2022 00:38:54 +0100
+Message-Id: <20221028233854.839933-1-afaria@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH 4/4] vhost: convert byte order on avail_event read
-Content-Language: en-US
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20221028160251.268607-1-eperezma@redhat.com>
- <20221028160251.268607-5-eperezma@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221028160251.268607-5-eperezma@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,34 +76,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/10/22 18:02, Eugenio Pérez wrote:
-> This causes errors on virtio modern devices on big endian hosts
-> 
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> ---
->   hw/virtio/vhost-shadow-virtqueue.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-> index 18a49e1ecb..3131903edd 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> @@ -231,7 +231,8 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq)
->           size_t num = svq->vring.num;
->           uint16_t *avail_event = (uint16_t *)&svq->vring.used->ring[num];
->   
+The nvme-io_uring driver expects a character special file such as
+/dev/ng0n1. Follow the convention of having a "filename" option when a
+regular file is expected, and a "path" option otherwise.
 
-   uint16_t avail_event = virtio_lduw_p(svq->vdev,
-                                        &svq->vring.used->ring[num]);
-   needs_kick = vring_need_event(avail_event,
-                                 svq->shadow_avail_idx,
-                                 svq->shadow_avail_idx - 1);
+This makes io_uring the only libblkio-based driver with a "filename"
+option, as it accepts a regular file (even though it can also take a
+block special file).
 
-> -        needs_kick = vring_need_event(*avail_event, svq->shadow_avail_idx,
-> +        needs_kick = vring_need_event(le16_to_cpu(*avail_event),
-> +                                      svq->shadow_avail_idx,
->                                         svq->shadow_avail_idx - 1);
->       } else {
->           needs_kick = !(svq->vring.used->flags & VRING_USED_F_NO_NOTIFY);
+Signed-off-by: Alberto Faria <afaria@redhat.com>
+---
+ block/blkio.c        | 12 ++++++++----
+ qapi/block-core.json |  4 ++--
+ 2 files changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/block/blkio.c b/block/blkio.c
+index 82f26eedd2..5f600e5e9e 100644
+--- a/block/blkio.c
++++ b/block/blkio.c
+@@ -639,12 +639,17 @@ static int blkio_io_uring_open(BlockDriverState *bs, QDict *options, int flags,
+ static int blkio_nvme_io_uring(BlockDriverState *bs, QDict *options, int flags,
+                                Error **errp)
+ {
+-    const char *filename = qdict_get_str(options, "filename");
++    const char *path = qdict_get_try_str(options, "path");
+     BDRVBlkioState *s = bs->opaque;
+     int ret;
+ 
+-    ret = blkio_set_str(s->blkio, "path", filename);
+-    qdict_del(options, "filename");
++    if (!path) {
++        error_setg(errp, "missing 'path' option");
++        return -EINVAL;
++    }
++
++    ret = blkio_set_str(s->blkio, "path", path);
++    qdict_del(options, "path");
+     if (ret < 0) {
+         error_setg_errno(errp, -ret, "failed to set path: %s",
+                          blkio_get_error_msg());
+@@ -986,7 +991,6 @@ static BlockDriver bdrv_io_uring = BLKIO_DRIVER(
+ 
+ static BlockDriver bdrv_nvme_io_uring = BLKIO_DRIVER(
+     DRIVER_NVME_IO_URING,
+-    .bdrv_needs_filename = true,
+ );
+ 
+ static BlockDriver bdrv_virtio_blk_vhost_user = BLKIO_DRIVER(
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index cb5079e645..6d36c0ed8b 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -3703,12 +3703,12 @@
+ #
+ # Driver specific block device options for the nvme-io_uring backend.
+ #
+-# @filename: path to the image file
++# @path: path to the image file
+ #
+ # Since: 7.2
+ ##
+ { 'struct': 'BlockdevOptionsNvmeIoUring',
+-  'data': { 'filename': 'str' },
++  'data': { 'path': 'str' },
+   'if': 'CONFIG_BLKIO' }
+ 
+ ##
+-- 
+2.38.1
 
 
