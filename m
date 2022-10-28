@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFBF611168
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 14:31:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46023611196
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 14:36:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooOV5-0005U2-Jj; Fri, 28 Oct 2022 08:30:15 -0400
+	id 1ooOaU-0002Wg-Kr; Fri, 28 Oct 2022 08:35:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooOST-0002vQ-KG
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:27:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ooOVy-00009F-0U
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:31:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooOSS-0003OQ-2N
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:27:33 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ooOVw-0004E4-EY
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:31:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666960049;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dAsUyYuFdhM40lGPlOk+YsP0nlR6oWTNzDPrRpYJnck=;
- b=RmXh10OYzoa24Y40SKg+gFqBTVSBIts74FsdSjE9TZQ0ShjHTa1zQRirVXbn2O0DFLywcO
- /VyWN3lGzXhVQsXeBiMYYO/s9TNDOmQGvKI6LevioKdLQVjwj1xUl5sIud5chkvp3Bl/3W
- HVG9tG+xhJFSjR1+006UpYFO9y7AGCU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1666960267;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=PabQ59sOxv22wIBVFBccH9/8odroZSIn4R2lJLQAqXQ=;
+ b=hwx8PD/eXKbtdDKSOhFH7i8nUIt/lOlbcvop8cwYoQ299YaHrnGGcDV/VFje6gMPKpjwlV
+ 4K+5t01mj1gdq10Wme2GHq76cAtX9cxWruSQcCs25DpIAbloi3Zo48ZPEhmq4s4lRZwCvZ
+ hcm/lvq36RE6Dgi0JE+tuXIbsGZYVgo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-552-Ubz857p0NAK89muFu7KjHA-1; Fri, 28 Oct 2022 08:27:28 -0400
-X-MC-Unique: Ubz857p0NAK89muFu7KjHA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- m24-20020adfa3d8000000b00236774fd74aso1131124wrb.8
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 05:27:23 -0700 (PDT)
+ us-mta-263-qDiWqXQPPveqpv8F3WpEXg-1; Fri, 28 Oct 2022 08:31:05 -0400
+X-MC-Unique: qDiWqXQPPveqpv8F3WpEXg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 125-20020a1c0283000000b003c5e6b44ebaso418112wmc.9
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 05:31:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dAsUyYuFdhM40lGPlOk+YsP0nlR6oWTNzDPrRpYJnck=;
- b=jM4ZKXy5vNeMzigLqphZb/77wZKu6c9XLPCkUfsiV5MYAUWJtFPklFkO1z3flxkZ9f
- zaRoZkxW/0xkq5N5RaDC54ddwXoTYtUPBA68uATetN6ESRxEU3obtPZxgRC2Xc9aMxhi
- 5seDdilCeKUpVpL0drc9o8INcDwF5/i9BmKZ0tkyOoeRVxuvLhQcDXWpM/Bo3shJRP3m
- S3SPytDZfjEFeML0TWUGhjwPcxGvTw3J0hRRgjJ1ErjRxKGeN7ie75I8n7m4SuY0g3Dl
- IErBCdtqk4M0Pp5zMJAG9h4WLP+Leb/GUEWh7XQZp1HNX+yntxiVTxGnjhfPJltJ77vy
- tlsg==
-X-Gm-Message-State: ACrzQf06gf8JvQJYvcrUzTOhc8CNn01n8/SHLRDR06e/cQGXUhXzpQBr
- HH4cKzsDSBrYmVh0BR7fi1Y2SVEaSBNtcFoLnCpitxX4iyPgLlHw5wLO5Gj8sYhNwrjw5gwgv9T
- XoTVFcqunEsACqMw=
-X-Received: by 2002:a5d:6da9:0:b0:22e:53bd:31c1 with SMTP id
- u9-20020a5d6da9000000b0022e53bd31c1mr37691274wrs.358.1666960042149; 
- Fri, 28 Oct 2022 05:27:22 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5ImfFQQtr0sgm64oBGdFB/3D18Yzmh0fc5/GuH+vNiPSDLF/X1oaImFQ2d/U7G1iUtJVDmQw==
-X-Received: by 2002:a5d:6da9:0:b0:22e:53bd:31c1 with SMTP id
- u9-20020a5d6da9000000b0022e53bd31c1mr37691263wrs.358.1666960041970; 
- Fri, 28 Oct 2022 05:27:21 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-177-14.web.vodafone.de.
- [109.43.177.14]) by smtp.gmail.com with ESMTPSA id
- hg9-20020a05600c538900b003a83ca67f73sm3960160wmb.3.2022.10.28.05.27.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Oct 2022 05:27:21 -0700 (PDT)
-Message-ID: <c200713a-2fe9-b3be-a8a0-c73e1b678968@redhat.com>
-Date: Fri, 28 Oct 2022 14:27:19 +0200
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PabQ59sOxv22wIBVFBccH9/8odroZSIn4R2lJLQAqXQ=;
+ b=daVsJr9CRY+u3aZ0NLZ+cN+9IACM1qAkx+P3th5FD+6uwzm0xwd1walazZgpoDdK3t
+ 7oo7sELi8+xkVnxfDD07uhFVrgO6LLa/g40/PIHrz4pPCmYgw905+hWZmDUoG+yLKolT
+ qcba0pIl0FmPf1mGFd7uXOijn+JTocu2ZfCDIZyWXNrS10ehnb6cmLslCB3lE2pq4uzm
+ APS2njh/gCsgthG7LbCZS8alFPWxrJ+UXapeEkG6BBZv+9FhzZFmrQAmUo803TtTtDe2
+ cZppcS+u47rCVMC2ScoFTcTlkyh2u2hFxBLMoPdnnVfRSPLn+RGG2mx2Dg5fhgiZGQ9m
+ c7Cg==
+X-Gm-Message-State: ACrzQf0PIe/zLijfcQRRHC62Sv7kUdR2MeOmOj5cf2h9HRgatdLDaOh9
+ DB4kxjbbldtYWryu8NK9LWMsKCQKkQeJj1UnqGEZ7f2Q5EksqSAT4uaLKaFlhnTXPh1ZGUEuJT6
+ 4PydR5xFBLQ87jhM=
+X-Received: by 2002:adf:d1e5:0:b0:234:2aaf:3b97 with SMTP id
+ g5-20020adfd1e5000000b002342aaf3b97mr31768153wrd.536.1666960264174; 
+ Fri, 28 Oct 2022 05:31:04 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4WfomgY393x0MX2GUZi2mE+xHxO86p4sZwxJr9sul4SCBI3Y8AA0liC9Ie5NlBk89nOFuDLA==
+X-Received: by 2002:adf:d1e5:0:b0:234:2aaf:3b97 with SMTP id
+ g5-20020adfd1e5000000b002342aaf3b97mr31768137wrd.536.1666960263987; 
+ Fri, 28 Oct 2022 05:31:03 -0700 (PDT)
+Received: from localhost (255.4.26.77.dynamic.reverse-mundo-r.com.
+ [77.26.4.255]) by smtp.gmail.com with ESMTPSA id
+ i1-20020adfefc1000000b00236722ebe66sm3644610wrp.75.2022.10.28.05.31.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Oct 2022 05:31:03 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Bin Meng <bin.meng@windriver.com>
+Cc: qemu-devel@nongnu.org,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  Laurent Vivier
+ <lvivier@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Thomas Huth
+ <thuth@redhat.com>
+Subject: Re: [PATCH v6 05/11] tests/qtest: Use EXIT_FAILURE instead of magic
+ number
+In-Reply-To: <20221028045736.679903-6-bin.meng@windriver.com> (Bin Meng's
+ message of "Fri, 28 Oct 2022 12:57:30 +0800")
+References: <20221028045736.679903-1-bin.meng@windriver.com>
+ <20221028045736.679903-6-bin.meng@windriver.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Fri, 28 Oct 2022 14:31:02 +0200
+Message-ID: <87o7tww2nt.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] 9pfs: fix missing sys/mount.h include
-Content-Language: en-US
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@gmail.com>,
- Warner Losh <imp@bsdimp.com>, Bin Meng <bin.meng@windriver.com>
-References: <E1ooNWu-0002oC-76@lizzy.crudebyte.com>
- <53df074a-c938-cbe5-caca-a0c6a7cbd3e7@redhat.com> <7476627.JHTLl5x3NE@silver>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <7476627.JHTLl5x3NE@silver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,48 +101,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/10/2022 14.14, Christian Schoenebeck wrote:
-> On Friday, October 28, 2022 1:42:34 PM CEST Thomas Huth wrote:
->> On 28/10/2022 13.21, Christian Schoenebeck wrote:
->>> Fixes the following build error:
->>>
->>>     fsdev/file-op-9p.h:156:56: error: declaration of 'struct statfs' will
->>>     not be visible outside of this function [-Werror,-Wvisibility]
->>>       int (*statfs)(FsContext *s, V9fsPath *path, struct statfs *stbuf);
->>>                                                          ^
->>>
->>> As Windows neither has statfs, nor sys/mount.h, don't include it there.
->>>
->>> Fixes: 684f91203439 ("tests/9p: split virtio-9p-test.c ...")
->>> Link: https://lore.kernel.org/all/2690108.PsDodiG1Zx@silver/
->>> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
->>> ---
->>>    fsdev/file-op-9p.h | 2 ++
->>>    1 file changed, 2 insertions(+)
->>>
->>> diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
->>> index 4997677460..700f1857b4 100644
->>> --- a/fsdev/file-op-9p.h
->>> +++ b/fsdev/file-op-9p.h
->>> @@ -24,6 +24,8 @@
->>>    #endif
->>>    #ifdef CONFIG_DARWIN
->>>    # include <sys/param.h>
->>> +#endif
->>> +#ifndef CONFIG_WIN32
->>>    # include <sys/mount.h>
->>>    #endif
->>
->> Do you feel confident that this will also work on other exotic systems?
->> (e.g. does it work with "make vm-build-haiku.x86_64" ?)
->> Otherwise it might be better to add a meson.build test for this header instead.
-> 
-> 9pfs only supports Linux and macOS ATM, and Windows being WIP.
-Ok, makes sense now, thanks!
+Bin Meng <bin.meng@windriver.com> wrote:
+> When migration fails, QEMU exits with a status code EXIT_FAILURE.
+> Change qtests to use the well-defined macro instead of magic number.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-  Thomas
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+
+>
+> ---
+>
+> Changes in v6:
+> - new patch: "tests/qtest: Use EXIT_FAILURE instead of magic number"
+>
+>  tests/qtest/dbus-vmstate-test.c | 2 +-
+>  tests/qtest/migration-test.c    | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/tests/qtest/dbus-vmstate-test.c b/tests/qtest/dbus-vmstate-test.c
+> index 74ede651f6..6c990864e3 100644
+> --- a/tests/qtest/dbus-vmstate-test.c
+> +++ b/tests/qtest/dbus-vmstate-test.c
+> @@ -233,7 +233,7 @@ test_dbus_vmstate(Test *test)
+>      test->src_qemu = src_qemu;
+>      if (test->migrate_fail) {
+>          wait_for_migration_fail(src_qemu, true);
+> -        qtest_set_expected_status(dst_qemu, 1);
+> +        qtest_set_expected_status(dst_qemu, EXIT_FAILURE);
+>      } else {
+>          wait_for_migration_complete(src_qemu);
+>      }
+> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+> index aa1ba179fa..28a06d8170 100644
+> --- a/tests/qtest/migration-test.c
+> +++ b/tests/qtest/migration-test.c
+> @@ -1342,7 +1342,7 @@ static void test_precopy_common(MigrateCommon *args)
+>          wait_for_migration_fail(from, allow_active);
+>  
+>          if (args->result == MIG_TEST_FAIL_DEST_QUIT_ERR) {
+> -            qtest_set_expected_status(to, 1);
+> +            qtest_set_expected_status(to, EXIT_FAILURE);
+>          }
+>      } else {
+>          if (args->iterations) {
+> @@ -1738,7 +1738,7 @@ static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
+>      migrate_qmp(from, uri, "{}");
+>  
+>      if (should_fail) {
+> -        qtest_set_expected_status(to, 1);
+> +        qtest_set_expected_status(to, EXIT_FAILURE);
+>          wait_for_migration_fail(from, true);
+>      } else {
+>          wait_for_migration_complete(from);
 
 
