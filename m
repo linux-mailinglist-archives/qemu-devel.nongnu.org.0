@@ -2,62 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E5C610B3C
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 09:24:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9970610B44
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 09:27:24 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooJim-0006b0-Su; Fri, 28 Oct 2022 03:24:05 -0400
+	id 1ooJlV-000816-V2; Fri, 28 Oct 2022 03:26:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <uwu@icenowy.me>) id 1ooJih-0006ah-66
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 03:23:59 -0400
-Received: from sender4-op-o18.zoho.com ([136.143.188.18])
+ (Exim 4.90_1) (envelope-from <t.lamprecht@proxmox.com>)
+ id 1ooJlG-00080Q-VH
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 03:26:39 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <uwu@icenowy.me>) id 1ooJif-0002kk-JB
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 03:23:58 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1666941829; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=H2MQEfGfqwqqVJRAy/eQjb6AOPoIIa4dAsExvib+DPfbHXMTyqn3ex9dtSSf1npA48t1zo8aVCNK0WlXcZ5Y150olWwGo0S1fCYM1aBoK3f5dgWu6AD5hTsZNxBiCF3/JI/xAhpoNSxXI0WEASwWApZAMVra8iEnNmUzv5toZg8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1666941829;
- h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
- bh=NQuh7zi2wtasmtboF4R4qO1RB0L1rHeApw73kba+H2k=; 
- b=adiV6Rw3MXFoEcDafdRf2lYcdQ5EIFm93v2OdPsjv8H9je1N68LDD2yXFmGULZ07Z6M0U2NWmMMRa6xu+M0LLLoelgW5EQNDSv72padGswbsm6GL/TMdhuzM9XvJU4GTzz+Sa3wZK7r/o5qts2izyUGDwhoei/Kr2niO/8dAjb0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1666941829; 
- s=zmail; d=icenowy.me; i=uwu@icenowy.me;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
- bh=NQuh7zi2wtasmtboF4R4qO1RB0L1rHeApw73kba+H2k=;
- b=KHrhHT7FpwrCiqxQNrGhqmIYZgUxv3d7D4VPfAc6QzH6lczLMVzF6sz9IeJ8F4vQ
- zVXBpFXT+X/G0VwNxyZcvHNAbwu7cQla3fT1R6Bc4/RzJWfkCP86gn7h1Q2rzj8gNvc
- 6jT/SvdWWYG+A3PUaKJKDpWKhDsUSjYu6wHmviOs=
-Received: from edelgard.fodlan.icenowy.me (112.94.102.53 [112.94.102.53]) by
- mx.zohomail.com with SMTPS id 1666941828587360.22039856339995;
- Fri, 28 Oct 2022 00:23:48 -0700 (PDT)
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org,
-	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH] tcg/tci: fix logic error when registering helpers via FFI
-Date: Fri, 28 Oct 2022 15:21:45 +0800
-Message-Id: <20221028072145.1593205-1-uwu@icenowy.me>
-X-Mailer: git-send-email 2.37.1
+ (Exim 4.90_1) (envelope-from <t.lamprecht@proxmox.com>)
+ id 1ooJlE-0003HX-Pb
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 03:26:38 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id B08F444C63;
+ Fri, 28 Oct 2022 09:26:31 +0200 (CEST)
+Message-ID: <7c7cfb50-fd32-f26e-7f82-5cedbe47c4bb@proxmox.com>
+Date: Fri, 28 Oct 2022 09:26:28 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:107.0) Gecko/20100101
+ Thunderbird/107.0
+Subject: Re: [PATCH] vl: change PID file path resolve error to warning
+Content-Language: en-GB
+To: Fiona Ebner <f.ebner@proxmox.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, hreitz@redhat.com,
+ d.csapak@proxmox.com
+References: <20221027101443.118049-1-f.ebner@proxmox.com>
+ <Y1p22/LxBASPUTcV@redhat.com>
+ <6fdd4b06-4c9b-5a7c-d16d-c3b362fecb81@proxmox.com>
+From: Thomas Lamprecht <t.lamprecht@proxmox.com>
+In-Reply-To: <6fdd4b06-4c9b-5a7c-d16d-c3b362fecb81@proxmox.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.18; envelope-from=uwu@icenowy.me;
- helo=sender4-op-o18.zoho.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=94.136.29.106;
+ envelope-from=t.lamprecht@proxmox.com; helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,45 +61,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When registering helpers via FFI for TCI, the inner loop that iterates
-parameters of the helper reuses (and thus pollutes) the same variable
-used by the outer loop that iterates all helpers, thus made some helpers
-unregistered.
+On 28/10/2022 09:11, Fiona Ebner wrote:
+> Am 27.10.22 um 14:17 schrieb Daniel P. Berrangé:
+>> On Thu, Oct 27, 2022 at 12:14:43PM +0200, Fiona Ebner wrote:
+>>> +            warn_report("not removing PID file on exit: cannot resolve PID file"
+>>> +                        " path: %s: %s", pid_file, strerror(errno));
+>>> +            return;
+>>>          }
+>> I don't think using warn_report is desirable here.
+>>
+>> If the behaviour of passing a pre-unlinked pidfile is considered
+>> valid, then we should allow it without printing a warning every
+>> time an application does this.
+>>
+>> warnings are to highlight non-fatal mistakes by applications, and
+>> this is not a mistake, it is intentionally supported behaviour.
+>
+> But what if the path resolution fails in a scenario where the caller did
+> not pre-unlik the PID file? Should the warning only be printed when the
+> errno is not ENOENT? Might still not be accurate in all cases though.
 
-Fix this logic error by using a dedicated temporary variable for the
-inner loop.
+ENOENT would be IMO a good heuristic for silence, as I see no point in
+warning that something won't be cleaned up if it's already gone from
+POV of QEMU.
 
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
----
- tcg/tcg.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Iff, I'd then personally only log at some level that shows up on
+debug/high-verbosity settings, that should cover the a bit odd setups where,
+e.g. the PID file is there but not visible to QEMU, e.g., because being
+located in another mount namespace (in which case the management stack that
+put it there probably wants to handle that more explicitly anyway). Or do
+you meant something else with "not accurate in all cases"?
 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 612a12f58f..adfaf61a32 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -619,6 +619,7 @@ static void tcg_context_init(unsigned max_cpus)
-         gpointer hash = (gpointer)(uintptr_t)typemask;
-         ffi_status status;
-         int nargs;
-+        int j;
- 
-         if (g_hash_table_lookup(ffi_table, hash)) {
-             continue;
-@@ -634,9 +635,9 @@ static void tcg_context_init(unsigned max_cpus)
- 
-         if (nargs != 0) {
-             ca->cif.arg_types = ca->args;
--            for (i = 0; i < nargs; ++i) {
--                int typecode = extract32(typemask, (i + 1) * 3, 3);
--                ca->args[i] = typecode_to_ffi[typecode];
-+            for (j = 0; j < nargs; ++j) {
-+                int typecode = extract32(typemask, (j + 1) * 3, 3);
-+                ca->args[j] = typecode_to_ffi[typecode];
-             }
-         }
- 
--- 
-2.37.1
+best regards,
+Thomas
 
 
