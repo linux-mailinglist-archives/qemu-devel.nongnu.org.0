@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 367AC6117ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:47:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 503E661182B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:52:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooST6-0005Xb-0z; Fri, 28 Oct 2022 12:44:28 -0400
+	id 1ooST7-0005vK-SG; Fri, 28 Oct 2022 12:44:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSSk-0001b9-LO; Fri, 28 Oct 2022 12:44:06 -0400
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
+ id 1ooSSp-0002cf-Ix; Fri, 28 Oct 2022 12:44:11 -0400
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSSi-00010I-SV; Fri, 28 Oct 2022 12:44:06 -0400
-Received: by mail-oi1-x22f.google.com with SMTP id y67so6726422oiy.1;
- Fri, 28 Oct 2022 09:44:04 -0700 (PDT)
+ id 1ooSSn-00011b-TD; Fri, 28 Oct 2022 12:44:11 -0400
+Received: by mail-ot1-x329.google.com with SMTP id
+ t4-20020a9d7f84000000b00661c3d864f9so3278565otp.10; 
+ Fri, 28 Oct 2022 09:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rPsjNWUlnzAtKEaOlOgj7hfAM51su/vOOnHQpznXcSE=;
- b=Dsesw3p43d0C+1rzM8Ot96EzycvHg6LxdzMhiYumppFn/noPkNe9CbUlLR3hdzl51A
- 8v53rf/fSH9RxuHhmtH4wYWi1dOE7PviU+muvGvj+BANpCjcWrcYhRksV966IIkAlzCh
- O31IfKHBrvT2QbT2NWBvNYLKStMBI+13uC+7jgdz6hUX0BOAhOZPSkjd2gDyqkEToshx
- tOj4qe8mTfj2TqD/Tn+857gBJgcU8+VAVMp7i6KOSuTWhJSIn+rO0Mhw+qlsFOx0V2Mm
- w83cDxPgL4L+/aoV/+G9U3/FVRjwzLCxtYr3gllAlPz2zqAsxM5XclAeROt8Fj1xfYuh
- ya4w==
+ bh=fkKD5NwF/AdGDH5rY2PB8WuM5fuyoDzb8BPGEhn1NZ4=;
+ b=gffO2UE79xNytQdmUFwoCOw64GqPRwB4eMADF2pflSz+XjVbCddNACbwBo4OaQem4h
+ c7kkCZWeLf3KvFMxrLFeCLZKX+OyVZCNU1UKQLVySMwrNWXNk+Hbp5wmGZI6TURgXsMa
+ up2ls+BpxPMuxaZUqLSM5iU4HL2TlIoobJOH0z0gRFEAHQnFS3QHnEEDNk1SfhQSbQnp
+ fTKCCZFVD2BbqgFt33edIEE2TzH4JTRIFcc6djVNcbU52BhtkXUsLKEKfSPmzYaE66OE
+ 7O98BHti8RfdQd5jL7/U4KxnU/hUaJ7670Yh39dmDm4ACI6fAIbVyFk0aIHKnAl/fFJ7
+ MPqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rPsjNWUlnzAtKEaOlOgj7hfAM51su/vOOnHQpznXcSE=;
- b=0LJRuysdASnSXLChLal49JRNb+id1Mf4WZJ+BVHuPGiGdsXjABBXivHPtl+GUcJF4v
- R+ZhQpYRx/ViVBKSp7rRjzNfd9En+RJTmzyqWQv2bCLC2ueSA5dioArbVIdGGLz+l6A9
- fkbEkSb1eP8ySj6ExI0Di8UeXBEnsjink/RwWJcvJ796GZK1NqxraT/7Nk1sI56QKniH
- ejMwnC163avUTQfHpfWh7MWM9moArQtJjFZHtEcfbpM9jbenqDmWz0cVaUMoABFdPMYU
- YUT2F/0yR/NemqedTBKlca8pWS7GcZQPQ4QmQf0BP13Tdncgw36L34a+bZ3n+eQVc8Q/
- hZwA==
-X-Gm-Message-State: ACrzQf1kQ1LSSc4ocEOnJgS9nh3E+t8scH0RipCJMMnWiKjojU9Dkj7O
- 3ew+IbmheIWKegQcEb3NtPopqO4o0z1Pzw==
-X-Google-Smtp-Source: AMsMyM6/fOWD0N37LXyjxeDufExVLAF9JZrB8NTgV6zPkoZ3DAlB1B4B6/E+0nGtr5D6P+r1aMZeug==
-X-Received: by 2002:a05:6808:1205:b0:354:2815:4f3c with SMTP id
- a5-20020a056808120500b0035428154f3cmr8704402oil.26.1666975443151; 
- Fri, 28 Oct 2022 09:44:03 -0700 (PDT)
+ bh=fkKD5NwF/AdGDH5rY2PB8WuM5fuyoDzb8BPGEhn1NZ4=;
+ b=MapBfdYiSRXyo+5VduV4/H33OJ4z1u855K0EHsRwjX+KfKrYQ8WG6qKwxSbyMDeyha
+ qd/ONd8ZlwBN2qGJQr4sHse1b1ueV7QcYqHX25ORvqQAQn8jtRLw3i0AdXQEa2+l5bQq
+ ZmdKPnu8e4nSS3fVZ1UHZ2nHtx6imHoZHoD6AiRijITv+HRl1EABtJ0aJuixtDFMStHe
+ Iodr1NWaWXKfPvnjrR9PYJY3xDtbydlZHnKbqqUyvEeAfNMlOKbabP0sVqrE7gul2KWl
+ h7/XSRhe3ChEGnoYVgPQOIaofBAnYzXP/8ItWSFshqwiQn52Xtf0vTTpVsayP1h2ezC4
+ g/xw==
+X-Gm-Message-State: ACrzQf3UCGyeDhXqe1fmRkt0VhIRiE+zHW1+l9r+lHOG9VN5OfdZ7N+N
+ f58W/nc28CzV3gQLygtIqAjCmA7tgBsR2g==
+X-Google-Smtp-Source: AMsMyM7MtAdDNfezp+Iqz481+g2z8msnX6uAoTgdt9fk5Tc65ecGN54oAKjsPLNAAKDPqc8g5WpQUA==
+X-Received: by 2002:a05:6830:1217:b0:661:c542:503c with SMTP id
+ r23-20020a056830121700b00661c542503cmr136586otp.40.1666975448092; 
+ Fri, 28 Oct 2022 09:44:08 -0700 (PDT)
 Received: from balboa.COMFAST ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.43.59
+ s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.44.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:44:02 -0700 (PDT)
+ Fri, 28 Oct 2022 09:44:06 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
- BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Leandro Lupori <leandro.lupori@eldorado.org.br>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 55/62] ppc4xx_sdram: Add errp parameter to ppc4xx_sdram_banks()
-Date: Fri, 28 Oct 2022 13:39:44 -0300
-Message-Id: <20221028163951.810456-56-danielhb413@gmail.com>
+Subject: [PULL 56/62] target/ppc: Add new PMC HFLAGS
+Date: Fri, 28 Oct 2022 13:39:45 -0300
+Message-Id: <20221028163951.810456-57-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
 References: <20221028163951.810456-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x329.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -92,84 +91,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+From: Leandro Lupori <leandro.lupori@eldorado.org.br>
 
-Do not exit from ppc4xx_sdram_banks() but report error via an errp
-parameter instead.
+Add 2 new PMC related HFLAGS:
+- HFLAGS_PMCJCE - value of MMCR0 PMCjCE bit
+- HFLAGS_PMC_OTHER - set if a PMC other than PMC5-6 is enabled
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <04bb3445439c2f37b99e74b3fdf4e62c2e6f7e04.1666194485.git.balaton@eik.bme.hu>
+These flags allow further optimization of PMC5 update code, by
+allowing frequently tested conditions to be performed at
+translation time.
+
+Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20221025202424.195984-3-leandro.lupori@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/ppc4xx_sdram.c | 28 +++++++++++++++++++---------
- 1 file changed, 19 insertions(+), 9 deletions(-)
+ target/ppc/cpu.h         | 4 +++-
+ target/ppc/helper_regs.c | 6 ++++++
+ target/ppc/translate.c   | 4 ++++
+ 3 files changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ppc/ppc4xx_sdram.c b/hw/ppc/ppc4xx_sdram.c
-index 7c097efe20..8d7137faf3 100644
---- a/hw/ppc/ppc4xx_sdram.c
-+++ b/hw/ppc/ppc4xx_sdram.c
-@@ -52,10 +52,12 @@
-  * must be one of a small set of sizes. The number of banks and the supported
-  * sizes varies by SoC.
-  */
--static void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
-+static bool ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
-                                Ppc4xxSdramBank ram_banks[],
--                               const ram_addr_t sdram_bank_sizes[])
-+                               const ram_addr_t sdram_bank_sizes[],
-+                               Error **errp)
- {
-+    ERRP_GUARD();
-     ram_addr_t size_left = memory_region_size(ram);
-     ram_addr_t base = 0;
-     ram_addr_t bank_size;
-@@ -93,14 +95,16 @@ static void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
-                                    sdram_bank_sizes[i] / MiB,
-                                    sdram_bank_sizes[i + 1] ? ", " : "");
-         }
--        error_report("at most %d bank%s of %s MiB each supported",
--                     nr_banks, nr_banks == 1 ? "" : "s", s->str);
--        error_printf("Possible valid RAM size: %" PRIi64 " MiB\n",
--            used_size ? used_size / MiB : sdram_bank_sizes[i - 1] / MiB);
-+        error_setg(errp, "Invalid SDRAM banks");
-+        error_append_hint(errp, "at most %d bank%s of %s MiB each supported\n",
-+                          nr_banks, nr_banks == 1 ? "" : "s", s->str);
-+        error_append_hint(errp, "Possible valid RAM size: %" PRIi64 " MiB\n",
-+                  used_size ? used_size / MiB : sdram_bank_sizes[i - 1] / MiB);
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index cc2d0305ff..81d4263a07 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -696,7 +696,9 @@ enum {
+     HFLAGS_PR = 14,  /* MSR_PR */
+     HFLAGS_PMCC0 = 15,  /* MMCR0 PMCC bit 0 */
+     HFLAGS_PMCC1 = 16,  /* MMCR0 PMCC bit 1 */
+-    HFLAGS_INSN_CNT = 17, /* PMU instruction count enabled */
++    HFLAGS_PMCJCE = 17, /* MMCR0 PMCjCE bit */
++    HFLAGS_PMC_OTHER = 18, /* PMC other than PMC5-6 is enabled */
++    HFLAGS_INSN_CNT = 19, /* PMU instruction count enabled */
+     HFLAGS_VSX = 23, /* MSR_VSX if cpu has VSX */
+     HFLAGS_VR = 25,  /* MSR_VR if cpu has VRE */
  
-         g_string_free(s, true);
--        exit(EXIT_FAILURE);
-+        return false;
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index 2e85e124ab..c0aee5855b 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -109,6 +109,9 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+     if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMCC1) {
+         hflags |= 1 << HFLAGS_PMCC1;
      }
-+    return true;
- }
++    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMCjCE) {
++        hflags |= 1 << HFLAGS_PMCJCE;
++    }
  
- static void sdram_bank_map(Ppc4xxSdramBank *bank)
-@@ -399,7 +403,10 @@ static void ppc4xx_sdram_ddr_realize(DeviceState *dev, Error **errp)
-         error_setg(errp, "Missing dram memory region");
-         return;
+ #ifndef CONFIG_USER_ONLY
+     if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
+@@ -119,6 +122,9 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+     if (env->pmc_ins_cnt) {
+         hflags |= 1 << HFLAGS_INSN_CNT;
      }
--    ppc4xx_sdram_banks(s->dram_mr, s->nbanks, s->bank, valid_bank_sizes);
-+    if (!ppc4xx_sdram_banks(s->dram_mr, s->nbanks, s->bank,
-+                            valid_bank_sizes, errp)) {
-+        return;
++    if (env->pmc_ins_cnt & 0x1e) {
++        hflags |= 1 << HFLAGS_PMC_OTHER;
 +    }
-     for (i = 0; i < s->nbanks; i++) {
-         if (s->bank[i].size) {
-             s->bank[i].bcr = sdram_ddr_bcr(s->bank[i].base, s->bank[i].size);
-@@ -666,7 +673,10 @@ static void ppc4xx_sdram_ddr2_realize(DeviceState *dev, Error **errp)
-         error_setg(errp, "Missing dram memory region");
-         return;
-     }
--    ppc4xx_sdram_banks(s->dram_mr, s->nbanks, s->bank, valid_bank_sizes);
-+    if (!ppc4xx_sdram_banks(s->dram_mr, s->nbanks, s->bank,
-+                            valid_bank_sizes, errp)) {
-+        return;
-+    }
-     for (i = 0; i < s->nbanks; i++) {
-         if (s->bank[i].size) {
-             s->bank[i].bcr = sdram_ddr2_bcr(s->bank[i].base, s->bank[i].size);
+ #endif
+ 
+     /*
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 29e4b728e2..8d79522f98 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -177,6 +177,8 @@ struct DisasContext {
+     bool hr;
+     bool mmcr0_pmcc0;
+     bool mmcr0_pmcc1;
++    bool mmcr0_pmcjce;
++    bool pmc_other;
+     bool pmu_insn_cnt;
+     ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
+     int singlestep_enabled;
+@@ -7512,6 +7514,8 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->hr = (hflags >> HFLAGS_HR) & 1;
+     ctx->mmcr0_pmcc0 = (hflags >> HFLAGS_PMCC0) & 1;
+     ctx->mmcr0_pmcc1 = (hflags >> HFLAGS_PMCC1) & 1;
++    ctx->mmcr0_pmcjce = (hflags >> HFLAGS_PMCJCE) & 1;
++    ctx->pmc_other = (hflags >> HFLAGS_PMC_OTHER) & 1;
+     ctx->pmu_insn_cnt = (hflags >> HFLAGS_INSN_CNT) & 1;
+ 
+     ctx->singlestep_enabled = 0;
 -- 
 2.37.3
 
