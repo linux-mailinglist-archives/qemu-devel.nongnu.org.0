@@ -2,60 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001B96112EE
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 343DC611342
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:43:57 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooPW3-0004zO-5r; Fri, 28 Oct 2022 09:35:19 -0400
+	id 1ooPan-0008Jp-Dn; Fri, 28 Oct 2022 09:40:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ooPVz-0004ys-JS
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:35:16 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1ooPVu-000797-5Q
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:35:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=MQ+p1TYdDJFP0Cy5obwPmUr9/8UN1y0zayMadiGx4iU=; b=HcUDxaX+Od/zA6YyH1gMoin+Y1
- w6reirqB4KIL9+ltOmaqOS3riRxX+OB8DJw9XVggY/mNgHp3ualKScvsmtclu9EM3cenKJVNwpPIB
- dfh0I2RlICL3EbxEXjjT5pqMbo2eQ3qNnsh+KbVv0hXilDRVYNqa5H0pPdRXn7b8PHoWhUbGxhK+6
- zqIV21OXNRyIujqapx0xaplfyQsd4h6ndRydohfeqLVf/0gps3a/09rv5BmeSubCRICmoPg+asowb
- Vvkn/KToR7covFd8U2R/MtwEXXD3Lu2Dfxkrn2s04nwS7B7gRyTwRnrpvp+HYPSC7Jblv4khifIeh
- 2m7LFBXH/YlPtwXk8ISAIbaxPuQXXqWij+ezICsqHudm7C1UBQmAVFsa5l/Goolz8IMYDkJdRxWgJ
- C/pHk+pWqoiSsGmTw/zz2au8tyMoA07H4m1lgaib405Vs23S6ezs4cAFh0qZwW/zA6rqBmWWDiz6T
- DLt9pU8GlmvoXZ1wMR5oT77XLfT25/qzY3fjZpF5ZZUYi2wjWSzGs4+duQetBZV8qLSxU6ID6nUob
- 00CmbnpmnKyla2+BX+jMWv1Oq2ES0MB/lpOIIMGnXVUOGY8hmITVsUPTfgnm3+grWR3gw3DHWGd5q
- E2hwoOyVe7GqLDVijv4bqPAGUE2hOBtfLS0ampJ4o=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: =?ISO-8859-1?Q?Marc=2DAndr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v6 08/11] tests/qtest: libqos: Do not build virtio-9p
- unconditionally
-Date: Fri, 28 Oct 2022 15:34:45 +0200
-Message-ID: <4670841.EzQWk5tR0x@silver>
-In-Reply-To: <552d9669-9db8-08e1-5931-644ec4c12c07@redhat.com>
-References: <20221028045736.679903-1-bin.meng@windriver.com>
- <5007365.dktPthMeyv@silver>
- <552d9669-9db8-08e1-5931-644ec4c12c07@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ooPaj-0008GB-88
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:40:09 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ooPah-0007qI-Es
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:40:08 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id j15so6662734wrq.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 06:40:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=anZ6XgTCsYFhcjKR6p7zTuJM8BS5HaFnxnQljkHKXPk=;
+ b=HdyWnEZ3nTbUyP5T8MW7Hz8YL1xvmuzNG7CbGGtaVp14CGNTZRxKs+rQvp2mmE0b3V
+ FWidBHxBKKZ/K1ako1oqRR+X+zKQllBmnLU15F8Sgn2AwQmhgV9Wx9N8O5iXK+OeDpd1
+ OWJlxljpNpQti8FA0JRZQ6bARfvBeutgil9NbNtUjSlAZP4Ao62QG2LxQU6+ko1ibnnh
+ +jYZL8nme9VT9QQ23TopCWK8LFQ01JutF6eU4FzoKXKxXrRU7emMdqOKbwi8InSyWel5
+ 9pYi7aI/lpEK73ON3O3BDgGVEO6X7d85GjDxYILSNgAFj1EfDFpkRZ+Jd7/X2fbdy//Y
+ Fyaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=anZ6XgTCsYFhcjKR6p7zTuJM8BS5HaFnxnQljkHKXPk=;
+ b=s2BD7nDnx/OeFo8zMHJ/7cm1Z8bXfiFAt+7ECSfhiE2T3SpKuBaUFXoaJ2UUxd7Vja
+ mvaRVondNeqOS3+sVMYAY2cu5/WPTvkUDVaNslvyJ+kG83Hebox+PG+hsiQSDvpyts5t
+ WFD5naX6t4uWfuBeZPCW6vyHkXHe4DFotdnBQ0RcbvwD85WaIfKGwwfN2SPR9vkLB4/m
+ CK3IfC6Lgq2KFaXw/dIOls1z1HpkQJm3PtZIBW+UXEGvXp9mDX1s7csj0DrDxZ8bCTgc
+ krekLOkTNN0D0OL1QZ+rCEyIK0yMXfalt3BjbcLze3blAJX5uyyPjb130HGtIhzU8DK5
+ Q2kA==
+X-Gm-Message-State: ACrzQf2PdjeNNnD3RZ6lmxr7bJ39yoJfXT4ciODg+l5VZj70Xjde1f/c
+ vRNinGFMzXb6b3Efrp5j/eYP/Q==
+X-Google-Smtp-Source: AMsMyM45ecBB3Q+KwvWQbFQZw486y9yfdoWEs4VvRSS7sr7ZfAEWx8eokCVhsw7b62bX2gJqAV5Z7w==
+X-Received: by 2002:a05:6000:504:b0:236:5fe9:883e with SMTP id
+ a4-20020a056000050400b002365fe9883emr21965476wrf.65.1666964405310; 
+ Fri, 28 Oct 2022 06:40:05 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ l16-20020a5d4110000000b002365cd93d05sm3572858wrp.102.2022.10.28.06.40.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Oct 2022 06:40:04 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/7] target/arm: Implement FEAT_EVT
+Date: Fri, 28 Oct 2022 14:39:55 +0100
+Message-Id: <20221028134002.730598-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,108 +85,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Friday, October 28, 2022 3:09:06 PM CEST Thomas Huth wrote:
-> On 28/10/2022 14.59, Christian Schoenebeck wrote:
-> > On Friday, October 28, 2022 6:57:33 AM CEST Bin Meng wrote:
-> >> At present the virtio-9p related codes are built into libqos
-> >> unconditionally. Change to build them conditionally by testing
-> >> the 'virtfs' config option.
-> >>
-> >> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> >>
-> >> ---
-> >>
-> >> Changes in v6:
-> >> - new patch: "test/qtest/libqos: meson.build: Do not build virtio-9p unconditionally"
-> >>
-> >>   tests/qtest/libqos/meson.build | 6 ++++--
-> >>   1 file changed, 4 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
-> >> index 113c80b4e4..32f028872c 100644
-> >> --- a/tests/qtest/libqos/meson.build
-> >> +++ b/tests/qtest/libqos/meson.build
-> >> @@ -33,8 +33,6 @@ libqos_srcs = files(
-> >>           'sdhci.c',
-> >>           'tpci200.c',
-> >>           'virtio.c',
-> >> -        'virtio-9p.c',
-> >> -        'virtio-9p-client.c',
-> >>           'virtio-balloon.c',
-> >>           'virtio-blk.c',
-> >>           'vhost-user-blk.c',
-> >> @@ -62,6 +60,10 @@ libqos_srcs = files(
-> >>           'x86_64_pc-machine.c',
-> >>   )
-> >>   
-> >> +if have_virtfs
-> >> +  libqos_srcs += files('virtio-9p.c', 'virtio-9p-client.c')
-> >> +endif
-> >> +
-> >>   libqos = static_library('qos', libqos_srcs + genh,
-> >>                           name_suffix: 'fa',
-> >>                           build_by_default: false)
-> >>
-> > 
-> > I wondered why this change would no longer execute the 9p tests here.
-> > Apparently because it changes the order of tests being executed, i.e. 9p tests
-> > would then be scheduled after:
-> > 
-> >    # Start of vhost-user-blk-pci tests
-> >    # Start of vhost-user-blk-pci-tests tests
-> >    Environment variable QTEST_QEMU_STORAGE_DAEMON_BINARY required
-> >    [EXIT]
-> > 
-> > and I never cared about QEMU storage binary. Can we make a hack like the
-> > following to not change the order of the tests?
-> > 
-> > diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
-> > index 32f028872c..389bca9804 100644
-> > --- a/tests/qtest/libqos/meson.build
-> > +++ b/tests/qtest/libqos/meson.build
-> > @@ -1,7 +1,13 @@
-> >   libqos_srcs = files(
-> >           '../libqtest.c',
-> >           '../libqmp.c',
-> > +)
-> >   
-> > +if have_virtfs
-> > +  libqos_srcs += files('virtio-9p.c', 'virtio-9p-client.c')
-> > +endif
-> > +
-> > +libqos_srcs += files(
-> >           'qgraph.c',
-> >           'qos_external.c',
-> >           'pci.c',
-> > @@ -60,10 +66,6 @@ libqos_srcs = files(
-> >           'x86_64_pc-machine.c',
-> >   )
-> >   
-> > -if have_virtfs
-> > -  libqos_srcs += files('virtio-9p.c', 'virtio-9p-client.c')
-> > -endif
-> > -
-> >   libqos = static_library('qos', libqos_srcs + genh,
-> >                           name_suffix: 'fa',
-> >                           build_by_default: false)
-> > 
-> > Too ugly?
-> 
-> Looks a little bit ugly, indeed. What about marking the vhost-user-blk-pci 
-> test as skipped instead of exiting? (i.e. use g_test_skip() instead of 
-> exit()). Would that work for you?
+The architectural feature FEAT_EVT adds adds five new bits to the
+HCR_EL2 register: TTLBIS, TTLBOS, TICAB, TOCU and TID4.  These allow
+the guest to enable trapping of various EL1 instructions to EL2.
+This patch series implements the feature and turns it on for
+the 'max' CPU.
 
-In general, sure!
+Patch 1 is a bug fix where we forgot one of the existing
+trap bits when we added the new TLB maintenance operations
+for FEAT_TLBIOS and FEAT_TLBRANGE.
 
-But it seems it needs a bit more tweaking, simply placing
+thanks
+-- PMM
 
-  g_test_skip(...);
-  return NULL;
+Peter Maydell (7):
+  target/arm: Make TLBIOS and TLBIRANGE ops trap on HCR_EL2.TTLB
+  target/arm: Allow relevant HCR bits to be written for FEAT_EVT
+  target/arm: Implement HCR_EL2.TTLBIS traps
+  target/arm: Implement HCR_EL2.TTLBOS traps
+  target/arm: Implement HCR_EL2.TICAB,TOCU traps
+  target/arm: Implement HCR_EL2.TID4 traps
+  target/arm: Report FEAT_EVT for TCG '-cpu max'
 
-there causes a hang.
+ docs/system/arm/emulation.rst |   1 +
+ target/arm/cpu.h              |  30 +++++++
+ target/arm/cpu64.c            |   1 +
+ target/arm/cpu_tcg.c          |   1 +
+ target/arm/helper.c           | 144 ++++++++++++++++++++++------------
+ 5 files changed, 126 insertions(+), 51 deletions(-)
 
-Best regards,
-Christian Schoenebeck
-
+-- 
+2.25.1
 
 
