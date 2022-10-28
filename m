@@ -2,91 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5426116CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 730FC61172F
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:14:13 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooRqf-0001HK-Iu; Fri, 28 Oct 2022 12:04:45 -0400
+	id 1ooRyM-0004Nw-Nj; Fri, 28 Oct 2022 12:12:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ooRpa-0007wv-DQ; Fri, 28 Oct 2022 12:03:42 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1ooRyJ-0004J8-GY
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 12:12:39 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ooRpY-0002mO-1n; Fri, 28 Oct 2022 12:03:38 -0400
-Received: by mail-wr1-x435.google.com with SMTP id bs21so7174326wrb.4;
- Fri, 28 Oct 2022 09:03:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mN+GTbhuSL4MayUouC/8aeBr83AsyVF3yLcKJl3bYJc=;
- b=GazPm9XydD7ymqLkN+Xen/6U5log3qRBVcJsCw2Cih57Betm8YKEV8j39A6vevyORw
- GApB5cSCT7inDNQTkqM61sfZ6CZ6/fd5f8lw8cS2hBjDUDCStSfMNaM83d7MbcvTM6oi
- yEp9oqQYKq5MNARYFq+dP7oq0xK63fuVXmyq9RNEsuXKWCeB4V8MbqTn4kf3IgD8WFsk
- wRgDlWKF1zb5cJ6w8m7RvtDbqbOWRS//o5gO1liFJNz/dUcz50GeyDjdA7MRnbi0m5Ld
- 1+aEKryZLjUvS7QIOpYCANMdqqrtyTgP8JA/yCbM+1ckrbfAFyYtCI9gXgWTQEnPurVp
- Wy+w==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1ooRyE-00067L-GO
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 12:12:37 -0400
+Received: by mail-pg1-x529.google.com with SMTP id q71so5216056pgq.8
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 09:12:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2RIdcJzer00cgHlbL0m4DdXs3YXDj0W5/BUWRHsy36g=;
+ b=LfhcdxOkJtRys+iGApcilB4W0DOdjimWfWIwmdj+px9/BE1dye2YFC+OzZRP6yVCJg
+ NIyKOrtfvQeFT0qLP1reV0XN9j33r0UsV+THPfhMSjRzBEXYjswHnKG3SRNVTjwmJrCS
+ kobWIwRvZK+GxpcgqD4R9qIemAXvuCSSoBoRQ4kcUeUgoRVQdyNGoG389dHU/7yVy6vy
+ ETrGYov45Lja+11j+qvuxibQGko68c1Am/ZQWkJoZXAg1QxNARn7AMSXrUw4/PHYFUKv
+ lWCDvRR3iNYdgkPoqke1hWo21pupWGn4eBAO9MwyIcSygxm1JyVA6qMyHKTulGQO1tEK
+ oyZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mN+GTbhuSL4MayUouC/8aeBr83AsyVF3yLcKJl3bYJc=;
- b=Q0HVnhdlsjY9JuO2eZLX2VAw4asngwBuX+AukCysa2/0yHefG2OiH8Oy+3izhp94tG
- O8kDPxFGOzkhbIbl6fVfrbwy/X8yu/jpHOXOPGza3Gl4hSdUgPVqn6Ft4qLG8CWQFDm1
- YFAvsOiv8hsVQEo9Clfws6JFB/YcMMRNzxy64X78Z9eIgcms5HCurh1FdmK5H/2rp8pn
- gelbx7pHjQQ9Wrum2PhZzV+emGVjwnAipSQ1MusXIx9FTpS4eBgvZ75n2Q3BxiTOTk0a
- Ojq9+vZx0XcPQ0TrNRxsXZ6fnfuIT6PvziRVnCGc6oM4Kvo0DvopflQHM4scUv/jwl8b
- ON+w==
-X-Gm-Message-State: ACrzQf1d1HqQdzKDVJY3T/2PsQI4M8/mLXzFf1R7DdqVHqQgz36tXjNT
- 9QmBx1U00CUSgs9Cl3d0ri8=
-X-Google-Smtp-Source: AMsMyM4F2/7FppCpt13M6GHVxjflNrj/8DWQouIMqLeNaElQ2I6BHuT5hpnI02abVut303jaM23Cew==
-X-Received: by 2002:a5d:64c7:0:b0:22e:43a6:2801 with SMTP id
- f7-20020a5d64c7000000b0022e43a62801mr40811wri.612.1666973013285; 
- Fri, 28 Oct 2022 09:03:33 -0700 (PDT)
-Received: from ?IPv6:::1?
- (p200300faaf0bb200bd2f89c083d9cbe6.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:bd2f:89c0:83d9:cbe6])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=2RIdcJzer00cgHlbL0m4DdXs3YXDj0W5/BUWRHsy36g=;
+ b=WElbfVpdq9ncUkuyRgpQHCoBqkhkvCgyz6eKKDkIr0LR3KL9ysmHveBjbZfN4f8YaP
+ CVunuQUCjkrVv/Sp7RCMdLdU8sgdKy25lUJnq77k8gP2JnsQvGTqDdce8UfBtWsj56FB
+ hO01pEj0lJTtDOkry1Id9zG4NTAmZLRnDRifnj9pgYMIlqv1o/tSXP/sOKJ9OKkTXUpS
+ zmLFaVhKGRyE5pMLMxnNCfunhB6RrxT6C7GUXXf7RGMzAESm//RQEzRYFmHkvdsfLsGT
+ tuGZtHzOpBhpWpCv6zTTC44cfs8+ArN6LuSgIN3Ht6qOxf3F75+GEoDidkk1DFoz1Yg0
+ rvUQ==
+X-Gm-Message-State: ACrzQf33j75rvzXExHog6F4goerlovk5mLGmc7zBVH05uKKRfJHfFJ/p
+ 6YdoTt5FSfzlQ8RYj2XOmFsAQQ==
+X-Google-Smtp-Source: AMsMyM7dl3yaCmHtSJ62rO8uHQdM7v91dQGpUOnkiQuvF8XUx4AaH507O3lV1Ejt7Tg+up9jUwiWFw==
+X-Received: by 2002:a63:1a60:0:b0:43c:9bcd:6c37 with SMTP id
+ a32-20020a631a60000000b0043c9bcd6c37mr221376pgm.125.1666973538333; 
+ Fri, 28 Oct 2022 09:12:18 -0700 (PDT)
+Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419?
+ ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- ay19-20020a05600c1e1300b003a1980d55c4sm8147519wmb.47.2022.10.28.09.03.32
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 28 Oct 2022 09:03:32 -0700 (PDT)
-Date: Fri, 28 Oct 2022 16:03:29 +0000
-From: B <shentey@gmail.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-CC: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-ppc@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Antony Pavlov <antonynpavlov@gmail.com>, BALATON Zoltan <balaton@eik.bme.hu>, 
- Alistair Francis <alistair@alistair23.me>, Bin Meng <bin.meng@windriver.com>, 
- Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Jan Kiszka <jan.kiszka@web.de>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, qemu-arm@nongnu.org,
- Magnus Damm <magnus.damm@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org
-Subject: Re: [PATCH v4 5/7] hw/ppc/e500: Implement pflash handling
-In-Reply-To: <eea963b8-f6d9-b345-376e-7fd6dad73cd4@gmail.com>
-References: <20221018210146.193159-1-shentey@gmail.com>
- <20221018210146.193159-6-shentey@gmail.com>
- <eea963b8-f6d9-b345-376e-7fd6dad73cd4@gmail.com>
-Message-ID: <89D2DB02-17DE-43F0-BA2F-4855E6F6659B@gmail.com>
+ v8-20020a1709029a0800b00186a2dd3ffdsm3272599plp.15.2022.10.28.09.12.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Oct 2022 09:12:17 -0700 (PDT)
+Message-ID: <8bcd5f5a-7b9a-6359-a63d-3f72e44f7d43@daynix.com>
+Date: Sat, 29 Oct 2022 01:12:11 +0900
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=shentey@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v5 01/17] hw/vfio/pci: Ensure MSI and MSI-X do not overlap
+Content-Language: en-US
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang
+ <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Paul Burton <paulburton@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Yan Vugenfirer <yan@daynix.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>
+References: <20221028122629.3269-1-akihiko.odaki@daynix.com>
+ <20221028122629.3269-2-akihiko.odaki@daynix.com>
+ <20221028081627.50c9bf61.alex.williamson@redhat.com>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20221028081627.50c9bf61.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::529;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,274 +109,229 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-Am 28=2E Oktober 2022 15:09:50 UTC schrieb Daniel Henrique Barboza <daniel=
-hb413@gmail=2Ecom>:
->Bernhard,
-
-Hi Daniel,
-
->
->The 32 builds aren't fancying this patch=2E The issue is down there:
->
->On 10/18/22 18:01, Bernhard Beschow wrote:
->> Allows e500 boards to have their root file system reside on flash using
->> only builtin devices located in the eLBC memory region=2E
->>=20
->> Note that the flash memory area is only created when a -pflash argument=
- is
->> given, and that the size is determined by the given file=2E The idea is=
- to
->> put users into control=2E
->>=20
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+On 2022/10/28 23:16, Alex Williamson wrote:
+> On Fri, 28 Oct 2022 21:26:13 +0900
+> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+> 
+>> vfio_add_std_cap() is designed to ensure that capabilities do not
+>> overlap, but it failed to do so for MSI and MSI-X capabilities.
+>>
+>> Ensure MSI and MSI-X capabilities do not overlap with others by omitting
+>> other overlapping capabilities.
+>>
+>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 >> ---
->>   docs/system/ppc/ppce500=2Erst | 16 ++++++++
->>   hw/ppc/Kconfig              |  1 +
->>   hw/ppc/e500=2Ec               | 79 ++++++++++++++++++++++++++++++++++=
-+++
->>   3 files changed, 96 insertions(+)
->>=20
->> diff --git a/docs/system/ppc/ppce500=2Erst b/docs/system/ppc/ppce500=2E=
-rst
->> index 7b5eb3c4ee=2E=2E38f8ceb0cf 100644
->> --- a/docs/system/ppc/ppce500=2Erst
->> +++ b/docs/system/ppc/ppce500=2Erst
->> @@ -165,3 +165,19 @@ if =E2=80=9C-device eTSEC=E2=80=9D is given to QEM=
-U:
->>   =2E=2E code-block:: bash
->>       -netdev tap,ifname=3Dtap0,script=3Dno,downscript=3Dno,id=3Dnet0 -=
-device eTSEC,netdev=3Dnet0
->> +
->> +Root file system on flash drive
->> +-------------------------------
->> +
->> +Rather than using a root file system on ram disk, it is possible to ha=
-ve it on
->> +CFI flash=2E Given an ext2 image whose size must be a power of two, it=
- can be used
->> +as follows:
->> +
->> +=2E=2E code-block:: bash
->> +
->> +  $ qemu-system-ppc64 -M ppce500 -cpu e500mc -smp 4 -m 2G \
->> +      -display none -serial stdio \
->> +      -kernel vmlinux \
->> +      -drive if=3Dpflash,file=3D/path/to/rootfs=2Eext2,format=3Draw \
->> +      -append "rootwait root=3D/dev/mtdblock0"
->> +
->> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
->> index 791fe78a50=2E=2E769a1ead1c 100644
->> --- a/hw/ppc/Kconfig
->> +++ b/hw/ppc/Kconfig
->> @@ -126,6 +126,7 @@ config E500
->>       select ETSEC
->>       select GPIO_MPC8XXX
->>       select OPENPIC
->> +    select PFLASH_CFI01
->>       select PLATFORM_BUS
->>       select PPCE500_PCI
->>       select SERIAL
->> diff --git a/hw/ppc/e500=2Ec b/hw/ppc/e500=2Ec
->> index 3e950ea3ba=2E=2E73198adac8 100644
->> --- a/hw/ppc/e500=2Ec
->> +++ b/hw/ppc/e500=2Ec
->> @@ -23,8 +23,10 @@
->>   #include "e500-ccsr=2Eh"
->>   #include "net/net=2Eh"
->>   #include "qemu/config-file=2Eh"
->> +#include "hw/block/flash=2Eh"
->>   #include "hw/char/serial=2Eh"
->>   #include "hw/pci/pci=2Eh"
->> +#include "sysemu/block-backend-io=2Eh"
->>   #include "sysemu/sysemu=2Eh"
->>   #include "sysemu/kvm=2Eh"
->>   #include "sysemu/reset=2Eh"
->> @@ -267,6 +269,31 @@ static void sysbus_device_create_devtree(SysBusDev=
-ice *sbdev, void *opaque)
+>>   hw/vfio/pci.c | 63 +++++++++++++++++++++++++++++++++++++++++++--------
+>>   hw/vfio/pci.h |  3 +++
+>>   2 files changed, 56 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>> index 939dcc3d4a..36c8f3dc85 100644
+>> --- a/hw/vfio/pci.c
+>> +++ b/hw/vfio/pci.c
+>> @@ -1278,23 +1278,42 @@ static void vfio_disable_interrupts(VFIOPCIDevice *vdev)
 >>       }
 >>   }
->>   +static void create_devtree_flash(SysBusDevice *sbdev,
->> +                                 PlatformDevtreeData *data)
->> +{
->> +    g_autofree char *name =3D NULL;
->> +    uint64_t num_blocks =3D object_property_get_uint(OBJECT(sbdev),
->> +                                                   "num-blocks",
->> +                                                   &error_fatal);
->> +    uint64_t sector_length =3D object_property_get_uint(OBJECT(sbdev),
->> +                                                      "sector-length",
->> +                                                      &error_fatal);
->> +    uint64_t bank_width =3D object_property_get_uint(OBJECT(sbdev),
->> +                                                   "width",
->> +                                                   &error_fatal);
->> +    hwaddr flashbase =3D 0;
->> +    hwaddr flashsize =3D num_blocks * sector_length;
->> +    void *fdt =3D data->fdt;
+>>   
+>> -static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+>> +static void vfio_msi_early_setup(VFIOPCIDevice *vdev, Error **errp)
+>>   {
+>>       uint16_t ctrl;
+>> -    bool msi_64bit, msi_maskbit;
+>> -    int ret, entries;
+>> -    Error *err = NULL;
+>> +    uint8_t pos;
 >> +
->> +    name =3D g_strdup_printf("%s/nor@%" PRIx64, data->node, flashbase)=
-;
->> +    qemu_fdt_add_subnode(fdt, name);
->> +    qemu_fdt_setprop_string(fdt, name, "compatible", "cfi-flash");
->> +    qemu_fdt_setprop_sized_cells(fdt, name, "reg",
->> +                                 1, flashbase, 1, flashsize);
->> +    qemu_fdt_setprop_cell(fdt, name, "bank-width", bank_width);
+>> +    pos = pci_find_capability(&vdev->pdev, PCI_CAP_ID_MSI);
+>> +    if (!pos) {
+>> +        return;
+>> +    }
+>>   
+>>       if (pread(vdev->vbasedev.fd, &ctrl, sizeof(ctrl),
+>>                 vdev->config_offset + pos + PCI_CAP_FLAGS) != sizeof(ctrl)) {
+>>           error_setg_errno(errp, errno, "failed reading MSI PCI_CAP_FLAGS");
+>> -        return -errno;
+>> +        return;
+>>       }
+>> -    ctrl = le16_to_cpu(ctrl);
+>> +    vdev->msi_pos = pos;
+>> +    vdev->msi_ctrl = le16_to_cpu(ctrl);
+>>   
+>> -    msi_64bit = !!(ctrl & PCI_MSI_FLAGS_64BIT);
+>> -    msi_maskbit = !!(ctrl & PCI_MSI_FLAGS_MASKBIT);
+>> -    entries = 1 << ((ctrl & PCI_MSI_FLAGS_QMASK) >> 1);
+>> +    vdev->msi_cap_size = 0xa;
+>> +    if ((vdev->msi_ctrl & PCI_MSI_FLAGS_MASKBIT)) {
+>> +        vdev->msi_cap_size += 0xa;
+>> +    }
+>> +    if ((vdev->msi_ctrl & PCI_MSI_FLAGS_64BIT)) {
+>> +        vdev->msi_cap_size += 0x4;
+>> +    }
 >> +}
 >> +
->>   static void platform_bus_create_devtree(PPCE500MachineState *pms,
->>                                           void *fdt, const char *mpic)
->>   {
->> @@ -276,6 +303,8 @@ static void platform_bus_create_devtree(PPCE500Mach=
-ineState *pms,
->>       uint64_t addr =3D pmc->platform_bus_base;
->>       uint64_t size =3D pmc->platform_bus_size;
->>       int irq_start =3D pmc->platform_bus_first_irq;
->> +    SysBusDevice *sbdev;
->> +    bool ambiguous;
->>         /* Create a /platform node that we can put all devices into */
->>   @@ -302,6 +331,13 @@ static void platform_bus_create_devtree(PPCE500M=
-achineState *pms,
->>       /* Loop through all dynamic sysbus devices and create nodes for t=
-hem */
->>       foreach_dynamic_sysbus_device(sysbus_device_create_devtree, &data=
-);
->>   +    sbdev =3D SYS_BUS_DEVICE(object_resolve_path_type("", TYPE_PFLAS=
-H_CFI01,
->> +                                                    &ambiguous));
->> +    if (sbdev) {
->> +        assert(!ambiguous);
->> +        create_devtree_flash(sbdev, &data);
->> +    }
+>> +static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+>> +{
+>> +    bool msi_64bit, msi_maskbit;
+>> +    int ret, entries;
+>> +    Error *err = NULL;
 >> +
->>       g_free(node);
+>> +    msi_64bit = !!(vdev->msi_ctrl & PCI_MSI_FLAGS_64BIT);
+>> +    msi_maskbit = !!(vdev->msi_ctrl & PCI_MSI_FLAGS_MASKBIT);
+>> +    entries = 1 << ((vdev->msi_ctrl & PCI_MSI_FLAGS_QMASK) >> 1);
+>>   
+>>       trace_vfio_msi_setup(vdev->vbasedev.name, pos);
+>>   
+>> @@ -1306,7 +1325,6 @@ static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+>>           error_propagate_prepend(errp, err, "msi_init failed: ");
+>>           return ret;
+>>       }
+>> -    vdev->msi_cap_size = 0xa + (msi_maskbit ? 0xa : 0) + (msi_64bit ? 0x4 : 0);
+>>   
+>>       return 0;
 >>   }
->>   @@ -856,6 +892,7 @@ void ppce500_init(MachineState *machine)
->>       unsigned int pci_irq_nrs[PCI_NUM_PINS] =3D {1, 2, 3, 4};
->>       IrqLines *irqs;
->>       DeviceState *dev, *mpicdev;
->> +    DriveInfo *dinfo;
->>       CPUPPCState *firstenv =3D NULL;
->>       MemoryRegion *ccsr_addr_space;
->>       SysBusDevice *s;
->> @@ -1024,6 +1061,48 @@ void ppce500_init(MachineState *machine)
->>                                   pmc->platform_bus_base,
->>                                   &pms->pbus_dev->mmio);
->>   +    dinfo =3D drive_get(IF_PFLASH, 0, 0);
->> +    if (dinfo) {
->> +        BlockBackend *blk =3D blk_by_legacy_dinfo(dinfo);
->> +        BlockDriverState *bs =3D blk_bs(blk);
->> +        uint64_t size =3D bdrv_getlength(bs);
->> +        uint64_t mmio_size =3D pms->pbus_dev->mmio=2Esize;
->
->^ here=2E The issue is that on a 32 bit system it is not possible to cast=
- the
->Int128 type to uint64_t:
->
->FAILED: libqemu-ppc64-softmmu=2Efa=2Ep/hw_ppc_e500=2Ec=2Eo
->3746cc -m32 -Ilibqemu-ppc64-softmmu=2Efa=2Ep -I=2E -I=2E=2E -Itarget/ppc =
--I=2E=2E/target/ppc -I=2E=2E/dtc/libfdt -Iqapi -Itrace -Iui -Iui/shader -I/=
-usr/include/pixman-1 -I/usr/include/glib-2=2E0 -I/usr/lib/glib-2=2E0/includ=
-e -I/usr/include/sysprof-4 -fdiagnostics-color=3Dauto -Wall -Winvalid-pch -=
-Werror -std=3Dgnu11 -O2 -g -isystem /builds/danielhb/qemu/linux-headers -is=
-ystem linux-headers -iquote =2E -iquote /builds/danielhb/qemu -iquote /buil=
-ds/danielhb/qemu/include -iquote /builds/danielhb/qemu/tcg/i386 -pthread -U=
-_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D6=
-4 -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite=
--strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv -Wol=
-d-style-declaration -Wold-style-definition -Wtype-limits -Wformat-security =
--Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs=
- -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno-miss=
-ing-include-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protector-str=
-ong -fPIE -isystem=2E=2E/linux-headers -isystemlinux-headers -DNEED_CPU_H '=
--DCONFIG_TARGET=3D"ppc64-softmmu-config-target=2Eh"' '-DCONFIG_DEVICES=3D"p=
-pc64-softmmu-config-devices=2Eh"' -MD -MQ libqemu-ppc64-softmmu=2Efa=2Ep/hw=
-_ppc_e500=2Ec=2Eo -MF libqemu-ppc64-softmmu=2Efa=2Ep/hw_ppc_e500=2Ec=2Eo=2E=
-d -o libqemu-ppc64-softmmu=2Efa=2Ep/hw_ppc_e500=2Ec=2Eo -c =2E=2E/hw/ppc/e5=
-00=2Ec
->3747=2E=2E/hw/ppc/e500=2Ec: In function 'ppce500_init':
->3748=2E=2E/hw/ppc/e500=2Ec:1069:30: error: incompatible types when initia=
-lizing type 'uint64_t' {aka 'long long unsigned int'} using type 'Int128'
->3749 1069 |         uint64_t mmio_size =3D pms->pbus_dev->mmio=2Esize;
->3750      |                              ^~~
->3751[3207/5331] Compiling C object libqemu-ppc64-softmmu=2Efa=2Ep/hw_ppc_=
-mpc8544_guts=2Ec=2Eo
-
-Whoops=2E
->
->
->What I did to solve the problem is this:
->
->
->+         uint64_t mmio_size =3D int128_get64(pms->pbus_dev->mmio=2Esize)=
-;
->
->
->This will get the lower 64 bits and return an uint64_t=2E
->
->Note that this function will assert if mmio=2Esize is bigger than UINT64_=
-MAX, but
->since you're doing an error(1) on the "if size > mmio_size" conditional, =
-this
->assert() is not introducing a new side effect=2E We'll just fail earlier =
-with
->a different error message=2E
-
-Yes, sounds reasonable=2E
->
->
->Let me know if this is acceptable for you=2E
-
-Yes, that's fine with me=2E Thanks for the fix!
-
-Best regards,
-Bernhard
->
->
->Daniel
->
->
->
->> +        uint32_t sector_len =3D 64 * KiB;
->> +
->> +        if (!is_power_of_2(size)) {
->> +            error_report("Size of pflash file must be a power of two=
-=2E");
->> +            exit(1);
->> +        }
->> +
->> +        if (size > mmio_size) {
->> +            error_report("Size of pflash file must not be bigger than =
-%" PRIu64
->> +                         " bytes=2E", mmio_size);
->> +            exit(1);
->> +        }
->> +
->> +        if (!QEMU_IS_ALIGNED(size, sector_len)) {
->> +            error_report("Size of pflash file must be a multiple of %"=
- PRIu32
->> +                         "=2E", sector_len);
->> +            exit(1);
->> +        }
->> +
->> +        dev =3D qdev_new(TYPE_PFLASH_CFI01);
->> +        qdev_prop_set_drive(dev, "drive", blk);
->> +        qdev_prop_set_uint32(dev, "num-blocks", size / sector_len);
->> +        qdev_prop_set_uint64(dev, "sector-length", sector_len);
->> +        qdev_prop_set_uint8(dev, "width", 2);
->> +        qdev_prop_set_bit(dev, "big-endian", true);
->> +        qdev_prop_set_uint16(dev, "id0", 0x89);
->> +        qdev_prop_set_uint16(dev, "id1", 0x18);
->> +        qdev_prop_set_uint16(dev, "id2", 0x0000);
->> +        qdev_prop_set_uint16(dev, "id3", 0x0);
->> +        qdev_prop_set_string(dev, "name", "e500=2Eflash");
->> +        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->> +
->> +        memory_region_add_subregion(&pms->pbus_dev->mmio, 0,
->> +                                    pflash_cfi01_get_memory(PFLASH_CFI=
-01(dev)));
+>> @@ -1524,6 +1542,7 @@ static void vfio_msix_early_setup(VFIOPCIDevice *vdev, Error **errp)
+>>       pba = le32_to_cpu(pba);
+>>   
+>>       msix = g_malloc0(sizeof(*msix));
+>> +    msix->pos = pos;
+>>       msix->table_bar = table & PCI_MSIX_FLAGS_BIRMASK;
+>>       msix->table_offset = table & ~PCI_MSIX_FLAGS_BIRMASK;
+>>       msix->pba_bar = pba & PCI_MSIX_FLAGS_BIRMASK;
+>> @@ -2025,6 +2044,24 @@ static int vfio_add_std_cap(VFIOPCIDevice *vdev, uint8_t pos, Error **errp)
+>>           }
+>>       }
+>>   
+>> +    if (cap_id != PCI_CAP_ID_MSI &&
+>> +        range_covers_byte(vdev->msi_pos, vdev->msi_cap_size, pos)) {
+>> +        warn_report(VFIO_MSG_PREFIX
+>> +                    "A capability overlaps with MSI, ignoring (%" PRIu8 " @ %" PRIu8 " in [%" PRIu8 ", %" PRIu8 "))",
+>> +                    vdev->vbasedev.name, cap_id, pos,
+>> +                    vdev->msi_pos, vdev->msi_pos + vdev->msi_cap_size);
+>> +        return 0;
 >> +    }
 >> +
->>       /*
->>        * Smart firmware defaults ahead!
->>        *
+>> +    if (cap_id != PCI_CAP_ID_MSIX && vdev->msix &&
+>> +        range_covers_byte(vdev->msix->pos, MSIX_CAP_LENGTH, pos)) {
+>> +        warn_report(VFIO_MSG_PREFIX
+>> +                    "A capability overlaps with MSI-X, ignoring (%" PRIu8 " @ %" PRIu8 " in [%" PRIu8 ", %" PRIu8 "))",
+>> +                    vdev->vbasedev.name, cap_id, pos,
+>> +                    vdev->msix->pos, vdev->msix->pos + MSIX_CAP_LENGTH);
+>> +        return 0;
+>> +    }
+> 
+> Capabilities are not a single byte, the fact that it doesn't start
+> within the MSI or MSI-X capability is not a sufficient test.  We're
+> also choosing to prioritize MSI and MSI-X capabilities by protecting
+> that range rather than the existing behavior where we'd drop those
+> capabilities if they overlap with another capability that has already
+> been placed.  There are merits to both approaches, but I don't see any
+> justification here to change the current behavior.
+> 
+> Isn't the most similar behavior to existing to pass the available size
+> to vfio_msi[x]_setup() and return an errno if the size would be
+> exceeded?  Something like below (untested, and requires exporting
+> msi_cap_sizeof()).  Thanks,
+
+It only tests the beginning of the capability currently being added 
+because its end is determined by vfio_std_cap_max_size() so that the 
+overlap does not happen.
+
+A comment in vfio_add_std_cap() says:
+ >     /*
+ >      * If it becomes important to configure capabilities to their actual
+ >      * size, use this as the default when it's something we don't 
+recognize.
+ >      * Since QEMU doesn't actually handle many of the config accesses,
+ >      * exact size doesn't seem worthwhile.
+ >      */
+
+My understanding of the problem is that while clipping is performed when 
+overlapping two capabilities other than MSI and MSI-X according to the 
+comment, the clipping does not happen when one of the overlapping 
+capability is MSI or MSI-X.
+
+According to that, the correct way to fix is to perform clipping also in 
+such a case. As QEMU actually handles the config acccesses for MSI and 
+MSI-X, MSI and MSI-X are always priotized over the other capabilities.
+
+Regards,
+Akihiko Odaki
+
+> 
+> Alex
+> 
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 939dcc3d4a9e..485f9bc5102d 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -1278,11 +1278,13 @@ static void vfio_disable_interrupts(VFIOPCIDevice *vdev)
+>       }
+>   }
+>   
+> -static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+> +static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos,
+> +                          uint8_t size, Error **errp)
+>   {
+>       uint16_t ctrl;
+>       bool msi_64bit, msi_maskbit;
+>       int ret, entries;
+> +    uint8_t msi_cap_size;
+>       Error *err = NULL;
+>   
+>       if (pread(vdev->vbasedev.fd, &ctrl, sizeof(ctrl),
+> @@ -1295,6 +1297,10 @@ static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+>       msi_64bit = !!(ctrl & PCI_MSI_FLAGS_64BIT);
+>       msi_maskbit = !!(ctrl & PCI_MSI_FLAGS_MASKBIT);
+>       entries = 1 << ((ctrl & PCI_MSI_FLAGS_QMASK) >> 1);
+> +    msi_cap_size = msi_cap_sizeof(ctrl);
+> +
+> +    if (msi_cap_size > size)
+> +	    return -ENOSPC;
+>   
+>       trace_vfio_msi_setup(vdev->vbasedev.name, pos);
+>   
+> @@ -1306,7 +1312,7 @@ static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+>           error_propagate_prepend(errp, err, "msi_init failed: ");
+>           return ret;
+>       }
+> -    vdev->msi_cap_size = 0xa + (msi_maskbit ? 0xa : 0) + (msi_64bit ? 0x4 : 0);
+> +    vdev->msi_cap_size = msi_cap_size;
+>   
+>       return 0;
+>   }
+> @@ -1570,11 +1576,15 @@ static void vfio_msix_early_setup(VFIOPCIDevice *vdev, Error **errp)
+>       vfio_pci_relocate_msix(vdev, errp);
+>   }
+>   
+> -static int vfio_msix_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+> +static int vfio_msix_setup(VFIOPCIDevice *vdev, int pos,
+> +                           uint8_t size, Error **errp)
+>   {
+>       int ret;
+>       Error *err = NULL;
+>   
+> +    if (MSIX_CAP_LENGTH > size)
+> +	    return -ENOSPC;
+> +
+>       vdev->msix->pending = g_new0(unsigned long,
+>                                    BITS_TO_LONGS(vdev->msix->entries));
+>       ret = msix_init(&vdev->pdev, vdev->msix->entries,
+> @@ -2033,14 +2043,14 @@ static int vfio_add_std_cap(VFIOPCIDevice *vdev, uint8_t pos, Error **errp)
+>   
+>       switch (cap_id) {
+>       case PCI_CAP_ID_MSI:
+> -        ret = vfio_msi_setup(vdev, pos, errp);
+> +        ret = vfio_msi_setup(vdev, pos, size, errp);
+>           break;
+>       case PCI_CAP_ID_EXP:
+>           vfio_check_pcie_flr(vdev, pos);
+>           ret = vfio_setup_pcie_cap(vdev, pos, size, errp);
+>           break;
+>       case PCI_CAP_ID_MSIX:
+> -        ret = vfio_msix_setup(vdev, pos, errp);
+> +        ret = vfio_msix_setup(vdev, pos, size, errp);
+>           break;
+>       case PCI_CAP_ID_PM:
+>           vfio_check_pm_reset(vdev, pos);
+> 
 
