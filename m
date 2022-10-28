@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D19F610775
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 03:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B14610791
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 04:00:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooEWM-00005B-GJ; Thu, 27 Oct 2022 21:50:54 -0400
+	id 1ooEeF-0004XD-3c; Thu, 27 Oct 2022 21:59:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ooEWK-0008Vr-Bz
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 21:50:52 -0400
+ id 1ooEeE-0004X6-2x
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 21:59:02 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ooEWI-00011q-A5
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 21:50:52 -0400
+ id 1ooEeC-0001wd-C3
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 21:59:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666921849;
+ s=mimecast20190719; t=1666922339;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CuZkM/p5osti0oZnlI6uZwanJCKS/JfzrjjrCDR5zPM=;
- b=LnFGiR9JclhJz4ezP3wMb/1i2NnNbl/DI+ny6CHyLtjIWKFuRZruLomnS4v7Ao0Yjz2fx1
- yECNC9mZzN+Y7V+yxqYyJ1g6mDkV3VS55mF2BFffzHyMS1rwdKV3UOHoKZfFjhPS+9AHA0
- G0GIm684HoWJDKnNQxaZ4A1ncSEHlHs=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CEa6fJ5cyVWbwX01KN2X4eHuCtCTQG1vpIU92UUdy4Y=;
+ b=c72cJw1r+NQlxIsOBspj3aGf+FHlXS4SI1UOEJWRv/sTicMLHEu2IHsmKLH7wplX5yQBqR
+ wDLk5MiPFItaG02SiSN3APvfpDMI6jMjVZVnsCFahnVyTMpVDPalpSAz4pqZQ13l+ulQcV
+ pZ+dape3ngHAdjU0RQQZfiqLN4U9Pxg=
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
+ [209.85.161.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-100-9Hi-wxWiPRS6-pBWC_o7nQ-1; Thu, 27 Oct 2022 21:50:48 -0400
-X-MC-Unique: 9Hi-wxWiPRS6-pBWC_o7nQ-1
-Received: by mail-oi1-f199.google.com with SMTP id
- bi20-20020a056808189400b00359c967561aso1311951oib.7
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 18:50:48 -0700 (PDT)
+ us-mta-644-bM9k-BROMauNwPwm-Mp6hA-1; Thu, 27 Oct 2022 21:58:58 -0400
+X-MC-Unique: bM9k-BROMauNwPwm-Mp6hA-1
+Received: by mail-oo1-f71.google.com with SMTP id
+ a29-20020a4a9b1d000000b00480db71d44bso1592303ook.7
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 18:58:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CuZkM/p5osti0oZnlI6uZwanJCKS/JfzrjjrCDR5zPM=;
- b=vKH+L/zBsUaRwdfOFMOceVE7HVvAFxhY9praB795MOZllL7vkzaitIuYYYnyJoBI4D
- Dgt4QDrbmdQZwQbDKo9RI7q3jQsOgpJr0YQLrypYRE9o7mBecdHXlESwfUdcK+05AINJ
- C5qNl4AeCmo4sYpZeaptMSEZwpPjWhWXiRVu1IZGC5Pb8SOyP4c75Mq8uuqdwCZAtgML
- eVsMow8hzosxkGtRViNbsnkoiwaVtT0mgpgYmVOGpGjBiV/so3iHf7mSUBPZDb63cDbO
- rBgEOy30ZlNp0YC7DqB1MJSXWIveI4qvhZbkseBdrreko98yJtNzWO6ZZh1cmUk46i6M
- W25g==
-X-Gm-Message-State: ACrzQf2tr/tF6qB/Du4qZHLkMP2+7ArbOXzsRNGCX+1xVoYYxkob7Pms
- U8sQ+lLKCc76qN9z6fMO941EdnBbR33oKCOIVG1UmL1OZV0K94CGjIObXGTA0qG/rqRBqZkvJX+
- 9PWOpn87dadKw+RdMuuAxIz77NuMwwTU=
-X-Received: by 2002:a9d:12a8:0:b0:661:a06f:33d7 with SMTP id
- g37-20020a9d12a8000000b00661a06f33d7mr25730837otg.237.1666921847657; 
- Thu, 27 Oct 2022 18:50:47 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6vQ/IvfGNoxjZv/6N04UMcjFfWv6t7sWJSWtgVcXhAz8O8uy3D/xVkKWV9+Fm4OyEKHbZTfrUK/+lPcPE/LIc=
-X-Received: by 2002:a9d:12a8:0:b0:661:a06f:33d7 with SMTP id
- g37-20020a9d12a8000000b00661a06f33d7mr25730822otg.237.1666921847365; Thu, 27
- Oct 2022 18:50:47 -0700 (PDT)
+ bh=CEa6fJ5cyVWbwX01KN2X4eHuCtCTQG1vpIU92UUdy4Y=;
+ b=a4GSDwYMYrT/pcRmQqGOI24gVvfFuu53Y153MB3et4hAqrB589DWCbo11erf8fa3Mh
+ XIo0kjxt8QYZp37LsAvEQeTaRpnLxAubOkcF4q9/ZzxfgJGDqBfRnLET4jNsJvhiil7l
+ xwG09qFVy+JyOQWmnVAEQBfr5gdEzR9YHxIBcR/f88f13d1ap9z5t3aijUV9LZ60u0zc
+ H/S4fKfHubl+HX4fuMgAKAkoALTAFpAdlkZzEqW/AabCgkrdCqCuNBwrnHFGmGZMPtU+
+ 71Zj39UmZ+3dqOzMpJ6p6VHOrEVeKAF4EGM0oyfem7wWyJnEiywIGKhfM/0SHz6J7Jjl
+ j9+g==
+X-Gm-Message-State: ACrzQf2XIA4ed3My+xFuMnSZ8La40UqrcFDKAcg0JIzDXiqUhs+0dcCc
+ CMoEhFvhmZctTo2zNPjLjKBo3t7wMmkTYY73njx1jhav3vLPccWmsr8uOFd18XGfBuML5/vO7E/
+ wnP9nyIHRpvqO2Mx1ACZcvR86M6R/y9w=
+X-Received: by 2002:aca:905:0:b0:359:cfa1:ebb1 with SMTP id
+ 5-20020aca0905000000b00359cfa1ebb1mr1150030oij.280.1666922332828; 
+ Thu, 27 Oct 2022 18:58:52 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5W3dLyJvM2h4nfuSFVMlX6MWapbA3ycVMbYJtUab476myhVO8XJ7SPvbbrf10CJL8TkKDA6VW+NWhtyh8DjX0=
+X-Received: by 2002:aca:905:0:b0:359:cfa1:ebb1 with SMTP id
+ 5-20020aca0905000000b00359cfa1ebb1mr1150012oij.280.1666922332582; Thu, 27 Oct
+ 2022 18:58:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <1665215938-24473-1-git-send-email-si-wei.liu@oracle.com>
- <CACGkMEuc3Kwjt8r7HsU_-s-AVsAiMXddYZ0Um0sAhN6igaMn7Q@mail.gmail.com>
- <fff559ab-ce66-5830-f5da-e0d9e61adf59@oracle.com>
- <CACGkMEu6h5kHX1isY7GaVGySjE+2+hkM0pMXmdUTmC7HkoFg-Q@mail.gmail.com>
- <1c114850-c96a-b5d4-f44b-3699fc19b8dc@oracle.com>
- <6310b693-b885-3242-9579-92f189f0d1b5@redhat.com>
- <d625202e-9729-a050-db31-da2a5d89d58c@oracle.com>
- <dca26485-162a-6c61-33af-94e062503e11@oracle.com>
-In-Reply-To: <dca26485-162a-6c61-33af-94e062503e11@oracle.com>
+References: <20221026095303.37907-1-eperezma@redhat.com>
+ <20221026095303.37907-4-eperezma@redhat.com>
+ <53480725-89de-f289-c5cc-4b37ede72c31@redhat.com>
+ <CAJaqyWdr1_eJmS1otXd0RBKUdu5BZk87_t7F6jZm5Mg8sK9kBQ@mail.gmail.com>
+ <CACGkMEuv2zNLAr_BxPcQ3RCH5S91bm6sJFvhL7QetJNXaM_FmQ@mail.gmail.com>
+ <CAJaqyWfyDWAe18MYzKmwjm8icCR7Ju4eHx1XRQCVb3M1p9uu+A@mail.gmail.com>
+In-Reply-To: <CAJaqyWfyDWAe18MYzKmwjm8icCR7Ju4eHx1XRQCVb3M1p9uu+A@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 28 Oct 2022 09:50:35 +0800
-Message-ID: <CACGkMEujkyvGX4Vbq=z1J=o4pU6UkoXzE-oUNmscmDyt6GTqvQ@mail.gmail.com>
-Subject: Re: [PATCH v2] vhost-vdpa: allow passing opened vhostfd to vhost-vdpa
-To: Si-Wei Liu <si-wei.liu@oracle.com>
-Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com, 
- eperezma@redhat.com, Cindy Lu <lulu@redhat.com>,
- Shuo Wang <shuo.s.wang@oracle.com>, 
- Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Date: Fri, 28 Oct 2022 09:58:41 +0800
+Message-ID: <CACGkMEsEm6cLuQ9uB+wsbyyjExzYP6ua=cS74p12JdBoqModQg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] vdpa: Expose VIRTIO_NET_F_STATUS unconditionally
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Gautam Dawar <gdawar@xilinx.com>, 
+ Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Eli Cohen <eli@mellanox.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
@@ -103,274 +104,200 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Oct 28, 2022 at 5:56 AM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
+On Thu, Oct 27, 2022 at 6:18 PM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
 >
-> Hi Jason,
+> On Thu, Oct 27, 2022 at 8:54 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Thu, Oct 27, 2022 at 2:47 PM Eugenio Perez Martin
+> > <eperezma@redhat.com> wrote:
+> > >
+> > > On Thu, Oct 27, 2022 at 6:32 AM Jason Wang <jasowang@redhat.com> wrot=
+e:
+> > > >
+> > > >
+> > > > =E5=9C=A8 2022/10/26 17:53, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > > > > Now that qemu can handle and emulate it if the vdpa backend does =
+not
+> > > > > support it we can offer it always.
+> > > > >
+> > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > >
+> > > >
+> > > > I may miss something but isn't more easier to simply remove the
+> > > > _F_STATUS from vdpa_feature_bits[]?
+> > > >
+> > >
+> > > How is that? if we remove it, the guest cannot ack it so it cannot
+> > > access the net status, isn't it?
+> >
+> > My understanding is that the bits stored in the vdpa_feature_bits[]
+> > are the features that must be explicitly supported by the vhost
+> > device.
 >
-> Sorry for top posting, but are you going to queue this patch? It looks
-> like the discussion has been settled and no further comment I got for 2
-> weeks for this patch.
+> (Non English native here, so maybe I don't get what you mean :) ) The
+> device may not support them. net simulator lacks some of them
+> actually, and it works.
 
-Yes, I've queued this.
+Speaking too fast, I think I meant that, if the bit doesn't belong to
+vdpa_feature_bits[], it is assumed to be supported by the Qemu without
+the support of the vhost. So Qemu won't even try to validate if vhost
+has this support. E.g for vhost-net, we only have:
+
+static const int kernel_feature_bits[] =3D {
+    VIRTIO_F_NOTIFY_ON_EMPTY,
+    VIRTIO_RING_F_INDIRECT_DESC,
+    VIRTIO_RING_F_EVENT_IDX,
+    VIRTIO_NET_F_MRG_RXBUF,
+    VIRTIO_F_VERSION_1,
+    VIRTIO_NET_F_MTU,
+    VIRTIO_F_IOMMU_PLATFORM,
+    VIRTIO_F_RING_PACKED,
+    VIRTIO_NET_F_HASH_REPORT,
+    VHOST_INVALID_FEATURE_BIT
+};
+
+You can see there's no STATUS bit there since it is emulated by Qemu.
+
+>
+> From what I see these are the only features that will be forwarded to
+> the guest as device_features. If it is not in the list, the feature
+> will be masked out,
+
+Only when there's no support for this feature from the vhost.
+
+> as if the device does not support it.
+>
+> So now _F_STATUS it was forwarded only if the device supports it. If
+> we remove it from bit_mask, it will never be offered to the guest. But
+> we want to offer it always, since we will need it for
+> _F_GUEST_ANNOUNCE.
+>
+> Things get more complex because we actually need to ack it back if the
+> device offers it, so the vdpa device can report link_down. We will
+> only emulate LINK_UP always in the case the device does not support
+> _F_STATUS.
+>
+> > So if we remove _F_STATUS, Qemu vhost code won't validate if
+> > vhost-vdpa device has this support:
+> >
+> > uint64_t vhost_get_features(struct vhost_dev *hdev, const int *feature_=
+bits,
+> >                             uint64_t features)
+> > {
+> >     const int *bit =3D feature_bits;
+> >     while (*bit !=3D VHOST_INVALID_FEATURE_BIT) {
+> >         uint64_t bit_mask =3D (1ULL << *bit);
+> >         if (!(hdev->features & bit_mask)) {
+> >             features &=3D ~bit_mask;
+> >         }
+> >         bit++;
+> >     }
+> >     return features;
+> > }
+> >
+>
+> Now maybe I'm the one missing something, but why is this not done as a
+> masking directly?
+
+Not sure, the code has been there since day 0.
+
+But you can see from the code:
+
+1) if STATUS is in feature_bits, we need validate the hdev->features
+and mask it if the vhost doesn't have the support
+2) if STATUS is not, we don't do the check and driver may still see STATUS
 
 Thanks
 
 >
-> Thanks,
-> -Siwei
+> Instead of making feature_bits an array of ints, to declare it as a
+> uint64_t with the valid feature bits and simply return features &
+> feature_bits.
 >
-> On 10/13/2022 4:12 PM, Si-Wei Liu wrote:
-> > Jason,
-> >
-> > On 10/12/2022 10:02 PM, Jason Wang wrote:
-> >>
-> >> =E5=9C=A8 2022/10/12 13:59, Si-Wei Liu =E5=86=99=E9=81=93:
-> >>>
-> >>>
-> >>> On 10/11/2022 8:09 PM, Jason Wang wrote:
-> >>>> On Tue, Oct 11, 2022 at 1:18 AM Si-Wei Liu<si-wei.liu@oracle.com>
-> >>>> wrote:
-> >>>>> On 10/8/2022 10:43 PM, Jason Wang wrote:
-> >>>>>
-> >>>>> On Sat, Oct 8, 2022 at 5:04 PM Si-Wei Liu<si-wei.liu@oracle.com>
-> >>>>> wrote:
-> >>>>>
-> >>>>> Similar to other vhost backends, vhostfd can be passed to vhost-vdp=
-a
-> >>>>> backend as another parameter to instantiate vhost-vdpa net client.
-> >>>>> This would benefit the use case where only open file descriptors, a=
-s
-> >>>>> opposed to raw vhost-vdpa device paths, are accessible from the QEM=
-U
-> >>>>> process.
-> >>>>>
-> >>>>> (qemu) netdev_add type=3Dvhost-vdpa,vhostfd=3D61,id=3Dvhost-vdpa1
-> >>>>>
-> >>>>> Adding Cindy.
-> >>>>>
-> >>>>> This has been discussed before, we've already had
-> >>>>> vhostdev=3D/dev/fdset/$fd which should be functional equivalent to =
-what
-> >>>>> has been proposed here. (And this is how libvirt works if I
-> >>>>> understand
-> >>>>> correctly).
-> >>>>>
-> >>>>> Yes, I was aware of that discussion. However, our implementation
-> >>>>> of the management software is a bit different from libvirt, in
-> >>>>> which the paths in /dev/fdset/NNN can't be dynamically passed to
-> >>>>> the container where QEMU is running. By using a specific vhostfd
-> >>>>> property with existing code, it would allow our mgmt software
-> >>>>> smooth adaption without having to add too much infra code to
-> >>>>> support the /dev/fdset/NNN trick.
-> >>>> I think fdset has extra flexibility in e.g hot-plug to allow the fil=
-e
-> >>>> descriptor to be passed with SCM_RIGHTS.
-> >>> Yes, that's exactly the use case we'd like to support. Though the
-> >>> difference in our mgmt software stack from libvirt is that any
-> >>> dynamic path in /dev (like /dev/fdset/ABC or /dev/vhost-vdpa-XYZ)
-> >>> can't be allowed to get passed through to the container running QEMU
-> >>> on the fly for security reasons. fd passing is allowed, though, with
-> >>> very strict security checks.
-> >>
-> >>
-> >> Interesting, any reason for disallowing fd passing?
-> > For our mgmt software stack, QEMU is running in a secured container
-> > with its own namespace(s) with minimally well known and trusted
-> > devices from root ns exposed (only) at the time when QEMU is being
-> > started.  Direct fd passing via SCM_RIGHTS is allowed, but fdset
-> > device node exposure is not allowed and not even considered useful to
-> > us, as it adds an unwarranted attack surface to the QEMU's secured
-> > container unnecessarily. This has been the case and our security model
-> > for a while now w.r.t hot plugging vhost-net/tap and vhost-scsi
-> > devices, so will do for vhost-vdpa with vhostfd. It's not an open
-> > source project, though what I can share is that it's not a simple
-> > script that can be easily changed, and allow passing extra devices
-> > e.g. fdset especially on the fly is not even in consideration per
-> > suggested security guideline. I think we don't do anything special
-> > here as with other secured containers that disallow dynamic device
-> > injection on the fly.
-> >
-> >> I'm asking since it's the way that libvirt work and it seems to me we
-> >> don't get any complaints in the past.
-> > I guess it was because libvirt doesn't run QEMU in a container with
-> > very limited device exposure, otherwise this sort of constraints would
-> > pop up. Anyway the point and the way I see it is that passing vhostfd
-> > is proved to be working well and secure with other vhost devices, I
-> > don't see why vhost-vdpa is treated special here that would need to
-> > enforce the fdset usage. It's an edge case for libvirt maybe, but
-> > supporting QEMU's vhost-vdpa device to run in a securely contained
-> > environment with no dynamic device injection shouldn't be an odd or
-> > bizarre use case.
+> Thanks!
+>
+> > Thanks
 > >
 > >
-> > Thanks,
-> > -Siwei
 > >
-> >>
-> >>
-> >>> That's the main motivation for this direct vhostfd passing support
-> >>> (noted fdset doesn't need to be used along with /dev/fdset node).
-> >>>
-> >>> Having it said, I found there's also nuance in the
-> >>> vhostdev=3D/dev/fdset/XyZ interface besides the /dev node limitation:
-> >>> the fd to open has to be dup'ed from the original one passed via
-> >>> SCM_RIGHTS. This also has implication on security that any ioctl
-> >>> call from QEMU can't be audited through the original fd.
-> >>
-> >>
-> >> I'm not sure I get this, but management layer can enforce a ioctl
-> >> whiltelist for safety.
-> >>
-> >> Thanks
-> >>
-> >>
-> >>> With this regard, I think vhostfd offers more flexibility than work
-> >>> around those qemu_open() specifics. Would these justify the use case
-> >>> of concern?
-> >>>
-> >>> Thanks,
-> >>> -Siwei
-> >>>
-> >>>>   It would still be good to add
-> >>>> the support.
-> >>>>
-> >>>>> On the other hand, the other vhost backends, e.g. tap (via
-> >>>>> vhost-net), vhost-scsi and vhost-vsock all accept vhostfd as
-> >>>>> parameter to instantiate device, although the /dev/fdset trick
-> >>>>> also works there. I think vhost-vdpa is not  unprecedented in this
-> >>>>> case?
-> >>>> Yes.
-> >>>>
-> >>>> Thanks
-> >>>>
-> >>>>> Thanks,
-> >>>>> -Siwei
-> >>>>>
-> >>>>>
-> >>>>>
-> >>>>> Thanks
-> >>>>>
-> >>>>> Signed-off-by: Si-Wei Liu<si-wei.liu@oracle.com>
-> >>>>> Acked-by: Eugenio P=C3=A9rez<eperezma@redhat.com>
-> >>>>>
-> >>>>> ---
-> >>>>> v2:
-> >>>>>    - fixed typo in commit message
-> >>>>>    - s/fd's/file descriptors/
-> >>>>> ---
-> >>>>>   net/vhost-vdpa.c | 25 ++++++++++++++++++++-----
-> >>>>>   qapi/net.json    |  3 +++
-> >>>>>   qemu-options.hx  |  6 ++++--
-> >>>>>   3 files changed, 27 insertions(+), 7 deletions(-)
-> >>>>>
-> >>>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> >>>>> index 182b3a1..366b070 100644
-> >>>>> --- a/net/vhost-vdpa.c
-> >>>>> +++ b/net/vhost-vdpa.c
-> >>>>> @@ -683,14 +683,29 @@ int net_init_vhost_vdpa(const Netdev
-> >>>>> *netdev, const char *name,
-> >>>>>
-> >>>>>       assert(netdev->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
-> >>>>>       opts =3D &netdev->u.vhost_vdpa;
-> >>>>> -    if (!opts->vhostdev) {
-> >>>>> -        error_setg(errp, "vdpa character device not specified
-> >>>>> with vhostdev");
-> >>>>> +    if (!opts->has_vhostdev && !opts->has_vhostfd) {
-> >>>>> +        error_setg(errp,
-> >>>>> +                   "vhost-vdpa: neither vhostdev=3D nor vhostfd=3D
-> >>>>> was specified");
-> >>>>>           return -1;
-> >>>>>       }
-> >>>>>
-> >>>>> -    vdpa_device_fd =3D qemu_open(opts->vhostdev, O_RDWR, errp);
-> >>>>> -    if (vdpa_device_fd =3D=3D -1) {
-> >>>>> -        return -errno;
-> >>>>> +    if (opts->has_vhostdev && opts->has_vhostfd) {
-> >>>>> +        error_setg(errp,
-> >>>>> +                   "vhost-vdpa: vhostdev=3D and vhostfd=3D are
-> >>>>> mutually exclusive");
-> >>>>> +        return -1;
-> >>>>> +    }
-> >>>>> +
-> >>>>> +    if (opts->has_vhostdev) {
-> >>>>> +        vdpa_device_fd =3D qemu_open(opts->vhostdev, O_RDWR, errp)=
-;
-> >>>>> +        if (vdpa_device_fd =3D=3D -1) {
-> >>>>> +            return -errno;
-> >>>>> +        }
-> >>>>> +    } else if (opts->has_vhostfd) {
-> >>>>> +        vdpa_device_fd =3D monitor_fd_param(monitor_cur(),
-> >>>>> opts->vhostfd, errp);
-> >>>>> +        if (vdpa_device_fd =3D=3D -1) {
-> >>>>> +            error_prepend(errp, "vhost-vdpa: unable to parse
-> >>>>> vhostfd: ");
-> >>>>> +            return -1;
-> >>>>> +        }
-> >>>>>       }
-> >>>>>
-> >>>>>       r =3D vhost_vdpa_get_features(vdpa_device_fd, &features, errp=
-);
-> >>>>> diff --git a/qapi/net.json b/qapi/net.json
-> >>>>> index dd088c0..926ecc8 100644
-> >>>>> --- a/qapi/net.json
-> >>>>> +++ b/qapi/net.json
-> >>>>> @@ -442,6 +442,8 @@
-> >>>>>   # @vhostdev: path of vhost-vdpa device
-> >>>>>   #            (default:'/dev/vhost-vdpa-0')
-> >>>>>   #
-> >>>>> +# @vhostfd: file descriptor of an already opened vhost vdpa device
-> >>>>> +#
-> >>>>>   # @queues: number of queues to be created for multiqueue vhost-vd=
-pa
-> >>>>>   #          (default: 1)
-> >>>>>   #
-> >>>>> @@ -456,6 +458,7 @@
-> >>>>>   { 'struct': 'NetdevVhostVDPAOptions',
-> >>>>>     'data': {
-> >>>>>       '*vhostdev':     'str',
-> >>>>> +    '*vhostfd':      'str',
-> >>>>>       '*queues':       'int',
-> >>>>>       '*x-svq':        {'type': 'bool', 'features' : [ 'unstable']
-> >>>>> } } }
-> >>>>>
-> >>>>> diff --git a/qemu-options.hx b/qemu-options.hx
-> >>>>> index 913c71e..c040f74 100644
-> >>>>> --- a/qemu-options.hx
-> >>>>> +++ b/qemu-options.hx
-> >>>>> @@ -2774,8 +2774,10 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
-> >>>>>       "                configure a vhost-user network, backed by a
-> >>>>> chardev 'dev'\n"
-> >>>>>   #endif
-> >>>>>   #ifdef __linux__
-> >>>>> -    "-netdev vhost-vdpa,id=3Dstr,vhostdev=3D/path/to/dev\n"
-> >>>>> +    "-netdev
-> >>>>> vhost-vdpa,id=3Dstr[,vhostdev=3D/path/to/dev][,vhostfd=3Dh]\n"
-> >>>>>       "                configure a vhost-vdpa network,Establish a
-> >>>>> vhost-vdpa netdev\n"
-> >>>>> +    "                use 'vhostdev=3D/path/to/dev' to open a vhost
-> >>>>> vdpa device\n"
-> >>>>> +    "                use 'vhostfd=3Dh' to connect to an already
-> >>>>> opened vhost vdpa device\n"
-> >>>>>   #endif
-> >>>>>   #ifdef CONFIG_VMNET
-> >>>>>       "-netdev vmnet-host,id=3Dstr[,isolated=3Don|off][,net-uuid=3D=
-uuid]\n"
-> >>>>> @@ -3280,7 +3282,7 @@ SRST
-> >>>>>                -netdev type=3Dvhost-user,id=3Dnet0,chardev=3Dchr0 \
-> >>>>>                -device virtio-net-pci,netdev=3Dnet0
-> >>>>>
-> >>>>> -``-netdev vhost-vdpa,vhostdev=3D/path/to/dev``
-> >>>>> +``-netdev vhost-vdpa[,vhostdev=3D/path/to/dev][,vhostfd=3Dh]``
-> >>>>>       Establish a vhost-vdpa netdev.
-> >>>>>
-> >>>>>       vDPA device is a device that uses a datapath which complies
-> >>>>> with
-> >>>>> --
-> >>>>> 1.8.3.1
-> >>>>>
-> >>>>>
-> >>>
-> >>
+> > >
+> > > The goal with this patch series is to let the guest access the status
+> > > always, even if the device doesn't support _F_STATUS.
+> > >
+> > > > Thanks
+> > > >
+> > > >
+> > > > > ---
+> > > > >   include/net/vhost-vdpa.h |  1 +
+> > > > >   hw/net/vhost_net.c       | 16 ++++++++++++++--
+> > > > >   net/vhost-vdpa.c         |  3 +++
+> > > > >   3 files changed, 18 insertions(+), 2 deletions(-)
+> > > > >
+> > > > > diff --git a/include/net/vhost-vdpa.h b/include/net/vhost-vdpa.h
+> > > > > index b81f9a6f2a..cfbcce6427 100644
+> > > > > --- a/include/net/vhost-vdpa.h
+> > > > > +++ b/include/net/vhost-vdpa.h
+> > > > > @@ -17,5 +17,6 @@
+> > > > >   struct vhost_net *vhost_vdpa_get_vhost_net(NetClientState *nc);
+> > > > >
+> > > > >   extern const int vdpa_feature_bits[];
+> > > > > +extern const uint64_t vhost_vdpa_net_added_feature_bits;
+> > > > >
+> > > > >   #endif /* VHOST_VDPA_H */
+> > > > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> > > > > index d28f8b974b..7c15cc6e8f 100644
+> > > > > --- a/hw/net/vhost_net.c
+> > > > > +++ b/hw/net/vhost_net.c
+> > > > > @@ -109,10 +109,22 @@ static const int *vhost_net_get_feature_bit=
+s(struct vhost_net *net)
+> > > > >       return feature_bits;
+> > > > >   }
+> > > > >
+> > > > > +static uint64_t vhost_net_add_feature_bits(struct vhost_net *net=
+)
+> > > > > +{
+> > > > > +    if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA)=
+ {
+> > > > > +        return vhost_vdpa_net_added_feature_bits;
+> > > > > +    }
+> > > > > +
+> > > > > +    return 0;
+> > > > > +}
+> > > > > +
+> > > > >   uint64_t vhost_net_get_features(struct vhost_net *net, uint64_t=
+ features)
+> > > > >   {
+> > > > > -    return vhost_get_features(&net->dev, vhost_net_get_feature_b=
+its(net),
+> > > > > -            features);
+> > > > > +    uint64_t ret =3D vhost_get_features(&net->dev,
+> > > > > +                                      vhost_net_get_feature_bits=
+(net),
+> > > > > +                                      features);
+> > > > > +
+> > > > > +    return ret | vhost_net_add_feature_bits(net);
+> > > > >   }
+> > > > >   int vhost_net_get_config(struct vhost_net *net,  uint8_t *confi=
+g,
+> > > > >                            uint32_t config_len)
+> > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > > > index 6d64000202..24d2857593 100644
+> > > > > --- a/net/vhost-vdpa.c
+> > > > > +++ b/net/vhost-vdpa.c
+> > > > > @@ -99,6 +99,9 @@ static const uint64_t vdpa_svq_device_features =
+=3D
+> > > > >       BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
+> > > > >       BIT_ULL(VIRTIO_NET_F_STANDBY);
+> > > > >
+> > > > > +const uint64_t vhost_vdpa_net_added_feature_bits =3D
+> > > > > +    BIT_ULL(VIRTIO_NET_F_STATUS);
+> > > > > +
+> > > > >   VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
+> > > > >   {
+> > > > >       VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
+> > > >
+> > >
 > >
 >
 
