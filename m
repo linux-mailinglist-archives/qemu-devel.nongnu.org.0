@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65756112B8
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B806112B7
 	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:28:39 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooPLP-00021d-MZ; Fri, 28 Oct 2022 09:24:19 -0400
+	id 1ooPLT-0002Fz-M9; Fri, 28 Oct 2022 09:24:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooPKf-0001JY-UH
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooPKk-0001Jp-LG
  for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:23:40 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooPKe-0005Js-8g
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:23:33 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooPKh-0005KI-N3
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:23:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666963411;
+ s=mimecast20190719; t=1666963415;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BnjOooUnlEXJpEdxh0xo5mHMvnFcRwN2oIxVw4lxem0=;
- b=ZQxTewaT09zxABGj9jxfzNQSCk4hWpDqRy5gcySP0AkS2bv+Ov9VNTxgffz50vEWmRArKn
- +CTtZE88acVGpI3VSih5SdZx572vWG2joolFC67a5x8qvVM/xO4PFNw/JmXa7WbwiJsZCT
- trb/2555Q3yUK0Ril7aO+g5qym19o4s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cz3XnCLgYW83ui44pgGE0wawE7P/i71Fday1SEkbXoc=;
+ b=Q30SmdKCI1jV03gLTq6MJVgXBWXvj63Bs2bUVLfBEYig4+ntivgXLJly2cEEX8XYZ6dhUh
+ cjbL05Ixt7WhRME+Mj+T0XvTrHc/PU9zfL7iBW5xlOPi6bN4gRa3TzdkLHqMse3ZEWRbk9
+ aNFmWd9JQSFB7CtvIPhCPiDhq1UiRgo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-52-XV_RxKZQMyO5MPrukw8eqw-1; Fri, 28 Oct 2022 09:23:30 -0400
-X-MC-Unique: XV_RxKZQMyO5MPrukw8eqw-1
+ us-mta-250-lrFJJ1T-NDyRaWOx9g7oVA-1; Fri, 28 Oct 2022 09:23:31 -0400
+X-MC-Unique: lrFJJ1T-NDyRaWOx9g7oVA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0B4EB185A7A3;
- Fri, 28 Oct 2022 13:23:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 91CA53C0F251;
+ Fri, 28 Oct 2022 13:23:31 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C42701121319;
- Fri, 28 Oct 2022 13:23:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 587CF112131B;
+ Fri, 28 Oct 2022 13:23:30 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>,
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 14/21] tests/qtest: Use send/recv for socket communication
-Date: Fri, 28 Oct 2022 15:22:57 +0200
-Message-Id: <20221028132304.829103-15-thuth@redhat.com>
+Subject: [PULL 15/21] tests/qtest: Support libqtest to build and run on Windows
+Date: Fri, 28 Oct 2022 15:22:58 +0200
+Message-Id: <20221028132304.829103-16-thuth@redhat.com>
 In-Reply-To: <20221028132304.829103-1-thuth@redhat.com>
 References: <20221028132304.829103-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -79,146 +79,248 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-Socket communication in the libqtest and libqmp codes uses read()
-and write() which work on any file descriptor on *nix, and sockets
-in *nix are an example of a file descriptor.
+At present the libqtest codes were written to depend on several
+POSIX APIs, including fork(), kill() and waitpid(). Unfortunately
+these APIs are not available on Windows.
 
-However sockets on Windows do not use *nix-style file descriptors,
-so read() and write() cannot be used on sockets on Windows.
-Switch over to use send() and recv() instead which work on both
-Windows and *nix.
+This commit implements the corresponding functionalities using
+win32 native APIs. With this change, all qtest cases can build
+successfully on a Windows host, and we can start qtest testing
+on Windows now.
 
 Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20221028045736.679903-3-bin.meng@windriver.com>
+Message-Id: <20221028045736.679903-4-bin.meng@windriver.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- include/qemu/sockets.h | 13 +++++++++++++
- tests/qtest/libqmp.c   |  5 +++--
- tests/qtest/libqtest.c |  5 +++--
- util/osdep.c           | 22 ++++++++++++++++++++++
- 4 files changed, 41 insertions(+), 4 deletions(-)
+ tests/qtest/libqtest.c | 96 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 94 insertions(+), 2 deletions(-)
 
-diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-index 036745e586..61648f3f3c 100644
---- a/include/qemu/sockets.h
-+++ b/include/qemu/sockets.h
-@@ -33,6 +33,19 @@ int qemu_socketpair(int domain, int type, int protocol, int sv[2]);
- #endif
- 
- int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen);
-+/*
-+ * A variant of send(2) which handles partial send.
-+ *
-+ * Return the number of bytes transferred over the socket.
-+ * Set errno if fewer than `count' bytes are sent.
-+ *
-+ * This function don't work with non-blocking socket's.
-+ * Any of the possibilities with non-blocking socket's is bad:
-+ *   - return a short write (then name is wrong)
-+ *   - busy wait adding (errno == EAGAIN) to the loop
-+ */
-+ssize_t qemu_send_full(int s, const void *buf, size_t count)
-+    G_GNUC_WARN_UNUSED_RESULT;
- int socket_set_cork(int fd, int v);
- int socket_set_nodelay(int fd);
- void qemu_socket_set_block(int fd);
-diff --git a/tests/qtest/libqmp.c b/tests/qtest/libqmp.c
-index ade26c15f0..2b08382e5d 100644
---- a/tests/qtest/libqmp.c
-+++ b/tests/qtest/libqmp.c
-@@ -23,6 +23,7 @@
- #endif
- 
- #include "qemu/cutils.h"
-+#include "qemu/sockets.h"
- #include "qapi/error.h"
- #include "qapi/qmp/json-parser.h"
- #include "qapi/qmp/qjson.h"
-@@ -36,7 +37,7 @@ typedef struct {
- 
- static void socket_send(int fd, const char *buf, size_t size)
- {
--    size_t res = qemu_write_full(fd, buf, size);
-+    ssize_t res = qemu_send_full(fd, buf, size);
- 
-     assert(res == size);
- }
-@@ -69,7 +70,7 @@ QDict *qmp_fd_receive(int fd)
-         ssize_t len;
-         char c;
- 
--        len = read(fd, &c, 1);
-+        len = recv(fd, &c, 1, 0);
-         if (len == -1 && errno == EINTR) {
-             continue;
-         }
 diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index b23eb3edc3..b01846fd98 100644
+index b01846fd98..d12a604d78 100644
 --- a/tests/qtest/libqtest.c
 +++ b/tests/qtest/libqtest.c
-@@ -27,6 +27,7 @@
- #include "libqmp.h"
- #include "qemu/ctype.h"
- #include "qemu/cutils.h"
-+#include "qemu/sockets.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qjson.h"
- #include "qapi/qmp/qlist.h"
-@@ -428,7 +429,7 @@ void qtest_quit(QTestState *s)
+@@ -16,9 +16,11 @@
  
- static void socket_send(int fd, const char *buf, size_t size)
- {
--    size_t res = qemu_write_full(fd, buf, size);
-+    ssize_t res = qemu_send_full(fd, buf, size);
+ #include "qemu/osdep.h"
  
-     assert(res == size);
- }
-@@ -460,7 +461,7 @@ static GString *qtest_client_socket_recv_line(QTestState *s)
-         ssize_t len;
-         char buffer[1024];
++#ifndef _WIN32
+ #include <sys/socket.h>
+ #include <sys/wait.h>
+ #include <sys/un.h>
++#endif /* _WIN32 */
+ #ifdef __linux__
+ #include <sys/prctl.h>
+ #endif /* __linux__ */
+@@ -36,6 +38,16 @@
+ #define MAX_IRQ 256
+ #define SOCKET_TIMEOUT 50
  
--        len = read(s->fd, buffer, sizeof(buffer));
-+        len = recv(s->fd, buffer, sizeof(buffer), 0);
-         if (len == -1 && errno == EINTR) {
-             continue;
++#ifndef _WIN32
++# define CMD_EXEC   "exec "
++# define DEV_STDERR "/dev/fd/2"
++# define DEV_NULL   "/dev/null"
++#else
++# define CMD_EXEC   ""
++# define DEV_STDERR "2"
++# define DEV_NULL   "nul"
++#endif
++
+ typedef void (*QTestSendFn)(QTestState *s, const char *buf);
+ typedef void (*ExternalSendFn)(void *s, const char *buf);
+ typedef GString* (*QTestRecvFn)(QTestState *);
+@@ -58,6 +70,9 @@ struct QTestState
+     int qmp_fd;
+     pid_t qemu_pid;  /* our child QEMU process */
+     int wstatus;
++#ifdef _WIN32
++    DWORD exit_code;
++#endif
+     int expected_status;
+     bool big_endian;
+     bool irq_level[MAX_IRQ];
+@@ -119,10 +134,18 @@ bool qtest_probe_child(QTestState *s)
+     pid_t pid = s->qemu_pid;
+ 
+     if (pid != -1) {
++#ifndef _WIN32
+         pid = waitpid(pid, &s->wstatus, WNOHANG);
+         if (pid == 0) {
+             return true;
          }
-diff --git a/util/osdep.c b/util/osdep.c
-index 746d5f7d71..77c1a6c562 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -502,6 +502,28 @@ int qemu_accept(int s, struct sockaddr *addr, socklen_t *addrlen)
-     return ret;
++#else
++        GetExitCodeProcess((HANDLE)pid, &s->exit_code);
++        if (s->exit_code == STILL_ACTIVE) {
++            return true;
++        }
++        CloseHandle((HANDLE)pid);
++#endif
+         s->qemu_pid = -1;
+     }
+     return false;
+@@ -136,13 +159,25 @@ void qtest_set_expected_status(QTestState *s, int status)
+ void qtest_kill_qemu(QTestState *s)
+ {
+     pid_t pid = s->qemu_pid;
++#ifndef _WIN32
+     int wstatus;
++#else
++    DWORD ret;
++#endif
+ 
+     /* Skip wait if qtest_probe_child already reaped.  */
+     if (pid != -1) {
++#ifndef _WIN32
+         kill(pid, SIGTERM);
+         TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
+         assert(pid == s->qemu_pid);
++#else
++        TerminateProcess((HANDLE)pid, s->expected_status);
++        ret = WaitForSingleObject((HANDLE)pid, INFINITE);
++        assert(ret == WAIT_OBJECT_0);
++        GetExitCodeProcess((HANDLE)pid, &s->exit_code);
++        CloseHandle((HANDLE)pid);
++#endif
+         s->qemu_pid = -1;
+     }
+ 
+@@ -150,6 +185,7 @@ void qtest_kill_qemu(QTestState *s)
+      * Check whether qemu exited with expected exit status; anything else is
+      * fishy and should be logged with as much detail as possible.
+      */
++#ifndef _WIN32
+     wstatus = s->wstatus;
+     if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) != s->expected_status) {
+         fprintf(stderr, "%s:%d: kill_qemu() tried to terminate QEMU "
+@@ -166,6 +202,14 @@ void qtest_kill_qemu(QTestState *s)
+                 __FILE__, __LINE__, sig, signame, dump);
+         abort();
+     }
++#else
++    if (s->exit_code != s->expected_status) {
++        fprintf(stderr, "%s:%d: kill_qemu() tried to terminate QEMU "
++                "process but encountered exit status %ld (expected %d)\n",
++                __FILE__, __LINE__, s->exit_code, s->expected_status);
++        abort();
++    }
++#endif
  }
  
-+ssize_t qemu_send_full(int s, const void *buf, size_t count)
+ static void kill_qemu_hook_func(void *s)
+@@ -244,6 +288,38 @@ static const char *qtest_qemu_binary(void)
+     return qemu_bin;
+ }
+ 
++#ifdef _WIN32
++static pid_t qtest_create_process(char *cmd)
 +{
-+    ssize_t ret = 0;
-+    ssize_t total = 0;
++    STARTUPINFO si;
++    PROCESS_INFORMATION pi;
++    BOOL ret;
 +
-+    while (count) {
-+        ret = send(s, buf, count, 0);
-+        if (ret < 0) {
-+            if (errno == EINTR) {
-+                continue;
-+            }
-+            break;
-+        }
++    ZeroMemory(&si, sizeof(si));
++    si.cb = sizeof(si);
++    ZeroMemory(&pi, sizeof(pi));
 +
-+        count -= ret;
-+        buf += ret;
-+        total += ret;
++    ret = CreateProcess(NULL,   /* module name */
++                        cmd,    /* command line */
++                        NULL,   /* process handle not inheritable */
++                        NULL,   /* thread handle not inheritable */
++                        FALSE,  /* set handle inheritance to FALSE */
++                        0,      /* No creation flags */
++                        NULL,   /* use parent's environment block */
++                        NULL,   /* use parent's starting directory */
++                        &si,    /* pointer to STARTUPINFO structure */
++                        &pi     /* pointer to PROCESS_INFORMATION structure */
++                        );
++    if (ret == 0) {
++        fprintf(stderr, "%s:%d: unable to create a new process (%s)\n",
++                __FILE__, __LINE__, strerror(GetLastError()));
++        abort();
 +    }
 +
-+    return total;
++    return (pid_t)pi.hProcess;
 +}
++#endif /* _WIN32 */
 +
- void qemu_set_hw_version(const char *version)
+ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
  {
-     hw_version = version;
+     QTestState *s;
+@@ -271,6 +347,7 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
+     unlink(socket_path);
+     unlink(qmp_socket_path);
+ 
++    socket_init();
+     sock = init_socket(socket_path);
+     qmpsock = init_socket(qmp_socket_path);
+ 
+@@ -279,7 +356,7 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
+ 
+     qtest_add_abrt_handler(kill_qemu_hook_func, s);
+ 
+-    command = g_strdup_printf("exec %s %s"
++    command = g_strdup_printf(CMD_EXEC "%s %s"
+                               "-qtest unix:%s "
+                               "-qtest-log %s "
+                               "-chardev socket,path=%s,id=char0 "
+@@ -288,7 +365,7 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
+                               "%s"
+                               " -accel qtest",
+                               qemu_binary, tracearg, socket_path,
+-                              getenv("QTEST_LOG") ? "/dev/fd/2" : "/dev/null",
++                              getenv("QTEST_LOG") ? DEV_STDERR : DEV_NULL,
+                               qmp_socket_path,
+                               extra_args ?: "");
+ 
+@@ -297,6 +374,7 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
+     s->pending_events = NULL;
+     s->wstatus = 0;
+     s->expected_status = 0;
++#ifndef _WIN32
+     s->qemu_pid = fork();
+     if (s->qemu_pid == 0) {
+ #ifdef __linux__
+@@ -319,6 +397,9 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
+         execlp("/bin/sh", "sh", "-c", command, NULL);
+         exit(1);
+     }
++#else
++    s->qemu_pid = qtest_create_process(command);
++#endif /* _WIN32 */
+ 
+     g_free(command);
+     s->fd = socket_accept(sock);
+@@ -337,9 +418,19 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
+         s->irq_level[i] = false;
+     }
+ 
++    /*
++     * Stopping QEMU for debugging is not supported on Windows.
++     *
++     * Using DebugActiveProcess() API can suspend the QEMU process,
++     * but gdb cannot attach to the process. Using the undocumented
++     * NtSuspendProcess() can suspend the QEMU process and gdb can
++     * attach to the process, but gdb cannot resume it.
++     */
++#ifndef _WIN32
+     if (getenv("QTEST_STOP")) {
+         kill(s->qemu_pid, SIGSTOP);
+     }
++#endif
+ 
+     /* ask endianness of the target */
+ 
+@@ -393,6 +484,7 @@ QTestState *qtest_init_with_serial(const char *extra_args, int *sock_fd)
+     g_assert_true(sock_dir != NULL);
+     sock_path = g_strdup_printf("%s/sock", sock_dir);
+ 
++    socket_init();
+     sock_fd_init = init_socket(sock_path);
+ 
+     qts = qtest_initf("-chardev socket,id=s0,path=%s -serial chardev:s0 %s",
 -- 
 2.31.1
 
