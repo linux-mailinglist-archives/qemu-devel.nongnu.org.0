@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E264611043
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 13:59:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C402611036
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 13:58:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooNyx-000224-2E; Fri, 28 Oct 2022 07:57:03 -0400
+	id 1ooNyx-00023u-PP; Fri, 28 Oct 2022 07:57:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ooNyb-0001jI-8G; Fri, 28 Oct 2022 07:56:43 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ id 1ooNyb-0001jK-9F; Fri, 28 Oct 2022 07:56:43 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ooNyQ-0006MU-A1; Fri, 28 Oct 2022 07:56:40 -0400
+ id 1ooNyR-0006Mf-CF; Fri, 28 Oct 2022 07:56:40 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C596875A160;
- Fri, 28 Oct 2022 13:56:28 +0200 (CEST)
+ by localhost (Postfix) with SMTP id D0D6074638A;
+ Fri, 28 Oct 2022 13:56:29 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A3C2475A15D; Fri, 28 Oct 2022 13:56:28 +0200 (CEST)
-Message-Id: <5b53c70438dfb46837af8a094e753706b06c4ec6.1666957578.git.balaton@eik.bme.hu>
+ id B0CE774633D; Fri, 28 Oct 2022 13:56:29 +0200 (CEST)
+Message-Id: <ab891af01894bc01df0df78247da00fef4f59242.1666957578.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1666957578.git.balaton@eik.bme.hu>
 References: <cover.1666957578.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 12/19] mac_nvram: Use NVRAM_SIZE constant
+Subject: [PATCH v6 13/19] mac_{old|new}world: Code style fix adding missing
+ braces to if-s
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Fri, 28 Oct 2022 13:56:28 +0200 (CEST)
+Date: Fri, 28 Oct 2022 13:56:29 +0200 (CEST)
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -53,63 +54,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The NVRAM_SIZE constant was defined but not used. Rename it to
-MACIO_NVRAM_SIZE to match the device model and use it where appropriate.
-
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/macio/macio.c        | 2 +-
- hw/ppc/mac_newworld.c        | 4 ++--
- include/hw/nvram/mac_nvram.h | 3 +--
- 3 files changed, 4 insertions(+), 5 deletions(-)
+ hw/ppc/mac_newworld.c | 6 ++++--
+ hw/ppc/mac_oldworld.c | 9 ++++++---
+ 2 files changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index 93a7c7bbc8..08dbdd7fc0 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -226,7 +226,7 @@ static void macio_oldworld_init(Object *obj)
- 
-     object_initialize_child(OBJECT(s), "nvram", &os->nvram, TYPE_MACIO_NVRAM);
-     dev = DEVICE(&os->nvram);
--    qdev_prop_set_uint32(dev, "size", 0x2000);
-+    qdev_prop_set_uint32(dev, "size", MACIO_NVRAM_SIZE);
-     qdev_prop_set_uint32(dev, "it_shift", 4);
- 
-     for (i = 0; i < 2; i++) {
 diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index eb597bbe20..6b2d781dea 100644
+index 6b2d781dea..37123daa6b 100644
 --- a/hw/ppc/mac_newworld.c
 +++ b/hw/ppc/mac_newworld.c
-@@ -450,12 +450,12 @@ static void ppc_core99_init(MachineState *machine)
-         nvram_addr = 0xFFE00000;
+@@ -202,14 +202,16 @@ static void ppc_core99_init(MachineState *machine)
+         kernel_size = load_elf(machine->kernel_filename, NULL,
+                                translate_kernel_address, NULL, NULL, NULL,
+                                NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
+-        if (kernel_size < 0)
++        if (kernel_size < 0) {
+             kernel_size = load_aout(machine->kernel_filename, kernel_base,
+                                     machine->ram_size - kernel_base,
+                                     bswap_needed, TARGET_PAGE_SIZE);
+-        if (kernel_size < 0)
++        }
++        if (kernel_size < 0) {
+             kernel_size = load_image_targphys(machine->kernel_filename,
+                                               kernel_base,
+                                               machine->ram_size - kernel_base);
++        }
+         if (kernel_size < 0) {
+             error_report("could not load kernel '%s'",
+                          machine->kernel_filename);
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 23d9268281..558c639202 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -160,14 +160,16 @@ static void ppc_heathrow_init(MachineState *machine)
+         kernel_size = load_elf(machine->kernel_filename, NULL,
+                                translate_kernel_address, NULL, NULL, NULL,
+                                NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
+-        if (kernel_size < 0)
++        if (kernel_size < 0) {
+             kernel_size = load_aout(machine->kernel_filename, kernel_base,
+                                     machine->ram_size - kernel_base,
+                                     bswap_needed, TARGET_PAGE_SIZE);
+-        if (kernel_size < 0)
++        }
++        if (kernel_size < 0) {
+             kernel_size = load_image_targphys(machine->kernel_filename,
+                                               kernel_base,
+                                               machine->ram_size - kernel_base);
++        }
+         if (kernel_size < 0) {
+             error_report("could not load kernel '%s'",
+                          machine->kernel_filename);
+@@ -291,8 +293,9 @@ static void ppc_heathrow_init(MachineState *machine)
+         pci_create_simple(pci_bus, -1, "pci-ohci");
      }
-     dev = qdev_new(TYPE_MACIO_NVRAM);
--    qdev_prop_set_uint32(dev, "size", 0x2000);
-+    qdev_prop_set_uint32(dev, "size", MACIO_NVRAM_SIZE);
-     qdev_prop_set_uint32(dev, "it_shift", 1);
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, nvram_addr);
-     nvr = MACIO_NVRAM(dev);
--    pmac_format_nvram_partition(nvr, 0x2000);
-+    pmac_format_nvram_partition(nvr, MACIO_NVRAM_SIZE);
+ 
+-    if (graphic_depth != 15 && graphic_depth != 32 && graphic_depth != 8)
++    if (graphic_depth != 15 && graphic_depth != 32 && graphic_depth != 8) {
+         graphic_depth = 15;
++    }
+ 
      /* No PCI init: the BIOS will do it */
- 
-     dev = qdev_new(TYPE_FW_CFG_MEM);
-diff --git a/include/hw/nvram/mac_nvram.h b/include/hw/nvram/mac_nvram.h
-index baa9f6a5a6..b780aca470 100644
---- a/include/hw/nvram/mac_nvram.h
-+++ b/include/hw/nvram/mac_nvram.h
-@@ -29,9 +29,8 @@
- #include "exec/memory.h"
- #include "hw/sysbus.h"
- 
--#define NVRAM_SIZE        0x2000
-+#define MACIO_NVRAM_SIZE 0x2000
- 
--/* Mac NVRAM */
- #define TYPE_MACIO_NVRAM "macio-nvram"
- OBJECT_DECLARE_SIMPLE_TYPE(MacIONVRAMState, MACIO_NVRAM)
  
 -- 
 2.30.6
