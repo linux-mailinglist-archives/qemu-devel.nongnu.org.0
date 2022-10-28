@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7C3611808
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:50:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CCC611809
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:50:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooST0-0004J8-3D; Fri, 28 Oct 2022 12:44:22 -0400
+	id 1ooSSt-0003Ij-V2; Fri, 28 Oct 2022 12:44:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSSY-0007Tp-Ns; Fri, 28 Oct 2022 12:43:54 -0400
-Received: from mail-oa1-x2d.google.com ([2001:4860:4864:20::2d])
+ id 1ooSSX-0007Kt-F5; Fri, 28 Oct 2022 12:43:54 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSSQ-0000uf-Ti; Fri, 28 Oct 2022 12:43:54 -0400
-Received: by mail-oa1-x2d.google.com with SMTP id
- 586e51a60fabf-13c2cfd1126so6866850fac.10; 
- Fri, 28 Oct 2022 09:43:46 -0700 (PDT)
+ id 1ooSSV-0000vv-Dn; Fri, 28 Oct 2022 12:43:53 -0400
+Received: by mail-ot1-x336.google.com with SMTP id
+ br15-20020a056830390f00b0061c9d73b8bdso3282246otb.6; 
+ Fri, 28 Oct 2022 09:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8Ld3bktmNMzyCf3dZm5iJ5Yo9T6ZCyv9EWO8lFJTyoU=;
- b=aFndxckVjnCAUlRsM8lBZXau4EE8eKjvi3PZVgc8IRQOpJQ2Oq1biVYkEHBhgTPxFC
- +yUwO7jK0M+iBxz3bgBvlzAX8uZCUbCF6EGI8KPsazVXVC5L1j8rPn0QACURoatlMd7W
- N5p9aiB6ZejupWkAwmVhZVMixOUoEzy2AkmBzH7DA86GfviskY2snKodC5B+6ojnyASb
- eLnReGd08zWjRxKPvBK/4khg5vjiuQ9H8gMM6Bwh4UAXjEueXNd18t+bqtiPIlsWKo7I
- tUnxTXaTz1gKnA2lw10aAPG5aQ9tYgtJhvrn/i2YF+am85SStFIKt50plKa11yDRpclF
- B6+Q==
+ bh=+tVHkUHUdbcyE88dZpx/gc6JwLxstTDXgSseeMmFKdM=;
+ b=i+Vxu/z3r66gwhUFmO9e8/9nHuEc3sYmiYWrDATJDIWz0Mp/WOO8syNPY6s9I4zmq8
+ YouowmrZFyiL6qxGpL+LbiSvo9uf5wQmY0NQMO6AFS9MFzzHGC1Z7qD7W7vxlprdtERh
+ mL15DOODB1910bRG7VMqqWufN15ZmkJ4p1xFrimCxigdCWY9X9thEMgDS2JODx/d8lTZ
+ GSNiP/OPNRj2fBMvuGeA4i7u+BpbWXyYhtiTiPFbtRF82iCXh3O/lSTjIjwjBVjY14VZ
+ zLIqZ2snc5RogGAltXrE1pXgU8RVRjmcxE9QDdtCz5O4Nuw0E9kPfdLnpg0qxQtgawJ5
+ FwEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8Ld3bktmNMzyCf3dZm5iJ5Yo9T6ZCyv9EWO8lFJTyoU=;
- b=lUI3Zb0yVMykDXicwIxHIc7ByPkNW9K2CAcvtyfuir9EgWPOnS1rYf7kihpDqJT3Sn
- eZNm0SbpBGAnlRuoYFwp1Ikam135UmzBpO2EWUWPS3CYO1eMFjqrR5n/QO0iQ//BjxaR
- YMpdI+Ofy3eeMR2n3u16Qoz2i7XiX1P/jaNyUBTGZftkkfzCPdXZOAAwDhMB+mlyeveA
- kfqRPdc74DFsp9xtoiXDDJ49LLxV0d7eidOiff1To7PMB+41/U0zdqbMiXilWxQzhnGF
- n/shLiQa+8THkjg3a0NL+XTxkYi4g2tXBdIQz4I/Z+li7G96MTZLt1WDoivw8NWrDUuq
- 5ndg==
-X-Gm-Message-State: ACrzQf2tvacEjwL+IXZG7qdsm6MyUmHUpc2GpU8TC6LLhWFOqkl+eUbm
- q6cu92LqikfwpheKtbSzZHiuChr7XDBNaw==
-X-Google-Smtp-Source: AMsMyM7TtylJmnJC9l9qa1fGh1AZf8UAcXVUO5YiZD4LnHoNtk3B83Z3J7FCLVC2fzOckKDziKp6rw==
-X-Received: by 2002:a05:6870:890b:b0:132:fa8c:1a00 with SMTP id
- i11-20020a056870890b00b00132fa8c1a00mr9824307oao.26.1666975425123; 
- Fri, 28 Oct 2022 09:43:45 -0700 (PDT)
+ bh=+tVHkUHUdbcyE88dZpx/gc6JwLxstTDXgSseeMmFKdM=;
+ b=gz1TU4AtZ2FneIzPm6Ekr1iq+sdYep6KurGnr2M7/7h/xlHZpVhAhgNwa5qTgisCee
+ bk4Os05KeTBh3l3yqnVPtJHzCfRYxLhFvJ+N3lSmoKq0sltc3TfNLgTjKrr1+SoO1BUS
+ vxd28uTAvitIDIkROQXpBp4kAwViYPQ4nDY2IBVqgOL0YtqZ0MpaiuL2/5lv3DiMokoW
+ n7U6tT/7C8bvQQoe33IjYFyreAckKvPe07dvacrW/ahJJeaH5Siba/lsiCLFWHE+X8v0
+ YUWf0dPzTDqnsOD4wXAK6g6of5eDjowf5174xG6Rua7iLdBRvEScYdOIQbG0zPyW5ZxL
+ LQ1Q==
+X-Gm-Message-State: ACrzQf2YCCsbEttHl5SUd1AFd0+WWMxbJErIjjUXMBoct6Lkn640LFNn
+ Kh+H0nWazgnDV2TJIZWR59COuzyfH1kHiA==
+X-Google-Smtp-Source: AMsMyM7xux1zQ8JFwZ8H7kat4paKa7ohCuFl3DC1xEVcIAGoERKcLsvaot3Jx0orQ7bRDxCNc20m/Q==
+X-Received: by 2002:a05:6830:33cc:b0:657:78bf:485d with SMTP id
+ q12-20020a05683033cc00b0065778bf485dmr129784ott.76.1666975429608; 
+ Fri, 28 Oct 2022 09:43:49 -0700 (PDT)
 Received: from balboa.COMFAST ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.43.41
+ s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.43.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:43:44 -0700 (PDT)
+ Fri, 28 Oct 2022 09:43:47 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 51/62] ppc4xx_sdram: Use hwaddr for memory bank size
-Date: Fri, 28 Oct 2022 13:39:40 -0300
-Message-Id: <20221028163951.810456-52-danielhb413@gmail.com>
+Subject: [PULL 52/62] ppc4xx_sdram: Rename local state variable for brevity
+Date: Fri, 28 Oct 2022 13:39:41 -0300
+Message-Id: <20221028163951.810456-53-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
 References: <20221028163951.810456-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2d;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x336.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,65 +95,340 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-This resolves the target_ulong dependency that's clearly wrong and was
-also noted in a fixme comment.
+Rename the sdram local state variable to s in dcr read/write functions
+and reset methods for better readability and to match realize methods.
+Other places not converted will be changed or removed in subsequent
+patches.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <92fdc5f9cc76bf45831428b3ec8d9fc6241b7190.1666194485.git.balaton@eik.bme.hu>
+Message-Id: <8e7539cb1fccd7556b68351c4dcf62534c3a69cf.1666194485.git.balaton@eik.bme.hu>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/ppc4xx_sdram.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ hw/ppc/ppc4xx_sdram.c | 158 +++++++++++++++++++++---------------------
+ 1 file changed, 79 insertions(+), 79 deletions(-)
 
 diff --git a/hw/ppc/ppc4xx_sdram.c b/hw/ppc/ppc4xx_sdram.c
-index 62ef7d8f0d..2294747594 100644
+index 2294747594..4bc53c8f01 100644
 --- a/hw/ppc/ppc4xx_sdram.c
 +++ b/hw/ppc/ppc4xx_sdram.c
-@@ -34,7 +34,6 @@
- #include "qapi/error.h"
- #include "qemu/log.h"
- #include "exec/address-spaces.h" /* get_system_memory() */
--#include "exec/cpu-defs.h" /* target_ulong */
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
- #include "hw/ppc/ppc4xx.h"
-@@ -126,11 +125,6 @@ enum {
+@@ -237,56 +237,56 @@ static void sdram_ddr_unmap_bcr(Ppc4xxSdramDdrState *sdram)
  
- /*****************************************************************************/
- /* DDR SDRAM controller */
--/*
-- * XXX: TOFIX: some patches have made this code become inconsistent:
-- *      there are type inconsistencies, mixing hwaddr, target_ulong
-- *      and uint32_t
-- */
- static uint32_t sdram_ddr_bcr(hwaddr ram_base, hwaddr ram_size)
+ static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
  {
-     uint32_t bcr;
-@@ -174,9 +168,9 @@ static inline hwaddr sdram_ddr_base(uint32_t bcr)
-     return bcr & 0xFF800000;
+-    Ppc4xxSdramDdrState *sdram = opaque;
++    Ppc4xxSdramDdrState *s = opaque;
+     uint32_t ret;
+ 
+     switch (dcrn) {
+     case SDRAM0_CFGADDR:
+-        ret = sdram->addr;
++        ret = s->addr;
+         break;
+     case SDRAM0_CFGDATA:
+-        switch (sdram->addr) {
++        switch (s->addr) {
+         case 0x00: /* SDRAM_BESR0 */
+-            ret = sdram->besr0;
++            ret = s->besr0;
+             break;
+         case 0x08: /* SDRAM_BESR1 */
+-            ret = sdram->besr1;
++            ret = s->besr1;
+             break;
+         case 0x10: /* SDRAM_BEAR */
+-            ret = sdram->bear;
++            ret = s->bear;
+             break;
+         case 0x20: /* SDRAM_CFG */
+-            ret = sdram->cfg;
++            ret = s->cfg;
+             break;
+         case 0x24: /* SDRAM_STATUS */
+-            ret = sdram->status;
++            ret = s->status;
+             break;
+         case 0x30: /* SDRAM_RTR */
+-            ret = sdram->rtr;
++            ret = s->rtr;
+             break;
+         case 0x34: /* SDRAM_PMIT */
+-            ret = sdram->pmit;
++            ret = s->pmit;
+             break;
+         case 0x40: /* SDRAM_B0CR */
+-            ret = sdram->bank[0].bcr;
++            ret = s->bank[0].bcr;
+             break;
+         case 0x44: /* SDRAM_B1CR */
+-            ret = sdram->bank[1].bcr;
++            ret = s->bank[1].bcr;
+             break;
+         case 0x48: /* SDRAM_B2CR */
+-            ret = sdram->bank[2].bcr;
++            ret = s->bank[2].bcr;
+             break;
+         case 0x4C: /* SDRAM_B3CR */
+-            ret = sdram->bank[3].bcr;
++            ret = s->bank[3].bcr;
+             break;
+         case 0x80: /* SDRAM_TR */
+             ret = -1; /* ? */
+             break;
+         case 0x94: /* SDRAM_ECCCFG */
+-            ret = sdram->ecccfg;
++            ret = s->ecccfg;
+             break;
+         case 0x98: /* SDRAM_ECCESR */
+-            ret = sdram->eccesr;
++            ret = s->eccesr;
+             break;
+         default: /* Error */
+             ret = -1;
+@@ -304,78 +304,78 @@ static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
+ 
+ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
+ {
+-    Ppc4xxSdramDdrState *sdram = opaque;
++    Ppc4xxSdramDdrState *s = opaque;
+ 
+     switch (dcrn) {
+     case SDRAM0_CFGADDR:
+-        sdram->addr = val;
++        s->addr = val;
+         break;
+     case SDRAM0_CFGDATA:
+-        switch (sdram->addr) {
++        switch (s->addr) {
+         case 0x00: /* SDRAM_BESR0 */
+-            sdram->besr0 &= ~val;
++            s->besr0 &= ~val;
+             break;
+         case 0x08: /* SDRAM_BESR1 */
+-            sdram->besr1 &= ~val;
++            s->besr1 &= ~val;
+             break;
+         case 0x10: /* SDRAM_BEAR */
+-            sdram->bear = val;
++            s->bear = val;
+             break;
+         case 0x20: /* SDRAM_CFG */
+             val &= 0xFFE00000;
+-            if (!(sdram->cfg & 0x80000000) && (val & 0x80000000)) {
++            if (!(s->cfg & 0x80000000) && (val & 0x80000000)) {
+                 trace_ppc4xx_sdram_enable("enable");
+                 /* validate all RAM mappings */
+-                sdram_ddr_map_bcr(sdram);
+-                sdram->status &= ~0x80000000;
+-            } else if ((sdram->cfg & 0x80000000) && !(val & 0x80000000)) {
++                sdram_ddr_map_bcr(s);
++                s->status &= ~0x80000000;
++            } else if ((s->cfg & 0x80000000) && !(val & 0x80000000)) {
+                 trace_ppc4xx_sdram_enable("disable");
+                 /* invalidate all RAM mappings */
+-                sdram_ddr_unmap_bcr(sdram);
+-                sdram->status |= 0x80000000;
++                sdram_ddr_unmap_bcr(s);
++                s->status |= 0x80000000;
+             }
+-            if (!(sdram->cfg & 0x40000000) && (val & 0x40000000)) {
+-                sdram->status |= 0x40000000;
+-            } else if ((sdram->cfg & 0x40000000) && !(val & 0x40000000)) {
+-                sdram->status &= ~0x40000000;
++            if (!(s->cfg & 0x40000000) && (val & 0x40000000)) {
++                s->status |= 0x40000000;
++            } else if ((s->cfg & 0x40000000) && !(val & 0x40000000)) {
++                s->status &= ~0x40000000;
+             }
+-            sdram->cfg = val;
++            s->cfg = val;
+             break;
+         case 0x24: /* SDRAM_STATUS */
+             /* Read-only register */
+             break;
+         case 0x30: /* SDRAM_RTR */
+-            sdram->rtr = val & 0x3FF80000;
++            s->rtr = val & 0x3FF80000;
+             break;
+         case 0x34: /* SDRAM_PMIT */
+-            sdram->pmit = (val & 0xF8000000) | 0x07C00000;
++            s->pmit = (val & 0xF8000000) | 0x07C00000;
+             break;
+         case 0x40: /* SDRAM_B0CR */
+-            sdram_ddr_set_bcr(sdram, 0, val, sdram->cfg & 0x80000000);
++            sdram_ddr_set_bcr(s, 0, val, s->cfg & 0x80000000);
+             break;
+         case 0x44: /* SDRAM_B1CR */
+-            sdram_ddr_set_bcr(sdram, 1, val, sdram->cfg & 0x80000000);
++            sdram_ddr_set_bcr(s, 1, val, s->cfg & 0x80000000);
+             break;
+         case 0x48: /* SDRAM_B2CR */
+-            sdram_ddr_set_bcr(sdram, 2, val, sdram->cfg & 0x80000000);
++            sdram_ddr_set_bcr(s, 2, val, s->cfg & 0x80000000);
+             break;
+         case 0x4C: /* SDRAM_B3CR */
+-            sdram_ddr_set_bcr(sdram, 3, val, sdram->cfg & 0x80000000);
++            sdram_ddr_set_bcr(s, 3, val, s->cfg & 0x80000000);
+             break;
+         case 0x80: /* SDRAM_TR */
+-            sdram->tr = val & 0x018FC01F;
++            s->tr = val & 0x018FC01F;
+             break;
+         case 0x94: /* SDRAM_ECCCFG */
+-            sdram->ecccfg = val & 0x00F00000;
++            s->ecccfg = val & 0x00F00000;
+             break;
+         case 0x98: /* SDRAM_ECCESR */
+             val &= 0xFFF0F000;
+-            if (sdram->eccesr == 0 && val != 0) {
+-                qemu_irq_raise(sdram->irq);
+-            } else if (sdram->eccesr != 0 && val == 0) {
+-                qemu_irq_lower(sdram->irq);
++            if (s->eccesr == 0 && val != 0) {
++                qemu_irq_raise(s->irq);
++            } else if (s->eccesr != 0 && val == 0) {
++                qemu_irq_lower(s->irq);
+             }
+-            sdram->eccesr = val;
++            s->eccesr = val;
+             break;
+         default: /* Error */
+             break;
+@@ -386,21 +386,21 @@ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
+ 
+ static void ppc4xx_sdram_ddr_reset(DeviceState *dev)
+ {
+-    Ppc4xxSdramDdrState *sdram = PPC4xx_SDRAM_DDR(dev);
+-
+-    sdram->addr = 0;
+-    sdram->bear = 0;
+-    sdram->besr0 = 0; /* No error */
+-    sdram->besr1 = 0; /* No error */
+-    sdram->cfg = 0;
+-    sdram->ecccfg = 0; /* No ECC */
+-    sdram->eccesr = 0; /* No error */
+-    sdram->pmit = 0x07C00000;
+-    sdram->rtr = 0x05F00000;
+-    sdram->tr = 0x00854009;
++    Ppc4xxSdramDdrState *s = PPC4xx_SDRAM_DDR(dev);
++
++    s->addr = 0;
++    s->bear = 0;
++    s->besr0 = 0; /* No error */
++    s->besr1 = 0; /* No error */
++    s->cfg = 0;
++    s->ecccfg = 0; /* No ECC */
++    s->eccesr = 0; /* No error */
++    s->pmit = 0x07C00000;
++    s->rtr = 0x05F00000;
++    s->tr = 0x00854009;
+     /* We pre-initialize RAM banks */
+-    sdram->status = 0;
+-    sdram->cfg = 0x00800000;
++    s->status = 0;
++    s->cfg = 0x00800000;
  }
  
--static target_ulong sdram_ddr_size(uint32_t bcr)
-+static hwaddr sdram_ddr_size(uint32_t bcr)
- {
--    target_ulong size;
-+    hwaddr size;
-     int sh;
+ static void ppc4xx_sdram_ddr_realize(DeviceState *dev, Error **errp)
+@@ -572,7 +572,7 @@ static void sdram_ddr2_unmap_bcr(Ppc4xxSdramDdr2State *sdram)
  
-     sh = (bcr >> 17) & 0x7;
-@@ -523,9 +517,9 @@ static inline hwaddr sdram_ddr2_base(uint32_t bcr)
-     return (bcr & 0xffe00000) << 2;
+ static uint32_t sdram_ddr2_dcr_read(void *opaque, int dcrn)
+ {
+-    Ppc4xxSdramDdr2State *sdram = opaque;
++    Ppc4xxSdramDdr2State *s = opaque;
+     uint32_t ret = 0;
+ 
+     switch (dcrn) {
+@@ -580,9 +580,9 @@ static uint32_t sdram_ddr2_dcr_read(void *opaque, int dcrn)
+     case SDRAM_R1BAS:
+     case SDRAM_R2BAS:
+     case SDRAM_R3BAS:
+-        if (sdram->bank[dcrn - SDRAM_R0BAS].size) {
+-            ret = sdram_ddr2_bcr(sdram->bank[dcrn - SDRAM_R0BAS].base,
+-                                 sdram->bank[dcrn - SDRAM_R0BAS].size);
++        if (s->bank[dcrn - SDRAM_R0BAS].size) {
++            ret = sdram_ddr2_bcr(s->bank[dcrn - SDRAM_R0BAS].base,
++                                 s->bank[dcrn - SDRAM_R0BAS].size);
+         }
+         break;
+     case SDRAM_CONF1HB:
+@@ -592,16 +592,16 @@ static uint32_t sdram_ddr2_dcr_read(void *opaque, int dcrn)
+     case SDRAM_PLBADDUHB:
+         break;
+     case SDRAM0_CFGADDR:
+-        ret = sdram->addr;
++        ret = s->addr;
+         break;
+     case SDRAM0_CFGDATA:
+-        switch (sdram->addr) {
++        switch (s->addr) {
+         case 0x14: /* SDRAM_MCSTAT (405EX) */
+         case 0x1F:
+             ret = 0x80000000;
+             break;
+         case 0x21: /* SDRAM_MCOPT2 */
+-            ret = sdram->mcopt2;
++            ret = s->mcopt2;
+             break;
+         case 0x40: /* SDRAM_MB0CF */
+             ret = 0x00008001;
+@@ -627,7 +627,7 @@ static uint32_t sdram_ddr2_dcr_read(void *opaque, int dcrn)
+ 
+ static void sdram_ddr2_dcr_write(void *opaque, int dcrn, uint32_t val)
+ {
+-    Ppc4xxSdramDdr2State *sdram = opaque;
++    Ppc4xxSdramDdr2State *s = opaque;
+ 
+     switch (dcrn) {
+     case SDRAM_R0BAS:
+@@ -641,25 +641,25 @@ static void sdram_ddr2_dcr_write(void *opaque, int dcrn, uint32_t val)
+     case SDRAM_PLBADDUHB:
+         break;
+     case SDRAM0_CFGADDR:
+-        sdram->addr = val;
++        s->addr = val;
+         break;
+     case SDRAM0_CFGDATA:
+-        switch (sdram->addr) {
++        switch (s->addr) {
+         case 0x00: /* B0CR */
+             break;
+         case 0x21: /* SDRAM_MCOPT2 */
+-            if (!(sdram->mcopt2 & SDRAM_DDR2_MCOPT2_DCEN) &&
++            if (!(s->mcopt2 & SDRAM_DDR2_MCOPT2_DCEN) &&
+                 (val & SDRAM_DDR2_MCOPT2_DCEN)) {
+                 trace_ppc4xx_sdram_enable("enable");
+                 /* validate all RAM mappings */
+-                sdram_ddr2_map_bcr(sdram);
+-                sdram->mcopt2 |= SDRAM_DDR2_MCOPT2_DCEN;
+-            } else if ((sdram->mcopt2 & SDRAM_DDR2_MCOPT2_DCEN) &&
++                sdram_ddr2_map_bcr(s);
++                s->mcopt2 |= SDRAM_DDR2_MCOPT2_DCEN;
++            } else if ((s->mcopt2 & SDRAM_DDR2_MCOPT2_DCEN) &&
+                        !(val & SDRAM_DDR2_MCOPT2_DCEN)) {
+                 trace_ppc4xx_sdram_enable("disable");
+                 /* invalidate all RAM mappings */
+-                sdram_ddr2_unmap_bcr(sdram);
+-                sdram->mcopt2 &= ~SDRAM_DDR2_MCOPT2_DCEN;
++                sdram_ddr2_unmap_bcr(s);
++                s->mcopt2 &= ~SDRAM_DDR2_MCOPT2_DCEN;
+             }
+             break;
+         default:
+@@ -673,10 +673,10 @@ static void sdram_ddr2_dcr_write(void *opaque, int dcrn, uint32_t val)
+ 
+ static void ppc4xx_sdram_ddr2_reset(DeviceState *dev)
+ {
+-    Ppc4xxSdramDdr2State *sdram = PPC4xx_SDRAM_DDR2(dev);
++    Ppc4xxSdramDdr2State *s = PPC4xx_SDRAM_DDR2(dev);
+ 
+-    sdram->addr = 0;
+-    sdram->mcopt2 = 0;
++    s->addr = 0;
++    s->mcopt2 = 0;
  }
  
--static uint64_t sdram_ddr2_size(uint32_t bcr)
-+static hwaddr sdram_ddr2_size(uint32_t bcr)
- {
--    uint64_t size;
-+    hwaddr size;
-     int sh;
- 
-     sh = 1024 - ((bcr >> 6) & 0x3ff);
+ static void ppc4xx_sdram_ddr2_realize(DeviceState *dev, Error **errp)
 -- 
 2.37.3
 
