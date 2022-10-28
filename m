@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C402611036
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 13:58:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B02611027
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 13:57:34 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooNyx-00023u-PP; Fri, 28 Oct 2022 07:57:03 -0400
+	id 1ooNyz-00025Y-IK; Fri, 28 Oct 2022 07:57:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ooNyb-0001jK-9F; Fri, 28 Oct 2022 07:56:43 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ id 1ooNyd-0001jz-GO; Fri, 28 Oct 2022 07:56:43 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ooNyR-0006Mf-CF; Fri, 28 Oct 2022 07:56:40 -0400
+ id 1ooNyZ-0006NG-Qi; Fri, 28 Oct 2022 07:56:43 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D0D6074638A;
- Fri, 28 Oct 2022 13:56:29 +0200 (CEST)
+ by localhost (Postfix) with SMTP id DA48A75A159;
+ Fri, 28 Oct 2022 13:56:30 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B0CE774633D; Fri, 28 Oct 2022 13:56:29 +0200 (CEST)
-Message-Id: <ab891af01894bc01df0df78247da00fef4f59242.1666957578.git.balaton@eik.bme.hu>
+ id BFA4775A150; Fri, 28 Oct 2022 13:56:30 +0200 (CEST)
+Message-Id: <f9da172e486c1f57f8542c7c3cb0223cffa89b1f.1666957578.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1666957578.git.balaton@eik.bme.hu>
 References: <cover.1666957578.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v6 13/19] mac_{old|new}world: Code style fix adding missing
- braces to if-s
+Subject: [PATCH v6 14/19] mac_newworld: Turn CORE99_VIA_CONFIG defines into an
+ enum
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Fri, 28 Oct 2022 13:56:29 +0200 (CEST)
+Date: Fri, 28 Oct 2022 13:56:30 +0200 (CEST)
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,69 +54,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This might allow the compiler to check values.
+
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ppc/mac_newworld.c | 6 ++++--
- hw/ppc/mac_oldworld.c | 9 ++++++---
- 2 files changed, 10 insertions(+), 5 deletions(-)
+ hw/ppc/mac_newworld.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 6b2d781dea..37123daa6b 100644
+index 37123daa6b..601ea518f8 100644
 --- a/hw/ppc/mac_newworld.c
 +++ b/hw/ppc/mac_newworld.c
-@@ -202,14 +202,16 @@ static void ppc_core99_init(MachineState *machine)
-         kernel_size = load_elf(machine->kernel_filename, NULL,
-                                translate_kernel_address, NULL, NULL, NULL,
-                                NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
--        if (kernel_size < 0)
-+        if (kernel_size < 0) {
-             kernel_size = load_aout(machine->kernel_filename, kernel_base,
-                                     machine->ram_size - kernel_base,
-                                     bswap_needed, TARGET_PAGE_SIZE);
--        if (kernel_size < 0)
-+        }
-+        if (kernel_size < 0) {
-             kernel_size = load_image_targphys(machine->kernel_filename,
-                                               kernel_base,
-                                               machine->ram_size - kernel_base);
-+        }
-         if (kernel_size < 0) {
-             error_report("could not load kernel '%s'",
-                          machine->kernel_filename);
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index 23d9268281..558c639202 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -160,14 +160,16 @@ static void ppc_heathrow_init(MachineState *machine)
-         kernel_size = load_elf(machine->kernel_filename, NULL,
-                                translate_kernel_address, NULL, NULL, NULL,
-                                NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
--        if (kernel_size < 0)
-+        if (kernel_size < 0) {
-             kernel_size = load_aout(machine->kernel_filename, kernel_base,
-                                     machine->ram_size - kernel_base,
-                                     bswap_needed, TARGET_PAGE_SIZE);
--        if (kernel_size < 0)
-+        }
-+        if (kernel_size < 0) {
-             kernel_size = load_image_targphys(machine->kernel_filename,
-                                               kernel_base,
-                                               machine->ram_size - kernel_base);
-+        }
-         if (kernel_size < 0) {
-             error_report("could not load kernel '%s'",
-                          machine->kernel_filename);
-@@ -291,8 +293,9 @@ static void ppc_heathrow_init(MachineState *machine)
-         pci_create_simple(pci_bus, -1, "pci-ohci");
-     }
+@@ -95,15 +95,17 @@ typedef struct Core99MachineState Core99MachineState;
+ DECLARE_INSTANCE_CHECKER(Core99MachineState, CORE99_MACHINE,
+                          TYPE_CORE99_MACHINE)
  
--    if (graphic_depth != 15 && graphic_depth != 32 && graphic_depth != 8)
-+    if (graphic_depth != 15 && graphic_depth != 32 && graphic_depth != 8) {
-         graphic_depth = 15;
-+    }
+-#define CORE99_VIA_CONFIG_CUDA     0x0
+-#define CORE99_VIA_CONFIG_PMU      0x1
+-#define CORE99_VIA_CONFIG_PMU_ADB  0x2
++typedef enum {
++    CORE99_VIA_CONFIG_CUDA = 0,
++    CORE99_VIA_CONFIG_PMU,
++    CORE99_VIA_CONFIG_PMU_ADB
++} Core99ViaConfig;
  
-     /* No PCI init: the BIOS will do it */
+ struct Core99MachineState {
+     /*< private >*/
+     MachineState parent;
  
+-    uint8_t via_config;
++    Core99ViaConfig via_config;
+ };
+ 
+ static void fw_cfg_boot_set(void *opaque, const char *boot_device,
 -- 
 2.30.6
 
