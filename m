@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8FE61136E
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD26A611343
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:44:00 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooPeH-0002GK-VV; Fri, 28 Oct 2022 09:43:51 -0400
+	id 1ooPbz-00009F-W5; Fri, 28 Oct 2022 09:41:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ooPaz-0008Sl-Bk
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:40:34 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ooPan-0008Mi-KO
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:40:13 -0400
+Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ooPan-0007sF-3b
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:40:25 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- b20-20020a05600c4e1400b003cc28585e2fso3856603wmq.1
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ooPal-0007sL-RU
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:40:13 -0400
+Received: by mail-qk1-x72a.google.com with SMTP id z30so3377982qkz.13
  for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 06:40:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Mt9EnEn6Ha0zSiDllAuOLDMPT9KKkIBQEDSf8mieluU=;
- b=ZfatHAtfqlrVceqfAPLrLqzdI/T6otqAPMQdIdUYZVeaqGzmF3OZfZ0HU2g6ak9VLk
- RBImHLmmnP6F5CkXpx68JqbkTFeGMtl3PVqD8RYMCJM4pRPutWZp/eB88sM/wC8vZwQ5
- 3CuynWt3ueYx2g9kVN1TlyCbxT0upy4IL3SbnzuaQnr6Tb+/g3YUKUR5+SuiF1Rp7Eqe
- FDNLvng/Qd/pI9cWnT+QiPPyojF3STS/6kMvTYLvOBoF50REnpgBemeeNQxZW8GmX2Fd
- EMLQ18tK3srmjWNiluZc3j0u5l9D+QuTNJg7THaHTZpczjjZOs//2jLuB6HDd0TR5ACk
- BkTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=t2H9oqHZQ+P4RCwqgK/9A1RSj7T0euBczKmcwW6jgrE=;
+ b=C0kzKvTpKCIsn/s3qYKVZ6oIwR/7m8N4JcCOFAC7d8+VmuqCkuwcXwKSjr1BHjFIVX
+ ivdkyoRp2PxW0aP2Of6RBGQqWmf+wTfv8/9itv8+Wp+T9CJqDmOXhAt3ZK3lxzzvpf2o
+ 306KPasEaxXKCNLnm315eHehA+HzddpRSnNXlN2jrwTD4wxqHNk7uYhIESjk1P/0v8LD
+ 9S8q7m+HxuCAHZtNy/W2pejJhPeULuXPc8ROjR7j1tMXk5J7sXokK6k4WIFBOXRmNkhf
+ YHDbfaarJBQmqF8LcM4LUVDHFnvFVFm+hzZx+c24JsSxueM7hLXhEVAC64xgaICo8QPD
+ DVGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Mt9EnEn6Ha0zSiDllAuOLDMPT9KKkIBQEDSf8mieluU=;
- b=yJdeeaMnw2jFMxOnkqOKcd68MgM7Og0fIhIpmASWiucLYMeZXRCpbKUbwkUXdxAxIp
- yWgzdG4OOyLEQCPjUYf/dcFNv0va4tpqLeSbhy3MMqDwrS4pmZIsFMJBakDgcOLtSnGP
- HZc4JcBx+BcDXWBpP3epFW8zMd6g2DOEbJ9VV5608E5DmWJwkcifZ7Or/ZNpBh3Y1SLr
- 04lILYJaKfNwkuc4cVV3BXyFEs6x2NqHQnUGVwIwJMbE7o53IR8QJzTtPVxT14kaji5p
- udvqkMtx0Zf4EPiLycmc8VoLYepbWO0rf/JPhHIs0ZHR/Vw5BAUz1MGDwvbXxfKxruVb
- sy1g==
-X-Gm-Message-State: ACrzQf2SAgJ3FqhPtHEA/+z6c/8v73FVr22EbkA7hULEenH+Mu6AH1Oy
- /bbie6RmuTdvitUsg/boOmzgjQ==
-X-Google-Smtp-Source: AMsMyM5pmJztoER+TsYsl4+VPgCF3NrfEjzVeSV9z8TiT1SQfYg3WFilZ+4h12FZeBBdUNh7/sQoCw==
-X-Received: by 2002:a1c:ac81:0:b0:3c6:e566:cc21 with SMTP id
- v123-20020a1cac81000000b003c6e566cc21mr9816670wme.0.1666964410538; 
- Fri, 28 Oct 2022 06:40:10 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- l16-20020a5d4110000000b002365cd93d05sm3572858wrp.102.2022.10.28.06.40.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 06:40:09 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 4/7] target/arm: Implement HCR_EL2.TTLBOS traps
-Date: Fri, 28 Oct 2022 14:39:59 +0100
-Message-Id: <20221028134002.730598-5-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221028134002.730598-1-peter.maydell@linaro.org>
-References: <20221028134002.730598-1-peter.maydell@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=t2H9oqHZQ+P4RCwqgK/9A1RSj7T0euBczKmcwW6jgrE=;
+ b=pYjDdmS4RtiFu886Pca3lsvXTlREXWpYe/opLOImuKeFw3ainaL/BbAO8Eki5nJ6sd
+ NwN8TKPsJ47ogqatzRfyW5Zun9Xkb3FWAVgus2cY+udfpOSuyBhNW5tVvb5i3dhiJZPJ
+ SnFYSmM/ZAtc9QM8JRJMxe1OZaDeq/YUEWHHBZrHioDrpGezn0d1Ou3apNktGDhEJ24p
+ lwTsYFsCNKWi3hlXpdB97Xr4D0tiNR5Ob679Pl5iP2x2K/xdFd8YnLKuMJtDckvGgZtH
+ fav4IOnTfkbAB2z4PturGWv2fJwmY2OoMjmFCYqqXWR+hlctR915IMbbQcG/uhv5/okp
+ PevQ==
+X-Gm-Message-State: ACrzQf3ygE7Tcctdo/SH2X+r9jgt4nybazFxEERH0HRxIQqit5JgHIUb
+ nQ7LpHihKdidaogMepigioqjJffxcLSe1k1Kyxs=
+X-Google-Smtp-Source: AMsMyM60MaeQa83wCETJHfxyqJSXA0aPB+Mid4eJJhKvtVTbi0k19ALnwX32QFzLjwaMZ7FOnl+gFIM4hy66NtUK6no=
+X-Received: by 2002:a05:620a:480c:b0:6f9:feef:64ef with SMTP id
+ eb12-20020a05620a480c00b006f9feef64efmr5002800qkb.342.1666964410906; Fri, 28
+ Oct 2022 06:40:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+References: <E1ooNWu-0002oC-76@lizzy.crudebyte.com>
+In-Reply-To: <E1ooNWu-0002oC-76@lizzy.crudebyte.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 28 Oct 2022 21:39:59 +0800
+Message-ID: <CAEUhbmXK_oJa5+14G=i_yxfmqcpnSW4TL-B5Fj0SOx0NL9L6qA@mail.gmail.com>
+Subject: Re: [PATCH] 9pfs: fix missing sys/mount.h include
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Thomas Huth <thuth@redhat.com>, 
+ Stefan Hajnoczi <stefanha@gmail.com>, Warner Losh <imp@bsdimp.com>,
+ Bin Meng <bin.meng@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x72a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,106 +85,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-For FEAT_EVT, the HCR_EL2.TTLBOS bit allows trapping on EL1
-use of TLB maintenance instructions that operate on the
-outer shareable domain:
+On Fri, Oct 28, 2022 at 7:30 PM Christian Schoenebeck
+<qemu_oss@crudebyte.com> wrote:
+>
+> Fixes the following build error:
+>
+>   fsdev/file-op-9p.h:156:56: error: declaration of 'struct statfs' will
+>   not be visible outside of this function [-Werror,-Wvisibility]
+>     int (*statfs)(FsContext *s, V9fsPath *path, struct statfs *stbuf);
+>                                                        ^
+>
+> As Windows neither has statfs, nor sys/mount.h, don't include it there.
+>
+> Fixes: 684f91203439 ("tests/9p: split virtio-9p-test.c ...")
+> Link: https://lore.kernel.org/all/2690108.PsDodiG1Zx@silver/
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>  fsdev/file-op-9p.h | 2 ++
+>  1 file changed, 2 insertions(+)
+>
 
-TLBI VMALLE1OS, TLBI VAE1OS, TLBI ASIDE1OS,TLBI VAAE1OS,
-TLBI VALE1OS, TLBI VAALE1OS, TLBI RVAE1OS, TLBI RVAAE1OS,
-TLBI RVALE1OS, and TLBI RVAALE1OS.
-
-(There are no AArch32 outer-shareable TLB maintenance ops.)
-
-Implement the trapping.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/helper.c | 33 +++++++++++++++++++++++----------
- 1 file changed, 23 insertions(+), 10 deletions(-)
-
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index dcd3af6e7d9..5baa06a0cec 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -373,6 +373,19 @@ static CPAccessResult access_ttlbis(CPUARMState *env, const ARMCPRegInfo *ri,
-     return CP_ACCESS_OK;
- }
- 
-+#ifdef TARGET_AARCH64
-+/* Check for traps from EL1 due to HCR_EL2.TTLB or TTLBOS. */
-+static CPAccessResult access_ttlbos(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                    bool isread)
-+{
-+    if (arm_current_el(env) == 1 &&
-+        (arm_hcr_el2_eff(env) & (HCR_TTLB | HCR_TTLBOS))) {
-+        return CP_ACCESS_TRAP_EL2;
-+    }
-+    return CP_ACCESS_OK;
-+}
-+#endif
-+
- static void dacr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
- {
-     ARMCPU *cpu = env_archcpu(env);
-@@ -6751,19 +6764,19 @@ static const ARMCPRegInfo tlbirange_reginfo[] = {
-       .writefn = tlbi_aa64_rvae1is_write },
-     { .name = "TLBI_RVAE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 1,
--      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlbos, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1is_write },
-     { .name = "TLBI_RVAAE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 3,
--      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlbos, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1is_write },
-    { .name = "TLBI_RVALE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 5,
--      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlbos, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1is_write },
-     { .name = "TLBI_RVAALE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 7,
--      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlbos, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1is_write },
-     { .name = "TLBI_RVAE1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 1,
-@@ -6850,27 +6863,27 @@ static const ARMCPRegInfo tlbirange_reginfo[] = {
- static const ARMCPRegInfo tlbios_reginfo[] = {
-     { .name = "TLBI_VMALLE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 0,
--      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlbos, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vmalle1is_write },
-     { .name = "TLBI_VAE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 1,
--      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlbos, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1is_write },
-     { .name = "TLBI_ASIDE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 2,
--      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlbos, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vmalle1is_write },
-     { .name = "TLBI_VAAE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 3,
--      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlbos, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1is_write },
-     { .name = "TLBI_VALE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 5,
--      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlbos, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1is_write },
-     { .name = "TLBI_VAALE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 7,
--      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlbos, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1is_write },
-     { .name = "TLBI_ALLE2OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 1, .opc2 = 0,
--- 
-2.25.1
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
