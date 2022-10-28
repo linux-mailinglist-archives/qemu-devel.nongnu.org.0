@@ -2,93 +2,166 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223946107A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 04:09:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C33A6107E6
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 04:23:09 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooEnM-0007cb-9y; Thu, 27 Oct 2022 22:08:28 -0400
+	id 1ooEyf-0003mz-TG; Thu, 27 Oct 2022 22:20:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ooEnH-0007cS-EC
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 22:08:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1ooEyd-0003mY-Su
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 22:20:08 -0400
+Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ooEnD-0003CN-B8
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 22:08:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666922897;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mSN4cu5c8VigU9GPMStubV1JLXvC/mJbI0kovOk2ZP8=;
- b=U0gRivspqpt/m/s4u1h8LFhPGAnpPApvsj7V9hh+VCUqu9YrRIB9EnnHiZIVRBnb8cYxEk
- VZdYk5w/BMUHdEkrnbkEmsjk07MaD7pSge54hXfm3+0+xQqh1Wl6Syelm10riZfB2HP/wG
- wsHbar9a8XEoys0DtIM2jWVrnOMKDTo=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-577-uMd2VX4fO7aH9i-2iXHzMQ-1; Thu, 27 Oct 2022 22:08:15 -0400
-X-MC-Unique: uMd2VX4fO7aH9i-2iXHzMQ-1
-Received: by mail-il1-f198.google.com with SMTP id
- d6-20020a056e02214600b002fa23a188ebso3583426ilv.6
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 19:08:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:organization:references
- :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mSN4cu5c8VigU9GPMStubV1JLXvC/mJbI0kovOk2ZP8=;
- b=jW8yYEn6DQtkDZU4tNvkfjQhAzSxjUNqNnN8pzzJHkeaAe9yXInUjJTbYAkC/wi/E9
- gPcH19+COCae2CbT5KxYfnT7hTQTehwguOuhNPqNSf6u2cZ8YJUVKF6TnhehJWcOIqf5
- J51EYQ1lij2yLeubPvxM6k1JIg0RMD7GAydLB4O8WLWSXLvwQq8UACSTrHTD11LHxeES
- EoVIYbYaEjhCYh5DY+lAG7OJI3Uo0C35VbwEXpG5wJTM1MqY8WhofBkQ5HZA8ZwP7QWH
- CwtL8Ev1o0z+GJBfEKsmsQtLSHavI641lkXmLl8LsC7lGGyibtwwfRvaGN6xmJQy9mYm
- ocAQ==
-X-Gm-Message-State: ACrzQf3mK7OUec9aJM6EWY5ED1+MYoDs0i7h8nywpC+RAjdpOgQmbxco
- G9j5UFISivXRXIBVgdoDRl8pikmvwfdNy2/LAcm8P+VmMjjJGh/uZ+J9WpGj4rBWmizJbYsrIOs
- EwbyL3JtJJmo5Tz8=
-X-Received: by 2002:a02:2242:0:b0:375:29b5:b885 with SMTP id
- o63-20020a022242000000b0037529b5b885mr3288111jao.162.1666922894911; 
- Thu, 27 Oct 2022 19:08:14 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5t0iT0J/v09Oug28xAaSWF+diDbNO7YKXcDfMT8xXPwd0XkjGhCmUn/6bLEnCuuW4or8tH8Q==
-X-Received: by 2002:a02:2242:0:b0:375:29b5:b885 with SMTP id
- o63-20020a022242000000b0037529b5b885mr3288086jao.162.1666922894525; 
- Thu, 27 Oct 2022 19:08:14 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- h14-20020a056602154e00b006884b050a0asm1178547iow.18.2022.10.27.19.08.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Oct 2022 19:08:14 -0700 (PDT)
-Date: Thu, 27 Oct 2022 20:08:11 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: Cindy Lu <lulu@redhat.com>, mst@redhat.com, pbonzini@redhat.com,
- peterx@redhat.com, david@redhat.com, f4bug@amsat.org, sgarzare@redhat.com,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 1/2] vfio: move the function vfio_get_xlat_addr() to
- memory.c
-Message-ID: <20221027200811.7e586f7b.alex.williamson@redhat.com>
-In-Reply-To: <CACGkMEtoOFLUr0uKHagxUb-yPrrrS0BJ68tXNMP1D8pyT34Ttg@mail.gmail.com>
-References: <20221027074032.1101939-1-lulu@redhat.com>
- <20221027074032.1101939-2-lulu@redhat.com>
- <20221027151134.354bd3bb.alex.williamson@redhat.com>
- <CACGkMEtoOFLUr0uKHagxUb-yPrrrS0BJ68tXNMP1D8pyT34Ttg@mail.gmail.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1ooEyb-0004t3-OZ
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 22:20:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666923605; x=1698459605;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=bCNCYk1AegN7OTg9meJAnHdraNWcGDYISRyFVscfGbM=;
+ b=fAm7vo5ip1zHvoitpWRNiRLyWXNa6NyCsrQCb+T8rxzuDiuMTYq1V05f
+ 55knblR8HgLfngIaC6hlElv0n3Q4iMrrlrvJGStUzCAzoe2q0svVlevXd
+ x9csi/BpXUVnK2EmYrNTCtqk1i0J9iT967l4UvFVUU1NYu5RCmv8TY/NI
+ IiG8Zdp3mkbxUgaD/86D1fXWViPCnNnchV/cY3sfsbRh5ZLC/3fEqTDb3
+ XmHlMFqJ8o+AeB8aOkt1QWQlPNBXapi9rOWgF6YdwTDA6aOCucv3T6Vbz
+ JDFpYxeAzEkt9pKeUk8i3BmL1gry4GTO3eRkXQPO/aC2dgkw7JasrL6iD w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="288106866"
+X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="288106866"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2022 19:20:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="627379655"
+X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="627379655"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga007.jf.intel.com with ESMTP; 27 Oct 2022 19:19:58 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 27 Oct 2022 19:19:51 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 27 Oct 2022 19:19:51 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.106)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Thu, 27 Oct 2022 19:19:51 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VPw1tHsCqXqkVNrKlF0Lwa6nKEBvureANZsv+rY2q7xssSKRS53qbve8TbMfqoPu3RN4UW3itqQ+Px8JsLRsvtG09SF6Voj/AIOvB6buTuTk4CdxFPR6TepqbUitA32WaitXrcQ4PVD/IKCDPTge27XC6mRZ/es83Iql7NOsPjzJDr86fBu61S8SKRFM+Y2hytAlnesWzlrIBlweSWqrQPQ5I7QFrAVABGNr6gbV1osPPKY31E0xy0dpe8E4XfRdhi5IJWri82myAuqz5FYD5Bclc3r/L0h5U2iclSL2iiR9d+rXb6jJdOMFfuLErcb6d1O8UHNv0p/6rQIZ7lAdvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bCNCYk1AegN7OTg9meJAnHdraNWcGDYISRyFVscfGbM=;
+ b=CA4npQyosTuF+k89uGr3WobiQqxhgJ12928RV6NaJxg6f2vQjZjEUwy4POo8cNNlNYGCcXS6SUkXB1UE5y7C22NEtz9MquGBKe2xrl8eDiLAHywp2WMS51LRdYSCm4/IFTE8z3DIhodzvs+lJb9AfzZP6c1Dubn+19nJFQUv5WXXukZV0l/e339DPfS1qS0MxogZgDiZmDjOft+SvPsiclCCkqxSoK9RNNMFLcYvJpPaiNiwmItp/28LFrYdsie3iYgi9OTZeHGrZVtjyZy4LrG+4X8vaHw1rfmiaIkK7LI83JWSudwrQGloOgd9V2VT8DLkMIZXPuEe0jehc2ydvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MWHPR1101MB2110.namprd11.prod.outlook.com
+ (2603:10b6:301:4f::15) by CO6PR11MB5620.namprd11.prod.outlook.com
+ (2603:10b6:303:13e::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.23; Fri, 28 Oct
+ 2022 02:19:50 +0000
+Received: from MWHPR1101MB2110.namprd11.prod.outlook.com
+ ([fe80::b173:e9a1:a680:4740]) by MWHPR1101MB2110.namprd11.prod.outlook.com
+ ([fe80::b173:e9a1:a680:4740%12]) with mapi id 15.20.5746.028; Fri, 28 Oct
+ 2022 02:19:50 +0000
+From: "Duan, Zhenzhong" <zhenzhong.duan@intel.com>
+To: David Hildenbrand <david@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+CC: "pbonzini@redhat.com" <pbonzini@redhat.com>, "peterx@redhat.com"
+ <peterx@redhat.com>, "f4bug@amsat.org" <f4bug@amsat.org>
+Subject: RE: [PATCH] memory: Fix wrong end address dump
+Thread-Topic: [PATCH] memory: Fix wrong end address dump
+Thread-Index: AQHYnZZfXwwfv2G79kWV9fHeWEsWta4jplUQ
+Date: Fri, 28 Oct 2022 02:19:49 +0000
+Message-ID: <MWHPR1101MB211099D9C22D0FDFAC43554292329@MWHPR1101MB2110.namprd11.prod.outlook.com>
+References: <20220622095912.3430583-1-zhenzhong.duan@intel.com>
+ <67dedbad-9d24-2c8d-f8a7-98e5387b89ae@redhat.com>
+In-Reply-To: <67dedbad-9d24-2c8d-f8a7-98e5387b89ae@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.500.17
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MWHPR1101MB2110:EE_|CO6PR11MB5620:EE_
+x-ms-office365-filtering-correlation-id: 0f1e05d7-89cb-471e-f0c5-08dab88ae433
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 3KcnI81sHFlrurXyDacp15ypnA28txSd+mMPbqAHBF2Tf2iHkJ5uRnwYZk21DbzgE9zdbu23MMeWdTOsLJSHngFmwwRXXFq9FaTmqTQCE5y9Zz7KzXP3AjPBEGDmhi1YpUMn158SCi01rsBaXEGMQxbsZeuPYutuq+aUbhwH2o+Yh3MM1MlDrO3w5kU0nS6rMTqhYbQtzuBwOf8C/Ak9JRgq9TEKN67+slxPCCSxCdwtLF/iVWvGFJk94s7ieH1Et/2g8xJVP19eVeYP0IJRDdLSor/LsGa5rAa5DCBliQZPK0wjo26LPtTeeHs6qSVqGNGCkt0fEv/7moCZlCIjyXZAwetFn2ANKlTgLp4vvfQ0l61zwR5/0l9A0zPdnJxMFtPrI82ONfZ0+nCSYaupugoiD83ps6ZaPZkQmvebFTwpr3LxFKG35vhUTEOO+LdSatBkj630zZoMjojorGLIBa1stc6VjEEdkfwIaQv59YVEAYgjYVUkpzkpzeEpB8vpSzVH5SzMB1dE6dVibnxtaXeYYlpLdOsYlNHC/7DujXugtQQQQfzNQgWzFicqqLE9OYVEuphQ0sRfR2jjupvDtS7CYLqee8No2PoogeozU4Od7c/wIE7ImtX2YMHzmqiqp8AEl802tkSp2l5WMNvMf6iNj2GFQ1zoOBhXbfb14REPCfruEM6oKKaCSyL5wnSMZWp3WrgTIw6kAjXmz/MatJddOV8ZEM+g4Wj5rxxrAclAsZ8Wk7niGe0rMe6FSAYJ8LJosaN3GnU0smANUWOjJg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1101MB2110.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(376002)(39860400002)(346002)(136003)(366004)(396003)(451199015)(186003)(478600001)(83380400001)(86362001)(71200400001)(64756008)(66556008)(8676002)(316002)(7696005)(4326008)(52536014)(5660300002)(9686003)(76116006)(8936002)(41300700001)(26005)(6506007)(66476007)(122000001)(54906003)(2906002)(55016003)(38100700002)(33656002)(66946007)(110136005)(38070700005)(66446008)(82960400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dWJURlZJTE95Wms3WHAwaUJYRTEzc3l0VG9Sek1qeDhxcUVxTUZwTWpHU2Jt?=
+ =?utf-8?B?aTZTekZrZEtTRmMxc2NJSHBVRFNXNW1HWVlEdXpEeVZJZlVrR1dlQnBTQUFW?=
+ =?utf-8?B?M1NiUUNBaklTU1dhb2llY1lzbUZPeFJGUWxLUUYvcUgzNWRlUmMwL2NoTlZp?=
+ =?utf-8?B?L0lnb0NjN0hFTEM0ZC8zOVZKbHdsVXVTR3JGVzFJLzVXL3hkdGpaOG44d2RI?=
+ =?utf-8?B?OFBkbVJYWWV3SUpDWU16OFk0ekhIdy8zbU1hZ1lDenJVT2JqSGxRTXFyL01a?=
+ =?utf-8?B?bzU4ZUI3TnkzQStnWFdBS2tOVXJXZ0lMNDV1Z29ZYkEydGpLUUtOWDVnWitt?=
+ =?utf-8?B?TWV0UVYxVzZKMjJ4YVJORnJ0RFBKOGtISDQvRXZLS3Z1aE9SRnpTakI4eTZj?=
+ =?utf-8?B?OENITmI0M1BmS2FkVTVnMlZxZEYrN01qV2dmSU0zaU9PTTNtK3FOTllBUWV6?=
+ =?utf-8?B?UDZSRDViTFdETnNac1JiUE5mbTZnMmFrSGlyZFpYaXltdVBlNFozb3FtNGhq?=
+ =?utf-8?B?N25ZQUpGc1dpeExOMlQyWUJwcWpZZkJ6OGpMd3lWWjR6OTRubzFMVEQzMGRE?=
+ =?utf-8?B?SFZNNHpWNHJsQUViRHJydVA4TlZwOFE5dEkzOUNIN0JkcTZCb2lYQTdiR3dG?=
+ =?utf-8?B?dGNnRWVNbW9RRmY2aUFiTFZkdkRpY0EvVXU0cTdrL1VOUkplaHlBU0QxMXFN?=
+ =?utf-8?B?c2daM3BJYzFVUzdOK3NyNUROdDBoS3BDT1JKZUZsUHFuemtSYVNZaEpDRUN0?=
+ =?utf-8?B?c29ITnFPTFhGZHJXTHROeXkyOWFnWnNLOVE3amxobWdXd1MvVzB0QU5jM1lJ?=
+ =?utf-8?B?cDBaQTZjK1crMjZpTmpmdUJJSkFlTUU4UDd4WU9VL2tMVzg3WnVMcktKRVNI?=
+ =?utf-8?B?akdxcVdhVDhUcWZna2dFaHJxL0NLT09OZ1JYcm8zZnFLTUFWcjlINHpQMTY0?=
+ =?utf-8?B?WEI5d1RDVkUzWEo3bEI5bmhoQW9DemFua1IyOFhsM3pUQmpGbFpvaGhSSE5t?=
+ =?utf-8?B?bkM4elorRmN3bHdXbmJTL3F2UVdXZXg4OFpwcWJuRm52RlNpTWMvcHVhNHJK?=
+ =?utf-8?B?am01Sk1hdnhqMFdxS0Y3ZW1lbHVjRVBsY056WUpvSnNNL1FleFNQUlh3VVFr?=
+ =?utf-8?B?cXVNSnJnVzQzcCsxTkplQnFhc25DcUJiK1g5YW5ZdmFtNFNQdXExVE01UFMx?=
+ =?utf-8?B?b1dRQTdZQ1NORFlXTXd6SU5Xc1FhRTIrRTVjUitXdHZaMUFhUmcyV1BsUTRE?=
+ =?utf-8?B?Tms5akJoSllDejBUK29SMzRxSnpBZm5SemY1ckt2Z2tNa1RMcUhOSWZlN21V?=
+ =?utf-8?B?VVhETHhDdHN2bHhicXNQcS9xVDBPTjVRajFQUFZUcjI2b3o3d0VIMnpHSHRy?=
+ =?utf-8?B?blFucmRnYWNtbk9tKys4dTB0Mjc2SlBYNnoyZ2NHd3lsZ2dHWVdXVnBtbW5t?=
+ =?utf-8?B?NTRqVi9ZT2daVmlkcS80a011ak1jZXRZaGs3Y3JYWEkzWE8yOWtRSkl2WUFM?=
+ =?utf-8?B?S2lUMGp5ZUJmbXhvOWgyUDRQa085akhmVkp3RjhhUzV5ZUxDR1l2QjdkUkZj?=
+ =?utf-8?B?aDZsUHM1UUFhbDMyQkt6V29ZbUk5YkpiWnVrQ1hSUXJWMlpFcGR2N0V5YTZM?=
+ =?utf-8?B?Q3EvMGhuVXM2YVRZdTVvQndvQzQ2Mkh4M2lvZmhrQVY2azRqVTA2UUVreDRU?=
+ =?utf-8?B?Z3BIVnhsdloyVmsxTGRpd214bzhiMHBNVkE3bU5weFg0UWZHYUU5eGg3VVVN?=
+ =?utf-8?B?SkJNRXoyL3lGWllKMDNOL2hIRTJNTHdWTlMwU2ZUcHd6cEk4L29LNHkxejdx?=
+ =?utf-8?B?ZDlGUCtDYzN1RmJsc3NCVk5KM2djRm5ob1JEWitwNFU5VGt2djM0d0hTM3Na?=
+ =?utf-8?B?VEc5OVVsekZKNVJJdUxnZ2ZJdzJiNzl1eHdxRTU3L2JKNUlBdWU4M0s4bDBm?=
+ =?utf-8?B?eEhOcndVRk1yVzZhT2JOYnQxSHVaZGFyT2R6amplM2ZqQ1R2UGIwM0VTZEJF?=
+ =?utf-8?B?TmcxV1ZXb0t0T1JPaHV6NFFJQlMrRnNrSVBzUWRlaTVxcEF3RW8wT0UzOWJG?=
+ =?utf-8?B?SGd0bXJsckFUWHpWeDZWY0JCbDJVTENRUXdlRm5IRFlaeVlabXFNKzIrU0ZL?=
+ =?utf-8?Q?ClZw/EsJu4dm5KZZ0GbHFQ++E?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1101MB2110.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f1e05d7-89cb-471e-f0c5-08dab88ae433
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2022 02:19:49.9328 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hpVKTOqxKaIv4HEPQTMmnx818YeeHg2w2d5B9QNBEUbn/azXj+JcHCI7q1dBhvBXdfKNkeOxH1exvHhO9TKQxhXDsDjU6tMYw/LOp1Wpmk4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5620
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.136;
+ envelope-from=zhenzhong.duan@intel.com; helo=mga12.intel.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,294 +178,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 28 Oct 2022 09:50:10 +0800
-Jason Wang <jasowang@redhat.com> wrote:
-
-> On Fri, Oct 28, 2022 at 5:11 AM Alex Williamson
-> <alex.williamson@redhat.com> wrote:
-> >
-> > On Thu, 27 Oct 2022 15:40:31 +0800
-> > Cindy Lu <lulu@redhat.com> wrote:
-> >  
-> > > Move the function vfio_get_xlat_addr to softmmu/memory.c, and
-> > > change the name to memory_get_xlat_addr().So we can use this
-> > > function in other devices,such as vDPA device.
-> > >
-> > > Signed-off-by: Cindy Lu <lulu@redhat.com>
-> > > ---
-> > >  hw/vfio/common.c      | 92 ++-----------------------------------------
-> > >  include/exec/memory.h |  4 ++
-> > >  softmmu/memory.c      | 84 +++++++++++++++++++++++++++++++++++++++
-> > >  3 files changed, 92 insertions(+), 88 deletions(-)
-> > >
-> > > diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> > > index ace9562a9b..2b5a9f3d8d 100644
-> > > --- a/hw/vfio/common.c
-> > > +++ b/hw/vfio/common.c
-> > > @@ -574,92 +574,6 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
-> > >             section->offset_within_address_space & (1ULL << 63);
-> > >  }
-> > >
-> > > -/* Called with rcu_read_lock held.  */
-> > > -static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-> > > -                               ram_addr_t *ram_addr, bool *read_only)
-> > > -{
-> > > -    MemoryRegion *mr;
-> > > -    hwaddr xlat;
-> > > -    hwaddr len = iotlb->addr_mask + 1;
-> > > -    bool writable = iotlb->perm & IOMMU_WO;
-> > > -
-> > > -    /*
-> > > -     * The IOMMU TLB entry we have just covers translation through
-> > > -     * this IOMMU to its immediate target.  We need to translate
-> > > -     * it the rest of the way through to memory.
-> > > -     */
-> > > -    mr = address_space_translate(&address_space_memory,
-> > > -                                 iotlb->translated_addr,
-> > > -                                 &xlat, &len, writable,
-> > > -                                 MEMTXATTRS_UNSPECIFIED);
-> > > -    if (!memory_region_is_ram(mr)) {
-> > > -        error_report("iommu map to non memory area %"HWADDR_PRIx"",
-> > > -                     xlat);
-> > > -        return false;
-> > > -    } else if (memory_region_has_ram_discard_manager(mr)) {
-> > > -        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(mr);
-> > > -        MemoryRegionSection tmp = {
-> > > -            .mr = mr,
-> > > -            .offset_within_region = xlat,
-> > > -            .size = int128_make64(len),
-> > > -        };
-> > > -
-> > > -        /*
-> > > -         * Malicious VMs can map memory into the IOMMU, which is expected
-> > > -         * to remain discarded. vfio will pin all pages, populating memory.
-> > > -         * Disallow that. vmstate priorities make sure any RamDiscardManager
-> > > -         * were already restored before IOMMUs are restored.
-> > > -         */
-> > > -        if (!ram_discard_manager_is_populated(rdm, &tmp)) {
-> > > -            error_report("iommu map to discarded memory (e.g., unplugged via"
-> > > -                         " virtio-mem): %"HWADDR_PRIx"",
-> > > -                         iotlb->translated_addr);
-> > > -            return false;
-> > > -        }
-> > > -
-> > > -        /*
-> > > -         * Malicious VMs might trigger discarding of IOMMU-mapped memory. The
-> > > -         * pages will remain pinned inside vfio until unmapped, resulting in a
-> > > -         * higher memory consumption than expected. If memory would get
-> > > -         * populated again later, there would be an inconsistency between pages
-> > > -         * pinned by vfio and pages seen by QEMU. This is the case until
-> > > -         * unmapped from the IOMMU (e.g., during device reset).
-> > > -         *
-> > > -         * With malicious guests, we really only care about pinning more memory
-> > > -         * than expected. RLIMIT_MEMLOCK set for the user/process can never be
-> > > -         * exceeded and can be used to mitigate this problem.
-> > > -         */
-> > > -        warn_report_once("Using vfio with vIOMMUs and coordinated discarding of"
-> > > -                         " RAM (e.g., virtio-mem) works, however, malicious"
-> > > -                         " guests can trigger pinning of more memory than"
-> > > -                         " intended via an IOMMU. It's possible to mitigate "
-> > > -                         " by setting/adjusting RLIMIT_MEMLOCK.");
-> > > -    }
-> > > -
-> > > -    /*
-> > > -     * Translation truncates length to the IOMMU page size,
-> > > -     * check that it did not truncate too much.
-> > > -     */
-> > > -    if (len & iotlb->addr_mask) {
-> > > -        error_report("iommu has granularity incompatible with target AS");
-> > > -        return false;
-> > > -    }
-> > > -
-> > > -    if (vaddr) {
-> > > -        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
-> > > -    }
-> > > -
-> > > -    if (ram_addr) {
-> > > -        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
-> > > -    }
-> > > -
-> > > -    if (read_only) {
-> > > -        *read_only = !writable || mr->readonly;
-> > > -    }
-> > > -
-> > > -    return true;
-> > > -}
-> > > -
-> > >  static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-> > >  {
-> > >      VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
-> > > @@ -682,7 +596,8 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-> > >      if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
-> > >          bool read_only;
-> > >
-> > > -        if (!vfio_get_xlat_addr(iotlb, &vaddr, NULL, &read_only)) {
-> > > +        if (!memory_get_xlat_addr(iotlb, &vaddr, NULL, &read_only,
-> > > +                                  &address_space_memory)) {
-> > >              goto out;
-> > >          }
-> > >          /*
-> > > @@ -1359,7 +1274,8 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-> > >      }
-> > >
-> > >      rcu_read_lock();
-> > > -    if (vfio_get_xlat_addr(iotlb, NULL, &translated_addr, NULL)) {
-> > > +    if (memory_get_xlat_addr(iotlb, NULL, &translated_addr, NULL,
-> > > +                             &address_space_memory)) {
-> > >          int ret;
-> > >
-> > >          ret = vfio_get_dirty_bitmap(container, iova, iotlb->addr_mask + 1,
-> > > diff --git a/include/exec/memory.h b/include/exec/memory.h
-> > > index bfb1de8eea..282de1d5ad 100644
-> > > --- a/include/exec/memory.h
-> > > +++ b/include/exec/memory.h
-> > > @@ -713,6 +713,10 @@ void ram_discard_manager_register_listener(RamDiscardManager *rdm,
-> > >  void ram_discard_manager_unregister_listener(RamDiscardManager *rdm,
-> > >                                               RamDiscardListener *rdl);
-> > >
-> > > +bool memory_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-> > > +                          ram_addr_t *ram_addr, bool *read_only,
-> > > +                          AddressSpace *as);
-> > > +
-> > >  typedef struct CoalescedMemoryRange CoalescedMemoryRange;
-> > >  typedef struct MemoryRegionIoeventfd MemoryRegionIoeventfd;
-> > >
-> > > diff --git a/softmmu/memory.c b/softmmu/memory.c
-> > > index 7ba2048836..8586863ffa 100644
-> > > --- a/softmmu/memory.c
-> > > +++ b/softmmu/memory.c
-> > > @@ -2121,6 +2121,90 @@ void ram_discard_manager_unregister_listener(RamDiscardManager *rdm,
-> > >      rdmc->unregister_listener(rdm, rdl);
-> > >  }
-> > >
-> > > +/* Called with rcu_read_lock held.  */
-> > > +bool memory_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-> > > +                          ram_addr_t *ram_addr, bool *read_only,
-> > > +                          AddressSpace *as)
-> > > +{
-> > > +    MemoryRegion *mr;
-> > > +    hwaddr xlat;
-> > > +    hwaddr len = iotlb->addr_mask + 1;
-> > > +    bool writable = iotlb->perm & IOMMU_WO;
-> > > +
-> > > +    /*
-> > > +     * The IOMMU TLB entry we have just covers translation through
-> > > +     * this IOMMU to its immediate target.  We need to translate
-> > > +     * it the rest of the way through to memory.
-> > > +     */
-> > > +    mr = address_space_translate(as, iotlb->translated_addr, &xlat, &len,
-> > > +                                 writable, MEMTXATTRS_UNSPECIFIED);
-> > > +    if (!memory_region_is_ram(mr)) {
-> > > +        error_report("iommu map to non memory area %" HWADDR_PRIx "", xlat);
-> > > +        return false;
-> > > +    } else if (memory_region_has_ram_discard_manager(mr)) {
-> > > +        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(mr);
-> > > +        MemoryRegionSection tmp = {
-> > > +            .mr = mr,
-> > > +            .offset_within_region = xlat,
-> > > +            .size = int128_make64(len),
-> > > +        };
-> > > +
-> > > +        /*
-> > > +         * Malicious VMs can map memory into the IOMMU, which is expected
-> > > +         * to remain discarded. device will pin all pages, populating memory.
-> > > +         * Disallow that. vmstate priorities make sure any RamDiscardManager
-> > > +         * were already restored before IOMMUs are restored.
-> > > +         */
-> > > +        if (!ram_discard_manager_is_populated(rdm, &tmp)) {
-> > > +            error_report("iommu map to discarded memory (e.g., unplugged via"
-> > > +                         " virtio-mem): %" HWADDR_PRIx "",
-> > > +                         iotlb->translated_addr);
-> > > +            return false;
-> > > +        }
-> > > +
-> > > +        /*
-> > > +         * Malicious VMs might trigger discarding of IOMMU-mapped memory. The
-> > > +         * pages will remain pinned inside device until unmapped, resulting in a
-> > > +         * higher memory consumption than expected. If memory would get
-> > > +         * populated again later, there would be an inconsistency between pages
-> > > +         * pinned by device and pages seen by QEMU. This is the case until
-> > > +         * unmapped from the IOMMU (e.g., during device reset).
-> > > +         *
-> > > +         * With malicious guests, we really only care about pinning more memory
-> > > +         * than expected. RLIMIT_MEMLOCK set for the user/process can never be
-> > > +         * exceeded and can be used to mitigate this problem.
-> > > +         */
-> > > +        warn_report_once("Using device with vIOMMUs and coordinated discarding"
-> > > +                         " of RAM (e.g., virtio-mem) works, however, malicious"
-> > > +                         " guests can trigger pinning of more memory than"
-> > > +                         " intended via an IOMMU. It's possible to mitigate "
-> > > +                         " by setting/adjusting RLIMIT_MEMLOCK.");  
-> >
-> > Is this really fit to be in shared code?  Simply replacing "vfio" with
-> > "device" for comments and warnings that are really of concern for a
-> > specific use case doesn't look much better to me.
-> >
-> > I think translating an unpopulated address, as in the previous test
-> > above, is generally invalid, but the comment is certainly trying to
-> > frame the severity of this error relative to a specific use case.
-> >
-> > Here we're generating an unconditional warning, assuming that this code
-> > path has been triggered by device code, for the condition of simply
-> > asking for a translation to a MemoryRegion under discard manager
-> > control?  Again, isn't that an action that has implications for a
-> > specific use case of a device that supports pinning host memory?  
-> 
-> 
-> Or can we rename the function to memory_get_xlat_addr_no_discard()?
-> This looks more general and fit for the caller that doesn't want to
-> map region that has a discard manager.
-
-Is a guest restricted from mapping virtio-mem regions to a device?
-AFAIK, this is something that a guest can do and we can't restrict them
-from doing it, it's just that it opens some potential for malicious
-activity that we rely on things like locked memory limits to keep from
-getting out of hand.  Thanks,
-
-Alex
-
-> > Should the shared code be generating this warning, or could an optional
-> > pointer arg be updated to indicate a translation to discard manager
-> > controlled memory and this comment and warning should remain in the
-> > caller?  Thanks,  
-> 
-> I think this should also work.
-> 
-> Thanks
-> 
-> >
-> > Alex
-> >  
-> > > +    }
-> > > +
-> > > +    /*
-> > > +     * Translation truncates length to the IOMMU page size,
-> > > +     * check that it did not truncate too much.
-> > > +     */
-> > > +    if (len & iotlb->addr_mask) {
-> > > +        error_report("iommu has granularity incompatible with target AS");
-> > > +        return false;
-> > > +    }
-> > > +
-> > > +    if (vaddr) {
-> > > +        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
-> > > +    }
-> > > +
-> > > +    if (ram_addr) {
-> > > +        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
-> > > +    }
-> > > +
-> > > +    if (read_only) {
-> > > +        *read_only = !writable || mr->readonly;
-> > > +    }
-> > > +
-> > > +    return true;
-> > > +}
-> > > +
-> > >  void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client)
-> > >  {
-> > >      uint8_t mask = 1 << client;  
-> >  
-> 
-
+DQoNCj4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPkZyb206IERhdmlkIEhpbGRlbmJyYW5k
+IDxkYXZpZEByZWRoYXQuY29tPg0KPlNlbnQ6IEZyaWRheSwgSnVseSAyMiwgMjAyMiAyOjQ0IFBN
+DQo+VG86IER1YW4sIFpoZW56aG9uZyA8emhlbnpob25nLmR1YW5AaW50ZWwuY29tPjsgcWVtdS0N
+Cj5kZXZlbEBub25nbnUub3JnDQo+Q2M6IHBib256aW5pQHJlZGhhdC5jb207IHBldGVyeEByZWRo
+YXQuY29tOyBmNGJ1Z0BhbXNhdC5vcmcNCj5TdWJqZWN0OiBSZTogW1BBVENIXSBtZW1vcnk6IEZp
+eCB3cm9uZyBlbmQgYWRkcmVzcyBkdW1wDQo+DQo+T24gMjIuMDYuMjIgMTE6NTksIFpoZW56aG9u
+ZyBEdWFuIHdyb3RlOg0KPj4gVGhlIGVuZCBhZGRyZXNzIG9mIG1lbW9yeSByZWdpb24gc2VjdGlv
+biBpc24ndCBjb3JyZWN0bHkgY2FsY3VsYXRlZA0KPj4gd2hpY2ggbGVhZHMgdG8gb3ZlcmZsb3dl
+ZCBtdHJlZSBkdW1wOg0KPj4NCj4+ICAgRGlzcGF0Y2gNCj4+ICAgICBQaHlzaWNhbCBzZWN0aW9u
+cw0KPj4gICAgICAgLi4uLi4uDQo+PiAgICAgICAjNzAgQDAwMDAwMDAwMDAwMDIwMDAuLjAwMDAw
+MDAwMDAwMTFmZmYgaW8gW1JPT1RdDQo+PiAgICAgICAjNzEgQDAwMDAwMDAwMDAwMDUwMDAuLjAw
+MDAwMDAwMDAwMDVmZmYgKG5vbmFtZSkNCj4+ICAgICAgICM3MiBAMDAwMDAwMDAwMDAwNTAwMC4u
+MDAwMDAwMDAwMDAxNGZmZiBpbyBbUk9PVF0NCj4+ICAgICAgICM3MyBAMDAwMDAwMDAwMDAwNTY1
+OC4uMDAwMDAwMDAwMDAwNTY1OCB2bXBvcnQNCj4+ICAgICAgICM3NCBAMDAwMDAwMDAwMDAwNTY1
+OS4uMDAwMDAwMDAwMDAxNTY1OCBpbyBbUk9PVF0NCj4+ICAgICAgICM3NSBAMDAwMDAwMDAwMDAw
+NjAwMC4uMDAwMDAwMDAwMDAxNWZmZiBpbyBbUk9PVF0NCj4+DQo+PiBBZnRlciBmaXg6DQo+PiAg
+ICAgICAjNzAgQDAwMDAwMDAwMDAwMDIwMDAuLjAwMDAwMDAwMDAwMDRmZmYgaW8gW1JPT1RdDQo+
+PiAgICAgICAjNzEgQDAwMDAwMDAwMDAwMDUwMDAuLjAwMDAwMDAwMDAwMDVmZmYgKG5vbmFtZSkN
+Cj4+ICAgICAgICM3MiBAMDAwMDAwMDAwMDAwNTAwMC4uMDAwMDAwMDAwMDAwNTY1NyBpbyBbUk9P
+VF0NCj4+ICAgICAgICM3MyBAMDAwMDAwMDAwMDAwNTY1OC4uMDAwMDAwMDAwMDAwNTY1OCB2bXBv
+cnQNCj4+ICAgICAgICM3NCBAMDAwMDAwMDAwMDAwNTY1OS4uMDAwMDAwMDAwMDAwNWZmZiBpbyBb
+Uk9PVF0NCj4+ICAgICAgICM3NSBAMDAwMDAwMDAwMDAwNjAwMC4uMDAwMDAwMDAwMDAwZmZmZiBp
+byBbUk9PVF0NCj4+DQo+PiBGaXhlczogNWU4ZmQ5NDdlMjY3MCAoIm1lbW9yeTogUmV3b3JrICJp
+bmZvIG10cmVlIiB0byBwcmludCBmbGF0IHZpZXdzDQo+PiBhbmQgZGlzcGF0Y2ggdHJlZXMiKQ0K
+Pj4gU2lnbmVkLW9mZi1ieTogWmhlbnpob25nIER1YW4gPHpoZW56aG9uZy5kdWFuQGludGVsLmNv
+bT4NCj4+IC0tLQ0KPj4gIHNvZnRtbXUvcGh5c21lbS5jIHwgMiArLQ0KPj4gIDEgZmlsZSBjaGFu
+Z2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9z
+b2Z0bW11L3BoeXNtZW0uYyBiL3NvZnRtbXUvcGh5c21lbS5jIGluZGV4DQo+PiAyMTRjYjA0Yzhm
+YzMuLmNiYWJkMTBhYzBiZiAxMDA2NDQNCj4+IC0tLSBhL3NvZnRtbXUvcGh5c21lbS5jDQo+PiAr
+KysgYi9zb2Z0bW11L3BoeXNtZW0uYw0KPj4gQEAgLTM3MDEsNyArMzcwMSw3IEBAIHZvaWQgbXRy
+ZWVfcHJpbnRfZGlzcGF0Y2goQWRkcmVzc1NwYWNlRGlzcGF0Y2gNCj4qZCwgTWVtb3J5UmVnaW9u
+ICpyb290KQ0KPj4gICAgICAgICAgICAgICAgICAgICAgIiAlcyVzJXMlcyVzIiwNCj4+ICAgICAg
+ICAgICAgICBpLA0KPj4gICAgICAgICAgICAgIHMtPm9mZnNldF93aXRoaW5fYWRkcmVzc19zcGFj
+ZSwNCj4+IC0gICAgICAgICAgICBzLT5vZmZzZXRfd2l0aGluX2FkZHJlc3Nfc3BhY2UgKyBNUl9T
+SVpFKHMtPm1yLT5zaXplKSwNCj4+ICsgICAgICAgICAgICBzLT5vZmZzZXRfd2l0aGluX2FkZHJl
+c3Nfc3BhY2UgKyBNUl9TSVpFKHMtPnNpemUpLA0KPj4gICAgICAgICAgICAgIHMtPm1yLT5uYW1l
+ID8gcy0+bXItPm5hbWUgOiAiKG5vbmFtZSkiLA0KPj4gICAgICAgICAgICAgIGkgPCBBUlJBWV9T
+SVpFKG5hbWVzKSA/IG5hbWVzW2ldIDogIiIsDQo+PiAgICAgICAgICAgICAgcy0+bXIgPT0gcm9v
+dCA/ICIgW1JPT1RdIiA6ICIiLA0KPg0KPlJldmlld2VkLWJ5OiBEYXZpZCBIaWxkZW5icmFuZCA8
+ZGF2aWRAcmVkaGF0LmNvbT4NCj4NCj5JIGFzc3VtZSB0aGlzIHNob3VsZCBnZXQgcGlja2VkIHVw
+IHNvb25pc2guDQpIaSBNYWludGFpbmVycywNCg0KQ2FuIHRoaXMgcGF0Y2ggYmUgY29uc2lkZXJl
+ZCBtZXJnZWQgYXMgaXQgZ290IHJldmlld2VkLWJ5IGFuZCBubyBvYmplY3Rpb24gZm9yIGEgbG9u
+ZyB0aW1lLiBUaGFua3MuDQoNClpoZW56aG9uZw0K
 
