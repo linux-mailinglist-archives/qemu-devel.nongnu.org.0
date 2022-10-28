@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E57A8610EBD
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 12:40:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDC9610EC4
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 12:40:52 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooMm4-0002Jb-Qq; Fri, 28 Oct 2022 06:39:40 -0400
+	id 1ooMmK-0002Xe-3Y; Fri, 28 Oct 2022 06:39:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ooMlq-0002DG-Dh
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:39:26 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooMmH-0002VB-Hs
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:39:53 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ooMlo-00021e-MK
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:39:26 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 705F11F38D;
- Fri, 28 Oct 2022 10:39:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1666953563; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ifcleT7pBfKzPGQ0kfkVrXFW2VaaxuRXmqqwY5FzkBw=;
- b=jeqKnnp6o7Q4C5THJsAZqVB4Vmfsx7MpGuvPof/AsFf+WBTfQva+oINiwXpPP5XMJaWQSk
- ZpTyvlr74OxD46e2Zpt/5m0Jv9PSyUHmOBT0NWI2OkYBRMc619qYM+5Liow8kgpgEALmwr
- 0Js2VvXNs+vPSweqvygO+2zJDJmkBrE=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0BC9C13A6E;
- Fri, 28 Oct 2022 10:39:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id wFo/AFuxW2PVPwAAMHmgww
- (envelope-from <nborisov@suse.com>); Fri, 28 Oct 2022 10:39:23 +0000
-From: Nikolay Borisov <nborisov@suse.com>
-To: dgilbert@redhat.com,
-	berrange@redhat.com
-Cc: qemu-devel@nongnu.org, jfehlig@suse.com, Claudio.Fontana@suse.com,
- dfaggioli@suse.com, Nikolay Borisov <nborisov@suse.com>
-Subject: [PATCH v3 14/14] tests/qtest: migration-test: Add tests for
- file-based migration
-Date: Fri, 28 Oct 2022 13:39:14 +0300
-Message-Id: <20221028103914.908728-15-nborisov@suse.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221028103914.908728-1-nborisov@suse.com>
-References: <20221028103914.908728-1-nborisov@suse.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooMmC-00022w-Q5
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:39:53 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id g12so6031722wrs.10
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 03:39:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+5NeGyQ5Vmdo1IIBPysxYvMTmLaOUKtpwgZzG7edAdI=;
+ b=MzvbOKJDo7i5wORLXKLC1ioO1beRDYuLGV07MUKX7LkYNIA5VWBoAlD8WWBXRez+yg
+ eLWcHWiAhra7KRx9N8e9uA/2zsoidXd8fCiXZwSA7PimR7LXamYIeSJ2mpJPcBR+OWq3
+ /yEY7A43zHJtLydmIzZadDATaO/ZCcozajyfHqZpm54x0gBh33J0LHZfAQHIz+gKf8IH
+ HtfTKzWIunfjgoos43M5kP1JgwKDzzN0K7pvYG02ib0n1pi5fmXXrNoJoKhxMjAnWvV/
+ a8bTZNQ5hl9joJSPxf48M9gryNMKOV24Ka5vZD29TF3DzRq+4VkFy1km9dcP83m+vpWC
+ RfGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+5NeGyQ5Vmdo1IIBPysxYvMTmLaOUKtpwgZzG7edAdI=;
+ b=ugee9FgNbYMOXWkRw0BxWYATI+VVnxO2wBZoT5Mj0+XjwVgvbyiMSolpXDeRq1VHK0
+ o4Oz5t39p6jvvmxGB8mK/IvgQrwOxjoPXw/44S+kUaP3YnaPI6kGZsHfh5a7psPoewEH
+ 5oP0kzhYZSG1UQHO6kkLWuC57/7DKJApdz62FQO3ks4kX0sSo94JSjuERVst1dxwQ/aH
+ FXc3A4ORdWPd0rMI2tWooNsLnL4yaDltm0leoS/YIKIJYC85807Zi7pyUQdZFQODcBsd
+ og8XZr7LPJFNkNzfNLbu15j6A+O9HQd+rhmSX+jZNtuP7p9Z0SkwSkf0+6Si8aHarp8L
+ maBA==
+X-Gm-Message-State: ACrzQf0zly3iWlKnYGRClwjbxwRBqddTeBxGP+uVSfDZ8W3/tA5qzkT6
+ HNYdK/MUZdCTvH+JObzIEdBXlA==
+X-Google-Smtp-Source: AMsMyM4nEhUJ/5LcRMCvaVNjeOw2u06yAUCcgeuGxSiG+4Hb3cIXwswmVsrUW0HAMscISDOgNtDifQ==
+X-Received: by 2002:adf:ffc2:0:b0:236:61e8:de52 with SMTP id
+ x2-20020adfffc2000000b0023661e8de52mr20917986wrs.59.1666953587213; 
+ Fri, 28 Oct 2022 03:39:47 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ t14-20020a5d690e000000b00225307f43fbsm3222527wru.44.2022.10.28.03.39.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Oct 2022 03:39:46 -0700 (PDT)
+Message-ID: <20bfa0f1-08cb-e4b6-507f-3a2d367b2f55@linaro.org>
+Date: Fri, 28 Oct 2022 12:39:45 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+Subject: Re: [PATCH 1/3] tcg/sparc: Remove support for sparc32plus
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221017062445.563431-1-richard.henderson@linaro.org>
+ <20221017062445.563431-2-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221017062445.563431-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=nborisov@suse.com;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,93 +90,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add basic tests for file-based migration as well as for the 'fixed-ram'
-feature.
+On 17/10/22 08:24, Richard Henderson wrote:
+> Since 9b9c37c36439, we have only supported sparc64 cpus.
+> Debian and Gentoo now only support 64-bit sparc64 userland,
+> so it is time to drop the 32-bit sparc64 userland: sparc32plus.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   tcg/sparc/tcg-target.h     |  11 ---
+>   tcg/tcg.c                  |  75 +----------------
+>   tcg/sparc/tcg-target.c.inc | 166 +++++++------------------------------
+>   3 files changed, 33 insertions(+), 219 deletions(-)
 
-Signed-off-by: Nikolay Borisov <nborisov@suse.com>
----
- tests/qtest/migration-test.c | 46 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
-
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index ef4427ff4d41..de877473f193 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -748,6 +748,7 @@ static void test_migrate_end(QTestState *from, QTestState *to, bool test_dest)
-     cleanup("migsocket");
-     cleanup("src_serial");
-     cleanup("dest_serial");
-+    cleanup("migfile");
- }
- 
- #ifdef CONFIG_GNUTLS
-@@ -1359,6 +1360,14 @@ static void test_precopy_common(MigrateCommon *args)
-          * hanging forever if migration didn't converge */
-         wait_for_migration_complete(from);
- 
-+        /*
-+         * For file based migration the target must begin its migration after
-+         * the source has finished
-+         */
-+        if (strstr(args->connect_uri, "file:")) {
-+            migrate_incoming_qmp(to, args->connect_uri, "{}");
-+        }
-+
-         if (!got_stop) {
-             qtest_qmp_eventwait(from, "STOP");
-         }
-@@ -1514,6 +1523,39 @@ static void test_precopy_unix_xbzrle(void)
-     test_precopy_common(&args);
- }
- 
-+static void test_precopy_unix_file(void)
-+{
-+    g_autofree char *uri = g_strdup_printf("file:%s/migfile", tmpfs);
-+    MigrateCommon args = {
-+        .connect_uri = uri,
-+        .listen_uri = "defer",
-+    };
-+
-+    test_precopy_common(&args);
-+}
-+
-+static void *
-+test_migrate_fixed_ram_start(QTestState *from,
-+                             QTestState *to)
-+{
-+    migrate_set_capability(from, "fixed-ram", true);
-+    migrate_set_capability(to, "fixed-ram", true);
-+
-+    return NULL;
-+}
-+
-+static void test_precopy_unix_fixed_ram(void)
-+{
-+    g_autofree char *uri = g_strdup_printf("file:%s/migfile", tmpfs);
-+    MigrateCommon args = {
-+        .connect_uri = uri,
-+        .listen_uri = "defer",
-+        .start_hook = test_migrate_fixed_ram_start,
-+    };
-+
-+    test_precopy_common(&args);
-+}
-+
- static void test_precopy_tcp_plain(void)
- {
-     MigrateCommon args = {
-@@ -2506,6 +2548,10 @@ int main(int argc, char **argv)
-                    test_precopy_unix_tls_psk);
- #endif
- 
-+    qtest_add_func("/migration/precopy/unix/file", test_precopy_unix_file);
-+    qtest_add_func("/migration/precopy/unix/fixed-ram",
-+                   test_precopy_unix_fixed_ram);
-+
-     if (has_uffd) {
-         /*
-          * NOTE: psk test is enough for postcopy, as other types of TLS
--- 
-2.34.1
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
