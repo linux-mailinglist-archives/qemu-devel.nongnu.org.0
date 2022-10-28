@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354AC610CDB
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 11:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46459610CE1
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 11:17:29 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooLTZ-0001SG-5V; Fri, 28 Oct 2022 05:16:29 -0400
+	id 1ooLU9-00024U-Pg; Fri, 28 Oct 2022 05:17:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooLTF-0001PL-2D
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:16:09 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ooLU7-00022j-Be
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:17:03 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooLTB-0006YZ-3J
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:16:07 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- i5-20020a1c3b05000000b003cf47dcd316so6056524wma.4
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 02:16:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aoKnLQsFbe8tgMzVX7s8TvsgrVkAK0xmtET1C1NjbqQ=;
- b=sL7vjU7SVHra6Tpd4YUITHB+HB9lLMOdU54d4/tX01pDAeTy9cgKgUtLhV0svmEu5u
- u4IzeTjAZrKX1iIsQA0ZdApbgesKnlofv8eA9AWxFZ4fOViw9im3tq3BhXYYYDzMF643
- NXn+/LyflbDeGpCYa0A9fvT1uETfN5pHR3bpUckp7oQ4ZePsN3LJBOekBWbKd0wiRJBD
- G9S8+xWk7yuVO4ByLLQlhyi+Sqo3orZi/9Ma0IlwWcEahTx9aqODyV+sL6S/PGymhLOU
- opOwOWBpScJxiM7OgEvgFeruC2ytNyfF0ACt45tE0gs/jmwPZBuhMwciT9WT42DwBovn
- w24A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aoKnLQsFbe8tgMzVX7s8TvsgrVkAK0xmtET1C1NjbqQ=;
- b=fBeiDmuBKo2AXUTVDrCztHe3Fuf5YQiRvVgZg+PHlF1Jd3XovdX7/xfon6vVxeh3o5
- XV0AxmqIu3nCEblQgZCNknR0OSopMOhdLTaUJOu/qlRzWZ0uXqlBCcxKGoI/81ho0+qu
- udcHH1MZpN52IEtVifDVSYwYu8Yk8BDrPYuG752vCXAxqTtwfEPgciWJuonDiaeGOY/h
- 6L1lFNtkKsnI7tlngE92d7GGKizicjH5+GyTcsR7Q2S1xWcrvBPHRmyccZKW9Zo2zW8S
- 6K/poAYE39n99Y2xjvq2/MNTvfPSk0sxXrw19cLC+AsI+PjivLcSzjq6BMxojk4R1jcp
- fIUA==
-X-Gm-Message-State: ACrzQf09hbxK6miDS0VUYOIsGF7TvI/j2IQU6yiKU7CVJ2qzQEFnky38
- tbfxIGz84hUBZLh/OYLRQw2eTQ==
-X-Google-Smtp-Source: AMsMyM5jUycVoKH4uTdxHekI52Di2pHoNQixF/DwWhQPbSIVul7tC+cOKBMTrWbVs7mxZo+9cmVSRw==
-X-Received: by 2002:a5d:5346:0:b0:235:6c05:6272 with SMTP id
- t6-20020a5d5346000000b002356c056272mr29286697wrv.332.1666948563532; 
- Fri, 28 Oct 2022 02:16:03 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- i3-20020a5d6303000000b0023660f6cecfsm3090552wru.80.2022.10.28.02.16.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Oct 2022 02:16:02 -0700 (PDT)
-Message-ID: <941584d1-7b43-b3a9-1734-1c434ec82e60@linaro.org>
-Date: Fri, 28 Oct 2022 11:16:01 +0200
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ooLU5-0006rl-OT
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:17:03 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D1531219CB;
+ Fri, 28 Oct 2022 09:16:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1666948619; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SJYS5qm2xqFuDr753S7Rb6dZQ5ml8ZoKUA5qyGnEOYk=;
+ b=cjCULPtHig3460qJqIqyfZtsRk/z5XNEB4OWCnz5+n5LPY1bgLzKbpPuQqfSVYD34hmUsm
+ G1teyCxPc9EAkEjKOSHARf3mBpWHQi+SORxsv4qQCR6rOfe6tny+6IOWzNzZb81sDIzCH2
+ 2lnMU8QkbQZb008ywnMQsI6HlaiXRLk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1666948619;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SJYS5qm2xqFuDr753S7Rb6dZQ5ml8ZoKUA5qyGnEOYk=;
+ b=nokaCsd+GJcc5f3geqfhY2RMBfX9CbYFqlpxQRepU/YJ+ktp0VZbvSlahF+QJ0IRIW8Gnh
+ PczQZ0dGM5V1E6Bg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AED241377D;
+ Fri, 28 Oct 2022 09:16:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id rbnxKAueW2NzFQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Fri, 28 Oct 2022 09:16:59 +0000
+Message-ID: <3e38900a-cdfe-c52c-85ce-5a7b1a0586f8@suse.de>
+Date: Fri, 28 Oct 2022 11:16:59 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH] tcg/tci: fix logic error when registering helpers via FFI
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 4/6] target/openrisc: Use cpu_unwind_state_data for
+ mfspr
 Content-Language: en-US
-To: Icenowy Zheng <uwu@icenowy.me>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20221028072145.1593205-1-uwu@icenowy.me>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221028072145.1593205-1-uwu@icenowy.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20221027100254.215253-1-richard.henderson@linaro.org>
+ <20221027100254.215253-5-richard.henderson@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Cc: qemu-devel <qemu-devel@nongnu.org>
+In-Reply-To: <20221027100254.215253-5-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,23 +90,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/10/22 09:21, Icenowy Zheng wrote:
-> When registering helpers via FFI for TCI, the inner loop that iterates
-> parameters of the helper reuses (and thus pollutes) the same variable
-> used by the outer loop that iterates all helpers, thus made some helpers
-> unregistered.
-
-Oops, I didn't notice while testing, good catch.
-
-> Fix this logic error by using a dedicated temporary variable for the
-> inner loop.
-
-Fixes: 22f15579fa ("tcg: Build ffi data structures for helpers")
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+On 10/27/22 12:02, Richard Henderson wrote:
+> Since we do not plan to exit, use cpu_unwind_state_data
+> and extract exactly the data requested.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   tcg/tcg.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
+>  target/openrisc/sys_helper.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
+> index a3508e421d..dde2fa1623 100644
+> --- a/target/openrisc/sys_helper.c
+> +++ b/target/openrisc/sys_helper.c
+> @@ -199,6 +199,7 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
+>                             target_ulong spr)
+>  {
+>  #ifndef CONFIG_USER_ONLY
+> +    uint64_t data[TARGET_INSN_START_WORDS];
+>      MachineState *ms = MACHINE(qdev_get_machine());
+>      OpenRISCCPU *cpu = env_archcpu(env);
+>      CPUState *cs = env_cpu(env);
+> @@ -232,14 +233,20 @@ target_ulong HELPER(mfspr)(CPUOpenRISCState *env, target_ulong rd,
+>          return env->evbar;
+>  
+>      case TO_SPR(0, 16): /* NPC (equals PC) */
+> -        cpu_restore_state(cs, GETPC(), false);
+> +        if (cpu_unwind_state_data(cs, GETPC(), data)) {
+> +            return data[0];
+> +        }
+>          return env->pc;
+>  
+>      case TO_SPR(0, 17): /* SR */
+>          return cpu_get_sr(env);
+>  
+>      case TO_SPR(0, 18): /* PPC */
+> -        cpu_restore_state(cs, GETPC(), false);
+> +        if (cpu_unwind_state_data(cs, GETPC(), data)) {
+> +            if (data[1] & 2) {
+> +                return data[0] - 4;
+> +            }
+> +        }
+>          return env->ppc;
+>  
+>      case TO_SPR(0, 32): /* EPCR */
 
+I am struggling to understand if the fact that we are not setting cpu->env.dflag anymore in the mfspr helper is fine;
+
+here I am unfamiliar with the arch, also Ccing Philippe in case he wants to step in to review this bit.
+
+Thanks,
+
+CLaudio
 
