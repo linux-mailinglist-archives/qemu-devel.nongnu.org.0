@@ -2,92 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46023611196
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 14:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD4361119E
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 14:36:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooOaU-0002Wg-Kr; Fri, 28 Oct 2022 08:35:50 -0400
+	id 1ooOaw-0003f5-7D; Fri, 28 Oct 2022 08:36:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ooOVy-00009F-0U
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:31:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ooOXE-0004rA-QE; Fri, 28 Oct 2022 08:32:32 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ooOVw-0004E4-EY
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:31:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666960267;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=PabQ59sOxv22wIBVFBccH9/8odroZSIn4R2lJLQAqXQ=;
- b=hwx8PD/eXKbtdDKSOhFH7i8nUIt/lOlbcvop8cwYoQ299YaHrnGGcDV/VFje6gMPKpjwlV
- 4K+5t01mj1gdq10Wme2GHq76cAtX9cxWruSQcCs25DpIAbloi3Zo48ZPEhmq4s4lRZwCvZ
- hcm/lvq36RE6Dgi0JE+tuXIbsGZYVgo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-263-qDiWqXQPPveqpv8F3WpEXg-1; Fri, 28 Oct 2022 08:31:05 -0400
-X-MC-Unique: qDiWqXQPPveqpv8F3WpEXg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 125-20020a1c0283000000b003c5e6b44ebaso418112wmc.9
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 05:31:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PabQ59sOxv22wIBVFBccH9/8odroZSIn4R2lJLQAqXQ=;
- b=daVsJr9CRY+u3aZ0NLZ+cN+9IACM1qAkx+P3th5FD+6uwzm0xwd1walazZgpoDdK3t
- 7oo7sELi8+xkVnxfDD07uhFVrgO6LLa/g40/PIHrz4pPCmYgw905+hWZmDUoG+yLKolT
- qcba0pIl0FmPf1mGFd7uXOijn+JTocu2ZfCDIZyWXNrS10ehnb6cmLslCB3lE2pq4uzm
- APS2njh/gCsgthG7LbCZS8alFPWxrJ+UXapeEkG6BBZv+9FhzZFmrQAmUo803TtTtDe2
- cZppcS+u47rCVMC2ScoFTcTlkyh2u2hFxBLMoPdnnVfRSPLn+RGG2mx2Dg5fhgiZGQ9m
- c7Cg==
-X-Gm-Message-State: ACrzQf0PIe/zLijfcQRRHC62Sv7kUdR2MeOmOj5cf2h9HRgatdLDaOh9
- DB4kxjbbldtYWryu8NK9LWMsKCQKkQeJj1UnqGEZ7f2Q5EksqSAT4uaLKaFlhnTXPh1ZGUEuJT6
- 4PydR5xFBLQ87jhM=
-X-Received: by 2002:adf:d1e5:0:b0:234:2aaf:3b97 with SMTP id
- g5-20020adfd1e5000000b002342aaf3b97mr31768153wrd.536.1666960264174; 
- Fri, 28 Oct 2022 05:31:04 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4WfomgY393x0MX2GUZi2mE+xHxO86p4sZwxJr9sul4SCBI3Y8AA0liC9Ie5NlBk89nOFuDLA==
-X-Received: by 2002:adf:d1e5:0:b0:234:2aaf:3b97 with SMTP id
- g5-20020adfd1e5000000b002342aaf3b97mr31768137wrd.536.1666960263987; 
- Fri, 28 Oct 2022 05:31:03 -0700 (PDT)
-Received: from localhost (255.4.26.77.dynamic.reverse-mundo-r.com.
- [77.26.4.255]) by smtp.gmail.com with ESMTPSA id
- i1-20020adfefc1000000b00236722ebe66sm3644610wrp.75.2022.10.28.05.31.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 05:31:03 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Bin Meng <bin.meng@windriver.com>
-Cc: qemu-devel@nongnu.org,  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  Laurent Vivier
- <lvivier@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Thomas Huth
- <thuth@redhat.com>
-Subject: Re: [PATCH v6 05/11] tests/qtest: Use EXIT_FAILURE instead of magic
- number
-In-Reply-To: <20221028045736.679903-6-bin.meng@windriver.com> (Bin Meng's
- message of "Fri, 28 Oct 2022 12:57:30 +0800")
-References: <20221028045736.679903-1-bin.meng@windriver.com>
- <20221028045736.679903-6-bin.meng@windriver.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Fri, 28 Oct 2022 14:31:02 +0200
-Message-ID: <87o7tww2nt.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ooOXC-0004K7-3E; Fri, 28 Oct 2022 08:32:28 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 1E21F74638A;
+ Fri, 28 Oct 2022 14:32:23 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id CE42874633D; Fri, 28 Oct 2022 14:32:22 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id CC97A74632B;
+ Fri, 28 Oct 2022 14:32:22 +0200 (CEST)
+Date: Fri, 28 Oct 2022 14:32:22 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH v5 20/20] mac_{old, new}world: Pass MacOS VGA NDRV in
+ card ROM instead of fw_cfg
+In-Reply-To: <d3bdb406-70d3-d60d-b481-7d88736a2e4b@ilande.co.uk>
+Message-ID: <24e4cba4-2f68-73a2-55d2-2dc5c0cba14e@eik.bme.hu>
+References: <cover.1666715145.git.balaton@eik.bme.hu>
+ <915b28547446c1fad749fbab2943b13e3a0d856b.1666733213.git.balaton@eik.bme.hu>
+ <d3bdb406-70d3-d60d-b481-7d88736a2e4b@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,63 +57,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Bin Meng <bin.meng@windriver.com> wrote:
-> When migration fails, QEMU exits with a status code EXIT_FAILURE.
-> Change qtests to use the well-defined macro instead of magic number.
+On Fri, 28 Oct 2022, Mark Cave-Ayland wrote:
+> On 25/10/2022 22:31, BALATON Zoltan wrote:
+>> OpenBIOS cannot run FCode ROMs yet but it can detect NDRV in VGA card
+>> ROM and add it to the device tree for MacOS. Pass the NDRV this way
+>> instead of via fw_cfg. This solves the problem with OpenBIOS also
+>> adding the NDRV to ati-vga which it does not work with. This does not
+>> need any changes to OpenBIOS as this NDRV ROM handling is already
+>> there but this patch also allows simplifying OpenBIOS later to remove
+>> the fw_cfg ndrv handling from the vga FCode and also drop the
+>> vga-ndrv? option which is not needed any more as users can disable the
+>> ndrv with -device VGA,romfile="" (or override it with their own NDRV
+>> or ROM). Once FCode support is implemented in OpenBIOS, the proper
+>> FCode ROM can be set the same way so this paves the way to remove some
+>> hacks.
 >
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> This is not correct though: in a real option ROM the NDRV is included as part 
+> of the ROM payload and is not a standalone file. The IEEE-1275 PCI 
+> specification gives the correct format for an option ROM which at minimum 
+> contains a header, and likely some additional FCode.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+As the commit message says that does not work with OpenBIOS at the moment 
+but passing the NDRV does. That it's not how real hardware works is not an 
+argument after all real hardware does not have fw_cfg either and this way 
+is much simpler than fw_cfg, it fixes the problem with ati-vga and it can 
+be changed later to pass the real FCode ROM the same way so I think it's a 
+better way to handle this now as what we have currently.
 
+> Isn't the immediate problem here that the NDRV handling in OpenBIOS needs to 
+> be improved so that it can be disabled for particular VGA devices such as 
+> ATI?
 
->
-> ---
->
-> Changes in v6:
-> - new patch: "tests/qtest: Use EXIT_FAILURE instead of magic number"
->
->  tests/qtest/dbus-vmstate-test.c | 2 +-
->  tests/qtest/migration-test.c    | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/tests/qtest/dbus-vmstate-test.c b/tests/qtest/dbus-vmstate-test.c
-> index 74ede651f6..6c990864e3 100644
-> --- a/tests/qtest/dbus-vmstate-test.c
-> +++ b/tests/qtest/dbus-vmstate-test.c
-> @@ -233,7 +233,7 @@ test_dbus_vmstate(Test *test)
->      test->src_qemu = src_qemu;
->      if (test->migrate_fail) {
->          wait_for_migration_fail(src_qemu, true);
-> -        qtest_set_expected_status(dst_qemu, 1);
-> +        qtest_set_expected_status(dst_qemu, EXIT_FAILURE);
->      } else {
->          wait_for_migration_complete(src_qemu);
->      }
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index aa1ba179fa..28a06d8170 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -1342,7 +1342,7 @@ static void test_precopy_common(MigrateCommon *args)
->          wait_for_migration_fail(from, allow_active);
->  
->          if (args->result == MIG_TEST_FAIL_DEST_QUIT_ERR) {
-> -            qtest_set_expected_status(to, 1);
-> +            qtest_set_expected_status(to, EXIT_FAILURE);
->          }
->      } else {
->          if (args->iterations) {
-> @@ -1738,7 +1738,7 @@ static void do_test_validate_uuid(MigrateStart *args, bool should_fail)
->      migrate_qmp(from, uri, "{}");
->  
->      if (should_fail) {
-> -        qtest_set_expected_status(to, 1);
-> +        qtest_set_expected_status(to, EXIT_FAILURE);
->          wait_for_migration_fail(from, true);
->      } else {
->          wait_for_migration_complete(from);
+No change is needed to OpenBIOS (I've discussed it more in the reply to 
+Howard on the list yesterday). With this patch only VGA device will have 
+qemu_vga.ndrv so OpenBIOS won't add it for ati-vga. Also the fw_cfg and 
+vga_ndrv? stuff can be removed from OpenBIOS after this patch as it's not 
+nedeed any more thus simplifying the vga.fs FCode in OpenBIOS a lot.
 
+Regards,
+BALATON Zoltan
+
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>   hw/ppc/mac_newworld.c | 18 ++++++------------
+>>   hw/ppc/mac_oldworld.c | 18 ++++++------------
+>>   2 files changed, 12 insertions(+), 24 deletions(-)
+>> 
+>> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+>> index de4a7bae12..1d12bd85ed 100644
+>> --- a/hw/ppc/mac_newworld.c
+>> +++ b/hw/ppc/mac_newworld.c
+>> @@ -526,18 +526,6 @@ static void ppc_core99_init(MachineState *machine)
+>>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
+>>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_NVRAM_ADDR, nvram_addr);
+>>   -    /* MacOS NDRV VGA driver */
+>> -    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
+>> -    if (filename) {
+>> -        gchar *ndrv_file;
+>> -        gsize ndrv_size;
+>> -
+>> -        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
+>> -            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, 
+>> ndrv_size);
+>> -        }
+>> -        g_free(filename);
+>> -    }
+>> -
+>>       qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
+>>   }
+>>   @@ -581,6 +569,11 @@ static int core99_kvm_type(MachineState *machine, 
+>> const char *arg)
+>>       return 2;
+>>   }
+>>   +static GlobalProperty props[] = {
+>> +    /* MacOS NDRV VGA driver */
+>> +    { "VGA", "romfile", NDRV_VGA_FILENAME },
+>> +};
+>> +
+>>   static void core99_machine_class_init(ObjectClass *oc, void *data)
+>>   {
+>>       MachineClass *mc = MACHINE_CLASS(oc);
+>> @@ -601,6 +594,7 @@ static void core99_machine_class_init(ObjectClass *oc, 
+>> void *data)
+>>   #endif
+>>       mc->default_ram_id = "ppc_core99.ram";
+>>       mc->ignore_boot_device_suffixes = true;
+>> +    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
+>>       fwc->get_dev_path = core99_fw_dev_path;
+>>   }
+>>   diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+>> index eecc54da59..e7d35135d6 100644
+>> --- a/hw/ppc/mac_oldworld.c
+>> +++ b/hw/ppc/mac_oldworld.c
+>> @@ -344,18 +344,6 @@ static void ppc_heathrow_init(MachineState *machine)
+>>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_CLOCKFREQ, CLOCKFREQ);
+>>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
+>>   -    /* MacOS NDRV VGA driver */
+>> -    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
+>> -    if (filename) {
+>> -        gchar *ndrv_file;
+>> -        gsize ndrv_size;
+>> -
+>> -        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
+>> -            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, 
+>> ndrv_size);
+>> -        }
+>> -        g_free(filename);
+>> -    }
+>> -
+>>       qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
+>>   }
+>>   @@ -400,6 +388,11 @@ static int heathrow_kvm_type(MachineState *machine, 
+>> const char *arg)
+>>       return 2;
+>>   }
+>>   +static GlobalProperty props[] = {
+>> +    /* MacOS NDRV VGA driver */
+>> +    { "VGA", "romfile", NDRV_VGA_FILENAME },
+>> +};
+>> +
+>>   static void heathrow_class_init(ObjectClass *oc, void *data)
+>>   {
+>>       MachineClass *mc = MACHINE_CLASS(oc);
+>> @@ -420,6 +413,7 @@ static void heathrow_class_init(ObjectClass *oc, void 
+>> *data)
+>>       mc->default_display = "std";
+>>       mc->ignore_boot_device_suffixes = true;
+>>       mc->default_ram_id = "ppc_heathrow.ram";
+>> +    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
+>>       fwc->get_dev_path = heathrow_fw_dev_path;
+>>   }
+>> 
+>
+>
+> ATB,
+>
+> Mark.
+>
+>
 
