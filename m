@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1248761180B
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:50:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF25A61182A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:52:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooSTc-0000RT-9a; Fri, 28 Oct 2022 12:45:00 -0400
+	id 1ooSVR-0005Uk-DT; Fri, 28 Oct 2022 12:46:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSTH-0008Bj-Ri; Fri, 28 Oct 2022 12:44:39 -0400
-Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSTF-0001AU-Le; Fri, 28 Oct 2022 12:44:39 -0400
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-13ba9a4430cso6859839fac.11; 
- Fri, 28 Oct 2022 09:44:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZuI/sWqN/0+9SVFkIbzFz+H5JQ8dWR3NVwh4Hgt251w=;
- b=KeRzlHbz6koe+jeYr7K59/nxi/+2luokKqzW5J7sEz+Ur1bKx0GnyZmFxA0s35OtYw
- kNc3L8ex8Lu2v+EPeOm32K2mCr1W/+1GS7hOjYmHHK9bEb4cu++NORvCpzWgZ3GoBP4Y
- p20cxafpZpOD2zCOkq4ZZQ5JDpOf1xbCKvZcuPlQmntWxSbx/9Zm+8OF4cJn1sbu3H2o
- gAE4imWFtI3Z9tDRXxlS+nKzjfuWzytMby3Ei4L0ufoSenbGW1tS70aY+LzxTVSc08CQ
- Zq1TaFfi1rcY5D34GV6e/l6a83Wq36mgfyr6ChuiiCDoFE6f+7DdHqeOsiXWH7RCJPon
- p9DQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ooSUQ-00026F-I2
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 12:45:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ooSUN-0001n1-B9
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 12:45:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666975541;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fn1CjwW5UH2AS1Vk2jNSgvxPjv6WNAd8zI8QZaUpODA=;
+ b=bOw5tgQMo+hVrTqIPRctzDSpfHHDc5/ujQxfsn0twwY7f4Zc9EFz9XyE7Pe4ATPuiXT2pQ
+ asPLfeaoGo7F9gclSvBLKqnCewW4ZRhBAF6L2hPYxTdpCDdT7H5Qn7itvJs2rWcpafhH70
+ rC/0QDYPLCYa1xbkl4u4Uqx2QHj61zI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-249-N5fxNQ2RO-iLVCMRvYU7kw-1; Fri, 28 Oct 2022 12:45:39 -0400
+X-MC-Unique: N5fxNQ2RO-iLVCMRvYU7kw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l7-20020a7bc447000000b003cf6133063dso553802wmi.8
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 09:45:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZuI/sWqN/0+9SVFkIbzFz+H5JQ8dWR3NVwh4Hgt251w=;
- b=GL9TRsRdq6ObMjXsH2/WqVJJ5cLbJPemNMpUi8HbmAyZNX3uwUgfDBYWg11qyZiqXe
- Kz1gR0HHSnhgwOdfxLB7mFIulK0ACIp4cItL6+hyAjen8Mu7f/UWE3sSiiTirOc4AKcx
- wv/gWj0FgcqfMeO3/nSjcn7eELyX/8fHMUrKft4OYU0wlIoEf5R1ffZCCDOtvcwVI0pn
- OVZhwLW+pRoWPlDYlXtuzRXPVi0WRzYG8uj85qdv2QJcgulhRWHdd+t9A9God3m2iReq
- IJ3IIGNcmFkBpuxwyD2+6i6Wyk5suvFiHCDmHa9TP/fkWjxDUc4z6/icm0dPlWqwjDBd
- m3Lg==
-X-Gm-Message-State: ACrzQf1Z7b3SrIvls9ectY2+5UzjlSbwnIRcoWvMiC1hPpadhKXM16CK
- tjKDxn7iIHWsP2C07Tw0GaTvt+LIpaEcsg==
-X-Google-Smtp-Source: AMsMyM6EfaTo5gGmcXOK129Jwy42yk2m4yuKuK9iy2Z/W0lww4s+Iu1lHR75yrJtq/WConiYkya6aQ==
-X-Received: by 2002:a05:6870:b68d:b0:12d:484a:2643 with SMTP id
- cy13-20020a056870b68d00b0012d484a2643mr9861490oab.105.1666975475909; 
- Fri, 28 Oct 2022 09:44:35 -0700 (PDT)
-Received: from balboa.COMFAST ([177.45.165.63])
- by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.44.32
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fn1CjwW5UH2AS1Vk2jNSgvxPjv6WNAd8zI8QZaUpODA=;
+ b=vocHzn+QKQzRA2iy3XoDEjfHcH7898wIzyxw8hamBBh9tPRhXzYwftWp00Iq0RYiAc
+ AisoR4RjG3Ebi29Rtqx5zg+BR7NNT5dPtG9VGbp1Tm+gsiYebrf03QEtO737u9J/tRRg
+ b/oLtt1Cb38d6VwB7NSlIo5D3ZDpzb4oirC8R6ao66Lst2o9/Xlqv4ZcGnUYReCcZyT2
+ dgo0xxPZc2+iMEiqgg4X+AR+DIRS3IiiN8/cuoy5PEJjJBZXv4G2JUrHwxJa8hO8QCJd
+ H5OvA2WApaoolPK+Gkbgq0wR6F+l72b6CUbwTv4Y1xITxlAwmOEUFr3ILbjRrvAte1ED
+ 1Hgg==
+X-Gm-Message-State: ACrzQf0jtvuQVsTDlU5G6kxpEAvRx7fnFfEu/hLHMBR0QOe+G9c12A76
+ 9CE/QtL6O2PdcdGXAbhvwiiUrtLOzK538JtgARexDf8mObcEx2vwr0uhO/AgSyKjXYI0uwkzzc2
+ Aq4KSC6BmahZRM8o=
+X-Received: by 2002:adf:f609:0:b0:236:680b:8c65 with SMTP id
+ t9-20020adff609000000b00236680b8c65mr141866wrp.615.1666975538327; 
+ Fri, 28 Oct 2022 09:45:38 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7Zod000RyARXjfLXR91zaphK6LCEaoY+XufKxD6/VCLh/jpbO0RkU/4xdllfhfnZKlv4tq+A==
+X-Received: by 2002:adf:f609:0:b0:236:680b:8c65 with SMTP id
+ t9-20020adff609000000b00236680b8c65mr141795wrp.615.1666975536538; 
+ Fri, 28 Oct 2022 09:45:36 -0700 (PDT)
+Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
+ g12-20020a05600c310c00b003b4cba4ef71sm8480785wmo.41.2022.10.28.09.45.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:44:34 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
- Bernhard Beschow <shentey@gmail.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 62/62] hw/ppc/e500: Implement pflash handling
-Date: Fri, 28 Oct 2022 13:39:51 -0300
-Message-Id: <20221028163951.810456-63-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
-References: <20221028163951.810456-1-danielhb413@gmail.com>
+ Fri, 28 Oct 2022 09:45:35 -0700 (PDT)
+Date: Fri, 28 Oct 2022 12:45:33 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH 3/4] vhost: Fix lines over 80 characters
+Message-ID: <20221028124105-mutt-send-email-mst@kernel.org>
+References: <20221028160251.268607-1-eperezma@redhat.com>
+ <20221028160251.268607-4-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2e;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20221028160251.268607-4-eperezma@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,190 +98,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bernhard Beschow <shentey@gmail.com>
+On Fri, Oct 28, 2022 at 06:02:50PM +0200, Eugenio PÈrez wrote:
+> By qemu coding style.
+> 
+> Signed-off-by: Eugenio PÈrez <eperezma@redhat.com>
 
-Allows e500 boards to have their root file system reside on flash using
-only builtin devices located in the eLBC memory region.
+You wrote this code originally so I don't mind but just to note I don't
+want a flurry of patches "fixing" lines over 80 chars.
 
-Note that the flash memory area is only created when a -pflash argument is
-given, and that the size is determined by the given file. The idea is to
-put users into control.
-
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: Philippe Mathieu-Daud√© <philmd@linaro.org>
-Message-Id: <20221018210146.193159-6-shentey@gmail.com>
-[danielhb: use int128_get64() in mmio_size]
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- docs/system/ppc/ppce500.rst | 15 +++++++
- hw/ppc/Kconfig              |  1 +
- hw/ppc/e500.c               | 79 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 95 insertions(+)
-
-diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
-index 7b5eb3c4ee..fa40e57d18 100644
---- a/docs/system/ppc/ppce500.rst
-+++ b/docs/system/ppc/ppce500.rst
-@@ -165,3 +165,18 @@ if ‚Äú-device eTSEC‚Äù is given to QEMU:
- .. code-block:: bash
- 
-   -netdev tap,ifname=tap0,script=no,downscript=no,id=net0 -device eTSEC,netdev=net0
-+
-+Root file system on flash drive
-+-------------------------------
-+
-+Rather than using a root file system on ram disk, it is possible to have it on
-+CFI flash. Given an ext2 image whose size must be a power of two, it can be used
-+as follows:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-ppc64 -M ppce500 -cpu e500mc -smp 4 -m 2G \
-+      -display none -serial stdio \
-+      -kernel vmlinux \
-+      -drive if=pflash,file=/path/to/rootfs.ext2,format=raw \
-+      -append "rootwait root=/dev/mtdblock0"
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index 791fe78a50..769a1ead1c 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -126,6 +126,7 @@ config E500
-     select ETSEC
-     select GPIO_MPC8XXX
-     select OPENPIC
-+    select PFLASH_CFI01
-     select PLATFORM_BUS
-     select PPCE500_PCI
-     select SERIAL
-diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index 3e950ea3ba..31c54ebb3d 100644
---- a/hw/ppc/e500.c
-+++ b/hw/ppc/e500.c
-@@ -23,8 +23,10 @@
- #include "e500-ccsr.h"
- #include "net/net.h"
- #include "qemu/config-file.h"
-+#include "hw/block/flash.h"
- #include "hw/char/serial.h"
- #include "hw/pci/pci.h"
-+#include "sysemu/block-backend-io.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
-@@ -267,6 +269,31 @@ static void sysbus_device_create_devtree(SysBusDevice *sbdev, void *opaque)
-     }
- }
- 
-+static void create_devtree_flash(SysBusDevice *sbdev,
-+                                 PlatformDevtreeData *data)
-+{
-+    g_autofree char *name = NULL;
-+    uint64_t num_blocks = object_property_get_uint(OBJECT(sbdev),
-+                                                   "num-blocks",
-+                                                   &error_fatal);
-+    uint64_t sector_length = object_property_get_uint(OBJECT(sbdev),
-+                                                      "sector-length",
-+                                                      &error_fatal);
-+    uint64_t bank_width = object_property_get_uint(OBJECT(sbdev),
-+                                                   "width",
-+                                                   &error_fatal);
-+    hwaddr flashbase = 0;
-+    hwaddr flashsize = num_blocks * sector_length;
-+    void *fdt = data->fdt;
-+
-+    name = g_strdup_printf("%s/nor@%" PRIx64, data->node, flashbase);
-+    qemu_fdt_add_subnode(fdt, name);
-+    qemu_fdt_setprop_string(fdt, name, "compatible", "cfi-flash");
-+    qemu_fdt_setprop_sized_cells(fdt, name, "reg",
-+                                 1, flashbase, 1, flashsize);
-+    qemu_fdt_setprop_cell(fdt, name, "bank-width", bank_width);
-+}
-+
- static void platform_bus_create_devtree(PPCE500MachineState *pms,
-                                         void *fdt, const char *mpic)
- {
-@@ -276,6 +303,8 @@ static void platform_bus_create_devtree(PPCE500MachineState *pms,
-     uint64_t addr = pmc->platform_bus_base;
-     uint64_t size = pmc->platform_bus_size;
-     int irq_start = pmc->platform_bus_first_irq;
-+    SysBusDevice *sbdev;
-+    bool ambiguous;
- 
-     /* Create a /platform node that we can put all devices into */
- 
-@@ -302,6 +331,13 @@ static void platform_bus_create_devtree(PPCE500MachineState *pms,
-     /* Loop through all dynamic sysbus devices and create nodes for them */
-     foreach_dynamic_sysbus_device(sysbus_device_create_devtree, &data);
- 
-+    sbdev = SYS_BUS_DEVICE(object_resolve_path_type("", TYPE_PFLASH_CFI01,
-+                                                    &ambiguous));
-+    if (sbdev) {
-+        assert(!ambiguous);
-+        create_devtree_flash(sbdev, &data);
-+    }
-+
-     g_free(node);
- }
- 
-@@ -856,6 +892,7 @@ void ppce500_init(MachineState *machine)
-     unsigned int pci_irq_nrs[PCI_NUM_PINS] = {1, 2, 3, 4};
-     IrqLines *irqs;
-     DeviceState *dev, *mpicdev;
-+    DriveInfo *dinfo;
-     CPUPPCState *firstenv = NULL;
-     MemoryRegion *ccsr_addr_space;
-     SysBusDevice *s;
-@@ -1024,6 +1061,48 @@ void ppce500_init(MachineState *machine)
-                                 pmc->platform_bus_base,
-                                 &pms->pbus_dev->mmio);
- 
-+    dinfo = drive_get(IF_PFLASH, 0, 0);
-+    if (dinfo) {
-+        BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
-+        BlockDriverState *bs = blk_bs(blk);
-+        uint64_t mmio_size = int128_get64(pms->pbus_dev->mmio.size);
-+        uint64_t size = bdrv_getlength(bs);
-+        uint32_t sector_len = 64 * KiB;
-+
-+        if (!is_power_of_2(size)) {
-+            error_report("Size of pflash file must be a power of two.");
-+            exit(1);
-+        }
-+
-+        if (size > mmio_size) {
-+            error_report("Size of pflash file must not be bigger than %" PRIu64
-+                         " bytes.", mmio_size);
-+            exit(1);
-+        }
-+
-+        if (!QEMU_IS_ALIGNED(size, sector_len)) {
-+            error_report("Size of pflash file must be a multiple of %" PRIu32
-+                         ".", sector_len);
-+            exit(1);
-+        }
-+
-+        dev = qdev_new(TYPE_PFLASH_CFI01);
-+        qdev_prop_set_drive(dev, "drive", blk);
-+        qdev_prop_set_uint32(dev, "num-blocks", size / sector_len);
-+        qdev_prop_set_uint64(dev, "sector-length", sector_len);
-+        qdev_prop_set_uint8(dev, "width", 2);
-+        qdev_prop_set_bit(dev, "big-endian", true);
-+        qdev_prop_set_uint16(dev, "id0", 0x89);
-+        qdev_prop_set_uint16(dev, "id1", 0x18);
-+        qdev_prop_set_uint16(dev, "id2", 0x0000);
-+        qdev_prop_set_uint16(dev, "id3", 0x0);
-+        qdev_prop_set_string(dev, "name", "e500.flash");
-+        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+
-+        memory_region_add_subregion(&pms->pbus_dev->mmio, 0,
-+                                    pflash_cfi01_get_memory(PFLASH_CFI01(dev)));
-+    }
-+
-     /*
-      * Smart firmware defaults ahead!
-      *
--- 
-2.37.3
+> ---
+>  hw/virtio/vhost-shadow-virtqueue.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+> index 467099f5d9..18a49e1ecb 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> @@ -228,8 +228,11 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq)
+>      smp_mb();
+>  
+>      if (virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
+> -        uint16_t avail_event = *(uint16_t *)(&svq->vring.used->ring[svq->vring.num]);
+> -        needs_kick = vring_need_event(avail_event, svq->shadow_avail_idx, svq->shadow_avail_idx - 1);
+> +        size_t num = svq->vring.num;
+> +        uint16_t *avail_event = (uint16_t *)&svq->vring.used->ring[num];
+> +
+> +        needs_kick = vring_need_event(*avail_event, svq->shadow_avail_idx,
+> +                                      svq->shadow_avail_idx - 1);
+>      } else {
+>          needs_kick = !(svq->vring.used->flags & VRING_USED_F_NO_NOTIFY);
+>      }
+> -- 
+> 2.31.1
 
 
