@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08CCC611809
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:50:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 921776117EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:47:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooSSt-0003Ij-V2; Fri, 28 Oct 2022 12:44:16 -0400
+	id 1ooST2-0004fS-4y; Fri, 28 Oct 2022 12:44:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSSX-0007Kt-F5; Fri, 28 Oct 2022 12:43:54 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336])
+ id 1ooSSb-00083J-Am; Fri, 28 Oct 2022 12:43:57 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSSV-0000vv-Dn; Fri, 28 Oct 2022 12:43:53 -0400
-Received: by mail-ot1-x336.google.com with SMTP id
- br15-20020a056830390f00b0061c9d73b8bdso3282246otb.6; 
- Fri, 28 Oct 2022 09:43:50 -0700 (PDT)
+ id 1ooSSZ-0000x4-EB; Fri, 28 Oct 2022 12:43:57 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id t10so6713221oib.5;
+ Fri, 28 Oct 2022 09:43:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+tVHkUHUdbcyE88dZpx/gc6JwLxstTDXgSseeMmFKdM=;
- b=i+Vxu/z3r66gwhUFmO9e8/9nHuEc3sYmiYWrDATJDIWz0Mp/WOO8syNPY6s9I4zmq8
- YouowmrZFyiL6qxGpL+LbiSvo9uf5wQmY0NQMO6AFS9MFzzHGC1Z7qD7W7vxlprdtERh
- mL15DOODB1910bRG7VMqqWufN15ZmkJ4p1xFrimCxigdCWY9X9thEMgDS2JODx/d8lTZ
- GSNiP/OPNRj2fBMvuGeA4i7u+BpbWXyYhtiTiPFbtRF82iCXh3O/lSTjIjwjBVjY14VZ
- zLIqZ2snc5RogGAltXrE1pXgU8RVRjmcxE9QDdtCz5O4Nuw0E9kPfdLnpg0qxQtgawJ5
- FwEA==
+ bh=tBrwTuwxTINYomi1VC9LETpZYFuYBfHxFA0/fjQxWuU=;
+ b=n8RdTvikdtfnLjDOjgsRZ0BUm9QuCyz4gGTsEeiIGthWnEhXKS/YLvBF83C6B+YU4q
+ zNXFNhv9XjnSc8yRcRmGy+E58uGhDKYWVh20sArCSYA0kQZt9NGVFWUaR/dAKZ31k2Lx
+ /d3ASWFfGTnFFKA9DXb6Memy7Gk4TOWQADm3gh3wrxXAlKBsxrtlxNauurZExO39lYsd
+ zkybTceb7wGpbS/m2ndZOofZ/Pi0idQVm/Aj80IsVO8B82iaBQ3ubXc+rZCUZOB/R0eX
+ +JWf5b8BPDf9WGv6IvwSoxmj032/R8/cryRqAlJ444lzSoU9K9lnOWFcxO7JkR6sbD4L
+ zoNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+tVHkUHUdbcyE88dZpx/gc6JwLxstTDXgSseeMmFKdM=;
- b=gz1TU4AtZ2FneIzPm6Ekr1iq+sdYep6KurGnr2M7/7h/xlHZpVhAhgNwa5qTgisCee
- bk4Os05KeTBh3l3yqnVPtJHzCfRYxLhFvJ+N3lSmoKq0sltc3TfNLgTjKrr1+SoO1BUS
- vxd28uTAvitIDIkROQXpBp4kAwViYPQ4nDY2IBVqgOL0YtqZ0MpaiuL2/5lv3DiMokoW
- n7U6tT/7C8bvQQoe33IjYFyreAckKvPe07dvacrW/ahJJeaH5Siba/lsiCLFWHE+X8v0
- YUWf0dPzTDqnsOD4wXAK6g6of5eDjowf5174xG6Rua7iLdBRvEScYdOIQbG0zPyW5ZxL
- LQ1Q==
-X-Gm-Message-State: ACrzQf2YCCsbEttHl5SUd1AFd0+WWMxbJErIjjUXMBoct6Lkn640LFNn
- Kh+H0nWazgnDV2TJIZWR59COuzyfH1kHiA==
-X-Google-Smtp-Source: AMsMyM7xux1zQ8JFwZ8H7kat4paKa7ohCuFl3DC1xEVcIAGoERKcLsvaot3Jx0orQ7bRDxCNc20m/Q==
-X-Received: by 2002:a05:6830:33cc:b0:657:78bf:485d with SMTP id
- q12-20020a05683033cc00b0065778bf485dmr129784ott.76.1666975429608; 
- Fri, 28 Oct 2022 09:43:49 -0700 (PDT)
+ bh=tBrwTuwxTINYomi1VC9LETpZYFuYBfHxFA0/fjQxWuU=;
+ b=dm44e/818JbaIk8OnZOwZz7GThlxoLxMlgtN0PokNz7dpeA4iYmul81Y+01XiSbzgX
+ PoS8sLYrftj1Qr5pYljrw2qOEi/msyR0SAKNeDgXr20k0z+7bMHYep55iBRfBAshmuz0
+ D6fcFHLZO3r2YmUrD5YkuSxSGFs9i96m3JlA2Mq864qTPvcHwkolf3rySw5PH+FHR4TG
+ G1fm54L3xK1LJHxoJsIGfcH1LiV0XLmAul3GIaIePfAW/m6Pn0eSHrJ+0oeOQ6o+Snpv
+ HrVnIlwzUbQmSgVwW+HyV23f3yBtYec2Q5m7z1xD43n+GkRo/VVxLTDg5Bc8N335To1w
+ FYpQ==
+X-Gm-Message-State: ACrzQf2vWh2jvfTpyWu56xRSvLVxNBC4EMoRPiGciv2INc4P7+go9hDh
+ rzKejkEim2X+J+gIcEsS3W48juHcGtJEgw==
+X-Google-Smtp-Source: AMsMyM4Qow+KNFDa62Ej9REYbgilX4TFTx1AAFliQfbBydV0cHU/yIe5GGfC4RpNh5UZRUpFX1T2yA==
+X-Received: by 2002:a05:6808:140a:b0:355:230f:b7f1 with SMTP id
+ w10-20020a056808140a00b00355230fb7f1mr8645740oiv.8.1666975433737; 
+ Fri, 28 Oct 2022 09:43:53 -0700 (PDT)
 Received: from balboa.COMFAST ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.43.45
+ s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.43.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:43:47 -0700 (PDT)
+ Fri, 28 Oct 2022 09:43:52 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 52/62] ppc4xx_sdram: Rename local state variable for brevity
-Date: Fri, 28 Oct 2022 13:39:41 -0300
-Message-Id: <20221028163951.810456-53-danielhb413@gmail.com>
+Subject: [PULL 53/62] ppc4xx_sdram: Generalise bank setup
+Date: Fri, 28 Oct 2022 13:39:42 -0300
+Message-Id: <20221028163951.810456-54-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
 References: <20221028163951.810456-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x336.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22e.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -95,340 +92,190 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-Rename the sdram local state variable to s in dcr read/write functions
-and reset methods for better readability and to match realize methods.
-Other places not converted will be changed or removed in subsequent
-patches.
+Currently only base and size are set on initial bank creation and bcr
+value is computed on mapping the region. Set bcr at init so the bcr
+encoding method becomes local to the controller model and mapping and
+unmapping can operate on the bank so it can be shared between
+different controller models. This patch converts the DDR2 controller.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <8e7539cb1fccd7556b68351c4dcf62534c3a69cf.1666194485.git.balaton@eik.bme.hu>
+Message-Id: <51b957b4b2d714a1072aa2589b979e08411640df.1666194485.git.balaton@eik.bme.hu>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/ppc4xx_sdram.c | 158 +++++++++++++++++++++---------------------
- 1 file changed, 79 insertions(+), 79 deletions(-)
+ hw/ppc/ppc4xx_sdram.c | 91 ++++++++++++++++++++++---------------------
+ hw/ppc/trace-events   |  1 +
+ 2 files changed, 48 insertions(+), 44 deletions(-)
 
 diff --git a/hw/ppc/ppc4xx_sdram.c b/hw/ppc/ppc4xx_sdram.c
-index 2294747594..4bc53c8f01 100644
+index 4bc53c8f01..63a33b8fd4 100644
 --- a/hw/ppc/ppc4xx_sdram.c
 +++ b/hw/ppc/ppc4xx_sdram.c
-@@ -237,56 +237,56 @@ static void sdram_ddr_unmap_bcr(Ppc4xxSdramDdrState *sdram)
+@@ -105,6 +105,7 @@ static void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
  
- static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
+ static void sdram_bank_map(Ppc4xxSdramBank *bank)
  {
--    Ppc4xxSdramDdrState *sdram = opaque;
-+    Ppc4xxSdramDdrState *s = opaque;
-     uint32_t ret;
++    trace_ppc4xx_sdram_map(bank->base, bank->size);
+     memory_region_init(&bank->container, NULL, "sdram-container", bank->size);
+     memory_region_add_subregion(&bank->container, 0, &bank->ram);
+     memory_region_add_subregion(get_system_memory(), bank->base,
+@@ -113,11 +114,26 @@ static void sdram_bank_map(Ppc4xxSdramBank *bank)
  
-     switch (dcrn) {
-     case SDRAM0_CFGADDR:
--        ret = sdram->addr;
-+        ret = s->addr;
-         break;
-     case SDRAM0_CFGDATA:
--        switch (sdram->addr) {
-+        switch (s->addr) {
-         case 0x00: /* SDRAM_BESR0 */
--            ret = sdram->besr0;
-+            ret = s->besr0;
-             break;
-         case 0x08: /* SDRAM_BESR1 */
--            ret = sdram->besr1;
-+            ret = s->besr1;
-             break;
-         case 0x10: /* SDRAM_BEAR */
--            ret = sdram->bear;
-+            ret = s->bear;
-             break;
-         case 0x20: /* SDRAM_CFG */
--            ret = sdram->cfg;
-+            ret = s->cfg;
-             break;
-         case 0x24: /* SDRAM_STATUS */
--            ret = sdram->status;
-+            ret = s->status;
-             break;
-         case 0x30: /* SDRAM_RTR */
--            ret = sdram->rtr;
-+            ret = s->rtr;
-             break;
-         case 0x34: /* SDRAM_PMIT */
--            ret = sdram->pmit;
-+            ret = s->pmit;
-             break;
-         case 0x40: /* SDRAM_B0CR */
--            ret = sdram->bank[0].bcr;
-+            ret = s->bank[0].bcr;
-             break;
-         case 0x44: /* SDRAM_B1CR */
--            ret = sdram->bank[1].bcr;
-+            ret = s->bank[1].bcr;
-             break;
-         case 0x48: /* SDRAM_B2CR */
--            ret = sdram->bank[2].bcr;
-+            ret = s->bank[2].bcr;
-             break;
-         case 0x4C: /* SDRAM_B3CR */
--            ret = sdram->bank[3].bcr;
-+            ret = s->bank[3].bcr;
-             break;
-         case 0x80: /* SDRAM_TR */
-             ret = -1; /* ? */
-             break;
-         case 0x94: /* SDRAM_ECCCFG */
--            ret = sdram->ecccfg;
-+            ret = s->ecccfg;
-             break;
-         case 0x98: /* SDRAM_ECCESR */
--            ret = sdram->eccesr;
-+            ret = s->eccesr;
-             break;
-         default: /* Error */
-             ret = -1;
-@@ -304,78 +304,78 @@ static uint32_t sdram_ddr_dcr_read(void *opaque, int dcrn)
- 
- static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
+ static void sdram_bank_unmap(Ppc4xxSdramBank *bank)
  {
--    Ppc4xxSdramDdrState *sdram = opaque;
-+    Ppc4xxSdramDdrState *s = opaque;
- 
-     switch (dcrn) {
-     case SDRAM0_CFGADDR:
--        sdram->addr = val;
-+        s->addr = val;
-         break;
-     case SDRAM0_CFGDATA:
--        switch (sdram->addr) {
-+        switch (s->addr) {
-         case 0x00: /* SDRAM_BESR0 */
--            sdram->besr0 &= ~val;
-+            s->besr0 &= ~val;
-             break;
-         case 0x08: /* SDRAM_BESR1 */
--            sdram->besr1 &= ~val;
-+            s->besr1 &= ~val;
-             break;
-         case 0x10: /* SDRAM_BEAR */
--            sdram->bear = val;
-+            s->bear = val;
-             break;
-         case 0x20: /* SDRAM_CFG */
-             val &= 0xFFE00000;
--            if (!(sdram->cfg & 0x80000000) && (val & 0x80000000)) {
-+            if (!(s->cfg & 0x80000000) && (val & 0x80000000)) {
-                 trace_ppc4xx_sdram_enable("enable");
-                 /* validate all RAM mappings */
--                sdram_ddr_map_bcr(sdram);
--                sdram->status &= ~0x80000000;
--            } else if ((sdram->cfg & 0x80000000) && !(val & 0x80000000)) {
-+                sdram_ddr_map_bcr(s);
-+                s->status &= ~0x80000000;
-+            } else if ((s->cfg & 0x80000000) && !(val & 0x80000000)) {
-                 trace_ppc4xx_sdram_enable("disable");
-                 /* invalidate all RAM mappings */
--                sdram_ddr_unmap_bcr(sdram);
--                sdram->status |= 0x80000000;
-+                sdram_ddr_unmap_bcr(s);
-+                s->status |= 0x80000000;
-             }
--            if (!(sdram->cfg & 0x40000000) && (val & 0x40000000)) {
--                sdram->status |= 0x40000000;
--            } else if ((sdram->cfg & 0x40000000) && !(val & 0x40000000)) {
--                sdram->status &= ~0x40000000;
-+            if (!(s->cfg & 0x40000000) && (val & 0x40000000)) {
-+                s->status |= 0x40000000;
-+            } else if ((s->cfg & 0x40000000) && !(val & 0x40000000)) {
-+                s->status &= ~0x40000000;
-             }
--            sdram->cfg = val;
-+            s->cfg = val;
-             break;
-         case 0x24: /* SDRAM_STATUS */
-             /* Read-only register */
-             break;
-         case 0x30: /* SDRAM_RTR */
--            sdram->rtr = val & 0x3FF80000;
-+            s->rtr = val & 0x3FF80000;
-             break;
-         case 0x34: /* SDRAM_PMIT */
--            sdram->pmit = (val & 0xF8000000) | 0x07C00000;
-+            s->pmit = (val & 0xF8000000) | 0x07C00000;
-             break;
-         case 0x40: /* SDRAM_B0CR */
--            sdram_ddr_set_bcr(sdram, 0, val, sdram->cfg & 0x80000000);
-+            sdram_ddr_set_bcr(s, 0, val, s->cfg & 0x80000000);
-             break;
-         case 0x44: /* SDRAM_B1CR */
--            sdram_ddr_set_bcr(sdram, 1, val, sdram->cfg & 0x80000000);
-+            sdram_ddr_set_bcr(s, 1, val, s->cfg & 0x80000000);
-             break;
-         case 0x48: /* SDRAM_B2CR */
--            sdram_ddr_set_bcr(sdram, 2, val, sdram->cfg & 0x80000000);
-+            sdram_ddr_set_bcr(s, 2, val, s->cfg & 0x80000000);
-             break;
-         case 0x4C: /* SDRAM_B3CR */
--            sdram_ddr_set_bcr(sdram, 3, val, sdram->cfg & 0x80000000);
-+            sdram_ddr_set_bcr(s, 3, val, s->cfg & 0x80000000);
-             break;
-         case 0x80: /* SDRAM_TR */
--            sdram->tr = val & 0x018FC01F;
-+            s->tr = val & 0x018FC01F;
-             break;
-         case 0x94: /* SDRAM_ECCCFG */
--            sdram->ecccfg = val & 0x00F00000;
-+            s->ecccfg = val & 0x00F00000;
-             break;
-         case 0x98: /* SDRAM_ECCESR */
-             val &= 0xFFF0F000;
--            if (sdram->eccesr == 0 && val != 0) {
--                qemu_irq_raise(sdram->irq);
--            } else if (sdram->eccesr != 0 && val == 0) {
--                qemu_irq_lower(sdram->irq);
-+            if (s->eccesr == 0 && val != 0) {
-+                qemu_irq_raise(s->irq);
-+            } else if (s->eccesr != 0 && val == 0) {
-+                qemu_irq_lower(s->irq);
-             }
--            sdram->eccesr = val;
-+            s->eccesr = val;
-             break;
-         default: /* Error */
-             break;
-@@ -386,21 +386,21 @@ static void sdram_ddr_dcr_write(void *opaque, int dcrn, uint32_t val)
- 
- static void ppc4xx_sdram_ddr_reset(DeviceState *dev)
- {
--    Ppc4xxSdramDdrState *sdram = PPC4xx_SDRAM_DDR(dev);
--
--    sdram->addr = 0;
--    sdram->bear = 0;
--    sdram->besr0 = 0; /* No error */
--    sdram->besr1 = 0; /* No error */
--    sdram->cfg = 0;
--    sdram->ecccfg = 0; /* No ECC */
--    sdram->eccesr = 0; /* No error */
--    sdram->pmit = 0x07C00000;
--    sdram->rtr = 0x05F00000;
--    sdram->tr = 0x00854009;
-+    Ppc4xxSdramDdrState *s = PPC4xx_SDRAM_DDR(dev);
-+
-+    s->addr = 0;
-+    s->bear = 0;
-+    s->besr0 = 0; /* No error */
-+    s->besr1 = 0; /* No error */
-+    s->cfg = 0;
-+    s->ecccfg = 0; /* No ECC */
-+    s->eccesr = 0; /* No error */
-+    s->pmit = 0x07C00000;
-+    s->rtr = 0x05F00000;
-+    s->tr = 0x00854009;
-     /* We pre-initialize RAM banks */
--    sdram->status = 0;
--    sdram->cfg = 0x00800000;
-+    s->status = 0;
-+    s->cfg = 0x00800000;
++    trace_ppc4xx_sdram_unmap(bank->base, bank->size);
+     memory_region_del_subregion(get_system_memory(), &bank->container);
+     memory_region_del_subregion(&bank->container, &bank->ram);
+     object_unparent(OBJECT(&bank->container));
  }
  
- static void ppc4xx_sdram_ddr_realize(DeviceState *dev, Error **errp)
-@@ -572,7 +572,7 @@ static void sdram_ddr2_unmap_bcr(Ppc4xxSdramDdr2State *sdram)
++static void sdram_bank_set_bcr(Ppc4xxSdramBank *bank, uint32_t bcr,
++                               hwaddr base, hwaddr size, int enabled)
++{
++    if (memory_region_is_mapped(&bank->container)) {
++        sdram_bank_unmap(bank);
++    }
++    bank->bcr = bcr;
++    bank->base = base;
++    bank->size = size;
++    if (enabled && (bcr & 1)) {
++        sdram_bank_map(bank);
++    }
++}
++
+ enum {
+     SDRAM0_CFGADDR = 0x010,
+     SDRAM0_CFGDATA = 0x011,
+@@ -455,6 +471,8 @@ void ppc4xx_sdram_ddr_enable(Ppc4xxSdramDdrState *s)
  
+ /*****************************************************************************/
+ /* DDR2 SDRAM controller */
++#define SDRAM_DDR2_BCR_MASK 0xffe0ffc1
++
+ enum {
+     SDRAM_R0BAS = 0x40,
+     SDRAM_R1BAS,
+@@ -528,48 +546,6 @@ static hwaddr sdram_ddr2_size(uint32_t bcr)
+     return size;
+ }
+ 
+-static void sdram_ddr2_set_bcr(Ppc4xxSdramDdr2State *sdram, int i,
+-                               uint32_t bcr, int enabled)
+-{
+-    if (sdram->bank[i].bcr & 1) {
+-        /* First unmap RAM if enabled */
+-        trace_ppc4xx_sdram_unmap(sdram_ddr2_base(sdram->bank[i].bcr),
+-                                 sdram_ddr2_size(sdram->bank[i].bcr));
+-        sdram_bank_unmap(&sdram->bank[i]);
+-    }
+-    sdram->bank[i].bcr = bcr & 0xffe0ffc1;
+-    if (enabled && (bcr & 1)) {
+-        trace_ppc4xx_sdram_map(sdram_ddr2_base(bcr), sdram_ddr2_size(bcr));
+-        sdram_bank_map(&sdram->bank[i]);
+-    }
+-}
+-
+-static void sdram_ddr2_map_bcr(Ppc4xxSdramDdr2State *sdram)
+-{
+-    int i;
+-
+-    for (i = 0; i < sdram->nbanks; i++) {
+-        if (sdram->bank[i].size) {
+-            sdram_ddr2_set_bcr(sdram, i,
+-                               sdram_ddr2_bcr(sdram->bank[i].base,
+-                                              sdram->bank[i].size), 1);
+-        } else {
+-            sdram_ddr2_set_bcr(sdram, i, 0, 0);
+-        }
+-    }
+-}
+-
+-static void sdram_ddr2_unmap_bcr(Ppc4xxSdramDdr2State *sdram)
+-{
+-    int i;
+-
+-    for (i = 0; i < sdram->nbanks; i++) {
+-        if (sdram->bank[i].size) {
+-            sdram_ddr2_set_bcr(sdram, i, sdram->bank[i].bcr & ~1, 0);
+-        }
+-    }
+-}
+-
  static uint32_t sdram_ddr2_dcr_read(void *opaque, int dcrn)
  {
--    Ppc4xxSdramDdr2State *sdram = opaque;
-+    Ppc4xxSdramDdr2State *s = opaque;
-     uint32_t ret = 0;
- 
-     switch (dcrn) {
-@@ -580,9 +580,9 @@ static uint32_t sdram_ddr2_dcr_read(void *opaque, int dcrn)
-     case SDRAM_R1BAS:
-     case SDRAM_R2BAS:
-     case SDRAM_R3BAS:
--        if (sdram->bank[dcrn - SDRAM_R0BAS].size) {
--            ret = sdram_ddr2_bcr(sdram->bank[dcrn - SDRAM_R0BAS].base,
--                                 sdram->bank[dcrn - SDRAM_R0BAS].size);
-+        if (s->bank[dcrn - SDRAM_R0BAS].size) {
-+            ret = sdram_ddr2_bcr(s->bank[dcrn - SDRAM_R0BAS].base,
-+                                 s->bank[dcrn - SDRAM_R0BAS].size);
-         }
-         break;
-     case SDRAM_CONF1HB:
-@@ -592,16 +592,16 @@ static uint32_t sdram_ddr2_dcr_read(void *opaque, int dcrn)
-     case SDRAM_PLBADDUHB:
-         break;
-     case SDRAM0_CFGADDR:
--        ret = sdram->addr;
-+        ret = s->addr;
-         break;
-     case SDRAM0_CFGDATA:
--        switch (sdram->addr) {
-+        switch (s->addr) {
-         case 0x14: /* SDRAM_MCSTAT (405EX) */
-         case 0x1F:
-             ret = 0x80000000;
-             break;
-         case 0x21: /* SDRAM_MCOPT2 */
--            ret = sdram->mcopt2;
-+            ret = s->mcopt2;
-             break;
-         case 0x40: /* SDRAM_MB0CF */
-             ret = 0x00008001;
-@@ -627,7 +627,7 @@ static uint32_t sdram_ddr2_dcr_read(void *opaque, int dcrn)
- 
+     Ppc4xxSdramDdr2State *s = opaque;
+@@ -628,6 +604,7 @@ static uint32_t sdram_ddr2_dcr_read(void *opaque, int dcrn)
  static void sdram_ddr2_dcr_write(void *opaque, int dcrn, uint32_t val)
  {
--    Ppc4xxSdramDdr2State *sdram = opaque;
-+    Ppc4xxSdramDdr2State *s = opaque;
+     Ppc4xxSdramDdr2State *s = opaque;
++    int i;
  
      switch (dcrn) {
      case SDRAM_R0BAS:
-@@ -641,25 +641,25 @@ static void sdram_ddr2_dcr_write(void *opaque, int dcrn, uint32_t val)
-     case SDRAM_PLBADDUHB:
-         break;
-     case SDRAM0_CFGADDR:
--        sdram->addr = val;
-+        s->addr = val;
-         break;
-     case SDRAM0_CFGDATA:
--        switch (sdram->addr) {
-+        switch (s->addr) {
-         case 0x00: /* B0CR */
-             break;
-         case 0x21: /* SDRAM_MCOPT2 */
--            if (!(sdram->mcopt2 & SDRAM_DDR2_MCOPT2_DCEN) &&
-+            if (!(s->mcopt2 & SDRAM_DDR2_MCOPT2_DCEN) &&
+@@ -652,13 +629,25 @@ static void sdram_ddr2_dcr_write(void *opaque, int dcrn, uint32_t val)
                  (val & SDRAM_DDR2_MCOPT2_DCEN)) {
                  trace_ppc4xx_sdram_enable("enable");
                  /* validate all RAM mappings */
--                sdram_ddr2_map_bcr(sdram);
--                sdram->mcopt2 |= SDRAM_DDR2_MCOPT2_DCEN;
--            } else if ((sdram->mcopt2 & SDRAM_DDR2_MCOPT2_DCEN) &&
-+                sdram_ddr2_map_bcr(s);
-+                s->mcopt2 |= SDRAM_DDR2_MCOPT2_DCEN;
-+            } else if ((s->mcopt2 & SDRAM_DDR2_MCOPT2_DCEN) &&
+-                sdram_ddr2_map_bcr(s);
++                for (i = 0; i < s->nbanks; i++) {
++                    if (s->bank[i].size) {
++                        sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
++                                           s->bank[i].base, s->bank[i].size,
++                                           1);
++                    }
++                }
+                 s->mcopt2 |= SDRAM_DDR2_MCOPT2_DCEN;
+             } else if ((s->mcopt2 & SDRAM_DDR2_MCOPT2_DCEN) &&
                         !(val & SDRAM_DDR2_MCOPT2_DCEN)) {
                  trace_ppc4xx_sdram_enable("disable");
                  /* invalidate all RAM mappings */
--                sdram_ddr2_unmap_bcr(sdram);
--                sdram->mcopt2 &= ~SDRAM_DDR2_MCOPT2_DCEN;
-+                sdram_ddr2_unmap_bcr(s);
-+                s->mcopt2 &= ~SDRAM_DDR2_MCOPT2_DCEN;
+-                sdram_ddr2_unmap_bcr(s);
++                for (i = 0; i < s->nbanks; i++) {
++                    if (s->bank[i].size) {
++                        sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
++                                           s->bank[i].base, s->bank[i].size,
++                                           0);
++                    }
++                }
+                 s->mcopt2 &= ~SDRAM_DDR2_MCOPT2_DCEN;
              }
              break;
-         default:
-@@ -673,10 +673,10 @@ static void sdram_ddr2_dcr_write(void *opaque, int dcrn, uint32_t val)
+@@ -691,6 +680,7 @@ static void ppc4xx_sdram_ddr2_realize(DeviceState *dev, Error **errp)
+         2 * GiB, 1 * GiB, 512 * MiB, 256 * MiB, 128 * MiB,
+         64 * MiB, 32 * MiB, 16 * MiB, 8 * MiB, 0
+     };
++    int i;
  
- static void ppc4xx_sdram_ddr2_reset(DeviceState *dev)
- {
--    Ppc4xxSdramDdr2State *sdram = PPC4xx_SDRAM_DDR2(dev);
-+    Ppc4xxSdramDdr2State *s = PPC4xx_SDRAM_DDR2(dev);
+     if (s->nbanks < 1 || s->nbanks > 4) {
+         error_setg(errp, "Invalid number of RAM banks");
+@@ -701,6 +691,19 @@ static void ppc4xx_sdram_ddr2_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+     ppc4xx_sdram_banks(s->dram_mr, s->nbanks, s->bank, valid_bank_sizes);
++    for (i = 0; i < s->nbanks; i++) {
++        if (s->bank[i].size) {
++            s->bank[i].bcr = sdram_ddr2_bcr(s->bank[i].base, s->bank[i].size);
++            s->bank[i].bcr &= SDRAM_DDR2_BCR_MASK;
++            sdram_bank_set_bcr(&s->bank[i], s->bank[i].bcr,
++                               s->bank[i].base, s->bank[i].size, 0);
++        } else {
++            sdram_bank_set_bcr(&s->bank[i], 0, 0, 0, 0);
++        }
++        trace_ppc4xx_sdram_init(sdram_ddr2_base(s->bank[i].bcr),
++                                sdram_ddr2_size(s->bank[i].bcr),
++                                s->bank[i].bcr);
++    }
  
--    sdram->addr = 0;
--    sdram->mcopt2 = 0;
-+    s->addr = 0;
-+    s->mcopt2 = 0;
- }
- 
- static void ppc4xx_sdram_ddr2_realize(DeviceState *dev, Error **errp)
+     ppc4xx_dcr_register(dcr, SDRAM0_CFGADDR,
+                         s, &sdram_ddr2_dcr_read, &sdram_ddr2_dcr_write);
+diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+index 956938ebcd..f670e8906c 100644
+--- a/hw/ppc/trace-events
++++ b/hw/ppc/trace-events
+@@ -179,3 +179,4 @@ ppc405ep_clocks_setup(const char *trace) "%s"
+ ppc4xx_sdram_enable(const char *trace) "%s SDRAM controller"
+ ppc4xx_sdram_unmap(uint64_t addr, uint64_t size) "Unmap RAM area 0x%" PRIx64 " size 0x%" PRIx64
+ ppc4xx_sdram_map(uint64_t addr, uint64_t size) "Map RAM area 0x%" PRIx64 " size 0x%" PRIx64
++ppc4xx_sdram_init(uint64_t base, uint64_t size, uint32_t bcr) "Init RAM area 0x%" PRIx64 " size 0x%" PRIx64 " bcr 0x%x"
 -- 
 2.37.3
 
