@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C66610B26
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 09:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E5C610B3C
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 09:24:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooJc1-0000R3-U6; Fri, 28 Oct 2022 03:17:05 -0400
+	id 1ooJim-0006b0-Su; Fri, 28 Oct 2022 03:24:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ooJbk-0008Sf-Mh
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 03:16:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <uwu@icenowy.me>) id 1ooJih-0006ah-66
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 03:23:59 -0400
+Received: from sender4-op-o18.zoho.com ([136.143.188.18])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ooJbi-0001jw-Ah
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 03:16:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666941405;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ICtXNKbePGYvHSlZwN0EcCIouq1sl+2LPp1VhGHNC/8=;
- b=YX472t+vxM8jwz3TTRPMBZRPRj1vp7TMBjMC5wk4Pb7IcVOqQKvW59V+bj5+YeTnXZXD1f
- MbpOrEl6sQOcsku8lqa9x4nJCIdSig65Xi4BdXima/Mli6u+PqZV5UimRNzsLPMQ7PtFYF
- 1MN0dI7mDw4KCWtjhHVGTiDqVyUiSBM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-501-zPAljQ2mPQm_VXMfwdFZ9A-1; Fri, 28 Oct 2022 03:16:40 -0400
-X-MC-Unique: zPAljQ2mPQm_VXMfwdFZ9A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AEEC1882828;
- Fri, 28 Oct 2022 07:16:39 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C9E9112131B;
- Fri, 28 Oct 2022 07:16:39 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Aarushi Mehta <mehta.aaru20@gmail.com>,
- Julia Suvorova <jusual@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 3/3] thread-pool: use ThreadPool from the running thread
-Date: Fri, 28 Oct 2022 03:16:35 -0400
-Message-Id: <20221028071635.3037348-4-eesposit@redhat.com>
-In-Reply-To: <20221028071635.3037348-1-eesposit@redhat.com>
-References: <20221028071635.3037348-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <uwu@icenowy.me>) id 1ooJif-0002kk-JB
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 03:23:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1666941829; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=H2MQEfGfqwqqVJRAy/eQjb6AOPoIIa4dAsExvib+DPfbHXMTyqn3ex9dtSSf1npA48t1zo8aVCNK0WlXcZ5Y150olWwGo0S1fCYM1aBoK3f5dgWu6AD5hTsZNxBiCF3/JI/xAhpoNSxXI0WEASwWApZAMVra8iEnNmUzv5toZg8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1666941829;
+ h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+ bh=NQuh7zi2wtasmtboF4R4qO1RB0L1rHeApw73kba+H2k=; 
+ b=adiV6Rw3MXFoEcDafdRf2lYcdQ5EIFm93v2OdPsjv8H9je1N68LDD2yXFmGULZ07Z6M0U2NWmMMRa6xu+M0LLLoelgW5EQNDSv72padGswbsm6GL/TMdhuzM9XvJU4GTzz+Sa3wZK7r/o5qts2izyUGDwhoei/Kr2niO/8dAjb0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1666941829; 
+ s=zmail; d=icenowy.me; i=uwu@icenowy.me;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+ bh=NQuh7zi2wtasmtboF4R4qO1RB0L1rHeApw73kba+H2k=;
+ b=KHrhHT7FpwrCiqxQNrGhqmIYZgUxv3d7D4VPfAc6QzH6lczLMVzF6sz9IeJ8F4vQ
+ zVXBpFXT+X/G0VwNxyZcvHNAbwu7cQla3fT1R6Bc4/RzJWfkCP86gn7h1Q2rzj8gNvc
+ 6jT/SvdWWYG+A3PUaKJKDpWKhDsUSjYu6wHmviOs=
+Received: from edelgard.fodlan.icenowy.me (112.94.102.53 [112.94.102.53]) by
+ mx.zohomail.com with SMTPS id 1666941828587360.22039856339995;
+ Fri, 28 Oct 2022 00:23:48 -0700 (PDT)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org,
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH] tcg/tci: fix logic error when registering helpers via FFI
+Date: Fri, 28 Oct 2022 15:21:45 +0800
+Message-Id: <20221028072145.1593205-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.18; envelope-from=uwu@icenowy.me;
+ helo=sender4-op-o18.zoho.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,162 +73,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use qemu_get_current_aio_context() where possible, since we always
-submit work to the current thread anyways.
+When registering helpers via FFI for TCI, the inner loop that iterates
+parameters of the helper reuses (and thus pollutes) the same variable
+used by the outer loop that iterates all helpers, thus made some helpers
+unregistered.
 
-We want to also be sure that the thread submitting the work is
-the same as the one processing the pool, to avoid adding
-synchronization to the pool list.
+Fix this logic error by using a dedicated temporary variable for the
+inner loop.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 ---
- block/file-posix.c    | 21 ++++++++++-----------
- block/file-win32.c    |  2 +-
- block/qcow2-threads.c |  2 +-
- util/thread-pool.c    |  5 ++++-
- 4 files changed, 16 insertions(+), 14 deletions(-)
+ tcg/tcg.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 3800dbd222..28f12b08c8 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2044,11 +2044,10 @@ out:
-     return result;
- }
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 612a12f58f..adfaf61a32 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -619,6 +619,7 @@ static void tcg_context_init(unsigned max_cpus)
+         gpointer hash = (gpointer)(uintptr_t)typemask;
+         ffi_status status;
+         int nargs;
++        int j;
  
--static int coroutine_fn raw_thread_pool_submit(BlockDriverState *bs,
--                                               ThreadPoolFunc func, void *arg)
-+static int coroutine_fn raw_thread_pool_submit(ThreadPoolFunc func, void *arg)
- {
-     /* @bs can be NULL, bdrv_get_aio_context() returns the main context then */
--    ThreadPool *pool = aio_get_thread_pool(bdrv_get_aio_context(bs));
-+    ThreadPool *pool = aio_get_thread_pool(qemu_get_current_aio_context());
-     return thread_pool_submit_co(pool, func, arg);
- }
+         if (g_hash_table_lookup(ffi_table, hash)) {
+             continue;
+@@ -634,9 +635,9 @@ static void tcg_context_init(unsigned max_cpus)
  
-@@ -2116,7 +2115,7 @@ static int coroutine_fn raw_co_prw(BlockDriverState *bs, uint64_t offset,
-     };
- 
-     assert(qiov->size == bytes);
--    return raw_thread_pool_submit(bs, handle_aiocb_rw, &acb);
-+    return raw_thread_pool_submit(handle_aiocb_rw, &acb);
- }
- 
- static int coroutine_fn raw_co_preadv(BlockDriverState *bs, int64_t offset,
-@@ -2186,7 +2185,7 @@ static int coroutine_fn raw_co_flush_to_disk(BlockDriverState *bs)
-         return luring_co_submit(bs, s->fd, 0, NULL, QEMU_AIO_FLUSH);
-     }
- #endif
--    return raw_thread_pool_submit(bs, handle_aiocb_flush, &acb);
-+    return raw_thread_pool_submit(handle_aiocb_flush, &acb);
- }
- 
- static void raw_aio_attach_aio_context(BlockDriverState *bs,
-@@ -2248,7 +2247,7 @@ raw_regular_truncate(BlockDriverState *bs, int fd, int64_t offset,
-         },
-     };
- 
--    return raw_thread_pool_submit(bs, handle_aiocb_truncate, &acb);
-+    return raw_thread_pool_submit(handle_aiocb_truncate, &acb);
- }
- 
- static int coroutine_fn raw_co_truncate(BlockDriverState *bs, int64_t offset,
-@@ -2998,7 +2997,7 @@ raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int64_t bytes,
-         acb.aio_type |= QEMU_AIO_BLKDEV;
-     }
- 
--    ret = raw_thread_pool_submit(bs, handle_aiocb_discard, &acb);
-+    ret = raw_thread_pool_submit(handle_aiocb_discard, &acb);
-     raw_account_discard(s, bytes, ret);
-     return ret;
- }
-@@ -3073,7 +3072,7 @@ raw_do_pwrite_zeroes(BlockDriverState *bs, int64_t offset, int64_t bytes,
-         handler = handle_aiocb_write_zeroes;
-     }
- 
--    return raw_thread_pool_submit(bs, handler, &acb);
-+    return raw_thread_pool_submit(handler, &acb);
- }
- 
- static int coroutine_fn raw_co_pwrite_zeroes(
-@@ -3284,7 +3283,7 @@ static int coroutine_fn raw_co_copy_range_to(BlockDriverState *bs,
-         },
-     };
- 
--    return raw_thread_pool_submit(bs, handle_aiocb_copy_range, &acb);
-+    return raw_thread_pool_submit(handle_aiocb_copy_range, &acb);
- }
- 
- BlockDriver bdrv_file = {
-@@ -3614,7 +3613,7 @@ hdev_co_ioctl(BlockDriverState *bs, unsigned long int req, void *buf)
-         struct sg_io_hdr *io_hdr = buf;
-         if (io_hdr->cmdp[0] == PERSISTENT_RESERVE_OUT ||
-             io_hdr->cmdp[0] == PERSISTENT_RESERVE_IN) {
--            return pr_manager_execute(s->pr_mgr, bdrv_get_aio_context(bs),
-+            return pr_manager_execute(s->pr_mgr, qemu_get_current_aio_context(),
-                                       s->fd, io_hdr);
+         if (nargs != 0) {
+             ca->cif.arg_types = ca->args;
+-            for (i = 0; i < nargs; ++i) {
+-                int typecode = extract32(typemask, (i + 1) * 3, 3);
+-                ca->args[i] = typecode_to_ffi[typecode];
++            for (j = 0; j < nargs; ++j) {
++                int typecode = extract32(typemask, (j + 1) * 3, 3);
++                ca->args[j] = typecode_to_ffi[typecode];
+             }
          }
-     }
-@@ -3630,7 +3629,7 @@ hdev_co_ioctl(BlockDriverState *bs, unsigned long int req, void *buf)
-         },
-     };
  
--    return raw_thread_pool_submit(bs, handle_aiocb_ioctl, &acb);
-+    return raw_thread_pool_submit(handle_aiocb_ioctl, &acb);
- }
- #endif /* linux */
- 
-diff --git a/block/file-win32.c b/block/file-win32.c
-index ec9d64d0e4..3d7f59a592 100644
---- a/block/file-win32.c
-+++ b/block/file-win32.c
-@@ -167,7 +167,7 @@ static BlockAIOCB *paio_submit(BlockDriverState *bs, HANDLE hfile,
-     acb->aio_offset = offset;
- 
-     trace_file_paio_submit(acb, opaque, offset, count, type);
--    pool = aio_get_thread_pool(bdrv_get_aio_context(bs));
-+    pool = aio_get_thread_pool(qemu_get_current_aio_context());
-     return thread_pool_submit_aio(pool, aio_worker, acb, cb, opaque);
- }
- 
-diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
-index 1914baf456..9e370acbb3 100644
---- a/block/qcow2-threads.c
-+++ b/block/qcow2-threads.c
-@@ -42,7 +42,7 @@ qcow2_co_process(BlockDriverState *bs, ThreadPoolFunc *func, void *arg)
- {
-     int ret;
-     BDRVQcow2State *s = bs->opaque;
--    ThreadPool *pool = aio_get_thread_pool(bdrv_get_aio_context(bs));
-+    ThreadPool *pool = aio_get_thread_pool(qemu_get_current_aio_context());
- 
-     qemu_co_mutex_lock(&s->lock);
-     while (s->nb_threads >= QCOW2_MAX_THREADS) {
-diff --git a/util/thread-pool.c b/util/thread-pool.c
-index 31113b5860..0e26687e97 100644
---- a/util/thread-pool.c
-+++ b/util/thread-pool.c
-@@ -48,7 +48,7 @@ struct ThreadPoolElement {
-     /* Access to this list is protected by lock.  */
-     QTAILQ_ENTRY(ThreadPoolElement) reqs;
- 
--    /* Access to this list is protected by the global mutex.  */
-+    /* This list is only written by the thread pool's mother thread.  */
-     QLIST_ENTRY(ThreadPoolElement) all;
- };
- 
-@@ -251,6 +251,9 @@ BlockAIOCB *thread_pool_submit_aio(ThreadPool *pool,
- {
-     ThreadPoolElement *req;
- 
-+    /* Assert that the thread submitting work is the same running the pool */
-+    assert(pool->ctx == qemu_get_current_aio_context());
-+
-     req = qemu_aio_get(&thread_pool_aiocb_info, NULL, cb, opaque);
-     req->func = func;
-     req->arg = arg;
 -- 
-2.31.1
+2.37.1
 
 
