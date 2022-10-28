@@ -2,91 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D67610AFA
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 09:06:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86554610B06
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 09:08:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooJQa-0007AE-TB; Fri, 28 Oct 2022 03:05:17 -0400
+	id 1ooJTO-00016S-QQ; Fri, 28 Oct 2022 03:08:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1ooJQH-0006zv-MC
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 03:05:03 -0400
-Received: from mga04.intel.com ([192.55.52.120])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooJSv-0000wE-Lc
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 03:07:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1ooJQF-00074I-EB
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 03:04:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1666940695; x=1698476695;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=UaCh21eg56woE68aRnStncclygkWhDaI1iHThxSv+QM=;
- b=QnjsknpfsH2BloLrAfhcfuKBvF/4y2TIeIcE6pbKJfkMG2pq8ldZj2Mr
- wNVL12YmIV3pzCdA5KRmMyIhydi8epfgmXtizbmyq8P9okjIBS+WWhVpu
- 6H1LBVzuYzUcfwNvbdDJLVMutqdBl1umS82A9K74LoMdUEpfkIpuYYgCA
- jZAx+JNc8Gs7XxbhKf/kSseW+Mc+BU8q/VVas3LMYm1vlDLi+bqIsTh0P
- e11/xH9pnTxQw2x8yEDmjEs23hEkq0/GSCXIk9Rz6ZmKwyP3rm5GVeW99
- OjkZVGR5KHV/mkA64zgizPDksXkXdM2eBSYbRljq5Ms8NEEQYZSqq0XsY w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="307155602"
-X-IronPort-AV: E=Sophos;i="5.95,220,1661842800"; d="scan'208";a="307155602"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2022 00:04:41 -0700
-X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="807731392"
-X-IronPort-AV: E=Sophos;i="5.95,220,1661842800"; d="scan'208";a="807731392"
-Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.172.59])
- ([10.249.172.59])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2022 00:04:30 -0700
-Message-ID: <f324f02c-cf76-08a9-07a3-4af60778056f@intel.com>
-Date: Fri, 28 Oct 2022 15:04:27 +0800
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooJSk-0007fP-0h
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 03:07:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666940848;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QvP+uJxR3DxkObgA/ubx80kSlOVOAco4z7vgnuM9I18=;
+ b=LsxDr695NHAnnycwbi0X6hUF9/bd/1srJ6k/pr9TZ96eUNHoi3w54y//9OEZqTuLALhKwP
+ qqSlDbb2l1Zs/8hC0VEM7kLTaweaDRx0vaAKoY+S3bqfOB9Y6rQTm2fY8kpNRB3F2CbiIX
+ LMJjFRHh955426ADUiFzn+YxqXYh7Os=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-452-CO6dTwA4Ocmh4Un9PQYnrg-1; Fri, 28 Oct 2022 03:07:20 -0400
+X-MC-Unique: CO6dTwA4Ocmh4Un9PQYnrg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ x10-20020a05600c420a00b003cf4dbff2e4so1431546wmh.8
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 00:07:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QvP+uJxR3DxkObgA/ubx80kSlOVOAco4z7vgnuM9I18=;
+ b=imynul8uX7D85gwk4KAFz1i3CCXjRF++HSiY7HEmEIf712hT5q8qxThm44zrFdsijd
+ 0tzMIRJNWaD8y1E7JDWS6F2j39f5WAr2f6dIMCCYrfYzTsIcDaNq8EzurmG8DIcJ9Kgp
+ 6PQ51vGjsm7bOKbZoKLwTG2Ubkv6DsF8fuonpIpZ7TCurlwKIIu/B7btgpa7oMSiBKDZ
+ bSCzMlUAQSZCV1+odv/bx27VopANLlToav0Hph/uAJaBDRL7DvQj01NNM5K7rhuvd2E+
+ qQ3qoKxrv9GPGoKVblV0mjhYVEojlgfgAN3OWI7ZId0wkYSiaV76+MMYOtLt0CBJ7qcE
+ GIXA==
+X-Gm-Message-State: ACrzQf3u1yIhQWb43r6wI1GiZCd3Cd4Jg/Qsjo4+Enp98k7ZYZ9i8gR/
+ /8m87A4mSzt23++zZSa/NUtYubCLG0F1QI2af/xTHvpAHgiO+lWvQc29v56SjW2VlZEHQ+9wxaP
+ Oq6nkSeHYJY+zhrQ=
+X-Received: by 2002:a5d:4e8c:0:b0:236:6f5a:e893 with SMTP id
+ e12-20020a5d4e8c000000b002366f5ae893mr16315913wru.44.1666940839496; 
+ Fri, 28 Oct 2022 00:07:19 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM62Z3JuzKNyu6GUhduaVXtk4Ro+LEVpCg2Qw36qR3kyvqvvA/QIUjes3+ja9rb/b4K9cKd2zA==
+X-Received: by 2002:a5d:4e8c:0:b0:236:6f5a:e893 with SMTP id
+ e12-20020a5d4e8c000000b002366f5ae893mr16315887wru.44.1666940839198; 
+ Fri, 28 Oct 2022 00:07:19 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-14.web.vodafone.de.
+ [109.43.177.14]) by smtp.gmail.com with ESMTPSA id
+ bt6-20020a056000080600b0023677e1157fsm3080642wrb.56.2022.10.28.00.07.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Oct 2022 00:07:18 -0700 (PDT)
+Message-ID: <85b322d3-04c4-bbb5-f0cf-4be1cd73d671@redhat.com>
+Date: Fri, 28 Oct 2022 09:07:17 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.4.0
-Subject: Re: [PATCH v9 2/8] KVM: Extend the memslot to support fd-based
- private memory
-To: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-3-chao.p.peng@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PULL 00/23] 9p queue 2022-10-24
 Content-Language: en-US
-From: Xiaoyao Li <xiaoyao.li@intel.com>
-In-Reply-To: <20221025151344.3784230-3-chao.p.peng@linux.intel.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Linus Heckemann <git@sphalerite.org>, Bin Meng <bin.meng@windriver.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>
+References: <cover.1666608862.git.qemu_oss@crudebyte.com>
+ <3438372.x9l1EUDYgq@silver>
+ <CAJSP0QU62wy6sN7CULhDtcXMufQvpF8CgRQDOSVw5w7JYC_p-g@mail.gmail.com>
+ <11340963.ZY6gCF45se@silver>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <11340963.ZY6gCF45se@silver>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=xiaoyao.li@intel.com;
- helo=mga04.intel.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.515,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,193 +104,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/25/2022 11:13 PM, Chao Peng wrote:
-> In memory encryption usage, guest memory may be encrypted with special
-> key and can be accessed only by the guest itself. We call such memory
-> private memory. It's valueless and sometimes can cause problem to allow
-> userspace to access guest private memory. This new KVM memslot extension
-> allows guest private memory being provided though a restrictedmem
-                                                  ^
+On 27/10/2022 22.42, Christian Schoenebeck wrote:
+> On Thursday, October 27, 2022 7:37:07 PM CEST Stefan Hajnoczi wrote:
+>> On Thu, 27 Oct 2022 at 12:38, Christian Schoenebeck
+>> <qemu_oss@crudebyte.com> wrote:
+>>>
+>>> On Thursday, October 27, 2022 5:53:47 PM CEST Thomas Huth wrote:
+>>>> On 24/10/2022 12.54, Christian Schoenebeck wrote:
+>>>>> The following changes since commit 0529245488865038344d64fff7ee05864d3d17f6:
+>>>>>
+>>>>>     Merge tag 'pull-target-arm-20221020' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-10-20 14:36:12 -0400)
+>>>>>
+>>>>> are available in the Git repository at:
+>>>>>
+>>>>>     https://github.com/cschoenebeck/qemu.git tags/pull-9p-20221024
+>>>>>
+>>>>> for you to fetch changes up to 3ce77865bf813f313cf79c00fd951bfc95a50165:
+>>>>>
+>>>>>     tests/9p: remove unnecessary g_strdup() calls (2022-10-24 12:24:32 +0200)
+>>>>>
+>>>>> ----------------------------------------------------------------
+>>>>> 9pfs: performance, Windows host prep, tests restructure
+>>>>>
+>>>>> * Highlight of this PR is Linus Heckemann's GHashTable patch which
+>>>>>     brings massive general performance improvements of 9p server
+>>>>>     somewhere between factor 6 .. 12.
+>>>>>
+>>>>> * Bin Meng's g_mkdir patch is a preparatory patch for upcoming
+>>>>>     Windows host support of 9p server.
+>>>>>
+>>>>> * The rest of the patches in this PR are 9p test code restructuring
+>>>>>     and refactoring changes to improve readability and to ease
+>>>>>     maintenance of 9p test code on the long-term.
+>>>>
+>>>>    Hi Christian,
+>>>>
+>>>> I think this PR broke the FreeBSD CI jobs:
+>>>>
+>>>>    https://gitlab.com/qemu-project/qemu/-/jobs/3219611457#L3116
+>>>>
+>>>>    https://gitlab.com/qemu-project/qemu/-/jobs/3219611460#L3372
+>>>>
+>>>> Could you please have a look?
+>>>>
+>>>>    Thanks!
+>>>>     Thomas
+>>>
+>>> I try, but will certainly take some days, especially as I currently don't have
+>>> a BSD installation at hand to try the changes.
+>>
+>> QEMU has the automation to run FreeBSD builds locally (in a VM):
+>> $ make vm-build-freebsd
+>>
+>> Not sure if that FreeBSD environment matches the one in Cirrus CI
+>> though. If they are different then maybe it won't reproduce locally.
+> 
+> Something must be different, because e750a7ace492f0b450653d4ad368a77d6f660fb8
+> compiles fine locally with `make vm-build-freebsd` and all tests pass, too.
+> 
+> Ideas?
 
-typo
+You've got to --enable-werror to make it fail, try something like this:
 
-> backed file descriptor(fd) and userspace is restricted to access the
-> bookmarked memory in the fd.
-> 
-> This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
-> additional KVM memslot fields restricted_fd/restricted_offset to allow
-> userspace to instruct KVM to provide guest memory through restricted_fd.
-> 'guest_phys_addr' is mapped at the restricted_offset of restricted_fd
-> and the size is 'memory_size'.
-> 
-> The extended memslot can still have the userspace_addr(hva). When use, a
-> single memslot can maintain both private memory through restricted_fd
-> and shared memory through userspace_addr. Whether the private or shared
-> part is visible to guest is maintained by other KVM code.
-> 
-> A restrictedmem_notifier field is also added to the memslot structure to
-> allow the restricted_fd's backing store to notify KVM the memory change,
-> KVM then can invalidate its page table entries.
-> 
-> Together with the change, a new config HAVE_KVM_RESTRICTED_MEM is added
-> and right now it is selected on X86_64 only. A KVM_CAP_PRIVATE_MEM is
-> also introduced to indicate KVM support for KVM_MEM_PRIVATE.
-> 
-> To make code maintenance easy, internally we use a binary compatible
-> alias struct kvm_user_mem_region to handle both the normal and the
-> '_ext' variants.
-> 
-> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->   Documentation/virt/kvm/api.rst | 48 ++++++++++++++++++++++++++++-----
->   arch/x86/kvm/Kconfig           |  2 ++
->   arch/x86/kvm/x86.c             |  2 +-
->   include/linux/kvm_host.h       | 13 +++++++--
->   include/uapi/linux/kvm.h       | 29 ++++++++++++++++++++
->   virt/kvm/Kconfig               |  3 +++
->   virt/kvm/kvm_main.c            | 49 ++++++++++++++++++++++++++++------
->   7 files changed, 128 insertions(+), 18 deletions(-)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index eee9f857a986..f3fa75649a78 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -1319,7 +1319,7 @@ yet and must be cleared on entry.
->   :Capability: KVM_CAP_USER_MEMORY
->   :Architectures: all
->   :Type: vm ioctl
-> -:Parameters: struct kvm_userspace_memory_region (in)
-> +:Parameters: struct kvm_userspace_memory_region(_ext) (in)
->   :Returns: 0 on success, -1 on error
->   
->   ::
-> @@ -1332,9 +1332,18 @@ yet and must be cleared on entry.
->   	__u64 userspace_addr; /* start of the userspace allocated memory */
->     };
->   
-> +  struct kvm_userspace_memory_region_ext {
-> +	struct kvm_userspace_memory_region region;
-> +	__u64 restricted_offset;
-> +	__u32 restricted_fd;
-> +	__u32 pad1;
-> +	__u64 pad2[14];
-> +  };
-> +
->     /* for kvm_memory_region::flags */
->     #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
->     #define KVM_MEM_READONLY	(1UL << 1)
-> +  #define KVM_MEM_PRIVATE		(1UL << 2)
->   
->   This ioctl allows the user to create, modify or delete a guest physical
->   memory slot.  Bits 0-15 of "slot" specify the slot id and this value
-> @@ -1365,12 +1374,27 @@ It is recommended that the lower 21 bits of guest_phys_addr and userspace_addr
->   be identical.  This allows large pages in the guest to be backed by large
->   pages in the host.
->   
-> -The flags field supports two flags: KVM_MEM_LOG_DIRTY_PAGES and
-> -KVM_MEM_READONLY.  The former can be set to instruct KVM to keep track of
-> -writes to memory within the slot.  See KVM_GET_DIRTY_LOG ioctl to know how to
-> -use it.  The latter can be set, if KVM_CAP_READONLY_MEM capability allows it,
-> -to make a new slot read-only.  In this case, writes to this memory will be
-> -posted to userspace as KVM_EXIT_MMIO exits.
-> +kvm_userspace_memory_region_ext struct includes all fields of
-> +kvm_userspace_memory_region struct, while also adds additional fields for some
-> +other features. See below description of flags field for more information.
-> +It's recommended to use kvm_userspace_memory_region_ext in new userspace code.
-> +
-> +The flags field supports following flags:
-> +
-> +- KVM_MEM_LOG_DIRTY_PAGES to instruct KVM to keep track of writes to memory
-> +  within the slot.  For more details, see KVM_GET_DIRTY_LOG ioctl.
-> +
-> +- KVM_MEM_READONLY, if KVM_CAP_READONLY_MEM allows, to make a new slot
-> +  read-only.  In this case, writes to this memory will be posted to userspace as
-> +  KVM_EXIT_MMIO exits.
-> +
-> +- KVM_MEM_PRIVATE, if KVM_CAP_PRIVATE_MEM allows, to indicate a new slot has
-> +  private memory backed by a file descriptor(fd) and userspace access to the
-> +  fd may be restricted. Userspace should use restricted_fd/restricted_offset in
-> +  kvm_userspace_memory_region_ext to instruct KVM to provide private memory
-> +  to guest. Userspace should guarantee not to map the same pfn indicated by
-> +  restricted_fd/restricted_offset to different gfns with multiple memslots.
-> +  Failed to do this may result undefined behavior.
->   
->   When the KVM_CAP_SYNC_MMU capability is available, changes in the backing of
->   the memory region are automatically reflected into the guest.  For example, an
-> @@ -8215,6 +8239,16 @@ structure.
->   When getting the Modified Change Topology Report value, the attr->addr
->   must point to a byte where the value will be stored or retrieved from.
->   
-> +8.36 KVM_CAP_PRIVATE_MEM
-> +------------------------
-> +
-> +:Architectures: x86
-> +
-> +This capability indicates that private memory is supported and userspace can
-> +set KVM_MEM_PRIVATE flag for KVM_SET_USER_MEMORY_REGION ioctl.  See
-> +KVM_SET_USER_MEMORY_REGION for details on the usage of KVM_MEM_PRIVATE and
-> +kvm_userspace_memory_region_ext fields.
-> +
->   9. Known KVM API problems
->   =========================
->   
-> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-> index 67be7f217e37..8d2bd455c0cd 100644
-> --- a/arch/x86/kvm/Kconfig
-> +++ b/arch/x86/kvm/Kconfig
-> @@ -49,6 +49,8 @@ config KVM
->   	select SRCU
->   	select INTERVAL_TREE
->   	select HAVE_KVM_PM_NOTIFIER if PM
-> +	select HAVE_KVM_RESTRICTED_MEM if X86_64
-> +	select RESTRICTEDMEM if HAVE_KVM_RESTRICTED_MEM
->   	help
->   	  Support hosting fully virtualized guest machines using hardware
->   	  virtualization extensions.  You will need a fairly recent
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 4bd5f8a751de..02ad31f46dd7 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -12425,7 +12425,7 @@ void __user * __x86_set_memory_region(struct kvm *kvm, int id, gpa_t gpa,
->   	}
->   
->   	for (i = 0; i < KVM_ADDRESS_SPACE_NUM; i++) {
-> -		struct kvm_userspace_memory_region m;
-> +		struct kvm_user_mem_region m;
->   
->   		m.slot = id | (i << 16);
->   		m.flags = 0;
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 32f259fa5801..739a7562a1f3 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -44,6 +44,7 @@
->   
->   #include <asm/kvm_host.h>
->   #include <linux/kvm_dirty_ring.h>
-> +#include <linux/restrictedmem.h>
->   
->   #ifndef KVM_MAX_VCPU_IDS
->   #define KVM_MAX_VCPU_IDS KVM_MAX_VCPUS
-> @@ -575,8 +576,16 @@ struct kvm_memory_slot {
->   	u32 flags;
->   	short id;
->   	u16 as_id;
-> +	struct file *restricted_file;
-> +	loff_t restricted_offset;
-> +	struct restrictedmem_notifier notifier;
->   };
->   
-> +static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
-> +{
-> +	return slot && (slot->flags & KVM_MEM_PRIVATE);
-> +}
-> +
+make vm-build-freebsd J=8 TARGET_LIST=x86_64-softmmu \
+      BUILD_TARGET=check-build DEBUG=1 \
+      EXTRA_CONFIGURE_OPTS="--enable-werror"
 
-We can introduce this function in patch 6 when it's first used.
-
-
+  HTH,
+   Thomas
 
 
