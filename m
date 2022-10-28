@@ -2,49 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566F4611114
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 14:20:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19490611130
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 14:23:26 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooOJc-0002Mr-2c; Fri, 28 Oct 2022 08:18:24 -0400
+	id 1ooONG-0004kn-6S; Fri, 28 Oct 2022 08:22:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ooOJX-0002Hr-1o; Fri, 28 Oct 2022 08:18:19 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1ooOM6-0004B9-Lm
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:21:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ooOJU-0001fn-5u; Fri, 28 Oct 2022 08:18:18 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3380575A135;
- Fri, 28 Oct 2022 14:18:10 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id D0B8975A0FE; Fri, 28 Oct 2022 14:18:09 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id CF25474638A;
- Fri, 28 Oct 2022 14:18:09 +0200 (CEST)
-Date: Fri, 28 Oct 2022 14:18:09 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v4 16/19] mac_newworld: Add machine types for different
- mac99 configs
-In-Reply-To: <948ef9f2-452f-9c0a-11e1-4dcee3bac3ff@ilande.co.uk>
-Message-ID: <3f919172-4259-31a4-28ef-f87812238a21@eik.bme.hu>
-References: <cover.1666715145.git.balaton@eik.bme.hu>
- <7114fc8a10d7359f354a7dbee364a520dcf362df.1666715145.git.balaton@eik.bme.hu>
- <948ef9f2-452f-9c0a-11e1-4dcee3bac3ff@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1ooOM3-00025i-VV
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:20:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666959655;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+TKRipTQRl8NmvRYFRfYEL5gehQpA4HbXLcm/EDvXMA=;
+ b=I5V5CdUVCTkeJ6TB/gWg4jivMTJh/bo3blDInTxp/mknNgah1qb6MYBqshiSqSEXeT1u7+
+ O0/2m/IPAx1JNizc9rIxYQiBTmjxtqcJuGBoEIiUWseffsHtpJ+5w9P7TLSpR3cBm1zzXV
+ gWxI4CKoBWcHR65+Wbr/U/uzBwZwMkI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-613--BVUKsSLMRibqmRx_4kgbg-1; Fri, 28 Oct 2022 08:20:52 -0400
+X-MC-Unique: -BVUKsSLMRibqmRx_4kgbg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B4B0811E75;
+ Fri, 28 Oct 2022 12:20:51 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3789140C206B;
+ Fri, 28 Oct 2022 12:20:51 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Aarushi Mehta <mehta.aaru20@gmail.com>,
+ Julia Suvorova <jusual@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: [PATCH v3 0/3]  AioContext removal: LinuxAioState and ThreadPool
+Date: Fri, 28 Oct 2022 08:20:45 -0400
+Message-Id: <20221028122048.3101120-1-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,171 +79,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 28 Oct 2022, Mark Cave-Ayland wrote:
-> On 25/10/2022 17:44, BALATON Zoltan wrote:
->> The mac99 machine emulates different machines depending on machine
->> properties or even if it is run as qemu-system-ppc64 or
->> qemu-system-ppc. This is very confusing for users and many hours were
->> lost trying to explain it or finding out why commands users came up
->> with are not working as expected. (E.g. Windows users might think
->> qemu-system-ppc64 is just the 64 bit version of qemu-system-ppc and
->> then fail to boot a 32 bit OS with -M mac99 trying to follow an
->> example that had qemu-system-ppc.) To avoid such confusion, add
->> explicit machine types for the different configs which will work the
->> same with both qemu-system-ppc and qemu-system-ppc64 and also make the
->> command line clearer for new users.
->
-> What was the outcome of the discussion re: having separate machines for 
-> 32-bit and 64-bit PPC targets? My understanding is the issue here was 
-> deciding what to do, rather than actually making the code changes.
+Just remove some AioContext lock in LinuxAioState and ThreadPool.
+Not related to anything specific, so I decided to send it as
+a separate patch.
 
-Who do you think will or should decide about this? There are about 3 
-people who care about Mac emulation on this list: you, Howard and me. You 
-already have my and Howard's vote to introduce these machines types. Who 
-else should vote or decide on this? Please apply this patch now and if it 
-causes problem it can still be dropped duting the freeze but if you don't 
-apply it now it can't get into before next spring.
+These patches are taken from Paolo's old draft series.
 
-> Also what was your motivation for choosing the machine names? I see you've 
-> used powerbook for via=pmu-adb, but I think quite a few people use pmu-adb 
-> for older OS X server hardware. At the very least some pointers to reference 
-> device trees and some rationale behind the decision is needed for review.
+---
+v3:
+* remove qemu_coroutine_enter_if_inactive
 
-See my reply to Howard's message with some more info and links. My 
-immediate motivation was that we've lost about two days when somobody 
-contacted me about VGA pass through sending logs about all kinds of 
-failures he got. After many logs I've noticed that he was using 
-qemu-system-ppc64 -M mac99,via=pmu thinking that on 64bit host that's the 
-executable he should use. Unfortunately the commands were not shared just 
-the logs so this took a while to notice. Also if you look at the forum 
-Howard runs you can see this problem is coming up frequently and I think 
-the've also lost countless hours due to this. It's about time to put an 
-end on it and stop wasting othet's time. As for The machines, the powermac 
-ones are straight forward as those are closest to what we emulate for G4 
-and G5 Mac. I've chosen the powerbook becuase that's the only machine I 
-know that had PMU and ADB but If someone knows a better machine we can 
-change this (even as bug fix during the freeze). Here's some info on this 
-powerbook: https://ppc.0penbsd.narkive.com/s49Kcx1u/x-on-powerbook-g4
+v2:
+* assertion in thread_pool
+* remove useless BlockDriverState * param in patch 1 and 2
+* io_uring cleaned too
 
-Regards,
-BALATON Zoltan
+Emanuele Giuseppe Esposito (2):
+  io_uring: use LuringState from the running thread
+  thread-pool: use ThreadPool from the running thread
 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>   hw/ppc/mac_newworld.c | 94 +++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 94 insertions(+)
->> 
->> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
->> index bcd6566ead..7321ac925e 100644
->> --- a/hw/ppc/mac_newworld.c
->> +++ b/hw/ppc/mac_newworld.c
->> @@ -649,9 +649,103 @@ static const TypeInfo core99_machine_info = {
->>       },
->>   };
->>   +static void powermac3_1_machine_class_init(ObjectClass *oc, void *data)
->> +{
->> +    MachineClass *mc = MACHINE_CLASS(oc);
->> +
->> +    core99_machine_class_init(oc, data);
->> +    mc->desc = "Apple Power Mac G4 AGP (Sawtooth)";
->> +    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("7400_v2.9");
->> +}
->> +
->> +static void powermac3_1_instance_init(Object *obj)
->> +{
->> +    Core99MachineState *cms = CORE99_MACHINE(obj);
->> +
->> +    cms->via_config = CORE99_VIA_CONFIG_PMU;
->> +    return;
->> +}
->> +
->> +static const TypeInfo powermac3_1_machine_info = {
->> +    .name          = MACHINE_TYPE_NAME("powermac3_1"),
->> +    .parent        = TYPE_MACHINE,
->> +    .class_init    = powermac3_1_machine_class_init,
->> +    .instance_init = powermac3_1_instance_init,
->> +    .instance_size = sizeof(Core99MachineState),
->> +    .interfaces = (InterfaceInfo[]) {
->> +        { TYPE_FW_PATH_PROVIDER },
->> +        { }
->> +    },
->> +};
->> +
->> +static void powerbook3_2_machine_class_init(ObjectClass *oc, void *data)
->> +{
->> +    MachineClass *mc = MACHINE_CLASS(oc);
->> +
->> +    core99_machine_class_init(oc, data);
->> +    mc->desc = "Apple PowerBook G4 Titanium (Mercury)";
->> +    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("7400_v2.9");
->> +}
->> +
->> +static void powerbook3_2_instance_init(Object *obj)
->> +{
->> +    Core99MachineState *cms = CORE99_MACHINE(obj);
->> +
->> +    cms->via_config = CORE99_VIA_CONFIG_PMU_ADB;
->> +    return;
->> +}
->> +
->> +static const TypeInfo powerbook3_2_machine_info = {
->> +    .name          = MACHINE_TYPE_NAME("powerbook3_2"),
->> +    .parent        = TYPE_MACHINE,
->> +    .class_init    = powerbook3_2_machine_class_init,
->> +    .instance_init = powerbook3_2_instance_init,
->> +    .instance_size = sizeof(Core99MachineState),
->> +    .interfaces = (InterfaceInfo[]) {
->> +        { TYPE_FW_PATH_PROVIDER },
->> +        { }
->> +    },
->> +};
->> +
->> +#ifdef TARGET_PPC64
->> +static void powermac7_3_machine_class_init(ObjectClass *oc, void *data)
->> +{
->> +    MachineClass *mc = MACHINE_CLASS(oc);
->> +
->> +    core99_machine_class_init(oc, data);
->> +    mc->desc = "Apple Power Mac G5 (Niagara)";
->> +    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("970fx_v3.1");
->> +}
->> +
->> +static void powermac7_3_instance_init(Object *obj)
->> +{
->> +    Core99MachineState *cms = CORE99_MACHINE(obj);
->> +
->> +    cms->via_config = CORE99_VIA_CONFIG_PMU;
->> +    return;
->> +}
->> +
->> +static const TypeInfo powermac7_3_machine_info = {
->> +    .name          = MACHINE_TYPE_NAME("powermac7_3"),
->> +    .parent        = TYPE_MACHINE,
->> +    .class_init    = powermac7_3_machine_class_init,
->> +    .instance_init = powermac7_3_instance_init,
->> +    .instance_size = sizeof(Core99MachineState),
->> +    .interfaces = (InterfaceInfo[]) {
->> +        { TYPE_FW_PATH_PROVIDER },
->> +        { }
->> +    },
->> +};
->> +#endif
->> +
->>   static void mac_machine_register_types(void)
->>   {
->>       type_register_static(&core99_machine_info);
->> +    type_register_static(&powermac3_1_machine_info);
->> +    type_register_static(&powerbook3_2_machine_info);
->> +#ifdef TARGET_PPC64
->> +    type_register_static(&powermac7_3_machine_info);
->> +#endif
->>   }
->>     type_init(mac_machine_register_types)
->
->
-> ATB,
->
-> Mark.
->
->
+Paolo Bonzini (1):
+  linux-aio: use LinuxAioState from the running thread
+
+ block/file-posix.c      | 43 ++++++++++++++++-------------------------
+ block/file-win32.c      |  2 +-
+ block/io_uring.c        | 22 +++++++++++++--------
+ block/linux-aio.c       | 30 +++++++++++++++-------------
+ block/qcow2-threads.c   |  2 +-
+ include/block/aio.h     |  8 --------
+ include/block/raw-aio.h | 18 ++++++++---------
+ util/thread-pool.c      |  5 ++++-
+ 8 files changed, 62 insertions(+), 68 deletions(-)
+
+-- 
+2.31.1
+
 
