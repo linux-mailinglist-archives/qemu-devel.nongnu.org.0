@@ -2,52 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409C6610DCB
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 11:53:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFD7610DD6
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 11:54:03 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooM2p-0002LQ-Dq; Fri, 28 Oct 2022 05:52:55 -0400
+	id 1ooM3H-0002pj-EU; Fri, 28 Oct 2022 05:53:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ooM2n-0002FK-4O
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:52:53 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ooM30-0002dT-8Z
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:53:07 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ooM2l-0003gC-3d
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:52:52 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ooM2u-0003hg-JK
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:53:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666950767;
+ s=mimecast20190719; t=1666950779;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=jsnMo1BTAFLNRSWAGffrx7FiecP2TbAa+CrdQNoN2vM=;
- b=g612MLF4vIJKbpvbdV7TpszMRfBdo+5wJCBVbv5MqMdavRfXk9equo6BlKQHlrtUnwiN4O
- O9z/XihqY8QJBkcVVEjHzfeOAEs67gXCul+GhzrleD1nKKU4yDFu5XHVeZkGM6Yefsdf3S
- b5/xd/uVnDorjh/LR6erJio6Dmnt92w=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j3gDduIc20O9vTBOSRoOtd6j1cvdstiRNBrJm/t9Aik=;
+ b=gZu8hjJNggHOAwS70kdQ9SX/ZsOJK0GIb+L+LtvGpBEAg26pgoXhqJ7ecQxB/24twCuo9H
+ iux9pTPMXEA9x9MtKQFfGKUmM2aqKwHTVTV5p2WfzCL0Z3VfhfQa+CbFKz9cItHwLrV3y3
+ qUMyj1xo9bscHSzziU20gKV/XAzBhfQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-195-jjky6a-9N1e3fa9kIetzsw-1; Fri, 28 Oct 2022 05:52:43 -0400
-X-MC-Unique: jjky6a-9N1e3fa9kIetzsw-1
+ us-mta-609-_QWmWHfcMouM2W9pr0LbuQ-1; Fri, 28 Oct 2022 05:52:56 -0400
+X-MC-Unique: _QWmWHfcMouM2W9pr0LbuQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFC6729AB3EB;
- Fri, 28 Oct 2022 09:52:32 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35E2E8027EA;
+ Fri, 28 Oct 2022 09:52:46 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.194.241])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB06C1415102;
- Fri, 28 Oct 2022 09:52:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF1731415117;
+ Fri, 28 Oct 2022 09:52:32 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Igor Mammedov <imammedo@redhat.com>,
  Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Stefan Weil <sw@weilnetz.de>, David Hildenbrand <david@redhat.com>
-Subject: [GIT PULL 0/8] Host Memory Backends and Memory devices patches
-Date: Fri, 28 Oct 2022 11:52:17 +0200
-Message-Id: <20221028095225.86118-1-david@redhat.com>
+ Stefan Weil <sw@weilnetz.de>, David Hildenbrand <david@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@amd.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [GIT PULL 1/8] hw/mem/nvdimm: fix error message for 'unarmed' flag
+Date: Fri, 28 Oct 2022 11:52:18 +0200
+Message-Id: <20221028095225.86118-2-david@redhat.com>
+In-Reply-To: <20221028095225.86118-1-david@redhat.com>
+References: <20221028095225.86118-1-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -76,60 +82,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 0529245488865038344d64fff7ee05864d3d17f6:
+From: Julia Suvorova <jusual@redhat.com>
 
-  Merge tag 'pull-target-arm-20221020' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-10-20 14:36:12 -0400)
+In the ACPI specification [1], the 'unarmed' bit is set when a device
+cannot accept a persistent write. This means that when a memdev is
+read-only, the 'unarmed' flag must be turned on. The logic is correct,
+just changing the error message.
 
-are available in the Git repository at:
+[1] ACPI NFIT NVDIMM Region Mapping Structure "NVDIMM State Flags" Bit 3
 
-  https://github.com/davidhildenbrand/qemu.git tags/mem-2022-10-28
+Fixes: dbd730e859 ("nvdimm: check -object memory-backend-file, readonly=on option")
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Pankaj Gupta <pankaj.gupta@amd.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Acked-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20221023195812.15523-1-jusual@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ hw/mem/nvdimm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-for you to fetch changes up to bd77c30df984faefa85e6a402939b485d6e05f05:
-
-  vl: Allow ThreadContext objects to be created before the sandbox option (2022-10-27 11:01:09 +0200)
-
-----------------------------------------------------------------
-Hi,
-
-"Host Memory Backends" and "Memory devices" queue ("mem"):
-- Fix NVDIMM error message
-- Add ThreadContext user-creatable object and wire it up for NUMA-aware
-  hostmem preallocation
-
-----------------------------------------------------------------
-David Hildenbrand (7):
-      util: Cleanup and rename os_mem_prealloc()
-      util: Introduce qemu_thread_set_affinity() and qemu_thread_get_affinity()
-      util: Introduce ThreadContext user-creatable object
-      util: Add write-only "node-affinity" property for ThreadContext
-      util: Make qemu_prealloc_mem() optionally consume a ThreadContext
-      hostmem: Allow for specifying a ThreadContext for preallocation
-      vl: Allow ThreadContext objects to be created before the sandbox option
-
-Julia Suvorova (1):
-      hw/mem/nvdimm: fix error message for 'unarmed' flag
-
- backends/hostmem.c            |  13 +-
- hw/mem/nvdimm.c               |   2 +-
- hw/virtio/virtio-mem.c        |   2 +-
- include/qemu/osdep.h          |  19 ++-
- include/qemu/thread-context.h |  57 +++++++
- include/qemu/thread.h         |   4 +
- include/sysemu/hostmem.h      |   2 +
- meson.build                   |  16 ++
- qapi/qom.json                 |  28 ++++
- softmmu/cpus.c                |   2 +-
- softmmu/vl.c                  |  36 ++++-
- util/meson.build              |   1 +
- util/oslib-posix.c            |  39 +++--
- util/oslib-win32.c            |   8 +-
- util/qemu-thread-posix.c      |  70 ++++++++
- util/qemu-thread-win32.c      |  12 ++
- util/thread-context.c         | 362 ++++++++++++++++++++++++++++++++++++++++++
- 17 files changed, 642 insertions(+), 31 deletions(-)
- create mode 100644 include/qemu/thread-context.h
- create mode 100644 util/thread-context.c
-
+diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+index 7c7d777781..31080c22c9 100644
+--- a/hw/mem/nvdimm.c
++++ b/hw/mem/nvdimm.c
+@@ -149,7 +149,7 @@ static void nvdimm_prepare_memory_region(NVDIMMDevice *nvdimm, Error **errp)
+     if (!nvdimm->unarmed && memory_region_is_rom(mr)) {
+         HostMemoryBackend *hostmem = dimm->hostmem;
+ 
+-        error_setg(errp, "'unarmed' property must be off since memdev %s "
++        error_setg(errp, "'unarmed' property must be 'on' since memdev %s "
+                    "is read-only",
+                    object_get_canonical_path_component(OBJECT(hostmem)));
+         return;
 -- 
 2.37.3
 
