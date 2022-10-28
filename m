@@ -2,71 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF3C61112A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 14:22:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62079611129
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 14:22:42 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooONA-0004dC-Ss; Fri, 28 Oct 2022 08:22:04 -0400
+	id 1ooONJ-0004o8-4g; Fri, 28 Oct 2022 08:22:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ooOME-0004FF-AW
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:21:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ooOMG-0004Fb-4N; Fri, 28 Oct 2022 08:21:11 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1ooOM6-000262-9D
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:20:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666959656;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NLcp73qS3RmgNAXILQcYi1WrtOmOr7UzTAs5jc0u+ro=;
- b=SsUfS9L65b10qvvFNAR5RfRrb+trNV2VeUNaF85Q7xsh0TbINh8NKdY5e4Iy8eEzTo6Xl4
- ONTl9x9OV+z7d2D/TaKGqkBeE49x0kJZbO5hOOh7pNR1KG7ahHAFXrVhF26UJdltkuLlWA
- Jiv3eYAes2zxx74XYuodcFOyclmG7W8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-470-aCNEV_E6PzqhVnHmE1lQ-w-1; Fri, 28 Oct 2022 08:20:53 -0400
-X-MC-Unique: aCNEV_E6PzqhVnHmE1lQ-w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD3C129ABA36;
- Fri, 28 Oct 2022 12:20:52 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57C5140C206B;
- Fri, 28 Oct 2022 12:20:52 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Aarushi Mehta <mehta.aaru20@gmail.com>,
- Julia Suvorova <jusual@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v3 3/3] thread-pool: use ThreadPool from the running thread
-Date: Fri, 28 Oct 2022 08:20:48 -0400
-Message-Id: <20221028122048.3101120-4-eesposit@redhat.com>
-In-Reply-To: <20221028122048.3101120-1-eesposit@redhat.com>
-References: <20221028122048.3101120-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ooOMA-00026Q-2e; Fri, 28 Oct 2022 08:21:07 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 5771174638A;
+ Fri, 28 Oct 2022 14:20:58 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id E07C174633D; Fri, 28 Oct 2022 14:20:57 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id DF52574632B;
+ Fri, 28 Oct 2022 14:20:57 +0200 (CEST)
+Date: Fri, 28 Oct 2022 14:20:57 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH v4 19/19] mac_newworld: Document deprecation
+In-Reply-To: <72df99a7-3b11-c460-5b31-2b24da92b1ae@ilande.co.uk>
+Message-ID: <fef9ea11-e14-7d72-c7bc-3582e45b260@eik.bme.hu>
+References: <cover.1666715145.git.balaton@eik.bme.hu>
+ <7832e9b6d79c5243d21f54b0679f487c32d968dd.1666715145.git.balaton@eik.bme.hu>
+ <72df99a7-3b11-c460-5b31-2b24da92b1ae@ilande.co.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,163 +59,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use qemu_get_current_aio_context() where possible, since we always
-submit work to the current thread anyways.
+On Fri, 28 Oct 2022, Mark Cave-Ayland wrote:
+> On 25/10/2022 17:44, BALATON Zoltan wrote:
+>> Also update PowerMac family docs with some more recent info.
+>> 
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>   docs/about/deprecated.rst    |  7 +++++++
+>>   docs/system/ppc/powermac.rst | 12 ++++++++----
+>>   2 files changed, 15 insertions(+), 4 deletions(-)
+>> 
+>> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+>> index 93affe3669..07661af7fe 100644
+>> --- a/docs/about/deprecated.rst
+>> +++ b/docs/about/deprecated.rst
+>> @@ -248,6 +248,13 @@ These old machine types are quite neglected nowadays 
+>> and thus might have
+>>   various pitfalls with regards to live migration. Use a newer machine type
+>>   instead.
+>>   +``mac99`` variants other than the default qemu-system-ppc version (since 
+>> 7.2)
+>> +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+>> +
+>> +The ``mac99`` machine emulates different hardware depending on using
+>> +qemu-system-ppc64 or ``via`` property. To avoid confusion new machine
+>> +types has been added for these variants which are now preferred over
+>> +``mac99``.
+>>     Backend options
+>>   ---------------
+>> diff --git a/docs/system/ppc/powermac.rst b/docs/system/ppc/powermac.rst
+>> index 04334ba210..9a37e69b1b 100644
+>> --- a/docs/system/ppc/powermac.rst
+>> +++ b/docs/system/ppc/powermac.rst
+>> @@ -4,8 +4,12 @@ PowerMac family boards (``g3beige``, ``mac99``)
+>>   Use the executable ``qemu-system-ppc`` to simulate a complete PowerMac
+>>   PowerPC system.
+>>   -- ``g3beige``              Heathrow based PowerMAC
+>> -- ``mac99``                Mac99 based PowerMAC
+>> +- ``g3beige``           Heathrow based old world Power Macintosh G3
+>> +- ``mac99``             Core99 based generic PowerMac
+>> +- ``powermac3_1``       Power Mac G4 AGP (Sawtooth)
+>> +- ``powerbook3_2``      PowerBook G4 Titanium (Mercury)
+>> +- ``powermac7_3``       Power Mac G5 (Niagara) (only in 
+>> ``qemu-system-ppc64``)
+>> +
+>>     Supported devices
+>>   -----------------
+>> @@ -15,9 +19,9 @@ QEMU emulates the following PowerMac peripherals:
+>>    *  UniNorth or Grackle PCI Bridge
+>>    *  PCI VGA compatible card with VESA Bochs Extensions
+>>    *  2 PMAC IDE interfaces with hard disk and CD-ROM support
+>> - *  NE2000 PCI adapters
+>> + *  Sungem PCI network adapter
+>>    *  Non Volatile RAM
+>> - *  VIA-CUDA with ADB keyboard and mouse.
+>> + *  VIA-CUDA or VIA-PMU99 with ot without ADB or USB keyboard and mouse.
+>>       Missing devices
+>
+> Documentation updates are always useful, but until there is consensus as to 
+> how the 32-bit and 64-bit targets should be handled then I don't think we 
+> should go ahead with a potential compatibility break/deprecation until we 
+> have a clear path forward.
+>
+> Given that freeze is so close, I suggest leaving this for 7.2 and 
+> resurrecting the appropriate thread from earlier in the year at the start of 
+> the 8.0 development cycle.
 
-We want to also be sure that the thread submitting the work is
-the same as the one processing the pool, to avoid adding
-synchronization to the pool list.
+Please don't postpone patches because you were not able to review in time. 
+A better approach would be to merge these now and drop them during the 
+freeze if any problem that can't be fixed is found. The deprecation 
+process itself is also to allow backing off if this turns out to be a bad 
+idea so no need to wait for more votes now and postpone this further.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
----
- block/file-posix.c    | 21 ++++++++++-----------
- block/file-win32.c    |  2 +-
- block/qcow2-threads.c |  2 +-
- util/thread-pool.c    |  5 ++++-
- 4 files changed, 16 insertions(+), 14 deletions(-)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 3800dbd222..28f12b08c8 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2044,11 +2044,10 @@ out:
-     return result;
- }
- 
--static int coroutine_fn raw_thread_pool_submit(BlockDriverState *bs,
--                                               ThreadPoolFunc func, void *arg)
-+static int coroutine_fn raw_thread_pool_submit(ThreadPoolFunc func, void *arg)
- {
-     /* @bs can be NULL, bdrv_get_aio_context() returns the main context then */
--    ThreadPool *pool = aio_get_thread_pool(bdrv_get_aio_context(bs));
-+    ThreadPool *pool = aio_get_thread_pool(qemu_get_current_aio_context());
-     return thread_pool_submit_co(pool, func, arg);
- }
- 
-@@ -2116,7 +2115,7 @@ static int coroutine_fn raw_co_prw(BlockDriverState *bs, uint64_t offset,
-     };
- 
-     assert(qiov->size == bytes);
--    return raw_thread_pool_submit(bs, handle_aiocb_rw, &acb);
-+    return raw_thread_pool_submit(handle_aiocb_rw, &acb);
- }
- 
- static int coroutine_fn raw_co_preadv(BlockDriverState *bs, int64_t offset,
-@@ -2186,7 +2185,7 @@ static int coroutine_fn raw_co_flush_to_disk(BlockDriverState *bs)
-         return luring_co_submit(bs, s->fd, 0, NULL, QEMU_AIO_FLUSH);
-     }
- #endif
--    return raw_thread_pool_submit(bs, handle_aiocb_flush, &acb);
-+    return raw_thread_pool_submit(handle_aiocb_flush, &acb);
- }
- 
- static void raw_aio_attach_aio_context(BlockDriverState *bs,
-@@ -2248,7 +2247,7 @@ raw_regular_truncate(BlockDriverState *bs, int fd, int64_t offset,
-         },
-     };
- 
--    return raw_thread_pool_submit(bs, handle_aiocb_truncate, &acb);
-+    return raw_thread_pool_submit(handle_aiocb_truncate, &acb);
- }
- 
- static int coroutine_fn raw_co_truncate(BlockDriverState *bs, int64_t offset,
-@@ -2998,7 +2997,7 @@ raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int64_t bytes,
-         acb.aio_type |= QEMU_AIO_BLKDEV;
-     }
- 
--    ret = raw_thread_pool_submit(bs, handle_aiocb_discard, &acb);
-+    ret = raw_thread_pool_submit(handle_aiocb_discard, &acb);
-     raw_account_discard(s, bytes, ret);
-     return ret;
- }
-@@ -3073,7 +3072,7 @@ raw_do_pwrite_zeroes(BlockDriverState *bs, int64_t offset, int64_t bytes,
-         handler = handle_aiocb_write_zeroes;
-     }
- 
--    return raw_thread_pool_submit(bs, handler, &acb);
-+    return raw_thread_pool_submit(handler, &acb);
- }
- 
- static int coroutine_fn raw_co_pwrite_zeroes(
-@@ -3284,7 +3283,7 @@ static int coroutine_fn raw_co_copy_range_to(BlockDriverState *bs,
-         },
-     };
- 
--    return raw_thread_pool_submit(bs, handle_aiocb_copy_range, &acb);
-+    return raw_thread_pool_submit(handle_aiocb_copy_range, &acb);
- }
- 
- BlockDriver bdrv_file = {
-@@ -3614,7 +3613,7 @@ hdev_co_ioctl(BlockDriverState *bs, unsigned long int req, void *buf)
-         struct sg_io_hdr *io_hdr = buf;
-         if (io_hdr->cmdp[0] == PERSISTENT_RESERVE_OUT ||
-             io_hdr->cmdp[0] == PERSISTENT_RESERVE_IN) {
--            return pr_manager_execute(s->pr_mgr, bdrv_get_aio_context(bs),
-+            return pr_manager_execute(s->pr_mgr, qemu_get_current_aio_context(),
-                                       s->fd, io_hdr);
-         }
-     }
-@@ -3630,7 +3629,7 @@ hdev_co_ioctl(BlockDriverState *bs, unsigned long int req, void *buf)
-         },
-     };
- 
--    return raw_thread_pool_submit(bs, handle_aiocb_ioctl, &acb);
-+    return raw_thread_pool_submit(handle_aiocb_ioctl, &acb);
- }
- #endif /* linux */
- 
-diff --git a/block/file-win32.c b/block/file-win32.c
-index ec9d64d0e4..3d7f59a592 100644
---- a/block/file-win32.c
-+++ b/block/file-win32.c
-@@ -167,7 +167,7 @@ static BlockAIOCB *paio_submit(BlockDriverState *bs, HANDLE hfile,
-     acb->aio_offset = offset;
- 
-     trace_file_paio_submit(acb, opaque, offset, count, type);
--    pool = aio_get_thread_pool(bdrv_get_aio_context(bs));
-+    pool = aio_get_thread_pool(qemu_get_current_aio_context());
-     return thread_pool_submit_aio(pool, aio_worker, acb, cb, opaque);
- }
- 
-diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
-index 1914baf456..9e370acbb3 100644
---- a/block/qcow2-threads.c
-+++ b/block/qcow2-threads.c
-@@ -42,7 +42,7 @@ qcow2_co_process(BlockDriverState *bs, ThreadPoolFunc *func, void *arg)
- {
-     int ret;
-     BDRVQcow2State *s = bs->opaque;
--    ThreadPool *pool = aio_get_thread_pool(bdrv_get_aio_context(bs));
-+    ThreadPool *pool = aio_get_thread_pool(qemu_get_current_aio_context());
- 
-     qemu_co_mutex_lock(&s->lock);
-     while (s->nb_threads >= QCOW2_MAX_THREADS) {
-diff --git a/util/thread-pool.c b/util/thread-pool.c
-index 31113b5860..0e26687e97 100644
---- a/util/thread-pool.c
-+++ b/util/thread-pool.c
-@@ -48,7 +48,7 @@ struct ThreadPoolElement {
-     /* Access to this list is protected by lock.  */
-     QTAILQ_ENTRY(ThreadPoolElement) reqs;
- 
--    /* Access to this list is protected by the global mutex.  */
-+    /* This list is only written by the thread pool's mother thread.  */
-     QLIST_ENTRY(ThreadPoolElement) all;
- };
- 
-@@ -251,6 +251,9 @@ BlockAIOCB *thread_pool_submit_aio(ThreadPool *pool,
- {
-     ThreadPoolElement *req;
- 
-+    /* Assert that the thread submitting work is the same running the pool */
-+    assert(pool->ctx == qemu_get_current_aio_context());
-+
-     req = qemu_aio_get(&thread_pool_aiocb_info, NULL, cb, opaque);
-     req->func = func;
-     req->arg = arg;
--- 
-2.31.1
-
+Regards,
+BALATON Zoltan
 
