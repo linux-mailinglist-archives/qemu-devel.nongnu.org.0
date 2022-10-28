@@ -2,92 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B653B611262
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:10:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BCD5611286
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:19:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooP6w-00080F-LA; Fri, 28 Oct 2022 09:09:22 -0400
+	id 1ooPEz-0006cm-Rf; Fri, 28 Oct 2022 09:17:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooP6p-0007vP-BN
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:09:20 -0400
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1ooPEb-0006Uu-FH
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:17:18 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooP6m-000356-Tr
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:09:14 -0400
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1ooPEZ-0004YW-I0
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:17:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666962551;
+ s=mimecast20190719; t=1666963034;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fdmjUOJsdfzjM+cmOtrrwlf0YQoPw/QoAAGf/wOMRVE=;
- b=IBpf6lBOaQrKZImOcprYGBgssajC+lprNPGKDGAWTpXf/g/rnBHlyCeMiwOnFq65McGvX0
- +EbF2WFoqH9Py+IlEQz2+QGX3s0w4wW7v+uyjVRpWt5Q63+7MVPYmk6jpNeE7qyF3cQ3eS
- xKY+dluXfXv425+KLh0Z14qmN3Z3PxU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-308-CXzdyhrcPIu9-HF3rmj7XA-1; Fri, 28 Oct 2022 09:09:10 -0400
-X-MC-Unique: CXzdyhrcPIu9-HF3rmj7XA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m34-20020a05600c3b2200b003cf549cb32bso2356502wms.1
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 06:09:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fdmjUOJsdfzjM+cmOtrrwlf0YQoPw/QoAAGf/wOMRVE=;
- b=dXVY8cP/fJPiliU8d4bW9lfM47GDku79IPp+3yYO3LUI1RFPKCxl4+sPrp/76Jq4g4
- UFO6ubx2JOr4tUrfjmAU8NDsD2s2y/vf+Dlg+MAxp8DM5XodnC6JK+TPgmrdtfcBJxZX
- wJTlT5KMPi7Z2ES32naUrgkg9ZAS4EE0tlttQCfi/jJQZYE+q2ZE57njlJynCP6DSEZD
- xDpV9E2eXZm0jNWaLslB/WGXth0i1Etqnb1nF/5I1ZtD/lcvio6Hxupp8UWT3Y2QGSq+
- IMGpaD9BxvZ9vGTZ2p0QTbQJcqxGZTFCPOOSZF7EEACZxH3eVsXtchZQf6aywoVRSXG6
- jTFA==
-X-Gm-Message-State: ACrzQf27McP/ugAWxFiMhhXN23FeovNTWCNkdTfC8/2eqW88kiaBKCP5
- CV003Png1LGQnk6x0D17gqJY5+ke7J/ZQVnNO7aoP24roCimY+VrP1jf+CgnC576SnnJAmfi5IT
- dRZfQlbft+c+8OzE=
-X-Received: by 2002:a05:6000:1052:b0:236:6e8e:8403 with SMTP id
- c18-20020a056000105200b002366e8e8403mr18352004wrx.178.1666962549210; 
- Fri, 28 Oct 2022 06:09:09 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6MvKx2tmGN5q3Mkf+6W1egmGATQwCOMMwiA9W6Rlvv0UisTJGK/j+7EBwfkg8z3cYMeDccnA==
-X-Received: by 2002:a05:6000:1052:b0:236:6e8e:8403 with SMTP id
- c18-20020a056000105200b002366e8e8403mr18351972wrx.178.1666962548836; 
- Fri, 28 Oct 2022 06:09:08 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-177-14.web.vodafone.de.
- [109.43.177.14]) by smtp.gmail.com with ESMTPSA id
- z14-20020a5d654e000000b00226dba960b4sm3643950wrv.3.2022.10.28.06.09.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Oct 2022 06:09:08 -0700 (PDT)
-Message-ID: <552d9669-9db8-08e1-5931-644ec4c12c07@redhat.com>
-Date: Fri, 28 Oct 2022 15:09:06 +0200
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BFsjf3WN/U56cMeI/58uCwxW18d1K8/0mQR+BTkJKNg=;
+ b=VAJG4ugjl00dozORnJv1OWdb1IZUeSc05Kggr13shqwhIOHmIrL+J3ATlmldFFpFWAOUli
+ LlEqoDqprF+IwqVJ6emtLs50k+Qmkuv7MweHiKkB+W7H197XL7SlqC1HSJbIpC1q5cTh+I
+ ODJHunPmymZ2+gmq3/7oAjwu+ZkjhKw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-282-HincVAoTNtStx6Z6e34Wuw-1; Fri, 28 Oct 2022 09:17:13 -0400
+X-MC-Unique: HincVAoTNtStx6Z6e34Wuw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 882051C1A577;
+ Fri, 28 Oct 2022 13:16:57 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.39.193.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2DFBB4024A62;
+ Fri, 28 Oct 2022 13:16:35 +0000 (UTC)
+From: Alberto Faria <afaria@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Alberto Faria <afaria@redhat.com>
+Subject: [PATCH] block/blkio: Add virtio-blk-vfio-pci BlockDriver
+Date: Fri, 28 Oct 2022 14:16:35 +0100
+Message-Id: <20221028131635.710267-1-afaria@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v6 08/11] tests/qtest: libqos: Do not build virtio-9p
- unconditionally
-Content-Language: en-US
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Bin Meng <bin.meng@windriver.com>
-References: <20221028045736.679903-1-bin.meng@windriver.com>
- <20221028045736.679903-9-bin.meng@windriver.com> <5007365.dktPthMeyv@silver>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <5007365.dktPthMeyv@silver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,96 +75,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/10/2022 14.59, Christian Schoenebeck wrote:
-> On Friday, October 28, 2022 6:57:33 AM CEST Bin Meng wrote:
->> At present the virtio-9p related codes are built into libqos
->> unconditionally. Change to build them conditionally by testing
->> the 'virtfs' config option.
->>
->> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->>
->> ---
->>
->> Changes in v6:
->> - new patch: "test/qtest/libqos: meson.build: Do not build virtio-9p unconditionally"
->>
->>   tests/qtest/libqos/meson.build | 6 ++++--
->>   1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
->> index 113c80b4e4..32f028872c 100644
->> --- a/tests/qtest/libqos/meson.build
->> +++ b/tests/qtest/libqos/meson.build
->> @@ -33,8 +33,6 @@ libqos_srcs = files(
->>           'sdhci.c',
->>           'tpci200.c',
->>           'virtio.c',
->> -        'virtio-9p.c',
->> -        'virtio-9p-client.c',
->>           'virtio-balloon.c',
->>           'virtio-blk.c',
->>           'vhost-user-blk.c',
->> @@ -62,6 +60,10 @@ libqos_srcs = files(
->>           'x86_64_pc-machine.c',
->>   )
->>   
->> +if have_virtfs
->> +  libqos_srcs += files('virtio-9p.c', 'virtio-9p-client.c')
->> +endif
->> +
->>   libqos = static_library('qos', libqos_srcs + genh,
->>                           name_suffix: 'fa',
->>                           build_by_default: false)
->>
-> 
-> I wondered why this change would no longer execute the 9p tests here.
-> Apparently because it changes the order of tests being executed, i.e. 9p tests
-> would then be scheduled after:
-> 
->    # Start of vhost-user-blk-pci tests
->    # Start of vhost-user-blk-pci-tests tests
->    Environment variable QTEST_QEMU_STORAGE_DAEMON_BINARY required
->    [EXIT]
-> 
-> and I never cared about QEMU storage binary. Can we make a hack like the
-> following to not change the order of the tests?
-> 
-> diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
-> index 32f028872c..389bca9804 100644
-> --- a/tests/qtest/libqos/meson.build
-> +++ b/tests/qtest/libqos/meson.build
-> @@ -1,7 +1,13 @@
->   libqos_srcs = files(
->           '../libqtest.c',
->           '../libqmp.c',
-> +)
->   
-> +if have_virtfs
-> +  libqos_srcs += files('virtio-9p.c', 'virtio-9p-client.c')
-> +endif
-> +
-> +libqos_srcs += files(
->           'qgraph.c',
->           'qos_external.c',
->           'pci.c',
-> @@ -60,10 +66,6 @@ libqos_srcs = files(
->           'x86_64_pc-machine.c',
->   )
->   
-> -if have_virtfs
-> -  libqos_srcs += files('virtio-9p.c', 'virtio-9p-client.c')
-> -endif
-> -
->   libqos = static_library('qos', libqos_srcs + genh,
->                           name_suffix: 'fa',
->                           build_by_default: false)
-> 
-> Too ugly?
+libblkio 1.1.0 [1] introduces a virtio-blk-vfio-pci driver, which
+accesses a virtio-blk PCI device using VFIO. Add a corresponding
+BlockDriver.
 
-Looks a little bit ugly, indeed. What about marking the vhost-user-blk-pci 
-test as skipped instead of exiting? (i.e. use g_test_skip() instead of 
-exit()). Would that work for you?
+[1] https://gitlab.com/libblkio/libblkio/-/tree/v1.1.0
 
-  Thomas
+Signed-off-by: Alberto Faria <afaria@redhat.com>
+---
+
+This is dependent on a pending libblkio fix [2], so we may want to wait
+for a new libblkio release before queueing this.
+
+[2] https://gitlab.com/libblkio/libblkio/-/merge_requests/140
+
+ block/blkio.c        |  8 ++++++++
+ qapi/block-core.json | 18 ++++++++++++++++++
+ 2 files changed, 26 insertions(+)
+
+diff --git a/block/blkio.c b/block/blkio.c
+index 82f26eedd2..f55eb774b4 100644
+--- a/block/blkio.c
++++ b/block/blkio.c
+@@ -25,6 +25,7 @@
+  */
+ #define DRIVER_IO_URING "io_uring"
+ #define DRIVER_NVME_IO_URING "nvme-io_uring"
++#define DRIVER_VIRTIO_BLK_VFIO_PCI "virtio-blk-vfio-pci"
+ #define DRIVER_VIRTIO_BLK_VHOST_USER "virtio-blk-vhost-user"
+ #define DRIVER_VIRTIO_BLK_VHOST_VDPA "virtio-blk-vhost-vdpa"
+ 
+@@ -704,6 +705,8 @@ static int blkio_file_open(BlockDriverState *bs, QDict *options, int flags,
+         ret = blkio_io_uring_open(bs, options, flags, errp);
+     } else if (strcmp(blkio_driver, DRIVER_NVME_IO_URING) == 0) {
+         ret = blkio_nvme_io_uring(bs, options, flags, errp);
++    } else if (strcmp(blkio_driver, DRIVER_VIRTIO_BLK_VFIO_PCI) == 0) {
++        ret = blkio_virtio_blk_common_open(bs, options, flags, errp);
+     } else if (strcmp(blkio_driver, DRIVER_VIRTIO_BLK_VHOST_USER) == 0) {
+         ret = blkio_virtio_blk_common_open(bs, options, flags, errp);
+     } else if (strcmp(blkio_driver, DRIVER_VIRTIO_BLK_VHOST_VDPA) == 0) {
+@@ -989,6 +992,10 @@ static BlockDriver bdrv_nvme_io_uring = BLKIO_DRIVER(
+     .bdrv_needs_filename = true,
+ );
+ 
++static BlockDriver bdrv_virtio_blk_vfio_pci = BLKIO_DRIVER(
++    DRIVER_VIRTIO_BLK_VFIO_PCI
++);
++
+ static BlockDriver bdrv_virtio_blk_vhost_user = BLKIO_DRIVER(
+     DRIVER_VIRTIO_BLK_VHOST_USER
+ );
+@@ -1001,6 +1008,7 @@ static void bdrv_blkio_init(void)
+ {
+     bdrv_register(&bdrv_io_uring);
+     bdrv_register(&bdrv_nvme_io_uring);
++    bdrv_register(&bdrv_virtio_blk_vfio_pci);
+     bdrv_register(&bdrv_virtio_blk_vhost_user);
+     bdrv_register(&bdrv_virtio_blk_vhost_vdpa);
+ }
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index cb5079e645..81bbb0b893 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2960,6 +2960,7 @@
+             'raw', 'rbd',
+             { 'name': 'replication', 'if': 'CONFIG_REPLICATION' },
+             'ssh', 'throttle', 'vdi', 'vhdx',
++            { 'name': 'virtio-blk-vfio-pci', 'if': 'CONFIG_BLKIO' },
+             { 'name': 'virtio-blk-vhost-user', 'if': 'CONFIG_BLKIO' },
+             { 'name': 'virtio-blk-vhost-vdpa', 'if': 'CONFIG_BLKIO' },
+             'vmdk', 'vpc', 'vvfat' ] }
+@@ -3711,6 +3712,20 @@
+   'data': { 'filename': 'str' },
+   'if': 'CONFIG_BLKIO' }
+ 
++##
++# @BlockdevOptionsVirtioBlkVfioPci:
++#
++# Driver specific block device options for the virtio-blk-vfio-pci backend.
++#
++# @path: path to the PCI device's sysfs directory (e.g.
++#        /sys/bus/pci/devices/0000:00:01.0).
++#
++# Since: 7.2
++##
++{ 'struct': 'BlockdevOptionsVirtioBlkVfioPci',
++  'data': { 'path': 'str' },
++  'if': 'CONFIG_BLKIO' }
++
+ ##
+ # @BlockdevOptionsVirtioBlkVhostUser:
+ #
+@@ -4390,6 +4405,9 @@
+       'throttle':   'BlockdevOptionsThrottle',
+       'vdi':        'BlockdevOptionsGenericFormat',
+       'vhdx':       'BlockdevOptionsGenericFormat',
++      'virtio-blk-vfio-pci':
++                    { 'type': 'BlockdevOptionsVirtioBlkVfioPci',
++                      'if': 'CONFIG_BLKIO' },
+       'virtio-blk-vhost-user':
+                     { 'type': 'BlockdevOptionsVirtioBlkVhostUser',
+                       'if': 'CONFIG_BLKIO' },
+-- 
+2.37.3
 
 
