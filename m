@@ -2,79 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A40F610ED0
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 12:41:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84CB4610ED4
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 12:42:17 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooMmp-0003TU-5Q; Fri, 28 Oct 2022 06:40:27 -0400
+	id 1ooMoW-0000SM-1n; Fri, 28 Oct 2022 06:42:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooMmm-0003N4-Td
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:40:24 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ooMml-00028Q-4V
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:40:24 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- 14-20020a05600c228e00b003cf4eaef74eso3307215wmf.0
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 03:40:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BywBf/bgc/hZGC5++IG8Y+SLbPMcq9gMNduQAimcqVg=;
- b=OUIUUZlEM487zx3hX1RUvS/qtqAFkROT4JdIBwln4ht9vrH8UTnKhfBfw5hGiZlYfB
- 85yTZVNDkAL92w/68BB4kLSQI2drLZGCWUtfGNaE21ot5z6xIm4Ihx1UPPQcqZEtOQdl
- OscAy8CVCKbRZqQQiZ2aRz5xQ08sDfOoTPxAU+lISXAs5YWBDgvhK6adWFeYU0Y1YC20
- X5/ZeKz/b2H1ATDESoTLSf0sfqBtYU1tBkW0FTXNp5SmbMBOfz6hP5SsMJNcNUYrPl+S
- K8y4y22IP3Cz8N2Ir0YeZC706d0OrbgZrEAVTtcPLrAV+lZuQKV9LYhAqcLlRzu70bG8
- Unvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BywBf/bgc/hZGC5++IG8Y+SLbPMcq9gMNduQAimcqVg=;
- b=MR+jqK/YkkVqiysMiKGLC7j2LlXPBNhbl/pKCPjIXXtr0UiqCtKM2C22oayd3ubBwu
- o4IIoYGF73DeKz4X+k2Iwwog9gHvflVPlPCtoEcmO4NkDEo0Hrn4G4setFUiNCPWuoCp
- 90jLgx53GZj4qfMVd4o8kqFWJ+VKyC4LNcNpvQAELh49Z1R+zUrtA5VHmVip43V/CDEd
- LGCD2s3V+LOqSmtoKHItEUN99mOW8+NkVzgr3qb+xZQWdWJtMEczkTNuIGTtVkBtxaP8
- HSQV/2YidRk9Qq031NvhvayfJ0x6ry0PHYlghYXzM2K23hF/vDgt4sADgAZRNv5+ArSx
- hWwg==
-X-Gm-Message-State: ACrzQf0CPU7LRCqlsZfoTQhLg/xexaObdB4FBbXGL1xalE/zZmU6i3pY
- nFlufsxauNgGG6wDtMwGVTxlfA==
-X-Google-Smtp-Source: AMsMyM7gDmMPUOLuNbuYsAs9RDw+3FapKE+opL6Lg/UoGSVGWaqjx9Oc1dJlakzgTKyaenxBxo+IXA==
-X-Received: by 2002:a05:600c:1553:b0:3c6:e12d:6f32 with SMTP id
- f19-20020a05600c155300b003c6e12d6f32mr8679856wmg.109.1666953621791; 
- Fri, 28 Oct 2022 03:40:21 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- m13-20020a05600c4f4d00b003b95ed78275sm4432037wmq.20.2022.10.28.03.40.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Oct 2022 03:40:21 -0700 (PDT)
-Message-ID: <cd29f022-14df-94c3-5dbd-1f415b132df2@linaro.org>
-Date: Fri, 28 Oct 2022 12:40:20 +0200
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1ooMoT-0000BI-Cm
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:42:09 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1ooMoR-0002bY-CF
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:42:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=MQsdHA5lTLRoWaGb5iSKD8+SBNii+sKXJcN6cHxZCMg=; b=B83Jut/oBAvfCYD1Fu1FoJclex
+ +2tHv+bpCzKNOIpt9bUDfOXCBRqvAS4XCtd8IoA6Zm4Ij9eRY2lSdggtNb1eacoaocgIrXX3SF0pU
+ ldI3+JUnFnsr0HbrVW0Uyb3ubtwn8Hd9/dGScnZknsTR8IZHDiD9Jsmb1Hwhmx+1wLHDZfuE5+x5B
+ uUiPn+PY0W6MiF+Tk8VZgOhcsfkM49+LbNVUfY3GCnNjf1gyh3PIYPrIf44+e0vykZO4E5tfqKuxk
+ 1YtEvYxBIsjFOJJSRol5jy8vHkuX64cTCpWH0qQoIB3Dz2+qFIr8l1mgwdD0+SHuQq0s4pjoWf70E
+ QHbD6iv55EW6XZ4eq1G+ZUm0iVE4FJDELfl/IIeGoaSCJDLq4PH8QMpRM+dIxqyf+VEaUKvg+f5pC
+ qAVC1OstzX2Vd/I89vtx8dK1is2RDNfVyFP8dzo78vMEVUkZgUDUcRf7LVfovDggQgHx2n83Q1Zf0
+ zDIPfESD6Ufi/gK2dlABW4W9//pAPTqV0w/+ml+NVF+NKaYVPNJ832URxgBtM/2YhfF3Hulhouxwd
+ L0ogEp8woCWsWFhU0sK6cc2ecRwD3j87rXIc2QhhcmoPsaC3qoqKs7hV3XflJ2BTecwF9lVLRl6VX
+ ngmrQidriQgc3FX/R3al2FJQohuts5q+AWJBEn08s=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Linus Heckemann <git@sphalerite.org>, Bin Meng <bin.meng@windriver.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Warner Losh <imp@bsdimp.com>
+Subject: Re: [PULL 00/23] 9p queue 2022-10-24
+Date: Fri, 28 Oct 2022 12:40:54 +0200
+Message-ID: <2690108.PsDodiG1Zx@silver>
+In-Reply-To: <85b322d3-04c4-bbb5-f0cf-4be1cd73d671@redhat.com>
+References: <cover.1666608862.git.qemu_oss@crudebyte.com>
+ <11340963.ZY6gCF45se@silver>
+ <85b322d3-04c4-bbb5-f0cf-4be1cd73d671@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH 2/3] tcg/sparc64: Rename from tcg/sparc
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221017062445.563431-1-richard.henderson@linaro.org>
- <20221017062445.563431-3-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221017062445.563431-3-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,22 +71,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/10/22 08:24, Richard Henderson wrote:
-> Emphasize that we only support full 64-bit code generation.
+On Friday, October 28, 2022 9:07:17 AM CEST Thomas Huth wrote:
+> On 27/10/2022 22.42, Christian Schoenebeck wrote:
+> > On Thursday, October 27, 2022 7:37:07 PM CEST Stefan Hajnoczi wrote:
+> >> On Thu, 27 Oct 2022 at 12:38, Christian Schoenebeck
+> >> <qemu_oss@crudebyte.com> wrote:
+> >>>
+> >>> On Thursday, October 27, 2022 5:53:47 PM CEST Thomas Huth wrote:
+> >>>> On 24/10/2022 12.54, Christian Schoenebeck wrote:
+> >>>>> The following changes since commit 0529245488865038344d64fff7ee05864d3d17f6:
+> >>>>>
+> >>>>>     Merge tag 'pull-target-arm-20221020' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-10-20 14:36:12 -0400)
+> >>>>>
+> >>>>> are available in the Git repository at:
+> >>>>>
+> >>>>>     https://github.com/cschoenebeck/qemu.git tags/pull-9p-20221024
+> >>>>>
+> >>>>> for you to fetch changes up to 3ce77865bf813f313cf79c00fd951bfc95a50165:
+> >>>>>
+> >>>>>     tests/9p: remove unnecessary g_strdup() calls (2022-10-24 12:24:32 +0200)
+> >>>>>
+> >>>>> ----------------------------------------------------------------
+> >>>>> 9pfs: performance, Windows host prep, tests restructure
+> >>>>>
+> >>>>> * Highlight of this PR is Linus Heckemann's GHashTable patch which
+> >>>>>     brings massive general performance improvements of 9p server
+> >>>>>     somewhere between factor 6 .. 12.
+> >>>>>
+> >>>>> * Bin Meng's g_mkdir patch is a preparatory patch for upcoming
+> >>>>>     Windows host support of 9p server.
+> >>>>>
+> >>>>> * The rest of the patches in this PR are 9p test code restructuring
+> >>>>>     and refactoring changes to improve readability and to ease
+> >>>>>     maintenance of 9p test code on the long-term.
+> >>>>
+> >>>>    Hi Christian,
+> >>>>
+> >>>> I think this PR broke the FreeBSD CI jobs:
+> >>>>
+> >>>>    https://gitlab.com/qemu-project/qemu/-/jobs/3219611457#L3116
+> >>>>
+> >>>>    https://gitlab.com/qemu-project/qemu/-/jobs/3219611460#L3372
+> >>>>
+> >>>> Could you please have a look?
+> >>>>
+> >>>>    Thanks!
+> >>>>     Thomas
+> >>>
+> >>> I try, but will certainly take some days, especially as I currently don't have
+> >>> a BSD installation at hand to try the changes.
+> >>
+> >> QEMU has the automation to run FreeBSD builds locally (in a VM):
+> >> $ make vm-build-freebsd
+> >>
+> >> Not sure if that FreeBSD environment matches the one in Cirrus CI
+> >> though. If they are different then maybe it won't reproduce locally.
+> > 
+> > Something must be different, because e750a7ace492f0b450653d4ad368a77d6f660fb8
+> > compiles fine locally with `make vm-build-freebsd` and all tests pass, too.
+> > 
+> > Ideas?
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   meson.build                                 | 4 +---
->   tcg/{sparc => sparc64}/tcg-target-con-set.h | 0
->   tcg/{sparc => sparc64}/tcg-target-con-str.h | 0
->   tcg/{sparc => sparc64}/tcg-target.h         | 0
->   tcg/{sparc => sparc64}/tcg-target.c.inc     | 0
->   5 files changed, 1 insertion(+), 3 deletions(-)
->   rename tcg/{sparc => sparc64}/tcg-target-con-set.h (100%)
->   rename tcg/{sparc => sparc64}/tcg-target-con-str.h (100%)
->   rename tcg/{sparc => sparc64}/tcg-target.h (100%)
->   rename tcg/{sparc => sparc64}/tcg-target.c.inc (100%)
+> You've got to --enable-werror to make it fail, try something like this:
+> 
+> make vm-build-freebsd J=8 TARGET_LIST=x86_64-softmmu \
+>       BUILD_TARGET=check-build DEBUG=1 \
+>       EXTRA_CONFIGURE_OPTS="--enable-werror"
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+That was it, reproduced. Thanks Thomas!
+
+statfs is defined in <sys/mount.h>. I prepare a patch.
+
+Best regards,
+Christian Schoenebeck
+
 
 
