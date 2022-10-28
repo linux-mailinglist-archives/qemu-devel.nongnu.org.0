@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A69D61063A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 01:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6C9610703
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 02:56:19 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooC0T-0007RL-7m; Thu, 27 Oct 2022 19:09:49 -0400
+	id 1ooDdS-0000BF-KC; Thu, 27 Oct 2022 20:54:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ooC0R-0007RA-Qq; Thu, 27 Oct 2022 19:09:47 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ooC0P-0003kU-77; Thu, 27 Oct 2022 19:09:46 -0400
-Received: by mail-pf1-x436.google.com with SMTP id d10so3254299pfh.6;
- Thu, 27 Oct 2022 16:09:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=CpcmgDljznbEuECx79wDHdpCI1KBI6CJPnorIT788PI=;
- b=Qxc4oZ4r1UjLwATWpAJN5moOmbSS4LmLn1GG/mzrTcOtbEXCiCIJ0BAIwNyquo4owu
- haWTJMy/T+S2cDsy77q0RaBD/KUEPdhUAhs2jUjoBqU50HzvExYgVq/AW+uISE3Dz0nF
- Ncmtigl4Qn2y/vN0QhR0zr9GvbhxbUCLIm666+nsrqg7IL4umK/Yuq6mdL5n6pCkPr3K
- g+86rlLAuEVPUNYSIf8XXG/yu5WuNRFP/QCxpQwGdrH3SV8/rabSCBhy6JBOuCp65XQ7
- +oqzNXAWubZu/10GjEVeOrdVp8NCjvRccw2MyszK14RDy/lnVyP2R7WNuEnz59YUSezq
- pCaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CpcmgDljznbEuECx79wDHdpCI1KBI6CJPnorIT788PI=;
- b=MG5iRw1yDkOL6M1etgCrmApWFIn3Vwr8W4VQLJpJI2PfXmIDx7vQjXgYEEywuFLiky
- z/vlKmpWZJrFz/v7QKNh7sTQ8AzO3xxb/grTdyVY7q9hx0Ifk1TKBb6w+0MmgdbSAWOu
- Dfm+xRcax1eZCnCfY9/fdH6nJ98FXd5Sug//Znz+iwnYPQyVeJSbktV9BZtwU7zEm9e6
- Qm85RiDdNlu1+L2Jjff6D/EOhikwjSgf/JqY9duA6kZGuOHLfSlaDMO79xVZh3+7P1Xm
- AEBM58T2oi715Qu92RsILPE+GezWY61ZD5+1bJWZl9OGEkjiTAW8r7CHu2PCA62ken1j
- Treg==
-X-Gm-Message-State: ACrzQf088lttpaH4FMYz1WWON2Nsn6vL+Dn2b83vuCsCM415W8rvE2Y/
- AGeC7FPgaROCJEU0T0e5gXpgLMgSfQ8+Ev0gxpc=
-X-Google-Smtp-Source: AMsMyM6l4NVvM4cb6F0yxcvltauJzMNce23flJZDaM7Z6SBU9sbfK/duLYJJ3ZjDulUNic178ROaCM1rjAQ0cr80D5Q=
-X-Received: by 2002:a63:ce43:0:b0:45b:d6ed:6c2 with SMTP id
- r3-20020a63ce43000000b0045bd6ed06c2mr43870616pgi.406.1666912183127; Thu, 27
- Oct 2022 16:09:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
+ id 1ooDdP-0000Af-Oi
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 20:54:08 -0400
+Received: from mga06b.intel.com ([134.134.136.31] helo=mga06.intel.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lei4.wang@intel.com>)
+ id 1ooDdK-0001rN-DV
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 20:54:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1666918442; x=1698454442;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=JAYgZzK+bu1AiAMfBeUpAq7DFBdu1wIvTCA06315ArM=;
+ b=SS7zjgSR3JlP+ZhZyWgnBXEjqz89qxtmvYpxz9smt049Ya6zbjDrqc6m
+ 5F3i4kMVby7oDKI4nqVFRbkwDouxT8dmi1Q5g9pTHoUiQMLJCwceHtx/g
+ dJBuwVROJv2HEk8gACKXPdtQCTe1eS1GothWMjhnFJD3Z8vyAWp0+F8Cd
+ cJMo6pmnoEYx+HSaumU9427ylfAn48kD0xi8rqPdJ0ZE/NUxXHcTVqKGU
+ sC4T6u9gPRVtmTumL9AHP4xJK8+RMYmvyeEIoi+ZfyQ4o6xIdji6XHOS8
+ lTLi41thbmoYBeFGYFJkBs73ibRQrdizz5nL6vml7SBJluLIy82QaVhP3 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="370445802"
+X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="370445802"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2022 17:53:59 -0700
+X-IronPort-AV: E=McAfee;i="6500,9779,10513"; a="663833092"
+X-IronPort-AV: E=Sophos;i="5.95,219,1661842800"; d="scan'208";a="663833092"
+Received: from leiwang7-mobl.ccr.corp.intel.com (HELO [10.238.212.139])
+ ([10.238.212.139])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Oct 2022 17:53:57 -0700
+Message-ID: <ca7518d2-4715-3d21-ee51-2c21f5878b0f@intel.com>
+Date: Fri, 28 Oct 2022 08:53:55 +0800
 MIME-Version: 1.0
-References: <20221027054649.69228-1-mchitale@ventanamicro.com>
- <20221027054649.69228-3-mchitale@ventanamicro.com>
-In-Reply-To: <20221027054649.69228-3-mchitale@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 28 Oct 2022 09:09:16 +1000
-Message-ID: <CAKmqyKPVbujUa96C_8Lrk_EmZxTuheeQ0QUkRo4yzC1bnuRMgA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] target/riscv: Extend isa_ext_data for single
- letter extensions
-To: Mayuresh Chitale <mchitale@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=alistair23@gmail.com; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.4.0
+Subject: Re: [PATCH] i386/cpu: Adjust cpuid addresable id count to match the
+ spec
+Content-Language: en-US
+To: Ilya Oleinik <ilyaoleinik1@gmail.com>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, yang.zhong@intel.com, f4bug@amsat.org,
+ richard.henderson@linaro.org
+References: <20221010024934.2517-1-ilyaoleinik1@gmail.com>
+From: "Wang, Lei" <lei4.wang@intel.com>
+In-Reply-To: <20221010024934.2517-1-ilyaoleinik1@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=lei4.wang@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,108 +80,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 3:50 PM Mayuresh Chitale
-<mchitale@ventanamicro.com> wrote:
->
-> Currently the ISA string for a CPU is generated from two different
-> arrays, one for single letter extensions and another for multi letter
-> extensions. Add all the single letter extensions to the isa_ext_data
-> array and use it for generating the ISA string. Also drop 'P' and 'Q'
-> extensions from the list of single letter extensions as those are not
-> supported yet.
->
-> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 10/10/2022 10:49 AM, Ilya Oleinik wrote:
+> For EBX bits 23 - 16 in CPUID[01] Intel's manual states:
+> "
+> *   The nearest power-of-2 integer that is not smaller than EBX[23:16]
+>     is the number of unique initial APICIDs reserved for addressing
+>     different logical processors in a physical package. This field is
+>     only valid if CPUID.1.EDX.HTT[bit 28]= 1.
+> "
+> Ensure this condition is met.
+> 
+> Additionally, apply efb3934adf9ee7794db7e0ade9f576c634592891 to
+> non passthrough cache mode.
+> 
+> Signed-off-by: Ilya Oleinik <ilyaoleinik1@gmail.com>
 > ---
->  target/riscv/cpu.c | 41 +++++++++++++++++++++++------------------
->  1 file changed, 23 insertions(+), 18 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index e6d9c706bb..35320a8547 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -41,8 +41,6 @@
->                               (QEMU_VERSION_MICRO))
->  #define RISCV_CPU_MIMPID    RISCV_CPU_MARCHID
->
-> -static const char riscv_single_letter_exts[] = "IEMAFDQCPVH";
-> -
->  struct isa_ext_data {
->      const char *name;
->      bool multi_letter;
-> @@ -71,6 +69,13 @@ struct isa_ext_data {
->   *    extensions by an underscore.
->   */
->  static const struct isa_ext_data isa_edata_arr[] = {
-> +    ISA_EXT_DATA_ENTRY(i, false, PRIV_VERSION_1_10_0, ext_i),
-> +    ISA_EXT_DATA_ENTRY(e, false, PRIV_VERSION_1_10_0, ext_e),
-> +    ISA_EXT_DATA_ENTRY(m, false, PRIV_VERSION_1_10_0, ext_m),
-> +    ISA_EXT_DATA_ENTRY(a, false, PRIV_VERSION_1_10_0, ext_a),
-> +    ISA_EXT_DATA_ENTRY(f, false, PRIV_VERSION_1_10_0, ext_f),
-> +    ISA_EXT_DATA_ENTRY(d, false, PRIV_VERSION_1_10_0, ext_d),
-> +    ISA_EXT_DATA_ENTRY(c, false, PRIV_VERSION_1_10_0, ext_c),
->      ISA_EXT_DATA_ENTRY(h, false, PRIV_VERSION_1_12_0, ext_h),
->      ISA_EXT_DATA_ENTRY(v, false, PRIV_VERSION_1_12_0, ext_v),
->      ISA_EXT_DATA_ENTRY(zicsr, true, PRIV_VERSION_1_10_0, ext_icsr),
-> @@ -1182,16 +1187,23 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
->      device_class_set_props(dc, riscv_cpu_properties);
->  }
->
-> -static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
-> +static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str)
->  {
->      char *old = *isa_str;
->      char *new = *isa_str;
->      int i;
->
->      for (i = 0; i < ARRAY_SIZE(isa_edata_arr); i++) {
-> -        if (isa_edata_arr[i].multi_letter &&
-> -            isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
-> -            new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
-> +        if (isa_ext_is_enabled(cpu, &isa_edata_arr[i])) {
-> +            if (isa_edata_arr[i].multi_letter) {
-> +                if (cpu->cfg.short_isa_string) {
-> +                    continue;
-> +                }
-> +                new = g_strconcat(old, "_", isa_edata_arr[i].name, NULL);
-> +            } else {
-> +                new = g_strconcat(old, isa_edata_arr[i].name, NULL);
-> +            }
-> +
->              g_free(old);
->              old = new;
+>  target/i386/cpu.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index ad623d91e4..e793bcc03f 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -245,8 +245,8 @@ static void encode_cache_cpuid4(CPUCacheInfo *cache,
+>      *eax = CACHE_TYPE(cache->type) |
+>             CACHE_LEVEL(cache->level) |
+>             (cache->self_init ? CACHE_SELF_INIT_LEVEL : 0) |
+> -           ((num_cores - 1) << 26) |
+> -           ((num_apic_ids - 1) << 14);
+> +           ((pow2ceil(num_cores) - 1) << 26) |
+> +           ((pow2ceil(num_apic_ids) - 1) << 14);
+>  
+>      assert(cache->line_size > 0);
+>      assert(cache->partitions > 0);
+> @@ -5258,7 +5258,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
 >          }
-> @@ -1202,19 +1214,12 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
->
->  char *riscv_isa_string(RISCVCPU *cpu)
->  {
-> -    int i;
-> -    const size_t maxlen = sizeof("rv128") + sizeof(riscv_single_letter_exts);
-> +    const size_t maxlen = sizeof("rv128");
->      char *isa_str = g_new(char, maxlen);
-> -    char *p = isa_str + snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
-> -    for (i = 0; i < sizeof(riscv_single_letter_exts) - 1; i++) {
-> -        if (cpu->env.misa_ext & RV(riscv_single_letter_exts[i])) {
-> -            *p++ = qemu_tolower(riscv_single_letter_exts[i]);
-> -        }
-> -    }
-> -    *p = '\0';
-> -    if (!cpu->cfg.short_isa_string) {
-> -        riscv_isa_string_ext(cpu, &isa_str, maxlen);
-> -    }
-> +
-> +    snprintf(isa_str, maxlen, "rv%d", TARGET_LONG_BITS);
-> +    riscv_isa_string_ext(cpu, &isa_str);
-> +
->      return isa_str;
->  }
->
-> --
-> 2.34.1
->
->
+>          *edx = env->features[FEAT_1_EDX];
+>          if (cs->nr_cores * cs->nr_threads > 1) {
+> -            *ebx |= (cs->nr_cores * cs->nr_threads) << 16;
+> +            *ebx |= (pow2ceil(cs->nr_cores * cs->nr_threads)) << 16;
+>              *edx |= CPUID_HT;
+>          }
+>          if (!cpu->enable_pmu) {
+> @@ -5313,12 +5313,12 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>              switch (count) {
+>              case 0: /* L1 dcache info */
+>                  encode_cache_cpuid4(env->cache_info_cpuid4.l1d_cache,
+> -                                    1, cs->nr_cores,
+
+Hi Ilya,
+
+Just curious why the origin implementation is hard-coded to 1 and is there any
+bug reported related to this?
+
+> +                                    cs->nr_threads, cs->nr_cores,
+>                                      eax, ebx, ecx, edx);
+>                  break;
+>              case 1: /* L1 icache info */
+>                  encode_cache_cpuid4(env->cache_info_cpuid4.l1i_cache,
+> -                                    1, cs->nr_cores,
+> +                                    cs->nr_threads, cs->nr_cores,
+>                                      eax, ebx, ecx, edx);
+>                  break;
+>              case 2: /* L2 cache info */
 
