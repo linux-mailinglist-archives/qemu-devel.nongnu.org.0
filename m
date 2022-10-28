@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC8596117D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F21146117D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:44:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooSRF-0002xC-JH; Fri, 28 Oct 2022 12:42:33 -0400
+	id 1ooSRJ-0003Rp-20; Fri, 28 Oct 2022 12:42:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSQR-0004H4-F6; Fri, 28 Oct 2022 12:41:43 -0400
-Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31])
+ id 1ooSQX-000529-9Y; Fri, 28 Oct 2022 12:41:50 -0400
+Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSQP-00005d-Mp; Fri, 28 Oct 2022 12:41:43 -0400
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-13b23e29e36so6863537fac.8; 
- Fri, 28 Oct 2022 09:41:40 -0700 (PDT)
+ id 1ooSQV-00008V-J9; Fri, 28 Oct 2022 12:41:49 -0400
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-13c569e5ff5so6495136fac.6; 
+ Fri, 28 Oct 2022 09:41:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uQmpnQvJ7YrSNMk5mDEN0ClTw1ucQGsffcr3dTyJOBs=;
- b=JM3WakDnBlTt1f5UK0wanKf6yMrCcE/MG122ul2fUaxntGkJJeLbNyYKqRci6fj/WT
- ZC7ogl86F73IcguxfsaGnSOVBMdVjI/Aa1c9p9uuaf8PS4XkQvDeDOAFfvXnqatFPbPE
- oAMyX7veyUOZl7unPPkBeCmC6cBxM5k8C8NpLp9Cis1GaFQAtEkP3dk4nnv6+wQdcj1J
- QKGW3W5I3X8KOS8KjSx3wZfsRUe4VpChJ+j0SAA78z4t2cJRwAfIReP49gj85QiYHX/3
- MHd5nSvRvRtJHQ73ltESWnuhuUKMIOm7h8V5GlKh5z5zDIuRabHMeZNedTf3t23YOwHS
- ZAQA==
+ bh=JCiYxYGyadO9LoYU4Gl96bRgSZ9v9BV4bKo5zyEXk2g=;
+ b=WD4Kreld1TTybKEuksb/mvly2tw0K5Tm1D030Ly5FTxw8xcErrdNUicHtPe7yBl1HU
+ JfYMyT/s/FveVhjp1ZxQKKx5w94OwPQ/35WLE2RpAVed+g0yE4ITwzngmFPwfGghQm0/
+ JR056nwTdhPvOYM/3lerKhLetoUfOE03kUXuf32xqjfW6bAKoQZYLVxgr0mQBAlFscBw
+ mPzZVHOsldUqGMh1r51O/zXfIEkk5TxPEpkcKlWIy+hnw4ITjip9PZKYSRpcTaYY8009
+ 6n8cYP5mp/JPNNoT3xiubO34uvoLc80TNfFTbXOKFWworsuVTxT+PwwvtaToSy0m45JQ
+ DKjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uQmpnQvJ7YrSNMk5mDEN0ClTw1ucQGsffcr3dTyJOBs=;
- b=EyCHVO6T2yhRpuJNYGILS7DiOD/vHNY4lusXZ8EqmrNV0sKrhDAu4XnxcUPU6Sq6s9
- FZKNl5Sg4jAxSAdRAYxzH7OP24TiOr44VBqioMbK1LyF5dp08OACwppgwIjjbH27U6Pf
- NUKO09OxG2Hp98HaerLYGjvesEBTYBQcIi3Hn6Iqa+zLfOiq/5zttdJlzsJhD+sLoJE7
- mGgwsgXAJpj+f2NhM4oD1DBpXyYcBDL9xN8s/rXl5YOc0NSnzaJF/BfTbaQylux4sNO9
- kTIqTA2MlcqBZ2KxibMIn/CzYs1J4X5IWtiPGELUcmP2Zdc6wiDNW0zbr9TvV+Lo9kuM
- NKBg==
-X-Gm-Message-State: ACrzQf3zJEVkBGoDmPWHkcWREwszVkrPlsfF2g9/lEMh6kK2MrcHhfws
- P8G9vIYM8FcjYpBmffAwRXBV8kfFmyrCJw==
-X-Google-Smtp-Source: AMsMyM4WPB2XukOYhi3fBSIMTRrZMfAQtjpxriEsGEQkNWemHoY76WgXCaHh8BcOiIln/5rhkouI3g==
-X-Received: by 2002:a05:6871:287:b0:13b:f19a:3766 with SMTP id
- i7-20020a056871028700b0013bf19a3766mr9583005oae.126.1666975299509; 
- Fri, 28 Oct 2022 09:41:39 -0700 (PDT)
+ bh=JCiYxYGyadO9LoYU4Gl96bRgSZ9v9BV4bKo5zyEXk2g=;
+ b=F3YvHD2q+Oqh40AlXEyu3KwxW88ukBhD+BQaxDnb09KpCBrnyIz/OMoAM0u7UD/XbW
+ RMZB2pAGx9UA6jFIo/JSHNxmEsNmy8Gq0xfgXsxooebCDJyWUMK98E/4L4m2d8bI6tiI
+ VcrDxGWIbhqZRqStmPyRfRChWn2MpC75+my5vRejruOuJqrEi4nwkLNJt5ZqlPPp00e5
+ Sapb+OkC0D3HnVUStHTEHW2VziI+MIEeblyNGMggPKBbX0AvGlEu/gf799T+KRS+RXNI
+ hQ73g9rOyB+qCS2rIPhpvOYLIYJjwLIS8z/cmeEz/r/ylO1X6PUPbyubF+slULSPFHqV
+ g/iA==
+X-Gm-Message-State: ACrzQf2cYeMpOOTq7e4/2WHUC/sgqOOXzJmU0GlEM9An5PP8H2XSCnek
+ 4vt4P7axyIO9Mw8B9pfQ/RdgwwQz/Aylgg==
+X-Google-Smtp-Source: AMsMyM7vwYwCkmCUOPSP5KHrco9tavf9wDzsJb5gTnzhF9Ga+vtH+7XwxIJzgqznWmy/J591f1MJLA==
+X-Received: by 2002:a05:6870:1712:b0:13a:bc2d:ac3e with SMTP id
+ h18-20020a056870171200b0013abc2dac3emr5936oae.207.1666975304708; 
+ Fri, 28 Oct 2022 09:41:44 -0700 (PDT)
 Received: from balboa.COMFAST ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.41.33
+ s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.41.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:41:36 -0700 (PDT)
+ Fri, 28 Oct 2022 09:41:42 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  Matheus Ferst <matheus.ferst@eldorado.org.br>,
  Fabiano Rosas <farosas@linux.ibm.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 23/62] target/ppc: create an interrupt masking method for
- POWER9/POWER10
-Date: Fri, 28 Oct 2022 13:39:12 -0300
-Message-Id: <20221028163951.810456-24-danielhb413@gmail.com>
+Subject: [PULL 24/62] target/ppc: remove unused interrupts from
+ p9_next_unmasked_interrupt
+Date: Fri, 28 Oct 2022 13:39:13 -0300
+Message-Id: <20221028163951.810456-25-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
 References: <20221028163951.810456-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::31;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::36;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x36.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -95,148 +95,89 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-The new method is identical to ppc_next_unmasked_interrupt_generic,
-processor-specific code will be added/removed in the following patches.
+Remove the following unused interrupts from the POWER9 interrupt masking
+method:
+- PPC_INTERRUPT_RESET: only raised for 6xx, 7xx, 970 and POWER5p;
+- Debug Interrupt: removed in Power ISA v2.07;
+- Critical Input, Watchdog Timer, and Fixed Interval Timer: only defined
+  for embedded CPUs;
+- Critical Doorbell Interrupt: removed in Power ISA v3.0;
+- Programmable Interval Timer: 40x-only.
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20221011204829.1641124-6-matheus.ferst@eldorado.org.br>
+Message-Id: <20221011204829.1641124-7-matheus.ferst@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/excp_helper.c | 113 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 113 insertions(+)
+ target/ppc/excp_helper.c | 36 +++++++-----------------------------
+ 1 file changed, 7 insertions(+), 29 deletions(-)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 0e89d2e15b..4d2fb2ebd1 100644
+index 4d2fb2ebd1..740a5618b9 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -1684,6 +1684,114 @@ void ppc_cpu_do_interrupt(CPUState *cs)
-     powerpc_excp(cpu, cs->exception_index);
+@@ -1685,14 +1685,17 @@ void ppc_cpu_do_interrupt(CPUState *cs)
  }
  
-+#if defined(TARGET_PPC64)
-+static int p9_next_unmasked_interrupt(CPUPPCState *env)
-+{
-+    bool async_deliver;
+ #if defined(TARGET_PPC64)
++#define P9_UNUSED_INTERRUPTS \
++    (PPC_INTERRUPT_RESET | PPC_INTERRUPT_DEBUG | PPC_INTERRUPT_CEXT |   \
++     PPC_INTERRUPT_WDT | PPC_INTERRUPT_CDOORBELL | PPC_INTERRUPT_FIT |  \
++     PPC_INTERRUPT_PIT | PPC_INTERRUPT_THERM)
 +
-+    /* External reset */
-+    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
-+        return PPC_INTERRUPT_RESET;
-+    }
-+    /* Machine check exception */
-+    if (env->pending_interrupts & PPC_INTERRUPT_MCK) {
-+        return PPC_INTERRUPT_MCK;
-+    }
-+
-+    /*
-+     * For interrupts that gate on MSR:EE, we need to do something a
-+     * bit more subtle, as we need to let them through even when EE is
-+     * clear when coming out of some power management states (in order
-+     * for them to become a 0x100).
-+     */
-+    async_deliver = FIELD_EX64(env->msr, MSR, EE) || env->resume_as_sreset;
-+
-+    /* Hypervisor decrementer exception */
-+    if (env->pending_interrupts & PPC_INTERRUPT_HDECR) {
-+        /* LPCR will be clear when not supported so this will work */
-+        bool hdice = !!(env->spr[SPR_LPCR] & LPCR_HDICE);
-+        if ((async_deliver || !FIELD_EX64_HV(env->msr)) && hdice) {
-+            /* HDEC clears on delivery */
-+            return PPC_INTERRUPT_HDECR;
-+        }
-+    }
-+
-+    /* Hypervisor virtualization interrupt */
-+    if (env->pending_interrupts & PPC_INTERRUPT_HVIRT) {
-+        /* LPCR will be clear when not supported so this will work */
-+        bool hvice = !!(env->spr[SPR_LPCR] & LPCR_HVICE);
-+        if ((async_deliver || !FIELD_EX64_HV(env->msr)) && hvice) {
-+            return PPC_INTERRUPT_HVIRT;
-+        }
-+    }
-+
-+    /* External interrupt can ignore MSR:EE under some circumstances */
-+    if (env->pending_interrupts & PPC_INTERRUPT_EXT) {
-+        bool lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
-+        bool heic = !!(env->spr[SPR_LPCR] & LPCR_HEIC);
-+        /* HEIC blocks delivery to the hypervisor */
-+        if ((async_deliver && !(heic && FIELD_EX64_HV(env->msr) &&
-+            !FIELD_EX64(env->msr, MSR, PR))) ||
-+            (env->has_hv_mode && !FIELD_EX64_HV(env->msr) && !lpes0)) {
-+            return PPC_INTERRUPT_EXT;
-+        }
-+    }
-+    if (FIELD_EX64(env->msr, MSR, CE)) {
-+        /* External critical interrupt */
-+        if (env->pending_interrupts & PPC_INTERRUPT_CEXT) {
-+            return PPC_INTERRUPT_CEXT;
-+        }
-+    }
-+    if (async_deliver != 0) {
-+        /* Watchdog timer on embedded PowerPC */
-+        if (env->pending_interrupts & PPC_INTERRUPT_WDT) {
-+            return PPC_INTERRUPT_WDT;
-+        }
-+        if (env->pending_interrupts & PPC_INTERRUPT_CDOORBELL) {
-+            return PPC_INTERRUPT_CDOORBELL;
-+        }
-+        /* Fixed interval timer on embedded PowerPC */
-+        if (env->pending_interrupts & PPC_INTERRUPT_FIT) {
-+            return PPC_INTERRUPT_FIT;
-+        }
-+        /* Programmable interval timer on embedded PowerPC */
-+        if (env->pending_interrupts & PPC_INTERRUPT_PIT) {
-+            return PPC_INTERRUPT_PIT;
-+        }
-+        /* Decrementer exception */
-+        if (env->pending_interrupts & PPC_INTERRUPT_DECR) {
-+            return PPC_INTERRUPT_DECR;
-+        }
-+        if (env->pending_interrupts & PPC_INTERRUPT_DOORBELL) {
-+            return PPC_INTERRUPT_DOORBELL;
-+        }
-+        if (env->pending_interrupts & PPC_INTERRUPT_HDOORBELL) {
-+            return PPC_INTERRUPT_HDOORBELL;
-+        }
-+        if (env->pending_interrupts & PPC_INTERRUPT_PERFM) {
-+            return PPC_INTERRUPT_PERFM;
-+        }
-+        /* Thermal interrupt */
-+        if (env->pending_interrupts & PPC_INTERRUPT_THERM) {
-+            return PPC_INTERRUPT_THERM;
-+        }
-+        /* EBB exception */
-+        if (env->pending_interrupts & PPC_INTERRUPT_EBB) {
-+            /*
-+             * EBB exception must be taken in problem state and
-+             * with BESCR_GE set.
-+             */
-+            if (FIELD_EX64(env->msr, MSR, PR) &&
-+                (env->spr[SPR_BESCR] & BESCR_GE)) {
-+                return PPC_INTERRUPT_EBB;
-+            }
-+        }
-+    }
-+
-+    return 0;
-+}
-+#endif
-+
- static int ppc_next_unmasked_interrupt_generic(CPUPPCState *env)
+ static int p9_next_unmasked_interrupt(CPUPPCState *env)
  {
      bool async_deliver;
-@@ -1799,6 +1907,11 @@ static int ppc_next_unmasked_interrupt_generic(CPUPPCState *env)
- static int ppc_next_unmasked_interrupt(CPUPPCState *env)
- {
-     switch (env->excp_model) {
-+#if defined(TARGET_PPC64)
-+    case POWERPC_EXCP_POWER9:
-+    case POWERPC_EXCP_POWER10:
-+        return p9_next_unmasked_interrupt(env);
-+#endif
-     default:
-         return ppc_next_unmasked_interrupt_generic(env);
+ 
+-    /* External reset */
+-    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
+-        return PPC_INTERRUPT_RESET;
+-    }
++    assert((env->pending_interrupts & P9_UNUSED_INTERRUPTS) == 0);
++
+     /* Machine check exception */
+     if (env->pending_interrupts & PPC_INTERRUPT_MCK) {
+         return PPC_INTERRUPT_MCK;
+@@ -1736,28 +1739,7 @@ static int p9_next_unmasked_interrupt(CPUPPCState *env)
+             return PPC_INTERRUPT_EXT;
+         }
      }
+-    if (FIELD_EX64(env->msr, MSR, CE)) {
+-        /* External critical interrupt */
+-        if (env->pending_interrupts & PPC_INTERRUPT_CEXT) {
+-            return PPC_INTERRUPT_CEXT;
+-        }
+-    }
+     if (async_deliver != 0) {
+-        /* Watchdog timer on embedded PowerPC */
+-        if (env->pending_interrupts & PPC_INTERRUPT_WDT) {
+-            return PPC_INTERRUPT_WDT;
+-        }
+-        if (env->pending_interrupts & PPC_INTERRUPT_CDOORBELL) {
+-            return PPC_INTERRUPT_CDOORBELL;
+-        }
+-        /* Fixed interval timer on embedded PowerPC */
+-        if (env->pending_interrupts & PPC_INTERRUPT_FIT) {
+-            return PPC_INTERRUPT_FIT;
+-        }
+-        /* Programmable interval timer on embedded PowerPC */
+-        if (env->pending_interrupts & PPC_INTERRUPT_PIT) {
+-            return PPC_INTERRUPT_PIT;
+-        }
+         /* Decrementer exception */
+         if (env->pending_interrupts & PPC_INTERRUPT_DECR) {
+             return PPC_INTERRUPT_DECR;
+@@ -1771,10 +1753,6 @@ static int p9_next_unmasked_interrupt(CPUPPCState *env)
+         if (env->pending_interrupts & PPC_INTERRUPT_PERFM) {
+             return PPC_INTERRUPT_PERFM;
+         }
+-        /* Thermal interrupt */
+-        if (env->pending_interrupts & PPC_INTERRUPT_THERM) {
+-            return PPC_INTERRUPT_THERM;
+-        }
+         /* EBB exception */
+         if (env->pending_interrupts & PPC_INTERRUPT_EBB) {
+             /*
 -- 
 2.37.3
 
