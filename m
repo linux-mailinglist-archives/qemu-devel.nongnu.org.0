@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7602B611AC7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 21:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61471611ACA
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 21:19:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooUrA-0001gs-QW; Fri, 28 Oct 2022 15:17:28 -0400
+	id 1ooUrA-0001gO-8z; Fri, 28 Oct 2022 15:17:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1ooUr8-0001g6-Ji
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 15:17:26 -0400
-Received: from esa10.hc2706-39.iphmx.com ([216.71.140.198])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1ooUr7-0001fu-2k
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 15:17:25 -0400
+Received: from esa9.hc2706-39.iphmx.com ([216.71.140.197])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1ooUr5-00031O-QU
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 15:17:26 -0400
-X-IronPort-RemoteIP: 209.85.166.200
-X-IronPort-MID: 235579293
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1ooUr4-00031W-PF
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 15:17:24 -0400
+X-IronPort-RemoteIP: 209.85.166.71
+X-IronPort-MID: 234531092
 X-IronPort-Reputation: None
 X-IronPort-Listener: OutgoingMail
 X-IronPort-SenderGroup: RELAY_GSUITE
 X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:z9sd96tjiB1rCFDcPCN9IDVsqufnVORcMUV32f8akzHdYApBsoF/q
- tZmKTiDOv+KMTD1fY0lO4Sy90tVucCDx9dmTgNr/3sxEiwT9ZOVVN+UEBzMMnLJJKUvbq7GA
+IronPort-Data: A9a23:GN0obKvH8XStF/lKIjxazFDYX+fnVOdcMUV32f8akzHdYApBsoF/q
+ tZmKTjVb/aDN2H9KYogady+9ExSvZOHzNc1Gwdrrnw0ES5D9ZOVVN+UEBzMMnLJJKUvbq7GA
  +byyDXkBJppJpMJjk71atANlVEliefSAOKU5NfsYkhZXRVjRDoqlSVtkus4hp8AqdWiCkaGt
  MiaT/f3YTdJ4BYpdDNJg06/gEk35q6r4GlI5gdWic1j5zcyqVFEVPrzGonsdxMUcqEMdsamS
  uDKyq2O/2+x13/B3fv8z94X2mVTKlLjFVHmZkh+AsBOsTAbzsAG6ZvXAdJHAathZ5RlqPgqo
- DlFncTYpQ7EpcQgksxEO/VTO3gW0aGrZNYriJVw2CCe5xSuTpfi/xlhJAIdGokFxscwPX5f2
- PUGKSkwRQyCif3jldpXSsE07igiBMziPYdau3U5iD+DVa5gTpfETKHHo9Rf2V/chOgURaeYN
- 5dfMGQxKk6YO3WjOX9OYH46tO6sln/zaRVStRSYqbdfD237llcsjee8aouOEjCMbehWm2eIi
- k/rxjy6DRUxBtOn7QGD/G3504cjmgu+Aur+DoaQ7/NvnRify3IeDDUQUl20p+T/jVSxM++zM
- GQR8ysq6Kk2rQmlFIGlGRK/p3GAs1gXXN84//AG1TxhA5H8u26xblXohBYaADD6nKfanQAX6
- 2I=
-IronPort-HdrOrdr: A9a23:o6yudKi+ay339+FYna0SUpiRiXBQXrUji2hC6mlwRA09TyX4ra
- CTdZsgvyMc5Ax9ZJhCo7G90cu7Lk80nKQdieIs1NyZMjUO1lHFEL1f
-Received: from mail-il1-f200.google.com ([209.85.166.200])
+ DlFncTYpQ7EpcQgksxEO/VTO3gW0aGrZNYriJVw2CCe5xSuTpfi/xlhJEZsZqtJ3OFeO2AN5
+ aATLW81UT7SwP3jldpXSsE07igiBMziPYdau3Y5iD+GVLApRpfMR6iM7thdtNsyrpoWTLCOO
+ oxAN2QpM02ojx5nYz/7DLo3mPeuimPXeSAepV6IzUYyyzKIkFEqieC8arI5fPSKTOt1m1iCv
+ lmewDmiWhExa82+xiSKpyfEaujn2HmTtJgpPKS18+MvjFCNy2g7DhoQWl2m5/6jhSaDt8l3L
+ kUV/m8vqvF3+hPyCNb6WBK8rTiPuRt0t8dsLtDWITqlksL8izt1zEBeJtKdQLTKbPMLeAE=
+IronPort-HdrOrdr: A9a23:Gxdydqh52ewpYKugGA7q2djujHBQXuwji2hC6mlwRA09TyX+ra
+ yTdZUguiMc7Qx7ZJhOo7690cW7IE80jKQFhbX5X43SPzUOyVHJEGgK1+KLqVDd8kvFh4tgPM
+ xbAspD4bPLfCFHpPe/zA6kE8sxhPmrmZrY/ds2Fk0dKj2CvZsQiTtENg==
+Received: from mail-io1-f71.google.com ([209.85.166.71])
  by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 28 Oct 2022 15:17:14 -0400
-Received: by mail-il1-f200.google.com with SMTP id
- i8-20020a056e0212c800b002f9a4c75658so5780105ilm.3
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 12:17:14 -0700 (PDT)
+ 28 Oct 2022 15:17:16 -0400
+Received: by mail-io1-f71.google.com with SMTP id
+ a6-20020a056602208600b006bff2e56943so4979619ioa.11
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 12:17:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=RsEApOYgJmSDnt3tpUpETyCg4QSWVIS3JX2hY7/l8vo=;
- b=B2cou2TgmMI99n7jCQ0EcFSES+ecBVorZXZjPnwsEJaptmojzrisoEG/XykxGNjrv8
- r/NfzIRIx4KXLDKeqj48cCa+b5o3HfIuZ0MFiG50101A1uoc2Lrwehr8+4uIjdwdTv2h
- /agwN/zuZgOnOO9UfGhNFZzD2XcjIokLBXvkYpUErB5qvNgBYdw5rC9pT/YZs/ilir56
- +n1DvFTTVIynV1mr90kbqdnLk7xkLSYPULeIXjMbKkw+5IkwpLdmZwJDo2Wm/+fRviMz
- 9xnsy40V5azlSmr7h5Gbd8ASXJ++JMTClGPRE57YXESSjVwzDGt8kxU+d9RVKhRFfnC1
- /9eQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JgfRpfP6VLgnjp69pRpP49HK9NoPSMvm+MPLV3BTs1g=;
+ b=l9yLlxHZgGcOfagwyR24EdYFf0ry8dC2w5a4cCUD39A8OKPqmugwtkbSaTAaZDWUCL
+ yhwBbvbXjF1hrePUmQ3AFcevI2/8qRmg4vJDjPruj/z5M/fY4y5Wbl8TS5DX4hZvjnxa
+ gUeGyAXcPmp+rR6Z80yoCibKs3J2K2Jo5hJu6dEFHR/EaBvl26xGYnxkYMxcyhJlP4sD
+ kz+HLoQVw5ame6mOTZsjFRj00Sl/wR+vUEIcgNCUy2wRVcU8+JdKuuZpPhx3hhif29C7
+ rtEfocCsaBRDSZ3nKETrJfwRXbtw+7e9SzZku/SH/pU2GXUXnFu54rcrUoitRv8nMV7O
+ e3Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=RsEApOYgJmSDnt3tpUpETyCg4QSWVIS3JX2hY7/l8vo=;
- b=PyAd76qQNHSzDbXgV/oEs5baaf7wE6YwMIRYkh1mK7hF+fUzVaeK3ZlxVCeRuEb+He
- 9KPFe2QQGRHVlBcD45ZOffQggJC83B6ig32ul8RGxUr3Y09QXLoIugIaih3czefkd2ki
- K4rjdM0dNacu6CR3c5NBHimQopgC9qWvqKtRLZMDpmwGMqEeirGgc0rHp531q9x8v4kT
- LUehFvACKNZLf9IyNjz8pf2sslc30QsOZ5K62qQzaaSmxLNZSvAYFNK1IO/8URZ87Sl6
- G3SWlkBdo01kTXw+ukPAFGH5HJU7Ybis9fm6yQOyScSFbQGFYLGnZC3B4nxHDr1u9s+z
- g2CA==
-X-Gm-Message-State: ACrzQf1QwM8php2iLkVhuInM9mmkpMF5CqEDuvUKvXlABkAWu+6+bZVt
- VXH+BvfsKJH/5Fb5sDMV6wnU0pceHPE5b9aGBIbo+m/k//vfCBJFj72X/2Pa6rpU8TUKoK9Ml3L
- lqm5Gd5i7qKEGSYnm9kkyd8gJHBvopg==
-X-Received: by 2002:a5e:8517:0:b0:6c6:fbe7:1c0e with SMTP id
- i23-20020a5e8517000000b006c6fbe71c0emr489574ioj.95.1666984633563; 
- Fri, 28 Oct 2022 12:17:13 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM49tQmmocWVYdn2xvfEQPX2dg2+wGStWGO3N10yBcyJrL0bS70QhG3GhAssHlFIfpI/dhUGoQ==
-X-Received: by 2002:a5e:8517:0:b0:6c6:fbe7:1c0e with SMTP id
- i23-20020a5e8517000000b006c6fbe71c0emr489551ioj.95.1666984633323; 
- Fri, 28 Oct 2022 12:17:13 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JgfRpfP6VLgnjp69pRpP49HK9NoPSMvm+MPLV3BTs1g=;
+ b=npxDjVXLHAfcC/U+MPIrdAyy8yK9+lyAtvG8FOJneFN21vnJWlA1Sr6ZWm2heKWrjD
+ nLh71/yLwCN+8ApMp5/68DhaJybQGOqI23smHls3BIApuIyRuZ+rl/X57xRsmjt58jDX
+ pYiP2MWs6zm9tJZCHzDRKHmWWNbM3NRjOJfhlYld1oGxmfELBXSUOfwxxXaDuvvpcysB
+ RFTWwMZ0kFes52mz8VZ9b4C/aKVq5lHAE9TBPwWzvji4I5KsN9t057agWVFIHsKp0QHa
+ 4Z0wVO8OtoAVZp87lqDEx6F+yAC3Uyd4b4qlMmdEV3GpyMwDp3+HTGDf4s7p0YkbrBYf
+ 2tnw==
+X-Gm-Message-State: ACrzQf3py3btrhyh2nT7P4xCE2rATyMVG21LQZ9D7bUXolzQYLJ3MkG6
+ Gx/J3RH4av0kM8NqgTBwi2bonAMm6pU4o/FiM8qqL+y6gKUZv7E8xC4Nk+47RX0AvoLZW0VHuQz
+ o5u+VNrgeaTmcpEAYXVodBVZwh8zULw==
+X-Received: by 2002:a05:6602:26d2:b0:6a3:f044:a942 with SMTP id
+ g18-20020a05660226d200b006a3f044a942mr528744ioo.50.1666984635452; 
+ Fri, 28 Oct 2022 12:17:15 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4NEq4mgrxteIQyAOsG5zQLpgDSmxjuSf88TBvXeut7O1tbLwMSmITnuW4QdpN+OulCyEZv4g==
+X-Received: by 2002:a05:6602:26d2:b0:6a3:f044:a942 with SMTP id
+ g18-20020a05660226d200b006a3f044a942mr528715ioo.50.1666984635165; 
+ Fri, 28 Oct 2022 12:17:15 -0700 (PDT)
 Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
  by smtp.gmail.com with ESMTPSA id
- l5-20020a056e021c0500b002fff117027dsm1878505ilh.13.2022.10.28.12.17.11
+ l5-20020a056e021c0500b002fff117027dsm1878505ilh.13.2022.10.28.12.17.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 12:17:12 -0700 (PDT)
+ Fri, 28 Oct 2022 12:17:14 -0700 (PDT)
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
 Cc: Alexander Bulekov <alxndr@bu.edu>,
@@ -96,22 +97,25 @@ Cc: Alexander Bulekov <alxndr@bu.edu>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
  Siqi Chen <coc.cyqh@gmail.com>
-Subject: [PATCH v3 0/7] memory: prevent dma-reentracy issues
-Date: Fri, 28 Oct 2022 15:16:41 -0400
-Message-Id: <20221028191648.964076-1-alxndr@bu.edu>
+Subject: [PATCH v3 1/7] memory: associate DMA accesses with the initiator
+ Device
+Date: Fri, 28 Oct 2022 15:16:42 -0400
+Message-Id: <20221028191648.964076-2-alxndr@bu.edu>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20221028191648.964076-1-alxndr@bu.edu>
+References: <20221028191648.964076-1-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.140.198; envelope-from=alxndr@bu.edu;
- helo=esa10.hc2706-39.iphmx.com
+Received-SPF: pass client-ip=216.71.140.197; envelope-from=alxndr@bu.edu;
+ helo=esa9.hc2706-39.iphmx.com
 X-Spam_score_int: 0
 X-Spam_score: -0.1
 X-Spam_bar: /
 X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -127,74 +131,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These patches aim to solve two types of DMA-reentrancy issues:
+Add transitionary DMA APIs which associate accesses with the device
+initiating them. The modified APIs maintain a "MemReentrancyGuard" in
+the DeviceState, which is used to prevent DMA re-entrancy issues.
+The MemReentrancyGuard is set/checked when entering IO handlers and when
+initiating a DMA access.
 
 1.) mmio -> dma -> mmio case
-To solve this, we track whether the device is engaged in io by
-checking/setting a flag within APIs used for MMIO access.
-
 2.) bh -> dma write -> mmio case
-This case is trickier, since we dont have a generic way to associate a
-bh with the underlying Device/DeviceState. Thus, this version introduces
-a change to QEMU's DMA APIs to associate each request with the
-origiantor DeviceState. In total, the affected APIs are used in
-approximately 250 locations:
 
-dma_memory_valid (1 usage)
-dma_memory_rw (~5 uses)
-dma_memory_read (~92 uses)
-dma_memory_write (~71 uses)
-dma_memory_set (~4 uses)
-dma_memory_map (~18 uses)
-dma_memory_unmap (~21 uses)
-{ld,st}_{le,be}_{uw,l,q}_dma (~10 uses)
-ldub_dma (does not appear to be used anywhere)
-stb_dma (1 usage)
-dma_buf_read (~18 uses)
-dma_buf_write (~7 uses)
+These issues have led to problems such as stack-exhaustion and
+use-after-frees.
 
-It is not trivial to mechanically replace all of the invocations:
-For many cases, this will be as simple as adding DEVICE(s) to the
-arguments, but there are locations where the code will need to be
-slightly changed. As such, for now I added "_guarded" versions of most
-of the APIs which can be used until all of the invocations are fixed.
+Summary of the problem from Peter Maydell:
+https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com
 
-The end goal is to go through all of hw/ and make the required changes
-(I will need help with this). Once that is done, the "_guarded" APIs can
-take the place of the standard DMA APIs and we can mecahnically remove
-the "_guarded" suffix from all invocations.
-
-These changes do not address devices that bypass DMA apis and directly
-call into address_space.. APIs. This occurs somewhat commonly, and
-prevents me from fixing issues in Virtio devices, such as:
-https://gitlab.com/qemu-project/qemu/-/issues/827
-I'm not sure what approach we should take for these cases - maybe they
-should be switched to DMA APIs (or the DMA API expanded).
-
-v2 -> v3: Bite the bullet and modify the DMA APIs, rather than
-    attempting to guess DeviceStates in BHs.
-
-Alexander Bulekov (7):
-  memory: associate DMA accesses with the initiator Device
-  dma-helpers: switch to guarded DMA accesses
-  ahci: switch to guarded DMA acccesses
-  sdhci: switch to guarded DMA accesses
-  ehci: switch to guarded DMA accesses
-  xhci: switch to guarded DMA accesses
-  usb/libhw: switch to guarded DMA accesses
-
- hw/ide/ahci.c          | 16 +++++++++-------
- hw/sd/sdhci.c          | 43 ++++++++++++++++++++++--------------------
- hw/usb/hcd-ehci.c      |  8 ++++----
- hw/usb/hcd-xhci.c      | 24 +++++++++++------------
- hw/usb/libhw.c         |  4 ++--
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+---
  include/hw/qdev-core.h |  2 ++
- include/sysemu/dma.h   | 41 ++++++++++++++++++++++++++++++++++++++++
- softmmu/dma-helpers.c  | 15 ++++++++-------
+ include/sysemu/dma.h   | 41 +++++++++++++++++++++++++++++++++++++++++
  softmmu/memory.c       | 15 +++++++++++++++
  softmmu/trace-events   |  1 +
- 10 files changed, 117 insertions(+), 52 deletions(-)
+ 4 files changed, 59 insertions(+)
 
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 785dd5a56e..ab78d211af 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -8,6 +8,7 @@
+ #include "qom/object.h"
+ #include "hw/hotplug.h"
+ #include "hw/resettable.h"
++#include "sysemu/dma.h"
+ 
+ enum {
+     DEV_NVECTORS_UNSPECIFIED = -1,
+@@ -194,6 +195,7 @@ struct DeviceState {
+     int alias_required_for_version;
+     ResettableState reset;
+     GSList *unplug_blockers;
++    MemReentrancyGuard mem_reentrancy_guard;
+ };
+ 
+ struct DeviceListener {
+diff --git a/include/sysemu/dma.h b/include/sysemu/dma.h
+index a1ac5bc1b5..879b666bbb 100644
+--- a/include/sysemu/dma.h
++++ b/include/sysemu/dma.h
+@@ -15,6 +15,10 @@
+ #include "block/block.h"
+ #include "block/accounting.h"
+ 
++typedef struct {
++    bool engaged_in_io;
++} MemReentrancyGuard;
++
+ typedef enum {
+     DMA_DIRECTION_TO_DEVICE = 0,
+     DMA_DIRECTION_FROM_DEVICE = 1,
+@@ -321,4 +325,41 @@ void dma_acct_start(BlockBackend *blk, BlockAcctCookie *cookie,
+ uint64_t dma_aligned_pow2_mask(uint64_t start, uint64_t end,
+                                int max_addr_bits);
+ 
++#define REENTRANCY_GUARD(func, ret_type, dev, ...) \
++    ({\
++     ret_type retval;\
++     MemReentrancyGuard prior_guard_state = dev->mem_reentrancy_guard;\
++     dev->mem_reentrancy_guard.engaged_in_io = 1;\
++     retval = func(__VA_ARGS__);\
++     dev->mem_reentrancy_guard = prior_guard_state;\
++     retval;\
++     })
++#define REENTRANCY_GUARD_NORET(func, dev, ...) \
++    ({\
++     MemReentrancyGuard prior_guard_state = dev->mem_reentrancy_guard;\
++     dev->mem_reentrancy_guard.engaged_in_io = 1;\
++     func(__VA_ARGS__);\
++     dev->mem_reentrancy_guard = prior_guard_state;\
++     })
++#define dma_memory_rw_guarded(dev, ...) \
++    REENTRANCY_GUARD(dma_memory_rw, MemTxResult, dev, __VA_ARGS__)
++#define dma_memory_read_guarded(dev, ...) \
++    REENTRANCY_GUARD(dma_memory_read, MemTxResult, dev, __VA_ARGS__)
++#define dma_memory_write_guarded(dev, ...) \
++    REENTRANCY_GUARD(dma_memory_write, MemTxResult, dev, __VA_ARGS__)
++#define dma_memory_set_guarded(dev, ...) \
++    REENTRANCY_GUARD(dma_memory_set, MemTxResult, dev, __VA_ARGS__)
++#define dma_memory_map_guarded(dev, ...) \
++    REENTRANCY_GUARD(dma_memory_map, void*, dev, __VA_ARGS__)
++#define dma_memory_unmap_guarded(dev, ...) \
++    REENTRANCY_GUARD_NORET(dma_memory_unmap, dev, __VA_ARGS__)
++#define ldub_dma_guarded(dev, ...) \
++    REENTRANCY_GUARD(ldub_dma, MemTxResult, dev, __VA_ARGS__)
++#define stb_dma_guarded(dev, ...) \
++    REENTRANCY_GUARD(stb_dma, MemTxResult, dev, __VA_ARGS__)
++#define dma_buf_read_guarded(dev, ...) \
++    REENTRANCY_GUARD(dma_buf_read, MemTxResult, dev, __VA_ARGS__)
++#define dma_buf_write_guarded(dev, ...) \
++    REENTRANCY_GUARD(dma_buf_read, MemTxResult, dev, __VA_ARGS__)
++
+ #endif
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 7ba2048836..c44dc75149 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -532,6 +532,7 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
+     uint64_t access_mask;
+     unsigned access_size;
+     unsigned i;
++    DeviceState *dev = NULL;
+     MemTxResult r = MEMTX_OK;
+ 
+     if (!access_size_min) {
+@@ -541,6 +542,17 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
+         access_size_max = 4;
+     }
+ 
++    /* Do not allow more than one simultanous access to a device's IO Regions */
++    if (mr->owner &&
++            !mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly) {
++        dev = (DeviceState *) object_dynamic_cast(mr->owner, TYPE_DEVICE);
++        if (dev->mem_reentrancy_guard.engaged_in_io) {
++            trace_memory_region_reentrant_io(get_cpu_index(), mr, addr, size);
++            return MEMTX_ERROR;
++        }
++        dev->mem_reentrancy_guard.engaged_in_io = true;
++    }
++
+     /* FIXME: support unaligned access? */
+     access_size = MAX(MIN(size, access_size_max), access_size_min);
+     access_mask = MAKE_64BIT_MASK(0, access_size * 8);
+@@ -555,6 +567,9 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
+                         access_mask, attrs);
+         }
+     }
++    if (dev) {
++        dev->mem_reentrancy_guard.engaged_in_io = false;
++    }
+     return r;
+ }
+ 
+diff --git a/softmmu/trace-events b/softmmu/trace-events
+index 22606dc27b..62d04ea9a7 100644
+--- a/softmmu/trace-events
++++ b/softmmu/trace-events
+@@ -13,6 +13,7 @@ memory_region_ops_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, u
+ memory_region_ops_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size, const char *name) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u name '%s'"
+ memory_region_subpage_read(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
+ memory_region_subpage_write(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
++memory_region_reentrant_io(int cpu_index, void *mr, uint64_t offset, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" size %u"
+ memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+ memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+ memory_region_sync_dirty(const char *mr, const char *listener, int global) "mr '%s' listener '%s' synced (global=%d)"
 -- 
 2.27.0
 
