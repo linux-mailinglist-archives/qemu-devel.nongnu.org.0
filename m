@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257256117E3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:46:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55BA06117C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:42:48 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooSQh-00061F-CW; Fri, 28 Oct 2022 12:41:59 -0400
+	id 1ooSQi-0006HG-Sg; Fri, 28 Oct 2022 12:42:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSPy-0000Vz-WC; Fri, 28 Oct 2022 12:41:23 -0400
-Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29])
+ id 1ooSQ4-00014k-GA; Fri, 28 Oct 2022 12:41:23 -0400
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSPv-0008Es-Pw; Fri, 28 Oct 2022 12:41:14 -0400
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-13ae8117023so6858830fac.9; 
- Fri, 28 Oct 2022 09:41:09 -0700 (PDT)
+ id 1ooSPz-0008Fy-3i; Fri, 28 Oct 2022 12:41:18 -0400
+Received: by mail-oi1-x231.google.com with SMTP id i7so6712559oif.4;
+ Fri, 28 Oct 2022 09:41:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Ppqz18mS5Svpmzs6DzgrMpVIEnsIWsMRP9qc7J5r1Vg=;
- b=ZcXKZRvC8Q/xNxQZQ+R0OP3+h83ZqD+Gps8y+5ExnAy0ZZi9n0t1mHAm2VZiCcCayB
- LZKRy8Y/2fpG+s3HN9ntsPnSZxmEjEZG8zWzKVGLiUtloc9hGIiTq1jNL1g6PLe4Q/UG
- m1S8BpJyVkCrSzlzehivZy6KnrHCG+OOLkBRMPSNHvvYadYvguiXmKrgUoDj86MR5NyW
- WS0IpwLvJ/BIN5bZJkeyMkDIoIxqIfE9I4Khh0eQbxTsgIc+Fm2BHXK3h5HigX+aV0iH
- oW0HzbuzzPjOGRqaS037nJpXWya1iS41y5EvTYfjC04tRV4JTGAQ7SBLMTjv1y4fsoLW
- /BzQ==
+ bh=HH/Sq/UK3nu/9uVkLtWOzEvGkhN2LKrSwmOX//A+1NM=;
+ b=UvJy2qRip+dWCqhrBucZNbzmWLgOHhNO/GScX/ru/37PsDbJrYPeF0Yw5Qg5SpCjT2
+ c367hDvhZeriK7coJcv1/opKiOvokicOhUopj2aGz39QifwhDM8h1FpUZJIfqxQmc0zp
+ BtIROFSJ54X/pX9tR6Y2/9A+wqX7txVsJRxsR9Y0xiwsSfuSTY6QIZevVHamH1FaVC6n
+ 38Ee7tYi+bS77FV/HmT8IUfVbHNorJiG1ALSiBVlAt9O+IgWskMf40vsYl5mlcPPT8qZ
+ Q9eY/NGiQX80G8/wHlYO877hdDRgZdRli2bUJ3G99KW07o1RigCF0cM+DD+Ny5OWauye
+ tl1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ppqz18mS5Svpmzs6DzgrMpVIEnsIWsMRP9qc7J5r1Vg=;
- b=p0+UqizAjgRFEMGjl8Wsm36Bl8jbg4YIC46WZ6AHaq+yB9ZddUb3xMUQa2Sci2Nzfd
- m92LtH8twzvCChtWsCd/TsHa15WnMVAx1rY/j7DmNQJHC5S5+rIna+M/AcFS7ngDmMqR
- A4PjyJnG8+O1IIozgEchCXA1Axd8P/pJEJsA9JkSdZT7abNRCqwL2Snv5+qtKQkGWYv7
- Nw3J0s44YNN1qiJ4vcYgld4URYcLdRde3ByUOSyoAgQY9JYgxV77FGIK9VX+Bm1bifaL
- h5PoUuLbptVk9kHH1EZqTWCnD013OfFTYOwbnZNeMPpn2T3pLWOb0J+F+1J8WHxtSyeY
- T0pg==
-X-Gm-Message-State: ACrzQf0+6MalZZixgpUJLMkQ70M6ytJY97jINRNACT1vLdcaLsO1VncH
- kQZl7We3txDTLmkzjfIRAEYWDipdcKdqMA==
-X-Google-Smtp-Source: AMsMyM4z2RfhsFkr0iIcojtRD3JwxnpA+AbjrAcbf/Yiro9Y8I9RHzC/We7zBYRGYaR2vrsMzDKCXQ==
-X-Received: by 2002:a05:6870:818c:b0:13b:8a11:82ed with SMTP id
- k12-20020a056870818c00b0013b8a1182edmr9767652oae.8.1666975268720; 
- Fri, 28 Oct 2022 09:41:08 -0700 (PDT)
+ bh=HH/Sq/UK3nu/9uVkLtWOzEvGkhN2LKrSwmOX//A+1NM=;
+ b=RwL21ZonCtYu+c6397PYBD6aUWY8QOcVj4QozG1oIaNHb59GEI9zPrrR6ivNBSJdC/
+ aRaslvm97OTw4c1IvVtxfXAs3yKwy1VB6/nJHbRth+TpbABseJm9Zc6JI54u3UUatKyN
+ 3zcmESjyjqXyicyFvcX0n857aTN8eIpR2OhTOY1xKD5uZdoevwz+6dc2p4iLZ2EErTN6
+ RsUQh+Sq2iBd2d/Rl7vyN1/dCE5W6au2e3EhuEAlQvU0qJcYbyV2267N0LYcS9OXS9aS
+ ZhpsNvIFcQKt7p8dFkQbCYviUyybGXMxtqlYGgVRGkAlsF4eukBx8WF9LjC9iJA4s9oo
+ cSAw==
+X-Gm-Message-State: ACrzQf1yDI6I2Sx42K7/Cpi40r86TWY10wN8WUS2+Rv+vYM0Bp9M+QQ4
+ MjRbV09EpJZUnGmgrv5SIUuUr8pYseQDZA==
+X-Google-Smtp-Source: AMsMyM61M/cpDbu0YAyNhCCjaZquy5PJ9c+FxYxA4swG2jpdZzwQN6lXAZ+hW7pJhsptl1GHukKEfA==
+X-Received: by 2002:a05:6808:14c1:b0:354:d3bf:67b with SMTP id
+ f1-20020a05680814c100b00354d3bf067bmr8818516oiw.160.1666975272232; 
+ Fri, 28 Oct 2022 09:41:12 -0700 (PDT)
 Received: from balboa.COMFAST ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.41.04
+ s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.41.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:41:06 -0700 (PDT)
+ Fri, 28 Oct 2022 09:41:11 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
  Richard Henderson <richard.henderson@linaro.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 15/62] target/ppc: Use gvec to decode XVCPSGN[SD]P
-Date: Fri, 28 Oct 2022 13:39:04 -0300
-Message-Id: <20221028163951.810456-16-danielhb413@gmail.com>
+Subject: [PULL 16/62] target/ppc: Moved XVTSTDC[DS]P to decodetree
+Date: Fri, 28 Oct 2022 13:39:05 -0300
+Message-Id: <20221028163951.810456-17-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
 References: <20221028163951.810456-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::29;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x231.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -94,190 +93,203 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-Moved XVCPSGNSP and XVCPSGNDP to decodetree and used gvec to translate
-them.
+Moved XVTSTDCSP and XVTSTDCDP to decodetree an restructured the helper
+to be simpler and do all decoding in the decodetree (so XB, XT and DCMX
+are all calculated outside the helper).
 
-xvcpsgnsp:
+Obs: The tests in this one are slightly different, these are the sum of
+these instructions with all possible immediate and those instructions
+are repeated 10 times.
+
+xvtstdcsp:
 rept    loop    master             patch
-8       12500   0,00561400         0,00537900 (-4.2%)
-25      4000    0,00562100         0,00400000 (-28.8%)
-100     1000    0,00696900         0,00416300 (-40.3%)
-500     200     0,02211900         0,00840700 (-62.0%)
-2500    40      0,09328600         0,02728300 (-70.8%)
-8000    12      0,27295300         0,06867800 (-74.8%)
+8       12500   2,76402100         2,70699100 (-2.1%)
+25      4000    2,64867100         2,67884100 (+1.1%)
+100     1000    2,73806300         2,78701000 (+1.8%)
+500     200     3,44666500         3,61027600 (+4.7%)
+2500    40      5,85790200         6,47475500 (+10.5%)
+8000    12     15,22102100        17,46062900 (+14.7%)
 
-xvcpsgndp:
+xvtstdcdp:
 rept    loop    master             patch
-8       12500   0,00556300         0,00584200 (+5.0%)
-25      4000    0,00482700         0,00431700 (-10.6%)
-100     1000    0,00585800         0,00464400 (-20.7%)
-500     200     0,01565300         0,00839700 (-46.4%)
-2500    40      0,05766500         0,02430600 (-57.8%)
-8000    12      0,19875300         0,07947100 (-60.0%)
-
-Like the previous instructions there seemed to be a improvement on
-translation time.
+8       12500   2,11818000         1,61065300 (-24.0%)
+25      4000    2,04573400         1,60132200 (-21.7%)
+100     1000    2,13834100         1,69988100 (-20.5%)
+500     200     2,73977000         2,48631700 (-9.3%)
+2500    40      5,05067000         5,25914100 (+4.1%)
+8000    12     14,60507800        15,93704900 (+9.1%)
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221019125040.48028-10-lucas.araujo@eldorado.org.br>
+Message-Id: <20221019125040.48028-11-lucas.araujo@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/insn32.decode            |   2 +
- target/ppc/translate/vsx-impl.c.inc | 109 ++++++++++++++--------------
- target/ppc/translate/vsx-ops.c.inc  |   3 -
- 3 files changed, 55 insertions(+), 59 deletions(-)
+ target/ppc/fpu_helper.c             | 39 +++++++++++++++++++++++++++--
+ target/ppc/helper.h                 |  4 +--
+ target/ppc/insn32.decode            |  5 ++++
+ target/ppc/translate/vsx-impl.c.inc | 28 +++++++++++++++++++--
+ target/ppc/translate/vsx-ops.c.inc  |  8 ------
+ 5 files changed, 70 insertions(+), 14 deletions(-)
 
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index ae25f32d6e..960a76a8a5 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -3295,11 +3295,46 @@ void helper_##op(CPUPPCState *env, uint32_t opcode)         \
+     }                                                       \
+ }
+ 
+-VSX_TEST_DC(xvtstdcdp, 2, xB(opcode), float64, VsrD(i), VsrD(i), UINT64_MAX, 0)
+-VSX_TEST_DC(xvtstdcsp, 4, xB(opcode), float32, VsrW(i), VsrW(i), UINT32_MAX, 0)
+ VSX_TEST_DC(xststdcdp, 1, xB(opcode), float64, VsrD(0), VsrD(0), 0, 1)
+ VSX_TEST_DC(xststdcqp, 1, (rB(opcode) + 32), float128, f128, VsrD(0), 0, 1)
+ 
++#define VSX_TSTDC(tp)                                       \
++static int32_t tp##_tstdc(tp b, uint32_t dcmx)              \
++{                                                           \
++    uint32_t match = 0;                                     \
++    uint32_t sign = tp##_is_neg(b);                         \
++    if (tp##_is_any_nan(b)) {                               \
++        match = extract32(dcmx, 6, 1);                      \
++    } else if (tp##_is_infinity(b)) {                       \
++        match = extract32(dcmx, 4 + !sign, 1);              \
++    } else if (tp##_is_zero(b)) {                           \
++        match = extract32(dcmx, 2 + !sign, 1);              \
++    } else if (tp##_is_zero_or_denormal(b)) {               \
++        match = extract32(dcmx, 0 + !sign, 1);              \
++    }                                                       \
++    return (match != 0);                                    \
++}
++
++VSX_TSTDC(float32)
++VSX_TSTDC(float64)
++#undef VSX_TSTDC
++
++void helper_XVTSTDCDP(ppc_vsr_t *t, ppc_vsr_t *b, uint64_t dcmx, uint32_t v)
++{
++    int i;
++    for (i = 0; i < 2; i++) {
++        t->s64[i] = (int64_t)-float64_tstdc(b->f64[i], dcmx);
++    }
++}
++
++void helper_XVTSTDCSP(ppc_vsr_t *t, ppc_vsr_t *b, uint64_t dcmx, uint32_t v)
++{
++    int i;
++    for (i = 0; i < 4; i++) {
++        t->s32[i] = (int32_t)-float32_tstdc(b->f32[i], dcmx);
++    }
++}
++
+ void helper_xststdcsp(CPUPPCState *env, uint32_t opcode, ppc_vsr_t *xb)
+ {
+     uint32_t dcmx, sign, exp;
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index fd8280dfa7..9e5d11939b 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -517,8 +517,8 @@ DEF_HELPER_3(xvcvsxdsp, void, env, vsr, vsr)
+ DEF_HELPER_3(xvcvuxdsp, void, env, vsr, vsr)
+ DEF_HELPER_3(xvcvsxwsp, void, env, vsr, vsr)
+ DEF_HELPER_3(xvcvuxwsp, void, env, vsr, vsr)
+-DEF_HELPER_2(xvtstdcsp, void, env, i32)
+-DEF_HELPER_2(xvtstdcdp, void, env, i32)
++DEF_HELPER_FLAGS_4(XVTSTDCSP, TCG_CALL_NO_RWG, void, vsr, vsr, i64, i32)
++DEF_HELPER_FLAGS_4(XVTSTDCDP, TCG_CALL_NO_RWG, void, vsr, vsr, i64, i32)
+ DEF_HELPER_3(xvrspi, void, env, vsr, vsr)
+ DEF_HELPER_3(xvrspic, void, env, vsr, vsr)
+ DEF_HELPER_3(xvrspim, void, env, vsr, vsr)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 395339ce40..3594c0c960 100644
+index 3594c0c960..44905edd29 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -762,6 +762,8 @@ XVNABSDP        111100 ..... 00000 ..... 111101001 ..   @XX2
- XVNABSSP        111100 ..... 00000 ..... 110101001 ..   @XX2
- XVNEGDP         111100 ..... 00000 ..... 111111001 ..   @XX2
- XVNEGSP         111100 ..... 00000 ..... 110111001 ..   @XX2
-+XVCPSGNDP       111100 ..... ..... ..... 11110000 ...   @XX3
-+XVCPSGNSP       111100 ..... ..... ..... 11010000 ...   @XX3
+@@ -199,6 +199,9 @@
  
- ## VSX Scalar Multiply-Add Instructions
+ @XX2_uim4       ...... ..... . uim:4 ..... ......... ..         &XX2_uim xt=%xx_xt xb=%xx_xb
+ 
++%xx_uim7        6:1 2:1 16:5
++@XX2_uim7       ...... ..... ..... ..... .... . ... . ..        &XX2_uim xt=%xx_xt xb=%xx_xb uim=%xx_uim7
++
+ &XX2_bf_xb      bf xb
+ @XX2_bf_xb      ...... bf:3 .. ..... ..... ......... . .        &XX2_bf_xb xb=%xx_xb
+ 
+@@ -848,6 +851,8 @@ XSCVSPDPN       111100 ..... ----- ..... 101001011 ..   @XX2
+ ## VSX Binary Floating-Point Math Support Instructions
+ 
+ XVXSIGSP        111100 ..... 01001 ..... 111011011 ..   @XX2
++XVTSTDCDP       111100 ..... ..... ..... 1111 . 101 ... @XX2_uim7
++XVTSTDCSP       111100 ..... ..... ..... 1101 . 101 ... @XX2_uim7
+ 
+ ## VSX Vector Test Least-Significant Bit by Byte Instruction
  
 diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
-index 8717e20d08..1c289238ec 100644
+index 1c289238ec..287ea8e2ce 100644
 --- a/target/ppc/translate/vsx-impl.c.inc
 +++ b/target/ppc/translate/vsx-impl.c.inc
-@@ -729,62 +729,6 @@ VSX_SCALAR_MOVE_QP(xsnabsqp, OP_NABS, SGN_MASK_DP)
- VSX_SCALAR_MOVE_QP(xsnegqp, OP_NEG, SGN_MASK_DP)
- VSX_SCALAR_MOVE_QP(xscpsgnqp, OP_CPSGN, SGN_MASK_DP)
+@@ -630,6 +630,8 @@ static void gen_mtvsrws(DisasContext *ctx)
+ #define OP_CPSGN 4
+ #define SGN_MASK_DP  0x8000000000000000ull
+ #define SGN_MASK_SP 0x8000000080000000ull
++#define EXP_MASK_DP  0x7FF0000000000000ull
++#define EXP_MASK_SP 0x7F8000007F800000ull
  
--#define VSX_VECTOR_MOVE(name, op, sgn_mask)                      \
--static void glue(gen_, name)(DisasContext *ctx)                  \
--    {                                                            \
--        TCGv_i64 xbh, xbl, sgm;                                  \
--        if (unlikely(!ctx->vsx_enabled)) {                       \
--            gen_exception(ctx, POWERPC_EXCP_VSXU);               \
--            return;                                              \
--        }                                                        \
--        xbh = tcg_temp_new_i64();                                \
--        xbl = tcg_temp_new_i64();                                \
--        sgm = tcg_temp_new_i64();                                \
--        get_cpu_vsr(xbh, xB(ctx->opcode), true);                 \
--        get_cpu_vsr(xbl, xB(ctx->opcode), false);                \
--        tcg_gen_movi_i64(sgm, sgn_mask);                         \
--        switch (op) {                                            \
--            case OP_ABS: {                                       \
--                tcg_gen_andc_i64(xbh, xbh, sgm);                 \
--                tcg_gen_andc_i64(xbl, xbl, sgm);                 \
--                break;                                           \
--            }                                                    \
--            case OP_NABS: {                                      \
--                tcg_gen_or_i64(xbh, xbh, sgm);                   \
--                tcg_gen_or_i64(xbl, xbl, sgm);                   \
--                break;                                           \
--            }                                                    \
--            case OP_NEG: {                                       \
--                tcg_gen_xor_i64(xbh, xbh, sgm);                  \
--                tcg_gen_xor_i64(xbl, xbl, sgm);                  \
--                break;                                           \
--            }                                                    \
--            case OP_CPSGN: {                                     \
--                TCGv_i64 xah = tcg_temp_new_i64();               \
--                TCGv_i64 xal = tcg_temp_new_i64();               \
--                get_cpu_vsr(xah, xA(ctx->opcode), true);         \
--                get_cpu_vsr(xal, xA(ctx->opcode), false);        \
--                tcg_gen_and_i64(xah, xah, sgm);                  \
--                tcg_gen_and_i64(xal, xal, sgm);                  \
--                tcg_gen_andc_i64(xbh, xbh, sgm);                 \
--                tcg_gen_andc_i64(xbl, xbl, sgm);                 \
--                tcg_gen_or_i64(xbh, xbh, xah);                   \
--                tcg_gen_or_i64(xbl, xbl, xal);                   \
--                tcg_temp_free_i64(xah);                          \
--                tcg_temp_free_i64(xal);                          \
--                break;                                           \
--            }                                                    \
--        }                                                        \
--        set_cpu_vsr(xT(ctx->opcode), xbh, true);                 \
--        set_cpu_vsr(xT(ctx->opcode), xbl, false);                \
--        tcg_temp_free_i64(xbh);                                  \
--        tcg_temp_free_i64(xbl);                                  \
--        tcg_temp_free_i64(sgm);                                  \
--    }
--
--VSX_VECTOR_MOVE(xvcpsgndp, OP_CPSGN, SGN_MASK_DP)
--VSX_VECTOR_MOVE(xvcpsgnsp, OP_CPSGN, SGN_MASK_SP)
--
- #define TCG_OP_IMM_i64(FUNC, OP, IMM)                           \
-     static void FUNC(TCGv_i64 t, TCGv_i64 b)                    \
-     {                                                           \
-@@ -852,6 +796,59 @@ TRANS(XVABSSP, do_vsx_msb_op, MO_32, do_xvabs_vec, do_xvabssp_i64)
- TRANS(XVNABSSP, do_vsx_msb_op, MO_32, do_xvnabs_vec, do_xvnabssp_i64)
- TRANS(XVNEGSP, do_vsx_msb_op, MO_32, do_xvneg_vec, do_xvnegsp_i64)
+ #define VSX_SCALAR_MOVE(name, op, sgn_mask)                       \
+ static void glue(gen_, name)(DisasContext *ctx)                   \
+@@ -1110,6 +1112,30 @@ GEN_VSX_HELPER_X2(xscvhpdp, 0x16, 0x15, 0x10, PPC2_ISA300)
+ GEN_VSX_HELPER_R2(xscvsdqp, 0x04, 0x1A, 0x0A, PPC2_ISA300)
+ GEN_VSX_HELPER_X2(xscvspdp, 0x12, 0x14, 0, PPC2_VSX)
  
-+static void do_xvcpsgndp_i64(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b)
++static bool do_xvtstdc(DisasContext *ctx, arg_XX2_uim *a, unsigned vece)
 +{
-+    tcg_gen_andi_i64(a, a, SGN_MASK_DP);
-+    tcg_gen_andi_i64(b, b, ~SGN_MASK_DP);
-+    tcg_gen_or_i64(t, a, b);
-+}
-+
-+static void do_xvcpsgnsp_i64(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b)
-+{
-+    tcg_gen_andi_i64(a, a, SGN_MASK_SP);
-+    tcg_gen_andi_i64(b, b, ~SGN_MASK_SP);
-+    tcg_gen_or_i64(t, a, b);
-+}
-+
-+static void do_xvcpsgn_vec(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
-+{
-+    uint64_t msb = (vece == MO_32) ? SGN_MASK_SP : SGN_MASK_DP;
-+    tcg_gen_bitsel_vec(vece, t, tcg_constant_vec_matching(t, vece, msb), a, b);
-+}
-+
-+static bool do_xvcpsgn(DisasContext *ctx, arg_XX3 *a, unsigned vece)
-+{
-+    static const TCGOpcode vecop_list[] = {
-+        0
-+    };
-+
-+    static const GVecGen3 op[] = {
++    static const GVecGen2i op[] = {
 +        {
-+            .fni8 = do_xvcpsgnsp_i64,
-+            .fniv = do_xvcpsgn_vec,
-+            .opt_opc = vecop_list,
++            .fnoi = gen_helper_XVTSTDCSP,
 +            .vece = MO_32
 +        },
 +        {
-+            .fni8 = do_xvcpsgndp_i64,
-+            .fniv = do_xvcpsgn_vec,
-+            .opt_opc = vecop_list,
++            .fnoi = gen_helper_XVTSTDCDP,
 +            .vece = MO_64
 +        },
 +    };
 +
-+    REQUIRE_INSNS_FLAGS2(ctx, VSX);
 +    REQUIRE_VSX(ctx);
 +
-+    tcg_gen_gvec_3(vsr_full_offset(a->xt), vsr_full_offset(a->xa),
-+                   vsr_full_offset(a->xb), 16, 16, &op[vece - MO_32]);
++    tcg_gen_gvec_2i(vsr_full_offset(a->xt), vsr_full_offset(a->xb),
++                    16, 16, (int32_t)(a->uim), &op[vece - MO_32]);
 +
 +    return true;
 +}
 +
-+TRANS(XVCPSGNSP, do_xvcpsgn, MO_32)
-+TRANS(XVCPSGNDP, do_xvcpsgn, MO_64)
++TRANS_FLAGS2(VSX, XVTSTDCSP, do_xvtstdc, MO_32)
++TRANS_FLAGS2(VSX, XVTSTDCDP, do_xvtstdc, MO_64)
 +
- #define VSX_CMP(name, op1, op2, inval, type)                                  \
- static void gen_##name(DisasContext *ctx)                                     \
- {                                                                             \
+ bool trans_XSCVSPDPN(DisasContext *ctx, arg_XX2 *a)
+ {
+     TCGv_i64 tmp;
+@@ -1213,8 +1239,6 @@ GEN_VSX_HELPER_X2(xvrspic, 0x16, 0x0A, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X2(xvrspim, 0x12, 0x0B, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X2(xvrspip, 0x12, 0x0A, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X2(xvrspiz, 0x12, 0x09, 0, PPC2_VSX)
+-GEN_VSX_HELPER_2(xvtstdcsp, 0x14, 0x1A, 0, PPC2_VSX)
+-GEN_VSX_HELPER_2(xvtstdcdp, 0x14, 0x1E, 0, PPC2_VSX)
+ 
+ static bool trans_XXPERM(DisasContext *ctx, arg_XX3 *a)
+ {
 diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
-index b77324e0a8..f7d7377379 100644
+index f7d7377379..4b317d4b06 100644
 --- a/target/ppc/translate/vsx-ops.c.inc
 +++ b/target/ppc/translate/vsx-ops.c.inc
-@@ -165,9 +165,6 @@ GEN_XX3FORM(name, opc2, opc3 | 1, fl2)
- GEN_XX2FORM_DCMX(xvtstdcdp, 0x14, 0x1E, PPC2_ISA300),
- GEN_XX2FORM_DCMX(xvtstdcsp, 0x14, 0x1A, PPC2_ISA300),
+@@ -157,14 +157,6 @@ GEN_XX2FORM_EO(xvxexpdp, 0x16, 0x1D, 0x00, PPC2_ISA300),
+ GEN_XX2FORM_EO(xvxsigdp, 0x16, 0x1D, 0x01, PPC2_ISA300),
+ GEN_XX2FORM_EO(xvxexpsp, 0x16, 0x1D, 0x08, PPC2_ISA300),
  
--GEN_XX3FORM(xvcpsgndp, 0x00, 0x1E, PPC2_VSX),
--GEN_XX3FORM(xvcpsgnsp, 0x00, 0x1A, PPC2_VSX),
+-/* DCMX  =  bit[25] << 6 | bit[29] << 5 | bit[11:15] */
+-#define GEN_XX2FORM_DCMX(name, opc2, opc3, fl2) \
+-GEN_XX3FORM(name, opc2, opc3 | 0, fl2),         \
+-GEN_XX3FORM(name, opc2, opc3 | 1, fl2)
+-
+-GEN_XX2FORM_DCMX(xvtstdcdp, 0x14, 0x1E, PPC2_ISA300),
+-GEN_XX2FORM_DCMX(xvtstdcsp, 0x14, 0x1A, PPC2_ISA300),
 -
  GEN_XX3FORM(xsadddp, 0x00, 0x04, PPC2_VSX),
  GEN_VSX_XFORM_300(xsaddqp, 0x04, 0x00, 0x0),
