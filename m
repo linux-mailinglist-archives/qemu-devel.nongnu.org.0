@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C6B6117B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:41:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D2C6117B3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:41:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooSPL-0004kf-NV; Fri, 28 Oct 2022 12:40:35 -0400
+	id 1ooSPM-0004t9-WB; Fri, 28 Oct 2022 12:40:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSOy-0002ps-Ld; Fri, 28 Oct 2022 12:40:16 -0400
-Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30])
+ id 1ooSP3-0003Nk-Rq; Fri, 28 Oct 2022 12:40:18 -0400
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSOw-0007iN-Ux; Fri, 28 Oct 2022 12:40:12 -0400
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-13b6c1c89bdso6831072fac.13; 
- Fri, 28 Oct 2022 09:40:10 -0700 (PDT)
+ id 1ooSP2-0007kb-An; Fri, 28 Oct 2022 12:40:17 -0400
+Received: by mail-ot1-x334.google.com with SMTP id
+ d18-20020a05683025d200b00661c6f1b6a4so3278301otu.1; 
+ Fri, 28 Oct 2022 09:40:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fdJRlWYTcqL6ucLnfTqsjUj0hGbhOme3aoszJHaNXTA=;
- b=LJ0EtsospRFlV+Xh5w3BPAs9svbkF9GJJxOjQk/vnx9PsjOSfzOJgK0rFqhHO7gTgI
- epp6QCg4hzS/rKeBkdMdgOlUipUO6uDdUvVnecZVC/uoLZG5PLWnjiaIIPHxX1ihje6u
- Rnz+3FYN1+zIlfyFkZ61umKRDw7nTvXU++SbxL14qBFrOKTIIs+fPM95n1ldxDUP93e4
- WOVjcby5jlnZYNeB03/RBYIBFyzQshq7TpjHeIJdTXdyh5UegRUol8oU+FLf8LmrG11q
- FI4FKlzsxkdKFxPv0/26hbaLK/fR9MpeFGPMdJIzbD3+4vTfFXxEhX/gxVFGCwlg69Yz
- hg3Q==
+ bh=kesQ4O7GHSfLA7oFoVmvKFfpde6zZU42AJgjgBx5tTg=;
+ b=LhS3Fes307fywaL815fLjNOszPdkZsc35wm3PE4iTqggVBtqKpc2KIDSuEj5R7CT5B
+ TNYCLV/O/k506zZ2fIsH4ja3OCm17ehOM2gGVWYNrwKBqYoMfRn+Fpu/a7WdWJQQsl8f
+ q1R28VyxyWYF2+/HEJlnRclqPfygrqWkjIw4N83Zc6fixJSV+UWPujloVVm5RJ0Gq2vZ
+ 76K2fEwts/fV1OhKAuwUZZJMMMl7HYkyqaDfqnJon3EtO6W2EeGkdtFc+D9xkELDDCuk
+ 1Z0wX5q3GD2I4+/QES9vyhVs4Z70EdV/ut/b1XBooE+/rjKU0RfpsJr7vztKo85NlreA
+ pnYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fdJRlWYTcqL6ucLnfTqsjUj0hGbhOme3aoszJHaNXTA=;
- b=VzR148N51j4JofrJKV+Wtclwz0IZbzOXIwvJ0T6mB8Nr6MUbFDyU+m9K8KKpEyEmCk
- DwlXvTmgCGkJdaXQf7jynp6jXcAqs0e76hsPvabJretVJxzC6LRmydVUlMSkpHPYRkhx
- Ymq96/Q4RZzKBP7j4pKpucO1DYVa6BR0wo9mJ8fHpUrd1Vr2axZ9nh1D4EvdWx/HeXLK
- ud4Dyk0tHEB2EgkKB8C/o41gUJ2lnn/MKtjD3jiE1uR1W6y+9Ju6vrHtCmN9m94Gjniz
- 2RlgMQZvguA3WGiXcBNNLkP0z5zddmoZPRoVh9JqidwCWdbF6ephYeWCVyfPXuyT9hk1
- WgUA==
-X-Gm-Message-State: ACrzQf3PGJB9wAbIdwOmZJ07Vjf17qXcgMFS52mdNSpOr/Gf/eZUJlNX
- ZjiwgFXaAVPtrNpyCC5fXIHwihsldVAbcw==
-X-Google-Smtp-Source: AMsMyM5e/7f8qTdzJc9clEnswd/yt32hPitWWOTu8+3OSxVE1hDLwUzeIKTLqDHeHBKD6+mOswXkzw==
-X-Received: by 2002:a05:6870:612c:b0:132:a4d3:e0d8 with SMTP id
- s44-20020a056870612c00b00132a4d3e0d8mr10329oae.95.1666975208910; 
- Fri, 28 Oct 2022 09:40:08 -0700 (PDT)
+ bh=kesQ4O7GHSfLA7oFoVmvKFfpde6zZU42AJgjgBx5tTg=;
+ b=tjYHDIl/oEugQZsXQLasPwXnQTNoPff057mUc3RjRK5lsTOXX3DsqnozegQJs+x6Kh
+ czGWL1Ctv5E0SSckCsuZA3xxwQtJPusKW7NsIKMh6RaaUumxIXPK2pPabJAJ/UGftWCb
+ +NEOHG0aOHozkWI2Y/6X7wws/te94DxL9oPx3U6hhul15gTPokfZ0Q1xM319dlv2bfB+
+ AoEerhLHiGwKSI5PnskMjKe9FOGTSJdAo/gnnIN8FUK/Lkt9AFTRJjkdidVckYyy3EXX
+ vVI6f3fjGE4/L/ARlWO9ym8dabHTrZV7A6CdIMqRvgQcgMKvuWUSHUDoNHjvj4vYUaue
+ 6Y1Q==
+X-Gm-Message-State: ACrzQf3SUpiNdokocAxhiBhu0XBGflaMm1WTnq+hBXW9zCSNlbitATR5
+ Z5P5tsc5yfR0rFfPoeMx8xTK2DuAqecs6Q==
+X-Google-Smtp-Source: AMsMyM66U1ARXpBqmKrlBm4tx0HjypZl+yJoAtKa2V1XBPOEG3i6C399I+PwVwImKCv6+RsBzmYOBg==
+X-Received: by 2002:a9d:5d10:0:b0:661:1106:6cee with SMTP id
+ b16-20020a9d5d10000000b0066111066ceemr113757oti.362.1666975214306; 
+ Fri, 28 Oct 2022 09:40:14 -0700 (PDT)
 Received: from balboa.COMFAST ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.40.04
+ s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.40.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:40:07 -0700 (PDT)
+ Fri, 28 Oct 2022 09:40:12 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  Matheus Ferst <matheus.ferst@eldorado.org.br>,
  Fabiano Rosas <farosas@linux.ibm.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 02/62] target/ppc: fix msgsync insns flags
-Date: Fri, 28 Oct 2022 13:38:51 -0300
-Message-Id: <20221028163951.810456-3-danielhb413@gmail.com>
+Subject: [PULL 03/62] target/ppc: fix REQUIRE_HV macro definition
+Date: Fri, 28 Oct 2022 13:38:52 -0300
+Message-Id: <20221028163951.810456-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
 References: <20221028163951.810456-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::30;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x334.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -94,31 +94,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-This instruction was added by Power ISA 3.0, using PPC2_PRCNTL makes it
-available for older processors, like de e5500 and e6500.
+The macro is missing a '{' after the if condition. Any use of REQUIRE_HV
+would cause a compilation error.
 
-Fixes: 7af1e7b02264 ("target/ppc: add support for hypervisor doorbells on book3s CPUs")
+Fixes: fc34e81acd51 ("target/ppc: add macros to check privilege level")
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20221006200654.725390-3-matheus.ferst@eldorado.org.br>
+Message-Id: <20221006200654.725390-4-matheus.ferst@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/ppc/translate.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index b5d80fd13d..ccf2ffd567 100644
+index ccf2ffd567..f73ff2d2ee 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -6906,7 +6906,7 @@ GEN_HANDLER2_E(msgsnd, "msgsnd", 0x1F, 0x0E, 0x06, 0x03ff0001,
- GEN_HANDLER2_E(msgclr, "msgclr", 0x1F, 0x0E, 0x07, 0x03ff0001,
-                PPC_NONE, (PPC2_PRCNTL | PPC2_ISA207S)),
- GEN_HANDLER2_E(msgsync, "msgsync", 0x1F, 0x16, 0x1B, 0x00000000,
--               PPC_NONE, PPC2_PRCNTL),
-+               PPC_NONE, PPC2_ISA300),
- GEN_HANDLER(wrtee, 0x1F, 0x03, 0x04, 0x000FFC01, PPC_WRTEE),
- GEN_HANDLER(wrteei, 0x1F, 0x03, 0x05, 0x000E7C01, PPC_WRTEE),
- GEN_HANDLER(dlmzb, 0x1F, 0x0E, 0x02, 0x00000000, PPC_440_SPEC),
+@@ -6545,12 +6545,12 @@ static int64_t dw_compose_ea(DisasContext *ctx, int x)
+         }                           \
+     } while (0)
+ 
+-#define REQUIRE_HV(CTX)                         \
+-    do {                                        \
+-        if (unlikely((CTX)->pr || !(CTX)->hv))  \
+-            gen_priv_opc(CTX);                  \
+-            return true;                        \
+-        }                                       \
++#define REQUIRE_HV(CTX)                             \
++    do {                                            \
++        if (unlikely((CTX)->pr || !(CTX)->hv)) {    \
++            gen_priv_opc(CTX);                      \
++            return true;                            \
++        }                                           \
+     } while (0)
+ #else
+ #define REQUIRE_SV(CTX) do { gen_priv_opc(CTX); return true; } while (0)
 -- 
 2.37.3
 
