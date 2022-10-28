@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CAA611344
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:44:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B62D1611347
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:44:16 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooPcf-0000r7-Dp; Fri, 28 Oct 2022 09:42:10 -0400
+	id 1ooPdn-0001mm-Ms; Fri, 28 Oct 2022 09:43:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ooPaq-0008No-J5
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:40:16 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ id 1ooPav-0008Q5-0R
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:40:21 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ooPao-0007t9-DS
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:40:16 -0400
-Received: by mail-wr1-x434.google.com with SMTP id k8so6678781wrh.1
+ id 1ooPap-0007tO-Ey
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:40:19 -0400
+Received: by mail-wm1-x335.google.com with SMTP id y10so3258381wma.0
  for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 06:40:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=cFrjyz9kxKQHptd6tU6hs0Xp4JtLSvbrkHazl2jSWTg=;
- b=mzfZ0RHQAihUnQPO0jkDHxH1l8X8se1bvydIasLdeG+0j2A5TLrTjVAuZ1W1vSpE5V
- k/9QoQkLth1DlFAQPXY0elGMB+3iP2dQa79nVcpCBXsFLr2MozFaAh+0UYx6nqcW1L6e
- EUiK6P71tCIuBsNrAsXDb6ihPBTTS+XbcxVQ+nguvE5U56lSS2VNBlAtKQ06kJd8LxT1
- /2+fE3x/B86f1szCdPh2MQlb/s4+RdZfl7CxFdif+pdTzyfuKUZnKrd02QWRjDDzQMWF
- mloBy7yM3dAjQ1w5ujngO+887nHz9HptH+767+KvNuzJxQSHtGbb1ytLhJ9Rf+R5Mra1
- itqg==
+ :reply-to; bh=67MaQeJ+crA6JBl9YlIp7PqeAcKCV58O0zGZq6jATuo=;
+ b=gfuo+czFxos6T631UJx6lpPgd2MAhsvey7l5fH462CM/NFo0WHoL7fQg8E5Va71rHg
+ AmQMZLCNQxGJMuGXPAvP2xhPb2VcZ+xeHMmUr54Twqnr+ETWFZOYDvdGQyjPIBjdzI+i
+ 1oW52P+3bLq9kj4rKUdXmt/KWDyzBIHypEx4z76KRXg0NFUUb8PvljeUTr61UTuX9yDO
+ JJV258/KHDDdJohwsATwf+E+Efzx4KciBSSOend7cjzlSILIkVojTPdYgZhBs4Y+T5Qg
+ O6wtmMvOqlMZPTsOvppT0Dwp+eZGsrCAD3Do86sisZWeH2HRpcYJ8VjC1Z6FsJ202HRt
+ DWHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cFrjyz9kxKQHptd6tU6hs0Xp4JtLSvbrkHazl2jSWTg=;
- b=LFG7ItFuFxCHt00iuZZl39MvyPh/K6TXOziZB2lact/ZH/XOxFEmQLiq2MOa5kINFp
- wpp5JF+oYK73Vng0stktfmRR2jJyF6CAFDX1kZnK4m+N29EZmP/MlAoCejXATC9A3QDr
- 4A0IvEY/jSCQL0zRcrADTNouKi5TqaezaSrC8KkDvGNHA7zNSRZg7OIvSp1Jg+uXbkeK
- VZUesFEoCHcLQ0PoikgTD5TmgS63X6B/sMbFtb0ykI4ThUIE+LC+tuF6XbPy0eZtx2Bt
- reF9HrSUBgdPbPbmlBZvDE9brq0+9l36FLImEx61LqNraRzpOUBytdgFd2XADzHmN8bA
- FKIw==
-X-Gm-Message-State: ACrzQf31466q8PsDekPyVUG+81sbh6Et9cQ4HBk/jLsML0YMz2IRVT25
- a2WjbLq9bZepeObkwS9uwvEUelFnL35gWg==
-X-Google-Smtp-Source: AMsMyM5htgs+FtGHeb9FTs1mwulE+i46MtZFujMv7Fa6GJ+2JNfxuMqy/XSd16tg7cfL2WjS2p12hA==
-X-Received: by 2002:a05:6000:144b:b0:22f:2b48:e23 with SMTP id
- v11-20020a056000144b00b0022f2b480e23mr34948272wrx.281.1666964413046; 
- Fri, 28 Oct 2022 06:40:13 -0700 (PDT)
+ bh=67MaQeJ+crA6JBl9YlIp7PqeAcKCV58O0zGZq6jATuo=;
+ b=dlVUvzNnBLHGACIl0r8KDn1gjlrUyZlaSngGpjbJpBu0rSPdWGGnmrDKHZVurS2wYs
+ kqo9TtF7baRcY7NVKfqoZk+s5AQ3bIHBTd6qkcko+BRQqRF5y0CUbO/Rwq7yw+lSZXAu
+ SSciDP0Y/K+jLWBY6WooSHcPssL6bwfcEDcVH2O5LG/Ga5lMQbx1+jcjJPdnfPXSScAT
+ BQf7fTCtnX01sYFtY0ckGULmntnhVriZvyZ1AOU2oB+wkMnbvzBvE87A5x7dKN0/5BgB
+ wQ9NFT+pAjqgTBJalSAxy/TSu7s7m1kDX7xviKmfY8uLlmmCGhBaAXsE8AG9E1bKKkl0
+ H2pw==
+X-Gm-Message-State: ACrzQf2GWx4eZgyivvpmR2fSpYpxvrLXc+zs6pGbHzIor+NmdNXdRxkI
+ tnq5Nmm8sX/5di7sSV9kwXy1o6Pkhx+Grw==
+X-Google-Smtp-Source: AMsMyM4f9L/7woXNOg7v/Lq0xtShVIHRQxiYpFm6f1LWm0EhQtEvnJwGjLa65Vt5XowKqdR2uXswHQ==
+X-Received: by 2002:a1c:35c9:0:b0:3c3:d9a:385f with SMTP id
+ c192-20020a1c35c9000000b003c30d9a385fmr9393436wma.139.1666964414055; 
+ Fri, 28 Oct 2022 06:40:14 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- l16-20020a5d4110000000b002365cd93d05sm3572858wrp.102.2022.10.28.06.40.11
+ l16-20020a5d4110000000b002365cd93d05sm3572858wrp.102.2022.10.28.06.40.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 06:40:12 -0700 (PDT)
+ Fri, 28 Oct 2022 06:40:13 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 6/7] target/arm: Implement HCR_EL2.TID4 traps
-Date: Fri, 28 Oct 2022 14:40:01 +0100
-Message-Id: <20221028134002.730598-7-peter.maydell@linaro.org>
+Subject: [PATCH 7/7] target/arm: Report FEAT_EVT for TCG '-cpu max'
+Date: Fri, 28 Oct 2022 14:40:02 +0100
+Message-Id: <20221028134002.730598-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221028134002.730598-1-peter.maydell@linaro.org>
 References: <20221028134002.730598-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,76 +88,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-For FEAT_EVT, the HCR_EL2.TID4 trap allows trapping of the cache ID
-registers CCSIDR_EL1, CCSIDR2_EL1, CLIDR_EL1 and CSSELR_EL1 (and
-their AArch32 equivalents).  This is a subset of the registers
-trapped by HCR_EL2.TID2, which includes all of these and also the
-CTR_EL0 register.
-
-Our implementation already uses a separate access function for
-CTR_EL0 (ctr_el0_access()), so all of the registers currently using
-access_aa64_tid2() should also be checking TID4.  Make that function
-check both TID2 and TID4, and rename it appropriately.
+Update the ID registers for TCG's '-cpu max' to report the
+FEAT_EVT Enhanced Virtualization Traps support.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ docs/system/arm/emulation.rst | 1 +
+ target/arm/cpu64.c            | 1 +
+ target/arm/cpu_tcg.c          | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 1ff91f6daf7..19d1c17a147 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -1895,11 +1895,12 @@ static void scr_reset(CPUARMState *env, const ARMCPRegInfo *ri)
-     scr_write(env, ri, 0);
- }
+diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
+index cfb4b0768b0..bc330cff463 100644
+--- a/docs/system/arm/emulation.rst
++++ b/docs/system/arm/emulation.rst
+@@ -25,6 +25,7 @@ the following architecture extensions:
+ - FEAT_DotProd (Advanced SIMD dot product instructions)
+ - FEAT_DoubleFault (Double Fault Extension)
+ - FEAT_ETS (Enhanced Translation Synchronization)
++- FEAT_EVT (Enhanced Virtualization Traps)
+ - FEAT_FCMA (Floating-point complex number instructions)
+ - FEAT_FHM (Floating-point half-precision multiplication instructions)
+ - FEAT_FP16 (Half-precision floating-point data processing)
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 85e0d1daf1c..3a5df146ac2 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -1185,6 +1185,7 @@ static void aarch64_max_initfn(Object *obj)
+     t = FIELD_DP64(t, ID_AA64MMFR2, FWB, 1);      /* FEAT_S2FWB */
+     t = FIELD_DP64(t, ID_AA64MMFR2, TTL, 1);      /* FEAT_TTL */
+     t = FIELD_DP64(t, ID_AA64MMFR2, BBM, 2);      /* FEAT_BBM at level 2 */
++    t = FIELD_DP64(t, ID_AA64MMFR2, EVT, 2);      /* FEAT_EVT */
+     cpu->isar.id_aa64mmfr2 = t;
  
--static CPAccessResult access_aa64_tid2(CPUARMState *env,
--                                       const ARMCPRegInfo *ri,
--                                       bool isread)
-+static CPAccessResult access_tid4(CPUARMState *env,
-+                                  const ARMCPRegInfo *ri,
-+                                  bool isread)
- {
--    if (arm_current_el(env) == 1 && (arm_hcr_el2_eff(env) & HCR_TID2)) {
-+    if (arm_current_el(env) == 1 &&
-+        (arm_hcr_el2_eff(env) & (HCR_TID2 | HCR_TID4))) {
-         return CP_ACCESS_TRAP_EL2;
-     }
+     t = cpu->isar.id_aa64zfr0;
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index 60ff539fa18..4553d20edd4 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -65,6 +65,7 @@ void aa32_max_features(ARMCPU *cpu)
+     t = FIELD_DP32(t, ID_MMFR4, AC2, 1);          /* ACTLR2, HACTLR2 */
+     t = FIELD_DP32(t, ID_MMFR4, CNP, 1);          /* FEAT_TTCNP */
+     t = FIELD_DP32(t, ID_MMFR4, XNX, 1);          /* FEAT_XNX */
++    t = FIELD_DP32(t, ID_MMFR4, EVT, 2);          /* FEAT_EVT */
+     cpu->isar.id_mmfr4 = t;
  
-@@ -2130,12 +2131,12 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
-     { .name = "CCSIDR", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 1, .opc2 = 0,
-       .access = PL1_R,
--      .accessfn = access_aa64_tid2,
-+      .accessfn = access_tid4,
-       .readfn = ccsidr_read, .type = ARM_CP_NO_RAW },
-     { .name = "CSSELR", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 2, .opc2 = 0,
-       .access = PL1_RW,
--      .accessfn = access_aa64_tid2,
-+      .accessfn = access_tid4,
-       .writefn = csselr_write, .resetvalue = 0,
-       .bank_fieldoffsets = { offsetof(CPUARMState, cp15.csselr_s),
-                              offsetof(CPUARMState, cp15.csselr_ns) } },
-@@ -7279,7 +7280,7 @@ static const ARMCPRegInfo ccsidr2_reginfo[] = {
-     { .name = "CCSIDR2", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .opc1 = 1, .crn = 0, .crm = 0, .opc2 = 2,
-       .access = PL1_R,
--      .accessfn = access_aa64_tid2,
-+      .accessfn = access_tid4,
-       .readfn = ccsidr2_read, .type = ARM_CP_NO_RAW },
- };
- 
-@@ -7579,7 +7580,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-             .name = "CLIDR", .state = ARM_CP_STATE_BOTH,
-             .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 1, .opc2 = 1,
-             .access = PL1_R, .type = ARM_CP_CONST,
--            .accessfn = access_aa64_tid2,
-+            .accessfn = access_tid4,
-             .resetvalue = cpu->clidr
-         };
-         define_one_arm_cp_reg(cpu, &clidr);
+     t = cpu->isar.id_mmfr5;
 -- 
 2.25.1
 
