@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D887861129D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:25:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8180611295
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 15:24:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooPKZ-0001EK-QA; Fri, 28 Oct 2022 09:23:27 -0400
+	id 1ooPKf-0001GN-KZ; Fri, 28 Oct 2022 09:23:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooPKM-0000wW-Pg
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:23:20 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooPKS-00010f-AY
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:23:21 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooPKK-0005Gf-Ot
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:23:13 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooPKM-0005H1-Gm
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 09:23:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666963391;
+ s=mimecast20190719; t=1666963392;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O69b7ToGLa0VIKZ6QG1+wEQwPv38BGFRRKNXgqoY2x0=;
- b=XTuwkYQnTAFp8X3hc0aY9N4gqZPj9bIJ2PfYbmZloYvbi7SEiTsS1WvNlOwFS2F2tpqTM7
- GurKyBNwVdlEEhja8Gm2XoAJFVBj/vf6A7XHxcBj/E7SFEYgSWI2+dK7V4r3BTLXDWUwjY
- NE5/kzwxfzvOz0z/0Em0AqNEEMHo3cA=
+ bh=CC1nC/KHG+7SzaUWp63YOV+ubgM+z3y+21S9K9cXsQY=;
+ b=G6ObgN7845wBmCft+MTR7TOMsahKQxrmB6Dy3lVDFefa98xp598pn/u3s2vnF92j5TdHJi
+ 7DJgWBw4YpBrdg835Jhc9j4/5nK5YgrkuNrlpYivJ4ZRIAUHiKq059J6DXSIdInxV8rcYj
+ 8xb66JwdDW2mZZNhH6Ows5vXlRrv0f0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-316-7eZ9HSscM3mHRrnmZTttFQ-1; Fri, 28 Oct 2022 09:23:10 -0400
-X-MC-Unique: 7eZ9HSscM3mHRrnmZTttFQ-1
+ us-mta-512-5i0KYht7NxaYUQmPfbixdQ-1; Fri, 28 Oct 2022 09:23:11 -0400
+X-MC-Unique: 5i0KYht7NxaYUQmPfbixdQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D682F88B7A6;
- Fri, 28 Oct 2022 13:23:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 30728811E67
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 13:23:11 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.193.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BFB11121319;
- Fri, 28 Oct 2022 13:23:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 473AD1121319;
+ Fri, 28 Oct 2022 13:23:10 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Cc: Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>
-Subject: [PULL 01/21] s390x/pv: remove semicolon from macro definition
-Date: Fri, 28 Oct 2022 15:22:44 +0200
-Message-Id: <20221028132304.829103-2-thuth@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>
+Subject: [PULL 02/21] s390x: step down as general arch maintainer
+Date: Fri, 28 Oct 2022 15:22:45 +0200
+Message-Id: <20221028132304.829103-3-thuth@redhat.com>
 In-Reply-To: <20221028132304.829103-1-thuth@redhat.com>
 References: <20221028132304.829103-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -77,31 +76,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Claudio Imbrenda <imbrenda@linux.ibm.com>
+From: Cornelia Huck <cohuck@redhat.com>
 
-Remove spurious semicolon at the end of the macro s390_pv_cmd
+I haven't really been working on s390x for some time now, and in
+practice, I don't have time for it, either. So let's remove myself
+from this entry.
 
-Signed-off-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-Acked-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20221010151041.89071-1-imbrenda@linux.ibm.com>
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20221010160957.40779-1-cohuck@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/s390x/pv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ MAINTAINERS | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-index 728ba24547..8dfe92d8df 100644
---- a/hw/s390x/pv.c
-+++ b/hw/s390x/pv.c
-@@ -50,7 +50,7 @@ static int __s390_pv_cmd(uint32_t cmd, const char *cmdname, void *data)
-  * This macro lets us pass the command as a string to the function so
-  * we can print it on an error.
-  */
--#define s390_pv_cmd(cmd, data) __s390_pv_cmd(cmd, #cmd, data);
-+#define s390_pv_cmd(cmd, data) __s390_pv_cmd(cmd, #cmd, data)
- #define s390_pv_cmd_exit(cmd, data)    \
- {                                      \
-     int rc;                            \
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 32e495e165..17ff0a0138 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -84,7 +84,6 @@ T: git https://github.com/vivier/qemu.git trivial-patches
+ Architecture support
+ --------------------
+ S390 general architecture support
+-M: Cornelia Huck <cohuck@redhat.com>
+ M: Thomas Huth <thuth@redhat.com>
+ S: Supported
+ F: configs/devices/s390x-softmmu/default.mak
+@@ -106,7 +105,6 @@ F: docs/system/target-s390x.rst
+ F: docs/system/s390x/
+ F: tests/migration/s390x/
+ K: ^Subject:.*(?i)s390x?
+-T: git https://gitlab.com/cohuck/qemu.git s390-next
+ L: qemu-s390x@nongnu.org
+ 
+ MIPS general architecture support
 -- 
 2.31.1
 
