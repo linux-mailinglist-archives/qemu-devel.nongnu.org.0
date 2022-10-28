@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEECB610ED1
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 12:41:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E57A8610EBD
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 12:40:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooMm4-0002Hz-4F; Fri, 28 Oct 2022 06:39:40 -0400
+	id 1ooMm4-0002Jb-Qq; Fri, 28 Oct 2022 06:39:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ooMlp-0002Ce-La
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:39:25 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ooMlq-0002DG-Dh
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:39:26 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ooMlo-00021R-4E
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:39:25 -0400
+ (Exim 4.90_1) (envelope-from <nborisov@suse.com>) id 1ooMlo-00021e-MK
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 06:39:26 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id EE8E6219CF;
- Fri, 28 Oct 2022 10:39:22 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 705F11F38D;
+ Fri, 28 Oct 2022 10:39:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1666953562; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1666953563; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i0Vu3pJYv0nEyhI+zxj/E1vjt3aFiQmNWq0u9oAS678=;
- b=StBpJEi4UquhEOcL7EATwCcSeU9i2/PgxF2d1LwvZZbMXvExBqZFJbXv7YQSiMS4Yg2DSM
- eCbmtJwGQag81181RnEgvFSyogVue2D6VdWExFwbW09bAKjty2ynyExDtmrbwajrM9EEp9
- R9IFdd6amisFcWtMkg3VeQhRQnWB8Cg=
+ bh=ifcleT7pBfKzPGQ0kfkVrXFW2VaaxuRXmqqwY5FzkBw=;
+ b=jeqKnnp6o7Q4C5THJsAZqVB4Vmfsx7MpGuvPof/AsFf+WBTfQva+oINiwXpPP5XMJaWQSk
+ ZpTyvlr74OxD46e2Zpt/5m0Jv9PSyUHmOBT0NWI2OkYBRMc619qYM+5Liow8kgpgEALmwr
+ 0Js2VvXNs+vPSweqvygO+2zJDJmkBrE=
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8B50813A6E;
- Fri, 28 Oct 2022 10:39:22 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0BC9C13A6E;
+ Fri, 28 Oct 2022 10:39:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 2PF6H1qxW2PVPwAAMHmgww
- (envelope-from <nborisov@suse.com>); Fri, 28 Oct 2022 10:39:22 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id wFo/AFuxW2PVPwAAMHmgww
+ (envelope-from <nborisov@suse.com>); Fri, 28 Oct 2022 10:39:23 +0000
 From: Nikolay Borisov <nborisov@suse.com>
 To: dgilbert@redhat.com,
 	berrange@redhat.com
 Cc: qemu-devel@nongnu.org, jfehlig@suse.com, Claudio.Fontana@suse.com,
  dfaggioli@suse.com, Nikolay Borisov <nborisov@suse.com>
-Subject: [PATCH v3 13/14] tests: Add migrate_incoming_qmp helper
-Date: Fri, 28 Oct 2022 13:39:13 +0300
-Message-Id: <20221028103914.908728-14-nborisov@suse.com>
+Subject: [PATCH v3 14/14] tests/qtest: migration-test: Add tests for
+ file-based migration
+Date: Fri, 28 Oct 2022 13:39:14 +0300
+Message-Id: <20221028103914.908728-15-nborisov@suse.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221028103914.908728-1-nborisov@suse.com>
 References: <20221028103914.908728-1-nborisov@suse.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c;
- envelope-from=nborisov@suse.com; helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=nborisov@suse.com;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -77,62 +78,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-file-based migration requires the target to initiate its migration after
-the source has finished writing out the data in the file. Currently
-there's no easy way to initiate 'migrate-incoming', allow this by
-introducing migrate_incoming_qmp helper, similarly to migrate_qmp.
+Add basic tests for file-based migration as well as for the 'fixed-ram'
+feature.
 
 Signed-off-by: Nikolay Borisov <nborisov@suse.com>
 ---
- tests/qtest/migration-helpers.c | 19 +++++++++++++++++++
- tests/qtest/migration-helpers.h |  4 ++++
- 2 files changed, 23 insertions(+)
+ tests/qtest/migration-test.c | 46 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
-index f6f3c6680f57..8161495c2764 100644
---- a/tests/qtest/migration-helpers.c
-+++ b/tests/qtest/migration-helpers.c
-@@ -130,6 +130,25 @@ void migrate_qmp(QTestState *who, const char *uri, const char *fmt, ...)
-     qobject_unref(rsp);
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index ef4427ff4d41..de877473f193 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -748,6 +748,7 @@ static void test_migrate_end(QTestState *from, QTestState *to, bool test_dest)
+     cleanup("migsocket");
+     cleanup("src_serial");
+     cleanup("dest_serial");
++    cleanup("migfile");
  }
  
+ #ifdef CONFIG_GNUTLS
+@@ -1359,6 +1360,14 @@ static void test_precopy_common(MigrateCommon *args)
+          * hanging forever if migration didn't converge */
+         wait_for_migration_complete(from);
+ 
++        /*
++         * For file based migration the target must begin its migration after
++         * the source has finished
++         */
++        if (strstr(args->connect_uri, "file:")) {
++            migrate_incoming_qmp(to, args->connect_uri, "{}");
++        }
 +
-+void migrate_incoming_qmp(QTestState *who, const char *uri, const char *fmt, ...)
+         if (!got_stop) {
+             qtest_qmp_eventwait(from, "STOP");
+         }
+@@ -1514,6 +1523,39 @@ static void test_precopy_unix_xbzrle(void)
+     test_precopy_common(&args);
+ }
+ 
++static void test_precopy_unix_file(void)
 +{
-+    va_list ap;
-+    QDict *args, *rsp;
++    g_autofree char *uri = g_strdup_printf("file:%s/migfile", tmpfs);
++    MigrateCommon args = {
++        .connect_uri = uri,
++        .listen_uri = "defer",
++    };
 +
-+    va_start(ap, fmt);
-+    args = qdict_from_vjsonf_nofail(fmt, ap);
-+    va_end(ap);
-+
-+    g_assert(!qdict_haskey(args, "uri"));
-+    qdict_put_str(args, "uri", uri);
-+
-+    rsp = qtest_qmp(who, "{ 'execute': 'migrate-incoming', 'arguments': %p}", args);
-+
-+    g_assert(qdict_haskey(rsp, "return"));
-+    qobject_unref(rsp);
++    test_precopy_common(&args);
 +}
 +
- /*
-  * Note: caller is responsible to free the returned object via
-  * qobject_unref() after use
-diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
-index db0684de48b2..c0385aa27e11 100644
---- a/tests/qtest/migration-helpers.h
-+++ b/tests/qtest/migration-helpers.h
-@@ -30,6 +30,10 @@ QDict *qmp_command(QTestState *who, const char *command, ...);
- G_GNUC_PRINTF(3, 4)
- void migrate_qmp(QTestState *who, const char *uri, const char *fmt, ...);
- 
-+G_GNUC_PRINTF(3, 4)
-+void migrate_incoming_qmp(QTestState *who, const char *uri,
-+                          const char *fmt, ...);
++static void *
++test_migrate_fixed_ram_start(QTestState *from,
++                             QTestState *to)
++{
++    migrate_set_capability(from, "fixed-ram", true);
++    migrate_set_capability(to, "fixed-ram", true);
 +
- QDict *migrate_query(QTestState *who);
- QDict *migrate_query_not_failed(QTestState *who);
++    return NULL;
++}
++
++static void test_precopy_unix_fixed_ram(void)
++{
++    g_autofree char *uri = g_strdup_printf("file:%s/migfile", tmpfs);
++    MigrateCommon args = {
++        .connect_uri = uri,
++        .listen_uri = "defer",
++        .start_hook = test_migrate_fixed_ram_start,
++    };
++
++    test_precopy_common(&args);
++}
++
+ static void test_precopy_tcp_plain(void)
+ {
+     MigrateCommon args = {
+@@ -2506,6 +2548,10 @@ int main(int argc, char **argv)
+                    test_precopy_unix_tls_psk);
+ #endif
  
++    qtest_add_func("/migration/precopy/unix/file", test_precopy_unix_file);
++    qtest_add_func("/migration/precopy/unix/fixed-ram",
++                   test_precopy_unix_fixed_ram);
++
+     if (has_uffd) {
+         /*
+          * NOTE: psk test is enough for postcopy, as other types of TLS
 -- 
 2.34.1
 
