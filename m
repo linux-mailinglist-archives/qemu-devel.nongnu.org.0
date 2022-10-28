@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46AA06117C5
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:42:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2A36117F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:47:43 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooSQS-0004Hc-6n; Fri, 28 Oct 2022 12:41:44 -0400
+	id 1ooSQU-0004Wy-7v; Fri, 28 Oct 2022 12:41:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSPg-0006yN-70; Fri, 28 Oct 2022 12:41:01 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c])
+ id 1ooSPs-0008Dj-5W; Fri, 28 Oct 2022 12:41:13 -0400
+Received: from mail-oa1-x2f.google.com ([2001:4860:4864:20::2f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSPe-0007zr-2h; Fri, 28 Oct 2022 12:40:55 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-13ba86b5ac0so6914865fac.1; 
- Fri, 28 Oct 2022 09:40:53 -0700 (PDT)
+ id 1ooSPk-000886-Ey; Fri, 28 Oct 2022 12:41:03 -0400
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-13be3ef361dso6842499fac.12; 
+ Fri, 28 Oct 2022 09:40:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dJcQ1Nv2q062nRbJitb2oYb1BEtXAInRHBk6FB6kj4o=;
- b=mmCjFynrtmpsDl3Mi5Sa1wqc/YkGy5KiSF92NBXG9JZ6mW1G5SF8Q5cHBYI6IG6I0A
- V4EZIuPs21aHG23NkPkBal6VA6YMv51Jsweyfg/3h+wVuLZmCYR1W9FqtRevaU3WykpX
- qZPQohbMMMexgZljwlN0LQxjCPKzW5dmjPn4rIJaVHS4C859F5iBzkxbUAMi2nah9nqR
- DyrGTBeJzliu1Y7GtGIWTfHoNZYEEdfK6xllfV89VRDsmqUWY0Wz/o0NFgvK2cTLJkgb
- REOdoWN8j9oeySmlP+2gNt6qB4WAeD0eTEseGFvjHEKHercsJMOWKpJrd8zK0uGs7ZF1
- mN7g==
+ bh=RMjH+G0/SelU4bCAfTRqsl1NutDAFBMqnLNNpG1cLes=;
+ b=ZNHymBTuQCiUo//DEw9z1VSXhgOsqHRniLAgakvcnxd1z7KvOfgqCJ10KKEJqeEwf3
+ ApK70r7L4ZscziEn1LgOBRSWt9n2m7+DB3bEbVN62Zg6zLGN8roVtQgzblkyDOrufaJ7
+ H1Y8JVb+S6X5OVyW0OzextHFvksQa8ww19SixL8NCBRLt1EEXyYtOS0RHeqoeqGhK9E2
+ vZSpoQBjyjT4exQuRa4nf0BIdtSDgUasizcwFaEFkSBFLD/lxf5PW+P8bR+TgpUe74jV
+ hN+LhWk0c8dlfKrZX9vqMGy1eOEeBhcn4xaiHOK709qiMokEcimO/lNOzA9v5LktrDGG
+ cGVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dJcQ1Nv2q062nRbJitb2oYb1BEtXAInRHBk6FB6kj4o=;
- b=vr9Ua3yLO/2tUgCNTDElTi9iSIobTfMLvGKLwUhwawQBxBefOVnnp1vRxkOh71pTMI
- 1maBFikrmPkkNTcrpmL6uoin0TrldEhu6IdXwtevokxTbmafKyGWEFSpaYDfZtWMf619
- jpHlHsaQH2BuqofKu3/1/mjj5cY+ZAjjd0558Sr+kF2CV1lZBaj1NHm7ZH4xVKsO1Grh
- oY2BX/8i0S2xJ9CysE52rLNgrFVJfoq1jjhkbiuGEJF7ARWuQlFBzovLOkMkdT7L4b5V
- KFCCrbeMmCAZLJ/fTlYdgOuIa7jNhfVy1YyA3vePGO9wmVWdIDI4o9rpaOfCuhNTBY/0
- lJGg==
-X-Gm-Message-State: ACrzQf3hTKEy+faHVavOZwskRZbrDwTmO+hIm7SkEDcjuzjyWiMzFdYF
- fTsGFR+g5V8zUeV+4inYSM9gLIKwYB0fHQ==
-X-Google-Smtp-Source: AMsMyM6aY2abb79m4S4CKyiVaiDXAgTcPCd8QdK1iFTE9alrOUA1OpEAYz2xTF8b60KDqFFe2CAVNQ==
-X-Received: by 2002:a05:6870:a920:b0:131:87f8:1c67 with SMTP id
- eq32-20020a056870a92000b0013187f81c67mr9915358oab.76.1666975252715; 
- Fri, 28 Oct 2022 09:40:52 -0700 (PDT)
+ bh=RMjH+G0/SelU4bCAfTRqsl1NutDAFBMqnLNNpG1cLes=;
+ b=jKNt0QZVrQe4xsf3dl3BZZjCXStPmTY5GxDVFa6AT+RrWBHUVnRCx5qvzs7b4ujhHC
+ xZY57MOHnUUfMqaC88cq7UXz/593J5VN+cLTzCdbOscgG93489nmhxfkqRTfyigF+1Nl
+ ZQPN+wYCEAklHrA7FmBKGwoWNzNwfDAnZTde8YqULBI9QYpxldIvZWPHBdYs6VCj8pan
+ 4Pr94c3mgNttC6LsBTVUj0B7kV6uUSkGd/qWIk0B0BH7IcoNtfj8kZoRENt8k1BJprGm
+ qpGunDAVjW7bQpXX0yoNBaTE3rRPB2nt5hLs1wwi3Q5TIJdK0YowkZBpa3SF8gPBRrPi
+ lKwg==
+X-Gm-Message-State: ACrzQf0/dEglangk8a/8rMnr9f/wCCA95bMfMrWCZHdsu5/r2PnMGkwQ
+ YK9hkLdqFunq44uYgiQoHphOzWDohEibrQ==
+X-Google-Smtp-Source: AMsMyM4lmSYu7DKepO9pQG/fhdEJVAe82IY//nhpxqZWXPSw2zJSRCH5jVAhG6yTPDmA9unntW4Irg==
+X-Received: by 2002:a05:6870:960d:b0:13b:254d:247e with SMTP id
+ d13-20020a056870960d00b0013b254d247emr9872785oaq.237.1666975256954; 
+ Fri, 28 Oct 2022 09:40:56 -0700 (PDT)
 Received: from balboa.COMFAST ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.40.49
+ s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.40.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:40:51 -0700 (PDT)
+ Fri, 28 Oct 2022 09:40:56 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>,
  Richard Henderson <richard.henderson@linaro.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 12/62] target/ppc: Move VAVG[SU][BHW] to decodetree and use gvec
-Date: Fri, 28 Oct 2022 13:39:01 -0300
-Message-Id: <20221028163951.810456-13-danielhb413@gmail.com>
+Subject: [PULL 13/62] target/ppc: Move VABSDU[BHW] to decodetree and use gvec
+Date: Fri, 28 Oct 2022 13:39:02 -0300
+Message-Id: <20221028163951.810456-14-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
 References: <20221028163951.810456-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2f;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -94,316 +94,194 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 
-Moved the instructions VAVGUB, VAVGUH, VAVGUW, VAVGSB, VAVGSH, VAVGSW,
-to decodetree and use gvec with them. For these one the right shift
-had to be made before the sum as to avoid an overflow, so add 1 at the
-end if any of the entries had 1 in its LSB as to replicate the "+ 1"
-before the shift described by the ISA.
+Moved VABSDUB, VABSDUH and VABSDUW to decodetree and use gvec to
+translate them.
 
-vavgub:
+vabsdub:
 rept    loop    master             patch
-8       12500   0,02616600         0,00754200 (-71.2%)
-25      4000    0,02530000         0,00637700 (-74.8%)
-100     1000    0,02604600         0,00790100 (-69.7%)
-500     200     0,03189300         0,01838400 (-42.4%)
-2500    40      0,06006900         0,06851000 (+14.1%)
-8000    12      0,13941000         0,20548500 (+47.4%)
+8       12500   0,03601600         0,00688500 (-80.9%)
+25      4000    0,03651000         0,00532100 (-85.4%)
+100     1000    0,03666900         0,00595300 (-83.8%)
+500     200     0,04305800         0,01244600 (-71.1%)
+2500    40      0,06893300         0,04273700 (-38.0%)
+8000    12      0,14633200         0,12660300 (-13.5%)
 
-vavguh:
+vabsduh:
 rept    loop    master             patch
-8       12500   0,01818200         0,00780600 (-57.1%)
-25      4000    0,01789300         0,00641600 (-64.1%)
-100     1000    0,01899100         0,00787200 (-58.5%)
-500     200     0,02527200         0,01828400 (-27.7%)
-2500    40      0,05361800         0,06773000 (+26.3%)
-8000    12      0,12886600         0,20291400 (+57.5%)
+8       12500   0,02172400         0,00687500 (-68.4%)
+25      4000    0,02154100         0,00531500 (-75.3%)
+100     1000    0,02235400         0,00596300 (-73.3%)
+500     200     0,02827500         0,01245100 (-56.0%)
+2500    40      0,05638400         0,04285500 (-24.0%)
+8000    12      0,13166000         0,12641400 (-4.0%)
 
-vavguw:
+vabsduw:
 rept    loop    master             patch
-8       12500   0,01423100         0,00776600 (-45.4%)
-25      4000    0,01780800         0,00638600 (-64.1%)
-100     1000    0,02085500         0,00787000 (-62.3%)
-500     200     0,02737100         0,01828800 (-33.2%)
-2500    40      0,05572600         0,06774200 (+21.6%)
-8000    12      0,13101700         0,20311600 (+55.0%)
+8       12500   0,01646400         0,00688300 (-58.2%)
+25      4000    0,01454500         0,00475500 (-67.3%)
+100     1000    0,01545800         0,00511800 (-66.9%)
+500     200     0,02168200         0,01114300 (-48.6%)
+2500    40      0,04571300         0,04138800 (-9.5%)
+8000    12      0,12209500         0,12178500 (-0.3%)
 
-vavgsb:
-rept    loop    master             patch
-8       12500   0,03006000         0,00788600 (-73.8%)
-25      4000    0,02882200         0,00637800 (-77.9%)
-100     1000    0,02958000         0,00791400 (-73.2%)
-500     200     0,03548800         0,01860400 (-47.6%)
-2500    40      0,06360000         0,06850800 (+7.7%)
-8000    12      0,13816500         0,20550300 (+48.7%)
-
-vavgsh:
-rept    loop    master             patch
-8       12500   0,01965900         0,00776600 (-60.5%)
-25      4000    0,01875400         0,00638700 (-65.9%)
-100     1000    0,01952200         0,00786900 (-59.7%)
-500     200     0,02562000         0,01760300 (-31.3%)
-2500    40      0,05384300         0,06742800 (+25.2%)
-8000    12      0,13240800         0,20330000 (+53.5%)
-
-vavgsw:
-rept    loop    master             patch
-8       12500   0,01407700         0,00775600 (-44.9%)
-25      4000    0,01762300         0,00640000 (-63.7%)
-100     1000    0,02046500         0,00788500 (-61.5%)
-500     200     0,02745600         0,01843000 (-32.9%)
-2500    40      0,05375500         0,06820500 (+26.9%)
-8000    12      0,13068300         0,20304900 (+55.4%)
-
-These results to me seems to indicate that with gvec the results have a
-slower translation but faster execution.
+Same as VADDCUW and VSUBCUW, overall performance gain but it uses more
+TCGop (4 before the patch, 6 after).
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221019125040.48028-7-lucas.araujo@eldorado.org.br>
+Message-Id: <20221019125040.48028-8-lucas.araujo@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/helper.h                 |  12 ++--
- target/ppc/insn32.decode            |   9 +++
- target/ppc/int_helper.c             |  32 ++++-----
- target/ppc/translate/vmx-impl.c.inc | 106 ++++++++++++++++++++++++----
- target/ppc/translate/vmx-ops.c.inc  |   9 +--
- 5 files changed, 127 insertions(+), 41 deletions(-)
+ target/ppc/helper.h                 |  6 ++--
+ target/ppc/insn32.decode            |  6 ++++
+ target/ppc/int_helper.c             | 13 +++-----
+ target/ppc/translate/vmx-impl.c.inc | 49 +++++++++++++++++++++++++++--
+ target/ppc/translate/vmx-ops.c.inc  |  3 --
+ 5 files changed, 60 insertions(+), 17 deletions(-)
 
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index a06193bc67..71c22efc2e 100644
+index 71c22efc2e..fd8280dfa7 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -143,15 +143,15 @@ DEF_HELPER_FLAGS_1(ftsqrt, TCG_CALL_NO_RWG_SE, i32, i64)
- #define dh_ctype_acc ppc_acc_t *
- #define dh_typecode_acc dh_typecode_ptr
- 
--DEF_HELPER_FLAGS_3(vavgub, TCG_CALL_NO_RWG, void, avr, avr, avr)
--DEF_HELPER_FLAGS_3(vavguh, TCG_CALL_NO_RWG, void, avr, avr, avr)
--DEF_HELPER_FLAGS_3(vavguw, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_4(VAVGUB, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
-+DEF_HELPER_FLAGS_4(VAVGUH, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
-+DEF_HELPER_FLAGS_4(VAVGUW, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
- DEF_HELPER_FLAGS_3(vabsdub, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(vabsduh, TCG_CALL_NO_RWG, void, avr, avr, avr)
- DEF_HELPER_FLAGS_3(vabsduw, TCG_CALL_NO_RWG, void, avr, avr, avr)
--DEF_HELPER_FLAGS_3(vavgsb, TCG_CALL_NO_RWG, void, avr, avr, avr)
--DEF_HELPER_FLAGS_3(vavgsh, TCG_CALL_NO_RWG, void, avr, avr, avr)
--DEF_HELPER_FLAGS_3(vavgsw, TCG_CALL_NO_RWG, void, avr, avr, avr)
-+DEF_HELPER_FLAGS_4(VAVGSB, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
-+DEF_HELPER_FLAGS_4(VAVGSH, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
-+DEF_HELPER_FLAGS_4(VAVGSW, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
- DEF_HELPER_4(vcmpeqfp, void, env, avr, avr, avr)
- DEF_HELPER_4(vcmpgefp, void, env, avr, avr, avr)
- DEF_HELPER_4(vcmpgtfp, void, env, avr, avr, avr)
+@@ -146,9 +146,9 @@ DEF_HELPER_FLAGS_1(ftsqrt, TCG_CALL_NO_RWG_SE, i32, i64)
+ DEF_HELPER_FLAGS_4(VAVGUB, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
+ DEF_HELPER_FLAGS_4(VAVGUH, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
+ DEF_HELPER_FLAGS_4(VAVGUW, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
+-DEF_HELPER_FLAGS_3(vabsdub, TCG_CALL_NO_RWG, void, avr, avr, avr)
+-DEF_HELPER_FLAGS_3(vabsduh, TCG_CALL_NO_RWG, void, avr, avr, avr)
+-DEF_HELPER_FLAGS_3(vabsduw, TCG_CALL_NO_RWG, void, avr, avr, avr)
++DEF_HELPER_FLAGS_4(VABSDUB, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
++DEF_HELPER_FLAGS_4(VABSDUH, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
++DEF_HELPER_FLAGS_4(VABSDUW, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
+ DEF_HELPER_FLAGS_4(VAVGSB, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
+ DEF_HELPER_FLAGS_4(VAVGSH, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
+ DEF_HELPER_FLAGS_4(VAVGSW, TCG_CALL_NO_RWG, void, avr, avr, avr, i32)
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index b05c89efee..53dd45bbab 100644
+index 53dd45bbab..1214af7394 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -519,6 +519,15 @@ VCMPNEZW        000100 ..... ..... ..... . 0110000111   @VC
- VCMPSQ          000100 ... -- ..... ..... 00101000001   @VX_bf
- VCMPUQ          000100 ... -- ..... ..... 00100000001   @VX_bf
+@@ -528,6 +528,12 @@ VAVGUB          000100 ..... ..... ..... 10000000010    @VX
+ VAVGUH          000100 ..... ..... ..... 10001000010    @VX
+ VAVGUW          000100 ..... ..... ..... 10010000010    @VX
  
-+## Vector Integer Average Instructions
++## Vector Integer Absolute Difference Instructions
 +
-+VAVGSB          000100 ..... ..... ..... 10100000010    @VX
-+VAVGSH          000100 ..... ..... ..... 10101000010    @VX
-+VAVGSW          000100 ..... ..... ..... 10110000010    @VX
-+VAVGUB          000100 ..... ..... ..... 10000000010    @VX
-+VAVGUH          000100 ..... ..... ..... 10001000010    @VX
-+VAVGUW          000100 ..... ..... ..... 10010000010    @VX
++VABSDUB         000100 ..... ..... ..... 10000000011    @VX
++VABSDUH         000100 ..... ..... ..... 10001000011    @VX
++VABSDUW         000100 ..... ..... ..... 10010000011    @VX
 +
  ## Vector Bit Manipulation Instruction
  
  VGNB            000100 ..... -- ... ..... 10011001100   @VX_n
 diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index c6ce4665fa..bda76e54d4 100644
+index bda76e54d4..d97a7f1f28 100644
 --- a/target/ppc/int_helper.c
 +++ b/target/ppc/int_helper.c
-@@ -570,25 +570,23 @@ VARITHSAT_UNSIGNED(w, u32, uint64_t, cvtsduw)
- #undef VARITHSAT_SIGNED
- #undef VARITHSAT_UNSIGNED
- 
--#define VAVG_DO(name, element, etype)                                   \
--    void helper_v##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)       \
--    {                                                                   \
--        int i;                                                          \
--                                                                        \
--        for (i = 0; i < ARRAY_SIZE(r->element); i++) {                  \
--            etype x = (etype)a->element[i] + (etype)b->element[i] + 1;  \
--            r->element[i] = x >> 1;                                     \
--        }                                                               \
-+#define VAVG(name, element, etype)                                          \
-+    void helper_##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, uint32_t v)\
-+    {                                                                       \
-+        int i;                                                              \
-+                                                                            \
-+        for (i = 0; i < ARRAY_SIZE(r->element); i++) {                      \
-+            etype x = (etype)a->element[i] + (etype)b->element[i] + 1;      \
-+            r->element[i] = x >> 1;                                         \
-+        }                                                                   \
-     }
- 
--#define VAVG(type, signed_element, signed_type, unsigned_element,       \
--             unsigned_type)                                             \
--    VAVG_DO(avgs##type, signed_element, signed_type)                    \
--    VAVG_DO(avgu##type, unsigned_element, unsigned_type)
--VAVG(b, s8, int16_t, u8, uint16_t)
--VAVG(h, s16, int32_t, u16, uint32_t)
--VAVG(w, s32, int64_t, u32, uint64_t)
--#undef VAVG_DO
-+VAVG(VAVGSB, s8, int16_t)
-+VAVG(VAVGUB, u8, uint16_t)
-+VAVG(VAVGSH, s16, int32_t)
-+VAVG(VAVGUH, u16, uint32_t)
-+VAVG(VAVGSW, s32, int64_t)
-+VAVG(VAVGUW, u32, uint64_t)
+@@ -589,8 +589,8 @@ VAVG(VAVGSW, s32, int64_t)
+ VAVG(VAVGUW, u32, uint64_t)
  #undef VAVG
  
- #define VABSDU_DO(name, element)                                        \
+-#define VABSDU_DO(name, element)                                        \
+-void helper_v##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)           \
++#define VABSDU(name, element)                                           \
++void helper_##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, uint32_t v)\
+ {                                                                       \
+     int i;                                                              \
+                                                                         \
+@@ -606,12 +606,9 @@ void helper_v##name(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b)           \
+  *   name    - instruction mnemonic suffix (b: byte, h: halfword, w: word)
+  *   element - element type to access from vector
+  */
+-#define VABSDU(type, element)                   \
+-    VABSDU_DO(absdu##type, element)
+-VABSDU(b, u8)
+-VABSDU(h, u16)
+-VABSDU(w, u32)
+-#undef VABSDU_DO
++VABSDU(VABSDUB, u8)
++VABSDU(VABSDUH, u16)
++VABSDU(VABSDUW, u32)
+ #undef VABSDU
+ 
+ #define VCF(suffix, cvt, element)                                       \
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index cbb2a3ebe7..195c601f7a 100644
+index 195c601f7a..7741f2eb49 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -431,21 +431,9 @@ GEN_VXFORM_V(vminsb, MO_8, tcg_gen_gvec_smin, 1, 12);
+@@ -431,9 +431,6 @@ GEN_VXFORM_V(vminsb, MO_8, tcg_gen_gvec_smin, 1, 12);
  GEN_VXFORM_V(vminsh, MO_16, tcg_gen_gvec_smin, 1, 13);
  GEN_VXFORM_V(vminsw, MO_32, tcg_gen_gvec_smin, 1, 14);
  GEN_VXFORM_V(vminsd, MO_64, tcg_gen_gvec_smin, 1, 15);
--GEN_VXFORM(vavgub, 1, 16);
- GEN_VXFORM(vabsdub, 1, 16);
--GEN_VXFORM_DUAL(vavgub, PPC_ALTIVEC, PPC_NONE, \
--                vabsdub, PPC_NONE, PPC2_ISA300)
--GEN_VXFORM(vavguh, 1, 17);
- GEN_VXFORM(vabsduh, 1, 17);
--GEN_VXFORM_DUAL(vavguh, PPC_ALTIVEC, PPC_NONE, \
--                vabsduh, PPC_NONE, PPC2_ISA300)
--GEN_VXFORM(vavguw, 1, 18);
- GEN_VXFORM(vabsduw, 1, 18);
--GEN_VXFORM_DUAL(vavguw, PPC_ALTIVEC, PPC_NONE, \
--                vabsduw, PPC_NONE, PPC2_ISA300)
--GEN_VXFORM(vavgsb, 1, 20);
--GEN_VXFORM(vavgsh, 1, 21);
--GEN_VXFORM(vavgsw, 1, 22);
+-GEN_VXFORM(vabsdub, 1, 16);
+-GEN_VXFORM(vabsduh, 1, 17);
+-GEN_VXFORM(vabsduw, 1, 18);
  GEN_VXFORM(vmrghb, 6, 0);
  GEN_VXFORM(vmrghh, 6, 1);
  GEN_VXFORM(vmrghw, 6, 2);
-@@ -3373,6 +3361,100 @@ TRANS(VMULHSD, do_vx_mulh, true , do_vx_vmulhd_i64)
- TRANS(VMULHUW, do_vx_mulh, false, do_vx_vmulhw_i64)
- TRANS(VMULHUD, do_vx_mulh, false, do_vx_vmulhd_i64)
+@@ -3455,6 +3452,52 @@ TRANS_FLAGS(ALTIVEC, VAVGUB, do_vx_vavg, 0, MO_8)
+ TRANS_FLAGS(ALTIVEC, VAVGUH, do_vx_vavg, 0, MO_16)
+ TRANS_FLAGS(ALTIVEC, VAVGUW, do_vx_vavg, 0, MO_32)
  
-+static void do_vavg(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b,
-+                    void (*gen_shr_vec)(unsigned, TCGv_vec, TCGv_vec, int64_t))
++static void gen_vabsdu(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
 +{
-+    TCGv_vec tmp = tcg_temp_new_vec_matching(t);
-+    tcg_gen_or_vec(vece, tmp, a, b);
-+    tcg_gen_and_vec(vece, tmp, tmp, tcg_constant_vec_matching(t, vece, 1));
-+    gen_shr_vec(vece, a, a, 1);
-+    gen_shr_vec(vece, b, b, 1);
-+    tcg_gen_add_vec(vece, t, a, b);
-+    tcg_gen_add_vec(vece, t, t, tmp);
-+    tcg_temp_free_vec(tmp);
++    tcg_gen_umax_vec(vece, t, a, b);
++    tcg_gen_umin_vec(vece, a, a, b);
++    tcg_gen_sub_vec(vece, t, t, a);
 +}
 +
-+QEMU_FLATTEN
-+static void gen_vavgu(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
++static bool do_vabsdu(DisasContext *ctx, arg_VX *a, const int vece)
 +{
-+    do_vavg(vece, t, a, b, tcg_gen_shri_vec);
-+}
-+
-+QEMU_FLATTEN
-+static void gen_vavgs(unsigned vece, TCGv_vec t, TCGv_vec a, TCGv_vec b)
-+{
-+    do_vavg(vece, t, a, b, tcg_gen_sari_vec);
-+}
-+
-+static bool do_vx_vavg(DisasContext *ctx, arg_VX *a, int sign, int vece)
-+{
-+    static const TCGOpcode vecop_list_s[] = {
-+        INDEX_op_add_vec, INDEX_op_sari_vec, 0
-+    };
-+    static const TCGOpcode vecop_list_u[] = {
-+        INDEX_op_add_vec, INDEX_op_shri_vec, 0
++    static const TCGOpcode vecop_list[] = {
++        INDEX_op_umax_vec, INDEX_op_umin_vec, INDEX_op_sub_vec, 0
 +    };
 +
-+    static const GVecGen3 op[2][3] = {
++    static const GVecGen3 op[] = {
 +        {
-+            {
-+                .fniv = gen_vavgu,
-+                .fno = gen_helper_VAVGUB,
-+                .opt_opc = vecop_list_u,
-+                .vece = MO_8
-+            },
-+            {
-+                .fniv = gen_vavgu,
-+                .fno = gen_helper_VAVGUH,
-+                .opt_opc = vecop_list_u,
-+                .vece = MO_16
-+            },
-+            {
-+                .fniv = gen_vavgu,
-+                .fno = gen_helper_VAVGUW,
-+                .opt_opc = vecop_list_u,
-+                .vece = MO_32
-+            },
++            .fniv = gen_vabsdu,
++            .fno = gen_helper_VABSDUB,
++            .opt_opc = vecop_list,
++            .vece = MO_8
 +        },
 +        {
-+            {
-+                .fniv = gen_vavgs,
-+                .fno = gen_helper_VAVGSB,
-+                .opt_opc = vecop_list_s,
-+                .vece = MO_8
-+            },
-+            {
-+                .fniv = gen_vavgs,
-+                .fno = gen_helper_VAVGSH,
-+                .opt_opc = vecop_list_s,
-+                .vece = MO_16
-+            },
-+            {
-+                .fniv = gen_vavgs,
-+                .fno = gen_helper_VAVGSW,
-+                .opt_opc = vecop_list_s,
-+                .vece = MO_32
-+            },
++            .fniv = gen_vabsdu,
++            .fno = gen_helper_VABSDUH,
++            .opt_opc = vecop_list,
++            .vece = MO_16
++        },
++        {
++            .fniv = gen_vabsdu,
++            .fno = gen_helper_VABSDUW,
++            .opt_opc = vecop_list,
++            .vece = MO_32
 +        },
 +    };
 +
 +    REQUIRE_VECTOR(ctx);
 +
 +    tcg_gen_gvec_3(avr_full_offset(a->vrt), avr_full_offset(a->vra),
-+                   avr_full_offset(a->vrb), 16, 16, &op[sign][vece]);
-+
++                   avr_full_offset(a->vrb), 16, 16, &op[vece]);
 +
 +    return true;
 +}
 +
-+
-+TRANS_FLAGS(ALTIVEC, VAVGSB, do_vx_vavg, 1, MO_8)
-+TRANS_FLAGS(ALTIVEC, VAVGSH, do_vx_vavg, 1, MO_16)
-+TRANS_FLAGS(ALTIVEC, VAVGSW, do_vx_vavg, 1, MO_32)
-+TRANS_FLAGS(ALTIVEC, VAVGUB, do_vx_vavg, 0, MO_8)
-+TRANS_FLAGS(ALTIVEC, VAVGUH, do_vx_vavg, 0, MO_16)
-+TRANS_FLAGS(ALTIVEC, VAVGUW, do_vx_vavg, 0, MO_32)
++TRANS_FLAGS2(ISA300, VABSDUB, do_vabsdu, MO_8)
++TRANS_FLAGS2(ISA300, VABSDUH, do_vabsdu, MO_16)
++TRANS_FLAGS2(ISA300, VABSDUW, do_vabsdu, MO_32)
 +
  static bool do_vdiv_vmod(DisasContext *ctx, arg_VX *a, const int vece,
                           void (*func_32)(TCGv_i32 t, TCGv_i32 a, TCGv_i32 b),
                           void (*func_64)(TCGv_i64 t, TCGv_i64 a, TCGv_i64 b))
 diff --git a/target/ppc/translate/vmx-ops.c.inc b/target/ppc/translate/vmx-ops.c.inc
-index 46a620a232..02db51def0 100644
+index 02db51def0..33fec8aca4 100644
 --- a/target/ppc/translate/vmx-ops.c.inc
 +++ b/target/ppc/translate/vmx-ops.c.inc
-@@ -83,12 +83,9 @@ GEN_VXFORM(vminsb, 1, 12),
+@@ -83,9 +83,6 @@ GEN_VXFORM(vminsb, 1, 12),
  GEN_VXFORM(vminsh, 1, 13),
  GEN_VXFORM(vminsw, 1, 14),
  GEN_VXFORM_207(vminsd, 1, 15),
--GEN_VXFORM_DUAL(vavgub, vabsdub, 1, 16, PPC_ALTIVEC, PPC_NONE),
--GEN_VXFORM_DUAL(vavguh, vabsduh, 1, 17, PPC_ALTIVEC, PPC_NONE),
--GEN_VXFORM_DUAL(vavguw, vabsduw, 1, 18, PPC_ALTIVEC, PPC_NONE),
--GEN_VXFORM(vavgsb, 1, 20),
--GEN_VXFORM(vavgsh, 1, 21),
--GEN_VXFORM(vavgsw, 1, 22),
-+GEN_VXFORM(vabsdub, 1, 16),
-+GEN_VXFORM(vabsduh, 1, 17),
-+GEN_VXFORM(vabsduw, 1, 18),
+-GEN_VXFORM(vabsdub, 1, 16),
+-GEN_VXFORM(vabsduh, 1, 17),
+-GEN_VXFORM(vabsduw, 1, 18),
  GEN_VXFORM(vmrghb, 6, 0),
  GEN_VXFORM(vmrghh, 6, 1),
  GEN_VXFORM(vmrghw, 6, 2),
