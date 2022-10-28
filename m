@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E455A610BC7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 10:03:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F67610BCA
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 10:06:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooKKA-00081o-9M; Fri, 28 Oct 2022 04:02:42 -0400
+	id 1ooKMx-0001MW-Jb; Fri, 28 Oct 2022 04:05:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooKK7-00080Z-2J
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 04:02:39 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooKMr-0001Lk-1h
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 04:05:30 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooKK4-0001hd-NA
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 04:02:37 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooKMo-0002NP-EJ
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 04:05:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666944154;
+ s=mimecast20190719; t=1666944325;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6OvoftJKuxUA2F3B7RY9vguJuTJcXlzm7qV33NzN8fY=;
- b=hb2NTu7/ewJQja14xLthCarP3TYFs5/0xZUF9YPou+wtRe/Aqk97APTas8ZjUwpQAOR2Ey
- jWM4meTCdIOwLaOsPMwoENc9iT8Ih8edjXHpAKYwTSpZv3UAkUa8KcIyRfzjiJOR281kGo
- MpXcsDdfwfZr3FgnBQKTPiw7p0Hfo3U=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nwBA55yWam2VgQ60b6tJti/X5vSeR2M1wdkSKJ6qSko=;
+ b=Ai+Vjmc+Wy6UHlOqZDwnM3/KhzHfSbylxT0llC2xT+23e6Ld/y8d8A4Pk+flrct1HZq9jZ
+ 0WP4jorE8SkvmPRRgTyPziJRppNbVwcfW6TW6MhNfoiigdL5bY4eZ3y6JiT9WluIhNMdd4
+ 0hVymYlTi67xVL6Z0KCDAEf0rKY62IU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-391-QpZ_Bib0N6yljepAsyWC1Q-1; Fri, 28 Oct 2022 04:02:23 -0400
-X-MC-Unique: QpZ_Bib0N6yljepAsyWC1Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- az35-20020a05600c602300b003c5273b79fdso4034858wmb.3
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 01:02:23 -0700 (PDT)
+ us-mta-85-yZUQTil2MTGfNFEInCX6zQ-1; Fri, 28 Oct 2022 04:05:24 -0400
+X-MC-Unique: yZUQTil2MTGfNFEInCX6zQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ d13-20020a05600c34cd00b003ce1f62ac5aso4037881wmq.4
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 01:05:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6OvoftJKuxUA2F3B7RY9vguJuTJcXlzm7qV33NzN8fY=;
- b=zKUhRLOb+vC/7SO0mmCG8efFlRj/4JDZNmof8imbVVYlOnGuba5T1r6tbaR/Q48msQ
- jJGeANCXudsxoY0dbObEd9SKZbK8BWebdu6IhurJY03ra7gvnqF7uAt4v70muiWQL1Ux
- va8mwR4p5BAEe0NugejoJVIlmOozC2bOJQBx9c5tRr0fDmh3PtRxhb6gBcr+7SvkZUxs
- SHZut26qUYR9ieq2uLm8H7LoyjKVXcRXPKcCnlAVpxxImIjJNSqAvPvd3aeBCm3WNVAx
- MknNRMH6Y7WdFltD4hnBAuZEq3xhaq7CqLjh9M7jjcAhUvkThDMcbzFl9goBDRYRDcUo
- w+sA==
-X-Gm-Message-State: ACrzQf0IA36GxMEHb6FEjuJP38QuN1S4kscVOyrii3E9zS6frqlZJ20W
- DxHGcEc8GcQh4u07ijeq3KG0uCOAPwVTzARQ69nNjL3MR6EdTbx2vJa45vNnakF8VC4QwhzTP2O
- 7vwf0u2XNAFDPZsA=
-X-Received: by 2002:a7b:c34a:0:b0:3c6:e069:d41c with SMTP id
- l10-20020a7bc34a000000b003c6e069d41cmr8535783wmj.180.1666944142863; 
- Fri, 28 Oct 2022 01:02:22 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7DQzI7xI5YGugr21hyc3UxXSkafiW5+csepYpagQB6Wv6yRFgxtVlxCHxC38/iU9/q6lwd/A==
-X-Received: by 2002:a7b:c34a:0:b0:3c6:e069:d41c with SMTP id
- l10-20020a7bc34a000000b003c6e069d41cmr8535760wmj.180.1666944142602; 
- Fri, 28 Oct 2022 01:02:22 -0700 (PDT)
+ bh=nwBA55yWam2VgQ60b6tJti/X5vSeR2M1wdkSKJ6qSko=;
+ b=vM9oD3vNFROlptagnwztPRKAp04U2KfafmM7a2lnCVyw4JAEXqEHUorl9JOodXWpXq
+ hZf7MAygYxMwP4oNP8oNh9lSj6RR/v3N+9JyHH2zXWajnZx+RYX2VhyQVqHnxWJDdhW4
+ RwJdvig/DkeLU9OR0kLr/49+hKGllT2FXVSPRHlfkpDQ6mxf0yDumQ4Uh/ZC51nDC6HB
+ AW+LgVcxHZtvzXa37F88eTh8nCHh+L5PhlteGl5/MxXzkpzmgH2anZh5Bj6ZZkQQjH1J
+ xI07YkpG6UkQ/XnhBzUMQn3Gsq2loVx+JxdS+5mL0XHzrzW++Yjl/TI2faxMYAiqs18v
+ yz7w==
+X-Gm-Message-State: ACrzQf0PXyIctXCDmT+AEgf10p4ddd9QZkQh/DW5cuqT/2WO9PqJVgYX
+ x8pm8PrjUjKIhUeJdJrO+4+/NLh1XJJs2rHkhMg0SIiDgiC19Yz50HIXMTDl9ldyOcibSuLtJZ3
+ MEmGzzd5WqWpZ09o=
+X-Received: by 2002:a7b:c7c1:0:b0:3c7:103:f964 with SMTP id
+ z1-20020a7bc7c1000000b003c70103f964mr8550308wmk.121.1666944322907; 
+ Fri, 28 Oct 2022 01:05:22 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5sQugRFh1a/yoGdpRf2GylaZ5BklwJUXDRaY5Wxwb7D3iAb3WkiRCLBM8YY4MzdRQKEqbc1A==
+X-Received: by 2002:a7b:c047:0:b0:3b4:adc7:1ecb with SMTP id
+ u7-20020a7bc047000000b003b4adc71ecbmr8455734wmc.144.1666944311693; 
+ Fri, 28 Oct 2022 01:05:11 -0700 (PDT)
 Received: from [192.168.0.5] (ip-109-43-177-14.web.vodafone.de.
  [109.43.177.14]) by smtp.gmail.com with ESMTPSA id
- t18-20020a05600001d200b0023647841c5bsm2952468wrx.60.2022.10.28.01.02.21
+ i18-20020a1c5412000000b003cf54b77bfesm3239626wmb.28.2022.10.28.01.05.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Oct 2022 01:02:21 -0700 (PDT)
-Message-ID: <89ee8024-a003-0de7-2f44-379462fa3e18@redhat.com>
-Date: Fri, 28 Oct 2022 10:02:20 +0200
+ Fri, 28 Oct 2022 01:05:11 -0700 (PDT)
+Message-ID: <eb1b1498-b882-4ee0-2d5a-813e270554d7@redhat.com>
+Date: Fri, 28 Oct 2022 10:05:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v6 05/11] tests/qtest: Use EXIT_FAILURE instead of magic
- number
+Subject: Re: [PATCH v6 06/11] tests/qtest: libqtest: Introduce
+ qtest_wait_qemu()
 Content-Language: en-US
 To: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org
 Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 References: <20221028045736.679903-1-bin.meng@windriver.com>
- <20221028045736.679903-6-bin.meng@windriver.com>
+ <20221028045736.679903-7-bin.meng@windriver.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221028045736.679903-6-bin.meng@windriver.com>
+In-Reply-To: <20221028045736.679903-7-bin.meng@windriver.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
@@ -105,20 +103,130 @@ Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 28/10/2022 06.57, Bin Meng wrote:
-> When migration fails, QEMU exits with a status code EXIT_FAILURE.
-> Change qtests to use the well-defined macro instead of magic number.
+> Introduce an API for qtest to wait for the QEMU process to terminate.
 > 
+> Suggested-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > 
 > ---
 > 
 > Changes in v6:
-> - new patch: "tests/qtest: Use EXIT_FAILURE instead of magic number"
+> - new patch: "tests/qtest: libqtest: Introduce qtest_wait_qemu()"
 > 
->   tests/qtest/dbus-vmstate-test.c | 2 +-
->   tests/qtest/migration-test.c    | 4 ++--
->   2 files changed, 3 insertions(+), 3 deletions(-)
+>   tests/qtest/libqtest.h |  9 ++++++
+>   tests/qtest/libqtest.c | 63 +++++++++++++++++++++++++-----------------
+>   2 files changed, 47 insertions(+), 25 deletions(-)
+> 
+> diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
+> index 65c040e504..91a5f7edd9 100644
+> --- a/tests/qtest/libqtest.h
+> +++ b/tests/qtest/libqtest.h
+> @@ -75,6 +75,15 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args);
+>    */
+>   QTestState *qtest_init_with_serial(const char *extra_args, int *sock_fd);
+>   
+> +/**
+> + * qtest_wait_qemu:
+> + * @s: #QTestState instance to operate on.
+> + *
+> + * Wait for the QEMU process to terminate. It is safe to call this function
+> + * multiple times.
+> + */
+> +void qtest_wait_qemu(QTestState *s);
+> +
+>   /**
+>    * qtest_kill_qemu:
+>    * @s: #QTestState instance to operate on.
+> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+> index d12a604d78..e1e2d39a6e 100644
+> --- a/tests/qtest/libqtest.c
+> +++ b/tests/qtest/libqtest.c
+> @@ -156,37 +156,14 @@ void qtest_set_expected_status(QTestState *s, int status)
+>       s->expected_status = status;
+>   }
+>   
+> -void qtest_kill_qemu(QTestState *s)
+> +static void qtest_check_status(QTestState *s)
+>   {
+> -    pid_t pid = s->qemu_pid;
+> -#ifndef _WIN32
+> -    int wstatus;
+> -#else
+> -    DWORD ret;
+> -#endif
+> -
+> -    /* Skip wait if qtest_probe_child already reaped.  */
+> -    if (pid != -1) {
+> -#ifndef _WIN32
+> -        kill(pid, SIGTERM);
+> -        TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
+> -        assert(pid == s->qemu_pid);
+> -#else
+> -        TerminateProcess((HANDLE)pid, s->expected_status);
+> -        ret = WaitForSingleObject((HANDLE)pid, INFINITE);
+> -        assert(ret == WAIT_OBJECT_0);
+> -        GetExitCodeProcess((HANDLE)pid, &s->exit_code);
+> -        CloseHandle((HANDLE)pid);
+> -#endif
+> -        s->qemu_pid = -1;
+> -    }
+> -
+>       /*
+>        * Check whether qemu exited with expected exit status; anything else is
+>        * fishy and should be logged with as much detail as possible.
+>        */
+>   #ifndef _WIN32
+> -    wstatus = s->wstatus;
+> +    int wstatus = s->wstatus;
+>       if (WIFEXITED(wstatus) && WEXITSTATUS(wstatus) != s->expected_status) {
+>           fprintf(stderr, "%s:%d: kill_qemu() tried to terminate QEMU "
+>                   "process but encountered exit status %d (expected %d)\n",
+> @@ -212,6 +189,42 @@ void qtest_kill_qemu(QTestState *s)
+>   #endif
+>   }
+>   
+> +void qtest_wait_qemu(QTestState *s)
+> +{
+> +#ifndef _WIN32
+> +    pid_t pid;
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Should we have a check for  s->qemu_pid != -1 here ?
+
+> +    TFR(pid = waitpid(s->qemu_pid, &s->wstatus, 0));
+> +    assert(pid == s->qemu_pid);
+> +#else
+> +    DWORD ret;
+> +
+> +    ret = WaitForSingleObject((HANDLE)s->qemu_pid, INFINITE);
+> +    assert(ret == WAIT_OBJECT_0);
+> +    GetExitCodeProcess((HANDLE)s->qemu_pid, &s->exit_code);
+> +    CloseHandle((HANDLE)s->qemu_pid);
+> +#endif
+> +
+> +    qtest_check_status(s);
+> +}
+> +
+> +void qtest_kill_qemu(QTestState *s)
+> +{
+> +    /* Skip wait if qtest_probe_child() already reaped */
+> +    if (s->qemu_pid != -1) {
+> +#ifndef _WIN32
+> +        kill(s->qemu_pid, SIGTERM);
+> +#else
+> +        TerminateProcess((HANDLE)s->qemu_pid, s->expected_status);
+> +#endif
+> +        qtest_wait_qemu(s);
+> +        s->qemu_pid = -1;
+> +        return;
+> +    }
+> +
+> +    qtest_check_status(s);
+> +}
+> +
+>   static void kill_qemu_hook_func(void *s)
+>   {
+>       qtest_kill_qemu(s);
+
+  Thomas
 
 
