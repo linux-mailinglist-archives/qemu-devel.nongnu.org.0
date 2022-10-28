@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63AA610799
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 04:04:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3A36107A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 04:06:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooEj1-00069P-N6; Thu, 27 Oct 2022 22:03:59 -0400
+	id 1ooEkV-0006jI-Cd; Thu, 27 Oct 2022 22:05:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ooEix-00069E-IC
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 22:03:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1ooEkH-0006fh-Fm
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 22:05:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ooEiv-0002Yy-Rr
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 22:03:55 -0400
+ id 1ooEkF-0002oS-QH
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 22:05:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666922633;
+ s=mimecast20190719; t=1666922714;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=KAC3PuetTmyUlh1CF2uvNb7PtwgWneKQXuEv8RFWNgc=;
- b=VAjvPiuhmD61r1j4ec/OGO0FtlzDUAe49kebYldJYjqKfzKiSUhgYOmJV4WcuLtUOXHaFM
- grdYHq4aEIXYimyy1q8p1zRIaRXY6rpGlEQ5I+Q0vz2wrsx605AKmnMBLUhVS0/jkSnJid
- oqDeA+J0d8EEqx+SytevYtpzjzYR68Q=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=X7K058gj8SyugkyzejY+vUPJfEieshe68CPkEZQoCVQ=;
+ b=GK91RlbQhrXgD7AEuXy/qkU3L4oQBuiGyNMqazDjtCPs2AE9Ynyq758KcgXcqcUwntqY2t
+ 5i6G8//lvti1CKpmCBfdc25u+OQ6tovMc4c3D1hPvqvj5ec4+pWimJ2fADAa9SO4IE8EOC
+ 7mgb+fBpR6UcIxIt/xk0SBU2urcihso=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-322-Nh_98b5fM4myGyljemrWyQ-1; Thu, 27 Oct 2022 22:03:50 -0400
-X-MC-Unique: Nh_98b5fM4myGyljemrWyQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- b13-20020a056402350d00b0045d0fe2004eso2268685edd.18
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 19:03:50 -0700 (PDT)
+ us-mta-627-8v_f2RW3McCvr85XjS1FXg-1; Thu, 27 Oct 2022 22:05:12 -0400
+X-MC-Unique: 8v_f2RW3McCvr85XjS1FXg-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ xj11-20020a170906db0b00b0077b6ecb23fcso1968529ejb.5
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 19:05:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=KAC3PuetTmyUlh1CF2uvNb7PtwgWneKQXuEv8RFWNgc=;
- b=ACZyKfa9fjEK5TS08NyW4T9jyzHdLl7fqIqAEsKRObigULrKkX++aqRgxYhM0tGrxd
- cugOU+HBCG4vhUc9uR+MQpnusMVjN0CMfBcRpwYsWfjgq+rUQ6HBvGxomupmckmqHimA
- K79FveAez4j5HovS7xvZ209wZ1cymJgTg3/wkwZKciasV1RsQI6opnMpYmp1b0EMtpt7
- wMDk1IKG/yjk+RkgqSOdV6j+1lLgb6Y/62V/lQk93iRJRIoHVZ6gN4uq8/vY00k0CP9l
- xOrvsDu5n+O3JGeVJyGjkW7pGfn581Mhws2rfD+vxwFAspbL5niXtpLZ095wb4nXmZ9/
- vl5w==
-X-Gm-Message-State: ACrzQf3dXCbgHuZInbw4X3mNg59HIb1/cWXrD9aXsMX6l7u76sU0s1X2
- sQrCujUhP0TyRc15ihVMm0vISU72HdxF2NC1w8izx2PQeMN4Ma3NRVkJ7djgwZXwzVDd4TUNzSL
- WkexgjUTcSFqc7bgXlaQvvkkoBY7gm3I=
-X-Received: by 2002:a17:907:daa:b0:78d:9bc9:7d7a with SMTP id
- go42-20020a1709070daa00b0078d9bc97d7amr43632760ejc.567.1666922629725; 
- Thu, 27 Oct 2022 19:03:49 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5n7TBdXzRzbbo/Q4977LqvO0MVI8zy32Cy+avMCBM5tTR6joNoqmmne9nHyNeCeDw2+6Bi7VBBIJWn8hvHCGc=
-X-Received: by 2002:a17:907:daa:b0:78d:9bc9:7d7a with SMTP id
- go42-20020a1709070daa00b0078d9bc97d7amr43632745ejc.567.1666922629559; Thu, 27
- Oct 2022 19:03:49 -0700 (PDT)
+ bh=X7K058gj8SyugkyzejY+vUPJfEieshe68CPkEZQoCVQ=;
+ b=3jxkOY3nDwyg3UQNL40iehK4MFomJL4+8bbTsqCQ7GQjrFfeqFuN1HODfK0wJdya6S
+ sn7g5XUEsN5gsEmnYipsUT4nDUDW1KcXq8PLJlicrUqi7yKdCL0sdL3bF+sFjEBsHbyh
+ KHPIHIrxeYZPoBzyc1y5qvFMg7tFwEmnuBEOiXCkErlZ/BZwaaaGDpglsLBlN9wVd1+8
+ B/5hrTPY/3AT1m0nsrrTuGPJcc70FDgurtJ20Hl/CwOE6ruTGtGRhkVLddG28Bq4reYR
+ yfONpIInHzwBPuSQJgFEpBVOepzitEzD+KfXlqTUA2E11Auy7oF6f+COo2oLW/i+IZZp
+ ooLA==
+X-Gm-Message-State: ACrzQf0etDcb9UQ/KrSVUu1PmCD2fpN0RKm5txNefuAG2E8H2iqV5u0L
+ hmc91/BVMio/qIo4s5SH/Ow3FVsrJgxh5o1t1d2/MCI/fI5ETdGhVnEEUCaN4ovSVJH/RJwzaTs
+ LHJNJ2xRIrknkKsR8S2ihB/xBRmZUMh0=
+X-Received: by 2002:aa7:c491:0:b0:461:7f0c:c573 with SMTP id
+ m17-20020aa7c491000000b004617f0cc573mr28400755edq.8.1666922711686; 
+ Thu, 27 Oct 2022 19:05:11 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4Go0LBs8F8i29ll5EpzMnVONydbD66ICqa6A10Tb+5cX6AKLzZF84mEbePYbnyW1e/ZNGhr3TJICmiA1WSAY0=
+X-Received: by 2002:aa7:c491:0:b0:461:7f0c:c573 with SMTP id
+ m17-20020aa7c491000000b004617f0cc573mr28400740edq.8.1666922711463; Thu, 27
+ Oct 2022 19:05:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20221027075042.16894-1-jasowang@redhat.com>
- <20221027075042.16894-2-jasowang@redhat.com>
- <a1ddce4d-0f42-5ae7-e7d0-fd80cbea65ee@intel.com>
-In-Reply-To: <a1ddce4d-0f42-5ae7-e7d0-fd80cbea65ee@intel.com>
+ <20221027075042.16894-4-jasowang@redhat.com>
+ <7b0c2ff0-f516-aec7-40db-86b2dfb2c653@intel.com>
+In-Reply-To: <7b0c2ff0-f516-aec7-40db-86b2dfb2c653@intel.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 28 Oct 2022 10:03:37 +0800
-Message-ID: <CACGkMEuUOBNKnpzibw5Bcqbf0GT_6xUJ8XngDL6-Ek6fb+sP8g@mail.gmail.com>
-Subject: Re: [PATCH V4 1/4] intel-iommu: don't warn guest errors when getting
- rid2pasid entry
+Date: Fri, 28 Oct 2022 10:04:58 +0800
+Message-ID: <CACGkMEsSJNn1Bv74BSeFVf67YRTx-nL7VoR72D+jn5Ex25r9KQ@mail.gmail.com>
+Subject: Re: [PATCH V4 3/4] intel-iommu: convert VTD_PE_GET_FPD_ERR() to be a
+ function
 To: Yi Liu <yi.l.liu@intel.com>
 Cc: mst@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com, 
  yi.y.sun@linux.intel.com, eperezma@redhat.com, lulu@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -95,54 +95,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 9:20 PM Yi Liu <yi.l.liu@intel.com> wrote:
+On Thu, Oct 27, 2022 at 9:16 PM Yi Liu <yi.l.liu@intel.com> wrote:
 >
 > On 2022/10/27 15:50, Jason Wang wrote:
-> > We use to warn on wrong rid2pasid entry. But this error could be
-> > triggered by the guest and could happens during initialization. So
-> > let's don't warn in this case.
+> > We used to have a macro for VTD_PE_GET_FPD_ERR() but it has an
+> > internal goto which prevents it from being reused. This patch convert
+> > that macro to a dedicated function and let the caller to decide what
+> > to do (e.g using goto or not). This makes sure it can be re-used for
+> > other function that requires fault reporting.
 > >
 > > Signed-off-by: Jason Wang <jasowang@redhat.com>
 > > ---
-> >   hw/i386/intel_iommu.c | 6 ++++--
-> >   1 file changed, 4 insertions(+), 2 deletions(-)
+> > Changes since V2:
+> > - rename vtd_qualify_report_fault() to vtd_report_qualify_fault()
+> > ---
+> >   hw/i386/intel_iommu.c | 42 ++++++++++++++++++++++++++++--------------
+> >   1 file changed, 28 insertions(+), 14 deletions(-)
 > >
 > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> > index 6524c2ee32..796f924c06 100644
+> > index 6abe12a8c5..6c03ecf3cb 100644
 > > --- a/hw/i386/intel_iommu.c
 > > +++ b/hw/i386/intel_iommu.c
-> > @@ -1554,8 +1554,10 @@ static bool vtd_dev_pt_enabled(IntelIOMMUState *s, VTDContextEntry *ce)
-> >       if (s->root_scalable) {
-> >           ret = vtd_ce_get_rid2pasid_entry(s, ce, &pe);
-> >           if (ret) {
+> > @@ -49,17 +49,6 @@
+> >   /* pe operations */
+> >   #define VTD_PE_GET_TYPE(pe) ((pe)->val[0] & VTD_SM_PASID_ENTRY_PGTT)
+> >   #define VTD_PE_GET_LEVEL(pe) (2 + (((pe)->val[0] >> 2) & VTD_SM_PASID_ENTRY_AW))
+> > -#define VTD_PE_GET_FPD_ERR(ret_fr, is_fpd_set, s, source_id, addr, is_write) {\
+> > -    if (ret_fr) {                                                             \
+> > -        ret_fr = -ret_fr;                                                     \
+> > -        if (is_fpd_set && vtd_is_qualified_fault(ret_fr)) {                   \
+> > -            trace_vtd_fault_disabled();                                       \
+> > -        } else {                                                              \
+> > -            vtd_report_dmar_fault(s, source_id, addr, ret_fr, is_write);      \
+> > -        }                                                                     \
+> > -        goto error;                                                           \
+> > -    }                                                                         \
+> > -}
+> >
+> >   /*
+> >    * PCI bus number (or SID) is not reliable since the device is usaully
+> > @@ -1718,6 +1707,19 @@ out:
+> >       trace_vtd_pt_enable_fast_path(source_id, success);
+> >   }
+> >
+> > +static void vtd_report_qualify_fault(IntelIOMMUState *s,
+> > +                                     int err, bool is_fpd_set,
+> > +                                     uint16_t source_id,
+> > +                                     hwaddr addr,
+> > +                                     bool is_write)
+> > +{
+> > +    if (is_fpd_set && vtd_is_qualified_fault(err)) {
+> > +        trace_vtd_fault_disabled();
+> > +    } else {
+> > +        vtd_report_dmar_fault(s, source_id, addr, err, is_write);
 >
-> ret is no more used in this branch. It may be changed to below. right?
+> seems like this will report non-qualified fault. so the naming is not
+> most suit. :-) Otherwise, I'm ok with the change.
 
-Right.
-
->
->          if (vtd_ce_get_rid2pasid_entry(s, ce, &pe)) {
->              ...
->          }
->
-> > -            error_report_once("%s: vtd_ce_get_rid2pasid_entry error: %"PRId32,
-> > -                              __func__, ret);
-> > +            /*
-> > +             * This error is guest triggerable. We should assumt PT
->
-> s/triggerable/trigger-able
-> s/assumt/assume
-
-Fixed.
+Right, let me rename it to vtd_report_fault().
 
 Thanks
 
 >
-> > +             * not enabled for safety.
-> > +             */
-> >               return false;
+> > +    }
+> > +}
+> > +
+> >   /* Map dev to context-entry then do a paging-structures walk to do a iommu
+> >    * translation.
+> >    *
+> > @@ -1778,7 +1780,11 @@ static bool vtd_do_iommu_translate(VTDAddressSpace *vtd_as, PCIBus *bus,
+> >           is_fpd_set = ce.lo & VTD_CONTEXT_ENTRY_FPD;
+> >           if (!is_fpd_set && s->root_scalable) {
+> >               ret_fr = vtd_ce_get_pasid_fpd(s, &ce, &is_fpd_set);
+> > -            VTD_PE_GET_FPD_ERR(ret_fr, is_fpd_set, s, source_id, addr, is_write);
+> > +            if (ret_fr) {
+> > +                vtd_report_qualify_fault(s, -ret_fr, is_fpd_set,
+> > +                                         source_id, addr, is_write);
+> > +                goto error;
+> > +            }
 > >           }
-> >           return (VTD_PE_GET_TYPE(&pe) == VTD_SM_PASID_ENTRY_PT);
+> >       } else {
+> >           ret_fr = vtd_dev_to_context_entry(s, bus_num, devfn, &ce);
+> > @@ -1786,7 +1792,11 @@ static bool vtd_do_iommu_translate(VTDAddressSpace *vtd_as, PCIBus *bus,
+> >           if (!ret_fr && !is_fpd_set && s->root_scalable) {
+> >               ret_fr = vtd_ce_get_pasid_fpd(s, &ce, &is_fpd_set);
+> >           }
+> > -        VTD_PE_GET_FPD_ERR(ret_fr, is_fpd_set, s, source_id, addr, is_write);
+> > +        if (ret_fr) {
+> > +            vtd_report_qualify_fault(s, -ret_fr, is_fpd_set,
+> > +                                     source_id, addr, is_write);
+> > +            goto error;
+> > +        }
+> >           /* Update context-cache */
+> >           trace_vtd_iotlb_cc_update(bus_num, devfn, ce.hi, ce.lo,
+> >                                     cc_entry->context_cache_gen,
+> > @@ -1822,7 +1832,11 @@ static bool vtd_do_iommu_translate(VTDAddressSpace *vtd_as, PCIBus *bus,
+> >
+> >       ret_fr = vtd_iova_to_slpte(s, &ce, addr, is_write, &slpte, &level,
+> >                                  &reads, &writes, s->aw_bits);
+> > -    VTD_PE_GET_FPD_ERR(ret_fr, is_fpd_set, s, source_id, addr, is_write);
+> > +    if (ret_fr) {
+> > +        vtd_report_qualify_fault(s, -ret_fr, is_fpd_set, source_id,
+> > +                                 addr, is_write);
+> > +        goto error;
+> > +    }
+> >
+> >       page_mask = vtd_slpt_level_page_mask(level);
+> >       access_flags = IOMMU_ACCESS_FLAG(reads, writes);
 >
 > --
 > Regards,
