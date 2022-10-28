@@ -2,58 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDEBF610A1E
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 08:16:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D84A610A1D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 08:15:49 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooIdq-00064N-Li; Fri, 28 Oct 2022 02:14:54 -0400
+	id 1ooIdp-000643-U8; Fri, 28 Oct 2022 02:14:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ooIdn-00061y-PX
+ id 1ooIdn-00061m-OQ
  for qemu-devel@nongnu.org; Fri, 28 Oct 2022 02:14:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ooIdm-00087g-41
+ id 1ooIdm-00087i-7Y
  for qemu-devel@nongnu.org; Fri, 28 Oct 2022 02:14:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1666937689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=PyXI/tIL93HfAQVaegZ6km9M1d4iP+jbfeu/+pIU5Yg=;
- b=ggi8478X8Z7PlDaZnxh1VwD5IlJRBqTTw9xQwnwEbXrbu5uZsaw7XRwNXK40/u3SkgR/xp
- xvI0HPt6p/H3N3NA19/EBE4ula0+KKSVDOxCHaZ4TUhef82mLUnTEKJzQlQ/KAKdpYAhXf
- j+4EerOvEG4vTh4bbJqrWnM4qOwJtP8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AxQwfnyghcxquusGG8D82FCXQQxD8PTXvMbtMN8BvO4=;
+ b=B7rrBpTIN/qAcGRNLYNs4EZCrPoGkijquuQ5Ajv7fGmgEMi2t0ZpGLKlaVPMJQggOedtLZ
+ Yb9RQU3Ya/2HmB28g3xrrpemoqKrAuS0IDquAD8qOxnGMRXyjSpmShFJIkeyZid2cgKY5e
+ fVgAhluO0vWAqNiVxX2DQCxmcsYN33Y=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-189-hSM0UalLM1OzW20XmDF4SQ-1; Fri, 28 Oct 2022 02:14:42 -0400
-X-MC-Unique: hSM0UalLM1OzW20XmDF4SQ-1
+ us-mta-294-sjgFd-LoOmSqLfelP5st6A-1; Fri, 28 Oct 2022 02:14:46 -0400
+X-MC-Unique: sjgFd-LoOmSqLfelP5st6A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C4191C08798;
- Fri, 28 Oct 2022 06:14:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 13C952A59557;
+ Fri, 28 Oct 2022 06:14:46 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-50.pek2.redhat.com [10.72.13.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CFFA84221F;
- Fri, 28 Oct 2022 06:14:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C5C3B4221F;
+ Fri, 28 Oct 2022 06:14:42 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: mst@redhat.com,
 	peterx@redhat.com
 Cc: qemu-devel@nongnu.org, yi.y.sun@linux.intel.com, eperezma@redhat.com,
  lulu@redhat.com, Jason Wang <jasowang@redhat.com>
-Subject: [PATCH V5 0/4] PASID support for Intel IOMMU
-Date: Fri, 28 Oct 2022 14:14:32 +0800
-Message-Id: <20221028061436.30093-1-jasowang@redhat.com>
+Subject: [PATCH V5 1/4] intel-iommu: don't warn guest errors when getting
+ rid2pasid entry
+Date: Fri, 28 Oct 2022 14:14:33 +0800
+Message-Id: <20221028061436.30093-2-jasowang@redhat.com>
+In-Reply-To: <20221028061436.30093-1-jasowang@redhat.com>
+References: <20221028061436.30093-1-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -77,73 +81,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi All:
+We use to warn on wrong rid2pasid entry. But this error could be
+triggered by the guest and could happens during initialization. So
+let's don't warn in this case.
 
-This series tries to introduce PASID support for Intel IOMMU. The work
-is based on the previous scalabe mode support by implement the
-ECAP_PASID. A new "x-pasid-mode" is introduced to enable this
-mode. All internal vIOMMU codes were extended to support PASID instead
-of the current RID2PASID method. The code is also capable of
-provisiong address space with PASID. Note that no devices can issue
-PASID DMA right now, this needs future work.
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+Changes since v4:
+- Tweak the code to avoid using ret variable
+---
+ hw/i386/intel_iommu.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-This will be used for prototying PASID based device like virtio or
-future vPASID support for Intel IOMMU.
-
-Test has been done with the Linux guest with scalalbe mode enabled and
-disabled. A virtio prototype[1][2] that can issue PAISD based DMA
-request were also tested, different PASID were used in TX and RX in
-those testing drivers.
-
-Changes since V4:
-
-- rename vtd_report_qualify_fault() to vtd_report_fault()
-- Tweak the code to avoid using ret variable when getting rid2pasid
-
-Changes since V3:
-
-- rearrange the member for vtd_iotlb_key structure
-- reorder the pasid parameter ahead of addr for vtd_lookup_iotlb()
-- allow access size from 1 to 8 for vtd_mem_ir_fault_ops
-
-Changes since V2:
-
-- use PCI_BUILD_BDF() instead of vtd_make_source_id()
-- Tweak the comments above vtd_as_hash()
-- use PCI_BUS_NUM() instead of open coding
-- rename vtd_as to vtd_address_spaces
-- rename vtd_qualify_report_fault() to vtd_report_qualify_fault()
-- forbid device-iotlb with PASID
-- report PASID based qualified fault
-- log PASID during errors
-
-Changes since V1:
-
-- speed up IOMMU translation when RID2PASID is not used
-- remove the unnecessary L1 PASID invalidation descriptor support
-- adding support for catching the translation to interrupt range when
-  in the case of PT and scalable mode
-- refine the comments to explain the hash algorithm used in IOTLB
-  lookups
-
-Please review.
-
-[1] https://github.com/jasowang/qemu.git virtio-pasid
-[2] https://github.com/jasowang/linux.git virtio-pasid
-
-Jason Wang (4):
-  intel-iommu: don't warn guest errors when getting rid2pasid entry
-  intel-iommu: drop VTDBus
-  intel-iommu: convert VTD_PE_GET_FPD_ERR() to be a function
-  intel-iommu: PASID support
-
- hw/i386/intel_iommu.c          | 692 ++++++++++++++++++++++-----------
- hw/i386/intel_iommu_internal.h |  16 +-
- hw/i386/trace-events           |   2 +
- include/hw/i386/intel_iommu.h  |  18 +-
- include/hw/pci/pci_bus.h       |   2 +
- 5 files changed, 485 insertions(+), 245 deletions(-)
-
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 6524c2ee32..271de995be 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -1554,8 +1554,10 @@ static bool vtd_dev_pt_enabled(IntelIOMMUState *s, VTDContextEntry *ce)
+     if (s->root_scalable) {
+         ret = vtd_ce_get_rid2pasid_entry(s, ce, &pe);
+         if (ret) {
+-            error_report_once("%s: vtd_ce_get_rid2pasid_entry error: %"PRId32,
+-                              __func__, ret);
++            /*
++             * This error is guest triggerable. We should assumt PT
++             * not enabled for safety.
++             */
+             return false;
+         }
+         return (VTD_PE_GET_TYPE(&pe) == VTD_SM_PASID_ENTRY_PT);
+@@ -1569,14 +1571,12 @@ static bool vtd_as_pt_enabled(VTDAddressSpace *as)
+ {
+     IntelIOMMUState *s;
+     VTDContextEntry ce;
+-    int ret;
+ 
+     assert(as);
+ 
+     s = as->iommu_state;
+-    ret = vtd_dev_to_context_entry(s, pci_bus_num(as->bus),
+-                                   as->devfn, &ce);
+-    if (ret) {
++    if (vtd_dev_to_context_entry(s, pci_bus_num(as->bus), as->devfn,
++                                 &ce)) {
+         /*
+          * Possibly failed to parse the context entry for some reason
+          * (e.g., during init, or any guest configuration errors on
 -- 
 2.25.1
 
