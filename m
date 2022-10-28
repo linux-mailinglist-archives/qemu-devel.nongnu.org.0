@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 819F861097B
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 07:05:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7096B610980
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 07:05:51 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooHRw-0003nT-W4; Fri, 28 Oct 2022 00:58:33 -0400
+	id 1ooHS0-0003o2-Hi; Fri, 28 Oct 2022 00:58:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7300ee25fa=bin.meng@windriver.com>)
- id 1ooHRu-0003mp-GX
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 00:58:30 -0400
+ id 1ooHRy-0003nf-5e
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 00:58:34 -0400
 Received: from mx0a-0064b401.pphosted.com ([205.220.166.238])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=7300ee25fa=bin.meng@windriver.com>)
- id 1ooHRs-00028l-Rz
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 00:58:30 -0400
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+ id 1ooHRw-000295-BL
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 00:58:33 -0400
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
  by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 29S4bMw9021593; Thu, 27 Oct 2022 21:58:27 -0700
+ 29S4wVwv018028; Thu, 27 Oct 2022 21:58:31 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to : cc :
- subject : date : message-id : in-reply-to : references :
- content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=Zrnkbyv3OWCddJ7JS8KEsxHIe9iT1VFezo0N+P9yM2E=;
- b=Z7ARBbDv9/sVcGyFnDMRO0gnz1tPvI1ckFtnYXwcu+YmcvEX1+JdLbA2sjhu7evwayKa
- LqeI83zg3c2YLJ9Tv8ceocafN6YIuBAw97WlgQLA0eYBGLasPnYYInID+6xJoyfD4zGD
- Zt5kvtelq8CUomOYIq+hYEup62A+wryf2UViVWWEmSEsi7gL22D2WUjTFmFHmvOvHC+e
- KoyBzlskEYdwnVBuCBUgfz5yLl00LbHuthEY1uBwSsk9NrwovjPrG7fsqDe89dVhFott
- /3n2yDIrA2wSFYC16DO4EV9Cb2k9ubTCig4FpADzrG5vqII7fdvUdCf1E6Ot6kkhyhH2 NQ== 
+ subject : date : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=pupwfqANM6SYjHJ+RxVx1vpyVHI+kjVmJpVUPBItn4I=;
+ b=JXN8EqfMQzd5A3kX3TQi5hl4xkEudAWvMl1RHTZxde7K4xur6uzNCGwhQG79Kvi0yvKq
+ b3+0P7cdhLZFXJR+GbVbrZXlErWWsO10U5Ln37tQ7RZHuujcpxbK28o5WyMNINpe+28H
+ b35u0gx2ZemRCPKyDePN26qTXQkt2fp81q0dH9Cwj3DTndtX4140qQwadneHt+eIsXuB
+ 0S3sMYr5xKirc9GNqDQ3zn4uWFrdeH5lOWvCHKkf6i57EqsvdNiWXWP7r/acWBv85t1b
+ u0HUNo9e9YQ403CHRI2EjL9lS34J0/YbDT9pD4leWq/Wr8EVAUhHYQ2MvdBeasNMiIH6 Vg== 
 Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg0r15kw-1
+ (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kfg3gs4ty-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 27 Oct 2022 21:58:27 -0700
+ Thu, 27 Oct 2022 21:58:31 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mgQS2/btlIGWxOuyY9A5A5CXv8UE+ZfQATYv2Snu29qw5nC/AL0C+NgPjPbDtibQA8Fo+6fMAab1nG3NsFP8p4ipBDuh/SL8vne4Uh3PSDyTIkKND0NG8Gn7XVkc1jpCiHi9YAy/njTvtRB2X9gxvjsUceUYlRzdzF5YLGNBlib4+LjtQd62J9jpNrp+IYz1Wz1qDkOTgN97JhyobKEcdY0gTt+qOynw9cm17DfAGy2liFNJnSErHErEneYM2gtrySxQsUQAHzfmwMVCHHvmGNdtgBH+uBzkPI4x1S6oc1CMY3fwbd5wn/69Wbzx9bEsaZp8rzER3gSEeIWz8IngVQ==
+ b=iD/w7C+TUeYJM17UTzZhdNl6WNFXWw2jksO15Bprm7r8Q1WEVZmemPpvXEfzon+SDMWXifOfUeVk/OfcnEYeWNg+R00hwC2Y+uuN4WF7ytaV8iA1lM/Azj0Nba1xybGvxP0ABqBzMscukSrqc1QkaealLNnKIsNT8HLPNGMjGo/DR64axI+wxUpqgK5oGexUHA5QajJAHgGgtRKEsxZ9rbWUsF7mKiWNMFZswi1RyVtFdShlW2gzVLq5t+pm2boow/KfWELBbYQz2nqUCn+P2KKQQHiULbz8LqPBOjcCyepIkshQTQkXQMFrE8GZHI5kRmHsyVo+iNIgbH9A3qDS2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Zrnkbyv3OWCddJ7JS8KEsxHIe9iT1VFezo0N+P9yM2E=;
- b=Oa+IFCGLIqHR7MDpZFNOHX1mdq7r+ogDO762mrDUwn6Rr+8OomJqlXBbkkjl3FHv6ptIAo3IrG5HnsEPqw6z6uSI1HF+qsgG+++EJmW0FleCQbLTn0e3aycHBmDn2okrFMXmWOoqXLOB4McfRiz+YHzYZUxVYnj7+9uHq/xoeu4MP75AKVEcCwIKoDYP44udhnBiQVYjDM9/HEJ4K28mWwBofb25Sd7IcbosDn4/PP8l5yc77+fN/qXP0IWzKTDnLo36vzQeGIgfg3N2rYwmAa0MA9Wr5DS9HsiHfudfoebvTJbV+vIYg+FKxnkfLxOTaAwgYevL58X5lakHvvJ0MA==
+ bh=pupwfqANM6SYjHJ+RxVx1vpyVHI+kjVmJpVUPBItn4I=;
+ b=SVASMpZ4oYX16qZKXczVTPtBIH1ZKWkzIjhbFLkLf7i4IAnhryhYXLfN4VJ1d8h+Q66MFb2dRGpY0jJFsptoUkxAlAsgzZDa6mM/57ib5aXmBsUYCxBiFdnuvp78taOXCN6CzqnjMoSfy6tPByWsKmgUf1aSPSWhIlWN24qgnjIxroVKgO+PjlBVIhKckjlVuscHuC1qUBoB/S03hudrJY69jshFUUW/zLbl94BS2OzHMNluGF3rDbniuFGpGnmGW6amiH7Hi45gtQNho/4trynK4hkk9jz1GW74LE0n+DRaasIt88F9krNGrzsfw8/jUtrNVSqQncTzu7FQc1qCDg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -52,89 +52,98 @@ Received: from BL1PR11MB5351.namprd11.prod.outlook.com (2603:10b6:208:318::5)
  by MN2PR11MB4632.namprd11.prod.outlook.com (2603:10b6:208:24f::23)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.21; Fri, 28 Oct
- 2022 04:58:26 +0000
+ 2022 04:58:29 +0000
 Received: from BL1PR11MB5351.namprd11.prod.outlook.com
  ([fe80::9a11:fa81:cdd8:b201]) by BL1PR11MB5351.namprd11.prod.outlook.com
  ([fe80::9a11:fa81:cdd8:b201%9]) with mapi id 15.20.5746.026; Fri, 28 Oct 2022
- 04:58:26 +0000
+ 04:58:29 +0000
 From: Bin Meng <bin.meng@windriver.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v6 08/11] tests/qtest: libqos: Do not build virtio-9p
- unconditionally
-Date: Fri, 28 Oct 2022 12:57:33 +0800
-Message-Id: <20221028045736.679903-9-bin.meng@windriver.com>
+Subject: [PATCH v6 09/11] tests/qtest: libqtest: Correct the timeout unit of
+ blocking receive calls for win32
+Date: Fri, 28 Oct 2022 12:57:34 +0800
+Message-Id: <20221028045736.679903-10-bin.meng@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221028045736.679903-1-bin.meng@windriver.com>
 References: <20221028045736.679903-1-bin.meng@windriver.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: SL2PR04CA0009.apcprd04.prod.outlook.com
  (2603:1096:100:2d::21) To BL1PR11MB5351.namprd11.prod.outlook.com
  (2603:10b6:208:318::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BL1PR11MB5351:EE_|MN2PR11MB4632:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39a5cd0a-7269-466c-29f8-08dab8a10bf4
+X-MS-Office365-Filtering-Correlation-Id: 9bc926f4-1e5f-4b4c-1b67-08dab8a10df0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6YqBKwhohr9pUSTndyx9nmsP9+3LGdCmbrs8z7mqUmpoljXVCtx+eXyt5ROSN5rxKGQZEXGhOTVcc+ljECQ0cOZiP8CDWKnAohk427yv2DJq77zeeOz2sZIha/o1WSmCwO0RuQ96WuM1XeKJyzTN8a+MYkGeqq3R1spP/IUPFQL0iE7NuFK2s8kXqrnqCbBFn7ZGLQ1asU1izXNfQg7Bt67p/fshNfS6KU9tM6KTpIrbnQCYywQXDTl6CxIjloeSnkVn0wzfIMjNJYNTZo2pBMJZYualbxxOrlQqPS1Qb3Rc/12cDG8kCN8yuJH20i7aqG136BKfarSHt03eXngtGCL+3vjezD9kgE51FZAAmKOV8mWj5mjnu4AM6Lc5U0mrJUAbbOtDbU4yVAzjQucAexPtjahhlt4gJIgwVGxLZT5IhAHSat3pfw+N7dNm9FIWhO60Q49y/VIfMzM70Zx/G99RNmLLc1QG5O0TZ2iIs2yyqlZQa2FzHe5rYM9sg33UBiYt1dFhT4O13WlBeHtSaCrJbr+cy5G0da3Kbm8CHPQbq6GME2j1nWXSN4uJ4n9mLjYJnTEOXUQwW8eERscajDc+yRsYv+Pr9xMCq2NMAAxO7d/QSienAvC7njt7aL6NuOI9WM15V+pzAEqlEBtCFXqQ8iheehk5cDrIcdzJ4WH/wagm4NmHmNPA7i8YXMvVOPXN2zphwvX630N3WveG3izm/A32yIL+DjlDNxNN4s375TZaG1lBYTh/w24b5hUTWfz5mxr5WGXADPFUA83/pg==
+X-Microsoft-Antispam-Message-Info: ZzxpbHVuvG2baJRc1xwmGWYZY/749d1+4cuBQylEZYS3M5kp3jRUGGGaSN/agOMo7csF31SL0ohdNYWgZpCnu9fKDGh2iXyJ+YUnv5BAm2qrAzP/hxg2c8mjndHQ5qclXYT/4zfz7DD9FjCNoSLDQWFHljF0AnY9Y1nsjRKAU6TFo3P/y1EbbPXw2RRofcM07fR390TkJb3r4aObz3Ep0gNE5Qs/uWDYTsewKKlTirJXhIU1T5jMmI4czHt7+0CMvTVnq8fI+2XdbnojbJ4rPOPHEpdTmY1qcV64sI/AcjhjTXDu3zsuQi75TT9SEIcHQye2IDFtHsZLjcM1oDU0YF2ClGX/mjFKe1+dLfOFgcB5XAWHvTTGRkYIBOz9gclRE5hyy5qJlPPXiFxO6KA1ETLig+KxqdRxfGlLOsz2BWMX7yYoFhCq2dzwMvke9iWttMQ+JAamyfyEz3j+FzCV5J7DPXukxnuWikjGYFIuNRF1DK+7GROEWfZl7ShN+C6MyMCd50UJzaocyUIdQ1EWtcgx0KAtzthpplFTnhKM+sFu6EYty7VdcvCiWviYGvWq2Yr53FDnUJWTzkN4VGRBnlU3ziPfjc12vJsuvecDuqR6+x2rGjvcUcwhsDTAXEs4D+PgHEhHQ192SbXFLyKt6XXzmTu5UZ9LLLHjTwx1OlIynVvq3sV7FM+pSXcRC1he1zZCko4uvvRpc0ca86P1G+J1ICfQzOusNu238nXqS+9AhgglHoaIec+StBrheK5hw4KVzDiBKCbQN1FORnPTKA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL1PR11MB5351.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230022)(4636009)(136003)(376002)(39850400004)(346002)(366004)(396003)(451199015)(478600001)(26005)(6486002)(6506007)(36756003)(2906002)(83380400001)(52116002)(6666004)(86362001)(5660300002)(38100700002)(38350700002)(2616005)(316002)(186003)(1076003)(6512007)(66476007)(8676002)(54906003)(4326008)(6916009)(41300700001)(66946007)(66556008)(44832011)(8936002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HS6Ri+vRPBzHpFFb6YdwkTAwDHP+4hrwqrTITxaMFvdMwliFWoq3x6n6MU59?=
- =?us-ascii?Q?JTRsiyVuZyUh7U0ABTmzP25sEyQz5mQn2TyDQjDWHKZAT3h2v5XpE51mT7Hv?=
- =?us-ascii?Q?DksnERRk6t8cvMibxhbbmmetzB4YYK8OD+ZZNBqRwhS87/tFdbqb2VTCfCSj?=
- =?us-ascii?Q?5eqq0uBkHszYM0OQ/rjGexrI2E/Odrh7Q2l9+EU4SFbU8Ox/M94voVloHrGu?=
- =?us-ascii?Q?hSqN4Q9uoXK51WwHYw0ATGc8U8UyoaM2lXVUeJwrurPdaT45cldf7HNsKJAw?=
- =?us-ascii?Q?M537Aq2AiRlJPIuZTtAlJeZFu9hZLQnRb9UiISWpjVz7o+H5WD1YYUV8HlWG?=
- =?us-ascii?Q?inhGyv/Ap0bTsYhdnpdFWJZa3umzeh8jrFA11TEcn5cMyDMhBN/8H0DHlsvb?=
- =?us-ascii?Q?xh8Jr89daVPcJj6sekle9SeLgthOZB0l1QzTDQqujtpBJQ86qxDmm9rSy6gq?=
- =?us-ascii?Q?sVEkGV94QAQHIRESBYuV1R2idf7UP8ioCGNuhd7Esc38/rp6PY2XeA18djWJ?=
- =?us-ascii?Q?3d83DyOq9KsMcEeKSiwsY6OBSqSJmY6m0kpdyHY1q+82TPzf5rwD6RSSyB4p?=
- =?us-ascii?Q?eh6MRl5JrbyYwwBKwodtdO9+2ymYMYggFrm4VcoDUWCTkH87zkipi+dRGnaJ?=
- =?us-ascii?Q?K16csinVppSeT8XsOTbYvInp4t2lKO8Smlv9Fr4hTWVZC24bHBpH6BIOeTIT?=
- =?us-ascii?Q?rCajV1Q6DMm62gdF+O0kNaoz34DVQEi0nDRaUFVUB2UQnrSWewZ2khiQKMw8?=
- =?us-ascii?Q?7oODAl5WmX2he8ewto+yalS4MTbfj/w5Jnph9rBWldgf8KzIT5m4HG8lAxDK?=
- =?us-ascii?Q?BrO6mn+hcv8IRUzBjkpT+ovYCywvIjuz9Em2LTwzCJ6EQbrkDs8QkMAzQfZN?=
- =?us-ascii?Q?4J7M2oDnYKcjsusipT/4BEU8EsNoC6b2didhkd5hnYdB1bwYjFBMSTvb4V21?=
- =?us-ascii?Q?vacXM11yU+hHrntazpPSX5C/mO7bCePljUb5javFiAFl+P9Es/MXX4zkxWRe?=
- =?us-ascii?Q?tnL9xN0ROMYiNEydB+SKseI5ewuPn873v+cQI2THk3v0RLTahmyUKTeN1tKC?=
- =?us-ascii?Q?oTruMT9sMV9ddHPZ+t1pn79rAAJPZXnHYx+hdwW+XxscMJEOjkrFBmKFxYci?=
- =?us-ascii?Q?3nC1z7+P4KkSOzWm5YsEtLB0DDQy8aaNg0wcIOCR7zP3fcgfwISYeOTJBBKY?=
- =?us-ascii?Q?gRsQWCyWrmPj0szsXtwGJHUWOm2TH8W5Df4jhmSXQBpE9c2pqjmDXMyUfR/4?=
- =?us-ascii?Q?uxHKZm57n91F0AuD3JCE+Tc9oPR4FptPjen2N+WonGn79gm8fCl3jVU2ye96?=
- =?us-ascii?Q?xc5/7qUKnIHpHiTI+T6RDxR62G46EUS2hfl5XVQUIebZ2QCe9u/lkh+Mieuc?=
- =?us-ascii?Q?lxQGlh8uvWiOIEGQfysVc1vobmhEFSNwkK6u93kDq9ZF6AcshNgvH2z4x4jc?=
- =?us-ascii?Q?L1d9gVYJqXD6IMnDPGTdNgFKefM2vWarOcDE6q4zuShiOzPeABa2WzuNcyDh?=
- =?us-ascii?Q?C5FtWz7qUxWfkYKZh7E1RxJ5sWLIzhMc5R5JU+JKt0dheAaXojllWlovlswq?=
- =?us-ascii?Q?WGLUv/kXSAjoh4ZZvjM/xw5qTSFaBi8QelusKpB8?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MkllTUNlZkZyNnRVZHFydmVTWUFybjdXMFhDcENNME81aUYxYkdUT3FCRHoy?=
+ =?utf-8?B?T0Zqd0dpV2pWVzBWNjRzbnpkMG1MUStXZ3RKaEJCQzhUSThzZDdvc05qdW93?=
+ =?utf-8?B?V0tRNkR3TjkrNEp0a1VKLzlsVmRtSG9RSys0eEd0ajFpTjNzU0M1TmpzL1I1?=
+ =?utf-8?B?UzdGNk1PY0NSdEJyOTY1OFdqVm41dE9JMWc4M3F2Z1FLWFdmSUNrb0F2VGdM?=
+ =?utf-8?B?eVhLZTluczZyblgrZWJDMnRmcWFTQzFxcDZpZlJmTFZ3MWpLdjV6NGtnVm84?=
+ =?utf-8?B?QXFXelBSNzJKVUczYVBhNG5ZNFBQZUIwWFh4WjZrb0J1d25lN1QxSmxNbW5P?=
+ =?utf-8?B?dWhaVVY4eGxodUNkWFpWbmJaRm9LMXBUd29Qa0c0bU4xUU5iTHlsa2lLQmlK?=
+ =?utf-8?B?QTQwajBYc2xtdnZLOTFiMytKT0F2NXRSTitPYTBZSGJTSmh3M2FreVovVWxh?=
+ =?utf-8?B?OWJyMmZob0QyYnFWQW9WVlZRN1JrbDJZYXluVGdFVEE0S2l2c0MzNFFyY2Nh?=
+ =?utf-8?B?dDJIVVB3N2VTV0l1NExFOTNOZmJOeWRyckExMHprVlUvRnowdGlQRVdWeXps?=
+ =?utf-8?B?VVBKUllKRXR4elFhOEZNbWNJOTZva2dSNFArRlgrOTQwK1k1bEx1QU85THNC?=
+ =?utf-8?B?VjRET0M3MW5xYlNlQnVZb1h1NWhLenA5cyt4QVB1aWRPdjVHMjRtVEhiVmp2?=
+ =?utf-8?B?Vzc4WDIzcjdjejVSTHNISi9iL0Z4LzhmZmdwQWpUT2dSdHI1eWlJZTZMcWlW?=
+ =?utf-8?B?OVJhdHVlNW5hVXNVSFJtTDd1VlhTVmN2RFFVQjZDWDhLMGEwMnFjNVFrZVN5?=
+ =?utf-8?B?K3o3OHlCU0p6Q1ltUXNKQXVPUEZQWnR0aHVwTXpwQlNuWjUxYnVyV2gzZGlM?=
+ =?utf-8?B?OGlkZDVUY0E0UFpnbWZHN2txK0tPN2oyU3EvTXV4UXRlek1lN3dXTGg1WkVp?=
+ =?utf-8?B?MllpRU40eUcyMDRGWGxsUFpzMEk4azJPTFBYWHdlZmNVU1hxSk9wMEZSeEZs?=
+ =?utf-8?B?K1liYU9aaGFPQ2NsNGxWUXh2eXN6ZUxKRlhqOVJUaVp0ajBvYzd2V1pQQUts?=
+ =?utf-8?B?QlpzVTJRekVVZk1qanlwT1NWazlHVkdmR0ZpNG1qQ1F0QzZYTTd3K0tleGR3?=
+ =?utf-8?B?Z0Z0RzVKV3BORTJTNUg2UWwzT1M0QmtWb2hBcndWNVFaUUxJdUlNRHBOMmRz?=
+ =?utf-8?B?SEI0Ry9SWFRzNEs1bjl4ZHEyR01iMXZVSHloTjMreTUyQTQ2R1VyVjFrTG5x?=
+ =?utf-8?B?eWJQTW5YOEwwbnhmSnVnR0luYkZJc09KckpLQXN1NUM2aEttVE1hcFFlc3VY?=
+ =?utf-8?B?c2VENHlPL3QxQVVCSCs3MDI3ajgvbk00UEdsdExVbldHYy8zbjNNTmNUQzh2?=
+ =?utf-8?B?ak53cG9HMmIvR1RvaDFDUS9uN3hoVEx4WnBsUnFiMXpjUGcweGVFb01JbnBp?=
+ =?utf-8?B?Q3FmbWtlQWpoZjdKMmVVc0JFdWIwSWx4WnJMMG5GSlpaeGNJcDFVTWloODM0?=
+ =?utf-8?B?aHMzQ09hdnp5VTEzRkw4Zk4yOXhmQVR2QjM1WFFTd1NZTFJBTE1ubXVjQkJV?=
+ =?utf-8?B?NWUwQndsK0YwbUpJNklTK0Fma3FELzRTUDFKaDBZcVF2Y0xrdzFsa1FQTnFQ?=
+ =?utf-8?B?Ulc0SENMUnRnREtxSjRML2lnSkhCMDhVSmdUTENZd2gwRzljaUY0TDhTQzZ1?=
+ =?utf-8?B?aDZ6Q1piQ0lLQ083elZHbzdpWGVzK3A4d1JFQ3gvSjEwckhOUlAvbnY2UTBS?=
+ =?utf-8?B?K2RjODJIbHVvdXZwQWJQUHNCYWo3a2M3bGM5L1BHZSsrb3dWaUdsb0Nrb2Nr?=
+ =?utf-8?B?L1lFN3BLN3h3WXNMSWM5b1lxZHlCa1lYa3RSMXBEVFhqdTIrc0Rwemt3cDZs?=
+ =?utf-8?B?cmd5dUwyL1lKc2EzL01HTE1nWnRUT3h4RjdneDQ1d1RpeVR5TFpMR0k3NlBX?=
+ =?utf-8?B?RkU5Yk4yRWlqaWtWQjYyUy9RMTZrT05CaU0zZTBmTkw1Mkp1bkVoUDBWb2J5?=
+ =?utf-8?B?SDFZeTZ6SnBoeFFERXRDc29iU21ETENKTllCalJCQlFYYW01d2hNQzJydk9u?=
+ =?utf-8?B?bXJidGhwc2FZYzk1TUNFZm5QZUd5N2kvR2d4Z1g4L2pvZ0x2QTA0TXB6OFVt?=
+ =?utf-8?Q?lxQGBe6myHlhL/9PEuLZOBFjD?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39a5cd0a-7269-466c-29f8-08dab8a10bf4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9bc926f4-1e5f-4b4c-1b67-08dab8a10df0
 X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5351.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2022 04:58:26.2234 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2022 04:58:29.1774 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qmgfQAPwEqL0gD3jzsa2ilcI0u7gnVJPJinL2/XdvwycpnuZiAL1H4O0/3Bqsk/fM25MpbOM647BpZyaAjyQHw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: nkfrn8S+5EY8dQqkh/ynNaOyM4PGW0hbAy91a50RpQrB3ZXHLy7KagL/B/z/9ZB0iZ8P7SfYmQdrsAjD5Ypq0g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4632
-X-Proofpoint-GUID: BdesoCrorj5q3RB5kqquYw3BjIk0A9-U
-X-Proofpoint-ORIG-GUID: BdesoCrorj5q3RB5kqquYw3BjIk0A9-U
+X-Proofpoint-GUID: 23ABmq3cRudYVfdxBp8YTpqCif35qgsU
+X-Proofpoint-ORIG-GUID: 23ABmq3cRudYVfdxBp8YTpqCif35qgsU
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-10-28_02,2022-10-27_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0
- adultscore=0 malwarescore=0 mlxscore=0 phishscore=0 mlxlogscore=762
- impostorscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2210280030
+ clxscore=1015 suspectscore=0
+ spamscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0 mlxlogscore=999
+ mlxscore=0 impostorscore=0 malwarescore=0 priorityscore=1501 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2210280030
 Received-SPF: pass client-ip=205.220.166.238;
  envelope-from=prvs=7300ee25fa=bin.meng@windriver.com;
  helo=mx0a-0064b401.pphosted.com
@@ -160,44 +169,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At present the virtio-9p related codes are built into libqos
-unconditionally. Change to build them conditionally by testing
-the 'virtfs' config option.
+Some qtest cases don't get response from the QEMU executable under
+test in time on Windows. It turns out that the socket receive call
+got timeout before it receive the complete response.
+
+The timeout value is supposed to be set to 50 seconds via the
+setsockopt() call, but there is a difference among platforms.
+The timeout unit of blocking receive calls is measured in
+seconds on non-Windows platforms but milliseconds on Windows.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-Changes in v6:
-- new patch: "test/qtest/libqos: meson.build: Do not build virtio-9p unconditionally"
+(no changes since v1)
 
- tests/qtest/libqos/meson.build | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ tests/qtest/libqtest.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
-index 113c80b4e4..32f028872c 100644
---- a/tests/qtest/libqos/meson.build
-+++ b/tests/qtest/libqos/meson.build
-@@ -33,8 +33,6 @@ libqos_srcs = files(
-         'sdhci.c',
-         'tpci200.c',
-         'virtio.c',
--        'virtio-9p.c',
--        'virtio-9p-client.c',
-         'virtio-balloon.c',
-         'virtio-blk.c',
-         'vhost-user-blk.c',
-@@ -62,6 +60,10 @@ libqos_srcs = files(
-         'x86_64_pc-machine.c',
- )
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index e1e2d39a6e..2fbc3b88f3 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -36,13 +36,14 @@
+ #include "qapi/qmp/qstring.h"
  
-+if have_virtfs
-+  libqos_srcs += files('virtio-9p.c', 'virtio-9p-client.c')
-+endif
-+
- libqos = static_library('qos', libqos_srcs + genh,
-                         name_suffix: 'fa',
-                         build_by_default: false)
+ #define MAX_IRQ 256
+-#define SOCKET_TIMEOUT 50
+ 
+ #ifndef _WIN32
++# define SOCKET_TIMEOUT 50
+ # define CMD_EXEC   "exec "
+ # define DEV_STDERR "/dev/fd/2"
+ # define DEV_NULL   "/dev/null"
+ #else
++# define SOCKET_TIMEOUT 50000
+ # define CMD_EXEC   ""
+ # define DEV_STDERR "2"
+ # define DEV_NULL   "nul"
+@@ -106,8 +107,16 @@ static int socket_accept(int sock)
+     struct sockaddr_un addr;
+     socklen_t addrlen;
+     int ret;
++    /*
++     * timeout unit of blocking receive calls is different among platfoms.
++     * It's in seconds on non-Windows platforms but milliseconds on Windows.
++     */
++#ifndef _WIN32
+     struct timeval timeout = { .tv_sec = SOCKET_TIMEOUT,
+                                .tv_usec = 0 };
++#else
++    DWORD timeout = SOCKET_TIMEOUT;
++#endif
+ 
+     if (setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO,
+                    (void *)&timeout, sizeof(timeout))) {
 -- 
 2.25.1
 
