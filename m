@@ -2,109 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22EE9610C62
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 10:41:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3342610C86
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 10:56:28 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooKuq-0004KX-Hs; Fri, 28 Oct 2022 04:40:36 -0400
+	id 1ooL8i-0002Qw-5t; Fri, 28 Oct 2022 04:54:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1ooKuS-0004J6-75
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 04:40:18 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ooL8g-0002Qe-Km; Fri, 28 Oct 2022 04:54:54 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1ooKuO-0000vM-7H
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 04:40:11 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29S81sPx018547;
- Fri, 28 Oct 2022 08:40:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=kXAN8EJHJgOmwm4n+eDsiNshqoAkO4y5hYQdi56gIfs=;
- b=h43BdBGXI9KMQSAKQIrT2vscc0AzxDAwiP8XVg0l3Hx5P9XdllI0p6x+VBsKgHtmEE/v
- h5HIjv6x5/as5npWPRK0vDOqqZrDk/fjSlTizb+vinlsPn+p2x4Y8SbwbtRsCu0sFm+G
- abWVC0Pr6QD8YqNUdR0ySjwaqpkzQ5lRrpgjLpJNYwhx1Km5xBIGRPlkGOPWPHKne0Rb
- 2GlQA2s7TmS0UUEOsBtxgBX2M8g6/c3909fxyNE+p9+MPb17LtjPsZVRK3e79/PoAoci
- ajFUavND9vV1P8+Bg+ODyhEUw0/kKQfvwRce6Elxn2Ck7l3GzdBFcYe7VfybkUeNpIiT og== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kgb79sg59-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Oct 2022 08:40:03 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29S84ooO029686;
- Fri, 28 Oct 2022 08:40:03 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kgb79sg0w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Oct 2022 08:40:02 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29S8aMba004347;
- Fri, 28 Oct 2022 08:40:00 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma04ams.nl.ibm.com with ESMTP id 3kftf1scsn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 28 Oct 2022 08:40:00 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29S8dvEk34275938
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 28 Oct 2022 08:39:57 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CE24C42041;
- Fri, 28 Oct 2022 08:39:57 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 88AF74203F;
- Fri, 28 Oct 2022 08:39:57 +0000 (GMT)
-Received: from [9.171.5.208] (unknown [9.171.5.208])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 28 Oct 2022 08:39:57 +0000 (GMT)
-Message-ID: <e9ef8994-672f-65c4-8b93-d163a8b90cae@linux.ibm.com>
-Date: Fri, 28 Oct 2022 10:39:57 +0200
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ooL8e-0003C0-Fg; Fri, 28 Oct 2022 04:54:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=RSaPeoW2DNC/u6OVGV4tBqbToEcxLLGKS6gPqha0Gjg=; b=ZF8kQcoqQs3fO/s0o16OkbbMfn
+ /J+sg2CgsxHlopmMb78VW2eXfeTwigHmmYJe3iq8pwmzlcKL9kJBA2MJ5OvcWUeg1RqQsBAkwqkd1
+ JBJQQj3uG0e0RxuWUjqTNfW6XlOZXz+90Ig2QMBWD4CVDzBnnYiYUuhUmRno4JD9xG+U6p2DF74ap
+ Z5pOrdhRgbyfjwGHbtGDRwG6n1b6tVK64qvg9OXoUpk2nevphqvXE7R7QD7rCqNdlrxVZ3iAChglS
+ PK80WnmCf7slSJWDNpS2Rorg3Vp/guJtNu0anhyFjttIxcEAfUVjiAaR0mYH2tAFrtTQvNV5b9g/A
+ Ejo/DTYDSnFZZDOh2hNR77t8eaU/iHRQR/nIRNBA2qbaRwZcFHv99zAOzZbBK+zP3bjgjZs+hbrqA
+ Gp+9ktqOqLxQ42WtRLVI2btKevjWMc+od2vph6NtMxzbkIP44pZeV9pjCPC1Vng6fxVzKIhXHo5RY
+ ehs96303C0xylqRfc6uRUchF5/QlgNW2ev3GWRiyNgFR6X3mSqQ75eyHNdzNcn+Gxd2VCR+FHsvbU
+ eC8muR2AIB//dTpKrkYWwBd2xbgkrtDwRqaUJyBCOGR3oMdkSoZVYvM/YnYTfPLXoVzg/ZKD3uaHj
+ gUMaCfu2e8v29RzN1XYWYm5F3cowXDleOMFO4AA7k=;
+Received: from [2a00:23c4:8ba8:7100:6571:576d:97b8:647b]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1ooL8T-0000B9-DL; Fri, 28 Oct 2022 09:54:45 +0100
+Message-ID: <16bb7a56-ed91-a829-ab5b-94b4be564e71@ilande.co.uk>
+Date: Fri, 28 Oct 2022 09:54:39 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [PATCH 1/1] tcg: add perfmap and jitdump
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: "Vanderson M . do Rosario" <vandersonmr2@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20221012051846.1432050-1-iii@linux.ibm.com>
- <20221012051846.1432050-2-iii@linux.ibm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <20221012051846.1432050-2-iii@linux.ibm.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <cover.1664827008.git.balaton@eik.bme.hu>
+ <2514e45b2ac438e40180cdf51e156a9dcf6a4df4.1664827008.git.balaton@eik.bme.hu>
+ <1a8cace1-1401-1420-d933-0ab7c7d78bfd@ilande.co.uk>
+ <2c3014a6-ad5-c595-6222-d82ae42ecf@eik.bme.hu>
+ <a5fdd3f0-9f2d-4281-d73e-7cef108962a4@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <a5fdd3f0-9f2d-4281-d73e-7cef108962a4@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: hG6FUlkLLJ_tbsrRVML8Rk_8T2jayvLt
-X-Proofpoint-ORIG-GUID: LXbIOHltidS5E55qwsgm_IsU3Uf_P_2g
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-28_04,2022-10-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0
- mlxlogscore=999 mlxscore=0 phishscore=0 malwarescore=0 adultscore=0
- lowpriorityscore=0 bulkscore=0 impostorscore=0 priorityscore=1501
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2210280054
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba8:7100:6571:576d:97b8:647b
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v3 05/13] mac_{old|new}world: Simplify cmdline_base
+ calculation
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,26 +82,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 12.10.22 um 07:18 schrieb Ilya Leoshkevich:
-> Add ability to dump /tmp/perf-<pid>.map and jit-<pid>.dump.
-> The first one allows the perf tool to map samples to each individual
-> translation block. The second one adds the ability to resolve symbol
-> names, line numbers and inspect JITed code.
-> 
-> Example of use:
-> 
->      perf record qemu-x86_64 -perfmap ./a.out
->      perf report
-> 
-> or
-> 
->      perf record -k 1 qemu-x86_64 -jitdump ./a.out
->      perf inject -j -i perf.data -o perf.data.jitted
->      perf report -i perf.data.jitted
-> 
-> Co-developed-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
-> Co-developed-by: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+On 14/10/2022 16:25, BALATON Zoltan wrote:
 
-I think this would be awesome to have. I know our performance people do use this for Java a lot.
+> On Fri, 14 Oct 2022, BALATON Zoltan wrote:
+>> On Fri, 14 Oct 2022, Mark Cave-Ayland wrote:
+>>> On 03/10/2022 21:13, BALATON Zoltan wrote:
+>>>
+>>>> By slight reorganisation we can avoid an else branch and some code
+>>>> duplication which makes it easier to follow the code.
+>>>>
+>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>> ---
+>>>>   hw/ppc/mac_newworld.c | 6 +++---
+>>>>   hw/ppc/mac_oldworld.c | 7 +++----
+>>>>   2 files changed, 6 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+>>>> index 6bc3bd19be..73b01e8c6d 100644
+>>>> --- a/hw/ppc/mac_newworld.c
+>>>> +++ b/hw/ppc/mac_newworld.c
+>>>> @@ -194,9 +194,11 @@ static void ppc_core99_init(MachineState *machine)
+>>>>                            machine->kernel_filename);
+>>>>               exit(1);
+>>>>           }
+>>>> +        cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
+>>>> +                                         KERNEL_GAP);
+>>>>           /* load initrd */
+>>>>           if (machine->initrd_filename) {
+>>>> -            initrd_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + 
+>>>> KERNEL_GAP);
+>>>> +            initrd_base = cmdline_base;
+>>>>               initrd_size = load_image_targphys(machine->initrd_filename,
+>>>>                                                 initrd_base,
+>>>>                                                 machine->ram_size - initrd_base);
+>>>> @@ -206,8 +208,6 @@ static void ppc_core99_init(MachineState *machine)
+>>>>                   exit(1);
+>>>>               }
+>>>>               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
+>>>> -        } else {
+>>>> -            cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + 
+>>>> KERNEL_GAP);
+>>>>           }
+>>>>           ppc_boot_device = 'm';
+>>>>       } else {
+>>>> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+>>>> index cb67e44081..b424729a39 100644
+>>>> --- a/hw/ppc/mac_oldworld.c
+>>>> +++ b/hw/ppc/mac_oldworld.c
+>>>> @@ -168,10 +168,11 @@ static void ppc_heathrow_init(MachineState *machine)
+>>>>                            machine->kernel_filename);
+>>>>               exit(1);
+>>>>           }
+>>>> +        cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
+>>>> +                                         KERNEL_GAP);
+>>>>           /* load initrd */
+>>>>           if (machine->initrd_filename) {
+>>>> -            initrd_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size +
+>>>> -                                            KERNEL_GAP);
+>>>> +            initrd_base = cmdline_base;
+>>>>               initrd_size = load_image_targphys(machine->initrd_filename,
+>>>>                                                 initrd_base,
+>>>>                                                 machine->ram_size - initrd_base);
+>>>> @@ -181,8 +182,6 @@ static void ppc_heathrow_init(MachineState *machine)
+>>>>                   exit(1);
+>>>>               }
+>>>>               cmdline_base = TARGET_PAGE_ALIGN(initrd_base + initrd_size);
+>>>> -        } else {
+>>>> -            cmdline_base = TARGET_PAGE_ALIGN(kernel_base + kernel_size + 
+>>>> KERNEL_GAP);
+>>>>           }
+>>>>           ppc_boot_device = 'm';
+>>>>       } else {
+>>>
+>>> Is there any particular reason why you would want to avoid the else branch? I
+>>
+>> It avoids code duplication and to me it's easier to follow than an else branch. 
+>> With this patch cmdline_base calculation is clearly tied to kernel_base and 
+>> kernel_size if only kernel is used and initrd_base initrd_size when initrd is used. 
+>> With the else branch it's less obvious because it's set much later in the else 
+>> branch while initrd_base duplicates it above. So avoiding this duplication makes 
+>> the code easier to read and less prone to errors if the calculation is ever modified.
+>>
+>>> don't feel this patch is an improvement since by always setting cmdline_base to a 
+>>> non-zero value, as a reviewer I then have to check all other uses of cmdline_base 
+>>> in the file to ensure that this doesn't cause any issues.
+>>
+>> There aren't that many uses that it's difficult to check and this only need to be 
+>> done once.
+>>
+>>> I much prefer the existing version since setting the values of cmdline_base and 
+>>> initrd_base is very clearly scoped within the if statement.
+>>
+>> What can I say, it's hard to argue with preferences but avoiding code duplication 
+>> is worth the effort reviewing this patch in my opinion.
+> 
+> Also compare the before and after this series:
+> 
+> https://github.com/patchew-project/qemu/blob/master/hw/ppc/mac_newworld.c
+> https://github.com/patchew-project/qemu/blob/9c1cd2828b3d3bd3a7068134a57ae9bb07f5a681/hw/ppc/mac_newworld.c 
+> 
+> 
+> I think the result is much easier to follow without else brances as you can read it 
+> from top to bottom instead of jumping around in else branches that is less clear and 
+> also more lines. Also setting default value avoids any used uninitialised cases which 
+> you would need to check if you set vars in if-else instead so unlike what you say 
+> this does not introduce such cases but closes the possibility instead. So please take 
+> the time to review it in exchange of the time I've put it in writing it.
+
+I've revisited this looking at the links provided above, and after consideration my 
+opinion is that that having the more localised scoping of the variables is more 
+worthwhile (i.e. the compiler can better catch errors) rather than eliminating the 
+duplication for a couple of lines. Please drop this patch before posting the next 
+version of the series.
+
+
+ATB,
+
+Mark.
 
