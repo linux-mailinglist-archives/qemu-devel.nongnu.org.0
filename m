@@ -2,78 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82215610BF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 10:12:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9433A610BF8
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 10:13:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooKSb-00058K-C4; Fri, 28 Oct 2022 04:11:25 -0400
+	id 1ooKU9-0006Sl-Bq; Fri, 28 Oct 2022 04:13:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ooKSD-0004oU-Qv
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 04:11:07 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ooKS9-0003OD-CM
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 04:10:59 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id DC31D21A59;
- Fri, 28 Oct 2022 08:10:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1666944655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7pqzn2sU9MHTp5DUQKz8+E2SIdHmN203AtXzk1vOrAo=;
- b=wJFoC6xst/Cd+Bf+bimrqYLhvkJhUEDTuyDZg/Y+SU+7dO19Skl5ZH6VZ7Slc6fgb/KuHo
- s2Cz2X4nQouRYm8cRHh+WrA4/OxH5dNw6pkq6BurYZMHHUOiElAV76uai2tnztx5es+i5P
- 4CUzPb6XyiaXRGQ7/qQ+LMV8EQpXF1c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1666944655;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7pqzn2sU9MHTp5DUQKz8+E2SIdHmN203AtXzk1vOrAo=;
- b=YK6Xi2gjUP4zrGL6u58k+fXZRicesMjgeW0rKUGGZsc+ghzdMv27NtZNJZNyg9hTdnFJ1t
- FnYgJwHsR0AU2EBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C10CF13A6E;
- Fri, 28 Oct 2022 08:10:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ZqkvLY+OW2MvcgAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 28 Oct 2022 08:10:55 +0000
-Message-ID: <dbe1f618-6176-46fd-a7cb-22f714dc25e5@suse.de>
-Date: Fri, 28 Oct 2022 10:10:55 +0200
+ (Exim 4.90_1) (envelope-from <uwu@icenowy.me>) id 1ooKTs-0006O5-0x
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 04:12:49 -0400
+Received: from sender4-op-o18.zoho.com ([136.143.188.18])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <uwu@icenowy.me>) id 1ooKTn-0003cf-D8
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 04:12:43 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1666944753; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=iohIokE+SsiBWTk+v18179SCqL5eFJ021FLTtp+tr+oq6SpicbIyguStuE3UeJPJDJglsO5jBBU0cmnCtcRPNNYmJ9IsVN9T42gIqQX2YIpi9etO9B8QTk//TPOKV+ehcOq2R+cflCGbBbVdzsOwA8r+zfTD7Mlh2V8zrS1mZV4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1666944753;
+ h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+ bh=9X5VW/nE2d8PpcwWVGulBYzeAlxy1f0oAlCeLMUToYw=; 
+ b=QBit8salSmprMZtFuCCn6kAr4csD6UahtN1Ox4UFCui2BXFfxHfDhk/TanYW+8yE4EdaO+6nuPs/yCpV1zGKAx/gS0yl4xsDYueRi1Dw94M5LSGuGloiB89o2Gjaq8pfFkTt6OD3HouTlqw/ZkiqZC7LOk+uFTzRR7iarK+SxM0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1666944753; 
+ s=zmail; d=icenowy.me; i=uwu@icenowy.me;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
+ bh=9X5VW/nE2d8PpcwWVGulBYzeAlxy1f0oAlCeLMUToYw=;
+ b=F2eIDPhz/XaL0cYzt623Rr8VSPjKijviH8JNPmsCdBq9gdW/92DVj4t4jekt7zI5
+ 2nRpkFwmKC8LaMGohyWmrpEoNobp6ouOW2N/ilwuqoaFpzstA/+Uk6YYg1gZRJZF5iV
+ IIihMS2H4tg7SN3S8mE8kQJUgYptPQxgEdVIZiJQ=
+Received: from edelgard.fodlan.icenowy.me (112.94.102.53 [112.94.102.53]) by
+ mx.zohomail.com with SMTPS id 1666944751714986.2019188069779;
+ Fri, 28 Oct 2022 01:12:31 -0700 (PDT)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org,
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH] linux-user: always translate cmsg when recvmsg
+Date: Fri, 28 Oct 2022 16:12:20 +0800
+Message-Id: <20221028081220.1604244-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2 2/6] target/i386: Use cpu_unwind_state_data for tpr
- access
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221027100254.215253-1-richard.henderson@linaro.org>
- <20221027100254.215253-3-richard.henderson@linaro.org>
- <9705b542-d81b-5299-9aba-098dc335d5ef@suse.de>
- <dd3250c2-b6c3-cb7b-142e-ee4a69c0b1e4@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <dd3250c2-b6c3-cb7b-142e-ee4a69c0b1e4@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c;
- envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.18; envelope-from=uwu@icenowy.me;
+ helo=sender4-op-o18.zoho.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,41 +73,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/27/22 22:13, Richard Henderson wrote:
-> On 10/27/22 22:22, Claudio Fontana wrote:
->> On 10/27/22 12:02, Richard Henderson wrote:
->>> +    /* Per x86_restore_state_to_opc. */
->>> +    if (TARGET_TB_PCREL) {
->>> +        return (env->eip & TARGET_PAGE_MASK) | data[0];
->>> +    } else {
->>> +        return data[0] - env->segs[R_CS].base;
->>
->> here we switch from taking cs_base from the TranslationBlock to taking it from env-> .
->>
->> I traced the tb->cs_base use back to
->>
->> cpu_exec() and cpu_exec_step_atomic()
->>
->> and from there it seems ok, as the sequence is
->>
->> cpu_get_tb_cpu_state(cpu->env_ptr, &pc, &cs_base, &flags), which gets it from env,
->>
->> followed by
->>
->> tb_gen_code(...cs_base) which sets the TranslationBlock cs_base, and tb->cs_base does
->> not seem to change again.
-> Correct.  I wondered if I'd made a mistake by not returning the TB located during the 
-> search, but it doesn't seem to have mattered for the two users.
-> 
->> I mention this in the case there can be some weird situation in which env and tb can
->> end up not being consistent, does a TranslationBlock that is initialized with a certain
->> cs_base from the env that contains user code to load / change the CS segment base
->> potentially constitute a problem?
-> The only way to load/change a CS segment base is a branch instruction, which will of 
-> course end the TB.  There should be no way to change CS that continues the TB.
-> 
-> 
-> r~
+It's possible that a message contains both normal payload and ancillary
+data in the same message, and even if no ancillary data is available
+this information should be passed to the target, otherwise the target
+cmsghdr will be left uninitialized and the target is going to access
+uninitialized memory if it expects cmsg.
 
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
+Always call the function that translate cmsg when recvmsg, because that
+function should be empty-cmsg-safe (it creates an empty cmsg in the
+target).
+
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+---
+ linux-user/syscall.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 8402c1399d..029a4e8b42 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -3346,7 +3346,8 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
+             if (fd_trans_host_to_target_data(fd)) {
+                 ret = fd_trans_host_to_target_data(fd)(msg.msg_iov->iov_base,
+                                                MIN(msg.msg_iov->iov_len, len));
+-            } else {
++            }
++            if (!is_error(ret)) {
+                 ret = host_to_target_cmsg(msgp, &msg);
+             }
+             if (!is_error(ret)) {
+-- 
+2.37.1
+
 
