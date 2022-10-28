@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAFD7610DD6
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 11:54:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2567C610DD4
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 11:53:45 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooM3H-0002pj-EU; Fri, 28 Oct 2022 05:53:23 -0400
+	id 1ooM2v-0002So-7Q; Fri, 28 Oct 2022 05:53:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ooM30-0002dT-8Z
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:53:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ooM2r-0002P4-33
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:52:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ooM2u-0003hg-JK
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:53:06 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1ooM2p-0003gn-AB
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 05:52:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666950779;
+ s=mimecast20190719; t=1666950773;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j3gDduIc20O9vTBOSRoOtd6j1cvdstiRNBrJm/t9Aik=;
- b=gZu8hjJNggHOAwS70kdQ9SX/ZsOJK0GIb+L+LtvGpBEAg26pgoXhqJ7ecQxB/24twCuo9H
- iux9pTPMXEA9x9MtKQFfGKUmM2aqKwHTVTV5p2WfzCL0Z3VfhfQa+CbFKz9cItHwLrV3y3
- qUMyj1xo9bscHSzziU20gKV/XAzBhfQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=B9FAzIxQLpdLKcxSwIC+xGrGdPkPNPSxnUlNu2jo3X4=;
+ b=D6V74lXX4N6FNCMjqQxBk/iENfaRizhy+WvX/QnZYEo+o2DyK13IY9rroLApwbO7Y1UHtP
+ YcEamagzvyfftiN1LbTW2hJu+a3PvnualWFCn4XUxSo/8qoSF2vUBK89NImzT2wfBi/G85
+ YoFEbzR8qH52E/UKhncBZGXMmli8WnE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-_QWmWHfcMouM2W9pr0LbuQ-1; Fri, 28 Oct 2022 05:52:56 -0400
-X-MC-Unique: _QWmWHfcMouM2W9pr0LbuQ-1
+ us-mta-558-S-khlZ3qO9mD8EmfcsRXXQ-1; Fri, 28 Oct 2022 05:52:51 -0400
+X-MC-Unique: S-khlZ3qO9mD8EmfcsRXXQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35E2E8027EA;
- Fri, 28 Oct 2022 09:52:46 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5B29C3817A7F;
+ Fri, 28 Oct 2022 09:52:45 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.194.241])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF1731415117;
- Fri, 28 Oct 2022 09:52:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D820A1401C23;
+ Fri, 28 Oct 2022 09:52:39 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Igor Mammedov <imammedo@redhat.com>,
  Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Stefan Weil <sw@weilnetz.de>, David Hildenbrand <david@redhat.com>,
- Julia Suvorova <jusual@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Pankaj Gupta <pankaj.gupta@amd.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [GIT PULL 1/8] hw/mem/nvdimm: fix error message for 'unarmed' flag
-Date: Fri, 28 Oct 2022 11:52:18 +0200
-Message-Id: <20221028095225.86118-2-david@redhat.com>
+ Michal Privoznik <mprivozn@redhat.com>
+Subject: [GIT PULL 2/8] util: Cleanup and rename os_mem_prealloc()
+Date: Fri, 28 Oct 2022 11:52:19 +0200
+Message-Id: <20221028095225.86118-3-david@redhat.com>
 In-Reply-To: <20221028095225.86118-1-david@redhat.com>
 References: <20221028095225.86118-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -82,40 +79,216 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Julia Suvorova <jusual@redhat.com>
+Let's
+* give the function a "qemu_*" style name
+* make sure the parameters in the implementation match the prototype
+* rename smp_cpus to max_threads, which makes the semantics of that
+  parameter clearer
 
-In the ACPI specification [1], the 'unarmed' bit is set when a device
-cannot accept a persistent write. This means that when a memdev is
-read-only, the 'unarmed' flag must be turned on. The logic is correct,
-just changing the error message.
+... and add a function documentation.
 
-[1] ACPI NFIT NVDIMM Region Mapping Structure "NVDIMM State Flags" Bit 3
-
-Fixes: dbd730e859 ("nvdimm: check -object memory-backend-file, readonly=on option")
-Signed-off-by: Julia Suvorova <jusual@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Pankaj Gupta <pankaj.gupta@amd.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Acked-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20221023195812.15523-1-jusual@redhat.com>
+Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+Message-Id: <20221014134720.168738-2-david@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/mem/nvdimm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ backends/hostmem.c     |  6 +++---
+ hw/virtio/virtio-mem.c |  2 +-
+ include/qemu/osdep.h   | 17 +++++++++++++++--
+ softmmu/cpus.c         |  2 +-
+ util/oslib-posix.c     | 24 ++++++++++++------------
+ util/oslib-win32.c     |  8 ++++----
+ 6 files changed, 36 insertions(+), 23 deletions(-)
 
-diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-index 7c7d777781..31080c22c9 100644
---- a/hw/mem/nvdimm.c
-+++ b/hw/mem/nvdimm.c
-@@ -149,7 +149,7 @@ static void nvdimm_prepare_memory_region(NVDIMMDevice *nvdimm, Error **errp)
-     if (!nvdimm->unarmed && memory_region_is_rom(mr)) {
-         HostMemoryBackend *hostmem = dimm->hostmem;
+diff --git a/backends/hostmem.c b/backends/hostmem.c
+index 4428e06738..491cb10b97 100644
+--- a/backends/hostmem.c
++++ b/backends/hostmem.c
+@@ -232,7 +232,7 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
+         void *ptr = memory_region_get_ram_ptr(&backend->mr);
+         uint64_t sz = memory_region_size(&backend->mr);
  
--        error_setg(errp, "'unarmed' property must be off since memdev %s "
-+        error_setg(errp, "'unarmed' property must be 'on' since memdev %s "
-                    "is read-only",
-                    object_get_canonical_path_component(OBJECT(hostmem)));
+-        os_mem_prealloc(fd, ptr, sz, backend->prealloc_threads, &local_err);
++        qemu_prealloc_mem(fd, ptr, sz, backend->prealloc_threads, &local_err);
+         if (local_err) {
+             error_propagate(errp, local_err);
+             return;
+@@ -383,8 +383,8 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
+          * specified NUMA policy in place.
+          */
+         if (backend->prealloc) {
+-            os_mem_prealloc(memory_region_get_fd(&backend->mr), ptr, sz,
+-                            backend->prealloc_threads, &local_err);
++            qemu_prealloc_mem(memory_region_get_fd(&backend->mr), ptr, sz,
++                              backend->prealloc_threads, &local_err);
+             if (local_err) {
+                 goto out;
+             }
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index 30d03e987a..0e9ef4ff19 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -467,7 +467,7 @@ static int virtio_mem_set_block_state(VirtIOMEM *vmem, uint64_t start_gpa,
+             int fd = memory_region_get_fd(&vmem->memdev->mr);
+             Error *local_err = NULL;
+ 
+-            os_mem_prealloc(fd, area, size, 1, &local_err);
++            qemu_prealloc_mem(fd, area, size, 1, &local_err);
+             if (local_err) {
+                 static bool warned;
+ 
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index b1c161c035..e556e45143 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -568,8 +568,21 @@ unsigned long qemu_getauxval(unsigned long type);
+ 
+ void qemu_set_tty_echo(int fd, bool echo);
+ 
+-void os_mem_prealloc(int fd, char *area, size_t sz, int smp_cpus,
+-                     Error **errp);
++/**
++ * qemu_prealloc_mem:
++ * @fd: the fd mapped into the area, -1 for anonymous memory
++ * @area: start address of the are to preallocate
++ * @sz: the size of the area to preallocate
++ * @max_threads: maximum number of threads to use
++ * @errp: returns an error if this function fails
++ *
++ * Preallocate memory (populate/prefault page tables writable) for the virtual
++ * memory area starting at @area with the size of @sz. After a successful call,
++ * each page in the area was faulted in writable at least once, for example,
++ * after allocating file blocks for mapped files.
++ */
++void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
++                       Error **errp);
+ 
+ /**
+  * qemu_get_pid_name:
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index 61b27ff59d..01c94fd298 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -354,7 +354,7 @@ static void qemu_init_sigbus(void)
+ 
+     /*
+      * ALERT: when modifying this, take care that SIGBUS forwarding in
+-     * os_mem_prealloc() will continue working as expected.
++     * qemu_prealloc_mem() will continue working as expected.
+      */
+     memset(&action, 0, sizeof(action));
+     action.sa_flags = SA_SIGINFO;
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 827a7aadba..905cbc27cc 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -329,7 +329,7 @@ static void sigbus_handler(int signal)
          return;
+     }
+ #endif /* CONFIG_LINUX */
+-    warn_report("os_mem_prealloc: unrelated SIGBUS detected and ignored");
++    warn_report("qemu_prealloc_mem: unrelated SIGBUS detected and ignored");
+ }
+ 
+ static void *do_touch_pages(void *arg)
+@@ -399,13 +399,13 @@ static void *do_madv_populate_write_pages(void *arg)
+ }
+ 
+ static inline int get_memset_num_threads(size_t hpagesize, size_t numpages,
+-                                         int smp_cpus)
++                                         int max_threads)
+ {
+     long host_procs = sysconf(_SC_NPROCESSORS_ONLN);
+     int ret = 1;
+ 
+     if (host_procs > 0) {
+-        ret = MIN(MIN(host_procs, MAX_MEM_PREALLOC_THREAD_COUNT), smp_cpus);
++        ret = MIN(MIN(host_procs, MAX_MEM_PREALLOC_THREAD_COUNT), max_threads);
+     }
+ 
+     /* Especially with gigantic pages, don't create more threads than pages. */
+@@ -418,11 +418,11 @@ static inline int get_memset_num_threads(size_t hpagesize, size_t numpages,
+ }
+ 
+ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+-                           int smp_cpus, bool use_madv_populate_write)
++                           int max_threads, bool use_madv_populate_write)
+ {
+     static gsize initialized = 0;
+     MemsetContext context = {
+-        .num_threads = get_memset_num_threads(hpagesize, numpages, smp_cpus),
++        .num_threads = get_memset_num_threads(hpagesize, numpages, max_threads),
+     };
+     size_t numpages_per_thread, leftover;
+     void *(*touch_fn)(void *);
+@@ -494,13 +494,13 @@ static bool madv_populate_write_possible(char *area, size_t pagesize)
+            errno != EINVAL;
+ }
+ 
+-void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+-                     Error **errp)
++void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
++                       Error **errp)
+ {
+     static gsize initialized;
+     int ret;
+     size_t hpagesize = qemu_fd_getpagesize(fd);
+-    size_t numpages = DIV_ROUND_UP(memory, hpagesize);
++    size_t numpages = DIV_ROUND_UP(sz, hpagesize);
+     bool use_madv_populate_write;
+     struct sigaction act;
+ 
+@@ -530,24 +530,24 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+         if (ret) {
+             qemu_mutex_unlock(&sigbus_mutex);
+             error_setg_errno(errp, errno,
+-                "os_mem_prealloc: failed to install signal handler");
++                "qemu_prealloc_mem: failed to install signal handler");
+             return;
+         }
+     }
+ 
+     /* touch pages simultaneously */
+-    ret = touch_all_pages(area, hpagesize, numpages, smp_cpus,
++    ret = touch_all_pages(area, hpagesize, numpages, max_threads,
+                           use_madv_populate_write);
+     if (ret) {
+         error_setg_errno(errp, -ret,
+-                         "os_mem_prealloc: preallocating memory failed");
++                         "qemu_prealloc_mem: preallocating memory failed");
+     }
+ 
+     if (!use_madv_populate_write) {
+         ret = sigaction(SIGBUS, &sigbus_oldact, NULL);
+         if (ret) {
+             /* Terminate QEMU since it can't recover from error */
+-            perror("os_mem_prealloc: failed to reinstall signal handler");
++            perror("qemu_prealloc_mem: failed to reinstall signal handler");
+             exit(1);
+         }
+         qemu_mutex_unlock(&sigbus_mutex);
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index 5723d3eb4c..e1cb725ecc 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -268,14 +268,14 @@ int getpagesize(void)
+     return system_info.dwPageSize;
+ }
+ 
+-void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+-                     Error **errp)
++void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
++                       Error **errp)
+ {
+     int i;
+     size_t pagesize = qemu_real_host_page_size();
+ 
+-    memory = (memory + pagesize - 1) & -pagesize;
+-    for (i = 0; i < memory / pagesize; i++) {
++    sz = (sz + pagesize - 1) & -pagesize;
++    for (i = 0; i < sz / pagesize; i++) {
+         memset(area + pagesize * i, 0, 1);
+     }
+ }
 -- 
 2.37.3
 
