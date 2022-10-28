@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A156461198D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 19:45:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B68D36119C3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 20:00:04 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooTOg-0002VM-5s; Fri, 28 Oct 2022 13:43:58 -0400
+	id 1ooTcI-0003Qm-3V; Fri, 28 Oct 2022 13:58:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1ooTOQ-0002Rn-76
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 13:43:46 -0400
-Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1ooTOO-0005Z2-9W
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 13:43:41 -0400
-Received: by mail-il1-x130.google.com with SMTP id o2so3316498ilo.8
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 10:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EcEn/MPEcp7Orardhffba022UeWLHLN8pp6ZchjscQE=;
- b=UAZJRHgpvqQh+b+lWZ57eIZ5DLkzOEjiOATcUxOV1676nzV7qkhmgct1fHC9OfIUQT
- TrZb6qUOQPYZSq6tbTSayPulwkMPc1mDucKH5kcZ+3AhM/M4xKKodM4x3LWIlia00tWs
- SvXodamIwNyOQIWFwvT3hz/YUG510eVeUDEoyzAaI8NbNZHuh6yS+T6QnKzhZok/Dihy
- NhWI23sJLgObDx/EKXWa5KdLaSBnzWbEWoVsu3EuMpV0mQMYagrhM/qB9DgCdn01kZ/R
- wdQ5HYcAw5LVo+c8vwAHNffaWMQCQYQ48d9BnlXRr6eN0N668rNTt7pa3opjFXVmq78W
- 9q+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EcEn/MPEcp7Orardhffba022UeWLHLN8pp6ZchjscQE=;
- b=fkko27an4tH0NDNmxA1sBhNQSyKSjU2tL4DHIfHQEQVlUNzxkKB+tudWrNt9nVKL5y
- 6MDFML21yToEb9aBHzbOSoeC2FYsEonMyjvlNZgGNCIZYKCl8PN3MDtfWzwj0om2FdJ4
- Y5cC6iQOYh038mxR4xfY1c0LpsTeybGTG7pNtdGJXbFE7LGlphU3xUAUyMLyjAdFBmN8
- vS8IE5acsEVdM6FRHtrVphhUubXknJl29sv7aXLAN6WYlJTKeVmjTNi1FWSjuO1lxFwQ
- ZEOwv99eCebkXQlA/9EAEAimiI9H9gQp8Ui+bwJbzwgc0ctAWr6f1Q5bpXO1uwUJr3p0
- ++Zg==
-X-Gm-Message-State: ACrzQf0AOR9AFOshSXjmtQWLr8Ju0nRCB/SiXxOuBc0p54WAarEqNhCt
- a3bHOUzaCk9L06De4y0oMjO7AsTvliTGhg==
-X-Google-Smtp-Source: AMsMyM7iqqTWLwqtbQ11WKaXIST1SRo5LTVkWMxUeBJw/7BeQowBqPUulE1z0RSBU7t8LTjpZPuYfw==
-X-Received: by 2002:a92:ca0c:0:b0:2f9:204:7a0d with SMTP id
- j12-20020a92ca0c000000b002f902047a0dmr292053ils.194.1666979018869; 
- Fri, 28 Oct 2022 10:43:38 -0700 (PDT)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174]) by smtp.gmail.com with ESMTPSA id
- p8-20020a027808000000b003733e2ce4e8sm1930453jac.59.2022.10.28.10.43.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 10:43:38 -0700 (PDT)
-From: Warner Losh <imp@bsdimp.com>
-To: qemu-devel@nongnu.org
-Cc: Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- John Baldwin <jhb@freebsd.org>, Muhammad Moinur Rahman <bofh@FreeBSD.org>
-Subject: [PULL 1/1] bsd-user: Catch up with sys/param.h requirement for
- machine/pmap.h
-Date: Fri, 28 Oct 2022 11:45:46 -0600
-Message-Id: <20221028174546.88683-2-imp@bsdimp.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20221028174546.88683-1-imp@bsdimp.com>
-References: <20221028174546.88683-1-imp@bsdimp.com>
+ (Exim 4.90_1) (envelope-from <julien@xen.org>)
+ id 1ooTbx-0003Mq-AQ; Fri, 28 Oct 2022 13:57:49 -0400
+Received: from mail.xenproject.org ([104.130.215.37])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <julien@xen.org>)
+ id 1ooTbs-0007RJ-40; Fri, 28 Oct 2022 13:57:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=xen.org;
+ s=20200302mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID;
+ bh=c1XmoAUQj3+jFBnGeB4GeekYFOj+FFZJbONcyLLcspQ=; b=BzQ6U+EN8+ZxedMiAIZIhXOoNY
+ ypgoCymcrhksfp5EFZ3UecTWgkETbMjmTzKTr7mkiqEauLe5Yk1vpqx2k9umGEhlflMubWBY0/B+i
+ XW5Vq8O/9+RDC1N7oThhM/gD6iMQ4kgVLMqfw4BM/bZXnVFz3debQC/D+lKu395+fVxs=;
+Received: from xenbits.xenproject.org ([104.239.192.120])
+ by mail.xenproject.org with esmtp (Exim 4.92)
+ (envelope-from <julien@xen.org>)
+ id 1ooTbj-0000BI-LD; Fri, 28 Oct 2022 17:57:27 +0000
+Received: from 54-240-197-233.amazon.com ([54.240.197.233]
+ helo=[192.168.25.146]) by xenbits.xenproject.org with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <julien@xen.org>)
+ id 1ooTbj-0007GZ-Do; Fri, 28 Oct 2022 17:57:27 +0000
+Message-ID: <7da20a2e-81e0-b3ad-c2d6-6012fa7edee2@xen.org>
+Date: Fri, 28 Oct 2022 18:57:24 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.1
+Subject: Re: [PATCH v1 10/12] hw/arm: introduce xenpv machine
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Vikram Garhwal <vikram.garhwal@amd.com>
+Cc: qemu-devel@nongnu.org, stefano.stabellini@amd.com,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ xen-devel@lists.xenproject.org
+References: <20221015050750.4185-1-vikram.garhwal@amd.com>
+ <20221015050750.4185-11-vikram.garhwal@amd.com> <87wn8l3d3r.fsf@linaro.org>
+Content-Language: en-US
+From: Julien Grall <julien@xen.org>
+In-Reply-To: <87wn8l3d3r.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::130;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x130.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=104.130.215.37; envelope-from=julien@xen.org;
+ helo=mail.xenproject.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,45 +76,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Muhammad Moinur Rahman <bofh@FreeBSD.org>
+Hi,
 
-Some versions of FreeBSD now require sys/param.h for machine/pmap.h on
-x86. Include them here to meet that requirement. It does no harm on
-older versions, so there's no need to #ifdef it.
+On 27/10/2022 09:02, Alex Bennée wrote:
+> 
+> Vikram Garhwal <vikram.garhwal@amd.com> writes:
+> 
+> <snip>
+>> Optional: When CONFIG_TPM is enabled, it also creates a tpm-tis-device, adds a
+>> TPM emulator and connects to swtpm running on host machine via chardev socket
+>> and support TPM functionalities for a guest domain.
+>>
+>> Extra command line for aarch64 xenpv QEMU to connect to swtpm:
+>>      -chardev socket,id=chrtpm,path=/tmp/myvtpm2/swtpm-sock \
+>>      -tpmdev emulator,id=tpm0,chardev=chrtpm \
+>>
+>> swtpm implements a TPM software emulator(TPM 1.2 & TPM 2) built on libtpms and
+>> provides access to TPM functionality over socket, chardev and CUSE interface.
+>> Github repo: https://github.com/stefanberger/swtpm
+>> Example for starting swtpm on host machine:
+>>      mkdir /tmp/vtpm2
+>>      swtpm socket --tpmstate dir=/tmp/vtpm2 \
+>>      --ctrl type=unixio,path=/tmp/vtpm2/swtpm-sock &
+> 
+> <snip>
+>> +static void xen_enable_tpm(void)
+>> +{
+>> +/* qemu_find_tpm_be is only available when CONFIG_TPM is enabled. */
+>> +#ifdef CONFIG_TPM
+>> +    Error *errp = NULL;
+>> +    DeviceState *dev;
+>> +    SysBusDevice *busdev;
+>> +
+>> +    TPMBackend *be = qemu_find_tpm_be("tpm0");
+>> +    if (be == NULL) {
+>> +        DPRINTF("Couldn't fine the backend for tpm0\n");
+>> +        return;
+>> +    }
+>> +    dev = qdev_new(TYPE_TPM_TIS_SYSBUS);
+>> +    object_property_set_link(OBJECT(dev), "tpmdev", OBJECT(be), &errp);
+>> +    object_property_set_str(OBJECT(dev), "tpmdev", be->id, &errp);
+>> +    busdev = SYS_BUS_DEVICE(dev);
+>> +    sysbus_realize_and_unref(busdev, &error_fatal);
+>> +    sysbus_mmio_map(busdev, 0, GUEST_TPM_BASE);
+> 
+> I'm not sure what has gone wrong here but I'm getting:
+> 
+>    ../../hw/arm/xen_arm.c: In function ‘xen_enable_tpm’:
+>    ../../hw/arm/xen_arm.c:120:32: error: ‘GUEST_TPM_BASE’ undeclared (first use in this function); did you mean ‘GUEST_RAM_BASE’?
+>      120 |     sysbus_mmio_map(busdev, 0, GUEST_TPM_BASE);
+>          |                                ^~~~~~~~~~~~~~
+>          |                                GUEST_RAM_BASE
+>    ../../hw/arm/xen_arm.c:120:32: note: each undeclared identifier is reported only once for each function it appears in
+> 
+> In my cross build:
+> 
+>    # Configured with: '../../configure' '--disable-docs' '--target-list=aarch64-softmmu' '--disable-kvm' '--enable-xen' '--disable-opengl' '--disable-libudev' '--enable-tpm' '--disable-xen-pci-passthrough' '--cross-prefix=aarch64-linux-gnu-' '--skip-meson'
+> 
+> which makes me wonder if this is a configure failure or a confusion
+> about being able to have host swtpm implementations during emulation but
+> needing target tpm for Xen?
 
-Signed-off-by:  Muhammad Moinur Rahman <bofh@FreeBSD.org>
-Reviewed-by:	John Baldwin <jhb@FreeBSD.org>
-Signed-off-by:	Warner Losh <imp@bsdimp.com>
----
- bsd-user/host/i386/host-signal.h   | 1 +
- bsd-user/host/x86_64/host-signal.h | 1 +
- 2 files changed, 2 insertions(+)
+I was also wondering where is that value come from. Note that the 
+memory/IRQ layout exposed to the guest is not stable.
 
-diff --git a/bsd-user/host/i386/host-signal.h b/bsd-user/host/i386/host-signal.h
-index 169e61b154c..ffdfaba534a 100644
---- a/bsd-user/host/i386/host-signal.h
-+++ b/bsd-user/host/i386/host-signal.h
-@@ -9,6 +9,7 @@
- #ifndef I386_HOST_SIGNAL_H
- #define I386_HOST_SIGNAL_H
- 
-+#include <sys/param.h>
- #include <sys/ucontext.h>
- #include <machine/trap.h>
- #include <vm/pmap.h>
-diff --git a/bsd-user/host/x86_64/host-signal.h b/bsd-user/host/x86_64/host-signal.h
-index 47ca19f8814..32ac4e41803 100644
---- a/bsd-user/host/x86_64/host-signal.h
-+++ b/bsd-user/host/x86_64/host-signal.h
-@@ -9,6 +9,7 @@
- #ifndef X86_64_HOST_SIGNAL_H
- #define X86_64_HOST_SIGNAL_H
- 
-+#include <sys/param.h>
- #include <sys/ucontext.h>
- #include <machine/trap.h>
- #include <vm/pmap.h>
+Are we expecting the user to rebuild QEMU for every Xen versions (or 
+possibly every guest if we ever allow dynamic layout in Xen)?
+
+Cheers,
+
 -- 
-2.33.1
-
+Julien Grall
 
