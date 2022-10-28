@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B14610791
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 04:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37476610797
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 04:01:50 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooEeF-0004XD-3c; Thu, 27 Oct 2022 21:59:03 -0400
+	id 1ooEeu-0004YJ-5G; Thu, 27 Oct 2022 21:59:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ooEeE-0004X6-2x
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 21:59:02 -0400
+ id 1ooEeo-0004YB-FF
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 21:59:38 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ooEeC-0001wd-C3
- for qemu-devel@nongnu.org; Thu, 27 Oct 2022 21:59:01 -0400
+ id 1ooEem-0001z4-Ki
+ for qemu-devel@nongnu.org; Thu, 27 Oct 2022 21:59:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666922339;
+ s=mimecast20190719; t=1666922375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CEa6fJ5cyVWbwX01KN2X4eHuCtCTQG1vpIU92UUdy4Y=;
- b=c72cJw1r+NQlxIsOBspj3aGf+FHlXS4SI1UOEJWRv/sTicMLHEu2IHsmKLH7wplX5yQBqR
- wDLk5MiPFItaG02SiSN3APvfpDMI6jMjVZVnsCFahnVyTMpVDPalpSAz4pqZQ13l+ulQcV
- pZ+dape3ngHAdjU0RQQZfiqLN4U9Pxg=
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
- [209.85.161.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fhVyN4Jx+jw9kjTEkJl2Aig/ttiXAEtfYGkTNpe/kEU=;
+ b=LJUBPQVEr9ansgNBd1M+bIO7vME5UctGVbbu/unKxHlx4KNXXjH2Zwf4NrBvdLoBLMtZAF
+ 39VILNc1qqQYikZBql0/Crq4iRY4gk4kXi1qaLbxLlqXitVzqYHLHjpDNSiMT38DsdXLvw
+ K09EFUOUbSRlZOZUrrUv2gbg85BiOcM=
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-644-bM9k-BROMauNwPwm-Mp6hA-1; Thu, 27 Oct 2022 21:58:58 -0400
-X-MC-Unique: bM9k-BROMauNwPwm-Mp6hA-1
-Received: by mail-oo1-f71.google.com with SMTP id
- a29-20020a4a9b1d000000b00480db71d44bso1592303ook.7
- for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 18:58:58 -0700 (PDT)
+ us-mta-522-JCj0Q5X8N2OXBW9VBI5GJA-1; Thu, 27 Oct 2022 21:59:34 -0400
+X-MC-Unique: JCj0Q5X8N2OXBW9VBI5GJA-1
+Received: by mail-oo1-f72.google.com with SMTP id
+ x18-20020a4aea12000000b00496ecd6046eso1187464ood.14
+ for <qemu-devel@nongnu.org>; Thu, 27 Oct 2022 18:59:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CEa6fJ5cyVWbwX01KN2X4eHuCtCTQG1vpIU92UUdy4Y=;
- b=a4GSDwYMYrT/pcRmQqGOI24gVvfFuu53Y153MB3et4hAqrB589DWCbo11erf8fa3Mh
- XIo0kjxt8QYZp37LsAvEQeTaRpnLxAubOkcF4q9/ZzxfgJGDqBfRnLET4jNsJvhiil7l
- xwG09qFVy+JyOQWmnVAEQBfr5gdEzR9YHxIBcR/f88f13d1ap9z5t3aijUV9LZ60u0zc
- H/S4fKfHubl+HX4fuMgAKAkoALTAFpAdlkZzEqW/AabCgkrdCqCuNBwrnHFGmGZMPtU+
- 71Zj39UmZ+3dqOzMpJ6p6VHOrEVeKAF4EGM0oyfem7wWyJnEiywIGKhfM/0SHz6J7Jjl
- j9+g==
-X-Gm-Message-State: ACrzQf2XIA4ed3My+xFuMnSZ8La40UqrcFDKAcg0JIzDXiqUhs+0dcCc
- CMoEhFvhmZctTo2zNPjLjKBo3t7wMmkTYY73njx1jhav3vLPccWmsr8uOFd18XGfBuML5/vO7E/
- wnP9nyIHRpvqO2Mx1ACZcvR86M6R/y9w=
-X-Received: by 2002:aca:905:0:b0:359:cfa1:ebb1 with SMTP id
- 5-20020aca0905000000b00359cfa1ebb1mr1150030oij.280.1666922332828; 
- Thu, 27 Oct 2022 18:58:52 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5W3dLyJvM2h4nfuSFVMlX6MWapbA3ycVMbYJtUab476myhVO8XJ7SPvbbrf10CJL8TkKDA6VW+NWhtyh8DjX0=
-X-Received: by 2002:aca:905:0:b0:359:cfa1:ebb1 with SMTP id
- 5-20020aca0905000000b00359cfa1ebb1mr1150012oij.280.1666922332582; Thu, 27 Oct
- 2022 18:58:52 -0700 (PDT)
+ bh=fhVyN4Jx+jw9kjTEkJl2Aig/ttiXAEtfYGkTNpe/kEU=;
+ b=H9NEqZ7lpwMM3dl8mkmRj6oID5mdYXNgmVISlkGI2ig51SvRyzJrninCHN6F6RPN71
+ g70Kk0CAEVwhAbK5W1ap53wU+ZuNHMvTQSgnXyyWCr2vFTRVBt76GSr/RQL3mwYEQ0to
+ n4CNp7VnOtRlHkL9MCO9J5oU8awGsW2FJNSoq++2OzECnzOXEvc812WrY/N7eXM2Noy0
+ YRMCSbLRumd5cH1e4PnLPDpkzT3zzL7vqEmqU5qgkJMhCOqgBB1hfqU/COzNU85vixLI
+ My1bEnDbezOEE4si4X2x8dMUI7i44pgVL9NnW/KmkIGa5c/A6Xgzvo/aq73bp4YhosXP
+ RaBw==
+X-Gm-Message-State: ACrzQf1HM/TiKCkqqBRaFh/kpig1ao1fKjTc6afHFCbNNeOx7UbGGilq
+ Q4leayA2DhebKK6OlUepzQLcdWF10pTB+2l9L6TbkYdvPJ2IRd9JH5OmX3J75svX1E1wimAosom
+ VFgu+BxZzqgQGJ8qEiQY/KQrNMWlUbkE=
+X-Received: by 2002:a05:6870:eca8:b0:132:df46:5c66 with SMTP id
+ eo40-20020a056870eca800b00132df465c66mr7329045oab.280.1666922373705; 
+ Thu, 27 Oct 2022 18:59:33 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4QbZKCzSIdWC9x1tzT3TdmpUThsTs2su/lFXYblMCf0YOj2glqO1Sla8lA0Cu1UyU8PGcagRtBHyi9Eq88oco=
+X-Received: by 2002:a05:6870:eca8:b0:132:df46:5c66 with SMTP id
+ eo40-20020a056870eca800b00132df465c66mr7329029oab.280.1666922373472; Thu, 27
+ Oct 2022 18:59:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221026095303.37907-1-eperezma@redhat.com>
- <20221026095303.37907-4-eperezma@redhat.com>
- <53480725-89de-f289-c5cc-4b37ede72c31@redhat.com>
- <CAJaqyWdr1_eJmS1otXd0RBKUdu5BZk87_t7F6jZm5Mg8sK9kBQ@mail.gmail.com>
- <CACGkMEuv2zNLAr_BxPcQ3RCH5S91bm6sJFvhL7QetJNXaM_FmQ@mail.gmail.com>
- <CAJaqyWfyDWAe18MYzKmwjm8icCR7Ju4eHx1XRQCVb3M1p9uu+A@mail.gmail.com>
-In-Reply-To: <CAJaqyWfyDWAe18MYzKmwjm8icCR7Ju4eHx1XRQCVb3M1p9uu+A@mail.gmail.com>
+References: <20221003100612.596845-1-berrange@redhat.com>
+ <Y1pi7iAuehFGZc6w@redhat.com>
+In-Reply-To: <Y1pi7iAuehFGZc6w@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 28 Oct 2022 09:58:41 +0800
-Message-ID: <CACGkMEsEm6cLuQ9uB+wsbyyjExzYP6ua=cS74p12JdBoqModQg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] vdpa: Expose VIRTIO_NET_F_STATUS unconditionally
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Gautam Dawar <gdawar@xilinx.com>, 
- Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Cindy Lu <lulu@redhat.com>, 
- Eli Cohen <eli@mellanox.com>, Laurent Vivier <lvivier@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>
+Date: Fri, 28 Oct 2022 09:59:22 +0800
+Message-ID: <CACGkMEukZBe9eGTSGxbrW14FWZnY0GTsv-ZYzQGRJZ2M_4z2Zg@mail.gmail.com>
+Subject: Re: [PATCH] net: improve error message for missing netdev backend
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
@@ -104,201 +96,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 6:18 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
+On Thu, Oct 27, 2022 at 6:52 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
 >
-> On Thu, Oct 27, 2022 at 8:54 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > On Thu, Oct 27, 2022 at 2:47 PM Eugenio Perez Martin
-> > <eperezma@redhat.com> wrote:
-> > >
-> > > On Thu, Oct 27, 2022 at 6:32 AM Jason Wang <jasowang@redhat.com> wrot=
-e:
-> > > >
-> > > >
-> > > > =E5=9C=A8 2022/10/26 17:53, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > > > > Now that qemu can handle and emulate it if the vdpa backend does =
-not
-> > > > > support it we can offer it always.
-> > > > >
-> > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > >
-> > > >
-> > > > I may miss something but isn't more easier to simply remove the
-> > > > _F_STATUS from vdpa_feature_bits[]?
-> > > >
-> > >
-> > > How is that? if we remove it, the guest cannot ack it so it cannot
-> > > access the net status, isn't it?
-> >
-> > My understanding is that the bits stored in the vdpa_feature_bits[]
-> > are the features that must be explicitly supported by the vhost
-> > device.
+> ping: Jason, are you willing to queue this since it has two
+> positive reviews.
 >
-> (Non English native here, so maybe I don't get what you mean :) ) The
-> device may not support them. net simulator lacks some of them
-> actually, and it works.
 
-Speaking too fast, I think I meant that, if the bit doesn't belong to
-vdpa_feature_bits[], it is assumed to be supported by the Qemu without
-the support of the vhost. So Qemu won't even try to validate if vhost
-has this support. E.g for vhost-net, we only have:
-
-static const int kernel_feature_bits[] =3D {
-    VIRTIO_F_NOTIFY_ON_EMPTY,
-    VIRTIO_RING_F_INDIRECT_DESC,
-    VIRTIO_RING_F_EVENT_IDX,
-    VIRTIO_NET_F_MRG_RXBUF,
-    VIRTIO_F_VERSION_1,
-    VIRTIO_NET_F_MTU,
-    VIRTIO_F_IOMMU_PLATFORM,
-    VIRTIO_F_RING_PACKED,
-    VIRTIO_NET_F_HASH_REPORT,
-    VHOST_INVALID_FEATURE_BIT
-};
-
-You can see there's no STATUS bit there since it is emulated by Qemu.
-
->
-> From what I see these are the only features that will be forwarded to
-> the guest as device_features. If it is not in the list, the feature
-> will be masked out,
-
-Only when there's no support for this feature from the vhost.
-
-> as if the device does not support it.
->
-> So now _F_STATUS it was forwarded only if the device supports it. If
-> we remove it from bit_mask, it will never be offered to the guest. But
-> we want to offer it always, since we will need it for
-> _F_GUEST_ANNOUNCE.
->
-> Things get more complex because we actually need to ack it back if the
-> device offers it, so the vdpa device can report link_down. We will
-> only emulate LINK_UP always in the case the device does not support
-> _F_STATUS.
->
-> > So if we remove _F_STATUS, Qemu vhost code won't validate if
-> > vhost-vdpa device has this support:
-> >
-> > uint64_t vhost_get_features(struct vhost_dev *hdev, const int *feature_=
-bits,
-> >                             uint64_t features)
-> > {
-> >     const int *bit =3D feature_bits;
-> >     while (*bit !=3D VHOST_INVALID_FEATURE_BIT) {
-> >         uint64_t bit_mask =3D (1ULL << *bit);
-> >         if (!(hdev->features & bit_mask)) {
-> >             features &=3D ~bit_mask;
-> >         }
-> >         bit++;
-> >     }
-> >     return features;
-> > }
-> >
->
-> Now maybe I'm the one missing something, but why is this not done as a
-> masking directly?
-
-Not sure, the code has been there since day 0.
-
-But you can see from the code:
-
-1) if STATUS is in feature_bits, we need validate the hdev->features
-and mask it if the vhost doesn't have the support
-2) if STATUS is not, we don't do the check and driver may still see STATUS
+Yes, I've queued this.
 
 Thanks
 
+> On Mon, Oct 03, 2022 at 11:06:12AM +0100, Daniel P. Berrang=C3=A9 wrote:
+> > The current message when using '-net user...' with SLIRP disabled at
+> > compile time is:
+> >
+> >   qemu-system-x86_64: -net user: Parameter 'type' expects a net backend=
+ type (maybe it is not compiled into this binary)
+> >
+> > An observation is that we're using the 'netdev->type' field here which
+> > is an enum value, produced after QAPI has converted from its string
+> > form.
+> >
+> > IOW, at this point in the code, we know that the user's specified
+> > type name was a valid network backend. The only possible scenario that
+> > can make the backend init function be NULL, is if support for that
+> > backend was disabled at build time. Given this, we don't need to caveat
+> > our error message with a 'maybe' hint, we can be totally explicit.
+> >
+> > The use of QERR_INVALID_PARAMETER_VALUE doesn't really lend itself to
+> > user friendly error message text. Since this is not used to set a
+> > specific QAPI error class, we can simply stop using this pre-formatted
+> > error text and provide something better.
+> >
+> > Thus the new message is:
+> >
+> >   qemu-system-x86_64: -net user: network backend 'user' is not compiled=
+ into this binary
+> >
+> > The case of passing 'hubport' for -net is also given a message remindin=
+g
+> > people they should have used -netdev/-nic instead, as this backend type
+> > is only valid for the modern syntax.
+> >
+> > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > ---
+> >
+> > NB, this does not make any difference to people who were relying on the
+> > QEMU built-in default hub that was created if you don't list any -net /
+> > -netdev / -nic argument, only those using explicit args.
+> >
+> >  net/net.c | 18 +++++++++++-------
+> >  1 file changed, 11 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/net/net.c b/net/net.c
+> > index 2db160e063..8ddafacf13 100644
+> > --- a/net/net.c
+> > +++ b/net/net.c
+> > @@ -1036,19 +1036,23 @@ static int net_client_init1(const Netdev *netde=
+v, bool is_netdev, Error **errp)
+> >      if (is_netdev) {
+> >          if (netdev->type =3D=3D NET_CLIENT_DRIVER_NIC ||
+> >              !net_client_init_fun[netdev->type]) {
+> > -            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "type",
+> > -                       "a netdev backend type");
+> > +            error_setg(errp, "network backend '%s' is not compiled int=
+o this binary",
+> > +                       NetClientDriver_str(netdev->type));
+> >              return -1;
+> >          }
+> >      } else {
+> >          if (netdev->type =3D=3D NET_CLIENT_DRIVER_NONE) {
+> >              return 0; /* nothing to do */
+> >          }
+> > -        if (netdev->type =3D=3D NET_CLIENT_DRIVER_HUBPORT ||
+> > -            !net_client_init_fun[netdev->type]) {
+> > -            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "type",
+> > -                       "a net backend type (maybe it is not compiled "
+> > -                       "into this binary)");
+> > +        if (netdev->type =3D=3D NET_CLIENT_DRIVER_HUBPORT) {
+> > +            error_setg(errp, "network backend '%s' is only supported w=
+ith -netdev/-nic",
+> > +                       NetClientDriver_str(netdev->type));
+> > +            return -1;
+> > +        }
+> > +
+> > +        if (!net_client_init_fun[netdev->type]) {
+> > +            error_setg(errp, "network backend '%s' is not compiled int=
+o this binary",
+> > +                       NetClientDriver_str(netdev->type));
+> >              return -1;
+> >          }
+> >
+> > --
+> > 2.37.3
+> >
 >
-> Instead of making feature_bits an array of ints, to declare it as a
-> uint64_t with the valid feature bits and simply return features &
-> feature_bits.
->
-> Thanks!
->
-> > Thanks
-> >
-> >
-> >
-> > >
-> > > The goal with this patch series is to let the guest access the status
-> > > always, even if the device doesn't support _F_STATUS.
-> > >
-> > > > Thanks
-> > > >
-> > > >
-> > > > > ---
-> > > > >   include/net/vhost-vdpa.h |  1 +
-> > > > >   hw/net/vhost_net.c       | 16 ++++++++++++++--
-> > > > >   net/vhost-vdpa.c         |  3 +++
-> > > > >   3 files changed, 18 insertions(+), 2 deletions(-)
-> > > > >
-> > > > > diff --git a/include/net/vhost-vdpa.h b/include/net/vhost-vdpa.h
-> > > > > index b81f9a6f2a..cfbcce6427 100644
-> > > > > --- a/include/net/vhost-vdpa.h
-> > > > > +++ b/include/net/vhost-vdpa.h
-> > > > > @@ -17,5 +17,6 @@
-> > > > >   struct vhost_net *vhost_vdpa_get_vhost_net(NetClientState *nc);
-> > > > >
-> > > > >   extern const int vdpa_feature_bits[];
-> > > > > +extern const uint64_t vhost_vdpa_net_added_feature_bits;
-> > > > >
-> > > > >   #endif /* VHOST_VDPA_H */
-> > > > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > > > > index d28f8b974b..7c15cc6e8f 100644
-> > > > > --- a/hw/net/vhost_net.c
-> > > > > +++ b/hw/net/vhost_net.c
-> > > > > @@ -109,10 +109,22 @@ static const int *vhost_net_get_feature_bit=
-s(struct vhost_net *net)
-> > > > >       return feature_bits;
-> > > > >   }
-> > > > >
-> > > > > +static uint64_t vhost_net_add_feature_bits(struct vhost_net *net=
-)
-> > > > > +{
-> > > > > +    if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA)=
- {
-> > > > > +        return vhost_vdpa_net_added_feature_bits;
-> > > > > +    }
-> > > > > +
-> > > > > +    return 0;
-> > > > > +}
-> > > > > +
-> > > > >   uint64_t vhost_net_get_features(struct vhost_net *net, uint64_t=
- features)
-> > > > >   {
-> > > > > -    return vhost_get_features(&net->dev, vhost_net_get_feature_b=
-its(net),
-> > > > > -            features);
-> > > > > +    uint64_t ret =3D vhost_get_features(&net->dev,
-> > > > > +                                      vhost_net_get_feature_bits=
-(net),
-> > > > > +                                      features);
-> > > > > +
-> > > > > +    return ret | vhost_net_add_feature_bits(net);
-> > > > >   }
-> > > > >   int vhost_net_get_config(struct vhost_net *net,  uint8_t *confi=
-g,
-> > > > >                            uint32_t config_len)
-> > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > > > index 6d64000202..24d2857593 100644
-> > > > > --- a/net/vhost-vdpa.c
-> > > > > +++ b/net/vhost-vdpa.c
-> > > > > @@ -99,6 +99,9 @@ static const uint64_t vdpa_svq_device_features =
-=3D
-> > > > >       BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-> > > > >       BIT_ULL(VIRTIO_NET_F_STANDBY);
-> > > > >
-> > > > > +const uint64_t vhost_vdpa_net_added_feature_bits =3D
-> > > > > +    BIT_ULL(VIRTIO_NET_F_STATUS);
-> > > > > +
-> > > > >   VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
-> > > > >   {
-> > > > >       VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> > > >
-> > >
-> >
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 >
 
 
