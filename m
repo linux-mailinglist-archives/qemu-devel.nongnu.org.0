@@ -2,87 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF25A61182A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:52:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5BC611819
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:51:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooSVR-0005Uk-DT; Fri, 28 Oct 2022 12:46:53 -0400
+	id 1ooSZ5-00028R-6Z; Fri, 28 Oct 2022 12:50:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ooSUQ-00026F-I2
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 12:45:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ooSUN-0001n1-B9
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 12:45:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1666975541;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fn1CjwW5UH2AS1Vk2jNSgvxPjv6WNAd8zI8QZaUpODA=;
- b=bOw5tgQMo+hVrTqIPRctzDSpfHHDc5/ujQxfsn0twwY7f4Zc9EFz9XyE7Pe4ATPuiXT2pQ
- asPLfeaoGo7F9gclSvBLKqnCewW4ZRhBAF6L2hPYxTdpCDdT7H5Qn7itvJs2rWcpafhH70
- rC/0QDYPLCYa1xbkl4u4Uqx2QHj61zI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-249-N5fxNQ2RO-iLVCMRvYU7kw-1; Fri, 28 Oct 2022 12:45:39 -0400
-X-MC-Unique: N5fxNQ2RO-iLVCMRvYU7kw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l7-20020a7bc447000000b003cf6133063dso553802wmi.8
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 09:45:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ooSXY-00041M-MW
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 12:49:14 -0400
+Received: from mail-qv1-xf2d.google.com ([2607:f8b0:4864:20::f2d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1ooSXW-0002n7-JZ
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 12:49:04 -0400
+Received: by mail-qv1-xf2d.google.com with SMTP id ml12so4471790qvb.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 09:48:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=liqaWegPBWbdVJr5+pYGebPJoXCsFJlpuYhXI6ml8EI=;
+ b=ZjtJo7RYqaRh1S01O6zVqFMtMvW/DQaX9YGmxLbbfiEis4VcSN2Tu5cfdg85l9Ux8e
+ sBNINKucn3uWE6Op+N0qVf/mSX5N3I/QpfK7vxMAQMrr9BRhNENFdLq55mjbU00NoSwW
+ WgArM6YY1aA1jlMtmeMFPnXObEmZU7bNZbJ5llXltXwyOj8JacUJuemmoMl9cALo9XUY
+ GoDkumAL9t97eB6PWgikkTuXB4Kz1VyoYUEOQNEtc3FM7IRmvn7IbudFhzJchjn4s7+J
+ l9YZkxbygPUmL1b88Ayl/HiPd8/bn7gClITlkg40npCMHIc+mlpm/jU3tXkMnmnXYTEJ
+ j8vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fn1CjwW5UH2AS1Vk2jNSgvxPjv6WNAd8zI8QZaUpODA=;
- b=vocHzn+QKQzRA2iy3XoDEjfHcH7898wIzyxw8hamBBh9tPRhXzYwftWp00Iq0RYiAc
- AisoR4RjG3Ebi29Rtqx5zg+BR7NNT5dPtG9VGbp1Tm+gsiYebrf03QEtO737u9J/tRRg
- b/oLtt1Cb38d6VwB7NSlIo5D3ZDpzb4oirC8R6ao66Lst2o9/Xlqv4ZcGnUYReCcZyT2
- dgo0xxPZc2+iMEiqgg4X+AR+DIRS3IiiN8/cuoy5PEJjJBZXv4G2JUrHwxJa8hO8QCJd
- H5OvA2WApaoolPK+Gkbgq0wR6F+l72b6CUbwTv4Y1xITxlAwmOEUFr3ILbjRrvAte1ED
- 1Hgg==
-X-Gm-Message-State: ACrzQf0jtvuQVsTDlU5G6kxpEAvRx7fnFfEu/hLHMBR0QOe+G9c12A76
- 9CE/QtL6O2PdcdGXAbhvwiiUrtLOzK538JtgARexDf8mObcEx2vwr0uhO/AgSyKjXYI0uwkzzc2
- Aq4KSC6BmahZRM8o=
-X-Received: by 2002:adf:f609:0:b0:236:680b:8c65 with SMTP id
- t9-20020adff609000000b00236680b8c65mr141866wrp.615.1666975538327; 
- Fri, 28 Oct 2022 09:45:38 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7Zod000RyARXjfLXR91zaphK6LCEaoY+XufKxD6/VCLh/jpbO0RkU/4xdllfhfnZKlv4tq+A==
-X-Received: by 2002:adf:f609:0:b0:236:680b:8c65 with SMTP id
- t9-20020adff609000000b00236680b8c65mr141795wrp.615.1666975536538; 
- Fri, 28 Oct 2022 09:45:36 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- g12-20020a05600c310c00b003b4cba4ef71sm8480785wmo.41.2022.10.28.09.45.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:45:35 -0700 (PDT)
-Date: Fri, 28 Oct 2022 12:45:33 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 3/4] vhost: Fix lines over 80 characters
-Message-ID: <20221028124105-mutt-send-email-mst@kernel.org>
-References: <20221028160251.268607-1-eperezma@redhat.com>
- <20221028160251.268607-4-eperezma@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=liqaWegPBWbdVJr5+pYGebPJoXCsFJlpuYhXI6ml8EI=;
+ b=hb5FUHIGmli53YYMy18DXpvWOA7kqcJ+R4PZf+GR/m8DzYB+DH9RDaXYmJgoil6Pv3
+ PLK3pEj+5vOxrPBl+4qYH4NVKatihPos2TnzHMW7p0o7YbY6k2TpeW8p3jeybypEr7Nb
+ Q/IViKNNjI7HZqg0tvHQ3D4YKrfPuLpBQNy+LjKmnJQ95qp4EGb2QQ5G5E/bco67Xm6w
+ AgoOpkadjwGzbvWQVIaQfOY+OInq3vF4oyf9ahM/8eNJG+6HkG8lCC8NbYTnwtod+3yl
+ H7la6LKt6S5UoUTOn5B/x18DaMpkApNCGjn0SnFBsRhkaXTm1U55kSPIM5hC3lnopou/
+ KQgw==
+X-Gm-Message-State: ACrzQf3UGlOtALbjuJMyHUH5EZPe+QAsMr/c/6U7hmSLfPA5bVR5aRj+
+ 0nq1PlfZA7OsHQ3yerBOi3e09Swr6c9+zlwrCTd9TA==
+X-Google-Smtp-Source: AMsMyM7kT2VcMp/poKopV7h8u5gW/bU848nTK/oTHxXGOd5ifiPOwN1uegQ9o/GrOXpKiYN7MQYojIf00DvAspff53E=
+X-Received: by 2002:a05:6214:5289:b0:4bb:6a33:37d7 with SMTP id
+ kj9-20020a056214528900b004bb6a3337d7mr437651qvb.31.1666975734685; Fri, 28 Oct
+ 2022 09:48:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221028160251.268607-4-eperezma@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221028103419.93398-1-shentey@gmail.com>
+ <20221028103419.93398-4-shentey@gmail.com>
+ <CAARzgwyMiEQUc=DEd5iJb=hgsoMn8tQaNeOnzKAG8qaxWhdRYw@mail.gmail.com>
+ <8EA83461-41EC-40E1-AD22-C4107216870B@gmail.com>
+In-Reply-To: <8EA83461-41EC-40E1-AD22-C4107216870B@gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 28 Oct 2022 22:18:43 +0530
+Message-ID: <CAARzgwyRJbQuUFBOSsnm_PHLWoOBcKYX8WucKk7_VeQ=Xan0kg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] hw/i386/acpi-build: Resolve north rather than
+ south bridges
+To: B <shentey@gmail.com>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Igor Mammedov <imammedo@redhat.com>, qemu-trivial@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::f2d;
+ envelope-from=ani@anisinha.ca; helo=mail-qv1-xf2d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,37 +88,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Oct 28, 2022 at 06:02:50PM +0200, Eugenio Pérez wrote:
-> By qemu coding style.
-> 
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+On Fri, Oct 28, 2022 at 9:45 PM B <shentey@gmail.com> wrote:
+>
+>
+>
+> Am 28. Oktober 2022 10:58:07 UTC schrieb Ani Sinha <ani@anisinha.ca>:
+> >On Fri, Oct 28, 2022 at 4:05 PM Bernhard Beschow <shentey@gmail.com> wrote:
+> >>
+> >> The code currently assumes Q35 iff ICH9 and i440fx iff PIIX. Now that more
+> >> AML generation has been moved into the south bridges and since the
+> >> machines define themselves primarily through their north bridges, let's
+> >> switch to resolving the north bridges for AML generation instead. This
+> >> also allows for easier experimentation with different south bridges in
+> >> the "pc" machine, e.g. with PIIX4 and VT82xx.
+> >
+> >Unfortunately this patch does not apply on the latest master. Also the
+> >code seems to be off. Can you rebase and rework the patch?
+>
+> I've rebased onto Igor's series to avoid merge conflicts,
 
-You wrote this code originally so I don't mind but just to note I don't
-want a flurry of patches "fixing" lines over 80 chars.
+Ok I will let Igor deal with this then since I have not followed his patchset.
 
-> ---
->  hw/virtio/vhost-shadow-virtqueue.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-> index 467099f5d9..18a49e1ecb 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> @@ -228,8 +228,11 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq)
->      smp_mb();
->  
->      if (virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
-> -        uint16_t avail_event = *(uint16_t *)(&svq->vring.used->ring[svq->vring.num]);
-> -        needs_kick = vring_need_event(avail_event, svq->shadow_avail_idx, svq->shadow_avail_idx - 1);
-> +        size_t num = svq->vring.num;
-> +        uint16_t *avail_event = (uint16_t *)&svq->vring.used->ring[num];
-> +
-> +        needs_kick = vring_need_event(*avail_event, svq->shadow_avail_idx,
-> +                                      svq->shadow_avail_idx - 1);
->      } else {
->          needs_kick = !(svq->vring.used->flags & VRING_USED_F_NO_NOTIFY);
->      }
-> -- 
-> 2.31.1
-
+> that's why it doesn't apply onto master. It applies fine there [1].
+>
+> The first two patches of this series apply fine on both branches, so could possibly be pulled already if Igor's series doesn't make it for 7.2.
+>
+> Best regards,
+> Bernhard
+>
+> [1] https://github.com/patchew-project/qemu/commits/patchew/20221028103419.93398-1-shentey%40gmail.com
+> >
+> >>
+> >> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> >> ---
+> >>  hw/i386/acpi-build.c | 11 ++++++-----
+> >>  1 file changed, 6 insertions(+), 5 deletions(-)
+> >>
+> >> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> >> index 73d8a59737..d9eaa5fc4d 100644
+> >> --- a/hw/i386/acpi-build.c
+> >> +++ b/hw/i386/acpi-build.c
+> >> @@ -60,6 +60,7 @@
+> >>  #include "hw/i386/fw_cfg.h"
+> >>  #include "hw/i386/ich9.h"
+> >>  #include "hw/pci/pci_bus.h"
+> >> +#include "hw/pci-host/i440fx.h"
+> >>  #include "hw/pci-host/q35.h"
+> >>  #include "hw/i386/x86-iommu.h"
+> >>
+> >> @@ -1322,8 +1323,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >>             AcpiPmInfo *pm, AcpiMiscInfo *misc,
+> >>             Range *pci_hole, Range *pci_hole64, MachineState *machine)
+> >>  {
+> >> -    Object *piix = object_resolve_type_unambiguous(TYPE_PIIX4_PM);
+> >> -    Object *lpc = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
+> >> +    Object *i440fx = object_resolve_type_unambiguous(TYPE_I440FX_PCI_HOST_BRIDGE);
+> >> +    Object *q35 = object_resolve_type_unambiguous(TYPE_Q35_HOST_DEVICE);
+> >>      CrsRangeEntry *entry;
+> >>      Aml *dsdt, *sb_scope, *scope, *dev, *method, *field, *pkg, *crs;
+> >>      CrsRangeSet crs_range_set;
+> >> @@ -1344,13 +1345,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >>      AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = x86ms->oem_id,
+> >>                          .oem_table_id = x86ms->oem_table_id };
+> >>
+> >> -    assert(!!piix != !!lpc);
+> >> +    assert(!!i440fx != !!q35);
+> >>
+> >>      acpi_table_begin(&table, table_data);
+> >>      dsdt = init_aml_allocator();
+> >>
+> >>      build_dbg_aml(dsdt);
+> >> -    if (piix) {
+> >> +    if (i440fx) {
+> >>          sb_scope = aml_scope("_SB");
+> >>          dev = aml_device("PCI0");
+> >>          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+> >> @@ -1363,7 +1364,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >>              build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
+> >>          }
+> >>          build_piix4_pci0_int(dsdt);
+> >> -    } else if (lpc) {
+> >> +    } else if (q35) {
+> >>          sb_scope = aml_scope("_SB");
+> >>          dev = aml_device("PCI0");
+> >>          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+> >> --
+> >> 2.38.1
+> >>
 
