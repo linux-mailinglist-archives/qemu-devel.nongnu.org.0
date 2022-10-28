@@ -2,94 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D162611191
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 14:35:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFBF611168
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 14:31:01 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooOZc-0000R9-4l; Fri, 28 Oct 2022 08:34:56 -0400
+	id 1ooOV5-0005U2-Jj; Fri, 28 Oct 2022 08:30:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ooOTH-0004EU-89
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:28:23 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ooOTE-0003a2-9l
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:28:22 -0400
-Received: by mail-pl1-x631.google.com with SMTP id l2so4688448pld.13
- for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 05:28:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NqszKtwi0YXXdx0iWSFUDJDEOg8IoBblvu8lJaEmuhg=;
- b=HPBts9OCCcAn4+iuBRdzRVbmM2gdq0y3+ODoy42W6rk7kRXktjdCG6TBFDTSZXvxM8
- 7I2+jxOaq/Q14NsyCesC7UvtIkXPC9MdaISDGZK+36pUCPhCoheFr7fr68kJbJN30gtn
- hJdb0IYuiyN3GiXzkcm9vVFlSzacrWGQG5/En8+e3p5krk6m11njknzPzFZQG93n0dvd
- DXwRQNSZ/S+nT60wQVSsydajF1STjOpqDcUJ7Ps8nmP5ulvDYui4MXrXX4e41q2dwwPi
- WWVGo4Mj0iZrtk9H+/biWfUUXKO9PLsrwujqkkmd1k3ytYWMfZwdw8+1ic3MRXXBc5Sn
- vmZQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooOST-0002vQ-KG
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:27:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ooOSS-0003OQ-2N
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 08:27:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1666960049;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dAsUyYuFdhM40lGPlOk+YsP0nlR6oWTNzDPrRpYJnck=;
+ b=RmXh10OYzoa24Y40SKg+gFqBTVSBIts74FsdSjE9TZQ0ShjHTa1zQRirVXbn2O0DFLywcO
+ /VyWN3lGzXhVQsXeBiMYYO/s9TNDOmQGvKI6LevioKdLQVjwj1xUl5sIud5chkvp3Bl/3W
+ HVG9tG+xhJFSjR1+006UpYFO9y7AGCU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-552-Ubz857p0NAK89muFu7KjHA-1; Fri, 28 Oct 2022 08:27:28 -0400
+X-MC-Unique: Ubz857p0NAK89muFu7KjHA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ m24-20020adfa3d8000000b00236774fd74aso1131124wrb.8
+ for <qemu-devel@nongnu.org>; Fri, 28 Oct 2022 05:27:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NqszKtwi0YXXdx0iWSFUDJDEOg8IoBblvu8lJaEmuhg=;
- b=Re9uPGFXywHq+1tHHPz0m8fnIkudDNCsYmA8++0261vpOUECUbAmvirowmSRF4IHSu
- ooaQssh563G9OoZNO6B529CREgQol0hFTw29g31O0y66RF6J2rLPnrGLcPhHfL5lZNQ2
- K/zjYKfyYd9LgWlQSKV9Adk5xIXcA8OtOPJmPKHCkzWANIuMGzxVoBPsY2Ix/voibNPb
- l/emgwTeUiMQhax56ORsngJP14bEHINogdqgCOSkMQJZVsUCGyzgoZN3I+y7LHcMHNcC
- r3l3u5zqvwFyzIlnXZjuRPOaD9ny3hmI5p7IQkGnBAOCj/4MS34AbrJoN05u8U6lSAu3
- +BCA==
-X-Gm-Message-State: ACrzQf1OUq5kyt+JVsCMp7gItgJtppCDXh8WgNVCvxyVaSbEshn1i93R
- dmHn2Z+Vp49a/Qt0XOKmoLtyBA==
-X-Google-Smtp-Source: AMsMyM4jqafHZVmW1ZVuanZmXJZt4fnt9MDURYWwceAMzfSLurFDlJ4MwXgDJfKPOe243XdkEiX6Vg==
-X-Received: by 2002:a17:902:da90:b0:185:5537:f388 with SMTP id
- j16-20020a170902da9000b001855537f388mr57153057plx.113.1666960089928; 
- Fri, 28 Oct 2022 05:28:09 -0700 (PDT)
-Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
- by smtp.gmail.com with ESMTPSA id
- x3-20020a170902ec8300b00174d9bbeda4sm2948456plg.197.2022.10.28.05.28.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 05:28:09 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, qemu-arm@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Peter Maydell <peter.maydell@linaro.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Yan Vugenfirer <yan@daynix.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v5 17/17] pci: Remove legacy errp from pci_add_capability
-Date: Fri, 28 Oct 2022 21:26:29 +0900
-Message-Id: <20221028122629.3269-18-akihiko.odaki@daynix.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221028122629.3269-1-akihiko.odaki@daynix.com>
-References: <20221028122629.3269-1-akihiko.odaki@daynix.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dAsUyYuFdhM40lGPlOk+YsP0nlR6oWTNzDPrRpYJnck=;
+ b=jM4ZKXy5vNeMzigLqphZb/77wZKu6c9XLPCkUfsiV5MYAUWJtFPklFkO1z3flxkZ9f
+ zaRoZkxW/0xkq5N5RaDC54ddwXoTYtUPBA68uATetN6ESRxEU3obtPZxgRC2Xc9aMxhi
+ 5seDdilCeKUpVpL0drc9o8INcDwF5/i9BmKZ0tkyOoeRVxuvLhQcDXWpM/Bo3shJRP3m
+ S3SPytDZfjEFeML0TWUGhjwPcxGvTw3J0hRRgjJ1ErjRxKGeN7ie75I8n7m4SuY0g3Dl
+ IErBCdtqk4M0Pp5zMJAG9h4WLP+Leb/GUEWh7XQZp1HNX+yntxiVTxGnjhfPJltJ77vy
+ tlsg==
+X-Gm-Message-State: ACrzQf06gf8JvQJYvcrUzTOhc8CNn01n8/SHLRDR06e/cQGXUhXzpQBr
+ HH4cKzsDSBrYmVh0BR7fi1Y2SVEaSBNtcFoLnCpitxX4iyPgLlHw5wLO5Gj8sYhNwrjw5gwgv9T
+ XoTVFcqunEsACqMw=
+X-Received: by 2002:a5d:6da9:0:b0:22e:53bd:31c1 with SMTP id
+ u9-20020a5d6da9000000b0022e53bd31c1mr37691274wrs.358.1666960042149; 
+ Fri, 28 Oct 2022 05:27:22 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5ImfFQQtr0sgm64oBGdFB/3D18Yzmh0fc5/GuH+vNiPSDLF/X1oaImFQ2d/U7G1iUtJVDmQw==
+X-Received: by 2002:a5d:6da9:0:b0:22e:53bd:31c1 with SMTP id
+ u9-20020a5d6da9000000b0022e53bd31c1mr37691263wrs.358.1666960041970; 
+ Fri, 28 Oct 2022 05:27:21 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-14.web.vodafone.de.
+ [109.43.177.14]) by smtp.gmail.com with ESMTPSA id
+ hg9-20020a05600c538900b003a83ca67f73sm3960160wmb.3.2022.10.28.05.27.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 28 Oct 2022 05:27:21 -0700 (PDT)
+Message-ID: <c200713a-2fe9-b3be-a8a0-c73e1b678968@redhat.com>
+Date: Fri, 28 Oct 2022 14:27:19 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::631;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] 9pfs: fix missing sys/mount.h include
+Content-Language: en-US
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Warner Losh <imp@bsdimp.com>, Bin Meng <bin.meng@windriver.com>
+References: <E1ooNWu-0002oC-76@lizzy.crudebyte.com>
+ <53df074a-c938-cbe5-caca-a0c6a7cbd3e7@redhat.com> <7476627.JHTLl5x3NE@silver>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <7476627.JHTLl5x3NE@silver>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,93 +101,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- hw/pci/pci.c         | 29 +++++++----------------------
- include/hw/pci/pci.h | 12 ++----------
- 2 files changed, 9 insertions(+), 32 deletions(-)
+On 28/10/2022 14.14, Christian Schoenebeck wrote:
+> On Friday, October 28, 2022 1:42:34 PM CEST Thomas Huth wrote:
+>> On 28/10/2022 13.21, Christian Schoenebeck wrote:
+>>> Fixes the following build error:
+>>>
+>>>     fsdev/file-op-9p.h:156:56: error: declaration of 'struct statfs' will
+>>>     not be visible outside of this function [-Werror,-Wvisibility]
+>>>       int (*statfs)(FsContext *s, V9fsPath *path, struct statfs *stbuf);
+>>>                                                          ^
+>>>
+>>> As Windows neither has statfs, nor sys/mount.h, don't include it there.
+>>>
+>>> Fixes: 684f91203439 ("tests/9p: split virtio-9p-test.c ...")
+>>> Link: https://lore.kernel.org/all/2690108.PsDodiG1Zx@silver/
+>>> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+>>> ---
+>>>    fsdev/file-op-9p.h | 2 ++
+>>>    1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
+>>> index 4997677460..700f1857b4 100644
+>>> --- a/fsdev/file-op-9p.h
+>>> +++ b/fsdev/file-op-9p.h
+>>> @@ -24,6 +24,8 @@
+>>>    #endif
+>>>    #ifdef CONFIG_DARWIN
+>>>    # include <sys/param.h>
+>>> +#endif
+>>> +#ifndef CONFIG_WIN32
+>>>    # include <sys/mount.h>
+>>>    #endif
+>>
+>> Do you feel confident that this will also work on other exotic systems?
+>> (e.g. does it work with "make vm-build-haiku.x86_64" ?)
+>> Otherwise it might be better to add a meson.build test for this header instead.
+> 
+> 9pfs only supports Linux and macOS ATM, and Windows being WIP.
+Ok, makes sense now, thanks!
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 8ee2171011..8ff71e4553 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2513,38 +2513,23 @@ static void pci_del_option_rom(PCIDevice *pdev)
- }
- 
- /*
-- * On success, pci_add_capability_legacy() returns a positive value
-- * that the offset of the pci capability.
-- * On failure, it sets an error and returns a negative error
-- * code.
-+ * pci_add_capability() returns a positive value that the offset of the pci
-+ * capability.
-  */
--int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
--                              uint8_t offset, uint8_t size,
--                              Error **errp)
-+uint8_t pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
-+                           uint8_t offset, uint8_t size)
- {
-     uint8_t *config;
--    int i, overlapping_cap;
-+    int i;
- 
-     if (!offset) {
-         offset = pci_find_space(pdev, size);
-         /* out of PCI config space is programming error */
-         assert(offset);
-     } else {
--        /* Verify that capabilities don't overlap.  Note: device assignment
--         * depends on this check to verify that the device is not broken.
--         * Should never trigger for emulated devices, but it's helpful
--         * for debugging these. */
-+        /* Verify that capabilities don't overlap. */
-         for (i = offset; i < offset + size; i++) {
--            overlapping_cap = pci_find_capability_at_offset(pdev, i);
--            if (overlapping_cap) {
--                error_setg(errp, "%s:%02x:%02x.%x "
--                           "Attempt to add PCI capability %x at offset "
--                           "%x overlaps existing capability %x at offset %x",
--                           pci_root_bus_path(pdev), pci_dev_bus_num(pdev),
--                           PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn),
--                           cap_id, offset, overlapping_cap, i);
--                return -EINVAL;
--            }
-+            assert(!pci_find_capability_at_offset(pdev, i));
-         }
-     }
- 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 51fd106f16..2a5d4b329f 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -2,7 +2,6 @@
- #define QEMU_PCI_H
- 
- #include "exec/memory.h"
--#include "qapi/error.h"
- #include "sysemu/dma.h"
- 
- /* PCI includes legacy ISA access.  */
-@@ -391,15 +390,8 @@ void pci_register_vga(PCIDevice *pci_dev, MemoryRegion *mem,
- void pci_unregister_vga(PCIDevice *pci_dev);
- pcibus_t pci_get_bar_addr(PCIDevice *pci_dev, int region_num);
- 
--int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
--                              uint8_t offset, uint8_t size,
--                              Error **errp);
--
--#define PCI_ADD_CAPABILITY_VA(pdev, cap_id, offset, size, errp, ...) \
--    pci_add_capability_legacy(pdev, cap_id, offset, size, errp)
--
--#define pci_add_capability(...) \
--    PCI_ADD_CAPABILITY_VA(__VA_ARGS__, &error_abort)
-+uint8_t pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
-+                           uint8_t offset, uint8_t size);
- 
- void pci_del_capability(PCIDevice *pci_dev, uint8_t cap_id, uint8_t cap_size);
- 
--- 
-2.37.3
+  Thomas
 
 
