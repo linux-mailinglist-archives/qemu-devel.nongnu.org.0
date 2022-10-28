@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE936117F1
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:47:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FBD6117F0
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Oct 2022 18:47:36 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooSSc-0007yX-Dv; Fri, 28 Oct 2022 12:43:58 -0400
+	id 1ooSSe-0008U0-4S; Fri, 28 Oct 2022 12:44:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSRl-0008LP-8m; Fri, 28 Oct 2022 12:43:06 -0400
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234])
+ id 1ooSRq-0000XT-6l; Fri, 28 Oct 2022 12:43:10 -0400
+Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1ooSRj-0000bA-Nd; Fri, 28 Oct 2022 12:43:05 -0400
-Received: by mail-oi1-x234.google.com with SMTP id y67so6723703oiy.1;
- Fri, 28 Oct 2022 09:43:02 -0700 (PDT)
+ id 1ooSRo-0000QM-I4; Fri, 28 Oct 2022 12:43:09 -0400
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-1322d768ba7so6895317fac.5; 
+ Fri, 28 Oct 2022 09:43:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XzX0Zy2ZQKvZsgRH0Jkkp6FmIW/wCuAVl3Iv0Xh6wRI=;
- b=G0DRqnR3tJ8AvD6Z0YE46Ea9zhooidebl3kLZzuTb0ku3AKnqnjG3dZ8qOA/me8p0U
- Ej1oF2WidxuhlhF8Z5FH37YvIcuYTUPXapKklajm7ZEmDWlClhcPMmGg40aQGBj3D/5y
- RzVT0PlHgdgs6KyX0d8HM1IcpJinSfoDRiM5Wc7f44BhoBKQMeRcbfGNKAF0OhOskRu5
- 5T4Ktr3hunEUmGHMsMaxO/vCjRTZHLl0v3moetQ5t+VnSwtp3exXa0neZ/ORq7ZjrKUs
- o5WxTeCgbTDteQTE9i/KOyvN1SBYIgvCFqX/cJoWmHo+HE3cpvYLbJwZUtW4M69lDdJ/
- CyLA==
+ bh=RYgVxYkkxGAqeFzTYsLiBahRC2yjDI9EnIVkK5tQL0Q=;
+ b=Cjbs9wM0Fx8dTdwREDxREN1DyMoiMURQPvvXm3nhkVJHMIgRt7iKc9Pqm98FYVXlQG
+ Ugws8oWZ92mVcteKZZs6mlMBVaL2j4g9H3tOEu4d5tu1gc+4W34Jd/jLV1zI4EEjns5v
+ gyUkubgATg8jUzCqy/ZUoqz0IqNa8Aw2eryBc/zSHTvp+u6TjaXbqUebCh9dOfDF479E
+ WOj0aT0MvFkxOaWzFf9Ilg5IPrD7RurLJxptJC1sxNNswoAnujdyR9d9YBUYzaQsdRyY
+ jiFGxiWwsnnPqDxF08ogAz8sOnaeNdxtrMBZilEkivgpNdZaobN39tg/sAFtX7Pz0Zhj
+ 7sOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XzX0Zy2ZQKvZsgRH0Jkkp6FmIW/wCuAVl3Iv0Xh6wRI=;
- b=NS+Wim7fARWpmwDOa8AjdfOpI8GRweq16fG76vQKPUqjATqO9HXW1RD86EvNQm+oU+
- ccMJwtGtQariupSnUqIzo5rcrel2qRdIVTHqvPFo/5PdLFNykLVwR9ePElnwK8u4+atF
- xhzLhuzqD4IF6nT+tuWd1a5sAFrtP2JPp432nKuD9wxidk7CblvgCmArcR6feHLydEB2
- IjCEZ1QDvlz6N0+Li2sgN0oJn2mMznDjEKHBFfcgru00gwO2yz1+AmTcb8px5ha1HH0G
- XpbZ3kHh34UP7UhlKKCN3UeqO1uDkDb37qDcUS2Rb/uBFDN/pZllu2JZ5dZ/+TgizefM
- SdLA==
-X-Gm-Message-State: ACrzQf3UVvOHCRFof4zShrZZ3ETPFN+7O9a7cFSyPhikAU5evoXICRRJ
- CIZUR9UHzIpIytAMtsR9SAI0iEwFvWkrDg==
-X-Google-Smtp-Source: AMsMyM4UIl7SYvVP/AzFRkBqfwPUy+eQVAwynnXjfg61cCHiygN86OEX1Gr3SUStJCHNHmR05105Gg==
-X-Received: by 2002:aca:f0c2:0:b0:34f:df0b:2de9 with SMTP id
- o185-20020acaf0c2000000b0034fdf0b2de9mr8691943oih.245.1666975381930; 
- Fri, 28 Oct 2022 09:43:01 -0700 (PDT)
+ bh=RYgVxYkkxGAqeFzTYsLiBahRC2yjDI9EnIVkK5tQL0Q=;
+ b=O12DLqoVWrYQWyNFxRiGaSIvj0IONh26vlbJNgq1p7Z1UL0Yra9k41F5PccBKmqRCt
+ 6tNk45273LskypDRuAG7iI91Fe8S8nfaGhKYKVhNfZ9jn3xfTGQFo6iDorS4W8Su206P
+ qshjYFvwftWGXBQALUImWikvKV+j6dDufZPi7klWl651UzCn3KEgSLuCRk0ydQ6p3JWW
+ 7MTelNJTyYpFcprX5A8I9DjKSHqR6sCQv9ddv/FHsoA7iUnBXOn/3Y4jPg1DuOjhJ/GP
+ dDZcHffFESD6AJqo3lG/LSCPbNXxGX7G7+6rpniWRDkCyq9FMrT4ZoHe2r7beUqbF09l
+ Lfcg==
+X-Gm-Message-State: ACrzQf1bCNn93A2iujJb/D+6YNDw76DH3j9NC4i3MORkJ0/JpgxjjKgr
+ yHUpjfaxdr52P4qqCY08+BvSgqkbK5jCnw==
+X-Google-Smtp-Source: AMsMyM76XLE1UyD7TC2bCt8ARQiRheg9ui8wMJtckoe5ecgqWcdjj9uic5g30blYJZTbPIStz9cfug==
+X-Received: by 2002:a05:6870:fb86:b0:13a:dffa:e4ae with SMTP id
+ kv6-20020a056870fb8600b0013adffae4aemr9853668oab.245.1666975387114; 
+ Fri, 28 Oct 2022 09:43:07 -0700 (PDT)
 Received: from balboa.COMFAST ([177.45.165.63])
  by smtp.gmail.com with ESMTPSA id
- s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.42.58
+ s127-20020acaa985000000b00354b7120d60sm1658373oie.52.2022.10.28.09.43.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Oct 2022 09:43:01 -0700 (PDT)
+ Fri, 28 Oct 2022 09:43:05 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
  Matheus Ferst <matheus.ferst@eldorado.org.br>,
  Fabiano Rosas <farosas@linux.ibm.com>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 42/62] target/ppc: move power-saving interrupt masking out of
- cpu_has_work_POWER7
-Date: Fri, 28 Oct 2022 13:39:31 -0300
-Message-Id: <20221028163951.810456-43-danielhb413@gmail.com>
+Subject: [PULL 43/62] target/ppc: add power-saving interrupt masking logic to
+ p7_next_unmasked_interrupt
+Date: Fri, 28 Oct 2022 13:39:32 -0300
+Message-Id: <20221028163951.810456-44-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221028163951.810456-1-danielhb413@gmail.com>
 References: <20221028163951.810456-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x234.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x31.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -94,81 +95,102 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Move the interrupt masking logic out of cpu_has_work_POWER7 in a new
-method, p7_interrupt_powersave, that only returns an interrupt if it can
-wake the processor from power-saving mode.
+Export p7_interrupt_powersave and use it in p7_next_unmasked_interrupt.
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20221011204829.1641124-25-matheus.ferst@eldorado.org.br>
+Message-Id: <20221011204829.1641124-26-matheus.ferst@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu_init.c | 45 ++++++++++++++++++++++++-------------------
- 1 file changed, 25 insertions(+), 20 deletions(-)
+ target/ppc/cpu_init.c    |  2 +-
+ target/ppc/excp_helper.c | 24 ++++++++++++------------
+ target/ppc/internal.h    |  1 +
+ 3 files changed, 14 insertions(+), 13 deletions(-)
 
 diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 68ae22d1f4..0c5ada7826 100644
+index 0c5ada7826..5238229cd6 100644
 --- a/target/ppc/cpu_init.c
 +++ b/target/ppc/cpu_init.c
-@@ -5960,6 +5960,30 @@ static bool ppc_pvr_match_power7(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
+@@ -5960,7 +5960,7 @@ static bool ppc_pvr_match_power7(PowerPCCPUClass *pcc, uint32_t pvr, bool best)
      return true;
  }
  
-+static int p7_interrupt_powersave(CPUPPCState *env)
-+{
-+    if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
-+        (env->spr[SPR_LPCR] & LPCR_P7_PECE0)) {
-+        return PPC_INTERRUPT_EXT;
-+    }
-+    if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
-+        (env->spr[SPR_LPCR] & LPCR_P7_PECE1)) {
-+        return PPC_INTERRUPT_DECR;
-+    }
-+    if ((env->pending_interrupts & PPC_INTERRUPT_MCK) &&
-+        (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
-+        return PPC_INTERRUPT_MCK;
-+    }
-+    if ((env->pending_interrupts & PPC_INTERRUPT_HMI) &&
-+        (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
-+        return PPC_INTERRUPT_HMI;
-+    }
-+    if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
-+        return PPC_INTERRUPT_RESET;
-+    }
-+    return 0;
-+}
-+
- static bool cpu_has_work_POWER7(CPUState *cs)
+-static int p7_interrupt_powersave(CPUPPCState *env)
++int p7_interrupt_powersave(CPUPPCState *env)
  {
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
-@@ -5969,26 +5993,7 @@ static bool cpu_has_work_POWER7(CPUState *cs)
-         if (!(cs->interrupt_request & CPU_INTERRUPT_HARD)) {
-             return false;
+     if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
+         (env->spr[SPR_LPCR] & LPCR_P7_PECE0)) {
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 9164dc2e0f..14bec2490f 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -1693,28 +1693,28 @@ void ppc_cpu_do_interrupt(CPUState *cs)
+ 
+ static int p7_next_unmasked_interrupt(CPUPPCState *env)
+ {
+-    bool async_deliver;
++    PowerPCCPU *cpu = env_archcpu(env);
++    CPUState *cs = CPU(cpu);
++    /* Ignore MSR[EE] when coming out of some power management states */
++    bool msr_ee = FIELD_EX64(env->msr, MSR, EE) || env->resume_as_sreset;
+ 
+     assert((env->pending_interrupts & P7_UNUSED_INTERRUPTS) == 0);
+ 
++    if (cs->halted) {
++        /* LPCR[PECE] controls which interrupts can exit power-saving mode */
++        return p7_interrupt_powersave(env);
++    }
++
+     /* Machine check exception */
+     if (env->pending_interrupts & PPC_INTERRUPT_MCK) {
+         return PPC_INTERRUPT_MCK;
+     }
+ 
+-    /*
+-     * For interrupts that gate on MSR:EE, we need to do something a
+-     * bit more subtle, as we need to let them through even when EE is
+-     * clear when coming out of some power management states (in order
+-     * for them to become a 0x100).
+-     */
+-    async_deliver = FIELD_EX64(env->msr, MSR, EE) || env->resume_as_sreset;
+-
+     /* Hypervisor decrementer exception */
+     if (env->pending_interrupts & PPC_INTERRUPT_HDECR) {
+         /* LPCR will be clear when not supported so this will work */
+         bool hdice = !!(env->spr[SPR_LPCR] & LPCR_HDICE);
+-        if ((async_deliver || !FIELD_EX64_HV(env->msr)) && hdice) {
++        if ((msr_ee || !FIELD_EX64_HV(env->msr)) && hdice) {
+             /* HDEC clears on delivery */
+             return PPC_INTERRUPT_HDECR;
          }
--        if ((env->pending_interrupts & PPC_INTERRUPT_EXT) &&
--            (env->spr[SPR_LPCR] & LPCR_P7_PECE0)) {
--            return true;
--        }
--        if ((env->pending_interrupts & PPC_INTERRUPT_DECR) &&
--            (env->spr[SPR_LPCR] & LPCR_P7_PECE1)) {
--            return true;
--        }
--        if ((env->pending_interrupts & PPC_INTERRUPT_MCK) &&
--            (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
--            return true;
--        }
--        if ((env->pending_interrupts & PPC_INTERRUPT_HMI) &&
--            (env->spr[SPR_LPCR] & LPCR_P7_PECE2)) {
--            return true;
--        }
--        if (env->pending_interrupts & PPC_INTERRUPT_RESET) {
--            return true;
--        }
--        return false;
-+        return p7_interrupt_powersave(env) != 0;
-     } else {
-         return FIELD_EX64(env->msr, MSR, EE) &&
-                (cs->interrupt_request & CPU_INTERRUPT_HARD);
+@@ -1725,13 +1725,13 @@ static int p7_next_unmasked_interrupt(CPUPPCState *env)
+         bool lpes0 = !!(env->spr[SPR_LPCR] & LPCR_LPES0);
+         bool heic = !!(env->spr[SPR_LPCR] & LPCR_HEIC);
+         /* HEIC blocks delivery to the hypervisor */
+-        if ((async_deliver && !(heic && FIELD_EX64_HV(env->msr) &&
++        if ((msr_ee && !(heic && FIELD_EX64_HV(env->msr) &&
+             !FIELD_EX64(env->msr, MSR, PR))) ||
+             (env->has_hv_mode && !FIELD_EX64_HV(env->msr) && !lpes0)) {
+             return PPC_INTERRUPT_EXT;
+         }
+     }
+-    if (async_deliver != 0) {
++    if (msr_ee != 0) {
+         /* Decrementer exception */
+         if (env->pending_interrupts & PPC_INTERRUPT_DECR) {
+             return PPC_INTERRUPT_DECR;
+diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+index 9069874adb..25827ebf6f 100644
+--- a/target/ppc/internal.h
++++ b/target/ppc/internal.h
+@@ -309,6 +309,7 @@ static inline int ger_pack_masks(int pmsk, int ymsk, int xmsk)
+ #if defined(TARGET_PPC64)
+ int p9_interrupt_powersave(CPUPPCState *env);
+ int p8_interrupt_powersave(CPUPPCState *env);
++int p7_interrupt_powersave(CPUPPCState *env);
+ #endif
+ 
+ #endif /* PPC_INTERNAL_H */
 -- 
 2.37.3
 
