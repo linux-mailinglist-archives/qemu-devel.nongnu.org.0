@@ -2,94 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990F8612161
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 10:25:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF38612167
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 10:29:40 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooh9a-0004tt-7I; Sat, 29 Oct 2022 04:25:18 -0400
+	id 1oohCe-0007cJ-KN; Sat, 29 Oct 2022 04:28:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ooh9E-0004qi-Ij
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 04:24:58 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oohCT-0007WL-Pd
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 04:28:17 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ooh98-0002l0-Fm
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 04:24:55 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oohCQ-0003Oy-Ou
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 04:28:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667031889;
+ s=mimecast20190719; t=1667032089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1kw/FHtiZvgWRLBUu+6E3JOpTBV74bkbi7gMY0x4Nzk=;
- b=Nks2b3fCTMvEW+Zj3vmE6RpmshgIWqjpG4gBNgWSxpjMhjOSGNKp6ez572ofzz7WrhIXlx
- jdSYIXsh96RD05qKeuM4TInI3F8dJ83HhQtx7ZXqLfkA76xFmldln85uE8mnoWCYCwWcfH
- yPOLgjVqJxBxR3pGmDCeTPwgnpLtYTM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-479-wXB6mvlWNS6bJe8ssgOdXw-1; Sat, 29 Oct 2022 04:24:46 -0400
-X-MC-Unique: wXB6mvlWNS6bJe8ssgOdXw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d10-20020adfa34a000000b00236616a168bso1537748wrb.18
- for <qemu-devel@nongnu.org>; Sat, 29 Oct 2022 01:24:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1kw/FHtiZvgWRLBUu+6E3JOpTBV74bkbi7gMY0x4Nzk=;
- b=MfIrYf/EVSXq46FPKcsCOpQyzWpi33idOI8qJ7Ze1yejGZicMcrgb6OZatJtUVT/qH
- Kphnn6231GvDph2nKUEAZvxDZ6lOK8LYU14vtXkfSi1f0WuNxdYTXFfgIUtSluKVFsmI
- zhfWvZTpEkmoSQnCNb5RjDmMYXRz1PCk4si3f4imh+7unBsjawzE6TZYYIGCpsJGAE/Q
- 1+sOreBTkfi1hHsgn4xVi/I5b9ZU++DzBZCA0ztAHBpP3k3ytXVH1P6j+sz19RDaXq00
- pOjtdOhyjYz/3WGMTd8uFcYXS+xwJ7R53KrEYZkyKnkFAntipDuscPjoblRxuXgXbHmn
- QlFw==
-X-Gm-Message-State: ACrzQf16Hnf4780gxp5LN0ak4Fc4yWt0aP6kwukkWMQkNictbeyzFSov
- D4TPBlhms+2bFvMkzAzTMFYXzCiuzDepXMW73yOHj7xDVnCzrtGza1ixN6Oa+noHKRB8w9G6VH0
- 4G/WhDWVmceEOgQA=
-X-Received: by 2002:a05:600c:4252:b0:3cf:678a:d189 with SMTP id
- r18-20020a05600c425200b003cf678ad189mr782057wmm.51.1667031884039; 
- Sat, 29 Oct 2022 01:24:44 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6Fv+AyBghFRaMvMN7AtUiONBojpsCHloVpg7Q42g/gW5IAsVcY+pXgwVa43sDLKrNab3phZg==
-X-Received: by 2002:a05:600c:4252:b0:3cf:678a:d189 with SMTP id
- r18-20020a05600c425200b003cf678ad189mr782049wmm.51.1667031883837; 
- Sat, 29 Oct 2022 01:24:43 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- z3-20020a05600c0a0300b003cf55844453sm962784wmp.22.2022.10.29.01.24.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Oct 2022 01:24:43 -0700 (PDT)
-Date: Sat, 29 Oct 2022 04:24:39 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Cindy Lu <lulu@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>,
- Parav Pandit <parav@mellanox.com>, Jason Wang <jasowang@redhat.com>,
- Si-Wei Liu <si-wei.liu@oracle.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v2 3/3] vhost_vdpa: move VIRTIO_NET_F_STATUS handling to
- vhost_net
-Message-ID: <20221029042423-mutt-send-email-mst@kernel.org>
-References: <20221028151917.260038-1-eperezma@redhat.com>
- <20221028151917.260038-4-eperezma@redhat.com>
+ to:to:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=yUDwJULcuV+6uMhn4qtmjJ3D4Fzg/iReNXsvGDuECtk=;
+ b=fSRQpnVU3HfN2dQ+7uE7CBuIeBR+AD/9wK/2elJfWfdaUzZppFypgFufUhhdyBnR2fI8zc
+ MYf5/KZqzMYMthVO0aS/hDQ+sn7/TtA4C0/0A1tEL3CPs6VHhHnzusYJ7hYemn2I8g2qXJ
+ yH3bZnOZGp0AxXgDF6x26ABS1sQIyck=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-255-vyBoY9OdMdCVMymCvgT0MA-1; Sat, 29 Oct 2022 04:28:02 -0400
+X-MC-Unique: vyBoY9OdMdCVMymCvgT0MA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 96BC8811E87;
+ Sat, 29 Oct 2022 08:28:02 +0000 (UTC)
+Received: from server.redhat.com (ovpn-12-241.pek2.redhat.com [10.72.12.241])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E3EAF492B2B;
+ Sat, 29 Oct 2022 08:27:58 +0000 (UTC)
+From: Cindy Lu <lulu@redhat.com>
+To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, kraxel@redhat.com,
+ dgilbert@redhat.com, stefanha@redhat.com, arei.gonglei@huawei.com,
+ marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Subject: [PATCH v18 00/10] vhost-vdpa: add support for configure interrupt
+Date: Sat, 29 Oct 2022 16:27:45 +0800
+Message-Id: <20221029082755.1265144-1-lulu@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221028151917.260038-4-eperezma@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,63 +73,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Oct 28, 2022 at 05:19:17PM +0200, Eugenio Pérez wrote:
-> Since it is emulated on all vhost backends it makes sense to move it.
-> 
-> Although this feature can be emulated by qemu it benefits from
-> information from the device. Ack it as long as the guest ack it.
-> 
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+These patches introduced the support for configure interrupt 
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+These codes are tested on x86_64 and aarch64 platforms.  
+the test scenario is based on vp-vdpa/vdpa_sim /virtio net device, with
+the irqfd and without irqfd.
 
-So I assume Jason's tree too?
+Tested in virtio-pci bus and virtio-mmio bus
 
 
-> ---
->  hw/net/vhost_net.c | 13 +++++++++++++
->  net/vhost-vdpa.c   |  1 -
->  2 files changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> index d28f8b974b..b533744211 100644
-> --- a/hw/net/vhost_net.c
-> +++ b/hw/net/vhost_net.c
-> @@ -127,8 +127,21 @@ int vhost_net_set_config(struct vhost_net *net, const uint8_t *data,
->  
->  void vhost_net_ack_features(struct vhost_net *net, uint64_t features)
->  {
-> +    static const int status_feature_bit[] = {
-> +        VIRTIO_NET_F_STATUS,
-> +        VHOST_INVALID_FEATURE_BIT,
-> +    };
-> +
->      net->dev.acked_features = net->dev.backend_features;
->      vhost_ack_features(&net->dev, vhost_net_get_feature_bits(net), features);
-> +    if (net->dev.features & BIT_ULL(VIRTIO_NET_F_STATUS)) {
-> +        /*
-> +         * If device support _F_STATUS qemu should ack it so it reports link
-> +         * status changes. If not supported qemu emulates it reporting an
-> +         * always up link.
-> +         */
-> +        vhost_ack_features(&net->dev, status_feature_bit, features);
-> +    }
->  }
->  
->  uint64_t vhost_net_get_max_queues(VHostNetState *net)
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 6d64000202..854b27186c 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -72,7 +72,6 @@ const int vdpa_feature_bits[] = {
->      VIRTIO_NET_F_RSS,
->      VIRTIO_NET_F_HASH_REPORT,
->      VIRTIO_NET_F_GUEST_ANNOUNCE,
-> -    VIRTIO_NET_F_STATUS,
->      VHOST_INVALID_FEATURE_BIT
->  };
->  
-> -- 
-> 2.31.1
+Change in v2:
+Add support for virtio-mmio bus
+active the notifier while the backend support configure interrupt
+misc fixes from v1
+
+Change in v3
+fix the coding style problems
+
+Change in v4
+misc fixes from v3
+merge the set_config_notifier to set_guest_notifier
+when vdpa start, check the feature by VIRTIO_NET_F_STATUS
+
+Change in v5
+misc fixes from v4
+split the code to introduce configure interrupt type and the callback function
+will init the configure interrupt in all virtio-pci and virtio-mmio bus, but will
+only active while using vhost-vdpa driver
+
+Change in v6
+misc fixes from v5
+decouple vq from interrupt setting and misc process
+fix the bug in virtio_net_handle_rx
+
+Change in v7
+misc fixes from v6
+decouple vq from interrupt setting and misc process
+decouple vq from vector use/release process
+decouple vq from set notifier fd handler process
+move config_notifier and masked_config_notifier to VirtIODevice
+fix the bug in virtio_net_handle_rx, add more information
+add VIRTIO_CONFIG_IRQ_IDX as the queue number for configure interrupt 
+
+Change in v8
+misc fixes from v7
+decouple vq from interrupt setting and misc process
+decouple vq from vector use/release process
+decouple vq from set notifier fd handler process
+move the vhost configure interrupt to vhost_net
+
+Change in v9
+misc fixes from v8
+address the comments from v8
+
+Change in v10
+fix the hang issue in qtest
+address the comments from v9
+
+Change in v11
+fix the crash in aarch64 plateform.
+fix the crash upstream reported
+
+Change in v12
+fix the typo and the comments
+
+changes in v13
+re-send the patches by git-publish
+
+changes in v14
+rebased the code based on upstream
+
+changes in v15
+rebased the code based on upstream
+
+changes in v16
+resend the patch, seems there not send successfully
+
+changes in v18
+fix the crash in qtest
+Because hw/virtio/vhost-user-gpio.c is a new device,So I missed 
+to add the VIRTIO_CONFIG_IRQ_IDX check in notifier_mask
+
+Cindy Lu (10):
+  virtio: introduce macro VIRTIO_CONFIG_IRQ_IDX
+  virtio-pci: decouple notifier from interrupt process
+  virtio-pci: decouple the single vector from the interrupt process
+  vhost: introduce new VhostOps vhost_set_config_call
+  vhost-vdpa: add support for config interrupt
+  virtio: add support for configure interrupt
+  vhost: add support for configure interrupt
+  virtio-net: add support for configure interrupt
+  virtio-mmio: add support for configure interrupt
+  virtio-pci: add support for configure interrupt
+
+ hw/display/vhost-user-gpu.c       |  18 ++
+ hw/net/vhost_net.c                |   9 +
+ hw/net/virtio-net.c               |  22 ++-
+ hw/virtio/trace-events            |   1 +
+ hw/virtio/vhost-user-fs.c         |  18 ++
+ hw/virtio/vhost-user-gpio.c       |  10 ++
+ hw/virtio/vhost-vdpa.c            |   8 +
+ hw/virtio/vhost-vsock-common.c    |  18 ++
+ hw/virtio/vhost.c                 |  78 +++++++-
+ hw/virtio/virtio-crypto.c         |  18 ++
+ hw/virtio/virtio-mmio.c           |  27 +++
+ hw/virtio/virtio-pci.c            | 283 +++++++++++++++++++++---------
+ hw/virtio/virtio.c                |  29 +++
+ include/hw/virtio/vhost-backend.h |   3 +
+ include/hw/virtio/vhost.h         |   4 +
+ include/hw/virtio/virtio-pci.h    |   4 +-
+ include/hw/virtio/virtio.h        |   7 +
+ include/net/vhost_net.h           |   2 +
+ 18 files changed, 472 insertions(+), 87 deletions(-)
+
+-- 
+2.34.3
 
 
