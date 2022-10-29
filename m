@@ -2,65 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74CE3611EC6
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 02:46:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21ABB611F38
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 04:02:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooZy2-0003gE-3H; Fri, 28 Oct 2022 20:44:54 -0400
+	id 1oobAA-00007L-GA; Fri, 28 Oct 2022 22:01:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <uwu@icenowy.me>) id 1ooZy0-0003g5-K3
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 20:44:52 -0400
-Received: from sender4-op-o13.zoho.com ([136.143.188.13])
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oobA0-000062-Nn
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 22:01:21 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <uwu@icenowy.me>) id 1ooZxy-0008Vv-Qr
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 20:44:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1667004286; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=GL7UvO7THKcDYOZyM5kSzVsXTBM04gaf7u/+XR1ZDXmQ23br6Zecfq3Uxz4Qz6iHThe980o3o7m9ZwQYq8cuEzGwPLzTmhFmQfj6+xUDAaPgLhi9G9JgpdkeKX49Z0hOJuVPG1unvReeU2ObOQXW67Pgu9hgWb7ysl1BOmTgssI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1667004286;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=v/XaPOkQ1OIaJBMJX7y9nQuXar1mytEaEalDkaSp7og=; 
- b=CLQRkDDwbPqnHWYnM4Z/nPsowN86rlYwUSYsvlXGg4+Y9f2T5HUjuVqgZm8BVEsOufIpfrKEu35vOFM2xULuRhqwHqdTQpYqNo/574JrD3OZkfQ7V7eCnZq5CQGldV8Xw1Jv44+uss7LQBUugiEy3bwZW6/nNIZR3nzk1xN2P18=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1667004286; 
- s=zmail; d=icenowy.me; i=uwu@icenowy.me;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=v/XaPOkQ1OIaJBMJX7y9nQuXar1mytEaEalDkaSp7og=;
- b=YfN8j7F2sqamid9p2XHABL17mGoEMHgpXg/wP6n8xR1wiPiXwSrFp8rsxGiPLbWN
- iQ7/F3iye7m8ZwxegcaxLI6xmwLX4J92vODWL+lM2AxNX1DwSIgA8xsOujCHJlIRMF8
- SUdMCqnoHmPsopcpt57kafw7RJtTL8qS3qMg/szM=
-Received: from edelgard.fodlan.icenowy.me (112.94.102.53 [112.94.102.53]) by
- mx.zohomail.com with SMTPS id 1667004283995229.24370814474958;
- Fri, 28 Oct 2022 17:44:43 -0700 (PDT)
-Message-ID: <8e47bd2257004301fcd3ae17705e6b5351875f83.camel@icenowy.me>
-Subject: Re: [PATCH] tcg/tci: fix logic error when registering helpers via FFI
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Date: Sat, 29 Oct 2022 08:44:41 +0800
-In-Reply-To: <f28c1d8f-d30d-fc24-ce4e-88aba776abe2@linaro.org>
-References: <20221028072145.1593205-1-uwu@icenowy.me>
- <f28c1d8f-d30d-fc24-ce4e-88aba776abe2@linaro.org>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.4 
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oob9y-0002Zj-OB
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 22:01:20 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id C7E193200932;
+ Fri, 28 Oct 2022 22:01:14 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Fri, 28 Oct 2022 22:01:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm1; t=1667008874; x=1667095274; bh=alsUBvcVNYjnwXqTjaTonrA90
+ ZQsfGC1w9wXraIfb6g=; b=CcLbmHAd0FFKvPz3aDM6g7fXoTITEvKX1BVDhnihc
+ BquF6kwVLzmv7nz5Ya2LTE5RuUGZozJ8fimpe9IkkqWSeMgZrDAy2D5yBfREcWGz
+ yMGpK7fWs3YzVhekfrh8GjP71JSIOwthuhObIdbWiFkVcV61CJ32l1TZfZxIkqeY
+ ngNL2YW2VhoYL0ieAiVt26tmJIa+a9F17EPDXUWMUcUqcm1XdhzlbSeap9DzKNAe
+ EKJdeuQ2PY4Rkc9Lft5zitEMDe2SRs3UVfl/ZUhplAQK2NPahG593qFLGjYilQns
+ AegtB29CbLoYBRYgeJt/+lZZI2xLodZ6vOKpMgxcj0XUQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1667008874; x=1667095274; bh=alsUBvcVNYjnwXqTjaTonrA90ZQsfGC1w9w
+ XraIfb6g=; b=Qj/GKfNm8e5Lo2UlwemIZVtr9qZ/z//sqCG3l6MWM/vlYpsSmKD
+ JbmGEbXnT0meGlp8o3GOCruypFiZqyVzWMyjDxPqDQ/1r/zswZ0eoHNJOy5CbSaC
+ SfBFSnEOUF7AEPYErGOkplrQinq9TucKplreZUgT9pWQct6/yDE/IW3HRRMOPXj0
+ TBhpW83qt+qSURVme150XWgIdVs7Up+Sm17koZmz5rJ6UqSC+KAUXaw64nHjyjVo
+ deFwbdEHaEBxiPskSwTQtP040SRvYcGF1jamMCkivY7jJGHcJWzhkX1swCQPQVoS
+ KIfCr5naiE7xSWpty2l0cKiu9MCohS0vq2g==
+X-ME-Sender: <xms:aYlcY0t-cJYf9acqRzze1NxYvTz1q6B4za6pWvXHskzoehi0MxPzGg>
+ <xme:aYlcYxdEd94Tj2mxEDTp3ObjmE6q1nAYak5tU8VpGVrAWXHtH1HGYlZ4mddNcC-dd
+ 1HZipDnur_JcULsqdU>
+X-ME-Received: <xmr:aYlcY_z_iI4T2gIdTMRv7OX8ZUeksnEt0IFmBE5XraCT-hYtrH7tlVhuI6Jd>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtdejgdehhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
+ dttdenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehf
+ lhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpeehieduieevteevhedthfette
+ ekgfdvvdelveekjeeiieegieevueefueeutdejvdenucffohhmrghinhepghhithhlrggs
+ rdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:aYlcY3PShI_4dI40yvA-FbFalR-ZiYJQc4cI2vHLXzT9kIj45k_PgA>
+ <xmx:aYlcY0-x6GiLC6dDOcPllaM6fiUr0kyogkANOjytxEu7N3qCpY-NOw>
+ <xmx:aYlcY_UUGzKYNRLbkWhUWbL1FOQN5oewj3f6U-ucDnwjVx2DcCWB0w>
+ <xmx:aolcY2L5VHqWqCSkenG-IZedh4jkQXWIq6KSQGBXGvk2q3o7o6S_aw>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 28 Oct 2022 22:01:13 -0400 (EDT)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: f4bug@amsat.org
+Cc: qemu-devel@nongnu.org, pavel.dovgalyuk@ispras.ru,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PATCH 0/3] MIPS system emulation miscellaneous fixes
+Date: Sat, 29 Oct 2022 03:00:27 +0100
+Message-Id: <20221029020030.13936-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 MIME-Version: 1.0
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.13; envelope-from=uwu@icenowy.me;
- helo=sender4-op-o13.zoho.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.24;
+ envelope-from=jiaxun.yang@flygoat.com; helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,41 +98,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-5ZyoIDIwMjItMTAtMjnmmJ/mnJ/lha3nmoQgMDY6MjggKzExMDDvvIxSaWNoYXJkIEhlbmRlcnNv
-buWGmemBk++8mgo+IE9uIDEwLzI4LzIyIDE4OjIxLCBJY2Vub3d5IFpoZW5nIHdyb3RlOgo+ID4g
-V2hlbiByZWdpc3RlcmluZyBoZWxwZXJzIHZpYSBGRkkgZm9yIFRDSSwgdGhlIGlubmVyIGxvb3Ag
-dGhhdAo+ID4gaXRlcmF0ZXMKPiA+IHBhcmFtZXRlcnMgb2YgdGhlIGhlbHBlciByZXVzZXMgKGFu
-ZCB0aHVzIHBvbGx1dGVzKSB0aGUgc2FtZQo+ID4gdmFyaWFibGUKPiA+IHVzZWQgYnkgdGhlIG91
-dGVyIGxvb3AgdGhhdCBpdGVyYXRlcyBhbGwgaGVscGVycywgdGh1cyBtYWRlIHNvbWUKPiA+IGhl
-bHBlcnMKPiA+IHVucmVnaXN0ZXJlZC4KPiA+IAo+ID4gRml4IHRoaXMgbG9naWMgZXJyb3IgYnkg
-dXNpbmcgYSBkZWRpY2F0ZWQgdGVtcG9yYXJ5IHZhcmlhYmxlIGZvcgo+ID4gdGhlCj4gPiBpbm5l
-ciBsb29wLgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBJY2Vub3d5IFpoZW5nIDx1d3VAaWNlbm93
-eS5tZT4KPiA+IC0tLQo+ID4gwqAgdGNnL3RjZy5jIHwgNyArKysrLS0tCj4gPiDCoCAxIGZpbGUg
-Y2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0t
-Z2l0IGEvdGNnL3RjZy5jIGIvdGNnL3RjZy5jCj4gPiBpbmRleCA2MTJhMTJmNThmLi5hZGZhZjYx
-YTMyIDEwMDY0NAo+ID4gLS0tIGEvdGNnL3RjZy5jCj4gPiArKysgYi90Y2cvdGNnLmMKPiA+IEBA
-IC02MTksNiArNjE5LDcgQEAgc3RhdGljIHZvaWQgdGNnX2NvbnRleHRfaW5pdCh1bnNpZ25lZCBt
-YXhfY3B1cykKPiA+IMKgwqDCoMKgwqDCoMKgwqDCoCBncG9pbnRlciBoYXNoID0gKGdwb2ludGVy
-KSh1aW50cHRyX3QpdHlwZW1hc2s7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqAgZmZpX3N0YXR1cyBz
-dGF0dXM7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqAgaW50IG5hcmdzOwo+ID4gK8KgwqDCoMKgwqDC
-oMKgIGludCBqOwo+ID4gwqAgCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKGdfaGFzaF90YWJs
-ZV9sb29rdXAoZmZpX3RhYmxlLCBoYXNoKSkgewo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgY29udGludWU7Cj4gPiBAQCAtNjM0LDkgKzYzNSw5IEBAIHN0YXRpYyB2b2lkIHRjZ19jb250
-ZXh0X2luaXQodW5zaWduZWQgbWF4X2NwdXMpCj4gPiDCoCAKPiA+IMKgwqDCoMKgwqDCoMKgwqDC
-oCBpZiAobmFyZ3MgIT0gMCkgewo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY2EtPmNp
-Zi5hcmdfdHlwZXMgPSBjYS0+YXJnczsKPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZvciAo
-aSA9IDA7IGkgPCBuYXJnczsgKytpKSB7Cj4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIGludCB0eXBlY29kZSA9IGV4dHJhY3QzMih0eXBlbWFzaywgKGkgKyAxKSAqIDMsCj4gPiAz
-KTsKPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY2EtPmFyZ3NbaV0gPSB0eXBl
-Y29kZV90b19mZmlbdHlwZWNvZGVdOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZm9yIChq
-ID0gMDsgaiA8IG5hcmdzOyArK2opIHsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgaW50IHR5cGVjb2RlID0gZXh0cmFjdDMyKHR5cGVtYXNrLCAoaiArIDEpICogMywKPiA+IDMp
-Owo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjYS0+YXJnc1tqXSA9IHR5cGVj
-b2RlX3RvX2ZmaVt0eXBlY29kZV07Cj4gCj4gT2ggbXkuwqAgSSdtIHN1cnByaXNlZCBhbnkgdGVz
-dCBjYXNlcyBhdCBhbGwgd29ya2VkLgo+IFF1ZXVlZCB0byB0Y2ctbmV4dCwgd2l0aCB0aGUgZGVj
-bGFyYXRpb24gb2YgaiBtb3ZlZCB0byB0aGUgbG9vcAo+IGl0c2VsZjoKPiAKPiDCoMKgwqDCoMKg
-wqDCoMKgZm9yIChpbnQgaiA9IDA7IGogPCBuYXJnczsgKytqKQoKQWggSSB0aGluayB0aGlzIGlz
-IGEgQzk5IGZlYXR1cmUuIElzIG91ciBDIHN0YW5kYXJkIGJhc2VsaW5lIGhpZ2gKZW5vdWdoIHRv
-IHVzZSBpdD8KCj4gCj4gCj4gcn4KPiAKCg==
+Hi all,
+
+I was trying to build a MIPS VirtIO board[1] for QEMU that is able
+to work with all processors we support.
+
+When I was bring up varoius CPUs on that board I noticed some issues
+with the system emulation code that I'm fixing in this series.
+
+Thanks.
+
+- Jiaxun
+[1]: https://gitlab.com/FlyGoat/qemu/-/tree/mips-virt
+
+Jiaxun Yang (3):
+  target/mips: Set CP0St_{KX, SX, UX} for Loongson-2F
+  target/mips: Cast offset field of Octeon BBIT to int16_t
+  target/mips: Disable DSP ASE for Octeon68XX
+
+ target/mips/cpu-defs.c.inc         | 4 ++--
+ target/mips/cpu.c                  | 6 ++++++
+ target/mips/tcg/octeon_translate.c | 2 +-
+ 3 files changed, 9 insertions(+), 3 deletions(-)
+
+-- 
+2.37.1 (Apple Git-137.1)
 
 
