@@ -2,93 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560E961217B
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 10:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1F1612199
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 10:50:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oohMo-0002km-RD; Sat, 29 Oct 2022 04:38:58 -0400
+	id 1oohWV-00071S-Jp; Sat, 29 Oct 2022 04:48:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oohMc-0002iE-7R
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 04:38:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oohWS-0006zp-7O; Sat, 29 Oct 2022 04:48:57 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oohMY-0004rX-R6
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 04:38:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667032721;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ckmLE3kxnFMLn5rEZm8wyFY/mcrLm0M+yzigAPZbKzk=;
- b=WxfEvDOC0JKmTODqFCN6h3ifaEVu5KuPzMJFLO+jRjQSE5XzlTwSR3eLBZWGvk72OlX24F
- MtfBKKMuhD5znoK6ZwwTIvdg/GBT23d95Nb9ajWy00NGGDX9ug9f51Irl9Te3ZTZfregC2
- xnHqZzHJ8uEojnJ+T1bUUNGPbnu0eIo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-549-Z4b5kZIFMoCuBkdR3to2Ww-1; Sat, 29 Oct 2022 04:38:38 -0400
-X-MC-Unique: Z4b5kZIFMoCuBkdR3to2Ww-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v191-20020a1cacc8000000b003bdf7b78dccso3436431wme.3
- for <qemu-devel@nongnu.org>; Sat, 29 Oct 2022 01:38:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ckmLE3kxnFMLn5rEZm8wyFY/mcrLm0M+yzigAPZbKzk=;
- b=0FL9EY6kOcEGb3q2nBGZpXCKHIR2/g1dK3fDG2/S6tdGeR1uGfwtt0y8dR0smMWk5J
- ul5b/GFjhaJcfHPqQZwsCWaa0pPaxjjX02Q5wB/gFcbjsMq0DNe/HX1zbYLxUoPJesbB
- iLuz7EES4AJI8363uPFdXW4DwVZSLqa9gJfQ1+f1lqRoF0h5vyaGgO9SQA/EZ7YDy07W
- 8aAkkdZSjrCSXH0gckTsdf/Dt0I0iq5P9Qe/PCENF80njoA8UEEU/st/RhqMrzf+zwwm
- JpcavYWz4WOo59g5PK/kim7RXUhIvkhzySvTCHv+xtOS0d8Pufnml0Sd85y+KMx1hgAr
- XfvQ==
-X-Gm-Message-State: ACrzQf1SIrrMELbRl/r8Znwmwxj5QGnLzkPX/biPuHq6bSCt+woJ4FjS
- oxC+C6LDj/DVlNmIEaUur/yyKexGhVAHft+j7UYTPazctfKyHT4aqNgwAbOcPIh0VeK8eaaxZhf
- bVpDsLJjEk3pzYck=
-X-Received: by 2002:adf:e64e:0:b0:236:76a9:446 with SMTP id
- b14-20020adfe64e000000b0023676a90446mr1841895wrn.696.1667032717143; 
- Sat, 29 Oct 2022 01:38:37 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5CgNuWqFG0Dnhy+itJ4YZf2hJu7Zus+Xe12RerUQeZ1dAj6prrgbHt3tvX7mMfMLUQDllj9A==
-X-Received: by 2002:adf:e64e:0:b0:236:76a9:446 with SMTP id
- b14-20020adfe64e000000b0023676a90446mr1841882wrn.696.1667032716912; 
- Sat, 29 Oct 2022 01:38:36 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- j13-20020a05600c410d00b003c6bd12ac27sm944862wmi.37.2022.10.29.01.38.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Oct 2022 01:38:36 -0700 (PDT)
-Date: Sat, 29 Oct 2022 04:38:33 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: B <shentey@gmail.com>, qemu-devel@nongnu.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, qemu-trivial@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH v2 3/3] hw/i386/acpi-build: Resolve north rather than
- south bridges
-Message-ID: <20221029043803-mutt-send-email-mst@kernel.org>
-References: <20221028103419.93398-1-shentey@gmail.com>
- <20221028103419.93398-4-shentey@gmail.com>
- <CAARzgwyMiEQUc=DEd5iJb=hgsoMn8tQaNeOnzKAG8qaxWhdRYw@mail.gmail.com>
- <8EA83461-41EC-40E1-AD22-C4107216870B@gmail.com>
- <CAARzgwyRJbQuUFBOSsnm_PHLWoOBcKYX8WucKk7_VeQ=Xan0kg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oohWQ-0006T2-Li; Sat, 29 Oct 2022 04:48:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=KHh8jS5ixS2ZFulXCMzYwSdHZDLKUhyVqxCfXhpDGhc=; b=wyhkG8jEG8jqUqBog57w5QpOI0
+ TAcQb7BxdH1K0T9z89p7CoenAmXc963uvt3616Iwl+6/URdBnh8vX/HZEAmmlLPbgQ9tl25Vj0dW4
+ OBXwVH4NJxE+IjanOKKI/GqG94UpLdds9W2ippPFFpbwBzn7mHrUNnRAN7TliJs/OG1Nls/Keu7N2
+ g2l/fId4PazaFCpne+AHVEv/mG0KBLdvrc1c4VP0rEoxVMYXgUVPbAIAy3gTF7guyZ5U8rVusQkrg
+ bxJGGvDTdkzs3UouSBcPVbfg68uLLKS0J4x3IPDwhJYgfYhqXV1AiSmlR+q2hSXF5h0gt5nuZ07zG
+ vT9wQtZCN6HfyaosJvxCN/fbd70LMrD1TYM62ZR2yyoEcsxCiAj1NX+v6fbkWGm5nY/htpjkS2oi1
+ S9ENewISsBNY69xiSVZlzswGXXzbbEv0mMQLQt1kz2p7kspV2PjLCk74gXvP/k3W77GyPiVzKw08v
+ VHc9nkBLI97JE0VVMZQjmoqeeAijf7wtTlEfaAMySQVPmDDGS5dsu6wxhyIBnXi0/sGsf+NuyzSHG
+ NTbylHnkRilzGbt2FPEPnJwNtrzGBD4OqejghnyV7JeyIuHARAV6Ysl3XirAfDTBCOtc3xymZzTho
+ QX66Pm+c0uqYMXNTiSg4nVG7jsBjT4TWUnrfTcR7U=;
+Received: from [2a00:23c4:8ba8:7100:6571:576d:97b8:647b]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oohWG-0008N7-Dd; Sat, 29 Oct 2022 09:48:48 +0100
+Message-ID: <e2f298bc-d876-0089-8934-0b2061a1e46e@ilande.co.uk>
+Date: Sat, 29 Oct 2022 09:48:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAARzgwyRJbQuUFBOSsnm_PHLWoOBcKYX8WucKk7_VeQ=Xan0kg@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <cover.1666957578.git.balaton@eik.bme.hu>
+ <ab891af01894bc01df0df78247da00fef4f59242.1666957578.git.balaton@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <ab891af01894bc01df0df78247da00fef4f59242.1666957578.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba8:7100:6571:576d:97b8:647b
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v6 13/19] mac_{old|new}world: Code style fix adding
+ missing braces to if-s
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,95 +79,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Oct 28, 2022 at 10:18:43PM +0530, Ani Sinha wrote:
-> On Fri, Oct 28, 2022 at 9:45 PM B <shentey@gmail.com> wrote:
-> >
-> >
-> >
-> > Am 28. Oktober 2022 10:58:07 UTC schrieb Ani Sinha <ani@anisinha.ca>:
-> > >On Fri, Oct 28, 2022 at 4:05 PM Bernhard Beschow <shentey@gmail.com> wrote:
-> > >>
-> > >> The code currently assumes Q35 iff ICH9 and i440fx iff PIIX. Now that more
-> > >> AML generation has been moved into the south bridges and since the
-> > >> machines define themselves primarily through their north bridges, let's
-> > >> switch to resolving the north bridges for AML generation instead. This
-> > >> also allows for easier experimentation with different south bridges in
-> > >> the "pc" machine, e.g. with PIIX4 and VT82xx.
-> > >
-> > >Unfortunately this patch does not apply on the latest master. Also the
-> > >code seems to be off. Can you rebase and rework the patch?
-> >
-> > I've rebased onto Igor's series to avoid merge conflicts,
+On 28/10/2022 12:56, BALATON Zoltan wrote:
+
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>   hw/ppc/mac_newworld.c | 6 ++++--
+>   hw/ppc/mac_oldworld.c | 9 ++++++---
+>   2 files changed, 10 insertions(+), 5 deletions(-)
 > 
-> Ok I will let Igor deal with this then since I have not followed his patchset.
+> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+> index 6b2d781dea..37123daa6b 100644
+> --- a/hw/ppc/mac_newworld.c
+> +++ b/hw/ppc/mac_newworld.c
+> @@ -202,14 +202,16 @@ static void ppc_core99_init(MachineState *machine)
+>           kernel_size = load_elf(machine->kernel_filename, NULL,
+>                                  translate_kernel_address, NULL, NULL, NULL,
+>                                  NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
+> -        if (kernel_size < 0)
+> +        if (kernel_size < 0) {
+>               kernel_size = load_aout(machine->kernel_filename, kernel_base,
+>                                       machine->ram_size - kernel_base,
+>                                       bswap_needed, TARGET_PAGE_SIZE);
+> -        if (kernel_size < 0)
+> +        }
+> +        if (kernel_size < 0) {
+>               kernel_size = load_image_targphys(machine->kernel_filename,
+>                                                 kernel_base,
+>                                                 machine->ram_size - kernel_base);
+> +        }
+>           if (kernel_size < 0) {
+>               error_report("could not load kernel '%s'",
+>                            machine->kernel_filename);
+> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+> index 23d9268281..558c639202 100644
+> --- a/hw/ppc/mac_oldworld.c
+> +++ b/hw/ppc/mac_oldworld.c
+> @@ -160,14 +160,16 @@ static void ppc_heathrow_init(MachineState *machine)
+>           kernel_size = load_elf(machine->kernel_filename, NULL,
+>                                  translate_kernel_address, NULL, NULL, NULL,
+>                                  NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
+> -        if (kernel_size < 0)
+> +        if (kernel_size < 0) {
+>               kernel_size = load_aout(machine->kernel_filename, kernel_base,
+>                                       machine->ram_size - kernel_base,
+>                                       bswap_needed, TARGET_PAGE_SIZE);
+> -        if (kernel_size < 0)
+> +        }
+> +        if (kernel_size < 0) {
+>               kernel_size = load_image_targphys(machine->kernel_filename,
+>                                                 kernel_base,
+>                                                 machine->ram_size - kernel_base);
+> +        }
+>           if (kernel_size < 0) {
+>               error_report("could not load kernel '%s'",
+>                            machine->kernel_filename);
+> @@ -291,8 +293,9 @@ static void ppc_heathrow_init(MachineState *machine)
+>           pci_create_simple(pci_bus, -1, "pci-ohci");
+>       }
+>   
+> -    if (graphic_depth != 15 && graphic_depth != 32 && graphic_depth != 8)
+> +    if (graphic_depth != 15 && graphic_depth != 32 && graphic_depth != 8) {
+>           graphic_depth = 15;
+> +    }
+>   
+>       /* No PCI init: the BIOS will do it */
+>   
 
-should you want to review this, it's all in my tree right now.
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-> > that's why it doesn't apply onto master. It applies fine there [1].
-> >
-> > The first two patches of this series apply fine on both branches, so could possibly be pulled already if Igor's series doesn't make it for 7.2.
-> >
-> > Best regards,
-> > Bernhard
-> >
-> > [1] https://github.com/patchew-project/qemu/commits/patchew/20221028103419.93398-1-shentey%40gmail.com
-> > >
-> > >>
-> > >> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> > >> ---
-> > >>  hw/i386/acpi-build.c | 11 ++++++-----
-> > >>  1 file changed, 6 insertions(+), 5 deletions(-)
-> > >>
-> > >> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > >> index 73d8a59737..d9eaa5fc4d 100644
-> > >> --- a/hw/i386/acpi-build.c
-> > >> +++ b/hw/i386/acpi-build.c
-> > >> @@ -60,6 +60,7 @@
-> > >>  #include "hw/i386/fw_cfg.h"
-> > >>  #include "hw/i386/ich9.h"
-> > >>  #include "hw/pci/pci_bus.h"
-> > >> +#include "hw/pci-host/i440fx.h"
-> > >>  #include "hw/pci-host/q35.h"
-> > >>  #include "hw/i386/x86-iommu.h"
-> > >>
-> > >> @@ -1322,8 +1323,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> > >>             AcpiPmInfo *pm, AcpiMiscInfo *misc,
-> > >>             Range *pci_hole, Range *pci_hole64, MachineState *machine)
-> > >>  {
-> > >> -    Object *piix = object_resolve_type_unambiguous(TYPE_PIIX4_PM);
-> > >> -    Object *lpc = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
-> > >> +    Object *i440fx = object_resolve_type_unambiguous(TYPE_I440FX_PCI_HOST_BRIDGE);
-> > >> +    Object *q35 = object_resolve_type_unambiguous(TYPE_Q35_HOST_DEVICE);
-> > >>      CrsRangeEntry *entry;
-> > >>      Aml *dsdt, *sb_scope, *scope, *dev, *method, *field, *pkg, *crs;
-> > >>      CrsRangeSet crs_range_set;
-> > >> @@ -1344,13 +1345,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> > >>      AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = x86ms->oem_id,
-> > >>                          .oem_table_id = x86ms->oem_table_id };
-> > >>
-> > >> -    assert(!!piix != !!lpc);
-> > >> +    assert(!!i440fx != !!q35);
-> > >>
-> > >>      acpi_table_begin(&table, table_data);
-> > >>      dsdt = init_aml_allocator();
-> > >>
-> > >>      build_dbg_aml(dsdt);
-> > >> -    if (piix) {
-> > >> +    if (i440fx) {
-> > >>          sb_scope = aml_scope("_SB");
-> > >>          dev = aml_device("PCI0");
-> > >>          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
-> > >> @@ -1363,7 +1364,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> > >>              build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
-> > >>          }
-> > >>          build_piix4_pci0_int(dsdt);
-> > >> -    } else if (lpc) {
-> > >> +    } else if (q35) {
-> > >>          sb_scope = aml_scope("_SB");
-> > >>          dev = aml_device("PCI0");
-> > >>          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
-> > >> --
-> > >> 2.38.1
-> > >>
 
+ATB,
+
+Mark.
 
