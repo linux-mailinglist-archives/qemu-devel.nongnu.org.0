@@ -2,43 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C830612454
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 17:59:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 102EF61246B
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 18:21:06 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oooDJ-0000oM-Dh; Sat, 29 Oct 2022 11:57:37 -0400
+	id 1oooYY-0004Vy-Ew; Sat, 29 Oct 2022 12:19:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1oooDH-0000n5-0k; Sat, 29 Oct 2022 11:57:35 -0400
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1oooYV-0004V3-LE
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 12:19:31 -0400
 Received: from mail.weilnetz.de ([37.120.169.71]
  helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1oooDF-0005A0-2l; Sat, 29 Oct 2022 11:57:34 -0400
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1oooYT-000191-D2
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 12:19:31 -0400
 Received: from [192.168.178.59] (p5b151d14.dip0.t-ipconnect.de [91.21.29.20])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id CB4F6DA0C54;
- Sat, 29 Oct 2022 17:57:29 +0200 (CEST)
-Message-ID: <2945db85-c6cc-4cb6-971d-d380ceb6b944@weilnetz.de>
-Date: Sat, 29 Oct 2022 17:57:29 +0200
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 8CFCDDA0C54;
+ Sat, 29 Oct 2022 18:19:26 +0200 (CEST)
+Message-ID: <8077e5fd-13f6-ea72-f0dd-a32e09dae4a3@weilnetz.de>
+Date: Sat, 29 Oct 2022 18:19:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH 5/7] block/nfs: Fix 32-bit Windows build
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Peter Lieven <pl@kamp.de>,
- qemu-block@nongnu.org
+To: Bin Meng <bmeng.cn@gmail.com>, Thomas Huth <thuth@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
- <20220908132817.1831008-6-bmeng.cn@gmail.com>
-In-Reply-To: <20220908132817.1831008-6-bmeng.cn@gmail.com>
+ <20220908132817.1831008-7-bmeng.cn@gmail.com>
+ <85f915c4-938c-8a23-a4c2-01fba0f87b63@redhat.com>
+ <CAEUhbmVNNuSRgjHiewKhqOifTF2_Rzn+8uUNphay6aXRYHg=kw@mail.gmail.com>
+ <CAEUhbmXmKoE+cZUO-6Z=yPcWr1fknyw5PFyY+=c2-E4kCf-0AA@mail.gmail.com>
+ <CAEUhbmX4uDWWoc=B23TZS9gbPCMkPu+H-jFcMYuPYWE_QuMR7w@mail.gmail.com>
+Subject: Re: [PATCH 6/7] .gitlab-ci.d/windows.yml: Unify the prerequisite
+ packages
+In-Reply-To: <CAEUhbmX4uDWWoc=B23TZS9gbPCMkPu+H-jFcMYuPYWE_QuMR7w@mail.gmail.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------xcTx2FX8P93PnGJXX6F8nABZ"
+ boundary="------------uUbV0xhtuI8fT15pm2qCFNTM"
 Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
  helo=mail.v2201612906741603.powersrv.de
 X-Spam_score_int: -18
@@ -64,60 +71,80 @@ From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------xcTx2FX8P93PnGJXX6F8nABZ
-Content-Type: multipart/mixed; boundary="------------mekadFoEQTeAx6I99V2PyStN";
+--------------uUbV0xhtuI8fT15pm2qCFNTM
+Content-Type: multipart/mixed; boundary="------------DO8bzMJJF6hT2kaYX7Av9FLl";
  protected-headers="v1"
 From: Stefan Weil <sw@weilnetz.de>
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Peter Lieven <pl@kamp.de>,
- qemu-block@nongnu.org
-Message-ID: <2945db85-c6cc-4cb6-971d-d380ceb6b944@weilnetz.de>
-Subject: Re: [PATCH 5/7] block/nfs: Fix 32-bit Windows build
+To: Bin Meng <bmeng.cn@gmail.com>, Thomas Huth <thuth@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <8077e5fd-13f6-ea72-f0dd-a32e09dae4a3@weilnetz.de>
+Subject: Re: [PATCH 6/7] .gitlab-ci.d/windows.yml: Unify the prerequisite
+ packages
 References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
- <20220908132817.1831008-6-bmeng.cn@gmail.com>
-In-Reply-To: <20220908132817.1831008-6-bmeng.cn@gmail.com>
+ <20220908132817.1831008-7-bmeng.cn@gmail.com>
+ <85f915c4-938c-8a23-a4c2-01fba0f87b63@redhat.com>
+ <CAEUhbmVNNuSRgjHiewKhqOifTF2_Rzn+8uUNphay6aXRYHg=kw@mail.gmail.com>
+ <CAEUhbmXmKoE+cZUO-6Z=yPcWr1fknyw5PFyY+=c2-E4kCf-0AA@mail.gmail.com>
+ <CAEUhbmX4uDWWoc=B23TZS9gbPCMkPu+H-jFcMYuPYWE_QuMR7w@mail.gmail.com>
+In-Reply-To: <CAEUhbmX4uDWWoc=B23TZS9gbPCMkPu+H-jFcMYuPYWE_QuMR7w@mail.gmail.com>
 
---------------mekadFoEQTeAx6I99V2PyStN
-Content-Type: multipart/mixed; boundary="------------rwrY7X0bIVKzdJwGLazh8a0M"
+--------------DO8bzMJJF6hT2kaYX7Av9FLl
+Content-Type: multipart/mixed; boundary="------------tFGW1X169IoHleoJEGKwUxXP"
 
---------------rwrY7X0bIVKzdJwGLazh8a0M
+--------------tFGW1X169IoHleoJEGKwUxXP
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
-QW0gMDguMDkuMjIgdW0gMTU6Mjggc2NocmllYiBCaW4gTWVuZzoNCj4gRnJvbTogQmluIE1l
-bmcgPGJpbi5tZW5nQHdpbmRyaXZlci5jb20+DQo+IA0KPiBsaWJuZnMuaCBkZWNsYXJlcyBu
-ZnNfZnN0YXQoKSBhcyB0aGUgZm9sbG93aW5nIGZvciB3aW4zMjoNCj4gDQo+ICAgIGludCBu
-ZnNfZnN0YXQoc3RydWN0IG5mc19jb250ZXh0ICpuZnMsIHN0cnVjdCBuZnNmaCAqbmZzZmgs
-DQo+ICAgICAgICAgICAgICAgICAgc3RydWN0IF9fc3RhdDY0ICpzdCk7DQo+IA0KPiBUaGUg
-J3N0JyBwYXJhbWV0ZXIgc2hvdWxkIGJlIG9mIHR5cGUgJ3N0cnVjdCBfX3N0YXQ2NCcuIFRo
-ZQ0KPiBjb2RlcyBoYXBwZW4gdG8gYnVpbGQgc3VjY2Vzc2Z1bGx5IGZvciA2NC1iaXQgV2lu
-ZG93cywgYnV0IGl0DQo+IGRvZXMgbm90IGJ1aWxkIGZvciAzMi1iaXQgV2luZG93cy4NCj4g
-DQo+IEZpeGVzOiA2NTQyYWE5Yzc1YmMgKCJibG9jazogYWRkIG5hdGl2ZSBzdXBwb3J0IGZv
-ciBORlMiKQ0KPiBGaXhlczogMThhODA1NmUwYmM3ICgiYmxvY2svbmZzOiBjYWNoZSBhbGxv
-Y2F0ZWQgZmlsZXNpemUgZm9yIHJlYWQtb25seSBmaWxlcyIpDQo+IFNpZ25lZC1vZmYtYnk6
-IEJpbiBNZW5nIDxiaW4ubWVuZ0B3aW5kcml2ZXIuY29tPg0KPiAtLS0NCj4gDQo+ICAgYmxv
-Y2svbmZzLmMgfCA4ICsrKysrKysrDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9u
-cygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Jsb2NrL25mcy5jIGIvYmxvY2svbmZzLmMNCj4g
-aW5kZXggNDQ0YzQwYjQ1OC4uZDVkNjc5MzdkZCAxMDA2NDQNCj4gLS0tIGEvYmxvY2svbmZz
-LmMNCj4gKysrIGIvYmxvY2svbmZzLmMNCj4gQEAgLTQxOCw3ICs0MTgsMTEgQEAgc3RhdGlj
-IGludDY0X3QgbmZzX2NsaWVudF9vcGVuKE5GU0NsaWVudCAqY2xpZW50LCBCbG9ja2Rldk9w
-dGlvbnNOZnMgKm9wdHMsDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlu
-dCBmbGFncywgaW50IG9wZW5fZmxhZ3MsIEVycm9yICoqZXJycCkNCj4gICB7DQo+ICAgICAg
-IGludDY0X3QgcmV0ID0gLUVJTlZBTDsNCj4gKyNpZmRlZiBfV0lOMzINCj4gKyAgICBzdHJ1
-Y3QgX19zdGF0NjQgc3Q7DQo+ICsjZWxzZQ0KPiAgICAgICBzdHJ1Y3Qgc3RhdCBzdDsNCj4g
-KyNlbmRpZg0KPiAgICAgICBjaGFyICpmaWxlID0gTlVMTCwgKnN0cnAgPSBOVUxMOw0KPiAg
-IA0KPiAgICAgICBxZW11X211dGV4X2luaXQoJmNsaWVudC0+bXV0ZXgpOw0KPiBAQCAtNzgx
-LDcgKzc4NSwxMSBAQCBzdGF0aWMgaW50IG5mc19yZW9wZW5fcHJlcGFyZShCRFJWUmVvcGVu
-U3RhdGUgKnN0YXRlLA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEJsb2Nr
-UmVvcGVuUXVldWUgKnF1ZXVlLCBFcnJvciAqKmVycnApDQo+ICAgew0KPiAgICAgICBORlND
-bGllbnQgKmNsaWVudCA9IHN0YXRlLT5icy0+b3BhcXVlOw0KPiArI2lmZGVmIF9XSU4zMg0K
-PiArICAgIHN0cnVjdCBfX3N0YXQ2NCBzdDsNCj4gKyNlbHNlDQo+ICAgICAgIHN0cnVjdCBz
-dGF0IHN0Ow0KPiArI2VuZGlmDQo+ICAgICAgIGludCByZXQgPSAwOw0KPiAgIA0KPiAgICAg
-ICBpZiAoc3RhdGUtPmZsYWdzICYgQkRSVl9PX1JEV1IgJiYgYmRydl9pc19yZWFkX29ubHko
-c3RhdGUtPmJzKSkgew0KDQoNClRoYW5rcyENCg0KUmV2aWV3ZWQtYnk6IFN0ZWZhbiBXZWls
-IDxzd0B3ZWlsbmV0ei5kZT4NCg0K
---------------rwrY7X0bIVKzdJwGLazh8a0M
+QW0gMjkuMTAuMjIgdW0gMTU6MDYgc2NocmllYiBCaW4gTWVuZzoNCj4gSGkgVGhvbWFzLA0K
+PiANCj4gT24gU2F0LCBTZXAgMjQsIDIwMjIgYXQgNToyMCBQTSBCaW4gTWVuZyA8Ym1lbmcu
+Y25AZ21haWwuY29tPiB3cm90ZToNCj4+DQo+PiBIaSBUaG9tYXMsDQo+Pg0KPj4gT24gU2F0
+LCBTZXAgMTAsIDIwMjIgYXQgODozMiBBTSBCaW4gTWVuZyA8Ym1lbmcuY25AZ21haWwuY29t
+PiB3cm90ZToNCj4+Pg0KPj4+IE9uIFNhdCwgU2VwIDEwLCAyMDIyIGF0IDEyOjMyIEFNIFRo
+b21hcyBIdXRoIDx0aHV0aEByZWRoYXQuY29tPiB3cm90ZToNCj4+Pj4NCj4+Pj4gT24gMDgv
+MDkvMjAyMiAxNS4yOCwgQmluIE1lbmcgd3JvdGU6DQo+Pj4+PiBGcm9tOiBCaW4gTWVuZyA8
+YmluLm1lbmdAd2luZHJpdmVyLmNvbT4NCj4+Pj4+DQo+Pj4+PiBBdCBwcmVzZW50IHRoZSBw
+cmVyZXF1aXNpdGUgcGFja2FnZXMgZm9yIDY0LWJpdCBhbmQgMzItYml0IGJ1aWxkcw0KPj4+
+Pj4gYXJlIHNsaWdodGx5IGRpZmZlcmVudC4gTGV0J3MgdXNlIHRoZSBzYW1lIHBhY2thZ2Vz
+IGZvciBib3RoLg0KPj4+Pg0KPj4+PiBOb3Qgc3VyZSB3aGV0aGVyIHRoYXQncyBhIGdvb2Qg
+aWRlYSAuLi4gSSBkaWQgdGhhdCBvbiBwdXJwb3NlIHRvIHNhdmUgc29tZQ0KPj4+PiBmZXcg
+dGltZSBkdXJpbmcgY29tcGlsYXRpb24gKHNpbmNlIHRoZSBXaW5kb3dzIGpvYnMgYXJlIHJ1
+bm5pbmcgdmVyeSBsb25nDQo+Pj4+IGFscmVhZHkpIC4uLiBkaWQgeW91IGNoZWNrIHdoZXRo
+ZXIgaXQgbWFrZXMgYSBkaWZmZXJlbmNlIGluIHRoZSBydW4gdGltZSBub3c/DQo+Pj4+DQo+
+Pj4NCj4+PiBOb3QgbXVjaCBkaWZmZXJlbmNlIG9uIHRoZSBidWlsZCB0aW1lLiBBY3R1YWxs
+eSBJIGZvdW5kIGFmdGVyIHdlDQo+Pj4gc3dpdGNoZWQgdG8gc2luZ2xlIHRocmVhZCBidWls
+ZCB0aGUgdGltZSBkaWQgbm90IGluY3JlYXNlIHRvby4NCj4+Pg0KPj4+IE9uZSBzaWRlIG5v
+dGUgcmVnYXJkaW5nIHRoZSBnaXRsYWIgc2hhcmVkIHJ1bm5lcjoNCj4+Pg0KPj4+IEl0IHNl
+ZW1zIHRoZSBzaGFyZWQgcnVubmVyIFdpbmRvd3MgVk0gaXMgcXVpdGUgc2xvdy4gSXMgaXQg
+cG9zc2libGUgdG8NCj4+PiBnZXQgYSBmYXN0ZXIgVk0gZXh0ZXJuYWxseT8NCj4+DQo+PiBB
+bnkgZnVydGhlciBjb21tZW50IGZvciB0aGlzIHBhdGNoPw0KPj4NCj4gDQo+IFBpbmc/DQo+
+IA0KPiBSZWdhcmRzLA0KPiBCaW4NCg0KDQpBZGRpbmcgbW9yZSBwYWNrYWdlcyB0eXBpY2Fs
+bHkgaXMgYSBnb29kIGlkZWEgYmVjYXVzZSBpdCBhbGxvd3MgDQpjb21waWxhdGlvbiBvZiBt
+b3JlIGNvZGUgZmVhdHVyZXMsIHNvIHRoZSBjb3ZlcmFnZSBkdXJpbmcgdGhlIGJ1aWxkIGlz
+IA0KaW5jcmVhc2VkLg0KDQpCdXQgaGVyZSB3ZSBoYXZlIDMyIGFuZCA2NCBiaXQgYnVpbGRz
+IGZvciBXaW5kb3dzIHdoaWNoIGFyZSBsZXNzIA0KZGlmZmVyZW50IHRoYW4gb24gTGludXgg
+YmVjYXVzZSBzaXplb2YobG9uZykgaXMgdGhlIHNhbWUgZm9yIGJvdGguIA0KTmV2ZXJ0aGVs
+ZXNzIHBhdGNoIDUgb2YgdGhlIHNlcmllcyBzaG93cyBhbiBleGFtcGxlIHdoZXJlIDMyIGJp
+dCBidWlsZHMgDQpwcm9kdWNlZCBhIHdhcm5pbmcsIGJ1dCA2NCBiaXQgYnVpbGRzIGRpZCBu
+b3QuIFNvIGNvdmVyaW5nIGFzIG11Y2ggY29kZSANCmFzIHBvc3NpYmxlICh3aGljaCByZXF1
+aXJlcyBpbnN0YWxsYXRpb24gb2YgYWxsIHJlcXVpcmVkIHBhY2thZ2VzKSBjYW4gDQpiZSB1
+c2VmdWwgZm9yIGJ1aWxkIHRlc3RzLiBBbmQgb2YgY291cnNlIGl0IGlzIGFsc28gbmVjZXNz
+YXJ5IGlmIHRoZSANCmdlbmVyYXRlZCBiaW5hcmllcyBzaG91bGQgc3VwcG9ydCBhcyBtYW55
+IGZlYXR1cmVzIGFzIHBvc3NpYmxlLg0KDQpPbiB0aGUgb3RoZXIgaGFuZCBidWlsZHMgd2l0
+aCBhIHJlZHVjZWQgbnVtYmVyIG9mIHBhY2thZ2VzIGNhbiBhbHNvIGJlIA0KcmVhc29uYWJs
+ZSwgbm90IG9ubHkgYmVjYXVzZSB0aGV5IG5lZWQgbGVzcyByZXNvdXJjZXMgKGJ1aWxkIHRp
+bWUsIA0KZW5lcmd5KSwgYnV0IGFsc28gYmVjYXVzZSB0aGV5IGNhbiB1bmNvdmVyIGJyb2tl
+biBkZXBlbmRlbmNpZXMuIEFuZCBmb3IgDQpzb21lIGFwcGxpY2F0aW9ucyBzbWFsbGVyIGJp
+bmFyaWVzIHdpdGggbGVzcyBmZWF0dXJlcyBjYW4gYmUgc3VmZmljaWVudC4NCg0KU28gdGhl
+cmUgaXMgbm8gY2xlYXIgYW5zd2VyIGZvciBtZSB3aGV0aGVyIHRoZSBwYWNrYWdlcyBmb3Ig
+MzIgYW5kIDY0IA0KYml0IHNob3VsZCBiZSBzeW5jaHJvbml6ZWQgb3Igbm90Lg0KDQpJIHRo
+aW5rIHRlY2huaWNhbGx5IHRoZSBwYXRjaCBpcyBmaW5lLiBXZSBjYW4gcG9zdHBvbmUgdGhl
+IGRlY2lzaW9uIA0KYmVjYXVzZSBpdCBpcyBub3QgdXJnZW50IGZvciB0aGUgdXBjb21pbmcg
+cmVsZWFzZS4NCg0KU3RlZmFuDQoNCg==
+--------------tFGW1X169IoHleoJEGKwUxXP
 Content-Type: application/pgp-keys; name="OpenPGP_0xE08C21D5677450AD.asc"
 Content-Disposition: attachment; filename="OpenPGP_0xE08C21D5677450AD.asc"
 Content-Description: OpenPGP public key
@@ -226,30 +253,30 @@ hvjSVVSRyxiu/zrDuO/s6g=3D=3D
 =3DumGL
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------rwrY7X0bIVKzdJwGLazh8a0M--
+--------------tFGW1X169IoHleoJEGKwUxXP--
 
---------------mekadFoEQTeAx6I99V2PyStN--
+--------------DO8bzMJJF6hT2kaYX7Av9FLl--
 
---------------xcTx2FX8P93PnGJXX6F8nABZ
+--------------uUbV0xhtuI8fT15pm2qCFNTM
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmNdTWkFAwAAAAAACgkQ4Iwh1Wd0UK00
-pQ//QWpGwQGibQpxiOlvj4K6C4g00BWXguTmCvSopHYcGoSx8EjAQHuKvgo74zGMulfZ9YZL/d5m
-W8wIoPbGH0NApz45Bajj2hxAuSaLR/TrhQe20s6V1L3nuFV4qG0RNjLMMSkGbRDa7cIm4hRnrReu
-vlo4a7Di9x8TT4sIHe+tJ7/qC2XKA13SuTIshy1JYf6yu3PAYhAGvVEkMlKSPvMmfeEA5oX+fgmR
-Y20fLzx64slyIehgTphJScWgZLOFNplZBzuR2tSeIWLlpIg7W1Yo7gUDQYXt1H4Cy5oX0WqR36ZV
-PyOUju/OLI4ruD6oEC9wwjHevsKb7FAQDNaqjV/Uf6ltZoThWkYEwfic5Xy0gjmmHwr4qLvt8cJ1
-Ckyos3tXKvnCh+VE3Okh4QU8cEY/Zgph5U//k8ejV/golfr38E6b0syxAHUs1RQrHp9D6ppapF2k
-5j0ZV9Tf4C1nxg4QNTWeS/BOVuCqQSjFFa74qCRfH5qZ9oLsZqYo9jyVpRCC8gIhaOi1dZ7VcGpv
-PO+Bbpj1dzcPMBvMXh3fTD5TkkZ8vcaPQ77ko5idfr4rr5hsx+6ejt/38yoE6BXXuhK1jSu4I9IS
-WzFenCG+hvs35EF5n3sz+BGXQLRR5W0YlJAAUdK3WmpH8PhUOOOiW2da3X9xhD4+UJPqN74RqLkI
-ABg=
-=Qbru
+wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmNdUo0FAwAAAAAACgkQ4Iwh1Wd0UK3A
+nQ//eismVgNX7NlZhEKyhW1XbQQVa3Ux339qzfWQyfrWjgyGUQDIM+pQhWbDpTXCvONA7lFxyajj
+jBgojRL26HaQ2tiqztknkFwhG4uJWgH2kvEz/8g1/7eRdd1bo4YgU3qt6iLu9qaiAO1A1V5GPAwk
+icH+6ekD9zE0osCjSdmZ9KYFwlaMphl5am8ZwCRkL7gbPpuMPKGPNHfkF5wCXYJy9McPJ+gDxFuR
+rUJhzlG4uY2lEaaYuItRXAnBr1b6KLV9kMsKsIXHN0IvLbl05GVAz4LxplxU+gK7D1CWICFlYmBf
+88dYZI8b/q6kbOAMp30MgKpLYi0UFefuL2XwM98dHmGctQWZsjKoQV8XfCrIc7ItSAKLM/lIAcT4
+vCdicrnLddJ++CaY4GDgsQfDBtlBZzl8S3fQ2iieCjBXoChq56Qd/GJmU9Z99v1zNt0tTee/mgUh
+PCCBe40AGzZlAoKuLbMePoNbGxHx7CCdoYvTN0ygJenkENlcMIuh4wOm5lf+PzuMGFUbJyYhHYnd
+763qzLbhEspBsiF41YGlYuCfS+8jUkphb4D2BaBBoRgoTgw6zDVtEapVZkTL2RaiJ7lvpbONNLdX
+i8kADKbvdHe4pjpUPLVTKonxIqslrKJUQUlLSwLhW2qXXbwE5NJo7zC1dwApf1mzvAez/zb+dTj2
+dtM=
+=oY9O
 -----END PGP SIGNATURE-----
 
---------------xcTx2FX8P93PnGJXX6F8nABZ--
+--------------uUbV0xhtuI8fT15pm2qCFNTM--
 
