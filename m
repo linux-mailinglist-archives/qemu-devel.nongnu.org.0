@@ -2,88 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC8C612165
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 10:29:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FD3612170
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 10:32:59 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oohCr-0007mc-7J; Sat, 29 Oct 2022 04:28:41 -0400
+	id 1oohGr-0007wr-Ta; Sat, 29 Oct 2022 04:32:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oohCd-0007eu-VW
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 04:28:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oohGY-0007wB-4I
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 04:32:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oohCb-0003Q1-V7
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 04:28:27 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oohGW-0003zj-F8
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 04:32:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667032104;
+ s=mimecast20190719; t=1667032346;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1HyhGpqBUZ5eC9Y5LErnxj94RVKJZVWgUu0U+AqV0Dk=;
- b=bcHEDy9rWgK3evneUu/ylY/mil/o6V8mt54nz58JjOoh6kJjHUD+ZGC+GckVK4knXtBJ4v
- 30oaBN27s4C7at7dl3R0nbu+x/DEZrkWL0hszSW2X3WxYip3aJt3OGT5oN5mcBHYOtvg8Y
- 1hoUUzt3Es93ZpjA8E0W6Ud6unLjM4E=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=szD0faTdM6n5oFFlRz2/v6ThU5+n8Df+HO5YcRlzs+4=;
+ b=SZ+nLaFE268xIOh3hCi4xb5g57qU9VENgsQ+dY6m7clweYsY1wp04RAWgK7PVXuWh/Zl+8
+ o986kgNeVt8dlefCMBPax+hoi2GQVh8esgfCHN+XqyJclUTSBjEwz1Wx675Z96ipPoXjpd
+ imdsTG4y20cU8GW+26kzc3D2hA2+hfQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-491-dfnnNkKuPG6PqFspPA6cOQ-1; Sat, 29 Oct 2022 04:28:22 -0400
-X-MC-Unique: dfnnNkKuPG6PqFspPA6cOQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- f26-20020a7bcc1a000000b003c03db14864so1956113wmh.6
- for <qemu-devel@nongnu.org>; Sat, 29 Oct 2022 01:28:22 -0700 (PDT)
+ us-mta-184-r4goLHyPME6PssTGJjBqcQ-1; Sat, 29 Oct 2022 04:32:21 -0400
+X-MC-Unique: r4goLHyPME6PssTGJjBqcQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v23-20020a1cf717000000b003bff630f31aso1959286wmh.5
+ for <qemu-devel@nongnu.org>; Sat, 29 Oct 2022 01:32:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1HyhGpqBUZ5eC9Y5LErnxj94RVKJZVWgUu0U+AqV0Dk=;
- b=SYm4Db06lNAYp4T05FWHuRsSci0+pPKfsvjqDmxRxlGdtSc2uMbhtBtF5lcyBrUwUU
- svfYZB7SvjH55ckOU8H8qmODEixZjnZbOXx3qvKZyAqxhY2taPVLlYgJ16UobpNQtxU6
- RrDnB6JrBVlYIKfbXx0pl13xQw78b5k0YLn3wtE1zrttXAu/XQ3/3broD+qpyPBF6Clu
- MrLuYYRUTw/VlqF+7Fx+Xk99GnhNgjauIqyDRhrVlwOnMv8SEsbkFcQxE5EWEqWi6rPh
- UFWg4UrA3TJTdJBDTQnkpo7pNGVtaHc/xqdDsGgTEtkK+8O95ddhdTamRfkM0Kgrvged
- kt5Q==
-X-Gm-Message-State: ACrzQf3ggKpWfzJSdSAiRenV0MHC0DIa2b0wneqV1rQto2imTbmNLq83
- Zp6qmLgMYVkk8oMfzpZZi1uodATPVm0+miq+rZ+LvlLq8dMrY9JZ+XKvSFdS0eC7ASV7b92lZNn
- ZY+GiBZHON7fQ8fI=
-X-Received: by 2002:adf:fc12:0:b0:236:9b2e:4843 with SMTP id
- i18-20020adffc12000000b002369b2e4843mr1762412wrr.620.1667032101472; 
- Sat, 29 Oct 2022 01:28:21 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6hWt4UA4gfVw/UxX4C48z+mLUu7hJVV0bNE6BJx5YWLdEl4zxXWiAxA5+x8M+2jB0462aR1A==
-X-Received: by 2002:adf:fc12:0:b0:236:9b2e:4843 with SMTP id
- i18-20020adffc12000000b002369b2e4843mr1762405wrr.620.1667032101243; 
- Sat, 29 Oct 2022 01:28:21 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=szD0faTdM6n5oFFlRz2/v6ThU5+n8Df+HO5YcRlzs+4=;
+ b=s+VuCrAx+hhnbxQrCkmDR1haMaQLtAx5FeyVoMyVgYdD5ERU7h+MEjx1DQRnS6FCkE
+ ORzUUq4dL2rqGhdbOZiCcW01xJAbm+6mbsKFZn2X9ydLgSH9qW+D2j6I6gtmwJFIGdI/
+ K8wakoJ/hdDkStm0K24rvNxw2YlYN5iGHuCtWtD/sdL85ms9uoOSFcMEDzCKSCbXU60E
+ PEHCHBplnNY53FApbnA6dCdE+3vGo1+5bBRsK0gRhLAAOEwqFshHnK4V2kTu02wD/tl+
+ 9J505IVN6eZUPGHPtNC9OTO3w6DIcjt82QS4y8zh0dxk+EBh11DNrW4UEJG4Cl0Ql41p
+ AhLA==
+X-Gm-Message-State: ACrzQf1a7jjwtYSS7pMzUR5Iqr2J9Q79gkFHi1Ny1Qv0B7kf6equ8H4B
+ KZReR1tQmPF6eYtG/Diagttct5/wIfJbCwdsxweDzIkJsuhzH/D1qOybIHy2rfnQOnk6bWOvccD
+ eaQchu6gqMAw8Bos=
+X-Received: by 2002:adf:e911:0:b0:236:73b7:e668 with SMTP id
+ f17-20020adfe911000000b0023673b7e668mr1785188wrm.96.1667032339789; 
+ Sat, 29 Oct 2022 01:32:19 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7862vFnS/fFL4F0XHvx/EYvTun+3qY+N9B7yjNU14TbRdFjY0c9K7hkgtYOa/wsc3Dep/0Kw==
+X-Received: by 2002:adf:e911:0:b0:236:73b7:e668 with SMTP id
+ f17-20020adfe911000000b0023673b7e668mr1785176wrm.96.1667032339570; 
+ Sat, 29 Oct 2022 01:32:19 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- f18-20020a1cc912000000b003cf5ec79bf9sm915647wmb.40.2022.10.29.01.28.19
+ q1-20020a05600c040100b003c4ecff4e25sm1050826wmb.9.2022.10.29.01.32.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Oct 2022 01:28:20 -0700 (PDT)
-Date: Sat, 29 Oct 2022 04:28:17 -0400
+ Sat, 29 Oct 2022 01:32:19 -0700 (PDT)
+Date: Sat, 29 Oct 2022 04:32:16 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: huangy81@chinatelecom.cn
-Cc: qemu-devel <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Guoyi Tu <tugy@chinatelecom.cn>
-Subject: Re: [PATCH v2 1/2] vhost-user: Refactor vhost acked features saving
-Message-ID: <20221029042532-mutt-send-email-mst@kernel.org>
-References: <cover.1666977755.git.huangy81@chinatelecom.cn>
- <8f537f6a484cfdac236fd6307f796660ae562226.1666977755.git.huangy81@chinatelecom.cn>
+To: Cindy Lu <lulu@redhat.com>
+Cc: jasowang@redhat.com, kraxel@redhat.com, dgilbert@redhat.com,
+ stefanha@redhat.com, arei.gonglei@huawei.com,
+ marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v18 00/10] vhost-vdpa: add support for configure interrupt
+Message-ID: <20221029043057-mutt-send-email-mst@kernel.org>
+References: <20221029082755.1265144-1-lulu@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8f537f6a484cfdac236fd6307f796660ae562226.1666977755.git.huangy81@chinatelecom.cn>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20221029082755.1265144-1-lulu@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.516,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,112 +96,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Oct 29, 2022 at 01:25:44AM +0800, huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On Sat, Oct 29, 2022 at 04:27:45PM +0800, Cindy Lu wrote:
+> These patches introduced the support for configure interrupt 
 > 
-> Abstract vhost acked features saving into
-> vhost_user_save_acked_features, export it as util function.
->
+> These codes are tested on x86_64 and aarch64 platforms.  
+> the test scenario is based on vp-vdpa/vdpa_sim /virtio net device, with
+> the irqfd and without irqfd.
 
-Thanks for the patch!
+Given this caused failures in vhost-user, I'd like to see vhost and
+vhost-user tested too.
 
-This commit log makes it sound like it's just a refactoring
-while it's actually a behaviour change.
-This log needs to include analysis of why is saving only if features != 0
-safe.
-
-Could you include that pls?
-
-Thanks!
- 
-> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
-> ---
->  include/net/vhost-user.h |  2 ++
->  net/vhost-user.c         | 35 +++++++++++++++++++----------------
->  2 files changed, 21 insertions(+), 16 deletions(-)
+> Tested in virtio-pci bus and virtio-mmio bus
 > 
-> diff --git a/include/net/vhost-user.h b/include/net/vhost-user.h
-> index 5bcd8a6..00d4661 100644
-> --- a/include/net/vhost-user.h
-> +++ b/include/net/vhost-user.h
-> @@ -14,5 +14,7 @@
->  struct vhost_net;
->  struct vhost_net *vhost_user_get_vhost_net(NetClientState *nc);
->  uint64_t vhost_user_get_acked_features(NetClientState *nc);
-> +void vhost_user_save_acked_features(NetClientState *nc,
-> +                                    bool cleanup);
->  
->  #endif /* VHOST_USER_H */
-> diff --git a/net/vhost-user.c b/net/vhost-user.c
-> index b1a0247..c512cc9 100644
-> --- a/net/vhost-user.c
-> +++ b/net/vhost-user.c
-> @@ -45,24 +45,31 @@ uint64_t vhost_user_get_acked_features(NetClientState *nc)
->      return s->acked_features;
->  }
->  
-> -static void vhost_user_stop(int queues, NetClientState *ncs[])
-> +void vhost_user_save_acked_features(NetClientState *nc, bool cleanup)
->  {
->      NetVhostUserState *s;
-> +
-> +    s = DO_UPCAST(NetVhostUserState, nc, nc);
-> +    if (s->vhost_net) {
-> +        uint64_t features = vhost_net_get_acked_features(s->vhost_net);
-> +        if (features) {
-> +            s->acked_features = features;
-> +        }
-> +
-> +        if (cleanup) {
-> +            vhost_net_cleanup(s->vhost_net);
-> +        }
-> +    }
-> +}
-> +
-> +static void vhost_user_stop(int queues, NetClientState *ncs[])
-> +{
->      int i;
->  
->      for (i = 0; i < queues; i++) {
->          assert(ncs[i]->info->type == NET_CLIENT_DRIVER_VHOST_USER);
->  
-> -        s = DO_UPCAST(NetVhostUserState, nc, ncs[i]);
-> -
-> -        if (s->vhost_net) {
-> -            /* save acked features */
-> -            uint64_t features = vhost_net_get_acked_features(s->vhost_net);
-> -            if (features) {
-> -                s->acked_features = features;
-> -            }
-> -            vhost_net_cleanup(s->vhost_net);
-> -        }
-> +        vhost_user_save_acked_features(ncs[i], true);
->      }
->  }
->  
-> @@ -251,11 +258,7 @@ static void chr_closed_bh(void *opaque)
->      s = DO_UPCAST(NetVhostUserState, nc, ncs[0]);
->  
->      for (i = queues -1; i >= 0; i--) {
-> -        s = DO_UPCAST(NetVhostUserState, nc, ncs[i]);
-> -
-> -        if (s->vhost_net) {
-> -            s->acked_features = vhost_net_get_acked_features(s->vhost_net);
-> -        }
-> +        vhost_user_save_acked_features(ncs[i], false);
-
-
-So this won't do anything if acked features is 0.
-When does this have any effect? How about if guest
-acked some features, and then reset the device.
-Don't we want to reset the features in this case too?
-
-
->      }
->  
->      qmp_set_link(name, false, &err);
+> 
+> Change in v2:
+> Add support for virtio-mmio bus
+> active the notifier while the backend support configure interrupt
+> misc fixes from v1
+> 
+> Change in v3
+> fix the coding style problems
+> 
+> Change in v4
+> misc fixes from v3
+> merge the set_config_notifier to set_guest_notifier
+> when vdpa start, check the feature by VIRTIO_NET_F_STATUS
+> 
+> Change in v5
+> misc fixes from v4
+> split the code to introduce configure interrupt type and the callback function
+> will init the configure interrupt in all virtio-pci and virtio-mmio bus, but will
+> only active while using vhost-vdpa driver
+> 
+> Change in v6
+> misc fixes from v5
+> decouple vq from interrupt setting and misc process
+> fix the bug in virtio_net_handle_rx
+> 
+> Change in v7
+> misc fixes from v6
+> decouple vq from interrupt setting and misc process
+> decouple vq from vector use/release process
+> decouple vq from set notifier fd handler process
+> move config_notifier and masked_config_notifier to VirtIODevice
+> fix the bug in virtio_net_handle_rx, add more information
+> add VIRTIO_CONFIG_IRQ_IDX as the queue number for configure interrupt 
+> 
+> Change in v8
+> misc fixes from v7
+> decouple vq from interrupt setting and misc process
+> decouple vq from vector use/release process
+> decouple vq from set notifier fd handler process
+> move the vhost configure interrupt to vhost_net
+> 
+> Change in v9
+> misc fixes from v8
+> address the comments from v8
+> 
+> Change in v10
+> fix the hang issue in qtest
+> address the comments from v9
+> 
+> Change in v11
+> fix the crash in aarch64 plateform.
+> fix the crash upstream reported
+> 
+> Change in v12
+> fix the typo and the comments
+> 
+> changes in v13
+> re-send the patches by git-publish
+> 
+> changes in v14
+> rebased the code based on upstream
+> 
+> changes in v15
+> rebased the code based on upstream
+> 
+> changes in v16
+> resend the patch, seems there not send successfully
+> 
+> changes in v18
+> fix the crash in qtest
+> Because hw/virtio/vhost-user-gpio.c is a new device,So I missed 
+> to add the VIRTIO_CONFIG_IRQ_IDX check in notifier_mask
+> 
+> Cindy Lu (10):
+>   virtio: introduce macro VIRTIO_CONFIG_IRQ_IDX
+>   virtio-pci: decouple notifier from interrupt process
+>   virtio-pci: decouple the single vector from the interrupt process
+>   vhost: introduce new VhostOps vhost_set_config_call
+>   vhost-vdpa: add support for config interrupt
+>   virtio: add support for configure interrupt
+>   vhost: add support for configure interrupt
+>   virtio-net: add support for configure interrupt
+>   virtio-mmio: add support for configure interrupt
+>   virtio-pci: add support for configure interrupt
+> 
+>  hw/display/vhost-user-gpu.c       |  18 ++
+>  hw/net/vhost_net.c                |   9 +
+>  hw/net/virtio-net.c               |  22 ++-
+>  hw/virtio/trace-events            |   1 +
+>  hw/virtio/vhost-user-fs.c         |  18 ++
+>  hw/virtio/vhost-user-gpio.c       |  10 ++
+>  hw/virtio/vhost-vdpa.c            |   8 +
+>  hw/virtio/vhost-vsock-common.c    |  18 ++
+>  hw/virtio/vhost.c                 |  78 +++++++-
+>  hw/virtio/virtio-crypto.c         |  18 ++
+>  hw/virtio/virtio-mmio.c           |  27 +++
+>  hw/virtio/virtio-pci.c            | 283 +++++++++++++++++++++---------
+>  hw/virtio/virtio.c                |  29 +++
+>  include/hw/virtio/vhost-backend.h |   3 +
+>  include/hw/virtio/vhost.h         |   4 +
+>  include/hw/virtio/virtio-pci.h    |   4 +-
+>  include/hw/virtio/virtio.h        |   7 +
+>  include/net/vhost_net.h           |   2 +
+>  18 files changed, 472 insertions(+), 87 deletions(-)
+> 
 > -- 
-> 1.8.3.1
+> 2.34.3
 
 
