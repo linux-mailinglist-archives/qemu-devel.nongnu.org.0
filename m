@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2546961214A
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 10:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC0361215F
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 10:23:56 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oogun-0007Ac-OK; Sat, 29 Oct 2022 04:10:01 -0400
+	id 1ooh6q-0003Th-5C; Sat, 29 Oct 2022 04:22:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oogug-00077w-Gi; Sat, 29 Oct 2022 04:09:55 -0400
+ id 1ooh6j-0003TD-St; Sat, 29 Oct 2022 04:22:24 -0400
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oogue-0000Hc-7Y; Sat, 29 Oct 2022 04:09:53 -0400
+ id 1ooh6i-0002VJ-9w; Sat, 29 Oct 2022 04:22:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=R222kYYkdmhxn/on5rHRyKlWt1E7iyqsVU/NCf3rQLY=; b=ooF67oWIR63/UvYqIqmLphhNS2
- YyLgAd+8qOyAUNG5XjTNvkWCj9tcf5Il/upNckZPtMNhGEhP/ejs9KhA1BHZBEjBJpX+jPyI7xVnA
- WAwOdnT5bkygI+/cXHPKRujtwfSpNFmv50Y41XRCCpcqfJOPxSAjm2s1kyFitTglyZ9V89vHMhfSe
- 5y6EifKIA3EzLB+NWXEvT44wnT/D8w1zPsVmsC+UQuCTYISyjH2rkbMpdxLp49sWQkjsiN2hb5+S+
- 64/GzK1fCXF1mtYr23VqNJytq22cFB1fRgEmxwF4DIyt1r6HyghjroUS7UlFLCfrHyRetO67hxbDO
- yKEiWWFeSKp5uvN3BO1cwAjokXSayMRN1qCMJ9WRFj7RxxImuAJsTQriHBLXl+VP+Tuj+5//gns2D
- EsI1Q1XM+XWl/Yh93gUmXf1UrznlsQlCvtL4xzx2jx/j7dn3JOYc8blicrU+LZ0e0DlraUhaFKewQ
- 3T2x7Q8f7Ku4b4+1ZWml/WmyigZEqWgvtzJdxm5l+LJ+4Rc/Gn3wUO2p1FbAr7so0nZEkXCLs3WQ1
- 5jGjpurqDUjL7X1yQpb06ElvgKrXZYf5yBZDBh/2IAJXmujbRK+7FOJVRamdJ5RIBGvV4Ud2/Ht98
- JMr+4uJNgV+m9Lp3iR2xblph3HCw5gU1d9PqW0Oms=;
+ bh=ApO8daypEKP+UTl4rxGdjOMMAFdfHUQpM1POv2UWu0I=; b=a0K4Fs0+qMmf2k/23QobpvrFKS
+ PaTQ20KRzwGC2u/lpC5JF3lB+QslUWDET+NM31bYLpYEQkuJ0eW5Bq55b95QbD6imtv7XB840UGqk
+ S4CmZiwF4fkYVjRiDkoEXq09zPwDK0YgufgfIjYZWKcW0io8pdly9vjNZMVMW24cjbBR66RL8Ic4O
+ yD6v7VK/NpBv7XvIGkxXsyXEXAxELzCkWzrIgDXjLGtClXakiXIvpchUGoVPPFn1mHG5KCLqY79Fv
+ 0fKPcgJCgzTJqT/gqoorqlsTO70EXEfCYb3mI9sdT3x5MRzpMQ9IrUO4GE6vXaNTY/QkKD5Y/0H86
+ eKgpMPp89vXCLKI2AKg0Zt53PKmlLdbPijrt6nmMga39TcjkLQnRO1ILd4X3h0FnILIGdM4KFW0yn
+ pOuwi3qN9GKGdie8bwX5I/GfFI8TlBejGAdCjPje3CKx6LAIv5uGbjx3ZNuK1xM+yZgv5lgXXNnuY
+ Rxb/XMkk9CHWshG1oB/5NVpOUr8PAXeLmXURRrRuP64mUohvrKymNGAPSooD6AxH+P+snMUhmWv3/
+ HFuHv03AdtzdwNSfz1AJIIXsrLgZGU2ctl0kIZwbfK2/8Fv6o7HjDvku4rd/kESWrnsWS+A5jgJBS
+ nbTFD+4lxY84KABl0gLfjiEuHzZhYGZ1/TNL6mHcQ=;
 Received: from [2a00:23c4:8ba8:7100:6571:576d:97b8:647b]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ooguV-0003O4-1B; Sat, 29 Oct 2022 09:09:47 +0100
-Message-ID: <98cdd27e-a2f8-7479-7bc2-37baa3ffaa31@ilande.co.uk>
-Date: Sat, 29 Oct 2022 09:09:44 +0100
+ id 1ooh6c-0004yT-AY; Sat, 29 Oct 2022 09:22:14 +0100
+Message-ID: <0be174ad-2086-2a55-4025-860785b1d441@ilande.co.uk>
+Date: Sat, 29 Oct 2022 09:22:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
@@ -45,16 +45,17 @@ Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>
 Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <cover.1666715145.git.balaton@eik.bme.hu>
- <7832e9b6d79c5243d21f54b0679f487c32d968dd.1666715145.git.balaton@eik.bme.hu>
- <72df99a7-3b11-c460-5b31-2b24da92b1ae@ilande.co.uk>
- <fef9ea11-e14-7d72-c7bc-3582e45b260@eik.bme.hu>
+ <915b28547446c1fad749fbab2943b13e3a0d856b.1666733213.git.balaton@eik.bme.hu>
+ <d3bdb406-70d3-d60d-b481-7d88736a2e4b@ilande.co.uk>
+ <24e4cba4-2f68-73a2-55d2-2dc5c0cba14e@eik.bme.hu>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <fef9ea11-e14-7d72-c7bc-3582e45b260@eik.bme.hu>
+In-Reply-To: <24e4cba4-2f68-73a2-55d2-2dc5c0cba14e@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba8:7100:6571:576d:97b8:647b
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v4 19/19] mac_newworld: Document deprecation
+Subject: Re: [PATCH v5 20/20] mac_{old, new}world: Pass MacOS VGA NDRV in card
+ ROM instead of fw_cfg
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -80,80 +81,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/10/2022 13:20, BALATON Zoltan wrote:
+On 28/10/2022 13:32, BALATON Zoltan wrote:
 
 > On Fri, 28 Oct 2022, Mark Cave-Ayland wrote:
->> On 25/10/2022 17:44, BALATON Zoltan wrote:
->>> Also update PowerMac family docs with some more recent info.
->>>
->>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>> ---
->>>   docs/about/deprecated.rst    |  7 +++++++
->>>   docs/system/ppc/powermac.rst | 12 ++++++++----
->>>   2 files changed, 15 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
->>> index 93affe3669..07661af7fe 100644
->>> --- a/docs/about/deprecated.rst
->>> +++ b/docs/about/deprecated.rst
->>> @@ -248,6 +248,13 @@ These old machine types are quite neglected nowadays and thus 
->>> might have
->>>   various pitfalls with regards to live migration. Use a newer machine type
->>>   instead.
->>>   +``mac99`` variants other than the default qemu-system-ppc version (since 7.2)
->>> +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
->>> +
->>> +The ``mac99`` machine emulates different hardware depending on using
->>> +qemu-system-ppc64 or ``via`` property. To avoid confusion new machine
->>> +types has been added for these variants which are now preferred over
->>> +``mac99``.
->>>     Backend options
->>>   ---------------
->>> diff --git a/docs/system/ppc/powermac.rst b/docs/system/ppc/powermac.rst
->>> index 04334ba210..9a37e69b1b 100644
->>> --- a/docs/system/ppc/powermac.rst
->>> +++ b/docs/system/ppc/powermac.rst
->>> @@ -4,8 +4,12 @@ PowerMac family boards (``g3beige``, ``mac99``)
->>>   Use the executable ``qemu-system-ppc`` to simulate a complete PowerMac
->>>   PowerPC system.
->>>   -- ``g3beige``              Heathrow based PowerMAC
->>> -- ``mac99``                Mac99 based PowerMAC
->>> +- ``g3beige``           Heathrow based old world Power Macintosh G3
->>> +- ``mac99``             Core99 based generic PowerMac
->>> +- ``powermac3_1``       Power Mac G4 AGP (Sawtooth)
->>> +- ``powerbook3_2``      PowerBook G4 Titanium (Mercury)
->>> +- ``powermac7_3``       Power Mac G5 (Niagara) (only in ``qemu-system-ppc64``)
->>> +
->>>     Supported devices
->>>   -----------------
->>> @@ -15,9 +19,9 @@ QEMU emulates the following PowerMac peripherals:
->>>    *  UniNorth or Grackle PCI Bridge
->>>    *  PCI VGA compatible card with VESA Bochs Extensions
->>>    *  2 PMAC IDE interfaces with hard disk and CD-ROM support
->>> - *  NE2000 PCI adapters
->>> + *  Sungem PCI network adapter
->>>    *  Non Volatile RAM
->>> - *  VIA-CUDA with ADB keyboard and mouse.
->>> + *  VIA-CUDA or VIA-PMU99 with ot without ADB or USB keyboard and mouse.
->>>       Missing devices
+>> On 25/10/2022 22:31, BALATON Zoltan wrote:
+>>> OpenBIOS cannot run FCode ROMs yet but it can detect NDRV in VGA card
+>>> ROM and add it to the device tree for MacOS. Pass the NDRV this way
+>>> instead of via fw_cfg. This solves the problem with OpenBIOS also
+>>> adding the NDRV to ati-vga which it does not work with. This does not
+>>> need any changes to OpenBIOS as this NDRV ROM handling is already
+>>> there but this patch also allows simplifying OpenBIOS later to remove
+>>> the fw_cfg ndrv handling from the vga FCode and also drop the
+>>> vga-ndrv? option which is not needed any more as users can disable the
+>>> ndrv with -device VGA,romfile="" (or override it with their own NDRV
+>>> or ROM). Once FCode support is implemented in OpenBIOS, the proper
+>>> FCode ROM can be set the same way so this paves the way to remove some
+>>> hacks.
 >>
->> Documentation updates are always useful, but until there is consensus as to how the 
->> 32-bit and 64-bit targets should be handled then I don't think we should go ahead 
->> with a potential compatibility break/deprecation until we have a clear path forward.
->>
->> Given that freeze is so close, I suggest leaving this for 7.2 and resurrecting the 
->> appropriate thread from earlier in the year at the start of the 8.0 development cycle.
+>> This is not correct though: in a real option ROM the NDRV is included as part of 
+>> the ROM payload and is not a standalone file. The IEEE-1275 PCI specification gives 
+>> the correct format for an option ROM which at minimum contains a header, and likely 
+>> some additional FCode.
 > 
-> Please don't postpone patches because you were not able to review in time. A better 
-> approach would be to merge these now and drop them during the freeze if any problem 
-> that can't be fixed is found. The deprecation process itself is also to allow backing 
-> off if this turns out to be a bad idea so no need to wait for more votes now and 
-> postpone this further.
+> As the commit message says that does not work with OpenBIOS at the moment but passing 
+> the NDRV does. That it's not how real hardware works is not an argument after all 
+> real hardware does not have fw_cfg either and this way is much simpler than fw_cfg, 
+> it fixes the problem with ati-vga and it can be changed later to pass the real FCode 
+> ROM the same way so I think it's a better way to handle this now as what we have 
+> currently.
 
-As I've previously mentioned, there is no commercial sponsorship for the QEMU Mac 
-machines which is why the Mac machines are marked as Maintained, and so patch review 
-is often limited by my available spare time. This does not mean that we should bypass 
-the entire QEMU review process though.
+Right, passing the NDRV directly only happens to work because Ben's original hack is 
+still in OpenBIOS. The longer term aim is to move towards the IEEE-1275 PCI 
+specification: I can't see how switching from one custom mechanism to a different 
+custom mechanism benefits anything here.
+
+The problem you're actually trying to solve is that the ati-vga device should not be 
+picking up the NDRV, so that's where the focus should be.
+
+>> Isn't the immediate problem here that the NDRV handling in OpenBIOS needs to be 
+>> improved so that it can be disabled for particular VGA devices such as ATI?
+> 
+> No change is needed to OpenBIOS (I've discussed it more in the reply to Howard on the 
+> list yesterday). With this patch only VGA device will have qemu_vga.ndrv so OpenBIOS 
+> won't add it for ati-vga. Also the fw_cfg and vga_ndrv? stuff can be removed from 
+> OpenBIOS after this patch as it's not nedeed any more thus simplifying the vga.fs 
+> FCode in OpenBIOS a lot.
+
+The vga-ndrv? option was added for a reason though: the NDRV doesn't (yet?) work with 
+KVM-PR on real Mac hardware, so to run MacOS on KVM you need a separate mechanism to 
+disable the NDRV. This becomes more important when OpenBIOS gets to the stage where 
+the FCode can create the DT nodes itself.
+
+Also if we do decide to change this, it would be a compatibility break for a lot of 
+existing documentation and examples: this is something we could manage going forward, 
+but it needs some planning and isn't something we should be doing a few days before 
+freeze.
 
 
 ATB,
