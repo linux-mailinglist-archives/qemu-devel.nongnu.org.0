@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A8461263D
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D6B61263E
 	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 00:45:20 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oouYF-0003Wh-Rn; Sat, 29 Oct 2022 18:43:39 -0400
+	id 1oouYH-0003Z4-Ku; Sat, 29 Oct 2022 18:43:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oouYD-0003VN-Ml
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 18:43:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oouYF-0003Wg-15
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 18:43:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oouYC-0002ZZ-7S
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 18:43:37 -0400
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oouYD-0002Zq-Em
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 18:43:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667083415;
+ s=mimecast20190719; t=1667083416;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XtppCYzGlk35Wk54LJpdn1fGqWDPjd3eZWIzxHdp0uI=;
- b=C93SYq0UGVKa8QM1oWVQgkeqTI7xR2YTQupdsCWE7ajKIbkRKjQBwArTaDalzBaey4nBX6
- CZSQhjuRmsCJOO5DPkV/Ncq0G0JoCHt7osCJq03oOniHP8/UkkGCJDQ5ijU5Rvlif0kBm0
- icLQEovFO2jEMU2YcIMYt0QcELuV+Ng=
+ bh=V5TQqFQil3P511XcJE2XK4XDWaCR7XvJP+btGq5PczE=;
+ b=XeVC1mmR0YlIk3cnzOTlh6D6j/fz47OlDbBYTGkU1ZIS5Vf35AV4GDY/AOLXQUVkd1Kz91
+ 2W/wCX7uHTv9i3ehW9w37mi51r/ZC/KwMYr2UIY9CbAVZNPr6dA9sEyzB/h2WYUH75mxBZ
+ 75l0COcMiKmdJaJY4bFZNiQdPnP/noU=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-214-W91vSkEEN1CK_wE1Cy1N4Q-1; Sat, 29 Oct 2022 18:43:31 -0400
-X-MC-Unique: W91vSkEEN1CK_wE1Cy1N4Q-1
+ us-mta-149-tHDQrKOvNAOVNf5XNYHnlQ-1; Sat, 29 Oct 2022 18:43:35 -0400
+X-MC-Unique: tHDQrKOvNAOVNf5XNYHnlQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9853D1C05133;
- Sat, 29 Oct 2022 22:43:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 065513804066;
+ Sat, 29 Oct 2022 22:43:35 +0000 (UTC)
 Received: from gshan.redhat.com (vpn2-54-151.bne.redhat.com [10.64.54.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E08DC2028DC1;
- Sat, 29 Oct 2022 22:43:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 35D6D2024CB7;
+ Sat, 29 Oct 2022 22:43:30 +0000 (UTC)
 From: Gavin Shan <gshan@redhat.com>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, maz@kernel.org, eric.auger@redhat.com,
  cohuck@redhat.com, richard.henderson@linaro.org, peter.maydell@linaro.org,
  zhenyzha@redhat.com, shan.gavin@gmail.com
-Subject: [PATCH v7 3/7] hw/arm/virt: Introduce variable region_base in
- virt_set_high_memmap()
-Date: Sun, 30 Oct 2022 06:43:03 +0800
-Message-Id: <20221029224307.138822-4-gshan@redhat.com>
+Subject: [PATCH v7 4/7] hw/arm/virt: Introduce virt_get_high_memmap_enabled()
+ helper
+Date: Sun, 30 Oct 2022 06:43:04 +0800
+Message-Id: <20221029224307.138822-5-gshan@redhat.com>
 In-Reply-To: <20221029224307.138822-1-gshan@redhat.com>
 References: <20221029224307.138822-1-gshan@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -79,9 +79,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This introduces variable 'region_base' for the base address of the
-specific high memory region. It's the preparatory work to optimize
-high memory region address assignment.
+This introduces virt_get_high_memmap_enabled() helper, which returns
+the pointer to vms->highmem_{redists, ecam, mmio}. The pointer will
+be used in the subsequent patches.
 
 No functional change intended.
 
@@ -91,53 +91,66 @@ Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Marc Zyngier <maz@kernel.org>
 Tested-by: Zhenyu Zhang <zhenyzha@redhat.com>
 ---
- hw/arm/virt.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/arm/virt.c | 32 +++++++++++++++++++-------------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
 
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index e2ae88cf8b..0bf3cb7057 100644
+index 0bf3cb7057..ee98a8a3b6 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -1692,15 +1692,15 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+@@ -1689,14 +1689,31 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+     return arm_cpu_mp_affinity(idx, clustersz);
+ }
+ 
++static inline bool *virt_get_high_memmap_enabled(VirtMachineState *vms,
++                                                 int index)
++{
++    bool *enabled_array[] = {
++        &vms->highmem_redists,
++        &vms->highmem_ecam,
++        &vms->highmem_mmio,
++    };
++
++    assert(ARRAY_SIZE(extended_memmap) - VIRT_LOWMEMMAP_LAST ==
++           ARRAY_SIZE(enabled_array));
++    assert(index - VIRT_LOWMEMMAP_LAST < ARRAY_SIZE(enabled_array));
++
++    return enabled_array[index - VIRT_LOWMEMMAP_LAST];
++}
++
  static void virt_set_high_memmap(VirtMachineState *vms,
                                   hwaddr base, int pa_bits)
  {
--    hwaddr region_size;
-+    hwaddr region_base, region_size;
-     bool fits;
+     hwaddr region_base, region_size;
+-    bool fits;
++    bool *region_enabled, fits;
      int i;
  
      for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
-+        region_base = ROUND_UP(base, extended_memmap[i].size);
++        region_enabled = virt_get_high_memmap_enabled(vms, i);
+         region_base = ROUND_UP(base, extended_memmap[i].size);
          region_size = extended_memmap[i].size;
  
--        base = ROUND_UP(base, region_size);
--        vms->memmap[i].base = base;
-+        vms->memmap[i].base = region_base;
-         vms->memmap[i].size = region_size;
- 
-         /*
-@@ -1709,9 +1709,9 @@ static void virt_set_high_memmap(VirtMachineState *vms,
-          *
-          * For each device that doesn't fit, disable it.
-          */
--        fits = (base + region_size) <= BIT_ULL(pa_bits);
-+        fits = (region_base + region_size) <= BIT_ULL(pa_bits);
-         if (fits) {
--            vms->highest_gpa = base + region_size - 1;
-+            vms->highest_gpa = region_base + region_size - 1;
+@@ -1714,18 +1731,7 @@ static void virt_set_high_memmap(VirtMachineState *vms,
+             vms->highest_gpa = region_base + region_size - 1;
          }
  
-         switch (i) {
-@@ -1726,7 +1726,7 @@ static void virt_set_high_memmap(VirtMachineState *vms,
-             break;
-         }
- 
--        base += region_size;
-+        base = region_base + region_size;
+-        switch (i) {
+-        case VIRT_HIGH_GIC_REDIST2:
+-            vms->highmem_redists &= fits;
+-            break;
+-        case VIRT_HIGH_PCIE_ECAM:
+-            vms->highmem_ecam &= fits;
+-            break;
+-        case VIRT_HIGH_PCIE_MMIO:
+-            vms->highmem_mmio &= fits;
+-            break;
+-        }
+-
++        *region_enabled &= fits;
+         base = region_base + region_size;
      }
  }
- 
 -- 
 2.23.0
 
