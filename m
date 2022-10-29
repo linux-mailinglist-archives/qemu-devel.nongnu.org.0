@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5DA4612320
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 15:07:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5008361235D
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 15:47:55 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oolXw-0002Hr-GY; Sat, 29 Oct 2022 09:06:44 -0400
+	id 1oomA0-0001yZ-WF; Sat, 29 Oct 2022 09:46:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oolXu-0002Hi-1h
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 09:06:42 -0400
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b])
+ id 1oom9y-0001yA-VP; Sat, 29 Oct 2022 09:46:03 -0400
+Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oolXs-00008l-Ji
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 09:06:41 -0400
-Received: by mail-qt1-x82b.google.com with SMTP id ay12so4396197qtb.12
- for <qemu-devel@nongnu.org>; Sat, 29 Oct 2022 06:06:39 -0700 (PDT)
+ id 1oom9x-0007ku-BD; Sat, 29 Oct 2022 09:46:02 -0400
+Received: by mail-qt1-x830.google.com with SMTP id h21so85926qtu.2;
+ Sat, 29 Oct 2022 06:46:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=up9YclUJMLe3g81tZyvyrINT4Rku/xMj1hnp+RjLIaw=;
- b=FpznTOwNpMYbQA38po/ezJFA38TB5Rif46M4a3X1Uatk2z5XW/CkRl38RSc5zgz6dj
- PmB2t0qbCXjfc9kAGKk+F1oY9c9TArWDb2URYkfa2XCk0qjT2sJv7yf+Ph/zS4a+XaAa
- h3auNlbQ6Ylwfm+AbzuyBh5XFdW0KBsZICnao55y2lmEGQQlpQ9DRxpVSl85zUd0XFpm
- nvb844o1jcGI75ECJHRC6TdFthSxc0y7skG6zBhQZEqgn5TSVvq3EmgdTmtGizDFBNpd
- cHAzqGuJr9VEwG5tI0j3KxD8dSYwH0vvUaV5RWw5NRXIremFP397pNC7WCmsOWo44uXk
- HMMg==
+ bh=EEPTzVEKttvaT4/STxTSMJLDN0CHGgkFXLCP4fr49U0=;
+ b=V5McyCDsgUqAjV18k0S5cy8E4DB5ruzB1XRtdE/qjAK5fe+KUShdoQuO1QwEntw8is
+ 0DJYIjcwBnyWHPxkSSqt/KBGxozxmZO9XAeVz42lrqTunAuy5tIXOgp0L4IUmdRLEMm1
+ iwoS4A6omiRIi9dunnVq+hZLCUHwMYeHN9ertn99uBOCXKwXZzULgPD6t5XwCXHxejgw
+ ah9rWcSanszoVraFx7O5O530PZi03O3SMlh2FRXpK5Rk1YqT+ybXQCy06dJBEtU/X9eP
+ LHAQLEhoGvBQoPlXIej57sE6+gT1eWOJpzx9BBjcwwOXLk5K5VcLxWTTCR6H/G4+xVHh
+ kn8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=up9YclUJMLe3g81tZyvyrINT4Rku/xMj1hnp+RjLIaw=;
- b=cy+DfH3IKHd1SkCWlfxpW2kQiUxmZ7vDtekOnZei2+SFP3dRRCkt1bEnb+kCeWQmFA
- C+rlGiueiFiBxagEk+eq8Pie+uku/+odVWs1gbfxc1szpZfnT6YYfuwgkKR83PvQt/vI
- mGZ4Uj9Afscf8R2mm5PCKDpPsDxQrgCy25MmiNBWTrlxkTM1yYFr/sukvuJyVdOU5ghB
- 6xC+jaNmlD6+D6eTaKZZnjP/aiCVR3cpbrzTh0VGQ9Z4w2BwFpYlGy8KVk+Hoa1D/LZo
- QikgJL3jy6FIw1bjuu1mCXyao0cLNxUsHFw5B7xPlLHW8K+pA6XdoMjYQY6HeWVwZwnm
- E1LA==
-X-Gm-Message-State: ACrzQf1rUosBfd37SSHRy1xVBdQBsKtS7wkHT8NNnXCNuqFLr86oOMfV
- PGbbxWRH9XR5lJ0V3Huqry/xKGezPtyeG5ri7pk=
-X-Google-Smtp-Source: AMsMyM6ArqPaciLn31n6oH4Bh8leFOipker1y26q0LA3xRBWuHBaa+qPFn9M0/ACq6tW0cz2oV8vvsNBedJJZ9ysoB0=
-X-Received: by 2002:ac8:57c5:0:b0:39a:6512:6e3e with SMTP id
- w5-20020ac857c5000000b0039a65126e3emr3467736qta.334.1667048799098; Sat, 29
- Oct 2022 06:06:39 -0700 (PDT)
+ bh=EEPTzVEKttvaT4/STxTSMJLDN0CHGgkFXLCP4fr49U0=;
+ b=5ryrCIU6/2l5ThHODxFhbvlSqCuaaR35SBijXklYszmR0CL20+RmGy0zMQgsg0C9Nj
+ ps824CCWwqSHVqS5ufG7kwxV9S49m6UwWfXGbx88R6lKIjguddFJe4qjfxUCw9JU5YGh
+ 56zWRQ16h9oTIpc3DlZjYKnR5hF3AiuqHV/sPUHk8WI+mh/D2vHQ6kCPsCwjSfw0G3Dv
+ t0nsgKX/Bso5jLt5iN0e9bBqdpWKZgE8iZaQdOPLeOt8h/X0Of20Wk3ogKQKUKs+URDw
+ EOQFWspGHpIScd+O8oVbNYPpuhqmgDa44sGxOZxkhsY6Q7jv2aVB08/9U6vA+3J0kENj
+ 4VbA==
+X-Gm-Message-State: ACrzQf3AX+E3O8We276oXkn8xL2Fd8jhRQxrH65355h0C50PRKhrOgaz
+ RiaVbFsuiHDSzG4YkUwiO0srVv9/fviXhINCl6I=
+X-Google-Smtp-Source: AMsMyM7yGBeffDlK7MZItXEEweRq8p9xDMUurJ6AjNYUvwVCaXH1u0bioifI6XgAtuBcRmb13JxO67sNzMQIGJrU698=
+X-Received: by 2002:ac8:5dce:0:b0:3a4:f665:453d with SMTP id
+ e14-20020ac85dce000000b003a4f665453dmr3611108qtx.276.1667051159806; Sat, 29
+ Oct 2022 06:45:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
- <20220908132817.1831008-7-bmeng.cn@gmail.com>
- <85f915c4-938c-8a23-a4c2-01fba0f87b63@redhat.com>
- <CAEUhbmVNNuSRgjHiewKhqOifTF2_Rzn+8uUNphay6aXRYHg=kw@mail.gmail.com>
- <CAEUhbmXmKoE+cZUO-6Z=yPcWr1fknyw5PFyY+=c2-E4kCf-0AA@mail.gmail.com>
-In-Reply-To: <CAEUhbmXmKoE+cZUO-6Z=yPcWr1fknyw5PFyY+=c2-E4kCf-0AA@mail.gmail.com>
+ <CAEUhbmVvxoZD7dJbMGud5LLp3fmZTyovgXUvEEdyuneg=K_LUg@mail.gmail.com>
+ <1013abdd-1e46-1121-21f5-522cb9bb5cd1@redhat.com>
+In-Reply-To: <1013abdd-1e46-1121-21f5-522cb9bb5cd1@redhat.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 29 Oct 2022 21:06:27 +0800
-Message-ID: <CAEUhbmX4uDWWoc=B23TZS9gbPCMkPu+H-jFcMYuPYWE_QuMR7w@mail.gmail.com>
-Subject: Re: [PATCH 6/7] .gitlab-ci.d/windows.yml: Unify the prerequisite
- packages
+Date: Sat, 29 Oct 2022 21:45:48 +0800
+Message-ID: <CAEUhbmX=pVTK1VdCz6XcpYdUb8_4Og2T2BXGWEs2znpxp9c6mw@mail.gmail.com>
+Subject: Re: [PATCH 0/7] nsis: gitlab-ci: Improve QEMU Windows installer
+ packaging
 To: Thomas Huth <thuth@redhat.com>
 Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, 
+ Stefan Weil <sw@weilnetz.de>, 
  =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Beraldo Leal <bleal@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, 
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Peter Lieven <pl@kamp.de>, 
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x82b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x830.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,37 +94,55 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Hi Thomas,
 
-On Sat, Sep 24, 2022 at 5:20 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Wed, Sep 21, 2022 at 8:24 PM Thomas Huth <thuth@redhat.com> wrote:
 >
-> Hi Thomas,
+> On 21/09/2022 14.18, Bin Meng wrote:
+> > Hi,
+> >
+> > On Thu, Sep 8, 2022 at 9:28 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >>
+> >> At present packaging the required DLLs of QEMU executables is a
+> >> manual process, and error prone.
+> >>
+> >> Improve scripts/nsis.py by adding a logic to automatically package
+> >> required DLLs of QEMU executables.
+> >>
+> >> 'make installer' is tested in the cross-build on Linux in CI, but
+> >> not in the Windows native build. Update CI to test the installer
+> >> generation on Windows too.
+> >>
+> >> During testing a 32-bit build issue was exposed in block/nfs.c and
+> >> the fix is included in this series.
+> >>
+> >>
+> >> Bin Meng (7):
+> >>    scripts/nsis.py: Drop the unnecessary path separator
+> >>    scripts/nsis.py: Fix destination directory name when invoked on
+> >>      Windows
+> >>    scripts/nsis.py: Automatically package required DLLs of QEMU
+> >>      executables
+> >>    .gitlab-ci.d/windows.yml: Drop the sed processing in the 64-bit build
+> >>    block/nfs: Fix 32-bit Windows build
+> >>    .gitlab-ci.d/windows.yml: Unify the prerequisite packages
+> >>    .gitlab-ci.d/windows.yml: Test 'make installer' in the CI
+> >>
+> >>   meson.build              |  1 +
+> >>   block/nfs.c              |  8 ++++++
+> >>   .gitlab-ci.d/windows.yml | 40 ++++++++++++++++++++-------
+> >>   scripts/nsis.py          | 60 +++++++++++++++++++++++++++++++++-------
+> >>   4 files changed, 89 insertions(+), 20 deletions(-)
+> >>
+> >
+> > I see Thomas only queued patch #4 (".gitlab-ci.d/windows.yml: Drop the
+> > sed processing in the 64-bit build")
+> >
+> > What about other patches?
 >
-> On Sat, Sep 10, 2022 at 8:32 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > On Sat, Sep 10, 2022 at 12:32 AM Thomas Huth <thuth@redhat.com> wrote:
-> > >
-> > > On 08/09/2022 15.28, Bin Meng wrote:
-> > > > From: Bin Meng <bin.meng@windriver.com>
-> > > >
-> > > > At present the prerequisite packages for 64-bit and 32-bit builds
-> > > > are slightly different. Let's use the same packages for both.
-> > >
-> > > Not sure whether that's a good idea ... I did that on purpose to save some
-> > > few time during compilation (since the Windows jobs are running very long
-> > > already) ... did you check whether it makes a difference in the run time now?
-> > >
-> >
-> > Not much difference on the build time. Actually I found after we
-> > switched to single thread build the time did not increase too.
-> >
-> > One side note regarding the gitlab shared runner:
-> >
-> > It seems the shared runner Windows VM is quite slow. Is it possible to
-> > get a faster VM externally?
->
-> Any further comment for this patch?
+> I hope that Stefan Weil (our W32 maintainer) could have a look at these first...
 >
 
-Ping?
+Stefan has reviewed / tested patch 1-3. Not sure who is going to queue
+these 3 patches?
 
 Regards,
 Bin
