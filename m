@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24551611F39
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD0A611F3B
 	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 04:02:37 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oobAC-00007l-2k; Fri, 28 Oct 2022 22:01:32 -0400
+	id 1oobAC-00008A-Ho; Fri, 28 Oct 2022 22:01:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oobA1-000069-QG
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 22:01:22 -0400
+ id 1oobA4-00006k-Uy
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 22:01:25 -0400
 Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oobA0-0002aD-4m
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 22:01:21 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id C29833200065;
- Fri, 28 Oct 2022 22:01:18 -0400 (EDT)
+ id 1oobA2-0002ac-Pf
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 22:01:24 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id EE94432001AB;
+ Fri, 28 Oct 2022 22:01:20 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 28 Oct 2022 22:01:19 -0400
+ by compute5.internal (MEProxy); Fri, 28 Oct 2022 22:01:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1667008878; x=1667095278; bh=Kz
- 7Z7k+bPnmutGT2CzsqAfsbFsWvfGVl+CZZN4GvZxc=; b=pq2lVl4k0FC70fcGSK
- WqSsc1eMNpKYLue4pEDo51vsMI+cb+1bh1Qh4//vjTe19a0DOYns/Cy+rCYHnz0T
- B7uoDKqZYswdWncLW5MVrI/N1djxIzse5XSb3DZXMKM4u6OD8nVzsXsaPI6vcoYl
- RZmSy8pjEy9SzduhSTfHW0Mlcl89475s+ro8sw7BE62UDqGoShVNgkF6wHzFvmLT
- r3e/8Z25bWgT1q7pXldXnyT/fMOPaTSTR8IdYwwCTOz3P81JzPJahcwTNz9EVNYG
- 9kIcXEn7jpJ3qsXBYuh33FBSMtxRxyjMCwuEctpGhtv6YbRJNHpDdH09uIACoSrM
- KSUg==
+ :subject:subject:to:to; s=fm1; t=1667008880; x=1667095280; bh=ZK
+ rNGBecz8aAEAcaJv+m93cMiW6DA6iUj0D1ODVQagg=; b=iec1lwTovbyiiyNgGE
+ 1FL3XZy0cI+DLQK4htxPBzk3nktRetBIFW3fAZE4tMPwyEvAfsXTMy3G5zVMmFHS
+ Tdgbbwgqp/8Lu/caHOwA1x95Ens9Ex2lW0+URjwqjeLz6Oq/FJC28NlKsK6RNVCX
+ v9VQ2TQkTMdRI+dVvnOhto9hwvT0LOVUW5Pm3xFr9AK2RjkrMBnF3/idfX9fcCj7
+ E9SE12u3pOH/XOhHQqz3VFHHDv8vmNi0ANFSPFPyZd1V0fCasoLasH1tjJIOTGYu
+ SQX9cdZjbAsMxWwOzrql2rPdyuYUjI5aC+qkIKeHOxBxFkB5/R+02U+tCWYWHvKs
+ 0Wrg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1667008878; x=1667095278; bh=Kz7Z7k+bPnmut
- GT2CzsqAfsbFsWvfGVl+CZZN4GvZxc=; b=tyoPerQz4UBItBBM/x3QxmOm8HlPZ
- tXhJD68O8xJuNCyMx+ERKscZmhiT5VQUbceCQVuBBCaT4eAoCojBbEXpS6GdI7Xs
- Gdk4UY/l3iPqO5aVzAzZp61cLdtlkqULDKvwJWfK882+zeIfOY2WnRT7ACBq8oKM
- sgGd49rk7Ms5w0ah/X03RZQIk5ULOPec39M3OiHDYhmcUPBc4udJws+51YbJmhqL
- x+IreQmpGa3kcynTbzenyQYB3Rb9Ww5mtmhQu90iCJ8948ZUwx9CsgeAayOadyKQ
- 7cKIy2hSyMJcL5IYkt5EIeh6lx/xhq9kjWH/aUVMfxfjnRBc/7AcY5vJg==
-X-ME-Sender: <xms:bolcY40wypN1tdCbRaqU997qmtcx342oxA-OWNdiNpmLzVPP7sM4_g>
- <xme:bolcYzF2p-R8rmoV7IxdFYJ6tPjWP80aUkwLskHkEhUy1y1ua10GvysrjiABOgLRm
- 2lLQ8360V-1X174YYc>
-X-ME-Received: <xmr:bolcYw6xCTqTV9t3ZMkSYTbOhzabeSH28u5ED6CVsMKcw_OuwUoLwUpcFtPb>
+ :x-sasl-enc; s=fm3; t=1667008880; x=1667095280; bh=ZKrNGBecz8aAE
+ AcaJv+m93cMiW6DA6iUj0D1ODVQagg=; b=DMZb6Y5YTFPRqrTWGKI4Qo+/erq1X
+ A+Hk3gKPr5Bq/nUvOWExwCoGSkM/Kj29aJRgHZg1964iLbtkt9Bd15KnDj1JjGZ/
+ AMlSylQ0ZDu7zOXxM9PVh6i4FJNwAb+FFjSTmUOC46Yty2o1LzWDN8mT9224lBIK
+ IZgXv9gGIxmwKFjprqwD19qiDSHj6e7m7hmhDeX+T3+n6/Zv8yDhqIALKlKC4EYJ
+ gMvgL943BWHNVl+flfzc0D6MWHDMQDH/0DD74aSfg+wvYOBWBk77s+ImM7sHgxgG
+ r4cs8V1AV2Kj0tDRRBVGKEAnvAwNLsV/5dN2ljXGTCNoE++1AzcTIdz5w==
+X-ME-Sender: <xms:cIlcY9qDTjwzk8Sw06mNwqV2lJJlIHc50C5zefUA2ZKg7wMo_dfc9Q>
+ <xme:cIlcY_ob0hhfHTyFhcaCP842blS-AqCG1wTc-0seDvfXspAVXKeRXtsFJau5gMztk
+ 3JjzcdNPw_gLQ2bhJw>
+X-ME-Received: <xmr:cIlcY6PdcORE5PmW7tbp14IsbTU6g7I5BcY0uFBEz6JXz6qn7nsJSUS8nOeo>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtdejgdehfecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgjfhgggfestdekre
  dtredttdenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhg
  sehflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpeefledufeehgedvuedvvd
  egkefgvddttedtleeiiefhgeetudegkefhvdfhjeeftdenucevlhhushhtvghrufhiiigv
- pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihgh
+ pedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihgh
  horghtrdgtohhm
-X-ME-Proxy: <xmx:bolcYx1j_gyVEbw-Qw9eHCcU45iQDP17ZMivfBoxnPFjOKyRY2F49w>
- <xmx:bolcY7EFXNZ8jemmBkx_giyh0pLAe4hTvBLWudqRI1B9cNsuYoIyLw>
- <xmx:bolcY68OXjBYnO2XEdAxJJwFcsl_QYfqlCuN2VI5XBblH20PSQpeCQ>
- <xmx:bolcYwS4xUewQWD5Z1s-MDsHX0Tf8SE9-fZiNXb8PmFMJxf0Eym5PQ>
+X-ME-Proxy: <xmx:cIlcY448VpyEIIJhDTGtRrLJoZ6qi8RBo6a1OfaPYZlgFOu3TymsbA>
+ <xmx:cIlcY84gSz43kbw1kx81RA7GGsxtP4Xrr-e7cgQlfAeuEgEIk5FW1A>
+ <xmx:cIlcYwioRGiqpJVstgBg4e6clozXOKtBOfsC3DE51qoDr_FPfknCXQ>
+ <xmx:cIlcY8E5oB2HvGdpWJrl5lSmPkycuOuRzdm9naawWMcw3lsDYntt4g>
 Feedback-ID: ifd894703:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 28 Oct 2022 22:01:17 -0400 (EDT)
+ 28 Oct 2022 22:01:19 -0400 (EDT)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: f4bug@amsat.org
 Cc: qemu-devel@nongnu.org, pavel.dovgalyuk@ispras.ru,
  Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PATCH 2/3] target/mips: Cast offset field of Octeon BBIT to int16_t
-Date: Sat, 29 Oct 2022 03:00:29 +0100
-Message-Id: <20221029020030.13936-3-jiaxun.yang@flygoat.com>
+Subject: [PATCH 3/3] target/mips: Disable DSP ASE for Octeon68XX
+Date: Sat, 29 Oct 2022 03:00:30 +0100
+Message-Id: <20221029020030.13936-4-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 In-Reply-To: <20221029020030.13936-1-jiaxun.yang@flygoat.com>
 References: <20221029020030.13936-1-jiaxun.yang@flygoat.com>
@@ -101,28 +101,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+I don't have access to Octeon68XX hardware but accroading to
+my investigation Octeon never had DSP ASE support.
+
 As per "Cavium Networks OCTEON Plus CN50XX Hardware Reference
-Manual" offset field is signed 16 bit value. However arg_BBIT.offset
-is unsigned. We need to cast it as signed to do address calculation.
+Manual" CP0C3_DSPP is reserved bit and read as 0. Also I do have
+access to a Ubiquiti Edgerouter 4 which has Octeon CN7130 processor
+and I can confirm CP0C3_DSPP is read as 0 on that processor.
+
+Further more, in linux kernel:
+arch/mips/include/asm/mach-cavium-octeon/cpu-feature-overrides.h
+cpu_has_dsp is overridden as 0.
+
+So I believe we shouldn't emulate DSP in QEMU as well.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- target/mips/tcg/octeon_translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/mips/cpu-defs.c.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/mips/tcg/octeon_translate.c b/target/mips/tcg/octeon_translate.c
-index 6a207d2e7e..e8f2277c51 100644
---- a/target/mips/tcg/octeon_translate.c
-+++ b/target/mips/tcg/octeon_translate.c
-@@ -38,7 +38,7 @@ static bool trans_BBIT(DisasContext *ctx, arg_BBIT *a)
-     }
+diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
+index 7f53c94ec8..480e60aeec 100644
+--- a/target/mips/cpu-defs.c.inc
++++ b/target/mips/cpu-defs.c.inc
+@@ -934,7 +934,7 @@ const mips_def_t mips_defs[] =
+                        (1 << CP0C1_DS) | (4 << CP0C1_DL) | (1 << CP0C1_DA) |
+                        (1 << CP0C1_PC) | (1 << CP0C1_WR) | (1 << CP0C1_EP),
+         .CP0_Config2 = MIPS_CONFIG2,
+-        .CP0_Config3 = MIPS_CONFIG3 | (1 << CP0C3_LPA) | (1 << CP0C3_DSPP) ,
++        .CP0_Config3 = MIPS_CONFIG3 | (1 << CP0C3_LPA),
+         .CP0_Config4 = MIPS_CONFIG4 | (1U << CP0C4_M) |
+                        (0x3c << CP0C4_KScrExist) | (1U << CP0C4_MMUExtDef) |
+                        (3U << CP0C4_MMUSizeExt),
+@@ -946,7 +946,7 @@ const mips_def_t mips_defs[] =
+         .CP0_Status_rw_bitmask = 0x12F8FFFF,
+         .SEGBITS = 42,
+         .PABITS = 49,
+-        .insn_flags = CPU_MIPS64R2 | INSN_OCTEON | ASE_DSP,
++        .insn_flags = CPU_MIPS64R2 | INSN_OCTEON,
+         .mmu_type = MMU_TYPE_R4000,
+     },
  
-     ctx->hflags |= MIPS_HFLAG_BC;
--    ctx->btarget = ctx->base.pc_next + 4 + a->offset * 4;
-+    ctx->btarget = ctx->base.pc_next + 4 + (int16_t)a->offset * 4;
-     ctx->hflags |= MIPS_HFLAG_BDS32;
- 
-     tcg_temp_free(t0);
 -- 
 2.37.1 (Apple Git-137.1)
 
