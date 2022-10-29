@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3CBD612678
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 01:20:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7519A612682
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 01:37:47 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oov7K-0008RI-Lu; Sat, 29 Oct 2022 19:19:54 -0400
+	id 1oovN3-0004FU-GF; Sat, 29 Oct 2022 19:36:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oov7J-0008Qw-FW
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 19:19:53 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1oovN1-00049O-MN
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 19:36:07 -0400
+Received: from mail-io1-f51.google.com ([209.85.166.51])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oov7H-0001LZ-Ku
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 19:19:53 -0400
-Received: by mail-wr1-x432.google.com with SMTP id k4so1624886wri.9
- for <qemu-devel@nongnu.org>; Sat, 29 Oct 2022 16:19:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cpdu0IxEdSgva/y6NuJ59xA6I7HLkrRuGWmPaNmvci0=;
- b=kRpNLDuZqtnmJFG79cBr8BP0m+a+UjZZvhNKNhkBxzNx9T3LLMpzWvR8V51fivTJ7/
- ZYw3boPd5GUzkJm8w1xESAPgjkpmob9fGI9C+BQtnJMdCwsy3Yro/j1kmJ72FIfvvdp4
- sS7TYj+5qsfUmlXUvaYkP4KSgxQO8ToQHs9DtGGuTvnQeAV/KczDlMsaZGAFuLcbVurN
- RI6BkROtZYzqqVn69fbjjsIu2dMZ0OPyBoiL6wR1tCerVW4tFEnMG3HwTHfDdSqRSdX9
- jN15dXmgWdn88b6GGEHkQkHSzVCX3S6P1ofuVpdLO0QY8aXldUZq98T/AJF/htoiN6QB
- gEhQ==
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1oovMx-0004sD-RJ
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 19:36:07 -0400
+Received: by mail-io1-f51.google.com with SMTP id 11so7394891iou.0
+ for <qemu-devel@nongnu.org>; Sat, 29 Oct 2022 16:36:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cpdu0IxEdSgva/y6NuJ59xA6I7HLkrRuGWmPaNmvci0=;
- b=yLZBYWwyMfFwlRkQ6q/aFU97G1qDWrxrvPetrJuFialxgvMql50V4EZ3fbYeDwP1cH
- MxhWMv1Bapz9sHS5dArVMkZ+qOHhjYI2BxirsLViucg4XhWy9TfKrMsn6g2H6peqyncl
- xqwf0STmt5Ftkhz+vXVkmDDZjRvUe6DET5ZApl5BYp8xYRmrA2vPl+rfBfobH/WxxSxI
- bhjY3k7wUTpQWWfTvszcCVyFVD1E06aIDg7cJ63ctaddMheUx2k7EibtVd7j1GyF3WG/
- 8/uoy1LM6B6SbMCYNe/pTotaeM8m2g4AVoAWKd5mxKDnQrMwFCCFRK5iK9q80lVgLMmJ
- iGTA==
-X-Gm-Message-State: ACrzQf3UpBMbdfYpCXwCKYCpfe/qY9KAMAgxJOEjAZkx9QLbcguRHhOM
- /QkRIxYawy/oDk7Rp9bdlZxEKg==
-X-Google-Smtp-Source: AMsMyM6Uc7PvDgoPlx3CvbQatVuYISJB0Ndj0N38/jiFY9vG766z4aND9a+Fak//E5QQFTic5L7Ocg==
-X-Received: by 2002:a5d:584e:0:b0:236:6f0f:9d8 with SMTP id
- i14-20020a5d584e000000b002366f0f09d8mr3407775wrf.701.1667085589862; 
- Sat, 29 Oct 2022 16:19:49 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- j7-20020a05600c190700b003b47e8a5d22sm3286866wmq.23.2022.10.29.16.19.48
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=c2fl312FO7HuuBo0QpllpIY4izA7WVnL0kGNbAvmb5w=;
+ b=YFsAK9P+4HcfKtb+bVdMEZ3j965zDKdeW9wo+jh9aXhP2ZLWeyn5S9TEByw8lik0+I
+ 4BtVIGn89Q2L8+5C6qsFiMdqFhco5vLJ6W2qS4O47Ur3G9XbpUIJP8LaWb8tUwk0OBaG
+ TF4P85A5MeIW6zxc6fBjr65a4O5cdU0CKWBrY91WQWkJAY9ZYT9oanZFzitT49M/kn6T
+ VZK3rAJXDc7HRkYmscdwhORVAJ2mo9O7HB3QPFtWBYWsiSuKLLA8zROvQ7zAekLBSnsC
+ R7qLGPv4Lemfq54sQExz+uEkJc7icvlF71nr3Xdy2+ExwsE30VzGCetBk5jUrTGX5Xho
+ MLMg==
+X-Gm-Message-State: ACrzQf3cu9+xP50x4D5LIdw2DvFnkZG7swNOhZgEbvf/KRWkI9T21+ws
+ pgNHZoAZlbxzX1sGolLqLsilf7LAOJE=
+X-Google-Smtp-Source: AMsMyM4kzCPb6vH26Hn8Sxc21UNcqeQJRz3CQisLF7BombTxZDXKlPO9JoDQH6BMCl89eomwo/gNuQ==
+X-Received: by 2002:a05:6602:2c89:b0:67b:7e8c:11c1 with SMTP id
+ i9-20020a0566022c8900b0067b7e8c11c1mr3145733iow.101.1667086562107; 
+ Sat, 29 Oct 2022 16:36:02 -0700 (PDT)
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com.
+ [209.85.166.53]) by smtp.gmail.com with ESMTPSA id
+ c18-20020a056e020cd200b002f592936fbfsm1022428ilj.41.2022.10.29.16.36.01
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Oct 2022 16:19:49 -0700 (PDT)
-Message-ID: <f924f4c8-3e57-c412-874e-51ff8c578d59@linaro.org>
-Date: Sun, 30 Oct 2022 01:19:47 +0200
+ Sat, 29 Oct 2022 16:36:01 -0700 (PDT)
+Received: by mail-io1-f53.google.com with SMTP id h206so3873250iof.10
+ for <qemu-devel@nongnu.org>; Sat, 29 Oct 2022 16:36:01 -0700 (PDT)
+X-Received: by 2002:a5e:8517:0:b0:6c6:fbe7:1c0e with SMTP id
+ i23-20020a5e8517000000b006c6fbe71c0emr2894414ioj.95.1667086561256; Sat, 29
+ Oct 2022 16:36:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH 1/3] target/mips: Set CP0St_{KX, SX, UX} for Loongson-2F
-Content-Language: en-US
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, pavel.dovgalyuk@ispras.ru
-References: <20221029020030.13936-1-jiaxun.yang@flygoat.com>
- <20221029020030.13936-2-jiaxun.yang@flygoat.com>
- <5101ed53-5138-d40e-559e-1a3fd76a8c94@linaro.org>
- <2999BC9E-D7B6-4D17-9A28-E441B2C06E63@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <2999BC9E-D7B6-4D17-9A28-E441B2C06E63@flygoat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220813011031.3744-1-j@getutm.app>
+ <20220813011031.3744-3-j@getutm.app> <YwNWPFKchWnUIO8f@redhat.com>
+In-Reply-To: <YwNWPFKchWnUIO8f@redhat.com>
+From: Joelle van Dyne <j@getutm.app>
+Date: Sat, 29 Oct 2022 16:35:50 -0700
+X-Gmail-Original-Message-ID: <CA+E+eSAAccpDCkxJMTRCRTYPtFWDdC6smFtTUVJiy-FPj5JXkw@mail.gmail.com>
+Message-ID: <CA+E+eSAAccpDCkxJMTRCRTYPtFWDdC6smFtTUVJiy-FPj5JXkw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] vl: on -loadvm set run state to "restore-vm"
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Joelle van Dyne <j@getutm.app>, qemu-devel@nongnu.org, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.166.51; envelope-from=osy86dev@gmail.com;
+ helo=mail-io1-f51.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,38 +88,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-T24gMjkvMTAvMjIgMjE6NTAsIEppYXh1biBZYW5nIHdyb3RlOg0KPiANCj4gDQo+PiAyMDIy
-5bm0MTDmnIgyOeaXpSAxODo0NO+8jFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGlsbWRA
-bGluYXJvLm9yZz4g5YaZ6YGT77yaDQo+Pg0KPj4gT24gMjkvMTAvMjIgMDQ6MDAsIEppYXh1
-biBZYW5nIHdyb3RlOg0KPj4+IEFzIHBlciAiTG9vbmdzb24tMkYgcHJvY2Vzc29yIHVzZXIg
-bWFudWFsIiwgQ1AwU3Rfe0tYLCBTWCwgVVh9DQo+Pj4gc2hvdWxkIGlzIG5vdCB3cml0ZWFi
-bGUgYW5kIGhhcmRjb2RlZCB0byAxLg0KPj4+IFdpdGhvdXQgdGhvc2UgYml0cyBzZXQsIGtl
-cm5lbCBpcyB1bmFibGUgdG8gYWNjZXNzIFhLUEhZUyBhZGRyZXNzDQo+Pj4gc2VnbWFudC4g
-U28ganVzdCBzZXQgdGhlbSB1cCBvbiBDUFUgcmVzZXQuDQo+Pj4gU2lnbmVkLW9mZi1ieTog
-SmlheHVuIFlhbmcgPGppYXh1bi55YW5nQGZseWdvYXQuY29tPg0KPj4+IC0tLQ0KPj4+ICAg
-dGFyZ2V0L21pcHMvY3B1LmMgfCA2ICsrKysrKw0KPj4+ICAgMSBmaWxlIGNoYW5nZWQsIDYg
-aW5zZXJ0aW9ucygrKQ0KPj4+IGRpZmYgLS1naXQgYS90YXJnZXQvbWlwcy9jcHUuYyBiL3Rh
-cmdldC9taXBzL2NwdS5jDQo+Pj4gaW5kZXggZDBhNzZiOTVmNy4uYTg3MDkwMWJmYSAxMDA2
-NDQNCj4+PiAtLS0gYS90YXJnZXQvbWlwcy9jcHUuYw0KPj4+ICsrKyBiL3RhcmdldC9taXBz
-L2NwdS5jDQo+Pj4gQEAgLTMwNCw2ICszMDQsMTIgQEAgc3RhdGljIHZvaWQgbWlwc19jcHVf
-cmVzZXQoRGV2aWNlU3RhdGUgKmRldikNCj4+PiAgICAgICBlbnYtPkNQMF9FbnRyeUhpX0FT
-SURfbWFzayA9IChlbnYtPkNQMF9Db25maWc1ICYgKDEgPDwgQ1AwQzVfTUkpKSA/DQo+Pj4g
-ICAgICAgICAgICAgICAweDAgOiAoZW52LT5DUDBfQ29uZmlnNCAmICgxIDw8IENQMEM0X0FF
-KSkgPyAweDNmZiA6IDB4ZmY7DQo+Pj4gICAgICAgZW52LT5DUDBfU3RhdHVzID0gKDEgPDwg
-Q1AwU3RfQkVWKSB8ICgxIDw8IENQMFN0X0VSTCk7DQo+Pj4gKyAgICBpZiAoZW52LT5pbnNu
-X2ZsYWdzICYgSU5TTl9MT09OR1NPTjJGKSB7DQo+Pj4gKyAgICAgICAgLyogTG9vbmdzb24t
-MkYgaGFzIHRob3NlIGJpdHMgaGFyZGNvZGVkIHRvIDEgKi8NCj4+PiArICAgICAgICBlbnYt
-PkNQMF9TdGF0dXMgfD0gKDEgPDwgQ1AwU3RfS1gpIHwgKDEgPDwgQ1AwU3RfU1gpIHwNCj4+
-PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICgxIDw8IENQMFN0X1VYKTsNCj4+PiAr
-ICAgIH0NCj4+DQo+PiBEb24ndCB3ZSB3YW50IHRvIHVwZGF0ZSBDUDBfU3RhdHVzX3J3X2Jp
-dG1hc2sgaW4gTG9vbmdzb24tMkYNCj4+IGVudHJ5IGluIG1pcHNfZGVmc1tdIGluc3RlYWQ/
-DQo+IA0KPiBXcml0ZSB0byB0aG9zZSBiaXRzIGlzIGFscmVhZHkgZGlzYWJsZWQgYnkgQ1Aw
-X1N0YXR1c19yd19iaXRtYXNrLiBIb3dldmVyIHJlYWwgaGFyZHdhcmUNCj4gaGFkIHRob3Nl
-IGJpdHMgc2V0IHRvIDEgYnV0IFFFTVUgZGVmYXVsdCB0aGVtIHRvIDDigKYNCj4gDQo+IEVu
-YWJsZSB3cml0aW5nIHRvIHRob3NlIGJpdHMgY2FuIGFsc28gbWFrZSBrZXJuZWwgd29yayBi
-dXQgaXQgbWlzbWF0Y2hlcyBhY3R1YWwgaGFyZHdhcmUNCj4gYmVoYXZpb3IuDQoNCk9uICLp
-vpnoiq8gMkYg5aSE55CG5Zmo55So5oi35omL5YaMICgwLjEg54mILCAyMDA3IOW5tCA4IOac
-iAAAKSINClNlY3Rpb24gNS4xMCBTdGF0dXMg5a+E5a2Y5ZmoKDEyKSAocGFnZSA1NyksDQpD
-UDBfU3RhdHVzIGJpdHMgNS4uNyBhcmUgMC4NCg0KQ2FuIHlvdSBzaGFyZSB5b3VyICJMb29u
-Z3Nvbi0yRiBwcm9jZXNzb3IgdXNlciBtYW51YWwiIGRvYz8NCg==
+On Mon, Aug 22, 2022 at 3:11 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Fri, Aug 12, 2022 at 06:10:30PM -0700, Joelle van Dyne wrote:
+> > This allows us to differentiate between a fresh boot and a restore boot=
+.
+> >
+> > Signed-off-by: Joelle van Dyne <j@getutm.app>
+> > ---
+> >  softmmu/runstate.c | 1 +
+> >  softmmu/vl.c       | 3 +++
+> >  2 files changed, 4 insertions(+)
+>
+> What happens if the user launches QEMU with -S and NOT  -loadvm, and
+> then uses the 'loadvm' monitor command to restore the VM state ?
+Sorry, this email totally slipped past me. The 'loadvm' monitor
+command does this:
+
+vm_stop(RUN_STATE_RESTORE_VM);
+
+Which sets the correct state.
+
+>
+>
+> > diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+> > index 1e68680b9d..fa3dd3a4ab 100644
+> > --- a/softmmu/runstate.c
+> > +++ b/softmmu/runstate.c
+> > @@ -76,6 +76,7 @@ typedef struct {
+> >
+> >  static const RunStateTransition runstate_transitions_def[] =3D {
+> >      { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
+> > +    { RUN_STATE_PRELAUNCH, RUN_STATE_RESTORE_VM },
+> >
+> >      { RUN_STATE_DEBUG, RUN_STATE_RUNNING },
+> >      { RUN_STATE_DEBUG, RUN_STATE_FINISH_MIGRATE },
+> > diff --git a/softmmu/vl.c b/softmmu/vl.c
+> > index 706bd7cff7..29586d94ff 100644
+> > --- a/softmmu/vl.c
+> > +++ b/softmmu/vl.c
+> > @@ -3131,6 +3131,9 @@ void qemu_init(int argc, char **argv, char **envp=
+)
+> >                  add_device_config(DEV_DEBUGCON, optarg);
+> >                  break;
+> >              case QEMU_OPTION_loadvm:
+> > +                if (!loadvm) {
+> > +                    runstate_set(RUN_STATE_RESTORE_VM);
+> > +                }
+> >                  loadvm =3D optarg;
+> >                  break;
+> >              case QEMU_OPTION_full_screen:
+> > --
+> > 2.28.0
+> >
+> >
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
