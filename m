@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F8F8612127
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 09:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C74612128
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 09:55:11 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oogfS-0002zo-Rq; Sat, 29 Oct 2022 03:54:10 -0400
+	id 1oogfx-00045K-UB; Sat, 29 Oct 2022 03:54:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oogfI-0002dC-2n
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 03:54:00 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oogfn-00042w-3c
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 03:54:31 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oogfF-0006GK-Js
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 03:53:59 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oogfi-0006Io-M8
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 03:54:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667030036;
+ s=mimecast20190719; t=1667030066;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tJ+V8E5DywwV/+mzfESNeJjuoMrtdLGpuFMKJe2wW6o=;
- b=Trp/XDSShuvmedlgRN4I+uwXQGYtp6MFWoGgPWlVx5XSgB/nhTAaTYH1jh+ryn2aqyqtum
- 6vMbFr5n9AeyGNuH1bakC7xuZC3ZtBddzIrOBm0J2XEPJdWjLBQyFNgOsUEn+yJZ9RS9kp
- 5FL7MQClsY/mUbZ9MhnNgzC05XvlkYk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4Pyxjv+1qdW72frgMj4/L02Sk256zp7qPaOh7hVcBUg=;
+ b=c5IXxaR7htYmVHhsCbbkg0PKLjIS0lEXDA5swmusi2wSujMvhobR92DYm/Kw/m3XiKCZFX
+ j4793cPNmJlNImgLoObaKQDItzHP628jJhIKU1BtzA+l2bvHpcNix7NNDRehYH9wi2w6FN
+ p3C6U0rchj18fPkbtZufgQSw2eTVY4U=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-53-XeS4PXNnPb6wkNqcLFlaqw-1; Sat, 29 Oct 2022 03:53:49 -0400
-X-MC-Unique: XeS4PXNnPb6wkNqcLFlaqw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- x10-20020a05600c420a00b003cf4dbff2e4so3142109wmh.8
- for <qemu-devel@nongnu.org>; Sat, 29 Oct 2022 00:53:49 -0700 (PDT)
+ us-mta-315-zEae0znOP4WaCbko-qZzVA-1; Sat, 29 Oct 2022 03:54:23 -0400
+X-MC-Unique: zEae0znOP4WaCbko-qZzVA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ h26-20020adfaa9a000000b002364ad63bbcso1533573wrc.10
+ for <qemu-devel@nongnu.org>; Sat, 29 Oct 2022 00:54:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tJ+V8E5DywwV/+mzfESNeJjuoMrtdLGpuFMKJe2wW6o=;
- b=hzuecdfYbF5ool6LzTlMpMKq1mDtF19+EGNHtGavj/M9txG4e78acD/Zzn/RGyBf9V
- s8PmFXeRXVT/7+zV033smZVHe2JdJYoXTV3sP5IzJt5zHFlyXEETJ0w3RzzMu7/TYW+d
- tReqvWSxRU8YfWOP+Kk9P0QzCJe0w3gbFutINmPvN1ahV0YLbg6eBzaxGHLDnjl/etU6
- wv4D9ej8gh2KC70dJZSZUpxV++X+AacGKBHw17f1NLfipx7+DBkvDIJY/pJe/RLemVuk
- CnbpvzCPAeUpS0q32v20Hsyi+Lwd3aIvK063RJI/IsKPv31/edxUfoLHRCfV/JSHSHMO
- tyVQ==
-X-Gm-Message-State: ACrzQf3lllPGa5Ophtxe4mBbECOduGraUi1bpaBNfp/9kS3ZS7OiKvia
- ocIdbO33tpEdOAT7299YArlXjWH4s9CR2NPI+ZPnEMUt1JU5MiqMvAvKLULY0CpQQyakcx8Yln+
- 9rGialnYueLSaoWg=
-X-Received: by 2002:adf:f482:0:b0:236:7a2f:69f with SMTP id
- l2-20020adff482000000b002367a2f069fmr1750335wro.115.1667030028179; 
- Sat, 29 Oct 2022 00:53:48 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4XB/VrB1OYJEp4mJEhgMKdmrK+7fAoFp27IXPz3l5OzHSePedLIF/WamH4UG7MGp8aW6DTUw==
-X-Received: by 2002:adf:f482:0:b0:236:7a2f:69f with SMTP id
- l2-20020adff482000000b002367a2f069fmr1750312wro.115.1667030027954; 
- Sat, 29 Oct 2022 00:53:47 -0700 (PDT)
+ bh=4Pyxjv+1qdW72frgMj4/L02Sk256zp7qPaOh7hVcBUg=;
+ b=WHAN16UDTAbfc6YO70TlXxr4NtPYOa/u5W2zfB+DnYXIhG6X9GbkBODS32lV5a+XsZ
+ S593hRjgFQ75hyOcLrfops7VInvSWOHI+4Wyd5lFES49+2bHcQxXno0cwExriCO2HOqY
+ aA9Si/aexMvCBP2NiCOO+umj6jJOTvteKOwsmA7K98kypSnBATAHLBbRZkySA8taYcdY
+ 1JM+JjeQFQf4MxyeqOOQbjdtGDwQTb8uPJsufYcDP+klOzimRcOjcg+DzgFHGdewOdmY
+ HLqVjODemHDJD4xnEqoy4wekgnu07SMvT2TtFggOwG1VIeyjP5RYjyXQLOWpxj10hjJk
+ PBRw==
+X-Gm-Message-State: ACrzQf3vxe7OAq1itclCpEU/TokesjsvfHbrFFMkaAQRjJxHbJjKfMdc
+ rsdqKNekgTozQIM3SE4+sZMyHzXSNaHF4jaBrznupCnxmnrX4eYvnft+mmQTVb6MznDS8kBotZy
+ /3cGQTAl+M1dDWBc=
+X-Received: by 2002:adf:e44f:0:b0:236:59a3:c5a8 with SMTP id
+ t15-20020adfe44f000000b0023659a3c5a8mr1750853wrm.396.1667030062431; 
+ Sat, 29 Oct 2022 00:54:22 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5oubxO4tmMNPFfBkWWl9OeuQ3myl6dCGh7uKbTEqG187uH3eWSVlzpG9J7akdbxVSkSUjYMA==
+X-Received: by 2002:adf:e44f:0:b0:236:59a3:c5a8 with SMTP id
+ t15-20020adfe44f000000b0023659a3c5a8mr1750842wrm.396.1667030062224; 
+ Sat, 29 Oct 2022 00:54:22 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- w12-20020a5d404c000000b002365254ea42sm866633wrp.1.2022.10.29.00.53.45
+ bp7-20020a5d5a87000000b00236545edc91sm813767wrb.76.2022.10.29.00.54.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Oct 2022 00:53:47 -0700 (PDT)
-Date: Sat, 29 Oct 2022 03:53:43 -0400
+ Sat, 29 Oct 2022 00:54:21 -0700 (PDT)
+Date: Sat, 29 Oct 2022 03:54:17 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Yicong Yang <yangyicong@huawei.com>
 Cc: peter.maydell@linaro.org, imammedo@redhat.com, ani@anisinha.ca,
@@ -69,15 +69,14 @@ Cc: peter.maydell@linaro.org, imammedo@redhat.com, ani@anisinha.ca,
  yangyicong@hisilicon.com, prime.zeng@huawei.com,
  hesham.almatary@huawei.com, ionela.voinescu@arm.com,
  darren@os.amperecomputing.com
-Subject: Re: [PATCH v2 2/4] tests: virt: update expected ACPI tables for virt
- test
-Message-ID: <20221029035311-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v2 3/4] tests: acpi: aarch64: add topology test for aarch64
+Message-ID: <20221029035356-mutt-send-email-mst@kernel.org>
 References: <20221027032613.18377-1-yangyicong@huawei.com>
- <20221027032613.18377-3-yangyicong@huawei.com>
+ <20221027032613.18377-4-yangyicong@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221027032613.18377-3-yangyicong@huawei.com>
+In-Reply-To: <20221027032613.18377-4-yangyicong@huawei.com>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
@@ -102,33 +101,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 11:26:11AM +0800, Yicong Yang wrote:
+On Thu, Oct 27, 2022 at 11:26:12AM +0800, Yicong Yang wrote:
 > From: Yicong Yang <yangyicong@hisilicon.com>
 > 
-> Update the ACPI tables according to the acpi aml_build change.
+> Add test for aarch64's ACPI topology building for all the supported
+> levels.
 > 
 > Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
 
-OK nice but if patch 1 is applied alone that will break make check
-won't it? And this means the patchset breaks git bisect.
-Pls look at top of tests/qtest/bios-tables-test.c to see
-how to organize a patchset changing expected tables.
-
-
+And same comment here.
+Pls follow the process in bios-tables-test
 
 > ---
->  tests/data/acpi/virt/PPTT | Bin 96 -> 76 bytes
->  1 file changed, 0 insertions(+), 0 deletions(-)
+>  tests/qtest/bios-tables-test.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 > 
-> diff --git a/tests/data/acpi/virt/PPTT b/tests/data/acpi/virt/PPTT
-> index f56ea63b369a604877374ad696c396e796ab1c83..7a1258ecf123555b24462c98ccbb76b4ac1d0c2b 100644
-> GIT binary patch
-> delta 32
-> fcmYfB;R*-{3GrcIU|?D?k;`ae01J-_kOKn%ZFdCM
-> 
-> delta 53
-> pcmeZC;0g!`2}xjJU|{l?$YrDgWH5jU5Ca567#O&Klm(arApowi1QY-O
-> 
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index e6096e7f73..099b723444 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -1533,6 +1533,27 @@ static void test_acpi_virt_tcg(void)
+>      free_test_data(&data);
+>  }
+>  
+> +static void test_acpi_virt_tcg_topology(void)
+> +{
+> +    test_data data = {
+> +        .machine = "virt",
+> +        .variant = ".topology",
+> +        .tcg_only = true,
+> +        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
+> +        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
+> +        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
+> +        .ram_start = 0x40000000ULL,
+> +        .scan_len = 128ULL * 1024 * 1024,
+> +    };
+> +
+> +    data.smbios_cpu_max_speed = 2900;
+> +    data.smbios_cpu_curr_speed = 2700;
+> +    test_acpi_one("-cpu cortex-a57 "
+> +                  "-smbios type=4,max-speed=2900,current-speed=2700 "
+> +                  "-smp sockets=1,clusters=2,cores=2,threads=2", &data);
+> +    free_test_data(&data);
+> +}
+> +
+>  static void test_acpi_q35_viot(void)
+>  {
+>      test_data data = {
+> @@ -1864,6 +1885,7 @@ int main(int argc, char *argv[])
+>      } else if (strcmp(arch, "aarch64") == 0) {
+>          if (has_tcg) {
+>              qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+> +            qtest_add_func("acpi/virt/topology", test_acpi_virt_tcg_topology);
+>              qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+>              qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+>              qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
 > -- 
 > 2.24.0
 
