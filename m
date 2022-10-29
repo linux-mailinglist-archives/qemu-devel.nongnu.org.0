@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C74612128
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 09:55:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59648612131
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 09:57:58 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oogfx-00045K-UB; Sat, 29 Oct 2022 03:54:43 -0400
+	id 1oogii-0001lj-0h; Sat, 29 Oct 2022 03:57:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oogfn-00042w-3c
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 03:54:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oogie-0001kc-NU
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 03:57:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oogfi-0006Io-M8
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 03:54:27 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oogic-0006r4-3r
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 03:57:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667030066;
+ s=mimecast20190719; t=1667030245;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4Pyxjv+1qdW72frgMj4/L02Sk256zp7qPaOh7hVcBUg=;
- b=c5IXxaR7htYmVHhsCbbkg0PKLjIS0lEXDA5swmusi2wSujMvhobR92DYm/Kw/m3XiKCZFX
- j4793cPNmJlNImgLoObaKQDItzHP628jJhIKU1BtzA+l2bvHpcNix7NNDRehYH9wi2w6FN
- p3C6U0rchj18fPkbtZufgQSw2eTVY4U=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xGPqmTauyiE+lSpGjS2RMpJlj4S++hlS/RK+BCH4YKA=;
+ b=OXNxfx7TtorFmByMWYRp5wzjMA6CYza1P0/b5xp1jarQk5S07C3y75uzKm0ZWeEZF1ikZF
+ Yh0hISUC1EZUcFBzdtTkXAlzpzRBC7sviCYF8WjsZgbNqOBUhru00OPfEZJJTtJ4vpcWf5
+ xxVkgZv+ew2V23QGUelmQTHnjGYNK6Y=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-315-zEae0znOP4WaCbko-qZzVA-1; Sat, 29 Oct 2022 03:54:23 -0400
-X-MC-Unique: zEae0znOP4WaCbko-qZzVA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- h26-20020adfaa9a000000b002364ad63bbcso1533573wrc.10
- for <qemu-devel@nongnu.org>; Sat, 29 Oct 2022 00:54:23 -0700 (PDT)
+ us-mta-536-Ek4Z3kFbMaeKTSyck2NizA-1; Sat, 29 Oct 2022 03:57:23 -0400
+X-MC-Unique: Ek4Z3kFbMaeKTSyck2NizA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ h8-20020a1c2108000000b003cf550bfc8dso3444538wmh.2
+ for <qemu-devel@nongnu.org>; Sat, 29 Oct 2022 00:57:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4Pyxjv+1qdW72frgMj4/L02Sk256zp7qPaOh7hVcBUg=;
- b=WHAN16UDTAbfc6YO70TlXxr4NtPYOa/u5W2zfB+DnYXIhG6X9GbkBODS32lV5a+XsZ
- S593hRjgFQ75hyOcLrfops7VInvSWOHI+4Wyd5lFES49+2bHcQxXno0cwExriCO2HOqY
- aA9Si/aexMvCBP2NiCOO+umj6jJOTvteKOwsmA7K98kypSnBATAHLBbRZkySA8taYcdY
- 1JM+JjeQFQf4MxyeqOOQbjdtGDwQTb8uPJsufYcDP+klOzimRcOjcg+DzgFHGdewOdmY
- HLqVjODemHDJD4xnEqoy4wekgnu07SMvT2TtFggOwG1VIeyjP5RYjyXQLOWpxj10hjJk
- PBRw==
-X-Gm-Message-State: ACrzQf3vxe7OAq1itclCpEU/TokesjsvfHbrFFMkaAQRjJxHbJjKfMdc
- rsdqKNekgTozQIM3SE4+sZMyHzXSNaHF4jaBrznupCnxmnrX4eYvnft+mmQTVb6MznDS8kBotZy
- /3cGQTAl+M1dDWBc=
-X-Received: by 2002:adf:e44f:0:b0:236:59a3:c5a8 with SMTP id
- t15-20020adfe44f000000b0023659a3c5a8mr1750853wrm.396.1667030062431; 
- Sat, 29 Oct 2022 00:54:22 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5oubxO4tmMNPFfBkWWl9OeuQ3myl6dCGh7uKbTEqG187uH3eWSVlzpG9J7akdbxVSkSUjYMA==
-X-Received: by 2002:adf:e44f:0:b0:236:59a3:c5a8 with SMTP id
- t15-20020adfe44f000000b0023659a3c5a8mr1750842wrm.396.1667030062224; 
- Sat, 29 Oct 2022 00:54:22 -0700 (PDT)
+ bh=xGPqmTauyiE+lSpGjS2RMpJlj4S++hlS/RK+BCH4YKA=;
+ b=d+Wjzb96e2IE+gcMK5rgHUAJE8AqeMAhRkvDAuqi8GK7PoDSpXdM2ZvTngvxHlfTCx
+ +vCmbewulYhguJg/iOukHd9x4kkNyinw8Txh2N1oTY4NQqo+4SLWnyodsqOePq/yR9/m
+ odBOBsGDbd+HifB3GT95URBbLYj98C8zPPG3Z1t7/9q1xqR+k7xsQst57VoA/LWfe9Mj
+ HrdME6zx98xlrUph4WIwB4F5xFpXXoyaQQIzHtIAelh8XYAK6CYUhr9DnGUqG9UWxx0x
+ Ft7BMfXJosCzuqEBdV4yCDS1jp8o5ydFiJDeeM+nVHfqqt/KWVLGiBk6QKSG71ulTUhC
+ 8LgA==
+X-Gm-Message-State: ACrzQf32fW7ieBovZtS8dyOn+qBqQPWUpOm+VCGebQChVKQtg3jgVLD8
+ HFrBI1RbTnAeldWAMNHV5mt/BHcss/y1iTzEV5wSJp6qe1oOyIFxsZIHub8mIP1ZDRdUdqoZX8d
+ KS/3H19CKKSfBSmk=
+X-Received: by 2002:a05:600c:4849:b0:3c6:7e82:a9d7 with SMTP id
+ j9-20020a05600c484900b003c67e82a9d7mr1702027wmo.75.1667030242629; 
+ Sat, 29 Oct 2022 00:57:22 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5sP1EaOFgMj/3d5BLSh3e7tI5jHD22FWdNTmZWJc4ZGIugPb0Eb4uPpolfOFT+u2PkkFEorA==
+X-Received: by 2002:a05:600c:4849:b0:3c6:7e82:a9d7 with SMTP id
+ j9-20020a05600c484900b003c67e82a9d7mr1702006wmo.75.1667030242375; 
+ Sat, 29 Oct 2022 00:57:22 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- bp7-20020a5d5a87000000b00236545edc91sm813767wrb.76.2022.10.29.00.54.19
+ d17-20020a05600c4c1100b003cf37c5ddc0sm852665wmp.22.2022.10.29.00.57.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Oct 2022 00:54:21 -0700 (PDT)
-Date: Sat, 29 Oct 2022 03:54:17 -0400
+ Sat, 29 Oct 2022 00:57:21 -0700 (PDT)
+Date: Sat, 29 Oct 2022 03:57:18 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Yicong Yang <yangyicong@huawei.com>
-Cc: peter.maydell@linaro.org, imammedo@redhat.com, ani@anisinha.ca,
- eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
- wangyanan55@huawei.com, qemu-devel@nongnu.org,
- jonathan.cameron@huawei.com, linuxarm@huawei.com,
- yangyicong@hisilicon.com, prime.zeng@huawei.com,
- hesham.almatary@huawei.com, ionela.voinescu@arm.com,
- darren@os.amperecomputing.com
-Subject: Re: [PATCH v2 3/4] tests: acpi: aarch64: add topology test for aarch64
-Message-ID: <20221029035356-mutt-send-email-mst@kernel.org>
-References: <20221027032613.18377-1-yangyicong@huawei.com>
- <20221027032613.18377-4-yangyicong@huawei.com>
+To: Cindy Lu <lulu@redhat.com>
+Cc: alex.williamson@redhat.com, jasowang@redhat.com, pbonzini@redhat.com,
+ peterx@redhat.com, david@redhat.com, f4bug@amsat.org,
+ sgarzare@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 0/2] vhost-vdpa: add support for vIOMMU
+Message-ID: <20221029035659-mutt-send-email-mst@kernel.org>
+References: <20221027074032.1101939-1-lulu@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221027032613.18377-4-yangyicong@huawei.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20221027074032.1101939-1-lulu@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -101,62 +96,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 11:26:12AM +0800, Yicong Yang wrote:
-> From: Yicong Yang <yangyicong@hisilicon.com>
+On Thu, Oct 27, 2022 at 03:40:30PM +0800, Cindy Lu wrote:
+> These patches are to support vIOMMU in vdpa device
 > 
-> Add test for aarch64's ACPI topology building for all the supported
-> levels.
+> changes in V3
+> 1. Move function vfio_get_xlat_addr to memory.c
+> 2. Use the existing memory listener, while the MR is
+> iommu MR then call the function iommu_region_add/
+> iommu_region_del
 > 
-> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+> changes in V4
+> 1.make the comments in vfio_get_xlat_addr more general
 
-And same comment here.
-Pls follow the process in bios-tables-test
+I expect there will be v5 addressing Alex's comments.
 
-> ---
->  tests/qtest/bios-tables-test.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
+> Cindy Lu (2):
+>   vfio: move the function vfio_get_xlat_addr() to memory.c
+>   vhost-vdpa: add support for vIOMMU
 > 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index e6096e7f73..099b723444 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1533,6 +1533,27 @@ static void test_acpi_virt_tcg(void)
->      free_test_data(&data);
->  }
->  
-> +static void test_acpi_virt_tcg_topology(void)
-> +{
-> +    test_data data = {
-> +        .machine = "virt",
-> +        .variant = ".topology",
-> +        .tcg_only = true,
-> +        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-> +        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-> +        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
-> +        .ram_start = 0x40000000ULL,
-> +        .scan_len = 128ULL * 1024 * 1024,
-> +    };
-> +
-> +    data.smbios_cpu_max_speed = 2900;
-> +    data.smbios_cpu_curr_speed = 2700;
-> +    test_acpi_one("-cpu cortex-a57 "
-> +                  "-smbios type=4,max-speed=2900,current-speed=2700 "
-> +                  "-smp sockets=1,clusters=2,cores=2,threads=2", &data);
-> +    free_test_data(&data);
-> +}
-> +
->  static void test_acpi_q35_viot(void)
->  {
->      test_data data = {
-> @@ -1864,6 +1885,7 @@ int main(int argc, char *argv[])
->      } else if (strcmp(arch, "aarch64") == 0) {
->          if (has_tcg) {
->              qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-> +            qtest_add_func("acpi/virt/topology", test_acpi_virt_tcg_topology);
->              qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
->              qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
->              qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
+>  hw/vfio/common.c               |  92 +----------------------
+>  hw/virtio/vhost-vdpa.c         | 131 ++++++++++++++++++++++++++++++---
+>  include/exec/memory.h          |   4 +
+>  include/hw/virtio/vhost-vdpa.h |  10 +++
+>  softmmu/memory.c               |  84 +++++++++++++++++++++
+>  5 files changed, 222 insertions(+), 99 deletions(-)
+> 
 > -- 
-> 2.24.0
+> 2.34.3
 
 
