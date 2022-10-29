@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1F1612199
+	by mail.lfdr.de (Postfix) with ESMTPS id 3127D612198
 	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 10:50:22 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oohWV-00071S-Jp; Sat, 29 Oct 2022 04:48:59 -0400
+	id 1oohX2-0007IU-MW; Sat, 29 Oct 2022 04:49:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oohWS-0006zp-7O; Sat, 29 Oct 2022 04:48:57 -0400
+ id 1oohWx-0007Ga-0Q; Sat, 29 Oct 2022 04:49:30 -0400
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oohWQ-0006T2-Li; Sat, 29 Oct 2022 04:48:55 -0400
+ id 1oohWv-0006V1-LF; Sat, 29 Oct 2022 04:49:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=KHh8jS5ixS2ZFulXCMzYwSdHZDLKUhyVqxCfXhpDGhc=; b=wyhkG8jEG8jqUqBog57w5QpOI0
- TAcQb7BxdH1K0T9z89p7CoenAmXc963uvt3616Iwl+6/URdBnh8vX/HZEAmmlLPbgQ9tl25Vj0dW4
- OBXwVH4NJxE+IjanOKKI/GqG94UpLdds9W2ippPFFpbwBzn7mHrUNnRAN7TliJs/OG1Nls/Keu7N2
- g2l/fId4PazaFCpne+AHVEv/mG0KBLdvrc1c4VP0rEoxVMYXgUVPbAIAy3gTF7guyZ5U8rVusQkrg
- bxJGGvDTdkzs3UouSBcPVbfg68uLLKS0J4x3IPDwhJYgfYhqXV1AiSmlR+q2hSXF5h0gt5nuZ07zG
- vT9wQtZCN6HfyaosJvxCN/fbd70LMrD1TYM62ZR2yyoEcsxCiAj1NX+v6fbkWGm5nY/htpjkS2oi1
- S9ENewISsBNY69xiSVZlzswGXXzbbEv0mMQLQt1kz2p7kspV2PjLCk74gXvP/k3W77GyPiVzKw08v
- VHc9nkBLI97JE0VVMZQjmoqeeAijf7wtTlEfaAMySQVPmDDGS5dsu6wxhyIBnXi0/sGsf+NuyzSHG
- NTbylHnkRilzGbt2FPEPnJwNtrzGBD4OqejghnyV7JeyIuHARAV6Ysl3XirAfDTBCOtc3xymZzTho
- QX66Pm+c0uqYMXNTiSg4nVG7jsBjT4TWUnrfTcR7U=;
+ bh=A+Dbbz7M/9rZqq+Ble/xXJjm+G0LGxBsu8ivy79oMMo=; b=Mmczdb7f5oA5Z52L6X/USLAksj
+ Ij+mEmVDk4qAw20jLBe9x98Dy1A19lw7DWvBXGT8TYHwxP/NeSC1GP6Gt3cFIL6S8zlHZBtnlzlUU
+ NmFKgUiRxCBg4tMLxWT1Je/hqyFMr8CsusnDSt/+44Q5f0g10bv+Jg86UKEDZ5DXE7riSkps1DW0N
+ w5avEXNjJ2Q9PI6cobf8tLxTOeMDXdX/pmG26Jldlhq95Qp2eocpArCJC3TyhOcN7Z/A6H5UGN3wF
+ uBTvVysNNlf/zWbIHzkbminrA4KIZoRguHeu2sYB6trvP62eGm2j3E9P6dH9Us1s2KbKpGSJqR9r+
+ M7d0z6b6zhPOfpL2UlCaIG599IvMmXOuPqwXNQPcDZXrUEYOYNdETMNmEoycFxj9GgrMgCn7WJuKV
+ 2UGo1s4Uj4oOYswSQNUgrj1TE1NayxQMD4ggovGulKGNZl1JGFgCXWUmgFyGHILQTufwJevvM+/mL
+ z7HAN92ZRBpdeUHsMs7GI1+MPX0kjvmWYl0ONnNow68KgDIbyJBi4kimkzqtyjMefw763qI99+ukm
+ gLHnVgf2KMJjx6Rf45eIbaA9cYztxcD5BmJ46xsybL8ho5JQ3JKRZTrjEhWfA8a/m/XvPymlqPF0M
+ vIu7ApBcMQyE2H0eJTFR1N5aAAtNHHwlmQbgII/IY=;
 Received: from [2a00:23c4:8ba8:7100:6571:576d:97b8:647b]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oohWG-0008N7-Dd; Sat, 29 Oct 2022 09:48:48 +0100
-Message-ID: <e2f298bc-d876-0089-8934-0b2061a1e46e@ilande.co.uk>
-Date: Sat, 29 Oct 2022 09:48:46 +0100
+ id 1oohWn-0008Rd-9I; Sat, 29 Oct 2022 09:49:21 +0100
+Message-ID: <0f3c8bce-6a10-f971-89b6-97b0500f3dfd@ilande.co.uk>
+Date: Sat, 29 Oct 2022 09:49:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
@@ -45,15 +45,15 @@ Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 References: <cover.1666957578.git.balaton@eik.bme.hu>
- <ab891af01894bc01df0df78247da00fef4f59242.1666957578.git.balaton@eik.bme.hu>
+ <f9da172e486c1f57f8542c7c3cb0223cffa89b1f.1666957578.git.balaton@eik.bme.hu>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <ab891af01894bc01df0df78247da00fef4f59242.1666957578.git.balaton@eik.bme.hu>
+In-Reply-To: <f9da172e486c1f57f8542c7c3cb0223cffa89b1f.1666957578.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba8:7100:6571:576d:97b8:647b
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v6 13/19] mac_{old|new}world: Code style fix adding
- missing braces to if-s
+Subject: Re: [PATCH v6 14/19] mac_newworld: Turn CORE99_VIA_CONFIG defines
+ into an enum
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -81,69 +81,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 28/10/2022 12:56, BALATON Zoltan wrote:
 
+> This might allow the compiler to check values.
+> 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->   hw/ppc/mac_newworld.c | 6 ++++--
->   hw/ppc/mac_oldworld.c | 9 ++++++---
->   2 files changed, 10 insertions(+), 5 deletions(-)
+>   hw/ppc/mac_newworld.c | 10 ++++++----
+>   1 file changed, 6 insertions(+), 4 deletions(-)
 > 
 > diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-> index 6b2d781dea..37123daa6b 100644
+> index 37123daa6b..601ea518f8 100644
 > --- a/hw/ppc/mac_newworld.c
 > +++ b/hw/ppc/mac_newworld.c
-> @@ -202,14 +202,16 @@ static void ppc_core99_init(MachineState *machine)
->           kernel_size = load_elf(machine->kernel_filename, NULL,
->                                  translate_kernel_address, NULL, NULL, NULL,
->                                  NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
-> -        if (kernel_size < 0)
-> +        if (kernel_size < 0) {
->               kernel_size = load_aout(machine->kernel_filename, kernel_base,
->                                       machine->ram_size - kernel_base,
->                                       bswap_needed, TARGET_PAGE_SIZE);
-> -        if (kernel_size < 0)
-> +        }
-> +        if (kernel_size < 0) {
->               kernel_size = load_image_targphys(machine->kernel_filename,
->                                                 kernel_base,
->                                                 machine->ram_size - kernel_base);
-> +        }
->           if (kernel_size < 0) {
->               error_report("could not load kernel '%s'",
->                            machine->kernel_filename);
-> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-> index 23d9268281..558c639202 100644
-> --- a/hw/ppc/mac_oldworld.c
-> +++ b/hw/ppc/mac_oldworld.c
-> @@ -160,14 +160,16 @@ static void ppc_heathrow_init(MachineState *machine)
->           kernel_size = load_elf(machine->kernel_filename, NULL,
->                                  translate_kernel_address, NULL, NULL, NULL,
->                                  NULL, NULL, 1, PPC_ELF_MACHINE, 0, 0);
-> -        if (kernel_size < 0)
-> +        if (kernel_size < 0) {
->               kernel_size = load_aout(machine->kernel_filename, kernel_base,
->                                       machine->ram_size - kernel_base,
->                                       bswap_needed, TARGET_PAGE_SIZE);
-> -        if (kernel_size < 0)
-> +        }
-> +        if (kernel_size < 0) {
->               kernel_size = load_image_targphys(machine->kernel_filename,
->                                                 kernel_base,
->                                                 machine->ram_size - kernel_base);
-> +        }
->           if (kernel_size < 0) {
->               error_report("could not load kernel '%s'",
->                            machine->kernel_filename);
-> @@ -291,8 +293,9 @@ static void ppc_heathrow_init(MachineState *machine)
->           pci_create_simple(pci_bus, -1, "pci-ohci");
->       }
+> @@ -95,15 +95,17 @@ typedef struct Core99MachineState Core99MachineState;
+>   DECLARE_INSTANCE_CHECKER(Core99MachineState, CORE99_MACHINE,
+>                            TYPE_CORE99_MACHINE)
 >   
-> -    if (graphic_depth != 15 && graphic_depth != 32 && graphic_depth != 8)
-> +    if (graphic_depth != 15 && graphic_depth != 32 && graphic_depth != 8) {
->           graphic_depth = 15;
-> +    }
+> -#define CORE99_VIA_CONFIG_CUDA     0x0
+> -#define CORE99_VIA_CONFIG_PMU      0x1
+> -#define CORE99_VIA_CONFIG_PMU_ADB  0x2
+> +typedef enum {
+> +    CORE99_VIA_CONFIG_CUDA = 0,
+> +    CORE99_VIA_CONFIG_PMU,
+> +    CORE99_VIA_CONFIG_PMU_ADB
+> +} Core99ViaConfig;
 >   
->       /* No PCI init: the BIOS will do it */
+>   struct Core99MachineState {
+>       /*< private >*/
+>       MachineState parent;
 >   
+> -    uint8_t via_config;
+> +    Core99ViaConfig via_config;
+>   };
+>   
+>   static void fw_cfg_boot_set(void *opaque, const char *boot_device,
 
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
