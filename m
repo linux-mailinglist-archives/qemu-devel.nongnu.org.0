@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A17612080
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 07:20:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAE44612082
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 07:20:25 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ooeEE-0007XY-W7; Sat, 29 Oct 2022 01:17:55 -0400
+	id 1ooeE0-0007SO-Qx; Sat, 29 Oct 2022 01:17:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1ood8M-0003IW-P4
+ id 1ood8M-0003JL-Mq
  for qemu-devel@nongnu.org; Sat, 29 Oct 2022 00:07:47 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oocqd-0002Ed-B3
- for qemu-devel@nongnu.org; Fri, 28 Oct 2022 23:49:29 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1oocqh-0002F2-4T
+ for qemu-devel@nongnu.org; Fri, 28 Oct 2022 23:49:32 -0400
 Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8BxGdjColxjCTgDAA--.10354S3;
- Sat, 29 Oct 2022 11:49:22 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8BxXbfJolxjDDgDAA--.2876S3;
+ Sat, 29 Oct 2022 11:49:29 +0800 (CST)
 Received: from [10.20.42.238] (unknown [10.20.42.238])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8DxNlfBolxj+bcGAA--.4962S3; 
- Sat, 29 Oct 2022 11:49:22 +0800 (CST)
-Subject: Re: [PATCH v2 2/3] hw/loongarch: Improve fdt for LoongArch virt
- machine
+ AQAAf8DxLeDIolxj+rcGAA--.23047S3; 
+ Sat, 29 Oct 2022 11:49:28 +0800 (CST)
+Subject: Re: [PATCH v2 1/3] hw/loongarch: Load FDT table into dram memory space
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, maobibo@loongson.cn, philmd@linaro.org
 References: <20221028014007.2718352-1-yangxiaojuan@loongson.cn>
- <20221028014007.2718352-3-yangxiaojuan@loongson.cn>
+ <20221028014007.2718352-2-yangxiaojuan@loongson.cn>
 From: gaosong <gaosong@loongson.cn>
-Message-ID: <32f2069b-5574-cc9a-3cae-0cd0413c8926@loongson.cn>
-Date: Sat, 29 Oct 2022 11:49:21 +0800
+Message-ID: <7ccb0d9a-98f7-e674-2c2b-8290310a0bfb@loongson.cn>
+Date: Sat, 29 Oct 2022 11:49:28 +0800
 User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20221028014007.2718352-3-yangxiaojuan@loongson.cn>
+In-Reply-To: <20221028014007.2718352-2-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=gbk; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-CM-TRANSID: AQAAf8DxNlfBolxj+bcGAA--.4962S3
+X-CM-TRANSID: AQAAf8DxLeDIolxj+rcGAA--.23047S3
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxGry5Jr1kuF1UJr13ur47twb_yoW5CFyxpF
- Z8CFn5WFWxXF17WrWSva45Zr1fJrs7GF12qr4fWrW8CFyDWw1DXr40k39xtFy8Xws5JF1Y
- vFs5Kr97K3WkKrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoWxCF43ZryUZF15Aw4UArW7CFg_yoW5WFW8pF
+ 9xCFn5Wr40qrn7Wrn2qa4DuFyDAwn7Ka429FW7Cr4FkF9rWr10grW8A3yqkFy8A395JF4F
+ vFyvgrZaq3W8JrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ bIxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
  1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
  wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
  x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
  e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
- IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r1j6r4U
+ IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r1j6r4U
  McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
  AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
  Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwI
- xGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
+ xGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWx
  JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
- C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU7MmhUUUUU
+ C2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8xOz3UUUUU==
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
 X-Spam_score_int: 39
@@ -83,84 +82,75 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 ÔÚ 2022/10/28 ÉÏÎç9:40, Xiaojuan Yang Ð´µÀ:
-> Add new items into LoongArch FDT, including rtc and uart info.
+> Load FDT table into dram memory space, and the addr is 2 MiB.
+> Since lowmem region starts from 0, FDT base address is located
+> at 2 MiB to avoid NULL pointer access.
 >
 > Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 > ---
->   hw/loongarch/virt.c        | 31 +++++++++++++++++++++++++++++++
->   include/hw/pci-host/ls7a.h |  1 +
->   2 files changed, 32 insertions(+)
-Reviewed-by: Song Gao <gaosong@loongson.cn>
+>   hw/loongarch/virt.c         | 18 +++++++++++-------
+>   include/hw/loongarch/virt.h |  3 ---
+>   2 files changed, 11 insertions(+), 10 deletions(-)
+Acked-by: Song Gao <gaosong@loongson.cn>
 
 Thanks.
 Song Gao
 > diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
-> index fe33e7e3e4..eed9d591e7 100644
+> index 29df99727d..fe33e7e3e4 100644
 > --- a/hw/loongarch/virt.c
 > +++ b/hw/loongarch/virt.c
-> @@ -42,6 +42,35 @@
->   #include "hw/display/ramfb.h"
->   #include "hw/mem/pc-dimm.h"
+> @@ -159,7 +159,6 @@ static void fdt_add_pcie_node(const LoongArchMachineState *lams)
+>                                    1, FDT_PCI_RANGE_MMIO, 2, base_mmio,
+>                                    2, base_mmio, 2, size_mmio);
+>       g_free(nodename);
+> -    qemu_fdt_dumpdtb(ms->fdt, lams->fdt_size);
+>   }
 >   
-> +static void fdt_add_rtc_node(LoongArchMachineState *lams)
-> +{
-> +    char *nodename;
-> +    hwaddr base = VIRT_RTC_REG_BASE;
-> +    hwaddr size = VIRT_RTC_LEN;
-> +    MachineState *ms = MACHINE(lams);
-> +
-> +    nodename = g_strdup_printf("/rtc@%" PRIx64, base);
-> +    qemu_fdt_add_subnode(ms->fdt, nodename);
-> +    qemu_fdt_setprop_string(ms->fdt, nodename, "compatible", "loongson,ls7a-rtc");
-> +    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg", 0x0, base, size);
-> +    g_free(nodename);
-> +}
-> +
-> +static void fdt_add_uart_node(LoongArchMachineState *lams)
-> +{
-> +    char *nodename;
-> +    hwaddr base = VIRT_UART_BASE;
-> +    hwaddr size = VIRT_UART_SIZE;
-> +    MachineState *ms = MACHINE(lams);
-> +
-> +    nodename = g_strdup_printf("/serial@%" PRIx64, base);
-> +    qemu_fdt_add_subnode(ms->fdt, nodename);
-> +    qemu_fdt_setprop_string(ms->fdt, nodename, "compatible", "ns16550a");
-> +    qemu_fdt_setprop_cells(ms->fdt, nodename, "reg", 0x0, base, 0x0, size);
-> +    qemu_fdt_setprop_cell(ms->fdt, nodename, "clock-frequency", 100000000);
-> +    g_free(nodename);
-> +}
-> +
->   static void create_fdt(LoongArchMachineState *lams)
->   {
->       MachineState *ms = MACHINE(lams);
-> @@ -422,6 +451,7 @@ static void loongarch_devices_init(DeviceState *pch_pic, LoongArchMachineState *
->                      qdev_get_gpio_in(pch_pic,
->                                       VIRT_UART_IRQ - PCH_PIC_IRQ_OFFSET),
->                      115200, serial_hd(0), DEVICE_LITTLE_ENDIAN);
-> +    fdt_add_uart_node(lams);
+>   static void fdt_add_irqchip_node(LoongArchMachineState *lams)
+> @@ -689,6 +688,7 @@ static void loongarch_init(MachineState *machine)
+>       MemoryRegion *address_space_mem = get_system_memory();
+>       LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
+>       int i;
+> +    hwaddr fdt_base;
 >   
->       /* Network init */
->       for (i = 0; i < nb_nics; i++) {
-> @@ -442,6 +472,7 @@ static void loongarch_devices_init(DeviceState *pch_pic, LoongArchMachineState *
->       sysbus_create_simple("ls7a_rtc", VIRT_RTC_REG_BASE,
->                            qdev_get_gpio_in(pch_pic,
->                            VIRT_RTC_IRQ - PCH_PIC_IRQ_OFFSET));
-> +    fdt_add_rtc_node(lams);
+>       if (!cpu_model) {
+>           cpu_model = LOONGARCH_CPU_TYPE_NAME("la464");
+> @@ -793,12 +793,16 @@ static void loongarch_init(MachineState *machine)
+>       lams->machine_done.notify = virt_machine_done;
+>       qemu_add_machine_init_done_notifier(&lams->machine_done);
+>       fdt_add_pcie_node(lams);
+> -
+> -    /* load fdt */
+> -    MemoryRegion *fdt_rom = g_new(MemoryRegion, 1);
+> -    memory_region_init_rom(fdt_rom, NULL, "fdt", VIRT_FDT_SIZE, &error_fatal);
+> -    memory_region_add_subregion(get_system_memory(), VIRT_FDT_BASE, fdt_rom);
+> -    rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, VIRT_FDT_BASE);
+> +    /*
+> +     * Since lowmem region starts from 0, FDT base address is located
+> +     * at 2 MiB to avoid NULL pointer access.
+> +     *
+> +     * Put the FDT into the memory map as a ROM image: this will ensure
+> +     * the FDT is copied again upon reset, even if addr points into RAM.
+> +     */
+> +    fdt_base = 2 * MiB;
+> +    qemu_fdt_dumpdtb(machine->fdt, lams->fdt_size);
+> +    rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, fdt_base);
+>   }
 >   
->       pm_mem = g_new(MemoryRegion, 1);
->       memory_region_init_io(pm_mem, NULL, &loongarch_virt_pm_ops,
-> diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
-> index 9bd875ca8b..df7fa55a30 100644
-> --- a/include/hw/pci-host/ls7a.h
-> +++ b/include/hw/pci-host/ls7a.h
-> @@ -37,6 +37,7 @@
->   #define VIRT_PCI_IRQS            48
->   #define VIRT_UART_IRQ            (PCH_PIC_IRQ_OFFSET + 2)
->   #define VIRT_UART_BASE           0x1fe001e0
-> +#define VIRT_UART_SIZE           0X100
->   #define VIRT_RTC_IRQ             (PCH_PIC_IRQ_OFFSET + 3)
->   #define VIRT_MISC_REG_BASE       (VIRT_PCH_REG_BASE + 0x00080000)
->   #define VIRT_RTC_REG_BASE        (VIRT_MISC_REG_BASE + 0x00050100)
+>   bool loongarch_is_acpi_enabled(LoongArchMachineState *lams)
+> diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
+> index 09f1c88ee5..45c383f5a7 100644
+> --- a/include/hw/loongarch/virt.h
+> +++ b/include/hw/loongarch/virt.h
+> @@ -28,9 +28,6 @@
+>   #define VIRT_GED_MEM_ADDR       (VIRT_GED_EVT_ADDR + ACPI_GED_EVT_SEL_LEN)
+>   #define VIRT_GED_REG_ADDR       (VIRT_GED_MEM_ADDR + MEMORY_HOTPLUG_IO_LEN)
+>   
+> -#define VIRT_FDT_BASE           0x1c400000
+> -#define VIRT_FDT_SIZE           0x100000
+> -
+>   struct LoongArchMachineState {
+>       /*< private >*/
+>       MachineState parent_obj;
 
 
