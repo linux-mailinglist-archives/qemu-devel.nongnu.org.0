@@ -2,92 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0858A612270
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 13:35:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C11E6122D9
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Oct 2022 14:20:07 +0200 (CEST)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ook6Q-0002wt-08; Sat, 29 Oct 2022 07:34:15 -0400
+	id 1ookn3-0004l5-Mi; Sat, 29 Oct 2022 08:18:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ook6E-0002wN-4i; Sat, 29 Oct 2022 07:34:08 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1ook6C-00088a-4p; Sat, 29 Oct 2022 07:34:01 -0400
-Received: by mail-ed1-x536.google.com with SMTP id z18so6304582edb.9;
- Sat, 29 Oct 2022 04:33:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XTd+7LNVLJqurlB1aAgkPpQ3yoh4dje/MIK5EYlszOU=;
- b=UEbyKRDqyiFEptHP1vcMSmdfwCRQQ0W2Jw3zGFX1ZginydWbKqkQD6pFuBho9v4iIf
- SWjNdbcGvbS+oNJeSi8vxQtE2iXyHj/8zz6XbaO2wJYgXDA223TGZ0xsFxT58mgAvX1y
- w6T64y8TN+bqQTIa10Cca35W7QeLW/qnguDFv8Uv56vsPQUgzwaQInJQL+jCd+xjqscn
- /Jbdg+CIfZDjsujtM6iHNOopuDg4ecLB1TCbBdUJk19Xm+Q6dg3ArNU89Q+lPURSVpVB
- 0ulW7VEqwyvNhNxf34D1Wc56Td4dxzqWCqbNcBaZpbpc1Xser8rgIs2ZVCj47jYQRGih
- Emqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XTd+7LNVLJqurlB1aAgkPpQ3yoh4dje/MIK5EYlszOU=;
- b=CUa2s+6TvdrL7FlgqbfqhsEtuFShBvyZS8Ibsv73vPteVRFz9r4wF08B3CVd+GX1l+
- 4tKuFkO/gsY9FJHmw3e7oI0f6svGUqA4aymJ+VUcMzrCxMMqPJ8hQ7L2o9Sa7+9JfBJW
- YumZ0ieK6y3G/Ce9EeUE4RC2Sjw7JS4RLp+6GbqTCPxXW1H+enZlYTWec4mFkpn/tubn
- +az+9FIZwr8Cdt1rVRMcKVVDsI9wQAdIWtPHV4qSKGCFxgyDhJDiQ8gRYS2SH1oKErFL
- vBr/tED3Z+pwVTQMTodkgMN2Y0LMIyOUiVTjvrktftmI+kKkehpe4ucjxi8XfJkP+fil
- Rv+w==
-X-Gm-Message-State: ACrzQf3UMGYGQAr0qol3uyy2YdcRZmcRShaqmqeRhUiZGqeE+QtIMgRE
- 9eHqNHVE1J2PhoAHC6BJojk=
-X-Google-Smtp-Source: AMsMyM5/rQOjGrH24gBIgVCCsVTojCMKOguT62zlF/PNLQCFI850g+m94J9UML/qblR9Rr8jNyY3pw==
-X-Received: by 2002:a05:6402:2409:b0:456:f97b:3794 with SMTP id
- t9-20020a056402240900b00456f97b3794mr3923099eda.145.1667043236512; 
- Sat, 29 Oct 2022 04:33:56 -0700 (PDT)
-Received: from ?IPv6:::1?
- (p200300faaf0bb200c875a4c76b3be6c4.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:c875:a4c7:6b3b:e6c4])
- by smtp.gmail.com with ESMTPSA id
- x1-20020aa7dac1000000b00461bd82581asm658659eds.84.2022.10.29.04.33.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 29 Oct 2022 04:33:56 -0700 (PDT)
-Date: Sat, 29 Oct 2022 11:33:51 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-CC: qemu-ppc@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Antony Pavlov <antonynpavlov@gmail.com>, BALATON Zoltan <balaton@eik.bme.hu>, 
- Alistair Francis <alistair@alistair23.me>, Bin Meng <bin.meng@windriver.com>, 
- Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Jan Kiszka <jan.kiszka@web.de>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>, qemu-arm@nongnu.org,
- Magnus Damm <magnus.damm@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_6/7=5D_hw/sd/sdhci=3A_Imp?=
- =?US-ASCII?Q?lement_Freescale_eSDHC_device_model?=
-In-Reply-To: <f9dd1e1e-65b6-c74d-d957-43774393c2a4@linaro.org>
-References: <20221018210146.193159-1-shentey@gmail.com>
- <20221018210146.193159-7-shentey@gmail.com>
- <f9dd1e1e-65b6-c74d-d957-43774393c2a4@linaro.org>
-Message-ID: <724F8CC8-C5E8-4785-B5C2-F1D327863717@gmail.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ookn0-0004k6-Ng; Sat, 29 Oct 2022 08:18:15 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ookmy-0007bl-0O; Sat, 29 Oct 2022 08:18:14 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 5D58A74638A;
+ Sat, 29 Oct 2022 14:18:08 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id C404D74633D; Sat, 29 Oct 2022 14:18:07 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id C1964746307;
+ Sat, 29 Oct 2022 14:18:07 +0200 (CEST)
+Date: Sat, 29 Oct 2022 14:18:07 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH v5 20/20] mac_{old, new}world: Pass MacOS VGA NDRV in
+ card ROM instead of fw_cfg
+In-Reply-To: <0be174ad-2086-2a55-4025-860785b1d441@ilande.co.uk>
+Message-ID: <d1344178-94dc-1fea-baba-51673c1c2f@eik.bme.hu>
+References: <cover.1666715145.git.balaton@eik.bme.hu>
+ <915b28547446c1fad749fbab2943b13e3a0d856b.1666733213.git.balaton@eik.bme.hu>
+ <d3bdb406-70d3-d60d-b481-7d88736a2e4b@ilande.co.uk>
+ <24e4cba4-2f68-73a2-55d2-2dc5c0cba14e@eik.bme.hu>
+ <0be174ad-2086-2a55-4025-860785b1d441@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,128 +62,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 27=2E Oktober 2022 21:40:01 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <p=
-hilmd@linaro=2Eorg>:
->Hi Bernhard,
+On Sat, 29 Oct 2022, Mark Cave-Ayland wrote:
+> On 28/10/2022 13:32, BALATON Zoltan wrote:
+>> On Fri, 28 Oct 2022, Mark Cave-Ayland wrote:
+>>> On 25/10/2022 22:31, BALATON Zoltan wrote:
+>>>> OpenBIOS cannot run FCode ROMs yet but it can detect NDRV in VGA card
+>>>> ROM and add it to the device tree for MacOS. Pass the NDRV this way
+>>>> instead of via fw_cfg. This solves the problem with OpenBIOS also
+>>>> adding the NDRV to ati-vga which it does not work with. This does not
+>>>> need any changes to OpenBIOS as this NDRV ROM handling is already
+>>>> there but this patch also allows simplifying OpenBIOS later to remove
+>>>> the fw_cfg ndrv handling from the vga FCode and also drop the
+>>>> vga-ndrv? option which is not needed any more as users can disable the
+>>>> ndrv with -device VGA,romfile="" (or override it with their own NDRV
+>>>> or ROM). Once FCode support is implemented in OpenBIOS, the proper
+>>>> FCode ROM can be set the same way so this paves the way to remove some
+>>>> hacks.
+>>> 
+>>> This is not correct though: in a real option ROM the NDRV is included as 
+>>> part of the ROM payload and is not a standalone file. The IEEE-1275 PCI 
+>>> specification gives the correct format for an option ROM which at minimum 
+>>> contains a header, and likely some additional FCode.
+>> 
+>> As the commit message says that does not work with OpenBIOS at the moment 
+>> but passing the NDRV does. That it's not how real hardware works is not an 
+>> argument after all real hardware does not have fw_cfg either and this way 
+>> is much simpler than fw_cfg, it fixes the problem with ati-vga and it can 
+>> be changed later to pass the real FCode ROM the same way so I think it's a 
+>> better way to handle this now as what we have currently.
 >
->On 18/10/22 23:01, Bernhard Beschow wrote:
->> Will allow e500 boards to access SD cards using just their own devices=
-=2E
->>=20
->> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->> ---
->>   hw/sd/sdhci=2Ec         | 120 +++++++++++++++++++++++++++++++++++++++=
-++-
->>   include/hw/sd/sdhci=2Eh |   3 ++
->>   2 files changed, 122 insertions(+), 1 deletion(-)
->>=20
->> diff --git a/hw/sd/sdhci=2Ec b/hw/sd/sdhci=2Ec
->> index 306070c872=2E=2E8d8ad9ff24 100644
->> --- a/hw/sd/sdhci=2Ec
->> +++ b/hw/sd/sdhci=2Ec
->> @@ -1369,6 +1369,7 @@ void sdhci_initfn(SDHCIState *s)
->>       s->transfer_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, sdhci_data=
-_transfer, s);
->>         s->io_ops =3D &sdhci_mmio_ops;
->> +    s->io_registers_map_size =3D SDHC_REGISTERS_MAP_SIZE;
->>   }
->>     void sdhci_uninitfn(SDHCIState *s)
->> @@ -1392,7 +1393,7 @@ void sdhci_common_realize(SDHCIState *s, Error **=
-errp)
->>       s->fifo_buffer =3D g_malloc0(s->buf_maxsz);
->>         memory_region_init_io(&s->iomem, OBJECT(s), s->io_ops, s, "sdhc=
-i",
->> -                          SDHC_REGISTERS_MAP_SIZE);
->> +                          s->io_registers_map_size);
->
->I don't think we want to change this region size=2E [see below]
->
->>   void sdhci_common_unrealize(SDHCIState *s)
->> @@ -1575,6 +1576,122 @@ static const TypeInfo sdhci_bus_info =3D {
->>       =2Eclass_init =3D sdhci_bus_class_init,
->>   };
->>   +/* --- qdev Freescale eSDHC --- */
->> +
->> +/* Watermark Level Register */
->> +#define ESDHC_WML                    0x44
->> +
->> +/* Control Register for DMA transfer */
->> +#define ESDHC_DMA_SYSCTL            0x40c
->> +
->> +#define ESDHC_REGISTERS_MAP_SIZE    0x410
->
->My preferred approach would be to create a container region with a
->size of ESDHC_REGISTERS_MAP_SIZE=2E Map the SDHC_REGISTERS_MAP region
->in the container at offset 0, priority -1=2E Add 2 register regions
->for ESDHC_WML and ESDHC_DMA_SYSCTL, and map them with priority 1 in
->the container=2E =2E=2E=2E
->
->> +static uint64_t esdhci_read(void *opaque, hwaddr offset, unsigned size=
-)
->> +{
->> +    uint64_t ret;
->> +
->> +    switch (offset) {
->> +    case SDHC_SYSAD:
->> +    case SDHC_BLKSIZE:
->> +    case SDHC_ARGUMENT:
->> +    case SDHC_TRNMOD:
->> +    case SDHC_RSPREG0:
->> +    case SDHC_RSPREG1:
->> +    case SDHC_RSPREG2:
->> +    case SDHC_RSPREG3:
->> +    case SDHC_BDATA:
->> +    case SDHC_PRNSTS:
->> +    case SDHC_HOSTCTL:
->> +    case SDHC_CLKCON:
->> +    case SDHC_NORINTSTS:
->> +    case SDHC_NORINTSTSEN:
->> +    case SDHC_NORINTSIGEN:
->> +    case SDHC_ACMD12ERRSTS:
->> +    case SDHC_CAPAB:
->> +    case SDHC_SLOT_INT_STATUS:
->> +        ret =3D sdhci_read(opaque, offset, size);
->> +        break;
->
->=2E=2E=2E Then you don't need these cases=2E
->
->> +    case ESDHC_WML:
->> +    case ESDHC_DMA_SYSCTL:
->> +        ret =3D 0;
->> +        qemu_log_mask(LOG_UNIMP, "ESDHC rd @0x%02" HWADDR_PRIx
->> +                      " not implemented\n", offset);
->
->But then I realize you only treat these 2 registers as UNIMP=2E
->
->So now, I'd create 1 UNIMP region for ESDHC_WML and map it
->into SDHC_REGISTERS_MAP (s->iomem) with priority 1, and add
->another UNIMP region of ESDHC_REGISTERS_MAP_SIZE - SDHC_REGISTERS_MAP_SIZ=
-E (=3D 0x310) and map it normally at offset
->0x100 (SDHC_REGISTERS_MAP_SIZE)=2E Look at create_unimp() in
->hw/arm/bcm2835_peripherals=2Ec=2E
->
->But the ESDHC_WML register has address 0x44 and fits inside the
->SDHC_REGISTERS_MAP region, so likely belong there=2E 0x44 is the
->upper part of the SDHC_CAPAB register=2E These bits are undefined
->on the spec v2, which I see you are setting in esdhci_init()=2E
->So this register should already return 0, otherwise we have
->a bug=2E Thus we don't need to handle this ESDHC_WML particularly=2E
->
->And your model is reduced to handling create_unimp() in esdhci_realize()=
-=2E
->
->Am I missing something?
+> Right, passing the NDRV directly only happens to work because Ben's original 
+> hack is still in OpenBIOS.
 
-The mmio ops are big endian and need to be aligned to a 4-byte boundary=2E=
- It took me quite a while to debug this=2E So shall I just create an additi=
-onal memory region for the region above SDHC_REGISTERS_MAP_SIZE for ESDHC_D=
-MA_SYSCTL?
+And this allows to remove your hack which is just doing the same in a more 
+complex way and also breaks ati-vga. While this original hack is simpler 
+and cleaner and works just as well until we can finally pass a real FCode 
+ROM. (That probably won't be soon as OpenBIOS also progresses slowly due 
+to your lack of time. So at least please let QEMU progress a bit now.)
 
-Best regards,
-Bernhard
->
->Regards,
->
->Phil=2E
+> The longer term aim is to move towards the 
+> IEEE-1275 PCI specification: I can't see how switching from one custom 
+> mechanism to a different custom mechanism benefits anything here.
 
+Can't you see really or don't want to see to keep your code instead? With 
+this patch we pass the NDRV in ROM which can then simply be replaced with 
+the FCode ROM once OpenBIOS can handle that and no change is needed for 
+QEMU at that time, just replace qemu_vga.ndrv with the QEMU,VGA.fcode and 
+done. If we keep your fw_cfg hack then it will need to be reverted at that 
+point but we can do that now and simplify both QEMU and OpenBIOS by doing 
+so.
+
+> The problem you're actually trying to solve is that the ati-vga device should 
+> not be picking up the NDRV, so that's where the focus should be.
+
+And tis patch also solves that by moving the NDRV from the machine to the 
+VGA device so it will only be added with that device and not with ati-vga 
+so it won't be disturbing other vga cards. All this with less and simpler 
+code than what we have now. What do you have against it other than it's 
+making part of your code redundant? If your code is not better then you 
+should not be holding on to that if there's a simpler way. (I hope it's 
+not because https://en.wikipedia.org/wiki/Not_invented_here you could 
+prove me wrong giving a valid reason why the current solution is better 
+than this patch but I really can't see that. To me it's not about who wins 
+or whose code will be in QEMU or OpenBIOS but which is the simpler and 
+better working solution and in this case I think this patch is.)
+
+>>> Isn't the immediate problem here that the NDRV handling in OpenBIOS needs 
+>>> to be improved so that it can be disabled for particular VGA devices such 
+>>> as ATI?
+>> 
+>> No change is needed to OpenBIOS (I've discussed it more in the reply to 
+>> Howard on the list yesterday). With this patch only VGA device will have 
+>> qemu_vga.ndrv so OpenBIOS won't add it for ati-vga. Also the fw_cfg and 
+>> vga_ndrv? stuff can be removed from OpenBIOS after this patch as it's not 
+>> nedeed any more thus simplifying the vga.fs FCode in OpenBIOS a lot.
+>
+> The vga-ndrv? option was added for a reason though: the NDRV doesn't (yet?) 
+> work with KVM-PR on real Mac hardware, so to run MacOS on KVM you need a 
+> separate mechanism to disable the NDRV.
+
+You can still do that after this patch, just replace 
+-prom-env='vga-ndrv?=false' with -device VGA.romfile="" and it won't add 
+the NDRV. If you want to keep the non-standard vga-ndrv? option you've 
+invented and is not part of IEEE-1275 so shouldn't be in OpenBIOS at all 
+then you can change OpenBIOS to check this option in vga_config_cb before 
+checking the ROM for NDRV and then even command lines using that option 
+are backward compatibile so it's not an issue.
+
+> This becomes more important when 
+> OpenBIOS gets to the stage where the FCode can create the DT nodes itself.
+
+It's not an issue either as fw_cfg already has a FW_CFG_PPC_IS_KVM 
+variable so the FCode can handle it itself based on that variable. No 
+cahange is needed to QEMU and no hack is needed in OpenBIOS for that only 
+in the QEMU,VGA FCode to check for KVM and you can just add the FCode 
+instead of the NDRV after this patch.
+
+> Also if we do decide to change this, it would be a compatibility break for a 
+> lot of existing documentation and examples: this is something we could manage 
+> going forward, but it needs some planning and isn't something we should be 
+> doing a few days before freeze.
+
+I did submit the cleanup series in time well before the freeze and 
+intended to follow up with these after that simple series. The reason it's 
+got that late is your slow response time so don't blame me for that. 
+Missing the freeze though means we lose almost half a year again before 
+this can get to the users so I think it's better to merge this tentatively 
+mow and then drop it during the freeze if some problem is found than just 
+ignoring it right away so you don't need to think about it.
+
+Regards,
+BALATON Zoltan
 
