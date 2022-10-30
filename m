@@ -2,35 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5084763F470
-	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 16:46:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1043863F460
+	for <lists+qemu-devel@lfdr.de>; Thu,  1 Dec 2022 16:43:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1p0lhW-0005Jc-1c; Thu, 01 Dec 2022 10:42:14 -0500
+	id 1p0lhX-0005Jl-BW; Thu, 01 Dec 2022 10:42:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1p0lhO-0005GK-V7; Thu, 01 Dec 2022 10:42:07 -0500
+ id 1p0lhN-0005En-9Y; Thu, 01 Dec 2022 10:42:05 -0500
 Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1p0lhM-0004wk-UW; Thu, 01 Dec 2022 10:42:06 -0500
+ id 1p0lhK-0004vz-HY; Thu, 01 Dec 2022 10:42:05 -0500
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id AA96E11F9A1;
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 24FEC11F994;
  Thu,  1 Dec 2022 15:42:01 +0000 (UTC)
 From: ~axelheider <axelheider@git.sr.ht>
-Date: Thu, 27 Oct 2022 15:09:58 +0200
-Subject: [PATCH qemu.git v3 6/8] hw/timer/imx_epit: factor out register write
- handlers
-Message-ID: <166990932074.29941.8709118178538288040-6@git.sr.ht>
+Date: Mon, 31 Oct 2022 00:59:29 +0100
+Subject: [PATCH qemu.git v3 2/8] hw/timer/imx_epit: cleanup CR defines
+Message-ID: <166990932074.29941.8709118178538288040-2@git.sr.ht>
 X-Mailer: git.sr.ht
 In-Reply-To: <166990932074.29941.8709118178538288040-0@git.sr.ht>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, peter.maydell@linaro.org
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
 Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
  helo=mail-b.sr.ht
@@ -58,263 +57,52 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Axel Heider <axel.heider@hensoldt.net>
 
+remove unused defines, add needed defines
+
 Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
 ---
- hw/timer/imx_epit.c | 207 ++++++++++++++++++++++++--------------------
- 1 file changed, 113 insertions(+), 94 deletions(-)
+ hw/timer/imx_epit.c         | 4 ++--
+ include/hw/timer/imx_epit.h | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
-index 39f47222d0..e04427542f 100644
+index 2841fbaa1c..661e9158e3 100644
 --- a/hw/timer/imx_epit.c
 +++ b/hw/timer/imx_epit.c
-@@ -191,129 +191,148 @@ static void imx_epit_reload_compare_timer(IMXEPITStat=
-e *s)
-     }
- }
-=20
--static void imx_epit_write(void *opaque, hwaddr offset, uint64_t value,
--                           unsigned size)
-+static void imx_epit_write_cr(IMXEPITState *s, uint32_t value)
- {
--    IMXEPITState *s =3D IMX_EPIT(opaque);
--    uint64_t oldcr;
--
--    DPRINTF("(%s, value =3D 0x%08x)\n", imx_epit_reg_name(offset >> 2),
--            (uint32_t)value);
-+    uint32_t oldcr =3D s->cr;
-=20
--    switch (offset >> 2) {
--    case 0: /* CR */
--
--        oldcr =3D s->cr;
--        s->cr =3D value & 0x03ffffff;
--        if (s->cr & CR_SWR) {
--            /* handle the reset */
--            imx_epit_reset(s, false);
--        }
-+    s->cr =3D value & 0x03ffffff;
-=20
--        /*
--         * The interrupt state can change due to:
--         * - reset clears both SR.OCIF and CR.OCIE
--         * - write to CR.EN or CR.OCIE
--         */
--        imx_epit_update_int(s);
-+    if (s->cr & CR_SWR) {
-+        /* handle the reset */
-+        imx_epit_reset(s, false);
-+    }
-=20
--        /*
--         * TODO: could we 'break' here for reset? following operations appear
--         * to duplicate the work imx_epit_reset() already did.
--         */
-+    /*
-+     * The interrupt state can change due to:
-+     * - reset clears both SR.OCIF and CR.OCIE
-+     * - write to CR.EN or CR.OCIE
-+     */
-+    imx_epit_update_int(s);
-=20
--        ptimer_transaction_begin(s->timer_cmp);
--        ptimer_transaction_begin(s->timer_reload);
-+    /*
-+     * TODO: could we 'break' here for reset? following operations appear
-+     * to duplicate the work imx_epit_reset() already did.
-+     */
-=20
--        /* Update the frequency. Has been done already in case of a reset. */
--        if (!(s->cr & CR_SWR)) {
--            imx_epit_set_freq(s);
--        }
-+    ptimer_transaction_begin(s->timer_cmp);
-+    ptimer_transaction_begin(s->timer_reload);
-=20
--        if (s->freq && (s->cr & CR_EN) && !(oldcr & CR_EN)) {
--            if (s->cr & CR_ENMOD) {
--                if (s->cr & CR_RLD) {
--                    ptimer_set_limit(s->timer_reload, s->lr, 1);
--                    ptimer_set_limit(s->timer_cmp, s->lr, 1);
--                } else {
--                    ptimer_set_limit(s->timer_reload, EPIT_TIMER_MAX, 1);
--                    ptimer_set_limit(s->timer_cmp, EPIT_TIMER_MAX, 1);
--                }
--            }
-+    /* Update the frequency. Has been done already in case of a reset. */
-+    if (!(s->cr & CR_SWR)) {
-+        imx_epit_set_freq(s);
-+    }
-=20
--            imx_epit_reload_compare_timer(s);
--            ptimer_run(s->timer_reload, 0);
--            if (s->cr & CR_OCIEN) {
--                ptimer_run(s->timer_cmp, 0);
-+    if (s->freq && (s->cr & CR_EN) && !(oldcr & CR_EN)) {
-+        if (s->cr & CR_ENMOD) {
-+            if (s->cr & CR_RLD) {
-+                ptimer_set_limit(s->timer_reload, s->lr, 1);
-+                ptimer_set_limit(s->timer_cmp, s->lr, 1);
-             } else {
--                ptimer_stop(s->timer_cmp);
--            }
--        } else if (!(s->cr & CR_EN)) {
--            /* stop both timers */
--            ptimer_stop(s->timer_reload);
--            ptimer_stop(s->timer_cmp);
--        } else  if (s->cr & CR_OCIEN) {
--            if (!(oldcr & CR_OCIEN)) {
--                imx_epit_reload_compare_timer(s);
--                ptimer_run(s->timer_cmp, 0);
-+                ptimer_set_limit(s->timer_reload, EPIT_TIMER_MAX, 1);
-+                ptimer_set_limit(s->timer_cmp, EPIT_TIMER_MAX, 1);
-             }
-+        }
-+
-+        imx_epit_reload_compare_timer(s);
-+        ptimer_run(s->timer_reload, 0);
-+        if (s->cr & CR_OCIEN) {
-+            ptimer_run(s->timer_cmp, 0);
-         } else {
-             ptimer_stop(s->timer_cmp);
-         }
-+    } else if (!(s->cr & CR_EN)) {
-+        /* stop both timers */
-+        ptimer_stop(s->timer_reload);
-+        ptimer_stop(s->timer_cmp);
-+    } else  if (s->cr & CR_OCIEN) {
-+        if (!(oldcr & CR_OCIEN)) {
-+            imx_epit_reload_compare_timer(s);
-+            ptimer_run(s->timer_cmp, 0);
-+        }
-+    } else {
-+        ptimer_stop(s->timer_cmp);
-+    }
-=20
--        ptimer_transaction_commit(s->timer_cmp);
--        ptimer_transaction_commit(s->timer_reload);
-+    ptimer_transaction_commit(s->timer_cmp);
-+    ptimer_transaction_commit(s->timer_reload);
-+}
-+
-+static void imx_epit_write_sr(IMXEPITState *s, uint32_t value)
-+{
-+    /* writing 1 to SR.OCIF clears this bit and turns the interrupt off */
-+    if (value & SR_OCIF) {
-+        s->sr =3D 0; /* SR.OCIF is the only bit in this register anyway */
-+        imx_epit_update_int(s);
-+    }
-+}
-+
-+static void imx_epit_write_lr(IMXEPITState *s, uint32_t value)
-+{
-+    s->lr =3D value;
-+
-+    ptimer_transaction_begin(s->timer_cmp);
-+    ptimer_transaction_begin(s->timer_reload);
-+    if (s->cr & CR_RLD) {
-+        /* Also set the limit if the LRD bit is set */
-+        /* If IOVW bit is set then set the timer value */
-+        ptimer_set_limit(s->timer_reload, s->lr, s->cr & CR_IOVW);
-+        ptimer_set_limit(s->timer_cmp, s->lr, 0);
-+    } else if (s->cr & CR_IOVW) {
-+        /* If IOVW bit is set then set the timer value */
-+        ptimer_set_count(s->timer_reload, s->lr);
-+    }
-+    /*
-+     * Commit the change to s->timer_reload, so it can propagate. Otherwise
-+     * the timer interrupt may not fire properly. The commit must happen
-+     * before calling imx_epit_reload_compare_timer(), which reads
-+     * s->timer_reload internally again.
-+     */
-+    ptimer_transaction_commit(s->timer_reload);
-+    imx_epit_reload_compare_timer(s);
-+    ptimer_transaction_commit(s->timer_cmp);
-+}
-+
-+static void imx_epit_write_cmp(IMXEPITState *s, uint32_t value)
-+{
-+    s->cmp =3D value;
-+
-+    ptimer_transaction_begin(s->timer_cmp);
-+    imx_epit_reload_compare_timer(s);
-+    ptimer_transaction_commit(s->timer_cmp);
-+}
-+
-+static void imx_epit_write(void *opaque, hwaddr offset, uint64_t value,
-+                           unsigned size)
-+{
-+    IMXEPITState *s =3D IMX_EPIT(opaque);
-+
-+    DPRINTF("(%s, value =3D 0x%08x)\n", imx_epit_reg_name(offset >> 2),
-+            (uint32_t)value);
-+
-+    switch (offset >> 2) {
-+    case 0: /* CR */
-+        imx_epit_write_cr(s, (uint32_t)value);
-         break;
-=20
--    case 1: /* SR - ACK*/
--        /* writing 1 to SR.OCIF clears this bit and turns the interrupt off =
-*/
--        if (value & SR_OCIF) {
--            s->sr =3D 0; /* SR.OCIF is the only bit in this register anyway =
-*/
--            imx_epit_update_int(s);
--        }
-+    case 1: /* SR */
-+        imx_epit_write_sr(s, (uint32_t)value);
-         break;
-=20
--    case 2: /* LR - set ticks */
--        s->lr =3D value;
--
--        ptimer_transaction_begin(s->timer_cmp);
--        ptimer_transaction_begin(s->timer_reload);
--        if (s->cr & CR_RLD) {
--            /* Also set the limit if the LRD bit is set */
--            /* If IOVW bit is set then set the timer value */
--            ptimer_set_limit(s->timer_reload, s->lr, s->cr & CR_IOVW);
--            ptimer_set_limit(s->timer_cmp, s->lr, 0);
--        } else if (s->cr & CR_IOVW) {
--            /* If IOVW bit is set then set the timer value */
--            ptimer_set_count(s->timer_reload, s->lr);
--        }
--        /*
--         * Commit the change to s->timer_reload, so it can propagate. Otherw=
-ise
--         * the timer interrupt may not fire properly. The commit must happen
--         * before calling imx_epit_reload_compare_timer(), which reads
--         * s->timer_reload internally again.
--         */
--        ptimer_transaction_commit(s->timer_reload);
--        imx_epit_reload_compare_timer(s);
--        ptimer_transaction_commit(s->timer_cmp);
-+    case 2: /* LR */
-+        imx_epit_write_lr(s, (uint32_t)value);
-         break;
-=20
-     case 3: /* CMP */
--        s->cmp =3D value;
--
--        ptimer_transaction_begin(s->timer_cmp);
--        imx_epit_reload_compare_timer(s);
--        ptimer_transaction_commit(s->timer_cmp);
--
-+        imx_epit_write_cmp(s, (uint32_t)value);
-         break;
-=20
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Bad register at offset 0x%"
-                       HWADDR_PRIx "\n", TYPE_IMX_EPIT, __func__, offset);
--
-         break;
-     }
- }
-+
- static void imx_epit_cmp(void *opaque)
- {
-     IMXEPITState *s =3D IMX_EPIT(opaque);
---=20
+@@ -82,8 +82,8 @@ static void imx_epit_set_freq(IMXEPITState *s)
+     uint32_t clksrc;
+     uint32_t prescaler;
+ 
+-    clksrc = extract32(s->cr, CR_CLKSRC_SHIFT, 2);
+-    prescaler = 1 + extract32(s->cr, CR_PRESCALE_SHIFT, 12);
++    clksrc = extract32(s->cr, CR_CLKSRC_SHIFT, CR_CLKSRC_BITS);
++    prescaler = 1 + extract32(s->cr, CR_PRESCALE_SHIFT, CR_PRESCALE_BITS);
+ 
+     s->freq = imx_ccm_get_clock_frequency(s->ccm,
+                                 imx_epit_clocks[clksrc]) / prescaler;
+diff --git a/include/hw/timer/imx_epit.h b/include/hw/timer/imx_epit.h
+index 2acc41e982..e2cb96229b 100644
+--- a/include/hw/timer/imx_epit.h
++++ b/include/hw/timer/imx_epit.h
+@@ -43,7 +43,7 @@
+ #define CR_OCIEN    (1 << 2)
+ #define CR_RLD      (1 << 3)
+ #define CR_PRESCALE_SHIFT (4)
+-#define CR_PRESCALE_MASK  (0xfff)
++#define CR_PRESCALE_BITS  (12)
+ #define CR_SWR      (1 << 16)
+ #define CR_IOVW     (1 << 17)
+ #define CR_DBGEN    (1 << 18)
+@@ -51,7 +51,7 @@
+ #define CR_DOZEN    (1 << 20)
+ #define CR_STOPEN   (1 << 21)
+ #define CR_CLKSRC_SHIFT (24)
+-#define CR_CLKSRC_MASK  (0x3 << CR_CLKSRC_SHIFT)
++#define CR_CLKSRC_BITS  (2)
+ 
+ #define EPIT_TIMER_MAX  0XFFFFFFFFUL
+ 
+-- 
 2.34.5
 
 
