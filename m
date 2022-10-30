@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAFDB612BAC
+	by mail.lfdr.de (Postfix) with ESMTPS id C2243612BAA
 	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 17:47:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opBRe-0004yX-TS; Sun, 30 Oct 2022 12:45:58 -0400
+	id 1opBRj-0004z4-Hd; Sun, 30 Oct 2022 12:46:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1opBRc-0004xw-Kn
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 12:45:56 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1opBRh-0004yu-Kb
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 12:46:01 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1opBRa-00075q-SU
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 12:45:56 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1opBRf-00076h-KA
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 12:46:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667148353;
+ s=mimecast20190719; t=1667148359;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vqpamc1sV0LDk2ypGdi/35g1fnYMh6A6P9DrVLU0CJk=;
- b=Qi7/Mdk1n/PoPNA9B5ql9nRPZA+Z4puxObd3iL13hRbsJE0aRxsEj5JGdRM5lnchO55aXT
- oBe59NiP2AK9ztyMWjvhPgL6jgKkfCMZ6A+XG6gxR52V04uO3dxHB+4+x3IS/HBtiOKWM3
- WvXQLPc8JveS4F66gy48W77oafJY/ds=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VmNLn4R+qIhdOjPioEuU+UzYu6neT65MjJbMmwJzDX4=;
+ b=SN7sfm9FvcNZNtPaopA3IMfmrpx9g63PnqZ/u7zHkx6UUYhJZoT+7z1kRv3kZCU5Jn3Fqk
+ lWgodJzG5XmSoFrdkLQhll9yvkEf/YGwzw0d8X15G7UYVc33e+j5awFo1F1pauQkSnT1B/
+ bMELCjkkckyqo9bbWt0LjWVrVJtEyho=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-9V8hrH-8OMaYE58LzhcWiQ-1; Sun, 30 Oct 2022 12:45:47 -0400
-X-MC-Unique: 9V8hrH-8OMaYE58LzhcWiQ-1
+ us-mta-441-orBSxPgtNgqGawcVBkRNSQ-1; Sun, 30 Oct 2022 12:45:52 -0400
+X-MC-Unique: orBSxPgtNgqGawcVBkRNSQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17324800B23;
- Sun, 30 Oct 2022 16:45:47 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0AE4F8027EC;
+ Sun, 30 Oct 2022 16:45:52 +0000 (UTC)
 Received: from server.redhat.com (ovpn-12-79.pek2.redhat.com [10.72.12.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8BA9FC15BA8;
- Sun, 30 Oct 2022 16:45:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4CB6C15BA8;
+ Sun, 30 Oct 2022 16:45:47 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: lulu@redhat.com, alex.williamson@redhat.com, jasowang@redhat.com,
  mst@redhat.com, pbonzini@redhat.com, peterx@redhat.com, david@redhat.com,
  f4bug@amsat.org, sgarzare@redhat.com
 Cc: qemu-devel@nongnu.org
-Subject: [PATCH v7 0/2] vhost-vdpa: add support for vIOMMU
-Date: Mon, 31 Oct 2022 00:45:37 +0800
-Message-Id: <20221030164539.1374058-1-lulu@redhat.com>
+Subject: [PATCH v7 1/2] vfio: move function vfio_get_xlat_addr() to memory.c
+Date: Mon, 31 Oct 2022 00:45:38 +0800
+Message-Id: <20221030164539.1374058-2-lulu@redhat.com>
+In-Reply-To: <20221030164539.1374058-1-lulu@redhat.com>
+References: <20221030164539.1374058-1-lulu@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -75,41 +78,285 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These patches are to support vIOMMU in vdpa device
+- Move the function vfio_get_xlat_addr to softmmu/memory.c, and
+  change the name to memory_get_xlat_addr(). So we can use this
+  function on other devices, such as vDPA device.
+- Add a new bool arg in this function, which shows whether the memory is
+  backed by a discard manager. So the device can have its own warning.
 
-changes in V3
-1. Move function vfio_get_xlat_addr to memory.c
-2. Use the existing memory listener, while the MR is
-iommu MR then call the function iommu_region_add/
-iommu_region_del
+Signed-off-by: Cindy Lu <lulu@redhat.com>
+---
+ hw/vfio/common.c      | 107 +++++++++++-------------------------------
+ include/exec/memory.h |   4 ++
+ softmmu/memory.c      |  72 ++++++++++++++++++++++++++++
+ 3 files changed, 104 insertions(+), 79 deletions(-)
 
-changes in V4
-1.make the comments in vfio_get_xlat_addr more general
-
-changes in V5
-1. Address the comments in the last version
-2. Add a new arg in the function vfio_get_xlat_addr, which shows whether
-the memory is backed by a discard manager. So the device can have its
-own warning.
-
-changes in V6
-move the error_report for unpopulated_discard back to
-memeory_get_xlat_addr
-
-changes in V7
-organize the error massage to avoid the duplicate information
-
-Cindy Lu (2):
-  vfio: move function vfio_get_xlat_addr() to memory.c
-  vhost-vdpa: add support for vIOMMU
-
- hw/vfio/common.c               | 107 ++++++++--------------------
- hw/virtio/vhost-vdpa.c         | 123 ++++++++++++++++++++++++++++++---
- include/exec/memory.h          |   4 ++
- include/hw/virtio/vhost-vdpa.h |  10 +++
- softmmu/memory.c               |  72 +++++++++++++++++++
- 5 files changed, 226 insertions(+), 90 deletions(-)
-
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index ace9562a9b..a934262f39 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -573,61 +573,20 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
+             */
+            section->offset_within_address_space & (1ULL << 63);
+ }
+-
+-/* Called with rcu_read_lock held.  */
+-static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+-                               ram_addr_t *ram_addr, bool *read_only)
++static inline void vfio_mr_discard_manager_warn(bool mr_has_discard_manager)
+ {
+-    MemoryRegion *mr;
+-    hwaddr xlat;
+-    hwaddr len = iotlb->addr_mask + 1;
+-    bool writable = iotlb->perm & IOMMU_WO;
+-
+-    /*
+-     * The IOMMU TLB entry we have just covers translation through
+-     * this IOMMU to its immediate target.  We need to translate
+-     * it the rest of the way through to memory.
+-     */
+-    mr = address_space_translate(&address_space_memory,
+-                                 iotlb->translated_addr,
+-                                 &xlat, &len, writable,
+-                                 MEMTXATTRS_UNSPECIFIED);
+-    if (!memory_region_is_ram(mr)) {
+-        error_report("iommu map to non memory area %"HWADDR_PRIx"",
+-                     xlat);
+-        return false;
+-    } else if (memory_region_has_ram_discard_manager(mr)) {
+-        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(mr);
+-        MemoryRegionSection tmp = {
+-            .mr = mr,
+-            .offset_within_region = xlat,
+-            .size = int128_make64(len),
+-        };
+-
+-        /*
+-         * Malicious VMs can map memory into the IOMMU, which is expected
+-         * to remain discarded. vfio will pin all pages, populating memory.
+-         * Disallow that. vmstate priorities make sure any RamDiscardManager
+-         * were already restored before IOMMUs are restored.
+-         */
+-        if (!ram_discard_manager_is_populated(rdm, &tmp)) {
+-            error_report("iommu map to discarded memory (e.g., unplugged via"
+-                         " virtio-mem): %"HWADDR_PRIx"",
+-                         iotlb->translated_addr);
+-            return false;
+-        }
+-
++    if (mr_has_discard_manager) {
+         /*
+-         * Malicious VMs might trigger discarding of IOMMU-mapped memory. The
+-         * pages will remain pinned inside vfio until unmapped, resulting in a
+-         * higher memory consumption than expected. If memory would get
+-         * populated again later, there would be an inconsistency between pages
+-         * pinned by vfio and pages seen by QEMU. This is the case until
+-         * unmapped from the IOMMU (e.g., during device reset).
++         * Malicious VMs might trigger discarding of IOMMU-mapped memory.
++         * The pages will remain pinned inside vfio until unmapped,
++         * resulting in a higher memory consumption than expected. If memory
++         * would get populated again later, there would be an inconsistency
++         * between pages pinned by vfio and pages seen by QEMU. This is the
++         * case until unmapped from the IOMMU (e.g., during device reset).
+          *
+-         * With malicious guests, we really only care about pinning more memory
+-         * than expected. RLIMIT_MEMLOCK set for the user/process can never be
+-         * exceeded and can be used to mitigate this problem.
++         * With malicious guests, we really only care about pinning more
++         * memory than expected. RLIMIT_MEMLOCK set for the user/process can
++         * never be exceeded and can be used to mitigate this problem.
+          */
+         warn_report_once("Using vfio with vIOMMUs and coordinated discarding of"
+                          " RAM (e.g., virtio-mem) works, however, malicious"
+@@ -635,31 +594,7 @@ static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+                          " intended via an IOMMU. It's possible to mitigate "
+                          " by setting/adjusting RLIMIT_MEMLOCK.");
+     }
+-
+-    /*
+-     * Translation truncates length to the IOMMU page size,
+-     * check that it did not truncate too much.
+-     */
+-    if (len & iotlb->addr_mask) {
+-        error_report("iommu has granularity incompatible with target AS");
+-        return false;
+-    }
+-
+-    if (vaddr) {
+-        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
+-    }
+-
+-    if (ram_addr) {
+-        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
+-    }
+-
+-    if (read_only) {
+-        *read_only = !writable || mr->readonly;
+-    }
+-
+-    return true;
+ }
+-
+ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+ {
+     VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
+@@ -681,10 +616,17 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+ 
+     if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
+         bool read_only;
++        bool mr_has_discard_manager;
+ 
+-        if (!vfio_get_xlat_addr(iotlb, &vaddr, NULL, &read_only)) {
++        if (!memory_get_xlat_addr(iotlb, &vaddr, NULL, &read_only,
++                                  &mr_has_discard_manager)) {
+             goto out;
+         }
++        /*
++         * if the mr has the discard_manager and the return value of
++         * memory_get_xlat_addr() is ture then we need to warn
++         */
++        vfio_mr_discard_manager_warn(mr_has_discard_manager);
+         /*
+          * vaddr is only valid until rcu_read_unlock(). But after
+          * vfio_dma_map has set up the mapping the pages will be
+@@ -1349,6 +1291,7 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+     VFIOContainer *container = giommu->container;
+     hwaddr iova = iotlb->iova + giommu->iommu_offset;
+     ram_addr_t translated_addr;
++    bool mr_has_discard_manager;
+ 
+     trace_vfio_iommu_map_dirty_notify(iova, iova + iotlb->addr_mask);
+ 
+@@ -1359,9 +1302,9 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+     }
+ 
+     rcu_read_lock();
+-    if (vfio_get_xlat_addr(iotlb, NULL, &translated_addr, NULL)) {
++    if (memory_get_xlat_addr(iotlb, NULL, &translated_addr, NULL,
++                             &mr_has_discard_manager)) {
+         int ret;
+-
+         ret = vfio_get_dirty_bitmap(container, iova, iotlb->addr_mask + 1,
+                                     translated_addr);
+         if (ret) {
+@@ -1370,6 +1313,12 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+                          container, iova,
+                          iotlb->addr_mask + 1, ret);
+         }
++
++        /*
++         * if the mr has the discard_manager and the return value of
++         * memory_get_xlat_addr() is ture then we need to warn
++         */
++        vfio_mr_discard_manager_warn(mr_has_discard_manager);
+     }
+     rcu_read_unlock();
+ }
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index bfb1de8eea..d1e79c39dc 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -713,6 +713,10 @@ void ram_discard_manager_register_listener(RamDiscardManager *rdm,
+ void ram_discard_manager_unregister_listener(RamDiscardManager *rdm,
+                                              RamDiscardListener *rdl);
+ 
++bool memory_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
++                          ram_addr_t *ram_addr, bool *read_only,
++                          bool *mr_has_discard_manager);
++
+ typedef struct CoalescedMemoryRange CoalescedMemoryRange;
+ typedef struct MemoryRegionIoeventfd MemoryRegionIoeventfd;
+ 
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 7ba2048836..bc0be3f62c 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -33,6 +33,7 @@
+ #include "qemu/accel.h"
+ #include "hw/boards.h"
+ #include "migration/vmstate.h"
++#include "exec/address-spaces.h"
+ 
+ //#define DEBUG_UNASSIGNED
+ 
+@@ -2121,6 +2122,77 @@ void ram_discard_manager_unregister_listener(RamDiscardManager *rdm,
+     rdmc->unregister_listener(rdm, rdl);
+ }
+ 
++/* Called with rcu_read_lock held.  */
++bool memory_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
++                          ram_addr_t *ram_addr, bool *read_only,
++                          bool *mr_has_discard_manager)
++{
++    MemoryRegion *mr;
++    hwaddr xlat;
++    hwaddr len = iotlb->addr_mask + 1;
++    bool writable = iotlb->perm & IOMMU_WO;
++
++    if (mr_has_discard_manager) {
++        *mr_has_discard_manager = false;
++    }
++    /*
++     * The IOMMU TLB entry we have just covers translation through
++     * this IOMMU to its immediate target.  We need to translate
++     * it the rest of the way through to memory.
++     */
++    mr = address_space_translate(&address_space_memory, iotlb->translated_addr,
++                                 &xlat, &len, writable, MEMTXATTRS_UNSPECIFIED);
++    if (!memory_region_is_ram(mr)) {
++        error_report("iommu map to non memory area %" HWADDR_PRIx "", xlat);
++        return false;
++    } else if (memory_region_has_ram_discard_manager(mr)) {
++        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(mr);
++        MemoryRegionSection tmp = {
++            .mr = mr,
++            .offset_within_region = xlat,
++            .size = int128_make64(len),
++        };
++        if (mr_has_discard_manager) {
++            *mr_has_discard_manager = true;
++        }
++        /*
++         * Malicious VMs can map memory into the IOMMU, which is expected
++         * to remain discarded. vfio will pin all pages, populating memory.
++         * Disallow that. vmstate priorities make sure any RamDiscardManager
++         * were already restored before IOMMUs are restored.
++         */
++        if (!ram_discard_manager_is_populated(rdm, &tmp)) {
++            error_report("iommu map to discarded memory (e.g., unplugged via"
++                         " virtio-mem): %" HWADDR_PRIx "",
++                         iotlb->translated_addr);
++            return false;
++        }
++    }
++
++    /*
++     * Translation truncates length to the IOMMU page size,
++     * check that it did not truncate too much.
++     */
++    if (len & iotlb->addr_mask) {
++        error_report("iommu has granularity incompatible with target AS");
++        return false;
++    }
++
++    if (vaddr) {
++        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
++    }
++
++    if (ram_addr) {
++        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
++    }
++
++    if (read_only) {
++        *read_only = !writable || mr->readonly;
++    }
++
++    return true;
++}
++
+ void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client)
+ {
+     uint8_t mask = 1 << client;
 -- 
 2.34.3
 
