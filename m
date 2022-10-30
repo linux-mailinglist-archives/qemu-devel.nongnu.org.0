@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A860612D77
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:35:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89CA2612D85
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:36:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opGpv-0006NM-5o; Sun, 30 Oct 2022 18:31:23 -0400
+	id 1opGq2-00075X-61; Sun, 30 Oct 2022 18:31:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGpt-0006KQ-VU
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:31:21 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGpz-0006qX-En
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:31:27 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGpr-0008BD-St
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:31:21 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id o4so13670761wrq.6
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:31:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGpx-0008Bd-L0
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:31:27 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id 5so6234793wmo.1
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:31:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ITJ3L4PwJ5ZsTmRJYtpX31PZ6QQa3WN9qI3FxP4ohSo=;
- b=yqfyFZw/G/u5t1W4Q9dJIxiXyw23pQmFELyTrblG33sL5gdUBbBz5PPgmLOYLHZrDU
- SbxOdRIU4W05TFprolos+ylto2tKHoB2TasoVOWQCLVFFReq+GGST3nHHJ2J1TvbQysm
- hKYdunYj0+zMhlFTM5ZJtJhaUhOGVR6IilSdSijeAGWGGfEUm6E1jdUI4yCB77rlMvzn
- Jc+jHQY35WxCkKw0rzGUG5dMpg+RfVdUOfIVrb2tIjwPEqNvYoeFzs21lU0CD6/DsWDy
- 5xS99/FLinl4PMPUJ7dE7fXVbQtQID7grGZINU9WRFnza0siv8O40tSKW88gQT4p9qZ5
- IpMA==
+ bh=78GzyGFEMH2M2sCxvMXcou2KqVZiNLCYi4vOv1w4erk=;
+ b=a8tjl+YqIWKQq4+Nrey+B3AtZZozXOYPyOXmT7HKBcHf92oUlYhsJHj3UK18J8pXhs
+ PAO76hjb7wuFP8iUhlT+E9Pzn6LJEeC7mn7C7a9a0C2AHAyWQ4GWoksakeSkEenpou26
+ q5n8ZYdWLedML1VoFLlVgISJDFNfpGV3xPaT90wJG1pw0z5tFK5YfLpxtyxqISMXAv84
+ prBb503/RE3Jbw8lv1arbaVQNlsQTyqPGk3nCNsoGKL97D90Vij4CWxIOri+GHgKCTNe
+ DivTiB6kfDjW4eQ/A3LjAaxaP/vxj2j0KlIhfCrrCA96OsV1vIO5RyWkKCMsXtAnJjeN
+ a3Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ITJ3L4PwJ5ZsTmRJYtpX31PZ6QQa3WN9qI3FxP4ohSo=;
- b=0AyMrtL6XAJPtl0qYuRKZwiqjw33nUn0/MgM3Wx4k9twPT0YE7xNlKzhoYE03FNc0X
- VdggnV3ltd2g+3GIiHhthDLJH614xV7YsPK7FyP48v2WLptPcY3gAx4MWMT2hm7k6giK
- LaRuhFyFWn/R9h7bBIQUaQFvWKqaq/32PG52QNbsS9ZASLHEY7j5BAPYPAPeEvuYNS6B
- qDd2M+jBwMj8XBbdgHy3WyhcRl9YwcwDd7wsryncgKV5zxfyD7CmW0T3VA19WhqZw2Aa
- dr7xYScErKkLAy8HDRTJB3DQGrmGDuS559jvemEeedeaLXYRhJTL5yG53PKI+CQ60xRu
- uhqQ==
-X-Gm-Message-State: ACrzQf0JGAohqJJdJRqKF5KIfbVswg0MWDgS6CBGw0hzwoWx625AizcX
- fG8jupFKO4lRma2ptmYLYnZ0RkAQpOehgQ==
-X-Google-Smtp-Source: AMsMyM41eEo7B2tHom/2F8BtSdvSfT+DRcBQEywazH/rC+04T6fY8GOGuwkKq0b3YRrBCBUKtLUyIw==
-X-Received: by 2002:a5d:4604:0:b0:236:cfce:879d with SMTP id
- t4-20020a5d4604000000b00236cfce879dmr359677wrq.152.1667169078265; 
- Sun, 30 Oct 2022 15:31:18 -0700 (PDT)
+ bh=78GzyGFEMH2M2sCxvMXcou2KqVZiNLCYi4vOv1w4erk=;
+ b=QI3cwiURD1JRbnNVHM8kQz1q0IqewfFa17+KmSWJL6lyaaFXTzIhjm/HKVBeTgAv8b
+ tRQ6FvX5e26Y0aY1tALqKWh/buWMexDZtDvu5CIOjmi+fg0LtnYtdXOdHGse55STf4Hi
+ WayO6eQdl2FNe3emCba1nSWPlw7U0yH+FpOpn8E61IXaJtE6XZ+6U/0UJCiqVSh+RrVF
+ 4sX7IB5nzN5jR4gGZSwDay7h7tNn2NHPBQ31SwnpI2Fwu7th+xHGXO72/pGP57i4k1GN
+ I1LMujq5Yh4ZdlHo5RZDMIILgNnGPKwRkSzKjv0wj30VhW7kNFZfBhZiOF9c01bBKZo0
+ 6goA==
+X-Gm-Message-State: ACrzQf3Mw5SmhobBMOqjsxwhdYcSctC1XemK7WU4wwSXJUGxYCR+wukH
+ FZ/rFq/z+ga2ukpI9xgK10ntJmFY8LSV7w==
+X-Google-Smtp-Source: AMsMyM5bKHiBAWC2nOoCRoQ+bkbVYSy3XuaEJGP6LA5FbbP4fGTyoXXMdlaJa8rnUdEuEyV0CP5Buw==
+X-Received: by 2002:a05:600c:4ed2:b0:3c6:c1ff:222 with SMTP id
+ g18-20020a05600c4ed200b003c6c1ff0222mr5955721wmq.163.1667169084104; 
+ Sun, 30 Oct 2022 15:31:24 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- bv5-20020a0560001f0500b0022ac38fb20asm5211947wrb.111.2022.10.30.15.31.16
+ z3-20020a05600c0a0300b003cf55844453sm5736540wmp.22.2022.10.30.15.31.22
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 30 Oct 2022 15:31:17 -0700 (PDT)
+ Sun, 30 Oct 2022 15:31:23 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -61,18 +61,19 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
  Milica Lazarevic <milica.lazarevic@syrmia.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 23/55] disas/nanomips: Remove NMD class
-Date: Sun, 30 Oct 2022 23:28:09 +0100
-Message-Id: <20221030222841.42377-24-philmd@linaro.org>
+Subject: [PULL 24/55] disas/nanomips: Move typedefs etc to nanomips.cpp
+Date: Sun, 30 Oct 2022 23:28:10 +0100
+Message-Id: <20221030222841.42377-25-philmd@linaro.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221030222841.42377-1-philmd@linaro.org>
 References: <20221030222841.42377-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,283 +98,156 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Milica Lazarevic <milica.lazarevic@syrmia.com>
 
-NMD class has been deleted. The following methods are now declared as
-static functions:
-- public NMD::Disassemble method
-- private NMD::Disassemble method
-- private NMD::extract_op_code_value helper method
-
-Also, the implementation of the print_insn_nanomips function and
-nanomips_dis function is moved to the end of the nanomips.cpp file,
-right after the implementation of the Disassemble function.
+The following is moved from the nanomips.h to nanomips.cpp file:
+- #include line
+- typedefs
+- enums
+- definition of the Pool struct.
+Header file nanomips.h will be deleted to be consistent with the rest of
+the disas/ code.
 
 Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220912122635.74032-10-milica.lazarevic@syrmia.com>
+Message-Id: <20220912122635.74032-11-milica.lazarevic@syrmia.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- disas/nanomips.cpp | 204 ++++++++++++++++++++++-----------------------
- disas/nanomips.h   |  15 ----
- 2 files changed, 101 insertions(+), 118 deletions(-)
+ disas/nanomips.cpp | 57 +++++++++++++++++++++++++++++++++++++++++++++-
+ disas/nanomips.h   | 57 ----------------------------------------------
+ 2 files changed, 56 insertions(+), 58 deletions(-)
 
 diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
-index a73eae5b33..0d67462e5d 100644
+index 0d67462e5d..7d09fd1a69 100644
 --- a/disas/nanomips.cpp
 +++ b/disas/nanomips.cpp
-@@ -41,105 +41,6 @@
+@@ -36,7 +36,62 @@
+ #include <stdio.h>
+ #include <stdarg.h>
+ 
+-#include "nanomips.h"
++#include <string>
++
++typedef int64_t int64;
++typedef uint64_t uint64;
++typedef uint32_t uint32;
++typedef uint16_t uint16;
++typedef uint64_t img_address;
++
++enum TABLE_ENTRY_TYPE {
++    instruction,
++    call_instruction,
++    branch_instruction,
++    return_instruction,
++    reserved_block,
++    pool,
++};
++
++enum TABLE_ATTRIBUTE_TYPE {
++    MIPS64_    = 0x00000001,
++    XNP_       = 0x00000002,
++    XMMS_      = 0x00000004,
++    EVA_       = 0x00000008,
++    DSP_       = 0x00000010,
++    MT_        = 0x00000020,
++    EJTAG_     = 0x00000040,
++    TLBINV_    = 0x00000080,
++    CP0_       = 0x00000100,
++    CP1_       = 0x00000200,
++    CP2_       = 0x00000400,
++    UDI_       = 0x00000800,
++    MCU_       = 0x00001000,
++    VZ_        = 0x00002000,
++    TLB_       = 0x00004000,
++    MVH_       = 0x00008000,
++    ALL_ATTRIBUTES = 0xffffffffull,
++};
++
++typedef struct Dis_info {
++  img_address m_pc;
++} Dis_info;
++
++typedef bool (*conditional_function)(uint64 instruction);
++typedef std::string (*disassembly_function)(uint64 instruction,
++                                            Dis_info *info);
++
++typedef struct Pool {
++    TABLE_ENTRY_TYPE     type;
++    const struct Pool    *next_table;
++    int                  next_table_size;
++    int                  instructions_size;
++    uint64               mask;
++    uint64               value;
++    disassembly_function disassembly;
++    conditional_function condition;
++    uint64               attributes;
++} Pool;
+ 
  #define IMGASSERTONCE(test)
  
- 
--static int nanomips_dis(char *buf,
--                 Dis_info *info,
--                 unsigned short one,
--                 unsigned short two,
--                 unsigned short three)
--{
--    std::string disasm;
--    uint16 bits[3] = {one, two, three};
--
--    TABLE_ENTRY_TYPE type;
--    NMD d;
--    int size = d.Disassemble(bits, disasm, type, info);
--
--    strcpy(buf, disasm.c_str());
--    return size;
--}
--
--int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
--{
--    int status;
--    bfd_byte buffer[2];
--    uint16_t insn1 = 0, insn2 = 0, insn3 = 0;
--    char buf[200];
--
--    info->bytes_per_chunk = 2;
--    info->display_endian = info->endian;
--    info->insn_info_valid = 1;
--    info->branch_delay_insns = 0;
--    info->data_size = 0;
--    info->insn_type = dis_nonbranch;
--    info->target = 0;
--    info->target2 = 0;
--
--    Dis_info disassm_info;
--    disassm_info.m_pc = memaddr;
--
--    status = (*info->read_memory_func)(memaddr, buffer, 2, info);
--    if (status != 0) {
--        (*info->memory_error_func)(status, memaddr, info);
--        return -1;
--    }
--
--    if (info->endian == BFD_ENDIAN_BIG) {
--        insn1 = bfd_getb16(buffer);
--    } else {
--        insn1 = bfd_getl16(buffer);
--    }
--    (*info->fprintf_func)(info->stream, "%04x ", insn1);
--
--    /* Handle 32-bit opcodes.  */
--    if ((insn1 & 0x1000) == 0) {
--        status = (*info->read_memory_func)(memaddr + 2, buffer, 2, info);
--        if (status != 0) {
--            (*info->memory_error_func)(status, memaddr + 2, info);
--            return -1;
--        }
--
--        if (info->endian == BFD_ENDIAN_BIG) {
--            insn2 = bfd_getb16(buffer);
--        } else {
--            insn2 = bfd_getl16(buffer);
--        }
--        (*info->fprintf_func)(info->stream, "%04x ", insn2);
--    } else {
--        (*info->fprintf_func)(info->stream, "     ");
--    }
--    /* Handle 48-bit opcodes.  */
--    if ((insn1 >> 10) == 0x18) {
--        status = (*info->read_memory_func)(memaddr + 4, buffer, 2, info);
--        if (status != 0) {
--            (*info->memory_error_func)(status, memaddr + 4, info);
--            return -1;
--        }
--
--        if (info->endian == BFD_ENDIAN_BIG) {
--            insn3 = bfd_getb16(buffer);
--        } else {
--            insn3 = bfd_getl16(buffer);
--        }
--        (*info->fprintf_func)(info->stream, "%04x ", insn3);
--    } else {
--        (*info->fprintf_func)(info->stream, "     ");
--    }
--
--    int length = nanomips_dis(buf, &disassm_info, insn1, insn2, insn3);
--
--    /* FIXME: Should probably use a hash table on the major opcode here.  */
--
--    (*info->fprintf_func) (info->stream, "%s", buf);
--    if (length > 0) {
--        return length / 8;
--    }
--
--    info->insn_type = dis_noninsn;
--
--    return insn3 ? 6 : insn2 ? 4 : 2;
--}
--
--
- std::string img_format(const char *format, ...)
- {
-     char buffer[256];
-@@ -739,7 +640,7 @@ static std::string ADDRESS(uint64 value, int instruction_size, Dis_info *info)
- }
- 
- 
--uint64 NMD::extract_op_code_value(const uint16 * data, int size)
-+static uint64 extract_op_code_value(const uint16 *data, int size)
- {
-     switch (size) {
-     case 16:
-@@ -765,7 +666,7 @@ uint64 NMD::extract_op_code_value(const uint16 * data, int size)
-  *      instruction size    - negative is error
-  *      disassembly string  - on error will constain error string
-  */
--int NMD::Disassemble(const uint16 * data, std::string & dis,
-+static int Disassemble(const uint16 *data, std::string & dis,
-                      TABLE_ENTRY_TYPE & type, const Pool *table,
-                      int table_size, Dis_info *info)
- {
-@@ -22348,8 +22249,105 @@ static const Pool MAJOR[2] = {
-        0x0                 },        /* P16 */
- };
- 
--int NMD::Disassemble(const uint16 *data, std::string & dis,
--                     TABLE_ENTRY_TYPE & type, Dis_info *info)
-+static int Disassemble(const uint16 *data, std::string & dis,
-+                       TABLE_ENTRY_TYPE & type, Dis_info *info)
- {
-     return Disassemble(data, dis, type, MAJOR, 2, info);
- }
-+
-+static int nanomips_dis(char *buf,
-+                 Dis_info *info,
-+                 unsigned short one,
-+                 unsigned short two,
-+                 unsigned short three)
-+{
-+    std::string disasm;
-+    uint16 bits[3] = {one, two, three};
-+
-+    TABLE_ENTRY_TYPE type;
-+    int size = Disassemble(bits, disasm, type, info);
-+
-+    strcpy(buf, disasm.c_str());
-+    return size;
-+}
-+
-+int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
-+{
-+    int status;
-+    bfd_byte buffer[2];
-+    uint16_t insn1 = 0, insn2 = 0, insn3 = 0;
-+    char buf[200];
-+
-+    info->bytes_per_chunk = 2;
-+    info->display_endian = info->endian;
-+    info->insn_info_valid = 1;
-+    info->branch_delay_insns = 0;
-+    info->data_size = 0;
-+    info->insn_type = dis_nonbranch;
-+    info->target = 0;
-+    info->target2 = 0;
-+
-+    Dis_info disassm_info;
-+    disassm_info.m_pc = memaddr;
-+
-+    status = (*info->read_memory_func)(memaddr, buffer, 2, info);
-+    if (status != 0) {
-+        (*info->memory_error_func)(status, memaddr, info);
-+        return -1;
-+    }
-+
-+    if (info->endian == BFD_ENDIAN_BIG) {
-+        insn1 = bfd_getb16(buffer);
-+    } else {
-+        insn1 = bfd_getl16(buffer);
-+    }
-+    (*info->fprintf_func)(info->stream, "%04x ", insn1);
-+
-+    /* Handle 32-bit opcodes.  */
-+    if ((insn1 & 0x1000) == 0) {
-+        status = (*info->read_memory_func)(memaddr + 2, buffer, 2, info);
-+        if (status != 0) {
-+            (*info->memory_error_func)(status, memaddr + 2, info);
-+            return -1;
-+        }
-+
-+        if (info->endian == BFD_ENDIAN_BIG) {
-+            insn2 = bfd_getb16(buffer);
-+        } else {
-+            insn2 = bfd_getl16(buffer);
-+        }
-+        (*info->fprintf_func)(info->stream, "%04x ", insn2);
-+    } else {
-+        (*info->fprintf_func)(info->stream, "     ");
-+    }
-+    /* Handle 48-bit opcodes.  */
-+    if ((insn1 >> 10) == 0x18) {
-+        status = (*info->read_memory_func)(memaddr + 4, buffer, 2, info);
-+        if (status != 0) {
-+            (*info->memory_error_func)(status, memaddr + 4, info);
-+            return -1;
-+        }
-+
-+        if (info->endian == BFD_ENDIAN_BIG) {
-+            insn3 = bfd_getb16(buffer);
-+        } else {
-+            insn3 = bfd_getl16(buffer);
-+        }
-+        (*info->fprintf_func)(info->stream, "%04x ", insn3);
-+    } else {
-+        (*info->fprintf_func)(info->stream, "     ");
-+    }
-+
-+    int length = nanomips_dis(buf, &disassm_info, insn1, insn2, insn3);
-+
-+    /* FIXME: Should probably use a hash table on the major opcode here.  */
-+
-+    (*info->fprintf_func) (info->stream, "%s", buf);
-+    if (length > 0) {
-+        return length / 8;
-+    }
-+
-+    info->insn_type = dis_noninsn;
-+
-+    return insn3 ? 6 : insn2 ? 4 : 2;
-+}
 diff --git a/disas/nanomips.h b/disas/nanomips.h
-index c56fc32b1e..47b44af751 100644
+index 47b44af751..0fd7299900 100644
 --- a/disas/nanomips.h
 +++ b/disas/nanomips.h
-@@ -80,19 +80,4 @@ typedef struct Pool {
-     uint64               attributes;
- } Pool;
+@@ -23,61 +23,4 @@
+ #ifndef DISAS_NANOMIPS_H
+ #define DISAS_NANOMIPS_H
  
--class NMD
--{
--public:
+-#include <string>
 -
--    int Disassemble(const uint16 *data, std::string & dis,
--                    TABLE_ENTRY_TYPE & type, Dis_info *info);
+-typedef int64_t int64;
+-typedef uint64_t uint64;
+-typedef uint32_t uint32;
+-typedef uint16_t uint16;
+-typedef uint64_t img_address;
 -
--private:
--
--    uint64 extract_op_code_value(const uint16 *data, int size);
--    int Disassemble(const uint16 *data, std::string & dis,
--                    TABLE_ENTRY_TYPE & type, const Pool *table, int table_size,
--                    Dis_info *info);
+-enum TABLE_ENTRY_TYPE {
+-    instruction,
+-    call_instruction,
+-    branch_instruction,
+-    return_instruction,
+-    reserved_block,
+-    pool,
 -};
+-
+-enum TABLE_ATTRIBUTE_TYPE {
+-    MIPS64_    = 0x00000001,
+-    XNP_       = 0x00000002,
+-    XMMS_      = 0x00000004,
+-    EVA_       = 0x00000008,
+-    DSP_       = 0x00000010,
+-    MT_        = 0x00000020,
+-    EJTAG_     = 0x00000040,
+-    TLBINV_    = 0x00000080,
+-    CP0_       = 0x00000100,
+-    CP1_       = 0x00000200,
+-    CP2_       = 0x00000400,
+-    UDI_       = 0x00000800,
+-    MCU_       = 0x00001000,
+-    VZ_        = 0x00002000,
+-    TLB_       = 0x00004000,
+-    MVH_       = 0x00008000,
+-    ALL_ATTRIBUTES = 0xffffffffull,
+-};
+-
+-typedef struct Dis_info {
+-  img_address m_pc;
+-} Dis_info;
+-
+-typedef bool (*conditional_function)(uint64 instruction);
+-typedef std::string (*disassembly_function)(uint64 instruction,
+-                                            Dis_info *info);
+-
+-typedef struct Pool {
+-    TABLE_ENTRY_TYPE     type;
+-    const struct Pool    *next_table;
+-    int                  next_table_size;
+-    int                  instructions_size;
+-    uint64               mask;
+-    uint64               value;
+-    disassembly_function disassembly;
+-    conditional_function condition;
+-    uint64               attributes;
+-} Pool;
 -
  #endif
 -- 
