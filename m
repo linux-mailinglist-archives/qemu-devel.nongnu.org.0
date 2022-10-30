@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D52E61297B
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 10:34:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5156129F7
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 11:14:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1op4hc-00041V-Kj; Sun, 30 Oct 2022 05:34:00 -0400
+	id 1op5It-0006AP-0n; Sun, 30 Oct 2022 06:12:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1op4h9-0003yE-Lm; Sun, 30 Oct 2022 05:33:36 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1op4h6-0000mQ-2V; Sun, 30 Oct 2022 05:33:29 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- r61-20020a17090a43c300b00212f4e9cccdso13480306pjg.5; 
- Sun, 30 Oct 2022 02:33:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jMwC0K4PsRrQP3rpYiwpRQ7xJrrJ0aJem8BSMOC/Wnk=;
- b=KbDYFN6ugjEuOxr5YELTByUG08kni8Vs4oDHtpmnvbCW/cUq/2E+2Ks1uUA4U7/Tr5
- FqCDbn2JABmw0fRNmHBbRjAh+S/+F7xI7hOey7WcKxi5OmDwLxDqyK4OojQQ41k8rJxO
- VL/1UZ2eDa5BnpG9DEakbLMKEsoWOiyux5E/LegKjZ0ul5X9I1auT8Ed9Q7dcPQtEZ2t
- rgkiKmUcg0SK+Q89pIDj8DPpIJUEnhDeyaEyMMelcMLh0JAUGik0SafRcmMXCMxEdGRD
- cCsyZ+ePS1xMrQox1Z3Hjqby4C8lxiDE1Vc8L05N4EoHwAKPblYU7gVuUUaEvp6KoCVE
- yISA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jMwC0K4PsRrQP3rpYiwpRQ7xJrrJ0aJem8BSMOC/Wnk=;
- b=NzihBqZHVblY2n5L7lGWm9ixOFywJsTw+zDR/RnpbZ7oSTHl5S3prT8hlrefVgPEd1
- Nu49tbWZcQH/Sy4CW9+Ak/Zwu6HkqTRqz5Jmu2J6vJa+LoYgUE/WYv2xmPqrX/Cw7/xc
- oAV5oDw5PEtM9LInqiKC+bpbjhbo7NQxZnAkssnAlzsxhrUOPONQ5pPTG1mrxuxPtZNK
- zoqi7ln2WuEXN7LW7jCqIlOiTvZfoPb9vfsJQukLcj7gxr1pus2SOyqpZKd1MAmOnr4i
- Hzq66/cC7qRlcEPX7ZDQEYPBtgvs0nDoBb1liYJUXBPJt0GZMXQkUs5YsS/grHQxmGkP
- 9DGQ==
-X-Gm-Message-State: ACrzQf3h6f251/9KtsIEeFv2pbiLMgqcjrBv14ofza7dl0v5qFU2JDFq
- 8JgdNhJ8/sD/3eoARLOCUPzyV4DRBPJXmtf3
-X-Google-Smtp-Source: AMsMyM797oAnLQPBbxVhWGeRkULwN+ct+TxRK4zsg3+OUsDvxhjwinxC1QK6wlPWRzDyBivANZy88w==
-X-Received: by 2002:a17:902:e1ca:b0:186:878e:3b03 with SMTP id
- t10-20020a170902e1ca00b00186878e3b03mr8593573pla.95.1667122405057; 
- Sun, 30 Oct 2022 02:33:25 -0700 (PDT)
-Received: from fedora.. ([112.44.202.248]) by smtp.gmail.com with ESMTPSA id
- 1-20020a17090a0d4100b00205db4ff6dfsm2113445pju.46.2022.10.30.02.33.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Oct 2022 02:33:24 -0700 (PDT)
-From: Sam Li <faithilikerun@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>, stefanha@redhat.com,
- damien.lemoal@opensource.wdc.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, hare@suse.de,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- dmitry.fomichev@wdc.com, Sam Li <faithilikerun@gmail.com>
-Subject: [RFC v4 3/3] virtio-blk: add some trace events for zoned emulation
-Date: Sun, 30 Oct 2022 05:32:42 -0400
-Message-Id: <20221030093242.208839-4-faithilikerun@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221030093242.208839-1-faithilikerun@gmail.com>
-References: <20221030093242.208839-1-faithilikerun@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=faithilikerun@gmail.com; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <elliot@nunn.io>) id 1op5Iq-00067S-Ub
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 06:12:28 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <elliot@nunn.io>) id 1op5Io-0000rl-Pi
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 06:12:28 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id DD7FF32002D8;
+ Sun, 30 Oct 2022 06:12:23 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Sun, 30 Oct 2022 06:12:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nunn.io; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1667124743; x=
+ 1667211143; bh=uwqsyRd8Xf3x10mZupwMrkYYPEMZYMaGhHlf28FdYoo=; b=r
+ lM2ZboPuac+UKHsBcVsQIwcbfi+SijMtvxCke3qwq7/iYtc+BBGgIl9i0+OM/VqX
+ d+pDK7fjUGvDn1GuSdPAD9El84vBsAxBgxVR/Kqtf3Z4nNKbcH6rv58/UDTbjIkW
+ Ve6ZHkegcvGpk3A1tB2yzTJN5yVedFuL/zt4vwaSWmnCYUJ257Bgsyw2hlOXP2ua
+ Go5J5ybbCc1Lzk5ftd0solJnJpgXV7oYw2+KfSmmIDonPYrm/3M7zrz6IcopIrmD
+ hV4qKUNGiUMIBW5q9GFoty6hg6IUt+6mlCd+Z3y73TBrhEsDALtfYpyHYpz7EmrM
+ 41JA+82RAoH+fZvGKpRUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667124743; x=
+ 1667211143; bh=uwqsyRd8Xf3x10mZupwMrkYYPEMZYMaGhHlf28FdYoo=; b=B
+ KM6oVyMLrvk43O8hKV6QFO8BxvgF1JL5YPUt9SuWXyaoBfzXDAX1JfW2JHW/IcWx
+ Eg/x1Pc1aAN4tIxE2rkyyIKUbSmSvoFxzzV7RRzqlumrRi5nSlhnk7wLarWNd4cl
+ 3YuFDuGUpp6QwsEOHdSM9uKIf9J4BcMkUh4lK3446uXxeqYkuvMRefK6ZAZO8Q7F
+ 2+USjuVlwTsUDvMmSD/DSPF40l2MXDEGFxycWD2kMw+GDKW7hKukJf2LKviA6g80
+ RQIVhOp/Zk7kSJjYYg6AUHkP2J4SJnXrgOg+2q+40j2D6AezqW5WkCk0ZA+Kl+ks
+ Bz0NlQG9LcV6AeyyqlI/g==
+X-ME-Sender: <xms:B05eY_27-dwsC47Tyj0s9lemVYc_u4sLMNGC03V72MDZys7ttjlKzg>
+ <xme:B05eY-F0bHA6kJflM8-2pqvIDPJGfvKlkqAu3blVqLAPAgZGnWQS1aNk8_-HPf5Iu
+ IcOF5LMJt-RtNsV5Q>
+X-ME-Received: <xmr:B05eY_5B_CPLRZAxrKJkocBO7-rSpglH2OMMEOyhUg8tPZgwgNqhxKXsRaJ5renU9T9LBJ1q5Kp99bwFxxvbEUX8sn_sngBt3r7Nlw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedruddtgddufecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpegtggfuhfgjffevgffkfhfvofesthejmhdthhdtvdenucfhrhhomhepgfhllhhi
+ ohhtucfpuhhnnhcuoegvlhhlihhothesnhhunhhnrdhioheqnecuggftrfgrthhtvghrnh
+ epffevvdfgudeugfdtvdehveekteekudegfeetleettdeikeejfeduhffhtefftdevnecu
+ vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepvghllhhioh
+ htsehnuhhnnhdrihho
+X-ME-Proxy: <xmx:B05eY025vVTU9yNyLbl36KTbMo5KAV3yXZoDjjTzN8bby65Ja22mnA>
+ <xmx:B05eYyHYgl6V5lE3Sq5WI3pWHNbilWdMLzCnh9STFYaZPy2bn7yLFg>
+ <xmx:B05eY19INimjPB2rBAlas-G990Yj_2Ghqvqf7V5EkBi0-buQ2D1EFw>
+ <xmx:B05eY3RoquuCBhLvgpsMUXWA6zUBA6G3HBKs2GwldQokG6OMPv06bQ>
+Feedback-ID: i6a78429f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 30 Oct 2022 06:12:21 -0400 (EDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.40.0.1.81\))
+Subject: Re: [PATCH] ui/cocoa: Support hardware cursor interface
+From: Elliot Nunn <elliot@nunn.io>
+In-Reply-To: <a5029b6b-d0a9-a379-09c0-05d6786af0f2@gmail.com>
+Date: Sun, 30 Oct 2022 18:12:16 +0800
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ f4bug@amsat.org
+Content-Transfer-Encoding: 7bit
+Message-Id: <A51A48EC-0616-4325-84F0-BDC8846F46A7@nunn.io>
+References: <54930451-d85f-4ce0-9a45-b3478c5a6468@www.fastmail.com>
+ <CAFEAcA_bip7nifW-Zq8qrSmZTCUQA1VMpMR8HSHsKVBAeQxy0A@mail.gmail.com>
+ <CAMVc7JXPi3kbFyrN9757uKt-cUprKUBLM9nuDMRjawtVePVVAw@mail.gmail.com>
+ <5232C333-9F52-455D-A0D5-B1A438800717@nunn.io>
+ <a5029b6b-d0a9-a379-09c0-05d6786af0f2@gmail.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+X-Mailer: Apple Mail (2.3693.40.0.1.81)
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=elliot@nunn.io;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,100 +106,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Sam Li <faithilikerun@gmail.com>
----
- hw/block/trace-events |  7 +++++++
- hw/block/virtio-blk.c | 12 ++++++++++++
- 2 files changed, 19 insertions(+)
+Akihiko,
 
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 2c45a62bd5..f47da6fcd4 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -44,9 +44,16 @@ pflash_write_unknown(const char *name, uint8_t cmd) "%s: unknown command 0x%02x"
- # virtio-blk.c
- virtio_blk_req_complete(void *vdev, void *req, int status) "vdev %p req %p status %d"
- virtio_blk_rw_complete(void *vdev, void *req, int ret) "vdev %p req %p ret %d"
-+virtio_blk_zone_report_complete(void *vdev, void *req, unsigned int nr_zones, int ret) "vdev %p req %p nr_zones %d ret %d"
-+virtio_blk_zone_mgmt_complete(void *vdev, void *req, int ret) "vdev %p req %p ret %d"
-+virtio_blk_zone_append_complete(void *vdev, void *req, int64_t sector, int ret) "vdev %p req %p, append sector 0x%" PRIx64 " ret %d"
- virtio_blk_handle_write(void *vdev, void *req, uint64_t sector, size_t nsectors) "vdev %p req %p sector %"PRIu64" nsectors %zu"
- virtio_blk_handle_read(void *vdev, void *req, uint64_t sector, size_t nsectors) "vdev %p req %p sector %"PRIu64" nsectors %zu"
- virtio_blk_submit_multireq(void *vdev, void *mrb, int start, int num_reqs, uint64_t offset, size_t size, bool is_write) "vdev %p mrb %p start %d num_reqs %d offset %"PRIu64" size %zu is_write %d"
-+virtio_blk_handle_zone_report(void *vdev, void *req, int64_t sector, unsigned int nr_zones) "vdev %p req %p sector 0x%" PRIx64 " nr_zones %d"
-+virtio_blk_handle_zone_mgmt(void *vdev, void *req, uint8_t op, int64_t sector, int64_t len) "vdev %p req %p op 0x%x sector 0x%" PRIx64 " len 0x%" PRIx64 ""
-+virtio_blk_handle_zone_reset_all(void *vdev, void *req, int64_t sector, int64_t len) "vdev %p req %p sector 0x%" PRIx64 " cap 0x%" PRIx64 ""
-+virtio_blk_handle_zone_append(void *vdev, void *req, int64_t sector) "vdev %p req %p, append sector 0x%" PRIx64 ""
- 
- # hd-geometry.c
- hd_geometry_lchs_guess(void *blk, int cyls, int heads, int secs) "blk %p LCHS %d %d %d"
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index 4f3625840a..e7d85dc049 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -663,6 +663,7 @@ static void virtio_blk_zone_report_complete(void *opaque, int ret)
-     int64_t nz = data->zone_report_data.nr_zones;
-     int8_t err_status = VIRTIO_BLK_S_OK;
- 
-+    trace_virtio_blk_zone_report_complete(vdev, req, nz, ret);
-     if (ret) {
-         err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-         goto out;
-@@ -777,6 +778,8 @@ static int virtio_blk_handle_zone_report(VirtIOBlockReq *req)
-     nr_zones = (req->in_len - sizeof(struct virtio_blk_inhdr) -
-                 sizeof(struct virtio_blk_zone_report)) /
-                sizeof(struct virtio_blk_zone_descriptor);
-+    trace_virtio_blk_handle_zone_report(vdev, req,
-+                                        offset >> BDRV_SECTOR_BITS, nr_zones);
- 
-     zone_size = sizeof(BlockZoneDescriptor) * nr_zones;
-     data = g_malloc(sizeof(ZoneCmdData));
-@@ -802,7 +805,9 @@ static void virtio_blk_zone_mgmt_complete(void *opaque, int ret)
-     ZoneCmdData *data = opaque;
-     VirtIOBlockReq *req = data->req;
-     VirtIOBlock *s = req->dev;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(s);
-     int8_t err_status = VIRTIO_BLK_S_OK;
-+    trace_virtio_blk_zone_mgmt_complete(vdev, req,ret);
- 
-     if (ret) {
-         err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-@@ -830,6 +835,8 @@ static int virtio_blk_handle_zone_mgmt(VirtIOBlockReq *req, BlockZoneOp op)
-         /* Entire drive capacity */
-         offset = 0;
-         len = capacity;
-+        trace_virtio_blk_handle_zone_reset_all(vdev, req, 0,
-+                                               bs->total_sectors);
-     } else {
-         if (bs->bl.zone_size > capacity - offset) {
-             /* The zoned device allows the last smaller zone. */
-@@ -837,6 +844,9 @@ static int virtio_blk_handle_zone_mgmt(VirtIOBlockReq *req, BlockZoneOp op)
-         } else {
-             len = bs->bl.zone_size;
-         }
-+        trace_virtio_blk_handle_zone_mgmt(vdev, req, op,
-+                                          offset >> BDRV_SECTOR_BITS,
-+                                          len >> BDRV_SECTOR_BITS);
-     }
- 
-     if (!check_zoned_request(s, offset, 0, false, &err_status)) {
-@@ -882,6 +892,7 @@ static void virtio_blk_zone_append_complete(void *opaque, int ret)
-         err_status = VIRTIO_BLK_S_ZONE_INVALID_CMD;
-         goto out;
-     }
-+    trace_virtio_blk_zone_append_complete(vdev, req, append_sector, ret);
- 
- out:
-     aio_context_acquire(blk_get_aio_context(s->conf.conf.blk));
-@@ -901,6 +912,7 @@ static int virtio_blk_handle_zone_append(VirtIOBlockReq *req,
-     int64_t offset = virtio_ldq_p(vdev, &req->out.sector) << BDRV_SECTOR_BITS;
-     int64_t len = iov_size(out_iov, niov);
- 
-+    trace_virtio_blk_handle_zone_append(vdev, req, offset >> BDRV_SECTOR_BITS);
-     if (!check_zoned_request(s, offset, len, true, &err_status)) {
-         goto out;
-     }
--- 
-2.38.1
+Sounds like you've done a lot of work on ui/cocoa, with the goal of
+improving the experience with modern Linux guests. My goal is to improve
+the experience with antiquated Mac OS 9 guests.
 
+> My patch has been only tested with recent Linux, but it certainly should
+> be ensured that it works well for old systems when upstreaming.
+> 
+> First I'd like to know what display device you use. It looks like
+> dpy_mouse_set is used only by ati-vga, vhost-user-gpu, virtio-gpu, and
+> vmware.
+
+I was using my own hardware cursor patches to the VGA device, but now I am
+using virtio-gpu. My Mac OS 9 driver for virtio-gpu is in progress.
+
+>> 1. In absolute pointing mode, re-enable Cocoa's cursor and let the host
+>> OS move it according to user input.
+>> 2. Keep the cursor sprite, but move it according to Cocoa's mouse
+>> movement events instead of dpy_mouse_set events.
+> 
+> Also, can you give reasoning while 2 is preferred? 1 would allow to
+> exploit the hardware's feature for cursor composition, resulting in
+> smoother experience and a bit less power consumption. But there may be
+> complications it can cause so I have not decided which one is the better
+> yet.
+
+Mainly that it would simplify the code. OTOH, if we expect the guest to
+use the hardware cursor facility, then it's only fair that the host does
+the same. I'm open to either option. We should probably try both.
+
+>> And I didn't realise that you had added VirGL support to cocoa.m. Well
+>> done! Is it on track for release?
+>> My patch should be withdrawn from consideration, in favour of a future
+>> solution that does not use cursor warping.
+> 
+> I'm not really pushing my changes hard so it's kind of stale. Perhaps it
+> is better to rewrite the cursor composition patch in a way that does not
+> depend on the Virgl patch. I'm also aware that the cursor composition
+> using Core Graphics is somewhat laggy so it may be better to rewrite it
+> using subview, Core Animation, Metal, or something else. But I have not
+> done that yet.
+
+Is there some Cocoa-native way of compositing within the window, that
+will work with or without a GL surface? Subviews sound appropriate.
+
+Not that I have any influence, but I think your virgl patch is an
+excellent contribution and should go upstream.
+
+Thanks again,
+
+Elliot
 
