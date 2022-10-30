@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 510BE612D78
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:35:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBAC1612D79
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:35:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opGtW-000799-QW; Sun, 30 Oct 2022 18:35:07 -0400
+	id 1opGte-0007gl-Ke; Sun, 30 Oct 2022 18:35:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGrj-00036l-Ns
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:33:16 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGrq-0003Gx-3h
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:33:26 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGrh-00009x-WC
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:33:15 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id h9so13723487wrt.0
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:33:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGro-0000AM-5B
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:33:21 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ r186-20020a1c44c3000000b003cf4d389c41so7018147wma.3
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:33:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=eFvPEfaDB6rbPJi8ArreGGK+PGu2rKPXlBmfG4xKsf8=;
- b=EFHqq4m4RpvrR7WI1fXTikr0U6aGZoYGIOT1OrfqgLvfHZLDEcleiHg/s2nBJbxTYv
- RoBGy7Tn4vztYhHdYP6mbZuCqlTXPpS/rBKJlyUiC3bdMiDY2rWmAQwX5Eq0+NpNtJLq
- Ay7H/nAqVBXJexZhAx+c18hRvh7WKtWbHJnM8hxiz9hNRA+xCoqSBA84yLEv7nqWwz3P
- vMFPa9fG0DoxI1i9ff8OjOs7rb70WvP4uypY8Zg4eUNAFWtT6BUOufneAkjC98zi+S6Q
- bknzOJxmGNVM/cmwClWYy9DltmxXZXYEvvaAZ5RjgNhAclPXmcMRGbyl3xUEYcBoKMD2
- 0GcA==
+ bh=Iee/Kz8E/qiEV1xSHMcLrZIy2vXY3KpeoSMnpgU+NQE=;
+ b=t7xtHtX0U95xUOEuz2ovXEMcpQesGPpPk5TR6YyPUwRHbP/tPbtRV3cRHqsEQMYh1E
+ Q62N2MTb1T0+Crrs2WAUKhKCWikRS7Znvf4NGgLKkXvjH2Aj1Rz2IFyCkYVwLjsnveqh
+ nvz97FpZXNadV0P/oTLl9lC3SHSomUShDlrKtQVMAliRJWLP6Lec1P3L+2NYDtapQZJZ
+ E848TpKHGJARtM222rIm9L96fygVO1izSyTrHqiCRba6AZ87Cgj+pmW+WuJUWSNfPIX3
+ Z68wAr8Mrj6/J24+rCMNqyOKfIOVQ4keOyd01ZzLnagc3OVaHNtqTVE7FDCNLS3mzoo3
+ c/5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=eFvPEfaDB6rbPJi8ArreGGK+PGu2rKPXlBmfG4xKsf8=;
- b=R95dt8ZNwPZRIad1ok6f8ZnP8ftZ7Hpzt/x8LETRPSR432/2wtC9sQwfKTiPhSsTri
- 8WoVseSZuQ+kgvLFB04DQqNfVoPRMMZlkjj0jg/AjxdwI0sNpvVmolzWh5AtS1d6yRgH
- rBrLvxs9g88rTygP/l+mAfWynscbgTVPzzGgr9vAXwYqdziMm5SHQYb73mbAI6gOQK5E
- 2NoEeFaY5ZTWiCANRa1AlSDO39S7jiDTLZeIJgdntytQFCAGVtlugpeBfpsCM5NO2DXD
- 2a8D949oF6H8fXWzSlS66GT4Zqc7h3Vh2YfZrsS7fL1AowW5BSCuL6QUM4uB/eUE3P7c
- 9pPA==
-X-Gm-Message-State: ACrzQf1tjc4xXfjRAefAErFlWXukEkAgE1wOBSS24c19lT1ibZZ5IuQu
- W7YkvhPy0gkHWx9P2LF9ip3xZSF/e/zVsA==
-X-Google-Smtp-Source: AMsMyM4fEb/w7aOwvP7CQyVJvY/7EdxsR3EPiSdKAmB/VcRMduqICb4QsF4fsRIqxd+WJbQZjqT1pg==
-X-Received: by 2002:adf:dc4a:0:b0:236:5ba2:df2b with SMTP id
- m10-20020adfdc4a000000b002365ba2df2bmr6066592wrj.260.1667169192502; 
- Sun, 30 Oct 2022 15:33:12 -0700 (PDT)
+ bh=Iee/Kz8E/qiEV1xSHMcLrZIy2vXY3KpeoSMnpgU+NQE=;
+ b=zllQbWS7pGM5EEmv4Xrh97+JmGE9B1uxyqi5FDQXiunr/jIHDG3hBookZ+J1Vr9StY
+ kBq6yE++GZLIlIjNmx6xnBtskOPJbjc4nCFJIDZmAyG9JBFFtcLr1tXSGqrdwdl+koLb
+ pN9N9Nxd8doLknyEh0FAE8dc3jXvGz4MClZZizvbHUTp65GM3UkAwOcCFJ/5QrbfbB0D
+ g+6ndQ3QTmEZfHPW9itqFiZnGR+8QBGB/rXmFqKlzZo6ySRjOGimXU/bgtdwu0Y0PMGk
+ SuRwU5mCR7OJ78cclOvsWe8KgpOssMlzE1ww9uMlKHxUej5Qbch3nsMoATmsDXKOmcb3
+ Vlbg==
+X-Gm-Message-State: ACrzQf0wN99MSUYG5T056rqC4kJUVbmEd6vayFcyIVCdj0gKtWhD97Xp
+ 0oyH2yeaL6IA6/7FLi73Taj2rtxtW5hKIQ==
+X-Google-Smtp-Source: AMsMyM7b7WLCITc8hX1l5fWDazvk7nYc3bklhvErapIu0DCRvPnHs83Z2g77BPWlvPueDzv9lyOs0g==
+X-Received: by 2002:a05:600c:1c83:b0:3cf:4453:255b with SMTP id
+ k3-20020a05600c1c8300b003cf4453255bmr6106714wms.20.1667169198204; 
+ Sun, 30 Oct 2022 15:33:18 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- d2-20020a5d4f82000000b0022b315b4649sm5188291wru.26.2022.10.30.15.33.10
+ ck1-20020a5d5e81000000b002366553eca7sm5331169wrb.83.2022.10.30.15.33.16
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 30 Oct 2022 15:33:11 -0700 (PDT)
+ Sun, 30 Oct 2022 15:33:17 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -61,19 +62,18 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
  Bernhard Beschow <shentey@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 41/55] hw/isa/piix3: Remove extra ';' outside of functions
-Date: Sun, 30 Oct 2022 23:28:27 +0100
-Message-Id: <20221030222841.42377-42-philmd@linaro.org>
+Subject: [PULL 42/55] hw/isa/piix3: Add size constraints to rcr_ops
+Date: Sun, 30 Oct 2022 23:28:28 +0100
+Message-Id: <20221030222841.42377-43-philmd@linaro.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221030222841.42377-1-philmd@linaro.org>
 References: <20221030222841.42377-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,48 +98,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-Fixes the "extra-semi" clang-tidy check.
+According to the PIIX3 datasheet, the reset control register is one byte in size.
+Moreover, PIIX4 has it, so add it to PIIX3 as well.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20221022150508.26830-4-shentey@gmail.com>
+Message-Id: <20221022150508.26830-5-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/isa/piix3.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/isa/piix3.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index 44a9998752..04895ce2e5 100644
+index 04895ce2e5..72dbf688d9 100644
 --- a/hw/isa/piix3.c
 +++ b/hw/isa/piix3.c
-@@ -375,7 +375,7 @@ static void piix3_realize(PCIDevice *dev, Error **errp)
-     pci_bus_irqs(pci_bus, piix3_set_irq, pci_slot_get_pirq,
-                  piix3, PIIX_NUM_PIRQS);
-     pci_bus_set_route_irq_fn(pci_bus, piix3_route_intx_pin_to_irq);
--};
-+}
+@@ -290,7 +290,11 @@ static uint64_t rcr_read(void *opaque, hwaddr addr, unsigned len)
+ static const MemoryRegionOps rcr_ops = {
+     .read = rcr_read,
+     .write = rcr_write,
+-    .endianness = DEVICE_LITTLE_ENDIAN
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 1,
++    },
+ };
  
- static void piix3_class_init(ObjectClass *klass, void *data)
- {
-@@ -410,7 +410,7 @@ static void piix3_xen_realize(PCIDevice *dev, Error **errp)
-      */
-     pci_bus_irqs(pci_bus, xen_piix3_set_irq, xen_pci_slot_get_pirq,
-                  piix3, XEN_PIIX_NUM_PIRQS);
--};
-+}
- 
- static void piix3_xen_class_init(ObjectClass *klass, void *data)
- {
-@@ -418,7 +418,7 @@ static void piix3_xen_class_init(ObjectClass *klass, void *data)
- 
-     k->config_write = piix3_write_config_xen;
-     k->realize = piix3_xen_realize;
--};
-+}
- 
- static const TypeInfo piix3_xen_info = {
-     .name          = TYPE_PIIX3_XEN_DEVICE,
+ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
 -- 
 2.37.3
 
