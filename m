@@ -2,97 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E96861268B
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 02:07:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBB2612717
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 04:23:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oovq9-00071K-7F; Sat, 29 Oct 2022 20:06:13 -0400
+	id 1ooytC-0007Va-MY; Sat, 29 Oct 2022 23:21:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oovq6-0006w3-Jp
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 20:06:10 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oovq1-0002o1-W5
- for qemu-devel@nongnu.org; Sat, 29 Oct 2022 20:06:10 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id EC7E05C007C;
- Sat, 29 Oct 2022 20:06:03 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Sat, 29 Oct 2022 20:06:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1667088363; x=
- 1667174763; bh=CDlQ823Yd5+LmwdqTc8iC2kdZCxR66ns+9Y/QszO2I0=; b=M
- OfOa6MZdvn/MqVdQvtBHjkn6BBo5WP6R3/jkaXXz5yKaLY3DYUYtwplyd+o9yKcn
- 8JxOXnrp2TsmjZZ1Y3iIO7U9xxxgDKqXiCRdeagJJzGoHGN0ATfTwWZkCV5WKOQg
- hkawUh90OGsglDLONX3/I4bFo5Ighc1oAMDu4wKn2vSawkVUfv+7s/rETnyut+fY
- hszpXnF/ghy0NgI9Uyx5B2c9KX321MuViRqjV7tsMZlHbXNLJhHyOCkD3977LB7a
- qNQMXrKMXhj2Mpgv2FjJ5aZMzCrnhl8ThJvqFpWANWTHZEAYk3/jzrcUCsB2KGVn
- Htvqz1Jn7B9/y73+Gu+cA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667088363; x=
- 1667174763; bh=CDlQ823Yd5+LmwdqTc8iC2kdZCxR66ns+9Y/QszO2I0=; b=q
- pm8dlkZugBsFdFZZxGmiK/4gxauNy4yqPPutr6XMxYehykKkl+2qu+jmcR8nb6YJ
- hkeX0E3zZJfUn+K9XFC25UQL5aYvcbKPImZkEYSzReKKawukWJOTRBuoZVM3yMtX
- mn0+/kJzt1UZygrytgjPNNgcuT1gUWXiibX8ZGuBvRKPD4qz1F5hR4fye5xaKeE4
- 8jyauYbiOm+xGX24wpeTdYpmyQWgbEPwLYWXsAFjd50gfxv5DXLpCDwIQ1Ox/md7
- Y4/Du1H0FhcqwKJNWHsmhTp524VDngQtD4SGBdokUoQx77z1TQ3Shs0hZI1QAgQO
- avo8Rw8cFssfERcipUgWQ==
-X-ME-Sender: <xms:679dYwTz-LhC-1diD5oom1jNIebF8eALFa542kXPrsKR8ZREY4wn6Q>
- <xme:679dY9ws-zO1FN2JpSiL5DmFoC5n1BRYMG1EcPlalk1SMz8NoN9G0g2bRfSKIFNQ_
- nrgh4SL2PxnE_AruJA>
-X-ME-Received: <xmr:679dY90ZcOacs_1ZLpKnRPbS0th6zVvj0tH0fUYZiGyoLsipmXGcKZCaxTD3eWS2hncp>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtdelgdefudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpegtggfuhfgjffevgffkfhfvofesthhqmhdthhdtjeenucfhrhhomheplfhirgig
- uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
- ggtffrrghtthgvrhhnpeejvdejuefhheehkeelgfeiveelvdekhfduvdekueffteegieev
- keehhfdvjefgtdenucffohhmrghinhepghhithhhuhgsrdgtohhmpdgrohhstgdrihhone
- cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgig
- uhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:679dY0D9lpe9aikTOXVSPil1T8rEvP3G4RybDAf90uC5J0ldRVZ-EQ>
- <xmx:679dY5gYFWZWPh-ykG66peF1CnMv9dACQkPH7-KAN4UGMYZzUe7wgA>
- <xmx:679dYwqlGmhN6Wj62LRniq--SwUlUYKs_6wo3NL95gzuN5cvuWQKJA>
- <xmx:679dY8ugwfVvT2FaQmpAb7bz335302pisI8iiU2VF0MHRUOFk8RErw>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 29 Oct 2022 20:06:02 -0400 (EDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.51\))
-Subject: Re: [PATCH 1/3] target/mips: Set CP0St_{KX, SX, UX} for Loongson-2F
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <f924f4c8-3e57-c412-874e-51ff8c578d59@linaro.org>
-Date: Sun, 30 Oct 2022 01:05:51 +0100
-Cc: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, pavel.dovgalyuk@ispras.ru
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <401D3908-5616-4C4E-9D3B-3F40DE0A26E7@flygoat.com>
-References: <20221029020030.13936-1-jiaxun.yang@flygoat.com>
- <20221029020030.13936-2-jiaxun.yang@flygoat.com>
- <5101ed53-5138-d40e-559e-1a3fd76a8c94@linaro.org>
- <2999BC9E-D7B6-4D17-9A28-E441B2C06E63@flygoat.com>
- <f924f4c8-3e57-c412-874e-51ff8c578d59@linaro.org>
-To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-X-Mailer: Apple Mail (2.3731.300.51)
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=jiaxun.yang@flygoat.com;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ooyt8-0007VK-VF
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 23:21:31 -0400
+Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ooyt7-0001jI-3r
+ for qemu-devel@nongnu.org; Sat, 29 Oct 2022 23:21:30 -0400
+Received: by mail-qk1-x736.google.com with SMTP id f8so5845599qkg.3
+ for <qemu-devel@nongnu.org>; Sat, 29 Oct 2022 20:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=R8rDivxZQ6Zph//V2hA7NTpQMX7WMWCbLxDyt9vhZmE=;
+ b=lgDU8deaEXhmHLP74YNepPxLDyeckBf84cySyWEJEYxnsgAAl20MJmfscgWz3NK5SL
+ Fam4wfd0g1qRLm+OM4bGXf1F24ZTQoft0UrKvYsA9XQYxvodv6P7LfkDtU1gxuw/8/aJ
+ OhIbtoEVigKgwflLzj9NCeWigyLwzihOQlLmgxZrrVFq6oFYxWI7NLvoLb2yUoysDSYM
+ 1QjJoEdGq+4T7VGIaQJoWJCx5e5E1JkQAZOVj+eklqq9D+4eev0i7a93miHJ58CimSgn
+ xY+2jaP7Sr2m3lgEckVjEn06AckL3+DBd73NdyJdi3n7gRRuSM6tQ9oApZRfN+P207bX
+ JhMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=R8rDivxZQ6Zph//V2hA7NTpQMX7WMWCbLxDyt9vhZmE=;
+ b=Yx3c4lXGMmha58HSXji6cdoC4W/RyGgOsD3L6Gc7C0828XFUnjnOS0Y8Kt3g8Ke22E
+ hbFZ1lEw+d/H4i53PylpYXisNyWVX+LVwRxmOHPe1VvHGcWiKUBtdrmZL6Woxz/9/nx6
+ FBCq9VJH7Ogf8+g6eqb8OVOu/DMNZ8vW4DBoDiSXCQlX+wyZU4EFjPSKCl9G2coZbssX
+ kRnYdcKQIQW87IY3lMKUVF5aSD9QUHrkVt72bczhwWonQ7GrpdoaJ6G5J+uG7q0XCk0X
+ ciJ05KDWQTfL1jyqg88uJWK3YwTsQvrTa88cUH7j98A+bsD6IgJsuOAnwN62Jd/pM7N2
+ pEpg==
+X-Gm-Message-State: ACrzQf2/fZLvMFk1kLGRbpwq0y71A3qS+5EGHTwMOZaKEzzzAL4VX9BR
+ gHlGSkr/HH7DCLahdZ6M9oKdjh8VExegKcjzbko=
+X-Google-Smtp-Source: AMsMyM5t7U533JiaDkC+hAxaA+RqkR7Rbk9Tn5oVCLhg5nraguSP2ZTfyr6mVr2b4bqkQ0aT5d92WrwE8pDjrqX2I6o=
+X-Received: by 2002:a37:63c4:0:b0:6fa:23a2:9fc6 with SMTP id
+ x187-20020a3763c4000000b006fa23a29fc6mr739995qkb.376.1667100087967; Sat, 29
+ Oct 2022 20:21:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
+ <20220908132817.1831008-8-bmeng.cn@gmail.com>
+ <ae19df77-a7b2-5ad6-710b-bc3c2d226978@weilnetz.de>
+In-Reply-To: <ae19df77-a7b2-5ad6-710b-bc3c2d226978@weilnetz.de>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sun, 30 Oct 2022 11:21:16 +0800
+Message-ID: <CAEUhbmXiGOu6KT8vUAzXc92XQa9WiaUi7=ac5pDcDBC3Cs16cQ@mail.gmail.com>
+Subject: Re: [PATCH 7/7] .gitlab-ci.d/windows.yml: Test 'make installer' in
+ the CI
+To: Stefan Weil <sw@weilnetz.de>
+Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x736.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,79 +90,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Sun, Oct 30, 2022 at 12:39 AM Stefan Weil <sw@weilnetz.de> wrote:
+>
+> Am 08.09.22 um 15:28 schrieb Bin Meng:
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > Now that we have supported packaging DLLs automatically, let's add
+> > the 'make installer' in the CI and publish the generated installer
+> > file as an artifact.
+> >
+> > Increase the job timeout to 90 minutes to accommodate to it.
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > ---
+> >
+> >   .gitlab-ci.d/windows.yml | 27 +++++++++++++++++++--------
+> >   1 file changed, 19 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+> > index fffb202658..3a94d40e73 100644
+> > --- a/.gitlab-ci.d/windows.yml
+> > +++ b/.gitlab-ci.d/windows.yml
+> > @@ -10,7 +10,7 @@
+> >         - ${CI_PROJECT_DIR}/msys64/var/cache
+> >     needs: []
+> >     stage: build
+> > -  timeout: 70m
+> > +  timeout: 90m
+> >     before_script:
+> >     - If ( !(Test-Path -Path msys64\var\cache ) ) {
+> >         mkdir msys64\var\cache
+> > @@ -28,6 +28,11 @@
+> >     - .\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Core update
+> >     - .\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Normal update
+> >     - taskkill /F /FI "MODULES eq msys-2.0.dll"
+> > +  artifacts:
+> > +    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
+> > +    expire_in: 7 days
+> > +    paths:
+> > +      - build/qemu-setup*.exe
+> >
+> >   msys2-64bit:
+> >     extends: .shared_msys2_builder
+> > @@ -51,6 +56,7 @@ msys2-64bit:
+> >         mingw-w64-x86_64-lzo2
+> >         mingw-w64-x86_64-nettle
+> >         mingw-w64-x86_64-ninja
+> > +      mingw-w64-x86_64-nsis
+> >         mingw-w64-x86_64-pixman
+> >         mingw-w64-x86_64-pkgconf
+> >         mingw-w64-x86_64-python
+> > @@ -60,12 +66,15 @@ msys2-64bit:
+> >         mingw-w64-x86_64-usbredir
+> >         mingw-w64-x86_64-zstd "
+> >     - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
+> > -  - $env:MSYSTEM = 'MINGW64'     # Start a 64 bit Mingw environment
+> > +  - $env:MSYSTEM = 'MINGW64'     # Start a 64-bit MinGW environment
+>
+> I use Mingw-w64, not MinGW. :-)
+>
+> https://www.mingw-w64.org/ uses inconsistent case, mostly Mingw-w64, but
+> also MinGW-w64. The same confusion exists in the description of the
+> Debian packages, but there MinGW-w64 is more common.
+>
+> So there seems to be no right or wrong.
 
+I would suggest we either use mingw-w64, or MinGW-w64 :)
 
-> 2022=E5=B9=B410=E6=9C=8830=E6=97=A5 00:19=EF=BC=8CPhilippe =
-Mathieu-Daud=C3=A9 <philmd@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> On 29/10/22 21:50, Jiaxun Yang wrote:
->>> 2022=E5=B9=B410=E6=9C=8829=E6=97=A5 18:44=EF=BC=8CPhilippe =
-Mathieu-Daud=C3=A9 <philmd@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
->>>=20
->>> On 29/10/22 04:00, Jiaxun Yang wrote:
->>>> As per "Loongson-2F processor user manual", CP0St_{KX, SX, UX}
->>>> should is not writeable and hardcoded to 1.
->>>> Without those bits set, kernel is unable to access XKPHYS address
->>>> segmant. So just set them up on CPU reset.
->>>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->>>> ---
->>>>  target/mips/cpu.c | 6 ++++++
->>>>  1 file changed, 6 insertions(+)
->>>> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
->>>> index d0a76b95f7..a870901bfa 100644
->>>> --- a/target/mips/cpu.c
->>>> +++ b/target/mips/cpu.c
->>>> @@ -304,6 +304,12 @@ static void mips_cpu_reset(DeviceState *dev)
->>>>      env->CP0_EntryHi_ASID_mask =3D (env->CP0_Config5 & (1 << =
-CP0C5_MI)) ?
->>>>              0x0 : (env->CP0_Config4 & (1 << CP0C4_AE)) ? 0x3ff : =
-0xff;
->>>>      env->CP0_Status =3D (1 << CP0St_BEV) | (1 << CP0St_ERL);
->>>> +    if (env->insn_flags & INSN_LOONGSON2F) {
->>>> +        /* Loongson-2F has those bits hardcoded to 1 */
->>>> +        env->CP0_Status |=3D (1 << CP0St_KX) | (1 << CP0St_SX) |
->>>> +                            (1 << CP0St_UX);
->>>> +    }
->>>=20
->>> Don't we want to update CP0_Status_rw_bitmask in Loongson-2F
->>> entry in mips_defs[] instead?
->> Write to those bits is already disabled by CP0_Status_rw_bitmask. =
-However real hardware
->> had those bits set to 1 but QEMU default them to 0=E2=80=A6
->> Enable writing to those bits can also make kernel work but it =
-mismatches actual hardware
->> behavior.
->=20
-> On "=E9=BE=99=E8=8A=AF 2F =E5=A4=84=E7=90=86=E5=99=A8=E7=94=A8=E6=88=B7=E6=
-=89=8B=E5=86=8C (0.1 =E7=89=88, 2007 =E5=B9=B4 8 =E6=9C=88)"
-> Section 5.10 Status =E5=AF=84=E5=AD=98=E5=99=A8(12) (page 57),
-> CP0_Status bits 5..7 are 0.
->=20
-> Can you share your "Loongson-2F processor user manual" doc?
+>
+> >     - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
+> > -  - .\msys64\usr\bin\bash -lc './configure --target-list=x86_64-softmmu
+> > +  - mkdir build
+> > +  - cd build
+> > +  - ..\msys64\usr\bin\bash -lc '../configure --target-list=x86_64-softmmu
+> >         --enable-capstone --without-default-devices'
+> > -  - .\msys64\usr\bin\bash -lc 'make'
+> > -  - .\msys64\usr\bin\bash -lc 'make check'
+> > +  - ..\msys64\usr\bin\bash -lc 'make'
+> > +  - ..\msys64\usr\bin\bash -lc 'make check'
+> > +  - ..\msys64\usr\bin\bash -lc 'make installer'
+> >
+> >   msys2-32bit:
+> >     extends: .shared_msys2_builder
+> > @@ -89,6 +98,7 @@ msys2-32bit:
+> >         mingw-w64-i686-lzo2
+> >         mingw-w64-i686-nettle
+> >         mingw-w64-i686-ninja
+> > +      mingw-w64-i686-nsis
+> >         mingw-w64-i686-pixman
+> >         mingw-w64-i686-pkgconf
+> >         mingw-w64-i686-python
+> > @@ -98,10 +108,11 @@ msys2-32bit:
+> >         mingw-w64-i686-usbredir
+> >         mingw-w64-i686-zstd "
+> >     - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
+> > -  - $env:MSYSTEM = 'MINGW32'     # Start a 32-bit MinG environment
+> > +  - $env:MSYSTEM = 'MINGW32'     # Start a 32-bit MinGW environment
+> >     - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
+> > -  - mkdir output
+> > -  - cd output
+> > +  - mkdir build
+> > +  - cd build
+> >     - ..\msys64\usr\bin\bash -lc "../configure --target-list=ppc64-softmmu"
+> >     - ..\msys64\usr\bin\bash -lc 'make'
+> >     - ..\msys64\usr\bin\bash -lc 'make check'
+> > +  - ..\msys64\usr\bin\bash -lc 'make installer'
+>
+> Maybe it is sufficient to build only a 64 bit installer. Is there still
+> need for QEMU on 32 bit Windows? For CI, most parts of the NSIS process
+> (which requires a lot of resources) are covered by either 32 or 64 bit
+> builds, so running both might be unnecessary.
 
-Ah sorry the document was marked as =E2=80=9Ccompany confidential=E2=80=9D=
- so I=E2=80=99m not sure if I can share
-the whole doc. It was updated in 2016 with version 1.8. The latest =
-document I can find in wild
-Is version 1.5 [1] but it didn=E2=80=99t cover newer chip reversions.
+I see no need to support QEMU on 32-bit Windows as it is less common.
 
-There is a footnote saying value of those bits was changed in later =
-chips, to translate it says:
-
-"Since LS2F04 those bits was refined to 1. As in LS2F we had implemented =
-a single 64 bit addressing
-model and it is mostly compatible with MIPS64 64 bit addressing =
-model.=E2=80=9D
-
-It is obvious that without KX and UX bit 64 bit kernel won=E2=80=99t =
-work but my Lemote Fuloong box is running
-64 bit kernel along with n64 AOSC/Retro [2] user-space rootfs. For SX =
-bit as LS2F supports XSSEG it
-should work as well, though nobody take MIPS supervisor mode serious :-)
-
-[1]: https://github.com/loongson-community/docs/tree/master/2F
-[2]: https://wiki.aosc.io/aosc-os/retro/intro/
----
-Jiaxun Yang
-
+Regards,
+Bin
 
