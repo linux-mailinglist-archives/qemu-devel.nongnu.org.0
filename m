@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F37612D8F
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:37:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF49E612D7E
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:36:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opGtu-0000yo-Gz; Sun, 30 Oct 2022 18:35:30 -0400
+	id 1opGuJ-0001I1-7B; Sun, 30 Oct 2022 18:35:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGsO-0004LG-9C
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:33:57 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGsV-00059D-9c
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:34:04 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGsM-0000NC-Qb
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:33:56 -0400
-Received: by mail-wr1-x436.google.com with SMTP id o4so13675299wrq.6
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:33:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGsT-0000Ng-E9
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:34:02 -0400
+Received: by mail-wm1-x333.google.com with SMTP id 5so6236547wmo.1
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:34:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=365AgLXKeVngn2LD/McGHP2sx4vjBg7re+NZLf9MlNA=;
- b=Rb5nr8EpEpmJoqzLzOqmoX+rMf3/x2zwD9GF0hPng6h30RSj1SfY2c4z+rnq7/0a5y
- la0VIWlt4JE+7CvXh0IOqhHN62qraepsZmL8GKiSwgDefXuzwFiycYlCTB9aRAcQEqyu
- bdIcKukqWbjUcnLp41qENSjkXJ2agWFCFa+9/WM+cp0gfjmvux9Aqgs9l9tqM80ijP0x
- 4RWyIVZ97IFevg9cI9vwug393alBb7OwdiAnd0UBzE6OZ/h6kaUwBXjroxlnCrkF3hjg
- 1eYdQXmz3w33rArizAl9swD/afdKCxSeb7wwKs8P6UCD5BXMmW729nGrymmuieoHvIss
- NzzA==
+ bh=ZmmXEXyVmeaeq801a3SSzA2lFB/U3WaewUO331bNFbI=;
+ b=qUpcJejn3/q3zhAdMuycjc1yxm+FiwK3u0U1Hbj34OyPelPh0v3/a873DCkJ3ttFf+
+ dQOoTM8jCoCZh6XAUdfckG8kBCN/oEvtoeu9X6m0X+AX+0hRnS5wusvycuwwqOzP0jhp
+ IZzve954fkIUEXvPlH4fiUNEnL4yhcboutmDvhGdFv71juLrV8QB4lpERLP9gGbpRTvj
+ E8cDrWifVVn8nzzjK1e6wyyifFQl4E9QY/5SIWjzXyY52bZqLVL0GH1YoBKwwUVDjAj9
+ 43aCt5c2+3gnH96WR3XLuSAAoyl7WEuPTCKXOYvGKIgku6+STeINYgIp8XgwIZQdyCoq
+ 2Msg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=365AgLXKeVngn2LD/McGHP2sx4vjBg7re+NZLf9MlNA=;
- b=cuaSq0qzqMz5QlCiEeDRGknYeNyRQqFnmgriJHl9gkpNpqUgyItD4JZz/xpEzF6bwe
- O8az7CqJdo+/GX3BF42/X9rK3SlB3OfY24L9PXz7bX2PG7Y2s04pHoJbPOlILeQOMXqa
- qiP1jIGSsFrZM62LGDhqsZNhV5j6zmJ1yfAufbiamktYfcYGy6r/KdMxg5MfB4kK8TJn
- JGpSzwoOHSTvvzVjwxJKZk5n1sDn85buxsu6pmbqviyciS0n3u/f2Xz7KdA04EuKQDKw
- ynipw3KcomG8P/zRUCVi0AzLNLamcDZmGSXjNFhvZG4M+8156ad2vDuiKRqr2JQfMyvC
- AmIg==
-X-Gm-Message-State: ACrzQf2RVN0YjFqGOjHZleR/1mzRV/nuqDDK19CJZ74J2cMMvlLpAzoh
- pVGuOh6gd9kA5kygvpgXJ/JPC2bFhWi09g==
-X-Google-Smtp-Source: AMsMyM4YRjLAqiD9sWkRDiVREE9ycvtJZmv6WQUesHVOqrdc4bNpkiscZSLdjsZ2jecpF6gzEqAMcg==
-X-Received: by 2002:a5d:47a6:0:b0:236:7854:246d with SMTP id
- 6-20020a5d47a6000000b002367854246dmr5881641wrb.300.1667169233150; 
- Sun, 30 Oct 2022 15:33:53 -0700 (PDT)
+ bh=ZmmXEXyVmeaeq801a3SSzA2lFB/U3WaewUO331bNFbI=;
+ b=6LFkdnguMDxtMCG8QqW7UTHNCovQKAbYPHOFhP+KcF5uRzYZVXaak0ob0Z0nARp0y/
+ hQJ1EkXIAsU4k9On2oWs8gVMdfJ8jjfr2HkcVbYSK3tOibniV53ivOuXaBl+hmNO+R49
+ V5kVrjVZ8KtObLEtg4GmY1OnKrRmHyRyEgK5cLbNCmQFOjBOERuunkAtVeuy2hhfsTdo
+ wC4krKeneXUyP5N3H7IEwsPbyuz6xR9pyxhasi4rpmaqktfOTOKOxObB7cGk+lO87Tuu
+ 0wJOIyxsF2V9GnkP/sP7drqIu+SZ/D31F3ga1YbbKqFPWx7vOBg8bwIIII/s4pB/f1Q0
+ SVUQ==
+X-Gm-Message-State: ACrzQf01TQR8E6paOtT7ZJr7FeufE6Ail31+ouSjMDPj8UqY+76BZjOs
+ OmRNRz2R5HX30LqLXq9JUbOsHevzK3F6VA==
+X-Google-Smtp-Source: AMsMyM71TLdJLJh8nJFjw4TzPphbpuwLy/tzo1t8GqPHXEoPYSuhNhqHRKazu6NRb7vnMnmqUNXPZQ==
+X-Received: by 2002:a05:600c:4586:b0:3c6:fbb0:bf2d with SMTP id
+ r6-20020a05600c458600b003c6fbb0bf2dmr5984663wmo.13.1667169239866; 
+ Sun, 30 Oct 2022 15:33:59 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- f7-20020adff987000000b0022e6178bd84sm5221626wrr.8.2022.10.30.15.33.51
+ k6-20020a05600c1c8600b003b4e009deb2sm6078461wms.41.2022.10.30.15.33.58
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 30 Oct 2022 15:33:52 -0700 (PDT)
+ Sun, 30 Oct 2022 15:33:59 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -61,17 +61,17 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PULL 47/55] hw/isa/piix3: Remove unused include
-Date: Sun, 30 Oct 2022 23:28:33 +0100
-Message-Id: <20221030222841.42377-48-philmd@linaro.org>
+Subject: [PULL 48/55] hw/mips/malta: Reuse dev variable
+Date: Sun, 30 Oct 2022 23:28:34 +0100
+Message-Id: <20221030222841.42377-49-philmd@linaro.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221030222841.42377-1-philmd@linaro.org>
 References: <20221030222841.42377-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,28 +96,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-Ammends commit 988fb613215993dd0ce642b89ca8182c479d39dd.
+While at it, move the assignments closer to where they are used.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221022150508.26830-19-shentey@gmail.com>
+Message-Id: <20221022150508.26830-26-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/isa/piix3.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/mips/malta.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index 0bea4aefe7..808fd4eadf 100644
---- a/hw/isa/piix3.c
-+++ b/hw/isa/piix3.c
-@@ -30,7 +30,6 @@
- #include "hw/irq.h"
- #include "hw/isa/isa.h"
- #include "hw/xen/xen.h"
--#include "sysemu/xen.h"
- #include "sysemu/runstate.h"
- #include "migration/vmstate.h"
- #include "hw/acpi/acpi_aml_interface.h"
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 5099ed9592..6ac811763c 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -1237,7 +1237,6 @@ void mips_malta_init(MachineState *machine)
+     MaltaState *s;
+     PCIDevice *piix4;
+     DeviceState *dev;
+-    DeviceState *pm_dev;
+ 
+     s = MIPS_MALTA(qdev_new(TYPE_MIPS_MALTA));
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(s), &error_fatal);
+@@ -1403,13 +1402,13 @@ void mips_malta_init(MachineState *machine)
+                                             TYPE_PIIX4_PCI_DEVICE);
+     dev = DEVICE(piix4);
+     isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
+-    pm_dev = DEVICE(object_resolve_path_component(OBJECT(dev), "pm"));
+-    smbus = I2C_BUS(qdev_get_child_bus(pm_dev, "i2c"));
+ 
+     /* Interrupt controller */
+     qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
+ 
+     /* generate SPD EEPROM data */
++    dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "pm"));
++    smbus = I2C_BUS(qdev_get_child_bus(dev, "i2c"));
+     generate_eeprom_spd(&smbus_eeprom_buf[0 * 256], ram_size);
+     generate_eeprom_serial(&smbus_eeprom_buf[6 * 256]);
+     smbus_eeprom_init(smbus, 8, smbus_eeprom_buf, smbus_eeprom_size);
 -- 
 2.37.3
 
