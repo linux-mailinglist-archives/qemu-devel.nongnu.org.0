@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30493612D58
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E2C0612D59
 	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:30:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opGod-0001VF-JX; Sun, 30 Oct 2022 18:30:03 -0400
+	id 1opGow-0001of-De; Sun, 30 Oct 2022 18:30:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGob-0001Pd-7n
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:30:01 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGoh-0001gT-Gh
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:30:07 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGoZ-0007Vo-FG
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:30:00 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id z14so13647649wrn.7
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:29:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGoe-0007gJ-R3
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:30:07 -0400
+Received: by mail-wm1-x331.google.com with SMTP id v7so460309wmn.0
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:30:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cItMSceJxc77hkLk4ARWSjrWRtmm6EWXY7ZRexGwKP4=;
- b=cVh0FLo0LXrAzJp0WFoDiqgpVeKvDfl339iHbG/lxhj3arNM7iz7dikc9KosFhw+I0
- WNT12ZcKUhyTTNul3CV3/ooaNBwYH3Ip6sQGpXVyGGc65YRzV9oSkSKNu6KdSBfBDSaX
- IVsxi55QWwZ21hJ0Jsj8jKbRsm7CkfjMiq5HAYbhESL+OsTUAt2rL5qlqbsgE3piZDel
- 0vaf3P0vNVcgKIDrzIy1H4MpWvLRUxE9e/FsKNuzmptu0vaPNbFHcED7n8EkD7V/DaIN
- wBErEsmre7/2K6VuazQKmuWiSvYqcirV+BdR8tAUsH5zOaCw318ATwmKLAnISQatz/ew
- chJA==
+ bh=bVCdaSuOxhsuXXra2TyjgvcXSXdswcYJ8KSoBlNRvhg=;
+ b=c3ScNOtXd5T6zHAE0PtROwcTCjUvhho9ydshwqMI71yNsEFzxCyNpHTn0viFrflsAz
+ GnplR4AbG+cnvVwo5UeboT1KwG9wDWRhpyKH0JLmos8zSWvHLyEO6TLtrwcj77KjAr2E
+ mPiH61TK6Sxb119bK+rj4C9IotnwwbmKrZgiorkILJEVddClxqpuWxlFb6xJqtcVUrSm
+ c3lPQCt2oqVTvRvKNMK2Ow2vd2GW7RzH39i07jLDHUp0lPNWQb44mhH786U4Q7gEjVEc
+ 9xVrQSYV1G2eZ7755L9LNL9dLrDLQSgw7owk+N0iP07ARfhOX2Tc2HOqBKt/dibT7UsE
+ DkcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cItMSceJxc77hkLk4ARWSjrWRtmm6EWXY7ZRexGwKP4=;
- b=xe+0mvlcBZRFXTPfodTUcZ3pDI8BdB8LYNRn0KpyKCM/ZqCFCulvxiDpYQYUcahnYT
- 2hXqensQtO5lLzaWkYfWTruXBMAqSx9hxHkyEP8GurqDtz+4Zi45y0J7iEQQN6jhdgWC
- 01R34/oDXFUznFFK7ldWS4pepu+I/tHirF4mWqdD3vDCDpZvVLUQVwyn51cTFCwHUvSQ
- 9vebOtdAAnN4D2eiRW69lCuaWKg+G/4Nk173lFlgbjGHrS/cFKE/m1q2gIdbqK2oRR1v
- KwdEtHdWQGP0NKb08KtNozgQ/Zu3Hhx10ZRKCOy0L1fxzAh4IxQCjbZjHxE/+3ITlW/g
- CYlw==
-X-Gm-Message-State: ACrzQf32dpBikyuGN0S1Vk9oIPFaFUk/4FqctuU+RB/pBRU0pZzCJ1MX
- Glvr4tL2pZiD4HBGzMZBaSjkLV/GSNSXlA==
-X-Google-Smtp-Source: AMsMyM7SJQc41kF6rnstTcRgeDRiBvxSv7/9hFrTtYXJkDGC/6nX9BTpLR2bBrXzGF/BTm10eb4E2A==
-X-Received: by 2002:a05:6000:24a:b0:236:bc3a:48b2 with SMTP id
- m10-20020a056000024a00b00236bc3a48b2mr3719816wrz.495.1667168997771; 
- Sun, 30 Oct 2022 15:29:57 -0700 (PDT)
+ bh=bVCdaSuOxhsuXXra2TyjgvcXSXdswcYJ8KSoBlNRvhg=;
+ b=KVx266m/wLaHwk5pW2F1zySPi81tb3Q7PZt58l1ausuaqYd5Ly9O4TTBThQhQaJypU
+ H++8+1lLGQB0zMh8rujTBKMTBxCOB6ljCHlRIIrzChd0EkYxmhqWd+DKD1ZcL422g683
+ LvrduxtYyZyRjer+xXGZFzk2qNI4HNxQrjry6ou7smxIR+5EO2sw+KtHFI35P8qGzZCW
+ lNDMR3pf+ZQy8GAjxKLD1F6WAw09V1a2yUIrtjPyUi9mn0vSGJfDSmjqOzKi+xH29OWI
+ QnIzn2ITKNMY1ooHCvxPoizlg9jDioYBfelk2J/DgqLhNRVpW0RvC0m7rODEsdLp6TnO
+ 9ISQ==
+X-Gm-Message-State: ACrzQf2KS7P4z3j1/8JpEDAxzvx61tI99o8dZL875QYxiwqGhviiV9Xv
+ UOX1f5Ja78/JeoorNdbWm9O+dzMEKIq5Xg==
+X-Google-Smtp-Source: AMsMyM6wg26LOzbVY97b20mBtx1D5bHtVgeIkIjXIO3g0AfTg8GaQZA5VdIAbEh9QW+TGPjkt1dcDA==
+X-Received: by 2002:a05:600c:19cc:b0:3c6:fbb9:caab with SMTP id
+ u12-20020a05600c19cc00b003c6fbb9caabmr16191738wmq.182.1667169003260; 
+ Sun, 30 Oct 2022 15:30:03 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- k36-20020a05600c1ca400b003b47b80cec3sm5352058wms.42.2022.10.30.15.29.56
+ j10-20020a5d464a000000b002365cd93d05sm5080239wrs.102.2022.10.30.15.30.01
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 30 Oct 2022 15:29:57 -0700 (PDT)
+ Sun, 30 Oct 2022 15:30:02 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -60,20 +60,19 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Stefan Pejic <stefan.pejic@syrmia.com>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
- Bernhard Beschow <shentey@gmail.com>, BALATON Zoltan <balaton@eik.bme.hu>,
+ Bernhard Beschow <shentey@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 11/55] hw/mips/fuloong2e: Inline vt82c686b_southbridge_init()
- and remove it
-Date: Sun, 30 Oct 2022 23:27:57 +0100
-Message-Id: <20221030222841.42377-12-philmd@linaro.org>
+Subject: [PULL 12/55] hw/isa/vt82c686: Embed RTCState in host device
+Date: Sun, 30 Oct 2022 23:27:58 +0100
+Message-Id: <20221030222841.42377-13-philmd@linaro.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221030222841.42377-1-philmd@linaro.org>
 References: <20221030222841.42377-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,65 +97,54 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-The previous patches moved most of this function into the via-isa device
-model such that it has become fairly trivial. So inline it for
-simplicity.
+Embed the rtc in the host device, analoguous to the other child devices
+and analoguous to PIIX4.
 
-Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20220901114127.53914-12-shentey@gmail.com>
+Message-Id: <20220901114127.53914-13-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/fuloong2e.c | 28 ++++++++++------------------
- 1 file changed, 10 insertions(+), 18 deletions(-)
+ hw/isa/vt82c686.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index 2d8723ab74..3c46215616 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -196,22 +196,6 @@ static void main_cpu_reset(void *opaque)
-     }
- }
- 
--static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
--                                       I2CBus **i2c_bus)
--{
--    PCIDevice *dev, *via;
--
--    via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(slot, 0), true,
--                                          TYPE_VT82C686B_ISA);
--    qdev_connect_gpio_out(DEVICE(via), 0, intc);
--
--    dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "ide"));
--    pci_ide_create_devs(dev);
--
--    dev = PCI_DEVICE(object_resolve_path_component(OBJECT(via), "pm"));
--    *i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
--}
--
- /* Network support */
- static void network_init(PCIBus *pci_bus)
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 91686e9570..48cd4d0036 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -550,6 +550,7 @@ struct ViaISAState {
+     qemu_irq cpu_intr;
+     qemu_irq *isa_irqs;
+     ViaSuperIOState via_sio;
++    RTCState rtc;
+     PCIIDEState ide;
+     UHCIState uhci[2];
+     ViaPMState pm;
+@@ -571,6 +572,7 @@ static void via_isa_init(Object *obj)
  {
-@@ -308,8 +292,16 @@ static void mips_fuloong2e_init(MachineState *machine)
-     pci_bus = bonito_init((qemu_irq *)&(env->irq[2]));
+     ViaISAState *s = VIA_ISA(obj);
  
-     /* South bridge -> IP5 */
--    vt82c686b_southbridge_init(pci_bus, FULOONG2E_VIA_SLOT, env->irq[5],
--                               &smbus);
-+    pci_dev = pci_create_simple_multifunction(pci_bus,
-+                                              PCI_DEVFN(FULOONG2E_VIA_SLOT, 0),
-+                                              true, TYPE_VT82C686B_ISA);
-+    qdev_connect_gpio_out(DEVICE(pci_dev), 0, env->irq[5]);
++    object_initialize_child(obj, "rtc", &s->rtc, TYPE_MC146818_RTC);
+     object_initialize_child(obj, "ide", &s->ide, TYPE_VIA_IDE);
+     object_initialize_child(obj, "uhci1", &s->uhci[0], TYPE_VT82C686B_USB_UHCI);
+     object_initialize_child(obj, "uhci2", &s->uhci[1], TYPE_VT82C686B_USB_UHCI);
+@@ -624,7 +626,15 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
+     isa_bus_irqs(isa_bus, s->isa_irqs);
+     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+     i8257_dma_init(isa_bus, 0);
+-    mc146818_rtc_init(isa_bus, 2000, NULL);
 +
-+    dev = DEVICE(object_resolve_path_component(OBJECT(pci_dev), "ide"));
-+    pci_ide_create_devs(PCI_DEVICE(dev));
-+
-+    dev = DEVICE(object_resolve_path_component(OBJECT(pci_dev), "pm"));
-+    smbus = I2C_BUS(qdev_get_child_bus(dev, "i2c"));
++    /* RTC */
++    qdev_prop_set_int32(DEVICE(&s->rtc), "base_year", 2000);
++    if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
++        return;
++    }
++    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(&s->rtc),
++                              "date");
++    isa_connect_gpio_out(ISA_DEVICE(&s->rtc), 0, s->rtc.isairq);
  
-     /* GPU */
-     if (vga_interface_type != VGA_NONE) {
+     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+         if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
 -- 
 2.37.3
 
