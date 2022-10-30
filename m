@@ -2,94 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5156129F7
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 11:14:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DA0612A18
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 11:29:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1op5It-0006AP-0n; Sun, 30 Oct 2022 06:12:31 -0400
+	id 1op5Y4-0002NV-7W; Sun, 30 Oct 2022 06:28:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elliot@nunn.io>) id 1op5Iq-00067S-Ub
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 06:12:28 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elliot@nunn.io>) id 1op5Io-0000rl-Pi
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 06:12:28 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id DD7FF32002D8;
- Sun, 30 Oct 2022 06:12:23 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Sun, 30 Oct 2022 06:12:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nunn.io; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1667124743; x=
- 1667211143; bh=uwqsyRd8Xf3x10mZupwMrkYYPEMZYMaGhHlf28FdYoo=; b=r
- lM2ZboPuac+UKHsBcVsQIwcbfi+SijMtvxCke3qwq7/iYtc+BBGgIl9i0+OM/VqX
- d+pDK7fjUGvDn1GuSdPAD9El84vBsAxBgxVR/Kqtf3Z4nNKbcH6rv58/UDTbjIkW
- Ve6ZHkegcvGpk3A1tB2yzTJN5yVedFuL/zt4vwaSWmnCYUJ257Bgsyw2hlOXP2ua
- Go5J5ybbCc1Lzk5ftd0solJnJpgXV7oYw2+KfSmmIDonPYrm/3M7zrz6IcopIrmD
- hV4qKUNGiUMIBW5q9GFoty6hg6IUt+6mlCd+Z3y73TBrhEsDALtfYpyHYpz7EmrM
- 41JA+82RAoH+fZvGKpRUA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1667124743; x=
- 1667211143; bh=uwqsyRd8Xf3x10mZupwMrkYYPEMZYMaGhHlf28FdYoo=; b=B
- KM6oVyMLrvk43O8hKV6QFO8BxvgF1JL5YPUt9SuWXyaoBfzXDAX1JfW2JHW/IcWx
- Eg/x1Pc1aAN4tIxE2rkyyIKUbSmSvoFxzzV7RRzqlumrRi5nSlhnk7wLarWNd4cl
- 3YuFDuGUpp6QwsEOHdSM9uKIf9J4BcMkUh4lK3446uXxeqYkuvMRefK6ZAZO8Q7F
- 2+USjuVlwTsUDvMmSD/DSPF40l2MXDEGFxycWD2kMw+GDKW7hKukJf2LKviA6g80
- RQIVhOp/Zk7kSJjYYg6AUHkP2J4SJnXrgOg+2q+40j2D6AezqW5WkCk0ZA+Kl+ks
- Bz0NlQG9LcV6AeyyqlI/g==
-X-ME-Sender: <xms:B05eY_27-dwsC47Tyj0s9lemVYc_u4sLMNGC03V72MDZys7ttjlKzg>
- <xme:B05eY-F0bHA6kJflM8-2pqvIDPJGfvKlkqAu3blVqLAPAgZGnWQS1aNk8_-HPf5Iu
- IcOF5LMJt-RtNsV5Q>
-X-ME-Received: <xmr:B05eY_5B_CPLRZAxrKJkocBO7-rSpglH2OMMEOyhUg8tPZgwgNqhxKXsRaJ5renU9T9LBJ1q5Kp99bwFxxvbEUX8sn_sngBt3r7Nlw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedruddtgddufecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpegtggfuhfgjffevgffkfhfvofesthejmhdthhdtvdenucfhrhhomhepgfhllhhi
- ohhtucfpuhhnnhcuoegvlhhlihhothesnhhunhhnrdhioheqnecuggftrfgrthhtvghrnh
- epffevvdfgudeugfdtvdehveekteekudegfeetleettdeikeejfeduhffhtefftdevnecu
- vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepvghllhhioh
- htsehnuhhnnhdrihho
-X-ME-Proxy: <xmx:B05eY025vVTU9yNyLbl36KTbMo5KAV3yXZoDjjTzN8bby65Ja22mnA>
- <xmx:B05eYyHYgl6V5lE3Sq5WI3pWHNbilWdMLzCnh9STFYaZPy2bn7yLFg>
- <xmx:B05eY19INimjPB2rBAlas-G990Yj_2Ghqvqf7V5EkBi0-buQ2D1EFw>
- <xmx:B05eY3RoquuCBhLvgpsMUXWA6zUBA6G3HBKs2GwldQokG6OMPv06bQ>
-Feedback-ID: i6a78429f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 30 Oct 2022 06:12:21 -0400 (EDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.40.0.1.81\))
-Subject: Re: [PATCH] ui/cocoa: Support hardware cursor interface
-From: Elliot Nunn <elliot@nunn.io>
-In-Reply-To: <a5029b6b-d0a9-a379-09c0-05d6786af0f2@gmail.com>
-Date: Sun, 30 Oct 2022 18:12:16 +0800
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- f4bug@amsat.org
-Content-Transfer-Encoding: 7bit
-Message-Id: <A51A48EC-0616-4325-84F0-BDC8846F46A7@nunn.io>
-References: <54930451-d85f-4ce0-9a45-b3478c5a6468@www.fastmail.com>
- <CAFEAcA_bip7nifW-Zq8qrSmZTCUQA1VMpMR8HSHsKVBAeQxy0A@mail.gmail.com>
- <CAMVc7JXPi3kbFyrN9757uKt-cUprKUBLM9nuDMRjawtVePVVAw@mail.gmail.com>
- <5232C333-9F52-455D-A0D5-B1A438800717@nunn.io>
- <a5029b6b-d0a9-a379-09c0-05d6786af0f2@gmail.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-X-Mailer: Apple Mail (2.3693.40.0.1.81)
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=elliot@nunn.io;
- helo=wout1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1op5Y2-0002LQ-8X
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 06:28:10 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1op5Y0-0004if-FA
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 06:28:10 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id s196so8443042pgs.3
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 03:28:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Xn4QjccaG1LtoaUltTNObSkDsh+lEsjZ9UFLYvc0QqE=;
+ b=Lo+/utIUjSacCh8dqDDg34hNe+6/VuIqqFN1LMDexAGpqFb9Ol7T30XxkZa/BY04Ew
+ OjMtEW2nb5oVhDS/zRshPtNymFTzjK769kTZnUXSzR3xKX9XQYhKddKOGm4UadftLyAF
+ 8PeKaEVGG/6FxDgdI2mK7gfNFeFi4CS6tQZfsecQvcyYcgJXXZIABTcRAfdrMdKlDgoC
+ 4tuO5IHbudeMYnzKLw3+dyiATzW01Ye8mr9NeNytvpEScJV3OuxlHkJyXMtjXbZ3tt/2
+ lRz6zi/+ketUTKsIn1a1M34J4FsTYMCI0WPXuU5qhDs+PiUIQJFoZ1yH008Srs+AIsWH
+ Ao4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Xn4QjccaG1LtoaUltTNObSkDsh+lEsjZ9UFLYvc0QqE=;
+ b=QCYbHtQ0USSNrVQXqRoaw0/McGjkK1aTqjrIx4hmjIWhCTMuYo5hBLrqYUiQVr8TlI
+ ogFxYs5rCOOLRxqX87S9Mn38E4KBkPyfNw8HB1aZBwmUdW+qM41U4uGt529RmSRNyBXP
+ rzYIDZpSgWGX/dS5LH71nqExxWkBk29bFkXof51lLl4i9K3cSsNP6JO9sA7SywAoSY8G
+ SoRWz7Zhvx+qH2aBrDRrPE+YfvhuC3bNkaW/NX/mVHviVmsVy6MB6EDKlDmVP4kCT/UM
+ WMp5ICRN7375p0cM99bZ2b17lTHWNIqVgSEO92XxOLL5fvVUzBhGxLRQUQA1haCarFdi
+ dW2A==
+X-Gm-Message-State: ACrzQf2/RzWRv2FBoWxkMgCX7eSJzTrck1TY7041krRQXpM77KXo3m66
+ +sN/d9AjI/g73HY6cwMzZK+O2wldf0oeQrkQFrPhLQ==
+X-Google-Smtp-Source: AMsMyM7cnxVzpd0Bv8f4ThybfYo1ITRlgwxbCTn9zZIxZ/l+y1Yu7TbJ3uA9i5nMITI58t2lYAwmlrLmv/m2FCq5ySU=
+X-Received: by 2002:a63:85c8:0:b0:46e:c387:c85f with SMTP id
+ u191-20020a6385c8000000b0046ec387c85fmr7578873pgd.105.1667125686328; Sun, 30
+ Oct 2022 03:28:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <20221028072145.1593205-1-uwu@icenowy.me>
+ <f28c1d8f-d30d-fc24-ce4e-88aba776abe2@linaro.org>
+ <8e47bd2257004301fcd3ae17705e6b5351875f83.camel@icenowy.me>
+In-Reply-To: <8e47bd2257004301fcd3ae17705e6b5351875f83.camel@icenowy.me>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 30 Oct 2022 10:27:54 +0000
+Message-ID: <CAFEAcA_Zh6nU6E=rtKRj13-hhB-7RGPvyaHdtxh09KJjMMMx0Q@mail.gmail.com>
+Subject: Re: [PATCH] tcg/tci: fix logic error when registering helpers via FFI
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,56 +86,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-Akihiko,
+On Sat, 29 Oct 2022 at 01:45, Icenowy Zheng <uwu@icenowy.me> wrote:
+>
+> =E5=9C=A8 2022-10-29=E6=98=9F=E6=9C=9F=E5=85=AD=E7=9A=84 06:28 +1100=EF=
+=BC=8CRichard Henderson=E5=86=99=E9=81=93=EF=BC=9A
+> > Oh my.  I'm surprised any test cases at all worked.
+> > Queued to tcg-next, with the declaration of j moved to the loop
+> > itself:
+> >
+> >         for (int j =3D 0; j < nargs; ++j)
+>
+> Ah I think this is a C99 feature. Is our C standard baseline high
+> enough to use it?
 
-Sounds like you've done a lot of work on ui/cocoa, with the goal of
-improving the experience with modern Linux guests. My goal is to improve
-the experience with antiquated Mac OS 9 guests.
+Mmm, my instinctive reaction was that our style probably
+doesn't permit that. But if you do
+  git grep 'for (int'
+we already use it quite a bit...
 
-> My patch has been only tested with recent Linux, but it certainly should
-> be ensured that it works well for old systems when upstreaming.
-> 
-> First I'd like to know what display device you use. It looks like
-> dpy_mouse_set is used only by ati-vga, vhost-user-gpu, virtio-gpu, and
-> vmware.
-
-I was using my own hardware cursor patches to the VGA device, but now I am
-using virtio-gpu. My Mac OS 9 driver for virtio-gpu is in progress.
-
->> 1. In absolute pointing mode, re-enable Cocoa's cursor and let the host
->> OS move it according to user input.
->> 2. Keep the cursor sprite, but move it according to Cocoa's mouse
->> movement events instead of dpy_mouse_set events.
-> 
-> Also, can you give reasoning while 2 is preferred? 1 would allow to
-> exploit the hardware's feature for cursor composition, resulting in
-> smoother experience and a bit less power consumption. But there may be
-> complications it can cause so I have not decided which one is the better
-> yet.
-
-Mainly that it would simplify the code. OTOH, if we expect the guest to
-use the hardware cursor facility, then it's only fair that the host does
-the same. I'm open to either option. We should probably try both.
-
->> And I didn't realise that you had added VirGL support to cocoa.m. Well
->> done! Is it on track for release?
->> My patch should be withdrawn from consideration, in favour of a future
->> solution that does not use cursor warping.
-> 
-> I'm not really pushing my changes hard so it's kind of stale. Perhaps it
-> is better to rewrite the cursor composition patch in a way that does not
-> depend on the Virgl patch. I'm also aware that the cursor composition
-> using Core Graphics is somewhat laggy so it may be better to rewrite it
-> using subview, Core Animation, Metal, or something else. But I have not
-> done that yet.
-
-Is there some Cocoa-native way of compositing within the window, that
-will work with or without a GL surface? Subviews sound appropriate.
-
-Not that I have any influence, but I think your virgl patch is an
-excellent contribution and should go upstream.
-
-Thanks again,
-
-Elliot
+-- PMM
 
