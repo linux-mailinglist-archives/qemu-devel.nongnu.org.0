@@ -2,85 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 071AD612A6B
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 12:48:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A2D2612AB8
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 14:28:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1op6m2-0007Wy-Ov; Sun, 30 Oct 2022 07:46:42 -0400
+	id 1op7NV-00033v-9D; Sun, 30 Oct 2022 08:25:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1op6lo-0007T6-Ek; Sun, 30 Oct 2022 07:46:28 -0400
-Received: from mail-ua1-x92a.google.com ([2607:f8b0:4864:20::92a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1op6lj-00069b-3p; Sun, 30 Oct 2022 07:46:27 -0400
-Received: by mail-ua1-x92a.google.com with SMTP id e26so3986478uaa.7;
- Sun, 30 Oct 2022 04:46:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+GZfRZriehGFXyXYwjklaH3uCtAM6cH08uwlyfapWd4=;
- b=MsFOkJiOxmO/7Zf27jlZMdH4aRE2H7vFBJFkwvNdxEd70YOaKviXMfXE+l1zrGV7kE
- nKnGnif8vL9dkg4jJp9j9UKK366vYKcx4XkHVWsBLsmP6hczGWjyJ+IaXDDGMJEMarWY
- VpZ0TtKllpuzOn6iuftBMJPTLh8nWqOBS9sDoSkB5pVVC/IeE4FT99QFNVvrr/VAPXBn
- rirSW+V/9zKyCCE4vE56y+Us1Q5SqoEgOl4TwDIluvD2h2KJLBJoNYKxLu80SB0P5qUy
- ClUdty7nlipxIdpvWFTi6Zn9JNTyyIGp0H/nydsaUnTF8i59Gqi8jlumCAymCsI3o10C
- D7TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+GZfRZriehGFXyXYwjklaH3uCtAM6cH08uwlyfapWd4=;
- b=lhXTflQhXgmrPJuIKorPIUP/i8Y4Ms9/OVYmUYP4KxnCA9HyeQYTkCUO+tQ+d+7HjR
- upTiagRjvMZBwS19yKPkw75QCWgfaK8AtkbN3W6EpOLzdWcL15yaOBOi+3CzqVTdWYaJ
- kCrtKFBBby0+IqNohgyeOY+lfEVhJ9JirZJwXc7n42m8AhFsS6zPrFjs2N+qX3jVExTh
- WBKOe2U/ZiA2ls7qLAfrwZiw9YhVPCQK5FmjU2hsdKVRh0cHx/23esoO4jAaa65N577o
- Y37y6JTowCnz4PugvkPRbifPqL8NedshwXupKxKzzoqP4v8SwQGoLBB07AK0pHN8iiwN
- vQBg==
-X-Gm-Message-State: ACrzQf0aMg071fAFUiF8MgyseCdBOH0NL8ohD8PUEpkBcYW88VsXRmIk
- qzPamQpa7V/PKnCfrVmRrTXbUKfozxFFTvXPQtc=
-X-Google-Smtp-Source: AMsMyM70XavoikNBo4BSBGHK7kWrkxpVJNgwgX7+VwR1EUTcD6fv4abveOdhOdJtUJH/pbJSX6ZWO+qvV5LsaH7FvL8=
-X-Received: by 2002:ab0:2982:0:b0:40c:caeb:5130 with SMTP id
- u2-20020ab02982000000b0040ccaeb5130mr1736334uap.24.1667130379492; Sun, 30 Oct
- 2022 04:46:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1op7NR-000335-JB
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 08:25:21 -0400
+Received: from mail.weilnetz.de ([37.120.169.71]
+ helo=mail.v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1op7NN-000286-L4
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 08:25:21 -0400
+Received: from [192.168.178.70]
+ (dslb-088-068-165-216.088.068.pools.vodafone-ip.de [88.68.165.216])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 90485DA08AD;
+ Sun, 30 Oct 2022 13:25:11 +0100 (CET)
+Message-ID: <c419cc11-aec9-ddc0-9c6b-9e95ce8c43d1@weilnetz.de>
+Date: Sun, 30 Oct 2022 13:25:11 +0100
 MIME-Version: 1.0
-References: <20221018210146.193159-1-shentey@gmail.com>
- <20221018210146.193159-7-shentey@gmail.com>
- <f9dd1e1e-65b6-c74d-d957-43774393c2a4@linaro.org>
- <724F8CC8-C5E8-4785-B5C2-F1D327863717@gmail.com>
- <590683A5-2774-432C-A47A-ED755054479C@gmail.com>
- <DB3C19E8-007B-46F6-96B3-EE0CF6AD2019@gmail.com>
- <45be44c0-766b-07c6-be8a-c21d46da7f72@linaro.org>
-In-Reply-To: <45be44c0-766b-07c6-be8a-c21d46da7f72@linaro.org>
-From: Bernhard Beschow <shentey@gmail.com>
-Date: Sun, 30 Oct 2022 12:46:05 +0100
-Message-ID: <CAG4p6K5qvJFRihrZV3Gku_fYsxWFzEN4UfGf4xySQyfzkv9q0g@mail.gmail.com>
-Subject: Re: [PATCH v4 6/7] hw/sd/sdhci: Implement Freescale eSDHC device model
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Aurelien Jarno <aurelien@aurel32.net>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, 
- Antony Pavlov <antonynpavlov@gmail.com>, BALATON Zoltan <balaton@eik.bme.hu>, 
- Alistair Francis <alistair@alistair23.me>, Bin Meng <bin.meng@windriver.com>, 
- Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- Jan Kiszka <jan.kiszka@web.de>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Hanna Reitz <hreitz@redhat.com>, qemu-arm@nongnu.org, 
- Magnus Damm <magnus.damm@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-block@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000105fe405ec3f0aa7"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92a;
- envelope-from=shentey@gmail.com; helo=mail-ua1-x92a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Eric Blake <eblake@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+References: <20221030105944.311940-1-sw@weilnetz.de>
+ <CAFEAcA_w=9zj3F7YiStjEZwhm8xoNydh0sG_wwNqpyHwzwJt2w@mail.gmail.com>
+Subject: Re: [PATCH v2] Fix some typos in documentation and comments
+In-Reply-To: <CAFEAcA_w=9zj3F7YiStjEZwhm8xoNydh0sG_wwNqpyHwzwJt2w@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------bSk8dblUI1z8PeRQ09ZfTTOM"
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,683 +63,179 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Stefan Weil <sw@weilnetz.de>
+From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000105fe405ec3f0aa7
-Content-Type: text/plain; charset="UTF-8"
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------bSk8dblUI1z8PeRQ09ZfTTOM
+Content-Type: multipart/mixed; boundary="------------oK0DTHOuB00dpqOtwDuQJLwE";
+ protected-headers="v1"
+From: Stefan Weil <sw@weilnetz.de>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Eric Blake <eblake@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Message-ID: <c419cc11-aec9-ddc0-9c6b-9e95ce8c43d1@weilnetz.de>
+Subject: Re: [PATCH v2] Fix some typos in documentation and comments
+References: <20221030105944.311940-1-sw@weilnetz.de>
+ <CAFEAcA_w=9zj3F7YiStjEZwhm8xoNydh0sG_wwNqpyHwzwJt2w@mail.gmail.com>
+In-Reply-To: <CAFEAcA_w=9zj3F7YiStjEZwhm8xoNydh0sG_wwNqpyHwzwJt2w@mail.gmail.com>
+
+--------------oK0DTHOuB00dpqOtwDuQJLwE
+Content-Type: multipart/mixed; boundary="------------nHmriYEZ98sJfGpumAJO012C"
+
+--------------nHmriYEZ98sJfGpumAJO012C
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+QW0gMzAuMTAuMjIgdW0gMTI6MTcgc2NocmllYiBQZXRlciBNYXlkZWxsOg0KDQo+IE9uIFN1
+biwgMzAgT2N0IDIwMjIgYXQgMTA6NTksIFN0ZWZhbiBXZWlsIDxzd0B3ZWlsbmV0ei5kZT4g
+d3JvdGU6DQo+PiBjb2Rlc3BlbGwgZmluZHMgbWFueSBtb3JlIHR5cG9zIGluIHNvdXJjZSBj
+b2RlLCBhbmQgYWRkaW5nIGl0IHRvIHRoZSBjb250aW51b3VzDQo+PiBpbnRlZ3JhdGlvbiBj
+aGVja3MgbG9va3MgbW9yZSBhbmQgbW9yZSBsaWtlIGEgZ29vZCBpZGVhLg0KPiBJcyBpdCBw
+b3NzaWJsZSB0byBzZXQgaXQgdXAgaW4gYSB3YXkgdGhhdCBkb2Vzbid0IHJlcG9ydA0KPiBm
+YWxzZSBwb3NpdGl2ZXMgPw0KDQoNClllcywgdGhhdCdzIHBvc3NpYmxlLiBjb2Rlc3BlbGwg
+Y2FuIGJlIGNvbmZpZ3VyZWQgdG8gaWdub3JlIGNlcnRhaW4gDQp3b3JkcyBvciBsaW5lcyBh
+bmQgdG8gc2tpcCBmaWxlcyB3aGljaCBtYXRjaCBhIGdpdmVuIGxpc3Qgb2YgZ2xvYnMuDQoN
+ClNlZSBodHRwczovL2dpdGh1Yi5jb20vY29kZXNwZWxsLXByb2plY3QvY29kZXNwZWxsIGZv
+ciBkZXRhaWxzLg0KDQpTdGVmYW4NCg0K
+--------------nHmriYEZ98sJfGpumAJO012C
+Content-Type: application/pgp-keys; name="OpenPGP_0xE08C21D5677450AD.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xE08C21D5677450AD.asc"
+Content-Description: OpenPGP public key
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 30, 2022 at 1:10 AM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.=
-org>
-wrote:
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-> On 29/10/22 20:28, Bernhard Beschow wrote:
-> > Am 29. Oktober 2022 13:04:00 UTC schrieb Bernhard Beschow <
-> shentey@gmail.com>:
-> >> Am 29. Oktober 2022 11:33:51 UTC schrieb Bernhard Beschow <
-> shentey@gmail.com>:
-> >>> Am 27. Oktober 2022 21:40:01 UTC schrieb "Philippe Mathieu-Daud=C3=A9=
-" <
-> philmd@linaro.org>:
-> >>>> Hi Bernhard,
-> >>>>
-> >>>> On 18/10/22 23:01, Bernhard Beschow wrote:
-> >>>>> Will allow e500 boards to access SD cards using just their own
-> devices.
-> >>>>>
-> >>>>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> >>>>> ---
-> >>>>>    hw/sd/sdhci.c         | 120
-> +++++++++++++++++++++++++++++++++++++++++-
-> >>>>>    include/hw/sd/sdhci.h |   3 ++
-> >>>>>    2 files changed, 122 insertions(+), 1 deletion(-)
->
-> >>>> So now, I'd create 1 UNIMP region for ESDHC_WML and map it
-> >>>> into SDHC_REGISTERS_MAP (s->iomem) with priority 1, and add
-> >>>> another UNIMP region of ESDHC_REGISTERS_MAP_SIZE -
-> SDHC_REGISTERS_MAP_SIZE (=3D 0x310) and map it normally at offset
-> >>>> 0x100 (SDHC_REGISTERS_MAP_SIZE). Look at create_unimp() in
-> >>>> hw/arm/bcm2835_peripherals.c.
-> >>>>
-> >>>> But the ESDHC_WML register has address 0x44 and fits inside the
-> >>>> SDHC_REGISTERS_MAP region, so likely belong there. 0x44 is the
-> >>>> upper part of the SDHC_CAPAB register. These bits are undefined
-> >>>> on the spec v2, which I see you are setting in esdhci_init().
-> >>>> So this register should already return 0, otherwise we have
-> >>>> a bug. Thus we don't need to handle this ESDHC_WML particularly.
-> >>
-> >> My idea here was to catch this unimplemented case in order to indicate
-> this clearly to users. Perhaps it nudges somebody to provide a patch?
-> >>
-> >>>>
-> >>>> And your model is reduced to handling create_unimp() in
-> esdhci_realize().
-> >>>>
-> >>>> Am I missing something?
-> >>>
-> >>> The mmio ops are big endian and need to be aligned to a 4-byte
-> boundary. It took me quite a while to debug this. So shall I just create =
-an
-> additional memory region for the region above SDHC_REGISTERS_MAP_SIZE for
-> ESDHC_DMA_SYSCTL?
-> >>
-> >> All in all I currently don't have a better idea than keeping the custo=
-m
-> i/o ops for the standard region and adding an additional unimplemented
-> region for ESDHC_DMA_SYSCTL. I think I'd have to dynamically allocate
-> memory for it where I still need to figure out how not to leak it.
-> >
-> > By simply reusing sdhci_{read,write} in eSDHC's io_ops struct I was abl=
-e
-> to remove the custom implementations while having big endian and the
-> alignments proper. However, I don't see a way of adding two memory region=
-s
-> - with or without a container. With a container I'd have to somehow
-> preserve the mmio attribute which is initialized by the parent class,
-> re-initialize it with the container, and add the preserved memory region =
-as
-> child. This seems very fragile, esp. since the parent class has created a=
-n
-> alias for mmio in sysbus. Without a container, one would have two memory
-> regions that both have to be mapped separately by the caller, i.e. it
-> burdens the caller with an implementation detail.
-> >
-> > Any suggestions?
->
-> Can you share branch and how to test?
->
+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
+T7uiC0aTwAsniiln1XFlGBISNLB1HL/gUc9FJj8qmYgvUBZIzUjmm56up6er8ca9
+2tARdBylQF3E9MJ/E4dVrmTyvOlddAb/MG1Ge425mjt0dRfOx8Qc7Pxs+d3UNVSu
+Bm+WtuSgk+JNIT08c+WSXec8mE4hVdrKbAvCo9dcT5Gal2r6FSvRVY5kba3t280x
+utLSp470k3+DO+AgVigbHr3scXlJXZe1m4luqBSkEBDNH2sAQoBrNVwVaCZqZRTN
+TFN0ZWZhbiBXZWlsIChVbml2ZXJzaXTDpHRzYmlibGlvdGhlayBNYW5uaGVpbSkg
+PHN0ZWZhbi53ZWlsQHVuaS1tYW5uaGVpbS5kZT7CwY4EEwEIADgWIQRJI2/qdcld
+aY7Ct4rgjCHVZ3RQrQUCYlMdZAIbAwULCQgHAwUVCgkICwUWAgMBAAIeBQIXgAAK
+CRDgjCHVZ3RQrRo6D/9MSqnSGOjWrcsiXbUsQmNKzI1JZOuabam3P9V/rILU7K4/
+b9E6Bk5Vjo/6A4xMtC9y6L244Upn4MTdUofkBdd9dMG8eZ2oofsMGIeEmr4EFfKb
+/LoZtIUJaNfiwvd3YakEmaAfd+AWIEAVYlVSxWHeCMowTNYxbSW+/M0ExGw1BErt
+oFiz3Ti8iYNfgz2l9cwrKhQEnzZlHUq06AIbzch/nXFFcc3EBDz+J6x//DCclb6Y
+8oLJRerrOJqpcpTYrwr+UDbh8JOqiUWUQ1BrbIZb+J5rU+DghBmNAWpd6yTbxX0T
+I7g2Hu7gPdzhrLLRO+rQsDK3T+JdVQ9xyoWugFIw4YepAad5uo/2e+q38a+h57EK
+Vsy4xfAEV/Mr4hl9KCY2hkiQYMKHvN1EZp72crAiPgDZxh6wTJZ979RHY2apq8XM
+Y41uP5mwdHxFA1Al/5+syajNlTzsNdYB5Ucx5TwNU0TifM13exHw8lQZOaWbDZS4
+QYwzeFWuEFse9ESmCQX5Pggw+ABFXOtPeqEfIO8v3QbT1vFlJ57iFBUiem967/JV
+a0RQyEvAKj0T5124N8Hi1oa8TPk5oSe8id5jSgGD9twbS0HX2KcmwAF/A5MgP7hx
+0X4EfhsJtDxFDy5PnoC8ADE2wcKDsTgqfDS/EQc6OeQCKceR45wyOT0Y3kbEa87B
+TQRV3J49ARAAt9nArtjFnqmRHL0oY5KCrF5ONph6xm3rof74lZ/CTkG0zu9OhmbW
+s6MMNsHgM7lRGIcKou7vUQE8/TEXh3+0eRdCiEYXP9jYTTXosU/+y/hOY33x9Sw/
+tCEHXiz6M+rp74O1P+zqXSlmx8zzNy33dDdXUT+bF1C6Y7WEChIIjlOfLHOBeazN
+dCqDxRDM/CKeI/UWx/wm0z1DNEuD8crUXIgdxY3dBAm1bBK041+3GXP8gYLN4qew
+T1VoG35Ya3PrrTC/zMAumagjiF3/1NCAmH6eSOzw21EloDBR76K1noDGCfRM2dp0
+78rS/BO+QtlN4+UWQLkB+crHxqXWk0u+gka2A7ZBHFYky/oUVIK1/ar6swnTRHj2
+0Ga+rukzcdxQRJ2kwGeRrqLH1JO8p72ptvswMyzVPhk8sE2S9llPrbznj6fc9f5m
+y5x9i5Fh4Mt2z7u+wBSdck2wV5eThEPz7UziXgtbq74Hja7tuoQxUhcpOIBXKl8b
+MLtjxlO7VmH312VzfiBYqQku9fHg3E/Hi+uon2fJaifFbuViZqfZq9bKT/UWG0+0
+cKc2d4os+3uwGcjraUjCFSXmGU27YqiW8jeM7pIa03QoAhWIH9ApAOVBqWF6drFz
+6/oFcSl9qbY/4IneJ/eb0eyjHllegydGEuIShrXYZLiQqSX4yj/3vE8AEQEAAcLB
+XwQYAQgACQUCVdyePQIbDAAKCRDgjCHVZ3RQrWEaEACTrt0WUxL1AT6BarJ3fOPV
+ZjiioO+3LPhw98ci7afeScEK84cGv+KLgxawvOo7dbwEX6VceQvJ0LTZ1oYPuYeZ
+MjiG7Qdf9uwgk3VwHf4S9pNxsqyVxHPotN9RPWwqoH9ihmO/ml7uC3gH0SFiU/RR
+lc3c9X/u+6SbkSEUZrUrPFQKJ3dpfjnA3RCPTI3fTKr8jycA5A5A77Daba3L+MXj
+c71/tn6MZCZmK7unSfpXq4rbGrIgMWnFKMBgeRONUWRFIOm5lReEjLHiABCli8t4
+Txr2ATswA4atmC4JzP8J/WPWe2xDMvsOXu+bGgW5BSO053MQz1JyJf1ExClNTkYu
+Vlm712JFE7Xzc2cg9P796KI3CKGbytTpaTrVx3ZajqHY1xfZy3vHolR8pfGZ8xcY
+XhFtkD71/BSyqpkrPVvbGkLZOm4b/SzWCGCDYx9xBB//m25lfpZ+Du2u91pvC97Z
+6Qty5nRp9kZvAeidmSunItU0Q4jKQlFnn6ZyLhPk4mwuVSUec8dGIdda8cQRaG/J
+lpLUZi2cnhKAnGaAaLGycQ/NEMVjtN8z6ZHCe3eAa1bEPwSZAbRHuCZ+Iqh6gPzn
+K88LhGUr/vzHYKKn25QWYQ7rJi2H1cu8BQ3lQpRunkCIithJ5gwoS0ZFSEM25FdI
+hvjSVVSRyxiu/zrDuO/s6g=3D=3D
+=3DumGL
+-----END PGP PUBLIC KEY BLOCK-----
 
-QEMU branch: https://github.com/shentok/qemu/tree/e500-flash
+--------------nHmriYEZ98sJfGpumAJO012C--
 
-How to test:
-1. `git clone -b e500 https://github.com/shentok/buildroot.git`
-2. `cd buildroot`
-3. `make qemu_ppc_e500mc_defconfig`
-4. `make`
-5. `cd output/images`
-6. `dd if=3D/dev/zero of=3Droot.img bs=3D1M count=3D64 && dd if=3Drootfs.ex=
-t2
-of=3Droot.img bs=3D1M conv=3Dnotrunc`
-7. `qemu-system-ppc -M ppce500 -cpu e500mc -m 256 -kernel uImage -append
-"console=3DttyS0 rootwait root=3D/dev/mmcblk0" -device sd-card,drive=3Dmydr=
-ive
--drive id=3Dmydrive,if=3Dnone,file=3Droot.img,format=3Draw`
+--------------oK0DTHOuB00dpqOtwDuQJLwE--
 
-Note that step 6 might be required every time before qemu-system-ppc is
-started, otherwise this may cause an fsck. The output on the boot console
-will look something along these lines (note that no errors are reported):
+--------------bSk8dblUI1z8PeRQ09ZfTTOM
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-  Memory CAM mapping: 16/16/16/16/64/64/64 Mb, residual: 0Mb
-  Activating Kernel Userspace Access Protection
-  Activating Kernel Userspace Execution Prevention
-  Linux version 5.17.7 (zcone-pisint@osoxes)
-(powerpc-buildroot-linux-gnu-gcc.br_real (Buildroot
-2022.08-655-gf8a0d1480a) 11.3.0, GNU ld (GNU Binutils) 2.38) #1 SMP Sat Oct
-29 12:49:54 CEST 2022
-  Using QEMU e500 machine description
-  printk: bootconsole [udbg0] enabled
-  CPU maps initialized for 1 thread per core
-  -----------------------------------------------------
-  phys_mem_size     =3D 0x10000000
-  dcache_bsize      =3D 0x40
-  icache_bsize      =3D 0x40
-  cpu_features      =3D 0x0000000000000194
-    possible        =3D 0x000000000001039c
-    always          =3D 0x0000000000000100
-  cpu_user_features =3D 0x8c008000 0x08000000
-  mmu_features      =3D 0x000a0010
-  -----------------------------------------------------
-  qemu_e500_setup_arch()
-  barrier-nospec: using isync; sync as speculation barrier
-  Zone ranges:
-    Normal   [mem 0x0000000000000000-0x000000000fffffff]
-    HighMem  empty
-  Movable zone start for each node
-  Early memory node ranges
-    node   0: [mem 0x0000000000000000-0x000000000fffffff]
-  Initmem setup node 0 [mem 0x0000000000000000-0x000000000fffffff]
-  MMU: Allocated 1088 bytes of context maps for 255 contexts
-  percpu: Embedded 16 pages/cpu s33804 r8192 d23540 u65536
-  Built 1 zonelists, mobility grouping on.  Total pages: 65024
-  Kernel command line: console=3DttyS0 rootwait root=3D/dev/mmcblk0 nokaslr
-  Unknown kernel command line parameters "nokaslr", will be passed to user
-space.
-  Dentry cache hash table entries: 32768 (order: 5, 131072 bytes, linear)
-  Inode-cache hash table entries: 16384 (order: 4, 65536 bytes, linear)
-  mem auto-init: stack:off, heap alloc:off, heap free:off
-  Kernel virtual memory layout:
-    * 0xffa5f000..0xfffff000  : fixmap
-    * 0xff800000..0xffa00000  : highmem PTEs
-    * 0xd1000000..0xff800000  : vmalloc & ioremap
-  Memory: 174608K/262144K available (12680K kernel code, 1080K rwdata,
-3552K rodata, 396K init, 238K bss, 87536K reserved, 0K cma-reserved, 0K
-highmem)
-  SLUB: HWalign=3D64, Order=3D0-3, MinObjects=3D0, CPUs=3D1, Nodes=3D1
-  rcu: Hierarchical RCU implementation.
-  rcu: RCU event tracing is enabled.
-  rcu: RCU restricting CPUs from NR_CPUS=3D24 to nr_cpu_ids=3D1.
-  rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
-  rcu: Adjusting geometry for rcu_fanout_leaf=3D16, nr_cpu_ids=3D1
-  NR_IRQS: 512, nr_irqs: 512, preallocated irqs: 16
-  mpic: Setting up MPIC " OpenPIC  " version 1.2 at fe0040000, max 1 CPUs
-  mpic: ISU size: 256, shift: 8, mask: ff
-  mpic: Initializing for 256 sources
-  random: get_random_u32 called from start_kernel+0x524/0x6b0 with
-crng_init=3D0
-  clocksource: timebase: mask: 0xffffffffffffffff max_cycles: 0x5c4093a7d1,
-max_idle_ns: 440795210635 ns
-  clocksource: timebase mult[2800000] shift[24] registered
-  Console: colour dummy device 80x25
-  pid_max: default: 32768 minimum: 301
-  Mount-cache hash table entries: 1024 (order: 0, 4096 bytes, linear)
-  Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes, linear)
-  e500 family performance monitor hardware support registered
-  rcu: Hierarchical SRCU implementation.
-  smp: Bringing up secondary CPUs ...
-  smp: Brought up 1 node, 1 CPU
-  devtmpfs: initialized
-  clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff,
-max_idle_ns: 7645041785100000 ns
-  futex hash table entries: 256 (order: 2, 16384 bytes, linear)
-  NET: Registered PF_NETLINK/PF_ROUTE protocol family
-  audit: initializing netlink subsys (disabled)
+-----BEGIN PGP SIGNATURE-----
 
-  Found FSL PCI host bridge at 0x0000000fe0008000. Firmware bus number:
-0->255
-  PCI host bridge /pci@fe0008000 (primary) ranges:
-   MEM 0x0000000c00000000..0x0000000c1fffffff -> 0x00000000e0000000
-    IO 0x0000000fe1000000..0x0000000fe100ffff -> 0x0000000000000000
-  /pci@fe0008000: PCICSRBAR @ 0xdff00000
-  setup_pci_atmu: end of DRAM 10000000
-  Machine: QEMU ppce500
-  SoC family: QorIQ
-  SoC ID: svr:0x00000000, Revision: 0.0
-  audit: type=3D2000 audit(0.092:1): state=3Dinitialized audit_enabled=3D0 =
-res=3D1
-  fsl-pamu: fsl_pamu_init: could not find a PAMU node
-  software IO TLB: tearing down default memory pool
-  PCI: Probing PCI hardware
-  fsl-pci fe0008000.pci: PCI host bridge to bus 8000:00
-  pci_bus 8000:00: root bus resource [io  0x0000-0xffff]
-  pci_bus 8000:00: root bus resource [mem 0xc00000000-0xc1fffffff] (bus
-address [0xe0000000-0xffffffff])
-  pci_bus 8000:00: root bus resource [bus 00-ff]
-  pci_bus 8000:00: busn_res: [bus 00-ff] end is updated to ff
-  pci 8000:00:00.0: [1957:0030] type 00 class 0x0b2000
-  pci 8000:00:00.0: reg 0x10: [mem 0xdff00000-0xdfffffff]
-  pci 8000:00:01.0: [1af4:1000] type 00 class 0x020000
-  pci 8000:00:01.0: reg 0x10: [io  0x0000-0x001f]
-  pci 8000:00:01.0: reg 0x14: [mem 0x00000000-0x00000fff]
-  pci 8000:00:01.0: reg 0x20: [mem 0x00000000-0x00003fff 64bit pref]
-  pci 8000:00:01.0: reg 0x30: [mem 0x00000000-0x0003ffff pref]
-  pci_bus 8000:00: busn_res: [bus 00-ff] end is updated to 00
-  pci 8000:00:01.0: BAR 6: assigned [mem 0xc00000000-0xc0003ffff pref]
-  pci 8000:00:01.0: BAR 4: assigned [mem 0xc00040000-0xc00043fff 64bit pref=
-]
-  pci 8000:00:01.0: BAR 1: assigned [mem 0xc00044000-0xc00044fff]
-  pci 8000:00:01.0: BAR 0: assigned [io  0x1000-0x101f]
-  pci_bus 8000:00: resource 4 [io  0x0000-0xffff]
-  pci_bus 8000:00: resource 5 [mem 0xc00000000-0xc1fffffff]
-  HugeTLB registered 4.00 MiB page size, pre-allocated 0 pages
-  HugeTLB registered 16.0 MiB page size, pre-allocated 0 pages
-  HugeTLB registered 64.0 MiB page size, pre-allocated 0 pages
-  HugeTLB registered 256 MiB page size, pre-allocated 0 pages
-  HugeTLB registered 1.00 GiB page size, pre-allocated 0 pages
-  Freescale Elo series DMA driver
-  iommu: Default domain type: Translated
-  iommu: DMA domain TLB invalidation policy: strict mode
-  vgaarb: loaded
-  SCSI subsystem initialized
-  usbcore: registered new interface driver usbfs
-  usbcore: registered new interface driver hub
-  usbcore: registered new device driver usb
-  pps_core: LinuxPPS API ver. 1 registered
-  pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <
-giometti@linux.it>
-  PTP clock support registered
-  Advanced Linux Sound Architecture Driver Initialized.
-  clocksource: Switched to clocksource timebase
-  NET: Registered PF_INET protocol family
-  IP idents hash table entries: 4096 (order: 3, 32768 bytes, linear)
-  tcp_listen_portaddr_hash hash table entries: 512 (order: 0, 6144 bytes,
-linear)
-  TCP established hash table entries: 2048 (order: 1, 8192 bytes, linear)
-  TCP bind hash table entries: 2048 (order: 2, 16384 bytes, linear)
-  TCP: Hash tables configured (established 2048 bind 2048)
-  UDP hash table entries: 256 (order: 1, 8192 bytes, linear)
-  UDP-Lite hash table entries: 256 (order: 1, 8192 bytes, linear)
-  NET: Registered PF_UNIX/PF_LOCAL protocol family
-  RPC: Registered named UNIX socket transport module.
-  RPC: Registered udp transport module.
-  RPC: Registered tcp transport module.
-  RPC: Registered tcp NFSv4.1 backchannel transport module.
-  PCI: CLS 0 bytes, default 64
-  workingset: timestamp_bits=3D30 max_order=3D16 bucket_order=3D0
-  squashfs: version 4.0 (2009/01/31) Phillip Lougher
-  NFS: Registering the id_resolver key type
-  Key type id_resolver registered
-  Key type id_legacy registered
-  Installing knfsd (copyright (C) 1996 okir@monad.swb.de).
-  ntfs: driver 2.1.32 [Flags: R/O].
-  jffs2: version 2.2. (NAND) =C2=A9 2001-2006 Red Hat, Inc.
-  io scheduler mq-deadline registered
-  io scheduler kyber registered
-  virtio-pci 8000:00:01.0: enabling device (0000 -> 0003)
-  Serial: 8250/16550 driver, 6 ports, IRQ sharing enabled
-  printk: console [ttyS0] disabled
-  serial8250.0: ttyS0 at MMIO 0xfe0004500 (irq =3D 42, base_baud =3D 250000=
-00)
-is a 16550A
-  printk: console [ttyS0] enabled
-  printk: console [ttyS0] enabled
-  printk: bootconsole [udbg0] disabled
-  printk: bootconsole [udbg0] disabled
-  ePAPR hypervisor byte channel driver
-  brd: module loaded
-  loop: module loaded
-  st: Version 20160209, fixed bufsize 32768, s/g segs 256
-  ucc_geth_driver: QE UCC Gigabit Ethernet Controller
-  e1000: Intel(R) PRO/1000 Network Driver
-  e1000: Copyright (c) 1999-2006 Intel Corporation.
-  e1000e: Intel(R) PRO/1000 Network Driver
-  e1000e: Copyright(c) 1999 - 2015 Intel Corporation.
-  igb: Intel(R) Gigabit Ethernet Network Driver
-  igb: Copyright (c) 2007-2014 Intel Corporation.
-  ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
-  ehci-pci: EHCI PCI platform driver
-  ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
-  ohci-pci: OHCI PCI platform driver
-  ehci-fsl: Freescale EHCI Host controller driver
-  usbcore: registered new interface driver usb-storage
-  i2c_dev: i2c /dev entries driver
-  mpc-i2c fe0003000.i2c: timeout 1000000 us
-  rtc-ds1307 0-0068: registered as rtc0
-  rtc-ds1307 0-0068: setting system clock to 2022-10-30T11:27:44 UTC
-(1667129264)
-  sdhci: Secure Digital Host Controller Interface driver
-  sdhci: Copyright(c) Pierre Ossman
-  sdhci-pltfm: SDHCI platform and OF driver helper
-  Freescale hypervisor management driver
-  fsl-hv: no hypervisor found
-  mmc0 bounce up to 128 segments into one, max segment size 65536 bytes
-  ipip: IPv4 and MPLS over IPv4 tunneling driver
-  Initializing XFRM netlink socket
-  NET: Registered PF_INET6 protocol family
-  Segment Routing with IPv6
-  In-situ OAM (IOAM) with IPv6
-  sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
-  NET: Registered PF_PACKET protocol family
-  NET: Registered PF_KEY protocol family
-  Key type dns_resolver registered
-  drmem: No dynamic reconfiguration memory found
-  mmc0: SDHCI controller on fe002e000.sdhc [fe002e000.sdhc] using DMA
-  ALSA device list:
-    No soundcards found.
-  Waiting for root device /dev/mmcblk0...
-  mmc0: new high speed SD card at address 4567
-  mmcblk0: mmc0:4567 QEMU! 64.0 MiB
-  EXT4-fs (mmcblk0): mounted filesystem without journal. Quota mode:
-disabled.
-  VFS: Mounted root (ext4 filesystem) readonly on device 179:0.
-  devtmpfs: mounted
-  Freeing unused kernel image (initmem) memory: 396K
-  Run /sbin/init as init process
-  EXT4-fs (mmcblk0): re-mounted. Quota mode: disabled.
-  Starting syslogd: OK
-  Starting klogd: OK
-  Running sysctl: OK
-  Saving random seed: random: dd: uninitialized urandom read (512 bytes
-read)
-  OK
-  Starting network: udhcpc: started, v1.35.0
-  udhcpc: broadcasting discover
-  udhcpc: broadcasting select for 10.0.2.15, server 10.0.2.2
-  random: fast init done
-  udhcpc: lease of 10.0.2.15 obtained from 10.0.2.2, lease time 86400
-  deleting routers
-  adding dns 10.0.2.3
-  OK
+wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmNebScFAwAAAAAACgkQ4Iwh1Wd0UK3N
+5w/9E6Dhhvj4FWo9xVm6QCb4DjyWA9nod4zJFfTqSRT3GCHdUuR7dDwIRMCviR+GucRnHlpKiobP
+scye0YVqt2t1Gi1P3X2/O86lsVhCwAaRJKZyNpP5jPkLz7PFDHMbTivNcyDGTQG7QWZxKZaKyARf
+XqiXPMctVRekEQ16wwc9ZKR9a0OTEistaauUD1JrhCDLte4QEPdpuaSzHG5yOuX83GTVEuWssPAj
+Y9IK1QIweI9nls9UaFx0rTLqUNsaT2dyTwcuk9+XcRrAePiFURLYKbHEMycWqkc2TzXz/QQqXcrg
+aydVp+Y8QlS3Wx6rGOpEF+zbMRXHwwZ7PE63feXc8g0IHZ20NTV9eLrpOkZceQeu8YyKuhTQLQBZ
+XZOssfcKSTdXPpgrn7MwOr0eAYOziQ6fEUyDqVWnmBNVhUHvo+DCk34FM+Vt51KvrAcPgkQ0ib+X
+nlt5PQTu8DA3JVn3HRcIByUquTWefVgCBjPgAcsDF4qilBArU3KKtFfZ/N+EQcrw1q5CtT3rK4B6
+5+323mAyhGjfSbS4mUqa7eaAplO5WzAJIkUtD0P7zF2S5MPTKLTVzakp0vjdGPld8vkGjO5CCDGG
+PrusUOTwZ4XspKAGwa4BRsLBnDjTaSGZGzNCmz98oK2Y7CnB3NzC0eESDHbFOV8/agYR2IiSoTq/
+kuk=
+=/iM0
+-----END PGP SIGNATURE-----
 
-  Welcome to Buildroot
-  buildroot login:
-
-
-Best regards,
-Bernhard
-
---000000000000105fe405ec3f0aa7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Oct 30, 2022 at 1:10 AM Phili=
-ppe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org">philmd@lina=
-ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On 29/10/22 20:28, Bernhard Beschow wrote:<br>
-&gt; Am 29. Oktober 2022 13:04:00 UTC schrieb Bernhard Beschow &lt;<a href=
-=3D"mailto:shentey@gmail.com" target=3D"_blank">shentey@gmail.com</a>&gt;:<=
-br>
-&gt;&gt; Am 29. Oktober 2022 11:33:51 UTC schrieb Bernhard Beschow &lt;<a h=
-ref=3D"mailto:shentey@gmail.com" target=3D"_blank">shentey@gmail.com</a>&gt=
-;:<br>
-&gt;&gt;&gt; Am 27. Oktober 2022 21:40:01 UTC schrieb &quot;Philippe Mathie=
-u-Daud=C3=A9&quot; &lt;<a href=3D"mailto:philmd@linaro.org" target=3D"_blan=
-k">philmd@linaro.org</a>&gt;:<br>
-&gt;&gt;&gt;&gt; Hi Bernhard,<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; On 18/10/22 23:01, Bernhard Beschow wrote:<br>
-&gt;&gt;&gt;&gt;&gt; Will allow e500 boards to access SD cards using just t=
-heir own devices.<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Signed-off-by: Bernhard Beschow &lt;<a href=3D"mailto:=
-shentey@gmail.com" target=3D"_blank">shentey@gmail.com</a>&gt;<br>
-&gt;&gt;&gt;&gt;&gt; ---<br>
-&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 hw/sd/sdhci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| 120 +++++++++++++++++++++++++++++++++++++++++-<br>
-&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 include/hw/sd/sdhci.h |=C2=A0 =C2=A03 ++<=
-br>
-&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0 2 files changed, 122 insertions(+), 1 del=
-etion(-)<br>
-<br>
-&gt;&gt;&gt;&gt; So now, I&#39;d create 1 UNIMP region for ESDHC_WML and ma=
-p it<br>
-&gt;&gt;&gt;&gt; into SDHC_REGISTERS_MAP (s-&gt;iomem) with priority 1, and=
- add<br>
-&gt;&gt;&gt;&gt; another UNIMP region of ESDHC_REGISTERS_MAP_SIZE - SDHC_RE=
-GISTERS_MAP_SIZE (=3D 0x310) and map it normally at offset<br>
-&gt;&gt;&gt;&gt; 0x100 (SDHC_REGISTERS_MAP_SIZE). Look at create_unimp() in=
-<br>
-&gt;&gt;&gt;&gt; hw/arm/bcm2835_peripherals.c.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; But the ESDHC_WML register has address 0x44 and fits insid=
-e the<br>
-&gt;&gt;&gt;&gt; SDHC_REGISTERS_MAP region, so likely belong there. 0x44 is=
- the<br>
-&gt;&gt;&gt;&gt; upper part of the SDHC_CAPAB register. These bits are unde=
-fined<br>
-&gt;&gt;&gt;&gt; on the spec v2, which I see you are setting in esdhci_init=
-().<br>
-&gt;&gt;&gt;&gt; So this register should already return 0, otherwise we hav=
-e<br>
-&gt;&gt;&gt;&gt; a bug. Thus we don&#39;t need to handle this ESDHC_WML par=
-ticularly.<br>
-&gt;&gt;<br>
-&gt;&gt; My idea here was to catch this unimplemented case in order to indi=
-cate this clearly to users. Perhaps it nudges somebody to provide a patch?<=
-br>
-&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; And your model is reduced to handling create_unimp() in es=
-dhci_realize().<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Am I missing something?<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; The mmio ops are big endian and need to be aligned to a 4-byte=
- boundary. It took me quite a while to debug this. So shall I just create a=
-n additional memory region for the region above SDHC_REGISTERS_MAP_SIZE for=
- ESDHC_DMA_SYSCTL?<br>
-&gt;&gt;<br>
-&gt;&gt; All in all I currently don&#39;t have a better idea than keeping t=
-he custom i/o ops for the standard region and adding an additional unimplem=
-ented region for ESDHC_DMA_SYSCTL. I think I&#39;d have to dynamically allo=
-cate memory for it where I still need to figure out how not to leak it.<br>
-&gt; <br>
-&gt; By simply reusing sdhci_{read,write} in eSDHC&#39;s io_ops struct I wa=
-s able to remove the custom implementations while having big endian and the=
- alignments proper. However, I don&#39;t see a way of adding two memory reg=
-ions - with or without a container. With a container I&#39;d have to someho=
-w preserve the mmio attribute which is initialized by the parent class, re-=
-initialize it with the container, and add the preserved memory region as ch=
-ild. This seems very fragile, esp. since the parent class has created an al=
-ias for mmio in sysbus. Without a container, one would have two memory regi=
-ons that both have to be mapped separately by the caller, i.e. it burdens t=
-he caller with an implementation detail.<br>
-&gt; <br>
-&gt; Any suggestions?<br>
-<br>
-Can you share branch and how to test?<br></blockquote><div><br></div><div>Q=
-EMU branch: <a href=3D"https://github.com/shentok/qemu/tree/e500-flash">htt=
-ps://github.com/shentok/qemu/tree/e500-flash</a></div><div><br></div><div>H=
-ow to test:</div><div>1. `<span style=3D"font-family:monospace"><span style=
-=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">git clone -b e500 <=
-a href=3D"https://github.com/shentok/buildroot.git">https://github.com/shen=
-tok/buildroot.git</a></span>`</span></div><div><span style=3D"font-family:m=
-onospace">2. `cd buildroot`</span></div><div><span style=3D"font-family:mon=
-ospace">3. `<span style=3D"font-family:monospace"><span style=3D"color:rgb(=
-0,0,0);background-color:rgb(255,255,255)">make qemu_ppc_e500mc_defconfig`</=
-span></span></span></div><div><span style=3D"font-family:monospace"><span s=
-tyle=3D"font-family:monospace"><span style=3D"color:rgb(0,0,0);background-c=
-olor:rgb(255,255,255)">4. `make`</span></span></span></div><div><span style=
-=3D"font-family:monospace"><span style=3D"font-family:monospace"><span styl=
-e=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">5. `cd </span></sp=
-an>output/images<span style=3D"font-family:monospace"><span style=3D"color:=
-rgb(0,0,0);background-color:rgb(255,255,255)"><span style=3D"font-family:mo=
-nospace">`</span></span></span></span></div><div><span style=3D"font-family=
-:monospace"><span style=3D"font-family:monospace"><span style=3D"color:rgb(=
-0,0,0);background-color:rgb(255,255,255)"><span style=3D"font-family:monosp=
-ace">6. `<span style=3D"font-family:monospace"><span style=3D"color:rgb(0,0=
-,0);background-color:rgb(255,255,255)">dd if=3D/dev/zero of=3Droot.img bs=
-=3D1M count=3D64 &amp;&amp; dd if=3Drootfs.</span></span></span></span></sp=
-an></span>ext<span style=3D"font-family:monospace"><span style=3D"font-fami=
-ly:monospace"><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,=
-255)"><span style=3D"font-family:monospace"><span style=3D"font-family:mono=
-space"><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">2=
- of=3Droot.img bs=3D1M conv=3Dnotrunc`</span></span></span></span></span></=
-span></div><div><span style=3D"font-family:monospace"><span style=3D"font-f=
-amily:monospace"><span style=3D"color:rgb(0,0,0);background-color:rgb(255,2=
-55,255)"><span style=3D"font-family:monospace"><span style=3D"font-family:m=
-onospace"><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)=
-">7. `qemu-system-ppc -M ppce500 -cpu e500mc -m 256 -kernel uImage -append =
-&quot;console=3DttyS0 rootwait root=3D/dev/mmcblk0&quot; -device sd-card,dr=
-ive=3Dmydrive -drive id=3Dmydrive,if=3Dnone,file=3Droot.img,format=3Draw`</=
-span></span></span></span></span></span></div><div><span style=3D"font-fami=
-ly:monospace"><span style=3D"font-family:monospace"><span style=3D"color:rg=
-b(0,0,0);background-color:rgb(255,255,255)"><span style=3D"font-family:mono=
-space"><span style=3D"font-family:monospace"><span style=3D"color:rgb(0,0,0=
-);background-color:rgb(255,255,255)"><br></span></span></span></span></span=
-></span></div><div><span style=3D"font-family:monospace"><span style=3D"fon=
-t-family:monospace"><span style=3D"color:rgb(0,0,0);background-color:rgb(25=
-5,255,255)"><span style=3D"font-family:monospace"><span style=3D"font-famil=
-y:monospace"><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,2=
-55)">Note that step 6 might be required every time before qemu-system-ppc i=
-s started, otherwise this may cause an fsck. The output on the boot console=
- will look something along these lines (note that no errors are reported):<=
-br></span></span></span></span></span></span></div><div><span style=3D"font=
--family:monospace"><span style=3D"font-family:monospace"><span style=3D"col=
-or:rgb(0,0,0);background-color:rgb(255,255,255)"><span style=3D"font-family=
-:monospace"><span style=3D"font-family:monospace"><span style=3D"color:rgb(=
-0,0,0);background-color:rgb(255,255,255)"><br></span></span></span></span><=
-/span></span></div><div><span style=3D"font-family:monospace"><span style=
-=3D"font-family:monospace"><span style=3D"color:rgb(0,0,0);background-color=
-:rgb(255,255,255)"><span style=3D"font-family:monospace"><span style=3D"fon=
-t-family:monospace"><span style=3D"color:rgb(0,0,0);background-color:rgb(25=
-5,255,255)">=C2=A0 Memory CAM mapping: 16/16/16/16/64/64/64 Mb, residual: 0=
-Mb<br>=C2=A0 Activating Kernel Userspace Access Protection<br>=C2=A0 Activa=
-ting Kernel Userspace Execution Prevention<br>=C2=A0 Linux version 5.17.7 (=
-zcone-pisint@osoxes) (powerpc-buildroot-linux-gnu-gcc.br_real (Buildroot 20=
-22.08-655-gf8a0d1480a) 11.3.0, GNU ld (GNU Binutils) 2.38) #1 SMP Sat Oct 2=
-9 12:49:54 CEST 2022<br>=C2=A0 Using QEMU e500 machine description<br>=C2=
-=A0 printk: bootconsole [udbg0] enabled<br>=C2=A0 CPU maps initialized for =
-1 thread per core<br>=C2=A0 -----------------------------------------------=
-------<br>=C2=A0 phys_mem_size =C2=A0 =C2=A0 =3D 0x10000000<br>=C2=A0 dcach=
-e_bsize =C2=A0 =C2=A0 =C2=A0=3D 0x40<br>=C2=A0 icache_bsize =C2=A0 =C2=A0 =
-=C2=A0=3D 0x40<br>=C2=A0 cpu_features =C2=A0 =C2=A0 =C2=A0=3D 0x00000000000=
-00194<br>=C2=A0 =C2=A0 possible =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x0000000000=
-01039c<br>=C2=A0 =C2=A0 always =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x0000=
-000000000100<br>=C2=A0 cpu_user_features =3D 0x8c008000 0x08000000<br>=C2=
-=A0 mmu_features =C2=A0 =C2=A0 =C2=A0=3D 0x000a0010<br>=C2=A0 -------------=
-----------------------------------------<br>=C2=A0 qemu_e500_setup_arch()<b=
-r>=C2=A0 barrier-nospec: using isync; sync as speculation barrier<br>=C2=A0=
- Zone ranges:<br>=C2=A0 =C2=A0 Normal =C2=A0 [mem 0x0000000000000000-0x0000=
-00000fffffff]<br>=C2=A0 =C2=A0 HighMem =C2=A0empty<br>=C2=A0 Movable zone s=
-tart for each node<br>=C2=A0 Early memory node ranges<br>=C2=A0 =C2=A0 node=
- =C2=A0 0: [mem 0x0000000000000000-0x000000000fffffff]<br>=C2=A0 Initmem se=
-tup node 0 [mem 0x0000000000000000-0x000000000fffffff]<br>=C2=A0 MMU: Alloc=
-ated 1088 bytes of context maps for 255 contexts<br>=C2=A0 percpu: Embedded=
- 16 pages/cpu s33804 r8192 d23540 u65536<br>=C2=A0 Built 1 zonelists, mobil=
-ity grouping on.=C2=A0 Total pages: 65024<br>=C2=A0 Kernel command line: co=
-nsole=3DttyS0 rootwait root=3D/dev/mmcblk0 nokaslr<br>=C2=A0 Unknown kernel=
- command line parameters &quot;nokaslr&quot;, will be passed to user space.=
-<br>=C2=A0 Dentry cache hash table entries: 32768 (order: 5, 131072 bytes, =
-linear)<br>=C2=A0 Inode-cache hash table entries: 16384 (order: 4, 65536 by=
-tes, linear)<br>=C2=A0 mem auto-init: stack:off, heap alloc:off, heap free:=
-off<br>=C2=A0 Kernel virtual memory layout:<br>=C2=A0 =C2=A0 * 0xffa5f000..=
-0xfffff000 =C2=A0: fixmap<br>=C2=A0 =C2=A0 * 0xff800000..0xffa00000 =C2=A0:=
- highmem PTEs<br>=C2=A0 =C2=A0 * 0xd1000000..0xff800000 =C2=A0: vmalloc &am=
-p; ioremap<br>=C2=A0 Memory: 174608K/262144K available (12680K kernel code,=
- 1080K rwdata, 3552K rodata, 396K init, 238K bss, 87536K reserved, 0K cma-r=
-eserved, 0K highmem)<br>=C2=A0 SLUB: HWalign=3D64, Order=3D0-3, MinObjects=
-=3D0, CPUs=3D1, Nodes=3D1<br>=C2=A0 rcu: Hierarchical RCU implementation.<b=
-r>=C2=A0 rcu: 	RCU event tracing is enabled.<br>=C2=A0 rcu: 	RCU restrictin=
-g CPUs from NR_CPUS=3D24 to nr_cpu_ids=3D1.<br>=C2=A0 rcu: RCU calculated v=
-alue of scheduler-enlistment delay is 25 jiffies.<br>=C2=A0 rcu: Adjusting =
-geometry for rcu_fanout_leaf=3D16, nr_cpu_ids=3D1<br>=C2=A0 NR_IRQS: 512, n=
-r_irqs: 512, preallocated irqs: 16<br>=C2=A0 mpic: Setting up MPIC &quot; O=
-penPIC =C2=A0&quot; version 1.2 at fe0040000, max 1 CPUs<br>=C2=A0 mpic: IS=
-U size: 256, shift: 8, mask: ff<br>=C2=A0 mpic: Initializing for 256 source=
-s<br>=C2=A0 random: get_random_u32 called from start_kernel+0x524/0x6b0 wit=
-h crng_init=3D0<br>=C2=A0 clocksource: timebase: mask: 0xffffffffffffffff m=
-ax_cycles: 0x5c4093a7d1, max_idle_ns: 440795210635 ns<br>=C2=A0 clocksource=
-: timebase mult[2800000] shift[24] registered<br>=C2=A0 Console: colour dum=
-my device 80x25<br>=C2=A0 pid_max: default: 32768 minimum: 301<br>=C2=A0 Mo=
-unt-cache hash table entries: 1024 (order: 0, 4096 bytes, linear)<br>=C2=A0=
- Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes, linear)<b=
-r>=C2=A0 e500 family performance monitor hardware support registered<br>=C2=
-=A0 rcu: Hierarchical SRCU implementation.<br>=C2=A0 smp: Bringing up secon=
-dary CPUs ...<br>=C2=A0 smp: Brought up 1 node, 1 CPU<br>=C2=A0 devtmpfs: i=
-nitialized<br>=C2=A0 clocksource: jiffies: mask: 0xffffffff max_cycles: 0xf=
-fffffff, max_idle_ns: 7645041785100000 ns<br>=C2=A0 futex hash table entrie=
-s: 256 (order: 2, 16384 bytes, linear)<br>=C2=A0 NET: Registered PF_NETLINK=
-/PF_ROUTE protocol family<br>=C2=A0 audit: initializing netlink subsys (dis=
-abled)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>=C2=A0=
- Found FSL PCI host bridge at 0x0000000fe0008000. Firmware bus number: 0-&g=
-t;255<br>=C2=A0 PCI host bridge /pci@fe0008000 (primary) ranges:<br>=C2=A0 =
-=C2=A0MEM 0x0000000c00000000..0x0000000c1fffffff -&gt; 0x00000000e0000000 <=
-br>=C2=A0 =C2=A0 IO 0x0000000fe1000000..0x0000000fe100ffff -&gt; 0x00000000=
-00000000<br>=C2=A0 /pci@fe0008000: PCICSRBAR @ 0xdff00000<br>=C2=A0 setup_p=
-ci_atmu: end of DRAM 10000000<br>=C2=A0 Machine: QEMU ppce500<br>=C2=A0 SoC=
- family: QorIQ<br>=C2=A0 SoC ID: svr:0x00000000, Revision: 0.0<br>=C2=A0 au=
-dit: type=3D2000 audit(0.092:1): state=3Dinitialized audit_enabled=3D0 res=
-=3D1<br>=C2=A0 fsl-pamu: fsl_pamu_init: could not find a PAMU node<br>=C2=
-=A0 software IO TLB: tearing down default memory pool<br>=C2=A0 PCI: Probin=
-g PCI hardware<br>=C2=A0 fsl-pci fe0008000.pci: PCI host bridge to bus 8000=
-:00<br>=C2=A0 pci_bus 8000:00: root bus resource [io =C2=A00x0000-0xffff]<b=
-r>=C2=A0 pci_bus 8000:00: root bus resource [mem 0xc00000000-0xc1fffffff] (=
-bus address [0xe0000000-0xffffffff])<br>=C2=A0 pci_bus 8000:00: root bus re=
-source [bus 00-ff]<br>=C2=A0 pci_bus 8000:00: busn_res: [bus 00-ff] end is =
-updated to ff<br>=C2=A0 pci 8000:00:00.0: [1957:0030] type 00 class 0x0b200=
-0<br>=C2=A0 pci 8000:00:00.0: reg 0x10: [mem 0xdff00000-0xdfffffff]<br>=C2=
-=A0 pci 8000:00:01.0: [1af4:1000] type 00 class 0x020000<br>=C2=A0 pci 8000=
-:00:01.0: reg 0x10: [io =C2=A00x0000-0x001f]<br>=C2=A0 pci 8000:00:01.0: re=
-g 0x14: [mem 0x00000000-0x00000fff]<br>=C2=A0 pci 8000:00:01.0: reg 0x20: [=
-mem 0x00000000-0x00003fff 64bit pref]<br>=C2=A0 pci 8000:00:01.0: reg 0x30:=
- [mem 0x00000000-0x0003ffff pref]<br>=C2=A0 pci_bus 8000:00: busn_res: [bus=
- 00-ff] end is updated to 00<br>=C2=A0 pci 8000:00:01.0: BAR 6: assigned [m=
-em 0xc00000000-0xc0003ffff pref]<br>=C2=A0 pci 8000:00:01.0: BAR 4: assigne=
-d [mem 0xc00040000-0xc00043fff 64bit pref]<br>=C2=A0 pci 8000:00:01.0: BAR =
-1: assigned [mem 0xc00044000-0xc00044fff]<br>=C2=A0 pci 8000:00:01.0: BAR 0=
-: assigned [io =C2=A00x1000-0x101f]<br>=C2=A0 pci_bus 8000:00: resource 4 [=
-io =C2=A00x0000-0xffff]<br>=C2=A0 pci_bus 8000:00: resource 5 [mem 0xc00000=
-000-0xc1fffffff]<br>=C2=A0 HugeTLB registered 4.00 MiB page size, pre-alloc=
-ated 0 pages<br>=C2=A0 HugeTLB registered 16.0 MiB page size, pre-allocated=
- 0 pages<br>=C2=A0 HugeTLB registered 64.0 MiB page size, pre-allocated 0 p=
-ages<br>=C2=A0 HugeTLB registered 256 MiB page size, pre-allocated 0 pages<=
-br>=C2=A0 HugeTLB registered 1.00 GiB page size, pre-allocated 0 pages<br>=
-=C2=A0 Freescale Elo series DMA driver<br>=C2=A0 iommu: Default domain type=
-: Translated <br>=C2=A0 iommu: DMA domain TLB invalidation policy: strict m=
-ode <br>=C2=A0 vgaarb: loaded<br>=C2=A0 SCSI subsystem initialized<br>=C2=
-=A0 usbcore: registered new interface driver usbfs<br>=C2=A0 usbcore: regis=
-tered new interface driver hub<br>=C2=A0 usbcore: registered new device dri=
-ver usb<br>=C2=A0 pps_core: LinuxPPS API ver. 1 registered<br>=C2=A0 pps_co=
-re: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti &lt;<a href=
-=3D"mailto:giometti@linux.it">giometti@linux.it</a>&gt;<br>=C2=A0 PTP clock=
- support registered<br>=C2=A0 Advanced Linux Sound Architecture Driver Init=
-ialized.<br>=C2=A0 clocksource: Switched to clocksource timebase<br>=C2=A0 =
-NET: Registered PF_INET protocol family<br>=C2=A0 IP idents hash table entr=
-ies: 4096 (order: 3, 32768 bytes, linear)<br>=C2=A0 tcp_listen_portaddr_has=
-h hash table entries: 512 (order: 0, 6144 bytes, linear)<br>=C2=A0 TCP esta=
-blished hash table entries: 2048 (order: 1, 8192 bytes, linear)<br>=C2=A0 T=
-CP bind hash table entries: 2048 (order: 2, 16384 bytes, linear)<br>=C2=A0 =
-TCP: Hash tables configured (established 2048 bind 2048)<br>=C2=A0 UDP hash=
- table entries: 256 (order: 1, 8192 bytes, linear)<br>=C2=A0 UDP-Lite hash =
-table entries: 256 (order: 1, 8192 bytes, linear)<br>=C2=A0 NET: Registered=
- PF_UNIX/PF_LOCAL protocol family<br>=C2=A0 RPC: Registered named UNIX sock=
-et transport module.<br>=C2=A0 RPC: Registered udp transport module.<br>=C2=
-=A0 RPC: Registered tcp transport module.<br>=C2=A0 RPC: Registered tcp NFS=
-v4.1 backchannel transport module.<br>=C2=A0 PCI: CLS 0 bytes, default 64<b=
-r>=C2=A0 workingset: timestamp_bits=3D30 max_order=3D16 bucket_order=3D0<br=
->=C2=A0 squashfs: version 4.0 (2009/01/31) Phillip Lougher<br>=C2=A0 NFS: R=
-egistering the id_resolver key type<br>=C2=A0 Key type id_resolver register=
-ed<br>=C2=A0 Key type id_legacy registered<br>=C2=A0 Installing knfsd (copy=
-right (C) 1996 <a href=3D"mailto:okir@monad.swb.de">okir@monad.swb.de</a>).=
-<br>=C2=A0 ntfs: driver 2.1.32 [Flags: R/O].<br>=C2=A0 jffs2: version 2.2. =
-(NAND) =C2=A9 2001-2006 Red Hat, Inc.<br>=C2=A0 io scheduler mq-deadline re=
-gistered<br>=C2=A0 io scheduler kyber registered<br>=C2=A0 virtio-pci 8000:=
-00:01.0: enabling device (0000 -&gt; 0003)<br>=C2=A0 Serial: 8250/16550 dri=
-ver, 6 ports, IRQ sharing enabled<br>=C2=A0 printk: console [ttyS0] disable=
-d<br>=C2=A0 serial8250.0: ttyS0 at MMIO 0xfe0004500 (irq =3D 42, base_baud =
-=3D 25000000) is a 16550A<br>=C2=A0 printk: console [ttyS0] enabled<br>=C2=
-=A0 printk: console [ttyS0] enabled<br>=C2=A0 printk: bootconsole [udbg0] d=
-isabled<br>=C2=A0 printk: bootconsole [udbg0] disabled<br>=C2=A0 ePAPR hype=
-rvisor byte channel driver<br>=C2=A0 brd: module loaded<br>=C2=A0 loop: mod=
-ule loaded<br>=C2=A0 st: Version 20160209, fixed bufsize 32768, s/g segs 25=
-6<br>=C2=A0 ucc_geth_driver: QE UCC Gigabit Ethernet Controller<br>=C2=A0 e=
-1000: Intel(R) PRO/1000 Network Driver<br>=C2=A0 e1000: Copyright (c) 1999-=
-2006 Intel Corporation.<br>=C2=A0 e1000e: Intel(R) PRO/1000 Network Driver<=
-br>=C2=A0 e1000e: Copyright(c) 1999 - 2015 Intel Corporation.<br>=C2=A0 igb=
-: Intel(R) Gigabit Ethernet Network Driver<br>=C2=A0 igb: Copyright (c) 200=
-7-2014 Intel Corporation.<br>=C2=A0 ehci_hcd: USB 2.0 &#39;Enhanced&#39; Ho=
-st Controller (EHCI) Driver<br>=C2=A0 ehci-pci: EHCI PCI platform driver<br=
->=C2=A0 ohci_hcd: USB 1.1 &#39;Open&#39; Host Controller (OHCI) Driver<br>=
-=C2=A0 ohci-pci: OHCI PCI platform driver<br>=C2=A0 ehci-fsl: Freescale EHC=
-I Host controller driver<br>=C2=A0 usbcore: registered new interface driver=
- usb-storage<br>=C2=A0 i2c_dev: i2c /dev entries driver<br>=C2=A0 mpc-i2c f=
-e0003000.i2c: timeout 1000000 us<br>=C2=A0 rtc-ds1307 0-0068: registered as=
- rtc0<br>=C2=A0 rtc-ds1307 0-0068: setting system clock to 2022-10-30T11:27=
-:44 UTC (1667129264)<br>=C2=A0 sdhci: Secure Digital Host Controller Interf=
-ace driver<br>=C2=A0 sdhci: Copyright(c) Pierre Ossman<br>=C2=A0 sdhci-pltf=
-m: SDHCI platform and OF driver helper<br>=C2=A0 Freescale hypervisor manag=
-ement driver<br>=C2=A0 fsl-hv: no hypervisor found<br>=C2=A0 mmc0 bounce up=
- to 128 segments into one, max segment size 65536 bytes<br>=C2=A0 ipip: IPv=
-4 and MPLS over IPv4 tunneling driver<br>=C2=A0 Initializing XFRM netlink s=
-ocket<br>=C2=A0 NET: Registered PF_INET6 protocol family<br>=C2=A0 Segment =
-Routing with IPv6<br>=C2=A0 In-situ OAM (IOAM) with IPv6<br>=C2=A0 sit: IPv=
-6, IPv4 and MPLS over IPv4 tunneling driver<br>=C2=A0 NET: Registered PF_PA=
-CKET protocol family<br>=C2=A0 NET: Registered PF_KEY protocol family<br>=
-=C2=A0 Key type dns_resolver registered<br>=C2=A0 drmem: No dynamic reconfi=
-guration memory found<br>=C2=A0 mmc0: SDHCI controller on fe002e000.sdhc [f=
-e002e000.sdhc] using DMA<br>=C2=A0 ALSA device list:<br>=C2=A0 =C2=A0 No so=
-undcards found.<br>=C2=A0 Waiting for root device /dev/mmcblk0...<br>=C2=A0=
- mmc0: new high speed SD card at address 4567<br>=C2=A0 mmcblk0: mmc0:4567 =
-QEMU! 64.0 MiB <br>=C2=A0 EXT4-fs (mmcblk0): mounted filesystem without jou=
-rnal. Quota mode: disabled.<br>=C2=A0 VFS: Mounted root (ext4 filesystem) r=
-eadonly on device 179:0.<br>=C2=A0 devtmpfs: mounted<br>=C2=A0 Freeing unus=
-ed kernel image (initmem) memory: 396K<br>=C2=A0 Run /sbin/init as init pro=
-cess<br>=C2=A0 EXT4-fs (mmcblk0): re-mounted. Quota mode: disabled.<br>=C2=
-=A0 Starting syslogd: OK<br>=C2=A0 Starting klogd: OK<br>=C2=A0 Running sys=
-ctl: OK<br>=C2=A0 Saving random seed: random: dd: uninitialized urandom rea=
-d (512 bytes read)<br>=C2=A0 OK<br>=C2=A0 Starting network: udhcpc: started=
-, v1.35.0<br>=C2=A0 udhcpc: broadcasting discover<br>=C2=A0 udhcpc: broadca=
-sting select for 10.0.2.15, server 10.0.2.2<br>=C2=A0 random: fast init don=
-e<br>=C2=A0 udhcpc: lease of 10.0.2.15 obtained from 10.0.2.2, lease time 8=
-6400<br>=C2=A0 deleting routers<br>=C2=A0 adding dns 10.0.2.3<br>=C2=A0 OK<=
-br>=C2=A0 <br>=C2=A0 Welcome to Buildroot<br>=C2=A0 buildroot login: <br>=
-=C2=A0</span></span></span></span></span></span></div><div><span style=3D"f=
-ont-family:monospace"><span style=3D"font-family:monospace"><span style=3D"=
-color:rgb(0,0,0);background-color:rgb(255,255,255)"><span style=3D"font-fam=
-ily:monospace"><span style=3D"font-family:monospace"><span style=3D"color:r=
-gb(0,0,0);background-color:rgb(255,255,255)"><br></span></span></span></spa=
-n></span></span></div><div><span style=3D"font-family:monospace"><span styl=
-e=3D"font-family:monospace"><span style=3D"color:rgb(0,0,0);background-colo=
-r:rgb(255,255,255)"><span style=3D"font-family:monospace"><span style=3D"fo=
-nt-family:monospace"><span style=3D"color:rgb(0,0,0);background-color:rgb(2=
-55,255,255)">Best regards,</span></span></span></span></span></span></div><=
-div><span style=3D"font-family:monospace"><span style=3D"font-family:monosp=
-ace"><span style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)"><sp=
-an style=3D"font-family:monospace"><span style=3D"font-family:monospace"><s=
-pan style=3D"color:rgb(0,0,0);background-color:rgb(255,255,255)">Bernhard<b=
-r></span></span></span></span></span></span> </div></div></div>
-
---000000000000105fe405ec3f0aa7--
+--------------bSk8dblUI1z8PeRQ09ZfTTOM--
 
