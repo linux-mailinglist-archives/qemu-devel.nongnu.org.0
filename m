@@ -2,46 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7213612D4C
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:25:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58865612D51
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:29:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opGiW-0008Po-58; Sun, 30 Oct 2022 18:23:44 -0400
+	id 1opGnW-0008Ps-4V; Sun, 30 Oct 2022 18:28:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1opGiT-0008Lk-Rm; Sun, 30 Oct 2022 18:23:41 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1opGiR-0005v0-Hg; Sun, 30 Oct 2022 18:23:41 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 5D98474632B;
- Sun, 30 Oct 2022 23:23:32 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 07E8B746307; Sun, 30 Oct 2022 23:23:32 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 05ADC74633D;
- Sun, 30 Oct 2022 23:23:32 +0100 (CET)
-Date: Sun, 30 Oct 2022 23:23:31 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v6 00/19] Misc ppc/mac machines clean up
-In-Reply-To: <cd48ea7a-1269-6b3b-73e4-d7f2a1abffd5@ilande.co.uk>
-Message-ID: <59497b0-a5d4-3c8c-524b-9cde50aae5e7@eik.bme.hu>
-References: <cover.1666957578.git.balaton@eik.bme.hu>
- <cd48ea7a-1269-6b3b-73e4-d7f2a1abffd5@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGnS-0008Pe-W5
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:28:51 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGnQ-00073d-0S
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:28:50 -0400
+Received: by mail-wm1-x331.google.com with SMTP id t4so6224060wmj.5
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:28:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0vvYP4ZGU4K61SMUnZu/h3MvvvZqqwS28llLPqNgicU=;
+ b=BcaU4mAX0HzAY7LE+vDgayMHIbxzDeUcpuqGrHiQsRjI5866H69L7gDqG2AyyHS/Tg
+ x5HHc0295RHXpabI20sxRc2MByK5HPg+F3x3EWD58wwur89psQJA5jIbe7fzo9/Yqgy8
+ csEcNdWvuEke9/tbYtKKR4mX0JNozey2eFq8yONjd0RGCC0bcqFU8sOb9pkm99vGbAUP
+ 0W9Dz/h7l8l72F1eBp25ppqquZUath0r7kOYq6P3cMEBLHHW8MZl6GrLePKIkx8lb2+Y
+ A0dnpX770JLs+stE+EkFk3Z8/QadZraeOIG19TppMxj8UYVjQ+jGe/P7EMVGnB+dTt+C
+ fICw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0vvYP4ZGU4K61SMUnZu/h3MvvvZqqwS28llLPqNgicU=;
+ b=2Dhns5x/SY4prIjsjwnZBybXIQ4PrDeQpxzTvWTb9g1rdXdtZwM4mrv1q1cWzcqdRp
+ ZupNXuKkxfoxN5Dpfz3C5Gm3+VjXbxX6PZ3ObKtqjDKkoLcsg2qdAVwRgRkx/HQfSPXs
+ 5Xmxa4DAfy2UdMhTv0TSiKS9uXr7JaywZq5wGp2f7XjiTe0wXORqmsrXkVKeFOi4dupE
+ zNIvJXZSidoxxGXN9SBOw9APRSOzSc1U1Q46sa1X+CUzpYiruNUYpi2zcc4AqY4g5cOV
+ F0Ib3+7B1J3LZWucObic7rCU5cUoqZheNHMsEbuNoECLWzWNsd2n0+2kVEeITYckJAJC
+ kkIA==
+X-Gm-Message-State: ACrzQf0haJo8gZtKKKMoJNSRPHwAFj/RthtLot6VkLENauu+7rsiRf0E
+ vhPCCYVS00dYwLRAPPe5GLQ55cpIjRRqaw==
+X-Google-Smtp-Source: AMsMyM7OlM7DC8ucgLnFiFtBB4FzH8U8Hyi07q7hrQ8yZx0N7dpAQnsT3M/Cz4OM/Z8SO3aew6Pz4Q==
+X-Received: by 2002:a7b:c404:0:b0:3b4:faca:cf50 with SMTP id
+ k4-20020a7bc404000000b003b4facacf50mr16156671wmi.67.1667168925294; 
+ Sun, 30 Oct 2022 15:28:45 -0700 (PDT)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ o23-20020a05600c511700b003cf54b77bfesm5554817wms.28.2022.10.30.15.28.43
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Sun, 30 Oct 2022 15:28:43 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Stefan Pejic <stefan.pejic@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>
+Subject: [PULL 00/55] MIPS patches for 2022-10-30
+Date: Sun, 30 Oct 2022 23:27:46 +0100
+Message-Id: <20221030222841.42377-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,89 +90,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 30 Oct 2022, Mark Cave-Ayland wrote:
-> On 28/10/2022 12:56, BALATON Zoltan wrote:
->> Since only one week is left until freeze starts I've included some
->> more patches in this version that I've intended to submit after the
->> clean ups but we're running out of time now. The last 3 patches could
->> be squashed together, I've just split these up because I expect
->> resistence from Mark to any changes so maybe it's easier to digest
->> piece by piece and can cherry pick parts easier this way but ideally
->> these should be in one patch.
->> 
->> I'd appreciate very much if this series would get in before the
->> freeze, it is very discouraging to spend time with something that gets
->> ignored and then postponed for the rest of the year just to start
->> again the same in January. This might be a reason why not many people
->> contribute to this part of QEMU besides that maybe only a few people
->> are still interested so those who are interested should be served
->> better to not scare them off even more.
->> 
->> Regards,
->> BALATON Zoltan
->> 
->> v6: Drop cmdline_base patch
->> v5: Fix last patch and add one more patch to fix NDRV with ati-vga
->> v4: Add some more patches that I've found since v3 or was intended in
->> separate series
->> v3: Some more patch spliting and changes I've noticed and address more
->> review comments
->> v2: Split some patches and add a few more I've noticed now and address
->> review comments
->> 
->> BALATON Zoltan (19):
->>    mac_newworld: Drop some variables
->>    mac_oldworld: Drop some more variables
->>    mac_{old|new}world: Set tbfreq at declaration
->>    mac_{old|new}world: Avoid else branch by setting default value
->>    mac_newworld: Clean up creation of Uninorth devices
->>    mac_{old|new}world: Reduce number of QOM casts
->>    hw/ppc/mac.h: Move newworld specific parts out from shared header
->>    hw/ppc/mac.h: Move macio specific parts out from shared header
->>    hw/ppc/mac.h: Move grackle-pcihost type declaration out to a header
->>    hw/ppc/mac.h: Move PROM and KERNEL defines to board code
->>    hw/ppc/mac.h: Rename to include/hw/nvram/mac_nvram.h
->>    mac_nvram: Use NVRAM_SIZE constant
->>    mac_{old|new}world: Code style fix adding missing braces to if-s
->>    mac_newworld: Turn CORE99_VIA_CONFIG defines into an enum
->>    mac_newworld: Add machine types for different mac99 configs
->>    mac_newworld: Deprecate mac99 with G5 CPU
->>    mac_newworld: Deprecate mac99 "via" option
->>    mac_newworld: Document deprecation
->>    mac_{old,new}world: Pass MacOS VGA NDRV in card ROM instead of fw_cfg
->>
->>   MAINTAINERS                   |   2 +
->>   docs/about/deprecated.rst     |   7 +
->>   docs/system/ppc/powermac.rst  |  12 +-
->>   hw/ide/macio.c                |   1 -
->>   hw/intc/heathrow_pic.c        |   1 -
->>   hw/intc/openpic.c             |   1 -
->>   hw/misc/macio/cuda.c          |   1 -
->>   hw/misc/macio/gpio.c          |   1 -
->>   hw/misc/macio/macio.c         |   8 +-
->>   hw/misc/macio/pmu.c           |   1 -
->>   hw/nvram/mac_nvram.c          |   2 +-
->>   hw/pci-host/grackle.c         |  15 +-
->>   hw/pci-host/uninorth.c        |   1 -
->>   hw/ppc/mac.h                  | 105 ----------
->>   hw/ppc/mac_newworld.c         | 353 ++++++++++++++++++++++------------
->>   hw/ppc/mac_oldworld.c         | 131 ++++++-------
->>   include/hw/misc/macio/macio.h |  23 ++-
->>   include/hw/nvram/mac_nvram.h  |  51 +++++
->>   include/hw/pci-host/grackle.h |  44 +++++
->>   19 files changed, 421 insertions(+), 339 deletions(-)
->>   delete mode 100644 hw/ppc/mac.h
->>   create mode 100644 include/hw/nvram/mac_nvram.h
->>   create mode 100644 include/hw/pci-host/grackle.h
->
-> I've queued patches 1-14 in my qemu-macppc branch (whilst fixing the typos in 
-> the description for patch 5) and will send a PR in time for soft freeze.
+The following changes since commit 344744e148e6e865f5a57e745b02a87e5ea534ad:
 
-Thanks. Sorry about the typos, looks like I missed two in that patch: 
-otder -> order and reorganise. Did you fix both?
+  Merge tag 'dump-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2022-10-26 10:53:49 -0400)
 
-What about the remaining patches?
+are available in the Git repository at:
 
-Regards,
-BALATON Zoltan
+  https://github.com/philmd/qemu.git tags/mips-20221030
+
+for you to fetch changes up to 487099aee951e4966936acd3e9afd24c69de85ea:
+
+  hw/mips/malta: Use bootloader helper to set BAR registers (2022-10-30 23:08:10 +0100)
+
+----------------------------------------------------------------
+MIPS patches queue
+
+- Convert nanoMIPS disassembler from C++ to C (Milica Lazarevic)
+- Consolidate VT82xx/PIIX south bridges (Bernhard Beschow)
+- Remove unused MAX_IDE_BUS definition (Zoltan Balaton)
+- Fix branch displacement for BEQZC/BNEZC (David Daney)
+- Don't set link_up for Boston's xilinx-pcie (Jiaxun Yang)
+- Use bootloader API to set BAR registers in Malta (Jiaxun Yang)
+
+Unfortunately I couldn't run my usual test suite, but I ran the
+best testing I can do in the current time frame :/
+----------------------------------------------------------------
+
+BALATON Zoltan (1):
+  hw: Remove unused MAX_IDE_BUS define
+
+Bernhard Beschow (25):
+  hw/isa/vt82c686: Resolve chip-specific realize methods
+  hw/isa/vt82c686: Resolve unneeded attribute
+  hw/isa/vt82c686: Prefer pci_address_space() over get_system_memory()
+  hw/isa/vt82c686: Reuse errp
+  hw/isa/vt82c686: Introduce TYPE_VIA_IDE define
+  hw/isa/vt82c686: Instantiate IDE function in host device
+  hw/isa/vt82c686: Introduce TYPE_VT82C686B_USB_UHCI define
+  hw/isa/vt82c686: Instantiate USB functions in host device
+  hw/isa/vt82c686: Instantiate PM function in host device
+  hw/isa/vt82c686: Instantiate AC97 and MC97 functions in host device
+  hw/mips/fuloong2e: Inline vt82c686b_southbridge_init() and remove it
+  hw/isa/vt82c686: Embed RTCState in host device
+  hw/isa/vt82c686: Create rtc-time alias in boards instead
+  hw/i386/pc: Create DMA controllers in south bridges
+  hw/isa/piix3: Remove extra ';' outside of functions
+  hw/isa/piix3: Add size constraints to rcr_ops
+  hw/isa/piix3: Modernize reset handling
+  hw/isa/piix3: Prefer pci_address_space() over get_system_memory()
+  hw/isa/piix4: Rename wrongly named method
+  hw/ide/piix: Introduce TYPE_ macros for PIIX IDE controllers
+  hw/isa/piix3: Remove unused include
+  hw/mips/malta: Reuse dev variable
+  hw/isa/Kconfig: Fix dependencies of piix4 southbridge
+  hw/isa/piix4: Add missing initialization
+  hw/isa/piix4: Move pci_ide_create_devs() call to board code
+
+David Daney (1):
+  disas/mips: Fix branch displacement for BEQZC and BNEZC
+
+Jiaxun Yang (3):
+  hw/mips/boston: Don't set link_up for xilinx-pcie
+  hw/mips: Use bl_gen_kernel_jump to generate bootloaders
+  hw/mips/malta: Use bootloader helper to set BAR registers
+
+Milica Lazarevic (24):
+  disas/nanomips: Remove namespace img
+  disas/nanomips: Extract enums out of the NMD class
+  disas/nanomips: Delete NMD class field
+  disas/nanomips: Delete NMD class second field
+  disas/nanomips: Remove helper methods from class
+  disas/nanomips: Remove __cond methods from class
+  disas/nanomips: Remove disasm methods from class
+  disas/nanomips: Remove Pool tables from the class
+  disas/nanomips: Remove NMD class
+  disas/nanomips: Move typedefs etc to nanomips.cpp
+  disas/nanomips: Delete nanomips.h
+  disas/nanomips: Remove #include <sstream>
+  disas/nanomips: Delete copy functions
+  disas/nanomips: Delete wrapper functions
+  disas/nanomips: Replace std::string type
+  disas/nanomips: Remove IMMEDIATE functions
+  disas/nanomips: Remove CPR function
+  disas/nanomips: Prevent memory leaking
+  disas/nanomips: Remove function overloading
+  disas/nanomips: Expand Dis_info struct
+  disas/nanomips: Replace exception handling
+  disas/nanomips: Replace Cpp enums for C enums
+  disas/nanomips: Remove argument passing by ref
+  disas/nanomips: Rename nanomips.cpp to nanomips.c
+
+Philippe Mathieu-Daudé (1):
+  hw/mips/bootloader: Allow bl_gen_jump_kernel to optionally set
+    register
+
+ configs/devices/mips-softmmu/common.mak      |    1 -
+ configs/devices/mips64el-softmmu/default.mak |    1 -
+ disas/meson.build                            |    2 +-
+ disas/mips.c                                 |   12 +-
+ disas/{nanomips.cpp => nanomips.c}           | 8186 +++++++++---------
+ disas/nanomips.h                             | 1076 ---
+ hw/alpha/dp264.c                             |    2 -
+ hw/hppa/machine.c                            |    2 -
+ hw/i386/pc.c                                 |    3 -
+ hw/i386/pc_piix.c                            |    5 +-
+ hw/ide/piix.c                                |    5 +-
+ hw/ide/via.c                                 |    2 +-
+ hw/isa/Kconfig                               |    9 +
+ hw/isa/lpc_ich9.c                            |    3 +
+ hw/isa/piix3.c                               |   28 +-
+ hw/isa/piix4.c                               |   10 +-
+ hw/isa/vt82c686.c                            |  120 +-
+ hw/mips/bootloader.c                         |   28 +-
+ hw/mips/boston.c                             |   14 +-
+ hw/mips/fuloong2e.c                          |   48 +-
+ hw/mips/malta.c                              |  139 +-
+ hw/ppc/Kconfig                               |    1 -
+ hw/ppc/pegasos2.c                            |   25 +-
+ hw/ppc/prep.c                                |    2 -
+ hw/sparc64/sun4u.c                           |    1 -
+ hw/usb/vt82c686-uhci-pci.c                   |    4 +-
+ include/hw/ide/piix.h                        |    7 +
+ include/hw/isa/vt82c686.h                    |    4 +-
+ include/hw/mips/bootloader.h                 |    8 +-
+ 29 files changed, 4181 insertions(+), 5567 deletions(-)
+ rename disas/{nanomips.cpp => nanomips.c} (73%)
+ delete mode 100644 disas/nanomips.h
+ create mode 100644 include/hw/ide/piix.h
+
+-- 
+2.37.3
+
 
