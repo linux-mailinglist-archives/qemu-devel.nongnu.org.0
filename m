@@ -2,60 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7841F613779
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:10:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EAF2613792
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:13:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUTs-0008Ms-9z; Mon, 31 Oct 2022 09:05:32 -0400
+	id 1opUUq-0000kC-4w; Mon, 31 Oct 2022 09:06:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1opUTU-00088c-Ke
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:05:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1opUTX-00088o-5B
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:05:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1opUTT-0007he-6h
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:05:08 -0400
+ id 1opUTV-0007iD-Jp
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:05:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667221506;
+ s=mimecast20190719; t=1667221509;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0RgX4O+D5dhrj/hBR3m/eD2GXGH9To7Ghah38eIquv8=;
- b=gS6kDtMOkIa1JOiGe+btGxD7izA4vimjZMdluyTFeTwXS+TGsyyPzd5R6S8CE+VEw3p3Yx
- T4YLNQmiGbBl5AGX3gy+LJy2NNe+zqsjXWMHK4V7XQlmwJs2H+k+FqN4a+Wm4wdbaNuR34
- HYIS9EGKfuHZhgMl+RwTupLh4lTnbmU=
+ bh=VFyYBfu/u+ReW9fJbJmznbXaKBgPP2mG9ILhPCAN54M=;
+ b=Fwr4GIpa59n6aTYtLZPH2eLsUDYPFR68Gk95NIlZA9nlfjv0WXI831RnwQjrX19kuUp2/h
+ japO+t08mdiI/EUgQmShyKe/BKt+CbMxk77YigGykxI61eK9JqqwpYlJGiYK8rAPISpen/
+ rou2IN9kKjN3KP/DVk6+ICtlI6hEj30=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-422-DSGdspaJN1WKuwWO6tTzYA-1; Mon, 31 Oct 2022 09:05:02 -0400
-X-MC-Unique: DSGdspaJN1WKuwWO6tTzYA-1
+ us-mta-315-LpYQVmWRPail_L5ec4Q7Xw-1; Mon, 31 Oct 2022 09:05:05 -0400
+X-MC-Unique: LpYQVmWRPail_L5ec4Q7Xw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 65669857F8F;
- Mon, 31 Oct 2022 13:05:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB704858F13;
+ Mon, 31 Oct 2022 13:05:04 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EA011111E40B;
- Mon, 31 Oct 2022 13:05:01 +0000 (UTC)
-Date: Sun, 30 Oct 2022 18:28:38 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB4B8111E3E4;
+ Mon, 31 Oct 2022 13:05:03 +0000 (UTC)
+Date: Sun, 30 Oct 2022 18:28:52 -0400
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Konstantin Kostiuk <kkostiuk@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PULL 0/8] QEMU Guest Agent patches
-Message-ID: <Y176ln1cxwP/mq+a@fedora>
-References: <20221026175518.2636846-1-kkostiuk@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ ", Thomas Huth" <thuth@redhat.com>, integration@gluster.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org, Peter Xu <peterx@redhat.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Markus Armbruster <armbru@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Jeff Cody <codyprime@gmail.com>, John Snow <jsnow@redhat.com>,
+ "Denis V. Lunev" <den@openvz.org>
+Subject: Re: [PULL 00/13] Block patches
+Message-ID: <Y176pDCfM6XgNfBT@fedora>
+References: <20221026185846.120544-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="kMSu4nvqaa5AMgIx"
+ protocol="application/pgp-signature"; boundary="aXbz0DQYbOlzCh19"
 Content-Disposition: inline
-In-Reply-To: <20221026175518.2636846-1-kkostiuk@redhat.com>
+In-Reply-To: <20221026185846.120544-1-stefanha@redhat.com>
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,7 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
  DKIMWL_WL_HIGH=-1.048, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
  DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,7 +98,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---kMSu4nvqaa5AMgIx
+--aXbz0DQYbOlzCh19
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -88,21 +106,21 @@ Applied, thanks.
 
 Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
 
---kMSu4nvqaa5AMgIx
+--aXbz0DQYbOlzCh19
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNe+pYACgkQnKSrs4Gr
-c8h51wf/WWGk6BWtWnGx92MrjrRyB1/NwZen9gjhYe7K5b2fvIXltRyGeglG5mgS
-imsvL46/d3QL7nfZJl8fK2S7nWS7+Pp4otKnnbxYMunphxqecGBqLGeLM4UIjTYf
-ZXGXOcqMLhmeSnw/e8aiRlRCDnkF3BmT96jY/4Tf/sRJvWzfgnOySdQVOKTDEUgQ
-sHv8hA04Zbd4VCRkQAmTOQEA9EZ1YWYjSF1lJNabRdaAm5q5uzu29yQ0gxcxRgmh
-CLp9LRawq5kI8wuBEEaAyG1V0XejcjGiny7p5/I3fhRdvJHPg92RclnT1Kn05phA
-Izv2m+7FJQwbcsYoKDnff10BfFIs9w==
-=sVoz
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNe+qQACgkQnKSrs4Gr
+c8jJ4AgArLbmQdXT0kth0jb9AU3OHnyusnHJojFPNGUKXfETI2IO/NsVnfpWVBKO
+phNx6mynlNpkr6mR4Q1du3oLd6VwScJZXaCDepqqmoDDT1atRlLEX/56hI7UBOQG
+VhDExFMOFg5GHjPpcxK7ajZc+U8JYxb6D4T39KVPYRTGCtPXSiw3CR/QCrgJSe9h
+Mq2/bZxupjdqIgIS61u9kZCl547pD5gdpq6Nljmx6JtWbT95dt9jyNFPmHdZmAz2
+FPAjrZmHbbJkPY555x7tg5yihNSE7tkuDc6KtmgTo0tkQf/5n8XjAjBd6owulU9q
+hlEor/bxbxpV0BZbpFbp21HviAk/Kg==
+=5e3O
 -----END PGP SIGNATURE-----
 
---kMSu4nvqaa5AMgIx--
+--aXbz0DQYbOlzCh19--
 
 
