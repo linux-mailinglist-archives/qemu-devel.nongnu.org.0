@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B579612D94
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:37:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E30F612D89
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:37:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opGox-0001zG-5x; Sun, 30 Oct 2022 18:30:23 -0400
+	id 1opGox-00022V-Pq; Sun, 30 Oct 2022 18:30:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGon-0001kl-Np
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:30:19 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGou-0001mt-Bj
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:30:20 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGol-0007id-4R
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:30:13 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id cl5so2015158wrb.9
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:30:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGos-0007ix-2x
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:30:19 -0400
+Received: by mail-wr1-x434.google.com with SMTP id l14so13688324wrw.2
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UOfIdKogUdxZbqa2JfgUg0XucLPxUOAfMZ6+8R29910=;
- b=E9qamUIvY6JSOGNLovjCLd12twSmwnQOWTbiiTJzSEvQVlqYF9xUErEwiP3VAIjRBT
- 3hfB0Ng5amgjj7EQjMnm/3lQm3tlL94KjSwFdMRVrDHuj2cc/BiNFHo6bK0TzrFQns+2
- L1SKy7KQVUls0tiJNc4fUgJYN4JN4Sn/SFuTB/8AfqyveQJPwybz56PfFDwGdojtFm2i
- auxccKpZIQ7pILIWyB+HQnV8274frqfLne+Rl8Fx6bRxcHcHI/aEkED20UVGsvQ89G7R
- ia4KvzyGqBGSySNjrBWlYnhw4wbSJVRnoTt+WPTEJUs6m5+r8Nuv8hLni7BT4NlXV+7f
- ExXw==
+ bh=EXpt2U7urhOundj676D3XC1wCblnQcS5gsy0nmp/Pv4=;
+ b=k6FNzc2Mp6TUeZIk+da69TntozAJqp3L/s/z89G+DoK97inwhTwozzf+n8S0MleWR9
+ ghv+c24DmrysYFpVoT7QYt/Rh68TOaNm8tiaxdBuzREbPQMKSeokSaxHZ1YfTTs5yBxm
+ JvjCEaT7+/jiZiR6FIM4G/QVgQPsfgdTLhR8yp2sXhMBfmaGrBkaNzxmvobzZqspumZf
+ sjTzs9A/4pVD+ZtpbdXWpM57M/VczW7UGvWWgTUt/JD6jqaJLI+g9QOG2ZuX+TSGDlHg
+ RjqGS5Q5JZKqdFtNB1SA7aOSXBqfxVoV+732UPG2LLrJnbYge3fZA7fa0WJPiaAFW9Nk
+ bXeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UOfIdKogUdxZbqa2JfgUg0XucLPxUOAfMZ6+8R29910=;
- b=m4U+/we0kgElzB7qV1xPRy9z/nzecIKaKmyjCAS6+nQZJBIXM9uAbWEeMap/EQYnTG
- Q2jNdw5InWlH+DYpz8Uhw4+9xyVxuN1/XtFT6JwGd7z5GKBtk8GF0TdPc4QUx3+oA1QP
- nLYDelsN+82ohoreouKuZXLAruV9OGtEXALhpp9Ktk8RLnsHv40J79BwXlEBqv1ezBXj
- T7RhVmTCWjA3Cwy+C8ldwusgzZ5rbvcMQDdxLYQHIi00MIl+ZaAO3sFFDOLt0KoUYOPX
- /uowChtM6ec8GoE5MDx1i5kJCboG9zjp7tzFx2GLD+dl3uoM8eMFNdS1/B29RqEbex1U
- HTZQ==
-X-Gm-Message-State: ACrzQf2fSIVAGJbEg8vQ2Ln1biG8Oq8aPbihI0ibT6ZpoXe0an2acdPZ
- hcpKyi2ymRwT1bU3v6nphVMgJcwy4sycHQ==
-X-Google-Smtp-Source: AMsMyM49poc+73otybmj7DemMB0Uw6F4Mp2UiZTTgrrth5o82mCuOyKQVs7Qz/8LyFTxjE1VAirvjg==
-X-Received: by 2002:adf:f781:0:b0:236:5559:215b with SMTP id
- q1-20020adff781000000b002365559215bmr6097170wrp.16.1667169009573; 
- Sun, 30 Oct 2022 15:30:09 -0700 (PDT)
+ bh=EXpt2U7urhOundj676D3XC1wCblnQcS5gsy0nmp/Pv4=;
+ b=xXW4e3+ASSzw8XHnBUyomHcsKl7cWFv9D7m2F/IGABQFAqbJnkbMch1AFAHhIU99Tn
+ R5Qs5kFO8xEfzc1OckUurt6O1PfLJWSZVm9hpF311qvclEDSiJQVA2MUgI/HbqCgUuGr
+ 6Zwe7uPL1441tmPzZm9yEm8GvQco0uw9HWIQqxGF7mwY4yRy+skYnGhS36MYH+iN3vQ+
+ 7+Vo1vFO8FcITXNC2olas8if9Sr5j5yKqbrfRSUE7LJufMEmURQ53pMbpDRJtqWk0uRM
+ PXN+4brbfFq9MTrdJjGIb+DekLL2csLLgi0GPDxuN0al5q2a+sB+i+4D43/epBFkqr1A
+ xXTw==
+X-Gm-Message-State: ACrzQf3y4LpLrfFa+SgSqAaPjyMiFCPgtAG/JdgYTOjM+aL34rywX4DF
+ gQdqChzk1DxazoSFadjXMjfRB4vyx/gMuQ==
+X-Google-Smtp-Source: AMsMyM6335zQmidcY7xXT3r6iRFIQSqr0RIkZkZSu+/wYVNALOHp1SAIGBMwl7YiVRjGc+VIBYCZkg==
+X-Received: by 2002:a5d:5265:0:b0:235:e1fa:98a2 with SMTP id
+ l5-20020a5d5265000000b00235e1fa98a2mr6220596wrc.73.1667169016255; 
+ Sun, 30 Oct 2022 15:30:16 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- k2-20020a5d6282000000b00236cb3fec8fsm1710909wru.9.2022.10.30.15.30.08
+ i11-20020a05600c354b00b003cf57329221sm6151713wmq.14.2022.10.30.15.30.14
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 30 Oct 2022 15:30:09 -0700 (PDT)
+ Sun, 30 Oct 2022 15:30:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -60,20 +60,20 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Stefan Pejic <stefan.pejic@syrmia.com>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
- Bernhard Beschow <shentey@gmail.com>,
+ BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 13/55] hw/isa/vt82c686: Create rtc-time alias in boards instead
-Date: Sun, 30 Oct 2022 23:27:59 +0100
-Message-Id: <20221030222841.42377-14-philmd@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 14/55] hw: Remove unused MAX_IDE_BUS define
+Date: Sun, 30 Oct 2022 23:28:00 +0100
+Message-Id: <20221030222841.42377-15-philmd@linaro.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221030222841.42377-1-philmd@linaro.org>
 References: <20221030222841.42377-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,67 +96,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bernhard Beschow <shentey@gmail.com>
+From: BALATON Zoltan <balaton@eik.bme.hu>
 
-According to good QOM practice, an object should only deal with objects
-of its own sub tree. Having devices create an alias on the machine
-object doesn't respect this good practice. To resolve this, create the
-alias in the machine's code.
+Several machines have an unused MAX_IDE_BUS define. Remove it from
+these machines that don't need it.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Acked-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20220901114127.53914-14-shentey@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220917115136.A32EF746E06@zero.eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/vt82c686.c   | 2 --
- hw/mips/fuloong2e.c | 4 ++++
- hw/ppc/pegasos2.c   | 4 ++++
- 3 files changed, 8 insertions(+), 2 deletions(-)
+ hw/alpha/dp264.c    | 2 --
+ hw/hppa/machine.c   | 2 --
+ hw/mips/fuloong2e.c | 1 -
+ hw/mips/malta.c     | 2 --
+ hw/ppc/prep.c       | 2 --
+ hw/sparc64/sun4u.c  | 1 -
+ 6 files changed, 10 deletions(-)
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 48cd4d0036..3f9bd0c04d 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -632,8 +632,6 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-     if (!qdev_realize(DEVICE(&s->rtc), BUS(isa_bus), errp)) {
-         return;
-     }
--    object_property_add_alias(qdev_get_machine(), "rtc-time", OBJECT(&s->rtc),
--                              "date");
-     isa_connect_gpio_out(ISA_DEVICE(&s->rtc), 0, s->rtc.isairq);
+diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+index f4349eba83..c502c8c62a 100644
+--- a/hw/alpha/dp264.c
++++ b/hw/alpha/dp264.c
+@@ -20,8 +20,6 @@
+ #include "qemu/datadir.h"
+ #include "net/net.h"
  
-     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+-#define MAX_IDE_BUS 2
+-
+ static uint64_t cpu_alpha_superpage_to_phys(void *opaque, uint64_t addr)
+ {
+     if (((addr >> 41) & 3) == 2) {
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index e53d5f0fa7..355b3aac2e 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -30,8 +30,6 @@
+ #include "qemu/log.h"
+ #include "net/net.h"
+ 
+-#define MAX_IDE_BUS 2
+-
+ #define MIN_SEABIOS_HPPA_VERSION 6 /* require at least this fw version */
+ 
+ #define HPA_POWER_BUTTON (FIRMWARE_END - 0x10)
 diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index 3c46215616..b478483706 100644
+index b478483706..50c61f0e4a 100644
 --- a/hw/mips/fuloong2e.c
 +++ b/hw/mips/fuloong2e.c
-@@ -295,6 +295,10 @@ static void mips_fuloong2e_init(MachineState *machine)
-     pci_dev = pci_create_simple_multifunction(pci_bus,
-                                               PCI_DEVFN(FULOONG2E_VIA_SLOT, 0),
-                                               true, TYPE_VT82C686B_ISA);
-+    object_property_add_alias(OBJECT(machine), "rtc-time",
-+                              object_resolve_path_component(OBJECT(pci_dev),
-+                                                            "rtc"),
-+                              "date");
-     qdev_connect_gpio_out(DEVICE(pci_dev), 0, env->irq[5]);
+@@ -49,7 +49,6 @@
  
-     dev = DEVICE(object_resolve_path_component(OBJECT(pci_dev), "ide"));
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index 474723ee27..49809b2b75 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -161,6 +161,10 @@ static void pegasos2_init(MachineState *machine)
-     /* VIA VT8231 South Bridge (multifunction PCI device) */
-     via = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
-                                           TYPE_VT8231_ISA);
-+    object_property_add_alias(OBJECT(machine), "rtc-time",
-+                              object_resolve_path_component(OBJECT(via),
-+                                                            "rtc"),
-+                              "date");
-     qdev_connect_gpio_out(DEVICE(via), 0,
-                           qdev_get_gpio_in_named(pm->mv, "gpp", 31));
+ /* Fuloong 2e has a 512k flash: Winbond W39L040AP70Z */
+ #define BIOS_SIZE               (512 * KiB)
+-#define MAX_IDE_BUS             2
  
+ /*
+  * PMON is not part of qemu and released with BSD license, anyone
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 0e932988e0..5099ed9592 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -69,8 +69,6 @@
+ 
+ #define FLASH_SIZE          0x400000
+ 
+-#define MAX_IDE_BUS         2
+-
+ typedef struct {
+     MemoryRegion iomem;
+     MemoryRegion iomem_lo; /* 0 - 0x900 */
+diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
+index f08714f2ec..fcbe4c5837 100644
+--- a/hw/ppc/prep.c
++++ b/hw/ppc/prep.c
+@@ -50,8 +50,6 @@
+ /* SMP is not enabled, for now */
+ #define MAX_CPUS 1
+ 
+-#define MAX_IDE_BUS 2
+-
+ #define CFG_ADDR 0xf0000510
+ 
+ #define KERNEL_LOAD_ADDR 0x01000000
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index 0e27715ac4..387181ff77 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -66,7 +66,6 @@
+ #define PBM_PCI_IO_BASE      (PBM_SPECIAL_BASE + 0x02000000ULL)
+ #define PROM_FILENAME        "openbios-sparc64"
+ #define NVRAM_SIZE           0x2000
+-#define MAX_IDE_BUS          2
+ #define BIOS_CFG_IOPORT      0x510
+ #define FW_CFG_SPARC64_WIDTH (FW_CFG_ARCH_LOCAL + 0x00)
+ #define FW_CFG_SPARC64_HEIGHT (FW_CFG_ARCH_LOCAL + 0x01)
 -- 
 2.37.3
 
