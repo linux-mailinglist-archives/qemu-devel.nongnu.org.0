@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50727612ED9
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 03:17:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A9DC612EDE
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 03:17:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opKLG-0001Aw-Po; Sun, 30 Oct 2022 22:15:58 -0400
+	id 1opKLb-0001GI-2C; Sun, 30 Oct 2022 22:16:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1opKL9-00015t-7a; Sun, 30 Oct 2022 22:15:51 -0400
+ id 1opKLA-00016g-4W; Sun, 30 Oct 2022 22:15:52 -0400
 Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1opKL7-00035y-OF; Sun, 30 Oct 2022 22:15:51 -0400
+ id 1opKL8-00036q-Pd; Sun, 30 Oct 2022 22:15:51 -0400
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id B0CCD11F294;
+ by mail-b.sr.ht (Postfix) with ESMTPSA id CD64E11F296;
  Mon, 31 Oct 2022 02:15:46 +0000 (UTC)
 From: ~axelheider <axelheider@git.sr.ht>
-Date: Sat, 29 Oct 2022 18:41:08 +0200
-Subject: [PATCH qemu.git 08/11] hw/timer/imx_epit: simplify CR.ENMOD handling
-Message-ID: <166718254546.5893.5075929684621857903-8@git.sr.ht>
+Date: Mon, 31 Oct 2022 00:59:29 +0100
+Subject: [PATCH qemu.git 09/11] hw/timer/imx_epit: cleanup CR defines
+Message-ID: <166718254546.5893.5075929684621857903-9@git.sr.ht>
 X-Mailer: git.sr.ht
 In-Reply-To: <166718254546.5893.5075929684621857903-0@git.sr.ht>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, peter.maydell@linaro.org
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
 Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
  helo=mail-b.sr.ht
-X-Spam_score_int: 15
-X-Spam_score: 1.5
-X-Spam_bar: +
-X-Spam_report: (1.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_24_48=1.34,
- FREEMAIL_FORGED_REPLYTO=2.095, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,35 +56,52 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Axel Heider <axel.heider@hensoldt.net>
 
+remove unused defines, add needed defines
+
 Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
 ---
- hw/timer/imx_epit.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ hw/timer/imx_epit.c         | 4 ++--
+ include/hw/timer/imx_epit.h | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
-index bba9c87cd4..5915d4b3d4 100644
+index 5915d4b3d4..196fc67c30 100644
 --- a/hw/timer/imx_epit.c
 +++ b/hw/timer/imx_epit.c
-@@ -198,13 +198,10 @@ static void imx_epit_write_cr(IMXEPITState *s, uint32_t=
- value)
-=20
-     if (freq && (s->cr & CR_EN) && !(oldcr & CR_EN)) {
-         if (s->cr & CR_ENMOD) {
--            if (s->cr & CR_RLD) {
--                ptimer_set_limit(s->timer_reload, s->lr, 1);
--                ptimer_set_limit(s->timer_cmp, s->lr, 1);
--            } else {
--                ptimer_set_limit(s->timer_reload, EPIT_TIMER_MAX, 1);
--                ptimer_set_limit(s->timer_cmp, EPIT_TIMER_MAX, 1);
--            }
-+            uint64_t limit =3D (s->cr & CR_RLD) ? s->lr : EPIT_TIMER_MAX;
-+            /* set new limit and also set timer to this value right now */
-+            ptimer_set_limit(s->timer_reload, limit, 1);
-+            ptimer_set_limit(s->timer_cmp, limit, 1);
-         }
-=20
-         imx_epit_reload_compare_timer(s);
---=20
+@@ -71,8 +71,8 @@ static uint32_t imx_epit_set_freq(IMXEPITState *s)
+     uint32_t prescaler;
+     uint32_t freq;
+ 
+-    clksrc = extract32(s->cr, CR_CLKSRC_SHIFT, 2);
+-    prescaler = 1 + extract32(s->cr, CR_PRESCALE_SHIFT, 12);
++    clksrc = extract32(s->cr, CR_CLKSRC_SHIFT, CR_CLKSRC_BITS);
++    prescaler = 1 + extract32(s->cr, CR_PRESCALE_SHIFT, CR_PRESCALE_BITS);
+ 
+     freq = imx_ccm_get_clock_frequency(s->ccm,
+                                 imx_epit_clocks[clksrc]) / prescaler;
+diff --git a/include/hw/timer/imx_epit.h b/include/hw/timer/imx_epit.h
+index 2219a426ab..f6d41be7e1 100644
+--- a/include/hw/timer/imx_epit.h
++++ b/include/hw/timer/imx_epit.h
+@@ -43,7 +43,7 @@
+ #define CR_OCIEN    (1 << 2)
+ #define CR_RLD      (1 << 3)
+ #define CR_PRESCALE_SHIFT (4)
+-#define CR_PRESCALE_MASK  (0xfff)
++#define CR_PRESCALE_BITS  (12)
+ #define CR_SWR      (1 << 16)
+ #define CR_IOVW     (1 << 17)
+ #define CR_DBGEN    (1 << 18)
+@@ -51,7 +51,7 @@
+ #define CR_DOZEN    (1 << 20)
+ #define CR_STOPEN   (1 << 21)
+ #define CR_CLKSRC_SHIFT (24)
+-#define CR_CLKSRC_MASK  (0x3 << CR_CLKSRC_SHIFT)
++#define CR_CLKSRC_BITS  (2)
+ 
+ #define EPIT_TIMER_MAX  0XFFFFFFFFUL
+ 
+-- 
 2.34.5
 
 
