@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3926E612D8C
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:37:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3417E612D96
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:38:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opGtn-000050-1T; Sun, 30 Oct 2022 18:35:23 -0400
+	id 1opGtr-0000gQ-9j; Sun, 30 Oct 2022 18:35:27 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGs4-0003W6-RP
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:33:38 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGsA-0003ef-Qn
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:33:46 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGs3-0000Fb-8g
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:33:36 -0400
-Received: by mail-wr1-x432.google.com with SMTP id bk15so13631859wrb.13
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:33:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGs9-0000LG-Ce
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:33:42 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id a14so13675362wru.5
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=92o+6CBAVgkiKf8oTcJaZlQEwbuXO48JKqQmwQlE4NM=;
- b=lEKBuZdJcEluQ+wWzBveOuvCz93WdsS4nwYT4dU5R+pxAAdps5ie5t0HkRLckFkxbo
- RWMLn0GXpuRLBX95YPIpkbgQfDF4YTqxSRl6WirvNNcrJ08H9MqSMbXvufW3jcx9n7X0
- BlWwkYrAerSYmysqbPFFagyZyX0Jh/IrPpLgJI41sdL11xRbGK5J5+fJlmtdWoJIboHN
- MgwDA+dbWCjhD1Sv6PLY8sTjaEg92thxu4Mh0SAaQVRTtzD0qbyTYImSfQcrjtMTyKHs
- MHKIC6FYzayafiuIBxX1W5TClLSVfbbS3UrpGI+X+iFGZE0fL2ST5P3yLLNOyq6fWnSW
- 5Ssw==
+ bh=27+gO8KDs7eh/C7hO+t+IDu3gwk91f7L9C1dmHDUnx4=;
+ b=kKbogMTeHuOPFwTeh39UgjMvx1q8oZzQHpVDcnTRItUaDFAHV8K3eXflWPeVEy4hE/
+ pI0oY0To+2os0wu6WxYwzRRw9DAyfrcUBosngwM8fm4ejoMTlg42BKFBq624FcogliiR
+ Aa+ys5t7de+Nct9IhO4XX+eL4y2HzC+WUPYeKlf8n1p729M+Mr3R1OAkw5/ikAjTvrno
+ jHzPXwBy2umjRQ3+QzPiJblBpNHrpDQueB0agjmm10cK/sNS+cXGd2f8+62K3v0xYGdk
+ CGWUzyRuBALyyn+f8ooT2XxbvRpEp3bKA76NsLtr5OBTDMFq2y13ZRqJf/5Sk+bfENfv
+ FJtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=92o+6CBAVgkiKf8oTcJaZlQEwbuXO48JKqQmwQlE4NM=;
- b=3vbwQkCwlHYdCLVFYDt3bmS+ZR/qpCOQ15/5wb3kvW+OVJW0+uYo4cmZ5O+exkiLGK
- ZPLnuGWMt+olzzeZH59oQg8j6Q/h6ADVK1ybVV6eZ9d685TqGFHeo5Z616pqcUVSc9e5
- hP5LxU+EpqVn/URkj6cJIpA1JWAQgur55uh1SMh8MBFqEZeAeXJ/P1mKpE4jUIoSQZqT
- 0/ex3F5mNL5bZBLi1HI2gfdt/o2vbbWYrJ+ArCbhEuJ3oI937EZ3YcIHBD6immHZVJev
- QKPCxgPBTA3RPg1Wxs8U0hrO7R4KDGdiBVoYXeweYcSmXODhRilFt/kLsarHMUW0nq/k
- a0Gw==
-X-Gm-Message-State: ACrzQf0HkYo8/eBX9im5N8RuIO1qaDzZnwJqQvhf0hCz+jr2I+GYA7K3
- xa+V7jRu0w18Z8eoqAgxK43DNKbu4Kanag==
-X-Google-Smtp-Source: AMsMyM6nRdwRkspsrkevPTaA7g+OMpdcEm5vaGy9rylb8r6/YfuEMArA2H0j6+9X3qwjW5GaMOVbag==
-X-Received: by 2002:adf:aa8c:0:b0:236:6e59:99ff with SMTP id
- h12-20020adfaa8c000000b002366e5999ffmr5789416wrc.688.1667169213872; 
- Sun, 30 Oct 2022 15:33:33 -0700 (PDT)
+ bh=27+gO8KDs7eh/C7hO+t+IDu3gwk91f7L9C1dmHDUnx4=;
+ b=yAZyFrGjubpdIjXBgjM1orMwLJ0gNwX2bPyKewMdJH5jWeI6ulqxgwJeyDEY4DyCJP
+ ImZJ41vUx516knCifS7H1c+b5N7WgxuidwIzJasKWW82A0gl1P7j9jxey9TrpyaK3eai
+ X18IHPF1o5a0oNkJ7jYCXOuC45tAXC90Xn3vQJkgBD/encq2PSPnpn0vX7Xamdrtqg8R
+ m8bMAKYpXwWAHoxv4Y/HjOTBz9qPATQb+DRqFtsTgJWYBZLbS4W+Pks7Xw7xO+03Gcbx
+ 7bnRqU8e6QMDwBTuQvsLyRFGsg2A5B1O2OJ1wC0TDb6+k0E/AgL8LyyMHbdDt1E9qVCG
+ uWpw==
+X-Gm-Message-State: ACrzQf2o0jodEjSK4oZ7L0OiuZnCfigtmxpubt9BEazcIHKGL3ZqAiaO
+ CPjEEB1FCgTmr8q3apMLjfcypEmKr4lrdg==
+X-Google-Smtp-Source: AMsMyM7VFONTfs/SsbjtVU8Lb/Wt5FFNEM9yGW/xe5gaMzK2bOXk2NsXPY1uZIR3kOmmP6uf+dZf5w==
+X-Received: by 2002:a05:6000:1f1a:b0:236:ce27:230a with SMTP id
+ bv26-20020a0560001f1a00b00236ce27230amr499730wrb.469.1667169219885; 
+ Sun, 30 Oct 2022 15:33:39 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- r10-20020a05600c35ca00b003c6f1732f65sm2964076wmq.38.2022.10.30.15.33.32
+ a15-20020a5d53cf000000b0023682011c1dsm5209907wrw.104.2022.10.30.15.33.38
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 30 Oct 2022 15:33:33 -0700 (PDT)
+ Sun, 30 Oct 2022 15:33:39 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -62,18 +62,17 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
  Bernhard Beschow <shentey@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 44/55] hw/isa/piix3: Prefer pci_address_space() over
- get_system_memory()
-Date: Sun, 30 Oct 2022 23:28:30 +0100
-Message-Id: <20221030222841.42377-45-philmd@linaro.org>
+Subject: [PULL 45/55] hw/isa/piix4: Rename wrongly named method
+Date: Sun, 30 Oct 2022 23:28:31 +0100
+Message-Id: <20221030222841.42377-46-philmd@linaro.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221030222841.42377-1-philmd@linaro.org>
 References: <20221030222841.42377-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,31 +97,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-get_system_memory() accesses global state while pci_address_space() uses
-whatever has been passed to the device instance, so avoid the global.
-Moreover, PIIX4 uses pci_address_space() here as well.
+This method post-loads the southbridge, not the IDE device.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20221022150508.26830-7-shentey@gmail.com>
+Message-Id: <20221022150508.26830-8-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/isa/piix3.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/isa/piix4.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
-index 723ad0a896..0bea4aefe7 100644
---- a/hw/isa/piix3.c
-+++ b/hw/isa/piix3.c
-@@ -301,7 +301,7 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
-     PIIX3State *d = PIIX3_PCI_DEVICE(dev);
-     ISABus *isa_bus;
+diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
+index 15f344dbb7..c88d3bf3bf 100644
+--- a/hw/isa/piix4.c
++++ b/hw/isa/piix4.c
+@@ -141,7 +141,7 @@ static void piix4_isa_reset(DeviceState *dev)
+     pci_conf[0xae] = 0x00;
+ }
  
--    isa_bus = isa_bus_new(DEVICE(d), get_system_memory(),
-+    isa_bus = isa_bus_new(DEVICE(d), pci_address_space(dev),
-                           pci_address_space_io(dev), errp);
-     if (!isa_bus) {
-         return;
+-static int piix4_ide_post_load(void *opaque, int version_id)
++static int piix4_post_load(void *opaque, int version_id)
+ {
+     PIIX4State *s = opaque;
+ 
+@@ -156,7 +156,7 @@ static const VMStateDescription vmstate_piix4 = {
+     .name = "PIIX4",
+     .version_id = 3,
+     .minimum_version_id = 2,
+-    .post_load = piix4_ide_post_load,
++    .post_load = piix4_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_PCI_DEVICE(dev, PIIX4State),
+         VMSTATE_UINT8_V(rcr, PIIX4State, 3),
 -- 
 2.37.3
 
