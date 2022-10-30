@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39399612D95
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:37:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C3F612D8A
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:37:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opGt9-00061I-T5; Sun, 30 Oct 2022 18:34:44 -0400
+	id 1opGtP-0006UC-Cd; Sun, 30 Oct 2022 18:35:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGrX-0002Xm-D1
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:33:04 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGrd-0002gp-RD
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:33:12 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGrV-00009M-D4
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:33:03 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id w14so13643482wru.8
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:33:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGrb-00009m-Kb
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:33:09 -0400
+Received: by mail-wr1-x432.google.com with SMTP id o4so13673979wrq.6
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:33:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QXrzzSwjW9p/oLgYOQxN1n8Wdh2iZGdjqW5VzPc6Sa0=;
- b=QPw4hCFvgXMkARpqyqD9QFY10mRQ1fMODxR2AGyE73A/+A+RUnkRzzR/8bL4t8GThF
- jXEqwE2NNUXkQ3jGckW76mnk6Dpo/7C3rIP6sK6pD6WvGCCiPN8bgjXEjcMnAkoERjPr
- LFd0U2LcF39k36MtqHbGYNa02xPNVgSIGuuKTmurFJ8vbyUQFVdXDIEjfTLhw5SGd/iA
- cjdxYedgAtd5xx+49u5QHGGyUsET1H5ij/5A3TTOvc618g06egVhdPBrj8eWpWsxphWs
- zw7/aikcPjVbM96j+WjFCwd68IeEV+w4+NZCtHfyw0Wmw0T8pwYBJXxzUJPISw5uRFJK
- ePFw==
+ bh=prCZWe1qUq4h9W9onhXJqZxcG/1SDlWv+xiRK3rSU4E=;
+ b=jPLtpFcXxWSiepqJ2VrohNqcCtx2iTzaIRBwRw1bCKpdJj7MHKK0fkEXT/J5NY2RqA
+ j2YyJ4QmAAWM1wg+uNQJvWhPo+A08alRibgLPbPtG+8MKr41zFs0s0jNo8NQ+fcF95mt
+ HgLt3R5w0WfsCDFyo0hbZo4EzS0SxumA48k55zUFLraucgjrhZjJih4o83INWsejKHCg
+ ZSyJ+zIX3FibQ/s5twoUPnSVxPWMsFuGygg+aiiOV0/uXi0AL+M698Kb3ecU1NMmVOx3
+ tLS4i8dIHddVtDOz3VJaF04oT24AfUsuVeZHqm4GMJUe8tbgLz/fYl5Nn+3OgpZXia0a
+ 7I/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QXrzzSwjW9p/oLgYOQxN1n8Wdh2iZGdjqW5VzPc6Sa0=;
- b=7FoEFTIUE3V8w8L2Jf+h8H9iTCH9byhl8l2Kjh0hDgZtlmKggVGeBFeouXnOofVNpM
- JjhyKddeq2L2LiemBsSCGsvtlRC+Q765F1USPhIezxmBApOvOEuIcJTwGlVgkUNojB2L
- 4vLp33uQEo3glyQp5r7Xwz/AkEdRZGih5FEVRGhIpHNq8x0crX2NWL0oK0RytrXpx5PD
- j9XIRYBEscgr9xEiGbcoukWw45JwXsBMWwIJZeBgKqI7lXYnDHM38yNXBDYHh5VHacFj
- G3YEGrciEj2qBrhO0TtHDoaG+DX9gAhBYcCUZWQ/LIFni+Vd59nzzh4O4oaSvZcIBNec
- eGRQ==
-X-Gm-Message-State: ACrzQf0NRBp4RUX8C2HXhMiqhMdL6d8XWtjpY+5oUY4eDtJF1vtwQGCM
- X960FAgr/e1k9M2xbeZxfXtnBEvFozNi7g==
-X-Google-Smtp-Source: AMsMyM5WNcJbmZ1ghK1vafqxfXqzLUtRk3UjDWjoo/2jhYbRzJ8KuvQ7OojJRN1ruSfHsJKfqBTclg==
-X-Received: by 2002:adf:e7c8:0:b0:236:6a30:cb2e with SMTP id
- e8-20020adfe7c8000000b002366a30cb2emr6235457wrn.12.1667169179870; 
- Sun, 30 Oct 2022 15:32:59 -0700 (PDT)
+ bh=prCZWe1qUq4h9W9onhXJqZxcG/1SDlWv+xiRK3rSU4E=;
+ b=Tl44GMX1B4JuvqBo/f/wZI4hknAghyGGekCLxMJkPNHWtaii0vZQuZ8mP/chNPmzGK
+ CQIt/GeH2KefKwq0SWXgOXgwwnqcClU9XL2nxGAh8ABxFz7/ww8CXSRinj0oSgvt3r2b
+ 3RwK319nc66DkHNDvgd0Ycvf+aI4CZS5B+8jDDHawctFclBehgRK9y+ebZ2LcKhE6OxU
+ mEEXi3CqDdDUtK2T6kKVK9B4iZjF0D1ktIOL2DOVUdCp6SjSS0IleI1D3wOMkZZd3Cqr
+ xaqSlp1j7JFtJWWu7XgJoSOdRrfuGhhUdLm9CdLd0WGk99QVhEk38up2nlb8/JMwjtNe
+ ZNHA==
+X-Gm-Message-State: ACrzQf1sKuE0IMy4cehlWCfCfnOfddY96Ug64VX8T81ikPAe1NACw6UM
+ sPKxX/zOXI+ku2tnAkUPk4213hf9rDnaMg==
+X-Google-Smtp-Source: AMsMyM5COuYOjCfyhlZaToyVK1Tad7AlkwSweG0qI/YwdlpVvBN0dTqYY/OiFXWea3ynJMUZgoyTnQ==
+X-Received: by 2002:adf:e907:0:b0:236:5d8d:5525 with SMTP id
+ f7-20020adfe907000000b002365d8d5525mr6270874wrm.431.1667169186123; 
+ Sun, 30 Oct 2022 15:33:06 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- m19-20020a056000025300b0022cdeba3f83sm5233529wrz.84.2022.10.30.15.32.58
+ a17-20020a05600c349100b003b47ff307e1sm5452515wmq.31.2022.10.30.15.33.04
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 30 Oct 2022 15:32:59 -0700 (PDT)
+ Sun, 30 Oct 2022 15:33:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -60,21 +60,19 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Stefan Pejic <stefan.pejic@syrmia.com>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
- David Daney <david.daney@fungible.com>,
- Marcin Nowakowski <marcin.nowakowski@fungible.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@fungible.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 39/55] disas/mips: Fix branch displacement for BEQZC and BNEZC
-Date: Sun, 30 Oct 2022 23:28:25 +0100
-Message-Id: <20221030222841.42377-40-philmd@linaro.org>
+ Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PULL 40/55] hw/i386/pc: Create DMA controllers in south bridges
+Date: Sun, 30 Oct 2022 23:28:26 +0100
+Message-Id: <20221030222841.42377-41-philmd@linaro.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221030222841.42377-1-philmd@linaro.org>
 References: <20221030222841.42377-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,70 +95,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Daney <david.daney@fungible.com>
+From: Bernhard Beschow <shentey@gmail.com>
 
-disas/mips.c got added in commit 6643d27ea0 ("MIPS disas support")
-apparently based on binutils tag 'gdb_6_1-branchpoint' [1].
-Back then, MIPSr6 was not supported (added in binutils commit
-7361da2c952 during 2014 [2]).
+Just like in the real hardware (and in PIIX4), create the DMA
+controllers in the south bridges.
 
-Binutils codebase diverged so much over the last 18 years, it is
-not possible to simply cherry-pick their changes, so fix it BEQZC /
-BNEZC 21-bit signed branch displacement locally.
-
-[1] https://sourceware.org/git/?p=binutils-gdb.git;a=blob;f=opcodes/mips-dis.c;hb=refs/tags/gdb_6_1-branchpoint
-[2] https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=7361da2c952
-
-Fixes: 31837be3ee ("target-mips: add compact and CP1 branches")
-Signed-off-by: David Daney <david.daney@fungible.com>
-Reviewed-by: Marcin Nowakowski <marcin.nowakowski@fungible.com>
-[PMD: Added commit description]
-Signed-off-by: Philippe Mathieu-Daudé <philmd@fungible.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221014112322.61119-1-philmd@fungible.com>
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20221022150508.26830-2-shentey@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- disas/mips.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ hw/i386/pc.c      | 3 ---
+ hw/i386/pc_piix.c | 2 ++
+ hw/isa/Kconfig    | 2 ++
+ hw/isa/lpc_ich9.c | 3 +++
+ hw/isa/piix3.c    | 9 +++++++--
+ 5 files changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/disas/mips.c b/disas/mips.c
-index b9a5204304..5aacacb2c8 100644
---- a/disas/mips.c
-+++ b/disas/mips.c
-@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
- along with this program; if not, see <http://www.gnu.org/licenses/>.  */
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 768982ae9a..b39ecd4d0c 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -47,7 +47,6 @@
+ #include "multiboot.h"
+ #include "hw/rtc/mc146818rtc.h"
+ #include "hw/intc/i8259.h"
+-#include "hw/dma/i8257.h"
+ #include "hw/timer/i8254.h"
+ #include "hw/input/i8042.h"
+ #include "hw/irq.h"
+@@ -1320,8 +1319,6 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+         pcspk_init(pcms->pcspk, isa_bus, pit);
+     }
  
- #include "qemu/osdep.h"
-+#include "qemu/bitops.h"
- #include "disas/dis-asm.h"
+-    i8257_dma_init(isa_bus, 0);
+-
+     /* Super I/O */
+     pc_superio_init(isa_bus, create_fdctrl, pcms->i8042_enabled,
+                     pcms->vmport != ON_OFF_AUTO_ON);
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 0b1a79c0fa..7a55b9ca8e 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -26,6 +26,7 @@
+ #include CONFIG_DEVICES
  
- /* mips.h.  Mips opcode list for GDB, the GNU debugger.
-@@ -1334,9 +1335,9 @@ const struct mips_opcode mips_builtin_opcodes[] =
- {"balc",    "+p",       0xe8000000, 0xfc000000, UBD|WR_31,            0, I32R6},
- {"bc",      "+p",       0xc8000000, 0xfc000000, UBD|WR_31,            0, I32R6},
- {"jic",     "t,o",      0xd8000000, 0xffe00000, UBD|RD_t,             0, I32R6},
--{"beqzc",   "s,+p",     0xd8000000, 0xfc000000, CBD|RD_s,             0, I32R6},
-+{"beqzc",   "s,+q",     0xd8000000, 0xfc000000, CBD|RD_s,             0, I32R6},
- {"jialc",   "t,o",      0xf8000000, 0xffe00000, UBD|RD_t,             0, I32R6},
--{"bnezc",   "s,+p",     0xf8000000, 0xfc000000, CBD|RD_s,             0, I32R6},
-+{"bnezc",   "s,+q",     0xf8000000, 0xfc000000, CBD|RD_s,             0, I32R6},
- {"beqzalc", "s,t,p",    0x20000000, 0xffe00000, CBD|RD_s|RD_t,        0, I32R6},
- {"bovc",    "s,t,p",    0x20000000, 0xfc000000, CBD|RD_s|RD_t,        0, I32R6},
- {"beqc",    "s,t,p",    0x20000000, 0xfc000000, CBD|RD_s|RD_t,        0, I32R6},
-@@ -4462,6 +4463,13 @@ print_insn_args (const char *d,
-                 (*info->print_address_func) (info->target, info);
-                 break;
+ #include "qemu/units.h"
++#include "hw/dma/i8257.h"
+ #include "hw/loader.h"
+ #include "hw/i386/x86.h"
+ #include "hw/i386/pc.h"
+@@ -225,6 +226,7 @@ static void pc_init1(MachineState *machine,
+         pci_bus = NULL;
+         isa_bus = isa_bus_new(NULL, get_system_memory(), system_io,
+                               &error_abort);
++        i8257_dma_init(isa_bus, 0);
+         pcms->hpet_enabled = false;
+     }
+     isa_bus_irqs(isa_bus, x86ms->gsi);
+diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
+index 20de7e9294..60aad28800 100644
+--- a/hw/isa/Kconfig
++++ b/hw/isa/Kconfig
+@@ -33,6 +33,7 @@ config PC87312
  
-+            case 'q':
-+                /* Sign extend the displacement with 21 bits.  */
-+                delta = sextract32(l, OP_SH_DELTA, 21);
-+                info->target = (delta << 2) + pc + INSNLEN;
-+                (*info->print_address_func) (info->target, info);
-+                break;
+ config PIIX3
+     bool
++    select I8257
+     select ISA_BUS
+ 
+ config PIIX4
+@@ -68,6 +69,7 @@ config LPC_ICH9
+     bool
+     # For historical reasons, SuperIO devices are created in the board
+     # for ICH9.
++    select I8257
+     select ISA_BUS
+     select ACPI_SMBUS
+     select ACPI_X86_ICH
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index 4553b5925b..8694e58b21 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -34,6 +34,7 @@
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+ #include "qemu/range.h"
++#include "hw/dma/i8257.h"
+ #include "hw/isa/isa.h"
+ #include "migration/vmstate.h"
+ #include "hw/irq.h"
+@@ -722,6 +723,8 @@ static void ich9_lpc_realize(PCIDevice *d, Error **errp)
+     qdev_init_gpio_out_named(dev, lpc->gsi, ICH9_GPIO_GSI, GSI_NUM_PINS);
+ 
+     isa_bus_irqs(isa_bus, lpc->gsi);
 +
- 	    case 't': /* Coprocessor 0 reg name */
- 	      (*info->fprintf_func) (info->stream, "%s",
- 				     mips_cp0_names[(l >> OP_SH_RT) &
++    i8257_dma_init(isa_bus, 0);
+ }
+ 
+ static bool ich9_rst_cnt_needed(void *opaque)
+diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+index 48f9ab1096..44a9998752 100644
+--- a/hw/isa/piix3.c
++++ b/hw/isa/piix3.c
+@@ -25,6 +25,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/range.h"
+ #include "qapi/error.h"
++#include "hw/dma/i8257.h"
+ #include "hw/southbridge/piix.h"
+ #include "hw/irq.h"
+ #include "hw/isa/isa.h"
+@@ -295,9 +296,11 @@ static const MemoryRegionOps rcr_ops = {
+ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+ {
+     PIIX3State *d = PIIX3_PCI_DEVICE(dev);
++    ISABus *isa_bus;
+ 
+-    if (!isa_bus_new(DEVICE(d), get_system_memory(),
+-                     pci_address_space_io(dev), errp)) {
++    isa_bus = isa_bus_new(DEVICE(d), get_system_memory(),
++                          pci_address_space_io(dev), errp);
++    if (!isa_bus) {
+         return;
+     }
+ 
+@@ -307,6 +310,8 @@ static void pci_piix3_realize(PCIDevice *dev, Error **errp)
+                                         PIIX_RCR_IOPORT, &d->rcr_mem, 1);
+ 
+     qemu_register_reset(piix3_reset, d);
++
++    i8257_dma_init(isa_bus, 0);
+ }
+ 
+ static void build_pci_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
 -- 
 2.37.3
 
