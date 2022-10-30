@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89CA2612D85
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:36:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F42F612D70
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:34:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opGq2-00075X-61; Sun, 30 Oct 2022 18:31:30 -0400
+	id 1opGqN-0007Yt-FO; Sun, 30 Oct 2022 18:31:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGpz-0006qX-En
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:31:27 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGq5-0007PR-S3
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:31:37 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGpx-0008Bd-L0
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:31:27 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id 5so6234793wmo.1
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:31:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGq3-0008C2-Dr
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:31:33 -0400
+Received: by mail-wr1-x434.google.com with SMTP id bs21so13674595wrb.4
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:31:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=78GzyGFEMH2M2sCxvMXcou2KqVZiNLCYi4vOv1w4erk=;
- b=a8tjl+YqIWKQq4+Nrey+B3AtZZozXOYPyOXmT7HKBcHf92oUlYhsJHj3UK18J8pXhs
- PAO76hjb7wuFP8iUhlT+E9Pzn6LJEeC7mn7C7a9a0C2AHAyWQ4GWoksakeSkEenpou26
- q5n8ZYdWLedML1VoFLlVgISJDFNfpGV3xPaT90wJG1pw0z5tFK5YfLpxtyxqISMXAv84
- prBb503/RE3Jbw8lv1arbaVQNlsQTyqPGk3nCNsoGKL97D90Vij4CWxIOri+GHgKCTNe
- DivTiB6kfDjW4eQ/A3LjAaxaP/vxj2j0KlIhfCrrCA96OsV1vIO5RyWkKCMsXtAnJjeN
- a3Ug==
+ bh=U2DAvAxi1UoKkJ0GzuWn+f6o9F6QiQgdHldLL+8BJrA=;
+ b=GrASW2XqPhzDe2buRxO4zhYZRq+13mHGih9n0LYeswCrRjpIV0Lzw3P1YGsvsVzZMZ
+ 1DnM0vhWdJvd1mNRoiaEICApT9LqMgYq8vC5cxUVjXelyLhaP6F9nH+B8kZsvfeE87Pm
+ fUCfuy1IqwdPVRX3fK350CrFCFQa+w5FSzYiqy/BDizXjcm/exYIYWMKJ3pEfy9zVP0u
+ SgDOv4e2KNTJY0RID1/EX+CDWcqI4fGUNhSLMNHmaTab6s2Q8tvWN7gAIrBknFV7RxWb
+ LiAGns5wmCpGQjQ3ZNXrq9aGE+tRq8vkguu9O5f8r0n8RMSWlwNfb+2c6sCMVJ9wMB0z
+ 2Bbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=78GzyGFEMH2M2sCxvMXcou2KqVZiNLCYi4vOv1w4erk=;
- b=QI3cwiURD1JRbnNVHM8kQz1q0IqewfFa17+KmSWJL6lyaaFXTzIhjm/HKVBeTgAv8b
- tRQ6FvX5e26Y0aY1tALqKWh/buWMexDZtDvu5CIOjmi+fg0LtnYtdXOdHGse55STf4Hi
- WayO6eQdl2FNe3emCba1nSWPlw7U0yH+FpOpn8E61IXaJtE6XZ+6U/0UJCiqVSh+RrVF
- 4sX7IB5nzN5jR4gGZSwDay7h7tNn2NHPBQ31SwnpI2Fwu7th+xHGXO72/pGP57i4k1GN
- I1LMujq5Yh4ZdlHo5RZDMIILgNnGPKwRkSzKjv0wj30VhW7kNFZfBhZiOF9c01bBKZo0
- 6goA==
-X-Gm-Message-State: ACrzQf3Mw5SmhobBMOqjsxwhdYcSctC1XemK7WU4wwSXJUGxYCR+wukH
- FZ/rFq/z+ga2ukpI9xgK10ntJmFY8LSV7w==
-X-Google-Smtp-Source: AMsMyM5bKHiBAWC2nOoCRoQ+bkbVYSy3XuaEJGP6LA5FbbP4fGTyoXXMdlaJa8rnUdEuEyV0CP5Buw==
-X-Received: by 2002:a05:600c:4ed2:b0:3c6:c1ff:222 with SMTP id
- g18-20020a05600c4ed200b003c6c1ff0222mr5955721wmq.163.1667169084104; 
- Sun, 30 Oct 2022 15:31:24 -0700 (PDT)
+ bh=U2DAvAxi1UoKkJ0GzuWn+f6o9F6QiQgdHldLL+8BJrA=;
+ b=Onxme1d6+Unbchw1hgZpE1VC/QlBMLGUxmiYyj3vic4dCoKnDqNJti/1AwDS7d8vRB
+ VjQjCcIhccgrh4PB86QOtRLcJUjv1IEp0RGztGXShxFCIrb48q0crArK5YJ7uV4H1OKN
+ 8H6OWCfm/xE7WYgVhtYU62wK5bGH07OD0cff8o2YkVd9GznYm3JCLkIGqnXiuduDbyR/
+ 16gaEHAOipW7nEha/u8oGaNVON19+b9WWT3mU00TRqglOMnzbYtS5i2v8hjm88qOEyVd
+ 9wWjXg7v8F7BYI4wZ9s614e12Hxa3TKapnuKliRK5SFneZXo0HdK5xaB8XzGfybjEYFf
+ zjkw==
+X-Gm-Message-State: ACrzQf2yUA8mGdEHROaE3Tyh2IJnOwC9ABLmibyIgOd4KQDVa4JBg9t7
+ eBPIQikkZuYeWJq614GK9JUakiRVQ6pTTQ==
+X-Google-Smtp-Source: AMsMyM52C3x/W46s0mcJWIjPRAcR54LiiqE14EyKX/TcwhoDrudJxcZdyzjXK6+LG9c3ipXmRsdQtA==
+X-Received: by 2002:adf:ba8f:0:b0:22c:def3:1179 with SMTP id
+ p15-20020adfba8f000000b0022cdef31179mr6090703wrg.571.1667169089791; 
+ Sun, 30 Oct 2022 15:31:29 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- z3-20020a05600c0a0300b003cf55844453sm5736540wmp.22.2022.10.30.15.31.22
+ m13-20020adffe4d000000b0022afcc11f65sm5228711wrs.47.2022.10.30.15.31.28
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 30 Oct 2022 15:31:23 -0700 (PDT)
+ Sun, 30 Oct 2022 15:31:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -63,17 +63,17 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Milica Lazarevic <milica.lazarevic@syrmia.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 24/55] disas/nanomips: Move typedefs etc to nanomips.cpp
-Date: Sun, 30 Oct 2022 23:28:10 +0100
-Message-Id: <20221030222841.42377-25-philmd@linaro.org>
+Subject: [PULL 25/55] disas/nanomips: Delete nanomips.h
+Date: Sun, 30 Oct 2022 23:28:11 +0100
+Message-Id: <20221030222841.42377-26-philmd@linaro.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221030222841.42377-1-philmd@linaro.org>
 References: <20221030222841.42377-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,158 +98,52 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Milica Lazarevic <milica.lazarevic@syrmia.com>
 
-The following is moved from the nanomips.h to nanomips.cpp file:
-- #include line
-- typedefs
-- enums
-- definition of the Pool struct.
-Header file nanomips.h will be deleted to be consistent with the rest of
-the disas/ code.
+Header file nanomips.h has been deleted for the nanomips disassembler to
+stay consistent with the rest of the disassemblers which don't include
+extra header files.
 
 Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220912122635.74032-11-milica.lazarevic@syrmia.com>
+Message-Id: <20220912122635.74032-12-milica.lazarevic@syrmia.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- disas/nanomips.cpp | 57 +++++++++++++++++++++++++++++++++++++++++++++-
- disas/nanomips.h   | 57 ----------------------------------------------
- 2 files changed, 56 insertions(+), 58 deletions(-)
+ disas/nanomips.h | 26 --------------------------
+ 1 file changed, 26 deletions(-)
+ delete mode 100644 disas/nanomips.h
 
-diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
-index 0d67462e5d..7d09fd1a69 100644
---- a/disas/nanomips.cpp
-+++ b/disas/nanomips.cpp
-@@ -36,7 +36,62 @@
- #include <stdio.h>
- #include <stdarg.h>
- 
--#include "nanomips.h"
-+#include <string>
-+
-+typedef int64_t int64;
-+typedef uint64_t uint64;
-+typedef uint32_t uint32;
-+typedef uint16_t uint16;
-+typedef uint64_t img_address;
-+
-+enum TABLE_ENTRY_TYPE {
-+    instruction,
-+    call_instruction,
-+    branch_instruction,
-+    return_instruction,
-+    reserved_block,
-+    pool,
-+};
-+
-+enum TABLE_ATTRIBUTE_TYPE {
-+    MIPS64_    = 0x00000001,
-+    XNP_       = 0x00000002,
-+    XMMS_      = 0x00000004,
-+    EVA_       = 0x00000008,
-+    DSP_       = 0x00000010,
-+    MT_        = 0x00000020,
-+    EJTAG_     = 0x00000040,
-+    TLBINV_    = 0x00000080,
-+    CP0_       = 0x00000100,
-+    CP1_       = 0x00000200,
-+    CP2_       = 0x00000400,
-+    UDI_       = 0x00000800,
-+    MCU_       = 0x00001000,
-+    VZ_        = 0x00002000,
-+    TLB_       = 0x00004000,
-+    MVH_       = 0x00008000,
-+    ALL_ATTRIBUTES = 0xffffffffull,
-+};
-+
-+typedef struct Dis_info {
-+  img_address m_pc;
-+} Dis_info;
-+
-+typedef bool (*conditional_function)(uint64 instruction);
-+typedef std::string (*disassembly_function)(uint64 instruction,
-+                                            Dis_info *info);
-+
-+typedef struct Pool {
-+    TABLE_ENTRY_TYPE     type;
-+    const struct Pool    *next_table;
-+    int                  next_table_size;
-+    int                  instructions_size;
-+    uint64               mask;
-+    uint64               value;
-+    disassembly_function disassembly;
-+    conditional_function condition;
-+    uint64               attributes;
-+} Pool;
- 
- #define IMGASSERTONCE(test)
- 
 diff --git a/disas/nanomips.h b/disas/nanomips.h
-index 47b44af751..0fd7299900 100644
+deleted file mode 100644
+index 0fd7299900..0000000000
 --- a/disas/nanomips.h
-+++ b/disas/nanomips.h
-@@ -23,61 +23,4 @@
- #ifndef DISAS_NANOMIPS_H
- #define DISAS_NANOMIPS_H
- 
--#include <string>
++++ /dev/null
+@@ -1,26 +0,0 @@
+-/*
+- *  Header file for nanoMIPS disassembler component of QEMU
+- *
+- *  Copyright (C) 2018  Wave Computing, Inc.
+- *  Copyright (C) 2018  Matthew Fortune <matthew.fortune@mips.com>
+- *  Copyright (C) 2018  Aleksandar Markovic <amarkovic@wavecomp.com>
+- *
+- *  This program is free software: you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation, either version 2 of the License, or
+- *  (at your option) any later version.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- *  You should have received a copy of the GNU General Public License
+- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+- *
+- */
 -
--typedef int64_t int64;
--typedef uint64_t uint64;
--typedef uint32_t uint32;
--typedef uint16_t uint16;
--typedef uint64_t img_address;
+-#ifndef DISAS_NANOMIPS_H
+-#define DISAS_NANOMIPS_H
 -
--enum TABLE_ENTRY_TYPE {
--    instruction,
--    call_instruction,
--    branch_instruction,
--    return_instruction,
--    reserved_block,
--    pool,
--};
--
--enum TABLE_ATTRIBUTE_TYPE {
--    MIPS64_    = 0x00000001,
--    XNP_       = 0x00000002,
--    XMMS_      = 0x00000004,
--    EVA_       = 0x00000008,
--    DSP_       = 0x00000010,
--    MT_        = 0x00000020,
--    EJTAG_     = 0x00000040,
--    TLBINV_    = 0x00000080,
--    CP0_       = 0x00000100,
--    CP1_       = 0x00000200,
--    CP2_       = 0x00000400,
--    UDI_       = 0x00000800,
--    MCU_       = 0x00001000,
--    VZ_        = 0x00002000,
--    TLB_       = 0x00004000,
--    MVH_       = 0x00008000,
--    ALL_ATTRIBUTES = 0xffffffffull,
--};
--
--typedef struct Dis_info {
--  img_address m_pc;
--} Dis_info;
--
--typedef bool (*conditional_function)(uint64 instruction);
--typedef std::string (*disassembly_function)(uint64 instruction,
--                                            Dis_info *info);
--
--typedef struct Pool {
--    TABLE_ENTRY_TYPE     type;
--    const struct Pool    *next_table;
--    int                  next_table_size;
--    int                  instructions_size;
--    uint64               mask;
--    uint64               value;
--    disassembly_function disassembly;
--    conditional_function condition;
--    uint64               attributes;
--} Pool;
--
- #endif
+-#endif
 -- 
 2.37.3
 
