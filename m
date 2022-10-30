@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F42F612D70
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:34:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B632A612D7B
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:35:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opGqN-0007Yt-FO; Sun, 30 Oct 2022 18:31:54 -0400
+	id 1opGqg-0007xP-4N; Sun, 30 Oct 2022 18:32:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGq5-0007PR-S3
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:31:37 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGqD-0007VH-8d
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:31:44 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGq3-0008C2-Dr
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:31:33 -0400
-Received: by mail-wr1-x434.google.com with SMTP id bs21so13674595wrb.4
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:31:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGq9-0008J7-DP
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:31:39 -0400
+Received: by mail-wr1-x432.google.com with SMTP id g12so13652830wrs.10
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:31:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=U2DAvAxi1UoKkJ0GzuWn+f6o9F6QiQgdHldLL+8BJrA=;
- b=GrASW2XqPhzDe2buRxO4zhYZRq+13mHGih9n0LYeswCrRjpIV0Lzw3P1YGsvsVzZMZ
- 1DnM0vhWdJvd1mNRoiaEICApT9LqMgYq8vC5cxUVjXelyLhaP6F9nH+B8kZsvfeE87Pm
- fUCfuy1IqwdPVRX3fK350CrFCFQa+w5FSzYiqy/BDizXjcm/exYIYWMKJ3pEfy9zVP0u
- SgDOv4e2KNTJY0RID1/EX+CDWcqI4fGUNhSLMNHmaTab6s2Q8tvWN7gAIrBknFV7RxWb
- LiAGns5wmCpGQjQ3ZNXrq9aGE+tRq8vkguu9O5f8r0n8RMSWlwNfb+2c6sCMVJ9wMB0z
- 2Bbw==
+ bh=TIEJOSpU/Dh3jMhqs70wGUD/EFFQYutQ0ncwTTPFOc0=;
+ b=iZ9H8C0GUKToaq5P2PzRLE8THGHzlLiYCAi3kCmZtWHo9sQMlwlWbyraPY2vvm670o
+ Ahsqe2iHT8xyT7HZWkjNvl6V/j5+wrS/2U8HLlIMOBaD/Pg2ande/MqbW88IdWEn7Tqw
+ Fg3am129KRqXHVQuU+3e+6M9iUeq5w21vVN5EXNeEyen04ITGCQWj41i+7kcAxkw2KMo
+ l57xN6KPtW/qmyRGVYt+GMesisLPczuBCNC4wZoKHDi1R+KHJvnOt4JXfJWxDIKEGiqH
+ tAKKs3ZKWKWUav7ZnVyZIT8FLrfhsqHE4AAJRVLfHgYusdjJ6uqetsTZ+pgjmpBT6+Sc
+ PCIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U2DAvAxi1UoKkJ0GzuWn+f6o9F6QiQgdHldLL+8BJrA=;
- b=Onxme1d6+Unbchw1hgZpE1VC/QlBMLGUxmiYyj3vic4dCoKnDqNJti/1AwDS7d8vRB
- VjQjCcIhccgrh4PB86QOtRLcJUjv1IEp0RGztGXShxFCIrb48q0crArK5YJ7uV4H1OKN
- 8H6OWCfm/xE7WYgVhtYU62wK5bGH07OD0cff8o2YkVd9GznYm3JCLkIGqnXiuduDbyR/
- 16gaEHAOipW7nEha/u8oGaNVON19+b9WWT3mU00TRqglOMnzbYtS5i2v8hjm88qOEyVd
- 9wWjXg7v8F7BYI4wZ9s614e12Hxa3TKapnuKliRK5SFneZXo0HdK5xaB8XzGfybjEYFf
- zjkw==
-X-Gm-Message-State: ACrzQf2yUA8mGdEHROaE3Tyh2IJnOwC9ABLmibyIgOd4KQDVa4JBg9t7
- eBPIQikkZuYeWJq614GK9JUakiRVQ6pTTQ==
-X-Google-Smtp-Source: AMsMyM52C3x/W46s0mcJWIjPRAcR54LiiqE14EyKX/TcwhoDrudJxcZdyzjXK6+LG9c3ipXmRsdQtA==
-X-Received: by 2002:adf:ba8f:0:b0:22c:def3:1179 with SMTP id
- p15-20020adfba8f000000b0022cdef31179mr6090703wrg.571.1667169089791; 
- Sun, 30 Oct 2022 15:31:29 -0700 (PDT)
+ bh=TIEJOSpU/Dh3jMhqs70wGUD/EFFQYutQ0ncwTTPFOc0=;
+ b=EuOOSegBRCXlNKnKnmm1gs+6UQYS0HJzwk4lBa3eoL2qISF7130AzY/hGI7g9/HYT9
+ xQzKXE+aaiZPoaKRY8vpXyoF11ERRbJnhArvluqrqFps6bySPHOBD4rtKiTRH6TPSFl9
+ ltWOW4JltaYAf1gTOCpEDa+cP05OnczRRlxNrFUaUfu7m8JvRYJ06KWSBynfekf+Gu5X
+ UYd7/yu2JNfFtBRxVZKbCoectwHXZgTvCmhIeozlF+f6ERDKlFOjL/xkvgyOf5KCUhnY
+ 3dY3sAv/8x3KLoBdtYY45vJYq/jjnGu36vl+aEfa0lQk56Fw0eIx/opDXC/16hg3S043
+ ImZQ==
+X-Gm-Message-State: ACrzQf1KbseFg4/2y84XiKXxZgTsishkVSKT//rL//Q85czyev4bQllW
+ yzJ6cvWjRtDzkTUYhC65JxL7cnpUWRp1lg==
+X-Google-Smtp-Source: AMsMyM6gvcfrVz87VdFJYgdq+YQo/FzgqFyPO0eAw6tJZT9SpjMaJvtecWkzJXPwb86vtl/N2my35g==
+X-Received: by 2002:adf:e7c8:0:b0:236:6a30:cb2e with SMTP id
+ e8-20020adfe7c8000000b002366a30cb2emr6233199wrn.12.1667169095641; 
+ Sun, 30 Oct 2022 15:31:35 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- m13-20020adffe4d000000b0022afcc11f65sm5228711wrs.47.2022.10.30.15.31.28
+ q4-20020a7bce84000000b003c6cd82596esm5310940wmj.43.2022.10.30.15.31.34
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 30 Oct 2022 15:31:29 -0700 (PDT)
+ Sun, 30 Oct 2022 15:31:35 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -61,19 +61,19 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
  Milica Lazarevic <milica.lazarevic@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 25/55] disas/nanomips: Delete nanomips.h
-Date: Sun, 30 Oct 2022 23:28:11 +0100
-Message-Id: <20221030222841.42377-26-philmd@linaro.org>
+Subject: [PULL 26/55] disas/nanomips: Remove #include <sstream>
+Date: Sun, 30 Oct 2022 23:28:12 +0100
+Message-Id: <20221030222841.42377-27-philmd@linaro.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221030222841.42377-1-philmd@linaro.org>
 References: <20221030222841.42377-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,52 +98,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Milica Lazarevic <milica.lazarevic@syrmia.com>
 
-Header file nanomips.h has been deleted for the nanomips disassembler to
-stay consistent with the rest of the disassemblers which don't include
-extra header files.
+<sstream> is a C++ library and it's not used by disassembler.
 
 Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220912122635.74032-12-milica.lazarevic@syrmia.com>
+Message-Id: <20220912122635.74032-13-milica.lazarevic@syrmia.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- disas/nanomips.h | 26 --------------------------
- 1 file changed, 26 deletions(-)
- delete mode 100644 disas/nanomips.h
+ disas/nanomips.cpp | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/disas/nanomips.h b/disas/nanomips.h
-deleted file mode 100644
-index 0fd7299900..0000000000
---- a/disas/nanomips.h
-+++ /dev/null
-@@ -1,26 +0,0 @@
--/*
-- *  Header file for nanoMIPS disassembler component of QEMU
-- *
-- *  Copyright (C) 2018  Wave Computing, Inc.
-- *  Copyright (C) 2018  Matthew Fortune <matthew.fortune@mips.com>
-- *  Copyright (C) 2018  Aleksandar Markovic <amarkovic@wavecomp.com>
-- *
-- *  This program is free software: you can redistribute it and/or modify
-- *  it under the terms of the GNU General Public License as published by
-- *  the Free Software Foundation, either version 2 of the License, or
-- *  (at your option) any later version.
-- *
-- *  This program is distributed in the hope that it will be useful,
-- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *  GNU General Public License for more details.
-- *
-- *  You should have received a copy of the GNU General Public License
-- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-- *
-- */
--
--#ifndef DISAS_NANOMIPS_H
--#define DISAS_NANOMIPS_H
--
--#endif
+diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
+index 7d09fd1a69..4b49630b8b 100644
+--- a/disas/nanomips.cpp
++++ b/disas/nanomips.cpp
+@@ -32,7 +32,6 @@
+ 
+ #include <cstring>
+ #include <stdexcept>
+-#include <sstream>
+ #include <stdio.h>
+ #include <stdarg.h>
+ 
 -- 
 2.37.3
 
