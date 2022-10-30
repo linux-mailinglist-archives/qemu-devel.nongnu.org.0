@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B727612D8D
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:37:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F03612D91
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Oct 2022 23:37:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opGuS-00024t-Ki; Sun, 30 Oct 2022 18:36:04 -0400
+	id 1opGuT-0002CL-DF; Sun, 30 Oct 2022 18:36:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGso-0005Yu-J3
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:34:23 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGt2-0006FJ-FJ
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:34:37 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGsm-0000NC-9F
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:34:21 -0400
-Received: by mail-wr1-x436.google.com with SMTP id o4so13675998wrq.6
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:34:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opGss-0000Po-Mc
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 18:34:35 -0400
+Received: by mail-wr1-x430.google.com with SMTP id g12so13657846wrs.10
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 15:34:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JUlrjLC/LAC7Ijn15DnykEeyXV+ARRHqV/ZNxwn5z5k=;
- b=A0EGfOIA1Sc0wB0vKN+9GjKghF3F9CJyQch4EuwrEYx3Km2d/kuVmjvFOIrXZHOXrG
- KAKaN71dy2hniBo4BMdyIOTtwNJoPh6P3T5Ys2Q53D9kxzQeYnjZqb9h1Pi/w+Hxq09i
- gE2mweNUinNus6UufRj8z2gxGfjdXkhmvW+i0pTG9zAi20om1WR/tFyC3JKTAaP+Vty9
- B6PomGf1+SqeAoglMfo7BgviPDWp/wLuhqbZVv7AgbA/RMNItN7tDxl//KVbt0c0d5o3
- xrPSjn73t+SydSX+HpUGbkOzko8r3tHYx3QOcnIIcx1025BlB9K79CtF0rebSvL1yzYL
- POUg==
+ bh=goKoxPsgu6fb0v9OXKt6oq3b6m96eLVrsKKxut7D+Ho=;
+ b=rsmw6eMbikVNZzTvtnof/90P4rE3rUeTYNNXUvlZB3tbG67gTDvPE+S+j9eEWlbN1f
+ 0ZczidapS4H1PfcT8dAmoH5ADgo+FCxf+pesZryfoZf6BvXes2WZKYbtDN8Korr69JNw
+ 9WFMHKGHdu5jmfboP9cS4gdizfKSyJa0zVJ7f1DS04tdrkHHmrLBo7sM/2WBM1Ro5ojL
+ caX9Qzh+/QebKEydDVbQIcgsf+LbGpU87Wmix4SQxG2k5rv6mqVeE43KwvRRADFwOMBs
+ PRyXhNCLfz8eTkn5cmrL3Rnvozu/rUiZ9hij8j/tYyU0SIhoC/LTh+FmVWw68eEqIk6D
+ gZTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JUlrjLC/LAC7Ijn15DnykEeyXV+ARRHqV/ZNxwn5z5k=;
- b=0sTa6UkK4h3nbX2HrwE1q31oCbnbgTs1bCsCZ/piV70FUJw0ajzlW+RFF78sHc/65M
- NdFFm/PBPDQbpkwJlkwyCCnrb2KxHK7OPGu5s17P1f7ysydtIJ50xFSsGImO38Qw8/9w
- CXWkOj+xg6096a9T4c0jjl6vixeJD0GwWSMwBcJW9nIvETruzKJOc3OGL9YV3ATpwPI4
- o8mhAVuqAgDP+XgV+DKMU4VOG/FjOpr2egNSi8uBKjk4Ka2zjBBBG+ffE6wxx7VKQ4wp
- wHcYhZVV3+CJWSToVyr6W7sY6vWJbQtYj9ESEXt+tKPhhoOvoca+7FrkBYewID6rnzgi
- ok4w==
-X-Gm-Message-State: ACrzQf2UavrVIxrV1+jumvAP/F/8HtCbPGo+3rjgQXgUTTKut3nWwJ8z
- 8JtyYjd7s/SCz0TaBda5e1z7ef4D73rfKQ==
-X-Google-Smtp-Source: AMsMyM6DnOSLvsJDJzLuz/TUwnM+dWdj6LcD48clGIRa8YVHSS7Kq7f8tHgvbNzdawqc6M/+o1aeVA==
-X-Received: by 2002:a5d:61c9:0:b0:236:781a:8d7e with SMTP id
- q9-20020a5d61c9000000b00236781a8d7emr6106517wrv.576.1667169258338; 
- Sun, 30 Oct 2022 15:34:18 -0700 (PDT)
+ bh=goKoxPsgu6fb0v9OXKt6oq3b6m96eLVrsKKxut7D+Ho=;
+ b=Z5kxHfZfbzA5HiQuckSaipbAHP3dGAf0aP3Hk4VQAHsxCPjrHKx0602HnNFJyrdApD
+ n6yvLBAHjIxqC1DMGygFaaUlAjSf+Pv325HvUQiGUiYxWsIQUJeWxVCukMHi4eMDEOMT
+ QDPHcuYHsOMxy70rizGkBQMU1X7ZB/D6/gsAPqZVaXr1INKhd398m7nch6mhO/WUp+wg
+ Z4vtX87elZCopa7HLqeYiT+PcS32EwidXPjqmy6SgiUeA6fMa0jx7GSdKQJ5kGS8smr8
+ /14h/xaXX29QhIn6JwlqeGcmUvSaa6HlFKplefo6GB7YdOs57F+k0TC3fEXhAVAed2gr
+ woqg==
+X-Gm-Message-State: ACrzQf1VrMV4SZxL3tTB8t2+Q2wRJcIWYnAGzf02465hFGvEqbrlV/uh
+ 5xT5uYPCaPWw7fpgEka5+QsVMwN/Sld2bw==
+X-Google-Smtp-Source: AMsMyM6CNC4wVX6X7gGUEz79aT1CW46Zw3pLWAOCQ4rfjEVZWFihwGT+8a5x5rvL6eXieseVB1VieA==
+X-Received: by 2002:adf:f989:0:b0:236:5730:62f1 with SMTP id
+ f9-20020adff989000000b00236573062f1mr5998100wrr.98.1667169264808; 
+ Sun, 30 Oct 2022 15:34:24 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- t16-20020adff610000000b0023538fb27c1sm5227015wrp.85.2022.10.30.15.34.16
+ iv9-20020a05600c548900b003a84375d0d1sm5536087wmb.44.2022.10.30.15.34.23
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 30 Oct 2022 15:34:17 -0700 (PDT)
+ Sun, 30 Oct 2022 15:34:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
@@ -59,21 +59,18 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Huacai Chen <chenhuacai@kernel.org>,
  Stefan Pejic <stefan.pejic@syrmia.com>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
- Bernhard Beschow <shentey@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 51/55] hw/isa/piix4: Move pci_ide_create_devs() call to board
- code
-Date: Sun, 30 Oct 2022 23:28:37 +0100
-Message-Id: <20221030222841.42377-52-philmd@linaro.org>
+ Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>
+Subject: [PULL 52/55] hw/mips/boston: Don't set link_up for xilinx-pcie
+Date: Sun, 30 Oct 2022 23:28:38 +0100
+Message-Id: <20221030222841.42377-53-philmd@linaro.org>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221030222841.42377-1-philmd@linaro.org>
 References: <20221030222841.42377-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,62 +93,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bernhard Beschow <shentey@gmail.com>
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-For the VIA south bridges there was a comment to have the call in board code.
-Move it there for PIIX4 as well for consistency.
+PCIe port 0 and 1 had link_up set as false previously,
+that makes those two ports effectively useless. It can
+be annoying for users to find that the device they plug
+on those buses won't work at all.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20221022150508.26830-29-shentey@gmail.com>
+As link_up is true by default, just don't set it again in
+boston platform code.
+
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Message-Id: <20221024143540.97545-1-jiaxun.yang@flygoat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/isa/piix4.c  |  1 -
- hw/mips/malta.c | 10 ++++++----
- 2 files changed, 6 insertions(+), 5 deletions(-)
+ hw/mips/boston.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/hw/isa/piix4.c b/hw/isa/piix4.c
-index 9126eb9edf..8fc1db6dc9 100644
---- a/hw/isa/piix4.c
-+++ b/hw/isa/piix4.c
-@@ -257,7 +257,6 @@ static void piix4_realize(PCIDevice *dev, Error **errp)
-     if (!qdev_realize(DEVICE(&s->ide), BUS(pci_bus), errp)) {
-         return;
-     }
--    pci_ide_create_devs(PCI_DEVICE(&s->ide));
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index d2ab9da1a0..aa7942bbc0 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -424,7 +424,7 @@ static inline XilinxPCIEHost *
+ xilinx_pcie_init(MemoryRegion *sys_mem, uint32_t bus_nr,
+                  hwaddr cfg_base, uint64_t cfg_size,
+                  hwaddr mmio_base, uint64_t mmio_size,
+-                 qemu_irq irq, bool link_up)
++                 qemu_irq irq)
+ {
+     DeviceState *dev;
+     MemoryRegion *cfg, *mmio;
+@@ -436,7 +436,6 @@ xilinx_pcie_init(MemoryRegion *sys_mem, uint32_t bus_nr,
+     qdev_prop_set_uint64(dev, "cfg_size", cfg_size);
+     qdev_prop_set_uint64(dev, "mmio_base", mmio_base);
+     qdev_prop_set_uint64(dev, "mmio_size", mmio_size);
+-    qdev_prop_set_bit(dev, "link_up", link_up);
  
-     /* USB */
-     qdev_prop_set_int32(DEVICE(&s->uhci), "addr", dev->devfn + 2);
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 6ac811763c..5a4e2abbdf 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -39,7 +39,7 @@
- #include "hw/pci/pci.h"
- #include "qemu/log.h"
- #include "hw/mips/bios.h"
--#include "hw/ide.h"
-+#include "hw/ide/pci.h"
- #include "hw/irq.h"
- #include "hw/loader.h"
- #include "elf.h"
-@@ -1400,11 +1400,13 @@ void mips_malta_init(MachineState *machine)
-     /* Southbridge */
-     piix4 = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(10, 0), true,
-                                             TYPE_PIIX4_PCI_DEVICE);
--    dev = DEVICE(piix4);
--    isa_bus = ISA_BUS(qdev_get_child_bus(dev, "isa.0"));
-+    isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix4), "isa.0"));
-+
-+    dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "ide"));
-+    pci_ide_create_devs(PCI_DEVICE(dev));
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
  
-     /* Interrupt controller */
--    qdev_connect_gpio_out_named(dev, "intr", 0, i8259_irq);
-+    qdev_connect_gpio_out_named(DEVICE(piix4), "intr", 0, i8259_irq);
+@@ -729,21 +728,21 @@ static void boston_mach_init(MachineState *machine)
+                      boston_memmap[BOSTON_PCIE0].size,
+                      boston_memmap[BOSTON_PCIE0_MMIO].base,
+                      boston_memmap[BOSTON_PCIE0_MMIO].size,
+-                     get_cps_irq(&s->cps, 2), false);
++                     get_cps_irq(&s->cps, 2));
  
-     /* generate SPD EEPROM data */
-     dev = DEVICE(object_resolve_path_component(OBJECT(piix4), "pm"));
+     xilinx_pcie_init(sys_mem, 1,
+                      boston_memmap[BOSTON_PCIE1].base,
+                      boston_memmap[BOSTON_PCIE1].size,
+                      boston_memmap[BOSTON_PCIE1_MMIO].base,
+                      boston_memmap[BOSTON_PCIE1_MMIO].size,
+-                     get_cps_irq(&s->cps, 1), false);
++                     get_cps_irq(&s->cps, 1));
+ 
+     pcie2 = xilinx_pcie_init(sys_mem, 2,
+                              boston_memmap[BOSTON_PCIE2].base,
+                              boston_memmap[BOSTON_PCIE2].size,
+                              boston_memmap[BOSTON_PCIE2_MMIO].base,
+                              boston_memmap[BOSTON_PCIE2_MMIO].size,
+-                             get_cps_irq(&s->cps, 0), true);
++                             get_cps_irq(&s->cps, 0));
+ 
+     platreg = g_new(MemoryRegion, 1);
+     memory_region_init_io(platreg, NULL, &boston_platreg_ops, s,
 -- 
 2.37.3
 
