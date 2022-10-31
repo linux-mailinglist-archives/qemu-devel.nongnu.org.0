@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9EE612E47
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 01:31:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 702E5612E65
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 01:42:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opIhW-0000BS-Uu; Sun, 30 Oct 2022 20:30:50 -0400
+	id 1opIrm-0004N4-KA; Sun, 30 Oct 2022 20:41:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opIhU-0000AC-T8
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 20:30:48 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1opIrj-0004MN-B3; Sun, 30 Oct 2022 20:41:23 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opIhS-0007Jw-D5
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 20:30:48 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id 78so9365796pgb.13
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 17:30:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xRuzc7ZQplXkC99gP15+5IEAf3wzmbnd+ECbSGkqGF4=;
- b=inGfPxOcbEJ90gZ5Y1TUKumimyx8ulSLfInLPtDTs5RCkf/HnadO1xBKssLKGy3+RS
- EmdvTD95NC+FEFoSvNxLX+GgbnVwLjScyMQC9KZhFgYNwzI4XinvWgljrSry7ZkgK0g6
- r9ssj4VCkeD2zI+Ryy1SKtcU+lMg2X+9jUKE+hDD+MDqz8hnyv40NAMyGat5oKEH0Uod
- wWiPaTAVvHaT01eiGzuSqD+oagojIG7mhRZQA46IPES+SrcRUQn+U7rgK1WQq8ueH0xl
- AK1L2vxV/rc64bDFN4JTrxK59Y7Krgnkxo3iwUlpcNBijYjy+pmSs/907WyPdQZdKVre
- KyIw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1opIrh-0001YR-OD; Sun, 30 Oct 2022 20:41:23 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id b29so9329860pfp.13;
+ Sun, 30 Oct 2022 17:41:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Xa2BGEYBM42lzBiDHEBCI2RRWrikjCI5my/i9sol0p8=;
+ b=KGxVCtUfWVoyQb8TM6JFtj1Rq7KMcP1v+xCgVJWH4lkXY2kb073aEwjj+Rs5mC4Qy0
+ 0FWxW3ia4y2azVitauRz1fsU5bvj07w3lHAv5yAMcZWNHdBUx8o5jqlNNk1cacm5Eblc
+ AAwhCvkAE7n3nkFWzaownDvuZ2Fh4aG4rhn0Ufcu4T4hQbe71AdgGTZkYmpXr6+XK7m1
+ ePSlxOE2XvQV+RX9ht4fyvn2h7mm2/tbd4C2JyfiDw1j7RerDoG8MwihNqvBwEmO75v+
+ AlTmLcIVwx3TF4hVyEZcdCdZftpHSkdxreh3lXzDuqqFwVXryXWN3QVGrn3No6yLJAcx
+ ntQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xRuzc7ZQplXkC99gP15+5IEAf3wzmbnd+ECbSGkqGF4=;
- b=u0v7SpeJqAzmylQziTkp526ppijFRkEWcFMOrsLrQSmyDfxMnc+fadzNbfilptyGbQ
- xkouqaze8yzpQscFKkMRqvidmC4MuvuYof7Hi6HBW18LmrTMDbJifHI2LLciFTWM1jff
- p7ShEO4IY53kBYVGA752bevpyZAVg5+2J0cuUi704D55r8mN6BqDJLekrV91ZEgjtxIc
- owo3XLovFqdQ2XmaAFgMQWvMoL4SIGiZYt4TT+qOUTVQ/16WF8+kQp4cYl11DV2HzhXT
- fWPcMcgmezHkVrGMsFCo3AkKL7Jnf8+FA/AspMdNbgy4nvvMSmMbcnlb7Z7LzQnlug9j
- lOcg==
-X-Gm-Message-State: ACrzQf1b2nB6xIikmmM/5qFFRgW5jyH7Ov0eqM2HoxuZWfknS5zFnUEc
- H+kFi0tR40Rygouf7eYOIu1oqg==
-X-Google-Smtp-Source: AMsMyM5N19LJHL8gE38wN8kTSVYzxftO4ojnEg9hyKi7kDTcy19o1WUU6BpzQ9ewR+XIr0AOWmG6dQ==
-X-Received: by 2002:a63:d64b:0:b0:46f:7941:a8ea with SMTP id
- d11-20020a63d64b000000b0046f7941a8eamr10175199pgj.331.1667176244884; 
- Sun, 30 Oct 2022 17:30:44 -0700 (PDT)
-Received: from [192.168.207.227] ([172.58.27.183])
- by smtp.gmail.com with ESMTPSA id
- p10-20020a17090a348a00b00212d4cbcbfdsm2942130pjb.22.2022.10.30.17.30.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Oct 2022 17:30:24 -0700 (PDT)
-Message-ID: <49f41916-687f-b9e5-2de7-9c658fe0d4c7@linaro.org>
-Date: Mon, 31 Oct 2022 11:07:48 +1100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Xa2BGEYBM42lzBiDHEBCI2RRWrikjCI5my/i9sol0p8=;
+ b=xW+ejD3j/rh+iYorL+TNmAafbooTE0cAWcedeOjDh5Jyygm4knigsZgyJZzY4xwmf1
+ fcY3o+3BCh/2JtMGTDvyjq0+37RGr258/Zb+4No1KJ6VKrjk4aq561pR7NTl2xWwtORF
+ ja43M+vWC2phUoGVPQemrgG2SiW82f8IQ1YLW4thZvSMSoJ2nRij/8Fb0+WTnWaBodqu
+ KzG2UKTezkzHdP4z0oqmzBSewfzCKnXjH2o+FiygZ9feOYRJQlNogzLGwu7IAki/67i0
+ idAcpgwRE5aRIK5s2QyAW97v4RuKghWgVgxeHiS+qQd5oxQmsKEnXenjFCj7yQtdAtDQ
+ SQLw==
+X-Gm-Message-State: ACrzQf2tZZ8FstuN4X8vjFIZitdfDH1aEAOzK5RGQAZBQLg/uDPz40Dx
+ C7GveOPgY/zlLBs+YsAIgJpNThvCOc2oXPbF3bg=
+X-Google-Smtp-Source: AMsMyM6LR/sZTNfeXSI7eKeqlejxYeJefkrH6PNw+85i+dncijqL/3B7RU+h9cdfaUr6QieQSapcdPNeBzxLIQ6pwNw=
+X-Received: by 2002:a05:6a00:2402:b0:52c:81cf:8df8 with SMTP id
+ z2-20020a056a00240200b0052c81cf8df8mr11988662pfh.60.1667176878392; Sun, 30
+ Oct 2022 17:41:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] MAINTAINERS: Inherit from nanoMIPS
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Milica Lazarevic <milica.lazarevic@syrmia.com>,
- Thomas Huth <thuth@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
-References: <20221030225006.43203-1-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221030225006.43203-1-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20221027164743.194265-1-apatel@ventanamicro.com>
+ <20221027164743.194265-2-apatel@ventanamicro.com>
+In-Reply-To: <20221027164743.194265-2-apatel@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 31 Oct 2022 10:40:51 +1000
+Message-ID: <CAKmqyKP5b3niJnm7f2yhpHxApm-ePVgNNee-OBvhksrAFE-FUA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] target/riscv: Typo fix in sstc() predicate
+To: Anup Patel <apatel@ventanamicro.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, 
+ Atish Patra <atishp@atishpatra.org>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Anup Patel <anup@brainfault.org>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x42f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,32 +88,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/31/22 09:50, Philippe Mathieu-Daudé wrote:
-> 6 months ago Stefan Pejic stepped in as nanoMIPS maintainer
-> (see commit a 8e0e23445a "target/mips: Undeprecate nanoMIPS
-> ISA support in QEMU"), however today his email is bouncing:
-> 
->    ** Message blocked **
-> 
->    Your message tostefan.pejic@syrmia.com  has been blocked. See technical details below for more information.
-> 
->    The response from the remote server was:
->    550 5.4.1 Recipient address rejected: Access denied. AS(201806281) [DBAEUR03FT030.eop-EUR03.prod.protection.outlook.com]
-> 
-> To avoid unmaintained code, I feel forced to merge this code
-> back with the generic MIPS section.
-> 
-> Historical references:
-> -https://lore.kernel.org/qemu-devel/TY0PR03MB679726901BD6C6BE40114A2FE2A79@TY0PR03MB6797.apcprd03.prod.outlook.com/
-> -https://lore.kernel.org/qemu-devel/b858a20e97b74e7b90a94948314d0008@MTKMBS62N2.mediatek.inc/
-> 
-> Cc: Vince Del Vecchio<Vince.DelVecchio@mediatek.com>
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+On Fri, Oct 28, 2022 at 2:52 AM Anup Patel <apatel@ventanamicro.com> wrote:
+>
+> We should use "&&" instead of "&" when checking hcounteren.TM and
+> henvcfg.STCE bits.
+>
+> Fixes: 3ec0fe18a31f ("target/riscv: Add vstimecmp suppor")
+> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->   MAINTAINERS | 8 +-------
->   1 file changed, 1 insertion(+), 7 deletions(-)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+>  target/riscv/csr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 5c9a7ee287..716f9d960e 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -838,7 +838,7 @@ static RISCVException sstc(CPURISCVState *env, int csrno)
+>      }
+>
+>      if (riscv_cpu_virt_enabled(env)) {
+> -        if (!(get_field(env->hcounteren, COUNTEREN_TM) &
+> +        if (!(get_field(env->hcounteren, COUNTEREN_TM) &&
+>                get_field(env->henvcfg, HENVCFG_STCE))) {
+>              return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>          }
+> --
+> 2.34.1
+>
+>
 
