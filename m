@@ -2,92 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD326139B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 16:11:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60ECB6139BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 16:13:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opWQI-0000YT-3u; Mon, 31 Oct 2022 11:09:58 -0400
+	id 1opWSp-0003HG-4a; Mon, 31 Oct 2022 11:12:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opWQF-0000Y0-Vb
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 11:09:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opWQD-0001oX-QO
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 11:09:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667228992;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+ahaD+1acZQOvLGFQMR4LJEzY/4YFdTNbqa8iWXRcQ4=;
- b=arIMRD2oyfLEU9hpghKARuMxct/sUTTm6mzhXYWzayWI/9sEhaH3hO/tJhypxmAh34O8zx
- UVc+XzmVL0SMnbGNvszzmIsJ6ayPMT9I0oHlzeNBegF0Ek+VTEpJJpKGuUd6DfGmL77r1n
- LveqEokuw0XAtKYMVyA97IunZVAIMfQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-227-MzgTnh0jO4uQP2S1Xt7kBA-1; Mon, 31 Oct 2022 11:09:51 -0400
-X-MC-Unique: MzgTnh0jO4uQP2S1Xt7kBA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- az11-20020a05600c600b00b003c6e3d4d5b1so5422240wmb.7
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 08:09:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opWSn-0003Gl-1f
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 11:12:33 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opWSk-0002dR-Cc
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 11:12:32 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ ja4-20020a05600c556400b003cf6e77f89cso1523836wmb.0
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 08:12:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=PbOw8+ZWpCKOHd1+Q+niRRVt+9BiIHmeWg0I97L4LpE=;
+ b=iYbbgZDXDhRggWp4V9ejn2IDQUze2Kpcyx4Rd+tdT3IBeks+XGyqGSS9BMApohXo/C
+ CwJPUlcekdlv+doLaj2CQdx2uEYw56qmM+LaCiBulhBuUW9LPCRgf+V5mWiu+HDU/tWR
+ jmdIplbqZqYkWpY/xm0v2+Mxq+u+iPqYTHuvvdQ2WkuJ/ZVKY7zNKac4g3R70acnqJUe
+ 1Oue5tfqTDMDVrenMTjQkTLAWa3emqc4wCYS5NYoZ/Yd06D8LkyaudkNR+m3wkpr2fHn
+ oALSEXX+ZPrkBkPVWoUFlPNe+zBHrNvo/D1S5qkRcnJhM5OVLXwBZ3y3g+oYUWX2EDnb
+ 0Jqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+ahaD+1acZQOvLGFQMR4LJEzY/4YFdTNbqa8iWXRcQ4=;
- b=F2sMwEsgF31NjLyilrG214D/UNZdvYZ8+WKbM5LFbbIEeY3K03cma4hGQZIpLgOWAM
- AK6sJTz4QtQW6XEyctYlsoHujinjt0RTPSmlYSci5wpwDPdAiHzBXB6FINQFS+ncfcCE
- GiUATY1zN3jx9n7kvPWLD7X3TQ+q1b2w5b8SlgDjNs/fvxbxQHkyLOJFu/6TKai9j+Xv
- ja6rZMawgMZ6+oZa/RcSnJR+OZuAJjnqoECM0nhpB/afyaS3wAfk3pDd9PhdzIOxHzuQ
- Jhzo5ubU25p8vsHtQh9LC63dbXW2j8rGzPQhLZi0+NOW31v3C6V+78/Ug+keF56Tm0AF
- +wKg==
-X-Gm-Message-State: ACrzQf3fH9nqQXNef8OzQX4Nl885nSz7rpiKzPesy6hliz+CX7bml2X5
- stKhlSUa06FK7H/hs7zoJ5lOdwNWatdW8ULpGFZwO2y5vH7HGHLvcZEs1geN3S5VI3rPKFwlJhX
- inuh1XNWDzNaDagk=
-X-Received: by 2002:a05:600c:3c84:b0:3b4:eff4:ab69 with SMTP id
- bg4-20020a05600c3c8400b003b4eff4ab69mr18501776wmb.104.1667228990246; 
- Mon, 31 Oct 2022 08:09:50 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5t03BcpWTBkdKBpYskiuNbdNUS+zRt7VWJaLJTx380Jj2xwSdCkf/ZFRLsQvdx0pAHUXbRvg==
-X-Received: by 2002:a05:600c:3c84:b0:3b4:eff4:ab69 with SMTP id
- bg4-20020a05600c3c8400b003b4eff4ab69mr18501753wmb.104.1667228989988; 
- Mon, 31 Oct 2022 08:09:49 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- k3-20020a05600c1c8300b003c6b7f5567csm22973803wms.0.2022.10.31.08.09.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 08:09:49 -0700 (PDT)
-Date: Mon, 31 Oct 2022 11:09:46 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 2/4] vhost: convert byte order on SVQ used event write
-Message-ID: <20221031110630-mutt-send-email-mst@kernel.org>
-References: <20221028160251.268607-1-eperezma@redhat.com>
- <20221028160251.268607-3-eperezma@redhat.com>
- <6375bb66-91a5-d638-dd4f-2700ac3a26cc@linaro.org>
- <CAJaqyWdj2OPyjZ1s9jK1botrVEHd2+K+Q783soLtmf5WVnArFg@mail.gmail.com>
- <20221031083210-mutt-send-email-mst@kernel.org>
- <CAJaqyWeLrKZGet7q+sJUQ_DzAHQGm5onvVK8vdbq9C1xVrD77w@mail.gmail.com>
+ bh=PbOw8+ZWpCKOHd1+Q+niRRVt+9BiIHmeWg0I97L4LpE=;
+ b=SDDtZK6A92VWXDHL27COICqcwfy49FindB/ugCLmSKcGEoAIsBJRirR0fyExphK62h
+ xYvon4gyVA98J4YPd43FwJ9i0/pSwN9UpBG7347Sr+rWXIhVK4NrJBIlptYo3hjEQEDm
+ mDrZdgMgq1gKqOH3f2AHudJm2zCR/lrtKYT1IKIwe4STQr72Ul68vioZO59xix0v5xBc
+ 84J3+rTyOO/Mj61lEWzOBXGDwv2NFFL6+MZuq4jIlkmcGJBTYoOKoCs60rnLKoqh1M8B
+ G+aJBt/yGdZ4gOAgV10M0nsc+XxCjVFuLkaQX52e68liBglyKMGH1rWw7X877/wOMlvo
+ vxVQ==
+X-Gm-Message-State: ACrzQf0QCXga6T1mK/BDHrfR8whkdVbFVTPZ4OGTYpv+VXir5sao2lpK
+ WxI65bcbSr46hO6xy/178JqNqccgDRoFqg==
+X-Google-Smtp-Source: AMsMyM7YhJKfdnuT9yQzwx1t669aWPjUfrXBiR8V7JxZpwrTXcX0JXSeKfaP0OgdDFA2Bk8py68xfw==
+X-Received: by 2002:a05:600c:4e90:b0:3c6:f1b9:3f92 with SMTP id
+ f16-20020a05600c4e9000b003c6f1b93f92mr8597632wmq.26.1667229148808; 
+ Mon, 31 Oct 2022 08:12:28 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ k2-20020a5d6282000000b00236cb3fec8fsm4421433wru.9.2022.10.31.08.12.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Oct 2022 08:12:28 -0700 (PDT)
+Message-ID: <3b1b2608-76c5-3376-2c15-792ccbf623dd@linaro.org>
+Date: Mon, 31 Oct 2022 16:12:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+Subject: Re: [PATCH v5 6/6] hw/ppc/e500: Add Freescale eSDHC to e500plat
+Content-Language: en-US
+To: qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org
+References: <20221031115402.91912-1-philmd@linaro.org>
+ <20221031115402.91912-7-philmd@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221031115402.91912-7-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJaqyWeLrKZGet7q+sJUQ_DzAHQGm5onvVK8vdbq9C1xVrD77w@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,90 +95,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 31, 2022 at 02:02:16PM +0100, Eugenio Perez Martin wrote:
-> On Mon, Oct 31, 2022 at 1:33 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Mon, Oct 31, 2022 at 09:54:34AM +0100, Eugenio Perez Martin wrote:
-> > > On Sat, Oct 29, 2022 at 12:48 AM Philippe Mathieu-DaudÈ
-> > > <philmd@linaro.org> wrote:
-> > > >
-> > > > On 28/10/22 18:02, Eugenio PÈrez wrote:
-> > > > > This causes errors on virtio modern devices on big endian hosts
-> > > > >
-> > > > > Fixes: 01f8beacea2a ("vhost: toggle device callbacks using used event idx")
-> > > > > Signed-off-by: Eugenio PÈrez <eperezma@redhat.com>
-> > > > > ---
-> > > > >   hw/virtio/vhost-shadow-virtqueue.c | 2 +-
-> > > > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-> > > > > index 70766ea740..467099f5d9 100644
-> > > > > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > > > > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > > > > @@ -382,7 +382,7 @@ static bool vhost_svq_enable_notification(VhostShadowVirtqueue *svq)
-> > > > >   {
-> > > > >       if (virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
-> > > > >           uint16_t *used_event = &svq->vring.avail->ring[svq->vring.num];
-> > > > > -        *used_event = svq->shadow_used_idx;
-> > > > > +        *used_event = cpu_to_le16(svq->shadow_used_idx);
-> > > >
-> > > > This looks correct, but what about:
-> > > >
-> > > >             virtio_stw_p(svq->vdev, used_event, svq->shadow_used_idx);
-> > > >
-> > >
-> > > Hi Philippe,
-> > >
-> > > I think this has the same answer as [1], the endianness conversion
-> > > from the guest to the host may not be the same as the one needed from
-> > > qemu SVQ to the vdpa device. Please let me know if it is not the case.
-> > >
-> > > Thanks!
-> > >
-> > > [1] https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg06081.html
-> >
-> > So considering legacy, i do not belive you can make a legacy
-> > device on top of modern one using SVQ alone.
-> >
+On 31/10/22 12:54, Philippe Mathieu-Daud√© wrote:
+> From: Bernhard Beschow <shentey@gmail.com>
 > 
-> Right, more work is needed. For example, config r/w conversions. But
-> it's a valid use case where SVQ helps too.
-
-I am not sure why it's valid frankly.
-
-> > So I'd say SVQ should follow virtio endian-ness, not LE.
+> Adds missing functionality to e500plat machine which increases the
+> chance of given "real" firmware images to access SD cards.
 > 
-> At this moment both the device that the guest sees and the vdpa device
-> must be modern ones to enable SVQ. So the event idx must be stored in
-> the vring in LE. Similar access functions as virtio_ld* and virtio_st*
-> are needed if SVQ supports legacy vdpa devices in the future.
-> 
-> The point is that svq->shadow_avail_idx is decoupled from the guest's
-> avail ring, event idx, etc. It will always be in the host's CPU
-> endianness, regardless of the guest's one. And, for the moment, the
-> event idx write must be in LE.
-> 
-> There is a more fundamental problem about using virtio_{st,ld}* here:
-> These read from and write to guest's memory, but neither
-> svq->shadow_used_idx or shadow vring are in guest's memory but only in
-> qemu's VA. To start the support of legacy vdpa devices would involve a
-> deeper change here, since all shadow vring writes and reads are
-> written this way.
-> 
-> Thanks!
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Message-Id: <20221018210146.193159-8-shentey@gmail.com>
+> [PMD: Simplify using create_unimplemented_device("esdhc")]
+> Signed-off-by: Philippe Mathieu-Daud√© <philmd@linaro.org>
+> ---
+>   docs/system/ppc/ppce500.rst | 12 ++++++++++
+>   hw/ppc/Kconfig              |  2 ++
+>   hw/ppc/e500.c               | 48 ++++++++++++++++++++++++++++++++++++-
+>   hw/ppc/e500.h               |  1 +
+>   hw/ppc/e500plat.c           |  1 +
+>   5 files changed, 63 insertions(+), 1 deletion(-)
 
-Yea generally, I don't know how it can work given legacy
-will never attach a PASID to a VQ.
+> @@ -992,6 +1018,26 @@ void ppce500_init(MachineState *machine)
+>       i2c = (I2CBus *)qdev_get_child_bus(dev, "i2c");
+>       i2c_slave_create_simple(i2c, "ds1338", RTC_REGS_OFFSET);
+>   
+> +    /* eSDHC */
+> +    if (pmc->has_esdhc) {
+> +        uint64_t sdhci_regsize;
+> +
+> +        dev = qdev_new(TYPE_SYSBUS_SDHCI);
+> +        /*
+> +         * Compatible with:
+> +         * - SD Host Controller Specification Version 2.0 Part A2
+> +         */
+> +        qdev_prop_set_uint8(dev, "sd-spec-version", 2);
+> +        s = SYS_BUS_DEVICE(dev);
+> +        sysbus_realize_and_unref(s, &error_fatal);
+> +        sysbus_mmio_map(s, 0, pmc->ccsrbar_base + MPC85XX_ESDHC_REGS_OFFSET);
+> +        sysbus_connect_irq(s, 0, qdev_get_gpio_in(mpicdev, MPC85XX_ESDHC_IRQ));
+> +        sdhci_regsize = memory_region_size(sysbus_mmio_get_region(s, 0));
+> +        create_unimplemented_device("esdhc",
+> +                                    pmc->ccsrbar_base
+> +                                    + MPC85XX_ESDHC_REGS_OFFSET + sdhci_regsize,
+> +                                    MPC85XX_ESDHC_REGS_SIZE - sdhci_regsize);
+> +    }
 
-But maybe given we add yet another variant of endian-ness
-it is time to actually use sparse tags for this stuff.
+Since the UNIMP device has lower priority, we can simplify as:
 
-> >
-> >
-> > > > >       } else {
-> > > > >           svq->vring.avail->flags &= ~cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
-> > > > >       }
-> > > >
-> >
+if (pmc->has_esdhc) {
+     create_unimplemented_device("esdhc",
+                                 pmc->ccsrbar_base
+                                 + MPC85XX_ESDHC_REGS_OFFSET,
+                                 MPC85XX_ESDHC_REGS_SIZE);
 
+     dev = qdev_new(TYPE_SYSBUS_SDHCI);
+     /*
+      * Compatible with:
+      * - SD Host Controller Specification Version 2.0 Part A2
+      */
+     qdev_prop_set_uint8(dev, "sd-spec-version", 2);
+     s = SYS_BUS_DEVICE(dev);
+     sysbus_realize_and_unref(s, &error_fatal);
+     sysbus_mmio_map(s, 0, pmc->ccsrbar_base + MPC85XX_ESDHC_REGS_OFFSET);
+     sysbus_connect_irq(s, 0, qdev_get_gpio_in(mpicdev, MPC85XX_ESDHC_IRQ));
+}
 
