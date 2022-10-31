@@ -2,34 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8290613251
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 10:14:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 504C4613258
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 10:15:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opQsG-0004Ye-57; Mon, 31 Oct 2022 05:14:28 -0400
+	id 1opQsI-0004ZR-OK; Mon, 31 Oct 2022 05:14:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1opQsD-0004YS-7F
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 05:14:25 -0400
+ id 1opQsG-0004Yz-UU
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 05:14:28 -0400
 Received: from mail.weilnetz.de ([37.120.169.71]
  helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1opQsA-0000GI-Uq
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 05:14:24 -0400
+ id 1opQsF-0000Gu-Dv
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 05:14:28 -0400
 Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTP id 780F3DA08F3;
- Mon, 31 Oct 2022 10:14:19 +0100 (CET)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTP id A3A6FDA08F3;
+ Mon, 31 Oct 2022 10:14:25 +0100 (CET)
 Received: by qemu.weilnetz.de (Postfix, from userid 1000)
- id 6C5CE46001C; Mon, 31 Oct 2022 10:14:19 +0100 (CET)
+ id 9F9AC46001C; Mon, 31 Oct 2022 10:14:25 +0100 (CET)
 To: qemu-devel@nongnu.org
-Cc: Stefan Weil <sw@weilnetz.de>
-Subject: [PULL 0/4] Patches for Windows
-Date: Mon, 31 Oct 2022 10:14:02 +0100
-Message-Id: <20221031091406.382872-1-sw@weilnetz.de>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Stefan Weil <sw@weilnetz.de>
+Subject: [PULL 1/4] scripts/nsis.py: Drop the unnecessary path separator
+Date: Mon, 31 Oct 2022 10:14:03 +0100
+Message-Id: <20221031091406.382872-2-sw@weilnetz.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221031091406.382872-1-sw@weilnetz.de>
+References: <20221031091406.382872-1-sw@weilnetz.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -57,30 +61,34 @@ Reply-to:  Stefan Weil <sw@weilnetz.de>
 From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 75d30fde55485b965a1168a21d016dd07b50ed32:
+From: Bin Meng <bin.meng@windriver.com>
 
-  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2022-10-30 15:07:25 -0400)
+There is no need to append a path separator to the destination
+directory that is passed to "make install".
 
-are available in the Git repository at:
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Message-Id: <20220908132817.1831008-2-bmeng.cn@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+---
+ scripts/nsis.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  https://gitlab.com/stweil/qemu.git tags/pull-qemu-20221031
+diff --git a/scripts/nsis.py b/scripts/nsis.py
+index 462d6cac3b..bbb41d9386 100644
+--- a/scripts/nsis.py
++++ b/scripts/nsis.py
+@@ -30,7 +30,7 @@ def main():
+ 
+     destdir = tempfile.mkdtemp()
+     try:
+-        subprocess.run(["make", "install", "DESTDIR=" + destdir + os.path.sep])
++        subprocess.run(["make", "install", "DESTDIR=" + destdir])
+         with open(
+             os.path.join(destdir + args.prefix, "system-emulations.nsh"), "w"
+         ) as nsh, open(
+-- 
+2.30.2
 
-for you to fetch changes up to 588fec8a4c3fe9e0d1cb3f7ea6fdd46221e42814:
-
-  block/nfs: Fix 32-bit Windows build (2022-10-31 10:06:11 +0100)
-
-----------------------------------------------------------------
-Patches for Windows
-
-----------------------------------------------------------------
-Bin Meng (4):
-      scripts/nsis.py: Drop the unnecessary path separator
-      scripts/nsis.py: Fix destination directory name when invoked on Windows
-      scripts/nsis.py: Automatically package required DLLs of QEMU executables
-      block/nfs: Fix 32-bit Windows build
-
- block/nfs.c     |  8 ++++++++
- meson.build     |  1 +
- scripts/nsis.py | 60 +++++++++++++++++++++++++++++++++++++++++++++++----------
- 3 files changed, 59 insertions(+), 10 deletions(-)
 
