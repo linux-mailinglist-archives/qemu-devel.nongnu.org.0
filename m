@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE05612E71
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 01:56:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C257612E72
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 01:59:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opJ5j-0007Zl-KJ; Sun, 30 Oct 2022 20:55:51 -0400
+	id 1opJ9B-0008Sn-F0; Sun, 30 Oct 2022 20:59:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1opJ5b-0007Xk-RF; Sun, 30 Oct 2022 20:55:43 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1opJ98-0008Sb-Tz
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 20:59:23 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1opJ5a-0005mu-7J; Sun, 30 Oct 2022 20:55:43 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id b11so9107921pjp.2;
- Sun, 30 Oct 2022 17:55:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rgG1Ldr0XoLz1BbBGOo5LCY8RORshy9ORtNKdZkw5sA=;
- b=nS4OSx8/BHEtyEF29/trFbisJtk0p2KdU5nLUjoO1jK6Ni5rUEU2/4ylTgD2xwe4MC
- 4OK1yI4WAB1XS0rIxjE+kg31AjmrapAd3kostyhdBh5V0MZLrxfGuA2jQyUs/r7SZ0N0
- VCtIQZ0htJXZqA4Ca7dcJ+V3Q075D2mjTLRDXQe3KuwO01mJVtwjnw6NnKItj6crQ0hO
- cXYZQK+lgavi4n2YlqhcCwnLxpBdBDHx/y7LRPPUfW8LEOrqmydJv9vr28mq4URqLKIT
- dlbz0Lu2TQZ4cwNmRnWTQUJxjLH7rMye420QD3YOZfMXPg69Wi7N5guIiMj6Ea9KdCql
- HMuA==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1opJ97-0006WX-54
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 20:59:22 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id k15so1328726pfg.2
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 17:59:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=K8JgP1uwldtjtxP+Yutssm6CjcxATHI0xgAE4llPZ0g=;
+ b=MDDQmhIVcC9mvhUR3HI7Vou/yR+P8I1Tsdr2HKlheWU+EefaJMOsC4njATyFSQr65r
+ ds7JQ0vT6ahwkZ1xbXgXsFIYCh5ZqDCF3b/2XApfujj5yztSXxHvpSJ05EzSq5IynYNw
+ 6p42gZEJa/w5qq8eQArUtm7wd4WT0D7CSyrDWaZXFfme3oKx0q1IC71wbdZT0j1TAgTe
+ qDA++1oDRHkCPhsb67kxn9IohSJrSwc98UL63OB33vq6ikbuPLszmbHRGRh+Clx2T1tJ
+ YWvvaKIfwRyXfVKASNIi/nqa6O4V8ntG4Jii3gHl6lozyK2cgfbNs0bC4Z6VjnN2q+cB
+ AxSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=rgG1Ldr0XoLz1BbBGOo5LCY8RORshy9ORtNKdZkw5sA=;
- b=JDlJwzDk6y/kZNEj6JotP9dgDMZd9yBprELh8KBbSP95HyU+opUBGnubB4dzol9+aK
- mtQ7O+2cImd/ZBjr6JTzVHmr5+plp1+luR4P4soFQWIoiUqu1C7WCFKm5dH44gXEO5N+
- 4FbGowsCwYaJo18/z8lIeM8NVI2rZl+Nc6/vOQwD8aKe4i6TReZ+guHNaLwXS8IxjZfe
- QNavFAbvb4/fzjk6jwZA1cTXchvMGv/KbSVTdI8+O5aDnHhaRgZadFeO3F0xx7F9ec+I
- URBnLwrLiChhR+Bl+VJdAWb8dqXp+kcGYKVgiCWAWbQs9/MbjIXQDMNTew7DYLaKsiU8
- WnpQ==
-X-Gm-Message-State: ACrzQf0g9eVKlNrV0lMM8oYaeudlgpEJ5bYyOT6+WCU0pDlalup/zx2H
- Lwmx2uTTR0CSRKCGX1qhf2l3YZSMRn3CPUvHE5M=
-X-Google-Smtp-Source: AMsMyM4eB1FTFZqWIjcSbu5R2Ih02nXukrDpen8ru06a3FY0LSBOwckUD1u4o+tV1kZkOYfTWr1R93HpLRYReh+lIOw=
-X-Received: by 2002:a17:90a:2d8b:b0:213:b314:4652 with SMTP id
- p11-20020a17090a2d8b00b00213b3144652mr9743039pjd.96.1667177740365; Sun, 30
- Oct 2022 17:55:40 -0700 (PDT)
+ bh=K8JgP1uwldtjtxP+Yutssm6CjcxATHI0xgAE4llPZ0g=;
+ b=E8TD4/b5RF1AgvxNDITkPhwOSOy7wVYazSZ4M/48MJtD+ByFzwoDo89LysU9AtUHXD
+ w8zzV6X7C5zQZ7VbKnNlwvuxFiZjq+n3cZwAVfr9dxL9pDUj4mlJcIhkeic/zxG1RDVt
+ vhVgz5haQ2KmmjctSqlkV9DaNL89vehxyRHR7PODJuy2GGNXM/ro6SpFKWZgb3IY/mXb
+ vgAKyF/zezm+o8TsD2DpQj6bBuFrG+/pPxZa72ezprUgoRKQpKHX3v7hXS5F1Z+nhdV1
+ RvulQTAm1fnRuoxMdtrmIf5vUHTBM7bVC7/ooZQXR2+qgpPJC6jcrBIdMrUCsTeI/uqP
+ 8L1Q==
+X-Gm-Message-State: ACrzQf3aFitNm6qUlYKiiafE99xx7lN0l3IPrsGjzEe7HiqQKdMZSozo
+ ZVib2/qo44WzOSr6sFE5NbE/+Q==
+X-Google-Smtp-Source: AMsMyM6PNQX9OavY/Eyl0b7R9H0GTU33TmxXP0vxDvkTN0cejD6BAfsyi+FVCBEfJzxEaXPURBVSkQ==
+X-Received: by 2002:a63:2c90:0:b0:439:ee2c:ab2f with SMTP id
+ s138-20020a632c90000000b00439ee2cab2fmr10756367pgs.2.1667177959300; 
+ Sun, 30 Oct 2022 17:59:19 -0700 (PDT)
+Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+ by smtp.gmail.com with ESMTPSA id
+ h130-20020a628388000000b0056a93838606sm3196255pfe.58.2022.10.30.17.59.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 30 Oct 2022 17:59:18 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Programmingkid <programmingkidx@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH] cutils: Fix get_relocated_path on Windows
+Date: Mon, 31 Oct 2022 09:59:08 +0900
+Message-Id: <20221031005908.3393-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221027164743.194265-1-apatel@ventanamicro.com>
- <20221027164743.194265-5-apatel@ventanamicro.com>
-In-Reply-To: <20221027164743.194265-5-apatel@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 31 Oct 2022 10:55:14 +1000
-Message-ID: <CAKmqyKNWdJCQvT-5ddjQBjwMJ=uqBZv_+zG7TSAwqAS1p8oTkQ@mail.gmail.com>
-Subject: Re: [PATCH 4/5] target/riscv: No need to re-start QEMU timer when
- timecmp == UINT64_MAX
-To: Anup Patel <apatel@ventanamicro.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, 
- Atish Patra <atishp@atishpatra.org>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Anup Patel <anup@brainfault.org>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,46 +95,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Oct 28, 2022 at 2:53 AM Anup Patel <apatel@ventanamicro.com> wrote:
->
-> The time CSR will wrap-around immediately after reaching UINT64_MAX
-> so we don't need to re-start QEMU timer when timecmp == UINT64_MAX
-> in riscv_timer_write_timecmp().
+get_relocated_path() did not have error handling for PathCchSkipRoot()
+because a path given to get_relocated_path() was expected to be a valid
+path containing a drive letter or UNC server/share path elements on
+Windows, but sometimes it turned out otherwise.
 
-I'm not clear what this is fixing?
+The paths passed to get_relocated_path() are defined by macros generated
+by Meson. Meson in turn uses a prefix given by the configure script to
+generate them. For Windows, the script passes /qemu as a prefix to
+Meson by default.
 
-If the guest sets a timer for UINT64_MAX shouldn't that still trigger
-an event at some point?
+As documented in docs/about/build-platforms.rst, typically MSYS2 is used
+for the build system, but it is also possible to use Linux as well. When
+MSYS2 is used, its Bash variant recognizes /qemu as a MSYS2 path, and
+converts it to a Windows path, adding the MSYS2 prefix including a drive
+letter or UNC server/share path elements. Such a conversion does not
+happen on a shell on Linux however, and /qemu will be passed as is in
+the case.
 
-Alistair
+Implement a proper error handling of PathCchSkipRoot() in
+get_relocated_path() so that it can handle a path without a drive letter
+or UNC server/share path elements.
 
->
-> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-> ---
->  target/riscv/time_helper.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/target/riscv/time_helper.c b/target/riscv/time_helper.c
-> index 4fb2a471a9..1ee9f94813 100644
-> --- a/target/riscv/time_helper.c
-> +++ b/target/riscv/time_helper.c
-> @@ -72,6 +72,14 @@ void riscv_timer_write_timecmp(RISCVCPU *cpu, QEMUTimer *timer,
->          riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(0));
->      }
->
-> +    /*
-> +     * Don't re-start the QEMU timer when timecmp == UINT64_MAX because
-> +     * time CSR will wrap-around immediately after reaching UINT64_MAX.
-> +     */
-> +    if (timecmp == UINT64_MAX) {
-> +        return;
-> +    }
-> +
->      /* otherwise, set up the future timer interrupt */
->      diff = timecmp - rtc_r;
->      /* back to ns (note args switched in muldiv64) */
-> --
-> 2.34.1
->
->
+Reported-by: Stefan Weil <sw@weilnetz.de>
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+ util/cutils.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
+
+diff --git a/util/cutils.c b/util/cutils.c
+index cb43dda213..932c741d2b 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -1088,17 +1088,21 @@ char *get_relocated_path(const char *dir)
+     g_string_append(result, "/qemu-bundle");
+     if (access(result->str, R_OK) == 0) {
+ #ifdef G_OS_WIN32
+-        size_t size = mbsrtowcs(NULL, &dir, 0, &(mbstate_t){0}) + 1;
++        const char *src = dir;
++        size_t size = mbsrtowcs(NULL, &src, 0, &(mbstate_t){0}) + 1;
+         PWSTR wdir = g_new(WCHAR, size);
+-        mbsrtowcs(wdir, &dir, size, &(mbstate_t){0});
++        mbsrtowcs(wdir, &src, size, &(mbstate_t){0});
+ 
+         PCWSTR wdir_skipped_root;
+-        PathCchSkipRoot(wdir, &wdir_skipped_root);
++        if (PathCchSkipRoot(wdir, &wdir_skipped_root)) {
++            g_string_append(result, dir);
++        } else {
++            size = wcsrtombs(NULL, &wdir_skipped_root, 0, &(mbstate_t){0});
++            char *cursor = result->str + result->len;
++            g_string_set_size(result, result->len + size);
++            wcsrtombs(cursor, &wdir_skipped_root, size + 1, &(mbstate_t){0});
++        }
+ 
+-        size = wcsrtombs(NULL, &wdir_skipped_root, 0, &(mbstate_t){0});
+-        char *cursor = result->str + result->len;
+-        g_string_set_size(result, result->len + size);
+-        wcsrtombs(cursor, &wdir_skipped_root, size + 1, &(mbstate_t){0});
+         g_free(wdir);
+ #else
+         g_string_append(result, dir);
+-- 
+2.38.1
+
 
