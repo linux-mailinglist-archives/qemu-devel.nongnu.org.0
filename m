@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C4061371B
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:55:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FEB7613728
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:58:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUIb-0003Qd-4T; Mon, 31 Oct 2022 08:53:53 -0400
+	id 1opUIj-0003tt-KO; Mon, 31 Oct 2022 08:54:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUIS-0002dU-DP
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:53:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUIb-0003Tf-00
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:53:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUIP-0003KN-UD
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:53:44 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUIY-0003MG-01
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:53:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667220821;
+ s=mimecast20190719; t=1667220829;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=GKmwoOfm8bzRUItGXNwBDqS2konkOkMGSWJ9WqmnlUw=;
- b=iR0ForaLcK2uJ6WVIWlDbY6/6DwTh5reItMzW41a4US57VjnSrLzvV5arnqdkgiHaadRaE
- 3mBKV5WT+Jw6xZsBbdHnxAy0NkLD/yEotGD4ESiUaGpTGd5sf+8NXWAz1DBQ5RAc0GdwmF
- ymT8z7B+pg/q5mRa4SieLJBs68jj9UM=
+ bh=y4Ht26v4bTk0wWI1FXkqn5SLabDsoMOD7PItdijHGeI=;
+ b=i/1QvLU8w2qcuQUYp/Bt4SEdP70TWNa39Z4+cYf8xaAD8l9P4h/M5FZlHwZoaNC9uFRnGS
+ Vj1VjNj8egyZ0fAD5ssjrsX4huD/wOnpU7laW4JrJG39me3E0f48LXa+jEtstwDByU4/r7
+ h1HXugpA8NMKIqaa5xKN4P0Gp9OE9JU=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-228-4nQXRvAYN5CTcEbsY2HX3g-1; Mon, 31 Oct 2022 08:53:39 -0400
-X-MC-Unique: 4nQXRvAYN5CTcEbsY2HX3g-1
+ us-mta-99-QH0yt7lrOo6gL6_WT46eBA-1; Mon, 31 Oct 2022 08:53:47 -0400
+X-MC-Unique: QH0yt7lrOo6gL6_WT46eBA-1
 Received: by mail-wm1-f71.google.com with SMTP id
- o18-20020a05600c4fd200b003c6ceb1339bso5617324wmq.1
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:53:39 -0700 (PDT)
+ v188-20020a1cacc5000000b003cf76c4ae66so475019wme.7
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:53:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GKmwoOfm8bzRUItGXNwBDqS2konkOkMGSWJ9WqmnlUw=;
- b=mwEiroeKOmu+/lpluBVYzGlWXqZ5kVLB60QOPrtLEkAT7+W8rOQLT6U1/Yv8DCnM9g
- VhvzwUufdSe0SPzhsLtrH3MYHdrXq+9ui8Uk5ToTJYzz4yzBz6m0FfR+YmB8YeS8Cydy
- WHuymIJNZD/e6eoPYYT8Ie69/oV+Grw+FFUYpyW2nXAjrXXMUy3rwC2XH2X3DnR69g9Z
- fKl6f6AH0QXH3/fkkg4pE+UqG6PtNE9ZWIDfxAS+N6X2+IU2KdewgavIMwmsvSOHCJXD
- 1n/6IORqE1JE4rT6Nw1m+gHLhs8q9HMEOdO849oRKI7lBwj3kMcwFjBP7vzd0mWhur9S
- kpAw==
-X-Gm-Message-State: ACrzQf17fQk+4HqWs4mtC1IToXZTB08M3m+ywfOA1URGJbOSFa+0lcuz
- 4VbMOIj6/xirWXZccWqQfL1kHcByDLP7gzDdRRXMOEgI81xP1aPtFpjp88lMXSTeo4KD2lP+hW0
- ZTEblp+04XlXKDZd8LRtKrIN9lR+YkuCuxT3Iw15WmqgZQz1ucqDonxQosWRv
-X-Received: by 2002:adf:e7c8:0:b0:236:6a30:cb2e with SMTP id
- e8-20020adfe7c8000000b002366a30cb2emr8241666wrn.12.1667220817850; 
- Mon, 31 Oct 2022 05:53:37 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6PszGDsvHO6CfxzCMdMU6XvB+uDTQmamlo5W8KpGBtBIgnnFZJ8sctnj/HNNo1W0vzbgmWQQ==
-X-Received: by 2002:adf:e7c8:0:b0:236:6a30:cb2e with SMTP id
- e8-20020adfe7c8000000b002366a30cb2emr8241648wrn.12.1667220817513; 
- Mon, 31 Oct 2022 05:53:37 -0700 (PDT)
+ bh=y4Ht26v4bTk0wWI1FXkqn5SLabDsoMOD7PItdijHGeI=;
+ b=kFckm+KiJgWyo9XT3B+K5vyUPPPttRR8lP3F2VozwahXgbKSzhcMrwfiiX/G0SVEWw
+ UQcD6KVOKcmwnqZvgUMaYw9TV7OdXYhpsux8ijL+/s1qXs+OaYtxQgjjNJDP6OtJjMez
+ H1dC88wuNHq/koMrLyzjef3gYPrBqzaWONSTI+VHipYlHauTgSFZHWjHD8G+/Qy+t4YR
+ TvzhbREWGge5zqJEanj4jtlQUUVjOdcVG/76tG05h8Hdr+fFioqUXdPyy4ssQVHVTLBm
+ 0XhXhCjFSTsZXPlAWsp4QlRmqigdzjYCmd4YKTKq53c/BznfkDPdsgkhfi+xTX7WcSwK
+ mkMQ==
+X-Gm-Message-State: ACrzQf0FJPhe/SJDVcZ/m3Nt+o4u7h+WF7DGT5n+U2bp6qDqpgDKPFDJ
+ fMgZlxFMD3wO0TDL+t+/YU3r5UiWIjogVwg2dgNKgbR/ZYxZUWed/DIYIlVl2f38LhAO/ubfFxm
+ FjuLL3phZUagH2G+oTgMZx/MTwxf2U+ibnbdh54niwEoJQcIDnfEIk5HrvjJV
+X-Received: by 2002:a5d:65c9:0:b0:235:7110:bff2 with SMTP id
+ e9-20020a5d65c9000000b002357110bff2mr7837047wrw.46.1667220826118; 
+ Mon, 31 Oct 2022 05:53:46 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4LgQtegkIG8p1W+Yol64tA3eQS1yVq33+BdsvoXQ7TPyQjruS5xSCV38FMUD0y1h56gmL5qg==
+X-Received: by 2002:a5d:65c9:0:b0:235:7110:bff2 with SMTP id
+ e9-20020a5d65c9000000b002357110bff2mr7837026wrw.46.1667220825730; 
+ Mon, 31 Oct 2022 05:53:45 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- z3-20020a05600c0a0300b003cf55844453sm7957124wmp.22.2022.10.31.05.53.36
+ bx10-20020a5d5b0a000000b0022e47b57735sm7202960wrb.97.2022.10.31.05.53.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:53:37 -0700 (PDT)
-Date: Mon, 31 Oct 2022 08:53:35 -0400
+ Mon, 31 Oct 2022 05:53:45 -0700 (PDT)
+Date: Mon, 31 Oct 2022 08:53:43 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 61/86] tests: acpi: update expected blobs
-Message-ID: <20221031124928.128475-62-mst@redhat.com>
+Subject: [PULL 64/86] tests: acpi: update expected blobs
+Message-ID: <20221031124928.128475-65-mst@redhat.com>
 References: <20221031124928.128475-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -73,15 +73,15 @@ Content-Disposition: inline
 In-Reply-To: <20221031124928.128475-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ LOTS_OF_MONEY=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,325 +99,507 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-Expected change in q35 tests:
-	@@ -2797,14 +2797,6 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
-		 }
-	     }
+Expected changes are:
+ 1) Moving _GPE scope declaration achec of all _E0x methods
+   +    Scope (_GPE)
+   +    {
+   +        Name (_HID, "ACPI0006" /* GPE Block Device */)  // _HID: Hardware ID
+   +    }
+   +
+        Scope (_SB)
+        {
+            Device (\_SB.PCI0.PRES)
+    ============
+            \_SB.CPUS.CSCN ()
+        }
 
-	-    Scope (_SB.PCI0)
-	-    {
-	-        Device (SMB0)
-	-        {
-	-            Name (_ADR, 0x001F0003)  // _ADR: Address
-	-        }
-	-    }
-	-
-	     Scope (_SB)
-	     {
-		 Device (HPET)
-	@@ -3282,6 +3274,11 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
-			 }
-		     }
+   -    Scope (_GPE)
+   -    {
+   -        Name (_HID, "ACPI0006" /* GPE Block Device */)  // _HID: Hardware ID
+   -    }
 
-	+            Device (SFB)
-	+            {
-	+                Name (_ADR, 0x001F0003)  // _ADR: Address
-	+            }
-	+
-		     Method (PCNT, 0, NotSerialized)
-		     {
-		     }
-
-Also for ipmismbus test, child 'Device (MI1)' of SMB0 will be moved along with it
+ 2) Moving _E01 handler after PCI0 scope is defined
+    -    Scope (_GPE)
+    -    {
+    -        Name (_HID, "ACPI0006" /* GPE Block Device */)  // _HID: Hardware ID
+    -        Method (_E01, 0, NotSerialized)  // _Exx: Edge-Triggered GPE
+    -        {
+    -            Acquire (\_SB.PCI0.BLCK, 0xFFFF)
+    -            \_SB.PCI0.PCNT ()
+    -            Release (\_SB.PCI0.BLCK)
+    -        }
+    -    }
+    -
+         Scope (\_SB.PCI0)
+         {
+             Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+    =============
+                 }
+             }
+         }
+    +
+    +    Scope (_GPE)
+    +    {
+    +        Method (_E01, 0, NotSerialized)  // _Exx: Edge-Triggered GPE
+    +        {
+    +            Acquire (\_SB.PCI0.BLCK, 0xFFFF)
+    +            \_SB.PCI0.PCNT ()
+    +            Release (\_SB.PCI0.BLCK)
+    +        }
+    +    }
+     }
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20221017102146.2254096-9-imammedo@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20221017102146.2254096-12-imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |  21 --------------------
- tests/data/acpi/q35/DSDT                    | Bin 8418 -> 8407 bytes
- tests/data/acpi/q35/DSDT.acpierst           | Bin 8435 -> 8424 bytes
- tests/data/acpi/q35/DSDT.acpihmat           | Bin 9743 -> 9732 bytes
- tests/data/acpi/q35/DSDT.applesmc           | Bin 8464 -> 8453 bytes
- tests/data/acpi/q35/DSDT.bridge             | Bin 11547 -> 11536 bytes
- tests/data/acpi/q35/DSDT.cphp               | Bin 8882 -> 8871 bytes
- tests/data/acpi/q35/DSDT.cxl                | Bin 9744 -> 9733 bytes
- tests/data/acpi/q35/DSDT.dimmpxm            | Bin 10072 -> 10061 bytes
- tests/data/acpi/q35/DSDT.ipmibt             | Bin 8493 -> 8482 bytes
- tests/data/acpi/q35/DSDT.ipmismbus          | Bin 8507 -> 8495 bytes
- tests/data/acpi/q35/DSDT.ivrs               | Bin 8435 -> 8424 bytes
- tests/data/acpi/q35/DSDT.memhp              | Bin 9777 -> 9766 bytes
- tests/data/acpi/q35/DSDT.mmio64             | Bin 9548 -> 9537 bytes
- tests/data/acpi/q35/DSDT.multi-bridge       | Bin 8738 -> 8727 bytes
- tests/data/acpi/q35/DSDT.nohpet             | Bin 8276 -> 8265 bytes
- tests/data/acpi/q35/DSDT.numamem            | Bin 8424 -> 8413 bytes
- tests/data/acpi/q35/DSDT.pvpanic-isa        | Bin 8519 -> 8508 bytes
- tests/data/acpi/q35/DSDT.tis.tpm12          | Bin 9024 -> 9013 bytes
- tests/data/acpi/q35/DSDT.tis.tpm2           | Bin 9050 -> 9039 bytes
- tests/data/acpi/q35/DSDT.viot               | Bin 9527 -> 9516 bytes
- tests/data/acpi/q35/DSDT.xapic              | Bin 35781 -> 35770 bytes
- 22 files changed, 21 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h |  34 --------------------
+ tests/data/acpi/pc/DSDT                     | Bin 6496 -> 6501 bytes
+ tests/data/acpi/pc/DSDT.acpierst            | Bin 6456 -> 6461 bytes
+ tests/data/acpi/pc/DSDT.acpihmat            | Bin 7821 -> 7826 bytes
+ tests/data/acpi/pc/DSDT.bridge              | Bin 9570 -> 9575 bytes
+ tests/data/acpi/pc/DSDT.cphp                | Bin 6960 -> 6965 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm             | Bin 8150 -> 8155 bytes
+ tests/data/acpi/pc/DSDT.hpbridge            | Bin 6456 -> 6461 bytes
+ tests/data/acpi/pc/DSDT.hpbrroot            | Bin 3107 -> 3107 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs             | Bin 6568 -> 6573 bytes
+ tests/data/acpi/pc/DSDT.memhp               | Bin 7855 -> 7860 bytes
+ tests/data/acpi/pc/DSDT.nohpet              | Bin 6354 -> 6359 bytes
+ tests/data/acpi/pc/DSDT.numamem             | Bin 6502 -> 6507 bytes
+ tests/data/acpi/pc/DSDT.roothp              | Bin 6694 -> 6699 bytes
+ tests/data/acpi/q35/DSDT                    | Bin 8407 -> 8412 bytes
+ tests/data/acpi/q35/DSDT.acpierst           | Bin 8424 -> 8429 bytes
+ tests/data/acpi/q35/DSDT.acpihmat           | Bin 9732 -> 9737 bytes
+ tests/data/acpi/q35/DSDT.applesmc           | Bin 8453 -> 8458 bytes
+ tests/data/acpi/q35/DSDT.bridge             | Bin 11536 -> 11541 bytes
+ tests/data/acpi/q35/DSDT.cphp               | Bin 8871 -> 8876 bytes
+ tests/data/acpi/q35/DSDT.cxl                | Bin 9733 -> 9738 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm            | Bin 10061 -> 10066 bytes
+ tests/data/acpi/q35/DSDT.ipmibt             | Bin 8482 -> 8487 bytes
+ tests/data/acpi/q35/DSDT.ipmismbus          | Bin 8495 -> 8500 bytes
+ tests/data/acpi/q35/DSDT.ivrs               | Bin 8424 -> 8429 bytes
+ tests/data/acpi/q35/DSDT.memhp              | Bin 9766 -> 9771 bytes
+ tests/data/acpi/q35/DSDT.mmio64             | Bin 9537 -> 9542 bytes
+ tests/data/acpi/q35/DSDT.multi-bridge       | Bin 8727 -> 8732 bytes
+ tests/data/acpi/q35/DSDT.nohpet             | Bin 8265 -> 8270 bytes
+ tests/data/acpi/q35/DSDT.numamem            | Bin 8413 -> 8418 bytes
+ tests/data/acpi/q35/DSDT.pvpanic-isa        | Bin 8508 -> 8513 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm12          | Bin 9013 -> 9018 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm2           | Bin 9039 -> 9044 bytes
+ tests/data/acpi/q35/DSDT.viot               | Bin 9516 -> 9521 bytes
+ tests/data/acpi/q35/DSDT.xapic              | Bin 35770 -> 35775 bytes
+ 35 files changed, 34 deletions(-)
 
 diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index fd5852776c..dfb8523c8b 100644
+index 725a1dc798..dfb8523c8b 100644
 --- a/tests/qtest/bios-tables-test-allowed-diff.h
 +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,22 +1 @@
+@@ -1,35 +1 @@
  /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/pc/DSDT",
+-"tests/data/acpi/pc/DSDT.bridge",
+-"tests/data/acpi/pc/DSDT.ipmikcs",
+-"tests/data/acpi/pc/DSDT.cphp",
+-"tests/data/acpi/pc/DSDT.memhp",
+-"tests/data/acpi/pc/DSDT.numamem",
+-"tests/data/acpi/pc/DSDT.nohpet",
+-"tests/data/acpi/pc/DSDT.dimmpxm",
+-"tests/data/acpi/pc/DSDT.acpihmat",
+-"tests/data/acpi/pc/DSDT.acpierst",
+-"tests/data/acpi/pc/DSDT.roothp",
+-"tests/data/acpi/pc/DSDT.hpbridge",
+-"tests/data/acpi/pc/DSDT.hpbrroot",
 -"tests/data/acpi/q35/DSDT",
--"tests/data/acpi/q35/DSDT.acpierst",
--"tests/data/acpi/q35/DSDT.acpihmat",
--"tests/data/acpi/q35/DSDT.applesmc",
--"tests/data/acpi/q35/DSDT.bridge",
--"tests/data/acpi/q35/DSDT.cphp",
--"tests/data/acpi/q35/DSDT.cxl",
--"tests/data/acpi/q35/DSDT.dimmpxm",
--"tests/data/acpi/q35/DSDT.ipmibt",
--"tests/data/acpi/q35/DSDT.ipmismbus",
--"tests/data/acpi/q35/DSDT.ivrs",
--"tests/data/acpi/q35/DSDT.memhp",
--"tests/data/acpi/q35/DSDT.mmio64",
--"tests/data/acpi/q35/DSDT.multi-bridge",
--"tests/data/acpi/q35/DSDT.nohpet",
--"tests/data/acpi/q35/DSDT.numamem",
--"tests/data/acpi/q35/DSDT.pvpanic-isa",
--"tests/data/acpi/q35/DSDT.tis.tpm12",
 -"tests/data/acpi/q35/DSDT.tis.tpm2",
+-"tests/data/acpi/q35/DSDT.tis.tpm12",
+-"tests/data/acpi/q35/DSDT.bridge",
+-"tests/data/acpi/q35/DSDT.multi-bridge",
+-"tests/data/acpi/q35/DSDT.mmio64",
+-"tests/data/acpi/q35/DSDT.ipmibt",
+-"tests/data/acpi/q35/DSDT.cphp",
+-"tests/data/acpi/q35/DSDT.memhp",
+-"tests/data/acpi/q35/DSDT.numamem",
+-"tests/data/acpi/q35/DSDT.nohpet",
+-"tests/data/acpi/q35/DSDT.dimmpxm",
+-"tests/data/acpi/q35/DSDT.acpihmat",
+-"tests/data/acpi/q35/DSDT.acpierst",
+-"tests/data/acpi/q35/DSDT.applesmc",
+-"tests/data/acpi/q35/DSDT.pvpanic-isa",
+-"tests/data/acpi/q35/DSDT.ivrs",
 -"tests/data/acpi/q35/DSDT.viot",
+-"tests/data/acpi/q35/DSDT.cxl",
+-"tests/data/acpi/q35/DSDT.ipmismbus",
 -"tests/data/acpi/q35/DSDT.xapic",
-diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
-index ea35dc5eba8433a8dcb54815f19ed6239f2534e7..c8a2b5df26608f10c75ab8f2f9e404fda987891b 100644
+diff --git a/tests/data/acpi/pc/DSDT b/tests/data/acpi/pc/DSDT
+index 5b4624cb68c78eab6e356987974b9bee6c9a1785..f1cf7fab349bd26e0f0fa461c715534c1426fbf5 100644
 GIT binary patch
-delta 65
-zcmaFlc-@i9CD<k8x&i|Oqx(iKK8ejH66@Hw92H~YgPr09JQX&-k$cZ55#7We?B*2D
-V5%1^{#KX)W&mh7U;OrN|004sf5rO~!
+delta 60
+zcmaE0^wfyUCD<h-Rg!^$@xex}HLSuS@$Lbx9Pu8WF1(J;0iFg124<VLu=25N7UJ^b
+OXA`goNl(7cX$1fe{1Br6
 
-delta 76
-zcmcca_{fpVCD<k8kpcq)<A#k~d=k>qdhx+d@d3`B2GLFY!M;ug9Py4WK|IV1@(i2B
-eCDyZXIVi+{R0w#;Z@wV+o{?RIEx_3?gaH6HQWQi0
+delta 55
+zcmaEA^uUPACD<h-L6U)i(O@Ij8rIFHS$SAQ{aNDO16(=cJv?1_9i0O_4Gav-7$$2=
+LT5Z0@>CX=Uu}Tiy
 
-diff --git a/tests/data/acpi/q35/DSDT.acpierst b/tests/data/acpi/q35/DSDT.acpierst
-index 146269c68c68238a8be3aa67e049a85c0b8edc66..eb63e439b92424e4c50b7e5f1df92da54ecfc6ea 100644
+diff --git a/tests/data/acpi/pc/DSDT.acpierst b/tests/data/acpi/pc/DSDT.acpierst
+index 99461b771eec2043263b5bc3c109a08969a99af9..5cb477625e96f5526f0c7703ba3b443a0b35eefd 100644
 GIT binary patch
-delta 64
-zcmezD_`;FPCD<k8g#rTu<MWMNd=i^YB-XKUIVr`&2Rp?JcquM^BgZ5W-NYa4<`mBn
-U@8}Z5!^|MhAi@^l>=(iS0Ek8rTL1t6
+delta 60
+zcmdmCwAYBsCD<jzR+52%QE?;J8dhPEc=rHTj(87G7hXr_08ax01GCLrSov5s3vsFO
+OvkBOPq$gkJv;qLpD-T2f
+
+delta 55
+zcmdmMw8MzYCD<jzLXv@jv2Y{T8rIFHS$SAQ{aNDO16(=cJv?1_9i0O_4Gav-7$!4I
+LT5Z0@sm>1oq7x2P
+
+diff --git a/tests/data/acpi/pc/DSDT.acpihmat b/tests/data/acpi/pc/DSDT.acpihmat
+index b84f3b47c37e427b927c36036307db6e83a843e5..76e8bef36fdb667447ad0320d35604031aae2c93 100644
+GIT binary patch
+delta 46
+zcmeCRon*`966_K(NsfVmaqdR0HLQ#xlRxqaZ{Esk#ktv@-;bY7z&_qRz;!YUzZC#I
+C&J4u>
+
+delta 55
+zcmbPa+iT0^66_MvE62dV_;w@L8rIFHSuHt5{aNDO16(=cJv?1_9i0O_4Gav-7$!%^
+LS#4(K_vZ%yzRnKP
+
+diff --git a/tests/data/acpi/pc/DSDT.bridge b/tests/data/acpi/pc/DSDT.bridge
+index 6771620078086e42b445474b16797094e0d0a801..c94c1b54b3ac3085c02307d9564b258e791fcf1e 100644
+GIT binary patch
+delta 60
+zcmaFl_1ufgCD<h-U6p}>@$5#fHLSuS@$Lbx9Pu8WF1(J;0iFg124<VLu=25N7UBw!
+OW)rXnNl(7cX$1fq#t`5D
+
+delta 55
+zcmaFv^~j6MCD<h-NtJ<tQFbHO8rIFHS$SAQ{aNDO16(=cJv?1_9i0O_4Gav-7$)ng
+LT5Z0@87K_^yYmkx
+
+diff --git a/tests/data/acpi/pc/DSDT.cphp b/tests/data/acpi/pc/DSDT.cphp
+index 298fa1592676b3a2089b08eff5f764e04391b961..eb3da0e232e4362bd5850e4eebf5916cbc1d565a 100644
+GIT binary patch
+delta 60
+zcmdmBw$+TwCD<jzRGNW-(Pbmo8dhPEc=rHTj(87G7hXr_08ax01GCLrSnsiJe#Gs^
+O&n93GlAgSr+X?{i%n<be
+
+delta 55
+zcmdmLw!w_cCD<jzK$?Mpamq%nHLROYv)*A9^=FB94{+s(_waP#b#xB!G%zqQW0?F~
+L%4+j6Zhw9N$1M;p
+
+diff --git a/tests/data/acpi/pc/DSDT.dimmpxm b/tests/data/acpi/pc/DSDT.dimmpxm
+index 9fcadb266b92fc4942621f0fd919703723de2fd9..6553e4c6053aff76ac42dad87d714e4e9ab28f72 100644
+GIT binary patch
+delta 81
+zcmca+f7_nRCD<k8wmbs^qrgV4HLMyM@$Lbx9Pu8WF1(J;0iFg124)N*!tt&KCJb#c
+jdhx+d@qS@0L0k=+x3U&+ZSEBC<!2MH2kDt?DPRQvnI{$^
 
 delta 75
-zcmaFi_}P)mCD<k8vjPJHW57l(J_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
-d66@Kx92H|gDg-<g7GIEKVi#cxaP|vf000r=6CD5m
+zcmca@f6boDCD<k8nmhvoW8FrsHLRQOv*vS&u*JIvxN^jMc)IX9ItO?f7#Nr_OkOB&
+fB_bjm?`mMe&=#W?AM6zG7v>Vg)v(z|z@HxgQ?nI5
 
-diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
-index 4dd420b62fbcfdd21485fec2bafdea54f3fdb5a8..f9199a0dd614b30c9e73eb7de7e051ce84c1d73f 100644
+diff --git a/tests/data/acpi/pc/DSDT.hpbridge b/tests/data/acpi/pc/DSDT.hpbridge
+index 99461b771eec2043263b5bc3c109a08969a99af9..5cb477625e96f5526f0c7703ba3b443a0b35eefd 100644
 GIT binary patch
-delta 65
-zcmeD8Y4PE533dr#QDb0WWZuZdC$ZT?;x;#zqhd^auv5H%r^04QmG_Ji(M|lpZcgzW
-U@s2J*Jj@L83?gg+&VC^b02Q4NMgRZ+
+delta 60
+zcmdmCwAYBsCD<jzR+52%QE?;J8dhPEc=rHTj(87G7hXr_08ax01GCLrSov5s3vsFO
+OvkBOPq$gkJv;qLpD-T2f
 
-delta 76
-zcmZqi>G$Ds33dtLS7Tsc%-P7rCm}7Z7a!~tAK>h15Z%Nd?CWH}5%1^{#KX)W&#+ls
-d;tn^LgF*~Qg@A|r=D*7C8QDeH0-XIq7y!*W69)hQ
+delta 55
+zcmdmMw8MzYCD<jzLXv@jv2Y{T8rIFHS$SAQ{aNDO16(=cJv?1_9i0O_4Gav-7$!4I
+LT5Z0@sm>1oq7x2P
 
-diff --git a/tests/data/acpi/q35/DSDT.applesmc b/tests/data/acpi/q35/DSDT.applesmc
-index ff25d82ba24b5e792b9d87958aa1b162bc9e0de2..286a4ecec273ca0e2fe2d65f80e8566a68a2f794 100644
+diff --git a/tests/data/acpi/pc/DSDT.hpbrroot b/tests/data/acpi/pc/DSDT.hpbrroot
+index b10b17cb1111f6b5d61da4aa1c754f2921a4ac1c..ff04ad360beb60571d48bd1e477a4e58e5ee9337 100644
 GIT binary patch
-delta 65
-zcmbQ>)au0L66_Mfs>r~=D6x@?Phzu)#5y)Ef906?V5fKicje7*<Ybv7qMP`G-JIe%
-U;vHRrc$gXF8AR9uoc%%=01xsHAOHXW
+delta 37
+scmZ21u~=e5CX290ynBEvN4$rp3$LSdfTw|hf!XGC7Cx5ET^uu+0mthKGXMYp
 
-delta 76
-zcmZp5n&8Cc66_Kppvb_$*tn64PeNK+FFx2QKET=2Ai9Y^*w@K`Bi_*^h=-X$o?)}N
-d#CkR^KcyIu3IR8z%@^cknb<|x0-XIq7y!Nm5#j&<
+delta 38
+tcmZ21u~=e5Cd=kJ79JK6k$Cq2SB`iOPZwTC=KxOw0|PUL&7B;xm;uwt3P}I}
 
-diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
-index bde84efd1c5fcafee789781f4030d573002a886a..9a733a54e428d3506aaf73f8d4c1f28324a71a42 100644
+diff --git a/tests/data/acpi/pc/DSDT.ipmikcs b/tests/data/acpi/pc/DSDT.ipmikcs
+index aff3e9bbe1fdbf783c49d07a49c2e16317a2871e..83eec58a52b5844a02003665494f63a4ea0b26a7 100644
 GIT binary patch
-delta 75
-zcmbOoH6e=2CD<iIK$n4m@!Li&K8ejH66@Hwyq?6w2Rp?JI6c|?Mox}TDY}V2*v%=P
-dBi_*^h=-X$o<T$)z}YW^Ax<yY&>$Yf1OQ7T6vzMo
+delta 60
+zcmZ2syw;e@CD<iott0~jW6VabHLSuS@$Lbx9Pu8WF1(J;0iFg124<VLu=25N7UG)5
+O&n93GlAe5>(+U9a*$_bh
 
-delta 86
-zcmbObH9LySCD<iIT9<)=F@7T#pM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j
-niS=w;o{wWdDg+!KZ@wTW$0sNv5a8?=!VsqyY-j+~=NAG1zta|q
+delta 55
+zcmZ2$yuz5vCD<iog(L$5<C=|JYgjj*X60cK^=FB94{+s(_waP#b#xB!G%zqQW0+hl
+LX|?$p=X8Dmy|53$
 
-diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
-index 537be7ca37c021e6a7f098e88c40ba178f3ec3e2..8579626c7f1f035c8d400544c2af6ce6372a5625 100644
+diff --git a/tests/data/acpi/pc/DSDT.memhp b/tests/data/acpi/pc/DSDT.memhp
+index 07b193b9939e2199bce5edc743de5494133c1e8c..9e2201d170a86652951a2a4b234bb58204010642 100644
 GIT binary patch
-delta 65
-zcmdnwy4;n^CD<ioxe@~d<LZrEd=i^YB<eW092H~YgPr09JQX(YQFzZN5#7We?B*2D
-V5%1^{#KX)W&mh7U;OrN|003#(5d;7L
+delta 60
+zcmZ2)yTz8vCD<ioiyQ+3<E4#UYgmOv;@tyWIpRG$U3eXx13V2349qrfVU6Y7oXGFT
+O&n93GlAf%_Zv_AqSP+^3
 
-delta 76
-zcmZ4Py2+KxCD<iolM(|1qsT@sJ_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
-e67?Kh4hk_K6#^den-?g&XJi*)3vl)eVE_Q*#}dW>
+delta 55
+zcmdmDyWW<|CD<ioy&MArqtZsMHLROYvqp1@`m@Bl2e@*?dw9C=Iywh<8W<RuF-)$K
+Lv)Zi6@6QhaxVa9~
 
-diff --git a/tests/data/acpi/q35/DSDT.cxl b/tests/data/acpi/q35/DSDT.cxl
-index aeea64d1cecad0ad011870ed5e04bfea1ae62510..96594c00b3b0e0a4933d6d851d927487ad4d18eb 100644
-GIT binary patch
-delta 65
-zcmbQ>)9S<J66_Mfs>Z;;Xupw*Phzu)#4c_wXXTjqV5fKiZ>7yYlm(e2qMP`G-JIe%
-U;vHRrc$gXF8AR9uoc%%=03WdrZ2$lO
-
-delta 76
-zcmZqmnc&0a66_KppvJ(!xMCw0pM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j
-eiQU{>PD(K#6#`z0o9`$KGO>%W1vvYKFaQA0rV=jz
-
-diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.dimmpxm
-index ed11aefa4a56a8408bd4e0de83bf2373e6025449..e2a3ecf7d90c8c411550505c3b70bf8d19ba4bc9 100644
-GIT binary patch
-delta 65
-zcmccNch--~CD<jzSDk@@amq$6K8ejH5-Pl0j*2ny!A|i4o(h|jRNpg7L^tsVyE(;k
-V#5=kK@h~&UGl;MSIQxY#002@W5KI67
-
-delta 76
-zcmX@>cf*g%CD<h-LY;wu@$W`1J_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
-e5~{ph4hk_K6#^deo8463GqQ`Y1vvYKFaQ7)&=U>-
-
-diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipmibt
-index d9d1e75c987acd42be4576688621be07b21f0e7b..427272b95692099edc47f569e41fbb3ba69f6b60 100644
-GIT binary patch
-delta 65
-zcmZ4Mw8)9eCD<iINs)npF=itdpTuSpiFIsTKB_VC!A|i4E~=Z~$XPK-L^tsVyE(;k
-V#5=kK@h~&UGl;MSIQxY#001=^57qzx
-
-delta 76
-zcmZ4FwAP8sCD<iISCN5%@#sb_J_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
-e66@Kxyj5aADg>NWHeZmlVqzCz3vl)eVE_Q=2@;q9
-
-diff --git a/tests/data/acpi/q35/DSDT.ipmismbus b/tests/data/acpi/q35/DSDT.ipmismbus
-index f6e124137721312722c820b5c084a143492945c9..794779e75aaf33902de834caaa6b0763c4513615 100644
+diff --git a/tests/data/acpi/pc/DSDT.nohpet b/tests/data/acpi/pc/DSDT.nohpet
+index ceee7722ceed8a7e8f61a37805a4c855f47244a8..c969e0dae410763a5f749c4c4fc842ccbf901fc5 100644
 GIT binary patch
 delta 61
-zcmdn(wBCu!CD<iIUy*@<@%2V7K8ek}66@HwJk?_2gPr099Mv|v%D-pih;DLc3wCpg
-RpR6sB$S%Sb;OrN|001n-5byv1
+zcmca)c-@f8CD<k8x&#9Q<Eo8Za;zdE@$Lbx9Pu8WF1(J;0iFg124)PK)meF2Hn(v4
+P@v{logXAZBa#{fZ0$&e^
 
-delta 72
-zcmZ4QwA+cxCD<jzT9JW)QEwv`pM<aryIy>-Q+$B4r$Ka+J6o`?lfmTU3W=M=CDyZX
-aIVi+{Bn3R=H(!u@&&V#q7U1j`!T<onCKIFp
+delta 55
+zcmca^c*&5<CD<k8k^}<-<FAcea;%$eS$SAQ{aNDO16(=cJv?1_9i0O_4Gav-7$(n^
+Lu-fdw>CX=UxO5J{
+
+diff --git a/tests/data/acpi/pc/DSDT.numamem b/tests/data/acpi/pc/DSDT.numamem
+index e03f4d07b86018d12def37b5397ba9673548e2b7..1cecaa64e9ef29b5096ae1ba4882e2c8e080f0ea 100644
+GIT binary patch
+delta 60
+zcmaE6^xBBaCD<h-Tatl+v1=pO8dhPEc=rHTj(87G7hXr_08ax01GCLrSVdSiOK|z|
+OvkBOPq$l6yv;qJHRuFLj
+
+delta 55
+zcmaED^vsCMCD<h-O_G6u@zzGJHLROYvkI|@`m@Bl2e@*?dw9C=Iywh<8W<RuF-$g;
+LwAy@!)1Myz(Jl|F
+
+diff --git a/tests/data/acpi/pc/DSDT.roothp b/tests/data/acpi/pc/DSDT.roothp
+index 418cc92e4c061ad21e1d281e0b5e6114e283b7d3..f57a14cd5c48ddded4c5d0b7da037b9d021a9ecb 100644
+GIT binary patch
+delta 60
+zcmZ2xvf6~pCD<iITZ(~!v3?`h8dhPEc=rHTj(87G7hXr_08ax01GCLrSov5s3vr1E
+OunE|Mq$gkJv;qLuX%Aok
+
+delta 55
+zcmZ2&vdo0bCD<iIO^Shm@%%=vHLROYv+}Tr`m@Bl2e@*?dw9C=Iywh<8W<RuF--m_
+LX|?$pr>Fn`uA2{E
+
+diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
+index c8a2b5df26608f10c75ab8f2f9e404fda987891b..8e989819a5f8c470a8933bf9b7af7b988048cce6 100644
+GIT binary patch
+delta 60
+zcmccac*l{;CD<k8jsgP%<M)kRb0maC;@tyWIpRG$U3eXx13V2349qq!k>F$5%p`l2
+OnN7eRBt7}Kj1>Sj$q~x{
+
+delta 55
+zcmccPc-@i9CD<k8x&i|Oqx(j#ITD+9OYpFW`m@Bl2e@*?dw9C=Iywh<8W<RuF-%^h
+LV72*}%r#~J)0q%|
+
+diff --git a/tests/data/acpi/q35/DSDT.acpierst b/tests/data/acpi/q35/DSDT.acpierst
+index eb63e439b92424e4c50b7e5f1df92da54ecfc6ea..03745d78de4c7e9639a4a37553361e0e18258633 100644
+GIT binary patch
+delta 60
+zcmaFi_|}ojCD<k8tpWoB<MfSOb0maC;@tyWIpRG$U3eXx13V2349qq!k>F$5%q07a
+OnN7eRBt7}Kj1>SepAoMB
+
+delta 55
+zcmaFs_`;FPCD<k8g#rTu<MWMNb0jwJmf&F#^=FB94{+s(_waP#b#xB!G%zqQW0<^I
+L!D{m{ndi&^_#F{+
+
+diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
+index f9199a0dd614b30c9e73eb7de7e051ce84c1d73f..3ad9ba3c987ca1cfbafc3778db889602ab53530e 100644
+GIT binary patch
+delta 46
+zcmZqi>Ga`p33dtLRAXRZ+`N%%js&B~<cEsFo0m#hac<UEy2{KZU?1-u;5zw>q7?u+
+C+70gj
+
+delta 55
+zcmeD5Y4PE533dr#QDb0WWZuX%M`H7C2}@2<f0lUn09TH94^J0fN9O=f0|NsyhRNqu
+Ltu}vFyv7Uwjvfzm
+
+diff --git a/tests/data/acpi/q35/DSDT.applesmc b/tests/data/acpi/q35/DSDT.applesmc
+index 286a4ecec273ca0e2fe2d65f80e8566a68a2f794..5f01572dc2cf44aa0e730401e0709b95cd8db604 100644
+GIT binary patch
+delta 60
+zcmZp5>T=?833dtLQe<FYJh72$j)bsCynBEvN4$rp3$LSdfTw|hf!XFI5_~M1nPiz+
+O*aYlB(vy$NSOEakt`ArM
+
+delta 55
+zcmeBjYIWjr33dr#Rb*gbl-S5MM`H7C2_6<vf0lUn09TH94^J0fN9O=f0|NsyhRGKc
+LtTrE$VPOFPgdz?)
+
+diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
+index 9a733a54e428d3506aaf73f8d4c1f28324a71a42..97141f9db208e1948bc2bdb3f3452ac8f78f98b0 100644
+GIT binary patch
+delta 60
+zcmbObH8qOMCD<iIRF{E)aoI+$ITFGm@$Lbx9Pu8WF1(J;0iFg124<U=Nbs?2W|HL-
+OU=y$hNl!j5V+8=@EDx#x
+
+delta 55
+zcmbOlH6e=2CD<iIK$n4m@!LkOITD+9OYpFW`m@Bl2e@*?dw9C=Iywh<8W<RuF-*R#
+LW3~C148H&XyC@H%
+
+diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
+index 8579626c7f1f035c8d400544c2af6ce6372a5625..622e8e5f3700abffc58683689b9470573c117cd0 100644
+GIT binary patch
+delta 60
+zcmZ4Py2h2uCD<iojS>R`WAsL@ITFGm@$Lbx9Pu8WF1(J;0iFg124<U=NZe!Hd`a#q
+OGn;@tNP6;gIV%7cs1h9j
+
+delta 55
+zcmZ4Ey4;n^CD<ioxe@~d<LZrEb0jwJmbk+z>dzAI9^lFm@8Rjf>*yTdX<%Sr#xS`^
+L$!ha7xogY-;e!y;
+
+diff --git a/tests/data/acpi/q35/DSDT.cxl b/tests/data/acpi/q35/DSDT.cxl
+index 96594c00b3b0e0a4933d6d851d927487ad4d18eb..cecc1caaab81db8559781d23e45d8c615dc73740 100644
+GIT binary patch
+delta 60
+zcmZqm>GI)n33dtLQe$9Xe7})vj)bsCynBEvN4$rp3$LSdfTw|hf!XFI5_~M1nPizc
+O*#zuC(vy$NSOEaxZV#OR
+
+delta 55
+zcmeD3Y4zc933dr#RbyaawBN`zM`H7C2_6<vf0lUn09TH94^J0fN9O=f0|NsyhRGLH
+Ltu`N%Vc`S-kB$z6
+
+diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.dimmpxm
+index e2a3ecf7d90c8c411550505c3b70bf8d19ba4bc9..e5be00b4fa658477a9ae7016ed72ae04430a3b2f 100644
+GIT binary patch
+delta 81
+zcmX@>cgc^-CD<h-NS%R!QEemF90?7Lc=rHTj(87G7hXr_08ax012YB@;doaA6Na`J
+jz4&0Kc)u{0Ag+eZOC|ETHdiQLWo8qw2kDutscZ!Rg;*9z
+
+delta 76
+zcmccQch--~CD<jzSDk@@amq%nITD-COXP8hI<v*Q2e@*?dw9C=Iywh<8W<RuF-(?F
+gw-ON%j(0UMVQ7odiw|~+_X~3g;%eAzqkN4S07LH;B>(^b
+
+diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipmibt
+index 427272b95692099edc47f569e41fbb3ba69f6b60..c4f8212c63be2a1d579d6ebc9ac41d4bd5be414b 100644
+GIT binary patch
+delta 60
+zcmZ4FwA_iyCD<iIU6Fx-k!K^<90_5Oc=rHTj(87G7hXr_08ax01GCLbB=}f1Gs!Bj
+OunE|Mq$eMju>t_cgbxq^
+
+delta 55
+zcmZ4Pw8)9eCD<iINs)npF=ivz9Er`lC3sjw{aNDO16(=cJv?1_9i0O_4Gav-7$(0}
+Lu-be~Mv(;op_&g5
+
+diff --git a/tests/data/acpi/q35/DSDT.ipmismbus b/tests/data/acpi/q35/DSDT.ipmismbus
+index 794779e75aaf33902de834caaa6b0763c4513615..05fb38820fa9213a20ace5943486ed18ad6a765c 100644
+GIT binary patch
+delta 60
+zcmZ4Qw8e?bCD<jzM3I4karQ>8ITFGm@$Lbx9Pu8WF1(J;0iFg124<U=Nbs?2W|Gxq
+OVH2<iNl!j5V+8=}bPv-2
+
+delta 55
+zcmdnuwBCu!CD<iIUy*@<@%2WoITD+9OYpFW`m@Bl2e@*?dw9C=Iywh<8W<RuF--oY
+LV72*}j2;UBz|{}m
 
 diff --git a/tests/data/acpi/q35/DSDT.ivrs b/tests/data/acpi/q35/DSDT.ivrs
-index 146269c68c68238a8be3aa67e049a85c0b8edc66..eb63e439b92424e4c50b7e5f1df92da54ecfc6ea 100644
+index eb63e439b92424e4c50b7e5f1df92da54ecfc6ea..03745d78de4c7e9639a4a37553361e0e18258633 100644
 GIT binary patch
-delta 64
-zcmezD_`;FPCD<k8g#rTu<MWMNd=i^YB-XKUIVr`&2Rp?JcquM^BgZ5W-NYa4<`mBn
-U@8}Z5!^|MhAi@^l>=(iS0Ek8rTL1t6
+delta 60
+zcmaFi_|}ojCD<k8tpWoB<MfSOb0maC;@tyWIpRG$U3eXx13V2349qq!k>F$5%q07a
+OnN7eRBt7}Kj1>SepAoMB
 
-delta 75
-zcmaFi_}P)mCD<k8vjPJHW57l(J_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
-d66@Kx92H|gDg-<g7GIEKVi#cxaP|vf000r=6CD5m
+delta 55
+zcmaFs_`;FPCD<k8g#rTu<MWMNb0jwJmf&F#^=FB94{+s(_waP#b#xB!G%zqQW0<^I
+L!D{m{ndi&^_#F{+
 
 diff --git a/tests/data/acpi/q35/DSDT.memhp b/tests/data/acpi/q35/DSDT.memhp
-index 3e79ba7ac0b9a466fddd2213f32d20c522b8613b..923e213ab6a3c82faa6f659c29de9c8afb6878dd 100644
+index 923e213ab6a3c82faa6f659c29de9c8afb6878dd..2a4635d48c017970ee38d14148b20d38b699b030 100644
 GIT binary patch
-delta 65
-zcmdn!v&@IfCD<iIO^tzp(PASPpTuSpiND-jj*2ny!A|i4o(h|-Ro*j7L^tsVyE(;k
-V#5=kK@h~&UGl;MSIQxY#002TP5G4Qr
+delta 60
+zcmZ4Hv)YHtCD<iITaAH%@x?~2ITFGm@$Lbx9Pu8WF1(J;0iFg124<U=NW^k(4ph3z
+O%qCzDlAbK4WCZ{TDG<T{
 
-delta 76
-zcmZ4Hv(bmkCD<jzP>q3sap6WTJ_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
-e692fl928<eDg->_H_NNMXJi*)3vl)eVE_Q{`4Z;<
+delta 55
+zcmZ4Ov&@IfCD<iIO^tzp(PAUl9Er`lC89Y+{aNDO16(=cJv?1_9i0O_4Gav-7$$#I
+Lwc0GIbd4DRtqc!#
 
 diff --git a/tests/data/acpi/q35/DSDT.mmio64 b/tests/data/acpi/q35/DSDT.mmio64
-index afc260ebf4d91a2a9f7be5ff21968e99b1f9c5d1..a77aa37ca0bb407abbef134e8dce4461070856a2 100644
+index a77aa37ca0bb407abbef134e8dce4461070856a2..0491761dc7132460b08b443579f0d4cad3fa3163 100644
 GIT binary patch
-delta 64
-zcmX@(b<m5;CD<jzQI&y#@ykXoK8ejH671YuPD(NH!A|i4UW$udm6;@>oA`s>oZ>m+
-T9bJNWm>J|5MA!nH{X!T3EYS}}
+delta 60
+zcmX@;b<B&)CD<jzO_hOxamhxmITFGm@$Lbx9Pu8WF1(J;0iFg124<U=NThRYj#hle
+O%qCzDlAf%fXaxWd&Jgwh
 
-delta 75
-zcmX@;b;gU!CD<jzN0otrF?J&tpM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j
-c2@Y;9N5vSB3IR`r#hS`Y>>_Ld&VC^b0K(`I2mk;8
+delta 55
+zcmX@+b<m5;CD<jzQI&y#@ykZ8ITD+9OQdp$`m@Bl2e@*?dw9C=Iywh<8W<RuF-+!B
+Lwc0GN_?#I4)UFS_
 
 diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
-index 7c14ce3a986fa06e88f3adc088faae54bdd2d8e4..43469e6c89813025b902534ed61d39ad940ff7bb 100644
+index 43469e6c89813025b902534ed61d39ad940ff7bb..485f571afd35cbd2044baeb7027ef077ba9a133d 100644
 GIT binary patch
-delta 85
-zcmZ4FGTnvCCD<iIT#12!apOiVK8ejH66@Hw98F{5gPr09JWV#gk&|ZDiEiQ#c5{m7
-hh<9`e;$dcxXAqGJaP|vfh|>!;w2TKaK`a9>3jo0872^N^
+delta 60
+zcmbR4GRK9>CD<iIMu~xeF>xc;90_5Oc=rHTj(87G7hXr_08ax01GCLbB=}f1Gs%jw
+OvI*FOq$eMju>t_l9uGeN
 
-delta 72
-zcmbR4vdD$YCD<iINr{1hQEDR>pM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j
-aiS=w;4kj@m6#^c{n=i;oGf)1bC=CF0xDr7C
+delta 55
+zcmbQ^GTnvCCD<iIT#12!apOj=ITD+9OYpFW`m@Bl2e@*?dw9C=Iywh<8W<RuF-(4>
+LXtnv6j2J5bsWcBX
 
 diff --git a/tests/data/acpi/q35/DSDT.nohpet b/tests/data/acpi/q35/DSDT.nohpet
-index 60595f55fc72397e3ed9b1999dddd39cd98f89a8..e17b252b03b290ba39601afffbee66159a57bfb1 100644
+index e17b252b03b290ba39601afffbee66159a57bfb1..9c2ec9f2c96f6bdf536c28559fd804523134cf2c 100644
 GIT binary patch
-delta 65
-zcmccOaMFRxCD<jzQ-OhjQD7q%pTuSp2?aJTN5z=<V5fKiPle5Ka_<=>qMP`G-JIe%
-U;vHRrc$gXF8AR9uoc%%=04azMg8%>k
+delta 61
+zcmX@<aL$3tCD<jzPl17f@xVqdJ_!+#c=rHTj(87G7hXr_08ax012cxr;u5?pn@eP_
+PGP4QTgXAY$%2)va^~Ddc
 
-delta 76
-zcmX@<aK(YkCD<h-M1g^Uv2r69pM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j
-d2}L$82Zb1r3IPxK%}#Rf8QDeH0-XIq7y#w#5=8(2
+delta 55
+zcmX@-aMFRxCD<jzQ-OhjQD7q%pTuTe2_6<vf0lUn09TH94^J0fN9O=f0|NsyhRGrd
+LR+}wkt}z1ud(I7H
 
 diff --git a/tests/data/acpi/q35/DSDT.numamem b/tests/data/acpi/q35/DSDT.numamem
-index 68e67eb91097c58365e3734c9b35d32796639d54..ade716519de8bd626b3cddee686f55757bb4eb35 100644
+index ade716519de8bd626b3cddee686f55757bb4eb35..2302de88e93a22118889cd33a8c63811925cff02 100644
 GIT binary patch
-delta 65
-zcmaFic-N83CD<k8t^xxC<HwC$d=i^YB(|_|IV#4)2Rp?Jcq(lEB=??CBD#q`*v%=P
-VBi_*^h=-X$o<W2yz}YW^0RXDm5=sC7
+delta 60
+zcmccX_{fpVCD<k8kpcq)<HC(xb0maC;@tyWIpRG$U3eXx13V2349qq!kq}|o%prS~
+OnN7eRBt7}8j1>SZBN3SZ
 
-delta 76
-zcmccX_`;FPCD<k8g#rTuW7I}2J_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
-e5?k50928<eDg->_H(!%`&&V#q7U1j`!T<m#coYl(
+delta 55
+zcmaFlc-N83CD<k8t^xxC<HwC$b0jwJmJnhQ^=FB94{+s(_waP#b#xB!G%zqQW0<@`
+L!D{mvnQP1d^L-Ib
 
 diff --git a/tests/data/acpi/q35/DSDT.pvpanic-isa b/tests/data/acpi/q35/DSDT.pvpanic-isa
-index 811cd27c7e7366e61683c7c5ef67f0996f395c25..b6740b1ec2f4e01bdbdc34bc8bf0a2c36f134671 100644
+index b6740b1ec2f4e01bdbdc34bc8bf0a2c36f134671..5e4b51d33b8bb88ca2610254e6306c16e5b5b0db 100644
 GIT binary patch
-delta 65
-zcmX@^w8x3dCD<jzMv;Mm@zq8yK8ejH66@Hw+|*;@gPr09{M0tTkqcpxh;HH!c5{m7
-Vh<9`e;$dcxXAofvaP|vf003u>5Yqqv
+delta 60
+zcmdnvbkK>*CD<jzQIUaxan?qzITFGm@$Lbx9Pu8WF1(J;0iFg124<U=Nbs?2W|FmH
+OVH2<iNl!j5V+8>7gb)S*
 
-delta 76
-zcmdnvbli!{CD<jzU6Fx-F?b^vpM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j
-eiS=w;u4*wL6#~Ahn=i<PFtLlU1vvYKFaQAK!4j1K
+delta 55
+zcmX@;w8x3dCD<jzMv;Mm@zqAIITD+9OYpFW`m@Bl2e@*?dw9C=Iywh<8W<RuF-&Gx
+LwAy@3#+n5H!3Pf@
 
 diff --git a/tests/data/acpi/q35/DSDT.tis.tpm12 b/tests/data/acpi/q35/DSDT.tis.tpm12
-index 7a213e3db230064cedf3a30b83b11128286eaeba..5bc095351fd009fb2171daaa4f824c5cc9f36819 100644
+index 5bc095351fd009fb2171daaa4f824c5cc9f36819..1723fca4464383694f806f93331d008e84b93fef 100644
 GIT binary patch
-delta 65
-zcmX@$w$+WxCD<jzRGEQ+v3w&JpTuSpiCt`5&TcXB!A|i4-maT}$T_k|L^tsVyE(;k
-V#5=kK@h~&UGl;MSIQxY#0037w5R?D_
+delta 60
+zcmdn$w#$vnCD<jzN|}LyQGFxV90_5Oc=rHTj(87G7hXr_08ax01GCLbB=}f1GszmW
+Ou?g6Nq$eMju>t_xEDwVK
 
-delta 76
-zcmdn$cEF9xCD<jzL79Pp@xeweJ_%`Qz4&0K_yA{5gXkvyU|%N#j(A6xARcB0d4|p6
-e61&;BoLpl-Dg?Y-Hs6tRWMLO!3vl)eVE_OJ;S*K>
+delta 54
+zcmdnxw$+WxCD<jzRGEQ+v3w)f9Er`lC3sjw{aNDO16(=cJv?1_9i0O_4Gav-7$zxO
+KZ9XPr!Uh1Jz7CfF
 
 diff --git a/tests/data/acpi/q35/DSDT.tis.tpm2 b/tests/data/acpi/q35/DSDT.tis.tpm2
-index b55e828c6397f80c14de82f371fa34553008a875..47417f47f7e25576f31207cb0b752b8c086a4480 100644
+index 47417f47f7e25576f31207cb0b752b8c086a4480..1a0d6284da01addd0393b8aad96873398411895e 100644
 GIT binary patch
-delta 65
-zcmccRcHWK4CD<jzUzve{QFtR4pTuSpiCt`5zV0#c!A|i4uI`(E$VIbAL^tsVyE(;k
-V#5=kK@h~&UGl;MSIQxY#003F<5T5`5
+delta 60
+zcmX@_cEyd$CD<h-M45qs@$g2jITFGm@$Lbx9Pu8WF1(J;0iFg124<U=Nbs?2W|H+~
+OV-v6kNl!j5V+8;TzYvE2
 
-delta 76
-zcmX@_cFT>+CD<h-N|}Lyv1TI|pM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j
-eiQQ~mK5j7}6#_19oA1a)v#^V>1vvYKFaQ7tbrWF#
+delta 55
+zcmccOcHWK4CD<jzUzve{QFtTQ9Er`lC3sjw{aNDO16(=cJv?1_9i0O_4Gav-7$!?8
+LTWvlj<HrU7tkw>;
 
 diff --git a/tests/data/acpi/q35/DSDT.viot b/tests/data/acpi/q35/DSDT.viot
-index a8a93fe70d8e98ec0e66278b45d36393b75740ec..574b8a0094c556cd8555b7a4e1b92b2d5f64750a 100644
+index 574b8a0094c556cd8555b7a4e1b92b2d5f64750a..6927d1cc96565f0e1e4c7f19fd709635873db912 100644
 GIT binary patch
-delta 65
-zcmdn)wZ@CfCD<iIN0otr@ySLmK8ejH68pKhTvcP@gPr09d{s98RWfFhh;HH!c5{m7
-Vh<9`e;$dcxXAofvaP|vf003b*5VQaQ
+delta 60
+zcmZ4Ewb6^qCD<jzP?dp!amq%nITFGm@$Lbx9Pu8WF1(J;0iFg124<U=Nbs?2W|Gz7
+OU=y$hNl!j5V+8=~s1Mix
 
-delta 76
-zcmZ4EwcU%$CD<jzT$O==(RU*kpM<ouUVN}qe1Nm3L39&;u&<K=N4%p;5DznhJi}&j
-ei340*E-En~6#_oWn;$9}GqH=X1vvYKFaQAC!xDA?
+delta 55
+zcmdn!wZ@CfCD<iIN0otr@ySN6ITD+9OYpFW`m@Bl2e@*?dw9C=Iywh<8W<RuF--oh
+LVzv30j5Y@V!R`;`
 
 diff --git a/tests/data/acpi/q35/DSDT.xapic b/tests/data/acpi/q35/DSDT.xapic
-index 8211f5af8f9433b66b64768acb1de61a5716152a..74381116ad7f01a860fee9201df38d1ea24a0be6 100644
+index 74381116ad7f01a860fee9201df38d1ea24a0be6..4a8a4af625edb1fd01a1404e33f34e85c1a252f3 100644
 GIT binary patch
-delta 67
-zcmX>)ooUx}CN7s?myliE3=E8aH*)bwY&MaYSjgq57!x1t6ffYZu=#xFdq#=qCjMYI
-Xr+AKdN0%TTW(Ii%5w-wlzYqoh?b#EU
+delta 62
+zcmdlrooWAcCN7s?myrG43=E8GH*(F95EhAd4{+s(_waP#b#xB!G%zqQ+q^{LW8UVc
+R?N^!E1nfc5lUKD{0RVxr6)gY&
 
-delta 78
-zcmdlro$2UwCN7s?myn~~3=E8E8@c!-q^0%ZgPr07oIMSqoA`r$oeVhQ9bJNWm>J|5
-gHj7J4D&%rdhyke(@Q~lUx$`|Ey9ir=vtI}U0BHvmS^xk5
+delta 57
+zcmV-90LK5nmjb$%0t!S^L{z$q0005~u?n0Rv%47YZWT`iUq?_y2wzA^L=8bhP)RT_
+PFg5^_g^N0~sfX4BNAVNl
 
 -- 
 MST
