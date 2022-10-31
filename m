@@ -2,100 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39CF61368E
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:39:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023F4613689
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:38:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opU2K-0000ER-S3; Mon, 31 Oct 2022 08:37:04 -0400
+	id 1opU3j-0002VF-UF; Mon, 31 Oct 2022 08:38:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opU1q-0008OA-5t
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:36:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opU1o-0005I6-2S
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:36:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667219791;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dBADgNICLxtyr3ibi9b4wCkSi84/uwkHFo6qCYo92es=;
- b=eoqwwQIwZN3od9iaDQsQLtw1qnWyis7py0pex58gqR7//aZDLZyNmzRz5Kc/oyD/3pSzHL
- ju7Q02stNFf5cw0CbeZGPxT56zRQLDUy4ozsR7ir/Ww6eE51ka8AhMfjPhpJf6lxRzaWKq
- RxWsRTjWMCWUY78qI5QXZ38HZRHu+rQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-159-3OBrWsJ8N26T8fkv_HBqrA-1; Mon, 31 Oct 2022 08:36:30 -0400
-X-MC-Unique: 3OBrWsJ8N26T8fkv_HBqrA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- d13-20020a05600c34cd00b003ce1f62ac5aso8293314wmq.4
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:36:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1opU2V-0000tE-43
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:37:21 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1opU2S-0005Wh-Dj
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:37:14 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id f140so10586239pfa.1
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:37:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ck0/ejCCV3Y/CdpBq+7+EezAjskw6ud40SZ8iH1h2dc=;
+ b=KCu+3CAbDLte+RrY1/hli+xUL9z1Mz8KlwSKmOxkoDwUAQ90MB7QjtXa5h3EJnyNdh
+ Hfrd4vmPA+aHmQtIFjh5YD+NvOiICO7vE1bVWNpuEe9jdS9U8HKwANp/52nnt1MozA/7
+ IosWBVt+FAwBntFp1v7N6oEfyT4MYeWO80LY4BgqepooLLYqLCuaaV0TkdaYgxIN5UQu
+ uodWbaEAWSFDlSskhL6WaR69kvhvn5Dg5y4yxLbD8iL/YTPBlscgurIrorgSM/ta4JbV
+ YgIud7Dxm/6YijQSanbtjctt9LBqUE5i16gJZhL/0vhlCDGLLEZfYZn5VjaQwXTo18KG
+ u/vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dBADgNICLxtyr3ibi9b4wCkSi84/uwkHFo6qCYo92es=;
- b=Et2wgmu+tTtJUKJ4VkytQOuP9Y96bmaXZqzLEERRqUpmKxhx3BQgfR+z5WIe2yuF9v
- SoGAx9iE95Ms81lDnZHORZe0wTFz1hTvlh9WT8Pla7UTh3tIeBpG+AFRcmcDb66B2NpL
- btRqQCqqTobjeFhj2gS1+Mu7MaowpdoTTfD4fgaMuQj+PUuJJidQHVdgSGVlsSL5H/k6
- CU8niHqY/uXYiPPdLonZv5EiKnnYAsIkJOMo7jU6l2q/AT0dxnGn7AHDGI9A+73yH143
- 3xcpKmvajHDFmTt1fIe75VW9FRv2piHcjAsk77iJMxPouMmMyAEWn/B1409RWb+BjZNV
- lAZw==
-X-Gm-Message-State: ACrzQf3DLXha13pNRDs4eRBP72Ji6ShhP5MSm7UU0kXhocayM7mo+QAT
- h6HJQG9MbO3zRapnRbIuxvSM3EpgSPq0sTGnSvsUiyuUbLTzyGfaVIcxYhClKtp+bVDw0gUwsbt
- g0E+JT+RvVYxu22Q=
-X-Received: by 2002:a5d:42c7:0:b0:236:4ddd:3576 with SMTP id
- t7-20020a5d42c7000000b002364ddd3576mr8068554wrr.289.1667219789112; 
- Mon, 31 Oct 2022 05:36:29 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4Y0/2KYOOP3wiMGizDRSbcR/dhaBvz4e37E/4ZTVWWtYqRBJKCUtS6GcBB4+PhYvYqvz+RCg==
-X-Received: by 2002:a5d:42c7:0:b0:236:4ddd:3576 with SMTP id
- t7-20020a5d42c7000000b002364ddd3576mr8068533wrr.289.1667219788830; 
- Mon, 31 Oct 2022 05:36:28 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- q9-20020a5d61c9000000b00236733f0f98sm6933685wrv.107.2022.10.31.05.36.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:36:28 -0700 (PDT)
-Date: Mon, 31 Oct 2022 08:36:24 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Gautam Dawar <gdawar@xilinx.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, Jason Wang <jasowang@redhat.com>,
- Si-Wei Liu <si-wei.liu@oracle.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Parav Pandit <parav@mellanox.com>, Laurent Vivier <lvivier@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Cindy Lu <lulu@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
- Harpreet Singh Anand <hanand@xilinx.com>
-Subject: Re: [PATCH v5 2/6] vdpa: Allocate SVQ unconditionally
-Message-ID: <20221031083559-mutt-send-email-mst@kernel.org>
-References: <20221011104154.1209338-1-eperezma@redhat.com>
- <20221011104154.1209338-3-eperezma@redhat.com>
- <20221031041821-mutt-send-email-mst@kernel.org>
- <CAJaqyWcaZ32agF0CKPUU89NHj0Di9Q5kFJDsWcUwCG2q0u_kEQ@mail.gmail.com>
- <20221031082106-mutt-send-email-mst@kernel.org>
- <CAJaqyWdCRBL-5bBqrOyyTMqmKDEXjufaCs85+vr2E7akhNC0rg@mail.gmail.com>
+ bh=ck0/ejCCV3Y/CdpBq+7+EezAjskw6ud40SZ8iH1h2dc=;
+ b=Bg6Uper4joZUqN84BNXaGTkKFF+/0CJlrytmsauxNXTRXWAQY/fnD3l+WULO+s18vX
+ XNdSMfM4Baa1078sAIyGDIDgKaADyK5EHZohuPp6X/UqNxU3Qw7xwQj1URgyJY2Hm15W
+ XyLu+BJ6SU0XMfEUMk9iyH6vqMrABMpWJXEA9X0wTphhKYlJysAqZJiYkr49DvUMvSBZ
+ 5OATwP5jdwgc/oB2fm7OHWoUdo4TtplbipvfwnSSz6aA2nUJH2FuLEwY17zWLvTMf9H6
+ 5WbUlWs3qwyhvv/voZjx6PPRQJmj9okk4dQqkZ3aYLihH1vc+rodHS3zOPvA2bgVPGhF
+ f4Xw==
+X-Gm-Message-State: ACrzQf3aNkSd1iy0iZUPVevZeqyWk0PVZ1p5fRZH0jUo6G5gz8AfXmd2
+ 51c4Zg2SriydwwCqLDFOifcLOw==
+X-Google-Smtp-Source: AMsMyM50aXYGxoMG4gnlnXSXu7WQHxKCBzNqnY8sjeYEKZ5UpKBCqsAedlVXnvl2yf1YyKQTmiyuYg==
+X-Received: by 2002:a63:6f8a:0:b0:439:36bc:89f9 with SMTP id
+ k132-20020a636f8a000000b0043936bc89f9mr12276042pgc.100.1667219830105; 
+ Mon, 31 Oct 2022 05:37:10 -0700 (PDT)
+Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419?
+ ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+ by smtp.gmail.com with ESMTPSA id
+ a27-20020aa78e9b000000b0056a7486da77sm4670774pfr.13.2022.10.31.05.37.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Oct 2022 05:37:09 -0700 (PDT)
+Message-ID: <6eff2573-9181-19b8-0a22-65daf8e1e7d6@daynix.com>
+Date: Mon, 31 Oct 2022 21:37:03 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJaqyWdCRBL-5bBqrOyyTMqmKDEXjufaCs85+vr2E7akhNC0rg@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v5 01/17] hw/vfio/pci: Ensure MSI and MSI-X do not overlap
+Content-Language: en-US
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang
+ <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Paul Burton <paulburton@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Yan Vugenfirer <yan@daynix.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>
+References: <20221028122629.3269-1-akihiko.odaki@daynix.com>
+ <20221028122629.3269-2-akihiko.odaki@daynix.com>
+ <20221028081627.50c9bf61.alex.williamson@redhat.com>
+ <8bcd5f5a-7b9a-6359-a63d-3f72e44f7d43@daynix.com>
+ <20221028132339.014ffee0.alex.williamson@redhat.com>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20221028132339.014ffee0.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,132 +111,196 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 31, 2022 at 01:34:42PM +0100, Eugenio Perez Martin wrote:
-> On Mon, Oct 31, 2022 at 1:25 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Mon, Oct 31, 2022 at 12:56:06PM +0100, Eugenio Perez Martin wrote:
-> > > On Mon, Oct 31, 2022 at 9:21 AM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > >
-> > > > On Tue, Oct 11, 2022 at 12:41:50PM +0200, Eugenio Pérez wrote:
-> > > > > SVQ may run or not in a device depending on runtime conditions (for
-> > > > > example, if the device can move CVQ to its own group or not).
-> > > > >
-> > > > > Allocate the resources unconditionally, and decide later if to use them
-> > > > > or not.
-> > > > >
-> > > > > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> > > >
-> > > > I applied this for now but I really dislike it that we are wasting
-> > > > resources like this.
-> > > >
-> > > > Can I just drop this patch from the series? It looks like things
-> > > > will just work anyway ...
-> > > >
-> > >
-> > > It will not work simply dropping this patch, because new code expects
-> > > SVQ vrings to be already allocated. But that is doable with more work.
-> > >
-> > > > I know, when one works on a feature it seems like everyone should
-> > > > enable it - but the reality is qemu already works quite well for
-> > > > most users and it is our resposibility to first do no harm.
-> > > >
-> > >
-> > > I agree, but then it is better to drop this series entirely for this
-> > > merge window. I think it is justified to add it at the beginning of
-> > > the next merge window, and to give more time for testing and adding
-> > > more features actually.
-> >
-> > Not sure what "then" means. You tell me - should I drop it?
-> >
+On 2022/10/29 4:23, Alex Williamson wrote:
+> On Sat, 29 Oct 2022 01:12:11 +0900
+> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
 > 
-> Yes, I think it is better to drop it for this merge window, since it
-> is possible to both not to allocate SVQ unconditionally and to improve
-> the conditions where the shadow CVQ can be enabled.
-
-ok
-
-> > > However, I think shadow CVQ should start by default as long as the
-> > > device has the right set of both virtio and vdpa features. Otherwise,
-> > > we need another cmdline parameter, something like x-cvq-svq, and the
-> > > update of other layers like libvirt.
-> > >
-> > > Thanks!
-> >
-> > OK maybe that is not too bad.
-> >
+>> On 2022/10/28 23:16, Alex Williamson wrote:
+>>> On Fri, 28 Oct 2022 21:26:13 +0900
+>>> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>>    
+>>>> vfio_add_std_cap() is designed to ensure that capabilities do not
+>>>> overlap, but it failed to do so for MSI and MSI-X capabilities.
+>>>>
+>>>> Ensure MSI and MSI-X capabilities do not overlap with others by omitting
+>>>> other overlapping capabilities.
+>>>>
+>>>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>>>> ---
+>>>>    hw/vfio/pci.c | 63 +++++++++++++++++++++++++++++++++++++++++++--------
+>>>>    hw/vfio/pci.h |  3 +++
+>>>>    2 files changed, 56 insertions(+), 10 deletions(-)
+>>>>
+>>>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>>>> index 939dcc3d4a..36c8f3dc85 100644
+>>>> --- a/hw/vfio/pci.c
+>>>> +++ b/hw/vfio/pci.c
+>>>> @@ -1278,23 +1278,42 @@ static void vfio_disable_interrupts(VFIOPCIDevice *vdev)
+>>>>        }
+>>>>    }
+>>>>    
+>>>> -static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+>>>> +static void vfio_msi_early_setup(VFIOPCIDevice *vdev, Error **errp)
+>>>>    {
+>>>>        uint16_t ctrl;
+>>>> -    bool msi_64bit, msi_maskbit;
+>>>> -    int ret, entries;
+>>>> -    Error *err = NULL;
+>>>> +    uint8_t pos;
+>>>> +
+>>>> +    pos = pci_find_capability(&vdev->pdev, PCI_CAP_ID_MSI);
+>>>> +    if (!pos) {
+>>>> +        return;
+>>>> +    }
+>>>>    
+>>>>        if (pread(vdev->vbasedev.fd, &ctrl, sizeof(ctrl),
+>>>>                  vdev->config_offset + pos + PCI_CAP_FLAGS) != sizeof(ctrl)) {
+>>>>            error_setg_errno(errp, errno, "failed reading MSI PCI_CAP_FLAGS");
+>>>> -        return -errno;
+>>>> +        return;
+>>>>        }
+>>>> -    ctrl = le16_to_cpu(ctrl);
+>>>> +    vdev->msi_pos = pos;
+>>>> +    vdev->msi_ctrl = le16_to_cpu(ctrl);
+>>>>    
+>>>> -    msi_64bit = !!(ctrl & PCI_MSI_FLAGS_64BIT);
+>>>> -    msi_maskbit = !!(ctrl & PCI_MSI_FLAGS_MASKBIT);
+>>>> -    entries = 1 << ((ctrl & PCI_MSI_FLAGS_QMASK) >> 1);
+>>>> +    vdev->msi_cap_size = 0xa;
+>>>> +    if ((vdev->msi_ctrl & PCI_MSI_FLAGS_MASKBIT)) {
+>>>> +        vdev->msi_cap_size += 0xa;
+>>>> +    }
+>>>> +    if ((vdev->msi_ctrl & PCI_MSI_FLAGS_64BIT)) {
+>>>> +        vdev->msi_cap_size += 0x4;
+>>>> +    }
+>>>> +}
+>>>> +
+>>>> +static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+>>>> +{
+>>>> +    bool msi_64bit, msi_maskbit;
+>>>> +    int ret, entries;
+>>>> +    Error *err = NULL;
+>>>> +
+>>>> +    msi_64bit = !!(vdev->msi_ctrl & PCI_MSI_FLAGS_64BIT);
+>>>> +    msi_maskbit = !!(vdev->msi_ctrl & PCI_MSI_FLAGS_MASKBIT);
+>>>> +    entries = 1 << ((vdev->msi_ctrl & PCI_MSI_FLAGS_QMASK) >> 1);
+>>>>    
+>>>>        trace_vfio_msi_setup(vdev->vbasedev.name, pos);
+>>>>    
+>>>> @@ -1306,7 +1325,6 @@ static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+>>>>            error_propagate_prepend(errp, err, "msi_init failed: ");
+>>>>            return ret;
+>>>>        }
+>>>> -    vdev->msi_cap_size = 0xa + (msi_maskbit ? 0xa : 0) + (msi_64bit ? 0x4 : 0);
+>>>>    
+>>>>        return 0;
+>>>>    }
+>>>> @@ -1524,6 +1542,7 @@ static void vfio_msix_early_setup(VFIOPCIDevice *vdev, Error **errp)
+>>>>        pba = le32_to_cpu(pba);
+>>>>    
+>>>>        msix = g_malloc0(sizeof(*msix));
+>>>> +    msix->pos = pos;
+>>>>        msix->table_bar = table & PCI_MSIX_FLAGS_BIRMASK;
+>>>>        msix->table_offset = table & ~PCI_MSIX_FLAGS_BIRMASK;
+>>>>        msix->pba_bar = pba & PCI_MSIX_FLAGS_BIRMASK;
+>>>> @@ -2025,6 +2044,24 @@ static int vfio_add_std_cap(VFIOPCIDevice *vdev, uint8_t pos, Error **errp)
+>>>>            }
+>>>>        }
+>>>>    
+>>>> +    if (cap_id != PCI_CAP_ID_MSI &&
+>>>> +        range_covers_byte(vdev->msi_pos, vdev->msi_cap_size, pos)) {
+>>>> +        warn_report(VFIO_MSG_PREFIX
+>>>> +                    "A capability overlaps with MSI, ignoring (%" PRIu8 " @ %" PRIu8 " in [%" PRIu8 ", %" PRIu8 "))",
+>>>> +                    vdev->vbasedev.name, cap_id, pos,
+>>>> +                    vdev->msi_pos, vdev->msi_pos + vdev->msi_cap_size);
+>>>> +        return 0;
+>>>> +    }
+>>>> +
+>>>> +    if (cap_id != PCI_CAP_ID_MSIX && vdev->msix &&
+>>>> +        range_covers_byte(vdev->msix->pos, MSIX_CAP_LENGTH, pos)) {
+>>>> +        warn_report(VFIO_MSG_PREFIX
+>>>> +                    "A capability overlaps with MSI-X, ignoring (%" PRIu8 " @ %" PRIu8 " in [%" PRIu8 ", %" PRIu8 "))",
+>>>> +                    vdev->vbasedev.name, cap_id, pos,
+>>>> +                    vdev->msix->pos, vdev->msix->pos + MSIX_CAP_LENGTH);
+>>>> +        return 0;
+>>>> +    }
+>>>
+>>> Capabilities are not a single byte, the fact that it doesn't start
+>>> within the MSI or MSI-X capability is not a sufficient test.  We're
+>>> also choosing to prioritize MSI and MSI-X capabilities by protecting
+>>> that range rather than the existing behavior where we'd drop those
+>>> capabilities if they overlap with another capability that has already
+>>> been placed.  There are merits to both approaches, but I don't see any
+>>> justification here to change the current behavior.
+>>>
+>>> Isn't the most similar behavior to existing to pass the available size
+>>> to vfio_msi[x]_setup() and return an errno if the size would be
+>>> exceeded?  Something like below (untested, and requires exporting
+>>> msi_cap_sizeof()).  Thanks,
+>>
+>> It only tests the beginning of the capability currently being added
+>> because its end is determined by vfio_std_cap_max_size() so that the
+>> overlap does not happen.
+>>
+>> A comment in vfio_add_std_cap() says:
+>>   >     /*
+>>   >      * If it becomes important to configure capabilities to their actual
+>>   >      * size, use this as the default when it's something we don't
+>> recognize.
+>>   >      * Since QEMU doesn't actually handle many of the config accesses,
+>>   >      * exact size doesn't seem worthwhile.
+>>   >      */
+>>
+>> My understanding of the problem is that while clipping is performed when
+>> overlapping two capabilities other than MSI and MSI-X according to the
+>> comment, the clipping does not happen when one of the overlapping
+>> capability is MSI or MSI-X.
+>>
+>> According to that, the correct way to fix is to perform clipping also in
+>> such a case. As QEMU actually handles the config acccesses for MSI and
+>> MSI-X, MSI and MSI-X are always priotized over the other capabilities.
 > 
-> So it would be more preferable to add more parameters?
+> Here's a scenario, a vendor ships a device with an MSI capability where
+> the MSI control register reports per vector masking, but the packing of
+> the capabilities is such that the next capability doesn't allow for the
+> mask and pending bits registers.  Currently, depending on the order we
+> add them, pci_add_capability() will fail for either the MSI capability
+> or the encroaching capability.  This failure will propagate back to
+> vfio_realize and we'll fail to instantiate the device.  To make this
+> scenario even a bit more pathological, let's assume the encroaching
+> capability is MSI-X.
+> 
+> As proposed here, we'd drop the MSI-X capability because it's starting
+> position lies within our expectation of the extent of the MSI
+> capability, and we'd allow the device to initialize with only MSI.
+> Was that intentional?  Was that a good choice?  What if the driver
+> only supports MSI-X?  We've subtly, perhaps unintentionally, changed
+> the policy based on some notion of prioritizing certain capabilities
+> over others.
+> 
+> The intent of vfio_std_cap_max_size() is not to intentionally
+> clip ranges, it's only meant to simplify defining the extent of a
+> capability to be bounded by the nearest capability after it in config
+> space.
+> 
+> Currently we rely on a combination of our own range management and the
+> overlap detection in pci_add_capability() to generate a device
+> instantiation failure.  If it's deemed worthwhile to remove the latter,
+> and that is the extent of the focus of this series, let's not go
+> dabbling into defining new priority schemes for capabilities and
+> defining certain overlap scenarios as arbitrarily continue'able.
+> Thanks,
+> 
+> Alex
+> 
 
+You are right. I missed the part that vfio_std_cap_max_size() is not 
+intended to clip ranges. That invalidates reasoning to continue when 
+MSI/MSI-X capability overlaps with another.
 
-Sorry i means just for cvq it's not too bad to have svq always.
+I have sent v6 to make the cases error. Thanks for reviewing and 
+pointing this out.
 
-> >
-> > > >
-> > > > > ---
-> > > > >  hw/virtio/vhost-vdpa.c | 33 +++++++++++++++------------------
-> > > > >  1 file changed, 15 insertions(+), 18 deletions(-)
-> > > > >
-> > > > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > > > > index 7f0ff4df5b..d966966131 100644
-> > > > > --- a/hw/virtio/vhost-vdpa.c
-> > > > > +++ b/hw/virtio/vhost-vdpa.c
-> > > > > @@ -410,6 +410,21 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
-> > > > >      int r;
-> > > > >      bool ok;
-> > > > >
-> > > > > +    shadow_vqs = g_ptr_array_new_full(hdev->nvqs, vhost_svq_free);
-> > > > > +    for (unsigned n = 0; n < hdev->nvqs; ++n) {
-> > > > > +        g_autoptr(VhostShadowVirtqueue) svq;
-> > > > > +
-> > > > > +        svq = vhost_svq_new(v->iova_tree, v->shadow_vq_ops,
-> > > > > +                            v->shadow_vq_ops_opaque);
-> > > > > +        if (unlikely(!svq)) {
-> > > > > +            error_setg(errp, "Cannot create svq %u", n);
-> > > > > +            return -1;
-> > > > > +        }
-> > > > > +        g_ptr_array_add(shadow_vqs, g_steal_pointer(&svq));
-> > > > > +    }
-> > > > > +
-> > > > > +    v->shadow_vqs = g_steal_pointer(&shadow_vqs);
-> > > > > +
-> > > > >      if (!v->shadow_vqs_enabled) {
-> > > > >          return 0;
-> > > > >      }
-> > > > > @@ -426,20 +441,6 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
-> > > > >          return -1;
-> > > > >      }
-> > > > >
-> > > > > -    shadow_vqs = g_ptr_array_new_full(hdev->nvqs, vhost_svq_free);
-> > > > > -    for (unsigned n = 0; n < hdev->nvqs; ++n) {
-> > > > > -        g_autoptr(VhostShadowVirtqueue) svq;
-> > > > > -
-> > > > > -        svq = vhost_svq_new(v->iova_tree, v->shadow_vq_ops,
-> > > > > -                            v->shadow_vq_ops_opaque);
-> > > > > -        if (unlikely(!svq)) {
-> > > > > -            error_setg(errp, "Cannot create svq %u", n);
-> > > > > -            return -1;
-> > > > > -        }
-> > > > > -        g_ptr_array_add(shadow_vqs, g_steal_pointer(&svq));
-> > > > > -    }
-> > > > > -
-> > > > > -    v->shadow_vqs = g_steal_pointer(&shadow_vqs);
-> > > > >      return 0;
-> > > > >  }
-> > > > >
-> > > > > @@ -580,10 +581,6 @@ static void vhost_vdpa_svq_cleanup(struct vhost_dev *dev)
-> > > > >      struct vhost_vdpa *v = dev->opaque;
-> > > > >      size_t idx;
-> > > > >
-> > > > > -    if (!v->shadow_vqs) {
-> > > > > -        return;
-> > > > > -    }
-> > > > > -
-> > > > >      for (idx = 0; idx < v->shadow_vqs->len; ++idx) {
-> > > > >          vhost_svq_stop(g_ptr_array_index(v->shadow_vqs, idx));
-> > > > >      }
-> > > > > --
-> > > > > 2.31.1
-> > > >
-> >
-
+Regards,
+Akihiko Odaki
 
