@@ -2,92 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1644D613F1B
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 21:41:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3906613F1C
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 21:41:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opba3-0003su-Gn; Mon, 31 Oct 2022 16:40:24 -0400
+	id 1opbak-0004np-Bh; Mon, 31 Oct 2022 16:41:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opbZy-0003oU-VD
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 16:40:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opbZw-0001er-Tt
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 16:40:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667248816;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=X0cSalSXCOa4oNNxWH/EnUJQatAd0WdN9QNxpxuwPdc=;
- b=Qmdr6QeR6X5yuq0l+WiAkBBV/EDBiP7Hve2sThJmRGFBxl+DmoGTBLU2XXTrMQadppj3n2
- IG5K4Jmjex9vz3ehr4T5bJRz75U3mgjkubEF1PWfzPcT64xNCaIL0/gPeFgaS1v2VRK9Pd
- qwctP7K1ALNquOBTmnExFR45cN6bdXc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-255-ThnE6S_2Mdy16GjG4Rkc8Q-1; Mon, 31 Oct 2022 16:40:14 -0400
-X-MC-Unique: ThnE6S_2Mdy16GjG4Rkc8Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o18-20020a05600c4fd200b003c6ceb1339bso55631wmq.1
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 13:40:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1opbaf-0004gS-VT
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 16:41:02 -0400
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1opbad-00023U-5e
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 16:41:01 -0400
+Received: by mail-yb1-xb2c.google.com with SMTP id f205so15108340yba.2
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 13:40:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=I8nBGd1WeWILQ32BhDC+FfHtdB5B9+fqD2EY1tA46Nk=;
+ b=eaKYHpUGUQXotc2lQTfiCX4gCJGVmyQR8I8PM3Hkc/LpNgbzKxetgYx1FfBJ2QgIhn
+ cgQz954Mpy4UiJ+EZ9WbxS5BInNafPFSOVNK4ntktNofuiCRVwSrBuz3IR4K39FyxcX8
+ aOBZd4N/iNUsck5C1J7LPaiEb308SDGsqE8xhPAxq+gkE+uFxjTmJghIcXogP5ufwYvb
+ rhTZsSp9GB1xO9pMTirllM9NWJCHO5fYjNPMmt91GxWm2XBrqTRZCyeXsduyvk6nskho
+ evnxU6TXY8aUOpTmy5vA+EJ+tVtN7KWQtq7dSNcmyyDEA2WjUGaHzd584vKhKRdsx0Bw
+ BW4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=X0cSalSXCOa4oNNxWH/EnUJQatAd0WdN9QNxpxuwPdc=;
- b=T7NLFyTKjn0+pVMFjkvXMY4ukDPAkgzfQkj0LS229T+FTkKoiXdmEMTQ3VM4TLSIPw
- ImZ8CR6jcboe8pV4KDOLjQwBtSAH996I55aN1V2HExo9yJYqh0eHUP4LLRKoUH3+uBAZ
- mbsz8qoI1HorrGKe+Ca6ZCESRe0CpG6Fi6PZ7pjhZajtYlJjifaCDS4zFVtyBH2JN/Wp
- e4IwGSf+OKVL7lcWcmdZzv72/DVIHt8oJlwlci40b3NOeVxBIRrgReueQ0fJ9L3BV8nU
- H2FNL6geGU9rcB/3g6fvdOIFv8Qch9pKA1N2yMP7WHom0Gy7t8rs17W83Rt/w7WBJspO
- pwiQ==
-X-Gm-Message-State: ACrzQf3V/C33j2VLPPMkO8TvksmSSs9eyahBJdt/Is0+EwB2QvQZrVPq
- 9f55bp/0syutTPr8S2m7/CdNMzlUIQQsBOEBt44MVLpyoHiG86OTLC74hY2b/DOOVkP918OV0H9
- vMSlI4rCVD4M6zVU=
-X-Received: by 2002:a5d:6550:0:b0:236:960f:15cf with SMTP id
- z16-20020a5d6550000000b00236960f15cfmr9421771wrv.177.1667248812673; 
- Mon, 31 Oct 2022 13:40:12 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM60ivF+mdnquTvWy2lMd3LjqSzuyNIEa/kEGi2NjxY6IwwMM3yaOz9TT4u8twl55dX4+k5bVA==
-X-Received: by 2002:a5d:6550:0:b0:236:960f:15cf with SMTP id
- z16-20020a5d6550000000b00236960f15cfmr9421754wrv.177.1667248812390; 
- Mon, 31 Oct 2022 13:40:12 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- k3-20020adfd223000000b00228dbf15072sm8112761wrh.62.2022.10.31.13.40.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 13:40:11 -0700 (PDT)
-Date: Mon, 31 Oct 2022 16:40:08 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Lev Kujawski <lkujaw@mailbox.org>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- John Snow <jsnow@redhat.com>, qemu-block@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Laurent Vivier <lvivier@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- stefanha@redhat.com
-Subject: Re: [PATCH 1/2] qpci_device_enable: Allow for command bits hardwired
- to 0
-Message-ID: <20221031163908-mutt-send-email-mst@kernel.org>
-References: <20221007095229-mutt-send-email-mst@kernel.org>
- <20221024094621.512806-1-lkujaw@mailbox.org>
- <20221024094621.512806-2-lkujaw@mailbox.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=I8nBGd1WeWILQ32BhDC+FfHtdB5B9+fqD2EY1tA46Nk=;
+ b=AmHGRu0N+7p9ORvpTX4Yg8lx2Fl3qZXs9Hys4sMtZnRYrcKyxNhFzBg3+SAs8hCucs
+ J4t8zKgzIaBaozQhUnK4Mt2eAASBioNGZZ6EqcM5jn9Mt32k4VMErS/H/jICRDyuxXoP
+ UTGokG2bFs6MPv8bfS0So9YHkb7H43R2DQxe+UlPHr/hYTmAJ/VDdNOXR7r/CJFRvKgt
+ EINoeXzpyb7zwCp23D5EgQZJ9dM7rmTuLunEl9Rpqf5xMBUuwcUdESDZ3x+jtD2Cg/UF
+ 9BrKbOF5vtYkxN4XKnZG4QCwFUjYK/vvrOU6UlNsv2jVG6qQOVvKntZ03diYF/NBx+90
+ JsJg==
+X-Gm-Message-State: ACrzQf2IT+EECKIbqSzedFL3ngvPbE8OgJnxozC8vyK4FKkK/h94AerO
+ jz7/3SZo5S8pViL5wIbSxoipEw+epUn/ij/lWm0=
+X-Google-Smtp-Source: AMsMyM6g32ENXvjfEuWav5mMcbdOTO6qa75tbFKyVDJIQMxkvbkbmQRL2kJ8P+GMhupKjspwKsbiiiRWgILxHxz5ZXw=
+X-Received: by 2002:a25:1e89:0:b0:6bf:9e55:5cb4 with SMTP id
+ e131-20020a251e89000000b006bf9e555cb4mr14970297ybe.642.1667248857904; Mon, 31
+ Oct 2022 13:40:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221024094621.512806-2-lkujaw@mailbox.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20221031124928.128475-1-mst@redhat.com>
+ <CAJSP0QXz+7Yvde1-N4OjQQ+Vo95UsQoOONmRXQsBg8wEJFaC3g@mail.gmail.com>
+ <CAJSP0QUPg2pMZ1Waxwz-gQM+ObmudiuPvPGbY2anzVf6GBLWZg@mail.gmail.com>
+ <20221031163608-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221031163608-mutt-send-email-mst@kernel.org>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 31 Oct 2022 16:40:46 -0400
+Message-ID: <CAJSP0QV=afgvy2+6ptvJ7xkgiHureb6H0JuHG1Et5t3ExBda_A@mail.gmail.com>
+Subject: Re: [PULL 00/86] pci,pc,virtio: features, tests, fixes, cleanups
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,75 +85,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 24, 2022 at 09:46:20AM +0000, Lev Kujawski wrote:
-> Devices like the PIIX3/4 IDE controller do not support certain modes
-> of operation, such as memory space accesses, and indicate this lack of
-> support by hardwiring the applicable bits to zero.  Extend the QEMU
-> PCI device testing framework to accommodate such devices.
-> 
-> * tests/qtest/libqos/pci.h: Add the command_disabled word to indicate
->   bits hardwired to 0.
-> * tests/qtest/libqos/pci.c: Verify that hardwired bits are actually
->   hardwired.
-> 
-> Signed-off-by: Lev Kujawski <lkujaw@mailbox.org>
+On Mon, 31 Oct 2022 at 16:37, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Mon, Oct 31, 2022 at 04:12:24PM -0400, Stefan Hajnoczi wrote:
+> > Another CI failure:
+> > https://gitlab.com/qemu-project/qemu/-/jobs/3253817492
+> >
+> > Stefan
+>
+> Thanks!
+> Freeze rules only require pull request on list so I think it's ok if I
+> handle the failout and resubmit day after tomorrow, right?
 
+Yes, exactly. That's fine!
+https://wiki.qemu.org/Planning/SoftFeatureFreeze
 
-This patch makes the fuzzer unhappy with qpci_device_enable():
-https://gitlab.com/qemu-project/qemu/-/jobs/3253817499
+Happy Election Day :)
 
-Will drop this patchset for now, pls address and resubmit.
-
-
-
-> ---
->  tests/qtest/libqos/pci.c | 13 +++++++------
->  tests/qtest/libqos/pci.h |  1 +
->  2 files changed, 8 insertions(+), 6 deletions(-)
-> 
-> diff --git a/tests/qtest/libqos/pci.c b/tests/qtest/libqos/pci.c
-> index b23d72346b..4f3d28d8d9 100644
-> --- a/tests/qtest/libqos/pci.c
-> +++ b/tests/qtest/libqos/pci.c
-> @@ -220,18 +220,19 @@ int qpci_secondary_buses_init(QPCIBus *bus)
->  
->  void qpci_device_enable(QPCIDevice *dev)
->  {
-> -    uint16_t cmd;
-> +    const uint16_t enable_bits =
-> +        PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER;
-> +    uint16_t cmd, new_cmd;
->  
->      /* FIXME -- does this need to be a bus callout? */
->      cmd = qpci_config_readw(dev, PCI_COMMAND);
-> -    cmd |= PCI_COMMAND_IO | PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER;
-> +    cmd |= enable_bits;
->      qpci_config_writew(dev, PCI_COMMAND, cmd);
->  
->      /* Verify the bits are now set. */
-> -    cmd = qpci_config_readw(dev, PCI_COMMAND);
-> -    g_assert_cmphex(cmd & PCI_COMMAND_IO, ==, PCI_COMMAND_IO);
-> -    g_assert_cmphex(cmd & PCI_COMMAND_MEMORY, ==, PCI_COMMAND_MEMORY);
-> -    g_assert_cmphex(cmd & PCI_COMMAND_MASTER, ==, PCI_COMMAND_MASTER);
-> +    new_cmd = qpci_config_readw(dev, PCI_COMMAND);
-> +    new_cmd &= enable_bits;
-> +    g_assert_cmphex(new_cmd, ==, enable_bits & ~dev->command_disabled);
->  }
->  
->  /**
-> diff --git a/tests/qtest/libqos/pci.h b/tests/qtest/libqos/pci.h
-> index 8389614523..eaedb98588 100644
-> --- a/tests/qtest/libqos/pci.h
-> +++ b/tests/qtest/libqos/pci.h
-> @@ -68,6 +68,7 @@ struct QPCIDevice
->      bool msix_enabled;
->      QPCIBar msix_table_bar, msix_pba_bar;
->      uint64_t msix_table_off, msix_pba_off;
-> +    uint16_t command_disabled;
->  };
->  
->  struct QPCIAddress {
-> -- 
-> 2.34.1
-
+Stefan
 
