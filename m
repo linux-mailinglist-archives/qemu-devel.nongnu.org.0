@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C4461368F
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:39:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D6C613695
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:40:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opU0q-00062G-4d; Mon, 31 Oct 2022 08:35:32 -0400
+	id 1opU0s-0006Gg-Uc; Mon, 31 Oct 2022 08:35:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opTzr-0003ea-SS
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:34:31 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+ id 1opTzv-0003ni-UQ
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:34:36 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opTzn-0004Qo-56
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:34:29 -0400
-Received: by mail-pg1-x534.google.com with SMTP id h193so1879957pgc.10
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:34:26 -0700 (PDT)
+ id 1opTzt-0004Sw-Ce
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:34:35 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id m2so10263526pjr.3
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:34:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NRuCwoKWiPF/zQ4ogg7uItA8DuEE4aQtCuC8AzGLcFo=;
- b=ureHZbayRPBZR6d1zQc1t/5iOcN/AGpraBTkqRN47pKZg4fsEv514rLV3rBzPhv4mo
- aLqvXIiZbrXF+71zgSKW3uFTgLROsHy9HJ9+K4QXdGSGBLYYFJPB8LCg1uumUF8GxRNf
- eSOQgKu1/STEGjfpQSElV/KarOt1gAWBjC68EJqf+ySc+8//BUad4jpumpvwUxzikB8R
- W3I5gGJeXl+hoAJew9PaGNl9yTdgBTg4kjVfojJfXgJ/qrl8kNDVatmuMNb9ibXCkGL/
- fRcWhzptqyEJ1q+uw3nP0gz/1LnilTkkiIdqpZHAtEv8ZXL/MubsCvkLNgE1ar0+C8dF
- BBHw==
+ bh=Ve64Yknp9Z5jtrd7y/2CScvNeMugfa6S0tD/94xCa3A=;
+ b=ftnYt/0fDgjS0EKUSqUIqx61YJHzGLpuTcVHaUlKt8tKNyDLkzAkU8Atbh8+6p/hMC
+ Ewm/WDLAQMIsn4KaJqjmsQJseBhAqF28CPnhve6jC74tPwzDnDH7iaWbPAZU579ShDAH
+ LGqOg62B4B/Vvp+7AOiwZdNI79ODUPsNdK2oSmsm7HYsamzG/s66yYggXsdHWvt0sbu/
+ kvMzUF98O1jE21bryhNLpkRBBzmwjFx2ajgpxbVZpLnu+VEpF5LGPe6vEh5oXLBA5wTC
+ Dzn+tr73ttQxOXUvn+Q2aZpeKwJPRPncSsz+KSQJTuwQ0wXPwzO4MOX6x0GGpb9gdhjG
+ 205A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NRuCwoKWiPF/zQ4ogg7uItA8DuEE4aQtCuC8AzGLcFo=;
- b=FNwZNlttVLmU0+sX3e+lTGicR+owfBSs02wERl3p3trl0jP+7sJOFcZHS0frCgv94I
- u9Elen0g9weDnzz6qPi+/WxHE2XRfwSHPRzhJQ/rcHyTFtKdhLZDhE6JkbQoTPnl/4gh
- x/yLVPApKkxXe+D3E/KaP7EB0gAPV3GK6dH/n54IuqTenLqPn0BL5gloFJglDpisJj5K
- hl1Tkn46025MKpmmPxkflZA+4h8gsOjA8V9d4nwdo91q+Y3s9ZS9YKl3NCiy47w3B/gy
- sDuen3PBSaNuplzpbwXWpsLzV+bMjjsegknbS4OVXfu4cgN5ezgvof2aZtZoJ9l2GJfm
- BnFw==
-X-Gm-Message-State: ACrzQf3338MzP9TKBhlbIJtVTsugEIbOGQb46vr4ijpGB77N1XbITuKT
- AsO/ibfCnxVJvL8GxNqwf0O1+bxtVH80nMfi
-X-Google-Smtp-Source: AMsMyM7QjYUADvyoq1yKcmRTLYyj7dcizPv3tuHoHX0Ww51C3gU/BLqzz8eMkD8yG5nDbLpN6E9Dsg==
-X-Received: by 2002:a63:6cc2:0:b0:46f:cec6:c9b2 with SMTP id
- h185-20020a636cc2000000b0046fcec6c9b2mr3097878pgc.167.1667219664924; 
- Mon, 31 Oct 2022 05:34:24 -0700 (PDT)
+ bh=Ve64Yknp9Z5jtrd7y/2CScvNeMugfa6S0tD/94xCa3A=;
+ b=GUvSJybQ0VGBPD398lXpdCWlOcsKNSrePaZO7GS981y4GwJAM4dqXatqhAKNqympxT
+ iHEBo75z0FxJK47DEavhKJRRVaZdMPZBBKd5CW/0GtzGDtHZabJyVBg5l54HpY+CtoUv
+ sjL3EIrtDbiotuYIb2a4OqUvKVc1O6P182UPWtnT4Nkp3dyfh7d6/AOUDii2m8tjpnkw
+ AJ+YCFdjFj3kVnSJwpjRCpZXXv8cDaLGX4zcXxmO+R+RUHgMa2joiVu5QzCCBn7MPSFR
+ DFDY9HZ6F2Ru6dBqpKBurNmNbjGBHn23Vmt/X+ZqGxMtclkbSPlbTIDiMl1cEwh5QDMS
+ nQ8Q==
+X-Gm-Message-State: ACrzQf3zIgS3VOgJy89MxdN2kmfviEO8HMqUUDDMuWDQgemGuS+r23DH
+ csx8XXlKKgICcdO+Gt4z+ZHsfmHZzuDqF2+U
+X-Google-Smtp-Source: AMsMyM5UhGtSDVCMrW0GUdiXLIMQ8ZyU5G3L8l6R3WcEK6V6gLUEgAz3lto4ES8//kIpfnKAuc+dVw==
+X-Received: by 2002:a17:90b:1918:b0:213:d97c:c6c9 with SMTP id
+ mp24-20020a17090b191800b00213d97cc6c9mr6522557pjb.198.1667219671930; 
+ Mon, 31 Oct 2022 05:34:31 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- m10-20020a6545ca000000b0042b5095b7b4sm4093810pgr.5.2022.10.31.05.34.20
+ m10-20020a6545ca000000b0042b5095b7b4sm4093810pgr.5.2022.10.31.05.34.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:34:24 -0700 (PDT)
+ Mon, 31 Oct 2022 05:34:29 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
@@ -73,16 +73,16 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  Yan Vugenfirer <yan@daynix.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v6 11/17] pci/shpc: Omit errp for pci_add_capability
-Date: Mon, 31 Oct 2022 21:33:13 +0900
-Message-Id: <20221031123319.21532-12-akihiko.odaki@daynix.com>
+Subject: [PATCH v6 12/17] msix: Omit errp for pci_add_capability
+Date: Mon, 31 Oct 2022 21:33:14 +0900
+Message-Id: <20221031123319.21532-13-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221031123319.21532-1-akihiko.odaki@daynix.com>
 References: <20221031123319.21532-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::534;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x534.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -105,112 +105,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
 Omitting errp for pci_add_capability() causes it to abort if
-capabilities overlap. A caller of shpc_init(), which calls
+capabilities overlap. A caller of msix_init(), which calls
 pci_add_capability() in turn, is expected to ensure that will not
 happen.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/pci-bridge/pci_bridge_dev.c  |  2 +-
- hw/pci-bridge/pcie_pci_bridge.c |  2 +-
- hw/pci/shpc.c                   | 23 ++++++-----------------
- include/hw/pci/shpc.h           |  3 +--
- 4 files changed, 9 insertions(+), 21 deletions(-)
+ hw/pci/msix.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/hw/pci-bridge/pci_bridge_dev.c b/hw/pci-bridge/pci_bridge_dev.c
-index 657a06ddbe..4b6d1876eb 100644
---- a/hw/pci-bridge/pci_bridge_dev.c
-+++ b/hw/pci-bridge/pci_bridge_dev.c
-@@ -66,7 +66,7 @@ static void pci_bridge_dev_realize(PCIDevice *dev, Error **errp)
-         dev->config[PCI_INTERRUPT_PIN] = 0x1;
-         memory_region_init(&bridge_dev->bar, OBJECT(dev), "shpc-bar",
-                            shpc_bar_size(dev));
--        err = shpc_init(dev, &br->sec_bus, &bridge_dev->bar, 0, errp);
-+        err = shpc_init(dev, &br->sec_bus, &bridge_dev->bar, 0);
-         if (err) {
-             goto shpc_error;
-         }
-diff --git a/hw/pci-bridge/pcie_pci_bridge.c b/hw/pci-bridge/pcie_pci_bridge.c
-index df5dfdd139..99778e3e24 100644
---- a/hw/pci-bridge/pcie_pci_bridge.c
-+++ b/hw/pci-bridge/pcie_pci_bridge.c
-@@ -42,7 +42,7 @@ static void pcie_pci_bridge_realize(PCIDevice *d, Error **errp)
-     d->config[PCI_INTERRUPT_PIN] = 0x1;
-     memory_region_init(&pcie_br->shpc_bar, OBJECT(d), "shpc-bar",
-                        shpc_bar_size(d));
--    rc = shpc_init(d, &br->sec_bus, &pcie_br->shpc_bar, 0, errp);
-+    rc = shpc_init(d, &br->sec_bus, &pcie_br->shpc_bar, 0);
-     if (rc) {
-         goto error;
-     }
-diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
-index e71f3a7483..5b3228c793 100644
---- a/hw/pci/shpc.c
-+++ b/hw/pci/shpc.c
-@@ -440,16 +440,11 @@ static void shpc_cap_update_dword(PCIDevice *d)
- }
- 
- /* Add SHPC capability to the config space for the device. */
--static int shpc_cap_add_config(PCIDevice *d, Error **errp)
-+static void shpc_cap_add_config(PCIDevice *d)
+diff --git a/hw/pci/msix.c b/hw/pci/msix.c
+index 1e381a9813..28af83403b 100644
+--- a/hw/pci/msix.c
++++ b/hw/pci/msix.c
+@@ -311,7 +311,7 @@ int msix_init(struct PCIDevice *dev, unsigned short nentries,
+               uint8_t pba_bar_nr, unsigned pba_offset, uint8_t cap_pos,
+               Error **errp)
  {
+-    int cap;
++    uint8_t cap;
+     unsigned table_size, pba_size;
      uint8_t *config;
--    int config_offset;
--    config_offset = pci_add_capability(d, PCI_CAP_ID_SHPC,
--                                       0, SHPC_CAP_LENGTH,
--                                       errp);
--    if (config_offset < 0) {
--        return config_offset;
--    }
-+    uint8_t config_offset;
-+    config_offset = pci_add_capability(d, PCI_CAP_ID_SHPC, 0, SHPC_CAP_LENGTH);
-     config = d->config + config_offset;
  
-     pci_set_byte(config + SHPC_CAP_DWORD_SELECT, 0);
-@@ -459,7 +454,6 @@ static int shpc_cap_add_config(PCIDevice *d, Error **errp)
-     /* Make dword select and data writable. */
-     pci_set_byte(d->wmask + config_offset + SHPC_CAP_DWORD_SELECT, 0xff);
-     pci_set_long(d->wmask + config_offset + SHPC_CAP_DWORD_DATA, 0xffffffff);
--    return 0;
- }
- 
- static uint64_t shpc_mmio_read(void *opaque, hwaddr addr,
-@@ -584,18 +578,13 @@ void shpc_device_unplug_request_cb(HotplugHandler *hotplug_dev,
- }
- 
- /* Initialize the SHPC structure in bridge's BAR. */
--int shpc_init(PCIDevice *d, PCIBus *sec_bus, MemoryRegion *bar,
--              unsigned offset, Error **errp)
-+int shpc_init(PCIDevice *d, PCIBus *sec_bus, MemoryRegion *bar, unsigned offset)
- {
--    int i, ret;
-+    int i;
-     int nslots = SHPC_MAX_SLOTS; /* TODO: qdev property? */
-     SHPCDevice *shpc = d->shpc = g_malloc0(sizeof(*d->shpc));
-     shpc->sec_bus = sec_bus;
--    ret = shpc_cap_add_config(d, errp);
--    if (ret) {
--        g_free(d->shpc);
--        return ret;
--    }
-+    shpc_cap_add_config(d);
-     if (nslots < SHPC_MIN_SLOTS) {
-         return 0;
+@@ -340,11 +340,7 @@ int msix_init(struct PCIDevice *dev, unsigned short nentries,
+         return -EINVAL;
      }
-diff --git a/include/hw/pci/shpc.h b/include/hw/pci/shpc.h
-index d5683b7399..18ab16ec9f 100644
---- a/include/hw/pci/shpc.h
-+++ b/include/hw/pci/shpc.h
-@@ -38,8 +38,7 @@ struct SHPCDevice {
  
- void shpc_reset(PCIDevice *d);
- int shpc_bar_size(PCIDevice *dev);
--int shpc_init(PCIDevice *dev, PCIBus *sec_bus, MemoryRegion *bar,
--              unsigned off, Error **errp);
-+int shpc_init(PCIDevice *dev, PCIBus *sec_bus, MemoryRegion *bar, unsigned off);
- void shpc_cleanup(PCIDevice *dev, MemoryRegion *bar);
- void shpc_free(PCIDevice *dev);
- void shpc_cap_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len);
+-    cap = pci_add_capability(dev, PCI_CAP_ID_MSIX,
+-                              cap_pos, MSIX_CAP_LENGTH, errp);
+-    if (cap < 0) {
+-        return cap;
+-    }
++    cap = pci_add_capability(dev, PCI_CAP_ID_MSIX, cap_pos, MSIX_CAP_LENGTH);
+ 
+     dev->msix_cap = cap;
+     dev->cap_present |= QEMU_PCI_CAP_MSIX;
 -- 
 2.38.1
 
