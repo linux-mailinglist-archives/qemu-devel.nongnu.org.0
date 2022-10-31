@@ -2,88 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E24613AAA
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 16:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8038613AAE
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 16:50:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opX06-0000kJ-VF; Mon, 31 Oct 2022 11:46:58 -0400
+	id 1opX2J-000311-O9; Mon, 31 Oct 2022 11:49:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opX01-0000LT-Hm
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 11:46:54 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opWzz-0006HG-EG
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 11:46:52 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- f16-20020a05600c491000b003cf66a2e7c0so3626321wmp.5
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 08:46:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=W8NcFxOlgHpaQqD3vkgRK+mVuz6Wel6WYdnqSVt9Fm8=;
- b=vZCBnhkl90ntD5DbHgpxZToe1wEn4C2udjKkO9D9AeXbJjS9AfuC2ig2WBq1SJKo4Q
- jHDvqJ8KbQk6SZCgCDQNnFrO6J+9GlziGEqKQiGNGj7A+ILikKHtUEsiQPo1b6b8e+jd
- t/abpdUsEbeg4zFMcXCrTV2QNGuREc8C7Lo3sk711wieUjveQWWPeLoiZzq0Z9qPNPgh
- 9zpAnKiwKNci8HY6qDHiWPPR3/FpyqcOF2SymVBOtU84QzdAGUqXuXxUDIhTW50fiwhg
- CgfUpvdcop2P1OI6dZu5yfBFUNo4Ui36XXDcBhjNq0NZbvXX9YW5q7qZsJeUtx7fYlmw
- iciA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opX2E-0002s1-Dn
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 11:49:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opX2B-0006wL-J3
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 11:49:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667231346;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z3ImdtFgSoum08FNXzXQwI7OZAquniKJz0ux7qn58qw=;
+ b=hxQn8dVOiFm/zHHEqxkpqAg4PoYGXO5prxKFRv06S8cPzuj96nSCZ4WUps3B3tsiGPnQHy
+ YgsIAdOw2jNZNsqT1W/zbnq6v123rE9AoJ1bgb21ccrDweGJzUJ+syKupM7izZanAMnODL
+ kObNoWLhH778JW3Rf64dX0tudNk1CvU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-675-06zgHPMNNSuYLhUYBO-wCA-1; Mon, 31 Oct 2022 11:49:03 -0400
+X-MC-Unique: 06zgHPMNNSuYLhUYBO-wCA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ r6-20020a1c4406000000b003cf4d3b6644so1295154wma.6
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 08:49:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=W8NcFxOlgHpaQqD3vkgRK+mVuz6Wel6WYdnqSVt9Fm8=;
- b=M7V3dcyySrZpSHMqfs3Da+B5o3sAupaN5QWiC39SlHbGkHVd8CEeLWTyIWc+39xezn
- GQ1f8iJbh8DmdwYMSMx3UU/nSqYAlrHPKmR0EC0kDvdaJvGvrZmHiJHJypuwesjsYyTH
- cJyC6mnGZ53qzwKiQjIm3PiMEQ/o8lgFbKilZmg4Bw8e6YtsgUXjejeLPTkWO8S3cuSX
- cKYn5lohjuI3D1dfbmO2JVnRTZawQD0nTLTHlF5UI5s2uk3xoEnUHKWOxQ5QW3P46/j8
- DnCnG+OdBq8o0ovej7e63Hwt1BLs3AuO9VQuUodXXqGREox23E2SGvEQAW6c1cdLZDpe
- 4JqQ==
-X-Gm-Message-State: ACrzQf2cfvCHCcxDajY20PuXFxd0RT/B1X28tS3uyL8iehJN6j8j9l06
- 5SLA4j4VH9ouCkCEBZ3Lvfmewg==
-X-Google-Smtp-Source: AMsMyM7GAc93VuKYdZfgNT2BV8U2ZjnhJYPLtsIQLvJQMbffnqEJOIqbdFzwxsUuChXLvn0uxzkzXw==
-X-Received: by 2002:a7b:c7c1:0:b0:3c7:103:f964 with SMTP id
- z1-20020a7bc7c1000000b003c70103f964mr8715809wmk.121.1667231209432; 
- Mon, 31 Oct 2022 08:46:49 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- g4-20020a5d5544000000b002366fb99cdasm7400859wrw.50.2022.10.31.08.46.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 08:46:48 -0700 (PDT)
-Message-ID: <498a731f-2c38-745d-0f13-37a3d560b336@linaro.org>
-Date: Mon, 31 Oct 2022 16:46:36 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH 3/4] hw/watchdog: add trace events for watchdog action
- handling
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Ani Sinha
- <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ bh=z3ImdtFgSoum08FNXzXQwI7OZAquniKJz0ux7qn58qw=;
+ b=r903iEKjNQFVPiFMz+ucH7zSyDfGRbI31E5FJGcp7koWLsojar3IQoCVWPB4EM3xo3
+ ZwUBzOgpqRbKTLZ/xOeeTiOsuT0LObiDxOM4NyEvSG9gqsCgkrgEtth1xBNenknK7Vf3
+ uaRunDrDy1RrACmBx/Ymx+yuwpj+Y6+5YlnZ21P4UGevF/Fxn/po408od+qdvjp+OYEi
+ 05WD/BUP1gv4Qwiw48ypp5OAw2Dtyfizmadh3PikclU4zRIllRpd/x0cIdY9mTWEbDF3
+ 3ZWyiljESPOK4WW2XP3Wm6+18dhU190+IFJeo6OU2o9L4kpwdzQMxt9oR3Y7pTwkS4U2
+ 20/A==
+X-Gm-Message-State: ACrzQf3yVRb06h/uADUpWHAjjwM+5t7nBKWWqkIPdf+gEbBeNRtSq2he
+ 2UVWniCV0e85j48qcyRgCP/CM3NwqU/7VT5cyju4mpLWxTVYoqGNtmXIvcsfBONKW8Y2cZ3dXMd
+ wRRqtGssK/wn9r2o=
+X-Received: by 2002:a05:600c:5023:b0:3c7:1526:fdb8 with SMTP id
+ n35-20020a05600c502300b003c71526fdb8mr8768465wmr.28.1667231342341; 
+ Mon, 31 Oct 2022 08:49:02 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4rdGsNDVoee/VP9kno5Q4QqjizRusO80Ao120HPjsEJGrrZYRuG+0zt0pHCgxvr00KIDcdug==
+X-Received: by 2002:a05:600c:5023:b0:3c7:1526:fdb8 with SMTP id
+ n35-20020a05600c502300b003c71526fdb8mr8768448wmr.28.1667231342110; 
+ Mon, 31 Oct 2022 08:49:02 -0700 (PDT)
+Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
+ h10-20020a5d4fca000000b002367ad808a9sm7405234wrw.30.2022.10.31.08.49.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Oct 2022 08:49:01 -0700 (PDT)
+Date: Mon, 31 Oct 2022 11:48:58 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Richard W.M. Jones" <rjones@redhat.com>
+Subject: Re: [PATCH 0/4] hw: make TCO watchdog actually work by default for Q35
+Message-ID: <20221031114835-mutt-send-email-mst@kernel.org>
 References: <20221031131934.425448-1-berrange@redhat.com>
- <20221031131934.425448-4-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221031131934.425448-4-berrange@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <Y1/SoFxe3P2HVV3W@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <Y1/SoFxe3P2HVV3W@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,29 +103,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 31/10/22 14:19, Daniel P. Berrang√© wrote:
-> The tracepoints aid in debugging the triggering of watchdog devices.
+On Mon, Oct 31, 2022 at 01:50:24PM +0000, Daniel P. BerrangÈ wrote:
+> On Mon, Oct 31, 2022 at 01:19:30PM +0000, Daniel P. BerrangÈ wrote:
+> > The TCO watchdog is unconditionally integrated into the Q35 machine
+> > type by default, but at the same time is unconditionally disabled
+> > from firing by a host config option that overrides guest OS attempts
+> > to enable it. People have to know to set a magic -global to make
+> > it non-broken
 > 
-> Signed-off-by: Daniel P. Berrang√© <berrange@redhat.com>
-> ---
->   hw/watchdog/trace-events | 4 ++++
->   hw/watchdog/watchdog.c   | 4 ++++
->   2 files changed, 8 insertions(+)
+> Incidentally I found that originally the TCO watchdog was not
+> unconditionally enabled. Its exposure to the guest could be
+> turned on/off using
 > 
-> diff --git a/hw/watchdog/trace-events b/hw/watchdog/trace-events
-> index 89ccbcfdfd..fc1d048702 100644
-> --- a/hw/watchdog/trace-events
-> +++ b/hw/watchdog/trace-events
-> @@ -16,3 +16,7 @@ spapr_watchdog_stop(uint64_t num, uint64_t ret) "num=%" PRIu64 " ret=%" PRId64
->   spapr_watchdog_query(uint64_t caps) "caps=0x%" PRIx64
->   spapr_watchdog_query_lpm(uint64_t caps) "caps=0x%" PRIx64
->   spapr_watchdog_expired(uint64_t num, unsigned action) "num=%" PRIu64 " action=%u"
-> +
-> +# watchdog.c
-> +watchdog_perform_action(unsigned int action) "action=%d"
-> +watchdog_set_action(unsigned int action) "action=%d"
+>   -global ICH9-LPC.enable_tco=bool
+> 
+> This was implemented for machine type compat, but it also gave
+> apps a way to disable the watchdog functionality. Unfortunately
+> that ability was discarded in this series:
+> 
+>   https://lore.kernel.org/all/1453564933-29638-1-git-send-email-ehabkost@redhat.com/
+> 
+> but the 'enable_tco' property still exists in QOM, but silently
+> ignored.
+> 
+> Seems we should either fix the impl of 'enable_tco', or remove the
+> QOM property entirely, so we don't pretend it can be toggled anymore.
+> 
+> With regards,
+> Daniel
 
-"%u", otherwise:
+i am inclined to say you are right and the fix is to fix the impl.
 
-Reviewed-by: Philippe Mathieu-Daud√© <philmd@linaro.org>
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
