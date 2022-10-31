@@ -2,42 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777FA612EDB
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 03:17:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2E4612E9E
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 02:29:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opKLc-0001HO-2A; Sun, 30 Oct 2022 22:16:20 -0400
+	id 1opJaz-0008L7-G9; Sun, 30 Oct 2022 21:28:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1opKLW-0001CS-LZ; Sun, 30 Oct 2022 22:16:16 -0400
-Received: from mail-b.sr.ht ([173.195.146.151])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1opKLT-000372-0l; Sun, 30 Oct 2022 22:16:13 -0400
-Authentication-Results: mail-b.sr.ht; dkim=none 
-Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 2074511F299;
- Mon, 31 Oct 2022 02:15:47 +0000 (UTC)
-From: ~axelheider <axelheider@git.sr.ht>
-Date: Mon, 31 Oct 2022 01:28:54 +0100
-Subject: [PATCH qemu.git 11/11] hw/timer/imx_epit: rework CR write handling
-Message-ID: <166718254546.5893.5075929684621857903-11@git.sr.ht>
-X-Mailer: git.sr.ht
-In-Reply-To: <166718254546.5893.5075929684621857903-0@git.sr.ht>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, peter.maydell@linaro.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1opJaw-0008L0-Tt
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 21:28:06 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1opJav-0006Yl-8z
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 21:28:06 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ u8-20020a17090a5e4800b002106dcdd4a0so14599732pji.1
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 18:28:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Z1fMt94J1kz3TwP77XQHxXKg1UGWfHFzdWaU+dGb2OE=;
+ b=WzMy2v46LZ6ZLhgKJCEkMVn3t6n1X/x/k07GMbcb5OfsiO8bTrOxyJ2I625tgF+Qk/
+ gCX12RKwcA30YMR5wIea/919AJ3sdSjz+VKEbzb/h+ttpyspcfzUkpKIAyyAn/vuTqBD
+ DuA30TZCOt8tU6M7jlGJxuM5wDaWq5gvNHFCTuRkJVt/J6e/+MKnP2iNuT8WHLkF9Rlc
+ pmVvDKJ76SVOc25dwMreco5Le6hk//mV/KtWMp4fEMSGPReQQwbRX6McCMSpM5/jPPRt
+ OKN8uWhr0QVeiCvx3QGncmWgWhUAiuraq+rkEm055RM2XODyt8EDLABCy47PxkyQsbuo
+ Wbyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z1fMt94J1kz3TwP77XQHxXKg1UGWfHFzdWaU+dGb2OE=;
+ b=kJbOAjzKa6j5+JN4D3cHBozkol5GrRHlrrHltYe16pFP84UpfSS9WqO0+9dUsw+yxU
+ GW+97OafvezeG8R5Tcjt7ET7lcGsXy+eLFYn46YywGS5jaBMn7czLqjRbIFYKoWf692+
+ 5bv7NUc6RsdPMhku7RCHc+YlAXD+HDOT3oyR5SZa6SlK0OUViEjJ+X/i1WhRs3ntyXDg
+ f0AIZU2/DGINdVmFYIBCYN+Ib4tspIraiHSULdwvdwObLLZsi2GmfvNvdcJ9aruuJwdQ
+ 9Fd8kh6Xz6ex/1F10a/qnU0VEueHrpYUiSESqAh470exwCTPgLJ+GwR+OzPy1Eu1cL9V
+ uQXg==
+X-Gm-Message-State: ACrzQf2cywfe+ydgssCQ7da2wsedSOaC2pRLDsoQ/XlU6nkoUAfW/xJv
+ KIXY/4DZQiTxv1J+V+p+aV8=
+X-Google-Smtp-Source: AMsMyM625a0s5kVCa1gxQZqwKrvges77lnwhKW8Ll72tOjy6YE7Q/gBMWcjnZD4C3Fjo4i1pvWwBIQ==
+X-Received: by 2002:a17:902:ba8f:b0:17f:9b1b:6634 with SMTP id
+ k15-20020a170902ba8f00b0017f9b1b6634mr11901856pls.171.1667179683567; 
+ Sun, 30 Oct 2022 18:28:03 -0700 (PDT)
+Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419?
+ ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+ by smtp.gmail.com with ESMTPSA id
+ d12-20020a170902654c00b00176acd80f69sm3217016pln.102.2022.10.30.18.28.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 30 Oct 2022 18:28:03 -0700 (PDT)
+Message-ID: <64575f86-b37f-561d-537c-cea46a5bc816@gmail.com>
+Date: Mon, 31 Oct 2022 10:28:00 +0900
 MIME-Version: 1.0
-Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
- helo=mail-b.sr.ht
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_REPLYTO=2.095,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH] ui/cocoa: Support hardware cursor interface
+To: Elliot Nunn <elliot@nunn.io>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ f4bug@amsat.org
+References: <54930451-d85f-4ce0-9a45-b3478c5a6468@www.fastmail.com>
+ <CAFEAcA_bip7nifW-Zq8qrSmZTCUQA1VMpMR8HSHsKVBAeQxy0A@mail.gmail.com>
+ <CAMVc7JXPi3kbFyrN9757uKt-cUprKUBLM9nuDMRjawtVePVVAw@mail.gmail.com>
+ <5232C333-9F52-455D-A0D5-B1A438800717@nunn.io>
+ <a5029b6b-d0a9-a379-09c0-05d6786af0f2@gmail.com>
+ <A51A48EC-0616-4325-84F0-BDC8846F46A7@nunn.io>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <A51A48EC-0616-4325-84F0-BDC8846F46A7@nunn.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -50,213 +97,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: ~axelheider <axelheider@gmx.de>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Axel Heider <axel.heider@hensoldt.net>
+On 2022/10/30 19:12, Elliot Nunn wrote:
+> Akihiko,
+> 
+> Sounds like you've done a lot of work on ui/cocoa, with the goal of
+> improving the experience with modern Linux guests. My goal is to improve
+> the experience with antiquated Mac OS 9 guests.
+> 
+>> My patch has been only tested with recent Linux, but it certainly should
+>> be ensured that it works well for old systems when upstreaming.
+>>
+>> First I'd like to know what display device you use. It looks like
+>> dpy_mouse_set is used only by ati-vga, vhost-user-gpu, virtio-gpu, and
+>> vmware.
+> 
+> I was using my own hardware cursor patches to the VGA device, but now I am
+> using virtio-gpu. My Mac OS 9 driver for virtio-gpu is in progress.
 
-- simplify code, improve comments
-- fix https://gitlab.com/qemu-project/qemu/-/issues/1263
+Interesting, but I'm worried that your driver may be not performant 
+enough to drive dpy_mouse_set. Does your driver provide hardware cursor 
+as smooth as software cursor? If not, the proper way to fix the problem 
+is to fix your driver. Strictly speaking, ignoring dpy_mouse_set and 
+using the input information directly violates the semantics and should 
+be avoided if possible. That said, if your driver already does the best 
+to the extent what Mac OS 9 allows and you want even better, it can be a 
+worthwhile option.
 
-Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
----
- hw/timer/imx_epit.c | 139 +++++++++++++++++++++-----------------------
- 1 file changed, 65 insertions(+), 74 deletions(-)
+> 
+>>> 1. In absolute pointing mode, re-enable Cocoa's cursor and let the host
+>>> OS move it according to user input.
+>>> 2. Keep the cursor sprite, but move it according to Cocoa's mouse
+>>> movement events instead of dpy_mouse_set events.
+>>
+>> Also, can you give reasoning while 2 is preferred? 1 would allow to
+>> exploit the hardware's feature for cursor composition, resulting in
+>> smoother experience and a bit less power consumption. But there may be
+>> complications it can cause so I have not decided which one is the better
+>> yet.
+> 
+> Mainly that it would simplify the code. OTOH, if we expect the guest to
+> use the hardware cursor facility, then it's only fair that the host does
+> the same. I'm open to either option. We should probably try both.
 
-diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
-index 7dd9f54c9c..4a6326b1de 100644
---- a/hw/timer/imx_epit.c
-+++ b/hw/timer/imx_epit.c
-@@ -69,43 +69,6 @@ static uint32_t imx_epit_get_freq(IMXEPITState *s)
-     return f_in / prescaler;
- }
-=20
--static void imx_epit_reset(DeviceState *dev)
--{
--    IMXEPITState *s =3D IMX_EPIT(dev);
--
--    /*
--     * Soft reset doesn't touch some bits; hard reset clears them
--     */
--    s->cr &=3D (CR_EN|CR_ENMOD|CR_STOPEN|CR_DOZEN|CR_WAITEN|CR_DBGEN);
--    s->sr =3D 0;
--    s->lr =3D EPIT_TIMER_MAX;
--    s->cmp =3D 0;
--    /* clear the interrupt */
--    qemu_irq_lower(s->irq);
--
--    ptimer_transaction_begin(s->timer_cmp);
--    ptimer_transaction_begin(s->timer_reload);
--    /* stop both timers */
--    ptimer_stop(s->timer_cmp);
--    ptimer_stop(s->timer_reload);
--    /* compute new frequency */
--    uint32_t freq =3D imx_epit_get_freq(s);
--    DPRINTF("Setting ptimer frequency to %u\n", freq);
--    if (freq) {
--        ptimer_set_freq(s->timer_reload, freq);
--        ptimer_set_freq(s->timer_cmp, freq);
--    }
--    /* init both timers to EPIT_TIMER_MAX */
--    ptimer_set_limit(s->timer_cmp, EPIT_TIMER_MAX, 1);
--    ptimer_set_limit(s->timer_reload, EPIT_TIMER_MAX, 1);
--    if (freq && (s->cr & CR_EN)) {
--        /* if the timer is still enabled, restart it */
--        ptimer_run(s->timer_reload, 0);
--    }
--    ptimer_transaction_commit(s->timer_cmp);
--    ptimer_transaction_commit(s->timer_reload);
--}
--
- static uint64_t imx_epit_read(void *opaque, hwaddr offset, unsigned size)
- {
-     IMXEPITState *s =3D IMX_EPIT(opaque);
-@@ -192,56 +155,75 @@ static void imx_epit_update_compare_timer(IMXEPITState =
-*s)
-=20
- static void imx_epit_write_cr(IMXEPITState *s, uint32_t value)
- {
--    uint32_t freq =3D 0;
-+    ptimer_transaction_begin(s->timer_cmp);
-+    ptimer_transaction_begin(s->timer_reload);
-=20
--    /* SWR bit is never persisted, it clears itself once reset is done */
-     uint32_t oldcr =3D s->cr;
-     s->cr =3D (value & ~CR_SWR) & 0x03ffffff;
-=20
-     if (value & CR_SWR) {
--        /* handle the reset */
--        imx_epit_reset(DEVICE(s));
-         /*
--         * TODO: could we 'break' here? following operations appear
--         * to duplicate the work imx_epit_reset() already did.
-+         * Soft reset doesn't touch some bits, just a hard reset clears all
-+         * of them. Clearing CLKSRC disables the input clock, which will
-+         * happen when we re-init of the timer frequency below.
-+         */
-+        s->cr &=3D (CR_EN|CR_ENMOD|CR_STOPEN|CR_DOZEN|CR_WAITEN|CR_DBGEN);
-+        /*
-+         * We have applied the new CR value and then cleared most bits,
-+         * thus some bits from the write request are now lost. The TRM
-+         * is not clear about the behavior, maybe these bits are to be
-+         * applied after the reset (e.g. for selecting a new clock
-+         * source). However, it seem this is undefined behavior and a
-+         * it's assumed a reset does not try to do anything else.
-          */
-+        s->sr =3D 0;
-+        s->lr =3D EPIT_TIMER_MAX;
-+        s->cmp =3D 0;
-+        /* turn interrupt off since SR and the OCIEN bit is cleared */
-+        qemu_irq_lower(s->irq);
-+        /* reset timer limits, set timer values to the limits */
-+        ptimer_set_limit(s->timer_cmp, EPIT_TIMER_MAX, 1);
-+        ptimer_set_limit(s->timer_reload, EPIT_TIMER_MAX, 1);
-     }
-=20
--    ptimer_transaction_begin(s->timer_cmp);
--    ptimer_transaction_begin(s->timer_reload);
--
--    if (!(value & CR_SWR)) {
--        uint32_t freq =3D imx_epit_get_freq(s);
-+    /* re-initialize frequency, or turn off timers if input clock is off */
-+    uint32_t freq =3D imx_epit_get_freq(s);
-+    if (freq) {
-         DPRINTF("Setting ptimer frequency to %u\n", freq);
--        if (freq) {
--            ptimer_set_freq(s->timer_reload, freq);
--            ptimer_set_freq(s->timer_cmp, freq);
--        }
-+        ptimer_set_freq(s->timer_reload, freq);
-+        ptimer_set_freq(s->timer_cmp, freq);
-     }
-=20
--    if (freq && (s->cr & CR_EN) && !(oldcr & CR_EN)) {
--        if (s->cr & CR_ENMOD) {
--            uint64_t limit =3D (s->cr & CR_RLD) ? s->lr : EPIT_TIMER_MAX;
--            /* set new limit and also set timer to this value right now */
--            ptimer_set_limit(s->timer_reload, limit, 1);
--            ptimer_set_limit(s->timer_cmp, limit, 1);
--        }
--        ptimer_run(s->timer_reload, 0);
--        imx_epit_update_compare_timer(s);
--    } else if (!(s->cr & CR_EN)) {
--        /* stop both timers */
--        ptimer_stop(s->timer_reload);
-+    if (!freq || !(s->cr & CR_EN)) {
-+        /*
-+         * The EPIT timer is effectively disabled if it is not enabled or
-+         * the input clock is off. In this case we can stop the ptimers.
-+         */
-         ptimer_stop(s->timer_cmp);
--    } else if (s->cr & CR_OCIEN) {
--        if (!(oldcr & CR_OCIEN)) {
--            imx_epit_update_compare_timer(s);
--        }
-+        ptimer_stop(s->timer_reload);
-     } else {
--        ptimer_stop(s->timer_cmp);
-+        /* The EPIT timer is active. */
-+        if (!(oldcr & CR_EN)) {
-+            /* The EPI timer has just been enabled, initialize and start it.=
- */
-+            if (s->cr & CR_ENMOD) {
-+                uint64_t limit =3D (s->cr & CR_RLD) ? s->lr : EPIT_TIMER_MAX;
-+                /* set new limit and also set timer to this value right now =
-*/
-+                ptimer_set_limit(s->timer_reload, limit, 1);
-+                ptimer_set_limit(s->timer_cmp, limit, 1);
-+            }
-+            ptimer_run(s->timer_reload, 0);
-+        }
-     }
-+    /*
-+     * Commit the change to s->timer_reload, so it can propagate and the
-+     * updated value will be read in imx_epit_update_compare_timer(),
-+     * Otherwise a stale value will be seen and the compare interrupt is
-+     * set up wrongly.
-+     */
-+    ptimer_transaction_commit(s->timer_reload);
-+    imx_epit_update_compare_timer(s);
-=20
-     ptimer_transaction_commit(s->timer_cmp);
--    ptimer_transaction_commit(s->timer_reload);
- }
-=20
- static void imx_epit_write_sr(IMXEPITState *s, uint32_t value)
-@@ -269,10 +251,10 @@ static void imx_epit_write_lr(IMXEPITState *s, uint32_t=
- value)
-         ptimer_set_count(s->timer_reload, s->lr);
-     }
-     /*
--     * Commit the change to s->timer_reload, so it can propagate. Otherwise
--     * the timer interrupt may not fire properly. The commit must happen
--     * before calling imx_epit_update_compare_timer(), which reads
--     * s->timer_reload internally again.
-+     * Commit the change to s->timer_reload, so it can propagate and the
-+     * updated value will be read in imx_epit_update_compare_timer(),
-+     * Otherwise a stale value will be seen and the compare interrupt is
-+     * set up wrongly.
-      */
-     ptimer_transaction_commit(s->timer_reload);
-     imx_epit_update_compare_timer(s);
-@@ -390,6 +372,15 @@ static void imx_epit_realize(DeviceState *dev, Error **e=
-rrp)
-     s->timer_cmp =3D ptimer_init(imx_epit_cmp, s, PTIMER_POLICY_LEGACY);
- }
-=20
-+static void imx_epit_reset(DeviceState *dev)
-+{
-+    IMXEPITState *s =3D IMX_EPIT(dev);
-+
-+    /* initialize CR and perform a software reset */
-+    s->cr =3D 0;
-+    imx_epit_write_cr(s, CR_SWR);
-+}
-+
- static void imx_epit_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc  =3D DEVICE_CLASS(klass);
---=20
-2.34.5
+Regarding the code complexity, option  2 can be still the better option 
+because option 1 requires additional code to pass the input information 
+to the cursor composition code. But it is just a possibility and I guess 
+we will not know which is the better unless we implement them as you say.
+
+> 
+>>> And I didn't realise that you had added VirGL support to cocoa.m. Well
+>>> done! Is it on track for release?
+>>> My patch should be withdrawn from consideration, in favour of a future
+>>> solution that does not use cursor warping.
+>>
+>> I'm not really pushing my changes hard so it's kind of stale. Perhaps it
+>> is better to rewrite the cursor composition patch in a way that does not
+>> depend on the Virgl patch. I'm also aware that the cursor composition
+>> using Core Graphics is somewhat laggy so it may be better to rewrite it
+>> using subview, Core Animation, Metal, or something else. But I have not
+>> done that yet.
+> 
+> Is there some Cocoa-native way of compositing within the window, that
+> will work with or without a GL surface? Subviews sound appropriate.
+
+I'm for subview because we can retain the current implementation using 
+[-NSView drawRect:] for the screen output in this way. The current 
+implementation using Core Graphics or OpenGL for cursor composition 
+should be avoided as Core Graphics cannot accelerate it with GPU and 
+OpenGL requires the deprecated CGL or an external library like ANGLE.
+
+Regards,
+Akihiko Odaki
+
+> 
+> Not that I have any influence, but I think your virgl patch is an
+> excellent contribution and should go upstream.
+> 
+> Thanks again,
+> 
+> Elliot
 
