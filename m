@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4AA0613F1D
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 21:41:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B0A613F13
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 21:39:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opbab-0004WF-JL; Mon, 31 Oct 2022 16:40:57 -0400
+	id 1opbXO-0001ZB-BG; Mon, 31 Oct 2022 16:37:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opbaX-0004M8-7B
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 16:40:53 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opbaV-0001xj-F7
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 16:40:52 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id v17so8759943plo.1
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 13:40:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=unc6q5ktRpGcEZEx9jK5v11ruj4ekKQEtqHs+t0pNjk=;
- b=PF5rglsT8XhkjEKfDQayfGNbMSip1agn/lsJBbn1XtQCFFsKu9K83NLD2bISEMWobm
- HEEZC9SmuI012K0UOggKeyVp3RcGHBt43ixvvqsfrDfJ50sMmDpyYXUhOjd8r5uf6/8l
- QpZDDAdaLvbOpIr9itkXHAcMHjlAH6Y12ZJsNHdP4qbm7+r4iBS0ewrQ2YrM+/xtuok5
- m+UtNPzrIWnLAUiNZb1/FG4rv7gLrYBi0Bny7fmSXHD1pGgxI1AJdbEcFmP3mAJiRNhT
- cvT8ogXpMMIn7L93I6URGLWKbxScEPuEHgKeIvSJjNUhRQ1C7RaeNuwQBJw02glZbczi
- CNeQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opbWt-0001TD-Id
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 16:37:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opbWr-0000iY-MG
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 16:37:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667248624;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8lCzyXQBQmvFPPsJsTi4QQLd3RBvxMZB4e2ReavBZtc=;
+ b=eu1dvqiyb/lpJR9VRnb3Qh71f3esrlSkGPydUIi6M6u5zGeichUJECKo8YEz1D+0oNVw6J
+ ricLSL7uW2LawreUmcZJpIap1z3C0Qjrz+PM3FisNZFUvmV2oUrY93lBibuohq6gtDlXvs
+ 6Cn1ry8UyyfOP/jHJOoHU9AueprumhE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-622-iwcsJEIhNbKl5sAXO29z0Q-1; Mon, 31 Oct 2022 16:37:03 -0400
+X-MC-Unique: iwcsJEIhNbKl5sAXO29z0Q-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ e13-20020adf9bcd000000b00236b36cd8cbso1879088wrc.0
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 13:37:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=unc6q5ktRpGcEZEx9jK5v11ruj4ekKQEtqHs+t0pNjk=;
- b=zEQEJ994FrHiXFfIkhETztVeCv7pjAjNHzJuImMMDLi+6Mm2r//U3bbSxNa1ronOv4
- skuPQpFy73o+weyra4l16EH6eYDqd0ezpei3xVzjOKnk+clkizSohLtjDxIIlqiJXyQD
- xwuGFkEkq6qQTUIvQfXPjEi2uAOuYiLg+F+pDNo+dG5tnwu0iYCw00vHWQgnrKeW6JLx
- GxpDtOua5u/ENgjndMcXoeG6sTrdwzvILec4TyfoR5wzIwS7yMXIcz6ZueitYRtoLqtC
- Pq7tuqevnniXpgTjnscGcPP96EU0DH2Dg9C0HoE2QBAPFZvFrOiKX5bo+qm1KnrKeZtw
- RrVg==
-X-Gm-Message-State: ACrzQf0aWAsCPnKq4QAzwVKOdJxxXPUHjkgyoyHKSFkdQ7h32i6sVROt
- z9/kBVNap2SJ9u8EpRaU2Ryx4Q==
-X-Google-Smtp-Source: AMsMyM6Jy5z7QVyOx44BqAyukfUOM210LpQr4AsgXdnqqE43SsKjheANgJc9e3p6oNKBhjkMOF5Log==
-X-Received: by 2002:a17:903:246:b0:179:b6d0:f8fd with SMTP id
- j6-20020a170903024600b00179b6d0f8fdmr15931717plh.124.1667248849731; 
- Mon, 31 Oct 2022 13:40:49 -0700 (PDT)
-Received: from [192.168.229.227] ([172.58.27.250])
- by smtp.gmail.com with ESMTPSA id
- v8-20020a17090a088800b0020087d7e778sm4560061pjc.37.2022.10.31.13.40.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 13:40:49 -0700 (PDT)
-Message-ID: <4c5f0a3a-18bb-dfca-61f6-28b48538b42c@linaro.org>
-Date: Tue, 1 Nov 2022 07:35:35 +1100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8lCzyXQBQmvFPPsJsTi4QQLd3RBvxMZB4e2ReavBZtc=;
+ b=2db7H7PC91bZt82y36jCasaelDTQfPl10ElZZJ4GVxft/6jtyozzZ/90GzGazJJ7oG
+ Sui/Wn4owvBs+RQzSNzVTRNB90F4i0DO+gey2/EsEZMagLnZsWuu0uhOj1PeKm0b8awF
+ 1MLmsGTpVvbwQ1XDR6JushkE3bWYQOWFPA3laRXxC+PL7tD6eaTCDa6C9BOIqnHwZOH8
+ HD361jPwR/i9UlZZYR3/s6oSdlxWPfx4bPGHX120RibucKbrW59myDAQaW/sK6V+i2kS
+ lK/6WdqQTddYDRQwjAEz43mGeNv7spq/i7Gi9OB5ih7aVl4K8IDvj/5plFdun6hzMJ2k
+ fEPw==
+X-Gm-Message-State: ACrzQf0x611A5TlvbzNYGNZV9VKQKIZJh4pitRbogV1IRx0sbo7awZGu
+ h5b385b0FQsaVUKEJlhwDcxgh5q2rfcWke276iVrLHbT8StMSiTwoeUyPIK2iu1PeGRhpQmNn0T
+ Tcm+hR+wgq5lzOQg=
+X-Received: by 2002:adf:a74a:0:b0:236:6dc8:f562 with SMTP id
+ e10-20020adfa74a000000b002366dc8f562mr9215222wrd.717.1667248620587; 
+ Mon, 31 Oct 2022 13:37:00 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7BQ1f8HCB0NnT/pvy7N2r9U1Gx4xfIABp9tXsmNz2EKrr6Cmyi5FjjoEH1HTT6fUPZd1gWWw==
+X-Received: by 2002:adf:a74a:0:b0:236:6dc8:f562 with SMTP id
+ e10-20020adfa74a000000b002366dc8f562mr9215215wrd.717.1667248620333; 
+ Mon, 31 Oct 2022 13:37:00 -0700 (PDT)
+Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
+ g13-20020a05600c310d00b003b4cba4ef71sm9968984wmo.41.2022.10.31.13.36.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Oct 2022 13:36:59 -0700 (PDT)
+Date: Mon, 31 Oct 2022 16:36:56 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/86] pci,pc,virtio: features, tests, fixes, cleanups
+Message-ID: <20221031163608-mutt-send-email-mst@kernel.org>
+References: <20221031124928.128475-1-mst@redhat.com>
+ <CAJSP0QXz+7Yvde1-N4OjQQ+Vo95UsQoOONmRXQsBg8wEJFaC3g@mail.gmail.com>
+ <CAJSP0QUPg2pMZ1Waxwz-gQM+ObmudiuPvPGbY2anzVf6GBLWZg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PULL 25/47] accel/tcg: Add restore_state_to_opc to TCGCPUOps
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20221026021116.1988449-1-richard.henderson@linaro.org>
- <20221026021116.1988449-26-richard.henderson@linaro.org>
- <1792277.8fnDRLUPHX@silver>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <1792277.8fnDRLUPHX@silver>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJSP0QUPg2pMZ1Waxwz-gQM+ObmudiuPvPGbY2anzVf6GBLWZg@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,59 +96,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/1/22 04:56, Christian Schoenebeck wrote:
-> On Wednesday, October 26, 2022 4:10:54 AM CET Richard Henderson wrote:
->> Add a tcg_ops hook to replace the restore_state_to_opc
->> function call.  Because these generic hooks cannot depend
->> on target-specific types, temporarily, copy the current
->> target_ulong data[] into uint64_t d64[].
->>
->> Reviewed-by: Claudio Fontana <cfontana@suse.de>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
-> [...]
->> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
->> index 433fa247f4..4d8783efc7 100644
->> --- a/accel/tcg/translate-all.c
->> +++ b/accel/tcg/translate-all.c
-> [...]
->>   bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
->>   {
->> +    /*
->> +     * The pc update associated with restore without exit will
->> +     * break the relative pc adjustments performed by TARGET_TB_PCREL.
->> +     */
->> +    if (TARGET_TB_PCREL) {
->> +        assert(will_exit);
->> +    }
->> +
->>       /*
->>        * The host_pc has to be in the rx region of the code buffer.
->>        * If it is not we will not be able to resolve it here.
+On Mon, Oct 31, 2022 at 04:12:24PM -0400, Stefan Hajnoczi wrote:
+> Another CI failure:
+> https://gitlab.com/qemu-project/qemu/-/jobs/3253817492
 > 
-> This patch appears to break macOS host. This assertion always triggers on
-> Apple Silicon. Previous patch 8269c01417 runs fine. Any ideas?
+> Stefan
 
-It does not previously work fine.  See
+Thanks!
+Freeze rules only require pull request on list so I think it's ok if I
+handle the failout and resubmit day after tomorrow, right?
 
-https://gitlab.com/qemu-project/qemu/-/issues/1269
-
-which also contains a link to the in-flight patches.
-
-
-> BTW Richard, could you add a message-id tag to your queued TCG patches?
-
-Sometimes I remember, but I don't use the same tooling for my own work as I do for queuing 
-other people's.  I haven't found much value in it.
-
-
-> If you
-> are using patchwork client then it suffices to add "msgid=on" to .pwclientrc
-
-I am not.
-
-
-r~
-
+-- 
+MST
 
 
