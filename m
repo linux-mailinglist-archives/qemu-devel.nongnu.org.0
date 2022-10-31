@@ -2,83 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2CF6134AF
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 12:42:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248B66134EC
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 12:50:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opTA4-00071Z-Qn; Mon, 31 Oct 2022 07:41:00 -0400
+	id 1opTI1-0000uZ-Es; Mon, 31 Oct 2022 07:49:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1opTA2-00071E-QA
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 07:40:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1opTHw-0000sY-BW
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 07:49:09 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1opTA1-0000Xx-Bt
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 07:40:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667216456;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=30iTnvLUr/rGBaFGX1KomQZMW4XXaz+kBkdz4k6YIzM=;
- b=S89RLfKhpxCUm1ZvoCOeDhCzXZGKCZRJAYwQtmf3f0/HZ/jz6G6xnGUA8FP30rRKVTm/rZ
- 6jn/ckocRxLIvcuillggrbAWCiueSKW8D3qwEE/f02drC3fJ5XdEGirK8qfDGKS+HNvW/S
- lbXPaV6g5TYcvyFMStfYm8MRF3uY2hY=
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
- [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-103-aZLOpj9oOpaAXaQdZyF8Ow-1; Mon, 31 Oct 2022 07:40:53 -0400
-X-MC-Unique: aZLOpj9oOpaAXaQdZyF8Ow-1
-Received: by mail-oa1-f71.google.com with SMTP id
- 586e51a60fabf-13ca47a9815so2192645fac.17
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 04:40:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=30iTnvLUr/rGBaFGX1KomQZMW4XXaz+kBkdz4k6YIzM=;
- b=znfOT3b0k5Mtf7AnpDdW1mqF8ZMRjaAXHgcYTvSe/ZZTSA0vSRhzPJWKhasPINtQei
- 41FofLRZ+hZ7dx+2E4EY1of7tMEaJ8zK7H96FxTq2DzwzZk7lP16mXKkasao5bfAgwx4
- 9hE4x6PG1voLJGDZRIoateKmYbFRGA4NURBg6R76A+hehIFATZGzmrorMvtSYghaLM0Y
- bTPKszQMS3WJFuN2lbup18pKZYPc3o1oV7aT40HvC/1omUnVkiFiNIWelPzH/LFbUewJ
- ChGfJ4nsxCqSHjzhlNOhA8XDyBtfn+FMzvCqbeACpWK3qbPsvXoLwjDhw97rTOcM1pEp
- skFg==
-X-Gm-Message-State: ACrzQf0UlBAvO5IiXTOyT0OVgLuHCdv9CiYEmZ/R8q79lhvYl8mnYHm5
- BXD2J2itHZD8dDqSGUCAuQoKsgc1tZq+Mml86W9ug18cUXuO/mPiaf5g7f7evpHo8XvoSCeu0xA
- f0CuwwS3BS+tBkL3SGv9M1ng8H8ZXas0=
-X-Received: by 2002:a05:6870:8306:b0:13c:c80:6cbd with SMTP id
- p6-20020a056870830600b0013c0c806cbdmr7284463oae.68.1667216452695; 
- Mon, 31 Oct 2022 04:40:52 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6qjyifrRrHsQySYLN+mlSDLgcU3nK3Y3tqHv4bUIr0W0OMVBBnZYsYHM6E9xAn5TWzKCgbixR3k4o4MN0o8Wc=
-X-Received: by 2002:a05:6870:8306:b0:13c:c80:6cbd with SMTP id
- p6-20020a056870830600b0013c0c806cbdmr7284448oae.68.1667216452465; Mon, 31 Oct
- 2022 04:40:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1opTHq-0003Fw-BF
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 07:49:05 -0400
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4N1BD5624KzpW9r;
+ Mon, 31 Oct 2022 19:45:25 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 31 Oct 2022 19:48:56 +0800
+Subject: Re: [PATCH v3 4/5] tests: acpi: aarch64: add topology test for aarch64
+To: Yicong Yang <yangyicong@huawei.com>
+CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
+ <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
+ <hesham.almatary@huawei.com>, <ionela.voinescu@arm.com>,
+ <darren@os.amperecomputing.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Igor Mammedov
+ <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>, Eduardo Habkost
+ <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20221031090523.34146-1-yangyicong@huawei.com>
+ <20221031090523.34146-5-yangyicong@huawei.com>
+Message-ID: <4214d66a-7d74-2aa4-cfcd-7af26eb92bcd@huawei.com>
+Date: Mon, 31 Oct 2022 19:48:55 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <Y19Rqp61A16MJqJI@humpty.home.comstyle.com>
- <178e9535-b70b-bfff-cc07-06bd51bea83a@linaro.org>
-In-Reply-To: <178e9535-b70b-bfff-cc07-06bd51bea83a@linaro.org>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Mon, 31 Oct 2022 13:40:41 +0200
-Message-ID: <CAPMcbCr6idtYaSprNcu=riQmR0ctt8AsUUy+bJerc408o=4kBQ@mail.gmail.com>
-Subject: Re: [PATCH] qga: Add initial OpenBSD support
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: Brad Smith <brad@comstyle.com>, Michael Roth <michael.roth@amd.com>,
- qemu-devel@nongnu.org, QEMU Trivial <qemu-trivial@nongnu.org>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000069c9a105ec531495"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20221031090523.34146-5-yangyicong@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,61 +72,69 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000069c9a105ec531495
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Yicong,
 
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-
-On Mon, Oct 31, 2022 at 10:12 AM Philippe Mathieu-Daud=C3=A9 <philmd@linaro=
-.org>
-wrote:
-
-> On 31/10/22 05:40, Brad Smith wrote:
-> > qga: Add initial OpenBSD support
-> >
-> > Signed-off-by: Brad Smith <brad@comstyle.com>
-> > ---
-> >   meson.build          | 2 +-
-> >   qga/commands-bsd.c   | 5 +++++
-> >   qga/commands-posix.c | 9 +++++++--
-> >   qga/main.c           | 4 ++--
-> >   4 files changed, 15 insertions(+), 5 deletions(-)
+On 2022/10/31 17:05, Yicong Yang wrote:
+> From: Yicong Yang <yangyicong@hisilicon.com>
 >
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Add test for aarch64's ACPI topology building for all the supported
+> levels.
 >
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+> ---
+>   tests/qtest/bios-tables-test.c | 22 ++++++++++++++++++++++
+>   1 file changed, 22 insertions(+)
 >
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index e6096e7f73..099b723444 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -1533,6 +1533,27 @@ static void test_acpi_virt_tcg(void)
+>       free_test_data(&data);
+>   }
+>   
+> +static void test_acpi_virt_tcg_topology(void)
+> +{
+> +    test_data data = {
+> +        .machine = "virt",
+> +        .variant = ".topology",
+> +        .tcg_only = true,
+> +        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
+> +        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
+> +        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
+> +        .ram_start = 0x40000000ULL,
+> +        .scan_len = 128ULL * 1024 * 1024,
+> +    };
+> +
+> +    data.smbios_cpu_max_speed = 2900;
+> +    data.smbios_cpu_curr_speed = 2700;
+I'm not sure. But why do we need this two lines?
+Can we keep the test as simple as test_acpi_virt_tcg_numamem
+and avoid unrelated parts.
 
---00000000000069c9a105ec531495
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
-tiuk@redhat.com">kkostiuk@redhat.com</a>&gt;</div><br><div class=3D"gmail_q=
-uote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 31, 2022 at 10:12 A=
-M Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org">phil=
-md@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">On 31/10/22 05:40, Brad Smith wrote:<br>
-&gt; qga: Add initial OpenBSD support<br>
-&gt; <br>
-&gt; Signed-off-by: Brad Smith &lt;<a href=3D"mailto:brad@comstyle.com" tar=
-get=3D"_blank">brad@comstyle.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-&gt;=C2=A0 =C2=A0qga/commands-bsd.c=C2=A0 =C2=A0| 5 +++++<br>
-&gt;=C2=A0 =C2=A0qga/commands-posix.c | 9 +++++++--<br>
-&gt;=C2=A0 =C2=A0qga/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++-=
--<br>
-&gt;=C2=A0 =C2=A04 files changed, 15 insertions(+), 5 deletions(-)<br>
-<br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linar=
-o.org" target=3D"_blank">philmd@linaro.org</a>&gt;<br>
-<br>
-</blockquote></div>
-
---00000000000069c9a105ec531495--
+Thanks,
+Yanan
+> +    test_acpi_one("-cpu cortex-a57 "
+> +                  "-smbios type=4,max-speed=2900,current-speed=2700 "
+> +                  "-smp sockets=1,clusters=2,cores=2,threads=2", &data);
+> +    free_test_data(&data);
+> +}
+> +
+>   static void test_acpi_q35_viot(void)
+>   {
+>       test_data data = {
+> @@ -1864,6 +1885,7 @@ int main(int argc, char *argv[])
+>       } else if (strcmp(arch, "aarch64") == 0) {
+>           if (has_tcg) {
+>               qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+> +            qtest_add_func("acpi/virt/topology", test_acpi_virt_tcg_topology);
+>               qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+>               qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+>               qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
 
 
