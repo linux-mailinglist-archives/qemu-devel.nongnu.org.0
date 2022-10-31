@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D86C661378A
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:12:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86640613786
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:11:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUZK-0002HN-1N; Mon, 31 Oct 2022 09:11:10 -0400
+	id 1opUZG-0001hD-J5; Mon, 31 Oct 2022 09:11:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1opUYn-0007y0-Ct
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:10:40 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ id 1opUYj-0007wm-FW
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:10:39 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1opUYd-0001G6-M9
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:10:33 -0400
-Received: by mail-wr1-x433.google.com with SMTP id z14so15887508wrn.7
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:10:27 -0700 (PDT)
+ id 1opUYd-0001Fa-JH
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:10:31 -0400
+Received: by mail-wr1-x436.google.com with SMTP id g12so15892569wrs.10
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:10:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=avCuxU0YK7dOwSpC6nhmi+sb9xnjSlD1u004mIyxDYo=;
- b=mBEBS39cp+0RzYvjQ7+DEHBhtnDAN3r0TnpZd9t9dso44Ph9jpq1MpGbbIOhBwBHU0
- qkawS3rPBU9CAVeMvDe4ESMGxEmPyBvlKatsLWQ6tHBN67u8TFvvOO34ZiD7hNJKFE3P
- IrR6U8O2R8a8W1Q8w2pCnl1iQQF/90jwvgOEj5Y6YDBaJOE6gSYHz1neq4iXTmK/pQHl
- RcvdA2ciss/uK02LAdBXCBHLwC7EfPbLgZi5gkH8/jAaASTMVmxME8yG9WwlEMpaTYdJ
- dNHhzcUQIZHqas/rxuhLWWtsauagO6NcFzAQmSNdmnKQ+BXcwlm1QyBKidfEd8TNNrCm
- dcgw==
+ bh=+bJIQoi/K9AwRlRvPmx2+d3fGZfR8Up7yVsMefwI7z0=;
+ b=bQt8eVy3EqAJ/NPr+YULLCGt+HxehY/+ODs1uT7leYoj8zFom/hcG6ANcH5Y4m3YjQ
+ oStnttNKiQUdvgCpdf7bojBzB/BzmzUvLjrW2Sz0c33nyXE8fXw7yC3f2tvDTXGeUK/7
+ IrlcPpt9QCGLnVgqQ5Mp9Ut1lXhz8g80vcbHCxrvkr60oKO9FI1Baf7hDEn1Kgs5XV3/
+ g0RIfW1nvdK44QRjIGFWV9NIKQ6nQi+ShSbggRKBMIRSD3PfkSTzyLr/Mnh1BV89e04Z
+ OPbey+29qTUCAFHpUlTlAnovvI3tGqv6wNbEibWFH7eA9oMt1kKASiVK31Ox0220sqx4
+ Hx5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=avCuxU0YK7dOwSpC6nhmi+sb9xnjSlD1u004mIyxDYo=;
- b=oyGYpbKpNSV4oKkMv0QxTxbTe27yFfDmDvWaI3pIIf6j8EKsd/wdVIO1tBbSEwIEnn
- eJfLfpyrgmnF62otBs/ObFfmSZ7Auzfte7ZGN4n896RJmu9wOQIrlX8TBwsMpiu9QQVX
- rMbpH8b4Fjk0tu6tf+NgxKwuhf0bGBH/wA+lTxBQwGFVQyLJpCYWHBt2po1xZniyvzhc
- OOG0O0MLtjdGfcMlq7Lh4ZzDXtFFzYFxFHlCT/GwBZ/MJsdCQOuEDQCFkYUym5fJ0KDw
- /bs2mjb2McayyzqkoE9FXQExoayOmeSkV8+uQCzVzKtZP7rjj/A5ZYVqwenMWVOeaaSA
- x1Jg==
-X-Gm-Message-State: ACrzQf1Gt7bnvnceFon+NXIuYHfpPnRLEdCZAXwMmQaiDu2H/fFnvJmk
- CuUy+nliQl9bV5gI43CfNkiB2g==
-X-Google-Smtp-Source: AMsMyM5Q1a7YAhNZQJSJ3bHat+LpfvzR/nWIfCU9B5oA8UffsfcR4SEZc52UIYDSQFAmw7cs0ZVykA==
-X-Received: by 2002:a05:6000:1f1a:b0:236:ce27:230a with SMTP id
- bv26-20020a0560001f1a00b00236ce27230amr2486038wrb.469.1667221826254; 
- Mon, 31 Oct 2022 06:10:26 -0700 (PDT)
+ bh=+bJIQoi/K9AwRlRvPmx2+d3fGZfR8Up7yVsMefwI7z0=;
+ b=riqFk6inPF5XNnR3IElih1q4VohSRxHcn0Qo19kJw5Z8duGHArjN9yTOmN3qP6Aurf
+ kqZiHMA3k8KLXr85mQr/t834MSgH2sFiEUfkQe7P2mB8RWq5fLE3V/gKcQSq8ro5Arph
+ t+oaMGzHm0e37yLBOglbRBKwF7nOiLpGkXr8fcAj+zrdmmc5NlIPrN3d2j3TQrPPMrQD
+ Qu8re9vS2BFHvx8XbMfRBYITpMF8Qz8PraurMHe/ZFvnvjHkflaHUGT9pjCk2iD73jVL
+ fRnsnEXm5C49Fi3Wmr2ULglkq9SFODu/hgt9pQb5RqksaOMGCpY5xl7XlScuChmV5Ih2
+ BmzQ==
+X-Gm-Message-State: ACrzQf2dXN5AfEZm3WgQXXYNgR8bZAyH+CsdliyUva0Fm+aE2B+qouYa
+ t36hZ6oCfBXCklt8GL+5pSmqNA==
+X-Google-Smtp-Source: AMsMyM6/DuyrDPmOPay3nWtreDfgxEJ75wg5NtXsDYnic71j09f+nNpp/dEY97Hth7t6dEPxLh54Sw==
+X-Received: by 2002:adf:e30f:0:b0:236:d8ef:9ede with SMTP id
+ b15-20020adfe30f000000b00236d8ef9edemr1502869wrj.170.1667221823233; 
+ Mon, 31 Oct 2022 06:10:23 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- bd26-20020a05600c1f1a00b003c6b70a4d69sm7222305wmb.42.2022.10.31.06.10.15
+ q8-20020a5d5748000000b0023677081f3asm7118372wrw.42.2022.10.31.06.10.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 06:10:20 -0700 (PDT)
+ Mon, 31 Oct 2022 06:10:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 078A61FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 1DD2A1FFC3;
  Mon, 31 Oct 2022 13:10:12 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 11/31] tests/tcg/nios2: Tweak 10m50-ghrd.ld
-Date: Mon, 31 Oct 2022 13:09:50 +0000
-Message-Id: <20221031131010.682984-12-alex.bennee@linaro.org>
+Cc: stefanha@redhat.com, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 12/31] semihosting/arm-compat-semi: Avoid using hardcoded /tmp
+Date: Mon, 31 Oct 2022 13:09:51 +0000
+Message-Id: <20221031131010.682984-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221031131010.682984-1-alex.bennee@linaro.org>
 References: <20221031131010.682984-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,43 +96,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Bin Meng <bin.meng@windriver.com>
 
-More closely follow the default linker script for nios2.
-This magically fixes a problem resolving .got relocs from
-the toolchain's libgcc.a.
+Use g_get_tmp_dir() to get the directory to use for temporary files.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1258
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221024035341.2971123-1-richard.henderson@linaro.org>
-Message-Id: <20221027183637.2772968-10-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20221006151927.2079583-2-bmeng.cn@gmail.com>
+Message-Id: <20221027183637.2772968-11-alex.bennee@linaro.org>
 
-diff --git a/tests/tcg/nios2/10m50-ghrd.ld b/tests/tcg/nios2/10m50-ghrd.ld
-index 7db0d59ad7..71cdda450c 100644
---- a/tests/tcg/nios2/10m50-ghrd.ld
-+++ b/tests/tcg/nios2/10m50-ghrd.ld
-@@ -44,11 +44,15 @@ SECTIONS
-     .data : ALIGN(4) {
-         *(.shdata)
-         *(.data .data.* .gnu.linkonce.d.*)
--        . = ALIGN(4);
--        _gp = ABSOLUTE(. + 0x8000);
--        *(.got.plt) *(.got)
--        *(.lit8)
--        *(.lit4)
-+    } >ram :RAM
-+
-+    HIDDEN (_gp = ALIGN(16) + 0x7ff0);
-+    PROVIDE_HIDDEN (gp = _gp);
-+    .got : ALIGN(4) {
-+        *(.got.plt) *(.igot.plt) *(.got) *(.igot)
-+    } >ram :RAM
-+
-+    .sdata : ALIGN(4) {
-         *(.sdata .sdata.* .gnu.linkonce.s.*)
-     } >ram :RAM
- 
+diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+index bfea9e9337..62d8bae97f 100644
+--- a/semihosting/arm-compat-semi.c
++++ b/semihosting/arm-compat-semi.c
+@@ -503,7 +503,8 @@ void do_common_semihosting(CPUState *cs)
+         GET_ARG(0);
+         GET_ARG(1);
+         GET_ARG(2);
+-        len = asprintf(&s, "/tmp/qemu-%x%02x", getpid(), (int)arg1 & 0xff);
++        len = asprintf(&s, "%s/qemu-%x%02x", g_get_tmp_dir(),
++                       getpid(), (int)arg1 & 0xff);
+         if (len < 0) {
+             common_semi_set_ret(cs, -1);
+             break;
 -- 
 2.34.1
 
