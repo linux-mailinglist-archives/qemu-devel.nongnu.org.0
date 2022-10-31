@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D299613773
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:09:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B0F61379A
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:14:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUIc-0003VG-1w; Mon, 31 Oct 2022 08:53:54 -0400
+	id 1opUId-0003bm-2r; Mon, 31 Oct 2022 08:53:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUIT-0002jo-CV
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:53:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUIW-00032D-4n
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:53:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUIR-0003L6-OU
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:53:45 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUIU-0003Lj-Dh
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:53:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667220823;
+ s=mimecast20190719; t=1667220825;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=dZ0P9a6IJfyx6sK2ZV/CZP2xR5EwFVjvhoJRBDQTyog=;
- b=BJ8t5fg/1UaUUfwAlBZIh9IYAg6E6//uHQWOzx9dZz68quao18q1tRW3CPUDMAZyA3t4IO
- mzD5dMTU5jVluKDvzUXCW3kgIXSwxXqPLp0IFB6PrZ9IREnAohiXyEUxVcMDOVn9dSv4Ln
- 2w+KdnD8Of0nBF5i3fKIZVWp0toTF0s=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0yhIUS8lDsK4Y+UjpInP5GENmj51Psd/BxPn+ebR+Z4=;
+ b=K/xB6fzFEWV7iEfReG2pcMgcidZPT8doLVqJg49vq38UZAY9weSKehVyZt45XR7WKRZGOJ
+ o0Y3r+QZO/LU3OR6g0p4BlbJiLMgBabSnw0itSxRs0lBtb4BjGLt6iJqODKpROVu3YPNJ/
+ UoN3qM0/6i7sfQc4+zC7cWCiiKTI57M=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-219-21zH_sXSNG6kz096YHXw9A-1; Mon, 31 Oct 2022 08:53:41 -0400
-X-MC-Unique: 21zH_sXSNG6kz096YHXw9A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- f26-20020a7bcc1a000000b003c03db14864so2570490wmh.6
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:53:41 -0700 (PDT)
+ us-mta-594-0IIPoMdiNe2pcB759Ugufg-1; Mon, 31 Oct 2022 08:53:44 -0400
+X-MC-Unique: 0IIPoMdiNe2pcB759Ugufg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ c5-20020a1c3505000000b003c56da8e894so8324734wma.0
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:53:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dZ0P9a6IJfyx6sK2ZV/CZP2xR5EwFVjvhoJRBDQTyog=;
- b=MTZM2EKFFFTsqd/X2YFdA5MT1BQK+rUhwd1FBlhOVZ9z+fwxWvQAv9DNRpn+E1Vz8i
- Smc0aYvDHY8hEiK7+0FeAlnmRfT0GGwz+upiCmrKv+yd9PJneecrCM6d4Zkq+lBrTFGq
- 7AfMwvWhXGchrZx9Xa48jttF6j13uzU2DAl+JyDYmFOqqriDzu+cn9evR4Qb3EFKgd4j
- uMdqhVrDXiS5qrBtctWSvVpa+DAa1fdrxbtuiYWOGGM/X2TSALyJAXCk53Dynk1IdsqS
- hA0kck0FsLzkyHtJplsRiF9xJkAaH1KGmEDy7M9C1gZyd6eY8OXObwYii9SOzXEj6xdm
- P5Tg==
-X-Gm-Message-State: ACrzQf2Kxv1nAR6oQu19j7KTQa7jzARiY9OBRh/IaWFiB1fjQ/9slRIp
- ckSK7WFJ3bQ9MeBYra54apz/RQfdKBNnPx7AWM9mnF7JsohP9wl9sZBvwps4fmcjVBFUySoTtBO
- vhV0LLnMKP6bd5VzDBuElXBzacMFXsl8jv4/qcutlXJT2aEp+a4WNuOxNfZC7
-X-Received: by 2002:a5d:584e:0:b0:236:6f0f:9d8 with SMTP id
- i14-20020a5d584e000000b002366f0f09d8mr7950938wrf.701.1667220820379; 
- Mon, 31 Oct 2022 05:53:40 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4pKoZf9VD2l4YW7yOPu6FxBwzSWx8xJCRtc5UC3sfQ7rWQpv096wJqkOaQIXNn/YKX6o01oA==
-X-Received: by 2002:a5d:584e:0:b0:236:6f0f:9d8 with SMTP id
- i14-20020a5d584e000000b002366f0f09d8mr7950920wrf.701.1667220820121; 
- Mon, 31 Oct 2022 05:53:40 -0700 (PDT)
+ bh=0yhIUS8lDsK4Y+UjpInP5GENmj51Psd/BxPn+ebR+Z4=;
+ b=4Sm9qZYD3vzNiNjAFhFv+G4Wf0pR/P/O0yasT06MWu5/Vh3lukTGpiDdUryD350sTa
+ n+SCLsDGyhC/XRue0uvwsn5FYkTDsDeATabGlpn5c/kjMiwlf09L8lryJPxJ31tZXa3f
+ 3Wk8wDUC1N8ikefXSkxKBKYkSbAqdEvQbV6+0O46u3elngMtUrm3ykRwvK4hZP3haMww
+ 9XlPj/KHhc4S0h/kOS/fnSGaHYX1nlJpW0SsWCEUX/dHCj7Gcr+kXD5F5M4vizS8ZOLe
+ iMZuVSIb7pQNbu2gP6U4zoLGUUXmqJ5pPWm/9/BMQ5AnAZqcv/bjibfrvW9mQycfzSgf
+ gjKQ==
+X-Gm-Message-State: ACrzQf2c3ldrQzUMGI8qRsNGC2mYNCMw8CjPHz9ic0Ix+j7qaNG5dJ45
+ byeiS89PGNFKj2MTKAT9XPYvcj99lms2RWhmXSgt4U51srG69R76v/rBQLgEK/iWNW7lZ3B+gFD
+ RSKWzXXPOa12CI24MUARV9yU8JyNGrGglkiN3lg+ZRPzZPd2qlIijiy7pCDi6
+X-Received: by 2002:adf:f78f:0:b0:236:992b:1f62 with SMTP id
+ q15-20020adff78f000000b00236992b1f62mr7735873wrp.605.1667220823308; 
+ Mon, 31 Oct 2022 05:53:43 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4T2gn2h9mcovd4GfjlYtbfMafNyq6CDbqfH0KkMrUMPTC/oFZ5FVsr4KoFHr9gAflsk8BKNg==
+X-Received: by 2002:adf:f78f:0:b0:236:992b:1f62 with SMTP id
+ q15-20020adff78f000000b00236992b1f62mr7735846wrp.605.1667220823008; 
+ Mon, 31 Oct 2022 05:53:43 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- b20-20020a05600c151400b003b3307fb98fsm6992770wmg.24.2022.10.31.05.53.38
+ n2-20020a7bc5c2000000b003c6c5a5a651sm7106527wmk.28.2022.10.31.05.53.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:53:39 -0700 (PDT)
-Date: Mon, 31 Oct 2022 08:53:37 -0400
+ Mon, 31 Oct 2022 05:53:42 -0700 (PDT)
+Date: Mon, 31 Oct 2022 08:53:40 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 62/86] tests: acpi: pc/q35 whitelist DSDT before \_GPE cleanup
-Message-ID: <20221031124928.128475-63-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 63/86] acpi: pc/35: sanitize _GPE declaration order
+Message-ID: <20221031124928.128475-64-mst@redhat.com>
 References: <20221031124928.128475-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -73,7 +77,7 @@ Content-Disposition: inline
 In-Reply-To: <20221031124928.128475-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -99,54 +103,101 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@
 
 From: Igor Mammedov <imammedo@redhat.com>
 
+Move _GPE block declaration before it gets referenced by other
+hotplug handlers. While at it move PCI hotplug (_E01) handler
+after PCI tree description to avoid forward reference to
+to not yet declared methods/devices.
+
+PS:
+Forward 'usage' usualy is fine as long as it's hidden within
+method, however 'iasl' may print warnings. So be nice
+to iasl/guest OS and do things in proper order.
+
+PS2: Also follow up patches will move some of hotplug code
+from PCI tree to _E01 and that also requires PCI Device
+nodes build first, before Scope can reuse that from
+global context.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20221017102146.2254096-10-imammedo@redhat.com>
+Message-Id: <20221017102146.2254096-11-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 34 +++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ hw/i386/acpi-build.c | 47 +++++++++++++++++++++++---------------------
+ 1 file changed, 25 insertions(+), 22 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..725a1dc798 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,35 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/pc/DSDT.nohpet",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.acpierst",
-+"tests/data/acpi/pc/DSDT.roothp",
-+"tests/data/acpi/pc/DSDT.hpbridge",
-+"tests/data/acpi/pc/DSDT.hpbrroot",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.tis.tpm2",
-+"tests/data/acpi/q35/DSDT.tis.tpm12",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.multi-bridge",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.nohpet",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.acpierst",
-+"tests/data/acpi/q35/DSDT.applesmc",
-+"tests/data/acpi/q35/DSDT.pvpanic-isa",
-+"tests/data/acpi/q35/DSDT.ivrs",
-+"tests/data/acpi/q35/DSDT.viot",
-+"tests/data/acpi/q35/DSDT.cxl",
-+"tests/data/acpi/q35/DSDT.ipmismbus",
-+"tests/data/acpi/q35/DSDT.xapic",
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 916343d8d6..960305462c 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1434,6 +1434,18 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         aml_append(dsdt, sb_scope);
+     }
+ 
++    scope =  aml_scope("_GPE");
++    {
++        aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
++        if (machine->nvdimms_state->is_enabled) {
++            method = aml_method("_E04", 0, AML_NOTSERIALIZED);
++            aml_append(method, aml_notify(aml_name("\\_SB.NVDR"),
++                                          aml_int(0x80)));
++            aml_append(scope, method);
++        }
++    }
++    aml_append(dsdt, scope);
++
+     if (pcmc->legacy_cpu_hotplug) {
+         build_legacy_cpu_hotplug_aml(dsdt, machine, pm->cpu_hp_io_base);
+     } else {
+@@ -1452,28 +1464,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+                                  pcms->memhp_io_base);
+     }
+ 
+-    scope =  aml_scope("_GPE");
+-    {
+-        aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
+-
+-        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
+-            method = aml_method("_E01", 0, AML_NOTSERIALIZED);
+-            aml_append(method,
+-                aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
+-            aml_append(method, aml_call0("\\_SB.PCI0.PCNT"));
+-            aml_append(method, aml_release(aml_name("\\_SB.PCI0.BLCK")));
+-            aml_append(scope, method);
+-        }
+-
+-        if (machine->nvdimms_state->is_enabled) {
+-            method = aml_method("_E04", 0, AML_NOTSERIALIZED);
+-            aml_append(method, aml_notify(aml_name("\\_SB.NVDR"),
+-                                          aml_int(0x80)));
+-            aml_append(scope, method);
+-        }
+-    }
+-    aml_append(dsdt, scope);
+-
+     crs_range_set_init(&crs_range_set);
+     bus = PC_MACHINE(machine)->bus;
+     if (bus) {
+@@ -1752,6 +1742,19 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+     }
+     aml_append(dsdt, sb_scope);
+ 
++    if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
++        scope =  aml_scope("_GPE");
++        {
++            method = aml_method("_E01", 0, AML_NOTSERIALIZED);
++            aml_append(method,
++                aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
++            aml_append(method, aml_call0("\\_SB.PCI0.PCNT"));
++            aml_append(method, aml_release(aml_name("\\_SB.PCI0.BLCK")));
++            aml_append(scope, method);
++        }
++        aml_append(dsdt, scope);
++    }
++
+     /* copy AML table into ACPI tables blob and patch header there */
+     g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
+     acpi_table_end(linker, &table);
 -- 
 MST
 
