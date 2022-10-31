@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B746F613789
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:12:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23D2661375F
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:06:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opURR-0006Z1-Ur; Mon, 31 Oct 2022 09:03:02 -0400
+	id 1opUT1-0007ZN-UH; Mon, 31 Oct 2022 09:04:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1opURP-0006PA-GY
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:02:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1opURN-0006bY-Je
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:02:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667221377;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sZ7MN1SpwjvKe+b6NooHqS1V42+9XFbp6XmnOnddidk=;
- b=CihdfWeCXNdhMk4iEinFyt4Q5lCjfnXI3SgaW21j6wmQwS+BfYPMyXYYMt49ICF+fuKUUd
- GVgULDF9zZp+u7+rJpTYSgmkeAaVZujTUEdwa6NHzeLlqd9CET6uStwE/BuwQF1GD3wCNb
- sA1aZT0dIXuFt7ggvTylm32bvIUCOFM=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-179-6Plbcm6uPGmw3OmgRp9vAA-1; Mon, 31 Oct 2022 09:02:54 -0400
-X-MC-Unique: 6Plbcm6uPGmw3OmgRp9vAA-1
-Received: by mail-pj1-f70.google.com with SMTP id
- mj8-20020a17090b368800b002137a506927so3988411pjb.1
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:02:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1opURz-0007G9-CQ
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:03:39 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1opURw-0006lC-J5
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:03:35 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ u8-20020a17090a5e4800b002106dcdd4a0so15864677pji.1
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rTj3OCdOh9GHTQq3zH5hk6i5H6mbJ+iR7eoNOh181ww=;
+ b=XfQ3MauK5C4Q7W7LVK+1IxkCwtIjLz7WQB1IO+eU250PjUF0NlFT8cZ/pja43DGPqj
+ UEaLDy/ejaca7WT5yyyqghud+3fpvozGOoOkkq+SRebxvHewjLUZoL8uE4A53kE/ODpn
+ 0KwkzQpIrznhTtFlQ+hajWpqhyu1E086bNnRc8677QrYhgmXHUWUA1nZZYefgcIDBE8y
+ DlXR5bvNoBJuLbTyIXjRzsfvyELnL/972R8cUnonAKgglP1rBxj3zlpi6NVe3LJo//Y2
+ agiRn/Vx3knTt+tP4yZcamvIpWOTAka7XXwGCuGCraVyXjtqxgymbtscj0F6NV/YETwI
+ B+Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sZ7MN1SpwjvKe+b6NooHqS1V42+9XFbp6XmnOnddidk=;
- b=aUa/ghIDlVwkjuzVgiyAnShfcURD05w2XOSgmIbMVwWNyOEX8nGTRpUE5hohcRN73Q
- axd2uTQktA+jsLsk4ztcFmlC7qQ9Gd/sbvUP2MHmaZxEQ0aM003LSA7LSZYp1V4XIjCr
- 6DjdNcSbjQAWH84fzKEmbBsQmoEc/mSSe+XaLrc69cCGZRQDd4Xy3GV2RsN5NIY2fD94
- kgUoHiqWGbCl1aYB8wNfW22UvwPqtQ0azZMUZyCxVp/66xiY++hpYUrg+eG9wwUADX9Q
- CeO5ri8b0Vui5thegjQJEDkVXWVlV2iGVwb4WjqjZtYJyK60c6ZMDiCGWmclRa56BxB/
- C6fA==
-X-Gm-Message-State: ACrzQf2mDczerSNQl+01nO0WUfgYhnNH3N//1L6nAmmNYUHA4QKIhOxR
- f+tJk7hT18vkb4FhF0HlO3EqPWk6IRdtDidosaGgDO8l1pljM9i3Fg0dhLt1eGTuUjVnwl4WMAb
- t48jLFSGKXP5STnyBAmIl5+Ty1eR+lhk=
-X-Received: by 2002:a17:903:1303:b0:186:969d:97cf with SMTP id
- iy3-20020a170903130300b00186969d97cfmr13913278plb.17.1667221373522; 
- Mon, 31 Oct 2022 06:02:53 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5p8mZy+pr0UT0mhP8CYqOfqT54CLGvkwNo4LDEjmR5N40xxqzbUGWz+oFRUbUqUgIR5zFlgdFtj2f+39ZZ4PM=
-X-Received: by 2002:a17:903:1303:b0:186:969d:97cf with SMTP id
- iy3-20020a170903130300b00186969d97cfmr13913247plb.17.1667221373097; Mon, 31
- Oct 2022 06:02:53 -0700 (PDT)
+ bh=rTj3OCdOh9GHTQq3zH5hk6i5H6mbJ+iR7eoNOh181ww=;
+ b=jCYdelyHJdICKJqmgdGw6fzi6O6WdMjkD39WUF714rRIhhq1ENJ8UjOwaVHmifvNdk
+ PN6Uk3ofrd/y1bm3Rk89X6JEeG5Hysy661rkMIZRFCC2yKz8WWFRdHnB9l2w6A1fcsdB
+ aIguIwMqm3dE4ZeqwzfdqeEgqgmCbvF4oMk8zuSKCyhPza1XgftlIbgNhKROGRbuZvcZ
+ wYCuLwFx6tHt0b92pkhp0MvuKYI8t6CbSJGAPVX8i5M+Jr9VrMguz3gjRCRQpXfcEG+n
+ T6PHGoDvX4h/o64mGKR1UH2rSZdvRM0TuogzjcqLtaLAtxETK1DTluQZFVBqlkO4lmY4
+ d2uA==
+X-Gm-Message-State: ACrzQf3Nh2Km2iQZ7T6W8kgbnge2TbkASXQmH/7T6a8ZLjq//DEz5pD5
+ 9v1s2anLc+rXPsCW1rN82s5ZZZ323kuAy1Mn4QBeNA==
+X-Google-Smtp-Source: AMsMyM7QB6V3d0KPpypcwyxjQGMri5u0GXcwgs7VVMu6On1hK1l2EZZXn/XVnodRVPqC2MF/0p8wr4xyQl+1RWyAS1Q=
+X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
+ jm23-20020a17090304d700b001788564f754mr14366795plb.60.1667221408392; Mon, 31
+ Oct 2022 06:03:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221028160251.268607-1-eperezma@redhat.com>
- <20221028160251.268607-3-eperezma@redhat.com>
- <6375bb66-91a5-d638-dd4f-2700ac3a26cc@linaro.org>
- <CAJaqyWdj2OPyjZ1s9jK1botrVEHd2+K+Q783soLtmf5WVnArFg@mail.gmail.com>
- <20221031083210-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20221031083210-mutt-send-email-mst@kernel.org>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 31 Oct 2022 14:02:16 +0100
-Message-ID: <CAJaqyWeLrKZGet7q+sJUQ_DzAHQGm5onvVK8vdbq9C1xVrD77w@mail.gmail.com>
-Subject: Re: [PATCH 2/4] vhost: convert byte order on SVQ used event write
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>, 
- Jason Wang <jasowang@redhat.com>
+References: <20220927141504.3886314-1-alex.bennee@linaro.org>
+ <20220927141504.3886314-2-alex.bennee@linaro.org>
+ <769e0e8a-7787-b02b-9e26-87eca955666b@linaro.org>
+ <CAFEAcA-0zoNS0nWrYu6hM1=8tG4i4GkjHLL2v4OMmJv5GaDAMg@mail.gmail.com>
+ <87r0znlnmm.fsf@linaro.org>
+ <CAFEAcA8Ft_YAC2TRCSErUJxY8_kZOQdF7Qa6oM6VF2RpAeHrBA@mail.gmail.com>
+ <b1a845ca-0972-1800-0c58-03f68d0c94a0@linaro.org>
+In-Reply-To: <b1a845ca-0972-1800-0c58-03f68d0c94a0@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 31 Oct 2022 13:03:16 +0000
+Message-ID: <CAFEAcA-jvg4t1O-wE+19rJgzdiSZqF+X-XmEDLnrJYZCo233Sw@mail.gmail.com>
+Subject: Re: [PATCH v3 01/15] hw: encode accessing CPU index in MemTxAttrs
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,89 +96,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 31, 2022 at 1:33 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+On Mon, 31 Oct 2022 at 12:08, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
+g> wrote:
 >
-> On Mon, Oct 31, 2022 at 09:54:34AM +0100, Eugenio Perez Martin wrote:
-> > On Sat, Oct 29, 2022 at 12:48 AM Philippe Mathieu-Daud=C3=A9
-> > <philmd@linaro.org> wrote:
-> > >
-> > > On 28/10/22 18:02, Eugenio P=C3=A9rez wrote:
-> > > > This causes errors on virtio modern devices on big endian hosts
-> > > >
-> > > > Fixes: 01f8beacea2a ("vhost: toggle device callbacks using used eve=
-nt idx")
-> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > ---
-> > > >   hw/virtio/vhost-shadow-virtqueue.c | 2 +-
-> > > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-s=
-hadow-virtqueue.c
-> > > > index 70766ea740..467099f5d9 100644
-> > > > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > > > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > > > @@ -382,7 +382,7 @@ static bool vhost_svq_enable_notification(Vhost=
-ShadowVirtqueue *svq)
-> > > >   {
-> > > >       if (virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_ID=
-X)) {
-> > > >           uint16_t *used_event =3D &svq->vring.avail->ring[svq->vri=
-ng.num];
-> > > > -        *used_event =3D svq->shadow_used_idx;
-> > > > +        *used_event =3D cpu_to_le16(svq->shadow_used_idx);
-> > >
-> > > This looks correct, but what about:
-> > >
-> > >             virtio_stw_p(svq->vdev, used_event, svq->shadow_used_idx)=
-;
-> > >
+> On 4/10/22 16:54, Peter Maydell wrote:
+> > On Tue, 4 Oct 2022 at 14:33, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+> >>
+> >>
+> >> Peter Maydell <peter.maydell@linaro.org> writes:
+> >>> The MSC is in the address map like most other stuff, and thus there i=
+s
+> >>> no restriction on whether it can be accessed by other things than CPU=
+s
+> >>> (DMAing to it would be silly but is perfectly possible).
+> >>>
+> >>> The intent of the code is "pass this transaction through, but force
+> >>> it to be Secure/NonSecure regardless of what it was before". That
+> >>> should not involve a change of the requester type.
+> >>
+> >> Should we assert (or warn) when the requester_type is unspecified?
 > >
-> > Hi Philippe,
-> >
-> > I think this has the same answer as [1], the endianness conversion
-> > from the guest to the host may not be the same as the one needed from
-> > qemu SVQ to the vdpa device. Please let me know if it is not the case.
-> >
-> > Thanks!
-> >
-> > [1] https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg06081.h=
-tml
+> > Not in the design of MemTxAttrs that's currently in git, no:
+> > in that design it's perfectly fine for something generating
+> > memory transactions to use MEMTXATTRS_UNSPECIFIED (which defaults
+> > to meaning a bunch of things including "not secure").
 >
-> So considering legacy, i do not belive you can make a legacy
-> device on top of modern one using SVQ alone.
+> In tz_mpc_handle_block():
 >
-
-Right, more work is needed. For example, config r/w conversions. But
-it's a valid use case where SVQ helps too.
-
-> So I'd say SVQ should follow virtio endian-ness, not LE.
-
-At this moment both the device that the guest sees and the vdpa device
-must be modern ones to enable SVQ. So the event idx must be stored in
-the vring in LE. Similar access functions as virtio_ld* and virtio_st*
-are needed if SVQ supports legacy vdpa devices in the future.
-
-The point is that svq->shadow_avail_idx is decoupled from the guest's
-avail ring, event idx, etc. It will always be in the host's CPU
-endianness, regardless of the guest's one. And, for the moment, the
-event idx write must be in LE.
-
-There is a more fundamental problem about using virtio_{st,ld}* here:
-These read from and write to guest's memory, but neither
-svq->shadow_used_idx or shadow vring are in guest's memory but only in
-qemu's VA. To start the support of legacy vdpa devices would involve a
-deeper change here, since all shadow vring writes and reads are
-written this way.
-
-Thanks!
-
+> static MemTxResult tz_mpc_handle_block(TZMPC *s, hwaddr addr, MemTxAttrs
+> attrs)
+> {
+>      /* Handle a blocked transaction: raise IRQ, capture info, etc */
+>      if (!s->int_stat) {
+>
+>          s->int_info1 =3D addr;
+>          s->int_info2 =3D 0;
+>          s->int_info2 =3D FIELD_DP32(s->int_info2, INT_INFO2, HMASTER,
+>                                    attrs.requester_id & 0xffff);
+>          s->int_info2 =3D FIELD_DP32(s->int_info2, INT_INFO2, HNONSEC,
+>                                    ~attrs.secure);
+>          s->int_info2 =3D FIELD_DP32(s->int_info2, INT_INFO2, CFG_NS,
+>                                    tz_mpc_cfg_ns(s, addr));
 >
 >
-> > > >       } else {
-> > > >           svq->vring.avail->flags &=3D ~cpu_to_le16(VRING_AVAIL_F_N=
-O_INTERRUPT);
-> > > >       }
-> > >
->
+> Should we check whether the requester is MTRT_CPU?
 
+That code is basically assuming that the requester_id is the AMBA AHB
+'HMASTER' field (i.e. something hopefully unique to all things that
+send out transactions, not necessarily limited only to CPUs), which is a
+somewhat bogus assumption given that it isn't currently any such thing...
+
+I'm not sure if/how this patchset plans to model generic "ID of transaction
+generator".
+
+-- PMM
 
