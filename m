@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FD66136F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:53:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 864036136ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:52:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUFy-0000mc-7Y; Mon, 31 Oct 2022 08:51:11 -0400
+	id 1opUGL-0000u3-79; Mon, 31 Oct 2022 08:51:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUFv-0000iD-DQ
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:51:07 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUG0-0000ni-28
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:51:13 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUFs-0002Ex-Ic
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:51:06 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUFw-0002FH-NX
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:51:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667220663;
+ s=mimecast20190719; t=1667220667;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fHcLFrjd1DfA6XFg8BR0z1pq4IUlwt9atAyip6cgC1A=;
- b=H4p+6QiJBaat8Ew5fceWiEHjX8APoI4QNQyXfuxMUzkkg0kyEcUHBI/DC9xX8or0NzkXKr
- Aydw+S+yrDMHNwh6+jJF6bK/911nLJPQd/RwEnQnDWijRiYfu5vcUitJRhyjw5msrpCKhQ
- tJhOX7Ad9QiEoTuexJUHDChr8l2uo+A=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Pzmg+/++J/zaOBNUtyrZfFr7Qxx00U7Iz/ZMuTqMXlQ=;
+ b=FPAQ70KSRaA1yXAI8zlUhx4qmfFbMpg7iW8M5OQCWQoukiXGOqU3dPF1bCS2sC8Go+/L2h
+ QI4qrnYpLgCQArwC/O9wH7UAd7a/Lcs94GfYFkxY/wMs7fgTUjaIQc73HdsQwXWcnohTVi
+ T4gCeTdnjL+OQs5wZeI1k26puOMFKsU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-390-efx1uCcgNoqqW3EdHOERLQ-1; Mon, 31 Oct 2022 08:51:02 -0400
-X-MC-Unique: efx1uCcgNoqqW3EdHOERLQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- bg21-20020a05600c3c9500b003c2acbff422so5703977wmb.0
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:51:02 -0700 (PDT)
+ us-mta-222-JcnENOROORyiYkqnAuyAhw-1; Mon, 31 Oct 2022 08:51:05 -0400
+X-MC-Unique: JcnENOROORyiYkqnAuyAhw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ d13-20020a05600c34cd00b003ce1f62ac5aso8307258wmq.4
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:51:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fHcLFrjd1DfA6XFg8BR0z1pq4IUlwt9atAyip6cgC1A=;
- b=0uxhCpF5EjuDA7l1y6zswXmnmIGBYyMu/GoPRufjq5Rc3LCsM2/QLGmpzXjpGToUty
- k5hyAmefKOvae+x/c16hbI4QN7hHK423d3JD4INOhMCKZbROOe483YPXBAZ0scPyquR+
- LY1abDM7Y2+nRNznAcck6pNpG5CeZ52YbOGY/wRUOjlnpIRIoEdSDe94wEi8UeXyoyCz
- nu7//DzOAcOu/V4OTunQzQx8BAwI29j5S7sRR4vEjyGwLxmOOBa1pGqjKfOWhIOXvmt4
- FMBEYYwwM04HsU1Z4XRauNvK7nMbNUdkXAUZFqeWr06cnJ2A6xFjh14VlnKlrlp04CYN
- /Q1A==
-X-Gm-Message-State: ACrzQf0109iX2YHA/N0yWZKb40lxpUc4IBYMiiUNOo8R3++xuXcWvHjk
- GQytfC15rUlrHIZoNCItCkHqZB6bbvTzrhiecDIioOD6edRjgTNEyU0lGyn2yDHlKq5Nsrlvrr3
- boNcu1NETSVCIxNZPdSHwICcJx1J9pr7sGun8PflNPVQrwG+gK9DiWw9nBv0W
-X-Received: by 2002:a5d:6ac7:0:b0:236:b281:150 with SMTP id
- u7-20020a5d6ac7000000b00236b2810150mr7060948wrw.29.1667220660886; 
- Mon, 31 Oct 2022 05:51:00 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM53dXsDhuYAZyDx+JHT3vlS0E0sfojZSasiCCWTLFEyUTTL/7SixSfqfsnqI4tv5uWlSqGs/A==
-X-Received: by 2002:a5d:6ac7:0:b0:236:b281:150 with SMTP id
- u7-20020a5d6ac7000000b00236b2810150mr7060924wrw.29.1667220660622; 
- Mon, 31 Oct 2022 05:51:00 -0700 (PDT)
+ bh=Pzmg+/++J/zaOBNUtyrZfFr7Qxx00U7Iz/ZMuTqMXlQ=;
+ b=DtXSJTtY15mpfeIBM/bKOC5E42Qd7nHvkBnurLu6z+mmJsac2zYhJWUi5vX1PHI5TS
+ RdN5Ub8wWB6Fr1tMAUdY883bTAbrASeowDzbogR5JaNfrnDSemdqDSzrWLBz8gfH2bbV
+ zTs/9RVN3Tharoo9xCh8fOaWWG3lDcUNO27Ird/HDXa26bv5cwqRbgzHj48JZA7hxUAv
+ 02c22/xnbpjOh436+2wQ8CmHeUUrqzVQRO/xOLGnrFzIiWTu76/GALYLPrTXeBrLE7hR
+ 0WJFOWDyoKrgXN9JO16AF55yvOP4KWGzcYfLhQfXfKkGs9mQrPnN9jFGReP89SqieWlw
+ MQMQ==
+X-Gm-Message-State: ACrzQf2rsuJaTZOfAX6o7Vic4XVbV/m26ZYqjccJCsB7zm5bbg5Tecs5
+ O6XZApeBbKXIH1rR1PJQDsuap52giGbpKupOQNqPN0LTihk3K16d7tBLSXghvI87St4WsJJI0pw
+ Z6tqwKGGl1tSEH91owumoBuVQdfQR/lFZI4hsD4QEWeStc2nP4HeRzd0fg24g
+X-Received: by 2002:a05:6000:1f18:b0:236:8e08:68e1 with SMTP id
+ bv24-20020a0560001f1800b002368e0868e1mr7987215wrb.67.1667220664079; 
+ Mon, 31 Oct 2022 05:51:04 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5eUw7iz+150yQiWQ0r2FathXuaVaM10LySvXmsx4hx+d9DeEv3+87Y3zi8TzGbkPUUijkzHw==
+X-Received: by 2002:a05:6000:1f18:b0:236:8e08:68e1 with SMTP id
+ bv24-20020a0560001f1800b002368e0868e1mr7987188wrb.67.1667220663717; 
+ Mon, 31 Oct 2022 05:51:03 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- j7-20020a056000124700b00236883f2f5csm6918336wrx.94.2022.10.31.05.50.59
+ w4-20020adfcd04000000b002366dd0e030sm7200700wrm.68.2022.10.31.05.51.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:51:00 -0700 (PDT)
-Date: Mon, 31 Oct 2022 08:50:58 -0400
+ Mon, 31 Oct 2022 05:51:03 -0700 (PDT)
+Date: Mon, 31 Oct 2022 08:51:01 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Robert Hoo <robert.hu@linux.intel.com>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 06/86] acpi/nvdimm: Implement ACPI NVDIMM Label Methods
-Message-ID: <20221031124928.128475-7-mst@redhat.com>
+Subject: [PULL 07/86] test/acpi/bios-tables-test: SSDT: update golden master
+ binaries
+Message-ID: <20221031124928.128475-8-mst@redhat.com>
 References: <20221031124928.128475-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -100,143 +101,276 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@
 
 From: Robert Hoo <robert.hu@linux.intel.com>
 
-Recent ACPI spec [1] has defined NVDIMM Label Methods _LS{I,R,W}, which
-deprecates corresponding _DSM Functions defined by PMEM _DSM Interface spec
-[2].
+And empty bios-tables-test-allowed-diff.h.
 
-Since the semantics of the new Label Methods are almost same as old _DSM
-methods, the implementations here simply wrapper old ones.
+Diff of ASL form, from qtest testlog.txt:
 
-ASL form diff can be found in next patch of updating golden master
-binaries.
+@@ -1,30 +1,30 @@
+ /*
+  * Intel ACPI Component Architecture
+  * AML/ASL+ Disassembler version 20180629 (64-bit version)
+  * Copyright (c) 2000 - 2018 Intel Corporation
+  *
+  * Disassembling to symbolic ASL+ operators
+  *
+- * Disassembly of tests/data/acpi/pc/SSDT.dimmpxm, Thu Sep 22 18:25:06 2022
++ * Disassembly of /tmp/aml-YYZZS1, Thu Sep 22 18:25:06 2022
+  *
+  * Original Table Header:
+  *     Signature        "SSDT"
+- *     Length           0x000002DE (734)
++ *     Length           0x00000717 (1815)
+  *     Revision         0x01
+- *     Checksum         0x56
++ *     Checksum         0xBC
+  *     OEM ID           "BOCHS "
+  *     OEM Table ID     "NVDIMM"
+  *     OEM Revision     0x00000001 (1)
+  *     Compiler ID      "BXPC"
+  *     Compiler Version 0x00000001 (1)
+  */
+ DefinitionBlock ("", "SSDT", 1, "BOCHS ", "NVDIMM", 0x00000001)
+ {
+     Scope (\_SB)
+     {
+         Device (NVDR)
+         {
+             Name (_HID, "ACPI0012" /* NVDIMM Root Device */)  // _HID: Hardware ID
+             Method (NCAL, 5, Serialized)
+             {
+                 Local6 = MEMA /* \MEMA */
+@@ -49,52 +49,52 @@
+                     ODAT,   32736
+                 }
 
-[1] ACPI Spec v6.4, 6.5.10 NVDIMM Label Methods
-https://uefi.org/sites/default/files/resources/ACPI_Spec_6_4_Jan22.pdf
-[2] Intel PMEM _DSM Interface Spec v2.0, 3.10 Deprecated Functions
-https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf
+                 If ((Arg4 == Zero))
+                 {
+                     Local0 = ToUUID ("2f10e7a4-9e91-11e4-89d3-123b93f75cba")
+                 }
+                 ElseIf ((Arg4 == 0x00010000))
+                 {
+                     Local0 = ToUUID ("648b9cf2-cda1-4312-8ad9-49c4af32bd62")
+                 }
+                 Else
+                 {
+                     Local0 = ToUUID ("4309ac30-0d11-11e4-9191-0800200c9a66")
+                 }
 
+-                If (((Local6 == Zero) | (Arg0 != Local0)))
++                If (((Local6 == Zero) || (Arg0 != Local0)))
+                 {
+                     If ((Arg2 == Zero))
+                     {
+                         Return (Buffer (One)
+                         {
+                              0x00                                             // .
+                         })
+                     }
+
+                     Return (Buffer (One)
+                     {
+                          0x01                                             // .
+                     })
+                 }
+
+                 HDLE = Arg4
+                 REVS = Arg1
+                 FUNC = Arg2
+-                If (((ObjectType (Arg3) == 0x04) & (SizeOf (Arg3) == One)))
++                If (((ObjectType (Arg3) == 0x04) && (SizeOf (Arg3) == One)))
+                 {
+                     Local2 = Arg3 [Zero]
+                     Local3 = DerefOf (Local2)
+                     FARG = Local3
+                 }
+
+                 NTFI = Local6
+                 Local1 = (RLEN - 0x04)
+                 If ((Local1 < 0x08))
+                 {
+                     Local2 = Zero
+                     Name (TBUF, Buffer (One)
+                     {
+                          0x00                                             // .
+                     })
+                     Local7 = Buffer (Zero){}
+@@ -161,45 +161,234 @@
+                     Else
+                     {
+                         If ((Local1 == Zero))
+                         {
+                             Return (Local2)
+                         }
+
+                         Local3 += Local1
+                         Concatenate (Local2, Local0, Local2)
+                     }
+                 }
+             }
+
+             Device (NV00)
+             {
+                 Name (_ADR, One)  // _ADR: Address
++                Method (_LSI, 0, Serialized)  // _LSI: Label Storage Information
++                {
++                    Local0 = NCAL (ToUUID ("4309ac30-0d11-11e4-9191-0800200c9a66"), One, 0x04, Zero, One)
++                    CreateDWordField (Local0, Zero, STTS)
++                    CreateDWordField (Local0, 0x04, SLSA)
++                    CreateDWordField (Local0, 0x08, MAXT)
++                    Local1 = Package (0x03)
++                        {
++                            STTS,
++                            SLSA,
++                            MAXT
++                        }
++                    Return (Local1)
++                }
++
++                Method (_LSR, 2, Serialized)  // _LSR: Label Storage Read
++                {
++                    Name (INPT, Buffer (0x08)
++                    {
++                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00   // ........
++                    })
++                    CreateDWordField (INPT, Zero, OFST)
++                    CreateDWordField (INPT, 0x04, LEN)
++                    OFST = Arg0
++                    LEN = Arg1
++                    Local0 = Package (0x01)
++                        {
++                            INPT
++                        }
++                    Local3 = NCAL (ToUUID ("4309ac30-0d11-11e4-9191-0800200c9a66"), One, 0x05, Local0, One)
++                    CreateDWordField (Local3, Zero, STTS)
++                    CreateField (Local3, 0x20, (LEN << 0x03), LDAT)
++                    Name (LSA, Buffer (Zero){})
++                    ToBuffer (LDAT, LSA) /* \_SB_.NVDR.NV00._LSR.LSA_ */
++                    Local1 = Package (0x02)
++                        {
++                            STTS,
++                            LSA
++                        }
++                    Return (Local1)
++                }
++
++                Method (_LSW, 3, Serialized)  // _LSW: Label Storage Write
++                {
++                    Local2 = Arg2
++                    Name (INPT, Buffer (0x08)
++                    {
++                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00   // ........
++                    })
++                    CreateDWordField (INPT, Zero, OFST)
++                    CreateDWordField (INPT, 0x04, TLEN)
++                    OFST = Arg0
++                    TLEN = Arg1
++                    Concatenate (INPT, Local2, INPT) /* \_SB_.NVDR.NV00._LSW.INPT */
++                    Local0 = Package (0x01)
++                        {
++                            INPT
++                        }
++                    Local3 = NCAL (ToUUID ("4309ac30-0d11-11e4-9191-0800200c9a66"), One, 0x06, Local0, One)
++                    CreateDWordField (Local3, Zero, STTS)
++                    Return (STTS) /* \_SB_.NVDR.NV00._LSW.STTS */
++                }
++
+(iterates in each NV)
+
+Message-Id: <20220922122155.1326543-6-robert.hu@linux.intel.com>
 Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-Message-Id: <20220922122155.1326543-5-robert.hu@linux.intel.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/nvdimm.c | 95 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 95 insertions(+)
+ tests/qtest/bios-tables-test-allowed-diff.h |   2 --
+ tests/data/acpi/pc/SSDT.dimmpxm             | Bin 734 -> 1815 bytes
+ tests/data/acpi/q35/SSDT.dimmpxm            | Bin 734 -> 1815 bytes
+ tests/data/acpi/virt/SSDT.memhp             | Bin 736 -> 1817 bytes
+ 4 files changed, 2 deletions(-)
 
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index afff911c1e..a3b25a92f3 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -1243,6 +1243,7 @@ static void nvdimm_build_fit(Aml *dev)
- static void nvdimm_build_nvdimm_devices(Aml *root_dev, uint32_t ram_slots)
- {
-     uint32_t slot;
-+    Aml *method, *pkg, *field, *com_call;
- 
-     for (slot = 0; slot < ram_slots; slot++) {
-         uint32_t handle = nvdimm_slot_to_handle(slot);
-@@ -1260,6 +1261,100 @@ static void nvdimm_build_nvdimm_devices(Aml *root_dev, uint32_t ram_slots)
-          */
-         aml_append(nvdimm_dev, aml_name_decl("_ADR", aml_int(handle)));
- 
-+        /*
-+         * ACPI v6.4: Section 6.5.10 NVDIMM Label Methods
-+         */
-+        /* _LSI */
-+        method = aml_method("_LSI", 0, AML_SERIALIZED);
-+        com_call = aml_call5(NVDIMM_COMMON_DSM,
-+                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
-+                            aml_int(1), aml_int(4), aml_int(0),
-+                            aml_int(handle));
-+        aml_append(method, aml_store(com_call, aml_local(0)));
-+
-+        aml_append(method, aml_create_dword_field(aml_local(0),
-+                                                  aml_int(0), "STTS"));
-+        aml_append(method, aml_create_dword_field(aml_local(0), aml_int(4),
-+                                                  "SLSA"));
-+        aml_append(method, aml_create_dword_field(aml_local(0), aml_int(8),
-+                                                  "MAXT"));
-+
-+        pkg = aml_package(3);
-+        aml_append(pkg, aml_name("STTS"));
-+        aml_append(pkg, aml_name("SLSA"));
-+        aml_append(pkg, aml_name("MAXT"));
-+        aml_append(method, aml_store(pkg, aml_local(1)));
-+        aml_append(method, aml_return(aml_local(1)));
-+
-+        aml_append(nvdimm_dev, method);
-+
-+        /* _LSR */
-+        method = aml_method("_LSR", 2, AML_SERIALIZED);
-+        aml_append(method, aml_name_decl("INPT", aml_buffer(8, NULL)));
-+
-+        aml_append(method, aml_create_dword_field(aml_name("INPT"),
-+                                                  aml_int(0), "OFST"));
-+        aml_append(method, aml_create_dword_field(aml_name("INPT"),
-+                                                  aml_int(4), "LEN"));
-+        aml_append(method, aml_store(aml_arg(0), aml_name("OFST")));
-+        aml_append(method, aml_store(aml_arg(1), aml_name("LEN")));
-+
-+        pkg = aml_package(1);
-+        aml_append(pkg, aml_name("INPT"));
-+        aml_append(method, aml_store(pkg, aml_local(0)));
-+
-+        com_call = aml_call5(NVDIMM_COMMON_DSM,
-+                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
-+                            aml_int(1), aml_int(5), aml_local(0),
-+                            aml_int(handle));
-+        aml_append(method, aml_store(com_call, aml_local(3)));
-+        field = aml_create_dword_field(aml_local(3), aml_int(0), "STTS");
-+        aml_append(method, field);
-+        field = aml_create_field(aml_local(3), aml_int(32),
-+                                 aml_shiftleft(aml_name("LEN"), aml_int(3)),
-+                                 "LDAT");
-+        aml_append(method, field);
-+        aml_append(method, aml_name_decl("LSA", aml_buffer(0, NULL)));
-+        aml_append(method, aml_to_buffer(aml_name("LDAT"), aml_name("LSA")));
-+
-+        pkg = aml_package(2);
-+        aml_append(pkg, aml_name("STTS"));
-+        aml_append(pkg, aml_name("LSA"));
-+
-+        aml_append(method, aml_store(pkg, aml_local(1)));
-+        aml_append(method, aml_return(aml_local(1)));
-+
-+        aml_append(nvdimm_dev, method);
-+
-+        /* _LSW */
-+        method = aml_method("_LSW", 3, AML_SERIALIZED);
-+        aml_append(method, aml_store(aml_arg(2), aml_local(2)));
-+        aml_append(method, aml_name_decl("INPT", aml_buffer(8, NULL)));
-+        field = aml_create_dword_field(aml_name("INPT"),
-+                                                  aml_int(0), "OFST");
-+        aml_append(method, field);
-+        field = aml_create_dword_field(aml_name("INPT"),
-+                                                  aml_int(4), "TLEN");
-+        aml_append(method, field);
-+        aml_append(method, aml_store(aml_arg(0), aml_name("OFST")));
-+        aml_append(method, aml_store(aml_arg(1), aml_name("TLEN")));
-+
-+        aml_append(method, aml_concatenate(aml_name("INPT"), aml_local(2),
-+                                            aml_name("INPT")));
-+        pkg = aml_package(1);
-+        aml_append(pkg, aml_name("INPT"));
-+        aml_append(method, aml_store(pkg, aml_local(0)));
-+        com_call = aml_call5(NVDIMM_COMMON_DSM,
-+                            aml_touuid(NVDIMM_DEVICE_DSM_UUID),
-+                            aml_int(1), aml_int(6), aml_local(0),
-+                            aml_int(handle));
-+        aml_append(method, aml_store(com_call, aml_local(3)));
-+        field = aml_create_dword_field(aml_local(3), aml_int(0), "STTS");
-+        aml_append(method, field);
-+        aml_append(method, aml_return(aml_name("STTS")));
-+
-+        aml_append(nvdimm_dev, method);
-+
-         nvdimm_build_device_dsm(nvdimm_dev, handle);
-         aml_append(root_dev, nvdimm_dev);
-     }
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index eb8bae1407..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,3 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/pc/SSDT.dimmpxm",
+-"tests/data/acpi/q35/SSDT.dimmpxm",
+diff --git a/tests/data/acpi/pc/SSDT.dimmpxm b/tests/data/acpi/pc/SSDT.dimmpxm
+index ac55387d57e48adb99eb738a102308688a262fb8..70f133412f5e0aa128ab210245a8de7304eeb843 100644
+GIT binary patch
+literal 1815
+zcmdUwyKmD_6vnUPv~g}y6emHgc**|(X$OSF0FILox3Lr1ZmHx-examI3c8|YVC!RO
+z2@)c;%774ZDvwC)2sTzGCN_pj>?}wOz&%bMqC!xRK#<|wbI(0K`Q7hx6kRVFqX~qV
+z7sa|%)dh8?Br6KtBZP{x4GGpv_2!(V7cFzGeuJKCoK=-eBcjxh3x)9sl%G1ON@8t<
+zC}l-#nk#BUt~04IjN>%dL<KcdC}Xaspw6mBMHbA}GjPCGOSQ6~m1lIJGObENMbxgY
+zd`g(B+2~ZOl~ti$5{;G5iQtsKhzOs<nect)eDBFFfA>xHlK*k;x!u1QobwmcfE+b^
+zczo}A|8-XCzLj4+n|SHk{n4mic$$>>kzKym<B*Vk)U<=Kp5H`U{=6L|{Wc1DmWcvG
+z76FVb02yfmT5$S-f4_s{{ziu(n;nE)vhI4s17gyIJ1qk(jyu7HZ3lA%xtvj)uE0pb
+z$53nM?6&KW^-Z{ri#Fj5p`{kAt=n$cB6l3jBFD@@19IxL9zw`xtdg$8LlAg=q1{28
+zrW+#4D+#S48%eHS(G5iAVIj~13LO=IVY0&vbVM52T^rF6(*yzx3({MDR0%04*|42u
+z2kyc74pk$D%$$vdh>qe^LJ0ZG7X5M#F6I*C?GzXSG@cDl2fPncQ;69=?`MKx80Oyc
+z9B;|BU2{zuQ)dbV&Js%+lfN=#)pVIV;6G{<gX4%9U>kbZ#&Nx-i*)4_an>N&6Rd6+
+zI@DnAgic;g(t#T0WVK=NDa_GVIQn#<fIx{T!*ObvwI|*}lvAOg$NmA!kj;2qj|yh!
+zX3nG1z=PDg8a0li5EfPCA#5NgSsa5-$boD!LCLPANZb86oIwZg!$H0TWG)1949wv}
+z%n%5UzDSI@Rs|ErBNK2eFCN1M9Qzd;CjYDrIQIKKO#MY44mk%#@ZbKTacs|tiGdUB
+c@tk1)B`4Vb#EApW?>oVA@DG+o@4h6y0>WY85C8xG
+
+delta 135
+zcmbQvcaN1TIM^lR9uortW7tG4X>Nb5nD}6)_~<4#t%(LAjJ^|Hw{uC>PEKQ(G&v)I
+zVKOVD5|2#v<i2b!mdWkej0~HN7+n~(Wc<Pm3^?K)U4j@z1mazSeOZ?HIXn7fWM*YE
+dMmNa;WevfyTuhS-Sw(n20!9!4=E=X=WB}s5Bn$um
+
+diff --git a/tests/data/acpi/q35/SSDT.dimmpxm b/tests/data/acpi/q35/SSDT.dimmpxm
+index 98e6f0e3f3bb02dd419e36bdd1db9b94c728c406..9ea4e0d0ceaa8a5cbd706afb6d49de853fafe654 100644
+GIT binary patch
+literal 1815
+zcmdUw%WD%+6vppl(q?j#N+yZ4_+tJ8(=J4Cp_55srp-*k%rq9JFfU2kq{_wCg}Xi$
+ztr5g@s0$I9lvx(s3+~*ya^=3@R@?|K)O)5cETUCVG>dc3J@?GX?|$Ee=z7T*O(4YV
+z6zft|7u04+RusBN2o+}<60Di(?O97NTIOo~7CqNEt16d9M5!Sc3gZ(fKXqD_#M%f^
+z%8J-Bm(_+`XHsJr$7!yK3TmZL##~83omGvBESM|j;DD``YGpwyH+7*htx7^g)UGdo
+zN|-Cz=v1qfRiR!IjpfgY;Ecb32%p25@LlF&|Jg2o|4sIa|8e$(J-8fP@E6j695sA+
+z`rzi^byn)Vm0vxdc<I`M(WqY7NlN_4F5mBSNJu|v*}+)fZ=p?p&JL1(2ZcP#M1dg-
+z07mA4jC24kIQz(d*u`;wy~~h|E<!F@b3Nh#F=@e_mVg$=o#4`zgE@j+&L~b-U?kyV
+zsJ(rD%XP@w23*HQ8*qluVjI@>T{mo#dk$uiW9Fa%IdxhOA>=bwNmt?_2s}66=^{?k
+z4H4y)gjSJ_Bv-HK1|oB?5a<Dgjtjsr*<l7cB8}{xjp&GJ0s)2v=}kYXgcOvl+s={$
+z_uzbosu4qG&c;GSM{z14g#1;DemMsha|!ac3k(4o&xWT1-iN6v#2lOtGQltmbMJVL
+zx9HlgxhjpR%|d~*#FED3uMJr>UFHt?j~m6{IAZp&4ZUaMxL(smx^jv*W034ARyPbC
+zYOr@gCod=IKn-)U+A#PO=IARNeR@zpphT46IJL~$7jHhwsZh{k|A1x4X1tz91v7Lr
+z=TT|kLF!$N8plxxi>mS%HjtAnjzK5nKsK46WH(Zz<Nh4Zpo0(KAYTMB7Xmo}=I{|_
+z2n5GpB*t8=f(hf12{@J)Pv8QM{fZ5ff7S*Z`+Xm#{-O^@oO?#_-~OU;Y~P8AJtx?c
+bIl=x*PO$%p6NjANcY@{MA1saDe@T1=QL*6=
+
+delta 135
+zcmbQvcaN1TIM^lR9uortquWF-X>Nb5nD}6)_~<4#t%(LAjJ^|Hw{uC>PEKQ(G&v)I
+zVKOVD5|2#v<i2b!mdWkej0~HN7+n~(Wc<Pm3^?K)U4j@z1mazSeOZ?HIXn7fWM*YE
+dMmNa;WevfyTuhS-Sw(n20!9!4=E=X=WB}VOBm4jW
+
+diff --git a/tests/data/acpi/virt/SSDT.memhp b/tests/data/acpi/virt/SSDT.memhp
+index 4c363a6d95a7e2e826568c85f5719127748e7932..2fcfc5fda955dc4ba78a5f4116eed99ec7202fbd 100644
+GIT binary patch
+literal 1817
+zcmdUw%WD%+6voeF(q?kgN+yX|pX5I<?Lq_>I+-M9YF^Att1yLmNzx{zTx?yqYuZI?
+z1Th`zLPREImV$f1om*F~+!x#nBDfImne>50v<ix5aqi=sd**k)Z<1(QK|dV>;JW#`
+zT-LI+*@9B7vNZtYZ#85blhaFcrj|F2HED_ERlzJPg>gx4D7oC^6lAI=YqC@sr`2Lr
+zY8tDxhEj(yfOwol*-DkF&`dzm=q513*YuK-HM-|8!Iuk_Vpc8AYT43EP0p4i_4?}P
+zn9)szS+!EEW$Oh=U;PsE&v=VK#WYC<?~@n%&vwQ8Z&O#iPjfG=!Dat~x5%Ez4GTUz
+zeQ<m5CMEaYDX(8ly>hI<sqkR#d0ZC9cg22Rfb7_lrsYrcy(VmV^Ohg?+7O657Y2?l
+zA{bpjGTKHo|Li00VTVM$jSfdQI{*${cU<ZsF>T_VR*;rNZU54?O#}*#pyy{w*piA7
+zXziTec5J%7iPv#p6LSE|EgV~SouEbU*@Oq%NMixmb+#X1$Ry2zR*eQI@%%!&1A?mQ
+z5)(b9mJ~fM)JvKUbRGwaHK@>00XQx-%3(#Qk=3(+wV0t8u$e!$<%K%|1Em|5y<+1%
+z1kYw_M8HT}BpcE(oKk=xbJb)I7w}>Z1$QUMQKWG#Jnf4fc1-}cpC2UsQEcYiacy_m
+zu^eMfo~X^{a)K!pR4#LE#H?tFaKL}mD2_yd8)EBP&mvK+qDgENs?sf;rcUshu4}l5
+zYdf$rN}M%RiJ;UPx|kpWdx^tO4>tgn2xlb9EHn4STL|Y&D6Fx5z%pWSZqH?c>6(#t
+znKXEic~@b^2@JwysyxO8&S{E7uoCA;HXUPRHxsn&{2WeajrZYjzKmoJ26_z4(L>At
+z368!<oUv9$6DC6wNF*a2!vzxg6&t4itPLdc`##+Gi#{B34vi4M{YI0>o)c3;C-~zz
+a!T(E6@c)Su2b|w`f*0^VjQvV}l)nP3li&~l
+
+delta 150
+zcmbQq_kfivIM^lR0TTlQqx3{BX>LdDnD}6)_~<4Nt%(LAjQ$f{cXCPAPEKQ(G&v)I
+zVKO_T5|2#v<i2b!mdWkej0~Gi7+n~>Wc<Pm3^?K)U4j@z1mazSeOZ?HIXn7fWM*YE
+eMmNa;WevfyTudT@sM1_a5P2hrJoDtgY%%~CTPTVE
+
 -- 
 MST
 
