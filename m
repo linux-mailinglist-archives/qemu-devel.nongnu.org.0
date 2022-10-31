@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25ADC613236
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 10:08:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C15613235
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 10:07:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opQkZ-0008Qj-2G; Mon, 31 Oct 2022 05:06:31 -0400
+	id 1opQkX-0008QW-IF; Mon, 31 Oct 2022 05:06:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
- id 1opQkP-0008LS-0Z
+ id 1opQkP-0008LR-0U
  for qemu-devel@nongnu.org; Mon, 31 Oct 2022 05:06:21 -0400
 Received: from szxga02-in.huawei.com ([45.249.212.188])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
- id 1opQkG-0005qV-R2
+ id 1opQkH-0005qM-21
  for qemu-devel@nongnu.org; Mon, 31 Oct 2022 05:06:18 -0400
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N16ZZ3gThzVjMr;
- Mon, 31 Oct 2022 17:01:10 +0800 (CST)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N16gw2RCCzHvPR;
+ Mon, 31 Oct 2022 17:05:48 +0800 (CST)
 Received: from localhost.localdomain (10.67.164.66) by
  canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 31 Oct 2022 17:06:04 +0800
+ 15.1.2375.31; Mon, 31 Oct 2022 17:06:05 +0800
 To: <mst@redhat.com>, <peter.maydell@linaro.org>, <imammedo@redhat.com>,
  <ani@anisinha.ca>, <eduardo@habkost.net>, <marcel.apfelbaum@gmail.com>,
  <f4bug@amsat.org>, <wangyanan55@huawei.com>, <qemu-devel@nongnu.org>
@@ -32,9 +32,9 @@ CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
  <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
  <hesham.almatary@huawei.com>, <ionela.voinescu@arm.com>,
  <darren@os.amperecomputing.com>
-Subject: [PATCH v3 3/5] tests: acpi: add and whitelist *.topology blobs
-Date: Mon, 31 Oct 2022 17:05:21 +0800
-Message-ID: <20221031090523.34146-4-yangyicong@huawei.com>
+Subject: [PATCH v3 4/5] tests: acpi: aarch64: add topology test for aarch64
+Date: Mon, 31 Oct 2022 17:05:22 +0800
+Message-ID: <20221031090523.34146-5-yangyicong@huawei.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20221031090523.34146-1-yangyicong@huawei.com>
 References: <20221031090523.34146-1-yangyicong@huawei.com>
@@ -71,38 +71,55 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Yicong Yang <yangyicong@hisilicon.com>
 
-Add and whitelist *.topology blobs, prepares for the aarch64's ACPI
-topology building test.
+Add test for aarch64's ACPI topology building for all the supported
+levels.
 
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
 ---
- tests/data/acpi/virt/APIC.topology          | 0
- tests/data/acpi/virt/DSDT.topology          | 0
- tests/data/acpi/virt/PPTT.topology          | 0
- tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
- 4 files changed, 3 insertions(+)
- create mode 100644 tests/data/acpi/virt/APIC.topology
- create mode 100644 tests/data/acpi/virt/DSDT.topology
- create mode 100644 tests/data/acpi/virt/PPTT.topology
+ tests/qtest/bios-tables-test.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/tests/data/acpi/virt/APIC.topology b/tests/data/acpi/virt/APIC.topology
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/DSDT.topology b/tests/data/acpi/virt/DSDT.topology
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/PPTT.topology b/tests/data/acpi/virt/PPTT.topology
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..90f53f9c1d 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,4 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/APIC.topology",
-+"tests/data/acpi/virt/DSDT.topology",
-+"tests/data/acpi/virt/PPTT.topology",
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index e6096e7f73..099b723444 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1533,6 +1533,27 @@ static void test_acpi_virt_tcg(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_virt_tcg_topology(void)
++{
++    test_data data = {
++        .machine = "virt",
++        .variant = ".topology",
++        .tcg_only = true,
++        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
++        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
++        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
++        .ram_start = 0x40000000ULL,
++        .scan_len = 128ULL * 1024 * 1024,
++    };
++
++    data.smbios_cpu_max_speed = 2900;
++    data.smbios_cpu_curr_speed = 2700;
++    test_acpi_one("-cpu cortex-a57 "
++                  "-smbios type=4,max-speed=2900,current-speed=2700 "
++                  "-smp sockets=1,clusters=2,cores=2,threads=2", &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_q35_viot(void)
+ {
+     test_data data = {
+@@ -1864,6 +1885,7 @@ int main(int argc, char *argv[])
+     } else if (strcmp(arch, "aarch64") == 0) {
+         if (has_tcg) {
+             qtest_add_func("acpi/virt", test_acpi_virt_tcg);
++            qtest_add_func("acpi/virt/topology", test_acpi_virt_tcg_topology);
+             qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+             qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+             qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
 -- 
 2.24.0
 
