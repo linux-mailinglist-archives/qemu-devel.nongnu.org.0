@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D6D7612FF2
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 06:46:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0E06612FF3
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 06:47:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opNcg-0002XU-RB; Mon, 31 Oct 2022 01:46:10 -0400
+	id 1opNdH-0002id-K0; Mon, 31 Oct 2022 01:46:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opNce-0002XD-Iu
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 01:46:08 -0400
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
+ id 1opNd0-0002hm-J6
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 01:46:30 -0400
+Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opNcc-0005dp-KD
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 01:46:08 -0400
-Received: by mail-oi1-x22c.google.com with SMTP id s206so11914835oie.3
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 22:46:06 -0700 (PDT)
+ id 1opNcu-0005eN-JA
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 01:46:29 -0400
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-13bd19c3b68so12461802fac.7
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 22:46:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=xRuzc7ZQplXkC99gP15+5IEAf3wzmbnd+ECbSGkqGF4=;
- b=inGfPxOcbEJ90gZ5Y1TUKumimyx8ulSLfInLPtDTs5RCkf/HnadO1xBKssLKGy3+RS
- EmdvTD95NC+FEFoSvNxLX+GgbnVwLjScyMQC9KZhFgYNwzI4XinvWgljrSry7ZkgK0g6
- r9ssj4VCkeD2zI+Ryy1SKtcU+lMg2X+9jUKE+hDD+MDqz8hnyv40NAMyGat5oKEH0Uod
- wWiPaTAVvHaT01eiGzuSqD+oagojIG7mhRZQA46IPES+SrcRUQn+U7rgK1WQq8ueH0xl
- AK1L2vxV/rc64bDFN4JTrxK59Y7Krgnkxo3iwUlpcNBijYjy+pmSs/907WyPdQZdKVre
- KyIw==
+ bh=ACRVt1rN5V97Esv0WtUoaVRhLNAJQmqGq66U1+w5x7E=;
+ b=t8pNQTCze/a1i6Pr2CuPk7MWR/BbWWZjBxumy81TrP3MGTkQMZ6H1jswZo/g2rRVIz
+ rhBbtTnz3XDIALfgElaOP7v3rCCTahIeaj6YqurGfJM3KToN2dh32rosDDckEUm4o7xV
+ ZBdF3oAho/0uOvNnTJqmOyF/yj7wMB6xk5ROIirpchZ2jBN5QRO+UncfdbegkMy4fEcs
+ 1CQ1Eshfn8mNcWwFJg2v38BmzFe19gHbvMzjeU94pfuMlIhH5xeeh1DZEiRIyXF9owO7
+ ebfbd51vcNBmAxZ2BRew6rvyG/ILXtHlVj/36UhgvSAhyyS/OoFDrChERtuE3hNZo88/
+ U95Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xRuzc7ZQplXkC99gP15+5IEAf3wzmbnd+ECbSGkqGF4=;
- b=DeGfWBKq4WLOjtQL+GELR2tH3Nu95al0yixqfUnb16s3dXyCTTwW2Nal1ZIFNeS5hE
- seEAHrPePWHRdRL7u3KR44rgDoqYRpidPgku6B9DCRHfjrcmj9XNfJuARHPoBdJlFvqZ
- uI6gP4rtSFbO8GxpPIxIOVdNivIl5G4QphV0MYcs46Eb5eWKxztBCkhD9ej2zirbHo5j
- 9dymKlXpZMTyKOmdp0plqJAh9Fr4YAeNDoI34VJ6pO2xDy4umIS4Zv7azUUwiGux6b3M
- HIvlqluF4ZSwkkj4Ko82Va5ZtJNb8BoBs0yuyLS0oF39JmqoZx+3sfBKWMcv36ReCljO
- seZQ==
-X-Gm-Message-State: ACrzQf3k5K2caav+uvGZU2EpIlcUl2rkRH6slLNB403ZOOAw4q5MeUV7
- eO2rmqP4kUgUNZ/i5SjPpmFILQ==
-X-Google-Smtp-Source: AMsMyM4YDzTwETsnrwpN0V3qIYvp4GRAMQH6m1TA9Pq/gDdiCR7mVgDZZs049uQ7uo3Kamy4Yvwlbg==
-X-Received: by 2002:a05:6808:1451:b0:359:6a5e:d147 with SMTP id
- x17-20020a056808145100b003596a5ed147mr13591819oiv.142.1667195165245; 
- Sun, 30 Oct 2022 22:46:05 -0700 (PDT)
+ bh=ACRVt1rN5V97Esv0WtUoaVRhLNAJQmqGq66U1+w5x7E=;
+ b=dkdOwaqo25sY+74VhGA8TeOmG3Z1l1pNDE6MkctfFzoTI8+ngHgXB6ud5UxZ6STe89
+ dMlvMvkas+Ujt3UJlKTpHodwHpM6scXRSj6W6tXTqbudeO6fMPFKeVQu6xw12f3fcYoF
+ U8aC5/ZiCQYQK14Z9B5zD/CxALOluu7cdP0fqC3ykFu+0t+J3W0jXvoKUOg6CyovWNia
+ dEtXZwN7klkKOs0mNURmeUpQq7W9s4Svs++d+3fQF5b9BnHpXjLplIdrlcTTjmcLA/5/
+ GJjgB/G8dYT8YkwsYDbfOg2t8LPi7jpr3uDhG8/xuWS0wd9mogMUsMr5xltHyNbVru3N
+ fWow==
+X-Gm-Message-State: ACrzQf29qVFpNo+4sB/ny8li0NiiANG8MSG6qDpd/+bf6O/TP9Fzlqwa
+ 01qHZKyiC7A0VA95LUrJy8iL7A==
+X-Google-Smtp-Source: AMsMyM4Z7k15+nQASNg4GM2qDbaq1JPw7Go+lcgq++leG0bREyobFd7IzqEglBfoJF9+VCGa8H/krQ==
+X-Received: by 2002:a05:6870:970e:b0:13c:5da4:aeb0 with SMTP id
+ n14-20020a056870970e00b0013c5da4aeb0mr11780682oaq.27.1667195182580; 
+ Sun, 30 Oct 2022 22:46:22 -0700 (PDT)
 Received: from [192.168.108.227] ([172.58.142.196])
  by smtp.gmail.com with ESMTPSA id
- d22-20020a056830045600b0066210467fb1sm2469002otc.41.2022.10.30.22.45.59
+ v11-20020a4aaecb000000b004807de5c302sm2065534oon.17.2022.10.30.22.46.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Oct 2022 22:46:04 -0700 (PDT)
-Message-ID: <49f41916-687f-b9e5-2de7-9c658fe0d4c7@linaro.org>
-Date: Mon, 31 Oct 2022 11:07:48 +1100
+ Sun, 30 Oct 2022 22:46:22 -0700 (PDT)
+Message-ID: <146bc303-cd24-1c4b-2552-40e3a9df256f@linaro.org>
+Date: Mon, 31 Oct 2022 11:10:41 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH] MAINTAINERS: Inherit from nanoMIPS
+Subject: Re: [PULL 25/47] accel/tcg: Add restore_state_to_opc to TCGCPUOps
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: stefanha@redhat.com, Claudio Fontana <cfontana@suse.de>,
  qemu-devel@nongnu.org
-Cc: Milica Lazarevic <milica.lazarevic@syrmia.com>,
- Thomas Huth <thuth@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
-References: <20221030225006.43203-1-philmd@linaro.org>
+References: <20221026021116.1988449-1-richard.henderson@linaro.org>
+ <20221026021116.1988449-26-richard.henderson@linaro.org>
+ <87r0yqua43.fsf@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221030225006.43203-1-philmd@linaro.org>
+In-Reply-To: <87r0yqua43.fsf@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22c.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::30;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x30.google.com
 X-Spam_score_int: -4
 X-Spam_score: -0.5
 X-Spam_bar: /
@@ -96,32 +96,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/31/22 09:50, Philippe Mathieu-Daudé wrote:
-> 6 months ago Stefan Pejic stepped in as nanoMIPS maintainer
-> (see commit a 8e0e23445a "target/mips: Undeprecate nanoMIPS
-> ISA support in QEMU"), however today his email is bouncing:
+On 10/29/22 21:42, Alex Bennée wrote:
 > 
->    ** Message blocked **
+> Richard Henderson <richard.henderson@linaro.org> writes:
 > 
->    Your message tostefan.pejic@syrmia.com  has been blocked. See technical details below for more information.
+>> Add a tcg_ops hook to replace the restore_state_to_opc
+>> function call.  Because these generic hooks cannot depend
+>> on target-specific types, temporarily, copy the current
+>> target_ulong data[] into uint64_t d64[].
+>>
+>> Reviewed-by: Claudio Fontana <cfontana@suse.de>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > 
->    The response from the remote server was:
->    550 5.4.1 Recipient address rejected: Access denied. AS(201806281) [DBAEUR03FT030.eop-EUR03.prod.protection.outlook.com]
-> 
-> To avoid unmaintained code, I feel forced to merge this code
-> back with the generic MIPS section.
-> 
-> Historical references:
-> -https://lore.kernel.org/qemu-devel/TY0PR03MB679726901BD6C6BE40114A2FE2A79@TY0PR03MB6797.apcprd03.prod.outlook.com/
-> -https://lore.kernel.org/qemu-devel/b858a20e97b74e7b90a94948314d0008@MTKMBS62N2.mediatek.inc/
-> 
-> Cc: Vince Del Vecchio<Vince.DelVecchio@mediatek.com>
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
-> ---
->   MAINTAINERS | 8 +-------
->   1 file changed, 1 insertion(+), 7 deletions(-)
+> This has triggered a regression in x86_64 stuff:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Patches posted: 20221027100254.215253-1-richard.henderson@linaro.org
+("[PATCH v2 0/6] tcg: Fix x86 TARGET_TB_PCREL (#1269)")
+
 
 r~
 
