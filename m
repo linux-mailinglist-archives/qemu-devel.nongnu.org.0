@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C1B613854
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:47:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF0A613855
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:47:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opV73-0006rI-Mm; Mon, 31 Oct 2022 09:46:01 -0400
+	id 1opV7v-0007DX-41; Mon, 31 Oct 2022 09:46:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1opV6q-0006kh-Hp
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:45:53 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1opV6o-0006lx-Tj
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:45:48 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- l22-20020a17090a3f1600b00212fbbcfb78so15963649pjc.3
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:45:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=5HKlZCPJ+4quX3pOUMtlg1UfdbqJD7UqP/2NGZN//rI=;
- b=VudfAZ0/EnSyiRmV1SMtTK0Be/osLsv2MK9EVzlo2V7JLDnUJ+qlMMDT+Gb0J5HJ23
- 3tiy4tiJ2lWH5pVmG2w3knGP42nuTjbfvNXhgZQ/umwcvOIjQiGUdmMBYw01Pv8b6doS
- LRxqiBtU3U9IhmvHvLo9PHZDTB7xTJFgYp828k190+KnhqxHAoO4cNJ6fjqYNp8//eu/
- Hj9GHdiEjW/GgSYuJN4wRP4BpZ7pcfPTHR4gljikNCXWQNIdksNxezSnOI6tFrNEPp39
- wxbprFSJDiAw9aO1/SwOsPR+URGHYqk8ojOdO85oUxM6sqmup9aSIms5UanV+ZyxCofu
- CRmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5HKlZCPJ+4quX3pOUMtlg1UfdbqJD7UqP/2NGZN//rI=;
- b=b3iWlKE5EeUSOhtBk4dhb/H91dEv9McWj/wZVaAfSLDuqqYtlWPTvWk20eoyj93yGD
- ftfwQUnQ/4cKNnFWj7OSCqnYbhlvGLBq9ITz5Ljsl+r3nquZwg7z3J/seSYFBSv3fFb0
- VTs+T3HAy5wCN7N0LTNyw9XHSH0nnv6hUCk+YZMx2U1wmm5rhdnbbz3mMGNYUNloo8Ge
- 3rDK9A8BK+qiQr702ssnXsXz4HMTM9KcLzmeMSoVKZhHM6irTyDMNG+o6MrOI9fUDm22
- HmLDU7pklWUaWyMxhJgZyD4Rlu2vb2IT6pdarGcqTvlBnLTXFRZZ6T8mbyP37/tZmwKJ
- S2VQ==
-X-Gm-Message-State: ACrzQf3zJyhW5bWiOnUO9MrD8hRLLMlzr1rKtcOkMfHPcl59rQ5JaTXM
- uNPRFyXknJm6cwl2paokInlHmT1FlgfW/shq6aQYNKpvw8U=
-X-Google-Smtp-Source: AMsMyM734zOmsmcohonN5HlJ6Ejo97Ruvun2eiS7KWE/0mNFaD35jNjw0+Uhrb/gSae5xXK3KpVFUdFZdTaWD6ejshc=
-X-Received: by 2002:a17:90a:164f:b0:213:bda6:2873 with SMTP id
- x15-20020a17090a164f00b00213bda62873mr10856942pje.215.1667223945598; Mon, 31
- Oct 2022 06:45:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1opV7c-0006yc-HQ
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:46:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1opV7Z-0006rx-8h
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:46:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667223992;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+78H1RTv6mzQKqO2Uv6i6RLX5on7MLfuTa5sU4ShRiI=;
+ b=jJh7SHUZOGsYeHuiPrnZigCnqUvW6zwR9vDGZj86AyCotZjzvMDgRdfsXFirdXM+A7hYXV
+ sh7zcoSZSN8q2z9OMaRZFoy9kFpPKaUMWSeQgv2ifSRHzTx8wVDwRVnHqWqKTb348q2316
+ 2BUjbFqHwPlXmNtaIj5/WKrU6Ri3Pdk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-192-nWgAYXymMXmdnlYZ-SM68g-1; Mon, 31 Oct 2022 09:46:28 -0400
+X-MC-Unique: nWgAYXymMXmdnlYZ-SM68g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0F9E9887405;
+ Mon, 31 Oct 2022 13:46:28 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9CD9DC1908A;
+ Mon, 31 Oct 2022 13:46:27 +0000 (UTC)
+Date: Mon, 31 Oct 2022 08:46:25 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>
+Subject: Re: [PATCH v2] nbd/client: Use smarter assert
+Message-ID: <20221031134625.ulx6yf5dkju4lyvi@redhat.com>
+References: <20221017191207.1255807-1-eblake@redhat.com>
+ <fae5e95a-ab8c-3471-dfdb-a959cc7aa1bd@yandex-team.ru>
 MIME-Version: 1.0
-References: <20221027112619.2205229-1-tkutergin@gmail.com>
- <CAFEAcA-xm1PmZc-cNeJWkBvSFRMmRJ6n2S8CS7hr9w+8HL0QGQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA-xm1PmZc-cNeJWkBvSFRMmRJ6n2S8CS7hr9w+8HL0QGQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 31 Oct 2022 13:45:34 +0000
-Message-ID: <CAFEAcA9rDMjKi_diMRUeDgv90YdJxEaWzYB1OpZ6=q8o34bJCg@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Fixed Privileged Access Never (PAN) for
- aarch32
-To: Timofey Kutergin <tkutergin@gmail.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fae5e95a-ab8c-3471-dfdb-a959cc7aa1bd@yandex-team.ru>
+User-Agent: NeoMutt/20220429
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,29 +78,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 28 Oct 2022 at 19:17, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Thu, 27 Oct 2022 at 12:26, Timofey Kutergin <tkutergin@gmail.com> wrote:
-> >
-> >     - Use CPSR.PAN to check for PAN state in aarch32 mode
-> >     - throw permission fault during address translation when PAN is
-> >       enabled and kernel tries to access user acessible page
-> >     - ignore SCTLR_XP bit for armv7 and armv8 (conflicts with SCTLR_SPAN).
-> >
-> > Signed-off-by: Timofey Kutergin <tkutergin@gmail.com>
+On Mon, Oct 24, 2022 at 02:59:48PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> On 10/17/22 22:12, Eric Blake wrote:
+> > Assigning strlen() to a uint32_t and then asserting that it isn't too
+> > large doesn't catch the case of an input string 4G in length.
+> > Thankfully, the incoming strings can never be that large: if the
+> > export name or query is reflecting a string the client got from the
+> > server, we already guarantee that we dropped the NBD connection if the
+> > server sent more than 32M in a single reply to our NBD_OPT_* request;
+> > if the export name is coming from qemu, nbd_receive_negotiate()
+> > asserted that strlen(info->name) <= NBD_MAX_STRING_SIZE; and
+> > similarly, a query string via x->dirty_bitmap coming from the user was
+> > bounds-checked in either qemu-nbd or by the limitations of QMP.
+> > Still, it doesn't hurt to be more explicit in how we write our
+> > assertions to not have to analyze whether inadvertent wraparound is
+> > possible.
+> > 
+> > Fixes: 93676c88 ("nbd: Don't send oversize strings", v4.2.0)
+> > Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > Signed-off-by: Eric Blake <eblake@redhat.com>
 > > ---
-> >  target/arm/helper.c | 13 +++++++++++--
-> >  target/arm/ptw.c    | 35 ++++++++++++++++++++++++++++++-----
-> >  2 files changed, 41 insertions(+), 7 deletions(-)
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->
-> Not sure if I'll be able to get this in before softfreeze,
-> but since it's a bug fix it'll be in 7.2.
+> > 
+> > v2: update subject line and commit message to reflect file being
+> > touched; adjust a second nearby assertion with the same issue
+> > 
+> >   nbd/client.c | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/nbd/client.c b/nbd/client.c
+> > index 30d5383cb1..90a6b7b38b 100644
+> > --- a/nbd/client.c
+> > +++ b/nbd/client.c
+> > @@ -658,11 +658,11 @@ static int nbd_send_meta_query(QIOChannel *ioc, uint32_t opt,
+> >       char *p;
+> > 
+> >       data_len = sizeof(export_len) + export_len + sizeof(queries);
+> > -    assert(export_len <= NBD_MAX_STRING_SIZE);
+> > +    assert(strlen(export) <= NBD_MAX_STRING_SIZE);
+> >       if (query) {
+> >           query_len = strlen(query);
+> >           data_len += sizeof(query_len) + query_len;
+> > -        assert(query_len <= NBD_MAX_STRING_SIZE);
+> > +        assert(strlen(query) <= NBD_MAX_STRING_SIZE);
+> >       } else {
+> >           assert(opt == NBD_OPT_LIST_META_CONTEXT);
+> >       }
+> 
+> I'm a bit late, and this should work as is.
+> 
+> Still, for me it's a bit strange: you point to the fact that we probably overflow uint32_t variable. But we keep this fact hidden in the code. So, everyone who read should guess "aha, this extra strlen here is because the previous one may overflow the variable)".
+> 
+> Could we use strnlen() instead of strlen()? That would be also more effective.
 
+Good idea.  As in:
 
+assert(strnlen(query, NBD_MAX_STRING_SIZE + 1) <= NBD_MAX_STRING_SIZE);
 
-Applied to target-arm.next, thanks.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
--- PMM
 
