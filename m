@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6305D61379D
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:15:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A5961378D
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:13:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUJP-0006Cf-3g; Mon, 31 Oct 2022 08:54:43 -0400
+	id 1opUJk-0007Es-0e; Mon, 31 Oct 2022 08:55:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUJ7-0004tJ-Kf
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:54:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUJG-0005H0-LF
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:54:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUJ6-0003SY-6G
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:54:25 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUJF-0003TS-1v
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:54:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667220863;
+ s=mimecast20190719; t=1667220871;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vyFquoWhRBqop6d2QQCGoBYPqIvepuw7IXNadOdimWY=;
- b=Lr9L3SQbSZ/qr25z3hRTHHhmqfItooV7BxgQZ+cKJGkHyFVaEETt/38jgdwiczPNKcedAb
- meC0zLekusjGsTShDcbnCKROXa1BEvmj1pqYjhaL6wsZMOcD6kK0Rrs1bYJYFMRGI0fBQj
- /T+nSpNXHzQ9VUKNt/0ObLo3TcNf6z0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KQnLVqea2wFTICHVFiJPOa9KHgVlieN3khJktynKO5U=;
+ b=c1vWXzZtRaztsxweSpHvEy9z5KOISdeLixOnha5THQg0NIcu8CN7KjUiqQphzS6+XgbhDt
+ lNJEM1gdZ/rHuJVE6oQjWzjIB6EW1rzA3KqE2PAkkNCQVb1C9+TiHQy/BxA5sV8mbdWWK6
+ 7zNd+e5vX7Ba1j++IEgKRl5WMd6CHRY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-661-4iHFphreOUOow7lvci8p1Q-1; Mon, 31 Oct 2022 08:54:21 -0400
-X-MC-Unique: 4iHFphreOUOow7lvci8p1Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- l1-20020a7bc341000000b003bfe1273d6cso2574322wmj.4
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:54:21 -0700 (PDT)
+ us-mta-290-gtIzxxzMNDmbusXVgzjosw-1; Mon, 31 Oct 2022 08:54:30 -0400
+X-MC-Unique: gtIzxxzMNDmbusXVgzjosw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ h18-20020adfa4d2000000b00236584fc8c7so2984703wrb.7
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:54:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vyFquoWhRBqop6d2QQCGoBYPqIvepuw7IXNadOdimWY=;
- b=a7rt7JZD4LtHFtMs/44ZYXw+zqZX+KdepoymDcArbAVK06hHHzm/ej3snDeP7HT45o
- 3AuE2XV90S9y6QYldd85y+f+GO+x/r5ur2igB/3MW6v25yUBSdMzLg1uQPWa/f1OgdXo
- FNT6R/3eP4cXFhrSo674Ci+a4DkwtwDkbvNGsU0pX6QdZBKCyiyrdlDojCanwlYFqcID
- 3ftq6biECQjPMPf6ko4cPSRqvPhi4qNa4k0swNnFwHRaoZ/0noMuz1fzWpKtgYP7E6tq
- HNFo4GDjTc86P3IvpTK5wACVO4X2oDhMmJETo9HCWWxh1Pevrhtgs0+6FKMop+mjdFox
- FEUA==
-X-Gm-Message-State: ACrzQf23s4CLZFWDBXKZnDDKaM7V8UxeVh71Dl50tKWSf8PFUaI2LO9o
- qZZOzJm1XEAD0jlym2K1K+Jl57T1gEG95KW4U5JCauq+gCduxjEwvC7NNmphUNKHqhxjWqI9fQr
- +2zbRL00/CJW9lLt/bdXH2BGSHxroXlDU598LtumF0zDrCzdctS/LG5F1seVU
-X-Received: by 2002:adf:f511:0:b0:236:60be:e885 with SMTP id
- q17-20020adff511000000b0023660bee885mr7832415wro.663.1667220860359; 
- Mon, 31 Oct 2022 05:54:20 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5vZjMub9FkyvLFgK/P2U+I1dNdBpApVvmgSJP+H8Lo+FC3W3VmGWeqHSk7A1F9VM6D7ur+Bw==
-X-Received: by 2002:adf:f511:0:b0:236:60be:e885 with SMTP id
- q17-20020adff511000000b0023660bee885mr7832393wro.663.1667220860014; 
- Mon, 31 Oct 2022 05:54:20 -0700 (PDT)
+ bh=KQnLVqea2wFTICHVFiJPOa9KHgVlieN3khJktynKO5U=;
+ b=SYRRSpi+7YDWh1FB0J5IiRfRVXjIHVKWwOc8yirmaQz7jFWoK6JE2sLwOzNDmrzspE
+ 8M/G+nvDPThZUBf3azvMZuE+/5+VtUpnVtFVsVl6kkuciwusigN6iN6Kcgz1zSUdBX9u
+ Mcv6VabNU+jsQpIemBP7cS3XDJCuOSfSB/YrHvNffFhiUwlwZtLuTlQyoQ1NX+YBqTkX
+ OktPgJlIc4tAvs4q8AZxIzrkbmDMML0C/hhGB4i0hAkyuqALhEdczphxJ5Mg+mZNGrGx
+ mfPFHqWPqdbpW5sw+NJhXGr0q+Gyk79zyVlIa9EM6X3BVLn9z/GtfWRvqQvu/VLZ+WzB
+ 6Ivg==
+X-Gm-Message-State: ACrzQf3kNmWbY/kqLZF2wyocyzuwNTjXAn6iTyaV4khxim6ADT8hVsts
+ d4g6Z9oaA8vh8PqUXXJY55X590lAe9LModG181ktLHCVze9V9UsEP209Wi53Jepfb76wKstkjGe
+ Su2ejzTZJACih/IzZ/3FdauOXsmZyQ7grH5M6aW0w51cYW9SzgBLnhdJujk/c
+X-Received: by 2002:a05:600c:1e89:b0:3c7:1e:acc2 with SMTP id
+ be9-20020a05600c1e8900b003c7001eacc2mr7933112wmb.44.1667220869194; 
+ Mon, 31 Oct 2022 05:54:29 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6itAvYrilSsflMO0R8j2VdjtBoGBSwJmnPWM/oOphsqk1zxVDAaQ0ozQCqGNRGvmfDo+ZOmQ==
+X-Received: by 2002:a05:600c:1e89:b0:3c7:1e:acc2 with SMTP id
+ be9-20020a05600c1e8900b003c7001eacc2mr7933088wmb.44.1667220868846; 
+ Mon, 31 Oct 2022 05:54:28 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- q9-20020a5d61c9000000b00236733f0f98sm6976267wrv.107.2022.10.31.05.54.18
+ k25-20020a7bc419000000b003cf4eac8e80sm7724764wmi.23.2022.10.31.05.54.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:54:19 -0700 (PDT)
-Date: Mon, 31 Oct 2022 08:54:17 -0400
+ Mon, 31 Oct 2022 05:54:28 -0700 (PDT)
+Date: Mon, 31 Oct 2022 08:54:26 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Brice Goglin <Brice.Goglin@inria.fr>,
  Hesham Almatary <hesham.almatary@huawei.com>,
  Yicong Yang <yangyicong@hisilicon.com>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 75/86] tests: acpi: add and whitelist *.hmat-noinitiator
- expected blobs
-Message-ID: <20221031124928.128475-76-mst@redhat.com>
+Subject: [PULL 78/86] tests: Add HMAT AArch64/virt empty table files
+Message-ID: <20221031124928.128475-79-mst@redhat.com>
 References: <20221031124928.128475-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -77,7 +75,7 @@ Content-Disposition: inline
 In-Reply-To: <20221031124928.128475-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -101,48 +99,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Brice Goglin <Brice.Goglin@inria.fr>
+From: Hesham Almatary <hesham.almatary@huawei.com>
 
-.. which will be used by follow up hmat-noinitiator test-case.
-
-Signed-off-by: Brice Goglin <Brice.Goglin@inria.fr>
 Signed-off-by: Hesham Almatary <hesham.almatary@huawei.com>
-Message-Id: <20221027100037.251-3-hesham.almatary@huawei.com>
+Message-Id: <20221027100037.251-6-hesham.almatary@huawei.com>
 Tested-by: Yicong Yang <yangyicong@hisilicon.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h   | 4 ++++
- tests/data/acpi/q35/APIC.acpihmat-noinitiator | 0
- tests/data/acpi/q35/DSDT.acpihmat-noinitiator | 0
- tests/data/acpi/q35/HMAT.acpihmat-noinitiator | 0
- tests/data/acpi/q35/SRAT.acpihmat-noinitiator | 0
- 5 files changed, 4 insertions(+)
- create mode 100644 tests/data/acpi/q35/APIC.acpihmat-noinitiator
- create mode 100644 tests/data/acpi/q35/DSDT.acpihmat-noinitiator
- create mode 100644 tests/data/acpi/q35/HMAT.acpihmat-noinitiator
- create mode 100644 tests/data/acpi/q35/SRAT.acpihmat-noinitiator
+ tests/qtest/bios-tables-test-allowed-diff.h | 5 +++++
+ tests/data/acpi/virt/APIC.acpihmatvirt      | 0
+ tests/data/acpi/virt/DSDT.acpihmatvirt      | 0
+ tests/data/acpi/virt/HMAT.acpihmatvirt      | 0
+ tests/data/acpi/virt/PPTT.acpihmatvirt      | 0
+ tests/data/acpi/virt/SRAT.acpihmatvirt      | 0
+ 6 files changed, 5 insertions(+)
+ create mode 100644 tests/data/acpi/virt/APIC.acpihmatvirt
+ create mode 100644 tests/data/acpi/virt/DSDT.acpihmatvirt
+ create mode 100644 tests/data/acpi/virt/HMAT.acpihmatvirt
+ create mode 100644 tests/data/acpi/virt/PPTT.acpihmatvirt
+ create mode 100644 tests/data/acpi/virt/SRAT.acpihmatvirt
 
 diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..245fa66bcc 100644
+index dfb8523c8b..4f849715bd 100644
 --- a/tests/qtest/bios-tables-test-allowed-diff.h
 +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,5 @@
+@@ -1 +1,6 @@
  /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/APIC.acpihmat-noinitiator",
-+"tests/data/acpi/q35/DSDT.acpihmat-noinitiator",
-+"tests/data/acpi/q35/HMAT.acpihmat-noinitiator",
-+"tests/data/acpi/q35/SRAT.acpihmat-noinitiator",
-diff --git a/tests/data/acpi/q35/APIC.acpihmat-noinitiator b/tests/data/acpi/q35/APIC.acpihmat-noinitiator
++"tests/data/acpi/virt/APIC.acpihmatvirt",
++"tests/data/acpi/virt/DSDT.acpihmatvirt",
++"tests/data/acpi/virt/HMAT.acpihmatvirt",
++"tests/data/acpi/virt/PPTT.acpihmatvirt",
++"tests/data/acpi/virt/SRAT.acpihmatvirt",
+diff --git a/tests/data/acpi/virt/APIC.acpihmatvirt b/tests/data/acpi/virt/APIC.acpihmatvirt
 new file mode 100644
 index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/DSDT.acpihmat-noinitiator b/tests/data/acpi/q35/DSDT.acpihmat-noinitiator
+diff --git a/tests/data/acpi/virt/DSDT.acpihmatvirt b/tests/data/acpi/virt/DSDT.acpihmatvirt
 new file mode 100644
 index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/HMAT.acpihmat-noinitiator b/tests/data/acpi/q35/HMAT.acpihmat-noinitiator
+diff --git a/tests/data/acpi/virt/HMAT.acpihmatvirt b/tests/data/acpi/virt/HMAT.acpihmatvirt
 new file mode 100644
 index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/SRAT.acpihmat-noinitiator b/tests/data/acpi/q35/SRAT.acpihmat-noinitiator
+diff --git a/tests/data/acpi/virt/PPTT.acpihmatvirt b/tests/data/acpi/virt/PPTT.acpihmatvirt
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/virt/SRAT.acpihmatvirt b/tests/data/acpi/virt/SRAT.acpihmatvirt
 new file mode 100644
 index 0000000000..e69de29bb2
 -- 
