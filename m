@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22522613EEE
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 21:24:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F285C613E7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 20:43:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opbJS-000354-TK; Mon, 31 Oct 2022 16:23:14 -0400
+	id 1opafl-0004bw-3f; Mon, 31 Oct 2022 15:42:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1opbJM-00031x-S1
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 16:23:08 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opaff-0004a0-D5
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 15:42:07 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1opbJL-0003gT-1K
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 16:23:08 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opafd-0004uA-Kv
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 15:42:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667247786;
+ s=mimecast20190719; t=1667245323;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/EMYMvwx6no9R8DHua1ll2UJRRrlhG2943tKul7CzjM=;
- b=Sqhma5ftcjf1mrh2vTwWWGoyk8jdu/1z1S0VSGUBBOIsR0y5yAD3HAde3m12I22MMAbF/V
- gREOpGa+CG+UXLpRFydZEzXGxoDhz6mHkeOWJEQ7mdPGd0VcBOEL78UEVNAs9JDWjAVJcy
- Cj8VA42Ytli3X0NzlfDSIR++bWWTnyo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-230-foi3FcUYPEW9gGYYoCeE-w-1; Mon, 31 Oct 2022 16:23:02 -0400
-X-MC-Unique: foi3FcUYPEW9gGYYoCeE-w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C1CD0806003;
- Mon, 31 Oct 2022 20:23:01 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C91E62166B29;
- Mon, 31 Oct 2022 20:22:59 +0000 (UTC)
-Date: Mon, 31 Oct 2022 15:41:22 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Aarushi Mehta <mehta.aaru20@gmail.com>, Julia Suvorova <jusual@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v4 1/3] linux-aio: use LinuxAioState from the running
- thread
-Message-ID: <Y2Ak4pLLWIsAT9xJ@fedora>
-References: <20221031125936.3458740-1-eesposit@redhat.com>
- <20221031125936.3458740-2-eesposit@redhat.com>
+ bh=LH7mb/5KQY4ajmmCuKwT4KDj2xXr2i31GffBtaWMVi8=;
+ b=buvfMQDuSfWI/vdNdgOjJR7SSSP+g6FnKLs3gnOe+0KqrfYanNp4Tb6G+xxDl2Oqpt554J
+ cvTXAgMXUgMF6idraWjqp9VwypoJDw4fskobqMip9vVDAWy/2cqlvpG03YEOwR+gun2l6E
+ xxZIk2a1a9qKreoI6wEbEkQFvDZtLno=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-52-lRwIwnSBOWWkWQiDChh_PA-1; Mon, 31 Oct 2022 15:42:01 -0400
+X-MC-Unique: lRwIwnSBOWWkWQiDChh_PA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ u20-20020adfc654000000b0022cc05e9119so3333261wrg.16
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 12:42:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LH7mb/5KQY4ajmmCuKwT4KDj2xXr2i31GffBtaWMVi8=;
+ b=A4tulszO53cN7VRCQRYZmad0k349Ky99Tv0qj4gbDqXVBRnEg5NdQJ8lOZ4Co5YP8J
+ xRt7/LIt0bWEjLeseXO/Tkow/DrTC3tJ2GqiDRawbHSSsWo4aYVFtM+tnQpfZ3n3X3+u
+ Vn3iFtblYeKoTxvM48E4pJrALBoUuSTm8fCiyZjqndbk74kHmsSIXbqsGe7Dx55a32pF
+ mAqHV8BpjN9yZ6/v1d+Cwp9ECgOXie4UueOw9OIeDfQhI7EAg2GPoqe8hIkZlWdhGEGo
+ PVpzg15a7Uyr9z48AAjW68PZVrvf1lP1sf+oOUrcuLz8+TT9YWj8CkuBuE/JGn/t4d8y
+ sRUw==
+X-Gm-Message-State: ACrzQf1QS35cg5o3QfeliSKzqPMfTk7WHGVuy9g2kY4EMwvzDly7kiXP
+ /DOoVsj5/Tqf4uhli1HAjkuNjcUT5XZoqGu7G8dNfdGx7WSK9CZX09TJCqCw+CKFzYmfiRCTk0z
+ Fo//50F/+qrfuz8M=
+X-Received: by 2002:a05:600c:3acd:b0:3ce:3f62:a8d1 with SMTP id
+ d13-20020a05600c3acd00b003ce3f62a8d1mr9186362wms.78.1667245320245; 
+ Mon, 31 Oct 2022 12:42:00 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7mPEJ41doRxBwOynU4BMgQ3CoIcbCWvdIwh2n9LbIofLBlHVjtdGwoXMa7o5jGB5N4qYMeKQ==
+X-Received: by 2002:a05:600c:3acd:b0:3ce:3f62:a8d1 with SMTP id
+ d13-20020a05600c3acd00b003ce3f62a8d1mr9186345wms.78.1667245319937; 
+ Mon, 31 Oct 2022 12:41:59 -0700 (PDT)
+Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
+ v6-20020a05600c4d8600b003b50428cf66sm8088351wmp.33.2022.10.31.12.41.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Oct 2022 12:41:59 -0700 (PDT)
+Date: Mon, 31 Oct 2022 15:41:56 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Lei He <helei.sig11@bytedance.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/86] pci,pc,virtio: features, tests, fixes, cleanups
+Message-ID: <20221031154133-mutt-send-email-mst@kernel.org>
+References: <20221031124928.128475-1-mst@redhat.com>
+ <CAJSP0QXafXM0CJDe5G=--3Xa4O5ifqz=yvO=ubWLaS-KNBVkwQ@mail.gmail.com>
+ <CAJSP0QXndDKsc2wy4uTPtT7uN5yV4ZMn+Nn7uV190JmhnfSROA@mail.gmail.com>
+ <20221031152525-mutt-send-email-mst@kernel.org>
+ <20221031153513-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="AjFtXsf0KjXPAmvm"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221031125936.3458740-2-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <20221031153513-mutt-send-email-mst@kernel.org>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -85,129 +99,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Oct 31, 2022 at 03:35:28PM -0400, Michael S. Tsirkin wrote:
+> On Mon, Oct 31, 2022 at 03:31:54PM -0400, Michael S. Tsirkin wrote:
+> > On Mon, Oct 31, 2022 at 03:19:25PM -0400, Stefan Hajnoczi wrote:
+> > > On Mon, 31 Oct 2022 at 15:14, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> > > >
+> > > > On Mon, 31 Oct 2022 at 08:52, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > > > Lei He (4):
+> > > > >       virtio-crypto: Support asynchronous mode
+> > > >
+> > > > The following clang warning breaks the build. Please resend a fixed
+> > > > pull request, thanks!
+> > > 
+> > > On second thought, I have fixed up the merge commit manually since
+> > > Michael is offline tomorrow for the soft freeze deadline. If CI passes
+> > > then I'll apply this pull request (with my fixup) and you won't need
+> > > to resend.
+> > 
+> > Hmm what's the fixup?
+> > I came up with:
+> > 
+> > diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
+> > index 39c8f5914e..855b5d60a2 100644
+> > --- a/hw/virtio/virtio-crypto.c
+> > +++ b/hw/virtio/virtio-crypto.c
+> > @@ -495,6 +495,7 @@ static void virtio_crypto_free_request(VirtIOCryptoReq *req)
+> >          }
+> >      }
+> >  
+> > +    g_free(req->in_iov);
+> >      g_free(req);
+> >  }
+> >  
+> > @@ -566,7 +567,6 @@ static void virtio_crypto_req_complete(void *opaque, int ret)
+> >      VirtIOCrypto *vcrypto = req->vcrypto;
+> >      VirtIODevice *vdev = VIRTIO_DEVICE(vcrypto);
+> >      uint8_t status = -ret;
+> > -    g_autofree struct iovec *in_iov_copy = req->in_iov;
+> >  
+> >      if (req->flags == CRYPTODEV_BACKEND_ALG_SYM) {
+> >          virtio_crypto_sym_input_data_helper(vdev, req, status,
+> > 
+> 
+> 
+> Not that is not right either.
 
---AjFtXsf0KjXPAmvm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 31, 2022 at 08:59:34AM -0400, Emanuele Giuseppe Esposito wrote:
-> @@ -56,10 +59,8 @@ struct LinuxAioState {
->      io_context_t ctx;
->      EventNotifier e;
-> =20
-> -    /* io queue for submit at batch.  Protected by AioContext lock. */
-> +    /* All data is only used in one I/O thread.  */
->      LaioQueue io_q;
+Or maybe yes ... still wanted to see what you came up with.
+Pretty tired here.
 
-/* No locking required, only accessed from AioContext home thread */
-
-This is more general because it includes the main loop, which is not an
-IOThread.
-
-(Please write "IOThread" for consistency. Most of the documentation and
-comments uses "IOThread".)
-
-> -
-> -    /* I/O completion processing.  Only runs in I/O thread.  */
->      QEMUBH *completion_bh;
->      int event_idx;
->      int event_max;
-> @@ -102,6 +103,7 @@ static void qemu_laio_process_completion(struct qemu_=
-laiocb *laiocb)
->       * later.  Coroutines cannot be entered recursively so avoid doing
->       * that!
->       */
-> +    assert(laiocb->co->ctx =3D=3D laiocb->ctx->aio_context);
->      if (!qemu_coroutine_entered(laiocb->co)) {
->          aio_co_wake(laiocb->co);
->      }
-> @@ -232,13 +234,11 @@ static void qemu_laio_process_completions(LinuxAioS=
-tate *s)
-> =20
->  static void qemu_laio_process_completions_and_submit(LinuxAioState *s)
->  {
-> -    aio_context_acquire(s->aio_context);
->      qemu_laio_process_completions(s);
-> =20
->      if (!s->io_q.plugged && !QSIMPLEQ_EMPTY(&s->io_q.pending)) {
->          ioq_submit(s);
->      }
-> -    aio_context_release(s->aio_context);
->  }
-> =20
->  static void qemu_laio_completion_bh(void *opaque)
-> @@ -354,14 +354,19 @@ static uint64_t laio_max_batch(LinuxAioState *s, ui=
-nt64_t dev_max_batch)
->      return max_batch;
->  }
-> =20
-> -void laio_io_plug(BlockDriverState *bs, LinuxAioState *s)
-> +void laio_io_plug(void)
->  {
-> +    AioContext *ctx =3D qemu_get_current_aio_context();
-> +    LinuxAioState *s =3D aio_get_linux_aio(ctx);
-> +
->      s->io_q.plugged++;
-
-I see the following code path:
-
-blk_io_plug -> bdrv_io_plug -> raw_aio_plug -> laio_io_plug
-
-blk_io_plug() can be called from any thread but laio_io_plug()
-implicitly operates on the current thread's AioContext's LinuxAioState.
-
-This changes the semantics of blk_io_plug() from a global BDS operation
-to a thread-local one. The new blk_io_plug() semantics need to be
-documented, because it's not obvious that multiple threads can
-blk_io_plug/unplug() independently and don't affect each other. It means
-the caller must be careful to pair plug/unplug in the same thread.
-
->  }
-> =20
-> -void laio_io_unplug(BlockDriverState *bs, LinuxAioState *s,
-> -                    uint64_t dev_max_batch)
-> +void laio_io_unplug(uint64_t dev_max_batch)
->  {
-> +    AioContext *ctx =3D qemu_get_current_aio_context();
-> +    LinuxAioState *s =3D aio_get_linux_aio(ctx);
-> +
->      assert(s->io_q.plugged);
->      s->io_q.plugged--;
-> =20
-> @@ -411,15 +416,15 @@ static int laio_do_submit(int fd, struct qemu_laioc=
-b *laiocb, off_t offset,
->      return 0;
->  }
-> =20
-> -int coroutine_fn laio_co_submit(BlockDriverState *bs, LinuxAioState *s, =
-int fd,
-> -                                uint64_t offset, QEMUIOVector *qiov, int=
- type,
-> -                                uint64_t dev_max_batch)
-> +int coroutine_fn laio_co_submit(int fd, uint64_t offset, QEMUIOVector *q=
-iov,
-> +                                int type, uint64_t dev_max_batch)
-
-This function needs documentation. It submits I/O requests in the
-thread's current AioContext. Before it was explicit via the function
-arguments but now it's no longer obvious.
-
---AjFtXsf0KjXPAmvm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNgJOIACgkQnKSrs4Gr
-c8gaFAgAqTP46K6LTBWEbmOc/lbjEB2Mqocj3g2ff1ZKKAD2MO6UyQj9jKocwI53
-wpv5hpaRa0CdKhyKEmYS45OHrqk3OaXvzFd2c1nX3KS8r4EBwqAV6jH+raaGutgm
-SFog3HWsjP2XyJ612iuphc4eHVCZOsISKLivACq8frtWEcuBZB4WlZwlh80QLmMX
-/RN0ggqKp8qQNZAyrcvzh5kKKSBeqCiZ1rNsGlZ4d2Xoll6xYGu/2RSXtZFss3Gf
-MUhDgHQsJCo3ATUDH6QAxumRDrgB+kaq32WyuqWBlxhR50sSWIuW2qkkXHDsy0lz
-DnB/mCGsXso+M+iaOuL8Bby7njOVlQ==
-=6nWE
------END PGP SIGNATURE-----
-
---AjFtXsf0KjXPAmvm--
+> > 
+> > > >
+> > > > clang -m64 -mcx16 -Ilibqemu-x86_64-softmmu.fa.p -I. -I.. -Itarget/i386
+> > > > -I../target/i386 -Iqapi -Itrace -Iui -Iui/shader
+> > > > -I/usr/include/pixman-1 -I/usr/include/capstone
+> > > > -I/usr/include/spice-server -I/usr/include/spice-1
+> > > > -I/usr/include/cacard -I/usr/include/glib-2.0
+> > > > -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-4
+> > > > -I/usr/include/nss3 -I/usr/include/nspr4 -I/usr/include/PCSC -flto
+> > > > -fcolor-diagnostics -Wall -Winvalid-pch -Werror -std=gnu11 -O2 -g
+> > > > -isystem /builds/qemu-project/qemu/linux-headers -isystem
+> > > > linux-headers -iquote . -iquote /builds/qemu-project/qemu -iquote
+> > > > /builds/qemu-project/qemu/include -iquote
+> > > > /builds/qemu-project/qemu/tcg/i386 -pthread -D_GNU_SOURCE
+> > > > -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes
+> > > > -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes
+> > > > -fno-strict-aliasing -fno-common -fwrapv -Wold-style-definition
+> > > > -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self
+> > > > -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels
+> > > > -Wexpansion-to-defined -Wno-initializer-overrides
+> > > > -Wno-missing-include-dirs -Wno-shift-negative-value
+> > > > -Wno-string-plus-int -Wno-typedef-redefinition
+> > > > -Wno-tautological-type-limit-compare -Wno-psabi
+> > > > -Wno-gnu-variable-sized-type-not-at-end -fstack-protector-strong
+> > > > -fsanitize=safe-stack -fsanitize=cfi-icall
+> > > > -fsanitize-cfi-icall-generalize-pointers -fno-sanitize-trap=cfi-icall
+> > > > -fPIE -isystem../linux-headers -isystemlinux-headers -DNEED_CPU_H
+> > > > '-DCONFIG_TARGET="x86_64-softmmu-config-target.h"'
+> > > > '-DCONFIG_DEVICES="x86_64-softmmu-config-devices.h"' -MD -MQ
+> > > > libqemu-x86_64-softmmu.fa.p/hw_virtio_virtio-crypto.c.o -MF
+> > > > libqemu-x86_64-softmmu.fa.p/hw_virtio_virtio-crypto.c.o.d -o
+> > > > libqemu-x86_64-softmmu.fa.p/hw_virtio_virtio-crypto.c.o -c
+> > > > ../hw/virtio/virtio-crypto.c
+> > > > ../hw/virtio/virtio-crypto.c:569:30: error: unused variable
+> > > > 'in_iov_copy' [-Werror,-Wunused-variable]
+> > > > g_autofree struct iovec *in_iov_copy = req->in_iov;
+> > > > ^
+> > > >
+> > > > https://gitlab.com/qemu-project/qemu/-/jobs/3253703167
+> > > >
+> > > > Stefan
 
 
