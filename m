@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C21B613729
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:58:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC77613744
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:00:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUJz-0007sX-0j; Mon, 31 Oct 2022 08:55:19 -0400
+	id 1opUKC-0008Gx-0q; Mon, 31 Oct 2022 08:55:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUJI-0005bG-Vh
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:54:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUJL-0005zB-V5
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:54:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUJH-0003aF-DE
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:54:36 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUJK-0003e1-2w
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:54:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667220874;
+ s=mimecast20190719; t=1667220877;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Oy2j3dzraHwJBqN04p66ThFiaUmnAcs5Y2XrHOxqe2M=;
- b=WFBhN2APUo6OeBiGkjrjOLmPpsJlwc/GIxwglVf+meKQfeed5jvf6X4kZxpb8uXl5HG23G
- N35EZVSBvwEsVJgSQmxgISaYWkPxIskOQfdsFI7H0eSEIGgin0Y5fosVzyTEC7zk4pbwHz
- XxW74r085yimUiSRNcco2HmntgR7xdc=
+ bh=Jz5ovlW/1oitaGAz2w5Wi5S7a1QwFMmykgtS0BFMGew=;
+ b=HlZvt31MgLANpthiSFaM1DzXMcamBgPJVYgF8tL8cTDdUzW4BZB2o9ct63Y3Hm/1QdZDlm
+ E64fmyitS9kjalqNATrAteYsdn5jDmdFqoSdwfjOP4jVrXzRI42nctcq/MPKDqDFi/j7Uf
+ fnen68yuaLT2zNGMjv3CR9bpZEsPNDk=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-102-38LZb5jVMQqQV92RwZnSsA-1; Mon, 31 Oct 2022 08:54:33 -0400
-X-MC-Unique: 38LZb5jVMQqQV92RwZnSsA-1
+ us-mta-569-_UhcneZ3P_CXzwH3K25kxQ-1; Mon, 31 Oct 2022 08:54:36 -0400
+X-MC-Unique: _UhcneZ3P_CXzwH3K25kxQ-1
 Received: by mail-wr1-f69.google.com with SMTP id
- e21-20020adfa455000000b002365c221b59so3048576wra.22
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:54:33 -0700 (PDT)
+ i14-20020adfa50e000000b0023652707418so3034582wrb.20
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:54:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Oy2j3dzraHwJBqN04p66ThFiaUmnAcs5Y2XrHOxqe2M=;
- b=2UBBrZeAxyWiOldteoD1rt7c4TXXZcthS2Z58R0I3EsUvZEda5eseqkdX9Is8KDTAX
- Ktp+AuRI+aMmdSpJ+FRFB6j61VrVRjnksU1SUWvS5CGX80/go7Gng1X10drzhFUhD0xa
- 2x4ekNWksqJ3Pzdw85ZpDPiGH0CU5R4rjqBiWF3yyI2XyJp7YacvV2G6F/ph0ITsSmsS
- zVqVMQvvR63IXAU0Ee6rgH2s5FPNpuQ3JCrRYLIg+8sTEdGIzWkfB+bhGYuABQQXhcSq
- jdNVfYwavmWu7CumLzj4YW3TLckV3ZfTO08ikBOI336KrDm1AlEBi3wDysnFtVw6AR/F
- Tnwg==
-X-Gm-Message-State: ACrzQf3A/Eti/GTJAhFOlWBKfRlTehz6+lKRP4gd3tLsnZkWV9eCM4hP
- iZnbTDSovQLd+5YSpoS3pvk8MyVZvMqELnYpiRA81ORR36EYJA7TaFeJ1Fs5K2O7vLBKSgzTP4D
- u626vBinw5YOdvcWnX7bBf6Bcdm/VK6IeVEmtC/wrPCEgwFBBc2O7xla3JbFM
-X-Received: by 2002:a05:6000:1201:b0:236:61f4:b384 with SMTP id
- e1-20020a056000120100b0023661f4b384mr7687133wrx.505.1667220872067; 
- Mon, 31 Oct 2022 05:54:32 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5vMH3FTF92MwRVYfheBwSabMBnK1qc0hQ520+tXjOoUHIKo2CS7TzAT3rKs6d+pF3mRFiEnw==
-X-Received: by 2002:a05:6000:1201:b0:236:61f4:b384 with SMTP id
- e1-20020a056000120100b0023661f4b384mr7687116wrx.505.1667220871809; 
- Mon, 31 Oct 2022 05:54:31 -0700 (PDT)
+ bh=Jz5ovlW/1oitaGAz2w5Wi5S7a1QwFMmykgtS0BFMGew=;
+ b=G/j8d2HiHeNlsMtOUWwJ4xF+s6MXv5xwa6n3t5+oPH9uWijCDtDXrnKmkJeHu77l9t
+ Hl1ezgZohK/B/IWYwgUTw3XU3vTW4YeN0R+L0Q00KPxcMiIWGDmm5kCk/TvrnSWlCR6U
+ iQm9zva6utV0iCoYna7HucyT3bgYhOPHa3mULWW6pe/Lu3lAPMrWRHkAFiTcrTJ0h9GA
+ 2cQHbrRx58ZN+2zS/NzkbDKVi0MDSr62LBUqhDNC6CppZlo4acfvdfZa1vRWjbG5c0US
+ 9TZpjewQE0OLBKeNRTTYF3+mH6hzDQ+fMRJgrfgPlE0lh/oRJKYRhTqzC532Ya8gRoti
+ PMtA==
+X-Gm-Message-State: ACrzQf2EIDUNO6h4/HYUGqTFzgBayHZw+GbjNbVRKXpDohqEZVCPp0qI
+ rmhxd6c+ABxj+VsAYQY9dI+9sG2lvxo5StylsMgZIxUJnEpwAZF2a+6KZB0AuBNbvCtsqsYJhqW
+ Yogxc6cmuR3tveSHyVcIjAzyvTt1sLRFazgyXBNGCVSZfJvHV+NCmhxH5AHEb
+X-Received: by 2002:a05:600c:3550:b0:3cf:4c20:5856 with SMTP id
+ i16-20020a05600c355000b003cf4c205856mr8070905wmq.188.1667220874960; 
+ Mon, 31 Oct 2022 05:54:34 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4nPpL+h0R+X2LQLYKJKb9yqSVfEZHxqTpE48qm9zGC4ScBPX+AQBoRzopwDlP48ZOiYd1kgA==
+X-Received: by 2002:a05:600c:3550:b0:3cf:4c20:5856 with SMTP id
+ i16-20020a05600c355000b003cf4c205856mr8070884wmq.188.1667220874658; 
+ Mon, 31 Oct 2022 05:54:34 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- f16-20020a05600c4e9000b003cf568a736csm5265122wmq.20.2022.10.31.05.54.30
+ e9-20020adffd09000000b00236488f62d6sm7112911wrr.79.2022.10.31.05.54.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:54:31 -0700 (PDT)
-Date: Mon, 31 Oct 2022 08:54:29 -0400
+ Mon, 31 Oct 2022 05:54:34 -0700 (PDT)
+Date: Mon, 31 Oct 2022 08:54:32 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xiang Chen <chenxiang66@hisilicon.com>,
  Hesham Almatary <hesham.almatary@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>,
  Yicong Yang <yangyicong@hisilicon.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>,
- Ani Sinha <ani@anisinha.ca>, qemu-arm@nongnu.org
-Subject: [PULL 79/86] hw/arm/virt: Enable HMAT on arm virt machine
-Message-ID: <20221031124928.128475-80-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PULL 80/86] tests: acpi: aarch64/virt: add a test for hmat nodes
+ with no initiators
+Message-ID: <20221031124928.128475-81-mst@redhat.com>
 References: <20221031124928.128475-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -78,7 +76,7 @@ Content-Disposition: inline
 In-Reply-To: <20221031124928.128475-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -86,7 +84,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,60 +100,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Xiang Chen <chenxiang66@hisilicon.com>
+From: Hesham Almatary <hesham.almatary@huawei.com>
 
-Since the patchset ("Build ACPI Heterogeneous Memory Attribute Table (HMAT)"),
-HMAT is supported, but only x86 is enabled. Enable HMAT on arm virt machine.
+This patch imitates the "tests: acpi: q35: add test for hmat nodes
+without initiators" commit to test numa nodes with different HMAT
+attributes, but on AArch64/virt.
 
-Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
+Tested with:
+qemu-system-aarch64 -accel tcg \
+-machine virt,hmat=on,gic-version=3  -cpu cortex-a57 \
+-bios qemu-efi-aarch64/QEMU_EFI.fd \
+-kernel Image -append "root=/dev/vda2 console=ttyAMA0" \
+-drive if=virtio,file=aarch64.qcow2,format=qcow2,id=hd \
+-device virtio-rng-pci \
+-net user,hostfwd=tcp::10022-:22 -net nic \
+-device intel-hda -device hda-duplex -nographic \
+-smp 4 \
+-m 3G \
+-object memory-backend-ram,size=1G,id=ram0 \
+-object memory-backend-ram,size=1G,id=ram1 \
+-object memory-backend-ram,size=1G,id=ram2 \
+-numa node,nodeid=0,memdev=ram0,cpus=0-1 \
+-numa node,nodeid=1,memdev=ram1,cpus=2-3 \
+-numa node,nodeid=2,memdev=ram2 \
+-numa
+hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \
+-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
+-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \
+-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
+-numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
+-numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576 \
+-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \
+-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
+-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \
+-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
+-numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
+-numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576
+
 Signed-off-by: Hesham Almatary <hesham.almatary@huawei.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20221027100037.251-7-hesham.almatary@huawei.com>
+Message-Id: <20221027100037.251-8-hesham.almatary@huawei.com>
 Tested-by: Yicong Yang <yangyicong@hisilicon.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/arm/virt-acpi-build.c | 7 +++++++
- hw/arm/Kconfig           | 1 +
- 2 files changed, 8 insertions(+)
+ tests/qtest/bios-tables-test.c | 59 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index da9e41e72b..4156111d49 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -42,6 +42,7 @@
- #include "hw/acpi/memory_hotplug.h"
- #include "hw/acpi/generic_event_device.h"
- #include "hw/acpi/tpm.h"
-+#include "hw/acpi/hmat.h"
- #include "hw/pci/pcie_host.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bus.h"
-@@ -987,6 +988,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-             build_slit(tables_blob, tables->linker, ms, vms->oem_id,
-                        vms->oem_table_id);
-         }
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 320b828af5..4cc1da1467 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1543,6 +1543,63 @@ static void test_acpi_piix4_tcg_acpi_hmat(void)
+     test_acpi_tcg_acpi_hmat(MACHINE_PC);
+ }
+ 
++static void test_acpi_virt_tcg_acpi_hmat(void)
++{
++    test_data data = {
++        .machine = "virt",
++        .tcg_only = true,
++        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
++        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
++        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
++        .ram_start = 0x40000000ULL,
++        .scan_len = 128ULL * 1024 * 1024,
++    };
 +
-+        if (ms->numa_state->hmat_enabled) {
-+            acpi_add_table(table_offsets, tables_blob);
-+            build_hmat(tables_blob, tables->linker, ms->numa_state,
-+                       vms->oem_id, vms->oem_table_id);
-+        }
-     }
- 
-     if (ms->nvdimms_state->is_enabled) {
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 15fa79afd3..17fcde8e1c 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -30,6 +30,7 @@ config ARM_VIRT
-     select ACPI_VIOT
-     select VIRTIO_MEM_SUPPORTED
-     select ACPI_CXL
-+    select ACPI_HMAT
- 
- config CHEETAH
-     bool
++    data.variant = ".acpihmatvirt";
++
++    test_acpi_one(" -machine hmat=on"
++                  " -cpu cortex-a57"
++                  " -smp 4,sockets=2"
++                  " -m 256M"
++                  " -object memory-backend-ram,size=64M,id=ram0"
++                  " -object memory-backend-ram,size=64M,id=ram1"
++                  " -object memory-backend-ram,size=128M,id=ram2"
++                  " -numa node,nodeid=0,memdev=ram0"
++                  " -numa node,nodeid=1,memdev=ram1"
++                  " -numa node,nodeid=2,memdev=ram2"
++                  " -numa cpu,node-id=0,socket-id=0"
++                  " -numa cpu,node-id=0,socket-id=0"
++                  " -numa cpu,node-id=1,socket-id=1"
++                  " -numa cpu,node-id=1,socket-id=1"
++                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
++                  "data-type=access-latency,latency=10"
++                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=10485760"
++                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
++                  "data-type=access-latency,latency=20"
++                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=5242880"
++                  " -numa hmat-lb,initiator=0,target=2,hierarchy=memory,"
++                  "data-type=access-latency,latency=30"
++                  " -numa hmat-lb,initiator=0,target=2,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=1048576"
++                  " -numa hmat-lb,initiator=1,target=0,hierarchy=memory,"
++                  "data-type=access-latency,latency=20"
++                  " -numa hmat-lb,initiator=1,target=0,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=5242880"
++                  " -numa hmat-lb,initiator=1,target=1,hierarchy=memory,"
++                  "data-type=access-latency,latency=10"
++                  " -numa hmat-lb,initiator=1,target=1,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=10485760"
++                  " -numa hmat-lb,initiator=1,target=2,hierarchy=memory,"
++                  "data-type=access-latency,latency=30"
++                  " -numa hmat-lb,initiator=1,target=2,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=1048576",
++                  &data);
++
++    free_test_data(&data);
++}
++
+ static void test_acpi_q35_tcg_acpi_hmat_noinitiator(void)
+ {
+     test_data data;
+@@ -1998,6 +2055,8 @@ int main(int argc, char *argv[])
+     } else if (strcmp(arch, "aarch64") == 0) {
+         if (has_tcg) {
+             qtest_add_func("acpi/virt", test_acpi_virt_tcg);
++            qtest_add_func("acpi/virt/acpihmatvirt",
++                            test_acpi_virt_tcg_acpi_hmat);
+             qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+             qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+             qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
 -- 
 MST
 
