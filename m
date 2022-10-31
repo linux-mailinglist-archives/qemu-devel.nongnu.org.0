@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61279613DD5
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 19:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D74613E0C
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 20:11:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opZuk-0001nj-Oe; Mon, 31 Oct 2022 14:53:38 -0400
+	id 1opaAw-0006Li-RR; Mon, 31 Oct 2022 15:10:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1opZu9-0001HX-UI
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 14:53:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1opZu8-0003lc-Ex
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 14:53:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667242379;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ENGLvObqx80YmZgnW75fG0LaHePxu8XW6R6sQiADBlA=;
- b=NCB0ZLH6zGr0dfy1muKzSzdIon8BTiI5/0KPXoA0T0UtDDBm6YEov3A4idMnjVO2uKDWey
- O3nhxYw4bBurX7hNZmZoCQqOO8NTYUAqx8YyAylYfny8kax3fDdwRl/nYATadqsdJYhvDj
- xPRVTNGxMg3U1WqvpwzA47Xj7u9siPQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-64-CLNYU9KHNb6oR3e7M5IJRg-1; Mon, 31 Oct 2022 14:52:58 -0400
-X-MC-Unique: CLNYU9KHNb6oR3e7M5IJRg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D0D829DD9A0;
- Mon, 31 Oct 2022 18:52:58 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B64C1140EBF5;
- Mon, 31 Oct 2022 18:52:57 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Eric Blake <eblake@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Alberto Faria <afaria@redhat.com>
-Subject: [PULL 3/3] block/blkio: Make driver nvme-io_uring take a "path"
- instead of a "filename"
-Date: Mon, 31 Oct 2022 14:51:06 -0400
-Message-Id: <20221031185106.28245-4-stefanha@redhat.com>
-In-Reply-To: <20221031185106.28245-1-stefanha@redhat.com>
-References: <20221031185106.28245-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <amarjargal16@gmail.com>)
+ id 1opaAq-0006Hw-1j
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 15:10:17 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <amarjargal16@gmail.com>)
+ id 1opaAm-0001oq-Fz
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 15:10:15 -0400
+Received: by mail-wr1-x435.google.com with SMTP id o4so17325140wrq.6
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 12:10:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YfppOBRLYkKhxWLkOGGwNBg3TQfJM/SnkuESRmjW/Ew=;
+ b=bsU/SR44c2WM4zdS73C8cRyr6oFTwMU0fchfhHY+2KggkcyvQgJvzX3tH2maPG7hP5
+ 9WX06BQzq7tml9C/+KwB9jJ97cck9jrUycQ9hRxpub1Qx7s/EfgtiWi9JAj6xnljq+4D
+ kwED45sfDFHHKfrC7KTD/+KnBB9bLRUCwp9wWcgMiZMZmVCBI81rvbo8WPrbggQk31Ym
+ n2Y+bOwkLrbVAv4YZkvLOKDpMEdQVb/An2eckM+5SBYnGjbAel6xgfeWwPTiuTcWiTlO
+ F/SOeq+pBfuFGpJzfapO3UFzjoD5op2k5Uibq04oj6G+f+VUwm/SCFNaaimR4r+/kxEX
+ kgHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YfppOBRLYkKhxWLkOGGwNBg3TQfJM/SnkuESRmjW/Ew=;
+ b=Ymgd8sJLOYnqrRk6/rLnZ7SBZEudG1OLZbR+wktJXtA36aS9wiGEiyx5XG1k4AQosq
+ xsHY6EEZzeFpzV9jfDzovypMxFAWV0kBCOtCpjY8kNlYtcPtQ4mTwm2jRzN6szmpyQ+i
+ Gs0S0rRFj6gK2VwyuDjATJAW+cOePXve7yrAF/v/AoKRKimxJusas36A00bwmeDyC8Mf
+ 3/dL0n0Vl87J+Ye3pWwORVbfw359BgQWcDVk8sAVX4PEMF2rOx7Rp+AsE//CJDJqMzuf
+ TQslPWzNwiSQQvC5aG9UJ4BRKajnmWBtuomVURTSKadozjBCEII1pKxtBNRtXOd1UZpX
+ ScTw==
+X-Gm-Message-State: ACrzQf3cpuyQT3/c1y0ogr3YchlHcVLqTTDMqJ3eplo9wvKPiNpGO/RH
+ eRU9mIkKLbocowQdVvEU6dc=
+X-Google-Smtp-Source: AMsMyM4wkvc200VY/c8vuyZybP/VHWhMUZL4bAr6wqKdPaycht06WlHSGNRDkkXbc4E6wTY/kpd3cg==
+X-Received: by 2002:adf:c601:0:b0:230:7cfa:b3fe with SMTP id
+ n1-20020adfc601000000b002307cfab3femr9198306wrg.344.1667243410113; 
+ Mon, 31 Oct 2022 12:10:10 -0700 (PDT)
+Received: from [192.168.1.9] ([202.21.109.58])
+ by smtp.gmail.com with ESMTPSA id
+ q6-20020a1c4306000000b003b4fdbb6319sm1205445wma.21.2022.10.31.12.10.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Oct 2022 12:10:09 -0700 (PDT)
+Message-ID: <bf18e166-4d9d-0371-5598-df54df1f9442@gmail.com>
+Date: Tue, 1 Nov 2022 03:10:06 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v4 4/4] hw/usb: fix tab indentation
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: kraxel@redhat.com, berrange@redhat.com, vr_qemu@t-online.de
+References: <cover.1666707782.git.amarjargal16@gmail.com>
+ <6c993f57800f8fef7a910074620f6e80e077a3d1.1666707782.git.amarjargal16@gmail.com>
+ <52cab5c6-ffa8-93fa-7080-e8d0fa7a5729@redhat.com>
+Content-Language: en-US
+From: Amarjargal Gundjalam <amarjargal16@gmail.com>
+In-Reply-To: <52cab5c6-ffa8-93fa-7080-e8d0fa7a5729@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=amarjargal16@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,77 +95,605 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alberto Faria <afaria@redhat.com>
 
-The nvme-io_uring driver expects a character special file such as
-/dev/ng0n1. Follow the convention of having a "filename" option when a
-regular file is expected, and a "path" option otherwise.
+On 26/10/22 00:22, Thomas Huth wrote:
+> On 25/10/2022 16.28, Amarjargal Gundjalam wrote:
+>> The TABs should be replaced with spaces, to make sure that we have a
+>> consistent coding style with an indentation of 4 spaces everywhere.
+>>
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/370
+>> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+>>
+>> Signed-off-by: Amarjargal Gundjalam <amarjargal16@gmail.com>
+>> ---
+>>   hw/usb/dev-hub.c           |   82 +-
+>>   hw/usb/dev-network.c       |  286 +++----
+>>   hw/usb/dev-wacom.c         |    4 +-
+>>   hw/usb/hcd-musb.c          |  328 ++++----
+>>   hw/usb/quirks-pl2303-ids.h |  180 ++--
+>>   include/hw/usb.h           |  100 +--
+>>   include/hw/usb/dwc2-regs.h | 1608 ++++++++++++++++++------------------
+>>   7 files changed, 1294 insertions(+), 1294 deletions(-)
+>>
+>> diff --git a/hw/usb/dev-hub.c b/hw/usb/dev-hub.c
+>> index e35813d772..a6b50dbc8d 100644
+>> --- a/hw/usb/dev-hub.c
+>> +++ b/hw/usb/dev-hub.c
+>> @@ -54,44 +54,44 @@ struct USBHubState {
+>>   #define TYPE_USB_HUB "usb-hub"
+>>   OBJECT_DECLARE_SIMPLE_TYPE(USBHubState, USB_HUB)
+>>   -#define ClearHubFeature        (0x2000 | USB_REQ_CLEAR_FEATURE)
+>> -#define ClearPortFeature    (0x2300 | USB_REQ_CLEAR_FEATURE)
+>> -#define GetHubDescriptor    (0xa000 | USB_REQ_GET_DESCRIPTOR)
+>> -#define GetHubStatus        (0xa000 | USB_REQ_GET_STATUS)
+>> -#define GetPortStatus        (0xa300 | USB_REQ_GET_STATUS)
+>> -#define SetHubFeature        (0x2000 | USB_REQ_SET_FEATURE)
+>> -#define SetPortFeature        (0x2300 | USB_REQ_SET_FEATURE)
+>> -
+>> -#define PORT_STAT_CONNECTION    0x0001
+>> -#define PORT_STAT_ENABLE    0x0002
+>> -#define PORT_STAT_SUSPEND    0x0004
+>> -#define PORT_STAT_OVERCURRENT    0x0008
+>> -#define PORT_STAT_RESET        0x0010
+>> -#define PORT_STAT_POWER        0x0100
+>> -#define PORT_STAT_LOW_SPEED    0x0200
+>> +#define ClearHubFeature         (0x2000 | USB_REQ_CLEAR_FEATURE)
+>> +#define ClearPortFeature        (0x2300 | USB_REQ_CLEAR_FEATURE)
+>> +#define GetHubDescriptor        (0xa000 | USB_REQ_GET_DESCRIPTOR)
+>> +#define GetHubStatus            (0xa000 | USB_REQ_GET_STATUS)
+>> +#define GetPortStatus           (0xa300 | USB_REQ_GET_STATUS)
+>> +#define SetHubFeature           (0x2000 | USB_REQ_SET_FEATURE)
+>> +#define SetPortFeature          (0x2300 | USB_REQ_SET_FEATURE)
+>> +
+>> +#define PORT_STAT_CONNECTION    0x0001
+>> +#define PORT_STAT_ENABLE        0x0002
+>> +#define PORT_STAT_SUSPEND       0x0004
+>> +#define PORT_STAT_OVERCURRENT   0x0008
+>> +#define PORT_STAT_RESET         0x0010
+>> +#define PORT_STAT_POWER         0x0100
+>> +#define PORT_STAT_LOW_SPEED     0x0200
+>>   #define PORT_STAT_HIGH_SPEED    0x0400
+>>   #define PORT_STAT_TEST          0x0800
+>>   #define PORT_STAT_INDICATOR     0x1000
+>>   -#define PORT_STAT_C_CONNECTION    0x0001
+>> -#define PORT_STAT_C_ENABLE    0x0002
+>> -#define PORT_STAT_C_SUSPEND    0x0004
+>> -#define PORT_STAT_C_OVERCURRENT    0x0008
+>> -#define PORT_STAT_C_RESET    0x0010
+>> -
+>> -#define PORT_CONNECTION            0
+>> -#define PORT_ENABLE        1
+>> -#define PORT_SUSPEND        2
+>> -#define PORT_OVERCURRENT    3
+>> -#define PORT_RESET        4
+>> -#define PORT_POWER        8
+>> -#define PORT_LOWSPEED        9
+>> -#define PORT_HIGHSPEED        10
+>> -#define PORT_C_CONNECTION    16
+>> -#define PORT_C_ENABLE        17
+>> -#define PORT_C_SUSPEND        18
+>> -#define PORT_C_OVERCURRENT    19
+>> -#define PORT_C_RESET        20
+>> +#define PORT_STAT_C_CONNECTION  0x0001
+>> +#define PORT_STAT_C_ENABLE      0x0002
+>> +#define PORT_STAT_C_SUSPEND     0x0004
+>> +#define PORT_STAT_C_OVERCURRENT 0x0008
+>> +#define PORT_STAT_C_RESET       0x0010
+>> +
+>> +#define PORT_CONNECTION         0
+>> +#define PORT_ENABLE             1
+>> +#define PORT_SUSPEND            2
+>> +#define PORT_OVERCURRENT        3
+>> +#define PORT_RESET              4
+>> +#define PORT_POWER              8
+>> +#define PORT_LOWSPEED           9
+>> +#define PORT_HIGHSPEED          10
+>> +#define PORT_C_CONNECTION       16
+>> +#define PORT_C_ENABLE           17
+>> +#define PORT_C_SUSPEND          18
+>> +#define PORT_C_OVERCURRENT      19
+>> +#define PORT_C_RESET            20
+>>   #define PORT_TEST               21
+>>   #define PORT_INDICATOR          22
+>>   @@ -155,13 +155,13 @@ static const USBDesc desc_hub = {
+>>     static const uint8_t qemu_hub_hub_descriptor[] =
+>>   {
+>> -        0x00,            /*  u8  bLength; patched in later */
+>> -        0x29,            /*  u8  bDescriptorType; Hub-descriptor */
+>> -        0x00,            /*  u8  bNbrPorts; (patched later) */
+>> -        0x0a,            /* u16  wHubCharacteristics; */
+>> -        0x00,            /*   (per-port OC, no power switching) */
+>> -        0x01,            /*  u8  bPwrOn2pwrGood; 2ms */
+>> -        0x00            /*  u8  bHubContrCurrent; 0 mA */
+>> +        0x00,                   /*  u8  bLength; patched in later */
+>> +        0x29,                   /*  u8  bDescriptorType; 
+>> Hub-descriptor */
+>> +        0x00,                   /*  u8  bNbrPorts; (patched later) */
+>> +        0x0a,                   /* u16  wHubCharacteristics; */
+>> +        0x00,                   /*   (per-port OC, no power 
+>> switching) */
+>> +        0x01,                   /*  u8  bPwrOn2pwrGood; 2ms */
+>> +        0x00                    /*  u8  bHubContrCurrent; 0 mA */
+>>             /* DeviceRemovable and PortPwrCtrlMask patched in later */
+>>   };
+>> diff --git a/hw/usb/dev-network.c b/hw/usb/dev-network.c
+>> index ac1adca543..5fff487ee5 100644
+>> --- a/hw/usb/dev-network.c
+>> +++ b/hw/usb/dev-network.c
+>> @@ -52,7 +52,7 @@
+>>   #define RNDIS_PRODUCT_NUM       0xa4a2  /* Ethernet/RNDIS Gadget */
+>>     enum usbstring_idx {
+>> -    STRING_MANUFACTURER        = 1,
+>> +    STRING_MANUFACTURER         = 1,
+>>       STRING_PRODUCT,
+>>       STRING_ETHADDR,
+>>       STRING_DATA,
+>> @@ -64,39 +64,39 @@ enum usbstring_idx {
+>>       STRING_SERIALNUMBER,
+>>   };
+>>   -#define DEV_CONFIG_VALUE        1    /* CDC or a subset */
+>> -#define DEV_RNDIS_CONFIG_VALUE        2    /* RNDIS; optional */
+>> +#define DEV_CONFIG_VALUE                1       /* CDC or a subset */
+>> +#define DEV_RNDIS_CONFIG_VALUE          2       /* RNDIS; optional */
+>>   -#define USB_CDC_SUBCLASS_ACM        0x02
+>> -#define USB_CDC_SUBCLASS_ETHERNET    0x06
+>> +#define USB_CDC_SUBCLASS_ACM            0x02
+>> +#define USB_CDC_SUBCLASS_ETHERNET       0x06
+>>   -#define USB_CDC_PROTO_NONE        0
+>> -#define USB_CDC_ACM_PROTO_VENDOR    0xff
+>> +#define USB_CDC_PROTO_NONE              0
+>> +#define USB_CDC_ACM_PROTO_VENDOR        0xff
+>>   -#define USB_CDC_HEADER_TYPE        0x00    /* header_desc */
+>> -#define USB_CDC_CALL_MANAGEMENT_TYPE    0x01    /* 
+>> call_mgmt_descriptor */
+>> -#define USB_CDC_ACM_TYPE        0x02    /* acm_descriptor */
+>> -#define USB_CDC_UNION_TYPE        0x06    /* union_desc */
+>> -#define USB_CDC_ETHERNET_TYPE        0x0f    /* ether_desc */
+>> +#define USB_CDC_HEADER_TYPE             0x00    /* header_desc */
+>> +#define USB_CDC_CALL_MANAGEMENT_TYPE    0x01    /* 
+>> call_mgmt_descriptor */
+>> +#define USB_CDC_ACM_TYPE                0x02    /* acm_descriptor */
+>> +#define USB_CDC_UNION_TYPE              0x06    /* union_desc */
+>> +#define USB_CDC_ETHERNET_TYPE           0x0f    /* ether_desc */
+>>   -#define USB_CDC_SEND_ENCAPSULATED_COMMAND    0x00
+>> -#define USB_CDC_GET_ENCAPSULATED_RESPONSE    0x01
+>> -#define USB_CDC_REQ_SET_LINE_CODING        0x20
+>> -#define USB_CDC_REQ_GET_LINE_CODING        0x21
+>> -#define USB_CDC_REQ_SET_CONTROL_LINE_STATE    0x22
+>> -#define USB_CDC_REQ_SEND_BREAK            0x23
+>> -#define USB_CDC_SET_ETHERNET_MULTICAST_FILTERS    0x40
+>> -#define USB_CDC_SET_ETHERNET_PM_PATTERN_FILTER    0x41
+>> -#define USB_CDC_GET_ETHERNET_PM_PATTERN_FILTER    0x42
+>> -#define USB_CDC_SET_ETHERNET_PACKET_FILTER    0x43
+>> -#define USB_CDC_GET_ETHERNET_STATISTIC        0x44
+>> +#define USB_CDC_SEND_ENCAPSULATED_COMMAND       0x00
+>> +#define USB_CDC_GET_ENCAPSULATED_RESPONSE       0x01
+>> +#define USB_CDC_REQ_SET_LINE_CODING             0x20
+>> +#define USB_CDC_REQ_GET_LINE_CODING             0x21
+>> +#define USB_CDC_REQ_SET_CONTROL_LINE_STATE      0x22
+>> +#define USB_CDC_REQ_SEND_BREAK                  0x23
+>> +#define USB_CDC_SET_ETHERNET_MULTICAST_FILTERS  0x40
+>> +#define USB_CDC_SET_ETHERNET_PM_PATTERN_FILTER  0x41
+>> +#define USB_CDC_GET_ETHERNET_PM_PATTERN_FILTER  0x42
+>> +#define USB_CDC_SET_ETHERNET_PACKET_FILTER      0x43
+>> +#define USB_CDC_GET_ETHERNET_STATISTIC          0x44
+>>   -#define USB_CDC_NETWORK_CONNECTION    0x00
+>> +#define USB_CDC_NETWORK_CONNECTION      0x00
+>>   -#define LOG2_STATUS_INTERVAL_MSEC    5    /* 1 << 5 == 32 msec */
+>> -#define STATUS_BYTECOUNT        16   /* 8 byte header + data */
+>> +#define LOG2_STATUS_INTERVAL_MSEC       5    /* 1 << 5 == 32 msec */
+>> +#define STATUS_BYTECOUNT                16   /* 8 byte header + data */
+>>   -#define ETH_FRAME_LEN            1514 /* Max. octets in frame sans 
+>> FCS */
+>> +#define ETH_FRAME_LEN                   1514 /* Max. octets in frame 
+>> sans FCS */
+>>     static const USBDescStrings usb_net_stringtable = {
+>>       [STRING_MANUFACTURER]       = "QEMU",
+>> @@ -306,57 +306,57 @@ static const USBDesc desc_net = {
+>>   /*
+>>    * RNDIS Definitions - in theory not specific to USB.
+>>    */
+>> -#define RNDIS_MAXIMUM_FRAME_SIZE    1518
+>> -#define RNDIS_MAX_TOTAL_SIZE        1558
+>> +#define RNDIS_MAXIMUM_FRAME_SIZE        1518
+>> +#define RNDIS_MAX_TOTAL_SIZE            1558
+>>     /* Remote NDIS Versions */
+>> -#define RNDIS_MAJOR_VERSION        1
+>> -#define RNDIS_MINOR_VERSION        0
+>> +#define RNDIS_MAJOR_VERSION             1
+>> +#define RNDIS_MINOR_VERSION             0
+>>     /* Status Values */
+>> -#define RNDIS_STATUS_SUCCESS        0x00000000U /* Success */
+>> -#define RNDIS_STATUS_FAILURE        0xc0000001U /* Unspecified error */
+>> -#define RNDIS_STATUS_INVALID_DATA    0xc0010015U /* Invalid data */
+>> -#define RNDIS_STATUS_NOT_SUPPORTED    0xc00000bbU /* Unsupported 
+>> request */
+>> -#define RNDIS_STATUS_MEDIA_CONNECT    0x4001000bU /* Device 
+>> connected */
+>> -#define RNDIS_STATUS_MEDIA_DISCONNECT    0x4001000cU /* Device 
+>> disconnected */
+>> +#define RNDIS_STATUS_SUCCESS            0x00000000U /* Success */
+>> +#define RNDIS_STATUS_FAILURE            0xc0000001U /* Unspecified 
+>> error */
+>> +#define RNDIS_STATUS_INVALID_DATA       0xc0010015U /* Invalid data */
+>> +#define RNDIS_STATUS_NOT_SUPPORTED      0xc00000bbU /* Unsupported 
+>> request */
+>> +#define RNDIS_STATUS_MEDIA_CONNECT      0x4001000bU /* Device 
+>> connected */
+>> +#define RNDIS_STATUS_MEDIA_DISCONNECT   0x4001000cU /* Device 
+>> disconnected */
+>>     /* Message Set for Connectionless (802.3) Devices */
+>>   enum {
+>> -    RNDIS_PACKET_MSG        = 1,
+>> -    RNDIS_INITIALIZE_MSG    = 2,    /* Initialize device */
+>> -    RNDIS_HALT_MSG        = 3,
+>> -    RNDIS_QUERY_MSG        = 4,
+>> -    RNDIS_SET_MSG        = 5,
+>> -    RNDIS_RESET_MSG        = 6,
+>> -    RNDIS_INDICATE_STATUS_MSG    = 7,
+>> -    RNDIS_KEEPALIVE_MSG        = 8,
+>> +    RNDIS_PACKET_MSG            = 1,
+>> +    RNDIS_INITIALIZE_MSG        = 2,    /* Initialize device */
+>> +    RNDIS_HALT_MSG              = 3,
+>> +    RNDIS_QUERY_MSG             = 4,
+>> +    RNDIS_SET_MSG               = 5,
+>> +    RNDIS_RESET_MSG             = 6,
+>> +    RNDIS_INDICATE_STATUS_MSG   = 7,
+>> +    RNDIS_KEEPALIVE_MSG         = 8,
+>>   };
+>>     /* Message completion */
+>>   enum {
+>> -    RNDIS_INITIALIZE_CMPLT    = 0x80000002U,
+>> -    RNDIS_QUERY_CMPLT        = 0x80000004U,
+>> -    RNDIS_SET_CMPLT        = 0x80000005U,
+>> -    RNDIS_RESET_CMPLT        = 0x80000006U,
+>> -    RNDIS_KEEPALIVE_CMPLT    = 0x80000008U,
+>> +    RNDIS_INITIALIZE_CMPLT      = 0x80000002U,
+>> +    RNDIS_QUERY_CMPLT           = 0x80000004U,
+>> +    RNDIS_SET_CMPLT             = 0x80000005U,
+>> +    RNDIS_RESET_CMPLT           = 0x80000006U,
+>> +    RNDIS_KEEPALIVE_CMPLT       = 0x80000008U,
+>>   };
+>>     /* Device Flags */
+>>   enum {
+>> -    RNDIS_DF_CONNECTIONLESS    = 1,
+>> -    RNDIS_DF_CONNECTIONORIENTED    = 2,
+>> +    RNDIS_DF_CONNECTIONLESS     = 1,
+>> +    RNDIS_DF_CONNECTIONORIENTED = 2,
+>>   };
+>>   -#define RNDIS_MEDIUM_802_3        0x00000000U
+>> +#define RNDIS_MEDIUM_802_3              0x00000000U
+>>     /* from drivers/net/sk98lin/h/skgepnmi.h */
+>> -#define OID_PNP_CAPABILITIES        0xfd010100
+>> -#define OID_PNP_SET_POWER        0xfd010101
+>> -#define OID_PNP_QUERY_POWER        0xfd010102
+>> -#define OID_PNP_ADD_WAKE_UP_PATTERN    0xfd010103
+>> -#define OID_PNP_REMOVE_WAKE_UP_PATTERN    0xfd010104
+>> -#define OID_PNP_ENABLE_WAKE_UP        0xfd010106
+>> +#define OID_PNP_CAPABILITIES            0xfd010100
+>> +#define OID_PNP_SET_POWER               0xfd010101
+>> +#define OID_PNP_QUERY_POWER             0xfd010102
+>> +#define OID_PNP_ADD_WAKE_UP_PATTERN     0xfd010103
+>> +#define OID_PNP_REMOVE_WAKE_UP_PATTERN  0xfd010104
+>> +#define OID_PNP_ENABLE_WAKE_UP          0xfd010106
+>>     typedef uint32_t le32;
+>>   @@ -494,88 +494,88 @@ enum rndis_state
+>>   /* from ndis.h */
+>>   enum ndis_oid {
+>>       /* Required Object IDs (OIDs) */
+>> -    OID_GEN_SUPPORTED_LIST        = 0x00010101,
+>> -    OID_GEN_HARDWARE_STATUS        = 0x00010102,
+>> -    OID_GEN_MEDIA_SUPPORTED        = 0x00010103,
+>> -    OID_GEN_MEDIA_IN_USE        = 0x00010104,
+>> -    OID_GEN_MAXIMUM_LOOKAHEAD        = 0x00010105,
+>> -    OID_GEN_MAXIMUM_FRAME_SIZE        = 0x00010106,
+>> -    OID_GEN_LINK_SPEED            = 0x00010107,
+>> -    OID_GEN_TRANSMIT_BUFFER_SPACE    = 0x00010108,
+>> -    OID_GEN_RECEIVE_BUFFER_SPACE    = 0x00010109,
+>> -    OID_GEN_TRANSMIT_BLOCK_SIZE        = 0x0001010a,
+>> -    OID_GEN_RECEIVE_BLOCK_SIZE        = 0x0001010b,
+>> -    OID_GEN_VENDOR_ID            = 0x0001010c,
+>> -    OID_GEN_VENDOR_DESCRIPTION        = 0x0001010d,
+>> -    OID_GEN_CURRENT_PACKET_FILTER    = 0x0001010e,
+>> -    OID_GEN_CURRENT_LOOKAHEAD        = 0x0001010f,
+>> -    OID_GEN_DRIVER_VERSION        = 0x00010110,
+>> -    OID_GEN_MAXIMUM_TOTAL_SIZE        = 0x00010111,
+>> -    OID_GEN_PROTOCOL_OPTIONS        = 0x00010112,
+>> -    OID_GEN_MAC_OPTIONS            = 0x00010113,
+>> -    OID_GEN_MEDIA_CONNECT_STATUS    = 0x00010114,
+>> -    OID_GEN_MAXIMUM_SEND_PACKETS    = 0x00010115,
+>> -    OID_GEN_VENDOR_DRIVER_VERSION    = 0x00010116,
+>> -    OID_GEN_SUPPORTED_GUIDS        = 0x00010117,
+>> -    OID_GEN_NETWORK_LAYER_ADDRESSES    = 0x00010118,
+>> -    OID_GEN_TRANSPORT_HEADER_OFFSET    = 0x00010119,
+>> -    OID_GEN_MACHINE_NAME        = 0x0001021a,
+>> -    OID_GEN_RNDIS_CONFIG_PARAMETER    = 0x0001021b,
+>> -    OID_GEN_VLAN_ID            = 0x0001021c,
+>> +    OID_GEN_SUPPORTED_LIST              = 0x00010101,
+>> +    OID_GEN_HARDWARE_STATUS             = 0x00010102,
+>> +    OID_GEN_MEDIA_SUPPORTED             = 0x00010103,
+>> +    OID_GEN_MEDIA_IN_USE                = 0x00010104,
+>> +    OID_GEN_MAXIMUM_LOOKAHEAD           = 0x00010105,
+>> +    OID_GEN_MAXIMUM_FRAME_SIZE          = 0x00010106,
+>> +    OID_GEN_LINK_SPEED                  = 0x00010107,
+>> +    OID_GEN_TRANSMIT_BUFFER_SPACE       = 0x00010108,
+>> +    OID_GEN_RECEIVE_BUFFER_SPACE        = 0x00010109,
+>> +    OID_GEN_TRANSMIT_BLOCK_SIZE         = 0x0001010a,
+>> +    OID_GEN_RECEIVE_BLOCK_SIZE          = 0x0001010b,
+>> +    OID_GEN_VENDOR_ID                   = 0x0001010c,
+>> +    OID_GEN_VENDOR_DESCRIPTION          = 0x0001010d,
+>> +    OID_GEN_CURRENT_PACKET_FILTER       = 0x0001010e,
+>> +    OID_GEN_CURRENT_LOOKAHEAD           = 0x0001010f,
+>> +    OID_GEN_DRIVER_VERSION              = 0x00010110,
+>> +    OID_GEN_MAXIMUM_TOTAL_SIZE          = 0x00010111,
+>> +    OID_GEN_PROTOCOL_OPTIONS            = 0x00010112,
+>> +    OID_GEN_MAC_OPTIONS                 = 0x00010113,
+>> +    OID_GEN_MEDIA_CONNECT_STATUS        = 0x00010114,
+>> +    OID_GEN_MAXIMUM_SEND_PACKETS        = 0x00010115,
+>> +    OID_GEN_VENDOR_DRIVER_VERSION       = 0x00010116,
+>> +    OID_GEN_SUPPORTED_GUIDS             = 0x00010117,
+>> +    OID_GEN_NETWORK_LAYER_ADDRESSES     = 0x00010118,
+>> +    OID_GEN_TRANSPORT_HEADER_OFFSET     = 0x00010119,
+>> +    OID_GEN_MACHINE_NAME                = 0x0001021a,
+>> +    OID_GEN_RNDIS_CONFIG_PARAMETER      = 0x0001021b,
+>> +    OID_GEN_VLAN_ID                     = 0x0001021c,
+>>         /* Optional OIDs */
+>> -    OID_GEN_MEDIA_CAPABILITIES        = 0x00010201,
+>> -    OID_GEN_PHYSICAL_MEDIUM        = 0x00010202,
+>> +    OID_GEN_MEDIA_CAPABILITIES          = 0x00010201,
+>> +    OID_GEN_PHYSICAL_MEDIUM             = 0x00010202,
+>>         /* Required statistics OIDs */
+>> -    OID_GEN_XMIT_OK            = 0x00020101,
+>> -    OID_GEN_RCV_OK            = 0x00020102,
+>> -    OID_GEN_XMIT_ERROR            = 0x00020103,
+>> -    OID_GEN_RCV_ERROR            = 0x00020104,
+>> -    OID_GEN_RCV_NO_BUFFER        = 0x00020105,
+>> +    OID_GEN_XMIT_OK                     = 0x00020101,
+>> +    OID_GEN_RCV_OK                      = 0x00020102,
+>> +    OID_GEN_XMIT_ERROR                  = 0x00020103,
+>> +    OID_GEN_RCV_ERROR                   = 0x00020104,
+>> +    OID_GEN_RCV_NO_BUFFER               = 0x00020105,
+>>         /* Optional statistics OIDs */
+>> -    OID_GEN_DIRECTED_BYTES_XMIT        = 0x00020201,
+>> -    OID_GEN_DIRECTED_FRAMES_XMIT    = 0x00020202,
+>> -    OID_GEN_MULTICAST_BYTES_XMIT    = 0x00020203,
+>> -    OID_GEN_MULTICAST_FRAMES_XMIT    = 0x00020204,
+>> -    OID_GEN_BROADCAST_BYTES_XMIT    = 0x00020205,
+>> -    OID_GEN_BROADCAST_FRAMES_XMIT    = 0x00020206,
+>> -    OID_GEN_DIRECTED_BYTES_RCV        = 0x00020207,
+>> -    OID_GEN_DIRECTED_FRAMES_RCV        = 0x00020208,
+>> -    OID_GEN_MULTICAST_BYTES_RCV        = 0x00020209,
+>> -    OID_GEN_MULTICAST_FRAMES_RCV    = 0x0002020a,
+>> -    OID_GEN_BROADCAST_BYTES_RCV        = 0x0002020b,
+>> -    OID_GEN_BROADCAST_FRAMES_RCV    = 0x0002020c,
+>> -    OID_GEN_RCV_CRC_ERROR        = 0x0002020d,
+>> -    OID_GEN_TRANSMIT_QUEUE_LENGTH    = 0x0002020e,
+>> -    OID_GEN_GET_TIME_CAPS        = 0x0002020f,
+>> -    OID_GEN_GET_NETCARD_TIME        = 0x00020210,
+>> -    OID_GEN_NETCARD_LOAD        = 0x00020211,
+>> -    OID_GEN_DEVICE_PROFILE        = 0x00020212,
+>> -    OID_GEN_INIT_TIME_MS        = 0x00020213,
+>> -    OID_GEN_RESET_COUNTS        = 0x00020214,
+>> -    OID_GEN_MEDIA_SENSE_COUNTS        = 0x00020215,
+>> -    OID_GEN_FRIENDLY_NAME        = 0x00020216,
+>> -    OID_GEN_MINIPORT_INFO        = 0x00020217,
+>> -    OID_GEN_RESET_VERIFY_PARAMETERS    = 0x00020218,
+>> +    OID_GEN_DIRECTED_BYTES_XMIT         = 0x00020201,
+>> +    OID_GEN_DIRECTED_FRAMES_XMIT        = 0x00020202,
+>> +    OID_GEN_MULTICAST_BYTES_XMIT        = 0x00020203,
+>> +    OID_GEN_MULTICAST_FRAMES_XMIT       = 0x00020204,
+>> +    OID_GEN_BROADCAST_BYTES_XMIT        = 0x00020205,
+>> +    OID_GEN_BROADCAST_FRAMES_XMIT       = 0x00020206,
+>> +    OID_GEN_DIRECTED_BYTES_RCV          = 0x00020207,
+>> +    OID_GEN_DIRECTED_FRAMES_RCV         = 0x00020208,
+>> +    OID_GEN_MULTICAST_BYTES_RCV         = 0x00020209,
+>> +    OID_GEN_MULTICAST_FRAMES_RCV        = 0x0002020a,
+>> +    OID_GEN_BROADCAST_BYTES_RCV         = 0x0002020b,
+>> +    OID_GEN_BROADCAST_FRAMES_RCV        = 0x0002020c,
+>> +    OID_GEN_RCV_CRC_ERROR               = 0x0002020d,
+>> +    OID_GEN_TRANSMIT_QUEUE_LENGTH       = 0x0002020e,
+>> +    OID_GEN_GET_TIME_CAPS               = 0x0002020f,
+>> +    OID_GEN_GET_NETCARD_TIME            = 0x00020210,
+>> +    OID_GEN_NETCARD_LOAD                = 0x00020211,
+>> +    OID_GEN_DEVICE_PROFILE              = 0x00020212,
+>> +    OID_GEN_INIT_TIME_MS                = 0x00020213,
+>> +    OID_GEN_RESET_COUNTS                = 0x00020214,
+>> +    OID_GEN_MEDIA_SENSE_COUNTS          = 0x00020215,
+>> +    OID_GEN_FRIENDLY_NAME               = 0x00020216,
+>> +    OID_GEN_MINIPORT_INFO               = 0x00020217,
+>> +    OID_GEN_RESET_VERIFY_PARAMETERS     = 0x00020218,
+>>         /* IEEE 802.3 (Ethernet) OIDs */
+>> -    OID_802_3_PERMANENT_ADDRESS        = 0x01010101,
+>> -    OID_802_3_CURRENT_ADDRESS        = 0x01010102,
+>> -    OID_802_3_MULTICAST_LIST        = 0x01010103,
+>> -    OID_802_3_MAXIMUM_LIST_SIZE        = 0x01010104,
+>> -    OID_802_3_MAC_OPTIONS        = 0x01010105,
+>> -    OID_802_3_RCV_ERROR_ALIGNMENT    = 0x01020101,
+>> -    OID_802_3_XMIT_ONE_COLLISION    = 0x01020102,
+>> -    OID_802_3_XMIT_MORE_COLLISIONS    = 0x01020103,
+>> -    OID_802_3_XMIT_DEFERRED        = 0x01020201,
+>> -    OID_802_3_XMIT_MAX_COLLISIONS    = 0x01020202,
+>> -    OID_802_3_RCV_OVERRUN        = 0x01020203,
+>> -    OID_802_3_XMIT_UNDERRUN        = 0x01020204,
+>> -    OID_802_3_XMIT_HEARTBEAT_FAILURE    = 0x01020205,
+>> -    OID_802_3_XMIT_TIMES_CRS_LOST    = 0x01020206,
+>> -    OID_802_3_XMIT_LATE_COLLISIONS    = 0x01020207,
+>> +    OID_802_3_PERMANENT_ADDRESS         = 0x01010101,
+>> +    OID_802_3_CURRENT_ADDRESS           = 0x01010102,
+>> +    OID_802_3_MULTICAST_LIST            = 0x01010103,
+>> +    OID_802_3_MAXIMUM_LIST_SIZE         = 0x01010104,
+>> +    OID_802_3_MAC_OPTIONS               = 0x01010105,
+>> +    OID_802_3_RCV_ERROR_ALIGNMENT       = 0x01020101,
+>> +    OID_802_3_XMIT_ONE_COLLISION        = 0x01020102,
+>> +    OID_802_3_XMIT_MORE_COLLISIONS      = 0x01020103,
+>> +    OID_802_3_XMIT_DEFERRED             = 0x01020201,
+>> +    OID_802_3_XMIT_MAX_COLLISIONS       = 0x01020202,
+>> +    OID_802_3_RCV_OVERRUN               = 0x01020203,
+>> +    OID_802_3_XMIT_UNDERRUN             = 0x01020204,
+>> +    OID_802_3_XMIT_HEARTBEAT_FAILURE    = 0x01020205,
+>> +    OID_802_3_XMIT_TIMES_CRS_LOST       = 0x01020206,
+>> +    OID_802_3_XMIT_LATE_COLLISIONS      = 0x01020207,
+>>   };
+>>     static const uint32_t oid_supported_list[] =
+>> @@ -618,13 +618,13 @@ static const uint32_t oid_supported_list[] =
+>>       OID_802_3_XMIT_MORE_COLLISIONS,
+>>   };
+>>   -#define NDIS_MAC_OPTION_COPY_LOOKAHEAD_DATA    (1 << 0)
+>> -#define NDIS_MAC_OPTION_RECEIVE_SERIALIZED    (1 << 1)
+>> -#define NDIS_MAC_OPTION_TRANSFERS_NOT_PEND    (1 << 2)
+>> -#define NDIS_MAC_OPTION_NO_LOOPBACK        (1 << 3)
+>> -#define NDIS_MAC_OPTION_FULL_DUPLEX        (1 << 4)
+>> -#define NDIS_MAC_OPTION_EOTX_INDICATION        (1 << 5)
+>> -#define NDIS_MAC_OPTION_8021P_PRIORITY        (1 << 6)
+>> +#define NDIS_MAC_OPTION_COPY_LOOKAHEAD_DATA     (1 << 0)
+>> +#define NDIS_MAC_OPTION_RECEIVE_SERIALIZED      (1 << 1)
+>> +#define NDIS_MAC_OPTION_TRANSFERS_NOT_PEND      (1 << 2)
+>> +#define NDIS_MAC_OPTION_NO_LOOPBACK             (1 << 3)
+>> +#define NDIS_MAC_OPTION_FULL_DUPLEX             (1 << 4)
+>> +#define NDIS_MAC_OPTION_EOTX_INDICATION         (1 << 5)
+>> +#define NDIS_MAC_OPTION_8021P_PRIORITY          (1 << 6)
+>>     struct rndis_response {
+>>       QTAILQ_ENTRY(rndis_response) entries;
+>> @@ -1375,12 +1375,12 @@ static void usb_net_realize(USBDevice *dev, 
+>> Error **errp)
+>>       s->rndis_state = RNDIS_UNINITIALIZED;
+>>       QTAILQ_INIT(&s->rndis_resp);
+>>   -    s->medium = 0;    /* NDIS_MEDIUM_802_3 */
+>> +    s->medium = 0;      /* NDIS_MEDIUM_802_3 */
+>>       s->speed = 1000000; /* 100MBps, in 100Bps units */
+>> -    s->media_state = 0;    /* NDIS_MEDIA_STATE_CONNECTED */;
+>> +    s->media_state = 0; /* NDIS_MEDIA_STATE_CONNECTED */;
+>>       s->filter = 0;
+>>       s->vendorid = 0x1234;
+>> -    s->connection = 1;    /* Connected */
+>> +    s->connection = 1;  /* Connected */
+>>       s->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
+>>       s->bulk_in = usb_ep_get(dev, USB_TOKEN_IN, 2);
+>>   diff --git a/hw/usb/dev-wacom.c b/hw/usb/dev-wacom.c
+>> index 8323650c6a..7177c17f03 100644
+>> --- a/hw/usb/dev-wacom.c
+>> +++ b/hw/usb/dev-wacom.c
+>> @@ -36,8 +36,8 @@
+>>   #include "qom/object.h"
+>>     /* Interface requests */
+>> -#define WACOM_GET_REPORT    0x2101
+>> -#define WACOM_SET_REPORT    0x2109
+>> +#define WACOM_GET_REPORT    0x2101
+>> +#define WACOM_SET_REPORT    0x2109
+>>     struct USBWacomState {
+>>       USBDevice dev;
+>> diff --git a/hw/usb/hcd-musb.c b/hw/usb/hcd-musb.c
+>> index 85f5ff5bd4..6929b026b1 100644
+>> --- a/hw/usb/hcd-musb.c
+>> +++ b/hw/usb/hcd-musb.c
+>> @@ -28,227 +28,227 @@
+>>   #include "hw/hw.h"
+>>     /* Common USB registers */
+>> -#define MUSB_HDRC_FADDR        0x00    /* 8-bit */
+>> -#define MUSB_HDRC_POWER        0x01    /* 8-bit */
+>> -
+>> -#define MUSB_HDRC_INTRTX    0x02    /* 16-bit */
+>> -#define MUSB_HDRC_INTRRX    0x04
+>> -#define MUSB_HDRC_INTRTXE    0x06
+>> -#define MUSB_HDRC_INTRRXE    0x08
+>> -#define MUSB_HDRC_INTRUSB    0x0a    /* 8 bit */
+>> -#define MUSB_HDRC_INTRUSBE    0x0b    /* 8 bit */
+>> -#define MUSB_HDRC_FRAME        0x0c    /* 16-bit */
+>> -#define MUSB_HDRC_INDEX        0x0e    /* 8 bit */
+>> -#define MUSB_HDRC_TESTMODE    0x0f    /* 8 bit */
+>> +#define MUSB_HDRC_FADDR         0x00    /* 8-bit */
+>> +#define MUSB_HDRC_POWER         0x01    /* 8-bit */
+>> +
+>> +#define MUSB_HDRC_INTRTX        0x02    /* 16-bit */
+>> +#define MUSB_HDRC_INTRRX        0x04
+>> +#define MUSB_HDRC_INTRTXE       0x06
+>
+> Sorry for not noticing it earlier, and the problem is pre-existing and 
+> not related to your patches, but in case you respinning again, my git 
+> is complaining here about the spaces at the end of the line:
+>
+> .git/rebase-apply/patch:524: trailing whitespace.
+> #define MUSB_HDRC_INTRTXE       0x06
+>
+> (maybe this could also be fixed by the maintainer when picking up the 
+> patch)
+>
+>> +#define MUSB_HDRC_INTRRXE       0x08
+>
+> dito
+>
+>> +#define MUSB_HDRC_INTRUSB       0x0a /* 8 bit */
+>> +#define MUSB_HDRC_INTRUSBE      0x0b    /* 8 bit */
+>> +#define MUSB_HDRC_FRAME         0x0c    /* 16-bit */
+>> +#define MUSB_HDRC_INDEX         0x0e    /* 8 bit */
+>> +#define MUSB_HDRC_TESTMODE      0x0f    /* 8 bit */
+> [...]
+>>   /*
+>>    * MUSBHDRC Register bit masks
+>>    */
+>>     /* POWER */
+>> -#define MGC_M_POWER_ISOUPDATE        0x80
+>
+> Same here
+>
+>> -#define    MGC_M_POWER_SOFTCONN 0x40
+>> -#define    MGC_M_POWER_HSENAB        0x20
+>> -#define    MGC_M_POWER_HSMODE        0x10
+>> -#define MGC_M_POWER_RESET        0x08
+>> -#define MGC_M_POWER_RESUME        0x04
+>> -#define MGC_M_POWER_SUSPENDM        0x02
+>> -#define MGC_M_POWER_ENSUSPEND        0x01
+>> +#define MGC_M_POWER_ISOUPDATE           0x80
+>> +#define MGC_M_POWER_SOFTCONN            0x40
+>> +#define MGC_M_POWER_HSENAB              0x20
+>> +#define MGC_M_POWER_HSMODE              0x10
+>> +#define MGC_M_POWER_RESET               0x08
+>> +#define MGC_M_POWER_RESUME              0x04
+>> +#define MGC_M_POWER_SUSPENDM            0x02
+>> +#define MGC_M_POWER_ENSUSPEND           0x01
+>>     /* INTRUSB */
+>> -#define MGC_M_INTR_SUSPEND        0x01
+>> -#define MGC_M_INTR_RESUME        0x02
+>> -#define MGC_M_INTR_RESET        0x04
+>> -#define MGC_M_INTR_BABBLE        0x04
+>> -#define MGC_M_INTR_SOF            0x08
+>> -#define MGC_M_INTR_CONNECT        0x10
+>> -#define MGC_M_INTR_DISCONNECT        0x20
+>> -#define MGC_M_INTR_SESSREQ        0x40
+>> -#define MGC_M_INTR_VBUSERROR        0x80    /* FOR SESSION END */
+>> -#define MGC_M_INTR_EP0            0x01    /* FOR EP0 INTERRUPT */
+>> +#define MGC_M_INTR_SUSPEND              0x01
+>> +#define MGC_M_INTR_RESUME               0x02
+>> +#define MGC_M_INTR_RESET                0x04
+>> +#define MGC_M_INTR_BABBLE               0x04
+>> +#define MGC_M_INTR_SOF                  0x08
+>
+> ... and here ...
+>
+>> +#define MGC_M_INTR_CONNECT 0x10
+>> +#define MGC_M_INTR_DISCONNECT           0x20
+>> +#define MGC_M_INTR_SESSREQ              0x40
+>> +#define MGC_M_INTR_VBUSERROR            0x80    /* FOR SESSION END */
+>> +#define MGC_M_INTR_EP0                  0x01    /* FOR EP0 INTERRUPT */
+>>     /* DEVCTL */
+>> -#define MGC_M_DEVCTL_BDEVICE        0x80
+>> -#define MGC_M_DEVCTL_FSDEV        0x40
+>> -#define MGC_M_DEVCTL_LSDEV        0x20
+>> -#define MGC_M_DEVCTL_VBUS        0x18
+>> -#define MGC_S_DEVCTL_VBUS        3
+>> -#define MGC_M_DEVCTL_HM            0x04
+>> -#define MGC_M_DEVCTL_HR            0x02
+>> -#define MGC_M_DEVCTL_SESSION        0x01
+>> +#define MGC_M_DEVCTL_BDEVICE            0x80
+>
+> ... and here, too.
+>
+>  Thomas
+>
+Should I fix them and submit a new version?
 
-This makes io_uring the only libblkio-based driver with a "filename"
-option, as it accepts a regular file (even though it can also take a
-block special file).
+Thank you,
 
-Signed-off-by: Alberto Faria <afaria@redhat.com>
-Message-id: 20221028233854.839933-1-afaria@redhat.com
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- qapi/block-core.json |  4 ++--
- block/blkio.c        | 12 ++++++++----
- 2 files changed, 10 insertions(+), 6 deletions(-)
-
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 81bbb0b893..6d904004f8 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3704,12 +3704,12 @@
- #
- # Driver specific block device options for the nvme-io_uring backend.
- #
--# @filename: path to the image file
-+# @path: path to the image file
- #
- # Since: 7.2
- ##
- { 'struct': 'BlockdevOptionsNvmeIoUring',
--  'data': { 'filename': 'str' },
-+  'data': { 'path': 'str' },
-   'if': 'CONFIG_BLKIO' }
- 
- ##
-diff --git a/block/blkio.c b/block/blkio.c
-index d850506acd..620fab28a7 100644
---- a/block/blkio.c
-+++ b/block/blkio.c
-@@ -640,12 +640,17 @@ static int blkio_io_uring_open(BlockDriverState *bs, QDict *options, int flags,
- static int blkio_nvme_io_uring(BlockDriverState *bs, QDict *options, int flags,
-                                Error **errp)
- {
--    const char *filename = qdict_get_str(options, "filename");
-+    const char *path = qdict_get_try_str(options, "path");
-     BDRVBlkioState *s = bs->opaque;
-     int ret;
- 
--    ret = blkio_set_str(s->blkio, "path", filename);
--    qdict_del(options, "filename");
-+    if (!path) {
-+        error_setg(errp, "missing 'path' option");
-+        return -EINVAL;
-+    }
-+
-+    ret = blkio_set_str(s->blkio, "path", path);
-+    qdict_del(options, "path");
-     if (ret < 0) {
-         error_setg_errno(errp, -ret, "failed to set path: %s",
-                          blkio_get_error_msg());
-@@ -1016,7 +1021,6 @@ static BlockDriver bdrv_io_uring = BLKIO_DRIVER(
- 
- static BlockDriver bdrv_nvme_io_uring = BLKIO_DRIVER(
-     DRIVER_NVME_IO_URING,
--    .bdrv_needs_filename = true,
- );
- 
- static BlockDriver bdrv_virtio_blk_vfio_pci = BLKIO_DRIVER(
--- 
-2.38.1
+Amarjargal
 
 
