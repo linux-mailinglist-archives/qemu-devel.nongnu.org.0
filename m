@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB60613188
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 09:14:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93015613190
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 09:17:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opPw0-0002L5-18; Mon, 31 Oct 2022 04:14:16 -0400
+	id 1opPyJ-0003aU-4n; Mon, 31 Oct 2022 04:16:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opPvy-0002Jy-Eo
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:14:14 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opPxv-0003Yy-SG
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:16:16 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opPvx-0005Pp-0f
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:14:14 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- b20-20020a05600c4e1400b003cc28585e2fso7536956wmq.1
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 01:14:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opPxu-0006VU-Dy
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:16:15 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id t4so6673073wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 01:16:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=7//pJVQkXeOUKIL7Ks0ucjymXULyUdy891MZlxul35g=;
- b=FD73Rl5DQ+v/2p7daBUq0AxYv884g+qcmG8vGFNfdqmuse+tSk5yaEO1/c+QMwqe7b
- 2utZHaLJpmim9enZSyVja72AQJw4ccEu/ksej9ClPPxatd0g0zA/IeLEac8iecoOqv5i
- D75Sq5/R3kaaOy6zD/IOlNsTwSmXRnFoxc6d2+n/0lYd9ChfuxcyuaS9KXgpglxboWGC
- WSEZduWneyR/xjZUp/+BrGosRth8KhS4BA/pPoZoXEIOmyiZB7dNDsGngMzFS98wPXA9
- VByuRqHDnq9M0g62axy2s5wvLdYAs0vXfV3jGTND+IkfdpFAfGcsWa9j5Zw5qVk1LSAW
- 7nAA==
+ bh=ZVOuOlnoN7BE4w/hIBlhFCAJX0WT3zJ0oUcJmvVh2Lc=;
+ b=AUTaPvhiFxEoMwOYyXOhJY4kWHEN3WA+9x/+f048oF+/Fnno4N+vvwiwI5yqHNe1GN
+ CDczbtG3BpUDwqw+s+1duIBUSQGFRfXCkbMgIJHF/FkYIvlE+OqfVE0GoE/mVXGzZOy9
+ siy5nejxzBYTdRzbo60QL1oM8YlvpDcu+PgyT8Zl08i0sDpMeTxY2hOZBNNBU2+8y6a3
+ W6MFEf9bnX7CJm4dX4YRYWgXugJFMMmTdx2NUp5LiS7YH4d5ZNJGeUPqiWkonMipomfS
+ pXMANtWuzNPEJYroO3kyJNcCCD3gqkVv0AzeOH5FmXmYIabS0/dxTlDnrR0suWAcd3o1
+ j4DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7//pJVQkXeOUKIL7Ks0ucjymXULyUdy891MZlxul35g=;
- b=FwR+uiI9v1S1NjUOO0LJtu4xZLAgthtKJ3oYJ0848Ak36u8EFYTOKHIySVGTqyN7ag
- CUecdTjPiLHU4Ga1f/ZJld892yDsa2JthpnIfltz52OXlCtZHvmwW3OQKY0uNFKTgO3J
- OASdHUhTD7ud94cSNSTyjeagEIIhV5kBtlgam7GH4sqfk+DwoAZBsPv6H3c2l9BpBfid
- 9WFg4Q+IA8N+kSiRp4CIXkLnPS/DmvCqvc8OpeC0q9PJ3//x6Sri4k+zKvAQiqLLYpk/
- F0lZr9Dkx6mtRHqE82l5oXmqk8k+KXAl36IGLArNXeolzNzJDE4pucYLyNr3kiGFDl4m
- nkrA==
-X-Gm-Message-State: ACrzQf2pNphmbWg7mqoN11aVK5ISkSHuulUVIxKRgd2scgyckJFB+PWt
- i7iPbJ4F3coeQxvroB9H6Np/Ew==
-X-Google-Smtp-Source: AMsMyM4UCiXU/2cSzVTYPHJXNoZMmo+EwXySJEU044oEEB28Yu6CBPiK1Q61KAhBXDyAYWGYEBTmxA==
-X-Received: by 2002:a05:600c:4618:b0:3cf:54ad:7bb3 with SMTP id
- m24-20020a05600c461800b003cf54ad7bb3mr13206520wmo.4.1667204051563; 
- Mon, 31 Oct 2022 01:14:11 -0700 (PDT)
+ bh=ZVOuOlnoN7BE4w/hIBlhFCAJX0WT3zJ0oUcJmvVh2Lc=;
+ b=2hPcEPySMYu8Eq581gYJp/bWopSDPbzwf7okuI1zOF0QDql6+GCMPI/qEheUd6pptD
+ 9WXa7mVx5wtkBn6bonhjSjFZPlhJgKqP/5HLHaEO0+HaJHz4/HsssU6HE6ACSerxQG0I
+ tluE8eQjx6intTNJo7qpVt5W9EqpWdnXlGPS+bvgmBEau6pgEekwlJ0VRevI9tTjgLRG
+ msUdXL3dxwLC06RBo+JzJa3sZndEofLLMLPFWYsCHT0BYNPMBV1vrPQ0z9a2sRH9tE5a
+ Q7mw6Kt+KBELK3KP4sze1virPitZcrAM4Xwgqy2mDu785TZjyUzDnShwkUcXMCtO/lUo
+ FMyQ==
+X-Gm-Message-State: ACrzQf0c92v25/Sv81EJldPJh1fdKqnSlteABhJOdIN0OSyDZAA1sF4X
+ t6HtAOXAIssgM9gp/rj3KJMxbg==
+X-Google-Smtp-Source: AMsMyM5Ws2L/ojuDwZXsepdIx1NRi6dHN5MRWvHLh+PYUMYhxoffh5oDttxn1LCsPGHf7mEXJO9bsw==
+X-Received: by 2002:a05:600c:468e:b0:3c6:f510:735c with SMTP id
+ p14-20020a05600c468e00b003c6f510735cmr6972788wmo.179.1667204172942; 
+ Mon, 31 Oct 2022 01:16:12 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- bv19-20020a0560001f1300b00236627c078esm6374990wrb.110.2022.10.31.01.14.10
+ n8-20020a05600c294800b003c4ecff4e25sm443136wmd.9.2022.10.31.01.16.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 01:14:10 -0700 (PDT)
-Message-ID: <a09af4b2-6c08-bb03-e681-52ec95290917@linaro.org>
-Date: Mon, 31 Oct 2022 09:14:09 +0100
+ Mon, 31 Oct 2022 01:16:12 -0700 (PDT)
+Message-ID: <fbf756ee-e334-66e6-e84c-3ba207544b65@linaro.org>
+Date: Mon, 31 Oct 2022 09:16:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH 0/4] Endianess and coding style fixes for SVQ event idx
- support
+Subject: Re: [PATCH] target/arm: Copy the entire vector in DO_ZIP
 Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>, =?UTF-8?Q?Eugenio_P=c3=a9rez?=
- <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Jason Wang <jasowang@redhat.com>
-References: <20221028160251.268607-1-eperezma@redhat.com>
- <20221029042349-mutt-send-email-mst@kernel.org>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Idan Horowitz <idan.horowitz@gmail.com>
+References: <20221031054144.3574-1-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221029042349-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221031054144.3574-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,14 +90,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 29/10/22 10:24, Michael S. Tsirkin wrote:
-> On Fri, Oct 28, 2022 at 06:02:47PM +0200, Eugenio Pérez wrote:
->> Some fixes that did not get in time for the last net pull request.
+On 31/10/22 06:41, Richard Henderson wrote:
+> With odd_ofs set, we weren't copying enough data.
 > 
-> 
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> Jason's tree since he has some bits this depends on.
-FYI I made 2 comments/questions whether using the virtio LD/ST API
-isn't more appropriate here.
+> Fixes: 09eb6d7025d1 ("target/arm: Move sve zip high_ofs into simd_data")
+> Reported-by: Idan Horowitz <idan.horowitz@gmail.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/arm/sve_helper.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
