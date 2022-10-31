@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A69061405B
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 23:04:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B62E614074
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 23:10:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opcsy-0001vK-BJ; Mon, 31 Oct 2022 18:04:00 -0400
+	id 1opcxw-0006kL-3A; Mon, 31 Oct 2022 18:09:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opcsu-0001hG-EF
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 18:03:57 -0400
-Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opcxt-0006k7-Hy
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 18:09:05 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opcss-00020f-VC
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 18:03:56 -0400
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-1322d768ba7so14978252fac.5
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 15:03:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opcxr-0003uE-Df
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 18:09:05 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ f16-20020a05600c491000b003cf66a2e7c0so4249558wmp.5
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 15:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=UIbkc/YPX63nubCauxvKQLpGZuJ4hyZwEKyMjGH07VU=;
- b=y+FkgdzwjKpfB94EnXa5Xjbn3Ikiy3imZb3sW5PWWX2rhd0QHhbLcGLlxKGdzsrTme
- 5P+ixWVbdXc8NMz/fWP2p8labKlGGLIjxdsk/wjFA6V1/EgR4/2wIQ0No86M6ib9+0WE
- xMGmJx7qLwaCGM6uGuapTaOOS4s96c1ZtFiD4/c5/CMQ4bgJNn/9h01/4J+j3oUS6HAA
- HQ7c82Im8k4dswxuZGbWJZukQDjd+ku9aUSMl5ZrPsDNsUh4EHFFGJeTfsP76XVsGxtR
- GP8xrqnop6geFezL05zOLLRM1mOWW1cfjT17ubs7BGLgr6oMGL6WvEbPAwfj6Hujh9db
- Grkg==
+ bh=LyQShnvoJM7z9hDlodIpAOjZgHnaO9r8jiYZc/6MZBk=;
+ b=mIrr1FJvWRAC4HmeE9iDwrehh2t7ieXggNwccLDO49TCTUgu+ATdQYxZG0d57XYsU5
+ dUyfZOvp0PE38aUxByqtRb5L5sbJTLC+WlftxMdhbprHhqpx8gLkbsRQmohbkEJBo2Rp
+ bFLSwTq/XL4UT2OdHLDqr2BUNATB10yO4DPVxkuYpgGXj2QhG61HGE0RjQ5PfFxqkyS7
+ RQvQLUm3cyG1aaIZa/xzTI6ORokWu1Ik3JmxM16o53RZI26oXLcxU9J2lGvkpYVERgkf
+ dUnp0+cIGihV4hrvz2l5iWGre2M0vNddAcnD26F5yFdHObssUOaTXpBVFSED0wU/AA/N
+ yxQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UIbkc/YPX63nubCauxvKQLpGZuJ4hyZwEKyMjGH07VU=;
- b=zVYWrxl1g7gYhMHvyERKc3xAychzGX09Kp+Udyt5Vxg0/8PWEZ+RlCRvvPzd/NrxSC
- ZN9WJXHReQpGf6n4JljQ8Aq0KODj2yza05zpYUlzKrRTsXVYHgqLBDb/3y3EWmt2BWN8
- /4K5RBM+j1JrhryhyL6twt9E0LYi+8EN+snLQrmDKh2JBgZrb5/Ol9qeMX6jSouuh21R
- bRt8pWB5HksLz/UKQmr2rOMLA2/xrluCnYCvKAGvpI10sjuoQjXsqk4GKPLEK/GnsiFD
- JjsmhJDa2sczq2wIDaYx2lAjJ7XnWEtuWYa5SbveGfL+EP5QTieSdBgsGA5+YUwddHNO
- vg9g==
-X-Gm-Message-State: ACrzQf0jEN9B0JBMOJnYCEUCaGSNruDLX5yXUaIy0ghXq9DS8SP6Y+6F
- QO9eeJwJGeYmDFvU0ozUgHXpCw==
-X-Google-Smtp-Source: AMsMyM7yUxY00YUgIMpluww3wPDampKvrEtqG89GRc+YpInFOhMs4xHiLRu1zz4+Qahy8ZI3Cf06qA==
-X-Received: by 2002:a05:6870:609c:b0:131:c972:818f with SMTP id
- t28-20020a056870609c00b00131c972818fmr8627578oae.2.1667253833415; 
- Mon, 31 Oct 2022 15:03:53 -0700 (PDT)
-Received: from [192.168.229.227] ([172.58.176.58])
+ bh=LyQShnvoJM7z9hDlodIpAOjZgHnaO9r8jiYZc/6MZBk=;
+ b=2jXWcV/sAyYnXeI9Vha4KiLQCxehFkbatcuFDcmgPwZxscHbzr/TtCR7bsKlJdRXEw
+ L3neCswv3NhlIwS0i6PnOe2tAzV24SOYfF2d1/9+tJPjPhHEbu4x1d4CmIodIyoHk15C
+ vgiiY5ZBtg3+8wSooUTwAQQlplahLFSWPMCpfQ25HbgM69TkP31n/k3KuD1wNgGPX5zq
+ Lst0Zl+SY1qty14gQ8TPKlWgaQ1Qvedf9QmAiVh7l7wSOlx6cDwJqvx27j2f95f0NcGX
+ EkNbXFPVaiJa5rzaP+JD5Vjws0w3OdhnM6ujCNXn/o5rgZcZM/ii2JkD/9oDxoPbL2pd
+ XVPA==
+X-Gm-Message-State: ACrzQf2Tcau/JwVvIDixT2jRHbaXgdM8CVFef0YJEBMaQ+jjiWLi/26i
+ YhpS9mBVDmM34694T7LE38vBmQ==
+X-Google-Smtp-Source: AMsMyM6DqV2a/e9jZ/s6CrUQ1j2rP0SxUQe5cljzbansYROltu/j3dGAfGioiDY1OQETpZMr9IGCeg==
+X-Received: by 2002:a05:600c:4e45:b0:3cf:3e69:9351 with SMTP id
+ e5-20020a05600c4e4500b003cf3e699351mr20182478wmq.2.1667254140857; 
+ Mon, 31 Oct 2022 15:09:00 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- t14-20020a056808158e00b00349a06c581fsm2793438oiw.3.2022.10.31.15.03.46
+ z17-20020a05600c0a1100b003b492753826sm8508549wmp.43.2022.10.31.15.08.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 15:03:51 -0700 (PDT)
-Message-ID: <a79ec0a6-0260-41da-a561-7253ac50c6d3@linaro.org>
-Date: Tue, 1 Nov 2022 09:03:38 +1100
+ Mon, 31 Oct 2022 15:08:59 -0700 (PDT)
+Message-ID: <dccf8560-a4db-53e4-418e-402ba76d7570@linaro.org>
+Date: Mon, 31 Oct 2022 23:08:58 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PULL 25/47] accel/tcg: Add restore_state_to_opc to TCGCPUOps
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- stefanha@redhat.com, Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20221026021116.1988449-1-richard.henderson@linaro.org>
- <20221026021116.1988449-26-richard.henderson@linaro.org>
- <1792277.8fnDRLUPHX@silver> <4c5f0a3a-18bb-dfca-61f6-28b48538b42c@linaro.org>
- <CAJSP0QUB+6Ttoeo6aDoH3WAdCK3AyXH+=4Oe_U7Lr8GrtNHtoQ@mail.gmail.com>
- <66f22ccc-d83f-2bdd-3628-9e550a3d83f6@ilande.co.uk>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+Subject: Re: [PATCH v4 1/2] xen/pt: fix syntax error that causes FTBFS in some
+ configurations
 Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <66f22ccc-d83f-2bdd-3628-9e550a3d83f6@ilande.co.uk>
+To: Chuck Zmudzinski <brchuckz@aol.com>, qemu-devel@nongnu.org
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ xen-devel@lists.xenproject.org, QEMU Trivial <qemu-trivial@nongnu.org>
+References: <cover.1667242033.git.brchuckz@aol.com>
+ <5f1342a13c09af77b1a7b0aeaba5955bcea89731.1667242033.git.brchuckz@aol.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <5f1342a13c09af77b1a7b0aeaba5955bcea89731.1667242033.git.brchuckz@aol.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::34;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x34.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,31 +95,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/1/22 08:27, Mark Cave-Ayland wrote:
-> On 31/10/2022 20:53, Stefan Hajnoczi wrote:
+On 31/10/22 22:35, Chuck Zmudzinski wrote:
+> When Qemu is built with --enable-xen and --disable-xen-pci-passthrough
+> and the target os is linux, the build fails with:
 > 
->> On Mon, 31 Oct 2022 at 16:42, Richard Henderson
->> <richard.henderson@linaro.org> wrote:
->>> On 11/1/22 04:56, Christian Schoenebeck wrote:
->>>> On Wednesday, October 26, 2022 4:10:54 AM CET Richard Henderson wrote:
->>>> BTW Richard, could you add a message-id tag to your queued TCG patches?
->>>
->>> Sometimes I remember, but I don't use the same tooling for my own work as I do for queuing
->>> other people's.  I haven't found much value in it.
->>>
->>>
->>>> If you
->>>> are using patchwork client then it suffices to add "msgid=on" to .pwclientrc
->>>
->>> I am not.
->>
->> Tools that boil down to git-am(1) need to add the -m (--message-id) flag.
+> meson.build:3477:2: ERROR: File xen_pt_stub.c does not exist.
 > 
-> FWIW in my local QEMU git checkout I've run "git config am.messageid true" which alters 
-> .git/config so that the -m flag is enabled by default for "git am" commands.
+> Fixes: 582ea95f5f93 ("meson: convert hw/xen")
+> 
+> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+> ---
+> v2: Remove From: <email address> tag at top of commit message
+> 
+> v3: No change to this patch since v2
+> 
+> v4: Use brchuckz@aol.com instead of brchuckz@netscape.net for the author's
+>      email address to match the address used by the same author in commits
+>      be9c61da and c0e86b76
+> 
+>   hw/xen/meson.build | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/xen/meson.build b/hw/xen/meson.build
+> index 08dc1f6857..ae0ace3046 100644
+> --- a/hw/xen/meson.build
+> +++ b/hw/xen/meson.build
+> @@ -18,7 +18,7 @@ if have_xen_pci_passthrough
+>       'xen_pt_msi.c',
+>     ))
+>   else
+> -  xen_specific_ss.add('xen_pt_stub.c')
+> +  xen_specific_ss.add(files('xen_pt_stub.c'))
+>   endif
+>   
+>   specific_ss.add_all(when: ['CONFIG_XEN', xen], if_true: xen_specific_ss)
 
-This all supposes that one uses git am for ones own patches, which I do not.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-
-r~
 
