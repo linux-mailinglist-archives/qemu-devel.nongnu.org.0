@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66AA761375E
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:06:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65CC8613781
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:11:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUJL-0005oJ-Ua; Mon, 31 Oct 2022 08:54:39 -0400
+	id 1opUJN-00062W-4J; Mon, 31 Oct 2022 08:54:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUJ1-0004iD-Gy
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:54:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUJ5-0004qX-Lg
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:54:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUIz-0003Rc-Jo
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:54:18 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUJ3-0003S7-1d
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:54:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667220857;
+ s=mimecast20190719; t=1667220860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ARh2sl8Vb/DTthXngVp+HQaYKzL6p5aL6+WOaFC/kmA=;
- b=WFzTDTQs7dUMvyrWvsBtkCWDLC2qxAQ6jFRQMOHO1IiE5E9JHqCM2ibFUBc/Ike1Yz5VCy
- jvQ1kpk85pFX2zTi/3Hq3GAKhOKvKNmPe78McJW8rx/0ctCJPY1mIdPKw0ZvMhTRtDGCJZ
- LQ0vTnjSozRTldB4W9/cuiOH45X7tgU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qT7pmuuhAedegTkhVbDvlHMbBR0jRGRVLdkXNqaowBM=;
+ b=goWDtY7ggYcFRiXtnqzGdsytwqhl/9PGEX8GdKciKaG0ecLuctrpMIHzBoJBdHWA3uvKch
+ kNv/XPC3l4nWlypXmOWAS1DtpEKZpyffGbuMk3wOHe5U/DCAqrtP0KWD3q3EZrql8frpc/
+ Ax2N5yvEibe1XTR/vD9YI2Jbcj8k0qc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-656-Sng2W0SdMhC-BOF2u2Jz9A-1; Mon, 31 Oct 2022 08:54:15 -0400
-X-MC-Unique: Sng2W0SdMhC-BOF2u2Jz9A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d10-20020adfa34a000000b00236616a168bso3033560wrb.18
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:54:15 -0700 (PDT)
+ us-mta-575-Zr10nF2IPIGjOn3IwJj91g-1; Mon, 31 Oct 2022 08:54:19 -0400
+X-MC-Unique: Zr10nF2IPIGjOn3IwJj91g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ h26-20020adfaa9a000000b002364ad63bbcso3037769wrc.10
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:54:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ARh2sl8Vb/DTthXngVp+HQaYKzL6p5aL6+WOaFC/kmA=;
- b=HCyxcceFVRX16QB0TG//g1whDsf5Np2+wev6pPq+dz2xmg7zYOKwRxO6hOvm6n3euA
- z1XhKtBokQEBfYkEDt6nrPxkmukGtT/+XtP/xJvNy8iw6a7P+vIk1jnaycPku0GkS9nG
- PaP9p42l9uDlieS9gn/AemkBLdqu8GKmFCfY+sUn4zaWCV8WRdyHpNOhY4q/WGteRD4u
- Q7VnXjlHS+fBQgxYFVAZJmmYMgHNfaeBqSbtLhA3/6xz14MhoUoRQOlCs3kPsNIa4QQB
- vR8ROF5Ot5eU6d1T+4WLCE2Fsb8dtmY+D9PLC/xlZLhuH6hd+zKwpTsO5+rfMvju4BgW
- FTZw==
-X-Gm-Message-State: ACrzQf0sz7RRfKwXt31SXv9awXpcZPUEQ37QNsHMLPXzQUc2Qq2GUzqN
- 73SjH7EY2t1r5kFAbxGDCnrDoZa+ayMh0MYwUF2Aw20I0BjbwVTUcUAdJHq/C07lIPcAIibV2Ei
- B33GfhqAsQasObfeyoWoYPk890f8HlsVs9SPV5lta0zBB7vrY7n+jU+FEVODZ
-X-Received: by 2002:a05:600c:15c9:b0:3cf:6054:3b3b with SMTP id
- v9-20020a05600c15c900b003cf60543b3bmr10395459wmf.167.1667220854342; 
- Mon, 31 Oct 2022 05:54:14 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6Yby+uWfyGhw1KpDZ9l7D7D8UOeewOWZBRrxXLZxfBPgcAxcOW3aDqdhK6IEnmq4pu4hQwbw==
-X-Received: by 2002:a05:600c:15c9:b0:3cf:6054:3b3b with SMTP id
- v9-20020a05600c15c900b003cf60543b3bmr10395430wmf.167.1667220854027; 
- Mon, 31 Oct 2022 05:54:14 -0700 (PDT)
+ bh=qT7pmuuhAedegTkhVbDvlHMbBR0jRGRVLdkXNqaowBM=;
+ b=j8k/Wu0mKfgBK2xu19rf5lXDyTXSkWFQW+xNgkOR8XjySHsZuum8rgJcfrN35T69zB
+ mVUJScAx4Q9l4lxY5FuRyhtPrvuZDww5NTW1wa1RF84kE8EYuJKxOkAeWhAfFWpELX9Q
+ FoCNTXaB5HgUlwSCwQwLBtVoQ/NxFPM7haDcAvPyv9alo0P4Apw31OYQglXZxmGtlkY3
+ NVFiQf5kAQmnTLZMAHhSf67rO/TJSUuF9SE54FgO6eaxdjNjUN9NDsOAhXV8oxCrOfe5
+ SDqufjTPidFxxG0ZupWyYHrbX5C/KEXHzseinVU75V39ge8VMOIZtOBhQuwxY5sYueD6
+ tWlQ==
+X-Gm-Message-State: ACrzQf3UC2lD+/HfaeJlGrh9zr4zbmvXARSe/j4PAkksYZJFijtDV8Pi
+ 1Cne8D0hmEXebdLOBoPiNiPRPg/VoGU16ngwSPlaBxqxzYHdy1iV0+cRFIir783/D/MnCt9OMXX
+ Rr+LVAX+lVhjEakAVwWhOA/dPqbuUBwR9OQLRFE4+BqChttOoWxDutZQwT34e
+X-Received: by 2002:a05:600c:2116:b0:3cf:69ff:5da2 with SMTP id
+ u22-20020a05600c211600b003cf69ff5da2mr5827983wml.16.1667220857598; 
+ Mon, 31 Oct 2022 05:54:17 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5vptNRZMIA7t3JHryUnhR6eEiBWklzQC7SQbJ2Yp9+KgzZKBp+avfyy68CLXgRNG7xGOHMfg==
+X-Received: by 2002:a05:600c:2116:b0:3cf:69ff:5da2 with SMTP id
+ u22-20020a05600c211600b003cf69ff5da2mr5827954wml.16.1667220857247; 
+ Mon, 31 Oct 2022 05:54:17 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- a21-20020a1cf015000000b003cf78aafdd7sm545292wmb.39.2022.10.31.05.54.12
+ j18-20020a5d6192000000b00228692033dcsm7035481wru.91.2022.10.31.05.54.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:54:13 -0700 (PDT)
-Date: Mon, 31 Oct 2022 08:54:11 -0400
+ Mon, 31 Oct 2022 05:54:16 -0700 (PDT)
+Date: Mon, 31 Oct 2022 08:54:14 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+ Brice Goglin <Brice.Goglin@inria.fr>,
+ Hesham Almatary <hesham.almatary@huawei.com>,
+ Jingqi Liu <jingqi.liu@intel.com>, Yicong Yang <yangyicong@hisilicon.com>,
  Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 73/86] hw/i386/acpi-build: Resolve north rather than south
- bridges
-Message-ID: <20221031124928.128475-74-mst@redhat.com>
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>
+Subject: [PULL 74/86] hmat acpi: Don't require initiator value in -numa
+Message-ID: <20221031124928.128475-75-mst@redhat.com>
 References: <20221031124928.128475-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -79,7 +79,7 @@ Content-Disposition: inline
 In-Reply-To: <20221031124928.128475-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -103,71 +103,161 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bernhard Beschow <shentey@gmail.com>
+From: Brice Goglin <Brice.Goglin@inria.fr>
 
-The code currently assumes Q35 iff ICH9 and i440fx iff PIIX. Now that more
-AML generation has been moved into the south bridges and since the
-machines define themselves primarily through their north bridges, let's
-switch to resolving the north bridges for AML generation instead. This
-also allows for easier experimentation with different south bridges in
-the "pc" machine, e.g. with PIIX4 and VT82xx.
+The "Memory Proximity Domain Attributes" structure of the ACPI HMAT
+has a "Processor Proximity Domain Valid" flag that is currently
+always set because Qemu -numa requires an initiator=X value
+when hmat=on. Unsetting this flag allows to create more complex
+memory topologies by having multiple best initiators for a single
+memory target.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-Message-Id: <20221028103419.93398-4-shentey@gmail.com>
+This patch allows -numa without initiator=X when hmat=on by keeping
+the default value MAX_NODES in numa_state->nodes[i].initiator.
+All places reading numa_state->nodes[i].initiator already check
+whether it's different from MAX_NODES before using it.
+
+Tested with
+qemu-system-x86_64 -accel kvm \
+ -machine pc,hmat=on \
+ -drive if=pflash,format=raw,file=./OVMF.fd \
+ -drive media=disk,format=qcow2,file=efi.qcow2 \
+ -smp 4 \
+ -m 3G \
+ -object memory-backend-ram,size=1G,id=ram0 \
+ -object memory-backend-ram,size=1G,id=ram1 \
+ -object memory-backend-ram,size=1G,id=ram2 \
+ -numa node,nodeid=0,memdev=ram0,cpus=0-1 \
+ -numa node,nodeid=1,memdev=ram1,cpus=2-3 \
+ -numa node,nodeid=2,memdev=ram2 \
+ -numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \
+ -numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
+ -numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \
+ -numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
+ -numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
+ -numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576 \
+ -numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \
+ -numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
+ -numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \
+ -numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
+ -numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
+ -numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576
+which reports NUMA node2 at same distance from both node0 and node1 as seen in lstopo:
+Machine (2966MB total) + Package P#0
+  NUMANode P#2 (979MB)
+  Group0
+    NUMANode P#0 (980MB)
+    Core P#0 + PU P#0
+    Core P#1 + PU P#1
+  Group0
+    NUMANode P#1 (1007MB)
+    Core P#2 + PU P#2
+    Core P#3 + PU P#3
+
+Before this patch, we had to add ",initiator=X" to "-numa node,nodeid=2,memdev=ram2".
+The lstopo output difference between initiator=1 and no initiator is:
+@@ -1,10 +1,10 @@
+ Machine (2966MB total) + Package P#0
++  NUMANode P#2 (979MB)
+   Group0
+     NUMANode P#0 (980MB)
+     Core P#0 + PU P#0
+     Core P#1 + PU P#1
+   Group0
+     NUMANode P#1 (1007MB)
+-    NUMANode P#2 (979MB)
+     Core P#2 + PU P#2
+     Core P#3 + PU P#3
+
+Corresponding changes in the HMAT MPDA structure:
+@@ -49,10 +49,10 @@
+ [078h 0120   2]               Structure Type : 0000 [Memory Proximity Domain Attributes]
+ [07Ah 0122   2]                     Reserved : 0000
+ [07Ch 0124   4]                       Length : 00000028
+-[080h 0128   2]        Flags (decoded below) : 0001
+-            Processor Proximity Domain Valid : 1
++[080h 0128   2]        Flags (decoded below) : 0000
++            Processor Proximity Domain Valid : 0
+ [082h 0130   2]                    Reserved1 : 0000
+-[084h 0132   4] Attached Initiator Proximity Domain : 00000001
++[084h 0132   4] Attached Initiator Proximity Domain : 00000080
+ [088h 0136   4]      Memory Proximity Domain : 00000002
+ [08Ch 0140   4]                    Reserved2 : 00000000
+ [090h 0144   8]                    Reserved3 : 0000000000000000
+
+Final HMAT SLLB structures:
+[0A0h 0160   2]               Structure Type : 0001 [System Locality Latency and Bandwidth Information]
+[0A2h 0162   2]                     Reserved : 0000
+[0A4h 0164   4]                       Length : 00000040
+[0A8h 0168   1]        Flags (decoded below) : 00
+                            Memory Hierarchy : 0
+[0A9h 0169   1]                    Data Type : 00
+[0AAh 0170   2]                    Reserved1 : 0000
+[0ACh 0172   4] Initiator Proximity Domains # : 00000002
+[0B0h 0176   4]   Target Proximity Domains # : 00000003
+[0B4h 0180   4]                    Reserved2 : 00000000
+[0B8h 0184   8]              Entry Base Unit : 0000000000002710
+[0C0h 0192   4] Initiator Proximity Domain List : 00000000
+[0C4h 0196   4] Initiator Proximity Domain List : 00000001
+[0C8h 0200   4] Target Proximity Domain List : 00000000
+[0CCh 0204   4] Target Proximity Domain List : 00000001
+[0D0h 0208   4] Target Proximity Domain List : 00000002
+[0D4h 0212   2]                        Entry : 0001
+[0D6h 0214   2]                        Entry : 0002
+[0D8h 0216   2]                        Entry : 0003
+[0DAh 0218   2]                        Entry : 0002
+[0DCh 0220   2]                        Entry : 0001
+[0DEh 0222   2]                        Entry : 0003
+
+[0E0h 0224   2]               Structure Type : 0001 [System Locality Latency and Bandwidth Information]
+[0E2h 0226   2]                     Reserved : 0000
+[0E4h 0228   4]                       Length : 00000040
+[0E8h 0232   1]        Flags (decoded below) : 00
+                            Memory Hierarchy : 0
+[0E9h 0233   1]                    Data Type : 03
+[0EAh 0234   2]                    Reserved1 : 0000
+[0ECh 0236   4] Initiator Proximity Domains # : 00000002
+[0F0h 0240   4]   Target Proximity Domains # : 00000003
+[0F4h 0244   4]                    Reserved2 : 00000000
+[0F8h 0248   8]              Entry Base Unit : 0000000000000001
+[100h 0256   4] Initiator Proximity Domain List : 00000000
+[104h 0260   4] Initiator Proximity Domain List : 00000001
+[108h 0264   4] Target Proximity Domain List : 00000000
+[10Ch 0268   4] Target Proximity Domain List : 00000001
+[110h 0272   4] Target Proximity Domain List : 00000002
+[114h 0276   2]                        Entry : 000A
+[116h 0278   2]                        Entry : 0005
+[118h 0280   2]                        Entry : 0001
+[11Ah 0282   2]                        Entry : 0005
+[11Ch 0284   2]                        Entry : 000A
+[11Eh 0286   2]                        Entry : 0001
+
+Signed-off-by: Brice Goglin <Brice.Goglin@inria.fr>
+Signed-off-by: Hesham Almatary <hesham.almatary@huawei.com>
+Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
+Message-Id: <20221027100037.251-2-hesham.almatary@huawei.com>
+Tested-by: Yicong Yang <yangyicong@hisilicon.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-build.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ hw/core/machine.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 73d8a59737..d9eaa5fc4d 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -60,6 +60,7 @@
- #include "hw/i386/fw_cfg.h"
- #include "hw/i386/ich9.h"
- #include "hw/pci/pci_bus.h"
-+#include "hw/pci-host/i440fx.h"
- #include "hw/pci-host/q35.h"
- #include "hw/i386/x86-iommu.h"
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 65fdfe2fed..3f66fca5c6 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -1180,9 +1180,7 @@ static void numa_validate_initiator(NumaState *numa_state)
  
-@@ -1322,8 +1323,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-            AcpiPmInfo *pm, AcpiMiscInfo *misc,
-            Range *pci_hole, Range *pci_hole64, MachineState *machine)
- {
--    Object *piix = object_resolve_type_unambiguous(TYPE_PIIX4_PM);
--    Object *lpc = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
-+    Object *i440fx = object_resolve_type_unambiguous(TYPE_I440FX_PCI_HOST_BRIDGE);
-+    Object *q35 = object_resolve_type_unambiguous(TYPE_Q35_HOST_DEVICE);
-     CrsRangeEntry *entry;
-     Aml *dsdt, *sb_scope, *scope, *dev, *method, *field, *pkg, *crs;
-     CrsRangeSet crs_range_set;
-@@ -1344,13 +1345,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-     AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = x86ms->oem_id,
-                         .oem_table_id = x86ms->oem_table_id };
- 
--    assert(!!piix != !!lpc);
-+    assert(!!i440fx != !!q35);
- 
-     acpi_table_begin(&table, table_data);
-     dsdt = init_aml_allocator();
- 
-     build_dbg_aml(dsdt);
--    if (piix) {
-+    if (i440fx) {
-         sb_scope = aml_scope("_SB");
-         dev = aml_device("PCI0");
-         aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
-@@ -1363,7 +1364,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-             build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
+     for (i = 0; i < numa_state->num_nodes; i++) {
+         if (numa_info[i].initiator == MAX_NODES) {
+-            error_report("The initiator of NUMA node %d is missing, use "
+-                         "'-numa node,initiator' option to declare it", i);
+-            exit(1);
++            continue;
          }
-         build_piix4_pci0_int(dsdt);
--    } else if (lpc) {
-+    } else if (q35) {
-         sb_scope = aml_scope("_SB");
-         dev = aml_device("PCI0");
-         aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+ 
+         if (!numa_info[numa_info[i].initiator].present) {
 -- 
 MST
 
