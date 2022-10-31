@@ -2,51 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8FD6131D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 09:42:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779846131E3
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 09:47:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opQLs-0008Ge-7n; Mon, 31 Oct 2022 04:41:00 -0400
+	id 1opQQy-0001lz-1C; Mon, 31 Oct 2022 04:46:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sir@cmpwn.com>) id 1opQLq-0008GA-2S
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:40:58 -0400
-Received: from out2.migadu.com ([188.165.223.204])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sir@cmpwn.com>) id 1opQLn-0002tW-Qv
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:40:57 -0400
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cmpwn.com; s=key1;
- t=1667205651;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=oKcRtyCbzqUAOI8QIWvqJZz2Nx+SnU7AvnSuOVI2hcA=;
- b=SGpEtQLhu18srSpeB5UkmxrHBk8l4QckIp2IVMpqWXRB/4ylt528+l3Vp2a/O6lvCmL8QO
- RVni0SHc+zmBii9KTNHmpWQuRZiizfrSjbNBWe3gnaw0FJoSIYB5LicQLZ329cC7ihzABa
- nbtyu4F4LDzhsVRAYkXGcwNPjcolet6PXXMfAEiIvj+Huw13wODq1NBizAJXuUHjXiX4fg
- hwfOLmZD/6LmnnetWKuP2HuljHoU97yYWZGABmVO9CRd3+mXZ1qnNlIiZI/5d5zdOxIIvU
- zOa+m2UWY7RTqW5T+sYiiAV4yGSwGmehvzsg5O24oaZ6leYT3fUjLXViDkjs0w==
-From: Drew DeVault <sir@cmpwn.com>
-To: qemu-devel@nongnu.org,
-	Laurent Vivier <laurent@vivier.eu>
-Cc: Drew DeVault <sir@cmpwn.com>
-Subject: [PATCH] linux-user: implement execveat
-Date: Mon, 31 Oct 2022 09:40:30 +0100
-Message-Id: <20221031084030.2125288-1-sir@cmpwn.com>
+ (Exim 4.90_1) (envelope-from <ake@igel.co.jp>) id 1opQQt-0001lg-QS
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:46:13 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ake@igel.co.jp>) id 1opQQo-0005Gy-0f
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:46:10 -0400
+Received: by mail-pl1-x633.google.com with SMTP id k7so414926pll.6
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 01:46:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4NC4CbXNET7QgKVIkEBX2g1Hrhwce2DSB/31NQyzbcs=;
+ b=1hhwDUqKUQAV2Qk9F9ttMxXYnXky+Wl7FQkFWWE2SyhWrJ6IdUzGafxkSlIyc82hL7
+ I3zebG2xJDYo2JkOgOB8T+68HOBXD93iMYEm5EvlWwg7Qa0EHpQfEC+gHO0RoagBnbLe
+ MfEmuj0FyhLksPTk2DKIOGyNA3lZzA5nTSU6w8tYuQEdq9GgVkkFfQMRSpTLcQoYs+0s
+ P1mbDI/6Gnf220/1mFfHu5U5qyKTji5EvIgz5jLP3tvelqHEvkJnu3E0YCt5BNctPVMW
+ cV02vovH7Lgnuxl1OTf0A8g8QxYBdj7VaPzyBEUOl9Hei03i5PouZZEjznjg1YnsmITI
+ NgNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4NC4CbXNET7QgKVIkEBX2g1Hrhwce2DSB/31NQyzbcs=;
+ b=vGP54p9S4EI37ZFijUGk1huiPtNp6ihxvSBDfglF6Huar8qLPvJrATtcAhZoOuzKlf
+ UqjSc9y8gbaGmf+zhg5udDoDO93jagTmBWyrG76WagPj5hAGPIV/7x9MBSR+B76x81S9
+ 8l9nl5O3SPteNN6uLV/3XUiBuASkynlNNftAB4gEBWwpnFmYZTsw0LuzjGF/QpQN8Y8H
+ 9plBuPOQoSkwMjlXJUp9TgcpVO38j7v8S4hgL7GkjazyYDTYVnULLw4rFpecUcDq0gs2
+ 9+J9+Omvmv4V3bWWu3ahySSyAM3Xktpz0B8F916JdwKGiFbko32slCeHUr71Hk4lai8D
+ Eb1A==
+X-Gm-Message-State: ACrzQf365Vy3tROFUEZvBi+1EwTLQBGDnrd2n17iDngEVI7mzKVdwQic
+ qta2l+E5B9wfq40iPKDjx0nBWS7dA1pRMw==
+X-Google-Smtp-Source: AMsMyM6qZkl8oydeFTBRUUBL7h7HegoImY1+Odm0gRWHK4n2pHGbx3m6JxfMtGRxpYCd0xEUIT7abQ==
+X-Received: by 2002:a17:902:e54e:b0:187:ba9:4305 with SMTP id
+ n14-20020a170902e54e00b001870ba94305mr10012405plf.167.1667205963312; 
+ Mon, 31 Oct 2022 01:46:03 -0700 (PDT)
+Received: from ake-x260.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
+ by smtp.gmail.com with ESMTPSA id
+ g139-20020a625291000000b0056d2797bf05sm3478385pfb.217.2022.10.31.01.46.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Oct 2022 01:46:02 -0700 (PDT)
+From: Ake Koomsin <ake@igel.co.jp>
+To: qemu-devel@nongnu.org
+Cc: Ake Koomsin <ake@igel.co.jp>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org (open list:ARM TCG CPUs)
+Subject: [PATCH v2] target/arm: honor HCR_E2H and HCR_TGE in ats_write64()
+Date: Mon, 31 Oct 2022 17:43:25 +0900
+Message-Id: <20221031084324.844220-1-ake@igel.co.jp>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-Received-SPF: pass client-ip=188.165.223.204; envelope-from=sir@cmpwn.com;
- helo=out2.migadu.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=ake@igel.co.jp; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,113 +85,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-References: https://gitlab.com/qemu-project/qemu/-/issues/1007
-Signed-off-by: Drew DeVault <sir@cmpwn.com>
----
- linux-user/syscall.c | 50 ++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 44 insertions(+), 6 deletions(-)
+We need to check HCR_E2H and HCR_TGE to select the right MMU index for
+the correct translation regime.
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f55cdebee5..795f7ce4cd 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -634,6 +634,10 @@ safe_syscall4(pid_t, wait4, pid_t, pid, int *, status, int, options, \
- safe_syscall5(int, waitid, idtype_t, idtype, id_t, id, siginfo_t *, infop, \
-               int, options, struct rusage *, rusage)
- safe_syscall3(int, execve, const char *, filename, char **, argv, char **, envp)
-+#if defined(TARGET_NR_execveat)
-+safe_syscall5(int, execveat, int, dirfd, const char *, filename,
-+        char **, argv, char **, envp, int, flags)
-+#endif
- #if defined(TARGET_NR_select) || defined(TARGET_NR__newselect) || \
-     defined(TARGET_NR_pselect6) || defined(TARGET_NR_pselect6_time64)
- safe_syscall6(int, pselect6, int, nfds, fd_set *, readfds, fd_set *, writefds, \
-@@ -8748,19 +8752,45 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-         ret = get_errno(unlinkat(arg1, p, arg3));
-         unlock_user(p, arg2, 0);
-         return ret;
-+#endif
-+#if defined(TARGET_NR_execveat)
-+    case TARGET_NR_execveat:
- #endif
-     case TARGET_NR_execve:
-         {
-             char **argp, **envp;
--            int argc, envc;
-+            int argc, envc, dirfd, flags;
-             abi_ulong gp;
-             abi_ulong guest_argp;
-             abi_ulong guest_envp;
-             abi_ulong addr;
-+            abi_long path;
-             char **q;
+To check for EL2&0 translation regime:
+- For S1E0*, S1E1* and S12E* ops, check both HCR_E2H and HCR_TGE
+- For S1E2* ops, check only HCR_E2H
+
+Signed-off-by: Ake Koomsin <ake@igel.co.jp>
+---
+
+v2:
+- Rebase with the latest upstream
+- It turns out that we need to check both HCR_E2H and HCR_TGE for
+  S1E0*, S1E1* and S12E* address translation as well according to the
+  Architecture Manual.
+
+v1:
+https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg02627.html
+
+ target/arm/helper.c | 38 ++++++++++++++++++++++++++++++++------
+ 1 file changed, 32 insertions(+), 6 deletions(-)
+
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index b070a20f1a..f7b988395a 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -3501,19 +3501,33 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
+     MMUAccessType access_type = ri->opc2 & 1 ? MMU_DATA_STORE : MMU_DATA_LOAD;
+     ARMMMUIdx mmu_idx;
+     int secure = arm_is_secure_below_el3(env);
++    bool regime_e20 = (arm_hcr_el2_eff(env) & (HCR_E2H | HCR_TGE)) ==
++                      (HCR_E2H | HCR_TGE);
  
-             argc = 0;
--            guest_argp = arg2;
-+
-+            switch (num) {
-+            case TARGET_NR_execve:
-+                path = arg1;
-+                guest_argp = arg2;
-+                guest_envp = arg3;
-+                dirfd = AT_FDCWD;
-+                flags = 0;
-+                break;
-+#if defined(TARGET_NR_execveat)
-+            case TARGET_NR_execveat:
-+                dirfd = arg1;
-+                path = arg2;
-+                guest_argp = arg3;
-+                guest_envp = arg4;
-+                flags = arg5;
-+                break;
-+#endif
-+            default:
-+                // squelch uninitialized variable warnings
-+                abort();
-+            }
-+
-             for (gp = guest_argp; gp; gp += sizeof(abi_ulong)) {
-                 if (get_user_ual(addr, gp))
-                     return -TARGET_EFAULT;
-@@ -8769,7 +8799,6 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-                 argc++;
+     switch (ri->opc2 & 6) {
+     case 0:
+         switch (ri->opc1) {
+         case 0: /* AT S1E1R, AT S1E1W, AT S1E1RP, AT S1E1WP */
+             if (ri->crm == 9 && (env->pstate & PSTATE_PAN)) {
+-                mmu_idx = ARMMMUIdx_Stage1_E1_PAN;
++                if (regime_e20) {
++                    mmu_idx = ARMMMUIdx_E20_2_PAN;
++                } else {
++                    mmu_idx = ARMMMUIdx_Stage1_E1_PAN;
++                }
+             } else {
+-                mmu_idx = ARMMMUIdx_Stage1_E1;
++                if (regime_e20) {
++                    mmu_idx = ARMMMUIdx_E20_2;
++                } else {
++                    mmu_idx = ARMMMUIdx_Stage1_E1;
++                }
              }
-             envc = 0;
--            guest_envp = arg3;
-             for (gp = guest_envp; gp; gp += sizeof(abi_ulong)) {
-                 if (get_user_ual(addr, gp))
-                     return -TARGET_EFAULT;
-@@ -8803,7 +8832,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-             }
-             *q = NULL;
- 
--            if (!(p = lock_user_string(arg1)))
-+            if (!(p = lock_user_string(path)))
-                 goto execve_efault;
-             /* Although execve() is not an interruptible syscall it is
-              * a special case where we must use the safe_syscall wrapper:
-@@ -8815,8 +8844,17 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-              * before the execve completes and makes it the other
-              * program's problem.
-              */
--            ret = get_errno(safe_execve(p, argp, envp));
--            unlock_user(p, arg1, 0);
-+            switch (num) {
-+            case TARGET_NR_execve:
-+                ret = get_errno(safe_execve(p, argp, envp));
-+                break;
-+#if defined(TARGET_NR_execveat)
-+            case TARGET_NR_execveat:
-+                ret = get_errno(safe_execveat(dirfd, p, argp, envp, flags));
-+                break;
-+#endif
+             break;
+         case 4: /* AT S1E2R, AT S1E2W */
+-            mmu_idx = ARMMMUIdx_E2;
++            if ((arm_hcr_el2_eff(env) & HCR_E2H) == HCR_E2H) {
++                mmu_idx = ARMMMUIdx_E20_2;
++            } else {
++                mmu_idx = ARMMMUIdx_E2;
 +            }
-+            unlock_user(p, path, 0);
- 
-             goto execve_end;
- 
+             break;
+         case 6: /* AT S1E3R, AT S1E3W */
+             mmu_idx = ARMMMUIdx_E3;
+@@ -3524,13 +3538,25 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
+         }
+         break;
+     case 2: /* AT S1E0R, AT S1E0W */
+-        mmu_idx = ARMMMUIdx_Stage1_E0;
++        if (regime_e20) {
++            mmu_idx = ARMMMUIdx_E20_0;
++        } else {
++            mmu_idx = ARMMMUIdx_Stage1_E0;
++        }
+         break;
+     case 4: /* AT S12E1R, AT S12E1W */
+-        mmu_idx = ARMMMUIdx_E10_1;
++        if (regime_e20) {
++            mmu_idx = ARMMMUIdx_E20_2;
++        } else {
++            mmu_idx = ARMMMUIdx_E10_1;
++        }
+         break;
+     case 6: /* AT S12E0R, AT S12E0W */
+-        mmu_idx = ARMMMUIdx_E10_0;
++        if (regime_e20) {
++            mmu_idx = ARMMMUIdx_E20_0;
++        } else {
++            mmu_idx = ARMMMUIdx_E10_0;
++        }
+         break;
+     default:
+         g_assert_not_reached();
 -- 
-2.38.1
+2.25.1
 
 
