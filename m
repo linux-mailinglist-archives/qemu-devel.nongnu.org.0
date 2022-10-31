@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C1B613B11
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 17:20:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 859C0613B15
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 17:20:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opXVg-0006dB-G0; Mon, 31 Oct 2022 12:19:36 -0400
+	id 1opXVf-0006cX-D7; Mon, 31 Oct 2022 12:19:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1opXVZ-0006XA-23
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 12:19:33 -0400
+ id 1opXVU-0006Wj-Rb
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 12:19:24 -0400
 Received: from prt-mail.chinatelecom.cn ([42.123.76.223] helo=chinatelecom.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1opXVR-0001MH-NF
+ (envelope-from <huangy81@chinatelecom.cn>) id 1opXVR-0001MK-R7
  for qemu-devel@nongnu.org; Mon, 31 Oct 2022 12:19:24 -0400
 HMM_SOURCE_IP: 172.18.0.218:50162.1127588867
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-182.138.180.88 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id 680422800C5;
- Tue,  1 Nov 2022 00:19:13 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id 91AA32800E6;
+ Tue,  1 Nov 2022 00:19:15 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([182.138.180.88])
- by app0025 with ESMTP id 7f8eb476621d449fb18ac80b3619253f for
- qemu-devel@nongnu.org; Tue, 01 Nov 2022 00:19:15 CST
-X-Transaction-ID: 7f8eb476621d449fb18ac80b3619253f
+ by app0025 with ESMTP id c6c5b9944a28487683bb9b918a3c5b07 for
+ qemu-devel@nongnu.org; Tue, 01 Nov 2022 00:19:17 CST
+X-Transaction-ID: c6c5b9944a28487683bb9b918a3c5b07
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 182.138.180.88
 X-MEDUSA-Status: 0
@@ -41,9 +41,9 @@ Cc: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
  Stefano Garzarella <sgarzare@redhat.com>,
  Raphael Norwitz <raphael.norwitz@nutanix.com>,
  =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>
-Subject: [PATCH RFC 1/4] net: Introduce qmp cmd "query-netdev"
-Date: Tue,  1 Nov 2022 00:18:59 +0800
-Message-Id: <d254324983817fb380411995155c9e927edaeb92.1667232396.git.huangy81@chinatelecom.cn>
+Subject: [PATCH RFC 2/4] hmp: Add "info netdev" cmd
+Date: Tue,  1 Nov 2022 00:19:00 +0800
+Message-Id: <4e96b2beac69aa865777eb95330b9852a36353c7.1667232396.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1667232396.git.huangy81@chinatelecom.cn>
 References: <cover.1667232396.git.huangy81@chinatelecom.cn>
@@ -76,172 +76,101 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-For netdev device that can offload virtio-net dataplane to slave,
-such as vhost-net, vhost-user and vhost-vdpa, exporting it's
-capability information and acked features would be more friendly for
-developers. These infomation can be analyzed and compare to slave
-capability provided by, eg dpdk or other slaves directly, helping to
-draw conclusions about if vm network interface works normally, if
-it vm can be migrated to another feature-compatible destination or
-whatever else.
-
-For developers who devote to offload virtio-net dataplane to DPU
-and make efforts to migrate vm lively from software-based source
-host to DPU-offload destination host smoothly, virtio-net feature
-compatibility is an serious issue, exporting the key capability
-and acked_features of netdev could also help to debug greatly.
-
-So we export out the key capabilities of netdev, which may affect
-the final negotiated virtio-net features, meanwhile, backed-up
-acked_features also exported, which is used to initialize or
-restore features negotiated between qemu and vhost slave when
-starting vhost_dev device.
+Introduce "info netdev" command so developers can play with
+it easier.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- net/net.c     | 44 +++++++++++++++++++++++++++++++++++++++
- qapi/net.json | 66 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 110 insertions(+)
+ hmp-commands-info.hx  | 14 ++++++++++++++
+ include/monitor/hmp.h |  1 +
+ net/net.c             | 31 +++++++++++++++++++++++++++++++
+ 3 files changed, 46 insertions(+)
 
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index 754b1e8..217843c 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -880,6 +880,20 @@ SRST
+     Display the vcpu dirty page limit information.
+ ERST
+ 
++    {
++        .name       = "netdev",
++        .args_type  = "",
++        .params     = "",
++        .help       = "show information about netdev, guest acked features are "
++                      "also printed if supporting virtio-net dataplane offloading",
++        .cmd        = hmp_info_netdev,
++    },
++
++SRST
++  ``info netdev``
++    Display information about netdev.
++ERST
++
+ #if defined(TARGET_I386)
+     {
+         .name       = "sgx",
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index a9cf064..0bd496a 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -142,5 +142,6 @@ void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
+ void hmp_human_readable_text_helper(Monitor *mon,
+                                     HumanReadableText *(*qmp_handler)(Error **));
+ void hmp_info_stats(Monitor *mon, const QDict *qdict);
++void hmp_info_netdev(Monitor *mon, const QDict *qdict);
+ 
+ #endif
 diff --git a/net/net.c b/net/net.c
-index 2db160e..5d11674 100644
+index 5d11674..c27ebfa 100644
 --- a/net/net.c
 +++ b/net/net.c
-@@ -53,6 +53,7 @@
- #include "sysemu/runstate.h"
- #include "net/colo-compare.h"
+@@ -55,6 +55,7 @@
  #include "net/filter.h"
-+#include "net/vhost-user.h"
+ #include "net/vhost-user.h"
  #include "qapi/string-output-visitor.h"
++#include "monitor/hmp.h"
  
  /* Net bridge is currently not supported for W32. */
-@@ -1224,6 +1225,49 @@ void qmp_netdev_del(const char *id, Error **errp)
-     }
+ #if !defined(_WIN32)
+@@ -1268,6 +1269,36 @@ NetDevInfoList *qmp_query_netdev(Error **errp)
+     return head;
  }
  
-+static NetDevInfo *query_netdev(NetClientState *nc)
++void hmp_info_netdev(Monitor *mon, const QDict *qdict)
 +{
-+    NetDevInfo *info = NULL;
++    NetDevInfoList *info, *head, *info_list = NULL;
++    Error *err = NULL;
 +
-+    if (!nc || !nc->is_netdev) {
-+        return NULL;
++    info_list = qmp_query_netdev(&err);
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
 +    }
 +
-+    info = g_malloc0(sizeof(*info));
-+    info->name = g_strdup(nc->name);
-+    info->type = nc->info->type;
-+    info->ufo = nc->info->has_ufo;
-+    info->vnet_hdr = nc->info->has_vnet_hdr;
-+    info->vnet_hdr_len = nc->info->has_vnet_hdr_len;
-+
-+    if (nc->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
-+        info->has_acked_features = true;
-+        info->acked_features = vhost_user_get_acked_features(nc);
-+    }
-+
-+    return info;
-+}
-+
-+NetDevInfoList *qmp_query_netdev(Error **errp)
-+{
-+    NetClientState *nc;
-+    NetDevInfo *info = NULL;
-+    NetDevInfoList *head = NULL, **tail = &head;
-+
-+    QTAILQ_FOREACH(nc, &net_clients, next) {
-+        if (nc->info->type == NET_CLIENT_DRIVER_NIC) {
-+            continue;
++    head = info_list;
++    for (info = head; info != NULL; info = info->next) {
++        monitor_printf(mon, "%s: %s device, "
++            "ufo %s, vnet-hdr %s, vnet-hdr-len %s",
++            info->value->name,
++            NetClientDriver_str(info->value->type),
++            info->value->ufo ? "supported" : "unsupported",
++            info->value->vnet_hdr ? "supported" : "unsupported",
++            info->value->vnet_hdr_len ? "supported" : "unsupported");
++        if (info->value->has_acked_features) {
++            monitor_printf(mon, ", acked-features 0x%" PRIx64,
++                                info->value->acked_features);
 +        }
-+
-+        info = query_netdev(nc);
-+        if (info) {
-+            QAPI_LIST_APPEND(tail, info);
-+        }
++        monitor_printf(mon, "\n");
 +    }
 +
-+    return head;
++    g_free(info_list);
 +}
 +
  static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
  {
      char *str;
-diff --git a/qapi/net.json b/qapi/net.json
-index dd088c0..76a6513 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -631,6 +631,72 @@
-                        'if': 'CONFIG_VMNET' } } }
- 
- ##
-+# @NetDevInfo:
-+#
-+# NetDev information.  This structure describes a NetDev information, including
-+# capabilities and negotiated features.
-+#
-+# @name: The NetDev name.
-+#
-+# @type: Type of NetDev.
-+#
-+# @ufo: True if NetDev has ufo capability.
-+#
-+# @vnet-hdr: True if NetDev has vnet_hdr.
-+#
-+# @vnet-hdr-len: True if given length can be assigned to NetDev.
-+#
-+# @acked-features: Negotiated features with vhost slave device if device support
-+#                  dataplane offload.
-+#
-+# Since:  7.1
-+##
-+{'struct': 'NetDevInfo',
-+ 'data': {
-+    'name': 'str',
-+    'type': 'NetClientDriver',
-+    'ufo':'bool',
-+    'vnet-hdr':'bool',
-+    'vnet-hdr-len':'bool',
-+    '*acked-features': 'uint64' } }
-+
-+##
-+# @query-netdev:
-+#
-+# Get a list of NetDevInfo for all virtual netdev peer devices.
-+#
-+# Returns: a list of @NetDevInfo describing each virtual netdev peer device.
-+#
-+# Since: 7.1
-+#
-+# Example:
-+#
-+# -> { "execute": "query-netdev" }
-+# <- {
-+#       "return":[
-+#          {
-+#             "name":"hostnet0",
-+#             "type":"vhost-user",
-+#             "ufo":true,
-+#             "vnet-hdr":true,
-+#             "vnet-hdr-len":true,
-+#             "acked-features":"5111807907",
-+#          },
-+#          {
-+#             "name":"hostnet1",
-+#             "type":"vhost-user",
-+#             "ufo":true,
-+#             "vnet-hdr":true,
-+#             "vnet-hdr-len":true,
-+#             "acked-features":"5111807907",
-+#          }
-+#       ]
-+#    }
-+#
-+##
-+{ 'command': 'query-netdev', 'returns': ['NetDevInfo'] }
-+
-+##
- # @RxState:
- #
- # Packets receiving state
 -- 
 1.8.3.1
 
