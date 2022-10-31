@@ -2,62 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248B66134EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 12:50:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 426886134FA
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 12:55:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opTI1-0000uZ-Es; Mon, 31 Oct 2022 07:49:13 -0400
+	id 1opTMu-0004nV-1R; Mon, 31 Oct 2022 07:54:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1opTHw-0000sY-BW
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 07:49:09 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1opTHq-0003Fw-BF
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 07:49:05 -0400
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4N1BD5624KzpW9r;
- Mon, 31 Oct 2022 19:45:25 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 31 Oct 2022 19:48:56 +0800
-Subject: Re: [PATCH v3 4/5] tests: acpi: aarch64: add topology test for aarch64
-To: Yicong Yang <yangyicong@huawei.com>
-CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
- <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
- <hesham.almatary@huawei.com>, <ionela.voinescu@arm.com>,
- <darren@os.amperecomputing.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Igor Mammedov
- <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20221031090523.34146-1-yangyicong@huawei.com>
- <20221031090523.34146-5-yangyicong@huawei.com>
-Message-ID: <4214d66a-7d74-2aa4-cfcd-7af26eb92bcd@huawei.com>
-Date: Mon, 31 Oct 2022 19:48:55 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opTMm-0004nA-R6
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 07:54:08 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opTMl-00054Z-2N
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 07:54:08 -0400
+Received: by mail-wm1-x336.google.com with SMTP id v7so1207376wmn.0
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 04:54:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=hbsfP1wXS2z7hFfPrQ6qQWVBhSL/DXWHGbl0qlhHLqQ=;
+ b=Nr5xn566hvjSwiZwzWR1kiZpngcMlzTMCfXBW+hPCdD3WnFQeMasS2nkVaRKfGuE5y
+ pMqJ4liv02QDz13XDDuHdj7WUfCsv9Jkm/8ptyZ1nHyEcSy+a0BOK/t1PStMUbLsVkKL
+ uQKovldONfRE9aBXi5oGSI4/ev4vWlI3fFAyhjl5oLD69VZyj4hPpurt8YbJL476EUk/
+ 5xrpaMWxIu49GVgBntpNKmyTEJYnhUqHptpe1L7cJTGkge0dxEJ7HF6nYV5jLn1xMDf+
+ k11Wfbikg2uo7xgCpGd/xOrkMomHO5GAxjk26ZUDtNY2I8GM+ohVgJBJDuY8BdOMPLXS
+ 1GXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hbsfP1wXS2z7hFfPrQ6qQWVBhSL/DXWHGbl0qlhHLqQ=;
+ b=pOCsRIeDd9aiFhKglgypb6I0M78zv93Wyy8L6zyjQJSy1NZNdDKLOc+QSsS6iBNpED
+ mN3ZPSvQya+tYLjGHnXHw4ieaaePuM47qGlUJXrOfn7alJLs12/o9hwtDxVcHxoq/RRh
+ SxoYHWB6FdEOVmJ252rDzKygF6rw+P66cL5EfW4u++USq6fI3J/wHdeCLEB2t1ZtnLo+
+ Z3Opn7+L1KXFmrFT52PywbvVfxQlFBbDIpneoP0MsVWgDZ+GKWAK3yhZ4d44HYHQsRNS
+ shsipzVK9XFdM933R5kxtsPvPgRK0/Q4g0TKph+N7yKd0QLP5yULV3+ZsHWlBHZDNJ9W
+ 4qlQ==
+X-Gm-Message-State: ACrzQf2pgNZZDzdmdwtAQO9pz7zclxSjsCCwBAxZgmdII3U70LfkKOJJ
+ LIE+sxc/ZLKKliVfYvVbXb7TlR9JU2Nu9Q==
+X-Google-Smtp-Source: AMsMyM7MMb6o8v+ZxyQcikgvlNlLLd43zf+wy8Oqe38CGKHyP3L6oQnVTFKR54efwmjAAHU3PtAu3g==
+X-Received: by 2002:a1c:4c03:0:b0:3c4:c76:9fe3 with SMTP id
+ z3-20020a1c4c03000000b003c40c769fe3mr17737246wmf.13.1667217244971; 
+ Mon, 31 Oct 2022 04:54:04 -0700 (PDT)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ s4-20020a05600c384400b003c3a1d8c8e6sm7082827wmr.19.2022.10.31.04.54.03
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 31 Oct 2022 04:54:04 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org,
+	Bernhard Beschow <shentey@gmail.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v5 0/6] ppc/e500: Add support for two types of flash, cleanup
+Date: Mon, 31 Oct 2022 12:53:56 +0100
+Message-Id: <20221031115402.91912-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-In-Reply-To: <20221031090523.34146-5-yangyicong@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,69 +88,40 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Yicong,
+This is a respin of Bernhard's v4 with Freescale eSDHC implemented
+as an 'UNIMP' region. See v4 cover here:
+https://lore.kernel.org/qemu-devel/20221018210146.193159-1-shentey@gmail.com/
 
-On 2022/10/31 17:05, Yicong Yang wrote:
-> From: Yicong Yang <yangyicong@hisilicon.com>
->
-> Add test for aarch64's ACPI topology building for all the supported
-> levels.
->
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-> ---
->   tests/qtest/bios-tables-test.c | 22 ++++++++++++++++++++++
->   1 file changed, 22 insertions(+)
->
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index e6096e7f73..099b723444 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1533,6 +1533,27 @@ static void test_acpi_virt_tcg(void)
->       free_test_data(&data);
->   }
->   
-> +static void test_acpi_virt_tcg_topology(void)
-> +{
-> +    test_data data = {
-> +        .machine = "virt",
-> +        .variant = ".topology",
-> +        .tcg_only = true,
-> +        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-> +        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-> +        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
-> +        .ram_start = 0x40000000ULL,
-> +        .scan_len = 128ULL * 1024 * 1024,
-> +    };
-> +
-> +    data.smbios_cpu_max_speed = 2900;
-> +    data.smbios_cpu_curr_speed = 2700;
-I'm not sure. But why do we need this two lines?
-Can we keep the test as simple as test_acpi_virt_tcg_numamem
-and avoid unrelated parts.
+Only tested with the ppce500 machine (no further regression testing).
 
-Thanks,
-Yanan
-> +    test_acpi_one("-cpu cortex-a57 "
-> +                  "-smbios type=4,max-speed=2900,current-speed=2700 "
-> +                  "-smp sockets=1,clusters=2,cores=2,threads=2", &data);
-> +    free_test_data(&data);
-> +}
-> +
->   static void test_acpi_q35_viot(void)
->   {
->       test_data data = {
-> @@ -1864,6 +1885,7 @@ int main(int argc, char *argv[])
->       } else if (strcmp(arch, "aarch64") == 0) {
->           if (has_tcg) {
->               qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-> +            qtest_add_func("acpi/virt/topology", test_acpi_virt_tcg_topology);
->               qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
->               qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
->               qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
+Since v4:
+- Do not rename ESDHC_* definitions to USDHC_*
+- Do not modify SDHCIState structure
+
+Bernhard Beschow (4):
+  hw/block/pflash_cfi0{1, 2}: Error out if device length isn't a power
+    of two
+  docs/system/ppc/ppce500: Use qemu-system-ppc64 across the board(s)
+  hw/ppc/e500: Implement pflash handling
+  hw/ppc/e500: Add Freescale eSDHC to e500plat
+
+Philippe Mathieu-Daudé (2):
+  hw/sd/sdhci: MMIO region is implemented in 32-bit accesses
+  hw/sd/sdhci: Map host controller interface in host endianess
+
+ docs/system/ppc/ppce500.rst |  38 +++++++++--
+ hw/block/pflash_cfi01.c     |   8 ++-
+ hw/block/pflash_cfi02.c     |   5 ++
+ hw/ppc/Kconfig              |   3 +
+ hw/ppc/e500.c               | 127 +++++++++++++++++++++++++++++++++++-
+ hw/ppc/e500.h               |   1 +
+ hw/ppc/e500plat.c           |   1 +
+ hw/sd/sdhci.c               |   6 +-
+ 8 files changed, 180 insertions(+), 9 deletions(-)
+
+-- 
+2.37.3
 
 
