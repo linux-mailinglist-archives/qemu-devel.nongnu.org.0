@@ -2,91 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8038613AAE
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 16:50:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B64C613AFE
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 17:10:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opX2J-000311-O9; Mon, 31 Oct 2022 11:49:15 -0400
+	id 1opXKp-0000DY-Hh; Mon, 31 Oct 2022 12:08:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opX2E-0002s1-Dn
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 11:49:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1opXJ5-00086e-EZ
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 12:06:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opX2B-0006wL-J3
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 11:49:09 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1opXIt-0005BW-9G
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 12:06:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667231346;
+ s=mimecast20190719; t=1667232380;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z3ImdtFgSoum08FNXzXQwI7OZAquniKJz0ux7qn58qw=;
- b=hxQn8dVOiFm/zHHEqxkpqAg4PoYGXO5prxKFRv06S8cPzuj96nSCZ4WUps3B3tsiGPnQHy
- YgsIAdOw2jNZNsqT1W/zbnq6v123rE9AoJ1bgb21ccrDweGJzUJ+syKupM7izZanAMnODL
- kObNoWLhH778JW3Rf64dX0tudNk1CvU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NExbgZ4Gvv5gAMqoF9dtywVXU0EhWwt5IRMfjKTC7qY=;
+ b=U3tIBdRzWoR9KS8X1+fGL3uy5oPajI0M7lPBkMUf5hDOy65s48puGmsKmpNd1qkg8mVJdi
+ YtCI8PLKfkqggTB7eAcUcHteTf/7ViXuM95sHr4PsdIF/u5huH+Yzh45e0Bu3/MjkIKP/y
+ Amo1K+TtHupzTe/N8bjeKVoInJ8tMdY=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-675-06zgHPMNNSuYLhUYBO-wCA-1; Mon, 31 Oct 2022 11:49:03 -0400
-X-MC-Unique: 06zgHPMNNSuYLhUYBO-wCA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r6-20020a1c4406000000b003cf4d3b6644so1295154wma.6
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 08:49:03 -0700 (PDT)
+ us-mta-74-MiNwY8WbNFaG7yssWajc9w-1; Mon, 31 Oct 2022 12:06:19 -0400
+X-MC-Unique: MiNwY8WbNFaG7yssWajc9w-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ fp9-20020a05622a508900b003a503ff1d4cso6518836qtb.22
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 09:06:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=z3ImdtFgSoum08FNXzXQwI7OZAquniKJz0ux7qn58qw=;
- b=r903iEKjNQFVPiFMz+ucH7zSyDfGRbI31E5FJGcp7koWLsojar3IQoCVWPB4EM3xo3
- ZwUBzOgpqRbKTLZ/xOeeTiOsuT0LObiDxOM4NyEvSG9gqsCgkrgEtth1xBNenknK7Vf3
- uaRunDrDy1RrACmBx/Ymx+yuwpj+Y6+5YlnZ21P4UGevF/Fxn/po408od+qdvjp+OYEi
- 05WD/BUP1gv4Qwiw48ypp5OAw2Dtyfizmadh3PikclU4zRIllRpd/x0cIdY9mTWEbDF3
- 3ZWyiljESPOK4WW2XP3Wm6+18dhU190+IFJeo6OU2o9L4kpwdzQMxt9oR3Y7pTwkS4U2
- 20/A==
-X-Gm-Message-State: ACrzQf3yVRb06h/uADUpWHAjjwM+5t7nBKWWqkIPdf+gEbBeNRtSq2he
- 2UVWniCV0e85j48qcyRgCP/CM3NwqU/7VT5cyju4mpLWxTVYoqGNtmXIvcsfBONKW8Y2cZ3dXMd
- wRRqtGssK/wn9r2o=
-X-Received: by 2002:a05:600c:5023:b0:3c7:1526:fdb8 with SMTP id
- n35-20020a05600c502300b003c71526fdb8mr8768465wmr.28.1667231342341; 
- Mon, 31 Oct 2022 08:49:02 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4rdGsNDVoee/VP9kno5Q4QqjizRusO80Ao120HPjsEJGrrZYRuG+0zt0pHCgxvr00KIDcdug==
-X-Received: by 2002:a05:600c:5023:b0:3c7:1526:fdb8 with SMTP id
- n35-20020a05600c502300b003c71526fdb8mr8768448wmr.28.1667231342110; 
- Mon, 31 Oct 2022 08:49:02 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- h10-20020a5d4fca000000b002367ad808a9sm7405234wrw.30.2022.10.31.08.49.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 08:49:01 -0700 (PDT)
-Date: Mon, 31 Oct 2022 11:48:58 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Richard W.M. Jones" <rjones@redhat.com>
-Subject: Re: [PATCH 0/4] hw: make TCO watchdog actually work by default for Q35
-Message-ID: <20221031114835-mutt-send-email-mst@kernel.org>
-References: <20221031131934.425448-1-berrange@redhat.com>
- <Y1/SoFxe3P2HVV3W@redhat.com>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NExbgZ4Gvv5gAMqoF9dtywVXU0EhWwt5IRMfjKTC7qY=;
+ b=BKZRWoRdyVVE0LGXcYbzENLFX/juBbdE1z6IUJ2zNo6r90Muea9O2knz9h5Iet9pF1
+ IUH2LywhxNUSfJn55pFx8ak6u8KEVvs8y5RX9CUnAxPAlMHn2ajqWd8J9AvxCJ4FIh9a
+ +m7cMv2kcijfbf37R/B27axogtkKtkx3o3cgeKO5pQpIq7j04NatSOlAZj60mYxiCdKe
+ avlBlmdiV/Q6PT2BOObDEzozRucgkfp/EWjg7v9Tletj18nByycSJS6yTJyMLJNNBtxS
+ HVOipohNl3iK4/Uy2dfcy8pTugWmEMZdnh7zZXWnF7BjAuqYleguN2/Z/XJKxBDcYOXV
+ gPQQ==
+X-Gm-Message-State: ACrzQf0JDjqVOGAqmcMNFlUw9wb/RVMn0X4a+R6Q/QZ+r3CvnwScnOyW
+ +tUlKSKSPHY+OA6IHgiArp8Cz4K0Jh5adHiaoh1Vo3be7/NSVmdTuSykG6y9MZdqhY5dHgFcNNe
+ aNWQmBP+Q9H+46zWMGDd5jZ+snU9y/wQ=
+X-Received: by 2002:a05:6214:2345:b0:473:a82c:34eb with SMTP id
+ hu5-20020a056214234500b00473a82c34ebmr11746393qvb.9.1667232378804; 
+ Mon, 31 Oct 2022 09:06:18 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6iSUzun+VrsFzazU3I+jATYuGrMC7rQ6KAw357Z1U5oMTlh6cArwiTBdP4cayZSzRqLSswgz0/PcwiYjFjf5Q=
+X-Received: by 2002:a05:6214:2345:b0:473:a82c:34eb with SMTP id
+ hu5-20020a056214234500b00473a82c34ebmr11746367qvb.9.1667232378576; Mon, 31
+ Oct 2022 09:06:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y1/SoFxe3P2HVV3W@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+References: <20221028160251.268607-1-eperezma@redhat.com>
+ <20221028160251.268607-3-eperezma@redhat.com>
+ <6375bb66-91a5-d638-dd4f-2700ac3a26cc@linaro.org>
+ <CAJaqyWdj2OPyjZ1s9jK1botrVEHd2+K+Q783soLtmf5WVnArFg@mail.gmail.com>
+ <20221031083210-mutt-send-email-mst@kernel.org>
+ <CAJaqyWeLrKZGet7q+sJUQ_DzAHQGm5onvVK8vdbq9C1xVrD77w@mail.gmail.com>
+ <20221031110630-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221031110630-mutt-send-email-mst@kernel.org>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 31 Oct 2022 17:05:42 +0100
+Message-ID: <CAJaqyWcEmMD9jRAV_OR+ciJ+9dr7vYmTRz0ziwAMAgNMRtHKDQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] vhost: convert byte order on SVQ used event write
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,40 +101,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 31, 2022 at 01:50:24PM +0000, Daniel P. Berrangé wrote:
-> On Mon, Oct 31, 2022 at 01:19:30PM +0000, Daniel P. Berrangé wrote:
-> > The TCO watchdog is unconditionally integrated into the Q35 machine
-> > type by default, but at the same time is unconditionally disabled
-> > from firing by a host config option that overrides guest OS attempts
-> > to enable it. People have to know to set a magic -global to make
-> > it non-broken
-> 
-> Incidentally I found that originally the TCO watchdog was not
-> unconditionally enabled. Its exposure to the guest could be
-> turned on/off using
-> 
->   -global ICH9-LPC.enable_tco=bool
-> 
-> This was implemented for machine type compat, but it also gave
-> apps a way to disable the watchdog functionality. Unfortunately
-> that ability was discarded in this series:
-> 
->   https://lore.kernel.org/all/1453564933-29638-1-git-send-email-ehabkost@redhat.com/
-> 
-> but the 'enable_tco' property still exists in QOM, but silently
-> ignored.
-> 
-> Seems we should either fix the impl of 'enable_tco', or remove the
-> QOM property entirely, so we don't pretend it can be toggled anymore.
-> 
-> With regards,
-> Daniel
+On Mon, Oct 31, 2022 at 4:09 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Mon, Oct 31, 2022 at 02:02:16PM +0100, Eugenio Perez Martin wrote:
+> > On Mon, Oct 31, 2022 at 1:33 PM Michael S. Tsirkin <mst@redhat.com> wro=
+te:
+> > >
+> > > On Mon, Oct 31, 2022 at 09:54:34AM +0100, Eugenio Perez Martin wrote:
+> > > > On Sat, Oct 29, 2022 at 12:48 AM Philippe Mathieu-Daud=C3=A9
+> > > > <philmd@linaro.org> wrote:
+> > > > >
+> > > > > On 28/10/22 18:02, Eugenio P=C3=A9rez wrote:
+> > > > > > This causes errors on virtio modern devices on big endian hosts
+> > > > > >
+> > > > > > Fixes: 01f8beacea2a ("vhost: toggle device callbacks using used=
+ event idx")
+> > > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > > > ---
+> > > > > >   hw/virtio/vhost-shadow-virtqueue.c | 2 +-
+> > > > > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > >
+> > > > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vho=
+st-shadow-virtqueue.c
+> > > > > > index 70766ea740..467099f5d9 100644
+> > > > > > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > > > > > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > > > > > @@ -382,7 +382,7 @@ static bool vhost_svq_enable_notification(V=
+hostShadowVirtqueue *svq)
+> > > > > >   {
+> > > > > >       if (virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVEN=
+T_IDX)) {
+> > > > > >           uint16_t *used_event =3D &svq->vring.avail->ring[svq-=
+>vring.num];
+> > > > > > -        *used_event =3D svq->shadow_used_idx;
+> > > > > > +        *used_event =3D cpu_to_le16(svq->shadow_used_idx);
+> > > > >
+> > > > > This looks correct, but what about:
+> > > > >
+> > > > >             virtio_stw_p(svq->vdev, used_event, svq->shadow_used_=
+idx);
+> > > > >
+> > > >
+> > > > Hi Philippe,
+> > > >
+> > > > I think this has the same answer as [1], the endianness conversion
+> > > > from the guest to the host may not be the same as the one needed fr=
+om
+> > > > qemu SVQ to the vdpa device. Please let me know if it is not the ca=
+se.
+> > > >
+> > > > Thanks!
+> > > >
+> > > > [1] https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg060=
+81.html
+> > >
+> > > So considering legacy, i do not belive you can make a legacy
+> > > device on top of modern one using SVQ alone.
+> > >
+> >
+> > Right, more work is needed. For example, config r/w conversions. But
+> > it's a valid use case where SVQ helps too.
+>
+> I am not sure why it's valid frankly.
+>
+> > > So I'd say SVQ should follow virtio endian-ness, not LE.
+> >
+> > At this moment both the device that the guest sees and the vdpa device
+> > must be modern ones to enable SVQ. So the event idx must be stored in
+> > the vring in LE. Similar access functions as virtio_ld* and virtio_st*
+> > are needed if SVQ supports legacy vdpa devices in the future.
+> >
+> > The point is that svq->shadow_avail_idx is decoupled from the guest's
+> > avail ring, event idx, etc. It will always be in the host's CPU
+> > endianness, regardless of the guest's one. And, for the moment, the
+> > event idx write must be in LE.
+> >
+> > There is a more fundamental problem about using virtio_{st,ld}* here:
+> > These read from and write to guest's memory, but neither
+> > svq->shadow_used_idx or shadow vring are in guest's memory but only in
+> > qemu's VA. To start the support of legacy vdpa devices would involve a
+> > deeper change here, since all shadow vring writes and reads are
+> > written this way.
+> >
+> > Thanks!
+>
+> Yea generally, I don't know how it can work given legacy
+> will never attach a PASID to a VQ.
+>
 
-i am inclined to say you are right and the fix is to fix the impl.
+The conversion I tried to put here was legacy guests communicating in
+big endian with qemu, and then qemu communicating in little endian
+with modern devices. For this to work SVQ should be enabled for all
+the queues all the time.
 
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Then the simplest conversion function here should be cpu_to_leNN,
+isn't it? The only device we support here is a modern, little endian,
+
+But maybe my example just added more noise. My point is that this
+write and all the writes and loads added on these patches, have
+nothing to do with the guest's endianness. They are only from the SVQ
+vring to the device. And they are not forwarding the used_event of the
+guest, but another decoupled one that may or may not match. That's why
+the endianness we should take into account is not the vdev one, but
+only the CPU and little endian.
+
+> But maybe given we add yet another variant of endian-ness
+> it is time to actually use sparse tags for this stuff.
+>
+
+I agree with this. I can try to do a fast POC.
+
+Thanks!
+
+
+> > >
+> > >
+> > > > > >       } else {
+> > > > > >           svq->vring.avail->flags &=3D ~cpu_to_le16(VRING_AVAIL=
+_F_NO_INTERRUPT);
+> > > > > >       }
+> > > > >
+> > >
+>
 
 
