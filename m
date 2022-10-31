@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86640613786
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:11:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1506137B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:20:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUZG-0001hD-J5; Mon, 31 Oct 2022 09:11:06 -0400
+	id 1opUZD-0001Vf-WB; Mon, 31 Oct 2022 09:11:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1opUYj-0007wm-FW
+ id 1opUYj-0007wo-GW
  for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:10:39 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1opUYd-0001Fa-JH
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:10:31 -0400
-Received: by mail-wr1-x436.google.com with SMTP id g12so15892569wrs.10
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:10:25 -0700 (PDT)
+ id 1opUYd-0001Fd-KN
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:10:32 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ b20-20020a05600c4e1400b003cc28585e2fso7993555wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:10:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+bJIQoi/K9AwRlRvPmx2+d3fGZfR8Up7yVsMefwI7z0=;
- b=bQt8eVy3EqAJ/NPr+YULLCGt+HxehY/+ODs1uT7leYoj8zFom/hcG6ANcH5Y4m3YjQ
- oStnttNKiQUdvgCpdf7bojBzB/BzmzUvLjrW2Sz0c33nyXE8fXw7yC3f2tvDTXGeUK/7
- IrlcPpt9QCGLnVgqQ5Mp9Ut1lXhz8g80vcbHCxrvkr60oKO9FI1Baf7hDEn1Kgs5XV3/
- g0RIfW1nvdK44QRjIGFWV9NIKQ6nQi+ShSbggRKBMIRSD3PfkSTzyLr/Mnh1BV89e04Z
- OPbey+29qTUCAFHpUlTlAnovvI3tGqv6wNbEibWFH7eA9oMt1kKASiVK31Ox0220sqx4
- Hx5Q==
+ bh=bDnHP6RNJg/cdbD39uW325f5OF55I16EB6PoypSgmcg=;
+ b=UEfR5ZoyZR/6oljZ9Tk/EsOnr4Q9LNUp2QCT+OudMEOV94qTOpoXIAw9aBB69LZpNZ
+ uuez5ofUEV89Ma7a2O/9/nwWje3thyKoeSDeXdXZM86w9aMjxuZ6+YmrellFBcg8ko7B
+ uGEZKPKr97CYNC42jQAEpkwYXikZ71NSc7Wca+ETmecbIwCJxqE/vLf6/FxIZ8ZooK1l
+ E8XlE10QC+TDYrdmF2fpO7VWAAjlfkb3ZuI46aqe0COuwnyyd8GAfBAy7kHnKsmWT0Rd
+ iVKFpfp6w8u7bA1piM+qcxp9pV90MaGubwSbBMgbzowUpjuZ5PDUPe5BFzTplWOfpKTq
+ rdkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+bJIQoi/K9AwRlRvPmx2+d3fGZfR8Up7yVsMefwI7z0=;
- b=riqFk6inPF5XNnR3IElih1q4VohSRxHcn0Qo19kJw5Z8duGHArjN9yTOmN3qP6Aurf
- kqZiHMA3k8KLXr85mQr/t834MSgH2sFiEUfkQe7P2mB8RWq5fLE3V/gKcQSq8ro5Arph
- t+oaMGzHm0e37yLBOglbRBKwF7nOiLpGkXr8fcAj+zrdmmc5NlIPrN3d2j3TQrPPMrQD
- Qu8re9vS2BFHvx8XbMfRBYITpMF8Qz8PraurMHe/ZFvnvjHkflaHUGT9pjCk2iD73jVL
- fRnsnEXm5C49Fi3Wmr2ULglkq9SFODu/hgt9pQb5RqksaOMGCpY5xl7XlScuChmV5Ih2
- BmzQ==
-X-Gm-Message-State: ACrzQf2dXN5AfEZm3WgQXXYNgR8bZAyH+CsdliyUva0Fm+aE2B+qouYa
- t36hZ6oCfBXCklt8GL+5pSmqNA==
-X-Google-Smtp-Source: AMsMyM6/DuyrDPmOPay3nWtreDfgxEJ75wg5NtXsDYnic71j09f+nNpp/dEY97Hth7t6dEPxLh54Sw==
-X-Received: by 2002:adf:e30f:0:b0:236:d8ef:9ede with SMTP id
- b15-20020adfe30f000000b00236d8ef9edemr1502869wrj.170.1667221823233; 
+ bh=bDnHP6RNJg/cdbD39uW325f5OF55I16EB6PoypSgmcg=;
+ b=a0Ou8/b57Lm7u4JeHFpuJh32kcW6p9J+K2Wz7hyVtP/aP803xK5G640byjia0CJqIK
+ XKsFFuXv/pPW5UqLkZ81m5Ga5djhHOKvKsTIrrydH3jXXQmlbH47GvRprEMfIdouJbXa
+ dbQCInu7bWiunm46tFXZSzoPLAoJFmjrnPC82aiWyPifSGmUNH16D0lNd54oDbSruoyi
+ OLrGUX2LKw6DacGZ72OyGT3C4V47iQHiiOlUfp2VxJIdlBb+K+eqtaeRpb18xxj8jmNU
+ 73bzG+0mdLLOiA5IKF6YtGZeB3bA3K6JRvennzKxlTVmuYKTzDB7y5iUsyreXW5M3FQt
+ s+wA==
+X-Gm-Message-State: ACrzQf0NZvo8ldb/KadT9nTuvHWTCcqoAV9BkSu/Q+PVroIk7DtqWu6N
+ c3ESgix7iP9yZbMW7551ICLSpw==
+X-Google-Smtp-Source: AMsMyM6EHMjjGKo9Ia1Fn7bi6xmHf4gQncnEtwxH/97vP8IYv6GD7JnJH9yCDyp0Jh5wI/VKz/RRyA==
+X-Received: by 2002:a05:600c:538a:b0:3c6:c223:7ec5 with SMTP id
+ hg10-20020a05600c538a00b003c6c2237ec5mr8202068wmb.37.1667221823692; 
  Mon, 31 Oct 2022 06:10:23 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- q8-20020a5d5748000000b0023677081f3asm7118372wrw.42.2022.10.31.06.10.15
+ h3-20020a5d6e03000000b002365730eae8sm7018050wrz.55.2022.10.31.06.10.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 06:10:19 -0700 (PDT)
+ Mon, 31 Oct 2022 06:10:21 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1DD2A1FFC3;
+ by zen.linaroharston (Postfix) with ESMTP id 3294A1FFC4;
  Mon, 31 Oct 2022 13:10:12 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 12/31] semihosting/arm-compat-semi: Avoid using hardcoded /tmp
-Date: Mon, 31 Oct 2022 13:09:51 +0000
-Message-Id: <20221031131010.682984-13-alex.bennee@linaro.org>
+Subject: [PULL 13/31] tcg: Avoid using hardcoded /tmp
+Date: Mon, 31 Oct 2022 13:09:52 +0000
+Message-Id: <20221031131010.682984-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221031131010.682984-1-alex.bennee@linaro.org>
 References: <20221031131010.682984-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,27 +103,27 @@ From: Bin Meng <bin.meng@windriver.com>
 Use g_get_tmp_dir() to get the directory to use for temporary files.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221006151927.2079583-2-bmeng.cn@gmail.com>
-Message-Id: <20221027183637.2772968-11-alex.bennee@linaro.org>
+Message-Id: <20221006151927.2079583-3-bmeng.cn@gmail.com>
+Message-Id: <20221027183637.2772968-12-alex.bennee@linaro.org>
 
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index bfea9e9337..62d8bae97f 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -503,7 +503,8 @@ void do_common_semihosting(CPUState *cs)
-         GET_ARG(0);
-         GET_ARG(1);
-         GET_ARG(2);
--        len = asprintf(&s, "/tmp/qemu-%x%02x", getpid(), (int)arg1 & 0xff);
-+        len = asprintf(&s, "%s/qemu-%x%02x", g_get_tmp_dir(),
-+                       getpid(), (int)arg1 & 0xff);
-         if (len < 0) {
-             common_semi_set_ret(cs, -1);
-             break;
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 612a12f58f..84921b64f7 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -4729,7 +4729,8 @@ static void tcg_register_jit_int(const void *buf_ptr, size_t buf_size,
+     /* Enable this block to be able to debug the ELF image file creation.
+        One can use readelf, objdump, or other inspection utilities.  */
+     {
+-        FILE *f = fopen("/tmp/qemu.jit", "w+b");
++        g_autofree char *jit = g_strdup_printf("%s/qemu.jit", g_get_tmp_dir());
++        FILE *f = fopen(jit, "w+b");
+         if (f) {
+             if (fwrite(img, img_size, 1, f) != img_size) {
+                 /* Avoid stupid unused return value warning for fwrite.  */
 -- 
 2.34.1
 
