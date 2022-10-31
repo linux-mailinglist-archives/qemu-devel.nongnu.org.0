@@ -2,43 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE26F61315A
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 08:45:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0ED061315B
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 08:45:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opPSD-0006Gk-Iy; Mon, 31 Oct 2022 03:43:29 -0400
+	id 1opPTJ-0006lW-Gz; Mon, 31 Oct 2022 03:44:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1opPS9-0006GO-OD
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 03:43:25 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1opPTG-0006jW-Nb
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 03:44:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1opPS7-00088x-QC
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 03:43:25 -0400
-Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTP id 457A0DA0438;
- Mon, 31 Oct 2022 08:43:19 +0100 (CET)
-Received: by qemu.weilnetz.de (Postfix, from userid 1000)
- id 2467D46001C; Mon, 31 Oct 2022 08:43:19 +0100 (CET)
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Stefan Weil <sw@weilnetz.de>
-Subject: [RFC PATCH] Add new build target 'check-spelling'
-Date: Mon, 31 Oct 2022 08:43:17 +0100
-Message-Id: <20221031074317.377366-1-sw@weilnetz.de>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1opPTF-0008Ry-0Y
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 03:44:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667202270;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Jij6IAyCeyZQK7sgph781iG0Kwj01rCgTpXg6kfxKiI=;
+ b=O4eaku7go4GUG+KFdOtff3/uG08Xx3kkQicSeHXIDHAiBCs/EpcN0WmrERbOJVKG8c6HTs
+ UlMjX4dohi1SNpKZLtQDroxjWfwyce8D39ew3TB3xaOaewySDblvhDt8tzchMLGNsqZm6N
+ njr1mwzxtKmx/T+X35+zj7qWVioowcM=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-377-Dq1jc0nYNzyUCQTFQyA21Q-1; Mon, 31 Oct 2022 03:44:22 -0400
+X-MC-Unique: Dq1jc0nYNzyUCQTFQyA21Q-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ o7-20020a170902d4c700b001868cdac9adso7729699plg.13
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 00:44:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Jij6IAyCeyZQK7sgph781iG0Kwj01rCgTpXg6kfxKiI=;
+ b=NL+6q4K4vx2bK2RPumHX9X39fB+g7QxVzYUXNYHL5mqVFg+uSsebQlqq5+VRxw0roK
+ g9Y3Ybbhl5iAKyZ/4UMeFvYEX5lenSLJVceySdUQ0aurF9fi4Xwvyx9NF/kOzTSoEtL9
+ cYFqFWhDZWDHS+omyq6iH7NnXZkempyxRf58mbJDhpvROqhtltt9nkF6gqzTAKDOhgsS
+ hu9FURG54xkGlinQuuOdZLzdjasDvPp44bavZ+/ZabR8u0c76NUSWd6fz2LSrc8FWA9D
+ ozscY54rIGwD7sQB33linLV4OcuQTDcYiD9ayaJn1/jsq8W5IZCcCKuxTfO17ybyMt8T
+ j9Bg==
+X-Gm-Message-State: ACrzQf21v/Lfmmmd/on84Yvq4k1jt/jgu+mjMa3tl+/ASka7yWmiXhVI
+ Iq/1NhWUyoaOfBhJZqqbzT3fFaBI7JZzKzvHAknbJ94JlW+ujWZ404eAimX/dJQ9xXDxoaeoYbQ
+ QfOp4DennlncoEd1JDipezUUs/ffm248=
+X-Received: by 2002:a17:903:1303:b0:186:969d:97cf with SMTP id
+ iy3-20020a170903130300b00186969d97cfmr12755084plb.17.1667202261070; 
+ Mon, 31 Oct 2022 00:44:21 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5NN4sJZFkd69qIjE69gPele8fevUzv1UJAiJ7Y+aS7wF2O6wSs0vACi+ouR0TSq8nPaUyxzWC4hlS2NFWiQsg=
+X-Received: by 2002:a17:903:1303:b0:186:969d:97cf with SMTP id
+ iy3-20020a170903130300b00186969d97cfmr12755072plb.17.1667202260791; Mon, 31
+ Oct 2022 00:44:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=stefan@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20221028160251.268607-1-eperezma@redhat.com>
+ <20221028160251.268607-4-eperezma@redhat.com>
+ <20221028124105-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221028124105-mutt-send-email-mst@kernel.org>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 31 Oct 2022 08:43:44 +0100
+Message-ID: <CAJaqyWcSeemtm07qX7CQti8Ew=LMTDNtFg5keM9qudy5+P=hQA@mail.gmail.com>
+Subject: Re: [PATCH 3/4] vhost: Fix lines over 80 characters
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.055,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,132 +94,55 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
-Reply-to:  Stefan Weil <sw@weilnetz.de>
-From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-`make check-spelling` can now be used to get a list of spelling errors.
-It uses the latest version of codespell, a spell checker implemented in Python.
+On Fri, Oct 28, 2022 at 6:45 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Fri, Oct 28, 2022 at 06:02:50PM +0200, Eugenio P=C3=A9rez wrote:
+> > By qemu coding style.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+>
+> You wrote this code originally so I don't mind but just to note I don't
+> want a flurry of patches "fixing" lines over 80 chars.
+>
 
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
----
+My bad, I didn't realize it the first time I sent it. I probably
+missed to run checkpatch.
 
-This RFC can already be used for manual tests, but still reports false
-positives, mostly because some variable names are interpreted as words.
-These words can either be ignored in the check, or in some cases the code
-might be changed to use different variable names.
+This patch can be merged with the next one if it is more convenient.
 
-The check currently only skips a few directories and files, so for example
-checked out submodules are also checked.
-
-The rule can be extended to allow user provided ignore and skip lists,
-for example by introducing Makefile variables CODESPELL_SKIP=userfile
-or CODESPELL_IGNORE=userfile. A limited check could be implemented by
-providing a base directory CODESPELL_START=basedirectory, for example
-CODESPELL_START=docs.
-
-Regards,
-Stefan
-
- tests/Makefile.include       | 10 ++++++++++
- tests/codespell/README.rst   | 18 ++++++++++++++++++
- tests/codespell/exclude-file |  3 +++
- tests/codespell/ignore-words | 19 +++++++++++++++++++
- tests/requirements.txt       |  1 +
- 5 files changed, 51 insertions(+)
- create mode 100644 tests/codespell/README.rst
- create mode 100644 tests/codespell/exclude-file
- create mode 100644 tests/codespell/ignore-words
-
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 9422ddaece..b9daeda932 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -155,6 +155,16 @@ check-acceptance-deprecated-warning:
- 
- check-acceptance: check-acceptance-deprecated-warning | check-avocado
- 
-+.PHONY: check-spelling
-+CODESPELL_DIR=tests/codespell
-+check-spelling: check-venv
-+	source $(TESTS_VENV_DIR)/bin/activate && \
-+	cd "$(SRC_PATH)" && \
-+	codespell -s . \
-+	  --exclude-file=$(CODESPELL_DIR)/exclude-file \
-+	  --ignore-words=$(CODESPELL_DIR)/ignore-words \
-+	  --skip="./.git,./bin,./build,./linux-headers,*.patch,nohup.out"
-+
- # Consolidated targets
- 
- .PHONY: check check-clean get-vm-images
-diff --git a/tests/codespell/README.rst b/tests/codespell/README.rst
-new file mode 100644
-index 0000000000..67e070d631
---- /dev/null
-+++ b/tests/codespell/README.rst
-@@ -0,0 +1,18 @@
-+=============================
-+Check spelling with codespell
-+=============================
-+
-+`make check-spelling` can be used to get a list of spelling errors.
-+It reports files with spelling errors and a summary of all misspelled words.
-+The report is generated by the latest version of codespell, a spell checker
-+implemented in Python.
-+
-+See https://github.com/codespell-project/codespell for more information.
-+
-+Some file patterns are excluded from the check.
-+
-+In addition tests/codespell includes several files which are used to
-+suppress certain false positives in the codespell report.
-+
-+exclude-file - complete lines which should be ignored
-+ignore-words - list of words which should be ignored
-diff --git a/tests/codespell/exclude-file b/tests/codespell/exclude-file
-new file mode 100644
-index 0000000000..57de81a4eb
---- /dev/null
-+++ b/tests/codespell/exclude-file
-@@ -0,0 +1,3 @@
-+ * VAS controller.
-+number generator daemon such as the one found in the vhost-device crate of
-+introspection.  The latter can conceivably confuse clients, so tread
-diff --git a/tests/codespell/ignore-words b/tests/codespell/ignore-words
-new file mode 100644
-index 0000000000..4d336a2f44
---- /dev/null
-+++ b/tests/codespell/ignore-words
-@@ -0,0 +1,19 @@
-+buid
-+busses
-+dout
-+falt
-+fpr
-+hace
-+hax
-+hda
-+nd
-+ot
-+pard
-+parm
-+ptd
-+ser
-+som
-+synopsys
-+te
-+toke
-+ue
-diff --git a/tests/requirements.txt b/tests/requirements.txt
-index 0ba561b6bd..dd44e6768f 100644
---- a/tests/requirements.txt
-+++ b/tests/requirements.txt
-@@ -4,3 +4,4 @@
- # Note that qemu.git/python/ is always implicitly installed.
- avocado-framework==88.1
- pycdlib==1.11.0
-+codespell
--- 
-2.30.2
+> > ---
+> >  hw/virtio/vhost-shadow-virtqueue.c | 7 +++++--
+> >  1 file changed, 5 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
+w-virtqueue.c
+> > index 467099f5d9..18a49e1ecb 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > @@ -228,8 +228,11 @@ static void vhost_svq_kick(VhostShadowVirtqueue *s=
+vq)
+> >      smp_mb();
+> >
+> >      if (virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
+> > -        uint16_t avail_event =3D *(uint16_t *)(&svq->vring.used->ring[=
+svq->vring.num]);
+> > -        needs_kick =3D vring_need_event(avail_event, svq->shadow_avail=
+_idx, svq->shadow_avail_idx - 1);
+> > +        size_t num =3D svq->vring.num;
+> > +        uint16_t *avail_event =3D (uint16_t *)&svq->vring.used->ring[n=
+um];
+> > +
+> > +        needs_kick =3D vring_need_event(*avail_event, svq->shadow_avai=
+l_idx,
+> > +                                      svq->shadow_avail_idx - 1);
+> >      } else {
+> >          needs_kick =3D !(svq->vring.used->flags & VRING_USED_F_NO_NOTI=
+FY);
+> >      }
+> > --
+> > 2.31.1
+>
 
 
