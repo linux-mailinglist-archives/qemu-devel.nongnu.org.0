@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779506137D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:24:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934896137E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:25:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUkx-0005AA-7W; Mon, 31 Oct 2022 09:23:13 -0400
+	id 1opUn1-0005vb-Tk; Mon, 31 Oct 2022 09:25:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1opUkh-0004yp-Mo
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:22:56 -0400
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1opUn0-0005vK-FP
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:25:18 -0400
+Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1opUkg-0006U9-0K
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:22:55 -0400
-Received: by mail-pj1-x102c.google.com with SMTP id
- q1-20020a17090a750100b002139ec1e999so5894896pjk.1
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:22:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1opUmy-0007dQ-Lx
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:25:18 -0400
+Received: by mail-qt1-x834.google.com with SMTP id fz10so1662307qtb.3
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:25:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=7nXFldMSziBa/wu7OUJRAnV8Xwj60tSzgXAVAmYm6hE=;
- b=onutWbm0jfQZ0RcZKhMC/t4/sjKlBOmV9PGX+WaEybu2ZhsAf4UzfYGxYKAerh+2lD
- nNrdEh4xzhk4f9WQJcq7EhP6eIm295D0smUzKXOU9JRgAYHZtmaRVyb2Rfc57SmvZ+XX
- 5pp84ajle6O8DmCXzGeDelkvkzNjZRSxZKoVY1nf+X7EkDCcy2O3F77MRAtp7nTm7cRx
- DEPRv4+g1TMKS/g0OwSHoRNrRYZee7Qz8Ik7gHMHpC8BZuGE/GMSMqu0f8xgiQQHAL1m
- H6uIWVFkkSs5vQx3RwWb80XOShjmCij5ftGWP5xthRKAUdykXWJ4vMk69seY5XCuxMTc
- H+3g==
+ bh=GSPv19Ang51TzTOuhXNwG87aofdyFEYainuQ05ggZDk=;
+ b=VFgEawnCkUF1/7n1zpqTizDKoD6XpEQY4zEW7/JuXMDL0gIFdsdmRQoHJ+JlwpCvc4
+ uEj5AnOjB2pOeUYH96mDrckBB4FqjHLEO+4T2WTz6WXLINtz2d7V+xyY6lfPRF7MspwG
+ vHeMv+2xbHNowQEgSCQkiTwWe3CK+lmgUDj4yeFFvMx7TrkGQ8V5b9aNK6k1ExothqSo
+ Wenh4iWFQ+nFKXwrGFoOYzMst3flOEOw5v4RAJZZMLKTOG6Qi4aU2jMyC1XgF9BJqVnc
+ tTsrWJEtLfyuqWwKQGsAe/tzkFZjvccExfucxEdMvebQtQKjaG58gxT47gvrYkNdYqbF
+ oFyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=7nXFldMSziBa/wu7OUJRAnV8Xwj60tSzgXAVAmYm6hE=;
- b=JvJfWBNwgydUn2rvItHAGGT0JPqhtvzt0b7Yihi3dvY3pLXUQ82pKFCXrjlvGLcn+0
- yMCN6Y4RB0HXsbSTSQ93we7MG/xnMpytLzYX655cL9U4lgMhAXuCI9g+PtVcEp3pC8Ad
- yuh46nLgwnE1+eVuFSs7+BLXDzsgEiPQseZuNY3n9+WBkOi4MaI8LqqbP9uu+SxdVjl2
- wbVg2SbMaYeygJM3A96kDISE3lhyYIFKOfXyXAcSPCuYf+kYLdLv+HYq6ZOFeiACMR14
- n9OpQYCvVLfbTF4qzQKIlNkJhR9H1Rpkr7NfjlRpAvDMvebJhNTt87R7++SpfbOcSZw6
- w65g==
-X-Gm-Message-State: ACrzQf3PiVPGQWMj6Tae73mGoFuSYxa4Uf/NN6MXsLz6C4gpYUnKLr6k
- cp6eBak/p92PwkRE7bAHFpFRBnlDPbukBMmfoBzslA==
-X-Google-Smtp-Source: AMsMyM571GMsH0RMC5Ryx3RvTcUpOGmohuyX6BTWSUcWjrKoxC5ByeCuHmALM1rQPXo7oI+tub5m56ZwlbU22z2VqO0=
-X-Received: by 2002:a17:902:7c97:b0:17f:5abf:9450 with SMTP id
- y23-20020a1709027c9700b0017f5abf9450mr13953799pll.19.1667222572532; Mon, 31
- Oct 2022 06:22:52 -0700 (PDT)
+ bh=GSPv19Ang51TzTOuhXNwG87aofdyFEYainuQ05ggZDk=;
+ b=ew6O7MuEk6aZq9jDTPpNtlt3ywU8tn4CEEkJztyZC4qYEn7QdweNR2hchgGjuEmXJS
+ FlEYDYRw5HtL/arW0xwBAA/97lL+HK7HcgDa63b0gJ96/QtFt5L/n2qoPEanfu9a7C0o
+ aFtwSDoPXs3JtpKTbwicq9vF6+eeZPDldtpnpCoVKQSEa/oUOGGhJZHgDEucw8afrI8m
+ OwuTAyq4QSTX7KQW74oEVlhsH2azFKDr87QzBL1XothwyGqOY2a9pKUpX3khVgY4pxOp
+ KeT61i3jCjMjSmB7sT1rMnQCR52c31pdD/GvBt5aKTCzY9q+OcpQtPgh0wgIZJQa5fHj
+ Q3nA==
+X-Gm-Message-State: ACrzQf1vFhdoyEsktACJSHSPPEQAX6lfzB3CIO0/oXOSWyMiEgRNDF9a
+ MDvQzZ07O/ridS3Bir2FItU2+RgNTghKJihwS3NVpA==
+X-Google-Smtp-Source: AMsMyM4phYWazrEbp161MWztKtfDz29k/1OmqA0fz7WgezLXxONnGGyYUhCJ40Pi2m89KU0Re8q/DI5Nsl2ZzHXyN9A=
+X-Received: by 2002:ac8:5895:0:b0:39c:c5fa:2936 with SMTP id
+ t21-20020ac85895000000b0039cc5fa2936mr10551594qta.420.1667222715503; Mon, 31
+ Oct 2022 06:25:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221028054835.29674-1-jasowang@redhat.com>
- <20221028054835.29674-6-jasowang@redhat.com>
-In-Reply-To: <20221028054835.29674-6-jasowang@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 31 Oct 2022 13:22:41 +0000
-Message-ID: <CAFEAcA9chHjjJuBw2EeHTG1Pk10J_yq_wV-G9b3swda21jPc=w@mail.gmail.com>
-Subject: Re: [PULL 05/26] vhost-vdpa: allow passing opened vhostfd to
- vhost-vdpa
-To: Jason Wang <jasowang@redhat.com>
-Cc: stefanha@redhat.com, qemu-devel@nongnu.org, 
- Si-Wei Liu <si-wei.liu@oracle.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221031124928.128475-1-mst@redhat.com>
+ <20221031124928.128475-2-mst@redhat.com>
+In-Reply-To: <20221031124928.128475-2-mst@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Mon, 31 Oct 2022 18:55:04 +0530
+Message-ID: <CAARzgwyS-2XmVh6SM_UG6Z85zyJd6VdqqC477RMcWo2_FYsn2g@mail.gmail.com>
+Subject: Re: [PULL 01/86] bios-tables-test: do not ignore allowed diff list
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000b82b3505ec54897b"
+Received-SPF: none client-ip=2607:f8b0:4864:20::834;
+ envelope-from=ani@anisinha.ca; helo=mail-qt1-x834.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,139 +82,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 28 Oct 2022 at 06:55, Jason Wang <jasowang@redhat.com> wrote:
+--000000000000b82b3505ec54897b
+Content-Type: text/plain; charset="UTF-8"
+
+On Mon, Oct 31, 2022 at 6:20 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+
+> we had such a beautiful structure for updating
+> expected files, designed to keep bisect working.
+> It turns out that we ignored the result of
+> the allow list checks unless all tables matched
+> anyway.
 >
-> From: Si-Wei Liu <si-wei.liu@oracle.com>
+> Sigh.
 >
-> Similar to other vhost backends, vhostfd can be passed to vhost-vdpa
-> backend as another parameter to instantiate vhost-vdpa net client.
-> This would benefit the use case where only open file descriptors, as
-> opposed to raw vhost-vdpa device paths, are accessible from the QEMU
-> process.
+> Let's at least make it work going forward.
+
+
+Don't forget to drop this.
+
+
 >
-> (qemu) netdev_add type=vhost-vdpa,vhostfd=61,id=vhost-vdpa1
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  tests/qtest/bios-tables-test.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tests/qtest/bios-tables-test.c
+> b/tests/qtest/bios-tables-test.c
+> index e6096e7f73..a72f6ca326 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -458,7 +458,7 @@ static void test_acpi_asl(test_data *data)
+>                  "for instructions on how to update expected files.\n",
+>                  exp_sdt->aml, sdt->aml_file, exp_sdt->aml_file);
+>
+> -        all_tables_match = all_tables_match &&
+> +        all_tables_match = all_tables_match ||
+>              test_acpi_find_diff_allowed(exp_sdt);
+>
+>          /*
+> --
+> MST
+>
 >
 
-> @@ -634,14 +634,29 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->
->      assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
->      opts = &netdev->u.vhost_vdpa;
-> -    if (!opts->vhostdev) {
-> -        error_setg(errp, "vdpa character device not specified with vhostdev");
-> +    if (!opts->has_vhostdev && !opts->has_vhostfd) {
-> +        error_setg(errp,
-> +                   "vhost-vdpa: neither vhostdev= nor vhostfd= was specified");
->          return -1;
->      }
->
-> -    vdpa_device_fd = qemu_open(opts->vhostdev, O_RDWR, errp);
-> -    if (vdpa_device_fd == -1) {
-> -        return -errno;
-> +    if (opts->has_vhostdev && opts->has_vhostfd) {
-> +        error_setg(errp,
-> +                   "vhost-vdpa: vhostdev= and vhostfd= are mutually exclusive");
-> +        return -1;
-> +    }
-> +
-> +    if (opts->has_vhostdev) {
-> +        vdpa_device_fd = qemu_open(opts->vhostdev, O_RDWR, errp);
-> +        if (vdpa_device_fd == -1) {
-> +            return -errno;
-> +        }
-> +    } else if (opts->has_vhostfd) {
-> +        vdpa_device_fd = monitor_fd_param(monitor_cur(), opts->vhostfd, errp);
-> +        if (vdpa_device_fd == -1) {
-> +            error_prepend(errp, "vhost-vdpa: unable to parse vhostfd: ");
-> +            return -1;
-> +        }
->      }
+--000000000000b82b3505ec54897b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi; this doesn't compile with clang:
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, Oct 31, 2022 at 6:20 PM Michael S. Tsirkin &lt;<a h=
+ref=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex">we had such a beautiful structure for updating<br>
+expected files, designed to keep bisect working.<br>
+It turns out that we ignored the result of<br>
+the allow list checks unless all tables matched<br>
+anyway.<br>
+<br>
+Sigh.<br>
+<br>
+Let&#39;s at least make it work going forward.</blockquote><div dir=3D"auto=
+"><br></div><div dir=3D"auto">Don&#39;t forget to drop this.=C2=A0</div><di=
+v dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
+<br>
+Signed-off-by: Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com" tar=
+get=3D"_blank">mst@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0tests/qtest/bios-tables-test.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.=
+c<br>
+index e6096e7f73..a72f6ca326 100644<br>
+--- a/tests/qtest/bios-tables-test.c<br>
++++ b/tests/qtest/bios-tables-test.c<br>
+@@ -458,7 +458,7 @@ static void test_acpi_asl(test_data *data)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;for ins=
+tructions on how to update expected files.\n&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exp_sdt-&gt;a=
+ml, sdt-&gt;aml_file, exp_sdt-&gt;aml_file);<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 all_tables_match =3D all_tables_match &amp;&am=
+p;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 all_tables_match =3D all_tables_match ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_acpi_find_diff_allowed=
+(exp_sdt);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+-- <br>
+MST<br>
+<br>
+</blockquote></div></div>
 
-
-../../net/vhost-vdpa.c:654:16: error: variable 'vdpa_device_fd' is
-used uninitialized whenever 'if' condition is false
-[-Werror,-Wsometimes-uninitialized]
-    } else if (opts->has_vhostfd) {
-               ^~~~~~~~~~~~~~~~~
-../../net/vhost-vdpa.c:662:33: note: uninitialized use occurs here
-    r = vhost_vdpa_get_features(vdpa_device_fd, &features, errp);
-                                ^~~~~~~~~~~~~~
-../../net/vhost-vdpa.c:654:12: note: remove the 'if' if its condition
-is always true
-    } else if (opts->has_vhostfd) {
-           ^~~~~~~~~~~~~~~~~~~~~~~
-../../net/vhost-vdpa.c:629:23: note: initialize the variable
-'vdpa_device_fd' to silence this warning
-    int vdpa_device_fd;
-                      ^
-                       = 0
-1 error generated.
-
-
-(clang version 10.0.0-4ubuntu1).
-
-It's a false positive -- the compiler doesn't manage to figure out
-that the error checks further up mean that there's no code path where
-vdpa_device_fd isn't initialized. Put another way, the problem is
-that we check "if (opts->has_vhostfd)" when in fact that condition
-must always be true.
-
-We could fix this by for instance:
-
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 854ebd61ae6..b1572ea00bc 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -634,11 +634,6 @@ int net_init_vhost_vdpa(const Netdev *netdev,
-const char *name,
-
-     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-     opts = &netdev->u.vhost_vdpa;
--    if (!opts->has_vhostdev && !opts->has_vhostfd) {
--        error_setg(errp,
--                   "vhost-vdpa: neither vhostdev= nor vhostfd= was specified");
--        return -1;
--    }
-
-     if (opts->has_vhostdev && opts->has_vhostfd) {
-         error_setg(errp,
-@@ -657,6 +652,10 @@ int net_init_vhost_vdpa(const Netdev *netdev,
-const char *name,
-             error_prepend(errp, "vhost-vdpa: unable to parse vhostfd: ");
-             return -1;
-         }
-+    } else {
-+        error_setg(errp,
-+                   "vhost-vdpa: neither vhostdev= nor vhostfd= was specified");
-+        return -1;
-     }
-
-     r = vhost_vdpa_get_features(vdpa_device_fd, &features, errp);
-
-
-
-or alternatively by
-
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 854ebd61ae6..e370ecb8ebd 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -651,7 +651,8 @@ int net_init_vhost_vdpa(const Netdev *netdev,
-const char *name,
-         if (vdpa_device_fd == -1) {
-             return -errno;
-         }
--    } else if (opts->has_vhostfd) {
-+    } else {
-+        /* has_vhostfd */
-         vdpa_device_fd = monitor_fd_param(monitor_cur(), opts->vhostfd, errp);
-         if (vdpa_device_fd == -1) {
-             error_prepend(errp, "vhost-vdpa: unable to parse vhostfd: ");
-
-I think I prefer the second of these.
-
-(I'll post a patch properly in a moment I guess.)
-
--- PMM
+--000000000000b82b3505ec54897b--
 
