@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0250B6136C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:46:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB166136D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:48:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUBI-0005Nt-7w; Mon, 31 Oct 2022 08:46:20 -0400
+	id 1opUDW-000799-QR; Mon, 31 Oct 2022 08:48:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
- id 1opUB7-0005Mi-NY
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:46:09 -0400
+ id 1opUDL-00077N-PT
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:48:28 -0400
 Received: from szxga02-in.huawei.com ([45.249.212.188])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
- id 1opUB5-0000bd-1S
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:46:09 -0400
+ id 1opUDJ-0001Gv-Od
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:48:27 -0400
 Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N1CSK0Ss4zVjGj;
- Mon, 31 Oct 2022 20:41:05 +0800 (CST)
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N1CW31mx4zVjDQ;
+ Mon, 31 Oct 2022 20:43:27 +0800 (CST)
 Received: from [10.67.102.169] (10.67.102.169) by
  canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 31 Oct 2022 20:45:59 +0800
+ 15.1.2375.31; Mon, 31 Oct 2022 20:48:21 +0800
 CC: <yangyicong@hisilicon.com>, <jonathan.cameron@huawei.com>,
  <linuxarm@huawei.com>, <prime.zeng@huawei.com>, <hesham.almatary@huawei.com>, 
- <ionela.voinescu@arm.com>, <darren@os.amperecomputing.com>, "Michael S .
- Tsirkin" <mst@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, Igor
- Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>, Eduardo Habkost
- <eduardo@habkost.net>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v3 4/5] tests: acpi: aarch64: add topology test for aarch64
-To: "wangyanan (Y)" <wangyanan55@huawei.com>
+ <ionela.voinescu@arm.com>, <darren@os.amperecomputing.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Igor Mammedov <imammedo@redhat.com>, Ani Sinha
+ <ani@anisinha.ca>, Eduardo Habkost <eduardo@habkost.net>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v3 2/5] tests: virt: update expected ACPI tables for virt
+ test
+To: "Michael S. Tsirkin" <mst@redhat.com>, "wangyanan (Y)"
+ <wangyanan55@huawei.com>
 References: <20221031090523.34146-1-yangyicong@huawei.com>
- <20221031090523.34146-5-yangyicong@huawei.com>
- <4214d66a-7d74-2aa4-cfcd-7af26eb92bcd@huawei.com>
-Message-ID: <8afd54ec-9b9b-1d2b-878e-ec1acb6fbf2b@huawei.com>
-Date: Mon, 31 Oct 2022 20:45:59 +0800
+ <20221031090523.34146-3-yangyicong@huawei.com>
+ <83fe31fe-0755-7e22-9e10-7eebd938fbbd@huawei.com>
+ <20221031083006-mutt-send-email-mst@kernel.org>
+Message-ID: <786b3283-2c33-e298-3f4c-458c1948e468@huawei.com>
+Date: Mon, 31 Oct 2022 20:48:21 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <4214d66a-7d74-2aa4-cfcd-7af26eb92bcd@huawei.com>
+In-Reply-To: <20221031083006-mutt-send-email-mst@kernel.org>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
  canpemm500009.china.huawei.com (7.192.105.203)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=45.249.212.188;
@@ -75,69 +77,57 @@ Reply-to:  Yicong Yang <yangyicong@huawei.com>
 From:  Yicong Yang via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2022/10/31 19:48, wangyanan (Y) wrote:
-> Hi Yicong,
+Hi Michael and Yanan,
+
+On 2022/10/31 20:30, Michael S. Tsirkin wrote:
+> On Mon, Oct 31, 2022 at 07:21:31PM +0800, wangyanan (Y) wrote:
+>> Hi Yicong,
+>>
+>> On 2022/10/31 17:05, Yicong Yang wrote:
+>>> From: Yicong Yang <yangyicong@hisilicon.com>
+>>>
+>>> Update the ACPI tables according to the acpi aml_build change.
+>> We may also need the disassembled context of the table change
 > 
-> On 2022/10/31 17:05, Yicong Yang wrote:
->> From: Yicong Yang <yangyicong@hisilicon.com>
->>
->> Add test for aarch64's ACPI topology building for all the supported
->> levels.
->>
->> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
->> ---
->>   tests/qtest/bios-tables-test.c | 22 ++++++++++++++++++++++
->>   1 file changed, 22 insertions(+)
->>
->> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
->> index e6096e7f73..099b723444 100644
->> --- a/tests/qtest/bios-tables-test.c
->> +++ b/tests/qtest/bios-tables-test.c
->> @@ -1533,6 +1533,27 @@ static void test_acpi_virt_tcg(void)
->>       free_test_data(&data);
->>   }
->>   +static void test_acpi_virt_tcg_topology(void)
->> +{
->> +    test_data data = {
->> +        .machine = "virt",
->> +        .variant = ".topology",
->> +        .tcg_only = true,
->> +        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
->> +        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
->> +        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
->> +        .ram_start = 0x40000000ULL,
->> +        .scan_len = 128ULL * 1024 * 1024,
->> +    };
->> +
->> +    data.smbios_cpu_max_speed = 2900;
->> +    data.smbios_cpu_curr_speed = 2700;
-> I'm not sure. But why do we need this two lines?
-> Can we keep the test as simple as test_acpi_virt_tcg_numamem
-> and avoid unrelated parts.
+> and it's not a "maybe need". We do need it.
 > 
 
-I guess it's because my silly copy and paste... will make it simpler.
+Got it. Let me check and attach these diff informations for all the
+test table changes in this series. Thanks for the guidance!
 
-> Thanks,
-> Yanan
->> +    test_acpi_one("-cpu cortex-a57 "
->> +                  "-smbios type=4,max-speed=2900,current-speed=2700 "
->> +                  "-smp sockets=1,clusters=2,cores=2,threads=2", &data);
->> +    free_test_data(&data);
->> +}
->> +
->>   static void test_acpi_q35_viot(void)
->>   {
->>       test_data data = {
->> @@ -1864,6 +1885,7 @@ int main(int argc, char *argv[])
->>       } else if (strcmp(arch, "aarch64") == 0) {
->>           if (has_tcg) {
->>               qtest_add_func("acpi/virt", test_acpi_virt_tcg);
->> +            qtest_add_func("acpi/virt/topology", test_acpi_virt_tcg_topology);
->>               qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
->>               qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
->>               qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
+Thanks.
+
+>> in the commit message, for review.
+>>
+>> For your reference: see patch 6 in [1]:
+>> https://patchew.org/QEMU/20220107083232.16256-1-wangyanan55@huawei.com/
+>>
+>> Thanks,
+>> Yanan
+>>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+>>> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+>>> ---
+>>>   tests/data/acpi/virt/PPTT                   | Bin 96 -> 76 bytes
+>>>   tests/qtest/bios-tables-test-allowed-diff.h |   1 -
+>>>   2 files changed, 1 deletion(-)
+>>>
+>>> diff --git a/tests/data/acpi/virt/PPTT b/tests/data/acpi/virt/PPTT
+>>> index f56ea63b369a604877374ad696c396e796ab1c83..7a1258ecf123555b24462c98ccbb76b4ac1d0c2b 100644
+>>> GIT binary patch
+>>> delta 32
+>>> fcmYfB;R*-{3GrcIU|?D?k;`ae01J-_kOKn%ZFdCM
+>>>
+>>> delta 53
+>>> pcmeZC;0g!`2}xjJU|{l?$YrDgWH5jU5Ca567#O&Klm(arApowi1QY-O
+>>>
+>>> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+>>> index cb143a55a6..dfb8523c8b 100644
+>>> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+>>> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+>>> @@ -1,2 +1 @@
+>>>   /* List of comma-separated changed AML files to ignore */
+>>> -"tests/data/acpi/virt/PPTT",
 > 
 > .
+> 
 
