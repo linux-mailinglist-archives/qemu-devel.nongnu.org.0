@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC0461368A
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:38:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8ACE613693
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:39:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opU3o-000300-5r; Mon, 31 Oct 2022 08:38:36 -0400
+	id 1opU4t-0007Y8-Hw; Mon, 31 Oct 2022 08:39:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opU33-0001JH-3L
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:37:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opU2y-0005jU-8D
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:37:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667219862;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8mMoVKBlIKrN9qHF+pOLpPjWB0DjhdEXnx9Hm6/rIic=;
- b=cQ7/9Wl4vOICiadZ1TcaG+yUO1sn596vRHgscdfiZu4NHjGl5Z8QK4l2OmHiMCdH+TY6DU
- SEpQdbeHdRMvamCrBUT7I19Rhm+K9H73QY4sALRHmfAtt2lyYlgoHCfJ23DfE1cPf3Yxed
- VxLm8Xoxvznda5g/eJoj8l6hL+LF8YU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-111-9MmMAG6yNnyiI7h5QztV9w-1; Mon, 31 Oct 2022 08:37:40 -0400
-X-MC-Unique: 9MmMAG6yNnyiI7h5QztV9w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 83-20020a1c0256000000b003cf758f1617so184394wmc.5
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:37:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1opU4p-00078t-RW
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:39:39 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1opU4n-0006Li-H4
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:39:39 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ u8-20020a17090a5e4800b002106dcdd4a0so15804996pji.1
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:39:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Y78+Ekch7keM8llYX9QtCqWp5w7Z7Q2XQS5jAe96i1Q=;
+ b=S9Fsg3MnthGap1YZzA1+ZVmi+aAc5DFDGiKzE5mEEYnn0cP+nrwqjEcW9JsFcBKrt6
+ 8W0xxyrq5MekFsiuflbaj5kN81BAPlQ5Np0Eru6vLdyXB+4TQ2NGeB7ZPUngVOjfRimY
+ 95fLkKgAkxlsD2JDv8cUWJDThDaNb7C2wq+PNPaEYl5JSpvoWCscfLihLaf94HdEEARg
+ BxySYQ0rWxqtkU+ZFegX1JcS6lz92siWQqIupyllnr2Of79Zi8kOMM5pcWfjJkIcLI94
+ LKiqBCYy/qFSf9SNgv8LJLBqDgoBB75oU082IggRiFziX3ZTJT5Ha55o2dvadtzEU8Qw
+ vVyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8mMoVKBlIKrN9qHF+pOLpPjWB0DjhdEXnx9Hm6/rIic=;
- b=PDVU9cfYpFFVoH7fNXmF2NnMja8JsVpt71rUVCuIHgWBIfqlxn6p3qf3fyiNLtQRcN
- Z+ge1LxvlXXFXyif0OxSoQgfp8fRmxL27pCo+KjIwIpDJ+XqFZjKx/r+8WJUIZds2Yuj
- hmzi03TPysOqHnVAKG8MhCt6+hag9Th7P5Va+W0ConmOm3E098RpctIZ54tphQsC7M/T
- gHHvpZ2HQII60gwA+HBqEBgkXWVhC6pGRJf5Rx5HCUdulwUzCrcpLD2jDoUqae5C2QsQ
- 9ohv+JXnnYuch9LoMYHhbHUN12X9fizwCD1uOGRncG/3S46MNMa6kNyph4pVYSAnLM66
- KG+w==
-X-Gm-Message-State: ACrzQf1lSzLWUL7NJw9HGAKKQgvhgmnHBj8Ruoyr3G0j8VU9QSybzfqm
- nfbZO68x/Izlrkbwn+gRUTNXZZd9u1nqS5/kSz+qTXhKZHTPMmWLnbMFhvk3ISZyAuO4wtZqczt
- R91IsaSD2Bjxavbw=
-X-Received: by 2002:adf:da43:0:b0:236:dcca:1950 with SMTP id
- r3-20020adfda43000000b00236dcca1950mr551448wrl.385.1667219859819; 
- Mon, 31 Oct 2022 05:37:39 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4KwHMJLF2rJT3OCL+l6+v1nDtIfrGN9nFM0vocoTVYrAzW4V4wLuH8x3cZ9skqiPhK4LQqnA==
-X-Received: by 2002:adf:da43:0:b0:236:dcca:1950 with SMTP id
- r3-20020adfda43000000b00236dcca1950mr551425wrl.385.1667219859528; 
- Mon, 31 Oct 2022 05:37:39 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- z3-20020a05600c0a0300b003cf55844453sm7900143wmp.22.2022.10.31.05.37.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:37:39 -0700 (PDT)
-Date: Mon, 31 Oct 2022 08:37:34 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y78+Ekch7keM8llYX9QtCqWp5w7Z7Q2XQS5jAe96i1Q=;
+ b=7MG8SMTBG1bNZTBCj5YsBQKcUM5rOX3k4ihQP5jpjKzvnr5Si6p8S0x7vJH6m5CN0c
+ H6wYAK3yfusEOiFLAegr6D8YeaitmpueAebUKB6ZPgFYN9CFr/mJGVDzhSotcWM5Tn7y
+ JVAcJhmUCMEu8cE6zgNoYP5EjrkHBp3IlHR9wWpNmom71Q5AAgV21jOL8dYyaKD2E9+f
+ ovASXPkVpcivzWr5Ge9Mi8ya/Crwdme64eWwmHaO4B9/I525/K1fuJb7OfFNK6H+4c9r
+ UP0r4WsCFCtPVdOh9Kcs5GflOIM6G6n6YWr+XEnKWZ9nN0wDj4YzOp2BKxg67v5TRCkM
+ zu8w==
+X-Gm-Message-State: ACrzQf3uEHMvC8jQ2QgkJtbKzJkXEBymTgdynifUyZC6HqqWN1lUNotF
+ 9YfVN+qxyMQsKDBtkWDrnw/ang==
+X-Google-Smtp-Source: AMsMyM6+FidC9ncB7A2HYIPWxVC4SznXEQwjElibB5uRUX9xvjNk0520lWhSTmUzEoGM0yIqkoCtNA==
+X-Received: by 2002:a17:902:b20a:b0:178:6f5b:f903 with SMTP id
+ t10-20020a170902b20a00b001786f5bf903mr14411897plr.39.1667219976028; 
+ Mon, 31 Oct 2022 05:39:36 -0700 (PDT)
+Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419?
+ ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+ by smtp.gmail.com with ESMTPSA id
+ h1-20020a17090a054100b00212d4c50647sm4044681pjf.36.2022.10.31.05.39.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Oct 2022 05:39:35 -0700 (PDT)
+Message-ID: <7d0dbb38-a8fd-2ae8-47ac-1e5d98ef77fc@daynix.com>
+Date: Mon, 31 Oct 2022 21:39:29 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v5 02/17] pci: Allow to omit errp for pci_add_capability
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, qemu-arm@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang
+ <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
  Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
  Peter Maydell <peter.maydell@linaro.org>,
  Andrey Smirnov <andrew.smirnov@gmail.com>,
@@ -76,22 +81,21 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Yan Vugenfirer <yan@daynix.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH v6 00/17] pci: Abort if pci_add_capability fails
-Message-ID: <20221031083635-mutt-send-email-mst@kernel.org>
-References: <20221031123319.21532-1-akihiko.odaki@daynix.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221031123319.21532-1-akihiko.odaki@daynix.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20221028122629.3269-1-akihiko.odaki@daynix.com>
+ <20221028122629.3269-3-akihiko.odaki@daynix.com>
+ <2d49657a-67d0-5d58-b646-23a4e30abc02@linaro.org>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <2d49657a-67d0-5d58-b646-23a4e30abc02@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,110 +111,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 31, 2022 at 09:33:02PM +0900, Akihiko Odaki wrote:
-> pci_add_capability appears most PCI devices. Its error handling required
-> lots of code, and led to inconsistent behaviors such as:
-> - passing error_abort
-> - passing error_fatal
-> - asserting the returned value
-> - propagating the error to the caller
-> - skipping the rest of the function
-> - just ignoring
-
-Thanks for the patchset! I don't think I'll be merging it for
-this merge window, the benefit seems small and chance of regressions
-high.
-I will tag this but pls remind me after the freeze to help make sure I
-do not lose it.
 
 
-> The code generating errors in pci_add_capability had a comment which
-> says:
-> > Verify that capabilities don't overlap.  Note: device assignment
-> > depends on this check to verify that the device is not broken.
-> > Should never trigger for emulated devices, but it's helpful for
-> > debugging these.
+On 2022/10/29 7:35, Philippe Mathieu-Daudé wrote:
+> On 28/10/22 14:26, Akihiko Odaki wrote:
+>> pci_add_capability appears most PCI devices. Its error handling required
+>> lots of code, and led to inconsistent behaviors such as:
+>> - passing error_abort
+>> - passing error_fatal
+>> - asserting the returned value
+>> - propagating the error to the caller
+>> - skipping the rest of the function
+>> - just ignoring
+>>
+>> The code generating errors in pci_add_capability had a comment which
+>> says:
+>>> Verify that capabilities don't overlap.  Note: device assignment
+>>> depends on this check to verify that the device is not broken.
+>>> Should never trigger for emulated devices, but it's helpful for
+>>> debugging these.
+>>
+>> Indeed vfio has some code that passes capability offsets and sizes from
+>> a physical device, but it explicitly pays attention so that the
+>> capabilities never overlap. Therefore, we can always assert that
+>> capabilities never overlap when pci_add_capability is called, resolving
+>> these inconsistencies.
+>>
+>> Such an implementation of pci_add_capability will not have errp
+>> parameter. However, there are so many callers of pci_add_capability
+>> that it does not make sense to amend all of them at once to match
+>> with the new signature. Instead, this change will allow callers of
+>> pci_add_capability to omit errp as the first step.
+>>
+>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>> ---
+>>   hw/pci/pci.c         |  8 ++++----
+>>   include/hw/pci/pci.h | 13 ++++++++++---
+>>   2 files changed, 14 insertions(+), 7 deletions(-)
 > 
-> Indeed vfio has some code that passes capability offsets and sizes from
-> a physical device, but it explicitly pays attention so that the
-> capabilities never overlap and the only exception are MSI and MSI-X
-> capabilities. Therefore, we can add code specific to the case, and
-> always assert that capabilities never overlap in the other cases,
-> resolving these inconsistencies.
+>> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+>> index b54b6ef88f..51fd106f16 100644
+>> --- a/include/hw/pci/pci.h
+>> +++ b/include/hw/pci/pci.h
+>> @@ -2,6 +2,7 @@
+>>   #define QEMU_PCI_H
+>>   #include "exec/memory.h"
+>> +#include "qapi/error.h"
+>>   #include "sysemu/dma.h"
+>>   /* PCI includes legacy ISA access.  */
+>> @@ -390,9 +391,15 @@ void pci_register_vga(PCIDevice *pci_dev, 
+>> MemoryRegion *mem,
+>>   void pci_unregister_vga(PCIDevice *pci_dev);
+>>   pcibus_t pci_get_bar_addr(PCIDevice *pci_dev, int region_num);
+>> -int pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
+>> -                       uint8_t offset, uint8_t size,
+>> -                       Error **errp);
+>> +int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
+>> +                              uint8_t offset, uint8_t size,
+>> +                              Error **errp);
+>> +
+>> +#define PCI_ADD_CAPABILITY_VA(pdev, cap_id, offset, size, errp, ...) \
+>> +    pci_add_capability_legacy(pdev, cap_id, offset, size, errp)
+>> +
+>> +#define pci_add_capability(...) \
+>> +    PCI_ADD_CAPABILITY_VA(__VA_ARGS__, &error_abort)
+> Do we really need PCI_ADD_CAPABILITY_VA?
 > 
-> v6:
-> - Error in case of MSI/MSI-X capability overlap (Alex Williamson)
+>    #define pci_add_capability(...) \
+>         pci_add_capability_legacy(__VA_ARGS__, &error_abort)
 > 
-> v5:
-> - Fix capability ID specification in vfio_msi_early_setup (Alex Williamson)
-> - Use range_covers_byte() (Alex Williamson)
-> - warn_report() in case of MSI/MSI-X capability overlap (Alex Williamson)
-> 
-> v4:
-> - Fix typos in messages (Markus Armbruster)
-> - hw/vfio/pci: Ensure MSI and MSI-X do not overlap (Alex Williamson)
-> 
-> v3:
-> - Correct patch split between virtio-pci and pci (Markus Armbruster)
-> - Add messages for individual patches (Markus Armbruster)
-> - Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> 
-> Akihiko Odaki (17):
->   hw/vfio/pci: Ensure MSI and MSI-X do not overlap
->   pci: Allow to omit errp for pci_add_capability
->   hw/i386/amd_iommu: Omit errp for pci_add_capability
->   ahci: Omit errp for pci_add_capability
->   e1000e: Omit errp for pci_add_capability
->   eepro100: Omit errp for pci_add_capability
->   hw/nvme: Omit errp for pci_add_capability
->   msi: Omit errp for pci_add_capability
->   hw/pci/pci_bridge: Omit errp for pci_add_capability
->   pcie: Omit errp for pci_add_capability
->   pci/shpc: Omit errp for pci_add_capability
->   msix: Omit errp for pci_add_capability
->   pci/slotid: Omit errp for pci_add_capability
->   hw/pci-bridge/pcie_pci_bridge: Omit errp for pci_add_capability
->   hw/vfio/pci: Omit errp for pci_add_capability
->   virtio-pci: Omit errp for pci_add_capability
->   pci: Remove legacy errp from pci_add_capability
-> 
->  docs/pcie_sriov.txt                |  4 +-
->  hw/display/bochs-display.c         |  4 +-
->  hw/i386/amd_iommu.c                | 21 ++-------
->  hw/ide/ich.c                       |  8 +---
->  hw/net/e1000e.c                    | 22 ++-------
->  hw/net/eepro100.c                  |  7 +--
->  hw/nvme/ctrl.c                     | 14 +-----
->  hw/pci-bridge/cxl_downstream.c     |  9 +---
->  hw/pci-bridge/cxl_upstream.c       |  8 +---
->  hw/pci-bridge/i82801b11.c          | 14 +-----
->  hw/pci-bridge/pci_bridge_dev.c     |  2 +-
->  hw/pci-bridge/pcie_pci_bridge.c    | 19 ++------
->  hw/pci-bridge/pcie_root_port.c     | 16 +------
->  hw/pci-bridge/xio3130_downstream.c | 15 ++----
->  hw/pci-bridge/xio3130_upstream.c   | 15 ++----
->  hw/pci-host/designware.c           |  3 +-
->  hw/pci-host/xilinx-pcie.c          |  4 +-
->  hw/pci/msi.c                       |  9 +---
->  hw/pci/msix.c                      |  8 +---
->  hw/pci/pci.c                       | 29 +++---------
->  hw/pci/pci_bridge.c                | 21 +++------
->  hw/pci/pcie.c                      | 52 ++++++---------------
->  hw/pci/shpc.c                      | 23 +++------
->  hw/pci/slotid_cap.c                |  8 +---
->  hw/usb/hcd-xhci-pci.c              |  3 +-
->  hw/vfio/pci-quirks.c               | 15 ++----
->  hw/vfio/pci.c                      | 75 ++++++++++++++++++++++--------
->  hw/vfio/pci.h                      |  3 ++
->  hw/virtio/virtio-pci.c             | 12 ++---
->  include/hw/pci/pci.h               |  5 +-
->  include/hw/pci/pci_bridge.h        |  5 +-
->  include/hw/pci/pcie.h              | 11 ++---
->  include/hw/pci/shpc.h              |  3 +-
->  include/hw/virtio/virtio-pci.h     |  2 +-
->  34 files changed, 153 insertions(+), 316 deletions(-)
-> 
-> -- 
-> 2.38.1
 
+When errp is specified by the caller, the last argument, &error_abort 
+becomes extra and the compiler complains about that. 
+PCI_ADD_CAPABILITY_VA is a temporary dirty hack to ignore the extra 
+argument.
+
+Regards,
+Akihiko Odaki
 
