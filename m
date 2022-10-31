@@ -2,78 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789B261371F
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:56:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41368613703
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:53:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUHz-0007xj-4L; Mon, 31 Oct 2022 08:53:15 -0400
+	id 1opUI4-0008QY-6N; Mon, 31 Oct 2022 08:53:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUHO-000481-TF
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:52:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1opUHS-0004WY-3z
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:52:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUHN-0002iB-2s
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:52:38 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1opUHP-0002p1-7Q
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:52:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667220755;
+ s=mimecast20190719; t=1667220758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XvXLXZbH32FwhzwswFLnLBocqzfMXY1xZbOkdJP1NMw=;
- b=GcTJkRm0lIgjqxP+mZnQ5MUypbMUTE5T7V+UXU18P8eyhBuc+2lDDB35rNrdyliOZNUWcq
- kLuGZD1/L774eybbs1ZRKmwCBUgwxjTSdSC2+DtFv0NULS1TN4SrQbJeISutbYdVxNTvby
- QQ88A4lYKI+6uZOfX3qadSrGEGUjgI8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9D/I++u1aic6WS/dHHfJSVcu58NrP1m9K35CCl7L8oY=;
+ b=LR+dDoKtBq+IgYh2s+eBYZCT+G2UsVErD6TzVibgBVlg5xS8ncknsuVg83AjpBuMe+YxFP
+ QX/h88pT3YEU0bjoYQ+Lq6nmra64b9S/GCq/QthPG4Ssr35ygwza/EmQPexukCBiHuk/Dj
+ n7s/2DRnmbZRlpRHI0xlVCy9YX5Ooo8=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-595-3cxeGDYFPVikvFOffACa5g-1; Mon, 31 Oct 2022 08:52:34 -0400
-X-MC-Unique: 3cxeGDYFPVikvFOffACa5g-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d23-20020adfa417000000b002364a31b7c9so3018242wra.15
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:52:33 -0700 (PDT)
+ us-mta-86-mpvQyR_jNnWzN3ZO6f1x7w-1; Mon, 31 Oct 2022 08:52:37 -0400
+X-MC-Unique: mpvQyR_jNnWzN3ZO6f1x7w-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ n13-20020a05620a294d00b006cf933c40feso9450502qkp.20
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:52:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XvXLXZbH32FwhzwswFLnLBocqzfMXY1xZbOkdJP1NMw=;
- b=b+JzloprEDRcdxIL+sxCxcmPxODxi0IQLWWB0OMJAd0jI+aFT56JnoIosiv5zqKUDE
- O+5pjWrBsAXcSgD4beinOFBfn8BFv6VQpWT1KSxn6/uBJ3sOVQ76sJRHvsAGnuWhpqBx
- BeUWrRsEbAK+WX9hThjxmROY7mmsQjL8g34Utn86ZeI3KF3CNB6LRE22ADRKhfkNPgrT
- RLkEytkGdtgUPO/eRCsho7h9XR+le0GB5Z52J+hT9U9XGmB00Dw3+iLn4oElqRTEwNUY
- u6LhLOYwGqu7tfQy7UPgrK39YaENbfY5IjbhHoAFo9rqi+2kKdxtElpNbF+35pmxxXVJ
- e5Ww==
-X-Gm-Message-State: ACrzQf3qy4Plncx7mY/Wza6yiwx31TCftbBuYeSZWqW7yA1ZEonmIxMA
- djP9NIyN6cJJBL0aBI0huaAV0EfOMY+ZLMOvqDtpScrhepXEW//CgNNzhyPG4ZMRNW95z85A4Yl
- ZAyEYsHzZd7vxYx1whRT5lPfCs3IKJPo6POLGaA+Cy91rhg+T60yyJufXWz5E
-X-Received: by 2002:a1c:3b87:0:b0:3cf:5d41:bf27 with SMTP id
- i129-20020a1c3b87000000b003cf5d41bf27mr9873718wma.16.1667220752385; 
- Mon, 31 Oct 2022 05:52:32 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5UJQ3xjSXw7yG7nWaaiCHjfZGXy6PoQdrCM5uf60F5tLevTC3k5gJCKrhwt6jB6hwOrZgdTQ==
-X-Received: by 2002:a1c:3b87:0:b0:3cf:5d41:bf27 with SMTP id
- i129-20020a1c3b87000000b003cf5d41bf27mr9873697wma.16.1667220752061; 
- Mon, 31 Oct 2022 05:52:32 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- i11-20020a1c540b000000b003a3442f1229sm7216084wmb.29.2022.10.31.05.52.30
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9D/I++u1aic6WS/dHHfJSVcu58NrP1m9K35CCl7L8oY=;
+ b=d6nwxXwcMTdKaleU0wRgFOPoVH3dEk8CZ81300Ih1ZcAbih8PDzvFwxy5jlQrxQYW1
+ dlY1WfUirMQ4hh0o5IJLwUrBRffSUk+XBeJ6Or7ZXnum7Y/Fu4+dzTl3sQVEPRIN8yGf
+ I9xbs2hGPv5q2nIFar1OHGklkyd0MPm6ewC8i6Zr/on+nZz6LdxCTIesCtbbcdXezPrD
+ jrnWjEwosYXXYWp/34Lpc4gfZxJbn+iDY32kEHLhIbc7PpYHLYpQrEnqB6X5tgc5K/1T
+ 7IXYPfVLW3YKNLhW3JTN5LmDVq+s1sfU+oOkRVj8nwWpYuWKiOTocI01iW9fR/wAvUw2
+ LzkA==
+X-Gm-Message-State: ACrzQf1GoFGR8FVKmwBSTXKA4PAd+5LSUv7PrZ+Lv/9Fp1sZTSDYdLZx
+ k7TN4Kq4tpIVGa9Yeb07ldWOnyG524Y4ZryyOB6JL0BC6uif6EIJ3K+J2g1n2uvGDzwY0w/5IG8
+ 830ZpeoSh5kmhhog=
+X-Received: by 2002:a37:97c4:0:b0:6fa:3139:1825 with SMTP id
+ z187-20020a3797c4000000b006fa31391825mr2165956qkd.341.1667220756676; 
+ Mon, 31 Oct 2022 05:52:36 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5Kp6ISfO1TeYuOpfO2+945iJe8t2Z/89DjhzNiRCW9U9UNcEWm9Ptv34FUE+KGhu0y2Kms9A==
+X-Received: by 2002:a37:97c4:0:b0:6fa:3139:1825 with SMTP id
+ z187-20020a3797c4000000b006fa31391825mr2165944qkd.341.1667220756460; 
+ Mon, 31 Oct 2022 05:52:36 -0700 (PDT)
+Received: from fedora (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ r15-20020ac8520f000000b003972790deb9sm3551881qtn.84.2022.10.31.05.52.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:52:31 -0700 (PDT)
-Date: Mon, 31 Oct 2022 08:52:29 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL 37/86] virtio: introduce __virtio_queue_reset()
-Message-ID: <20221031124928.128475-38-mst@redhat.com>
-References: <20221031124928.128475-1-mst@redhat.com>
+ Mon, 31 Oct 2022 05:52:35 -0700 (PDT)
+Date: Mon, 31 Oct 2022 13:52:32 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Richard
+ Henderson <richard.henderson@linaro.org>, Eduardo Habkost
+ <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha
+ <ani@anisinha.ca>
+Subject: Re: [PATCH v2 3/3] hw/i386/acpi-build: Resolve north rather than
+ south bridges
+Message-ID: <20221031135232.118ae0ea@fedora>
+In-Reply-To: <20221028103419.93398-4-shentey@gmail.com>
+References: <20221028103419.93398-1-shentey@gmail.com>
+ <20221028103419.93398-4-shentey@gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221031124928.128475-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -97,76 +105,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+On Fri, 28 Oct 2022 12:34:19 +0200
+Bernhard Beschow <shentey@gmail.com> wrote:
 
-Separate the logic of vq reset. This logic will be called directly
-later.
+> The code currently assumes Q35 iff ICH9 and i440fx iff PIIX. Now that more
+> AML generation has been moved into the south bridges and since the
+> machines define themselves primarily through their north bridges, let's
+> switch to resolving the north bridges for AML generation instead. This
+> also allows for easier experimentation with different south bridges in
+> the "pc" machine, e.g. with PIIX4 and VT82xx.
 
-Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20221017092558.111082-2-xuanzhuo@linux.alibaba.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/virtio/virtio.c | 37 +++++++++++++++++++++----------------
- 1 file changed, 21 insertions(+), 16 deletions(-)
+Patch looks fine to me in a sense that either would work.
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 808446b4c9..6f42fcadd7 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2464,6 +2464,26 @@ static enum virtio_device_endian virtio_current_cpu_endian(void)
-     }
- }
- 
-+static void __virtio_queue_reset(VirtIODevice *vdev, uint32_t i)
-+{
-+    vdev->vq[i].vring.desc = 0;
-+    vdev->vq[i].vring.avail = 0;
-+    vdev->vq[i].vring.used = 0;
-+    vdev->vq[i].last_avail_idx = 0;
-+    vdev->vq[i].shadow_avail_idx = 0;
-+    vdev->vq[i].used_idx = 0;
-+    vdev->vq[i].last_avail_wrap_counter = true;
-+    vdev->vq[i].shadow_avail_wrap_counter = true;
-+    vdev->vq[i].used_wrap_counter = true;
-+    virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
-+    vdev->vq[i].signalled_used = 0;
-+    vdev->vq[i].signalled_used_valid = false;
-+    vdev->vq[i].notification = true;
-+    vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
-+    vdev->vq[i].inuse = 0;
-+    virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
-+}
-+
- void virtio_reset(void *opaque)
- {
-     VirtIODevice *vdev = opaque;
-@@ -2495,22 +2515,7 @@ void virtio_reset(void *opaque)
-     virtio_notify_vector(vdev, vdev->config_vector);
- 
-     for(i = 0; i < VIRTIO_QUEUE_MAX; i++) {
--        vdev->vq[i].vring.desc = 0;
--        vdev->vq[i].vring.avail = 0;
--        vdev->vq[i].vring.used = 0;
--        vdev->vq[i].last_avail_idx = 0;
--        vdev->vq[i].shadow_avail_idx = 0;
--        vdev->vq[i].used_idx = 0;
--        vdev->vq[i].last_avail_wrap_counter = true;
--        vdev->vq[i].shadow_avail_wrap_counter = true;
--        vdev->vq[i].used_wrap_counter = true;
--        virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
--        vdev->vq[i].signalled_used = 0;
--        vdev->vq[i].signalled_used_valid = false;
--        vdev->vq[i].notification = true;
--        vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
--        vdev->vq[i].inuse = 0;
--        virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
-+        __virtio_queue_reset(vdev, i);
-     }
- }
- 
--- 
-MST
+But the commit message lacks clear answer to 'why'
+and what issues it resolves or would resolve/make
+our easier life down to road.
+
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>  hw/i386/acpi-build.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 73d8a59737..d9eaa5fc4d 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -60,6 +60,7 @@
+>  #include "hw/i386/fw_cfg.h"
+>  #include "hw/i386/ich9.h"
+>  #include "hw/pci/pci_bus.h"
+> +#include "hw/pci-host/i440fx.h"
+>  #include "hw/pci-host/q35.h"
+>  #include "hw/i386/x86-iommu.h"
+>  
+> @@ -1322,8 +1323,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>             AcpiPmInfo *pm, AcpiMiscInfo *misc,
+>             Range *pci_hole, Range *pci_hole64, MachineState *machine)
+>  {
+> -    Object *piix = object_resolve_type_unambiguous(TYPE_PIIX4_PM);
+> -    Object *lpc = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
+> +    Object *i440fx = object_resolve_type_unambiguous(TYPE_I440FX_PCI_HOST_BRIDGE);
+> +    Object *q35 = object_resolve_type_unambiguous(TYPE_Q35_HOST_DEVICE);
+>      CrsRangeEntry *entry;
+>      Aml *dsdt, *sb_scope, *scope, *dev, *method, *field, *pkg, *crs;
+>      CrsRangeSet crs_range_set;
+> @@ -1344,13 +1345,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>      AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = x86ms->oem_id,
+>                          .oem_table_id = x86ms->oem_table_id };
+>  
+> -    assert(!!piix != !!lpc);
+> +    assert(!!i440fx != !!q35);
+>  
+>      acpi_table_begin(&table, table_data);
+>      dsdt = init_aml_allocator();
+>  
+>      build_dbg_aml(dsdt);
+> -    if (piix) {
+> +    if (i440fx) {
+>          sb_scope = aml_scope("_SB");
+>          dev = aml_device("PCI0");
+>          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+> @@ -1363,7 +1364,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>              build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
+>          }
+>          build_piix4_pci0_int(dsdt);
+> -    } else if (lpc) {
+> +    } else if (q35) {
+>          sb_scope = aml_scope("_SB");
+>          dev = aml_device("PCI0");
+>          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
 
 
