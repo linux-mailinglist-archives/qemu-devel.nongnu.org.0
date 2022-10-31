@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA1F26136F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:52:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F2ED6136F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:53:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUGm-0002K3-J4; Mon, 31 Oct 2022 08:52:02 -0400
+	id 1opUHJ-0003WN-My; Mon, 31 Oct 2022 08:52:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUGP-0001GV-L6
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:51:38 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUGj-0002Mw-MY
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:51:57 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUGM-0002JR-R8
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:51:37 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUGW-0002NM-8b
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:51:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667220693;
+ s=mimecast20190719; t=1667220699;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EQF6/tGiVwngpAoH4xDpyZjugGx9ZiIk6FcDicaLIJc=;
- b=GIAB/uTO8hpUKnpu793snKpTUhwhxZRchWZ7X0B73Cae/+3+NqgeumrVDxq+4Voen28Ygl
- U5/sWO7yEF6FSvZzWXE+ZcmTYJP/SY23qG7rFn325sPveqhmZPfb8+UYFCwWAVgQIRTey+
- pUdYpjwHI1APlR9S0ANaq26YpVA9fgg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oOh1HLJjiZGbBo3ZKq+CicPAufMrxh5O/nCB7GKJexA=;
+ b=hdu2Xlw35aVx4gzWlGqGHLhwSc+67WEB/Yoe88ZbR/G0kGxBC0kD0c5Toov62mmwJtJ/bo
+ Zr0wDx82xzjSZO/8+3mGgZv2wEC7opHYiKM+ho0hgXAOzmzuLoj7/662eHXN8hFNT9cvz+
+ 0iGcb3C50C0zOv7Pg/MEqoe0rK8xXws=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-177-Kg1QWF8mPR2QJzxj3Uj7tA-1; Mon, 31 Oct 2022 08:51:32 -0400
-X-MC-Unique: Kg1QWF8mPR2QJzxj3Uj7tA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- h204-20020a1c21d5000000b003cf4e055442so5267262wmh.1
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:51:32 -0700 (PDT)
+ us-mta-591-4dPt7aMiPzmxi54Y3geLLw-1; Mon, 31 Oct 2022 08:51:38 -0400
+X-MC-Unique: 4dPt7aMiPzmxi54Y3geLLw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ s7-20020a1cf207000000b003cf56bad2e2so2211669wmc.9
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:51:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EQF6/tGiVwngpAoH4xDpyZjugGx9ZiIk6FcDicaLIJc=;
- b=2mOdsqbZS2lw1X8kgk/+grZDOwpA/8gYfhVptk4p+2mlYznUJoR+Xaf8G0rwx2+Pse
- mo7XO0SY28zHo0Cnbn+mPSkLPPuwcjUrXtR0GFlYebZSkE8xVHxoB6IDGAekNlYIgIyP
- d5YfnQ14oT1et2y7+tq/v4R1lcdr17roj9zjcH1dwpYN2wooOB2B83ysReSFqiyDwVjK
- xhZYT2kDaWmr81wHT4dY+A62cEmI82Rb0S9/sCn5mgUm1BQZpyLPgQkzre7l0INxYr10
- gHKWAz/Sfr+pkVitX2V+iRHSIwmVro5EuCmZENA3BxmcPvJxe+eokp/TMwMVwM752EK8
- NneA==
-X-Gm-Message-State: ACrzQf3TzAApuTq4PWqcAoYhmFm/8b6GVkAZ+L0wPEP4j4VM5eIaamMn
- e5F6L4zOHqzBYtidDMqQsVUMPunf5Im3bCvN+ZWLFLEIklwVSSjddbkACMhiTfzCbb/T9DhQSIG
- 2o33rUg7GA34aWwnboeu1+A/qKN3IWvHw9NOD9JhcerMD4X/MYR46yXzw5zmP
-X-Received: by 2002:adf:f5d0:0:b0:236:5866:eefe with SMTP id
- k16-20020adff5d0000000b002365866eefemr8307436wrp.339.1667220690241; 
- Mon, 31 Oct 2022 05:51:30 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4b1ZKUFFnNmUZgK8duB1jnHpm31zKjS9CrjX7fnNJGQo254VG2keNULt1e8Y4xGhvw3te55A==
-X-Received: by 2002:adf:f5d0:0:b0:236:5866:eefe with SMTP id
- k16-20020adff5d0000000b002365866eefemr8307402wrp.339.1667220689896; 
- Mon, 31 Oct 2022 05:51:29 -0700 (PDT)
+ bh=oOh1HLJjiZGbBo3ZKq+CicPAufMrxh5O/nCB7GKJexA=;
+ b=1gGRL1Z8vTf2UAeBbrMSR54xv7XhcCPUEl0RURkWwt1ozRHEtncnnz5JHxrnWFs/sj
+ g/bEoThz48tWsbcYYr2ErfSXBYGu9RTrzYVOUAnaG5PIPiqOQ7EF2H6vOR80HEa2kgxt
+ 1I+TPAFzSuQzNG+WOTYNpFOrzL6SM1IOc+k52GUSni5iuEkfGUCjTZsGBPXsNTUrO+al
+ ivz3cFr0saKTZwXdC4GQGvp8fgCm0SpOF9ds9YZeUU0M14mgbuKi8WwPaURyehHI7Hom
+ AOo3qne1gM1SOCnbewVXhsiN3+xHhvTE+cufh9BEjMjP4r54mpxsXWo5AkuIzUtQ92+1
+ eg6Q==
+X-Gm-Message-State: ACrzQf0tRt/44rh1wRQnkGLCVFHvFNMiKKuu6DjQY2TajpOpMoKCWv6f
+ odWL959mJ34XT4QbXfNjl2SfaRJqucIDVFNFlXjwTdGAlhbNoPwvKkYhSRcC/kcxSafs28jRr3D
+ vCz0HkqaLsX9OkU6th74hBPFL76XprXFSkIT+dWi0HIQnptUF1NgnFVdH9V3G
+X-Received: by 2002:adf:e911:0:b0:236:73b7:e668 with SMTP id
+ f17-20020adfe911000000b0023673b7e668mr7903600wrm.96.1667220696578; 
+ Mon, 31 Oct 2022 05:51:36 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7LrnxxpNfuuPQjQpAxa0W7JjWQfj8vUU7E2ffR3WQLKCIeYf/MahJ8C5zwn3rByIPchXDVBA==
+X-Received: by 2002:adf:e911:0:b0:236:73b7:e668 with SMTP id
+ f17-20020adfe911000000b0023673b7e668mr7903572wrm.96.1667220696284; 
+ Mon, 31 Oct 2022 05:51:36 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- k3-20020a5d5183000000b00231ed902a4esm7197356wrv.5.2022.10.31.05.51.27
+ l24-20020a1c7918000000b003cf7928e731sm434856wme.9.2022.10.31.05.51.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:51:29 -0700 (PDT)
-Date: Mon, 31 Oct 2022 08:51:26 -0400
+ Mon, 31 Oct 2022 05:51:35 -0700 (PDT)
+Date: Mon, 31 Oct 2022 08:51:33 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, Ani Sinha <ani@anisinha.ca>,
@@ -68,14 +68,12 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Ani Sinha <ani@anisinha.ca>,
  Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Michael Tsirkin <mst@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin <mst@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PULL 15/86] acpi/tests/avocado/bits: add acpi and smbios avocado
- tests that uses biosbits
-Message-ID: <20221031124928.128475-16-mst@redhat.com>
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 17/86] MAINTAINERS: add myself as the maintainer for acpi
+ biosbits avocado tests
+Message-ID: <20221031124928.128475-18-mst@redhat.com>
 References: <20221031124928.128475-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -91,7 +89,7 @@ X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,14 +108,9 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@
 
 From: Ani Sinha <ani@anisinha.ca>
 
-This introduces QEMU acpi/smbios biosbits avocado test which is run
-from within the python virtual environment. When the bits tests are run, bits
-binaries are downloaded from an external repo/location, bios bits iso is
-regenerated containing the acpi/smbios bits tests that are maintained as a part
-of the QEMU source under tests/avocado/acpi-bits/bits-test . When the VM is
-spawned with the iso, it runs the tests in batch mode and the results are pushed
-out from the VM to the test machine where they are analyzed by this script and
-pass/fail results are reported.
+I wrote the biosbits avocado tests for testing QEMU's ACPI/SMBIOS implementation
+and all the related changes including fixes in biosbits software itself. Making
+myself as the maintainer for QEMU's biosbits related files and test scripts.
 
 Cc: Daniel P. Berrangé <berrange@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
@@ -128,416 +121,32 @@ Cc: Alex Bennée <alex.bennee@linaro.org>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Michael Tsirkin <mst@redhat.com>
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Message-Id: <20221021095108.104843-6-ani@anisinha.ca>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20221021095108.104843-8-ani@anisinha.ca>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/avocado/acpi-bits.py | 396 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 396 insertions(+)
- create mode 100644 tests/avocado/acpi-bits.py
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
-new file mode 100644
-index 0000000000..8745a58a76
---- /dev/null
-+++ b/tests/avocado/acpi-bits.py
-@@ -0,0 +1,396 @@
-+#!/usr/bin/env python3
-+# group: rw quick
-+# Exercize QEMU generated ACPI/SMBIOS tables using biosbits,
-+# https://biosbits.org/
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+#
-+# Author:
-+#  Ani Sinha <ani@anisinha.ca>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 64893e36bc..8ea193c812 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1859,6 +1859,13 @@ S: Supported
+ F: hw/acpi/viot.c
+ F: hw/acpi/viot.h
+ 
++ACPI/AVOCADO/BIOSBITS
++M: Ani Sinha <ani@anisinha.ca>
++S: Supported
++F: tests/avocado/acpi-bits/*
++F: tests/avocado/acpi-bits.py
++F: docs/devel/acpi-bits.rst
 +
-+# pylint: disable=invalid-name
-+# pylint: disable=consider-using-f-string
-+
-+"""
-+This is QEMU ACPI/SMBIOS avocado tests using biosbits.
-+Biosbits is available originally at https://biosbits.org/.
-+This test uses a fork of the upstream bits and has numerous fixes
-+including an upgraded acpica. The fork is located here:
-+https://gitlab.com/qemu-project/biosbits-bits .
-+"""
-+
-+import logging
-+import os
-+import platform
-+import re
-+import shutil
-+import subprocess
-+import tarfile
-+import tempfile
-+import time
-+import zipfile
-+from typing import (
-+    List,
-+    Optional,
-+    Sequence,
-+)
-+from qemu.machine import QEMUMachine
-+from avocado import skipIf
-+from avocado_qemu import QemuBaseTest
-+
-+deps = ["xorriso"] # dependent tools needed in the test setup/box.
-+supported_platforms = ['x86_64'] # supported test platforms.
-+
-+
-+def which(tool):
-+    """ looks up the full path for @tool, returns None if not found
-+        or if @tool does not have executable permissions.
-+    """
-+    paths=os.getenv('PATH')
-+    for p in paths.split(os.path.pathsep):
-+        p = os.path.join(p, tool)
-+        if os.path.exists(p) and os.access(p, os.X_OK):
-+            return p
-+    return None
-+
-+def missing_deps():
-+    """ returns True if any of the test dependent tools are absent.
-+    """
-+    for dep in deps:
-+        if which(dep) is None:
-+            return True
-+    return False
-+
-+def supported_platform():
-+    """ checks if the test is running on a supported platform.
-+    """
-+    return platform.machine() in supported_platforms
-+
-+class QEMUBitsMachine(QEMUMachine): # pylint: disable=too-few-public-methods
-+    """
-+    A QEMU VM, with isa-debugcon enabled and bits iso passed
-+    using -cdrom to QEMU commandline.
-+
-+    """
-+    def __init__(self,
-+                 binary: str,
-+                 args: Sequence[str] = (),
-+                 wrapper: Sequence[str] = (),
-+                 name: Optional[str] = None,
-+                 base_temp_dir: str = "/var/tmp",
-+                 debugcon_log: str = "debugcon-log.txt",
-+                 debugcon_addr: str = "0x403",
-+                 sock_dir: Optional[str] = None,
-+                 qmp_timer: Optional[float] = None):
-+        # pylint: disable=too-many-arguments
-+
-+        if name is None:
-+            name = "qemu-bits-%d" % os.getpid()
-+        if sock_dir is None:
-+            sock_dir = base_temp_dir
-+        super().__init__(binary, args, wrapper=wrapper, name=name,
-+                         base_temp_dir=base_temp_dir,
-+                         sock_dir=sock_dir, qmp_timer=qmp_timer)
-+        self.debugcon_log = debugcon_log
-+        self.debugcon_addr = debugcon_addr
-+        self.base_temp_dir = base_temp_dir
-+
-+    @property
-+    def _base_args(self) -> List[str]:
-+        args = super()._base_args
-+        args.extend([
-+            '-chardev',
-+            'file,path=%s,id=debugcon' %os.path.join(self.base_temp_dir,
-+                                                     self.debugcon_log),
-+            '-device',
-+            'isa-debugcon,iobase=%s,chardev=debugcon' %self.debugcon_addr,
-+        ])
-+        return args
-+
-+    def base_args(self):
-+        """return the base argument to QEMU binary"""
-+        return self._base_args
-+
-+@skipIf(not supported_platform() or missing_deps() or os.getenv('GITLAB_CI'),
-+        'incorrect platform or dependencies (%s) not installed ' \
-+        'or running on GitLab' % ','.join(deps))
-+class AcpiBitsTest(QemuBaseTest): #pylint: disable=too-many-instance-attributes
-+    """
-+    ACPI and SMBIOS tests using biosbits.
-+
-+    :avocado: tags=arch:x86_64
-+    :avocado: tags=acpi
-+
-+    """
-+    def __init__(self, *args, **kwargs):
-+        super().__init__(*args, **kwargs)
-+        self._vm = None
-+        self._workDir = None
-+        self._baseDir = None
-+
-+        # following are some standard configuration constants
-+        self._bitsInternalVer = 2020
-+        self._bitsCommitHash = 'b48b88ff' # commit hash must match
-+                                          # the artifact tag below
-+        self._bitsTag = "qemu-bits-10182022" # this is the latest bits
-+                                             # release as of today.
-+        self._bitsArtSHA1Hash = 'b04790ac9b99b5662d0416392c73b97580641fe5'
-+        self._bitsArtURL = ("https://gitlab.com/qemu-project/"
-+                            "biosbits-bits/-/jobs/artifacts/%s/"
-+                            "download?job=qemu-bits-build" %self._bitsTag)
-+        self._debugcon_addr = '0x403'
-+        self._debugcon_log = 'debugcon-log.txt'
-+        logging.basicConfig(level=logging.INFO)
-+        self.logger = logging.getLogger('acpi-bits')
-+
-+    def _print_log(self, log):
-+        self.logger.info('\nlogs from biosbits follows:')
-+        self.logger.info('==========================================\n')
-+        self.logger.info(log)
-+        self.logger.info('==========================================\n')
-+
-+    def copy_bits_config(self):
-+        """ copies the bios bits config file into bits.
-+        """
-+        config_file = 'bits-cfg.txt'
-+        bits_config_dir = os.path.join(self._baseDir, 'acpi-bits',
-+                                       'bits-config')
-+        target_config_dir = os.path.join(self._workDir,
-+                                         'bits-%d' %self._bitsInternalVer,
-+                                         'boot')
-+        self.assertTrue(os.path.exists(bits_config_dir))
-+        self.assertTrue(os.path.exists(target_config_dir))
-+        self.assertTrue(os.access(os.path.join(bits_config_dir,
-+                                               config_file), os.R_OK))
-+        shutil.copy2(os.path.join(bits_config_dir, config_file),
-+                     target_config_dir)
-+        self.logger.info('copied config file %s to %s',
-+                         config_file, target_config_dir)
-+
-+    def copy_test_scripts(self):
-+        """copies the python test scripts into bits. """
-+
-+        bits_test_dir = os.path.join(self._baseDir, 'acpi-bits',
-+                                     'bits-tests')
-+        target_test_dir = os.path.join(self._workDir,
-+                                       'bits-%d' %self._bitsInternalVer,
-+                                       'boot', 'python')
-+
-+        self.assertTrue(os.path.exists(bits_test_dir))
-+        self.assertTrue(os.path.exists(target_test_dir))
-+
-+        for filename in os.listdir(bits_test_dir):
-+            if os.path.isfile(os.path.join(bits_test_dir, filename)) and \
-+               filename.endswith('.py2'):
-+                # all test scripts are named with extension .py2 so that
-+                # avocado does not try to load them. These scripts are
-+                # written for python 2.7 not python 3 and hence if avocado
-+                # loaded them, it would complain about python 3 specific
-+                # syntaxes.
-+                newfilename = os.path.splitext(filename)[0] + '.py'
-+                shutil.copy2(os.path.join(bits_test_dir, filename),
-+                             os.path.join(target_test_dir, newfilename))
-+                self.logger.info('copied test file %s to %s',
-+                                 filename, target_test_dir)
-+
-+                # now remove the pyc test file if it exists, otherwise the
-+                # changes in the python test script won't be executed.
-+                testfile_pyc = os.path.splitext(filename)[0] + '.pyc'
-+                if os.access(os.path.join(target_test_dir, testfile_pyc),
-+                             os.F_OK):
-+                    os.remove(os.path.join(target_test_dir, testfile_pyc))
-+                    self.logger.info('removed compiled file %s',
-+                                     os.path.join(target_test_dir,
-+                                     testfile_pyc))
-+
-+    def fix_mkrescue(self, mkrescue):
-+        """ grub-mkrescue is a bash script with two variables, 'prefix' and
-+            'libdir'. They must be pointed to the right location so that the
-+            iso can be generated appropriately. We point the two variables to
-+            the directory where we have extracted our pre-built bits grub
-+            tarball.
-+        """
-+        grub_x86_64_mods = os.path.join(self._workDir, 'grub-inst-x86_64-efi')
-+        grub_i386_mods = os.path.join(self._workDir, 'grub-inst')
-+
-+        self.assertTrue(os.path.exists(grub_x86_64_mods))
-+        self.assertTrue(os.path.exists(grub_i386_mods))
-+
-+        new_script = ""
-+        with open(mkrescue, 'r', encoding='utf-8') as filehandle:
-+            orig_script = filehandle.read()
-+            new_script = re.sub('(^prefix=)(.*)',
-+                                r'\1"%s"' %grub_x86_64_mods,
-+                                orig_script, flags=re.M)
-+            new_script = re.sub('(^libdir=)(.*)', r'\1"%s/lib"' %grub_i386_mods,
-+                                new_script, flags=re.M)
-+
-+        with open(mkrescue, 'w', encoding='utf-8') as filehandle:
-+            filehandle.write(new_script)
-+
-+    def generate_bits_iso(self):
-+        """ Uses grub-mkrescue to generate a fresh bits iso with the python
-+            test scripts
-+        """
-+        bits_dir = os.path.join(self._workDir,
-+                                'bits-%d' %self._bitsInternalVer)
-+        iso_file = os.path.join(self._workDir,
-+                                'bits-%d.iso' %self._bitsInternalVer)
-+        mkrescue_script = os.path.join(self._workDir,
-+                                       'grub-inst-x86_64-efi', 'bin',
-+                                       'grub-mkrescue')
-+
-+        self.assertTrue(os.access(mkrescue_script,
-+                                  os.R_OK | os.W_OK | os.X_OK))
-+
-+        self.fix_mkrescue(mkrescue_script)
-+
-+        self.logger.info('using grub-mkrescue for generating biosbits iso ...')
-+
-+        try:
-+            if os.getenv('V'):
-+                subprocess.check_call([mkrescue_script, '-o', iso_file,
-+                                       bits_dir], stderr=subprocess.STDOUT)
-+            else:
-+                subprocess.check_call([mkrescue_script, '-o',
-+                                      iso_file, bits_dir],
-+                                      stderr=subprocess.DEVNULL,
-+                                      stdout=subprocess.DEVNULL)
-+        except Exception as e: # pylint: disable=broad-except
-+            self.skipTest("Error while generating the bits iso. "
-+                          "Pass V=1 in the environment to get more details. "
-+                          + str(e))
-+
-+        self.assertTrue(os.access(iso_file, os.R_OK))
-+
-+        self.logger.info('iso file %s successfully generated.', iso_file)
-+
-+    def setUp(self): # pylint: disable=arguments-differ
-+        super().setUp('qemu-system-')
-+
-+        self._baseDir = os.getenv('AVOCADO_TEST_BASEDIR')
-+
-+        # workdir could also be avocado's own workdir in self.workdir.
-+        # At present, I prefer to maintain my own temporary working
-+        # directory. It gives us more control over the generated bits
-+        # log files and also for debugging, we may chose not to remove
-+        # this working directory so that the logs and iso can be
-+        # inspected manually and archived if needed.
-+        self._workDir = tempfile.mkdtemp(prefix='acpi-bits-',
-+                                         suffix='.tmp')
-+        self.logger.info('working dir: %s', self._workDir)
-+
-+        prebuiltDir = os.path.join(self._workDir, 'prebuilt')
-+        if not os.path.isdir(prebuiltDir):
-+            os.mkdir(prebuiltDir, mode=0o775)
-+
-+        bits_zip_file = os.path.join(prebuiltDir, 'bits-%d-%s.zip'
-+                                     %(self._bitsInternalVer,
-+                                       self._bitsCommitHash))
-+        grub_tar_file = os.path.join(prebuiltDir,
-+                                     'bits-%d-%s-grub.tar.gz'
-+                                     %(self._bitsInternalVer,
-+                                       self._bitsCommitHash))
-+
-+        bitsLocalArtLoc = self.fetch_asset(self._bitsArtURL,
-+                                           asset_hash=self._bitsArtSHA1Hash)
-+        self.logger.info("downloaded bits artifacts to %s", bitsLocalArtLoc)
-+
-+        # extract the bits artifact in the temp working directory
-+        with zipfile.ZipFile(bitsLocalArtLoc, 'r') as zref:
-+            zref.extractall(prebuiltDir)
-+
-+        # extract the bits software in the temp working directory
-+        with zipfile.ZipFile(bits_zip_file, 'r') as zref:
-+            zref.extractall(self._workDir)
-+
-+        with tarfile.open(grub_tar_file, 'r', encoding='utf-8') as tarball:
-+            tarball.extractall(self._workDir)
-+
-+        self.copy_test_scripts()
-+        self.copy_bits_config()
-+        self.generate_bits_iso()
-+
-+    def parse_log(self):
-+        """parse the log generated by running bits tests and
-+           check for failures.
-+        """
-+        debugconf = os.path.join(self._workDir, self._debugcon_log)
-+        log = ""
-+        with open(debugconf, 'r', encoding='utf-8') as filehandle:
-+            log = filehandle.read()
-+
-+        matchiter = re.finditer(r'(.*Summary: )(\d+ passed), (\d+ failed).*',
-+                                log)
-+        for match in matchiter:
-+            # verify that no test cases failed.
-+            try:
-+                self.assertEqual(match.group(3).split()[0], '0',
-+                                 'Some bits tests seems to have failed. ' \
-+                                 'Please check the test logs for more info.')
-+            except AssertionError as e:
-+                self._print_log(log)
-+                raise e
-+            else:
-+                if os.getenv('V'):
-+                    self._print_log(log)
-+
-+    def tearDown(self):
-+        """
-+           Lets do some cleanups.
-+        """
-+        if self._vm:
-+            self.assertFalse(not self._vm.is_running)
-+        self.logger.info('removing the work directory %s', self._workDir)
-+        shutil.rmtree(self._workDir)
-+        super().tearDown()
-+
-+    def test_acpi_smbios_bits(self):
-+        """The main test case implementaion."""
-+
-+        iso_file = os.path.join(self._workDir,
-+                                'bits-%d.iso' %self._bitsInternalVer)
-+
-+        self.assertTrue(os.access(iso_file, os.R_OK))
-+
-+        self._vm = QEMUBitsMachine(binary=self.qemu_bin,
-+                                   base_temp_dir=self._workDir,
-+                                   debugcon_log=self._debugcon_log,
-+                                   debugcon_addr=self._debugcon_addr)
-+
-+        self._vm.add_args('-cdrom', '%s' %iso_file)
-+        # the vm needs to be run under icount so that TCG emulation is
-+        # consistent in terms of timing. smilatency tests have consistent
-+        # timing requirements.
-+        self._vm.add_args('-icount', 'auto')
-+
-+        args = " ".join(str(arg) for arg in self._vm.base_args()) + \
-+            " " + " ".join(str(arg) for arg in self._vm.args)
-+
-+        self.logger.info("launching QEMU vm with the following arguments: %s",
-+                         args)
-+
-+        self._vm.launch()
-+        # biosbits has been configured to run all the specified test suites
-+        # in batch mode and then automatically initiate a vm shutdown.
-+        # sleep for maximum of one minute
-+        max_sleep_time = time.monotonic() + 60
-+        while self._vm.is_running() and time.monotonic() < max_sleep_time:
-+            time.sleep(1)
-+
-+        self.assertFalse(time.monotonic() > max_sleep_time,
-+                         'The VM seems to have failed to shutdown in time')
-+
-+        self.parse_log()
+ ACPI/HEST/GHES
+ R: Dongjiu Geng <gengdongjiu1@gmail.com>
+ L: qemu-arm@nongnu.org
 -- 
 MST
 
