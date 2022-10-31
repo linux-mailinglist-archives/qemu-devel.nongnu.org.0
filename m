@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2229613F69
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 22:03:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D161613F6A
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 22:03:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opbvO-0004NU-Pp; Mon, 31 Oct 2022 17:02:26 -0400
+	id 1opbuw-0000Uq-S9; Mon, 31 Oct 2022 17:01:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opbvM-0004El-W8
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 17:02:25 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
+ id 1opbuh-00081g-A5
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 17:01:46 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opbvL-0001w8-A1
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 17:02:24 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id b29so11702502pfp.13
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 14:02:22 -0700 (PDT)
+ id 1opbue-0001qO-Fy
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 17:01:41 -0400
+Received: by mail-pf1-x433.google.com with SMTP id b29so11700881pfp.13
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 14:01:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
@@ -37,23 +37,23 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
  bh=JAEA3DMY1WNend79jgr0S8JEJHrrrpB+mV4oiWm8bas=;
- b=C9mDu+zzQWEVe2BsAjkfAxW/J9qymfWFS3V9OKwQcpq5gimKCWawKx4HC6fcR+07rm
- FZhf976n1cKapQMDJnEHplhe0ZsdfKCetkuaDfR3LC/AZYYkZKfv9rt0tRC+EfP74rPO
- IIll2pqQu87dVJE1cd42vcws3yhZwRPTxTdHu+s8oNz1hxuWVeYVFkkJlSmK/DJoIjPR
- GhvtQgiVdYgekWRP7oSZqughAYAGWILM8iPGDhYSNvHswZ7NHVrszPInSUb02840eXyo
- HCeoYC64qu6LnP5YverWy574Fx9Q5C2QAtJ7sgOwimug9b9hhN2aRAxqgvXtq96uDP+T
- /3QQ==
-X-Gm-Message-State: ACrzQf3fknIJOa2D54tvw1WZKoeQLKQxUz1kTHI2mSVUhAq+p5ib+pdq
- QJARq+R+8nf75C2Zq9dHsfqQaHrq0dBmlA==
-X-Google-Smtp-Source: AMsMyM6wQg/ECnbtaEi5l212SpdGZh9tWDvfOpWu03xYosu6LJye9j6W7xVpzf4H2wab3t38epaaTA==
-X-Received: by 2002:a63:87c7:0:b0:46b:3cf1:e163 with SMTP id
- i190-20020a6387c7000000b0046b3cf1e163mr14620114pge.112.1667250141848; 
- Mon, 31 Oct 2022 14:02:21 -0700 (PDT)
+ b=hqcVt865G4XeGaO/jMgtqZ/A9pIgWqxFGDy9C+xFZlfZXqU+//akQlOG8tIBYineCG
+ wAv05aeFJeJHyY9S7As0/tnBzvTQUJd7BdoOqmELRuA63V1qkhfKBsIEJOn1VTH4OUIq
+ zR2nd+qZvmcW1LlFThJjCnLlyHSlZ/aaSmLj8tTbqMCgNB4DuCWEqzDvpOV110KR6KZy
+ rkU+J5nLwavqxaAw8b1y2nXlZ6NBUr1YCB7oQp0sQ3oIENLenNXbvApRoELLLvdmIEbu
+ jaZfPr6arQxVFQwNBQh6oze18qv1D80URRcjFJQYncJeo7iV5mRE11Ym+874pzWVkrOg
+ fiuw==
+X-Gm-Message-State: ACrzQf0SK9YMdjO2f4TU0xQK3IlzJ2PuFcYgLVMeA2t3JZkyLXJaCb+y
+ n0gGubgAvvvX3BQAP1JhHdZQZnY7iwZfvA==
+X-Google-Smtp-Source: AMsMyM6hOgRvZ5H2unNhFGgrJUsuLsNBWxzRMybqsd4zvSCJ3mKQhOnUbqDJpDD15xVmy9DsNfrpbg==
+X-Received: by 2002:a63:df10:0:b0:43b:e82f:e01c with SMTP id
+ u16-20020a63df10000000b0043be82fe01cmr14398494pgg.19.1667250098512; 
+ Mon, 31 Oct 2022 14:01:38 -0700 (PDT)
 Received: from [192.168.229.227] ([172.58.27.250])
  by smtp.gmail.com with ESMTPSA id
- q17-20020a63cc51000000b00461b85e5ad6sm4523326pgi.19.2022.10.31.14.02.18
+ h18-20020a63df52000000b00434272fe870sm4567791pgj.88.2022.10.31.14.00.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 14:02:21 -0700 (PDT)
+ Mon, 31 Oct 2022 14:01:36 -0700 (PDT)
 Message-ID: <ea1da935-9e31-f1fd-2871-476fd26e63ae@linaro.org>
 Date: Tue, 1 Nov 2022 08:00:03 +1100
 MIME-Version: 1.0
@@ -68,15 +68,15 @@ From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <20221031110736.pcao7aqhdoyxpqww@heavy>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
