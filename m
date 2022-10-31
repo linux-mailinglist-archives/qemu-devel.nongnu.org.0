@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A06612E46
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 01:31:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9EE612E47
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 01:31:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opIh2-0008N0-C2; Sun, 30 Oct 2022 20:30:20 -0400
+	id 1opIhW-0000BS-Uu; Sun, 30 Oct 2022 20:30:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opIh0-0008Ms-VY
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 20:30:18 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ id 1opIhU-0000AC-T8
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 20:30:48 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opIgy-00074N-Ch
- for qemu-devel@nongnu.org; Sun, 30 Oct 2022 20:30:18 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id m2so9067509pjr.3
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 17:30:15 -0700 (PDT)
+ id 1opIhS-0007Jw-D5
+ for qemu-devel@nongnu.org; Sun, 30 Oct 2022 20:30:48 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id 78so9365796pgb.13
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 17:30:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=NDx32qZSEOxVylnqgY8PkJlneQchqQk5W95Kf6kqJw4=;
- b=giPZSPuz7MXsRpsIIjTys5QjU6sEoDGMqqnKi2x9L4qwHvHmM+8DUJxYIZTFfOzZrz
- rbaJXKjS8JFq87LpYru4jgtjNW1QwQdVXYI5T8nsQha++gVOUtlWy6SVATlpwPpuBTl/
- tp/03io0yHxPopYp+YK6jAL6+szubAxfB1vMz/dhZbyLiOm37AHngmGJf88SOcLt5ul6
- XQ+04BD/89u6ysMOYTVnL22TPIC1fqv7ZPOl814H4B0x7/LMUjpE3qSD7zh8blZKivlw
- vv/Wp1sJQVcpQJUI9GdeZ5/w52GhbaOv033vHWjxsoVemYLwFT1F+1Fm2XP2NlwBHHvl
- JxHA==
+ bh=xRuzc7ZQplXkC99gP15+5IEAf3wzmbnd+ECbSGkqGF4=;
+ b=inGfPxOcbEJ90gZ5Y1TUKumimyx8ulSLfInLPtDTs5RCkf/HnadO1xBKssLKGy3+RS
+ EmdvTD95NC+FEFoSvNxLX+GgbnVwLjScyMQC9KZhFgYNwzI4XinvWgljrSry7ZkgK0g6
+ r9ssj4VCkeD2zI+Ryy1SKtcU+lMg2X+9jUKE+hDD+MDqz8hnyv40NAMyGat5oKEH0Uod
+ wWiPaTAVvHaT01eiGzuSqD+oagojIG7mhRZQA46IPES+SrcRUQn+U7rgK1WQq8ueH0xl
+ AK1L2vxV/rc64bDFN4JTrxK59Y7Krgnkxo3iwUlpcNBijYjy+pmSs/907WyPdQZdKVre
+ KyIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NDx32qZSEOxVylnqgY8PkJlneQchqQk5W95Kf6kqJw4=;
- b=X7tAn7cH62x1nR2WGPWVMr8eFUJnq4SXdpnbO0jFazM+yTEwoAs5/EiLOrv3yN/sEE
- N5Fg46et7jW2KHejB4iz15Qh3BMBVaOyGyYUctPaLKe/5Tqe9mKRPDGEMWhyGFmtanEG
- fq/8Z2Ky+bGYOzZUyJA0wvytDP6BkrG4MFVeNz8u4Pvfu1zU9vvfoeDWaLWpxmAByWrv
- YiItwNEbX21HqJMeJHhN6GlD3VaaEwkhpByBa4w/un8WhdnXJe3lTLEpi03s3Du3O47z
- Dungrcwb5vHiyWtihGgVSdY5yPi1e6lP0w7ZePzqmBqQcFElxJyyPVBdu/6r3M36m6Vu
- i9fw==
-X-Gm-Message-State: ACrzQf19DGOiJ5I83NBQy9R7APfQAJ4Smp5xCetUwMBKnuJkpP4hzAgK
- A8GChuI1pK7IvboPBD0tnwIUGLVCAmZTNw==
-X-Google-Smtp-Source: AMsMyM6rLzai80xngIMwucEW80cNG98Eb+Tt4qtiBGNaSQtXSMwny1Vo7G7XmKQzWvJ5vD3VM/yz0Q==
-X-Received: by 2002:a17:90b:1d4d:b0:213:98e7:3b3 with SMTP id
- ok13-20020a17090b1d4d00b0021398e703b3mr11824956pjb.197.1667176215036; 
- Sun, 30 Oct 2022 17:30:15 -0700 (PDT)
+ bh=xRuzc7ZQplXkC99gP15+5IEAf3wzmbnd+ECbSGkqGF4=;
+ b=u0v7SpeJqAzmylQziTkp526ppijFRkEWcFMOrsLrQSmyDfxMnc+fadzNbfilptyGbQ
+ xkouqaze8yzpQscFKkMRqvidmC4MuvuYof7Hi6HBW18LmrTMDbJifHI2LLciFTWM1jff
+ p7ShEO4IY53kBYVGA752bevpyZAVg5+2J0cuUi704D55r8mN6BqDJLekrV91ZEgjtxIc
+ owo3XLovFqdQ2XmaAFgMQWvMoL4SIGiZYt4TT+qOUTVQ/16WF8+kQp4cYl11DV2HzhXT
+ fWPcMcgmezHkVrGMsFCo3AkKL7Jnf8+FA/AspMdNbgy4nvvMSmMbcnlb7Z7LzQnlug9j
+ lOcg==
+X-Gm-Message-State: ACrzQf1b2nB6xIikmmM/5qFFRgW5jyH7Ov0eqM2HoxuZWfknS5zFnUEc
+ H+kFi0tR40Rygouf7eYOIu1oqg==
+X-Google-Smtp-Source: AMsMyM5N19LJHL8gE38wN8kTSVYzxftO4ojnEg9hyKi7kDTcy19o1WUU6BpzQ9ewR+XIr0AOWmG6dQ==
+X-Received: by 2002:a63:d64b:0:b0:46f:7941:a8ea with SMTP id
+ d11-20020a63d64b000000b0046f7941a8eamr10175199pgj.331.1667176244884; 
+ Sun, 30 Oct 2022 17:30:44 -0700 (PDT)
 Received: from [192.168.207.227] ([172.58.27.183])
  by smtp.gmail.com with ESMTPSA id
- nh16-20020a17090b365000b0020a825fc912sm2915983pjb.45.2022.10.30.17.30.11
+ p10-20020a17090a348a00b00212d4cbcbfdsm2942130pjb.22.2022.10.30.17.30.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 30 Oct 2022 17:30:14 -0700 (PDT)
-Message-ID: <d5c732b9-f0a7-8b7c-7676-01dc9b0e2342@linaro.org>
-Date: Mon, 31 Oct 2022 11:05:46 +1100
+ Sun, 30 Oct 2022 17:30:24 -0700 (PDT)
+Message-ID: <49f41916-687f-b9e5-2de7-9c658fe0d4c7@linaro.org>
+Date: Mon, 31 Oct 2022 11:07:48 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH 3/3] target/mips: Disable DSP ASE for Octeon68XX
+Subject: Re: [PATCH] MAINTAINERS: Inherit from nanoMIPS
 Content-Language: en-US
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, f4bug@amsat.org
-Cc: qemu-devel@nongnu.org, pavel.dovgalyuk@ispras.ru
-References: <20221029020030.13936-1-jiaxun.yang@flygoat.com>
- <20221029020030.13936-4-jiaxun.yang@flygoat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Milica Lazarevic <milica.lazarevic@syrmia.com>,
+ Thomas Huth <thuth@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
+References: <20221030225006.43203-1-philmd@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221029020030.13936-4-jiaxun.yang@flygoat.com>
+In-Reply-To: <20221030225006.43203-1-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,27 +96,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/29/22 13:00, Jiaxun Yang wrote:
-> I don't have access to Octeon68XX hardware but accroading to
-> my investigation Octeon never had DSP ASE support.
+On 10/31/22 09:50, Philippe Mathieu-Daudé wrote:
+> 6 months ago Stefan Pejic stepped in as nanoMIPS maintainer
+> (see commit a 8e0e23445a "target/mips: Undeprecate nanoMIPS
+> ISA support in QEMU"), however today his email is bouncing:
 > 
-> As per "Cavium Networks OCTEON Plus CN50XX Hardware Reference
-> Manual" CP0C3_DSPP is reserved bit and read as 0. Also I do have
-> access to a Ubiquiti Edgerouter 4 which has Octeon CN7130 processor
-> and I can confirm CP0C3_DSPP is read as 0 on that processor.
+>    ** Message blocked **
 > 
-> Further more, in linux kernel:
-> arch/mips/include/asm/mach-cavium-octeon/cpu-feature-overrides.h
-> cpu_has_dsp is overridden as 0.
+>    Your message tostefan.pejic@syrmia.com  has been blocked. See technical details below for more information.
 > 
-> So I believe we shouldn't emulate DSP in QEMU as well.
+>    The response from the remote server was:
+>    550 5.4.1 Recipient address rejected: Access denied. AS(201806281) [DBAEUR03FT030.eop-EUR03.prod.protection.outlook.com]
 > 
-> Signed-off-by: Jiaxun Yang<jiaxun.yang@flygoat.com>
+> To avoid unmaintained code, I feel forced to merge this code
+> back with the generic MIPS section.
+> 
+> Historical references:
+> -https://lore.kernel.org/qemu-devel/TY0PR03MB679726901BD6C6BE40114A2FE2A79@TY0PR03MB6797.apcprd03.prod.outlook.com/
+> -https://lore.kernel.org/qemu-devel/b858a20e97b74e7b90a94948314d0008@MTKMBS62N2.mediatek.inc/
+> 
+> Cc: Vince Del Vecchio<Vince.DelVecchio@mediatek.com>
+> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->   target/mips/cpu-defs.c.inc | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   MAINTAINERS | 8 +-------
+>   1 file changed, 1 insertion(+), 7 deletions(-)
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
