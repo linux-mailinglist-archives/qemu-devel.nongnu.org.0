@@ -2,78 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93015613190
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 09:17:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA82613191
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 09:17:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opPyJ-0003aU-4n; Mon, 31 Oct 2022 04:16:39 -0400
+	id 1opPyr-0004GQ-Ow; Mon, 31 Oct 2022 04:17:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opPxv-0003Yy-SG
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:16:16 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opPxu-0006VU-Dy
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:16:15 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id t4so6673073wmj.5
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 01:16:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ZVOuOlnoN7BE4w/hIBlhFCAJX0WT3zJ0oUcJmvVh2Lc=;
- b=AUTaPvhiFxEoMwOYyXOhJY4kWHEN3WA+9x/+f048oF+/Fnno4N+vvwiwI5yqHNe1GN
- CDczbtG3BpUDwqw+s+1duIBUSQGFRfXCkbMgIJHF/FkYIvlE+OqfVE0GoE/mVXGzZOy9
- siy5nejxzBYTdRzbo60QL1oM8YlvpDcu+PgyT8Zl08i0sDpMeTxY2hOZBNNBU2+8y6a3
- W6MFEf9bnX7CJm4dX4YRYWgXugJFMMmTdx2NUp5LiS7YH4d5ZNJGeUPqiWkonMipomfS
- pXMANtWuzNPEJYroO3kyJNcCCD3gqkVv0AzeOH5FmXmYIabS0/dxTlDnrR0suWAcd3o1
- j4DQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opPyp-0004FR-6B
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:17:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opPyn-0006vA-GE
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:17:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667204228;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zemxudhpWNq/8wTw2p3KWiAHcdZK7DAp42H4oj5YVlE=;
+ b=SXkui31LtqHnrwj1/bF5CJONb5i3ClGW/EMw/TkqalZ5XJ5sfWFTFhGNh6xHBdMh74kEVA
+ J2RCuBOX+B1cUOWfuNrO4FNkvlbbN+jEjx+qrjgYLSSLTJhbyioxXB++iG/r2ibyhlR7Iq
+ ++da54l0DXvyMapAJJUbERM46LenkTc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-25-KmyZI-GjOyWlHk_y-U25mw-1; Mon, 31 Oct 2022 04:17:06 -0400
+X-MC-Unique: KmyZI-GjOyWlHk_y-U25mw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ i7-20020a1c3b07000000b003c5e6b44ebaso3146430wma.9
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 01:17:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZVOuOlnoN7BE4w/hIBlhFCAJX0WT3zJ0oUcJmvVh2Lc=;
- b=2hPcEPySMYu8Eq581gYJp/bWopSDPbzwf7okuI1zOF0QDql6+GCMPI/qEheUd6pptD
- 9WXa7mVx5wtkBn6bonhjSjFZPlhJgKqP/5HLHaEO0+HaJHz4/HsssU6HE6ACSerxQG0I
- tluE8eQjx6intTNJo7qpVt5W9EqpWdnXlGPS+bvgmBEau6pgEekwlJ0VRevI9tTjgLRG
- msUdXL3dxwLC06RBo+JzJa3sZndEofLLMLPFWYsCHT0BYNPMBV1vrPQ0z9a2sRH9tE5a
- Q7mw6Kt+KBELK3KP4sze1virPitZcrAM4Xwgqy2mDu785TZjyUzDnShwkUcXMCtO/lUo
- FMyQ==
-X-Gm-Message-State: ACrzQf0c92v25/Sv81EJldPJh1fdKqnSlteABhJOdIN0OSyDZAA1sF4X
- t6HtAOXAIssgM9gp/rj3KJMxbg==
-X-Google-Smtp-Source: AMsMyM5Ws2L/ojuDwZXsepdIx1NRi6dHN5MRWvHLh+PYUMYhxoffh5oDttxn1LCsPGHf7mEXJO9bsw==
-X-Received: by 2002:a05:600c:468e:b0:3c6:f510:735c with SMTP id
- p14-20020a05600c468e00b003c6f510735cmr6972788wmo.179.1667204172942; 
- Mon, 31 Oct 2022 01:16:12 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- n8-20020a05600c294800b003c4ecff4e25sm443136wmd.9.2022.10.31.01.16.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 01:16:12 -0700 (PDT)
-Message-ID: <fbf756ee-e334-66e6-e84c-3ba207544b65@linaro.org>
-Date: Mon, 31 Oct 2022 09:16:11 +0100
+ bh=zemxudhpWNq/8wTw2p3KWiAHcdZK7DAp42H4oj5YVlE=;
+ b=LkJe1Op5Qu795eXJMau9vX9wud4w+LHn1z79wibF2qoGLWpzNrkgPqbZzlEcf5gMoo
+ ztCx3fCOuHRSqEzCygaW3biiUvJij1kI0eG9hgGwv6PKIJTos+Dkfs0adpi3WZtyaPjB
+ 8UjrA+TZ0SvEoWZlG3KvPmrESrH4+1uEZQsiCrWv+kYnHXea7QIfjBqoV0D81707vWAt
+ bdM4E2G1A5tTYpYpgWL2EROTKin0YlpwoTzCt9SaY8SWVS31TvfxZfWZVSA0TIun+1ST
+ BIJ9pfhZ4MRg3Wf1w82DeUwxAiIMxA7x26VXxaEEDV5bL0xY0GZAuSivl0fSms0QjAFi
+ taXw==
+X-Gm-Message-State: ACrzQf1asyWHLUiBrLiBC9+Q3zRCJfaZSObQeCbl8x0ry+sdbwWiNk8G
+ bfIsmcPx0CROBy5a2HirJe+0PFWSaJg18DC12Xr7yc2xDmT7eqK2cVrXkXuFMswsbPhR4U63NnM
+ 8hKgiGHMwISDtz5I=
+X-Received: by 2002:adf:fe8e:0:b0:236:6860:e55a with SMTP id
+ l14-20020adffe8e000000b002366860e55amr6834250wrr.105.1667204225556; 
+ Mon, 31 Oct 2022 01:17:05 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5aeH19nE1i4I1XnQ8CTt0B21vU7zRQYOL7jwXPXVna3s0SkoWVTdCVx4a2XCuPDiMTnXNVtw==
+X-Received: by 2002:adf:fe8e:0:b0:236:6860:e55a with SMTP id
+ l14-20020adffe8e000000b002366860e55amr6834237wrr.105.1667204225346; 
+ Mon, 31 Oct 2022 01:17:05 -0700 (PDT)
+Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
+ v10-20020adfedca000000b002366a624bd4sm6233739wro.28.2022.10.31.01.17.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Oct 2022 01:17:04 -0700 (PDT)
+Date: Mon, 31 Oct 2022 04:17:01 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH 2/4] vhost: convert byte order on SVQ used event write
+Message-ID: <20221031041527-mutt-send-email-mst@kernel.org>
+References: <20221028160251.268607-1-eperezma@redhat.com>
+ <20221028160251.268607-3-eperezma@redhat.com>
+ <6375bb66-91a5-d638-dd4f-2700ac3a26cc@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH] target/arm: Copy the entire vector in DO_ZIP
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Idan Horowitz <idan.horowitz@gmail.com>
-References: <20221031054144.3574-1-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221031054144.3574-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <6375bb66-91a5-d638-dd4f-2700ac3a26cc@linaro.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.055,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,16 +100,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 31/10/22 06:41, Richard Henderson wrote:
-> With odd_ofs set, we weren't copying enough data.
+On Sat, Oct 29, 2022 at 12:48:43AM +0200, Philippe Mathieu-DaudÈ wrote:
+> On 28/10/22 18:02, Eugenio PÈrez wrote:
+> > This causes errors on virtio modern devices on big endian hosts
+> > 
+> > Fixes: 01f8beacea2a ("vhost: toggle device callbacks using used event idx")
+> > Signed-off-by: Eugenio PÈrez <eperezma@redhat.com>
+> > ---
+> >   hw/virtio/vhost-shadow-virtqueue.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+> > index 70766ea740..467099f5d9 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > @@ -382,7 +382,7 @@ static bool vhost_svq_enable_notification(VhostShadowVirtqueue *svq)
+> >   {
+> >       if (virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
+> >           uint16_t *used_event = &svq->vring.avail->ring[svq->vring.num];
+> > -        *used_event = svq->shadow_used_idx;
+> > +        *used_event = cpu_to_le16(svq->shadow_used_idx);
 > 
-> Fixes: 09eb6d7025d1 ("target/arm: Move sve zip high_ofs into simd_data")
-> Reported-by: Idan Horowitz <idan.horowitz@gmail.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/arm/sve_helper.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> This looks correct, but what about:
+> 
+>            virtio_stw_p(svq->vdev, used_event, svq->shadow_used_idx);
 
-Reviewed-by: Philippe Mathieu-Daud√© <philmd@linaro.org>
+
+Philippe thanks for review but this comment isn't all that clear.
+I think you meant something like:
+	this won't handle endian-ness for legacy virtio devices
+	on BE correctly. I think  virtio_stw_p would be better.
+
+which would make sense.
+
+Yes contributors should document motivation for changes but so
+should reviewers.
+	
+
+> >       } else {
+> >           svq->vring.avail->flags &= ~cpu_to_le16(VRING_AVAIL_F_NO_INTERRUPT);
+> >       }
 
 
