@@ -2,89 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943FC6133E3
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 11:47:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9741D6133E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 11:47:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opSJh-0000kC-8N; Mon, 31 Oct 2022 06:46:53 -0400
+	id 1opSKH-0000yP-Tf; Mon, 31 Oct 2022 06:47:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1opSJf-0000jq-4Z
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 06:46:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1opSJd-00070v-K8
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 06:46:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667213208;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bT4I60z2yjyhB9cZ2tIESm0NVFEBUC1ZLEnE6Xc4UgI=;
- b=XzMUnJCty7+BGccvzCD6NNW9YfobWprPOhtW4FMD+oKinuMAsAwl9c60/KmrC8Vx3Kki82
- SB7F++SUqqLNhTd/ASM0tgcwDdz5YAShVIwcyxJ1bAyrxn5+TwvJTamURPhyicaRTX41/0
- iEnfAL9LVjUYIcmDG8eIozyO4Ru3C1Y=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-526-iySL2La-NFaXdzRGCI2VyA-1; Mon, 31 Oct 2022 06:46:46 -0400
-X-MC-Unique: iySL2La-NFaXdzRGCI2VyA-1
-Received: by mail-qk1-f197.google.com with SMTP id
- n13-20020a05620a294d00b006cf933c40feso9232420qkp.20
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 03:46:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1opSKD-0000sn-0Q
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 06:47:25 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1opSKA-00074Y-Pm
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 06:47:24 -0400
+Received: by mail-pl1-x632.google.com with SMTP id c2so10363557plz.11
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 03:47:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=N4fQUDxB9gXaG7gk00bzYD84G6S6rxfvEgKeVA81328=;
+ b=yhSC6Htiw/afClRKyWhQzGKszWsSCI+LAQjaRThzYgb8BGg38IwziHWm+v+UReCGF0
+ NlCuzdZCmnsvKNhxmTaUpI1U0Kj7CkKzYZpDFh1QZZzQgtxGAAY+z/Mx2pCPN0JFcAKe
+ gkXADbnLOeerASSW2+ghH5S3tb/BPfl9ng0rKisdJA+R8zFp2EyWWCKg2SMN3fU2btJn
+ vXBqvwk8V+c5pSKXCEfop9WS+D2rXqC1jEVvXvrD/bl1240W+UETlYQksMfSfDYToDYQ
+ 4hXId3uzryGvkfnUgIo1TRFeWv5RSN+vy0x02Ta0xLoui37Ah6R6JLiYxUChQxVr4UXj
+ CSng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bT4I60z2yjyhB9cZ2tIESm0NVFEBUC1ZLEnE6Xc4UgI=;
- b=oI3ac8bjQIdr/li+9aRnuAIA2SVkQlmUovh0QP7z9PH8Am9LZ09GDQiNf6lktebcEn
- yA3JyQ0nWP7tYYl3eLGOj4c+q+kDRxiwnKsm2nLaEVOcliov2/7jqtsatxdurPXFur0x
- dxeL8o3WLb2Awv3w8wHFM3FssGIICPW2Gc55NJrpLDspFDgCifjJYd5joVXfRJLIrQit
- gyaxyiV6siHK+MxzCHCQzSnd4fzJVsKGj0a7aywRMwRLttTv1JdLGhnt34UZjA1+exYM
- srpjNAqZxLiOkRBtKYJ6re0mpbf9CmzbIBhsYjuHw3TgJB20ODrAbzPZUjm6hzJmfqDB
- PgOg==
-X-Gm-Message-State: ACrzQf3rl6f0G5gQ6hrnoZkfj5+z4BM5TqcghBAvG/MtiVoKMwhC81sy
- 7H3D6+T44phmZ745MdvAhjnAuWKS4aczUYhUBQRqpfgJMxhQ+ld28mH1bWGCyh4ByInmr3/ARV7
- iKGxoNjdU0bMJuD8=
-X-Received: by 2002:a05:620a:290d:b0:6b5:cecc:1cab with SMTP id
- m13-20020a05620a290d00b006b5cecc1cabmr8329237qkp.465.1667213205981; 
- Mon, 31 Oct 2022 03:46:45 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4GvVum9gx9LvEJK/CsUtPetdXkufQko0hl9Ck3jPlClvsEZlLia81qdx0+wbY1g0J7DcJnXg==
-X-Received: by 2002:a05:620a:290d:b0:6b5:cecc:1cab with SMTP id
- m13-20020a05620a290d00b006b5cecc1cabmr8329230qkp.465.1667213205773; 
- Mon, 31 Oct 2022 03:46:45 -0700 (PDT)
-Received: from fedora (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- h4-20020a05620a400400b006cdd0939ffbsm4441908qko.86.2022.10.31.03.46.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 03:46:44 -0700 (PDT)
-Date: Mon, 31 Oct 2022 11:46:43 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: type mismatch in SSDT
-Message-ID: <20221031114643.39a95779@fedora>
-In-Reply-To: <20221027101531-mutt-send-email-mst@kernel.org>
-References: <20221027015833-mutt-send-email-mst@kernel.org>
- <20221027155253.0d81989c@fedora>
- <20221027101531-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ bh=N4fQUDxB9gXaG7gk00bzYD84G6S6rxfvEgKeVA81328=;
+ b=eHjrssJZdeq0vkeR7jRcvHNOH1LMobAko0QeO2+03m5keDvbIKML71UaG8LiWqHQN9
+ hzb1o8nYAycw8e3OO+Bn99OnnUw0/wse5jpK1u4LfV8eSR9jvhdDwOmCZJFOh8dVWGXt
+ Z46Ey7TFvqZjDdwJgtp/acndaXPO0HlL2yJA76MgiRRvp4eusGAmcELsZ/IXXo1MDuOO
+ XyDgvOEMFXl4uyqc2pKIGVD9nqgqmXQIgRh03Cs6BcrgGZw9hSrvL/mHwyE8aUZDYvU0
+ euqiNKcFU4Q0xtQyP5sypiT1nkQdadR6ToNh8AZ7QkxzYLwls89F3tKuOW5KUp9/ribI
+ MZPg==
+X-Gm-Message-State: ACrzQf1adiEbOZRx+Hd4jzWiXuIQKxPKKgl0VapauMCXLd4lPy+9lJsY
+ 8TImM4ZMXWzd6rv/av6Oh84qo2wk2umYMKjp3wpXMw==
+X-Google-Smtp-Source: AMsMyM6LIMw+2GcGM5Lwna2ZnH9c+dxRJE5/HwOc+++9YN00Ai5Tr19HOaIEnYHsG3TxWSn+86VnnHhfIcFAujJCsi4=
+X-Received: by 2002:a17:90b:4b81:b0:213:341d:3ea6 with SMTP id
+ lr1-20020a17090b4b8100b00213341d3ea6mr14242443pjb.19.1667213240817; Mon, 31
+ Oct 2022 03:47:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.055,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20221017062445.563431-1-richard.henderson@linaro.org>
+ <20221017062445.563431-2-richard.henderson@linaro.org>
+ <CAFEAcA-7q2fat9grNuTVcvzozTiCUBaPSSwqHLe02Dos7zFing@mail.gmail.com>
+ <9ff5d8fe-f138-b1fc-3b7d-88fc46235c02@linaro.org>
+ <0ed31b6d-e665-db66-ec87-d9a9d6394da5@linaro.org>
+In-Reply-To: <0ed31b6d-e665-db66-ec87-d9a9d6394da5@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 31 Oct 2022 10:47:09 +0000
+Message-ID: <CAFEAcA-pHD9zsyh2MTsiPSzE=sgyxNi0id-A0nyxmcAcdc-9og@mail.gmail.com>
+Subject: Re: [PATCH 1/3] tcg/sparc: Remove support for sparc32plus
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,62 +89,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 27 Oct 2022 10:15:58 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Mon, 31 Oct 2022 at 00:29, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 10/31/22 04:21, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 30/10/22 16:45, Peter Maydell wrote:
+> >>> -#define TCG_TARGET_REG_BITS 64
+> >>
+> >> Why do we delete this?
+> >
+> > We get the default definition from include/tcg/tcg.h:
+> >
+> >    58 /* Default target word size to pointer size.  */
+> >    59 #ifndef TCG_TARGET_REG_BITS
+> >    60 # if UINTPTR_MAX =3D=3D UINT32_MAX
+> >    61 #  define TCG_TARGET_REG_BITS 32
+> >    62 # elif UINTPTR_MAX =3D=3D UINT64_MAX
+> >    63 #  define TCG_TARGET_REG_BITS 64
+>
+> Exactly.
 
-> On Thu, Oct 27, 2022 at 03:52:53PM +0200, Igor Mammedov wrote:
-> > On Thu, 27 Oct 2022 01:59:22 -0400
-> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> >   
-> > > Just noticed this when disassembling:
-> > > 
-> > > Parsing completed
-> > > ACPI Warning: NsLookup: Type mismatch on ODAT (RegionField), searching for (Buffer) (20210604/nsaccess-760)
-> > > Disassembly completed
-> > > ASL Output:    /tmp/old-asl2/tests/data/acpi/virt/SSDT.memhp.dsl - 14945 bytes
-> > > 
-> > > Did not look into this yet but it seems new.  
-> > It was there practically 'forever'.
-> > 
-> > ODAT should be treated as Buffer according to implicit Field/data conversion rules,
-> > that's probably the reason why it works. So warning looks a bit bogus to me.
-> > 
-> > however:
-> >   DefCreateByteField := CreateByteFieldOp SourceBuff ByteIndex NameString
-> >   SourceBuff := TermArg => Buffer
-> >   TermArg := ExpressionOpcode | DataObject | ArgObj | LocalObj
-> > 
-> > and none of that explicitly leads to 
-> > 
-> >   TermObj := Object | StatementOpcode | ExpressionOpcode
-> >   Object := NameSpaceModifierObj | NamedObj
-> > 
-> > So if we are to be as pedantic as IASL, we need to supply
-> > field to CreateByteField not by name but via one of TermArg.
-> > We could copy/assign whole buffer to a LocalObj
-> > or summarily use ExpressionOpcode => ToBuffer() // this one has a bit controversial definition in 6.4 spec
-> > or to avoid any copying add 'useless' DerefOf(RefOf())
-> > wrapper around name to make argument of ExpressionOpcode kind.
-> > 
-> > following should silence warning.
-> > 
-> > diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-> > index 31e46df0bd..7488007540 100644
-> > --- a/hw/acpi/nvdimm.c
-> > +++ b/hw/acpi/nvdimm.c
-> > @@ -1127,7 +1127,7 @@ static void nvdimm_build_common_dsm(Aml *dev,
-> >      /* If RLEN >= Integer size, just use CreateField() operator */
-> >      aml_append(method, aml_store(aml_shiftleft(dsm_out_buf_size, aml_int(3)),
-> >                                   dsm_out_buf_size));
-> > -    aml_append(method, aml_create_field(aml_name(NVDIMM_DSM_OUT_BUF),
-> > +    aml_append(method, aml_create_field(aml_derefof(aml_refof(aml_name(NVDIMM_DSM_OUT_BUF))),
-> >                 aml_int(0), dsm_out_buf_size, "OBUF"));
-> >      aml_append(method, aml_return(aml_name("OBUF")));  
-> 
-> 
-> Thanks! Let's try to raise this with ACPI committee?
+Ah, I see. I was confused because a lot of the other tcg
+targets seem to by-hand define it, even when they don't
+AFAIK have 32-bit-API-on-64-bit-CPU support to consider.
 
-Do you have a contact there or know how to rise the issue?
-
-
+-- PMM
 
