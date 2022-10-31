@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D161613F6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 22:03:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D057613FF8
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 22:35:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opbuw-0000Uq-S9; Mon, 31 Oct 2022 17:01:58 -0400
+	id 1opcPX-00034U-DT; Mon, 31 Oct 2022 17:33:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opbuh-00081g-A5
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 17:01:46 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opbue-0001qO-Fy
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 17:01:41 -0400
-Received: by mail-pf1-x433.google.com with SMTP id b29so11700881pfp.13
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 14:01:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JAEA3DMY1WNend79jgr0S8JEJHrrrpB+mV4oiWm8bas=;
- b=jo3OPRk90wV/h0ur4KZxfI5fvkX9IAp//r76saY2oXm9tfYSypLNqT3rxOXQa8GKSU
- TMN9fdJJS8UN0M+BfxFNcTAwb0kJf/++jYrdhE4tsFReOB0oIbLdfqd1ZsIH8zTSG/69
- UlA2vb7w0sRr33Bc6a+5PTQpn8m7/UjJ1SZ5ZEvRPVkAqpEQBK7R3E30Bt1zY4ewcRlS
- /j3MVz99vyW1h1wURGtSV35zb/T0ddpK7MmB7ZQtTKvhQL1v1wYFQR702r/Zu3jqCcZP
- UtjrnsPfE+ZvqbhbhoNIbA8cXKNy5rpiWz8jts+o79rRkbDRnRLvqsiJMxzosWxRWfNY
- K4AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JAEA3DMY1WNend79jgr0S8JEJHrrrpB+mV4oiWm8bas=;
- b=hqcVt865G4XeGaO/jMgtqZ/A9pIgWqxFGDy9C+xFZlfZXqU+//akQlOG8tIBYineCG
- wAv05aeFJeJHyY9S7As0/tnBzvTQUJd7BdoOqmELRuA63V1qkhfKBsIEJOn1VTH4OUIq
- zR2nd+qZvmcW1LlFThJjCnLlyHSlZ/aaSmLj8tTbqMCgNB4DuCWEqzDvpOV110KR6KZy
- rkU+J5nLwavqxaAw8b1y2nXlZ6NBUr1YCB7oQp0sQ3oIENLenNXbvApRoELLLvdmIEbu
- jaZfPr6arQxVFQwNBQh6oze18qv1D80URRcjFJQYncJeo7iV5mRE11Ym+874pzWVkrOg
- fiuw==
-X-Gm-Message-State: ACrzQf0SK9YMdjO2f4TU0xQK3IlzJ2PuFcYgLVMeA2t3JZkyLXJaCb+y
- n0gGubgAvvvX3BQAP1JhHdZQZnY7iwZfvA==
-X-Google-Smtp-Source: AMsMyM6hOgRvZ5H2unNhFGgrJUsuLsNBWxzRMybqsd4zvSCJ3mKQhOnUbqDJpDD15xVmy9DsNfrpbg==
-X-Received: by 2002:a63:df10:0:b0:43b:e82f:e01c with SMTP id
- u16-20020a63df10000000b0043be82fe01cmr14398494pgg.19.1667250098512; 
- Mon, 31 Oct 2022 14:01:38 -0700 (PDT)
-Received: from [192.168.229.227] ([172.58.27.250])
- by smtp.gmail.com with ESMTPSA id
- h18-20020a63df52000000b00434272fe870sm4567791pgj.88.2022.10.31.14.00.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 14:01:36 -0700 (PDT)
-Message-ID: <ea1da935-9e31-f1fd-2871-476fd26e63ae@linaro.org>
-Date: Tue, 1 Nov 2022 08:00:03 +1100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1opcKG-0002UB-B7
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 17:28:12 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1opcKE-0003wU-R6
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 17:28:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=9m7H/3Q/FXS65/SUk/btrFqsbKaAQVhy5jDnHGmjlow=; b=u4fjqxi6ND1+xofMFJMxdLhrWb
+ uPuTjh99HJ1QDDUsOE5lljJWaYllux8XnJuUDd0GyTJ3c3Q0mRuH5nznuussUNkfVxDxW/nUYsC5L
+ ke9qrj2xX6gFfRFyZfV0lx2A5in/o+dkwMtkLbCkpYrjNyxxNrHFX7ZAF5b3JzYmvAtMtQ5zd9pRn
+ /VDsfPnG9cymYoxpRj2KuEsZf12OG2UntCRZHpKmMeqzA1tMFAmDJlSI7rde7nSYj0XiMI9NZlj5y
+ vp0oFynFNNovDFxFh2ZME5YhxMlt2A5Tjjm9vK8rAb/4zGGCQcKT1buy6cM0GwDFRkhiMfTwdYaXc
+ TC6GD0VINrVx4uns9qvkm4N0B/CSc4JO8rIz0mwru3eywFlafBkjtYzd94TTtlPAA4VQns3P+HORU
+ 2qZji54IOHZvT/TLLP3mSaltnibpPFZdQbpu/0z5iVAa1MnaryPdPfMUhFs9a2P8yY89qq1mWsVyY
+ wAEYPA+vQ7vxEDgBbjeizIGuW3I//aDiyy7CP2tuUgaDTZIEDBHjWqP6VwLHmrigIaJZmjZ7WKj1R
+ xgDEMQiEZ+pX1dJJetYqfLeYPnhA/tS557rTTwKtpCE6s8H4dclJQMZSRXB9CMBTCUH3WsgWdVaIc
+ jkBT/Uyn0+j3dHl4NYNL8QNhkMGuopIBgfUuTZJ9Q=;
+Received: from [2a00:23c4:8ba8:7100:6571:576d:97b8:647b]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1opcK3-0000X9-TV; Mon, 31 Oct 2022 21:27:59 +0000
+Message-ID: <66f22ccc-d83f-2bdd-3628-9e550a3d83f6@ilande.co.uk>
+Date: Mon, 31 Oct 2022 21:27:58 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] accel/tcg: Complete cpu initialization before registration
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20221031054105.3552-1-richard.henderson@linaro.org>
- <20221031110736.pcao7aqhdoyxpqww@heavy>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221031110736.pcao7aqhdoyxpqww@heavy>
+To: Stefan Hajnoczi <stefanha@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ stefanha@redhat.com, Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20221026021116.1988449-1-richard.henderson@linaro.org>
+ <20221026021116.1988449-26-richard.henderson@linaro.org>
+ <1792277.8fnDRLUPHX@silver> <4c5f0a3a-18bb-dfca-61f6-28b48538b42c@linaro.org>
+ <CAJSP0QUB+6Ttoeo6aDoH3WAdCK3AyXH+=4Oe_U7Lr8GrtNHtoQ@mail.gmail.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <CAJSP0QUB+6Ttoeo6aDoH3WAdCK3AyXH+=4Oe_U7Lr8GrtNHtoQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba8:7100:6571:576d:97b8:647b
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PULL 25/47] accel/tcg: Add restore_state_to_opc to TCGCPUOps
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,47 +85,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/31/22 22:07, Ilya Leoshkevich wrote:
->> @@ -1580,15 +1580,13 @@ void tcg_flush_jmp_cache(CPUState *cpu)
->>   {
->>       CPUJumpCache *jc = cpu->tb_jmp_cache;
->>   
->> -    if (likely(jc)) {
->> -        for (int i = 0; i < TB_JMP_CACHE_SIZE; i++) {
->> -            qatomic_set(&jc->array[i].tb, NULL);
->> -        }
->> -    } else {
->> -        /* This should happen once during realize, and thus never race. */
->> -        jc = g_new0(CPUJumpCache, 1);
->> -        jc = qatomic_xchg(&cpu->tb_jmp_cache, jc);
->> -        assert(jc == NULL);
->> +    /* During early initialization, the cache may not yet be allocated. */
->> +    if (unlikely(jc == NULL)) {
->> +        return;
->> +    }
+On 31/10/2022 20:53, Stefan Hajnoczi wrote:
+
+> On Mon, 31 Oct 2022 at 16:42, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>> On 11/1/22 04:56, Christian Schoenebeck wrote:
+>>> On Wednesday, October 26, 2022 4:10:54 AM CET Richard Henderson wrote:
+>>> BTW Richard, could you add a message-id tag to your queued TCG patches?
+>>
+>> Sometimes I remember, but I don't use the same tooling for my own work as I do for queuing
+>> other people's.  I haven't found much value in it.
+>>
+>>
+>>> If you
+>>> are using patchwork client then it suffices to add "msgid=on" to .pwclientrc
+>>
+>> I am not.
 > 
-> We can hit this condition in qemu-system with the following call
-> chain:
-> 
->      tcg_flush_jmp_cache
->      tlb_flush_by_mmuidx_async_work
->      listener_add_address_space
->      memory_listener_register
->      cpu_address_space_init
->      tcg_cpu_realizefn
->      cpu_exec_realizefn
->      x86_cpu_realizefn
-> 
-> I'm wondering if we can avoid having to think of early initialization
-> when dealing with tb_jmp_cache by initializing it as early as possible?
-> I don't think swapping accel_cpu_realizefn() and tcg_exec_realizefn()
-> is going to work (though I haven't tried it), but what about splitting
-> tcg_exec_realizefn() in two and calling the half that initializes
-> tb_jmp_cache before accel_cpu_realizefn()?
+> Tools that boil down to git-am(1) need to add the -m (--message-id) flag.
 
-I thought about that, but couldn't bring myself to split out a third tcg piece of init.
+FWIW in my local QEMU git checkout I've run "git config am.messageid true" which 
+alters .git/config so that the -m flag is enabled by default for "git am" commands.
 
 
-r~
+ATB,
 
+Mark.
 
