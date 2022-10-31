@@ -2,85 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0ED061315B
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 08:45:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934FE613162
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 08:54:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opPTJ-0006lW-Gz; Mon, 31 Oct 2022 03:44:37 -0400
+	id 1opPba-0002Vn-Fk; Mon, 31 Oct 2022 03:53:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1opPTG-0006jW-Nb
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 03:44:34 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1opPbY-0002Ts-8J
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 03:53:08 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1opPTF-0008Ry-0Y
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 03:44:34 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1opPbW-0003Pj-EG
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 03:53:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667202270;
+ s=mimecast20190719; t=1667202784;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Jij6IAyCeyZQK7sgph781iG0Kwj01rCgTpXg6kfxKiI=;
- b=O4eaku7go4GUG+KFdOtff3/uG08Xx3kkQicSeHXIDHAiBCs/EpcN0WmrERbOJVKG8c6HTs
- UlMjX4dohi1SNpKZLtQDroxjWfwyce8D39ew3TB3xaOaewySDblvhDt8tzchMLGNsqZm6N
- njr1mwzxtKmx/T+X35+zj7qWVioowcM=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mDBJNDctqDtXOkS8lJdC/VmA1ta+O/W6/ZLEGeRLU8U=;
+ b=YBeN/t82nwoWmQuSl95SmhuaPCtUZ734indbz/mz8o9/+Cpztbwb5a9gXc9a4JWUVuZCL0
+ 27O+Jt3AcnojrKNTSDiKbydFJzQ2UJJ9bPIF6WwRloN/ApAcEB0YnnNwSkFXTtm55BhfTV
+ RQaznUzJsrWokGoHrWXdny29yHlhWrQ=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-377-Dq1jc0nYNzyUCQTFQyA21Q-1; Mon, 31 Oct 2022 03:44:22 -0400
-X-MC-Unique: Dq1jc0nYNzyUCQTFQyA21Q-1
-Received: by mail-pl1-f199.google.com with SMTP id
- o7-20020a170902d4c700b001868cdac9adso7729699plg.13
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 00:44:21 -0700 (PDT)
+ us-mta-453-Zd63osGNMROuSod_8vWMrA-1; Mon, 31 Oct 2022 03:53:03 -0400
+X-MC-Unique: Zd63osGNMROuSod_8vWMrA-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ nn2-20020a056214358200b004bb7bc3dfdcso5451930qvb.23
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 00:53:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Jij6IAyCeyZQK7sgph781iG0Kwj01rCgTpXg6kfxKiI=;
- b=NL+6q4K4vx2bK2RPumHX9X39fB+g7QxVzYUXNYHL5mqVFg+uSsebQlqq5+VRxw0roK
- g9Y3Ybbhl5iAKyZ/4UMeFvYEX5lenSLJVceySdUQ0aurF9fi4Xwvyx9NF/kOzTSoEtL9
- cYFqFWhDZWDHS+omyq6iH7NnXZkempyxRf58mbJDhpvROqhtltt9nkF6gqzTAKDOhgsS
- hu9FURG54xkGlinQuuOdZLzdjasDvPp44bavZ+/ZabR8u0c76NUSWd6fz2LSrc8FWA9D
- ozscY54rIGwD7sQB33linLV4OcuQTDcYiD9ayaJn1/jsq8W5IZCcCKuxTfO17ybyMt8T
- j9Bg==
-X-Gm-Message-State: ACrzQf21v/Lfmmmd/on84Yvq4k1jt/jgu+mjMa3tl+/ASka7yWmiXhVI
- Iq/1NhWUyoaOfBhJZqqbzT3fFaBI7JZzKzvHAknbJ94JlW+ujWZ404eAimX/dJQ9xXDxoaeoYbQ
- QfOp4DennlncoEd1JDipezUUs/ffm248=
-X-Received: by 2002:a17:903:1303:b0:186:969d:97cf with SMTP id
- iy3-20020a170903130300b00186969d97cfmr12755084plb.17.1667202261070; 
- Mon, 31 Oct 2022 00:44:21 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5NN4sJZFkd69qIjE69gPele8fevUzv1UJAiJ7Y+aS7wF2O6wSs0vACi+ouR0TSq8nPaUyxzWC4hlS2NFWiQsg=
-X-Received: by 2002:a17:903:1303:b0:186:969d:97cf with SMTP id
- iy3-20020a170903130300b00186969d97cfmr12755072plb.17.1667202260791; Mon, 31
- Oct 2022 00:44:20 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mDBJNDctqDtXOkS8lJdC/VmA1ta+O/W6/ZLEGeRLU8U=;
+ b=uYWKcok5kCwluSsKFlE63emA3Fi7QZr7+Y5hKvpTtLBe1sf0znZAC63TNyJ+QSSt9f
+ 7o/fs1dSY92ZZvEPE28SrpkFOYnj+hud9Ydd1/bDCMdrxNefjy0ZP4Ualwr8XQzn7pRG
+ gyINtnmTeU72SFo5Q9n75kZ7wXg/u8ii4+H1rq0cIGt3VlVKMzSNBrSih86QCwICbuHQ
+ VRSAXGGtiqRWHIflC1j5luW7zSGJn/CDvnp9gIXPC7PAwp758uUe8iO7L+PVi0pG24fR
+ P2zhaGOrl9FueC4NOIhktS/9Kn3A6JTsh4es4zIZGEwYH4XkOKvQyL7TwdjNVBQZymOS
+ NsZw==
+X-Gm-Message-State: ACrzQf3/YtXyILVog3rVB8GmDP4cZaffqzG2ccT/Gnd4SAkCz/rpfFVF
+ selwM5izM50gOdg152UZY49Xf2pXxXe/XMIfITGJrBTTQcRp3nqR0Mjj05+3//iZ7P3TH1ybULo
+ hTLQMqWWRwvRYqcU=
+X-Received: by 2002:a05:622a:4d44:b0:3a5:2c05:9e12 with SMTP id
+ fe4-20020a05622a4d4400b003a52c059e12mr491928qtb.481.1667202782707; 
+ Mon, 31 Oct 2022 00:53:02 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7kt9XHVgbgmaugzeEu4vN5tbsid2frA8qTc8OhcEBcJpwJZixn4D4qb/7jnSQfZk7BHbMz1w==
+X-Received: by 2002:a05:622a:4d44:b0:3a5:2c05:9e12 with SMTP id
+ fe4-20020a05622a4d4400b003a52c059e12mr491924qtb.481.1667202782467; 
+ Mon, 31 Oct 2022 00:53:02 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-097-47.customers.d1-online.com.
+ [80.187.97.47]) by smtp.gmail.com with ESMTPSA id
+ dt9-20020a05620a478900b006cf3592cc20sm4268697qkb.55.2022.10.31.00.53.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Oct 2022 00:53:01 -0700 (PDT)
+Message-ID: <280c2059-1b1f-85db-eca0-71e5e5800b21@redhat.com>
+Date: Mon, 31 Oct 2022 08:52:59 +0100
 MIME-Version: 1.0
-References: <20221028160251.268607-1-eperezma@redhat.com>
- <20221028160251.268607-4-eperezma@redhat.com>
- <20221028124105-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20221028124105-mutt-send-email-mst@kernel.org>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 31 Oct 2022 08:43:44 +0100
-Message-ID: <CAJaqyWcSeemtm07qX7CQti8Ew=LMTDNtFg5keM9qudy5+P=hQA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] vhost: Fix lines over 80 characters
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>, 
- Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [RFC PATCH] Add new build target 'check-spelling'
+Content-Language: en-US
+To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+References: <20221031074317.377366-1-sw@weilnetz.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221031074317.377366-1-sw@weilnetz.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -38
 X-Spam_score: -3.9
 X-Spam_bar: ---
 X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.055,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,53 +99,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Oct 28, 2022 at 6:45 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Fri, Oct 28, 2022 at 06:02:50PM +0200, Eugenio P=C3=A9rez wrote:
-> > By qemu coding style.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
->
-> You wrote this code originally so I don't mind but just to note I don't
-> want a flurry of patches "fixing" lines over 80 chars.
->
+On 31/10/2022 08.43, Stefan Weil wrote:
+> `make check-spelling` can now be used to get a list of spelling errors.
+> It uses the latest version of codespell, a spell checker implemented in Python.
+> 
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+> ---
+> 
+> This RFC can already be used for manual tests, but still reports false
+> positives, mostly because some variable names are interpreted as words.
+> These words can either be ignored in the check, or in some cases the code
+> might be changed to use different variable names.
+> 
+> The check currently only skips a few directories and files, so for example
+> checked out submodules are also checked.
+> 
+> The rule can be extended to allow user provided ignore and skip lists,
+> for example by introducing Makefile variables CODESPELL_SKIP=userfile
+> or CODESPELL_IGNORE=userfile. A limited check could be implemented by
+> providing a base directory CODESPELL_START=basedirectory, for example
+> CODESPELL_START=docs.
+> 
+> Regards,
+> Stefan
+> 
+>   tests/Makefile.include       | 10 ++++++++++
+>   tests/codespell/README.rst   | 18 ++++++++++++++++++
+>   tests/codespell/exclude-file |  3 +++
+>   tests/codespell/ignore-words | 19 +++++++++++++++++++
+>   tests/requirements.txt       |  1 +
+>   5 files changed, 51 insertions(+)
+>   create mode 100644 tests/codespell/README.rst
+>   create mode 100644 tests/codespell/exclude-file
+>   create mode 100644 tests/codespell/ignore-words
+> 
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 9422ddaece..b9daeda932 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -155,6 +155,16 @@ check-acceptance-deprecated-warning:
+>   
+>   check-acceptance: check-acceptance-deprecated-warning | check-avocado
+>   
+> +.PHONY: check-spelling
+> +CODESPELL_DIR=tests/codespell
+> +check-spelling: check-venv
+> +	source $(TESTS_VENV_DIR)/bin/activate && \
+> +	cd "$(SRC_PATH)" && \
+> +	codespell -s . \
+> +	  --exclude-file=$(CODESPELL_DIR)/exclude-file \
+> +	  --ignore-words=$(CODESPELL_DIR)/ignore-words \
+> +	  --skip="./.git,./bin,./build,./linux-headers,*.patch,nohup.out"
 
-My bad, I didn't realize it the first time I sent it. I probably
-missed to run checkpatch.
+I like the idea, but I think it's unlikely that we can make this work for 
+the whole source tree any time soon. So maybe it makes more sense to start 
+with some few directories first (e.g. docs/ ) and then the maintainers can 
+opt-in by cleaning up their directories first and then by adding their 
+directories to this target here?
 
-This patch can be merged with the next one if it is more convenient.
-
-> > ---
-> >  hw/virtio/vhost-shadow-virtqueue.c | 7 +++++--
-> >  1 file changed, 5 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
-w-virtqueue.c
-> > index 467099f5d9..18a49e1ecb 100644
-> > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > @@ -228,8 +228,11 @@ static void vhost_svq_kick(VhostShadowVirtqueue *s=
-vq)
-> >      smp_mb();
-> >
-> >      if (virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) {
-> > -        uint16_t avail_event =3D *(uint16_t *)(&svq->vring.used->ring[=
-svq->vring.num]);
-> > -        needs_kick =3D vring_need_event(avail_event, svq->shadow_avail=
-_idx, svq->shadow_avail_idx - 1);
-> > +        size_t num =3D svq->vring.num;
-> > +        uint16_t *avail_event =3D (uint16_t *)&svq->vring.used->ring[n=
-um];
-> > +
-> > +        needs_kick =3D vring_need_event(*avail_event, svq->shadow_avai=
-l_idx,
-> > +                                      svq->shadow_avail_idx - 1);
-> >      } else {
-> >          needs_kick =3D !(svq->vring.used->flags & VRING_USED_F_NO_NOTI=
-FY);
-> >      }
-> > --
-> > 2.31.1
->
+  Thomas
 
 
