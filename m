@@ -2,79 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F076B61319F
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 09:21:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 135DE6131A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 09:21:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opQ2B-0006Vf-0m; Mon, 31 Oct 2022 04:20:39 -0400
+	id 1opQ2i-0007FI-Rp; Mon, 31 Oct 2022 04:21:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opQ28-0006Rm-Uh
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:20:36 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opQ27-0000R7-Bz
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:20:36 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- ja4-20020a05600c556400b003cf6e77f89cso973652wmb.0
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 01:20:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=antTnk6cY/pZzC55G9i2DZHe+xIHwkpGAISHIwCwXkI=;
- b=IqRvojKHik+uG351o+EdVvi33P6tHE3ALY0LAhjgR5/alWQTeW7xIJom3hrczYCIw/
- drshtpl3PsN29KKqxgdCQ+NvSyDSFOewD3BtlOjpbaOpBhzYpP4ZBNXJtoBF3ZOeAVcI
- TX+jECdzjaa79hyY4c1akV8mA2JlNVf4SW4lEENEPNd/kuf6ysdQdUzcytCuGTy/TkEn
- XgSRuadJXlSbmWJEcBoZGOE6FRR5w3UBi1kPUHfrx2tYhZhvoGVYcn7JdKLGkoD+ugjQ
- Px7CGPbDjyrgT0ArAE76da+Yhn46iOBkudwrQq+uP4q5y6UkiHIaHe7tasqyO04kEjPt
- ZEHg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opQ2e-0007Cz-Hd
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:21:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opQ2d-0000jT-3h
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:21:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667204466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=im6vMDpZ4QR8KDTirDvE233dWKuaLZGJIPJhOg4Fv98=;
+ b=BcIoNmaGF3PiXe+W676CggQM+IRD47HO5GhYtIntarCA+cJjnfUeqccql391uqkfZqeCo5
+ h/FuoGcnKnpSjs5aUaEIlhK+K2LhgrY0BW7H7IpqzuhMSQDsbLBcZ+geBqhUhaZVTiB8mc
+ Nz0zEz6FSiiueymX0lo8K/WJfqcBmNw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-284-FT8FjOWNNVybzgifTPtJUw-1; Mon, 31 Oct 2022 04:21:04 -0400
+X-MC-Unique: FT8FjOWNNVybzgifTPtJUw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ p7-20020adfba87000000b0022cc6f805b1so2823512wrg.21
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 01:21:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=antTnk6cY/pZzC55G9i2DZHe+xIHwkpGAISHIwCwXkI=;
- b=v6/zcC23Q27qy5B6WzhabZmJCmmSqnJ5GBSqqtCiBHlpMRHE+7K+L640kooiuBBeyI
- ipSj3LE1aYgSfDCJVxumwDx+9gWeZrljxbDT+bVirztgynw0Z9pTg0giCxcixxFpWTnB
- DcdkRecSGECLyCtagmDYUL/MuFHHs9ci42Jt00DXen9zTDpB8kKTLJ7pyb3agbPs8lrs
- AC397sGHDVfksv64ap9mIfhJIxvTJ/QnsfR4ebgtMYUevS0Uspm8xR6iXyZ8EMsMano+
- ii9NSs3hHBo4jxI/gdvp3lXmg3ofT3o34atg2FAIJU0xJHsqLj0N2xDat5ZaKYdKbcDa
- cefA==
-X-Gm-Message-State: ACrzQf0EevazIticOkTJ6wKVMQY2/C8TVwLpisdm2ySR+748xLCdGOuR
- hX4oMMFMIAzEW9ksmuIhvtHgWA==
-X-Google-Smtp-Source: AMsMyM5y3z/hlxIDkql/y1idU+Rmd2N+jssktAVnB6+IJevnBVryDWbakZVS5GH/jaDYXlDpoHo2AQ==
-X-Received: by 2002:a05:600c:1d2a:b0:3cf:7332:946 with SMTP id
- l42-20020a05600c1d2a00b003cf73320946mr1406387wms.126.1667204433987; 
- Mon, 31 Oct 2022 01:20:33 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- h10-20020a5d4fca000000b002367ad808a9sm6311102wrw.30.2022.10.31.01.20.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 01:20:33 -0700 (PDT)
-Message-ID: <1f724d9b-550a-413b-1fb9-dc068d766953@linaro.org>
-Date: Mon, 31 Oct 2022 09:20:32 +0100
+ bh=im6vMDpZ4QR8KDTirDvE233dWKuaLZGJIPJhOg4Fv98=;
+ b=Fh0s1vTTLhwLE9YQ9k9knIpAexCc/fzcIg2BFSZzeUS57ORUPdkeggpn2BA5APSGh5
+ 0fEkUuhsNTQRU3H84bW6dsx/bny2JZaV8a6A0d2TSmUxHhyfL8VCxkPBDT55YmmkXD+H
+ I6VyvTcx2LCKeXUAAgI30CWLR/WafDgvvs0JvDfnnwrUKY+hDd2fJDz1kSjjszkzeNFr
+ Wkr5LC+HzXsSMMnEMeE9RipnS/jzWD3GowqteD/+QC78xR/PH9moEWbpOnN9WPL/XFjP
+ x7HhXgB6tR1cuV+N+wkLALYzBa591DegKZqCIFCpSR72IILZiuMYmINfU2iSmii+3brl
+ OzfQ==
+X-Gm-Message-State: ACrzQf1PGMYKmUJuDk/OlqSTChR4C+VTUk/iaWjAYzM1GNgbgzR9iQha
+ VZjkVzz2T/8k9Ut/pQ9Y6VEszthGdnWwaChEElgVutw47ii4vRDJ3y4jGiMGMp8Q+J7J1VYFeyz
+ jQaudNWgMxPAydu4=
+X-Received: by 2002:a05:6000:1d94:b0:22e:34ef:b07f with SMTP id
+ bk20-20020a0560001d9400b0022e34efb07fmr7242217wrb.272.1667204463539; 
+ Mon, 31 Oct 2022 01:21:03 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7pWhEuLLTmll7+NNqrSauhIVegJ+TqYCAjjkPUTJ1qckmTM1uMN7lpqxldGowx+uM/YWLxgQ==
+X-Received: by 2002:a05:6000:1d94:b0:22e:34ef:b07f with SMTP id
+ bk20-20020a0560001d9400b0022e34efb07fmr7242193wrb.272.1667204463276; 
+ Mon, 31 Oct 2022 01:21:03 -0700 (PDT)
+Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
+ t12-20020adff60c000000b002366ded5864sm6267581wrp.116.2022.10.31.01.21.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Oct 2022 01:21:02 -0700 (PDT)
+Date: Mon, 31 Oct 2022 04:20:58 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Gautam Dawar <gdawar@xilinx.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, Jason Wang <jasowang@redhat.com>,
+ Si-Wei Liu <si-wei.liu@oracle.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Parav Pandit <parav@mellanox.com>, Laurent Vivier <lvivier@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Cindy Lu <lulu@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
+ Harpreet Singh Anand <hanand@xilinx.com>
+Subject: Re: [PATCH v5 2/6] vdpa: Allocate SVQ unconditionally
+Message-ID: <20221031041821-mutt-send-email-mst@kernel.org>
+References: <20221011104154.1209338-1-eperezma@redhat.com>
+ <20221011104154.1209338-3-eperezma@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH qemu.git 02/11] hw/timer/imx_epit: improve comments
-Content-Language: en-US
-To: ~axelheider <axelheider@gmx.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, peter.maydell@linaro.org
-References: <166718254546.5893.5075929684621857903-2@git.sr.ht>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <166718254546.5893.5075929684621857903-2@git.sr.ht>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20221011104154.1209338-3-eperezma@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.055,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,14 +107,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 25/10/22 17:33, ~axelheider wrote:
-> From: Axel Heider <axel.heider@hensoldt.net>
+On Tue, Oct 11, 2022 at 12:41:50PM +0200, Eugenio PÈrez wrote:
+> SVQ may run or not in a device depending on runtime conditions (for
+> example, if the device can move CVQ to its own group or not).
 > 
-> Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
-> ---
->   hw/timer/imx_epit.c | 10 ++++++++++
->   1 file changed, 10 insertions(+)
+> Allocate the resources unconditionally, and decide later if to use them
+> or not.
+> 
+> Signed-off-by: Eugenio PÈrez <eperezma@redhat.com>
 
-Reviewed-by: Philippe Mathieu-Daud√© <philmd@linaro.org>
+I applied this for now but I really dislike it that we are wasting
+resources like this.
+
+Can I just drop this patch from the series? It looks like things
+will just work anyway ...
+
+I know, when one works on a feature it seems like everyone should
+enable it - but the reality is qemu already works quite well for
+most users and it is our resposibility to first do no harm.
+
+
+> ---
+>  hw/virtio/vhost-vdpa.c | 33 +++++++++++++++------------------
+>  1 file changed, 15 insertions(+), 18 deletions(-)
+> 
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 7f0ff4df5b..d966966131 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -410,6 +410,21 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
+>      int r;
+>      bool ok;
+>  
+> +    shadow_vqs = g_ptr_array_new_full(hdev->nvqs, vhost_svq_free);
+> +    for (unsigned n = 0; n < hdev->nvqs; ++n) {
+> +        g_autoptr(VhostShadowVirtqueue) svq;
+> +
+> +        svq = vhost_svq_new(v->iova_tree, v->shadow_vq_ops,
+> +                            v->shadow_vq_ops_opaque);
+> +        if (unlikely(!svq)) {
+> +            error_setg(errp, "Cannot create svq %u", n);
+> +            return -1;
+> +        }
+> +        g_ptr_array_add(shadow_vqs, g_steal_pointer(&svq));
+> +    }
+> +
+> +    v->shadow_vqs = g_steal_pointer(&shadow_vqs);
+> +
+>      if (!v->shadow_vqs_enabled) {
+>          return 0;
+>      }
+> @@ -426,20 +441,6 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
+>          return -1;
+>      }
+>  
+> -    shadow_vqs = g_ptr_array_new_full(hdev->nvqs, vhost_svq_free);
+> -    for (unsigned n = 0; n < hdev->nvqs; ++n) {
+> -        g_autoptr(VhostShadowVirtqueue) svq;
+> -
+> -        svq = vhost_svq_new(v->iova_tree, v->shadow_vq_ops,
+> -                            v->shadow_vq_ops_opaque);
+> -        if (unlikely(!svq)) {
+> -            error_setg(errp, "Cannot create svq %u", n);
+> -            return -1;
+> -        }
+> -        g_ptr_array_add(shadow_vqs, g_steal_pointer(&svq));
+> -    }
+> -
+> -    v->shadow_vqs = g_steal_pointer(&shadow_vqs);
+>      return 0;
+>  }
+>  
+> @@ -580,10 +581,6 @@ static void vhost_vdpa_svq_cleanup(struct vhost_dev *dev)
+>      struct vhost_vdpa *v = dev->opaque;
+>      size_t idx;
+>  
+> -    if (!v->shadow_vqs) {
+> -        return;
+> -    }
+> -
+>      for (idx = 0; idx < v->shadow_vqs->len; ++idx) {
+>          vhost_svq_stop(g_ptr_array_index(v->shadow_vqs, idx));
+>      }
+> -- 
+> 2.31.1
 
 
