@@ -2,49 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3926137B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:18:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 720A56137D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:23:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUfg-0004FK-5q; Mon, 31 Oct 2022 09:17:45 -0400
+	id 1opUfm-00054R-KW; Mon, 31 Oct 2022 09:17:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1opUfA-00044i-Gf; Mon, 31 Oct 2022 09:17:17 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1opUfV-0004L5-Gr; Mon, 31 Oct 2022 09:17:34 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1opUf8-0004BY-Pp; Mon, 31 Oct 2022 09:17:12 -0400
-Received: from [192.168.178.59] (p5b151d14.dip0.t-ipconnect.de [91.21.29.20])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id C5E1EDA045D;
- Mon, 31 Oct 2022 14:17:06 +0100 (CET)
-Message-ID: <32be170f-97cd-49a2-6458-0fabb7442c2a@weilnetz.de>
-Date: Mon, 31 Oct 2022 14:17:06 +0100
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1opUfS-0004G4-Mb; Mon, 31 Oct 2022 09:17:33 -0400
+Received: from frapeml500006.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4N1DDD2JyGz687wc;
+ Mon, 31 Oct 2022 21:15:40 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ frapeml500006.china.huawei.com (7.182.85.219) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 31 Oct 2022 14:17:18 +0100
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Mon, 31 Oct
+ 2022 13:17:18 +0000
+Date: Mon, 31 Oct 2022 13:17:17 +0000
+To: Yicong Yang <yangyicong@huawei.com>, <mst@redhat.com>
+CC: Hesham Almatary <hesham.almatary@huawei.com>, <qemu-devel@nongnu.org>,
+ <yangyicong@hisilicon.com>, <chenxiang66@hisilicon.com>,
+ <linuxarm@huawei.com>, <qemu-arm@nongnu.org>, <peter.maydell@linaro.org>,
+ <imammedo@redhat.com>, <wangyanan55@huawei.com>,
+ <marcel.apfelbaum@gmail.com>, <eduardo@habkost.net>, <Brice.Goglin@inria.fr>
+Subject: Re: [PATCH v3 0/8] AArch64/HMAT support and tests
+Message-ID: <20221031131717.00003cc4@Huawei.com>
+In-Reply-To: <434bea8e-2945-12ee-0a46-0e316bfaade5@huawei.com>
+References: <20221027100037.251-1-hesham.almatary@huawei.com>
+ <434bea8e-2945-12ee-0a46-0e316bfaade5@huawei.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH] Add nsis.py to W32/W64 section in MAINTAINERS
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Thomas Huth <thuth@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20221031095701.383874-1-sw@weilnetz.de>
- <f02209f3-4355-8bf1-e514-07da375837e1@linaro.org>
-In-Reply-To: <f02209f3-4355-8bf1-e514-07da375837e1@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,22 +69,92 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
-Reply-to:  Stefan Weil <sw@weilnetz.de>
-From:  Stefan Weil via <qemu-devel@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 31.10.22 um 11:28 schrieb Philippe Mathieu-Daudé:
+On Fri, 28 Oct 2022 17:53:40 +0800
+Yicong Yang <yangyicong@huawei.com> wrote:
 
-> On 31/10/22 10:57, Stefan Weil via wrote:
->> Signed-off-by: Stefan Weil <sw@weilnetz.de>
->> ---
->>   MAINTAINERS | 1 +
->>   1 file changed, 1 insertion(+)
->
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Hi Hesham,
+> 
+> On 2022/10/27 18:00, Hesham Almatary wrote:
+> > This patchset adds support for AArch64/HMAT including a test.
+> > It relies on other two patch sets from:
+> > 
+> > Brice Goglin: to support -numa without initiators on q35/x86.
+> >   https://lore.kernel.org/all/ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr/
+> > Xiang Chen: to enable/support HMAT on AArch64.
+> >   https://lore.kernel.org/all/1643102134-15506-1-git-send-email-chenxiang66@hisilicon.com/
+> > 
+> > I further add a test with ACPI/HMAT tables that uses the two
+> > patch sets.
+> >   
+> 
+> You seems to forget my tag :)
+> 
+> Anyway tested again for this series on master of commit 052924548886,
+> still works well and all tests passed for qemu-system-aarch64.
+> 
+> Tested-by: Yicong Yang <yangyicong@hisilicon.com>
 
+Hi,
 
-Cc qemu-trivial
+Michael, I think you said you'd pick this one up? (it hit during last freeze)
+Just want to confirm in case everyone was assuming this was someone else's problem ;)
+I want to add a bunch of stuff on top of this next cycle (Generic Ports in particular)
+so good to get this in place if we can.
 
+Jonathan
+
+> 
+> > Changes from v2:
+> > - Rebased and fixed a merge conflict
+> > 
+> > Changes from v1:
+> > - Generate APIC and PPTT ACPI tables for AArch64/virt
+> > - Avoid using legacy syntax in numa/bios tests
+> > - Delete unchanged FACP tables
+> > 
+> > Brice Goglin (4):
+> >   hmat acpi: Don't require initiator value in -numa
+> >   tests: acpi: add and whitelist *.hmat-noinitiator expected blobs
+> >   tests: acpi: q35: add test for hmat nodes without initiators
+> >   tests: acpi: q35: update expected blobs *.hmat-noinitiators
+> > expected HMAT:
+> > 
+> > Hesham Almatary (3):
+> >   tests: Add HMAT AArch64/virt empty table files
+> >   tests: acpi: aarch64/virt: add a test for hmat nodes with no
+> >     initiators
+> >   tests: virt: Update expected *.acpihmatvirt tables
+> > 
+> > Xiang Chen (1):
+> >   hw/arm/virt: Enable HMAT on arm virt machine
+> > 
+> >  hw/arm/Kconfig                                |   1 +
+> >  hw/arm/virt-acpi-build.c                      |   7 ++
+> >  hw/core/machine.c                             |   4 +-
+> >  tests/data/acpi/q35/APIC.acpihmat-noinitiator | Bin 0 -> 144 bytes
+> >  tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 0 -> 8553 bytes
+> >  tests/data/acpi/q35/HMAT.acpihmat-noinitiator | Bin 0 -> 288 bytes
+> >  tests/data/acpi/q35/SRAT.acpihmat-noinitiator | Bin 0 -> 312 bytes
+> >  tests/data/acpi/virt/APIC.acpihmatvirt        | Bin 0 -> 396 bytes
+> >  tests/data/acpi/virt/DSDT.acpihmatvirt        | Bin 0 -> 5282 bytes
+> >  tests/data/acpi/virt/HMAT.acpihmatvirt        | Bin 0 -> 288 bytes
+> >  tests/data/acpi/virt/PPTT.acpihmatvirt        | Bin 0 -> 196 bytes
+> >  tests/data/acpi/virt/SRAT.acpihmatvirt        | Bin 0 -> 240 bytes
+> >  tests/qtest/bios-tables-test.c                | 109
+> > ++++++++++++++++++ 13 files changed, 118 insertions(+), 3
+> > deletions(-) create mode 100644
+> > tests/data/acpi/q35/APIC.acpihmat-noinitiator create mode 100644
+> > tests/data/acpi/q35/DSDT.acpihmat-noinitiator create mode 100644
+> > tests/data/acpi/q35/HMAT.acpihmat-noinitiator create mode 100644
+> > tests/data/acpi/q35/SRAT.acpihmat-noinitiator create mode 100644
+> > tests/data/acpi/virt/APIC.acpihmatvirt create mode 100644
+> > tests/data/acpi/virt/DSDT.acpihmatvirt create mode 100644
+> > tests/data/acpi/virt/HMAT.acpihmatvirt create mode 100644
+> > tests/data/acpi/virt/PPTT.acpihmatvirt create mode 100644
+> > tests/data/acpi/virt/SRAT.acpihmatvirt 
 
 
