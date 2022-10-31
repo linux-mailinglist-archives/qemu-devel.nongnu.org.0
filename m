@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CE561377B
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:10:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9247A61377A
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:10:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUMy-0000UF-SH; Mon, 31 Oct 2022 08:58:24 -0400
+	id 1opUMN-0007EV-NE; Mon, 31 Oct 2022 08:57:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1opUMf-0008NQ-35
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:58:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1opUM5-00073f-77
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:57:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1opUMc-00050L-Qq
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:58:04 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1opULz-0004ec-3y
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:57:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667221081;
+ s=mimecast20190719; t=1667221042;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HZ8yOKor55XVFkOWfS2fwDsLvRJh0D3DhkHFOEfNyPQ=;
- b=gPabpPCMNyDvA2pHIf8bK/aVqgfvzdgzlnwWogkA5hv/dlMMywkS51w4A/iDHbGGuvsWzc
- 47TDRrZ4+D5IyeswbtLeKUM5ZUcYryL2NveV8gMJFDvG89L/me43iACOcKd2a/dW4UrggE
- KtOAHmJ7QB9rRKIBTxJgSdVT149vjWE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TSxWpSpMPXcPSpOeKk1gr9OuNtLFr5dpXvg+T2s1/Mg=;
+ b=Vh6dh1MaDcLNXE0TFQUCyphzsZ1IRg8b5Bkh5jqtLmfMsGbVl4tpAzlljMWUFWuaQjD8II
+ d/BrX38I5ugQnLeHxmbLj+At6oYijqKIuxjvEXMmb/tOPaEkKZ2PAnAjsXNI+TnQ200ZVs
+ v/jMYlt8qJrBRG3U4tiyz+RjKRpYCgA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-369-d3UckmsPMtKC8H8ZW8BOqQ-1; Mon, 31 Oct 2022 08:57:23 -0400
-X-MC-Unique: d3UckmsPMtKC8H8ZW8BOqQ-1
+ us-mta-130-BHCJwtu5MH2hwK5rO2yViQ-1; Mon, 31 Oct 2022 08:57:19 -0400
+X-MC-Unique: BHCJwtu5MH2hwK5rO2yViQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B9A13C01E0A;
- Mon, 31 Oct 2022 12:57:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E7CA2800B30;
+ Mon, 31 Oct 2022 12:57:18 +0000 (UTC)
 Received: from server.redhat.com (ovpn-12-79.pek2.redhat.com [10.72.12.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1D5C111E3E4;
- Mon, 31 Oct 2022 12:57:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E951F111E3E4;
+ Mon, 31 Oct 2022 12:57:14 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: lulu@redhat.com, alex.williamson@redhat.com, jasowang@redhat.com,
  mst@redhat.com, pbonzini@redhat.com, peterx@redhat.com, david@redhat.com,
  f4bug@amsat.org, sgarzare@redhat.com
 Cc: qemu-devel@nongnu.org
-Subject: [PATCH v10 1/2] vfio: move implement of vfio_get_xlat_addr() to
- memory.c
-Date: Mon, 31 Oct 2022 20:57:01 +0800
-Message-Id: <20221031125702.1445168-2-lulu@redhat.com>
+Subject: [PATCH v10 2/2] vhost-vdpa: add support for vIOMMU
+Date: Mon, 31 Oct 2022 20:57:02 +0800
+Message-Id: <20221031125702.1445168-3-lulu@redhat.com>
 In-Reply-To: <20221031125702.1445168-1-lulu@redhat.com>
 References: <20221031125702.1445168-1-lulu@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -78,210 +77,224 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-- Move the implement vfio_get_xlat_addr to softmmu/memory.c, and
-  change the name to memory_get_xlat_addr(). So we can use this
-  function on other devices, such as vDPA device.
-- Add a new function vfio_get_xlat_addr in vfio/common.c, and it will check
-  whether the memory is backed by a discard manager. then device can
-  have its own warning.
+Add support for vIOMMU. add the new function to deal with iommu MR.
+- during iommu_region_add register a specific IOMMU notifier,
+ and store all notifiers in a list.
+- during iommu_region_del, compare and delete the IOMMU notifier from the list
+
+Verified in vp_vdpa and vdpa_sim_net driver
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/vfio/common.c      | 66 +++------------------------------------
- include/exec/memory.h |  4 +++
- softmmu/memory.c      | 72 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 81 insertions(+), 61 deletions(-)
+ hw/virtio/vhost-vdpa.c         | 122 ++++++++++++++++++++++++++++++---
+ include/hw/virtio/vhost-vdpa.h |  10 +++
+ 2 files changed, 121 insertions(+), 11 deletions(-)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index ace9562a9b..6bc02b32c8 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -578,45 +578,11 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
- static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-                                ram_addr_t *ram_addr, bool *read_only)
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 3ff9ce3501..e483d6e60b 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -26,6 +26,7 @@
+ #include "cpu.h"
+ #include "trace.h"
+ #include "qapi/error.h"
++#include "hw/virtio/virtio-access.h"
+ 
+ /*
+  * Return one past the end of the end of section. Be careful with uint64_t
+@@ -44,7 +45,6 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section,
+                                                 uint64_t iova_min,
+                                                 uint64_t iova_max)
  {
--    MemoryRegion *mr;
--    hwaddr xlat;
--    hwaddr len = iotlb->addr_mask + 1;
--    bool writable = iotlb->perm & IOMMU_WO;
--
--    /*
--     * The IOMMU TLB entry we have just covers translation through
--     * this IOMMU to its immediate target.  We need to translate
--     * it the rest of the way through to memory.
--     */
--    mr = address_space_translate(&address_space_memory,
--                                 iotlb->translated_addr,
--                                 &xlat, &len, writable,
--                                 MEMTXATTRS_UNSPECIFIED);
--    if (!memory_region_is_ram(mr)) {
--        error_report("iommu map to non memory area %"HWADDR_PRIx"",
--                     xlat);
--        return false;
--    } else if (memory_region_has_ram_discard_manager(mr)) {
--        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(mr);
--        MemoryRegionSection tmp = {
--            .mr = mr,
--            .offset_within_region = xlat,
--            .size = int128_make64(len),
--        };
--
--        /*
--         * Malicious VMs can map memory into the IOMMU, which is expected
--         * to remain discarded. vfio will pin all pages, populating memory.
--         * Disallow that. vmstate priorities make sure any RamDiscardManager
--         * were already restored before IOMMUs are restored.
--         */
--        if (!ram_discard_manager_is_populated(rdm, &tmp)) {
--            error_report("iommu map to discarded memory (e.g., unplugged via"
--                         " virtio-mem): %"HWADDR_PRIx"",
--                         iotlb->translated_addr);
--            return false;
--        }
-+    bool ret, mr_has_discard_manager;
+-    Int128 llend;
  
-+    ret = memory_get_xlat_addr(iotlb, vaddr, ram_addr, read_only,
-+                               &mr_has_discard_manager);
-+    if (ret && mr_has_discard_manager) {
-         /*
-          * Malicious VMs might trigger discarding of IOMMU-mapped memory. The
-          * pages will remain pinned inside vfio until unmapped, resulting in a
-@@ -635,29 +601,7 @@ static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-                          " intended via an IOMMU. It's possible to mitigate "
-                          " by setting/adjusting RLIMIT_MEMLOCK.");
+     if ((!memory_region_is_ram(section->mr) &&
+          !memory_region_is_iommu(section->mr)) ||
+@@ -61,14 +61,6 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section,
+         return true;
      }
--
--    /*
--     * Translation truncates length to the IOMMU page size,
--     * check that it did not truncate too much.
--     */
--    if (len & iotlb->addr_mask) {
--        error_report("iommu has granularity incompatible with target AS");
--        return false;
+ 
+-    llend = vhost_vdpa_section_end(section);
+-    if (int128_gt(llend, int128_make64(iova_max))) {
+-        error_report("RAM section out of device range (max=0x%" PRIx64
+-                     ", end addr=0x%" PRIx64 ")",
+-                     iova_max, int128_get64(llend));
+-        return true;
 -    }
 -
--    if (vaddr) {
--        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
--    }
--
--    if (ram_addr) {
--        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
--    }
--
--    if (read_only) {
--        *read_only = !writable || mr->readonly;
--    }
--
--    return true;
-+    return ret;
+     return false;
  }
  
- static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index bfb1de8eea..d1e79c39dc 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -713,6 +713,10 @@ void ram_discard_manager_register_listener(RamDiscardManager *rdm,
- void ram_discard_manager_unregister_listener(RamDiscardManager *rdm,
-                                              RamDiscardListener *rdl);
- 
-+bool memory_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-+                          ram_addr_t *ram_addr, bool *read_only,
-+                          bool *mr_has_discard_manager);
-+
- typedef struct CoalescedMemoryRange CoalescedMemoryRange;
- typedef struct MemoryRegionIoeventfd MemoryRegionIoeventfd;
- 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 7ba2048836..bc0be3f62c 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -33,6 +33,7 @@
- #include "qemu/accel.h"
- #include "hw/boards.h"
- #include "migration/vmstate.h"
-+#include "exec/address-spaces.h"
- 
- //#define DEBUG_UNASSIGNED
- 
-@@ -2121,6 +2122,77 @@ void ram_discard_manager_unregister_listener(RamDiscardManager *rdm,
-     rdmc->unregister_listener(rdm, rdl);
+@@ -173,6 +165,106 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
+     v->iotlb_batch_begin_sent = false;
  }
  
-+/* Called with rcu_read_lock held.  */
-+bool memory_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-+                          ram_addr_t *ram_addr, bool *read_only,
-+                          bool *mr_has_discard_manager)
++static void vhost_vdpa_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
 +{
-+    MemoryRegion *mr;
-+    hwaddr xlat;
-+    hwaddr len = iotlb->addr_mask + 1;
-+    bool writable = iotlb->perm & IOMMU_WO;
++    struct vdpa_iommu *iommu = container_of(n, struct vdpa_iommu, n);
 +
-+    if (mr_has_discard_manager) {
-+        *mr_has_discard_manager = false;
++    hwaddr iova = iotlb->iova + iommu->iommu_offset;
++    struct vhost_vdpa *v = iommu->dev;
++    void *vaddr;
++    int ret;
++
++    if (iotlb->target_as != &address_space_memory) {
++        error_report("Wrong target AS \"%s\", only system memory is allowed",
++                     iotlb->target_as->name ? iotlb->target_as->name : "none");
++        return;
 +    }
-+    /*
-+     * The IOMMU TLB entry we have just covers translation through
-+     * this IOMMU to its immediate target.  We need to translate
-+     * it the rest of the way through to memory.
-+     */
-+    mr = address_space_translate(&address_space_memory, iotlb->translated_addr,
-+                                 &xlat, &len, writable, MEMTXATTRS_UNSPECIFIED);
-+    if (!memory_region_is_ram(mr)) {
-+        error_report("iommu map to non memory area %" HWADDR_PRIx "", xlat);
-+        return false;
-+    } else if (memory_region_has_ram_discard_manager(mr)) {
-+        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(mr);
-+        MemoryRegionSection tmp = {
-+            .mr = mr,
-+            .offset_within_region = xlat,
-+            .size = int128_make64(len),
-+        };
-+        if (mr_has_discard_manager) {
-+            *mr_has_discard_manager = true;
++    RCU_READ_LOCK_GUARD();
++    vhost_vdpa_iotlb_batch_begin_once(v);
++
++    if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
++        bool read_only;
++
++        if (!memory_get_xlat_addr(iotlb, &vaddr, NULL, &read_only, NULL)) {
++            return;
 +        }
-+        /*
-+         * Malicious VMs can map memory into the IOMMU, which is expected
-+         * to remain discarded. vfio will pin all pages, populating memory.
-+         * Disallow that. vmstate priorities make sure any RamDiscardManager
-+         * were already restored before IOMMUs are restored.
-+         */
-+        if (!ram_discard_manager_is_populated(rdm, &tmp)) {
-+            error_report("iommu map to discarded memory (e.g., unplugged via"
-+                         " virtio-mem): %" HWADDR_PRIx "",
-+                         iotlb->translated_addr);
-+            return false;
++        ret =
++            vhost_vdpa_dma_map(v, iova, iotlb->addr_mask + 1, vaddr, read_only);
++        if (ret) {
++            error_report("vhost_vdpa_dma_map(%p, 0x%" HWADDR_PRIx ", "
++                         "0x%" HWADDR_PRIx ", %p) = %d (%m)",
++                         v, iova, iotlb->addr_mask + 1, vaddr, ret);
++        }
++    } else {
++        ret = vhost_vdpa_dma_unmap(v, iova, iotlb->addr_mask + 1);
++        if (ret) {
++            error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRIx ", "
++                         "0x%" HWADDR_PRIx ") = %d (%m)",
++                         v, iova, iotlb->addr_mask + 1, ret);
 +        }
 +    }
-+
-+    /*
-+     * Translation truncates length to the IOMMU page size,
-+     * check that it did not truncate too much.
-+     */
-+    if (len & iotlb->addr_mask) {
-+        error_report("iommu has granularity incompatible with target AS");
-+        return false;
-+    }
-+
-+    if (vaddr) {
-+        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
-+    }
-+
-+    if (ram_addr) {
-+        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
-+    }
-+
-+    if (read_only) {
-+        *read_only = !writable || mr->readonly;
-+    }
-+
-+    return true;
 +}
 +
- void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client)
++static void vhost_vdpa_iommu_region_add(MemoryListener *listener,
++                                        MemoryRegionSection *section)
++{
++    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
++
++    struct vdpa_iommu *iommu;
++    Int128 end;
++    int iommu_idx;
++    IOMMUMemoryRegion *iommu_mr;
++    int ret;
++
++    iommu_mr = IOMMU_MEMORY_REGION(section->mr);
++
++    iommu = g_malloc0(sizeof(*iommu));
++    end =  int128_add(int128_make64(section->offset_within_region),
++            section->size);
++    end = int128_sub(end, int128_one());
++    iommu_idx = memory_region_iommu_attrs_to_index(iommu_mr,
++            MEMTXATTRS_UNSPECIFIED);
++
++    iommu->iommu_mr = iommu_mr;
++
++    iommu_notifier_init(
++        &iommu->n, vhost_vdpa_iommu_map_notify, IOMMU_NOTIFIER_IOTLB_EVENTS,
++        section->offset_within_region, int128_get64(end), iommu_idx);
++    iommu->iommu_offset =
++        section->offset_within_address_space - section->offset_within_region;
++    iommu->dev = v;
++
++    ret = memory_region_register_iommu_notifier(section->mr, &iommu->n, NULL);
++    if (ret) {
++        g_free(iommu);
++        return;
++    }
++
++    QLIST_INSERT_HEAD(&v->iommu_list, iommu, iommu_next);
++    memory_region_iommu_replay(iommu->iommu_mr, &iommu->n);
++
++    return;
++}
++
++static void vhost_vdpa_iommu_region_del(MemoryListener *listener,
++                                        MemoryRegionSection *section)
++{
++    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
++
++    struct vdpa_iommu *iommu;
++
++    QLIST_FOREACH(iommu, &v->iommu_list, iommu_next)
++    {
++        if (MEMORY_REGION(iommu->iommu_mr) == section->mr &&
++            iommu->n.start == section->offset_within_region) {
++            memory_region_unregister_iommu_notifier(section->mr, &iommu->n);
++            QLIST_REMOVE(iommu, iommu_next);
++            g_free(iommu);
++            break;
++        }
++    }
++}
++
+ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+                                            MemoryRegionSection *section)
  {
-     uint8_t mask = 1 << client;
+@@ -186,6 +278,10 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+                                             v->iova_range.last)) {
+         return;
+     }
++    if (memory_region_is_iommu(section->mr)) {
++        vhost_vdpa_iommu_region_add(listener, section);
++        return;
++    }
+ 
+     if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
+                  (section->offset_within_region & ~TARGET_PAGE_MASK))) {
+@@ -260,6 +356,10 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+                                             v->iova_range.last)) {
+         return;
+     }
++    if (memory_region_is_iommu(section->mr)) {
++        vhost_vdpa_iommu_region_del(listener, section);
++        return;
++    }
+ 
+     if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
+                  (section->offset_within_region & ~TARGET_PAGE_MASK))) {
+@@ -587,7 +687,6 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
+     v = dev->opaque;
+     trace_vhost_vdpa_cleanup(dev, v);
+     vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+-    memory_listener_unregister(&v->listener);
+     vhost_vdpa_svq_cleanup(dev);
+ 
+     dev->opaque = NULL;
+@@ -1127,7 +1226,8 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+     }
+ 
+     if (started) {
+-        memory_listener_register(&v->listener, &address_space_memory);
++        memory_listener_register(&v->listener, dev->vdev->dma_as);
++
+         return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+     } else {
+         vhost_vdpa_reset_device(dev);
+diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+index d10a89303e..92bfc4785f 100644
+--- a/include/hw/virtio/vhost-vdpa.h
++++ b/include/hw/virtio/vhost-vdpa.h
+@@ -41,8 +41,18 @@ typedef struct vhost_vdpa {
+     void *shadow_vq_ops_opaque;
+     struct vhost_dev *dev;
+     VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
++    QLIST_HEAD(, vdpa_iommu) iommu_list;
++    IOMMUNotifier n;
+ } VhostVDPA;
+ 
++typedef struct vdpa_iommu {
++    struct vhost_vdpa *dev;
++    IOMMUMemoryRegion *iommu_mr;
++    hwaddr iommu_offset;
++    IOMMUNotifier n;
++    QLIST_ENTRY(vdpa_iommu) iommu_next;
++} VDPAIommu;
++
+ int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
+                        void *vaddr, bool readonly);
+ int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr size);
 -- 
 2.34.3
 
