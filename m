@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 856A76137CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:23:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C076137C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:22:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUia-0005Mj-3N; Mon, 31 Oct 2022 09:20:44 -0400
+	id 1opUie-0005pu-Kr; Mon, 31 Oct 2022 09:20:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1opUi1-0003JZ-Hx
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:20:09 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ id 1opUhy-00034Y-82
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:20:07 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1opUhr-0005S7-JQ
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:20:09 -0400
-Received: by mail-wr1-x435.google.com with SMTP id k8so15976332wrh.1
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:19:58 -0700 (PDT)
+ id 1opUht-0005SO-GM
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:20:05 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id cl5so4296164wrb.9
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:19:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=38CIqeK6tAYrMp96yOEjbU4GfBGml0abO/Zm0V1JKyw=;
- b=i3yUo005Q9AZdYSkRkt2ilYEugHuZPjzLyaP5L7wRCcGJMGQAdXeOt9Ez63H84afO7
- YM6EsEdDMQT+DRLUf6U1ZfLdio1lSup5bsmR07mDrJqQotJkyco+lW74ApGBsKFsG/Sh
- kko3fRWWK1wn6LdE4aTgupilZiJfQej7MEKbIdCQ4fyR6X4dps2TBFZhQNSo62YSJhfJ
- GeUdM64cY/5/UrO3/nGzbdZWZ/F58o51wJb/L/zjZMnaDCrBd1c0kmx/MCBMrChnb4E9
- LiUfsCPPD97UMm3F632IYAUbLQEKwdmqf9y5J3C1N0/b+rvH5rwHCHaIuD/dFfPmr6PD
- +dlA==
+ bh=BP29Ki6yP/DZbhV0oFjwlgXIaAyAE9rA1CMCqvoccmU=;
+ b=SUpnCi7P9kK8mOJofejpJGpzuyxNtA361HmcTdMiAiXfsm+HTFfpvl30fYoGFzeHAH
+ 5aVThoc2sVsPNhcw/i1Ry9myY6zl2V6tDmHHJJtepSPAWt60BKpwPvPifEjGP88oNB7U
+ oD62w0AxUYkXhNQQRIaHdhcG+brSyuClHCS7dHmMTa+4YC1qvGzNAj99nCR33neGQiBc
+ QnOfcWqqqcvjX/sQqJdPkp369a96hWrrD7k9AFCvLAh4OSJpVccp5AATD1hhoIMTkDu+
+ SHY1C9DBlKyPmdH0kkz8/az2G65OI/HfMMU6l2G+/opOiyvqbPEqc42fuPJZPrxj1RmL
+ zlQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=38CIqeK6tAYrMp96yOEjbU4GfBGml0abO/Zm0V1JKyw=;
- b=GsizgXpPH0HSFi5ZkmUSNnZSrnSSpGaRCz97N/nquCrimtzJrHFkCeLArCrb9FlVAN
- 3SJghHJm9twLKg5R1p9u/y73Uapz6xDuvAgvjOMQC/ppwFcsicJLGCQB6wLDCfmQoJMD
- cXliBBrAPaH0DtpSLdyrqbDdxGrNqXUPz10M1VeVjLSrozQ1yM+04v/WZEZKAfVlxZPR
- 54cmR7rHpE5aOo8DEkNRZZ4SuNMXpkQP+i+ESs4aihzzmCNhTUF0ctbZhO7lr/TXNjTx
- wO6I7ljJygMirt7W1xerOPv/oEs6RfpcZffAGsbrue6xHq0ssL/lrITcmFXdxIrikIJs
- WJ4w==
-X-Gm-Message-State: ACrzQf0rnGq2+3EUWu8bHx40Bv7wg5E5F08e7FBXJISDPLXGfbceqSvB
- R6y4VK3JqOQz+ZBV1tFdfR2WJg==
-X-Google-Smtp-Source: AMsMyM5voTHwV/+/EG3q6DmdXP3gBshoyh2heZe9VM87Q+88kFUUIKDX/t4PPrjqErITbPs3Y3fP4g==
-X-Received: by 2002:a5d:588f:0:b0:231:c661:5cee with SMTP id
- n15-20020a5d588f000000b00231c6615ceemr8386955wrf.18.1667222397585; 
- Mon, 31 Oct 2022 06:19:57 -0700 (PDT)
+ bh=BP29Ki6yP/DZbhV0oFjwlgXIaAyAE9rA1CMCqvoccmU=;
+ b=wDWd8w+eczb8fSc2X75qRWU21wv+7hvVnVTz7tddUZJ//MENN2r0Ir6yGNerg+h07s
+ fdcv9RThXfqIfzNSAZQU8G7Do18Aw7cPwk1tz0lBN5Ud7wXk8PQPXa0lY81Tic6pCTdk
+ Vj5OCjIjCTSTqigbCItn1kUH56/8ieSgbYDfJf5CHPoESLiau+9ApHY4bkhr9Orp7R3M
+ 3SsNvyjpPqtKTGka5eefD29mgAN/uXFj9bOoXKQ/9Hc12oAEW26fr1q+yJ8DCZdAxA1l
+ q9HpZwmLizy3XVSStekTBUrBgkQUcAiSoaEkX6I6iUy9/zlJw8PjtmLZSdR6vZizm9QW
+ HEaw==
+X-Gm-Message-State: ACrzQf1zAOGZHkPBINXcFNhQxWPA6vEGveAZI9TbpPc7FGyW2xjkexKH
+ f1wqjYiAseDEHVFSgN1hrk7y3A==
+X-Google-Smtp-Source: AMsMyM4X9ZHTzys7ZtzlJ4knHl1k5Ac4zo1Jje8Mw1JokNSt+ECptXR0U/KHjK3tFNmBU0jANgKprQ==
+X-Received: by 2002:adf:e8cb:0:b0:236:7ae2:918e with SMTP id
+ k11-20020adfe8cb000000b002367ae2918emr8214680wrn.613.1667222398726; 
+ Mon, 31 Oct 2022 06:19:58 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- p11-20020a05600c468b00b003cf75213bb9sm1771353wmo.8.2022.10.31.06.19.53
+ d8-20020a5d5388000000b0023672104c24sm7260775wrv.74.2022.10.31.06.19.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 06:19:54 -0700 (PDT)
+ Mon, 31 Oct 2022 06:19:55 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C95731FFD3;
+ by zen.linaroharston (Postfix) with ESMTP id E03331FFD4;
  Mon, 31 Oct 2022 13:10:13 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: stefanha@redhat.com, Ilya Leoshkevich <iii@linux.ibm.com>,
  Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: [PULL 30/31] tests/unit: cleanups for test-io-channel-command
-Date: Mon, 31 Oct 2022 13:10:09 +0000
-Message-Id: <20221031131010.682984-31-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PULL 31/31] tests/vm: use -o IdentitiesOnly=yes for ssh
+Date: Mon, 31 Oct 2022 13:10:10 +0000
+Message-Id: <20221031131010.682984-32-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221031131010.682984-1-alex.bennee@linaro.org>
 References: <20221031131010.682984-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,112 +98,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-This test is hanging under heavy load when the two socats race while
-trying to create the socket. I've tried various approaches to avoid
-the race but it seems "creat=0" won't stop socat trying to create a
-pipe if it executes first. In the end I just use a small sleep which
-seems to be reliable enough on the load situations I've tried.
+From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-While I was there I also properly created a tmpdir for the socket to
-live in which is cleaned up at the end of the test.
+When one has a lot of keys in ~/.ssh directory, the ssh command will
+try all of them before the one specified on the command line, and this
+may cause the remote ssh server to reject the connection due to too
+many failed authentication attempts.
 
+Fix by adding -o IdentitiesOnly=yes, which makes the ssh client
+consider only the keys specified on the command line.
+
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20221027113026.2280863-1-iii@linux.ibm.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>
-Message-Id: <20221027183637.2772968-30-alex.bennee@linaro.org>
+Message-Id: <20221027183637.2772968-31-alex.bennee@linaro.org>
 
-diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
-index 7eee939c07..43e29c8cfb 100644
---- a/tests/unit/test-io-channel-command.c
-+++ b/tests/unit/test-io-channel-command.c
-@@ -19,6 +19,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include <glib/gstdio.h>
- #include "io/channel-command.h"
- #include "io-channel-helpers.h"
- #include "qapi/error.h"
-@@ -26,32 +27,32 @@
- 
- #define TEST_FIFO "test-io-channel-command.fifo"
- 
--#define SOCAT_SRC "PIPE:" TEST_FIFO ",wronly"
--#define SOCAT_DST "PIPE:" TEST_FIFO ",rdonly"
--
- static char *socat = NULL;
- 
- static void test_io_channel_command_fifo(bool async)
- {
-+    g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
-+    g_autofree gchar *fifo = g_strdup_printf("%s/%s", tmpdir, TEST_FIFO);
-+    g_autoptr(GString) srcargs = g_string_new(socat);
-+    g_autoptr(GString) dstargs = g_string_new(socat);
-+    g_auto(GStrv) srcargv;
-+    g_auto(GStrv) dstargv;
-     QIOChannel *src, *dst;
-     QIOChannelTest *test;
--    const char *srcargv[] = {
--        socat, "-", SOCAT_SRC, NULL,
--    };
--    const char *dstargv[] = {
--        socat, SOCAT_DST, "-", NULL,
--    };
- 
--    if (!socat) {
--        g_test_skip("socat is not found in PATH");
--        return;
--    }
-+    g_string_append_printf(srcargs, " - PIPE:%s,wronly", fifo);
-+    g_string_append_printf(dstargs, " PIPE:%s,rdonly -", fifo);
-+
-+    srcargv = g_strsplit(srcargs->str, " ", -1);
-+    dstargv = g_strsplit(dstargs->str, " ", -1);
- 
--    unlink(TEST_FIFO);
--    src = QIO_CHANNEL(qio_channel_command_new_spawn(srcargv,
-+    src = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) srcargv,
-                                                     O_WRONLY,
-                                                     &error_abort));
--    dst = QIO_CHANNEL(qio_channel_command_new_spawn(dstargv,
-+    /* try to avoid a race to create the socket */
-+    g_usleep(1000);
-+
-+    dst = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) dstargv,
-                                                     O_RDONLY,
-                                                     &error_abort));
- 
-@@ -62,17 +63,27 @@ static void test_io_channel_command_fifo(bool async)
-     object_unref(OBJECT(src));
-     object_unref(OBJECT(dst));
- 
--    unlink(TEST_FIFO);
-+    g_rmdir(tmpdir);
- }
- 
- 
- static void test_io_channel_command_fifo_async(void)
- {
-+    if (!socat) {
-+        g_test_skip("socat is not found in PATH");
-+        return;
-+    }
-+
-     test_io_channel_command_fifo(true);
- }
- 
- static void test_io_channel_command_fifo_sync(void)
- {
-+    if (!socat) {
-+        g_test_skip("socat is not found in PATH");
-+        return;
-+    }
-+
-     test_io_channel_command_fifo(false);
- }
- 
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 4fd9af10b7..2276364c42 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -233,7 +233,8 @@ def _ssh_do(self, user, cmd, check):
+                    "-o", "UserKnownHostsFile=" + os.devnull,
+                    "-o",
+                    "ConnectTimeout={}".format(self._config["ssh_timeout"]),
+-                   "-p", str(self.ssh_port), "-i", self._ssh_tmp_key_file]
++                   "-p", str(self.ssh_port), "-i", self._ssh_tmp_key_file,
++                   "-o", "IdentitiesOnly=yes"]
+         # If not in debug mode, set ssh to quiet mode to
+         # avoid printing the results of commands.
+         if not self.debug:
 -- 
 2.34.1
 
