@@ -2,93 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCCF86133D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 11:42:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 989AF6133DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 11:45:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opSEX-0007DT-Tg; Mon, 31 Oct 2022 06:41:33 -0400
+	id 1opSHo-0008NL-BY; Mon, 31 Oct 2022 06:44:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1opSEW-0007DJ-BQ
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 06:41:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1opSHm-0008N0-89
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 06:44:54 -0400
+Received: from mail.weilnetz.de ([37.120.169.71]
+ helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1opSES-00050j-RR
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 06:41:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667212887;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jg34LqUFq9kapneHl8gAo0S9bhs12rrReRlScpgS/yc=;
- b=Msx8pcUNTNcFANmV6SJJDU2Jddpq2C2l6pzSFnCpCnp6KDvnlcHay4NEsAtPCSpqwDOs92
- CJUE/2QFxJP2S1/tfIvqyKzbDZlrzHTPZjcOVitLd/8cqmKfnEeBLzSqq+4/3AZjIW+goM
- tt9lA3m8GGEsNcJvIvOVtJ4aiqjYgho=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-517-K3o4JpqHOnGfvkO8wwyhlQ-1; Mon, 31 Oct 2022 06:41:26 -0400
-X-MC-Unique: K3o4JpqHOnGfvkO8wwyhlQ-1
-Received: by mail-pj1-f70.google.com with SMTP id
- nl16-20020a17090b385000b002138288fd51so6821953pjb.6
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 03:41:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=jg34LqUFq9kapneHl8gAo0S9bhs12rrReRlScpgS/yc=;
- b=Q9fneOciAt61LRTTPHbiwJYsxyF6OKxHk3QrOfqp31EkKuapMGUks1mVhnqRFU6Ccs
- BysyQJQ61K1x/TE2LaCc8W3WJsEVTRFdIE5rz7NynXhffqxaRmmmwIljncYkVX1O9rrz
- Fh9qVJ5WzMlQ1521RAEQgIl311k6CIlbp/T2eTWk8saqDMFBmPbzjU+xTq50F6R5/1+U
- hevSaqF1CPYVyd+OOet0NAAzaz5m0nm9epVbVQN2foqI7NW/xUuCm76mEsLW6MCj8dXV
- WSQtSQ1usEYzPw4U5VU6HWgGQwUwuZqoIIosEZ4e3v9ahTMc8NpnUpKZCHU8AD3lk9UE
- R/Vg==
-X-Gm-Message-State: ACrzQf03EIx4Yj69rxhPC0abipNXcIZpbXAZm9/snX8wVrH9hsP1l0iq
- STkNjCWRx1w3KByiDc8No4R9ROR42/HvfQLDNO6XmsFJXuBGbzFxNq8Wj0yiv8qTMxBLT3CawD5
- xn8JfMGVCQiD825WLO4YTxoA+cnjIpFs=
-X-Received: by 2002:a05:6a00:170b:b0:56d:4b31:c4cf with SMTP id
- h11-20020a056a00170b00b0056d4b31c4cfmr7367859pfc.68.1667212884995; 
- Mon, 31 Oct 2022 03:41:24 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5gXKVkhk9oEKr0v8jRDpRWowu8I9+BcHP9jg2RaNQ//MdQeP6EIwqtOTZ9+Nypmb1XNOQJT+mS3kYaqMaLQ4A=
-X-Received: by 2002:a05:6a00:170b:b0:56d:4b31:c4cf with SMTP id
- h11-20020a056a00170b00b0056d4b31c4cfmr7367822pfc.68.1667212884618; Mon, 31
- Oct 2022 03:41:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1opSHk-0006Bm-5A
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 06:44:54 -0400
+Received: from [192.168.178.59] (p5b151d14.dip0.t-ipconnect.de [91.21.29.20])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 232C1DA045D;
+ Mon, 31 Oct 2022 11:44:50 +0100 (CET)
+Message-ID: <1ed28d1b-4b80-055d-5fac-d4d87ac187d3@weilnetz.de>
+Date: Mon, 31 Oct 2022 11:44:48 +0100
 MIME-Version: 1.0
-References: <20221011104154.1209338-1-eperezma@redhat.com>
- <20221011104154.1209338-7-eperezma@redhat.com>
- <20221031042356-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20221031042356-mutt-send-email-mst@kernel.org>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 31 Oct 2022 11:40:48 +0100
-Message-ID: <CAJaqyWdmvASZfj5rZLZjUxEnZB2AJWQFKEj30g_w2_0z9vqjow@mail.gmail.com>
-Subject: Re: [PATCH v5 6/6] vdpa: Always start CVQ in SVQ mode
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Gautam Dawar <gdawar@xilinx.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Jason Wang <jasowang@redhat.com>, 
- Si-Wei Liu <si-wei.liu@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Eli Cohen <eli@mellanox.com>, Parav Pandit <parav@mellanox.com>, 
- Laurent Vivier <lvivier@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
- Cindy Lu <lulu@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org, 
- Harpreet Singh Anand <hanand@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.055,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20221031074317.377366-1-sw@weilnetz.de>
+ <280c2059-1b1f-85db-eca0-71e5e5800b21@redhat.com>
+Subject: Re: [RFC PATCH] Add new build target 'check-spelling'
+In-Reply-To: <280c2059-1b1f-85db-eca0-71e5e5800b21@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Nc2SkeoQL770l00uye204XUv"
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,286 +58,228 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Stefan Weil <sw@weilnetz.de>
+From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 31, 2022 at 9:25 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Tue, Oct 11, 2022 at 12:41:54PM +0200, Eugenio P=C3=A9rez wrote:
-> > Isolate control virtqueue in its own group, allowing to intercept contr=
-ol
-> > commands but letting dataplane run totally passthrough to the guest.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
->
-> I guess we need svq for this. Not a reason to allocate it for
-> all queues.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Nc2SkeoQL770l00uye204XUv
+Content-Type: multipart/mixed; boundary="------------QVlLtS7n5ZSNhhbCouKrupgQ";
+ protected-headers="v1"
+From: Stefan Weil <sw@weilnetz.de>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1ed28d1b-4b80-055d-5fac-d4d87ac187d3@weilnetz.de>
+Subject: Re: [RFC PATCH] Add new build target 'check-spelling'
+References: <20221031074317.377366-1-sw@weilnetz.de>
+ <280c2059-1b1f-85db-eca0-71e5e5800b21@redhat.com>
+In-Reply-To: <280c2059-1b1f-85db-eca0-71e5e5800b21@redhat.com>
 
-I'll document this part better.
+--------------QVlLtS7n5ZSNhhbCouKrupgQ
+Content-Type: multipart/mixed; boundary="------------XAcTLNunSREbqwoHW4KpjGb0"
 
-> Also if vdpa does not support pasid then I guess
-> we should not bother with svq.
->
+--------------XAcTLNunSREbqwoHW4KpjGb0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Yes, if the device does not support ASID or it does not support all
-conditions (like to be able to isolate precisely CVQ in its own AS),
-svq is not enabled.
+QW0gMzEuMTAuMjIgdW0gMDg6NTIgc2NocmllYiBUaG9tYXMgSHV0aDoNCg0KPiBPbiAzMS8x
+MC8yMDIyIDA4LjQzLCBTdGVmYW4gV2VpbCB3cm90ZToNCj4+IGBtYWtlIGNoZWNrLXNwZWxs
+aW5nYCBjYW4gbm93IGJlIHVzZWQgdG8gZ2V0IGEgbGlzdCBvZiBzcGVsbGluZyBlcnJvcnMu
+DQo+PiBJdCB1c2VzIHRoZSBsYXRlc3QgdmVyc2lvbiBvZiBjb2Rlc3BlbGwsIGEgc3BlbGwg
+Y2hlY2tlciBpbXBsZW1lbnRlZCANCj4+IGluIFB5dGhvbi4NCj4+DQo+PiBTaWduZWQtb2Zm
+LWJ5OiBTdGVmYW4gV2VpbCA8c3dAd2VpbG5ldHouZGU+DQo+PiAtLS0NCj4+DQo+PiBUaGlz
+IFJGQyBjYW4gYWxyZWFkeSBiZSB1c2VkIGZvciBtYW51YWwgdGVzdHMsIGJ1dCBzdGlsbCBy
+ZXBvcnRzIGZhbHNlDQo+PiBwb3NpdGl2ZXMsIG1vc3RseSBiZWNhdXNlIHNvbWUgdmFyaWFi
+bGUgbmFtZXMgYXJlIGludGVycHJldGVkIGFzIHdvcmRzLg0KPj4gVGhlc2Ugd29yZHMgY2Fu
+IGVpdGhlciBiZSBpZ25vcmVkIGluIHRoZSBjaGVjaywgb3IgaW4gc29tZSBjYXNlcyB0aGUg
+DQo+PiBjb2RlDQo+PiBtaWdodCBiZSBjaGFuZ2VkIHRvIHVzZSBkaWZmZXJlbnQgdmFyaWFi
+bGUgbmFtZXMuDQo+Pg0KPj4gVGhlIGNoZWNrIGN1cnJlbnRseSBvbmx5IHNraXBzIGEgZmV3
+IGRpcmVjdG9yaWVzIGFuZCBmaWxlcywgc28gZm9yIA0KPj4gZXhhbXBsZQ0KPj4gY2hlY2tl
+ZCBvdXQgc3VibW9kdWxlcyBhcmUgYWxzbyBjaGVja2VkLg0KPj4NCj4+IFRoZSBydWxlIGNh
+biBiZSBleHRlbmRlZCB0byBhbGxvdyB1c2VyIHByb3ZpZGVkIGlnbm9yZSBhbmQgc2tpcCBs
+aXN0cywNCj4+IGZvciBleGFtcGxlIGJ5IGludHJvZHVjaW5nIE1ha2VmaWxlIHZhcmlhYmxl
+cyBDT0RFU1BFTExfU0tJUD11c2VyZmlsZQ0KPj4gb3IgQ09ERVNQRUxMX0lHTk9SRT11c2Vy
+ZmlsZS4gQSBsaW1pdGVkIGNoZWNrIGNvdWxkIGJlIGltcGxlbWVudGVkIGJ5DQo+PiBwcm92
+aWRpbmcgYSBiYXNlIGRpcmVjdG9yeSBDT0RFU1BFTExfU1RBUlQ9YmFzZWRpcmVjdG9yeSwg
+Zm9yIGV4YW1wbGUNCj4+IENPREVTUEVMTF9TVEFSVD1kb2NzLg0KPj4NCj4+IFJlZ2FyZHMs
+DQo+PiBTdGVmYW4NClsuLi5dDQo+PiBJIGxpa2UgdGhlIGlkZWEsIGJ1dCBJIHRoaW5rIGl0
+J3MgdW5saWtlbHkgdGhhdCB3ZSBjYW4gbWFrZSB0aGlzIHdvcmsgDQo+PiBmb3IgdGhlIHdo
+b2xlIHNvdXJjZSB0cmVlIGFueSB0aW1lIHNvb24uIFNvIG1heWJlIGl0IG1ha2VzIG1vcmUg
+c2Vuc2UgDQo+PiB0byBzdGFydCB3aXRoIHNvbWUgZmV3IGRpcmVjdG9yaWVzIGZpcnN0IChl
+LmcuIGRvY3MvICkgYW5kIHRoZW4gdGhlIA0KPj4gbWFpbnRhaW5lcnMgY2FuIG9wdC1pbiBi
+eSBjbGVhbmluZyB1cCB0aGVpciBkaXJlY3RvcmllcyBmaXJzdCBhbmQgDQo+PiB0aGVuIGJ5
+IGFkZGluZyB0aGVpciBkaXJlY3RvcmllcyB0byB0aGlzIHRhcmdldCBoZXJlPw0KPg0KPiDC
+oFRob21hcw0KDQoNCkV2ZW4gd2l0aG91dCBpbXBsZW1lbnRpbmcgQ09ERVNQRUxMX1NUQVJU
+IGFzIGRlc2NyaWJlZCBhYm92ZSwgdGhlIHNjcmlwdCANCmNhbiBhbHJlYWR5IGJlIHVzZWQg
+YW5kIGludGVncmF0ZWQgaW50byBDSSBzY3JpcHRzLg0KDQpJdCB0YWtlcyBhYm91dCA2MCBz
+ZWNvbmRzIHRvIGNoZWNrIHRoZSB3aG9sZSBzb3VyY2UgdHJlZSBpbmNsdWRpbmcgDQpzdWJt
+b2R1bGVzIG9uIG15IChzbG93KSB2aXJ0dWFsIG1hY2hpbmUuDQoNClRoZSByZXN1bHRpbmcg
+b3V0cHV0IGhhcyBhYm91dCAyMDAwMCBsaW5lcyBvciAxMjcyIEtpQi4gSXQgY2FuIGJlIA0K
+ZmlsdGVyZWQgZm9yIHJlbGV2YW50IHBhcnRzIG9mIHRoZSBzb3VyY2UgdHJlZSBvciB1c2Vk
+IGZvciBhIHN1bW1hcnkuDQoNClNhbXBsZSBzY3JpcHQ6IGdyZXAgIl5bLl0iIHNwZWxsY2hl
+Y2subG9nIHwgc2VkIHMvXi4uLy8gfCBzZWQgJ3MvXC8uKi8vJyANCnwgc2VkIHMvOi4qLy8g
+fCBzb3J0IHwgdW5pcSAtYw0KDQpUaGlzIHByb2R1Y2VzIGEgc3VtbWFyeSBmb3IgdGhlIHRv
+cCBsZXZlbCBoaWVyYXJjaHkgb2YgZmlsZXMgYW5kIA0KZGlyZWN0b3JpZXM6DQoNCiDCoMKg
+wqDCoMKgIDMgYWNjZWwNCiDCoMKgwqDCoMKgIDEgYXVkaW8NCiDCoMKgwqDCoMKgIDEgYmFj
+a2VuZHMNCiDCoMKgwqDCoCA3NyBibG9jaw0KIMKgwqDCoMKgwqAgNyBibG9jay5jDQogwqDC
+oMKgwqAgMjAgYnNkLXVzZXINCiDCoMKgwqAgMzg2IGNhcHN0b25lDQogwqDCoMKgwqAgMTIg
+Y2hhcmRldg0KIMKgwqDCoMKgwqAgMSBjb25maWd1cmUNCiDCoMKgwqDCoMKgIDggY29udHJp
+Yg0KIMKgwqDCoMKgwqAgNiBjcnlwdG8NCiDCoMKgwqDCoCA2NCBkaXNhcw0KIMKgwqDCoMKg
+IDMyIGRvY3MNCiDCoMKgwqDCoCAzMSBkdGMNCiDCoMKgwqDCoMKgIDggZnB1DQogwqDCoMKg
+wqDCoCAxIGdkYnN0dWINCiDCoMKgwqDCoMKgIDEgZ2RiLXhtbA0KIMKgwqDCoMKgwqAgMSAu
+Z2l0aHViDQogwqDCoMKgIDUzNyBodw0KIMKgwqDCoMKgwqAgNyBpbmMNCiDCoMKgwqAgMTE0
+IGluY2x1ZGUNCiDCoMKgwqDCoMKgIDEgbGliZGVjbnVtYmVyDQogwqDCoMKgwqAgMzMgbGlu
+dXgtdXNlcg0KIMKgwqDCoMKgwqAgMSBNQUlOVEFJTkVSUw0KIMKgwqDCoCAxNTAgbWVzb24N
+CiDCoMKgwqDCoMKgIDYgbWVzb24uYnVpbGQNCiDCoMKgwqDCoCAxNiBtaWdyYXRpb24NCiDC
+oMKgwqDCoMKgIDEgbmJkDQogwqDCoMKgwqDCoCA1IG5ldA0KIMKgwqDCoMKgIDEyIHBjLWJp
+b3MNCiDCoMKgwqDCoMKgIDcgcHl0aG9uDQogwqDCoMKgwqDCoCAzIHFhcGkNCiDCoMKgwqDC
+oMKgIDIgcWVtdQ0KIMKgwqDCoMKgwqAgNSBxZW11LW9wdGlvbnMuaHgNCiDCoMKgwqDCoCAy
+MiBxZ2ENCiDCoCAxNDE3NSByb21zDQogwqDCoMKgwqAgNDMgc2NyaXB0cw0KIMKgwqDCoMKg
+wqAgMyBzZW1paG9zdGluZw0KIMKgwqDCoMKgIDE4IHNsaXJwDQogwqDCoMKgwqDCoCAyIHNv
+ZnRtbXUNCiDCoMKgwqDCoCA1OSBzdWJwcm9qZWN0cw0KIMKgwqDCoCA1MDQgdGFyZ2V0DQog
+wqDCoMKgwqDCoCA2IHRjZw0KIMKgwqDCoMKgwqAgMyB0ZXN0LnJiDQogwqDCoMKgIDE3NSB0
+ZXN0cw0KIMKgwqDCoMKgwqAgNiB0b29scw0KIMKgwqDCoMKgIDIwIHVpDQogwqDCoMKgwqDC
+oCA4IHV0aWwNCg0KSXQgc2hvd3MgdGhhdCAicm9tcyIgY29udHJpYnV0ZXMgYnkgZmFyIHRo
+ZSBtb3N0IHR5cG9zLiBPbWl0dGluZyBpdCANCndvdWxkIHJlZHVjZSB0aGUgcmVxdWlyZWQg
+dGltZSB0byAyMiBzZWNvbmRzIGFuZCB0aGUgbnVtYmVyIG9mIHR5cG9zIA0KZm91bmQgKDI5
+NDcgbGluZXMgaW4gb3V0cHV0KSB2ZXJ5IG11Y2guDQoNCiJjYXBzdG9uZSIgKHdoaWNoIGhh
+cyBubyBlbnRyeSBpbiBNQUlOVEFJTkVSUyksICJ0YXJnZXQiIGFuZCAiaHciIGFsc28gDQpj
+b250cmlidXRlIG1vcmUgdGhhbiAzMDAgaGl0cyBlYWNoLCB0aGVyZWZvcmUgY2MnaW5nIFJp
+Y2hhcmQuDQoNClN0ZWZhbg0KDQo=
+--------------XAcTLNunSREbqwoHW4KpjGb0
+Content-Type: application/pgp-keys; name="OpenPGP_0xE08C21D5677450AD.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xE08C21D5677450AD.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-This is not documented properly in the patch description.
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
+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
+T7uiC0aTwAsniiln1XFlGBISNLB1HL/gUc9FJj8qmYgvUBZIzUjmm56up6er8ca9
+2tARdBylQF3E9MJ/E4dVrmTyvOlddAb/MG1Ge425mjt0dRfOx8Qc7Pxs+d3UNVSu
+Bm+WtuSgk+JNIT08c+WSXec8mE4hVdrKbAvCo9dcT5Gal2r6FSvRVY5kba3t280x
+utLSp470k3+DO+AgVigbHr3scXlJXZe1m4luqBSkEBDNH2sAQoBrNVwVaCZqZRTN
+TFN0ZWZhbiBXZWlsIChVbml2ZXJzaXTDpHRzYmlibGlvdGhlayBNYW5uaGVpbSkg
+PHN0ZWZhbi53ZWlsQHVuaS1tYW5uaGVpbS5kZT7CwY4EEwEIADgWIQRJI2/qdcld
+aY7Ct4rgjCHVZ3RQrQUCYlMdZAIbAwULCQgHAwUVCgkICwUWAgMBAAIeBQIXgAAK
+CRDgjCHVZ3RQrRo6D/9MSqnSGOjWrcsiXbUsQmNKzI1JZOuabam3P9V/rILU7K4/
+b9E6Bk5Vjo/6A4xMtC9y6L244Upn4MTdUofkBdd9dMG8eZ2oofsMGIeEmr4EFfKb
+/LoZtIUJaNfiwvd3YakEmaAfd+AWIEAVYlVSxWHeCMowTNYxbSW+/M0ExGw1BErt
+oFiz3Ti8iYNfgz2l9cwrKhQEnzZlHUq06AIbzch/nXFFcc3EBDz+J6x//DCclb6Y
+8oLJRerrOJqpcpTYrwr+UDbh8JOqiUWUQ1BrbIZb+J5rU+DghBmNAWpd6yTbxX0T
+I7g2Hu7gPdzhrLLRO+rQsDK3T+JdVQ9xyoWugFIw4YepAad5uo/2e+q38a+h57EK
+Vsy4xfAEV/Mr4hl9KCY2hkiQYMKHvN1EZp72crAiPgDZxh6wTJZ979RHY2apq8XM
+Y41uP5mwdHxFA1Al/5+syajNlTzsNdYB5Ucx5TwNU0TifM13exHw8lQZOaWbDZS4
+QYwzeFWuEFse9ESmCQX5Pggw+ABFXOtPeqEfIO8v3QbT1vFlJ57iFBUiem967/JV
+a0RQyEvAKj0T5124N8Hi1oa8TPk5oSe8id5jSgGD9twbS0HX2KcmwAF/A5MgP7hx
+0X4EfhsJtDxFDy5PnoC8ADE2wcKDsTgqfDS/EQc6OeQCKceR45wyOT0Y3kbEa87B
+TQRV3J49ARAAt9nArtjFnqmRHL0oY5KCrF5ONph6xm3rof74lZ/CTkG0zu9OhmbW
+s6MMNsHgM7lRGIcKou7vUQE8/TEXh3+0eRdCiEYXP9jYTTXosU/+y/hOY33x9Sw/
+tCEHXiz6M+rp74O1P+zqXSlmx8zzNy33dDdXUT+bF1C6Y7WEChIIjlOfLHOBeazN
+dCqDxRDM/CKeI/UWx/wm0z1DNEuD8crUXIgdxY3dBAm1bBK041+3GXP8gYLN4qew
+T1VoG35Ya3PrrTC/zMAumagjiF3/1NCAmH6eSOzw21EloDBR76K1noDGCfRM2dp0
+78rS/BO+QtlN4+UWQLkB+crHxqXWk0u+gka2A7ZBHFYky/oUVIK1/ar6swnTRHj2
+0Ga+rukzcdxQRJ2kwGeRrqLH1JO8p72ptvswMyzVPhk8sE2S9llPrbznj6fc9f5m
+y5x9i5Fh4Mt2z7u+wBSdck2wV5eThEPz7UziXgtbq74Hja7tuoQxUhcpOIBXKl8b
+MLtjxlO7VmH312VzfiBYqQku9fHg3E/Hi+uon2fJaifFbuViZqfZq9bKT/UWG0+0
+cKc2d4os+3uwGcjraUjCFSXmGU27YqiW8jeM7pIa03QoAhWIH9ApAOVBqWF6drFz
+6/oFcSl9qbY/4IneJ/eb0eyjHllegydGEuIShrXYZLiQqSX4yj/3vE8AEQEAAcLB
+XwQYAQgACQUCVdyePQIbDAAKCRDgjCHVZ3RQrWEaEACTrt0WUxL1AT6BarJ3fOPV
+ZjiioO+3LPhw98ci7afeScEK84cGv+KLgxawvOo7dbwEX6VceQvJ0LTZ1oYPuYeZ
+MjiG7Qdf9uwgk3VwHf4S9pNxsqyVxHPotN9RPWwqoH9ihmO/ml7uC3gH0SFiU/RR
+lc3c9X/u+6SbkSEUZrUrPFQKJ3dpfjnA3RCPTI3fTKr8jycA5A5A77Daba3L+MXj
+c71/tn6MZCZmK7unSfpXq4rbGrIgMWnFKMBgeRONUWRFIOm5lReEjLHiABCli8t4
+Txr2ATswA4atmC4JzP8J/WPWe2xDMvsOXu+bGgW5BSO053MQz1JyJf1ExClNTkYu
+Vlm712JFE7Xzc2cg9P796KI3CKGbytTpaTrVx3ZajqHY1xfZy3vHolR8pfGZ8xcY
+XhFtkD71/BSyqpkrPVvbGkLZOm4b/SzWCGCDYx9xBB//m25lfpZ+Du2u91pvC97Z
+6Qty5nRp9kZvAeidmSunItU0Q4jKQlFnn6ZyLhPk4mwuVSUec8dGIdda8cQRaG/J
+lpLUZi2cnhKAnGaAaLGycQ/NEMVjtN8z6ZHCe3eAa1bEPwSZAbRHuCZ+Iqh6gPzn
+K88LhGUr/vzHYKKn25QWYQ7rJi2H1cu8BQ3lQpRunkCIithJ5gwoS0ZFSEM25FdI
+hvjSVVSRyxiu/zrDuO/s6g=3D=3D
+=3DumGL
+-----END PGP PUBLIC KEY BLOCK-----
 
-> > ---
-> > v5:
-> > * Fixing the not adding cvq buffers when x-svq=3Don is specified.
-> > * Move vring state in vhost_vdpa_get_vring_group instead of using a
-> >   parameter.
-> > * Rename VHOST_VDPA_NET_CVQ_PASSTHROUGH to VHOST_VDPA_NET_DATA_ASID
-> >
-> > v4:
-> > * Squash vhost_vdpa_cvq_group_is_independent.
-> > * Rebased on last CVQ start series, that allocated CVQ cmd bufs at load
-> > * Do not check for cvq index on vhost_vdpa_net_prepare, we only have on=
-e
-> >   that callback registered in that NetClientInfo.
-> >
-> > v3:
-> > * Make asid related queries print a warning instead of returning an
-> >   error and stop the start of qemu.
-> > ---
-> >  hw/virtio/vhost-vdpa.c |   3 +-
-> >  net/vhost-vdpa.c       | 118 +++++++++++++++++++++++++++++++++++++++--
-> >  2 files changed, 115 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 29d009c02b..fd4de06eab 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -682,7 +682,8 @@ static int vhost_vdpa_set_backend_cap(struct vhost_=
-dev *dev)
-> >  {
-> >      uint64_t features;
-> >      uint64_t f =3D 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
-> > -        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
-> > +        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH |
-> > +        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID;
-> >      int r;
-> >
-> >      if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index f7831aeb8d..6f6ef59ea3 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -38,6 +38,9 @@ typedef struct VhostVDPAState {
-> >      void *cvq_cmd_out_buffer;
-> >      virtio_net_ctrl_ack *status;
-> >
-> > +    /* Number of address spaces supported by the device */
-> > +    unsigned address_space_num;
-> > +
-> >      /* The device always have SVQ enabled */
-> >      bool always_svq;
-> >      bool started;
-> > @@ -102,6 +105,9 @@ static const uint64_t vdpa_svq_device_features =3D
-> >      BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-> >      BIT_ULL(VIRTIO_NET_F_STANDBY);
-> >
-> > +#define VHOST_VDPA_NET_DATA_ASID 0
-> > +#define VHOST_VDPA_NET_CVQ_ASID 1
-> > +
-> >  VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
-> >  {
-> >      VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> > @@ -226,6 +232,34 @@ static NetClientInfo net_vhost_vdpa_info =3D {
-> >          .check_peer_type =3D vhost_vdpa_check_peer_type,
-> >  };
-> >
-> > +static uint32_t vhost_vdpa_get_vring_group(int device_fd, unsigned vq_=
-index)
-> > +{
-> > +    struct vhost_vring_state state =3D {
-> > +        .index =3D vq_index,
-> > +    };
-> > +    int r =3D ioctl(device_fd, VHOST_VDPA_GET_VRING_GROUP, &state);
-> > +
-> > +    return r < 0 ? 0 : state.num;
-> > +}
-> > +
-> > +static int vhost_vdpa_set_address_space_id(struct vhost_vdpa *v,
-> > +                                           unsigned vq_group,
-> > +                                           unsigned asid_num)
-> > +{
-> > +    struct vhost_vring_state asid =3D {
-> > +        .index =3D vq_group,
-> > +        .num =3D asid_num,
-> > +    };
-> > +    int ret;
-> > +
-> > +    ret =3D ioctl(v->device_fd, VHOST_VDPA_SET_GROUP_ASID, &asid);
-> > +    if (unlikely(ret < 0)) {
-> > +        warn_report("Can't set vq group %u asid %u, errno=3D%d (%s)",
-> > +            asid.index, asid.num, errno, g_strerror(errno));
-> > +    }
-> > +    return ret;
-> > +}
-> > +
-> >  static void vhost_vdpa_cvq_unmap_buf(struct vhost_vdpa *v, void *addr)
-> >  {
-> >      VhostIOVATree *tree =3D v->iova_tree;
-> > @@ -300,11 +334,50 @@ dma_map_err:
-> >  static int vhost_vdpa_net_cvq_start(NetClientState *nc)
-> >  {
-> >      VhostVDPAState *s;
-> > -    int r;
-> > +    struct vhost_vdpa *v;
-> > +    uint32_t cvq_group;
-> > +    int cvq_index, r;
-> >
-> >      assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
-> >
-> >      s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> > +    v =3D &s->vhost_vdpa;
-> > +
-> > +    v->listener_shadow_vq =3D s->always_svq;
-> > +    v->shadow_vqs_enabled =3D s->always_svq;
-> > +    s->vhost_vdpa.address_space_id =3D VHOST_VDPA_NET_DATA_ASID;
-> > +
-> > +    if (s->always_svq) {
-> > +        goto out;
-> > +    }
-> > +
-> > +    if (s->address_space_num < 2) {
-> > +        return 0;
-> > +    }
-> > +
-> > +    /**
-> > +     * Check if all the virtqueues of the virtio device are in a diffe=
-rent vq
-> > +     * than the last vq. VQ group of last group passed in cvq_group.
-> > +     */
-> > +    cvq_index =3D v->dev->vq_index_end - 1;
-> > +    cvq_group =3D vhost_vdpa_get_vring_group(v->device_fd, cvq_index);
-> > +    for (int i =3D 0; i < cvq_index; ++i) {
-> > +        uint32_t group =3D vhost_vdpa_get_vring_group(v->device_fd, i)=
-;
-> > +
-> > +        if (unlikely(group =3D=3D cvq_group)) {
-> > +            warn_report("CVQ %u group is the same as VQ %u one (%u)", =
-cvq_group,
-> > +                        i, group);
-> > +            return 0;
-> > +        }
-> > +    }
-> > +
-> > +    r =3D vhost_vdpa_set_address_space_id(v, cvq_group, VHOST_VDPA_NET=
-_CVQ_ASID);
-> > +    if (r =3D=3D 0) {
-> > +        v->shadow_vqs_enabled =3D true;
-> > +        s->vhost_vdpa.address_space_id =3D VHOST_VDPA_NET_CVQ_ASID;
-> > +    }
-> > +
-> > +out:
-> >      if (!s->vhost_vdpa.shadow_vqs_enabled) {
-> >          return 0;
-> >      }
-> > @@ -576,12 +649,38 @@ static const VhostShadowVirtqueueOps vhost_vdpa_n=
-et_svq_ops =3D {
-> >      .avail_handler =3D vhost_vdpa_net_handle_ctrl_avail,
-> >  };
-> >
-> > +static uint32_t vhost_vdpa_get_as_num(int vdpa_device_fd)
-> > +{
-> > +    uint64_t features;
-> > +    unsigned num_as;
-> > +    int r;
-> > +
-> > +    r =3D ioctl(vdpa_device_fd, VHOST_GET_BACKEND_FEATURES, &features)=
-;
-> > +    if (unlikely(r < 0)) {
-> > +        warn_report("Cannot get backend features");
-> > +        return 1;
-> > +    }
-> > +
-> > +    if (!(features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID))) {
-> > +        return 1;
-> > +    }
-> > +
-> > +    r =3D ioctl(vdpa_device_fd, VHOST_VDPA_GET_AS_NUM, &num_as);
-> > +    if (unlikely(r < 0)) {
-> > +        warn_report("Cannot retrieve number of supported ASs");
-> > +        return 1;
-> > +    }
-> > +
-> > +    return num_as;
-> > +}
-> > +
-> >  static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-> >                                             const char *device,
-> >                                             const char *name,
-> >                                             int vdpa_device_fd,
-> >                                             int queue_pair_index,
-> >                                             int nvqs,
-> > +                                           unsigned nas,
-> >                                             bool is_datapath,
-> >                                             bool svq,
-> >                                             VhostIOVATree *iova_tree)
-> > @@ -600,6 +699,7 @@ static NetClientState *net_vhost_vdpa_init(NetClien=
-tState *peer,
-> >      snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
-> >      s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> >
-> > +    s->address_space_num =3D nas;
-> >      s->vhost_vdpa.device_fd =3D vdpa_device_fd;
-> >      s->vhost_vdpa.index =3D queue_pair_index;
-> >      s->always_svq =3D svq;
-> > @@ -686,6 +786,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const=
- char *name,
-> >      g_autoptr(VhostIOVATree) iova_tree =3D NULL;
-> >      NetClientState *nc;
-> >      int queue_pairs, r, i =3D 0, has_cvq =3D 0;
-> > +    unsigned num_as =3D 1;
-> > +    bool svq_cvq;
-> >
-> >      assert(netdev->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
-> >      opts =3D &netdev->u.vhost_vdpa;
-> > @@ -711,7 +813,13 @@ int net_init_vhost_vdpa(const Netdev *netdev, cons=
-t char *name,
-> >          return queue_pairs;
-> >      }
-> >
-> > -    if (opts->x_svq) {
-> > +    svq_cvq =3D opts->x_svq;
-> > +    if (has_cvq && !opts->x_svq) {
-> > +        num_as =3D vhost_vdpa_get_as_num(vdpa_device_fd);
-> > +        svq_cvq =3D num_as > 1;
-> > +    }
-> > +
-> > +    if (opts->x_svq || svq_cvq) {
-> >          struct vhost_vdpa_iova_range iova_range;
-> >
-> >          uint64_t invalid_dev_features =3D
-> > @@ -734,15 +842,15 @@ int net_init_vhost_vdpa(const Netdev *netdev, con=
-st char *name,
-> >
-> >      for (i =3D 0; i < queue_pairs; i++) {
-> >          ncs[i] =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-> > -                                     vdpa_device_fd, i, 2, true, opts-=
->x_svq,
-> > -                                     iova_tree);
-> > +                                     vdpa_device_fd, i, 2, num_as, tru=
-e,
-> > +                                     opts->x_svq, iova_tree);
-> >          if (!ncs[i])
-> >              goto err;
-> >      }
-> >
-> >      if (has_cvq) {
-> >          nc =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-> > -                                 vdpa_device_fd, i, 1, false,
-> > +                                 vdpa_device_fd, i, 1, num_as, false,
-> >                                   opts->x_svq, iova_tree);
-> >          if (!nc)
-> >              goto err;
-> > --
-> > 2.31.1
->
+--------------XAcTLNunSREbqwoHW4KpjGb0--
 
+--------------QVlLtS7n5ZSNhhbCouKrupgQ--
+
+--------------Nc2SkeoQL770l00uye204XUv
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmNfpyEFAwAAAAAACgkQ4Iwh1Wd0UK0K
+/Q/8CbaLTVFSve4qlpDQH2hqmOw7C6MI+FeBFRBdjqRC+oqHsyM4/aXOWIKfny8RKfEug/+Bbmda
+oA/CE03lrcXJa0Q5xolZKCstSv/JSY1wwig0m4XqgHZhh3o0+wCNo1yLuD3jqgMPXN0ze6MXa1jr
+cps4RvyAeC1T8bTBynCK6QGLhyb0qJkAsmPwYRbJ7YCxdUPZv4Bjqn4GBVpspgONWeepORxqUWwY
+qIBKSA4wPnTWulpad2kZkeAwGxFQBBCPOnUSRrowdXWPQNUm4ZQ3qJY/mo6uGrMzdeLdxfgHs4br
+2CZIUb9sf6Eq1Yb0kAvYeH2VaN84gK+eEQ//UH/7gkmtskh35ioVPQ9qHfR40RtKLejq+EPnF8Wv
+44JnimgNq9u4cx9pdFg7Chm1szAW0ch271SGACnvs3VmKX12rj58UU+GOOW2C0jFc5I7teHGOKEr
+uYuQIwz8GdPn0pf61LBZ0DaoJ7/COf3l0LURxLrdaImk6bmY5ybQBqd9g9806VO838wYgirjeg5d
+8gKcnbhQnmN89MuViOtp+Q85Ix5EA1v80rEhQhGrrd3D4kP1gm6eGy2YTEENKC+3vuMj5IKHwb1P
+yypPtGbNIoaZPA7k814iQA6DcH71cQVZbfnit9O6WEpz85N+i1tdUAE9pBajB9pda65duFoCDYwh
+bMo=
+=stxK
+-----END PGP SIGNATURE-----
+
+--------------Nc2SkeoQL770l00uye204XUv--
 
