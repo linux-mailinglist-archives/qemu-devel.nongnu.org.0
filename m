@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603186137E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:26:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D77F61380D
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:29:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUng-0006a6-N5; Mon, 31 Oct 2022 09:26:00 -0400
+	id 1opUqj-0002TC-JP; Mon, 31 Oct 2022 09:29:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1opUnR-0006KF-LL
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:25:47 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1opUnQ-0007jn-7R
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:25:45 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 97C2E5C0126;
- Mon, 31 Oct 2022 09:25:43 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 31 Oct 2022 09:25:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1667222743; x=1667309143; bh=yk
- l2LcpkHywJ9akEGsnYSCR9u/kwpYHfkB26yc4f2Ic=; b=EzhVjiS1oIRtNueWft
- yWZLWVH5+pVu0B6cyyK4aTWlTeFH2nSwCyXOB8Drk7foCwHN48tU0H+CgpvY9f7E
- eQThgrJQ8Oebe0c34e+0S3OeD4fLnMmUuEDgEGl/zd3CMUXKtKBQG1AmZz4mGl5v
- YiKr8dv910xZU/N1yFU/Pg3Wxsbg1h176zcmU9Q1z8xcVZIkb94mf/er4nLj6DAi
- r31Gs3BJxQaiw3MZuBMZfkjUnhich1s9xTNI2uXpUW1BdqgVgNDNjXwol4klQPZ0
- q+Jj4LFl4YQt3Grhpt1ClHJ3XSIA2uYZZYFGZCf8gnpne9LO1az/hTroHuzcM+DZ
- ZCiQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1667222743; x=1667309143; bh=ykl2LcpkHywJ9
- akEGsnYSCR9u/kwpYHfkB26yc4f2Ic=; b=IH2CL7MUZA0zV3+yzKMIUQtdtIojc
- yNBaeaLyHpQZ4/RIVQTcuBlMWlAXt7JR0T2HhyxNhYCDfHjsK+h0o+Fh5v12aNpJ
- Y5rQzmbmw3CiRygfnHk6we9sB2VcAs3cgoO/YfBN44n/0Yh19Z37wV6gvU2RWfbm
- XhVUjpfYLCd4VC6njbKgG2LralNp7jDtR6c4AAB++jqub/ATLI1YaFVbfC1cI6Xa
- rLvE1wJbqp1iz6HMTXHV2uZtwwP4Hx3U7QtKCEsVGNSOs0Ha60UsY94tjcZGuv8d
- c73Tgoel0UMt/25b+QemW7FAh0v15RI9YyKSxZagOKC0QwWjL4SAvnHMQ==
-X-ME-Sender: <xms:18xfY9P888mtp7TFf5tdRbRByryfNZ2u22-YOObZ6jJrJbiwFEC04Q>
- <xme:18xfY_9Tgob57FgSJLp4reS7Bm_foiY5DbHJjOjVwy0P2LYHmS9LHY2FSqHq-yBfN
- GriXV-H28xYLygvuzg>
-X-ME-Received: <xmr:18xfY8Q1aeXQKffRDdK6Bq9sZvDRQBwNlBFFFP6LBECNO0KzsrjmlaS1kg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudefgdehudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeflihgrgihu
- nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
- ftrfgrthhtvghrnhepfeeludefheegvdeuvddvgeekgfdvtdettdelieeihfegtedugeek
- hfdvhfejfedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
- homhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:18xfY5torQEJUg0BvCLSTwM7inCIn5vU9oyQ1_el2d1CNrRNlJYL-w>
- <xmx:18xfY1eQ-JeXQdId3b3WNdeDgiljnoN_D9m9BZt3s3K48T-g5HpGsg>
- <xmx:18xfY107nglBX3oSYG60UGVpKEzQshuSdO-LYcTnZDS1JZa-dLemyA>
- <xmx:18xfY57PXcFXEB93ISU11oPp-w9opIFZIkDhGtJdQiI1CrWWliG5ZA>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 31 Oct 2022 09:25:42 -0400 (EDT)
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1opUqh-0002Me-77
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:29:07 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1opUqf-0000b7-KU
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:29:06 -0400
+Received: by mail-wr1-x432.google.com with SMTP id w14so15957830wru.8
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:29:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yuuYZlJ/V5Ve27LY21d8FcrV2Yd/AQIKFUrJI+yOj5U=;
+ b=rlesVpx7TXhvj90rHUuz/P6Q2JKr/fX1pcClGW0GgOJ0zD/pNuW8Wz05vtJ/g97IDT
+ sin7fCVU+BUYdz8ml/OgizNT4/1zDqdVTBYQOsCzlbUwrFaxWC+xiZ2iH+Z+a+WRCqmq
+ TVgMuKYEkf80H5ruTqS+iIgrFhBvzCdJ17AUFztPovD0NXszwrcK6Ulrwx0/2GNv9tQV
+ 5S0SRcn6H+jiYlqV26ma9q1c6MqOSlQJCiXVnSyzwfIHajwipIxx0zMlAgFB5AV+P4Fy
+ gF8MlFx8bAHiVM1UWGQbtRsqFHFsJsmsZzx+B0DM3fj+QRArJpDMIONglzan8+5LQBEs
+ h/lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yuuYZlJ/V5Ve27LY21d8FcrV2Yd/AQIKFUrJI+yOj5U=;
+ b=X7yGhzqIdYDZXkIhIWf4CHFyNESOgRhb7Y6uigHZVPBXEp8AAgdffiuIMvXuNuNUNg
+ xSVrX/8opRa/eeIVJ/NvgsI0wI+YhTgnT8zcwN1itXm7VmViCPbeparok7VtwC/7Wfzf
+ rkp5+No7wWggJ8zsc75DYxx0P4lzk/YibDCooxZJ5G8bDMJrWfG+8x23rYUSl+QuWe/J
+ 1YRYL6C/mWCzAuKDXzolJEppKHzRSZvIq2YOFzvYoNSmkBvL8ltNqpC6BsN/YbrBKwn7
+ jtzZX07uh4S3zAcoZtJm1TG/eKW6mPXklRcT8+CF4MePrqaTfH9YBqM0T/r0ec5tTlsm
+ TMzQ==
+X-Gm-Message-State: ACrzQf0ROajI++MJv2UfEAe1fj0yH/mhjDaFjNbocHvh+4clNuQFdsXV
+ F6+ZpzKUPPT1bRQjNQIo4kNcck6YMg5gSA==
+X-Google-Smtp-Source: AMsMyM4iotCaITmK7uE0rFRAW0reRLicP27by9CgVRxcvhy/JItttGRgjxTuOf4lq4QJ8AFf0A1AgQ==
+X-Received: by 2002:adf:dbc5:0:b0:22c:c605:3b81 with SMTP id
+ e5-20020adfdbc5000000b0022cc6053b81mr8056396wrj.218.1667222943976; 
+ Mon, 31 Oct 2022 06:29:03 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ z18-20020a1c4c12000000b003cf75f56105sm1524628wmf.41.2022.10.31.06.29.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Oct 2022 06:29:03 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: f4bug@amsat.org, pavel.dovgalyuk@ispras.ru,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v2 3/3] target/mips: Disable DSP ASE for Octeon68XX
-Date: Mon, 31 Oct 2022 13:25:31 +0000
-Message-Id: <20221031132531.18122-4-jiaxun.yang@flygoat.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221031132531.18122-1-jiaxun.yang@flygoat.com>
-References: <20221031132531.18122-1-jiaxun.yang@flygoat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PATCH] net/vhost-vdpa.c: Fix clang compilation failure
+Date: Mon, 31 Oct 2022 13:29:01 +0000
+Message-Id: <20221031132901.1277150-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=jiaxun.yang@flygoat.com;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,49 +88,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-I don't have access to Octeon68XX hardware but accroading to
-my investigation Octeon never had DSP ASE support.
+Commit 8801ccd0500437 introduced a compilation failure with clang
+version 10.0.0-4ubuntu1:
 
-As per "Cavium Networks OCTEON Plus CN50XX Hardware Reference
-Manual" CP0C3_DSPP is reserved bit and read as 0. Also I do have
-access to a Ubiquiti Edgerouter 4 which has Octeon CN7130 processor
-and I can confirm CP0C3_DSPP is read as 0 on that processor.
+../../net/vhost-vdpa.c:654:16: error: variable 'vdpa_device_fd' is
+used uninitialized whenever 'if' condition is false
+[-Werror,-Wsometimes-uninitialized]
+    } else if (opts->has_vhostfd) {
+               ^~~~~~~~~~~~~~~~~
+../../net/vhost-vdpa.c:662:33: note: uninitialized use occurs here
+    r = vhost_vdpa_get_features(vdpa_device_fd, &features, errp);
+                                ^~~~~~~~~~~~~~
+../../net/vhost-vdpa.c:654:12: note: remove the 'if' if its condition
+is always true
+    } else if (opts->has_vhostfd) {
+           ^~~~~~~~~~~~~~~~~~~~~~~
+../../net/vhost-vdpa.c:629:23: note: initialize the variable
+'vdpa_device_fd' to silence this warning
+    int vdpa_device_fd;
+                      ^
+                       = 0
+1 error generated.
 
-Further more, in linux kernel:
-arch/mips/include/asm/mach-cavium-octeon/cpu-feature-overrides.h
-cpu_has_dsp is overridden as 0.
+It's a false positive -- the compiler doesn't manage to figure out
+that the error checks further up mean that there's no code path where
+vdpa_device_fd isn't initialized.  Put another way, the problem is
+that we check "if (opts->has_vhostfd)" when in fact that condition
+must always be true.  A cleverer static analyser would probably warn
+that we were checking an always-true condition.
 
-So I believe we shouldn't emulate DSP in QEMU as well.
+Fix the compilation failure by removing the unnecessary if().
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Fixes: 8801ccd0500437 ("vhost-vdpa: allow passing opened vhostfd to vhost-vdpa")
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/mips/cpu-defs.c.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Stefan, do you want to apply this directly as a build fix?
+---
+ net/vhost-vdpa.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
-index 7f53c94ec8..480e60aeec 100644
---- a/target/mips/cpu-defs.c.inc
-+++ b/target/mips/cpu-defs.c.inc
-@@ -934,7 +934,7 @@ const mips_def_t mips_defs[] =
-                        (1 << CP0C1_DS) | (4 << CP0C1_DL) | (1 << CP0C1_DA) |
-                        (1 << CP0C1_PC) | (1 << CP0C1_WR) | (1 << CP0C1_EP),
-         .CP0_Config2 = MIPS_CONFIG2,
--        .CP0_Config3 = MIPS_CONFIG3 | (1 << CP0C3_LPA) | (1 << CP0C3_DSPP) ,
-+        .CP0_Config3 = MIPS_CONFIG3 | (1 << CP0C3_LPA),
-         .CP0_Config4 = MIPS_CONFIG4 | (1U << CP0C4_M) |
-                        (0x3c << CP0C4_KScrExist) | (1U << CP0C4_MMUExtDef) |
-                        (3U << CP0C4_MMUSizeExt),
-@@ -946,7 +946,7 @@ const mips_def_t mips_defs[] =
-         .CP0_Status_rw_bitmask = 0x12F8FFFF,
-         .SEGBITS = 42,
-         .PABITS = 49,
--        .insn_flags = CPU_MIPS64R2 | INSN_OCTEON | ASE_DSP,
-+        .insn_flags = CPU_MIPS64R2 | INSN_OCTEON,
-         .mmu_type = MMU_TYPE_R4000,
-     },
- 
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 854ebd61ae6..e370ecb8ebd 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -651,7 +651,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+         if (vdpa_device_fd == -1) {
+             return -errno;
+         }
+-    } else if (opts->has_vhostfd) {
++    } else {
++        /* has_vhostfd */
+         vdpa_device_fd = monitor_fd_param(monitor_cur(), opts->vhostfd, errp);
+         if (vdpa_device_fd == -1) {
+             error_prepend(errp, "vhost-vdpa: unable to parse vhostfd: ");
 -- 
-2.34.1
+2.25.1
 
 
