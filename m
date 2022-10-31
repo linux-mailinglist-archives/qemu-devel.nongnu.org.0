@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A6FF612FD2
+	by mail.lfdr.de (Postfix) with ESMTPS id 5634F612FD6
 	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 06:41:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opNXG-0001c0-Qo; Mon, 31 Oct 2022 01:40:34 -0400
+	id 1opNXJ-0001dW-PX; Mon, 31 Oct 2022 01:40:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opNXB-0001br-JA
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 01:40:29 -0400
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329])
+ id 1opNXF-0001c1-E6
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 01:40:34 -0400
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opNX9-0003oM-Od
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 01:40:29 -0400
-Received: by mail-ot1-x329.google.com with SMTP id
- br15-20020a056830390f00b0061c9d73b8bdso6249833otb.6
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 22:40:27 -0700 (PDT)
+ id 1opNXD-0003qb-DX
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 01:40:33 -0400
+Received: by mail-ot1-x32d.google.com with SMTP id
+ a13-20020a9d6e8d000000b00668d65fc44fso6223054otr.9
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 22:40:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CHYIC5asuArw95radfcZ/rVfrHssHUSuePR3hcbF0+I=;
- b=rXZI88JHIyPKKzulnhgYCMJlmE1ED8mkDCBJXdHhGhTAEluGTEOH5n+pBLThV9+dfx
- MfmlcLXjqah9Pg8S2/GjYkTDEY5Wa8lbwJy8FQ1dMrD653Xqyxnvfu5u0efJY7chlxxF
- GyrNVCpJZ8xtmV74pQ0TE8RCkQxpBjMUMnOeitspBFxjVbEIzlIjERKPedcp/XdAaaUC
- U7sA35SsnnrL3PN4vcDY9rA5EgnABlkF0F0dIAZkCvPMPY5FEQHtE3tmaij2EfW5/jGU
- wEBUnwy3+88i2Kt1ywFDvb/u13f/k3XiRJlbxoWG6vfzh+KIvC+jqMRW87eesMcf/Iux
- q4GQ==
+ bh=r8ag8A++CsvWQPICCIPv2YWYP7CkxoK0jspe/zfPQ5Q=;
+ b=c+dNSuQ/KuZEPIMBtk8TS2j5ASI3EKjYRhEPweq6GOUL0YYGWWoYh5y1Am+pBiZP+f
+ yMgMsPov5UkiSTKmeUZGfQNmAHZD/dFqfbHGuwAh8uYYcyqFa3pzz6ikWDIusGZgkN5a
+ dUItcWaDJAuh6gOBWd8Zu9OCclKHqafdeZ/yBh+MH/6YX3FnozUbM3jgK+Do6UZOiDBL
+ PM0g2NSuu78J4XYaN6AXPSKDK/E/ZcSZyNsV5zFa6hLR7auZOyTB//H4UDUbRcvzYl7D
+ TQ3AeSEuLhWZGdaquf26rzyf84HoDu/QTOKhITK3Kg8CvHbIJzNKxN3tX/CPnEw+QL1l
+ a8yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CHYIC5asuArw95radfcZ/rVfrHssHUSuePR3hcbF0+I=;
- b=x2lbjZEARgFfbzv+gkhqkzqTD2auehCcF6lYcsA6rMomUDaJD+mz9Vh3BGkigyiKFT
- +CrHo3yIxOgUP/CqUVq+c8PTUULOsmfmjtuiFzb7tTKGR6Yw+ni1lYoILTaEff3pgTsa
- eUDKwXRiVH0BL0pofyWzyLLxhqp/QfjRTs1IgxHK4o+G+16hAoptIedSHBdkMnxXYGmt
- NKwFzhaiJOtsNoOBr6Wl7LX3B3W8tzOX4e9bdgDR29K4JIdkm9UqRxJ/JmwZwYJYRCva
- yYbqbkmTnCplEcYJNpUhAqjmAOOv3cPis0OMmFchcltDKQAMM8WQHbcFL4xnmIcxds+Y
- DQXg==
-X-Gm-Message-State: ACrzQf3yfgkdiGt/s2w/4Sk4STrisOpiZchbdzTuuIQvNg7/I7nDyKdX
- J+FurtixyjMoDEuClv+ZTbUMZwzePjPhmg==
-X-Google-Smtp-Source: AMsMyM5fU64W/ocriClbQOTyBz5VeZFdGEWUS+ZEqYtDCX9ROoWsc1Ul41zFs/cFHtlOn+Q83D69Lw==
-X-Received: by 2002:a05:6830:1f58:b0:66c:3e5e:3ee8 with SMTP id
- u24-20020a0568301f5800b0066c3e5e3ee8mr4707792oth.45.1667194826042; 
- Sun, 30 Oct 2022 22:40:26 -0700 (PDT)
+ bh=r8ag8A++CsvWQPICCIPv2YWYP7CkxoK0jspe/zfPQ5Q=;
+ b=Ln4h8z5Vu9E+1oBb5ZqhNQIoz29/LUXI8UqVRYq4feT8249mcDNpZhznKPPRD1r1lZ
+ 0nyA/J6BISMqlKZlhFi5XQvo+AEVff/t4A+K3ZaaRIYIi/Nch9LF4ymuB6P9d6U4STpq
+ fCjmS1KmBfo+fIt3kv5BW2xooXTNWKFzAr+VRkiPsKE3CUQR+VCUx+hu4JxopG86j/mu
+ cwO0Wowpiqi0tQsUxrTt+lcpEhYVLRPFVG776Oz+orMfPSrBaoXz5Hkm2TT5/pE4BU4M
+ GD05I49Fzq1T2MUPmytKVv8edGMAW6Rt2HsnQ6wkDT0chWWFeTf6dpywaRq4x77rWyWc
+ x+5A==
+X-Gm-Message-State: ACrzQf0hirkB3l20DL1ngvMkpsqixaU/OE5upBXlH8bzll9MtGAuuu44
+ dWSzjH/4sxoh/kvGfbtxOT7aTHqPJOf3HQ==
+X-Google-Smtp-Source: AMsMyM5Dq0D1ujYhUBPrXHEBf0+aCH5dkbOrU3J37mQhba1WhNkQeWjgyt1H2ISgYCAoKnXkOk9aTw==
+X-Received: by 2002:a9d:64d9:0:b0:662:2e67:730a with SMTP id
+ n25-20020a9d64d9000000b006622e67730amr6030793otl.369.1667194830276; 
+ Sun, 30 Oct 2022 22:40:30 -0700 (PDT)
 Received: from stoup.. ([172.58.176.235]) by smtp.gmail.com with ESMTPSA id
- u8-20020a9d4d88000000b006618586b850sm2473857otk.46.2022.10.30.22.40.22
+ u8-20020a9d4d88000000b006618586b850sm2473857otk.46.2022.10.30.22.40.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Oct 2022 22:40:25 -0700 (PDT)
+ Sun, 30 Oct 2022 22:40:29 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Claudio Fontana <cfontana@suse.de>
-Subject: [PULL 05/11] accel/tcg: Introduce cpu_unwind_state_data
-Date: Mon, 31 Oct 2022 16:39:42 +1100
-Message-Id: <20221031053948.3408-6-richard.henderson@linaro.org>
+Subject: [PULL 06/11] target/i386: Use cpu_unwind_state_data for tpr access
+Date: Mon, 31 Oct 2022 16:39:43 +1100
+Message-Id: <20221031053948.3408-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221031053948.3408-1-richard.henderson@linaro.org>
 References: <20221031053948.3408-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x329.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,195 +89,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add a way to examine the unwind data without actually
-restoring the data back into env.
+Avoid cpu_restore_state, and modifying env->eip out from
+underneath the translator with TARGET_TB_PCREL.  There is
+some slight duplication from x86_restore_state_to_opc,
+but it's just a few lines.
 
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1269
 Reviewed-by: Claudio Fontana <cfontana@suse.de>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/internal.h      |  4 +--
- include/exec/exec-all.h   | 21 ++++++++---
- accel/tcg/translate-all.c | 74 ++++++++++++++++++++++++++-------------
- 3 files changed, 68 insertions(+), 31 deletions(-)
+ target/i386/helper.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-index 1227bb69bd..9c06b320b7 100644
---- a/accel/tcg/internal.h
-+++ b/accel/tcg/internal.h
-@@ -106,8 +106,8 @@ void tb_reset_jump(TranslationBlock *tb, int n);
- TranslationBlock *tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
-                                tb_page_addr_t phys_page2);
- bool tb_invalidate_phys_page_unwind(tb_page_addr_t addr, uintptr_t pc);
--int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
--                              uintptr_t searched_pc, bool reset_icount);
-+void cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
-+                               uintptr_t host_pc, bool reset_icount);
- 
- /* Return the current PC from CPU, which may be cached in TB. */
- static inline target_ulong log_pc(CPUState *cpu, const TranslationBlock *tb)
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index e948992a80..7d851f5907 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -39,20 +39,33 @@ typedef ram_addr_t tb_page_addr_t;
- #define TB_PAGE_ADDR_FMT RAM_ADDR_FMT
- #endif
- 
-+/**
-+ * cpu_unwind_state_data:
-+ * @cpu: the cpu context
-+ * @host_pc: the host pc within the translation
-+ * @data: output data
-+ *
-+ * Attempt to load the the unwind state for a host pc occurring in
-+ * translated code.  If @host_pc is not in translated code, the
-+ * function returns false; otherwise @data is loaded.
-+ * This is the same unwind info as given to restore_state_to_opc.
-+ */
-+bool cpu_unwind_state_data(CPUState *cpu, uintptr_t host_pc, uint64_t *data);
-+
- /**
-  * cpu_restore_state:
-- * @cpu: the vCPU state is to be restore to
-- * @searched_pc: the host PC the fault occurred at
-+ * @cpu: the cpu context
-+ * @host_pc: the host pc within the translation
-  * @will_exit: true if the TB executed will be interrupted after some
-                cpu adjustments. Required for maintaining the correct
-                icount valus
-  * @return: true if state was restored, false otherwise
-  *
-  * Attempt to restore the state for a fault occurring in translated
-- * code. If the searched_pc is not in translated code no state is
-+ * code. If @host_pc is not in translated code no state is
-  * restored and the function returns false.
-  */
--bool cpu_restore_state(CPUState *cpu, uintptr_t searched_pc, bool will_exit);
-+bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit);
- 
- G_NORETURN void cpu_loop_exit_noexc(CPUState *cpu);
- G_NORETURN void cpu_loop_exit(CPUState *cpu);
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index f185356a36..319becb698 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -247,52 +247,66 @@ static int encode_search(TranslationBlock *tb, uint8_t *block)
-     return p - block;
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index b62a1e48e2..2cd1756f1a 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -509,6 +509,23 @@ void cpu_x86_inject_mce(Monitor *mon, X86CPU *cpu, int bank,
+     }
  }
  
--/* The cpu state corresponding to 'searched_pc' is restored.
-- * When reset_icount is true, current TB will be interrupted and
-- * icount should be recalculated.
-- */
--int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
--                              uintptr_t searched_pc, bool reset_icount)
-+static int cpu_unwind_data_from_tb(TranslationBlock *tb, uintptr_t host_pc,
-+                                   uint64_t *data)
- {
--    uint64_t data[TARGET_INSN_START_WORDS];
--    uintptr_t host_pc = (uintptr_t)tb->tc.ptr;
-+    uintptr_t iter_pc = (uintptr_t)tb->tc.ptr;
-     const uint8_t *p = tb->tc.ptr + tb->tc.size;
-     int i, j, num_insns = tb->icount;
--#ifdef CONFIG_PROFILER
--    TCGProfile *prof = &tcg_ctx->prof;
--    int64_t ti = profile_getclock();
--#endif
- 
--    searched_pc -= GETPC_ADJ;
-+    host_pc -= GETPC_ADJ;
- 
--    if (searched_pc < host_pc) {
-+    if (host_pc < iter_pc) {
-         return -1;
-     }
- 
--    memset(data, 0, sizeof(data));
-+    memset(data, 0, sizeof(uint64_t) * TARGET_INSN_START_WORDS);
-     if (!TARGET_TB_PCREL) {
-         data[0] = tb_pc(tb);
-     }
- 
--    /* Reconstruct the stored insn data while looking for the point at
--       which the end of the insn exceeds the searched_pc.  */
-+    /*
-+     * Reconstruct the stored insn data while looking for the point
-+     * at which the end of the insn exceeds host_pc.
-+     */
-     for (i = 0; i < num_insns; ++i) {
-         for (j = 0; j < TARGET_INSN_START_WORDS; ++j) {
-             data[j] += decode_sleb128(&p);
-         }
--        host_pc += decode_sleb128(&p);
--        if (host_pc > searched_pc) {
--            goto found;
-+        iter_pc += decode_sleb128(&p);
-+        if (iter_pc > host_pc) {
-+            return num_insns - i;
-         }
-     }
-     return -1;
-+}
-+
-+/*
-+ * The cpu state corresponding to 'host_pc' is restored.
-+ * When reset_icount is true, current TB will be interrupted and
-+ * icount should be recalculated.
-+ */
-+void cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
-+                               uintptr_t host_pc, bool reset_icount)
++static target_ulong get_memio_eip(CPUX86State *env)
 +{
 +    uint64_t data[TARGET_INSN_START_WORDS];
-+#ifdef CONFIG_PROFILER
-+    TCGProfile *prof = &tcg_ctx->prof;
-+    int64_t ti = profile_getclock();
-+#endif
-+    int insns_left = cpu_unwind_data_from_tb(tb, host_pc, data);
++    CPUState *cs = env_cpu(env);
 +
-+    if (insns_left < 0) {
-+        return;
++    if (!cpu_unwind_state_data(cs, cs->mem_io_pc, data)) {
++        return env->eip;
 +    }
- 
-- found:
-     if (reset_icount && (tb_cflags(tb) & CF_USE_ICOUNT)) {
-         assert(icount_enabled());
--        /* Reset the cycle counter to the start of the block
--           and shift if to the number of actually executed instructions */
--        cpu_neg(cpu)->icount_decr.u16.low += num_insns - i;
-+        /*
-+         * Reset the cycle counter to the start of the block and
-+         * shift if to the number of actually executed instructions.
-+         */
-+        cpu_neg(cpu)->icount_decr.u16.low += insns_left;
-     }
- 
-     cpu->cc->tcg_ops->restore_state_to_opc(cpu, tb, data);
-@@ -302,7 +316,6 @@ int cpu_restore_state_from_tb(CPUState *cpu, TranslationBlock *tb,
-                 prof->restore_time + profile_getclock() - ti);
-     qatomic_set(&prof->restore_count, prof->restore_count + 1);
- #endif
--    return 0;
- }
- 
- bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
-@@ -335,6 +348,17 @@ bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
-     return false;
- }
- 
-+bool cpu_unwind_state_data(CPUState *cpu, uintptr_t host_pc, uint64_t *data)
-+{
-+    if (in_code_gen_buffer((const void *)(host_pc - tcg_splitwx_diff))) {
-+        TranslationBlock *tb = tcg_tb_lookup(host_pc);
-+        if (tb) {
-+            return cpu_unwind_data_from_tb(tb, host_pc, data) >= 0;
-+        }
++
++    /* Per x86_restore_state_to_opc. */
++    if (TARGET_TB_PCREL) {
++        return (env->eip & TARGET_PAGE_MASK) | data[0];
++    } else {
++        return data[0] - env->segs[R_CS].base;
 +    }
-+    return false;
 +}
 +
- void page_init(void)
+ void cpu_report_tpr_access(CPUX86State *env, TPRAccess access)
  {
-     page_size_init();
+     X86CPU *cpu = env_archcpu(env);
+@@ -519,9 +536,9 @@ void cpu_report_tpr_access(CPUX86State *env, TPRAccess access)
+ 
+         cpu_interrupt(cs, CPU_INTERRUPT_TPR);
+     } else if (tcg_enabled()) {
+-        cpu_restore_state(cs, cs->mem_io_pc, false);
++        target_ulong eip = get_memio_eip(env);
+ 
+-        apic_handle_tpr_access_report(cpu->apic_state, env->eip, access);
++        apic_handle_tpr_access_report(cpu->apic_state, eip, access);
+     }
+ }
+ #endif /* !CONFIG_USER_ONLY */
 -- 
 2.34.1
 
