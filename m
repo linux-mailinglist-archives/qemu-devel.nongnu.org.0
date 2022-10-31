@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DB5613810
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:30:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC276137BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:20:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUrU-0003dw-8Y; Mon, 31 Oct 2022 09:29:56 -0400
+	id 1opUiA-0004DA-9S; Mon, 31 Oct 2022 09:20:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1opUrS-0003aN-Ij
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:29:54 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ id 1opUhu-00030n-QJ
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:20:03 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1opUrR-0000qH-1t
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:29:54 -0400
-Received: by mail-wr1-x430.google.com with SMTP id j15so15992702wrq.3
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:29:52 -0700 (PDT)
+ id 1opUhn-0005On-5Q
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:20:01 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id a14so15946447wru.5
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:19:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uw9FgH/8Yr/0vBRC68ZiUMTaAo2A59rV6wgtMRPFk1k=;
- b=BTtHkEaNG1mQj75Kqg+vuoE7jN+uMTJhMp5355CJQ+XOnnyG/A1K1WFXS6Qiug5yNW
- kr2flXZjllEmt2GZ6clEu7/8b30HsTKzLQXC/t8+loql61r1PDm4mJjGn2qF29Q2cuT+
- qCh3dKM8mgGfi+5Ke8N6/tKbSfvtozs/WWayt7ussmoUrIgzpiky8/gFFzn2QalrOaYS
- hLDzw5q8gzIriMAy3zxLldIOpONGqIGHo06XNE08IjusyOcJedy030IZ8jUraRfvnjv9
- uFKSnyQNZl4SBv5yv/1p1pqubeeGNpMoGENA1fFcRWTlJ3v+AHnzY4In4rFPJGcsYKHo
- cBBQ==
+ bh=bA91MP2QN6W9BeOl6D0Gz9Ie0TrwUCWVor1t5nK6BWg=;
+ b=Z2uEeEU4XxhShk7WVRDTOKQ5Kxtw74uJ1a0IqkzE8fYpsKPMOmR45sZmpp9OnaEKv1
+ f5XjRX0PsuHhMX+AKtXTp4O3l7TjtgbYNiDvuahfjV0jNzlFSRReFD4La3NgQktrNAFq
+ C0zxv4i8JgW4EGxztarEjyo6v4CESjz3uPVbfBV4N8/zVRkn24TnqCGcmgWEaj0n/9g+
+ Z9W0VLa9tOBy1quuBDJjXqCLQjdo8Hpi3u41ZB7N7DuumI5+6CXc39g+1gw24VJtiT49
+ dUBcnmSeOneyU+v5Fg0j2aBtgEB+m7RgKLEasxOVHEeYIDG2NRRW6bTnDeYJfm5mb6hE
+ BjEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uw9FgH/8Yr/0vBRC68ZiUMTaAo2A59rV6wgtMRPFk1k=;
- b=EgU4arEZo1wfcd3wH/uAvNTs0bA1cWgsfdbTm7mVPAnrLAF5FvfzVuadRanpkV83j5
- X2vEncw3AWW/t0qFmngLPn3NSG1ARiAYEsP2Rcr1Nx009BnW9XnnS9CJxy8Y9AjPw5Nn
- JaB4pHmC7m92CKNqIezUazdrUsTLd+nsE/J17UG+Wp6Qgc4Md9Sb+Cb83sJ5xe2IcrqZ
- DRT82f7SXpT3ilzltWm11336V5EJ1hF4GHf6XJdc0hvNj4KvMmP/gnECFn/2HSpMXRPA
- 37StOdZXc4kRN6q9zFw+ns7sfdBlpQBbRMnizfYaL1lluAlv8cJn8HG0bf78T3FYaWXd
- t6Eg==
-X-Gm-Message-State: ACrzQf1WuspKjNae3CQjLTi5zEB8+UU6Cj3ZFzfwFULxfzlT+JzNxktM
- 3FtOEzvh9kTSjM1orPhfdd5YVQ==
-X-Google-Smtp-Source: AMsMyM5VxgDZcisLfNpkaRdTX7A1XKpLqyCqugDQ4R8BAHYYmkiraWa80cMPvl5vUYzOgWysTcSS3Q==
-X-Received: by 2002:a5d:45ce:0:b0:236:78cb:b6e4 with SMTP id
- b14-20020a5d45ce000000b0023678cbb6e4mr7856303wrs.225.1667222991705; 
- Mon, 31 Oct 2022 06:29:51 -0700 (PDT)
+ bh=bA91MP2QN6W9BeOl6D0Gz9Ie0TrwUCWVor1t5nK6BWg=;
+ b=EO8qxVy3vnKGISUXgAqvgJUiUBQQEoy4Zmw0dG29bAN+ANMRURASJMxa/BecsjwB6o
+ pLn687FiT6lH1ouYGaT3LGvsxFgUmJVFScyTM3MME4Am6yVCO2qRb4rlIM0mpGyL/rEt
+ zaH5u4P/NJTaR036LqLrQFlvrGpmofIB+0md3LTl66LjfCd3Dq1WfZYBG1/tEtRKeiRa
+ 5VHXQXEsSNLcNxR4mA5qOtnH9XYn1yy9f1+GmZlxWzJtKyf5GlItxp7gF6rlWVgcY4ZT
+ CUf6tvw8UM7OWsy2chqjF/xd3DcnOJ21eJkQQAERg9WruBnDYLqHXipUuygAzJXbGLBF
+ IKgg==
+X-Gm-Message-State: ACrzQf2huemWW1/J3N9zyN5GxFpUSh4g9vZ0ndjpQm9/Lfrk5MQecbF2
+ drbRyRO8DAl+4HixTfUEMob3Gw==
+X-Google-Smtp-Source: AMsMyM6Q+6qfD6KWhloA4QIunpbcB0KKOwQPwjrOWHxpbuvnizWZCNyH0CfwNcSDeWMjgapfSK9qMw==
+X-Received: by 2002:a5d:64c3:0:b0:236:695d:39f7 with SMTP id
+ f3-20020a5d64c3000000b00236695d39f7mr8365840wri.614.1667222392187; 
+ Mon, 31 Oct 2022 06:19:52 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- p11-20020a05600c468b00b003cf75213bb9sm1804582wmo.8.2022.10.31.06.29.51
+ bv19-20020a0560001f1300b00236627c078esm7230338wrb.110.2022.10.31.06.19.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 06:29:51 -0700 (PDT)
+ Mon, 31 Oct 2022 06:19:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 82E4B1FFD0;
+ by zen.linaroharston (Postfix) with ESMTP id 98FE11FFD1;
  Mon, 31 Oct 2022 13:10:13 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: stefanha@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PULL 27/31] tests/tcg: include CONFIG_PLUGIN in config-host.mak
-Date: Mon, 31 Oct 2022 13:10:06 +0000
-Message-Id: <20221031131010.682984-28-alex.bennee@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: [PULL 28/31] contrib/plugins: enable debug on CONFIG_DEBUG_TCG
+Date: Mon, 31 Oct 2022 13:10:07 +0000
+Message-Id: <20221031131010.682984-29-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221031131010.682984-1-alex.bennee@linaro.org>
 References: <20221031131010.682984-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,28 +97,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+We used to rely on QEMU_CFLAGS to expose the debug flags but now this
+is synthesised by meson and only available to the main build. Add our
+own flags if we detect the build has been enabled with
+CONFIG_DEBUG_TCG (which is the default for --enable-debug anyway).
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20221013131304.623740-1-pbonzini@redhat.com>
-Message-Id: <20221027183637.2772968-27-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20221027183637.2772968-28-alex.bennee@linaro.org>
 
-diff --git a/configure b/configure
-index 8c2c4c1a04..4275f5419f 100755
---- a/configure
-+++ b/configure
-@@ -2486,6 +2486,9 @@ echo "HOST_CC=$host_cc" >> $config_host_mak
- if test -n "$gdb_bin"; then
-     echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
- fi
-+if test "$plugins" = "yes" ; then
-+    echo "CONFIG_PLUGIN=y" >> $config_host_mak
-+fi
+diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
+index df3499f4f2..23e0396687 100644
+--- a/contrib/plugins/Makefile
++++ b/contrib/plugins/Makefile
+@@ -29,6 +29,7 @@ SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
+ CFLAGS = $(GLIB_CFLAGS)
+ CFLAGS += -fPIC -Wall $(filter -W%, $(QEMU_CFLAGS))
+ CFLAGS += $(if $(findstring no-psabi,$(QEMU_CFLAGS)),-Wpsabi)
++CFLAGS += $(if $(CONFIG_DEBUG_TCG), -ggdb -O0)
+ CFLAGS += -I$(SRC_PATH)/include/qemu
  
- tcg_tests_targets=
- for target in $target_list; do
+ all: $(SONAMES)
 -- 
 2.34.1
 
