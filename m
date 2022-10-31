@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40B46137EA
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:26:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA5D6137E8
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:26:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUni-0006cn-6I; Mon, 31 Oct 2022 09:26:02 -0400
+	id 1opUnh-0006bQ-8g; Mon, 31 Oct 2022 09:26:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1opUnR-0006KE-IW
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:25:47 -0400
+ id 1opUnQ-0006K3-BY
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:25:45 -0400
 Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1opUnP-0007jZ-SI
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:25:45 -0400
+ id 1opUnO-0007jg-SZ
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:25:44 -0400
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 7102F5C014D;
- Mon, 31 Oct 2022 09:25:41 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 725A55C012D;
+ Mon, 31 Oct 2022 09:25:42 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Mon, 31 Oct 2022 09:25:41 -0400
+ by compute1.internal (MEProxy); Mon, 31 Oct 2022 09:25:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1667222741; x=1667309141; bh=4l
- bP/pTyQ/NHtBGeRHSb+F/+b964vgJ/W7GPaDlyUNk=; b=OLyODfDLEbSoOQRXQ9
- PJC/yLx4p1cgwiEkrTuxeyi7ei5cCgIyKwYqfxgosy8ji9bMexaqFsQCGXdAAsJc
- aaFw5EW1F1LZZJROM15S1rrntzHKIEInKBjiYFqyhWmuteiMxB62AOgTDpVsgowa
- myHZKOdzbCQzoc+2Dce+l9evsJZbmmyBBSA9c5o52Glq0QcTD81RQuNUF8OAftfp
- oTxLfJm7IXA2wkGvQ/ZFwzhXZA6mSXL3fpJp+C3EBf/feoL7RmQTxSIsmbNAAgoh
- lcoAbZ0vFfCjVT1RyU/taMXiZeuwU9zbOf+WML9Uf/Hf5pUMjJnRXAJEAuphFY1r
- DtNw==
+ :subject:subject:to:to; s=fm1; t=1667222742; x=1667309142; bh=xW
+ WmlZqKiSO1F01j+4qKscub1x7utoknBLquo34mzSU=; b=JIWQJ3DzfxTA0Xl3O6
+ irO3PuvA3l559LF0W8A1V25dr1tHuj9OBpgA7qbi0udYhusC4Nv6zBaynR3MlGO7
+ rZTyNLhgYM6MlckWKE2odxuCQJGIUpoqRR2FpMd9BwnvTsTgW6R5xxdwBJy9cgEv
+ zhwmyKZ+vqYfQVQ1KBSFXnv4bnGKruzkyfe6mOXGqwLOLWaQfEcQybZioUFg44Mn
+ iOLP8AA3nizrA7fBD9AOs9ikHycO2MAfLe7T4Ay8ZBIJII/fu9zNHfny8CEaLBCo
+ jtK81STYAzh3zqwi+vTbNebVRPJd2Qf77Eg3QSCLcPDuRoJAJy5HAiXKFrCJO+Ee
+ PyKA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1667222741; x=1667309141; bh=4lbP/pTyQ/NHt
- BGeRHSb+F/+b964vgJ/W7GPaDlyUNk=; b=iZa8MdE8BRFmjB58cNj/k0VjfAjAt
- 2qY3MfNy6EgbUyGiVmYknEYdf3QZw3ILvdUpQ506WCAj98X47ms/61D7TDNaZq1K
- hIiphvOHYL5QlbaizHggZItfifNK+EFQygGLVLK82ysQ0kE0uf0xN/uszWbx8T3L
- FKCoxplQakwCiIOqZn1H/IzqF00vh+iAb3YynDzS0CLFvj9W+hKk13I1GW0e+2Vm
- InKzPgTXiErewB1eQOF3ZMl7AXggmISicOUzUA7SiYFyoY76UtNtegmJ3mbP2ML4
- Rgj3H/ncbXyKaeqt+qPjVWJ922HkpMVlI7Ijm4F+s6a8yok4nv5YOe05g==
-X-ME-Sender: <xms:1cxfYxU6YjbmX7K6IVqR_5VBkuHRCx6lVuy2RnyJxRAcNAfpmzXgzA>
- <xme:1cxfYxm1U3GYX9u6q3FSal4M_hxIXelG0sIBj6OA0Zoja5CYjBFrA9FSBe8FRaegB
- FlWnKoJgYrUQRpuAjc>
-X-ME-Received: <xmr:1cxfY9bpxA1Ay-KqYqA_kSI3WwTIiYYk42WQMuqqmW97YF4TQ3MIHX1M5A>
+ :x-sasl-enc; s=fm3; t=1667222742; x=1667309142; bh=xWWmlZqKiSO1F
+ 01j+4qKscub1x7utoknBLquo34mzSU=; b=Lm3clRIT58W4cBqvV8OWpZcuOPDKx
+ mBQF/xFpjXdaQVpgu5niXkyIfNdmvXAPa6F+iJlD28N/A2xDln9PkRgfdL1sN4RR
+ lyRT1XMicqcgh6AMvl8quKvGvnR7hsFV01ySXIZg5Ma98tMnvDTTF0xFH6jPs4xo
+ 68xihlyur/UL2G9SF1/QUW3rYAqDxqLgHtKiIGMRPCOGo78NWM3uYmWL0eBZXyQI
+ Fa/UJylqP0J69ISe+jFA9ovl9S/+/i0pgr12zWrlqPJblZ/++vwgIvQSTeo6CPgy
+ gDq9lYufhPMkKDOeL8uzsXnOMklItPla+61PH6nnKxHXoUhkYQsqEn0qQ==
+X-ME-Sender: <xms:1sxfY6hQRjsrJtNM3lC4h9UVwZ88yA4yoW6hDm2nLNYrhTF3V7zsrw>
+ <xme:1sxfY7BjPbzICLvmJvnR3FHMTLa-Q78nJYlgxMD-w7jACsWtOltIZmXpLo4ZjPGbm
+ _I-L9PH8m_GkcLEbX4>
+X-ME-Received: <xmr:1sxfYyHqU8sx3tzX1fQxm8LSLTnsEBCKgXfDb9zz7yJ2m4J8xyM89_6ZqA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudefgdehudcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeflihgrgihu
- nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
- ftrfgrthhtvghrnhepfeeludefheegvdeuvddvgeekgfdvtdettdelieeihfegtedugeek
- hfdvhfejfedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
- homhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:1cxfY0VAGTGPuHWClByVxewDzPL1dtI0e7l0VEXxm1612myPG8bcJA>
- <xmx:1cxfY7kfXumYVyqT-WyDcTrFwUyHxIkTxHdR__iZpUMrmjw6oDLXCg>
- <xmx:1cxfYxdUBhvYncdkHaTDitCmqFsb5J0skMqa55tEAIhYX58uhURC3g>
- <xmx:1cxfY5iFBsACIPK5U29TVAn72R5HVrZZbydxq2yeLDVDqbtrc47mTw>
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgjfhgggfestdekre
+ dtredttdenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhg
+ sehflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpeefledufeehgedvuedvvd
+ egkefgvddttedtleeiiefhgeetudegkefhvdfhjeeftdenucevlhhushhtvghrufhiiigv
+ pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihgh
+ horghtrdgtohhm
+X-ME-Proxy: <xmx:1sxfYzTCY7DQs-asiFbpvryy2ndVieI0yUqwp4aRbJAmWLrN4suTDA>
+ <xmx:1sxfY3wsKBez6LkArtExIsyZxSfQx1snK-2PkAIWiWAq5Hh26U8Fig>
+ <xmx:1sxfYx71SP_DoshwqTS85ynI2DJvqhRzpTyXjybXIRrWqS1MSN1kkQ>
+ <xmx:1sxfYy_NhR6tVulYV9qjEQC3L97pO8yVOD6csmhGhd7u-fJUSdWbrg>
 Feedback-ID: ifd894703:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 31 Oct 2022 09:25:40 -0400 (EDT)
+ 31 Oct 2022 09:25:41 -0400 (EDT)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
 Cc: f4bug@amsat.org, pavel.dovgalyuk@ispras.ru,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v2 1/3] target/mips: Set CP0St_{KX, SX, UX} for Loongson-2F
-Date: Mon, 31 Oct 2022 13:25:29 +0000
-Message-Id: <20221031132531.18122-2-jiaxun.yang@flygoat.com>
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PATCH v2 2/3] target/mips: Cast offset field of Octeon BBIT to
+ int16_t
+Date: Mon, 31 Oct 2022 13:25:30 +0000
+Message-Id: <20221031132531.18122-3-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221031132531.18122-1-jiaxun.yang@flygoat.com>
 References: <20221031132531.18122-1-jiaxun.yang@flygoat.com>
@@ -102,38 +102,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-As per an unpublished document, in later reversion of chips
-CP0St_{KX, SX, UX} is not writeable and hardcoded to 1.
-
-Without those bits set, kernel is unable to access XKPHYS address
-segmant. So just set them up on CPU reset.
+As per "Cavium Networks OCTEON Plus CN50XX Hardware Reference
+Manual" offset field is signed 16 bit value. However arg_BBIT.offset
+is unsigned. We need to cast it as signed to do address calculation.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
 ---
 v2:
-Rewording to point out the document is unpublished
+Do casting in decodetree. (philmd)
 ---
- target/mips/cpu.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ target/mips/tcg/octeon.decode | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index d0a76b95f7..a870901bfa 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -304,6 +304,12 @@ static void mips_cpu_reset(DeviceState *dev)
-     env->CP0_EntryHi_ASID_mask = (env->CP0_Config5 & (1 << CP0C5_MI)) ?
-             0x0 : (env->CP0_Config4 & (1 << CP0C4_AE)) ? 0x3ff : 0xff;
-     env->CP0_Status = (1 << CP0St_BEV) | (1 << CP0St_ERL);
-+    if (env->insn_flags & INSN_LOONGSON2F) {
-+        /* Loongson-2F has those bits hardcoded to 1 */
-+        env->CP0_Status |= (1 << CP0St_KX) | (1 << CP0St_SX) |
-+                            (1 << CP0St_UX);
-+    }
-+
-     /*
-      * Vectored interrupts not implemented, timer on int 7,
-      * no performance counters.
+diff --git a/target/mips/tcg/octeon.decode b/target/mips/tcg/octeon.decode
+index 8929ad088e..0c787cb498 100644
+--- a/target/mips/tcg/octeon.decode
++++ b/target/mips/tcg/octeon.decode
+@@ -12,7 +12,7 @@
+ # BBIT132    111110 ..... ..... ................
+ 
+ %bbit_p      28:1 16:5
+-BBIT         11 set:1 . 10 rs:5 ..... offset:16 p=%bbit_p
++BBIT         11 set:1 . 10 rs:5 ..... offset:s16 p=%bbit_p
+ 
+ # Arithmetic
+ # BADDU rd, rs, rt
 -- 
 2.34.1
 
