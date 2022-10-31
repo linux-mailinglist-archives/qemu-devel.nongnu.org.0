@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0B86137A9
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:17:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D86C661378A
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:12:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUZ6-0000j9-Jx; Mon, 31 Oct 2022 09:10:56 -0400
+	id 1opUZK-0002HN-1N; Mon, 31 Oct 2022 09:11:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1opUYh-0007wa-JU
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:10:39 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ id 1opUYn-0007y0-Ct
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:10:40 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1opUYd-0001FL-BL
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:10:30 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- ay14-20020a05600c1e0e00b003cf6ab34b61so1422266wmb.2
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:10:23 -0700 (PDT)
+ id 1opUYd-0001G6-M9
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:10:33 -0400
+Received: by mail-wr1-x433.google.com with SMTP id z14so15887508wrn.7
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:10:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=1c2b7Q7q1SEFZIH8VI4BhrqJ/b4v64bPVNJSJmKD4M0=;
- b=ebeCKbnoJXyONIlkf10ntHNX1J0m9BH7UNmc5i4zeTW3to39gbOdsXixKShWbi9KWI
- laLQpBGugTZz57qy1oQvQkEMauDno5t2O8A3SBA1uAMmlTrsRLXA+NRHfIw7YRxJgNnS
- e2OOgqq8/l+Nj9aWYmIdB74Ld/jJo1PM0fjZsAdeC5fz3/G20bqJt6m/sGTJAuiqPLgq
- aIy8qkpGBhTPBDnC70PUdgtoz0CeoGF3Xe9WmpT8ahJWSO2+KG06F2wcPKqWvxtJSllU
- vrAbOmY2jSZwG7lR4a/S36S6RCDrU2iLklkpzByaZ3uOGtez5obEdm+QbqCmjJQl/gh1
- Ziaw==
+ bh=avCuxU0YK7dOwSpC6nhmi+sb9xnjSlD1u004mIyxDYo=;
+ b=mBEBS39cp+0RzYvjQ7+DEHBhtnDAN3r0TnpZd9t9dso44Ph9jpq1MpGbbIOhBwBHU0
+ qkawS3rPBU9CAVeMvDe4ESMGxEmPyBvlKatsLWQ6tHBN67u8TFvvOO34ZiD7hNJKFE3P
+ IrR6U8O2R8a8W1Q8w2pCnl1iQQF/90jwvgOEj5Y6YDBaJOE6gSYHz1neq4iXTmK/pQHl
+ RcvdA2ciss/uK02LAdBXCBHLwC7EfPbLgZi5gkH8/jAaASTMVmxME8yG9WwlEMpaTYdJ
+ dNHhzcUQIZHqas/rxuhLWWtsauagO6NcFzAQmSNdmnKQ+BXcwlm1QyBKidfEd8TNNrCm
+ dcgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1c2b7Q7q1SEFZIH8VI4BhrqJ/b4v64bPVNJSJmKD4M0=;
- b=WaCacRTvUQVgfycLIff10huxHxPSzlz2PvBNrg782Sl2+9m5ngrNeCkD1e3fzaoq8X
- E6vZKrp/zTmd96LZlYR67/iXvQwq6L2yGiL+UL96yz5aoIZeTH3Eqf8c+G5GwVjgnmcp
- 5ECOJaoT9MaKtlP7wvkBmjvadPYzCzneZPGpKnu+edfURjXBcrj6cWhdkavTXBpS0hsV
- 4Unn+4SkzuOsVZeM7UUaBWfRMfHu2r2Y3Zre1DaBFsV/w/8nW3f8BXVqY5fw5YFDabZ+
- CiEg1qtAMnMI+DyZleUNIV/6I1bplZfGcVw3h6eOhDu7paitV7HdQZcSPHvpJyGsB/CG
- oRRw==
-X-Gm-Message-State: ACrzQf1Twvb0j45FifIM9JtRuTePAXGbJgxPlJ0DFESp32DtguoAlQ+X
- c9OxNlIGNLL/nsyq8CHbE3SCNsq4q4Fj+Q==
-X-Google-Smtp-Source: AMsMyM6eLN1wIJAm0Pp2wcMFfxN8E+vp2r1jMByzdLFiktma0LrK7QZ7DKhygqDtKMP2TADLcDWuZw==
-X-Received: by 2002:a1c:f008:0:b0:3b4:fd2e:3ede with SMTP id
- a8-20020a1cf008000000b003b4fd2e3edemr18449619wmb.133.1667221821793; 
- Mon, 31 Oct 2022 06:10:21 -0700 (PDT)
+ bh=avCuxU0YK7dOwSpC6nhmi+sb9xnjSlD1u004mIyxDYo=;
+ b=oyGYpbKpNSV4oKkMv0QxTxbTe27yFfDmDvWaI3pIIf6j8EKsd/wdVIO1tBbSEwIEnn
+ eJfLfpyrgmnF62otBs/ObFfmSZ7Auzfte7ZGN4n896RJmu9wOQIrlX8TBwsMpiu9QQVX
+ rMbpH8b4Fjk0tu6tf+NgxKwuhf0bGBH/wA+lTxBQwGFVQyLJpCYWHBt2po1xZniyvzhc
+ OOG0O0MLtjdGfcMlq7Lh4ZzDXtFFzYFxFHlCT/GwBZ/MJsdCQOuEDQCFkYUym5fJ0KDw
+ /bs2mjb2McayyzqkoE9FXQExoayOmeSkV8+uQCzVzKtZP7rjj/A5ZYVqwenMWVOeaaSA
+ x1Jg==
+X-Gm-Message-State: ACrzQf1Gt7bnvnceFon+NXIuYHfpPnRLEdCZAXwMmQaiDu2H/fFnvJmk
+ CuUy+nliQl9bV5gI43CfNkiB2g==
+X-Google-Smtp-Source: AMsMyM5Q1a7YAhNZQJSJ3bHat+LpfvzR/nWIfCU9B5oA8UffsfcR4SEZc52UIYDSQFAmw7cs0ZVykA==
+X-Received: by 2002:a05:6000:1f1a:b0:236:ce27:230a with SMTP id
+ bv26-20020a0560001f1a00b00236ce27230amr2486038wrb.469.1667221826254; 
+ Mon, 31 Oct 2022 06:10:26 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- p29-20020a05600c1d9d00b003c65c9a36dfsm7309084wms.48.2022.10.31.06.10.13
+ bd26-20020a05600c1f1a00b003c6b70a4d69sm7222305wmb.42.2022.10.31.06.10.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 06:10:15 -0700 (PDT)
+ Mon, 31 Oct 2022 06:10:20 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E6E6C1FFC2;
- Mon, 31 Oct 2022 13:10:11 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 078A61FFB7;
+ Mon, 31 Oct 2022 13:10:12 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 10/31] tests/tcg: use regular semihosting for nios2-softmmu
-Date: Mon, 31 Oct 2022 13:09:49 +0000
-Message-Id: <20221031131010.682984-11-alex.bennee@linaro.org>
+Cc: stefanha@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 11/31] tests/tcg/nios2: Tweak 10m50-ghrd.ld
+Date: Mon, 31 Oct 2022 13:09:50 +0000
+Message-Id: <20221031131010.682984-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221031131010.682984-1-alex.bennee@linaro.org>
 References: <20221031131010.682984-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,31 +94,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-The nios2 code now plugs into the common semihosting code so we can
-use the same redirect invocation as the other boards. There is however
-a bug raised for the fact the tests don't seem to be completing
-properly and silently passing anyway:
+From: Richard Henderson <richard.henderson@linaro.org>
 
-  https://gitlab.com/qemu-project/qemu/-/issues/1258
+More closely follow the default linker script for nios2.
+This magically fixes a problem resolving .got relocs from
+the toolchain's libgcc.a.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1258
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221027183637.2772968-9-alex.bennee@linaro.org>
+Message-Id: <20221024035341.2971123-1-richard.henderson@linaro.org>
+Message-Id: <20221027183637.2772968-10-alex.bennee@linaro.org>
 
-diff --git a/tests/tcg/nios2/Makefile.softmmu-target b/tests/tcg/nios2/Makefile.softmmu-target
-index c3d0594a39..bc7fd55060 100644
---- a/tests/tcg/nios2/Makefile.softmmu-target
-+++ b/tests/tcg/nios2/Makefile.softmmu-target
-@@ -25,8 +25,7 @@ LDFLAGS += -Wl,-T$(LINK_SCRIPT) -static -nostdlib $(CRT_OBJS) -lgcc
- %: %.o $(LINK_SCRIPT) $(CRT_OBJS)
- 	$(call quiet-command, $(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS), LD, $@)
+diff --git a/tests/tcg/nios2/10m50-ghrd.ld b/tests/tcg/nios2/10m50-ghrd.ld
+index 7db0d59ad7..71cdda450c 100644
+--- a/tests/tcg/nios2/10m50-ghrd.ld
++++ b/tests/tcg/nios2/10m50-ghrd.ld
+@@ -44,11 +44,15 @@ SECTIONS
+     .data : ALIGN(4) {
+         *(.shdata)
+         *(.data .data.* .gnu.linkonce.d.*)
+-        . = ALIGN(4);
+-        _gp = ABSOLUTE(. + 0x8000);
+-        *(.got.plt) *(.got)
+-        *(.lit8)
+-        *(.lit4)
++    } >ram :RAM
++
++    HIDDEN (_gp = ALIGN(16) + 0x7ff0);
++    PROVIDE_HIDDEN (gp = _gp);
++    .got : ALIGN(4) {
++        *(.got.plt) *(.igot.plt) *(.got) *(.igot)
++    } >ram :RAM
++
++    .sdata : ALIGN(4) {
+         *(.sdata .sdata.* .gnu.linkonce.s.*)
+     } >ram :RAM
  
--# FIXME: nios2 semihosting writes to stdout, not a chardev
--QEMU_OPTS = -M 10m50-ghrd,vic=on -semihosting >$@.out -kernel
-+QEMU_OPTS = -M 10m50-ghrd,vic=on -semihosting-config enable=on,target=native,chardev=output -kernel
- 
- memory: CFLAGS+=-DCHECK_UNALIGNED=0
- TESTS += $(MULTIARCH_TESTS)
 -- 
 2.34.1
 
