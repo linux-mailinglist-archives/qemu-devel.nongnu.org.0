@@ -2,80 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7CE6132BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 10:30:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FB09613307
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 10:49:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opR7D-0003aq-7i; Mon, 31 Oct 2022 05:29:55 -0400
+	id 1opROT-0007Kv-IU; Mon, 31 Oct 2022 05:47:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1opR7B-0003ah-9f
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 05:29:53 -0400
-Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1opR79-0006DZ-QL
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 05:29:53 -0400
-Received: by mail-lj1-x22b.google.com with SMTP id z24so16000792ljn.4
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 02:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tjuEZK/uRpRwxOAygZ9EFV9AvskXYKOIFSrIHZGz9PI=;
- b=j6i5s/G1N2zrLndCm1n8/0mEOxMd4kKi5/K9Dexk5YSWqDZ265ibE2XH3epLhEEZNl
- AdVBbOerH4xiMSVW2aNADPgp9g9m7G5S0aMZ7JYOuiiDrK0jivzhaXse8xsoNcA8pTdC
- nsObgBQ5oJlICrRtZWkxIHAJZ5pdvAqWCWq/j4mA5wrTBBxGLrh65pRuNeXfntoAg1F0
- cnMnIfIWEJwwiuwVgH4IqlbRiAKAnbrWLO05uG4Ed2AQepiYLF3TZtJtf0fw5a3zER1B
- wJSqpa8kv0juQJZB73SHfWy2nTGDlFZ0qcIdPunszp7jzenCutk723X8tmgGpxg2j1Qa
- fAWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tjuEZK/uRpRwxOAygZ9EFV9AvskXYKOIFSrIHZGz9PI=;
- b=X3DuMpfoxIg5Inq6ronFx5C37nBaklj6HfdpSCBD8gwIfUrnsWVUyYfUKWKusK9c0O
- vtIh1biLsyE3W5HjHi8w1GYuxVdmrSOnqEsrrMBKLiEYShrmU2iBCaTP//pVyp2ZORqH
- aoh5iZTJaWikAHFforKZYOaxb+kq3xdTBZ/T8T/c/YPLwBMeGpLjYCVmphbyyxPZnr5g
- Ir8HYWriQ95UppTYlNtbzX7GP24uY4ajRVk+KkAmbUksYZHQoMBCEJDZld2aO2AMVHQO
- fSAoIlblKlEF/VWZEezxDnKz3StqypNLTDzn/onvTU/zW2YQ8ZkPTZp5EeVEOPfY1PMC
- XRHw==
-X-Gm-Message-State: ACrzQf360eXTk73JdADhUqV0ZFlXwApRK/gWyShn19wxmq19VZ/Ldkk7
- QtnUNArBDRrAyWNT7wHIA+jWjTWbYcM0uLCdspc=
-X-Google-Smtp-Source: AMsMyM6lb7H9zoogtnU4GdLOespVRAghU/WVZCKuuKC16rUejP5ru7r3vfpDT8qTs8tMbluhDM/dURp1bdf/64H6cPo=
-X-Received: by 2002:a05:651c:14f:b0:277:3f46:a034 with SMTP id
- c15-20020a05651c014f00b002773f46a034mr4216077ljd.529.1667208589323; Mon, 31
- Oct 2022 02:29:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1opROO-0007Jd-Gr
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 05:47:40 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1opROI-00049U-OR
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 05:47:38 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 3C02443EDF;
+ Mon, 31 Oct 2022 10:47:21 +0100 (CET)
+From: Fiona Ebner <f.ebner@proxmox.com>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, hreitz@redhat.com, t.lamprecht@proxmox.com,
+ d.csapak@proxmox.com, berrange@redhat.com
+Subject: [PATCH v2] vl: defuse PID file path resolve error
+Date: Mon, 31 Oct 2022 10:47:16 +0100
+Message-Id: <20221031094716.39786-1-f.ebner@proxmox.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220908132817.1831008-1-bmeng.cn@gmail.com>
- <CAEUhbmVvxoZD7dJbMGud5LLp3fmZTyovgXUvEEdyuneg=K_LUg@mail.gmail.com>
- <1013abdd-1e46-1121-21f5-522cb9bb5cd1@redhat.com>
- <CAEUhbmX=pVTK1VdCz6XcpYdUb8_4Og2T2BXGWEs2znpxp9c6mw@mail.gmail.com>
- <573aea01-ecac-25ef-7dfc-6a4ce5a8f89b@redhat.com>
- <c84bcda5-4927-03f9-c95f-900278a84e2b@weilnetz.de>
-In-Reply-To: <c84bcda5-4927-03f9-c95f-900278a84e2b@weilnetz.de>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 31 Oct 2022 13:29:37 +0400
-Message-ID: <CAJ+F1CJWExeG=QFhtKiTUZd5ctTtdqn9GSC6KsRWzmkW=b713g@mail.gmail.com>
-Subject: Re: [PATCH 0/7] nsis: gitlab-ci: Improve QEMU Windows installer
- packaging
-To: Stefan Weil <sw@weilnetz.de>
-Cc: Bin Meng <bmeng.cn@gmail.com>, Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,39 +53,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Stefan
+Commit 85c4bf8aa6 ("vl: Unlink absolute PID file path") introduced a
+critical error when the PID file path cannot be resolved. Before this
+commit, it was possible to invoke QEMU when the PID file was a file
+created with mkstemp that was already unlinked at the time of the
+invocation. There might be other similar scenarios.
 
-On Mon, Oct 31, 2022 at 1:27 PM Stefan Weil via <qemu-devel@nongnu.org> wro=
-te:
->
-> Am 31.10.22 um 07:52 schrieb Thomas Huth:
->
-> > On 29/10/2022 15.45, Bin Meng wrote:
-> >> Stefan has reviewed / tested patch 1-3. Not sure who is going to queue
-> >> these 3 patches?
-> >
-> > If Stefan has time for a pull request, I think he would be the best
-> > fit. Stefan?
-> >
-> > Otherwise, maybe Marc-Andr=C3=A9 could take those patches, since he
-> > apparently wrote that nsis.py script?
-> >
-> > (By the way, should we have an entry for that script in MAINTAINERS?
-> > ... likely in the W32/W64 section?)
-> >
-> >  Thomas
->
->
-> Thanks. I have sent a pull request now.
->
-> Please excuse that some of you got that pull request e-mails twice.
->
-> I used Peter's make-pullreq script for the first time and had to learn
-> how it works.
+It should not be a critical error when the PID file unlink notifier
+can't be registered, because the path can't be resolved. If the file
+is already gone from QEMU's perspective, silently ignore the error.
+Otherwise, only print a warning.
 
-Could you send a MAINTAINERS patch to add scripts/nsis.py to w32/w64?
-thanks
+Fixes: 85c4bf8aa6 ("vl: Unlink absolute PID file path")
+Reported-by: Dominik Csapak <d.csapak@proxmox.com>
+Suggested-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
+Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
+---
 
---=20
-Marc-Andr=C3=A9 Lureau
+v1 -> v2:
+    * Ignore error if errno == ENOENT.
+
+ softmmu/vl.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index b464da25bc..cf2c591ba5 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2432,10 +2432,11 @@ static void qemu_maybe_daemonize(const char *pid_file)
+ 
+         pid_file_realpath = g_malloc0(PATH_MAX);
+         if (!realpath(pid_file, pid_file_realpath)) {
+-            error_report("cannot resolve PID file path: %s: %s",
+-                         pid_file, strerror(errno));
+-            unlink(pid_file);
+-            exit(1);
++            if (errno != ENOENT) {
++                warn_report("not removing PID file on exit: cannot resolve PID "
++                            "file path: %s: %s", pid_file, strerror(errno));
++            }
++            return;
+         }
+ 
+         qemu_unlink_pidfile_notifier = (struct UnlinkPidfileNotifier) {
+-- 
+2.30.2
+
+
 
