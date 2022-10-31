@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83B0F61379A
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:14:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FCC661377E
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:11:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUId-0003bm-2r; Mon, 31 Oct 2022 08:53:55 -0400
+	id 1opUJ4-0004Zc-CG; Mon, 31 Oct 2022 08:54:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUIW-00032D-4n
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:53:48 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUIe-0003nU-Pd
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:53:56 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUIU-0003Lj-Dh
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:53:47 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUId-0003NH-CZ
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:53:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667220825;
+ s=mimecast20190719; t=1667220834;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0yhIUS8lDsK4Y+UjpInP5GENmj51Psd/BxPn+ebR+Z4=;
- b=K/xB6fzFEWV7iEfReG2pcMgcidZPT8doLVqJg49vq38UZAY9weSKehVyZt45XR7WKRZGOJ
- o0Y3r+QZO/LU3OR6g0p4BlbJiLMgBabSnw0itSxRs0lBtb4BjGLt6iJqODKpROVu3YPNJ/
- UoN3qM0/6i7sfQc4+zC7cWCiiKTI57M=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jNpjaX4cmprH7T9UhisnDsmdXVXPpfdfHlComBYrO/E=;
+ b=VaujLeSouHLDqxU4ovbx9N9/Y+VZU5T2zBZIh4UpILskMukgyybfozg8SCj4IDV7L7yZ/D
+ 4SceNJIvgyKgMj0j0ZCvQFtySDwj07FrPs+Js+YWoPiqq9775bOvtaJZlEBtyxaETbB25R
+ g0uiffpaJtRMAyDyg+iQP/8pRAs5vPo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-594-0IIPoMdiNe2pcB759Ugufg-1; Mon, 31 Oct 2022 08:53:44 -0400
-X-MC-Unique: 0IIPoMdiNe2pcB759Ugufg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- c5-20020a1c3505000000b003c56da8e894so8324734wma.0
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:53:44 -0700 (PDT)
+ us-mta-144-pLONW9IDNYWW3HREtzZHiQ-1; Mon, 31 Oct 2022 08:53:53 -0400
+X-MC-Unique: pLONW9IDNYWW3HREtzZHiQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ e8-20020a05600c218800b003cf634f5280so949506wme.8
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:53:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0yhIUS8lDsK4Y+UjpInP5GENmj51Psd/BxPn+ebR+Z4=;
- b=4Sm9qZYD3vzNiNjAFhFv+G4Wf0pR/P/O0yasT06MWu5/Vh3lukTGpiDdUryD350sTa
- n+SCLsDGyhC/XRue0uvwsn5FYkTDsDeATabGlpn5c/kjMiwlf09L8lryJPxJ31tZXa3f
- 3Wk8wDUC1N8ikefXSkxKBKYkSbAqdEvQbV6+0O46u3elngMtUrm3ykRwvK4hZP3haMww
- 9XlPj/KHhc4S0h/kOS/fnSGaHYX1nlJpW0SsWCEUX/dHCj7Gcr+kXD5F5M4vizS8ZOLe
- iMZuVSIb7pQNbu2gP6U4zoLGUUXmqJ5pPWm/9/BMQ5AnAZqcv/bjibfrvW9mQycfzSgf
- gjKQ==
-X-Gm-Message-State: ACrzQf2c3ldrQzUMGI8qRsNGC2mYNCMw8CjPHz9ic0Ix+j7qaNG5dJ45
- byeiS89PGNFKj2MTKAT9XPYvcj99lms2RWhmXSgt4U51srG69R76v/rBQLgEK/iWNW7lZ3B+gFD
- RSKWzXXPOa12CI24MUARV9yU8JyNGrGglkiN3lg+ZRPzZPd2qlIijiy7pCDi6
-X-Received: by 2002:adf:f78f:0:b0:236:992b:1f62 with SMTP id
- q15-20020adff78f000000b00236992b1f62mr7735873wrp.605.1667220823308; 
- Mon, 31 Oct 2022 05:53:43 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4T2gn2h9mcovd4GfjlYtbfMafNyq6CDbqfH0KkMrUMPTC/oFZ5FVsr4KoFHr9gAflsk8BKNg==
-X-Received: by 2002:adf:f78f:0:b0:236:992b:1f62 with SMTP id
- q15-20020adff78f000000b00236992b1f62mr7735846wrp.605.1667220823008; 
- Mon, 31 Oct 2022 05:53:43 -0700 (PDT)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jNpjaX4cmprH7T9UhisnDsmdXVXPpfdfHlComBYrO/E=;
+ b=lXANlpJVYZK7v8x9Ir/2nhzXQ989u3ms2ypqwgD4RGv1W+PScKZwgDcbscgQ2E3K+2
+ r0EKn/yVdpqYS4hyLqpWVQu3bt/VJ4mYsKON/Y3KLjQxsqZ2uR9sKKoN6D4JYIe0Quhm
+ ASjpYR3miHUZytQA44ytR+xop67kkNbnOQ3NYM6gu+xa1+KfCff8o3jgTKTgogbZeO2Z
+ 0r6mUFjTcR0auIcn4HZCocgyQAoUcyUhq27lViU5IZt9EtP5t83HZuoxXLIlOlWafDLl
+ Ez/Hg4TuOHT5auqusZ9eEESvjBXtXlFbkZksco2pAmSjWXE0jsGiTcD9d3mTl/9+xQ7t
+ CjTw==
+X-Gm-Message-State: ACrzQf0oBJBWhwm5cKLvGZ0yr/iB9/Vkk1TQIBPnK77w607HVOAdV3WJ
+ 4ya1UfKhNbUbd/yHGfluuhyaDCPTv6hDrHNFm06hXPq0D+xaBo17U8QxnEkDQpphIJ4Lw+XadKf
+ n6Von+xVJcY3ES7PQCcUMJF8ElKNw+5yZWsPi6hlWTFZen4OuzC9vUU1DK54+
+X-Received: by 2002:a7b:c34a:0:b0:3c6:e069:d41c with SMTP id
+ l10-20020a7bc34a000000b003c6e069d41cmr18158706wmj.180.1667220831704; 
+ Mon, 31 Oct 2022 05:53:51 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7JcySzAOQQ2rm7r/PR+NZOdxMuawAxlWNRRKzH7aRsZImBVbg4NSPeeSoTtrzR7nfTHzpXiQ==
+X-Received: by 2002:a7b:c34a:0:b0:3c6:e069:d41c with SMTP id
+ l10-20020a7bc34a000000b003c6e069d41cmr18158683wmj.180.1667220831413; 
+ Mon, 31 Oct 2022 05:53:51 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- n2-20020a7bc5c2000000b003c6c5a5a651sm7106527wmk.28.2022.10.31.05.53.41
+ d8-20020a5d5388000000b0023672104c24sm7193354wrv.74.2022.10.31.05.53.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:53:42 -0700 (PDT)
-Date: Mon, 31 Oct 2022 08:53:40 -0400
+ Mon, 31 Oct 2022 05:53:51 -0700 (PDT)
+Date: Mon, 31 Oct 2022 08:53:48 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 63/86] acpi: pc/35: sanitize _GPE declaration order
-Message-ID: <20221031124928.128475-64-mst@redhat.com>
+ Thomas Huth <thuth@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 66/86] MAINTAINERS: Add qapi/virtio.json to section "virtio"
+Message-ID: <20221031124928.128475-67-mst@redhat.com>
 References: <20221031124928.128475-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221031124928.128475-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -101,103 +103,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Markus Armbruster <armbru@redhat.com>
 
-Move _GPE block declaration before it gets referenced by other
-hotplug handlers. While at it move PCI hotplug (_E01) handler
-after PCI tree description to avoid forward reference to
-to not yet declared methods/devices.
-
-PS:
-Forward 'usage' usualy is fine as long as it's hidden within
-method, however 'iasl' may print warnings. So be nice
-to iasl/guest OS and do things in proper order.
-
-PS2: Also follow up patches will move some of hotplug code
-from PCI tree to _E01 and that also requires PCI Device
-nodes build first, before Scope can reuse that from
-global context.
-
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20221017102146.2254096-11-imammedo@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20221020120458.80709-1-armbru@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/i386/acpi-build.c | 47 +++++++++++++++++++++++---------------------
- 1 file changed, 25 insertions(+), 22 deletions(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 916343d8d6..960305462c 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1434,6 +1434,18 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         aml_append(dsdt, sb_scope);
-     }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 47c02889a8..e894c07552 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2014,6 +2014,7 @@ S: Supported
+ F: hw/*/virtio*
+ F: hw/virtio/Makefile.objs
+ F: hw/virtio/trace-events
++F: qapi/virtio.json
+ F: net/vhost-user.c
+ F: include/hw/virtio/
  
-+    scope =  aml_scope("_GPE");
-+    {
-+        aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
-+        if (machine->nvdimms_state->is_enabled) {
-+            method = aml_method("_E04", 0, AML_NOTSERIALIZED);
-+            aml_append(method, aml_notify(aml_name("\\_SB.NVDR"),
-+                                          aml_int(0x80)));
-+            aml_append(scope, method);
-+        }
-+    }
-+    aml_append(dsdt, scope);
-+
-     if (pcmc->legacy_cpu_hotplug) {
-         build_legacy_cpu_hotplug_aml(dsdt, machine, pm->cpu_hp_io_base);
-     } else {
-@@ -1452,28 +1464,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-                                  pcms->memhp_io_base);
-     }
- 
--    scope =  aml_scope("_GPE");
--    {
--        aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
--
--        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
--            method = aml_method("_E01", 0, AML_NOTSERIALIZED);
--            aml_append(method,
--                aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
--            aml_append(method, aml_call0("\\_SB.PCI0.PCNT"));
--            aml_append(method, aml_release(aml_name("\\_SB.PCI0.BLCK")));
--            aml_append(scope, method);
--        }
--
--        if (machine->nvdimms_state->is_enabled) {
--            method = aml_method("_E04", 0, AML_NOTSERIALIZED);
--            aml_append(method, aml_notify(aml_name("\\_SB.NVDR"),
--                                          aml_int(0x80)));
--            aml_append(scope, method);
--        }
--    }
--    aml_append(dsdt, scope);
--
-     crs_range_set_init(&crs_range_set);
-     bus = PC_MACHINE(machine)->bus;
-     if (bus) {
-@@ -1752,6 +1742,19 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-     }
-     aml_append(dsdt, sb_scope);
- 
-+    if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
-+        scope =  aml_scope("_GPE");
-+        {
-+            method = aml_method("_E01", 0, AML_NOTSERIALIZED);
-+            aml_append(method,
-+                aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
-+            aml_append(method, aml_call0("\\_SB.PCI0.PCNT"));
-+            aml_append(method, aml_release(aml_name("\\_SB.PCI0.BLCK")));
-+            aml_append(scope, method);
-+        }
-+        aml_append(dsdt, scope);
-+    }
-+
-     /* copy AML table into ACPI tables blob and patch header there */
-     g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
-     acpi_table_end(linker, &table);
 -- 
 MST
 
