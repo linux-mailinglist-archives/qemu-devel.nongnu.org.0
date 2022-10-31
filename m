@@ -2,88 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A4D6133EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 11:50:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E566133F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 11:50:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opSMZ-0003YX-WD; Mon, 31 Oct 2022 06:49:52 -0400
+	id 1opSN1-0003mJ-M5; Mon, 31 Oct 2022 06:50:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1opSMX-0003YD-NO
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 06:49:49 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1opSMt-0003gX-Br
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 06:50:13 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1opSMW-0007lk-8m
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 06:49:49 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1opSMp-0007zO-Ev
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 06:50:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667213387;
+ s=mimecast20190719; t=1667213405;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tHqVyUDW+3mwaeWEmqnrd8tkTFPI40Q8v/hqDHCJ6XM=;
- b=I6+/EBCKQkFnDyM+M+ojHYOh5psOfYMFC2wyWacqwuF7cdb9Yc1yZJiHEABYh87aCWzkXX
- lB0Kmny41He+SLvujS0PeytmouegE1esRb9EuIZyqGKVnJUrSDaYKmbi/l3p/RHMSFv055
- +Y2iFcdO0EbWOzBDYxC6gTccbDnXlJ4=
+ bh=CfVHDwL9uPqnzdg5hArVMDjFXPYbNat0F4nOVoxUHyE=;
+ b=FysURgVyfPR8FlBDsNi/3xpRYG6GFLJgQBczHDJuR3stFLRbcOoWXr5bWgIQnBcwUgJCZM
+ Kx6VudotwvFdAJqmouRiAUli1E/ACbwshCdjd4mG9svBvPBX7xuVq/ONIeRTY0YjNCVO5D
+ qXvErKs9hjj9lKzeruMrRFRDcqlTb0s=
 Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
  [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-456-htQzclheM6m7mb8H4IZ5Iw-1; Mon, 31 Oct 2022 06:49:45 -0400
-X-MC-Unique: htQzclheM6m7mb8H4IZ5Iw-1
+ us-mta-332-mXhc0uJ4OyuGXjiJH-DJxg-1; Mon, 31 Oct 2022 06:50:04 -0400
+X-MC-Unique: mXhc0uJ4OyuGXjiJH-DJxg-1
 Received: by mail-qv1-f70.google.com with SMTP id
- x2-20020a0cff22000000b004bb07bf7557so5533084qvt.11
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 03:49:45 -0700 (PDT)
+ h1-20020a0ceda1000000b004b899df67a4so5525897qvr.1
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 03:50:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tHqVyUDW+3mwaeWEmqnrd8tkTFPI40Q8v/hqDHCJ6XM=;
- b=EWUFS1pNBz04chiAN5SnCqPCgocSdvjrobPR2AyUqbZtqKoSDLaBG2YhOxqwnZ1JHn
- 4eIz1hfUmRJzEwkVs3eCMr3PwI54p3z1i4XZ3ilMnfkNhblNG4xhCrgMlsbFYKfuB31l
- yJdUWzBzuFVOpHGrUHy2T1XDpZ5cYMN2CwOQl7qMfLKEgCDFGspIR7t6nPoBTVfYf1+T
- yEguEQehQSqzZ1Yk7IOl/eJyf9qGOtulTGHdvUHt082HUhGKQ+acmviRmLWUhkGjycCR
- /KKIdUVFaAkpRrmVxZsp3OuwOGM2pPEtR1tYvlnKFciJN+KHTv8ehaIsknu2CFy6WVkg
- ZVRQ==
-X-Gm-Message-State: ACrzQf2RuKavGCn5VIcMh+hSS/jCIsOLGHjerK3lLQlZkYNI24nodTIe
- uOU3Hen5VnT59nLDQIZUtBE+rziusQeWnZoieQfhTW+OONchgvaFUVpqpKK2Gay9+vABgAvdzMs
- TB60OiQoUGOLWPoc=
-X-Received: by 2002:a05:620a:440e:b0:6f6:2a11:c497 with SMTP id
- v14-20020a05620a440e00b006f62a11c497mr8137552qkp.213.1667213385524; 
- Mon, 31 Oct 2022 03:49:45 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM62+JoPE08D1B0U8SxfgpA/CQsB5trsw8+YBhYb+nm7RSqo0fdTj9HavrfZVl47km2KCHC5AQ==
-X-Received: by 2002:a05:620a:440e:b0:6f6:2a11:c497 with SMTP id
- v14-20020a05620a440e00b006f62a11c497mr8137543qkp.213.1667213385323; 
- Mon, 31 Oct 2022 03:49:45 -0700 (PDT)
-Received: from fedora (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- y6-20020a05620a0e0600b006aedb35d8a1sm4384851qkm.74.2022.10.31.03.49.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 03:49:44 -0700 (PDT)
-Date: Mon, 31 Oct 2022 11:49:42 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH] bios-tables-test: do not ignore allowed diff list
-Message-ID: <20221031114942.36e1dc83@fedora>
-In-Reply-To: <20221027151135.496368-1-mst@redhat.com>
-References: <20221027151135.496368-1-mst@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CfVHDwL9uPqnzdg5hArVMDjFXPYbNat0F4nOVoxUHyE=;
+ b=e6Vwm7Qvoy6LTaAPxzvYigl/vxov63lKzacaBq6Dd1KK+j9WxfP8uADRmv5BEyrema
+ 9ic083b4gbZaAhrgne+rFj9/sObgaUWVzlqCk5V+NWzEscS6wkZNOQeFwcDMrAqr3LYK
+ Nf3M8k1miAu6ZBfe2by6peJCTHcF2svVcW5zhVCkJosgO8OAQs8+oAWdcKV9KN9ZEDZD
+ /u48UzqrIQBCN0BxBSRzqGLM8tTTu9XrMeqb7sVAyv/QzXHxK7hTH3AkKlJTXCoEg2Ig
+ qPykvLiSVKjOZB+MMIwDO/2s+pYMto81szBZYbg0/u6fgf8EldfCAx09RdX/NoHZAFuD
+ dUSA==
+X-Gm-Message-State: ACrzQf0L1NUDkpI6cFe1Dy78BDo7HQv1I5ttbF33tG7npZt5NPWJjSSr
+ JVn1+hXGzZkZoEs+6wR5yd9gM7NKQnwkHVlQZqpZrShntgJVh1vl2+sKAmxqUGcvsi2u9ZnQzwq
+ MbJK/7s7uqh9mD5E=
+X-Received: by 2002:a0c:8c8c:0:b0:4bb:6928:2a24 with SMTP id
+ p12-20020a0c8c8c000000b004bb69282a24mr10306937qvb.87.1667213404209; 
+ Mon, 31 Oct 2022 03:50:04 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM51rrfTpXYmJr2nHe4WWIryJiu2plQDt2CVv+o2/9vb+7PYg5SPAxhxAYbxUW5t3UmpOFc6pw==
+X-Received: by 2002:a0c:8c8c:0:b0:4bb:6928:2a24 with SMTP id
+ p12-20020a0c8c8c000000b004bb69282a24mr10306926qvb.87.1667213403946; 
+ Mon, 31 Oct 2022 03:50:03 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-097-47.customers.d1-online.com.
+ [80.187.97.47]) by smtp.gmail.com with ESMTPSA id
+ s7-20020ac87587000000b0039a9b55b829sm3106539qtq.29.2022.10.31.03.50.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Oct 2022 03:50:03 -0700 (PDT)
+Message-ID: <2d9d7cfb-013f-4920-7155-0c56198d88ad@redhat.com>
+Date: Mon, 31 Oct 2022 11:50:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [RFC PATCH] Add new build target 'check-spelling'
+Content-Language: en-US
+To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20221031074317.377366-1-sw@weilnetz.de>
+ <280c2059-1b1f-85db-eca0-71e5e5800b21@redhat.com>
+ <1ed28d1b-4b80-055d-5fac-d4d87ac187d3@weilnetz.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <1ed28d1b-4b80-055d-5fac-d4d87ac187d3@weilnetz.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.055,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,40 +103,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 27 Oct 2022 11:11:48 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On 31/10/2022 11.44, Stefan Weil wrote:
+> Am 31.10.22 um 08:52 schrieb Thomas Huth:
+> 
+>> On 31/10/2022 08.43, Stefan Weil wrote:
+>>> `make check-spelling` can now be used to get a list of spelling errors.
+>>> It uses the latest version of codespell, a spell checker implemented in 
+>>> Python.
+>>>
+>>> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+>>> ---
+>>>
+>>> This RFC can already be used for manual tests, but still reports false
+>>> positives, mostly because some variable names are interpreted as words.
+>>> These words can either be ignored in the check, or in some cases the code
+>>> might be changed to use different variable names.
+>>>
+>>> The check currently only skips a few directories and files, so for example
+>>> checked out submodules are also checked.
+>>>
+>>> The rule can be extended to allow user provided ignore and skip lists,
+>>> for example by introducing Makefile variables CODESPELL_SKIP=userfile
+>>> or CODESPELL_IGNORE=userfile. A limited check could be implemented by
+>>> providing a base directory CODESPELL_START=basedirectory, for example
+>>> CODESPELL_START=docs.
+>>>
+>>> Regards,
+>>> Stefan
+> [...]
+>>> I like the idea, but I think it's unlikely that we can make this work for 
+>>> the whole source tree any time soon. So maybe it makes more sense to 
+>>> start with some few directories first (e.g. docs/ ) and then the 
+>>> maintainers can opt-in by cleaning up their directories first and then by 
+>>> adding their directories to this target here?
+>>
+>>  Thomas
+> 
+> 
+> Even without implementing CODESPELL_START as described above, the script can 
+> already be used and integrated into CI scripts.
+> 
+> It takes about 60 seconds to check the whole source tree including 
+> submodules on my (slow) virtual machine.
+> 
+> The resulting output has about 20000 lines or 1272 KiB. It can be filtered 
+> for relevant parts of the source tree or used for a summary.
+> 
+> Sample script: grep "^[.]" spellcheck.log | sed s/^..// | sed 's/\/.*//' | 
+> sed s/:.*// | sort | uniq -c
+> 
+> This produces a summary for the top level hierarchy of files and directories:
+> 
+>        3 accel
+>        1 audio
+>        1 backends
+>       77 block
+>        7 block.c
+>       20 bsd-user
+>      386 capstone
+>       12 chardev
+>        1 configure
+>        8 contrib
+>        6 crypto
+>       64 disas
+>       32 docs
+>       31 dtc
+>        8 fpu
+>        1 gdbstub
+>        1 gdb-xml
+>        1 .github
+>      537 hw
+>        7 inc
+>      114 include
+>        1 libdecnumber
+>       33 linux-user
+>        1 MAINTAINERS
+>      150 meson
+>        6 meson.build
+>       16 migration
+>        1 nbd
+>        5 net
+>       12 pc-bios
+>        7 python
+>        3 qapi
+>        2 qemu
+>        5 qemu-options.hx
+>       22 qga
+>    14175 roms
+>       43 scripts
+>        3 semihosting
+>       18 slirp
+>        2 softmmu
+>       59 subprojects
+>      504 target
+>        6 tcg
+>        3 test.rb
+>      175 tests
+>        6 tools
+>       20 ui
+>        8 util
+> 
+> It shows that "roms" contributes by far the most typos. Omitting it would 
+> reduce the required time to 22 seconds and the number of typos found (2947 
+> lines in output) very much.
 
-> we had such a beautiful structure for updating
-> expected files, designed to keep bisect working.
-> It turns out that we ignored the result of
-> the allow list checks unless all tables matched
-> anyway.
-> 
-> Sigh.
+"roms" mostly consists of third-party submodules that we do not have direct 
+control of. I think this should definitely be omitted.
 
-strange,
-it seems to be working fine (I mean white-listing) here
+> "capstone" (which has no entry in MAINTAINERS)
 
-> 
-> Let's at least make it work going forward.
-> 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->  tests/qtest/bios-tables-test.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index e6096e7f73..a72f6ca326 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -458,7 +458,7 @@ static void test_acpi_asl(test_data *data)
->                  "for instructions on how to update expected files.\n",
->                  exp_sdt->aml, sdt->aml_file, exp_sdt->aml_file);
->  
-> -        all_tables_match = all_tables_match &&
-> +        all_tables_match = all_tables_match ||
->              test_acpi_find_diff_allowed(exp_sdt);
->  
->          /*
+That's likely because it has been a submodule that has been removed a while 
+ago. "rm -rf capstone" should solve that issue on your local buildtree ;-)
+
+(yes, that's another nuisance of submodules - the checked out files don't go 
+away when the submodule gets removed)
+
+  Thomas
 
 
