@@ -2,78 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD07061301B
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 07:04:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F7A613090
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 07:40:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opNsB-0000PZ-Fk; Mon, 31 Oct 2022 02:02:11 -0400
+	id 1opORK-0002Wy-Mp; Mon, 31 Oct 2022 02:38:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1opNs7-0000Ng-Pr
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 02:02:07 -0400
-Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1opNs5-00021z-91
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 02:02:07 -0400
-Received: by mail-qv1-xf2e.google.com with SMTP id n18so7791200qvt.11
- for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 23:02:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1TNBpjJ6svM1bO7ovkivFXkhXo6hUP96vV521Ubudus=;
- b=pfZ3jJARoOQJl70VB00AsiJGMOHx85Tel+tVVc4r+ePmYnfvw0EdVbAvH/VzEf1Le6
- JH2eLtpGpC0QK1JIR+GLH72B1ghxihuJurBYqQobmy1LNhA5QDiXO07kehNqEyroBxcd
- z/++XSoSkOPa2Vp0Odyi/Hi8c2vSdskpxmxNBO4f4Er6ig41I9Ob/q1MjYF1d96mUOUn
- lAeVDkjay31Un1S6f4BCHdnT3S3+7QjL3PkrkRZ0WYB/VW6ianHtoOBe9gYuHuulBYrg
- 39KrVWiYaVLjyEUjd6c/KU9mWJSiBp66Tdg/RaDiaAmpQpG6bT+N5Y49nedVNqmDjJUc
- 2SxQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opORI-0002Wm-MA
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 02:38:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opORG-0004Ah-4r
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 02:38:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667198305;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to; bh=wsGcBKagi1XylV40sb2F/sc/XznBUtBwNWlUDa3uz+c=;
+ b=TwB6FsuMvs4HV8MZjFBCms0peUzTbn/46yHI7VEjX72p5L8OE7+On/Gwu2LFXYwGauj9L3
+ ztjgrPnekox4p1a+4iOjKg0tecZuEIwrWbNBfg59ou3SKykOHvXziass3rEvoR8SwFJIJm
+ 5AhFBwPJvONmdqJFTArzuw7oAFlTYGM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-227-BD1Nz06pMayNRE_W8JQH_A-1; Mon, 31 Oct 2022 02:38:23 -0400
+X-MC-Unique: BD1Nz06pMayNRE_W8JQH_A-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ u13-20020adfa18d000000b00236566b5b40so2708356wru.9
+ for <qemu-devel@nongnu.org>; Sun, 30 Oct 2022 23:38:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1TNBpjJ6svM1bO7ovkivFXkhXo6hUP96vV521Ubudus=;
- b=WakbopRkMoNDBpAQJv/uLjQLUBc5UaS/dDChccXtjMIk2lzsRrkL3pwJ2YViG1XBW2
- M26lmfh0SKi1l3Vv/y/s3PoyrYm91Tlyh0UYiDw1BF99X1zaKZ5PnIbOSqhavYtcrdTv
- 3lggd554kWUDzKfmwXuFv7Xwp1t60ZQNz1+PoRTqn4BVE41eFHpaFq3nDl6Y5LpdozDv
- BbzkRPO7gq13rRBuinMq3QwRZeH1OhtZgTr+jOYWA0YHDEPQadwfi+BlvDPusNTgNlk2
- 6oh/DLI2hJirPl3YfTBdLZcF2rhIcuico8GTRlFNTRN7PeBsFIEe6Z4jf7zIQpLlkgB9
- JzIg==
-X-Gm-Message-State: ACrzQf0gtHuOhEamxCy4cJ3nJhzeK86XDCOYpn6EWvcOHp7/zOR3a6VP
- GvWeD4KcbdqxbHHUllWq5dtLA+7U23m52B5i+mcJUA==
-X-Google-Smtp-Source: AMsMyM6f3+wnpOeApuLzIRbKZz0MkkpRas3tb0MgqhM564aJ2Mpnp/kzHhfqTFe5UO4H1ORtihAi+PAOo0G3yj4/Peg=
-X-Received: by 2002:a0c:9a02:0:b0:4b8:256d:c821 with SMTP id
- p2-20020a0c9a02000000b004b8256dc821mr9758023qvd.71.1667196123703; Sun, 30 Oct
- 2022 23:02:03 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wsGcBKagi1XylV40sb2F/sc/XznBUtBwNWlUDa3uz+c=;
+ b=dKfKcY03TB9Vt7PDETQaLp7VFhOPW0q7pusFNpqtUBuMK6tHXWYemdfzqw0VonDlFz
+ vlSzE3abcYDdhBIZloLlt7Olhb0dRHQ1i8J6lU47dxgPZDsOxmAGu8P5RxA1FUUikZtB
+ 8uj8ElFhFzd0+SgIUvyb4JEewm2X3XNdK2LdIELcIv986TlMYlSxZrbzukLq72zrsgAH
+ barHWBgNyQfDP8gey63j71lH8awgXx/VXznrY2rgGejzO8b7SmSm9h7g3PVhqOT0nH4q
+ UNbuWVy+MtsYq+O35H2mrBjvZ6CSAy+g5GtuTzQbiWu4xp6L5nV2SQr4cXA7GhJHUph7
+ qzpQ==
+X-Gm-Message-State: ACrzQf0AyLfh0qHjgz9wEv2FTnBm0ddRmco1XHxUPDGOACuL7nb4OA5z
+ RMKFKumubuBjD+WhnLzQMllasO2VxDFcx6hPkEFeHKgf+UiMAjCtQYeHzvHP/EYKN5hxjJOCCDx
+ u5IK/j3kL3Zvl4G4=
+X-Received: by 2002:a05:6000:180b:b0:236:5985:9c4e with SMTP id
+ m11-20020a056000180b00b0023659859c4emr6880173wrh.584.1667198302278; 
+ Sun, 30 Oct 2022 23:38:22 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6q4qS0n8qfCOWWnUD8VKiu8ldPCV5/x9A49gK33Yph1vKD23eCN5eIggqOKXK/cRdOazHQtQ==
+X-Received: by 2002:a05:6000:180b:b0:236:5985:9c4e with SMTP id
+ m11-20020a056000180b00b0023659859c4emr6880146wrh.584.1667198301860; 
+ Sun, 30 Oct 2022 23:38:21 -0700 (PDT)
+Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
+ q5-20020a5d6585000000b00228cd9f6349sm6071051wru.106.2022.10.30.23.38.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 30 Oct 2022 23:38:21 -0700 (PDT)
+Date: Mon, 31 Oct 2022 02:38:17 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Cindy Lu <lulu@redhat.com>
+Cc: alex.williamson@redhat.com, jasowang@redhat.com, pbonzini@redhat.com,
+ peterx@redhat.com, david@redhat.com, f4bug@amsat.org,
+ sgarzare@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v9 1/2] vfio: move implement of vfio_get_xlat_addr() to
+ memory.c
+Message-ID: <20221031023754-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-References: <20221021095108.104843-1-ani@anisinha.ca>
- <20221021095108.104843-7-ani@anisinha.ca>
-In-Reply-To: <20221021095108.104843-7-ani@anisinha.ca>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Mon, 31 Oct 2022 11:31:52 +0530
-Message-ID: <CAARzgwyQFAFV+rWVKtUTYZHCqCqbLD29tfAppnt_dPcKm=066g@mail.gmail.com>
-Subject: Re: [PATCH v7 6/7] acpi/tests/avocado/bits/doc: add a doc file to
- describe the acpi bits test
-To: Ani Sinha <ani@anisinha.ca>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Maydell Peter <peter.maydell@linaro.org>, 
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin <mst@redhat.com>,
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::f2e;
- envelope-from=ani@anisinha.ca; helo=mail-qv1-xf2e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221031031020.1405111-3-lulu@redhat.com>
+ <20221031031020.1405111-2-lulu@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.055,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,249 +96,445 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Oct 21, 2022 at 3:32 PM Ani Sinha <ani@anisinha.ca> wrote:
->
-> A doc file is added under docs/devel that describes the purpose of the va=
-rious
-> test files and gives guidance to developers on where and how to make chan=
-ges.
->
-> Cc: Daniel P. Berrange" <berrange@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Maydell Peter <peter.maydell@linaro.org>
-> Cc: John Snow <jsnow@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Michael Tsirkin <mst@redhat.com>
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+On Mon, Oct 31, 2022 at 11:10:19AM +0800, Cindy Lu wrote:
+> - Move the implement vfio_get_xlat_addr to softmmu/memory.c, and
+>   change the name to memory_get_xlat_addr(). So we can use this
+>   function on other devices, such as vDPA device.
+> - Add a new function vfio_get_xlat_addr in vfio/common.c, and it will check
+>   whether the memory is backed by a discard manager. then device can
+>   have its own warning.
+> 
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
 
-Michael, you forgot to apply this patch to your tree. You have applied
-the rest.
+Could you rebase on top of my tree (config interrupt support conflicts).
 
 > ---
->  docs/devel/acpi-bits.rst   | 145 +++++++++++++++++++++++++++++++++++++
->  docs/devel/index-build.rst |   1 +
->  2 files changed, 146 insertions(+)
->  create mode 100644 docs/devel/acpi-bits.rst
->
-> diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
-> new file mode 100644
-> index 0000000000..c9564d871a
-> --- /dev/null
-> +++ b/docs/devel/acpi-bits.rst
-> @@ -0,0 +1,145 @@
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> +ACPI/SMBIOS avocado tests using biosbits
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
+>  hw/vfio/common.c      | 66 +++------------------------------------
+>  include/exec/memory.h |  4 +++
+>  softmmu/memory.c      | 72 +++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 81 insertions(+), 61 deletions(-)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index ace9562a9b..6bc02b32c8 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -578,45 +578,11 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
+>  static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+>                                 ram_addr_t *ram_addr, bool *read_only)
+>  {
+> -    MemoryRegion *mr;
+> -    hwaddr xlat;
+> -    hwaddr len = iotlb->addr_mask + 1;
+> -    bool writable = iotlb->perm & IOMMU_WO;
+> -
+> -    /*
+> -     * The IOMMU TLB entry we have just covers translation through
+> -     * this IOMMU to its immediate target.  We need to translate
+> -     * it the rest of the way through to memory.
+> -     */
+> -    mr = address_space_translate(&address_space_memory,
+> -                                 iotlb->translated_addr,
+> -                                 &xlat, &len, writable,
+> -                                 MEMTXATTRS_UNSPECIFIED);
+> -    if (!memory_region_is_ram(mr)) {
+> -        error_report("iommu map to non memory area %"HWADDR_PRIx"",
+> -                     xlat);
+> -        return false;
+> -    } else if (memory_region_has_ram_discard_manager(mr)) {
+> -        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(mr);
+> -        MemoryRegionSection tmp = {
+> -            .mr = mr,
+> -            .offset_within_region = xlat,
+> -            .size = int128_make64(len),
+> -        };
+> -
+> -        /*
+> -         * Malicious VMs can map memory into the IOMMU, which is expected
+> -         * to remain discarded. vfio will pin all pages, populating memory.
+> -         * Disallow that. vmstate priorities make sure any RamDiscardManager
+> -         * were already restored before IOMMUs are restored.
+> -         */
+> -        if (!ram_discard_manager_is_populated(rdm, &tmp)) {
+> -            error_report("iommu map to discarded memory (e.g., unplugged via"
+> -                         " virtio-mem): %"HWADDR_PRIx"",
+> -                         iotlb->translated_addr);
+> -            return false;
+> -        }
+> +    bool ret, mr_has_discard_manager;
+>  
+> +    ret = memory_get_xlat_addr(iotlb, vaddr, ram_addr, read_only,
+> +                               &mr_has_discard_manager);
+> +    if (ret && mr_has_discard_manager) {
+>          /*
+>           * Malicious VMs might trigger discarding of IOMMU-mapped memory. The
+>           * pages will remain pinned inside vfio until unmapped, resulting in a
+> @@ -635,29 +601,7 @@ static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+>                           " intended via an IOMMU. It's possible to mitigate "
+>                           " by setting/adjusting RLIMIT_MEMLOCK.");
+>      }
+> -
+> -    /*
+> -     * Translation truncates length to the IOMMU page size,
+> -     * check that it did not truncate too much.
+> -     */
+> -    if (len & iotlb->addr_mask) {
+> -        error_report("iommu has granularity incompatible with target AS");
+> -        return false;
+> -    }
+> -
+> -    if (vaddr) {
+> -        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
+> -    }
+> -
+> -    if (ram_addr) {
+> -        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
+> -    }
+> -
+> -    if (read_only) {
+> -        *read_only = !writable || mr->readonly;
+> -    }
+> -
+> -    return true;
+> +    return ret;
+>  }
+>  
+>  static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index bfb1de8eea..d1e79c39dc 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -713,6 +713,10 @@ void ram_discard_manager_register_listener(RamDiscardManager *rdm,
+>  void ram_discard_manager_unregister_listener(RamDiscardManager *rdm,
+>                                               RamDiscardListener *rdl);
+>  
+> +bool memory_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+> +                          ram_addr_t *ram_addr, bool *read_only,
+> +                          bool *mr_has_discard_manager);
 > +
-> +Biosbits is a software written by Josh Triplett that can be downloaded
-> +from https://biosbits.org/. The github codebase can be found
-> +`here <https://github.com/biosbits/bits/tree/master>`__. It is a softwar=
-e that executes
-> +the bios components such as acpi and smbios tables directly through acpi=
-ca
-> +bios interpreter (a freely available C based library written by Intel,
-> +downloadable from https://acpica.org/ and is included with biosbits) wit=
-hout an
-> +operating system getting involved in between.
-> +There are several advantages to directly testing the bios in a real phys=
-ical
-> +machine or VM as opposed to indirectly discovering bios issues through t=
-he
-> +operating system. For one thing, the OSes tend to hide bios problems fro=
-m the
-> +end user. The other is that we have more control of what we wanted to te=
-st
-> +and how by directly using acpica interpreter on top of the bios on a run=
-ning
-> +system. More details on the inspiration for developing biosbits and its =
-real
-> +life uses can be found in [#a]_ and [#b]_.
-> +This directory contains tests written in python using avocado framework =
-that
-> +exercises the QEMU bios components using biosbits and reports test failu=
-res.
-> +For QEMU, we maintain a fork of bios bits in gitlab along with all the
-> +dependent submodules:
-> +https://gitlab.com/qemu-project/biosbits-bits
-> +This fork contains numerous fixes, a newer acpica and changes specific t=
-o
-> +running this avocado QEMU tests using bits. The author of this document
-> +is the sole maintainer of the QEMU fork of bios bits repo.
+>  typedef struct CoalescedMemoryRange CoalescedMemoryRange;
+>  typedef struct MemoryRegionIoeventfd MemoryRegionIoeventfd;
+>  
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 7ba2048836..bc0be3f62c 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -33,6 +33,7 @@
+>  #include "qemu/accel.h"
+>  #include "hw/boards.h"
+>  #include "migration/vmstate.h"
+> +#include "exec/address-spaces.h"
+>  
+>  //#define DEBUG_UNASSIGNED
+>  
+> @@ -2121,6 +2122,77 @@ void ram_discard_manager_unregister_listener(RamDiscardManager *rdm,
+>      rdmc->unregister_listener(rdm, rdl);
+>  }
+>  
+> +/* Called with rcu_read_lock held.  */
+> +bool memory_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+> +                          ram_addr_t *ram_addr, bool *read_only,
+> +                          bool *mr_has_discard_manager)
+> +{
+> +    MemoryRegion *mr;
+> +    hwaddr xlat;
+> +    hwaddr len = iotlb->addr_mask + 1;
+> +    bool writable = iotlb->perm & IOMMU_WO;
 > +
-> +Under the directory ``tests/avocado/``, ``acpi-bits.py`` is a QEMU avoca=
-do
-> +test that drives all this.
+> +    if (mr_has_discard_manager) {
+> +        *mr_has_discard_manager = false;
+> +    }
+> +    /*
+> +     * The IOMMU TLB entry we have just covers translation through
+> +     * this IOMMU to its immediate target.  We need to translate
+> +     * it the rest of the way through to memory.
+> +     */
+> +    mr = address_space_translate(&address_space_memory, iotlb->translated_addr,
+> +                                 &xlat, &len, writable, MEMTXATTRS_UNSPECIFIED);
+> +    if (!memory_region_is_ram(mr)) {
+> +        error_report("iommu map to non memory area %" HWADDR_PRIx "", xlat);
+> +        return false;
+> +    } else if (memory_region_has_ram_discard_manager(mr)) {
+> +        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(mr);
+> +        MemoryRegionSection tmp = {
+> +            .mr = mr,
+> +            .offset_within_region = xlat,
+> +            .size = int128_make64(len),
+> +        };
+> +        if (mr_has_discard_manager) {
+> +            *mr_has_discard_manager = true;
+> +        }
+> +        /*
+> +         * Malicious VMs can map memory into the IOMMU, which is expected
+> +         * to remain discarded. vfio will pin all pages, populating memory.
+> +         * Disallow that. vmstate priorities make sure any RamDiscardManager
+> +         * were already restored before IOMMUs are restored.
+> +         */
+> +        if (!ram_discard_manager_is_populated(rdm, &tmp)) {
+> +            error_report("iommu map to discarded memory (e.g., unplugged via"
+> +                         " virtio-mem): %" HWADDR_PRIx "",
+> +                         iotlb->translated_addr);
+> +            return false;
+> +        }
+> +    }
 > +
-> +A brief description of the various test files follows.
+> +    /*
+> +     * Translation truncates length to the IOMMU page size,
+> +     * check that it did not truncate too much.
+> +     */
+> +    if (len & iotlb->addr_mask) {
+> +        error_report("iommu has granularity incompatible with target AS");
+> +        return false;
+> +    }
 > +
-> +Under ``tests/avocado/`` as the root we have:
+> +    if (vaddr) {
+> +        *vaddr = memory_region_get_ram_ptr(mr) + xlat;
+> +    }
 > +
-> +::
+> +    if (ram_addr) {
+> +        *ram_addr = memory_region_get_ram_addr(mr) + xlat;
+> +    }
 > +
-> +   =E2=94=9C=E2=94=80=E2=94=80 acpi-bits
-> +   =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80 bits-config
-> +   =E2=94=82 =E2=94=82 =E2=94=94=E2=94=80=E2=94=80 bits-cfg.txt
-> +   =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80 bits-tests
-> +   =E2=94=82 =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80 smbios.py2
-> +   =E2=94=82 =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80 testacpi.py2
-> +   =E2=94=82 =E2=94=82 =E2=94=94=E2=94=80=E2=94=80 testcpuid.py2
-> +   =E2=94=82 =E2=94=94=E2=94=80=E2=94=80 README
-> +   =E2=94=9C=E2=94=80=E2=94=80 acpi-bits.py
+> +    if (read_only) {
+> +        *read_only = !writable || mr->readonly;
+> +    }
 > +
-> +* ``tests/avocado``:
+> +    return true;
+> +}
 > +
-> +   ``acpi-bits.py``:
-> +   This is the main python avocado test script that generates a
-> +   biosbits iso. It then spawns a QEMU VM with it, collects the log and =
-reports
-> +   test failures. This is the script one would be interested in if they =
-wanted
-> +   to add or change some component of the log parsing, add a new command=
- line
-> +   to alter how QEMU is spawned etc. Test writers typically would not ne=
-ed to
-> +   modify this script unless they wanted to enhance or change the log pa=
-rsing
-> +   for their tests. In order to enable debugging, you can set **V=3D1**
-> +   environment variable. This enables verbose mode for the test and also=
- dumps
-> +   the entire log from bios bits and more information in case failure ha=
-ppens.
+>  void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client)
+>  {
+>      uint8_t mask = 1 << client;
+> -- 
+> 2.34.3
+
+On Mon, Oct 31, 2022 at 11:10:20AM +0800, Cindy Lu wrote:
+> Add support for vIOMMU. add the new function to deal with iommu MR.
+> - during iommu_region_add register a specific IOMMU notifier,
+>  and store all notifiers in a list.
+> - during iommu_region_del, compare and delete the IOMMU notifier from the list
+> 
+> Verified in vp_vdpa and vdpa_sim_net driver
+> 
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> ---
+>  hw/virtio/vhost-vdpa.c         | 123 ++++++++++++++++++++++++++++++---
+>  include/hw/virtio/vhost-vdpa.h |  10 +++
+>  2 files changed, 122 insertions(+), 11 deletions(-)
+> 
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 3ff9ce3501..dcfaaccfa9 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -26,6 +26,7 @@
+>  #include "cpu.h"
+>  #include "trace.h"
+>  #include "qapi/error.h"
+> +#include "hw/virtio/virtio-access.h"
+>  
+>  /*
+>   * Return one past the end of the end of section. Be careful with uint64_t
+> @@ -44,7 +45,6 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section,
+>                                                  uint64_t iova_min,
+>                                                  uint64_t iova_max)
+>  {
+> -    Int128 llend;
+>  
+>      if ((!memory_region_is_ram(section->mr) &&
+>           !memory_region_is_iommu(section->mr)) ||
+> @@ -61,14 +61,6 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section,
+>          return true;
+>      }
+>  
+> -    llend = vhost_vdpa_section_end(section);
+> -    if (int128_gt(llend, int128_make64(iova_max))) {
+> -        error_report("RAM section out of device range (max=0x%" PRIx64
+> -                     ", end addr=0x%" PRIx64 ")",
+> -                     iova_max, int128_get64(llend));
+> -        return true;
+> -    }
+> -
+>      return false;
+>  }
+>  
+> @@ -173,6 +165,106 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
+>      v->iotlb_batch_begin_sent = false;
+>  }
+>  
+> +static void vhost_vdpa_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+> +{
+> +    struct vdpa_iommu *iommu = container_of(n, struct vdpa_iommu, n);
 > +
-> +   In order to run this test, please perform the following steps from th=
-e QEMU
-> +   build directory:
-> +   ::
+> +    hwaddr iova = iotlb->iova + iommu->iommu_offset;
+> +    struct vhost_vdpa *v = iommu->dev;
+> +    void *vaddr;
+> +    int ret;
 > +
-> +     $ make check-venv (needed only the first time to create the venv)
-> +     $ ./tests/venv/bin/avocado run -t acpi tests/avocado
+> +    if (iotlb->target_as != &address_space_memory) {
+> +        error_report("Wrong target AS \"%s\", only system memory is allowed",
+> +                     iotlb->target_as->name ? iotlb->target_as->name : "none");
+> +        return;
+> +    }
+> +    RCU_READ_LOCK_GUARD();
+> +    vhost_vdpa_iotlb_batch_begin_once(v);
 > +
-> +   The above will run all acpi avocado tests including this one.
-> +   In order to run the individual tests, perform the following:
-> +   ::
+> +    if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
+> +        bool read_only;
 > +
-> +     $ ./tests/venv/bin/avocado run tests/avocado/acpi-bits.py --tap -
+> +        if (!memory_get_xlat_addr(iotlb, &vaddr, NULL, &read_only, NULL)) {
+> +            return;
+> +        }
+> +        ret =
+> +            vhost_vdpa_dma_map(v, iova, iotlb->addr_mask + 1, vaddr, read_only);
+> +        if (ret) {
+> +            error_report("vhost_vdpa_dma_map(%p, 0x%" HWADDR_PRIx ", "
+> +                         "0x%" HWADDR_PRIx ", %p) = %d (%m)",
+> +                         v, iova, iotlb->addr_mask + 1, vaddr, ret);
+> +        }
+> +    } else {
+> +        ret = vhost_vdpa_dma_unmap(v, iova, iotlb->addr_mask + 1);
+> +        if (ret) {
+> +            error_report("vhost_vdpa_dma_unmap(%p, 0x%" HWADDR_PRIx ", "
+> +                         "0x%" HWADDR_PRIx ") = %d (%m)",
+> +                         v, iova, iotlb->addr_mask + 1, ret);
+> +        }
+> +    }
+> +}
 > +
-> +   The above will produce output in tap format. You can omit "--tap -" i=
-n the
-> +   end and it will produce output like the following:
-> +   ::
+> +static void vhost_vdpa_iommu_region_add(MemoryListener *listener,
+> +                                        MemoryRegionSection *section)
+> +{
+> +    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
 > +
-> +      $ ./tests/venv/bin/avocado run tests/avocado/acpi-bits.py
-> +      Fetching asset from tests/avocado/acpi-bits.py:AcpiBitsTest.test_a=
-cpi_smbios_bits
-> +      JOB ID     : eab225724da7b64c012c65705dc2fa14ab1defef
-> +      JOB LOG    : /home/anisinha/avocado/job-results/job-2022-10-10T17.=
-58-eab2257/job.log
-> +      (1/1) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bit=
-s: PASS (33.09 s)
-> +      RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRU=
-PT 0 | CANCEL 0
-> +      JOB TIME   : 39.22 s
+> +    struct vdpa_iommu *iommu;
+> +    Int128 end;
+> +    int iommu_idx;
+> +    IOMMUMemoryRegion *iommu_mr;
+> +    int ret;
 > +
-> +   You can inspect the log file for more information about the run or in=
- order
-> +   to diagnoze issues. If you pass V=3D1 in the environment, more diagno=
-stic logs
-> +   would be found in the test log.
+> +    iommu_mr = IOMMU_MEMORY_REGION(section->mr);
 > +
-> +* ``tests/avocado/acpi-bits/bits-config``:
+> +    iommu = g_malloc0(sizeof(*iommu));
+> +    end =  int128_add(int128_make64(section->offset_within_region),
+> +            section->size);
+> +    end = int128_sub(end, int128_one());
+> +    iommu_idx = memory_region_iommu_attrs_to_index(iommu_mr,
+> +            MEMTXATTRS_UNSPECIFIED);
 > +
-> +   This location contains biosbits configuration files that determine ho=
-w the
-> +   software runs the tests.
+> +    iommu->iommu_mr = iommu_mr;
 > +
-> +   ``bits-config.txt``:
-> +   This is the biosbits config file that determines what tests
-> +   or actions are performed by bits. The description of the config optio=
-ns are
-> +   provided in the file itself.
+> +    iommu_notifier_init(
+> +        &iommu->n, vhost_vdpa_iommu_map_notify, IOMMU_NOTIFIER_IOTLB_EVENTS,
+> +        section->offset_within_region, int128_get64(end), iommu_idx);
+> +    iommu->iommu_offset =
+> +        section->offset_within_address_space - section->offset_within_region;
+> +    iommu->dev = v;
 > +
-> +* ``tests/avocado/acpi-bits/bits-tests``:
+> +    ret = memory_region_register_iommu_notifier(section->mr, &iommu->n, NULL);
+> +    if (ret) {
+> +        g_free(iommu);
+> +        return;
+> +    }
 > +
-> +   This directory contains biosbits python based tests that are run from=
- within
-> +   the biosbits environment in the spawned VM. New additions of test cas=
-es can
-> +   be made in the appropriate test file. For example, new acpi tests can=
- go
-> +   into testacpi.py2 and one would call testsuite.add_test() to register=
- the new
-> +   test so that it gets executed as a part of the ACPI tests.
-> +   It might be occasionally necessary to disable some subtests or add a =
-new
-> +   test that belongs to a test suite not already present in this directo=
-ry. To
-> +   do this, please clone the bits source from
-> +   https://gitlab.com/qemu-project/biosbits-bits/-/tree/qemu-bits.
-> +   Note that this is the "qemu-bits" branch and not the "bits" branch of=
- the
-> +   repository. "qemu-bits" is the branch where we have made all the QEMU
-> +   specific enhancements and we must use the source from this branch onl=
-y.
-> +   Copy the test suite/script that needs modification (addition of new t=
-ests
-> +   or disabling them) from python directory into this directory. For
-> +   example, in order to change cpuid related tests, copy the following
-> +   file into this directory and rename it with .py2 extension:
-> +   https://gitlab.com/qemu-project/biosbits-bits/-/blob/qemu-bits/python=
-/testcpuid.py
-> +   Then make your additions and changes here. Therefore, the steps are:
+> +    QLIST_INSERT_HEAD(&v->iommu_list, iommu, iommu_next);
+> +    memory_region_iommu_replay(iommu->iommu_mr, &iommu->n);
 > +
-> +       (a) Copy unmodified test script to this directory from bits sourc=
-e.
-> +       (b) Add a SPDX license header.
-> +       (c) Perform modifications to the test.
+> +    return;
+> +}
 > +
-> +   Commits (a), (b) and (c) should go under separate commits so that the=
- original
-> +   test script and the changes we have made are separated and clear.
+> +static void vhost_vdpa_iommu_region_del(MemoryListener *listener,
+> +                                        MemoryRegionSection *section)
+> +{
+> +    struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
 > +
-> +   The test framework will then use your modified test script to run the=
- test.
-> +   No further changes would be needed. Please check the logs to make sur=
-e that
-> +   appropriate changes have taken effect.
+> +    struct vdpa_iommu *iommu;
 > +
-> +   The tests have an extension .py2 in order to indicate that:
+> +    QLIST_FOREACH(iommu, &v->iommu_list, iommu_next)
+> +    {
+> +        if (MEMORY_REGION(iommu->iommu_mr) == section->mr &&
+> +            iommu->n.start == section->offset_within_region) {
+> +            memory_region_unregister_iommu_notifier(section->mr, &iommu->n);
+> +            QLIST_REMOVE(iommu, iommu_next);
+> +            g_free(iommu);
+> +            break;
+> +        }
+> +    }
+> +}
 > +
-> +   (a) They are python2.7 based scripts and not python 3 scripts.
-> +   (b) They are run from within the bios bits VM and is not subjected to=
- QEMU
-> +       build/test python script maintainance and dependency resolutions.
-> +   (c) They need not be loaded by avocado framework when running tests.
+>  static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+>                                             MemoryRegionSection *section)
+>  {
+> @@ -186,6 +278,10 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+>                                              v->iova_range.last)) {
+>          return;
+>      }
+> +    if (memory_region_is_iommu(section->mr)) {
+> +        vhost_vdpa_iommu_region_add(listener, section);
+> +        return;
+> +    }
+>  
+>      if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
+>                   (section->offset_within_region & ~TARGET_PAGE_MASK))) {
+> @@ -260,6 +356,10 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+>                                              v->iova_range.last)) {
+>          return;
+>      }
+> +    if (memory_region_is_iommu(section->mr)) {
+> +        vhost_vdpa_iommu_region_del(listener, section);
+> +        return;
+> +    }
+>  
+>      if (unlikely((section->offset_within_address_space & ~TARGET_PAGE_MASK) !=
+>                   (section->offset_within_region & ~TARGET_PAGE_MASK))) {
+> @@ -312,6 +412,7 @@ static const MemoryListener vhost_vdpa_memory_listener = {
+>      .region_del = vhost_vdpa_listener_region_del,
+>  };
+>  
 > +
+>  static int vhost_vdpa_call(struct vhost_dev *dev, unsigned long int request,
+>                               void *arg)
+>  {
+> @@ -587,7 +688,6 @@ static int vhost_vdpa_cleanup(struct vhost_dev *dev)
+>      v = dev->opaque;
+>      trace_vhost_vdpa_cleanup(dev, v);
+>      vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+> -    memory_listener_unregister(&v->listener);
+>      vhost_vdpa_svq_cleanup(dev);
+>  
+>      dev->opaque = NULL;
+> @@ -1127,7 +1227,8 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+>      }
+>  
+>      if (started) {
+> -        memory_listener_register(&v->listener, &address_space_memory);
+> +        memory_listener_register(&v->listener, dev->vdev->dma_as);
 > +
-> +Author: Ani Sinha <ani@anisinha.ca>
+>          return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+>      } else {
+>          vhost_vdpa_reset_device(dev);
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+> index d10a89303e..64a46e37cb 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -41,8 +41,18 @@ typedef struct vhost_vdpa {
+>      void *shadow_vq_ops_opaque;
+>      struct vhost_dev *dev;
+>      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> +    QLIST_HEAD(, vdpa_iommu) iommu_list;
+> +    IOMMUNotifier n;
+>  } VhostVDPA;
+>  
+> +struct vdpa_iommu {
+> +    struct vhost_vdpa *dev;
+> +    IOMMUMemoryRegion *iommu_mr;
+> +    hwaddr iommu_offset;
+> +    IOMMUNotifier n;
+> +    QLIST_ENTRY(vdpa_iommu) iommu_next;
+> +};
 > +
-> +References:
-> +-----------
-> +.. [#a] https://blog.linuxplumbersconf.org/2011/ocw/system/presentations=
-/867/original/bits.pdf
-> +.. [#b] https://www.youtube.com/watch?v=3D36QIepyUuhg
-> +
-> diff --git a/docs/devel/index-build.rst b/docs/devel/index-build.rst
-> index 1002a533a6..57e8d39d98 100644
-> --- a/docs/devel/index-build.rst
-> +++ b/docs/devel/index-build.rst
-> @@ -11,6 +11,7 @@ the basics if you are adding new files and targets to t=
-he build.
->     build-system
->     kconfig
->     testing
-> +   acpi-bits
->     qtest
->     ci
->     qapi-code-gen
-> --
-> 2.34.1
->
+>  int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
+>                         void *vaddr, bool readonly);
+>  int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr size);
+> -- 
+> 2.34.3
+
 
