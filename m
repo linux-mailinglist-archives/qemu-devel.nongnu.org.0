@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9152F613674
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:34:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7964F613675
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:35:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opTzx-0003kb-HM; Mon, 31 Oct 2022 08:34:39 -0400
+	id 1opU08-0003t5-Mn; Mon, 31 Oct 2022 08:34:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opTz0-000313-Jp
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:33:46 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ id 1opTzA-00033s-6B
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:33:50 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opTyx-00049O-Br
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:33:37 -0400
-Received: by mail-pl1-x632.google.com with SMTP id d24so10613799pls.4
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:33:35 -0700 (PDT)
+ id 1opTz2-0004JJ-R3
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:33:45 -0400
+Received: by mail-pg1-x533.google.com with SMTP id q1so10548228pgl.11
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Nr0YW9yWzkpPk77jiuUxzZwbjjkwdTQ1TcUuJ89L3jM=;
- b=5sW7IDud1o1MLCdzFhhAEoviI4jujWiGEtqNBKU1SY2A0ZCuyx8kOfZDmVNZYsPHA6
- ip4OBQnYUhYtNPV1A1EyE5aRgi9HeXUeGfa+7f4M1ZR7AX85tu8DcD9qNqR+pEJvqkaU
- 6LJhdurILctxIfkmztQB52ysjEpj0YU0KB/78sPimt0Cewyw/Pey0AI53jO73xzdeJDK
- noHT6aqSBM2kwHysEIQlIp3A9F5pijjJOY8YepKBnInF7YyOEhogMIEOsdVPPtGyZqdl
- NUK5PkcQ7aI3FYD+1X2awM3BOj/lb5q8V27I6N9RwXup/WuTt+aYGYpwDJ4KAoK2ntUr
- Cnrg==
+ bh=RVbq2yaYdJoiH8651nfM6y1MMdPJwfTDDNgpcpWTQtU=;
+ b=TqvCcYQdwxQnOH+f5Jnf35dTOjiAWR9ZHIWaZ2K8yO9K5FLM870HN1y7NZuo20+6TU
+ VJpLZoIbES71DtaOsEVKUYLCml8kYODj9zNFN3OjPV8uXercAcFppZcw6z33xcIJxTyU
+ 7De0A/fA09Oz+kXmVyzju2tZMIIUtvu62CBBi51i1uHgJmEa0bugvEe409dt47yqCPwx
+ OrKJKwp6fNPSEMSDK30AVEVxDBr2CwHRJxAswAfrjioUCVjdMqV3p4k4P1s9p+kcPZ/Z
+ us1r82ckfgAmV2uJxX/IyJni1cp4SCqjyzZ3/VHEEARXpEXsibLo6m56TGkhbnKXISIz
+ lyWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Nr0YW9yWzkpPk77jiuUxzZwbjjkwdTQ1TcUuJ89L3jM=;
- b=eqJuduySgWxML5GxfitC4/hkGyexlKdo8pRPhTTYgdPn2vZO9whEPVco7yPv6hS0qc
- z2ZHcLrSCmm+53D9Yoaq7GQ1Cqx52PEvh+IL6yUV+vNOFmrtJgycjwclvCNtXrVEmY1W
- meUBokD6JRog3uW0/kU0m8TJptLGuqh+bMp4/DeAORleq8ZxbZHXQ9pYJWp8lyHMJR/5
- qkKxjPaut7gqZiOXOTxR+0Fl7iSHOZ0s/0POUogekgJew1f4brA6DjOEomlKt5m3wsUC
- ksQcbbhZsgt0VNY+yVWPcuh8tvOB9rc6Ch/DJ0s9CU894YPyRv+CVtr2ljMhxKPSPkRG
- 7lCQ==
-X-Gm-Message-State: ACrzQf2I/J3N3ACsuagAc+OV+6q5aF4Iu4aKX5wKP4H1O664ab/fGbV+
- 6hZAcSORTl0kBV9lCJ06ukugjHntbWwDvbP6
-X-Google-Smtp-Source: AMsMyM42Vkgpe0miKhu7+oszB6wdJr+B9dITmRbEtAkS3LntApdGcWgPUFa/uQu8PxSpF3FWoyYXAg==
-X-Received: by 2002:a17:902:b10d:b0:187:29fe:bda0 with SMTP id
- q13-20020a170902b10d00b0018729febda0mr2209432plr.16.1667219613728; 
- Mon, 31 Oct 2022 05:33:33 -0700 (PDT)
+ bh=RVbq2yaYdJoiH8651nfM6y1MMdPJwfTDDNgpcpWTQtU=;
+ b=ARXeWILgRm2VzywWCGZLFiZpOFMLWtvLz/wJd65RdCawA4I/ldvOi18sL4wG2buVm3
+ Y5zkygEAwx/s3NYzeYiLwwVYIzzR1rAp9SGzWffBK1QPUqmZDoBuznjp5D8tsoJnkwgM
+ /YsP2i+QIik2l9hoGqw4TP8ODCUExZs5LZdswNA1iOWDOr4QPvCHFlhMm8PYBCl52Z/Q
+ XUFlaba44hrSLHj0K+MS2wau4Gve5csGOC33O3m1x9MvK6gs29IRyNWPyomqIfilJ1o4
+ SYGmDwESr2V+IzWibuXLL+y82qnPCw7HHaU3Lmcx9hQkaUsymaqMuthGqMNoaawcq6BT
+ yXnA==
+X-Gm-Message-State: ACrzQf1FM1cW4Yy1rqrM4jcZLfQaea75FNGdoiHKd71+gqjDJFwKtJcc
+ cgfaR+secGKT6UCkGxjGCRic3GBXH0hLfOkC
+X-Google-Smtp-Source: AMsMyM6rl6PxU6g1thJbovWYQzihw6qwr5+kDlaP/CSrje/rSUl9P6QFkvywMlhHkL9lnzG5beYOHA==
+X-Received: by 2002:a62:582:0:b0:56c:8c13:247e with SMTP id
+ 124-20020a620582000000b0056c8c13247emr14028286pff.43.1667219618812; 
+ Mon, 31 Oct 2022 05:33:38 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- m10-20020a6545ca000000b0042b5095b7b4sm4093810pgr.5.2022.10.31.05.33.28
+ m10-20020a6545ca000000b0042b5095b7b4sm4093810pgr.5.2022.10.31.05.33.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:33:33 -0700 (PDT)
+ Mon, 31 Oct 2022 05:33:38 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
@@ -73,16 +73,16 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  Yan Vugenfirer <yan@daynix.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v6 01/17] hw/vfio/pci: Ensure MSI and MSI-X do not overlap
-Date: Mon, 31 Oct 2022 21:33:03 +0900
-Message-Id: <20221031123319.21532-2-akihiko.odaki@daynix.com>
+Subject: [PATCH v6 02/17] pci: Allow to omit errp for pci_add_capability
+Date: Mon, 31 Oct 2022 21:33:04 +0900
+Message-Id: <20221031123319.21532-3-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221031123319.21532-1-akihiko.odaki@daynix.com>
 References: <20221031123319.21532-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::632;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x632.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::533;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -104,155 +104,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-pci_add_capability() checks whether capabilities overlap, and notifies
-its caller so that it can properly handle the case. However, in the
-most cases, the capabilities actually never overlap, and the interface
-incurred extra error handling code, which is often incorrect or
-suboptimal. For such cases, pci_add_capability() can simply abort the
-execution if the capabilities actually overlap since it should be a
-programming error.
+pci_add_capability appears most PCI devices. Its error handling required
+lots of code, and led to inconsistent behaviors such as:
+- passing error_abort
+- passing error_fatal
+- asserting the returned value
+- propagating the error to the caller
+- skipping the rest of the function
+- just ignoring
 
-This change handles the other cases: hw/vfio/pci depends on the check to
-decide MSI and MSI-X capabilities overlap with another. As they are
-quite an exceptional and hw/vfio/pci knows much about PCI capabilities,
-adding code specific to the cases to hw/vfio/pci still results in less
-code than having error handling code everywhere in total.
+The code generating errors in pci_add_capability had a comment which
+says:
+> Verify that capabilities don't overlap.  Note: device assignment
+> depends on this check to verify that the device is not broken.
+> Should never trigger for emulated devices, but it's helpful for
+> debugging these.
+
+Indeed vfio has some code that passes capability offsets and sizes from
+a physical device, but it explicitly pays attention so that the
+capabilities never overlap. Therefore, we can always assert that
+capabilities never overlap when pci_add_capability is called, resolving
+these inconsistencies.
+
+Such an implementation of pci_add_capability will not have errp
+parameter. However, there are so many callers of pci_add_capability
+that it does not make sense to amend all of them at once to match
+with the new signature. Instead, this change will allow callers of
+pci_add_capability to omit errp as the first step.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/vfio/pci.c | 61 ++++++++++++++++++++++++++++++++++++++++++---------
- hw/vfio/pci.h |  3 +++
- 2 files changed, 54 insertions(+), 10 deletions(-)
+ hw/pci/pci.c         |  8 ++++----
+ include/hw/pci/pci.h | 13 ++++++++++---
+ 2 files changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 939dcc3d4a..c7e3ef95a7 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -1278,23 +1278,42 @@ static void vfio_disable_interrupts(VFIOPCIDevice *vdev)
-     }
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 2f450f6a72..8ee2171011 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -2513,14 +2513,14 @@ static void pci_del_option_rom(PCIDevice *pdev)
  }
  
--static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
-+static void vfio_msi_early_setup(VFIOPCIDevice *vdev, Error **errp)
+ /*
+- * On success, pci_add_capability() returns a positive value
++ * On success, pci_add_capability_legacy() returns a positive value
+  * that the offset of the pci capability.
+  * On failure, it sets an error and returns a negative error
+  * code.
+  */
+-int pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
+-                       uint8_t offset, uint8_t size,
+-                       Error **errp)
++int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
++                              uint8_t offset, uint8_t size,
++                              Error **errp)
  {
-     uint16_t ctrl;
--    bool msi_64bit, msi_maskbit;
--    int ret, entries;
--    Error *err = NULL;
-+    uint8_t pos;
+     uint8_t *config;
+     int i, overlapping_cap;
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index b54b6ef88f..51fd106f16 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -2,6 +2,7 @@
+ #define QEMU_PCI_H
+ 
+ #include "exec/memory.h"
++#include "qapi/error.h"
+ #include "sysemu/dma.h"
+ 
+ /* PCI includes legacy ISA access.  */
+@@ -390,9 +391,15 @@ void pci_register_vga(PCIDevice *pci_dev, MemoryRegion *mem,
+ void pci_unregister_vga(PCIDevice *pci_dev);
+ pcibus_t pci_get_bar_addr(PCIDevice *pci_dev, int region_num);
+ 
+-int pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
+-                       uint8_t offset, uint8_t size,
+-                       Error **errp);
++int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
++                              uint8_t offset, uint8_t size,
++                              Error **errp);
 +
-+    pos = pci_find_capability(&vdev->pdev, PCI_CAP_ID_MSI);
-+    if (!pos) {
-+        return;
-+    }
- 
-     if (pread(vdev->vbasedev.fd, &ctrl, sizeof(ctrl),
-               vdev->config_offset + pos + PCI_CAP_FLAGS) != sizeof(ctrl)) {
-         error_setg_errno(errp, errno, "failed reading MSI PCI_CAP_FLAGS");
--        return -errno;
-+        return;
-     }
--    ctrl = le16_to_cpu(ctrl);
-+    vdev->msi_pos = pos;
-+    vdev->msi_ctrl = le16_to_cpu(ctrl);
- 
--    msi_64bit = !!(ctrl & PCI_MSI_FLAGS_64BIT);
--    msi_maskbit = !!(ctrl & PCI_MSI_FLAGS_MASKBIT);
--    entries = 1 << ((ctrl & PCI_MSI_FLAGS_QMASK) >> 1);
-+    vdev->msi_cap_size = 0xa;
-+    if ((vdev->msi_ctrl & PCI_MSI_FLAGS_MASKBIT)) {
-+        vdev->msi_cap_size += 0xa;
-+    }
-+    if ((vdev->msi_ctrl & PCI_MSI_FLAGS_64BIT)) {
-+        vdev->msi_cap_size += 0x4;
-+    }
-+}
++#define PCI_ADD_CAPABILITY_VA(pdev, cap_id, offset, size, errp, ...) \
++    pci_add_capability_legacy(pdev, cap_id, offset, size, errp)
 +
-+static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
-+{
-+    bool msi_64bit, msi_maskbit;
-+    int ret, entries;
-+    Error *err = NULL;
-+
-+    msi_64bit = !!(vdev->msi_ctrl & PCI_MSI_FLAGS_64BIT);
-+    msi_maskbit = !!(vdev->msi_ctrl & PCI_MSI_FLAGS_MASKBIT);
-+    entries = 1 << ((vdev->msi_ctrl & PCI_MSI_FLAGS_QMASK) >> 1);
++#define pci_add_capability(...) \
++    PCI_ADD_CAPABILITY_VA(__VA_ARGS__, &error_abort)
  
-     trace_vfio_msi_setup(vdev->vbasedev.name, pos);
+ void pci_del_capability(PCIDevice *pci_dev, uint8_t cap_id, uint8_t cap_size);
  
-@@ -1306,7 +1325,6 @@ static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
-         error_propagate_prepend(errp, err, "msi_init failed: ");
-         return ret;
-     }
--    vdev->msi_cap_size = 0xa + (msi_maskbit ? 0xa : 0) + (msi_64bit ? 0x4 : 0);
- 
-     return 0;
- }
-@@ -1524,6 +1542,7 @@ static void vfio_msix_early_setup(VFIOPCIDevice *vdev, Error **errp)
-     pba = le32_to_cpu(pba);
- 
-     msix = g_malloc0(sizeof(*msix));
-+    msix->pos = pos;
-     msix->table_bar = table & PCI_MSIX_FLAGS_BIRMASK;
-     msix->table_offset = table & ~PCI_MSIX_FLAGS_BIRMASK;
-     msix->pba_bar = pba & PCI_MSIX_FLAGS_BIRMASK;
-@@ -2025,6 +2044,22 @@ static int vfio_add_std_cap(VFIOPCIDevice *vdev, uint8_t pos, Error **errp)
-         }
-     }
- 
-+    if (cap_id != PCI_CAP_ID_MSI &&
-+        range_covers_byte(vdev->msi_pos, vdev->msi_cap_size, pos)) {
-+        error_setg(errp,
-+            "A capability overlaps with MSI (%" PRIu8 " in [%" PRIu8 ", %" PRIu8 "))",
-+            pos, vdev->msi_pos, vdev->msi_pos + vdev->msi_cap_size);
-+        return -EINVAL;
-+    }
-+
-+    if (cap_id != PCI_CAP_ID_MSIX && vdev->msix &&
-+        range_covers_byte(vdev->msix->pos, MSIX_CAP_LENGTH, pos)) {
-+        error_setg(errp,
-+            "A capability overlaps with MSI-X (%" PRIu8 " in [%" PRIu8 ", %" PRIu8 "))",
-+            pos, vdev->msix->pos, vdev->msix->pos + MSIX_CAP_LENGTH);
-+        return -EINVAL;
-+    }
-+
-     /* Scale down size, esp in case virt caps were added above */
-     size = MIN(size, vfio_std_cap_max_size(pdev, pos));
- 
-@@ -3037,6 +3072,12 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
- 
-     vfio_bars_prepare(vdev);
- 
-+    vfio_msi_early_setup(vdev, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        goto error;
-+    }
-+
-     vfio_msix_early_setup(vdev, &err);
-     if (err) {
-         error_propagate(errp, err);
-diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index 7c236a52f4..9ae0278058 100644
---- a/hw/vfio/pci.h
-+++ b/hw/vfio/pci.h
-@@ -107,6 +107,7 @@ enum {
- 
- /* Cache of MSI-X setup */
- typedef struct VFIOMSIXInfo {
-+    uint8_t pos;
-     uint8_t table_bar;
-     uint8_t pba_bar;
-     uint16_t entries;
-@@ -128,6 +129,8 @@ struct VFIOPCIDevice {
-     unsigned int rom_size;
-     off_t rom_offset; /* Offset of ROM region within device fd */
-     void *rom;
-+    uint8_t msi_pos;
-+    uint16_t msi_ctrl;
-     int msi_cap_size;
-     VFIOMSIVector *msi_vectors;
-     VFIOMSIXInfo *msix;
 -- 
 2.38.1
 
