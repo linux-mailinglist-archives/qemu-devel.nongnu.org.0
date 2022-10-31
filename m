@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F285C613E7A
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 20:43:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AA1613EF0
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 21:24:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opafl-0004bw-3f; Mon, 31 Oct 2022 15:42:13 -0400
+	id 1opbJV-00038V-HS; Mon, 31 Oct 2022 16:23:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opaff-0004a0-D5
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 15:42:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1opbJP-00035A-5m
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 16:23:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opafd-0004uA-Kv
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 15:42:07 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1opbJN-0003gs-KD
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 16:23:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667245323;
+ s=mimecast20190719; t=1667247788;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=LH7mb/5KQY4ajmmCuKwT4KDj2xXr2i31GffBtaWMVi8=;
- b=buvfMQDuSfWI/vdNdgOjJR7SSSP+g6FnKLs3gnOe+0KqrfYanNp4Tb6G+xxDl2Oqpt554J
- cvTXAgMXUgMF6idraWjqp9VwypoJDw4fskobqMip9vVDAWy/2cqlvpG03YEOwR+gun2l6E
- xxZIk2a1a9qKreoI6wEbEkQFvDZtLno=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-52-lRwIwnSBOWWkWQiDChh_PA-1; Mon, 31 Oct 2022 15:42:01 -0400
-X-MC-Unique: lRwIwnSBOWWkWQiDChh_PA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- u20-20020adfc654000000b0022cc05e9119so3333261wrg.16
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 12:42:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LH7mb/5KQY4ajmmCuKwT4KDj2xXr2i31GffBtaWMVi8=;
- b=A4tulszO53cN7VRCQRYZmad0k349Ky99Tv0qj4gbDqXVBRnEg5NdQJ8lOZ4Co5YP8J
- xRt7/LIt0bWEjLeseXO/Tkow/DrTC3tJ2GqiDRawbHSSsWo4aYVFtM+tnQpfZ3n3X3+u
- Vn3iFtblYeKoTxvM48E4pJrALBoUuSTm8fCiyZjqndbk74kHmsSIXbqsGe7Dx55a32pF
- mAqHV8BpjN9yZ6/v1d+Cwp9ECgOXie4UueOw9OIeDfQhI7EAg2GPoqe8hIkZlWdhGEGo
- PVpzg15a7Uyr9z48AAjW68PZVrvf1lP1sf+oOUrcuLz8+TT9YWj8CkuBuE/JGn/t4d8y
- sRUw==
-X-Gm-Message-State: ACrzQf1QS35cg5o3QfeliSKzqPMfTk7WHGVuy9g2kY4EMwvzDly7kiXP
- /DOoVsj5/Tqf4uhli1HAjkuNjcUT5XZoqGu7G8dNfdGx7WSK9CZX09TJCqCw+CKFzYmfiRCTk0z
- Fo//50F/+qrfuz8M=
-X-Received: by 2002:a05:600c:3acd:b0:3ce:3f62:a8d1 with SMTP id
- d13-20020a05600c3acd00b003ce3f62a8d1mr9186362wms.78.1667245320245; 
- Mon, 31 Oct 2022 12:42:00 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7mPEJ41doRxBwOynU4BMgQ3CoIcbCWvdIwh2n9LbIofLBlHVjtdGwoXMa7o5jGB5N4qYMeKQ==
-X-Received: by 2002:a05:600c:3acd:b0:3ce:3f62:a8d1 with SMTP id
- d13-20020a05600c3acd00b003ce3f62a8d1mr9186345wms.78.1667245319937; 
- Mon, 31 Oct 2022 12:41:59 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- v6-20020a05600c4d8600b003b50428cf66sm8088351wmp.33.2022.10.31.12.41.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 12:41:59 -0700 (PDT)
-Date: Mon, 31 Oct 2022 15:41:56 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Lei He <helei.sig11@bytedance.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/86] pci,pc,virtio: features, tests, fixes, cleanups
-Message-ID: <20221031154133-mutt-send-email-mst@kernel.org>
-References: <20221031124928.128475-1-mst@redhat.com>
- <CAJSP0QXafXM0CJDe5G=--3Xa4O5ifqz=yvO=ubWLaS-KNBVkwQ@mail.gmail.com>
- <CAJSP0QXndDKsc2wy4uTPtT7uN5yV4ZMn+Nn7uV190JmhnfSROA@mail.gmail.com>
- <20221031152525-mutt-send-email-mst@kernel.org>
- <20221031153513-mutt-send-email-mst@kernel.org>
+ bh=FNUYbMGy0s4SYZcwPIB3kAHZEMduVlezgT5E/dDJ9FY=;
+ b=B1QAq4c+YV1Qk6lVVDWw0DVOIaboribOysZ0PTLH1EgBKLA2phUKQSrchC2iK0TNYX4Z5U
+ Bhyxk2evVpW5AQ/FQFhvErA/FGG2hi5sMzUUMQUdZrE/NgRZPAemakIQyw2zn+TA+AMIvk
+ vRjsir6gI1PP+D0+iHPlORQGWo2iLyk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-637-xKNjorc2NcCs_Bxy-p09Bw-1; Mon, 31 Oct 2022 16:23:04 -0400
+X-MC-Unique: xKNjorc2NcCs_Bxy-p09Bw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 232D08582B9;
+ Mon, 31 Oct 2022 20:23:04 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A4BD4B3FE0;
+ Mon, 31 Oct 2022 20:23:03 +0000 (UTC)
+Date: Mon, 31 Oct 2022 15:42:30 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, Julia Suvorova <jusual@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 2/3] io_uring: use LuringState from the running thread
+Message-ID: <Y2AlJkcpjFXAru84@fedora>
+References: <20221031125936.3458740-1-eesposit@redhat.com>
+ <20221031125936.3458740-3-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DPfJtPEKSOqWBhX1"
 Content-Disposition: inline
-In-Reply-To: <20221031153513-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20221031125936.3458740-3-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -99,95 +83,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 31, 2022 at 03:35:28PM -0400, Michael S. Tsirkin wrote:
-> On Mon, Oct 31, 2022 at 03:31:54PM -0400, Michael S. Tsirkin wrote:
-> > On Mon, Oct 31, 2022 at 03:19:25PM -0400, Stefan Hajnoczi wrote:
-> > > On Mon, 31 Oct 2022 at 15:14, Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> > > >
-> > > > On Mon, 31 Oct 2022 at 08:52, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > > Lei He (4):
-> > > > >       virtio-crypto: Support asynchronous mode
-> > > >
-> > > > The following clang warning breaks the build. Please resend a fixed
-> > > > pull request, thanks!
-> > > 
-> > > On second thought, I have fixed up the merge commit manually since
-> > > Michael is offline tomorrow for the soft freeze deadline. If CI passes
-> > > then I'll apply this pull request (with my fixup) and you won't need
-> > > to resend.
-> > 
-> > Hmm what's the fixup?
-> > I came up with:
-> > 
-> > diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-> > index 39c8f5914e..855b5d60a2 100644
-> > --- a/hw/virtio/virtio-crypto.c
-> > +++ b/hw/virtio/virtio-crypto.c
-> > @@ -495,6 +495,7 @@ static void virtio_crypto_free_request(VirtIOCryptoReq *req)
-> >          }
-> >      }
-> >  
-> > +    g_free(req->in_iov);
-> >      g_free(req);
-> >  }
-> >  
-> > @@ -566,7 +567,6 @@ static void virtio_crypto_req_complete(void *opaque, int ret)
-> >      VirtIOCrypto *vcrypto = req->vcrypto;
-> >      VirtIODevice *vdev = VIRTIO_DEVICE(vcrypto);
-> >      uint8_t status = -ret;
-> > -    g_autofree struct iovec *in_iov_copy = req->in_iov;
-> >  
-> >      if (req->flags == CRYPTODEV_BACKEND_ALG_SYM) {
-> >          virtio_crypto_sym_input_data_helper(vdev, req, status,
-> > 
-> 
-> 
-> Not that is not right either.
 
+--DPfJtPEKSOqWBhX1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Or maybe yes ... still wanted to see what you came up with.
-Pretty tired here.
+On Mon, Oct 31, 2022 at 08:59:35AM -0400, Emanuele Giuseppe Esposito wrote:
+> Remove usage of aio_context_acquire by always submitting asynchronous
+> AIO to the current thread's LuringState.
+>=20
+> In order to prevent mistakes from the caller side, avoid passing LuringSt=
+ate
+> in luring_io_{plug/unplug} and luring_co_submit.
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  block/file-posix.c      | 12 ++++--------
+>  block/io_uring.c        | 22 ++++++++++++++--------
+>  include/block/aio.h     |  4 ----
+>  include/block/raw-aio.h |  8 ++++----
+>  4 files changed, 22 insertions(+), 24 deletions(-)
 
-> > 
-> > > >
-> > > > clang -m64 -mcx16 -Ilibqemu-x86_64-softmmu.fa.p -I. -I.. -Itarget/i386
-> > > > -I../target/i386 -Iqapi -Itrace -Iui -Iui/shader
-> > > > -I/usr/include/pixman-1 -I/usr/include/capstone
-> > > > -I/usr/include/spice-server -I/usr/include/spice-1
-> > > > -I/usr/include/cacard -I/usr/include/glib-2.0
-> > > > -I/usr/lib64/glib-2.0/include -I/usr/include/sysprof-4
-> > > > -I/usr/include/nss3 -I/usr/include/nspr4 -I/usr/include/PCSC -flto
-> > > > -fcolor-diagnostics -Wall -Winvalid-pch -Werror -std=gnu11 -O2 -g
-> > > > -isystem /builds/qemu-project/qemu/linux-headers -isystem
-> > > > linux-headers -iquote . -iquote /builds/qemu-project/qemu -iquote
-> > > > /builds/qemu-project/qemu/include -iquote
-> > > > /builds/qemu-project/qemu/tcg/i386 -pthread -D_GNU_SOURCE
-> > > > -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes
-> > > > -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes
-> > > > -fno-strict-aliasing -fno-common -fwrapv -Wold-style-definition
-> > > > -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self
-> > > > -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels
-> > > > -Wexpansion-to-defined -Wno-initializer-overrides
-> > > > -Wno-missing-include-dirs -Wno-shift-negative-value
-> > > > -Wno-string-plus-int -Wno-typedef-redefinition
-> > > > -Wno-tautological-type-limit-compare -Wno-psabi
-> > > > -Wno-gnu-variable-sized-type-not-at-end -fstack-protector-strong
-> > > > -fsanitize=safe-stack -fsanitize=cfi-icall
-> > > > -fsanitize-cfi-icall-generalize-pointers -fno-sanitize-trap=cfi-icall
-> > > > -fPIE -isystem../linux-headers -isystemlinux-headers -DNEED_CPU_H
-> > > > '-DCONFIG_TARGET="x86_64-softmmu-config-target.h"'
-> > > > '-DCONFIG_DEVICES="x86_64-softmmu-config-devices.h"' -MD -MQ
-> > > > libqemu-x86_64-softmmu.fa.p/hw_virtio_virtio-crypto.c.o -MF
-> > > > libqemu-x86_64-softmmu.fa.p/hw_virtio_virtio-crypto.c.o.d -o
-> > > > libqemu-x86_64-softmmu.fa.p/hw_virtio_virtio-crypto.c.o -c
-> > > > ../hw/virtio/virtio-crypto.c
-> > > > ../hw/virtio/virtio-crypto.c:569:30: error: unused variable
-> > > > 'in_iov_copy' [-Werror,-Wunused-variable]
-> > > > g_autofree struct iovec *in_iov_copy = req->in_iov;
-> > > > ^
-> > > >
-> > > > https://gitlab.com/qemu-project/qemu/-/jobs/3253703167
-> > > >
-> > > > Stefan
+The same comments from the previous patch also apply here.
+
+--DPfJtPEKSOqWBhX1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNgJSYACgkQnKSrs4Gr
+c8jihgf9Gn5qax/BIv9ZTDcKuuWB+mCMXrNzPW9nbwjFiLBtEBi0mihqUZFh1pXh
+NdRo2qindJh9d2tlSjCfXaoTDwEy4cD5+ejma5nbPCOjpOSJKn2hdSPEK3KCv6le
+4NnYtduGFV6zPWsDRfIQElipJ2viBuqd1nZhvbKkGJqdVEKl93fCaVJldwFPcNY7
+DTUvRQfiPq+uEyoaqql+6QtBtfV0HPehLrcmnjIUKLauVF5SPUZjuvoJIHFXcd+I
+rNglr/BoHMZG2oxBcrEHQatIU/iaopcpKMj816UwLB/LJyK/FxY5/SlzB2dN+qXI
+vIGqvEJ2J7+BsGMvBnqLew/1d6ljrA==
+=TS+t
+-----END PGP SIGNATURE-----
+
+--DPfJtPEKSOqWBhX1--
 
 
