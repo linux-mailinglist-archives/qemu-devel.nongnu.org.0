@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502926137C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:21:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9C96137CC
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:23:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUiY-0005GG-Ue; Mon, 31 Oct 2022 09:20:42 -0400
+	id 1opUif-0005wf-H5; Mon, 31 Oct 2022 09:20:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1opUhz-00034v-Oz
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:20:07 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ id 1opUhu-00030m-NN
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:20:04 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1opUhu-0005Sr-7e
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:20:06 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- b20-20020a05600c4e1400b003cc28585e2fso8010464wmq.1
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:20:01 -0700 (PDT)
+ id 1opUhn-0005Qh-Ut
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:20:01 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ f16-20020a05600c491000b003cf66a2e7c0so3346614wmp.5
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:19:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LBlBANGd2986+xA+nmjS5WqlGNgbx4DKb9YGO5x31Ds=;
- b=oXCdy/8j5p2qFpqmzgt5/Yjf18zpFdrzibs1a6mtNruLjR9bE/f2gAgnvlC/KIB+HZ
- EAUF08Av14BRxRzqQzmOQuwwHc56BT/WO6Lpwqe8T1HlPzfZ2X4sNxBzHu1Tjky5lxGf
- /KS9PKcN7xDEQpU7BZLH3h9KxRl2elSadVMSld+0oINUOZDNejIAvDr6O5y3QOabiugW
- MvZYWD2NGxv+ihvgT3ABXk/3V/YUZvR8n3lTfJW9+J1frh3ZLBwxXlREieebFJ1er3jY
- DfbJWsvCm/I4pz8wF0HRQ8hm9gyjcGy2ZTCCJh9na3gVwmatIwecFBcPXobcGpUHI8k4
- Ktaw==
+ bh=bWizrSDAAuieyHecJY/J//X+NUZUwcSMeXyXWnSwMmk=;
+ b=BiE9YgXlbuE9MiU3oRhrQl0RmKNoERJ4ZUz2E8+dxF76rIfDU/2QbuAnXabxA70qQ2
+ 0XH7uuHGH2ltJn8C4yAEq7dT0/mI/5+9p1JIB/Oiyah+NxO8cqUT/4qL68zxtoDHhW/T
+ qoAlhr78Adzkn1/6Qhk0Iy0tSCd0suIcESfBfZCj+62XHRY927j0e3oQXzii7svbCl9J
+ K9pNq5L/uNiN+SKX0cC17l/KWjnaqH4HfEyoU5c1t1Kpx8Pxcj/awM4JcZmKjZoSYXN0
+ LAKtXgOjIzf/1p2FSvlvoUBfapSyM05LOfz7/57/gHKJddGCnt52j6UgTcOsjKqWOGPk
+ r+vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LBlBANGd2986+xA+nmjS5WqlGNgbx4DKb9YGO5x31Ds=;
- b=C9gAehwbviGI90UzU1FivkRgQ/2ZFDF+4mY0dftPz69UkJGPwSN/OGQuNAVC7ctyeR
- 9EtCnQQk3gQDiWnnhU4jitu8qDXyEXcrjS7quxvZKmFSaND+EcqmfwLF9Ha+lCMHrSPU
- peq2l95G9J+YWAppX9T8+1Flvk/jKLKRxl7/PTe/HN6AgHZSMJWbUmgL2zBrSRUDRVTe
- LHO3610yKLnvr9jVMiseaAovRINfJlcZEe+0e5Ce4CIeMiTroSWHeGpyLlqgiHj1nwq8
- 3Tn9DfKykuVgIDw0pWJbGlVRliV4XgJPVPWMDY9rIanH+iHLGM/1rQr1RSEhx+GFgUkF
- nPJg==
-X-Gm-Message-State: ACrzQf1G6RCPe00x7npykEZ/3BI/S+bMhpMMeEgKcx+mt6AIIfMU8Nqk
- Kr8jvd/0qJ6WERuRaf4ft9Brxw==
-X-Google-Smtp-Source: AMsMyM7Jk2phV20tPQ0iokakkiMBb9UmevgAdEbVurI47MCA+zgCsStk0Ic2t2BVNTw7ULcE9DQ13Q==
-X-Received: by 2002:a05:600c:3b87:b0:3cf:59ea:ea26 with SMTP id
- n7-20020a05600c3b8700b003cf59eaea26mr12219508wms.159.1667222400386; 
- Mon, 31 Oct 2022 06:20:00 -0700 (PDT)
+ bh=bWizrSDAAuieyHecJY/J//X+NUZUwcSMeXyXWnSwMmk=;
+ b=Eq/OaBcnmdSgjm684wCe4Jd6+odMZJFLQawT4Fy3S8R8fUU72W9/D+wcpRsOpyFEyP
+ N7sv+Hcoz8r5Kk0ToTHNoc7TQSc3sZvkhckukFyeeGKjofhoDOI4bO485QzlTXqolpQc
+ JM3qRX8z0W+QvxgXoP/48Evtbba2WioGYYhgTLyRU7JNCLQRm8rBEzRkQ+bpMgFPTUq7
+ oH48SEnvsRNqWY5FHD5kdJJSFBYsRHkkQ/m4kY1AxLiCcbJRpe/XIyY1qAZWG0zISyOV
+ hdnzeDh1DGJrHgu8Rfc1l+SH6hmug23dOYyYK/rMNzCGP23FQME6JvK1xilji9vh4h5D
+ Qv0Q==
+X-Gm-Message-State: ACrzQf2PX3Z6LrcYcAH+kXg4oMUO4T7w5SIZjzXIqKIZWtdC5ZVxlXhm
+ tjgc+HgfYtup64kG7ZuzYN4RAw==
+X-Google-Smtp-Source: AMsMyM4mI9gNl4I3JMxWRoQirj8gncC2yxjVpmuo1guu/pYz2B1N8r0rtIX++y5yS6E+AjKLMvbmQQ==
+X-Received: by 2002:a05:600c:818:b0:3cf:7385:7609 with SMTP id
+ k24-20020a05600c081800b003cf73857609mr2275477wmp.186.1667222394495; 
+ Mon, 31 Oct 2022 06:19:54 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- f31-20020a05600c491f00b003a6125562e1sm7078467wmp.46.2022.10.31.06.19.54
+ r22-20020a05600c425600b003b4ac05a8a4sm7614271wmm.27.2022.10.31.06.19.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 06:19:59 -0700 (PDT)
+ Mon, 31 Oct 2022 06:19:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 892361FFC7;
+ by zen.linaroharston (Postfix) with ESMTP id 9F5F41FFC8;
  Mon, 31 Oct 2022 13:10:12 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: stefanha@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 17/31] MAINTAINERS: add features_to_c.sh to gdbstub files
-Date: Mon, 31 Oct 2022 13:09:56 +0000
-Message-Id: <20221031131010.682984-18-alex.bennee@linaro.org>
+Subject: [PULL 18/31] MAINTAINERS: fix-up for check-tcg Makefile changes
+Date: Mon, 31 Oct 2022 13:09:57 +0000
+Message-Id: <20221031131010.682984-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221031131010.682984-1-alex.bennee@linaro.org>
 References: <20221031131010.682984-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,23 +96,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Fixes: fc76c56d3f ("tests/tcg: cleanup Makefile inclusions")
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221027183637.2772968-17-alex.bennee@linaro.org>
+Message-Id: <20221027183637.2772968-18-alex.bennee@linaro.org>
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index ada84db23b..85ddef2d75 100644
+index 85ddef2d75..a582b1cd0b 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2688,6 +2688,7 @@ F: gdbstub/*
- F: include/exec/gdbstub.h
- F: gdb-xml/
- F: tests/tcg/multiarch/gdbstub/
-+F: scripts/feature_to_c.sh
+@@ -3728,8 +3728,7 @@ Guest Test Compilation Support
+ M: Alex Bennée <alex.bennee@linaro.org>
+ R: Philippe Mathieu-Daudé <philmd@linaro.org>
+ S: Maintained
+-F: tests/tcg/Makefile
+-F: tests/tcg/Makefile.include
++F: tests/tcg/Makefile.target
  
- Memory API
- M: Paolo Bonzini <pbonzini@redhat.com>
+ Integration Testing with the Avocado framework
+ W: https://trello.com/b/6Qi1pxVn/avocado-qemu
 -- 
 2.34.1
 
