@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6342B613856
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:47:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C1B613854
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:47:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opV7o-00075l-RW; Mon, 31 Oct 2022 09:46:49 -0400
+	id 1opV73-0006rI-Mm; Mon, 31 Oct 2022 09:46:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1opV6X-0006gI-5w
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:45:44 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+ id 1opV6q-0006kh-Hp
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:45:53 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1opV6V-0006ho-Hr
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:45:28 -0400
-Received: by mail-pf1-x434.google.com with SMTP id m6so10761751pfb.0
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:45:26 -0700 (PDT)
+ id 1opV6o-0006lx-Tj
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:45:48 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ l22-20020a17090a3f1600b00212fbbcfb78so15963649pjc.3
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:45:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=m0frJ9pR2s7qSGbh2hXV3o6veMMw2yuc/M1weprAhOw=;
- b=HtkEjv4+ZtDglb4lLge9DZL8UktGjMxD/rIW05oPPB0LaiStIuKcIVg3RWpUALi9Ab
- aPhaCNinxlIfKxS+ElB9AtQ5L3IaegaI19Szb4p4HtORGCHNYtjYcyMwTdKNn5X2uxCy
- XFWsBfosBe/jRAJ7e/AqQOhD158y7pvAXKCw7A5kdccN6dvOueGUVjFPxe1VBwZsjEZT
- HqHHiw1q+eo7FzFPLwoMrGAUIERn1+B3iEdLqKPvgisVTYN3k+di4KojwoV0PPJZiLR/
- PBcKdBJvfIt5euofUH9s9ypiIhHvO0JFdtFF6e6KzCNTmpiiDe5/0EzOcNrQguq7SLev
- 2lmQ==
+ bh=5HKlZCPJ+4quX3pOUMtlg1UfdbqJD7UqP/2NGZN//rI=;
+ b=VudfAZ0/EnSyiRmV1SMtTK0Be/osLsv2MK9EVzlo2V7JLDnUJ+qlMMDT+Gb0J5HJ23
+ 3tiy4tiJ2lWH5pVmG2w3knGP42nuTjbfvNXhgZQ/umwcvOIjQiGUdmMBYw01Pv8b6doS
+ LRxqiBtU3U9IhmvHvLo9PHZDTB7xTJFgYp828k190+KnhqxHAoO4cNJ6fjqYNp8//eu/
+ Hj9GHdiEjW/GgSYuJN4wRP4BpZ7pcfPTHR4gljikNCXWQNIdksNxezSnOI6tFrNEPp39
+ wxbprFSJDiAw9aO1/SwOsPR+URGHYqk8ojOdO85oUxM6sqmup9aSIms5UanV+ZyxCofu
+ CRmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=m0frJ9pR2s7qSGbh2hXV3o6veMMw2yuc/M1weprAhOw=;
- b=YhCwx9ndPF7tI8r3B+1T6AezW9veal2tjT3LEuu/YY4xM4azM1IY1NmqJAQWIIB74n
- tujAAPgc8CNwfbONb1C9IfdmjMpHmQO0H/r2F4iGR0J5Cb7/vLOwBEVr3ip2IXHv/4Er
- UJLFkmfIIwcD2cuoOui4l1C/5zS/L4Yu0FAl4yaTbKq9DaV3Xhbgs3bHP75IBzogDjq+
- rdx54qJVSf0hFmvWAZXZRCaoD3lA+CTRsXu5W2MQ6P7eMbAOuEzEITprQtAyT8CgKM18
- oXNrnhJ5ok+ddiat0WRZ0ZK3MP5W1/l24hvh0g/EAFLnE40hECRuIGy2qY2sq2IdU4X9
- euCg==
-X-Gm-Message-State: ACrzQf3neFGhjBOMlrTqjgAnshTgqZ97SwCSzeWJG+HY15FrxSYfCOxh
- Kd5BG+DucHMzYpFD1NrRSJ3ke3z9xz7zaPDoZ7Fd/A==
-X-Google-Smtp-Source: AMsMyM7i0ZsuTfbi5Z3OKCVQ0wSQTmGSHUuCGKwZ5F7ntXwiB4S3cpntq3XZB9gJdGod9hKxWzPmZ7uCfKeO/umbJBE=
-X-Received: by 2002:a05:6a00:181b:b0:56b:fcbe:2e7f with SMTP id
- y27-20020a056a00181b00b0056bfcbe2e7fmr14546063pfa.3.1667223925777; Mon, 31
- Oct 2022 06:45:25 -0700 (PDT)
+ bh=5HKlZCPJ+4quX3pOUMtlg1UfdbqJD7UqP/2NGZN//rI=;
+ b=b3iWlKE5EeUSOhtBk4dhb/H91dEv9McWj/wZVaAfSLDuqqYtlWPTvWk20eoyj93yGD
+ ftfwQUnQ/4cKNnFWj7OSCqnYbhlvGLBq9ITz5Ljsl+r3nquZwg7z3J/seSYFBSv3fFb0
+ VTs+T3HAy5wCN7N0LTNyw9XHSH0nnv6hUCk+YZMx2U1wmm5rhdnbbz3mMGNYUNloo8Ge
+ 3rDK9A8BK+qiQr702ssnXsXz4HMTM9KcLzmeMSoVKZhHM6irTyDMNG+o6MrOI9fUDm22
+ HmLDU7pklWUaWyMxhJgZyD4Rlu2vb2IT6pdarGcqTvlBnLTXFRZZ6T8mbyP37/tZmwKJ
+ S2VQ==
+X-Gm-Message-State: ACrzQf3zJyhW5bWiOnUO9MrD8hRLLMlzr1rKtcOkMfHPcl59rQ5JaTXM
+ uNPRFyXknJm6cwl2paokInlHmT1FlgfW/shq6aQYNKpvw8U=
+X-Google-Smtp-Source: AMsMyM734zOmsmcohonN5HlJ6Ejo97Ruvun2eiS7KWE/0mNFaD35jNjw0+Uhrb/gSae5xXK3KpVFUdFZdTaWD6ejshc=
+X-Received: by 2002:a17:90a:164f:b0:213:bda6:2873 with SMTP id
+ x15-20020a17090a164f00b00213bda62873mr10856942pje.215.1667223945598; Mon, 31
+ Oct 2022 06:45:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221031054144.3574-1-richard.henderson@linaro.org>
-In-Reply-To: <20221031054144.3574-1-richard.henderson@linaro.org>
+References: <20221027112619.2205229-1-tkutergin@gmail.com>
+ <CAFEAcA-xm1PmZc-cNeJWkBvSFRMmRJ6n2S8CS7hr9w+8HL0QGQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA-xm1PmZc-cNeJWkBvSFRMmRJ6n2S8CS7hr9w+8HL0QGQ@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 31 Oct 2022 13:45:14 +0000
-Message-ID: <CAFEAcA_ms4-Zh7s01fcbMxrbj3Vr6LACODMP75PF+sf42HpRTA@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Copy the entire vector in DO_ZIP
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
- Idan Horowitz <idan.horowitz@gmail.com>
+Date: Mon, 31 Oct 2022 13:45:34 +0000
+Message-ID: <CAFEAcA9rDMjKi_diMRUeDgv90YdJxEaWzYB1OpZ6=q8o34bJCg@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Fixed Privileged Access Never (PAN) for
+ aarch32
+To: Timofey Kutergin <tkutergin@gmail.com>
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,14 +85,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 31 Oct 2022 at 05:42, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Fri, 28 Oct 2022 at 19:17, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> With odd_ofs set, we weren't copying enough data.
+> On Thu, 27 Oct 2022 at 12:26, Timofey Kutergin <tkutergin@gmail.com> wrote:
+> >
+> >     - Use CPSR.PAN to check for PAN state in aarch32 mode
+> >     - throw permission fault during address translation when PAN is
+> >       enabled and kernel tries to access user acessible page
+> >     - ignore SCTLR_XP bit for armv7 and armv8 (conflicts with SCTLR_SPAN).
+> >
+> > Signed-off-by: Timofey Kutergin <tkutergin@gmail.com>
+> > ---
+> >  target/arm/helper.c | 13 +++++++++++--
+> >  target/arm/ptw.c    | 35 ++++++++++++++++++++++++++++++-----
+> >  2 files changed, 41 insertions(+), 7 deletions(-)
 >
-> Fixes: 09eb6d7025d1 ("target/arm: Move sve zip high_ofs into simd_data")
-> Reported-by: Idan Horowitz <idan.horowitz@gmail.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>
+> Not sure if I'll be able to get this in before softfreeze,
+> but since it's a bug fix it'll be in 7.2.
 
 
 
