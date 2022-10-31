@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 695036137BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:20:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF166137BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:20:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUiQ-0004nb-Sp; Mon, 31 Oct 2022 09:20:34 -0400
+	id 1opUi8-00044Q-VJ; Mon, 31 Oct 2022 09:20:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1opUhx-00034L-QX
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:20:07 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ id 1opUhr-0002tq-Rm
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:20:01 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1opUhn-0005Pv-Ml
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:20:03 -0400
-Received: by mail-wr1-x429.google.com with SMTP id l14so15972092wrw.2
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:19:54 -0700 (PDT)
+ id 1opUhn-0005Pb-NR
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:19:59 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id z14so15924866wrn.7
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 06:19:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VU5VTL8pBDhAlFZZ+ljlcQ9WYows6GqqoHE20CLByr8=;
- b=HWuCWI5mXe76Fyu4Rr0X24j8lszhBcR7qc7r6PRr8nEYpRTHqKORvXiTALV7Z7mttB
- eTuo/i/jRA2jrE+2Jkb4vxPH7FXY5zQlC/zTdWqNXUVKcMXFyVCWqDHVz/21FMghFpCx
- EFSJQmnipOz+9dX56TzsivKD725GLBCcdTN1Ba4t/sRxKBEYBXSivZsBWBhh9CiZCLXO
- +2ZWIroiYRxAFe/lHkohzaU+KLiScAjNjNeOiJjQ2p9wGp1tG57+A9ewVwTcPB4PZCQ4
- QjOsM5dfelETNczB6xExKcsinRRlb4i3DOEJDcxKPaf36yx9V4mwgVJ+ueDvxYOBMFr5
- 62Zw==
+ bh=0EBDvZ+RnJ5HvMeb/y4i+e3DUIkgxVD1VYY/3oYu2EI=;
+ b=vuzkvuW2f8JNqWUeSfHoM7clI/Me281dTiTGmF+nRRiNycyB1KFYY48JXVebarvp6w
+ rJg91NPtAw4LBhfcGFxkyXTn2lSsVF64o7ztfE4QcXAJRACoRZj+TmVRjQQn/cf9j6Sq
+ EjWyjxakBFwZMlcdPN7wHvu7XKic4HrN0h4RcSElowjBC8dPmhv6Iofme1okmb86MGpU
+ 46ejZqirg8UmyAMzovkYFn82CZ+z/RG7KXLbmXXCWtjRcUSu0cOx65IrlEMCv8VyyuTW
+ drYNAswOmdVLrin0nHU6Koc11/sZtFCjcCOA8EKT6AdSZLSrbb2Cj7+Ywlw3gCcI4swB
+ EPuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VU5VTL8pBDhAlFZZ+ljlcQ9WYows6GqqoHE20CLByr8=;
- b=6xLb6Ve/lJE46eA8+uhB1s5ypALlrP0YsKQDtxKMxjBoJVZUAmR7PrKKd2ZF1Rf1Jp
- RgHsAjHZpAEYeG0FTrE+WEYw1BdMhJi9qkQgcshGhzJzX11gonPTMRKT60nlRFTH093y
- QGUH6Wxq/rlURluFzPwxqAQJy71EqTwDPWMPjrLBPcQwtepMypybIjAWmIw1vm+RYCCy
- x8UZrWv3YCmhPxzlQW0zUT3y335HiK74BbMdwG7sBbMy5sPPcR8+4XEVESKS6tUzlH23
- Zi8HmEGQmhGS5Rm3K/cr5N5AWiR9+2IWOH7Epirfsr8VblHHCduJktDILFDlVNWZKlPg
- wBLQ==
-X-Gm-Message-State: ACrzQf2vV9g08DmY0mHL33APITN2iioTu1tuEd9dYnb7Xhxme1Ia72c7
- RJ7M06gi5MjbJ2/II3BY3hIzPA==
-X-Google-Smtp-Source: AMsMyM6upuhsZDropkmNWMfiNk7G/lWNFwmnvewCChVP8VZMwswQJelVp0aiMNXi7BtxNK2voqKSow==
-X-Received: by 2002:a05:6000:1b0e:b0:236:5c9e:7110 with SMTP id
- f14-20020a0560001b0e00b002365c9e7110mr8326452wrz.650.1667222393497; 
+ bh=0EBDvZ+RnJ5HvMeb/y4i+e3DUIkgxVD1VYY/3oYu2EI=;
+ b=VCQnEE/J6TbpqgdzkIwvCY1qWj87pQIEnX9xYZ0i7+A2jIIhOYX3DKAOLso94b0fSG
+ beiUdOnVMgvsX124vdd7l+0vfCfxGdNk1VnvlbEtyKcEulgUYwQD5KbOmIll1ODD8Vd/
+ hzRT3ssY0RaJgl6r+qNdH5TgwdSQp//oLEVkVRTPiUUMvBMOf5lvSYlhczIW8Ul2GzCp
+ BtL9VrzY/jyEJGKfSO1fA1Dum9yJObB2uNqFi2G8hrVrgwOBATzCnKQT2layzU6oraDu
+ Wodc5e7jE6D/2+YxZ7TX6FJMtiT2W8eHdnWZEPotyztVF5nqlFwI7LIOyFUVbaXHF5dl
+ WW9w==
+X-Gm-Message-State: ACrzQf0WuRi1EQ7q8ryJ3+l7ovPC9FErdh+60S4pLpKZ+udDSMRIk/CM
+ VG2SZ8YBZLgpxIcURMzJ1Kb6evne3nPcnA==
+X-Google-Smtp-Source: AMsMyM4VLphtS78lWechbCSh0QSjl9JSkTtMdpjnZWAZ/ABizKEwL7TZsijyBZUvvJzca5pojrp0dA==
+X-Received: by 2002:adf:e5c3:0:b0:236:5092:7cfc with SMTP id
+ a3-20020adfe5c3000000b0023650927cfcmr7910815wrn.285.1667222393111; 
  Mon, 31 Oct 2022 06:19:53 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- bd26-20020a05600c1f1a00b003c6b70a4d69sm7247840wmb.42.2022.10.31.06.19.51
+ n2-20020a7bc5c2000000b003c6c5a5a651sm7169997wmk.28.2022.10.31.06.19.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 31 Oct 2022 06:19:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 31FC11FFCE;
+ by zen.linaroharston (Postfix) with ESMTP id 502311FFBB;
  Mon, 31 Oct 2022 13:10:13 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -66,23 +66,24 @@ Cc: stefanha@redhat.com,
  Ilya Leoshkevich <iii@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  qemu-s390x@nongnu.org (open list:S390 TCG CPUs)
-Subject: [PULL 24/31] target/s390x: don't use ld_code2 to probe next pc
-Date: Mon, 31 Oct 2022 13:10:03 +0000
-Message-Id: <20221031131010.682984-25-alex.bennee@linaro.org>
+Subject: [PULL 25/31] target/s390x: don't probe next pc for EXecuted insns
+Date: Mon, 31 Oct 2022 13:10:04 +0000
+Message-Id: <20221031131010.682984-26-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221031131010.682984-1-alex.bennee@linaro.org>
 References: <20221031131010.682984-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,28 +99,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-This isn't an translator picking up an instruction so we shouldn't use
-the translator_lduw function which has side effects for plugins.
+We have finished the TB anyway so we can shortcut the other tests by
+checking dc->ex_value first.
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221027183637.2772968-24-alex.bennee@linaro.org>
+Message-Id: <20221027183637.2772968-25-alex.bennee@linaro.org>
 
 diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 5798928473..9df7f9e693 100644
+index 9df7f9e693..f4122db434 100644
 --- a/target/s390x/tcg/translate.c
 +++ b/target/s390x/tcg/translate.c
-@@ -6612,7 +6612,7 @@ static void s390x_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
- static target_ulong get_next_pc(CPUS390XState *env, DisasContext *s,
-                                 uint64_t pc)
- {
--    uint64_t insn = ld_code2(env, s, pc);
-+    uint64_t insn = cpu_lduw_code(env, pc);
+@@ -6624,9 +6624,9 @@ static void s390x_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
  
-     return pc + get_ilen((insn >> 8) & 0xff);
- }
+     dc->base.is_jmp = translate_one(env, dc);
+     if (dc->base.is_jmp == DISAS_NEXT) {
+-        if (!is_same_page(dcbase, dc->base.pc_next) ||
+-            !is_same_page(dcbase, get_next_pc(env, dc, dc->base.pc_next)) ||
+-            dc->ex_value) {
++        if (dc->ex_value ||
++            !is_same_page(dcbase, dc->base.pc_next) ||
++            !is_same_page(dcbase, get_next_pc(env, dc, dc->base.pc_next))) {
+             dc->base.is_jmp = DISAS_TOO_MANY;
+         }
+     }
 -- 
 2.34.1
 
