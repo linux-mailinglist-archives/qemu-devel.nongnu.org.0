@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779846131E3
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 09:47:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDBF2613209
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 09:57:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opQQy-0001lz-1C; Mon, 31 Oct 2022 04:46:16 -0400
+	id 1opQZs-0001On-6H; Mon, 31 Oct 2022 04:55:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ake@igel.co.jp>) id 1opQQt-0001lg-QS
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:46:13 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ake@igel.co.jp>) id 1opQQo-0005Gy-0f
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:46:10 -0400
-Received: by mail-pl1-x633.google.com with SMTP id k7so414926pll.6
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 01:46:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=4NC4CbXNET7QgKVIkEBX2g1Hrhwce2DSB/31NQyzbcs=;
- b=1hhwDUqKUQAV2Qk9F9ttMxXYnXky+Wl7FQkFWWE2SyhWrJ6IdUzGafxkSlIyc82hL7
- I3zebG2xJDYo2JkOgOB8T+68HOBXD93iMYEm5EvlWwg7Qa0EHpQfEC+gHO0RoagBnbLe
- MfEmuj0FyhLksPTk2DKIOGyNA3lZzA5nTSU6w8tYuQEdq9GgVkkFfQMRSpTLcQoYs+0s
- P1mbDI/6Gnf220/1mFfHu5U5qyKTji5EvIgz5jLP3tvelqHEvkJnu3E0YCt5BNctPVMW
- cV02vovH7Lgnuxl1OTf0A8g8QxYBdj7VaPzyBEUOl9Hei03i5PouZZEjznjg1YnsmITI
- NgNw==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1opQZj-0001NN-Te
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:55:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1opQZi-0000wF-89
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 04:55:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667206517;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MQj/qFITOFXmA1R71pETUOIKo7reNcNfgSTjo4dguJ8=;
+ b=eyLyRkCmj2RbqxMnGBakKSLglcdYabWdMrSe8eRX4QWXHGcFAuMtK39CmFbqpaYMxf1qV8
+ AmXnC4AFbeA/6mNePkJIvQUshI3IZMLxSiK22jfRz3jP+Ct63RODqHXAPrf37WOQ5KG5SG
+ v+xaML2q3D/dZQPF7GmREUmzNIEfUL0=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-623-E5i_FCpwORCPonoWgI2ZAw-1; Mon, 31 Oct 2022 04:55:12 -0400
+X-MC-Unique: E5i_FCpwORCPonoWgI2ZAw-1
+Received: by mail-pl1-f200.google.com with SMTP id
+ n1-20020a170902f60100b00179c0a5c51fso7757495plg.7
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 01:55:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4NC4CbXNET7QgKVIkEBX2g1Hrhwce2DSB/31NQyzbcs=;
- b=vGP54p9S4EI37ZFijUGk1huiPtNp6ihxvSBDfglF6Huar8qLPvJrATtcAhZoOuzKlf
- UqjSc9y8gbaGmf+zhg5udDoDO93jagTmBWyrG76WagPj5hAGPIV/7x9MBSR+B76x81S9
- 8l9nl5O3SPteNN6uLV/3XUiBuASkynlNNftAB4gEBWwpnFmYZTsw0LuzjGF/QpQN8Y8H
- 9plBuPOQoSkwMjlXJUp9TgcpVO38j7v8S4hgL7GkjazyYDTYVnULLw4rFpecUcDq0gs2
- 9+J9+Omvmv4V3bWWu3ahySSyAM3Xktpz0B8F916JdwKGiFbko32slCeHUr71Hk4lai8D
- Eb1A==
-X-Gm-Message-State: ACrzQf365Vy3tROFUEZvBi+1EwTLQBGDnrd2n17iDngEVI7mzKVdwQic
- qta2l+E5B9wfq40iPKDjx0nBWS7dA1pRMw==
-X-Google-Smtp-Source: AMsMyM6qZkl8oydeFTBRUUBL7h7HegoImY1+Odm0gRWHK4n2pHGbx3m6JxfMtGRxpYCd0xEUIT7abQ==
-X-Received: by 2002:a17:902:e54e:b0:187:ba9:4305 with SMTP id
- n14-20020a170902e54e00b001870ba94305mr10012405plf.167.1667205963312; 
- Mon, 31 Oct 2022 01:46:03 -0700 (PDT)
-Received: from ake-x260.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
- by smtp.gmail.com with ESMTPSA id
- g139-20020a625291000000b0056d2797bf05sm3478385pfb.217.2022.10.31.01.46.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 01:46:02 -0700 (PDT)
-From: Ake Koomsin <ake@igel.co.jp>
-To: qemu-devel@nongnu.org
-Cc: Ake Koomsin <ake@igel.co.jp>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org (open list:ARM TCG CPUs)
-Subject: [PATCH v2] target/arm: honor HCR_E2H and HCR_TGE in ats_write64()
-Date: Mon, 31 Oct 2022 17:43:25 +0900
-Message-Id: <20221031084324.844220-1-ake@igel.co.jp>
-X-Mailer: git-send-email 2.25.1
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MQj/qFITOFXmA1R71pETUOIKo7reNcNfgSTjo4dguJ8=;
+ b=8EJ4+XKcFZRLDJf0V9OMZJOLZH9IvBrZhV7IeGUZlG8ORTFYqAFuNh0/XqZRmOQjvZ
+ /O/S+nhWpGZRi2+a+J2R9uJ/vRmd82bDrK4k4U4A62BOYQiDAppQRMmz7vkEKJhukb4F
+ pyKavFvPT52wLG78RS70HBUFlVNMXqoH3Wppmc9lE0bZ4suqShcwP2dVuFb37OmD5wqm
+ JlRxKEhmtZpqGTzb5VERAnC8lYrEtWMgsRQhv0AJyz2svzodjtL51TZnNtGe727TgpSV
+ Dgzapv9rXiJYk52qzXibS3Ucqr4YyPnxM+ccpiEnafCocTL6OxB/UuRbSJH+0V4ZDQOu
+ yOeA==
+X-Gm-Message-State: ACrzQf1RJtU5ATKKIUfWH8QoVDo9mO2ZN2oYK91lwbDMfsHZ7W4awrbI
+ 1vFA/fxKY/rNLhppDcEi7EzV2dmy9hJ7zweWerqYtYLAHfyx25oLXFyEKq/drOfcPp5lmm+LYDW
+ 5n1T/cGYVPt/nU9ORQ8YYTmmVlGhh3Nc=
+X-Received: by 2002:a17:902:8542:b0:179:eb8d:f41d with SMTP id
+ d2-20020a170902854200b00179eb8df41dmr13064089plo.62.1667206511654; 
+ Mon, 31 Oct 2022 01:55:11 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7qW1uQnEL+rp5XaYWDduLCf1YjKjAQCHeKFPE8luylvPyj9sPIYkhoL+m4x2edW0tNLuOOM2vsCxCn/qTBcSI=
+X-Received: by 2002:a17:902:8542:b0:179:eb8d:f41d with SMTP id
+ d2-20020a170902854200b00179eb8df41dmr13064072plo.62.1667206511399; Mon, 31
+ Oct 2022 01:55:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=ake@igel.co.jp; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20221028160251.268607-1-eperezma@redhat.com>
+ <20221028160251.268607-3-eperezma@redhat.com>
+ <6375bb66-91a5-d638-dd4f-2700ac3a26cc@linaro.org>
+In-Reply-To: <6375bb66-91a5-d638-dd4f-2700ac3a26cc@linaro.org>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 31 Oct 2022 09:54:34 +0100
+Message-ID: <CAJaqyWdj2OPyjZ1s9jK1botrVEHd2+K+Q783soLtmf5WVnArFg@mail.gmail.com>
+Subject: Re: [PATCH 2/4] vhost: convert byte order on SVQ used event write
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.055,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,99 +96,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We need to check HCR_E2H and HCR_TGE to select the right MMU index for
-the correct translation regime.
+On Sat, Oct 29, 2022 at 12:48 AM Philippe Mathieu-Daud=C3=A9
+<philmd@linaro.org> wrote:
+>
+> On 28/10/22 18:02, Eugenio P=C3=A9rez wrote:
+> > This causes errors on virtio modern devices on big endian hosts
+> >
+> > Fixes: 01f8beacea2a ("vhost: toggle device callbacks using used event i=
+dx")
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   hw/virtio/vhost-shadow-virtqueue.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shado=
+w-virtqueue.c
+> > index 70766ea740..467099f5d9 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > @@ -382,7 +382,7 @@ static bool vhost_svq_enable_notification(VhostShad=
+owVirtqueue *svq)
+> >   {
+> >       if (virtio_vdev_has_feature(svq->vdev, VIRTIO_RING_F_EVENT_IDX)) =
+{
+> >           uint16_t *used_event =3D &svq->vring.avail->ring[svq->vring.n=
+um];
+> > -        *used_event =3D svq->shadow_used_idx;
+> > +        *used_event =3D cpu_to_le16(svq->shadow_used_idx);
+>
+> This looks correct, but what about:
+>
+>             virtio_stw_p(svq->vdev, used_event, svq->shadow_used_idx);
+>
 
-To check for EL2&0 translation regime:
-- For S1E0*, S1E1* and S12E* ops, check both HCR_E2H and HCR_TGE
-- For S1E2* ops, check only HCR_E2H
+Hi Philippe,
 
-Signed-off-by: Ake Koomsin <ake@igel.co.jp>
----
+I think this has the same answer as [1], the endianness conversion
+from the guest to the host may not be the same as the one needed from
+qemu SVQ to the vdpa device. Please let me know if it is not the case.
 
-v2:
-- Rebase with the latest upstream
-- It turns out that we need to check both HCR_E2H and HCR_TGE for
-  S1E0*, S1E1* and S12E* address translation as well according to the
-  Architecture Manual.
+Thanks!
 
-v1:
-https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg02627.html
+[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-10/msg06081.html
 
- target/arm/helper.c | 38 ++++++++++++++++++++++++++++++++------
- 1 file changed, 32 insertions(+), 6 deletions(-)
-
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index b070a20f1a..f7b988395a 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -3501,19 +3501,33 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
-     MMUAccessType access_type = ri->opc2 & 1 ? MMU_DATA_STORE : MMU_DATA_LOAD;
-     ARMMMUIdx mmu_idx;
-     int secure = arm_is_secure_below_el3(env);
-+    bool regime_e20 = (arm_hcr_el2_eff(env) & (HCR_E2H | HCR_TGE)) ==
-+                      (HCR_E2H | HCR_TGE);
- 
-     switch (ri->opc2 & 6) {
-     case 0:
-         switch (ri->opc1) {
-         case 0: /* AT S1E1R, AT S1E1W, AT S1E1RP, AT S1E1WP */
-             if (ri->crm == 9 && (env->pstate & PSTATE_PAN)) {
--                mmu_idx = ARMMMUIdx_Stage1_E1_PAN;
-+                if (regime_e20) {
-+                    mmu_idx = ARMMMUIdx_E20_2_PAN;
-+                } else {
-+                    mmu_idx = ARMMMUIdx_Stage1_E1_PAN;
-+                }
-             } else {
--                mmu_idx = ARMMMUIdx_Stage1_E1;
-+                if (regime_e20) {
-+                    mmu_idx = ARMMMUIdx_E20_2;
-+                } else {
-+                    mmu_idx = ARMMMUIdx_Stage1_E1;
-+                }
-             }
-             break;
-         case 4: /* AT S1E2R, AT S1E2W */
--            mmu_idx = ARMMMUIdx_E2;
-+            if ((arm_hcr_el2_eff(env) & HCR_E2H) == HCR_E2H) {
-+                mmu_idx = ARMMMUIdx_E20_2;
-+            } else {
-+                mmu_idx = ARMMMUIdx_E2;
-+            }
-             break;
-         case 6: /* AT S1E3R, AT S1E3W */
-             mmu_idx = ARMMMUIdx_E3;
-@@ -3524,13 +3538,25 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
-         }
-         break;
-     case 2: /* AT S1E0R, AT S1E0W */
--        mmu_idx = ARMMMUIdx_Stage1_E0;
-+        if (regime_e20) {
-+            mmu_idx = ARMMMUIdx_E20_0;
-+        } else {
-+            mmu_idx = ARMMMUIdx_Stage1_E0;
-+        }
-         break;
-     case 4: /* AT S12E1R, AT S12E1W */
--        mmu_idx = ARMMMUIdx_E10_1;
-+        if (regime_e20) {
-+            mmu_idx = ARMMMUIdx_E20_2;
-+        } else {
-+            mmu_idx = ARMMMUIdx_E10_1;
-+        }
-         break;
-     case 6: /* AT S12E0R, AT S12E0W */
--        mmu_idx = ARMMMUIdx_E10_0;
-+        if (regime_e20) {
-+            mmu_idx = ARMMMUIdx_E20_0;
-+        } else {
-+            mmu_idx = ARMMMUIdx_E10_0;
-+        }
-         break;
-     default:
-         g_assert_not_reached();
--- 
-2.25.1
+> >       } else {
+> >           svq->vring.avail->flags &=3D ~cpu_to_le16(VRING_AVAIL_F_NO_IN=
+TERRUPT);
+> >       }
+>
 
 
