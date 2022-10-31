@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41368613703
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B63F613732
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:59:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUI4-0008QY-6N; Mon, 31 Oct 2022 08:53:20 -0400
+	id 1opUI2-0008Fy-OO; Mon, 31 Oct 2022 08:53:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1opUHS-0004WY-3z
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:52:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUHQ-0004Ix-BH
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:52:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1opUHP-0002p1-7Q
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:52:41 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUHO-0002mO-9C
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:52:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667220758;
+ s=mimecast20190719; t=1667220757;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9D/I++u1aic6WS/dHHfJSVcu58NrP1m9K35CCl7L8oY=;
- b=LR+dDoKtBq+IgYh2s+eBYZCT+G2UsVErD6TzVibgBVlg5xS8ncknsuVg83AjpBuMe+YxFP
- QX/h88pT3YEU0bjoYQ+Lq6nmra64b9S/GCq/QthPG4Ssr35ygwza/EmQPexukCBiHuk/Dj
- n7s/2DRnmbZRlpRHI0xlVCy9YX5Ooo8=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=05dzwNfg7HbBJ5DnJ73Qkx+E7eiNja915s9Il8Q0iOY=;
+ b=CV5sXYbSehakvHWNJ4wV+6kCX5nmvUs6SuZpX+f5Aa6YQ/tIZflXLJnmcfSJzXJRbVtviu
+ ID0j1XCViaJlRwsLkbCvbzsOY7bJnc+HuQ8agOSzCvy2fDZ4rB6JqgVMcE8+gUhcv6PZOy
+ 9mYtE0KiDhc7SRNKnDKzgmdGdcFIpfI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-86-mpvQyR_jNnWzN3ZO6f1x7w-1; Mon, 31 Oct 2022 08:52:37 -0400
-X-MC-Unique: mpvQyR_jNnWzN3ZO6f1x7w-1
-Received: by mail-qk1-f198.google.com with SMTP id
- n13-20020a05620a294d00b006cf933c40feso9450502qkp.20
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:52:37 -0700 (PDT)
+ us-mta-439-gv10jyWGPM62LQBPUfIO9g-1; Mon, 31 Oct 2022 08:52:36 -0400
+X-MC-Unique: gv10jyWGPM62LQBPUfIO9g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d23-20020adfa417000000b002364a31b7c9so3018282wra.15
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:52:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9D/I++u1aic6WS/dHHfJSVcu58NrP1m9K35CCl7L8oY=;
- b=d6nwxXwcMTdKaleU0wRgFOPoVH3dEk8CZ81300Ih1ZcAbih8PDzvFwxy5jlQrxQYW1
- dlY1WfUirMQ4hh0o5IJLwUrBRffSUk+XBeJ6Or7ZXnum7Y/Fu4+dzTl3sQVEPRIN8yGf
- I9xbs2hGPv5q2nIFar1OHGklkyd0MPm6ewC8i6Zr/on+nZz6LdxCTIesCtbbcdXezPrD
- jrnWjEwosYXXYWp/34Lpc4gfZxJbn+iDY32kEHLhIbc7PpYHLYpQrEnqB6X5tgc5K/1T
- 7IXYPfVLW3YKNLhW3JTN5LmDVq+s1sfU+oOkRVj8nwWpYuWKiOTocI01iW9fR/wAvUw2
- LzkA==
-X-Gm-Message-State: ACrzQf1GoFGR8FVKmwBSTXKA4PAd+5LSUv7PrZ+Lv/9Fp1sZTSDYdLZx
- k7TN4Kq4tpIVGa9Yeb07ldWOnyG524Y4ZryyOB6JL0BC6uif6EIJ3K+J2g1n2uvGDzwY0w/5IG8
- 830ZpeoSh5kmhhog=
-X-Received: by 2002:a37:97c4:0:b0:6fa:3139:1825 with SMTP id
- z187-20020a3797c4000000b006fa31391825mr2165956qkd.341.1667220756676; 
- Mon, 31 Oct 2022 05:52:36 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5Kp6ISfO1TeYuOpfO2+945iJe8t2Z/89DjhzNiRCW9U9UNcEWm9Ptv34FUE+KGhu0y2Kms9A==
-X-Received: by 2002:a37:97c4:0:b0:6fa:3139:1825 with SMTP id
- z187-20020a3797c4000000b006fa31391825mr2165944qkd.341.1667220756460; 
- Mon, 31 Oct 2022 05:52:36 -0700 (PDT)
-Received: from fedora (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- r15-20020ac8520f000000b003972790deb9sm3551881qtn.84.2022.10.31.05.52.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=05dzwNfg7HbBJ5DnJ73Qkx+E7eiNja915s9Il8Q0iOY=;
+ b=1DrCVt+2aI2qWh3fWYZWHRlalCQqRdTT50rxNS5ji01SL0irwQennAuodJI7mKsy2r
+ 6+bov51fhpPx6SnPdoK6zAZWKYQZx+34XK7X0USYBEM84rYERG+dYgZ/CV8gbDhR3yxU
+ KJURjGn8hzK5bFRjIULGXstITyW9JqkgTOXcPMaCZZQ4SM1JvWWHZt0wr8+929gTK6Xg
+ qL1PJXUVOg6l10YWf/sEVy06evP6YRB3bjqfex6lrbyNFjBRTTATCOjf+uYb+95kWfJC
+ Pf+Vhi8IIDs281quIu+9SqxiWLPGmrWdO4K1PjFDEmcQFRWoP9aIuns/hV67/Y91fiiI
+ +iDw==
+X-Gm-Message-State: ACrzQf2cWYLV+DHVtWm2lITP63gYjwpvMZeiEHkMRu3kbHj2QZhy+bIJ
+ 3qRHVsjiTkUAqCvJx5PXh5RnhQsN/D/O0PmnKw4j/cmlqKZ/pURTkolYNZgy+T0Rwqd0uC3t3wl
+ 5lt6I3jbxD0ksXFayExV6hvo2ZUuIsSxHBvlfwPExXPGyeomaYn5shFeTgRo8
+X-Received: by 2002:a5d:4484:0:b0:236:574f:2536 with SMTP id
+ j4-20020a5d4484000000b00236574f2536mr8243632wrq.7.1667220755038; 
  Mon, 31 Oct 2022 05:52:35 -0700 (PDT)
-Date: Mon, 31 Oct 2022 13:52:32 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha
- <ani@anisinha.ca>
-Subject: Re: [PATCH v2 3/3] hw/i386/acpi-build: Resolve north rather than
- south bridges
-Message-ID: <20221031135232.118ae0ea@fedora>
-In-Reply-To: <20221028103419.93398-4-shentey@gmail.com>
-References: <20221028103419.93398-1-shentey@gmail.com>
- <20221028103419.93398-4-shentey@gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+X-Google-Smtp-Source: AMsMyM5vap4Bf08L5tXoCRrdVuZaUBB33glAzx0YIq4W+BTH/e/Pg/tZV8cdoEVVg2+tv8WLRvKSOg==
+X-Received: by 2002:a5d:4484:0:b0:236:574f:2536 with SMTP id
+ j4-20020a5d4484000000b00236574f2536mr8243610wrq.7.1667220754754; 
+ Mon, 31 Oct 2022 05:52:34 -0700 (PDT)
+Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
+ p10-20020a1c544a000000b003c71358a42dsm7800851wmi.18.2022.10.31.05.52.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Oct 2022 05:52:34 -0700 (PDT)
+Date: Mon, 31 Oct 2022 08:52:32 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jason Wang <jasowang@redhat.com>
+Subject: [PULL 38/86] virtio: introduce virtio_queue_reset()
+Message-ID: <20221031124928.128475-39-mst@redhat.com>
+References: <20221031124928.128475-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221031124928.128475-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -105,74 +97,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 28 Oct 2022 12:34:19 +0200
-Bernhard Beschow <shentey@gmail.com> wrote:
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 
-> The code currently assumes Q35 iff ICH9 and i440fx iff PIIX. Now that more
-> AML generation has been moved into the south bridges and since the
-> machines define themselves primarily through their north bridges, let's
-> switch to resolving the north bridges for AML generation instead. This
-> also allows for easier experimentation with different south bridges in
-> the "pc" machine, e.g. with PIIX4 and VT82xx.
+Introduce a new interface function virtio_queue_reset() to implement
+reset for vq.
 
-Patch looks fine to me in a sense that either would work.
+Add a new callback to VirtioDeviceClass for queue reset operation for
+each child device.
 
-But the commit message lacks clear answer to 'why'
-and what issues it resolves or would resolve/make
-our easier life down to road.
+Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20221017092558.111082-3-xuanzhuo@linux.alibaba.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ include/hw/virtio/virtio.h |  2 ++
+ hw/virtio/virtio.c         | 11 +++++++++++
+ 2 files changed, 13 insertions(+)
 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->  hw/i386/acpi-build.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 73d8a59737..d9eaa5fc4d 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -60,6 +60,7 @@
->  #include "hw/i386/fw_cfg.h"
->  #include "hw/i386/ich9.h"
->  #include "hw/pci/pci_bus.h"
-> +#include "hw/pci-host/i440fx.h"
->  #include "hw/pci-host/q35.h"
->  #include "hw/i386/x86-iommu.h"
->  
-> @@ -1322,8 +1323,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->             AcpiPmInfo *pm, AcpiMiscInfo *misc,
->             Range *pci_hole, Range *pci_hole64, MachineState *machine)
->  {
-> -    Object *piix = object_resolve_type_unambiguous(TYPE_PIIX4_PM);
-> -    Object *lpc = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
-> +    Object *i440fx = object_resolve_type_unambiguous(TYPE_I440FX_PCI_HOST_BRIDGE);
-> +    Object *q35 = object_resolve_type_unambiguous(TYPE_Q35_HOST_DEVICE);
->      CrsRangeEntry *entry;
->      Aml *dsdt, *sb_scope, *scope, *dev, *method, *field, *pkg, *crs;
->      CrsRangeSet crs_range_set;
-> @@ -1344,13 +1345,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->      AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = x86ms->oem_id,
->                          .oem_table_id = x86ms->oem_table_id };
->  
-> -    assert(!!piix != !!lpc);
-> +    assert(!!i440fx != !!q35);
->  
->      acpi_table_begin(&table, table_data);
->      dsdt = init_aml_allocator();
->  
->      build_dbg_aml(dsdt);
-> -    if (piix) {
-> +    if (i440fx) {
->          sb_scope = aml_scope("_SB");
->          dev = aml_device("PCI0");
->          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
-> @@ -1363,7 +1364,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->              build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
->          }
->          build_piix4_pci0_int(dsdt);
-> -    } else if (lpc) {
-> +    } else if (q35) {
->          sb_scope = aml_scope("_SB");
->          dev = aml_device("PCI0");
->          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index ebb58feaac..b4c237201d 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -148,6 +148,7 @@ struct VirtioDeviceClass {
+     void (*set_config)(VirtIODevice *vdev, const uint8_t *config);
+     void (*reset)(VirtIODevice *vdev);
+     void (*set_status)(VirtIODevice *vdev, uint8_t val);
++    void (*queue_reset)(VirtIODevice *vdev, uint32_t queue_index);
+     /* For transitional devices, this is a bitmap of features
+      * that are only exposed on the legacy interface but not
+      * the modern one.
+@@ -286,6 +287,7 @@ int virtio_queue_set_host_notifier_mr(VirtIODevice *vdev, int n,
+                                       MemoryRegion *mr, bool assign);
+ int virtio_set_status(VirtIODevice *vdev, uint8_t val);
+ void virtio_reset(void *opaque);
++void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index);
+ void virtio_update_irq(VirtIODevice *vdev);
+ int virtio_set_features(VirtIODevice *vdev, uint64_t val);
+ 
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 6f42fcadd7..cf5f9ca387 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2484,6 +2484,17 @@ static void __virtio_queue_reset(VirtIODevice *vdev, uint32_t i)
+     virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
+ }
+ 
++void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
++{
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++
++    if (k->queue_reset) {
++        k->queue_reset(vdev, queue_index);
++    }
++
++    __virtio_queue_reset(vdev, queue_index);
++}
++
+ void virtio_reset(void *opaque)
+ {
+     VirtIODevice *vdev = opaque;
+-- 
+MST
 
 
