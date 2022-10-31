@@ -2,87 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2ED6136F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:53:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A323A6136FA
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:53:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUHJ-0003WN-My; Mon, 31 Oct 2022 08:52:34 -0400
+	id 1opUHT-0004Vo-2d; Mon, 31 Oct 2022 08:52:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUGj-0002Mw-MY
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:51:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUGu-0002XO-NX
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:52:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUGW-0002NM-8b
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:51:57 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opUGf-0002V2-Ug
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:52:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667220699;
+ s=mimecast20190719; t=1667220709;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oOh1HLJjiZGbBo3ZKq+CicPAufMrxh5O/nCB7GKJexA=;
- b=hdu2Xlw35aVx4gzWlGqGHLhwSc+67WEB/Yoe88ZbR/G0kGxBC0kD0c5Toov62mmwJtJ/bo
- Zr0wDx82xzjSZO/8+3mGgZv2wEC7opHYiKM+ho0hgXAOzmzuLoj7/662eHXN8hFNT9cvz+
- 0iGcb3C50C0zOv7Pg/MEqoe0rK8xXws=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LO/qtuNrZ89fDPCMFSkl2M7QRcm1BKFrenr7dPdjQIM=;
+ b=RDVaa9hAX75sAxS2pusda8vdIy1RQma7PscVtxvisoJP6pj60kVTw1jGQj4TMX538XcSh7
+ dK4jQ/zIMaqwVp/8Omhq0z+uP8Jg24cYozDeeAY54cKU3OVn1o1lXRR/EiuXe13aZ411/G
+ wqwqjHyVUQayXxL0vJkEiR06CDz27Bs=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-591-4dPt7aMiPzmxi54Y3geLLw-1; Mon, 31 Oct 2022 08:51:38 -0400
-X-MC-Unique: 4dPt7aMiPzmxi54Y3geLLw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- s7-20020a1cf207000000b003cf56bad2e2so2211669wmc.9
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:51:37 -0700 (PDT)
+ us-mta-76-ajyr5rTaODOR8EFW52IOOw-1; Mon, 31 Oct 2022 08:51:40 -0400
+X-MC-Unique: ajyr5rTaODOR8EFW52IOOw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ d13-20020a05600c34cd00b003ce1f62ac5aso8307809wmq.4
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:51:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oOh1HLJjiZGbBo3ZKq+CicPAufMrxh5O/nCB7GKJexA=;
- b=1gGRL1Z8vTf2UAeBbrMSR54xv7XhcCPUEl0RURkWwt1ozRHEtncnnz5JHxrnWFs/sj
- g/bEoThz48tWsbcYYr2ErfSXBYGu9RTrzYVOUAnaG5PIPiqOQ7EF2H6vOR80HEa2kgxt
- 1I+TPAFzSuQzNG+WOTYNpFOrzL6SM1IOc+k52GUSni5iuEkfGUCjTZsGBPXsNTUrO+al
- ivz3cFr0saKTZwXdC4GQGvp8fgCm0SpOF9ds9YZeUU0M14mgbuKi8WwPaURyehHI7Hom
- AOo3qne1gM1SOCnbewVXhsiN3+xHhvTE+cufh9BEjMjP4r54mpxsXWo5AkuIzUtQ92+1
- eg6Q==
-X-Gm-Message-State: ACrzQf0tRt/44rh1wRQnkGLCVFHvFNMiKKuu6DjQY2TajpOpMoKCWv6f
- odWL959mJ34XT4QbXfNjl2SfaRJqucIDVFNFlXjwTdGAlhbNoPwvKkYhSRcC/kcxSafs28jRr3D
- vCz0HkqaLsX9OkU6th74hBPFL76XprXFSkIT+dWi0HIQnptUF1NgnFVdH9V3G
-X-Received: by 2002:adf:e911:0:b0:236:73b7:e668 with SMTP id
- f17-20020adfe911000000b0023673b7e668mr7903600wrm.96.1667220696578; 
- Mon, 31 Oct 2022 05:51:36 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7LrnxxpNfuuPQjQpAxa0W7JjWQfj8vUU7E2ffR3WQLKCIeYf/MahJ8C5zwn3rByIPchXDVBA==
-X-Received: by 2002:adf:e911:0:b0:236:73b7:e668 with SMTP id
- f17-20020adfe911000000b0023673b7e668mr7903572wrm.96.1667220696284; 
- Mon, 31 Oct 2022 05:51:36 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LO/qtuNrZ89fDPCMFSkl2M7QRcm1BKFrenr7dPdjQIM=;
+ b=3LasC47/V2+a+mWuPa2f0C7pEmOnQYm4nuqSYcupt9P1e900lGfuNeZapuEXhzwv2I
+ TY0rmLn/EnITI/WlagPEboFpa2LgbyjYTHhJ/UMQ8UGU8XlwsOqLqCiipaFLshR7tPY4
+ 5JtPHD+BSLEDRBTVGmrnkAUvqh9bU0jB1XZIv1+skGro0aK461ZTKlRCfj0fyg8SHGqp
+ eSuwKx7nEE0Modv/qK9n1fWIO6fnPOhf5N34jc5ax15VWh1pyFQTzAKlXY/71zjpCdpP
+ vV7LPW16DvsKWNrOjY476wxOeHEwD3MgBv9Uz0op8D8vdND5xIfBvNyZJXhI//XZuEOC
+ 3xZg==
+X-Gm-Message-State: ACrzQf3zaRBS99BBmb3+kOzzSa2Z1//SlUqLKRG1uYu9bNzl2LWtIa3Z
+ cPUjtbA3qsHI1CQb06M77w//PKoHkZuPvMnP+7QtE8RmeJhLWh/KJt7YNtEv0roBunbtlRtmDfc
+ IduRBvgfhpqS7WZhxrRehc1QKh8NgBviW7RiVZqAJHT/O1VMN+vGEA7juVicO
+X-Received: by 2002:a05:600c:4f10:b0:3c6:dcc6:51d7 with SMTP id
+ l16-20020a05600c4f1000b003c6dcc651d7mr7964050wmq.91.1667220699063; 
+ Mon, 31 Oct 2022 05:51:39 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5DmVXKiYbpvBP5dNZIRNZT7dTN+iB6PC3vli4+JiafoZz0F/2TBWaSORdodtlHSmqZrSpGOg==
+X-Received: by 2002:a05:600c:4f10:b0:3c6:dcc6:51d7 with SMTP id
+ l16-20020a05600c4f1000b003c6dcc651d7mr7964032wmq.91.1667220698784; 
+ Mon, 31 Oct 2022 05:51:38 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- l24-20020a1c7918000000b003cf7928e731sm434856wme.9.2022.10.31.05.51.34
+ l13-20020a05600c2ccd00b003a2f2bb72d5sm8137327wmc.45.2022.10.31.05.51.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:51:35 -0700 (PDT)
-Date: Mon, 31 Oct 2022 08:51:33 -0400
+ Mon, 31 Oct 2022 05:51:38 -0700 (PDT)
+Date: Mon, 31 Oct 2022 08:51:36 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Ani Sinha <ani@anisinha.ca>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Michael Tsirkin <mst@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 17/86] MAINTAINERS: add myself as the maintainer for acpi
- biosbits avocado tests
-Message-ID: <20221031124928.128475-18-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Julia Suvorova <jusual@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PULL 18/86] hw/smbios: add core_count2 to smbios table type 4
+Message-ID: <20221031124928.128475-19-mst@redhat.com>
 References: <20221031124928.128475-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221031124928.128475-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -106,47 +98,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ani Sinha <ani@anisinha.ca>
+From: Julia Suvorova <jusual@redhat.com>
 
-I wrote the biosbits avocado tests for testing QEMU's ACPI/SMBIOS implementation
-and all the related changes including fixes in biosbits software itself. Making
-myself as the maintainer for QEMU's biosbits related files and test scripts.
+In order to use the increased number of cpus, we need to bring smbios
+tables in line with the SMBIOS 3.0 specification. This allows us to
+introduce core_count2 which acts as a duplicate of core_count if we have
+fewer cores than 256, and contains the actual core number per socket if
+we have more.
 
-Cc: Daniel P. Berrangé <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Maydell Peter <peter.maydell@linaro.org>
-Cc: John Snow <jsnow@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Alex Bennée <alex.bennee@linaro.org>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Michael Tsirkin <mst@redhat.com>
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221021095108.104843-8-ani@anisinha.ca>
+core_enabled2 and thread_count2 fields work the same way.
+
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20220731162141.178443-2-jusual@redhat.com>
+Message-Id: <20221011111731.101412-2-jusual@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+ hw/smbios/smbios_build.h     |  9 +++++++--
+ include/hw/firmware/smbios.h | 12 ++++++++++++
+ hw/smbios/smbios.c           | 19 ++++++++++++++++---
+ 3 files changed, 35 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 64893e36bc..8ea193c812 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1859,6 +1859,13 @@ S: Supported
- F: hw/acpi/viot.c
- F: hw/acpi/viot.h
+diff --git a/hw/smbios/smbios_build.h b/hw/smbios/smbios_build.h
+index 56b5a1e3f3..351660024e 100644
+--- a/hw/smbios/smbios_build.h
++++ b/hw/smbios/smbios_build.h
+@@ -27,6 +27,11 @@ extern unsigned smbios_table_max;
+ extern unsigned smbios_table_cnt;
  
-+ACPI/AVOCADO/BIOSBITS
-+M: Ani Sinha <ani@anisinha.ca>
-+S: Supported
-+F: tests/avocado/acpi-bits/*
-+F: tests/avocado/acpi-bits.py
-+F: docs/devel/acpi-bits.rst
+ #define SMBIOS_BUILD_TABLE_PRE(tbl_type, tbl_handle, tbl_required)        \
++        SMBIOS_BUILD_TABLE_PRE_SIZE(tbl_type, tbl_handle, tbl_required,   \
++                                    sizeof(struct smbios_type_##tbl_type))\
 +
- ACPI/HEST/GHES
- R: Dongjiu Geng <gengdongjiu1@gmail.com>
- L: qemu-arm@nongnu.org
++#define SMBIOS_BUILD_TABLE_PRE_SIZE(tbl_type, tbl_handle,                 \
++                                    tbl_required, tbl_len)                \
+     struct smbios_type_##tbl_type *t;                                     \
+     size_t t_off; /* table offset into smbios_tables */                   \
+     int str_index = 0;                                                    \
+@@ -39,12 +44,12 @@ extern unsigned smbios_table_cnt;
+         /* use offset of table t within smbios_tables */                  \
+         /* (pointer must be updated after each realloc) */                \
+         t_off = smbios_tables_len;                                        \
+-        smbios_tables_len += sizeof(*t);                                  \
++        smbios_tables_len += tbl_len;                                     \
+         smbios_tables = g_realloc(smbios_tables, smbios_tables_len);      \
+         t = (struct smbios_type_##tbl_type *)(smbios_tables + t_off);     \
+                                                                           \
+         t->header.type = tbl_type;                                        \
+-        t->header.length = sizeof(*t);                                    \
++        t->header.length = tbl_len;                                       \
+         t->header.handle = cpu_to_le16(tbl_handle);                       \
+     } while (0)
+ 
+diff --git a/include/hw/firmware/smbios.h b/include/hw/firmware/smbios.h
+index e7d386f7c8..7f3259a630 100644
+--- a/include/hw/firmware/smbios.h
++++ b/include/hw/firmware/smbios.h
+@@ -18,6 +18,8 @@
+ 
+ 
+ #define SMBIOS_MAX_TYPE 127
++#define offsetofend(TYPE, MEMBER) \
++       (offsetof(TYPE, MEMBER) + sizeof_field(TYPE, MEMBER))
+ 
+ /* memory area description, used by type 19 table */
+ struct smbios_phys_mem_area {
+@@ -187,8 +189,18 @@ struct smbios_type_4 {
+     uint8_t thread_count;
+     uint16_t processor_characteristics;
+     uint16_t processor_family2;
++    /* SMBIOS spec 3.0.0, Table 21 */
++    uint16_t core_count2;
++    uint16_t core_enabled2;
++    uint16_t thread_count2;
+ } QEMU_PACKED;
+ 
++typedef enum smbios_type_4_len_ver {
++    SMBIOS_TYPE_4_LEN_V28 = offsetofend(struct smbios_type_4,
++                                        processor_family2),
++    SMBIOS_TYPE_4_LEN_V30 = offsetofend(struct smbios_type_4, thread_count2),
++} smbios_type_4_len_ver;
++
+ /* SMBIOS type 8 - Port Connector Information */
+ struct smbios_type_8 {
+     struct smbios_structure_header header;
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index 51437ca09f..b4243de735 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -711,8 +711,14 @@ static void smbios_build_type_3_table(void)
+ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+ {
+     char sock_str[128];
++    size_t tbl_len = SMBIOS_TYPE_4_LEN_V28;
+ 
+-    SMBIOS_BUILD_TABLE_PRE(4, T4_BASE + instance, true); /* required */
++    if (smbios_ep_type == SMBIOS_ENTRY_POINT_TYPE_64) {
++        tbl_len = SMBIOS_TYPE_4_LEN_V30;
++    }
++
++    SMBIOS_BUILD_TABLE_PRE_SIZE(4, T4_BASE + instance,
++                                true, tbl_len); /* required */
+ 
+     snprintf(sock_str, sizeof(sock_str), "%s%2x", type4.sock_pfx, instance);
+     SMBIOS_TABLE_SET_STR(4, socket_designation_str, sock_str);
+@@ -739,8 +745,15 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+     SMBIOS_TABLE_SET_STR(4, serial_number_str, type4.serial);
+     SMBIOS_TABLE_SET_STR(4, asset_tag_number_str, type4.asset);
+     SMBIOS_TABLE_SET_STR(4, part_number_str, type4.part);
+-    t->core_count = t->core_enabled = ms->smp.cores;
+-    t->thread_count = ms->smp.threads;
++
++    t->core_count = (ms->smp.cores > 255) ? 0xFF : ms->smp.cores;
++    t->core_enabled = t->core_count;
++
++    t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
++
++    t->thread_count = (ms->smp.threads > 255) ? 0xFF : ms->smp.threads;
++    t->thread_count2 = cpu_to_le16(ms->smp.threads);
++
+     t->processor_characteristics = cpu_to_le16(0x02); /* Unknown */
+     t->processor_family2 = cpu_to_le16(0x01); /* Other */
+ 
 -- 
 MST
 
