@@ -2,106 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8986138BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 15:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B5A46138DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 15:20:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opVSn-000747-JV; Mon, 31 Oct 2022 10:08:29 -0400
+	id 1opVdm-0005sX-VX; Mon, 31 Oct 2022 10:19:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1opVSh-0006ym-D4; Mon, 31 Oct 2022 10:08:23 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1opVdL-0005nV-3P
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 10:19:24 -0400
+Received: from mga01.intel.com ([192.55.52.88])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1opVSf-0006Ad-2Q; Mon, 31 Oct 2022 10:08:23 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29VDBjCu016291;
- Mon, 31 Oct 2022 14:08:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Z7X3CjvupESMLsJ7bhdRsaIkF/tD+gZCn/+FpGq8msM=;
- b=Twjx5qnAMe3U5nTIt1JxZl0XLWrX7GneLsOdaz/rwsAiJPpLs8c0JdDq5O7FdN2nI2Mk
- S5rJx1dG2ilUvTCsX2fqm5wCq5vCzIMFoSy1j7lsUH5lcWMKyF9X/c3ZBmt6KbliLzKb
- 2h42YPoHmQhcS0PvMnUixry4pgp4aYt/ySZlpLR61/YPdm4HwTHpFXPPQlobytjaqtfm
- njaSudiRTjao32meQYc4wHvo6kEuwOHd+HsX8/LnFQtEfpW15nX3U1SVQptdDWmocuoS
- AE5IcbAyBbLIrNJjJg/UtXwqPmUEvO3hyGp+vXmGYKzeAc8at6KQRxoGTbJ6NF9JxLNC Bg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kjf1a9t2a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Oct 2022 14:08:13 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29VDdb3m013481;
- Mon, 31 Oct 2022 14:08:13 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kjf1a9t1q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Oct 2022 14:08:13 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29VE6Bih023271;
- Mon, 31 Oct 2022 14:08:12 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma01wdc.us.ibm.com with ESMTP id 3kgut9dw62-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 31 Oct 2022 14:08:12 +0000
-Received: from smtpav04.dal12v.mail.ibm.com ([9.208.128.131])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 29VE8FQT65864010
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 31 Oct 2022 14:08:15 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1DDA55805A;
- Mon, 31 Oct 2022 14:08:11 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1DA8F5804E;
- Mon, 31 Oct 2022 14:08:10 +0000 (GMT)
-Received: from [9.160.115.44] (unknown [9.160.115.44])
- by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 31 Oct 2022 14:08:10 +0000 (GMT)
-Message-ID: <15c04229-0bd3-bfcc-41e8-67c23ce83140@linux.ibm.com>
-Date: Mon, 31 Oct 2022 10:08:09 -0400
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1opVdI-0000wt-T7
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 10:19:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667225960; x=1698761960;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=tqW2d6h1UDzp5U1oT1GYec0J1/UWlA3NgSO3LKyeYTY=;
+ b=MgZEfTYwQ0ybGlE1u78+v7roYDNKUBinUbF1Z9mXsbbivAobTQho0ium
+ QQ9DpLMt0tvalVltlltYsvuhsMLwuhdlsHHh7ovHAG7SjTGckRh63l47N
+ 7WjjZixUCMq0bvNTBFsL+/Jbgx3K2zEYki7bzXL9mJFxRVIo2bqxi20Np
+ wsJEMiv476GdsMRV/L8v+99KFY1mzOw+GDcjgONQzIW71Y+pFl7r4X0PR
+ G7kdkj844znUEuoCELOzu0A8BjTm+0ydZy9Kt/goaJXRDhIJCfbJ5iXOI
+ oAz0ld5+XzkjGTMOl3zjbwNwnvjO5/fHqDBDExah6CqMKQq2+zrd4E/y7 w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="335565868"
+X-IronPort-AV: E=Sophos;i="5.95,228,1661842800"; d="scan'208";a="335565868"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Oct 2022 07:19:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10517"; a="628252321"
+X-IronPort-AV: E=Sophos;i="5.95,228,1661842800"; d="scan'208";a="628252321"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga007.jf.intel.com with ESMTP; 31 Oct 2022 07:18:54 -0700
+Date: Mon, 31 Oct 2022 22:14:26 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 2/8] KVM: Extend the memslot to support fd-based
+ private memory
+Message-ID: <20221031141426.GA3994099@chaop.bj.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-3-chao.p.peng@linux.intel.com>
+ <f324f02c-cf76-08a9-07a3-4af60778056f@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v2] s390x/css: revert SCSW ctrl/flag bits on error
-Content-Language: en-US
-To: Eric Farman <farman@linux.ibm.com>, Peter Jin <pjin@linux.ibm.com>,
- pasic@linux.ibm.com, borntraeger@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- thuth@redhat.com
-Cc: peter@peterjin.org, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-References: <20221027212341.2904795-1-pjin@linux.ibm.com>
- <3a265985495a653b0cb5b4a1cf2cfad29f734dc0.camel@linux.ibm.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <3a265985495a653b0cb5b4a1cf2cfad29f734dc0.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: AJ6u-abC4z81Z3hjDD3Bv06_0T2Lwu3z
-X-Proofpoint-GUID: xiBPi0zWH1H-CzeSl-UbKjGJmfa9cSdo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-10-31_16,2022-10-31_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- lowpriorityscore=0 malwarescore=0 phishscore=0 spamscore=0 bulkscore=0
- impostorscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1011
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2210310088
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f324f02c-cf76-08a9-07a3-4af60778056f@intel.com>
+Received-SPF: none client-ip=192.55.52.88;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga01.intel.com
+X-Spam_score_int: -79
+X-Spam_score: -8.0
+X-Spam_bar: --------
+X-Spam_report: (-8.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,205 +99,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/28/22 4:22 PM, Eric Farman wrote:
-> On Thu, 2022-10-27 at 23:23 +0200, Peter Jin wrote:
->> Revert the control and flag bits in the subchannel status word in
->> case
->> the SSCH operation fails with non-zero CC (ditto for CSCH and HSCH).
->> According to POPS, the control and flag bits are only changed if
->> SSCH,
->> CSCH, and HSCH return CC 0, and no other action should be taken
->> otherwise.
->> In order to simulate that after the fact, the bits need to be
->> reverted on
->> non-zero CC.
->>
+On Fri, Oct 28, 2022 at 03:04:27PM +0800, Xiaoyao Li wrote:
+> On 10/25/2022 11:13 PM, Chao Peng wrote:
+> > In memory encryption usage, guest memory may be encrypted with special
+> > key and can be accessed only by the guest itself. We call such memory
+> > private memory. It's valueless and sometimes can cause problem to allow
+> > userspace to access guest private memory. This new KVM memslot extension
+> > allows guest private memory being provided though a restrictedmem
+>                                                  ^
 > 
-> I'm okay to this point...
-> 
->> This change is necessary due to the fact that the pwrite() in vfio-
->> ccw
->> which triggers the SSCH can fail at any time. Previously, there was
->> only virtio-ccw, whose do_subchannel_work function was only able to
->> return CC0. However, once vfio-ccw went into the mix, it has become
->> necessary to handle errors in code paths that were previously assumed
->> to always return success.
->>
->> In our case, we found that in case of pwrite() failure (which was
->> discovered by strace injection), the subchannel could be stuck in
->> start
->> pending state, which could be problematic if the pwrite() call
->> returns
->> CC2. Experimentation shows that the guest tries to retry the SSCH
->> call as
->> normal for CC2, but it actually continously fails due to the fact
->> that
->> the subchannel is stuck in start pending state even though no start
->> function is actually taking place.
-> 
-> ...but the two paragraphs above are a bit cumbersome to digest. Maybe
-> it's just too late in the week for me. What about something like this?
-> 
-> """
-> While the do_subchannel_work logic for virtual (virtio) devices will
-> return condition code 0, passthrough (vfio) devices may encounter
-> errors from either the host kernel or real hardware that need to be
-> accounted for after this point. This includes restoring the state of
-> the Subchannel Status Word to reflect the subchannel, as these bits
-> would not be set in the event of a non-zero condition code from the
-> affected instructions.
-> 
-> Experimentation has shown that a failure on a START SUBCHANNEL (SSCH)
-> to a passthrough device would leave the subchannel with the START
-> PENDING activity control bit set, thus blocking subsequent SSCH
-> operations in css_do_ssch() until some form of error recovery was
-> undertaken since no interrupt would be expected.
-> """
+> typo
 
-+1 to this re-write
+Thanks!
 
 > 
->>
->> Signed-off-by: Peter Jin <pjin@linux.ibm.com>
+> > backed file descriptor(fd) and userspace is restricted to access the
+> > bookmarked memory in the fd.
+> > 
+> > This new extension, indicated by the new flag KVM_MEM_PRIVATE, adds two
+> > additional KVM memslot fields restricted_fd/restricted_offset to allow
+> > userspace to instruct KVM to provide guest memory through restricted_fd.
+> > 'guest_phys_addr' is mapped at the restricted_offset of restricted_fd
+> > and the size is 'memory_size'.
+> > 
+> > The extended memslot can still have the userspace_addr(hva). When use, a
+> > single memslot can maintain both private memory through restricted_fd
+> > and shared memory through userspace_addr. Whether the private or shared
+> > part is visible to guest is maintained by other KVM code.
+> > 
+> > A restrictedmem_notifier field is also added to the memslot structure to
+> > allow the restricted_fd's backing store to notify KVM the memory change,
+> > KVM then can invalidate its page table entries.
+> > 
+> > Together with the change, a new config HAVE_KVM_RESTRICTED_MEM is added
+> > and right now it is selected on X86_64 only. A KVM_CAP_PRIVATE_MEM is
+> > also introduced to indicate KVM support for KVM_MEM_PRIVATE.
+> > 
+> > To make code maintenance easy, internally we use a binary compatible
+> > alias struct kvm_user_mem_region to handle both the normal and the
+> > '_ext' variants.
+> > 
+> > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >   Documentation/virt/kvm/api.rst | 48 ++++++++++++++++++++++++++++-----
+> >   arch/x86/kvm/Kconfig           |  2 ++
+> >   arch/x86/kvm/x86.c             |  2 +-
+> >   include/linux/kvm_host.h       | 13 +++++++--
+> >   include/uapi/linux/kvm.h       | 29 ++++++++++++++++++++
+> >   virt/kvm/Kconfig               |  3 +++
+> >   virt/kvm/kvm_main.c            | 49 ++++++++++++++++++++++++++++------
+> >   7 files changed, 128 insertions(+), 18 deletions(-)
+> > 
+> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> > index eee9f857a986..f3fa75649a78 100644
+> > --- a/Documentation/virt/kvm/api.rst
+> > +++ b/Documentation/virt/kvm/api.rst
+> > @@ -1319,7 +1319,7 @@ yet and must be cleared on entry.
+> >   :Capability: KVM_CAP_USER_MEMORY
+> >   :Architectures: all
+> >   :Type: vm ioctl
+> > -:Parameters: struct kvm_userspace_memory_region (in)
+> > +:Parameters: struct kvm_userspace_memory_region(_ext) (in)
+> >   :Returns: 0 on success, -1 on error
+> >   ::
+> > @@ -1332,9 +1332,18 @@ yet and must be cleared on entry.
+> >   	__u64 userspace_addr; /* start of the userspace allocated memory */
+> >     };
+> > +  struct kvm_userspace_memory_region_ext {
+> > +	struct kvm_userspace_memory_region region;
+> > +	__u64 restricted_offset;
+> > +	__u32 restricted_fd;
+> > +	__u32 pad1;
+> > +	__u64 pad2[14];
+> > +  };
+> > +
+> >     /* for kvm_memory_region::flags */
+> >     #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
+> >     #define KVM_MEM_READONLY	(1UL << 1)
+> > +  #define KVM_MEM_PRIVATE		(1UL << 2)
+> >   This ioctl allows the user to create, modify or delete a guest physical
+> >   memory slot.  Bits 0-15 of "slot" specify the slot id and this value
+> > @@ -1365,12 +1374,27 @@ It is recommended that the lower 21 bits of guest_phys_addr and userspace_addr
+> >   be identical.  This allows large pages in the guest to be backed by large
+> >   pages in the host.
+> > -The flags field supports two flags: KVM_MEM_LOG_DIRTY_PAGES and
+> > -KVM_MEM_READONLY.  The former can be set to instruct KVM to keep track of
+> > -writes to memory within the slot.  See KVM_GET_DIRTY_LOG ioctl to know how to
+> > -use it.  The latter can be set, if KVM_CAP_READONLY_MEM capability allows it,
+> > -to make a new slot read-only.  In this case, writes to this memory will be
+> > -posted to userspace as KVM_EXIT_MMIO exits.
+> > +kvm_userspace_memory_region_ext struct includes all fields of
+> > +kvm_userspace_memory_region struct, while also adds additional fields for some
+> > +other features. See below description of flags field for more information.
+> > +It's recommended to use kvm_userspace_memory_region_ext in new userspace code.
+> > +
+> > +The flags field supports following flags:
+> > +
+> > +- KVM_MEM_LOG_DIRTY_PAGES to instruct KVM to keep track of writes to memory
+> > +  within the slot.  For more details, see KVM_GET_DIRTY_LOG ioctl.
+> > +
+> > +- KVM_MEM_READONLY, if KVM_CAP_READONLY_MEM allows, to make a new slot
+> > +  read-only.  In this case, writes to this memory will be posted to userspace as
+> > +  KVM_EXIT_MMIO exits.
+> > +
+> > +- KVM_MEM_PRIVATE, if KVM_CAP_PRIVATE_MEM allows, to indicate a new slot has
+> > +  private memory backed by a file descriptor(fd) and userspace access to the
+> > +  fd may be restricted. Userspace should use restricted_fd/restricted_offset in
+> > +  kvm_userspace_memory_region_ext to instruct KVM to provide private memory
+> > +  to guest. Userspace should guarantee not to map the same pfn indicated by
+> > +  restricted_fd/restricted_offset to different gfns with multiple memslots.
+> > +  Failed to do this may result undefined behavior.
+> >   When the KVM_CAP_SYNC_MMU capability is available, changes in the backing of
+> >   the memory region are automatically reflected into the guest.  For example, an
+> > @@ -8215,6 +8239,16 @@ structure.
+> >   When getting the Modified Change Topology Report value, the attr->addr
+> >   must point to a byte where the value will be stored or retrieved from.
+> > +8.36 KVM_CAP_PRIVATE_MEM
+> > +------------------------
+> > +
+> > +:Architectures: x86
+> > +
+> > +This capability indicates that private memory is supported and userspace can
+> > +set KVM_MEM_PRIVATE flag for KVM_SET_USER_MEMORY_REGION ioctl.  See
+> > +KVM_SET_USER_MEMORY_REGION for details on the usage of KVM_MEM_PRIVATE and
+> > +kvm_userspace_memory_region_ext fields.
+> > +
+> >   9. Known KVM API problems
+> >   =========================
+> > diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
+> > index 67be7f217e37..8d2bd455c0cd 100644
+> > --- a/arch/x86/kvm/Kconfig
+> > +++ b/arch/x86/kvm/Kconfig
+> > @@ -49,6 +49,8 @@ config KVM
+> >   	select SRCU
+> >   	select INTERVAL_TREE
+> >   	select HAVE_KVM_PM_NOTIFIER if PM
+> > +	select HAVE_KVM_RESTRICTED_MEM if X86_64
+> > +	select RESTRICTEDMEM if HAVE_KVM_RESTRICTED_MEM
+> >   	help
+> >   	  Support hosting fully virtualized guest machines using hardware
+> >   	  virtualization extensions.  You will need a fairly recent
+> > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> > index 4bd5f8a751de..02ad31f46dd7 100644
+> > --- a/arch/x86/kvm/x86.c
+> > +++ b/arch/x86/kvm/x86.c
+> > @@ -12425,7 +12425,7 @@ void __user * __x86_set_memory_region(struct kvm *kvm, int id, gpa_t gpa,
+> >   	}
+> >   	for (i = 0; i < KVM_ADDRESS_SPACE_NUM; i++) {
+> > -		struct kvm_userspace_memory_region m;
+> > +		struct kvm_user_mem_region m;
+> >   		m.slot = id | (i << 16);
+> >   		m.flags = 0;
+> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> > index 32f259fa5801..739a7562a1f3 100644
+> > --- a/include/linux/kvm_host.h
+> > +++ b/include/linux/kvm_host.h
+> > @@ -44,6 +44,7 @@
+> >   #include <asm/kvm_host.h>
+> >   #include <linux/kvm_dirty_ring.h>
+> > +#include <linux/restrictedmem.h>
+> >   #ifndef KVM_MAX_VCPU_IDS
+> >   #define KVM_MAX_VCPU_IDS KVM_MAX_VCPUS
+> > @@ -575,8 +576,16 @@ struct kvm_memory_slot {
+> >   	u32 flags;
+> >   	short id;
+> >   	u16 as_id;
+> > +	struct file *restricted_file;
+> > +	loff_t restricted_offset;
+> > +	struct restrictedmem_notifier notifier;
+> >   };
+> > +static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
+> > +{
+> > +	return slot && (slot->flags & KVM_MEM_PRIVATE);
+> > +}
+> > +
 > 
-> We've talked previously about clearing this within the
-> do_subchannel_work_passthrough routine in order to keep the _virtual
-> paths untouched, but this seems like a reasonable approach to me.
-> 
-> The commit message is probably fine either way, but as far as the code
-> goes:
-> 
-> Reviewed-by: Eric Farman <farman@linux.ibm.com>
+> We can introduce this function in patch 6 when it's first used.
 
-Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Good to me.
 
-Thanks Peter!
-
+Chao
 > 
->> ---
->>  hw/s390x/css.c | 51 +++++++++++++++++++++++++++++++++++++++++++++++-
->> --
->>  1 file changed, 48 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/s390x/css.c b/hw/s390x/css.c
->> index 7d9523f811..95d1b3a3ce 100644
->> --- a/hw/s390x/css.c
->> +++ b/hw/s390x/css.c
->> @@ -1522,21 +1522,37 @@ IOInstEnding css_do_xsch(SubchDev *sch)
->>  IOInstEnding css_do_csch(SubchDev *sch)
->>  {
->>      SCHIB *schib = &sch->curr_status;
->> +    uint16_t old_scsw_ctrl;
->> +    IOInstEnding ccode;
->>  
->>      if (~(schib->pmcw.flags) & (PMCW_FLAGS_MASK_DNV |
->> PMCW_FLAGS_MASK_ENA)) {
->>          return IOINST_CC_NOT_OPERATIONAL;
->>      }
->>  
->> +    /*
->> +     * Save the current scsw.ctrl in case CSCH fails and we need
->> +     * to revert the scsw to the status quo ante.
->> +     */
->> +    old_scsw_ctrl = schib->scsw.ctrl;
->> +
->>      /* Trigger the clear function. */
->>      schib->scsw.ctrl &= ~(SCSW_CTRL_MASK_FCTL |
->> SCSW_CTRL_MASK_ACTL);
->>      schib->scsw.ctrl |= SCSW_FCTL_CLEAR_FUNC | SCSW_ACTL_CLEAR_PEND;
->>  
->> -    return do_subchannel_work(sch);
->> +    ccode = do_subchannel_work(sch);
->> +
->> +    if (ccode != IOINST_CC_EXPECTED) {
->> +        schib->scsw.ctrl = old_scsw_ctrl;
->> +    }
->> +
->> +    return ccode;
->>  }
->>  
->>  IOInstEnding css_do_hsch(SubchDev *sch)
->>  {
->>      SCHIB *schib = &sch->curr_status;
->> +    uint16_t old_scsw_ctrl;
->> +    IOInstEnding ccode;
->>  
->>      if (~(schib->pmcw.flags) & (PMCW_FLAGS_MASK_DNV |
->> PMCW_FLAGS_MASK_ENA)) {
->>          return IOINST_CC_NOT_OPERATIONAL;
->> @@ -1553,6 +1569,12 @@ IOInstEnding css_do_hsch(SubchDev *sch)
->>          return IOINST_CC_BUSY;
->>      }
->>  
->> +    /*
->> +     * Save the current scsw.ctrl in case HSCH fails and we need
->> +     * to revert the scsw to the status quo ante.
->> +     */
->> +    old_scsw_ctrl = schib->scsw.ctrl;
->> +
->>      /* Trigger the halt function. */
->>      schib->scsw.ctrl |= SCSW_FCTL_HALT_FUNC;
->>      schib->scsw.ctrl &= ~SCSW_FCTL_START_FUNC;
->> @@ -1564,7 +1586,13 @@ IOInstEnding css_do_hsch(SubchDev *sch)
->>      }
->>      schib->scsw.ctrl |= SCSW_ACTL_HALT_PEND;
->>  
->> -    return do_subchannel_work(sch);
->> +    ccode = do_subchannel_work(sch);
->> +
->> +    if (ccode != IOINST_CC_EXPECTED) {
->> +        schib->scsw.ctrl = old_scsw_ctrl;
->> +    }
->> +
->> +    return ccode;
->>  }
->>  
->>  static void css_update_chnmon(SubchDev *sch)
->> @@ -1605,6 +1633,8 @@ static void css_update_chnmon(SubchDev *sch)
->>  IOInstEnding css_do_ssch(SubchDev *sch, ORB *orb)
->>  {
->>      SCHIB *schib = &sch->curr_status;
->> +    uint16_t old_scsw_ctrl, old_scsw_flags;
->> +    IOInstEnding ccode;
->>  
->>      if (~(schib->pmcw.flags) & (PMCW_FLAGS_MASK_DNV |
->> PMCW_FLAGS_MASK_ENA)) {
->>          return IOINST_CC_NOT_OPERATIONAL;
->> @@ -1626,11 +1656,26 @@ IOInstEnding css_do_ssch(SubchDev *sch, ORB
->> *orb)
->>      }
->>      sch->orb = *orb;
->>      sch->channel_prog = orb->cpa;
->> +
->> +    /*
->> +     * Save the current scsw.ctrl and scsw.flags in case SSCH fails
->> and we need
->> +     * to revert the scsw to the status quo ante.
->> +     */
->> +    old_scsw_ctrl = schib->scsw.ctrl;
->> +    old_scsw_flags = schib->scsw.flags;
->> +
->>      /* Trigger the start function. */
->>      schib->scsw.ctrl |= (SCSW_FCTL_START_FUNC |
->> SCSW_ACTL_START_PEND);
->>      schib->scsw.flags &= ~SCSW_FLAGS_MASK_PNO;
->>  
->> -    return do_subchannel_work(sch);
->> +    ccode = do_subchannel_work(sch);
->> +
->> +    if (ccode != IOINST_CC_EXPECTED) {
->> +        schib->scsw.ctrl = old_scsw_ctrl;
->> +        schib->scsw.flags = old_scsw_flags;
->> +    }
->> +
->> +    return ccode;
->>  }
->>  
->>  static void copy_irb_to_guest(IRB *dest, const IRB *src, const PMCW
->> *pmcw,
 > 
-
 
