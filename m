@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF5F8613677
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:35:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E23E613682
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:37:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opU0I-0004ik-SM; Mon, 31 Oct 2022 08:34:58 -0400
+	id 1opU0R-0005AT-40; Mon, 31 Oct 2022 08:35:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opTzL-0003F4-Dp
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:33:59 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ id 1opTzb-0003NO-0H
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:34:23 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opTzG-0004LN-ED
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:33:56 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id c24so10595523pls.9
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:33:50 -0700 (PDT)
+ id 1opTzK-0004M2-3g
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:34:13 -0400
+Received: by mail-pf1-x435.google.com with SMTP id f140so10579288pfa.1
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:33:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jJjPRo2jnYNBTT+kAOkS5uMVCK0dMEO9iW4TvwZKw3A=;
- b=gD0CUWN4xTz0cfQginNv+aIFbilCQNOJiya9FtDe+LgFS7c6pVTroUY1/N13zKTBVi
- 7g9ICIMoq/5taXJuiCfh0ocY+zZo60PfCJMkd2ByoUELtlhYtTDuqN/O1rzW9N/L6Abi
- L0JiLYhaD437X5BaoaVOyIg2QmujrTTXzt8NEryS1tvUlK55l6ASCXJ1qBzSC/U4YtML
- 71SqqNZJfJmMExOFWqxXWGVDeDqM325MBiAkgK/XWs7tQ7V/FK3/+hfdFSUNfOI+xZ/b
- mMxVq8+fBBltrc7d+cvaw3clmrTDOQBDX/Dq475r931M2Fnzle8mtMokGowzOQ7Ld2BC
- mW2g==
+ bh=LeDajy+wDOnHrF4VJbDnI9K6oGioqFYjvnSTZ44MAKY=;
+ b=FDVNKTR5lEYj2TRDTQ3HBtwNnFuuGLb3nIMoYkMq5iTqFf8QTDMXvV230fgnXe6XkJ
+ jYWYl+AYU4yD8w1JsLTuR9/x57kv8Gs1toi4p6QVy13ln63wyl2uEA1RDohNwJOrd6Ez
+ kBQccJyFcae5GiU7IC+IDxFeoKbUYJD90E+3o59nteRnHVgmxMJOyB5QJf+gWAz0vrrj
+ XdE8WFse+Izktx6U7gwyBkLx7CDdNeyHkqgmZy5aYRBjQLVrOWapXlRXzZCRSQ+zmoiq
+ deFMwCeDnDNuTCuJ3XQiHwpAVqr0frNxTqS6GQoJ0KAtdo5WIHbnhmdp7nmXZUzxPVAp
+ 1skw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jJjPRo2jnYNBTT+kAOkS5uMVCK0dMEO9iW4TvwZKw3A=;
- b=kJJ4UtpAm/BjVDVt/UhmT9kV6G2/opQ8T6X51VNEK8rKO4jyc/1CLu5aW6TvWCZNDt
- gWXdz8ITB+au2rSBLblwwohJFqF+FY0t59tF97EKlKQ+mVTdR9bTwtjaRLYX0e+emHmp
- jLvy0pfb0ZP2+YW3ceYarnOBqTNvbBbzc6lFQmxy0AA678VPZB9f5+jp/RNwa9D6NPun
- ESxew2ztD+Saf1wqGerQYXmeRJIhqT7tc6mkkEEvjqvbfuH1qKkLPm6VuDLfw8elg4Pg
- RwHUa9jXLDcyzBFQyOUJMl7aXO/FoOyeLsa7r0y3pKtrx8oIwOkiczLHOW6Ou4PWkpSL
- PFTg==
-X-Gm-Message-State: ACrzQf19Vv1kU8e5qae2q/9414GCC5tE1xW8j3jg3+ELGRK4TIJz1FUd
- n+WXvkwXpb5bnqkHVkSLhUJBFVZaVOSeNcfQ
-X-Google-Smtp-Source: AMsMyM5vuSDEAqmV8vSAIj/G2odetIkezUD70tzrERdr+HndxapHP9/hFvs+TRdKQGyZpsEK3SjC7w==
-X-Received: by 2002:a17:902:da92:b0:187:25ae:16ad with SMTP id
- j18-20020a170902da9200b0018725ae16admr3504030plx.20.1667219629011; 
- Mon, 31 Oct 2022 05:33:49 -0700 (PDT)
+ bh=LeDajy+wDOnHrF4VJbDnI9K6oGioqFYjvnSTZ44MAKY=;
+ b=p6EkYvAnLNxcxOyXWiNiWCPK9zriZDogHM9QeKmg/M5naA4ajPPHIPY8rm+NU8zZXY
+ fy9D2z1aUXVY/yqqD5HNu+zmO0N6xMgc/uimeOlCWcdrG5RD2vtL2ECO7a4xTisnpiml
+ O9u3plU6weB1kRDIM0raIPxU9j9K20mG0L14+wH+yyqjLNDpHS2cRFEBrqaiTxP4TAHa
+ enJDVAAVtmRbJffMrM6YmgpPF0gJUBmkCUAc0ocDOYIffVO9tVMLIbv7dBGQ9OYqd1W+
+ sgNeSP4U5D523h/5z/UhZDXJxxX5jSIhtgh1JMHpDkhfPjgs+ILVcOqNHIR+t8+CuVtO
+ Pr7g==
+X-Gm-Message-State: ACrzQf2s3KXpD/LnX+suvT/rnf+b9TMfMwpJnPF7LE2EwWHyhp+VvOTf
+ zL9nrLNcil8L6f18QEOMHfB71WSMDvL4CMWW
+X-Google-Smtp-Source: AMsMyM5yePmvJhhUmW0yDGous49gLcjEykD3Wu1X28OsYcLRmadPYuimW3jmq2JBehE2v0GK/MoWkA==
+X-Received: by 2002:a63:f214:0:b0:461:8862:331e with SMTP id
+ v20-20020a63f214000000b004618862331emr12430709pgh.386.1667219634116; 
+ Mon, 31 Oct 2022 05:33:54 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- m10-20020a6545ca000000b0042b5095b7b4sm4093810pgr.5.2022.10.31.05.33.44
+ m10-20020a6545ca000000b0042b5095b7b4sm4093810pgr.5.2022.10.31.05.33.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:33:48 -0700 (PDT)
+ Mon, 31 Oct 2022 05:33:53 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
@@ -73,21 +73,21 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  Yan Vugenfirer <yan@daynix.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v6 04/17] ahci: Omit errp for pci_add_capability
-Date: Mon, 31 Oct 2022 21:33:06 +0900
-Message-Id: <20221031123319.21532-5-akihiko.odaki@daynix.com>
+Subject: [PATCH v6 05/17] e1000e: Omit errp for pci_add_capability
+Date: Mon, 31 Oct 2022 21:33:07 +0900
+Message-Id: <20221031123319.21532-6-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221031123319.21532-1-akihiko.odaki@daynix.com>
 References: <20221031123319.21532-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62e;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::435;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,35 +111,54 @@ their overlap should not happen unless there is a programming error.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/ide/ich.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ hw/net/e1000e.c | 18 +++---------------
+ 1 file changed, 3 insertions(+), 15 deletions(-)
 
-diff --git a/hw/ide/ich.c b/hw/ide/ich.c
-index 1007a51fcb..3b478b01f8 100644
---- a/hw/ide/ich.c
-+++ b/hw/ide/ich.c
-@@ -106,7 +106,7 @@ static void pci_ich9_ahci_init(Object *obj)
- static void pci_ich9_ahci_realize(PCIDevice *dev, Error **errp)
+diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
+index ac96f7665a..e433b8f9a5 100644
+--- a/hw/net/e1000e.c
++++ b/hw/net/e1000e.c
+@@ -377,17 +377,10 @@ e1000e_gen_dsn(uint8_t *mac)
+            (uint64_t)(mac[0])  << 56;
+ }
+ 
+-static int
++static void
+ e1000e_add_pm_capability(PCIDevice *pdev, uint8_t offset, uint16_t pmc)
  {
-     struct AHCIPCIState *d;
--    int sata_cap_offset;
-+    uint8_t sata_cap_offset;
-     uint8_t *sata_cap;
-     d = ICH9_AHCI(dev);
-     int ret;
-@@ -130,11 +130,7 @@ static void pci_ich9_ahci_realize(PCIDevice *dev, Error **errp)
-                      &d->ahci.mem);
- 
-     sata_cap_offset = pci_add_capability(dev, PCI_CAP_ID_SATA,
--                                          ICH9_SATA_CAP_OFFSET, SATA_CAP_SIZE,
--                                          errp);
--    if (sata_cap_offset < 0) {
--        return;
+-    Error *local_err = NULL;
+-    int ret = pci_add_capability(pdev, PCI_CAP_ID_PM, offset,
+-                                 PCI_PM_SIZEOF, &local_err);
+-
+-    if (local_err) {
+-        error_report_err(local_err);
+-        return ret;
 -    }
-+                                          ICH9_SATA_CAP_OFFSET, SATA_CAP_SIZE);
++    pci_add_capability(pdev, PCI_CAP_ID_PM, offset, PCI_PM_SIZEOF);
  
-     sata_cap = dev->config + sata_cap_offset;
-     pci_set_word(sata_cap + SATA_CAP_REV, 0x10);
+     pci_set_word(pdev->config + offset + PCI_PM_PMC,
+                  PCI_PM_CAP_VER_1_1 |
+@@ -400,8 +393,6 @@ e1000e_add_pm_capability(PCIDevice *pdev, uint8_t offset, uint16_t pmc)
+ 
+     pci_set_word(pdev->w1cmask + offset + PCI_PM_CTRL,
+                  PCI_PM_CTRL_PME_STATUS);
+-
+-    return ret;
+ }
+ 
+ static void e1000e_write_config(PCIDevice *pci_dev, uint32_t address,
+@@ -480,10 +471,7 @@ static void e1000e_pci_realize(PCIDevice *pci_dev, Error **errp)
+         trace_e1000e_msi_init_fail(ret);
+     }
+ 
+-    if (e1000e_add_pm_capability(pci_dev, e1000e_pmrb_offset,
+-                                  PCI_PM_CAP_DSI) < 0) {
+-        hw_error("Failed to initialize PM capability");
+-    }
++    e1000e_add_pm_capability(pci_dev, e1000e_pmrb_offset, PCI_PM_CAP_DSI);
+ 
+     if (pcie_aer_init(pci_dev, PCI_ERR_VER, e1000e_aer_offset,
+                       PCI_ERR_SIZEOF, NULL) < 0) {
 -- 
 2.38.1
 
