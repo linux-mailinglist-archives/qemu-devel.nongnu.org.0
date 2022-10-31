@@ -2,74 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4E67613924
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 15:41:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E6761393D
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 15:46:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opVx2-0000xg-Pl; Mon, 31 Oct 2022 10:39:44 -0400
+	id 1opW2A-0007tq-CB; Mon, 31 Oct 2022 10:45:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1opVx0-0000pj-RN
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 10:39:42 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1opVwy-0007xy-MG
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 10:39:42 -0400
-Received: by mail-ej1-x629.google.com with SMTP id bj12so29844423ejb.13
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 07:39:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=mnkt1+iFFg3PJtfFrMaH22s0eT3hC13xuq99AEn8GT4=;
- b=lpg17CbzspwsBsKkO81t9Xp42sxb9rQwfWiwiVdbRnUFs8vOHEd8cjhI1WenjMwFtH
- l+4Bs2IMX/3sLt0XiU8HY5D0alYmOS0fVsUAT3TPdE7edU+SkBA5wsvxh81Ix52tZc/z
- HrkyCWqrMKor9PbRT6SiWrnEK/TV4Mbc1aB7D2XNcNP/oLrVz3TFii9vaoe5u6hBeBxl
- DAOtD7xIWflj1AG9TcE0QN3JBKfM6nLYkYq0TpHuIQTBnTWhC77JqXk/7XJIJno7J/Kk
- BB8UYZ1iJxncQyKKrb8NfKZSWECMRCL2AdTujE7K+XjeMds4Fz/vqg7h+963dF5WfBRR
- vfeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mnkt1+iFFg3PJtfFrMaH22s0eT3hC13xuq99AEn8GT4=;
- b=p98xdffsIADlDfSXNpsdvftL5Xtnu+5gBhEmYr/hUe1cPk1+EW+nIQ23UdQkiuycrZ
- pVTtfJHOp/Tz9ar7XqeFiwp91CODzm7i8xlx3LGYndO6O/ynTFvQ2egwt4KAFLJAkh/Y
- rRVkfhoDP9XrTDCpvByoyNq28aBVihfcRU7ReAcxc+zO8Wcw7B9lswII1Ap+qWKdL8EN
- mgrKGcq0QNq8kAx8S5ouCmmcvKa/ZBacBdjp1xxbqGPlG7RsyQcqe1va0TKogJ/KwzYs
- /QQ8+3PxkGaKrP7RcxKo/vYD1Rnb38A6pq/kT7fFvCGYtJXAVvkUl47xqqsaQdzikS9v
- 7a7Q==
-X-Gm-Message-State: ACrzQf1Z6+KbiyeNOMCAkDiqA8JluPdkfpTU32PCTmdv/tM+taUEW1Rp
- /deVyGspW8umd5ZbrKq8JEEQ3/1KX+exLBB6y0igdg==
-X-Google-Smtp-Source: AMsMyM4jy//mM/3XU2zJJrpMIClq0EcHtyYWJsEL5SVpNmLqad8uHhQIXN21qmlC30HykG8etgbYBNV+dbQYm2UfWZ4=
-X-Received: by 2002:a17:907:d02:b0:7a3:de36:b67 with SMTP id
- gn2-20020a1709070d0200b007a3de360b67mr12951847ejc.451.1667227178427; Mon, 31
- Oct 2022 07:39:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pjin@linux.ibm.com>)
+ id 1opW27-0007tO-3E; Mon, 31 Oct 2022 10:44:59 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pjin@linux.ibm.com>)
+ id 1opW24-0001co-TX; Mon, 31 Oct 2022 10:44:58 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 29VENhGX005121;
+ Mon, 31 Oct 2022 14:44:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=LR5L5Vc8wnBGKmlxjrLFh4pG4O0TV8pPEIOTTsmcqUE=;
+ b=DCq7hw2xs//CTNNN4X8UiamcgqsJgBBPg7W/yC+yY6MhfT+ApxC9wVcR41el/z2c9Lk8
+ F5zEb/oWzfKsl4Z4LdB9nPfXcecPotozZv7eKqtgSIiqKY6WI75tzLN+qijYpm8ZbqmT
+ Xk24Nx5ckAzdiDan+FwBJOrqCNVt1QWpCPMDRgl6MyNkEzwY/1ILLqDBpcdiWhwzItPk
+ Xa8bAcLI8gLs7xgSQHdMyk3eAsNMeCXruJzL83ug0AGqgCONtnean3+ss7+n5fXI5ZkR
+ Dl6KJACfHLr0NB9VERYQSW3l/stI5a0THEhZHg5rK+CnLsE97M+TjRXn4tp2M1eswYK7 Yw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kjg3a0pg1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 31 Oct 2022 14:44:51 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 29VEfKpw027145;
+ Mon, 31 Oct 2022 14:44:50 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kjg3a0pfm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 31 Oct 2022 14:44:50 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 29VEZXxa024597;
+ Mon, 31 Oct 2022 14:44:49 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma01dal.us.ibm.com with ESMTP id 3kguta9kgq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 31 Oct 2022 14:44:49 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com ([9.208.128.113])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 29VEilj74457148
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 31 Oct 2022 14:44:48 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AAD2E5805B;
+ Mon, 31 Oct 2022 14:44:47 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 805AA58059;
+ Mon, 31 Oct 2022 14:44:46 +0000 (GMT)
+Received: from [9.65.228.183] (unknown [9.65.228.183])
+ by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 31 Oct 2022 14:44:46 +0000 (GMT)
+Message-ID: <9a9eb598-fb49-4e44-a601-4c41fe58bfbf@linux.ibm.com>
+Date: Mon, 31 Oct 2022 10:44:46 -0400
 MIME-Version: 1.0
-References: <20221028174546.88683-1-imp@bsdimp.com>
- <CAJSP0QUbek3kWrWbWMoqKcQspL94vK9Xy7jFqmihGD86_pV-tw@mail.gmail.com>
- <CANCZdfr_gPtznH+5HfWoz-01K-2mOzKsUiGdVPBFDMry01xWFQ@mail.gmail.com>
- <CAJSP0QXT2NqVJFhpAS2g9Eq_vLd+h27wGZ-BnR3jddagAmdANQ@mail.gmail.com>
-In-Reply-To: <CAJSP0QXT2NqVJFhpAS2g9Eq_vLd+h27wGZ-BnR3jddagAmdANQ@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 31 Oct 2022 08:39:27 -0600
-Message-ID: <CANCZdfrGt=iJdqksz0HeDLYSc-8jAV7=RpJ1rLc_rvroPEDebg@mail.gmail.com>
-Subject: Re: [PULL 0/1] Imp 202210 patches
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Kyle Evans <kevans@freebsd.org>, 
- Richard Henderson <richard.henderson@linaro.org>,
- John Baldwin <jhb@freebsd.org>
-Content-Type: multipart/alternative; boundary="000000000000bafdbd05ec5593f9"
-Received-SPF: none client-ip=2a00:1450:4864:20::629;
- envelope-from=wlosh@bsdimp.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v2] s390x/css: revert SCSW ctrl/flag bits on error
+Content-Language: en-US
+To: Matthew Rosato <mjrosato@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, pasic@linux.ibm.com,
+ borntraeger@linux.ibm.com, richard.henderson@linaro.org,
+ david@redhat.com, cohuck@redhat.com, thuth@redhat.com
+Cc: peter@peterjin.org, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+References: <20221027212341.2904795-1-pjin@linux.ibm.com>
+ <3a265985495a653b0cb5b4a1cf2cfad29f734dc0.camel@linux.ibm.com>
+ <15c04229-0bd3-bfcc-41e8-67c23ce83140@linux.ibm.com>
+From: Peter Jin <pjin@linux.ibm.com>
+In-Reply-To: <15c04229-0bd3-bfcc-41e8-67c23ce83140@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: kDQq4Epke2c29STtDGruk_F-gssmHQ20
+X-Proofpoint-GUID: yhJepOxh7MGFKHfxhBBAtYdKTj1Xsy8v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-10-31_17,2022-10-31_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ mlxlogscore=999 priorityscore=1501 bulkscore=0 lowpriorityscore=0
+ suspectscore=0 spamscore=0 impostorscore=0 mlxscore=0 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2210310091
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pjin@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,100 +117,209 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000bafdbd05ec5593f9
-Content-Type: text/plain; charset="UTF-8"
+To everyone else on the mailing lists,
 
-On Mon, Oct 31, 2022 at 8:17 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+I apologize for any confusion caused by this being a "v2" of the 
+original "v1" patch and not submitting a changelog. I am rather new to 
+these kinds of mailing lists, though Eric and Matt here have been really 
+helpful in getting this correct. I will remember to put changelogs for 
+v2, v3, etc. patches before submitting them!
 
-> On Mon, 31 Oct 2022 at 09:19, Warner Losh <imp@bsdimp.com> wrote:
-> >
-> >
-> >
-> > On Mon, Oct 31, 2022, 4:34 AM Stefan Hajnoczi <stefanha@gmail.com>
-> wrote:
-> >>
-> >> On Fri, 28 Oct 2022 at 13:46, Warner Losh <imp@bsdimp.com> wrote:
-> >> >
-> >> > The following changes since commit
-> 344744e148e6e865f5a57e745b02a87e5ea534ad:
-> >> >
-> >> >   Merge tag 'dump-pull-request' of
-> https://gitlab.com/marcandre.lureau/qemu into staging (2022-10-26
-> 10:53:49 -0400)
-> >> >
-> >> > are available in the Git repository at:
-> >> >
-> >> >   ssh://git@github.com/qemu-bsd-user/qemu-bsd-user.git
-> tags/imp-202210-pull-request
-> >>
-> >> Hi Warner,
-> >> Please use https://github.com/qemu-bsd-user/qemu-bsd-user.git instead
-> >> of an ssh URL. That way anonymous fetching works for people without
-> >> GitHub accounts. Thanks!
-> >
-> >
-> >
-> > Will do in the future. It's trivial to convert. Do I need to resubmit
-> this pull request for something so trivial?
+Anyways, changes from v1:
+
+- no code changes, only added additional explanatory text.
+
+If you think I need to post a v3 to put this inline, let me know.
+
+Peter
+
+On 10/31/22 10:08, Matthew Rosato wrote:
+> On 10/28/22 4:22 PM, Eric Farman wrote:
+>> On Thu, 2022-10-27 at 23:23 +0200, Peter Jin wrote:
+>>> Revert the control and flag bits in the subchannel status word in
+>>> case
+>>> the SSCH operation fails with non-zero CC (ditto for CSCH and HSCH).
+>>> According to POPS, the control and flag bits are only changed if
+>>> SSCH,
+>>> CSCH, and HSCH return CC 0, and no other action should be taken
+>>> otherwise.
+>>> In order to simulate that after the fact, the bits need to be
+>>> reverted on
+>>> non-zero CC.
+>>>
+>> I'm okay to this point...
+>>
+>>> This change is necessary due to the fact that the pwrite() in vfio-
+>>> ccw
+>>> which triggers the SSCH can fail at any time. Previously, there was
+>>> only virtio-ccw, whose do_subchannel_work function was only able to
+>>> return CC0. However, once vfio-ccw went into the mix, it has become
+>>> necessary to handle errors in code paths that were previously assumed
+>>> to always return success.
+>>>
+>>> In our case, we found that in case of pwrite() failure (which was
+>>> discovered by strace injection), the subchannel could be stuck in
+>>> start
+>>> pending state, which could be problematic if the pwrite() call
+>>> returns
+>>> CC2. Experimentation shows that the guest tries to retry the SSCH
+>>> call as
+>>> normal for CC2, but it actually continously fails due to the fact
+>>> that
+>>> the subchannel is stuck in start pending state even though no start
+>>> function is actually taking place.
+>> ...but the two paragraphs above are a bit cumbersome to digest. Maybe
+>> it's just too late in the week for me. What about something like this?
+>>
+>> """
+>> While the do_subchannel_work logic for virtual (virtio) devices will
+>> return condition code 0, passthrough (vfio) devices may encounter
+>> errors from either the host kernel or real hardware that need to be
+>> accounted for after this point. This includes restoring the state of
+>> the Subchannel Status Word to reflect the subchannel, as these bits
+>> would not be set in the event of a non-zero condition code from the
+>> affected instructions.
+>>
+>> Experimentation has shown that a failure on a START SUBCHANNEL (SSCH)
+>> to a passthrough device would leave the subchannel with the START
+>> PENDING activity control bit set, thus blocking subsequent SSCH
+>> operations in css_do_ssch() until some form of error recovery was
+>> undertaken since no interrupt would be expected.
+>> """
+> +1 to this re-write
 >
-> No, that's not necessary. I have already merged it into the staging
-> branch. Thanks!
+>>> Signed-off-by: Peter Jin <pjin@linux.ibm.com>
+>> We've talked previously about clearing this within the
+>> do_subchannel_work_passthrough routine in order to keep the _virtual
+>> paths untouched, but this seems like a reasonable approach to me.
+>>
+>> The commit message is probably fine either way, but as far as the code
+>> goes:
+>>
+>> Reviewed-by: Eric Farman <farman@linux.ibm.com>
+> Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
 >
-
-Great! Thanks!
-
-Warner
-
---000000000000bafdbd05ec5593f9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 31, 2022 at 8:17 AM Stefa=
-n Hajnoczi &lt;<a href=3D"mailto:stefanha@gmail.com">stefanha@gmail.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On M=
-on, 31 Oct 2022 at 09:19, Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com"=
- target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; On Mon, Oct 31, 2022, 4:34 AM Stefan Hajnoczi &lt;<a href=3D"mailto:st=
-efanha@gmail.com" target=3D"_blank">stefanha@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On Fri, 28 Oct 2022 at 13:46, Warner Losh &lt;<a href=3D"mailto:im=
-p@bsdimp.com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; The following changes since commit 344744e148e6e865f5a57e745b=
-02a87e5ea534ad:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0Merge tag &#39;dump-pull-request&#39; of <a href=
-=3D"https://gitlab.com/marcandre.lureau/qemu" rel=3D"noreferrer" target=3D"=
-_blank">https://gitlab.com/marcandre.lureau/qemu</a> into staging (2022-10-=
-26 10:53:49 -0400)<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; are available in the Git repository at:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0ssh://<a href=3D"http://git@github.com/qemu-bsd-u=
-ser/qemu-bsd-user.git" rel=3D"noreferrer" target=3D"_blank">git@github.com/=
-qemu-bsd-user/qemu-bsd-user.git</a> tags/imp-202210-pull-request<br>
-&gt;&gt;<br>
-&gt;&gt; Hi Warner,<br>
-&gt;&gt; Please use <a href=3D"https://github.com/qemu-bsd-user/qemu-bsd-us=
-er.git" rel=3D"noreferrer" target=3D"_blank">https://github.com/qemu-bsd-us=
-er/qemu-bsd-user.git</a> instead<br>
-&gt;&gt; of an ssh URL. That way anonymous fetching works for people withou=
-t<br>
-&gt;&gt; GitHub accounts. Thanks!<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; Will do in the future. It&#39;s trivial to convert. Do I need to resub=
-mit this pull request for something so trivial?<br>
-<br>
-No, that&#39;s not necessary. I have already merged it into the staging<br>
-branch. Thanks!<br></blockquote><div><br></div><div>Great! Thanks!</div><di=
-v><br></div><div>Warner</div></div></div>
-
---000000000000bafdbd05ec5593f9--
+> Thanks Peter!
+>
+>>> ---
+>>>   hw/s390x/css.c | 51 +++++++++++++++++++++++++++++++++++++++++++++++-
+>>> --
+>>>   1 file changed, 48 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/hw/s390x/css.c b/hw/s390x/css.c
+>>> index 7d9523f811..95d1b3a3ce 100644
+>>> --- a/hw/s390x/css.c
+>>> +++ b/hw/s390x/css.c
+>>> @@ -1522,21 +1522,37 @@ IOInstEnding css_do_xsch(SubchDev *sch)
+>>>   IOInstEnding css_do_csch(SubchDev *sch)
+>>>   {
+>>>       SCHIB *schib = &sch->curr_status;
+>>> +    uint16_t old_scsw_ctrl;
+>>> +    IOInstEnding ccode;
+>>>   
+>>>       if (~(schib->pmcw.flags) & (PMCW_FLAGS_MASK_DNV |
+>>> PMCW_FLAGS_MASK_ENA)) {
+>>>           return IOINST_CC_NOT_OPERATIONAL;
+>>>       }
+>>>   
+>>> +    /*
+>>> +     * Save the current scsw.ctrl in case CSCH fails and we need
+>>> +     * to revert the scsw to the status quo ante.
+>>> +     */
+>>> +    old_scsw_ctrl = schib->scsw.ctrl;
+>>> +
+>>>       /* Trigger the clear function. */
+>>>       schib->scsw.ctrl &= ~(SCSW_CTRL_MASK_FCTL |
+>>> SCSW_CTRL_MASK_ACTL);
+>>>       schib->scsw.ctrl |= SCSW_FCTL_CLEAR_FUNC | SCSW_ACTL_CLEAR_PEND;
+>>>   
+>>> -    return do_subchannel_work(sch);
+>>> +    ccode = do_subchannel_work(sch);
+>>> +
+>>> +    if (ccode != IOINST_CC_EXPECTED) {
+>>> +        schib->scsw.ctrl = old_scsw_ctrl;
+>>> +    }
+>>> +
+>>> +    return ccode;
+>>>   }
+>>>   
+>>>   IOInstEnding css_do_hsch(SubchDev *sch)
+>>>   {
+>>>       SCHIB *schib = &sch->curr_status;
+>>> +    uint16_t old_scsw_ctrl;
+>>> +    IOInstEnding ccode;
+>>>   
+>>>       if (~(schib->pmcw.flags) & (PMCW_FLAGS_MASK_DNV |
+>>> PMCW_FLAGS_MASK_ENA)) {
+>>>           return IOINST_CC_NOT_OPERATIONAL;
+>>> @@ -1553,6 +1569,12 @@ IOInstEnding css_do_hsch(SubchDev *sch)
+>>>           return IOINST_CC_BUSY;
+>>>       }
+>>>   
+>>> +    /*
+>>> +     * Save the current scsw.ctrl in case HSCH fails and we need
+>>> +     * to revert the scsw to the status quo ante.
+>>> +     */
+>>> +    old_scsw_ctrl = schib->scsw.ctrl;
+>>> +
+>>>       /* Trigger the halt function. */
+>>>       schib->scsw.ctrl |= SCSW_FCTL_HALT_FUNC;
+>>>       schib->scsw.ctrl &= ~SCSW_FCTL_START_FUNC;
+>>> @@ -1564,7 +1586,13 @@ IOInstEnding css_do_hsch(SubchDev *sch)
+>>>       }
+>>>       schib->scsw.ctrl |= SCSW_ACTL_HALT_PEND;
+>>>   
+>>> -    return do_subchannel_work(sch);
+>>> +    ccode = do_subchannel_work(sch);
+>>> +
+>>> +    if (ccode != IOINST_CC_EXPECTED) {
+>>> +        schib->scsw.ctrl = old_scsw_ctrl;
+>>> +    }
+>>> +
+>>> +    return ccode;
+>>>   }
+>>>   
+>>>   static void css_update_chnmon(SubchDev *sch)
+>>> @@ -1605,6 +1633,8 @@ static void css_update_chnmon(SubchDev *sch)
+>>>   IOInstEnding css_do_ssch(SubchDev *sch, ORB *orb)
+>>>   {
+>>>       SCHIB *schib = &sch->curr_status;
+>>> +    uint16_t old_scsw_ctrl, old_scsw_flags;
+>>> +    IOInstEnding ccode;
+>>>   
+>>>       if (~(schib->pmcw.flags) & (PMCW_FLAGS_MASK_DNV |
+>>> PMCW_FLAGS_MASK_ENA)) {
+>>>           return IOINST_CC_NOT_OPERATIONAL;
+>>> @@ -1626,11 +1656,26 @@ IOInstEnding css_do_ssch(SubchDev *sch, ORB
+>>> *orb)
+>>>       }
+>>>       sch->orb = *orb;
+>>>       sch->channel_prog = orb->cpa;
+>>> +
+>>> +    /*
+>>> +     * Save the current scsw.ctrl and scsw.flags in case SSCH fails
+>>> and we need
+>>> +     * to revert the scsw to the status quo ante.
+>>> +     */
+>>> +    old_scsw_ctrl = schib->scsw.ctrl;
+>>> +    old_scsw_flags = schib->scsw.flags;
+>>> +
+>>>       /* Trigger the start function. */
+>>>       schib->scsw.ctrl |= (SCSW_FCTL_START_FUNC |
+>>> SCSW_ACTL_START_PEND);
+>>>       schib->scsw.flags &= ~SCSW_FLAGS_MASK_PNO;
+>>>   
+>>> -    return do_subchannel_work(sch);
+>>> +    ccode = do_subchannel_work(sch);
+>>> +
+>>> +    if (ccode != IOINST_CC_EXPECTED) {
+>>> +        schib->scsw.ctrl = old_scsw_ctrl;
+>>> +        schib->scsw.flags = old_scsw_flags;
+>>> +    }
+>>> +
+>>> +    return ccode;
+>>>   }
+>>>   
+>>>   static void copy_irb_to_guest(IRB *dest, const IRB *src, const PMCW
+>>> *pmcw,
 
