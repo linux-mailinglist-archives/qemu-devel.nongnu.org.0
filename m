@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22BAC613825
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:36:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62727613827
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 14:36:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opUwY-0007HM-Sx; Mon, 31 Oct 2022 09:35:10 -0400
+	id 1opUxk-00085v-Ey; Mon, 31 Oct 2022 09:36:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1opUwU-0007GR-8s
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:35:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1opUxZ-0007zU-46
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:36:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1opUwR-0002fk-9o
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:35:06 -0400
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1opUxX-00034l-Aq
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 09:36:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667223302;
+ s=mimecast20190719; t=1667223370;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V/9InpCfSi+lnm7r5zCM/ameo5aDGD4EViUQ7Ncsqvw=;
- b=XlsB/hj0LfFjfyaSqSdv2E5tucl9jkuwcZ794kL92WgMBk+PORcOcRtoWOWRzfRjfcOnlw
- qsi6ejDXTcqIqY9QT7jzpNmoJ3UAiNzXW94VutQm3/vwJ8ribW/Cg+vHeFIAE/sJq6WBJU
- u8qs3W/FXSq6HEbq4/v/doyA6pkrBEs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HUdSVNd6TYfeYrs3yCMt4qnumuBKYOypFBU9tSR1PSI=;
+ b=OPYYvjiqP/TR8428FOEp9ltoUOpHuQ1BM5ikbSk1ZVbNqgxoEv+Z1hYudWJqi+QeKqaf5y
+ Xy8xNbuyC9kZZPqisFhxbt6EFHyqSTW4cvXvATeviXGrfUPvMRWr7Ygwi6ukn6R87aTfMT
+ 7r6fJObHdQQpy3VJTByMA/WtSM5Rs1s=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-272-8QXS-bcJOW201w2GsfZ-eA-1; Mon, 31 Oct 2022 09:35:00 -0400
-X-MC-Unique: 8QXS-bcJOW201w2GsfZ-eA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-567-VGCasrxvNO6SGWjOaFI2PA-1; Mon, 31 Oct 2022 09:36:06 -0400
+X-MC-Unique: VGCasrxvNO6SGWjOaFI2PA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 602CC800186;
- Mon, 31 Oct 2022 13:35:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 31A0129AB416;
+ Mon, 31 Oct 2022 13:36:06 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0515840C6EC6;
- Mon, 31 Oct 2022 13:34:59 +0000 (UTC)
-Date: Mon, 31 Oct 2022 13:34:59 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E118B1415119;
+ Mon, 31 Oct 2022 13:36:05 +0000 (UTC)
+Date: Mon, 31 Oct 2022 13:36:05 +0000
 From: "Richard W.M. Jones" <rjones@redhat.com>
 To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
 Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
@@ -50,26 +50,26 @@ Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH 1/4] hw/acpi: add trace events for TCO watchdog register
+Subject: Re: [PATCH 2/4] hw/isa: add trace events for ICH9 LPC chip config
  access
-Message-ID: <20221031133459.GG7636@redhat.com>
+Message-ID: <20221031133605.GH7636@redhat.com>
 References: <20221031131934.425448-1-berrange@redhat.com>
- <20221031131934.425448-2-berrange@redhat.com>
+ <20221031131934.425448-3-berrange@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221031131934.425448-2-berrange@redhat.com>
+In-Reply-To: <20221031131934.425448-3-berrange@redhat.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,113 +86,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 31, 2022 at 01:19:31PM +0000, Daniel P. Berrangé wrote:
+On Mon, Oct 31, 2022 at 01:19:32PM +0000, Daniel P. Berrangé wrote:
 > These tracepoints aid in understanding and debugging the guest drivers
 > for the TCO watchdog.
 > 
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  hw/acpi/tco.c        | 41 ++++++++++++++++++++++++++++-------------
->  hw/acpi/trace-events |  2 ++
->  2 files changed, 30 insertions(+), 13 deletions(-)
+>  hw/isa/lpc_ich9.c   | 3 +++
+>  hw/isa/trace-events | 4 ++++
+>  2 files changed, 7 insertions(+)
 > 
-> diff --git a/hw/acpi/tco.c b/hw/acpi/tco.c
-> index 4783721e4e..9ebd3e5e64 100644
-> --- a/hw/acpi/tco.c
-> +++ b/hw/acpi/tco.c
-> @@ -86,6 +86,7 @@ static inline int can_start_tco_timer(TCOIORegs *tr)
->  static uint32_t tco_ioport_readw(TCOIORegs *tr, uint32_t addr)
->  {
->      uint16_t rld;
-> +    uint32_t ret = 0;
+> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+> index 4553b5925b..66062a344c 100644
+> --- a/hw/isa/lpc_ich9.c
+> +++ b/hw/isa/lpc_ich9.c
+> @@ -51,6 +51,7 @@
+>  #include "hw/nvram/fw_cfg.h"
+>  #include "qemu/cutils.h"
+>  #include "hw/acpi/acpi_aml_interface.h"
+> +#include "trace.h"
 >  
->      switch (addr) {
->      case TCO_RLD:
-> @@ -96,35 +97,49 @@ static uint32_t tco_ioport_readw(TCOIORegs *tr, uint32_t addr)
->          } else {
->              rld = tr->tco.rld;
->          }
-> -        return rld;
-> +        ret = rld;
-> +        break;
->      case TCO_DAT_IN:
-> -        return tr->tco.din;
-> +        ret = tr->tco.din;
-> +        break;
->      case TCO_DAT_OUT:
-> -        return tr->tco.dout;
-> +        ret = tr->tco.dout;
-> +        break;
->      case TCO1_STS:
-> -        return tr->tco.sts1;
-> +        ret = tr->tco.sts1;
-> +        break;
->      case TCO2_STS:
-> -        return tr->tco.sts2;
-> +        ret = tr->tco.sts2;
-> +        break;
->      case TCO1_CNT:
-> -        return tr->tco.cnt1;
-> +        ret = tr->tco.cnt1;
-> +        break;
->      case TCO2_CNT:
-> -        return tr->tco.cnt2;
-> +        ret = tr->tco.cnt2;
-> +        break;
->      case TCO_MESSAGE1:
-> -        return tr->tco.msg1;
-> +        ret = tr->tco.msg1;
-> +        break;
->      case TCO_MESSAGE2:
-> -        return tr->tco.msg2;
-> +        ret = tr->tco.msg2;
-> +        break;
->      case TCO_WDCNT:
-> -        return tr->tco.wdcnt;
-> +        ret = tr->tco.wdcnt;
-> +        break;
->      case TCO_TMR:
-> -        return tr->tco.tmr;
-> +        ret = tr->tco.tmr;
-> +        break;
->      case SW_IRQ_GEN:
-> -        return tr->sw_irq_gen;
-> +        ret = tr->sw_irq_gen;
-> +        break;
->      }
-> -    return 0;
-> +    trace_tco_io_read(addr, ret);
-> +    return ret;
+>  /*****************************************************************************/
+>  /* ICH9 LPC PCI to ISA bridge */
+> @@ -161,6 +162,7 @@ static void ich9_cc_write(void *opaque, hwaddr addr,
+>  {
+>      ICH9LPCState *lpc = (ICH9LPCState *)opaque;
+>  
+> +    trace_ich9_cc_write(addr, val, len);
+>      ich9_cc_addr_len(&addr, &len);
+>      memcpy(lpc->chip_config + addr, &val, len);
+>      pci_bus_fire_intx_routing_notifier(pci_get_bus(&lpc->d));
+> @@ -176,6 +178,7 @@ static uint64_t ich9_cc_read(void *opaque, hwaddr addr,
+>      uint32_t val = 0;
+>      ich9_cc_addr_len(&addr, &len);
+>      memcpy(&val, lpc->chip_config + addr, len);
+> +    trace_ich9_cc_read(addr, val, len);
+>      return val;
 >  }
 >  
->  static void tco_ioport_writew(TCOIORegs *tr, uint32_t addr, uint32_t val)
->  {
-> +    trace_tco_io_write(addr, val);
->      switch (addr) {
->      case TCO_RLD:
->          tr->timeouts_no = 0;
-> diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
-> index eb60b04f9b..78e0a8670e 100644
-> --- a/hw/acpi/trace-events
-> +++ b/hw/acpi/trace-events
-> @@ -55,6 +55,8 @@ piix4_gpe_writeb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64
->  # tco.c
->  tco_timer_reload(int ticks, int msec) "ticks=%d (%d ms)"
->  tco_timer_expired(int timeouts_no, bool strap, bool no_reboot) "timeouts_no=%d no_reboot=%d/%d"
-> +tco_io_write(uint64_t addr, uint32_t val) "addr=0x%" PRIx64 " val=0x%" PRIx32
-> +tco_io_read(uint64_t addr, uint32_t val) "addr=0x%" PRIx64 " val=0x%" PRIx32
->  
->  # erst.c
->  acpi_erst_reg_write(uint64_t addr, uint64_t val, unsigned size) "addr: 0x%04" PRIx64 " <== 0x%016" PRIx64 " (size: %u)"
+> diff --git a/hw/isa/trace-events b/hw/isa/trace-events
+> index b8f877e1ed..c4567a9b47 100644
+> --- a/hw/isa/trace-events
+> +++ b/hw/isa/trace-events
+> @@ -21,3 +21,7 @@ via_pm_io_read(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%
+>  via_pm_io_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
+>  via_superio_read(uint8_t addr, uint8_t val) "addr 0x%x val 0x%x"
+>  via_superio_write(uint8_t addr, uint32_t val) "addr 0x%x val 0x%x"
+> +
+> +# lpc_ich9.c
+> +ich9_cc_write(uint64_t addr, uint64_t val, unsigned len) "addr=0x%"PRIx64 " val=0x%"PRIx64 " len=%u"
+> +ich9_cc_read(uint64_t addr, uint64_t val, unsigned len) "addr=0x%"PRIx64 " val=0x%"PRIx64 " len=%u"
 
 Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
+
+I can't help thinking that the trace-events file ought to be generated
+from the source code ...
 
 Rich.
 
 -- 
 Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
 Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-builder quickly builds VMs from scratch
-http://libguestfs.org/virt-builder.1.html
+virt-top is 'top' for virtual machines.  Tiny program with many
+powerful monitoring features, net stats, disk stats, logging, etc.
+http://people.redhat.com/~rjones/virt-top
 
 
