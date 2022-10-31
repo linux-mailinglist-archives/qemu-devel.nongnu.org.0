@@ -2,93 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE60613691
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:39:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30FF061367B
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:36:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opU1E-0007B8-QI; Mon, 31 Oct 2022 08:35:56 -0400
+	id 1opU1J-0007Pj-P2; Mon, 31 Oct 2022 08:36:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opU0K-0004wd-N6
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:35:00 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opU0J-0004bC-2U
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:35:00 -0400
-Received: by mail-pg1-x535.google.com with SMTP id f9so10590328pgj.2
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:34:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=P72V6+Ir6tNrNqLeGOgeVfZ54cbK622H9TATsjqGOCc=;
- b=iQ/jMguTumKuX2/iqA6YN/fuHvpRY9zI10BZnwgEKTNWJQi7zUsuCxclFHMTekPioq
- qwK6nVNOrqnpAtHqngJOLHNjIWV+IkkRIAIKDaD/zAWr4hDU2SOg6G0moEoB7mK9W2cY
- u83qkpmgO5V1fjBUOydwJivin2F/O4c5HlAifuMAmQ+zHZq+hqoAaROtlVuQv6T3UO4v
- NiFuajjo/6YCQQ4F9tvM3KIBYcDqQcdYpeUUKptUBW3d/2hcB/bg5IZPMDU3hV+/B16N
- gn1QkBWugT+boeWche7PMkL96xfDKBBGxHxBLJDrI9dtcaxgZo6Ya1+rAeWxe4zrtyUY
- E3Tg==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1opU0i-0005Uf-BT
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:35:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1opU0g-0004wh-9I
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:35:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667219721;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1yhV9og6xMidPHkhKafgY9wqf2C0SYDwlTocQUt/3zo=;
+ b=TrH3tFlIUKn5bS83c79Nu4Q708dyLbd1DyDMNXIq/01gzd1rTsPvbUlmOjeeyhImdyxjfd
+ roXLvAzcr10pZSrRdJZjYJDr+15OVnTmS4U8qjJIE9+BIEMyeSd6DF1b8z7bZ8N9RjKOMZ
+ Xq4KQjSDvPSZ3j95khP8h0dkutMK3D8=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-196-ckRyF6NnPHyCGAFvcLuAlw-1; Mon, 31 Oct 2022 08:35:19 -0400
+X-MC-Unique: ckRyF6NnPHyCGAFvcLuAlw-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ az31-20020a05620a171f00b006fa2cc1b0bfso2156466qkb.23
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:35:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=P72V6+Ir6tNrNqLeGOgeVfZ54cbK622H9TATsjqGOCc=;
- b=WUZpZ37t/4cBacJxUV+zurmM623oPNT3VXLktROx4x2wjHXsldlKHEvs15LPkEutH9
- E8MXGafADp8uDFLogAl2kjtY+UK21W7RfxaY0nKh4HgmIqqcYRvRAcUhlihRxPr+0KjQ
- Dhy7IeS2B9Hs2iXyLABHFQUH9DxED1Ma4LsNgIznS2nEvcb+jrTf8qFVcuh+MfAkM/na
- nQ//uvE/HVMgak2tyUnOPbYDHMuD6dKrp+6Rau1WVc2jylH9aLCStRsR5508YTuwdWZl
- /YNFsCEam84I21Jbnhoifo5hoLTUcyWr1U7ZHes2lSqsN4wj5yZuh7OwjaJYUknGAQ9A
- 3cFQ==
-X-Gm-Message-State: ACrzQf18Vfu2UuSKwWUwGw74r5bOhnWW6vHgcr9heWsoG2fmd+T2P2Pq
- Z6Uiff3R+gzKZlf9N0oVV5iqdroRULEl8OD+
-X-Google-Smtp-Source: AMsMyM4npOjRuRKHXLbNABQJ8LJCxDOZNOZ9qSXxWR5cO0NKzPlUJcJIvE46shahbl7O99MGlmvHeg==
-X-Received: by 2002:a05:6a00:174a:b0:562:781f:eca3 with SMTP id
- j10-20020a056a00174a00b00562781feca3mr13890168pfc.41.1667219697331; 
- Mon, 31 Oct 2022 05:34:57 -0700 (PDT)
-Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
- by smtp.gmail.com with ESMTPSA id
- m10-20020a6545ca000000b0042b5095b7b4sm4093810pgr.5.2022.10.31.05.34.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 05:34:56 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Peter Maydell <peter.maydell@linaro.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Yan Vugenfirer <yan@daynix.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v6 17/17] pci: Remove legacy errp from pci_add_capability
-Date: Mon, 31 Oct 2022 21:33:19 +0900
-Message-Id: <20221031123319.21532-18-akihiko.odaki@daynix.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221031123319.21532-1-akihiko.odaki@daynix.com>
-References: <20221031123319.21532-1-akihiko.odaki@daynix.com>
+ bh=1yhV9og6xMidPHkhKafgY9wqf2C0SYDwlTocQUt/3zo=;
+ b=ssaEQlTpWTDB3whM/0z2fVbGuqXkvwGpbp+yRr5oXbGuFpGfJirOX2VbXkyHsESyN1
+ dLgvAUneu1nCrJI86ev9saxAt3d4tQaHkORtXGPLa+C0JG7Dx8tkhJDfYQQRcoYPQW2c
+ fkufeKQdnRaxX7auQ9rwGDdoZm++cEYUcG5pYwUIDVEEGoq3BDB7v55NWstDx+fQ6oGy
+ LwNxCIIAxKp07O3WygT7aE5GpiBLcaEuLum9Hze/RbhYIMPeoQ3TCAww5t9MQJy9BCO0
+ /fi45nIO+ZWf42pLo4O6Vf1AzTDCczcIAVNxsYziPzN5tw/WiTd2175s6uTRsSvikkD/
+ Ewvw==
+X-Gm-Message-State: ACrzQf37JZbR2gZDrWaEXcejWF2aAAmnwT4iwzQgWgXHCwFIa+F6gBlw
+ hxLI/pEyhr9bVwEF6142ZLot9gEojkFvdLOSzT25OroJumXH9bpk/i/2di/1fUL7vRMf8KoOcHp
+ Hfr2BeG4LDYE5cWNFP+5YEPxbVsvoeUI=
+X-Received: by 2002:a05:620a:2144:b0:6fa:30e6:8438 with SMTP id
+ m4-20020a05620a214400b006fa30e68438mr2176152qkm.342.1667219718773; 
+ Mon, 31 Oct 2022 05:35:18 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6WHyieclkmLuJAalPbaiNPj7gaPgtxUCpcL8qtzHUfJvy4J1Q64mCt5Dq82ocfkUWl9etw4UHav8cZBz9ovN8=
+X-Received: by 2002:a05:620a:2144:b0:6fa:30e6:8438 with SMTP id
+ m4-20020a05620a214400b006fa30e68438mr2176130qkm.342.1667219718525; Mon, 31
+ Oct 2022 05:35:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::535;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+References: <20221011104154.1209338-1-eperezma@redhat.com>
+ <20221011104154.1209338-3-eperezma@redhat.com>
+ <20221031041821-mutt-send-email-mst@kernel.org>
+ <CAJaqyWcaZ32agF0CKPUU89NHj0Di9Q5kFJDsWcUwCG2q0u_kEQ@mail.gmail.com>
+ <20221031082106-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221031082106-mutt-send-email-mst@kernel.org>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 31 Oct 2022 13:34:42 +0100
+Message-ID: <CAJaqyWdCRBL-5bBqrOyyTMqmKDEXjufaCs85+vr2E7akhNC0rg@mail.gmail.com>
+Subject: Re: [PATCH v5 2/6] vdpa: Allocate SVQ unconditionally
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Gautam Dawar <gdawar@xilinx.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Jason Wang <jasowang@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Eli Cohen <eli@mellanox.com>, Parav Pandit <parav@mellanox.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
+ Cindy Lu <lulu@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org, 
+ Harpreet Singh Anand <hanand@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,93 +106,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- hw/pci/pci.c         | 29 +++++++----------------------
- include/hw/pci/pci.h | 12 ++----------
- 2 files changed, 9 insertions(+), 32 deletions(-)
+On Mon, Oct 31, 2022 at 1:25 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Mon, Oct 31, 2022 at 12:56:06PM +0100, Eugenio Perez Martin wrote:
+> > On Mon, Oct 31, 2022 at 9:21 AM Michael S. Tsirkin <mst@redhat.com> wro=
+te:
+> > >
+> > > On Tue, Oct 11, 2022 at 12:41:50PM +0200, Eugenio P=C3=A9rez wrote:
+> > > > SVQ may run or not in a device depending on runtime conditions (for
+> > > > example, if the device can move CVQ to its own group or not).
+> > > >
+> > > > Allocate the resources unconditionally, and decide later if to use =
+them
+> > > > or not.
+> > > >
+> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > >
+> > > I applied this for now but I really dislike it that we are wasting
+> > > resources like this.
+> > >
+> > > Can I just drop this patch from the series? It looks like things
+> > > will just work anyway ...
+> > >
+> >
+> > It will not work simply dropping this patch, because new code expects
+> > SVQ vrings to be already allocated. But that is doable with more work.
+> >
+> > > I know, when one works on a feature it seems like everyone should
+> > > enable it - but the reality is qemu already works quite well for
+> > > most users and it is our resposibility to first do no harm.
+> > >
+> >
+> > I agree, but then it is better to drop this series entirely for this
+> > merge window. I think it is justified to add it at the beginning of
+> > the next merge window, and to give more time for testing and adding
+> > more features actually.
+>
+> Not sure what "then" means. You tell me - should I drop it?
+>
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 8ee2171011..8ff71e4553 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2513,38 +2513,23 @@ static void pci_del_option_rom(PCIDevice *pdev)
- }
- 
- /*
-- * On success, pci_add_capability_legacy() returns a positive value
-- * that the offset of the pci capability.
-- * On failure, it sets an error and returns a negative error
-- * code.
-+ * pci_add_capability() returns a positive value that the offset of the pci
-+ * capability.
-  */
--int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
--                              uint8_t offset, uint8_t size,
--                              Error **errp)
-+uint8_t pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
-+                           uint8_t offset, uint8_t size)
- {
-     uint8_t *config;
--    int i, overlapping_cap;
-+    int i;
- 
-     if (!offset) {
-         offset = pci_find_space(pdev, size);
-         /* out of PCI config space is programming error */
-         assert(offset);
-     } else {
--        /* Verify that capabilities don't overlap.  Note: device assignment
--         * depends on this check to verify that the device is not broken.
--         * Should never trigger for emulated devices, but it's helpful
--         * for debugging these. */
-+        /* Verify that capabilities don't overlap. */
-         for (i = offset; i < offset + size; i++) {
--            overlapping_cap = pci_find_capability_at_offset(pdev, i);
--            if (overlapping_cap) {
--                error_setg(errp, "%s:%02x:%02x.%x "
--                           "Attempt to add PCI capability %x at offset "
--                           "%x overlaps existing capability %x at offset %x",
--                           pci_root_bus_path(pdev), pci_dev_bus_num(pdev),
--                           PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn),
--                           cap_id, offset, overlapping_cap, i);
--                return -EINVAL;
--            }
-+            assert(!pci_find_capability_at_offset(pdev, i));
-         }
-     }
- 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 51fd106f16..2a5d4b329f 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -2,7 +2,6 @@
- #define QEMU_PCI_H
- 
- #include "exec/memory.h"
--#include "qapi/error.h"
- #include "sysemu/dma.h"
- 
- /* PCI includes legacy ISA access.  */
-@@ -391,15 +390,8 @@ void pci_register_vga(PCIDevice *pci_dev, MemoryRegion *mem,
- void pci_unregister_vga(PCIDevice *pci_dev);
- pcibus_t pci_get_bar_addr(PCIDevice *pci_dev, int region_num);
- 
--int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
--                              uint8_t offset, uint8_t size,
--                              Error **errp);
--
--#define PCI_ADD_CAPABILITY_VA(pdev, cap_id, offset, size, errp, ...) \
--    pci_add_capability_legacy(pdev, cap_id, offset, size, errp)
--
--#define pci_add_capability(...) \
--    PCI_ADD_CAPABILITY_VA(__VA_ARGS__, &error_abort)
-+uint8_t pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
-+                           uint8_t offset, uint8_t size);
- 
- void pci_del_capability(PCIDevice *pci_dev, uint8_t cap_id, uint8_t cap_size);
- 
--- 
-2.38.1
+Yes, I think it is better to drop it for this merge window, since it
+is possible to both not to allocate SVQ unconditionally and to improve
+the conditions where the shadow CVQ can be enabled.
+
+> > However, I think shadow CVQ should start by default as long as the
+> > device has the right set of both virtio and vdpa features. Otherwise,
+> > we need another cmdline parameter, something like x-cvq-svq, and the
+> > update of other layers like libvirt.
+> >
+> > Thanks!
+>
+> OK maybe that is not too bad.
+>
+
+So it would be more preferable to add more parameters?
+
+>
+> > >
+> > > > ---
+> > > >  hw/virtio/vhost-vdpa.c | 33 +++++++++++++++------------------
+> > > >  1 file changed, 15 insertions(+), 18 deletions(-)
+> > > >
+> > > > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > > > index 7f0ff4df5b..d966966131 100644
+> > > > --- a/hw/virtio/vhost-vdpa.c
+> > > > +++ b/hw/virtio/vhost-vdpa.c
+> > > > @@ -410,6 +410,21 @@ static int vhost_vdpa_init_svq(struct vhost_de=
+v *hdev, struct vhost_vdpa *v,
+> > > >      int r;
+> > > >      bool ok;
+> > > >
+> > > > +    shadow_vqs =3D g_ptr_array_new_full(hdev->nvqs, vhost_svq_free=
+);
+> > > > +    for (unsigned n =3D 0; n < hdev->nvqs; ++n) {
+> > > > +        g_autoptr(VhostShadowVirtqueue) svq;
+> > > > +
+> > > > +        svq =3D vhost_svq_new(v->iova_tree, v->shadow_vq_ops,
+> > > > +                            v->shadow_vq_ops_opaque);
+> > > > +        if (unlikely(!svq)) {
+> > > > +            error_setg(errp, "Cannot create svq %u", n);
+> > > > +            return -1;
+> > > > +        }
+> > > > +        g_ptr_array_add(shadow_vqs, g_steal_pointer(&svq));
+> > > > +    }
+> > > > +
+> > > > +    v->shadow_vqs =3D g_steal_pointer(&shadow_vqs);
+> > > > +
+> > > >      if (!v->shadow_vqs_enabled) {
+> > > >          return 0;
+> > > >      }
+> > > > @@ -426,20 +441,6 @@ static int vhost_vdpa_init_svq(struct vhost_de=
+v *hdev, struct vhost_vdpa *v,
+> > > >          return -1;
+> > > >      }
+> > > >
+> > > > -    shadow_vqs =3D g_ptr_array_new_full(hdev->nvqs, vhost_svq_free=
+);
+> > > > -    for (unsigned n =3D 0; n < hdev->nvqs; ++n) {
+> > > > -        g_autoptr(VhostShadowVirtqueue) svq;
+> > > > -
+> > > > -        svq =3D vhost_svq_new(v->iova_tree, v->shadow_vq_ops,
+> > > > -                            v->shadow_vq_ops_opaque);
+> > > > -        if (unlikely(!svq)) {
+> > > > -            error_setg(errp, "Cannot create svq %u", n);
+> > > > -            return -1;
+> > > > -        }
+> > > > -        g_ptr_array_add(shadow_vqs, g_steal_pointer(&svq));
+> > > > -    }
+> > > > -
+> > > > -    v->shadow_vqs =3D g_steal_pointer(&shadow_vqs);
+> > > >      return 0;
+> > > >  }
+> > > >
+> > > > @@ -580,10 +581,6 @@ static void vhost_vdpa_svq_cleanup(struct vhos=
+t_dev *dev)
+> > > >      struct vhost_vdpa *v =3D dev->opaque;
+> > > >      size_t idx;
+> > > >
+> > > > -    if (!v->shadow_vqs) {
+> > > > -        return;
+> > > > -    }
+> > > > -
+> > > >      for (idx =3D 0; idx < v->shadow_vqs->len; ++idx) {
+> > > >          vhost_svq_stop(g_ptr_array_index(v->shadow_vqs, idx));
+> > > >      }
+> > > > --
+> > > > 2.31.1
+> > >
+>
 
 
