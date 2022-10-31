@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023F4613689
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC0461368A
 	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 13:38:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opU3j-0002VF-UF; Mon, 31 Oct 2022 08:38:32 -0400
+	id 1opU3o-000300-5r; Mon, 31 Oct 2022 08:38:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opU2V-0000tE-43
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:37:21 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opU2S-0005Wh-Dj
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:37:14 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id f140so10586239pfa.1
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:37:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ck0/ejCCV3Y/CdpBq+7+EezAjskw6ud40SZ8iH1h2dc=;
- b=KCu+3CAbDLte+RrY1/hli+xUL9z1Mz8KlwSKmOxkoDwUAQ90MB7QjtXa5h3EJnyNdh
- Hfrd4vmPA+aHmQtIFjh5YD+NvOiICO7vE1bVWNpuEe9jdS9U8HKwANp/52nnt1MozA/7
- IosWBVt+FAwBntFp1v7N6oEfyT4MYeWO80LY4BgqepooLLYqLCuaaV0TkdaYgxIN5UQu
- uodWbaEAWSFDlSskhL6WaR69kvhvn5Dg5y4yxLbD8iL/YTPBlscgurIrorgSM/ta4JbV
- YgIud7Dxm/6YijQSanbtjctt9LBqUE5i16gJZhL/0vhlCDGLLEZfYZn5VjaQwXTo18KG
- u/vA==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opU33-0001JH-3L
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:37:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opU2y-0005jU-8D
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 08:37:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667219862;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8mMoVKBlIKrN9qHF+pOLpPjWB0DjhdEXnx9Hm6/rIic=;
+ b=cQ7/9Wl4vOICiadZ1TcaG+yUO1sn596vRHgscdfiZu4NHjGl5Z8QK4l2OmHiMCdH+TY6DU
+ SEpQdbeHdRMvamCrBUT7I19Rhm+K9H73QY4sALRHmfAtt2lyYlgoHCfJ23DfE1cPf3Yxed
+ VxLm8Xoxvznda5g/eJoj8l6hL+LF8YU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-111-9MmMAG6yNnyiI7h5QztV9w-1; Mon, 31 Oct 2022 08:37:40 -0400
+X-MC-Unique: 9MmMAG6yNnyiI7h5QztV9w-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 83-20020a1c0256000000b003cf758f1617so184394wmc.5
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 05:37:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ck0/ejCCV3Y/CdpBq+7+EezAjskw6ud40SZ8iH1h2dc=;
- b=Bg6Uper4joZUqN84BNXaGTkKFF+/0CJlrytmsauxNXTRXWAQY/fnD3l+WULO+s18vX
- XNdSMfM4Baa1078sAIyGDIDgKaADyK5EHZohuPp6X/UqNxU3Qw7xwQj1URgyJY2Hm15W
- XyLu+BJ6SU0XMfEUMk9iyH6vqMrABMpWJXEA9X0wTphhKYlJysAqZJiYkr49DvUMvSBZ
- 5OATwP5jdwgc/oB2fm7OHWoUdo4TtplbipvfwnSSz6aA2nUJH2FuLEwY17zWLvTMf9H6
- 5WbUlWs3qwyhvv/voZjx6PPRQJmj9okk4dQqkZ3aYLihH1vc+rodHS3zOPvA2bgVPGhF
- f4Xw==
-X-Gm-Message-State: ACrzQf3aNkSd1iy0iZUPVevZeqyWk0PVZ1p5fRZH0jUo6G5gz8AfXmd2
- 51c4Zg2SriydwwCqLDFOifcLOw==
-X-Google-Smtp-Source: AMsMyM50aXYGxoMG4gnlnXSXu7WQHxKCBzNqnY8sjeYEKZ5UpKBCqsAedlVXnvl2yf1YyKQTmiyuYg==
-X-Received: by 2002:a63:6f8a:0:b0:439:36bc:89f9 with SMTP id
- k132-20020a636f8a000000b0043936bc89f9mr12276042pgc.100.1667219830105; 
- Mon, 31 Oct 2022 05:37:10 -0700 (PDT)
-Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419?
- ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
- by smtp.gmail.com with ESMTPSA id
- a27-20020aa78e9b000000b0056a7486da77sm4670774pfr.13.2022.10.31.05.37.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 05:37:09 -0700 (PDT)
-Message-ID: <6eff2573-9181-19b8-0a22-65daf8e1e7d6@daynix.com>
-Date: Mon, 31 Oct 2022 21:37:03 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v5 01/17] hw/vfio/pci: Ensure MSI and MSI-X do not overlap
-Content-Language: en-US
-To: Alex Williamson <alex.williamson@redhat.com>
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8mMoVKBlIKrN9qHF+pOLpPjWB0DjhdEXnx9Hm6/rIic=;
+ b=PDVU9cfYpFFVoH7fNXmF2NnMja8JsVpt71rUVCuIHgWBIfqlxn6p3qf3fyiNLtQRcN
+ Z+ge1LxvlXXFXyif0OxSoQgfp8fRmxL27pCo+KjIwIpDJ+XqFZjKx/r+8WJUIZds2Yuj
+ hmzi03TPysOqHnVAKG8MhCt6+hag9Th7P5Va+W0ConmOm3E098RpctIZ54tphQsC7M/T
+ gHHvpZ2HQII60gwA+HBqEBgkXWVhC6pGRJf5Rx5HCUdulwUzCrcpLD2jDoUqae5C2QsQ
+ 9ohv+JXnnYuch9LoMYHhbHUN12X9fizwCD1uOGRncG/3S46MNMa6kNyph4pVYSAnLM66
+ KG+w==
+X-Gm-Message-State: ACrzQf1lSzLWUL7NJw9HGAKKQgvhgmnHBj8Ruoyr3G0j8VU9QSybzfqm
+ nfbZO68x/Izlrkbwn+gRUTNXZZd9u1nqS5/kSz+qTXhKZHTPMmWLnbMFhvk3ISZyAuO4wtZqczt
+ R91IsaSD2Bjxavbw=
+X-Received: by 2002:adf:da43:0:b0:236:dcca:1950 with SMTP id
+ r3-20020adfda43000000b00236dcca1950mr551448wrl.385.1667219859819; 
+ Mon, 31 Oct 2022 05:37:39 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4KwHMJLF2rJT3OCL+l6+v1nDtIfrGN9nFM0vocoTVYrAzW4V4wLuH8x3cZ9skqiPhK4LQqnA==
+X-Received: by 2002:adf:da43:0:b0:236:dcca:1950 with SMTP id
+ r3-20020adfda43000000b00236dcca1950mr551425wrl.385.1667219859528; 
+ Mon, 31 Oct 2022 05:37:39 -0700 (PDT)
+Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
+ z3-20020a05600c0a0300b003cf55844453sm7900143wmp.22.2022.10.31.05.37.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Oct 2022 05:37:39 -0700 (PDT)
+Date: Mon, 31 Oct 2022 08:37:34 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang
- <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
  Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
  Peter Maydell <peter.maydell@linaro.org>,
  Andrey Smirnov <andrew.smirnov@gmail.com>,
@@ -79,23 +76,22 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Yan Vugenfirer <yan@daynix.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>
-References: <20221028122629.3269-1-akihiko.odaki@daynix.com>
- <20221028122629.3269-2-akihiko.odaki@daynix.com>
- <20221028081627.50c9bf61.alex.williamson@redhat.com>
- <8bcd5f5a-7b9a-6359-a63d-3f72e44f7d43@daynix.com>
- <20221028132339.014ffee0.alex.williamson@redhat.com>
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <20221028132339.014ffee0.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::42c;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: Re: [PATCH v6 00/17] pci: Abort if pci_add_capability fails
+Message-ID: <20221031083635-mutt-send-email-mst@kernel.org>
+References: <20221031123319.21532-1-akihiko.odaki@daynix.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221031123319.21532-1-akihiko.odaki@daynix.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,196 +107,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2022/10/29 4:23, Alex Williamson wrote:
-> On Sat, 29 Oct 2022 01:12:11 +0900
-> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
-> 
->> On 2022/10/28 23:16, Alex Williamson wrote:
->>> On Fri, 28 Oct 2022 21:26:13 +0900
->>> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>    
->>>> vfio_add_std_cap() is designed to ensure that capabilities do not
->>>> overlap, but it failed to do so for MSI and MSI-X capabilities.
->>>>
->>>> Ensure MSI and MSI-X capabilities do not overlap with others by omitting
->>>> other overlapping capabilities.
->>>>
->>>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
->>>> ---
->>>>    hw/vfio/pci.c | 63 +++++++++++++++++++++++++++++++++++++++++++--------
->>>>    hw/vfio/pci.h |  3 +++
->>>>    2 files changed, 56 insertions(+), 10 deletions(-)
->>>>
->>>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->>>> index 939dcc3d4a..36c8f3dc85 100644
->>>> --- a/hw/vfio/pci.c
->>>> +++ b/hw/vfio/pci.c
->>>> @@ -1278,23 +1278,42 @@ static void vfio_disable_interrupts(VFIOPCIDevice *vdev)
->>>>        }
->>>>    }
->>>>    
->>>> -static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
->>>> +static void vfio_msi_early_setup(VFIOPCIDevice *vdev, Error **errp)
->>>>    {
->>>>        uint16_t ctrl;
->>>> -    bool msi_64bit, msi_maskbit;
->>>> -    int ret, entries;
->>>> -    Error *err = NULL;
->>>> +    uint8_t pos;
->>>> +
->>>> +    pos = pci_find_capability(&vdev->pdev, PCI_CAP_ID_MSI);
->>>> +    if (!pos) {
->>>> +        return;
->>>> +    }
->>>>    
->>>>        if (pread(vdev->vbasedev.fd, &ctrl, sizeof(ctrl),
->>>>                  vdev->config_offset + pos + PCI_CAP_FLAGS) != sizeof(ctrl)) {
->>>>            error_setg_errno(errp, errno, "failed reading MSI PCI_CAP_FLAGS");
->>>> -        return -errno;
->>>> +        return;
->>>>        }
->>>> -    ctrl = le16_to_cpu(ctrl);
->>>> +    vdev->msi_pos = pos;
->>>> +    vdev->msi_ctrl = le16_to_cpu(ctrl);
->>>>    
->>>> -    msi_64bit = !!(ctrl & PCI_MSI_FLAGS_64BIT);
->>>> -    msi_maskbit = !!(ctrl & PCI_MSI_FLAGS_MASKBIT);
->>>> -    entries = 1 << ((ctrl & PCI_MSI_FLAGS_QMASK) >> 1);
->>>> +    vdev->msi_cap_size = 0xa;
->>>> +    if ((vdev->msi_ctrl & PCI_MSI_FLAGS_MASKBIT)) {
->>>> +        vdev->msi_cap_size += 0xa;
->>>> +    }
->>>> +    if ((vdev->msi_ctrl & PCI_MSI_FLAGS_64BIT)) {
->>>> +        vdev->msi_cap_size += 0x4;
->>>> +    }
->>>> +}
->>>> +
->>>> +static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
->>>> +{
->>>> +    bool msi_64bit, msi_maskbit;
->>>> +    int ret, entries;
->>>> +    Error *err = NULL;
->>>> +
->>>> +    msi_64bit = !!(vdev->msi_ctrl & PCI_MSI_FLAGS_64BIT);
->>>> +    msi_maskbit = !!(vdev->msi_ctrl & PCI_MSI_FLAGS_MASKBIT);
->>>> +    entries = 1 << ((vdev->msi_ctrl & PCI_MSI_FLAGS_QMASK) >> 1);
->>>>    
->>>>        trace_vfio_msi_setup(vdev->vbasedev.name, pos);
->>>>    
->>>> @@ -1306,7 +1325,6 @@ static int vfio_msi_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
->>>>            error_propagate_prepend(errp, err, "msi_init failed: ");
->>>>            return ret;
->>>>        }
->>>> -    vdev->msi_cap_size = 0xa + (msi_maskbit ? 0xa : 0) + (msi_64bit ? 0x4 : 0);
->>>>    
->>>>        return 0;
->>>>    }
->>>> @@ -1524,6 +1542,7 @@ static void vfio_msix_early_setup(VFIOPCIDevice *vdev, Error **errp)
->>>>        pba = le32_to_cpu(pba);
->>>>    
->>>>        msix = g_malloc0(sizeof(*msix));
->>>> +    msix->pos = pos;
->>>>        msix->table_bar = table & PCI_MSIX_FLAGS_BIRMASK;
->>>>        msix->table_offset = table & ~PCI_MSIX_FLAGS_BIRMASK;
->>>>        msix->pba_bar = pba & PCI_MSIX_FLAGS_BIRMASK;
->>>> @@ -2025,6 +2044,24 @@ static int vfio_add_std_cap(VFIOPCIDevice *vdev, uint8_t pos, Error **errp)
->>>>            }
->>>>        }
->>>>    
->>>> +    if (cap_id != PCI_CAP_ID_MSI &&
->>>> +        range_covers_byte(vdev->msi_pos, vdev->msi_cap_size, pos)) {
->>>> +        warn_report(VFIO_MSG_PREFIX
->>>> +                    "A capability overlaps with MSI, ignoring (%" PRIu8 " @ %" PRIu8 " in [%" PRIu8 ", %" PRIu8 "))",
->>>> +                    vdev->vbasedev.name, cap_id, pos,
->>>> +                    vdev->msi_pos, vdev->msi_pos + vdev->msi_cap_size);
->>>> +        return 0;
->>>> +    }
->>>> +
->>>> +    if (cap_id != PCI_CAP_ID_MSIX && vdev->msix &&
->>>> +        range_covers_byte(vdev->msix->pos, MSIX_CAP_LENGTH, pos)) {
->>>> +        warn_report(VFIO_MSG_PREFIX
->>>> +                    "A capability overlaps with MSI-X, ignoring (%" PRIu8 " @ %" PRIu8 " in [%" PRIu8 ", %" PRIu8 "))",
->>>> +                    vdev->vbasedev.name, cap_id, pos,
->>>> +                    vdev->msix->pos, vdev->msix->pos + MSIX_CAP_LENGTH);
->>>> +        return 0;
->>>> +    }
->>>
->>> Capabilities are not a single byte, the fact that it doesn't start
->>> within the MSI or MSI-X capability is not a sufficient test.  We're
->>> also choosing to prioritize MSI and MSI-X capabilities by protecting
->>> that range rather than the existing behavior where we'd drop those
->>> capabilities if they overlap with another capability that has already
->>> been placed.  There are merits to both approaches, but I don't see any
->>> justification here to change the current behavior.
->>>
->>> Isn't the most similar behavior to existing to pass the available size
->>> to vfio_msi[x]_setup() and return an errno if the size would be
->>> exceeded?  Something like below (untested, and requires exporting
->>> msi_cap_sizeof()).  Thanks,
->>
->> It only tests the beginning of the capability currently being added
->> because its end is determined by vfio_std_cap_max_size() so that the
->> overlap does not happen.
->>
->> A comment in vfio_add_std_cap() says:
->>   >     /*
->>   >      * If it becomes important to configure capabilities to their actual
->>   >      * size, use this as the default when it's something we don't
->> recognize.
->>   >      * Since QEMU doesn't actually handle many of the config accesses,
->>   >      * exact size doesn't seem worthwhile.
->>   >      */
->>
->> My understanding of the problem is that while clipping is performed when
->> overlapping two capabilities other than MSI and MSI-X according to the
->> comment, the clipping does not happen when one of the overlapping
->> capability is MSI or MSI-X.
->>
->> According to that, the correct way to fix is to perform clipping also in
->> such a case. As QEMU actually handles the config acccesses for MSI and
->> MSI-X, MSI and MSI-X are always priotized over the other capabilities.
-> 
-> Here's a scenario, a vendor ships a device with an MSI capability where
-> the MSI control register reports per vector masking, but the packing of
-> the capabilities is such that the next capability doesn't allow for the
-> mask and pending bits registers.  Currently, depending on the order we
-> add them, pci_add_capability() will fail for either the MSI capability
-> or the encroaching capability.  This failure will propagate back to
-> vfio_realize and we'll fail to instantiate the device.  To make this
-> scenario even a bit more pathological, let's assume the encroaching
-> capability is MSI-X.
-> 
-> As proposed here, we'd drop the MSI-X capability because it's starting
-> position lies within our expectation of the extent of the MSI
-> capability, and we'd allow the device to initialize with only MSI.
-> Was that intentional?  Was that a good choice?  What if the driver
-> only supports MSI-X?  We've subtly, perhaps unintentionally, changed
-> the policy based on some notion of prioritizing certain capabilities
-> over others.
-> 
-> The intent of vfio_std_cap_max_size() is not to intentionally
-> clip ranges, it's only meant to simplify defining the extent of a
-> capability to be bounded by the nearest capability after it in config
-> space.
-> 
-> Currently we rely on a combination of our own range management and the
-> overlap detection in pci_add_capability() to generate a device
-> instantiation failure.  If it's deemed worthwhile to remove the latter,
-> and that is the extent of the focus of this series, let's not go
-> dabbling into defining new priority schemes for capabilities and
-> defining certain overlap scenarios as arbitrarily continue'able.
-> Thanks,
-> 
-> Alex
-> 
+On Mon, Oct 31, 2022 at 09:33:02PM +0900, Akihiko Odaki wrote:
+> pci_add_capability appears most PCI devices. Its error handling required
+> lots of code, and led to inconsistent behaviors such as:
+> - passing error_abort
+> - passing error_fatal
+> - asserting the returned value
+> - propagating the error to the caller
+> - skipping the rest of the function
+> - just ignoring
 
-You are right. I missed the part that vfio_std_cap_max_size() is not 
-intended to clip ranges. That invalidates reasoning to continue when 
-MSI/MSI-X capability overlaps with another.
+Thanks for the patchset! I don't think I'll be merging it for
+this merge window, the benefit seems small and chance of regressions
+high.
+I will tag this but pls remind me after the freeze to help make sure I
+do not lose it.
 
-I have sent v6 to make the cases error. Thanks for reviewing and 
-pointing this out.
 
-Regards,
-Akihiko Odaki
+> The code generating errors in pci_add_capability had a comment which
+> says:
+> > Verify that capabilities don't overlap.  Note: device assignment
+> > depends on this check to verify that the device is not broken.
+> > Should never trigger for emulated devices, but it's helpful for
+> > debugging these.
+> 
+> Indeed vfio has some code that passes capability offsets and sizes from
+> a physical device, but it explicitly pays attention so that the
+> capabilities never overlap and the only exception are MSI and MSI-X
+> capabilities. Therefore, we can add code specific to the case, and
+> always assert that capabilities never overlap in the other cases,
+> resolving these inconsistencies.
+> 
+> v6:
+> - Error in case of MSI/MSI-X capability overlap (Alex Williamson)
+> 
+> v5:
+> - Fix capability ID specification in vfio_msi_early_setup (Alex Williamson)
+> - Use range_covers_byte() (Alex Williamson)
+> - warn_report() in case of MSI/MSI-X capability overlap (Alex Williamson)
+> 
+> v4:
+> - Fix typos in messages (Markus Armbruster)
+> - hw/vfio/pci: Ensure MSI and MSI-X do not overlap (Alex Williamson)
+> 
+> v3:
+> - Correct patch split between virtio-pci and pci (Markus Armbruster)
+> - Add messages for individual patches (Markus Armbruster)
+> - Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
+> Akihiko Odaki (17):
+>   hw/vfio/pci: Ensure MSI and MSI-X do not overlap
+>   pci: Allow to omit errp for pci_add_capability
+>   hw/i386/amd_iommu: Omit errp for pci_add_capability
+>   ahci: Omit errp for pci_add_capability
+>   e1000e: Omit errp for pci_add_capability
+>   eepro100: Omit errp for pci_add_capability
+>   hw/nvme: Omit errp for pci_add_capability
+>   msi: Omit errp for pci_add_capability
+>   hw/pci/pci_bridge: Omit errp for pci_add_capability
+>   pcie: Omit errp for pci_add_capability
+>   pci/shpc: Omit errp for pci_add_capability
+>   msix: Omit errp for pci_add_capability
+>   pci/slotid: Omit errp for pci_add_capability
+>   hw/pci-bridge/pcie_pci_bridge: Omit errp for pci_add_capability
+>   hw/vfio/pci: Omit errp for pci_add_capability
+>   virtio-pci: Omit errp for pci_add_capability
+>   pci: Remove legacy errp from pci_add_capability
+> 
+>  docs/pcie_sriov.txt                |  4 +-
+>  hw/display/bochs-display.c         |  4 +-
+>  hw/i386/amd_iommu.c                | 21 ++-------
+>  hw/ide/ich.c                       |  8 +---
+>  hw/net/e1000e.c                    | 22 ++-------
+>  hw/net/eepro100.c                  |  7 +--
+>  hw/nvme/ctrl.c                     | 14 +-----
+>  hw/pci-bridge/cxl_downstream.c     |  9 +---
+>  hw/pci-bridge/cxl_upstream.c       |  8 +---
+>  hw/pci-bridge/i82801b11.c          | 14 +-----
+>  hw/pci-bridge/pci_bridge_dev.c     |  2 +-
+>  hw/pci-bridge/pcie_pci_bridge.c    | 19 ++------
+>  hw/pci-bridge/pcie_root_port.c     | 16 +------
+>  hw/pci-bridge/xio3130_downstream.c | 15 ++----
+>  hw/pci-bridge/xio3130_upstream.c   | 15 ++----
+>  hw/pci-host/designware.c           |  3 +-
+>  hw/pci-host/xilinx-pcie.c          |  4 +-
+>  hw/pci/msi.c                       |  9 +---
+>  hw/pci/msix.c                      |  8 +---
+>  hw/pci/pci.c                       | 29 +++---------
+>  hw/pci/pci_bridge.c                | 21 +++------
+>  hw/pci/pcie.c                      | 52 ++++++---------------
+>  hw/pci/shpc.c                      | 23 +++------
+>  hw/pci/slotid_cap.c                |  8 +---
+>  hw/usb/hcd-xhci-pci.c              |  3 +-
+>  hw/vfio/pci-quirks.c               | 15 ++----
+>  hw/vfio/pci.c                      | 75 ++++++++++++++++++++++--------
+>  hw/vfio/pci.h                      |  3 ++
+>  hw/virtio/virtio-pci.c             | 12 ++---
+>  include/hw/pci/pci.h               |  5 +-
+>  include/hw/pci/pci_bridge.h        |  5 +-
+>  include/hw/pci/pcie.h              | 11 ++---
+>  include/hw/pci/shpc.h              |  3 +-
+>  include/hw/virtio/virtio-pci.h     |  2 +-
+>  34 files changed, 153 insertions(+), 316 deletions(-)
+> 
+> -- 
+> 2.38.1
+
 
