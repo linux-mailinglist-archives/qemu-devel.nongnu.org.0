@@ -2,77 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D50D614054
-	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 23:03:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A69061405B
+	for <lists+qemu-devel@lfdr.de>; Mon, 31 Oct 2022 23:04:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opcrI-00064V-EU; Mon, 31 Oct 2022 18:02:16 -0400
+	id 1opcsy-0001vK-BJ; Mon, 31 Oct 2022 18:04:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opcqz-0005YB-IZ
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 18:01:59 -0400
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f])
+ id 1opcsu-0001hG-EF
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 18:03:57 -0400
+Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1opcqj-0001Ms-KR
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 18:01:49 -0400
-Received: by mail-io1-xd2f.google.com with SMTP id p184so10915588iof.11
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 15:01:41 -0700 (PDT)
+ id 1opcss-00020f-VC
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 18:03:56 -0400
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-1322d768ba7so14978252fac.5
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 15:03:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=p5pSoZP8flpR+zy8VVBNx48l3eYCAiXbKfe8EtMZICo=;
- b=RbS5xbnEvbXKRZtRdJP78X+Rzst6xzsKb35fcVvbGfAFYJhGU7hUvqqwa5kZiVWWLu
- IEYlteBIXC7qUaI+YUw/rNk+fwR/Ipv7EKkxbjdII3e2GMCMoml3zmglSSGCRa4xqYMV
- rEqFzZ3Nu8N6EQSuSVjLjipTrYzdRuYXn4urUvZ84QlcobVGgV+0YyKQqQqsC5hWd+ev
- Zt8+N1s0qVT3D2boppH+hXnk0D5R3BMhHk+Yba8gl/TWrQbvVHtnJmg1s9bCakgxCcHG
- mqPPcd1PqmO/PrEqq1/RcIrWouxDCbNXiAULCr89h+YQ55UItfixLPp/CBiOseaiEX2K
- UnUg==
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=UIbkc/YPX63nubCauxvKQLpGZuJ4hyZwEKyMjGH07VU=;
+ b=y+FkgdzwjKpfB94EnXa5Xjbn3Ikiy3imZb3sW5PWWX2rhd0QHhbLcGLlxKGdzsrTme
+ 5P+ixWVbdXc8NMz/fWP2p8labKlGGLIjxdsk/wjFA6V1/EgR4/2wIQ0No86M6ib9+0WE
+ xMGmJx7qLwaCGM6uGuapTaOOS4s96c1ZtFiD4/c5/CMQ4bgJNn/9h01/4J+j3oUS6HAA
+ HQ7c82Im8k4dswxuZGbWJZukQDjd+ku9aUSMl5ZrPsDNsUh4EHFFGJeTfsP76XVsGxtR
+ GP8xrqnop6geFezL05zOLLRM1mOWW1cfjT17ubs7BGLgr6oMGL6WvEbPAwfj6Hujh9db
+ Grkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=p5pSoZP8flpR+zy8VVBNx48l3eYCAiXbKfe8EtMZICo=;
- b=Uk8iHM2omifycXW+mbkpeLexKzBMoxo5wG+A1GkfIksnaVairjSym0vMTtKTF4BL7k
- HOfMpVO/mcq9ewpL3PVKPSNniXJ1axH04nCvwQfARxNOM2okGluQMUD2cSZv9bKSMDtX
- U5ogmmcJMBSX69Y/mkyfK+KrAX9a29elctjkaDi163brLrgoS7XzCkW/1oWjS3YNp/Ng
- /JHJQ7PVdJz3WaaWlWqA2AzexJlPyRb7hQLQDVzAn+P0qKIcTEHNs68H3rDWdCnZKcRH
- 0FFj4JdejyGD3pNjj35Sq9i13iGWuXoiGDvFstQXnqmuDLhIgI2NmPkuHn2IdV5d3lF/
- OgXA==
-X-Gm-Message-State: ACrzQf2jqV6AZW7xl/RdEkFdweqTFWGUQwb2SP2g6wgH0PwnnaDTuOd0
- mA+zHmR+fph2yg0m87EXpUlx1DJYhQY6hw==
-X-Google-Smtp-Source: AMsMyM5UE3KL6OWrCsVtE7XkCRirYGNQ0e5DlltOjA7MgiOLPcbfZVHsXcgOXx/KC0Rbo6e8upFN6g==
-X-Received: by 2002:a05:6638:f13:b0:375:4ae5:6be7 with SMTP id
- h19-20020a0566380f1300b003754ae56be7mr7114147jas.57.1667253700361; 
- Mon, 31 Oct 2022 15:01:40 -0700 (PDT)
-Received: from stoup.. ([172.58.176.58]) by smtp.gmail.com with ESMTPSA id
- s7-20020a02c507000000b00363ec4dcaacsm3203039jam.22.2022.10.31.15.01.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 15:01:39 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: stefanha@gmail.com,
-	Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PULL v2 13/13] tests/tcg/multiarch: Add munmap-pthread.c
-Date: Tue,  1 Nov 2022 09:01:13 +1100
-Message-Id: <20221031220113.414796-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221031220113.414796-1-richard.henderson@linaro.org>
-References: <20221031215723.414467-1-richard.henderson@linaro.org>
- <20221031220113.414796-1-richard.henderson@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UIbkc/YPX63nubCauxvKQLpGZuJ4hyZwEKyMjGH07VU=;
+ b=zVYWrxl1g7gYhMHvyERKc3xAychzGX09Kp+Udyt5Vxg0/8PWEZ+RlCRvvPzd/NrxSC
+ ZN9WJXHReQpGf6n4JljQ8Aq0KODj2yza05zpYUlzKrRTsXVYHgqLBDb/3y3EWmt2BWN8
+ /4K5RBM+j1JrhryhyL6twt9E0LYi+8EN+snLQrmDKh2JBgZrb5/Ol9qeMX6jSouuh21R
+ bRt8pWB5HksLz/UKQmr2rOMLA2/xrluCnYCvKAGvpI10sjuoQjXsqk4GKPLEK/GnsiFD
+ JjsmhJDa2sczq2wIDaYx2lAjJ7XnWEtuWYa5SbveGfL+EP5QTieSdBgsGA5+YUwddHNO
+ vg9g==
+X-Gm-Message-State: ACrzQf0jEN9B0JBMOJnYCEUCaGSNruDLX5yXUaIy0ghXq9DS8SP6Y+6F
+ QO9eeJwJGeYmDFvU0ozUgHXpCw==
+X-Google-Smtp-Source: AMsMyM7yUxY00YUgIMpluww3wPDampKvrEtqG89GRc+YpInFOhMs4xHiLRu1zz4+Qahy8ZI3Cf06qA==
+X-Received: by 2002:a05:6870:609c:b0:131:c972:818f with SMTP id
+ t28-20020a056870609c00b00131c972818fmr8627578oae.2.1667253833415; 
+ Mon, 31 Oct 2022 15:03:53 -0700 (PDT)
+Received: from [192.168.229.227] ([172.58.176.58])
+ by smtp.gmail.com with ESMTPSA id
+ t14-20020a056808158e00b00349a06c581fsm2793438oiw.3.2022.10.31.15.03.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 31 Oct 2022 15:03:51 -0700 (PDT)
+Message-ID: <a79ec0a6-0260-41da-a561-7253ac50c6d3@linaro.org>
+Date: Tue, 1 Nov 2022 09:03:38 +1100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PULL 25/47] accel/tcg: Add restore_state_to_opc to TCGCPUOps
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ stefanha@redhat.com, Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20221026021116.1988449-1-richard.henderson@linaro.org>
+ <20221026021116.1988449-26-richard.henderson@linaro.org>
+ <1792277.8fnDRLUPHX@silver> <4c5f0a3a-18bb-dfca-61f6-28b48538b42c@linaro.org>
+ <CAJSP0QUB+6Ttoeo6aDoH3WAdCK3AyXH+=4Oe_U7Lr8GrtNHtoQ@mail.gmail.com>
+ <66f22ccc-d83f-2bdd-3628-9e550a3d83f6@ilande.co.uk>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <66f22ccc-d83f-2bdd-3628-9e550a3d83f6@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2f.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::34;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,120 +100,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
+On 11/1/22 08:27, Mark Cave-Ayland wrote:
+> On 31/10/2022 20:53, Stefan Hajnoczi wrote:
+> 
+>> On Mon, 31 Oct 2022 at 16:42, Richard Henderson
+>> <richard.henderson@linaro.org> wrote:
+>>> On 11/1/22 04:56, Christian Schoenebeck wrote:
+>>>> On Wednesday, October 26, 2022 4:10:54 AM CET Richard Henderson wrote:
+>>>> BTW Richard, could you add a message-id tag to your queued TCG patches?
+>>>
+>>> Sometimes I remember, but I don't use the same tooling for my own work as I do for queuing
+>>> other people's.  I haven't found much value in it.
+>>>
+>>>
+>>>> If you
+>>>> are using patchwork client then it suffices to add "msgid=on" to .pwclientrc
+>>>
+>>> I am not.
+>>
+>> Tools that boil down to git-am(1) need to add the -m (--message-id) flag.
+> 
+> FWIW in my local QEMU git checkout I've run "git config am.messageid true" which alters 
+> .git/config so that the -m flag is enabled by default for "git am" commands.
 
-Add a test to detect races between munmap() and creating new threads.
+This all supposes that one uses git am for ones own patches, which I do not.
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Message-Id: <20221028124227.2354792-3-iii@linux.ibm.com>
-[rth: add more return insns]
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tests/tcg/multiarch/munmap-pthread.c | 79 ++++++++++++++++++++++++++++
- tests/tcg/multiarch/Makefile.target  |  3 ++
- 2 files changed, 82 insertions(+)
- create mode 100644 tests/tcg/multiarch/munmap-pthread.c
 
-diff --git a/tests/tcg/multiarch/munmap-pthread.c b/tests/tcg/multiarch/munmap-pthread.c
-new file mode 100644
-index 0000000000..d7143b00d5
---- /dev/null
-+++ b/tests/tcg/multiarch/munmap-pthread.c
-@@ -0,0 +1,79 @@
-+/* Test that munmap() and thread creation do not race. */
-+#include <assert.h>
-+#include <pthread.h>
-+#include <stdbool.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/mman.h>
-+#include <unistd.h>
-+
-+static const char nop_func[] = {
-+#if defined(__aarch64__)
-+    0xc0, 0x03, 0x5f, 0xd6,     /* ret */
-+#elif defined(__alpha__)
-+    0x01, 0x80, 0xFA, 0x6B,     /* ret */
-+#elif defined(__arm__)
-+    0x1e, 0xff, 0x2f, 0xe1,     /* bx lr */
-+#elif defined(__riscv)
-+    0x67, 0x80, 0x00, 0x00,     /* ret */
-+#elif defined(__s390__)
-+    0x07, 0xfe,                 /* br %r14 */
-+#elif defined(__i386__) || defined(__x86_64__)
-+    0xc3,                       /* ret */
-+#endif
-+};
-+
-+static void *thread_mmap_munmap(void *arg)
-+{
-+    volatile bool *run = arg;
-+    char *p;
-+    int ret;
-+
-+    while (*run) {
-+        p = mmap(NULL, getpagesize(), PROT_READ | PROT_WRITE | PROT_EXEC,
-+                 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        assert(p != MAP_FAILED);
-+
-+        /* Create a small translation block.  */
-+        memcpy(p, nop_func, sizeof(nop_func));
-+        ((void(*)(void))p)();
-+
-+        ret = munmap(p, getpagesize());
-+        assert(ret == 0);
-+    }
-+
-+    return NULL;
-+}
-+
-+static void *thread_dummy(void *arg)
-+{
-+    return NULL;
-+}
-+
-+int main(void)
-+{
-+    pthread_t mmap_munmap, dummy;
-+    volatile bool run = true;
-+    int i, ret;
-+
-+    /* Without a template, nothing to test. */
-+    if (sizeof(nop_func) == 0) {
-+        return EXIT_SUCCESS;
-+    }
-+
-+    ret = pthread_create(&mmap_munmap, NULL, thread_mmap_munmap, (void *)&run);
-+    assert(ret == 0);
-+
-+    for (i = 0; i < 1000; i++) {
-+        ret = pthread_create(&dummy, NULL, thread_dummy, NULL);
-+        assert(ret == 0);
-+        ret = pthread_join(dummy, NULL);
-+        assert(ret == 0);
-+    }
-+
-+    run = false;
-+    ret = pthread_join(mmap_munmap, NULL);
-+    assert(ret == 0);
-+
-+    return EXIT_SUCCESS;
-+}
-diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
-index 78104f9bbb..5f0fee1aad 100644
---- a/tests/tcg/multiarch/Makefile.target
-+++ b/tests/tcg/multiarch/Makefile.target
-@@ -36,6 +36,9 @@ threadcount: LDFLAGS+=-lpthread
- 
- signals: LDFLAGS+=-lrt -lpthread
- 
-+munmap-pthread: CFLAGS+=-pthread
-+munmap-pthread: LDFLAGS+=-pthread
-+
- # We define the runner for test-mmap after the individual
- # architectures have defined their supported pages sizes. If no
- # additional page sizes are defined we only run the default test.
--- 
-2.34.1
-
+r~
 
