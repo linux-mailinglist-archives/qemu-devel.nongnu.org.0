@@ -2,61 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547C861505F
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:16:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53814615001
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:07:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1optbu-0000rg-Ti; Tue, 01 Nov 2022 11:55:30 -0400
+	id 1optiD-0001w6-Sd; Tue, 01 Nov 2022 12:02:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1optbn-0000qm-Ly
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 11:55:23 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1optbe-0002OU-Jo
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 11:55:20 -0400
-Received: from frapeml100004.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4N1vgn59fTz687x5;
- Tue,  1 Nov 2022 23:53:25 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- frapeml100004.china.huawei.com (7.182.85.167) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 1 Nov 2022 16:55:07 +0100
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 1 Nov
- 2022 15:55:06 +0000
-Date: Tue, 1 Nov 2022 15:55:05 +0000
-To: "Michael S. Tsirkin" <mst@redhat.com>
-CC: Stefan Hajnoczi <stefanha@gmail.com>, <qemu-devel@nongnu.org>, "Peter
- Maydell" <peter.maydell@linaro.org>, Hesham Almatary
- <hesham.almatary@huawei.com>
-Subject: Re: HMAT patches failure (was Re: [PULL 00/86] pci,pc,virtio:
- features, tests, fixes, cleanups)
-Message-ID: <20221101155505.000003fe@huawei.com>
-In-Reply-To: <20221101063027-mutt-send-email-mst@kernel.org>
-References: <20221031124928.128475-1-mst@redhat.com>
- <CAJSP0QXz+7Yvde1-N4OjQQ+Vo95UsQoOONmRXQsBg8wEJFaC3g@mail.gmail.com>
- <20221101063027-mutt-send-email-mst@kernel.org>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1optiA-0001vn-GB; Tue, 01 Nov 2022 12:01:59 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1opti8-0005DG-Ot; Tue, 01 Nov 2022 12:01:58 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ bg9-20020a05600c3c8900b003bf249616b0so10179503wmb.3; 
+ Tue, 01 Nov 2022 09:01:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5lX5J59iADq0yCOZ6olpRq9oFTs+l+t19WTBQOpUde0=;
+ b=f9lCnDWQtRRNFq7U5qOWafuza7+owTKhZl9DAqQjSux5NbDH8bNRM/EIM62V7/yhaO
+ kjBbAX6htshz6jgaE3wsd5JpezJaNfCiW0JBx5XmyrxC34tCtor0FgAlTD2lcKhFkQrk
+ sK5wJnatw30JK6wNQi+InkaKlscSw//vFS7Eh4EdamL8rxTCvhczdLYrLToDhZX38jh3
+ RLWESt6a5TE6+iAuslZgmRmxnLUwnXvN5nusUp5T+PMDIbuDu8Fe4u8UH8elFTlbXDZX
+ JVDj26h7SDlJ4lcoxqA4HzckdmteaWkt0GCMNZIYZwtuXHkFCAulLrNDT7HLWmpe1SGO
+ 1V/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5lX5J59iADq0yCOZ6olpRq9oFTs+l+t19WTBQOpUde0=;
+ b=YdiLpQyyueqJrZznS8c4sVNRp34I036tqHUbQo8mmebnlsR17Q4xmTkEgh0cBL/Hdm
+ VC8kv2ppVI7RhekKgyMAS11dPv8xc+giz3WGG+02gvTCKXYiqZujoWCPs5h9p/Suu5/T
+ hw9P3wmoFbF4q26A2yc0iVzFF01HmiWS22UqArDXqT7NA5tT/RntJ43920raQGrx6cMG
+ J/l/sw7aLOOBbIEa1vbvZ+/e4LrGptWRrssHrEQyT91Arw234z6U++tb4qldCFGoUV4o
+ tGjOU/siG84JczK8Daytqnw6yd1GZQ7sgQfcfzx5xaIV8iRG4st1iwKUh5TuMT1CuQou
+ WPqg==
+X-Gm-Message-State: ACrzQf038kpl5BngzKdNG9uqaI1FPKiJ1A80uzRAsDNBr7JesKHM1FUP
+ t/LIS2cnJsI+DAGHDSa0r/c=
+X-Google-Smtp-Source: AMsMyM7qQxFMjYvU4mGat58N3buCc/+1cnB+218Trb/aQ/QvF/KsRclSVWeaFMHompy4qM3oAYNZqw==
+X-Received: by 2002:a1c:7207:0:b0:3cf:8115:b39a with SMTP id
+ n7-20020a1c7207000000b003cf8115b39amr2231863wmc.80.1667318513661; 
+ Tue, 01 Nov 2022 09:01:53 -0700 (PDT)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb20008d20b2c0629916b.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:8d2:b2c:629:916b])
+ by smtp.gmail.com with ESMTPSA id
+ ay19-20020a5d6f13000000b00236b2804d79sm10639716wrb.2.2022.11.01.09.01.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Nov 2022 09:01:53 -0700 (PDT)
+Date: Tue, 01 Nov 2022 16:01:46 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+CC: qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v5_0/6=5D_ppc/e500=3A_Add_sup?=
+ =?US-ASCII?Q?port_for_two_types_of_flash=2C_cleanup?=
+In-Reply-To: <CAG4p6K5Kmcq6o5NwuvL-oFQtw80VXw_WX-2zUCjUnP=e2g0Q4g@mail.gmail.com>
+References: <20221031115402.91912-1-philmd@linaro.org>
+ <CAG4p6K5Kmcq6o5NwuvL-oFQtw80VXw_WX-2zUCjUnP=e2g0Q4g@mail.gmail.com>
+Message-ID: <AAFF66C6-6254-44FB-96B8-97B08F413C95@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100004.china.huawei.com (7.191.162.219) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=shentey@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,89 +94,65 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 1 Nov 2022 06:32:05 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+Am 1=2E November 2022 10:41:51 UTC schrieb Bernhard Beschow <shentey@gmail=
+=2Ecom>:
+>On Mon, Oct 31, 2022 at 12:54 PM Philippe Mathieu-Daud=C3=A9 <philmd@lina=
+ro=2Eorg>
+>wrote:
+>
+>> This is a respin of Bernhard's v4 with Freescale eSDHC implemented
+>> as an 'UNIMP' region=2E See v4 cover here:
+>>
+>> https://lore=2Ekernel=2Eorg/qemu-devel/20221018210146=2E193159-1-shente=
+y@gmail=2Ecom/
+>>
+>> Only tested with the ppce500 machine (no further regression testing)=2E
+>>
+>> Since v4:
+>> - Do not rename ESDHC_* definitions to USDHC_*
+>> - Do not modify SDHCIState structure
+>>
+>
+>Works beautifully, both for the buildroot load and for my proprietary loa=
+d=2E
+>So:
+>Tested-by: Bernhard Beschow<shentey@gmail=2Ecom>
+>
+>>
+>> Bernhard Beschow (4):
+>>   hw/block/pflash_cfi0{1, 2}: Error out if device length isn't a power
+>>     of two
+>>   docs/system/ppc/ppce500: Use qemu-system-ppc64 across the board(s)
+>>   hw/ppc/e500: Implement pflash handling
+>>   hw/ppc/e500: Add Freescale eSDHC to e500plat
+>>
+>> Philippe Mathieu-Daud=C3=A9 (2):
+>>   hw/sd/sdhci: MMIO region is implemented in 32-bit accesses
+>>   hw/sd/sdhci: Map host controller interface in host endianess
 
-> On Mon, Oct 31, 2022 at 04:06:03PM -0400, Stefan Hajnoczi wrote:
-> > Here is another CI failure:
-> >=20
-> > qemu-system-i386: current -smp configuration requires kernel irqchip
-> > and X2APIC API support.
-> > Broken pipe
-> > ../tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU
-> > process but encountered exit status 1 (expected 0)
-> > TAP parsing error: Too few tests run (expected 49, got 22)
+Hi Phil,
 
-Got a bit thrown by this which is unrelated to the HMAT series.  Given I bi=
-sected it...
+Is there a chance to get this in for 7=2E2?
 
-   bios-tables-test: add test for number of cores > 255
-seems to be issue.  I'll take a look into why shortly.
-
-
-> > (test program exited with status code -6)
-> > =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95
-> > 6/202 qemu:qtest+qtest-i386 / qtest-i386/test-hmp OK 7.46s 9 subtests p=
-assed
-> > =E2=96=B6 7/202 ERROR:../tests/qtest/bios-tables-test.c:533:test_acpi_a=
-sl:
-> > assertion failed: (all_tables_match) ERROR
-> > 7/202 qemu:qtest+qtest-aarch64 / qtest-aarch64/bios-tables-test ERROR
-> > 108.34s killed by signal 6 SIGABRT =20
-> > >>> G_TEST_DBUS_DAEMON=3D/builds/qemu-project/qemu/tests/dbus-vmstate-d=
-aemon.sh QTEST_QEMU_BINARY=3D./qemu-system-aarch64 MALLOC_PERTURB_=3D89 /bu=
-ilds/qemu-project/qemu/build/tests/qtest/bios-tables-test --tap -k =20
-> > =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80 =E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95
-> > stderr:
-> > acpi-test: Warning! APIC binary file mismatch. Actual
-> > [aml:/tmp/aml-UKB6U1], Expected
-> > [aml:tests/data/acpi/virt/APIC.acpihmatvirt].
-> > See source file tests/qtest/bios-tables-test.c for instructions on how
-> > to update expected files.
-> > to see ASL diff between mismatched files install IASL, rebuild QEMU
-> > from scratch and re-run tests with V=3D1 environment variable set**
-> > ERROR:../tests/qtest/bios-tables-test.c:533:test_acpi_asl: assertion
-> > failed: (all_tables_match)
-
-Ah. I'd failed to notice you said to drop first patch. Now replicating.
-Looks like the tables introduced for HMAT need updating to take into account
-changes made earlier in your pull request (version numbers etc)
-
-
-Jonathan
-
-> > (test program exited with status code -6)
-> >=20
-> > https://gitlab.com/qemu-project/qemu/-/jobs/3253817453 =20
->=20
->=20
-> Hesham Jonathan pls take a look, if you post a fixup today
-> or early tomorrow I can squash it
-> and then this patchset can still be included in the release.
->=20
-> Thanks!
->=20
+Best regards,
+Bernhard
+>>
+>>  docs/system/ppc/ppce500=2Erst |  38 +++++++++--
+>>  hw/block/pflash_cfi01=2Ec     |   8 ++-
+>>  hw/block/pflash_cfi02=2Ec     |   5 ++
+>>  hw/ppc/Kconfig              |   3 +
+>>  hw/ppc/e500=2Ec               | 127 ++++++++++++++++++++++++++++++++++=
++-
+>>  hw/ppc/e500=2Eh               |   1 +
+>>  hw/ppc/e500plat=2Ec           |   1 +
+>>  hw/sd/sdhci=2Ec               |   6 +-
+>>  8 files changed, 180 insertions(+), 9 deletions(-)
+>>
+>> --
+>> 2=2E37=2E3
+>>
+>>
 
 
