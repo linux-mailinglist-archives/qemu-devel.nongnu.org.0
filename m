@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9AE614FF5
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:03:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F31615033
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:12:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opsh9-0006w7-5K; Tue, 01 Nov 2022 10:56:51 -0400
+	id 1opshF-0006wl-1X; Tue, 01 Nov 2022 10:56:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opsh6-0006vW-Sy
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:56:48 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1opshB-0006wO-Cv
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:56:54 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opsh5-0003dH-Ef
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:56:48 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- c15-20020a17090a1d0f00b0021365864446so13123456pjd.4
- for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 07:56:47 -0700 (PDT)
+ id 1opsh9-0003Mf-Tv
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:56:53 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id o7so10234016pjj.1
+ for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 07:56:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=r10TkuBoyEwvau/bgUnLf5IBkvgqqBcYI2/YSx6NHxc=;
- b=IsAkAciC9mOzcZM0bSvLQQCtXlAR2bRRd8WLMVjDSgZg+IpAy+X1aFSLvhlNx1p5b7
- jgaj01Vfch/4r33q3L1JmJT+SkeJSycYd3NRGaxYRCxCW2vuqSKvlnLTGjqlnoZpHmw2
- Bsyn15wEHiRIGhwQbGxGd92lqNFmPXYhdGou3Ozq1A11YQsonIvFkgbYJAbI0P3dF3GN
- uGgEVD+nTzok9RYkvnJplbvfxkYzqA8KvFqmXHGz6Inrbf22Cfmrju0jqqz2dNfvOWwN
- aVP/wUm673ys+LwtwHVamdbQpqgRX9qDaHpCSalAOAYEvCNONaxGVdTh1egou0kRWP1b
- ok3Q==
+ bh=rOjHWNXn/Wht1Shk+YGDnbsD8G3ScWO/Koc/z3Bsls4=;
+ b=zXB/PpX/CcuMGL6gjhZkelOZ3Aq9HFs3fnEpfhJSvRwqYd7SonKZ/tD/XI+uc+ds9q
+ eIKamgtn1xJoYgILOfFU5dHWAxhCteKgl8wNGrPtxT8Bh4igJBMniD5aBdIQ3CReC1+R
+ KuCx0nzlKKLAKF4al1m7Ceg8cZnMRPd5gOTrmSsX4cN6VLAvgTMdBzu3YyrEj64VayTD
+ y2Z+37iGbEdlbsg0e/5AzLlACS2Y8DwmnKpWZoTXYiotzmsGLETHM5UNPkruYOhpNVqw
+ UEMR9F9vCRbFbKeTTe6IUrDyE4xJp8oNTf0oZ1w7KoCgVzJusAB1gRC+3p5a9cwU4sOG
+ LzlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=r10TkuBoyEwvau/bgUnLf5IBkvgqqBcYI2/YSx6NHxc=;
- b=5uFARj6o6YsgisR5NRKHtfT/aUw1OA1EI+xVJX38TkGqPfMVHe7Rxq+fjJcjayHBVC
- NYwW6S7jIEr8vGBrAmFFcWko11s7OJqQNdtLU9Umjre0RVqMWmzpNzvcez6NrrmkNbIn
- oLu4IxMVClu8lLr+1epDWHsXC/sFIgtXbbtYRzBmX+QndN3q6IfY2Y49wzFsYZGJW4M1
- 5Vv2pnA4ysz/+k8egAPNLwhcC4+XIQDhUmR1XG+VThyD+Atdf30kJzN0hg4FaLnpqzK+
- sKq0Vf2L3rhsefsnwDD+bK0lBq6x/LwPGjZtR65wxCs8dYTplgPwCZgNLFC0tzSYcFUU
- d6AQ==
-X-Gm-Message-State: ACrzQf3aMajj3bnTxhIhEqLFFqfBw7WmqEI8QnhlIruOWe1nG+8LSKWM
- tOvILh7SaF/ocbhUzWMgg1VCrctytno76z+H
-X-Google-Smtp-Source: AMsMyM6jmi01GVQIroe2vCnhZhu8qQqxilOr4ut5gNrpUttDSaDtdTHje0XLn2x7Mb5bPkFiOLEBkA==
-X-Received: by 2002:a17:90b:128a:b0:213:26c2:2c06 with SMTP id
- fw10-20020a17090b128a00b0021326c22c06mr36897854pjb.26.1667314605555; 
- Tue, 01 Nov 2022 07:56:45 -0700 (PDT)
+ bh=rOjHWNXn/Wht1Shk+YGDnbsD8G3ScWO/Koc/z3Bsls4=;
+ b=FhFbOya95YfFrtb2ceFWE2kdFD5QYHRuNep8rtu0aIGryh17TB8dqVJPnTjLDSqy+u
+ n5vtAFl0NMFNkI5yoKarlQHcnxmTgV58QprEVd0VYnZyIyP1JePyvOdTcwOs2jTk2hqm
+ 105N/UhXqWOWgEDLEBzfdpKTEtYwd+eK7cr42H4ar7aKnmJNNwJhvKpLRTLSRnszWxYv
+ DVJ2r79d2Z6SIFCwzaD0LGa7dO+ABwJx1IUo0chlFOi5tlp0+f747TAtx6lFBcZrIKrq
+ uVyJnj3wymZ2LM/XtZbRVgDi5FNOHVfGmxienInXvAWJXRMh1ZSqxOEKRRoCQ8qj+yyH
+ GXKg==
+X-Gm-Message-State: ACrzQf0A7gp1IMU1/LfLJlvg2a/m7RC0HHgjG4yWT587fTwuWkwP+Mce
+ YnxoSQj7Tr6ujzmreAK7SrkeSmPerK+OUTGI
+X-Google-Smtp-Source: AMsMyM5ibhIhLDJVhcZJ4KFmGo3JCzeZp+JJfSRNVGb/7yAx7YOYwvIwxLSqLO2IpvrYnYso4yn9ew==
+X-Received: by 2002:a17:902:ea85:b0:187:1851:bb02 with SMTP id
+ x5-20020a170902ea8500b001871851bb02mr13696296plb.57.1667314610966; 
+ Tue, 01 Nov 2022 07:56:50 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- 22-20020a631656000000b0046f9f4a2de6sm4783219pgw.74.2022.11.01.07.56.39
+ 22-20020a631656000000b0046f9f4a2de6sm4783219pgw.74.2022.11.01.07.56.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Nov 2022 07:56:44 -0700 (PDT)
+ Tue, 01 Nov 2022 07:56:50 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
@@ -75,22 +74,22 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v9 07/17] hw/nvme: Omit errp for pci_add_capability
-Date: Tue,  1 Nov 2022 23:55:48 +0900
-Message-Id: <20221101145558.3998-8-akihiko.odaki@daynix.com>
+Subject: [PATCH v9 08/17] msi: Omit errp for pci_add_capability
+Date: Tue,  1 Nov 2022 23:55:49 +0900
+Message-Id: <20221101145558.3998-9-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221101145558.3998-1-akihiko.odaki@daynix.com>
 References: <20221101145558.3998-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1035.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,48 +106,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Omitting errp for pci_add_capability() causes it to abort if
-capabilities overlap. This behavior is appropriate here because all of
-the capabilities set in this device are defined in the program and
-their overlap should not happen unless there is a programming error.
+capabilities overlap. A caller of msi_init(), which calls
+pci_add_capability() in turn, is expected to ensure that will not
+happen.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/nvme/ctrl.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+ hw/pci/msi.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 87aeba0564..ff4e2beea6 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -7325,17 +7325,9 @@ static void nvme_init_sriov(NvmeCtrl *n, PCIDevice *pci_dev, uint16_t offset)
-                               PCI_BASE_ADDRESS_MEM_TYPE_64, bar_size);
- }
+diff --git a/hw/pci/msi.c b/hw/pci/msi.c
+index 058d1d1ef1..5283a08b5a 100644
+--- a/hw/pci/msi.c
++++ b/hw/pci/msi.c
+@@ -194,7 +194,6 @@ int msi_init(struct PCIDevice *dev, uint8_t offset,
+     unsigned int vectors_order;
+     uint16_t flags;
+     uint8_t cap_size;
+-    int config_offset;
  
--static int nvme_add_pm_capability(PCIDevice *pci_dev, uint8_t offset)
-+static void nvme_add_pm_capability(PCIDevice *pci_dev, uint8_t offset)
- {
--    Error *err = NULL;
--    int ret;
--
--    ret = pci_add_capability(pci_dev, PCI_CAP_ID_PM, offset,
--                             PCI_PM_SIZEOF, &err);
--    if (err) {
--        error_report_err(err);
--        return ret;
+     if (!msi_nonbroken) {
+         error_setg(errp, "MSI is not supported by interrupt controller");
+@@ -221,13 +220,7 @@ int msi_init(struct PCIDevice *dev, uint8_t offset,
+     }
+ 
+     cap_size = msi_cap_sizeof(flags);
+-    config_offset = pci_add_capability(dev, PCI_CAP_ID_MSI, offset,
+-                                        cap_size, errp);
+-    if (config_offset < 0) {
+-        return config_offset;
 -    }
-+    pci_add_capability(pci_dev, PCI_CAP_ID_PM, offset, PCI_PM_SIZEOF);
- 
-     pci_set_word(pci_dev->config + offset + PCI_PM_PMC,
-                  PCI_PM_CAP_VER_1_2);
-@@ -7343,8 +7335,6 @@ static int nvme_add_pm_capability(PCIDevice *pci_dev, uint8_t offset)
-                  PCI_PM_CTRL_NO_SOFT_RESET);
-     pci_set_word(pci_dev->wmask + offset + PCI_PM_CTRL,
-                  PCI_PM_CTRL_STATE_MASK);
 -
--    return 0;
- }
+-    dev->msi_cap = config_offset;
++    dev->msi_cap = pci_add_capability(dev, PCI_CAP_ID_MSI, offset, cap_size);
+     dev->cap_present |= QEMU_PCI_CAP_MSI;
  
- static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+     pci_set_word(dev->config + msi_flags_off(dev), flags);
 -- 
 2.38.1
 
