@@ -2,67 +2,134 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F2C6151DB
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 20:01:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 953A7615266
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 20:38:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opwVf-0005yt-Rz; Tue, 01 Nov 2022 15:01:16 -0400
+	id 1opx3l-0006RR-4K; Tue, 01 Nov 2022 15:36:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1opwVS-0005mD-8H
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 15:01:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1opx3h-0006Qu-Gy
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 15:36:26 -0400
+Received: from mail-bn7nam10on20605.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8a::605]
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1opwVM-0004KZ-BI
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 15:01:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667329255;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5VS4xrxKb46L8wD9rGlnnrigI463dvsqve/1eQSqxrQ=;
- b=ijx4GIwmAd+K2hevPmmWZ4lK6UjFHnMZkhYgvm4xwY4r/3JCatIyoPZmkgq/DqT3YB32+V
- PGic6YHxZE15Na3xCkR3zr+DfGqWVSRP8VDv9ItOXjcWybDQdhNyJKfKOIdu1Ul0FjFhrY
- omvDTcAOpd6x9TYedAVAiAAEwwMKMLw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-RhOggFYzM5uOSmiok3FsfA-1; Tue, 01 Nov 2022 15:00:52 -0400
-X-MC-Unique: RhOggFYzM5uOSmiok3FsfA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE53A101A5C0;
- Tue,  1 Nov 2022 19:00:51 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.93])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4FAF740C945A;
- Tue,  1 Nov 2022 19:00:51 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: hreitz@redhat.com, qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- nsoffer@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
- Eric Biggers <ebiggers@google.com>
-Subject: [PATCH 2/2] file-posix: add statx(STATX_DIOALIGN) support
-Date: Tue,  1 Nov 2022 15:00:31 -0400
-Message-Id: <20221101190031.6766-3-stefanha@redhat.com>
-In-Reply-To: <20221101190031.6766-1-stefanha@redhat.com>
-References: <20221101190031.6766-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1opx3f-0002UE-54
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 15:36:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Iv9dMDUyEBuE3K2OzGlSTMOChorcOPwLTWlDbBYH0lV0siw8Mfp197zoUk1+OkqGyK32rFfffFYhvxhF4c1+EWvQPYFpAviVbNglq3YWrwb/BQIGvvOM1P6sq/rPcAShLXU7OngM/A8sIsJOISTJGEXkiyBR+wT+gHOSXPnOAnw1o+ttzPc2bE7bMs3VBEY96rD60syZOZrIOsNNup0YR19ZenlTIBRQmMLoacSagwM6z15coswyL/MTpc47V1awXcw+0qGT6ZO1ht3HkhW9C/QiW/ESSMljyQMWRL3unrntUnrzH/uxbSegJqUco/FHjyL/KGyoD53ShgBcsR9DcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EFa3GDMV0g50ESwk/KTlS9VgrMdhFtnU/7Z9cnpDY7k=;
+ b=gJruDmk/kYCn3Xtodth8XWHqNS+vm/inf3lzUi5UkIpbwUlShX5ZciLaDJTZFx8ZsCwjFW+8Vnv5myh83bXO73OhH1Whfpmfw+jzZ1gjJ2w/u2dVhsM2tPE1XQQpgwi5CNudsuzOpXO6uy9PmYGgWBtoELbtCTAd57xB2PX16pJFlND616PbERALa9ewWNEMOVzxJMYBa2dN6YkCLdYig43pPnmLXqd1efFQFmC+bekcp65d/IOXVIWO5YrX6zCzcPQFU5upVtL7GvqisC65mYHehxC+PnF7YcydVnQjYIe5ncSpy4VEP7ufDtPNG7z7JnnW2KWMYdyH9CAzSAdPxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EFa3GDMV0g50ESwk/KTlS9VgrMdhFtnU/7Z9cnpDY7k=;
+ b=Yj81iFqhUxDtY7E9G7K1XkwKTl2nzbfT775Z2Y76ZgN7KyQIe9OE9rGIcO6+mGI77km2rsp+fceZRdvl/V/6BSeJkdRK2TqM4p9xoNR3QXWjBFGWIUc6Cb9VPCwLRx5wVvpjnzV6i9Ar1bM1lBD1njxS9N6ozQm+XYKPUMc1H7U=
+Received: from MW4P221CA0001.NAMP221.PROD.OUTLOOK.COM (2603:10b6:303:8b::6) by
+ BL1PR12MB5753.namprd12.prod.outlook.com (2603:10b6:208:390::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.16; Tue, 1 Nov
+ 2022 19:31:18 +0000
+Received: from CO1NAM11FT093.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:8b:cafe::1a) by MW4P221CA0001.outlook.office365.com
+ (2603:10b6:303:8b::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.21 via Frontend
+ Transport; Tue, 1 Nov 2022 19:31:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1NAM11FT093.mail.protection.outlook.com (10.13.175.59) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5769.21 via Frontend Transport; Tue, 1 Nov 2022 19:31:17 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 1 Nov
+ 2022 14:31:16 -0500
+Date: Tue, 1 Nov 2022 14:30:58 -0500
+From: Michael Roth <michael.roth@amd.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+CC: <kvm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-arch@vger.kernel.org>, <linux-api@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <qemu-devel@nongnu.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Sean Christopherson
+ <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li
+ <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, Joerg Roedel
+ <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, <x86@kernel.org>, "H .
+ Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>, Jeff Layton
+ <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>, Andrew
+ Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, Mike
+ Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>, "Maciej S .
+ Szmigiero" <mail@maciej.szmigiero.name>, Vlastimil Babka <vbabka@suse.cz>,
+ Vishal Annapurve <vannapurve@google.com>, Yu Zhang
+ <yu.c.zhang@linux.intel.com>, "Kirill A . Shutemov"
+ <kirill.shutemov@linux.intel.com>, <luto@kernel.org>,
+ <jun.nakajima@intel.com>, <dave.hansen@intel.com>, <ak@linux.intel.com>,
+ <david@redhat.com>, <aarcange@redhat.com>, <ddutile@redhat.com>,
+ <dhildenb@redhat.com>, Quentin Perret <qperret@google.com>,
+ <tabba@google.com>, <mhocko@suse.com>, Muchun Song
+ <songmuchun@bytedance.com>, <wei.w.wang@intel.com>
+Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20221101193058.tpzkap3kbrbgasqi@amd.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
+ <20221031174738.fklhlia5fmaiinpe@amd.com>
+ <20221101113729.GA4015495@chaop.bj.intel.com>
+ <20221101151944.rhpav47pdulsew7l@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20221101151944.rhpav47pdulsew7l@amd.com>
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1NAM11FT093:EE_|BL1PR12MB5753:EE_
+X-MS-Office365-Filtering-Correlation-Id: 39e667e3-64da-42b1-5b16-08dabc3fa5e1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CzTQn/36RRLwjXj+/hYLOsXBbV3RsvZK5xTvdbsteLrsnmYyA9px7KWDeVkeKcwrXBGWPj6Efwq1Me7KihP2/B0O1I3X+T7YIOJmKSA5NapjZ4JZC1rd7V1+vfTcMnpXOe3P8+E5dyUOwIhP1dpcfMRPOSX1ZqXneKWy01LcJMguplfVn9UwPRw9YrApuWgpei8h/PbYKRxZ9Rfi/c8DK0WRSlYCEoCMcIzxR5/qYoSWTy8lIZzC0KNLYl3pMmDYjN9fSaT3zzBjhWnYpdu5BIlu+2n8Gwng1NYEnYObypktEgaIvg4JgNG3WHctzLld9TiVcKsyQg1/XCI1ZwrwYrpQT1YxYjILJimCoWrCwhTg7uM3EBCeBxIfj9HcFdv83jYyf5g96iK536taJPj9Psvez8ZFMdldZk1fWlpO+exDHy8m4wQECIZZVGq+lUyFBdiuApL3FonrYghEPQXHv9OqDQ+HOiPzdzFbwCsGXK+6eh1HEtAQxnZOYFx21wSwhFxdtK2oORbBNYgtUWV0EqHqU9Oh2mN1wFj/Z+wOnwuIvhvOLvPfvi8o2gnPnoQg28bISi6x3SD70qaMzynAHVZGbj9NersnouTI7J5uMRGc5UKBNKVwU/BUuf2OFdGnsfR+8Vt+m9g3FPKpbkXm+ChO3QsvMcB8ngmij2HvdlvWyZB9m3dY+H4qHT/xFZaEWCVCuxXPFq94kEyyvwVfvxZ7daBu/ZNnI4X3OYoB4PUEfhqxCrQbLidzlcYkigq6IMK+e13LJUd+5a0CIrEQUcrpS/ebMABWAKffykOg9Y6tuEUfetY4bIuMfryEVnsS13n05zBnb4FE8T1nuY7RSySAL8rJG3i5KG4sG65+ozDa5JUJxSSv8e4VAlPMwdmE+DiBIcKrr0Fqm+XZrlng2Q==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(376002)(396003)(39860400002)(346002)(451199015)(40470700004)(46966006)(36840700001)(336012)(47076005)(186003)(426003)(4326008)(86362001)(83380400001)(7416002)(5660300002)(81166007)(82740400003)(356005)(44832011)(7406005)(2906002)(41300700001)(82310400005)(8936002)(70206006)(1076003)(36860700001)(16526019)(26005)(70586007)(45080400002)(40480700001)(478600001)(6666004)(316002)(54906003)(966005)(8676002)(40460700003)(2616005)(36756003)(6916009)(3714002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2022 19:31:17.6598 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 39e667e3-64da-42b1-5b16-08dabc3fa5e1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT093.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5753
+Received-SPF: softfail client-ip=2a01:111:f400:7e8a::605;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,98 +145,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Linux commit 825cf206ed51 ("statx: add direct I/O alignment
-information") added an interface to fetch O_DIRECT alignment values for
-block devices and file systems.
+On Tue, Nov 01, 2022 at 10:19:44AM -0500, Michael Roth wrote:
+> On Tue, Nov 01, 2022 at 07:37:29PM +0800, Chao Peng wrote:
+> > On Mon, Oct 31, 2022 at 12:47:38PM -0500, Michael Roth wrote:
+> > > On Tue, Oct 25, 2022 at 11:13:37PM +0800, Chao Peng wrote:
+> > 
+> > > 
+> > >   3) Potentially useful for hugetlbfs support:
+> > > 
+> > >      One issue with hugetlbfs is that we don't support splitting the
+> > >      hugepage in such cases, which was a big obstacle prior to UPM. Now
+> > >      however, we may have the option of doing "lazy" invalidations where
+> > >      fallocate(PUNCH_HOLE, ...) won't free a shmem-allocate page unless
+> > >      all the subpages within the 2M range are either hole-punched, or the
+> > >      guest is shut down, so in that way we never have to split it. Sean
+> > >      was pondering something similar in another thread:
+> > > 
+> > >        https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-mm%2FYyGLXXkFCmxBfu5U%40google.com%2F&amp;data=05%7C01%7CMichael.Roth%40amd.com%7C28ba5dbb51844f910dec08dabc1c99e6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638029128345507924%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=bxcRfuJIgo1Z1G8HQ800HscE6y7RXRQwvWSkfc5M8Bs%3D&amp;reserved=0
+> > > 
+> > >      Issuing invalidations with folio-granularity ties in fairly well
+> > >      with this sort of approach if we end up going that route.
+> > 
+> > There is semantics difference between the current one and the proposed
+> > one: The invalidation range is exactly what userspace passed down to the
+> > kernel (being fallocated) while the proposed one will be subset of that
+> > (if userspace-provided addr/size is not aligned to power of two), I'm
+> > not quite confident this difference has no side effect.
+> 
+> In theory userspace should not be allocating/hole-punching restricted
+> pages for GPA ranges that are already mapped as private in the xarray,
+> and KVM could potentially fail such requests (though it does currently).
+> 
+> But if we somehow enforced that, then we could rely on
+> KVM_MEMORY_ENCRYPT_REG_REGION to handle all the MMU invalidation stuff,
+> which would free up the restricted fd invalidation callbacks to be used
+> purely to handle doing things like RMP/directmap fixups prior to returning
+> restricted pages back to the host. So that was sort of my thinking why the
+> new semantics would still cover all the necessary cases.
 
-Prefer STATX_DIOALIGN to older interfaces and probing, but keep them as
-fallbacks in case STATX_DIOALIGN cannot provide the information.
+Sorry, this explanation is if we rely on userspace to fallocate() on 2MB
+boundaries, and ignore any non-aligned requests in the kernel. But
+that's not how I actually ended up implementing things, so I'm not sure
+why answered that way...
 
-Testing shows the status of STATX_DIOALIGN support in Linux 6.1-rc3
-appears to be:
-- btrfs: no
-- ext4: yes
-- XFS: yes
-- NVMe block devices: yes
-- dm-crypt: yes
+In my implementation we actually do issue invalidations for fallocate()
+even for non-2M-aligned GPA/offset ranges. For instance (assuming
+restricted FD offset 0 corresponds to GPA 0), an fallocate() on GPA
+range 0x1000-0x402000 would result in the following invalidations being
+issued if everything was backed by a 2MB page:
 
-Cc: Eric Biggers <ebiggers@google.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/file-posix.c | 54 +++++++++++++++++++++++++++++++---------------
- 1 file changed, 37 insertions(+), 17 deletions(-)
+  invalidate GPA: 0x001000-0x200000, Page: pfn_to_page(I), order:9
+  invalidate GPA: 0x200000-0x400000, Page: pfn_to_page(J), order:9
+  invalidate GPA: 0x400000-0x402000, Page: pfn_to_page(K), order:9
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index b9d62f52fe..00d8191880 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -372,28 +372,48 @@ static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
- 
-     bs->bl.request_alignment = 0;
-     s->buf_align = 0;
-+
-+#if defined(__linux__) && defined(STATX_DIOALIGN)
-+    struct statx stx;
-+
-+    /*
-+     * Linux 6.1 introduced an interface for both block devices and file
-+     * systems. The system call returns with the STATX_DIOALIGN bit cleared
-+     * when the information is unavailable.
-+     */
-+    if (statx(fd, "", AT_EMPTY_PATH, STATX_DIOALIGN, &stx) == 0 &&
-+        (stx.stx_mask & STATX_DIOALIGN)) {
-+        bs->bl.request_alignment = stx.stx_dio_offset_align;
-+        s->buf_align = stx.stx_dio_mem_align;
-+    }
-+#endif /* defined(__linux__) && defined(STATX_DIOALIGN) */
-+
-     /* Let's try to use the logical blocksize for the alignment. */
--    if (probe_logical_blocksize(fd, &bs->bl.request_alignment) < 0) {
--        bs->bl.request_alignment = 0;
-+    if (!bs->bl.request_alignment) {
-+        if (probe_logical_blocksize(fd, &bs->bl.request_alignment) < 0) {
-+            bs->bl.request_alignment = 0;
-+        }
-     }
- 
- #ifdef __linux__
--    /*
--     * The XFS ioctl definitions are shipped in extra packages that might
--     * not always be available. Since we just need the XFS_IOC_DIOINFO ioctl
--     * here, we simply use our own definition instead:
--     */
--    struct xfs_dioattr {
--        uint32_t d_mem;
--        uint32_t d_miniosz;
--        uint32_t d_maxiosz;
--    } da;
--    if (ioctl(fd, _IOR('X', 30, struct xfs_dioattr), &da) >= 0) {
--        bs->bl.request_alignment = da.d_miniosz;
--        /* The kernel returns wrong information for d_mem */
--        /* s->buf_align = da.d_mem; */
-+    if (!bs->bl.request_alignment) {
-+        /*
-+         * The XFS ioctl definitions are shipped in extra packages that might
-+         * not always be available. Since we just need the XFS_IOC_DIOINFO ioctl
-+         * here, we simply use our own definition instead:
-+         */
-+        struct xfs_dioattr {
-+            uint32_t d_mem;
-+            uint32_t d_miniosz;
-+            uint32_t d_maxiosz;
-+        } da;
-+        if (ioctl(fd, _IOR('X', 30, struct xfs_dioattr), &da) >= 0) {
-+            bs->bl.request_alignment = da.d_miniosz;
-+            /* The kernel returns wrong information for d_mem */
-+            /* s->buf_align = da.d_mem; */
-+        }
-     }
--#endif
-+#endif /* __linux__ */
- 
-     /*
-      * If we could not get the sizes so far, we can only guess them. First try
--- 
-2.38.1
+So you still cover the same range, but the arch/platform callbacks can
+then, as a best effort, do things like restore 2M directmap if they see
+that the backing page is 2MB+ and the GPA range covers the entire range.
+If the GPA doesn't covers the whole range, or the backing page is
+order:0, then in that case we are still forced to leave the directmap
+split.
 
+But with that in place we can then improve on that by allowing for the
+use of hugetlbfs.
+
+We'd still be somewhat reliant on userspace to issue fallocate()'s on
+2M-aligned boundaries to some degree (guest teardown invalidations
+could be issued as 2M-aligned, which would be the bulk of the pages
+in most cases, but for discarding pages after private->shared
+conversion we could still get fragmentation). This could maybe be
+addressed by keeping track of those partial/non-2M-aligned fallocate()
+requests and then issuing them as a batched 2M invalidation once all
+the subpages have been fallocate(HOLE_PUNCH)'d. We'd need to enforce
+that fallocate(PUNCH_HOLE) is preceeded by
+KVM_MEMORY_ENCRYPT_UNREG_REGION to make sure MMU invalidations happen
+though.
+
+Not sure on these potential follow-ups, but they all at least seem
+compatible with the proposed invalidation scheme.
+
+-Mike
+
+> 
+> -Mike
+> 
+> > 
+> > > 
+> > > I need to rework things for v9, and we'll probably want to use struct
+> > > folio instead of struct page now, but as a proof-of-concept of sorts this
+> > > is what I'd added on top of v8 of your patchset to implement 1) and 2):
+> > > 
+> > >   https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fmdroth%2Flinux%2Fcommit%2F127e5ea477c7bd5e4107fd44a04b9dc9e9b1af8b&amp;data=05%7C01%7CMichael.Roth%40amd.com%7C28ba5dbb51844f910dec08dabc1c99e6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638029128345507924%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=iv%2BOMPe5AZuUtIW6bCH%2BRhJPljS14JrTXbQXptLG9fM%3D&amp;reserved=0
+> > > 
+> > > Does an approach like this seem reasonable? Should be work this into the
+> > > base restricted memslot support?
+> > 
+> > If the above mentioned semantics difference is not a problem, I don't
+> > have strong objection on this.
+> > 
+> > Sean, since you have much better understanding on this, what is your
+> > take on this?
+> > 
+> > Chao
+> > > 
+> > > Thanks,
+> > > 
+> > > Mike
 
