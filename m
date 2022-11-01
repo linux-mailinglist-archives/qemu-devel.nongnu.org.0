@@ -2,87 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60DE96147C5
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 11:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C576147C7
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 11:37:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opobk-00030j-AX; Tue, 01 Nov 2022 06:35:00 -0400
+	id 1opocj-00042e-PA; Tue, 01 Nov 2022 06:36:01 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opobh-0002zz-Nn
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 06:34:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1opocg-0003ve-4b; Tue, 01 Nov 2022 06:35:58 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1opobg-0007Mf-3T
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 06:34:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667298894;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=J4YlKpUkOPwg9hZrm+Jkq7zsOUnkviHL4mmCT9Aeir0=;
- b=DDE58XLXB3iNwhMak/hM86qwQJvL3Z9u3+CY9qdd/zI/hoSQo+Ync9eQxGcywfHiaUBIHX
- UHLELihZNUpXNUX1msJUMnE1kdBEqTBrbPaBOeim2OBLz5XLKNB8IDjCLy3MB0IiWXcuBS
- oqbep2F57NMSK1i+FImr88lSfog3hqY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-263-o7WxblvxNka20dl7VXbVvg-1; Tue, 01 Nov 2022 06:34:53 -0400
-X-MC-Unique: o7WxblvxNka20dl7VXbVvg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r6-20020a1c4406000000b003cf4d3b6644so2371842wma.6
- for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 03:34:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=J4YlKpUkOPwg9hZrm+Jkq7zsOUnkviHL4mmCT9Aeir0=;
- b=6zrJ2v2vaTEh0VgFMYtcS5ujGWtM6scsaY6VKAo4UFWntLmXJEd75P1r82V7/EyoPL
- zZQmfZw7Dz3AxmhAKIysMs7AR/6Ww7UOA0w/yHCVHVFklSPzUa0PdCIMYIZ84+O+gdUg
- LNR0tOOeC2uH/uCX+B7wB8QXOFfgJHj5WBMwl7MIVtQ05EF6aXnohUr2LOiAe4FifRM0
- ljAHtRLUh0U8EIcslQrpcmSFaDrhL/Ro/279srvfiZRDt2OHGy7+3i8pwxeQ6CfZ+UEm
- HbCoiO+6V9wc2kkdgcfsZXS6uSTaWQFdyrD/UbxkhXjDZk7ZzUxyBA9Q2TPrN4F/6wir
- tXMQ==
-X-Gm-Message-State: ACrzQf1JsMBwNiCHxkYfrmu267HrqCboH2s4tMnUzbhJw099BolCEWWt
- 9wQaySu6+zgIBT3JATG3pz8/QVvSXS30w4q0A5Y5MwWUxS8cQ7iIDzHlCj5hDPKKmQYKvNbLnXQ
- b/FcIawdujmy2Zt0=
-X-Received: by 2002:a1c:4c03:0:b0:3c4:c76:9fe3 with SMTP id
- z3-20020a1c4c03000000b003c40c769fe3mr21322743wmf.13.1667298891214; 
- Tue, 01 Nov 2022 03:34:51 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4E7ORgaelYu7gnvobesWmJiKXGNrsIsjpTE07ZfGfBN09uyePslbGaJNHQpGkHF+6vybUXNg==
-X-Received: by 2002:a1c:4c03:0:b0:3c4:c76:9fe3 with SMTP id
- z3-20020a1c4c03000000b003c40c769fe3mr21322722wmf.13.1667298890831; 
- Tue, 01 Nov 2022 03:34:50 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- q6-20020a1c4306000000b003b4fdbb6319sm3177846wma.21.2022.11.01.03.34.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Nov 2022 03:34:50 -0700 (PDT)
-Date: Tue, 1 Nov 2022 06:34:46 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Hesham Almatary <hesham.almatary@huawei.com>
-Cc: jonathan.cameron@huawei.com, qemu-devel@nongnu.org,
- yangyicong@huawei.com, chenxiang66@hisilicon.com,
- linuxarm@huawei.com, qemu-arm@nongnu.org, peter.maydell@linaro.org,
- imammedo@redhat.com, wangyanan55@huawei.com,
- marcel.apfelbaum@gmail.com, eduardo@habkost.net, Brice.Goglin@inria.fr
-Subject: Re: [PATCH v3 0/8] AArch64/HMAT support and tests
-Message-ID: <20221101063229-mutt-send-email-mst@kernel.org>
-References: <20221027100037.251-1-hesham.almatary@huawei.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1opoce-0007z8-15; Tue, 01 Nov 2022 06:35:57 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 17F063200413;
+ Tue,  1 Nov 2022 06:35:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Tue, 01 Nov 2022 06:35:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1667298950; x=1667385350; bh=dQ
+ WEif6xcM6bxHomB2MAGdSD4eQz4dVumsyrc7+Ttck=; b=rcui8kaqD3J/mjg7eQ
+ OBomI4lfHvdzWcCjTS7ojHtjeHuMEJN8BwmVV0uUrFVpFp1Na1i4uzczIF1N7DbS
+ TsKBxxbngpoUdCsk146RXYBiAfs8OSmHOx8AqMVAjD5P1Q3z65+eW6WHWKdj15XB
+ CXBLdgnRlRKF5RKoghPNiKQvU1thOmXpe9RmzifhYdmDwsSeLOF0F77ZwhV17BN3
+ FjuLItdI8S0SK0rVMlTNDtBpbgr0/pcmBQhTlhl+GqD16uJXBR2UHr2py8oKNaK4
+ LcD9XmVrryhIes5XAUG474hPk3viD80PKWPSK0N2SQ3vr/kn+pfPjYNtxXgIQZXz
+ 7slw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1667298950; x=1667385350; bh=dQWEif6xcM6bxHomB2MAGdSD4eQz
+ 4dVumsyrc7+Ttck=; b=n0Jx6bMtoTbTWBSVb7zJyKG7xaoTTH+OkbWziYSxegB3
+ nauYFdomI+WYhl1WPOBOyQrPHhQ8Nicnj+iCf1JoCjuM6Z8iFKfR9hu1o5oaqV6K
+ HJUSMdsmb5O/QMyjAI1Ed4u7TK7mFclL0C/apxYQ1yk8T/MacBNefB07YVxPrhi2
+ dNlc8ZY7iFvSBbjpF9px7j2d8yIC+YEDyTgdzLbc5ZOg0V90QazVnC3O3w8gwrhU
+ I/H8vy3cT+dGalkpQTf/eaA9kCcAdiwKof1bmBaPJJr3VkLX3WQ53Oxb2KxZ/+lu
+ 3VZjqwyGKEN07cVQ341TtlOcQ84poLKPb6iHZFfbXA==
+X-ME-Sender: <xms:hfZgY_HbFVlMPqbiLoDDhWI-JYI8Ph3jIE-37ip1rC0UE9-fgKe_Rg>
+ <xme:hfZgY8VHC5rExtSKg7dIGlzFy62hBlDoqKsz5d4lVKLGoNMI6BUU8xDZhGkyjcNcp
+ qQ0uNX3_WbIjhKP8q4>
+X-ME-Received: <xmr:hfZgYxLlRLDmwpBgFgp3iyACe5ZicWKikjOcJPhtbrtwu4MRFTuVL-Jj4kNFhIl3XVvaVCc_zI5Tiu05TrnD8xm47Wsec5Y>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudehgddujecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteffffej
+ veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:hfZgY9EgnwDtjwoQPj8AJGEF39T4CVmORrRswAHe27CHjB_ZwqqtXw>
+ <xmx:hfZgY1WDLPal5Fd2q_h2bCbiW87ddkse2lyllI5rAoC2gtEcop58Og>
+ <xmx:hfZgY4PlNBjnk4frVCiNnQEQN_GfBAhJbUbioUD4csh4_vEh-u2uIQ>
+ <xmx:hvZgY7znQJsYRF4wSnf--4txjb5bSMY_0NEwKMx8jY-KQ8x1rXzdPA>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 1 Nov 2022 06:35:48 -0400 (EDT)
+Date: Tue, 1 Nov 2022 11:35:46 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Cc: Keith Busch <kbusch@kernel.org>, Jinhao Fan <fanjinhao21s@ict.ac.cn>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH] hw/nvme: reenable cqe batching
+Message-ID: <Y2D2gjX3kUYP9rCs@cormorant.local>
+References: <20221020113538.36526-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="gEYNcj6LGw35n26H"
 Content-Disposition: inline
-In-Reply-To: <20221027100037.251-1-hesham.almatary@huawei.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20221020113538.36526-1-its@irrelevant.dk>
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,72 +100,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Oct 27, 2022 at 11:00:29AM +0100, Hesham Almatary wrote:
-> This patchset adds support for AArch64/HMAT including a test.
-> It relies on other two patch sets from:
-> 
-> Brice Goglin: to support -numa without initiators on q35/x86.
->   https://lore.kernel.org/all/ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr/
-> Xiang Chen: to enable/support HMAT on AArch64.
->   https://lore.kernel.org/all/1643102134-15506-1-git-send-email-chenxiang66@hisilicon.com/
-> 
-> I further add a test with ACPI/HMAT tables that uses the two
-> patch sets.
 
-pipeline failures:
-    https://gitlab.com/qemu-project/qemu/-/jobs/3253817453
-this looks like a 32 bit host.
+--gEYNcj6LGw35n26H
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Oct 20 13:35, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> Commit 2e53b0b45024 ("hw/nvme: Use ioeventfd to handle doorbell
+> updates") had the unintended effect of disabling batching of CQEs.
+>=20
+> This patch changes the sq/cq timers to bottom halfs and instead of
+> calling nvme_post_cqes() immediately (causing an interrupt per cqe), we
+> defer the call.
+>=20
+>                    | iops
+>   -----------------+------
+>     baseline       | 138k
+>     +cqe batching  | 233k
+>=20
+> Fixes: 2e53b0b45024 ("hw/nvme: Use ioeventfd to handle doorbell updates")
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 
-> Changes from v2:
-> - Rebased and fixed a merge conflict
-> 
-> Changes from v1:
-> - Generate APIC and PPTT ACPI tables for AArch64/virt
-> - Avoid using legacy syntax in numa/bios tests
-> - Delete unchanged FACP tables
-> 
-> Brice Goglin (4):
->   hmat acpi: Don't require initiator value in -numa
->   tests: acpi: add and whitelist *.hmat-noinitiator expected blobs
->   tests: acpi: q35: add test for hmat nodes without initiators
->   tests: acpi: q35: update expected blobs *.hmat-noinitiators expected
->     HMAT:
-> 
-> Hesham Almatary (3):
->   tests: Add HMAT AArch64/virt empty table files
->   tests: acpi: aarch64/virt: add a test for hmat nodes with no
->     initiators
->   tests: virt: Update expected *.acpihmatvirt tables
-> 
-> Xiang Chen (1):
->   hw/arm/virt: Enable HMAT on arm virt machine
-> 
->  hw/arm/Kconfig                                |   1 +
->  hw/arm/virt-acpi-build.c                      |   7 ++
->  hw/core/machine.c                             |   4 +-
->  tests/data/acpi/q35/APIC.acpihmat-noinitiator | Bin 0 -> 144 bytes
->  tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 0 -> 8553 bytes
->  tests/data/acpi/q35/HMAT.acpihmat-noinitiator | Bin 0 -> 288 bytes
->  tests/data/acpi/q35/SRAT.acpihmat-noinitiator | Bin 0 -> 312 bytes
->  tests/data/acpi/virt/APIC.acpihmatvirt        | Bin 0 -> 396 bytes
->  tests/data/acpi/virt/DSDT.acpihmatvirt        | Bin 0 -> 5282 bytes
->  tests/data/acpi/virt/HMAT.acpihmatvirt        | Bin 0 -> 288 bytes
->  tests/data/acpi/virt/PPTT.acpihmatvirt        | Bin 0 -> 196 bytes
->  tests/data/acpi/virt/SRAT.acpihmatvirt        | Bin 0 -> 240 bytes
->  tests/qtest/bios-tables-test.c                | 109 ++++++++++++++++++
->  13 files changed, 118 insertions(+), 3 deletions(-)
->  create mode 100644 tests/data/acpi/q35/APIC.acpihmat-noinitiator
->  create mode 100644 tests/data/acpi/q35/DSDT.acpihmat-noinitiator
->  create mode 100644 tests/data/acpi/q35/HMAT.acpihmat-noinitiator
->  create mode 100644 tests/data/acpi/q35/SRAT.acpihmat-noinitiator
->  create mode 100644 tests/data/acpi/virt/APIC.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/DSDT.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/HMAT.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/PPTT.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/SRAT.acpihmatvirt
-> 
-> -- 
-> 2.25.1
+Thanks for the reviews, applied to nvme-next!
 
+--gEYNcj6LGw35n26H
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNg9oEACgkQTeGvMW1P
+Dek1VAgAgjASrbHRStfEIKoOsSdrRYBoYN1nn7/nsUIjsjB3qR5Ff628g4ZahoM0
+APb0rsyOpSUG5RnpeG5CtTH1HuJ3hBBSvLlH+DHc7aVExo2HAYLoSFrWfPB594fv
+bTMSAGO4hirY8PMnxbgUsaY5TvhzSw2VToXv8KXr9dqxVz27Nfo4mShER7Amfik+
+ewSpr+IEiIttlDLyOBwAq/iH/8LNkFz0RLxDFggU9I4VOQ9Vt4X3aa9aWdWVEDzY
+yI19Wm56IAIj1lg+MdxQuHNyc5QY+HyBZtBZRfBwT38BZtttEWwUxIJ9mWVt0/aU
+qf5M+oiJs59E0BRJMJrMghLWUVA7Pg==
+=HIYs
+-----END PGP SIGNATURE-----
+
+--gEYNcj6LGw35n26H--
 
