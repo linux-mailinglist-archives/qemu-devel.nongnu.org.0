@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2CE614FE6
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:01:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 171DB614E23
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 16:17:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opshm-00074C-Rs; Tue, 01 Nov 2022 10:57:30 -0400
+	id 1opshv-00075n-4U; Tue, 01 Nov 2022 10:57:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opshl-000744-AM
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:57:29 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ id 1opsht-00075d-GV
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:57:37 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opshj-0003lC-RV
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:57:29 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id l6so13464855pjj.0
- for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 07:57:27 -0700 (PDT)
+ id 1opshn-0003hk-Rs
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:57:37 -0400
+Received: by mail-pg1-x529.google.com with SMTP id h193so4940275pgc.10
+ for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 07:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=SnM99KyqX7P48Yqolo9mjrgei37okMKuMCflMKIVI0w=;
- b=FTXuGwT5H/42DnZN5LxaKpuMG0kHwB4MdPiB6c+WKjKZZs2ofmL92o3h2iWOSPfSmP
- Ig0iyOXTrgsKMqCllpyrgeyL6MJmvpzWVD8hsmayOi2sWgdco1dJjNo+aluEDUVc0grC
- cFtZ9oxwa6X8csH9DYOT1Uwu80KeoEezjTDF/+/2t6gw102SwqfS6ancekLeVWXDkhwn
- 6V8wbbPv8b3NoKIuY0yJE0f76Lx5hFO3PSlsFYH4dktERoOqJNiwoTvesC5UQvSlygTp
- uwZtVWH6v/gCWirBdzIlgFiOXHeMrqsyIv7YXsrf55MoFJ4FPxdXyVYrufccJapSDa5B
- JOww==
+ bh=At8j53igPyPAzDtB1h3pG2XsyNuLgQtuDuAHSF4bzEg=;
+ b=WkLHXxc+SxnccDKsma7Nw57lKYx6v2GEzbJ6K96VSFuBwc+aF1tVJumudWilea3iUb
+ FYBa0x9kRZCL5Iyw7Y8OqFqFKa6nZs5auZCiYgfPrF80YgpXxsqXQcsC1TTlQhSUvRgF
+ QBh3sOKpWYsBoNW9gkXXDPZyDo61nM9ENLzSMtN+yeIlnjgVOGMm1xhrVYo5iDXxBVxj
+ R4x4Hk+SfmR6CVzO0ovwZ3F12u5diYaHtNUbhIOEW/W7I5Em/nbN1Nnk0gtzTcAiVWhR
+ M7BFdAcGSEYvlUEAwrF3D6opSUg7/2xVRYgndoBDulB0XjoPPBzCAuSsmlL4yKLmyW5k
+ NG1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SnM99KyqX7P48Yqolo9mjrgei37okMKuMCflMKIVI0w=;
- b=2bfgU4PjWCW+3ixK83tDgBRhLMSWfJ4lwojZP2QVNbIAbWYPqS6dyGSRnbP0Y0QV3q
- Ab3H/3Eldoo9Yxy2BBz2GR3YgjfTkjAtlESDUTcdAESla7kmCIfZtZK4o27oVrJTCVXg
- bEkwV4lyj2zuO+36nAhvQ1VxyKUSGhBZH/Ygrc4E1BWryZMdykCelD+DRUFPutDBjdnt
- bCtKxQG1bLDnWOemMk5NR0uUosOzlutOrmUz7AB0LoAYZdrabf1OMHfkdgAXawZrnRG4
- vUEbcccV94ea4EvsC3UuOTzTwD+9FaJ+H9vKy24TyjYgSB+VezEXcBPvwwwoPPg9+BlU
- tjnA==
-X-Gm-Message-State: ACrzQf3kcdMfFuaUG+Qx9DDtXupIJ1rmGMRvL7XRTpQkAaHtmRQbIPeb
- ZFbjU2eSdIgEiwJJ9O4XosLktSFx2VjyAVLv
-X-Google-Smtp-Source: AMsMyM4khqr2oNBvGtuqCGVH+J9F45lr5DmcqMFeKUDC/i8dRY7kX9e2H+sR28q57CKDvyNpQisEww==
-X-Received: by 2002:a17:902:a707:b0:178:bd1e:e8be with SMTP id
- w7-20020a170902a70700b00178bd1ee8bemr19943174plq.167.1667314644778; 
- Tue, 01 Nov 2022 07:57:24 -0700 (PDT)
+ bh=At8j53igPyPAzDtB1h3pG2XsyNuLgQtuDuAHSF4bzEg=;
+ b=meX8mjQFCIBUzwvq3mysr6psMRi2bBrR880DPBDvpzvCL3LnbxQeqL2qB8HnwmO5x3
+ h8HQLdN4hsPS7YXvJtt0EekEYWpPaShE0RK1K1uO+yJoiQ+oC8T42xlJw2Qv1Chq7EIY
+ P9Fl7X5wYzxk0h/b7A7naaEvsLP6F4EbmoVZFjT69SYtOtUJbIa07j/YJjlAuzS0l+Qv
+ IUks9TyPsdoPZ+vajIIRPQGDR8H4VUxGrmKfTSHthm4zx1jv++sNKHkkwqUSE6ziztyU
+ 2NWUJ09j0yi1NBpexEf++jvb5l317egjieY+cX5lEBoHEW8ljQenryaO/KatEiVbuYKY
+ TGng==
+X-Gm-Message-State: ACrzQf1g8yljWnbrCFfZzkjycvMcU+yiZPD+kY9jEa1BEH0U8canLtNO
+ wAati3XzuDC8p88CBOXs5oMxx0WghbhdvnbV
+X-Google-Smtp-Source: AMsMyM7mE9FHW0cwavT0aMZmjXEYTkrCZAS2ctJAXCEyTLnr1BvcU/qsJMEkBbDB/5B3yNXMVOEzXw==
+X-Received: by 2002:a05:6a00:1d89:b0:56c:a2b:f1c2 with SMTP id
+ z9-20020a056a001d8900b0056c0a2bf1c2mr20489429pfw.45.1667314650586; 
+ Tue, 01 Nov 2022 07:57:30 -0700 (PDT)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- 22-20020a631656000000b0046f9f4a2de6sm4783219pgw.74.2022.11.01.07.57.19
+ 22-20020a631656000000b0046f9f4a2de6sm4783219pgw.74.2022.11.01.07.57.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Nov 2022 07:57:24 -0700 (PDT)
+ Tue, 01 Nov 2022 07:57:29 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
@@ -74,23 +74,22 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v9 14/17] hw/pci-bridge/pcie_pci_bridge: Omit errp for
- pci_add_capability
-Date: Tue,  1 Nov 2022 23:55:55 +0900
-Message-Id: <20221101145558.3998-15-akihiko.odaki@daynix.com>
+Subject: [PATCH v9 15/17] hw/vfio/pci: Omit errp for pci_add_capability
+Date: Tue,  1 Nov 2022 23:55:56 +0900
+Message-Id: <20221101145558.3998-16-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221101145558.3998-1-akihiko.odaki@daynix.com>
 References: <20221101145558.3998-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102d;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: none client-ip=2607:f8b0:4864:20::529;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,52 +105,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-Omitting errp for pci_add_capability() causes it to abort if
-capabilities overlap. This behavior is appropriate heare because all of
-the capabilities set in this device are defined in the program and
-their overlap should not happen unless there is a programming error.
+The code generating errors in pci_add_capability has a comment which
+says:
+> Verify that capabilities don't overlap.  Note: device assignment
+> depends on this check to verify that the device is not broken.
+> Should never trigger for emulated devices, but it's helpful for
+> debugging these.
+
+Indeed vfio has some code that passes capability offsets and sizes from
+a physical device, but it explicitly pays attention so that the
+capabilities never overlap. Therefore, in pci_add_capability(), we can
+always assert that capabilities never overlap, and that is what happens
+when omitting errp.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/pci-bridge/pcie_pci_bridge.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ hw/vfio/pci-quirks.c | 15 +++------------
+ hw/vfio/pci.c        | 14 +++++---------
+ 2 files changed, 8 insertions(+), 21 deletions(-)
 
-diff --git a/hw/pci-bridge/pcie_pci_bridge.c b/hw/pci-bridge/pcie_pci_bridge.c
-index 99778e3e24..1b839465e7 100644
---- a/hw/pci-bridge/pcie_pci_bridge.c
-+++ b/hw/pci-bridge/pcie_pci_bridge.c
-@@ -35,7 +35,7 @@ static void pcie_pci_bridge_realize(PCIDevice *d, Error **errp)
+diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+index f0147a050a..e94fd273ea 100644
+--- a/hw/vfio/pci-quirks.c
++++ b/hw/vfio/pci-quirks.c
+@@ -1530,7 +1530,7 @@ const PropertyInfo qdev_prop_nv_gpudirect_clique = {
+ static int vfio_add_nv_gpudirect_cap(VFIOPCIDevice *vdev, Error **errp)
  {
-     PCIBridge *br = PCI_BRIDGE(d);
-     PCIEPCIBridge *pcie_br = PCIE_PCI_BRIDGE_DEV(d);
--    int rc, pos;
-+    int rc;
+     PCIDevice *pdev = &vdev->pdev;
+-    int ret, pos = 0xC8;
++    int pos = 0xC8;
  
-     pci_bridge_initfn(d, TYPE_PCI_BUS);
+     if (vdev->nv_gpudirect_clique == 0xFF) {
+         return 0;
+@@ -1547,11 +1547,7 @@ static int vfio_add_nv_gpudirect_cap(VFIOPCIDevice *vdev, Error **errp)
+         return -EINVAL;
+     }
  
-@@ -49,12 +49,8 @@ static void pcie_pci_bridge_realize(PCIDevice *d, Error **errp)
- 
-     pcie_cap_init(d, 0, PCI_EXP_TYPE_PCI_BRIDGE, 0);
- 
--    pos = pci_add_capability(d, PCI_CAP_ID_PM, 0, PCI_PM_SIZEOF, errp);
--    if (pos < 0) {
--        goto pm_error;
+-    ret = pci_add_capability(pdev, PCI_CAP_ID_VNDR, pos, 8, errp);
+-    if (ret < 0) {
+-        error_prepend(errp, "Failed to add NVIDIA GPUDirect cap: ");
+-        return ret;
 -    }
--    d->exp.pm_cap = pos;
--    pci_set_word(d->config + pos + PCI_PM_PMC, 0x3);
-+    d->exp.pm_cap = pci_add_capability(d, PCI_CAP_ID_PM, 0, PCI_PM_SIZEOF);
-+    pci_set_word(d->config + d->exp.pm_cap + PCI_PM_PMC, 0x3);
++    pci_add_capability(pdev, PCI_CAP_ID_VNDR, pos, 8);
  
-     pcie_cap_arifwd_init(d);
-     pcie_cap_deverr_init(d);
-@@ -85,7 +81,6 @@ static void pcie_pci_bridge_realize(PCIDevice *d, Error **errp)
- msi_error:
-     pcie_aer_exit(d);
- aer_error:
--pm_error:
-     pcie_cap_exit(d);
-     shpc_cleanup(d, &pcie_br->shpc_bar);
- error:
+     memset(vdev->emulated_config_bits + pos, 0xFF, 8);
+     pos += PCI_CAP_FLAGS;
+@@ -1718,12 +1714,7 @@ static int vfio_add_vmd_shadow_cap(VFIOPCIDevice *vdev, Error **errp)
+         return -EFAULT;
+     }
+ 
+-    ret = pci_add_capability(&vdev->pdev, PCI_CAP_ID_VNDR, pos,
+-                             VMD_SHADOW_CAP_LEN, errp);
+-    if (ret < 0) {
+-        error_prepend(errp, "Failed to add VMD MEMBAR Shadow cap: ");
+-        return ret;
+-    }
++    pci_add_capability(&vdev->pdev, PCI_CAP_ID_VNDR, pos, VMD_SHADOW_CAP_LEN);
+ 
+     memset(vdev->emulated_config_bits + pos, 0xFF, VMD_SHADOW_CAP_LEN);
+     pos += PCI_CAP_FLAGS;
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 0ca6b5ff4b..458729eae3 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -1839,7 +1839,7 @@ static void vfio_add_emulated_long(VFIOPCIDevice *vdev, int pos,
+     vfio_set_long_bits(vdev->emulated_config_bits + pos, mask, mask);
+ }
+ 
+-static int vfio_setup_pcie_cap(VFIOPCIDevice *vdev, int pos, uint8_t size,
++static int vfio_setup_pcie_cap(VFIOPCIDevice *vdev, uint8_t pos, uint8_t size,
+                                Error **errp)
+ {
+     uint16_t flags;
+@@ -1956,11 +1956,7 @@ static int vfio_setup_pcie_cap(VFIOPCIDevice *vdev, int pos, uint8_t size,
+                                1, PCI_EXP_FLAGS_VERS);
+     }
+ 
+-    pos = pci_add_capability(&vdev->pdev, PCI_CAP_ID_EXP, pos, size,
+-                             errp);
+-    if (pos < 0) {
+-        return pos;
+-    }
++    pos = pci_add_capability(&vdev->pdev, PCI_CAP_ID_EXP, pos, size);
+ 
+     vdev->pdev.exp.exp_cap = pos;
+ 
+@@ -2058,14 +2054,14 @@ static int vfio_add_std_cap(VFIOPCIDevice *vdev, uint8_t pos, Error **errp)
+     case PCI_CAP_ID_PM:
+         vfio_check_pm_reset(vdev, pos);
+         vdev->pm_cap = pos;
+-        ret = pci_add_capability(pdev, cap_id, pos, size, errp);
++        pci_add_capability(pdev, cap_id, pos, size);
+         break;
+     case PCI_CAP_ID_AF:
+         vfio_check_af_flr(vdev, pos);
+-        ret = pci_add_capability(pdev, cap_id, pos, size, errp);
++        pci_add_capability(pdev, cap_id, pos, size);
+         break;
+     default:
+-        ret = pci_add_capability(pdev, cap_id, pos, size, errp);
++        pci_add_capability(pdev, cap_id, pos, size);
+         break;
+     }
+ 
 -- 
 2.38.1
 
