@@ -2,87 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C060F614FFC
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:06:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3DD9614FFB
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:06:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oprHS-00015K-Se; Tue, 01 Nov 2022 09:26:14 -0400
+	id 1oprV9-0002rw-N6; Tue, 01 Nov 2022 09:40:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oprHN-00014w-O1
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 09:26:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oprHK-0007K1-CT
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 09:26:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667309164;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5tizp+iNl34fQqwfmc07e6bLw1nj6pU/4fcuHqfx8d4=;
- b=QOCMQpqulY+qrfyLxFd2e/6nmW9DJ8L8+kWxggVbM41Xryio7/rYLlLMQ3KxeHz/4DnBrc
- gi0HW7KMrUfr/+dZeTm9IhCv8ueiTZGc8qLWIjGLh6qZNtJjAtRBD9tPXK9E0oL8nU4FME
- HXCO/kWZngbO9AUtH6LiONISh9oXWGI=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-413-okSs66icMBe_GB9cGdzJ_g-1; Tue, 01 Nov 2022 09:26:03 -0400
-X-MC-Unique: okSs66icMBe_GB9cGdzJ_g-1
-Received: by mail-qv1-f70.google.com with SMTP id
- g1-20020ad45101000000b004bb5eb9913fso7644952qvp.16
- for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 06:26:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oprV5-0002oW-Ft
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 09:40:20 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oprV3-0005ED-R9
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 09:40:19 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ m29-20020a05600c3b1d00b003c6bf423c71so12784173wms.0
+ for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 06:40:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=k7wvGKJ+NWT0JZQRfywf27Dh33krIV5ywCJQOcmSdD8=;
+ b=pEu2Mh3EVFGlUKmJnYS2D7oHvKJFJSXe734TuH28TQldm/qZVYknquO/OYw5c51U+M
+ 1llzCLuaMtqWeluhifbZrv1sq009ZfE75+INQKBrO4VEQbjlxFVf0W9/nfjRdG8D46Su
+ 4Ang0OlKK9rStq6XRmZju++wcJkwnGZ4DdLL+DOpWI+0+sc5DRtj2aATEPyWF19kK5CC
+ JxmLCspG2yQte31IedIAtJruoD5RjscRVoV1ReRZKyLnogHyDetzO7M2F2joQ3q11W++
+ tY0houmyKnIbKLmlJW/9Zy+DekMsqHw12kvsnQaGx95HU5W/hF54FoIFfQIjkdIdatQf
+ XP2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5tizp+iNl34fQqwfmc07e6bLw1nj6pU/4fcuHqfx8d4=;
- b=RcTfofxGE1LiP0kyQs9Z2hEAqkSmlXKqns6yncF5BhsAC8kkYdErjyoi4ooSgDmZcQ
- mhcs+a8adw2xQGvdkojdYu+AKtup+KccWuw3RAqHdisDkBMhf1WRWDUhd0PikRDxPjX6
- vdfMABOgJtrrTr9hSay0ULAEwdhIq95oOadsRuHcPLPFGcDzmJrl+4SDZew6v0IGN+f5
- Fn3CGOObgvDw2UYNEr4Gbphgu3KdUKxLvFoDn48jmvslzwh3fhwC3Mcd+Rkc5v+tAiHO
- Bs/fkVBC9HdhuR7QG7s0HNdm7gMW4kSiGHAMTI47lqe2CbPQGp6C41AUPrqBNu1e87lq
- vi3Q==
-X-Gm-Message-State: ACrzQf3YKTZspDTjx7xCDBWPyStTwyv892QHtYPfCjSEk5iofbKUoX7l
- OJ4GkXJzF9UmSF9c7dgxXVW838nejPjiswc6rJp10EddCjnNj8r3NSXjLOS1KQH19m2Se2+21bP
- pH0op/IGrp88UHU8=
-X-Received: by 2002:a05:620a:254f:b0:6bb:dcb6:4279 with SMTP id
- s15-20020a05620a254f00b006bbdcb64279mr13164083qko.79.1667309162859; 
- Tue, 01 Nov 2022 06:26:02 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM622wbkfQQV8wUtEpKNJE9D0Nh/SHLna/ZP2smno604VnEUHnsEE9FghY7mJzSKTPW8hyZzhg==
-X-Received: by 2002:a05:620a:254f:b0:6bb:dcb6:4279 with SMTP id
- s15-20020a05620a254f00b006bbdcb64279mr13164065qko.79.1667309162628; 
- Tue, 01 Nov 2022 06:26:02 -0700 (PDT)
-Received: from fedora (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=k7wvGKJ+NWT0JZQRfywf27Dh33krIV5ywCJQOcmSdD8=;
+ b=7hOLWlifK6xvmHCJGM07fgM57bbDMEnd1tVbj6iKu+S+ne8FAF0LIjDznRADTdnKGj
+ rgz65l0QU5uDQP1ymKjrHH7lERImxUL+2r/gcSzd64RvdVFMLM9E698ShuWU5g8kTfuV
+ zrLul5q3fHd9KJ5dLjYiIuX3pvOkNPstpy2XYkHIYTLENQh4OhNHfPDR2bgBm15TKXtF
+ k+iVodjyT/i8V/HF9xbl0HxWG6d86qg1jqTobK4pS+r0RBqJkDiCCe15JEJdvvqlhaGg
+ W1BuE2V0y+KeyoITHVV4h2Caf49JSID2NUnfcdyLyDWdDQftVmVRZAxd5zU880cZuMxX
+ IY2w==
+X-Gm-Message-State: ACrzQf3qF0qNU18f7hi7Qr+qmmPUDlXSOTriqFNso92/o455W6ClSebT
+ lHJGTdMoNa/1q/KsFVQR1tgTrw==
+X-Google-Smtp-Source: AMsMyM4FfWOB0Gi4HLRKV1urQesqd6oHTMerJgwo4UJZnEBap7h9NI68FmbbLRgXSpp7jylKcCU2lg==
+X-Received: by 2002:a05:600c:35c8:b0:3c8:33dc:c262 with SMTP id
+ r8-20020a05600c35c800b003c833dcc262mr11934230wmq.206.1667310016297; 
+ Tue, 01 Nov 2022 06:40:16 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- v7-20020ac87487000000b00342f8d4d0basm5162098qtq.43.2022.11.01.06.26.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Nov 2022 06:26:01 -0700 (PDT)
-Date: Tue, 1 Nov 2022 14:25:59 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/86] pci,pc,virtio: features, tests, fixes, cleanups
-Message-ID: <20221101142559.46202198@fedora>
-In-Reply-To: <20221031124928.128475-1-mst@redhat.com>
-References: <20221031124928.128475-1-mst@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ q9-20020adfdfc9000000b002366d1cc198sm10473094wrn.41.2022.11.01.06.40.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Nov 2022 06:40:15 -0700 (PDT)
+Message-ID: <63320e56-1612-b828-2869-1bdb4a35ec6d@linaro.org>
+Date: Tue, 1 Nov 2022 14:40:14 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.051,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+Subject: Re: [PATCH v4 1/3] util/main-loop: Fix maximum number of wait objects
+ for win32
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20221019102015.2441622-1-bmeng.cn@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221019102015.2441622-1-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,48 +94,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 31 Oct 2022 08:50:41 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On 19/10/22 12:20, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
+> 
+> The maximum number of wait objects for win32 should be
+> MAXIMUM_WAIT_OBJECTS, not MAXIMUM_WAIT_OBJECTS + 1.
+> 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+> 
+> Changes in v4:
+> - make the out of bounds access protection explicit
+> 
+> Changes in v3:
+> - move the check of adding the same HANDLE twice to a separete patch
+> 
+> Changes in v2:
+> - fix the logic in qemu_add_wait_object() to avoid adding
+>    the same HANDLE twice
+> 
+>   util/main-loop.c | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/util/main-loop.c b/util/main-loop.c
+> index f00a25451b..de38876064 100644
+> --- a/util/main-loop.c
+> +++ b/util/main-loop.c
+> @@ -363,10 +363,10 @@ void qemu_del_polling_cb(PollingFunc *func, void *opaque)
+>   /* Wait objects support */
+>   typedef struct WaitObjects {
+>       int num;
+> -    int revents[MAXIMUM_WAIT_OBJECTS + 1];
+> -    HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];
+> -    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS + 1];
+> -    void *opaque[MAXIMUM_WAIT_OBJECTS + 1];
+> +    int revents[MAXIMUM_WAIT_OBJECTS];
+> +    HANDLE events[MAXIMUM_WAIT_OBJECTS];
+> +    WaitObjectFunc *func[MAXIMUM_WAIT_OBJECTS];
+> +    void *opaque[MAXIMUM_WAIT_OBJECTS];
+>   } WaitObjects;
+>   
+>   static WaitObjects wait_objects = {0};
+> @@ -395,7 +395,7 @@ void qemu_del_wait_object(HANDLE handle, WaitObjectFunc *func, void *opaque)
+>           if (w->events[i] == handle) {
+>               found = 1;
+>           }
+> -        if (found) {
+> +        if (found && i < (MAXIMUM_WAIT_OBJECTS - 1)) {
 
-> 
-> Holiday here tomorrow, so most likely this is it for features for this release.
-> 
-> The following changes since commit 75d30fde55485b965a1168a21d016dd07b50ed32:
-> 
->   Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2022-10-30 15:07:25 -0400)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> 
-> for you to fetch changes up to 3e624c953b9c37f5aafdf92c16c721818ec8c648:
-> 
->   intel-iommu: PASID support (2022-10-31 08:46:50 -0400)
-> 
-> ----------------------------------------------------------------
-> pci,pc,virtio: features, tests, fixes, cleanups
-> 
-> lots of acpi rework
+Matter of style, I find this form easier to review (same logic than
+what follows):
 
-expected DSDT tables updates should be updated to include
+            if (found && i + 1 < MAXIMUM_WAIT_OBJECTS) {
 
-> first version of biosbits infrastructure
-> ASID support in vhost-vdpa
-> core_count2 support in smbios
+>               w->events[i] = w->events[i + 1];
+>               w->func[i] = w->func[i + 1];
+>               w->opaque[i] = w->opaque[i + 1];
 
-tables added by this test which was merged before above refactoring
-to avoid failure (it was masked by 1/86)
-
-or simpler, swap order they are being merged and then just regenerate
-tables for this test case only.
-
-> PCIe DOE emulation
-> virtio vq reset
-> HMAT support
-> part of infrastructure for viommu support in vhost-vdpa
-> VTD PASID support
-> fixes, tests all over the place
-> 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
