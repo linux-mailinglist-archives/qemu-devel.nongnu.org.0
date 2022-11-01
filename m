@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981FD6142BF
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 02:15:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD756142CC
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 02:40:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opfs1-0001nA-Rz; Mon, 31 Oct 2022 21:15:15 -0400
+	id 1opgEm-0003Dk-Hm; Mon, 31 Oct 2022 21:38:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1opfrx-0001mv-CI
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 21:15:10 -0400
-Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1opfrv-0003rw-LL
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 21:15:08 -0400
-Received: by mail-qt1-x82f.google.com with SMTP id l2so3824391qtq.11
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 18:15:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=67tA4PDXuk8zrdpGOuDdJ2gkjp5wGD1FrFWQtGM3kAc=;
- b=BomedR8E9DfsrWh8CPArt/vFFZ8Zwr+1kuZcXcSrklqbXU1xFaKDoZZsjc7Nv1yGwV
- 6QxbynNyP/IyTdYbz4XSSM+8nCx9xU/lj95A4FY5oKfK/wR5n93ibym26kx7ZJ4xThxG
- pSy1ce4VJR3ug/rbRRdsCNEJRKOdEv+HAk6x1byDeScTzu6HR4KzYkYq594Qo6latt16
- lak/Ipcg60znvT8ARjyEb8ABSq/j1YowJBEu+9VhGw0KmbppEWfV/Ot0llWxBCVk7D1e
- ITi1/XVx3HLAO3UtbloYjOGxgyeEGYj6tAhLEiWHZ1/t00iz6g1HJhC+jflPvWftVvhD
- E9zg==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1opgEk-0003DU-Jv
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 21:38:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1opgEj-00044h-1f
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 21:38:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667266720;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q7zIFdJNOyTd/4ukh68hp01JvyoAkVLEE4zhbqs4pHA=;
+ b=ERHtUY4Pbz5Idn0CpO1HWNbH0hd91wQEjpgTs8ZL3uIqi4JJH9ncWsxD+8BoY0HcaEL3Pa
+ +jBMwBzTdzJMMEqrnU9i9oHejRTDgUzD0nVeQmSSwER7nnfYy+1Wh/BNRESZuYrn7tzQs2
+ ohTwkIIiSZrCEXKqReeRNd6L30wU3RY=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-536-u1L4bUR9Na2HQ7_uOvoaeA-1; Mon, 31 Oct 2022 21:38:38 -0400
+X-MC-Unique: u1L4bUR9Na2HQ7_uOvoaeA-1
+Received: by mail-ot1-f71.google.com with SMTP id
+ r17-20020a056830135100b0066c3ca9c6d8so4238166otq.15
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 18:38:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=67tA4PDXuk8zrdpGOuDdJ2gkjp5wGD1FrFWQtGM3kAc=;
- b=7zFGbzIJkvZmr96H9M17pkrxFtACFoUBbnBPfZ2CU8/dXnjvXcF6n4sbxZtTJySc0b
- E7Pjjlgwg7P3civ3PN7+De06o6I3Up4mc9zELtCdit07vI5/ZdvmGfXe1ZW1a7DP37+p
- hebeaFGULSYLqoXY8Uz4/jIP4+GqYGBchpl3mirB0tlR0ag0tK20s14fM8593CYPpa2f
- ox8ByUGmQ7z8nk1aCku79JQHeNI2DpXnatiLP3XkbJ9McWM/xZ0bqx7wm2gfO83jcYwD
- nqVloGbpZ8jSzSLZCjVf9Kgo5jULYqLigampjGhPZisj1/0D829P4/eEih08t3qjszCS
- ei8g==
-X-Gm-Message-State: ACrzQf1mQP5meV9FjoMkY75N17v6omcNGtDcFCraF3pZThFhFG967oA7
- E+d7LDfjqQcYZP/1DAXnziysUbquPYyfJMhkE3F8wGlYsrA=
-X-Google-Smtp-Source: AMsMyM4bYr7wipMYfTHunXoZawtik4/ZT2xgBRcHUXDNzsh4HLNtVOOF6mvffV451FfvRE+6cNtwKqtt8SgGzbdL8Y0=
-X-Received: by 2002:ac8:57c5:0:b0:39a:6512:6e3e with SMTP id
- w5-20020ac857c5000000b0039a65126e3emr13202288qta.334.1667265306067; Mon, 31
- Oct 2022 18:15:06 -0700 (PDT)
+ bh=Q7zIFdJNOyTd/4ukh68hp01JvyoAkVLEE4zhbqs4pHA=;
+ b=OZKci7xwBS1S/ATvNJsgXVwANCiAM8j7Vn+zZAv8FOoclGuPPqznqJ7PgNWBtF9Q0s
+ NGG0EbI0rvn1OYYXxjwAeRoi1z97ORUnDmDcskhr/zfIVxPRjhoPlz1OtkL7bm5NgPFi
+ uJdqFsMUFEUp7lGZRdWfE/Xqk6oryBxqOqgnFCBGXIqmBSSUxx0u7VYFRl1FVGq48n7N
+ ywEzdWxGf2b+Cs+QO6UqQ5IWEo6Nfed0h98yIVdB0Hc/EUDVGxasWf8awADLTMeinNoS
+ C27uH2d9MW7iOopkztafLDVZOtbHaEPy2lV+yDhgzF0mgemDptztX4Ru8lJTlzMABJN9
+ inrg==
+X-Gm-Message-State: ACrzQf206h1Uc20krLqn3fQPtlvp9nAeX1JtYpCH6pGOnYXyq0y0gp0U
+ aWc8BizsC7QVaghVlZxu10b8z923RFVAKnmM1AENgOhKI5H35U2tS2O9BpUawDKpG6dgvzi8EpA
+ miOQVXfmNBoYUtP5GpEAWFwfBYAnH1dE=
+X-Received: by 2002:a05:6871:54e:b0:13b:29b7:e2e8 with SMTP id
+ t14-20020a056871054e00b0013b29b7e2e8mr18552740oal.35.1667266717594; 
+ Mon, 31 Oct 2022 18:38:37 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4kaWyOq7L7INPvdZMpOq+fSjKLwgD2Pzh3mLpVkkAA9UKzBjfdBo/6Qx4Gcp+wzWj8TwYOSg/tRxp9osDgS3Y=
+X-Received: by 2002:a05:6871:54e:b0:13b:29b7:e2e8 with SMTP id
+ t14-20020a056871054e00b0013b29b7e2e8mr18552730oal.35.1667266717349; Mon, 31
+ Oct 2022 18:38:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221019102015.2441622-1-bmeng.cn@gmail.com>
- <CAEUhbmUmE12maezBm9x0EJQnTQkavMa8EcoNPd8LcHTawFQzYg@mail.gmail.com>
-In-Reply-To: <CAEUhbmUmE12maezBm9x0EJQnTQkavMa8EcoNPd8LcHTawFQzYg@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 1 Nov 2022 09:14:55 +0800
-Message-ID: <CAEUhbmWNRpZp0EvNC9snrpqTVDx13EhBzSWxiKta_ZAjcfkDDA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] util/main-loop: Fix maximum number of wait objects
- for win32
-To: qemu-devel@nongnu.org,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <1664913563-3351-1-git-send-email-si-wei.liu@oracle.com>
+ <CAJaqyWdtDH8FYzvPLqW8PHmwtUP-puHH=n7EB7xgHsy_uur4Dw@mail.gmail.com>
+ <d599973d-a974-b14a-d63c-caff2eba3fe6@oracle.com>
+In-Reply-To: <d599973d-a974-b14a-d63c-caff2eba3fe6@oracle.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 1 Nov 2022 09:38:25 +0800
+Message-ID: <CACGkMEun2DttZP_3FEDjThU7ShdzRHrB1wdTGtrtSR4MTNcq0g@mail.gmail.com>
+Subject: Re: [PATCH] vhost-vdpa: fix assert
+ !virtio_net_get_subqueue(nc)->async_tx.elem in virtio_net_reset
+To: Si-Wei Liu <si-wei.liu@oracle.com>
+Cc: qemu-devel@nongnu.org, Eugenio Perez Martin <eperezma@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x82f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,38 +94,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Daniel,
-
-On Wed, Oct 26, 2022 at 12:41 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Sat, Oct 29, 2022 at 1:28 AM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
 >
-> On Wed, Oct 19, 2022 at 6:20 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > The maximum number of wait objects for win32 should be
-> > MAXIMUM_WAIT_OBJECTS, not MAXIMUM_WAIT_OBJECTS + 1.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > ---
-> >
-> > Changes in v4:
-> > - make the out of bounds access protection explicit
-> >
-> > Changes in v3:
-> > - move the check of adding the same HANDLE twice to a separete patch
-> >
-> > Changes in v2:
-> > - fix the logic in qemu_add_wait_object() to avoid adding
-> >   the same HANDLE twice
-> >
-> >  util/main-loop.c | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
-> >
+> Hi Jason,
 >
-> Ping?
+> This one is a one-line simple bug fix but seems to be missed from the pull request. If there's a v2 for the PULL, would appreciate if you can piggyback. Thanks in advance!
+>
+> Regards,
+> -Siwei
+>
 
-Would you queue this series? Thanks!
+I've queued this for rc1.
 
-Regards,
-Bin
+Thanks
+
 
