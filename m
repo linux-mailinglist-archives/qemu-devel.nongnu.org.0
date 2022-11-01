@@ -2,87 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A13061433D
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 03:29:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4370E614347
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 03:32:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oph00-0007bM-JM; Mon, 31 Oct 2022 22:27:32 -0400
+	id 1oph4E-0001Zw-54; Mon, 31 Oct 2022 22:31:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1opgzu-0007at-Hz
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 22:27:28 -0400
+ id 1oph4C-0001Z9-Bz
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 22:31:52 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1opgzt-0004oW-1i
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 22:27:26 -0400
+ id 1oph4A-0006oo-Nw
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 22:31:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667269644;
+ s=mimecast20190719; t=1667269910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uImy8CYEK7qTLFcTbThhmzYKmaphV5b3T0SJ+M91peo=;
- b=gENJI+sGTF30IUH4tiLNc/VDT+MXFDzoidExACr0wXq7Gskw+lFnIsqrCUg+imAIWykZS1
- /9MJeh7qioepx58WjbbKA2Ji3BANDCYY2h9AiFTLK7UExb6ixGbCi/and318rRdoz4u2OH
- OqWVfv+ay3QhW2K0/xTyN/PRIKum82s=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5Kc8W9+dFOLgSF27xvDCLeDhFEgtDH4rZ0hPKTTsH/I=;
+ b=L3KD+dPFBA1PxES+OVWMAlsm0nRSA1sSXtx1aV3thYBr1T/sKoMKnhORJnWvkGpWDyVhoz
+ u97pYXIcYwiyrQYs8eX8rA6h4bOCEaD/V46JoaBki48F2+wefE6vRV76BGrd/v0YN4hx7l
+ 0y5rAsA8j/Zytg1RtEvLGmTMxDHXfRo=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-437-wF-ecWp0MmuN_RXbjk1EdA-1; Mon, 31 Oct 2022 22:27:21 -0400
-X-MC-Unique: wF-ecWp0MmuN_RXbjk1EdA-1
-Received: by mail-pg1-f197.google.com with SMTP id
- f19-20020a63f113000000b0046fde69a09dso1341913pgi.10
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 19:27:21 -0700 (PDT)
+ us-mta-589-o-0LYESdPSC2fJHBa5-dkg-1; Mon, 31 Oct 2022 22:31:47 -0400
+X-MC-Unique: o-0LYESdPSC2fJHBa5-dkg-1
+Received: by mail-oi1-f199.google.com with SMTP id
+ p204-20020aca42d5000000b00354da838ce9so5285460oia.4
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 19:31:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uImy8CYEK7qTLFcTbThhmzYKmaphV5b3T0SJ+M91peo=;
- b=hXEUAS5P2v5nq9KKkgqfcn7jhp+eMhNWFEqkIGZjUOXOB3OcDEJX/IlzfRFOkn48FG
- Be2raakYtiRATETH6FkEqaGlGPM0W6Yu0+Kpp+O626p/jnwCTD4RRGPP1HOEjzRXQA3e
- rm8MqIch7ww8sQtJafOnRBHkaFMANGeL1+SROPJNx8soYdy4+bbmFRk0E5vsWqsOmwAD
- 49hplP95UjnNFgSsihBDt0lOS6/2VqDqVVBbZtotP7u9YO7lp+Z5fv3ADBQg9ZEpRBiT
- vDEgWVG4nf5FnWunvJLFuhBuZQUvHIsOrlOrgKGegdICUqYWzzXQpvgRmHERIIG4/U+2
- nixA==
-X-Gm-Message-State: ACrzQf20EhYFGyexZhzIvAi3twAGpnhmgE3EAwyo9J7E6Rs8/+/q8wqE
- wWP0o1PzZEzJQQVHNWVf0ZUzARj9l20+CRGnbiVfDZ/gceC7HBhoIO/JApLU4xD/C/7FijcSeVY
- Cz79JaiPgFq49hrg=
-X-Received: by 2002:a63:ea4e:0:b0:454:26eb:b73f with SMTP id
- l14-20020a63ea4e000000b0045426ebb73fmr15405507pgk.451.1667269640886; 
- Mon, 31 Oct 2022 19:27:20 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6boPkqEZNFuCLUnd43O8ylTfhECONw2Amtod/UUXe3d9nFG4na/66olRwo6QhU0ZDEJ7tJNQ==
-X-Received: by 2002:a63:ea4e:0:b0:454:26eb:b73f with SMTP id
- l14-20020a63ea4e000000b0045426ebb73fmr15405488pgk.451.1667269640589; 
- Mon, 31 Oct 2022 19:27:20 -0700 (PDT)
-Received: from [10.72.13.181] ([43.228.180.230])
- by smtp.gmail.com with ESMTPSA id
- p66-20020a625b45000000b0053e38ac0ff4sm5302319pfb.115.2022.10.31.19.27.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 31 Oct 2022 19:27:20 -0700 (PDT)
-Message-ID: <878485d4-124e-9062-847f-a690889ef42a@redhat.com>
-Date: Tue, 1 Nov 2022 10:27:15 +0800
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5Kc8W9+dFOLgSF27xvDCLeDhFEgtDH4rZ0hPKTTsH/I=;
+ b=f9O/Q0xiCnA8KRR13gOs5tFRFeh7oOdEvlMn6v6+s366f4kw+MMasv0wSZenuFUcu6
+ ZDf5HHM35VTReD7LC7BM2jAUFA7eaw0IiMHBfZOs8pRgzBLwhZiDsZ6gCL5xHxRZRrfR
+ vknenLPiIp6dqULp3K7arRsP7/v+VdK43vyx/VclwdfDgzLsgsp/yFPqjp45/PhU0fTF
+ MdLRVfGo/W9v5cq/jLF+KtClE0qijZEjP0Qt2flD1Ev85fKNB2HVehEaXCr9w1Z09HQX
+ kSW4UCMojEn+U+HwGF2/lNaKimGmgSNFAMDDU+OkJcJmXid6c6SkcVIzFgBP1ytDw9Hf
+ nxaw==
+X-Gm-Message-State: ACrzQf1RT0sz/otHi5VIcAbb/4cjfxw9q0vQlxdqMrx422IZzHZpT7Cn
+ rRSZ4j+kJnJMzNiQvTdh//QcSz+SvFku7VOr7EfMrO4p38IW/xlaLW9tbzfq3VrCaj0NIoomMGF
+ b2I35tzIGWANugDCG50yJ3JgZruJbscU=
+X-Received: by 2002:a05:6808:1483:b0:354:a36e:5b with SMTP id
+ e3-20020a056808148300b00354a36e005bmr16491891oiw.35.1667269906935; 
+ Mon, 31 Oct 2022 19:31:46 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5NSuNsZfu51YjLWvGezaK0ICPQ/0o6iQgOLVjf8gek1tN2bk+6bpmSr7gth/YhwHu+rBXsdrzJv7Z26EEjCbY=
+X-Received: by 2002:a05:6808:1483:b0:354:a36e:5b with SMTP id
+ e3-20020a056808148300b00354a36e005bmr16491878oiw.35.1667269906772; Mon, 31
+ Oct 2022 19:31:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.13.1
-Subject: Re: [PATCH 4/4] vhost: convert byte order on avail_event read
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>,
- Eugenio Perez Martin <eperezma@redhat.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
-References: <20221028160251.268607-1-eperezma@redhat.com>
- <20221028160251.268607-5-eperezma@redhat.com>
- <a08bc5b7-8481-49f7-c4fb-a4c780783e5b@linaro.org>
- <CAJaqyWerZzwFK01+rrdp-dHqFAmrUx-3PYfK+VGY3zGRDOwJBw@mail.gmail.com>
- <20221031083449-mutt-send-email-mst@kernel.org>
+References: <20221020155251.398735-1-eperezma@redhat.com>
+ <20221026165830-mutt-send-email-mst@kernel.org>
+ <986d8ba9-2634-3224-d548-cf5563639c49@redhat.com>
+ <CAJaqyWd4PsYwnnPV0-qh4RhY4k0yLn1fHx=V=h86OTqi0pXQvQ@mail.gmail.com>
+In-Reply-To: <CAJaqyWd4PsYwnnPV0-qh4RhY4k0yLn1fHx=V=h86OTqi0pXQvQ@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20221031083449-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Date: Tue, 1 Nov 2022 10:31:35 +0800
+Message-ID: <CACGkMEt2U5xisCWy9BEw4dJEpHQAOrkcLY+jkoHRGEvQZ18KTw@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Shadow VirtQueue event index support
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Eli Cohen <eli@mellanox.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Cindy Lu <lulu@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -90,8 +85,8 @@ X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,64 +102,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-在 2022/10/31 20:35, Michael S. Tsirkin 写道:
-> On Mon, Oct 31, 2022 at 09:29:53AM +0100, Eugenio Perez Martin wrote:
->> On Sat, Oct 29, 2022 at 12:53 AM Philippe Mathieu-Daudé
->> <philmd@linaro.org> wrote:
->>> On 28/10/22 18:02, Eugenio Pérez wrote:
->>>> This causes errors on virtio modern devices on big endian hosts
->>>>
->>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>>> ---
->>>>    hw/virtio/vhost-shadow-virtqueue.c | 3 ++-
->>>>    1 file changed, 2 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
->>>> index 18a49e1ecb..3131903edd 100644
->>>> --- a/hw/virtio/vhost-shadow-virtqueue.c
->>>> +++ b/hw/virtio/vhost-shadow-virtqueue.c
->>>> @@ -231,7 +231,8 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq)
->>>>            size_t num = svq->vring.num;
->>>>            uint16_t *avail_event = (uint16_t *)&svq->vring.used->ring[num];
->>>>
->>>     uint16_t avail_event = virtio_lduw_p(svq->vdev,
->>>                                          &svq->vring.used->ring[num]);
->>>     needs_kick = vring_need_event(avail_event,
->>>                                   svq->shadow_avail_idx,
->>>                                   svq->shadow_avail_idx - 1);
->>>
->> It would work, but just because all vrings must be little endian for
->> the moment. If we support legacy drivers on a big endian host and
->> guest in the future, it would not work.
->>
->> virtio_ld and virtio_st handle the conversions between the guest and
->> the emulated device in qemu, but this conversion is between qemu
->> shadow vring and the vdpa device (assuming modern, little endian for
->> the moment).
->>
->> Right now the feature set must be the same, but it could not be that
->> way in the future.
->>
->> Thanks!
+On Fri, Oct 28, 2022 at 2:50 PM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
 >
-> I don't think this works  legacy and virtio data path are similar but
-> not similar enough to allow switches through svq alone.
+> On Fri, Oct 28, 2022 at 4:44 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> >
+> > =E5=9C=A8 2022/10/27 04:58, Michael S. Tsirkin =E5=86=99=E9=81=93:
+> > > On Thu, Oct 20, 2022 at 05:52:47PM +0200, Eugenio P=C3=A9rez wrote:
+> > >> Event idx helps to reduce the number of notifications between the de=
+vice
+> > >> and the driver. It allows them to specify an index on the circular
+> > >> descriptors rings where to issue the notification, instead of a sing=
+le
+> > >> binary indicator.
+> > >>
+> > >> Adding support for SVQ.
+> > >
+> > > Jason seems to be taking this through net
+> > >
+> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> >
+> >
+> > Ok, I've queued this.
+> >
+> > Eugenio, please post the fix for endian on top.
+> >
+>
+> I've got a v2 ready to send, would it be possible to send it right now
+> and send a v2 pull? That would save a few commits where the vdpa
+> devices do not work with big endian architectures.
 
-
-Then we need full copy in that case, looks more like a normal network 
-backend instead of registering it to as vhost backend.
+Probably too late, but I queue the fixes on top to rc1.
 
 Thanks
 
-
 >
+> Thanks!
 >
->>>> -        needs_kick = vring_need_event(*avail_event, svq->shadow_avail_idx,
->>>> +        needs_kick = vring_need_event(le16_to_cpu(*avail_event),
->>>> +                                      svq->shadow_avail_idx,
->>>>                                          svq->shadow_avail_idx - 1);
->>>>        } else {
->>>>            needs_kick = !(svq->vring.used->flags & VRING_USED_F_NO_NOTIFY);
 
 
