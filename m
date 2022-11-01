@@ -2,94 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B591615095
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:26:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D18DE61506D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:19:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oprnj-0006Bp-Of; Tue, 01 Nov 2022 09:59:35 -0400
+	id 1oprva-0007Fg-T1; Tue, 01 Nov 2022 10:07:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1oprnh-0006B7-GR
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 09:59:33 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1oprnf-0004gH-0X
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 09:59:33 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id u6so13620024plq.12
- for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 06:59:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QsPBBnx21obOVu6CmKcEL9m4WT1TgzSSD5C4PKH2HtU=;
- b=zWuQmk8hzClg64xC4Riai1bLCsMPMetDwVWXibEqAFK3k8c0e4ZHlclcPOJmJXqNy5
- nBgD0dkjD93qR/Y8jXBWoQlN0qIiY4M/pVb+h7+ujkfM9cL9wIB6vI1xjzKIqnnSxJKr
- bQVVMZ+ANXojVNK4Q7z4GOr+uChmgrXjnIPu6KHwTZ77oWbzbH79s4dOYQFDlQuvYcCz
- /h3zBZaqvBWZQmh6sfFdTVa8FWu7QcRSVAvHW+I+DqeVu3GTfWt1txACc7c1vSxWvLQD
- l7FHo4nKd750hSlwKXmtnxSydrseLREJSotByMNhvUwyEdAswEyo8xAgP5uI1uXQJRf/
- kAWA==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oprvX-0007FB-Bo
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:07:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oprvV-0008P3-IN
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:07:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667311656;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Fw1tljSv2KljHszzNa3zXIz3qSAxF59RDJHuDtAN5lQ=;
+ b=I9vMXB4CIZcFjcpviIiwXoMwz164vi2ggPzg8+U30va/nqj1j3MRjmPO3zDu8tEjqfb09u
+ uWoea9InFfbGho8TIp3hS428X000gGSaUi9w0tV/ry337XekKpit4quNQkP8Q2PPspYd3R
+ yTVaH5ciz+tixuA46h0dtxuoN4TCBUw=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-562-6itF98GuPISP9eOmJj9roA-1; Tue, 01 Nov 2022 10:07:34 -0400
+X-MC-Unique: 6itF98GuPISP9eOmJj9roA-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ n13-20020a05620a294d00b006cf933c40feso12363761qkp.20
+ for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 07:07:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QsPBBnx21obOVu6CmKcEL9m4WT1TgzSSD5C4PKH2HtU=;
- b=TK9PlDE9jP1yV7NMjX3sfoXEapK6AEqzoMr24nSuFhr81Qj9DTTs3kSWjT1haP5O95
- HOJrGyK4gQ43MJoPc9DktwdLf0F6Oej0D9g8zzeq0gS4dtSLsczrgfxsA8b6SG6hQyNW
- naokpVsmv4uHB2MOgEVrxD4WUWgA/yPs73N5A9ydod5oF2Lko0gDlC/wKpMN4yXucbmY
- 9dqU0+NKmw3UKNb+itIwi5kziliU5wY8Swo7GBFbAgXsFunVmRR7er5sKuClH4KPN/Gj
- nBMbxWmZryC5dqDz58iYz2bS5j+rUiTMHNBJPwr3pJ+CnF4MKfT3ZmMG+ErISO6aJPBm
- jooQ==
-X-Gm-Message-State: ACrzQf3pCsSA8zIZ0XsLR8Ro94aBnc0g6o+BDrW3nRmwyW3HXX1DKMmH
- 0mQ3pzb8C0Q8cLSfRq6isRscZrMJYzVJ3yFj
-X-Google-Smtp-Source: AMsMyM6FQs/2yI2+lrrwvhD9nnBMAzJOTQBURhdNIbRAS5KArPh3XOLaeR8bb2Sq7VzePl2UHmfypg==
-X-Received: by 2002:a17:90b:3147:b0:214:1066:920e with SMTP id
- ip7-20020a17090b314700b002141066920emr3430592pjb.175.1667311169219; 
- Tue, 01 Nov 2022 06:59:29 -0700 (PDT)
-Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+ bh=Fw1tljSv2KljHszzNa3zXIz3qSAxF59RDJHuDtAN5lQ=;
+ b=70ZjToUAOqvECkWNWQbEyWqGnw6ti1kPx0RaenwjvdHtYvC5+NqERIcA5m1VePJ1pE
+ ylGa0IkskXdJfHvw129GMKNZRUz9I52KrbmoE4XCblVSu/Cv/YtOhXZmeopZvns9NZpY
+ 4oIUjCIqyoilOGXe/VndcJv5HIMO7rL0LuKWPmxqW5VdgWaq1i1nuhTH8oSkrdEeXLtc
+ wY5CCTRFYzZPCd1gwOdq/SgmD90cG8mRtJgSWRA4j/+v+80XsVN1wrxvSM+Q+zvM7jXy
+ ec7mxL8/lEhFqt3ZcFePeE8rtmLGm2Xfaw/Z8Ar1Lm0iAY24rVkKpJQGMs8eUNGae3v2
+ EBiA==
+X-Gm-Message-State: ACrzQf3JjhSRvnqUEnUz+N7E5W4HlQt1BoUfq15bVOJnwlfZq90SzZq1
+ hg79epfItTEO8gf2UwdstWK+5+vHuDIWEjlXkOkhd6XANSev3GxEmrZcSy5K4ZtSWU45bpQ1zVR
+ kCfAK7QWYiyMhB94=
+X-Received: by 2002:a05:620a:530a:b0:6df:b743:9671 with SMTP id
+ oo10-20020a05620a530a00b006dfb7439671mr12784598qkn.762.1667311653858; 
+ Tue, 01 Nov 2022 07:07:33 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7bOhPFmZPdFkm9EjhuJp067pSTg31rrCN7+WKOXXl1pWFa6zJBIQPaKRxtvERwsOUppx3WAA==
+X-Received: by 2002:a05:620a:530a:b0:6df:b743:9671 with SMTP id
+ oo10-20020a05620a530a00b006dfb7439671mr12784559qkn.762.1667311653458; 
+ Tue, 01 Nov 2022 07:07:33 -0700 (PDT)
+Received: from fedora (nat-pool-brq-u.redhat.com. [213.175.37.12])
  by smtp.gmail.com with ESMTPSA id
- y4-20020aa79ae4000000b0056bdc3f5b29sm6510722pfp.186.2022.11.01.06.59.24
+ 72-20020a370c4b000000b006fa43e139b5sm1566290qkm.59.2022.11.01.07.07.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Nov 2022 06:59:28 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Peter Maydell <peter.maydell@linaro.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Yan Vugenfirer <yan@daynix.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v8 17/17] pci: Remove legacy errp from pci_add_capability
-Date: Tue,  1 Nov 2022 22:57:49 +0900
-Message-Id: <20221101135749.4477-18-akihiko.odaki@daynix.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221101135749.4477-1-akihiko.odaki@daynix.com>
-References: <20221101135749.4477-1-akihiko.odaki@daynix.com>
+ Tue, 01 Nov 2022 07:07:32 -0700 (PDT)
+Date: Tue, 1 Nov 2022 15:07:30 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, <qemu-devel@nongnu.org>, Peter
+ Maydell <peter.maydell@linaro.org>, "Julia Suvorova" <jusual@redhat.com>,
+ "Ani Sinha" <ani@anisinha.ca>
+Subject: Re: [PULL 21/86] bios-tables-test: add test for number of cores > 255
+Message-ID: <20221101150730.73098dd7@fedora>
+In-Reply-To: <20221101135221.00000a4a@huawei.com>
+References: <20221031124928.128475-1-mst@redhat.com>
+ <20221031124928.128475-22-mst@redhat.com>
+ <20221101135221.00000a4a@huawei.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62d;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.051,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,82 +103,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- hw/pci/pci.c         | 20 +++++---------------
- include/hw/pci/pci.h | 12 ++----------
- 2 files changed, 7 insertions(+), 25 deletions(-)
+On Tue, 1 Nov 2022 13:52:21 +0000
+Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index cce57f572c..41de7643af 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2532,14 +2532,11 @@ bool pci_check_capability_overlap(PCIDevice *pdev, uint8_t cap_id,
- }
- 
- /*
-- * On success, pci_add_capability_legacy() returns a positive value
-- * that the offset of the pci capability.
-- * On failure, it sets an error and returns a negative error
-- * code.
-+ * pci_add_capability() returns a positive value that the offset of the pci
-+ * capability.
-  */
--int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
--                              uint8_t offset, uint8_t size,
--                              Error **errp)
-+uint8_t pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
-+                           uint8_t offset, uint8_t size)
- {
-     uint8_t *config;
- 
-@@ -2548,14 +2545,7 @@ int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
-         /* out of PCI config space is programming error */
-         assert(offset);
-     } else {
--        /* Verify that capabilities don't overlap.  Note: device assignment
--         * depends on this check to verify that the device is not broken.
--         * Should never trigger for emulated devices, but it's helpful
--         * for debugging these. */
--        pci_check_capability_overlap(pdev, cap_id, offset, size, errp);
--        if (errp) {
--            return -EINVAL;
--        }
-+        pci_check_capability_overlap(pdev, cap_id, offset, size, &error_abort);
-     }
- 
-     config = pdev->config + offset;
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 50c00ece3e..1baa7628b2 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -2,7 +2,6 @@
- #define QEMU_PCI_H
- 
- #include "exec/memory.h"
--#include "qapi/error.h"
- #include "sysemu/dma.h"
- 
- /* PCI includes legacy ISA access.  */
-@@ -394,15 +393,8 @@ pcibus_t pci_get_bar_addr(PCIDevice *pci_dev, int region_num);
- bool pci_check_capability_overlap(PCIDevice *pdev, uint8_t cap_id,
-                                   uint8_t offset, uint8_t size, Error **errp);
- 
--int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
--                              uint8_t offset, uint8_t size,
--                              Error **errp);
--
--#define PCI_ADD_CAPABILITY_VA(pdev, cap_id, offset, size, errp, ...) \
--    pci_add_capability_legacy(pdev, cap_id, offset, size, errp)
--
--#define pci_add_capability(...) \
--    PCI_ADD_CAPABILITY_VA(__VA_ARGS__, &error_abort)
-+uint8_t pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
-+                           uint8_t offset, uint8_t size);
- 
- void pci_del_capability(PCIDevice *pci_dev, uint8_t cap_id, uint8_t cap_size);
- 
--- 
-2.38.1
+> On Mon, 31 Oct 2022 08:51:44 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> 
+> > From: Julia Suvorova <jusual@redhat.com>
+> > 
+> > The new test is run with a large number of cpus and checks if the
+> > core_count field in smbios_cpu_test (structure type 4) is correct.
+> > 
+> > Choose q35 as it allows to run with -smp > 255.  
+> 
+> Getting a failure on this on i386.
+> 
+> qemu-system-i386: current -smp configuration requires kernel irqchip and X2APIC API support.
+
+just posted a fixup, see my other reply to Stefan in this pull req.
+
+> 
+> Note that was on bisection of this pull request applied to current mainline
+> (also in the CI report for the HMAT set - though there is another issue there.)
+> 
+> My guess is fix is don't run it unless 64 bit?
+> 
+> Jonathan
+> 
+> 
+> > 
+> > Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> > Message-Id: <20220731162141.178443-5-jusual@redhat.com>
+> > Message-Id: <20221011111731.101412-5-jusual@redhat.com>
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> >  tests/qtest/bios-tables-test.c | 58 ++++++++++++++++++++++++++--------
+> >  1 file changed, 45 insertions(+), 13 deletions(-)
+> > 
+> > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> > index d4fbe6791d..e402b57d46 100644
+> > --- a/tests/qtest/bios-tables-test.c
+> > +++ b/tests/qtest/bios-tables-test.c
+> > @@ -92,6 +92,8 @@ typedef struct {
+> >      SmbiosEntryPoint smbios_ep_table;
+> >      uint16_t smbios_cpu_max_speed;
+> >      uint16_t smbios_cpu_curr_speed;
+> > +    uint8_t smbios_core_count;
+> > +    uint16_t smbios_core_count2;
+> >      uint8_t *required_struct_types;
+> >      int required_struct_types_len;
+> >      QTestState *qts;
+> > @@ -631,29 +633,42 @@ static inline bool smbios_single_instance(uint8_t type)
+> >      }
+> >  }
+> >  
+> > -static bool smbios_cpu_test(test_data *data, uint32_t addr)
+> > +static void smbios_cpu_test(test_data *data, uint32_t addr,
+> > +                            SmbiosEntryPointType ep_type)
+> >  {
+> > -    uint16_t expect_speed[2];
+> > -    uint16_t real;
+> > +    uint8_t core_count, expected_core_count = data->smbios_core_count;
+> > +    uint16_t speed, expected_speed[2];
+> > +    uint16_t core_count2, expected_core_count2 = data->smbios_core_count2;
+> >      int offset[2];
+> >      int i;
+> >  
+> >      /* Check CPU speed for backward compatibility */
+> >      offset[0] = offsetof(struct smbios_type_4, max_speed);
+> >      offset[1] = offsetof(struct smbios_type_4, current_speed);
+> > -    expect_speed[0] = data->smbios_cpu_max_speed ? : 2000;
+> > -    expect_speed[1] = data->smbios_cpu_curr_speed ? : 2000;
+> > +    expected_speed[0] = data->smbios_cpu_max_speed ? : 2000;
+> > +    expected_speed[1] = data->smbios_cpu_curr_speed ? : 2000;
+> >  
+> >      for (i = 0; i < 2; i++) {
+> > -        real = qtest_readw(data->qts, addr + offset[i]);
+> > -        if (real != expect_speed[i]) {
+> > -            fprintf(stderr, "Unexpected SMBIOS CPU speed: real %u expect %u\n",
+> > -                    real, expect_speed[i]);
+> > -            return false;
+> > -        }
+> > +        speed = qtest_readw(data->qts, addr + offset[i]);
+> > +        g_assert_cmpuint(speed, ==, expected_speed[i]);
+> >      }
+> >  
+> > -    return true;
+> > +    core_count = qtest_readb(data->qts,
+> > +                    addr + offsetof(struct smbios_type_4, core_count));
+> > +
+> > +    if (expected_core_count) {
+> > +        g_assert_cmpuint(core_count, ==, expected_core_count);
+> > +    }
+> > +
+> > +    if (ep_type == SMBIOS_ENTRY_POINT_TYPE_64) {
+> > +        core_count2 = qtest_readw(data->qts,
+> > +                          addr + offsetof(struct smbios_type_4, core_count2));
+> > +
+> > +        /* Core Count has reached its limit, checking Core Count 2 */
+> > +        if (expected_core_count == 0xFF && expected_core_count2) {
+> > +            g_assert_cmpuint(core_count2, ==, expected_core_count2);
+> > +        }
+> > +    }
+> >  }
+> >  
+> >  static void test_smbios_structs(test_data *data, SmbiosEntryPointType ep_type)
+> > @@ -686,7 +701,7 @@ static void test_smbios_structs(test_data *data, SmbiosEntryPointType ep_type)
+> >          set_bit(type, struct_bitmap);
+> >  
+> >          if (type == 4) {
+> > -            g_assert(smbios_cpu_test(data, addr));
+> > +            smbios_cpu_test(data, addr, ep_type);
+> >          }
+> >  
+> >          /* seek to end of unformatted string area of this struct ("\0\0") */
+> > @@ -908,6 +923,21 @@ static void test_acpi_q35_tcg(void)
+> >      free_test_data(&data);
+> >  }
+> >  
+> > +static void test_acpi_q35_tcg_core_count2(void)
+> > +{
+> > +    test_data data = {
+> > +        .machine = MACHINE_Q35,
+> > +        .variant = ".core-count2",
+> > +        .required_struct_types = base_required_struct_types,
+> > +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types),
+> > +        .smbios_core_count = 0xFF,
+> > +        .smbios_core_count2 = 275,
+> > +    };
+> > +
+> > +    test_acpi_one("-machine smbios-entry-point-type=64 -smp 275", &data);
+> > +    free_test_data(&data);
+> > +}
+> > +
+> >  static void test_acpi_q35_tcg_bridge(void)
+> >  {
+> >      test_data data;
+> > @@ -1859,6 +1889,8 @@ int main(int argc, char *argv[])
+> >                  qtest_add_func("acpi/q35/tpm12-tis",
+> >                                 test_acpi_q35_tcg_tpm12_tis);
+> >              }
+> > +            qtest_add_func("acpi/q35/core-count2",
+> > +                           test_acpi_q35_tcg_core_count2);
+> >              qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+> >              qtest_add_func("acpi/q35/multif-bridge",
+> >                             test_acpi_q35_multif_bridge);  
+> 
 
 
