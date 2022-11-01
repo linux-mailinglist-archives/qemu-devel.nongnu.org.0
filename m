@@ -2,88 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A858E6148FD
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 12:31:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DCA2614926
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 12:33:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oppUH-0003RK-RS; Tue, 01 Nov 2022 07:31:21 -0400
+	id 1oppVo-00045p-HR; Tue, 01 Nov 2022 07:32:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oppUF-0003Qu-HY
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 07:31:19 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oppVn-00045h-7s
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 07:32:55 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oppU3-000726-H7
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 07:31:19 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- ja4-20020a05600c556400b003cf6e77f89cso838136wmb.0
- for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 04:31:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oppVl-0007rF-HA
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 07:32:55 -0400
+Received: by mail-wr1-x434.google.com with SMTP id w14so19678021wru.8
+ for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 04:32:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=E0Gwj+KeVcMKcKQsIbe887gWwyMnAmJOUQ2Xug3392E=;
- b=P6PZjdiM+qVmj8ifokapnJ0O85Cpi0z8a3AnsFf/eXW7GRR4YEQg65+f6JuX9HqkTk
- rGxPOO7Bj3m3WLToJ5inAQKfzrLyS1yLrRw/zeRGFDHJB1xOM5zJT5x85gu3aHHSZZch
- utntvjrbRln7F5zcQofHW0BMSKRak1FAE0u9/duJxmjPtwbYWmwUkRSQ4OrkVOXWOesl
- Gj5bVA1jiABEnOB2+mg/XRPqAOcp2M+mXVZsl6FIIfgeXpeHxm7ziDOExU8yXhcxQqLg
- 6z/sZyTNuc0f6YSFgp3zG0FEoCY+WkMpw+F93YzxCfAJvE1NgkEdYzjoOc1fpqds8eXe
- z15Q==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0oKSWeSXamUvwlu05TAnrXE3PovCrkARmMjD0qbTuT0=;
+ b=jQZZrx1fa221LrEeX/1kFSV5ynCamLfkEdNSZxHTgaYkbO/vC3o9UliSrwHcEXkbJC
+ S0KuokaZxzSO5EIWJvQ/yRDBk4o4zdIyyUepJXV28ZVskGLp0P30A5U5Jreum38QMe2T
+ K7c0uhC7IQdcdLw58EExAewwy0014138MkygG1tYs25BqktS4pOnY00yz0p87N4dZ5wz
+ foUJfWzAthk4ZXPUeMqmA3SAYfscgO4qb7z+k4LBmoAb0nrO/njyyQ0BPcaKRzJ1zybr
+ zGbgyuqkMzq05BdgrjOdQx9eZwtgig4dIi45mR8JbzO3QxbnNc63uyT+6LUdfEQNQ4Tz
+ jbpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=E0Gwj+KeVcMKcKQsIbe887gWwyMnAmJOUQ2Xug3392E=;
- b=2fCL/wPjACvaDb3KuaEl3CWbEU/3zbVNq/xKXJ7hLi28wikClyjpPKmClgETCb/+7v
- PAr+MJbl9OeVewdOnMuSMmjm17wjST8vAShS20FauZc++pMl5sOjY9+smBwoWyEV8BU/
- SKHbn25BxZuYKAucukYtHly1vOKqFa+RgemcGaokZSpI336NTYW12erIi5NfHBWZ1Eep
- CYOW7mCG/xZDs5FoPUnMPGA2KT9ZjV2kz4MNbG4oZN9O+/xtVULtQ+6Q/Hau+9bsfGRt
- LuGkCSuXNQ037EqkJ0CE1iUeNViLZIy57zjtvZ+nyb3sEcFCKUPUYG5Y2ReaT6467rS4
- wzKQ==
-X-Gm-Message-State: ACrzQf2OROzkrjrA0AlmLWATzbZ5AToVhoAqbnryv6lL41e+elFDrK9L
- d+B7WQ6rhSU6ZPDXSNCceBUmBA==
-X-Google-Smtp-Source: AMsMyM5o0tJvfqIBKDk20jbvxUN/qzPCBYCI8jWf41WcQUsgAdoz5Pi9lOd/2xFvWmS+JJHQAY5UNQ==
-X-Received: by 2002:a1c:7207:0:b0:3cf:8115:b39a with SMTP id
- n7-20020a1c7207000000b003cf8115b39amr1287369wmc.80.1667302264398; 
- Tue, 01 Nov 2022 04:31:04 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0oKSWeSXamUvwlu05TAnrXE3PovCrkARmMjD0qbTuT0=;
+ b=3/+/iAYbpqSJ8bzHPsP5MazxDQreDZO6HcQw4v2FTreMqQAZQLANoHJGxyNyOdCUtP
+ wqCDf57lO4gNsUO2kr+YTC1V1RmNWcE1rntb/xqeL3z8Kx5PxTsGy1LXBchNwLHzdo4A
+ 4IJVXkAip7oNcFW6mPlMGtqpRF3lDk9EB+VNMhztdVxEtL+DKDXDZRerRHlQJv9MSZjL
+ 1bcRbpIGYkii8JwwQjL+NsYLrj1XqQiq7ftABsbOYqr3rSg3o8v70W6iS3V+/ci9UwnY
+ xEjLgfuuReJnNUXMXaGlVbKLH3Nlnfkt9NyL2pWxXg9zPTQ2r9muzTtvkxCo4zjxm41k
+ MVsw==
+X-Gm-Message-State: ACrzQf2HZl51HuY6p3nygREFBQQJ6zOTXJ/9HJoqovamLiG1X35UUc/M
+ y1IGv19lzymP9LKhO0sZdrbtUQ==
+X-Google-Smtp-Source: AMsMyM7FZ3kuVRIyRddCpLZdozXEfLSObGviih0Lz1onLurtZyQUANH6mjebiLsb7shkDA0+nRA/Qw==
+X-Received: by 2002:adf:e30f:0:b0:236:d8ef:9ede with SMTP id
+ b15-20020adfe30f000000b00236d8ef9edemr4812754wrj.170.1667302370911; 
+ Tue, 01 Nov 2022 04:32:50 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- h4-20020a05600c350400b003c6b7f5567csm1860167wmq.0.2022.11.01.04.31.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Nov 2022 04:31:03 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 29C4E1FFB7;
- Tue,  1 Nov 2022 11:31:03 +0000 (GMT)
-References: <20221015050750.4185-1-vikram.garhwal@amd.com>
- <20221015050750.4185-10-vikram.garhwal@amd.com>
- <87pmed1uww.fsf@linaro.org>
- <MW3PR12MB44094F971904ED24E1AC67939F359@MW3PR12MB4409.namprd12.prod.outlook.com>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Garhwal, Vikram" <vikram.garhwal@amd.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Stabellini, Stefano"
- <stefano.stabellini@amd.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>
-Subject: Re: [PATCH v1 09/12] accel/xen/xen-all: export
- xenstore_record_dm_state
-Date: Tue, 01 Nov 2022 11:29:03 +0000
-In-reply-to: <MW3PR12MB44094F971904ED24E1AC67939F359@MW3PR12MB4409.namprd12.prod.outlook.com>
-Message-ID: <87iljylxmw.fsf@linaro.org>
+ q8-20020a5d5748000000b0023677081f3asm9798733wrw.42.2022.11.01.04.32.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Nov 2022 04:32:50 -0700 (PDT)
+Message-ID: <943fd239-2487-8426-f3b9-f1007c4059d8@linaro.org>
+Date: Tue, 1 Nov 2022 12:32:48 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.0
+Subject: Re: [PATCH v3 16/24] disas/nanomips: Remove IMMEDIATE functions
+Content-Language: en-US
+To: Stefan Weil <sw@weilnetz.de>,
+ Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
+Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
+ pbonzini@redhat.com, vince.delvecchio@mediatek.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org,
+ djordje.todorovic@syrmia.com, mips32r2@gmail.com,
+ dragan.mladjenovic@syrmia.com
+References: <20220912122635.74032-1-milica.lazarevic@syrmia.com>
+ <20220912122635.74032-17-milica.lazarevic@syrmia.com>
+ <78553699-00c1-ad69-1d58-02f75a1f4fe3@weilnetz.de>
+ <3584ab7a-7a0f-753b-ea5a-c6e9bc546d0c@linaro.org>
+ <4015d586-f0ff-40a3-7d66-49b05be8f00a@weilnetz.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <4015d586-f0ff-40a3-7d66-49b05be8f00a@weilnetz.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,162 +99,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-"Garhwal, Vikram" <vikram.garhwal@amd.com> writes:
-
-> Thanks, Alex, for reviewing this one. I built for all the archs and it wa=
-s fine. Can you please share more about what
-> environment builds are breaking? So, I can test the changes for v2.
-
-My cross build environment failed:
-
-  ../../configure' '--disable-docs' '--disable-tools' '--cross-prefix=3Daar=
-ch64-linux-gnu-' '--enable-xen' '--target-list=3Di386-softmmu,x86_64-softmm=
-u,arm-softmmu,aarch64-softmmu' '--disable-tpm'
-
-On a Debian Bullseye with:
-
-  11:30:20 [root@zen:~] # dpkg -l libxen\*
-  Desired=3DUnknown/Install/Remove/Purge/Hold
-  | Status=3DNot/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Tr=
-ig-pend
-  |/ Err?=3D(none)/Reinst-required (Status,Err: uppercase=3Dbad)
-  ||/ Name                       Version                 Architecture Descr=
-iption
-  +++-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  ii  libxen-dev:arm64           4.14.5+24-g87d90d511c-1 arm64        Publi=
-c headers and libs for Xen
-  ii  libxencall1:amd64          4.14.5+24-g87d90d511c-1 amd64        Xen r=
-untime library - libxencall
-  ii  libxencall1:arm64          4.14.5+24-g87d90d511c-1 arm64        Xen r=
-untime library - libxencall
-  ii  libxendevicemodel1:amd64   4.14.5+24-g87d90d511c-1 amd64        Xen r=
-untime libraries - libxendevicemodel
-  ii  libxendevicemodel1:arm64   4.14.5+24-g87d90d511c-1 arm64        Xen r=
-untime libraries - libxendevicemodel
-  ii  libxenevtchn1:amd64        4.14.5+24-g87d90d511c-1 amd64        Xen r=
-untime libraries - libxenevtchn
-  ii  libxenevtchn1:arm64        4.14.5+24-g87d90d511c-1 arm64        Xen r=
-untime libraries - libxenevtchn
-  ii  libxenforeignmemory1:amd64 4.14.5+24-g87d90d511c-1 amd64        Xen r=
-untime libraries - libxenforeignmemory
-  ii  libxenforeignmemory1:arm64 4.14.5+24-g87d90d511c-1 arm64        Xen r=
-untime libraries - libxenforeignmemory
-  ii  libxengnttab1:amd64        4.14.5+24-g87d90d511c-1 amd64        Xen r=
-untime libraries - libxengnttab
-  ii  libxengnttab1:arm64        4.14.5+24-g87d90d511c-1 arm64        Xen r=
-untime libraries - libxengnttab
-  ii  libxenhypfs1:amd64         4.14.5+24-g87d90d511c-1 amd64        Xen r=
-untime library - libxenhypfs
-  ii  libxenhypfs1:arm64         4.14.5+24-g87d90d511c-1 arm64        Xen r=
-untime library - libxenhypfs
-  ii  libxenmisc4.14:amd64       4.14.5+24-g87d90d511c-1 amd64        Xen r=
-untime libraries - miscellaneous, versioned ABI
-  ii  libxenmisc4.14:arm64       4.14.5+24-g87d90d511c-1 arm64        Xen r=
-untime libraries - miscellaneous, versioned ABI
-  ii  libxenstore3.0:amd64       4.14.5+24-g87d90d511c-1 amd64        Xen r=
-untime libraries - libxenstore
-  ii  libxenstore3.0:arm64       4.14.5+24-g87d90d511c-1 arm64        Xen r=
-untime libraries - libxenstore
-  ii  libxentoolcore1:amd64      4.14.5+24-g87d90d511c-1 amd64        Xen r=
-untime libraries - libxentoolcore
-  ii  libxentoolcore1:arm64      4.14.5+24-g87d90d511c-1 arm64        Xen r=
-untime libraries - libxentoolcore
-  ii  libxentoollog1:amd64       4.14.5+24-g87d90d511c-1 amd64        Xen r=
-untime libraries - libxentoollog
-  ii  libxentoollog1:arm64       4.14.5+24-g87d90d511c-1 arm64        Xen r=
-untime libraries - libxentoollog
-
-But also a bunch of cross builds on the CI system:
-
-  https://gitlab.com/stsquad/qemu/-/pipelines/677956972/failures
-
->
->=20=20
->
-> Regards,
->
-> Vikram
->
->=20=20
->
-> From: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Date: Thursday, October 27, 2022 at 2:24 AM
-> To: Garhwal, Vikram <vikram.garhwal@amd.com>
-> Cc: qemu-devel@nongnu.org <qemu-devel@nongnu.org>, Stabellini, Stefano <s=
-tefano.stabellini@amd.com>, Stefano
-> Stabellini <sstabellini@kernel.org>, Anthony Perard <anthony.perard@citri=
-x.com>, Paul Durrant <paul@xen.org>,
-> xen-devel@lists.xenproject.org <xen-devel@lists.xenproject.org>
-> Subject: Re: [PATCH v1 09/12] accel/xen/xen-all: export xenstore_record_d=
-m_state
->
-> Vikram Garhwal <vikram.garhwal@amd.com> writes:
->
->> xenstore_record_dm_state() will also be used in aarch64 xenpv machine.
+On 1/11/22 12:28, Stefan Weil wrote:
+> Am 01.11.22 um 10:27 schrieb Philippe Mathieu-Daudé:
+> 
+>> On 1/11/22 09:28, Stefan Weil via wrote:
+>>> Am 12.09.22 um 14:26 schrieb Milica Lazarevic:
+>>>> Both versions of IMMEDIATE functions have been removed.
+>>>>
+>>>> Before this patch, we'd been calling img_format twice, the first time
+>>>> through the IMMEDIATE to get an appropriate string and the second time
+>>>> to print that string. There's no more need for that. Therefore, 
+>>>> calls to
+>>>> IMMEDIATE are removed, and now we're directly printing the integer
+>>>> values instead.
+>>>>
+>>>> Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
+>>>> ---
+>>>>   disas/nanomips.cpp | 756 
+>>>> ++++++++++++++++-----------------------------
+>>>>   1 file changed, 265 insertions(+), 491 deletions(-)
+>>>>
+>>>> diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
+>>>> index 816155527d..441204bb84 100644
+>>>> --- a/disas/nanomips.cpp
+>>>> +++ b/disas/nanomips.cpp
+>>> [...]
+>>>> @@ -3305,11 +3271,9 @@ static char *CACHE(uint64 instruction, 
+>>>> Dis_info *info)
+>>>>       uint64 rs_value = extract_rs_20_19_18_17_16(instruction);
+>>>>       int64 s_value = extract_s__se8_15_7_6_5_4_3_2_1_0(instruction);
+>>>> -    char *op = IMMEDIATE(op_value);
+>>>> -    char *s = IMMEDIATE(s_value);
+>>>>       const char *rs = GPR(rs_value);
+>>>> -    return img_format("CACHE %s, %s(%s)", op, s, rs);
+>>>> +    return img_format("CACHE 0x%" PRIx64 ", %s(%s)", op_value, 
+>>>> s_value, rs);
+>>>>   }
+>>>> @@ -3329,11 +3293,9 @@ static char *CACHEE(uint64 instruction, 
+>>>> Dis_info *info)
+>>>>       uint64 rs_value = extract_rs_20_19_18_17_16(instruction);
+>>>>       int64 s_value = extract_s__se8_15_7_6_5_4_3_2_1_0(instruction);
+>>>> -    char *op = IMMEDIATE(op_value);
+>>>> -    char *s = IMMEDIATE(s_value);
+>>>>       const char *rs = GPR(rs_value);
+>>>> -    return img_format("CACHEE %s, %s(%s)", op, s, rs);
+>>>> +    return img_format("CACHEE 0x%" PRIx64 ", %s(%s)", op_value, 
+>>>> s_value, rs);
+>>>>   }
+>>>
+>>> Do we really want to format "int64 s_value" as a string? The code now 
+>>> has lots of wrong format strings. Add the patch below to get the 
+>>> compiler report.
+>>>
+>>> We once had a discussion about using G_GNUC_PRINTF for local 
+>>> functions or not. I think that this example clearly shows that it 
+>>> should be mandatory.
 >>
->> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
->> Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
->> ---
->>  accel/xen/xen-all.c  | 2 +-
->>  include/hw/xen/xen.h | 2 ++
->>  2 files changed, 3 insertions(+), 1 deletion(-)
+>> Yes. The problem here is nobody wants to maintain this code, but we
+>> inherited it. IIUC this series doesn't make it worst, it just remove
+>> the C++ dependency on UNIX-based hosts.
 >>
->> diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
->> index 69aa7d018b..276625b78b 100644
->> --- a/accel/xen/xen-all.c
->> +++ b/accel/xen/xen-all.c
->> @@ -100,7 +100,7 @@ void xenstore_store_pv_console_info(int i, Chardev *=
-chr)
->>  }
->>=20=20
->>=20=20
->> -static void xenstore_record_dm_state(struct xs_handle *xs, const char *=
-state)
->> +void xenstore_record_dm_state(struct xs_handle *xs, const char *state)
->>  {
->>      char path[50];
->>=20=20
->> diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
->> index afdf9c436a..31e9538a5c 100644
->> --- a/include/hw/xen/xen.h
->> +++ b/include/hw/xen/xen.h
->> @@ -9,6 +9,7 @@
->>   */
->>=20=20
->>  #include "exec/cpu-common.h"
->> +#include <xenstore.h>
->
-> This is breaking a bunch of the builds and generally we try and avoid
-> adding system includes in headers (apart from osdep.h) for this reason.
-> In fact there is a comment just above to that fact.
->
-> I think you can just add struct xs_handle to typedefs.h (or maybe just
-> xen.h) and directly include xenstore.h in xen-all.c following the usual
-> rules:
->
->   https://qemu.readthedocs.io/en/latest/devel/style.html#include-directiv=
-es
->
-> It might be worth doing an audit to see what else is including xen.h
-> needlessly or should be using sysemu/xen.h.=20
->
->>=20=20
->>  /* xen-machine.c */
->>  enum xen_mode {
->> @@ -31,5 +32,6 @@ qemu_irq *xen_interrupt_controller_init(void);
->>  void xenstore_store_pv_console_info(int i, Chardev *chr);
->>=20=20
->>  void xen_register_framebuffer(struct MemoryRegion *mr);
->> +void xenstore_record_dm_state(struct xs_handle *xs, const char *state);
->>=20=20
->>  #endif /* QEMU_HW_XEN_H */
+> 
+> I expect that "%s" with an int64 s_value will cause a crash while the 
+> old code worked, so things are worse now and should be fixed for the 
+> release. If nobody maintains that code, I can try to prepare a patch.
 
-
---=20
-Alex Benn=C3=A9e
+Well since I merged I already prepared some patches to fix this.
 
