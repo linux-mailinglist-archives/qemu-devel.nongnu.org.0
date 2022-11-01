@@ -2,95 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722E0614E6A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 16:34:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2CE614FE6
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:01:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opsVU-0004aI-4b; Tue, 01 Nov 2022 10:44:48 -0400
+	id 1opshm-00074C-Rs; Tue, 01 Nov 2022 10:57:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opsVQ-0004Yq-S6
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:44:44 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1opshl-000744-AM
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:57:29 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opsVM-0005pj-0v
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:44:44 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- l16-20020a05600c4f1000b003c6c0d2a445so10041868wmq.4
- for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 07:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xKTa0mR5hBmfEmWEqGHAKRiS8BLiQuvkQCe2gZ1TIhQ=;
- b=Dc5CihmrDvslNvvFzWu4gB8J/tQAvk6ddr0Nd+yBrOUUNWUe1J/BZVcW40Guw7c26I
- tfhnMR3gek3ajsX0odKOpOz/KJ5a0+MOZEkDSRz/bP7PBM/RIKAKbejLvMJhcxgArjtc
- UsbEuQPGiNvLJlXIuM6RoRreIzJBb+HSOiCXIjFm3ByoWyVMw3pghrnVTwdz8oMSeE3v
- UqbvivNjd46wueiYEJwiefLhSXLmbPXKEiGlGEXSKCGGuwqwp4cTKJMnVuY64d+yqRdW
- olLZzGmyEwlKpdT0vG6JCzwMCbxpIERYPl70ikgLeUnLRXtPX1uEoZ9tupv4wBsM4FsL
- 9TOg==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1opshj-0003lC-RV
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:57:29 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id l6so13464855pjj.0
+ for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 07:57:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SnM99KyqX7P48Yqolo9mjrgei37okMKuMCflMKIVI0w=;
+ b=FTXuGwT5H/42DnZN5LxaKpuMG0kHwB4MdPiB6c+WKjKZZs2ofmL92o3h2iWOSPfSmP
+ Ig0iyOXTrgsKMqCllpyrgeyL6MJmvpzWVD8hsmayOi2sWgdco1dJjNo+aluEDUVc0grC
+ cFtZ9oxwa6X8csH9DYOT1Uwu80KeoEezjTDF/+/2t6gw102SwqfS6ancekLeVWXDkhwn
+ 6V8wbbPv8b3NoKIuY0yJE0f76Lx5hFO3PSlsFYH4dktERoOqJNiwoTvesC5UQvSlygTp
+ uwZtVWH6v/gCWirBdzIlgFiOXHeMrqsyIv7YXsrf55MoFJ4FPxdXyVYrufccJapSDa5B
+ JOww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xKTa0mR5hBmfEmWEqGHAKRiS8BLiQuvkQCe2gZ1TIhQ=;
- b=fblRzEgVBVe6C21/WbmHPCsECGJJHJDJ8lrevx4lqZcdYhZ5hqcwzCsvihM6kYwiGM
- iQe4Dzy++w5QQ0CVAyTXkCFlsCX5sxaidRydtuey5VsV4dobJMkGpSOs0SWlC+F2JlrO
- ZFfJlvnoRnzzZ4sug8PM9+KVk08qG9idnGJegUJN3kubbo4bwTVNcpi76Q71JzmuY4+q
- zy71PunRiqHLYR8aj0qaS6ydmL8eoQaRJsXtKBgekewPms0JANHIYdtVI1YZ8DxKrw+9
- 3qDeXYvh6Pgp3+ISDPfRkiPUfByuW+Zf2mH0drgLFcSVnjsF3/6kR0oRw2VNSXnmIf+O
- NIYQ==
-X-Gm-Message-State: ACrzQf17ltN4jOcRp02eXqEISdTp7XuY1tRtkWM5XhDVwux1nPExmlYH
- nbf8fDhl+iv/PeRdcNsfYz2+hQ==
-X-Google-Smtp-Source: AMsMyM4ADSTTtojV5zbgLhSAS1DqCXffssZZfF4hWWlMUXzKctC8CQb7ZnCjchpcqoMPJAbAEHXaqQ==
-X-Received: by 2002:a05:600c:1906:b0:3c6:f83e:d15f with SMTP id
- j6-20020a05600c190600b003c6f83ed15fmr22323659wmq.205.1667313877041; 
- Tue, 01 Nov 2022 07:44:37 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SnM99KyqX7P48Yqolo9mjrgei37okMKuMCflMKIVI0w=;
+ b=2bfgU4PjWCW+3ixK83tDgBRhLMSWfJ4lwojZP2QVNbIAbWYPqS6dyGSRnbP0Y0QV3q
+ Ab3H/3Eldoo9Yxy2BBz2GR3YgjfTkjAtlESDUTcdAESla7kmCIfZtZK4o27oVrJTCVXg
+ bEkwV4lyj2zuO+36nAhvQ1VxyKUSGhBZH/Ygrc4E1BWryZMdykCelD+DRUFPutDBjdnt
+ bCtKxQG1bLDnWOemMk5NR0uUosOzlutOrmUz7AB0LoAYZdrabf1OMHfkdgAXawZrnRG4
+ vUEbcccV94ea4EvsC3UuOTzTwD+9FaJ+H9vKy24TyjYgSB+VezEXcBPvwwwoPPg9+BlU
+ tjnA==
+X-Gm-Message-State: ACrzQf3kcdMfFuaUG+Qx9DDtXupIJ1rmGMRvL7XRTpQkAaHtmRQbIPeb
+ ZFbjU2eSdIgEiwJJ9O4XosLktSFx2VjyAVLv
+X-Google-Smtp-Source: AMsMyM4khqr2oNBvGtuqCGVH+J9F45lr5DmcqMFeKUDC/i8dRY7kX9e2H+sR28q57CKDvyNpQisEww==
+X-Received: by 2002:a17:902:a707:b0:178:bd1e:e8be with SMTP id
+ w7-20020a170902a70700b00178bd1ee8bemr19943174plq.167.1667314644778; 
+ Tue, 01 Nov 2022 07:57:24 -0700 (PDT)
+Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- t6-20020a5d6906000000b002322bff5b3bsm867376wru.54.2022.11.01.07.44.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Nov 2022 07:44:36 -0700 (PDT)
-Message-ID: <b96f7ad7-e2b1-28a0-c1cd-5ee402de2ac1@linaro.org>
-Date: Tue, 1 Nov 2022 15:44:34 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH v8 01/17] hw/vfio/pci: Ensure MSI and MSI-X do not overlap
-Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
+ 22-20020a631656000000b0046f9f4a2de6sm4783219pgw.74.2022.11.01.07.57.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Nov 2022 07:57:24 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  "Michael S . Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang
- <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
  Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
  Peter Maydell <peter.maydell@linaro.org>,
  Andrey Smirnov <andrew.smirnov@gmail.com>,
  Paul Burton <paulburton@kernel.org>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Yan Vugenfirer <yan@daynix.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>
-References: <20221101135749.4477-1-akihiko.odaki@daynix.com>
- <20221101135749.4477-2-akihiko.odaki@daynix.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221101135749.4477-2-akihiko.odaki@daynix.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH v9 14/17] hw/pci-bridge/pcie_pci_bridge: Omit errp for
+ pci_add_capability
+Date: Tue,  1 Nov 2022 23:55:55 +0900
+Message-Id: <20221101145558.3998-15-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221101145558.3998-1-akihiko.odaki@daynix.com>
+References: <20221101145558.3998-1-akihiko.odaki@daynix.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,60 +106,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/11/22 14:57, Akihiko Odaki wrote:
-> pci_add_capability() checks whether capabilities overlap, and notifies
-> its caller so that it can properly handle the case. However, in the
-> most cases, the capabilities actually never overlap, and the interface
-> incurred extra error handling code, which is often incorrect or
-> suboptimal. For such cases, pci_add_capability() can simply abort the
-> execution if the capabilities actually overlap since it should be a
-> programming error.
-> 
-> This change handles the other cases: hw/vfio/pci depends on the check to
-> decide MSI and MSI-X capabilities overlap with another. As they are
-> quite an exceptional and hw/vfio/pci knows much about PCI capabilities,
-> adding code specific to the cases to hw/vfio/pci still results in less
-> code than having error handling code everywhere in total.
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> ---
->   hw/pci/pci.c         | 34 ++++++++++++++++++++++------------
->   hw/vfio/pci.c        | 15 ++++++++++++++-
->   include/hw/pci/pci.h |  3 +++
->   3 files changed, 39 insertions(+), 13 deletions(-)
+Omitting errp for pci_add_capability() causes it to abort if
+capabilities overlap. This behavior is appropriate heare because all of
+the capabilities set in this device are defined in the program and
+their overlap should not happen unless there is a programming error.
 
->   /*
->    * On success, pci_add_capability() returns a positive value
->    * that the offset of the pci capability.
-> @@ -2523,7 +2542,6 @@ int pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
->                          Error **errp)
->   {
->       uint8_t *config;
-> -    int i, overlapping_cap;
->   
->       if (!offset) {
->           offset = pci_find_space(pdev, size);
-> @@ -2534,17 +2552,9 @@ int pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
->            * depends on this check to verify that the device is not broken.
->            * Should never trigger for emulated devices, but it's helpful
->            * for debugging these. */
-> -        for (i = offset; i < offset + size; i++) {
-> -            overlapping_cap = pci_find_capability_at_offset(pdev, i);
-> -            if (overlapping_cap) {
-> -                error_setg(errp, "%s:%02x:%02x.%x "
-> -                           "Attempt to add PCI capability %x at offset "
-> -                           "%x overlaps existing capability %x at offset %x",
-> -                           pci_root_bus_path(pdev), pci_dev_bus_num(pdev),
-> -                           PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn),
-> -                           cap_id, offset, overlapping_cap, i);
-> -                return -EINVAL;
-> -            }
-> +        pci_check_capability_overlap(pdev, cap_id, offset, size, errp);
-> +        if (errp) {
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+ hw/pci-bridge/pcie_pci_bridge.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-            if (!pci_check_capability_overlap(...)) {
+diff --git a/hw/pci-bridge/pcie_pci_bridge.c b/hw/pci-bridge/pcie_pci_bridge.c
+index 99778e3e24..1b839465e7 100644
+--- a/hw/pci-bridge/pcie_pci_bridge.c
++++ b/hw/pci-bridge/pcie_pci_bridge.c
+@@ -35,7 +35,7 @@ static void pcie_pci_bridge_realize(PCIDevice *d, Error **errp)
+ {
+     PCIBridge *br = PCI_BRIDGE(d);
+     PCIEPCIBridge *pcie_br = PCIE_PCI_BRIDGE_DEV(d);
+-    int rc, pos;
++    int rc;
+ 
+     pci_bridge_initfn(d, TYPE_PCI_BUS);
+ 
+@@ -49,12 +49,8 @@ static void pcie_pci_bridge_realize(PCIDevice *d, Error **errp)
+ 
+     pcie_cap_init(d, 0, PCI_EXP_TYPE_PCI_BRIDGE, 0);
+ 
+-    pos = pci_add_capability(d, PCI_CAP_ID_PM, 0, PCI_PM_SIZEOF, errp);
+-    if (pos < 0) {
+-        goto pm_error;
+-    }
+-    d->exp.pm_cap = pos;
+-    pci_set_word(d->config + pos + PCI_PM_PMC, 0x3);
++    d->exp.pm_cap = pci_add_capability(d, PCI_CAP_ID_PM, 0, PCI_PM_SIZEOF);
++    pci_set_word(d->config + d->exp.pm_cap + PCI_PM_PMC, 0x3);
+ 
+     pcie_cap_arifwd_init(d);
+     pcie_cap_deverr_init(d);
+@@ -85,7 +81,6 @@ static void pcie_pci_bridge_realize(PCIDevice *d, Error **errp)
+ msi_error:
+     pcie_aer_exit(d);
+ aer_error:
+-pm_error:
+     pcie_cap_exit(d);
+     shpc_cleanup(d, &pcie_br->shpc_bar);
+ error:
+-- 
+2.38.1
 
-> +            return -EINVAL;
->           }
->       }
 
