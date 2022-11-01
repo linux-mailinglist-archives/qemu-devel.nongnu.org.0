@@ -2,75 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD756142CC
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 02:40:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD4F6142E4
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 02:49:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opgEm-0003Dk-Hm; Mon, 31 Oct 2022 21:38:44 -0400
+	id 1opgNy-0005qE-DI; Mon, 31 Oct 2022 21:48:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1opgEk-0003DU-Jv
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 21:38:42 -0400
+ (Exim 4.90_1) (envelope-from <hhan@redhat.com>) id 1opgNs-0005nt-RP
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 21:48:11 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1opgEj-00044h-1f
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 21:38:42 -0400
+ (Exim 4.90_1) (envelope-from <hhan@redhat.com>) id 1opgNr-0006yX-BD
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 21:48:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667266720;
+ s=mimecast20190719; t=1667267286;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Q7zIFdJNOyTd/4ukh68hp01JvyoAkVLEE4zhbqs4pHA=;
- b=ERHtUY4Pbz5Idn0CpO1HWNbH0hd91wQEjpgTs8ZL3uIqi4JJH9ncWsxD+8BoY0HcaEL3Pa
- +jBMwBzTdzJMMEqrnU9i9oHejRTDgUzD0nVeQmSSwER7nnfYy+1Wh/BNRESZuYrn7tzQs2
- ohTwkIIiSZrCEXKqReeRNd6L30wU3RY=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-536-u1L4bUR9Na2HQ7_uOvoaeA-1; Mon, 31 Oct 2022 21:38:38 -0400
-X-MC-Unique: u1L4bUR9Na2HQ7_uOvoaeA-1
-Received: by mail-ot1-f71.google.com with SMTP id
- r17-20020a056830135100b0066c3ca9c6d8so4238166otq.15
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 18:38:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Q7zIFdJNOyTd/4ukh68hp01JvyoAkVLEE4zhbqs4pHA=;
- b=OZKci7xwBS1S/ATvNJsgXVwANCiAM8j7Vn+zZAv8FOoclGuPPqznqJ7PgNWBtF9Q0s
- NGG0EbI0rvn1OYYXxjwAeRoi1z97ORUnDmDcskhr/zfIVxPRjhoPlz1OtkL7bm5NgPFi
- uJdqFsMUFEUp7lGZRdWfE/Xqk6oryBxqOqgnFCBGXIqmBSSUxx0u7VYFRl1FVGq48n7N
- ywEzdWxGf2b+Cs+QO6UqQ5IWEo6Nfed0h98yIVdB0Hc/EUDVGxasWf8awADLTMeinNoS
- C27uH2d9MW7iOopkztafLDVZOtbHaEPy2lV+yDhgzF0mgemDptztX4Ru8lJTlzMABJN9
- inrg==
-X-Gm-Message-State: ACrzQf206h1Uc20krLqn3fQPtlvp9nAeX1JtYpCH6pGOnYXyq0y0gp0U
- aWc8BizsC7QVaghVlZxu10b8z923RFVAKnmM1AENgOhKI5H35U2tS2O9BpUawDKpG6dgvzi8EpA
- miOQVXfmNBoYUtP5GpEAWFwfBYAnH1dE=
-X-Received: by 2002:a05:6871:54e:b0:13b:29b7:e2e8 with SMTP id
- t14-20020a056871054e00b0013b29b7e2e8mr18552740oal.35.1667266717594; 
- Mon, 31 Oct 2022 18:38:37 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4kaWyOq7L7INPvdZMpOq+fSjKLwgD2Pzh3mLpVkkAA9UKzBjfdBo/6Qx4Gcp+wzWj8TwYOSg/tRxp9osDgS3Y=
-X-Received: by 2002:a05:6871:54e:b0:13b:29b7:e2e8 with SMTP id
- t14-20020a056871054e00b0013b29b7e2e8mr18552730oal.35.1667266717349; Mon, 31
- Oct 2022 18:38:37 -0700 (PDT)
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/bh0J3BY1Yvgq0rK5l1bonq9t0qxAjWKw4W/mitU1cg=;
+ b=XmTb1FGINleOCIdnhF34iMRmjaQhKdTdSu4FrlXYqP5CEKWBl9VdwBCzyxGROCi88TCrvs
+ XgShAkxK70SZP/5Az9AcNS9kKndXmK9NVTqdzm8CKTFhQSbeAehjyoWiXIE/7BSKy9LNRL
+ Yin+WsNU9JP6KrS05A9gKex0RwFMafQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-38-zdyS1u_fMIGr51XHkguTRA-1; Mon, 31 Oct 2022 21:46:57 -0400
+X-MC-Unique: zdyS1u_fMIGr51XHkguTRA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9C37D80280D;
+ Tue,  1 Nov 2022 01:46:57 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-12-204.pek2.redhat.com
+ [10.72.12.204])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9684B202322E;
+ Tue,  1 Nov 2022 01:46:55 +0000 (UTC)
+From: Han Han <hhan@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org,
+	lvivier@redhat.com,
+	Han Han <hhan@redhat.com>
+Subject: [PATCH] qapi: virtio: Fix the introduced version
+Date: Tue,  1 Nov 2022 09:46:47 +0800
+Message-Id: <20221101014647.3000801-1-hhan@redhat.com>
 MIME-Version: 1.0
-References: <1664913563-3351-1-git-send-email-si-wei.liu@oracle.com>
- <CAJaqyWdtDH8FYzvPLqW8PHmwtUP-puHH=n7EB7xgHsy_uur4Dw@mail.gmail.com>
- <d599973d-a974-b14a-d63c-caff2eba3fe6@oracle.com>
-In-Reply-To: <d599973d-a974-b14a-d63c-caff2eba3fe6@oracle.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 1 Nov 2022 09:38:25 +0800
-Message-ID: <CACGkMEun2DttZP_3FEDjThU7ShdzRHrB1wdTGtrtSR4MTNcq0g@mail.gmail.com>
-Subject: Re: [PATCH] vhost-vdpa: fix assert
- !virtio_net_get_subqueue(nc)->async_tx.elem in virtio_net_reset
-To: Si-Wei Liu <si-wei.liu@oracle.com>
-Cc: qemu-devel@nongnu.org, Eugenio Perez Martin <eperezma@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hhan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -78,7 +59,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,18 +75,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Oct 29, 2022 at 1:28 AM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
->
-> Hi Jason,
->
-> This one is a one-line simple bug fix but seems to be missed from the pull request. If there's a v2 for the PULL, would appreciate if you can piggyback. Thanks in advance!
->
-> Regards,
-> -Siwei
->
+The items of qapi/virtio.json are introduced at a5ebce38576. They will be
+in the version 7.2 not 7.1.
 
-I've queued this for rc1.
+Signed-off-by: Han Han <hhan@redhat.com>
+---
+ qapi/virtio.json | 34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
 
-Thanks
+diff --git a/qapi/virtio.json b/qapi/virtio.json
+index e47a8fb2e0..872c7e3623 100644
+--- a/qapi/virtio.json
++++ b/qapi/virtio.json
+@@ -15,7 +15,7 @@
+ #
+ # @name: Name of the VirtIODevice
+ #
+-# Since: 7.1
++# Since: 7.2
+ #
+ ##
+ { 'struct': 'VirtioInfo',
+@@ -32,7 +32,7 @@
+ #
+ # Returns: List of gathered VirtIODevices
+ #
+-# Since: 7.1
++# Since: 7.2
+ #
+ # Example:
+ #
+@@ -97,7 +97,7 @@
+ #
+ # @log-size: vhost_dev log_size
+ #
+-# Since: 7.1
++# Since: 7.2
+ #
+ ##
+ 
+@@ -167,7 +167,7 @@
+ #             Present if the given VirtIODevice has an active vhost
+ #             device.
+ #
+-# Since: 7.1
++# Since: 7.2
+ #
+ ##
+ 
+@@ -206,7 +206,7 @@
+ #
+ # Returns: VirtioStatus of the virtio device
+ #
+-# Since: 7.1
++# Since: 7.2
+ #
+ # Examples:
+ #
+@@ -452,7 +452,7 @@
+ #
+ # @unknown-statuses: Virtio device statuses bitmap that have not been decoded
+ #
+-# Since: 7.1
++# Since: 7.2
+ ##
+ 
+ { 'struct': 'VirtioDeviceStatus',
+@@ -471,7 +471,7 @@
+ # @unknown-protocols: Vhost user device protocol features bitmap that
+ #                     have not been decoded
+ #
+-# Since: 7.1
++# Since: 7.2
+ ##
+ 
+ { 'struct': 'VhostDeviceProtocols',
+@@ -492,7 +492,7 @@
+ # @unknown-dev-features: Virtio device features bitmap that have not
+ #                        been decoded
+ #
+-# Since: 7.1
++# Since: 7.2
+ ##
+ 
+ { 'struct': 'VirtioDeviceFeatures',
+@@ -535,7 +535,7 @@
+ #
+ # @signalled-used-valid: VirtQueue signalled_used_valid flag
+ #
+-# Since: 7.1
++# Since: 7.2
+ #
+ ##
+ 
+@@ -576,7 +576,7 @@
+ #        shadow_avail_idx will not be displayed in the case where
+ #        the selected VirtIODevice has a running vhost device.
+ #
+-# Since: 7.1
++# Since: 7.2
+ #
+ # Examples:
+ #
+@@ -666,7 +666,7 @@
+ #
+ # @used-size: vhost_virtqueue used_size
+ #
+-# Since: 7.1
++# Since: 7.2
+ #
+ ##
+ 
+@@ -699,7 +699,7 @@
+ #
+ # Returns: VirtVhostQueueStatus of the vhost_virtqueue
+ #
+-# Since: 7.1
++# Since: 7.2
+ #
+ # Examples:
+ #
+@@ -767,7 +767,7 @@
+ #
+ # @flags: List of descriptor flags
+ #
+-# Since: 7.1
++# Since: 7.2
+ #
+ ##
+ 
+@@ -787,7 +787,7 @@
+ #
+ # @ring: VRingAvail ring[] entry at provided index
+ #
+-# Since: 7.1
++# Since: 7.2
+ #
+ ##
+ 
+@@ -805,7 +805,7 @@
+ #
+ # @idx: VRingUsed index
+ #
+-# Since: 7.1
++# Since: 7.2
+ #
+ ##
+ 
+@@ -829,7 +829,7 @@
+ #
+ # @used: VRingUsed info
+ #
+-# Since: 7.1
++# Since: 7.2
+ #
+ ##
+ 
+@@ -857,7 +857,7 @@
+ #
+ # Returns: VirtioQueueElement information
+ #
+-# Since: 7.1
++# Since: 7.2
+ #
+ # Examples:
+ #
+-- 
+2.38.1
 
 
