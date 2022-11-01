@@ -2,84 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53814615001
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:07:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD3D615090
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:25:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1optiD-0001w6-Sd; Tue, 01 Nov 2022 12:02:01 -0400
+	id 1optuH-0003Yv-Lv; Tue, 01 Nov 2022 12:14:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1optiA-0001vn-GB; Tue, 01 Nov 2022 12:01:59 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1opti8-0005DG-Ot; Tue, 01 Nov 2022 12:01:58 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- bg9-20020a05600c3c8900b003bf249616b0so10179503wmb.3; 
- Tue, 01 Nov 2022 09:01:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5lX5J59iADq0yCOZ6olpRq9oFTs+l+t19WTBQOpUde0=;
- b=f9lCnDWQtRRNFq7U5qOWafuza7+owTKhZl9DAqQjSux5NbDH8bNRM/EIM62V7/yhaO
- kjBbAX6htshz6jgaE3wsd5JpezJaNfCiW0JBx5XmyrxC34tCtor0FgAlTD2lcKhFkQrk
- sK5wJnatw30JK6wNQi+InkaKlscSw//vFS7Eh4EdamL8rxTCvhczdLYrLToDhZX38jh3
- RLWESt6a5TE6+iAuslZgmRmxnLUwnXvN5nusUp5T+PMDIbuDu8Fe4u8UH8elFTlbXDZX
- JVDj26h7SDlJ4lcoxqA4HzckdmteaWkt0GCMNZIYZwtuXHkFCAulLrNDT7HLWmpe1SGO
- 1V/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5lX5J59iADq0yCOZ6olpRq9oFTs+l+t19WTBQOpUde0=;
- b=YdiLpQyyueqJrZznS8c4sVNRp34I036tqHUbQo8mmebnlsR17Q4xmTkEgh0cBL/Hdm
- VC8kv2ppVI7RhekKgyMAS11dPv8xc+giz3WGG+02gvTCKXYiqZujoWCPs5h9p/Suu5/T
- hw9P3wmoFbF4q26A2yc0iVzFF01HmiWS22UqArDXqT7NA5tT/RntJ43920raQGrx6cMG
- J/l/sw7aLOOBbIEa1vbvZ+/e4LrGptWRrssHrEQyT91Arw234z6U++tb4qldCFGoUV4o
- tGjOU/siG84JczK8Daytqnw6yd1GZQ7sgQfcfzx5xaIV8iRG4st1iwKUh5TuMT1CuQou
- WPqg==
-X-Gm-Message-State: ACrzQf038kpl5BngzKdNG9uqaI1FPKiJ1A80uzRAsDNBr7JesKHM1FUP
- t/LIS2cnJsI+DAGHDSa0r/c=
-X-Google-Smtp-Source: AMsMyM7qQxFMjYvU4mGat58N3buCc/+1cnB+218Trb/aQ/QvF/KsRclSVWeaFMHompy4qM3oAYNZqw==
-X-Received: by 2002:a1c:7207:0:b0:3cf:8115:b39a with SMTP id
- n7-20020a1c7207000000b003cf8115b39amr2231863wmc.80.1667318513661; 
- Tue, 01 Nov 2022 09:01:53 -0700 (PDT)
-Received: from ?IPv6:::1?
- (p200300faaf0bb20008d20b2c0629916b.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:8d2:b2c:629:916b])
- by smtp.gmail.com with ESMTPSA id
- ay19-20020a5d6f13000000b00236b2804d79sm10639716wrb.2.2022.11.01.09.01.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Nov 2022 09:01:53 -0700 (PDT)
-Date: Tue, 01 Nov 2022 16:01:46 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
-CC: qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v5_0/6=5D_ppc/e500=3A_Add_sup?=
- =?US-ASCII?Q?port_for_two_types_of_flash=2C_cleanup?=
-In-Reply-To: <CAG4p6K5Kmcq6o5NwuvL-oFQtw80VXw_WX-2zUCjUnP=e2g0Q4g@mail.gmail.com>
-References: <20221031115402.91912-1-philmd@linaro.org>
- <CAG4p6K5Kmcq6o5NwuvL-oFQtw80VXw_WX-2zUCjUnP=e2g0Q4g@mail.gmail.com>
-Message-ID: <AAFF66C6-6254-44FB-96B8-97B08F413C95@gmail.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1optu8-0003Yg-U6
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 12:14:21 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1optu3-0001px-Rq
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 12:14:20 -0400
+Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4N1w5l3q0qz689w9;
+ Wed,  2 Nov 2022 00:12:27 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 1 Nov 2022 17:14:09 +0100
+Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 1 Nov
+ 2022 16:14:08 +0000
+Date: Tue, 1 Nov 2022 16:14:07 +0000
+To: Gregory Price <gourry.memverge@gmail.com>
+CC: <qemu-devel@nongnu.org>, <mst@redhat.com>, <linux-cxl@vger.kernel.org>,
+ <dave@stgolabs.net>, <a.manzanares@samsung.com>, Gregory Price
+ <gregory.price@memverge.com>
+Subject: Re: [PATCH] hw/i386/pc.c: CXL Fixed Memory Window should not
+ reserve e820 in bios
+Message-ID: <20221101161407.00007366@huawei.com>
+In-Reply-To: <20221026205912.8579-1-gregory.price@memverge.com>
+References: <20221026205912.8579-1-gregory.price@memverge.com>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=shentey@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,65 +69,94 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 1=2E November 2022 10:41:51 UTC schrieb Bernhard Beschow <shentey@gmail=
-=2Ecom>:
->On Mon, Oct 31, 2022 at 12:54 PM Philippe Mathieu-Daud=C3=A9 <philmd@lina=
-ro=2Eorg>
->wrote:
->
->> This is a respin of Bernhard's v4 with Freescale eSDHC implemented
->> as an 'UNIMP' region=2E See v4 cover here:
->>
->> https://lore=2Ekernel=2Eorg/qemu-devel/20221018210146=2E193159-1-shente=
-y@gmail=2Ecom/
->>
->> Only tested with the ppce500 machine (no further regression testing)=2E
->>
->> Since v4:
->> - Do not rename ESDHC_* definitions to USDHC_*
->> - Do not modify SDHCIState structure
->>
->
->Works beautifully, both for the buildroot load and for my proprietary loa=
-d=2E
->So:
->Tested-by: Bernhard Beschow<shentey@gmail=2Ecom>
->
->>
->> Bernhard Beschow (4):
->>   hw/block/pflash_cfi0{1, 2}: Error out if device length isn't a power
->>     of two
->>   docs/system/ppc/ppce500: Use qemu-system-ppc64 across the board(s)
->>   hw/ppc/e500: Implement pflash handling
->>   hw/ppc/e500: Add Freescale eSDHC to e500plat
->>
->> Philippe Mathieu-Daud=C3=A9 (2):
->>   hw/sd/sdhci: MMIO region is implemented in 32-bit accesses
->>   hw/sd/sdhci: Map host controller interface in host endianess
+On Wed, 26 Oct 2022 16:59:13 -0400
+Gregory Price <gourry.memverge@gmail.com> wrote:
 
-Hi Phil,
+> Early-boot e820 records will be inserted by the bios/efi/early boot
+> software and be reported to the kernel via insert_resource.  Later, when
+> CXL drivers iterate through the regions again, they will insert another
+> resource and make the RESERVED memory area a child.
+> 
+> This RESERVED memory area causes the memory region to become unusable,
+> and as a result attempting to create memory regions with
+> 
+>     `cxl create-region ...`
+> 
+> Will fail due to the RESERVED area intersecting with the CXL window.
+> 
+> During boot the following traceback is observed:
+> 
+> 0xffffffff81101650 in insert_resource_expand_to_fit ()
+> 0xffffffff83d964c5 in e820__reserve_resources_late ()
+> 0xffffffff83e03210 in pcibios_resource_survey ()
+> 0xffffffff83e04f4a in pcibios_init ()
+> 
+> Which produces a call to reserve the CFMWS area:
+> 
+> (gdb) p *new
+> $54 = {start = 0x290000000, end = 0x2cfffffff, name = "Reserved",
+>        flags = 0x200, desc = 0x7, parent = 0x0, sibling = 0x0,
+>        child = 0x0}
+> 
+> Later the Kernel parses ACPI tables and reserves the exact same area as
+> the CXL Fixed Memory Window:
+> 
+> 0xffffffff811016a4 in insert_resource_conflict ()
+>                       insert_resource ()
+> 0xffffffff81a81389 in cxl_parse_cfmws ()
+> 0xffffffff818c4a81 in call_handler ()
+>                       acpi_parse_entries_array ()
+> 
+> (gdb) p/x *new
+> $59 = {start = 0x290000000, end = 0x2cfffffff, name = "CXL Window 0",
+>        flags = 0x200, desc = 0x0, parent = 0x0, sibling = 0x0,
+>        child = 0x0}
+> 
+> This produces the following output in /proc/iomem:
+> 
+> 590000000-68fffffff : CXL Window 0
+>   590000000-68fffffff : Reserved
+> 
+> This reserved area causes `get_free_mem_region()` to fail due to a check
+> against `__region_intersects()`.  Due to this reserved area, the
+> intersect check will only ever return REGION_INTERSECTS, which causes
+> `cxl create-region` to always fail.
+> 
+> Signed-off-by: Gregory Price <gregory.price@memverge.com>
 
-Is there a chance to get this in for 7=2E2?
+My understanding of e820 is limited, but from discussions with Intel folk
+I believe this fix to be correct - we should never have had e820 regions
+for CXL Fixed Memory Windows. As such
 
-Best regards,
-Bernhard
->>
->>  docs/system/ppc/ppce500=2Erst |  38 +++++++++--
->>  hw/block/pflash_cfi01=2Ec     |   8 ++-
->>  hw/block/pflash_cfi02=2Ec     |   5 ++
->>  hw/ppc/Kconfig              |   3 +
->>  hw/ppc/e500=2Ec               | 127 ++++++++++++++++++++++++++++++++++=
-+-
->>  hw/ppc/e500=2Eh               |   1 +
->>  hw/ppc/e500plat=2Ec           |   1 +
->>  hw/sd/sdhci=2Ec               |   6 +-
->>  8 files changed, 180 insertions(+), 9 deletions(-)
->>
->> --
->> 2=2E37=2E3
->>
->>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+> ---
+>  hw/i386/pc.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 768982ae9a..203c90fedb 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1062,7 +1062,6 @@ void pc_memory_init(PCMachineState *pcms,
+>          hwaddr cxl_size = MiB;
+>  
+>          cxl_base = pc_get_cxl_range_start(pcms);
+> -        e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
+>          memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
+>          memory_region_add_subregion(system_memory, cxl_base, mr);
+>          cxl_resv_end = cxl_base + cxl_size;
+> @@ -1078,7 +1077,6 @@ void pc_memory_init(PCMachineState *pcms,
+>                  memory_region_init_io(&fw->mr, OBJECT(machine), &cfmws_ops, fw,
+>                                        "cxl-fixed-memory-region", fw->size);
+>                  memory_region_add_subregion(system_memory, fw->base, &fw->mr);
+> -                e820_add_entry(fw->base, fw->size, E820_RESERVED);
+>                  cxl_fmw_base += fw->size;
+>                  cxl_resv_end = cxl_fmw_base;
+>              }
 
 
