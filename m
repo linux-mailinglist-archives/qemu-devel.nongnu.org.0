@@ -2,68 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD52615063
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:16:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1EA1614FF7
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:04:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opsbx-0005nD-8B; Tue, 01 Nov 2022 10:51:29 -0400
+	id 1opsgZ-0006mo-AK; Tue, 01 Nov 2022 10:56:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1opsbl-0005n1-7P
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:51:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1opsbh-000167-Qj
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:51:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667314272;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=uhD8YOUFjzZgF0lGF9T3GeD5xc/Q0yRByxtlcei+N7s=;
- b=RxmfAAYteFrS+zwkJ3pQbQXEO1YdN2mro1rC7dPSH0JhMlGuR+uMx+QpwBF5OGy8vGTsSJ
- mO//ZnrZQiYVxd8WBwGA8qdwPStGL/c4knFCapRkJZZ6CdzklJPoX8MX0NRu+W9HekVWVr
- MLY+0OPVmDReui2WXrWcxjkJM4OxLO0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-511-GhVJZDJgOrGmRBv7Sw7C6A-1; Tue, 01 Nov 2022 10:51:09 -0400
-X-MC-Unique: GhVJZDJgOrGmRBv7Sw7C6A-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4537A1C08984;
- Tue,  1 Nov 2022 14:51:09 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3964B492B18;
- Tue,  1 Nov 2022 14:51:05 +0000 (UTC)
-Date: Tue, 1 Nov 2022 14:51:02 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "manish.mishra" <manish.mishra@nutanix.com>
-Cc: qemu-devel@nongnu.org, peterx@redhat.com
-Subject: Re: [PATCH] migration: check magic value for deciding the mapping of
- channels
-Message-ID: <Y2EyVkdLMln7CX15@redhat.com>
-References: <20221101143029.14246-1-manish.mishra@nutanix.com>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1opsgX-0006mE-I9
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:56:13 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1opsgT-0003Fp-7h
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:56:13 -0400
+Received: by mail-pl1-x634.google.com with SMTP id 4so13820648pli.0
+ for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 07:56:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=NzRNXyzMHzpUT2aPtRhgR6GeDDKNKPP691o2qPYLJos=;
+ b=bDfIdk7BhGMZhX7pDDPw31QnIRs6q5cCpp3eOk2EKonzJyB7H7fGq//kahVVSrUmsZ
+ Igpnw/tR2ZDXHsSqzfqHSFO9Aa3KvuHCGu/3uBvgo8sIC7daOocDa6RMs2RJ4k3U9SYb
+ u77Y+xh2bcDE2T7CXIzPE1daq+AvSU6xPd4xYue/7gjL63bjXuvukE7Up3ejnM/lVFAI
+ 8tdXOyDsZ5R0KnbwhM68d15o2/OOj0ToDYhl/lAqt203VhMX8skB5JUDjq5rJFdRNlJu
+ LRPA41f+xC/w9uiaF6zzuA6ysmOSj/0pvQXV5P+s083Pd60W2RhOxTUDB03fGP2LNng6
+ vzKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NzRNXyzMHzpUT2aPtRhgR6GeDDKNKPP691o2qPYLJos=;
+ b=5Z9/+y5Mv0arMxhltzQgOG+3zV9NxvR/iQHfQ+HKE1uRZhr3pRGGfTZkPlNLHP6Xmw
+ ay8EoZo0SYptQdABN4b8A7DCujGj9kjZKtEgzz7dVFq+hZ9WZIQMIzyTCDZ0ymMEUql2
+ DdKUuWw7uCwUomfFDpCoDZBqcd1HET1KwbZCkqgo9967+lKg9xL2vNqBA7uQiimmXbsD
+ 2rnh1yH5Tu+p1pbaGSm4R1LF8hiwRQVffycuzL+JLNKbWQv1iRw5quNK5h2amLLVi7D4
+ ksBdRzDeLQqw0UZQoOza4BLfpaR8wFK50s7+dA6brGpPNxibTkVUWZCrviRrt4tFcrjU
+ YBPg==
+X-Gm-Message-State: ACrzQf2VpfnaSd/kaqtTpgL0EfkADHcUVaHfmAd+7g2v8ztXUScskEKL
+ G9khOZfIwgfvQ2ni8ZN02fzIeFzCXJ69/2z4
+X-Google-Smtp-Source: AMsMyM7bYTw+PRLCQD0fc0WJJPqEmfNP6Who+t8xKFRDXcepnUSgnEXhMt31dzB98FJtaymsYKR81A==
+X-Received: by 2002:a17:90b:1e49:b0:20b:36a3:aba6 with SMTP id
+ pi9-20020a17090b1e4900b0020b36a3aba6mr38881079pjb.2.1667314567446; 
+ Tue, 01 Nov 2022 07:56:07 -0700 (PDT)
+Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+ by smtp.gmail.com with ESMTPSA id
+ 22-20020a631656000000b0046f9f4a2de6sm4783219pgw.74.2022.11.01.07.56.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Nov 2022 07:56:06 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Paul Burton <paulburton@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Yan Vugenfirer <yan@daynix.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH v9 00/17] pci: Abort if pci_add_capability fails
+Date: Tue,  1 Nov 2022 23:55:41 +0900
+Message-Id: <20221101145558.3998-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221101143029.14246-1-manish.mishra@nutanix.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.051,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::634;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,189 +100,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 01, 2022 at 02:30:29PM +0000, manish.mishra wrote:
-> Current logic assumes that channel connections on the destination side are
-> always established in the same order as the source and the first one will
-> always be the default channel followed by the multifid or post-copy
-> preemption channel. This may not be always true, as even if a channel has a
-> connection established on the source side it can be in the pending state on
-> the destination side and a newer connection can be established first.
-> Basically causing out of order mapping of channels on the destination side.
-> Currently, all channels except post-copy preempt send a magic number, this
-> patch uses that magic number to decide the type of channel. This logic is
-> applicable only for precopy(multifd) live migration, as mentioned, the
-> post-copy preempt channel does not send any magic number. Also, this patch
-> uses MSG_PEEK to check the magic number of channels so that current
-> data/control stream management remains un-effected.
-> 
-> Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
-> ---
->  include/io/channel.h     | 25 +++++++++++++++++++++++++
->  io/channel-socket.c      | 27 +++++++++++++++++++++++++++
->  io/channel.c             | 39 +++++++++++++++++++++++++++++++++++++++
->  migration/migration.c    | 33 +++++++++++++++++++++------------
->  migration/multifd.c      | 12 ++++--------
->  migration/multifd.h      |  2 +-
->  migration/postcopy-ram.c |  5 +----
->  migration/postcopy-ram.h |  2 +-
->  8 files changed, 119 insertions(+), 26 deletions(-)
-> 
-> diff --git a/include/io/channel.h b/include/io/channel.h
-> index c680ee7480..74177aeeea 100644
-> --- a/include/io/channel.h
-> +++ b/include/io/channel.h
-> @@ -115,6 +115,10 @@ struct QIOChannelClass {
->                          int **fds,
->                          size_t *nfds,
->                          Error **errp);
-> +    ssize_t (*io_read_peek)(QIOChannel *ioc,
-> +                            void *buf,
-> +                            size_t nbytes,
-> +                            Error **errp);
->      int (*io_close)(QIOChannel *ioc,
->                      Error **errp);
->      GSource * (*io_create_watch)(QIOChannel *ioc,
-> @@ -475,6 +479,27 @@ int qio_channel_write_all(QIOChannel *ioc,
->                            size_t buflen,
->                            Error **errp);
->  
-> +/**
-> + * qio_channel_read_peek_all:
-> + * @ioc: the channel object
-> + * @buf: the memory region to read in data
-> + * @nbytes: the number of bytes to read
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + * Read given @nbytes data from peek of channel into
-> + * memory region @buf.
-> + *
-> + * The function will be blocked until read size is
-> + * equal to requested size.
-> + *
-> + * Returns: 1 if all bytes were read, 0 if end-of-file
-> + *          occurs without data, or -1 on error
-> + */
-> +int qio_channel_read_peek_all(QIOChannel *ioc,
-> +                              void* buf,
-> +                              size_t nbytes,
-> +                              Error **errp);
-> +
->  /**
->   * qio_channel_set_blocking:
->   * @ioc: the channel object
-> diff --git a/io/channel-socket.c b/io/channel-socket.c
-> index b76dca9cc1..b99f5dfda6 100644
-> --- a/io/channel-socket.c
-> +++ b/io/channel-socket.c
-> @@ -705,6 +705,32 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
->  }
->  #endif /* WIN32 */
->  
-> +static ssize_t qio_channel_socket_read_peek(QIOChannel *ioc,
-> +                                            void *buf,
-> +                                            size_t nbytes,
-> +                                            Error **errp)
-> +{
-> +    QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
-> +    ssize_t bytes = 0;
-> +
-> +retry:
-> +    bytes = recv(sioc->fd, buf, nbytes, MSG_PEEK);
-> +
-> +    if (bytes < 0) {
-> +        if (errno == EINTR) {
-> +            goto retry;
-> +        }
-> +        if (errno == EAGAIN) {
-> +            return QIO_CHANNEL_ERR_BLOCK;
-> +        }
-> +
-> +        error_setg_errno(errp, errno,
-> +                         "Unable to read from peek of socket");
-> +        return -1;
-> +    }
-> +
-> +    return bytes;
-> +}
->  
->  #ifdef QEMU_MSG_ZEROCOPY
->  static int qio_channel_socket_flush(QIOChannel *ioc,
-> @@ -902,6 +928,7 @@ static void qio_channel_socket_class_init(ObjectClass *klass,
->  
->      ioc_klass->io_writev = qio_channel_socket_writev;
->      ioc_klass->io_readv = qio_channel_socket_readv;
-> +    ioc_klass->io_read_peek = qio_channel_socket_read_peek;
->      ioc_klass->io_set_blocking = qio_channel_socket_set_blocking;
->      ioc_klass->io_close = qio_channel_socket_close;
->      ioc_klass->io_shutdown = qio_channel_socket_shutdown;
-> diff --git a/io/channel.c b/io/channel.c
-> index 0640941ac5..a2d9b96f3f 100644
-> --- a/io/channel.c
-> +++ b/io/channel.c
-> @@ -346,6 +346,45 @@ int qio_channel_write_all(QIOChannel *ioc,
->      return qio_channel_writev_all(ioc, &iov, 1, errp);
->  }
->  
-> +int qio_channel_read_peek_all(QIOChannel *ioc,
-> +                              void* buf,
-> +                              size_t nbytes,
-> +                              Error **errp)
-> +{
-> +   QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
-> +   ssize_t bytes = 0;
-> +
-> +   if (!klass->io_read_peek) {
-> +       error_setg(errp, "Channel does not support read peek");
-> +       return -1;
-> +   }
+pci_add_capability appears most PCI devices. Its error handling required
+lots of code, and led to inconsistent behaviors such as:
+- passing error_abort
+- passing error_fatal
+- asserting the returned value
+- propagating the error to the caller
+- skipping the rest of the function
+- just ignoring
 
-There's no io_read_peek for  QIOChannelTLS, so we'll hit this
-error...
+The code generating errors in pci_add_capability had a comment which
+says:
+> Verify that capabilities don't overlap.  Note: device assignment
+> depends on this check to verify that the device is not broken.
+> Should never trigger for emulated devices, but it's helpful for
+> debugging these.
 
+Indeed vfio has some code that passes capability offsets and sizes from
+a physical device, but it explicitly pays attention so that the
+capabilities never overlap and the only exception are MSI and MSI-X
+capabilities. Therefore, we can add code specific to the case, and
+always assert that capabilities never overlap in the other cases,
+resolving these inconsistencies.
 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 739bb683f3..f4b6f278a9 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -733,31 +733,40 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
->  {
->      MigrationIncomingState *mis = migration_incoming_get_current();
->      Error *local_err = NULL;
-> -    bool start_migration;
->      QEMUFile *f;
-> +    bool default_channel = true;
-> +    uint32_t channel_magic = 0;
-> +    int ret = 0;
->  
-> -    if (!mis->from_src_file) {
-> -        /* The first connection (multifd may have multiple) */
-> +    if (migrate_use_multifd() && !migration_in_postcopy()) {
-> +        ret = qio_channel_read_peek_all(ioc, (void *)&channel_magic,
-> +                                        sizeof(channel_magic), &local_err);
-> +
-> +        if (ret != 1) {
-> +            error_propagate(errp, local_err);
-> +            return;
-> +        }
+v9:
+- Return correct value with pci_check_capability_overlap()
+  (Philippe Mathieu-Daudé)
+- Use scripts/git.orderfile (Philippe Mathieu-Daudé)
+- Simplify error checking in pci_add_capability() (Philippe Mathieu-Daudé)
+- Improve comments (Philippe Mathieu-Daudé)
 
-....and thus this will fail for TLS channels AFAICT.
+v8:
+- Return boolean with pci_check_capability_overlap() (Philippe Mathieu-Daudé)
 
+v7:
+- Perform checks in vfio_msi_setup() and vfio_msix_setup() (Alex Williamson)
 
-> +
-> +        default_channel = (channel_magic == cpu_to_be32(QEMU_VM_FILE_MAGIC));
-> +    } else {
-> +        default_channel = !mis->from_src_file;
-> +    }
+v6:
+- Error in case of MSI/MSI-X capability overlap (Alex Williamson)
 
-With regards,
-Daniel
+v5:
+- Fix capability ID specification in vfio_msi_early_setup (Alex Williamson)
+- Use range_covers_byte() (Alex Williamson)
+- warn_report() in case of MSI/MSI-X capability overlap (Alex Williamson)
+
+v4:
+- Fix typos in messages (Markus Armbruster)
+- hw/vfio/pci: Ensure MSI and MSI-X do not overlap (Alex Williamson)
+
+v3:
+- Correct patch split between virtio-pci and pci (Markus Armbruster)
+- Add messages for individual patches (Markus Armbruster)
+- Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+Akihiko Odaki (17):
+  hw/vfio/pci: Ensure MSI and MSI-X do not overlap
+  pci: Allow to omit errp for pci_add_capability
+  hw/i386/amd_iommu: Omit errp for pci_add_capability
+  ahci: Omit errp for pci_add_capability
+  e1000e: Omit errp for pci_add_capability
+  eepro100: Omit errp for pci_add_capability
+  hw/nvme: Omit errp for pci_add_capability
+  msi: Omit errp for pci_add_capability
+  hw/pci/pci_bridge: Omit errp for pci_add_capability
+  pcie: Omit errp for pci_add_capability
+  pci/shpc: Omit errp for pci_add_capability
+  msix: Omit errp for pci_add_capability
+  pci/slotid: Omit errp for pci_add_capability
+  hw/pci-bridge/pcie_pci_bridge: Omit errp for pci_add_capability
+  hw/vfio/pci: Omit errp for pci_add_capability
+  virtio-pci: Omit errp for pci_add_capability
+  pci: Remove legacy errp from pci_add_capability
+
+ docs/pcie_sriov.txt                |  4 +--
+ include/hw/pci/pci.h               | 12 +++++--
+ include/hw/pci/pci_bridge.h        |  5 ++-
+ include/hw/pci/pcie.h              | 11 +++----
+ include/hw/pci/shpc.h              |  3 +-
+ include/hw/virtio/virtio-pci.h     |  2 +-
+ hw/display/bochs-display.c         |  4 +--
+ hw/i386/amd_iommu.c                | 21 +++---------
+ hw/ide/ich.c                       |  8 ++---
+ hw/net/e1000e.c                    | 22 +++----------
+ hw/net/eepro100.c                  |  7 +---
+ hw/nvme/ctrl.c                     | 14 ++------
+ hw/pci-bridge/cxl_downstream.c     |  9 ++----
+ hw/pci-bridge/cxl_upstream.c       |  8 ++---
+ hw/pci-bridge/i82801b11.c          | 14 ++------
+ hw/pci-bridge/pci_bridge_dev.c     |  2 +-
+ hw/pci-bridge/pcie_pci_bridge.c    | 19 +++--------
+ hw/pci-bridge/pcie_root_port.c     | 16 ++-------
+ hw/pci-bridge/xio3130_downstream.c | 15 ++-------
+ hw/pci-bridge/xio3130_upstream.c   | 15 ++-------
+ hw/pci-host/designware.c           |  3 +-
+ hw/pci-host/xilinx-pcie.c          |  4 +--
+ hw/pci/msi.c                       |  9 +-----
+ hw/pci/msix.c                      |  8 ++---
+ hw/pci/pci.c                       | 47 +++++++++++++--------------
+ hw/pci/pci_bridge.c                | 21 ++++--------
+ hw/pci/pcie.c                      | 52 ++++++++----------------------
+ hw/pci/shpc.c                      | 23 ++++---------
+ hw/pci/slotid_cap.c                |  8 ++---
+ hw/usb/hcd-xhci-pci.c              |  3 +-
+ hw/vfio/pci-quirks.c               | 15 ++-------
+ hw/vfio/pci.c                      | 29 +++++++++++------
+ hw/virtio/virtio-pci.c             | 12 ++-----
+ 33 files changed, 136 insertions(+), 309 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.38.1
 
 
