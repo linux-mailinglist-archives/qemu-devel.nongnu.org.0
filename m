@@ -2,94 +2,153 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171DB614E23
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 16:17:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2A4614E5D
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 16:31:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opshv-00075n-4U; Tue, 01 Nov 2022 10:57:39 -0400
+	id 1opsxU-0000s3-OW; Tue, 01 Nov 2022 11:13:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opsht-00075d-GV
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:57:37 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opshn-0003hk-Rs
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:57:37 -0400
-Received: by mail-pg1-x529.google.com with SMTP id h193so4940275pgc.10
- for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 07:57:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=At8j53igPyPAzDtB1h3pG2XsyNuLgQtuDuAHSF4bzEg=;
- b=WkLHXxc+SxnccDKsma7Nw57lKYx6v2GEzbJ6K96VSFuBwc+aF1tVJumudWilea3iUb
- FYBa0x9kRZCL5Iyw7Y8OqFqFKa6nZs5auZCiYgfPrF80YgpXxsqXQcsC1TTlQhSUvRgF
- QBh3sOKpWYsBoNW9gkXXDPZyDo61nM9ENLzSMtN+yeIlnjgVOGMm1xhrVYo5iDXxBVxj
- R4x4Hk+SfmR6CVzO0ovwZ3F12u5diYaHtNUbhIOEW/W7I5Em/nbN1Nnk0gtzTcAiVWhR
- M7BFdAcGSEYvlUEAwrF3D6opSUg7/2xVRYgndoBDulB0XjoPPBzCAuSsmlL4yKLmyW5k
- NG1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=At8j53igPyPAzDtB1h3pG2XsyNuLgQtuDuAHSF4bzEg=;
- b=meX8mjQFCIBUzwvq3mysr6psMRi2bBrR880DPBDvpzvCL3LnbxQeqL2qB8HnwmO5x3
- h8HQLdN4hsPS7YXvJtt0EekEYWpPaShE0RK1K1uO+yJoiQ+oC8T42xlJw2Qv1Chq7EIY
- P9Fl7X5wYzxk0h/b7A7naaEvsLP6F4EbmoVZFjT69SYtOtUJbIa07j/YJjlAuzS0l+Qv
- IUks9TyPsdoPZ+vajIIRPQGDR8H4VUxGrmKfTSHthm4zx1jv++sNKHkkwqUSE6ziztyU
- 2NWUJ09j0yi1NBpexEf++jvb5l317egjieY+cX5lEBoHEW8ljQenryaO/KatEiVbuYKY
- TGng==
-X-Gm-Message-State: ACrzQf1g8yljWnbrCFfZzkjycvMcU+yiZPD+kY9jEa1BEH0U8canLtNO
- wAati3XzuDC8p88CBOXs5oMxx0WghbhdvnbV
-X-Google-Smtp-Source: AMsMyM7mE9FHW0cwavT0aMZmjXEYTkrCZAS2ctJAXCEyTLnr1BvcU/qsJMEkBbDB/5B3yNXMVOEzXw==
-X-Received: by 2002:a05:6a00:1d89:b0:56c:a2b:f1c2 with SMTP id
- z9-20020a056a001d8900b0056c0a2bf1c2mr20489429pfw.45.1667314650586; 
- Tue, 01 Nov 2022 07:57:30 -0700 (PDT)
-Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
- by smtp.gmail.com with ESMTPSA id
- 22-20020a631656000000b0046f9f4a2de6sm4783219pgw.74.2022.11.01.07.57.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Nov 2022 07:57:29 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Peter Maydell <peter.maydell@linaro.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Yan Vugenfirer <yan@daynix.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v9 15/17] hw/vfio/pci: Omit errp for pci_add_capability
-Date: Tue,  1 Nov 2022 23:55:56 +0900
-Message-Id: <20221101145558.3998-16-akihiko.odaki@daynix.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221101145558.3998-1-akihiko.odaki@daynix.com>
-References: <20221101145558.3998-1-akihiko.odaki@daynix.com>
+ (Exim 4.90_1)
+ (envelope-from <prvs=8304fcac20=guohuai.shi@windriver.com>)
+ id 1opsxR-0000rq-Ux
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 11:13:41 -0400
+Received: from mx0a-0064b401.pphosted.com ([205.220.166.238])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=8304fcac20=guohuai.shi@windriver.com>)
+ id 1opsxM-0002AX-0V
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 11:13:41 -0400
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+ by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2A1EHFNR009438; Tue, 1 Nov 2022 08:13:14 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=PPS06212021;
+ bh=EDe9ahvamgQJT5izXzsix8nOg3GhCamlRvSqbGqYVH8=;
+ b=rrs3O7eVA0Kq1rKAtNDNSqao9BpxGytqVZxo3a8FKaY3OMvZ4fzLdr2VzvXYDbqz/fxp
+ tBQZoacKvtIMRRVpR0PheAU1bGJAMYv43k8+Ej5fSH2C3YJ2A3mraYsj35HL24xGxlmx
+ TJETdHwUuYzkbEn8znxcbH7IXrIBv5ysPDFYNEXVdb7H4fphWP+istUGsCndOXuqRTgh
+ WsfkXDfPv3SDpt+y2c9fbPNbNeqjHnZ12MUnPyxxQEDXNoK7qjrDP/Ya6iEroMRa5Ewd
+ +5IMti4hgxNOzh9TjWQmj3XAwj593AgO/Pm+pJcmApYG8sQO1ixnYfuNClZziPU857FS xg== 
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kj2gs9ch5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 01 Nov 2022 08:13:14 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WvB7cW5ovxXgJRTeFJuMM3OYcEkyHxmZKh/pOg3G773gjr4PcM4M/XBxqTX9lhjRkHped9zXJ6tCTJJEdoglDnUu+coGY08LeRa/HLKWELvkB57woqD1wZPiHjcUyFO2mRR2EG7KuIpnGlyllDfVH4E9UJaE42w+7FDZekaoRsFw0/p+753xYwmjR3iW03ZLUB5vUOh2PAveJiBLFD5I3kN7PHcaL0f9/oNo/cG9eguJcq1chYsBpsObZXSBVztILzW/+enP3Ckg49VszRY01NpqItqGb/cntU8lxyhxBj8EgOsf6y8DiMT5GVHxDtlGnXnhbWAKlEbt7jXwQDL4SQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EDe9ahvamgQJT5izXzsix8nOg3GhCamlRvSqbGqYVH8=;
+ b=Rl+yJjKjD6rrYxRz+1U2/d5A+RAEnjx9t5ECmfk/6AQkc8ZeanhabHSzDyttp5XTctU1mVixwxEMvj4Aqpf41pHtxt6gexaSFB2tTeCCi+CKyjFRK2FQxKeP1rO96583MK1DvCkdEPuKxwxRm+00gQWTwBCoEm1mY4WqWnZzUd4Qcfl3IQrrMk7JLpiHv5aSOPWbOiJM+gpfXu/RmlNyed69fDdR2Gf1S04sbTo5E1DAF2rt3/D1Rxaky5daI54J73LkI+JvgM8mAvsGmoU8hakTDLLdulGR02g6jI58SaB9PyvYRv3ZXm2kEK3KvUIbt0Gx4K9Tn8c/+GzZmUvsew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from MN2PR11MB4173.namprd11.prod.outlook.com (2603:10b6:208:137::20)
+ by DM4PR11MB5311.namprd11.prod.outlook.com (2603:10b6:5:392::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.19; Tue, 1 Nov
+ 2022 15:13:09 +0000
+Received: from MN2PR11MB4173.namprd11.prod.outlook.com
+ ([fe80::d5da:febb:1542:911a]) by MN2PR11MB4173.namprd11.prod.outlook.com
+ ([fe80::d5da:febb:1542:911a%4]) with mapi id 15.20.5769.019; Tue, 1 Nov 2022
+ 15:13:09 +0000
+From: "Shi, Guohuai" <Guohuai.Shi@windriver.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+CC: Greg Kurz <groug@kaod.org>, "Meng, Bin" <Bin.Meng@windriver.com>
+Subject: RE: [PATCH 07/16] hw/9pfs: Implement Windows specific utilities
+ functions for 9pfs
+Thread-Topic: [PATCH 07/16] hw/9pfs: Implement Windows specific utilities
+ functions for 9pfs
+Thread-Index: AQHY52VDD1diQUGNL0SdrAxpW0VmJ64qLXcAgAAMX0A=
+Date: Tue, 1 Nov 2022 15:13:09 +0000
+Message-ID: <MN2PR11MB4173701AB6DB44A06CEDC2F2EF369@MN2PR11MB4173.namprd11.prod.outlook.com>
+References: <20221024045759.448014-1-bin.meng@windriver.com>
+ <20221024045759.448014-8-bin.meng@windriver.com> <4607333.QMxLKKDKed@silver>
+In-Reply-To: <4607333.QMxLKKDKed@silver>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN2PR11MB4173:EE_|DM4PR11MB5311:EE_
+x-ms-office365-filtering-correlation-id: dd9725c9-d50a-43c9-ab10-08dabc1b9638
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: qJp3SgTJIZhnauI4IwJCmwFn6OAdBDILKO02MoTT71rzgJYjZrsXIivrW906jI0JI1XIa258EzJ1TbnmumyL3qRztdznZqSyCXLJ+s2Rg9O/QL0iRRtPq4xta/SQlSJPz5S4iyqCmotyM0dugBcJG5W88xPTxLNwIm8SwlPoXhTt+0G6b3gm6ItnlI7B8LFYR52IZ+MjmvuAvYmSmNgR/hnD+IYPhVMX2ypv5JWbrDdEk3cy9AxjEm+l6rSyb+iBNjKmz/CIZX5DZSfvSqCDEBYmhI5H5GgFeew29+B5oCO61K+Ckg1eQEd6C/iceNIaiQttd0vQoVLsxDbteIMh/PAOtofG+xeP9qNLnSkNZ6Vl2NZmWDjMhh/ru3fMuA7io8q+FH9iuPwFFZsl41Oi32rhMqe7SEMh6fIjGgJoksEgmNN7M2ri4vcAsAErZpYz+bQzeW5Yc0g1ildvoljTbROoAqrT2aMroleqR8W1DhM8uriVLMgbEUsxqfKIn9Ade/ams69n96dqemS3GqC8egh2q9hOH4ZJYLxng163RBgDcz8P+IePNwbPBgFPAkF4mt5gH5nrv9oXlnyA1CIqpxr8HFudOOfvKrL83uS5ZtBiA78G7/BRwiRYfTpxlo2EI4wzzh6m+DnvFkUqH5e4M3Jdrl0Tcytu/7jhjXKViACJvKejE1lKgIhSopUtJ9Nlla3BJe1O4ZKenNc2RI8eCv7wrdmnXdwNSTvIKivfq4PRE2Ew1wCzuCQOpsDHdc2oGmrPuxa/vAaInRRwR/2GC7nAAkJIL0K9v91jtS41ckk=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR11MB4173.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(376002)(39850400004)(396003)(136003)(346002)(451199015)(107886003)(83380400001)(38100700002)(38070700005)(86362001)(33656002)(30864003)(122000001)(5660300002)(2906002)(52536014)(66556008)(8936002)(64756008)(26005)(76116006)(4326008)(66946007)(66476007)(41300700001)(6506007)(7696005)(53546011)(186003)(9686003)(478600001)(110136005)(316002)(66446008)(55016003)(8676002)(71200400001)(54906003)(21314003)(579004)(559001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xL2AXH+86/q4ZJ7+lIgQ6MiA+ofGnBvkye0jPn+TMmfCNaik2nEKI4TcFmkW?=
+ =?us-ascii?Q?my0immWtDyuVXDyx27OvyIfqntS8AxUfXwTJeuLv4Y0jtsWXchtAoDKlq4+2?=
+ =?us-ascii?Q?P3u499L60fKilPAuhFxj8pQ7O7gLKCC8ZfN0t36BB67YFECApNxm+Lhd/Xlh?=
+ =?us-ascii?Q?JJXk7SON7Bi/LZiNbtBfHecLkOLCGHIcsgUZ4vfVRX67veQ5l5MGLVTLYBgT?=
+ =?us-ascii?Q?PYp/tbVvffIMXPeebes3/aGMV0EhL57XJrbM9Zos9YUu+0nLpePmWQSkMcuw?=
+ =?us-ascii?Q?rHkxWPqL4PSgaYbVWIFtLnudWluXHfSa6IKl3lAAg/CpjSrO3xpGUrHi1XRc?=
+ =?us-ascii?Q?VxufbAtsqaE0ITonghc3BSwntL0QBRxgmkVEGgO26StXeQ+stTWQLwTQnxCn?=
+ =?us-ascii?Q?8R12WdbB7G3o3I2nhmCBa2hqNjOZSS9BlAnXJBNSmaSAqQTM+dIo1hI2YAG2?=
+ =?us-ascii?Q?1uEAhnXJXj9+htb57RK5+hUk6RF91jOyc61svtPmUYEDJyFhtL1CVrvoXo9J?=
+ =?us-ascii?Q?di1yX7I/S5YvHXIXgXyCsorW44/oBCRHM7OPoUaHICN2lMpr7lW3QVloqdcm?=
+ =?us-ascii?Q?mKJCu/pUeEWLr5rIIQGla1ElfJj8VQOBU3VGSxGQH7JMMTm8mUSbl0hNjcky?=
+ =?us-ascii?Q?3AOWDf/Bob+Nl7JzoRvd4JJ/Q8xeJ4R+PQMktOAbE/VM9FjMmBx7cBpb2/oO?=
+ =?us-ascii?Q?qJmeCAHNbv4m+5xf+vhOXeWhBb5vM3XgG+V3mipgEOyYlehuvzjNVwzgPdOA?=
+ =?us-ascii?Q?z5TWaSVfrjmfB8TiTYKufcTdHLn+KO/ObVfxtClD4kVqXyDXvnPfnwcfLJZ2?=
+ =?us-ascii?Q?9kCeIE+raATTwxw0UDQh90KH0DRRESty6t/Y+lgozStbqwtWMInC4e6QLd59?=
+ =?us-ascii?Q?vAgQFfMM+lCQ1CeDlow3mmH33ZX6UAa0aO+aXUqWs3X2iBqZgr20Q7/ab4QJ?=
+ =?us-ascii?Q?jKgy7oqCzpz/SgE10fPwzMFJai0767mHJ+f4rIGlstkOGtwTFcVtmaHNXf4C?=
+ =?us-ascii?Q?mQHaF2zUUDrrzGbTikDfM4mRFZCuLI1ehTrDK0aLD7yfvjPFl46v8EM6Wz2U?=
+ =?us-ascii?Q?N8PyKXZAIw4/J8zhlUp2G3p34CVinRhMMZdqNVQA8OulWMSKN1/eK0z8OKGn?=
+ =?us-ascii?Q?+z4xTMvdumzDn69W4mQ1wdW6YN6Dz7Sp6IvMnibRz6mlRmHEkk6EMriazHA6?=
+ =?us-ascii?Q?QDr0I+ekAel6tvr96sfS2qdVbtXDL22Rjl+m6J2VzBoSFvpapwYq/2isEdpk?=
+ =?us-ascii?Q?bxkLXR038X3fQzk/PWYFviCBla9Vwq6zZQdBoZj5oWW3d6ScFhQIh0E5YH0Q?=
+ =?us-ascii?Q?m9ypStWw6IucFZ8fC6gd3pRIQgkFlCGRetPDCBZF1IyvKhHOVE7C6vypDlvb?=
+ =?us-ascii?Q?OlPQJ1DBSGsJvlSwNxTxH5zsksf3KFXnS84IHL1eKuA+TXjhWDuvm4lSMSc3?=
+ =?us-ascii?Q?1kC3SelhPPnxnxqXzgvB//YtomausfvcOLLtp4JGTf77kMjrc9XLwKALgcoq?=
+ =?us-ascii?Q?Ez8FqgASch3B2bWzf+PDs8+1z65wh2hzm5AVVSASAy8hhlY4JH5dQ1YNiiXs?=
+ =?us-ascii?Q?6Eh9SIQjjvaOJxdIvMjb1f1xGLXPJSJO3UkJcNhGhM4ccZb95nPdaa/Qogox?=
+ =?us-ascii?Q?0g=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::529;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB4173.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd9725c9-d50a-43c9-ab10-08dabc1b9638
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Nov 2022 15:13:09.6156 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xxZEKqUc9kTl103OZGAfOVVsn82zoNv77XiiXwmLVsv9X69wcYoCeAsGNcHG7YcJAIpK+h7JDWYm3SsVz/Yvq4TWbjNfD0jCFoxYnY3S0SA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5311
+X-Proofpoint-GUID: HXN6Bw5xpIXChuZn2e7UHHa8J5dHEB9o
+X-Proofpoint-ORIG-GUID: HXN6Bw5xpIXChuZn2e7UHHa8J5dHEB9o
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-01_07,2022-11-01_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 mlxscore=0
+ spamscore=0 malwarescore=0 adultscore=0 mlxlogscore=999 impostorscore=0
+ priorityscore=1501 lowpriorityscore=0 phishscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211010115
+Received-SPF: pass client-ip=205.220.166.238;
+ envelope-from=prvs=8304fcac20=guohuai.shi@windriver.com;
+ helo=mx0a-0064b401.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,110 +164,1197 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-The code generating errors in pci_add_capability has a comment which
-says:
-> Verify that capabilities don't overlap.  Note: device assignment
-> depends on this check to verify that the device is not broken.
-> Should never trigger for emulated devices, but it's helpful for
-> debugging these.
 
-Indeed vfio has some code that passes capability offsets and sizes from
-a physical device, but it explicitly pays attention so that the
-capabilities never overlap. Therefore, in pci_add_capability(), we can
-always assert that capabilities never overlap, and that is what happens
-when omitting errp.
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- hw/vfio/pci-quirks.c | 15 +++------------
- hw/vfio/pci.c        | 14 +++++---------
- 2 files changed, 8 insertions(+), 21 deletions(-)
+> -----Original Message-----
+> From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Sent: Tuesday, November 1, 2022 22:28
+> To: qemu-devel@nongnu.org
+> Cc: Shi, Guohuai <Guohuai.Shi@windriver.com>; Greg Kurz <groug@kaod.org>;
+> Meng, Bin <Bin.Meng@windriver.com>
+> Subject: Re: [PATCH 07/16] hw/9pfs: Implement Windows specific utilities
+> functions for 9pfs
+>=20
+> [Please note: This e-mail is from an EXTERNAL e-mail address]
+>=20
+> On Monday, October 24, 2022 6:57:50 AM CET Bin Meng wrote:
+> > From: Guohuai Shi <guohuai.shi@windriver.com>
+> >
+> > Windows POSIX API and MinGW library do not provide the NO_FOLLOW flag,
+> > and do not allow opening a directory by POSIX open(). This causes all
+> > xxx_at() functions cannot work directly. However, we can provide
+> > Windows handle based functions to emulate xxx_at() functions (e.g.:
+> > openat_win32, utimensat_win32, etc.).
+> >
+> > Windows does not support extended attributes. 9pfs for Windows uses
+> > NTFS ADS (Alternate Data Streams) to emulate extended attributes.
+> >
+> > Windows does not provide POSIX compatible readlink(), and symbolic
+> > link feature in 9pfs will be disabled on Windows.
+>=20
+> Wouldn't it be more user friendly if the relevant error locations would u=
+se
+> something like error_report_once() and suggesting to enable mapped(-xattr=
+) to
+> make 9p symlinks on guest working if desired by the user?
+>=20
+> Probably this error case would need to wrapped into a dedicated function,
+> otherwise I guess error_report_once() would fire several times by differe=
+nt
+> callers.
+>=20
 
-diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
-index f0147a050a..e94fd273ea 100644
---- a/hw/vfio/pci-quirks.c
-+++ b/hw/vfio/pci-quirks.c
-@@ -1530,7 +1530,7 @@ const PropertyInfo qdev_prop_nv_gpudirect_clique = {
- static int vfio_add_nv_gpudirect_cap(VFIOPCIDevice *vdev, Error **errp)
- {
-     PCIDevice *pdev = &vdev->pdev;
--    int ret, pos = 0xC8;
-+    int pos = 0xC8;
- 
-     if (vdev->nv_gpudirect_clique == 0xFF) {
-         return 0;
-@@ -1547,11 +1547,7 @@ static int vfio_add_nv_gpudirect_cap(VFIOPCIDevice *vdev, Error **errp)
-         return -EINVAL;
-     }
- 
--    ret = pci_add_capability(pdev, PCI_CAP_ID_VNDR, pos, 8, errp);
--    if (ret < 0) {
--        error_prepend(errp, "Failed to add NVIDIA GPUDirect cap: ");
--        return ret;
--    }
-+    pci_add_capability(pdev, PCI_CAP_ID_VNDR, pos, 8);
- 
-     memset(vdev->emulated_config_bits + pos, 0xFF, 8);
-     pos += PCI_CAP_FLAGS;
-@@ -1718,12 +1714,7 @@ static int vfio_add_vmd_shadow_cap(VFIOPCIDevice *vdev, Error **errp)
-         return -EFAULT;
-     }
- 
--    ret = pci_add_capability(&vdev->pdev, PCI_CAP_ID_VNDR, pos,
--                             VMD_SHADOW_CAP_LEN, errp);
--    if (ret < 0) {
--        error_prepend(errp, "Failed to add VMD MEMBAR Shadow cap: ");
--        return ret;
--    }
-+    pci_add_capability(&vdev->pdev, PCI_CAP_ID_VNDR, pos, VMD_SHADOW_CAP_LEN);
- 
-     memset(vdev->emulated_config_bits + pos, 0xFF, VMD_SHADOW_CAP_LEN);
-     pos += PCI_CAP_FLAGS;
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 0ca6b5ff4b..458729eae3 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -1839,7 +1839,7 @@ static void vfio_add_emulated_long(VFIOPCIDevice *vdev, int pos,
-     vfio_set_long_bits(vdev->emulated_config_bits + pos, mask, mask);
- }
- 
--static int vfio_setup_pcie_cap(VFIOPCIDevice *vdev, int pos, uint8_t size,
-+static int vfio_setup_pcie_cap(VFIOPCIDevice *vdev, uint8_t pos, uint8_t size,
-                                Error **errp)
- {
-     uint16_t flags;
-@@ -1956,11 +1956,7 @@ static int vfio_setup_pcie_cap(VFIOPCIDevice *vdev, int pos, uint8_t size,
-                                1, PCI_EXP_FLAGS_VERS);
-     }
- 
--    pos = pci_add_capability(&vdev->pdev, PCI_CAP_ID_EXP, pos, size,
--                             errp);
--    if (pos < 0) {
--        return pos;
--    }
-+    pos = pci_add_capability(&vdev->pdev, PCI_CAP_ID_EXP, pos, size);
- 
-     vdev->pdev.exp.exp_cap = pos;
- 
-@@ -2058,14 +2054,14 @@ static int vfio_add_std_cap(VFIOPCIDevice *vdev, uint8_t pos, Error **errp)
-     case PCI_CAP_ID_PM:
-         vfio_check_pm_reset(vdev, pos);
-         vdev->pm_cap = pos;
--        ret = pci_add_capability(pdev, cap_id, pos, size, errp);
-+        pci_add_capability(pdev, cap_id, pos, size);
-         break;
-     case PCI_CAP_ID_AF:
-         vfio_check_af_flr(vdev, pos);
--        ret = pci_add_capability(pdev, cap_id, pos, size, errp);
-+        pci_add_capability(pdev, cap_id, pos, size);
-         break;
-     default:
--        ret = pci_add_capability(pdev, cap_id, pos, size, errp);
-+        pci_add_capability(pdev, cap_id, pos, size);
-         break;
-     }
- 
--- 
-2.38.1
+Windows (MinGW) does not only support symlink, but also does not have symli=
+nk definitions.
+Windows does not support symlink flags S_IFLNK.
+
+So even I add symlink support by mapped-xattr, the MinGW library does not h=
+ave symlink flags and get a build error.
+And this flags is defined by Windows header files.
+The impact of adding a new flags to an pre-defined structure (struct stat) =
+is unknown.
+
+So I think it is not a good idea to do that.
+
+> > Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > ---
+> >
+> >  hw/9pfs/9p-local.h      |   7 +
+> >  hw/9pfs/9p-util.h       |  40 +-
+> >  hw/9pfs/9p-local.c      |   4 -
+> >  hw/9pfs/9p-util-win32.c | 885
+> > ++++++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 931 insertions(+), 5 deletions(-)  create mode
+> > 100644 hw/9pfs/9p-util-win32.c
+> >
+> > diff --git a/hw/9pfs/9p-local.h b/hw/9pfs/9p-local.h index
+> > c8404063e5..02fd894ba3 100644
+> > --- a/hw/9pfs/9p-local.h
+> > +++ b/hw/9pfs/9p-local.h
+> > @@ -15,6 +15,13 @@
+> >
+> >  #include "9p-file-id.h"
+> >
+> > +typedef struct {
+> > +    P9_FILE_ID mountfd;
+> > +#ifdef CONFIG_WIN32
+> > +    char *root_path;
+> > +#endif
+> > +} LocalData;
+> > +
+> >  P9_FILE_ID local_open_nofollow(FsContext *fs_ctx, const char *path, in=
+t
+> flags,
+> >                                 mode_t mode);  P9_FILE_ID
+> > local_opendir_nofollow(FsContext *fs_ctx, const char *path); diff
+> > --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h index
+> > 1e7dc76345..82b2d0c3e4 100644
+> > --- a/hw/9pfs/9p-util.h
+> > +++ b/hw/9pfs/9p-util.h
+> > @@ -90,26 +90,61 @@ static inline int errno_to_dotl(int err) {
+> >      return err;
+> >  }
+> >
+> > -#ifdef CONFIG_DARWIN
+> > +#if defined(CONFIG_DARWIN)
+> >  #define qemu_fgetxattr(...) fgetxattr(__VA_ARGS__, 0, 0)
+> > +#elif defined(CONFIG_WIN32)
+> > +#define qemu_fgetxattr fgetxattr_win32
+> >  #else
+> >  #define qemu_fgetxattr fgetxattr
+> >  #endif
+> >
+> > +#ifdef CONFIG_WIN32
+> > +#define qemu_openat     openat_win32
+> > +#define qemu_fstatat    fstatat_win32
+> > +#define qemu_mkdirat    mkdirat_win32
+> > +#define qemu_renameat   renameat_win32
+> > +#define qemu_utimensat  utimensat_win32
+> > +#define qemu_unlinkat   unlinkat_win32
+> > +#else
+> >  #define qemu_openat     openat
+> >  #define qemu_fstatat    fstatat
+> >  #define qemu_mkdirat    mkdirat
+> >  #define qemu_renameat   renameat
+> >  #define qemu_utimensat  utimensat
+> >  #define qemu_unlinkat   unlinkat
+> > +#endif
+> > +
+> > +#ifdef CONFIG_WIN32
+> > +char *get_full_path_win32(P9_FILE_ID fd, const char *name); ssize_t
+> > +fgetxattr_win32(int fd, const char *name, void *value, size_t size);
+> > +P9_FILE_ID openat_win32(P9_FILE_ID dirfd, const char *pathname, int fl=
+ags,
+> > +                        mode_t mode); int fstatat_win32(P9_FILE_ID
+> > +dirfd, const char *pathname,
+> > +                  struct stat *statbuf, int flags); int
+> > +mkdirat_win32(P9_FILE_ID dirfd, const char *pathname, mode_t mode);
+> > +int renameat_win32(P9_FILE_ID olddirfd, const char *oldpath,
+> > +                   P9_FILE_ID newdirfd, const char *newpath); int
+> > +utimensat_win32(P9_FILE_ID dirfd, const char *pathname,
+> > +                    const struct timespec times[2], int flags); int
+> > +unlinkat_win32(P9_FILE_ID dirfd, const char *pathname, int flags);
+> > +int statfs_win32(const char *root_path, struct statfs *stbuf);
+> > +P9_FILE_ID openat_dir(P9_FILE_ID dirfd, const char *name); P9_FILE_ID
+> > +openat_file(P9_FILE_ID dirfd, const char *name, int flags,
+> > +                       mode_t mode);
+> > +#endif
+> >
+> >  static inline void close_preserve_errno(P9_FILE_ID fd)  {
+> >      int serrno =3D errno;
+> > +#ifndef CONFIG_WIN32
+> >      close(fd);
+> > +#else
+> > +    CloseHandle(fd);
+> > +#endif
+> >      errno =3D serrno;
+> >  }
+> >
+> > +#ifndef CONFIG_WIN32
+> >  static inline P9_FILE_ID openat_dir(P9_FILE_ID dirfd, const char
+> > *name)  {
+> >      return qemu_openat(dirfd, name,
+> > @@ -157,6 +192,7 @@ again:
+> >      errno =3D serrno;
+> >      return fd;
+> >  }
+> > +#endif
+> >
+> >  ssize_t fgetxattrat_nofollow(P9_FILE_ID dirfd, const char *path,
+> >                               const char *name, void *value, size_t
+> > size); @@ -167,6 +203,7 @@ ssize_t flistxattrat_nofollow(P9_FILE_ID
+> > dirfd, const char *filename,  ssize_t fremovexattrat_nofollow(P9_FILE_I=
+D
+> dirfd, const char *filename,
+> >                                  const char *name);
+> >
+> > +#ifndef CONFIG_WIN32
+> >  /*
+> >   * Darwin has d_seekoff, which appears to function similarly to d_off.
+> >   * However, it does not appear to be supported on all file systems,
+> > @@ -181,6 +218,7 @@ static inline off_t qemu_dirent_off(struct dirent
+> *dent)
+> >      return dent->d_off;
+> >  #endif
+> >  }
+> > +#endif /* !CONFIG_WIN32 */
+> >
+> >  /**
+> >   * qemu_dirent_dup() - Duplicate directory entry @dent.
+> > diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c index
+> > 7e8d8492ea..d0d6d93549 100644
+> > --- a/hw/9pfs/9p-local.c
+> > +++ b/hw/9pfs/9p-local.c
+> > @@ -53,10 +53,6 @@
+> >  #define BTRFS_SUPER_MAGIC 0x9123683E
+> >  #endif
+> >
+> > -typedef struct {
+> > -    P9_FILE_ID mountfd;
+> > -} LocalData;
+> > -
+> >  P9_FILE_ID local_open_nofollow(FsContext *fs_ctx, const char *path, in=
+t
+> flags,
+> >                                 mode_t mode)  { diff --git
+> > a/hw/9pfs/9p-util-win32.c b/hw/9pfs/9p-util-win32.c new file mode
+> > 100644 index 0000000000..953e7da6fa
+> > --- /dev/null
+> > +++ b/hw/9pfs/9p-util-win32.c
+> > @@ -0,0 +1,885 @@
+> > +/*
+> > + * 9p utilities (Windows Implementation)
+> > + *
+> > + * Copyright (c) 2022 Wind River Systems, Inc.
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or
+> later.
+> > + * See the COPYING file in the top-level directory.
+> > + */
+> > +
+> > +/*
+> > + * This file contains Windows only functions for 9pfs.
+> > + *
+> > + * For 9pfs Windows host, the following features are different from Li=
+nux
+> host:
+> > + *
+> > + * 1. Windows POSIX API does not provide the NO_FOLLOW flag, that mean=
+s
+> MinGW
+> > + *    cannot detect if a path is a symbolic link or not. Also Windows =
+do
+> not
+> > + *    provide POSIX compatible readlink(). Supporting symbolic link in
+> 9pfs on
+> > + *    Windows may cause security issues, so symbolic link support is
+> disabled
+> > + *    completely.
+> > + *
+> > + * 2. Windows file system does not support extended attributes directl=
+y.
+> 9pfs
+> > + *    for Windows uses NTFS ADS (Alternate Data Streams) to emulate
+> extended
+> > + *    attributes.
+> > + *
+> > + * 3. statfs() is not available on Windows. qemu_statfs() is used to
+> emulate it.
+> > + *
+> > + * 4. On Windows trying to open a directory with the open() API will f=
+ail.
+> > + *    This is because Windows does not allow opening directory in norm=
+al
+> usage.
+> > + *
+> > + *    As a result of this, all xxx_at() functions won't work directly =
+on
+> > + *    Windows, e.g.: openat(), unlinkat(), etc.
+> > + *
+> > + *    As xxx_at() can prevent parent directory to be modified on Linux
+> host,
+> > + *    to support this and prevent security issue, all xxx_at() APIs ar=
+e
+> replaced
+> > + *    by xxx_at_win32() and Windows handle is used to replace the
+> directory fd.
+> > + *
+> > + *    Windows file system does not allow replacing a file or directory=
+ if
+> it is
+> > + *    referenced by a handle. Keep the handle open will lock and prote=
+ct
+> the
+> > + *    parent directory and make the access to files atomically.
+> > + *
+> > + *    If we don't protect (lock) the parent directory, the parent
+> directory may
+> > + *    be replaced by others (e.g.: a symbolic link) and cause security
+> issues.
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "qapi/error.h"
+> > +#include "qemu/error-report.h"
+> > +#include "9p.h"
+> > +#include "9p-util.h"
+> > +#include "9p-local.h"
+> > +
+> > +#include <windows.h>
+> > +#include <dirent.h>
+> > +
+> > +#define V9FS_MAGIC  0x53465039  /* string "9PFS" */
+> > +
+> > +/*
+> > + * build_ads_name - construct Windows ADS name
+> > + *
+> > + * This function constructs Windows NTFS ADS (Alternate Data Streams)
+> > +name
+> > + * to <namebuf>.
+> > + */
+> > +static int build_ads_name(char *namebuf, size_t namebuf_len,
+> > +                          const char *filename, const char *ads_name)
+> > +{
+> > +    size_t total_size;
+> > +
+> > +    total_size =3D strlen(filename) + strlen(ads_name) + 2;
+> > +    if (total_size  > namebuf_len) {
+> > +        return -1;
+> > +    }
+> > +
+> > +    /*
+> > +     * NTFS ADS (Alternate Data Streams) name format: filename:ads_nam=
+e
+> > +     * e.g.: D:\1.txt:my_ads_name
+> > +     */
+> > +
+> > +    strcpy(namebuf, filename);
+> > +    strcat(namebuf, ":");
+> > +    strcat(namebuf, ads_name);
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +/*
+> > + * copy_ads_name - copy ADS name from buffer returned by
+> > +FindNextStreamW()
+> > + *
+> > + * This function removes string "$DATA" in ADS name string returned
+> > +by
+> > + * FindNextStreamW(), and copies the real ADS name to <namebuf>.
+> > + */
+> > +static ssize_t copy_ads_name(char *namebuf, size_t namebuf_len,
+> > +                             char *full_ads_name) {
+> > +    char *p1, *p2;
+> > +
+> > +    /*
+> > +     * NTFS ADS (Alternate Data Streams) name from enumerate data form=
+at:
+> > +     * :ads_name:$DATA, e.g.: :my_ads_name:$DATA
+> > +     *
+> > +     * ADS name from FindNextStreamW() always has ":$DATA" string at t=
+he
+> end.
+> > +     *
+> > +     * This function copies ADS name to namebuf.
+> > +     */
+> > +
+> > +    p1 =3D strchr(full_ads_name, ':');
+> > +    if (p1 =3D=3D NULL) {
+> > +        return -1;
+> > +    }
+> > +
+> > +    p2 =3D strchr(p1 + 1, ':');
+> > +    if (p2 =3D=3D NULL) {
+> > +        return -1;
+> > +    }
+> > +
+> > +    /* skip empty ads name */
+> > +    if (p2 - p1 =3D=3D 1) {
+> > +        return 0;
+> > +    }
+> > +
+> > +    if (p2 - p1 + 1 > namebuf_len) {
+> > +        return -1;
+> > +    }
+> > +
+> > +    memcpy(namebuf, p1 + 1, p2 - p1 - 1);
+> > +    namebuf[p2 - p1 - 1] =3D '\0';
+> > +
+> > +    return p2 - p1;
+> > +}
+> > +
+> > +/*
+> > + * get_full_path_win32 - get full file name base on a handle
+> > + *
+> > + * This function gets full file name based on a handle specified by
+> > +<fd> to
+> > + * a file or directory.
+> > + *
+> > + * Caller function needs to free the file name string after use.
+> > + */
+> > +char *get_full_path_win32(P9_FILE_ID fd, const char *name) {
+> > +    g_autofree char *full_file_name =3D NULL;
+> > +    DWORD total_size;
+> > +    DWORD name_size;
+> > +
+> > +    full_file_name =3D g_malloc0(NAME_MAX);
+> > +
+> > +    /* get parent directory full file name */
+> > +    name_size =3D GetFinalPathNameByHandle(fd, full_file_name,
+> > +                                         NAME_MAX - 1,
+> FILE_NAME_NORMALIZED);
+> > +    if (name_size =3D=3D 0 || name_size > NAME_MAX - 1) {
+> > +        return NULL;
+> > +    }
+> > +
+> > +    /* full path returned is the "\\?\" syntax, remove the lead string=
+ */
+> > +    memmove(full_file_name, full_file_name + 4, NAME_MAX - 4);
+> > +
+> > +    if (name !=3D NULL) {
+> > +        total_size =3D strlen(full_file_name) + strlen(name) + 2;
+> > +
+> > +        if (total_size > NAME_MAX) {
+> > +            return NULL;
+> > +        }
+> > +
+> > +        /* build sub-directory file name */
+> > +        strcat(full_file_name, "\\");
+> > +        strcat(full_file_name, name);
+> > +    }
+> > +
+> > +    return g_steal_pointer(&full_file_name); }
+> > +
+> > +/*
+> > + * fgetxattr_win32 - get extended attribute by fd
+> > + *
+> > + * This function gets extened attribute by <fd>. <fd> will be
+> > +translated to
+> > + * Windows handle.
+> > + *
+> > + * This function emulates extended attribute by NTFS ADS.
+> > + */
+> > +ssize_t fgetxattr_win32(int fd, const char *name, void *value, size_t
+> > +size) {
+> > +    g_autofree char *full_file_name =3D NULL;
+> > +    char ads_file_name[NAME_MAX + 1] =3D {0};
+> > +    DWORD dwBytesRead;
+> > +    HANDLE hStream;
+> > +    HANDLE hFile;
+> > +
+> > +    hFile =3D (HANDLE)_get_osfhandle(fd);
+> > +
+> > +    full_file_name =3D get_full_path_win32(hFile, NULL);
+> > +    if (full_file_name =3D=3D NULL) {
+> > +        errno =3D EIO;
+> > +        return -1;
+> > +    }
+> > +
+> > +    if (build_ads_name(ads_file_name, NAME_MAX, full_file_name, name) =
+< 0)
+> {
+> > +        errno =3D EIO;
+> > +        return -1;
+> > +    }
+> > +
+> > +    hStream =3D CreateFile(ads_file_name, GENERIC_READ, FILE_SHARE_REA=
+D,
+> NULL,
+> > +                         OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+> > +    if (hStream =3D=3D INVALID_HANDLE_VALUE &&
+> > +        GetLastError() =3D=3D ERROR_FILE_NOT_FOUND) {
+> > +        errno =3D ENODATA;
+> > +        return -1;
+> > +    }
+> > +
+> > +    if (ReadFile(hStream, value, size, &dwBytesRead, NULL) =3D=3D FALS=
+E) {
+> > +        errno =3D EIO;
+> > +        CloseHandle(hStream);
+> > +        return -1;
+> > +    }
+> > +
+> > +    CloseHandle(hStream);
+> > +
+> > +    return dwBytesRead;
+> > +}
+> > +
+> > +/*
+> > + * openat_win32 - emulate openat()
+> > + *
+> > + * This function emulates openat().
+> > + *
+> > + * Windows POSIX API does not support opening a directory by open().
+> > +Only
+> > + * handle of directory can be opened by CreateFile().
+> > + *
+> > + * So openat_win32() has to use a directory handle instead of a direct=
+ory
+> fd.
+> > + *
+> > + * For symbolic access:
+> > + * 1. Parent directory handle <dirfd> should not be a symbolic link
+> because
+> > + *    it is opened by openat_dir() which can prevent from opening a li=
+nk
+> to
+> > + *    a dirctory.
+> > + * 2. Link flag in <mode> is not set because Windows does not have thi=
+s
+> flag.
+> > + *    Create a new symbolic link will be denied.
+> > + * 3. This function checks file symbolic link attribute after open.
+> > + *
+> > + * So symbolic link will not be accessed by 9p client.
+> > + */
+> > +P9_FILE_ID openat_win32(P9_FILE_ID dirfd, const char *pathname, int fl=
+ags,
+> > +                        mode_t mode)
+> > +{
+> > +    g_autofree char *full_file_name1 =3D NULL;
+> > +    g_autofree char *full_file_name2 =3D NULL;
+> > +    HANDLE hFile =3D INVALID_HANDLE_VALUE;
+> > +    int fd;
+> > +
+> > +    full_file_name1 =3D get_full_path_win32(dirfd, pathname);
+> > +    if (full_file_name1 =3D=3D NULL) {
+> > +        return hFile;
+> > +    }
+> > +
+> > +    fd =3D open(full_file_name1, flags, mode);
+> > +    if (fd > 0) {
+> > +        DWORD attribute;
+> > +        hFile =3D (HANDLE)_get_osfhandle(fd);
+> > +
+> > +        full_file_name2 =3D get_full_path_win32(hFile, NULL);
+> > +        attribute =3D GetFileAttributes(full_file_name2);
+> > +
+> > +        /* check if it is a symbolic link */
+> > +        if ((attribute =3D=3D INVALID_FILE_ATTRIBUTES)
+> > +            || (attribute & FILE_ATTRIBUTE_REPARSE_POINT) !=3D 0) {
+> > +            errno =3D EACCES;
+> > +            hFile =3D INVALID_HANDLE_VALUE;
+> > +            close(fd);
+> > +        }
+> > +    }
+> > +
+> > +    return hFile;
+> > +}
+> > +
+> > +/*
+> > + * fstatat_win32 - emulate fstatat()
+> > + *
+> > + * This function emulates fstatat().
+> > + *
+> > + * Windows POSIX API does not support opening a directory by open().
+> > +Only
+> > + * handle of directory can be opened by CreateFile().
+> > + *
+> > + * So fstatat_win32() has to use a directory handle instead of a direc=
+tory
+> fd.
+> > + *
+> > + * Access to a symbolic link will be denied to prevent security issues=
+.
+> > + */
+> > +int fstatat_win32(P9_FILE_ID dirfd, const char *pathname,
+> > +                  struct stat *statbuf, int flags) {
+> > +    g_autofree char *full_file_name =3D NULL;
+> > +    HANDLE hFile =3D INVALID_HANDLE_VALUE;
+> > +    DWORD attribute;
+> > +    int err =3D 0;
+> > +    int ret =3D -1;
+> > +
+> > +    full_file_name =3D get_full_path_win32(dirfd, pathname);
+> > +    if (full_file_name =3D=3D NULL) {
+> > +        return ret;
+> > +    }
+> > +
+> > +    /* open file to lock it */
+> > +    hFile =3D CreateFile(full_file_name, GENERIC_READ,
+> > +                       FILE_SHARE_READ | FILE_SHARE_WRITE |
+> FILE_SHARE_DELETE,
+> > +                       NULL,
+> > +                       OPEN_EXISTING,
+> > +                       FILE_FLAG_BACKUP_SEMANTICS
+> > +                       | FILE_FLAG_OPEN_REPARSE_POINT,
+> > +                       NULL);
+> > +
+> > +    if (hFile =3D=3D INVALID_HANDLE_VALUE) {
+> > +        err =3D EACCES;
+> > +        goto out;
+> > +    }
+> > +
+> > +    attribute =3D GetFileAttributes(full_file_name);
+> > +
+> > +    /* check if it is a symbolic link */
+> > +    if ((attribute =3D=3D INVALID_FILE_ATTRIBUTES)
+> > +        || (attribute & FILE_ATTRIBUTE_REPARSE_POINT) !=3D 0) {
+> > +        errno =3D EACCES;
+> > +        goto out;
+> > +    }
+> > +
+> > +    ret =3D stat(full_file_name, statbuf);
+> > +
+> > +out:
+> > +    if (hFile !=3D INVALID_HANDLE_VALUE) {
+> > +        CloseHandle(hFile);
+> > +    }
+> > +
+> > +    if (err !=3D 0) {
+> > +        errno =3D err;
+> > +    }
+> > +    return ret;
+> > +}
+> > +
+> > +/*
+> > + * mkdirat_win32 - emulate mkdirat()
+> > + *
+> > + * This function emulates mkdirat().
+> > + *
+> > + * Windows POSIX API does not support opening a directory by open().
+> > +Only
+> > + * handle of directory can be opened by CreateFile().
+> > + *
+> > + * So mkdirat_win32() has to use a directory handle instead of a direc=
+tory
+> fd.
+> > + */
+> > +int mkdirat_win32(P9_FILE_ID dirfd, const char *pathname, mode_t
+> > +mode) {
+> > +    g_autofree char *full_file_name =3D NULL;
+> > +    int ret =3D -1;
+> > +
+> > +    full_file_name =3D get_full_path_win32(dirfd, pathname);
+> > +    if (full_file_name =3D=3D NULL) {
+> > +        return ret;
+> > +    }
+> > +
+> > +    ret =3D mkdir(full_file_name);
+> > +
+> > +    return ret;
+> > +}
+> > +
+> > +/*
+> > + * renameat_win32 - emulate renameat()
+> > + *
+> > + * This function emulates renameat().
+> > + *
+> > + * Windows POSIX API does not support openning a directory by open().
+> > +Only
+> > + * handle of directory can be opened by CreateFile().
+> > + *
+> > + * So renameat_win32() has to use a directory handle instead of a
+> directory fd.
+> > + *
+> > + * Access to a symbolic link will be denied to prevent security issues=
+.
+> > + */
+> > +int renameat_win32(HANDLE olddirfd, const char *oldpath,
+> > +                   HANDLE newdirfd, const char *newpath) {
+> > +    g_autofree char *full_old_name =3D NULL;
+> > +    g_autofree char *full_new_name =3D NULL;
+> > +    HANDLE hFile;
+> > +    DWORD attribute;
+> > +    int err =3D 0;
+> > +    int ret =3D -1;
+> > +
+> > +    full_old_name =3D get_full_path_win32(olddirfd, oldpath);
+> > +    full_new_name =3D get_full_path_win32(newdirfd, newpath);
+> > +    if (full_old_name =3D=3D NULL || full_new_name =3D=3D NULL) {
+> > +        return ret;
+> > +    }
+> > +
+> > +    /* open file to lock it */
+> > +    hFile =3D CreateFile(full_old_name, GENERIC_READ,
+> > +                       FILE_SHARE_READ | FILE_SHARE_WRITE |
+> FILE_SHARE_DELETE,
+> > +                       NULL,
+> > +                       OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS,
+> > + NULL);
+> > +
+> > +    attribute =3D GetFileAttributes(full_old_name);
+> > +
+> > +    /* check if it is a symbolic link */
+> > +    if ((attribute =3D=3D INVALID_FILE_ATTRIBUTES)
+> > +        || (attribute & FILE_ATTRIBUTE_REPARSE_POINT) !=3D 0) {
+> > +        err =3D EACCES;
+> > +        goto out;
+> > +    }
+> > +
+> > +    CloseHandle(hFile);
+> > +
+> > +    ret =3D rename(full_old_name, full_new_name);
+> > +out:
+> > +    if (err !=3D 0) {
+> > +        errno =3D err;
+> > +    }
+> > +    return ret;
+> > +}
+> > +
+> > +/*
+> > + * utimensat_win32 - emulate utimensat()
+> > + *
+> > + * This function emulates utimensat().
+> > + *
+> > + * Windows POSIX API does not support opening a directory by open().
+> > +Only
+> > + * handle of directory can be opened by CreateFile().
+> > + *
+> > + * So utimensat_win32() has to use a directory handle instead of a
+> directory fd.
+> > + *
+> > + * Access to a symbolic link will be denied to prevent security issues=
+.
+> > + */
+> > +int utimensat_win32(P9_FILE_ID dirfd, const char *pathname,
+> > +                    const struct timespec times[2], int flags) {
+> > +    g_autofree char *full_file_name =3D NULL;
+> > +    HANDLE hFile =3D INVALID_HANDLE_VALUE;
+> > +    DWORD attribute;
+> > +    struct utimbuf tm;
+> > +    int err =3D 0;
+> > +    int ret =3D -1;
+> > +
+> > +    full_file_name =3D get_full_path_win32(dirfd, pathname);
+> > +    if (full_file_name =3D=3D NULL) {
+> > +        return ret;
+> > +    }
+> > +
+> > +    /* open file to lock it */
+> > +    hFile =3D CreateFile(full_file_name, GENERIC_READ,
+> > +                       FILE_SHARE_READ | FILE_SHARE_WRITE |
+> FILE_SHARE_DELETE,
+> > +                       NULL,
+> > +                       OPEN_EXISTING,
+> > +                       FILE_FLAG_BACKUP_SEMANTICS
+> > +                       | FILE_FLAG_OPEN_REPARSE_POINT,
+> > +                       NULL);
+> > +
+> > +    if (hFile =3D=3D INVALID_HANDLE_VALUE) {
+> > +        err =3D EACCES;
+> > +        goto out;
+> > +    }
+> > +
+> > +    attribute =3D GetFileAttributes(full_file_name);
+> > +
+> > +    /* check if it is a symbolic link */
+> > +    if ((attribute =3D=3D INVALID_FILE_ATTRIBUTES)
+> > +        || (attribute & FILE_ATTRIBUTE_REPARSE_POINT) !=3D 0) {
+> > +        errno =3D EACCES;
+> > +        goto out;
+> > +    }
+> > +
+> > +    tm.actime =3D times[0].tv_sec;
+> > +    tm.modtime =3D times[1].tv_sec;
+> > +
+> > +    ret =3D utime(full_file_name, &tm);
+> > +
+> > +out:
+> > +    if (hFile !=3D INVALID_HANDLE_VALUE) {
+> > +        CloseHandle(hFile);
+> > +    }
+> > +
+> > +    if (err !=3D 0) {
+> > +        errno =3D err;
+> > +    }
+> > +    return ret;
+> > +}
+> > +
+> > +/*
+> > + * unlinkat_win32 - emulate unlinkat()
+> > + *
+> > + * This function emulates unlinkat().
+> > + *
+> > + * Windows POSIX API does not support opening a directory by open().
+> > +Only
+> > + * handle of directory can be opened by CreateFile().
+> > + *
+> > + * So unlinkat_win32() has to use a directory handle instead of a
+> directory fd.
+> > + *
+> > + * Access to a symbolic link will be denied to prevent security issues=
+.
+> > + */
+> > +
+> > +int unlinkat_win32(P9_FILE_ID dirfd, const char *pathname, int flags)
+> > +{
+> > +    g_autofree char *full_file_name =3D NULL;
+> > +    HANDLE hFile;
+> > +    DWORD attribute;
+> > +    int err =3D 0;
+> > +    int ret =3D -1;
+> > +
+> > +    full_file_name =3D get_full_path_win32(dirfd, pathname);
+> > +    if (full_file_name =3D=3D NULL) {
+> > +        return ret;
+> > +    }
+> > +
+> > +    /* open file to prevent other one modify it */
+> > +    hFile =3D CreateFile(full_file_name, GENERIC_READ,
+> > +                       FILE_SHARE_READ | FILE_SHARE_WRITE |
+> FILE_SHARE_DELETE,
+> > +                       NULL,
+> > +                       OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS,
+> > + NULL);
+> > +
+> > +    attribute =3D GetFileAttributes(full_file_name);
+> > +
+> > +    /* check if it is a symbolic link */
+> > +    if ((attribute =3D=3D INVALID_FILE_ATTRIBUTES)
+> > +        || (attribute & FILE_ATTRIBUTE_REPARSE_POINT) !=3D 0) {
+> > +        err =3D EACCES;
+> > +        goto out;
+> > +    }
+> > +
+> > +    if (flags =3D=3D AT_REMOVEDIR) { /* remove directory */
+> > +        if ((attribute & FILE_ATTRIBUTE_DIRECTORY) =3D=3D 0) {
+> > +            err =3D ENOTDIR;
+> > +            goto out;
+> > +        }
+> > +        ret =3D rmdir(full_file_name);
+> > +    } else { /* remove regular file */
+> > +        if ((attribute & FILE_ATTRIBUTE_DIRECTORY) !=3D 0) {
+> > +            err =3D EISDIR;
+> > +            goto out;
+> > +        }
+> > +        ret =3D remove(full_file_name);
+> > +    }
+> > +
+> > +    /* after last handle closed, file will be removed */
+> > +    CloseHandle(hFile);
+> > +
+> > +out:
+> > +    if (err !=3D 0) {
+> > +        errno =3D err;
+> > +    }
+> > +    return ret;
+> > +}
+> > +
+> > +/*
+> > + * statfs_win32 - statfs() on Windows
+> > + *
+> > + * This function emulates statfs() on Windows host.
+> > + */
+> > +int statfs_win32(const char *path, struct statfs *stbuf) {
+> > +    char RealPath[4] =3D { 0 };
+> > +    unsigned long SectorsPerCluster;
+> > +    unsigned long BytesPerSector;
+> > +    unsigned long NumberOfFreeClusters;
+> > +    unsigned long TotalNumberOfClusters;
+> > +
+> > +    /* only need first 3 bytes, e.g. "C:\ABC", only need "C:\" */
+> > +    memcpy(RealPath, path, 3);
+> > +
+> > +    if (GetDiskFreeSpace(RealPath, &SectorsPerCluster, &BytesPerSector=
+,
+> > +                         &NumberOfFreeClusters, &TotalNumberOfClusters=
+) =3D=3D
+> 0) {
+> > +        errno =3D EIO;
+> > +        return -1;
+> > +    }
+> > +
+> > +    stbuf->f_type =3D V9FS_MAGIC;
+> > +    stbuf->f_bsize =3D
+> > +        (__fsword_t)SectorsPerCluster * (__fsword_t)BytesPerSector;
+> > +    stbuf->f_blocks =3D (fsblkcnt_t)TotalNumberOfClusters;
+> > +    stbuf->f_bfree =3D (fsblkcnt_t)NumberOfFreeClusters;
+> > +    stbuf->f_bavail =3D (fsblkcnt_t)NumberOfFreeClusters;
+> > +    stbuf->f_files =3D -1;
+> > +    stbuf->f_ffree =3D -1;
+> > +    stbuf->f_namelen =3D NAME_MAX;
+> > +    stbuf->f_frsize =3D 0;
+> > +    stbuf->f_flags =3D 0;
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +/*
+> > + * openat_dir - emulate openat_dir()
+> > + *
+> > + * This function emulates openat_dir().
+> > + *
+> > + * Windows POSIX API does not support opening a directory by open().
+> > +Only
+> > + * handle of directory can be opened by CreateFile().
+> > + *
+> > + * So openat_dir() has to use a directory handle instead of a director=
+y
+> fd.
+> > + *
+> > + * Access to a symbolic link will be denied to prevent security issues=
+.
+> > + */
+> > +P9_FILE_ID openat_dir(P9_FILE_ID dirfd, const char *name) {
+> > +    g_autofree char *full_file_name =3D NULL;
+> > +    HANDLE hSubDir;
+> > +    DWORD attribute;
+> > +
+> > +    full_file_name =3D get_full_path_win32(dirfd, name);
+> > +    if (full_file_name =3D=3D NULL) {
+> > +        return INVALID_HANDLE_VALUE;
+> > +    }
+> > +
+> > +    attribute =3D GetFileAttributes(full_file_name);
+> > +    if (attribute =3D=3D INVALID_FILE_ATTRIBUTES) {
+> > +        return INVALID_HANDLE_VALUE;
+> > +    }
+> > +
+> > +    /* check if it is a directory */
+> > +    if ((attribute & FILE_ATTRIBUTE_DIRECTORY) =3D=3D 0) {
+> > +        return INVALID_HANDLE_VALUE;
+> > +    }
+> > +
+> > +    /* do not allow opening a symbolic link */
+> > +    if ((attribute & FILE_ATTRIBUTE_REPARSE_POINT) !=3D 0) {
+> > +        return INVALID_HANDLE_VALUE;
+> > +    }
+> > +
+> > +    /* open it */
+> > +    hSubDir =3D CreateFile(full_file_name, GENERIC_READ,
+> > +                         FILE_SHARE_READ | FILE_SHARE_WRITE |
+> FILE_SHARE_DELETE,
+> > +                         NULL,
+> > +                         OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NU=
+LL);
+> > +    return hSubDir;
+> > +}
+> > +
+> > +P9_FILE_ID openat_file(P9_FILE_ID dirfd, const char *name, int flags,
+> > +                       mode_t mode)
+> > +{
+> > +    return openat_win32(dirfd, name, flags | _O_BINARY, mode); }
+> > +
+> > +/*
+> > + * fgetxattrat_nofollow - get extended attribute
+> > + *
+> > + * This function gets extended attribute from file <path> in the
+> > +directory
+> > + * specified by <dirfd>. The extended atrribute name is specified by
+> > +<name>
+> > + * and return value will be put in <value>.
+> > + *
+> > + * This function emulates extended attribute by NTFS ADS.
+> > + */
+> > +ssize_t fgetxattrat_nofollow(P9_FILE_ID dirfd, const char *path,
+> > +                             const char *name, void *value, size_t
+> > +size) {
+> > +    g_autofree char *full_file_name =3D NULL;
+> > +    char ads_file_name[NAME_MAX + 1] =3D { 0 };
+> > +    DWORD dwBytesRead;
+> > +    HANDLE hStream;
+> > +
+> > +    full_file_name =3D get_full_path_win32(dirfd, path);
+> > +    if (full_file_name =3D=3D NULL) {
+> > +        errno =3D EIO;
+> > +        return -1;
+> > +    }
+> > +
+> > +    if (build_ads_name(ads_file_name, NAME_MAX, full_file_name, name) =
+< 0)
+> {
+> > +        errno =3D EIO;
+> > +        return -1;
+> > +    }
+> > +
+> > +    hStream =3D CreateFile(ads_file_name, GENERIC_READ, FILE_SHARE_REA=
+D,
+> NULL,
+> > +                         OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+> > +    if (hStream =3D=3D INVALID_HANDLE_VALUE &&
+> > +        GetLastError() =3D=3D ERROR_FILE_NOT_FOUND) {
+> > +        errno =3D ENODATA;
+> > +        return -1;
+> > +    }
+> > +
+> > +    if (ReadFile(hStream, value, size, &dwBytesRead, NULL) =3D=3D FALS=
+E) {
+> > +        errno =3D EIO;
+> > +        CloseHandle(hStream);
+> > +        return -1;
+> > +    }
+> > +
+> > +    CloseHandle(hStream);
+> > +
+> > +    return dwBytesRead;
+> > +}
+> > +
+> > +/*
+> > + * fsetxattrat_nofollow - set extended attribute
+> > + *
+> > + * This function set extended attribute to file <path> in the
+> > +directory
+> > + * specified by <dirfd>.
+> > + *
+> > + * This function emulates extended attribute by NTFS ADS.
+> > + */
+> > +
+> > +int fsetxattrat_nofollow(P9_FILE_ID dirfd, const char *path, const cha=
+r
+> *name,
+> > +                         void *value, size_t size, int flags) {
+> > +    g_autofree char *full_file_name =3D NULL;
+> > +    char ads_file_name[NAME_MAX + 1] =3D { 0 };
+> > +    DWORD dwBytesWrite;
+> > +    HANDLE hStream;
+> > +
+> > +    full_file_name =3D get_full_path_win32(dirfd, path);
+> > +    if (full_file_name =3D=3D NULL) {
+> > +        errno =3D EIO;
+> > +        return -1;
+> > +    }
+> > +
+> > +    if (build_ads_name(ads_file_name, NAME_MAX, full_file_name, name) =
+< 0)
+> {
+> > +        errno =3D EIO;
+> > +        return -1;
+> > +    }
+> > +
+> > +    hStream =3D CreateFile(ads_file_name, GENERIC_WRITE, FILE_SHARE_RE=
+AD,
+> NULL,
+> > +                         CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+> > +    if (hStream =3D=3D INVALID_HANDLE_VALUE) {
+> > +        errno =3D EIO;
+> > +        return -1;
+> > +    }
+> > +
+> > +    if (WriteFile(hStream, value, size, &dwBytesWrite, NULL) =3D=3D FA=
+LSE) {
+> > +        errno =3D EIO;
+> > +        CloseHandle(hStream);
+> > +        return -1;
+> > +    }
+> > +
+> > +    CloseHandle(hStream);
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +/*
+> > + * flistxattrat_nofollow - list extended attribute
+> > + *
+> > + * This function gets extended attribute lists from file <filename>
+> > +in the
+> > + * directory specified by <dirfd>. Lists returned will be put in <list=
+>.
+> > + *
+> > + * This function emulates extended attribute by NTFS ADS.
+> > + */
+> > +ssize_t flistxattrat_nofollow(P9_FILE_ID dirfd, const char *filename,
+> > +                              char *list, size_t size) {
+> > +    g_autofree char *full_file_name =3D NULL;
+> > +    WCHAR WideCharStr[NAME_MAX + 1] =3D { 0 };
+> > +    char full_ads_name[NAME_MAX + 1];
+> > +    WIN32_FIND_STREAM_DATA fsd;
+> > +    BOOL bFindNext;
+> > +    char *list_ptr =3D list;
+> > +    size_t list_left_size =3D size;
+> > +    HANDLE hFind;
+> > +    int ret;
+> > +
+> > +    full_file_name =3D get_full_path_win32(dirfd, filename);
+> > +    if (full_file_name =3D=3D NULL) {
+> > +        errno =3D EIO;
+> > +        return -1;
+> > +    }
+> > +
+> > +    /*
+> > +     * ADS enumerate function only has WCHAR version, so we need to
+> > +     * covert filename to utf-8 string.
+> > +     */
+> > +    ret =3D MultiByteToWideChar(CP_UTF8, 0, full_file_name,
+> > +                              strlen(full_file_name), WideCharStr,
+> NAME_MAX);
+> > +    if (ret =3D=3D 0) {
+> > +        errno =3D EIO;
+> > +        return -1;
+> > +    }
+> > +
+> > +    hFind =3D FindFirstStreamW(WideCharStr, FindStreamInfoStandard, &f=
+sd,
+> 0);
+> > +    if (hFind =3D=3D INVALID_HANDLE_VALUE) {
+> > +        errno =3D ENODATA;
+> > +        return -1;
+> > +    }
+> > +
+> > +    do {
+> > +        memset(full_ads_name, 0, sizeof(full_ads_name));
+> > +
+> > +        /*
+> > +         * ADS enumerate function only has WCHAR version, so we need t=
+o
+> > +         * covert cStreamName to utf-8 string.
+> > +         */
+> > +        ret =3D WideCharToMultiByte(CP_UTF8, 0,
+> > +                                  fsd.cStreamName, wcslen(fsd.cStreamN=
+ame)
+> + 1,
+> > +                                  full_ads_name, sizeof(full_ads_name)=
+ -
+> 1,
+> > +                                  NULL, NULL);
+> > +        if (ret =3D=3D 0) {
+> > +            if (GetLastError() =3D=3D ERROR_INSUFFICIENT_BUFFER) {
+> > +                errno =3D ERANGE;
+> > +            }
+> > +            CloseHandle(hFind);
+> > +            return -1;
+> > +        }
+> > +
+> > +        ret =3D copy_ads_name(list_ptr, list_left_size, full_ads_name)=
+;
+> > +        if (ret < 0) {
+> > +            errno =3D ERANGE;
+> > +            CloseHandle(hFind);
+> > +            return -1;
+> > +        }
+> > +
+> > +        list_ptr =3D list_ptr + ret;
+> > +        list_left_size =3D list_left_size - ret;
+> > +
+> > +        bFindNext =3D FindNextStreamW(hFind, &fsd);
+> > +    } while (bFindNext);
+> > +
+> > +    CloseHandle(hFind);
+> > +
+> > +    return size - list_left_size;
+> > +}
+> > +
+> > +/*
+> > + * fremovexattrat_nofollow - remove extended attribute
+> > + *
+> > + * This function removes an extended attribute from file <filename>
+> > +in the
+> > + * directory specified by <dirfd>.
+> > + *
+> > + * This function emulates extended attribute by NTFS ADS.
+> > + */
+> > +ssize_t fremovexattrat_nofollow(P9_FILE_ID dirfd, const char *filename=
+,
+> > +                                const char *name) {
+> > +    g_autofree char *full_file_name =3D NULL;
+> > +    char ads_file_name[NAME_MAX + 1] =3D { 0 };
+> > +
+> > +    full_file_name =3D get_full_path_win32(dirfd, filename);
+> > +    if (full_file_name =3D=3D NULL) {
+> > +        errno =3D EIO;
+> > +        return -1;
+> > +    }
+> > +
+> > +    if (build_ads_name(ads_file_name, NAME_MAX, filename, name) < 0) {
+> > +        errno =3D EIO;
+> > +        return -1;
+> > +    }
+> > +
+> > +    if (DeleteFile(ads_file_name) !=3D 0) {
+> > +        if (GetLastError() =3D=3D ERROR_FILE_NOT_FOUND) {
+> > +            errno =3D ENODATA;
+> > +            return -1;
+> > +        }
+> > +    }
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +/*
+> > + * local_opendir_nofollow - open a Windows directory
+> > + *
+> > + * This function returns a Windows file handle of the directory
+> > +specified by
+> > + * <dirpath> based on 9pfs mount point.
+> > + *
+> > + * Windows POSIX API does not support opening a directory by open().
+> > +Only
+> > + * handle of directory can be opened by CreateFile().
+> > + *
+> > + * This function checks the resolved path of <dirpath>. If the
+> > +resolved
+> > + * path is not in the scope of root directory (e.g. by symbolic
+> > +link), then
+> > + * this function will fail to prevent any security issues.
+> > + */
+> > +HANDLE local_opendir_nofollow(FsContext *fs_ctx, const char *dirpath)
+> > +{
+> > +    g_autofree char *full_file_name =3D NULL;
+> > +    LocalData *data =3D fs_ctx->private;
+> > +    HANDLE hDir;
+> > +
+> > +    hDir =3D openat_dir(data->mountfd, dirpath);
+> > +    if (hDir =3D=3D INVALID_HANDLE_VALUE) {
+> > +        return INVALID_HANDLE_VALUE;
+> > +    }
+> > +
+> > +    full_file_name =3D get_full_path_win32(hDir, NULL);
+> > +    if (full_file_name =3D=3D NULL) {
+> > +        CloseHandle(hDir);
+> > +        return INVALID_HANDLE_VALUE;
+> > +    }
+> > +
+> > +    /*
+> > +     * Check if the resolved path is in the root directory scope:
+> > +     * data->root_path and full_file_name are full path with symbolic
+> > +     * link resolved, so fs_ctx->root_path must be in the head of
+> > +     * full_file_name. If not, that means guest OS tries to open a fil=
+e
+> not
+> > +     * in the scope of mount point. This operation should be denied.
+> > +     */
+> > +    if (memcmp(full_file_name, data->root_path,
+> > +               strlen(data->root_path)) !=3D 0) {
+> > +        CloseHandle(hDir);
+> > +        hDir =3D INVALID_HANDLE_VALUE;
+> > +    }
+> > +
+> > +    return hDir;
+> > +}
+> >
+>=20
+>=20
 
 
