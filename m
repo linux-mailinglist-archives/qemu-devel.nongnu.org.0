@@ -2,104 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2AD614211
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 01:04:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4747C61427A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 02:01:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opek6-00015d-Jj; Mon, 31 Oct 2022 20:02:58 -0400
+	id 1opfcZ-0004G5-CA; Mon, 31 Oct 2022 20:59:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1opek5-00015W-1F
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 20:02:57 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1opfcX-0004Fk-FY
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 20:59:13 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1opek2-0003CS-QK
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 20:02:56 -0400
-Received: by mail-pf1-x432.google.com with SMTP id b185so12051348pfb.9
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 17:02:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=oS6N/+L/OhffcO3EfR3Iv/UryqKn7hoaC0JJFd1ABbs=;
- b=FEU+ej6a2Z4dObdFfkYQNzqWvGRTS0az/uZN2S7EHoxHRay6dQk1Cm1KybCC1dfxDT
- OyB76sl3fY+1ShqDOwB3Svf48LU6q4YPHuesBoXIj91JVbK+wBWEwsQ/LKaTqEcjqUce
- ApyLN2awgPGKrOu7qBWNVvBywCRkyf+f+BNJpmZyHGXmPvrRmg5V0Opi7kqMaFhl7YC7
- ZfItoBUMXHhr7a2iS6ZLIrKtHZ8b5vdumqDnKfLPIITDYeQ3WWefGuzUL8+oumQUHhW7
- lrYxXkQVjaLUTllewkTl0IIpNOQO9Sv3RFVOqiv2p4SK1UAo9kdR2AdyASdskNj5FmMw
- PhjA==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1opfcU-0005cG-Ju
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 20:59:13 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ c15-20020a17090a1d0f00b0021365864446so11661104pjd.4
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 17:59:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=D3A97vv38tK0HQSEA8Uri4X+QySKta5nrqPO+Jn+Wqs=;
+ b=hMNHqjhQEiHVqlLX1NjGX1Ps5J0gSEnmaPazGDyznNeM7Bvy0tmdWtlFw3G1lbMQze
+ 8j+EO9My5AaXcx40yjwr1yRpQ559YGyu7Twx6Bt+d/14acP2XR0xjt+xWsCFkZmDOX4O
+ u19+DVMOzb5NfteAiUQnyKw0PSuFiz7F3Xec1JC6l7xBqqq/QN1VxUSh+NX9YS3Ln4DW
+ ERF3tFbE3McIY5SBNfRn1DRpAMeelJ4zOpew1ukVvoxGAlXNWP+yNew/wp0+MikJ7ME2
+ J2C2s0NCxQ7BTuupyd+zVA2jkmZo0zp2ieWzeXWoZ8CeEJlUSz0qeflBplFU2Au18SO3
+ yN0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oS6N/+L/OhffcO3EfR3Iv/UryqKn7hoaC0JJFd1ABbs=;
- b=ts2yHFwEq8s7mnRA3g5m27QR1ddMNgkbco2Fqne/fPIRTFmPuC//JGuevv1TOG4s0A
- acx4wZaHceNhJju79fVD3je0/woIhNfgKHgJWaIeBr5k86rwi+/i0lNPRzbAdHpekgCp
- pAOIYbMBlWce+4AIEarthfvdArLj032kO3qu7b/v99QTfWJRlcLydHkl8dXtzHoaJwqs
- BrAAfvSHjmBM4ljtd4zO0tWdCgqh1iJrPv40K9PqtY1nXlVKACqlbwiEzh1erJ8cbb9I
- keN4QdWwaOHKeV49PGSdOfpnxCziGI4AyNRIAMmkaSMNTINXX7tXJv4zbCRjjvEj+kCH
- ShJQ==
-X-Gm-Message-State: ACrzQf1qBrsUDHXLn0amYNNxAQUIZ0uQ8Rr9dcBEuYuEOm82aSMiAG9R
- bbI8dwddqpmv3DlI6n5Gaug=
-X-Google-Smtp-Source: AMsMyM6Ux5ge+1rBOdMB9VQXkykvW/cRl7baTLO/ElNy8RU81cUDIaiW2cViWcwou8S0KckvrDFrgA==
-X-Received: by 2002:a05:6a00:805:b0:561:9a81:ef11 with SMTP id
- m5-20020a056a00080500b005619a81ef11mr29717pfk.86.1667260972541; 
- Mon, 31 Oct 2022 17:02:52 -0700 (PDT)
-Received: from localhost ([192.55.54.55]) by smtp.gmail.com with ESMTPSA id
- b1-20020a170902ed0100b001806445887asm4940403pld.223.2022.10.31.17.02.51
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=D3A97vv38tK0HQSEA8Uri4X+QySKta5nrqPO+Jn+Wqs=;
+ b=xuT5eIWNzge+3lmfwo9/dEl0lungH/hsDVKmmG0gBeNJs4LZYoL1fmcttxMiTHlDi6
+ ZeOC2P6Jvd2Lnmqxg45RvD1cXpJ/E7lGEIj07gOXyD3emcpMJmFElwF/CCzPa18myGDG
+ 2+ILk3FbgcWwc3sSHBH4B4YsOqcvKl4LIdxZi3iNR9Bit2hjpxx5qdtpYyaxPjmKsK1x
+ bFZgum1Zzvg5MnYRPkF5TtR5+LhzaKEzGGD33SIRERRb7AE35A+R5h558AKNHCSoNN7x
+ UR9WWaVbQJU57aTr/OON5bk+G6DKAVI/o9+HiYMGywhJkz3VGZXABoFidkQCwCtRxQuq
+ CJ8w==
+X-Gm-Message-State: ACrzQf255InypUKE7xvg804DkJ5/dhTHl+IyTKGl3r3KrI4osbhyy4Rl
+ Fpynp4CG6zaEIYxzGfCefSfPmd6wNb6tY0y3
+X-Google-Smtp-Source: AMsMyM6sTELxh6m/WT8m1mzYMue13dUdzovC+/UThc+egt8+mYtL1c2zsYfmQPNmrcGeBazsdSQz9w==
+X-Received: by 2002:a17:90a:680d:b0:213:d200:e992 with SMTP id
+ p13-20020a17090a680d00b00213d200e992mr10501349pjj.220.1667264348730; 
+ Mon, 31 Oct 2022 17:59:08 -0700 (PDT)
+Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+ by smtp.gmail.com with ESMTPSA id
+ o9-20020aa79789000000b0056d98e359a5sm1875644pfp.165.2022.10.31.17.59.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 17:02:51 -0700 (PDT)
-Date: Mon, 31 Oct 2022 17:02:50 -0700
-From: Isaku Yamahata <isaku.yamahata@gmail.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Isaku Yamahata <isaku.yamahata@gmail.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 7/8] KVM: Handle page fault for private memory
-Message-ID: <20221101000250.GA674570@ls.amr.corp.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-8-chao.p.peng@linux.intel.com>
- <20221026215425.GC3819453@ls.amr.corp.intel.com>
- <20221028065545.GD3885130@chaop.bj.intel.com>
+ Mon, 31 Oct 2022 17:59:08 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>,
+ Paul Burton <paulburton@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Yan Vugenfirer <yan@daynix.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH v7 00/17] pci: Abort if pci_add_capability fails
+Date: Tue,  1 Nov 2022 09:58:42 +0900
+Message-Id: <20221101005859.4198-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20221028065545.GD3885130@chaop.bj.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=isaku.yamahata@gmail.com; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,270 +102,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Oct 28, 2022 at 02:55:45PM +0800,
-Chao Peng <chao.p.peng@linux.intel.com> wrote:
+pci_add_capability appears most PCI devices. Its error handling required
+lots of code, and led to inconsistent behaviors such as:
+- passing error_abort
+- passing error_fatal
+- asserting the returned value
+- propagating the error to the caller
+- skipping the rest of the function
+- just ignoring
 
-> On Wed, Oct 26, 2022 at 02:54:25PM -0700, Isaku Yamahata wrote:
-> > On Tue, Oct 25, 2022 at 11:13:43PM +0800,
-> > Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > 
-> > > A memslot with KVM_MEM_PRIVATE being set can include both fd-based
-> > > private memory and hva-based shared memory. Architecture code (like TDX
-> > > code) can tell whether the on-going fault is private or not. This patch
-> > > adds a 'is_private' field to kvm_page_fault to indicate this and
-> > > architecture code is expected to set it.
-> > > 
-> > > To handle page fault for such memslot, the handling logic is different
-> > > depending on whether the fault is private or shared. KVM checks if
-> > > 'is_private' matches the host's view of the page (maintained in
-> > > mem_attr_array).
-> > >   - For a successful match, private pfn is obtained with
-> > >     restrictedmem_get_page () from private fd and shared pfn is obtained
-> > >     with existing get_user_pages().
-> > >   - For a failed match, KVM causes a KVM_EXIT_MEMORY_FAULT exit to
-> > >     userspace. Userspace then can convert memory between private/shared
-> > >     in host's view and retry the fault.
-> > > 
-> > > Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> > > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > > ---
-> > >  arch/x86/kvm/mmu/mmu.c          | 56 +++++++++++++++++++++++++++++++--
-> > >  arch/x86/kvm/mmu/mmu_internal.h | 14 ++++++++-
-> > >  arch/x86/kvm/mmu/mmutrace.h     |  1 +
-> > >  arch/x86/kvm/mmu/spte.h         |  6 ++++
-> > >  arch/x86/kvm/mmu/tdp_mmu.c      |  3 +-
-> > >  include/linux/kvm_host.h        | 28 +++++++++++++++++
-> > >  6 files changed, 103 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> > > index 67a9823a8c35..10017a9f26ee 100644
-> > > --- a/arch/x86/kvm/mmu/mmu.c
-> > > +++ b/arch/x86/kvm/mmu/mmu.c
-> > > @@ -3030,7 +3030,7 @@ static int host_pfn_mapping_level(struct kvm *kvm, gfn_t gfn,
-> > >  
-> > >  int kvm_mmu_max_mapping_level(struct kvm *kvm,
-> > >  			      const struct kvm_memory_slot *slot, gfn_t gfn,
-> > > -			      int max_level)
-> > > +			      int max_level, bool is_private)
-> > >  {
-> > >  	struct kvm_lpage_info *linfo;
-> > >  	int host_level;
-> > > @@ -3042,6 +3042,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
-> > >  			break;
-> > >  	}
-> > >  
-> > > +	if (is_private)
-> > > +		return max_level;
-> > 
-> > Below PG_LEVEL_NUM is passed by zap_collapsible_spte_range().  It doesn't make
-> > sense.
-> > 
-> > > +
-> > >  	if (max_level == PG_LEVEL_4K)
-> > >  		return PG_LEVEL_4K;
-> > >  
-> > > @@ -3070,7 +3073,8 @@ void kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
-> > >  	 * level, which will be used to do precise, accurate accounting.
-> > >  	 */
-> > >  	fault->req_level = kvm_mmu_max_mapping_level(vcpu->kvm, slot,
-> > > -						     fault->gfn, fault->max_level);
-> > > +						     fault->gfn, fault->max_level,
-> > > +						     fault->is_private);
-> > >  	if (fault->req_level == PG_LEVEL_4K || fault->huge_page_disallowed)
-> > >  		return;
-> > >  
-> > > @@ -4141,6 +4145,32 @@ void kvm_arch_async_page_ready(struct kvm_vcpu *vcpu, struct kvm_async_pf *work)
-> > >  	kvm_mmu_do_page_fault(vcpu, work->cr2_or_gpa, 0, true);
-> > >  }
-> > >  
-> > > +static inline u8 order_to_level(int order)
-> > > +{
-> > > +	BUILD_BUG_ON(KVM_MAX_HUGEPAGE_LEVEL > PG_LEVEL_1G);
-> > > +
-> > > +	if (order >= KVM_HPAGE_GFN_SHIFT(PG_LEVEL_1G))
-> > > +		return PG_LEVEL_1G;
-> > > +
-> > > +	if (order >= KVM_HPAGE_GFN_SHIFT(PG_LEVEL_2M))
-> > > +		return PG_LEVEL_2M;
-> > > +
-> > > +	return PG_LEVEL_4K;
-> > > +}
-> > > +
-> > > +static int kvm_faultin_pfn_private(struct kvm_page_fault *fault)
-> > > +{
-> > > +	int order;
-> > > +	struct kvm_memory_slot *slot = fault->slot;
-> > > +
-> > > +	if (kvm_restricted_mem_get_pfn(slot, fault->gfn, &fault->pfn, &order))
-> > > +		return RET_PF_RETRY;
-> > > +
-> > > +	fault->max_level = min(order_to_level(order), fault->max_level);
-> > > +	fault->map_writable = !(slot->flags & KVM_MEM_READONLY);
-> > > +	return RET_PF_CONTINUE;
-> > > +}
-> > > +
-> > >  static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-> > >  {
-> > >  	struct kvm_memory_slot *slot = fault->slot;
-> > > @@ -4173,6 +4203,22 @@ static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-> > >  			return RET_PF_EMULATE;
-> > >  	}
-> > >  
-> > > +	if (kvm_slot_can_be_private(slot) &&
-> > > +	    fault->is_private != kvm_mem_is_private(vcpu->kvm, fault->gfn)) {
-> > > +		vcpu->run->exit_reason = KVM_EXIT_MEMORY_FAULT;
-> > > +		if (fault->is_private)
-> > > +			vcpu->run->memory.flags = KVM_MEMORY_EXIT_FLAG_PRIVATE;
-> > > +		else
-> > > +			vcpu->run->memory.flags = 0;
-> > > +		vcpu->run->memory.padding = 0;
-> > > +		vcpu->run->memory.gpa = fault->gfn << PAGE_SHIFT;
-> > > +		vcpu->run->memory.size = PAGE_SIZE;
-> > > +		return RET_PF_USER;
-> > > +	}
-> > > +
-> > > +	if (fault->is_private)
-> > > +		return kvm_faultin_pfn_private(fault);
-> > > +
-> > >  	async = false;
-> > >  	fault->pfn = __gfn_to_pfn_memslot(slot, fault->gfn, false, &async,
-> > >  					  fault->write, &fault->map_writable,
-> > > @@ -5557,6 +5603,9 @@ int noinline kvm_mmu_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa, u64 err
-> > >  			return -EIO;
-> > >  	}
-> > >  
-> > > +	if (r == RET_PF_USER)
-> > > +		return 0;
-> > > +
-> > >  	if (r < 0)
-> > >  		return r;
-> > >  	if (r != RET_PF_EMULATE)
-> > > @@ -6408,7 +6457,8 @@ static bool kvm_mmu_zap_collapsible_spte(struct kvm *kvm,
-> > >  		 */
-> > >  		if (sp->role.direct &&
-> > >  		    sp->role.level < kvm_mmu_max_mapping_level(kvm, slot, sp->gfn,
-> > > -							       PG_LEVEL_NUM)) {
-> > > +							       PG_LEVEL_NUM,
-> > > +							       false)) {
-> > >  			kvm_zap_one_rmap_spte(kvm, rmap_head, sptep);
-> > >  
-> > >  			if (kvm_available_flush_tlb_with_range())
-> > > diff --git a/arch/x86/kvm/mmu/mmu_internal.h b/arch/x86/kvm/mmu/mmu_internal.h
-> > > index 582def531d4d..5cdff5ca546c 100644
-> > > --- a/arch/x86/kvm/mmu/mmu_internal.h
-> > > +++ b/arch/x86/kvm/mmu/mmu_internal.h
-> > > @@ -188,6 +188,7 @@ struct kvm_page_fault {
-> > >  
-> > >  	/* Derived from mmu and global state.  */
-> > >  	const bool is_tdp;
-> > > +	const bool is_private;
-> > >  	const bool nx_huge_page_workaround_enabled;
-> > >  
-> > >  	/*
-> > > @@ -236,6 +237,7 @@ int kvm_tdp_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault);
-> > >   * RET_PF_RETRY: let CPU fault again on the address.
-> > >   * RET_PF_EMULATE: mmio page fault, emulate the instruction directly.
-> > >   * RET_PF_INVALID: the spte is invalid, let the real page fault path update it.
-> > > + * RET_PF_USER: need to exit to userspace to handle this fault.
-> > >   * RET_PF_FIXED: The faulting entry has been fixed.
-> > >   * RET_PF_SPURIOUS: The faulting entry was already fixed, e.g. by another vCPU.
-> > >   *
-> > > @@ -252,6 +254,7 @@ enum {
-> > >  	RET_PF_RETRY,
-> > >  	RET_PF_EMULATE,
-> > >  	RET_PF_INVALID,
-> > > +	RET_PF_USER,
-> > >  	RET_PF_FIXED,
-> > >  	RET_PF_SPURIOUS,
-> > >  };
-> > > @@ -309,7 +312,7 @@ static inline int kvm_mmu_do_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
-> > >  
-> > >  int kvm_mmu_max_mapping_level(struct kvm *kvm,
-> > >  			      const struct kvm_memory_slot *slot, gfn_t gfn,
-> > > -			      int max_level);
-> > > +			      int max_level, bool is_private);
-> > >  void kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault);
-> > >  void disallowed_hugepage_adjust(struct kvm_page_fault *fault, u64 spte, int cur_level);
-> > >  
-> > > @@ -318,4 +321,13 @@ void *mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
-> > >  void account_huge_nx_page(struct kvm *kvm, struct kvm_mmu_page *sp);
-> > >  void unaccount_huge_nx_page(struct kvm *kvm, struct kvm_mmu_page *sp);
-> > >  
-> > > +#ifndef CONFIG_HAVE_KVM_RESTRICTED_MEM
-> > > +static inline int kvm_restricted_mem_get_pfn(struct kvm_memory_slot *slot,
-> > > +					gfn_t gfn, kvm_pfn_t *pfn, int *order)
-> > > +{
-> > > +	WARN_ON_ONCE(1);
-> > > +	return -EOPNOTSUPP;
-> > > +}
-> > > +#endif /* CONFIG_HAVE_KVM_RESTRICTED_MEM */
-> > > +
-> > >  #endif /* __KVM_X86_MMU_INTERNAL_H */
-> > > diff --git a/arch/x86/kvm/mmu/mmutrace.h b/arch/x86/kvm/mmu/mmutrace.h
-> > > index ae86820cef69..2d7555381955 100644
-> > > --- a/arch/x86/kvm/mmu/mmutrace.h
-> > > +++ b/arch/x86/kvm/mmu/mmutrace.h
-> > > @@ -58,6 +58,7 @@ TRACE_DEFINE_ENUM(RET_PF_CONTINUE);
-> > >  TRACE_DEFINE_ENUM(RET_PF_RETRY);
-> > >  TRACE_DEFINE_ENUM(RET_PF_EMULATE);
-> > >  TRACE_DEFINE_ENUM(RET_PF_INVALID);
-> > > +TRACE_DEFINE_ENUM(RET_PF_USER);
-> > >  TRACE_DEFINE_ENUM(RET_PF_FIXED);
-> > >  TRACE_DEFINE_ENUM(RET_PF_SPURIOUS);
-> > >  
-> > > diff --git a/arch/x86/kvm/mmu/spte.h b/arch/x86/kvm/mmu/spte.h
-> > > index 7670c13ce251..9acdf72537ce 100644
-> > > --- a/arch/x86/kvm/mmu/spte.h
-> > > +++ b/arch/x86/kvm/mmu/spte.h
-> > > @@ -315,6 +315,12 @@ static inline bool is_dirty_spte(u64 spte)
-> > >  	return dirty_mask ? spte & dirty_mask : spte & PT_WRITABLE_MASK;
-> > >  }
-> > >  
-> > > +static inline bool is_private_spte(u64 spte)
-> > > +{
-> > > +	/* FIXME: Query C-bit/S-bit for SEV/TDX. */
-> > > +	return false;
-> > > +}
-> > > +
-> > 
-> > PFN encoded in spte doesn't make sense.  In VMM for TDX, private-vs-shared is
-> > determined by S-bit of GFN.
-> 
-> My understanding is we will have software bit in the spte, will we? In
-> current TDX code I see we have SPTE_SHARED_MASK bit defined.
+The code generating errors in pci_add_capability had a comment which
+says:
+> Verify that capabilities don't overlap.  Note: device assignment
+> depends on this check to verify that the device is not broken.
+> Should never trigger for emulated devices, but it's helpful for
+> debugging these.
 
-I'm afraid that you're referring old version.  It's not.  For TDX, gfn needs
-to be checked.  Which isn't encoded in spte.
+Indeed vfio has some code that passes capability offsets and sizes from
+a physical device, but it explicitly pays attention so that the
+capabilities never overlap and the only exception are MSI and MSI-X
+capabilities. Therefore, we can add code specific to the case, and
+always assert that capabilities never overlap in the other cases,
+resolving these inconsistencies.
 
+v7:
+- Perform checks in vfio_msi_setup() and vfio_msix_setup() (Alex Williamson)
 
-> > >  static inline u64 get_rsvd_bits(struct rsvd_bits_validate *rsvd_check, u64 pte,
-> > >  				int level)
-> > >  {
-> > > diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
-> > > index 672f0432d777..9f97aac90606 100644
-> > > --- a/arch/x86/kvm/mmu/tdp_mmu.c
-> > > +++ b/arch/x86/kvm/mmu/tdp_mmu.c
-> > > @@ -1768,7 +1768,8 @@ static void zap_collapsible_spte_range(struct kvm *kvm,
-> > >  			continue;
-> > >  
-> > >  		max_mapping_level = kvm_mmu_max_mapping_level(kvm, slot,
-> > > -							      iter.gfn, PG_LEVEL_NUM);
-> > > +						iter.gfn, PG_LEVEL_NUM,
-> > > +						is_private_spte(iter.old_spte));
-> > >  		if (max_mapping_level < iter.level)
-> > >  			continue;
-> > 
-> > This is to merge pages into a large page on the next kvm page fault.  large page
-> > support is not yet supported.  Let's skip the private slot until large page
-> > support is done.
-> 
-> So what your suggestion is passing in a 'false' at this time for
-> 'is_private'? Unless we will decide not use the above is_private_spte,
-> this code does not hurt, right? is_private_spte() return false before
-> we finally get chance to add the large page support.
+v6:
+- Error in case of MSI/MSI-X capability overlap (Alex Williamson)
 
-Let's pass false always for now.
+v5:
+- Fix capability ID specification in vfio_msi_early_setup (Alex Williamson)
+- Use range_covers_byte() (Alex Williamson)
+- warn_report() in case of MSI/MSI-X capability overlap (Alex Williamson)
+
+v4:
+- Fix typos in messages (Markus Armbruster)
+- hw/vfio/pci: Ensure MSI and MSI-X do not overlap (Alex Williamson)
+
+v3:
+- Correct patch split between virtio-pci and pci (Markus Armbruster)
+- Add messages for individual patches (Markus Armbruster)
+- Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+Akihiko Odaki (17):
+  hw/vfio/pci: Ensure MSI and MSI-X do not overlap
+  pci: Allow to omit errp for pci_add_capability
+  hw/i386/amd_iommu: Omit errp for pci_add_capability
+  ahci: Omit errp for pci_add_capability
+  e1000e: Omit errp for pci_add_capability
+  eepro100: Omit errp for pci_add_capability
+  hw/nvme: Omit errp for pci_add_capability
+  msi: Omit errp for pci_add_capability
+  hw/pci/pci_bridge: Omit errp for pci_add_capability
+  pcie: Omit errp for pci_add_capability
+  pci/shpc: Omit errp for pci_add_capability
+  msix: Omit errp for pci_add_capability
+  pci/slotid: Omit errp for pci_add_capability
+  hw/pci-bridge/pcie_pci_bridge: Omit errp for pci_add_capability
+  hw/vfio/pci: Omit errp for pci_add_capability
+  virtio-pci: Omit errp for pci_add_capability
+  pci: Remove legacy errp from pci_add_capability
+
+ docs/pcie_sriov.txt                |  4 +--
+ hw/display/bochs-display.c         |  4 +--
+ hw/i386/amd_iommu.c                | 21 +++---------
+ hw/ide/ich.c                       |  8 ++---
+ hw/net/e1000e.c                    | 22 +++----------
+ hw/net/eepro100.c                  |  7 +---
+ hw/nvme/ctrl.c                     | 14 ++------
+ hw/pci-bridge/cxl_downstream.c     |  9 ++----
+ hw/pci-bridge/cxl_upstream.c       |  8 ++---
+ hw/pci-bridge/i82801b11.c          | 14 ++------
+ hw/pci-bridge/pci_bridge_dev.c     |  2 +-
+ hw/pci-bridge/pcie_pci_bridge.c    | 19 +++--------
+ hw/pci-bridge/pcie_root_port.c     | 16 ++-------
+ hw/pci-bridge/xio3130_downstream.c | 15 ++-------
+ hw/pci-bridge/xio3130_upstream.c   | 15 ++-------
+ hw/pci-host/designware.c           |  3 +-
+ hw/pci-host/xilinx-pcie.c          |  4 +--
+ hw/pci/msi.c                       |  9 +-----
+ hw/pci/msix.c                      |  8 ++---
+ hw/pci/pci.c                       | 46 +++++++++++++-------------
+ hw/pci/pci_bridge.c                | 21 ++++--------
+ hw/pci/pcie.c                      | 52 ++++++++----------------------
+ hw/pci/shpc.c                      | 23 ++++---------
+ hw/pci/slotid_cap.c                |  8 ++---
+ hw/usb/hcd-xhci-pci.c              |  3 +-
+ hw/vfio/pci-quirks.c               | 15 ++-------
+ hw/vfio/pci.c                      | 29 +++++++++++------
+ hw/virtio/virtio-pci.c             | 12 ++-----
+ include/hw/pci/pci.h               |  8 +++--
+ include/hw/pci/pci_bridge.h        |  5 ++-
+ include/hw/pci/pcie.h              | 11 +++----
+ include/hw/pci/shpc.h              |  3 +-
+ include/hw/virtio/virtio-pci.h     |  2 +-
+ 33 files changed, 131 insertions(+), 309 deletions(-)
+
 -- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+2.38.1
+
 
