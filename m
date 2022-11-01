@@ -2,75 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A7B6144CA
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 07:48:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E46276144E9
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 08:12:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opl2s-00024w-2W; Tue, 01 Nov 2022 02:46:46 -0400
+	id 1oplQy-00054r-5Y; Tue, 01 Nov 2022 03:11:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ake@igel.co.jp>) id 1opl2U-000222-Ua
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 02:46:24 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ake@igel.co.jp>) id 1opl2K-0001Ga-2Y
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 02:46:22 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id 20so12671973pgc.5
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 23:46:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=yTr2buqxaYr8UkugLXntG6akq32XV/ilPeT9xCMuxpw=;
- b=ou7TABLPFWRKyvkYtQBzU2IDR2zykLaiXgLU6X2VH6iSvaSkm66748P3BWAE4fiL8I
- /sd3EfxLCSRjii+EYbDFPNwkArw7oJ6LaIVQwD8Lwnj8ik7m02bpniCIzGB0vqQi543q
- S10BXKlGTSwIAYgfkMS/7OrlpMTJeYo0QsZ3BQYkvtIDMc94b5CS1LHYidxaXC/UONh/
- v+7QpntrTzdAJJSEi8aJcxLGkdM4HIv5sqtzmnmjOvE4jnsZN7JIM/Vfdl3QGdHPVPyd
- nGbLZEFY6gmId2/+XRFRe0U+1SKFeTlWJBHgsqLL9CL3HX5FgN8tw+zsSqAG5macdXVi
- Sqjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yTr2buqxaYr8UkugLXntG6akq32XV/ilPeT9xCMuxpw=;
- b=qBd7F427crxPM2yZELItC3a9xo74Q3EaHQRobXOvI5kDZes2X5GzraWkXiBoyhm77j
- y/wGDpCZUdY97pZpbsNlJF5x0YA1zt20mJO6sQG5q1AF7S3UdpvVGSfXonh4B7Bgu3Fe
- P5MYAaOiUTaUiPEiHci92xPOAxE8rXH5CURGjeChuDaGi3mMEaZh+c0lSbO8dmZZpxHR
- 9+xUOvlzG+ZcVzW2DyQgzbqkh57VBki+QwqVPK72qBjK9rhzttiWTzYMbSBI3qaKOfTW
- nJSqbQy96g/2NLmMVVmDVmCgQoA0DeJYmvqyGmSO5JNNGb49fXd2qTAcsm5bjYy10HVl
- NczA==
-X-Gm-Message-State: ACrzQf2udJT+tJRLht2o7x8kmLvAD7C4sXd9ejNkBvK/5tPjvprtAm9b
- TFeEdplZ+MyF76YIdKLa1Zx3NfKaeWOF6Mlf
-X-Google-Smtp-Source: AMsMyM7fBPpw7kzt+WTAC1UArV4mflVab1cTWwLhhTwqcqP+AwzshBPzpW3edRAVBsQujN9CvPtvtg==
-X-Received: by 2002:a05:6a02:186:b0:439:49a3:479b with SMTP id
- bj6-20020a056a02018600b0043949a3479bmr16067493pgb.171.1667285169477; 
- Mon, 31 Oct 2022 23:46:09 -0700 (PDT)
-Received: from ake-x260.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
- by smtp.gmail.com with ESMTPSA id
- d12-20020a170902654c00b00176acd80f69sm5500949pln.102.2022.10.31.23.46.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 31 Oct 2022 23:46:08 -0700 (PDT)
-From: Ake Koomsin <ake@igel.co.jp>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Ake Koomsin <ake@igel.co.jp>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org (open list:ARM TCG CPUs)
-Subject: [PATCH v3] target/arm: honor HCR_E2H and HCR_TGE in ats_write64()
-Date: Tue,  1 Nov 2022 15:42:53 +0900
-Message-Id: <20221101064250.12444-1-ake@igel.co.jp>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
+ id 1oplQw-00053v-0R
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 03:11:38 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
+ id 1oplQs-0001sK-Qr
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 03:11:37 -0400
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4N1h5W1SWmz15M9G;
+ Tue,  1 Nov 2022 15:11:27 +0800 (CST)
+Received: from localhost.localdomain (10.67.164.66) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 1 Nov 2022 15:11:28 +0800
+To: <mst@redhat.com>, <peter.maydell@linaro.org>, <imammedo@redhat.com>,
+ <ani@anisinha.ca>, <eduardo@habkost.net>, <marcel.apfelbaum@gmail.com>,
+ <f4bug@amsat.org>, <wangyanan55@huawei.com>, <qemu-devel@nongnu.org>
+CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
+ <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
+ <hesham.almatary@huawei.com>, <ionela.voinescu@arm.com>,
+ <darren@os.amperecomputing.com>
+Subject: [PATCH v4 0/6] Only generate cluster node in PPTT when specified
+Date: Tue, 1 Nov 2022 15:10:42 +0800
+Message-ID: <20221101071048.29553-1-yangyicong@huawei.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=ake@igel.co.jp; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.67.164.66]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=yangyicong@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,83 +63,72 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Yicong Yang <yangyicong@huawei.com>
+From:  Yicong Yang via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-We need to check HCR_E2H and HCR_TGE to select the right MMU index for
-the correct translation regime.
+From: Yicong Yang <yangyicong@hisilicon.com>
 
-To check for EL2&0 translation regime:
-- For S1E0*, S1E1* and S12E* ops, check both HCR_E2H and HCR_TGE
-- For S1E2* ops, check only HCR_E2H
+This series mainly change the policy for building a cluster topology node
+in PPTT. Previously we'll always build a cluster node in PPTT without
+asking the user, after this set the cluster node will be built only the
+the user specify through "-smp clusters=X".
 
-Signed-off-by: Ake Koomsin <ake@igel.co.jp>
----
+One problem is related to this but not fully caused by this, see the
+discussion in [*]. When booting the VM with `-smp 8` and 4 numa nodes,
+the linux scheduling domains in the VM misses the NUMA domains. It's
+because the MC level span extends to Cluster level (which is generated
+by the Qemu by default) that spans all the cpus in the system, then the
+scheduling domain building stops at MC level since it already includes all
+the cpus.
 
-v3:
-- Avoid recomputing arm_hcr_el2_eff() as recommended by Richard H.
-- Use ':?' for more compact code as recommended by Richard H.
+Considering cluster is an optional level and most platforms don't have it,
+they may even don't realize this is built and a always build policy cannot
+emulate the real topology on these platforms. So in this series improve the
+policy to only generate cluster when the user explicitly want it.
 
-v2:
-- Rebase with the latest upstream
-- It turns out that we need to check both HCR_E2H and HCR_TGE for
-  S1E0*, S1E1* and S12E* address translation as well according to the
-  Architecture Manual.
-- https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg06084.html
+Update the tests and test tables accordingly.
 
-v1:
-https://lists.gnu.org/archive/html/qemu-devel/2022-10/msg02627.html
+[*] https://lore.kernel.org/lkml/2c079860-ee82-7719-d3d2-756192f41704@huawei.com/
 
- target/arm/helper.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+Change since v3:
+- Improve and attach the diff of the affected ACPI tables in the commit, and minor cleanups
+Link: https://lore.kernel.org/qemu-devel/20221031090523.34146-1-yangyicong@huawei.com/
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index b070a20f1a..c17962372d 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -3501,19 +3501,22 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
-     MMUAccessType access_type = ri->opc2 & 1 ? MMU_DATA_STORE : MMU_DATA_LOAD;
-     ARMMMUIdx mmu_idx;
-     int secure = arm_is_secure_below_el3(env);
-+    uint64_t hcr_el2 = arm_hcr_el2_eff(env);
-+    bool regime_e20 = (hcr_el2 & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE);
- 
-     switch (ri->opc2 & 6) {
-     case 0:
-         switch (ri->opc1) {
-         case 0: /* AT S1E1R, AT S1E1W, AT S1E1RP, AT S1E1WP */
-             if (ri->crm == 9 && (env->pstate & PSTATE_PAN)) {
--                mmu_idx = ARMMMUIdx_Stage1_E1_PAN;
-+                mmu_idx = regime_e20 ?
-+                          ARMMMUIdx_E20_2_PAN : ARMMMUIdx_Stage1_E1_PAN;
-             } else {
--                mmu_idx = ARMMMUIdx_Stage1_E1;
-+                mmu_idx = regime_e20 ? ARMMMUIdx_E20_2 : ARMMMUIdx_Stage1_E1;
-             }
-             break;
-         case 4: /* AT S1E2R, AT S1E2W */
--            mmu_idx = ARMMMUIdx_E2;
-+            mmu_idx = hcr_el2 & HCR_E2H ? ARMMMUIdx_E20_2 : ARMMMUIdx_E2;
-             break;
-         case 6: /* AT S1E3R, AT S1E3W */
-             mmu_idx = ARMMMUIdx_E3;
-@@ -3524,13 +3527,13 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
-         }
-         break;
-     case 2: /* AT S1E0R, AT S1E0W */
--        mmu_idx = ARMMMUIdx_Stage1_E0;
-+        mmu_idx = regime_e20 ? ARMMMUIdx_E20_0 : ARMMMUIdx_Stage1_E0;
-         break;
-     case 4: /* AT S12E1R, AT S12E1W */
--        mmu_idx = ARMMMUIdx_E10_1;
-+        mmu_idx = regime_e20 ? ARMMMUIdx_E20_2 : ARMMMUIdx_E10_1;
-         break;
-     case 6: /* AT S12E0R, AT S12E0W */
--        mmu_idx = ARMMMUIdx_E10_0;
-+        mmu_idx = regime_e20 ? ARMMMUIdx_E20_0 : ARMMMUIdx_E10_0;
-         break;
-     default:
-         g_assert_not_reached();
+Change since v2:
+- Add tag from Micheal, thanks
+- Handle the tests changes with bios-tables-test-allowed-diff.h, Per Micheal
+- Address the comments per Yanan
+Link: https://lore.kernel.org/qemu-devel/20221027032613.18377-1-yangyicong@huawei.com/
+
+Change since v1:
+- Only includes the test tables which is really needed
+- Enrich the commit
+Link: https://lore.kernel.org/qemu-devel/20220922131143.58003-1-yangyicong@huawei.com/
+
+Yicong Yang (6):
+  tests: virt: Allow changes to PPTT test table
+  hw/acpi/aml-build: Only generate cluster node in PPTT when specified
+  tests: virt: Update expected ACPI tables for virt test
+  tests: acpi: Add and whitelist *.topology blobs
+  tests: acpi: aarch64: Add topology test for aarch64
+  tests: acpi: aarch64: Add *.topology tables
+
+ hw/acpi/aml-build.c                |   2 +-
+ hw/core/machine-smp.c              |   2 ++
+ include/hw/boards.h                |   3 +++
+ qemu-options.hx                    |   3 +++
+ tests/data/acpi/virt/APIC.topology | Bin 0 -> 700 bytes
+ tests/data/acpi/virt/DSDT.topology | Bin 0 -> 5398 bytes
+ tests/data/acpi/virt/PPTT          | Bin 96 -> 76 bytes
+ tests/data/acpi/virt/PPTT.topology | Bin 0 -> 336 bytes
+ tests/qtest/bios-tables-test.c     |  19 +++++++++++++++++++
+ 9 files changed, 28 insertions(+), 1 deletion(-)
+ create mode 100644 tests/data/acpi/virt/APIC.topology
+ create mode 100644 tests/data/acpi/virt/DSDT.topology
+ create mode 100644 tests/data/acpi/virt/PPTT.topology
+
 -- 
-2.25.1
+2.24.0
 
 
