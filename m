@@ -2,43 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77115614447
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 06:32:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15810614448
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 06:32:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opjrC-0003ZQ-K2; Tue, 01 Nov 2022 01:30:38 -0400
+	id 1opjsS-0004es-23; Tue, 01 Nov 2022 01:31:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1opjqS-0003Wp-EV
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 01:29:55 -0400
+ id 1opjsD-0004YZ-Qg
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 01:31:45 -0400
 Received: from mail.ispras.ru ([83.149.199.84])
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1opjqQ-0006Dn-Ap
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 01:29:52 -0400
-Received: from [127.0.1.1] (unknown [89.252.109.106])
- by mail.ispras.ru (Postfix) with ESMTPSA id 1B0E5419E9D8;
- Tue,  1 Nov 2022 05:29:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 1B0E5419E9D8
+ id 1opjsC-0006v2-7e
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 01:31:41 -0400
+Received: from [10.199.1.165] (unknown [89.252.109.106])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 5BB06419E9D8;
+ Tue,  1 Nov 2022 05:31:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 5BB06419E9D8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
- s=default; t=1667280585;
- bh=fVUmajGDdjQlGscA68w+v4vEZhmpIj9P60oO8gt+hMc=;
- h=Subject:From:To:Cc:Date:From;
- b=Rba1IRAHfiSeK3vOtjxRxKzDSDNBoIkD0dnh/DnQ5keXPVS+M5o9v8KHkGaRwA3zV
- afjk1khp9T0sla17BBgXUzSxF+jwTQPbHHxitGBSErl+0kJVhSFBRB7duyHNYBoLM0
- TJZYWV04wgb8KVw2DOEMps+o4eGIGDONy/vHWfro=
-Subject: [PATCH] target/mips: enable LBX/LWX/* instructions for Octeon
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-To: qemu-devel@nongnu.org
-Cc: pavel.dovgalyuk@ispras.ru, richard.henderson@linaro.org, philmd@linaro.org,
- jiaxun.yang@flygoat.com
-Date: Tue, 01 Nov 2022 08:29:44 +0300
-Message-ID: <166728058455.229236.13834649461181619195.stgit@pasha-ThinkPad-X280>
-User-Agent: StGit/0.23
+ s=default; t=1667280698;
+ bh=BejDUOjltdrt59nie1gDhQYm6SMIjKxReDrAhWKNtoA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=a17Rp5KGgAjvJq7yr/EJqHmT0IXKuvX5AblyWTfpgqp4ich/f+F4+TPCcaD8vxbDu
+ vjBU6eltLg+5V+d+yrQ2LzWwgOrQFzIEVEBPzBT2vlTHTMZIxeb2m7C3ftq46e3uCl
+ QD76mKFIDGR7XIrSpdY3or6eErWBrA6KAL/Wq4TI=
+Message-ID: <5cc6d587-a441-de95-851e-72fa1399970b@ispras.ru>
+Date: Tue, 1 Nov 2022 08:31:37 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 3/3] target/mips: Disable DSP ASE for Octeon68XX
+Content-Language: en-US
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, Richard Henderson <richard.henderson@linaro.org>
+References: <20221031132531.18122-1-jiaxun.yang@flygoat.com>
+ <20221031132531.18122-4-jiaxun.yang@flygoat.com>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+In-Reply-To: <20221031132531.18122-4-jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=83.149.199.84;
  envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
@@ -46,8 +50,8 @@ X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,46 +67,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch changes condition and function name for enabling
-indexed load instructions for Octeon vCPUs. Octeons do not
-have DSP extension, but implement LBX-and-others.
+On 31.10.2022 16:25, Jiaxun Yang wrote:
+> I don't have access to Octeon68XX hardware but accroading to
+> my investigation Octeon never had DSP ASE support.
+> 
+> As per "Cavium Networks OCTEON Plus CN50XX Hardware Reference
+> Manual" CP0C3_DSPP is reserved bit and read as 0. Also I do have
+> access to a Ubiquiti Edgerouter 4 which has Octeon CN7130 processor
+> and I can confirm CP0C3_DSPP is read as 0 on that processor.
+> 
+> Further more, in linux kernel:
+> arch/mips/include/asm/mach-cavium-octeon/cpu-feature-overrides.h
+> cpu_has_dsp is overridden as 0.
+> 
+> So I believe we shouldn't emulate DSP in QEMU as well.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
----
- target/mips/tcg/translate.c |   10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+That's true. But there is one exception: LBX/LWX/LDX instruction.
+These are grouped into DSP extension in QEMU, but Octeon supports them.
+I've sent a patch for enabling these instructions.
 
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index c3f92ea652..6248143c62 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -12173,12 +12173,16 @@ enum {
- #include "nanomips_translate.c.inc"
- 
- /* MIPSDSP functions. */
--static void gen_mipsdsp_ld(DisasContext *ctx, uint32_t opc,
-+
-+/* Indexed load is not for DSP only */
-+static void gen_mips_lx(DisasContext *ctx, uint32_t opc,
-                            int rd, int base, int offset)
- {
-     TCGv t0;
- 
--    check_dsp(ctx);
-+    if (!(ctx->insn_flags & INSN_OCTEON)) {
-+        check_dsp(ctx);
-+    }
-     t0 = tcg_temp_new();
- 
-     if (base == 0) {
-@@ -14523,7 +14527,7 @@ static void decode_opc_special3_legacy(CPUMIPSState *env, DisasContext *ctx)
-         case OPC_LBUX:
-         case OPC_LHX:
-         case OPC_LWX:
--            gen_mipsdsp_ld(ctx, op2, rd, rs, rt);
-+            gen_mips_lx(ctx, op2, rd, rs, rt);
-             break;
-         default:            /* Invalid */
-             MIPS_INVAL("MASK LX");
+Reviewed-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+
+> 
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/mips/cpu-defs.c.inc | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
+> index 7f53c94ec8..480e60aeec 100644
+> --- a/target/mips/cpu-defs.c.inc
+> +++ b/target/mips/cpu-defs.c.inc
+> @@ -934,7 +934,7 @@ const mips_def_t mips_defs[] =
+>                          (1 << CP0C1_DS) | (4 << CP0C1_DL) | (1 << CP0C1_DA) |
+>                          (1 << CP0C1_PC) | (1 << CP0C1_WR) | (1 << CP0C1_EP),
+>           .CP0_Config2 = MIPS_CONFIG2,
+> -        .CP0_Config3 = MIPS_CONFIG3 | (1 << CP0C3_LPA) | (1 << CP0C3_DSPP) ,
+> +        .CP0_Config3 = MIPS_CONFIG3 | (1 << CP0C3_LPA),
+>           .CP0_Config4 = MIPS_CONFIG4 | (1U << CP0C4_M) |
+>                          (0x3c << CP0C4_KScrExist) | (1U << CP0C4_MMUExtDef) |
+>                          (3U << CP0C4_MMUSizeExt),
+> @@ -946,7 +946,7 @@ const mips_def_t mips_defs[] =
+>           .CP0_Status_rw_bitmask = 0x12F8FFFF,
+>           .SEGBITS = 42,
+>           .PABITS = 49,
+> -        .insn_flags = CPU_MIPS64R2 | INSN_OCTEON | ASE_DSP,
+> +        .insn_flags = CPU_MIPS64R2 | INSN_OCTEON,
+>           .mmu_type = MMU_TYPE_R4000,
+>       },
+>   
 
 
