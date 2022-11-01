@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677996146A9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 10:29:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D84614782
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 11:12:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opnZ7-0003wO-A1; Tue, 01 Nov 2022 05:28:13 -0400
+	id 1opoEA-00062C-2I; Tue, 01 Nov 2022 06:10:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opnZ0-0003vU-Qs
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 05:28:06 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opoE8-000619-IH
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 06:10:36 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opnYy-0005cM-Cq
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 05:28:05 -0400
-Received: by mail-wr1-x436.google.com with SMTP id l14so19323389wrw.2
- for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 02:28:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opoE6-0005nR-IJ
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 06:10:36 -0400
+Received: by mail-wr1-x430.google.com with SMTP id j15so19444284wrq.3
+ for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 03:10:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=hBRktG0netiEsWGozMVwlQ/HVuI2W9FAZgUMPwPfDZg=;
- b=JAJSKcJxu7Ig9jJOQ2s9qS+CWGXhXu4KJ/hfdI+e9OFOsFV2wyzUTY3ohdY11Axe6x
- gxSFQffpIqg2vTMIUKMuQMsHmN0NSsQoQDOVq5uVggDAkARP3Bt9i0vWj75T/U/E4MZ3
- /gMVhjuk4DzQqBqH+zOFDbhGBCApjMwtYLZbJrYNDsyo70IQeN1QIzTf7OsE89ue0AZJ
- uxTS+eX1xu08FjY8IeHu8rAIcE4yBMcEIeQ003LayPfthnfUToj6LQjAnF41vTLQEzWq
- l/hJf5/Y+NJx7t3DiSM5Hnz8GliGPD4DGHpoJfbWyV1XhPCdDiNfYypUYUnwtHB2c5RW
- OVSQ==
+ bh=6ZsnFSBU9fQumdukqX4Giq799LNa40opv695H0J6JlQ=;
+ b=Xl+IAocCD5CsmfazsFKSBCDzJzfyFTVeldxUipTTgLjsC0gTwOtB4Dylyp2EYegWnT
+ 4veJZEYZR9xC8hKRwkIGkq1k2m4wjh8+eESUtgH4s+coSwfWFXVLPu5VzNHknjFvAbEs
+ c5JZUVqoAehpR5EcPxuet5L2Hvi2i+oH05xTmbsnJHvyaX3diJ4WxXuOIzC5rdGbQJHD
+ clOfwudptIX0oyTs3syRTeBuALxqvzfe9BlRkN63rCQlCifo/q5JAkHqN29xVXsEk+gE
+ FaVPJRN19wq+BbLbPSetNROK1BATiaGNws+8wg98VAN56NNrlsHmsWQh3VvxfF/V4I1I
+ LHpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hBRktG0netiEsWGozMVwlQ/HVuI2W9FAZgUMPwPfDZg=;
- b=6cbk5lqhnbUV2/A+89noLpe0LxbBVS1ZIIxS+TpQPTn/ElE2Kd37qyxyDFtYn5AE9v
- rJSf7xZ6tYDCUPxeaK1FTP/Jqtax+reMteS3rYA5mEWnMfS/tu4dPBB2xit5qAUIos0f
- nWl0DkRo09EfOzDvKi4ulv3nlB2GEo//YrM+bqHlDTpV57mix28Kokz9EXfXDTDg8Psa
- RCkMR0ERF7NmyBYd6slUNvQXvfe7Kkhenl4Jp11WzUMJDZmCJkvJIWa+wFZ6IBqvBvPW
- +IUZ9YNYfpukNN10ayiLbovBwr8RsdJkmAw+Q69byOr8jnrD2XZuZyLEZvaqcUnDa0GK
- DaeA==
-X-Gm-Message-State: ACrzQf2X4IT6v4z2Sm//qqbAhqxY1PVncLpSg63298oksoOlBjuLVZw9
- afFSgUw8kgXlaOTFWFF1++VktA==
-X-Google-Smtp-Source: AMsMyM5jSe9Z5JLWKwnokKYnm/kgiTl5U6rWcaNtX2g8GEaSq3W3k8qyag2Q4EhdQ6sldRTAKtH7Lw==
-X-Received: by 2002:a05:6000:1841:b0:236:70db:20c9 with SMTP id
- c1-20020a056000184100b0023670db20c9mr11391500wri.671.1667294882191; 
- Tue, 01 Nov 2022 02:28:02 -0700 (PDT)
+ bh=6ZsnFSBU9fQumdukqX4Giq799LNa40opv695H0J6JlQ=;
+ b=4coTawXSjrkOSKXSSxwHFHPaIvX8PL7aSpacEH6CJLZAQVYVxLkF3rE2G8VURrpjza
+ XQZE18qE9ILcQgnASzjaPe5Vf+bvfELldcANntxjavHPmGuHTYRirelK4FWmnJp7kuU+
+ obrbmghLRSjVM+UkrDhquFxA467RuvXZ2XbuqV9wlZGOP38Ie8tOQhRf+BKkfNYJyEA6
+ NLBP/NtVs0CnWLQehvn4idwGr6LfseCQqDUh0i8S9q/fPtF5tY0sPI0OV3Eb4HWtazIn
+ aG/TG8XYlL2Z0H3OfTg59SJhGKfxdwWuOTeIB9Zi1CQCiKw86W0AcV7e+CF2zYI3JC+c
+ Xw6A==
+X-Gm-Message-State: ACrzQf2zIkJJO9oAH/f2m3ayYog9zOPhJZvdw2ObnXUQmVJXci7dY9wn
+ yAiAQjjPisqs6PMv2P+Qw3Wsnw==
+X-Google-Smtp-Source: AMsMyM6BwWfYGZTtl9Rj8R5t+gNWf3ple6bODxd3F3GQDQVLgiUxYUnK9CeJ7T5xtXFLbqYkUTHvcA==
+X-Received: by 2002:a5d:4b45:0:b0:236:501f:7a41 with SMTP id
+ w5-20020a5d4b45000000b00236501f7a41mr11088868wrs.516.1667297432470; 
+ Tue, 01 Nov 2022 03:10:32 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- t12-20020adff60c000000b002366ded5864sm9377974wrp.116.2022.11.01.02.28.00
+ m5-20020a05600c4f4500b003c83465ccbfsm7863793wmq.35.2022.11.01.03.10.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Nov 2022 02:28:01 -0700 (PDT)
-Message-ID: <3584ab7a-7a0f-753b-ea5a-c6e9bc546d0c@linaro.org>
-Date: Tue, 1 Nov 2022 10:27:59 +0100
+ Tue, 01 Nov 2022 03:10:31 -0700 (PDT)
+Message-ID: <425d6322-3cab-01da-e6c6-f8e07564e7c0@linaro.org>
+Date: Tue, 1 Nov 2022 11:10:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH v3 16/24] disas/nanomips: Remove IMMEDIATE functions
+Subject: Re: [PULL 08/30] target/arm: Add ptw_idx to S1Translate
 Content-Language: en-US
-To: Stefan Weil <sw@weilnetz.de>,
- Milica Lazarevic <milica.lazarevic@syrmia.com>, thuth@redhat.com
-Cc: qemu-devel@nongnu.org, cfontana@suse.de, berrange@redhat.com,
- pbonzini@redhat.com, vince.delvecchio@mediatek.com,
- richard.henderson@linaro.org, peter.maydell@linaro.org,
- djordje.todorovic@syrmia.com, mips32r2@gmail.com,
- dragan.mladjenovic@syrmia.com, Thomas Huth <thuth@redhat.com>
-References: <20220912122635.74032-1-milica.lazarevic@syrmia.com>
- <20220912122635.74032-17-milica.lazarevic@syrmia.com>
- <78553699-00c1-ad69-1d58-02f75a1f4fe3@weilnetz.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <78553699-00c1-ad69-1d58-02f75a1f4fe3@weilnetz.de>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20221025163952.4131046-1-peter.maydell@linaro.org>
+ <20221025163952.4131046-9-peter.maydell@linaro.org>
+ <2a7722fc-fd5c-709b-b7d5-2ccafb82b363@linaro.org>
+In-Reply-To: <2a7722fc-fd5c-709b-b7d5-2ccafb82b363@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,77 +94,185 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/11/22 09:28, Stefan Weil via wrote:
-> Am 12.09.22 um 14:26 schrieb Milica Lazarevic:
->> Both versions of IMMEDIATE functions have been removed.
+On 1/11/22 00:14, Philippe Mathieu-Daudé wrote:
+> On 25/10/22 18:39, Peter Maydell wrote:
+>> From: Richard Henderson <richard.henderson@linaro.org>
 >>
->> Before this patch, we'd been calling img_format twice, the first time
->> through the IMMEDIATE to get an appropriate string and the second time
->> to print that string. There's no more need for that. Therefore, calls to
->> IMMEDIATE are removed, and now we're directly printing the integer
->> values instead.
+>> Hoist the computation of the mmu_idx for the ptw up to
+>> get_phys_addr_with_struct and get_phys_addr_twostage.
+>> This removes the duplicate check for stage2 disabled
+>> from the middle of the walk, performing it only once.
 >>
->> Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>> Tested-by: Alex Bennée <alex.bennee@linaro.org>
+>> Message-id: 20221024051851.3074715-3-richard.henderson@linaro.org
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 >> ---
->>   disas/nanomips.cpp | 756 ++++++++++++++++-----------------------------
->>   1 file changed, 265 insertions(+), 491 deletions(-)
+>>   target/arm/ptw.c | 71 ++++++++++++++++++++++++++++++++++++------------
+>>   1 file changed, 54 insertions(+), 17 deletions(-)
 >>
->> diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
->> index 816155527d..441204bb84 100644
->> --- a/disas/nanomips.cpp
->> +++ b/disas/nanomips.cpp
-> [...]
->> @@ -3305,11 +3271,9 @@ static char *CACHE(uint64 instruction, Dis_info 
->> *info)
->>       uint64 rs_value = extract_rs_20_19_18_17_16(instruction);
->>       int64 s_value = extract_s__se8_15_7_6_5_4_3_2_1_0(instruction);
->> -    char *op = IMMEDIATE(op_value);
->> -    char *s = IMMEDIATE(s_value);
->>       const char *rs = GPR(rs_value);
->> -    return img_format("CACHE %s, %s(%s)", op, s, rs);
->> +    return img_format("CACHE 0x%" PRIx64 ", %s(%s)", op_value, 
->> s_value, rs);
->>   }
->> @@ -3329,11 +3293,9 @@ static char *CACHEE(uint64 instruction, 
->> Dis_info *info)
->>       uint64 rs_value = extract_rs_20_19_18_17_16(instruction);
->>       int64 s_value = extract_s__se8_15_7_6_5_4_3_2_1_0(instruction);
->> -    char *op = IMMEDIATE(op_value);
->> -    char *s = IMMEDIATE(s_value);
->>       const char *rs = GPR(rs_value);
->> -    return img_format("CACHEE %s, %s(%s)", op, s, rs);
->> +    return img_format("CACHEE 0x%" PRIx64 ", %s(%s)", op_value, 
->> s_value, rs);
->>   }
+>> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+>> index 32d64125865..3c153f68318 100644
+>> --- a/target/arm/ptw.c
+>> +++ b/target/arm/ptw.c
+>> @@ -17,6 +17,7 @@
+>>   typedef struct S1Translate {
+>>       ARMMMUIdx in_mmu_idx;
+>> +    ARMMMUIdx in_ptw_idx;
+>>       bool in_secure;
+>>       bool in_debug;
+>>       bool out_secure;
+>> @@ -214,33 +215,24 @@ static bool S1_ptw_translate(CPUARMState *env, 
+>> S1Translate *ptw,
+>>   {
+>>       bool is_secure = ptw->in_secure;
+>>       ARMMMUIdx mmu_idx = ptw->in_mmu_idx;
+>> -    ARMMMUIdx s2_mmu_idx = is_secure ? ARMMMUIdx_Stage2_S : 
+>> ARMMMUIdx_Stage2;
+>> -    bool s2_phys = false;
+>> +    ARMMMUIdx s2_mmu_idx = ptw->in_ptw_idx;
+>>       uint8_t pte_attrs;
+>>       bool pte_secure;
+>> -    if (!arm_mmu_idx_is_stage1_of_2(mmu_idx)
+>> -        || regime_translation_disabled(env, s2_mmu_idx, is_secure)) {
+>> -        s2_mmu_idx = is_secure ? ARMMMUIdx_Phys_S : ARMMMUIdx_Phys_NS;
+>> -        s2_phys = true;
+>> -    }
+>> -
+>>       if (unlikely(ptw->in_debug)) {
+>>           /*
+>>            * From gdbstub, do not use softmmu so that we don't modify the
+>>            * state of the cpu at all, including softmmu tlb contents.
+>>            */
+>> -        if (s2_phys) {
+>> -            ptw->out_phys = addr;
+>> -            pte_attrs = 0;
+>> -            pte_secure = is_secure;
+>> -        } else {
+>> +        if (regime_is_stage2(s2_mmu_idx)) {
+>>               S1Translate s2ptw = {
+>>                   .in_mmu_idx = s2_mmu_idx,
+>> +                .in_ptw_idx = is_secure ? ARMMMUIdx_Phys_S : 
+>> ARMMMUIdx_Phys_NS,
+>>                   .in_secure = is_secure,
+>>                   .in_debug = true,
+>>               };
+>>               GetPhysAddrResult s2 = { };
+>> +
+>>               if (!get_phys_addr_lpae(env, &s2ptw, addr, MMU_DATA_LOAD,
+>>                                       false, &s2, fi)) {
+>>                   goto fail;
+>> @@ -248,6 +240,11 @@ static bool S1_ptw_translate(CPUARMState *env, 
+>> S1Translate *ptw,
+>>               ptw->out_phys = s2.f.phys_addr;
+>>               pte_attrs = s2.cacheattrs.attrs;
+>>               pte_secure = s2.f.attrs.secure;
+>> +        } else {
+>> +            /* Regime is physical. */
+>> +            ptw->out_phys = addr;
+>> +            pte_attrs = 0;
+>> +            pte_secure = is_secure;
+>>           }
+>>           ptw->out_host = NULL;
+>>       } else {
+>> @@ -268,7 +265,7 @@ static bool S1_ptw_translate(CPUARMState *env, 
+>> S1Translate *ptw,
+>>           pte_secure = full->attrs.secure;
+>>       }
+>> -    if (!s2_phys) {
+>> +    if (regime_is_stage2(s2_mmu_idx)) {
+>>           uint64_t hcr = arm_hcr_el2_eff_secstate(env, is_secure);
+>>           if ((hcr & HCR_PTW) && S2_attrs_are_device(hcr, pte_attrs)) {
+>> @@ -1263,7 +1260,18 @@ static bool get_phys_addr_lpae(CPUARMState 
+>> *env, S1Translate *ptw,
+>>           descaddr |= (address >> (stride * (4 - level))) & indexmask;
+>>           descaddr &= ~7ULL;
+>>           nstable = extract32(tableattrs, 4, 1);
+>> -        ptw->in_secure = !nstable;
+>> +        if (!nstable) {
+>> +            /*
+>> +             * Stage2_S -> Stage2 or Phys_S -> Phys_NS
+>> +             * Assert that the non-secure idx are even, and relative 
+>> order.
+>> +             */
+>> +            QEMU_BUILD_BUG_ON((ARMMMUIdx_Phys_NS & 1) != 0);
+>> +            QEMU_BUILD_BUG_ON((ARMMMUIdx_Stage2 & 1) != 0);
+>> +            QEMU_BUILD_BUG_ON(ARMMMUIdx_Phys_NS + 1 != 
+>> ARMMMUIdx_Phys_S);
+>> +            QEMU_BUILD_BUG_ON(ARMMMUIdx_Stage2 + 1 != 
+>> ARMMMUIdx_Stage2_S);
+>> +            ptw->in_ptw_idx &= ~1;
+>> +            ptw->in_secure = false;
+>> +        }
+>>           descriptor = arm_ldq_ptw(env, ptw, descaddr, fi);
+>>           if (fi->type != ARMFault_None) {
+>>               goto do_fault;
+>> @@ -2449,6 +2457,7 @@ static bool get_phys_addr_twostage(CPUARMState 
+>> *env, S1Translate *ptw,
+>>       is_el0 = ptw->in_mmu_idx == ARMMMUIdx_Stage1_E0;
+>>       ptw->in_mmu_idx = s2walk_secure ? ARMMMUIdx_Stage2_S : 
+>> ARMMMUIdx_Stage2;
+>> +    ptw->in_ptw_idx = s2walk_secure ? ARMMMUIdx_Phys_S : 
+>> ARMMMUIdx_Phys_NS;
+>>       ptw->in_secure = s2walk_secure;
+>>       /*
+>> @@ -2508,10 +2517,32 @@ static bool 
+>> get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
+>>                                         ARMMMUFaultInfo *fi)
+>>   {
+>>       ARMMMUIdx mmu_idx = ptw->in_mmu_idx;
+>> -    ARMMMUIdx s1_mmu_idx = stage_1_mmu_idx(mmu_idx);
+>>       bool is_secure = ptw->in_secure;
+>> +    ARMMMUIdx s1_mmu_idx;
+>> -    if (mmu_idx != s1_mmu_idx) {
+>> +    switch (mmu_idx) {
+>> +    case ARMMMUIdx_Phys_S:
+>> +    case ARMMMUIdx_Phys_NS:
+>> +        /* Checking Phys early avoids special casing later vs 
+>> regime_el. */
+>> +        return get_phys_addr_disabled(env, address, access_type, 
+>> mmu_idx,
+>> +                                      is_secure, result, fi);
+>> +
+>> +    case ARMMMUIdx_Stage1_E0:
+>> +    case ARMMMUIdx_Stage1_E1:
+>> +    case ARMMMUIdx_Stage1_E1_PAN:
+>> +        /* First stage lookup uses second stage for ptw. */
+>> +        ptw->in_ptw_idx = is_secure ? ARMMMUIdx_Stage2_S : 
+>> ARMMMUIdx_Stage2;
+>> +        break;
+>> +
+>> +    case ARMMMUIdx_E10_0:
+>> +        s1_mmu_idx = ARMMMUIdx_Stage1_E0;
+>> +        goto do_twostage;
+>> +    case ARMMMUIdx_E10_1:
+>> +        s1_mmu_idx = ARMMMUIdx_Stage1_E1;
+>> +        goto do_twostage;
+>> +    case ARMMMUIdx_E10_1_PAN:
+>> +        s1_mmu_idx = ARMMMUIdx_Stage1_E1_PAN;
+>> +    do_twostage:
+>>           /*
+>>            * Call ourselves recursively to do the stage 1 and then 
+>> stage 2
+>>            * translations if mmu_idx is a two-stage regime, and EL2 
+>> present.
+>> @@ -2522,6 +2553,12 @@ static bool 
+>> get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
+>>               return get_phys_addr_twostage(env, ptw, address, 
+>> access_type,
+>>                                             result, fi);
+>>           }
+>> +        /* fall through */
+>> +
+>> +    default:
+>> +        /* Single stage and second stage uses physical for ptw. */
+>> +        ptw->in_ptw_idx = is_secure ? ARMMMUIdx_Phys_S : 
+>> ARMMMUIdx_Phys_NS;
+>> +        break;
+>>       }
 > 
-> Do we really want to format "int64 s_value" as a string? The code now 
-> has lots of wrong format strings. Add the patch below to get the 
-> compiler report.
-> 
-> We once had a discussion about using G_GNUC_PRINTF for local functions 
-> or not. I think that this example clearly shows that it should be 
-> mandatory.
+> Since this commit I can not boot Trusted Firmware on the SBSA-ref machine.
 
-Yes. The problem here is nobody wants to maintain this code, but we
-inherited it. IIUC this series doesn't make it worst, it just remove
-the C++ dependency on UNIX-based hosts.
-
-> Regards,
-> Stefan
-> 
-> diff --git a/disas/nanomips.c b/disas/nanomips.c
-> index 9647f1a8e3..c875818cb9 100644
-> --- a/disas/nanomips.c
-> +++ b/disas/nanomips.c
-> @@ -95,7 +95,7 @@ typedef struct Pool {
->   #define IMGASSERTONCE(test)
-> 
-> 
-> -static char *img_format(const char *format, ...)
-> +static char * G_GNUC_PRINTF(1, 2) img_format(const char *format, ...)
->   {
->       char *buffer;
->       va_list args;
-> 
-
+Do we need to set in_ptw_idx in get_phys_addr_with_secure()?
 
