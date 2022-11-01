@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9705F6154EB
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 23:25:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95CD96154FA
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 23:30:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opzfQ-0000Pq-J3; Tue, 01 Nov 2022 18:23:32 -0400
+	id 1opzlR-0002IV-V5; Tue, 01 Nov 2022 18:29:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1opzfO-0000PY-RD; Tue, 01 Nov 2022 18:23:30 -0400
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opzlP-0002HA-3O
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 18:29:43 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1opzfN-00056d-1p; Tue, 01 Nov 2022 18:23:30 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id j130so19014660ybj.9;
- Tue, 01 Nov 2022 15:23:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ZTh+bsIBCIPi6s9oU/UBa5V9v74ADhpE3WZBx091S+g=;
- b=geHEYWAoekd44RJsJXe0qmAjAZTQDzeP/VDMKAmJPNyc89zTIVUKYKoOGiS10LqACn
- ZXWgCu3sajd9Gwpv1mQ0EbMQVBsCguLqhFhIkv933RJq79vLwfHDhtNRk7B9vtDSUhxU
- BC7PQo6bNfL/F+rxOgFl47BVbKDwGbidbjJtB5X3QIYgdtpOdotjAORpGaHZWQ1ICprm
- uYefyTA+onDz/o+GrW1Aai56CGZmcA9ec9ZvOK+ryiW97ocz0W7ubfbFbZKuwamX07ei
- 9p+yVGTf7uUYraBTPzu6lE2ZDs2BgvWAyehNZrlsNmr9KPSFLsKCk/YbZkh3pTYH5cDt
- KkDg==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opzlM-0007Xs-8Q
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 18:29:42 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id l14so22088004wrw.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 15:29:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=g6rhK7yvsnjAuR8A29XQuRoooNELJ46uLdG+RZPnCco=;
+ b=DvhwBol6cU42uhwpzKrXUVO+erbh7639tgu3UeaRQ1WTBHDIddLMU8SwhovL+puzSm
+ fFOeH4ETn3aX/EbvffAmoBu95P6L8BQATf0UNZqGAEYqk6F6RnnTgVkZpWncw6WVHZBp
+ FnuHCi2JzUOsGywoR4OJJnvfmdFPp4XpM7hBe8B4LTK/M7qAHS1gfEQRF5pon31zwPHl
+ YQ5XexYp7UXG/wpznPCP+5Xk/vjbmI0HozyUNap9TJZdV4Y5ptT5E01MVuqFDPUj1V1H
+ LdwwB0uLA+/bkKKzd36ttlV+rtaw/F3rtVI5XCPs116n2LhOEBmLJYRWB6s1jbHz3Lbk
+ ScZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=ZTh+bsIBCIPi6s9oU/UBa5V9v74ADhpE3WZBx091S+g=;
- b=QgHAcgahTT65NLMn9o5sAYdific+iHyyrg7hA6XCik4hX0ZUbVnHFQoLfjlhQ6lTT8
- xR/ef12fzduJtYUePBpEEkTb2HB1bP6G1RYASissPeX3NR3lXiQxWcRp2VrZP0RREHw9
- k8cYtLjzC9Xasf8SAr5CMrDCebX47RPSza+dXsTEcXl/98dKxuvChomuiCLsS4beAXSl
- Y1y9xmFPIPvPyQQ9y6eht6VNyy/NH+7yb+XGQbYYupPiQcpHzSk9lwqUQUN4bTgzIY53
- JNkZ8MwZrKKIX/ZNcd8rlt2MO0iApR83htZ1hvbq+AkUivJwBuKiItuwCg+hWX3fTtfY
- 2wJA==
-X-Gm-Message-State: ACrzQf3O7bQhbLdPEU31UeqG/H7MzpFjwVYOLLeGCV7lBYmYoxmDHlyv
- v2pl24bFtDcjCtAkjOGM6m3UmcqTNSfTDN2qGm0=
-X-Google-Smtp-Source: AMsMyM6Bm/OwtZPfhkVAaobRbw4BjTzL8fYBc4dL5CQENcMbpI4DYNZ4ReBO/x+iA01Id3FDZ7Cq3BvK699/LeeRZao=
-X-Received: by 2002:a25:4fc1:0:b0:6bc:c570:f99e with SMTP id
- d184-20020a254fc1000000b006bcc570f99emr19884592ybb.58.1667341407177; Tue, 01
- Nov 2022 15:23:27 -0700 (PDT)
+ bh=g6rhK7yvsnjAuR8A29XQuRoooNELJ46uLdG+RZPnCco=;
+ b=VXPNNfUM9BzFYnMFCiInbyzRMNb5mzC4Arof4Rqy4NBGCY3GshRC3tVONlJKjoRPo5
+ 9Up+bep4bSyd2MnQ/1fa6mDNmyEOY2MbaJa2VE6OBoTtpuVdCAZm/jCYS7/WY6RFQsvQ
+ 1tG/4olPy8mOaKK7gjqGJRA4R+OCV1/z0MwTZCwka6uVvabqRthl9RkaFW6e+IW5uQBo
+ 5ZTrOlNLsBl1U0Ah8Hj0TaREIHTgbUD2siac9Rs1XmNI9zsmIJXfsdC8ZXAKVN7lJvaR
+ fwM1axNxsvj6c2z0ho1ZYM0xEcK4iGUTAAz6/h3eyVMd5PN5L3WZCbYQACxHyw5iwDoq
+ MyPw==
+X-Gm-Message-State: ACrzQf0PPqgHE6NScmCfaULslsQG9DXQrK2+3fXLrTJyn0Se0AynwVRZ
+ JWnPwSDok35O91N8wpVmrTT0/bnHm9djyw==
+X-Google-Smtp-Source: AMsMyM5H6o3uHZn18GKrQ/GCz2tiqacnkRKAwu4XNJo6EVaef8t3Lrl+s7FJ8hWYO8kidx4KCAH2/Q==
+X-Received: by 2002:a5d:6c6b:0:b0:225:dde:ab40 with SMTP id
+ r11-20020a5d6c6b000000b002250ddeab40mr13138156wrz.690.1667341777807; 
+ Tue, 01 Nov 2022 15:29:37 -0700 (PDT)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ az24-20020adfe198000000b0022e035a4e93sm11406428wrb.87.2022.11.01.15.29.36
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Tue, 01 Nov 2022 15:29:37 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org,
+	Bernhard Beschow <shentey@gmail.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org,
+ qemu-block@nongnu.org
+Subject: [PATCH v6 0/3] ppc/e500: Add support for eSDHC
+Date: Tue,  1 Nov 2022 23:29:31 +0100
+Message-Id: <20221101222934.52444-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221028163951.810456-1-danielhb413@gmail.com>
- <20221028163951.810456-60-danielhb413@gmail.com>
-In-Reply-To: <20221028163951.810456-60-danielhb413@gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 1 Nov 2022 18:23:15 -0400
-Message-ID: <CAJSP0QWiE2gmUB4Fcb_TdS1SzXiS3fFvjoCXjqYbvts0Nvb+HA@mail.gmail.com>
-Subject: Re: [PULL 59/62] hw/block/pflash_cfi0{1, 2}: Error out if device
- length isn't a power of two
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, stefanha@redhat.com, 
- Bernhard Beschow <shentey@gmail.com>, Bin Meng <bmeng.cn@gmail.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb30.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,13 +89,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-There is a report that this commit breaks an existing OVMF setup:
-https://gitlab.com/qemu-project/qemu/-/issues/1290#note_1156507334
+This is a respin of Bernhard's v4 with Freescale eSDHC implemented
+as an 'UNIMP' region. See v4 cover here:
+https://lore.kernel.org/qemu-devel/20221018210146.193159-1-shentey@gmail.com/
 
-I'm not familiar with pflash. Please find a way to avoid a regression
-in QEMU 7.2 here.
+Since v5:
+- Rebased (ppc-next merged)
+- Properly handle big-endian
 
-Thank you!
+Since v4:
+- Do not rename ESDHC_* definitions to USDHC_*
+- Do not modify SDHCIState structure
 
-Stefan
+Supersedes: <20221031115402.91912-1-philmd@linaro.org>
+
+Philippe Mathieu-Daudé (3):
+  hw/sd/sdhci: MMIO region is implemented in 32-bit accesses
+  hw/sd/sdhci: Support big endian SD host controller interfaces
+  hw/ppc/e500: Add Freescale eSDHC to e500plat
+
+ docs/system/ppc/ppce500.rst | 13 ++++++++++
+ hw/ppc/Kconfig              |  2 ++
+ hw/ppc/e500.c               | 48 ++++++++++++++++++++++++++++++++++++-
+ hw/ppc/e500.h               |  1 +
+ hw/ppc/e500plat.c           |  1 +
+ hw/sd/sdhci-internal.h      |  1 +
+ hw/sd/sdhci.c               | 36 +++++++++++++++++++++++++---
+ include/hw/sd/sdhci.h       |  1 +
+ 8 files changed, 99 insertions(+), 4 deletions(-)
+
+-- 
+2.38.1
+
 
