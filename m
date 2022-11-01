@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF8C615045
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:14:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F38F9615021
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:11:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opuZu-00019v-Jj; Tue, 01 Nov 2022 12:57:31 -0400
+	id 1opubO-0001Mm-Ot; Tue, 01 Nov 2022 12:59:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opuZm-00019C-Sz
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 12:57:23 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opubN-0001Lq-4x
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 12:59:01 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opuZk-00051O-RR
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 12:57:22 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id z14so20972966wrn.7
- for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 09:57:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1opub7-0005WJ-Ob
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 12:59:00 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id a14so20998721wru.5
+ for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 09:58:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Kh5k6Gcs103O3hPkb/jnYTBCgB0//+5piMyuK7GnP1I=;
- b=zTvz07EsesMwDtd+1Wo37M2mmc1GPJxbbD2eq2wk3RgK1DnotkasI62vQa5+nsp9Jh
- bw5nOxfMfxgrZCgj/cC8VlgAVbPDRKYXs9R2OPMCooM6YCjPDwPqyM7Jx2WRvXCMK5lu
- 7D43LGC6GPZg7i7kvzwj9teaXmFMc5BFwD1D1CsFYrto7bgfsPwKDp6AghYd+GmbeCg0
- fi7eC8pqWS9tcqUdRmCDEkPSpGXw4OJJGC4kQB6i0BhPYPj82amckrNl2/xi0H0tkBqy
- nLbT8f+/hiJe/RAVSvtm0owzgSBBwSkHlvo15edfyI1I4JNYirOsejjXlgMGA7+NRTXT
- dWOg==
+ bh=XF0x13GT70JzdbiK8C3YLqyxWaXwZzEIsu+JZztc2O0=;
+ b=BFC1tJghMKu/uqMhrmNNI3TCO88qAsVxmLZJERzmWGGKdVp0QeJgmpRjkedOxMfcsS
+ AaQyQ1n1VscuSQJKm3svJJ9jMNSfxUNtWYPr8UvsQtpM7l3WVplwO4ADs+4JskajZipg
+ M6hXgeOvsBKRvzwtXCR2qX/7NApipno2jBNY+MTaUDjPX8CX5DVZYL/yT3hZL2tO0ETv
+ QfT4R78BOQT1wvCbobqf34e6lta4B+MoYueJnJWEVoiAQoSGZDIkuV4M7SzMyLHGrSUG
+ cSVsHxYfjg7aQEAiceBplg81v6EkFSy8rGJ7vyizy0WODG8GNF9XYRUv2Nqng2aP6yEn
+ /msQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Kh5k6Gcs103O3hPkb/jnYTBCgB0//+5piMyuK7GnP1I=;
- b=P2nIS+B+rJsQMKIgZo7LVDneWuP2SCVzZKCE7fMaFEEJZ7jPrBegMub0D/gP2j0b8F
- 6NWDuORjufWdnYqn51ltaW0sxM+5q2xljR/jHmTTBQp47vVAUz1/x/KHMDB10rGtR53h
- dXmlgb0IZ5Xwpdkkm94oALR+Xh0vFIOMkzPs9irSeL99mth2h0NwChK53YRfGRq14I5M
- y28kPBZ6PrVwAuBfIZ8MlWNsGgF4e91NSsLlwCV+VkTmZMAO0/b1WzkkfnH/knunSf1N
- gi/AX139tx6GVhIuPCYehXeLWw2o7yEPcCaDxE5Pr1m6kThxbUZmKlVwioL78GuQi5GF
- ViSg==
-X-Gm-Message-State: ACrzQf0eqzHu448EW38m9WzXip7XzpSlTHnsgLfYFemwcf6xgUvpxk2W
- jVfIOyKN/VoFEJKrMEuZD0+JlA==
-X-Google-Smtp-Source: AMsMyM4vX4qX4rRtbObIDemnmR25bRBQLeZIjmtQgdvKcdYtwBveJcdqZMFYOJHA/8Jab8hJG1c0iQ==
-X-Received: by 2002:adf:db92:0:b0:236:9d4a:476f with SMTP id
- u18-20020adfdb92000000b002369d4a476fmr12367496wri.654.1667321839210; 
- Tue, 01 Nov 2022 09:57:19 -0700 (PDT)
+ bh=XF0x13GT70JzdbiK8C3YLqyxWaXwZzEIsu+JZztc2O0=;
+ b=t2V+hWtcd3nn5ZtenkSmoSC3/DZYkMyvrrVuzbM5QYpGO76iTG1av6UzsibXuMQ+jM
+ NaRL+RM2seygKOXgB6X7iPW22yV4siuyrWe77swAT+Aayj9MCHxsVcfqE87qpHqnjmUx
+ MQ4Y9ednv/C/pnJPkso8jjziGCyrLjXSD7abmJ5GPXGPzxlWtQP8FHHxl/RLZkXsNu5g
+ 71+bLJvRIQ/HqYbJgfV62oGuJk3PNXFH8ybKiT41SBssndrShJiUqaU2v26sjBUTHgo/
+ T7IhvJjxViFmEIRFpPSCW8lMEWkH3dV+aKEwPvL0rbM0uvYVRHg887J9/teu1NAiXQdB
+ aD9g==
+X-Gm-Message-State: ACrzQf266adKnLe80yJedJiKaSw4AUMUKlzjSXKwHuSwprI+ma3WwYaN
+ Ey4GIW86D5MozGOVqd8krYU0pw==
+X-Google-Smtp-Source: AMsMyM6YrKrE4yMqUopmjpvaVx5vgneOoSqcGsuOznqRVusny6uOjR9KuaomzbhI3ecRGq4wkV/UuA==
+X-Received: by 2002:a5d:6c6b:0:b0:225:dde:ab40 with SMTP id
+ r11-20020a5d6c6b000000b002250ddeab40mr12400978wrz.690.1667321923772; 
+ Tue, 01 Nov 2022 09:58:43 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- e7-20020adff347000000b00226dba960b4sm10646318wrp.3.2022.11.01.09.57.17
+ az24-20020adfe198000000b0022e035a4e93sm10780193wrb.87.2022.11.01.09.58.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Nov 2022 09:57:18 -0700 (PDT)
-Message-ID: <aa4463f4-30d8-cb84-b38f-9d359974e543@linaro.org>
-Date: Tue, 1 Nov 2022 17:57:16 +0100
+ Tue, 01 Nov 2022 09:58:43 -0700 (PDT)
+Message-ID: <7ee7386e-f754-083a-42e3-44b84bf4908a@linaro.org>
+Date: Tue, 1 Nov 2022 17:58:41 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PULL 08/30] target/arm: Add ptw_idx to S1Translate
+Subject: Re: [PATCH v5 0/6] ppc/e500: Add support for two types of flash,
+ cleanup
 Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org
+References: <20221031115402.91912-1-philmd@linaro.org>
+ <CAG4p6K5Kmcq6o5NwuvL-oFQtw80VXw_WX-2zUCjUnP=e2g0Q4g@mail.gmail.com>
+ <AAFF66C6-6254-44FB-96B8-97B08F413C95@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20221025163952.4131046-1-peter.maydell@linaro.org>
- <20221025163952.4131046-9-peter.maydell@linaro.org>
- <2a7722fc-fd5c-709b-b7d5-2ccafb82b363@linaro.org>
- <425d6322-3cab-01da-e6c6-f8e07564e7c0@linaro.org>
-In-Reply-To: <425d6322-3cab-01da-e6c6-f8e07564e7c0@linaro.org>
+In-Reply-To: <AAFF66C6-6254-44FB-96B8-97B08F413C95@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,29 +95,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/11/22 11:10, Philippe Mathieu-Daudé wrote:
-> On 1/11/22 00:14, Philippe Mathieu-Daudé wrote:
->> On 25/10/22 18:39, Peter Maydell wrote:
->>> From: Richard Henderson <richard.henderson@linaro.org>
+On 1/11/22 17:01, Bernhard Beschow wrote:
+> Am 1. November 2022 10:41:51 UTC schrieb Bernhard Beschow <shentey@gmail.com>:
+>> On Mon, Oct 31, 2022 at 12:54 PM Philippe Mathieu-Daudé <philmd@linaro.org>
+>> wrote:
+>>
+>>> This is a respin of Bernhard's v4 with Freescale eSDHC implemented
+>>> as an 'UNIMP' region. See v4 cover here:
 >>>
->>> Hoist the computation of the mmu_idx for the ptw up to
->>> get_phys_addr_with_struct and get_phys_addr_twostage.
->>> This removes the duplicate check for stage2 disabled
->>> from the middle of the walk, performing it only once.
+>>> https://lore.kernel.org/qemu-devel/20221018210146.193159-1-shentey@gmail.com/
 >>>
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
->>> Tested-by: Alex Bennée <alex.bennee@linaro.org>
->>> Message-id: 20221024051851.3074715-3-richard.henderson@linaro.org
->>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->>> ---
->>>   target/arm/ptw.c | 71 ++++++++++++++++++++++++++++++++++++------------
->>>   1 file changed, 54 insertions(+), 17 deletions(-)
-
->> Since this commit I can not boot Trusted Firmware on the SBSA-ref 
->> machine.
+>>> Only tested with the ppce500 machine (no further regression testing).
+>>>
+>>> Since v4:
+>>> - Do not rename ESDHC_* definitions to USDHC_*
+>>> - Do not modify SDHCIState structure
+>>>
+>>
+>> Works beautifully, both for the buildroot load and for my proprietary load.
+>> So:
+>> Tested-by: Bernhard Beschow<shentey@gmail.com>
+>>
+>>>
+>>> Bernhard Beschow (4):
+>>>    hw/block/pflash_cfi0{1, 2}: Error out if device length isn't a power
+>>>      of two
+>>>    docs/system/ppc/ppce500: Use qemu-system-ppc64 across the board(s)
+>>>    hw/ppc/e500: Implement pflash handling
+>>>    hw/ppc/e500: Add Freescale eSDHC to e500plat
+>>>
+>>> Philippe Mathieu-Daudé (2):
+>>>    hw/sd/sdhci: MMIO region is implemented in 32-bit accesses
+>>>    hw/sd/sdhci: Map host controller interface in host endianess
 > 
-> Do we need to set in_ptw_idx in get_phys_addr_with_secure()?
+> Hi Phil,
+> 
+> Is there a chance to get this in for 7.2?
 
-I opened https://gitlab.com/qemu-project/qemu/-/issues/1293 to track.
+Well 1/ can you review patch #1 and 2/ we need to figure out what to do 
+with patch #2 :) Can you point me to the CCSR datasheet?
 
