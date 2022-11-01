@@ -2,94 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668AD6150A6
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68424615087
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:22:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opsi8-0007Ag-OQ; Tue, 01 Nov 2022 10:57:52 -0400
+	id 1opsmK-0007en-7n; Tue, 01 Nov 2022 11:02:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opsi6-0007AU-P9
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:57:50 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1opshy-00043D-IT
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 10:57:50 -0400
-Received: by mail-pg1-x535.google.com with SMTP id 78so13614671pgb.13
- for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 07:57:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HrgNSVqTDbuEanLstNZKWa5su0x6ybIEgUvgtm8IN1U=;
- b=FGUMxBkhQyYJQ6J4IWXifllETidG6MLi6svQtt/0r+KIg2Tx9IQugmsJK8ywHRgRZ1
- W6wmbMLXeiXQoHu8cSXd1Q3lY/ac/efevh+V9TeKJZwZmyTakB/ZlG9hYdQf4vr0Ys9o
- r0UklPpH1Q7O/Q48GEPpICfRR4ko/gwZlHyiBc/32iqkURFWck69kjMFERQOgRqHC8vn
- RhM4yl9Payukyd6ylZJ0cGNEyIADB/BMBUyc36FrVwmZy2BF6N6KmA0rlwswL3VvAWQN
- EidhuFdO46BBeOc1TxzFaatABhkFeMPSHz9DDBTzPqRm3fNYuRBpquD4QXWlVCvq1T1N
- l8iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=HrgNSVqTDbuEanLstNZKWa5su0x6ybIEgUvgtm8IN1U=;
- b=7sDf+ecdKAMSQ2DrR2vy4TiOMCeCYuP+pSAkoYYAJJhwawZfbLfCD1u89tK20XeIde
- veNLruDR3eJPumh0Og/Q2YO51cezdA2GjyicqFFm4cM0KrhaO/+L8Ag18U1NsJl+rE/3
- J9gzsgog8BRXSdnwj0G0Ztb43mdCyb/hi1zIEzio0/EgsYuh7zd3HXNAA244AS2P9y9/
- 5v/uJUWsA+l3EcoeoAdWNqSe5+ydCdVzYYmXMypHXlw33c8YAqFiio4iBH6bTMalBx2H
- j+ha+h1ijXFkvmym1gt66y41nxmS30NitYJRI72F3hBj76O7VueVa5egyX9GOiuHnrnP
- DrLw==
-X-Gm-Message-State: ACrzQf1nQC5UVd96vLneR55Dc0H7w2xwF8YA9xNWYgpjoP/mJwhg+A85
- cHX91XY35KDSTG3vrfhtj9UmysFadWMC8qNn
-X-Google-Smtp-Source: AMsMyM7D3/byBEyhO+gW14+7FSOqott48uSGBB2L6FsgiSDKtzFMd/rlkXITDvxAH/BBCJIFAUsbEg==
-X-Received: by 2002:a63:fb01:0:b0:440:6e9b:1e86 with SMTP id
- o1-20020a63fb01000000b004406e9b1e86mr17248921pgh.26.1667314660975; 
- Tue, 01 Nov 2022 07:57:40 -0700 (PDT)
-Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
- by smtp.gmail.com with ESMTPSA id
- 22-20020a631656000000b0046f9f4a2de6sm4783219pgw.74.2022.11.01.07.57.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Nov 2022 07:57:40 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-arm@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Peter Maydell <peter.maydell@linaro.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Yan Vugenfirer <yan@daynix.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v9 17/17] pci: Remove legacy errp from pci_add_capability
-Date: Tue,  1 Nov 2022 23:55:58 +0900
-Message-Id: <20221101145558.3998-18-akihiko.odaki@daynix.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221101145558.3998-1-akihiko.odaki@daynix.com>
-References: <20221101145558.3998-1-akihiko.odaki@daynix.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1opsmG-0007e5-Vz
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 11:02:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1opsmC-0005zK-9z
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 11:02:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667314918;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=feA7pxreuMKIKr7ISbXIMg9FEtOC1rHBzuS/H2WB6Ug=;
+ b=bAmlXSBFXLYs7tAGwEzJH1Pgz3x/CTkGjy+6AYuQ1CmsoNia6XOnwJNtkXp6qWTpOhneQo
+ 6PZET9vKWRMoBrV1bjQJjIOCcFDOSgrwEc3WpM9UryG8j9X6uQWFFGahMnCdjhsVd2aaXC
+ v0NCrxz/BkvooGvBsRI2KKlOq39yGSA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-315-qsKhvBuuO6m4JsBghC7tqQ-1; Tue, 01 Nov 2022 11:01:55 -0400
+X-MC-Unique: qsKhvBuuO6m4JsBghC7tqQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CCD1D185A7A8;
+ Tue,  1 Nov 2022 15:01:54 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4AAE4C15BB9;
+ Tue,  1 Nov 2022 15:01:54 +0000 (UTC)
+Date: Tue, 1 Nov 2022 11:01:52 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, stefanha@redhat.com
+Subject: Re: [PULL 00/14] qemu-macppc queue 20221031
+Message-ID: <Y2E04PWIRMDYVv1n@fedora>
+References: <20221031201435.677168-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::535;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ha10JiNNsHe6GxhE"
+Content-Disposition: inline
+In-Reply-To: <20221031201435.677168-1-mark.cave-ayland@ilande.co.uk>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.051,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,80 +78,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- include/hw/pci/pci.h | 12 ++----------
- hw/pci/pci.c         | 18 ++++--------------
- 2 files changed, 6 insertions(+), 24 deletions(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 555ac03010..da414dc728 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -2,7 +2,6 @@
- #define QEMU_PCI_H
- 
- #include "exec/memory.h"
--#include "qapi/error.h"
- #include "sysemu/dma.h"
- 
- /* PCI includes legacy ISA access.  */
-@@ -398,15 +397,8 @@ pcibus_t pci_get_bar_addr(PCIDevice *pci_dev, int region_num);
- bool pci_check_capability_overlap(PCIDevice *pdev, uint8_t cap_id,
-                                   uint8_t offset, uint8_t size, Error **errp);
- 
--int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
--                              uint8_t offset, uint8_t size,
--                              Error **errp);
--
--#define PCI_ADD_CAPABILITY_VA(pdev, cap_id, offset, size, errp, ...) \
--    pci_add_capability_legacy(pdev, cap_id, offset, size, errp)
--
--#define pci_add_capability(...) \
--    PCI_ADD_CAPABILITY_VA(__VA_ARGS__, &error_abort)
-+uint8_t pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
-+                           uint8_t offset, uint8_t size);
- 
- void pci_del_capability(PCIDevice *pci_dev, uint8_t cap_id, uint8_t cap_size);
- 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 5f77ca581a..41ec69ea7c 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2532,14 +2532,10 @@ bool pci_check_capability_overlap(PCIDevice *pdev, uint8_t cap_id,
- }
- 
- /*
-- * On success, pci_add_capability_legacy() returns a positive value
-- * that the offset of the pci capability.
-- * On failure, it sets an error and returns a negative error
-- * code.
-+ * Return: offset of the pci capability.
-  */
--int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
--                              uint8_t offset, uint8_t size,
--                              Error **errp)
-+uint8_t pci_add_capability(PCIDevice *pdev, uint8_t cap_id,
-+                           uint8_t offset, uint8_t size)
- {
-     uint8_t *config;
- 
-@@ -2548,13 +2544,7 @@ int pci_add_capability_legacy(PCIDevice *pdev, uint8_t cap_id,
-         /* out of PCI config space is programming error */
-         assert(offset);
-     } else {
--        /* Verify that capabilities don't overlap.  Note: device assignment
--         * depends on this check to verify that the device is not broken.
--         * Should never trigger for emulated devices, but it's helpful
--         * for debugging these. */
--        if (!pci_check_capability_overlap(pdev, cap_id, offset, size, errp)) {
--            return -EINVAL;
--        }
-+        pci_check_capability_overlap(pdev, cap_id, offset, size, &error_abort);
-     }
- 
-     config = pdev->config + offset;
--- 
-2.38.1
+--ha10JiNNsHe6GxhE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+
+--ha10JiNNsHe6GxhE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNhNN8ACgkQnKSrs4Gr
+c8jpCAgAsp/nodTaSg+/q9t6wKvS48Jk11juBSFVDjHeQLqWpQYDYKFnlxmr7Y99
+EY5mJwUi7rqrytGQFvCIxPQc5lKNnf/jlQ2Zl5ijiv53f8dErF6xSP81WBP+CpFG
+4NCaNJTiswzsHG1g3CppqyJ/0G8W5NAS32MT7JGrW7Kaf4uSOJsJRQTTCtR5a8pl
+34ajgHAKK0i8OmVIjmdjzwcgb+8BX34As0YHc5ArxpZId9gZVhKCgMJHy2Kmp0KF
+gMIkYjb3S/U30NzBQ8ZYp6JNgOHudFPKwo7o+AUnNhSHC6BBA6FWWumx/lO33Ts/
+WJxj/0L/bGPC3uGuosxRDpMcJ6Jesg==
+=fxnG
+-----END PGP SIGNATURE-----
+
+--ha10JiNNsHe6GxhE--
 
 
