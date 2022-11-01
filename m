@@ -2,66 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CABD4615081
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:22:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C65D615023
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 18:11:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opso8-0007pu-8X; Tue, 01 Nov 2022 11:04:04 -0400
+	id 1opsoM-0007qn-UY; Tue, 01 Nov 2022 11:04:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1opsnu-0007ox-DM
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 11:04:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1opsoK-0007qa-Du
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 11:04:16 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1opsns-0006Vs-1Z
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 11:03:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667315026;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CwQ1fBVVRIVFHw74XFc32uIy9izVWGTgibLz8OMncgo=;
- b=LIOIPudu5T6sahEyMO2MVYyo/4pjCzjrezlCluTRdXvywhU0u2qi9F+JVmfzlj2Kct9U0f
- VqoB8gcpF6qPcfhXcNuQrnVMNfZ4AMI+msmjikqm5mhUbA4aNm7ari8iOMivLg7rNz+vhf
- vE+aJX5Rf0SXjzye7Lpo1DBWqT5hKQo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-520-9DzB-2p9PCmF7ka39sDxEg-1; Tue, 01 Nov 2022 11:03:45 -0400
-X-MC-Unique: 9DzB-2p9PCmF7ka39sDxEg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A0578855449;
- Tue,  1 Nov 2022 15:03:43 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.52])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 119AC40C947B;
- Tue,  1 Nov 2022 15:03:42 +0000 (UTC)
-Date: Tue, 1 Nov 2022 11:03:41 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, stefanha@gmail.com
-Subject: Re: [PULL v2 00/13] tcg-next patch queue
-Message-ID: <Y2E1Tc99DsaCmF+G@fedora>
-References: <20221031215723.414467-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1opsoI-0006Xs-8V
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 11:04:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=qjlx8pLdZHgWFum1kk9dM3cXE3YaZx7KM0jp6b2SuYY=; b=cHb1xJrCQFQsFKWFzTPsOH5Fyb
+ ysz8CacqPk+dhRlYzy7fnltN8PbkfbGUFdhYCnXqYu04bNTZLVVzZhqjrODPWsYnvyZE4PdPIbCl7
+ H5JMnkw/15CtLxWIkb8cClT6fVSqlRVlcuW8tiBNZNL+ZQ3cTL338DR/xyIwJ1U2iuVbzUTaTnbNv
+ Z0bqHPvkWbMgxIbAyeJv7iQnzWN86E70AOLFDIM32lJTC9dPYiSDVJZkuxOw1cyCiVQ1CoO49Qz3D
+ U3l04hNJvwJxFOkhxNT/XB2/lIt4QCcG0IhaDCscgem/Dd+z9oFiFNK/sDpGYcnTmxMoE3UVmPCsg
+ JNwuNEDwjax0tSUeJZWTF+wAZhB/QUyBSygib1VU2yJkIPmyu/28qfo/wENquDWZRRmWHLzNYv5Hf
+ 8IZXnaK86p/zvhU6i6tot/u53LJJSXxwgNeziWQ/6r8eD2IoKglzNjpoW3gAwuazjC/5Of+MW6FGo
+ 160wHc8oEioLU7XUnaSI0gmNfIL+vOqwy4AeLTEEK0095gBmFkhccfvGx9Gb7dBXOxontSp2cm0es
+ jCcu0ayL3p+DRA376Q/EOxl9AhEL0no3Ln9C6ZfatPdFhdSsBl9SlTdfdE6PzIAImD/VOiff7ypCV
+ CgzY8IuNsKnwdvDCqy8jvqkpkeWQQkQYfWsqdGBLY=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Guohuai Shi <guohuai.shi@windriver.com>, Greg Kurz <groug@kaod.org>,
+ Bin Meng <bin.meng@windriver.com>
+Subject: Re: [PATCH 09/16] hw/9pfs: Disable unsupported flags and features for
+ Windows
+Date: Tue, 01 Nov 2022 16:04:10 +0100
+Message-ID: <2442661.hKK5dv67Mp@silver>
+In-Reply-To: <20221024045759.448014-10-bin.meng@windriver.com>
+References: <20221024045759.448014-1-bin.meng@windriver.com>
+ <20221024045759.448014-10-bin.meng@windriver.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8sxlBlbLQXFrHQGe"
-Content-Disposition: inline
-In-Reply-To: <20221031215723.414467-1-richard.henderson@linaro.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.051,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,30 +69,401 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Monday, October 24, 2022 6:57:52 AM CET Bin Meng wrote:
+> From: Guohuai Shi <guohuai.shi@windriver.com>
+> 
+> Some flags and features are not supported on Windows, like mknod,
+> readlink, file mode, etc. Update the codes for Windows.
+> 
+> Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+> 
+>  hw/9pfs/9p-util.h |  6 +++-
+>  hw/9pfs/9p.c      | 90 ++++++++++++++++++++++++++++++++++++++++++-----
+>  2 files changed, 86 insertions(+), 10 deletions(-)
+> 
+> diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+> index 82b2d0c3e4..3d154e9103 100644
+> --- a/hw/9pfs/9p-util.h
+> +++ b/hw/9pfs/9p-util.h
+> @@ -53,8 +53,10 @@ static inline uint64_t makedev_dotl(uint32_t dev_major, uint32_t dev_minor)
+>   */
+>  static inline uint64_t host_dev_to_dotl_dev(dev_t dev)
+>  {
+> -#ifdef CONFIG_LINUX
+> +#if defined(CONFIG_LINUX)
+>      return dev;
+> +#elif defined(CONFIG_WIN32)
+> +    return 0;
 
---8sxlBlbLQXFrHQGe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Really?
 
-Applied, thanks.
+>  #else
+>      return makedev_dotl(major(dev), minor(dev));
+>  #endif
+> @@ -260,7 +262,9 @@ static inline struct dirent *qemu_dirent_dup(struct dirent *dent)
+>  #if defined CONFIG_DARWIN && defined CONFIG_PTHREAD_FCHDIR_NP
+>  int pthread_fchdir_np(int fd) __attribute__((weak_import));
+>  #endif
+> +#ifndef CONFIG_WIN32
+>  int qemu_mknodat(P9_FILE_ID dirfd, const char *filename, mode_t mode,
+>                   dev_t dev);
+> +#endif
+>  
+>  #endif
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 6c4af86240..771aab34ac 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -39,6 +39,11 @@
+>  #include "qemu/xxhash.h"
+>  #include <math.h>
+>  
+> +#ifdef CONFIG_WIN32
+> +#define UTIME_NOW   ((1l << 30) - 1l)
+> +#define UTIME_OMIT  ((1l << 30) - 2l)
+> +#endif
+> +
+>  int open_fd_hw;
+>  int total_open_fd;
+>  static int open_fd_rc;
+> @@ -132,13 +137,17 @@ static int dotl_to_open_flags(int flags)
+>      DotlOpenflagMap dotl_oflag_map[] = {
+>          { P9_DOTL_CREATE, O_CREAT },
+>          { P9_DOTL_EXCL, O_EXCL },
+> +#ifndef CONFIG_WIN32
+>          { P9_DOTL_NOCTTY , O_NOCTTY },
+> +#endif
+>          { P9_DOTL_TRUNC, O_TRUNC },
+>          { P9_DOTL_APPEND, O_APPEND },
+> +#ifndef CONFIG_WIN32
+>          { P9_DOTL_NONBLOCK, O_NONBLOCK } ,
+>          { P9_DOTL_DSYNC, O_DSYNC },
+>          { P9_DOTL_FASYNC, FASYNC },
+> -#ifndef CONFIG_DARWIN
+> +#endif
+> +#ifdef CONFIG_LINUX
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+Better
 
---8sxlBlbLQXFrHQGe
-Content-Type: application/pgp-signature; name="signature.asc"
+   #if !defined(CONFIG_DARWIN) && !defined(CONFIG_WIN32)
 
------BEGIN PGP SIGNATURE-----
+Otherwise it might automatically opt-out other future platforms
+unintentionally.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNhNU0ACgkQnKSrs4Gr
-c8gm6wf/eDz+2xEGFXlHTMuRhIYrKhaOFYD+Oqx7t5Gnp/WcnjUibmfMNmDNo28P
-Z55UAOQ7YPFWmCT1EbwT00iSMwp0g9nSvniBr9d3dgARGpZA5M4bsjNkRnsARLqN
-5vC8AVJFhouDBKi42rmqs9NwiXjWzCRYmK0HO9Y2p7YJKVr9lHckd36bt6LpBvpb
-GJcTmA0kjdlwSBAlHFjYzUw7J2Tbj6No2POykfwIJl9+p/B9a02zjNqljThlmyxF
-hU38Tj8YpljYGkrjGwsCqayNhIwU+41Fkgr9vzzZnykzAjaCNbeF45wPvrNiUSpT
-0pUT4cRrGche94aGsrnFWkNfb9/xlg==
-=JyC4
------END PGP SIGNATURE-----
+>          { P9_DOTL_NOATIME, O_NOATIME },
+>          /*
+>           *  On Darwin, we could map to F_NOCACHE, which is
+> @@ -151,8 +160,10 @@ static int dotl_to_open_flags(int flags)
+>  #endif
+>          { P9_DOTL_LARGEFILE, O_LARGEFILE },
+>          { P9_DOTL_DIRECTORY, O_DIRECTORY },
+> +#ifndef CONFIG_WIN32
+>          { P9_DOTL_NOFOLLOW, O_NOFOLLOW },
+>          { P9_DOTL_SYNC, O_SYNC },
+> +#endif
+>      };
+>  
+>      for (i = 0; i < ARRAY_SIZE(dotl_oflag_map); i++) {
+> @@ -179,8 +190,11 @@ static int get_dotl_openflags(V9fsState *s, int oflags)
+>       * Filter the client open flags
+>       */
+>      flags = dotl_to_open_flags(oflags);
+> -    flags &= ~(O_NOCTTY | O_ASYNC | O_CREAT);
+> -#ifndef CONFIG_DARWIN
+> +    flags &= ~(O_CREAT);
+> +#ifndef CONFIG_WIN32
+> +    flags &= ~(O_NOCTTY | O_ASYNC);
+> +#endif
+> +#ifdef CONFIG_LINUX
 
---8sxlBlbLQXFrHQGe--
+Same as above: better explicitly opt-out than the other way around.
+
+>      /*
+>       * Ignore direct disk access hint until the server supports it.
+>       */
+> @@ -986,9 +1000,11 @@ static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID *qidp)
+>      if (S_ISDIR(stbuf->st_mode)) {
+>          qidp->type |= P9_QID_TYPE_DIR;
+>      }
+> +#ifndef CONFIG_WIN32
+>      if (S_ISLNK(stbuf->st_mode)) {
+>          qidp->type |= P9_QID_TYPE_SYMLINK;
+>      }
+> +#endif
+>  
+>      return 0;
+>  }
+> @@ -1097,6 +1113,7 @@ static mode_t v9mode_to_mode(uint32_t mode, V9fsString *extension)
+>          ret |= S_IFDIR;
+>      }
+>  
+> +#ifndef CONFIG_WIN32
+>      if (mode & P9_STAT_MODE_SYMLINK) {
+>          ret |= S_IFLNK;
+>      }
+> @@ -1106,6 +1123,7 @@ static mode_t v9mode_to_mode(uint32_t mode, V9fsString *extension)
+>      if (mode & P9_STAT_MODE_NAMED_PIPE) {
+>          ret |= S_IFIFO;
+>      }
+> +#endif
+>      if (mode & P9_STAT_MODE_DEVICE) {
+>          if (extension->size && extension->data[0] == 'c') {
+>              ret |= S_IFCHR;
+> @@ -1118,6 +1136,7 @@ static mode_t v9mode_to_mode(uint32_t mode, V9fsString *extension)
+>          ret |= S_IFREG;
+>      }
+>  
+> +#ifndef CONFIG_WIN32
+>      if (mode & P9_STAT_MODE_SETUID) {
+>          ret |= S_ISUID;
+>      }
+> @@ -1127,6 +1146,7 @@ static mode_t v9mode_to_mode(uint32_t mode, V9fsString *extension)
+>      if (mode & P9_STAT_MODE_SETVTX) {
+>          ret |= S_ISVTX;
+>      }
+> +#endif
+>  
+>      return ret;
+>  }
+> @@ -1182,6 +1202,7 @@ static uint32_t stat_to_v9mode(const struct stat *stbuf)
+>          mode |= P9_STAT_MODE_DIR;
+>      }
+>  
+> +#ifndef CONFIG_WIN32
+>      if (S_ISLNK(stbuf->st_mode)) {
+>          mode |= P9_STAT_MODE_SYMLINK;
+>      }
+> @@ -1193,11 +1214,13 @@ static uint32_t stat_to_v9mode(const struct stat *stbuf)
+>      if (S_ISFIFO(stbuf->st_mode)) {
+>          mode |= P9_STAT_MODE_NAMED_PIPE;
+>      }
+> +#endif
+>  
+>      if (S_ISBLK(stbuf->st_mode) || S_ISCHR(stbuf->st_mode)) {
+>          mode |= P9_STAT_MODE_DEVICE;
+>      }
+>  
+> +#ifndef CONFIG_WIN32
+>      if (stbuf->st_mode & S_ISUID) {
+>          mode |= P9_STAT_MODE_SETUID;
+>      }
+> @@ -1209,6 +1232,7 @@ static uint32_t stat_to_v9mode(const struct stat *stbuf)
+>      if (stbuf->st_mode & S_ISVTX) {
+>          mode |= P9_STAT_MODE_SETVTX;
+>      }
+> +#endif
+>  
+>      return mode;
+>  }
+> @@ -1247,9 +1271,17 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
+>              return err;
+>          }
+>      } else if (v9stat->mode & P9_STAT_MODE_DEVICE) {
+> +        unsigned maj, min;
+> +
+> +#ifndef CONFIG_WIN32
+> +        maj = major(stbuf->st_rdev);
+> +        min = minor(stbuf->st_rdev);
+> +#else
+> +        maj = min = 0;
+> +#endif
+
+Really?
+
+>          v9fs_string_sprintf(&v9stat->extension, "%c %u %u",
+>                  S_ISCHR(stbuf->st_mode) ? 'c' : 'b',
+> -                major(stbuf->st_rdev), minor(stbuf->st_rdev));
+> +                maj, min);
+>      } else if (S_ISDIR(stbuf->st_mode) || S_ISREG(stbuf->st_mode)) {
+>          v9fs_string_sprintf(&v9stat->extension, "%s %lu",
+>                  "HARDLINKCOUNT", (unsigned long)stbuf->st_nlink);
+> @@ -1317,7 +1349,14 @@ static int32_t blksize_to_iounit(const V9fsPDU *pdu, int32_t blksize)
+>  
+>  static int32_t stat_to_iounit(const V9fsPDU *pdu, const struct stat *stbuf)
+>  {
+> -    return blksize_to_iounit(pdu, stbuf->st_blksize);
+> +    int32_t blksize;
+> +
+> +#ifndef CONFIG_WIN32
+> +    blksize = stbuf->st_blksize);
+> +#else
+> +    blksize = 0;
+> +#endif
+
+Really?
+
+> +    return blksize_to_iounit(pdu, blksize);
+>  }
+>  
+>  static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
+> @@ -1332,7 +1371,11 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
+>      v9lstat->st_rdev = host_dev_to_dotl_dev(stbuf->st_rdev);
+>      v9lstat->st_size = stbuf->st_size;
+>      v9lstat->st_blksize = stat_to_iounit(pdu, stbuf);
+> +#ifndef CONFIG_WIN32
+>      v9lstat->st_blocks = stbuf->st_blocks;
+> +#else
+> +    v9lstat->st_blocks = 0;
+> +#endif
+
+Really?
+
+>      v9lstat->st_atime_sec = stbuf->st_atime;
+>      v9lstat->st_mtime_sec = stbuf->st_mtime;
+>      v9lstat->st_ctime_sec = stbuf->st_ctime;
+> @@ -1340,7 +1383,8 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
+>      v9lstat->st_atime_nsec = stbuf->st_atimespec.tv_nsec;
+>      v9lstat->st_mtime_nsec = stbuf->st_mtimespec.tv_nsec;
+>      v9lstat->st_ctime_nsec = stbuf->st_ctimespec.tv_nsec;
+> -#else
+> +#endif
+> +#ifdef CONFIG_LINUX
+>      v9lstat->st_atime_nsec = stbuf->st_atim.tv_nsec;
+>      v9lstat->st_mtime_nsec = stbuf->st_mtim.tv_nsec;
+>      v9lstat->st_ctime_nsec = stbuf->st_ctim.tv_nsec;
+> @@ -2471,6 +2515,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
+>      struct dirent *dent;
+>      struct stat *st;
+>      struct V9fsDirEnt *entries = NULL;
+> +    unsigned char d_type = 0;
+>  
+>      /*
+>       * inode remapping requires the device id, which in turn might be
+> @@ -2540,10 +2585,13 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
+>          v9fs_string_init(&name);
+>          v9fs_string_sprintf(&name, "%s", dent->d_name);
+>  
+> +#ifndef CONFIG_WIN32
+> +        d_type = dent->d_type;
+> +#endif
+>          /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
+>          len = pdu_marshal(pdu, 11 + count, "Qqbs",
+>                            &qid, off,
+> -                          dent->d_type, &name);
+> +                          d_type, &name);
+
+Are you saying that d_type is not initialized with zero already?
+
+>          v9fs_string_free(&name);
+>  
+> @@ -2873,8 +2921,12 @@ static void coroutine_fn v9fs_create(void *opaque)
+>          }
+>  
+>          nmode |= perm & 0777;
+> +#ifndef CONFIG_WIN32
+>          err = v9fs_co_mknod(pdu, fidp, &name, fidp->uid, -1,
+>                              makedev(major, minor), nmode, &stbuf);
+> +#else
+> +        err = -ENOTSUP;
+> +#endif
+>          if (err < 0) {
+>              goto out;
+>          }
+> @@ -2899,8 +2951,12 @@ static void coroutine_fn v9fs_create(void *opaque)
+>          v9fs_path_copy(&fidp->path, &path);
+>          v9fs_path_unlock(s);
+>      } else if (perm & P9_STAT_MODE_SOCKET) {
+> +#ifndef CONFIG_WIN32
+>          err = v9fs_co_mknod(pdu, fidp, &name, fidp->uid, -1,
+>                              0, S_IFSOCK | (perm & 0777), &stbuf);
+> +#else
+> +        err = -ENOTSUP;
+> +#endif
+
+As with previous patches, I would consider making the user aware to use
+mapped(-xattr) with something like error_report_once().
+
+>          if (err < 0) {
+>              goto out;
+>          }
+> @@ -3634,7 +3690,7 @@ out_nofid:
+>  
+>  static void coroutine_fn v9fs_mknod(void *opaque)
+>  {
+> -
+> +#ifndef CONFIG_WIN32
+>      int mode;
+>      gid_t gid;
+>      int32_t fid;
+> @@ -3691,6 +3747,10 @@ out:
+>  out_nofid:
+>      pdu_complete(pdu, err);
+>      v9fs_string_free(&name);
+> +#else
+> +    V9fsPDU *pdu = opaque;
+> +    pdu_complete(pdu, -1);
+> +#endif
+>  }
+>  
+>  /*
+> @@ -3963,7 +4023,7 @@ out_nofid:
+>  #if defined(CONFIG_LINUX)
+>  /* Currently, only Linux has XATTR_SIZE_MAX */
+>  #define P9_XATTR_SIZE_MAX XATTR_SIZE_MAX
+> -#elif defined(CONFIG_DARWIN)
+> +#elif defined(CONFIG_DARWIN) || defined(CONFIG_WIN32)
+>  /*
+>   * Darwin doesn't seem to define a maximum xattr size in its user
+>   * space header, so manually configure it across platforms as 64k.
+> @@ -3980,6 +4040,7 @@ out_nofid:
+>  
+>  static void coroutine_fn v9fs_xattrcreate(void *opaque)
+>  {
+> +#ifndef CONFIG_WIN32
+>      int flags, rflags = 0;
+>      int32_t fid;
+>      uint64_t size;
+> @@ -4041,10 +4102,15 @@ out_put_fid:
+>  out_nofid:
+>      pdu_complete(pdu, err);
+>      v9fs_string_free(&name);
+> +#else
+> +    V9fsPDU *pdu = opaque;
+> +    pdu_complete(pdu, -1);
+> +#endif
+>  }
+>  
+>  static void coroutine_fn v9fs_readlink(void *opaque)
+>  {
+> +#ifndef CONFIG_WIN32
+>      V9fsPDU *pdu = opaque;
+>      size_t offset = 7;
+>      V9fsString target;
+> @@ -4080,6 +4146,10 @@ out:
+>      put_fid(pdu, fidp);
+>  out_nofid:
+>      pdu_complete(pdu, err);
+> +#else
+> +    V9fsPDU *pdu = opaque;
+> +    pdu_complete(pdu, -1);
+> +#endif
+
+Unnecessary double declaration of pdu.
+
+>  }
+>  
+>  static CoroutineEntry *pdu_co_handlers[] = {
+> @@ -4341,6 +4411,7 @@ void v9fs_reset(V9fsState *s)
+>  
+>  static void __attribute__((__constructor__)) v9fs_set_fd_limit(void)
+>  {
+> +#ifndef CONFIG_WIN32
+>      struct rlimit rlim;
+>      if (getrlimit(RLIMIT_NOFILE, &rlim) < 0) {
+>          error_report("Failed to get the resource limit");
+> @@ -4348,4 +4419,5 @@ static void __attribute__((__constructor__)) v9fs_set_fd_limit(void)
+>      }
+>      open_fd_hw = rlim.rlim_cur - MIN(400, rlim.rlim_cur / 3);
+>      open_fd_rc = rlim.rlim_cur / 2;
+> +#endif
+
+Really?
+
+>  }
+> 
+
+
 
 
