@@ -2,86 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43ED3614E5E
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 16:31:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50818614E83
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 16:41:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oprW6-00034I-Sz; Tue, 01 Nov 2022 09:41:22 -0400
+	id 1oprh6-00050A-99; Tue, 01 Nov 2022 09:52:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oprW4-000338-MA
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 09:41:20 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oprVw-0005oe-Sw
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 09:41:20 -0400
-Received: by mail-wm1-x333.google.com with SMTP id t4so8868616wmj.5
- for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 06:41:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=YPSefXiqB1hPGtveeIz7JYQzASvi/uYjJwubaWw50fc=;
- b=Rm8Ooj0jL8oYmqAyavWFVniw+HNmzEXZPxVYG1hYNBXOehCG/e/RnwOxjd7ur6JXdM
- fkn9BtoYplWncD73cy2yoLNoeGpOe+vlEVYSj4o0bzTpYBaPIzs6YTeK1/cqZAbQWfHg
- 6tsfFkOx+lzBVPATUJ92RV2wdd8x70EH1ILQEgQYDnsgOq82giyJks/jRcHV3AUWraPV
- WEAZC95ucQdAkhhhjgNZhkFJm6svfoov0GUFzZ7c1OX0AOMqyoMrO0XbDM075yqyNfE7
- 8CJ+btB6VY4vi3KRIBTZyZcU/ejQFgvuP2FqyKnS859ouzMFepz0qaQCmA+shxGqmZSc
- ycwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YPSefXiqB1hPGtveeIz7JYQzASvi/uYjJwubaWw50fc=;
- b=SZnYZnyypTybusxN4oErThNoRYLbS6aWQbDdNCRCBYmOvU6J7hSxqel3ehWhACSm3F
- AVQrLvkcgUOsu8WM8u8FVGLVyJg8vfNC3iLOU0gqysbZHeWT/EBLuit7bKgtPNldFVwI
- oI8icXou43vorXx+Ox25nVACmWSVJT7NnRj+W96GTZX2gixsXIa7gZv8SRN43coNMXw4
- eA5jrXkstJuKIHbywfkxDs4SKh+XjKJSEn9chj7YtOt7vCCSYsuTizEVIBqqgP1p+Oz1
- cBRbwfpu0130TTSvbFQ6vkn0SSswK2dV9FLYeUbPf6eeLPwaXtnj/ROCpU/zHSfV1N+b
- xEBg==
-X-Gm-Message-State: ACrzQf0gjZlX/lTrcuD0laaxlq43Gua80vmSBQkqKaHIlPhdYU8alKVv
- +4tBDqBX75BVHAfofS0/1YL//w==
-X-Google-Smtp-Source: AMsMyM7dc46wcNEK/DZcKMnCqC0eknZ7ZsHCoFLk2GjPRl5j2kGkS1otQkMWxQ64EZR/lgp4jrr+0A==
-X-Received: by 2002:a05:600c:2314:b0:3cf:6b2a:7d93 with SMTP id
- 20-20020a05600c231400b003cf6b2a7d93mr8936494wmo.33.1667310071310; 
- Tue, 01 Nov 2022 06:41:11 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- e7-20020adff347000000b00226dba960b4sm10222248wrp.3.2022.11.01.06.41.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Nov 2022 06:41:10 -0700 (PDT)
-Message-ID: <f9289746-f2e2-fb36-4adf-045e0dd8cb6a@linaro.org>
-Date: Tue, 1 Nov 2022 14:41:09 +0100
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oprh3-0004zo-0l
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 09:52:41 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oprh0-0001Zb-Go
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 09:52:40 -0400
+Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4N1rxl45Gpz6883d;
+ Tue,  1 Nov 2022 21:50:19 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 1 Nov 2022 14:52:22 +0100
+Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Tue, 1 Nov
+ 2022 13:52:22 +0000
+Date: Tue, 1 Nov 2022 13:52:21 +0000
+To: "Michael S. Tsirkin" <mst@redhat.com>
+CC: <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>, "Julia
+ Suvorova" <jusual@redhat.com>, Igor Mammedov <imammedo@redhat.com>, "Ani
+ Sinha" <ani@anisinha.ca>
+Subject: Re: [PULL 21/86] bios-tables-test: add test for number of cores > 255
+Message-ID: <20221101135221.00000a4a@huawei.com>
+In-Reply-To: <20221031124928.128475-22-mst@redhat.com>
+References: <20221031124928.128475-1-mst@redhat.com>
+ <20221031124928.128475-22-mst@redhat.com>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH v4 3/3] util/aio-win32: Correct the event array size in
- aio_poll()
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org
-References: <20221019102015.2441622-1-bmeng.cn@gmail.com>
- <20221019102015.2441622-3-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221019102015.2441622-3-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,29 +69,150 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/10/22 12:20, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> WaitForMultipleObjects() can only wait for MAXIMUM_WAIT_OBJECTS
-> object handles. Correct the event array size in aio_poll() and
-> add a assert() to ensure it does not cause out of bound access.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Stefan Weil <sw@weilnetz.de>
-> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
-> 
-> (no changes since v2)
-> 
-> Changes in v2:
-> - change 'count' to unsigned
-> 
->   util/aio-win32.c | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
+On Mon, 31 Oct 2022 08:51:44 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> From: Julia Suvorova <jusual@redhat.com>
+> 
+> The new test is run with a large number of cpus and checks if the
+> core_count field in smbios_cpu_test (structure type 4) is correct.
+> 
+> Choose q35 as it allows to run with -smp > 255.
+
+Getting a failure on this on i386.
+
+qemu-system-i386: current -smp configuration requires kernel irqchip and X2APIC API support.
+
+Note that was on bisection of this pull request applied to current mainline
+(also in the CI report for the HMAT set - though there is another issue there.)
+
+My guess is fix is don't run it unless 64 bit?
+
+Jonathan
+
+
+> 
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> Message-Id: <20220731162141.178443-5-jusual@redhat.com>
+> Message-Id: <20221011111731.101412-5-jusual@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+>  tests/qtest/bios-tables-test.c | 58 ++++++++++++++++++++++++++--------
+>  1 file changed, 45 insertions(+), 13 deletions(-)
+> 
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index d4fbe6791d..e402b57d46 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -92,6 +92,8 @@ typedef struct {
+>      SmbiosEntryPoint smbios_ep_table;
+>      uint16_t smbios_cpu_max_speed;
+>      uint16_t smbios_cpu_curr_speed;
+> +    uint8_t smbios_core_count;
+> +    uint16_t smbios_core_count2;
+>      uint8_t *required_struct_types;
+>      int required_struct_types_len;
+>      QTestState *qts;
+> @@ -631,29 +633,42 @@ static inline bool smbios_single_instance(uint8_t type)
+>      }
+>  }
+>  
+> -static bool smbios_cpu_test(test_data *data, uint32_t addr)
+> +static void smbios_cpu_test(test_data *data, uint32_t addr,
+> +                            SmbiosEntryPointType ep_type)
+>  {
+> -    uint16_t expect_speed[2];
+> -    uint16_t real;
+> +    uint8_t core_count, expected_core_count = data->smbios_core_count;
+> +    uint16_t speed, expected_speed[2];
+> +    uint16_t core_count2, expected_core_count2 = data->smbios_core_count2;
+>      int offset[2];
+>      int i;
+>  
+>      /* Check CPU speed for backward compatibility */
+>      offset[0] = offsetof(struct smbios_type_4, max_speed);
+>      offset[1] = offsetof(struct smbios_type_4, current_speed);
+> -    expect_speed[0] = data->smbios_cpu_max_speed ? : 2000;
+> -    expect_speed[1] = data->smbios_cpu_curr_speed ? : 2000;
+> +    expected_speed[0] = data->smbios_cpu_max_speed ? : 2000;
+> +    expected_speed[1] = data->smbios_cpu_curr_speed ? : 2000;
+>  
+>      for (i = 0; i < 2; i++) {
+> -        real = qtest_readw(data->qts, addr + offset[i]);
+> -        if (real != expect_speed[i]) {
+> -            fprintf(stderr, "Unexpected SMBIOS CPU speed: real %u expect %u\n",
+> -                    real, expect_speed[i]);
+> -            return false;
+> -        }
+> +        speed = qtest_readw(data->qts, addr + offset[i]);
+> +        g_assert_cmpuint(speed, ==, expected_speed[i]);
+>      }
+>  
+> -    return true;
+> +    core_count = qtest_readb(data->qts,
+> +                    addr + offsetof(struct smbios_type_4, core_count));
+> +
+> +    if (expected_core_count) {
+> +        g_assert_cmpuint(core_count, ==, expected_core_count);
+> +    }
+> +
+> +    if (ep_type == SMBIOS_ENTRY_POINT_TYPE_64) {
+> +        core_count2 = qtest_readw(data->qts,
+> +                          addr + offsetof(struct smbios_type_4, core_count2));
+> +
+> +        /* Core Count has reached its limit, checking Core Count 2 */
+> +        if (expected_core_count == 0xFF && expected_core_count2) {
+> +            g_assert_cmpuint(core_count2, ==, expected_core_count2);
+> +        }
+> +    }
+>  }
+>  
+>  static void test_smbios_structs(test_data *data, SmbiosEntryPointType ep_type)
+> @@ -686,7 +701,7 @@ static void test_smbios_structs(test_data *data, SmbiosEntryPointType ep_type)
+>          set_bit(type, struct_bitmap);
+>  
+>          if (type == 4) {
+> -            g_assert(smbios_cpu_test(data, addr));
+> +            smbios_cpu_test(data, addr, ep_type);
+>          }
+>  
+>          /* seek to end of unformatted string area of this struct ("\0\0") */
+> @@ -908,6 +923,21 @@ static void test_acpi_q35_tcg(void)
+>      free_test_data(&data);
+>  }
+>  
+> +static void test_acpi_q35_tcg_core_count2(void)
+> +{
+> +    test_data data = {
+> +        .machine = MACHINE_Q35,
+> +        .variant = ".core-count2",
+> +        .required_struct_types = base_required_struct_types,
+> +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types),
+> +        .smbios_core_count = 0xFF,
+> +        .smbios_core_count2 = 275,
+> +    };
+> +
+> +    test_acpi_one("-machine smbios-entry-point-type=64 -smp 275", &data);
+> +    free_test_data(&data);
+> +}
+> +
+>  static void test_acpi_q35_tcg_bridge(void)
+>  {
+>      test_data data;
+> @@ -1859,6 +1889,8 @@ int main(int argc, char *argv[])
+>                  qtest_add_func("acpi/q35/tpm12-tis",
+>                                 test_acpi_q35_tcg_tpm12_tis);
+>              }
+> +            qtest_add_func("acpi/q35/core-count2",
+> +                           test_acpi_q35_tcg_core_count2);
+>              qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+>              qtest_add_func("acpi/q35/multif-bridge",
+>                             test_acpi_q35_multif_bridge);
 
 
