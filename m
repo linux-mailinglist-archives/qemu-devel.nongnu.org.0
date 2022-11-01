@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6A2614A58
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 13:11:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4EF9614A64
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 13:13:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1opq6u-00057Z-2K; Tue, 01 Nov 2022 08:11:17 -0400
+	id 1opq8L-00072R-Ve; Tue, 01 Nov 2022 08:12:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1opq6Z-0004qo-IE
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 08:10:55 -0400
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1opq8F-00070S-JJ
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 08:12:39 -0400
 Received: from mail.weilnetz.de ([37.120.169.71]
  helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1opq6X-0007jT-2i
- for qemu-devel@nongnu.org; Tue, 01 Nov 2022 08:10:55 -0400
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1opq8E-0008Qr-3J
+ for qemu-devel@nongnu.org; Tue, 01 Nov 2022 08:12:39 -0400
 Received: from [192.168.178.59] (p5b151d14.dip0.t-ipconnect.de [91.21.29.20])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 0CEFCDA045D;
- Tue,  1 Nov 2022 13:10:46 +0100 (CET)
-Message-ID: <53bb5ca2-06b6-e0c9-0b0f-fe1c49eb0a9c@weilnetz.de>
-Date: Tue, 1 Nov 2022 13:10:45 +0100
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id AA963DA045D;
+ Tue,  1 Nov 2022 13:12:33 +0100 (CET)
+Message-ID: <febe1379-6533-18af-0520-5523a1fc86fe@weilnetz.de>
+Date: Tue, 1 Nov 2022 13:12:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH 3/5] disas/nanomips: Use G_GNUC_PRINTF to avoid invalid
- string formats
+Subject: Re: [PATCH 4/5] disas/nanomips: Remove headers already included by
+ "qemu/osdep.h"
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Thomas Huth <thuth@redhat.com>,
  Petar Jovanovic <mips32r2@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>
 References: <20221101114458.25756-1-philmd@linaro.org>
- <20221101114458.25756-4-philmd@linaro.org>
-In-Reply-To: <20221101114458.25756-4-philmd@linaro.org>
+ <20221101114458.25756-5-philmd@linaro.org>
+In-Reply-To: <20221101114458.25756-5-philmd@linaro.org>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------tSxAdXttmx14TBc7x0A01riM"
+ boundary="------------4Fa7RaigW0GQZFLsfrSgk0xn"
 Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
  helo=mail.v2201612906741603.powersrv.de
 X-Spam_score_int: -18
@@ -66,8 +66,8 @@ From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------tSxAdXttmx14TBc7x0A01riM
-Content-Type: multipart/mixed; boundary="------------fGyLvOQL6sKlwJhym0lCmL1w";
+--------------4Fa7RaigW0GQZFLsfrSgk0xn
+Content-Type: multipart/mixed; boundary="------------C0AzdZ9SdeDafqLpM0lY02YD";
  protected-headers="v1"
 From: Stefan Weil <sw@weilnetz.de>
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
@@ -75,35 +75,35 @@ To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Aurelien Jarno <aurelien@aurel32.net>, Thomas Huth <thuth@redhat.com>,
  Petar Jovanovic <mips32r2@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-ID: <53bb5ca2-06b6-e0c9-0b0f-fe1c49eb0a9c@weilnetz.de>
-Subject: Re: [PATCH 3/5] disas/nanomips: Use G_GNUC_PRINTF to avoid invalid
- string formats
+Message-ID: <febe1379-6533-18af-0520-5523a1fc86fe@weilnetz.de>
+Subject: Re: [PATCH 4/5] disas/nanomips: Remove headers already included by
+ "qemu/osdep.h"
 References: <20221101114458.25756-1-philmd@linaro.org>
- <20221101114458.25756-4-philmd@linaro.org>
-In-Reply-To: <20221101114458.25756-4-philmd@linaro.org>
+ <20221101114458.25756-5-philmd@linaro.org>
+In-Reply-To: <20221101114458.25756-5-philmd@linaro.org>
 
---------------fGyLvOQL6sKlwJhym0lCmL1w
-Content-Type: multipart/mixed; boundary="------------RZMpkYLBT1mH0kypph8DAOTO"
+--------------C0AzdZ9SdeDafqLpM0lY02YD
+Content-Type: multipart/mixed; boundary="------------VeVOabI70Ay0p3jq3m3Huufs"
 
---------------RZMpkYLBT1mH0kypph8DAOTO
+--------------VeVOabI70Ay0p3jq3m3Huufs
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
-QW0gMDEuMTEuMjIgdW0gMTI6NDQgc2NocmllYiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqToN
-Cg0KPiBTdWdnZXN0ZWQtYnk6IFN0ZWZhbiBXZWlsIDxzd0B3ZWlsbmV0ei5kZT4NCj4gU2ln
-bmVkLW9mZi1ieTogUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgPHBoaWxtZEBsaW5hcm8ub3Jn
-Pg0KPiAtLS0NCj4gICBkaXNhcy9uYW5vbWlwcy5jIHwgMiArLQ0KPiAgIDEgZmlsZSBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEv
-ZGlzYXMvbmFub21pcHMuYyBiL2Rpc2FzL25hbm9taXBzLmMNCj4gaW5kZXggZTRiMjFlN2M0
-NS4uM2Y0NTQ0NzI5MiAxMDA2NDQNCj4gLS0tIGEvZGlzYXMvbmFub21pcHMuYw0KPiArKysg
-Yi9kaXNhcy9uYW5vbWlwcy5jDQo+IEBAIC05NSw3ICs5NSw3IEBAIHR5cGVkZWYgc3RydWN0
-IFBvb2wgew0KPiAgICNkZWZpbmUgSU1HQVNTRVJUT05DRSh0ZXN0KQ0KPiAgIA0KPiAgIA0K
-PiAtc3RhdGljIGNoYXIgKmltZ19mb3JtYXQoY29uc3QgY2hhciAqZm9ybWF0LCAuLi4pDQo+
-ICtzdGF0aWMgY2hhciAqIEdfR05VQ19QUklOVEYoMSwgMikgaW1nX2Zvcm1hdChjb25zdCBj
-aGFyICpmb3JtYXQsIC4uLikNCj4gICB7DQo+ICAgICAgIGNoYXIgKmJ1ZmZlcjsNCj4gICAg
-ICAgdmFfbGlzdCBhcmdzOw0KDQoNClJldmlld2VkLWJ5OiBTdGVmYW4gV2VpbCA8c3dAd2Vp
-bG5ldHouZGU+DQoNCg==
---------------RZMpkYLBT1mH0kypph8DAOTO
+DQpBbSAwMS4xMS4yMiB1bSAxMjo0NCBzY2hyaWViIFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOp
+Og0KPiBTaWduZWQtb2ZmLWJ5OiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8cGhpbG1kQGxp
+bmFyby5vcmc+DQo+IC0tLQ0KPiAgIGRpc2FzL25hbm9taXBzLmMgfCA0IC0tLS0NCj4gICAx
+IGZpbGUgY2hhbmdlZCwgNCBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL2Rpc2Fz
+L25hbm9taXBzLmMgYi9kaXNhcy9uYW5vbWlwcy5jDQo+IGluZGV4IDNmNDU0NDcyOTIuLjgy
+MWQ0Zjg4MzIgMTAwNjQ0DQo+IC0tLSBhL2Rpc2FzL25hbm9taXBzLmMNCj4gKysrIGIvZGlz
+YXMvbmFub21pcHMuYw0KPiBAQCAtMzAsMTAgKzMwLDYgQEANCj4gICAjaW5jbHVkZSAicWVt
+dS9vc2RlcC5oIg0KPiAgICNpbmNsdWRlICJkaXNhcy9kaXMtYXNtLmgiDQo+ICAgDQo+IC0j
+aW5jbHVkZSA8c3RyaW5nLmg+DQo+IC0jaW5jbHVkZSA8c3RkaW8uaD4NCj4gLSNpbmNsdWRl
+IDxzdGRhcmcuaD4NCj4gLQ0KPiAgIHR5cGVkZWYgaW50NjRfdCBpbnQ2NDsNCj4gICB0eXBl
+ZGVmIHVpbnQ2NF90IHVpbnQ2NDsNCj4gICB0eXBlZGVmIHVpbnQzMl90IHVpbnQzMjsNCg0K
+UmVtb3ZpbmcgdGhvc2UgdGhyZWUgdHlwZWRlZnMgYW5kIHJlcGxhY2luZyB0aGUgcmVsYXRl
+ZCB0eXBlcyB3b3VsZCBhbHNvIA0KYmUgZ29vZCAoaW4gYW5vdGhlciBwYXRjaCkuDQoNClJl
+dmlld2VkLWJ5OiBTdGVmYW4gV2VpbCA8c3dAd2VpbG5ldHouZGU+DQoNCg==
+--------------VeVOabI70Ay0p3jq3m3Huufs
 Content-Type: application/pgp-keys; name="OpenPGP_0xE08C21D5677450AD.asc"
 Content-Disposition: attachment; filename="OpenPGP_0xE08C21D5677450AD.asc"
 Content-Description: OpenPGP public key
@@ -212,30 +212,30 @@ hvjSVVSRyxiu/zrDuO/s6g=3D=3D
 =3DumGL
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------RZMpkYLBT1mH0kypph8DAOTO--
+--------------VeVOabI70Ay0p3jq3m3Huufs--
 
---------------fGyLvOQL6sKlwJhym0lCmL1w--
+--------------C0AzdZ9SdeDafqLpM0lY02YD--
 
---------------tSxAdXttmx14TBc7x0A01riM
+--------------4Fa7RaigW0GQZFLsfrSgk0xn
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmNhDMUFAwAAAAAACgkQ4Iwh1Wd0UK0Y
-yA/+Piw5uCro2FmVz9F2ttoooqEcleCl+H0jcUqLgYOGj55YUvl0oURNZ+fU/Yjb+d35fwIRX3kO
-hYEQ7wizgmqAqYYrCwhuLST/gTyMfWVBwAA5oreSHxXAmEVwkrDj9eiaY07iYutwKuEL0jj+Gid+
-WnRsi0RrtLzQGitqD5MAnBdDfa1/mQmSEYZiCp4QVVOQKg+PT+gl9pSVB7MXrrIpdw536/xrcXBd
-iIfzEf5in/ZFUDJllth4EQ+ZTViiKzgfip46rZ+ZXRfQm44p2DPHAIZK8Hbgj9QHmpRK4pWFOKYf
-W3OoMX7X9tDGasmu+L/6F63kkSPWc45f9N1jT/ZFZkzvQWxqJHfA8rbuN8rhXGPrF6hrg6fD6rxc
-BsmCzI3ESCYzyDLCTimZ3SbkxjIdJZ4NemktBxWVMdJyIz93gejXvu4o2l9BBIxDCSySJt+fJZNq
-8ZxaVilk77YbqQ2ISVWudItDmqBSvN3F5QozxbyPycKRmqZ/qPtxuD+FW9ITkHILTXnLfNK8iUc/
-IE4mzKdZUDH8Q2IektY2B/yoPL8Txe9y/+RlaTyI/SCT0oIvMDgiX+sb/tcroNBTbvPt7NGBW/YS
-uIr5D1ioGCGJLtsTLPu+8ZA2CcbEvPurlNwqpHS0P+IOeY8++LSXrz99Y0/GBY8KeJwTzER+c2pY
-g3Q=
-=uqYu
+wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmNhDSwFAwAAAAAACgkQ4Iwh1Wd0UK3q
+Ww//QiSBu0x64eRO4Dh1Zc8Mw5v1NmjhTzcKco5ChGoYnJ6xoAt+d4F9GVVVBOhs3pcibHXgSQls
+Pq5GmY/FdtINEmdGuoUZEYUf0NQ8SfJAjBGAAV84CPfCahB7josft61zy5DhP4DbbVVXN0kiZqh2
+UEFsbda3ce/T1LHhxihr0rauUThGg+7cRV35ELTBBP0Xy2IAi0AWARh2elSN12aBwfwSlG7zKFZY
+ThPXU7ElLIONJx1W4wYX+lOpPbmlTLBwiCTNwmhij4bn4yk+QqNOYt3XGit7m0iBnCoBDoPbvf4C
+dBfgrVM47Ch8nFcemHTHFu0ob3tlq0tjMM5r0r0JIawqkaE+vnP4ByzXipvFsMgq/eIkXclhBhKr
+xboqNHR+AUFfV3bvIfvsHdUlHTdwkjHk35F0xfi0IwC0peugIa8+dV1h5wZKq1kG4oiZy0a6GKZe
+UJT0a7ChkNxzf0+tFRlzrBtvbrWu8GAtehPGlTuEgC+HQyh4Czzv+V5f7+RwvvitxBYnsY8ePj0Q
+mqZeDvqjUKLyVNmmWLYhVUYl1hRluV1GAr/qELFE2TOJA3LsPvqRJm5ZXgFEJsZ+NLMId0CwNMe2
++pXIGQDTE7n4/tHIPRlOJdclR2kd+U6/PhtIicaWkEtEQ2E75hAAL5571Sd2n9L3D3LQuBNaTNNK
+vMc=
+=q/C0
 -----END PGP SIGNATURE-----
 
---------------tSxAdXttmx14TBc7x0A01riM--
+--------------4Fa7RaigW0GQZFLsfrSgk0xn--
 
