@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39EDC61435A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 03:42:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA37614366
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 03:48:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ophDc-0007Zc-8x; Mon, 31 Oct 2022 22:41:36 -0400
+	id 1ophJS-0002I6-ES; Mon, 31 Oct 2022 22:47:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ophDa-0007ZI-0t
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 22:41:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ophDY-0001wp-FH
- for qemu-devel@nongnu.org; Mon, 31 Oct 2022 22:41:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667270491;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DaTHESl6l1Y5CDcyEbRcPCl4blvyoVRF2GV1MjxIKrg=;
- b=CaDzKMghm+lCR2N3C2rO7qkUoCvVghXbeBZWGVtUmZBc2RluQIHpRHU4qeevVZdNCSiWSG
- P2eSxM4IYip34cBm9Vmlvf+7SobWnRUR071a1u+wepoXa88mdPYd+G58skDDCU/l0f8Qqv
- gpSVt/ArIDi8HZfP1aRhiXD//wFk1RM=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-460-84Y1aHJLOHOuBFqvoX1Mlg-1; Mon, 31 Oct 2022 22:41:30 -0400
-X-MC-Unique: 84Y1aHJLOHOuBFqvoX1Mlg-1
-Received: by mail-oo1-f70.google.com with SMTP id
- a11-20020a4a80cb000000b004805cba57f1so4842608oog.11
- for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 19:41:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tommy.wu@sifive.com>)
+ id 1ophJ5-0002E1-CT
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 22:47:29 -0400
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tommy.wu@sifive.com>)
+ id 1ophJ3-0004D9-7o
+ for qemu-devel@nongnu.org; Mon, 31 Oct 2022 22:47:14 -0400
+Received: by mail-ot1-x32f.google.com with SMTP id
+ p8-20020a056830130800b0066bb73cf3bcso7800234otq.11
+ for <qemu-devel@nongnu.org>; Mon, 31 Oct 2022 19:47:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=LNFLpDjl6gEmrwAKx9a5roVrTsz01H64OI9IVTmmQUQ=;
+ b=CjDXJufn7C6d+ZokQ8yj0QZIK/GPc9r/10wW5xVkMI+95T0WQwgiiLzzHcBEGX3fK+
+ WigGJGGKAxqEl8B9GrxJ10yVHhJ8L5C+WeCorL845HGlDO6m1FfWeiPoNXVEdYNQWsWv
+ vnw9I42rzPTgJHxfVd3q6IkZnvkKnwGt2huYiEhuAE+qgaeb9DhVHzM1xCk2TA8lw96E
+ RN0DW335zaLtOx42F4yjb9D7DP3JZz4ctNvTyyfW8/vavxyzcOe6i1bFM8Vjwi3kJqB6
+ XfQV48mHu85Sl9hsH7ndIvaLIp6nWcAIAXsfCMNNkbYtOCxrafjYNolThrBBHyd6qycy
+ 6LSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DaTHESl6l1Y5CDcyEbRcPCl4blvyoVRF2GV1MjxIKrg=;
- b=6VdwTKvbgRaU5fat30EkwlW2MF/gDHakFrMXs3rEBox4/b3V0veeW9Mvdrzz6t3+hS
- e8T4GDbOF16XgaaCjXrMCLdsS8iuhd6WNe4Yw49m9noph2uGOyQMwHYMot2cs/Es5HNa
- pgq2+0j3FQiuT90WQf63RQ+419hTyq9S3d+4Q7cdDQFyqYP4V3AekfV9vItg8NZtlSUa
- d7c77UV7zefJ3/GT4weHvwk5tPGrjAKi3FDEf+q9FLGDhxoiMXPsehMj111oWZdRMTSp
- KLe7+Ggv82dl4YL65M7sS1T+p5pTdhM0DeU3HPT2SgTg/NS6HTbm/75Ts4h8CbTGYWB3
- JNeA==
-X-Gm-Message-State: ACrzQf1Kef5/I2gowwO/+4vhBxHYv9TKzXfuJEYez4JJmWypLUX1luLW
- YIIOV0TAaX657saXThA8ZqVvIBZZ/m82af31NxVK8sBhi6aEn5x1szhAdh0jXxHmgVp6HXot/F7
- dKkNqvf1aXT4kywLWPZcINY/w9Tblj8U=
-X-Received: by 2002:a05:6808:1483:b0:354:a36e:5b with SMTP id
- e3-20020a056808148300b00354a36e005bmr16510711oiw.35.1667270489888; 
- Mon, 31 Oct 2022 19:41:29 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4Q6WtGJNIaLHY5UQ+bPDkWAut9ZzJDCKTKADbeur1hXQhGFjU7xUN7ScmeoZDgrm15rERHtt6VC9umbSQ7HvA=
-X-Received: by 2002:a05:6808:1483:b0:354:a36e:5b with SMTP id
- e3-20020a056808148300b00354a36e005bmr16510707oiw.35.1667270489743; Mon, 31
- Oct 2022 19:41:29 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LNFLpDjl6gEmrwAKx9a5roVrTsz01H64OI9IVTmmQUQ=;
+ b=TKfSdWFKE4teaK0PvSONPLBiobth/9ANNBWE/aVE3w+nv/To2c42SsT+vtGPOeDh1R
+ dbTi17A3CegurwoFFbVNfR0y2GWKKVJcmZ2ElLjk4MeJLwc0128ya/MIpgcIIV9Hk+K7
+ W1Xw4MARgPHSnrIkd40AMTBSyQyBD3F3rPFsZXrR1WwMT4aRBUrRSKLy7aVinNUjLyq2
+ NbkxeKnqS/9LGXvE8GeL05s/z9fBaNeObk5gSXlQ4wsJ39qkfgkenNjF9NyU11y0wqbk
+ TDIU6oDoTzBQF48jhuyrCkCFXA9rI3M7G2Ww8HzHhL3IVAn1VfVNhwRekT7TBcUAqsKG
+ iZfg==
+X-Gm-Message-State: ACrzQf0w0SQocomKthWGZkvGveQQw08D6vtFwqh7dY8eLM4VFsaAT5QB
+ UqG0wVNkwmzgrTAXI+G7dxr4MGrbkBzG3aIfV5IrTyU8iJXu8iMUigIKjLM0C6cQX/YPXh8ZBZv
+ T7HJoJFmdssSWQwlDdwP4r9jxrUIS9VHliRhwUhXP8UGKKrKld3SFesX+Mpes4wjRizwscKc=
+X-Google-Smtp-Source: AMsMyM629vGvszhFiW1Z7i5d2Al7HB4iEDo6UsaaN6CJafdhZtqQ+szQdJM6f1MfCwY3yJcaT14Q2w==
+X-Received: by 2002:a05:6830:2706:b0:661:e264:9b82 with SMTP id
+ j6-20020a056830270600b00661e2649b82mr8403066otu.82.1667270830422; 
+ Mon, 31 Oct 2022 19:47:10 -0700 (PDT)
+Received: from sw05.internal.sifive.com ([64.62.193.194])
+ by smtp.gmail.com with ESMTPSA id
+ r4-20020a05683001c400b00661a33883b8sm3367215ota.71.2022.10.31.19.47.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 31 Oct 2022 19:47:09 -0700 (PDT)
+From: Tommy Wu <tommy.wu@sifive.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: alistair.francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
+ jim.shu@sifive.com, frank.chang@sifive.com, Tommy Wu <tommy.wu@sifive.com>
+Subject: [PATCH v2 0/3] Implement the watchdog timer of HiFive 1 rev b.
+Date: Mon, 31 Oct 2022 19:46:53 -0700
+Message-Id: <20221101024656.517608-1-tommy.wu@sifive.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20221028160251.268607-1-eperezma@redhat.com>
-In-Reply-To: <20221028160251.268607-1-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 1 Nov 2022 10:41:18 +0800
-Message-ID: <CACGkMEsHccBVEaruA5QKVmSsCsg0agedqrO2K8JEaBSP=Y1-Jg@mail.gmail.com>
-Subject: Re: [PATCH 0/4] Endianess and coding style fixes for SVQ event idx
- support
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
+ envelope-from=tommy.wu@sifive.com; helo=mail-ot1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,28 +90,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Oct 29, 2022 at 12:02 AM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
-rote:
->
-> Some fixes that did not get in time for the last net pull request.
->
-> Eugenio P=C3=A9rez (4):
->   vhost: Delete useless casting
->   vhost: convert byte order on SVQ used event write
->   vhost: Fix lines over 80 characters
->   vhost: convert byte order on avail_event read
+The HiFive 1 rev b includes a watchdog module based on a 32-bit
+counter. The watchdog timer is in the always-on domain device of
+HiFive 1 rev b, so this patch added the AON device to the sifive_e
+machine. This patch only implemented the functionality of the
+watchdog timer, not all the functionality of the AON device.
 
-I've queued this for rc1.
+You can test the patchset by the QTest tests/qtest/sifive-e-aon-watchdog-test.c
 
-Thanks
+Changes since v1 ( Thank Alistair for the feedback ):
+- Use the register field macro.
+- Delete the public create function. The board creates the aon device itself.
+- Keep all variable declarations at the top of the code block.
 
->
->  hw/virtio/vhost-shadow-virtqueue.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->
-> --
-> 2.31.1
->
->
+Tommy Wu (3):
+  hw/misc: sifive_e_aon: Support the watchdog timer of HiFive 1 rev b.
+  hw/riscv: sifive_e: Support the watchdog timer of HiFive 1 rev b.
+  tests/qtest: sifive-e-aon-watchdog-test.c : Add QTest of watchdog of
+    sifive_e
+
+ hw/misc/Kconfig                          |   3 +
+ hw/misc/meson.build                      |   1 +
+ hw/misc/sifive_e_aon.c                   | 403 ++++++++++++++
+ hw/riscv/Kconfig                         |   1 +
+ hw/riscv/sifive_e.c                      |  13 +-
+ include/hw/misc/sifive_e_aon.h           |  62 +++
+ include/hw/riscv/sifive_e.h              |   8 +-
+ tests/qtest/meson.build                  |   3 +
+ tests/qtest/sifive-e-aon-watchdog-test.c | 650 +++++++++++++++++++++++
+ 9 files changed, 1139 insertions(+), 5 deletions(-)
+ create mode 100644 hw/misc/sifive_e_aon.c
+ create mode 100644 include/hw/misc/sifive_e_aon.h
+ create mode 100644 tests/qtest/sifive-e-aon-watchdog-test.c
+
+-- 
+2.27.0
 
 
