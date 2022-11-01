@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225566144EA
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 08:12:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925166144E7
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Nov 2022 08:12:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oplQx-00053u-0e; Tue, 01 Nov 2022 03:11:39 -0400
+	id 1oplQz-00055w-7I; Tue, 01 Nov 2022 03:11:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
- id 1oplQu-00053b-Cj
+ id 1oplQu-00053h-Np
  for qemu-devel@nongnu.org; Tue, 01 Nov 2022 03:11:36 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+Received: from szxga08-in.huawei.com ([45.249.212.255])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
- id 1oplQs-0001sH-5m
+ id 1oplQs-0001sL-5N
  for qemu-devel@nongnu.org; Tue, 01 Nov 2022 03:11:36 -0400
 Received: from canpemm500009.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4N1h5V4bc6zmV9d;
- Tue,  1 Nov 2022 15:11:26 +0800 (CST)
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4N1h5W4r7Fz15MF1;
+ Tue,  1 Nov 2022 15:11:27 +0800 (CST)
 Received: from localhost.localdomain (10.67.164.66) by
  canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 1 Nov 2022 15:11:28 +0800
+ 15.1.2375.31; Tue, 1 Nov 2022 15:11:29 +0800
 To: <mst@redhat.com>, <peter.maydell@linaro.org>, <imammedo@redhat.com>,
  <ani@anisinha.ca>, <eduardo@habkost.net>, <marcel.apfelbaum@gmail.com>,
  <f4bug@amsat.org>, <wangyanan55@huawei.com>, <qemu-devel@nongnu.org>
@@ -32,9 +32,10 @@ CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
  <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
  <hesham.almatary@huawei.com>, <ionela.voinescu@arm.com>,
  <darren@os.amperecomputing.com>
-Subject: [PATCH v4 1/6] tests: virt: Allow changes to PPTT test table
-Date: Tue, 1 Nov 2022 15:10:43 +0800
-Message-ID: <20221101071048.29553-2-yangyicong@huawei.com>
+Subject: [PATCH v4 2/6] hw/acpi/aml-build: Only generate cluster node in PPTT
+ when specified
+Date: Tue, 1 Nov 2022 15:10:44 +0800
+Message-ID: <20221101071048.29553-3-yangyicong@huawei.com>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20221101071048.29553-1-yangyicong@huawei.com>
 References: <20221101071048.29553-1-yangyicong@huawei.com>
@@ -45,8 +46,8 @@ X-Originating-IP: [10.67.164.66]
 X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
  canpemm500009.china.huawei.com (7.192.105.203)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=yangyicong@huawei.com; helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=yangyicong@huawei.com; helo=szxga08-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -71,21 +72,96 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de+lists+qemu-devel=lfdr.de@
 
 From: Yicong Yang <yangyicong@hisilicon.com>
 
-Allow changes to test/data/acpi/virt/PPTT, prepare to change the
-building policy of the cluster topology.
+Currently we'll always generate a cluster node no matter user has
+specified '-smp clusters=X' or not. Cluster is an optional level
+and will participant the building of Linux scheduling domains and
+only appears on a few platforms. It's unnecessary to always build
+it when it cannot reflect the real topology on platforms having no
+cluster implementation. So only generate the cluster topology in
+ACPI PPTT when the user has specified it explicitly in -smp.
 
+Tested qemu-system-aarch64 with `-smp 8` and linux 6.1-rc1, without
+this patch:
+estuary:/sys/devices/system/cpu/cpu0/topology$ cat cluster_*
+ff	# cluster_cpus
+0-7	# cluster_cpus_list
+56	# cluster_id
+
+with this patch:
+estuary:/sys/devices/system/cpu/cpu0/topology$ cat cluster_*
+ff	# cluster_cpus
+0-7	# cluster_cpus_list
+36	# cluster_id, with no cluster node kernel will make it to
+	  physical package id
+
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- 1 file changed, 1 insertion(+)
+ hw/acpi/aml-build.c   | 2 +-
+ hw/core/machine-smp.c | 2 ++
+ include/hw/boards.h   | 3 +++
+ qemu-options.hx       | 3 +++
+ 4 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..cb143a55a6 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/PPTT",
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index e6bfac95c7..60c1acf3da 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -2030,7 +2030,7 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+                 0, socket_id, NULL, 0);
+         }
+ 
+-        if (mc->smp_props.clusters_supported) {
++        if (mc->smp_props.clusters_supported && mc->smp_props.has_clusters) {
+             if (cpus->cpus[n].props.cluster_id != cluster_id) {
+                 assert(cpus->cpus[n].props.cluster_id > cluster_id);
+                 cluster_id = cpus->cpus[n].props.cluster_id;
+diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
+index b39ed21e65..c3dab007da 100644
+--- a/hw/core/machine-smp.c
++++ b/hw/core/machine-smp.c
+@@ -158,6 +158,8 @@ void machine_parse_smp_config(MachineState *ms,
+     ms->smp.threads = threads;
+     ms->smp.max_cpus = maxcpus;
+ 
++    mc->smp_props.has_clusters = config->has_clusters;
++
+     /* sanity-check of the computed topology */
+     if (sockets * dies * clusters * cores * threads != maxcpus) {
+         g_autofree char *topo_msg = cpu_hierarchy_to_string(ms);
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 311ed17e18..06ed66453f 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -130,11 +130,14 @@ typedef struct {
+  * @prefer_sockets - whether sockets are preferred over cores in smp parsing
+  * @dies_supported - whether dies are supported by the machine
+  * @clusters_supported - whether clusters are supported by the machine
++ * @has_clusters - whether clusters are explicitly specified in the user
++ *                 provided SMP configuration
+  */
+ typedef struct {
+     bool prefer_sockets;
+     bool dies_supported;
+     bool clusters_supported;
++    bool has_clusters;
+ } SMPCompatProps;
+ 
+ /**
+diff --git a/qemu-options.hx b/qemu-options.hx
+index eb38e5dc40..bbdbdef0af 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -349,6 +349,9 @@ SRST
+     ::
+ 
+         -smp 2
++
++    Note: The cluster topology will only be generated in ACPI and exposed
++    to guest if it's explicitly specified in -smp.
+ ERST
+ 
+ DEF("numa", HAS_ARG, QEMU_OPTION_numa,
 -- 
 2.24.0
 
