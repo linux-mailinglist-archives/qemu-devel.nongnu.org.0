@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B300C615D5E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 09:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B14615D83
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 09:19:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oq8oE-0006a3-7h; Wed, 02 Nov 2022 04:09:18 -0400
+	id 1oq8wV-0001Yf-Sv; Wed, 02 Nov 2022 04:17:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oq8nO-0006SL-C0; Wed, 02 Nov 2022 04:08:27 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oq8w4-0001Xm-1N
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 04:17:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oq8nK-0003Xv-BW; Wed, 02 Nov 2022 04:08:21 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 69F1E5C00B9;
- Wed,  2 Nov 2022 04:08:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Wed, 02 Nov 2022 04:08:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1667376496; x=1667462896; bh=dy
- 25Qo6/rANJumBclsT7UmNTzsxvrRx1j7ZNrrQlE4g=; b=oekh+H16fJzIasFU3f
- AjIRFxmXpcWXzHCM13HjepLc/GKz5DGlIynrqEDK2BZq8VJ5Wy9TyhrC10+4OqPa
- ywYEaJ/B96Hhpi4+kl1PcL05r9RV69QosWiSZFFYO0+7KJRKzByYOoeEBmH5zbXd
- yQFgaGw0vrBsL20AE1+ivcVvPRm490BwjqT5EaqG6hQbojuC9cUvR5NVxHE9oa60
- MbWTkKUGo5j6hVajxHZ7wqJsIRq4DZw9QyvLz15ale/30w/PCvSBeB7v4f/VTL2K
- AUOV1y7BbRqFUiVTNWYMEQST4vfhUmV/TGjI9qCgMsyhAaD1BRNMnizhuM3kQXvY
- SZUw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1667376496; x=1667462896; bh=dy25Qo6/rANJumBclsT7UmNTzsxv
- rRx1j7ZNrrQlE4g=; b=dy07WKK+qykN16bQZ1rD8wWThiRSHnVRNiuZMePoMtJi
- qhM1QfcCAfJ3X0FqOBTGra+jAouq0Cc3MrZxpaetl/WbnWjBjmwR1TYd565k2Clq
- yS6+qqos6pryBK59rzPIsbE99za84+M2bMOhfUyvXEe9yASy/mpyhRCnXDf8ZUMH
- WRRLGCNoZyNR7GQwtXC6TAf7m51/HYkeAnaA/BkUlyE0kH4U0imxsmilwL3aPhqR
- jzzoYTt/SecUMYZc1VG1b66tNURV06IjjBDdNRE0hgl8rxluLrVIoweAer8CQnx0
- Kzj85Kj0o91F8wsT0d7Zh3Mj0qW2s70rQbGvOiaLIA==
-X-ME-Sender: <xms:cCViY9pSHFRCIMOp76zzHURlYgd-fxxiTYRDKTm1s1hwdhPv3zreMw>
- <xme:cCViY_o-bfffzqU9sT7PwSBRQ0hEKcOEh4QMShULqlpbYbPN6LlAeNd92V8UtlLFz
- bDiV2gCgjCr_tdupSc>
-X-ME-Received: <xmr:cCViY6PE8FEOdk2ztMXtq48w3CHEYTDy97fXbKS_ArSKGNSGip7Zk1EDcrDMYOpn3Qg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudeigdduudehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:cCViY46XVRmrRjtnO8Wnvl-8kN67wenr0PNkj1kNsXSMXHL1ICCVnw>
- <xmx:cCViY87fxsbIOrILn5VofjcohWYX8dIcsHVB0voTvbbdbtDs6uAHeA>
- <xmx:cCViYwj7jsZgMt7rxuzhx4DVg9YZ2vVRK2P-H-dWq4vIp6SOyiU54w>
- <xmx:cCViY32ChNLS1t_UF1ijdY3HNZLXHQAZf63L07Sm9jIUctHMXvrpQg>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Nov 2022 04:08:14 -0400 (EDT)
-Date: Wed, 2 Nov 2022 09:08:12 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Francis Pravin Antony Michael Raj <francis.michael@solidigm.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, kbusch@kernel.org,
- Jonathan Derrick <jonathan.derrick@solidigm.com>
-Subject: Re: [PATCH] hw/nvme: Abort copy command when format is one while pif
- is zero
-Message-ID: <Y2IlbDXMouJy39xD@cormorant.local>
-References: <20220826025359.124312-1-francis.michael@solidigm.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oq8w1-00084T-UT
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 04:17:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667377036;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mDc3R7JycEuvYvUdeRtK6r/yA6997Or3GBYNeZkSbc4=;
+ b=Hw5tidcatRu4oEyPV1RMuXJK7oU6WSpgHTfaVB1vgLnR9IM6e2eyR5SxmZeVcwM+4yqzgQ
+ A3+iA4v/Ts5nIYR2xkPyXtPp+WIR9gRwgODL2aeP2iiejLstFyLWlezLQf1+JDZSVxI+S1
+ XoAL7CcrhdrjO+ttjkikQ8oDI4ji9tY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-387-24MzWchBMHObxzSkeYpysQ-1; Wed, 02 Nov 2022 04:17:13 -0400
+X-MC-Unique: 24MzWchBMHObxzSkeYpysQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ o18-20020a05600c4fd200b003c6ceb1339bso1350288wmq.1
+ for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 01:17:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mDc3R7JycEuvYvUdeRtK6r/yA6997Or3GBYNeZkSbc4=;
+ b=x5n5nbJlgx/hyOR9Su/nhWutHBWbTnG4U8pGEVV3LmzoPCHJ9y8orVa9COUQmBZKuW
+ katI5y0ldJMwSlapHmn6n0MFw28+2cMUo5CRB36258++cYwnldHdi0CeKA2+B90WWjBQ
+ UASbrpLhx0DxT520fYW2/TfYOXODpeFP3ir/P/R2YVJcUK5ZIb44Z86cW/5SRBkUtKut
+ Y3gdTzZTjYHhGQzvWcAdDmgffM+pzu5p+wg5SLiFjoOPlCAjq0UtNQ24hsl6XsaI/hgY
+ YhOE1iVR4ctf9mlzD1KBYFIWtBmLyHMwOj8oKjRJmab+aNIqEV0YT5EmKT2F3uikvo/b
+ IpSQ==
+X-Gm-Message-State: ACrzQf2ZPBg6ScOHFBrchr0SgKI37CnP3+vtG4XfgodtqITIw1B1hOp9
+ 5NtbG3Z2DuWuJPsCN9wEWb75RDhESjm7DJeIeUcN8fpswdwhGNDmejcvWYXHm+kuw9F7EmhUHee
+ lCx+NLX/AH/oLD0w=
+X-Received: by 2002:a05:6000:810:b0:236:8a6d:e4e1 with SMTP id
+ bt16-20020a056000081000b002368a6de4e1mr14048871wrb.661.1667377032394; 
+ Wed, 02 Nov 2022 01:17:12 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4pc3G+FZzurY4C82pPe85gXn0m2B5KvY/n+aVlKwQqC8fXU1sRlMBrL656KNVbyAPYED0cqg==
+X-Received: by 2002:a05:6000:810:b0:236:8a6d:e4e1 with SMTP id
+ bt16-20020a056000081000b002368a6de4e1mr14048847wrb.661.1667377032161; 
+ Wed, 02 Nov 2022 01:17:12 -0700 (PDT)
+Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
+ j19-20020a05600c1c1300b003a8434530bbsm1275810wms.13.2022.11.02.01.17.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Nov 2022 01:17:11 -0700 (PDT)
+Date: Wed, 2 Nov 2022 04:17:07 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Yicong Yang <yangyicong@huawei.com>
+Cc: peter.maydell@linaro.org, imammedo@redhat.com, ani@anisinha.ca,
+ eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org,
+ wangyanan55@huawei.com, qemu-devel@nongnu.org,
+ jonathan.cameron@huawei.com, linuxarm@huawei.com,
+ yangyicong@hisilicon.com, prime.zeng@huawei.com,
+ hesham.almatary@huawei.com, ionela.voinescu@arm.com,
+ darren@os.amperecomputing.com
+Subject: Re: [PATCH v4 0/6] Only generate cluster node in PPTT when specified
+Message-ID: <20221102040935-mutt-send-email-mst@kernel.org>
+References: <20221101071048.29553-1-yangyicong@huawei.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="C0YipVuLbYaDNC0i"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220826025359.124312-1-francis.michael@solidigm.com>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20221101071048.29553-1-yangyicong@huawei.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.051,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,65 +100,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Nov 01, 2022 at 03:10:42PM +0800, Yicong Yang wrote:
+> From: Yicong Yang <yangyicong@hisilicon.com>
+> 
+> This series mainly change the policy for building a cluster topology node
+> in PPTT. Previously we'll always build a cluster node in PPTT without
+> asking the user, after this set the cluster node will be built only the
+> the user specify through "-smp clusters=X".
+> 
+> One problem is related to this but not fully caused by this, see the
+> discussion in [*]. When booting the VM with `-smp 8` and 4 numa nodes,
+> the linux scheduling domains in the VM misses the NUMA domains. It's
+> because the MC level span extends to Cluster level (which is generated
+> by the Qemu by default) that spans all the cpus in the system, then the
+> scheduling domain building stops at MC level since it already includes all
+> the cpus.
+> 
+> Considering cluster is an optional level and most platforms don't have it,
+> they may even don't realize this is built and a always build policy cannot
+> emulate the real topology on these platforms. So in this series improve the
+> policy to only generate cluster when the user explicitly want it.
+> 
+> Update the tests and test tables accordingly.
 
---C0YipVuLbYaDNC0i
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think we can classify this as a bugfix and so allow after
+the freeze, however, this needs ack from ARM maintainers then.
 
-On Aug 25 22:53, Francis Pravin Antony Michael Raj wrote:
-> As per the NVMe command set specification section-3.2.2,
-> If:
->     i) The namespace is formatted to use 16b Guard Protection Information=
- (i.e., pif =3D 0) and
->     ii) The Descriptor Format is not cleared to 0h
-> Then the copy command should be aborted with the status code of Invalid N=
-amespace or Format
->=20
-> Signed-off-by: Francis Pravin Antony Michael Raj <francis.michael@solidig=
-m.com>
-> Signed-off-by: Jonathan Derrick <jonathan.derrick@solidigm.com>
-> ---
->  hw/nvme/ctrl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 87aeba0564..cb4c0f80bc 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -3040,7 +3040,7 @@ static uint16_t nvme_copy(NvmeCtrl *n, NvmeRequest =
-*req)
->          goto invalid;
->      }
-> =20
-> -    if (ns->pif && format !=3D 0x1) {
-> +    if ((ns->pif =3D=3D 0x0 && format !=3D 0x0) || (ns->pif && format !=
-=3D 0x1)) {
->          status =3D NVME_INVALID_FORMAT | NVME_DNR;
->          goto invalid;
->      }
-> --=20
-> 2.25.1
->=20
 
-This got lost somehow.
+> [*] https://lore.kernel.org/lkml/2c079860-ee82-7719-d3d2-756192f41704@huawei.com/
+> 
+> Change since v3:
+> - Improve and attach the diff of the affected ACPI tables in the commit, and minor cleanups
+> Link: https://lore.kernel.org/qemu-devel/20221031090523.34146-1-yangyicong@huawei.com/
+> 
+> Change since v2:
+> - Add tag from Micheal, thanks
+> - Handle the tests changes with bios-tables-test-allowed-diff.h, Per Micheal
+> - Address the comments per Yanan
+> Link: https://lore.kernel.org/qemu-devel/20221027032613.18377-1-yangyicong@huawei.com/
+> 
+> Change since v1:
+> - Only includes the test tables which is really needed
+> - Enrich the commit
+> Link: https://lore.kernel.org/qemu-devel/20220922131143.58003-1-yangyicong@huawei.com/
+> 
+> Yicong Yang (6):
+>   tests: virt: Allow changes to PPTT test table
+>   hw/acpi/aml-build: Only generate cluster node in PPTT when specified
+>   tests: virt: Update expected ACPI tables for virt test
+>   tests: acpi: Add and whitelist *.topology blobs
+>   tests: acpi: aarch64: Add topology test for aarch64
+>   tests: acpi: aarch64: Add *.topology tables
+> 
+>  hw/acpi/aml-build.c                |   2 +-
+>  hw/core/machine-smp.c              |   2 ++
+>  include/hw/boards.h                |   3 +++
+>  qemu-options.hx                    |   3 +++
+>  tests/data/acpi/virt/APIC.topology | Bin 0 -> 700 bytes
+>  tests/data/acpi/virt/DSDT.topology | Bin 0 -> 5398 bytes
+>  tests/data/acpi/virt/PPTT          | Bin 96 -> 76 bytes
+>  tests/data/acpi/virt/PPTT.topology | Bin 0 -> 336 bytes
+>  tests/qtest/bios-tables-test.c     |  19 +++++++++++++++++++
+>  9 files changed, 28 insertions(+), 1 deletion(-)
+>  create mode 100644 tests/data/acpi/virt/APIC.topology
+>  create mode 100644 tests/data/acpi/virt/DSDT.topology
+>  create mode 100644 tests/data/acpi/virt/PPTT.topology
+> 
+> -- 
+> 2.24.0
 
-Applied on nvme-next. Thanks!
-
---C0YipVuLbYaDNC0i
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNiJWwACgkQTeGvMW1P
-DekFbQf/Zq9VyZKZqDe5LswZNt+On+aAS6B0hNHIwENDunp26IZTCZ6SOO7QG0XK
-VyHxX1HNFAaJpcpSLHNaJjlLS8DJASToAOxweha3SjWmIafT3H6DsiTPVB4MHckC
-f1KTF2vh9urDHe6UIIYAmK/0GkWJZRDks0/VXeBAi0b/2eM3x7uOuwM9q135elP5
-hDjYFJxqw0sNJ8qvqNhJyFGEJcTfKi3pjxCCMgoFUgcKK3LbyiUkqTJBHT0DZrst
-7FH84XTkVq/IjUaw6NzMSVux9S/zFceKm05qoy9+Mc4RS6QmrLRul00bdooBJHyN
-tHX/VhqGE07pmIMGQDk3HtvVuyLZyg==
-=lj0M
------END PGP SIGNATURE-----
-
---C0YipVuLbYaDNC0i--
 
