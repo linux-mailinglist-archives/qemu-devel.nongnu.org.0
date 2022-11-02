@@ -2,75 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52AB615F36
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 10:14:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90E5615F95
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 10:23:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oq9nh-0002Ne-O9; Wed, 02 Nov 2022 05:12:45 -0400
+	id 1oq9wR-0006ly-BA; Wed, 02 Nov 2022 05:21:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oq9nf-0002MI-1t
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 05:12:43 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oq9nd-0000zJ-0e
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 05:12:42 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id g24so15987715plq.3
- for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 02:12:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=4yyyElQDSV8BnJ18BbBez/2Y1uNzC2NbopBlpNdfYzw=;
- b=jDhAMdDwTi/gc9PsN10r/u+oDqKZ19WDvtZMNR9am/L4T2pDlQPCHxYwTmRkMAKSYL
- s0+itnt6fUVs4VkRgpYWAIB115IJvz/JX4nXVrcNxzKPm0LLuIu5PNnCgRCLDV1DWzSq
- MAlI+3tfJpbfiXVutk9fHIvnt8nBK3CG8LBZmvl+FnQIkX/Dz/F4XDCmCg3InJBRdgja
- Vg8pHzuJRN8hP75IwJQ9sR0a0iRYG/txqhSdiMTFmfN/foTPCA0WUR4qtRjUUYq/Rs8T
- piACgJ2zWygQtdWGUDMI4Z122G19H9YqQIlANemvTNJRSXM9kktOSiuHZKr3INDL/n4v
- lYRg==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1oq9wQ-0006lr-1D
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 05:21:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1oq9wN-0005WI-Ea
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 05:21:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667380902;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tBtrdYdlbzPjoNipzUgKwyUV6LUAfeu3VF7JgGI3w3M=;
+ b=B2Eet6uniGooab+bYQtmWXTPjT2tOPonM3/uNT3fbVJk0APsegnk6GLVBxP0ZxZkWF5Fdn
+ IUmxLz1iatE66Ry5zT++BTVBe+FuvV6Je+MQpMY0pzk8OJ4FBmqIemW0NKyY1TVVbm5XW1
+ GmSCa2tjk7o86MdMHE8SJTsZ8fq00Mo=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-662-l2WLgBoCMXuVCK6N6s0F2A-1; Wed, 02 Nov 2022 05:21:41 -0400
+X-MC-Unique: l2WLgBoCMXuVCK6N6s0F2A-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ c11-20020ac87dcb000000b0039cdb815f3bso11773567qte.4
+ for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 02:21:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4yyyElQDSV8BnJ18BbBez/2Y1uNzC2NbopBlpNdfYzw=;
- b=ZEXP1Br4mnk/0Cr8oQb+/YUitI7fBPVWSvsVtV8yINogHrHgUNqBI7TikMSauFEzMV
- PIQ5ZH4sbdTB/bvxcR/pQLjSfLu+lSNBYxxGlypfsqHU0TUKo8jyk0kZFNIR6Ro1Kex3
- b2tABH3cVnkipnKQZQ13pFzWXvN/LX7Pg8wqSHajwX2kMpjgovSr9Vql/qinWYOvCsOB
- 7emdLgthQ3R1grIAShOAavT5DQtQh/uHvFtkytTCVq05zXKcZdM+DflsbFHpSTozt+Xb
- CRQUTdqsjZsAncnXeuqX4+QFJvU7jqwRpsJII3F7VIgkzIC1Zt3LNrH8jnN+jk1ril0/
- qb6Q==
-X-Gm-Message-State: ACrzQf0sYS9AIl0N7XK1A0YAdkH0IC7mvkrPz3QmD4QrGhNi/RBklb55
- SG3aySsoKRhFXJCUW4MCeQ+BqByL3rFgmhDK
-X-Google-Smtp-Source: AMsMyM77Sd0IyW5C3b0TMKUGUOjECZNwmlKSnwH7FKCjaRzq4TneR9YMc+uErA4AtIPLQRImFQpA+A==
-X-Received: by 2002:a17:90a:e413:b0:213:c581:8634 with SMTP id
- hv19-20020a17090ae41300b00213c5818634mr19692784pjb.185.1667380359086; 
- Wed, 02 Nov 2022 02:12:39 -0700 (PDT)
-Received: from stoup.. (mur1374950.lnk.telstra.net. [139.130.176.43])
- by smtp.gmail.com with ESMTPSA id
- w65-20020a628244000000b0053b723a74f7sm519261pfd.90.2022.11.02.02.12.36
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tBtrdYdlbzPjoNipzUgKwyUV6LUAfeu3VF7JgGI3w3M=;
+ b=UE7S68QaJkg1zrEqfm7dBLrQFcQEtb+e2SqL2CZIBkDEeczqEI79SaRqP/M5mwJQc8
+ ZNUvcXoaWwRMgXid314J2Lp34EWetVXBboO8WTL/JRETIX9cxLnsKkBAMBpPwLE8k0i+
+ 3ufpO+jR+PRfjCSEQdPB440WQd7//SulSezV0JU4ON1Zuk1431TGa5PkxDHMACvZIj6h
+ VJ+KlaBCrow0zIIS6bNOMwx4rIQXh/X73YH6bCmNv8f3ts7MRwoPu7f7wMR79mbp3fPW
+ YI5uta8Am8tjN/eJZK0fItNufcTW9H3ikKJgH8hY/MEIQOxHZxJp3BNqFQ5PZTMDufEh
+ M8Rg==
+X-Gm-Message-State: ACrzQf2nPER8dVItUObSFrEvdz+R9O+x7dbHtWM2dO0qXqDJa4fDNuRA
+ XWhEY3rZeYtl7x3OzucVRJpYHVAlJLZuyWUgvJAmtPRDJtbOCvRuETNZvtfu7eKnRFUNoeVNhhP
+ ieNCsEYbMLEBXYA8=
+X-Received: by 2002:a05:6214:27ec:b0:4bb:db35:3a81 with SMTP id
+ jt12-20020a05621427ec00b004bbdb353a81mr16708330qvb.58.1667380900699; 
+ Wed, 02 Nov 2022 02:21:40 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM58iuoMdsMQEhzNmsveb8qnMHR16B/vBRwFGibzw5pgJD1T/TBnJJzHKNLqmoKyYqryDKXh8A==
+X-Received: by 2002:a05:6214:27ec:b0:4bb:db35:3a81 with SMTP id
+ jt12-20020a05621427ec00b004bbdb353a81mr16708320qvb.58.1667380900490; 
+ Wed, 02 Nov 2022 02:21:40 -0700 (PDT)
+Received: from sgarzare-redhat (host-82-53-134-234.retail.telecomitalia.it.
+ [82.53.134.234]) by smtp.gmail.com with ESMTPSA id
+ bi29-20020a05620a319d00b006f956766f76sm8296419qkb.1.2022.11.02.02.21.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Nov 2022 02:12:38 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, eduardo@habkost.net,
- Andreas Gustafsson <gson@gson.org>
-Subject: [PATCH] target/i386: Fix test for paging enabled
-Date: Wed,  2 Nov 2022 20:12:32 +1100
-Message-Id: <20221102091232.1092552-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ Wed, 02 Nov 2022 02:21:39 -0700 (PDT)
+Date: Wed, 2 Nov 2022 10:21:32 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Alberto Faria <afaria@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] block/blkio: Make driver nvme-io_uring take a "path"
+ instead of a "filename"
+Message-ID: <20221102092132.tf3xoidh2gu2mgux@sgarzare-redhat>
+References: <20221028233854.839933-1-afaria@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20221028233854.839933-1-afaria@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.051,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,41 +101,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If CR0.PG is unset, pg_mode will be zero, but that is not the
-only condition for which pg_mode will be zero.  Restore the
-correct test for paging enabled.
+On Sat, Oct 29, 2022 at 12:38:54AM +0100, Alberto Faria wrote:
+>The nvme-io_uring driver expects a character special file such as
+>/dev/ng0n1. Follow the convention of having a "filename" option when a
+>regular file is expected, and a "path" option otherwise.
+>
+>This makes io_uring the only libblkio-based driver with a "filename"
+>option, as it accepts a regular file (even though it can also take a
+>block special file).
+>
+>Signed-off-by: Alberto Faria <afaria@redhat.com>
+>---
+> block/blkio.c        | 12 ++++++++----
+> qapi/block-core.json |  4 ++--
+> 2 files changed, 10 insertions(+), 6 deletions(-)
+>
+>diff --git a/block/blkio.c b/block/blkio.c
+>index 82f26eedd2..5f600e5e9e 100644
+>--- a/block/blkio.c
+>+++ b/block/blkio.c
+>@@ -639,12 +639,17 @@ static int blkio_io_uring_open(BlockDriverState *bs, QDict *options, int flags,
+> static int blkio_nvme_io_uring(BlockDriverState *bs, QDict *options, int flags,
+>                                Error **errp)
+> {
+>-    const char *filename = qdict_get_str(options, "filename");
+>+    const char *path = qdict_get_try_str(options, "path");
+>     BDRVBlkioState *s = bs->opaque;
+>     int ret;
+>
+>-    ret = blkio_set_str(s->blkio, "path", filename);
+>-    qdict_del(options, "filename");
+>+    if (!path) {
+>+        error_setg(errp, "missing 'path' option");
+>+        return -EINVAL;
+>+    }
+>+
+>+    ret = blkio_set_str(s->blkio, "path", path);
+>+    qdict_del(options, "path");
+>     if (ret < 0) {
+>         error_setg_errno(errp, -ret, "failed to set path: %s",
+>                          blkio_get_error_msg());
+>@@ -986,7 +991,6 @@ static BlockDriver bdrv_io_uring = BLKIO_DRIVER(
+>
+> static BlockDriver bdrv_nvme_io_uring = BLKIO_DRIVER(
+>     DRIVER_NVME_IO_URING,
+>-    .bdrv_needs_filename = true,
+> );
+>
+> static BlockDriver bdrv_virtio_blk_vhost_user = BLKIO_DRIVER(
+>diff --git a/qapi/block-core.json b/qapi/block-core.json
+>index cb5079e645..6d36c0ed8b 100644
+>--- a/qapi/block-core.json
+>+++ b/qapi/block-core.json
+>@@ -3703,12 +3703,12 @@
+> #
+> # Driver specific block device options for the nvme-io_uring backend.
+> #
+>-# @filename: path to the image file
+>+# @path: path to the image file
 
-Fixes: 98281984a37 ("target/i386: Add MMU_PHYS_IDX and MMU_NESTED_IDX")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1269
-Reported-by: Andreas Gustafsson <gson@gson.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/i386/tcg/sysemu/excp_helper.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Maybe we can update the "path" description with something similar to 
+what we have in the libblkio docs:
+   path to the NVMe namespace's character device (e.g., `/dev/ng0n1`).
 
-diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
-index d51b5d7431..405a5d414a 100644
---- a/target/i386/tcg/sysemu/excp_helper.c
-+++ b/target/i386/tcg/sysemu/excp_helper.c
-@@ -553,12 +553,12 @@ static bool get_physical_address(CPUX86State *env, vaddr addr,
-         break;
- 
-     default:
--        in.cr3 = env->cr[3];
--        in.mmu_idx = mmu_idx;
--        in.ptw_idx = use_stage2 ? MMU_NESTED_IDX : MMU_PHYS_IDX;
--        in.pg_mode = get_pg_mode(env);
-+        if (likely(env->cr[0] & CR0_PG_MASK)) {
-+            in.cr3 = env->cr[3];
-+            in.mmu_idx = mmu_idx;
-+            in.ptw_idx = use_stage2 ? MMU_NESTED_IDX : MMU_PHYS_IDX;
-+            in.pg_mode = get_pg_mode(env);
- 
--        if (likely(in.pg_mode)) {
-             if (in.pg_mode & PG_MODE_LMA) {
-                 /* test virtual address sign extension */
-                 int shift = in.pg_mode & PG_MODE_LA57 ? 56 : 47;
--- 
-2.34.1
+Thanks,
+Stefano
 
 
