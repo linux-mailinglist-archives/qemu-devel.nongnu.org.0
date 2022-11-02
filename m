@@ -2,89 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD09615D3F
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 09:00:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFB7615D4A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 09:04:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oq8eD-00070B-Pa; Wed, 02 Nov 2022 03:58:53 -0400
+	id 1oq8iS-0000eS-Px; Wed, 02 Nov 2022 04:03:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oq8e9-0006z7-FC; Wed, 02 Nov 2022 03:58:49 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oq8e7-0007jX-5K; Wed, 02 Nov 2022 03:58:49 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 20EA85C00CB;
- Wed,  2 Nov 2022 03:58:44 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 02 Nov 2022 03:58:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1667375924; x=1667462324; bh=zC
- 5BoG3UNxsax2XyfxF5fwUn32wMd0wpJX+Aq0mrli8=; b=E10zVLubdPHyIrSvS2
- emp3fKdnV4p2vsMnU0BucjtSRaOhqhS5X2iDPuZYROsJyJ5d6NNsTFjYY4vNGK1N
- MCvEugHFgTyOBpYUFU8v+WTmD61mqMvmkBdCWA+xhGGEQuv//1VyNZ2f+wK0Wub6
- mQ5jUTY7avBHtfoxS5ers4m72t5MSAjuhrrdJ4pvrO1wWK9PHlweTSiQXqz0s3aT
- O/NcXAnmFHrTeWCIRTlRVqpUDc2O2XwPgavO0564op7B2xXaBMWofLUoPaEqwEeO
- spnB2wBrf8jkglKdiDvMyaltCmLWiW9NTWY3SsQ+YcQ5uDn/BLL/bwDruOJNpooB
- Ix9A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1667375924; x=1667462324; bh=zC5BoG3UNxsax2XyfxF5fwUn32wM
- d0wpJX+Aq0mrli8=; b=PY8jXi3FW5dF7IW7RtHup17OBOx6AkgiRKWpq//+cSsx
- KFVUThtOwTy/Apx9ZTjXqYN4EL6LeL31AiiGZt6WpFpjziblFMzdh57hltrkAzqw
- NTIltINl1t327bYL54AHzE06OMTgHbPudIqL/9BuvWPhV6LaxQCZjgmJc43CXwiv
- PZTJmJUXrpH/WHI7CVV4y1L4ltNwrDfam8+RbWLJeoqKSy3Zmqlatomqs7zVnIA/
- ckzgxHzNSJ/Nb8OY3mqmkYgYQvqdvrBI2eq46nrnlVIpDXmNN1GXLIEL8/qIkFUQ
- eK3g/zBRB1ki3qQXJQ+TNjqU9sLSzhKo3KwHSL56IQ==
-X-ME-Sender: <xms:MyNiY2IsDVHuiNuxws0NUdIwGgKstAC9nh4B2W5vT_lMcYCrM52NjA>
- <xme:MyNiY-INyoYa39saLph2kmJL8zciSfiGvEz1V3Sy0ZYg1-ybGMiKmvj2mhXUbywb4
- Kd_fAUiH9I784XGV94>
-X-ME-Received: <xmr:MyNiY2tNOayCRy-mVolwdEA8I6B6aOC46t5d50QWjJH9mW8_-GshOdsT-05UElj3tS8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudeigdduudegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:MyNiY7aEez3HHjZUe-swz2iF0EEJGGeSEX9NJAteYjHWmEpXU4ryNA>
- <xmx:MyNiY9bJ3o467d8KbRzh79MJQwHlb1gm0I3kBXJUT1lXYEOlrI8enQ>
- <xmx:MyNiY3DQYCReT_wRdWg2HLrPEfiScdr5Fz0xJywRsdZD83zfX4iY8A>
- <xmx:NCNiY8UwSbXsCkL_GNYE4FPK_KgzseAar27-nL8q88rnqSkNI28Sbg>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Nov 2022 03:58:42 -0400 (EDT)
-Date: Wed, 2 Nov 2022 08:58:40 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <k.jensen@samsung.com>, Jim Harris <james.r.harris@intel.com>
-Subject: Re: [PATCH] hw/nvme: set DNR on compare failure
-Message-ID: <Y2IjMCxWedlhNhyS@cormorant.local>
-References: <20220825053221.130428-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
+ id 1oq8i9-0000Vn-6t
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 04:02:57 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
+ id 1oq8ht-0000ru-JB
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 04:02:56 -0400
+Received: by mail-pg1-x529.google.com with SMTP id 128so15597068pga.1
+ for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 01:02:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FYBtM1WZg0jTrjWmnAoDteH4LhspLhq4Cl9rgo80LBU=;
+ b=uVtKBiznhjXjrguNGLxgSzEB9cizQebdBsTqEVwHwj/orfn4zLUohhnOl9rW7SHUTM
+ RTpU9ilT2Z7S8vWZ1NoetRYUz/OfPPaecUFeWab22NoBw73CJ2D9Sgyco4h0prYgdCfM
+ yQszKybqc7z3oKaGEb+nfKfRLcp1pv4wsYQqCPzJbciGZvXhNN9rUZj3GXD4iJo//OWh
+ 1Jm3gqSU1eBlA6a/Y6EuAVb67ygeENxzjDdQ3cPuzmpzlSMbXR2t7Pt2QRMUzmKRudAC
+ YEYJYjEbs2IcPlVXvvdfEekxUYQZxstnhrheh2N9VOpvlwaF424l6QlG40nJ+zmlA11n
+ d2bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FYBtM1WZg0jTrjWmnAoDteH4LhspLhq4Cl9rgo80LBU=;
+ b=0535zNDVGgCaJ+RdbgCEt6WmCLOPeUzLrPAGuW9DveE9oAyZe2Unk4j9AvE/6MnWoM
+ SrXZY+Ho6X+0wajgb5E+AYCsOPQTnMH2UGD2UJo2WO+Uo9fbxuLfkoSfcHWIpmU4iscz
+ qIwi5e8w0hVenAkUaFBqBMctA/Ac0ZC2HaB1c2fyAWmc3Zx2bTC4eSGA07AVia6cehfl
+ UTUJtvmmx+isRiEAUoOcBsAiWrFOSY+KcZiAU4WB2iwBTN3JgZCNVG3+y4gTVdgMpKrP
+ tq+j5i/8qqlGsWy7m1bIN48+uASh3YDyzguTnSicNxzMEMs8b9OmZU/2UlB84WT4CIDE
+ npyA==
+X-Gm-Message-State: ACrzQf1TBqsuXTEJKMGsDvZCPQvvJlPIMOKjOlcc/9jHYg3WrNRBXvuT
+ nLjSUcQXzlRgNq6S53C9CekDlQ==
+X-Google-Smtp-Source: AMsMyM7SEuPKhzaBvqPFGcpY9qJiKqJmG2n7dcNygSAMTSTJnKUSA6WArPaNxJa80lzIp1k7I6QHTQ==
+X-Received: by 2002:a65:57cd:0:b0:46e:ca52:f6a9 with SMTP id
+ q13-20020a6557cd000000b0046eca52f6a9mr20111645pgr.269.1667376158323; 
+ Wed, 02 Nov 2022 01:02:38 -0700 (PDT)
+Received: from FVFDK26JP3YV.bytedance.net ([139.177.225.245])
+ by smtp.gmail.com with ESMTPSA id
+ v20-20020a63f214000000b0045ff216a0casm3916640pgh.3.2022.11.02.01.02.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Nov 2022 01:02:37 -0700 (PDT)
+From: Lei He <helei.sig11@bytedance.com>
+To: mst@redhat.com,
+	arei.gonglei@huawei.com,
+	berrange@redhat.com
+Cc: pizhenwei@bytedance.com, qemu-devel@nongnu.org,
+ Lei He <helei.sig11@bytedance.com>
+Subject: [PATCH v3 0/4] Add a new backend for cryptodev
+Date: Wed,  2 Nov 2022 16:02:09 +0800
+Message-Id: <20221102080213.46788-1-helei.sig11@bytedance.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="rLOKI1jhtmutiyfj"
-Content-Disposition: inline
-In-Reply-To: <20220825053221.130428-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=helei.sig11@bytedance.com; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,80 +89,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+v2 --> v3:
+- Avoid using g_autoptr to free memory that not allocated in current
+function.
+- Fix memory-leak when 'virtio_crypto_handle_request' returns non-zero
+  value.
+- When error occurred, always pass negative status to function 
+'virtio_crypto_req_complete'.
 
---rLOKI1jhtmutiyfj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Aug 25 07:32, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Even if the host is somehow using compare to do compare-and-write, the
-> host should be notified immediately about the compare failure and not
-> have to wait for the driver to potentially retry the command.
->=20
-> Reported-by: Jim Harris <james.r.harris@intel.com>
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->  hw/nvme/ctrl.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 87aeba056499..299cbb1f2205 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -2242,7 +2242,7 @@ static void nvme_compare_mdata_cb(void *opaque, int=
- ret)
-> =20
->          for (bufp =3D buf; mbufp < end; bufp +=3D ns->lbaf.ms, mbufp +=
-=3D ns->lbaf.ms) {
->              if (memcmp(bufp + pil, mbufp + pil, ns->lbaf.ms - pil)) {
-> -                req->status =3D NVME_CMP_FAILURE;
-> +                req->status =3D NVME_CMP_FAILURE | NVME_DNR;
->                  goto out;
->              }
->          }
-> @@ -2251,7 +2251,7 @@ static void nvme_compare_mdata_cb(void *opaque, int=
- ret)
->      }
-> =20
->      if (memcmp(buf, ctx->mdata.bounce, ctx->mdata.iov.size)) {
-> -        req->status =3D NVME_CMP_FAILURE;
-> +        req->status =3D NVME_CMP_FAILURE | NVME_DNR;
->          goto out;
->      }
-> =20
-> @@ -2300,7 +2300,7 @@ static void nvme_compare_data_cb(void *opaque, int =
-ret)
->      }
-> =20
->      if (memcmp(buf, ctx->data.bounce, ctx->data.iov.size)) {
-> -        req->status =3D NVME_CMP_FAILURE;
-> +        req->status =3D NVME_CMP_FAILURE | NVME_DNR;
->          goto out;
->      }
-> =20
-> --=20
-> 2.37.2
->=20
+v1 --> v2:
+- Fix compile errors when neither 'nettle' nor 'gcrypt' are enabled.
+- Trivial changes to error codes when neither 'nettle' nor 'gcrypt' are
+enabled.
 
-Bump :)
+This patch adds a new backend called LKCF to cryptodev, LKCF stands
+for Linux Kernel Cryptography Framework. If a cryptographic
+accelerator that supports LKCF is installed on the the host (you can
+see which algorithms are supported in host's LKCF by executing
+'cat /proc/crypto'), then RSA operations can be offloaded.
+More background info can refer to: https://lwn.net/Articles/895399/,
+'keyctl[5]' in the picture.
 
---rLOKI1jhtmutiyfj
-Content-Type: application/pgp-signature; name="signature.asc"
+This patch:
+1. Modified some interfaces of cryptodev and cryptodev-backend to
+support asynchronous requests.
+2. Extended the DER encoder in crypto, so that we can export the
+RSA private key into PKCS#8 format and upload it to host kernel.
+3. Added a new backend for cryptodev.
 
------BEGIN PGP SIGNATURE-----
+I tested the backend with a QAT card, the qps of RSA-2048-decryption
+is about 25k/s, and the main-loop becomes the bottleneck. The qps
+using OpenSSL directly is about 6k/s (with 6 vCPUs). We will support 
+IO-thread for cryptodev in another series later.
 
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNiIzAACgkQTeGvMW1P
-DelPQQf+IbX823YKlXvHZzbl20HrUse3qY31+5oasze8RhGaYJ5xZYCIKvyg4p3K
-cW7kDV0jpKORf9hM5gg+5qC1/eTlyC2KWQ82mnaM2K5qKlB01p9b6aZt3uCFVEdw
-QgjO9MX4V0O8fCbKiDv44ADJv+nz1pvifSZnECGZb7+c8aLApksDjP0FQGvbkKzD
-SclzNRj44qs6FVfrCh9fNo1Pw4rzXSlzYa/+/5RZn9lhr+jmSuFRrITjibr2FwV2
-bTC7TLd5nyNV/FnxLPrr0anFUfw4gAeN+8UTQ6zMiHtaRXPN51wXL0OJK7M5x5TU
-hzF4cwKguTzOpouxHUszxYkXU8aDng==
-=3pu+
------END PGP SIGNATURE-----
 
---rLOKI1jhtmutiyfj--
+Lei He (4):
+  virtio-crypto: Support asynchronous mode
+  crypto: Support DER encodings
+  crypto: Support export akcipher to pkcs8
+  cryptodev: Add a lkcf-backend for cryptodev
+
+ backends/cryptodev-builtin.c    |  69 +++--
+ backends/cryptodev-lkcf.c       | 645 ++++++++++++++++++++++++++++++++++++++++
+ backends/cryptodev-vhost-user.c |  51 +++-
+ backends/cryptodev.c            |  44 +--
+ backends/meson.build            |   3 +
+ crypto/akcipher.c               |  18 ++
+ crypto/der.c                    | 307 +++++++++++++++++--
+ crypto/der.h                    | 211 ++++++++++++-
+ crypto/rsakey.c                 |  42 +++
+ crypto/rsakey.h                 |  11 +-
+ hw/virtio/virtio-crypto.c       | 335 ++++++++++++---------
+ include/crypto/akcipher.h       |  21 ++
+ include/sysemu/cryptodev.h      |  61 ++--
+ qapi/qom.json                   |   2 +
+ tests/unit/test-crypto-der.c    | 126 ++++++--
+ 15 files changed, 1682 insertions(+), 264 deletions(-)
+ create mode 100644 backends/cryptodev-lkcf.c
+
+-- 
+2.11.0
+
 
