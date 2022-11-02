@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EADEC616C2B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 19:31:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C1F616D2E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 19:51:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqIVs-0000O0-En; Wed, 02 Nov 2022 14:30:56 -0400
+	id 1oqIog-0000sQ-Em; Wed, 02 Nov 2022 14:50:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqIVi-0000F7-HV; Wed, 02 Nov 2022 14:30:50 -0400
-Received: from mout.kundenserver.de ([217.72.192.74])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oqIoe-0000rz-DT
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 14:50:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqIVf-0002GU-Pl; Wed, 02 Nov 2022 14:30:45 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1ML9ds-1oYDOL2Wqw-00I9rU; Wed, 02 Nov 2022 19:30:36 +0100
-Message-ID: <89444fcc-d071-aa83-16d4-95f15fe53d6d@vivier.eu>
-Date: Wed, 2 Nov 2022 19:30:31 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oqIoc-0005fC-QX
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 14:50:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667415017;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bLAQQbKDXBnSKaaWEC021/hd8nSdnKcAmWKnTNj8rjk=;
+ b=eVMB+E+PIBxWw8IQcO0rmVgeQi1FvbFdEZx//RlsndmtaV411La1nqNTcZCuS80rRi/Fl2
+ ZemLYAmw8rfXTEW0LY/l7/NWQJdYB6ysGVfDUdsKHfe7Zx8XStn9muyk+9AJbexAn48jio
+ Y1gtVR0KFKtnxSHZXcJ7c5PIyigoLas=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-658-KKhiCZFHO-6cUeFZcx7d8A-1; Wed, 02 Nov 2022 14:50:14 -0400
+X-MC-Unique: KKhiCZFHO-6cUeFZcx7d8A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 40E51101A52A;
+ Wed,  2 Nov 2022 18:50:14 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C269A140EBF5;
+ Wed,  2 Nov 2022 18:50:13 +0000 (UTC)
+Date: Wed, 2 Nov 2022 14:50:12 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: qemu-devel@nongnu.org, hreitz@redhat.com, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, nsoffer@redhat.com
+Subject: Re: [PATCH 1/2] file-posix: fix Linux alignment probing when EIO is
+ returned
+Message-ID: <Y2K75B3BNbd+Y8x/@fedora>
+References: <20221101190031.6766-1-stefanha@redhat.com>
+ <20221101190031.6766-2-stefanha@redhat.com>
+ <Y2HVgnwAPdTIaZR6@sol.localdomain>
+ <Y2HasGvN6qMFq29A@sol.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH 3/3] target/tricore: Rename csfr.def -> csfr.h.inc
-Content-Language: fr
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, qemu-trivial@nongnu.org
-References: <20221025235006.7215-1-philmd@linaro.org>
- <20221025235006.7215-4-philmd@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20221025235006.7215-4-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9lK6Jhn2Gt4juTJ/IK4+paYwy5vhVr3rm2RiDFsvFOn9MjyB78p
- evoiievk4tzJIcCZmsLtDlpr1DyMcKOMlGK6d1oIggSuzEcmHCGLlo0W2prS5oHMmWT7tMq
- hlBCIw1/0rO5YGFHbbk1MCF/qPmCuZD+lOWWEIG62sleBe7m2RD2GJVHeiQkLb+8UTdojmX
- +idGHcc7BU4sH2OQwbjIA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gSK8k0AKow4=:K63to3yqtTWxq4ADsPYX4+
- mAF//y5KZ93ph/3PbxeUEDaHKiKNK6iazM2y2h6Y2Q+sMJfVoOjwJY3qMGzSbOKN+z+xZY5WP
- 6+OGIOAO9tSCOm0yF7P1Hh+FdzmWLt2ScYIYWs7bZmfWPIeDzSmTyBvqL2wA9dXWyhqVI90LG
- c7/PsdVqIlDzWzNa+OrbDlMDUd2fOt64aqaEqgTYTkiubhjXUSCxFKi3n17gGW3TLNG1HA9F6
- p2i3En6cKsCSN8wvVMO6cNuKh9DsDPu7FcSZHexGt1d5qXMW7g+CyPGYIYFjprEKB1rWHy5HC
- U9555SNOAHbFbpMhA7fIE593yJsXG8Vu+H67BJPR3+g+TGvhCBc8wIdkTq55TnPwdHnOQqErG
- d5lpz9+sBKXewM6B3AU4b7D0QoE2kjpeXAmky6de8s23DLBBwcLXLQv0rXov2VBS//Blj0Mvc
- XUbNGjxmQsHnk4cqmIGR/iYzzvCfwBPqNWJXYiZL8hTLKJqLiq8vtTnws1OoxSJfZoX8Xt+/a
- FwIg0U9i6WtPxfkVTc8hYLW7UJrs0RxIP8TzHfYVUNIaMRHzbbNJzkMaggGrgHULH4hXBZkGC
- yxPw1pTp/ggz4lf2uBqWoxUXWi6m766/N4bTI9gEkZ938iQqetKR2Uhw7IEuOT02GWNG5o5/m
- GDqloIcqfnAhdJ23NJsvzb1mzXFoGyJCtQcubee57s72dEr+MNbw7VQLXtOBJFWvcu5zpuwfJ
- vcFVkt/sxw9TjNZwCQn160PzeVVTkeXMFxMP7ht7CA+XFQDThaDQ3h8nJuAr3a6W3zAVMDVuP
- /b/WDi+
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vNS9r1/gMVB27YPS"
+Content-Disposition: inline
+In-Reply-To: <Y2HasGvN6qMFq29A@sol.localdomain>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,52 +83,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 26/10/2022 à 01:50, Philippe Mathieu-Daudé a écrit :
-> We use the .h.inc extension to include C headers. To be consistent
-> with the rest of the codebase, rename the C headers using the .def
-> extension.
-> 
-> IDE/tools using our .editorconfig / .gitattributes will leverage
-> this consistency.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> ---
->   target/tricore/{csfr.def => csfr.h.inc} | 0
->   target/tricore/translate.c              | 4 ++--
->   2 files changed, 2 insertions(+), 2 deletions(-)
->   rename target/tricore/{csfr.def => csfr.h.inc} (100%)
-> 
-> diff --git a/target/tricore/csfr.def b/target/tricore/csfr.h.inc
-> similarity index 100%
-> rename from target/tricore/csfr.def
-> rename to target/tricore/csfr.h.inc
-> diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-> index a0558ead71..f02090945d 100644
-> --- a/target/tricore/translate.c
-> +++ b/target/tricore/translate.c
-> @@ -388,7 +388,7 @@ static inline void gen_mfcr(DisasContext *ctx, TCGv ret, int32_t offset)
->           gen_helper_psw_read(ret, cpu_env);
->       } else {
->           switch (offset) {
-> -#include "csfr.def"
-> +#include "csfr.h.inc"
->           }
->       }
->   }
-> @@ -418,7 +418,7 @@ static inline void gen_mtcr(DisasContext *ctx, TCGv r1,
->               gen_helper_psw_write(cpu_env, r1);
->           } else {
->               switch (offset) {
-> -#include "csfr.def"
-> +#include "csfr.h.inc"
->               }
->           }
->       } else {
 
-Applied to my trivial-patches branch.
+--vNS9r1/gMVB27YPS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Laurent
+On Tue, Nov 01, 2022 at 07:49:20PM -0700, Eric Biggers wrote:
+> On Tue, Nov 01, 2022 at 07:27:16PM -0700, Eric Biggers wrote:
+> > On Tue, Nov 01, 2022 at 03:00:30PM -0400, Stefan Hajnoczi wrote:
+> > > Linux dm-crypt returns errno EIO from unaligned O_DIRECT pread(2) cal=
+ls.
+> >=20
+> > Citation needed.  For direct I/O to block devices, the kernel's block l=
+ayer
+> > checks the alignment before the I/O is actually submitted to the underl=
+ying
+> > block device.  See
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/block/fops.c?h=3Dv6.1-rc3#n306
+> >=20
+> > > Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1290
+> >=20
+> > That "bug" seems to be based on a misunderstanding of the kernel source=
+ code,
+> > and not any actual testing.
+> >=20
+> > I just tested it, and the error code is EINVAL.
+> >=20
+>=20
+> I think I see what's happening.  The kernel code was broken just a few mo=
+nths
+> ago, in v6.0 by the commit "block: relax direct io memory alignment"
+> (https://git.kernel.org/linus/b1a000d3b8ec582d).  Now the block layer let=
+s DIO
+> through when the user buffer is only aligned to the device's dma_alignmen=
+t.  But
+> a dm-crypt device has a dma_alignment of 512 even when the crypto sector =
+size
+> (and thus also the logical block size) is 4096.  So there is now a case w=
+here
+> misaligned DIO can reach dm-crypt, when that shouldn't be possible.
+>=20
+> It also means that STATX_DIOALIGN will give the wrong value for
+> stx_dio_mem_align in the above case, 512 instead of 4096.  This is because
+> STATX_DIOALIGN for block devices relies on the dma_alignment.
+>=20
+> I'll raise this on the linux-block and dm-devel mailing lists.  It would =
+be nice
+> if people reported kernel bugs instead of silently working around them...
 
+Thanks! You have completed the picture of what's going on here.
+
+Stefan
+
+--vNS9r1/gMVB27YPS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNiu+QACgkQnKSrs4Gr
+c8iTFQgAtFHovWXTK2kSe0yvvVahwPWv6nyEY/RjoiP0J48w+CpCIFh/s2OlNyNQ
+Zfc+6BcJpabjy0VSZLGUvxV0HXMaji2w8/fjJEoC74REIlIssN7Ro/DX7F4SKxTy
+qkSiMQtlxIE3hIVktTWf2Yhug4zPDlAPnwl89E7Bwhoh2bPuG97Z+LnqJdvthp46
+GSuSC23CFkOYvO1AJDUCz3RqAQRWugTIWLMk3P+oCHHGy106A/jYv5L0XqDB5o/t
+mj1uJGW48r5KhftOjewuK+rR38y12xJEjDZaJA3M3E3V4/chYC5Cg7ucAUIrpMDr
+avo6UMNufNoUi3+/Q/qWS+BxcUf0eA==
+=CTKZ
+-----END PGP SIGNATURE-----
+
+--vNS9r1/gMVB27YPS--
 
 
