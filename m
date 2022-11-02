@@ -2,61 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633D1615D86
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 09:20:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E74615DA1
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 09:26:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oq8yK-0003YD-8x; Wed, 02 Nov 2022 04:19:40 -0400
+	id 1oq94k-0005QZ-T0; Wed, 02 Nov 2022 04:26:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1oq8yH-0003W5-Bc
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 04:19:37 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oq94U-0005Mf-DD; Wed, 02 Nov 2022 04:26:03 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1oq8yE-0000WX-3f
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 04:19:37 -0400
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4N2KTS4YZqzpVqV;
- Wed,  2 Nov 2022 16:15:56 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 2 Nov 2022 16:19:28 +0800
-Subject: Re: [PATCH v4 6/6] tests: acpi: aarch64: Add *.topology tables
-To: Yicong Yang <yangyicong@huawei.com>
-CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
- <yangyicong@hisilicon.com>, <prime.zeng@huawei.com>,
- <hesham.almatary@huawei.com>, <ionela.voinescu@arm.com>,
- <darren@os.amperecomputing.com>, <mst@redhat.com>,
- <peter.maydell@linaro.org>, <imammedo@redhat.com>, <ani@anisinha.ca>,
- <eduardo@habkost.net>, <marcel.apfelbaum@gmail.com>, <f4bug@amsat.org>,
- <qemu-devel@nongnu.org>
-References: <20221101071048.29553-1-yangyicong@huawei.com>
- <20221101071048.29553-7-yangyicong@huawei.com>
-Message-ID: <71263563-2c0c-ec73-c60b-52befa9f29fe@huawei.com>
-Date: Wed, 2 Nov 2022 16:19:28 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oq94R-00041Z-Th; Wed, 02 Nov 2022 04:26:02 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6EFB65C00D0;
+ Wed,  2 Nov 2022 04:25:58 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Wed, 02 Nov 2022 04:25:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1667377558; x=1667463958; bh=2Z
+ crrjfM9M+B120sQWpg7aJt/Sk7j6WOaGnrwpMgY44=; b=xuChhIufBgkLncL7Uf
+ TO38S4P0eObjkhtAMTtFjkms/HqWbD3SkwNupd4P2j5rjMDiwvYpZzM3045Qdq8Y
+ A37q8by5pO9W7dunakI2DXWaXdeXFwYWztnMFmWT3Sn7/PVgsP/ASIBMupS/gbu7
+ +9k8neuI9n2dhj/g/kHcp0cCo2FOB7EigdwNaILtYOAumdAnd+mJghuVAm3CiaQk
+ PhNEjLijflZ76Ond0Sbt5vBq68uZK7rZenqQyLE/tW+oQPjr6Y2NPLaEilSWIOdI
+ qUHqepSs1Da+bO1mBCYYgy9bn755heIV8NEjldsl95SadBQ6UAQJLpQmLOy3ggJg
+ daqw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1667377558; x=1667463958; bh=2ZcrrjfM9M+B1
+ 20sQWpg7aJt/Sk7j6WOaGnrwpMgY44=; b=N8XPVm9lDEl7XCv5lOvlvCWzux06p
+ SLpveIGlsMAMrhgVatthA5MC/S7B9K92nA7Ndvnx1yLXJOsLJrY7hOZTXADN0DWJ
+ paxCdK54toG+ll3ezAy17mEcsQJeywnLWfw2DNPzvXKdCp/WCAGQw2CB15Zrl0Ck
+ FwTEjRszlkjogW/NbAUJLDiC53IYQqnyFiQnj5xIsxVeWjTs/sxk320qcrONqOtZ
+ UzqENJOzeRPAci/exbgf5sXbJ+kGi2rk8b2LMiXhqQ07Ntpf7F5sGzdYpDCirS7J
+ JkFmKjgo/T9CNmv/A6Toyp0cqKE+0DoUj9PtLZh1Ij8OEX3wfwMpxT8QQ==
+X-ME-Sender: <xms:lSliYyFXxZTBLwaGM8OU5gMYe1Mc2hKoJegqWtdIX1-O1d1XNYsjxA>
+ <xme:lSliYzXbr9wOEmImptPyLVuoiv220PSTFnpQIv8bG-TvFnQN4yVG8iowP9Kx63VSC
+ kdEyeZr2aNsgRQQfJU>
+X-ME-Received: <xmr:lSliY8JLDvhhRpYch1iLkGhI7C5NXzM3wNjP2ElbZO7Ej5XBqudmyNlI4DlkGwHMWF9z417TdXQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudeigdduudelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofgtggfgsehtkeertdertdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejvdegudfhgeehffetffdvjeetueeffedukeegueduudffjeffveduffetiedt
+ udenucffohhmrghinhepghhithhlrggsrdgtohhmpdhinhhfrhgruggvrggurdhorhhgne
+ cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtshes
+ ihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:lSliY8H54c3NFKoinfr8O4RqJ53XScyVvTeE1LsklLPMwWk3-q7yKA>
+ <xmx:lSliY4WByoeCA6Zdzy-lGyIXFQP7bok0klP2oCDCQT_5tzh5mXeL1g>
+ <xmx:lSliY_M_Gf_OUbrl5BUyDiXcxu8pf_zar2i_QASF7yoU_sqtC31Vjg>
+ <xmx:liliY_SQwKHPhH5c_0KQsbbGwR2--oKR6hCzxtCtMiikN8ydvhf9wQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 2 Nov 2022 04:25:56 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Klaus Jensen <its@irrelevant.dk>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PULL 0/2] hw/nvme fixes
+Date: Wed,  2 Nov 2022 09:25:53 +0100
+Message-Id: <20221102082555.65165-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.38.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20221101071048.29553-7-yangyicong@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Developer-Signature: v=1; a=openpgp-sha256; l=956; i=k.jensen@samsung.com;
+ h=from:subject; bh=BvrAMO2kwTzxY9Aq74T7yLZ1N8CbhvfBhZiB8GUPhwM=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGNiKZJK/MiwPiAVfHZ9uUF2lFqMAlJWCTLBAx3X
+ uIUbfDcLSYkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjYimSAAoJEE3hrzFtTw3p7u
+ 8H/jbgcoDrtTgsnys3hpUkSGep4PXG5y9cmxr/z4j/RrVaTn6apVe0Vg4rz9anxzG6PdgT87UaOgOW
+ CG59iH9ni15EylYtnab/7OMPee364ElLojRimIgxu1EMIXQ1CJMeEcKXNq7rMzZyfVIBCquoFVEdX3
+ wYCxgqT4knF/XTo/3my0W49cSe7dUuROFITAkzhF6QRt8azUO/L+lZToiGHXUTzUCYQlt1PAPNwSgS
+ 1+3meLODJtYRbyO62Oh+KtrOfHtfNvGOZuJIjCeIW6U3gMMKY+S7UssN71Ov88vj57d83v8xdmAvrK
+ 1rbUhiFc7lJq4bUP5DhUGsYszTHC36jY6fq6Tu
+X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
+ fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,299 +108,42 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+From: Klaus Jensen <k.jensen@samsung.com>
 
-On 2022/11/1 15:10, Yicong Yang wrote:
-> From: Yicong Yang <yangyicong@hisilicon.com>
->
-> Add *.topology tables for the aarch64's topology test and empty
-> bios-tables-test-allowed-diff.h
->
-> The disassembled differences between actual and expected
-> PPTT (the table which we actually care about):
->
->   +/*
->   + * Intel ACPI Component Architecture
->   + * AML/ASL+ Disassembler version 20180105 (64-bit version)
->   + * Copyright (c) 2000 - 2018 Intel Corporation
->   + *
->   + * Disassembly of /tmp/aml-WUN4U1, Tue Nov  1 09:51:52 2022
->   + *
->   + * ACPI Data Table [PPTT]
->   + *
->   + * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
->   + */
->   +
->   +[000h 0000   4]                    Signature : "PPTT"    [Processor Properties Topology Table]
->   +[004h 0004   4]                 Table Length : 00000150
->   +[008h 0008   1]                     Revision : 02
->   +[009h 0009   1]                     Checksum : 7C
->   +[00Ah 0010   6]                       Oem ID : "BOCHS "
->   +[010h 0016   8]                 Oem Table ID : "BXPC    "
->   +[018h 0024   4]                 Oem Revision : 00000001
->   +[01Ch 0028   4]              Asl Compiler ID : "BXPC"
->   +[020h 0032   4]        Asl Compiler Revision : 00000001
->   +
->   +
->   +[024h 0036   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[025h 0037   1]                       Length : 14
->   +[026h 0038   2]                     Reserved : 0000
->   +[028h 0040   4]        Flags (decoded below) : 00000001
->   +                            Physical package : 1
->   +                     ACPI Processor ID valid : 0
->   +[02Ch 0044   4]                       Parent : 00000000
->   +[030h 0048   4]            ACPI Processor ID : 00000000
->   +[034h 0052   4]      Private Resource Number : 00000000
->   +
->   +[038h 0056   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[039h 0057   1]                       Length : 14
->   +[03Ah 0058   2]                     Reserved : 0000
->   +[03Ch 0060   4]        Flags (decoded below) : 00000000
->   +                            Physical package : 0
->   +                     ACPI Processor ID valid : 0
->   +[040h 0064   4]                       Parent : 00000024
->   +[044h 0068   4]            ACPI Processor ID : 00000000
->   +[048h 0072   4]      Private Resource Number : 00000000
->   +
->   +[04Ch 0076   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[04Dh 0077   1]                       Length : 14
->   +[04Eh 0078   2]                     Reserved : 0000
->   +[050h 0080   4]        Flags (decoded below) : 00000000
->   +                            Physical package : 0
->   +                     ACPI Processor ID valid : 0
->   +[054h 0084   4]                       Parent : 00000038
->   +[058h 0088   4]            ACPI Processor ID : 00000000
->   +[05Ch 0092   4]      Private Resource Number : 00000000
->   +
->   +[060h 0096   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[061h 0097   1]                       Length : 14
->   +[062h 0098   2]                     Reserved : 0000
->   +[064h 0100   4]        Flags (decoded below) : 0000000E
->   +                            Physical package : 0
->   +                     ACPI Processor ID valid : 1
->   +[068h 0104   4]                       Parent : 0000004C
->   +[06Ch 0108   4]            ACPI Processor ID : 00000000
->   +[070h 0112   4]      Private Resource Number : 00000000
->   +
->   +[074h 0116   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[075h 0117   1]                       Length : 14
->   +[076h 0118   2]                     Reserved : 0000
->   +[078h 0120   4]        Flags (decoded below) : 0000000E
->   +                            Physical package : 0
->   +                     ACPI Processor ID valid : 1
->   +[07Ch 0124   4]                       Parent : 0000004C
->   +[080h 0128   4]            ACPI Processor ID : 00000001
->   +[084h 0132   4]      Private Resource Number : 00000000
->   +
->   +[088h 0136   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[089h 0137   1]                       Length : 14
->   +[08Ah 0138   2]                     Reserved : 0000
->   +[08Ch 0140   4]        Flags (decoded below) : 00000000
->   +                            Physical package : 0
->   +                     ACPI Processor ID valid : 0
->   +[090h 0144   4]                       Parent : 00000038
->   +[094h 0148   4]            ACPI Processor ID : 00000001
->   +[098h 0152   4]      Private Resource Number : 00000000
->   +
->   +[09Ch 0156   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[09Dh 0157   1]                       Length : 14
->   +[09Eh 0158   2]                     Reserved : 0000
->   +[0A0h 0160   4]        Flags (decoded below) : 0000000E
->   +                            Physical package : 0
->   +                     ACPI Processor ID valid : 1
->   +[0A4h 0164   4]                       Parent : 00000088
->   +[0A8h 0168   4]            ACPI Processor ID : 00000002
->   +[0ACh 0172   4]      Private Resource Number : 00000000
->   +
->   +[0B0h 0176   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[0B1h 0177   1]                       Length : 14
->   +[0B2h 0178   2]                     Reserved : 0000
->   +[0B4h 0180   4]        Flags (decoded below) : 0000000E
->   +                            Physical package : 0
->   +                     ACPI Processor ID valid : 1
->   +[0B8h 0184   4]                       Parent : 00000088
->   +[0BCh 0188   4]            ACPI Processor ID : 00000003
->   +[0C0h 0192   4]      Private Resource Number : 00000000
->   +
->   +[0C4h 0196   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[0C5h 0197   1]                       Length : 14
->   +[0C6h 0198   2]                     Reserved : 0000
->   +[0C8h 0200   4]        Flags (decoded below) : 00000000
->   +                            Physical package : 0
->   +                     ACPI Processor ID valid : 0
->   +[0CCh 0204   4]                       Parent : 00000024
->   +[0D0h 0208   4]            ACPI Processor ID : 00000001
->   +[0D4h 0212   4]      Private Resource Number : 00000000
->   +
->   +[0D8h 0216   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[0D9h 0217   1]                       Length : 14
->   +[0DAh 0218   2]                     Reserved : 0000
->   +[0DCh 0220   4]        Flags (decoded below) : 00000000
->   +                            Physical package : 0
->   +                     ACPI Processor ID valid : 0
->   +[0E0h 0224   4]                       Parent : 000000C4
->   +[0E4h 0228   4]            ACPI Processor ID : 00000000
->   +[0E8h 0232   4]      Private Resource Number : 00000000
->   +
->   +[0ECh 0236   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[0EDh 0237   1]                       Length : 14
->   +[0EEh 0238   2]                     Reserved : 0000
->   +[0F0h 0240   4]        Flags (decoded below) : 0000000E
->   +                            Physical package : 0
->   +                     ACPI Processor ID valid : 1
->   +[0F4h 0244   4]                       Parent : 000000D8
->   +[0F8h 0248   4]            ACPI Processor ID : 00000004
->   +[0FCh 0252   4]      Private Resource Number : 00000000
->   +
->   +[100h 0256   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[101h 0257   1]                       Length : 14
->   +[102h 0258   2]                     Reserved : 0000
->   +[104h 0260   4]        Flags (decoded below) : 0000000E
->   +                            Physical package : 0
->   +                     ACPI Processor ID valid : 1
->   +[108h 0264   4]                       Parent : 000000D8
->   +[10Ch 0268   4]            ACPI Processor ID : 00000005
->   +[110h 0272   4]      Private Resource Number : 00000000
->   +
->   +[114h 0276   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[115h 0277   1]                       Length : 14
->   +[116h 0278   2]                     Reserved : 0000
->   +[118h 0280   4]        Flags (decoded below) : 00000000
->   +                            Physical package : 0
->   +                     ACPI Processor ID valid : 0
->   +[11Ch 0284   4]                       Parent : 000000C4
->   +[120h 0288   4]            ACPI Processor ID : 00000001
->   +[124h 0292   4]      Private Resource Number : 00000000
->   +
->   +[128h 0296   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[129h 0297   1]                       Length : 14
->   +[12Ah 0298   2]                     Reserved : 0000
->   +[12Ch 0300   4]        Flags (decoded below) : 0000000E
->   +                            Physical package : 0
->   +                     ACPI Processor ID valid : 1
->   +[130h 0304   4]                       Parent : 00000114
->   +[134h 0308   4]            ACPI Processor ID : 00000006
->   +[138h 0312   4]      Private Resource Number : 00000000
->   +
->   +[13Ch 0316   1]                Subtable Type : 00 [Processor Hierarchy Node]
->   +[13Dh 0317   1]                       Length : 14
->   +[13Eh 0318   2]                     Reserved : 0000
->   +[140h 0320   4]        Flags (decoded below) : 0000000E
->   +                            Physical package : 0
->   +                     ACPI Processor ID valid : 1
->   +[144h 0324   4]                       Parent : 00000114
->   +[148h 0328   4]            ACPI Processor ID : 00000007
->   +[14Ch 0332   4]      Private Resource Number : 00000000
->   +
->   +Raw Table Data: Length 336 (0x150)
->   +
->   +  0000: 50 50 54 54 50 01 00 00 02 7C 42 4F 43 48 53 20  // PPTTP....|BOCHS
->   +  0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
->   +  0020: 01 00 00 00 00 14 00 00 01 00 00 00 00 00 00 00  // ................
->   +  0030: 00 00 00 00 00 00 00 00 00 14 00 00 00 00 00 00  // ................
->   +  0040: 24 00 00 00 00 00 00 00 00 00 00 00 00 14 00 00  // $...............
->   +  0050: 00 00 00 00 38 00 00 00 00 00 00 00 00 00 00 00  // ....8...........
->   +  0060: 00 14 00 00 0E 00 00 00 4C 00 00 00 00 00 00 00  // ........L.......
->   +  0070: 00 00 00 00 00 14 00 00 0E 00 00 00 4C 00 00 00  // ............L...
->   +  0080: 01 00 00 00 00 00 00 00 00 14 00 00 00 00 00 00  // ................
->   +  0090: 38 00 00 00 01 00 00 00 00 00 00 00 00 14 00 00  // 8...............
->   +  00A0: 0E 00 00 00 88 00 00 00 02 00 00 00 00 00 00 00  // ................
->   +  00B0: 00 14 00 00 0E 00 00 00 88 00 00 00 03 00 00 00  // ................
->   +  00C0: 00 00 00 00 00 14 00 00 00 00 00 00 24 00 00 00  // ............$...
->   +  00D0: 01 00 00 00 00 00 00 00 00 14 00 00 00 00 00 00  // ................
->   +  00E0: C4 00 00 00 00 00 00 00 00 00 00 00 00 14 00 00  // ................
->   +  00F0: 0E 00 00 00 D8 00 00 00 04 00 00 00 00 00 00 00  // ................
->   +  0100: 00 14 00 00 0E 00 00 00 D8 00 00 00 05 00 00 00  // ................
->   +  0110: 00 00 00 00 00 14 00 00 00 00 00 00 C4 00 00 00  // ................
->   +  0120: 01 00 00 00 00 00 00 00 00 14 00 00 0E 00 00 00  // ................
->   +  0130: 14 01 00 00 06 00 00 00 00 00 00 00 00 14 00 00  // ................
->   +  0140: 0E 00 00 00 14 01 00 00 07 00 00 00 00 00 00 00  // ................
-Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+Hi,
 
-Thanks,
-Yanan
-> Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-> ---
->   tests/data/acpi/virt/APIC.topology          | Bin 0 -> 700 bytes
->   tests/data/acpi/virt/DSDT.topology          | Bin 0 -> 5398 bytes
->   tests/data/acpi/virt/PPTT.topology          | Bin 0 -> 336 bytes
->   tests/qtest/bios-tables-test-allowed-diff.h |   3 ---
->   4 files changed, 3 deletions(-)
->
-> diff --git a/tests/data/acpi/virt/APIC.topology b/tests/data/acpi/virt/APIC.topology
-> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..558a1856981531b0e18e6d4aa12569cd80aa0015 100644
-> GIT binary patch
-> literal 700
-> zcmbV~OA5k35JW4P_<@+UE_0Na*(d}Y$i~BZHNk$8j<`%06xH*o$1LVr?)g<q={-L3
-> zZSKcs$-SwP#7w$Q7oT+W$*O86UrB!d{M)jrTJASXrnUcf%@(j=xH;d-@;AWZec1Q5
-> zvgjgM$r49dbP=q^5=U8d5v-jhj<V<?SbIwxWzj{j4wg8|qKmrq-__rL18-2#2XL1S
-> A0RR91
->
-> literal 0
-> HcmV?d00001
->
-> diff --git a/tests/data/acpi/virt/DSDT.topology b/tests/data/acpi/virt/DSDT.topology
-> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..501314c91be01d927fd125e0c72e919fdd85592e 100644
-> GIT binary patch
-> literal 5398
-> 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
-> My@B5+&m2qr5A>`*Jpcdz
->
-> literal 0
-> HcmV?d00001
->
-> diff --git a/tests/data/acpi/virt/PPTT.topology b/tests/data/acpi/virt/PPTT.topology
-> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..3fbcae5ff08aaf16fedf4da45e941661d79c1174 100644
-> GIT binary patch
-> literal 336
-> zcmWFt2nh*bWME*baq@Te2v%^42yj*a0-z8Bhz+6{L>L&rG>8oYKrs+dflv?<DrSKu
-> z#s}p4;1GkGi=-D>45YUMh?!vef$Csl%t&G&Cde(wdO>1GKm-gx_1*yTS+Iz)B8h>R
-> aAic=uf$S9l3b27BK>%tVNQ@mK!T<mOd=3Es
->
-> literal 0
-> HcmV?d00001
->
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index 90f53f9c1d..dfb8523c8b 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1,4 +1 @@
->   /* List of comma-separated changed AML files to ignore */
-> -"tests/data/acpi/virt/APIC.topology",
-> -"tests/data/acpi/virt/DSDT.topology",
-> -"tests/data/acpi/virt/PPTT.topology",
+The following changes since commit a11f65ec1b8adcb012b89c92819cbda4dc25aaf1:
+
+  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2022-11-01 13:49:33 -0400)
+
+are available in the Git repository at:
+
+  git://git.infradead.org/qemu-nvme.git tags/nvme-fixes-pull-request
+
+for you to fetch changes up to 632cb6cf07122b330d8ef419ec2f4aab561a9fba:
+
+  hw/nvme: Abort copy command when format is one while pif (2022-11-02 09:23:05 +0100)
+
+----------------------------------------------------------------
+hw/nvme fixes
+
+Two small fixes.
+
+----------------------------------------------------------------
+
+Francis Pravin Antony Michael Raj (1):
+  hw/nvme: Abort copy command when format is one while pif
+
+Klaus Jensen (1):
+  hw/nvme: reenable cqe batching
+
+ hw/nvme/ctrl.c | 29 +++++++++++++----------------
+ hw/nvme/nvme.h |  4 ++--
+ 2 files changed, 15 insertions(+), 18 deletions(-)
+
+-- 
+2.38.1
 
 
