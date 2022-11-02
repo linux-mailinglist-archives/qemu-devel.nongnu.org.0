@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85FEC61687B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:22:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F053616851
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:20:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqGJL-0004o1-7E; Wed, 02 Nov 2022 12:09:51 -0400
+	id 1oqGJN-00051Z-Uv; Wed, 02 Nov 2022 12:09:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGJJ-0004e5-7T
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:09:49 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGJL-0004qO-5y
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:09:51 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGJG-0002V9-M2
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:09:48 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGJJ-0002Ve-9o
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:09:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667405386;
+ s=mimecast20190719; t=1667405388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=AUNROwimy56ru7jUnT8XzU0OHxs3NUEEOApuJES962g=;
- b=e/bMiRF484Ke3/1knc8R/aX4Q8l3Qw5wQS2zh5YbYxoXlFtPe00GBKBx3NdOWvU4rGezrx
- 8Q4oI5F6+C5LTiU7QRhek2XDQ/0DnB2TaoCAM79tu3GCFbN9IPUd3ZX7YvIVpwHVsdmoTX
- ZS6w4HRwfiN6c+5CbX6grH3Dmj1nzbw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ETyx33uCkrggVRTo3HiD7Tje2UJXCck/b2Qi00flxlo=;
+ b=gxjautz52PFB9SeTjDqZYgwhLCzUefc+EHfdLbvL5NEYvBy4Jp5jviHKTVQx+cDq8rc+35
+ LpJ/ThIj829nzd900XARrcEo3obscMe2GXY94syEg5Ybr7t4/nee6PYI9/t5l9InS/vID+
+ LvZN5U2Bb4Q3bULfK3igreildOL1Hpk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-486-YKbVeeuUM6mWTmJSBuD7dw-1; Wed, 02 Nov 2022 12:09:45 -0400
-X-MC-Unique: YKbVeeuUM6mWTmJSBuD7dw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- i7-20020a1c3b07000000b003c5e6b44ebaso1245793wma.9
- for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:09:44 -0700 (PDT)
+ us-mta-66-62T4uAihP92uPYclGxBJ4Q-1; Wed, 02 Nov 2022 12:09:47 -0400
+X-MC-Unique: 62T4uAihP92uPYclGxBJ4Q-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ s11-20020adfbc0b000000b0023659af24a8so5043871wrg.14
+ for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:09:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AUNROwimy56ru7jUnT8XzU0OHxs3NUEEOApuJES962g=;
- b=WFjLuS0lkIM7bvUT4pJE4Xdo3hZ3QQhry7jqJEB+fBb5/aLlnua9iWuOM+MNQdAMBI
- AcarNQfC49eplJFJ6SjrM+7OUedTrusCX0zlrTx+4r+4m0J3ur5BcYgSazuRxdojjcMl
- 0TZug1FtAb587VhmH6LhlVKd/6eII9yCHkySWCDoEGN3C4np4S8jqmZ9OG4ZuWRNmGVO
- lJCW6V0dMU9XMLH9O/Jj0v4Dridom7hGIzzd1rr6KAFcBt2SXbqTKGIYWrq80KXDhWdE
- K+54wI1soqrckgK6+LlwggNUlzHJy02owgz9MHfZtWp2ljITaKpbOaSvJcoAAiSkPFQc
- W1xQ==
-X-Gm-Message-State: ACrzQf2jAaRhcAz2ISwRdGP/pTaiHCoihRAIA0ugEqBGnW3R4/zz6k8A
- 4KBf8nMI5aylVETZjMxNi00KNWtKT6fC94NAPhsvT4vUeiqqOGTpPQc0BfOM9v4fknbHLWFJPGc
- 9BSGjrM7G9A5MPU+oNOeRy5RJUjVlypldL5Pm6xcGaRuI0e6QnnE1J78M6AX6
-X-Received: by 2002:a5d:6d42:0:b0:236:c9a6:5523 with SMTP id
- k2-20020a5d6d42000000b00236c9a65523mr11061442wri.222.1667405383442; 
- Wed, 02 Nov 2022 09:09:43 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4DtwXcTjVw7ryfkIGc/RpOq5MO3uWGSrljWFdOFeWELOs+Vo4o7tPVMFEV3HGjzBeff8xWnQ==
-X-Received: by 2002:a5d:6d42:0:b0:236:c9a6:5523 with SMTP id
- k2-20020a5d6d42000000b00236c9a65523mr11061400wri.222.1667405383007; 
- Wed, 02 Nov 2022 09:09:43 -0700 (PDT)
+ bh=ETyx33uCkrggVRTo3HiD7Tje2UJXCck/b2Qi00flxlo=;
+ b=VuTmjoHLjKtUZ+AQwF/+u8ZgBi5bGTKZ4Gavv8ZZKIHnZj5Yiro/ru5W7JjOL2pLwP
+ lol8dXedmDQBS02kvYvPUrh6NBXjrjdR0fFuej3zFhS+jlQrqRdH9pbNziM7fcYDAPUX
+ qWUpDTx9KZ1LZwJ/bLYDFt5X+37nUCM/1RokrTYx6YSPi3Jv6R8QsXgfW9KDHwWnBkGx
+ ollqW4kEIO7VxBQNPyvaBoLb1MRWHiqk0ybm+MLpJvHny1ETkfSfUmWoXO8qQPQgzhdX
+ znYV9IsEairUft4XbbWcHWLGVeGFPgj8BuAYGNgHkJC6CYm5WQTQkrTxvAj8DqFEx60d
+ yDCQ==
+X-Gm-Message-State: ACrzQf1ga4j3EX9m18q3Fk/Ji2UXVa7YbUhM4Laa4CCHl474WAhQRqGV
+ CtVzAipNxU2nW0+0uMAFxPDjcJwfMYJDVsJed9MAeMAbuuBTzqTq6MCy5kyu9QDSTbDQ4PIbOfD
+ fkM/OHxkdDFbd+Pa2fxoQdqz5MOrCvgDL9w2Te61cdP55IkFEnXn3L/eRRptr
+X-Received: by 2002:a5d:6743:0:b0:236:6301:918 with SMTP id
+ l3-20020a5d6743000000b0023663010918mr15948838wrw.247.1667405386303; 
+ Wed, 02 Nov 2022 09:09:46 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6Sw1k1qr24kgPcyLb19u1n/xZZ/wK7z/9laXcC2sor2C9NZBZX6cZiTZV1wWtMG/Tl+4YM9w==
+X-Received: by 2002:a5d:6743:0:b0:236:6301:918 with SMTP id
+ l3-20020a5d6743000000b0023663010918mr15948802wrw.247.1667405385969; 
+ Wed, 02 Nov 2022 09:09:45 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- e10-20020a05600c13ca00b003b4868eb71bsm2302553wmg.25.2022.11.02.09.09.41
+ o1-20020a05600c510100b003cf37c5ddc0sm2647269wms.22.2022.11.02.09.09.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Nov 2022 09:09:42 -0700 (PDT)
-Date: Wed, 2 Nov 2022 12:09:40 -0400
+ Wed, 02 Nov 2022 09:09:45 -0700 (PDT)
+Date: Wed, 2 Nov 2022 12:09:43 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Huai-Cheng Kuo <hchkuo@avery-design.com.tw>,
- Chris Browy <cbrowy@avery-design.com>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Ben Widawsky <ben.widawsky@intel.com>
-Subject: [PULL v2 29/82] hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
-Message-ID: <20221102160336.616599-30-mst@redhat.com>
+Subject: [PULL v2 30/82] hw/pci-bridge/cxl-upstream: Add a CDAT table access
+ DOE
+Message-ID: <20221102160336.616599-31-mst@redhat.com>
 References: <20221102160336.616599-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -100,227 +100,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-The CDAT can be specified in two ways. One is to add ",cdat=<filename>"
-in "-device cxl-type3"'s command option. The file is required to provide
-the whole CDAT table in binary mode. The other is to use the default
-that provides some 'reasonable' numbers based on type of memory and
-size.
+This Data Object Exchange Mailbox allows software to query the
+latency and bandwidth between ports on the switch. For now
+only provide information on routes between the upstream port and
+each downstream port (not p2p).
 
-The DOE capability supporting CDAT is added to hw/mem/cxl_type3.c with
-capability offset 0x190. The config read/write to this capability range
-can be generated in the OS to request the CDAT data.
-
-Signed-off-by: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
-Signed-off-by: Chris Browy <cbrowy@avery-design.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Message-Id: <20221014151045.24781-5-Jonathan.Cameron@huawei.com>
+--
+Changes since v8: Mostly to match the type 3 equivalent
+ - Move enum out of function and give it a more descriptive namespace.
+Message-Id: <20221014151045.24781-6-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/mem/cxl_type3.c | 255 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 255 insertions(+)
+ include/hw/cxl/cxl_cdat.h    |   1 +
+ hw/pci-bridge/cxl_upstream.c | 195 ++++++++++++++++++++++++++++++++++-
+ 2 files changed, 195 insertions(+), 1 deletion(-)
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 568c9d62f5..255590201a 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -12,9 +12,246 @@
- #include "qemu/range.h"
- #include "qemu/rcu.h"
- #include "sysemu/hostmem.h"
-+#include "sysemu/numa.h"
- #include "hw/cxl/cxl.h"
- #include "hw/pci/msix.h"
+diff --git a/include/hw/cxl/cxl_cdat.h b/include/hw/cxl/cxl_cdat.h
+index 52c232e912..e9eda00142 100644
+--- a/include/hw/cxl/cxl_cdat.h
++++ b/include/hw/cxl/cxl_cdat.h
+@@ -131,6 +131,7 @@ typedef struct CDATSslbisHeader {
+     uint64_t entry_base_unit;
+ } QEMU_PACKED CDATSslbisHeader;
  
-+#define DWORD_BYTE 4
++#define CDAT_PORT_ID_USP 0x100
+ /* Switch Scoped Latency and Bandwidth Entry - CDAT Table 10 */
+ typedef struct CDATSslbe {
+     uint16_t port_x_id;
+diff --git a/hw/pci-bridge/cxl_upstream.c b/hw/pci-bridge/cxl_upstream.c
+index a83a3e81e4..9b8b57df9d 100644
+--- a/hw/pci-bridge/cxl_upstream.c
++++ b/hw/pci-bridge/cxl_upstream.c
+@@ -10,11 +10,12 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
++#include "hw/qdev-properties.h"
+ #include "hw/pci/msi.h"
+ #include "hw/pci/pcie.h"
+ #include "hw/pci/pcie_port.h"
+ 
+-#define CXL_UPSTREAM_PORT_MSI_NR_VECTOR 1
++#define CXL_UPSTREAM_PORT_MSI_NR_VECTOR 2
+ 
+ #define CXL_UPSTREAM_PORT_MSI_OFFSET 0x70
+ #define CXL_UPSTREAM_PORT_PCIE_CAP_OFFSET 0x90
+@@ -28,6 +29,7 @@ typedef struct CXLUpstreamPort {
+ 
+     /*< public >*/
+     CXLComponentState cxl_cstate;
++    DOECap doe_cdat;
+ } CXLUpstreamPort;
+ 
+ CXLComponentState *cxl_usp_to_cstate(CXLUpstreamPort *usp)
+@@ -60,6 +62,9 @@ static void cxl_usp_dvsec_write_config(PCIDevice *dev, uint32_t addr,
+ static void cxl_usp_write_config(PCIDevice *d, uint32_t address,
+                                  uint32_t val, int len)
+ {
++    CXLUpstreamPort *usp = CXL_USP(d);
 +
-+/* Default CDAT entries for a memory region */
-+enum {
-+    CT3_CDAT_DSMAS,
-+    CT3_CDAT_DSLBIS0,
-+    CT3_CDAT_DSLBIS1,
-+    CT3_CDAT_DSLBIS2,
-+    CT3_CDAT_DSLBIS3,
-+    CT3_CDAT_DSEMTS,
-+    CT3_CDAT_NUM_ENTRIES
-+};
-+
-+static int ct3_build_cdat_entries_for_mr(CDATSubHeader **cdat_table,
-+                                         int dsmad_handle, MemoryRegion *mr)
++    pcie_doe_write_config(&usp->doe_cdat, address, val, len);
+     pci_bridge_write_config(d, address, val, len);
+     pcie_cap_flr_write_config(d, address, val, len);
+     pcie_aer_write_config(d, address, val, len);
+@@ -67,6 +72,18 @@ static void cxl_usp_write_config(PCIDevice *d, uint32_t address,
+     cxl_usp_dvsec_write_config(d, address, val, len);
+ }
+ 
++static uint32_t cxl_usp_read_config(PCIDevice *d, uint32_t address, int len)
 +{
-+    g_autofree CDATDsmas *dsmas = NULL;
-+    g_autofree CDATDslbis *dslbis0 = NULL;
-+    g_autofree CDATDslbis *dslbis1 = NULL;
-+    g_autofree CDATDslbis *dslbis2 = NULL;
-+    g_autofree CDATDslbis *dslbis3 = NULL;
-+    g_autofree CDATDsemts *dsemts = NULL;
++    CXLUpstreamPort *usp = CXL_USP(d);
++    uint32_t val;
 +
-+    dsmas = g_malloc(sizeof(*dsmas));
-+    if (!dsmas) {
-+        return -ENOMEM;
++    if (pcie_doe_read_config(&usp->doe_cdat, address, len, &val)) {
++        return val;
 +    }
-+    *dsmas = (CDATDsmas) {
-+        .header = {
-+            .type = CDAT_TYPE_DSMAS,
-+            .length = sizeof(*dsmas),
-+        },
-+        .DSMADhandle = dsmad_handle,
-+        .flags = CDAT_DSMAS_FLAG_NV,
-+        .DPA_base = 0,
-+        .DPA_length = int128_get64(mr->size),
-+    };
 +
-+    /* For now, no memory side cache, plausiblish numbers */
-+    dslbis0 = g_malloc(sizeof(*dslbis0));
-+    if (!dslbis0) {
-+        return -ENOMEM;
-+    }
-+    *dslbis0 = (CDATDslbis) {
-+        .header = {
-+            .type = CDAT_TYPE_DSLBIS,
-+            .length = sizeof(*dslbis0),
-+        },
-+        .handle = dsmad_handle,
-+        .flags = HMAT_LB_MEM_MEMORY,
-+        .data_type = HMAT_LB_DATA_READ_LATENCY,
-+        .entry_base_unit = 10000, /* 10ns base */
-+        .entry[0] = 15, /* 150ns */
-+    };
-+
-+    dslbis1 = g_malloc(sizeof(*dslbis1));
-+    if (!dslbis1) {
-+        return -ENOMEM;
-+    }
-+    *dslbis1 = (CDATDslbis) {
-+        .header = {
-+            .type = CDAT_TYPE_DSLBIS,
-+            .length = sizeof(*dslbis1),
-+        },
-+        .handle = dsmad_handle,
-+        .flags = HMAT_LB_MEM_MEMORY,
-+        .data_type = HMAT_LB_DATA_WRITE_LATENCY,
-+        .entry_base_unit = 10000,
-+        .entry[0] = 25, /* 250ns */
-+    };
-+
-+    dslbis2 = g_malloc(sizeof(*dslbis2));
-+    if (!dslbis2) {
-+        return -ENOMEM;
-+    }
-+    *dslbis2 = (CDATDslbis) {
-+        .header = {
-+            .type = CDAT_TYPE_DSLBIS,
-+            .length = sizeof(*dslbis2),
-+        },
-+        .handle = dsmad_handle,
-+        .flags = HMAT_LB_MEM_MEMORY,
-+        .data_type = HMAT_LB_DATA_READ_BANDWIDTH,
-+        .entry_base_unit = 1000, /* GB/s */
-+        .entry[0] = 16,
-+    };
-+
-+    dslbis3 = g_malloc(sizeof(*dslbis3));
-+    if (!dslbis3) {
-+        return -ENOMEM;
-+    }
-+    *dslbis3 = (CDATDslbis) {
-+        .header = {
-+            .type = CDAT_TYPE_DSLBIS,
-+            .length = sizeof(*dslbis3),
-+        },
-+        .handle = dsmad_handle,
-+        .flags = HMAT_LB_MEM_MEMORY,
-+        .data_type = HMAT_LB_DATA_WRITE_BANDWIDTH,
-+        .entry_base_unit = 1000, /* GB/s */
-+        .entry[0] = 16,
-+    };
-+
-+    dsemts = g_malloc(sizeof(*dsemts));
-+    if (!dsemts) {
-+        return -ENOMEM;
-+    }
-+    *dsemts = (CDATDsemts) {
-+        .header = {
-+            .type = CDAT_TYPE_DSEMTS,
-+            .length = sizeof(*dsemts),
-+        },
-+        .DSMAS_handle = dsmad_handle,
-+        /* Reserved - the non volatile from DSMAS matters */
-+        .EFI_memory_type_attr = 2,
-+        .DPA_offset = 0,
-+        .DPA_length = int128_get64(mr->size),
-+    };
-+
-+    /* Header always at start of structure */
-+    cdat_table[CT3_CDAT_DSMAS] = g_steal_pointer(&dsmas);
-+    cdat_table[CT3_CDAT_DSLBIS0] = g_steal_pointer(&dslbis0);
-+    cdat_table[CT3_CDAT_DSLBIS1] = g_steal_pointer(&dslbis1);
-+    cdat_table[CT3_CDAT_DSLBIS2] = g_steal_pointer(&dslbis2);
-+    cdat_table[CT3_CDAT_DSLBIS3] = g_steal_pointer(&dslbis3);
-+    cdat_table[CT3_CDAT_DSEMTS] = g_steal_pointer(&dsemts);
-+
-+    return 0;
++    return pci_default_read_config(d, address, len);
 +}
 +
-+static int ct3_build_cdat_table(CDATSubHeader ***cdat_table, void *priv)
-+{
-+    g_autofree CDATSubHeader **table = NULL;
-+    MemoryRegion *nonvolatile_mr;
-+    CXLType3Dev *ct3d = priv;
-+    int dsmad_handle = 0;
-+    int rc;
-+
-+    if (!ct3d->hostmem) {
-+        return 0;
-+    }
-+
-+    nonvolatile_mr = host_memory_backend_get_memory(ct3d->hostmem);
-+    if (!nonvolatile_mr) {
-+        return -EINVAL;
-+    }
-+
-+    table = g_malloc0(CT3_CDAT_NUM_ENTRIES * sizeof(*table));
-+    if (!table) {
-+        return -ENOMEM;
-+    }
-+
-+    rc = ct3_build_cdat_entries_for_mr(table, dsmad_handle++, nonvolatile_mr);
-+    if (rc < 0) {
-+        return rc;
-+    }
-+
-+    *cdat_table = g_steal_pointer(&table);
-+
-+    return CT3_CDAT_NUM_ENTRIES;
-+}
-+
-+static void ct3_free_cdat_table(CDATSubHeader **cdat_table, int num, void *priv)
-+{
-+    int i;
-+
-+    for (i = 0; i < num; i++) {
-+        g_free(cdat_table[i]);
-+    }
-+    g_free(cdat_table);
-+}
-+
+ static void latch_registers(CXLUpstreamPort *usp)
+ {
+     uint32_t *reg_state = usp->cxl_cstate.crb.cache_mem_registers;
+@@ -119,6 +136,167 @@ static void build_dvsecs(CXLComponentState *cxl)
+                                REG_LOC_DVSEC_REVID, dvsec);
+ }
+ 
 +static bool cxl_doe_cdat_rsp(DOECap *doe_cap)
 +{
-+    CDATObject *cdat = &CXL_TYPE3(doe_cap->pdev)->cxl_cstate.cdat;
++    CDATObject *cdat = &CXL_USP(doe_cap->pdev)->cxl_cstate.cdat;
 +    uint16_t ent;
 +    void *base;
 +    uint32_t len;
 +    CDATReq *req = pcie_doe_get_write_mbox_ptr(doe_cap);
 +    CDATRsp rsp;
 +
++    cxl_doe_cdat_update(&CXL_USP(doe_cap->pdev)->cxl_cstate, &error_fatal);
 +    assert(cdat->entry_len);
 +
 +    /* Discard if request length mismatched */
 +    if (pcie_doe_get_obj_len(req) <
-+        DIV_ROUND_UP(sizeof(CDATReq), DWORD_BYTE)) {
++        DIV_ROUND_UP(sizeof(CDATReq), sizeof(uint32_t))) {
 +        return false;
 +    }
 +
@@ -333,7 +218,7 @@ index 568c9d62f5..255590201a 100644
 +            .vendor_id = CXL_VENDOR_ID,
 +            .data_obj_type = CXL_DOE_TABLE_ACCESS,
 +            .reserved = 0x0,
-+            .length = DIV_ROUND_UP((sizeof(rsp) + len), DWORD_BYTE),
++            .length = DIV_ROUND_UP((sizeof(rsp) + len), sizeof(uint32_t)),
 +        },
 +        .rsp_code = CXL_DOE_TAB_RSP,
 +        .table_type = CXL_DOE_TAB_TYPE_CDAT,
@@ -342,7 +227,7 @@ index 568c9d62f5..255590201a 100644
 +    };
 +
 +    memcpy(doe_cap->read_mbox, &rsp, sizeof(rsp));
-+    memcpy(doe_cap->read_mbox + DIV_ROUND_UP(sizeof(rsp), DWORD_BYTE),
++        memcpy(doe_cap->read_mbox + DIV_ROUND_UP(sizeof(rsp), sizeof(uint32_t)),
 +           base, len);
 +
 +    doe_cap->read_mbox_len += rsp.header.length;
@@ -350,83 +235,169 @@ index 568c9d62f5..255590201a 100644
 +    return true;
 +}
 +
-+static uint32_t ct3d_config_read(PCIDevice *pci_dev, uint32_t addr, int size)
-+{
-+    CXLType3Dev *ct3d = CXL_TYPE3(pci_dev);
-+    uint32_t val;
-+
-+    if (pcie_doe_read_config(&ct3d->doe_cdat, addr, size, &val)) {
-+        return val;
-+    }
-+
-+    return pci_default_read_config(pci_dev, addr, size);
-+}
-+
-+static void ct3d_config_write(PCIDevice *pci_dev, uint32_t addr, uint32_t val,
-+                              int size)
-+{
-+    CXLType3Dev *ct3d = CXL_TYPE3(pci_dev);
-+
-+    pcie_doe_write_config(&ct3d->doe_cdat, addr, val, size);
-+    pci_default_write_config(pci_dev, addr, val, size);
-+}
-+
- /*
-  * Null value of all Fs suggested by IEEE RA guidelines for use of
-  * EU, OUI and CID
-@@ -140,6 +377,11 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
-     return true;
- }
- 
 +static DOEProtocol doe_cdat_prot[] = {
 +    { CXL_VENDOR_ID, CXL_DOE_TABLE_ACCESS, cxl_doe_cdat_rsp },
 +    { }
 +};
 +
- static void ct3_realize(PCIDevice *pci_dev, Error **errp)
++enum {
++    CXL_USP_CDAT_SSLBIS_LAT,
++    CXL_USP_CDAT_SSLBIS_BW,
++    CXL_USP_CDAT_NUM_ENTRIES
++};
++
++static int build_cdat_table(CDATSubHeader ***cdat_table, void *priv)
++{
++    g_autofree CDATSslbis *sslbis_latency = NULL;
++    g_autofree CDATSslbis *sslbis_bandwidth = NULL;
++    CXLUpstreamPort *us = CXL_USP(priv);
++    PCIBus *bus = &PCI_BRIDGE(us)->sec_bus;
++    int devfn, sslbis_size, i;
++    int count = 0;
++    uint16_t port_ids[256];
++
++    for (devfn = 0; devfn < ARRAY_SIZE(bus->devices); devfn++) {
++        PCIDevice *d = bus->devices[devfn];
++        PCIEPort *port;
++
++        if (!d || !pci_is_express(d) || !d->exp.exp_cap) {
++            continue;
++        }
++
++        /*
++         * Whilst the PCI express spec doesn't allow anything other than
++         * downstream ports on this bus, let us be a little paranoid
++         */
++        if (!object_dynamic_cast(OBJECT(d), TYPE_PCIE_PORT)) {
++            continue;
++        }
++
++        port = PCIE_PORT(d);
++        port_ids[count] = port->port;
++        count++;
++    }
++
++    /* May not yet have any ports - try again later */
++    if (count == 0) {
++        return 0;
++    }
++
++    sslbis_size = sizeof(CDATSslbis) + sizeof(*sslbis_latency->sslbe) * count;
++    sslbis_latency = g_malloc(sslbis_size);
++    if (!sslbis_latency) {
++        return -ENOMEM;
++    }
++    *sslbis_latency = (CDATSslbis) {
++        .sslbis_header = {
++            .header = {
++                .type = CDAT_TYPE_SSLBIS,
++                .length = sslbis_size,
++            },
++            .data_type = HMATLB_DATA_TYPE_ACCESS_LATENCY,
++            .entry_base_unit = 10000,
++        },
++    };
++
++    for (i = 0; i < count; i++) {
++        sslbis_latency->sslbe[i] = (CDATSslbe) {
++            .port_x_id = CDAT_PORT_ID_USP,
++            .port_y_id = port_ids[i],
++            .latency_bandwidth = 15, /* 150ns */
++        };
++    }
++
++    sslbis_bandwidth = g_malloc(sslbis_size);
++    if (!sslbis_bandwidth) {
++        return 0;
++    }
++    *sslbis_bandwidth = (CDATSslbis) {
++        .sslbis_header = {
++            .header = {
++                .type = CDAT_TYPE_SSLBIS,
++                .length = sslbis_size,
++            },
++            .data_type = HMATLB_DATA_TYPE_ACCESS_BANDWIDTH,
++            .entry_base_unit = 1000,
++        },
++    };
++
++    for (i = 0; i < count; i++) {
++        sslbis_bandwidth->sslbe[i] = (CDATSslbe) {
++            .port_x_id = CDAT_PORT_ID_USP,
++            .port_y_id = port_ids[i],
++            .latency_bandwidth = 16, /* 16 GB/s */
++        };
++    }
++
++    *cdat_table = g_malloc0(sizeof(*cdat_table) * CXL_USP_CDAT_NUM_ENTRIES);
++    if (!*cdat_table) {
++        return -ENOMEM;
++    }
++
++    /* Header always at start of structure */
++    (*cdat_table)[CXL_USP_CDAT_SSLBIS_LAT] = g_steal_pointer(&sslbis_latency);
++    (*cdat_table)[CXL_USP_CDAT_SSLBIS_BW] = g_steal_pointer(&sslbis_bandwidth);
++
++    return CXL_USP_CDAT_NUM_ENTRIES;
++}
++
++static void free_default_cdat_table(CDATSubHeader **cdat_table, int num,
++                                    void *priv)
++{
++    int i;
++
++    for (i = 0; i < num; i++) {
++        g_free(cdat_table[i]);
++    }
++    g_free(cdat_table);
++}
++
+ static void cxl_usp_realize(PCIDevice *d, Error **errp)
  {
-     CXLType3Dev *ct3d = CXL_TYPE3(pci_dev);
-@@ -189,6 +431,14 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-     for (i = 0; i < msix_num; i++) {
-         msix_vector_use(pci_dev, i);
-     }
+     PCIEPort *p = PCIE_PORT(d);
+@@ -161,6 +339,14 @@ static void cxl_usp_realize(PCIDevice *d, Error **errp)
+                      PCI_BASE_ADDRESS_MEM_TYPE_64,
+                      component_bar);
+ 
++    pcie_doe_init(d, &usp->doe_cdat, cxl_cstate->dvsec_offset, doe_cdat_prot,
++                  true, 1);
 +
-+    /* DOE Initailization */
-+    pcie_doe_init(pci_dev, &ct3d->doe_cdat, 0x190, doe_cdat_prot, true, 0);
-+
-+    cxl_cstate->cdat.build_cdat_table = ct3_build_cdat_table;
-+    cxl_cstate->cdat.free_cdat_table = ct3_free_cdat_table;
-+    cxl_cstate->cdat.private = ct3d;
++    cxl_cstate->cdat.build_cdat_table = build_cdat_table;
++    cxl_cstate->cdat.free_cdat_table = free_default_cdat_table;
++    cxl_cstate->cdat.private = d;
 +    cxl_doe_cdat_init(cxl_cstate, errp);
- }
- 
- static void ct3_exit(PCIDevice *pci_dev)
-@@ -197,6 +447,7 @@ static void ct3_exit(PCIDevice *pci_dev)
-     CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
-     ComponentRegisters *regs = &cxl_cstate->crb;
- 
-+    cxl_doe_cdat_release(cxl_cstate);
-     g_free(regs->special_ops);
-     address_space_destroy(&ct3d->hostmem_as);
- }
-@@ -296,6 +547,7 @@ static Property ct3_props[] = {
-     DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
-                      HostMemoryBackend *),
-     DEFINE_PROP_UINT64("sn", CXLType3Dev, sn, UI64_NULL),
-+    DEFINE_PROP_STRING("cdat", CXLType3Dev, cxl_cstate.cdat.filename),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -361,6 +613,9 @@ static void ct3_class_init(ObjectClass *oc, void *data)
-     pc->device_id = 0xd93; /* LVF for now */
-     pc->revision = 1;
- 
-+    pc->config_write = ct3d_config_write;
-+    pc->config_read = ct3d_config_read;
 +
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-     dc->desc = "CXL PMEM Device (Type 3)";
-     dc->reset = ct3d_reset;
+     return;
+ 
+ err_cap:
+@@ -179,6 +365,11 @@ static void cxl_usp_exitfn(PCIDevice *d)
+     pci_bridge_exitfn(d);
+ }
+ 
++static Property cxl_upstream_props[] = {
++    DEFINE_PROP_STRING("cdat", CXLUpstreamPort, cxl_cstate.cdat.filename),
++    DEFINE_PROP_END_OF_LIST()
++};
++
+ static void cxl_upstream_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+@@ -186,6 +377,7 @@ static void cxl_upstream_class_init(ObjectClass *oc, void *data)
+ 
+     k->is_bridge = true;
+     k->config_write = cxl_usp_write_config;
++    k->config_read = cxl_usp_read_config;
+     k->realize = cxl_usp_realize;
+     k->exit = cxl_usp_exitfn;
+     k->vendor_id = 0x19e5; /* Huawei */
+@@ -194,6 +386,7 @@ static void cxl_upstream_class_init(ObjectClass *oc, void *data)
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+     dc->desc = "CXL Switch Upstream Port";
+     dc->reset = cxl_usp_reset;
++    device_class_set_props(dc, cxl_upstream_props);
+ }
+ 
+ static const TypeInfo cxl_usp_info = {
 -- 
 MST
 
