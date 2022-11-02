@@ -2,84 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5684161614B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 11:56:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F16616175
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 12:08:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqBOK-0003DT-EC; Wed, 02 Nov 2022 06:54:40 -0400
+	id 1oqBa2-0007dt-DY; Wed, 02 Nov 2022 07:06:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqBOI-0003D2-FT
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 06:54:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oqBZI-0007bA-QC
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 07:06:05 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqBOG-0006xR-CV
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 06:54:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667386474;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ojkQNxLw36J2iScm6a3qbX99WVeBgI7phcpXGJqqLlo=;
- b=gi3gFZr+OuFE7UIyHXXu3t0YbhnBQ/DfrSU2McRrsbhVDqTAXcCx4J3W5ZyW2Pcq0RtWlm
- yEn8NV1aRttCJVSiCUrxRKo8Hbqu2awnq3j7CT90Ko+p7B8ov9Ad4r0q8gr5o2+EN7X3Un
- koY/ldK47xf2+ZPSq25pKIXUzuPm6FE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-67-4Nh3trKuMISXsf23xJivQA-1; Wed, 02 Nov 2022 06:54:33 -0400
-X-MC-Unique: 4Nh3trKuMISXsf23xJivQA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r187-20020a1c44c4000000b003c41e9ae97dso923675wma.6
- for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 03:54:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ojkQNxLw36J2iScm6a3qbX99WVeBgI7phcpXGJqqLlo=;
- b=k7PrgJlJzhCzZ+eFvUhrSkn0mCP7UubAgSNk7ta5pglYxahk2fCuAINgBE525Azk8O
- R+MNTMwSdQB0mpnFu68WgN3D5AKn+UQeaCOilfA5LW2CHEQji2JQ6VWiPzhmR0bKd7nV
- xh3WE/thxkQLNrJNfaKPn7e9D8R+nmgqw6jh33Sblfsp/20CqEY9tGpuL9PSo+pf/Qmt
- JGvQFKNlyfXZPThZPZmgrb4lTjokmTNYybbyLJOcjOGt2a/He4Tv8rzhQ37NWqaSw/QA
- MGYhgoevwtGTLpSrU4hu2yMU9J1k7TGDS+HoqHyYreheWaAZfK7c9iB9tq2UpC1V1hh3
- dKzA==
-X-Gm-Message-State: ACrzQf1geDOSgdlcI9KgqvYwVuYymKaS3r1y6/KdMTfO3d9ZbpIPMDPy
- 6zPxSCqUM52VfHGGrGR9ce5E0t1ltFurNRpjviUjo30i5AWnLEWHEpNreEDLsDwu8JtO17+jqAc
- dVcba62d5a3E+M00=
-X-Received: by 2002:a05:600c:6023:b0:3cf:7dc1:e08e with SMTP id
- az35-20020a05600c602300b003cf7dc1e08emr5716921wmb.154.1667386472611; 
- Wed, 02 Nov 2022 03:54:32 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6RjymUx5O4mcDhldF1lSWbz4a1WbZszxbeB7T50jlp3JJs/dmAUTAPXLi1IC2xtdfr2WplgA==
-X-Received: by 2002:a05:600c:6023:b0:3cf:7dc1:e08e with SMTP id
- az35-20020a05600c602300b003cf7dc1e08emr5716897wmb.154.1667386472320; 
- Wed, 02 Nov 2022 03:54:32 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- fc19-20020a05600c525300b003cf57329221sm2235768wmb.14.2022.11.02.03.54.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Nov 2022 03:54:31 -0700 (PDT)
-Date: Wed, 2 Nov 2022 06:54:28 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Cindy Lu <lulu@redhat.com>
-Cc: alex.williamson@redhat.com, jasowang@redhat.com, pbonzini@redhat.com,
- peterx@redhat.com, david@redhat.com, f4bug@amsat.org,
- sgarzare@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v10 0/2] vhost-vdpa: add support for vIOMMU
-Message-ID: <20221102065323-mutt-send-email-mst@kernel.org>
-References: <20221031125702.1445168-1-lulu@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oqBZF-0004WJ-Ly
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 07:06:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=hNxkyqAjisj+xUwjnkcazuxxcaJFqU77e95yQMoazmE=; b=FsTNQYcFd9J7fAFIM5fc2uthlD
+ wJ7akHGju7BbGXlkguw7ekS6OGlfKhvzDYZwkhY89mG1G3npt8CFvUGSo7LF8Gc0WyN7yHCCtZLpa
+ mJCn6QVTE+3MA42Z+ir4CKsPyWn5BVGecVBNC9ZaWpd/DMzKZlYxKJyuC9DkPGaAZ/KtWOL8CiRS3
+ WOwVmYYVvKBZ1V5UZB2+2ids41y+4ILTV70TxNUORqWaNjjG0E9HO4GnMJ1QVBMWu9p2axSfa1M69
+ nfivMRa4n1bMxfobntQtg1uAVidOvnrAdkmU5bjQHw3rtDvLaAQtRDI2Tv7Tqyo+yqw7kL6CrDeLq
+ sXg2ROMfmh3wARUw47tEdunT724Doc/QrwhhAMF9WjIP5S4EGt3+wjFjI+3Aex7SU2/shjePWuctl
+ U+7KqSz0n9/82/ffv5vn6wZPeRUuVhnM7U5HHnK8uBJYRIuCqf7si4pRY7fNDXkKS+gEF7AvMbvjQ
+ pRgvdLSmvbCsQP6RxOzy+Yc5DETTb+ryiq5BlUK8oGkD1fCuh6e1bKNWL8+/GGKvrr/mpiSTbI7rB
+ 4SCbLEScstGSBbU2ccvWDKQZlHhaAL5v/73oYFj0j8M0a80azB/7Xz+MsKk4eZRWc5gYIGWAMzfUo
+ NyYv0jry07mg9jpr9r7qnFJ4A/MqInQIKGIqo4Rjc=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Greg Kurz <groug@kaod.org>, "Meng, Bin" <Bin.Meng@windriver.com>,
+ "Shi, Guohuai" <Guohuai.Shi@windriver.com>
+Subject: Re: [PATCH 07/16] hw/9pfs: Implement Windows specific utilities
+ functions for 9pfs
+Date: Wed, 02 Nov 2022 12:05:52 +0100
+Message-ID: <4078234.fJnRZ6glpc@silver>
+In-Reply-To: <MN2PR11MB417324B0200E8841884C5C2AEF399@MN2PR11MB4173.namprd11.prod.outlook.com>
+References: <20221024045759.448014-1-bin.meng@windriver.com>
+ <3897101.9jAPQrlFHr@silver>
+ <MN2PR11MB417324B0200E8841884C5C2AEF399@MN2PR11MB4173.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221031125702.1445168-1-lulu@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,55 +70,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 31, 2022 at 08:57:00PM +0800, Cindy Lu wrote:
-> changes in V3
-> 1. Move function vfio_get_xlat_addr to memory.c
-> 2. Use the existing memory listener, while the MR is
-> iommu MR then call the function iommu_region_add/
-> iommu_region_del
+On Wednesday, November 2, 2022 4:07:35 AM CET Shi, Guohuai wrote:
 > 
-> changes in V4
-> 1.make the comments in vfio_get_xlat_addr more general
+> > -----Original Message-----
+> > From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > Sent: Wednesday, November 2, 2022 02:22
+> > To: qemu-devel@nongnu.org
+> > Cc: Greg Kurz <groug@kaod.org>; Meng, Bin <Bin.Meng@windriver.com>; Shi,
+> > Guohuai <Guohuai.Shi@windriver.com>
+> > Subject: Re: [PATCH 07/16] hw/9pfs: Implement Windows specific utilities
+> > functions for 9pfs
+> > 
+> > [Please note: This e-mail is from an EXTERNAL e-mail address]
+> > 
+> > On Tuesday, November 1, 2022 4:20:53 PM CET Shi, Guohuai wrote:
+> > >
+> > [...]
+> > > > > > Windows POSIX API and MinGW library do not provide the NO_FOLLOW
+> > > > > > flag, and do not allow opening a directory by POSIX open(). This
+> > > > > > causes all
+> > > > > > xxx_at() functions cannot work directly. However, we can provide
+> > > > > > Windows handle based functions to emulate xxx_at() functions (e.g.:
+> > > > > > openat_win32, utimensat_win32, etc.).
+> > > > > >
+> > > > > > Windows does not support extended attributes. 9pfs for Windows
+> > > > > > uses NTFS ADS (Alternate Data Streams) to emulate extended
+> > attributes.
+> > > > > >
+> > > > > > Windows does not provide POSIX compatible readlink(), and
+> > > > > > symbolic link feature in 9pfs will be disabled on Windows.
+> > > > >
+> > > > > Wouldn't it be more user friendly if the relevant error locations
+> > > > > would use something like error_report_once() and suggesting to
+> > > > > enable
+> > > > > mapped(-xattr) to make 9p symlinks on guest working if desired by the
+> > user?
+> > > > >
+> > > > > Probably this error case would need to wrapped into a dedicated
+> > > > > function, otherwise I guess error_report_once() would fire several
+> > > > > times by different callers.
+> > > > >
+> > > >
+> > > > Windows (MinGW) does not only support symlink, but also does not
+> > > > have symlink definitions.
+> > > > Windows does not support symlink flags S_IFLNK.
+> > > >
+> > > > So even I add symlink support by mapped-xattr, the MinGW library
+> > > > does not have symlink flags and get a build error.
+> > > > And this flags is defined by Windows header files.
+> > > > The impact of adding a new flags to an pre-defined structure (struct
+> > > > stat) is unknown.
+> > > >
+> > > > So I think it is not a good idea to do that.
+> > >
+> > > Because Windows does not support symlink, so error_report_once() and report
+> > it to user will be OK.
+> > > But mapped-xattr could not work.
+> > 
+> > Showing an error makes sense for "passthrough" security model, but not for
+> > the "mapped" one.
+> > 
+> > Just to avoid misapprehensions: are you aware that there is already a system-
+> > agnostic implementation for symlinks if "mapped" is used?
+> > 
+> > When mapped security model is enabled, then creating symlinks on guest will
+> > simply create a corresponding *regular* file on host and the content of that
+> > regular file on host is the pointing path as raw string. Additionally the
+> > symlink flag is added to "virtfs.mode" xattr to mark that regular file as a
+> > symlink, a virtual one that is. So this does not require any support for
+> > symlinks by either the underlying host file system, nor by host OS.
+> > 
+> > Likewise interpreting and walking those virtual symlinks in "mapped" mode is
+> > also implemented in the local fs driver already.
 > 
-> changes in V5
-> 1. Address the comments in the last version
-> 2. Add a new arg in the function vfio_get_xlat_addr, which shows whether
-> the memory is backed by a discard manager. So the device can have its
-> own warning.
+> Yes, symlink can be supported by "mapped" mode.
+> I mean that MinGW does not provide symlink mode flags "S_IFLNK" and some other related functions and defines.
+> You can check with "9p.c": S_ISLNK, S_ISSOCK and S_ISFIFO are not valid on Windows (MinGW) host.
+> So even I enabled symlink supported by "mapped" mode on local-agent code, "9p.c" can not be built.
 > 
-> changes in V6
-> move the error_report for the unpopulated discard back to
-> memeory_get_xlat_addr
+> So I disabled symlink totally, because MinGW interface does not support it.
 > 
-> changes in V7
-> organize the error massage to avoid the duplicate information
-> 
-> changes in V8
-> Organize the code follow the comments in the last version
-> 
-> changes in V9
-> Organize the code follow the comments
-> 
-> changes in V10
-> Address the comments
+> To resolve this issue, MinGW should add the missing defines at first.
 
-This missed this release unfortunately, as vfio changes didn't get
-Alex's ack yet. Tagged but pls ping me after the freeze is lifted
-to make sure I don't forget. Thanks!
+And what's wrong with something like the following?
 
+#ifdef CONFIG_WIN32
+...
+#ifndef S_ISLNK
+#define S_ISLNK(x) ...
+#endif
+...
+#endif
 
-> Cindy Lu (2):
->   vfio: move implement of vfio_get_xlat_addr() to memory.c
->   vhost-vdpa: add support for vIOMMU
-> 
->  hw/vfio/common.c               |  66 ++----------------
->  hw/virtio/vhost-vdpa.c         | 122 ++++++++++++++++++++++++++++++---
->  include/exec/memory.h          |   4 ++
->  include/hw/virtio/vhost-vdpa.h |  10 +++
->  softmmu/memory.c               |  72 +++++++++++++++++++
->  5 files changed, 202 insertions(+), 72 deletions(-)
-> 
-> -- 
-> 2.34.3
+Best regards,
+Christian Schoenebeck
+
 
 
