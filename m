@@ -2,62 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A3F6168E3
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:30:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4BB6169DF
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:59:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqGcf-0007P1-AK; Wed, 02 Nov 2022 12:29:49 -0400
+	id 1oqH3h-0005rV-9o; Wed, 02 Nov 2022 12:57:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oqGcc-0007NX-Nw
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:29:46 -0400
-Received: from mout.kundenserver.de ([212.227.17.13])
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oqH3d-0005pP-TW
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:57:41 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oqGcb-00051l-1b
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:29:46 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MFbiK-1oocyw26HO-00HApx; Wed, 02 Nov 2022 17:29:40 +0100
-Message-ID: <222a342f-220a-108e-80c2-e099a7ee0a08@vivier.eu>
-Date: Wed, 2 Nov 2022 17:29:35 +0100
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oqH3T-0001Ao-FW
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:57:41 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 0575A3200991;
+ Wed,  2 Nov 2022 12:57:26 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Wed, 02 Nov 2022 12:57:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm1; t=1667408246; x=1667494646; bh=2TFWLOI6i7agU1fdXiC24iUiZ
+ oKJ0/+UvyNk8H7h+8w=; b=TgwQ0FeNvaaQJ6BoOmL76e9fzxfsC85SD1O87nruS
+ GzUHO2C8UoA9j+/YnI7IOT2ViqJXyTWSCoANACcfXG5fkuaJdR8l1pfm0GKylR5b
+ sqCoKMzjO9LIRTHfD4HXMMXSGRlAdloL9e48qRtw9rwLt7Rn5UXmEE+oE+CLgcT9
+ awPGd6O8CrPB7tlM3gsClGNldKvWQXmWtsh2rdserUsJYQmOpswFFJ9h1v3GXn5E
+ fIQVSbSxgR1pzc1p2VeIA2cy4aOV66KDeSSdDUfF6LX9WKw1oMRqyUomQMPT7iwM
+ rQr1rhhj4UWj+CeAy6Qurm8nopR4MEqS9fzRqN1vo3IeA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1667408246; x=1667494646; bh=2TFWLOI6i7agU1fdXiC24iUiZoKJ0/+UvyN
+ k8H7h+8w=; b=LBqWN1xbMVW5yIwZSF0PMKXGbXy5bUVAGdsqg9EKyAiyspdiw/6
+ aQeUIHIomh0G9rSURJ+LpXe2oqRbrqpXlAvxE27ZKoRnLDOayxCvA7rvPRyPWoYR
+ M9O1sSsCOEXr5crQQrwL7QBdaSn8DWSAsf4IoIIkwVg4AVK8FpYK3ZoHD7Qx7jVi
+ viBmLmVK0oSI0txRnUvoF7+zjAGM9GDcdpL0rmv3yi6O8rhx9Zlx42fhRCIvw8hx
+ bJwAnh/cDk9rNjnVNLe9odriMSKdwS+/u6+5zBGKcPyocQcSXfcPaaTgsY80xsFM
+ 2KehkwxLWFwuz/30EV+Mqs00LaXDMt2zzdw==
+X-ME-Sender: <xms:dqFiYyXdrruZkqQvBcc337wOBdSzE5dv9K812tx8E5gyBcH1NVjaZA>
+ <xme:dqFiY-mCNUAJDt3JgNUbtOyfg87Om02ulShE2w1aLbw3U9PiCCfAsKbapltHJMQ0X
+ AifFgji0AgT2dlk0ac>
+X-ME-Received: <xmr:dqFiY2Zrkh7iZQ7__OIfOsBos06G0oNCRJYKJljRGuHDWjm4KJSfdCzmjQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudejgdelgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgggfestdekredtre
+ dttdenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehf
+ lhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpefhtedutdduveeileejjeetff
+ ehueejudehgfffjeduhfeuleeludfffefgffevkeenucevlhhushhtvghrufhiiigvpedt
+ necurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorg
+ htrdgtohhm
+X-ME-Proxy: <xmx:dqFiY5XKwEvibSEvgyQOEindIKboGA6Iky2nR-MqPdzCL68tgL0zrg>
+ <xmx:dqFiY8njt6ofwFCc6GzOHORIyx2EMXodgjC9_gbRu6iDTGBEvB3fyQ>
+ <xmx:dqFiY-cuJbP-L2b5qSWFAY_OPea3vsSffhHQms37thc9XPYHV9vS9w>
+ <xmx:dqFiY4uzjG_1VsK1PYN6wKf9zBRIVYY2s0UmzFLtKAfxRRWZHUCM2g>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 2 Nov 2022 12:57:25 -0400 (EDT)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+Cc: f4bug@amsat.org,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PATCH 1/2] target/mips: Don't check COP1X for 64 bit FP mode
+Date: Wed,  2 Nov 2022 16:57:18 +0000
+Message-Id: <20221102165719.190378-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH] linux-user: always translate cmsg when recvmsg
-Content-Language: fr
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: qemu-devel@nongnu.org
-References: <20221028081220.1604244-1-uwu@icenowy.me>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20221028081220.1604244-1-uwu@icenowy.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:a01ludZ+9jFE3+HC23XifpwHgpbSAiE+clMPh32HrDCdZyOCbM5
- SOnQzt+gOrpb2d4GIsqr/pnSaRoFrMU7ITCuWXC14ml2Z+o1eL9Y4yzARb1YjKzxI57F7vQ
- IE/jRAldZm46ejWYV0cpBsuG2JaVCUXQk3GzN+iMmXqn5b9TlbZjEk7U9LojVCVkdz2WmDB
- q7+mZHXBgCtClKqx9zoww==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9m67KUjzEio=:qpQL5jATPp35+AactDjgQH
- GW9WHrjxroFGv71fIzFHwm3+rppL6t/TYIpPuM9s61O90vssSJUoVMpDaV9cHEoaKJzTWzI3w
- yketMsQh73nCypXBj5ofwR3rprDUIWFt6AwdC8+ZZwKhNOt8nhhb8Wy4cCwm9bjo2bDq/x5A3
- 7JvEQsqsNLIi9/0NzrNdbOttJ4Qa18DItLFumTSQ8Nn9EG5UCcEghhqYi8zSpmcvVL5HUSIWO
- m1HV8VAOS438HohZIaY753PDvAUvr14dxUuz6GPQUF/fB7W9Kfkqe4zmpj7Qb1HYRg1qdVQs9
- OnS7gjtiko2Y/SVMUGe5BMctVEHaaT5v3llDNcNxsSQpxz6stFYi47DM4fD+yE/0XZlmdvQnY
- sty326A8WsGpjS41r+3lhDZt0rsIAlJVKJ878OXolPnAQl3QH+FfCYYA2SsCgu6ej/oFyx7eW
- 0wfqKHc7hUpBNBHN/H27vhNWltdz0WWCg9PRRU0lmqMMInnkt5QUNXAi8yZ1vP6KZTbLs/Otq
- ZCzhhuXOxx+Jh6PHmSjFsOzpquKCrZdvEhbfHgcQR5YAIWFMLdnHaaFDTGnINTB86SbcJtCng
- 8RXWE+i3rTGK9YygzZldSod9meys4iF3AISM3ecUtzk7idb2Bfz+O/YkYcsMKSoPBoDi6i2Ep
- AUNxsx0pjdYuiGx5D4dksiFvhXg2ABATHA4IAV8WhMdazqGw00XueHuwxeD7cedYRNEzNveJR
- ZlXXFAba8YSgxbeQ0fB23QejyaMp5WZwVimWP5wfPzFaXxeUlXkXeJzlFS+unJpTSr8+u/5KF
- O22Ah7t
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=64.147.123.24;
+ envelope-from=jiaxun.yang@flygoat.com; helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,40 +98,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 28/10/2022 à 10:12, Icenowy Zheng a écrit :
-> It's possible that a message contains both normal payload and ancillary
-> data in the same message, and even if no ancillary data is available
-> this information should be passed to the target, otherwise the target
-> cmsghdr will be left uninitialized and the target is going to access
-> uninitialized memory if it expects cmsg.
-> 
-> Always call the function that translate cmsg when recvmsg, because that
-> function should be empty-cmsg-safe (it creates an empty cmsg in the
-> target).
-> 
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> ---
->   linux-user/syscall.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 8402c1399d..029a4e8b42 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -3346,7 +3346,8 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
->               if (fd_trans_host_to_target_data(fd)) {
->                   ret = fd_trans_host_to_target_data(fd)(msg.msg_iov->iov_base,
->                                                  MIN(msg.msg_iov->iov_len, len));
-> -            } else {
-> +            }
-> +            if (!is_error(ret)) {
->                   ret = host_to_target_cmsg(msgp, &msg);
->               }
->               if (!is_error(ret)) {
+Some implementations (i.e. Loongson-2F) may decide to implement a 64 bit
+FPU without implmenting COP1X instructions.
 
-Applied to my linux-user-for-7.2 branch.
+As the eligibility of 64 bit FP instructions is already determined by
+CP0St_FR, there is no need to check for COP1X again.
 
-Thanks,
-Laurent
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ target/mips/tcg/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+index 2f2d707a12..e49d2a25a8 100644
+--- a/target/mips/tcg/translate.c
++++ b/target/mips/tcg/translate.c
+@@ -1545,7 +1545,7 @@ void check_cop1x(DisasContext *ctx)
+  */
+ void check_cp1_64bitmode(DisasContext *ctx)
+ {
+-    if (unlikely(~ctx->hflags & (MIPS_HFLAG_F64 | MIPS_HFLAG_COP1X))) {
++    if (unlikely(~ctx->hflags & MIPS_HFLAG_F64) {
+         gen_reserved_instruction(ctx);
+     }
+ }
+-- 
+2.34.1
 
 
