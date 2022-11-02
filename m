@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0426616C0A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 19:25:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13157616C22
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 19:31:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqIPi-0004pP-Py; Wed, 02 Nov 2022 14:24:34 -0400
+	id 1oqIV2-0008Iq-AX; Wed, 02 Nov 2022 14:30:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqIPh-0004nM-Ib; Wed, 02 Nov 2022 14:24:33 -0400
+ id 1oqIUs-0008Hy-R9; Wed, 02 Nov 2022 14:29:55 -0400
 Received: from mout.kundenserver.de ([217.72.192.73])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqIPf-0001Dy-M1; Wed, 02 Nov 2022 14:24:33 -0400
+ id 1oqIUr-00020J-1m; Wed, 02 Nov 2022 14:29:54 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MpDa5-1pNw0f1zmp-00qkrx; Wed, 02 Nov 2022 19:24:22 +0100
-Message-ID: <d858ba61-8eac-fa7c-66fd-237ba8754046@vivier.eu>
-Date: Wed, 2 Nov 2022 19:24:19 +0100
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MrgcU-1pM0DS3Bq8-00nlhc; Wed, 02 Nov 2022 19:29:43 +0100
+Message-ID: <cda12ec5-1af1-0dbc-ad12-f44980742098@vivier.eu>
+Date: Wed, 2 Nov 2022 19:29:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH 3/3] libvhost-user: Add format attribute to local function
- vu_panic
+Subject: Re: [PATCH 1/3] target/m68k: Rename qregs.def -> qregs.h.inc
 Content-Language: fr
-To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-References: <20220422070144.1043697-1-sw@weilnetz.de>
- <20220422070144.1043697-4-sw@weilnetz.de>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-trivial@nongnu.org
+References: <20221025235006.7215-1-philmd@linaro.org>
+ <20221025235006.7215-2-philmd@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220422070144.1043697-4-sw@weilnetz.de>
+In-Reply-To: <20221025235006.7215-2-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:cfNNMLk/m4Ne1/lTYmikSwTpHMn3OLifEmAcDYl/GyaY87DtrGy
- UrDNIoZLVgJGNHq+FKPTwunSzleoq2kGVWWjYtGjbEtwMP8a87aTD4lZJwriC4caW4CoGT8
- QC552RI5TF04SuPfwFr/eSGoqYRHfHQZwSDwAvBVZGTijWhX6FXrLYknkZ6Ohr6zI93w5Gr
- 3LRz2T3qpw+GJPlkgB4Lg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1S9LHDjKw4M=:v/Ox/6An25EXelk0i4z6jX
- Nh3ax12a7KmfqQwQQWyvcPFxrC+pai67beWqJF0CN3N7SOkPufkrE1BlVXLTCqD3OLft9jBir
- X2l90A7OzJJd02Rf0F+LxSL/5OICq2a1O1rsLXsAI4+slIATGnFV9I+UUJWTsyjSQw0t3yfDq
- 6xIM/wNwby2jGmHyBueUXn8rzO6jPdTtcAfe0X6s8HNuHU4GUC2dEGAR0OWshRBnwfnkT2Cbo
- Qx2jSxsbCchMtWIXLMFvZcPTfA2EFMfEVjSA1TKlAzIOWdKG+zAVjBAgc98iteQw9xw/uPhuL
- UIah5rluHatSGAkKxUxJ8Zv3Vl6fyL+1l0GFMZ9XqUzGmgplLpz9ABFW29OMjW4COQxGiKnOc
- d+AZaPDUTUXVqP3Uh1qMV8pGpIH4S8/LblGNavaBjvIfLsy8OZATZ/yTof4t49VsGvZaKSN67
- mfstO0p9tIPDWa47qg/jWDy5cOAJk7f0YxVCCGViHUfJAjQa0EC5DSY9nj5WC6JM/zW0xzxhf
- zFCPKSjBrDEhdyt0jKJVRbvCeG445kxJocZiFXg0KNyuxsDnLGxggfjHHjVW1whPpayj1wp5j
- 4vsU/P7JlEcvcMp3aZBa+m5OXQc6NvWCm8cGQY/5jRcuzR0AD8yLcLaMLnPdzNWVLKsQIV0Z1
- THDYy37te+T32/DXIUL4qYoA43W73r/II3jFnbBF1h25v9xcOZCQ+WQfeuDEboEf7wt6yCw+m
- Ym8oTBTkDKGEZ5ti7wu05tAx5k7QtAuZXDLPqM5Z2rgPxhNdGQOa4980xxqXaoN8qQEJJlBWK
- oMPL9kJ
+X-Provags-ID: V03:K1:k0z2Rs2/WV78eoVKSFm/TBX4eDyQDhKEaFXJ9tZdguXXYM9KDR2
+ liL1Bxhi+Cu4jCQ2hG7QLSieq+0ohn/ji0S9xgJWrxgCLqDMQ8/rX4rQ8IZEdeBqq9cZhVC
+ 9cuUeSc0FJ+pbCSOsK+xm7F+mYWRn2+Byxp1PNqdBEryAL//sgWL1D9sDDTRkuKlfna81qk
+ T0DGA7TRQe8oZfW845u/A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OVQ14kZ7ioE=:xf/hjk7mpUryysTh+wyJbr
+ F+cKKcqpz+4MwEWSbV0M63kTxCvlFjrN0pDCxQt68BMqoX1rn7Uy4VzYRauMtqCaEYhnn9ooA
+ XfFl2TSDhcghsOcCyEdIgcLtHdb3Yo/LXFpGJfDMB4sjN7s2g5HPVqGZPJ47UWWHT640n1ocG
+ Nuwb1e5suHs6CFPpGR3/yRghHFGZz8TukJIN0FmfGpyeKpuHGMq2Cq/WUibI6yAbngwikntSa
+ cwSa21rrbkIYuQGUKNkEUs7JKE64TwizaFdotBe42b5MnBpb0xZNBhFTpKkFDvWLzxQmFOugf
+ a/rZmF7N9qNBWPI2JXmFXMQHJEtnswYRTRgXNUn1iFcMw9g7ZdKpZ78uy/gl5LyqLyZLHeqaQ
+ ZOdBvLK2J9IyOlfPw79GsCqXUyIWAcOoSKavCVmLm6eHmzD72eCR/IQxFeOUyKqra87OYxmpl
+ nkpmFRFzcpAUYqwEL7ZwXJLIYPQVaMN4tJhLR4Dbp0poB7c2EGfKl3J/g76HQ1JGITaxFay9D
+ dtKu4IzhOby3cYMbtJaljUvqbc07Aj+vPCelf5ia4paGw6Iuu9D8fHLbjW2pM0n9wZGkuDxS3
+ ilI7stxKOCo6zUw/0sOaQvaPUS8oPpispuJjPMmRSBPr71bgUQdESJn9zPk3poYLKpwajjjQN
+ iOo+UbB81ZbmmLWnodtj8usMfKe2k8c78d3K66WGfpoVDhg+Bav2Ty3bYDLc7JjW2qGQkoiz4
+ GO3Zo73uug0O8z7SJMp5zi1QWKhykgq+6uX2cb85gErJUZY7CUR8eRwKco56R4IK0G5g2aAVJ
+ XMqJqiE
 Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -77,50 +79,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 22/04/2022 à 09:01, Stefan Weil a écrit :
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Le 26/10/2022 à 01:50, Philippe Mathieu-Daudé a écrit :
+> We use the .h.inc extension to include C headers. To be consistent
+> with the rest of the codebase, rename the C headers using the .def
+> extension.
+> 
+> IDE/tools using our .editorconfig / .gitattributes will leverage
+> this consistency.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
+>   target/m68k/{qregs.def => qregs.h.inc} | 0
+>   target/m68k/translate.c                | 4 ++--
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+>   rename target/m68k/{qregs.def => qregs.h.inc} (100%)
 > 
-> It would be good to add format attributes to local functions, too (like
-> it is done here) to avoid future format bugs.
-> 
-> The changes here could be simplified by including a glib header,
-> but from the comments I assumed that is unwanted here?
-> 
->   subprojects/libvhost-user/libvhost-user.c | 13 ++++++++++++-
->   1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-> index 94645f9154..29ab85fc9d 100644
-> --- a/subprojects/libvhost-user/libvhost-user.c
-> +++ b/subprojects/libvhost-user/libvhost-user.c
-> @@ -45,6 +45,17 @@
->   #include "libvhost-user.h"
+> diff --git a/target/m68k/qregs.def b/target/m68k/qregs.h.inc
+> similarity index 100%
+> rename from target/m68k/qregs.def
+> rename to target/m68k/qregs.h.inc
+> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+> index 9df17aa4b2..f018fa9eb0 100644
+> --- a/target/m68k/translate.c
+> +++ b/target/m68k/translate.c
+> @@ -39,7 +39,7 @@
 >   
->   /* usually provided by GLib */
-> +#if     __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ > 4)
-> +#if !defined(__clang__) && (__GNUC__ == 4 && __GNUC_MINOR__ == 4)
-> +#define G_GNUC_PRINTF(format_idx, arg_idx) \
-> +  __attribute__((__format__(gnu_printf, format_idx, arg_idx)))
-> +#else
-> +#define G_GNUC_PRINTF(format_idx, arg_idx) \
-> +  __attribute__((__format__(__printf__, format_idx, arg_idx)))
-> +#endif
-> +#else   /* !__GNUC__ */
-> +#define G_GNUC_PRINTF(format_idx, arg_idx)
-> +#endif  /* !__GNUC__ */
->   #ifndef MIN
->   #define MIN(x, y) ({                            \
->               typeof(x) _min1 = (x);              \
-> @@ -151,7 +162,7 @@ vu_request_to_string(unsigned int req)
->       }
->   }
+>   #define DEFO32(name, offset) static TCGv QREG_##name;
+>   #define DEFO64(name, offset) static TCGv_i64 QREG_##name;
+> -#include "qregs.def"
+> +#include "qregs.h.inc"
+>   #undef DEFO32
+>   #undef DEFO64
 >   
-> -static void
-> +static void G_GNUC_PRINTF(2, 3)
->   vu_panic(VuDev *dev, const char *msg, ...)
->   {
->       char *buf = NULL;
+> @@ -75,7 +75,7 @@ void m68k_tcg_init(void)
+>   #define DEFO64(name, offset) \
+>       QREG_##name = tcg_global_mem_new_i64(cpu_env, \
+>           offsetof(CPUM68KState, offset), #name);
+> -#include "qregs.def"
+> +#include "qregs.h.inc"
+>   #undef DEFO32
+>   #undef DEFO64
+>   
 
 Applied to my trivial-patches branch.
 
