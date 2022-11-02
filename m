@@ -2,88 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFAD16169E0
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:59:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4855B616B1D
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 18:43:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqH3l-0005u8-4G; Wed, 02 Nov 2022 12:57:49 -0400
+	id 1oqHki-0000AJ-IJ; Wed, 02 Nov 2022 13:42:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oqH3h-0005tH-HI
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:57:45 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oqH3T-0001BD-9h
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:57:45 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id C019C3200988;
- Wed,  2 Nov 2022 12:57:28 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 02 Nov 2022 12:57:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1667408248; x=1667494648; bh=4T
- V9nMwaXoflOXBxNVUiz+XysdCPoEiWWWBv9VRamHo=; b=otqDBQKe1b5EQ26qCK
- V/MlCmTb9mU4CynCWjK+CB3ig9ZeYZxndHfOa7PW/qI6WQg+GA+GsD2d3+SOlg/L
- 2HHao80cctzdGccphSPAXGEJ8h9efdRDFnKDcuV+WcGzr2309EAgacJh8ImBAQL+
- Vhs94ZW+LkqAUmuhQWEgx7iScBgVejCH0BjJUTC3bPbMoA7AEAS8QqEOrWZf3YhM
- LY5mNxZo2dDxFN66v8smr1AqewtTzbhcs4YEzgOGdF2JBAf8csXfW33G4lDF8FL5
- bPX7NfrIb/WZbJFukPVihzESVwZNhklprEaw7dqRvX4S+669RlhYfzGSpit0ODwO
- 34Ug==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1667408248; x=1667494648; bh=4TV9nMwaXoflO
- XBxNVUiz+XysdCPoEiWWWBv9VRamHo=; b=h2cds6yNtCsWgGHZVoMhTNMOmwHQn
- 6tXYIDM89VrHPrgaxKcNziHai69sgyZjNO8gLpaKJPYCFWx5RbWsJOTc1KhSYDga
- sE4yxBJj7t3fkXIWExsvLNYni7/n/PdcjoBEkEHWjBwGaEhCeNoVVWmLf12sqrXL
- VCiTqQ5fDZbDh53uU2LbjQAg5l9ku/lNbw9w4rv6edB+cULgrZrTz9BPwqqdA7ag
- aPyeGV9n/EO6mkoQ+ZleOYKpOg2l0QlkfooI9OhObuqueT22LVswIHQr2P58JgXc
- c3+GBNBECCxMK2UMJ0+N+MDav3k12uGOsqUJcqGXIu9jHike3UDdS0y0g==
-X-ME-Sender: <xms:eKFiY3RTo-LH0ZNzO98yU_0SSQq2d2SCXULlKO2ugYeOM0D9LTfrWg>
- <xme:eKFiY4zcagv0oYg0rinPIZy5y4dAE60VhtX580ulSclltWpb_6WGIlOLWx4MLghh4
- cPPelBI4Iel0vTNvvc>
-X-ME-Received: <xmr:eKFiY80HFo9XQRlzZUt_4oJNXOG3GLncJRfg9MJee2V_sWzHxluw63kB5A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudejgdelgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgjfhgggfestdekre
- dtredttdenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhg
- sehflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpeefledufeehgedvuedvvd
- egkefgvddttedtleeiiefhgeetudegkefhvdfhjeeftdenucevlhhushhtvghrufhiiigv
- pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihgh
- horghtrdgtohhm
-X-ME-Proxy: <xmx:eKFiY3DsQvOjuhKCWhaX54iKTdzDkw0NmS-f00bWmEvxCNZlRR40Bg>
- <xmx:eKFiYwgQbweGB88AuLTGrW2tTkGabUnRO5cjEuoeUlRxz9xCwBtu2w>
- <xmx:eKFiY7qf9yqCn0zEZbCkdqnfxFoN06Ez6-DpWlrBPu2wEvcMqPX6jQ>
- <xmx:eKFiY8YVAcSYVJrWe251rzUIf0B5QU3T-mQB7c9K74JulSlAH0A6Zg>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Nov 2022 12:57:27 -0400 (EDT)
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-To: qemu-devel@nongnu.org
-Cc: f4bug@amsat.org,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PATCH 2/2] target/mips: Correct check for CABS instructions
-Date: Wed,  2 Nov 2022 16:57:19 +0000
-Message-Id: <20221102165719.190378-2-jiaxun.yang@flygoat.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221102165719.190378-1-jiaxun.yang@flygoat.com>
-References: <20221102165719.190378-1-jiaxun.yang@flygoat.com>
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oqHke-00009r-F7; Wed, 02 Nov 2022 13:42:08 -0400
+Received: from mail-ua1-x92a.google.com ([2607:f8b0:4864:20::92a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1oqHkc-0005bb-OO; Wed, 02 Nov 2022 13:42:08 -0400
+Received: by mail-ua1-x92a.google.com with SMTP id x20so7831220ual.6;
+ Wed, 02 Nov 2022 10:41:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=m7itadBa7zIaPoPv1ReEZwiQJs1N761MpCghc4PuyCU=;
+ b=o8fOTsqS8c1zmysD887Tw5TvlYV2Ds46F/KhIUUSt5IAguRyL+mVaRpiXSLCVyn2W0
+ 2AdQIjTrr7hCd3LTY8KwyLsyMGXZM1Bbi/fzU6ONiDX+VWUn5aSv+sm1kMScmt/JZ4YM
+ 4IW3R3YCOgLUMP/Q2vqR3IODtg8m3D/XbiR50uql22FFfyODVVTbS8dHLpZRsv7VhQkT
+ Nr88MdYAHXpXCcc2wRv0jYS400kiWI19/Q6jRW784Is5G7Q+2sC+dFKiYtWj9Cppzkgj
+ xJujlwlkFBF8uKokmdzB1ArpEcapexvY34dqeMFARivFNBSSg9kd+0Gks6BZT0EZ+Rg8
+ J6uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=m7itadBa7zIaPoPv1ReEZwiQJs1N761MpCghc4PuyCU=;
+ b=AASik/rwDfKFFyM7WvTy2XC9QWgsGk/mU1zRYlcyd0JZ8iIW0Wfw/UtAsE3VhGPn+l
+ sdORgDC6PrGlbBFB280G53KvYcwPpwtxWPP4iNCfCoEOzI/CNDV73T9QklyrOBJuk4EN
+ iLVZI8MVrziF6tqoSFftW50ibTEMRXJHJhyRf2e5KpOaTqX+GKllzL1G75MnHer4Et6g
+ cUfZ6yVzwRMqRRGbptYMW8LsMqPTpM1MKd6EfzMooJ/RU8eznH74xHJ3qclbEezGJhJy
+ WVDd+thT89FN2cGuxsiiC0whWfUg907qaiYsD/xCwkNSl20P6E7LDJz8Yz/ybzue9xwI
+ BBQA==
+X-Gm-Message-State: ACrzQf2vDhF/nPCU6mNIjYw3CT9CVlgEommO2UI3fVP1cm8cUsXisXv3
+ S/EUzQH4XpzTKSz8+RuGRgCIDgKfcWx3Ak2A/XQ=
+X-Google-Smtp-Source: AMsMyM6tKE9xu/oClFWFIfZvZNjz0PulCWzdsMPOKWCbP2kUgIHSuQK88dB37Mo45eWNgTiXa03tRJy+ySDX7je/9kc=
+X-Received: by 2002:ab0:1432:0:b0:3da:99ef:3edd with SMTP id
+ b47-20020ab01432000000b003da99ef3eddmr10597515uae.66.1667410915995; Wed, 02
+ Nov 2022 10:41:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.24;
- envelope-from=jiaxun.yang@flygoat.com; helo=wout1-smtp.messagingengine.com
+References: <20221101222934.52444-1-philmd@linaro.org>
+In-Reply-To: <20221101222934.52444-1-philmd@linaro.org>
+From: Bernhard Beschow <shentey@gmail.com>
+Date: Wed, 2 Nov 2022 18:41:42 +0100
+Message-ID: <CAG4p6K5D6K9kwCor2xBFLzfPPCh5z+SvHp4KvUPTQfaPhqG+tA@mail.gmail.com>
+Subject: Re: [PATCH v6 0/3] ppc/e500: Add support for eSDHC
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org, qemu-block@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000057b3d205ec805b06"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92a;
+ envelope-from=shentey@gmail.com; helo=mail-ua1-x92a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,49 +81,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Accroading to "MIPS Architecture for Programmers Volume IV-c:
-The MIPS-3D Application-Specific Extension to the MIPS64 Architecture"
-(MD00099). CABS.cond.fmt belongs to MIPS-3D ASE, and it has nothing to do
-with COP1X opcode.
+--00000000000057b3d205ec805b06
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Remove all unnecessary COP1X checks and check for MIPS3D availability
-in decoding code path.
+On Tue, Nov 1, 2022 at 11:29 PM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.=
+org>
+wrote:
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
----
- target/mips/tcg/translate.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+> This is a respin of Bernhard's v4 with Freescale eSDHC implemented
+> as an 'UNIMP' region. See v4 cover here:
+>
+> https://lore.kernel.org/qemu-devel/20221018210146.193159-1-shentey@gmail.=
+com/
+>
+> Since v5:
+> - Rebased (ppc-next merged)
+> - Properly handle big-endian
+>
 
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index e49d2a25a8..23e575ad95 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -1788,16 +1788,8 @@ static inline void gen_cmp ## type ## _ ## fmt(DisasContext *ctx, int n,      \
-         check_ps(ctx);                                                        \
-         break;                                                                \
-     case FMT_D:                                                               \
--        if (abs) {                                                            \
--            check_cop1x(ctx);                                                 \
--        }                                                                     \
-         check_cp1_registers(ctx, fs | ft);                                    \
-         break;                                                                \
--    case FMT_S:                                                               \
--        if (abs) {                                                            \
--            check_cop1x(ctx);                                                 \
--        }                                                                     \
--        break;                                                                \
-     }                                                                         \
-     gen_ldcmp_fpr##bits(ctx, fp0, fs);                                        \
-     gen_ldcmp_fpr##bits(ctx, fp1, ft);                                        \
-@@ -10424,6 +10416,7 @@ static void gen_farith(DisasContext *ctx, enum fopcode op1,
-     case OPC_CMP_NGT_S:
-         check_insn_opc_removed(ctx, ISA_MIPS_R6);
-         if (ctx->opcode & (1 << 6)) {
-+            check_insn(ctx, ASE_MIPS3D);
-             gen_cmpabs_s(ctx, func - 48, ft, fs, cc);
-         } else {
-             gen_cmp_s(ctx, func - 48, ft, fs, cc);
--- 
-2.34.1
+Tested-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Bernhard Beschow <shentey@gmail.com>
 
+
+> Since v4:
+> - Do not rename ESDHC_* definitions to USDHC_*
+> - Do not modify SDHCIState structure
+>
+> Supersedes: <20221031115402.91912-1-philmd@linaro.org>
+>
+> Philippe Mathieu-Daud=C3=A9 (3):
+>   hw/sd/sdhci: MMIO region is implemented in 32-bit accesses
+>   hw/sd/sdhci: Support big endian SD host controller interfaces
+>   hw/ppc/e500: Add Freescale eSDHC to e500plat
+>
+>  docs/system/ppc/ppce500.rst | 13 ++++++++++
+>  hw/ppc/Kconfig              |  2 ++
+>  hw/ppc/e500.c               | 48 ++++++++++++++++++++++++++++++++++++-
+>  hw/ppc/e500.h               |  1 +
+>  hw/ppc/e500plat.c           |  1 +
+>  hw/sd/sdhci-internal.h      |  1 +
+>  hw/sd/sdhci.c               | 36 +++++++++++++++++++++++++---
+>  include/hw/sd/sdhci.h       |  1 +
+>  8 files changed, 99 insertions(+), 4 deletions(-)
+>
+> --
+> 2.38.1
+>
+>
+
+--00000000000057b3d205ec805b06
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Nov 1, 2022 at 11:29 PM Philippe =
+Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@linaro.org">philmd@linaro.o=
+rg</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">This is a respin of Bernhard&#39;s v4 with Fre=
+escale eSDHC implemented<br>
+as an &#39;UNIMP&#39; region. See v4 cover here:<br>
+<a href=3D"https://lore.kernel.org/qemu-devel/20221018210146.193159-1-shent=
+ey@gmail.com/" rel=3D"noreferrer" target=3D"_blank">https://lore.kernel.org=
+/qemu-devel/20221018210146.193159-1-shentey@gmail.com/</a><br>
+<br>
+Since v5:<br>
+- Rebased (ppc-next merged)<br>
+- Properly handle big-endian<br></blockquote><div><br></div>Tested-by: Bern=
+hard Beschow &lt;<a href=3D"mailto:shentey@gmail.com">shentey@gmail.com</a>=
+&gt;</div><div class=3D"gmail_quote">Reviewed-by: Bernhard Beschow &lt;<a h=
+ref=3D"mailto:shentey@gmail.com">shentey@gmail.com</a>&gt;</div><div class=
+=3D"gmail_quote"><br></div><div class=3D"gmail_quote"><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">
+<br>
+Since v4:<br>
+- Do not rename ESDHC_* definitions to USDHC_*<br>
+- Do not modify SDHCIState structure<br>
+<br>
+Supersedes: &lt;<a href=3D"mailto:20221031115402.91912-1-philmd@linaro.org"=
+ target=3D"_blank">20221031115402.91912-1-philmd@linaro.org</a>&gt;<br>
+<br>
+Philippe Mathieu-Daud=C3=A9 (3):<br>
+=C2=A0 hw/sd/sdhci: MMIO region is implemented in 32-bit accesses<br>
+=C2=A0 hw/sd/sdhci: Support big endian SD host controller interfaces<br>
+=C2=A0 hw/ppc/e500: Add Freescale eSDHC to e500plat<br>
+<br>
+=C2=A0docs/system/ppc/ppce500.rst | 13 ++++++++++<br>
+=C2=A0hw/ppc/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 2 ++<br>
+=C2=A0hw/ppc/e500.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+ 48 ++++++++++++++++++++++++++++++++++++-<br>
+=C2=A0hw/ppc/e500.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 1 +<br>
+=C2=A0hw/ppc/e500plat.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +=
+<br>
+=C2=A0hw/sd/sdhci-internal.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
+=C2=A0hw/sd/sdhci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+ 36 +++++++++++++++++++++++++---<br>
+=C2=A0include/hw/sd/sdhci.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A08 files changed, 99 insertions(+), 4 deletions(-)<br>
+<br>
+-- <br>
+2.38.1<br>
+<br>
+</blockquote></div></div>
+
+--00000000000057b3d205ec805b06--
 
