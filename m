@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56CA615ECF
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 10:04:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52AB615F36
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 10:14:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oq9eI-000572-0l; Wed, 02 Nov 2022 05:03:02 -0400
+	id 1oq9nh-0002Ne-O9; Wed, 02 Nov 2022 05:12:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
- id 1oq9eG-00056U-EY
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 05:03:00 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oq9nf-0002MI-1t
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 05:12:43 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
- id 1oq9eF-0004tj-09
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 05:03:00 -0400
-Received: by mail-pf1-x429.google.com with SMTP id q9so740528pfg.5
- for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 02:02:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uIJI8qtfB8shFbIn2oA8BDymOBmXIALKaFltN8adAkA=;
- b=fRYqhSvhOnQs7ohJUyZpydNSQK+4tq2EK5V7n1A5/wp3+NrMdXqkV393UMEBgz0qTZ
- V3J6mrCsV37EvTHx7tC1LRFuFMs707tlv4awIEPb70nXgOlsITmpe5c8FCP8787cCrUI
- 6WZzZ6vRetJNZ6/4EgeEcwyHyoH5hQhYZf/NrpRHr91Rw60yC8Gur1+BtNLdLM2pMQQK
- iPxVhiuS0ofLcQUZDVTyCyaeuI63vChHIroz2Qm1FrF/LEmTOfrRcldKB/BPuiNhMfw3
- OLMF6orwyDFtTnkCxi9ixluQdmD/NNJR5kCQMfn3LJSMh0EAi8w634ts2W4xM7Pi/3ds
- yOyQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oq9nd-0000zJ-0e
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 05:12:42 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id g24so15987715plq.3
+ for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 02:12:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4yyyElQDSV8BnJ18BbBez/2Y1uNzC2NbopBlpNdfYzw=;
+ b=jDhAMdDwTi/gc9PsN10r/u+oDqKZ19WDvtZMNR9am/L4T2pDlQPCHxYwTmRkMAKSYL
+ s0+itnt6fUVs4VkRgpYWAIB115IJvz/JX4nXVrcNxzKPm0LLuIu5PNnCgRCLDV1DWzSq
+ MAlI+3tfJpbfiXVutk9fHIvnt8nBK3CG8LBZmvl+FnQIkX/Dz/F4XDCmCg3InJBRdgja
+ Vg8pHzuJRN8hP75IwJQ9sR0a0iRYG/txqhSdiMTFmfN/foTPCA0WUR4qtRjUUYq/Rs8T
+ piACgJ2zWygQtdWGUDMI4Z122G19H9YqQIlANemvTNJRSXM9kktOSiuHZKr3INDL/n4v
+ lYRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uIJI8qtfB8shFbIn2oA8BDymOBmXIALKaFltN8adAkA=;
- b=iPWkTHwI+bYQlxko1Q3xjk9JZE9XxscDovesZr77QsJeqeWDXs2B4yi017pMwk++Xv
- WBWMLS/e62IXhUTt+k4C2Wt1rw4T31ebAn/MxRjsJm5LT1GfIPGAHtr6AF/mG4hc6six
- vGUWamWoz7a4sf38Z4+sgLKCLkCmabiwwlwKGMyN36W+LxuSudFa2OKnMKQv3eJxU5Qu
- pwwFqvOYA0lqXjqjaC+RuB/MGX1/Cj+DJVnEZUc6ZrrzzUlW75VeBA0Wp8FKfpBu7JCv
- mgbQAh3eMGIj2MCgOZAXxErQgV0ngq6UYnxgzoTfU/me0C5tHi4ZzZqT46ft0BqwxtuJ
- bN7w==
-X-Gm-Message-State: ACrzQf2YULoIttIxaR1PWgAK8fdjEG3H0tVZ2KttzyuDkpth1kZ5KUhQ
- LvkBraaOh0+V8Ji8m7HUIezHiw==
-X-Google-Smtp-Source: AMsMyM7Y+eFK6KjDT5oh0cu5doRnwyU/fl3yhgEy1DEmzj7LQHUEQnTB0DO/wujAwgx8k4/9HUQ3IQ==
-X-Received: by 2002:a63:1f5c:0:b0:469:d0e6:dac0 with SMTP id
- q28-20020a631f5c000000b00469d0e6dac0mr20253704pgm.427.1667379777491; 
- Wed, 02 Nov 2022 02:02:57 -0700 (PDT)
-Received: from FVFDK26JP3YV.bytedance.net ([139.177.225.245])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4yyyElQDSV8BnJ18BbBez/2Y1uNzC2NbopBlpNdfYzw=;
+ b=ZEXP1Br4mnk/0Cr8oQb+/YUitI7fBPVWSvsVtV8yINogHrHgUNqBI7TikMSauFEzMV
+ PIQ5ZH4sbdTB/bvxcR/pQLjSfLu+lSNBYxxGlypfsqHU0TUKo8jyk0kZFNIR6Ro1Kex3
+ b2tABH3cVnkipnKQZQ13pFzWXvN/LX7Pg8wqSHajwX2kMpjgovSr9Vql/qinWYOvCsOB
+ 7emdLgthQ3R1grIAShOAavT5DQtQh/uHvFtkytTCVq05zXKcZdM+DflsbFHpSTozt+Xb
+ CRQUTdqsjZsAncnXeuqX4+QFJvU7jqwRpsJII3F7VIgkzIC1Zt3LNrH8jnN+jk1ril0/
+ qb6Q==
+X-Gm-Message-State: ACrzQf0sYS9AIl0N7XK1A0YAdkH0IC7mvkrPz3QmD4QrGhNi/RBklb55
+ SG3aySsoKRhFXJCUW4MCeQ+BqByL3rFgmhDK
+X-Google-Smtp-Source: AMsMyM77Sd0IyW5C3b0TMKUGUOjECZNwmlKSnwH7FKCjaRzq4TneR9YMc+uErA4AtIPLQRImFQpA+A==
+X-Received: by 2002:a17:90a:e413:b0:213:c581:8634 with SMTP id
+ hv19-20020a17090ae41300b00213c5818634mr19692784pjb.185.1667380359086; 
+ Wed, 02 Nov 2022 02:12:39 -0700 (PDT)
+Received: from stoup.. (mur1374950.lnk.telstra.net. [139.130.176.43])
  by smtp.gmail.com with ESMTPSA id
- x129-20020a623187000000b0056da073b2b7sm4359987pfx.210.2022.11.02.02.02.54
+ w65-20020a628244000000b0053b723a74f7sm519261pfd.90.2022.11.02.02.12.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Nov 2022 02:02:57 -0700 (PDT)
-From: Lei He <helei.sig11@bytedance.com>
-To: mst@redhat.com,
-	arei.gonglei@huawei.com,
-	berrange@redhat.com
-Cc: pizhenwei@bytedance.com, qemu-devel@nongnu.org,
- Lei He <helei.sig11@bytedance.com>
-Subject: [PATCH 2/2] cryptodev: fix memory-leak occurs on error path
-Date: Wed,  2 Nov 2022 17:02:43 +0800
-Message-Id: <20221102090243.52140-3-helei.sig11@bytedance.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20221102090243.52140-1-helei.sig11@bytedance.com>
-References: <20221102090243.52140-1-helei.sig11@bytedance.com>
+ Wed, 02 Nov 2022 02:12:38 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, eduardo@habkost.net,
+ Andreas Gustafsson <gson@gson.org>
+Subject: [PATCH] target/i386: Fix test for paging enabled
+Date: Wed,  2 Nov 2022 20:12:32 +1100
+Message-Id: <20221102091232.1092552-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=helei.sig11@bytedance.com; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,48 +87,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-- Fix memory-leak when 'virtio_crypto_handle_request' returns non-zero
-value.
-- When error occurred, always pass negative status to function
-'virtio_crypto_req_complete'.
+If CR0.PG is unset, pg_mode will be zero, but that is not the
+only condition for which pg_mode will be zero.  Restore the
+correct test for paging enabled.
 
-Signed-off-by: Lei He <helei.sig11@bytedance.com>
+Fixes: 98281984a37 ("target/i386: Add MMU_PHYS_IDX and MMU_NESTED_IDX")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1269
+Reported-by: Andreas Gustafsson <gson@gson.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/virtio/virtio-crypto.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ target/i386/tcg/sysemu/excp_helper.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-index 7ba63790d5..97da74e719 100644
---- a/hw/virtio/virtio-crypto.c
-+++ b/hw/virtio/virtio-crypto.c
-@@ -895,12 +895,15 @@ check_result:
-         if (ret == -EFAULT) {
-             return -1;
-         } else if (ret == -VIRTIO_CRYPTO_NOTSUPP) {
--            virtio_crypto_req_complete(request, VIRTIO_CRYPTO_NOTSUPP);
-+            virtio_crypto_req_complete(request, -VIRTIO_CRYPTO_NOTSUPP);
-         } else {
--            cryptodev_backend_crypto_operation(vcrypto->cryptodev,
-+            ret = cryptodev_backend_crypto_operation(vcrypto->cryptodev,
-                                     request, queue_index,
-                                     virtio_crypto_req_complete,
-                                     request);
-+            if (ret < 0) {
-+                virtio_crypto_req_complete(request, ret);
-+            }
-         }
+diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
+index d51b5d7431..405a5d414a 100644
+--- a/target/i386/tcg/sysemu/excp_helper.c
++++ b/target/i386/tcg/sysemu/excp_helper.c
+@@ -553,12 +553,12 @@ static bool get_physical_address(CPUX86State *env, vaddr addr,
          break;
  
-@@ -911,7 +914,7 @@ check_result:
      default:
-         error_report("virtio-crypto unsupported dataq opcode: %u",
-                      opcode);
--        virtio_crypto_req_complete(request, VIRTIO_CRYPTO_NOTSUPP);
-+        virtio_crypto_req_complete(request, -VIRTIO_CRYPTO_NOTSUPP);
-     }
+-        in.cr3 = env->cr[3];
+-        in.mmu_idx = mmu_idx;
+-        in.ptw_idx = use_stage2 ? MMU_NESTED_IDX : MMU_PHYS_IDX;
+-        in.pg_mode = get_pg_mode(env);
++        if (likely(env->cr[0] & CR0_PG_MASK)) {
++            in.cr3 = env->cr[3];
++            in.mmu_idx = mmu_idx;
++            in.ptw_idx = use_stage2 ? MMU_NESTED_IDX : MMU_PHYS_IDX;
++            in.pg_mode = get_pg_mode(env);
  
-     return 0;
+-        if (likely(in.pg_mode)) {
+             if (in.pg_mode & PG_MODE_LMA) {
+                 /* test virtual address sign extension */
+                 int shift = in.pg_mode & PG_MODE_LA57 ? 56 : 47;
 -- 
-2.11.0
+2.34.1
 
 
