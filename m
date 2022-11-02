@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C1F616D2E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 19:51:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B69D2616D36
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 19:54:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqIog-0000sQ-Em; Wed, 02 Nov 2022 14:50:22 -0400
+	id 1oqIrx-0002dz-GJ; Wed, 02 Nov 2022 14:53:47 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oqIoe-0000rz-DT
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 14:50:20 -0400
+ id 1oqIro-0002dT-1x
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 14:53:36 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oqIoc-0005fC-QX
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 14:50:20 -0400
+ id 1oqIrj-00064V-BP
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 14:53:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667415017;
+ s=mimecast20190719; t=1667415210;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bLAQQbKDXBnSKaaWEC021/hd8nSdnKcAmWKnTNj8rjk=;
- b=eVMB+E+PIBxWw8IQcO0rmVgeQi1FvbFdEZx//RlsndmtaV411La1nqNTcZCuS80rRi/Fl2
- ZemLYAmw8rfXTEW0LY/l7/NWQJdYB6ysGVfDUdsKHfe7Zx8XStn9muyk+9AJbexAn48jio
- Y1gtVR0KFKtnxSHZXcJ7c5PIyigoLas=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=lf60NeE/kBYQY/rl46CCynbgEwLMbhCvXhxmnCrNN0w=;
+ b=Ie0NvzKTaoR70eeXuk5EJFw9kRhAB6ny4KaKQohhyKkBR2X8/j2N5AuEVSAlT+Q5lQqVl7
+ aDC6JiUCNn9peYPQhSt2KhR3hJXWJs01dMkUEa1Oy55pHBdY5WNGgVtk/xUXi5Vyd2t+G2
+ qOBtgP/FQMxVlOP5Gp0BpaNIdEpRZz4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-KKhiCZFHO-6cUeFZcx7d8A-1; Wed, 02 Nov 2022 14:50:14 -0400
-X-MC-Unique: KKhiCZFHO-6cUeFZcx7d8A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-558-CQJE9ZFYPfKbXd8QR_b1UA-1; Wed, 02 Nov 2022 14:53:27 -0400
+X-MC-Unique: CQJE9ZFYPfKbXd8QR_b1UA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 40E51101A52A;
- Wed,  2 Nov 2022 18:50:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CDEB43C0F441;
+ Wed,  2 Nov 2022 18:53:26 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C269A140EBF5;
- Wed,  2 Nov 2022 18:50:13 +0000 (UTC)
-Date: Wed, 2 Nov 2022 14:50:12 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 31847492B08;
+ Wed,  2 Nov 2022 18:53:25 +0000 (UTC)
+Date: Wed, 2 Nov 2022 14:53:24 -0400
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Eric Biggers <ebiggers@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>, pbonzini@redhat.com
 Cc: qemu-devel@nongnu.org, hreitz@redhat.com, qemu-block@nongnu.org,
  Kevin Wolf <kwolf@redhat.com>, nsoffer@redhat.com
-Subject: Re: [PATCH 1/2] file-posix: fix Linux alignment probing when EIO is
- returned
-Message-ID: <Y2K75B3BNbd+Y8x/@fedora>
+Subject: Re: [PATCH 2/2] file-posix: add statx(STATX_DIOALIGN) support
+Message-ID: <Y2K8pJHgzx1sWJ7S@fedora>
 References: <20221101190031.6766-1-stefanha@redhat.com>
- <20221101190031.6766-2-stefanha@redhat.com>
- <Y2HVgnwAPdTIaZR6@sol.localdomain>
- <Y2HasGvN6qMFq29A@sol.localdomain>
+ <20221101190031.6766-3-stefanha@redhat.com>
+ <Y2HkziU7YVYv4KWJ@sol.localdomain>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vNS9r1/gMVB27YPS"
+ protocol="application/pgp-signature"; boundary="uJrIGFXwX6waVAQX"
 Content-Disposition: inline
-In-Reply-To: <Y2HasGvN6qMFq29A@sol.localdomain>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+In-Reply-To: <Y2HkziU7YVYv4KWJ@sol.localdomain>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -84,74 +82,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---vNS9r1/gMVB27YPS
+--uJrIGFXwX6waVAQX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 01, 2022 at 07:49:20PM -0700, Eric Biggers wrote:
-> On Tue, Nov 01, 2022 at 07:27:16PM -0700, Eric Biggers wrote:
-> > On Tue, Nov 01, 2022 at 03:00:30PM -0400, Stefan Hajnoczi wrote:
-> > > Linux dm-crypt returns errno EIO from unaligned O_DIRECT pread(2) cal=
-ls.
-> >=20
-> > Citation needed.  For direct I/O to block devices, the kernel's block l=
-ayer
-> > checks the alignment before the I/O is actually submitted to the underl=
-ying
-> > block device.  See
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/block/fops.c?h=3Dv6.1-rc3#n306
-> >=20
-> > > Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1290
-> >=20
-> > That "bug" seems to be based on a misunderstanding of the kernel source=
- code,
-> > and not any actual testing.
-> >=20
-> > I just tested it, and the error code is EINVAL.
-> >=20
+On Tue, Nov 01, 2022 at 08:32:30PM -0700, Eric Biggers wrote:
+> On Tue, Nov 01, 2022 at 03:00:31PM -0400, Stefan Hajnoczi wrote:
+> >      /* Let's try to use the logical blocksize for the alignment. */
+> > -    if (probe_logical_blocksize(fd, &bs->bl.request_alignment) < 0) {
+> > -        bs->bl.request_alignment =3D 0;
+> > +    if (!bs->bl.request_alignment) {
+> > +        if (probe_logical_blocksize(fd, &bs->bl.request_alignment) < 0=
+) {
+> > +            bs->bl.request_alignment =3D 0;
+> > +        }
+> >      }
+> > =20
+> >  #ifdef __linux__
+> > -    /*
+> > -     * The XFS ioctl definitions are shipped in extra packages that mi=
+ght
+> > -     * not always be available. Since we just need the XFS_IOC_DIOINFO=
+ ioctl
+> > -     * here, we simply use our own definition instead:
+> > -     */
+> > -    struct xfs_dioattr {
+> > -        uint32_t d_mem;
+> > -        uint32_t d_miniosz;
+> > -        uint32_t d_maxiosz;
+> > -    } da;
+> > -    if (ioctl(fd, _IOR('X', 30, struct xfs_dioattr), &da) >=3D 0) {
+> > -        bs->bl.request_alignment =3D da.d_miniosz;
+> > -        /* The kernel returns wrong information for d_mem */
+> > -        /* s->buf_align =3D da.d_mem; */
+> > +    if (!bs->bl.request_alignment) {
 >=20
-> I think I see what's happening.  The kernel code was broken just a few mo=
-nths
-> ago, in v6.0 by the commit "block: relax direct io memory alignment"
-> (https://git.kernel.org/linus/b1a000d3b8ec582d).  Now the block layer let=
-s DIO
-> through when the user buffer is only aligned to the device's dma_alignmen=
-t.  But
-> a dm-crypt device has a dma_alignment of 512 even when the crypto sector =
-size
-> (and thus also the logical block size) is 4096.  So there is now a case w=
-here
-> misaligned DIO can reach dm-crypt, when that shouldn't be possible.
->=20
-> It also means that STATX_DIOALIGN will give the wrong value for
-> stx_dio_mem_align in the above case, 512 instead of 4096.  This is because
-> STATX_DIOALIGN for block devices relies on the dma_alignment.
->=20
-> I'll raise this on the linux-block and dm-devel mailing lists.  It would =
-be nice
-> if people reported kernel bugs instead of silently working around them...
+> This patch changes the fallback code to make the request_alignment value =
+=66rom
+> probe_logical_blocksize() override the value from XFS_IOC_DIOINFO.  Is th=
+at
+> intentional?
 
-Thanks! You have completed the picture of what's going on here.
+Thanks for pointing out the bug. That was not intentional. Will fix.
+
+> > +        if (ioctl(fd, _IOR('X', 30, struct xfs_dioattr), &da) >=3D 0) {
+> > +            bs->bl.request_alignment =3D da.d_miniosz;
+> > +            /* The kernel returns wrong information for d_mem */
+> > +            /* s->buf_align =3D da.d_mem; */
+>=20
+> Has this bug been reported to the XFS developers (linux-xfs@vger.kernel.o=
+rg)?
+
+Paolo: Do you remember if you reported this when you wrote commit
+c25f53b06eba ("raw: Probe required direct I/O alignment")?
 
 Stefan
 
---vNS9r1/gMVB27YPS
+--uJrIGFXwX6waVAQX
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNiu+QACgkQnKSrs4Gr
-c8iTFQgAtFHovWXTK2kSe0yvvVahwPWv6nyEY/RjoiP0J48w+CpCIFh/s2OlNyNQ
-Zfc+6BcJpabjy0VSZLGUvxV0HXMaji2w8/fjJEoC74REIlIssN7Ro/DX7F4SKxTy
-qkSiMQtlxIE3hIVktTWf2Yhug4zPDlAPnwl89E7Bwhoh2bPuG97Z+LnqJdvthp46
-GSuSC23CFkOYvO1AJDUCz3RqAQRWugTIWLMk3P+oCHHGy106A/jYv5L0XqDB5o/t
-mj1uJGW48r5KhftOjewuK+rR38y12xJEjDZaJA3M3E3V4/chYC5Cg7ucAUIrpMDr
-avo6UMNufNoUi3+/Q/qWS+BxcUf0eA==
-=CTKZ
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNivKQACgkQnKSrs4Gr
+c8hZ+QgAt80NT5Vs4TVfdr9bw+noWVa9myDLOWNAcUnBCjlhWRjD/mwP3JP+g/Q0
+TMDEQan9TRB+UGzI3RSLezVJTs2RYbPsRNBC6i6QFfv7MOAcSv0WdRm94/Jvezk4
+3L1aEOgnhEcECidGkEnSCK1IG0KM6IqWa0qsgMaRDFSqiKeWcorFVaTxzXjV/9Tf
+8KlEAWKznhPvk5uzpR1XlbdHNHBhJT2PPRuFcwjvtmR9tPxs4tB74Zc3v+7mnc3i
+KCAIhuV8zBzgI0BGm2GYDv849oEHU9qJF32h5GLJ+vWa/6ad+SmBg8dALWgdHknH
+6xaN1qoCxac51IKs7beTEYEGmnv47g==
+=7K+V
 -----END PGP SIGNATURE-----
 
---vNS9r1/gMVB27YPS--
+--uJrIGFXwX6waVAQX--
 
 
