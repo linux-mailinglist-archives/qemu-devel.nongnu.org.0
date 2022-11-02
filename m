@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A018615BEB
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 06:43:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A4B615BF8
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 06:48:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oq6Wm-0002dz-MH; Wed, 02 Nov 2022 01:43:04 -0400
+	id 1oq6at-0004vX-VI; Wed, 02 Nov 2022 01:47:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oq6Wf-0002dJ-KR
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 01:42:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oq6Wd-0003gc-JO
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 01:42:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667367773;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s3ympHSg2qy6mZdrBrJgBttcrANWd4yQ/hyxnZz+10A=;
- b=Oi/OEHqcyoSvtmIAD9rQYzP0KtzACz+P9JIvlXKubt/nz+bOPZjFxU0kDm0jNVTBwBxZdI
- 00t4D1r9UbTjG0gAFTTb9v44vCmrzYYZtoFH9gN23jLdtwNOyYUwsBBcJluA5ZCENsf7yV
- fRZ1a4oZf5aQAbWlPjF7rPe46UnC2YM=
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
- [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-384-2oeCtvDwO5edyb0bBDHIVg-1; Wed, 02 Nov 2022 01:42:52 -0400
-X-MC-Unique: 2oeCtvDwO5edyb0bBDHIVg-1
-Received: by mail-oa1-f71.google.com with SMTP id
- 586e51a60fabf-13af11be44dso8518954fac.21
- for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 22:42:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oq6aq-0004uh-Qm
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 01:47:16 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oq6ap-0005cn-4N
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 01:47:16 -0400
+Received: by mail-pl1-x635.google.com with SMTP id g24so15588458plq.3
+ for <qemu-devel@nongnu.org>; Tue, 01 Nov 2022 22:47:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ULAXwT5VzMBCI1KaQ06N0fdiq7JAkC5SfEaYbtxC2vU=;
+ b=ftojNHF4D2Wc5nS1vAhXS5sk7n3+11OEqnSv7aentEeNDQOCpx9YRlniXw80ynRNE1
+ A8YAdozQitcVCfyoKUNgd2r+napGsCv0sK311aS4Sg5pniSyghu5pWDlJzcdotLxzBJ6
+ +A+nqSZIlFBlETt5EDF4jD4heudDri4fhb8LTyLcgVTB+j9ndeF/nFafejfFMMgAAuJQ
+ /qFUTZ+SVJD8WCfn2dveOKRKrC4ZLLl7U5qYK/H32av3TJ7yLKmIyPTqjPBSBsNarJKf
+ ewG+r5ZsEEnkAHWxLS/jKdOINfz7AwKL8L89G2PIoY6cEmumTnffNxYykdZcOSleQvcO
+ snIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=s3ympHSg2qy6mZdrBrJgBttcrANWd4yQ/hyxnZz+10A=;
- b=U0TAK6HSi/OX11Xg5D2nuX1G5SEXz3aCyh/N0GF9bWnvIe5OskUeNLEN74u3iOdMfT
- wrvTogBJA23bi68yN3Xq7rjeQ1+o7cimVaDPwYNw4QFuoufpSXH67Ir4BpGDOhhZ+vHc
- ZkcX17IGssKZ0mYOPaVdBjy10b70d/d4Wq0iFmoFPk2fnphmZLjq9fHD+DK7J0HAgpIE
- 8T9fxY+3D4j7Yny+M10Kp2LPKvU6z/JyALMM4jftoLcoRuzRCvbEZXnYTO8G9sJoqLRA
- GsHVIqgUi5MdzkwPKdlrguN8uHm6wtKfFBafdTEjMLS8YEKK3Lt7NiqJt5BQd153vf0P
- GkJg==
-X-Gm-Message-State: ACrzQf2s/UMNvOE3akFx1B7eHTyj+sNv3hCztR2NwcOm4oevuUqTPWQE
- Vm3yNHp/KH1/yA5sX5n4FuhRyQnj3tS56zyRA6cIixHxbv/ZHSE3JO4y7Jg3BX8+fEQ27Zdasa4
- iaQluu28M9Q0RFfvolKnV5AlBHDOIYZ8=
-X-Received: by 2002:a05:6808:1483:b0:354:a36e:5b with SMTP id
- e3-20020a056808148300b00354a36e005bmr19957237oiw.35.1667367771550; 
- Tue, 01 Nov 2022 22:42:51 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4JGe3Eo4x+evKx6xZ09DLJ4Og5153JowPC/+4fpUmjulwEXaAQSAqXEgRKcDB0jUvukgXPyKE92fRj++nXvfQ=
-X-Received: by 2002:a05:6808:1483:b0:354:a36e:5b with SMTP id
- e3-20020a056808148300b00354a36e005bmr19957216oiw.35.1667367771274; Tue, 01
- Nov 2022 22:42:51 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ULAXwT5VzMBCI1KaQ06N0fdiq7JAkC5SfEaYbtxC2vU=;
+ b=bHrAFce5VgxH90dr+kb7s/iZJsbchMo7WUTmSqP3l0LeuWI3HAdX7quQgW0ooUI20/
+ GT5OBTtxH1Yoa17//IcOUMmqQ394tb5czA4J29CQHaz+JzeIoRmxSPkNv6CXexyP2NhE
+ mg3q8M7XNKRljxhYO0bANomhz2fcuc4n2j0rlt19bHQntPcv7ZAUts7QMMx1v8RT1trK
+ Ijt9QPcFAimPg2cj0C9UDr3Jx8gejpgrYsq2XKL5IKmwktNn7i72W7T4eJgvSEvSik9V
+ 8M7/Hce6VDGzDxBmtFKeCUzMQJ3TzYpqzLjyYDlyKZyU0kWcq3dDXaiIBoMTlV/N+yrY
+ Dugg==
+X-Gm-Message-State: ACrzQf247vrA2+7dz5fv2R1ANC44V/VJNvLDz03OoWwF/W62Yt/CREXO
+ HXFmGOHB5ZBTL4oc1K+7wqz8bHXzHBZu9WtE
+X-Google-Smtp-Source: AMsMyM52rls6aCI2XfdGgW9JCTkW/5PCmo3kt/bQNAPJ1KHFnvDEgKZ3IszmG00H4vx7YAdppKNvYA==
+X-Received: by 2002:a17:902:ccc2:b0:178:29e1:899e with SMTP id
+ z2-20020a170902ccc200b0017829e1899emr22802065ple.114.1667368033464; 
+ Tue, 01 Nov 2022 22:47:13 -0700 (PDT)
+Received: from stoup.. (mur1374950.lnk.telstra.net. [139.130.176.43])
+ by smtp.gmail.com with ESMTPSA id
+ x5-20020a17090a788500b0020ad53b5883sm551575pjk.14.2022.11.01.22.47.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Nov 2022 22:47:12 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: philmd@linaro.org,
+	qemu-arm@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PATCH] target/arm: Two fixes for secure ptw
+Date: Wed,  2 Nov 2022 16:47:06 +1100
+Message-Id: <20221102054706.1015830-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <cover.1667232396.git.huangy81@chinatelecom.cn>
- <d254324983817fb380411995155c9e927edaeb92.1667232396.git.huangy81@chinatelecom.cn>
-In-Reply-To: <d254324983817fb380411995155c9e927edaeb92.1667232396.git.huangy81@chinatelecom.cn>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 2 Nov 2022 13:42:39 +0800
-Message-ID: <CACGkMEvvoVwtr8aSqTpAVxYN7q7mxMmLbusfgKDf3zwfmk2itg@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/4] net: Introduce qmp cmd "query-netdev"
-To: huangy81@chinatelecom.cn
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S . Tsirkin" <mst@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Stefano Garzarella <sgarzare@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.051,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,188 +88,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 1, 2022 at 12:19 AM <huangy81@chinatelecom.cn> wrote:
->
-> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->
-> For netdev device that can offload virtio-net dataplane to slave,
-> such as vhost-net, vhost-user and vhost-vdpa, exporting it's
-> capability information and acked features would be more friendly for
-> developers. These infomation can be analyzed and compare to slave
-> capability provided by, eg dpdk or other slaves directly, helping to
-> draw conclusions about if vm network interface works normally, if
-> it vm can be migrated to another feature-compatible destination or
-> whatever else.
->
-> For developers who devote to offload virtio-net dataplane to DPU
-> and make efforts to migrate vm lively from software-based source
-> host to DPU-offload destination host smoothly, virtio-net feature
-> compatibility is an serious issue, exporting the key capability
-> and acked_features of netdev could also help to debug greatly.
->
-> So we export out the key capabilities of netdev, which may affect
-> the final negotiated virtio-net features, meanwhile, backed-up
-> acked_features also exported, which is used to initialize or
-> restore features negotiated between qemu and vhost slave when
-> starting vhost_dev device.
->
-> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
-> ---
->  net/net.c     | 44 +++++++++++++++++++++++++++++++++++++++
->  qapi/net.json | 66 +++++++++++++++++++++++++++++++++++++++++++++++++++++=
-++++++
->  2 files changed, 110 insertions(+)
->
-> diff --git a/net/net.c b/net/net.c
-> index 2db160e..5d11674 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -53,6 +53,7 @@
->  #include "sysemu/runstate.h"
->  #include "net/colo-compare.h"
->  #include "net/filter.h"
-> +#include "net/vhost-user.h"
->  #include "qapi/string-output-visitor.h"
->
->  /* Net bridge is currently not supported for W32. */
-> @@ -1224,6 +1225,49 @@ void qmp_netdev_del(const char *id, Error **errp)
->      }
->  }
->
-> +static NetDevInfo *query_netdev(NetClientState *nc)
-> +{
-> +    NetDevInfo *info =3D NULL;
-> +
-> +    if (!nc || !nc->is_netdev) {
-> +        return NULL;
-> +    }
-> +
-> +    info =3D g_malloc0(sizeof(*info));
-> +    info->name =3D g_strdup(nc->name);
-> +    info->type =3D nc->info->type;
-> +    info->ufo =3D nc->info->has_ufo;
-> +    info->vnet_hdr =3D nc->info->has_vnet_hdr;
-> +    info->vnet_hdr_len =3D nc->info->has_vnet_hdr_len;
+Reversed the sense of non-secure in get_phys_addr_lpae,
+and failed to initialize attrs.secure for ARMMMUIdx_Phys_S.
 
-So all the fields are virtio specific, I wonder if it's better to
-rename the command as query-vhost or query-virtio?
+Fixes: 48da29e4 ("target/arm: Add ptw_idx to S1Translate")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1293
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/ptw.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-Thanks
-
-> +
-> +    if (nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_USER) {
-> +        info->has_acked_features =3D true;
-> +        info->acked_features =3D vhost_user_get_acked_features(nc);
-> +    }
-> +
-> +    return info;
-> +}
-> +
-> +NetDevInfoList *qmp_query_netdev(Error **errp)
-> +{
-> +    NetClientState *nc;
-> +    NetDevInfo *info =3D NULL;
-> +    NetDevInfoList *head =3D NULL, **tail =3D &head;
-> +
-> +    QTAILQ_FOREACH(nc, &net_clients, next) {
-> +        if (nc->info->type =3D=3D NET_CLIENT_DRIVER_NIC) {
-> +            continue;
-> +        }
-> +
-> +        info =3D query_netdev(nc);
-> +        if (info) {
-> +            QAPI_LIST_APPEND(tail, info);
-> +        }
-> +    }
-> +
-> +    return head;
-> +}
-> +
->  static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
->  {
->      char *str;
-> diff --git a/qapi/net.json b/qapi/net.json
-> index dd088c0..76a6513 100644
-> --- a/qapi/net.json
-> +++ b/qapi/net.json
-> @@ -631,6 +631,72 @@
->                         'if': 'CONFIG_VMNET' } } }
->
->  ##
-> +# @NetDevInfo:
-> +#
-> +# NetDev information.  This structure describes a NetDev information, in=
-cluding
-> +# capabilities and negotiated features.
-> +#
-> +# @name: The NetDev name.
-> +#
-> +# @type: Type of NetDev.
-> +#
-> +# @ufo: True if NetDev has ufo capability.
-> +#
-> +# @vnet-hdr: True if NetDev has vnet_hdr.
-> +#
-> +# @vnet-hdr-len: True if given length can be assigned to NetDev.
-> +#
-> +# @acked-features: Negotiated features with vhost slave device if device=
- support
-> +#                  dataplane offload.
-> +#
-> +# Since:  7.1
-> +##
-> +{'struct': 'NetDevInfo',
-> + 'data': {
-> +    'name': 'str',
-> +    'type': 'NetClientDriver',
-> +    'ufo':'bool',
-> +    'vnet-hdr':'bool',
-> +    'vnet-hdr-len':'bool',
-> +    '*acked-features': 'uint64' } }
-> +
-> +##
-> +# @query-netdev:
-> +#
-> +# Get a list of NetDevInfo for all virtual netdev peer devices.
-> +#
-> +# Returns: a list of @NetDevInfo describing each virtual netdev peer dev=
-ice.
-> +#
-> +# Since: 7.1
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "query-netdev" }
-> +# <- {
-> +#       "return":[
-> +#          {
-> +#             "name":"hostnet0",
-> +#             "type":"vhost-user",
-> +#             "ufo":true,
-> +#             "vnet-hdr":true,
-> +#             "vnet-hdr-len":true,
-> +#             "acked-features":"5111807907",
-> +#          },
-> +#          {
-> +#             "name":"hostnet1",
-> +#             "type":"vhost-user",
-> +#             "ufo":true,
-> +#             "vnet-hdr":true,
-> +#             "vnet-hdr-len":true,
-> +#             "acked-features":"5111807907",
-> +#          }
-> +#       ]
-> +#    }
-> +#
-> +##
-> +{ 'command': 'query-netdev', 'returns': ['NetDevInfo'] }
-> +
-> +##
->  # @RxState:
->  #
->  # Packets receiving state
-> --
-> 1.8.3.1
->
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index 58a7bbda50..df3573f150 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -1357,7 +1357,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+     descaddr |= (address >> (stride * (4 - level))) & indexmask;
+     descaddr &= ~7ULL;
+     nstable = extract32(tableattrs, 4, 1);
+-    if (!nstable) {
++    if (nstable) {
+         /*
+          * Stage2_S -> Stage2 or Phys_S -> Phys_NS
+          * Assert that the non-secure idx are even, and relative order.
+@@ -2671,6 +2671,13 @@ static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
+     bool is_secure = ptw->in_secure;
+     ARMMMUIdx s1_mmu_idx;
+ 
++    /*
++     * The page table entries may downgrade secure to non-secure, but
++     * cannot upgrade an non-secure translation regime's attributes
++     * to secure.
++     */
++    result->f.attrs.secure = is_secure;
++
+     switch (mmu_idx) {
+     case ARMMMUIdx_Phys_S:
+     case ARMMMUIdx_Phys_NS:
+@@ -2712,12 +2719,6 @@ static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
+         break;
+     }
+ 
+-    /*
+-     * The page table entries may downgrade secure to non-secure, but
+-     * cannot upgrade an non-secure translation regime's attributes
+-     * to secure.
+-     */
+-    result->f.attrs.secure = is_secure;
+     result->f.attrs.user = regime_is_user(env, mmu_idx);
+ 
+     /*
+-- 
+2.34.1
 
 
