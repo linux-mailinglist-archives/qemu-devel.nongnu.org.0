@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBED161686F
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:21:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3AD61682C
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:16:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqGM5-0004wG-Mt; Wed, 02 Nov 2022 12:12:41 -0400
+	id 1oqGM9-0005Hf-VD; Wed, 02 Nov 2022 12:12:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGLU-0003T8-FG
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:12:05 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGLY-0003Xx-0q
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:12:08 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGLS-0003tl-Uo
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:12:04 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGLV-00040S-1s
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:12:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667405521;
+ s=mimecast20190719; t=1667405524;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=KQnLVqea2wFTICHVFiJPOa9KHgVlieN3khJktynKO5U=;
- b=ElYoHkCctOkzAFsbiJjtxjEou11kIt66WstdvhxSgIT443dtjeq5rskvR9tvZXtKrOxZdr
- IDZWa976QLDgL6lPiRCH3n5eHf1DFezrM0By4AbCCz3KNxt0fkliAdpkLmiCHv6cJbauWe
- PraLoaBYO1KzsZ4ab2i9mxsXwEDJD4w=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Oy2j3dzraHwJBqN04p66ThFiaUmnAcs5Y2XrHOxqe2M=;
+ b=JIdy/KtYPhVPFClwzBcBQE1oa11niJ7uIsFMkP5mGPi5FVgAxyLWWpUDFJUklqxJsjyR8a
+ DYM+ES6iEjzx6Y2y5Pg89fJg9fFKKMpr1t/XXe5Uo0G/nG6rFKY9K+aTfCMaB0r/uipkC1
+ WKZvBBSoNaXpGqyaOq7QZalLNq8udn0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-516-bP67mgNwNUKT70up44LqwA-1; Wed, 02 Nov 2022 12:12:00 -0400
-X-MC-Unique: bP67mgNwNUKT70up44LqwA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v191-20020a1cacc8000000b003bdf7b78dccso8100485wme.3
- for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:11:59 -0700 (PDT)
+ us-mta-552-vMdBxRRyMiS706ZyCanDqg-1; Wed, 02 Nov 2022 12:12:03 -0400
+X-MC-Unique: vMdBxRRyMiS706ZyCanDqg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ p7-20020adfba87000000b0022cc6f805b1so5066311wrg.21
+ for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:12:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KQnLVqea2wFTICHVFiJPOa9KHgVlieN3khJktynKO5U=;
- b=DqA+dTdao+cCFrSvLe+H/+7moKuxdK9N/mfzBHyU/Qw83MqMleM51CPqk7p55pLCVI
- RjwG1jlcSEL0bNWFsU1Ya+SMwU2OIhOVCNXM+FC2+jpBuqifE2o/BXYp0kKnjRaGd1/B
- MavCyk1IMVzO7wJ0HacVS4WwSpVRCtf4ymNgFNv9b6LFXXDDrbj8VuxDH0KYLcK7KB29
- Q7xcbcJ6uUTcCKpXtdKLbfPdzktQg3lDdC7R4Vjml+23Dtj6CpdugMFyBUnCX082ubaC
- iJrl1n1mueB1KsnmUjfphU6PXiw2hwdWxZBa9fcdMflH/R6uXS8shKwhFwQWQwI3T2xL
- QoVg==
-X-Gm-Message-State: ACrzQf1qz0/z20+MPSqUeIIAfGf/UqF6GO/gMfDDynNofrAhpAWmnTn2
- 9GgXdR+eFZusympY/2qLuYXX7VLKPfEH0X8pcmZ48VeOnpqiZYeQJiwCWr6GJ4r3vfTzr6dxBaL
- bDgiNe18Df+jzSDkxS3yNK2KJPdQYgV3qEQHWBVyRIurn0gUmUi5ZEy6BTUZ6
-X-Received: by 2002:a7b:cc13:0:b0:3cf:8297:d61 with SMTP id
- f19-20020a7bcc13000000b003cf82970d61mr4867008wmh.160.1667405518470; 
- Wed, 02 Nov 2022 09:11:58 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6DAkTdTKTlACSxMfPu2+oJ45JJ/duO58T3vZoXV+inCDxV6l6CW/tF1nvAtxToKNHj5mKH0g==
-X-Received: by 2002:a7b:cc13:0:b0:3cf:8297:d61 with SMTP id
- f19-20020a7bcc13000000b003cf82970d61mr4866978wmh.160.1667405518209; 
- Wed, 02 Nov 2022 09:11:58 -0700 (PDT)
+ bh=Oy2j3dzraHwJBqN04p66ThFiaUmnAcs5Y2XrHOxqe2M=;
+ b=ubPK0PuKFXgO7comq+RuqCeoTmVPElo6ZphvOGufvyUygH1E28UBDWpR9QW1b18bOI
+ WhD0YgfHqOKVf9cnLQQ7YAkYvmT1l7bex3Jp82AB6BKhTvyIml7RzeQMLHGP9fXktGfA
+ MWJUJEHAUjvrMy96xT7toi4vG4CZX62Jk/Rkav+EgClFMPJVkkSb6FDKkZ9UFC93clIZ
+ GxYCN3v1IXUKgmslVnjh4bDAhfTGEyHL7uITdX04yLMId7jFccSyFUMJN99J7Ax7iYfw
+ SZVTwZhl6/kej49l6zkVkcS1u605gIwgwGgX/IRi7+NtDHTIvHVp87sMieVfo94SNyLJ
+ NtJw==
+X-Gm-Message-State: ACrzQf0IWPQa4vsuEC2AhZhnrDZ/GtGDMWZbWttsneDykPdGSLUAsE/q
+ bJode5tqacDnWCQf+IjktDtFYN9xo6Vn6L0Rn5w9IYxbvNZ1JbNptzh/ddc47ufZpit4KuikS9/
+ 6AmLElWZn2g4KPd7EjvD1TyGrHBjbXOALCGOR+cIr4+qcjNqzQogfXCMpGrkA
+X-Received: by 2002:a05:600c:4307:b0:3cf:85fe:4d97 with SMTP id
+ p7-20020a05600c430700b003cf85fe4d97mr2952301wme.89.1667405521744; 
+ Wed, 02 Nov 2022 09:12:01 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM68nAILe1qE4CmcZlSHvUY5M+psAw1igQg1kCWqdZI8tLczlJzmOPrlE/wDjCVivIDOu08RsA==
+X-Received: by 2002:a05:600c:4307:b0:3cf:85fe:4d97 with SMTP id
+ p7-20020a05600c430700b003cf85fe4d97mr2952267wme.89.1667405521521; 
+ Wed, 02 Nov 2022 09:12:01 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- r7-20020a05600c434700b003c5571c27a1sm2354455wme.32.2022.11.02.09.11.56
+ bi19-20020a05600c3d9300b003c6f3e5ba42sm2363998wmb.46.2022.11.02.09.11.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Nov 2022 09:11:57 -0700 (PDT)
-Date: Wed, 2 Nov 2022 12:11:55 -0400
+ Wed, 02 Nov 2022 09:12:01 -0700 (PDT)
+Date: Wed, 2 Nov 2022 12:11:58 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xiang Chen <chenxiang66@hisilicon.com>,
  Hesham Almatary <hesham.almatary@huawei.com>,
- Yicong Yang <yangyicong@hisilicon.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL v2 74/82] tests: Add HMAT AArch64/virt empty table files
-Message-ID: <20221102160336.616599-75-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>,
+ Yicong Yang <yangyicong@hisilicon.com>, Ani Sinha <ani@anisinha.ca>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org
+Subject: [PULL v2 75/82] hw/arm/virt: Enable HMAT on arm virt machine
+Message-ID: <20221102160336.616599-76-mst@redhat.com>
 References: <20221102160336.616599-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -99,53 +101,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Hesham Almatary <hesham.almatary@huawei.com>
+From: Xiang Chen <chenxiang66@hisilicon.com>
 
+Since the patchset ("Build ACPI Heterogeneous Memory Attribute Table (HMAT)"),
+HMAT is supported, but only x86 is enabled. Enable HMAT on arm virt machine.
+
+Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
 Signed-off-by: Hesham Almatary <hesham.almatary@huawei.com>
-Message-Id: <20221027100037.251-6-hesham.almatary@huawei.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20221027100037.251-7-hesham.almatary@huawei.com>
 Tested-by: Yicong Yang <yangyicong@hisilicon.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 5 +++++
- tests/data/acpi/virt/APIC.acpihmatvirt      | 0
- tests/data/acpi/virt/DSDT.acpihmatvirt      | 0
- tests/data/acpi/virt/HMAT.acpihmatvirt      | 0
- tests/data/acpi/virt/PPTT.acpihmatvirt      | 0
- tests/data/acpi/virt/SRAT.acpihmatvirt      | 0
- 6 files changed, 5 insertions(+)
- create mode 100644 tests/data/acpi/virt/APIC.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/DSDT.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/HMAT.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/PPTT.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/SRAT.acpihmatvirt
+ hw/arm/virt-acpi-build.c | 7 +++++++
+ hw/arm/Kconfig           | 1 +
+ 2 files changed, 8 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..4f849715bd 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,6 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/APIC.acpihmatvirt",
-+"tests/data/acpi/virt/DSDT.acpihmatvirt",
-+"tests/data/acpi/virt/HMAT.acpihmatvirt",
-+"tests/data/acpi/virt/PPTT.acpihmatvirt",
-+"tests/data/acpi/virt/SRAT.acpihmatvirt",
-diff --git a/tests/data/acpi/virt/APIC.acpihmatvirt b/tests/data/acpi/virt/APIC.acpihmatvirt
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/DSDT.acpihmatvirt b/tests/data/acpi/virt/DSDT.acpihmatvirt
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/HMAT.acpihmatvirt b/tests/data/acpi/virt/HMAT.acpihmatvirt
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/PPTT.acpihmatvirt b/tests/data/acpi/virt/PPTT.acpihmatvirt
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/SRAT.acpihmatvirt b/tests/data/acpi/virt/SRAT.acpihmatvirt
-new file mode 100644
-index 0000000000..e69de29bb2
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index da9e41e72b..4156111d49 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -42,6 +42,7 @@
+ #include "hw/acpi/memory_hotplug.h"
+ #include "hw/acpi/generic_event_device.h"
+ #include "hw/acpi/tpm.h"
++#include "hw/acpi/hmat.h"
+ #include "hw/pci/pcie_host.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_bus.h"
+@@ -987,6 +988,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+             build_slit(tables_blob, tables->linker, ms, vms->oem_id,
+                        vms->oem_table_id);
+         }
++
++        if (ms->numa_state->hmat_enabled) {
++            acpi_add_table(table_offsets, tables_blob);
++            build_hmat(tables_blob, tables->linker, ms->numa_state,
++                       vms->oem_id, vms->oem_table_id);
++        }
+     }
+ 
+     if (ms->nvdimms_state->is_enabled) {
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 15fa79afd3..17fcde8e1c 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -30,6 +30,7 @@ config ARM_VIRT
+     select ACPI_VIOT
+     select VIRTIO_MEM_SUPPORTED
+     select ACPI_CXL
++    select ACPI_HMAT
+ 
+ config CHEETAH
+     bool
 -- 
 MST
 
