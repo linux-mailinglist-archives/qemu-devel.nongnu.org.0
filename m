@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56FC461683B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:17:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D1A61683E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:17:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqGMF-0005Ue-95; Wed, 02 Nov 2022 12:12:51 -0400
+	id 1oqGMG-0005YQ-LD; Wed, 02 Nov 2022 12:12:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGLZ-0003bF-PY
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:12:10 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGLe-0003pA-KU
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:12:14 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGLY-0004DI-0a
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:12:09 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGLc-0004N9-77
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:12:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667405527;
+ s=mimecast20190719; t=1667405531;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tA+2455gPNyP5/5MKwmHIiHi/kwAR29i4bdE/Vk8+as=;
- b=benKFsj34vYwEDkN9cRP1NzdqnZAigdYgDLK03YxSYvcxlJWCsXOHhCvoW1edxUID4Bejy
- g6x9CO6JHKeLCwui96fvOJZAuYD6ensfFFReIAm7VBspoCnnHNBB4WSoSLI+tD4hL1fEaU
- 5oJ/+EVQG66I48QSFomY+5ZSoCF8JXo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=jPZijgQD4pKQoHCTpyhT2mwUaPeIpstutZs1Vo/yU0s=;
+ b=avf+kmgiu6tJaOr1wCckzkjKyjUD+9TYwapfltqBQvtwFlIi+mzFxNSvcnCX+49B41RmCx
+ OxjCxl6V79C77L4n/6PQPGG9LXLr3eu787MxhQgTxpg1EVm2q0tD2W8lkKLZsCEd5uobnN
+ JFHI/APUrdFuatIB1w/MBc/qx2E7ST8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-360-o7yy1WrTOJ6_1MHZdqRLmw-1; Wed, 02 Nov 2022 12:12:06 -0400
-X-MC-Unique: o7yy1WrTOJ6_1MHZdqRLmw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 9-20020a1c0209000000b003cf6fce8005so521749wmc.9
- for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:12:06 -0700 (PDT)
+ us-mta-170-927-WjwYOXCiYyDBwFm4SQ-1; Wed, 02 Nov 2022 12:12:09 -0400
+X-MC-Unique: 927-WjwYOXCiYyDBwFm4SQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ i14-20020adfa50e000000b0023652707418so5043630wrb.20
+ for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:12:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tA+2455gPNyP5/5MKwmHIiHi/kwAR29i4bdE/Vk8+as=;
- b=XkcFtSgF7djLkgNvgrhRQCvEatazRPB/EYShYcTUsZJHx0h2HeyIaFevIkUh8iP9D+
- PrnTaB4fn7JluXGw6ao3tXc8JGYMmKiaGoEnt9QmXxw6xVsYlJ0n25z9HlJPRSXPjKrA
- XG+UGB87LPXZxNfGJ5QJGyy93ET/dYqtHrgvrDv1Ql3xtq7Nh/NDHc9kCs7Yor+0lOE0
- vdNKiqFqvV+/YsfhUwynDeYUGDzjLza79DXq+P/1S/IKORgf/kwJ0/KYJw9W+vbGEFnu
- +GW+Tn0h/DaPLbMjrSV0fJxOsZRgnBoVgJS90e0D9Tgu4Q7aEXTr0l9mmpHFcl783D70
- mTTQ==
-X-Gm-Message-State: ACrzQf2rLrsLRwNdLdi/T0PZ6JDPhQp0mrB/DEfnTxBxafriD35gg9Av
- nZACWM3GTv8IEqy/rSp+U1c7w1nQg71oOKbhrm4q2cNZqIacg7QpWRJCTZAbM8qsks3kobK7gV5
- XEGxVPZOYMu1QWB3TMtqpYps2rMUUAyGWoONMm3XzjPGcQInkwLE9I7g7ETnx
-X-Received: by 2002:a05:600c:4f05:b0:3cf:87c6:88d4 with SMTP id
- l5-20020a05600c4f0500b003cf87c688d4mr2404208wmq.34.1667405524848; 
- Wed, 02 Nov 2022 09:12:04 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7EgjgYFnRYJuU1xLyLJ0y7WITr3n4o9rRylLSzNAiLOdfDDYFdimkqeYSk6fxR9XQ90/0LAQ==
-X-Received: by 2002:a05:600c:4f05:b0:3cf:87c6:88d4 with SMTP id
- l5-20020a05600c4f0500b003cf87c688d4mr2404167wmq.34.1667405524505; 
- Wed, 02 Nov 2022 09:12:04 -0700 (PDT)
+ bh=jPZijgQD4pKQoHCTpyhT2mwUaPeIpstutZs1Vo/yU0s=;
+ b=kXJVBIQFu2AnLNleKAA7wlaeTMwcv+ObFmMyGifUjmDROvSyLgk85xzQZE9C80WPbn
+ KKpOyxcA2nngPZCMJC2kURrEkdssC0WoukRPIFDuNW/KkT+HqUNfkFw5sXxo3RJb5PKE
+ 6u6sbtMDI1hTj7d7usm4OHRwBqYhHQ/Qm14no1Qf/DpOGo7euzitjiLVpZ8TszhnSzk5
+ 0dsp0hqbI5YvURpz864vuGQ7f++MiKJai9Igi0mhhNgUoZeOLjL5651QGUteCo2QB2FG
+ qzCI3vRZuCSVSYfYAS59PAGY79iYkC4PH7NTQxhgpNZpzdwfdGdsvj/lCo79TemWiNms
+ OYrA==
+X-Gm-Message-State: ACrzQf2iCOg4vPdG3RXL6QZPOgniKgeCDwTSsEGFBB7QVqzNAZifxliT
+ l3xSnJWvpJmrtrA5eNQNdDBUaInm4Sy/peGOK0S/GhN0QRWSAVAhaqAyoDBHNHgJEfPvRkQDY/a
+ AJDmrbWgWO+CwHnUIhHll27gTTWCY6RhgI9rcyoRx/9nW4ca9PIGMKe+ItTVb
+X-Received: by 2002:adf:db4d:0:b0:236:699b:be5e with SMTP id
+ f13-20020adfdb4d000000b00236699bbe5emr15160079wrj.147.1667405527994; 
+ Wed, 02 Nov 2022 09:12:07 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4xclQ9qAFmDDt66d5ksHWEQdyeJQqFMtOcDLpZHSkgd4gnOjoK5fLeJjTbbMT0uoNqZJDp/w==
+X-Received: by 2002:adf:db4d:0:b0:236:699b:be5e with SMTP id
+ f13-20020adfdb4d000000b00236699bbe5emr15160021wrj.147.1667405527484; 
+ Wed, 02 Nov 2022 09:12:07 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- cc6-20020a5d5c06000000b002364835caacsm13670017wrb.112.2022.11.02.09.12.02
+ e10-20020a05600c13ca00b003b4868eb71bsm2308554wmg.25.2022.11.02.09.12.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Nov 2022 09:12:04 -0700 (PDT)
-Date: Wed, 2 Nov 2022 12:12:01 -0400
+ Wed, 02 Nov 2022 09:12:07 -0700 (PDT)
+Date: Wed, 2 Nov 2022 12:12:04 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Hesham Almatary <hesham.almatary@huawei.com>,
  Yicong Yang <yangyicong@hisilicon.com>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL v2 76/82] tests: acpi: aarch64/virt: add a test for hmat nodes
- with no initiators
-Message-ID: <20221102160336.616599-77-mst@redhat.com>
+Subject: [PULL v2 77/82] tests: virt: Update expected *.acpihmatvirt tables
+Message-ID: <20221102160336.616599-78-mst@redhat.com>
 References: <20221102160336.616599-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -102,127 +101,277 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Hesham Almatary <hesham.almatary@huawei.com>
 
-This patch imitates the "tests: acpi: q35: add test for hmat nodes
-without initiators" commit to test numa nodes with different HMAT
-attributes, but on AArch64/virt.
+* Expected ACPI Data Table [HMAT]
+[000h 0000   4]                    Signature : "HMAT"    [Heterogeneous
+Memory Attributes Table]
+[004h 0004   4]                 Table Length : 00000120
+[008h 0008   1]                     Revision : 02
+[009h 0009   1]                     Checksum : 4F
+[00Ah 0010   6]                       Oem ID : "BOCHS "
+[010h 0016   8]                 Oem Table ID : "BXPC    "
+[018h 0024   4]                 Oem Revision : 00000001
+[01Ch 0028   4]              Asl Compiler ID : "BXPC"
+[020h 0032   4]        Asl Compiler Revision : 00000001
 
-Tested with:
-qemu-system-aarch64 -accel tcg \
--machine virt,hmat=on,gic-version=3  -cpu cortex-a57 \
--bios qemu-efi-aarch64/QEMU_EFI.fd \
--kernel Image -append "root=/dev/vda2 console=ttyAMA0" \
--drive if=virtio,file=aarch64.qcow2,format=qcow2,id=hd \
--device virtio-rng-pci \
--net user,hostfwd=tcp::10022-:22 -net nic \
--device intel-hda -device hda-duplex -nographic \
--smp 4 \
--m 3G \
--object memory-backend-ram,size=1G,id=ram0 \
--object memory-backend-ram,size=1G,id=ram1 \
--object memory-backend-ram,size=1G,id=ram2 \
--numa node,nodeid=0,memdev=ram0,cpus=0-1 \
--numa node,nodeid=1,memdev=ram1,cpus=2-3 \
--numa node,nodeid=2,memdev=ram2 \
--numa
-hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \
--numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
--numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \
--numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
--numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
--numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576 \
--numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \
--numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
--numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \
--numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
--numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
--numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576
+[024h 0036   4]                     Reserved : 00000000
+
+[028h 0040   2]               Structure Type : 0000 [Memory Proximity
+Domain Attributes]
+[02Ah 0042   2]                     Reserved : 0000
+[02Ch 0044   4]                       Length : 00000028
+[030h 0048   2]        Flags (decoded below) : 0001
+            Processor Proximity Domain Valid : 1
+[032h 0050   2]                    Reserved1 : 0000
+[034h 0052   4]   Processor Proximity Domain : 00000000
+[038h 0056   4]      Memory Proximity Domain : 00000000
+[03Ch 0060   4]                    Reserved2 : 00000000
+[040h 0064   8]                    Reserved3 : 0000000000000000
+[048h 0072   8]                    Reserved4 : 0000000000000000
+
+[050h 0080   2]               Structure Type : 0000 [Memory Proximity
+Domain Attributes]
+[052h 0082   2]                     Reserved : 0000
+[054h 0084   4]                       Length : 00000028
+[058h 0088   2]        Flags (decoded below) : 0001
+            Processor Proximity Domain Valid : 1
+[05Ah 0090   2]                    Reserved1 : 0000
+[05Ch 0092   4]   Processor Proximity Domain : 00000001
+[060h 0096   4]      Memory Proximity Domain : 00000001
+[064h 0100   4]                    Reserved2 : 00000000
+[068h 0104   8]                    Reserved3 : 0000000000000000
+[070h 0112   8]                    Reserved4 : 0000000000000000
+
+[078h 0120   2]               Structure Type : 0000 [Memory Proximity
+Domain Attributes]
+[07Ah 0122   2]                     Reserved : 0000
+[07Ch 0124   4]                       Length : 00000028
+[080h 0128   2]        Flags (decoded below) : 0000
+            Processor Proximity Domain Valid : 0
+[082h 0130   2]                    Reserved1 : 0000
+[084h 0132   4]   Processor Proximity Domain : 00000080
+[088h 0136   4]      Memory Proximity Domain : 00000002
+[08Ch 0140   4]                    Reserved2 : 00000000
+[040h 0064   8]                    Reserved3 : 0000000000000000
+[048h 0072   8]                    Reserved4 : 0000000000000000
+
+[050h 0080   2]               Structure Type : 0000 [Memory Proximity
+Domain Attributes]
+[052h 0082   2]                     Reserved : 0000
+[054h 0084   4]                       Length : 00000028
+[058h 0088   2]        Flags (decoded below) : 0001
+            Processor Proximity Domain Valid : 1
+[05Ah 0090   2]                    Reserved1 : 0000
+[05Ch 0092   4]   Processor Proximity Domain : 00000001
+[060h 0096   4]      Memory Proximity Domain : 00000001
+[064h 0100   4]                    Reserved2 : 00000000
+[068h 0104   8]                    Reserved3 : 0000000000000000
+[070h 0112   8]                    Reserved4 : 0000000000000000
+
+[078h 0120   2]               Structure Type : 0000 [Memory Proximity
+Domain Attributes]
+[07Ah 0122   2]                     Reserved : 0000
+[07Ch 0124   4]                       Length : 00000028
+[080h 0128   2]        Flags (decoded below) : 0000
+            Processor Proximity Domain Valid : 0
+[082h 0130   2]                    Reserved1 : 0000
+[084h 0132   4]   Processor Proximity Domain : 00000080
+[088h 0136   4]      Memory Proximity Domain : 00000002
+[08Ch 0140   4]                    Reserved2 : 00000000
+[090h 0144   8]                    Reserved3 : 0000000000000000
+[098h 0152   8]                    Reserved4 : 0000000000000000
+
+[0A0h 0160   2]               Structure Type : 0001 [System Locality
+Latency and Bandwidth Information]
+[0A2h 0162   2]                     Reserved : 0000
+[0A4h 0164   4]                       Length : 00000040
+[0A8h 0168   1]        Flags (decoded below) : 00
+                            Memory Hierarchy : 0
+[0A9h 0169   1]                    Data Type : 00
+[0AAh 0170   2]                    Reserved1 : 0000
+[0ACh 0172   4] Initiator Proximity Domains # : 00000002
+[0B0h 0176   4]   Target Proximity Domains # : 00000003
+[0B4h 0180   4]                    Reserved2 : 00000000
+[0B8h 0184   8]              Entry Base Unit : 0000000000002710
+[0C0h 0192   4] Initiator Proximity Domain List : 00000000
+[0C4h 0196   4] Initiator Proximity Domain List : 00000001
+[0C8h 0200   4] Target Proximity Domain List : 00000000
+[0CCh 0204   4] Target Proximity Domain List : 00000001
+[0D0h 0208   4] Target Proximity Domain List : 00000002
+[0D4h 0212   2]                        Entry : 0001
+[0D6h 0214   2]                        Entry : 0002
+[0D8h 0216   2]                        Entry : 0003
+[0DAh 0218   2]                        Entry : 0002
+[0DCh 0220   2]                        Entry : 0001
+[0DEh 0222   2]                        Entry : 0003
+
+[0E0h 0224   2]               Structure Type : 0001 [System Locality
+Latency and Bandwidth Information]
+[0E2h 0226   2]                     Reserved : 0000
+[0E4h 0228   4]                       Length : 00000040
+[0E8h 0232   1]        Flags (decoded below) : 00
+                            Memory Hierarchy : 0
+[0E9h 0233   1]                    Data Type : 03
+[0EAh 0234   2]                    Reserved1 : 0000
+[0ECh 0236   4] Initiator Proximity Domains # : 00000002
+[0F0h 0240   4]   Target Proximity Domains # : 00000003
+[0F4h 0244   4]                    Reserved2 : 00000000
+[0F8h 0248   8]              Entry Base Unit : 0000000000000001
+[100h 0256   4] Initiator Proximity Domain List : 00000000
+[104h 0260   4] Initiator Proximity Domain List : 00000001
+[108h 0264   4] Target Proximity Domain List : 00000000
+[10Ch 0268   4] Target Proximity Domain List : 00000001
+[110h 0272   4] Target Proximity Domain List : 00000002
+[114h 0276   2]                        Entry : 000A
+[116h 0278   2]                        Entry : 0005
+[118h 0280   2]                        Entry : 0001
+[11Ah 0282   2]                        Entry : 0005
+[11Ch 0284   2]                        Entry : 000A
+[11Eh 0286   2]                        Entry : 0001
+
+Raw Table Data: Length 288 (0x120)
+
+    0000: 48 4D 41 54 20 01 00 00 02 4F 42 4F 43 48 53 20  // HMAT
+....OBOCHS
+    0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC
+....BXPC
+    0020: 01 00 00 00 00 00 00 00 00 00 00 00 28 00 00 00  //
+............(...
+    0030: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  //
+................
+    0040: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  //
+................
+    0050: 00 00 00 00 28 00 00 00 01 00 00 00 01 00 00 00  //
+....(...........
+    0060: 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  //
+................
+    0070: 00 00 00 00 00 00 00 00 00 00 00 00 28 00 00 00  //
+............(...
+    0080: 00 00 00 00 80 00 00 00 02 00 00 00 00 00 00 00  //
+................
+    0090: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  //
+................
+    00A0: 01 00 00 00 40 00 00 00 00 00 00 00 02 00 00 00  //
+....@...........
+    00B0: 03 00 00 00 00 00 00 00 10 27 00 00 00 00 00 00  //
+.........'......
+    00C0: 00 00 00 00 01 00 00 00 00 00 00 00 01 00 00 00  //
+................
+    00D0: 02 00 00 00 01 00 02 00 03 00 02 00 01 00 03 00  //
+................
+    00E0: 01 00 00 00 40 00 00 00 00 03 00 00 02 00 00 00  //
+....@...........
+    00F0: 03 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00  //
+................
+    0100: 00 00 00 00 01 00 00 00 00 00 00 00 01 00 00 00  //
+................
+    0110: 02 00 00 00 0A 00 05 00 01 00 05 00 0A 00 01 00  //
+................
 
 Signed-off-by: Hesham Almatary <hesham.almatary@huawei.com>
-Message-Id: <20221027100037.251-8-hesham.almatary@huawei.com>
+Message-Id: <20221027100037.251-9-hesham.almatary@huawei.com>
 Tested-by: Yicong Yang <yangyicong@hisilicon.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 59 ++++++++++++++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
+ tests/qtest/bios-tables-test-allowed-diff.h |   5 -----
+ tests/data/acpi/virt/APIC.acpihmatvirt      | Bin 0 -> 412 bytes
+ tests/data/acpi/virt/DSDT.acpihmatvirt      | Bin 0 -> 5282 bytes
+ tests/data/acpi/virt/HMAT.acpihmatvirt      | Bin 0 -> 288 bytes
+ tests/data/acpi/virt/PPTT.acpihmatvirt      | Bin 0 -> 196 bytes
+ tests/data/acpi/virt/SRAT.acpihmatvirt      | Bin 0 -> 240 bytes
+ 6 files changed, 5 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 669432585b..395d441212 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1543,6 +1543,63 @@ static void test_acpi_piix4_tcg_acpi_hmat(void)
-     test_acpi_tcg_acpi_hmat(MACHINE_PC);
- }
- 
-+static void test_acpi_virt_tcg_acpi_hmat(void)
-+{
-+    test_data data = {
-+        .machine = "virt",
-+        .tcg_only = true,
-+        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-+        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-+        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
-+        .ram_start = 0x40000000ULL,
-+        .scan_len = 128ULL * 1024 * 1024,
-+    };
-+
-+    data.variant = ".acpihmatvirt";
-+
-+    test_acpi_one(" -machine hmat=on"
-+                  " -cpu cortex-a57"
-+                  " -smp 4,sockets=2"
-+                  " -m 256M"
-+                  " -object memory-backend-ram,size=64M,id=ram0"
-+                  " -object memory-backend-ram,size=64M,id=ram1"
-+                  " -object memory-backend-ram,size=128M,id=ram2"
-+                  " -numa node,nodeid=0,memdev=ram0"
-+                  " -numa node,nodeid=1,memdev=ram1"
-+                  " -numa node,nodeid=2,memdev=ram2"
-+                  " -numa cpu,node-id=0,socket-id=0"
-+                  " -numa cpu,node-id=0,socket-id=0"
-+                  " -numa cpu,node-id=1,socket-id=1"
-+                  " -numa cpu,node-id=1,socket-id=1"
-+                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
-+                  "data-type=access-latency,latency=10"
-+                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=10485760"
-+                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
-+                  "data-type=access-latency,latency=20"
-+                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=5242880"
-+                  " -numa hmat-lb,initiator=0,target=2,hierarchy=memory,"
-+                  "data-type=access-latency,latency=30"
-+                  " -numa hmat-lb,initiator=0,target=2,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=1048576"
-+                  " -numa hmat-lb,initiator=1,target=0,hierarchy=memory,"
-+                  "data-type=access-latency,latency=20"
-+                  " -numa hmat-lb,initiator=1,target=0,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=5242880"
-+                  " -numa hmat-lb,initiator=1,target=1,hierarchy=memory,"
-+                  "data-type=access-latency,latency=10"
-+                  " -numa hmat-lb,initiator=1,target=1,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=10485760"
-+                  " -numa hmat-lb,initiator=1,target=2,hierarchy=memory,"
-+                  "data-type=access-latency,latency=30"
-+                  " -numa hmat-lb,initiator=1,target=2,hierarchy=memory,"
-+                  "data-type=access-bandwidth,bandwidth=1048576",
-+                  &data);
-+
-+    free_test_data(&data);
-+}
-+
- static void test_acpi_q35_tcg_acpi_hmat_noinitiator(void)
- {
-     test_data data;
-@@ -1998,6 +2055,8 @@ int main(int argc, char *argv[])
-     } else if (strcmp(arch, "aarch64") == 0) {
-         if (has_tcg) {
-             qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-+            qtest_add_func("acpi/virt/acpihmatvirt",
-+                            test_acpi_virt_tcg_acpi_hmat);
-             qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
-             qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
-             qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 4f849715bd..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,6 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/virt/APIC.acpihmatvirt",
+-"tests/data/acpi/virt/DSDT.acpihmatvirt",
+-"tests/data/acpi/virt/HMAT.acpihmatvirt",
+-"tests/data/acpi/virt/PPTT.acpihmatvirt",
+-"tests/data/acpi/virt/SRAT.acpihmatvirt",
+diff --git a/tests/data/acpi/virt/APIC.acpihmatvirt b/tests/data/acpi/virt/APIC.acpihmatvirt
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..68200204c6f8f2706c9896dbbccc5ecbec130d26 100644
+GIT binary patch
+literal 412
+zcmbVIK?;B{46AboK|SknPton7CkI~qlV9+$HnL1S&Om7znov5&HC&a5J^dDz-T5O1
+zr%*}2(TQ#(lZMPFX(J~Q?hmh|tV;Vf^*Z}MYiU3pa#)Z{^LPim$itl|>ZN(`63DA{
+TK>f{wm+13f&GQ#zP7>t?q5KK~
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/virt/DSDT.acpihmatvirt b/tests/data/acpi/virt/DSDT.acpihmatvirt
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..aee6ba017cd730948bfa93e91551eb10a6809293 100644
+GIT binary patch
+literal 5282
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/virt/HMAT.acpihmatvirt b/tests/data/acpi/virt/HMAT.acpihmatvirt
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..6494d11b9fff54f8c403ec9e4893fdff72bde9c9 100644
+GIT binary patch
+literal 288
+zcmaJ)F%Ezr5IZ0&Og@24pP{g@7)*5VIX>Ms;S4dxCU-4Odz5uKq7kt*)m-+N&Mij(
+zmQa%w6GZ=3|IM0X_Ak#IabYaQ2iTvR&x~t&7@Gj;A7o|>w!;|gr;lRa*AB0!)_xEV
+I&r86*0dKzu0RR91
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/virt/PPTT.acpihmatvirt b/tests/data/acpi/virt/PPTT.acpihmatvirt
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..710dba5e793cf36df94087666db58af5f8d03684 100644
+GIT binary patch
+literal 196
+zcmWFt2njjDz`(#X&&l7}BUr&HBEVSz2pEB4AU23*5Mf{d(;zks0L4H+1wuhcpcogB
+gWr0HsZU&Nh$YLOEC0O)!0L7SK;!rz4V$4u60KkX}0RR91
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/virt/SRAT.acpihmatvirt b/tests/data/acpi/virt/SRAT.acpihmatvirt
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..691ef56e34bc84509270db316d908f5979c209bb 100644
+GIT binary patch
+literal 240
+zcmWFzat!&vz`($~%E{l^BUr&HBEVSz2pEB4AU22wVHjW*g0Wzt5D{c`%t9a@6A&ZR
+rfLP2(B8(b94g@$rX%;9A*9GD;YQW53aKWz*WFHuKKxqyrjba`E3*rd@
+
+literal 0
+HcmV?d00001
+
 -- 
 MST
 
