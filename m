@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716B261664F
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 16:38:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F8C616650
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 16:38:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqFn4-0005TS-Dw; Wed, 02 Nov 2022 11:36:30 -0400
+	id 1oqFoE-000602-HW; Wed, 02 Nov 2022 11:37:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1oqFmz-0005SR-J7
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 11:36:28 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223] helo=chinatelecom.cn)
+ id 1oqFo3-0005un-Ri
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 11:37:33 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.226] helo=chinatelecom.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1oqFmw-0004Jz-Us
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 11:36:25 -0400
-HMM_SOURCE_IP: 172.18.0.218:60610.1489583080
+ (envelope-from <huangy81@chinatelecom.cn>) id 1oqFo0-0004nN-Pr
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 11:37:30 -0400
+HMM_SOURCE_IP: 172.18.0.218:56744.881847599
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-182.138.180.88 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id B1B412800C6;
- Wed,  2 Nov 2022 23:36:13 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id C095B280097;
+ Wed,  2 Nov 2022 23:37:23 +0800 (CST)
 X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
 Received: from  ([182.138.180.88])
- by app0025 with ESMTP id 8f4595658cd24a68bd300ec0ba4ebea0 for mst@redhat.com; 
- Wed, 02 Nov 2022 23:36:17 CST
-X-Transaction-ID: 8f4595658cd24a68bd300ec0ba4ebea0
+ by app0025 with ESMTP id 07c7c8bd6c2c48cda3af914e53c827ea for thuth@redhat.com;
+ Wed, 02 Nov 2022 23:37:26 CST
+X-Transaction-ID: 07c7c8bd6c2c48cda3af914e53c827ea
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 182.138.180.88
 X-MEDUSA-Status: 0
-Message-ID: <fed4b6da-e3bd-8a45-3758-fe6591d0d35b@chinatelecom.cn>
-Date: Wed, 2 Nov 2022 23:36:19 +0800
+Message-ID: <6f96809e-6cef-271a-47e6-9f61d5ce313a@chinatelecom.cn>
+Date: Wed, 2 Nov 2022 23:37:28 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.1
 Subject: Re: [PATCH RFC 1/4] net: Introduce qmp cmd "query-netdev"
-To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>,
+To: Thomas Huth <thuth@redhat.com>, Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S . Tsirkin"
+ <mst@redhat.com>, Eric Blake <eblake@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella
- <sgarzare@redhat.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 References: <cover.1667232396.git.huangy81@chinatelecom.cn>
  <d254324983817fb380411995155c9e927edaeb92.1667232396.git.huangy81@chinatelecom.cn>
  <CACGkMEvvoVwtr8aSqTpAVxYN7q7mxMmLbusfgKDf3zwfmk2itg@mail.gmail.com>
- <20221102024054-mutt-send-email-mst@kernel.org>
+ <6203a6be-7b48-3ee2-2bfa-48fff291c14b@redhat.com>
 From: Hyman <huangy81@chinatelecom.cn>
-In-Reply-To: <20221102024054-mutt-send-email-mst@kernel.org>
+In-Reply-To: <6203a6be-7b48-3ee2-2bfa-48fff291c14b@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.223;
+Received-SPF: pass client-ip=42.123.76.226;
  envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -76,8 +77,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-在 2022/11/2 14:41, Michael S. Tsirkin 写道:
-> On Wed, Nov 02, 2022 at 01:42:39PM +0800, Jason Wang wrote:
+在 2022/11/2 15:10, Thomas Huth 写道:
+> On 02/11/2022 06.42, Jason Wang wrote:
 >> On Tue, Nov 1, 2022 at 12:19 AM <huangy81@chinatelecom.cn> wrote:
 >>>
 >>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
@@ -105,163 +106,52 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 >>>
 >>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 >>> ---
->>>   net/net.c     | 44 +++++++++++++++++++++++++++++++++++++++
->>>   qapi/net.json | 66 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->>>   2 files changed, 110 insertions(+)
+>>>   net/net.c     | 44 +++++++++++++++++++++++++++++++++++++++
+>>>   qapi/net.json | 66 
+>>> +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>>   2 files changed, 110 insertions(+)
 >>>
 >>> diff --git a/net/net.c b/net/net.c
 >>> index 2db160e..5d11674 100644
 >>> --- a/net/net.c
 >>> +++ b/net/net.c
 >>> @@ -53,6 +53,7 @@
->>>   #include "sysemu/runstate.h"
->>>   #include "net/colo-compare.h"
->>>   #include "net/filter.h"
+>>>   #include "sysemu/runstate.h"
+>>>   #include "net/colo-compare.h"
+>>>   #include "net/filter.h"
 >>> +#include "net/vhost-user.h"
->>>   #include "qapi/string-output-visitor.h"
+>>>   #include "qapi/string-output-visitor.h"
 >>>
->>>   /* Net bridge is currently not supported for W32. */
+>>>   /* Net bridge is currently not supported for W32. */
 >>> @@ -1224,6 +1225,49 @@ void qmp_netdev_del(const char *id, Error **errp)
->>>       }
->>>   }
+>>>       }
+>>>   }
 >>>
 >>> +static NetDevInfo *query_netdev(NetClientState *nc)
 >>> +{
->>> +    NetDevInfo *info = NULL;
+>>> +    NetDevInfo *info = NULL;
 >>> +
->>> +    if (!nc || !nc->is_netdev) {
->>> +        return NULL;
->>> +    }
+>>> +    if (!nc || !nc->is_netdev) {
+>>> +        return NULL;
+>>> +    }
 >>> +
->>> +    info = g_malloc0(sizeof(*info));
->>> +    info->name = g_strdup(nc->name);
->>> +    info->type = nc->info->type;
->>> +    info->ufo = nc->info->has_ufo;
->>> +    info->vnet_hdr = nc->info->has_vnet_hdr;
->>> +    info->vnet_hdr_len = nc->info->has_vnet_hdr_len;
+>>> +    info = g_malloc0(sizeof(*info));
+>>> +    info->name = g_strdup(nc->name);
+>>> +    info->type = nc->info->type;
+>>> +    info->ufo = nc->info->has_ufo;
+>>> +    info->vnet_hdr = nc->info->has_vnet_hdr;
+>>> +    info->vnet_hdr_len = nc->info->has_vnet_hdr_len;
 >>
 >> So all the fields are virtio specific, I wonder if it's better to
 >> rename the command as query-vhost or query-virtio?
->>
->> Thanks
 > 
-> We have info virtio already. Seems to fit there logically.
+> And add a "x-" prefix (and a "-netdev" suffix) as long as we don't feel 
+> confident about this yet? "x-query-virtio-netdev" ?
 
-Ok, it seems that 'x-query-virtio-netdev' is a good option.
+Agree with that, thanks for the comment.
 
+Yong.
 > 
-> 
->>> +
->>> +    if (nc->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
->>> +        info->has_acked_features = true;
->>> +        info->acked_features = vhost_user_get_acked_features(nc);
->>> +    }
->>> +
->>> +    return info;
->>> +}
->>> +
->>> +NetDevInfoList *qmp_query_netdev(Error **errp)
->>> +{
->>> +    NetClientState *nc;
->>> +    NetDevInfo *info = NULL;
->>> +    NetDevInfoList *head = NULL, **tail = &head;
->>> +
->>> +    QTAILQ_FOREACH(nc, &net_clients, next) {
->>> +        if (nc->info->type == NET_CLIENT_DRIVER_NIC) {
->>> +            continue;
->>> +        }
->>> +
->>> +        info = query_netdev(nc);
->>> +        if (info) {
->>> +            QAPI_LIST_APPEND(tail, info);
->>> +        }
->>> +    }
->>> +
->>> +    return head;
->>> +}
->>> +
->>>   static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
->>>   {
->>>       char *str;
->>> diff --git a/qapi/net.json b/qapi/net.json
->>> index dd088c0..76a6513 100644
->>> --- a/qapi/net.json
->>> +++ b/qapi/net.json
->>> @@ -631,6 +631,72 @@
->>>                          'if': 'CONFIG_VMNET' } } }
->>>
->>>   ##
->>> +# @NetDevInfo:
->>> +#
->>> +# NetDev information.  This structure describes a NetDev information, including
->>> +# capabilities and negotiated features.
->>> +#
->>> +# @name: The NetDev name.
->>> +#
->>> +# @type: Type of NetDev.
->>> +#
->>> +# @ufo: True if NetDev has ufo capability.
->>> +#
->>> +# @vnet-hdr: True if NetDev has vnet_hdr.
->>> +#
->>> +# @vnet-hdr-len: True if given length can be assigned to NetDev.
->>> +#
->>> +# @acked-features: Negotiated features with vhost slave device if device support
->>> +#                  dataplane offload.
->>> +#
->>> +# Since:  7.1
->>> +##
->>> +{'struct': 'NetDevInfo',
->>> + 'data': {
->>> +    'name': 'str',
->>> +    'type': 'NetClientDriver',
->>> +    'ufo':'bool',
->>> +    'vnet-hdr':'bool',
->>> +    'vnet-hdr-len':'bool',
->>> +    '*acked-features': 'uint64' } }
->>> +
->>> +##
->>> +# @query-netdev:
->>> +#
->>> +# Get a list of NetDevInfo for all virtual netdev peer devices.
->>> +#
->>> +# Returns: a list of @NetDevInfo describing each virtual netdev peer device.
->>> +#
->>> +# Since: 7.1
->>> +#
->>> +# Example:
->>> +#
->>> +# -> { "execute": "query-netdev" }
->>> +# <- {
->>> +#       "return":[
->>> +#          {
->>> +#             "name":"hostnet0",
->>> +#             "type":"vhost-user",
->>> +#             "ufo":true,
->>> +#             "vnet-hdr":true,
->>> +#             "vnet-hdr-len":true,
->>> +#             "acked-features":"5111807907",
->>> +#          },
->>> +#          {
->>> +#             "name":"hostnet1",
->>> +#             "type":"vhost-user",
->>> +#             "ufo":true,
->>> +#             "vnet-hdr":true,
->>> +#             "vnet-hdr-len":true,
->>> +#             "acked-features":"5111807907",
->>> +#          }
->>> +#       ]
->>> +#    }
->>> +#
->>> +##
->>> +{ 'command': 'query-netdev', 'returns': ['NetDevInfo'] }
->>> +
->>> +##
->>>   # @RxState:
->>>   #
->>>   # Packets receiving state
->>> --
->>> 1.8.3.1
->>>
+>   Thomas
 > 
 
