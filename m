@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA79616875
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BCDF6168AA
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:24:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqGMN-0005xB-44; Wed, 02 Nov 2022 12:12:59 -0400
+	id 1oqGOA-0000mv-Pb; Wed, 02 Nov 2022 12:14:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oqGM8-0005Fy-IG
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:12:44 -0400
-Received: from mout.kundenserver.de ([217.72.192.74])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oqGNt-0000ey-0G
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:14:33 -0400
+Received: from mout.kundenserver.de ([217.72.192.73])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oqGM0-0004Rk-9U
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:12:44 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oqGNr-0005cf-2P
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:14:32 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MDykM-1oiaq03NvI-009yHa; Wed, 02 Nov 2022 17:12:28 +0100
-Message-ID: <ff110382-1612-eb5e-7f53-3040a40e8d5c@vivier.eu>
-Date: Wed, 2 Nov 2022 17:12:27 +0100
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MXHBo-1oX6Ow2kWM-00Yg0D; Wed, 02 Nov 2022 17:14:28 +0100
+Message-ID: <c50bc38e-42cb-d715-dbfb-738815de2edb@vivier.eu>
+Date: Wed, 2 Nov 2022 17:14:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH] linux-user: always translate cmsg when recvmsg
+Subject: Re: [PATCH] linux-user/hppa: Detect glibc ABORT_INSTRUCTION and
+ EXCP_BREAK handler
 Content-Language: fr
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: qemu-devel@nongnu.org
-References: <20221028081220.1604244-1-uwu@icenowy.me>
+To: Helge Deller <deller@gmx.de>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <Y1osHVsylkuZNUnY@p100>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20221028081220.1604244-1-uwu@icenowy.me>
+In-Reply-To: <Y1osHVsylkuZNUnY@p100>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:OcCHJyp/90KhRZs9oTELtcZPsU+wl7N/WfHR88uL7Nd/W5GghEG
- mHh3PgLxMxu1FH/a6YAQbktxEljAOJLKcA2GTnUzWfAJcN7Wrc7aI+yB4hEjPhz0ZCW6oK9
- 25KlFuVKn9+R55dn9/a2OtnE2JOeG/CejoPIAwa2AkIw2E9Qcf0Y24n4Ssku1ucwa6FSVjB
- +LyMBE6vFsH3p9CIycjoQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iG4sumooXT4=:X6Xex/W3wID5gZpdd10XGk
- STw2XaErRko/WcFen4MIyzNC8RND4k2RE8LEAVvYjyRXEvo1/FxZzbHgcwSVegm9IgJYvaRDl
- l4dn914LdqZUkCtpm4bgAFU7XqYN4zr9OLVYVDXgPUiCYFU8xNjEfF/9TiG8oj6n8Exl+TetH
- z6nKUpk9TcqgyhgWk2QSB5dd8AyJ2kb7FP87dnV4uFkEgYEOVKGawYJKRgvv1gH1m7sKM6KIT
- llpraf0jqD9vsdLF2ZhQbI2xwtsxT1EKXKNJ/5/01oa28eiaXO7sZ/CCARMo8q12GRzK31JDH
- /qsqOTofKbxBVyWKWzcsYz1RqeTwadTQK7iTyDWxSwaW7bX+sMJZ0hpGx5abshyZj4n8Mq9h4
- KyGe5bQaoGpSHLQ/KLH4oQ1mASKApLFG9W+F9Nq0tJSe4MqfUk77d1kOyDB0assNZXImdvCuX
- L37KES96hkGobK158+0/JQV2m+gdaXdH+wUssSb7U3X9fwlfx+ertnGXhymiV0R2eV3jtu/3q
- CnsNf3zaC+hW8vlRSI9JUkKQG69yhl5b+g6v8ac2AfH0CzyW0lAF1Uz7ml2HIwixEb10yLiSu
- vIOQNZLP9e50Pcl7XzG/jYScvGmFSyDADU7ix3PzgiSRWYsYVVAAKptmPbtcFBt5tyvAzNTII
- tQMUq8bJkOta/CD3tQxCuMr/bPio4p4BqZyOokTfhy9LaozzU0uTEk2BDulueAx75oXvm7WU8
- sHe8ysuQT5JvXbph6NLlWxgsz7Mju30ckH7s3jPH++vPcbz5YHpnrwvgsvgOhPuSyDfjcqLD5
- 4r05YMz
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:9OiY6z1ixorBHE9VJUyk4KcQ1/cBio3pVIdVvIwbHmqNO8mbXYH
+ jEx6VaLk7QxwNkzVo8/L6vcpaYPrh0XBcoAP9hG7oCvW/PEAETX4xuIrWO8LK0VLSfJbVAp
+ sJjDwrpKqY4tO4v5nvJdSnpiqiKH+KHgyn/IrXaFOqeifSYRU0BZ9r9KEgLjO7149AWrUnk
+ CA7sIM+HYz4GBL+1b7Rhg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3+3iCZsNB7Y=:RV0USiyIyRaxv6tKVXtTmg
+ Ibtsqrhqwv0rZjV2L/g+cuh6c8pzBZYsj1By35747LE9RZtFCG0VCrhv5pPSHCfDg+jqkP2ZS
+ LtQVa0Zkm2n9S5FD88l4lKTJK5Fn+ylwYzvXt6/g4OcsNdkvLuvsdaPdKr+f+XJVRd6Sgj2Hu
+ PQsFOmpg9NbRo2wTQ6u5hVZYJLdM8XFsanI0M+8ExGbZP911ojO+8q6mMnXWs0Lzit67nEIK2
+ 8vjqAN1WX4V/Snuvf5Otr3WDdUQRnrzLG7PiNf7wjQt8BapgOj7+iSSZeNzPK5fQ93dbSW5eQ
+ B+7tMNNYVsxc397GbDuNo7Ab888KO27wqSCu2kLFLQS/LrMMfgA+ozzjn8QEK6vAyCmvdtAIn
+ Zks6dXg0DCpB4eyF8Lgz5Flaejxej2hanAzDMU+gc4hWpy4E9yxP8CLNw8uIFG01/+cG8cBle
+ pBxGm5L2FRrTpnO9Bg83bIviXBH1d65tTYrJgCG+T+mCpmd2bkAj/HF+olPNC1IRiReb1Op3q
+ gmnTOmXdG3RRHCWL93SaZ3O+pWtGcohar1UD6FEREsY6pe0iE9LFu4yECW1VUr4JRclimD+a9
+ 2CP72DYZzUZisIk/1HnzRSlbDoMwoazbhda6idQPdlFsUmC+3SYaLUPbh0XG5oUV4OgeuD6mt
+ hQsq4ZC3HTulEZ+fBo6X10lyEt1CmK4bTNC00NoaOrIgVr46HVbhLwXf9vG+Oy/f5CuccM93i
+ Nsm2vNUPwyOWF2TiYTL9l5j6N7TpZOvlqefNxh0E2YNRShUrmGlqCVc2ysV12tVl2lXLolV2K
+ sfZBj5y
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -73,23 +74,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 28/10/2022 à 10:12, Icenowy Zheng a écrit :
-> It's possible that a message contains both normal payload and ancillary
-> data in the same message, and even if no ancillary data is available
-> this information should be passed to the target, otherwise the target
-> cmsghdr will be left uninitialized and the target is going to access
-> uninitialized memory if it expects cmsg.
+Le 27/10/2022 à 08:58, Helge Deller a écrit :
+> The glibc on the hppa platform uses the "iitlbp %r0,(%sr0, %r0)"
+> assembler instruction as ABORT_INSTRUCTION.
+> If this (in userspace context) illegal assembler statement is found,
+> dump the registers and report the failure to userspace the same way as
+> the Linux kernel on physical hardware.
 > 
-> Always call the function that translate cmsg when recvmsg, because that
-> function should be empty-cmsg-safe (it creates an empty cmsg in the
-> target).
+> For other illegal instructions report TARGET_ILL_ILLOPC instead of
+> TARGET_ILL_ILLOPN as si_code.
 > 
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> ---
->   linux-user/syscall.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+> Additionally add the missing EXCP_BREAK exception handler which occurs
+> when the "break x,y" assembler instruction is executed and report
+> EXCP_ASSIST traps.
+> 
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> 
+> diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
+> index 98c51e9b8b..a42c34e549 100644
+> --- a/linux-user/hppa/cpu_loop.c
+> +++ b/linux-user/hppa/cpu_loop.c
+> @@ -196,15 +196,20 @@ void cpu_loop(CPUHPPAState *env)
+>               force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR, env->iaoq_f);
+>               break;
+>           case EXCP_ILL:
+> -            EXCP_DUMP(env, "qemu: got CPU exception 0x%x - aborting\n", trapnr);
+> -            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->iaoq_f);
+> +            EXCP_DUMP(env, "qemu: EXCP_ILL exception %#x\n", trapnr);
+> +            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC, env->iaoq_f);
+>               break;
+>           case EXCP_PRIV_OPR:
+> -            EXCP_DUMP(env, "qemu: got CPU exception 0x%x - aborting\n", trapnr);
+> -            force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC, env->iaoq_f);
+> +            /* check for glibc ABORT_INSTRUCTION "iitlbp %r0,(%sr0, %r0)" */
+> +            EXCP_DUMP(env, "qemu: EXCP_PRIV_OPR exception %#x\n", trapnr);
+> +            if (env->cr[CR_IIR] == 0x04000000) {
+> +		    force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC, env->iaoq_f);
+> +            } else {
+> +		    force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC, env->iaoq_f);
+> +            }
+>               break;
+>           case EXCP_PRIV_REG:
+> -            EXCP_DUMP(env, "qemu: got CPU exception 0x%x - aborting\n", trapnr);
+> +            EXCP_DUMP(env, "qemu: EXCP_PRIV_REG exception %#x\n", trapnr);
+>               force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVREG, env->iaoq_f);
+>               break;
+>           case EXCP_OVERFLOW:
+> @@ -216,6 +221,10 @@ void cpu_loop(CPUHPPAState *env)
+>           case EXCP_ASSIST:
+>               force_sig_fault(TARGET_SIGFPE, 0, env->iaoq_f);
+>               break;
+> +        case EXCP_BREAK:
+> +            EXCP_DUMP(env, "qemu: EXCP_BREAK exception %#x\n", trapnr);
+> +            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->iaoq_f & ~3);
+> +            break;
+>           case EXCP_DEBUG:
+>               force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->iaoq_f);
+>               break;
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Applied to my linux-user-for-7.2 branch.
+
+Thanks,
+Laurent
+
 
 
