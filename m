@@ -2,89 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14011616E00
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 20:50:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2445C616E8D
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 21:24:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqJkD-0005K7-Uq; Wed, 02 Nov 2022 15:49:50 -0400
+	id 1oqKGS-0000dx-KB; Wed, 02 Nov 2022 16:23:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oqJk5-0005Hu-TO; Wed, 02 Nov 2022 15:49:42 -0400
-Received: from mail-oo1-xc31.google.com ([2607:f8b0:4864:20::c31])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oqJk4-0004bN-5F; Wed, 02 Nov 2022 15:49:41 -0400
-Received: by mail-oo1-xc31.google.com with SMTP id
- s1-20020a4a81c1000000b0047d5e28cdc0so2624171oog.12; 
- Wed, 02 Nov 2022 12:49:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hHBmb1csdRBUPwBHhL7rZVhORJjo93BnWkN3FEdlhoA=;
- b=YAYGC77p7NjpMUvHS7GHfhl1yN70h0uNtXcw5L22wT8GFOsJ6y0XtsRifx9PoweJLb
- qpUVffl8xoKJMJl+WQip1HZ0SRZMyS8wXrElIiKOS3/NwF+yTxFSMvwpFlXrCO6VEyL0
- GqCzKUEz0Ao4u4Ktwzcmyop0bU2f8MHVtJAHQQ1hvQ+6/ABQD39S88Sw0sSQCVbg9lw9
- wAY/YaPViM0hYwBCtj8a2S5gNFvEV5OiecxMRxSoRavx8yYSOE5uEM51Aia7Rcl0aDB4
- DOxgu7lkGKir2l+fc4YLxSeRMPL/0vYB2JdZzm0nMDTUjEikgp2LMRi+aOB8YxVnxd/5
- yZfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hHBmb1csdRBUPwBHhL7rZVhORJjo93BnWkN3FEdlhoA=;
- b=6o3L8/hAdcPQ3/AZW11S5BFB2UTqdpueNkxxN/0az7dNYqB7NcbsDG5DcMS+Ql/qEq
- TVAxMwKvD1IfZRxOK3k+A+oS8loYbds6iswcHlmBxLu2TdoDkF6QlVo7rXrWII4qYUXK
- jq5/pE1S94Feq/mBHjgD2O7QkaM2z9asT8vXZHIVsQeZNz7UCaKPnkoqvYFWz15P+tmc
- gKASH6KgWHo7uc08AXu5IKO2fsDLCH6/WrNqwBI/yE6PYBiPZu2n6Vf+CKQdRLNU8RRM
- LGtRX3d/dFcuIFydemEJFmCmKWYr8H++cbYrF8GK134zcXI8PrIjXGAKAoqa0K45Ii9X
- jXSA==
-X-Gm-Message-State: ACrzQf3M9lv93/iW8HS/pbKk9nCrGvwcLOVoKOvXvTizMSXEw+SkYhag
- RCyfKk9YVXFIODPb+jrtSWc=
-X-Google-Smtp-Source: AMsMyM6edLzu0oa5cMejSuJJwph3cNgoqElJvO5imp1RKNCs4Lv26rC7CW+Won0vbY1LlRphIF/pzw==
-X-Received: by 2002:a4a:1787:0:b0:44d:f068:d0e2 with SMTP id
- 129-20020a4a1787000000b0044df068d0e2mr11390145ooe.27.1667418578218; 
- Wed, 02 Nov 2022 12:49:38 -0700 (PDT)
-Received: from [192.168.10.102] ([177.189.35.250])
- by smtp.gmail.com with ESMTPSA id
- o19-20020a056871079300b0013b911d5960sm6357931oap.49.2022.11.02.12.49.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Nov 2022 12:49:37 -0700 (PDT)
-Message-ID: <3f097e35-ac7f-0889-4a28-33544e011995@gmail.com>
-Date: Wed, 2 Nov 2022 16:49:26 -0300
+ (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
+ id 1oqKGP-0000dO-R7; Wed, 02 Nov 2022 16:23:05 -0400
+Received: from mail.weilnetz.de ([37.120.169.71]
+ helo=mail.v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
+ id 1oqKGO-00013C-0v; Wed, 02 Nov 2022 16:23:05 -0400
+Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTP id 0E150DA0277;
+ Wed,  2 Nov 2022 21:23:00 +0100 (CET)
+Received: by qemu.weilnetz.de (Postfix, from userid 1000)
+ id 04F264621B3; Wed,  2 Nov 2022 21:23:00 +0100 (CET)
+To: qemu-trivial@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Stefan Weil <sw@weilnetz.de>
+Subject: [PATCH for 7.2] Fix broken configure with -Wunused-parameter
+Date: Wed,  2 Nov 2022 21:22:58 +0100
+Message-Id: <20221102202258.456359-1-sw@weilnetz.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PULL 59/62] hw/block/pflash_cfi0{1, 2}: Error out if device
- length isn't a power of two
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, stefanha@redhat.com,
- Bernhard Beschow <shentey@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20221028163951.810456-1-danielhb413@gmail.com>
- <20221028163951.810456-60-danielhb413@gmail.com>
- <CAJSP0QWiE2gmUB4Fcb_TdS1SzXiS3fFvjoCXjqYbvts0Nvb+HA@mail.gmail.com>
- <78b914c5-ce7e-1d4a-0a67-450f286eb869@linaro.org>
-Content-Language: en-US
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <78b914c5-ce7e-1d4a-0a67-450f286eb869@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c31;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc31.google.com
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=stefan@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,26 +51,73 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Stefan Weil <sw@weilnetz.de>
+From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The configure script fails because it tries to compile small C programs
+with a main function which is declared with arguments argc and argv
+although those arguments are unused.
 
+Running `configure -extra-cflags=-Wunused-parameter` triggers the problem.
+configure for a native build does abort but shows the error in config.log.
+A cross build configure for Windows with Debian stable aborts with an
+error.
 
-On 11/1/22 19:49, Philippe Mathieu-Daudé wrote:
-> On 1/11/22 23:23, Stefan Hajnoczi wrote:
->> There is a report that this commit breaks an existing OVMF setup:
->> https://gitlab.com/qemu-project/qemu/-/issues/1290#note_1156507334
->>
->> I'm not familiar with pflash. Please find a way to avoid a regression
->> in QEMU 7.2 here.
-> 
-> Long-standing problem with pflash and underlying images... i.e:
-> https://lore.kernel.org/qemu-devel/20190308062455.29755-1-armbru@redhat.com/
-> 
-> Let's revert for 7.2. Daniel, I can prepare a patch explaining.
+Avoiding unused arguments fixes this.
 
-I appreciate if you can send a revert with the proper explanation. I can make
-a PR with it.
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+---
 
+See https://gitlab.com/qemu-project/qemu/-/issues/1295.
 
-Daniel
+I noticed the problem because I often compile with -Wextra.
+
+Stefan
+
+ configure | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/configure b/configure
+index 4275f5419f..1106c04fea 100755
+--- a/configure
++++ b/configure
+@@ -1258,6 +1258,7 @@ if test "$stack_protector" != "no"; then
+   cat > $TMPC << EOF
+ int main(int argc, char *argv[])
+ {
++    (void)argc;
+     char arr[64], *p = arr, *c = argv[0];
+     while (*c) {
+         *p++ = *c++;
+@@ -1607,7 +1608,7 @@ fi
+ 
+ if test "$safe_stack" = "yes"; then
+ cat > $TMPC << EOF
+-int main(int argc, char *argv[])
++int main(void)
+ {
+ #if ! __has_feature(safe_stack)
+ #error SafeStack Disabled
+@@ -1629,7 +1630,7 @@ EOF
+   fi
+ else
+ cat > $TMPC << EOF
+-int main(int argc, char *argv[])
++int main(void)
+ {
+ #if defined(__has_feature)
+ #if __has_feature(safe_stack)
+@@ -1675,7 +1676,7 @@ static const int Z = 1;
+ #define TAUT(X) ((X) == Z)
+ #define PAREN(X, Y) (X == Y)
+ #define ID(X) (X)
+-int main(int argc, char *argv[])
++int main(void)
+ {
+     int x = 0, y = 0;
+     x = ID(x);
+-- 
+2.30.2
+
 
