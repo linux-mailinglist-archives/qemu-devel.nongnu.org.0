@@ -2,94 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3EB616573
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 16:00:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8096A616636
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 16:33:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqFCB-0007wZ-1D; Wed, 02 Nov 2022 10:58:23 -0400
+	id 1oqFiM-0003sA-9m; Wed, 02 Nov 2022 11:31:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oqFC7-0007tF-MS
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 10:58:19 -0400
-Received: from mga02.intel.com ([134.134.136.20])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oqFC3-0002lY-5b
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 10:58:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667401095; x=1698937095;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=uie0uv8Iy7FMg7x2ZTUU5aJpcMzyu1e6Q6enp9LSoyY=;
- b=MkvcHTZEcB2yTAi12u6YIdqYyOvL4czxUd6/xCXxc6+SHrPucVftKd/U
- OeHrNeQMEdNZvMGzAXMVJDzZBpA2b3RP9b3YQaGib+QPNTazVPr0W7Wlj
- nObkIBV7Ud6Vv72xARMQCTLNQwWkVcS56F4MAgEY+M5DFAZzhwI2+TUTb
- /zu9HcQb2OT3ogSvibxcI8VEvpzjkzKMIwZOpo16ERI40JmFnr2Jx1mmR
- nf84ITvr5QoxDQ/8H3QfoWjvYDUB+zhg/yfQT085xvU4qsGEZMtG4HxDb
- W4k9OSFLwzBXzmJ7SMDnAKntFzWTLQz2GwvV9l0UhxP0uMT//bfQJje+x w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="296875185"
-X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; d="scan'208";a="296875185"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Nov 2022 07:58:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10519"; a="665588091"
-X-IronPort-AV: E=Sophos;i="5.95,234,1661842800"; d="scan'208";a="665588091"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga008.jf.intel.com with ESMTP; 02 Nov 2022 07:57:52 -0700
-Date: Wed, 2 Nov 2022 22:53:25 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Michael Roth <michael.roth@amd.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
- wei.w.wang@intel.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221102145325.GA4068513@chaop.bj.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <20221031174738.fklhlia5fmaiinpe@amd.com>
- <20221101113729.GA4015495@chaop.bj.intel.com>
- <20221101151944.rhpav47pdulsew7l@amd.com>
- <20221101193058.tpzkap3kbrbgasqi@amd.com>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1oqFiI-0003rz-Tz
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 11:31:34 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.223] helo=chinatelecom.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1oqFiG-0001Py-61
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 11:31:34 -0400
+HMM_SOURCE_IP: 172.18.0.48:52204.1686150650
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-182.138.180.88 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 44C602800B5;
+ Wed,  2 Nov 2022 23:31:10 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([182.138.180.88])
+ by app0024 with ESMTP id e98175b0728c49f18b11db6a58b93abf for
+ jasowang@redhat.com; Wed, 02 Nov 2022 23:31:16 CST
+X-Transaction-ID: e98175b0728c49f18b11db6a58b93abf
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 182.138.180.88
+X-MEDUSA-Status: 0
+Message-ID: <d825035a-3b7c-6546-5bd8-bc4093d5d8e0@chinatelecom.cn>
+Date: Wed, 2 Nov 2022 23:31:15 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221101193058.tpzkap3kbrbgasqi@amd.com>
-Received-SPF: none client-ip=134.134.136.20;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga02.intel.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH RFC 1/4] net: Introduce qmp cmd "query-netdev"
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S . Tsirkin"
+ <mst@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella
+ <sgarzare@redhat.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>
+References: <cover.1667232396.git.huangy81@chinatelecom.cn>
+ <d254324983817fb380411995155c9e927edaeb92.1667232396.git.huangy81@chinatelecom.cn>
+ <CACGkMEvvoVwtr8aSqTpAVxYN7q7mxMmLbusfgKDf3zwfmk2itg@mail.gmail.com>
+From: Hyman <huangy81@chinatelecom.cn>
+In-Reply-To: <CACGkMEvvoVwtr8aSqTpAVxYN7q7mxMmLbusfgKDf3zwfmk2itg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.223;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,146 +71,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 01, 2022 at 02:30:58PM -0500, Michael Roth wrote:
-> On Tue, Nov 01, 2022 at 10:19:44AM -0500, Michael Roth wrote:
-> > On Tue, Nov 01, 2022 at 07:37:29PM +0800, Chao Peng wrote:
-> > > On Mon, Oct 31, 2022 at 12:47:38PM -0500, Michael Roth wrote:
-> > > > On Tue, Oct 25, 2022 at 11:13:37PM +0800, Chao Peng wrote:
-> > > 
-> > > > 
-> > > >   3) Potentially useful for hugetlbfs support:
-> > > > 
-> > > >      One issue with hugetlbfs is that we don't support splitting the
-> > > >      hugepage in such cases, which was a big obstacle prior to UPM. Now
-> > > >      however, we may have the option of doing "lazy" invalidations where
-> > > >      fallocate(PUNCH_HOLE, ...) won't free a shmem-allocate page unless
-> > > >      all the subpages within the 2M range are either hole-punched, or the
-> > > >      guest is shut down, so in that way we never have to split it. Sean
-> > > >      was pondering something similar in another thread:
-> > > > 
-> > > >        https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flinux-mm%2FYyGLXXkFCmxBfu5U%40google.com%2F&amp;data=05%7C01%7CMichael.Roth%40amd.com%7C28ba5dbb51844f910dec08dabc1c99e6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638029128345507924%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=bxcRfuJIgo1Z1G8HQ800HscE6y7RXRQwvWSkfc5M8Bs%3D&amp;reserved=0
-> > > > 
-> > > >      Issuing invalidations with folio-granularity ties in fairly well
-> > > >      with this sort of approach if we end up going that route.
-> > > 
-> > > There is semantics difference between the current one and the proposed
-> > > one: The invalidation range is exactly what userspace passed down to the
-> > > kernel (being fallocated) while the proposed one will be subset of that
-> > > (if userspace-provided addr/size is not aligned to power of two), I'm
-> > > not quite confident this difference has no side effect.
-> > 
-> > In theory userspace should not be allocating/hole-punching restricted
-> > pages for GPA ranges that are already mapped as private in the xarray,
-> > and KVM could potentially fail such requests (though it does currently).
-> > 
-> > But if we somehow enforced that, then we could rely on
-> > KVM_MEMORY_ENCRYPT_REG_REGION to handle all the MMU invalidation stuff,
-> > which would free up the restricted fd invalidation callbacks to be used
-> > purely to handle doing things like RMP/directmap fixups prior to returning
-> > restricted pages back to the host. So that was sort of my thinking why the
-> > new semantics would still cover all the necessary cases.
-> 
-> Sorry, this explanation is if we rely on userspace to fallocate() on 2MB
-> boundaries, and ignore any non-aligned requests in the kernel. But
-> that's not how I actually ended up implementing things, so I'm not sure
-> why answered that way...
-> 
-> In my implementation we actually do issue invalidations for fallocate()
-> even for non-2M-aligned GPA/offset ranges. For instance (assuming
-> restricted FD offset 0 corresponds to GPA 0), an fallocate() on GPA
-> range 0x1000-0x402000 would result in the following invalidations being
-> issued if everything was backed by a 2MB page:
-> 
->   invalidate GPA: 0x001000-0x200000, Page: pfn_to_page(I), order:9
->   invalidate GPA: 0x200000-0x400000, Page: pfn_to_page(J), order:9
->   invalidate GPA: 0x400000-0x402000, Page: pfn_to_page(K), order:9
 
-Only see this I understand what you are actually going to propose;)
 
-So the memory range(start/end) will be still there and covers exactly
-what it should be from usrspace point of view, the page+order(or just
-folio) is really just a _hint_ for the invalidation callbacks. Looks
-ugly though.
-
-In v9 we use a invalidate_start/ invalidate_end pair to solve a race
-contention issue(https://lore.kernel.org/kvm/Y1LOe4JvnTbFNs4u@google.com/).
-To work with this, I believe we only need pass this hint info for
-invalidate_start() since at the invalidate_end() time, the page has
-already been discarded.
-
-Another worth-mentioning-thing is invalidate_start/end is not just
-invoked for hole punching, but also for allocation(e.g. default
-fallocate). While for allocation we can get the page only at the
-invalidate_end() time. But AFAICS, the invalidate() is called for
-fallocate(allocation) is because previously we rely on the existence in
-memory backing store to tell a page is private and we need notify KVM
-that the page is being converted from shared to private, but that is not
-true for current code and fallocate() is also not mandatory since KVM
-can call restrictedmem_get_page() to allocate dynamically, so I think we
-can remove the invalidation path for fallocate(allocation).
-
+在 2022/11/2 13:42, Jason Wang 写道:
+> On Tue, Nov 1, 2022 at 12:19 AM <huangy81@chinatelecom.cn> wrote:
+>>
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>
+>> For netdev device that can offload virtio-net dataplane to slave,
+>> such as vhost-net, vhost-user and vhost-vdpa, exporting it's
+>> capability information and acked features would be more friendly for
+>> developers. These infomation can be analyzed and compare to slave
+>> capability provided by, eg dpdk or other slaves directly, helping to
+>> draw conclusions about if vm network interface works normally, if
+>> it vm can be migrated to another feature-compatible destination or
+>> whatever else.
+>>
+>> For developers who devote to offload virtio-net dataplane to DPU
+>> and make efforts to migrate vm lively from software-based source
+>> host to DPU-offload destination host smoothly, virtio-net feature
+>> compatibility is an serious issue, exporting the key capability
+>> and acked_features of netdev could also help to debug greatly.
+>>
+>> So we export out the key capabilities of netdev, which may affect
+>> the final negotiated virtio-net features, meanwhile, backed-up
+>> acked_features also exported, which is used to initialize or
+>> restore features negotiated between qemu and vhost slave when
+>> starting vhost_dev device.
+>>
+>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>> ---
+>>   net/net.c     | 44 +++++++++++++++++++++++++++++++++++++++
+>>   qapi/net.json | 66 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 110 insertions(+)
+>>
+>> diff --git a/net/net.c b/net/net.c
+>> index 2db160e..5d11674 100644
+>> --- a/net/net.c
+>> +++ b/net/net.c
+>> @@ -53,6 +53,7 @@
+>>   #include "sysemu/runstate.h"
+>>   #include "net/colo-compare.h"
+>>   #include "net/filter.h"
+>> +#include "net/vhost-user.h"
+>>   #include "qapi/string-output-visitor.h"
+>>
+>>   /* Net bridge is currently not supported for W32. */
+>> @@ -1224,6 +1225,49 @@ void qmp_netdev_del(const char *id, Error **errp)
+>>       }
+>>   }
+>>
+>> +static NetDevInfo *query_netdev(NetClientState *nc)
+>> +{
+>> +    NetDevInfo *info = NULL;
+>> +
+>> +    if (!nc || !nc->is_netdev) {
+>> +        return NULL;
+>> +    }
+>> +
+>> +    info = g_malloc0(sizeof(*info));
+>> +    info->name = g_strdup(nc->name);
+>> +    info->type = nc->info->type;
+>> +    info->ufo = nc->info->has_ufo;
+>> +    info->vnet_hdr = nc->info->has_vnet_hdr;
+>> +    info->vnet_hdr_len = nc->info->has_vnet_hdr_len;
 > 
-> So you still cover the same range, but the arch/platform callbacks can
-> then, as a best effort, do things like restore 2M directmap if they see
-> that the backing page is 2MB+ and the GPA range covers the entire range.
-> If the GPA doesn't covers the whole range, or the backing page is
-> order:0, then in that case we are still forced to leave the directmap
-> split.
-> 
-> But with that in place we can then improve on that by allowing for the
-> use of hugetlbfs.
-> 
-> We'd still be somewhat reliant on userspace to issue fallocate()'s on
-> 2M-aligned boundaries to some degree (guest teardown invalidations
-> could be issued as 2M-aligned, which would be the bulk of the pages
-> in most cases, but for discarding pages after private->shared
-> conversion we could still get fragmentation). This could maybe be
-> addressed by keeping track of those partial/non-2M-aligned fallocate()
-> requests and then issuing them as a batched 2M invalidation once all
-> the subpages have been fallocate(HOLE_PUNCH)'d. We'd need to enforce
-> that fallocate(PUNCH_HOLE) is preceeded by
-> KVM_MEMORY_ENCRYPT_UNREG_REGION to make sure MMU invalidations happen
-> though.
-
-Don't understand why the sequence matters here, we should do MMU
-invalidation for both fallocate(PUNCH_HOLE) and
-KVM_MEMORY_ENCRYPT_UNREG_REGION, right?
+> So all the fields are virtio specific, I wonder if it's better to
+> rename the command as query-vhost or query-virtio?
+Indeed, i'm also a little struggling about the naming, i prefer
+Thomas's suggestion: 'x-query-virtio-netdev' and 'info virtio-netdev',
+since we may add or del some capabilities about the *netdev* , so adding 
+a "x-" prefix seems to reasonable, as to '-netdev' suffix, it implies 
+the *backend*.
 
 Thanks,
-Chao
+
+Yong
 > 
-> Not sure on these potential follow-ups, but they all at least seem
-> compatible with the proposed invalidation scheme.
+> Thanks
 > 
-> -Mike
+>> +
+>> +    if (nc->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
+>> +        info->has_acked_features = true;
+>> +        info->acked_features = vhost_user_get_acked_features(nc);
+>> +    }
+>> +
+>> +    return info;
+>> +}
+>> +
+>> +NetDevInfoList *qmp_query_netdev(Error **errp)
+>> +{
+>> +    NetClientState *nc;
+>> +    NetDevInfo *info = NULL;
+>> +    NetDevInfoList *head = NULL, **tail = &head;
+>> +
+>> +    QTAILQ_FOREACH(nc, &net_clients, next) {
+>> +        if (nc->info->type == NET_CLIENT_DRIVER_NIC) {
+>> +            continue;
+>> +        }
+>> +
+>> +        info = query_netdev(nc);
+>> +        if (info) {
+>> +            QAPI_LIST_APPEND(tail, info);
+>> +        }
+>> +    }
+>> +
+>> +    return head;
+>> +}
+>> +
+>>   static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
+>>   {
+>>       char *str;
+>> diff --git a/qapi/net.json b/qapi/net.json
+>> index dd088c0..76a6513 100644
+>> --- a/qapi/net.json
+>> +++ b/qapi/net.json
+>> @@ -631,6 +631,72 @@
+>>                          'if': 'CONFIG_VMNET' } } }
+>>
+>>   ##
+>> +# @NetDevInfo:
+>> +#
+>> +# NetDev information.  This structure describes a NetDev information, including
+>> +# capabilities and negotiated features.
+>> +#
+>> +# @name: The NetDev name.
+>> +#
+>> +# @type: Type of NetDev.
+>> +#
+>> +# @ufo: True if NetDev has ufo capability.
+>> +#
+>> +# @vnet-hdr: True if NetDev has vnet_hdr.
+>> +#
+>> +# @vnet-hdr-len: True if given length can be assigned to NetDev.
+>> +#
+>> +# @acked-features: Negotiated features with vhost slave device if device support
+>> +#                  dataplane offload.
+>> +#
+>> +# Since:  7.1
+>> +##
+>> +{'struct': 'NetDevInfo',
+>> + 'data': {
+>> +    'name': 'str',
+>> +    'type': 'NetClientDriver',
+>> +    'ufo':'bool',
+>> +    'vnet-hdr':'bool',
+>> +    'vnet-hdr-len':'bool',
+>> +    '*acked-features': 'uint64' } }
+>> +
+>> +##
+>> +# @query-netdev:
+>> +#
+>> +# Get a list of NetDevInfo for all virtual netdev peer devices.
+>> +#
+>> +# Returns: a list of @NetDevInfo describing each virtual netdev peer device.
+>> +#
+>> +# Since: 7.1
+>> +#
+>> +# Example:
+>> +#
+>> +# -> { "execute": "query-netdev" }
+>> +# <- {
+>> +#       "return":[
+>> +#          {
+>> +#             "name":"hostnet0",
+>> +#             "type":"vhost-user",
+>> +#             "ufo":true,
+>> +#             "vnet-hdr":true,
+>> +#             "vnet-hdr-len":true,
+>> +#             "acked-features":"5111807907",
+>> +#          },
+>> +#          {
+>> +#             "name":"hostnet1",
+>> +#             "type":"vhost-user",
+>> +#             "ufo":true,
+>> +#             "vnet-hdr":true,
+>> +#             "vnet-hdr-len":true,
+>> +#             "acked-features":"5111807907",
+>> +#          }
+>> +#       ]
+>> +#    }
+>> +#
+>> +##
+>> +{ 'command': 'query-netdev', 'returns': ['NetDevInfo'] }
+>> +
+>> +##
+>>   # @RxState:
+>>   #
+>>   # Packets receiving state
+>> --
+>> 1.8.3.1
+>>
 > 
-> > 
-> > -Mike
-> > 
-> > > 
-> > > > 
-> > > > I need to rework things for v9, and we'll probably want to use struct
-> > > > folio instead of struct page now, but as a proof-of-concept of sorts this
-> > > > is what I'd added on top of v8 of your patchset to implement 1) and 2):
-> > > > 
-> > > >   https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fmdroth%2Flinux%2Fcommit%2F127e5ea477c7bd5e4107fd44a04b9dc9e9b1af8b&amp;data=05%7C01%7CMichael.Roth%40amd.com%7C28ba5dbb51844f910dec08dabc1c99e6%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C638029128345507924%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=iv%2BOMPe5AZuUtIW6bCH%2BRhJPljS14JrTXbQXptLG9fM%3D&amp;reserved=0
-> > > > 
-> > > > Does an approach like this seem reasonable? Should be work this into the
-> > > > base restricted memslot support?
-> > > 
-> > > If the above mentioned semantics difference is not a problem, I don't
-> > > have strong objection on this.
-> > > 
-> > > Sean, since you have much better understanding on this, what is your
-> > > take on this?
-> > > 
-> > > Chao
-> > > > 
-> > > > Thanks,
-> > > > 
-> > > > Mike
 
