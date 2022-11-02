@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D1C61FA36
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 17:44:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E1C61FA47
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 17:46:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os5Ck-0002Em-LK; Mon, 07 Nov 2022 11:42:34 -0500
+	id 1os5Cl-0002FH-63; Mon, 07 Nov 2022 11:42:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1os5CO-00025F-8y; Mon, 07 Nov 2022 11:42:12 -0500
+ id 1os5CQ-00025u-Bb; Mon, 07 Nov 2022 11:42:14 -0500
 Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <outgoing@sr.ht>)
- id 1os5CI-0004oZ-Kt; Mon, 07 Nov 2022 11:42:10 -0500
+ id 1os5CN-0005Jo-6h; Mon, 07 Nov 2022 11:42:13 -0500
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id 80A3E11F30B;
- Mon,  7 Nov 2022 16:42:04 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 08F6611F847;
+ Mon,  7 Nov 2022 16:42:05 +0000 (UTC)
 From: ~axelheider <axelheider@git.sr.ht>
-Date: Mon, 31 Oct 2022 00:59:29 +0100
-Subject: [PATCH qemu.git v2 2/9] hw/timer/imx_epit: cleanup CR defines
-Message-ID: <166783932395.3279.1096141058484230644-2@git.sr.ht>
+Date: Wed, 02 Nov 2022 16:36:43 +0100
+Subject: [PATCH qemu.git v2 5/9] hw/timer/imx_epit: do not persist CR.SWR bit
+Message-ID: <166783932395.3279.1096141058484230644-5@git.sr.ht>
 X-Mailer: git.sr.ht
 In-Reply-To: <166783932395.3279.1096141058484230644-0@git.sr.ht>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 Received-SPF: pass client-ip=173.195.146.151; envelope-from=outgoing@sr.ht;
  helo=mail-b.sr.ht
@@ -57,52 +57,39 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Axel Heider <axel.heider@hensoldt.net>
 
-remove unused defines, add needed defines
-
 Signed-off-by: Axel Heider <axel.heider@hensoldt.net>
 ---
- hw/timer/imx_epit.c         | 4 ++--
- include/hw/timer/imx_epit.h | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/timer/imx_epit.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/hw/timer/imx_epit.c b/hw/timer/imx_epit.c
-index 4af730593f..8ec770f674 100644
+index 5315d9633e..6af460946f 100644
 --- a/hw/timer/imx_epit.c
 +++ b/hw/timer/imx_epit.c
-@@ -82,8 +82,8 @@ static void imx_epit_set_freq(IMXEPITState *s)
-     uint32_t clksrc;
-     uint32_t prescaler;
- 
--    clksrc = extract32(s->cr, CR_CLKSRC_SHIFT, 2);
--    prescaler = 1 + extract32(s->cr, CR_PRESCALE_SHIFT, 12);
-+    clksrc = extract32(s->cr, CR_CLKSRC_SHIFT, CR_CLKSRC_BITS);
-+    prescaler = 1 + extract32(s->cr, CR_PRESCALE_SHIFT, CR_PRESCALE_BITS);
- 
-     s->freq = imx_ccm_get_clock_frequency(s->ccm,
-                                 imx_epit_clocks[clksrc]) / prescaler;
-diff --git a/include/hw/timer/imx_epit.h b/include/hw/timer/imx_epit.h
-index 2acc41e982..e2cb96229b 100644
---- a/include/hw/timer/imx_epit.h
-+++ b/include/hw/timer/imx_epit.h
-@@ -43,7 +43,7 @@
- #define CR_OCIEN    (1 << 2)
- #define CR_RLD      (1 << 3)
- #define CR_PRESCALE_SHIFT (4)
--#define CR_PRESCALE_MASK  (0xfff)
-+#define CR_PRESCALE_BITS  (12)
- #define CR_SWR      (1 << 16)
- #define CR_IOVW     (1 << 17)
- #define CR_DBGEN    (1 << 18)
-@@ -51,7 +51,7 @@
- #define CR_DOZEN    (1 << 20)
- #define CR_STOPEN   (1 << 21)
- #define CR_CLKSRC_SHIFT (24)
--#define CR_CLKSRC_MASK  (0x3 << CR_CLKSRC_SHIFT)
-+#define CR_CLKSRC_BITS  (2)
- 
- #define EPIT_TIMER_MAX  0XFFFFFFFFUL
- 
--- 
+@@ -191,8 +191,9 @@ static void imx_epit_write(void *opaque, hwaddr offset, u=
+int64_t value,
+     case 0: /* CR */
+=20
+         oldcr =3D s->cr;
+-        s->cr =3D value & 0x03ffffff;
+-        if (s->cr & CR_SWR) {
++        /* SWR bit is never persisted, it clears itself once reset is done */
++        s->cr =3D (value & ~CR_SWR) & 0x03ffffff;
++        if (value & CR_SWR) {
+             /* handle the reset */
+             imx_epit_reset(DEVICE(s));
+             /*
+@@ -205,7 +206,7 @@ static void imx_epit_write(void *opaque, hwaddr offset, u=
+int64_t value,
+         ptimer_transaction_begin(s->timer_reload);
+=20
+         /* Update the frequency. Has been done already in case of a reset. */
+-        if (!(s->cr & CR_SWR)) {
++        if (!(value & CR_SWR)) {
+             imx_epit_set_freq(s);
+         }
+=20
+--=20
 2.34.5
 
 
