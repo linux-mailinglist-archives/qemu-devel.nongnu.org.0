@@ -2,92 +2,132 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68D6616954
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:40:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FAAD616733
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:10:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqGlo-0003Pi-Mz; Wed, 02 Nov 2022 12:39:16 -0400
+	id 1oqGHi-0002VB-ER; Wed, 02 Nov 2022 12:08:10 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGll-0003Or-Bw
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:39:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1oqGHe-0002Uv-Mj
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:08:06 -0400
+Received: from mail-vi1eur04on071e.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0e::71e]
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGli-00010K-Od
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:39:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667407149;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:cc:mime-version:mime-version:mime-version:
- content-type:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:resent-to:
- resent-from:resent-message-id; bh=qm0I5aDvJaLCjuV75GTvN281Cbx6nBvkBTLnceMct30=;
- b=dCTH19q2JJ2Q8MCOde+5YYPSbx3vV36yPZ8BRoJAwqjlR5lAix1uEwuBNkLP/EhS7VBpHu
- D6DONRBdZ91tor3CxriX455lnNKBZQEgLV6G6qvyCBfPOS29w4ENGo9GHanMshr34gO6oS
- 1MoAJjpa3o5HQqe6CMEGdmHCgslioO0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-553-s0prtRclNrW0xHEevPtGtQ-1; Wed, 02 Nov 2022 12:39:08 -0400
-X-MC-Unique: s0prtRclNrW0xHEevPtGtQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u20-20020adfc654000000b0022cc05e9119so5024657wrg.16
- for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:39:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:mime-version:message-id:date
- :subject:cc:cc:to:from:resent-to:resent-message-id:resent-date
- :resent-from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qm0I5aDvJaLCjuV75GTvN281Cbx6nBvkBTLnceMct30=;
- b=49DqOZ+g+ZFBteMpAlTv05jREvNyfouV49bnDlPZFBKBB5j3AM66WakuSCoCBkuN6j
- qnPYtTxd4fOvBd7wWwAQrGsGKJxaiflD5BsD/5kzjmi/TqQ8/GxpuXp2omcBapx5ErYa
- fIJZLHCyXXM4SkgkV4SeWh1t8kfjLxP3DGHkRNv8w5oYfwlcNp0GUqjRcR7UqtXCOSue
- 9oHH2sNFogwIBzTfh4Q9M0zVvtneOK1sLYhQ+/Pu3RRFHrvSK8a7EGmA4YkSidavh2ii
- 8Y2XaCcXfR1EyRAY+S6UVqHrlj8Wm0LtFt36Rr6y6Z86jZNnKk2v0aisFM23j90SV0d+
- nd4w==
-X-Gm-Message-State: ACrzQf05bXb36Og5q+w1zvUSJhIYSz5letWE19eBzjcz5wtIyjlFAo6J
- IyPYks475M4OhzwbWDsCNb+/xKiuHRn/d1r6+sc0E3YsJ/iH/KnQND3jBja8gDGawD/2kIWPQ0a
- uW/+oCVUnVUGZSskyoqe420lY254MFxZYdoDkd7eUJyg+vpxJRmHFW4zHM6Yt
-X-Received: by 2002:a5d:6112:0:b0:236:740e:5938 with SMTP id
- v18-20020a5d6112000000b00236740e5938mr15485548wrt.155.1667407146767; 
- Wed, 02 Nov 2022 09:39:06 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5XQkYSXMWakdPTtOO5pG7sR9uobwlMwg9JqkQk4D0DhYHfbNRSJP6lAcZp5M5Z2s5JMJQDSA==
-X-Received: by 2002:a5d:6112:0:b0:236:740e:5938 with SMTP id
- v18-20020a5d6112000000b00236740e5938mr15485514wrt.155.1667407146100; 
- Wed, 02 Nov 2022 09:39:06 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- f7-20020adff987000000b00236722ebe66sm12993578wrr.75.2022.11.02.09.39.05
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Nov 2022 09:39:05 -0700 (PDT)
-Resent-From: "Michael S. Tsirkin" <mst@redhat.com>
-Resent-Date: Wed, 2 Nov 2022 12:39:03 -0400
-Resent-Message-ID: <Y2KdJ4uA6vPFB2VA@redhat.com>
-Resent-To: qemu-devel@nongnu.org
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-cc: stefanha@redhat.com
-Subject: [PULL v2 00/82] pci,pc,virtio: features, tests, fixes, cleanups
-Date: Wed,  2 Nov 2022 12:02:14 -0400
-Message-Id: <20221102160336.616599-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1oqGHY-0001tH-Rs
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:08:06 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Fs+RkhLsKZX1cwJuAjSjCdidVvurp3epBgfhrXQ9TK5iDwSWYJvmRB6mJ1JQ8y+aIOloOMSU1e0NoLrWBgynlmXc+YuPlf/RfYCuuLo0cvdmiwFCnlBFG80qpeddyIdTY6jcyZVv6J3yp8yYeuQK5a5fNVHaHcx9O9uGd+LFt5kU6Lse/55IpS6G0rlAMF37O0+L9KdahGEoGQmP0H6BFrW9SusdCxB7FYIQwaqBdWd/86NR6cHaVe0x3TZoD53OuiUNTArH35wpiZEQ8/HFk9B7PjlboMXeuk3/xKO8HQU2vWUj73MDNTMRkV30CHgaIGA+I6bB4KG0wqYlKakr6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WOleRXbhZQtH5ElV0T6Umg85P5nwmp50YN0bN7Php+g=;
+ b=V89pMXnsUT6Bo7AKWeN7AgcwfzVVmFsWvu+mY/pIH4TgG2c7YEqQ2jS5LYoQIkWSCBKr+q46bDVzKFjN84HLvwwSt+uuNn+fO8Z7Tfptyl3Wuu70zF3GIJdXRKzEra0HO02IOuAnW9jo6FLrbYeDIL5UAqQ3ztiEcKMU6BuIYacY6ag9DuOh51RfzPJ2FxWltHD/528STTAGl05IH+gLCK3yjoaKxddhr+r3fSniPPe6a6k/aHbbKPClKfl/od2fiUFdj0FMts8rqF+3yxO5qdFWZ0/8vLTyN5qz8JZiexU15SRSuGvnzLD+fS62dpTQFFE0ITSt6rjG35EfnL8ATQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WOleRXbhZQtH5ElV0T6Umg85P5nwmp50YN0bN7Php+g=;
+ b=hfmfPf/pgEV6tT0+T3kbWae3L8wqovu6dkF5uzy6VhEkVDKlYG24v4bnLGWqJDk6vj5UP+fZNVrq+Yq3WmDulhfTfFHAHRXeTvWvBAViCOinHdKYEFrL/6hLDSvUUnaia2iojz7dRYRfOd3UXDIR7GGYk7t/JpTypqMDizC7GQWmKnXgMglgXI+TckMr5HgvzEK1XeZUDI6fsoNLCoXIkuwhJ4RbS5G2bKFkECO+G2xPTi2NL5i5HDPWMBukGFTWpDDRUxqo0iIuPLxdeuA/1vSTH9Pd++qXzqI8IYdMxVp7hxmQq+GzgH8FFAnaHuZfnniIDcCevozgVnuoNirg7A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
+ by AS8PR08MB8370.eurprd08.prod.outlook.com (2603:10a6:20b:56b::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.16; Wed, 2 Nov
+ 2022 16:02:54 +0000
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::e2ae:48d9:fe01:40e7]) by PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::e2ae:48d9:fe01:40e7%4]) with mapi id 15.20.5769.021; Wed, 2 Nov 2022
+ 16:02:54 +0000
+Message-ID: <f2355101-16b0-3e58-9502-12ea26a8b86f@virtuozzo.com>
+Date: Wed, 2 Nov 2022 17:02:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: Using QEMU for VRChat
+Content-Language: en-US
+To: danko babro <dankobabro@gmail.com>, qemu-devel@nongnu.org
+References: <CADfEUTJ4AvfUnwcWtiBk+V1gXrGt6W8cpxcUMbx_MtociwEC7g@mail.gmail.com>
+From: "Denis V. Lunev" <den@virtuozzo.com>
+In-Reply-To: <CADfEUTJ4AvfUnwcWtiBk+V1gXrGt6W8cpxcUMbx_MtociwEC7g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VE1PR08CA0005.eurprd08.prod.outlook.com
+ (2603:10a6:803:104::18) To PAXPR08MB6956.eurprd08.prod.outlook.com
+ (2603:10a6:102:1db::9)
 MIME-Version: 1.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR08MB6956:EE_|AS8PR08MB8370:EE_
+X-MS-Office365-Filtering-Correlation-Id: d6c7c3d9-43eb-4623-955b-08dabcebb361
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BXJjP93VfteTPEOSkBTRKCSunWuwEZyt0FMYiOYvwEjJOJsXWpeObqJmlOOIYDxKYnMeBt4IGNYSdAu9c96pyPuGuVJHpmH9YQfO2v6AFeJ/GMBCMrcNvnsaGZQtWNb5hp2OQCK4tDcVbfERPknJLQxFuTvmplODi9Ati8yTmfi4hejwPFPew6JnYFJqngdYSLe5V0nW10/hE6ZIi13p6YCwHnLUEqIM8ZeV6a6zCwFy/vgu4SmVTKhqWpEbC7IEM5xEPEu+z8kpvAh3Uij35rM7Lmh2ykv5ERUil/atC5A9dqkLj5q8ye4rPF6WTYRw2bQgjMaaDosxHr0r6o7cx1Iw0b8vr78JIeKMrbShPSbRggXBw7NqKpK0sPdr+fUkpcUhqrUH/Cujp5oFK6gT4x+ItZqdhp5eIlCdHhtszfUhjdsHCkGJQ0Caed/XJFk4ToZe1C/KSBEKjTSUvIU7QId0TGmrGpLtQogCMRvuYre6Boz0a+xyXKdZLfIFRH7ZnJk9jHZCMdY/1fysL2zW/AmGAaiEtFik1maBBNuUGee3MY4TGEF5diJUzO9foAwutAZApsYKvmtK4uUtm8aNyvYhw7wph1Oq9ZCsNdV+yMv/MVyDAcifQB5evDRZQ/McSddvXQY+gqRdDjl/gumHlky0K3BRPwcK9chiLoI2bYgskN5Ijaf7ddFqUQDSkSBqAI+LhbGzVvpyBmNx6oVrGfKEFVhDbekm7SpAThwZqTTNrkYzBp8nI9OOiBN7Y7X0seBOOPxpnjonD2Wq8zkgoFOeEit9nI3PjVDxfNaivq7VyOIYJ4xnfMwboUaM0fJX
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(346002)(396003)(136003)(39850400004)(366004)(376002)(451199015)(478600001)(2906002)(316002)(3480700007)(6512007)(6486002)(8936002)(53546011)(6506007)(41300700001)(8676002)(966005)(83380400001)(66476007)(186003)(26005)(66556008)(2616005)(86362001)(31686004)(5660300002)(66946007)(38100700002)(31696002)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UkVRQ1QwTnp4K2QzcHlhZDZYWVlBOUttc2U0dFREVE5sb0hQa0ZZZm9HRGZP?=
+ =?utf-8?B?UzRhakdHSzZiTjBjU3hKRXJqbHl1ZHpWRGNMNHlyVTJ3VFNEODRrbE5SRk5Q?=
+ =?utf-8?B?dmRUWS9WK1hRTkMxd2R1Q1VNbXdzb1J1T1FCanNVdi9idDR3QWVEMFphb29K?=
+ =?utf-8?B?WlN5YWUxNHg0MzViSlF6Rjd3TWJ1VUswenc1WHR4RVhPSldER3I0KzRjTVVr?=
+ =?utf-8?B?eExiT05USUhEYjRmUXRDdE1BbUZodjFodW5zQnMvcWM5cHEwMW1jaUllS09Q?=
+ =?utf-8?B?VjBNUGxLejFWcGdTRkNsaVlwUXhRQSt3Y0tNbi9DSC90Z3lHNWkvTHFtOXBB?=
+ =?utf-8?B?N2RaOGxuOEljT3lqNFBtMGc5L2M1NkZFY2paaUYrNHJualNSS3grVkVadzR1?=
+ =?utf-8?B?ck9JSHhhb3VuM2lNY2czQ20zWjJoTmdmaWNESnRNN3J2TTE0NWFhQjZUQkEx?=
+ =?utf-8?B?UC9JYlZNSFpnSjZENzEyQTBwYnZoSWdJV2dXUTdFajRSTFFEM1BPdzZQSXJy?=
+ =?utf-8?B?S2dtUFBIUGVCd3AxcW9Icko3TEtWZDZxa09uQzA3K0hwTnJ5NlF3bUdZeU04?=
+ =?utf-8?B?WDRHSm9RN2RSWUpzRzRNQWRBekdsV0ZWbFNRYWFCbGMycEpqQldtMW1DWnh4?=
+ =?utf-8?B?dEtqU21JV2RRWVh6SVRmOExuRE9VNXNMWEYrNC9Bc1d4amRiUmtOcmxMTHdF?=
+ =?utf-8?B?OUoxYkpNZDArVVdjcmpKYzNSQVNyNVQ5dXVmaXZPQytackhuZTA0VVVxYUIy?=
+ =?utf-8?B?MGhRdXB0Rjd2OHRsVGEyTmZoUnF3SE9IT2lUUkQrRnpsenZzMlpyeVNKRE50?=
+ =?utf-8?B?aXRhSnRBbG9yTGZRek9OVzI2aUI2MVJCYjltVWFkTlNjNDlqZWd2OWhVOFF4?=
+ =?utf-8?B?ajhSdWZCbUJURm12YkFhNnVuT3h1c0hXaTFSMTA0S2xIOS9oS3NMMVJOcG1C?=
+ =?utf-8?B?K2VnczdLMDFJRHdndWZxNXpmMWFrREZlaGNpZGFmSGNBckVodVIwazJPOHNZ?=
+ =?utf-8?B?VjZqalFCK3JyVjk5bUJzZWJwM2NLU01uMXJrOXBORmdyK2VLNm4xekZBSmky?=
+ =?utf-8?B?WFgzOWpsL3o3QzBza2FrYysxcXBPdXlGVVdxeHM4ZTlCaTJ3WllSTzRDVmkx?=
+ =?utf-8?B?WVA0RWhyUk14ZjBobmxlQU02TGlpNWU0RXpGY2FGTWgzTWM2S2ZkMjVmQ2Fs?=
+ =?utf-8?B?cy9rUTJPQUlmVit5STQ3ZlFLQXRKRGIramdtdlpHd3JvS0FZSWNCNUxpUXlO?=
+ =?utf-8?B?M1k0emJIVUxvNnZYb2JUQURDbmxSTnhSUTRnU1NYZ2kvdUJLekN3QjNvbkY4?=
+ =?utf-8?B?U0tVMnQvRTZoMmlJWHhwa0FXNEIzYXJpejYxcUF5V1NEUTNRcU4vbWNlRXlN?=
+ =?utf-8?B?ZEg3eVNOYjJKUGRWK3VSZkRoaG9BMUFXMGRUczI4WEw4ZDNnbVJrQU5YMlkz?=
+ =?utf-8?B?L3NRR1RkWndSbjJGVDFmZVN4OTVQRXE4bDY5UmFRbFczZnlDVWNUWDJueDNC?=
+ =?utf-8?B?VkpUNG1GQVB0K0N4OHJTb01LaE5UOGp3UWltejRuODY0ZUhxSW14YlVySStu?=
+ =?utf-8?B?ZTBZbUhCY2IzSzZ5S0lkUXVDQ0NYMUxaR0lGNDVOVTllSHJ6SDhWV29WZnhK?=
+ =?utf-8?B?UWU2dXljbFRDeTNqVGc3SDhybGNPb1IwUVJzb29jRG9IcWZ4VlJpeldQaHBO?=
+ =?utf-8?B?em9TOWttSWFZV0lWTDZKNlNzaTBlbTAxS3c4MitTZzlkbnVHMVpPL0hpenB4?=
+ =?utf-8?B?Z2FrdkJicStKNk91WU9tdm9JL0dtVGoxbTJxbGRmS3MxVnQ2NWlTTGlYbnJG?=
+ =?utf-8?B?MnBBZk1lbm96K2Y2Zkd4MHBwQ0FuWTlQNkNSRC9zQ2lHa2FOMWlGaENLalJM?=
+ =?utf-8?B?UTJGNzZTRlJKQ2ZqSlJ3YkEwNFJFL2U4UFAyN0VhZ1p2UFNUMHFRaUtGMXFl?=
+ =?utf-8?B?TzYwOGNkUTgxUkw4LzFia2hCSlVTcDJpZzBIb0d1bDFUOWc5NEprVEZVQ0dU?=
+ =?utf-8?B?ZWFYelhCWFFOeXBTcjdmQ0hIWnVRdm5HRjQvRG5ybkdOYTJWRGc1OGY1MXlW?=
+ =?utf-8?B?b2dWNnFYWnozTEtINWVsZjNjUEdHbjl3ckMzYnRET1A4d0ZJaHFsVUgvSy9G?=
+ =?utf-8?Q?h/UUiAOUYjuXuAJp4CGfWLXYA?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6c7c3d9-43eb-4623-955b-08dabcebb361
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2022 16:02:54.1386 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: siqvxAFE7gLNsHPLm7RuUGSUTWyo1XkCJr121xBUjqpfPuSgEoKpZmfO7/D9tE2GLRqVkuk2FidwYQOg3gkOkQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8370
+Received-SPF: pass client-ip=2a01:111:f400:fe0e::71e;
+ envelope-from=den@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,343 +143,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Changes from v1:
+On 8/10/22 13:06, danko babro wrote:
+> Dear QEMU dev team,
+> Recently a game called VRChat got a security update, implementing Easy 
+> Anti Cheat into their game (pretty much spyware that logs everything 
+> happening on the users PC) which made me want to install their game on 
+> a virtual machine.
+>
+> The problem now is, that the anti cheat detects if the user is playing 
+> on a virtual machine, but in the official documentation by their dev 
+> team there is a workaround for that, specifically for QEMU, that can 
+> be found here:
+>
+> https://docs.vrchat.com/docs/using-vrchat-in-a-virtual-machine
+>
+> I simply cant understand what that code (on the given website) does. 
+> Does it open up a backdoor for the anti cheat to access my real pc?
+>
+> Is QEMU in general a good solution for when it comes to protecting my 
+> actual PC from threats like these, or any other sorts of viruses for 
+> example, since it uses a kernel based VM.
+>
+> All the best,
+> David
+this seems harmless at the first glance, but the point that
+doing this will not affect the performance is wrong.
 
-Applied and squashed fixes by Igor, Lei He, Hesham Almatary for
-bugs that tripped up the pipeline.
-Updated expected files for core-count test.
+Windows inside virtual machine is doing a lot of things
+on performance critical paths, like when the APIC is accessed
+or in similar places and doing that in HyperV mode is faster
+than in HW mode.
 
-The following changes since commit a11f65ec1b8adcb012b89c92819cbda4dc25aaf1:
+You have denied the detection of HyperV and thus Windows
+inside does not feel that it runs in virtual machine and thus
+could fall into BSoD when IRQ routine processing is not
+fast enough (potential inside VMs, the time was spent in
+host). This should not happen frequently though.
 
-  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2022-11-01 13:49:33 -0400)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 77dd1e2b092bb92978a2d68bed7d048ed74a5d23:
-
-  intel-iommu: PASID support (2022-11-02 07:55:26 -0400)
-
-----------------------------------------------------------------
-pci,pc,virtio: features, tests, fixes, cleanups
-
-lots of acpi rework
-first version of biosbits infrastructure
-ASID support in vhost-vdpa
-core_count2 support in smbios
-PCIe DOE emulation
-virtio vq reset
-HMAT support
-part of infrastructure for viommu support in vhost-vdpa
-VTD PASID support
-fixes, tests all over the place
-
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-
-----------------------------------------------------------------
-Akihiko Odaki (1):
-      msix: Assert that specified vector is in range
-
-Alex Bennée (1):
-      virtio: re-order vm_running and use_started checks
-
-Ani Sinha (7):
-      hw/i386/e820: remove legacy reserved entries for e820
-      acpi/tests/avocado/bits: initial commit of test scripts that are run by biosbits
-      acpi/tests/avocado/bits: disable acpi PSS tests that are failing in biosbits
-      acpi/tests/avocado/bits: add biosbits config file for running bios tests
-      acpi/tests/avocado/bits: add acpi and smbios avocado tests that uses biosbits
-      acpi/tests/avocado/bits/doc: add a doc file to describe the acpi bits test
-      MAINTAINERS: add myself as the maintainer for acpi biosbits avocado tests
-
-Bernhard Beschow (3):
-      hw/i386/acpi-build: Remove unused struct
-      hw/i386/acpi-build: Resolve redundant attribute
-      hw/i386/acpi-build: Resolve north rather than south bridges
-
-Brice Goglin (4):
-      hmat acpi: Don't require initiator value in -numa
-      tests: acpi: add and whitelist *.hmat-noinitiator expected blobs
-      tests: acpi: q35: add test for hmat nodes without initiators
-      tests: acpi: q35: update expected blobs *.hmat-noinitiators expected HMAT:
-
-Christian A. Ehrhardt (1):
-      hw/acpi/erst.c: Fix memory handling issues
-
-Cindy Lu (1):
-      vfio: move implement of vfio_get_xlat_addr() to memory.c
-
-David Daney (1):
-      virtio-rng-pci: Allow setting nvectors, so we can use MSI-X
-
-Eric Auger (1):
-      hw/virtio/virtio-iommu-pci: Enforce the device is plugged on the root bus
-
-Gregory Price (1):
-      hw/i386/pc.c: CXL Fixed Memory Window should not reserve e820 in bios
-
-Hesham Almatary (3):
-      tests: Add HMAT AArch64/virt empty table files
-      tests: acpi: aarch64/virt: add a test for hmat nodes with no initiators
-      tests: virt: Update expected *.acpihmatvirt tables
-
-Huai-Cheng Kuo (3):
-      hw/pci: PCIe Data Object Exchange emulation
-      hw/cxl/cdat: CXL CDAT Data Object Exchange implementation
-      hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
-
-Igor Mammedov (11):
-      acpi: pc: vga: use AcpiDevAmlIf interface to build VGA device descriptors
-      tests: acpi: whitelist DSDT before generating PCI-ISA bridge AML automatically
-      acpi: pc/q35: drop ad-hoc PCI-ISA bridge AML routines and let bus ennumeration generate AML
-      tests: acpi: update expected DSDT after ISA bridge is moved directly under PCI host bridge
-      tests: acpi: whitelist DSDT before generating ICH9_SMB AML automatically
-      acpi: add get_dev_aml_func() helper
-      acpi: enumerate SMB bridge automatically along with other PCI devices
-      tests: acpi: update expected blobs
-      tests: acpi: pc/q35 whitelist DSDT before \_GPE cleanup
-      acpi: pc/35: sanitize _GPE declaration order
-      tests: acpi: update expected blobs
-
-Jason Wang (4):
-      intel-iommu: don't warn guest errors when getting rid2pasid entry
-      intel-iommu: drop VTDBus
-      intel-iommu: convert VTD_PE_GET_FPD_ERR() to be a function
-      intel-iommu: PASID support
-
-Jonathan Cameron (2):
-      hw/mem/cxl-type3: Add MSIX support
-      hw/pci-bridge/cxl-upstream: Add a CDAT table access DOE
-
-Julia Suvorova (5):
-      hw/smbios: add core_count2 to smbios table type 4
-      bios-tables-test: teach test to use smbios 3.0 tables
-      tests/acpi: allow changes for core_count2 test
-      bios-tables-test: add test for number of cores > 255
-      tests/acpi: update tables for new core count test
-
-Kangjie Xu (10):
-      virtio: introduce virtio_queue_enable()
-      virtio: core: vq reset feature negotation support
-      virtio-pci: support queue enable
-      vhost: expose vhost_virtqueue_start()
-      vhost: expose vhost_virtqueue_stop()
-      vhost-net: vhost-kernel: introduce vhost_net_virtqueue_reset()
-      vhost-net: vhost-kernel: introduce vhost_net_virtqueue_restart()
-      virtio-net: introduce flush_or_purge_queued_packets()
-      virtio-net: support queue_enable
-      vhost: vhost-kernel: enable vq reset feature
-
-Lei He (4):
-      virtio-crypto: Support asynchronous mode
-      crypto: Support DER encodings
-      crypto: Support export akcipher to pkcs8
-      cryptodev: Add a lkcf-backend for cryptodev
-
-Markus Armbruster (1):
-      MAINTAINERS: Add qapi/virtio.json to section "virtio"
-
-Miguel Luis (4):
-      tests/acpi: virt: allow acpi MADT and FADT changes
-      acpi: fadt: support revision 6.0 of the ACPI specification
-      acpi: arm/virt: madt: bump to revision 4 accordingly to ACPI 6.0 Errata A
-      tests/acpi: virt: update ACPI MADT and FADT binaries
-
-Robert Hoo (5):
-      tests/acpi: allow SSDT changes
-      acpi/ssdt: Fix aml_or() and aml_and() in if clause
-      acpi/nvdimm: define macro for NVDIMM Device _DSM
-      acpi/nvdimm: Implement ACPI NVDIMM Label Methods
-      test/acpi/bios-tables-test: SSDT: update golden master binaries
-
-Xiang Chen (1):
-      hw/arm/virt: Enable HMAT on arm virt machine
-
-Xuan Zhuo (5):
-      virtio: introduce __virtio_queue_reset()
-      virtio: introduce virtio_queue_reset()
-      virtio-pci: support queue reset
-      virtio-net: support queue reset
-      virtio-net: enable vq reset feature
-
-Yajun Wu (3):
-      vhost: Change the sequence of device start
-      vhost-user: Support vhost_dev_start
-      vhost-user: Fix out of order vring host notification handling
-
- tests/avocado/acpi-bits/bits-config/bits-cfg.txt |   18 +
- qapi/qom.json                                    |    2 +
- crypto/der.h                                     |  211 +-
- crypto/rsakey.h                                  |   11 +-
- hw/display/vga_int.h                             |    2 +
- hw/i386/e820_memory_layout.h                     |    8 -
- hw/i386/fw_cfg.h                                 |    1 -
- hw/i386/intel_iommu_internal.h                   |   16 +-
- hw/smbios/smbios_build.h                         |    9 +-
- include/crypto/akcipher.h                        |   21 +
- include/exec/memory.h                            |    4 +
- include/hw/acpi/acpi_aml_interface.h             |   13 +-
- include/hw/cxl/cxl_cdat.h                        |  166 ++
- include/hw/cxl/cxl_component.h                   |    7 +
- include/hw/cxl/cxl_device.h                      |    3 +
- include/hw/cxl/cxl_pci.h                         |    1 +
- include/hw/firmware/smbios.h                     |   12 +
- include/hw/i386/intel_iommu.h                    |   18 +-
- include/hw/pci/msix.h                            |    4 +-
- include/hw/pci/pci_bus.h                         |    2 +
- include/hw/pci/pci_ids.h                         |    3 +
- include/hw/pci/pcie.h                            |    1 +
- include/hw/pci/pcie_doe.h                        |  123 ++
- include/hw/pci/pcie_regs.h                       |    4 +
- include/hw/virtio/vhost.h                        |    5 +
- include/hw/virtio/virtio-pci.h                   |    5 +
- include/hw/virtio/virtio.h                       |   16 +-
- include/net/vhost_net.h                          |    4 +
- include/sysemu/cryptodev.h                       |   61 +-
- backends/cryptodev-builtin.c                     |   69 +-
- backends/cryptodev-lkcf.c                        |  645 ++++++
- backends/cryptodev-vhost-user.c                  |   53 +-
- backends/cryptodev.c                             |   44 +-
- crypto/akcipher.c                                |   18 +
- crypto/der.c                                     |  313 ++-
- crypto/rsakey.c                                  |   42 +
- hw/acpi/aml-build.c                              |   13 +-
- hw/acpi/erst.c                                   |    6 +-
- hw/acpi/nvdimm.c                                 |  106 +-
- hw/arm/virt-acpi-build.c                         |   33 +-
- hw/block/vhost-user-blk.c                        |   18 +-
- hw/core/machine.c                                |    8 +-
- hw/cxl/cxl-cdat.c                                |  224 ++
- hw/display/acpi-vga-stub.c                       |    7 +
- hw/display/acpi-vga.c                            |   26 +
- hw/display/vga-pci.c                             |    4 +
- hw/i386/acpi-build.c                             |  203 +-
- hw/i386/e820_memory_layout.c                     |   20 +-
- hw/i386/fw_cfg.c                                 |    3 -
- hw/i386/intel_iommu.c                            |  692 +++---
- hw/i386/microvm.c                                |    2 -
- hw/i386/pc.c                                     |    2 -
- hw/isa/lpc_ich9.c                                |   23 +
- hw/isa/piix3.c                                   |   17 +-
- hw/mem/cxl_type3.c                               |  264 +++
- hw/net/e1000e.c                                  |   15 +-
- hw/net/rocker/rocker.c                           |   23 +-
- hw/net/vhost_net-stub.c                          |   12 +
- hw/net/vhost_net.c                               |   91 +-
- hw/net/virtio-net.c                              |   57 +-
- hw/net/vmxnet3.c                                 |   27 +-
- hw/nvme/ctrl.c                                   |    5 +-
- hw/pci-bridge/cxl_upstream.c                     |  195 +-
- hw/pci/msix.c                                    |   24 +-
- hw/pci/pcie_doe.c                                |  367 ++++
- hw/rdma/vmw/pvrdma_main.c                        |    7 +-
- hw/remote/vfio-user-obj.c                        |    9 +-
- hw/smbios/smbios.c                               |   19 +-
- hw/vfio/common.c                                 |   66 +-
- hw/virtio/vhost-user.c                           |   79 +-
- hw/virtio/vhost.c                                |   16 +-
- hw/virtio/virtio-crypto.c                        |  339 +--
- hw/virtio/virtio-iommu-pci.c                     |   12 +-
- hw/virtio/virtio-pci.c                           |   83 +-
- hw/virtio/virtio-rng-pci.c                       |   14 +
- hw/virtio/virtio.c                               |   62 +-
- softmmu/memory.c                                 |   72 +
- tests/qtest/bios-tables-test.c                   |  267 ++-
- tests/unit/test-crypto-der.c                     |  126 +-
- MAINTAINERS                                      |   15 +
- backends/meson.build                             |    3 +
- docs/devel/acpi-bits.rst                         |  145 ++
- docs/devel/index-build.rst                       |    1 +
- hw/arm/Kconfig                                   |    1 +
- hw/cxl/meson.build                               |    1 +
- hw/display/meson.build                           |   17 +
- hw/i386/trace-events                             |    2 +
- hw/pci/meson.build                               |    1 +
- tests/avocado/acpi-bits.py                       |  396 ++++
- tests/avocado/acpi-bits/bits-tests/smbios.py2    | 2430 ++++++++++++++++++++++
- tests/avocado/acpi-bits/bits-tests/testacpi.py2  |  283 +++
- tests/avocado/acpi-bits/bits-tests/testcpuid.py2 |   83 +
- tests/data/acpi/pc/DSDT                          |  Bin 6422 -> 6501 bytes
- tests/data/acpi/pc/DSDT.acpierst                 |  Bin 6382 -> 6461 bytes
- tests/data/acpi/pc/DSDT.acpihmat                 |  Bin 7747 -> 7826 bytes
- tests/data/acpi/pc/DSDT.bridge                   |  Bin 9496 -> 9575 bytes
- tests/data/acpi/pc/DSDT.cphp                     |  Bin 6886 -> 6965 bytes
- tests/data/acpi/pc/DSDT.dimmpxm                  |  Bin 8076 -> 8155 bytes
- tests/data/acpi/pc/DSDT.hpbridge                 |  Bin 6382 -> 6461 bytes
- tests/data/acpi/pc/DSDT.hpbrroot                 |  Bin 3069 -> 3107 bytes
- tests/data/acpi/pc/DSDT.ipmikcs                  |  Bin 6494 -> 6573 bytes
- tests/data/acpi/pc/DSDT.memhp                    |  Bin 7781 -> 7860 bytes
- tests/data/acpi/pc/DSDT.nohpet                   |  Bin 6280 -> 6359 bytes
- tests/data/acpi/pc/DSDT.numamem                  |  Bin 6428 -> 6507 bytes
- tests/data/acpi/pc/DSDT.roothp                   |  Bin 6656 -> 6699 bytes
- tests/data/acpi/pc/SSDT.dimmpxm                  |  Bin 734 -> 1815 bytes
- tests/data/acpi/q35/APIC.acpihmat-noinitiator    |  Bin 0 -> 144 bytes
- tests/data/acpi/q35/APIC.core-count2             |  Bin 0 -> 2478 bytes
- tests/data/acpi/q35/DSDT                         |  Bin 8320 -> 8412 bytes
- tests/data/acpi/q35/DSDT.acpierst                |  Bin 8337 -> 8429 bytes
- tests/data/acpi/q35/DSDT.acpihmat                |  Bin 9645 -> 9737 bytes
- tests/data/acpi/q35/DSDT.acpihmat-noinitiator    |  Bin 0 -> 8691 bytes
- tests/data/acpi/q35/DSDT.applesmc                |  Bin 8366 -> 8458 bytes
- tests/data/acpi/q35/DSDT.bridge                  |  Bin 11449 -> 11541 bytes
- tests/data/acpi/q35/DSDT.core-count2             |  Bin 0 -> 32552 bytes
- tests/data/acpi/q35/DSDT.cphp                    |  Bin 8784 -> 8876 bytes
- tests/data/acpi/q35/DSDT.cxl                     |  Bin 9646 -> 9738 bytes
- tests/data/acpi/q35/DSDT.dimmpxm                 |  Bin 9974 -> 10066 bytes
- tests/data/acpi/q35/DSDT.ipmibt                  |  Bin 8395 -> 8487 bytes
- tests/data/acpi/q35/DSDT.ipmismbus               |  Bin 8409 -> 8500 bytes
- tests/data/acpi/q35/DSDT.ivrs                    |  Bin 8337 -> 8429 bytes
- tests/data/acpi/q35/DSDT.memhp                   |  Bin 9679 -> 9771 bytes
- tests/data/acpi/q35/DSDT.mmio64                  |  Bin 9450 -> 9542 bytes
- tests/data/acpi/q35/DSDT.multi-bridge            |  Bin 8640 -> 8732 bytes
- tests/data/acpi/q35/DSDT.nohpet                  |  Bin 8178 -> 8270 bytes
- tests/data/acpi/q35/DSDT.numamem                 |  Bin 8326 -> 8418 bytes
- tests/data/acpi/q35/DSDT.pvpanic-isa             |  Bin 8421 -> 8513 bytes
- tests/data/acpi/q35/DSDT.tis.tpm12               |  Bin 8926 -> 9018 bytes
- tests/data/acpi/q35/DSDT.tis.tpm2                |  Bin 8952 -> 9044 bytes
- tests/data/acpi/q35/DSDT.viot                    |  Bin 9429 -> 9521 bytes
- tests/data/acpi/q35/DSDT.xapic                   |  Bin 35683 -> 35775 bytes
- tests/data/acpi/q35/FACP.core-count2             |  Bin 0 -> 244 bytes
- tests/data/acpi/q35/HMAT.acpihmat-noinitiator    |  Bin 0 -> 288 bytes
- tests/data/acpi/q35/SRAT.acpihmat-noinitiator    |  Bin 0 -> 312 bytes
- tests/data/acpi/q35/SSDT.dimmpxm                 |  Bin 734 -> 1815 bytes
- tests/data/acpi/virt/APIC                        |  Bin 168 -> 172 bytes
- tests/data/acpi/virt/APIC.acpihmatvirt           |  Bin 0 -> 412 bytes
- tests/data/acpi/virt/APIC.memhp                  |  Bin 168 -> 172 bytes
- tests/data/acpi/virt/APIC.numamem                |  Bin 168 -> 172 bytes
- tests/data/acpi/virt/DSDT.acpihmatvirt           |  Bin 0 -> 5282 bytes
- tests/data/acpi/virt/FACP                        |  Bin 268 -> 276 bytes
- tests/data/acpi/virt/FACP.memhp                  |  Bin 268 -> 276 bytes
- tests/data/acpi/virt/FACP.numamem                |  Bin 268 -> 276 bytes
- tests/data/acpi/virt/HMAT.acpihmatvirt           |  Bin 0 -> 288 bytes
- tests/data/acpi/virt/PPTT.acpihmatvirt           |  Bin 0 -> 196 bytes
- tests/data/acpi/virt/SRAT.acpihmatvirt           |  Bin 0 -> 240 bytes
- tests/data/acpi/virt/SSDT.memhp                  |  Bin 736 -> 1817 bytes
- 147 files changed, 7960 insertions(+), 1011 deletions(-)
- create mode 100644 tests/avocado/acpi-bits/bits-config/bits-cfg.txt
- create mode 100644 include/hw/cxl/cxl_cdat.h
- create mode 100644 include/hw/pci/pcie_doe.h
- create mode 100644 backends/cryptodev-lkcf.c
- create mode 100644 hw/cxl/cxl-cdat.c
- create mode 100644 hw/display/acpi-vga-stub.c
- create mode 100644 hw/display/acpi-vga.c
- create mode 100644 hw/pci/pcie_doe.c
- create mode 100644 docs/devel/acpi-bits.rst
- create mode 100644 tests/avocado/acpi-bits.py
- create mode 100644 tests/avocado/acpi-bits/bits-tests/smbios.py2
- create mode 100644 tests/avocado/acpi-bits/bits-tests/testacpi.py2
- create mode 100644 tests/avocado/acpi-bits/bits-tests/testcpuid.py2
- create mode 100644 tests/data/acpi/q35/APIC.acpihmat-noinitiator
- create mode 100644 tests/data/acpi/q35/APIC.core-count2
- create mode 100644 tests/data/acpi/q35/DSDT.acpihmat-noinitiator
- create mode 100644 tests/data/acpi/q35/DSDT.core-count2
- create mode 100644 tests/data/acpi/q35/FACP.core-count2
- create mode 100644 tests/data/acpi/q35/HMAT.acpihmat-noinitiator
- create mode 100644 tests/data/acpi/q35/SRAT.acpihmat-noinitiator
- create mode 100644 tests/data/acpi/virt/APIC.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/DSDT.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/HMAT.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/PPTT.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/SRAT.acpihmatvirt
-
+Den
 
