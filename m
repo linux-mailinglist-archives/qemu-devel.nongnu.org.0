@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 577AD615EBE
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 10:03:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9402615EC2
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 10:03:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oq9e6-00054m-61; Wed, 02 Nov 2022 05:02:50 -0400
+	id 1oq9eE-00055w-2F; Wed, 02 Nov 2022 05:02:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oq9dj-00052f-AX
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 05:02:34 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
+ id 1oq9eA-00055X-OF
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 05:02:54 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oq9df-0004Wh-Uf
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 05:02:26 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id g12so23481203wrs.10
- for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 02:02:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=49vzAuNmzCnLd9fj1v+rwJf8rf2ZljpTmV7zL3vZmUg=;
- b=ZjQc/hyq/8upX9SMH+FSVsbeF56KHb264MdtfAIGOQ4ZcclyFS17BEQsi8VdncTpTd
- ljC3Prir8w5VZeUvkbp0uJj5lNJKG74I05Sgz3j/UFzhSG/fWZP05Yp9gooUp7WqJOqp
- yeAo3ISwg3JC3L01UbSeBDSyaWiBpY+Ohl5y+r6xsNK4iKn+pCAftXcUXFmR1mU2f387
- V6bJ52IR/AWbIOZh85rTY/waRW8OG5W7arW27fwERZFXSxBTL98BepHHZytsaE2LNj27
- 5mwDZTiDoueetfNjpuyrdqEc+wHJkYJY/SURwBBC3RqoXPdPRF63OCjvkbS7fDoT7MmO
- beoA==
+ (Exim 4.90_1) (envelope-from <helei.sig11@bytedance.com>)
+ id 1oq9e8-0004tD-LZ
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 05:02:54 -0400
+Received: by mail-pf1-x430.google.com with SMTP id i3so15802549pfc.11
+ for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 02:02:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=bff8p+/+lfAesAguE58VughOHGeDeE4lgHM9uGQYUDY=;
+ b=fryxbStiYCrYjf02i+chSF5iq1r/tNO1b067cfY2DuAuD/zwUDaXJQgVApdXOV7L6P
+ WW+olFZCHif0zJCuev/pYen9AjTR9Dh/1Cgq0xZ2fzFIurIXx3KtLfU/MAuaqU0Vvaui
+ ZpTijZdUXs4o99k/xZlCwiEe3l8vbCBk99WSbDqM4qdfE82eL8hOxPz/zZazOLGuoZhm
+ jxueN5EkS83RYIyFYQUJIGRfNY8lqyvnujIi83L5ExKjNFARBlQMg9yb1PYl0XR7gFv1
+ Hkb98/goyEv/xoq74lpv0Msu5xvebRwwij8imzxgsHg2u/XSkBNkkJtrJ7LANAslZ6zL
+ CprQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=49vzAuNmzCnLd9fj1v+rwJf8rf2ZljpTmV7zL3vZmUg=;
- b=IbyCoBVEOlmypHyyuB8pDBVTUwwCVItjCUUInWRX7zaG1gEMCplb3JTZR4MIhgd6Eg
- gEQP2bWaPyz8tPoGsjgKab956AKH9nVLW/iWWdG6p+fsVcBfgBzRZoH1Ml4j6A2ND1pH
- ymwR4q3pq2S6DB/XIizpfA/5NXe18Ob13DGpfuoT779PlcPnuKDYV80O8hNPftg2wNls
- 5c9VlkIoTnDNo8Mt8EP9ZuL3VGPB7FpRCgRquy/q1l4BaLvWXQ1joiR+0tvaOgtYMGo7
- RWjigq6cE7ZstCN2TSvrbCdpcGyTeEicp97R0XMDF+yVkqfcO9UZ68XLRw//Cj5c3PPo
- 2Ulg==
-X-Gm-Message-State: ACrzQf26WrOSanlIg6NmHNSVpsxbNrOjlm8uRvPTaZMNpWTbobeFqi2P
- 7E+HkXWHLxDsjGTldwgPWjACXw==
-X-Google-Smtp-Source: AMsMyM4In1evmTLjrkeCrdWBsEOD1wHMmNby/5QGIYwHvSXr/KRfB0E5kOh/W+Y428tZeWf8ldT/4A==
-X-Received: by 2002:adf:e44f:0:b0:236:59a3:c5a8 with SMTP id
- t15-20020adfe44f000000b0023659a3c5a8mr14647867wrm.396.1667379741024; 
- Wed, 02 Nov 2022 02:02:21 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bff8p+/+lfAesAguE58VughOHGeDeE4lgHM9uGQYUDY=;
+ b=ZPrZOWQE5Lf6ZemucMR5GfSRybcBO/cXHLOpzoZcys5gRTeCH1yvwam0n6vkxNLmYw
+ vRIFOnudtqWefgfkCipJ9VA0uXoo19FpeYK4SprDk2yM/gf1Udm+f6ppG/hn/3Pb1D4r
+ CNM7b6HcsliCYak+W6/ODos2KgCka9NKXuKMsS29LPKAI3edvxI2h6hD3jgnVLxZh2SW
+ CnnUbUD5ZOCWnvKhzUm7luGlcgjqf1f2r/Q5IxauF8fN6FB/XkndmZGbeaLHGT07Vl72
+ WVtdtUjJYQ3Y3PfD9LS8p60dR2egcM7ymrLJrcFMFlCRiGR304PMfGYEHIeIQhG+Gpdh
+ nLgQ==
+X-Gm-Message-State: ACrzQf38A8s2R5XY3X89Vwrvvi+z9HZB5DjBQzEUX8fYja3w080/3ldp
+ V8pI3ynZQLsq7O94FeMTlsNDIg==
+X-Google-Smtp-Source: AMsMyM4DCqkPPjnCGeXCfq7NLoGxzhDA39WlsOHUp6BHlI3f/uqoLD7r7hGrn+vG108GjjhacR7aVQ==
+X-Received: by 2002:a63:2b48:0:b0:434:eb45:9c6a with SMTP id
+ r69-20020a632b48000000b00434eb459c6amr20042100pgr.508.1667379770865; 
+ Wed, 02 Nov 2022 02:02:50 -0700 (PDT)
+Received: from FVFDK26JP3YV.bytedance.net ([139.177.225.245])
  by smtp.gmail.com with ESMTPSA id
- bp7-20020a5d5a87000000b00236545edc91sm12442272wrb.76.2022.11.02.02.02.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Nov 2022 02:02:20 -0700 (PDT)
-Message-ID: <0e715e53-6221-3431-c6a0-1c3e2a187014@linaro.org>
-Date: Wed, 2 Nov 2022 10:02:18 +0100
+ x129-20020a623187000000b0056da073b2b7sm4359987pfx.210.2022.11.02.02.02.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Nov 2022 02:02:50 -0700 (PDT)
+From: Lei He <helei.sig11@bytedance.com>
+To: mst@redhat.com,
+	arei.gonglei@huawei.com,
+	berrange@redhat.com
+Cc: pizhenwei@bytedance.com, qemu-devel@nongnu.org,
+ Lei He <helei.sig11@bytedance.com>
+Subject: [PATCH 0/2] cryptodev: fix memory leak
+Date: Wed,  2 Nov 2022 17:02:41 +0800
+Message-Id: <20221102090243.52140-1-helei.sig11@bytedance.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH] target/arm: Two fixes for secure ptw
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, peter.maydell@linaro.org
-References: <20221102054706.1015830-1-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221102054706.1015830-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=helei.sig11@bytedance.com; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,20 +89,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/11/22 06:47, Richard Henderson wrote:
-> Reversed the sense of non-secure in get_phys_addr_lpae,
-> and failed to initialize attrs.secure for ARMMMUIdx_Phys_S.
-> 
-> Fixes: 48da29e4 ("target/arm: Add ptw_idx to S1Translate")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1293
+- Avoid using g_autoptr to free memory that not allocated
+in the same function.
+- Fix memory-leak when 'virtio_crypto_handle_request' returns
+no-zero value.
+- When error occurred, always pass negative status to function
+'vritio_crypto_req_complete'.
 
-Thanks!
+Lei He (2):
+  cryptodev: avoid unreasonable use of g_autoptr
+  cryptodev: fix memory-leak occurs on error path
 
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+ hw/virtio/virtio-crypto.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/arm/ptw.c | 15 ++++++++-------
->   1 file changed, 8 insertions(+), 7 deletions(-)
+-- 
+2.11.0
 
 
