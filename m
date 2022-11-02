@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F13061685B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:20:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C70616867
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:21:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqGLY-0003Jb-1a; Wed, 02 Nov 2022 12:12:08 -0400
+	id 1oqGLf-0003kx-3D; Wed, 02 Nov 2022 12:12:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGL7-00032E-57
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:11:41 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGLL-0003GD-LM
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:11:57 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGL5-0003Wp-DU
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:11:40 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGL9-0003ei-Lv
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:11:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667405498;
+ s=mimecast20190719; t=1667405501;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qTCaBLlQvbytTSkLNf8ZYQ/GTlBD1EUv9OQIGVa+ewE=;
- b=FeDKbeFXqei3qFV0S0ygPpD3qiq2TPtivBzXEwFFAz/EkOeXFPhnuiKfrpEflwxgxLHZes
- BTDjjodDtnSvOX7UW4TJJHHI1Oja4KqO0H8JGZNG2nrwKbg+cp9Sq/l0BnuZUKThe0tFLC
- VuVZDz31PUzuojU7m26oQCKndrSUjyM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Gag5gdQNNtInKGqXoAiltRUevA6HG18svJOyxzNtlVk=;
+ b=McEHHObYofmNc4ezdHIk9LzEPACpcvvWcNqzzmRHv04dc5WuEcMC6PdrGgRmOXovuUoWlF
+ IGIgLQyFweq1PaUXqTHrXu4xtILj9+TavzDzcxzNc1moPiEeokZqxJh8ej5+e8Sr+RrV3y
+ l0/Zh0KOfo9ejxb90cZJdK2FifaHWJ4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-245-j7pERoK5PJapek1muQgOyg-1; Wed, 02 Nov 2022 12:11:37 -0400
-X-MC-Unique: j7pERoK5PJapek1muQgOyg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- f1-20020a1cc901000000b003cf703a4f08so648356wmb.2
- for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:11:37 -0700 (PDT)
+ us-mta-591-0KOF9HETPCWi-nigxIW_BQ-1; Wed, 02 Nov 2022 12:11:40 -0400
+X-MC-Unique: 0KOF9HETPCWi-nigxIW_BQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ m24-20020adfa3d8000000b00236774fd74aso4984321wrb.8
+ for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:11:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qTCaBLlQvbytTSkLNf8ZYQ/GTlBD1EUv9OQIGVa+ewE=;
- b=VmWHbg8m9TDVENRlNH4Io+oiddEOf9gFB7ED1N1WzHjdA2RIZBVp+47/qUPHlKH0oj
- weUg5ghjpBjUpDPIwjl/OC5dRRNKmxp8cecujCzqR3AYIGPDJ36cScHXUTGHQNxghlEH
- Y/hTxmzv385gOio3cL9OKSdKscfavJqK+jfHQY8o+BTo57bibGK+ynLC8xX5QE3rBZW6
- 5UhSqAXXpWWAMsntWl5+OlQeNVE2DF2QabqvFbHe7X8ulHLlmRmQ+AIIaMxcyDHA0jVw
- ocNEecCWOtiggwRzSNM0sVpCZ3NzRzRguPLXkxC9sy19g6E2cgdGJ8JvnpJZpvCThTL3
- xpMg==
-X-Gm-Message-State: ACrzQf1I+Hco73Occ5mUbZfQPstMzElPUrySB+pyE+OfOt5fpF8fQ5AE
- hfE3UUIxjbxrQpdnbTwICPBBVPN3U1pW/WyNf6oQRcRGm6ZcOJEpqMZQVPdEKFF07XUmfrn3M0T
- fDhZAlq6sygF5TEQ0HHajjaRn0/ZloZrQAAnO8+5ZYzkzCXZWgE8w9LNs4wcW
-X-Received: by 2002:a05:6000:118c:b0:236:bc26:7e0d with SMTP id
- g12-20020a056000118c00b00236bc267e0dmr13347344wrx.662.1667405495948; 
- Wed, 02 Nov 2022 09:11:35 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5T4W6KfurJ++o+YHPiZIrwEiTM2UhnROky8sDuxgZxJ7E/77V6OCLIcGmifG5flfjROTOMgg==
-X-Received: by 2002:a05:6000:118c:b0:236:bc26:7e0d with SMTP id
- g12-20020a056000118c00b00236bc267e0dmr13347308wrx.662.1667405495665; 
- Wed, 02 Nov 2022 09:11:35 -0700 (PDT)
+ bh=Gag5gdQNNtInKGqXoAiltRUevA6HG18svJOyxzNtlVk=;
+ b=JDbJnf8u2k8m+19SMkkWiZiH1uz7lLR4OuMa2wPQII4ZFyLwEFMGhvQqP8m5aj04ta
+ YnQttSEZqVEjDPPmL9mUEgUqGdYt9YGswZ/ppMsFzGRiPYB39yvjkDQyEg8lfF7+gbqo
+ rympB97bd6aU2kXZtLlfdKM1MpzmjZgBML04GtdPRbGzqck6RdP2AEItmlI/XfRK4rNw
+ TENJrMHPup5v1smGV1dqtKyHtcEcW4kCEZVMCOnCvIysNyINXgQz7ZWTcO2+17C/f5bf
+ lJ3J+BBwFWYQSusGbR4LUCC6S/cMk0y9ctq8NNiXEwW5lfoRSxQSFO9EbqZ5jsKb5c7n
+ GuuQ==
+X-Gm-Message-State: ACrzQf096TVshMJKzi7WXk5nx/Wov8jHMekxYo/NE37nzmAyN/OPRFq+
+ qddf3l4n0tPJ3fbyQtUDhNB7zDTLhFeuGZJcqpWswgOQlAlJ5sClr7TtSmx+dmLjiNV/4A5oMiF
+ ie9l7PuwWaM41Db3rU3D8dh2xwN0IGWn1SanNvQ8NmdhDco7EnB+oho/QUAjL
+X-Received: by 2002:adf:b646:0:b0:221:76eb:b3ba with SMTP id
+ i6-20020adfb646000000b0022176ebb3bamr15452530wre.237.1667405499233; 
+ Wed, 02 Nov 2022 09:11:39 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM67s1VBSZvIfgaxzZQIyzsWGlaW45DDc7Yiqs+I7+zMrYy4/ejwq/yGKomN0LhsDBjBim0aHw==
+X-Received: by 2002:adf:b646:0:b0:221:76eb:b3ba with SMTP id
+ i6-20020adfb646000000b0022176ebb3bamr15452489wre.237.1667405498888; 
+ Wed, 02 Nov 2022 09:11:38 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- bi22-20020a05600c3d9600b003c6c3fb3cf6sm2784933wmb.18.2022.11.02.09.11.33
+ bp21-20020a5d5a95000000b002302dc43d77sm13426104wrb.115.2022.11.02.09.11.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Nov 2022 09:11:35 -0700 (PDT)
-Date: Wed, 2 Nov 2022 12:11:32 -0400
+ Wed, 02 Nov 2022 09:11:38 -0700 (PDT)
+Date: Wed, 2 Nov 2022 12:11:35 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -71,8 +71,8 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL v2 67/82] hw/i386/acpi-build: Remove unused struct
-Message-ID: <20221102160336.616599-68-mst@redhat.com>
+Subject: [PULL v2 68/82] hw/i386/acpi-build: Resolve redundant attribute
+Message-ID: <20221102160336.616599-69-mst@redhat.com>
 References: <20221102160336.616599-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -107,37 +107,83 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bernhard Beschow <shentey@gmail.com>
 
-Ammends commit b23046abe78f48498a423b802d6d86ba0172d57f 'pc: acpi-build:
-simplify PCI bus tree generation'.
+The is_piix4 attribute is set once in one location and read once in
+another. Doing both in one location allows for removing the attribute
+altogether.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221026133110.91828-2-shentey@gmail.com>
-Message-Id: <20221028103419.93398-2-shentey@gmail.com>
+Message-Id: <20221026133110.91828-3-shentey@gmail.com>
+Message-Id: <20221028103419.93398-3-shentey@gmail.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-build.c | 7 -------
- 1 file changed, 7 deletions(-)
+ hw/i386/acpi-build.c | 20 ++++++--------------
+ 1 file changed, 6 insertions(+), 14 deletions(-)
 
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 960305462c..1ebf14b899 100644
+index 1ebf14b899..73d8a59737 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -121,13 +121,6 @@ typedef struct AcpiMiscInfo {
-     unsigned dsdt_size;
- } AcpiMiscInfo;
+@@ -112,7 +112,6 @@ typedef struct AcpiPmInfo {
+ } AcpiPmInfo;
  
--typedef struct AcpiBuildPciBusHotplugState {
--    GArray *device_table;
--    GArray *notify_table;
--    struct AcpiBuildPciBusHotplugState *parent;
--    bool pcihp_bridge_en;
--} AcpiBuildPciBusHotplugState;
+ typedef struct AcpiMiscInfo {
+-    bool is_piix4;
+     bool has_hpet;
+ #ifdef CONFIG_TPM
+     TPMVersion tpm_version;
+@@ -281,17 +280,6 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+ 
+ static void acpi_get_misc_info(AcpiMiscInfo *info)
+ {
+-    Object *piix = object_resolve_type_unambiguous(TYPE_PIIX4_PM);
+-    Object *lpc = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
+-    assert(!!piix != !!lpc);
 -
- typedef struct FwCfgTPMConfig {
-     uint32_t tpmppi_address;
-     uint8_t tpm_version;
+-    if (piix) {
+-        info->is_piix4 = true;
+-    }
+-    if (lpc) {
+-        info->is_piix4 = false;
+-    }
+-
+     info->has_hpet = hpet_find();
+ #ifdef CONFIG_TPM
+     info->tpm_version = tpm_get_version(tpm_find());
+@@ -1334,6 +1322,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+            AcpiPmInfo *pm, AcpiMiscInfo *misc,
+            Range *pci_hole, Range *pci_hole64, MachineState *machine)
+ {
++    Object *piix = object_resolve_type_unambiguous(TYPE_PIIX4_PM);
++    Object *lpc = object_resolve_type_unambiguous(TYPE_ICH9_LPC_DEVICE);
+     CrsRangeEntry *entry;
+     Aml *dsdt, *sb_scope, *scope, *dev, *method, *field, *pkg, *crs;
+     CrsRangeSet crs_range_set;
+@@ -1354,11 +1344,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+     AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = x86ms->oem_id,
+                         .oem_table_id = x86ms->oem_table_id };
+ 
++    assert(!!piix != !!lpc);
++
+     acpi_table_begin(&table, table_data);
+     dsdt = init_aml_allocator();
+ 
+     build_dbg_aml(dsdt);
+-    if (misc->is_piix4) {
++    if (piix) {
+         sb_scope = aml_scope("_SB");
+         dev = aml_device("PCI0");
+         aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+@@ -1371,7 +1363,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
+         }
+         build_piix4_pci0_int(dsdt);
+-    } else {
++    } else if (lpc) {
+         sb_scope = aml_scope("_SB");
+         dev = aml_device("PCI0");
+         aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
 -- 
 MST
 
