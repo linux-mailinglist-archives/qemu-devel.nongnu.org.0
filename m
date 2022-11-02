@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C87861689C
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:24:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F13061685B
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:20:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqGL7-0002ze-5I; Wed, 02 Nov 2022 12:11:41 -0400
+	id 1oqGLY-0003Jb-1a; Wed, 02 Nov 2022 12:12:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGL3-0002oG-TA
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:11:37 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGL7-00032E-57
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:11:41 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGL2-0003Ri-4y
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:11:37 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGL5-0003Wp-DU
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:11:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667405495;
+ s=mimecast20190719; t=1667405498;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5PFs7dvFWSm4KAxARiJdmAa3zvpoXTxhtCqbnGVoPOY=;
- b=iBNGBdeYw0sZns3LKPSI1rFN6Vrtu5fO6hDYj7nDSdaSoiDa+Otc+7u+1DlCgW//htnPJ0
- pz4g9h/AIos7fSSP9E00cwoX9QcuYLY3VyNIktZI3Orhj/Y2j1S/orCRQmI6PZjQoieW0w
- 2UFgi1Yv6i/NfZB+iFhgX2USGH9yIXw=
+ bh=qTCaBLlQvbytTSkLNf8ZYQ/GTlBD1EUv9OQIGVa+ewE=;
+ b=FeDKbeFXqei3qFV0S0ygPpD3qiq2TPtivBzXEwFFAz/EkOeXFPhnuiKfrpEflwxgxLHZes
+ BTDjjodDtnSvOX7UW4TJJHHI1Oja4KqO0H8JGZNG2nrwKbg+cp9Sq/l0BnuZUKThe0tFLC
+ VuVZDz31PUzuojU7m26oQCKndrSUjyM=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-583-m5HO99vlOxayOtumKT5vCw-1; Wed, 02 Nov 2022 12:11:34 -0400
-X-MC-Unique: m5HO99vlOxayOtumKT5vCw-1
+ us-mta-245-j7pERoK5PJapek1muQgOyg-1; Wed, 02 Nov 2022 12:11:37 -0400
+X-MC-Unique: j7pERoK5PJapek1muQgOyg-1
 Received: by mail-wm1-f70.google.com with SMTP id
- 9-20020a1c0209000000b003cf6fce8005so521106wmc.9
- for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:11:34 -0700 (PDT)
+ f1-20020a1cc901000000b003cf703a4f08so648356wmb.2
+ for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:11:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5PFs7dvFWSm4KAxARiJdmAa3zvpoXTxhtCqbnGVoPOY=;
- b=cHkzsKFeaxaD/vTVdDXqk/MKAD+VC1LpG3+RrCstR/3Qw0PMiAtdvF3MjLfPxYhpaf
- KqAULplnc5wRgXtjqkddC+Q7ZjyNFqCL3Q94hkpgIvzZZJiE70dO6E5tDdY9sxzVwuqh
- sVgW/akOKzve6MM8bxDD2Rlm6t1AHDNFcHl7poSmKY4HXiUWLCH5RviUtCUJKrDPbu/x
- g0DKCWZFYu9GH+fXzubo0nIDIusP4HQU+WBR8To0i4nJmzaHOHUwPwvYHURGFtAXGgQ6
- S0CxpUceW/5f/6kSLK0+WBKJ/LjWiVfnLfpfZm7WLXP/DcC3ArM79e4Ziyz1bWBdyHms
- 0z/A==
-X-Gm-Message-State: ACrzQf06r8qdp0QZ0lCI+qnGoK0cN7Z+CwJZiFnCIV/Y1gRDkWpvwtnB
- p7mP2zq1vqWtvVQvX4MrFsK08ZGHO/zGMIvJBMXm7QrSF7YxW+0IHU4SEdXpy6gb3bX+Af2To6O
- VhV0eRCy4+0VXvyrgnIioOZQDE52Q7Ikvxo8z1J26ZkXXonrnLXi9D+dZG7bu
-X-Received: by 2002:adf:de10:0:b0:236:73c0:75ae with SMTP id
- b16-20020adfde10000000b0023673c075aemr15921171wrm.530.1667405492614; 
- Wed, 02 Nov 2022 09:11:32 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM604YCsySrnLNk1vw2H9AvjfQtpiwCXRG3ZtFeb58spMPy9KNGat5sIzUS8Wp2Uo+JvgetGFw==
-X-Received: by 2002:adf:de10:0:b0:236:73c0:75ae with SMTP id
- b16-20020adfde10000000b0023673c075aemr15921134wrm.530.1667405492317; 
- Wed, 02 Nov 2022 09:11:32 -0700 (PDT)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qTCaBLlQvbytTSkLNf8ZYQ/GTlBD1EUv9OQIGVa+ewE=;
+ b=VmWHbg8m9TDVENRlNH4Io+oiddEOf9gFB7ED1N1WzHjdA2RIZBVp+47/qUPHlKH0oj
+ weUg5ghjpBjUpDPIwjl/OC5dRRNKmxp8cecujCzqR3AYIGPDJ36cScHXUTGHQNxghlEH
+ Y/hTxmzv385gOio3cL9OKSdKscfavJqK+jfHQY8o+BTo57bibGK+ynLC8xX5QE3rBZW6
+ 5UhSqAXXpWWAMsntWl5+OlQeNVE2DF2QabqvFbHe7X8ulHLlmRmQ+AIIaMxcyDHA0jVw
+ ocNEecCWOtiggwRzSNM0sVpCZ3NzRzRguPLXkxC9sy19g6E2cgdGJ8JvnpJZpvCThTL3
+ xpMg==
+X-Gm-Message-State: ACrzQf1I+Hco73Occ5mUbZfQPstMzElPUrySB+pyE+OfOt5fpF8fQ5AE
+ hfE3UUIxjbxrQpdnbTwICPBBVPN3U1pW/WyNf6oQRcRGm6ZcOJEpqMZQVPdEKFF07XUmfrn3M0T
+ fDhZAlq6sygF5TEQ0HHajjaRn0/ZloZrQAAnO8+5ZYzkzCXZWgE8w9LNs4wcW
+X-Received: by 2002:a05:6000:118c:b0:236:bc26:7e0d with SMTP id
+ g12-20020a056000118c00b00236bc267e0dmr13347344wrx.662.1667405495948; 
+ Wed, 02 Nov 2022 09:11:35 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5T4W6KfurJ++o+YHPiZIrwEiTM2UhnROky8sDuxgZxJ7E/77V6OCLIcGmifG5flfjROTOMgg==
+X-Received: by 2002:a05:6000:118c:b0:236:bc26:7e0d with SMTP id
+ g12-20020a056000118c00b00236bc267e0dmr13347308wrx.662.1667405495665; 
+ Wed, 02 Nov 2022 09:11:35 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- r2-20020adfe682000000b002365b759b65sm13353006wrm.86.2022.11.02.09.11.30
+ bi22-20020a05600c3d9600b003c6c3fb3cf6sm2784933wmb.18.2022.11.02.09.11.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Nov 2022 09:11:31 -0700 (PDT)
-Date: Wed, 2 Nov 2022 12:11:29 -0400
+ Wed, 02 Nov 2022 09:11:35 -0700 (PDT)
+Date: Wed, 2 Nov 2022 12:11:32 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Gregory Price <gourry.memverge@gmail.com>,
- Gregory Price <gregory.price@memverge.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Bernhard Beschow <shentey@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL v2 66/82] hw/i386/pc.c: CXL Fixed Memory Window should not
- reserve e820 in bios
-Message-ID: <20221102160336.616599-67-mst@redhat.com>
+Subject: [PULL v2 67/82] hw/i386/acpi-build: Remove unused struct
+Message-ID: <20221102160336.616599-68-mst@redhat.com>
 References: <20221102160336.616599-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221102160336.616599-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -104,87 +105,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Gregory Price <gourry.memverge@gmail.com>
+From: Bernhard Beschow <shentey@gmail.com>
 
-Early-boot e820 records will be inserted by the bios/efi/early boot
-software and be reported to the kernel via insert_resource.  Later, when
-CXL drivers iterate through the regions again, they will insert another
-resource and make the RESERVED memory area a child.
+Ammends commit b23046abe78f48498a423b802d6d86ba0172d57f 'pc: acpi-build:
+simplify PCI bus tree generation'.
 
-This RESERVED memory area causes the memory region to become unusable,
-and as a result attempting to create memory regions with
-
-    `cxl create-region ...`
-
-Will fail due to the RESERVED area intersecting with the CXL window.
-
-During boot the following traceback is observed:
-
-0xffffffff81101650 in insert_resource_expand_to_fit ()
-0xffffffff83d964c5 in e820__reserve_resources_late ()
-0xffffffff83e03210 in pcibios_resource_survey ()
-0xffffffff83e04f4a in pcibios_init ()
-
-Which produces a call to reserve the CFMWS area:
-
-(gdb) p *new
-$54 = {start = 0x290000000, end = 0x2cfffffff, name = "Reserved",
-       flags = 0x200, desc = 0x7, parent = 0x0, sibling = 0x0,
-       child = 0x0}
-
-Later the Kernel parses ACPI tables and reserves the exact same area as
-the CXL Fixed Memory Window:
-
-0xffffffff811016a4 in insert_resource_conflict ()
-                      insert_resource ()
-0xffffffff81a81389 in cxl_parse_cfmws ()
-0xffffffff818c4a81 in call_handler ()
-                      acpi_parse_entries_array ()
-
-(gdb) p/x *new
-$59 = {start = 0x290000000, end = 0x2cfffffff, name = "CXL Window 0",
-       flags = 0x200, desc = 0x0, parent = 0x0, sibling = 0x0,
-       child = 0x0}
-
-This produces the following output in /proc/iomem:
-
-590000000-68fffffff : CXL Window 0
-  590000000-68fffffff : Reserved
-
-This reserved area causes `get_free_mem_region()` to fail due to a check
-against `__region_intersects()`.  Due to this reserved area, the
-intersect check will only ever return REGION_INTERSECTS, which causes
-`cxl create-region` to always fail.
-
-Signed-off-by: Gregory Price <gregory.price@memverge.com>
-Message-Id: <20221026205912.8579-1-gregory.price@memverge.com>
+Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20221026133110.91828-2-shentey@gmail.com>
+Message-Id: <20221028103419.93398-2-shentey@gmail.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- hw/i386/pc.c | 2 --
- 1 file changed, 2 deletions(-)
+ hw/i386/acpi-build.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index ef14da5094..546b703cb4 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1061,7 +1061,6 @@ void pc_memory_init(PCMachineState *pcms,
-         hwaddr cxl_size = MiB;
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 960305462c..1ebf14b899 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -121,13 +121,6 @@ typedef struct AcpiMiscInfo {
+     unsigned dsdt_size;
+ } AcpiMiscInfo;
  
-         cxl_base = pc_get_cxl_range_start(pcms);
--        e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
-         memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
-         memory_region_add_subregion(system_memory, cxl_base, mr);
-         cxl_resv_end = cxl_base + cxl_size;
-@@ -1077,7 +1076,6 @@ void pc_memory_init(PCMachineState *pcms,
-                 memory_region_init_io(&fw->mr, OBJECT(machine), &cfmws_ops, fw,
-                                       "cxl-fixed-memory-region", fw->size);
-                 memory_region_add_subregion(system_memory, fw->base, &fw->mr);
--                e820_add_entry(fw->base, fw->size, E820_RESERVED);
-                 cxl_fmw_base += fw->size;
-                 cxl_resv_end = cxl_fmw_base;
-             }
+-typedef struct AcpiBuildPciBusHotplugState {
+-    GArray *device_table;
+-    GArray *notify_table;
+-    struct AcpiBuildPciBusHotplugState *parent;
+-    bool pcihp_bridge_en;
+-} AcpiBuildPciBusHotplugState;
+-
+ typedef struct FwCfgTPMConfig {
+     uint32_t tpmppi_address;
+     uint8_t tpm_version;
 -- 
 MST
 
