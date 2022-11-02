@@ -2,153 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB7E6161CA
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 12:29:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 820D46161D4
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 12:36:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqBvC-0008NL-FA; Wed, 02 Nov 2022 07:28:38 -0400
+	id 1oqC17-0001pW-6H; Wed, 02 Nov 2022 07:34:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=83056df09e=guohuai.shi@windriver.com>)
- id 1oqBvA-0008N4-5N
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 07:28:36 -0400
-Received: from mx0a-0064b401.pphosted.com ([205.220.166.238])
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oqC0w-0001mR-9x
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 07:34:34 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=83056df09e=guohuai.shi@windriver.com>)
- id 1oqBv6-0007FB-GK
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 07:28:35 -0400
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
- by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2A2BCLoS026781; Wed, 2 Nov 2022 04:28:12 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=PPS06212021;
- bh=jgqajTAyjCboB6gxFoH/IaZXfaUK1ZL2K+jm0ecZ4YM=;
- b=HL0PJ8YUq6IYYTT0ArbB9ZMu8XrPYAqSKmqP161teO+1XJsrcWmG2i9/iVeU5eaQdY2H
- WdYrSxF41R2PNwyOuX7GDg3Il1oS2epI8lRb2HJ73dwL6gB4C9HSKWZzTul0TbL6NEyQ
- fgzCTqrTe0PilgfKtqFHNDBOmqKe+rEVhfg0p0iPls435zVIXiFdgxzAlv0GroSzSVJP
- XXG3VHwzI2UMKErsYERX1iehUiDZVuO6hBxJprW4P6y0e2ptSc0TzMWyNwQsH+f2tNcB
- GUGTPKdWVLGDEugmpYx9RJfcmGhLrjYBhvw7XPE0C50ZHEFVbXGfHYlBHqVnG5NAJpiE qA== 
-Received: from nam04-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam04lp2175.outbound.protection.outlook.com [104.47.73.175])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3kh3pkk4dv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Nov 2022 04:28:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=byf5vGpfjv00Y3ml/KZB4YPmcNs1X2bWpRpwYS+crcpxQcLXJR+3lqhCVyuqJD2fjkBh1p6KLktAXNcYbwO5y3D1f/EA2/YC9jhvV3llzS5+MacIvzDQIKa46mpqjviMyccx2o5TParRWd9vs9EfDyeYqZyjw3rh6YTIcSuenhRcPCfBUZG84SFH9Z97FIoqr0dLTE5S53FBeK5r+I4jqA1SZWcjlej0wcN03sNAklB/Z6jwY2FZFkCD5JnuOiUpZaXCfGgmbS1C+ZE5cFqGwPWc2Xe9M2eixyhZBeV/X+KVfk9BPr66xInXLa5rvRm147IQbWd69yuZEGuDacDYAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jgqajTAyjCboB6gxFoH/IaZXfaUK1ZL2K+jm0ecZ4YM=;
- b=feSsFTHebjdmIHej9qAY1w3G/fEaBLJaRIg6ZY+KOJ0haY/m8NidjMEVhGKrEYWbfnkw+WsEKgGDuPX5mnMx3WsfVJg7n0Qy3V9JmNibFzJt8t0blIvoJDvhEdYwPUJDl54F8ds8yLIpQ9RMQtXUeuMS66F5KcaubrYJxV5TCT8G/qV8YmpLJXfpFb38TDWyQM6jCd6NWP/GvqqoP2n+YjMM771pJin7Kixfxh5MQqLLLi8hiiKITiqotqP9H28wMH6pvABOfKxKIhaHd7PDIfirgyDMVSWH/ubADN2xkiDQ24E02lYG/cjvncUNmRBhpRlXKGiV7JEeghjLAM+ODQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB4171.namprd11.prod.outlook.com (2603:10b6:5:191::28)
- by PH7PR11MB6794.namprd11.prod.outlook.com (2603:10b6:510:1b8::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.16; Wed, 2 Nov
- 2022 11:28:08 +0000
-Received: from DM6PR11MB4171.namprd11.prod.outlook.com
- ([fe80::c266:5a05:5a00:c0c0]) by DM6PR11MB4171.namprd11.prod.outlook.com
- ([fe80::c266:5a05:5a00:c0c0%7]) with mapi id 15.20.5791.022; Wed, 2 Nov 2022
- 11:28:08 +0000
-From: "Shi, Guohuai" <Guohuai.Shi@windriver.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-CC: Greg Kurz <groug@kaod.org>, "Meng, Bin" <Bin.Meng@windriver.com>
-Subject: RE: [PATCH 07/16] hw/9pfs: Implement Windows specific utilities
- functions for 9pfs
-Thread-Topic: [PATCH 07/16] hw/9pfs: Implement Windows specific utilities
- functions for 9pfs
-Thread-Index: AQHY52VDD1diQUGNL0SdrAxpW0VmJ64qLXcAgAAMX0CAAAIMYIAAMxAAgACQ/iCAAIdpAIAAAF6A
-Date: Wed, 2 Nov 2022 11:28:08 +0000
-Message-ID: <DM6PR11MB4171DB9E7C848BD9A0465EACEF399@DM6PR11MB4171.namprd11.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oqC0q-0001T3-Jo
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 07:34:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=q/sx5bTYxqf9AtNPcbv5fUE0Ewx8x41FcLS0dZINM98=; b=LmPyGjgzW4EzaEmjNuSh+Qeu70
+ OoHg9S6yioY9TJ4+2rEthvArIHPFjq/hrrzvwqPg4tp+MjN0b40iT7B/QTTK4spIOxtxGR5BUuPPZ
+ LbVnULsDbeq+JI+sP9ZWi2aIYVMuu4zW41Heb87VojPf3Gi/9EKSU5p26St/7Z0brhAeEGF33KzK3
+ 05J2KmEWpolgTgBsS2T3FIXJN4VkTAJ35sgaEx1BECIISiSQaZjwQSFsu8/6HkGql7b/dhDao+i0v
+ tA7mo4Ic32y29xdo083dJNfWQqGuNgvCUdzpBx6d6l29/rp7PqGDjT2fy9SnfotACPnOpsa7x7Pj/
+ iEJ/Ykir62JLhIbR/u/sjsboHNchoHSlg2m5PErRGq2bNfy/ID2rHA5eBCEXPS5nNtXeu4zE49Uv4
+ oxBZslGBbnBnGOp4ThRIdZs/YEfkh6e0WVb4PY2f7ykQDDkA/Cb/jX+0fWozupb9XbzduhsZUWXRf
+ SsF1r6M5N6Qw8Lbfpt3+bj7XLFsus2IV9+v/pAPupNMh3pTg55zKMc4BPi0l8E5kDKlQZGWiTUvUv
+ LekytbTejeavurRtjt2ID24ZDaQ9z001OS1ejBAliJnAvpO88gjqEjIqVVtlORgiBRuHj2eDqLJ8v
+ n6+2gWBGyp6KTQmjFTu03k8u87cRgJZ1O/E3xL2Z0=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Greg Kurz <groug@kaod.org>, "Meng, Bin" <Bin.Meng@windriver.com>,
+ "Shi, Guohuai" <Guohuai.Shi@windriver.com>
+Subject: Re: [PATCH 09/16] hw/9pfs: Disable unsupported flags and features for
+ Windows
+Date: Wed, 02 Nov 2022 12:34:24 +0100
+Message-ID: <5228417.8yWHOg2it3@silver>
+In-Reply-To: <MN2PR11MB4173529A71C30E89E4DAF743EF399@MN2PR11MB4173.namprd11.prod.outlook.com>
 References: <20221024045759.448014-1-bin.meng@windriver.com>
- <3897101.9jAPQrlFHr@silver>
- <MN2PR11MB417324B0200E8841884C5C2AEF399@MN2PR11MB4173.namprd11.prod.outlook.com>
- <4078234.fJnRZ6glpc@silver>
-In-Reply-To: <4078234.fJnRZ6glpc@silver>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB4171:EE_|PH7PR11MB6794:EE_
-x-ms-office365-filtering-correlation-id: f9b1b3cf-54c8-4a19-d9da-08dabcc55126
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: w0atGkYLudBTdILV9PvqVV5rBx3GhcMk5Tdru7pxTzZ5K1CWYF77fSqElZ5MTpTIB47CXBP/gycL8U7M9kHgvZwcZ/aK4YBMJD/bgr0xnnpP7f1m2m2PkwA4cdO1T9dSTHnyclgRM24EQlyAtqpYuAIxYSGsnnFAH5WgLfjtHtuu9z04svxkngNLYWcfrT8mXcSa5nB0i+RIA6L4ubbPwe5wo1pBQsrWC3yGwmMCqznmCg12P2s1SDjgxQliNjGJWFUPzAssCZm3CwE5BsRY3d+kIEgK0Ig5YYSzo1SkEdrjwMz8tjMloS+fZjjwjDjvgEDYzcbUK7wGXkBt+yOqPdXvzrOdWT/lQwQiJkc54seKQ+3H+8FMD/04+cLcAz+anQwqzmkZqeCXBwPObfRobfHxP89BSAZfdyDszWmfTAEjhKKICUi7xC+wztvPRG2+DfQBgLMVEnfYixrbI1WlVyXk/xrTCQEwxZrRCK4Y1PgR/No7QX7zi+cRCEwnuYKpRH1u1eLIXDbZioDOFazPSga4b6XTQC7eSW7/iujNkldfDddDq+y57E491IS0LnKJRc/a1WQfI2/o/REF7D7womKpq6+u9xOcDnwpI5D8au5W4kN1Zp2oHqaszIzuXb4ghejDB7ftVE5IgvcxLp9YMDA8C/qawJNfWgq9a4f2W79k+zlhbvMPyBtVQUlGSPUflaBAZKmoDq7ZitmJeNX77k3XatYtw8Xo0JxZinNAtIeoCT+C1ZMdDgwb8ADfQY459S+0vjmsgp3vuW17bkQcKJsQKV9utWvIvAw5k9XAtqk=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR11MB4171.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(346002)(39850400004)(366004)(396003)(376002)(136003)(451199015)(26005)(66476007)(38070700005)(55016003)(38100700002)(33656002)(9686003)(4326008)(41300700001)(53546011)(8676002)(6506007)(7696005)(71200400001)(8936002)(64756008)(5660300002)(66446008)(186003)(66556008)(478600001)(66946007)(122000001)(110136005)(54906003)(316002)(52536014)(76116006)(107886003)(2906002)(86362001)(83380400001)(21314003);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?X5bwTaCUZzut3at2Cf6wdY5bbYkT/fVOYyx8CIPWz1CWgUGenEpY/h+Xs6B6?=
- =?us-ascii?Q?R3UXHb3KwOI+BuPcoD2L8l03nuUDoA8B8yNdcJ0nNhuc7lelvC4TdALL/6ya?=
- =?us-ascii?Q?XNm64XKks+nUXxt2qzyv61RPwZd+W4CdNuvktCI9Ms173uOpf7ISpCRjySzv?=
- =?us-ascii?Q?IakZ3vD+jJLHKfq60LZbNTef2ESHy18Gm8nhZ3iFox23IhHXLMKQwL4X5zsm?=
- =?us-ascii?Q?fR4pD9cucJ3N+NfZQSN0g1z4kQgrP15RnZ/IJQp/A82HHBRJAvhe07AQQSVG?=
- =?us-ascii?Q?YkXwQ639um/bq60Y59X5OOxTnCtVEel/zXs/yQQH/vnrX6q5GdpBmNon8ma2?=
- =?us-ascii?Q?ng3BL+x/eKC6Q688hRqyS7lJO0rHwINk4EO3jGnDMqfuma0p7eunIrTok8WP?=
- =?us-ascii?Q?f615GJQhRNt+eiuqdXU3Q0tNL1h8lulawhsdl3NpLkWex4jb5wZGuaHsjh7P?=
- =?us-ascii?Q?vbdtNnDrXrdKX3GmUSKvqdFjq1X9Kx83VHyR2izBpzVhnvzIEvib8ZRw/zHn?=
- =?us-ascii?Q?dLoxTAF8ImbSNYgEL9HgEVmh81ioKm5xIpHplIGwaWnl5oW4tx3aUNA75cUG?=
- =?us-ascii?Q?Q93ml/xsnBPnR7ejUFTsXhXpY+IuAWBljy9GIXgNpS92O15PgRjSaUNJh//R?=
- =?us-ascii?Q?FNqtr4dnAfyVRuNwwm0cPf8v/yoQB9DecLRmjEAn4u45daNbrZFZyajd8JXS?=
- =?us-ascii?Q?0G6XfyFieKlP7KVNfOdrP5ohOBYqmnk93Ez8mhVK0OpVMmaQGYHVkyHcRwzx?=
- =?us-ascii?Q?uWCpcLtGR2IH6flEH2NkKF58r4PKnFIU7xMEwpg+8P2beBjVQlTBxddTM4T5?=
- =?us-ascii?Q?HidO6W8/fzzIgei7vZtOJgBzQZ3sffLDCuUfJ3Uo/Ys7ZqItZ9B1Io23ULN1?=
- =?us-ascii?Q?Alaw80LdLMjiGKYeMBf0F7oJKsAd7KfzHWU4GbwhzJ/5yZa3lhGhjy8WExTK?=
- =?us-ascii?Q?UErNp56CMdE6/3i9kIe0JRBe4cuvobTltYh1365gFosrZqc2i3DWv77Sq20i?=
- =?us-ascii?Q?j78u7rChgkSJkDip0d7SizzqmVEHsMFfv5VaHv93EnpOZNOx+UsxYFuYKkyL?=
- =?us-ascii?Q?Aunvj/AX1hCkEb3jS+DrDnBqWl9c7lxQudLapCPha8Rnm3QPctEX10O3JX6w?=
- =?us-ascii?Q?T/2Sub9xVAldJOdu8o5VBkuPVkAp1cIS3T9YOw1UHfi+9zUiB53Tmll6F9L4?=
- =?us-ascii?Q?v7A3gogVDt5OlF3/sAlBZcXNup4EyX9JTJpTBrFkW68xqNoj59SwE/ZqR8he?=
- =?us-ascii?Q?IR51vg/gGVVvmvCOlr/Z0yiFf1e3S2JMwti7D/5cOXvUcs9K/VkjYZ5Qx1PM?=
- =?us-ascii?Q?hlvsocqnZ7b4EvZLnsrnD63y6pQN0ZqCBZVdvTIte1Icii/wz3v6Oe8heN24?=
- =?us-ascii?Q?O6/DN+hCViZoIbCbh63Z/DaE1grA75ieG3L4utudKmgmHa7bH3j5I+7fDNem?=
- =?us-ascii?Q?6Ri7e47qqtnHUEvpfIdziLnn+0NOYxgM6RstCydoAM93X3ibtgPh9zr0jka9?=
- =?us-ascii?Q?/pUavS7lfuFLOiGBqsJQ45G/vSmSWjTQIO2WEeazd8RyziFTpUOOK6npZDGg?=
- =?us-ascii?Q?ZioahAqvx2rxnipOB4fSFc5luBGlOp6fogFZQ7/C?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ <2052313.fat1d0ETzH@silver>
+ <MN2PR11MB4173529A71C30E89E4DAF743EF399@MN2PR11MB4173.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4171.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9b1b3cf-54c8-4a19-d9da-08dabcc55126
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Nov 2022 11:28:08.2113 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: r/YSTI1XTr+Mwzkf5rFs8eOHvnMw/mDiH5uUq3sH6qNX0kUOH+FstAyafju2NyjE15226Pkxt4OkEeeqs+Rs/1dDFj2u6U0+FERWhXJgG2A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6794
-X-Proofpoint-ORIG-GUID: RIwr59TUuD7N-RFPi6X1c4nt9UowFOsA
-X-Proofpoint-GUID: RIwr59TUuD7N-RFPi6X1c4nt9UowFOsA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-02_08,2022-11-02_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 bulkscore=0 phishscore=0 mlxscore=0 clxscore=1015
- suspectscore=0 priorityscore=1501 spamscore=0 malwarescore=0 adultscore=0
- mlxlogscore=567 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211020069
-Received-SPF: pass client-ip=205.220.166.238;
- envelope-from=prvs=83056df09e=guohuai.shi@windriver.com;
- helo=mx0a-0064b401.pphosted.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -165,151 +70,573 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-> -----Original Message-----
-> From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> Sent: Wednesday, November 2, 2022 19:06
-> To: qemu-devel@nongnu.org
-> Cc: Greg Kurz <groug@kaod.org>; Meng, Bin <Bin.Meng@windriver.com>; Shi,
-> Guohuai <Guohuai.Shi@windriver.com>
-> Subject: Re: [PATCH 07/16] hw/9pfs: Implement Windows specific utilities
-> functions for 9pfs
->=20
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender an=
-d
-> know the content is safe.
->=20
-> On Wednesday, November 2, 2022 4:07:35 AM CET Shi, Guohuai wrote:
-> >
-> > > -----Original Message-----
-> > > From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > Sent: Wednesday, November 2, 2022 02:22
-> > > To: qemu-devel@nongnu.org
-> > > Cc: Greg Kurz <groug@kaod.org>; Meng, Bin <Bin.Meng@windriver.com>;
-> > > Shi, Guohuai <Guohuai.Shi@windriver.com>
-> > > Subject: Re: [PATCH 07/16] hw/9pfs: Implement Windows specific
-> > > utilities functions for 9pfs
+On Wednesday, November 2, 2022 4:44:14 AM CET Shi, Guohuai wrote:
+> 
+> > -----Original Message-----
+> > From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > Sent: Wednesday, November 2, 2022 02:59
+> > To: qemu-devel@nongnu.org
+> > Cc: Greg Kurz <groug@kaod.org>; Meng, Bin <Bin.Meng@windriver.com>; Shi,
+> > Guohuai <Guohuai.Shi@windriver.com>
+> > Subject: Re: [PATCH 09/16] hw/9pfs: Disable unsupported flags and features
+> > for Windows
+> > 
+> > [Please note: This e-mail is from an EXTERNAL e-mail address]
+> > 
+> > On Tuesday, November 1, 2022 4:34:54 PM CET Shi, Guohuai wrote:
 > > >
-> > > [Please note: This e-mail is from an EXTERNAL e-mail address]
-> > >
-> > > On Tuesday, November 1, 2022 4:20:53 PM CET Shi, Guohuai wrote:
+> > > > -----Original Message-----
+> > > > From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > > > Sent: Tuesday, November 1, 2022 23:04
+> > > > To: qemu-devel@nongnu.org
+> > > > Cc: Shi, Guohuai <Guohuai.Shi@windriver.com>; Greg Kurz
+> > > > <groug@kaod.org>; Meng, Bin <Bin.Meng@windriver.com>
+> > > > Subject: Re: [PATCH 09/16] hw/9pfs: Disable unsupported flags and
+> > > > features for Windows
 > > > >
-> > > [...]
-> > > > > > > Windows POSIX API and MinGW library do not provide the
-> > > > > > > NO_FOLLOW flag, and do not allow opening a directory by
-> > > > > > > POSIX open(). This causes all
-> > > > > > > xxx_at() functions cannot work directly. However, we can
-> > > > > > > provide Windows handle based functions to emulate xxx_at()
-> functions (e.g.:
-> > > > > > > openat_win32, utimensat_win32, etc.).
-> > > > > > >
-> > > > > > > Windows does not support extended attributes. 9pfs for
-> > > > > > > Windows uses NTFS ADS (Alternate Data Streams) to emulate
-> > > > > > > extended
-> > > attributes.
-> > > > > > >
-> > > > > > > Windows does not provide POSIX compatible readlink(), and
-> > > > > > > symbolic link feature in 9pfs will be disabled on Windows.
-> > > > > >
-> > > > > > Wouldn't it be more user friendly if the relevant error
-> > > > > > locations would use something like error_report_once() and
-> > > > > > suggesting to enable
-> > > > > > mapped(-xattr) to make 9p symlinks on guest working if desired
-> > > > > > by the
-> > > user?
-> > > > > >
-> > > > > > Probably this error case would need to wrapped into a
-> > > > > > dedicated function, otherwise I guess error_report_once()
-> > > > > > would fire several times by different callers.
-> > > > > >
-> > > > >
-> > > > > Windows (MinGW) does not only support symlink, but also does not
-> > > > > have symlink definitions.
-> > > > > Windows does not support symlink flags S_IFLNK.
-> > > > >
-> > > > > So even I add symlink support by mapped-xattr, the MinGW library
-> > > > > does not have symlink flags and get a build error.
-> > > > > And this flags is defined by Windows header files.
-> > > > > The impact of adding a new flags to an pre-defined structure
-> > > > > (struct
-> > > > > stat) is unknown.
-> > > > >
-> > > > > So I think it is not a good idea to do that.
+> > > > [Please note: This e-mail is from an EXTERNAL e-mail address]
 > > > >
-> > > > Because Windows does not support symlink, so error_report_once()
-> > > > and report
-> > > it to user will be OK.
-> > > > But mapped-xattr could not work.
+> > > > On Monday, October 24, 2022 6:57:52 AM CET Bin Meng wrote:
+> > > > > From: Guohuai Shi <guohuai.shi@windriver.com>
+> > > > >
+> > > > > Some flags and features are not supported on Windows, like mknod,
+> > > > > readlink, file mode, etc. Update the codes for Windows.
+> > > > >
+> > > > > Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
+> > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > > > > ---
+> > > > >
+> > > > >  hw/9pfs/9p-util.h |  6 +++-
+> > > > >  hw/9pfs/9p.c      | 90 ++++++++++++++++++++++++++++++++++++++++++-----
+> > > > >  2 files changed, 86 insertions(+), 10 deletions(-)
+> > > > >
+> > > > > diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h index
+> > > > > 82b2d0c3e4..3d154e9103 100644
+> > > > > --- a/hw/9pfs/9p-util.h
+> > > > > +++ b/hw/9pfs/9p-util.h
+> > > > > @@ -53,8 +53,10 @@ static inline uint64_t makedev_dotl(uint32_t
+> > > > > dev_major,
+> > > > uint32_t dev_minor)
+> > > > >   */
+> > > > >  static inline uint64_t host_dev_to_dotl_dev(dev_t dev)  { -#ifdef
+> > > > > CONFIG_LINUX
+> > > > > +#if defined(CONFIG_LINUX)
+> > > > >      return dev;
+> > > > > +#elif defined(CONFIG_WIN32)
+> > > > > +    return 0;
+> > > >
+> > > > Really?
 > > >
-> > > Showing an error makes sense for "passthrough" security model, but
-> > > not for the "mapped" one.
+> > > Check MS this document:
+> > > https://learn.microsoft.com/en-us/cpp/c-runtime-library/reference/fsta
+> > > t-fstat32-fstat64-fstati64-fstat32i64-fstat64i32?view=msvc-170
+> > > st_rdev: If a device, fd; otherwise 0.
+> > > st_dev: If a device, fd; otherwise 0.
 > > >
-> > > Just to avoid misapprehensions: are you aware that there is already
-> > > a system- agnostic implementation for symlinks if "mapped" is used?
+> > > So for any file open, it should be 0.
+> > 
+> > Yeah, but that function translates a corresponding device ID for *Linux*
+> > guest side. And the intention is to avoid e.g. file ID collisions on guest
+> > side.
+> > Because for a Linux guest, the two-tuple (device number, inode number) makes
+> > a system-wide unique file ID.
+> > 
+> > If you just return zero here, that might be OK if only one 9p directory is
+> > exported to guest, but say you have "C:\foo\" exported and "D:\bar\" exported
+> > and mounted via 9p to guest, then guest would assume every file with the same
+> > inode number on those two to be the same files. But they are not. They are on
+> > two different drives actually.
+> > 
+> 
+> Got it.
+> Windows does not provide any numerical type ID for device, 
+> I think the solution could be using driver letter ASC code "C:", "D:", etc.
+> 
 > > >
-> > > When mapped security model is enabled, then creating symlinks on
-> > > guest will simply create a corresponding *regular* file on host and
-> > > the content of that regular file on host is the pointing path as raw
-> > > string. Additionally the symlink flag is added to "virtfs.mode"
-> > > xattr to mark that regular file as a symlink, a virtual one that is.
-> > > So this does not require any support for symlinks by either the
-> underlying host file system, nor by host OS.
+> > > >
+> > > > >  #else
+> > > > >      return makedev_dotl(major(dev), minor(dev));  #endif @@
+> > > > > -260,7
+> > > > > +262,9 @@ static inline struct dirent *qemu_dirent_dup(struct
+> > > > > +dirent
+> > > > > *dent)  #if defined CONFIG_DARWIN && defined
+> > > > > CONFIG_PTHREAD_FCHDIR_NP int pthread_fchdir_np(int fd)
+> > > > > __attribute__((weak_import));  #endif
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >  int qemu_mknodat(P9_FILE_ID dirfd, const char *filename, mode_t mode,
+> > > > >                   dev_t dev);
+> > > > > +#endif
+> > > > >
+> > > > >  #endif
+> > > > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c index
+> > > > > 6c4af86240..771aab34ac
+> > > > > 100644
+> > > > > --- a/hw/9pfs/9p.c
+> > > > > +++ b/hw/9pfs/9p.c
+> > > > > @@ -39,6 +39,11 @@
+> > > > >  #include "qemu/xxhash.h"
+> > > > >  #include <math.h>
+> > > > >
+> > > > > +#ifdef CONFIG_WIN32
+> > > > > +#define UTIME_NOW   ((1l << 30) - 1l)
+> > > > > +#define UTIME_OMIT  ((1l << 30) - 2l) #endif
+> > > > > +
+> > > > >  int open_fd_hw;
+> > > > >  int total_open_fd;
+> > > > >  static int open_fd_rc;
+> > > > > @@ -132,13 +137,17 @@ static int dotl_to_open_flags(int flags)
+> > > > >      DotlOpenflagMap dotl_oflag_map[] = {
+> > > > >          { P9_DOTL_CREATE, O_CREAT },
+> > > > >          { P9_DOTL_EXCL, O_EXCL },
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >          { P9_DOTL_NOCTTY , O_NOCTTY },
+> > > > > +#endif
+> > > > >          { P9_DOTL_TRUNC, O_TRUNC },
+> > > > >          { P9_DOTL_APPEND, O_APPEND },
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >          { P9_DOTL_NONBLOCK, O_NONBLOCK } ,
+> > > > >          { P9_DOTL_DSYNC, O_DSYNC },
+> > > > >          { P9_DOTL_FASYNC, FASYNC }, -#ifndef CONFIG_DARWIN
+> > > > > +#endif
+> > > > > +#ifdef CONFIG_LINUX
+> > > >
+> > > > Better
+> > > >
+> > > >    #if !defined(CONFIG_DARWIN) && !defined(CONFIG_WIN32)
+> > > >
 > > >
-> > > Likewise interpreting and walking those virtual symlinks in "mapped"
-> > > mode is also implemented in the local fs driver already.
-> >
-> > Yes, symlink can be supported by "mapped" mode.
-> > I mean that MinGW does not provide symlink mode flags "S_IFLNK" and som=
-e
-> other related functions and defines.
-> > You can check with "9p.c": S_ISLNK, S_ISSOCK and S_ISFIFO are not valid=
- on
-> Windows (MinGW) host.
-> > So even I enabled symlink supported by "mapped" mode on local-agent cod=
-e,
-> "9p.c" can not be built.
-> >
-> > So I disabled symlink totally, because MinGW interface does not support=
- it.
-> >
-> > To resolve this issue, MinGW should add the missing defines at first.
->=20
-> And what's wrong with something like the following?
->=20
-> #ifdef CONFIG_WIN32
-> ...
-> #ifndef S_ISLNK
-> #define S_ISLNK(x) ...
-> #endif
-> ...
-> #endif
->=20
+> > > It is OK.
+> > 
+> > You got my point, hopefully:
+> > 
+> > > > Otherwise it might automatically opt-out other future platforms
+> > > > unintentionally.
+> > > >
+> > > > >          { P9_DOTL_NOATIME, O_NOATIME },
+> > > > >          /*
+> > > > >           *  On Darwin, we could map to F_NOCACHE, which is @@
+> > > > > -151,8
+> > > > > +160,10 @@ static int dotl_to_open_flags(int flags)  #endif
+> > > > >          { P9_DOTL_LARGEFILE, O_LARGEFILE },
+> > > > >          { P9_DOTL_DIRECTORY, O_DIRECTORY },
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >          { P9_DOTL_NOFOLLOW, O_NOFOLLOW },
+> > > > >          { P9_DOTL_SYNC, O_SYNC },
+> > > > > +#endif
+> > > > >      };
+> > > > >
+> > > > >      for (i = 0; i < ARRAY_SIZE(dotl_oflag_map); i++) { @@ -179,8
+> > > > > +190,11 @@ static int get_dotl_openflags(V9fsState *s, int oflags)
+> > > > >       * Filter the client open flags
+> > > > >       */
+> > > > >      flags = dotl_to_open_flags(oflags);
+> > > > > -    flags &= ~(O_NOCTTY | O_ASYNC | O_CREAT);
+> > > > > -#ifndef CONFIG_DARWIN
+> > > > > +    flags &= ~(O_CREAT);
+> > > > > +#ifndef CONFIG_WIN32
+> > > > > +    flags &= ~(O_NOCTTY | O_ASYNC); #endif #ifdef CONFIG_LINUX
+> > > >
+> > > > Same as above: better explicitly opt-out than the other way around.
+> > > >
+> > >
+> > > It is OK.
+> > >
+> > > > >      /*
+> > > > >       * Ignore direct disk access hint until the server supports it.
+> > > > >       */
+> > > > > @@ -986,9 +1000,11 @@ static int stat_to_qid(V9fsPDU *pdu, const
+> > > > > struct
+> > > > stat *stbuf, V9fsQID *qidp)
+> > > > >      if (S_ISDIR(stbuf->st_mode)) {
+> > > > >          qidp->type |= P9_QID_TYPE_DIR;
+> > > > >      }
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >      if (S_ISLNK(stbuf->st_mode)) {
+> > > > >          qidp->type |= P9_QID_TYPE_SYMLINK;
+> > > > >      }
+> > > > > +#endif
+> > > > >
+> > > > >      return 0;
+> > > > >  }
+> > > > > @@ -1097,6 +1113,7 @@ static mode_t v9mode_to_mode(uint32_t mode,
+> > > > V9fsString *extension)
+> > > > >          ret |= S_IFDIR;
+> > > > >      }
+> > > > >
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >      if (mode & P9_STAT_MODE_SYMLINK) {
+> > > > >          ret |= S_IFLNK;
+> > > > >      }
+> > > > > @@ -1106,6 +1123,7 @@ static mode_t v9mode_to_mode(uint32_t mode,
+> > > > V9fsString *extension)
+> > > > >      if (mode & P9_STAT_MODE_NAMED_PIPE) {
+> > > > >          ret |= S_IFIFO;
+> > > > >      }
+> > > > > +#endif
+> > > > >      if (mode & P9_STAT_MODE_DEVICE) {
+> > > > >          if (extension->size && extension->data[0] == 'c') {
+> > > > >              ret |= S_IFCHR;
+> > > > > @@ -1118,6 +1136,7 @@ static mode_t v9mode_to_mode(uint32_t mode,
+> > > > V9fsString *extension)
+> > > > >          ret |= S_IFREG;
+> > > > >      }
+> > > > >
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >      if (mode & P9_STAT_MODE_SETUID) {
+> > > > >          ret |= S_ISUID;
+> > > > >      }
+> > > > > @@ -1127,6 +1146,7 @@ static mode_t v9mode_to_mode(uint32_t mode,
+> > > > V9fsString *extension)
+> > > > >      if (mode & P9_STAT_MODE_SETVTX) {
+> > > > >          ret |= S_ISVTX;
+> > > > >      }
+> > > > > +#endif
+> > > > >
+> > > > >      return ret;
+> > > > >  }
+> > > > > @@ -1182,6 +1202,7 @@ static uint32_t stat_to_v9mode(const struct
+> > > > > stat
+> > > > *stbuf)
+> > > > >          mode |= P9_STAT_MODE_DIR;
+> > > > >      }
+> > > > >
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >      if (S_ISLNK(stbuf->st_mode)) {
+> > > > >          mode |= P9_STAT_MODE_SYMLINK;
+> > > > >      }
+> > > > > @@ -1193,11 +1214,13 @@ static uint32_t stat_to_v9mode(const
+> > > > > struct stat
+> > > > *stbuf)
+> > > > >      if (S_ISFIFO(stbuf->st_mode)) {
+> > > > >          mode |= P9_STAT_MODE_NAMED_PIPE;
+> > > > >      }
+> > > > > +#endif
+> > > > >
+> > > > >      if (S_ISBLK(stbuf->st_mode) || S_ISCHR(stbuf->st_mode)) {
+> > > > >          mode |= P9_STAT_MODE_DEVICE;
+> > > > >      }
+> > > > >
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >      if (stbuf->st_mode & S_ISUID) {
+> > > > >          mode |= P9_STAT_MODE_SETUID;
+> > > > >      }
+> > > > > @@ -1209,6 +1232,7 @@ static uint32_t stat_to_v9mode(const struct
+> > > > > stat
+> > > > *stbuf)
+> > > > >      if (stbuf->st_mode & S_ISVTX) {
+> > > > >          mode |= P9_STAT_MODE_SETVTX;
+> > > > >      }
+> > > > > +#endif
+> > > > >
+> > > > >      return mode;
+> > > > >  }
+> > > > > @@ -1247,9 +1271,17 @@ static int coroutine_fn
+> > > > > stat_to_v9stat(V9fsPDU *pdu,
+> > > > V9fsPath *path,
+> > > > >              return err;
+> > > > >          }
+> > > > >      } else if (v9stat->mode & P9_STAT_MODE_DEVICE) {
+> > > > > +        unsigned maj, min;
+> > > > > +
+> > > > > +#ifndef CONFIG_WIN32
+> > > > > +        maj = major(stbuf->st_rdev);
+> > > > > +        min = minor(stbuf->st_rdev); #else
+> > > > > +        maj = min = 0;
+> > > > > +#endif
+> > > >
+> > > > Really?
+> > >
+> > > See above link.
+> > >
+> > > >
+> > > > >          v9fs_string_sprintf(&v9stat->extension, "%c %u %u",
+> > > > >                  S_ISCHR(stbuf->st_mode) ? 'c' : 'b',
+> > > > > -                major(stbuf->st_rdev), minor(stbuf->st_rdev));
+> > > > > +                maj, min);
+> > > > >      } else if (S_ISDIR(stbuf->st_mode) || S_ISREG(stbuf->st_mode)) {
+> > > > >          v9fs_string_sprintf(&v9stat->extension, "%s %lu",
+> > > > >                  "HARDLINKCOUNT", (unsigned long)stbuf->st_nlink);
+> > > > > @@
+> > > > > -1317,7 +1349,14 @@ static int32_t blksize_to_iounit(const V9fsPDU
+> > > > > *pdu, int32_t blksize)
+> > > > >
+> > > > >  static int32_t stat_to_iounit(const V9fsPDU *pdu, const struct
+> > > > > stat
+> > > > > *stbuf)  {
+> > > > > -    return blksize_to_iounit(pdu, stbuf->st_blksize);
+> > > > > +    int32_t blksize;
+> > > > > +
+> > > > > +#ifndef CONFIG_WIN32
+> > > > > +    blksize = stbuf->st_blksize); #else
+> > > > > +    blksize = 0;
+> > > > > +#endif
+> > > >
+> > > > Really?
+> > >
+> > > Windows struct stat does not have such field. See above link.
+> > 
+> > Yeah, but you cannot simply return zero here, because that information is
+> > interpreted on guest side as the optimum chunk size for I/O. So some apps
+> > might misbehave e.g. by trying allocate buffers with zero size, throwing
+> > division by zero exceptions, or trying to read() / write() with zero chunk
+> > size.
+> > 
+> > I'm pretty sure there is some kind of API to get the block size of the
+> > underlying drive on Windows. And if not, then something like 4k or 8k is
+> > still better than zero.
+> > 
+> 
+> The possible solution could be put a hard-code (e.g. 4096, 512) here.
+> This function does not have any context parameter for input.
+> To get block size, need a file handle or path. But this function does not have it.
 
-It is OK to add this just for current solution.
-My concern is:
-mode_t is a 16-bit value which store permission value in lower 12-bit and f=
-ile type in higher 4-bit.
-Windows does not document the other value for file type defines:
+Another major difference on Windows compared to other systems is that you
+don't have to worry about potential submounts in the exported directory tree.
+Because Windows does not have that concept. So on Windows you can assume that
+all files of the exported file tree are on the same storage device, right?
 
-// from MS SDK header file:
+So another solution would be to query the block size with a regular Windows
+API only on startup, simply by using the export root, and then storing that
+block size e.g. as a new member variable to struct V9fsState.
 
-#define _S_IFMT   0xF000 // File type mask
-#define _S_IFDIR  0x4000 // Directory
-#define _S_IFCHR  0x2000 // Character special
-#define _S_IFIFO  0x1000 // Pipe
-#define _S_IFREG  0x8000 // Regular
+In the end you could actually also use some meaningful hard coded value for
+now, as it is not such of a big deal whether that's 512, 4k or 8k. But zero is
+clearly a no go, for the reasons previously described.
 
-If we add a new type, is it a risk that the un-document value may be used b=
-y Windows internally and cause some compatible issue?
-Or if Windows use this some values in the future cause conflict?
+> > > >
+> > > > > +    return blksize_to_iounit(pdu, blksize);
+> > > > >  }
+> > > > >
+> > > > >  static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat
+> > > > > *stbuf, @@ -1332,7 +1371,11 @@ static int
+> > > > > stat_to_v9stat_dotl(V9fsPDU *pdu,
+> > > > const struct stat *stbuf,
+> > > > >      v9lstat->st_rdev = host_dev_to_dotl_dev(stbuf->st_rdev);
+> > > > >      v9lstat->st_size = stbuf->st_size;
+> > > > >      v9lstat->st_blksize = stat_to_iounit(pdu, stbuf);
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >      v9lstat->st_blocks = stbuf->st_blocks;
+> > > > > +#else
+> > > > > +    v9lstat->st_blocks = 0;
+> > > > > +#endif
+> > > >
+> > > > Really?
+> > >
+> > > Windows struct stat does not have such field. See above link.
+> > 
+> > Then it probably has to be calculated by file size / block size.
+> 
+> Got it.
+> 
+> > 
+> > > >
+> > > > >      v9lstat->st_atime_sec = stbuf->st_atime;
+> > > > >      v9lstat->st_mtime_sec = stbuf->st_mtime;
+> > > > >      v9lstat->st_ctime_sec = stbuf->st_ctime; @@ -1340,7 +1383,8
+> > > > > @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat
+> > *stbuf,
+> > > > >      v9lstat->st_atime_nsec = stbuf->st_atimespec.tv_nsec;
+> > > > >      v9lstat->st_mtime_nsec = stbuf->st_mtimespec.tv_nsec;
+> > > > >      v9lstat->st_ctime_nsec = stbuf->st_ctimespec.tv_nsec; -#else
+> > > > > +#endif
+> > > > > +#ifdef CONFIG_LINUX
+> > > > >      v9lstat->st_atime_nsec = stbuf->st_atim.tv_nsec;
+> > > > >      v9lstat->st_mtime_nsec = stbuf->st_mtim.tv_nsec;
+> > > > >      v9lstat->st_ctime_nsec = stbuf->st_ctim.tv_nsec; @@ -2471,6
+> > > > > +2515,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu,
+> > > > V9fsFidState *fidp,
+> > > > >      struct dirent *dent;
+> > > > >      struct stat *st;
+> > > > >      struct V9fsDirEnt *entries = NULL;
+> > > > > +    unsigned char d_type = 0;
+> > > > >
+> > > > >      /*
+> > > > >       * inode remapping requires the device id, which in turn
+> > > > > might be @@ -2540,10 +2585,13 @@ static int coroutine_fn
+> > > > > v9fs_do_readdir(V9fsPDU
+> > > > *pdu, V9fsFidState *fidp,
+> > > > >          v9fs_string_init(&name);
+> > > > >          v9fs_string_sprintf(&name, "%s", dent->d_name);
+> > > > >
+> > > > > +#ifndef CONFIG_WIN32
+> > > > > +        d_type = dent->d_type;
+> > > > > +#endif
+> > > > >          /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count)
+> > */
+> > > > >          len = pdu_marshal(pdu, 11 + count, "Qqbs",
+> > > > >                            &qid, off,
+> > > > > -                          dent->d_type, &name);
+> > > > > +                          d_type, &name);
+> > > >
+> > > > Are you saying that d_type is not initialized with zero already?
+> > >
+> > > struct dirent is defined by MinGW, it does not have d_type member:
+> > >
+> > > https://github.com/Alexpux/mingw-w64/blob/master/mingw-w64-headers/crt
+> > > /dirent.h
+> > 
+> > My bad, I misread your code. That's fine.
+> > 
+> > >
+> > > >
+> > > > >          v9fs_string_free(&name);
+> > > > >
+> > > > > @@ -2873,8 +2921,12 @@ static void coroutine_fn v9fs_create(void
+> > *opaque)
+> > > > >          }
+> > > > >
+> > > > >          nmode |= perm & 0777;
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >          err = v9fs_co_mknod(pdu, fidp, &name, fidp->uid, -1,
+> > > > >                              makedev(major, minor), nmode,
+> > > > > &stbuf);
+> > > > > +#else
+> > > > > +        err = -ENOTSUP;
+> > > > > +#endif
+> > > > >          if (err < 0) {
+> > > > >              goto out;
+> > > > >          }
+> > > > > @@ -2899,8 +2951,12 @@ static void coroutine_fn v9fs_create(void
+> > *opaque)
+> > > > >          v9fs_path_copy(&fidp->path, &path);
+> > > > >          v9fs_path_unlock(s);
+> > > > >      } else if (perm & P9_STAT_MODE_SOCKET) {
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >          err = v9fs_co_mknod(pdu, fidp, &name, fidp->uid, -1,
+> > > > >                              0, S_IFSOCK | (perm & 0777), &stbuf);
+> > > > > +#else
+> > > > > +        err = -ENOTSUP;
+> > > > > +#endif
+> > > >
+> > > > As with previous patches, I would consider making the user aware to
+> > > > use
+> > > > mapped(-xattr) with something like error_report_once().
+> > >
+> > > OK, got it.
+> > >
+> > > >
+> > > > >          if (err < 0) {
+> > > > >              goto out;
+> > > > >          }
+> > > > > @@ -3634,7 +3690,7 @@ out_nofid:
+> > > > >
+> > > > >  static void coroutine_fn v9fs_mknod(void *opaque)  {
+> > > > > -
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >      int mode;
+> > > > >      gid_t gid;
+> > > > >      int32_t fid;
+> > > > > @@ -3691,6 +3747,10 @@ out:
+> > > > >  out_nofid:
+> > > > >      pdu_complete(pdu, err);
+> > > > >      v9fs_string_free(&name);
+> > > > > +#else
+> > > > > +    V9fsPDU *pdu = opaque;
+> > > > > +    pdu_complete(pdu, -1);
+> > > > > +#endif
+> > > > >  }
+> > > > >
+> > > > >  /*
+> > > > > @@ -3963,7 +4023,7 @@ out_nofid:
+> > > > >  #if defined(CONFIG_LINUX)
+> > > > >  /* Currently, only Linux has XATTR_SIZE_MAX */  #define
+> > > > > P9_XATTR_SIZE_MAX XATTR_SIZE_MAX -#elif defined(CONFIG_DARWIN)
+> > > > > +#elif defined(CONFIG_DARWIN) || defined(CONFIG_WIN32)
+> > > > >  /*
+> > > > >   * Darwin doesn't seem to define a maximum xattr size in its user
+> > > > >   * space header, so manually configure it across platforms as 64k.
+> > > > > @@ -3980,6 +4040,7 @@ out_nofid:
+> > > > >
+> > > > >  static void coroutine_fn v9fs_xattrcreate(void *opaque)  {
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >      int flags, rflags = 0;
+> > > > >      int32_t fid;
+> > > > >      uint64_t size;
+> > > > > @@ -4041,10 +4102,15 @@ out_put_fid:
+> > > > >  out_nofid:
+> > > > >      pdu_complete(pdu, err);
+> > > > >      v9fs_string_free(&name);
+> > > > > +#else
+> > > > > +    V9fsPDU *pdu = opaque;
+> > > > > +    pdu_complete(pdu, -1);
+> > > > > +#endif
+> > > > >  }
+> > > > >
+> > > > >  static void coroutine_fn v9fs_readlink(void *opaque)  {
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >      V9fsPDU *pdu = opaque;
+> > > > >      size_t offset = 7;
+> > > > >      V9fsString target;
+> > > > > @@ -4080,6 +4146,10 @@ out:
+> > > > >      put_fid(pdu, fidp);
+> > > > >  out_nofid:
+> > > > >      pdu_complete(pdu, err);
+> > > > > +#else
+> > > > > +    V9fsPDU *pdu = opaque;
+> > > > > +    pdu_complete(pdu, -1);
+> > > > > +#endif
+> > > >
+> > > > Unnecessary double declaration of pdu.
+> > > >
+> > >
+> > > OK, got it.
+> > >
+> > > > >  }
+> > > > >
+> > > > >  static CoroutineEntry *pdu_co_handlers[] = { @@ -4341,6 +4411,7
+> > > > > @@ void v9fs_reset(V9fsState *s)
+> > > > >
+> > > > >  static void __attribute__((__constructor__))
+> > > > > v9fs_set_fd_limit(void) {
+> > > > > +#ifndef CONFIG_WIN32
+> > > > >      struct rlimit rlim;
+> > > > >      if (getrlimit(RLIMIT_NOFILE, &rlim) < 0) {
+> > > > >          error_report("Failed to get the resource limit"); @@
+> > > > > -4348,4
+> > > > > +4419,5 @@ static void __attribute__((__constructor__))
+> > > > v9fs_set_fd_limit(void)
+> > > > >      }
+> > > > >      open_fd_hw = rlim.rlim_cur - MIN(400, rlim.rlim_cur / 3);
+> > > > >      open_fd_rc = rlim.rlim_cur / 2;
+> > > > > +#endif
+> > > >
+> > > > Really?
+> > >
+> > > Windows does not provide getrlimit()
+> > 
+> > But it has _getmaxstdio() and _setmaxstdio().
+> > 
+> > And even if Windows had no replacement functions, you need to initialize
+> > these two global variables with some meaningful value. Otherwise they would
+> > be zero, and that would mean 9p server would assume max. 0 files could be
+> > open at the same time, so it would constantly close and re-open every single
+> > file descriptor on every minor micro-transaction for no reason.
+> 
+> I could implement this function by _getmaxstdio() and _setmaxstdio().
+> But these two functions are used for struct FILE, but not file descriptor (FD).
+> I wrote a basic test for this function:
+>   _getmaxstdio() returns 512, but I can use "open" to open at least 600 files without error.
+> 
+> Windows does not provide any document about the limititaion.
+> 
+> I think we can put a hard code here: 512, 1024, 2048, etc.
 
-Thanks
-Guohuai
+Yeah, that's pretty badly documented, I agree. The fact that it's prefixed
+with an underscore suggests that they were probably not too convinced about
+their API either. But it is as it is.
 
-> Best regards,
-> Christian Schoenebeck
->=20
+The fact that you can open a bit more files than what this function advertises
+is not a huge surprise or speaking against using it though. Because it is not
+untypical for systems to allow overallocation of system resources to a certain
+extent.
+
+At least from what I can see right now, this function is commonly used on
+Windows to get exactly that metric. So I would rather use that than using hard
+coded values, because from what I can see on the web, the numbers people got
+experimentally are varying quite a bit.
+
+Best regards,
+Christian Schoenebeck
+
 
 
