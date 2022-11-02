@@ -2,83 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AFFE61600A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 10:40:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6196A616026
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 10:44:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqADF-0002m7-6U; Wed, 02 Nov 2022 05:39:09 -0400
+	id 1oqAHU-0004pK-S9; Wed, 02 Nov 2022 05:43:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oqAD9-0002jp-Jc; Wed, 02 Nov 2022 05:39:05 -0400
+ id 1oqAHG-0004oA-VM; Wed, 02 Nov 2022 05:43:20 -0400
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oqAD5-0005B2-Fm; Wed, 02 Nov 2022 05:39:03 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A284YbB022107;
- Wed, 2 Nov 2022 09:38:56 GMT
+ id 1oqAHD-0006pG-SZ; Wed, 02 Nov 2022 05:43:17 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A28bdfu026877;
+ Wed, 2 Nov 2022 09:43:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=x8jreWzc9NP2GrCMhxgxLdUFxowtARc1fXg4evCWmI4=;
- b=XI5iOdOHt5OGQrRB+HPYKhusmuY645LpUhZ43U/v8aNYEKwHEhMfIBmaMAAYGYCvKnuX
- rgm7nO0hF+BEfmxEIzz+p1cBHpiNE09SaZ0QrbUhzzDQ8fWyZZAGA6DzFX+sm3Y2PCjF
- xSS+7gdwPOp86v2nvNkK8dLwd5D9SVT5n/1Or1vYLs2FXYRSSlTvxFtKw0BxVSTwcfRV
- 6aKrlgFWkF6i4hQ581Qy9i0811pXpcQZC2JAIFuJMyrQWFklchkTeosHZvM2yrlbbQSK
- JecXUjv4a1D3zt7+HNzGxTv+WppDMHeYhkkk14Z/GRV+U6d3XCocHZBvZ1CjC2G+mBAR qA== 
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kkmqfjq4e-1
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=drCirJx8GdqtYKwr6o6oaxHaNqqFJRwcmE/Xt1OFvIo=;
+ b=UXQbmy04Qt2pZYm59HYs0GYqEXKAsD5EVeCV8ywOzOgKvGjJ9PUyWLgx41o5d4EHIa55
+ jmDfrYYFH3hgUvBb734HzmJ2ZChjVpNmp8yJWswDlynTlUNRkvaFRHe+RHkdJh5ilE14
+ nyZohK/WySIJB42rgMiVqm2hS0SM0A3C3WyO0uRYI5OY+fub2JpM9jmlBWk/J0wsCXeK
+ wYt1C6OnaOm4PA9h1drpuC/R5qk55qhYv0WEybPZLnoLm6EE0nqoSHtjoY7gN+FDYSUO
+ 8CYGjjkQX0PBQ3CZaFQnqjjVI/I6hQd48NhXOSQBS2Fxpc2J8UH4T6E8nX6gkTZS0xT3 ew== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kkn741yk6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Nov 2022 09:38:55 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A29ZNXe022901;
- Wed, 2 Nov 2022 09:38:53 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma05fra.de.ibm.com with ESMTP id 3kjepeakve-1
+ Wed, 02 Nov 2022 09:43:12 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A29WAaW005623;
+ Wed, 2 Nov 2022 09:43:12 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kkn741yj0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 02 Nov 2022 09:38:53 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2A29copk56885746
+ Wed, 02 Nov 2022 09:43:12 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A29ZYdJ004806;
+ Wed, 2 Nov 2022 09:43:10 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3kgut8xfuh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 02 Nov 2022 09:43:09 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2A29h6hL61079930
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 2 Nov 2022 09:38:50 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8DEF2AE053;
- Wed,  2 Nov 2022 09:38:50 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3F828AE04D;
- Wed,  2 Nov 2022 09:38:50 +0000 (GMT)
-Received: from heavy (unknown [9.171.39.72])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Wed,  2 Nov 2022 09:38:50 +0000 (GMT)
-Date: Wed, 2 Nov 2022 10:38:48 +0100
+ Wed, 2 Nov 2022 09:43:06 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B5C7142049;
+ Wed,  2 Nov 2022 09:43:06 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 56AA742041;
+ Wed,  2 Nov 2022 09:43:06 +0000 (GMT)
+Received: from heavy.ibmuc.com (unknown [9.171.39.72])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed,  2 Nov 2022 09:43:06 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org
-Subject: Re: [PATCH 9/9] target/s390x: Use Int128 for passing float128
-Message-ID: <20221102093848.ewdzokre4vflgyzg@heavy>
-References: <20221021073006.2398819-1-richard.henderson@linaro.org>
- <20221021073006.2398819-10-richard.henderson@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH] s390x/tcg: Fix LDER instruction format
+Date: Wed,  2 Nov 2022 10:43:04 +0100
+Message-Id: <20221102094304.2585676-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221021073006.2398819-10-richard.henderson@linaro.org>
+Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 5QIKM6vLdnLQNR0Cf37r8UHp3niHLc3O
-X-Proofpoint-ORIG-GUID: 5QIKM6vLdnLQNR0Cf37r8UHp3niHLc3O
+X-Proofpoint-GUID: GSBHdWO0Xfyoj2bzTntEjUUJ5AJxrEsK
+X-Proofpoint-ORIG-GUID: 7dbmSGCJb7CNG4Jh-nH5WzcvClhuVoin
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-11-02_06,2022-11-01_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 phishscore=0
- clxscore=1015 bulkscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
- adultscore=0 impostorscore=0 mlxlogscore=843 spamscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ suspectscore=0 clxscore=1015
+ adultscore=0 impostorscore=0 spamscore=0 bulkscore=0 malwarescore=0
+ lowpriorityscore=0 priorityscore=1501 mlxlogscore=999 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2210170000 definitions=main-2211020057
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -103,726 +110,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Oct 21, 2022 at 05:30:06PM +1000, Richard Henderson wrote:
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/s390x/helper.h          | 32 ++++++-------
->  target/s390x/tcg/fpu_helper.c  | 88 ++++++++++++++--------------------
->  target/s390x/tcg/translate.c   | 76 ++++++++++++++++++++---------
->  target/s390x/tcg/insn-data.def | 30 ++++++------
->  4 files changed, 121 insertions(+), 105 deletions(-)
-> 
-> diff --git a/target/s390x/helper.h b/target/s390x/helper.h
-> index 429131a85e..481b9019f9 100644
-> --- a/target/s390x/helper.h
-> +++ b/target/s390x/helper.h
-> @@ -41,55 +41,55 @@ DEF_HELPER_4(csst, i32, env, i32, i64, i64)
->  DEF_HELPER_4(csst_parallel, i32, env, i32, i64, i64)
->  DEF_HELPER_FLAGS_3(aeb, TCG_CALL_NO_WG, i64, env, i64, i64)
->  DEF_HELPER_FLAGS_3(adb, TCG_CALL_NO_WG, i64, env, i64, i64)
-> -DEF_HELPER_FLAGS_5(axb, TCG_CALL_NO_WG, i128, env, i64, i64, i64, i64)
-> +DEF_HELPER_FLAGS_3(axb, TCG_CALL_NO_WG, i128, env, i128, i128)
->  DEF_HELPER_FLAGS_3(seb, TCG_CALL_NO_WG, i64, env, i64, i64)
->  DEF_HELPER_FLAGS_3(sdb, TCG_CALL_NO_WG, i64, env, i64, i64)
-> -DEF_HELPER_FLAGS_5(sxb, TCG_CALL_NO_WG, i128, env, i64, i64, i64, i64)
-> +DEF_HELPER_FLAGS_3(sxb, TCG_CALL_NO_WG, i128, env, i128, i128)
->  DEF_HELPER_FLAGS_3(deb, TCG_CALL_NO_WG, i64, env, i64, i64)
->  DEF_HELPER_FLAGS_3(ddb, TCG_CALL_NO_WG, i64, env, i64, i64)
-> -DEF_HELPER_FLAGS_5(dxb, TCG_CALL_NO_WG, i128, env, i64, i64, i64, i64)
-> +DEF_HELPER_FLAGS_3(dxb, TCG_CALL_NO_WG, i128, env, i128, i128)
->  DEF_HELPER_FLAGS_3(meeb, TCG_CALL_NO_WG, i64, env, i64, i64)
->  DEF_HELPER_FLAGS_3(mdeb, TCG_CALL_NO_WG, i64, env, i64, i64)
->  DEF_HELPER_FLAGS_3(mdb, TCG_CALL_NO_WG, i64, env, i64, i64)
-> -DEF_HELPER_FLAGS_5(mxb, TCG_CALL_NO_WG, i128, env, i64, i64, i64, i64)
-> -DEF_HELPER_FLAGS_4(mxdb, TCG_CALL_NO_WG, i128, env, i64, i64, i64)
-> +DEF_HELPER_FLAGS_3(mxb, TCG_CALL_NO_WG, i128, env, i128, i128)
-> +DEF_HELPER_FLAGS_3(mxdb, TCG_CALL_NO_WG, i128, env, i128, i64)
->  DEF_HELPER_FLAGS_2(ldeb, TCG_CALL_NO_WG, i64, env, i64)
-> -DEF_HELPER_FLAGS_4(ldxb, TCG_CALL_NO_WG, i64, env, i64, i64, i32)
-> +DEF_HELPER_FLAGS_3(ldxb, TCG_CALL_NO_WG, i64, env, i128, i32)
->  DEF_HELPER_FLAGS_2(lxdb, TCG_CALL_NO_WG, i128, env, i64)
->  DEF_HELPER_FLAGS_2(lxeb, TCG_CALL_NO_WG, i128, env, i64)
->  DEF_HELPER_FLAGS_3(ledb, TCG_CALL_NO_WG, i64, env, i64, i32)
-> -DEF_HELPER_FLAGS_4(lexb, TCG_CALL_NO_WG, i64, env, i64, i64, i32)
-> +DEF_HELPER_FLAGS_3(lexb, TCG_CALL_NO_WG, i64, env, i128, i32)
->  DEF_HELPER_FLAGS_3(ceb, TCG_CALL_NO_WG_SE, i32, env, i64, i64)
->  DEF_HELPER_FLAGS_3(cdb, TCG_CALL_NO_WG_SE, i32, env, i64, i64)
-> -DEF_HELPER_FLAGS_5(cxb, TCG_CALL_NO_WG_SE, i32, env, i64, i64, i64, i64)
-> +DEF_HELPER_FLAGS_3(cxb, TCG_CALL_NO_WG_SE, i32, env, i128, i128)
->  DEF_HELPER_FLAGS_3(keb, TCG_CALL_NO_WG, i32, env, i64, i64)
->  DEF_HELPER_FLAGS_3(kdb, TCG_CALL_NO_WG, i32, env, i64, i64)
-> -DEF_HELPER_FLAGS_5(kxb, TCG_CALL_NO_WG, i32, env, i64, i64, i64, i64)
-> +DEF_HELPER_FLAGS_3(kxb, TCG_CALL_NO_WG, i32, env, i128, i128)
->  DEF_HELPER_3(cgeb, i64, env, i64, i32)
->  DEF_HELPER_3(cgdb, i64, env, i64, i32)
-> -DEF_HELPER_4(cgxb, i64, env, i64, i64, i32)
-> +DEF_HELPER_3(cgxb, i64, env, i128, i32)
->  DEF_HELPER_3(cfeb, i64, env, i64, i32)
->  DEF_HELPER_3(cfdb, i64, env, i64, i32)
-> -DEF_HELPER_4(cfxb, i64, env, i64, i64, i32)
-> +DEF_HELPER_3(cfxb, i64, env, i128, i32)
->  DEF_HELPER_3(clgeb, i64, env, i64, i32)
->  DEF_HELPER_3(clgdb, i64, env, i64, i32)
-> -DEF_HELPER_4(clgxb, i64, env, i64, i64, i32)
-> +DEF_HELPER_3(clgxb, i64, env, i128, i32)
->  DEF_HELPER_3(clfeb, i64, env, i64, i32)
->  DEF_HELPER_3(clfdb, i64, env, i64, i32)
-> -DEF_HELPER_4(clfxb, i64, env, i64, i64, i32)
-> +DEF_HELPER_3(clfxb, i64, env, i128, i32)
->  DEF_HELPER_FLAGS_3(fieb, TCG_CALL_NO_WG, i64, env, i64, i32)
->  DEF_HELPER_FLAGS_3(fidb, TCG_CALL_NO_WG, i64, env, i64, i32)
-> -DEF_HELPER_FLAGS_4(fixb, TCG_CALL_NO_WG, i128, env, i64, i64, i32)
-> +DEF_HELPER_FLAGS_3(fixb, TCG_CALL_NO_WG, i128, env, i128, i32)
->  DEF_HELPER_FLAGS_4(maeb, TCG_CALL_NO_WG, i64, env, i64, i64, i64)
->  DEF_HELPER_FLAGS_4(madb, TCG_CALL_NO_WG, i64, env, i64, i64, i64)
->  DEF_HELPER_FLAGS_4(mseb, TCG_CALL_NO_WG, i64, env, i64, i64, i64)
->  DEF_HELPER_FLAGS_4(msdb, TCG_CALL_NO_WG, i64, env, i64, i64, i64)
->  DEF_HELPER_FLAGS_3(tceb, TCG_CALL_NO_RWG_SE, i32, env, i64, i64)
->  DEF_HELPER_FLAGS_3(tcdb, TCG_CALL_NO_RWG_SE, i32, env, i64, i64)
-> -DEF_HELPER_FLAGS_4(tcxb, TCG_CALL_NO_RWG_SE, i32, env, i64, i64, i64)
-> +DEF_HELPER_FLAGS_3(tcxb, TCG_CALL_NO_RWG_SE, i32, env, i128, i64)
->  DEF_HELPER_FLAGS_2(sqeb, TCG_CALL_NO_WG, i64, env, i64)
->  DEF_HELPER_FLAGS_2(sqdb, TCG_CALL_NO_WG, i64, env, i64)
-> -DEF_HELPER_FLAGS_3(sqxb, TCG_CALL_NO_WG, i128, env, i64, i64)
-> +DEF_HELPER_FLAGS_2(sqxb, TCG_CALL_NO_WG, i128, env, i128)
->  DEF_HELPER_FLAGS_1(cvd, TCG_CALL_NO_RWG_SE, i64, s32)
->  DEF_HELPER_FLAGS_4(pack, TCG_CALL_NO_WG, void, env, i32, i64, i64)
->  DEF_HELPER_FLAGS_4(pka, TCG_CALL_NO_WG, void, env, i64, i64, i32)
-> diff --git a/target/s390x/tcg/fpu_helper.c b/target/s390x/tcg/fpu_helper.c
-> index a584794be6..5a322e3f87 100644
-> --- a/target/s390x/tcg/fpu_helper.c
-> +++ b/target/s390x/tcg/fpu_helper.c
-> @@ -39,6 +39,11 @@ static inline Int128 RET128(float128 f)
->      return int128_make128(f.low, f.high);
->  }
->  
-> +static inline float128 ARG128(Int128 i)
-> +{
-> +    return make_float128(int128_gethi(i), int128_getlo(i));
-> +}
-> +
->  uint8_t s390_softfloat_exc_to_ieee(unsigned int exc)
->  {
->      uint8_t s390_exc = 0;
-> @@ -227,12 +232,9 @@ uint64_t HELPER(adb)(CPUS390XState *env, uint64_t f1, uint64_t f2)
->  }
->  
->  /* 128-bit FP addition */
-> -Int128 HELPER(axb)(CPUS390XState *env, uint64_t ah, uint64_t al,
-> -                     uint64_t bh, uint64_t bl)
-> +Int128 HELPER(axb)(CPUS390XState *env, Int128 a, Int128 b)
->  {
-> -    float128 ret = float128_add(make_float128(ah, al),
-> -                                make_float128(bh, bl),
-> -                                &env->fpu_status);
-> +    float128 ret = float128_add(ARG128(a), ARG128(b), &env->fpu_status);
->      handle_exceptions(env, false, GETPC());
->      return RET128(ret);
->  }
-> @@ -254,12 +256,9 @@ uint64_t HELPER(sdb)(CPUS390XState *env, uint64_t f1, uint64_t f2)
->  }
->  
->  /* 128-bit FP subtraction */
-> -Int128 HELPER(sxb)(CPUS390XState *env, uint64_t ah, uint64_t al,
-> -                     uint64_t bh, uint64_t bl)
-> +Int128 HELPER(sxb)(CPUS390XState *env, Int128 a, Int128 b)
->  {
-> -    float128 ret = float128_sub(make_float128(ah, al),
-> -                                make_float128(bh, bl),
-> -                                &env->fpu_status);
-> +    float128 ret = float128_sub(ARG128(a), ARG128(b), &env->fpu_status);
->      handle_exceptions(env, false, GETPC());
->      return RET128(ret);
->  }
-> @@ -281,12 +280,9 @@ uint64_t HELPER(ddb)(CPUS390XState *env, uint64_t f1, uint64_t f2)
->  }
->  
->  /* 128-bit FP division */
-> -Int128 HELPER(dxb)(CPUS390XState *env, uint64_t ah, uint64_t al,
-> -                     uint64_t bh, uint64_t bl)
-> +Int128 HELPER(dxb)(CPUS390XState *env, Int128 a, Int128 b)
->  {
-> -    float128 ret = float128_div(make_float128(ah, al),
-> -                                make_float128(bh, bl),
-> -                                &env->fpu_status);
-> +    float128 ret = float128_div(ARG128(a), ARG128(b), &env->fpu_status);
->      handle_exceptions(env, false, GETPC());
->      return RET128(ret);
->  }
-> @@ -317,21 +313,18 @@ uint64_t HELPER(mdeb)(CPUS390XState *env, uint64_t f1, uint64_t f2)
->  }
->  
->  /* 128-bit FP multiplication */
-> -Int128 HELPER(mxb)(CPUS390XState *env, uint64_t ah, uint64_t al,
-> -                     uint64_t bh, uint64_t bl)
-> +Int128 HELPER(mxb)(CPUS390XState *env, Int128 a, Int128 b)
->  {
-> -    float128 ret = float128_mul(make_float128(ah, al),
-> -                                make_float128(bh, bl),
-> -                                &env->fpu_status);
-> +    float128 ret = float128_mul(ARG128(a), ARG128(b), &env->fpu_status);
->      handle_exceptions(env, false, GETPC());
->      return RET128(ret);
->  }
->  
->  /* 128/64-bit FP multiplication */
-> -Int128 HELPER(mxdb)(CPUS390XState *env, uint64_t ah, uint64_t al, uint64_t f2)
-> +Int128 HELPER(mxdb)(CPUS390XState *env, Int128 a, uint64_t f2)
->  {
->      float128 ret = float64_to_float128(f2, &env->fpu_status);
-> -    ret = float128_mul(make_float128(ah, al), ret, &env->fpu_status);
-> +    ret = float128_mul(ARG128(a), ret, &env->fpu_status);
->      handle_exceptions(env, false, GETPC());
->      return RET128(ret);
->  }
-> @@ -345,11 +338,10 @@ uint64_t HELPER(ldeb)(CPUS390XState *env, uint64_t f2)
->  }
->  
->  /* convert 128-bit float to 64-bit float */
-> -uint64_t HELPER(ldxb)(CPUS390XState *env, uint64_t ah, uint64_t al,
-> -                      uint32_t m34)
-> +uint64_t HELPER(ldxb)(CPUS390XState *env, Int128 a, uint32_t m34)
->  {
->      int old_mode = s390_swap_bfp_rounding_mode(env, round_from_m34(m34));
-> -    float64 ret = float128_to_float64(make_float128(ah, al), &env->fpu_status);
-> +    float64 ret = float128_to_float64(ARG128(a), &env->fpu_status);
->  
->      s390_restore_bfp_rounding_mode(env, old_mode);
->      handle_exceptions(env, xxc_from_m34(m34), GETPC());
-> @@ -384,11 +376,10 @@ uint64_t HELPER(ledb)(CPUS390XState *env, uint64_t f2, uint32_t m34)
->  }
->  
->  /* convert 128-bit float to 32-bit float */
-> -uint64_t HELPER(lexb)(CPUS390XState *env, uint64_t ah, uint64_t al,
-> -                      uint32_t m34)
-> +uint64_t HELPER(lexb)(CPUS390XState *env, Int128 a, uint32_t m34)
->  {
->      int old_mode = s390_swap_bfp_rounding_mode(env, round_from_m34(m34));
-> -    float32 ret = float128_to_float32(make_float128(ah, al), &env->fpu_status);
-> +    float32 ret = float128_to_float32(ARG128(a), &env->fpu_status);
->  
->      s390_restore_bfp_rounding_mode(env, old_mode);
->      handle_exceptions(env, xxc_from_m34(m34), GETPC());
-> @@ -412,11 +403,9 @@ uint32_t HELPER(cdb)(CPUS390XState *env, uint64_t f1, uint64_t f2)
->  }
->  
->  /* 128-bit FP compare */
-> -uint32_t HELPER(cxb)(CPUS390XState *env, uint64_t ah, uint64_t al,
-> -                     uint64_t bh, uint64_t bl)
-> +uint32_t HELPER(cxb)(CPUS390XState *env, Int128 a, Int128 b)
->  {
-> -    FloatRelation cmp = float128_compare_quiet(make_float128(ah, al),
-> -                                               make_float128(bh, bl),
-> +    FloatRelation cmp = float128_compare_quiet(ARG128(a), ARG128(b),
->                                                 &env->fpu_status);
->      handle_exceptions(env, false, GETPC());
->      return float_comp_to_cc(env, cmp);
-> @@ -564,10 +553,10 @@ uint64_t HELPER(cgdb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
->  }
->  
->  /* convert 128-bit float to 64-bit int */
-> -uint64_t HELPER(cgxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
-> +uint64_t HELPER(cgxb)(CPUS390XState *env, Int128 i2, uint32_t m34)
->  {
->      int old_mode = s390_swap_bfp_rounding_mode(env, round_from_m34(m34));
-> -    float128 v2 = make_float128(h, l);
-> +    float128 v2 = ARG128(i2);
->      int64_t ret = float128_to_int64(v2, &env->fpu_status);
->      uint32_t cc = set_cc_conv_f128(v2, &env->fpu_status);
->  
-> @@ -613,10 +602,10 @@ uint64_t HELPER(cfdb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
->  }
->  
->  /* convert 128-bit float to 32-bit int */
-> -uint64_t HELPER(cfxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
-> +uint64_t HELPER(cfxb)(CPUS390XState *env, Int128 i2, uint32_t m34)
->  {
->      int old_mode = s390_swap_bfp_rounding_mode(env, round_from_m34(m34));
-> -    float128 v2 = make_float128(h, l);
-> +    float128 v2 = ARG128(i2);
->      int32_t ret = float128_to_int32(v2, &env->fpu_status);
->      uint32_t cc = set_cc_conv_f128(v2, &env->fpu_status);
->  
-> @@ -662,10 +651,10 @@ uint64_t HELPER(clgdb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
->  }
->  
->  /* convert 128-bit float to 64-bit uint */
-> -uint64_t HELPER(clgxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
-> +uint64_t HELPER(clgxb)(CPUS390XState *env, Int128 i2, uint32_t m34)
->  {
->      int old_mode = s390_swap_bfp_rounding_mode(env, round_from_m34(m34));
-> -    float128 v2 = make_float128(h, l);
-> +    float128 v2 = ARG128(i2);
->      uint64_t ret = float128_to_uint64(v2, &env->fpu_status);
->      uint32_t cc = set_cc_conv_f128(v2, &env->fpu_status);
->  
-> @@ -711,10 +700,10 @@ uint64_t HELPER(clfdb)(CPUS390XState *env, uint64_t v2, uint32_t m34)
->  }
->  
->  /* convert 128-bit float to 32-bit uint */
-> -uint64_t HELPER(clfxb)(CPUS390XState *env, uint64_t h, uint64_t l, uint32_t m34)
-> +uint64_t HELPER(clfxb)(CPUS390XState *env, Int128 i2, uint32_t m34)
->  {
->      int old_mode = s390_swap_bfp_rounding_mode(env, round_from_m34(m34));
-> -    float128 v2 = make_float128(h, l);
-> +    float128 v2 = ARG128(i2);
->      uint32_t ret = float128_to_uint32(v2, &env->fpu_status);
->      uint32_t cc = set_cc_conv_f128(v2, &env->fpu_status);
->  
-> @@ -750,11 +739,10 @@ uint64_t HELPER(fidb)(CPUS390XState *env, uint64_t f2, uint32_t m34)
->  }
->  
->  /* round to integer 128-bit */
-> -Int128 HELPER(fixb)(CPUS390XState *env, uint64_t ah, uint64_t al, uint32_t m34)
-> +Int128 HELPER(fixb)(CPUS390XState *env, Int128 a, uint32_t m34)
->  {
->      int old_mode = s390_swap_bfp_rounding_mode(env, round_from_m34(m34));
-> -    float128 ret = float128_round_to_int(make_float128(ah, al),
-> -                                         &env->fpu_status);
-> +    float128 ret = float128_round_to_int(ARG128(a), &env->fpu_status);
->  
->      s390_restore_bfp_rounding_mode(env, old_mode);
->      handle_exceptions(env, xxc_from_m34(m34), GETPC());
-> @@ -778,11 +766,9 @@ uint32_t HELPER(kdb)(CPUS390XState *env, uint64_t f1, uint64_t f2)
->  }
->  
->  /* 128-bit FP compare and signal */
-> -uint32_t HELPER(kxb)(CPUS390XState *env, uint64_t ah, uint64_t al,
-> -                     uint64_t bh, uint64_t bl)
-> +uint32_t HELPER(kxb)(CPUS390XState *env, Int128 a, Int128 b)
->  {
-> -    FloatRelation cmp = float128_compare(make_float128(ah, al),
-> -                                         make_float128(bh, bl),
-> +    FloatRelation cmp = float128_compare(ARG128(a), ARG128(b),
->                                           &env->fpu_status);
->      handle_exceptions(env, false, GETPC());
->      return float_comp_to_cc(env, cmp);
-> @@ -869,9 +855,9 @@ uint32_t HELPER(tcdb)(CPUS390XState *env, uint64_t v1, uint64_t m2)
->  }
->  
->  /* test data class 128-bit */
-> -uint32_t HELPER(tcxb)(CPUS390XState *env, uint64_t ah, uint64_t al, uint64_t m2)
-> +uint32_t HELPER(tcxb)(CPUS390XState *env, Int128 a, uint64_t m2)
->  {
-> -    return (m2 & float128_dcmask(env, make_float128(ah, al))) != 0;
-> +    return (m2 & float128_dcmask(env, ARG128(a))) != 0;
->  }
->  
->  /* square root 32-bit */
-> @@ -891,9 +877,9 @@ uint64_t HELPER(sqdb)(CPUS390XState *env, uint64_t f2)
->  }
->  
->  /* square root 128-bit */
-> -Int128 HELPER(sqxb)(CPUS390XState *env, uint64_t ah, uint64_t al)
-> +Int128 HELPER(sqxb)(CPUS390XState *env, Int128 a)
->  {
-> -    float128 ret = float128_sqrt(make_float128(ah, al), &env->fpu_status);
-> +    float128 ret = float128_sqrt(ARG128(a), &env->fpu_status);
->      handle_exceptions(env, false, GETPC());
->      return RET128(ret);
->  }
-> diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-> index d1ffbb8710..8023bbab2f 100644
-> --- a/target/s390x/tcg/translate.c
-> +++ b/target/s390x/tcg/translate.c
-> @@ -305,6 +305,18 @@ static TCGv_i64 load_freg32_i64(int reg)
->      return r;
->  }
->  
-> +static TCGv_i128 load_freg_128(int reg)
-> +{
-> +    TCGv_i64 h = load_freg(reg);
-> +    TCGv_i64 l = load_freg(reg + 2);
-> +    TCGv_i128 r = tcg_temp_new_i128();
-> +
-> +    tcg_gen_concat_i64_i128(r, l, h);
-> +    tcg_temp_free_i64(h);
-> +    tcg_temp_free_i64(l);
-> +    return r;
-> +}
-> +
->  static void store_reg(int reg, TCGv_i64 v)
->  {
->      tcg_gen_mov_i64(regs[reg], v);
-> @@ -1103,7 +1115,7 @@ typedef struct {
->      bool g_out, g_out2, g_in1, g_in2;
->      TCGv_i64 out, out2, in1, in2;
->      TCGv_i64 addr1;
-> -    TCGv_i128 out_128;
-> +    TCGv_i128 out_128, in1_128, in2_128;
->  } DisasOps;
->  
->  /* Instructions can place constraints on their operands, raising specification
-> @@ -1462,7 +1474,7 @@ static DisasJumpType op_adb(DisasContext *s, DisasOps *o)
->  
->  static DisasJumpType op_axb(DisasContext *s, DisasOps *o)
->  {
-> -    gen_helper_axb(o->out_128, cpu_env, o->out, o->out2, o->in1, o->in2);
-> +    gen_helper_axb(o->out_128, cpu_env, o->in1_128, o->in2_128);
->      return DISAS_NEXT;
->  }
->  
-> @@ -1778,7 +1790,7 @@ static DisasJumpType op_cdb(DisasContext *s, DisasOps *o)
->  
->  static DisasJumpType op_cxb(DisasContext *s, DisasOps *o)
->  {
-> -    gen_helper_cxb(cc_op, cpu_env, o->out, o->out2, o->in1, o->in2);
-> +    gen_helper_cxb(cc_op, cpu_env, o->in1_128, o->in2_128);
->      set_cc_static(s);
->      return DISAS_NEXT;
->  }
-> @@ -1841,7 +1853,7 @@ static DisasJumpType op_cfxb(DisasContext *s, DisasOps *o)
->      if (!m34) {
->          return DISAS_NORETURN;
->      }
-> -    gen_helper_cfxb(o->out, cpu_env, o->in1, o->in2, m34);
-> +    gen_helper_cfxb(o->out, cpu_env, o->in2_128, m34);
->      tcg_temp_free_i32(m34);
->      set_cc_static(s);
->      return DISAS_NEXT;
-> @@ -1880,7 +1892,7 @@ static DisasJumpType op_cgxb(DisasContext *s, DisasOps *o)
->      if (!m34) {
->          return DISAS_NORETURN;
->      }
-> -    gen_helper_cgxb(o->out, cpu_env, o->in1, o->in2, m34);
-> +    gen_helper_cgxb(o->out, cpu_env, o->in2_128, m34);
->      tcg_temp_free_i32(m34);
->      set_cc_static(s);
->      return DISAS_NEXT;
-> @@ -1919,7 +1931,7 @@ static DisasJumpType op_clfxb(DisasContext *s, DisasOps *o)
->      if (!m34) {
->          return DISAS_NORETURN;
->      }
-> -    gen_helper_clfxb(o->out, cpu_env, o->in1, o->in2, m34);
-> +    gen_helper_clfxb(o->out, cpu_env, o->in2_128, m34);
->      tcg_temp_free_i32(m34);
->      set_cc_static(s);
->      return DISAS_NEXT;
-> @@ -1958,7 +1970,7 @@ static DisasJumpType op_clgxb(DisasContext *s, DisasOps *o)
->      if (!m34) {
->          return DISAS_NORETURN;
->      }
-> -    gen_helper_clgxb(o->out, cpu_env, o->in1, o->in2, m34);
-> +    gen_helper_clgxb(o->out, cpu_env, o->in2_128, m34);
->      tcg_temp_free_i32(m34);
->      set_cc_static(s);
->      return DISAS_NEXT;
-> @@ -2448,7 +2460,7 @@ static DisasJumpType op_ddb(DisasContext *s, DisasOps *o)
->  
->  static DisasJumpType op_dxb(DisasContext *s, DisasOps *o)
->  {
-> -    gen_helper_dxb(o->out_128, cpu_env, o->out, o->out2, o->in1, o->in2);
-> +    gen_helper_dxb(o->out_128, cpu_env, o->in1_128, o->in2_128);
->      return DISAS_NEXT;
->  }
->  
-> @@ -2553,7 +2565,7 @@ static DisasJumpType op_fixb(DisasContext *s, DisasOps *o)
->      if (!m34) {
->          return DISAS_NORETURN;
->      }
-> -    gen_helper_fixb(o->out_128, cpu_env, o->in1, o->in2, m34);
-> +    gen_helper_fixb(o->out_128, cpu_env, o->in2_128, m34);
->      tcg_temp_free_i32(m34);
->      return DISAS_NEXT;
->  }
-> @@ -2772,7 +2784,7 @@ static DisasJumpType op_kdb(DisasContext *s, DisasOps *o)
->  
->  static DisasJumpType op_kxb(DisasContext *s, DisasOps *o)
->  {
-> -    gen_helper_kxb(cc_op, cpu_env, o->out, o->out2, o->in1, o->in2);
-> +    gen_helper_kxb(cc_op, cpu_env, o->in1_128, o->in2_128);
->      set_cc_static(s);
->      return DISAS_NEXT;
->  }
-> @@ -2846,7 +2858,7 @@ static DisasJumpType op_ldxb(DisasContext *s, DisasOps *o)
->      if (!m34) {
->          return DISAS_NORETURN;
->      }
-> -    gen_helper_ldxb(o->out, cpu_env, o->in1, o->in2, m34);
-> +    gen_helper_ldxb(o->out, cpu_env, o->in2_128, m34);
->      tcg_temp_free_i32(m34);
->      return DISAS_NEXT;
->  }
-> @@ -2858,7 +2870,7 @@ static DisasJumpType op_lexb(DisasContext *s, DisasOps *o)
->      if (!m34) {
->          return DISAS_NORETURN;
->      }
-> -    gen_helper_lexb(o->out, cpu_env, o->in1, o->in2, m34);
-> +    gen_helper_lexb(o->out, cpu_env, o->in2_128, m34);
->      tcg_temp_free_i32(m34);
->      return DISAS_NEXT;
->  }
-> @@ -3586,13 +3598,13 @@ static DisasJumpType op_mdb(DisasContext *s, DisasOps *o)
->  
->  static DisasJumpType op_mxb(DisasContext *s, DisasOps *o)
->  {
-> -    gen_helper_mxb(o->out_128, cpu_env, o->out, o->out2, o->in1, o->in2);
-> +    gen_helper_mxb(o->out_128, cpu_env, o->in1_128, o->in2_128);
->      return DISAS_NEXT;
->  }
->  
->  static DisasJumpType op_mxdb(DisasContext *s, DisasOps *o)
->  {
-> -    gen_helper_mxdb(o->out_128, cpu_env, o->out, o->out2, o->in2);
-> +    gen_helper_mxdb(o->out_128, cpu_env, o->in1_128, o->in2);
->      return DISAS_NEXT;
->  }
->  
-> @@ -4057,7 +4069,7 @@ static DisasJumpType op_sdb(DisasContext *s, DisasOps *o)
->  
->  static DisasJumpType op_sxb(DisasContext *s, DisasOps *o)
->  {
-> -    gen_helper_sxb(o->out_128, cpu_env, o->out, o->out2, o->in1, o->in2);
-> +    gen_helper_sxb(o->out_128, cpu_env, o->in1_128, o->in2_128);
->      return DISAS_NEXT;
->  }
->  
-> @@ -4075,7 +4087,7 @@ static DisasJumpType op_sqdb(DisasContext *s, DisasOps *o)
->  
->  static DisasJumpType op_sqxb(DisasContext *s, DisasOps *o)
->  {
-> -    gen_helper_sqxb(o->out_128, cpu_env, o->in1, o->in2);
-> +    gen_helper_sqxb(o->out_128, cpu_env, o->in2_128);
->      return DISAS_NEXT;
->  }
->  
-> @@ -4854,7 +4866,7 @@ static DisasJumpType op_tcdb(DisasContext *s, DisasOps *o)
->  
->  static DisasJumpType op_tcxb(DisasContext *s, DisasOps *o)
->  {
-> -    gen_helper_tcxb(cc_op, cpu_env, o->out, o->out2, o->in2);
-> +    gen_helper_tcxb(cc_op, cpu_env, o->in1_128, o->in2);
->      set_cc_static(s);
->      return DISAS_NEXT;
->  }
-> @@ -5389,8 +5401,6 @@ static void prep_new_P(DisasContext *s, DisasOps *o)
->  
->  static void prep_new_x(DisasContext *s, DisasOps *o)
->  {
-> -    o->out = tcg_temp_new_i64();
-> -    o->out2 = tcg_temp_new_i64();
->      o->out_128 = tcg_temp_new_i128();
->  }
->  #define SPEC_prep_new_x 0
-> @@ -5413,10 +5423,7 @@ static void prep_r1_P(DisasContext *s, DisasOps *o)
->  
->  static void prep_x1(DisasContext *s, DisasOps *o)
->  {
-> -    o->out = load_freg(get_field(s, r1));
-> -    o->out2 = load_freg(get_field(s, r1) + 2);
-> -    o->out_128 = tcg_temp_new_i128();
-> -    tcg_gen_concat_i64_i128(o->out_128, o->out2, o->out);
-> +    o->out_128 = load_freg_128(get_field(s, r1));
->  }
->  #define SPEC_prep_x1 SPEC_r1_f128
->  
-> @@ -5515,6 +5522,11 @@ static void wout_x1(DisasContext *s, DisasOps *o)
->  {
->      int f1 = get_field(s, r1);
->  
-> +    /* Split out_128 into out+out2 for cout_f128. */
-> +    tcg_debug_assert(o->out == NULL);
-> +    o->out = tcg_temp_new_i64();
-> +    o->out2 = tcg_temp_new_i64();
-> +
->      tcg_gen_extr_i128_i64(o->out2, o->out, o->out_128);
->      store_freg(f1, o->out);
->      store_freg(f1 + 2, o->out2);
-> @@ -5757,6 +5769,12 @@ static void in1_f1(DisasContext *s, DisasOps *o)
->  }
->  #define SPEC_in1_f1 0
->  
-> +static void in1_x1(DisasContext *s, DisasOps *o)
-> +{
-> +    o->in1_128 = load_freg_128(get_field(s, r1));
-> +}
-> +#define SPEC_in1_x1 SPEC_r2_f128
-> +
->  /* Load the high double word of an extended (128-bit) format FP number */
->  static void in1_x2h(DisasContext *s, DisasOps *o)
->  {
-> @@ -5966,6 +5984,12 @@ static void in2_f2(DisasContext *s, DisasOps *o)
->  }
->  #define SPEC_in2_f2 0
->  
-> +static void in2_x2(DisasContext *s, DisasOps *o)
-> +{
-> +    o->in2_128 = load_freg_128(get_field(s, r2));
-> +}
-> +#define SPEC_in2_x2 SPEC_r2_f128
-> +
->  /* Load the low double word of an extended (128-bit) format FP number */
->  static void in2_x2l(DisasContext *s, DisasOps *o)
->  {
-> @@ -6588,6 +6612,12 @@ static DisasJumpType translate_one(CPUS390XState *env, DisasContext *s)
->      if (o.out_128) {
->          tcg_temp_free_i128(o.out_128);
->      }
-> +    if (o.in1_128) {
-> +        tcg_temp_free_i128(o.in1_128);
-> +    }
-> +    if (o.in2_128) {
-> +        tcg_temp_free_i128(o.in2_128);
-> +    }
->      /* io should be the last instruction in tb when icount is enabled */
->      if (unlikely(icount && ret == DISAS_NEXT)) {
->          ret = DISAS_TOO_MANY;
-> diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
-> index 20bf20c766..26523746d6 100644
-> --- a/target/s390x/tcg/insn-data.def
-> +++ b/target/s390x/tcg/insn-data.def
-> @@ -34,7 +34,7 @@
->      C(0xe318, AGF,     RXY_a, Z,   r1, m2_32s, r1, 0, add, adds64)
->      F(0xb30a, AEBR,    RRE,   Z,   e1, e2, new, e1, aeb, f32, IF_BFP)
->      F(0xb31a, ADBR,    RRE,   Z,   f1, f2, new, f1, adb, f64, IF_BFP)
-> -    F(0xb34a, AXBR,    RRE,   Z,   x2h, x2l, x1, x1, axb, f128, IF_BFP)
-> +    F(0xb34a, AXBR,    RRE,   Z,   x1, x2, new_x, x1, axb, f128, IF_BFP)
->      F(0xed0a, AEB,     RXE,   Z,   e1, m2_32u, new, e1, aeb, f32, IF_BFP)
->      F(0xed1a, ADB,     RXE,   Z,   f1, m2_64, new, f1, adb, f64, IF_BFP)
->  /* ADD HIGH */
-> @@ -172,13 +172,13 @@
->      C(0xe330, CGF,     RXY_a, Z,   r1_o, m2_32s, 0, 0, 0, cmps64)
->      F(0xb309, CEBR,    RRE,   Z,   e1, e2, 0, 0, ceb, 0, IF_BFP)
->      F(0xb319, CDBR,    RRE,   Z,   f1, f2, 0, 0, cdb, 0, IF_BFP)
-> -    F(0xb349, CXBR,    RRE,   Z,   x2h, x2l, x1, 0, cxb, 0, IF_BFP)
-> +    F(0xb349, CXBR,    RRE,   Z,   x1, x2, 0, 0, cxb, 0, IF_BFP)
->      F(0xed09, CEB,     RXE,   Z,   e1, m2_32u, 0, 0, ceb, 0, IF_BFP)
->      F(0xed19, CDB,     RXE,   Z,   f1, m2_64, 0, 0, cdb, 0, IF_BFP)
->  /* COMPARE AND SIGNAL */
->      F(0xb308, KEBR,    RRE,   Z,   e1, e2, 0, 0, keb, 0, IF_BFP)
->      F(0xb318, KDBR,    RRE,   Z,   f1, f2, 0, 0, kdb, 0, IF_BFP)
-> -    F(0xb348, KXBR,    RRE,   Z,   x2h, x2l, x1, 0, kxb, 0, IF_BFP)
-> +    F(0xb348, KXBR,    RRE,   Z,   x1, x2, 0, 0, kxb, 0, IF_BFP)
->      F(0xed08, KEB,     RXE,   Z,   e1, m2_32u, 0, 0, keb, 0, IF_BFP)
->      F(0xed18, KDB,     RXE,   Z,   f1, m2_64, 0, 0, kdb, 0, IF_BFP)
->  /* COMPARE IMMEDIATE */
-> @@ -299,10 +299,10 @@
->  /* CONVERT TO FIXED */
->      F(0xb398, CFEBR,   RRF_e, Z,   0, e2, new, r1_32, cfeb, 0, IF_BFP)
->      F(0xb399, CFDBR,   RRF_e, Z,   0, f2, new, r1_32, cfdb, 0, IF_BFP)
-> -    F(0xb39a, CFXBR,   RRF_e, Z,   x2h, x2l, new, r1_32, cfxb, 0, IF_BFP)
-> +    F(0xb39a, CFXBR,   RRF_e, Z,   0, x2, new, r1_32, cfxb, 0, IF_BFP)
->      F(0xb3a8, CGEBR,   RRF_e, Z,   0, e2, r1, 0, cgeb, 0, IF_BFP)
->      F(0xb3a9, CGDBR,   RRF_e, Z,   0, f2, r1, 0, cgdb, 0, IF_BFP)
-> -    F(0xb3aa, CGXBR,   RRF_e, Z,   x2h, x2l, r1, 0, cgxb, 0, IF_BFP)
-> +    F(0xb3aa, CGXBR,   RRF_e, Z,   0, x2, r1, 0, cgxb, 0, IF_BFP)
->  /* CONVERT FROM FIXED */
->      F(0xb394, CEFBR,   RRF_e, Z,   0, r2_32s, new, e1, cegb, 0, IF_BFP)
->      F(0xb395, CDFBR,   RRF_e, Z,   0, r2_32s, new, f1, cdgb, 0, IF_BFP)
-> @@ -313,10 +313,10 @@
->  /* CONVERT TO LOGICAL */
->      F(0xb39c, CLFEBR,  RRF_e, FPE, 0, e2, new, r1_32, clfeb, 0, IF_BFP)
->      F(0xb39d, CLFDBR,  RRF_e, FPE, 0, f2, new, r1_32, clfdb, 0, IF_BFP)
-> -    F(0xb39e, CLFXBR,  RRF_e, FPE, x2h, x2l, new, r1_32, clfxb, 0, IF_BFP)
-> +    F(0xb39e, CLFXBR,  RRF_e, FPE, 0, x2, new, r1_32, clfxb, 0, IF_BFP)
->      F(0xb3ac, CLGEBR,  RRF_e, FPE, 0, e2, r1, 0, clgeb, 0, IF_BFP)
->      F(0xb3ad, CLGDBR,  RRF_e, FPE, 0, f2, r1, 0, clgdb, 0, IF_BFP)
-> -    F(0xb3ae, CLGXBR,  RRF_e, FPE, x2h, x2l, r1, 0, clgxb, 0, IF_BFP)
-> +    F(0xb3ae, CLGXBR,  RRF_e, FPE, 0, x2, r1, 0, clgxb, 0, IF_BFP)
->  /* CONVERT FROM LOGICAL */
->      F(0xb390, CELFBR,  RRF_e, FPE, 0, r2_32u, new, e1, celgb, 0, IF_BFP)
->      F(0xb391, CDLFBR,  RRF_e, FPE, 0, r2_32u, new, f1, cdlgb, 0, IF_BFP)
-> @@ -343,7 +343,7 @@
->      C(0x5d00, D,       RX_a,  Z,   r1_D32, m2_32s, new_P, r1_P32, divs32, 0)
->      F(0xb30d, DEBR,    RRE,   Z,   e1, e2, new, e1, deb, 0, IF_BFP)
->      F(0xb31d, DDBR,    RRE,   Z,   f1, f2, new, f1, ddb, 0, IF_BFP)
-> -    F(0xb34d, DXBR,    RRE,   Z,   x2h, x2l, x1, x1, dxb, 0, IF_BFP)
-> +    F(0xb34d, DXBR,    RRE,   Z,   x1, x2, new_x, x1, dxb, 0, IF_BFP)
->      F(0xed0d, DEB,     RXE,   Z,   e1, m2_32u, new, e1, deb, 0, IF_BFP)
->      F(0xed1d, DDB,     RXE,   Z,   f1, m2_64, new, f1, ddb, 0, IF_BFP)
->  /* DIVIDE LOGICAL */
-> @@ -597,7 +597,7 @@
->  /* LOAD FP INTEGER */
->      F(0xb357, FIEBR,   RRF_e, Z,   0, e2, new, e1, fieb, 0, IF_BFP)
->      F(0xb35f, FIDBR,   RRF_e, Z,   0, f2, new, f1, fidb, 0, IF_BFP)
-> -    F(0xb347, FIXBR,   RRF_e, Z,   x2h, x2l, new_x, x1, fixb, 0, IF_BFP)
-> +    F(0xb347, FIXBR,   RRF_e, Z,   0, x2, new_x, x1, fixb, 0, IF_BFP)
->  
->  /* LOAD LENGTHENED */
->      F(0xb304, LDEBR,   RRE,   Z,   0, e2, new, f1, ldeb, 0, IF_BFP)
-> @@ -610,8 +610,8 @@
->      F(0xed24, LDE,     RXE,   Z,   0, m2_32u, new, f1, lde, 0, IF_AFP1)
->  /* LOAD ROUNDED */
->      F(0xb344, LEDBR,   RRF_e, Z,   0, f2, new, e1, ledb, 0, IF_BFP)
-> -    F(0xb345, LDXBR,   RRF_e, Z,   x2h, x2l, new, f1, ldxb, 0, IF_BFP)
-> -    F(0xb346, LEXBR,   RRF_e, Z,   x2h, x2l, new, e1, lexb, 0, IF_BFP)
-> +    F(0xb345, LDXBR,   RRF_e, Z,   0, x2, new, f1, ldxb, 0, IF_BFP)
-> +    F(0xb346, LEXBR,   RRF_e, Z,   0, x2, new, e1, lexb, 0, IF_BFP)
->  
->  /* LOAD MULTIPLE */
->      C(0x9800, LM,      RS_a,  Z,   0, a2, 0, 0, lm32, 0)
-> @@ -666,7 +666,7 @@
->      C(0xe384, MG,      RXY_a, MIE2,r1p1_o, m2_64, r1_P, 0, muls128, 0)
->      F(0xb317, MEEBR,   RRE,   Z,   e1, e2, new, e1, meeb, 0, IF_BFP)
->      F(0xb31c, MDBR,    RRE,   Z,   f1, f2, new, f1, mdb, 0, IF_BFP)
-> -    F(0xb34c, MXBR,    RRE,   Z,   x2h, x2l, x1, x1, mxb, 0, IF_BFP)
-> +    F(0xb34c, MXBR,    RRE,   Z,   x1, x2, new_x, x1, mxb, 0, IF_BFP)
->      F(0xb30c, MDEBR,   RRE,   Z,   f1, e2, new, f1, mdeb, 0, IF_BFP)
->      F(0xb307, MXDBR,   RRE,   Z,   0, f2, x1, x1, mxdb, 0, IF_BFP)
->      F(0xed17, MEEB,    RXE,   Z,   e1, m2_32u, new, e1, meeb, 0, IF_BFP)
-> @@ -835,7 +835,7 @@
->  /* SQUARE ROOT */
->      F(0xb314, SQEBR,   RRE,   Z,   0, e2, new, e1, sqeb, 0, IF_BFP)
->      F(0xb315, SQDBR,   RRE,   Z,   0, f2, new, f1, sqdb, 0, IF_BFP)
-> -    F(0xb316, SQXBR,   RRE,   Z,   x2h, x2l, new_x, x1, sqxb, 0, IF_BFP)
-> +    F(0xb316, SQXBR,   RRE,   Z,   0, x2, new_x, x1, sqxb, 0, IF_BFP)
->      F(0xed14, SQEB,    RXE,   Z,   0, m2_32u, new, e1, sqeb, 0, IF_BFP)
->      F(0xed15, SQDB,    RXE,   Z,   0, m2_64, new, f1, sqdb, 0, IF_BFP)
->  
-> @@ -913,7 +913,7 @@
->      C(0xe319, SGF,     RXY_a, Z,   r1, m2_32s, r1, 0, sub, subs64)
->      F(0xb30b, SEBR,    RRE,   Z,   e1, e2, new, e1, seb, f32, IF_BFP)
->      F(0xb31b, SDBR,    RRE,   Z,   f1, f2, new, f1, sdb, f64, IF_BFP)
-> -    F(0xb34b, SXBR,    RRE,   Z,   x2h, x2l, x1, x1, sxb, f128, IF_BFP)
-> +    F(0xb34b, SXBR,    RRE,   Z,   x1, x2, new_x, x1, sxb, f128, IF_BFP)
->      F(0xed0b, SEB,     RXE,   Z,   e1, m2_32u, new, e1, seb, f32, IF_BFP)
->      F(0xed1b, SDB,     RXE,   Z,   f1, m2_64, new, f1, sdb, f64, IF_BFP)
->  /* SUBTRACT HALFWORD */
-> @@ -957,7 +957,7 @@
->  /* TEST DATA CLASS */
->      F(0xed10, TCEB,    RXE,   Z,   e1, a2, 0, 0, tceb, 0, IF_BFP)
->      F(0xed11, TCDB,    RXE,   Z,   f1, a2, 0, 0, tcdb, 0, IF_BFP)
-> -    F(0xed12, TCXB,    RXE,   Z,   0, a2, x1, 0, tcxb, 0, IF_BFP)
-> +    F(0xed12, TCXB,    RXE,   Z,   x1, a2, 0, 0, tcxb, 0, IF_BFP)
->  
->  /* TEST DECIMAL */
->      C(0xebc0, TP,      RSL,   E2,  la1, 0, 0, 0, tp, 0)
-> -- 
-> 2.34.1
-> 
-> 
+It's RRE, not RXE.
 
-Hi,
+Found by running valgrind's none/tests/s390x/bfp-2.
 
-I ran valgrind's testsuite with this patch, and their bpf-4 test
-triggered an assertion in the
+Fixes: 86b59624c4aa ("s390x/tcg: Implement LOAD LENGTHENED short HFP to long HFP")
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ target/s390x/tcg/insn-data.def | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-    (insn->spec & SPEC_r2_f128 && !is_fp_pair(get_field(s, r2)))
+diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
+index 26523746d64..6028472c323 100644
+--- a/target/s390x/tcg/insn-data.def
++++ b/target/s390x/tcg/insn-data.def
+@@ -606,7 +606,7 @@
+     F(0xed04, LDEB,    RXE,   Z,   0, m2_32u, new, f1, ldeb, 0, IF_BFP)
+     F(0xed05, LXDB,    RXE,   Z,   0, m2_64, new_x, x1, lxdb, 0, IF_BFP)
+     F(0xed06, LXEB,    RXE,   Z,   0, m2_32u, new_x, x1, lxeb, 0, IF_BFP)
+-    F(0xb324, LDER,    RXE,   Z,   0, e2, new, f1, lde, 0, IF_AFP1)
++    F(0xb324, LDER,    RRE,   Z,   0, e2, new, f1, lde, 0, IF_AFP1)
+     F(0xed24, LDE,     RXE,   Z,   0, m2_32u, new, f1, lde, 0, IF_AFP1)
+ /* LOAD ROUNDED */
+     F(0xb344, LEDBR,   RRF_e, Z,   0, f2, new, e1, ledb, 0, IF_BFP)
+-- 
+2.37.2
 
-condition. The following fixup helped:
-
-
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -5771,14 +5771,14 @@ static void in1_x1(DisasContext *s, DisasOps *o)
- {
-     o->in1_128 = load_freg_128(get_field(s, r1));
- }
--#define SPEC_in1_x1 SPEC_r2_f128
-+#define SPEC_in1_x1 SPEC_r1_f128
- 
- /* Load the high double word of an extended (128-bit) format FP number */
- static void in1_x2h(DisasContext *s, DisasOps *o)
- {
-     o->in1 = load_freg(get_field(s, r2));
- }
--#define SPEC_in1_x2h SPEC_r2_f128
-+#define SPEC_in1_x2h SPEC_r1_f128
- 
- static void in1_f3(DisasContext *s, DisasOps *o)
- {
-
-
-Best regards,
-Ilya
 
