@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DBE9616890
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:23:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FF361684C
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:19:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqGM3-0004lb-JR; Wed, 02 Nov 2022 12:12:39 -0400
+	id 1oqGLz-000472-Nq; Wed, 02 Nov 2022 12:12:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGLR-0003Oo-95
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:12:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGLL-0003oD-Gk
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGLQ-0003LG-2J
  for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:12:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGLN-0003or-4F
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:11:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667405508;
+ s=mimecast20190719; t=1667405512;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=07k8A4rUL9cQ02YqKeKDtX/ICWeD2sKhWNjZoFlPqFY=;
- b=QbHtWfSw+C74695myT54cMfk2Eh1CG2dKtXfI4HbdNrG45/Rfxsmp5ug5W9pDi7mluNSVg
- LHj+31BB+hXlQu+1klzFiL4AzQijgwHzfkTrIXPIQ4OWLlyARpdgHduDybtXwl+G5vtL1w
- 3P7QNBXLc1yqtHSf+epKSL6Fvhnwvdk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vyFquoWhRBqop6d2QQCGoBYPqIvepuw7IXNadOdimWY=;
+ b=XsO/dxoEGdYx+qQXs5ajGNyT8D8qo0KQW5Bfw/UQUQaz6Glpc3ufKIIdq93wnmwL/M0X/3
+ zaVfWbI5FfcXn7yuRBh7yOl3P+7J93Cu8y9iew5uVFFZbeKA5L4pd+ZqracmZraIT89mkt
+ 3P1EP2+DZfbQVzthzT17E89uSu4zGGE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-543-ucVynqEkMAuc6M-Zj4HrnA-1; Wed, 02 Nov 2022 12:11:47 -0400
-X-MC-Unique: ucVynqEkMAuc6M-Zj4HrnA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- bg25-20020a05600c3c9900b003cf3ed7e27bso8096404wmb.4
- for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:11:46 -0700 (PDT)
+ us-mta-118-PxofkDNqN2iKAFZjHwk2nQ-1; Wed, 02 Nov 2022 12:11:51 -0400
+X-MC-Unique: PxofkDNqN2iKAFZjHwk2nQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ s7-20020a1cf207000000b003cf56bad2e2so647332wmc.9
+ for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:11:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=07k8A4rUL9cQ02YqKeKDtX/ICWeD2sKhWNjZoFlPqFY=;
- b=N4Er18JfNvavmV0f239pdrcQsUbkoQ8qMMxTzrEt1HWIIBHNm303F1vRC8nvXTflNf
- m9/s52mZsnd+Uj/hqep9Kg1HL4AHerLzXOjnWkdp4/3sxad132z2MgT7j18uP0OuoPTF
- wPkIIoEH9ty016iB/ZBULcfVeP6p5Rp2VbJGYMqOo6apYGCsYX9wfjYO8oRqIFkV/25P
- VeBjpx6KNIAGYJNsPIgMHLAnO5qHeNuZlzd32IXhIXSpCFzbMhy4Sxab/zh4CGmFVL2R
- aZdcWjiDbeuX3EBMZuU3fxEU8L9O5QZMqxkNBS3moOxmGjl7NWeTKonGKdK9oROh3XsU
- sXWA==
-X-Gm-Message-State: ACrzQf1pmJg1Z6vgevLSOC1G9c2jyykwAMAPRI/zghAsyUw8Zqt5JIWr
- RP2EBGk4wHQ6Dxqhqo4bHcZoBryG5T2QKdcTTQi7x2c3CIRo/rkWvbGc/VdcbKn4ij3Y1UtHcas
- o42lcZX1qQN+MeDU8wGq2XWUEOrSY3odmb9fIlNk9muY2E60e+PhaLrK185We
-X-Received: by 2002:adf:f687:0:b0:236:481f:83a6 with SMTP id
- v7-20020adff687000000b00236481f83a6mr15992857wrp.342.1667405505636; 
- Wed, 02 Nov 2022 09:11:45 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4I0pa0+37abxrIc1DPtiRMD7T6zfnVnYsQH6qGY7l5QfAYFQuBRU+M2mfCiqX7JulNWBV5MA==
-X-Received: by 2002:adf:f687:0:b0:236:481f:83a6 with SMTP id
- v7-20020adff687000000b00236481f83a6mr15992823wrp.342.1667405505278; 
- Wed, 02 Nov 2022 09:11:45 -0700 (PDT)
+ bh=vyFquoWhRBqop6d2QQCGoBYPqIvepuw7IXNadOdimWY=;
+ b=kQ3Vg9x5Xy1d79PZOMvcAZsmuO01uFUvFZELlBV/OmxR7s+f2ORBFxVqLHByW+Z3mL
+ 2ZycCo8zbiHsMwpL/18rX1DNDZno1nUFX4Iu9j4pzwS89Bf97khOguz3lFyVJjvLeeCj
+ nUo5SEhOuqk8LHbUkjm6/fZKYvMTA8alwZ61/ty1zC4vkU2z/ntIdal2FcQUnyiHTesd
+ scyDH3fs9IfJ6mwHJ4maW/vLbLLklCtnTO3L2QhCoWnxCl1mB/ZyW5K1qIsYjbi7dhwZ
+ 36U6VtN85uHvRu1Sahy26dMFDrhNwISy4rJeoQIcjrIfFtV8WedzKJTk+SkLp5SDjkfZ
+ rlXw==
+X-Gm-Message-State: ACrzQf0Celb11lxQdElLKBvNH0elFUtBBx5u3NrJOSV4342/cnM7JbQz
+ LsH4l9xcWV+6gvhoW7GBa/fY5+chWh61Oip3AnFsgA7WaQIsWsdgYfSdtkSnn1vPuVxkpuYtaOw
+ SZANHbtewaUuE/lwbmRrtgWMXUXey0y8ntD0wSftGaYOZ7SUZvuZdCv3YuU4e
+X-Received: by 2002:a5d:650c:0:b0:236:49d9:8e83 with SMTP id
+ x12-20020a5d650c000000b0023649d98e83mr15708550wru.714.1667405509034; 
+ Wed, 02 Nov 2022 09:11:49 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6no7c6oMP0cTnjLvjOxDV8ybJ7FmZ1i9Zt+wcwOs422jSJj7Mu+vrwrAZ57NKJ122S5sY4vA==
+X-Received: by 2002:a5d:650c:0:b0:236:49d9:8e83 with SMTP id
+ x12-20020a5d650c000000b0023649d98e83mr15708527wru.714.1667405508761; 
+ Wed, 02 Nov 2022 09:11:48 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- bs14-20020a056000070e00b0023647841c5bsm13477601wrb.60.2022.11.02.09.11.43
+ v7-20020a05600c444700b003c70191f267sm2804337wmn.39.2022.11.02.09.11.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Nov 2022 09:11:44 -0700 (PDT)
-Date: Wed, 2 Nov 2022 12:11:42 -0400
+ Wed, 02 Nov 2022 09:11:48 -0700 (PDT)
+Date: Wed, 2 Nov 2022 12:11:45 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Brice Goglin <Brice.Goglin@inria.fr>,
  Hesham Almatary <hesham.almatary@huawei.com>,
- Jingqi Liu <jingqi.liu@intel.com>, Yicong Yang <yangyicong@hisilicon.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>
-Subject: [PULL v2 70/82] hmat acpi: Don't require initiator value in -numa
-Message-ID: <20221102160336.616599-71-mst@redhat.com>
+ Yicong Yang <yangyicong@hisilicon.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PULL v2 71/82] tests: acpi: add and whitelist *.hmat-noinitiator
+ expected blobs
+Message-ID: <20221102160336.616599-72-mst@redhat.com>
 References: <20221102160336.616599-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -79,7 +77,7 @@ Content-Disposition: inline
 In-Reply-To: <20221102160336.616599-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -105,159 +103,48 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Brice Goglin <Brice.Goglin@inria.fr>
 
-The "Memory Proximity Domain Attributes" structure of the ACPI HMAT
-has a "Processor Proximity Domain Valid" flag that is currently
-always set because Qemu -numa requires an initiator=X value
-when hmat=on. Unsetting this flag allows to create more complex
-memory topologies by having multiple best initiators for a single
-memory target.
-
-This patch allows -numa without initiator=X when hmat=on by keeping
-the default value MAX_NODES in numa_state->nodes[i].initiator.
-All places reading numa_state->nodes[i].initiator already check
-whether it's different from MAX_NODES before using it.
-
-Tested with
-qemu-system-x86_64 -accel kvm \
- -machine pc,hmat=on \
- -drive if=pflash,format=raw,file=./OVMF.fd \
- -drive media=disk,format=qcow2,file=efi.qcow2 \
- -smp 4 \
- -m 3G \
- -object memory-backend-ram,size=1G,id=ram0 \
- -object memory-backend-ram,size=1G,id=ram1 \
- -object memory-backend-ram,size=1G,id=ram2 \
- -numa node,nodeid=0,memdev=ram0,cpus=0-1 \
- -numa node,nodeid=1,memdev=ram1,cpus=2-3 \
- -numa node,nodeid=2,memdev=ram2 \
- -numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \
- -numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
- -numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \
- -numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
- -numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
- -numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576 \
- -numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \
- -numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
- -numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \
- -numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
- -numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
- -numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576
-which reports NUMA node2 at same distance from both node0 and node1 as seen in lstopo:
-Machine (2966MB total) + Package P#0
-  NUMANode P#2 (979MB)
-  Group0
-    NUMANode P#0 (980MB)
-    Core P#0 + PU P#0
-    Core P#1 + PU P#1
-  Group0
-    NUMANode P#1 (1007MB)
-    Core P#2 + PU P#2
-    Core P#3 + PU P#3
-
-Before this patch, we had to add ",initiator=X" to "-numa node,nodeid=2,memdev=ram2".
-The lstopo output difference between initiator=1 and no initiator is:
-@@ -1,10 +1,10 @@
- Machine (2966MB total) + Package P#0
-+  NUMANode P#2 (979MB)
-   Group0
-     NUMANode P#0 (980MB)
-     Core P#0 + PU P#0
-     Core P#1 + PU P#1
-   Group0
-     NUMANode P#1 (1007MB)
--    NUMANode P#2 (979MB)
-     Core P#2 + PU P#2
-     Core P#3 + PU P#3
-
-Corresponding changes in the HMAT MPDA structure:
-@@ -49,10 +49,10 @@
- [078h 0120   2]               Structure Type : 0000 [Memory Proximity Domain Attributes]
- [07Ah 0122   2]                     Reserved : 0000
- [07Ch 0124   4]                       Length : 00000028
--[080h 0128   2]        Flags (decoded below) : 0001
--            Processor Proximity Domain Valid : 1
-+[080h 0128   2]        Flags (decoded below) : 0000
-+            Processor Proximity Domain Valid : 0
- [082h 0130   2]                    Reserved1 : 0000
--[084h 0132   4] Attached Initiator Proximity Domain : 00000001
-+[084h 0132   4] Attached Initiator Proximity Domain : 00000080
- [088h 0136   4]      Memory Proximity Domain : 00000002
- [08Ch 0140   4]                    Reserved2 : 00000000
- [090h 0144   8]                    Reserved3 : 0000000000000000
-
-Final HMAT SLLB structures:
-[0A0h 0160   2]               Structure Type : 0001 [System Locality Latency and Bandwidth Information]
-[0A2h 0162   2]                     Reserved : 0000
-[0A4h 0164   4]                       Length : 00000040
-[0A8h 0168   1]        Flags (decoded below) : 00
-                            Memory Hierarchy : 0
-[0A9h 0169   1]                    Data Type : 00
-[0AAh 0170   2]                    Reserved1 : 0000
-[0ACh 0172   4] Initiator Proximity Domains # : 00000002
-[0B0h 0176   4]   Target Proximity Domains # : 00000003
-[0B4h 0180   4]                    Reserved2 : 00000000
-[0B8h 0184   8]              Entry Base Unit : 0000000000002710
-[0C0h 0192   4] Initiator Proximity Domain List : 00000000
-[0C4h 0196   4] Initiator Proximity Domain List : 00000001
-[0C8h 0200   4] Target Proximity Domain List : 00000000
-[0CCh 0204   4] Target Proximity Domain List : 00000001
-[0D0h 0208   4] Target Proximity Domain List : 00000002
-[0D4h 0212   2]                        Entry : 0001
-[0D6h 0214   2]                        Entry : 0002
-[0D8h 0216   2]                        Entry : 0003
-[0DAh 0218   2]                        Entry : 0002
-[0DCh 0220   2]                        Entry : 0001
-[0DEh 0222   2]                        Entry : 0003
-
-[0E0h 0224   2]               Structure Type : 0001 [System Locality Latency and Bandwidth Information]
-[0E2h 0226   2]                     Reserved : 0000
-[0E4h 0228   4]                       Length : 00000040
-[0E8h 0232   1]        Flags (decoded below) : 00
-                            Memory Hierarchy : 0
-[0E9h 0233   1]                    Data Type : 03
-[0EAh 0234   2]                    Reserved1 : 0000
-[0ECh 0236   4] Initiator Proximity Domains # : 00000002
-[0F0h 0240   4]   Target Proximity Domains # : 00000003
-[0F4h 0244   4]                    Reserved2 : 00000000
-[0F8h 0248   8]              Entry Base Unit : 0000000000000001
-[100h 0256   4] Initiator Proximity Domain List : 00000000
-[104h 0260   4] Initiator Proximity Domain List : 00000001
-[108h 0264   4] Target Proximity Domain List : 00000000
-[10Ch 0268   4] Target Proximity Domain List : 00000001
-[110h 0272   4] Target Proximity Domain List : 00000002
-[114h 0276   2]                        Entry : 000A
-[116h 0278   2]                        Entry : 0005
-[118h 0280   2]                        Entry : 0001
-[11Ah 0282   2]                        Entry : 0005
-[11Ch 0284   2]                        Entry : 000A
-[11Eh 0286   2]                        Entry : 0001
+.. which will be used by follow up hmat-noinitiator test-case.
 
 Signed-off-by: Brice Goglin <Brice.Goglin@inria.fr>
 Signed-off-by: Hesham Almatary <hesham.almatary@huawei.com>
-Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
-Message-Id: <20221027100037.251-2-hesham.almatary@huawei.com>
+Message-Id: <20221027100037.251-3-hesham.almatary@huawei.com>
 Tested-by: Yicong Yang <yangyicong@hisilicon.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/core/machine.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h   | 4 ++++
+ tests/data/acpi/q35/APIC.acpihmat-noinitiator | 0
+ tests/data/acpi/q35/DSDT.acpihmat-noinitiator | 0
+ tests/data/acpi/q35/HMAT.acpihmat-noinitiator | 0
+ tests/data/acpi/q35/SRAT.acpihmat-noinitiator | 0
+ 5 files changed, 4 insertions(+)
+ create mode 100644 tests/data/acpi/q35/APIC.acpihmat-noinitiator
+ create mode 100644 tests/data/acpi/q35/DSDT.acpihmat-noinitiator
+ create mode 100644 tests/data/acpi/q35/HMAT.acpihmat-noinitiator
+ create mode 100644 tests/data/acpi/q35/SRAT.acpihmat-noinitiator
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 907fa78ff0..8d34caa31d 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -1178,9 +1178,7 @@ static void numa_validate_initiator(NumaState *numa_state)
- 
-     for (i = 0; i < numa_state->num_nodes; i++) {
-         if (numa_info[i].initiator == MAX_NODES) {
--            error_report("The initiator of NUMA node %d is missing, use "
--                         "'-numa node,initiator' option to declare it", i);
--            exit(1);
-+            continue;
-         }
- 
-         if (!numa_info[numa_info[i].initiator].present) {
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..245fa66bcc 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,5 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/q35/APIC.acpihmat-noinitiator",
++"tests/data/acpi/q35/DSDT.acpihmat-noinitiator",
++"tests/data/acpi/q35/HMAT.acpihmat-noinitiator",
++"tests/data/acpi/q35/SRAT.acpihmat-noinitiator",
+diff --git a/tests/data/acpi/q35/APIC.acpihmat-noinitiator b/tests/data/acpi/q35/APIC.acpihmat-noinitiator
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/q35/DSDT.acpihmat-noinitiator b/tests/data/acpi/q35/DSDT.acpihmat-noinitiator
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/q35/HMAT.acpihmat-noinitiator b/tests/data/acpi/q35/HMAT.acpihmat-noinitiator
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/q35/SRAT.acpihmat-noinitiator b/tests/data/acpi/q35/SRAT.acpihmat-noinitiator
+new file mode 100644
+index 0000000000..e69de29bb2
 -- 
 MST
 
