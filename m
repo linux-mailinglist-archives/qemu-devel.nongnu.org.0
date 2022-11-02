@@ -2,71 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5518D616F51
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 22:02:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B85B616F80
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 22:15:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqKs3-0000th-Bx; Wed, 02 Nov 2022 17:01:59 -0400
+	id 1oqL42-0003Rf-NB; Wed, 02 Nov 2022 17:14:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oqKrz-0000tV-PC
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 17:01:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1oqL40-0003QU-9Y
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 17:14:20 -0400
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oqKry-0006b0-EB
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 17:01:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667422912;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fE/uK9YVa0lqZcXskrvJnBlpJ2TM3Ko2Zcdn5YcoaY4=;
- b=FOeQeB/CeitY7ypHsa5PvziN79d51RB57346kQIuIhiXrzOiWAlZymI8cGbDicbAQCeVeo
- qWEenF/DPCR5giTJ8v1Dlh+/b1MSNRRbJ1cHBS1ZNrZiO5OvlwU7dkm8xiVHeAsKtajIXB
- wXJaRdhdu4kTARMWX/04tV0Z2uDuvTc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-104-39fE6OHAOVGegOFhQ4aQgw-1; Wed, 02 Nov 2022 17:01:51 -0400
-X-MC-Unique: 39fE6OHAOVGegOFhQ4aQgw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 91AAB185A78F;
- Wed,  2 Nov 2022 21:01:50 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0E844140EBF5;
- Wed,  2 Nov 2022 21:01:49 +0000 (UTC)
-Date: Wed, 2 Nov 2022 17:01:48 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel@nongnu.org, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- damien.lemoal@opensource.wdc.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, hare@suse.de,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- dmitry.fomichev@wdc.com
-Subject: Re: [RFC v4 3/3] virtio-blk: add some trace events for zoned emulation
-Message-ID: <Y2LavMbOVFGtNVwV@fedora>
-References: <20221030093242.208839-1-faithilikerun@gmail.com>
- <20221030093242.208839-4-faithilikerun@gmail.com>
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1oqL3x-00080X-Bl
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 17:14:20 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id A8C8E2B06827;
+ Wed,  2 Nov 2022 17:14:09 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 02 Nov 2022 17:14:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1667423649; x=1667430849; bh=ya
+ z7HB+tA0RP33F5tMpk/jLLItyrZaFvVEGA2nFMTHI=; b=Ky05TEuWIr83oUh3MP
+ VKNL8ENuHV9gUlhetBL9nyBnWkmhW3b7eJIJQvsEX4i8mrWKj7fAD2YoYyBb89E9
+ ISKn14UJ31abDLZFWzZCCaQnTLi78oerrmjr+5hmV9sA3hFI3L8ZV1Kiu7AX9QXR
+ PDBaluynehd9n3eiw+gtrXx+RWa959jyR7nphlxGnum8rHgJTzq02ZExi1nIGFid
+ EJO+kCiPv0YbKVpF7c2OrK1fuI/2gu/r+1T0aqwqS9P/ypb1+DPbh35ga9d9WHYp
+ FylKYS+Rg2UR7pBcU7lZ5OPVMq4ERDjJJCu0ll46FiB93Ht82Uh6f5WuN9oIyHug
+ tC5Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1667423649; x=1667430849; bh=yaz7HB+tA0RP33F5tMpk/jLLItyr
+ ZaFvVEGA2nFMTHI=; b=kXuKgSJSeQyH8zkQnQLj2ogT1FjQ404UQUbzOXrHjtoL
+ O5jybhnZTvUTvWSm0JarvjTauAp3ZsZ+r+wmdYPHpVddWzaXL8v+kKFMg4LptKuU
+ za4Nn6AFZHdJ8Ew6kOJjOVtyV+RbvW0VGJP+2xRX3dEy0QIR7itrmJOonvxViJoT
+ AoF3E4PNZiUZ9aaP1YucG7Uv9v8Eqwth9//su3HfO8kpjAFt2r6d9BaJJidv+bKw
+ mNZEQxt0P2yMJj0u53Zl8vkHso9nSQJzXMgYh5xL1AvTD3D0XGhltZ2SmyCHlpRE
+ TQHb95HDxl2N1T/q559g2R0z+nX6Aaenk06fEmM9mA==
+X-ME-Sender: <xms:n91iY-Xiau9PyhDECPWzFgSUDYb5YvoQDfa-aFayS-W-TkmT-EE9PQ>
+ <xme:n91iY6l1bgFgvYiO7TIQuOyH8InOlHtvWmclxCUM0Brvq0SEJSum6PG8m5a0XQRlh
+ XyrODlUak8pt2VGdKM>
+X-ME-Received: <xmr:n91iYyZH6tYal8m3G_iR8obDtjV5uHdUdfR2NM2ruYYM4CfTnC6uoZBViw5Wcm_5RZe2Bw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudejgddugeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
+ ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
+ grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
+ tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+ epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
+X-ME-Proxy: <xmx:n91iY1Xbl82GIObQKlhVWjYLikh-vdemfP8sXrF8OKJdnJGBq_55bQ>
+ <xmx:n91iY4mFVh0Wa1sREv4w7MfcVUVMVuR6uCI7ESrbU6QB3ckNyn8ixg>
+ <xmx:n91iY6eNAqPKPeE5l9TMMHmoRplO_cTttQ8P4OovIUVmAbCtz4rcFQ>
+ <xmx:od1iY_xvsCuIie0PpHuS7NS8eqps2ru8p5ovcRyadUjFuTveg1l2617acAo>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 2 Nov 2022 17:14:06 -0400 (EDT)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+ id 5751D104449; Thu,  3 Nov 2022 00:14:04 +0300 (+03)
+Date: Thu, 3 Nov 2022 00:14:04 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Michael Roth <michael.roth@amd.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,	Jim Mattson <jmattson@google.com>,
+ Joerg Roedel <joro@8bytes.org>,	Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,	Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>,	Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,	luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com,	ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com,	ddutile@redhat.com,
+ dhildenb@redhat.com,	Quentin Perret <qperret@google.com>,
+ tabba@google.com,	mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>,	wei.w.wang@intel.com
+Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20221102211404.l5whyif3j3k67fv2@box.shutemov.name>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
+ <20221031174738.fklhlia5fmaiinpe@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="u/s2TzErVuQ03hgm"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221030093242.208839-4-faithilikerun@gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20221031174738.fklhlia5fmaiinpe@amd.com>
+Received-SPF: pass client-ip=64.147.123.27; envelope-from=kirill@shutemov.name;
+ helo=wnew2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,35 +128,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Oct 31, 2022 at 12:47:38PM -0500, Michael Roth wrote:
+> 
+> In v8 there was some discussion about potentially passing the page/folio
+> and order as part of the invalidation callback, I ended up needing
+> something similar for SEV-SNP, and think it might make sense for other
+> platforms. This main reasoning is:
+> 
+>   1) restoring kernel directmap:
+> 
+>      Currently SNP (and I believe TDX) need to either split or remove kernel
+>      direct mappings for restricted PFNs, since there is no guarantee that
+>      other PFNs within a 2MB range won't be used for non-restricted
+>      (which will cause an RMP #PF in the case of SNP since the 2MB
+>      mapping overlaps with guest-owned pages)
 
---u/s2TzErVuQ03hgm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+That's news to me. Where the restriction for SNP comes from? There's no
+such limitation on TDX side AFAIK?
 
-On Sun, Oct 30, 2022 at 05:32:42AM -0400, Sam Li wrote:
-> Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> ---
->  hw/block/trace-events |  7 +++++++
->  hw/block/virtio-blk.c | 12 ++++++++++++
->  2 files changed, 19 insertions(+)
+Could you point me to relevant documentation if there's any?
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---u/s2TzErVuQ03hgm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNi2rwACgkQnKSrs4Gr
-c8gQ9ggAuJLvoTCEGyukQ3HuihsXZ4XDQY/oQCsRy1AT3a7wXAlgaNWmenOQ77j+
-utBdYCG7HfI+VS6tj/wilZqmtXGhauaJbjoVbpkrZU0ZWedqZQx28oatLQdVbS+V
-9IvKuRLSFKfEjEOWrZdwCKCMCla/rGPjs7a5Ne8XyYOK63pRCN/mqphmOg9Omrc4
-zreNsX48t+ES3hxmhfYCWkQHzC/LaX45yf+IVWet8t73301Y7KzOvyKOdAkVfvEv
-TDBF/VOEtmrf0qgzYJg9bBNDq/CavXaYkEuU7hvAKIR0+I/RUprSmu1IVzmed1tz
-rEekTxSkHWBnYlOuscrA4sidlcTE5Q==
-=aX/J
------END PGP SIGNATURE-----
-
---u/s2TzErVuQ03hgm--
-
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
 
