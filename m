@@ -2,84 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1ADD615D52
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 09:05:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B300C615D5E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 09:09:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oq8kb-00039S-4R; Wed, 02 Nov 2022 04:05:29 -0400
+	id 1oq8oE-0006a3-7h; Wed, 02 Nov 2022 04:09:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oq8kU-0002yR-3F
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 04:05:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oq8nO-0006SL-C0; Wed, 02 Nov 2022 04:08:27 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oq8kS-0002O6-JN
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 04:05:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667376319;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ii662kuJNZ5EmoIAgC/BcFsG/m5/cZ856ss7IznJF94=;
- b=Wzsp6mkzz+PmXRF2ELO/FIIRXWeWafuQ1xH0/jxbf5wRGxTgqPogYP1vbiOPDOefKZ3D83
- WVrG1j3Hg5gnnYfkjN/JMyhdT5wz/LAx2RPZhCYT7aMSOIy5si1n4xrWlTLTvUaBC4rBb/
- NsSDmNfv+Ddth6Lk8v6AskurEy0e3uw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-648-a43yYj9AMBGO4e14Bmq_Jw-1; Wed, 02 Nov 2022 04:05:18 -0400
-X-MC-Unique: a43yYj9AMBGO4e14Bmq_Jw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i7-20020a1c3b07000000b003c5e6b44ebaso725611wma.9
- for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 01:05:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ii662kuJNZ5EmoIAgC/BcFsG/m5/cZ856ss7IznJF94=;
- b=pwxVX/HkwSZt8924D2NpsB4WxNmAInUMUGsGf2hKcqbOfKryH7jtpnyeRGdya/DnaU
- A11p38NmaS3xqMjZNb79C2dnBvuCo0ljT5eNp3IVKzOOI4RTf2mCSeiN0IrThuihRwm5
- +exx+qisfwJOulL31J2uPSqcGSrzEf1dQ9ONdxXkKqyElMAGXzyJZOXTxima4aLffBNd
- yNXaFMOfeXJ1blRlkbgTxqnMmdPE7nLaHKnr7Q1noYUpl8OXFaoaxT8I8H1VGCXUOeDl
- A5LXR0oSBKnw6QcIIyQ2Z89qJtARcu85Zcq1crpmyGYsxwzbXtKea8xQ5XGm0SX7YR7P
- +KmQ==
-X-Gm-Message-State: ACrzQf1VwtOGzpYsOcVAuyflzOBs8FBy0eEbdOuQhoPqXriBfTrN+Rjv
- e7Vy4b8JKH00D8y3dFRxSFHCmobbrjJZk2KrdFA0u6Zusv9yceB+6VVzga/50XlT80cDb5c+pGr
- MvFCcKiQGCgk+dHE=
-X-Received: by 2002:a05:6000:1f1a:b0:236:ce27:230a with SMTP id
- bv26-20020a0560001f1a00b00236ce27230amr8546025wrb.469.1667376317186; 
- Wed, 02 Nov 2022 01:05:17 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4bZWS3odkHLfIyP2Sc6bVfC0LsMiqdihuX1CvMh1mg8TrJXMh7j0YNEJOlV4RnXRu8NVZXCg==
-X-Received: by 2002:a05:6000:1f1a:b0:236:ce27:230a with SMTP id
- bv26-20020a0560001f1a00b00236ce27230amr8546009wrb.469.1667376316930; 
- Wed, 02 Nov 2022 01:05:16 -0700 (PDT)
-Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- i12-20020a05600c354c00b003c6b70a4d69sm1192300wmq.42.2022.11.02.01.05.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Nov 2022 01:05:16 -0700 (PDT)
-Date: Wed, 2 Nov 2022 04:05:13 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Lei He <helei.sig11@bytedance.com>
-Cc: arei.gonglei@huawei.com, berrange@redhat.com, pizhenwei@bytedance.com,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 0/4] Add a new backend for cryptodev
-Message-ID: <20221102040429-mutt-send-email-mst@kernel.org>
-References: <20221102080213.46788-1-helei.sig11@bytedance.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oq8nK-0003Xv-BW; Wed, 02 Nov 2022 04:08:21 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 69F1E5C00B9;
+ Wed,  2 Nov 2022 04:08:16 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Wed, 02 Nov 2022 04:08:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1667376496; x=1667462896; bh=dy
+ 25Qo6/rANJumBclsT7UmNTzsxvrRx1j7ZNrrQlE4g=; b=oekh+H16fJzIasFU3f
+ AjIRFxmXpcWXzHCM13HjepLc/GKz5DGlIynrqEDK2BZq8VJ5Wy9TyhrC10+4OqPa
+ ywYEaJ/B96Hhpi4+kl1PcL05r9RV69QosWiSZFFYO0+7KJRKzByYOoeEBmH5zbXd
+ yQFgaGw0vrBsL20AE1+ivcVvPRm490BwjqT5EaqG6hQbojuC9cUvR5NVxHE9oa60
+ MbWTkKUGo5j6hVajxHZ7wqJsIRq4DZw9QyvLz15ale/30w/PCvSBeB7v4f/VTL2K
+ AUOV1y7BbRqFUiVTNWYMEQST4vfhUmV/TGjI9qCgMsyhAaD1BRNMnizhuM3kQXvY
+ SZUw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1667376496; x=1667462896; bh=dy25Qo6/rANJumBclsT7UmNTzsxv
+ rRx1j7ZNrrQlE4g=; b=dy07WKK+qykN16bQZ1rD8wWThiRSHnVRNiuZMePoMtJi
+ qhM1QfcCAfJ3X0FqOBTGra+jAouq0Cc3MrZxpaetl/WbnWjBjmwR1TYd565k2Clq
+ yS6+qqos6pryBK59rzPIsbE99za84+M2bMOhfUyvXEe9yASy/mpyhRCnXDf8ZUMH
+ WRRLGCNoZyNR7GQwtXC6TAf7m51/HYkeAnaA/BkUlyE0kH4U0imxsmilwL3aPhqR
+ jzzoYTt/SecUMYZc1VG1b66tNURV06IjjBDdNRE0hgl8rxluLrVIoweAer8CQnx0
+ Kzj85Kj0o91F8wsT0d7Zh3Mj0qW2s70rQbGvOiaLIA==
+X-ME-Sender: <xms:cCViY9pSHFRCIMOp76zzHURlYgd-fxxiTYRDKTm1s1hwdhPv3zreMw>
+ <xme:cCViY_o-bfffzqU9sT7PwSBRQ0hEKcOEh4QMShULqlpbYbPN6LlAeNd92V8UtlLFz
+ bDiV2gCgjCr_tdupSc>
+X-ME-Received: <xmr:cCViY6PE8FEOdk2ztMXtq48w3CHEYTDy97fXbKS_ArSKGNSGip7Zk1EDcrDMYOpn3Qg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudeigdduudehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
+ jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:cCViY46XVRmrRjtnO8Wnvl-8kN67wenr0PNkj1kNsXSMXHL1ICCVnw>
+ <xmx:cCViY87fxsbIOrILn5VofjcohWYX8dIcsHVB0voTvbbdbtDs6uAHeA>
+ <xmx:cCViYwj7jsZgMt7rxuzhx4DVg9YZ2vVRK2P-H-dWq4vIp6SOyiU54w>
+ <xmx:cCViY32ChNLS1t_UF1ijdY3HNZLXHQAZf63L07Sm9jIUctHMXvrpQg>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 2 Nov 2022 04:08:14 -0400 (EDT)
+Date: Wed, 2 Nov 2022 09:08:12 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Francis Pravin Antony Michael Raj <francis.michael@solidigm.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, kbusch@kernel.org,
+ Jonathan Derrick <jonathan.derrick@solidigm.com>
+Subject: Re: [PATCH] hw/nvme: Abort copy command when format is one while pif
+ is zero
+Message-ID: <Y2IlbDXMouJy39xD@cormorant.local>
+References: <20220826025359.124312-1-francis.michael@solidigm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="C0YipVuLbYaDNC0i"
 Content-Disposition: inline
-In-Reply-To: <20221102080213.46788-1-helei.sig11@bytedance.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.051,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20220826025359.124312-1-francis.michael@solidigm.com>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,21 +101,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 02, 2022 at 04:02:09PM +0800, Lei He wrote:
-> v2 --> v3:
-> - Avoid using g_autoptr to free memory that not allocated in current
-> function.
-> - Fix memory-leak when 'virtio_crypto_handle_request' returns non-zero
->   value.
-> - When error occurred, always pass negative status to function 
-> 'virtio_crypto_req_complete'.
 
-Thanks!
-Can you send fixup patches on top pls?
-If I drop v2 at this point I'll have to defer this to after
-the release.
+--C0YipVuLbYaDNC0i
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-MST
+On Aug 25 22:53, Francis Pravin Antony Michael Raj wrote:
+> As per the NVMe command set specification section-3.2.2,
+> If:
+>     i) The namespace is formatted to use 16b Guard Protection Information=
+ (i.e., pif =3D 0) and
+>     ii) The Descriptor Format is not cleared to 0h
+> Then the copy command should be aborted with the status code of Invalid N=
+amespace or Format
+>=20
+> Signed-off-by: Francis Pravin Antony Michael Raj <francis.michael@solidig=
+m.com>
+> Signed-off-by: Jonathan Derrick <jonathan.derrick@solidigm.com>
+> ---
+>  hw/nvme/ctrl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 87aeba0564..cb4c0f80bc 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -3040,7 +3040,7 @@ static uint16_t nvme_copy(NvmeCtrl *n, NvmeRequest =
+*req)
+>          goto invalid;
+>      }
+> =20
+> -    if (ns->pif && format !=3D 0x1) {
+> +    if ((ns->pif =3D=3D 0x0 && format !=3D 0x0) || (ns->pif && format !=
+=3D 0x1)) {
+>          status =3D NVME_INVALID_FORMAT | NVME_DNR;
+>          goto invalid;
+>      }
+> --=20
+> 2.25.1
+>=20
 
+This got lost somehow.
+
+Applied on nvme-next. Thanks!
+
+--C0YipVuLbYaDNC0i
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNiJWwACgkQTeGvMW1P
+DekFbQf/Zq9VyZKZqDe5LswZNt+On+aAS6B0hNHIwENDunp26IZTCZ6SOO7QG0XK
+VyHxX1HNFAaJpcpSLHNaJjlLS8DJASToAOxweha3SjWmIafT3H6DsiTPVB4MHckC
+f1KTF2vh9urDHe6UIIYAmK/0GkWJZRDks0/VXeBAi0b/2eM3x7uOuwM9q135elP5
+hDjYFJxqw0sNJ8qvqNhJyFGEJcTfKi3pjxCCMgoFUgcKK3LbyiUkqTJBHT0DZrst
+7FH84XTkVq/IjUaw6NzMSVux9S/zFceKm05qoy9+Mc4RS6QmrLRul00bdooBJHyN
+tHX/VhqGE07pmIMGQDk3HtvVuyLZyg==
+=lj0M
+-----END PGP SIGNATURE-----
+
+--C0YipVuLbYaDNC0i--
 
