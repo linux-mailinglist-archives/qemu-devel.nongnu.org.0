@@ -2,93 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E62616039
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 10:49:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1767E616083
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 11:07:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqAN9-0007zQ-8K; Wed, 02 Nov 2022 05:49:23 -0400
+	id 1oqAdX-0004of-E3; Wed, 02 Nov 2022 06:06:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oqAN6-0007zC-1l
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 05:49:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oqAdH-0004lp-0S; Wed, 02 Nov 2022 06:06:12 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oqAN3-0000zU-Jx
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 05:49:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667382556;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eleipb/PWtaDvF2CW90Qtb/55U7evbsDL47jItEz3Ds=;
- b=Y5iEgcM/eUy5AOnb+VSu2dBkOPyk1C0dAVkyX2U7ih37RSwphwiU5id0+kTa+Ea2Yw9oFZ
- ZJu7kVrnQPg22+5uxOngl5GK8imgU3QBJpV74f05UPQBI+boJNHWUvRouvAZ3vSJBEp2bA
- Ft0nutRPNlKehnLiZKubl1ybC8bWbQ8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-58-Ep_SBj0yPvqzs633_vKkvA-1; Wed, 02 Nov 2022 05:49:15 -0400
-X-MC-Unique: Ep_SBj0yPvqzs633_vKkvA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c5-20020a1c3505000000b003c56da8e894so873842wma.0
- for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 02:49:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:from:references
- :cc:to:content-language:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=eleipb/PWtaDvF2CW90Qtb/55U7evbsDL47jItEz3Ds=;
- b=4UD+jyXcnv2XppE6X6VDAcg4rDEnMyq18n/CPOFMKfsnkjUTnTYWfx22bWU2u6K/Xg
- QpF3sbDPAOTNm3BC88jtJA8cMj8expQ3ZjqSSEZ98AfyBEv+LIMyY77sB6CSBmorGmM3
- 6e/fYlLdmZZzkP5NIEvgbaEQjX8XB6aNhsDAe7REDnasZabH5rjJ3X/lQ/M52IHx+9kD
- QVcax+Mo/G8tef6nBrxEBzdlrIAs/AxRamSS6OfMeb+lO4Xm8sXqpMBJlKLStnFN4aKF
- YSS4EiOV4w+iVAgrGZrAGtDZdQIk0fgJUbLvlmRpUIbyeEszfQ0zybCXgUvhlBi7IbxE
- DhOA==
-X-Gm-Message-State: ACrzQf3eHZzfIt4daK3RzhlM2hnYhF/XzAQVSkKzdo4SNSHV+h6sFPcj
- qyqde3YeVfKq2/eDrT86WByZo2K7WHPic+DDpGluyEghhcfsVRM3vcF0gEvVXCEdMXH3PEfiEQo
- SZwKfxxkjInHe7bs=
-X-Received: by 2002:a5d:65cf:0:b0:236:9119:be3 with SMTP id
- e15-20020a5d65cf000000b0023691190be3mr14144464wrw.602.1667382554033; 
- Wed, 02 Nov 2022 02:49:14 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4aQWXYNeKPBXLyzeVpSP/B/pJekXOGyFWuogw1VEBbC6u/9EN4OFS5sFZcIBF+dmqS5+Rpuw==
-X-Received: by 2002:a5d:65cf:0:b0:236:9119:be3 with SMTP id
- e15-20020a5d65cf000000b0023691190be3mr14144444wrw.602.1667382553698; 
- Wed, 02 Nov 2022 02:49:13 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c705:f100:af38:1d1f:66f4:48c7?
- (p200300cbc705f100af381d1f66f448c7.dip0.t-ipconnect.de.
- [2003:cb:c705:f100:af38:1d1f:66f4:48c7])
- by smtp.gmail.com with ESMTPSA id
- q8-20020a05600c46c800b003c6b874a0dfsm1655060wmo.14.2022.11.02.02.49.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Nov 2022 02:49:13 -0700 (PDT)
-Message-ID: <b02aec81-7de0-63a9-0786-7280f51ada5b@redhat.com>
-Date: Wed, 2 Nov 2022 10:49:12 +0100
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oqAdA-0000jy-Su; Wed, 02 Nov 2022 06:06:02 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A28xr9T035041;
+ Wed, 2 Nov 2022 10:05:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=/q/PqvH1EkWN7pwL8D+Up7AZGnhB6n8Dzf39QxbBFlo=;
+ b=Yt+aFojbnbJNQBtKVjwy7L29JYQN9P415Z559KsdhQyFcEh8legR0i0DdfiImsXzO+M/
+ iviLysBXtZlA8OpFSwB+526MsksJjbSX2k8/9dLBFTWEdGWbDVk6P2i7EL0bSndEaB1s
+ x4Ser0Pi4f6gcHUlJaKiE17Q0vm0RAuHhhAv3MdAvEcJerjEPtAMvpWBkfR8GY7iiRsS
+ 8ItnnyiAwvXlkiVFbQPP8pSqaqPDWq8VxHR3sf+JhvFimBHJsOzOiJVVbXALl6WFW1xX
+ s7YrXLLwjkiOgxfMLnlqUQOVwjC/aY1vGjXBAUoBFwO6dpnnGHWCr7SlCubXZUDa0FRP 5w== 
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kjvnhc49a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 02 Nov 2022 10:05:49 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A2A5YRs013628;
+ Wed, 2 Nov 2022 10:05:46 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma04fra.de.ibm.com with ESMTP id 3kgut8vve0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 02 Nov 2022 10:05:46 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2A2A5itM65536324
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 2 Nov 2022 10:05:44 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6A2CE52051;
+ Wed,  2 Nov 2022 10:05:44 +0000 (GMT)
+Received: from heavy (unknown [9.171.39.72])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 301DF5204F;
+ Wed,  2 Nov 2022 10:05:44 +0000 (GMT)
+Date: Wed, 2 Nov 2022 11:05:13 +0100
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org
+Subject: Re: [PATCH 9/9] target/s390x: Use Int128 for passing float128
+Message-ID: <20221102100513.5ftpmtg6dlhoeag5@heavy>
+References: <20221021073006.2398819-1-richard.henderson@linaro.org>
+ <20221021073006.2398819-10-richard.henderson@linaro.org>
+ <20221102093848.ewdzokre4vflgyzg@heavy>
+ <a5b5c46e-9e6d-bb61-291c-a1f5fba60d4a@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH] s390x/tcg: Fix LDER instruction format
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
-References: <20221102094304.2585676-1-iii@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20221102094304.2585676-1-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.051,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a5b5c46e-9e6d-bb61-291c-a1f5fba60d4a@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: NNdG5SlmJ0aBLuZnqIOEJydFYvaYZ5Ew
+X-Proofpoint-GUID: NNdG5SlmJ0aBLuZnqIOEJydFYvaYZ5Ew
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-02_06,2022-11-02_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ suspectscore=0 bulkscore=0 adultscore=0 impostorscore=0 spamscore=0
+ clxscore=1015 mlxscore=0 mlxlogscore=512 malwarescore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211020061
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,36 +102,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 02.11.22 10:43, Ilya Leoshkevich wrote:
-> It's RRE, not RXE.
+On Wed, Nov 02, 2022 at 08:47:24PM +1100, Richard Henderson wrote:
+> On 11/2/22 20:38, Ilya Leoshkevich wrote:
+> > On Fri, Oct 21, 2022 at 05:30:06PM +1000, Richard Henderson wrote:
+> > > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > > ---
+> > >   target/s390x/helper.h          | 32 ++++++-------
+> > >   target/s390x/tcg/fpu_helper.c  | 88 ++++++++++++++--------------------
+> > >   target/s390x/tcg/translate.c   | 76 ++++++++++++++++++++---------
+> > >   target/s390x/tcg/insn-data.def | 30 ++++++------
+> > >   4 files changed, 121 insertions(+), 105 deletions(-)
+
+...
+
+> > Hi,
+> > 
+> > I ran valgrind's testsuite with this patch, and their bpf-4 test
+> > triggered an assertion in the
+> > 
+> >      (insn->spec & SPEC_r2_f128 && !is_fp_pair(get_field(s, r2)))
+> > 
+> > condition. The following fixup helped:
+> > 
+> > 
+> > --- a/target/s390x/tcg/translate.c
+> > +++ b/target/s390x/tcg/translate.c
+> > @@ -5771,14 +5771,14 @@ static void in1_x1(DisasContext *s, DisasOps *o)
+> >   {
+> >       o->in1_128 = load_freg_128(get_field(s, r1));
+> >   }
+> > -#define SPEC_in1_x1 SPEC_r2_f128
+> > +#define SPEC_in1_x1 SPEC_r1_f128
 > 
-> Found by running valgrind's none/tests/s390x/bfp-2.
+> Looks right, thanks.
 > 
-> Fixes: 86b59624c4aa ("s390x/tcg: Implement LOAD LENGTHENED short HFP to long HFP")
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   target/s390x/tcg/insn-data.def | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> >   /* Load the high double word of an extended (128-bit) format FP number */
+> >   static void in1_x2h(DisasContext *s, DisasOps *o)
+> >   {
+> >       o->in1 = load_freg(get_field(s, r2));
+> >   }
+> > -#define SPEC_in1_x2h SPEC_r2_f128
+> > +#define SPEC_in1_x2h SPEC_r1_f128
 > 
-> diff --git a/target/s390x/tcg/insn-data.def b/target/s390x/tcg/insn-data.def
-> index 26523746d64..6028472c323 100644
-> --- a/target/s390x/tcg/insn-data.def
-> +++ b/target/s390x/tcg/insn-data.def
-> @@ -606,7 +606,7 @@
->       F(0xed04, LDEB,    RXE,   Z,   0, m2_32u, new, f1, ldeb, 0, IF_BFP)
->       F(0xed05, LXDB,    RXE,   Z,   0, m2_64, new_x, x1, lxdb, 0, IF_BFP)
->       F(0xed06, LXEB,    RXE,   Z,   0, m2_32u, new_x, x1, lxeb, 0, IF_BFP)
-> -    F(0xb324, LDER,    RXE,   Z,   0, e2, new, f1, lde, 0, IF_AFP1)
-> +    F(0xb324, LDER,    RRE,   Z,   0, e2, new, f1, lde, 0, IF_AFP1)
->       F(0xed24, LDE,     RXE,   Z,   0, m2_32u, new, f1, lde, 0, IF_AFP1)
->   /* LOAD ROUNDED */
->       F(0xb344, LEDBR,   RRF_e, Z,   0, f2, new, e1, ledb, 0, IF_BFP)
+> This looks wrong.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Oh, right - we do get_field(r2) here.
+Only the first hunk is necessary.
 
--- 
-Thanks,
-
-David / dhildenb
-
+> r~
 
