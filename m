@@ -2,58 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156CD616B54
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 18:57:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A13616B55
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 18:57:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqHyF-0006DO-9f; Wed, 02 Nov 2022 13:56:11 -0400
+	id 1oqHz9-0007Sa-2Z; Wed, 02 Nov 2022 13:57:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqHyD-0006Cr-BJ; Wed, 02 Nov 2022 13:56:09 -0400
-Received: from mout.kundenserver.de ([217.72.192.73])
+ id 1oqHz0-0007N8-Tq; Wed, 02 Nov 2022 13:56:58 -0400
+Received: from mout.kundenserver.de ([217.72.192.74])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqHy9-0004hS-4k; Wed, 02 Nov 2022 13:56:08 -0400
+ id 1oqHyz-00055f-As; Wed, 02 Nov 2022 13:56:58 -0400
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N5G5b-1p0M5g3z8P-0116l8; Wed, 02 Nov 2022 18:55:58 +0100
-Message-ID: <3510749f-eef6-c581-7978-7274e677b40b@vivier.eu>
-Date: Wed, 2 Nov 2022 18:55:55 +0100
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MAxLT-1ojv7S09bF-00BLNd; Wed, 02 Nov 2022 18:56:51 +0100
+Message-ID: <f4149c33-1c3d-a0aa-a9dd-171be8c0c3e1@vivier.eu>
+Date: Wed, 2 Nov 2022 18:56:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH] tests/unit/test-io-channel-command: Silence GCC error
- "maybe-uninitialized"
+Subject: Re: [PATCH] qapi: virtio: Fix the introduced version
 Content-Language: fr
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-trivial@nongnu.org
-References: <20221101213937.21149-1-shentey@gmail.com>
+To: Han Han <hhan@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, lvivier@redhat.com
+References: <20221101014647.3000801-1-hhan@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20221101213937.21149-1-shentey@gmail.com>
+In-Reply-To: <20221101014647.3000801-1-hhan@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+RvXt9ymMG05kzXvTRfTm8X8B8NFt6n6aA3dxqw4Uglm7ZxB14V
- 91O6arqk6d9rxVrgi3d0hsqmFjCNV1KKXM7/swi3vjGMEDJcqdN+7lu/PwqL7bl7bwC9F1h
- zc4oC3oApt/eMsZ2r1EAqjWUBmJDeFRe5JQHj0CWFyVEUUCafqx7lYGvd7RdVtD7//NaK5M
- WccrT2r12slOakoUwKLsQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Wf9nCYrHFp8=:ASNeMhpzEyqW443FZjUHWH
- EM35HO8VHxPXUFDaU44YDgKaAs+Q03DxR/wNktTi16ZvvLdqjfrDb2l/MsX5BtQI7vW/2nJ5u
- LNIOvsZC1KDD1p1B3VBZS/OsF2hQVUHQgjtSdOW877yPAEJCtzDEv7WLSSPqt8Bx5vvtJV/bm
- kAiefDxNAvlToTqOLnxGc9aMZU22a7kpaEeEwx9UnWJCy61bZEVUbMCts7xk0UGbBoAPZb4gM
- IS2rMdjqxprk/9ZYlTV7VKe7WOoSX9cuZqlTm/eodkERIl8YshN2VzH8OHfR526z8HDoEb7aM
- +92Owv0Ia1g78K7jiyklnyMRhC/Dl2grzIj1Ba1eF/VddD+twgx9wi+SmNRKneew54OtQ7XqH
- 2sM/Ma9vCFNd67fi3AGagiyY5DAeqoyK9RI5kMYZadWkMnYCfGljpOSTldKcudCq6kPsk049f
- K6mfxQgE6xDhSdLdWyUJ9G9hEPO24WWKJvBmHJRejbGrYld7K9MAxSpnYdLjiic/2ampZIV63
- u8COdbmSefs07bBIIx59yN8ej4H2hZUOBFEHrWSUnYtEjn6/mxlTt0rwuzVSjCVdvMhHRmlIQ
- KZAFrtb0a0ySMEBGnUKzp9SyindAl9JjkjdsrhZV7pTdkfDNlKiFZe+nb3aYF7ZnDRD1QABXy
- jdTE983zyEtNme+zJVmKxYo2rVGy7UDnkGTaj9QKEoWFCGeLDuZrohOxEIodH0852dKiA+leK
- jhSkzHEYm0XDEOnf+/HbiJNa8G2xNH4ig66bds+nx7R6FqNHR/ACs7d+6DDH4oJnLoKQP+L0j
- 8r8mwFR
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:owBB1OKz0ytaFWOhEN7fT5hjQ5XI1URVgSJklYtixB8UzWFRAZ9
+ TNgUNXnAO0PALaU/pb9A/4LFA5B5Zc6QYAARKDxlScCKyfZF3tVaGTL6UBqI0/Dl+aNXotj
+ eoFo/aUVUt8Rfoty0qmDXT1p6tFgUt04/6byi0TVwcHQmbbQSKOMQWj/ATQXYCOM3YWB+w/
+ nOKn9TwYwJusMILuSMLSg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:TTlfyb7/jjc=:4LodDplBYkCp1E5gwYB7te
+ sDlAfaYrGg/NW6YSZUuaZaKR+KehMgIRbRJ7LN3ves8667sqUZFZMgDTe1aMUgI+u0CLEoHDH
+ 48mZBf0m6W5NR+v0zYx/1Jqge6dB0ynPJoew1NK46NkXGV9qmBZMTQMrPAoz678DdTZWgToI3
+ AAEMQFUegljqHPvfBPAgj2FWwRogFtrTr4aSTfkhjOGI7aejRfkNPUT4+/v8uktjUuGJbhCuh
+ BNNyVbV4AwAOrbWb4gQwB0Pff6nG9mRhBQlwJgtp1SRR8YJcHxNPUp8yPT4Pu0ze4qtDRCHy5
+ J0vLEWd7TJSjfmyL3/hAVl/MZoq0xkdV0bLrTa3aXRHh4mpTwzvqlM/HPI84o8PA32FbYUWy8
+ foGpOzFZLulGTwjqLEQ+5HmCNae1xntHG1JMXs7oT0VfhYh3poESdzL5RW7Jco+ikYaCx80fj
+ 4wKNMK7fk5PxMJIwe0unqpSJig/UjgrEq8g5ouIelUUvFOpthB80f0pmb0a5ADipXkUdB4ryy
+ g12mYvO+xQuIorYXsCAHc2dXfqLhzzUhHOyoZLW1N+CKeVKLFgqIGpw2JxtXQVOhzDUpnY1eS
+ ThS/IMFcZil1VxN2oUncS9ArdjPg9ic8dQPOZtXdU191EjYTToTWee/fvJFzasFRxNEfvg78r
+ Av8WngX9+s4bSkHwtnzITBRnXd5eAzD3v493Rktat2CdSqy69BFk2My05Gpp+aQSouQIXt/Ao
+ q7QU9qvcRaOe+Ii9Ckrg1/SDoidEPfAzqzJECsPEOC1s/p+Af0IPCuKETAZlGWXqGHgxNnvJr
+ eevQ/np
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -76,57 +73,172 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 01/11/2022 à 22:39, Bernhard Beschow a écrit :
-> GCC issues a false positive warning, resulting in build failure with -Werror:
+Le 01/11/2022 à 02:46, Han Han a écrit :
+> The items of qapi/virtio.json are introduced at a5ebce38576. They will be
+> in the version 7.2 not 7.1.
 > 
->    In file included from /usr/lib/glib-2.0/include/glibconfig.h:9,
->                     from /usr/include/glib-2.0/glib/gtypes.h:34,
->                     from /usr/include/glib-2.0/glib/galloca.h:34,
->                     from /usr/include/glib-2.0/glib.h:32,
->                     from ../src/include/glib-compat.h:32,
->                     from ../src/include/qemu/osdep.h:144,
->                     from ../src/tests/unit/test-io-channel-command.c:21:
->    /usr/include/glib-2.0/glib/gmacros.h: In function ‘test_io_channel_command_fifo’:
->    /usr/include/glib-2.0/glib/gmacros.h:1333:105: error: ‘dstargv’ may be used uninitialized [-Werror=maybe-uninitialized]
->     1333 |   static G_GNUC_UNUSED inline void _GLIB_AUTO_FUNC_NAME(TypeName) (TypeName *_ptr) { if (*_ptr != none) (func) (*_ptr); }     \
->          |                                                                                                         ^
->    ../src/tests/unit/test-io-channel-command.c:39:19: note: ‘dstargv’ was declared here
->       39 |     g_auto(GStrv) dstargv;
->          |                   ^~~~~~~
->    /usr/include/glib-2.0/glib/gmacros.h:1333:105: error: ‘srcargv’ may be used uninitialized [-Werror=maybe-uninitialized]
->     1333 |   static G_GNUC_UNUSED inline void _GLIB_AUTO_FUNC_NAME(TypeName) (TypeName *_ptr) { if (*_ptr != none) (func) (*_ptr); }     \
->          |                                                                                                         ^
->    ../src/tests/unit/test-io-channel-command.c:38:19: note: ‘srcargv’ was declared here
->       38 |     g_auto(GStrv) srcargv;
->          |                   ^~~~~~~
->    cc1: all warnings being treated as errors
-> 
-> GCC version:
-> 
->    $ gcc --version
->    gcc (GCC) 12.2.0
-> 
-> Fixes: 68406d10859385c88da73d0106254a7f47e6652e ('tests/unit: cleanups for test-io-channel-command')
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Signed-off-by: Han Han <hhan@redhat.com>
 > ---
->   tests/unit/test-io-channel-command.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   qapi/virtio.json | 34 +++++++++++++++++-----------------
+>   1 file changed, 17 insertions(+), 17 deletions(-)
 > 
-> diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
-> index 43e29c8cfb..ba0717d3c3 100644
-> --- a/tests/unit/test-io-channel-command.c
-> +++ b/tests/unit/test-io-channel-command.c
-> @@ -35,8 +35,8 @@ static void test_io_channel_command_fifo(bool async)
->       g_autofree gchar *fifo = g_strdup_printf("%s/%s", tmpdir, TEST_FIFO);
->       g_autoptr(GString) srcargs = g_string_new(socat);
->       g_autoptr(GString) dstargs = g_string_new(socat);
-> -    g_auto(GStrv) srcargv;
-> -    g_auto(GStrv) dstargv;
-> +    g_auto(GStrv) srcargv = NULL;
-> +    g_auto(GStrv) dstargv = NULL;
->       QIOChannel *src, *dst;
->       QIOChannelTest *test;
+> diff --git a/qapi/virtio.json b/qapi/virtio.json
+> index e47a8fb2e0..872c7e3623 100644
+> --- a/qapi/virtio.json
+> +++ b/qapi/virtio.json
+> @@ -15,7 +15,7 @@
+>   #
+>   # @name: Name of the VirtIODevice
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   #
+>   ##
+>   { 'struct': 'VirtioInfo',
+> @@ -32,7 +32,7 @@
+>   #
+>   # Returns: List of gathered VirtIODevices
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   #
+>   # Example:
+>   #
+> @@ -97,7 +97,7 @@
+>   #
+>   # @log-size: vhost_dev log_size
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   #
+>   ##
 >   
+> @@ -167,7 +167,7 @@
+>   #             Present if the given VirtIODevice has an active vhost
+>   #             device.
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   #
+>   ##
+>   
+> @@ -206,7 +206,7 @@
+>   #
+>   # Returns: VirtioStatus of the virtio device
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   #
+>   # Examples:
+>   #
+> @@ -452,7 +452,7 @@
+>   #
+>   # @unknown-statuses: Virtio device statuses bitmap that have not been decoded
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   ##
+>   
+>   { 'struct': 'VirtioDeviceStatus',
+> @@ -471,7 +471,7 @@
+>   # @unknown-protocols: Vhost user device protocol features bitmap that
+>   #                     have not been decoded
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   ##
+>   
+>   { 'struct': 'VhostDeviceProtocols',
+> @@ -492,7 +492,7 @@
+>   # @unknown-dev-features: Virtio device features bitmap that have not
+>   #                        been decoded
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   ##
+>   
+>   { 'struct': 'VirtioDeviceFeatures',
+> @@ -535,7 +535,7 @@
+>   #
+>   # @signalled-used-valid: VirtQueue signalled_used_valid flag
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   #
+>   ##
+>   
+> @@ -576,7 +576,7 @@
+>   #        shadow_avail_idx will not be displayed in the case where
+>   #        the selected VirtIODevice has a running vhost device.
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   #
+>   # Examples:
+>   #
+> @@ -666,7 +666,7 @@
+>   #
+>   # @used-size: vhost_virtqueue used_size
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   #
+>   ##
+>   
+> @@ -699,7 +699,7 @@
+>   #
+>   # Returns: VirtVhostQueueStatus of the vhost_virtqueue
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   #
+>   # Examples:
+>   #
+> @@ -767,7 +767,7 @@
+>   #
+>   # @flags: List of descriptor flags
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   #
+>   ##
+>   
+> @@ -787,7 +787,7 @@
+>   #
+>   # @ring: VRingAvail ring[] entry at provided index
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   #
+>   ##
+>   
+> @@ -805,7 +805,7 @@
+>   #
+>   # @idx: VRingUsed index
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   #
+>   ##
+>   
+> @@ -829,7 +829,7 @@
+>   #
+>   # @used: VRingUsed info
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   #
+>   ##
+>   
+> @@ -857,7 +857,7 @@
+>   #
+>   # Returns: VirtioQueueElement information
+>   #
+> -# Since: 7.1
+> +# Since: 7.2
+>   #
+>   # Examples:
+>   #
 
 Applied to my trivial-patches branch.
 
