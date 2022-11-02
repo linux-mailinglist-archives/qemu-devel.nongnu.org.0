@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5886E61683A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:17:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB34161688A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Nov 2022 17:22:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqGKl-0001Dl-Lj; Wed, 02 Nov 2022 12:11:19 -0400
+	id 1oqGKp-0001Q1-1x; Wed, 02 Nov 2022 12:11:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGKY-0000nm-R6
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:11:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGKe-0000pM-6y
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:11:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGKX-0003Ff-BW
- for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:11:06 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqGKZ-0003Kb-Nj
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 12:11:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667405464;
+ s=mimecast20190719; t=1667405467;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=WMGHKMTuV3NWmf5zc/IrtRbi4j/EPK5ANMvuhukrkpA=;
- b=hgFniqFJutIsH9EjG1phfrx5y+YdFVYDrD8hwpZ2MfTl+uA23iGycJ+eJRYZ15o/1tOwvT
- ks02SZE+qaxImBZyKJJvZN8JHwc9emeNxoRsHJlPp0GfB9P7yBT1tSbo0DF0YydHCrejBu
- XQoufGut/fZxOnEiGdxg5MzB1jXQvkQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=h/XlP9KQaz9Sdj8a6OxlbRsUZL7f47hL0wOEmFmZTnk=;
+ b=QscdSrWPcO+qzIOxhTuwviau6l5tN1qZ7cmqmfC59LYGK0/YPch2OtJkCjUUJKKnQPtkEX
+ 0uF1GuglqTDS8j8GfggGZKgikipZqdi4nmUh+OtL4MMyFaR1LYpgpULorSRADodmh7fyPG
+ +H2QzYuAF85lor/bMjiQl9/ZGKTN//U=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-481-iBQ5UdPMORqdqf4aznoGqA-1; Wed, 02 Nov 2022 12:11:03 -0400
-X-MC-Unique: iBQ5UdPMORqdqf4aznoGqA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u13-20020adfa18d000000b00236566b5b40so5011875wru.9
- for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:11:02 -0700 (PDT)
+ us-mta-382-_rDWl6nSMuapWmoJ0EkFzw-1; Wed, 02 Nov 2022 12:11:06 -0400
+X-MC-Unique: _rDWl6nSMuapWmoJ0EkFzw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ d13-20020a05600c34cd00b003ce1f62ac5aso1255616wmq.4
+ for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 09:11:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WMGHKMTuV3NWmf5zc/IrtRbi4j/EPK5ANMvuhukrkpA=;
- b=JQV5/SUaDtCWCSo4SKArW3hfoUHxaKniwwSAVRWUlNUg+HTGwUxKhO7f9cU1pIfTCn
- j4VXf4rLVEPXc0S8nZnbRwawNG53SZRuYW2tiQXSfHCz+LojF0ScF3XPxUZUJPMBHK0F
- sCJ3aHvU7USvyHmeu/PC6gX/kKXMBhmX6zRSeodo8zGiK++ryWg/+fo2xog7CB/7dfCp
- x43N3C/KZfrMwjfsUJgpT+iBv/b+Gzh8B0x8Q0jKS0/onbVuwlXo1L4fuPNx1wpDnOx4
- e/uD88Kzlt/gg6UuTE1wcM9YOxd0OZQi8DNTrQbYF5uR/RL3KFQT8+Q+rB42k1KfZG45
- KYlA==
-X-Gm-Message-State: ACrzQf0v3rLj3/WHaB+Tv6GNPQbx6a5Wc8fCWo+gf1NeyC0ldcR6ERg5
- gyO7/yp2nTeUf42skc5uzFKTKb9OzAxXbkfMx1u5jbySXWnV9RyPTP+9+l3smSbD/6BP/FuoaaX
- Z1uH6FbDIwcPhfNkzT8SjJau+37gGcd/giBLXCAs09A3mfwh1ysoi3I3QXxxJ
-X-Received: by 2002:adf:fa01:0:b0:236:debd:f682 with SMTP id
- m1-20020adffa01000000b00236debdf682mr7233154wrr.49.1667405461491; 
- Wed, 02 Nov 2022 09:11:01 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4yVGdxdQiKETKbgW36CIRJ8uPFR/cVligK4Uudjb2Zt1rEAY5TTJmkUQPMKBzfm49MwZ5LQQ==
-X-Received: by 2002:adf:fa01:0:b0:236:debd:f682 with SMTP id
- m1-20020adffa01000000b00236debdf682mr7233123wrr.49.1667405461255; 
- Wed, 02 Nov 2022 09:11:01 -0700 (PDT)
+ bh=h/XlP9KQaz9Sdj8a6OxlbRsUZL7f47hL0wOEmFmZTnk=;
+ b=1TWVwVG1awd8oiGqj1fr9glFb+xeYwzNkG8dtRwA5L9Hfbj90uBoaIHHcTl5Xn6tF7
+ tVyXcWY/zQfsdbNWAuMAnOkoZcTNrJn2uwrwl97HyMCN38aVrLIunpOUwpYQSF/hueWQ
+ 0hll9mTsdKX6eYSaZjD/L53y03xCTddSFjioKVinlvpJcOsq7UMboXiBOTNt06+dNw7s
+ MmweoICeB68UiB3ihV77WyGzhaKi66pOFHyPcNHWk6Eqn7I3aa9gQTGGM8A9U+63wa5a
+ 2akYTiG0vLFxNLWv/qVwYGypa0yXOFtsiVYOqGmHPPgAW4Jgehv+4aU76+TJ9ZvaILYK
+ ZSdA==
+X-Gm-Message-State: ACrzQf2+2pRukGPEuWrqNk3eKoZHaua93TSbaEMS0RGlDAFt70dRRrXR
+ ONJ2WI13q4X0rfquMeW8PSNmRdqlincWOr2D1nKAKXMHnfT9a6q//AXaNYPYLUpc0VyKYCyNKRR
+ hvc6lXmifp/GeSXoc4r4Mg3RXqmSvEEqx/bqBs5EYJWTGMQJqI8ZKNyFtKbPc
+X-Received: by 2002:adf:e78d:0:b0:236:debd:f681 with SMTP id
+ n13-20020adfe78d000000b00236debdf681mr7781357wrm.17.1667405464775; 
+ Wed, 02 Nov 2022 09:11:04 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7vWt+o6fbBEWVUCrewf/fjEUh7qOrY3jMOOVkqwBV/k4Er58JWPEwswDxJ2EMyUo2LVW9qnA==
+X-Received: by 2002:adf:e78d:0:b0:236:debd:f681 with SMTP id
+ n13-20020adfe78d000000b00236debdf681mr7781333wrm.17.1667405464540; 
+ Wed, 02 Nov 2022 09:11:04 -0700 (PDT)
 Received: from redhat.com ([2.52.15.189]) by smtp.gmail.com with ESMTPSA id
- bl19-20020adfe253000000b00236576c8eddsm13225958wrb.12.2022.11.02.09.10.59
+ v12-20020a7bcb4c000000b003c6d21a19a0sm2421902wmj.29.2022.11.02.09.11.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Nov 2022 09:11:00 -0700 (PDT)
-Date: Wed, 2 Nov 2022 12:10:58 -0400
+ Wed, 02 Nov 2022 09:11:04 -0700 (PDT)
+Date: Wed, 2 Nov 2022 12:11:01 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL v2 56/82] tests: acpi: whitelist DSDT before generating
- ICH9_SMB AML automatically
-Message-ID: <20221102160336.616599-57-mst@redhat.com>
+Subject: [PULL v2 57/82] acpi: add get_dev_aml_func() helper
+Message-ID: <20221102160336.616599-58-mst@redhat.com>
 References: <20221102160336.616599-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -74,7 +73,7 @@ Content-Disposition: inline
 In-Reply-To: <20221102160336.616599-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -82,7 +81,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,41 +99,45 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
+It will be used in followup commits to figure out if
+device has it's own, device specific AML block.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20221017102146.2254096-6-imammedo@redhat.com>
+Message-Id: <20221017102146.2254096-7-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ include/hw/acpi/acpi_aml_interface.h | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..fd5852776c 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,22 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.acpierst",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.applesmc",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.cxl",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.ipmismbus",
-+"tests/data/acpi/q35/DSDT.ivrs",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.multi-bridge",
-+"tests/data/acpi/q35/DSDT.nohpet",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.pvpanic-isa",
-+"tests/data/acpi/q35/DSDT.tis.tpm12",
-+"tests/data/acpi/q35/DSDT.tis.tpm2",
-+"tests/data/acpi/q35/DSDT.viot",
-+"tests/data/acpi/q35/DSDT.xapic",
+diff --git a/include/hw/acpi/acpi_aml_interface.h b/include/hw/acpi/acpi_aml_interface.h
+index ab76f0e55d..436da069d6 100644
+--- a/include/hw/acpi/acpi_aml_interface.h
++++ b/include/hw/acpi/acpi_aml_interface.h
+@@ -29,11 +29,20 @@ struct AcpiDevAmlIfClass {
+     dev_aml_fn build_dev_aml;
+ };
+ 
+-static inline void call_dev_aml_func(DeviceState *dev, Aml *scope)
++static inline dev_aml_fn get_dev_aml_func(DeviceState *dev)
+ {
+     if (object_dynamic_cast(OBJECT(dev), TYPE_ACPI_DEV_AML_IF)) {
+         AcpiDevAmlIfClass *klass = ACPI_DEV_AML_IF_GET_CLASS(dev);
+-        klass->build_dev_aml(ACPI_DEV_AML_IF(dev), scope);
++        return klass->build_dev_aml;
++    }
++    return NULL;
++}
++
++static inline void call_dev_aml_func(DeviceState *dev, Aml *scope)
++{
++    dev_aml_fn fn = get_dev_aml_func(dev);
++    if (fn) {
++        fn(ACPI_DEV_AML_IF(dev), scope);
+     }
+ }
+ 
 -- 
 MST
 
