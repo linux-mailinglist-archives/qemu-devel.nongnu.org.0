@@ -2,77 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5A561853D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:49:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 341AC618562
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:55:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqdOz-0004lz-6R; Thu, 03 Nov 2022 12:49:13 -0400
+	id 1oqdTx-0000tI-Lv; Thu, 03 Nov 2022 12:54:22 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oqdOx-0004ex-4W
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 12:49:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <ebiggers@kernel.org>)
+ id 1oqdTs-0000rT-Hz; Thu, 03 Nov 2022 12:54:16 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oqdOv-000502-ER
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 12:49:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667494148;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LtGh/HTlKjwZlq1HCI1WTUypeVcGV6eXJDgMM3AWfEI=;
- b=hw3hClor2r2vienzbNPCCZI9PMmlw+K5F96hON9YYBz0R0sh8hcQXxLQXcrG1Hl6SgE7CM
- 7Zq+b9JyeconLYycj2gOaKf4m3bnEtcbV45FhXiO5nmRvyKqasjx5hSfDHXWX0vqP6daWQ
- myCHH/PoTH8UJE5nUaSI7JDf46wGI+Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-288-7edaPTGPORyUQ8jO23R6Dw-1; Thu, 03 Nov 2022 12:49:07 -0400
-X-MC-Unique: 7edaPTGPORyUQ8jO23R6Dw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <ebiggers@kernel.org>)
+ id 1oqdTq-0005uM-Rr; Thu, 03 Nov 2022 12:54:16 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AAF2E803D48;
- Thu,  3 Nov 2022 16:49:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 935E01415123;
- Thu,  3 Nov 2022 16:49:05 +0000 (UTC)
-Date: Thu, 3 Nov 2022 16:49:03 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, Ani Sinha <ani@anisinha.ca>,
- philmd@linaro.org, mst@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com
-Subject: Re: [PULL v2 00/82] pci,pc,virtio: features, tests, fixes, cleanups
-Message-ID: <Y2Pw/1xXSdpXLVfz@redhat.com>
-References: <2821393d-21fe-cb7b-1396-dac6fe4dfa6b@linaro.org>
- <20221103154208.91501-1-ani@anisinha.ca>
- <CAJSP0QXxO_1WYL-FUZrRFOE9guOEVVr9Ss2jubkdHvAMwPwZqA@mail.gmail.com>
- <Y2Plai60TK1kErl5@redhat.com>
- <CAJSP0QUk4iWY6B7-oxjLtW22OMyAfR-KH7M6QMmQVjvOhwQ+nQ@mail.gmail.com>
- <Y2Pui+kYDyJ1Rgja@redhat.com>
- <CAFEAcA_BEUTWEeTOgeHR9Sy_XOCJ=ckM=ki3c9sSuAMT_emL1w@mail.gmail.com>
+ by ams.source.kernel.org (Postfix) with ESMTPS id 10693B82924;
+ Thu,  3 Nov 2022 16:54:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A481EC433C1;
+ Thu,  3 Nov 2022 16:54:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1667494450;
+ bh=mlTVTxlNh5GfqJdIWBW0jvHVOnm7/Skx5oTGnszZIfU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HtA/kbU811R0W9wISi89LWIOV9gsciZdWnXs3lTIMtBEEGZPXjBRVEYN3kC/IIf6u
+ 61yV5XZF/FZr+92yyLZakRGam2STi25Phs5gHZZtfggYG0SUD9I2tlFOGivKfnQZVl
+ 2heCADk9ZZlF1pPK70RMuZAzTGxHBsDHygQgRVBS0VfHuSoHCUQ0qLW2NEOcBYzcat
+ JcJR0mffvL86KfBbK82cbmQci7lrolmonwfQWxCsgR8LGg8hrH3Gmoc0S9HeP8tVJ9
+ axCHfPRunQ+zJ8x7XCW6qk7OMFc4KFhH3i151WhzhV/jqIzwbNiSA2E1uJSQr8hGxF
+ 1MiYqT1s6h8Jg==
+Date: Thu, 3 Nov 2022 16:54:09 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ hreitz@redhat.com, qemu-block@nongnu.org, nsoffer@redhat.com
+Subject: Re: [PATCH 1/2] file-posix: fix Linux alignment probing when EIO is
+ returned
+Message-ID: <Y2PyMb4UluN6+ONg@gmail.com>
+References: <20221101190031.6766-1-stefanha@redhat.com>
+ <20221101190031.6766-2-stefanha@redhat.com>
+ <Y2HVgnwAPdTIaZR6@sol.localdomain>
+ <Y2HasGvN6qMFq29A@sol.localdomain> <Y2OPaxoX7UanUzTd@redhat.com>
+ <Y2PrpOCjKsZ+rywG@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA_BEUTWEeTOgeHR9Sy_XOCJ=ckM=ki3c9sSuAMT_emL1w@mail.gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
+In-Reply-To: <Y2PrpOCjKsZ+rywG@gmail.com>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=ebiggers@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -80
+X-Spam_score: -8.1
+X-Spam_bar: --------
+X-Spam_report: (-8.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,35 +71,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 03, 2022 at 04:47:03PM +0000, Peter Maydell wrote:
-> On Thu, 3 Nov 2022 at 16:38, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > On Thu, Nov 03, 2022 at 12:25:49PM -0400, Stefan Hajnoczi wrote:
-> > > 2. The GitLab output does not contain the full command lines because
-> > > environment variables are hidden (e.g. $QEMU_CONFIGURE_OPTS).
-> >
-> > Note, $QEMU_CONFIGURE_OPTS is set by the container image itself, so
-> > there's no need to know that one.
-> >
-> > $CONFIGURE_ARGS meanwhile is set in the build-XXXXX template and
-> > easy to find.
+On Thu, Nov 03, 2022 at 04:26:14PM +0000, Eric Biggers wrote:
+> > In other words, STATX_DIOALIGN is unusable from the start because we
+> > don't know whether the information it returns is actually correct? :-/
 > 
-> Not all that easy if you're looking at some specific gitlab
-> job output... it would be helpful if the scripts
-> echoed the exact configure command line before running it,
-> then you wouldn't need to go ferreting around in the gitlab
-> config files and hoping you've found the right bit.
+> That's a silly point of view.  STATX_DIOALIGN has only been in a released kernel
+> for a few weeks (v6.0), the bug is only in one edge case, and it will get fixed
+> quickly and backported to v6.0.y where users of 6.0 will get it.
 
-That's easy enough to do, I'll send a patch.
+Actually, scratch that.  STATX_DIOALIGN is in 6.1, not 6.0.  So it hasn't even
+been released yet.  Upstream is currently on v6.1-rc3.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+So thank you for reporting (or for not reporting?) this.  We'll make sure it
+gets fixed before release :-)
 
+- Eric
 
