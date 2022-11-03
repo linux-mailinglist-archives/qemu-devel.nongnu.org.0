@@ -2,73 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566E961863C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 18:32:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8623561863D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 18:33:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqe3s-00086I-GI; Thu, 03 Nov 2022 13:31:28 -0400
+	id 1oqe5a-0001P3-Mq; Thu, 03 Nov 2022 13:33:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oqe3O-00082L-Lw
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:30:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <sir@cmpwn.com>) id 1oqe5D-0001Ca-Db
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:33:00 -0400
+Received: from out-163.mta0.migadu.com ([2001:41d0:1004:224b::a3])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oqe3J-00041E-S5
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:30:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667496650;
+ (Exim 4.90_1) (envelope-from <sir@cmpwn.com>) id 1oqe5A-0004Gh-Qr
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:32:51 -0400
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cmpwn.com; s=key1;
+ t=1667496734;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UKTQpgfAI+5wQiG02pSTx2JoGN02tkjKcgJNB1oQWAc=;
- b=MWDdXdl9l2SIsXrIlKFwm1ZrNW9qFXRZwYBf5BIaDNEXrOn1sdVGqaH0MX9sTz9sN1k9l7
- hP8S4tb1UJxmlKVJmP+d1rR5FJtTTE4uyNz+TY4lgIPUYQ/DHDb8s1i4+Mmbro/9QaZZ4Q
- RKHhlGzzPkBXPifpuuT/BombziA5YeE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-407-vAvnBrtnOFOLXVCflbN_xA-1; Thu, 03 Nov 2022 13:30:47 -0400
-X-MC-Unique: vAvnBrtnOFOLXVCflbN_xA-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B797811E67;
- Thu,  3 Nov 2022 17:30:46 +0000 (UTC)
-Received: from virtlab420.virt.lab.eng.bos.redhat.com
- (virtlab420.virt.lab.eng.bos.redhat.com [10.19.152.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C6F5492B06;
- Thu,  3 Nov 2022 17:30:46 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 2/2] gitlab: show configure/make args before running
-Date: Thu,  3 Nov 2022 13:30:44 -0400
-Message-Id: <20221103173044.3969425-3-berrange@redhat.com>
-In-Reply-To: <20221103173044.3969425-1-berrange@redhat.com>
-References: <20221103173044.3969425-1-berrange@redhat.com>
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=J+2qomMs9r0CNoVQgyPmShTN7Q/JnBGTmkBr80AO2v4=;
+ b=TjEnDMCc4qt/ids1sEweiNp9IyS3WpQyRinU9zfyoCGhvPvNioqlYulzRbAWnGu6twQOJr
+ 3vwvCStq704nl063amj6b44ueOI0zDiL2KgNUuD/rHQrVraI4aZzMV7dbBnoVgzwjm2mr8
+ I6kYC5Okrlpi3XlD9twTHEFCxtaKejXwAT9ymwWCEzTqK8aF+0fzaCDZDcDdZkZzh1B6ZY
+ bFhvVCNAXv205J9baGOmBAhIYpWVXFQAOzU1Fwcmcr+hqNSzZg1tYmDAaryh/U9eczK4kv
+ LhTtKU8dDJ+5/g26ljPvFoiz0la0OKF9S328bK3djpoKsBynXFwcbLAJJHXYfw==
+From: Drew DeVault <sir@cmpwn.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: Drew DeVault <sir@cmpwn.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH v3] linux-user: implement execveat
+Date: Thu,  3 Nov 2022 18:32:12 +0100
+Message-Id: <20221103173212.3724698-1-sir@cmpwn.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Migadu-Flow: FLOW_OUT
+Received-SPF: pass client-ip=2001:41d0:1004:224b::a3;
+ envelope-from=sir@cmpwn.com; helo=out-163.mta0.migadu.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,98 +62,246 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When debugging failed jobs it is helpful to see the
-full configure/make args used, without having to search
-the gitlab config file to figure it out.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+References: https://gitlab.com/qemu-project/qemu/-/issues/1007
+Signed-off-by: Drew DeVault <sir@cmpwn.com>
 ---
- .gitlab-ci.d/buildtest-template.yml  |  4 ++++
- .gitlab-ci.d/crossbuild-template.yml | 15 +++++++++++++++
- 2 files changed, 19 insertions(+)
+v2 => v3:
+- Rebase to address the is_proc_myself fix
+- Drop the ifdefs
 
-diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
-index 73ecfabb8d..0af980c71d 100644
---- a/.gitlab-ci.d/buildtest-template.yml
-+++ b/.gitlab-ci.d/buildtest-template.yml
-@@ -13,8 +13,10 @@
-     - cd build
-     - if test -n "$TARGETS";
-       then
-+        echo "../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=git} $CONFIGURE_ARGS --target-list=\"$TARGETS\"" ;
-         ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=git} $CONFIGURE_ARGS --target-list="$TARGETS" ;
-       else
-+        echo "../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=git} $CONFIGURE_ARGS" ;
-         ../configure --enable-werror --disable-docs ${LD_JOBS:+--meson=git} $CONFIGURE_ARGS ;
-       fi || { cat config.log meson-logs/meson-log.txt && exit 1; }
-     - if test -n "$LD_JOBS";
-@@ -24,6 +26,7 @@
-     - make -j"$JOBS"
-     - if test -n "$MAKE_CHECK_ARGS";
-       then
-+        echo "make -j\"$JOBS\" $MAKE_CHECK_ARGS" ;
-         make -j"$JOBS" $MAKE_CHECK_ARGS ;
-       fi
+ linux-user/syscall.c | 203 ++++++++++++++++++++++---------------------
+ 1 file changed, 105 insertions(+), 98 deletions(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 8402c1399d..38fbbbad6a 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -689,7 +689,8 @@ safe_syscall4(pid_t, wait4, pid_t, pid, int *, status, int, options, \
+ #endif
+ safe_syscall5(int, waitid, idtype_t, idtype, id_t, id, siginfo_t *, infop, \
+               int, options, struct rusage *, rusage)
+-safe_syscall3(int, execve, const char *, filename, char **, argv, char **, envp)
++safe_syscall5(int, execveat, int, dirfd, const char *, filename,
++        char **, argv, char **, envp, int, flags)
+ #if defined(TARGET_NR_select) || defined(TARGET_NR__newselect) || \
+     defined(TARGET_NR_pselect6) || defined(TARGET_NR_pselect6_time64)
+ safe_syscall6(int, pselect6, int, nfds, fd_set *, readfds, fd_set *, writefds, \
+@@ -8349,6 +8350,106 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
+     return safe_openat(dirfd, path(pathname), flags, mode);
+ }
  
-@@ -37,6 +40,7 @@
-     - cd build
-     - find . -type f -exec touch {} +
-     # Avoid recompiling by hiding ninja with NINJA=":"
-+    - echo "make NINJA=\":\" $MAKE_CHECK_ARGS"
-     - make NINJA=":" $MAKE_CHECK_ARGS
++static int do_execveat(CPUArchState *cpu_env, int dirfd, abi_long pathname, abi_long guest_argp, abi_long guest_envp, int flags)
++{
++    int ret;
++    char **argp, **envp;
++    int argc, envc;
++    abi_ulong gp;
++    abi_ulong addr;
++    char **q;
++    void *p;
++
++    argc = 0;
++
++    for (gp = guest_argp; gp; gp += sizeof(abi_ulong)) {
++        if (get_user_ual(addr, gp))
++            return -TARGET_EFAULT;
++        if (!addr)
++            break;
++        argc++;
++    }
++    envc = 0;
++    for (gp = guest_envp; gp; gp += sizeof(abi_ulong)) {
++        if (get_user_ual(addr, gp))
++            return -TARGET_EFAULT;
++        if (!addr)
++            break;
++        envc++;
++    }
++
++    argp = g_new0(char *, argc + 1);
++    envp = g_new0(char *, envc + 1);
++
++    for (gp = guest_argp, q = argp; gp;
++          gp += sizeof(abi_ulong), q++) {
++        if (get_user_ual(addr, gp))
++            goto execve_efault;
++        if (!addr)
++            break;
++        if (!(*q = lock_user_string(addr)))
++            goto execve_efault;
++    }
++    *q = NULL;
++
++    for (gp = guest_envp, q = envp; gp;
++          gp += sizeof(abi_ulong), q++) {
++        if (get_user_ual(addr, gp))
++            goto execve_efault;
++        if (!addr)
++            break;
++        if (!(*q = lock_user_string(addr)))
++            goto execve_efault;
++    }
++    *q = NULL;
++
++    /* Although execve() is not an interruptible syscall it is
++     * a special case where we must use the safe_syscall wrapper:
++     * if we allow a signal to happen before we make the host
++     * syscall then we will 'lose' it, because at the point of
++     * execve the process leaves QEMU's control. So we use the
++     * safe syscall wrapper to ensure that we either take the
++     * signal as a guest signal, or else it does not happen
++     * before the execve completes and makes it the other
++     * program's problem.
++     */
++    if (!(p = lock_user_string(pathname)))
++        goto execve_efault;
++
++    if (is_proc_myself(p, "exe")) {
++        ret = get_errno(safe_execveat(dirfd, exec_path, argp, envp, flags));
++    } else {
++        ret = get_errno(safe_execveat(dirfd, p, argp, envp, flags));
++    }
++
++    unlock_user(p, pathname, 0);
++
++    goto execve_end;
++
++execve_efault:
++    ret = -TARGET_EFAULT;
++
++execve_end:
++    for (gp = guest_argp, q = argp; *q;
++          gp += sizeof(abi_ulong), q++) {
++        if (get_user_ual(addr, gp)
++            || !addr)
++            break;
++        unlock_user(*q, addr, 0);
++    }
++    for (gp = guest_envp, q = envp; *q;
++          gp += sizeof(abi_ulong), q++) {
++        if (get_user_ual(addr, gp)
++            || !addr)
++            break;
++        unlock_user(*q, addr, 0);
++    }
++
++    g_free(argp);
++    g_free(envp);
++    return ret;
++}
++
+ #define TIMER_MAGIC 0x0caf0000
+ #define TIMER_MAGIC_MASK 0xffff0000
  
- .native_test_job_template:
-diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
-index 6d709628f1..d217dcaae0 100644
---- a/.gitlab-ci.d/crossbuild-template.yml
-+++ b/.gitlab-ci.d/crossbuild-template.yml
-@@ -6,11 +6,17 @@
-   script:
-     - mkdir build
-     - cd build
-+    - echo "../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-+        --disable-user --target-list-exclude=\"arm-softmmu cris-softmmu
-+          i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
-+          mips64-softmmu ppc-softmmu riscv32-softmmu sh4-softmmu
-+          sparc-softmmu xtensa-softmmu $CROSS_SKIP_TARGETS\""
-     - ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-         --disable-user --target-list-exclude="arm-softmmu cris-softmmu
-           i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
-           mips64-softmmu ppc-softmmu riscv32-softmmu sh4-softmmu
-           sparc-softmmu xtensa-softmmu $CROSS_SKIP_TARGETS"
-+    - echo "make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS"
-     - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
-     - if grep -q "EXESUF=.exe" config-host.mak;
-       then make installer;
-@@ -31,8 +37,11 @@
-   script:
-     - mkdir build
-     - cd build
-+    - echo "../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-+        --disable-tools --enable-${ACCEL:-kvm} $EXTRA_CONFIGURE_OPTS"
-     - ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-         --disable-tools --enable-${ACCEL:-kvm} $EXTRA_CONFIGURE_OPTS
-+    - echo "make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS"
-     - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
- 
- .cross_user_build_job:
-@@ -42,9 +51,15 @@
-   script:
-     - mkdir build
-     - cd build
-+    - echo "../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-+        --disable-system --target-list-exclude=\"aarch64_be-linux-user
-+          alpha-linux-user cris-linux-user m68k-linux-user microblazeel-linux-user
-+          nios2-linux-user or1k-linux-user ppc-linux-user sparc-linux-user
-+          xtensa-linux-user $CROSS_SKIP_TARGETS\""
-     - ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-         --disable-system --target-list-exclude="aarch64_be-linux-user
-           alpha-linux-user cris-linux-user m68k-linux-user microblazeel-linux-user
-           nios2-linux-user or1k-linux-user ppc-linux-user sparc-linux-user
-           xtensa-linux-user $CROSS_SKIP_TARGETS"
-+    - echo "make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS"
-     - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
+@@ -8846,104 +8947,10 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         unlock_user(p, arg2, 0);
+         return ret;
+ #endif
++    case TARGET_NR_execveat:
++        return do_execveat(cpu_env, arg1, arg2, arg3, arg4, arg5);
+     case TARGET_NR_execve:
+-        {
+-            char **argp, **envp;
+-            int argc, envc;
+-            abi_ulong gp;
+-            abi_ulong guest_argp;
+-            abi_ulong guest_envp;
+-            abi_ulong addr;
+-            char **q;
+-
+-            argc = 0;
+-            guest_argp = arg2;
+-            for (gp = guest_argp; gp; gp += sizeof(abi_ulong)) {
+-                if (get_user_ual(addr, gp))
+-                    return -TARGET_EFAULT;
+-                if (!addr)
+-                    break;
+-                argc++;
+-            }
+-            envc = 0;
+-            guest_envp = arg3;
+-            for (gp = guest_envp; gp; gp += sizeof(abi_ulong)) {
+-                if (get_user_ual(addr, gp))
+-                    return -TARGET_EFAULT;
+-                if (!addr)
+-                    break;
+-                envc++;
+-            }
+-
+-            argp = g_new0(char *, argc + 1);
+-            envp = g_new0(char *, envc + 1);
+-
+-            for (gp = guest_argp, q = argp; gp;
+-                  gp += sizeof(abi_ulong), q++) {
+-                if (get_user_ual(addr, gp))
+-                    goto execve_efault;
+-                if (!addr)
+-                    break;
+-                if (!(*q = lock_user_string(addr)))
+-                    goto execve_efault;
+-            }
+-            *q = NULL;
+-
+-            for (gp = guest_envp, q = envp; gp;
+-                  gp += sizeof(abi_ulong), q++) {
+-                if (get_user_ual(addr, gp))
+-                    goto execve_efault;
+-                if (!addr)
+-                    break;
+-                if (!(*q = lock_user_string(addr)))
+-                    goto execve_efault;
+-            }
+-            *q = NULL;
+-
+-            if (!(p = lock_user_string(arg1)))
+-                goto execve_efault;
+-            /* Although execve() is not an interruptible syscall it is
+-             * a special case where we must use the safe_syscall wrapper:
+-             * if we allow a signal to happen before we make the host
+-             * syscall then we will 'lose' it, because at the point of
+-             * execve the process leaves QEMU's control. So we use the
+-             * safe syscall wrapper to ensure that we either take the
+-             * signal as a guest signal, or else it does not happen
+-             * before the execve completes and makes it the other
+-             * program's problem.
+-             */
+-            if (is_proc_myself(p, "exe")) {
+-                ret = get_errno(safe_execve(exec_path, argp, envp));
+-            } else {
+-                ret = get_errno(safe_execve(p, argp, envp));
+-            }
+-            unlock_user(p, arg1, 0);
+-
+-            goto execve_end;
+-
+-        execve_efault:
+-            ret = -TARGET_EFAULT;
+-
+-        execve_end:
+-            for (gp = guest_argp, q = argp; *q;
+-                  gp += sizeof(abi_ulong), q++) {
+-                if (get_user_ual(addr, gp)
+-                    || !addr)
+-                    break;
+-                unlock_user(*q, addr, 0);
+-            }
+-            for (gp = guest_envp, q = envp; *q;
+-                  gp += sizeof(abi_ulong), q++) {
+-                if (get_user_ual(addr, gp)
+-                    || !addr)
+-                    break;
+-                unlock_user(*q, addr, 0);
+-            }
+-
+-            g_free(argp);
+-            g_free(envp);
+-        }
+-        return ret;
++        return do_execveat(cpu_env, AT_FDCWD, arg1, arg2, arg3, 0);
+     case TARGET_NR_chdir:
+         if (!(p = lock_user_string(arg1)))
+             return -TARGET_EFAULT;
 -- 
-2.37.2
+2.38.1
 
 
