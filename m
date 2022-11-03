@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E26618613
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 18:23:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC7561862B
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 18:28:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqdvV-0003rG-En; Thu, 03 Nov 2022 13:22:49 -0400
+	id 1oqe0V-0006jr-PC; Thu, 03 Nov 2022 13:27:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oqdvU-0003pp-GH
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:22:48 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oqe0U-0006ji-If
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:27:58 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oqdvT-0002Nd-4L
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:22:48 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oqe0S-0003VK-5j
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:27:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667496166;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1667496475;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EMtLscuM+GkhtCSMJR6gBFiXWZfzwaCGy/BE14Qb5hs=;
- b=ViCZij4wlkLAezSzEOQbWPIjJ5k64veB71CcdmEt3ivhfzAE1a9aIiNz3dcZu3p6U7phek
- 3fWODQjtsuJB5xUE+V09qvHJNPqPn7wNp3cCcLLWlnyX914ONDCs5qjITQk2sPz9WmCpa6
- +NqOWzp/JjEV9fJ4o4QkG1Fcx/s0yCg=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-451-jjInOxv4PqGlGAkMyrEcjw-1; Thu, 03 Nov 2022 13:22:45 -0400
-X-MC-Unique: jjInOxv4PqGlGAkMyrEcjw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- h9-20020a05640250c900b00461d8ee12e2so1843034edb.23
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 10:22:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EMtLscuM+GkhtCSMJR6gBFiXWZfzwaCGy/BE14Qb5hs=;
- b=rmjdjyqaJPOuVQBVtQSpwVj4hZfFpFsrWcLKprot8XL3UC/xgpGb5Q0O8UsB6Eahoy
- QMM6+6W5tmmbOGkPkFUzpQkr7XDWjWj4SprVVc+YeeAxwz7nH0tAF60Sl0UU4c9IkfGK
- NFlAsexUHqC1hpiM2Ex4IjhFFL4oiLLuz4E/NIGz3qtsHOZdMo7f9ku5juJBWrSyIGac
- AK/OQBpayH3LndBTKpYKIuWjvGluEGk4xQHDgqOnHabTdSzmMcoPN/2POoMhdRLrcG2o
- 33NcIEZgHqlnj5hXoBrdJwZKwqtuEXuvLk2lXEGjOXbIN86if3UJmYBSBoFik17Q+/hO
- WWDQ==
-X-Gm-Message-State: ACrzQf32YIn3cjzuW3xuHs4G7bvbaHRH9CU+dUud6MutlsGdGH8uByfA
- fC2PowooxCNJOl62kcgGefE+J+XHcfXqHPc2x/v6YorkiBsPCSHrEAkCYjeAtmLwOwvm7gVXbdw
- t6JujwPKCtFztG4Q=
-X-Received: by 2002:a17:906:6a8d:b0:741:6a3b:536e with SMTP id
- p13-20020a1709066a8d00b007416a3b536emr30756309ejr.11.1667496163851; 
- Thu, 03 Nov 2022 10:22:43 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6ZRZ4cw0H8szIxejDDMt3WKonsXorBEMr+lfN1kHangTCJRJTwO2xj6P6cKdNMt/6lFAKHRA==
-X-Received: by 2002:a17:906:6a8d:b0:741:6a3b:536e with SMTP id
- p13-20020a1709066a8d00b007416a3b536emr30756299ejr.11.1667496163664; 
- Thu, 03 Nov 2022 10:22:43 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
- ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.googlemail.com with ESMTPSA id
- qq18-20020a17090720d200b007aa9156f7e9sm732511ejb.32.2022.11.03.10.22.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Nov 2022 10:22:43 -0700 (PDT)
-Message-ID: <2b1a92c2-c081-aacd-da05-aa434f50bbaa@redhat.com>
-Date: Thu, 3 Nov 2022 18:22:42 +0100
+ bh=ewmxJyUpMV55LEiiQTwp4rNLuzSBhHSG4FmJrsxUE8Y=;
+ b=cJgoD4+icXwFoUr+3lNSaVN+czVmdtcqEpVHusQ6yOCqdcO6w93slPlm630jdT5Ek6h7Bf
+ pD0POhlSF4YYyp0zA26W5D7TqLQIzmc4z+WjfgT/rf4RE6JoPXjoZcwNfZ3S5EuKrbd0Lz
+ RAr4cHW9l3DgciSTTC0AlWhIbZeAQ64=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-61-EKvRYufYMHi7PhZmti_elg-1; Thu, 03 Nov 2022 13:27:51 -0400
+X-MC-Unique: EKvRYufYMHi7PhZmti_elg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 81EBB85A583;
+ Thu,  3 Nov 2022 17:27:51 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BC2D340C6EC3;
+ Thu,  3 Nov 2022 17:27:50 +0000 (UTC)
+Date: Thu, 3 Nov 2022 17:27:48 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: qemu-devel@nongnu.org, peterx@redhat.com,
+ Prerna Saxena <prerna.saxena@nutanix.com>
+Subject: Re: [PATCH] migration: check magic value for deciding the mapping of
+ channels
+Message-ID: <Y2P6FMs42GLzkKl/@redhat.com>
+References: <20221101143029.14246-1-manish.mishra@nutanix.com>
+ <Y2EyVkdLMln7CX15@redhat.com>
+ <9faf2604-f0b9-f3c3-5ac8-e4deeeebc424@nutanix.com>
+ <Y2E+/WZgWXQQgdY5@redhat.com>
+ <e5f69a86-f625-3cdb-4a25-065a0612548e@nutanix.com>
+ <Y2OKCel2FlMQw+bI@redhat.com>
+ <cf399da1-8558-06f9-2865-98abe45ddcda@nutanix.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH for 7.2] Fix broken configure with -Wunused-parameter
-Content-Language: en-US
-To: Stefan Weil <sw@weilnetz.de>, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org
-References: <20221102202258.456359-1-sw@weilnetz.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20221102202258.456359-1-sw@weilnetz.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cf399da1-8558-06f9-2865-98abe45ddcda@nutanix.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,22 +86,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/2/22 21:22, Stefan Weil via wrote:
-> != "no"; then
->     cat > $TMPC << EOF
->   int main(int argc, char *argv[])
->   {
-> +    (void)argc;
->       char arr[64], *p = arr, *c = argv[0];
+On Thu, Nov 03, 2022 at 10:04:54PM +0530, manish.mishra wrote:
+> 
+> On 03/11/22 2:59 pm, Daniel P. Berrangé wrote:
+> > On Thu, Nov 03, 2022 at 02:50:25PM +0530, manish.mishra wrote:
+> > > On 01/11/22 9:15 pm, Daniel P. Berrangé wrote:
+> > > > On Tue, Nov 01, 2022 at 09:10:14PM +0530, manish.mishra wrote:
+> > > > > On 01/11/22 8:21 pm, Daniel P. Berrangé wrote:
+> > > > > > On Tue, Nov 01, 2022 at 02:30:29PM +0000, manish.mishra wrote:
+> > > > > > > diff --git a/migration/migration.c b/migration/migration.c
+> > > > > > > index 739bb683f3..f4b6f278a9 100644
+> > > > > > > --- a/migration/migration.c
+> > > > > > > +++ b/migration/migration.c
+> > > > > > > @@ -733,31 +733,40 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+> > > > > > >     {
+> > > > > > >         MigrationIncomingState *mis = migration_incoming_get_current();
+> > > > > > >         Error *local_err = NULL;
+> > > > > > > -    bool start_migration;
+> > > > > > >         QEMUFile *f;
+> > > > > > > +    bool default_channel = true;
+> > > > > > > +    uint32_t channel_magic = 0;
+> > > > > > > +    int ret = 0;
+> > > > > > > -    if (!mis->from_src_file) {
+> > > > > > > -        /* The first connection (multifd may have multiple) */
+> > > > > > > +    if (migrate_use_multifd() && !migration_in_postcopy()) {
+> > > > > > > +        ret = qio_channel_read_peek_all(ioc, (void *)&channel_magic,
+> > > > > > > +                                        sizeof(channel_magic), &local_err);
+> > > > > > > +
+> > > > > > > +        if (ret != 1) {
+> > > > > > > +            error_propagate(errp, local_err);
+> > > > > > > +            return;
+> > > > > > > +        }
+> > > > > > ....and thus this will fail for TLS channels AFAICT.
+> > > > > Yes, thanks for quick review Daniel. You pointed this earlier too, sorry missed it, will put another check !migrate_use_tls() in V2.
+> > > > But we need this problem fixed with TLS too, so just excluding it
+> > > > isn't right. IMHO we need to modify the migration code so we can
+> > > > read the magic earlier, instead of peeking.
+> > > > 
+> > > > 
+> > > > With regards,
+> > > > Daniel
+> > > Hi Daniel, I was trying tls migrations. What i see is that tls session
+> > > creation does handshake. So if we read ahead in ioc_process_incoming
+> > > for default channel. Because client sends magic only after multiFD
+> > > channels are setup, which too requires tls handshake.
+> > By the time we get to migrate_ioc_process_incoming, the TLS handshake
+> > has already been performed.
+> > 
+> > migration_channel_process_incoming
+> >      -> migration_ioc_process_incoming
+> > 
+> > vs
+> > 
+> > migration_channel_process_incoming
+> >      -> migration_tls_channel_process_incoming
+> >          -> migration_tls_incoming_handshake
+> > 	     -> migration_channel_process_incoming
+> > 	         ->  migration_ioc_process_incoming
+> > 
+> 
+> Yes sorry i thought we block on source side till handshake is done but that is not true. I checked then why that deadlock is happening. So this where the dealock is happening.
+> 
+> static int ram_save_setup(QEMUFile *f, void *opaque) {
+> +
+> +
+>     ram_control_before_iterate(f, RAM_CONTROL_SETUP);
+>     ram_control_after_iterate(f, RAM_CONTROL_SETUP);
+> 
+>     ret =  multifd_send_sync_main(f);
+>     if (ret < 0) {
+>         return ret;
+>     }
+> 
+>     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
+>     qemu_fflush(f);
+> 
+>     return 0;
+> }
+> 
+> Now if we block in migration_ioc_process_incoming for reading magic
+> value from channel, which is actually sent by client when this
+> qemu_fflush is done. Before this qemu_fflush we wait for
+> multifd_send_sync_main which actually requires that tls handshake is
+> done for multiFD channels as it blocks on sem_sync which posted by
+> multifd_send_thread which is called after handshake||. But then on
+> destination side we are blocked in migration_ioc_process_incoming()
+> waiting to read something from default channel hence handshake for
+> multiFD channels can not happen. This to me looks unresolvable
+> whatever way we try to manipulate stream until we do some changes
+> on source side.
 
-You could use argv[argc - 1] instead.
+The TLS handshake is already complete when migration_ioc_process_incoming
+is blocking on read.
 
-Paolo
+Regardless of which channel we're talking about, thue TLS handshake is
+always performed & finished before we try to either send or recv any
+data.
 
->       while (*c) {
->           *p++ = *c++;
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
