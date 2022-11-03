@@ -2,95 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31090617C4D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 13:14:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34D2B617C64
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 13:19:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqZ6x-0001HD-HR; Thu, 03 Nov 2022 08:14:19 -0400
+	id 1oqZBb-0002yX-9H; Thu, 03 Nov 2022 08:19:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1oqZ6n-0001CU-1y
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 08:14:09 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1oqZ6k-0004CP-7A
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 08:14:08 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id l6so1466572pjj.0
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 05:14:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ykKkxzrVaENbuwNMnsDAkKb7vBCdpcfSASwQOTHYf5Y=;
- b=AHPIa6s8bgoeCdBzzeDdQ5gNw0eTrxD4uv0eiabE+6bUdZUsBZSphBK2pnp1T9iNGh
- ucAvqtZ9TE8HmnflVn2dCrnaSie5/XeYe4YLoo7WTDFkfMc5dpbI0+mTRyicVgIpdc0U
- X47b3t980ZiHx+DQ6QDrlNI5XftB9wivrJPYHspVki7Qvuv8R1MJlBmO06AKFy78undv
- /soPJJ0OE2THhqxBsaR73O1NnIgowDxvA8gY/F6HzsgmOXjSc7Xu8D7qNwgeY+s0O/Fx
- nRZzn5oDRfnMX0yVHuQcj6lrdqYgeWxfp/5NqczM0kfO8RkJ2TpgKmIc7Dc+JJb78Frs
- n2lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ykKkxzrVaENbuwNMnsDAkKb7vBCdpcfSASwQOTHYf5Y=;
- b=oMk0tPLkpR2Z247Hp8T5LrCfkmJ1r9q8htUJt3jxl87UYJaM4EfwWfqiaoJ4gkaK32
- 8U/jJPxSteCxwE3549Tdv7mgct1c9tUqlh1qAl/siDCmleRWnQBrD8JW2rl1UMxi03k8
- bavrz+LxhSf7GHC0xNWIQHkK5M1qMnQ231bBlB6TC9eO5SHSl0LMwpNRFKaB6rGi6CWs
- bOaJa1yh/LnTXyQKCxUxF9RxVZmI9KF6D5fceUrP5DprbbX6cjvdbhjiVfCBH7/gXvON
- cPPUB2pebYbfivbfNvOC+glIbp/uFqLrBGYSybeuvvjlqu1/xbVhluxLHdZKIbXUMyn+
- /MQw==
-X-Gm-Message-State: ACrzQf1sA9fq5UVLADBW/Dt6CJmnfGQhNl0cjnYLw9Oz65ReG9GBS4ZE
- NkIa984+hYW//K6desbXYPl1FrHHBhrh3s+MXjQ5JA==
-X-Google-Smtp-Source: AMsMyM7MOsitCnFSBgl/ZnDBVruuaM7ihUaAsBPMHP2Hg7MlUfZnclYeHr7DuPtAXdWk7ISQPrhjiHeyEl1yBRgMxMM=
-X-Received: by 2002:a17:90a:7bc4:b0:213:28e9:8a8a with SMTP id
- d4-20020a17090a7bc400b0021328e98a8amr31511762pjl.121.1667477643186; Thu, 03
- Nov 2022 05:14:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
+ id 1oqZB9-0002wv-1K
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 08:18:44 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
+ id 1oqZB3-0004wI-JE
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 08:18:38 -0400
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N32pD2BjRzHvV1;
+ Thu,  3 Nov 2022 20:17:56 +0800 (CST)
+Received: from [10.67.102.169] (10.67.102.169) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 3 Nov 2022 20:18:15 +0800
+CC: <yangyicong@hisilicon.com>, <peter.maydell@linaro.org>,
+ <imammedo@redhat.com>, <ani@anisinha.ca>, <eduardo@habkost.net>,
+ <marcel.apfelbaum@gmail.com>, <f4bug@amsat.org>, <wangyanan55@huawei.com>,
+ <qemu-devel@nongnu.org>, <jonathan.cameron@huawei.com>,
+ <linuxarm@huawei.com>, <prime.zeng@huawei.com>, <hesham.almatary@huawei.com>, 
+ <ionela.voinescu@arm.com>, <darren@os.amperecomputing.com>
+Subject: Re: [PATCH v4 0/6] Only generate cluster node in PPTT when specified
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20221101071048.29553-1-yangyicong@huawei.com>
+ <20221102040935-mutt-send-email-mst@kernel.org>
+Message-ID: <48551344-50a8-0982-f103-bf007b9e41ce@huawei.com>
+Date: Thu, 3 Nov 2022 20:18:15 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
-In-Reply-To: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
-From: Vishal Annapurve <vannapurve@google.com>
-Date: Thu, 3 Nov 2022 17:43:52 +0530
-Message-ID: <CAGtprH-av3K6YxUbz1cAsQp4w2ce35UrfBF-u7Q_qCuTNMdvzQ@mail.gmail.com>
-Subject: Re: [PATCH v9 0/8] KVM: mm: fd-based approach for supporting KVM
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Sean Christopherson <seanjc@google.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>, Jim Mattson <jmattson@google.com>, 
- Joerg Roedel <joro@8bytes.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, 
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Yu Zhang <yu.c.zhang@linux.intel.com>, 
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, 
- dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, 
- mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=vannapurve@google.com; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+In-Reply-To: <20221102040935-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.102.169]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=yangyicong@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,278 +68,89 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Yicong Yang <yangyicong@huawei.com>
+From:  Yicong Yang via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Oct 25, 2022 at 8:48 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
->
-> This patch series implements KVM guest private memory for confidential
-> computing scenarios like Intel TDX[1]. If a TDX host accesses
-> TDX-protected guest memory, machine check can happen which can further
-> crash the running host system, this is terrible for multi-tenant
-> configurations. The host accesses include those from KVM userspace like
-> QEMU. This series addresses KVM userspace induced crash by introducing
-> new mm and KVM interfaces so KVM userspace can still manage guest memory
-> via a fd-based approach, but it can never access the guest memory
-> content.
->
-> The patch series touches both core mm and KVM code. I appreciate
-> Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
-> reviews are always welcome.
->   - 01: mm change, target for mm tree
->   - 02-08: KVM change, target for KVM tree
->
-> Given KVM is the only current user for the mm part, I have chatted with
-> Paolo and he is OK to merge the mm change through KVM tree, but
-> reviewed-by/acked-by is still expected from the mm people.
->
-> The patches have been verified in Intel TDX environment, but Vishal has
-> done an excellent work on the selftests[4] which are dedicated for this
-> series, making it possible to test this series without innovative
-> hardware and fancy steps of building a VM environment. See Test section
-> below for more info.
->
->
-> Introduction
-> ============
-> KVM userspace being able to crash the host is horrible. Under current
-> KVM architecture, all guest memory is inherently accessible from KVM
-> userspace and is exposed to the mentioned crash issue. The goal of this
-> series is to provide a solution to align mm and KVM, on a userspace
-> inaccessible approach of exposing guest memory.
->
-> Normally, KVM populates secondary page table (e.g. EPT) by using a host
-> virtual address (hva) from core mm page table (e.g. x86 userspace page
-> table). This requires guest memory being mmaped into KVM userspace, but
-> this is also the source where the mentioned crash issue can happen. In
-> theory, apart from those 'shared' memory for device emulation etc, guest
-> memory doesn't have to be mmaped into KVM userspace.
->
-> This series introduces fd-based guest memory which will not be mmaped
-> into KVM userspace. KVM populates secondary page table by using a
+On 2022/11/2 16:17, Michael S. Tsirkin wrote:
+> On Tue, Nov 01, 2022 at 03:10:42PM +0800, Yicong Yang wrote:
+>> From: Yicong Yang <yangyicong@hisilicon.com>
+>>
+>> This series mainly change the policy for building a cluster topology node
+>> in PPTT. Previously we'll always build a cluster node in PPTT without
+>> asking the user, after this set the cluster node will be built only the
+>> the user specify through "-smp clusters=X".
+>>
+>> One problem is related to this but not fully caused by this, see the
+>> discussion in [*]. When booting the VM with `-smp 8` and 4 numa nodes,
+>> the linux scheduling domains in the VM misses the NUMA domains. It's
+>> because the MC level span extends to Cluster level (which is generated
+>> by the Qemu by default) that spans all the cpus in the system, then the
+>> scheduling domain building stops at MC level since it already includes all
+>> the cpus.
+>>
+>> Considering cluster is an optional level and most platforms don't have it,
+>> they may even don't realize this is built and a always build policy cannot
+>> emulate the real topology on these platforms. So in this series improve the
+>> policy to only generate cluster when the user explicitly want it.
+>>
+>> Update the tests and test tables accordingly.
+> 
+> I think we can classify this as a bugfix and so allow after
 
-With no mappings in place for userspace VMM, IIUC, looks like the host
-kernel will not be able to find the culprit userspace process in case
-of Machine check error on guest private memory. As implemented in
-hwpoison_user_mappings, host kernel tries to look at the processes
-which have mapped the pfns with hardware error.
+Not quite sure about it as I regarded it as an improvement of the topology building
+policy. And the problem I met is not directly caused by the policy before this series.
 
-Is there a modification needed in mce handling logic of the host
-kernel to immediately send a signal to the vcpu thread accessing
-faulting pfn backing guest private memory?
+> the freeze, however, this needs ack from ARM maintainers then.
 
+sure. Will resend after the freeze.
 
-> fd/offset pair backed by a memory file system. The fd can be created
-> from a supported memory filesystem like tmpfs/hugetlbfs and KVM can
-> directly interact with them with newly introduced in-kernel interface,
-> therefore remove the KVM userspace from the path of accessing/mmaping
-> the guest memory.
->
-> Kirill had a patch [2] to address the same issue in a different way. It
-> tracks guest encrypted memory at the 'struct page' level and relies on
-> HWPOISON to reject the userspace access. The patch has been discussed in
-> several online and offline threads and resulted in a design document [3]
-> which is also the original proposal for this series. Later this patch
-> series evolved as more comments received in community but the major
-> concepts in [3] still hold true so recommend reading.
->
-> The patch series may also be useful for other usages, for example, pure
-> software approach may use it to harden itself against unintentional
-> access to guest memory. This series is designed with these usages in
-> mind but doesn't have code directly support them and extension might be
-> needed.
->
->
-> mm change
-> =========
-> Introduces a new memfd_restricted system call which can create memory
-> file that is restricted from userspace access via normal MMU operations
-> like read(), write() or mmap() etc and the only way to use it is
-> passing it to a third kernel module like KVM and relying on it to
-> access the fd through the newly added restrictedmem kernel interface.
-> The restrictedmem interface bridges the memory file subsystems
-> (tmpfs/hugetlbfs etc) and their users (KVM in this case) and provides
-> bi-directional communication between them.
->
->
-> KVM change
-> ==========
-> Extends the KVM memslot to provide guest private (encrypted) memory from
-> a fd. With this extension, a single memslot can maintain both private
-> memory through private fd (restricted_fd/restricted_offset) and shared
-> (unencrypted) memory through userspace mmaped host virtual address
-> (userspace_addr). For a particular guest page, the corresponding page in
-> KVM memslot can be only either private or shared and only one of the
-> shared/private parts of the memslot is visible to guest. For how this
-> new extension is used in QEMU, please refer to kvm_set_phys_mem() in
-> below TDX-enabled QEMU repo.
->
-> Introduces new KVM_EXIT_MEMORY_FAULT exit to allow userspace to get the
-> chance on decision-making for shared <-> private memory conversion. The
-> exit can be an implicit conversion in KVM page fault handler or an
-> explicit conversion from guest OS.
->
-> Extends existing SEV ioctls KVM_MEMORY_ENCRYPT_{UN,}REG_REGION to
-> convert a guest page between private <-> shared. The data maintained in
-> these ioctls tells the truth whether a guest page is private or shared
-> and this information will be used in KVM page fault handler to decide
-> whether the private or the shared part of the memslot is visible to
-> guest.
->
->
-> Test
-> ====
-> Ran two kinds of tests:
->   - Selftests [4] from Vishal and VM boot tests in non-TDX environment
->     Code also in below repo: https://github.com/chao-p/linux/tree/privmem-v9
->
->   - Functional tests in TDX capable environment
->     Tested the new functionalities in TDX environment. Code repos:
->     Linux: https://github.com/chao-p/linux/tree/privmem-v9-tdx
->     QEMU: https://github.com/chao-p/qemu/tree/privmem-v9
->
->     An example QEMU command line for TDX test:
->     -object tdx-guest,id=tdx,debug=off,sept-ve-disable=off \
->     -machine confidential-guest-support=tdx \
->     -object memory-backend-memfd-private,id=ram1,size=${mem} \
->     -machine memory-backend=ram1
->
->
-> TODO
-> ====
->   - Page accounting and limiting for encrypted memory
->   - hugetlbfs support
->
->
-> Changelog
-> =========
-> v9:
->   - mm: move inaccessible memfd into separated syscall.
->   - mm: return page instead of pfn_t for inaccessible_get_pfn and remove
->     inaccessible_put_pfn.
->   - KVM: rename inaccessible/private to restricted and CONFIG change to
->     make the code friendly to pKVM.
->   - KVM: add invalidate_begin/end pair to fix race contention and revise
->     the lock protection for invalidation path.
->   - KVM: optimize setting lpage_info for > 2M level by direct accessing
->     lower level's result.
->   - KVM: avoid load xarray in kvm_mmu_max_mapping_level() and instead let
->     the caller to pass in is_private.
->   - KVM: API doc improvement.
-> v8:
->   - mm: redesign mm part by introducing a shim layer(inaccessible_memfd)
->     in memfd to avoid touch the memory file systems directly.
->   - mm: exclude F_SEAL_AUTO_ALLOCATE as it is for shared memory and
->     cause confusion in this series, will send out separately.
->   - doc: exclude the man page change, it's not kernel patch and will
->     send out separately.
->   - KVM: adapt to use the new mm inaccessible_memfd interface.
->   - KVM: update lpage_info when setting mem_attr_array to support
->     large page.
->   - KVM: change from xa_store_range to xa_store for mem_attr_array due
->     to xa_store_range overrides all entries which is not intended
->     behavior for us.
->   - KVM: refine the mmu_invalidate_retry_gfn mechanism for private page.
->   - KVM: reorganize KVM_MEMORY_ENCRYPT_{UN,}REG_REGION and private page
->     handling code suggested by Sean.
-> v7:
->   - mm: introduce F_SEAL_AUTO_ALLOCATE to avoid double allocation.
->   - KVM: use KVM_MEMORY_ENCRYPT_{UN,}REG_REGION to record
->     private/shared info.
->   - KVM: use similar sync mechanism between zap/page fault paths as
->     mmu_notifier for memfile_notifier based invalidation.
-> v6:
->   - mm: introduce MEMFILE_F_* flags into memfile_node to allow checking
->     feature consistence among all memfile_notifier users and get rid of
->     internal flags like SHM_F_INACCESSIBLE.
->   - mm: make pfn_ops callbacks being members of memfile_backing_store
->     and then refer to it directly in memfile_notifier.
->   - mm: remove backing store unregister.
->   - mm: remove RLIMIT_MEMLOCK based memory accounting and limiting.
->   - KVM: reorganize patch sequence for page fault handling and private
->     memory enabling.
-> v5:
->   - Add man page for MFD_INACCESSIBLE flag and improve KVM API do for
->     the new memslot extensions.
->   - mm: introduce memfile_{un}register_backing_store to allow memory
->     backing store to register/unregister it from memfile_notifier.
->   - mm: remove F_SEAL_INACCESSIBLE, use in-kernel flag
->     (SHM_F_INACCESSIBLE for shmem) instead.
->   - mm: add memory accounting and limiting (RLIMIT_MEMLOCK based) for
->     MFD_INACCESSIBLE memory.
->   - KVM: remove the overlap check for mapping the same file+offset into
->     multiple gfns due to perf consideration, warned in document.
-> v4:
->   - mm: rename memfd_ops to memfile_notifier and separate it from
->     memfd.c to standalone memfile-notifier.c.
->   - KVM: move pfn_ops to per-memslot scope from per-vm scope and allow
->     registering multiple memslots to the same memory backing store.
->   - KVM: add a 'kvm' reference in memslot so that we can recover kvm in
->     memfile_notifier handlers.
->   - KVM: add 'private_' prefix for the new fields in memslot.
->   - KVM: reshape the 'type' to 'flag' for kvm_memory_exit
-> v3:
->   - Remove 'RFC' prefix.
->   - Fix race condition between memfile_notifier handlers and kvm destroy.
->   - mm: introduce MFD_INACCESSIBLE flag for memfd_create() to force
->     setting F_SEAL_INACCESSIBLE when the fd is created.
->   - KVM: add the shared part of the memslot back to make private/shared
->     pages live in one memslot.
->
-> Reference
-> =========
-> [1] Intel TDX:
-> https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html
-> [2] Kirill's implementation:
-> https://lore.kernel.org/all/20210416154106.23721-1-kirill.shutemov@linux.intel.com/T/
-> [3] Original design proposal:
-> https://lore.kernel.org/all/20210824005248.200037-1-seanjc@google.com/
-> [4] Selftest:
-> https://lore.kernel.org/all/20220819174659.2427983-1-vannapurve@google.com/
->
->
-> Chao Peng (7):
->   KVM: Extend the memslot to support fd-based private memory
->   KVM: Add KVM_EXIT_MEMORY_FAULT exit
->   KVM: Use gfn instead of hva for mmu_notifier_retry
->   KVM: Register/unregister the guest private memory regions
->   KVM: Update lpage info when private/shared memory are mixed
->   KVM: Handle page fault for private memory
->   KVM: Enable and expose KVM_MEM_PRIVATE
->
-> Kirill A. Shutemov (1):
->   mm: Introduce memfd_restricted system call to create restricted user
->     memory
->
->  Documentation/virt/kvm/api.rst         |  88 ++++-
->  arch/x86/entry/syscalls/syscall_32.tbl |   1 +
->  arch/x86/entry/syscalls/syscall_64.tbl |   1 +
->  arch/x86/include/asm/kvm_host.h        |   8 +
->  arch/x86/kvm/Kconfig                   |   3 +
->  arch/x86/kvm/mmu/mmu.c                 | 170 +++++++++-
->  arch/x86/kvm/mmu/mmu_internal.h        |  14 +-
->  arch/x86/kvm/mmu/mmutrace.h            |   1 +
->  arch/x86/kvm/mmu/spte.h                |   6 +
->  arch/x86/kvm/mmu/tdp_mmu.c             |   3 +-
->  arch/x86/kvm/x86.c                     |   4 +-
->  include/linux/kvm_host.h               |  89 ++++-
->  include/linux/restrictedmem.h          |  62 ++++
->  include/linux/syscalls.h               |   1 +
->  include/uapi/asm-generic/unistd.h      |   5 +-
->  include/uapi/linux/kvm.h               |  38 +++
->  include/uapi/linux/magic.h             |   1 +
->  kernel/sys_ni.c                        |   3 +
->  mm/Kconfig                             |   4 +
->  mm/Makefile                            |   1 +
->  mm/restrictedmem.c                     | 250 ++++++++++++++
->  virt/kvm/Kconfig                       |   7 +
->  virt/kvm/kvm_main.c                    | 453 +++++++++++++++++++++----
->  23 files changed, 1121 insertions(+), 92 deletions(-)
->  create mode 100644 include/linux/restrictedmem.h
->  create mode 100644 mm/restrictedmem.c
->
->
-> base-commit: e18d6152ff0f41b7f01f9817372022df04e0d354
-> --
-> 2.25.1
->
+Thanks.
+
+> 
+> 
+>> [*] https://lore.kernel.org/lkml/2c079860-ee82-7719-d3d2-756192f41704@huawei.com/
+>>
+>> Change since v3:
+>> - Improve and attach the diff of the affected ACPI tables in the commit, and minor cleanups
+>> Link: https://lore.kernel.org/qemu-devel/20221031090523.34146-1-yangyicong@huawei.com/
+>>
+>> Change since v2:
+>> - Add tag from Micheal, thanks
+>> - Handle the tests changes with bios-tables-test-allowed-diff.h, Per Micheal
+>> - Address the comments per Yanan
+>> Link: https://lore.kernel.org/qemu-devel/20221027032613.18377-1-yangyicong@huawei.com/
+>>
+>> Change since v1:
+>> - Only includes the test tables which is really needed
+>> - Enrich the commit
+>> Link: https://lore.kernel.org/qemu-devel/20220922131143.58003-1-yangyicong@huawei.com/
+>>
+>> Yicong Yang (6):
+>>   tests: virt: Allow changes to PPTT test table
+>>   hw/acpi/aml-build: Only generate cluster node in PPTT when specified
+>>   tests: virt: Update expected ACPI tables for virt test
+>>   tests: acpi: Add and whitelist *.topology blobs
+>>   tests: acpi: aarch64: Add topology test for aarch64
+>>   tests: acpi: aarch64: Add *.topology tables
+>>
+>>  hw/acpi/aml-build.c                |   2 +-
+>>  hw/core/machine-smp.c              |   2 ++
+>>  include/hw/boards.h                |   3 +++
+>>  qemu-options.hx                    |   3 +++
+>>  tests/data/acpi/virt/APIC.topology | Bin 0 -> 700 bytes
+>>  tests/data/acpi/virt/DSDT.topology | Bin 0 -> 5398 bytes
+>>  tests/data/acpi/virt/PPTT          | Bin 96 -> 76 bytes
+>>  tests/data/acpi/virt/PPTT.topology | Bin 0 -> 336 bytes
+>>  tests/qtest/bios-tables-test.c     |  19 +++++++++++++++++++
+>>  9 files changed, 28 insertions(+), 1 deletion(-)
+>>  create mode 100644 tests/data/acpi/virt/APIC.topology
+>>  create mode 100644 tests/data/acpi/virt/DSDT.topology
+>>  create mode 100644 tests/data/acpi/virt/PPTT.topology
+>>
+>> -- 
+>> 2.24.0
+> 
+> .
+> 
 
