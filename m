@@ -2,93 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E30617B2A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 11:57:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88BE0617B36
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 12:01:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqXuB-0004eF-Qz; Thu, 03 Nov 2022 06:57:03 -0400
+	id 1oqXxj-0005tR-IF; Thu, 03 Nov 2022 07:00:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oqXu9-0004dc-5i; Thu, 03 Nov 2022 06:57:01 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oqXu7-0007tG-O7; Thu, 03 Nov 2022 06:57:00 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A39cShf009141;
- Thu, 3 Nov 2022 10:56:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=rfJUyfTYldp/zWajFLSomqP7GK+QHnk1Y/SDziDqfVo=;
- b=KP8PDziTgVTeg2TzhUBd9WH2sc1e/sLdN/uKmC67Z+Rvh1cAh+tGvhwPzCMJE1Anfeh6
- A0kPvFaBk+OeMlt+pXXMlr/k9/s/sqi5YuIHxTdajjQUg9nT/MPP0XXRPB5JRe8qU49g
- kwxjVCq7gGnNG/fAlnCZZQHeKeXdF+xWBBTCqbzIMLp+w3IzFbO8Ox/pqguveWv4dRAs
- 9C0mBcHjuxHeyc5DeLpEyvLHc/NQVgeeAfHzCAdpZ29ZvinBidoAO4hZmI7j3PRADgYe
- l20TI0IvsJw21b1zsB2oPIxQIWvddFUX/nnYt0IxbkiMVgTzhxW7LYyTJndC9kEA5eYB dA== 
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3km9mncr8q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 10:56:56 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3Aoi8q024047;
- Thu, 3 Nov 2022 10:56:54 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma04ams.nl.ibm.com with ESMTP id 3kgut98k0b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 10:56:54 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2A3AuqfR4981342
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 3 Nov 2022 10:56:52 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 139414C046;
- Thu,  3 Nov 2022 10:56:52 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CE8534C040;
- Thu,  3 Nov 2022 10:56:51 +0000 (GMT)
-Received: from heavy (unknown [9.171.39.72])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Thu,  3 Nov 2022 10:56:51 +0000 (GMT)
-Date: Thu, 3 Nov 2022 11:56:50 +0100
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org
-Subject: Re: [PATCH 03/26] target/s390x: Use tcg_constant_i32 for
- fpinst_extract_m34
-Message-ID: <20221103105650.7lozutl7qbh5fpzy@heavy>
-References: <20221006034421.1179141-1-richard.henderson@linaro.org>
- <20221006034421.1179141-4-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqXxP-0005sN-UU
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:00:25 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqXxN-0008OK-KH
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:00:22 -0400
+Received: by mail-wr1-x431.google.com with SMTP id g12so2153411wrs.10
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 04:00:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yzJhXGmqHH3Z7zAemsOio8LZVch3558p6EGLPaYZKTE=;
+ b=PPI68G8jPDszUmcuWf6NaNI8YvQXadWyyy0pON/NKpH3U0SW8VCMWwkUoh0oWJgYfy
+ 70i8ILtTlQxoPn7lSh1cpoczNOCfeo8NgQCXX3n1S7NOGDrViOOt99LjzIERbQ2WEAz4
+ 8YqpLhabWseAq62h2IBnlAZxeHMN2Pu8/saA1OPlknnOl4jMrkhx3tKt0wIahSfh734J
+ 3DPB59U1B6+HkGxCyJYqhqNLLEdrypCcwpMlPgHgfoZ+NoDZbSLUH9syITsaMIQE+AUe
+ xhyPBWU9atk5rRbkeGnqbeOpmqdq9kUW3QIHbJhRg/OM33Em+4/K30qDnlh1sggSMt9k
+ CZzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yzJhXGmqHH3Z7zAemsOio8LZVch3558p6EGLPaYZKTE=;
+ b=Jb+6JwJTQjENYiFROxsurTy3XOs+SICuar6VfMxpi+hkRIW2Z+W4unR89Pp1iWDjCt
+ LaCjnSbsVr7qGknUzMF1iwDpQgMzhjvLXpj2+kp6zag6N+ZwUcm8gdiBPzO+MynKQt1m
+ BT8P2vhTD6T8gCePqkrQqpbeiW9cbozwx5foCbp/XtRMpLMjN0d76jqQCXC1N8/qcYwh
+ CoxDLCq2PCJBUbB5pgb1OjodRius6RzgQlZegbivJgvxWyG1qH3sBb4aKHqrK9CoKzGK
+ K38qgqwLmE6Eo8nfpTPvbKNIWRoGYj4lpUZr2XWZ5j38OHYS0Is0TEI2OTZ/fa/YpvM3
+ uCTQ==
+X-Gm-Message-State: ACrzQf2htMwvfdVF9t7bHFF+5g5C2jMiAxpzwIO2k7J1b24E/fP/LJch
+ Brq8J+0LWaT1WVPubHpgWE52JQ==
+X-Google-Smtp-Source: AMsMyM4VyCbMch0EgxsEbO82EBPyndsg3vMKvyQs/OvsYeneTFmJthdXLXvEbcnuDcf1Y4jXeiu71A==
+X-Received: by 2002:a05:6000:1549:b0:22e:519e:f39d with SMTP id
+ 9-20020a056000154900b0022e519ef39dmr18263941wry.703.1667473219320; 
+ Thu, 03 Nov 2022 04:00:19 -0700 (PDT)
+Received: from [192.168.182.175] (216.red-88-29-181.dynamicip.rima-tde.net.
+ [88.29.181.216]) by smtp.gmail.com with ESMTPSA id
+ c4-20020a05600c0a4400b003cf894c05e4sm3557345wmq.22.2022.11.03.04.00.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Nov 2022 04:00:17 -0700 (PDT)
+Message-ID: <7eecb87f-7d37-93d0-db93-21f7c6374d91@linaro.org>
+Date: Thu, 3 Nov 2022 12:00:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221006034421.1179141-4-richard.henderson@linaro.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: AeFy9tA_rvxr8n8mnvW-5Xt8lNljcR2P
-X-Proofpoint-GUID: AeFy9tA_rvxr8n8mnvW-5Xt8lNljcR2P
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-03_02,2022-11-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- lowpriorityscore=0 priorityscore=1501 spamscore=0 mlxscore=0
- mlxlogscore=708 suspectscore=0 impostorscore=0 clxscore=1015 phishscore=0
- adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2210170000 definitions=main-2211030073
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.1
+Subject: Re: [PATCH] qom.json: default the prealloc-threads to smp-cpus
+Content-Language: en-US
+To: Zhenyu Zhang <zhenyzha@redhat.com>, qemu-devel@nongnu.org
+Cc: shan.gavin@gmail.com, liuyd.fnst@fujitsu.com, eric.auger@redhat.com,
+ Igor Mammedov <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <20221103104716.179635-1-zhenyzha@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221103104716.179635-1-zhenyzha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,14 +91,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Oct 05, 2022 at 08:43:58PM -0700, Richard Henderson wrote:
-> Return a constant or NULL, which means the free may be
-> removed from all callers of fpinst_extract_m34.
+On 3/11/22 11:47, Zhenyu Zhang wrote:
+> Since the amount of prealloc-threads to smp-cpus is
+> defaulted in hostmem, so sync this information.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
 > ---
->  target/s390x/tcg/translate.c | 26 +-------------------------
->  1 file changed, 1 insertion(+), 25 deletions(-)
+>   qapi/qom.json | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index 87fcad2423..ac4cd213a7 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -576,7 +576,7 @@
+>   #
+>   # @prealloc: if true, preallocate memory (default: false)
+>   #
+> -# @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
+> +# @prealloc-threads: number of CPU threads to use for prealloc (default: smp-cpus) (since 7.1)
 
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+The property is present since 5.0. Shouldn't this be "(default: 
+smp-cpus) (since 5.0)"?
+
+>   #
+>   # @prealloc-context: thread context to use for creation of preallocation threads
+>   #                    (default: none) (since 7.2)
+
 
