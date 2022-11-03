@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40C73618423
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:21:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 210D7618422
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:21:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqcwR-0003Uq-Fn; Thu, 03 Nov 2022 12:19:43 -0400
+	id 1oqcwg-0005An-Aa; Thu, 03 Nov 2022 12:19:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqcuU-0000pj-Kn; Thu, 03 Nov 2022 12:18:00 -0400
-Received: from mout.kundenserver.de ([212.227.126.130])
+ id 1oqcuR-0000oR-Lu; Thu, 03 Nov 2022 12:18:00 -0400
+Received: from mout.kundenserver.de ([212.227.126.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqcuN-00084r-8K; Thu, 03 Nov 2022 12:17:42 -0400
+ id 1oqcuO-00085X-QX; Thu, 03 Nov 2022 12:17:39 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue009
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1McH1Q-1pSyve1K9M-00ckiY; Thu, 03
- Nov 2022 17:17:30 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mwfj0-1pE4y83nLO-00y8uq; Thu, 03
+ Nov 2022 17:17:31 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Chuck Zmudzinski <brchuckz@aol.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 03/10] xen/pt: fix syntax error that causes FTBFS in some
- configurations
-Date: Thu,  3 Nov 2022 17:17:20 +0100
-Message-Id: <20221103161727.4116147-4-laurent@vivier.eu>
+Subject: [PULL 04/10] libvhost-user: Fix wrong type of argument to formatting
+ function (reported by LGTM)
+Date: Thu,  3 Nov 2022 17:17:21 +0100
+Message-Id: <20221103161727.4116147-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221103161727.4116147-1-laurent@vivier.eu>
 References: <20221103161727.4116147-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+4xte6OzCu1rQ6F4WF0bkzIAf1P7wP99vVDnp2SD+eOXhegIoKr
- bMTu9SAFs4lhyD7SE1du2CYok5OjBHyvTukQPUtNAzRhDSHqaXOkwBe8f/AbHnpRm5QFoTp
- EQn5Wir6ou1zW0THZEfgBt7b1bk7mhx+azVwonyy77CNivgdO01mtay/z7KLSVHrOWz1qCt
- /zUe6RS5nmf3do3TkgW+A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kTPqXAazHY0=:NZEg4PweZXHghoeW0MfKfj
- G4u+nurAy4/nWxWyttKtW0vRe0a0CwPiuVohm3PusEZkST8gdU4hm6Hx6r6PhnRYsmqJpvteD
- fjWVkMXSv0hO6exb/fTtaBmhrl9YlVmP4HtluFxIvXkmT45imM7XmBNvpbzwCOvDMRHMMNCZT
- 1Hz0ibEivvmCYxzBdwU4IWeZW9t+JSazU+DmY+J0lBExjeK/ZmfaAIhp/Gqe0NIbbqVSZa+zX
- oIbOXY7z+eGhInokR7XtuazvWFSC0oS3F8RzG4LCxXTbLMg+9vyp/7wVTPR3Tekkoe/V67d35
- X1PS4Ooke9JRxiZjsJcMked5Q37dsXw3gDtJ1qHhtOizo/wYm/FT5F9YwgAVtM01zQc259q7h
- U1NdfaX211GFsrEoIdkJV4QfXFbH285CqSyZXb4IvRouNJQARothI3cWJWYhO1RcMSzkS8Bb2
- xNk3UfNM+0gQVUVt49WHXl4DaiHIVRo6R3KytuYPnYiKvZVPsUYNnK3zoUxonG9TVDbC9/Jbp
- ApMIzHChUPf9HukfEnWzy/v8sYCtiCAdHS5Xe77jchdVJsia3OV7Rqm8RXEMYIGmRCml2NmmY
- OgSfKFscONdA2/P4hHr8giP+hPMFsTbFY1AuTaPWpom5KUe40UIjdUU0MpaDmxz/nVFjK10cc
- h9HUiYuaPS+mqxU8e8KwZ+0t6ucHo+bl3otj4Ph8oCfUhLvv9Ekz/o4EY93v2sNTrh+s0hOUN
- ZjIzVIuFL4dS2hm6m1V7RtVP8oYL4VFz28Y7dOuuTBSwQ3R2BR631J8y3w9NOvhie8tJfFF3y
- 2gNRdQe
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:DRx/k9FrF3CT7v/leTeBoqsMrLA3YzW11Mk/egNgsQZzlXaZl7/
+ GBQPo5f2uWN4kaaSDC0SavYb4BNqUStO4bddj1F1Tz4dm6cDM+x9A4yrBpCTJe4EBxpOxNN
+ VxwcYq2L9BJvuxnHW+qiw+zBEMgYoGyvUEPn169twa/FfRrLULOeHV0/EHrM5qleSj4Y/Dn
+ ilqp4AEbHFVhpoZqnorUA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6QWw3QR2Hmg=:OfRFcUsb2VroKZGwJ69juo
+ uRah2E7SOaudj4i/A+osJTTU5F8+ovsHm7rPtBLvDBUFmpNWavycqg/LLFmW52WMAC3sHBAhd
+ HDfHnw/Ss96wYIAC+ecjKqQG7ct0oVLA+aZDxjjOCjEyBiVrENt7Cb1gyIp/4J4kqbwi62YA4
+ RsNIVpVAcBRFIIOBfGDnhMX6WBIB9hVQTBidFJxPegPIW7zVHfIJIE0gOxSBJ80clB69ZWm1F
+ ivqCA84Ynf5WEmHAR/ZhDrzgGDT86QpjQjeA41Lq9V1LL/KLvGhUv4GTzpAghiWU7F/xCCAaU
+ HG6fH9si7HZyKR4P4VPi3Tnm7sLUCXwOwHcWLugt1+VQ96UtnuzOBWpTgY4ZT21t5bsduIIR7
+ PLfgyKMsjLl3YkO/2q6vzn7iCCWwrxW+vrvz7IJIa7uIVosvVFxI2LSYKKb5gM0K1mhGF+WSl
+ spdtO3A7Th/KLnvX+DjbZm3zToT6PcjCrbk9qtuG10Iu7kzuXtyXggOAh56yTiCCsIABF4Wjp
+ VHM7FR3JPw7mNzhlHeQu820C6cMQU2PTvtURwokjNMTErEvKmPTGcEK/tLHMstyQKM6GDhq6c
+ btrsp2/4viobF5S95lmjauhUD70xtjoM++nRxaiWTdLP9zVTTLM7pjn/y3wjmFfM6RohSl2ua
+ lAY8LKl8TwSS/mVHh7go0ayCzl1ipY2swKi2wm6V2rH8bRUSj68+ingGl3/M+mDDsFcqtl3gq
+ EAx6RMj5DIPZy8CeLT3Nd9Px41iNa0w7hO/x38j0pJQzpsUUo8CfvGbJvxE01hrTXn9a1cttD
+ JqYdfBz
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -74,36 +74,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Chuck Zmudzinski <brchuckz@aol.com>
+From: Stefan Weil <sw@weilnetz.de>
 
-When Qemu is built with --enable-xen and --disable-xen-pci-passthrough
-and the target os is linux, the build fails with:
-
-meson.build:3477:2: ERROR: File xen_pt_stub.c does not exist.
-
-Fixes: 582ea95f5f93 ("meson: convert hw/xen")
-
-Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <5f1342a13c09af77b1a7b0aeaba5955bcea89731.1667242033.git.brchuckz@aol.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Message-Id: <20220422070144.1043697-2-sw@weilnetz.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/xen/meson.build | 2 +-
+ subprojects/libvhost-user/libvhost-user.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/xen/meson.build b/hw/xen/meson.build
-index 08dc1f685738..ae0ace3046b8 100644
---- a/hw/xen/meson.build
-+++ b/hw/xen/meson.build
-@@ -18,7 +18,7 @@ if have_xen_pci_passthrough
-     'xen_pt_msi.c',
-   ))
- else
--  xen_specific_ss.add('xen_pt_stub.c')
-+  xen_specific_ss.add(files('xen_pt_stub.c'))
- endif
+diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
+index ffed4729a3dc..d9a6e3e5560f 100644
+--- a/subprojects/libvhost-user/libvhost-user.c
++++ b/subprojects/libvhost-user/libvhost-user.c
+@@ -651,7 +651,7 @@ generate_faults(VuDev *dev) {
  
- specific_ss.add_all(when: ['CONFIG_XEN', xen], if_true: xen_specific_ss)
+         if (ioctl(dev->postcopy_ufd, UFFDIO_REGISTER, &reg_struct)) {
+             vu_panic(dev, "%s: Failed to userfault region %d "
+-                          "@%p + size:%zx offset: %zx: (ufd=%d)%s\n",
++                          "@%" PRIx64 " + size:%zx offset: %zx: (ufd=%d)%s\n",
+                      __func__, i,
+                      dev_region->mmap_addr,
+                      dev_region->size, dev_region->mmap_offset,
 -- 
 2.37.3
 
