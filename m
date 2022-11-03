@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CC96187A4
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 19:36:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00AE66187A2
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 19:36:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqf4j-0006Sr-65; Thu, 03 Nov 2022 14:36:25 -0400
+	id 1oqf4j-0006TW-W0; Thu, 03 Nov 2022 14:36:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oqf4d-0006Ra-Jx
+ id 1oqf4e-0006Rd-TF
  for qemu-devel@nongnu.org; Thu, 03 Nov 2022 14:36:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oqf4b-0005gr-40
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 14:36:19 -0400
+ id 1oqf4d-0005hG-9N
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 14:36:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667500576;
+ s=mimecast20190719; t=1667500578;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ded1a2U6Xedrxf6kW/l6okfBPQsZfD0YQ01y6VrbaBY=;
- b=OtLAirlIx2o/mVawdL6qKzNRuNkgkTqMTgVfZRvHaxR+K4dfdhNEbHYte8yJKzCLTm3LL2
- /rd9qMH/MwkJWuI792nWD/2Z7IrWgyC6jw7K6ufFf8UAv9Fscg5Iz5/j9BqTPPPBWwu9jq
- 9G0RNU1L5YVuvEE2HTu5rb8/gU2i228=
+ bh=c2MfVwRghPeOHL1TyG+S6gWTsw9Xt990NW+vZPNS5KU=;
+ b=Fl9sehP7qcqLibJ1RxfvYaqIZdSgkDHqo5lFb/Hbk0lXVEUpH2wtDaL3fcowlenbcgYhwI
+ ZtGGLLDYh2J4wE7btlLvSBM+qEHC16vjcu4WcUglp0sU86Vezlx6xSLpQy6ZiztDZXYIkp
+ g/NlXXtluTiWKWZcaukYAKpeX5C1Op4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-223-iv_X79BQOb2o4EMtzDP6Ww-1; Thu, 03 Nov 2022 14:36:15 -0400
-X-MC-Unique: iv_X79BQOb2o4EMtzDP6Ww-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-256-nY7w9QflOjm9tSlf9Y0Gxw-1; Thu, 03 Nov 2022 14:36:17 -0400
+X-MC-Unique: nY7w9QflOjm9tSlf9Y0Gxw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ACFBC800186;
- Thu,  3 Nov 2022 18:36:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E9C77803D50;
+ Thu,  3 Nov 2022 18:36:16 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2DB74C15BA4;
- Thu,  3 Nov 2022 18:36:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 735B64A9254;
+ Thu,  3 Nov 2022 18:36:16 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Hanna Reitz <hreitz@redhat.com>, nsoffer@redhat.com,
  <qemu-block@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH v2 1/2] file-posix: fix Linux alignment probing when EIO is
- returned
-Date: Thu,  3 Nov 2022 14:36:08 -0400
-Message-Id: <20221103183609.363027-2-stefanha@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, Eric Biggers <ebiggers@google.com>
+Subject: [PATCH v2 2/2] file-posix: add statx(STATX_DIOALIGN) support
+Date: Thu,  3 Nov 2022 14:36:09 -0400
+Message-Id: <20221103183609.363027-3-stefanha@redhat.com>
 In-Reply-To: <20221103183609.363027-1-stefanha@redhat.com>
 References: <20221103183609.363027-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,114 +79,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Linux v6.0 dm-crypt returns errno EIO from unaligned O_DIRECT pread(2)
-calls. Alignment probing fails on dm-crypt devices because the code
-expects EINVAL. This is a kernel regression that is expected to be fixed
-upstream:
-https://lore.kernel.org/linux-block/20221103193837.3b5b4bac@xps.demsh.org/T/#t
+Linux v6.1 commit 825cf206ed51 ("statx: add direct I/O alignment
+information") added an interface to fetch O_DIRECT alignment values for
+block devices and file systems.
 
-Treating any errno as an "unaligned" indicator would be easy, but breaks
-commit 22d182e82b4b ("block/raw-posix: fix launching with failed
-disks"). Offline disks return EIO for correctly aligned requests and
-EINVAL for unaligned requests.
+Prefer STATX_DIOALIGN to older interfaces and probing, but keep them as
+fallbacks in case STATX_DIOALIGN cannot provide the information.
 
-It's possible to make both v6.0 dm-crypt and offline disks work: look
-for the transition from EINVAL to EIO instead of for a single EINVAL
-value.
+Testing shows the status of STATX_DIOALIGN support in Linux 6.1-rc3
+appears to be:
+- btrfs: no
+- ext4: yes
+- XFS: yes
+- NVMe block devices: yes
+- dm-crypt: yes
 
-Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1290
-Fixes: 22d182e82b4b ("block/raw-posix: fix launching with failed disks")
+Cc: Eric Biggers <ebiggers@google.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/file-posix.c | 42 +++++++++++++++---------------------------
- 1 file changed, 15 insertions(+), 27 deletions(-)
+v2:
+- Make sure that XFS_IOC_DIOINFO takes priority over logical blocksize [Eric Biggers]
+---
+ block/file-posix.c | 60 ++++++++++++++++++++++++++++++----------------
+ 1 file changed, 40 insertions(+), 20 deletions(-)
 
 diff --git a/block/file-posix.c b/block/file-posix.c
-index b9647c5ffc..b9d62f52fe 100644
+index b9d62f52fe..b7e5a08e41 100644
 --- a/block/file-posix.c
 +++ b/block/file-posix.c
-@@ -355,31 +355,6 @@ static bool raw_needs_alignment(BlockDriverState *bs)
-     return s->force_alignment;
- }
+@@ -372,29 +372,49 @@ static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
  
--/* Check if read is allowed with given memory buffer and length.
-- *
-- * This function is used to check O_DIRECT memory buffer and request alignment.
-- */
--static bool raw_is_io_aligned(int fd, void *buf, size_t len)
--{
--    ssize_t ret = pread(fd, buf, len, 0);
--
--    if (ret >= 0) {
--        return true;
--    }
--
+     bs->bl.request_alignment = 0;
+     s->buf_align = 0;
++
++#if defined(__linux__) && defined(STATX_DIOALIGN)
++    struct statx stx;
++
++    /*
++     * Linux 6.1 introduced an interface for both block devices and file
++     * systems. The system call returns with the STATX_DIOALIGN bit cleared
++     * when the information is unavailable.
++     */
++    if (statx(fd, "", AT_EMPTY_PATH, STATX_DIOALIGN, &stx) == 0 &&
++        (stx.stx_mask & STATX_DIOALIGN)) {
++        bs->bl.request_alignment = stx.stx_dio_offset_align;
++        s->buf_align = stx.stx_dio_mem_align;
++    }
++#endif /* defined(__linux__) && defined(STATX_DIOALIGN) */
++
++#ifdef __linux__
++    if (!bs->bl.request_alignment) {
++        /*
++         * The XFS ioctl definitions are shipped in extra packages that might
++         * not always be available. Since we just need the XFS_IOC_DIOINFO ioctl
++         * here, we simply use our own definition instead:
++         */
++        struct xfs_dioattr {
++            uint32_t d_mem;
++            uint32_t d_miniosz;
++            uint32_t d_maxiosz;
++        } da;
++        if (ioctl(fd, _IOR('X', 30, struct xfs_dioattr), &da) >= 0) {
++            bs->bl.request_alignment = da.d_miniosz;
++            /* The kernel returns wrong information for d_mem */
++            /* s->buf_align = da.d_mem; */
++        }
++    }
++#endif /* __linux__ */
++
+     /* Let's try to use the logical blocksize for the alignment. */
+-    if (probe_logical_blocksize(fd, &bs->bl.request_alignment) < 0) {
+-        bs->bl.request_alignment = 0;
++    if (!bs->bl.request_alignment) {
++        if (probe_logical_blocksize(fd, &bs->bl.request_alignment) < 0) {
++            bs->bl.request_alignment = 0;
++        }
+     }
+ 
 -#ifdef __linux__
--    /* The Linux kernel returns EINVAL for misaligned O_DIRECT reads.  Ignore
--     * other errors (e.g. real I/O error), which could happen on a failed
--     * drive, since we only care about probing alignment.
+-    /*
+-     * The XFS ioctl definitions are shipped in extra packages that might
+-     * not always be available. Since we just need the XFS_IOC_DIOINFO ioctl
+-     * here, we simply use our own definition instead:
 -     */
--    if (errno != EINVAL) {
--        return true;
+-    struct xfs_dioattr {
+-        uint32_t d_mem;
+-        uint32_t d_miniosz;
+-        uint32_t d_maxiosz;
+-    } da;
+-    if (ioctl(fd, _IOR('X', 30, struct xfs_dioattr), &da) >= 0) {
+-        bs->bl.request_alignment = da.d_miniosz;
+-        /* The kernel returns wrong information for d_mem */
+-        /* s->buf_align = da.d_mem; */
 -    }
 -#endif
 -
--    return false;
--}
--
- static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
- {
-     BDRVRawState *s = bs->opaque;
-@@ -426,34 +401,47 @@ static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
-      * try to detect buf_align, which cannot be detected in some cases (e.g.
-      * Gluster). If buf_align cannot be detected, we fallback to the value of
-      * request_alignment.
-+     *
-+     * The probing loop keeps track of the last errno so that the alignment of
-+     * offline disks can be probed. On Linux pread(2) returns with errno EINVAL
-+     * for most file descriptors when O_DIRECT alignment constraints are unmet.
-+     * Offline disks fail correctly aligned pread(2) with EIO. Therefore it's
-+     * possible to detect alignment on offline disks by observing when the
-+     * errno changes from EINVAL to something else.
-      */
- 
-     if (!bs->bl.request_alignment) {
-+        int last_errno = 0;
-         int i;
-         size_t align;
-         buf = qemu_memalign(max_align, max_align);
-         for (i = 0; i < ARRAY_SIZE(alignments); i++) {
-             align = alignments[i];
--            if (raw_is_io_aligned(fd, buf, align)) {
-+            if (pread(fd, buf, align, 0) >= 0 ||
-+                (errno != EINVAL && last_errno == EINVAL)) {
-                 /* Fallback to safe value. */
-                 bs->bl.request_alignment = (align != 1) ? align : max_align;
-                 break;
-             }
-+            last_errno = errno;
-         }
-         qemu_vfree(buf);
-     }
- 
-     if (!s->buf_align) {
-+        int last_errno = 0;
-         int i;
-         size_t align;
-         buf = qemu_memalign(max_align, 2 * max_align);
-         for (i = 0; i < ARRAY_SIZE(alignments); i++) {
-             align = alignments[i];
--            if (raw_is_io_aligned(fd, buf + align, max_align)) {
-+            if (pread(fd, buf + align, max_align, 0) >= 0 ||
-+                (errno != EINVAL && last_errno == EINVAL)) {
-                 /* Fallback to request_alignment. */
-                 s->buf_align = (align != 1) ? align : bs->bl.request_alignment;
-                 break;
-             }
-+            last_errno = errno;
-         }
-         qemu_vfree(buf);
-     }
+     /*
+      * If we could not get the sizes so far, we can only guess them. First try
+      * to detect request alignment, since it is more likely to succeed. Then
 -- 
 2.38.1
 
