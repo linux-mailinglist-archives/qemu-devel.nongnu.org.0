@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9887561791B
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D61E61791A
 	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 09:51:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqVv4-0006dt-RH; Thu, 03 Nov 2022 04:49:51 -0400
+	id 1oqVuz-0006cP-9y; Thu, 03 Nov 2022 04:49:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oqVuo-0006XE-KN
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oqVuq-0006YN-Hl
  for qemu-devel@nongnu.org; Thu, 03 Nov 2022 04:49:41 -0400
-Received: from mout.kundenserver.de ([212.227.126.187])
+Received: from mout.kundenserver.de ([212.227.126.134])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oqVuk-0004B8-GB
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 04:49:33 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oqVun-0004BQ-HY
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 04:49:35 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MelWf-1pQP6503xl-00ak5J; Thu, 03
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1M6pck-1oxhB81u18-008Fpa; Thu, 03
  Nov 2022 09:49:28 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <laurent@vivier.eu>,
-	Helge Deller <deller@gmx.de>
-Subject: [PULL 3/4] linux-user: Add strace output for timer_settime64() syscall
-Date: Thu,  3 Nov 2022 09:49:24 +0100
-Message-Id: <20221103084925.3860524-4-laurent@vivier.eu>
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: [PULL 4/4] linux-user: always translate cmsg when recvmsg
+Date: Thu,  3 Nov 2022 09:49:25 +0100
+Message-Id: <20221103084925.3860524-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221103084925.3860524-1-laurent@vivier.eu>
 References: <20221103084925.3860524-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:tIjU4I5Up+ove+yzfTiT39raIYDAdo8nf9XWPUxTxo4YCBTjKv7
- 9OTZZvu0GvXvY8d+AH+KLz0FyuSMDp24CGILsqZcLLqPCLfF8pFEgFK3SJnYFM1x9KsUWE/
- GtW1AD55qhBmcGQzIac5wQSncmOz5jGN+HfHYkoWbOXNnFZX6kgx6zVwk8pj/4BU2A0o8ih
- F/LSuOGU2c3+wJWn/c+7A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QjUCUJ+0Dk4=:eaxrq0whxB3ijSJljf50Fb
- P6cYBLL7vjnNR+cweRHuHdXROTZqHZ9hRZu8GSsrh08rUBRsLMvuZFcTXWSfV0Xi2T6yAtFbM
- QGbB4r/V0Rtvzg8l3nxDMBmAKPztxNhLfeejIliMRiPcABHh6HsS9Dkis7zMb0PyTQzO0jxu8
- 7tHHeEIhWUmNGaRxiy29wwwW35w8nHpdGarONxpXN8rL+gLCMvUUoJTLvcKuw8E5950/LAuk2
- D9hCo+kVer6rJeSq9it42ieGEU7AWRMUbhs1LntdrEfPD4W99glfiWuMy/bRvQYszJ6tz8DYU
- yRIBfu1xK/6uXj8s2QpdW50iSy4UhvObIMqFZQrB3DergggYSYOagET/PvuRnMIaUX2n1xvr9
- Qs/RSl4GfLZnLFaduf1uNODxZBbA8aMWvP/0Xj7T/ntL7NZ+0Ht+Fvktqgae9iDi+Nn5zeIuO
- bCSgR2YWKUR1YAs6HrKfaJXXG3zTdIfL50YbRqiENekaq1MDkMwg/8Y0flGlJD0QdNcCmn8lx
- pVET1teU+VT7F03nHV/uIRglnraC9SovjjD28OjE+REwZh3tC6ZAcUx0XHcxurkoQCITWG8B2
- DOqea5mfDrUiw1hSmlxtKU+RsmJy4UbbbyPkL94z95/JLiazNAj59qxvi1YPHZIsiJQVuYLb6
- Co3VGkhBg4rbO8eShd2J1EsQoRq4GuKFOJ/C+AxI2ASKdd6FM73gyePsj4akg5DEZT/B6bReM
- Tii0QUtSbEJ5UwHkSeNUFi2u28+uz1z66C1zy0veh+ty7LO2UmqbCLmDfSVjmuYmsHHD3MN4o
- P9n7Loj
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:ibC2P/ODJWldcRVmTBXwyDmlVCOm8KbgGwqgvpekqDfYeHBMSZ5
+ Jq0YHJiOjbHHUL/2OMBO2gfhi8dGqunMajNhQFVOyeZBiMxofz9kZQ1Y88gG+IxzJepj4fT
+ 3aYbTQP13wW/kEfDNQ/Ah7NkXTC26a6sFMTUKCSF/3FYNL42Z/JujDDnHUk6dTf4yq0pqHQ
+ OWG67hut4dP5JiNgTzzVg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:FN8iF9tiIzs=:oocMrKpJzUtJDqnbu1ogB8
+ g5xVGvTIgEeWm83Hw591yXqWZR43Z9mQ2u5nDA5xfUW5WoSLcBDP+s8u+/CUGOfjPV7BIHA2h
+ k1sg4atCGc/ndObXn/BvBFWodEc9OEiZckhp/b+gwi1PO4Miv8qjZmtlMT32mcQR+KSo7yWH3
+ wKBtKorAnBZ/9ks+qb8avrOkP2ud597aUE3wywMv+bg6+XOLj4JWT5sUT8S0/dhJIGovNbq+F
+ jOqBhwTkjZsI9yTJmPTcNjbOEy2orFsnyc4+S38IFfiAHZEUh/divCLec2XzUJHP4TFg157Nt
+ hADdIwpGsm5VYUemQjmCKWCGUnv2nPBOBxKXf3UfXLSo3NWD1Fafk/4rCXFn43gBm3cKBTxC8
+ QONG2uriNxpipvZLwFbrhW7vD1rN+hkY+k3d9OuM6mXYgwqyFUO5r81JrAashHWrT/xjIcwIM
+ r0Kva29LGt2D8aJXFDDhiYoqwsTnTgrIdFqMzELANOMXNlOrQuu+V8wsLdasWTtcVNStDqTp3
+ 28OKrssjfnRaDoyU/RafVwfBEL5GnNkVSjAuOorC25C3TXfYeoMDJQjwUbqzZM/LfLtP3eLts
+ ajPC0bFU0tfB99OnKtLJOoo5SwObFak0QW5JixcpA7QTJ+PJBLregzYog8HEddn4WrvwLwQip
+ n8bHoinqXie6N3jQB6Q15mARijetBeCMXPJroKyY9E5cl5zpZL1N47zV7ei4SwMohsM8kkvBI
+ zh6m7vFwLysMXW4Tg2B3/ik23fdcCB3UsLJQtPAFz8LKeR+VykNNK1bP/kbdV/BOCnrAXwMq+
+ VdGG+eT
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,35 +71,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Helge Deller <deller@gmx.de>
+From: Icenowy Zheng <uwu@icenowy.me>
 
-Add missing timer_settime64() strace output and specify format for
-timer_settime().
+It's possible that a message contains both normal payload and ancillary
+data in the same message, and even if no ancillary data is available
+this information should be passed to the target, otherwise the target
+cmsghdr will be left uninitialized and the target is going to access
+uninitialized memory if it expects cmsg.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
+Always call the function that translate cmsg when recvmsg, because that
+function should be empty-cmsg-safe (it creates an empty cmsg in the
+target).
 
-Message-Id: <Y1b5eIXFoMRDcDL9@p100>
+Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20221028081220.1604244-1-uwu@icenowy.me>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.list | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ linux-user/syscall.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index cd995e5d56db..3a898e2532d3 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -1534,7 +1534,10 @@
- { TARGET_NR_timer_gettime, "timer_gettime" , NULL, NULL, NULL },
- #endif
- #ifdef TARGET_NR_timer_settime
--{ TARGET_NR_timer_settime, "timer_settime" , NULL, NULL, NULL },
-+{ TARGET_NR_timer_settime, "timer_settime" , "%s(%d,%d,%p,%p)", NULL, NULL },
-+#endif
-+#ifdef TARGET_NR_timer_settime64
-+{ TARGET_NR_timer_settime64, "timer_settime64" , "%s(%d,%d,%p,%p)", NULL, NULL },
- #endif
- #ifdef TARGET_NR_timerfd
- { TARGET_NR_timerfd, "timerfd" , NULL, NULL, NULL },
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 8b18adfba894..24b25759beab 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -3353,7 +3353,8 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
+             if (fd_trans_host_to_target_data(fd)) {
+                 ret = fd_trans_host_to_target_data(fd)(msg.msg_iov->iov_base,
+                                                MIN(msg.msg_iov->iov_len, len));
+-            } else {
++            }
++            if (!is_error(ret)) {
+                 ret = host_to_target_cmsg(msgp, &msg);
+             }
+             if (!is_error(ret)) {
 -- 
 2.37.3
 
