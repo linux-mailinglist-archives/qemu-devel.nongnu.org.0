@@ -2,75 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521C7618460
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:28:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A11161847A
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:31:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqd4C-0007Of-Hv; Thu, 03 Nov 2022 12:27:44 -0400
+	id 1oqd6u-0000TQ-S9; Thu, 03 Nov 2022 12:30:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oqd4A-0007OU-NC
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 12:27:42 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oqd48-0001eN-P9
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 12:27:42 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-370547b8ca0so20768687b3.0
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 09:27:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Jwsg74A/C1OXz+a65N8/QfNsIlNn0yRxNQdslLWDhic=;
- b=eb9SjGRQ5YkRfwXPWXRqWbKH9awYQNh1lYia5ljW2BPjUsFPkww8Lw5zb4tAqVs0/I
- utKpZUc80Yd1r1dzeBNiUxV979veqaDwgVi3Yfl6dKVjtZjJhjYpJ1WxoNFqa/GOMJ/V
- xWqG7LtATXWeBuPnMlrYTp9FXaHWzeTlCBYDbti2CA6u7vLmByHjH6IeqPD+b7A7upVo
- tNVOq6uNV+NhQLClz7VOYjbO8+X24ki6ClNjNMqSjX+2lcvCdXP2UVd6qKH4EC6VjHmz
- rCxJ71iM4hM6CRyZPQP8eEk8DbI4Li3enOK2dJBQGE3T3XIw9QbGs0sWIwjtZQGdHas/
- 9vgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Jwsg74A/C1OXz+a65N8/QfNsIlNn0yRxNQdslLWDhic=;
- b=TrTdkm3cwT179WZIwBk4tQxZwAir3TPlSWMiS0ZM+7KDdHQ/BVP5Smoy9JBZJBZ75n
- X2+2IkqIrPJFlxU0QO0JZ58dNTLPoT1+u2SplW1MSjEFCWPaswsJRWUyvgyTHLNd4BDr
- VIKu0D1tTpY//+luBtbdQ8Wh2nR7vzsm5CjVpibuwmgrLCkq7SMP62ee3tW5JI2+Kf8R
- M0jm33V22IZa7pGrBws1DKQytYizk0OpCTMlwrWMTMF76klQUeQRyKghsl6hC8R7MGuc
- vqAeEw/+CNtZ9pGrZOfQFM6jn6hQ5aeulIL7h/atPX68mUKz3niIRoKxWhU7XWWhQML0
- hZKA==
-X-Gm-Message-State: ACrzQf385QUd630q5HpxU0ojX948Sj7wBJ4bX/QIk3FslZbniPGKFKv6
- hRaBk4gqu86d2S7T0UjtZNnoYAMKBpvTbpCmmqU=
-X-Google-Smtp-Source: AMsMyM58Kkj3hsS+8oBsLSFpE8IBInB1EdXwlp74CS0n2mqK+c2C4AZ7P/s5eG0cMDaT7Sv/5DVVa5QD2Yk8wQafw+I=
-X-Received: by 2002:a0d:f0c2:0:b0:370:10ff:17fa with SMTP id
- z185-20020a0df0c2000000b0037010ff17famr28641585ywe.239.1667492858825; Thu, 03
- Nov 2022 09:27:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1oqd6k-0000Sk-PZ
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 12:30:22 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1oqd6h-00022Q-IK
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 12:30:21 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id B39505802BB;
+ Thu,  3 Nov 2022 12:30:17 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 03 Nov 2022 12:30:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1667493017; x=1667500217; bh=z/
+ C3hpsaAUauBg1lNZ7x2lDFowPPF1DONENeXdvNlHg=; b=cJt3hR7v7SCNla7eXQ
+ i90372/VJvPGU+ek4EklPY7Z1h9eNHAS6q98C2Pkp/Ks5TkT/I6+O+oiLSzUi3qG
+ YQMXVCqPCd853tICbc9Ot5iuYoTcY9sDj153nfGnceQroa51z/zyStTVx6kKk+qk
+ swy2GVse/rzWnvNiZyrkq9+QKIkMO6c+HBDbcT5815ZqaSg+CqMieNF+suoTkG9q
+ d35+VbbvhhxHny0REo2fqtAFKjWH69jfafARLlrDEkwPR5G+OeeWexyMY69xWTQs
+ 9hG31aLQZ1NBst4OsgmoFm7sgmmNccS27ItzTJewBOjAI1mf3W5sYVfz7O2QQkH2
+ KECw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1667493017; x=1667500217; bh=z/C3hpsaAUauBg1lNZ7x2lDFowPP
+ F1DONENeXdvNlHg=; b=Xp/UUWwX3MA3A3FhOL+uUmo98+p/mBAOVE6y3oteimnp
+ BGsyKhPGyDalEGVnTkf9KbzLLGczmkIRzvTCBCbaWYaYtZJ7s5wGS5ox4pse97E8
+ ItmT6KnFilBemeBsPjQnDXYjjEjoHoULHaLQ5ONvcVTOm++bj/0zi0P2ns0QvcPP
+ cS23hOm5hfOhMomcRE7PFy4MEYmjfnQ+MjemMLurvahmVpbBGyjQ/6JonkxsSyqd
+ mpJ1O2FcOAHrD7eaBmcAr7R0mLw53nA40XEYmYrMS73USeELLLLl1ODQZhSxynXT
+ atH9QYZog6S+m644Se0gu6hLvqJpioy/eHJRfVxNzQ==
+X-ME-Sender: <xms:l-xjY2y2hvIUc2gnuKmrrWWgeYya4CvqS9xJWrYD_Y-xuI4mNmjJSA>
+ <xme:l-xjYyTQxmaFzyvy445bumuVSyUrIFPKtLq4mk5xop0IdzEhsisFjkoKABFLZueIJ
+ _ZKaVY9Hldx5BNRbsI>
+X-ME-Received: <xmr:l-xjY4VPN3ITYs_DHTBDcn0JNGi4bFeXCmQaCWWhWxcF7179z9Avu7Aj4w18LzVT5te7CQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudelgdekfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehttddttddttddvnecuhfhrohhmpedfmfhirhhi
+ lhhlucetrdcuufhhuhhtvghmohhvfdcuoehkihhrihhllhesshhhuhhtvghmohhvrdhnrg
+ hmvgeqnecuggftrfgrthhtvghrnhephffgffehieelieefveeukeevtdevvdfhtdduvdet
+ vdffhffhfffgieehfeehvdelnecuffhomhgrihhnpegrmhgurdgtohhmnecuvehluhhsth
+ gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhlsehshhhu
+ thgvmhhovhdrnhgrmhgv
+X-ME-Proxy: <xmx:l-xjY8jFfTy07E1c7ongwMhBptl1nbLk6rZYXP8u8pvzK_kobDzp7A>
+ <xmx:l-xjY4Cq4sEeo9PzVqE0bdOqfmBEOuz9ttBC1q_GaEfz2uCOh3GTHA>
+ <xmx:l-xjY9I0mOHHOewyM90VoMTKjcRtGwCR02bJND_jqEDOfMUVKD57NA>
+ <xmx:mexjY98KrJllNKgIt3jvB18QJ7eC1KSYIZeGELfE3xb7jcLc6UHJNQ>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 3 Nov 2022 12:30:15 -0400 (EDT)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+ id 1EC92104769; Thu,  3 Nov 2022 19:30:12 +0300 (+03)
+Date: Thu, 3 Nov 2022 19:30:12 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Michael Roth <michael.roth@amd.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,	Jim Mattson <jmattson@google.com>,
+ Joerg Roedel <joro@8bytes.org>,	Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,	Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>,	Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,	luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com,	ak@linux.intel.com,
+ david@redhat.com, aarcange@redhat.com,	ddutile@redhat.com,
+ dhildenb@redhat.com,	Quentin Perret <qperret@google.com>,
+ tabba@google.com,	mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>,	wei.w.wang@intel.com
+Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20221103163012.25zof5lyxvizltwl@box.shutemov.name>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
+ <20221031174738.fklhlia5fmaiinpe@amd.com>
+ <20221102211404.l5whyif3j3k67fv2@box.shutemov.name>
+ <20221102220700.5u4mj7fm37m6ust2@amd.com>
 MIME-Version: 1.0
-References: <2821393d-21fe-cb7b-1396-dac6fe4dfa6b@linaro.org>
- <20221103154208.91501-1-ani@anisinha.ca>
- <CAJSP0QXxO_1WYL-FUZrRFOE9guOEVVr9Ss2jubkdHvAMwPwZqA@mail.gmail.com>
- <20221103115817-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20221103115817-mutt-send-email-mst@kernel.org>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 3 Nov 2022 12:27:27 -0400
-Message-ID: <CAJSP0QWkB5Kosy8b-RgTfMJXKto=qyv0iR_HD4DB+J+6VcxdKA@mail.gmail.com>
-Subject: Re: [PULL v2 00/82] pci,pc,virtio: features, tests, fixes, cleanups
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>, philmd@linaro.org, peter.maydell@linaro.org, 
- qemu-devel@nongnu.org, stefanha@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x112d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221102220700.5u4mj7fm37m6ust2@amd.com>
+Received-SPF: pass client-ip=66.111.4.230; envelope-from=kirill@shutemov.name;
+ helo=new4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,20 +131,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 3 Nov 2022 at 11:59, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Thu, Nov 03, 2022 at 11:49:21AM -0400, Stefan Hajnoczi wrote:
-> > gitlab-runner can run locally with minimal setup:
-> > https://bagong.gitlab.io/posts/run-gitlab-ci-locally/
-> >
-> > I haven't tried it yet, but that seems like the most reliable (and
-> > easiest) way to reproduce the CI environment.
-> >
-> > Stefan
->
-> How does one pass in variables do you know? Environment?
+On Wed, Nov 02, 2022 at 05:07:00PM -0500, Michael Roth wrote:
+> On Thu, Nov 03, 2022 at 12:14:04AM +0300, Kirill A. Shutemov wrote:
+> > On Mon, Oct 31, 2022 at 12:47:38PM -0500, Michael Roth wrote:
+> > > 
+> > > In v8 there was some discussion about potentially passing the page/folio
+> > > and order as part of the invalidation callback, I ended up needing
+> > > something similar for SEV-SNP, and think it might make sense for other
+> > > platforms. This main reasoning is:
+> > > 
+> > >   1) restoring kernel directmap:
+> > > 
+> > >      Currently SNP (and I believe TDX) need to either split or remove kernel
+> > >      direct mappings for restricted PFNs, since there is no guarantee that
+> > >      other PFNs within a 2MB range won't be used for non-restricted
+> > >      (which will cause an RMP #PF in the case of SNP since the 2MB
+> > >      mapping overlaps with guest-owned pages)
+> > 
+> > That's news to me. Where the restriction for SNP comes from?
+> 
+> Sorry, missed your first question.
+> 
+> For SNP at least, the restriction is documented in APM Volume 2, Section
+> 15.36.10, First row of Table 15-36 (preceeding paragraph has more
+> context). I forgot to mention this is only pertaining to writes by the
+> host to 2MB pages that contain guest-owned subpages, for reads it's
+> not an issue, but I think the implementation requirements end up being
+> the same either way:
+> 
+>   https://www.amd.com/system/files/TechDocs/24593.pdf
 
-Haven't tried it yet, sorry.
+Looks like you wanted restricted memfd to be backed by secretmem rather
+then normal memfd. It would help preserve directmap.
 
-Stefan
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
 
