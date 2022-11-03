@@ -2,64 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F7E617CD4
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 13:40:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E82F617D18
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 13:53:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqZVZ-0002Q6-1s; Thu, 03 Nov 2022 08:39:45 -0400
+	id 1oqZhI-0003HG-VT; Thu, 03 Nov 2022 08:51:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oqZV6-0002Jn-VL
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 08:39:19 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oqZV0-0000ZM-QT
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 08:39:16 -0400
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8DxOdhptmNjUDsEAA--.12905S3;
- Thu, 03 Nov 2022 20:39:05 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8CxJldltmNjofgLAA--.16257S9; 
- Thu, 03 Nov 2022 20:39:05 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org,
-	stefanha@gmail.com
-Subject: [PULL 7/7] target/loongarch: Fix raise_mmu_exception() set wrong
- exception_index
-Date: Thu,  3 Nov 2022 20:39:01 +0800
-Message-Id: <20221103123901.2811990-8-gaosong@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20221103123901.2811990-1-gaosong@loongson.cn>
-References: <20221103123901.2811990-1-gaosong@loongson.cn>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oqZh1-0003Dh-2C; Thu, 03 Nov 2022 08:51:46 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oqZgu-0002mX-CY; Thu, 03 Nov 2022 08:51:31 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id EB19D74638A;
+ Thu,  3 Nov 2022 13:51:19 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id A47A974633D; Thu,  3 Nov 2022 13:51:19 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id A2EF274632B;
+ Thu,  3 Nov 2022 13:51:19 +0100 (CET)
+Date: Thu, 3 Nov 2022 13:51:19 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>, 
+ Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org, 
+ qemu-block@nongnu.org
+Subject: Re: [PATCH v6 0/3] ppc/e500: Add support for eSDHC
+In-Reply-To: <72e7c23d-5a07-8d51-2bdb-cf957b84ac2f@gmail.com>
+Message-ID: <29fdeb41-5032-fca0-62a8-c8ee7fa611e7@eik.bme.hu>
+References: <20221101222934.52444-1-philmd@linaro.org>
+ <72e7c23d-5a07-8d51-2bdb-cf957b84ac2f@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxJldltmNjofgLAA--.16257S9
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7tr13JF4fWr1UGFWkJw45Awb_yoW8Cw13pF
- 9ruryUKr48JFWDAaykXa9YqFn8Xr47CF42ganaq3yFkw4aqr1jvF4kt3srKF1UJa1rX34I
- vF45Ar1jvF4rWaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- b0AFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x
- 0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE
- 44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFVCjc4
- AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
- Y20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
- 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0
- I7IYx2IY67AKxVW5JVW7JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04
- k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7Cj
- xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
+Content-Type: multipart/mixed;
+ boundary="3866299591-1118473289-1667479879=:12665"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,68 +62,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When the address is invalid address, We should set exception_index
-according to MMUAccessType, and EXCCODE_ADEF need't update badinstr.
-Otherwise, The system enters an infinite loop. e.g:
-run test.c on system mode
-test.c:
-    #include<stdio.h>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-    void (*func)(int *);
+--3866299591-1118473289-1667479879=:12665
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-    int main()
-    {
-        int i = 8;
-        void *ptr = (void *)0x4000000000000000;
-        func = ptr;
-        func(&i);
-        return 0;
-    }
+On Wed, 2 Nov 2022, Daniel Henrique Barboza wrote:
+> On 11/1/22 19:29, Philippe Mathieu-Daudé wrote:
+>> This is a respin of Bernhard's v4 with Freescale eSDHC implemented
+>> as an 'UNIMP' region. See v4 cover here:
+>> https://lore.kernel.org/qemu-devel/20221018210146.193159-1-shentey@gmail.com/
+>> 
+>> Since v5:
+>> - Rebased (ppc-next merged)
+>> - Properly handle big-endian
+>> 
+>> Since v4:
+>> - Do not rename ESDHC_* definitions to USDHC_*
+>> - Do not modify SDHCIState structure
+>> 
+>> Supersedes: <20221031115402.91912-1-philmd@linaro.org>
+>
+> Queued in gitlab.com/danielhb/qemu/tree/ppc-8.0 (since we missed the
+> freeze for 7.2).
 
-Signed-off-by: Song Gao <gaosong@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20221101073210.3934280-2-gaosong@loongson.cn>
----
- target/loongarch/cpu.c        | 1 +
- target/loongarch/tlb_helper.c | 5 +++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
+Could you please always use ppc-next to queue patches for the next 
+upcoming version and ppc-7.2 for the current version? Unless this makes 
+your workflow harder in which case ignore this but the reason I ask is 
+because then it's enough for me to only track ppc-next if I need to rebase 
+patches on that and don't have to add a new branch at every release 
+(unless I have some patches to rebase on it during a freeze but that's 
+less likely than rebasing on your queued patches for the next release xo 
+using version for the current branch and keep next for the future versions 
+makes more sense to me).
 
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index b28aaed5ba..1512664214 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -177,6 +177,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
-         }
-         QEMU_FALLTHROUGH;
-     case EXCCODE_PIF:
-+    case EXCCODE_ADEF:
-         cause = cs->exception_index;
-         update_badinstr = 0;
-         break;
-diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
-index 610b6d123c..d2f8fb0c60 100644
---- a/target/loongarch/tlb_helper.c
-+++ b/target/loongarch/tlb_helper.c
-@@ -229,7 +229,8 @@ static void raise_mmu_exception(CPULoongArchState *env, target_ulong address,
-     switch (tlb_error) {
-     default:
-     case TLBRET_BADADDR:
--        cs->exception_index = EXCCODE_ADEM;
-+        cs->exception_index = access_type == MMU_INST_FETCH
-+                              ? EXCCODE_ADEF : EXCCODE_ADEM;
-         break;
-     case TLBRET_NOMATCH:
-         /* No TLB match for a mapped address */
-@@ -643,7 +644,7 @@ bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     CPULoongArchState *env = &cpu->env;
-     hwaddr physical;
-     int prot;
--    int ret = TLBRET_BADADDR;
-+    int ret;
- 
-     /* Data access */
-     ret = get_physical_address(env, &physical, &prot, address,
--- 
-2.31.1
+> BTW, checkpatch complained about this line being too long (83 chars):
+>
+>
+> 3/3 Checking commit bc7b8cc88560 (hw/ppc/e500: Add Freescale eSDHC to 
+> e500plat)
+> WARNING: line over 80 characters
+> #150: FILE: hw/ppc/e500.c:1024:
+> +                                    pmc->ccsrbar_base + 
+> MPC85XX_ESDHC_REGS_OFFSET,
+>
+>
+> The code except is this:
+>
+>    if (pmc->has_esdhc) {
+>        create_unimplemented_device("esdhc",
+>                                    pmc->ccsrbar_base + 
+> MPC85XX_ESDHC_REGS_OFFSET,
+>                                    MPC85XX_ESDHC_REGS_SIZE);
+>
+>
+> To get rid of the warning we would need to make a python-esque identation 
+> (line
+> break after "(" ) or create a new variable to hold the sum. Both seems 
+> overkill
+> so I'll ignore the warning. Phil is welcome to re-send if he thinks it's 
+> worth
+> it.
 
+Or you could break indentation and not start at the ( but 3 chars back. I.e.:
+
+create_unimplemented_device("esdhc",
+                          pmc->ccsrbar_base + MPC85XX_ESDHC_REGS_OFFSET,
+                          MPC85XX_ESDHC_REGS_SIZE);
+
+But I think it can be just ignored in this case.
+
+> And I'll follow it up with my usual plea in these cases: can we move the line 
+> size warning to 100 chars? For QEMU 8.0? Pretty please?
+
+I think the consensus was to keep 80 columns if possible, this is good 
+becuase you can open more files side by side (although it does not match 
+well with the long _ naming convention of glib and qemu)  but we have a 
+distinction between checkpatch warning and error in line length. I think 
+it will give error at 90 chars but as long as it's just warns that means: 
+fix it if you can but in rare cases if it's more readable with a slightly 
+longer line then it is still acceptable. I think that's the case here, 
+splitting the line would be less readable than a few chars longer line.
+
+Regards,
+BALATON Zoltan
+--3866299591-1118473289-1667479879=:12665--
 
