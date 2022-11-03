@@ -2,103 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423146185C7
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 18:07:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B266185BF
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 18:06:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqdg0-0008TP-BG; Thu, 03 Nov 2022 13:06:48 -0400
+	id 1oqdem-0003e7-NQ; Thu, 03 Nov 2022 13:05:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oqdfx-0008ED-QV; Thu, 03 Nov 2022 13:06:45 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oqdfv-0008Ks-QR; Thu, 03 Nov 2022 13:06:45 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A3FcXG0032505;
- Thu, 3 Nov 2022 17:06:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=tAhIXoUVAar29674WZRC5eRln167j+aRVUK9jHbr/kY=;
- b=qq8nA9KHwicFCIHZYItqT5JtWnJrCcMjkQ5D3WdziV7EQCchI6t8U9NG7LRT0mhNAF1M
- IMp9PNWZvxrwVOZhhCO1Swkpi+BWY2inVi7K7rDauo8DXUc2LgL7AhDA3AmmWCg/JffH
- PC9djabNZvBnYeABZAkIPHAsfF/ypx4w+K6985DU8FBbDMnUkiAdUFO9vIpRnlOyzHyj
- AZwW492W0yOvPF12AjHIwFgRr60dN32RziWnfWl4TMP7uA9C4a947kCj4SFURXB43JMq
- 3arvgUaC8z1F/722IBayfxEiN6ovE7BA5CCThkB5ml4YgapABuAqYNAsBXiK1/sjoN3E Kg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmf9r6t06-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 17:06:31 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A3H6VaQ014295;
- Thu, 3 Nov 2022 17:06:31 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmf9r6sbq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 17:06:30 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3GbTbN031289;
- Thu, 3 Nov 2022 17:02:00 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 3kgut915a9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 17:02:00 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2A3H1vk418219526
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 3 Nov 2022 17:01:57 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6E71B5204F;
- Thu,  3 Nov 2022 17:01:57 +0000 (GMT)
-Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com (unknown
- [9.152.222.245])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id DA31952054;
- Thu,  3 Nov 2022 17:01:56 +0000 (GMT)
-From: Pierre Morel <pmorel@linux.ibm.com>
-To: qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, scgl@linux.ibm.com, frankja@linux.ibm.com,
- berrange@redhat.com, clg@kaod.org
-Subject: [PATCH v11 11/11] docs/s390x: document s390x cpu topology
-Date: Thu,  3 Nov 2022 18:01:50 +0100
-Message-Id: <20221103170150.20789-12-pmorel@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20221103170150.20789-1-pmorel@linux.ibm.com>
-References: <20221103170150.20789-1-pmorel@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oqdee-0003ND-Lw
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:05:29 -0400
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oqdeb-00082v-Uc
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:05:23 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-367b8adf788so21638887b3.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 10:05:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=utSqaWrXa74qv6Xd9dag8ZDQZ6o4eq2VkKEZyvYTRKo=;
+ b=i4Gwismq+uf8XCajVB0GuFowb/QILpyRDpIhXax/LHUR317LsdhO/6eYh/HkE+c8Q3
+ kfH88GphsEM5aVY4O0ZGVTWFHt3P8XEfrlQOiqyOh78NYfVT1quOK5eEDogYvzQf5cYV
+ TrZ3Vk4SGwXSLEdoU1tDKnS8W/OUi3uSHTAk2mhOhdsUHSD0jbjbDLzKAJ9aQhn7gjpJ
+ rwcbJJG5h1ghe5qwoKpiscEPYDSKYNQeUmkDLNxwYwHNn+vfe3hxawsMENSUSg9QP6tv
+ sA36AZRJqeDRUoOhFUc0oXjF8ckeeDbYL5i9X8+weyF7Lxl6rKPn65izvgfpMieZ1sq3
+ HQtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=utSqaWrXa74qv6Xd9dag8ZDQZ6o4eq2VkKEZyvYTRKo=;
+ b=PM4/AywnmsiK3r7Nc8pBmbcu0r/QPdILm7s/WCmNrS9QNYv2IQF5apLk82lCmIILBX
+ EENd58klbSB2Xl159NGv7NSZIZRBX0q080/5QSQtBGSZci8Etej4Le+9rGthMElJeMQU
+ vLY5drjLnXzYL6tDrX8jGLQ3Wlb7qpb7wSNvREKUZtHR9gmeUgu7Qno1+X7Tj6WriGNU
+ qDxqon/Cv/foF5XFXXuYyEL5Lvud7vZ5RbQupYgQDaR2cZhcbglUrqDMwBnf0OVzvuum
+ jJToXGE+YlLNHF9lQqTdnPCBL5fLhFQIbsIh5pBMav3xCP2FtsCBqwyjX5BwFkLXS9Yx
+ 3Kxw==
+X-Gm-Message-State: ACrzQf15j7MVeTTyF2wUkINzTlnm6baCNQcJTBBKe/mQmdAeaNempeKD
+ dk+/CGRS1XzUET3aYSf2xS6+EjKUfqdFoEPJRSg=
+X-Google-Smtp-Source: AMsMyM5RBo1O7v8HkNnZj4C+bqIvdh0TnzP+3/4zYwFLnOzDYMsH4yONyYU+ds+rt2BeN+eZSTdMM2d+9TRqaqQwyhY=
+X-Received: by 2002:a81:8445:0:b0:36c:c302:8926 with SMTP id
+ u66-20020a818445000000b0036cc3028926mr30848917ywf.296.1667495120597; Thu, 03
+ Nov 2022 10:05:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: kvMGO5hkLYAhWSMXWbIro8-yCDAuYb6z
-X-Proofpoint-ORIG-GUID: vHPW20Qn_i9DPSlHkTAHgb-EOFC0CcPR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-03_04,2022-11-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 malwarescore=0 bulkscore=0 impostorscore=0 spamscore=0
- mlxscore=0 priorityscore=1501 mlxlogscore=999 suspectscore=0 phishscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211030114
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <2821393d-21fe-cb7b-1396-dac6fe4dfa6b@linaro.org>
+ <20221103154208.91501-1-ani@anisinha.ca>
+ <CAJSP0QXxO_1WYL-FUZrRFOE9guOEVVr9Ss2jubkdHvAMwPwZqA@mail.gmail.com>
+ <Y2Plai60TK1kErl5@redhat.com>
+ <CAJSP0QUk4iWY6B7-oxjLtW22OMyAfR-KH7M6QMmQVjvOhwQ+nQ@mail.gmail.com>
+ <Y2Pui+kYDyJ1Rgja@redhat.com>
+ <CAFEAcA_BEUTWEeTOgeHR9Sy_XOCJ=ckM=ki3c9sSuAMT_emL1w@mail.gmail.com>
+ <Y2Pw/1xXSdpXLVfz@redhat.com>
+In-Reply-To: <Y2Pw/1xXSdpXLVfz@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 3 Nov 2022 13:05:07 -0400
+Message-ID: <CAJSP0QX9PCMpwEJYtJSgTN-OuELE4F50JXp_cS1ouQcgEwzr6A@mail.gmail.com>
+Subject: Re: [PULL v2 00/82] pci,pc,virtio: features, tests, fixes, cleanups
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Ani Sinha <ani@anisinha.ca>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000053f67105ec93f64e"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1135.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,102 +93,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add some basic examples for the definition of cpu topology
-in s390x.
+--00000000000053f67105ec93f64e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
----
- docs/system/s390x/cpu-topology.rst | 80 ++++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
- create mode 100644 docs/system/s390x/cpu-topology.rst
+On Thu, Nov 3, 2022, 12:49 Daniel P. Berrang=C3=A9 <berrange@redhat.com> wr=
+ote:
 
-diff --git a/docs/system/s390x/cpu-topology.rst b/docs/system/s390x/cpu-topology.rst
-new file mode 100644
-index 0000000000..a3bb0efadf
---- /dev/null
-+++ b/docs/system/s390x/cpu-topology.rst
-@@ -0,0 +1,80 @@
-+CPU Topology on s390x
-+=====================
-+
-+CPU Topology on S390x provides up to 5 levels of topology containers:
-+nodes, drawers, books, sockets and CPUs.
-+While the higher level containers, Containers Topology List Entries,
-+(Containers TLE) define a tree hierarchy, the lowest level of topology
-+definition, the CPU Topology List Entry (CPU TLE), provides the placement
-+of the CPUs inside the parent container.
-+
-+Currently QEMU CPU topology uses a single level of container: the sockets.
-+
-+For backward compatibility, threads can be declared on the ``-smp`` command
-+line. They will be seen as CPUs by the guest as long as multithreading
-+is not really supported by QEMU for S390.
-+
-+Prerequisites
-+-------------
-+
-+To use CPU Topology a Linux QEMU/KVM machine providing the CPU Topology facility
-+(STFLE bit 11) is required.
-+
-+However, since this facility has been enabled by default in an early version
-+of QEMU, we use a capability, ``KVM_CAP_S390_CPU_TOPOLOGY``, to notify KVM
-+QEMU use of the CPU Topology.
-+
-+Indicating the CPU topology to the Virtual Machine
-+--------------------------------------------------
-+
-+The CPU Topology, can be specified on the QEMU command line
-+with the ``-smp`` or the ``-device`` QEMU command arguments.
-+
-+Like in :
-+
-+.. code-block:: sh
-+    -smp cpus=5,sockets=8,cores=2,threads=2,maxcpus=32
-+    -device host-s390x-cpu,core-id=14
-+
-+New CPUs can be plugged using the device_add hmp command like in:
-+
-+.. code-block:: sh
-+   (qemu) device_add host-s390x-cpu,core-id=9
-+
-+The core-id defines the placement of the core in the topology by
-+starting with core 0 in socket 0 up to maxcpus.
-+
-+In the example above:
-+
-+* There are 5 CPUs provided to the guest with the ``-smp`` command line
-+  They will take the core-ids 0,1,2,3,4
-+  As we have 2 threads in 2 cores in a socket, we have 4 CPUs provided
-+  to the guest in socket 0, with core-ids 0,1,2,3.
-+  The last cpu, with core-id 4, will be on socket 1.
-+
-+* the core with ID 14 provided by the ``-device`` command line will
-+  be placed in socket 3, with core-id 14
-+
-+* the core with ID 9 provided by the ``device_add`` qmp command will
-+  be placed in socket 2, with core-id 9
-+
-+Note that the core ID is machine wide and the CPU TLE masks provided
-+by the STSI instruction will be:
-+
-+* in socket 0: 0xf0000000 (core id 0,1,2,3)
-+* in socket 1: 0x00400000 (core id 9)
-+* in socket 1: 0x00020000 (core id 14)
-+
-+Migration
-+---------
-+
-+For virtio-ccw machines older than s390-virtio-ccw-7.2, CPU Topoogy is
-+unavailable.
-+
-+CPU topology is by default enabled for s390-virtio-ccw-7.2 and newer machines.
-+
-+Disabling CPU topology can be done by setting the global option
-+``topology`` to ``off`` like in:
-+
-+.. code-block:: sh
-+   -machine s390-ccw-virtio-7.2,accel=kvm,topology=off
--- 
-2.31.1
+> On Thu, Nov 03, 2022 at 04:47:03PM +0000, Peter Maydell wrote:
+> > On Thu, 3 Nov 2022 at 16:38, Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om>
+> wrote:
+> > > On Thu, Nov 03, 2022 at 12:25:49PM -0400, Stefan Hajnoczi wrote:
+> > > > 2. The GitLab output does not contain the full command lines becaus=
+e
+> > > > environment variables are hidden (e.g. $QEMU_CONFIGURE_OPTS).
+> > >
+> > > Note, $QEMU_CONFIGURE_OPTS is set by the container image itself, so
+> > > there's no need to know that one.
+> > >
+> > > $CONFIGURE_ARGS meanwhile is set in the build-XXXXX template and
+> > > easy to find.
+> >
+> > Not all that easy if you're looking at some specific gitlab
+> > job output... it would be helpful if the scripts
+> > echoed the exact configure command line before running it,
+> > then you wouldn't need to go ferreting around in the gitlab
+> > config files and hoping you've found the right bit.
+>
+> That's easy enough to do, I'll send a patch.
+>
 
+Awesome, thank you!
+
+Stefan
+
+>
+
+--00000000000053f67105ec93f64e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">On Thu, Nov 3, 2022, 12:49 Daniel P. Berrang=C3=A9 &lt;<a href=
+=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex">On Thu, Nov 03, 2022 at 04:47:03PM +0000, P=
+eter Maydell wrote:<br>
+&gt; On Thu, 3 Nov 2022 at 16:38, Daniel P. Berrang=C3=A9 &lt;<a href=3D"ma=
+ilto:berrange@redhat.com" target=3D"_blank" rel=3D"noreferrer">berrange@red=
+hat.com</a>&gt; wrote:<br>
+&gt; &gt; On Thu, Nov 03, 2022 at 12:25:49PM -0400, Stefan Hajnoczi wrote:<=
+br>
+&gt; &gt; &gt; 2. The GitLab output does not contain the full command lines=
+ because<br>
+&gt; &gt; &gt; environment variables are hidden (e.g. $QEMU_CONFIGURE_OPTS)=
+.<br>
+&gt; &gt;<br>
+&gt; &gt; Note, $QEMU_CONFIGURE_OPTS is set by the container image itself, =
+so<br>
+&gt; &gt; there&#39;s no need to know that one.<br>
+&gt; &gt;<br>
+&gt; &gt; $CONFIGURE_ARGS meanwhile is set in the build-XXXXX template and<=
+br>
+&gt; &gt; easy to find.<br>
+&gt; <br>
+&gt; Not all that easy if you&#39;re looking at some specific gitlab<br>
+&gt; job output... it would be helpful if the scripts<br>
+&gt; echoed the exact configure command line before running it,<br>
+&gt; then you wouldn&#39;t need to go ferreting around in the gitlab<br>
+&gt; config files and hoping you&#39;ve found the right bit.<br>
+<br>
+That&#39;s easy enough to do, I&#39;ll send a patch.<br></blockquote></div>=
+</div><div dir=3D"auto"><br></div><div dir=3D"auto">Awesome, thank you!</di=
+v><div dir=3D"auto"><br></div><div dir=3D"auto">Stefan</div><div dir=3D"aut=
+o"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+</blockquote></div></div></div>
+
+--00000000000053f67105ec93f64e--
 
