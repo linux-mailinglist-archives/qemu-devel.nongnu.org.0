@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3681A618414
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:19:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62372618433
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:22:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqcvy-000233-Jw; Thu, 03 Nov 2022 12:19:14 -0400
+	id 1oqcxK-0006RX-3Y; Thu, 03 Nov 2022 12:20:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqcuN-0000fV-3g; Thu, 03 Nov 2022 12:17:35 -0400
-Received: from mout.kundenserver.de ([212.227.126.135])
+ id 1oqcuR-0000oQ-Il; Thu, 03 Nov 2022 12:18:00 -0400
+Received: from mout.kundenserver.de ([212.227.126.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqcuL-00084W-8i; Thu, 03 Nov 2022 12:17:34 -0400
+ id 1oqcuO-00084u-Cu; Thu, 03 Nov 2022 12:17:38 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue009
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1N6bsM-1p6LkF018A-0180oq; Thu, 03
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MuUvS-1p7TGl2vSc-00rW9M; Thu, 03
  Nov 2022 17:17:29 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Han Han <hhan@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 01/10] qapi: virtio: Fix the introduced version
-Date: Thu,  3 Nov 2022 17:17:18 +0100
-Message-Id: <20221103161727.4116147-2-laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 02/10] Fix some typos in documentation and comments
+Date: Thu,  3 Nov 2022 17:17:19 +0100
+Message-Id: <20221103161727.4116147-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221103161727.4116147-1-laurent@vivier.eu>
 References: <20221103161727.4116147-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:JolXwqhIzXl6TgmlE66LPT08izVsetaqDmpUeYyQEmsCdw7SBtL
- UjYUQ6Mi9JtfdvBgiQq3QZL4Ov/Ncube25HGW7ugNLRn7MRTHYxBhANzDlaIU13/hEQtzpx
- Kbxdbhzlfvyfu59FTy4P+E8wKHEynQrJ0lLxGYpXTfxnuaXMi+X40sY+2ACdYzYjZArsqif
- jD5aDKwUNG1AYsw+QvxSQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KofxmvFRXp4=:0L//+OUboVv2e7c3iX1M2B
- rK0jRYRkvF106VNOydRUXEi8YD/CFgoqWfdq7C4/pJ0J8kYvGHmGNm0EED4DJfOCbogbE5x5Q
- 2tNPklPU8Pq53GmJZO0NYVtkI01dMIf7psB07VHUAI+ozHg3bH8Wrppcvw8Lu4JwMjSGj8k63
- 3RihME8vYwk4l3jdIlSxnKC3HGr5jEstMU1yrfTwi3BRokbJXgV+AjZdNOxyEbYnFtFO3bgMA
- gKWLJq825NoCEzao7UwuMHZV+94qIko8D1LxE0Yd9Dpd084sfbiAUBdGnzFp1AJOHDWQrFA/2
- EQeVbfpIOQGi6eC45o/a7MXqfZD7jXefguy9oj5AAbygU/aOitvzErAraSWUer7ubyQbtZEoQ
- j04Pys5qd4dNwAxEBAi3X5z5J1gRJRvAHRl4tqfG1E/0I+ccGik4A8TL3kvO20oZDD0Yu5enk
- jTW+JNcspHlmhAdpayRDSx6VMpzH47pmgaCSFancPkZJxQt1/WBUyh0zBAM8+/Nm/JidMEY6g
- ebJAoAdVgp+SdHKN6Nu5bRyFXoUtjUwuE9I7DV4ztnMEARaBwgusUXWJeo3zyI7KSQFlve7VZ
- b590+oXgsoUF+j41HZo4H5SiCZ0U1KKALGQiHPVhRa3ZFjEdkI/PTVI45T6VaLjKti7Ws4Ulr
- ztfs/c8JlUyHDZtDd0w9bU4mUdEADotTpCo08QcL+qdsRIU8lwMh+uMb8VlVeVxCOsVVTIwTJ
- msSHXjMBKql2JZ/AXJ/bWrNlvaU2liocEJbM2QE/U7lx8s3uyBvk+hJHhpD8yk8eHZcr/+ZQi
- oJUMf+2
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:D9b5ajF9M53aqjinA1+kWnc9BZtwqX6MrsYcM5xXvgSp8B36vvx
+ OTBrZuxt/buJniEQFoi3Vw5c47dHlCLeXzNuaKovIzxDf59hQFg5usCwHkyJRsn28Cgz/Ux
+ bzKUK0ltXLD6GKy6ANwI4dMcxPM/kWx13kd0Hc/an63MS5vTCgGeFgtNW02xwVV27bDvrVK
+ Bqq7r+UZUIMsTGWDFbs+Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OEvA07iugHA=:zRSAN1oCFkgRK0Q5OGyNH/
+ n4cRUyYAwARjyQ1U58bGizdaZOJDXHbjeEK1Cxh2/cLYtnnMwCgsWAdCes1qXx2KksHmO3Gn9
+ 9fs8Hi5NCHdlObNxTuQjsqER0fi8T8P+MpuPQWP+CxwSbCBh5+jhk7qm6s6/o7gso7WqQc4zY
+ cM3kO/aojYaZLAYK7a4fLhTZy37lpapwcBmkk0kW/ISuzEoLn27QSWHP75orjlkw4JPRHbfMj
+ WL9/d0nVmLCNPQvnBF8nhcaCHdrRbVUM3caqqJfnH8kVx1SyBg0G2jp+Mh/9qjpI5E1pwWK1M
+ wy7LplFE3vKvKB6m1mssOQUD9nGUMA1XVNSM1CIgAE1lHef9CFPzx/nyxp9y2gHgumKZwVcY2
+ mEMl/8YKOeeJ/egMcgIiIO2icG/TkqDDGbVA7eRPH16O7embvNsTl2c9BsBmB5YPAZ/Hlrrke
+ 1AWDylWQOVMrfULt46Pk6dMWrCR1GgFANRrwbBZMt3bpYxwgDBa0PZ+1p6B4VZyOJSK0HbmZ1
+ YV2o0v1v+znHfhtaejqZfdcD+yS+qPxGaAENjRk+4dv1xftXPZUeeIPRLCEwthkuBQGnCqwav
+ W27U93uGZpoR1Zi7AUZpEzVEnaevBcFCVqXMkXnotgwiUbt1IL9+7sKz3oJ3uUWkWGjVMJ0qA
+ c356tS+VGQzmvwlii0qN88bQnP6Sr1RkH0fum9NPB0XLNwo4OeFoP710gJTWZdogHWKF+KQGA
+ xFYylmkgeypzmprrMFrHJQ8d/tHQiE2EoGs8kYgldOF3HTqOL9nhVMBl/k8aFpUv01bZ+rnKF
+ MkYNyRF
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,176 +72,174 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Han Han <hhan@redhat.com>
+From: Stefan Weil <sw@weilnetz.de>
 
-The items of qapi/virtio.json are introduced at a5ebce38576. They will be
-in the version 7.2 not 7.1.
+Most of them were found and fixed using codespell.
 
-Signed-off-by: Han Han <hhan@redhat.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20221101014647.3000801-1-hhan@redhat.com>
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20221030105944.311940-1-sw@weilnetz.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- qapi/virtio.json | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ docs/devel/testing.rst              |  2 +-
+ docs/system/arm/cpu-features.rst    |  2 +-
+ docs/system/loongarch/loongson3.rst |  2 +-
+ docs/tools/virtiofsd.rst            |  2 +-
+ include/exec/memory.h               |  2 +-
+ qapi/qom.json                       |  2 +-
+ qemu-options.hx                     | 10 +++++-----
+ qga/qapi-schema.json                |  2 +-
+ tests/qtest/libqtest.h              |  2 +-
+ 9 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/qapi/virtio.json b/qapi/virtio.json
-index e47a8fb2e0a9..872c7e36236c 100644
---- a/qapi/virtio.json
-+++ b/qapi/virtio.json
-@@ -15,7 +15,7 @@
- #
- # @name: Name of the VirtIODevice
- #
--# Since: 7.1
-+# Since: 7.2
- #
- ##
- { 'struct': 'VirtioInfo',
-@@ -32,7 +32,7 @@
- #
- # Returns: List of gathered VirtIODevices
- #
--# Since: 7.1
-+# Since: 7.2
- #
- # Example:
- #
-@@ -97,7 +97,7 @@
- #
- # @log-size: vhost_dev log_size
- #
--# Since: 7.1
-+# Since: 7.2
- #
- ##
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index fbb98faabeed..e10c47b5a7ca 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -99,7 +99,7 @@ successfully on various hosts. The following list shows some best practices:
+ * If your test cases uses the blkdebug feature, use relative path to pass
+   the config and image file paths in the command line as Windows absolute
+   path contains the delimiter ":" which will confuse the blkdebug parser.
+-* Use double quotes in your extra QEMU commmand line in your test cases
++* Use double quotes in your extra QEMU command line in your test cases
+   instead of single quotes, as Windows does not drop single quotes when
+   passing the command line to QEMU.
+ * Windows opens a file in text mode by default, while a POSIX compliant
+diff --git a/docs/system/arm/cpu-features.rst b/docs/system/arm/cpu-features.rst
+index c2c01ec7d265..00c444042ff5 100644
+--- a/docs/system/arm/cpu-features.rst
++++ b/docs/system/arm/cpu-features.rst
+@@ -433,7 +433,7 @@ additional constraints on the set of vector lengths supported by SME.
+ SME User-mode Default Vector Length Property
+ --------------------------------------------
  
-@@ -167,7 +167,7 @@
- #             Present if the given VirtIODevice has an active vhost
- #             device.
- #
--# Since: 7.1
-+# Since: 7.2
- #
- ##
+-For qemu-aarch64, the cpu propery ``sme-default-vector-length=N`` is
++For qemu-aarch64, the cpu property ``sme-default-vector-length=N`` is
+ defined to mirror the Linux kernel parameter file
+ ``/proc/sys/abi/sme_default_vector_length``.  The default length, ``N``,
+ is in units of bytes and must be between 16 and 8192.
+diff --git a/docs/system/loongarch/loongson3.rst b/docs/system/loongarch/loongson3.rst
+index 1bdab44e2728..489ea20f8ff7 100644
+--- a/docs/system/loongarch/loongson3.rst
++++ b/docs/system/loongarch/loongson3.rst
+@@ -41,7 +41,7 @@ can be accessed by following steps.
  
-@@ -206,7 +206,7 @@
- #
- # Returns: VirtioStatus of the virtio device
- #
--# Since: 7.1
-+# Since: 7.2
- #
- # Examples:
- #
-@@ -452,7 +452,7 @@
- #
- # @unknown-statuses: Virtio device statuses bitmap that have not been decoded
- #
--# Since: 7.1
-+# Since: 7.2
- ##
+   $ qemu-system-loongarch64 -machine virt -m 4G -cpu la464-loongarch-cpu \
+       -smp 1 -bios QEMU_EFI.fd -kernel vmlinuz.efi -initrd initrd.img \
+-      -append "root=/dev/ram rdinit=/sbin/init consol e=ttyS0,115200" \
++      -append "root=/dev/ram rdinit=/sbin/init console=ttyS0,115200" \
+       --nographic
  
- { 'struct': 'VirtioDeviceStatus',
-@@ -471,7 +471,7 @@
- # @unknown-protocols: Vhost user device protocol features bitmap that
- #                     have not been decoded
- #
--# Since: 7.1
-+# Since: 7.2
- ##
+ Note: The running speed may be a little slow, as the performance of our
+diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+index 5f5ac9dd56a3..995a754a7bf9 100644
+--- a/docs/tools/virtiofsd.rst
++++ b/docs/tools/virtiofsd.rst
+@@ -232,7 +232,7 @@ e.g.:
  
- { 'struct': 'VhostDeviceProtocols',
-@@ -492,7 +492,7 @@
- # @unknown-dev-features: Virtio device features bitmap that have not
- #                        been decoded
- #
--# Since: 7.1
-+# Since: 7.2
- ##
+   ``:ok:server::security.:``
  
- { 'struct': 'VirtioDeviceFeatures',
-@@ -535,7 +535,7 @@
- #
- # @signalled-used-valid: VirtQueue signalled_used_valid flag
- #
--# Since: 7.1
-+# Since: 7.2
- #
- ##
+-  will pass 'securty.' xattr's in listxattr from the server
++  will pass 'security.' xattr's in listxattr from the server
+   and ignore following rules.
  
-@@ -576,7 +576,7 @@
- #        shadow_avail_idx will not be displayed in the case where
- #        the selected VirtIODevice has a running vhost device.
+   ``:ok:all:::``
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index bfb1de8eeae1..a751c111bd3d 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1970,7 +1970,7 @@ void memory_region_clear_dirty_bitmap(MemoryRegion *mr, hwaddr start,
+  * querying the same page multiple times, which is especially useful for
+  * display updates where the scanlines often are not page aligned.
+  *
+- * The dirty bitmap region which gets copyed into the snapshot (and
++ * The dirty bitmap region which gets copied into the snapshot (and
+  * cleared afterwards) can be larger than requested.  The boundaries
+  * are rounded up/down so complete bitmap longs (covering 64 pages on
+  * 64bit hosts) can be copied over into the bitmap snapshot.  Which
+diff --git a/qapi/qom.json b/qapi/qom.json
+index 87fcad2423ae..4db956f07e6c 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -589,7 +589,7 @@
  #
--# Since: 7.1
-+# Since: 7.2
+ # @size: size of the memory region in bytes
  #
- # Examples:
- #
-@@ -666,7 +666,7 @@
- #
- # @used-size: vhost_virtqueue used_size
- #
--# Since: 7.1
-+# Since: 7.2
- #
- ##
+-# @x-use-canonical-path-for-ramblock-id: if true, the canoncial path is used
++# @x-use-canonical-path-for-ramblock-id: if true, the canonical path is used
+ #                                        for ramblock-id. Disable this for 4.0
+ #                                        machine types or older to allow
+ #                                        migration with newer QEMU versions.
+diff --git a/qemu-options.hx b/qemu-options.hx
+index ceee0ddc255d..525f9dc2f223 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1051,7 +1051,7 @@ SRST
+     details on the external interface.
  
-@@ -699,7 +699,7 @@
- #
- # Returns: VirtVhostQueueStatus of the vhost_virtqueue
- #
--# Since: 7.1
-+# Since: 7.2
- #
- # Examples:
- #
-@@ -767,7 +767,7 @@
- #
- # @flags: List of descriptor flags
- #
--# Since: 7.1
-+# Since: 7.2
- #
- ##
+ ``-device isa-ipmi-kcs,bmc=id[,ioport=val][,irq=val]``
+-    Add a KCS IPMI interafce on the ISA bus. This also adds a
++    Add a KCS IPMI interface on the ISA bus. This also adds a
+     corresponding ACPI and SMBIOS entries, if appropriate.
  
-@@ -787,7 +787,7 @@
- #
- # @ring: VRingAvail ring[] entry at provided index
- #
--# Since: 7.1
-+# Since: 7.2
- #
- ##
+     ``bmc=id``
+@@ -1071,7 +1071,7 @@ SRST
+     is 0xe4 and the default interrupt is 5.
  
-@@ -805,7 +805,7 @@
- #
- # @idx: VRingUsed index
- #
--# Since: 7.1
-+# Since: 7.2
- #
- ##
+ ``-device pci-ipmi-kcs,bmc=id``
+-    Add a KCS IPMI interafce on the PCI bus.
++    Add a KCS IPMI interface on the PCI bus.
  
-@@ -829,7 +829,7 @@
- #
- # @used: VRingUsed info
- #
--# Since: 7.1
-+# Since: 7.2
- #
- ##
+     ``bmc=id``
+         The BMC to connect to, one of ipmi-bmc-sim or ipmi-bmc-extern above.
+@@ -5264,8 +5264,8 @@ SRST
+         read the colo-compare git log.
  
-@@ -857,7 +857,7 @@
+     ``-object cryptodev-backend-builtin,id=id[,queues=queues]``
+-        Creates a cryptodev backend which executes crypto opreation from
+-        the QEMU cipher APIS. The id parameter is a unique ID that will
++        Creates a cryptodev backend which executes crypto operations from
++        the QEMU cipher APIs. The id parameter is a unique ID that will
+         be used to reference this cryptodev backend from the
+         ``virtio-crypto`` device. The queues parameter is optional,
+         which specify the queue number of cryptodev backend, the default
+@@ -5532,7 +5532,7 @@ SRST
+                        file=/etc/qemu/vnc.allow
+ 
+         Finally the ``/etc/qemu/vnc.allow`` file would contain the list
+-        of x509 distingished names that are permitted access
++        of x509 distinguished names that are permitted access
+ 
+         ::
+ 
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index 026a56f76caf..796434ed346f 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -392,7 +392,7 @@
+ ##
+ # @guest-file-flush:
  #
- # Returns: VirtioQueueElement information
+-# Write file changes bufferred in userspace to disk/kernel buffers
++# Write file changes buffered in userspace to disk/kernel buffers
  #
--# Since: 7.1
-+# Since: 7.2
+ # @handle: filehandle returned by guest-file-open
  #
- # Examples:
- #
+diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
+index 91a5f7edd94d..fcf1c3c3b36f 100644
+--- a/tests/qtest/libqtest.h
++++ b/tests/qtest/libqtest.h
+@@ -736,7 +736,7 @@ bool qtest_has_device(const char *device);
+  * qtest_qmp_device_add_qdict:
+  * @qts: QTestState instance to operate on
+  * @drv: Name of the device that should be added
+- * @arguments: QDict with properties for the device to intialize
++ * @arguments: QDict with properties for the device to initialize
+  *
+  * Generic hot-plugging test via the device_add QMP command with properties
+  * supplied in form of QDict. Use NULL for empty properties list.
 -- 
 2.37.3
 
