@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25BB61842D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:22:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B3161842C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:22:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqcwS-0003bA-BC; Thu, 03 Nov 2022 12:19:44 -0400
+	id 1oqcwh-0005Hr-5l; Thu, 03 Nov 2022 12:19:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqcuU-0000p2-K7; Thu, 03 Nov 2022 12:18:00 -0400
+ id 1oqcuT-0000p1-Jo; Thu, 03 Nov 2022 12:18:00 -0400
 Received: from mout.kundenserver.de ([212.227.126.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqcuP-00085v-40; Thu, 03 Nov 2022 12:17:39 -0400
+ id 1oqcuO-00085S-Rq; Thu, 03 Nov 2022 12:17:39 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue009
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1N49Yn-1oyuQk1rXN-0100kB; Thu, 03
- Nov 2022 17:17:31 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MRCFw-1oeTpw0D4e-00N9ju; Thu, 03
+ Nov 2022 17:17:32 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 05/10] libvhost-user: Fix format strings
-Date: Thu,  3 Nov 2022 17:17:22 +0100
-Message-Id: <20221103161727.4116147-6-laurent@vivier.eu>
+Subject: [PULL 06/10] libvhost-user: Add format attribute to local function
+ vu_panic
+Date: Thu,  3 Nov 2022 17:17:23 +0100
+Message-Id: <20221103161727.4116147-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221103161727.4116147-1-laurent@vivier.eu>
 References: <20221103161727.4116147-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:DaAzxpunnE4Trt5uAmlU5MSU3Szgv3nMuT8A+6hWxO2xE+/myHE
- 1AkAsavioJvVsBH8HijkdqFuBx68ZLXpxrjFgMhYUIVQ3Y5/OL7Yc81mUsKIj6ZXXbzwpps
- TPa4GkwOI5WG0NvgDqSuduFn7mgNABCY/f8AGDgCLvV2mOREkKjNjtZezN6zPEi0748y/xl
- hqbel2qfBJXEbAwtB5jVA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:X3oWzjLM9Fs=:DF3uP6tbNHT+f+HjTYmqcU
- aYBD3NXAo+GDAhb3yfkBIt0RcUMb80eP7kBwplOoQO4bSGcP5ck4przsZH0sE93TKX8DJxBIX
- 6QZIG6m73GnPDpE+yN88QPs3Lafd7jiDIHbyEsCJ4yItoUrM8hwez1IcmWecrDKcpH2M80lRA
- gaaDipje2I+ZNxQnxyF6GrEodjYh9NXr8bz03U1RpnrpUt+iwJBpp5dOWpRR2siNV0790XHOG
- E+fY3Wi0bodHo8zuLyK9pN4l4TgbuGGlkvy3CWSORsIulnFdkAxnUCP1ZPpIKYLpPWbxFXJuc
- BH6pbmMVM6c04oq43Sg2Re1P/D/zArXWL5lE7WechfI7Gdb9wUxkbg7JCUcv04C7V9RRwdFbK
- fFEeYyJKbucciW/lDYqyI/8bxrnPn55omS+Prlbq2XlAOMvbk18LzMs3Y4DPdGbYX1SWTdq1R
- zumstXa19CPA0rqGtySuZ51PbNfpx5KqcPrvDBFBlPm7FVxCbTDTIFXVZdi8SJS6njaqMqcCg
- 37gyKRYyLT+OnX4T3HcfSxijXBTLovw8Sc+UeI6hqzQ+TnAOiGFDnwww56OTeuqJBTmLYHUgW
- xWuVWGWSBNjT8xbPZ/yH62hhV8dJqtwcR32xgPiX9Vi9IuH1LiL0xUBLAL5aBWe9r9706v98+
- A8Gm67IZI5P3vTRgCgnAJz0f3HmsndGrgTiMyHowNyfbyarBkPywR7XkAAbD6N+7h8nDmp4+k
- qmIvRAEcQBHZ2VqJitkNgBVBGXKK10SBT3RqyhICIdnqj+upBWCNKw0oKbpQsY8wilEhTLVnA
- zg9CaCT
+X-Provags-ID: V03:K1:mrZi9Ar49V9DYdY7q+vZdNvimd9kXbpNmAiL1FYMaMxqK4wnDxP
+ f9Pa7XcepjHX/7ImXsEV3nFqJklNQJHc9HaUC0SSNOk74DKvtfprntO7caHnHUAoTfxL+No
+ icFkLS3eBqLtATAfrlXOPl6OFnuFzNhZNR3vlX4YVuTN+QcsNyag//NjA8NCxhRcNol9hXk
+ RUvIOzoUf7Am8jlvXR/6w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4qpTGFmweS4=:nteVoG6tyJzcpQ4k4Zz4wZ
+ fBXmFs48upxQE0JTZv9k3uPYuy2frg2LPamXUtt7k/zyH8dcxJUN/FT6B2p1Zt77x7PhM0qtU
+ agmdX4Fqh7bjk6fZvwOWKkLJi4oZJ3/n6Nvsn+5yi6ohZ8JAysOlVnX9Bm6H7GtdhditcoUGl
+ 6fn/0GLhe74J+4IlvcgWcES4wrAcoO05KK3ojsXxTbdOIHjhl4SDykvQLwGDCobIaPX0fzWgk
+ pal9eBDGuf3S0eg/zVrQVdgFJVhoN+CAHExnBbMRXJ/cePROROMCMDOYZCR0Nk4LVYAVfD2Lf
+ MpCUiH2TzfksxtsDspPZFFW1VOPNDizhvHfmzMbsKswG5g8JMvT6F48iZlh/E2YCWH2rRp1Ii
+ zxVeJZqGFqGwnKtGV5YmbAq8LHYNcN6KyZPvGdaBGwzWNfsbMXV2LWoIX3ICRRTzUSEBEXy29
+ Xgz3XSRaMFxQ7iE5P9UUrQta0CmD3/yBv/mExAxYBzO3vj9g03lg4S3ikYCi4Ug5sXqaWpcu9
+ iaBpTkTQ3qDbuGduRerIm1K/ZpwLZIlSVVJu07SrP/fxCNfFK0U3Wwwmxw0kZBqKjEGXZYr/X
+ GG9IbQJ8jbzxh1Zr1O4m/yDTnEU1hAfBz+lScmMUaf40SY7G8XNZM+8MkLrLhnr1bBzYqqaF7
+ PyC6zkn6yE3KUdP4L8UYpUOzPLUq/FvxAo8XS2zDPWWCaNOXWcTAZfcWk1jgDvjfcTPUbB4QP
+ detxOh/d+wV6fvFnrkRByuqBLYh6hcohg2dC9neb3AvXuAD2QgMIDbvsmoz9cEqIeOVMS6/T8
+ ND3g2YU
 Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -77,34 +78,43 @@ From: Stefan Weil <sw@weilnetz.de>
 
 Signed-off-by: Stefan Weil <sw@weilnetz.de>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220422070144.1043697-3-sw@weilnetz.de>
+Message-Id: <20220422070144.1043697-4-sw@weilnetz.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- subprojects/libvhost-user/libvhost-user.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ subprojects/libvhost-user/libvhost-user.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-index d9a6e3e5560f..d67953a1c39c 100644
+index d67953a1c39c..f7b45b3066c1 100644
 --- a/subprojects/libvhost-user/libvhost-user.c
 +++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -700,7 +700,7 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-     if (vmsg->size < VHOST_USER_MEM_REG_SIZE) {
-         close(vmsg->fds[0]);
-         vu_panic(dev, "VHOST_USER_ADD_MEM_REG requires a message size of at "
--                      "least %d bytes and only %d bytes were received",
-+                      "least %zu bytes and only %d bytes were received",
-                       VHOST_USER_MEM_REG_SIZE, vmsg->size);
-         return false;
+@@ -45,6 +45,17 @@
+ #include "libvhost-user.h"
+ 
+ /* usually provided by GLib */
++#if     __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ > 4)
++#if !defined(__clang__) && (__GNUC__ == 4 && __GNUC_MINOR__ == 4)
++#define G_GNUC_PRINTF(format_idx, arg_idx) \
++  __attribute__((__format__(gnu_printf, format_idx, arg_idx)))
++#else
++#define G_GNUC_PRINTF(format_idx, arg_idx) \
++  __attribute__((__format__(__printf__, format_idx, arg_idx)))
++#endif
++#else   /* !__GNUC__ */
++#define G_GNUC_PRINTF(format_idx, arg_idx)
++#endif  /* !__GNUC__ */
+ #ifndef MIN
+ #define MIN(x, y) ({                            \
+             typeof(x) _min1 = (x);              \
+@@ -151,7 +162,7 @@ vu_request_to_string(unsigned int req)
      }
-@@ -826,7 +826,7 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-     if (vmsg->size < VHOST_USER_MEM_REG_SIZE) {
-         vmsg_close_fds(vmsg);
-         vu_panic(dev, "VHOST_USER_REM_MEM_REG requires a message size of at "
--                      "least %d bytes and only %d bytes were received",
-+                      "least %zu bytes and only %d bytes were received",
-                       VHOST_USER_MEM_REG_SIZE, vmsg->size);
-         return false;
-     }
+ }
+ 
+-static void
++static void G_GNUC_PRINTF(2, 3)
+ vu_panic(VuDev *dev, const char *msg, ...)
+ {
+     char *buf = NULL;
 -- 
 2.37.3
 
