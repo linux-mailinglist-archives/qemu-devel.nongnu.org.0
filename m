@@ -2,59 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D2B617C64
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 13:19:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF3A617C85
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 13:28:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqZBb-0002yX-9H; Thu, 03 Nov 2022 08:19:07 -0400
+	id 1oqZIt-0006Ho-Fb; Thu, 03 Nov 2022 08:26:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
- id 1oqZB9-0002wv-1K
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 08:18:44 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yangyicong@huawei.com>)
- id 1oqZB3-0004wI-JE
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 08:18:38 -0400
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N32pD2BjRzHvV1;
- Thu,  3 Nov 2022 20:17:56 +0800 (CST)
-Received: from [10.67.102.169] (10.67.102.169) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 3 Nov 2022 20:18:15 +0800
-CC: <yangyicong@hisilicon.com>, <peter.maydell@linaro.org>,
- <imammedo@redhat.com>, <ani@anisinha.ca>, <eduardo@habkost.net>,
- <marcel.apfelbaum@gmail.com>, <f4bug@amsat.org>, <wangyanan55@huawei.com>,
- <qemu-devel@nongnu.org>, <jonathan.cameron@huawei.com>,
- <linuxarm@huawei.com>, <prime.zeng@huawei.com>, <hesham.almatary@huawei.com>, 
- <ionela.voinescu@arm.com>, <darren@os.amperecomputing.com>
-Subject: Re: [PATCH v4 0/6] Only generate cluster node in PPTT when specified
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20221101071048.29553-1-yangyicong@huawei.com>
- <20221102040935-mutt-send-email-mst@kernel.org>
-Message-ID: <48551344-50a8-0982-f103-bf007b9e41ce@huawei.com>
-Date: Thu, 3 Nov 2022 20:18:15 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+ (Exim 4.90_1) (envelope-from <r@hev.cc>) id 1oqZIY-0006E9-Lm
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 08:26:18 -0400
+Received: from mail-pg1-f180.google.com ([209.85.215.180])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <r@hev.cc>) id 1oqZIU-0006J0-8w
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 08:26:18 -0400
+Received: by mail-pg1-f180.google.com with SMTP id q1so1498063pgl.11
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 05:26:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sYF+tf/vm2o+bg+v9DU0WiWNvOFsy2g0xfelqn64Pek=;
+ b=rDNtPRvtoSIVF9WL13BKTLOAcTCEDPJn6UgMGKOxrV9Va5JI0kde8fVMdvhYbxbnXk
+ r0W4sAO86ffJ3EzzNA7HjX2b2ZjmNVSBoBWogt6fe1irVuB9T8Erimvtt3MFl+pHNn9z
+ HkFqgOU6Zvl+j7lQKRg7DDzQd8Rmv+DUilzGDy6DeeXTN9MUyN10OcUeNxt2pAKfpnKi
+ OoSRMvPVHkQCaiBjbc5ICruft8Y/nsRPCbPofG+pYgjfQxOujC0PAZb6h5UYEzXaVE6t
+ 9CzGtBFsR2YBpFAouodIPJ8b0+zoOAuKPdiFSuCJRzuFK0VykdjxZBQxovDhny5XHH+G
+ 9xxw==
+X-Gm-Message-State: ACrzQf2Up0wqV4liFMP2dzp2VE6vpClBNud7Uy/V9AFFwb2c8pKPCsmn
+ TvB9EKjlM+82sgHVNI4KNP589g==
+X-Google-Smtp-Source: AMsMyM7gKKmWEKXR865lKBKG2ltQAJptlXdG6fU3ELDMt0l6zDoEPH1RCCXlgLsW6oiQZ7v569svaQ==
+X-Received: by 2002:aa7:9e1c:0:b0:56c:78fa:2a2 with SMTP id
+ y28-20020aa79e1c000000b0056c78fa02a2mr30607044pfq.65.1667478372145; 
+ Thu, 03 Nov 2022 05:26:12 -0700 (PDT)
+Received: from localhost.localdomain ([2400:8901:e002:5400::])
+ by smtp.gmail.com with ESMTPSA id
+ j12-20020a170902da8c00b00172b87d9770sm558732plx.81.2022.11.03.05.26.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Nov 2022 05:26:11 -0700 (PDT)
+From: Rui Wang <wangrui@loongson.cn>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ qemu-devel@nongnu.org, hev <qemu@hev.cc>, Rui Wang <wangrui@loongson.cn>
+Subject: [PATCH v2] target/loongarch: Fix emulation of float-point disable
+ exception
+Date: Thu,  3 Nov 2022 20:25:51 +0800
+Message-Id: <20221103122551.152380-1-wangrui@loongson.cn>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-In-Reply-To: <20221102040935-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=yangyicong@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=209.85.215.180; envelope-from=r@hev.cc;
+ helo=mail-pg1-f180.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,89 +74,445 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
-Reply-to:  Yicong Yang <yangyicong@huawei.com>
-From:  Yicong Yang via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2022/11/2 16:17, Michael S. Tsirkin wrote:
-> On Tue, Nov 01, 2022 at 03:10:42PM +0800, Yicong Yang wrote:
->> From: Yicong Yang <yangyicong@hisilicon.com>
->>
->> This series mainly change the policy for building a cluster topology node
->> in PPTT. Previously we'll always build a cluster node in PPTT without
->> asking the user, after this set the cluster node will be built only the
->> the user specify through "-smp clusters=X".
->>
->> One problem is related to this but not fully caused by this, see the
->> discussion in [*]. When booting the VM with `-smp 8` and 4 numa nodes,
->> the linux scheduling domains in the VM misses the NUMA domains. It's
->> because the MC level span extends to Cluster level (which is generated
->> by the Qemu by default) that spans all the cpus in the system, then the
->> scheduling domain building stops at MC level since it already includes all
->> the cpus.
->>
->> Considering cluster is an optional level and most platforms don't have it,
->> they may even don't realize this is built and a always build policy cannot
->> emulate the real topology on these platforms. So in this series improve the
->> policy to only generate cluster when the user explicitly want it.
->>
->> Update the tests and test tables accordingly.
-> 
-> I think we can classify this as a bugfix and so allow after
+We need to emulate it to generate a floating point disable exception
+when CSR.EUEN.FPE is zero.
 
-Not quite sure about it as I regarded it as an improvement of the topology building
-policy. And the problem I met is not directly caused by the policy before this series.
+Signed-off-by: Rui Wang <wangrui@loongson.cn>
+---
+ target/loongarch/cpu.c                        |  2 ++
+ target/loongarch/cpu.h                        | 13 +++++++
+ .../loongarch/insn_trans/trans_farith.c.inc   | 30 ++++++++++++++++
+ target/loongarch/insn_trans/trans_fcmp.c.inc  | 11 ++++--
+ .../loongarch/insn_trans/trans_fmemory.c.inc  | 34 +++++++++++++++----
+ target/loongarch/insn_trans/trans_fmov.c.inc  | 29 ++++++++++++++--
+ .../insn_trans/trans_privileged.c.inc         |  2 +-
+ target/loongarch/translate.c                  |  2 +-
+ 8 files changed, 110 insertions(+), 13 deletions(-)
 
-> the freeze, however, this needs ack from ARM maintainers then.
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 1512664214..46b04cbdad 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -48,6 +48,7 @@ static const char * const excp_names[] = {
+     [EXCCODE_BRK] = "Break",
+     [EXCCODE_INE] = "Instruction Non-Existent",
+     [EXCCODE_IPE] = "Instruction privilege error",
++    [EXCCODE_FPD] = "Floating Point Disabled",
+     [EXCCODE_FPE] = "Floating Point Exception",
+     [EXCCODE_DBP] = "Debug breakpoint",
+     [EXCCODE_BCE] = "Bound Check Exception",
+@@ -185,6 +186,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
+     case EXCCODE_BRK:
+     case EXCCODE_INE:
+     case EXCCODE_IPE:
++    case EXCCODE_FPD:
+     case EXCCODE_FPE:
+     case EXCCODE_BCE:
+         env->CSR_BADV = env->pc;
+diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+index dbce176564..2729a114c2 100644
+--- a/target/loongarch/cpu.h
++++ b/target/loongarch/cpu.h
+@@ -14,6 +14,7 @@
+ #include "qemu/timer.h"
+ #include "exec/memory.h"
+ #include "hw/sysbus.h"
++#include "cpu-csr.h"
+ 
+ #define IOCSRF_TEMP             0
+ #define IOCSRF_NODECNT          1
+@@ -391,6 +392,14 @@ static inline int cpu_mmu_index(CPULoongArchState *env, bool ifetch)
+ #endif
+ }
+ 
++/*
++ * LoongArch CPUs hardware flags.
++ * bit[2..0] for MMU index.
++ * bit[7..4] for CSR.EUEN.{ BTE, ASXE, SXE, FPE }.
++ */
++#define HW_FLAGS_MMU_MASK   0x07
++#define HW_FLAGS_EUEN_FPE   0x10
++
+ static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
+                                         target_ulong *pc,
+                                         target_ulong *cs_base,
+@@ -399,6 +408,10 @@ static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
+     *pc = env->pc;
+     *cs_base = 0;
+     *flags = cpu_mmu_index(env, false);
++
++    if (FIELD_EX64(env->CSR_EUEN, CSR_EUEN, FPE)) {
++        *flags |= HW_FLAGS_EUEN_FPE;
++    }
+ }
+ 
+ void loongarch_cpu_list(void);
+diff --git a/target/loongarch/insn_trans/trans_farith.c.inc b/target/loongarch/insn_trans/trans_farith.c.inc
+index 7bb3f41aee..e2dec75dfb 100644
+--- a/target/loongarch/insn_trans/trans_farith.c.inc
++++ b/target/loongarch/insn_trans/trans_farith.c.inc
+@@ -3,9 +3,22 @@
+  * Copyright (c) 2021 Loongson Technology Corporation Limited
+  */
+ 
++#ifndef CONFIG_USER_ONLY
++#define CHECK_FPE do { \
++    if ((ctx->base.tb->flags & HW_FLAGS_EUEN_FPE) == 0) { \
++        generate_exception(ctx, EXCCODE_FPD); \
++        return false; \
++    } \
++} while (0)
++#else
++#define CHECK_FPE
++#endif
++
+ static bool gen_fff(DisasContext *ctx, arg_fff *a,
+                     void (*func)(TCGv, TCGv_env, TCGv, TCGv))
+ {
++    CHECK_FPE;
++
+     func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj], cpu_fpr[a->fk]);
+     return true;
+ }
+@@ -13,6 +26,8 @@ static bool gen_fff(DisasContext *ctx, arg_fff *a,
+ static bool gen_ff(DisasContext *ctx, arg_ff *a,
+                    void (*func)(TCGv, TCGv_env, TCGv))
+ {
++    CHECK_FPE;
++
+     func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj]);
+     return true;
+ }
+@@ -22,6 +37,9 @@ static bool gen_muladd(DisasContext *ctx, arg_ffff *a,
+                        int flag)
+ {
+     TCGv_i32 tflag = tcg_constant_i32(flag);
++
++    CHECK_FPE;
++
+     func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj],
+          cpu_fpr[a->fk], cpu_fpr[a->fa], tflag);
+     return true;
+@@ -29,18 +47,24 @@ static bool gen_muladd(DisasContext *ctx, arg_ffff *a,
+ 
+ static bool trans_fcopysign_s(DisasContext *ctx, arg_fcopysign_s *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_deposit_i64(cpu_fpr[a->fd], cpu_fpr[a->fk], cpu_fpr[a->fj], 0, 31);
+     return true;
+ }
+ 
+ static bool trans_fcopysign_d(DisasContext *ctx, arg_fcopysign_d *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_deposit_i64(cpu_fpr[a->fd], cpu_fpr[a->fk], cpu_fpr[a->fj], 0, 63);
+     return true;
+ }
+ 
+ static bool trans_fabs_s(DisasContext *ctx, arg_fabs_s *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_andi_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], MAKE_64BIT_MASK(0, 31));
+     gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
+     return true;
+@@ -48,12 +72,16 @@ static bool trans_fabs_s(DisasContext *ctx, arg_fabs_s *a)
+ 
+ static bool trans_fabs_d(DisasContext *ctx, arg_fabs_d *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_andi_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], MAKE_64BIT_MASK(0, 63));
+     return true;
+ }
+ 
+ static bool trans_fneg_s(DisasContext *ctx, arg_fneg_s *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_xori_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], 0x80000000);
+     gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
+     return true;
+@@ -61,6 +89,8 @@ static bool trans_fneg_s(DisasContext *ctx, arg_fneg_s *a)
+ 
+ static bool trans_fneg_d(DisasContext *ctx, arg_fneg_d *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_xori_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], 0x8000000000000000LL);
+     return true;
+ }
+diff --git a/target/loongarch/insn_trans/trans_fcmp.c.inc b/target/loongarch/insn_trans/trans_fcmp.c.inc
+index 93a6a2230f..2ccf646ccb 100644
+--- a/target/loongarch/insn_trans/trans_fcmp.c.inc
++++ b/target/loongarch/insn_trans/trans_fcmp.c.inc
+@@ -25,10 +25,13 @@ static uint32_t get_fcmp_flags(int cond)
+ 
+ static bool trans_fcmp_cond_s(DisasContext *ctx, arg_fcmp_cond_s *a)
+ {
+-    TCGv var = tcg_temp_new();
++    TCGv var;
+     uint32_t flags;
+     void (*fn)(TCGv, TCGv_env, TCGv, TCGv, TCGv_i32);
+ 
++    CHECK_FPE;
++
++    var = tcg_temp_new();
+     fn = (a->fcond & 1 ? gen_helper_fcmp_s_s : gen_helper_fcmp_c_s);
+     flags = get_fcmp_flags(a->fcond >> 1);
+ 
+@@ -41,9 +44,13 @@ static bool trans_fcmp_cond_s(DisasContext *ctx, arg_fcmp_cond_s *a)
+ 
+ static bool trans_fcmp_cond_d(DisasContext *ctx, arg_fcmp_cond_d *a)
+ {
+-    TCGv var = tcg_temp_new();
++    TCGv var;
+     uint32_t flags;
+     void (*fn)(TCGv, TCGv_env, TCGv, TCGv, TCGv_i32);
++
++    CHECK_FPE;
++
++    var = tcg_temp_new();
+     fn = (a->fcond & 1 ? gen_helper_fcmp_s_d : gen_helper_fcmp_c_d);
+     flags = get_fcmp_flags(a->fcond >> 1);
+ 
+diff --git a/target/loongarch/insn_trans/trans_fmemory.c.inc b/target/loongarch/insn_trans/trans_fmemory.c.inc
+index 74ee98f63a..3025a1d3e9 100644
+--- a/target/loongarch/insn_trans/trans_fmemory.c.inc
++++ b/target/loongarch/insn_trans/trans_fmemory.c.inc
+@@ -15,6 +15,8 @@ static bool gen_fload_i(DisasContext *ctx, arg_fr_i *a, MemOp mop)
+     TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv temp = NULL;
+ 
++    CHECK_FPE;
++
+     if (a->imm) {
+         temp = tcg_temp_new();
+         tcg_gen_addi_tl(temp, addr, a->imm);
+@@ -36,6 +38,8 @@ static bool gen_fstore_i(DisasContext *ctx, arg_fr_i *a, MemOp mop)
+     TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv temp = NULL;
+ 
++    CHECK_FPE;
++
+     if (a->imm) {
+         temp = tcg_temp_new();
+         tcg_gen_addi_tl(temp, addr, a->imm);
+@@ -54,8 +58,11 @@ static bool gen_floadx(DisasContext *ctx, arg_frr *a, MemOp mop)
+ {
+     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+-    TCGv addr = tcg_temp_new();
++    TCGv addr;
+ 
++    CHECK_FPE;
++
++    addr = tcg_temp_new();
+     tcg_gen_add_tl(addr, src1, src2);
+     tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
+     maybe_nanbox_load(cpu_fpr[a->fd], mop);
+@@ -68,8 +75,11 @@ static bool gen_fstorex(DisasContext *ctx, arg_frr *a, MemOp mop)
+ {
+     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+-    TCGv addr = tcg_temp_new();
++    TCGv addr;
++
++    CHECK_FPE;
+ 
++    addr = tcg_temp_new();
+     tcg_gen_add_tl(addr, src1, src2);
+     tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
+     tcg_temp_free(addr);
+@@ -81,8 +91,11 @@ static bool gen_fload_gt(DisasContext *ctx, arg_frr *a, MemOp mop)
+ {
+     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+-    TCGv addr = tcg_temp_new();
++    TCGv addr;
+ 
++    CHECK_FPE;
++
++    addr = tcg_temp_new();
+     gen_helper_asrtgt_d(cpu_env, src1, src2);
+     tcg_gen_add_tl(addr, src1, src2);
+     tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
+@@ -96,8 +109,11 @@ static bool gen_fstore_gt(DisasContext *ctx, arg_frr *a, MemOp mop)
+ {
+     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+-    TCGv addr = tcg_temp_new();
++    TCGv addr;
++
++    CHECK_FPE;
+ 
++    addr = tcg_temp_new();
+     gen_helper_asrtgt_d(cpu_env, src1, src2);
+     tcg_gen_add_tl(addr, src1, src2);
+     tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
+@@ -110,8 +126,11 @@ static bool gen_fload_le(DisasContext *ctx, arg_frr *a, MemOp mop)
+ {
+     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+-    TCGv addr = tcg_temp_new();
++    TCGv addr;
+ 
++    CHECK_FPE;
++
++    addr = tcg_temp_new();
+     gen_helper_asrtle_d(cpu_env, src1, src2);
+     tcg_gen_add_tl(addr, src1, src2);
+     tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
+@@ -125,8 +144,11 @@ static bool gen_fstore_le(DisasContext *ctx, arg_frr *a, MemOp mop)
+ {
+     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+-    TCGv addr = tcg_temp_new();
++    TCGv addr;
++
++    CHECK_FPE;
+ 
++    addr = tcg_temp_new();
+     gen_helper_asrtle_d(cpu_env, src1, src2);
+     tcg_gen_add_tl(addr, src1, src2);
+     tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
+diff --git a/target/loongarch/insn_trans/trans_fmov.c.inc b/target/loongarch/insn_trans/trans_fmov.c.inc
+index 5537e3dd35..8e5106db4e 100644
+--- a/target/loongarch/insn_trans/trans_fmov.c.inc
++++ b/target/loongarch/insn_trans/trans_fmov.c.inc
+@@ -10,8 +10,11 @@ static const uint32_t fcsr_mask[4] = {
+ static bool trans_fsel(DisasContext *ctx, arg_fsel *a)
+ {
+     TCGv zero = tcg_constant_tl(0);
+-    TCGv cond = tcg_temp_new();
++    TCGv cond;
+ 
++    CHECK_FPE;
++
++    cond = tcg_temp_new();
+     tcg_gen_ld8u_tl(cond, cpu_env, offsetof(CPULoongArchState, cf[a->ca]));
+     tcg_gen_movcond_tl(TCG_COND_EQ, cpu_fpr[a->fd], cond, zero,
+                        cpu_fpr[a->fj], cpu_fpr[a->fk]);
+@@ -26,6 +29,8 @@ static bool gen_f2f(DisasContext *ctx, arg_ff *a,
+     TCGv dest = cpu_fpr[a->fd];
+     TCGv src = cpu_fpr[a->fj];
+ 
++    CHECK_FPE;
++
+     func(dest, src);
+     if (nanbox) {
+         gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
+@@ -39,6 +44,8 @@ static bool gen_r2f(DisasContext *ctx, arg_fr *a,
+ {
+     TCGv src = gpr_src(ctx, a->rj, EXT_NONE);
+ 
++    CHECK_FPE;
++
+     func(cpu_fpr[a->fd], src);
+     return true;
+ }
+@@ -48,6 +55,8 @@ static bool gen_f2r(DisasContext *ctx, arg_rf *a,
+ {
+     TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+ 
++    CHECK_FPE;
++
+     func(dest, cpu_fpr[a->fj]);
+     gen_set_gpr(a->rd, dest, EXT_NONE);
+ 
+@@ -59,6 +68,8 @@ static bool trans_movgr2fcsr(DisasContext *ctx, arg_movgr2fcsr *a)
+     uint32_t mask = fcsr_mask[a->fcsrd];
+     TCGv Rj = gpr_src(ctx, a->rj, EXT_NONE);
+ 
++    CHECK_FPE;
++
+     if (mask == UINT32_MAX) {
+         tcg_gen_st32_i64(Rj, cpu_env, offsetof(CPULoongArchState, fcsr0));
+     } else {
+@@ -90,6 +101,8 @@ static bool trans_movfcsr2gr(DisasContext *ctx, arg_movfcsr2gr *a)
+ {
+     TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+ 
++    CHECK_FPE;
++
+     tcg_gen_ld32u_i64(dest, cpu_env, offsetof(CPULoongArchState, fcsr0));
+     tcg_gen_andi_i64(dest, dest, fcsr_mask[a->fcsrs]);
+     gen_set_gpr(a->rd, dest, EXT_NONE);
+@@ -114,8 +127,11 @@ static void gen_movfrh2gr_s(TCGv dest, TCGv src)
+ 
+ static bool trans_movfr2cf(DisasContext *ctx, arg_movfr2cf *a)
+ {
+-    TCGv t0 = tcg_temp_new();
++    TCGv t0;
++
++    CHECK_FPE;
+ 
++    t0 = tcg_temp_new();
+     tcg_gen_andi_tl(t0, cpu_fpr[a->fj], 0x1);
+     tcg_gen_st8_tl(t0, cpu_env, offsetof(CPULoongArchState, cf[a->cd & 0x7]));
+     tcg_temp_free(t0);
+@@ -125,6 +141,8 @@ static bool trans_movfr2cf(DisasContext *ctx, arg_movfr2cf *a)
+ 
+ static bool trans_movcf2fr(DisasContext *ctx, arg_movcf2fr *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_ld8u_tl(cpu_fpr[a->fd], cpu_env,
+                     offsetof(CPULoongArchState, cf[a->cj & 0x7]));
+     return true;
+@@ -132,8 +150,11 @@ static bool trans_movcf2fr(DisasContext *ctx, arg_movcf2fr *a)
+ 
+ static bool trans_movgr2cf(DisasContext *ctx, arg_movgr2cf *a)
+ {
+-    TCGv t0 = tcg_temp_new();
++    TCGv t0;
+ 
++    CHECK_FPE;
++
++    t0 = tcg_temp_new();
+     tcg_gen_andi_tl(t0, gpr_src(ctx, a->rj, EXT_NONE), 0x1);
+     tcg_gen_st8_tl(t0, cpu_env, offsetof(CPULoongArchState, cf[a->cd & 0x7]));
+     tcg_temp_free(t0);
+@@ -143,6 +164,8 @@ static bool trans_movgr2cf(DisasContext *ctx, arg_movgr2cf *a)
+ 
+ static bool trans_movcf2gr(DisasContext *ctx, arg_movcf2gr *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_ld8u_tl(gpr_dst(ctx, a->rd, EXT_NONE), cpu_env,
+                     offsetof(CPULoongArchState, cf[a->cj & 0x7]));
+     return true;
+diff --git a/target/loongarch/insn_trans/trans_privileged.c.inc b/target/loongarch/insn_trans/trans_privileged.c.inc
+index 9c4dcbfcfb..ff3a6d95ae 100644
+--- a/target/loongarch/insn_trans/trans_privileged.c.inc
++++ b/target/loongarch/insn_trans/trans_privileged.c.inc
+@@ -159,7 +159,7 @@ static const CSRInfo csr_info[] = {
+ 
+ static bool check_plv(DisasContext *ctx)
+ {
+-    if (ctx->base.tb->flags == MMU_USER_IDX) {
++    if (ctx->mem_idx == MMU_USER_IDX) {
+         generate_exception(ctx, EXCCODE_IPE);
+         return true;
+     }
+diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
+index 6091772349..34f75b107a 100644
+--- a/target/loongarch/translate.c
++++ b/target/loongarch/translate.c
+@@ -75,7 +75,7 @@ static void loongarch_tr_init_disas_context(DisasContextBase *dcbase,
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+ 
+     ctx->page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
+-    ctx->mem_idx = ctx->base.tb->flags;
++    ctx->mem_idx = ctx->base.tb->flags & HW_FLAGS_MMU_MASK;
+ 
+     /* Bound the number of insns to execute to those left on the page.  */
+     bound = -(ctx->base.pc_first | TARGET_PAGE_MASK) / 4;
+-- 
+2.38.1
 
-sure. Will resend after the freeze.
-
-Thanks.
-
-> 
-> 
->> [*] https://lore.kernel.org/lkml/2c079860-ee82-7719-d3d2-756192f41704@huawei.com/
->>
->> Change since v3:
->> - Improve and attach the diff of the affected ACPI tables in the commit, and minor cleanups
->> Link: https://lore.kernel.org/qemu-devel/20221031090523.34146-1-yangyicong@huawei.com/
->>
->> Change since v2:
->> - Add tag from Micheal, thanks
->> - Handle the tests changes with bios-tables-test-allowed-diff.h, Per Micheal
->> - Address the comments per Yanan
->> Link: https://lore.kernel.org/qemu-devel/20221027032613.18377-1-yangyicong@huawei.com/
->>
->> Change since v1:
->> - Only includes the test tables which is really needed
->> - Enrich the commit
->> Link: https://lore.kernel.org/qemu-devel/20220922131143.58003-1-yangyicong@huawei.com/
->>
->> Yicong Yang (6):
->>   tests: virt: Allow changes to PPTT test table
->>   hw/acpi/aml-build: Only generate cluster node in PPTT when specified
->>   tests: virt: Update expected ACPI tables for virt test
->>   tests: acpi: Add and whitelist *.topology blobs
->>   tests: acpi: aarch64: Add topology test for aarch64
->>   tests: acpi: aarch64: Add *.topology tables
->>
->>  hw/acpi/aml-build.c                |   2 +-
->>  hw/core/machine-smp.c              |   2 ++
->>  include/hw/boards.h                |   3 +++
->>  qemu-options.hx                    |   3 +++
->>  tests/data/acpi/virt/APIC.topology | Bin 0 -> 700 bytes
->>  tests/data/acpi/virt/DSDT.topology | Bin 0 -> 5398 bytes
->>  tests/data/acpi/virt/PPTT          | Bin 96 -> 76 bytes
->>  tests/data/acpi/virt/PPTT.topology | Bin 0 -> 336 bytes
->>  tests/qtest/bios-tables-test.c     |  19 +++++++++++++++++++
->>  9 files changed, 28 insertions(+), 1 deletion(-)
->>  create mode 100644 tests/data/acpi/virt/APIC.topology
->>  create mode 100644 tests/data/acpi/virt/DSDT.topology
->>  create mode 100644 tests/data/acpi/virt/PPTT.topology
->>
->> -- 
->> 2.24.0
-> 
-> .
-> 
 
