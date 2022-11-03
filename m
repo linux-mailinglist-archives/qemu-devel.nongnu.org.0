@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD074618418
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D241618417
 	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:19:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqcwa-0004Ir-HK; Thu, 03 Nov 2022 12:19:52 -0400
+	id 1oqcwP-0002up-R2; Thu, 03 Nov 2022 12:19:41 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqcuf-0000uN-4J; Thu, 03 Nov 2022 12:18:00 -0400
-Received: from mout.kundenserver.de ([212.227.126.134])
+ id 1oqcuQ-0000m2-Qu; Thu, 03 Nov 2022 12:17:39 -0400
+Received: from mout.kundenserver.de ([212.227.126.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqcuR-00087M-Jg; Thu, 03 Nov 2022 12:17:45 -0400
+ id 1oqcuO-00085V-QS; Thu, 03 Nov 2022 12:17:38 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue009
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MyseA-1pBt793ZYY-00vvzg; Thu, 03
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MqJuN-1pKRgb1fL1-00nRhV; Thu, 03
  Nov 2022 17:17:34 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 09/10] target/tricore: Rename csfr.def -> csfr.h.inc
-Date: Thu,  3 Nov 2022 17:17:26 +0100
-Message-Id: <20221103161727.4116147-10-laurent@vivier.eu>
+Subject: [PULL 10/10] tests/unit: simpler variable sequence for test-io-channel
+Date: Thu,  3 Nov 2022 17:17:27 +0100
+Message-Id: <20221103161727.4116147-11-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221103161727.4116147-1-laurent@vivier.eu>
 References: <20221103161727.4116147-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:8E4dBtgYRVoAC+EnsgpeE+/ot8vvhCoHU3BGrydozZryu+ic0iv
- WZZjWNa8FkQhtRKyUyrZqMFNZxXhCt/YneHlQRoPfLsN4GrekzAXqJv/oFne5I5Ea8EKwGF
- vEknyxaUD2FL9CMQ2TZnVqKCbXRd2GmOSmT5/bJo5gd2pvbBJsrmimJ6HMhPQbUZf7MSTFJ
- PAsOT6DxANB4K+vURDnsA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6Z5eQ/yeXMs=:8fSExvAy4KMEnQrxN0gOqt
- Xxuuellsnm9W42jJMm0vJ/ffDNYdP9GTAGN5joPLFYhI/muJHdhHlM5NXYaTAqsObRFZKxPTh
- wbSWaVENaRtz1968b6iigKP460kO5QapB2Bp3cCV4xwxrkw5Xqo/bWXAve1+Kq33/y4jnuJEa
- u7wkSdMgmqgHm/kZL8ZiNPRweWNY54Cv2gh1pxNPmTdAqYx3Xgf03c8AZXaQgh6RtFIOZomOW
- ASB7bVCH7uAC3pCxC31PAxf21Fy4Ftz6Pl3r5Sf6BM3YaGubD7/FJ2CYM/7bF4iMg7lY5VmpG
- SV05gVs+fAULH8pY0iB8gjsrvaBhCj8ACqGDwZtUHioMv3QOMzOtJQPR1hbsmHpWA7b9MdpLJ
- hTNBBAlp4ekCeHroe2WFsqzWVZQ5uG2sYnYqO1dh8zBHoPOrVA8cA4vz7EmB3YqzWgpqT2WY1
- TEcAHBXsLM+zQx9Q5gl2euEfcciEKtKC0nBzCmwkakUE9sNQPaB6Tzp+J4m9APvxeWYn2krTH
- DLSBC/21cRJ2Nov5Bq5JoGUBpDzT4pq6HDAbLLC1CwqyQQEevUYEsmbeVsWJPUDYbaMLVBaFI
- cgSfbapu+d3OcVWdm7UYcuQmByQy0iOTwpATBT72I1YccyVBApYTV5LZra/eMD7IAlJ2SFvkj
- 3X6u9R9sYkS8dkVJycUXOAhd5LL6CxrgRTKZIBt+zTdIHLpB8EyBZgny7nK/xDsBavkCPJVcD
- YM+zO5127dJxsWu13JyGa7PPTai87U/khmEQXmd9bp0ILsBrAKtPmd/iEM4r14fxlsjvUrIiN
- gIQzbrv
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:c/GXiQlgCQTRKFlS7hWkhPX2gAqA09KgnpcFLaMdH187e47V6oD
+ ZGgXEuGej375hBe7kZ/yI309c1Ja/Y/RYCJY/u+Tujg+uRIhCdnwYOmJ5H2S87aE+Xn5prz
+ hVx8a6TVtCbnElour7K0zd+el+Y0Fnl5IpNF9OjZ4H9m0C6f+qbitMf3F9iHdIDceJtYcEw
+ ITeatCIQzuVOxf22Mtegg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:T4mLWOp+/RY=:qTX80NiRnnUdDHGm9srG3B
+ J03kqOKIRKfQwXOM1YLO4STSS8O8OdveKoOmGwxNwMtdLpetBASX2NMPKUg9bmpbj0XI6erkC
+ OVYwNadwV1R4N5kGC7yHFAqQs/xVgYCJB0TygROECijucE55pwvgpfY38Bxb9IebR2vRZj85Z
+ 6IjtXHmwIgvoq9oN79W0XnK8KHjKkJTRINlCN8fi9GvzwikyBrBNpWt9VF2tFo79FTcrcTX9+
+ bQsQZX5kRiSLKfcPdMDy1vJAuEw5KZBSgePSUdtYgKIUSMTJpFNksZdYlyJWwBMd/3laHsjjG
+ 70z9bCK52ZlIfFIZsD/TbJNjMNoCYf8Z329IyO6yYgG4j3SLuYO8n4rOWXx6SAFKEijPO26L8
+ NNY8LSKzv6MThA3Cfj8WfioPJQHfztaIUfFC7XOfMtqXwKEBp4El0ZfbURUL65BpQ+cHHEpnH
+ dsm62+aqjrphpsh4neVOFTTtQkAp6jZ6/ZRiu/4nRCg2EfDla4XFxMhIWf1YvKbOJl7BP1447
+ a3ZKXzhQ6SbT7yJ7cf/3N/z0FZLgMTcQdYBKX3Lkg+jsB0URDz/Q6LPsr98OZ9W3tUdHGzUhM
+ 1Ob/KplVvBOWHPtwxMKznfajRruIR3/SRFKyKJY6+ymTg6Mj0TRIUoB3pr9EzpzX1MbE0Wyau
+ FUzJpPqoDW0yGW2npDZrEAy5cHAceZNmxunJxDVv/j7d5vh9FGzze9TUmhne19wvI5O7p3ndi
+ yBc/SBK8EW/gZgOcpfrQWqKTfLWoZelfzbC+H4fSd1DTlQ0eyllgN7NY646Qxkcv3QAS6ghB6
+ FS7fQbQ
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_NONE=0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,52 +74,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+From: Alex Bennée <alex.bennee@linaro.org>
 
-We use the .h.inc extension to include C headers. To be consistent
-with the rest of the codebase, rename the C headers using the .def
-extension.
+This avoids some compilers complaining about a potentially
+un-initialised [src|dst]argv. In retrospect using GString was overkill
+for what we are constructing.
 
-IDE/tools using our .editorconfig / .gitattributes will leverage
-this consistency.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221025235006.7215-4-philmd@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20221103102329.2581508-1-alex.bennee@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/tricore/{csfr.def => csfr.h.inc} | 0
- target/tricore/translate.c              | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename target/tricore/{csfr.def => csfr.h.inc} (100%)
+ tests/unit/test-io-channel-command.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/target/tricore/csfr.def b/target/tricore/csfr.h.inc
-similarity index 100%
-rename from target/tricore/csfr.def
-rename to target/tricore/csfr.h.inc
-diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index c5b7bfbf2013..df9e46c6495e 100644
---- a/target/tricore/translate.c
-+++ b/target/tricore/translate.c
-@@ -388,7 +388,7 @@ static inline void gen_mfcr(DisasContext *ctx, TCGv ret, int32_t offset)
-         gen_helper_psw_read(ret, cpu_env);
-     } else {
-         switch (offset) {
--#include "csfr.def"
-+#include "csfr.h.inc"
-         }
-     }
- }
-@@ -418,7 +418,7 @@ static inline void gen_mtcr(DisasContext *ctx, TCGv r1,
-             gen_helper_psw_write(cpu_env, r1);
-         } else {
-             switch (offset) {
--#include "csfr.def"
-+#include "csfr.h.inc"
-             }
-         }
-     } else {
+diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
+index 43e29c8cfbf4..19f72eab961d 100644
+--- a/tests/unit/test-io-channel-command.c
++++ b/tests/unit/test-io-channel-command.c
+@@ -33,19 +33,13 @@ static void test_io_channel_command_fifo(bool async)
+ {
+     g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
+     g_autofree gchar *fifo = g_strdup_printf("%s/%s", tmpdir, TEST_FIFO);
+-    g_autoptr(GString) srcargs = g_string_new(socat);
+-    g_autoptr(GString) dstargs = g_string_new(socat);
+-    g_auto(GStrv) srcargv;
+-    g_auto(GStrv) dstargv;
++    g_autofree gchar *srcargs = g_strdup_printf("%s - PIPE:%s,wronly", socat, fifo);
++    g_autofree gchar *dstargs = g_strdup_printf("%s PIPE:%s,rdonly -", socat, fifo);
++    g_auto(GStrv) srcargv = g_strsplit(srcargs, " ", -1);
++    g_auto(GStrv) dstargv = g_strsplit(dstargs, " ", -1);
+     QIOChannel *src, *dst;
+     QIOChannelTest *test;
+ 
+-    g_string_append_printf(srcargs, " - PIPE:%s,wronly", fifo);
+-    g_string_append_printf(dstargs, " PIPE:%s,rdonly -", fifo);
+-
+-    srcargv = g_strsplit(srcargs->str, " ", -1);
+-    dstargv = g_strsplit(dstargs->str, " ", -1);
+-
+     src = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) srcargv,
+                                                     O_WRONLY,
+                                                     &error_abort));
 -- 
 2.37.3
 
