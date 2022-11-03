@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E18C61860D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 18:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E26618613
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 18:23:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqduA-0001sp-Ib; Thu, 03 Nov 2022 13:21:26 -0400
+	id 1oqdvV-0003rG-En; Thu, 03 Nov 2022 13:22:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oqdu5-0001qS-JN
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:21:22 -0400
+ id 1oqdvU-0003pp-GH
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:22:48 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oqdu2-0002Co-98
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:21:20 -0400
+ id 1oqdvT-0002Nd-4L
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:22:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667496076;
+ s=mimecast20190719; t=1667496166;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=YMsOqlaR1mpOdLmc46GKtKw6AC5YDMgUbneomZoaSfI=;
- b=G/7Hsk0xVXt3LMD7ePlYB8W18dcTshdn9Q2w72yWPUcQRGCphvmpcmpEPyMIOOGyFTmaKP
- L30LOz+oIAzdjwbsobLEiBTipIr4dwzSuw0gxMTsGGDVIzTHTx0GKNiY3xW7tfUJhSWnT0
- fdX9H7jPNm7MSAEcfCE9I48rp3UR6gI=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EMtLscuM+GkhtCSMJR6gBFiXWZfzwaCGy/BE14Qb5hs=;
+ b=ViCZij4wlkLAezSzEOQbWPIjJ5k64veB71CcdmEt3ivhfzAE1a9aIiNz3dcZu3p6U7phek
+ 3fWODQjtsuJB5xUE+V09qvHJNPqPn7wNp3cCcLLWlnyX914ONDCs5qjITQk2sPz9WmCpa6
+ +NqOWzp/JjEV9fJ4o4QkG1Fcx/s0yCg=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-537-3Hvf05qNO5a5KqkJBJ9o0Q-1; Thu, 03 Nov 2022 13:21:15 -0400
-X-MC-Unique: 3Hvf05qNO5a5KqkJBJ9o0Q-1
-Received: by mail-ed1-f70.google.com with SMTP id
- h9-20020a05640250c900b00461d8ee12e2so1840260edb.23
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 10:21:15 -0700 (PDT)
+ us-mta-451-jjInOxv4PqGlGAkMyrEcjw-1; Thu, 03 Nov 2022 13:22:45 -0400
+X-MC-Unique: jjInOxv4PqGlGAkMyrEcjw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ h9-20020a05640250c900b00461d8ee12e2so1843034edb.23
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 10:22:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YMsOqlaR1mpOdLmc46GKtKw6AC5YDMgUbneomZoaSfI=;
- b=GM/27m0uhyjM8wmVlq7oy0CmOENtY9v3OFl8uEZdkJij15sa4TRG5gTwN82qirtKd9
- Vd1n1X8bIxr2L3HaQ4rpzBGBLiM9NW5Zoon3RP8pEPxbpU7pAL8iRj7zar57NC9nIZwD
- CGhFzTa5iHtW45mFvZekpWJcbvAwVofK+iPpkby+TKfwOnL3NolnEUHcOhT30RD7bIsm
- QxdlTtFs/B2zeZ9jjlKUVS3v4jrx9gp9ysZls5lFCp/DBuzsix6h9YarO+pDdetKQWX4
- ZZ9yBSdPyld2b2iBNWWWiDu71StmpI4A01vIrhhPNKehJ4ywCu8SzxBezi9O8WLdZ1+I
- rdUA==
-X-Gm-Message-State: ACrzQf2Vs0U4I1BtlNmcLRAA2ZawRskaiseOj8D4mbKX1DIFIwvO95TT
- Zr8ds/t4Ki7/Bg78KACaws4AMCEbr6P/Xsi6kNJBU8CJcOxyBYfZ3PgvKWnlZkDJj3VLo/xb69S
- 1O4fPjHLrTO5d1oT8J6x6yJZZqNFQpxBHS0gcRVvOxFCRpGUJq32sGbSdLNAm3g3fipw=
-X-Received: by 2002:a17:907:6d1b:b0:7a1:11a9:1334 with SMTP id
- sa27-20020a1709076d1b00b007a111a91334mr1714652ejc.131.1667496073687; 
- Thu, 03 Nov 2022 10:21:13 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5lOHiFqQhEwm+fOeiU+OGgEjHRBvnmTjP3aKZB4XfN9TE1CubDC/4GlhGWM/38z/iCyeUMnA==
-X-Received: by 2002:a17:907:6d1b:b0:7a1:11a9:1334 with SMTP id
- sa27-20020a1709076d1b00b007a111a91334mr1714606ejc.131.1667496073145; 
- Thu, 03 Nov 2022 10:21:13 -0700 (PDT)
-Received: from avogadro.local ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.gmail.com with ESMTPSA id
- ec35-20020a0564020d6300b00458dc7e8ecasm753804edb.72.2022.11.03.10.21.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Nov 2022 10:21:12 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com,
-	sw@weilnetz.de
-Subject: [PATCH] meson: avoid unused arguments of main() in compiler tests
-Date: Thu,  3 Nov 2022 18:21:10 +0100
-Message-Id: <20221103172110.168235-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.38.1
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EMtLscuM+GkhtCSMJR6gBFiXWZfzwaCGy/BE14Qb5hs=;
+ b=rmjdjyqaJPOuVQBVtQSpwVj4hZfFpFsrWcLKprot8XL3UC/xgpGb5Q0O8UsB6Eahoy
+ QMM6+6W5tmmbOGkPkFUzpQkr7XDWjWj4SprVVc+YeeAxwz7nH0tAF60Sl0UU4c9IkfGK
+ NFlAsexUHqC1hpiM2Ex4IjhFFL4oiLLuz4E/NIGz3qtsHOZdMo7f9ku5juJBWrSyIGac
+ AK/OQBpayH3LndBTKpYKIuWjvGluEGk4xQHDgqOnHabTdSzmMcoPN/2POoMhdRLrcG2o
+ 33NcIEZgHqlnj5hXoBrdJwZKwqtuEXuvLk2lXEGjOXbIN86if3UJmYBSBoFik17Q+/hO
+ WWDQ==
+X-Gm-Message-State: ACrzQf32YIn3cjzuW3xuHs4G7bvbaHRH9CU+dUud6MutlsGdGH8uByfA
+ fC2PowooxCNJOl62kcgGefE+J+XHcfXqHPc2x/v6YorkiBsPCSHrEAkCYjeAtmLwOwvm7gVXbdw
+ t6JujwPKCtFztG4Q=
+X-Received: by 2002:a17:906:6a8d:b0:741:6a3b:536e with SMTP id
+ p13-20020a1709066a8d00b007416a3b536emr30756309ejr.11.1667496163851; 
+ Thu, 03 Nov 2022 10:22:43 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6ZRZ4cw0H8szIxejDDMt3WKonsXorBEMr+lfN1kHangTCJRJTwO2xj6P6cKdNMt/6lFAKHRA==
+X-Received: by 2002:a17:906:6a8d:b0:741:6a3b:536e with SMTP id
+ p13-20020a1709066a8d00b007416a3b536emr30756299ejr.11.1667496163664; 
+ Thu, 03 Nov 2022 10:22:43 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
+ ([2001:b07:6468:f312:1c09:f536:3de6:228c])
+ by smtp.googlemail.com with ESMTPSA id
+ qq18-20020a17090720d200b007aa9156f7e9sm732511ejb.32.2022.11.03.10.22.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Nov 2022 10:22:43 -0700 (PDT)
+Message-ID: <2b1a92c2-c081-aacd-da05-aa434f50bbaa@redhat.com>
+Date: Thu, 3 Nov 2022 18:22:42 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH for 7.2] Fix broken configure with -Wunused-parameter
+Content-Language: en-US
+To: Stefan Weil <sw@weilnetz.de>, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20221102202258.456359-1-sw@weilnetz.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20221102202258.456359-1-sw@weilnetz.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -80,8 +85,8 @@ X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,60 +102,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-meson.build has one test where "main" is declared unnecessarily
-with argc and argv arguments, but does not use them.  Because
-the test needs -Werror too, HAVE_BROKEN_SIZE_MAX is defined
-incorrectly.
+On 11/2/22 21:22, Stefan Weil via wrote:
+> != "no"; then
+>     cat > $TMPC << EOF
+>   int main(int argc, char *argv[])
+>   {
+> +    (void)argc;
+>       char arr[64], *p = arr, *c = argv[0];
 
-Fix the test and, for consistency, remove argc and argv whenever
-they are not needed.
+You could use argv[argc - 1] instead.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- meson.build | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Paolo
 
-diff --git a/meson.build b/meson.build
-index 17834b3c3def..7beeac6b5194 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2143,7 +2143,7 @@ config_host_data.set('CONFIG_SPLICE', cc.links(gnu_source_prefix + '''
- 
- config_host_data.set('HAVE_MLOCKALL', cc.links(gnu_source_prefix + '''
-   #include <sys/mman.h>
--  int main(int argc, char *argv[]) {
-+  int main(void) {
-     return mlockall(MCL_FUTURE);
-   }'''))
- 
-@@ -2188,7 +2188,7 @@ config_host_data.set('HAVE_FSXATTR', cc.links('''
- config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
-     #include <stdint.h>
-     #include <stdio.h>
--    int main(int argc, char *argv[]) {
-+    int main(void) {
-         return printf("%zu", SIZE_MAX);
-     }''', args: ['-Werror']))
- 
-@@ -2305,7 +2305,7 @@ config_host_data.set('CONFIG_AVX2_OPT', get_option('avx2') \
-       __m256i x = *(__m256i *)a;
-       return _mm256_testz_si256(x, x);
-     }
--    int main(int argc, char *argv[]) { return bar(argv[0]); }
-+    int main(int argc, char *argv[]) { return bar(argv[argc - 1]); }
-   '''), error_message: 'AVX2 not available').allowed())
- 
- config_host_data.set('CONFIG_AVX512F_OPT', get_option('avx512f') \
-@@ -2319,7 +2319,7 @@ config_host_data.set('CONFIG_AVX512F_OPT', get_option('avx512f') \
-       __m512i x = *(__m512i *)a;
-       return _mm512_test_epi64_mask(x, x);
-     }
--    int main(int argc, char *argv[]) { return bar(argv[0]); }
-+    int main(int argc, char *argv[]) { return bar(argv[argc - 1]); }
-   '''), error_message: 'AVX512F not available').allowed())
- 
- have_pvrdma = get_option('pvrdma') \
--- 
-2.38.1
+>       while (*c) {
+>           *p++ = *c++;
 
 
