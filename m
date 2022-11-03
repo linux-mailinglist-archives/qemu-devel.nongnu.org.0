@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4506185B5
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 18:05:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD38B6185B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 18:05:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqdcg-00006r-Dd; Thu, 03 Nov 2022 13:03:22 -0400
+	id 1oqdcc-0008OI-TZ; Thu, 03 Nov 2022 13:03:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oqdbZ-0007ju-CZ; Thu, 03 Nov 2022 13:02:26 -0400
+ id 1oqdbd-0007kt-2J; Thu, 03 Nov 2022 13:02:26 -0400
 Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oqdbS-0007N5-If; Thu, 03 Nov 2022 13:02:10 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A3Fm8i8012565;
+ id 1oqdbU-0007NK-SR; Thu, 03 Nov 2022 13:02:15 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A3Fqk4W001890;
  Thu, 3 Nov 2022 17:02:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=litjZbPndaAba2Nr+/Z5R7JNiki+qqlWzy4IB/A+x1Y=;
- b=pXpWpFAaTKdBFo0ePxblplFQKTjpnJhfhx/uwpLti8rtYd6R3smYjpkMlmQhQmk1rlYH
- xZT0pdKQ440gaEBQdDsBVt5yttgU2+QR3WG/Gomw6TT6CBRbHc6KKCVTSbUn0WQeo8do
- 5V9TY1lGZrKBp8fhf+7BU1vkhbFZ8Qjv5yVMDhOTT9Mf7LHR8AjQDX2J3ntQUvDOlALX
- LLgwnpbrcOI63Fc6MUIdsiCefERgZpngMcFt3oNnQZGneuxl39el/zUjYRj1F1KEPz6O
- PV7jVkS4dr3AxbAkTcw6YGxZOit1VP0CGDb6J8Y4UbN6WpKYDYuhpwOuWBJiHN/3cvrg 5A== 
+ bh=uqt0b7Xv6p04ttu26Xn6S2so5CxuQcn1mK46SRdPmMo=;
+ b=rL8G879U4lNFRrMgloPE+pMwYK7Z5bxvpzQSVJut+NpAyg3Asxpe3fjtO3NmBrs8qDhg
+ xmaA5ih0+rHMutb362NMdvTD4LkTg20F8UiMemk2sx2UeSi4GpcguUF0Hlhg+e030G+u
+ hfatI1j4MC/fjRLoqgjX2XQ+utcUtihYlIY8zp0C8AGGvwi+jipHQOJPPZ+mHHdJVYQR
+ wk5drB48L9jAamuhOWoHw1p335tIVrFjwC4Lqq0ZGmvIegrCdj+GN0SjkE3hCxaHppp7
+ qtjgPYkdor5P30fc6cR4Wc2m41tgpcu/U6vbw746iAEXCqfy/m6D2cfLTYYcqwCCvqW1 mA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kme169hgh-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kme7ygnjy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Nov 2022 17:02:02 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A3Fsnl5008644;
+ Thu, 3 Nov 2022 17:02:02 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kme7ygnhh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 03 Nov 2022 17:02:01 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A3Fn3I3017721;
- Thu, 3 Nov 2022 17:02:01 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kme169hf7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 17:02:01 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3H1h6A020657;
- Thu, 3 Nov 2022 17:01:58 GMT
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3GKjOP002793;
+ Thu, 3 Nov 2022 17:01:59 GMT
 Received: from b06avi18878370.portsmouth.uk.ibm.com
  (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06fra.de.ibm.com with ESMTP id 3kguejeuhk-1
+ by ppma03fra.de.ibm.com with ESMTP id 3kgut8ptkr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 03 Nov 2022 17:01:58 +0000
 Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
  [9.149.105.232])
  by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2A3H2VVq42402098
+ id 2A3H2WBR42402104
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 3 Nov 2022 17:02:31 GMT
+ Thu, 3 Nov 2022 17:02:32 GMT
 Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2C1135204F;
+ by IMSVA (Postfix) with ESMTP id B6AF652051;
  Thu,  3 Nov 2022 17:01:55 +0000 (GMT)
 Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com (unknown
  [9.152.222.245])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 97BEE52052;
- Thu,  3 Nov 2022 17:01:54 +0000 (GMT)
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 2C77552050;
+ Thu,  3 Nov 2022 17:01:55 +0000 (GMT)
 From: Pierre Morel <pmorel@linux.ibm.com>
 To: qemu-s390x@nongnu.org
 Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
@@ -71,26 +71,27 @@ Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
  eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
  nrb@linux.ibm.com, scgl@linux.ibm.com, frankja@linux.ibm.com,
  berrange@redhat.com, clg@kaod.org
-Subject: [PATCH v11 07/11] target/s390x: interception of PTF instruction
-Date: Thu,  3 Nov 2022 18:01:46 +0100
-Message-Id: <20221103170150.20789-8-pmorel@linux.ibm.com>
+Subject: [PATCH v11 08/11] s390x/cpu topology: add topology_capable QEMU
+ capability
+Date: Thu,  3 Nov 2022 18:01:47 +0100
+Message-Id: <20221103170150.20789-9-pmorel@linux.ibm.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20221103170150.20789-1-pmorel@linux.ibm.com>
 References: <20221103170150.20789-1-pmorel@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: m4QG7WIZzjOIFtgw3isJ8LCc4WJWiovT
-X-Proofpoint-ORIG-GUID: Mj_XpdaaN9r2yt-iiAtIDW4Odno2FoOT
+X-Proofpoint-GUID: Gjo6yKMx43-Nbzmm4nFQOWNbnkpjAeBH
+X-Proofpoint-ORIG-GUID: quDqsrpfvntEGpuzsNckbr5DoqlCit6E
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-11-03_04,2022-11-03_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- mlxscore=0 phishscore=0 lowpriorityscore=0 mlxlogscore=999 bulkscore=0
- clxscore=1015 adultscore=0 priorityscore=1501 impostorscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211030114
+ priorityscore=1501
+ mlxlogscore=999 malwarescore=0 mlxscore=0 suspectscore=0 adultscore=0
+ spamscore=0 impostorscore=0 phishscore=0 clxscore=1015 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211030114
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
@@ -114,138 +115,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When the host supports the CPU topology facility, the PTF
-instruction with function code 2 is interpreted by the SIE,
-provided that the userland hypervizor activates the interpretation
-by using the KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
-
-The PTF instructions with function code 0 and 1 are intercepted
-and must be emulated by the userland hypervizor.
+S390 CPU topology is only allowed for s390-virtio-ccw-7.2 and
+newer S390 machines.
 
 Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-Reviewed-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
 ---
- include/hw/s390x/s390-virtio-ccw.h |  6 ++++
- hw/s390x/cpu-topology.c            | 52 ++++++++++++++++++++++++++++++
- target/s390x/kvm/kvm.c             | 11 +++++++
- 3 files changed, 69 insertions(+)
+ include/hw/s390x/s390-virtio-ccw.h | 1 +
+ hw/s390x/s390-virtio-ccw.c         | 2 ++
+ 2 files changed, 3 insertions(+)
 
 diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-index 23b472708d..6488279690 100644
+index 6488279690..89fca3f79f 100644
 --- a/include/hw/s390x/s390-virtio-ccw.h
 +++ b/include/hw/s390x/s390-virtio-ccw.h
-@@ -32,6 +32,12 @@ struct S390CcwMachineState {
-     void *topology;
+@@ -48,6 +48,7 @@ struct S390CcwMachineClass {
+     bool css_migration_enabled;
+     bool hpage_1m_allowed;
+     int max_threads;
++    bool topology_capable;
  };
  
-+#define S390_PTF_REASON_NONE (0x00 << 8)
-+#define S390_PTF_REASON_DONE (0x01 << 8)
-+#define S390_PTF_REASON_BUSY (0x02 << 8)
-+#define S390_TOPO_FC_MASK 0xffUL
-+void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra);
-+
- struct S390CcwMachineClass {
-     /*< private >*/
-     MachineClass parent_class;
-diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-index df4470d2b4..fc220bd8ac 100644
---- a/hw/s390x/cpu-topology.c
-+++ b/hw/s390x/cpu-topology.c
-@@ -20,6 +20,58 @@
- #include "hw/s390x/s390-virtio-ccw.h"
- #include "hw/s390x/cpu-topology.h"
- #include "migration/vmstate.h"
-+#include "target/s390x/cpu.h"
-+#include "hw/s390x/s390-virtio-ccw.h"
-+
-+/*
-+ * s390_handle_ptf:
-+ *
-+ * @register 1: contains the function code
-+ *
-+ * Function codes 0 and 1 handle the CPU polarization.
-+ * We assume an horizontal topology, the only one supported currently
-+ * by Linux, consequently we answer to function code 0, requesting
-+ * horizontal polarization that it is already the current polarization
-+ * and reject vertical polarization request without further explanation.
-+ *
-+ * Function code 2 is handling topology changes and is interpreted
-+ * by the SIE.
-+ */
-+void s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
-+{
-+    CPUS390XState *env = &cpu->env;
-+    uint64_t reg = env->regs[r1];
-+    uint8_t fc = reg & S390_TOPO_FC_MASK;
-+
-+    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
-+        s390_program_interrupt(env, PGM_OPERATION, ra);
-+        return;
-+    }
-+
-+    if (env->psw.mask & PSW_MASK_PSTATE) {
-+        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
-+        return;
-+    }
-+
-+    if (reg & ~S390_TOPO_FC_MASK) {
-+        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        return;
-+    }
-+
-+    switch (fc) {
-+    case 0:    /* Horizontal polarization is already set */
-+        env->regs[r1] |= S390_PTF_REASON_DONE;
-+        setcc(cpu, 2);
-+        break;
-+    case 1:    /* Vertical polarization is not supported */
-+        env->regs[r1] |= S390_PTF_REASON_NONE;
-+        setcc(cpu, 2);
-+        break;
-+    default:
-+        /* Note that fc == 2 is interpreted by the SIE */
-+        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+    }
-+}
- 
- /*
-  * s390_topology_new_cpu:
-diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-index 5b6383eab0..a79fdf1c79 100644
---- a/target/s390x/kvm/kvm.c
-+++ b/target/s390x/kvm/kvm.c
-@@ -97,6 +97,7 @@
- 
- #define PRIV_B9_EQBS                    0x9c
- #define PRIV_B9_CLP                     0xa0
-+#define PRIV_B9_PTF                     0xa2
- #define PRIV_B9_PCISTG                  0xd0
- #define PRIV_B9_PCILG                   0xd2
- #define PRIV_B9_RPCIT                   0xd3
-@@ -1465,6 +1466,13 @@ static int kvm_mpcifc_service_call(S390CPU *cpu, struct kvm_run *run)
-     }
+ /* runtime-instrumentation allowed by the machine */
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 4de2622f99..f1a9d6e793 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -763,6 +763,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
+     s390mc->css_migration_enabled = true;
+     s390mc->hpage_1m_allowed = true;
+     s390mc->max_threads = 1;
++    s390mc->topology_capable = true;
+     mc->init = ccw_init;
+     mc->reset = s390_machine_reset;
+     mc->block_default_type = IF_VIRTIO;
+@@ -896,6 +897,7 @@ static void ccw_machine_7_1_class_options(MachineClass *mc)
+     ccw_machine_7_2_class_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+     s390mc->max_threads = S390_MAX_CPUS;
++    s390mc->topology_capable = false;
  }
+ DEFINE_CCW_MACHINE(7_1, "7.1", false);
  
-+static void kvm_handle_ptf(S390CPU *cpu, struct kvm_run *run)
-+{
-+    uint8_t r1 = (run->s390_sieic.ipb >> 20) & 0x0f;
-+
-+    s390_handle_ptf(cpu, r1, RA_IGNORED);
-+}
-+
- static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
- {
-     int r = 0;
-@@ -1482,6 +1490,9 @@ static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
-     case PRIV_B9_RPCIT:
-         r = kvm_rpcit_service_call(cpu, run);
-         break;
-+    case PRIV_B9_PTF:
-+        kvm_handle_ptf(cpu, run);
-+        break;
-     case PRIV_B9_EQBS:
-         /* just inject exception */
-         r = -1;
 -- 
 2.31.1
 
