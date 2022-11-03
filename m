@@ -2,50 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E82F617D18
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 13:53:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 062C3617D19
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 13:54:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqZhI-0003HG-VT; Thu, 03 Nov 2022 08:51:53 -0400
+	id 1oqZim-0004Kd-HH; Thu, 03 Nov 2022 08:53:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oqZh1-0003Dh-2C; Thu, 03 Nov 2022 08:51:46 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oqZii-0004Hd-Dq; Thu, 03 Nov 2022 08:53:20 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oqZgu-0002mX-CY; Thu, 03 Nov 2022 08:51:31 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id EB19D74638A;
- Thu,  3 Nov 2022 13:51:19 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A47A974633D; Thu,  3 Nov 2022 13:51:19 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id A2EF274632B;
- Thu,  3 Nov 2022 13:51:19 +0100 (CET)
-Date: Thu, 3 Nov 2022 13:51:19 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
- qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>, 
- Bin Meng <bin.meng@windriver.com>, qemu-ppc@nongnu.org, 
- qemu-block@nongnu.org
-Subject: Re: [PATCH v6 0/3] ppc/e500: Add support for eSDHC
-In-Reply-To: <72e7c23d-5a07-8d51-2bdb-cf957b84ac2f@gmail.com>
-Message-ID: <29fdeb41-5032-fca0-62a8-c8ee7fa611e7@eik.bme.hu>
-References: <20221101222934.52444-1-philmd@linaro.org>
- <72e7c23d-5a07-8d51-2bdb-cf957b84ac2f@gmail.com>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oqZiR-0002y3-VL; Thu, 03 Nov 2022 08:53:20 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A3CLv4A014887;
+ Thu, 3 Nov 2022 12:52:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=pp1;
+ bh=Q3OacAw30iGZzd/siIlI5fYbbySMdTRQSALiPax2NTA=;
+ b=cvOsWe5S6vN1MyQKRiFTQoIfEBaJ6AmYa8OUzzwAKgIiwMSJ8OedwrniNtvCaaIJsHE+
+ ueN8JfNMGdxCSg21uieB0GX8lYWLZjzZVG/nY+XAyFlfzP5bSKlpE8MU9VpA4Y+U2n4v
+ oh2iWM+Cmb4msWs7WGXrwnFAKjoPUtGepB/X3yE0QESUMfOnDzfGxVDjeHKIPpoG9qjX
+ +JreVlHN7XHoMbFoWF7Y0ypEQs4Pd7T+HPJtuRSkN9LnoWqX/W+cl7/RYLkMOINHkubX
+ jcvnUee8LNSoDSQCAAXSIsTLnGWHkYjcQvNGv9BVpuC+Sm6FD4b3IJ/SjE1wPmGeHN5C Wg== 
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmdk8h0da-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Nov 2022 12:52:58 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3CpnKl019761;
+ Thu, 3 Nov 2022 12:52:56 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06ams.nl.ibm.com with ESMTP id 3kguej0sya-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Nov 2022 12:52:56 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2A3CqsFL36700598
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 3 Nov 2022 12:52:54 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1D9C311C04C;
+ Thu,  3 Nov 2022 12:52:54 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CD86711C04A;
+ Thu,  3 Nov 2022 12:52:53 +0000 (GMT)
+Received: from heavy (unknown [9.171.39.72])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu,  3 Nov 2022 12:52:53 +0000 (GMT)
+Date: Thu, 3 Nov 2022 13:52:52 +0100
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 09/26] target/s390x: Use gen_psw_addr_disp in
+ save_link_info
+Message-ID: <20221103125252.ctefkrpt26i65rsw@heavy>
+References: <20221006034421.1179141-1-richard.henderson@linaro.org>
+ <20221006034421.1179141-10-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1118473289-1667479879=:12665"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221006034421.1179141-10-richard.henderson@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ox_VfMcBvwKnue0SJbcCq1blPnI9Pprq
+X-Proofpoint-ORIG-GUID: ox_VfMcBvwKnue0SJbcCq1blPnI9Pprq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-03_02,2022-11-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ clxscore=1015 adultscore=0 suspectscore=0 phishscore=0 mlxlogscore=762
+ impostorscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211030086
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,91 +107,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Wed, Oct 05, 2022 at 08:44:04PM -0700, Richard Henderson wrote:
+> Trivial but non-mechanical conversion away from pc_tmp.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/s390x/tcg/translate.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 
---3866299591-1118473289-1667479879=:12665
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+I was a bit worried about this sequence and wrote a regression test.
+It did not find any issues, but I will post it here, might prove useful
+some day.
 
-On Wed, 2 Nov 2022, Daniel Henrique Barboza wrote:
-> On 11/1/22 19:29, Philippe Mathieu-DaudÃ© wrote:
->> This is a respin of Bernhard's v4 with Freescale eSDHC implemented
->> as an 'UNIMP' region. See v4 cover here:
->> https://lore.kernel.org/qemu-devel/20221018210146.193159-1-shentey@gmail.com/
->> 
->> Since v5:
->> - Rebased (ppc-next merged)
->> - Properly handle big-endian
->> 
->> Since v4:
->> - Do not rename ESDHC_* definitions to USDHC_*
->> - Do not modify SDHCIState structure
->> 
->> Supersedes: <20221031115402.91912-1-philmd@linaro.org>
->
-> Queued in gitlab.com/danielhb/qemu/tree/ppc-8.0 (since we missed the
-> freeze for 7.2).
-
-Could you please always use ppc-next to queue patches for the next 
-upcoming version and ppc-7.2 for the current version? Unless this makes 
-your workflow harder in which case ignore this but the reason I ask is 
-because then it's enough for me to only track ppc-next if I need to rebase 
-patches on that and don't have to add a new branch at every release 
-(unless I have some patches to rebase on it during a freeze but that's 
-less likely than rebasing on your queued patches for the next release xo 
-using version for the current branch and keep next for the future versions 
-makes more sense to me).
-
-> BTW, checkpatch complained about this line being too long (83 chars):
->
->
-> 3/3 Checking commit bc7b8cc88560 (hw/ppc/e500: Add Freescale eSDHC to 
-> e500plat)
-> WARNING: line over 80 characters
-> #150: FILE: hw/ppc/e500.c:1024:
-> +                                    pmc->ccsrbar_base + 
-> MPC85XX_ESDHC_REGS_OFFSET,
->
->
-> The code except is this:
->
->    if (pmc->has_esdhc) {
->        create_unimplemented_device("esdhc",
->                                    pmc->ccsrbar_base + 
-> MPC85XX_ESDHC_REGS_OFFSET,
->                                    MPC85XX_ESDHC_REGS_SIZE);
->
->
-> To get rid of the warning we would need to make a python-esque identation 
-> (line
-> break after "(" ) or create a new variable to hold the sum. Both seems 
-> overkill
-> so I'll ignore the warning. Phil is welcome to re-send if he thinks it's 
-> worth
-> it.
-
-Or you could break indentation and not start at the ( but 3 chars back. I.e.:
-
-create_unimplemented_device("esdhc",
-                          pmc->ccsrbar_base + MPC85XX_ESDHC_REGS_OFFSET,
-                          MPC85XX_ESDHC_REGS_SIZE);
-
-But I think it can be just ignored in this case.
-
-> And I'll follow it up with my usual plea in these cases: can we move the line 
-> size warning to 100 chars? For QEMU 8.0? Pretty please?
-
-I think the consensus was to keep 80 columns if possible, this is good 
-becuase you can open more files side by side (although it does not match 
-well with the long _ naming convention of glib and qemu)  but we have a 
-distinction between checkpatch warning and error in line length. I think 
-it will give error at 90 chars but as long as it's just warns that means: 
-fix it if you can but in rare cases if it's more readable with a slightly 
-longer line then it is still acceptable. I think that's the case here, 
-splitting the line would be less readable than a few chars longer line.
-
-Regards,
-BALATON Zoltan
---3866299591-1118473289-1667479879=:12665--
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
