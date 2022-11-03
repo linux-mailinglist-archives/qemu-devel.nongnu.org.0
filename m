@@ -2,66 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A0C8617B12
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 11:50:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7439F617B21
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 11:55:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqXmg-0001yG-R0; Thu, 03 Nov 2022 06:49:19 -0400
+	id 1oqXrl-0003a7-Bk; Thu, 03 Nov 2022 06:54:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenyzha@redhat.com>)
- id 1oqXmT-0001wn-Hg
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 06:49:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oqXrj-0003Zo-16; Thu, 03 Nov 2022 06:54:31 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenyzha@redhat.com>)
- id 1oqXmP-0006nt-TC
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 06:49:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667472540;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=pdvLPeIXX14v9L373p1TA5wskSCMO4JjjC+04vQ7Gv4=;
- b=dfeRU1EbHHfGi13ea4UYKoOwPfRP9/WAN4RKBYa8QusyeXOZHZ4m4uDSjL2Hb/cyYGln0g
- STuTo80DYZwRPhvwU64Suio4fTJu8oIex1Tls7DxVqWQxa11bXwg8fYGiabN90VCXfXQGZ
- MBLcBo6Kdk4752VFnToJYUwxVy00exE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-97-oAr9yuEDPLaMtwx1chsm5A-1; Thu, 03 Nov 2022 06:47:25 -0400
-X-MC-Unique: oAr9yuEDPLaMtwx1chsm5A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4510B185A79C;
- Thu,  3 Nov 2022 10:47:25 +0000 (UTC)
-Received: from cav-thunderx1s-cn88xx-03.khw4.lab.eng.bos.redhat.com
- (cav-thunderx1s-cn88xx-03.khw4.lab.eng.bos.redhat.com [10.19.240.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 103872024CBF;
- Thu,  3 Nov 2022 10:47:25 +0000 (UTC)
-From: Zhenyu Zhang <zhenyzha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: zhenyzha@redhat.com, shan.gavin@gmail.com, liuyd.fnst@fujitsu.com,
- eric.auger@redhat.com
-Subject: [PATCH] qom.json: default the prealloc-threads to smp-cpus
-Date: Thu,  3 Nov 2022 06:47:16 -0400
-Message-Id: <20221103104716.179635-1-zhenyzha@redhat.com>
-MIME-Version: 1.0\nContent-Type: text/plain;
- charset=UTF-8\nContent-Transfer-Encoding: 8bit
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=zhenyzha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, BOGUS_MIME_VERSION=3.499,
- DKIMWL_WL_HIGH=-1.047, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oqXrg-0007Us-Vh; Thu, 03 Nov 2022 06:54:30 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A39cRp5008919;
+ Thu, 3 Nov 2022 10:54:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=dnnRIJcCPYBmDROhA0QUVxm8fiiecvc3tfCQ2kzknWE=;
+ b=bWEoDQC7LHuoXaWgyt6pxSrP67Vr3MZB50TtnWRAspcSpvIOg7bT6GIUZs2Y6HZtskrY
+ wMRXWBZS2a81DxIbc9mM39Wkvl6ON5a47W1FDGTT4OQn6pezDyMvOOXJdGddAMYFWPKo
+ GDLBG6Vfv1Pa1E52PO5x+Nrl2d1qwgW2XUOebsnG4kf9lVvrtIL/0mJDCv9f4rxKFzim
+ 4FTJ3I9mLBibMr9li8rBfEptII04Bgc+vfmqYjtHQRyjiRA4wl6hh/cByNGj4yfeh3Tq
+ lmrPmvxWgtXzHO78LGZ3W+CaH+2unnktA12NFp6nULfu8KWdaBlafHg913H0kzfUIbH2 pA== 
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3km9mncnxe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Nov 2022 10:54:25 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3ApMsO026960;
+ Thu, 3 Nov 2022 10:54:23 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma01fra.de.ibm.com with ESMTP id 3kgut9ed70-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Nov 2022 10:54:23 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 2A3Asv4F51970530
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 3 Nov 2022 10:54:57 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 268134C046;
+ Thu,  3 Nov 2022 10:54:21 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E0C374C040;
+ Thu,  3 Nov 2022 10:54:20 +0000 (GMT)
+Received: from heavy (unknown [9.171.39.72])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu,  3 Nov 2022 10:54:20 +0000 (GMT)
+Date: Thu, 3 Nov 2022 11:54:19 +0100
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org
+Subject: Re: [PATCH 02/26] target/s390x: Use tcg_constant_* for DisasCompare
+Message-ID: <20221103105419.2yi7x7cgpcf65kkn@heavy>
+References: <20221006034421.1179141-1-richard.henderson@linaro.org>
+ <20221006034421.1179141-3-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221006034421.1179141-3-richard.henderson@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ELwtXSWVD2w0SK-zonbjh2vIRyfDWdjk
+X-Proofpoint-GUID: ELwtXSWVD2w0SK-zonbjh2vIRyfDWdjk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-03_02,2022-11-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 mlxscore=0
+ mlxlogscore=547 suspectscore=0 impostorscore=0 clxscore=1015 phishscore=0
+ adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2210170000 definitions=main-2211030073
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,28 +103,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since the amount of prealloc-threads to smp-cpus is
-defaulted in hostmem, so sync this information.
+On Wed, Oct 05, 2022 at 08:43:57PM -0700, Richard Henderson wrote:
+> The a and b fields are not modified by the consumer,
+> and while we need not free a constant, tcg will quietly
+> ignore such frees, so free_compare need not be changed.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/s390x/tcg/translate.c | 44 ++++++++++++++++++------------------
+>  1 file changed, 22 insertions(+), 22 deletions(-)
 
-Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
----
- qapi/qom.json | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I did not check all the code paths in the consumer, but if there is a
+bug and a or b ends up being modified, one of the temp_readonly()
+assertions will catch it.
 
-diff --git a/qapi/qom.json b/qapi/qom.json
-index 87fcad2423..ac4cd213a7 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -576,7 +576,7 @@
- #
- # @prealloc: if true, preallocate memory (default: false)
- #
--# @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
-+# @prealloc-threads: number of CPU threads to use for prealloc (default: smp-cpus) (since 7.1)
- #
- # @prealloc-context: thread context to use for creation of preallocation threads
- #                    (default: none) (since 7.2)
--- 
-2.31.1
-
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
