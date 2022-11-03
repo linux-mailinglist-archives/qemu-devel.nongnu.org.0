@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18FD5618A58
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 22:13:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E17618A7D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 22:25:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqhUx-0005dW-Kq; Thu, 03 Nov 2022 17:11:42 -0400
+	id 1oqhgT-0002yq-3k; Thu, 03 Nov 2022 17:23:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oqhUk-0005dG-AT
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:11:26 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oqhUi-0004P2-2m
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:11:25 -0400
-Received: by mail-pg1-x535.google.com with SMTP id q1so2724229pgl.11
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 14:11:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=LA2SPkYkjFkOyFejLOy3z5Lm9UbIywrJXG/aLzTuemQ=;
- b=XfXQJkz35wM90N/jGxoCaFiq5khP3Hialen7yV7mgUqH+2d8AkbYZxvsWY0GEnV7Rj
- uklyYqqnTpwRHTK7FRo0jVZSeHJJf20h5oaf5wbrEjhIu7ocWP8H/wjxhqu31ruKh9kr
- dVW9+dTi2f/dGo02LBK6Pj3+hj6SgUwyBv58meeiSB1lq6b1cPhXNQ6M4OASBZ59Jbxr
- o+MDySMXQgEYKV182rCpoy8gU/NtynQbQd5pKTj8MIhKshDZfSB8OXFNci1+IXiWOLYa
- Y/FBBhLKm0R0Sm8nIs11lG7Oe+u3V2lAI4ulGa0YpNLzzUY/uStThTSsteXvGDxiQwVY
- PQjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LA2SPkYkjFkOyFejLOy3z5Lm9UbIywrJXG/aLzTuemQ=;
- b=fJSYtHH8zerNdUjpCa7yWxnhTQLp2SetQhkZtsaKNEuaOHPGFpWG3gJfnzTcYkqDz9
- VoGzLk2nOr10YSAJ8s2jYsBlt3jqOk87XnckJnlfr+uScAnRxY86DiiL49/ZZO2gW74y
- tGlUB5c7ugcR7ta4bc3JSIOTVezwmD7ZDqYW9Wvow9j6l0k8asPTfCuE5z9/Qy2MMZtV
- vHU4b0HH6vIHXj72BfrH/+DK5HXvbSTOdYC7U/DCZha6WMXRnaIq2hp0Clm6UAoW/XZm
- IfoUl2cHpbsf+rnx1+7mI3wzP4c88+294X7Ck5ut5GjUPe4xmif5kSE6LMfNf5KZcK1e
- j+KQ==
-X-Gm-Message-State: ACrzQf3W7JSCghq7jalAQZuvvTzWto5xQ3laRlh7eHugwULbyz/kj7QQ
- 2pkbGB9dHLNsohHkPwf2CR4BPA==
-X-Google-Smtp-Source: AMsMyM7WlfumVU03xBeN6Cyo8vMAi2dHaTHJAOafj+rZXvnabrOZOHolmm9povzLUFXCAe0LWYzeHQ==
-X-Received: by 2002:a05:6a00:1253:b0:56d:8742:a9ff with SMTP id
- u19-20020a056a00125300b0056d8742a9ffmr21891927pfi.5.1667509882171; 
- Thu, 03 Nov 2022 14:11:22 -0700 (PDT)
-Received: from [192.168.229.227] ([206.83.113.103])
- by smtp.gmail.com with ESMTPSA id
- d5-20020a170902b70500b00186748fe6ccsm1060223pls.214.2022.11.03.14.11.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Nov 2022 14:11:21 -0700 (PDT)
-Message-ID: <514c0f75-8e89-9a65-01c1-0053961d5676@linaro.org>
-Date: Fri, 4 Nov 2022 08:11:14 +1100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oqhgR-0002ye-7V
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:23:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oqhgP-0006Gc-B7
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:23:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667510608;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GW9x8TZz8CQU7w9l8EonZpopeP/duV3lqyBxGUAHGPo=;
+ b=iYWsRiRrglfz/KC0FlQLJ5p0s8xq6JSYBvv1q8YhSXra8HdcTjH7WCq0ErbV3QRacmpifY
+ DcmulkGcNQS0E9rpqOwQrmz7eiR0rsDVHMsxGJWjIXc8NkJzEoc0Qw6qNEEFHBEQvteq+7
+ 0qK3Oijdw9/6ut7tAf2zl8OiPUTsW+Y=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-570-LfTlnjYwPrqfELXXcVhPIQ-1; Thu, 03 Nov 2022 17:23:24 -0400
+X-MC-Unique: LfTlnjYwPrqfELXXcVhPIQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 78F771C05159;
+ Thu,  3 Nov 2022 21:23:24 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.112])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D582D4EA52;
+ Thu,  3 Nov 2022 21:23:23 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PATCH] gitlab-ci: split clang-user to avoid timeout
+Date: Thu,  3 Nov 2022 17:23:21 -0400
+Message-Id: <20221103212321.387738-1-stefanha@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] target/loongarch: Fix emulation of float-point disable
- exception
-Content-Language: en-US
-To: Rui Wang <wangrui@loongson.cn>
-Cc: Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>, 
- qemu-devel@nongnu.org, hev <qemu@hev.cc>
-References: <20221103122551.152380-1-wangrui@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221103122551.152380-1-wangrui@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,84 +79,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/3/22 23:25, Rui Wang wrote:
-> +/*
-> + * LoongArch CPUs hardware flags.
-> + * bit[2..0] for MMU index.
-> + * bit[7..4] for CSR.EUEN.{ BTE, ASXE, SXE, FPE }.
-> + */
-> +#define HW_FLAGS_MMU_MASK   0x07
-> +#define HW_FLAGS_EUEN_FPE   0x10
-> +
->   static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
->                                           target_ulong *pc,
->                                           target_ulong *cs_base,
-> @@ -399,6 +408,10 @@ static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
->       *pc = env->pc;
->       *cs_base = 0;
->       *flags = cpu_mmu_index(env, false);
-> +
-> +    if (FIELD_EX64(env->CSR_EUEN, CSR_EUEN, FPE)) {
-> +        *flags |= HW_FLAGS_EUEN_FPE;
-> +    }
->   }
->   
->   void loongarch_cpu_list(void);
-> diff --git a/target/loongarch/insn_trans/trans_farith.c.inc b/target/loongarch/insn_trans/trans_farith.c.inc
-> index 7bb3f41aee..e2dec75dfb 100644
-> --- a/target/loongarch/insn_trans/trans_farith.c.inc
-> +++ b/target/loongarch/insn_trans/trans_farith.c.inc
-> @@ -3,9 +3,22 @@
->    * Copyright (c) 2021 Loongson Technology Corporation Limited
->    */
->   
-> +#ifndef CONFIG_USER_ONLY
-> +#define CHECK_FPE do { \
-> +    if ((ctx->base.tb->flags & HW_FLAGS_EUEN_FPE) == 0) { \
-> +        generate_exception(ctx, EXCCODE_FPD); \
-> +        return false; \
-> +    } \
-> +} while (0)
-> +#else
-> +#define CHECK_FPE
-> +#endif
+GitLab CI times out when the clang-user job takes over 1 hour. Split it
+into parts that check various architectures.
 
-Oh excellent, you found the correct solution on your own.
+An alternative is to have one job per architecture but that clutters the
+pipeline view and maybe there is some sharing when multiple targets are
+built at once.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ .gitlab-ci.d/buildtest-template.yml | 11 +++++++++++
+ .gitlab-ci.d/buildtest.yml          | 18 +++++++++---------
+ 2 files changed, 20 insertions(+), 9 deletions(-)
 
-The only thing remaining from my comments on v1, which should be a separate patch, is to 
-separate PG from PLV in tb->flags, so that the check
+diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
+index 73ecfabb8d..38b055e139 100644
+--- a/.gitlab-ci.d/buildtest-template.yml
++++ b/.gitlab-ci.d/buildtest-template.yml
+@@ -81,3 +81,14 @@
+     - du -chs ${CI_PROJECT_DIR}/avocado-cache
+   variables:
+     QEMU_JOB_AVOCADO: 1
++
++.clang-user-template:
++  extends: .native_build_job_template
++  needs:
++    job: amd64-debian-user-cross-container
++  variables:
++    IMAGE: debian-all-test-cross
++    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --disable-system
++      --extra-cflags=-fsanitize=undefined
++      --extra-cflags=-fno-sanitize-recover=undefined
++    MAKE_CHECK_ARGS: check-unit check-tcg
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 6c05c46397..116fce4e8f 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -323,16 +323,16 @@ clang-system:
+       ppc-softmmu s390x-softmmu
+     MAKE_CHECK_ARGS: check-qtest check-tcg
+ 
+-clang-user:
+-  extends: .native_build_job_template
+-  needs:
+-    job: amd64-debian-user-cross-container
++# clang-user takes too long so split it into parts
++clang-user-part1:
++  extends: .clang-user-template
+   variables:
+-    IMAGE: debian-all-test-cross
+-    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --disable-system
+-      --target-list-exclude=microblazeel-linux-user,aarch64_be-linux-user,i386-linux-user,m68k-linux-user,mipsn32el-linux-user,xtensaeb-linux-user
+-      --extra-cflags=-fsanitize=undefined --extra-cflags=-fno-sanitize-recover=undefined
+-    MAKE_CHECK_ARGS: check-unit check-tcg
++    TARGETS: aarch64-linux-user,alpha-linux-user,armeb-linux-user,arm-linux-user,cris-linux-user,hexagon-linux-user,hppa-linux-user,loongarch64-linux-user,microblaze-linux-user,mips64el-linux-user,mips64-linux-user,mipsel-linux-user,mips-linux-user,mipsn32-linux-user
++
++clang-user-part2:
++  extends: .clang-user-template
++  variables:
++    TARGETS: nios2-linux-user,or1k-linux-user,ppc64le-linux-user,ppc64-linux-user,ppc-linux-user,riscv32-linux-user,riscv64-linux-user,s390x-linux-user,sh4eb-linux-user,sh4-linux-user,sparc32plus-linux-user,sparc64-linux-user,sparc-linux-user,x86_64-linux-user,xtensa-linux-user
+ 
+ # Set LD_JOBS=1 because this requires LTO and ld consumes a large amount of memory.
+ # On gitlab runners, default value sometimes end up calling 2 lds concurrently and
+-- 
+2.38.1
 
-> --- a/target/loongarch/insn_trans/trans_privileged.c.inc
-> +++ b/target/loongarch/insn_trans/trans_privileged.c.inc
-> @@ -159,7 +159,7 @@ static const CSRInfo csr_info[] = {
->   
->   static bool check_plv(DisasContext *ctx)
->   {
-> -    if (ctx->base.tb->flags == MMU_USER_IDX) {
-> +    if (ctx->mem_idx == MMU_USER_IDX) {
-
-here is correct.  I would suggest
-
-#define HW_FLAGS_PLV_MASK   R_CSR_CRMD_PLV_MASK  /* 0x03 */
-#define HW_FLAGS_CRMD_PG    R_CSR_CRMD_PG_MASK   /* 0x10 */
-#define HW_FLAGS_EUEN_FPE   0x04
-
-For cpu_get_tb_cpu_state
-
-     *flags = env->CSR_CRMD & (R_CSR_CRMD_PLV_MASK | R_CSR_CRMD_PG_MASK);
-     *flags |= FIELD_EX64(env->CSR_EUEN, CSR_EUEN, FPE) * HW_FLAGS_EUEN_FPE;
-
-And for loongarch_tr_init_disas_context,
-
-     ctx->plv = ctx->base.tb->flags & HW_FLAGS_PLV_MASK;
-     if (ctx->base.tb->flags & HW_FLAGS_CRMD_PG_MASK) {
-         ctx->mem_idx = ctx->plv;
-     } else {
-         ctx->mem_idx = MMU_DA_IDX;
-     }
-
-
-r~
 
