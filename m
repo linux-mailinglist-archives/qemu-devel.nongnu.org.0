@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F53617A3F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 10:50:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F847617A45
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 10:53:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqWqO-0000oQ-MC; Thu, 03 Nov 2022 05:49:04 -0400
+	id 1oqWuF-0002pz-79; Thu, 03 Nov 2022 05:53:04 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqWpb-0000by-EG; Thu, 03 Nov 2022 05:48:21 -0400
-Received: from mout.kundenserver.de ([217.72.192.75])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oqWu5-0002n8-0X
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 05:52:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1oqWpZ-00068J-JM; Thu, 03 Nov 2022 05:48:15 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mirb8-1pV6N11Hgi-00exNt; Thu, 03 Nov 2022 10:48:07 +0100
-Message-ID: <0790f70d-2b8a-ade7-c847-91e856b532dc@vivier.eu>
-Date: Thu, 3 Nov 2022 10:48:04 +0100
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oqWu2-0006m2-UR
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 05:52:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667469169;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uWKv8G6ZqTaiCGbF4Po/Mxmb1Vf5/saS76/1Ed6HJ24=;
+ b=EbgYJHk9wPkv4d2Fl3blryYIJxgFwW7oyBuq9oSkt8Ikcm8ultEoyRXyjme3Rj5nBFYmti
+ z7vNtnNbXjeEnuGWTldWnN8wUUQsN9F75dbZU2TTt4vaI4dKIeeslGtDIIe8pCq+6oYVZx
+ IvdSUSMEWN855bnRlFrTOKiU1Y07uPM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-209-i2lMptITPrOtPe-hwF8dcg-1; Thu, 03 Nov 2022 05:52:46 -0400
+X-MC-Unique: i2lMptITPrOtPe-hwF8dcg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B388E1C0513A;
+ Thu,  3 Nov 2022 09:52:45 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B3374C1908B;
+ Thu,  3 Nov 2022 09:52:44 +0000 (UTC)
+Date: Thu, 3 Nov 2022 10:52:43 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ hreitz@redhat.com, qemu-block@nongnu.org, nsoffer@redhat.com
+Subject: Re: [PATCH 1/2] file-posix: fix Linux alignment probing when EIO is
+ returned
+Message-ID: <Y2OPaxoX7UanUzTd@redhat.com>
+References: <20221101190031.6766-1-stefanha@redhat.com>
+ <20221101190031.6766-2-stefanha@redhat.com>
+ <Y2HVgnwAPdTIaZR6@sol.localdomain>
+ <Y2HasGvN6qMFq29A@sol.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH] tests/unit/test-io-channel-command: Silence GCC error
- "maybe-uninitialized"
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org
-References: <20221101213937.21149-1-shentey@gmail.com>
- <875yfxkssf.fsf@linaro.org>
-Content-Language: fr
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <875yfxkssf.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:/0lAFdeYb9bsFKPtW3cIFO8aFAAj5LFisFUoXXE25srucbY/CGW
- FLIAbE0l0O7I8FK1qe9jAfwL3v689YgeuDiYxgBHeX9ESNpK6b6MTBgXsJtQVWExYPYG6xG
- puIeHOhJGkdgYV0xF2JZGQ5RAFvrdDYXyNgLRNyTutM6eJbVnjXxLsIardqlBzP/1MtWcBZ
- 1VYUTingVKwgscyY5Q1Fg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IXVsWJcOPaI=:GxvVTsDcPKyDGmZ7X54hsM
- 6QmumtVLmGYoRIE+F+cPPpe7LKB+/RfDbkSgNmY/yhvRruZZg8W0jCOWFRbzqwqF0dgcXiVSu
- IRERlcz8MWLMsGi7nEsu79+nwmKz5Pcg/xzpwAtw5EgP/rSJzShleWc59Iy+AS9m3RX2Spxmn
- tt+AFh0y5bzX5GPltSgbPuBdr4feEAhJDJLwt8uawF/7XhP5wWlKzeSob4KRUu1QmiK5479B2
- fRdvbvOAdNsbJegHfjILBXFUi2r90NH++uNW8xnfnG0YPEngAHVlp3OSHDo2PItkva0Q19KkI
- t2rrJ3NK/PPtelIp8lknrimBU6NnX3N4zD7HAho+t6NigIlEN454+vkz8ZbmdcXJmqGOr+71I
- uhjZ6Qw9neFuoBAKOoLf9xJXu85Pg4Mrr4C/NXPMJhDbf13dG4LgN7DH1UAeYUbYdAGsDbDdS
- LAIjU17vGOyz3Av9YZK2XR0Xa/TM3eUvBsJz10Oa5J5sm1RS9m39osrsAP72rLyc61A+k8DpG
- M4vOXJQQCle9HoEsV/HaYmZmGU7cEmDNTiu8oP3DJ6nXnIYJPyzMqcJU/nUgKJXcbLcMnso9A
- 8HrTK02bt0u7/0TY8z5jUqRLwILN2VyNdtdXWoafzzK5p8lQL7nf7UZlLLUefU0KXf8bEgNP6
- A9DKktH061k1BKNo2GH7AHHiEwecDRhCed4Wgr3ri9RlqbdIaD4TQpeEeh7I/g60xIhhHieZC
- CUVMgO3iypFIwuBKBA3R6V48+Agy+Iue2Pe7Z7TzDb27HuZfTPCarlc+xZk+g1+9V+T4QUtcs
- 3953pFe
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2HasGvN6qMFq29A@sol.localdomain>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.048,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,103 +80,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 02/11/2022 à 21:24, Alex Bennée a écrit :
+Am 02.11.2022 um 03:49 hat Eric Biggers geschrieben:
+> On Tue, Nov 01, 2022 at 07:27:16PM -0700, Eric Biggers wrote:
+> > On Tue, Nov 01, 2022 at 03:00:30PM -0400, Stefan Hajnoczi wrote:
+> > > Linux dm-crypt returns errno EIO from unaligned O_DIRECT pread(2) calls.
+> > 
+> > Citation needed.  For direct I/O to block devices, the kernel's block layer
+> > checks the alignment before the I/O is actually submitted to the underlying
+> > block device.  See
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/block/fops.c?h=v6.1-rc3#n306
+> > 
+> > > Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1290
+> > 
+> > That "bug" seems to be based on a misunderstanding of the kernel source code,
+> > and not any actual testing.
+> > 
+> > I just tested it, and the error code is EINVAL.
+> > 
 > 
-> Bernhard Beschow <shentey@gmail.com> writes:
+> I think I see what's happening.  The kernel code was broken just a few months
+> ago, in v6.0 by the commit "block: relax direct io memory alignment"
+> (https://git.kernel.org/linus/b1a000d3b8ec582d).  Now the block layer lets DIO
+> through when the user buffer is only aligned to the device's dma_alignment.  But
+> a dm-crypt device has a dma_alignment of 512 even when the crypto sector size
+> (and thus also the logical block size) is 4096.  So there is now a case where
+> misaligned DIO can reach dm-crypt, when that shouldn't be possible.
 > 
->> GCC issues a false positive warning, resulting in build failure with -Werror:
->>
->>    In file included from /usr/lib/glib-2.0/include/glibconfig.h:9,
->>                     from /usr/include/glib-2.0/glib/gtypes.h:34,
->>                     from /usr/include/glib-2.0/glib/galloca.h:34,
->>                     from /usr/include/glib-2.0/glib.h:32,
->>                     from ../src/include/glib-compat.h:32,
->>                     from ../src/include/qemu/osdep.h:144,
->>                     from ../src/tests/unit/test-io-channel-command.c:21:
->>    /usr/include/glib-2.0/glib/gmacros.h: In function ‘test_io_channel_command_fifo’:
->>    /usr/include/glib-2.0/glib/gmacros.h:1333:105: error: ‘dstargv’ may be used uninitialized [-Werror=maybe-uninitialized]
->>     1333 |   static G_GNUC_UNUSED inline void _GLIB_AUTO_FUNC_NAME(TypeName) (TypeName *_ptr) { if (*_ptr != none) (func) (*_ptr); }     \
->>          |                                                                                                         ^
->>    ../src/tests/unit/test-io-channel-command.c:39:19: note: ‘dstargv’ was declared here
->>       39 |     g_auto(GStrv) dstargv;
->>          |                   ^~~~~~~
->>    /usr/include/glib-2.0/glib/gmacros.h:1333:105: error: ‘srcargv’ may
->> be used uninitialized [-Werror=maybe-uninitialized]
->>     1333 | static G_GNUC_UNUSED inline void
->> _GLIB_AUTO_FUNC_NAME(TypeName) (TypeName *_ptr) { if (*_ptr != none)
->> (func) (*_ptr); } \
->>          |                                                                                                         ^
->>    ../src/tests/unit/test-io-channel-command.c:38:19: note: ‘srcargv’ was declared here
->>       38 |     g_auto(GStrv) srcargv;
->>          |                   ^~~~~~~
->>    cc1: all warnings being treated as errors
->>
->> GCC version:
->>
->>    $ gcc --version
->>    gcc (GCC) 12.2.0
->>
->> Fixes: 68406d10859385c88da73d0106254a7f47e6652e ('tests/unit: cleanups for test-io-channel-command')
->> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->> ---
->>   tests/unit/test-io-channel-command.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
->> index 43e29c8cfb..ba0717d3c3 100644
->> --- a/tests/unit/test-io-channel-command.c
->> +++ b/tests/unit/test-io-channel-command.c
->> @@ -35,8 +35,8 @@ static void test_io_channel_command_fifo(bool async)
->>       g_autofree gchar *fifo = g_strdup_printf("%s/%s", tmpdir, TEST_FIFO);
->>       g_autoptr(GString) srcargs = g_string_new(socat);
->>       g_autoptr(GString) dstargs = g_string_new(socat);
->> -    g_auto(GStrv) srcargv;
->> -    g_auto(GStrv) dstargv;
->> +    g_auto(GStrv) srcargv = NULL;
->> +    g_auto(GStrv) dstargv = NULL;
->>       QIOChannel *src, *dst;
->>       QIOChannelTest *test;
-> 
-> Another approach would be to drop the GString usage which is premature
-> and then we can allocate everything in order:
+> It also means that STATX_DIOALIGN will give the wrong value for
+> stx_dio_mem_align in the above case, 512 instead of 4096.  This is because
+> STATX_DIOALIGN for block devices relies on the dma_alignment.
 
-Yes, it looks like a better approach. I'm going to drop this patch from the trivial branch.
+In other words, STATX_DIOALIGN is unusable from the start because we
+don't know whether the information it returns is actually correct? :-/
 
-Could you send a patch?
+I guess we could still use the value returned by STATX_DIOALIGN as a
+preferred value that we'll use if it survives probing, and otherwise
+fall back to the same probing we've always been doing because there was
+no (or no sane) way to get the information from the kernel.
 
-Thanks,
-Laurent
+> I'll raise this on the linux-block and dm-devel mailing lists.  It
+> would be nice if people reported kernel bugs instead of silently
+> working around them...
 
-> 
-> --8<---------------cut here---------------start------------->8---
-> modified   tests/unit/test-io-channel-command.c
-> @@ -33,19 +33,13 @@ static void test_io_channel_command_fifo(bool async)
->   {
->       g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
->       g_autofree gchar *fifo = g_strdup_printf("%s/%s", tmpdir, TEST_FIFO);
-> -    g_autoptr(GString) srcargs = g_string_new(socat);
-> -    g_autoptr(GString) dstargs = g_string_new(socat);
-> -    g_auto(GStrv) srcargv;
-> -    g_auto(GStrv) dstargv;
-> +    g_autofree gchar *srcargs = g_strdup_printf("%s - PIPE:%s,wronly", socat, fifo);
-> +    g_autofree gchar *dstargs = g_strdup_printf("%s PIPE:%s,rdonly -", socat, fifo);
-> +    g_auto(GStrv) srcargv = g_strsplit(srcargs, " ", -1);
-> +    g_auto(GStrv) dstargv = g_strsplit(dstargs, " ", -1);
->       QIOChannel *src, *dst;
->       QIOChannelTest *test;
->   
-> -    g_string_append_printf(srcargs, " - PIPE:%s,wronly", fifo);
-> -    g_string_append_printf(dstargs, " PIPE:%s,rdonly -", fifo);
-> -
-> -    srcargv = g_strsplit(srcargs->str, " ", -1);
-> -    dstargv = g_strsplit(dstargs->str, " ", -1);
-> -
->       src = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) srcargv,
->                                                       O_WRONLY,
-> --8<---------------cut here---------------end--------------->8---
-> 
-> 
-> 
-> 
+I wasn't involved in this specific one, but in case you're wondering why
+I wouldn't have reported it either...
+
+On one hand, I agree with you because I want bugs in my code reported,
+too, but on the other hand, it has also happened to me before that
+you're treated as the stupid userland developer who doesn't know how
+the kernel works and who should better have kept his ideas of how it
+should work to himself - which is not exactly encouraging to report
+things when you can just deal with the way they are. I wouldn't have
+been able to tell whether in the mind of the respective maintainers,
+-EINVAL is required behaviour or whether that was just a totally
+unreasonable assumption on our side. Erring on the safe side, I'll give
+up an assumption that obviously doesn't match reality.
+
+And even a kernel fix now doesn't change that there are broken kernels
+out there and we need to work with them. So reporting it doesn't even
+solve our problem, it's just additional effort with limited expectations
+of success.
+
+Kevin
 
 
