@@ -2,69 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86CB0617B8B
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 12:32:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB443617BD2
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 12:44:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqYJ9-0001R9-H2; Thu, 03 Nov 2022 07:22:52 -0400
+	id 1oqYJp-0001rr-C6; Thu, 03 Nov 2022 07:23:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huqi@loongson.cn>) id 1oqYIy-0001QH-Uh
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:22:40 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huqi@loongson.cn>) id 1oqYIw-0004Sq-Bb
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:22:40 -0400
-Received: from loongson.cn (unknown [10.90.50.23])
- by gateway (Coremail) with SMTP id _____8CxjdpxpGNjMjgEAA--.14569S3;
- Thu, 03 Nov 2022 19:22:25 +0800 (CST)
-Received: from [10.90.50.23] (unknown [10.90.50.23])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8Dx9VZxpGNjydYLAA--.15879S3; 
- Thu, 03 Nov 2022 19:22:25 +0800 (CST)
-Message-ID: <3beb23f8-0a7b-26c0-65d8-77a552d1b61b@loongson.cn>
-Date: Thu, 3 Nov 2022 19:22:25 +0800
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oqYJj-0001nF-Cx; Thu, 03 Nov 2022 07:23:27 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oqYJW-0004eN-9q; Thu, 03 Nov 2022 07:23:27 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A39cZIu010574;
+ Thu, 3 Nov 2022 11:23:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=pp1;
+ bh=i0+HMl/FLGabS3+z1Dd+IFJrUTuWPEZfhQehMzQXJW8=;
+ b=L5cZMnHelOXjUIONf4yX8mkASXCaKgi/i5lWcIGrV55EJDgpPBS1kYHDy73NUNp4g9B+
+ sUrFlwl5Z+wR35Iq37gwwh8q/sL9/GZL4eFi6SppcC2VPPKag8DFjvUds2nrg702fNv7
+ mS9FhaV5blgxKx+tzMoHNZOtGkeVyhPHsqHdNL3WWDytK3lGe4x//e4VK8a2fgm6LfGE
+ Eo9hujfjGfsPhe/CA0slsfr6Wiljt+/Ir+sSsLuwXoqH8X7we+xI+ZpwrACXTitoGCw/
+ KTnISiVpAK62MgILDiVkC1JqBdHqESAL+mMKM19wiyxSv/xGDp6cCQ1XoxTU2ZD1y0AP PQ== 
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3km9mndj1q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Nov 2022 11:23:09 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3BLT5D030025;
+ Thu, 3 Nov 2022 11:23:06 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06ams.nl.ibm.com with ESMTP id 3kguej0npf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Nov 2022 11:23:06 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 2A3BHWRt42533128
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 3 Nov 2022 11:17:32 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 50246A4053;
+ Thu,  3 Nov 2022 11:23:04 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0CE01A4051;
+ Thu,  3 Nov 2022 11:23:04 +0000 (GMT)
+Received: from heavy (unknown [9.171.39.72])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu,  3 Nov 2022 11:23:03 +0000 (GMT)
+Date: Thu, 3 Nov 2022 12:23:02 +0100
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 07/26] target/s390x: Remove pc argument to pc_to_link_into
+Message-ID: <20221103112302.kvazjuylnw743zmr@heavy>
+References: <20221006034421.1179141-1-richard.henderson@linaro.org>
+ <20221006034421.1179141-8-richard.henderson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v3] target/i386: Fix calculation of LOCK NEG eflags
-Content-Language: en-US
-From: Qi Hu <huqi@loongson.cn>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Cc: qemu-devel@nongnu.org, Jinyang Shen <shenjinyang@loongson.cn>,
- Xuehai Chen <chenxuehai@loongson.cn>
-References: <20221024084155.713121-1-huqi@loongson.cn>
-In-Reply-To: <20221024084155.713121-1-huqi@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: AQAAf8Dx9VZxpGNjydYLAA--.15879S3
-X-CM-SenderInfo: pkxtxqxorr0wxvrqhubq/1tbiAQATCWNiXeMb7QABsT
-X-Coremail-Antispam: 1Uk129KBjvJXoWxJryfXryUuryDJrW8GFWxZwb_yoW8GFW8pF
- ZrCry0kay8Jr4UC3ZrWrWUKr4Uuws8CFykZa9Fyrn5Jwn8Xw1kXr1qk3y5GF4F9ayFgFyr
- ZF98uFWDCayjqa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bxkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4
- x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AI
- xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
- kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm
- 72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04
- k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
- MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr4
- 1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
- IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
- A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8j-e5UUUUU==
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=huqi@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221006034421.1179141-8-richard.henderson@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: XSwwOWFCkNfF1ZBB_UkRpdzhU_lObAOw
+X-Proofpoint-GUID: XSwwOWFCkNfF1ZBB_UkRpdzhU_lObAOw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-03_02,2022-11-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 mlxscore=0
+ mlxlogscore=651 suspectscore=0 impostorscore=0 clxscore=1015 phishscore=0
+ adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2210170000 definitions=main-2211030076
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,65 +106,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ping
+On Wed, Oct 05, 2022 at 08:44:02PM -0700, Richard Henderson wrote:
+> All callers pass s->pc_tmp.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/s390x/tcg/translate.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 
-On 2022/10/24 16:41, Qi Hu wrote:
-> In sequence:
-> ---
-> lock negl -0x14(%rbp)
-> pushf
-> pop    %rax
-> ---
->
-> %rax will obtain the wrong value becasue the "lock neg" calculates the
-> wrong eflags. The "s->T0" is updated by the wrong value.
->
-> You can use this to do some test:
-> ---
-> #include <assert.h>
->
-> int main()
-> {
->    __volatile__ unsigned test = 0x2363a;
->    __volatile__ char cond = 0;
->    asm(
->        "lock negl %0 \n\t"
->        "sets %1"
->        : "=m"(test), "=r"(cond)
->        :
->        :);
->    assert(cond & 1);
->    return 0;
-> }
-> ---
->
-> Reported-by: Jinyang Shen <shenjinyang@loongson.cn>
-> Co-Developed-by: Xuehai Chen <chenxuehai@loongson.cn>
-> Signed-off-by: Xuehai Chen <chenxuehai@loongson.cn>
-> Signed-off-by: Qi Hu <huqi@loongson.cn>
-> ---
-> V2 -> V3:
-> Fix typo "caculation".
->
-> V1 -> V2:
-> Following Richard's suggestion, just change mov to neg instead of using
-> local_tmp.
-> ---
->   target/i386/tcg/translate.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> index e19d5c1c64..cec2182080 100644
-> --- a/target/i386/tcg/translate.c
-> +++ b/target/i386/tcg/translate.c
-> @@ -3299,7 +3299,7 @@ static bool disas_insn(DisasContext *s, CPUState *cpu)
->   
->                   tcg_temp_free(t2);
->                   tcg_temp_free(a0);
-> -                tcg_gen_mov_tl(s->T0, t0);
-> +                tcg_gen_neg_tl(s->T0, t0);
->                   tcg_temp_free(t0);
->               } else {
->                   tcg_gen_neg_tl(s->T0, s->T0);
-
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
