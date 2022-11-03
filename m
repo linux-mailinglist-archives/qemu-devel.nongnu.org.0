@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76CD4617BA6
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 12:36:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95FD4617BEA
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 12:51:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqYUQ-0000wj-24; Thu, 03 Nov 2022 07:34:30 -0400
+	id 1oqYj3-0006rn-KQ; Thu, 03 Nov 2022 07:49:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oqYUJ-0000uy-HK
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:34:24 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oqYic-0006mS-C0
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:49:21 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oqYU0-0006Pt-6v
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:34:23 -0400
-Received: by mail-wr1-x430.google.com with SMTP id h9so2381824wrt.0
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 04:34:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oqYiZ-0000D0-VM
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:49:09 -0400
+Received: by mail-pg1-x534.google.com with SMTP id q71so1426902pgq.8
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 04:49:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YZPONCYfKswvttIDg8UIJQ8yu1wyjSJHELEt0bmG3ic=;
- b=Ptj1O7hc86GXOoObjYN2B+egQZ/Yu9OL0nu/rcVgJGUBud6jpBHoeWqajfvt0GeZKO
- 8wOVJd/2DjPZEiEZFMLHuuE+uz5zeKO4qWu+20Hinakubh07Qn9IlweczswFcBFutVdj
- gN3gPdfn+VQ+V4Jgid6ocgqh2L/9YJpybqwVCAAa0Xj4BthUNReZle3NgBtC5k+KKLb+
- +DXFjQMImn+j9lN+z5BKm2LSTFAG8rXIy8oKau+4UTXPoRMwSke3KkOOtAntX70C0gSa
- xUR4EuQR5fHCTyiglVaTgxznM/0G/hoGyASZ8IbQ1rkSRzMKtpCsKihYh/m6ayBoLloy
- vXvw==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=JaaT6AL6V4GSHM3aZ04xCdYXCqKPVK5C7p0zfX1D8jA=;
+ b=HypRgTJYVOfkTEmo++FQRvYPY7/Y+kRwYQJIsfUBdKFnTq07ODBVlKy/jBDdlh8Bw1
+ Agknywkz9440iqbg2MfsAWrbGP0uapwg0WJl1wiUH+ek8KlN86MXYkK/cu6kA60+sMFj
+ ByZhMsbFCWb6hFwX3TBEA4H3IZpzlKYlg8DnvV16JOXWX/YrLQBpvnJSIV4LTxSq5Nok
+ Ns/qQDexlXNevTJQsmSf0dgmNH4orwBbgFvv+RIYJ4rYcbNMvOcr1Ollk3Z+faa3SNvw
+ 4NfT4RKdgL6cIPQ0MiQU4y+R69INrpCzbids6txOTMXGBNFhNFNstJqHRRKBRw9O2nyn
+ CmTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=YZPONCYfKswvttIDg8UIJQ8yu1wyjSJHELEt0bmG3ic=;
- b=7TFACMCdxtnMMqYqhZoLGQ6Z+aG5tjtwhO6nZr/epRnHUenIacG5KfNu1FuyFe2J3Z
- mtqQbhXElHOQVVtv6TuyT5Ssa5efmhWsvkthowKaNt0dXMha4E0SpvGeJsSrwU6vcrEq
- pVBZDatGLtGrJiAxuVx9gMRe6l0CB01USjuTgliBRdwP1MomxQClNNwNN/xZ3X5iDy2I
- 68Dz8BUI/MeYjLzbcQQdCBuWRqQQVLZLr5YYdGbMV3J2tIaMm4WBLeDayRn8Vx7b5drS
- izAe1Qk1mFcZdjMj33/lKa0bjHEpDRqr+5tQn0fVWwPgS4sRmxqmERy5P3RzdxXr1woR
- 0nGg==
-X-Gm-Message-State: ACrzQf0pNmQvJXj59w4RQEIwp88lQ13iDB+P58IcdAYKuIxUbtLBtUom
- U+YKog16yLaIMm1Z7sIPv91BAPiUVTr5+A==
-X-Google-Smtp-Source: AMsMyM5hCXo3MSsxRKbr3jrxnJE7Vt+DrL4feRqGJunOUPZjSGbY79cDwG+e9OWeFApi1SOQjGuiNA==
-X-Received: by 2002:a5d:4484:0:b0:236:574f:2536 with SMTP id
- j4-20020a5d4484000000b00236574f2536mr18970683wrq.7.1667475239832; 
- Thu, 03 Nov 2022 04:33:59 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- o21-20020a05600c4fd500b003c71358a42dsm6113014wmq.18.2022.11.03.04.33.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Nov 2022 04:33:59 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id ACF941FFB7;
- Thu,  3 Nov 2022 11:33:58 +0000 (GMT)
-References: <20221103102329.2581508-1-alex.bennee@linaro.org>
- <94f8b6c2-ca50-9f4b-cf9d-d4cc8aa569c5@vivier.eu>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
- <berrange@redhat.com>
-Subject: Re: [PATCH] tests/unit: simpler variable sequence for test-io-channel
-Date: Thu, 03 Nov 2022 11:32:51 +0000
-In-reply-to: <94f8b6c2-ca50-9f4b-cf9d-d4cc8aa569c5@vivier.eu>
-Message-ID: <87wn8cjmqh.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JaaT6AL6V4GSHM3aZ04xCdYXCqKPVK5C7p0zfX1D8jA=;
+ b=pEfjqM0F1qwwecPAIWs+2ACHJ+OklWbjlXpdRA9KuoEw3l9JUCqIBtFgrwIuS+yulm
+ B+aU0Z3hHaqv70j/kqM4uMQAQkxxONEwqVvyYrePV/z1MX5JEgaXW4FKJpGLQps5CI2H
+ KaA0wlm58ONB+cLaGypKpCCrYDV7Eyusc8wdp9GEDoUdMp0/t4J/9fp/BClUhBwJ4eAa
+ 57ftbjzASzIVrS+nU8jEgD+7BTpCgfQ6LepDpCu2A0BNOVpC28Xn9omQJyHLtMev1a5A
+ zsHmqPxk0huEKcUV9Y8JT9rrdtxI4piBX0RLjc1nZR6bHuVDP3/ZQIFEwBQMBT60WSg2
+ 7ckA==
+X-Gm-Message-State: ACrzQf3wZsghdBeSnvXh5Bj5/Y17MwFkUflhHGwY7G5cuYUI0dHZfD0p
+ wrVETVZY0lhoQhB32lfmz46J/+S5dUqs51WtNIWkqg==
+X-Google-Smtp-Source: AMsMyM4kWIk/lbJYayUZH0dYcHtkmELEclLVbUXPSUQK6dv61g3esCG3n9Iwa7YilWJnbe+3jNu8Kzgc3g9H/73EgZk=
+X-Received: by 2002:a63:84c6:0:b0:46f:f8b0:ba09 with SMTP id
+ k189-20020a6384c6000000b0046ff8b0ba09mr10186227pgd.192.1667476145363; Thu, 03
+ Nov 2022 04:49:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+References: <20221102202258.456359-1-sw@weilnetz.de>
+In-Reply-To: <20221102202258.456359-1-sw@weilnetz.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 3 Nov 2022 11:48:53 +0000
+Message-ID: <CAFEAcA_qLBPvn02wGcAuyQQObgF0PVb=V3OtnG+C51N69xhCjQ@mail.gmail.com>
+Subject: Re: [PATCH for 7.2] Fix broken configure with -Wunused-parameter
+To: Stefan Weil <sw@weilnetz.de>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,64 +82,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Laurent Vivier <laurent@vivier.eu> writes:
-
-> Le 03/11/2022 =C3=A0 11:23, Alex Benn=C3=A9e a =C3=A9crit=C2=A0:
->> This avoids some compilers complaining about a potentially
->> un-initialised [src|dst]argv. In retrospect using GString was overkill
->> for what we are constructing.
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>   tests/unit/test-io-channel-command.c | 14 ++++----------
->>   1 file changed, 4 insertions(+), 10 deletions(-)
->> diff --git a/tests/unit/test-io-channel-command.c
->> b/tests/unit/test-io-channel-command.c
->> index 43e29c8cfb..19f72eab96 100644
->> --- a/tests/unit/test-io-channel-command.c
->> +++ b/tests/unit/test-io-channel-command.c
->> @@ -33,19 +33,13 @@ static void test_io_channel_command_fifo(bool async)
->>   {
->>       g_autofree gchar *tmpdir =3D g_dir_make_tmp("qemu-test-io-channel.=
-XXXXXX", NULL);
->>       g_autofree gchar *fifo =3D g_strdup_printf("%s/%s", tmpdir, TEST_F=
-IFO);
->> -    g_autoptr(GString) srcargs =3D g_string_new(socat);
->> -    g_autoptr(GString) dstargs =3D g_string_new(socat);
->> -    g_auto(GStrv) srcargv;
->> -    g_auto(GStrv) dstargv;
->> +    g_autofree gchar *srcargs =3D g_strdup_printf("%s - PIPE:%s,wronly"=
-, socat, fifo);
->> +    g_autofree gchar *dstargs =3D g_strdup_printf("%s PIPE:%s,rdonly -"=
-, socat, fifo);
->> +    g_auto(GStrv) srcargv =3D g_strsplit(srcargs, " ", -1);
->> +    g_auto(GStrv) dstargv =3D g_strsplit(dstargs, " ", -1);
->>       QIOChannel *src, *dst;
->>       QIOChannelTest *test;
->>   -    g_string_append_printf(srcargs, " - PIPE:%s,wronly", fifo);
->> -    g_string_append_printf(dstargs, " PIPE:%s,rdonly -", fifo);
->> -
->> -    srcargv =3D g_strsplit(srcargs->str, " ", -1);
->> -    dstargv =3D g_strsplit(dstargs->str, " ", -1);
->> -
->>       src =3D QIO_CHANNEL(qio_channel_command_new_spawn((const char **) =
-srcargv,
->>                                                       O_WRONLY,
->>                                                       &error_abort));
+On Wed, 2 Nov 2022 at 20:24, Stefan Weil via <qemu-devel@nongnu.org> wrote:
 >
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> The configure script fails because it tries to compile small C programs
+> with a main function which is declared with arguments argc and argv
+> although those arguments are unused.
 >
-> Do you want this be merged via trivial branch?
-
-I'm easy either way. I've got a for-7.2/misc-fixes branch which I'll
-send once I can figure out whats going on with the avocado console
-interaction code.
-
+> Running `configure -extra-cflags=-Wunused-parameter` triggers the problem.
+> configure for a native build does abort but shows the error in config.log.
+> A cross build configure for Windows with Debian stable aborts with an
+> error.
 >
-> Thanks,
-> Laurent
+> Avoiding unused arguments fixes this.
+>
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+> ---
+>
+> See https://gitlab.com/qemu-project/qemu/-/issues/1295.
+>
+> I noticed the problem because I often compile with -Wextra.
+>
+> Stefan
+>
+>  configure | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/configure b/configure
+> index 4275f5419f..1106c04fea 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1258,6 +1258,7 @@ if test "$stack_protector" != "no"; then
+>    cat > $TMPC << EOF
+>  int main(int argc, char *argv[])
+>  {
+> +    (void)argc;
 
+I'm not a huge fan of this syntax, and it doesn't match the way
+we deal with "argument is unused" elsewhere in the codebase
+(where we either don't care about it or else use the GCC 'unused'
+attribute hidden behind the glib G_GNUC_UNUSED macro).
 
---=20
-Alex Benn=C3=A9e
+I am surprised that this didn't get caught by the check in
+do_compiler_werror(), which is supposed to report "this
+configure test passed without -Werror but failed with
+-Werror, so configure is probably buggy.". That's what's
+supposed to catch "your compiler warns on stuff our doesn't
+in the test case programs".
+
+If you're building with --disable-werror then configure
+should be OK anyway. This is probably a good idea if you want
+to build with extra warning arguments in --extra-cflags.
+If it doesn't work right even with --disable-werror that's
+also something we should investigate.
+
+>      char arr[64], *p = arr, *c = argv[0];
+>      while (*c) {
+>          *p++ = *c++;
+> @@ -1607,7 +1608,7 @@ fi
+>
+>  if test "$safe_stack" = "yes"; then
+>  cat > $TMPC << EOF
+> -int main(int argc, char *argv[])
+> +int main(void)
+>  {
+>  #if ! __has_feature(safe_stack)
+>  #error SafeStack Disabled
+> @@ -1629,7 +1630,7 @@ EOF
+>    fi
+>  else
+>  cat > $TMPC << EOF
+> -int main(int argc, char *argv[])
+> +int main(void)
+>  {
+>  #if defined(__has_feature)
+>  #if __has_feature(safe_stack)
+> @@ -1675,7 +1676,7 @@ static const int Z = 1;
+>  #define TAUT(X) ((X) == Z)
+>  #define PAREN(X, Y) (X == Y)
+>  #define ID(X) (X)
+> -int main(int argc, char *argv[])
+> +int main(void)
+>  {
+>      int x = 0, y = 0;
+>      x = ID(x);
+
+No objection to the cases where we can pass "void", that's
+a neater way to write the test anyway.
+
+thanks
+-- PMM
 
