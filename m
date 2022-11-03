@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D5D618A89
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 22:27:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07778618A8B
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 22:28:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqhkC-0004UF-Ou; Thu, 03 Nov 2022 17:27:24 -0400
+	id 1oqhko-0005tp-GL; Thu, 03 Nov 2022 17:28:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oqhkA-0004Tc-GU
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:27:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oqhk9-0006xG-56
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:27:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667510840;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CHvCZP5nDP1DGiwBc5lJ0s96unJ4QaAOV8Od2JK9yVw=;
- b=Gep4BU82ovQpUo5ct1+te7ewPm5joliBaCY1ZuGWJW/1JZmpnniM6Kzt2mUupVAVvkBEEN
- uqUmPcYcIaRiVHbxn5V+ylEao/V0Xg01u9lWaB+XDcw+JKFdAhyKY/ww5NyH4xks90DVPE
- BGzmlyOhofCxAKsht56CbubRTuIYaVE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-510-do3jiXG4NQyik-Vx017x2A-1; Thu, 03 Nov 2022 17:27:18 -0400
-X-MC-Unique: do3jiXG4NQyik-Vx017x2A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A395F800186;
- Thu,  3 Nov 2022 21:27:18 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 059D7C2C8C5;
- Thu,  3 Nov 2022 21:27:17 +0000 (UTC)
-Date: Thu, 3 Nov 2022 17:27:16 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PULL 0/4] Linux user for 7.2 patches
-Message-ID: <Y2QyNCvmKFRh91Pl@fedora>
-References: <20221103084925.3860524-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oqhkm-0005pE-2Y
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:28:00 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oqhkk-000720-38
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:27:59 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ c15-20020a17090a1d0f00b0021365864446so2989752pjd.4
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 14:27:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sXQQyIT65bC2M538koSQDkAxNlFJjz168y3aMJbsqdw=;
+ b=CPLW8dsQGcNT1WyYm8ZSiDQab5M+NViFnv2J3OOWLbLMO6ghh+Z0fb38y1JdLvzamu
+ aZO9/t5ZFZ/OBtrXfYgyy1O20OQUoLKqxnfffgU2taiLRuKaOXW/a+1s+wrqS2EBU5jt
+ 60tEz77DLdYISLbm65LsN6d3zi0QaYWQT77tyLQwuhPKdlYFgg0J3UAMJICTh0q4otIG
+ k2utk3NfoW3Fqnm1mlnL9EOH63/OtAobisEOAfVOqNB5mOq4cbnsnLTl1w6l3cxMulHP
+ GC7pU3WTuEDRNNwU7JzTPma2hk8R53UiDGaKzLQ44kOn1/+oWTBLjRBbsWS8jHYliXBY
+ kpVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sXQQyIT65bC2M538koSQDkAxNlFJjz168y3aMJbsqdw=;
+ b=VkwNgyoz/lu3+rrgnG+kLzh0FHAbQ5OnPvQz5fHvicICyTrlF+e6ukAzYXyVisHkpm
+ H2mI4oQjbNh8k0qaQNicw5VadknEi8VIerXayArW9Fmn3weDUh3WpVSQVrmC2cIhqbrc
+ Itt9aHRonCOpYac8cSeKgedH9U6FoYn9ScAfgDb7HFDzw21cjG2CBHBcBpfS8+huew/J
+ J3BHqtEvuOmtumry+S3cXzwdHnY969Qd3eb51YnQx2h1CxoQnJaEea1+Fpch7h9kYhHJ
+ G0B71ddi6q2wdSEUnUm/QkuoPie2FAGL5yaNWYDBrKjJ+u5z47FG9AVlABOAsW6+nczO
+ 6KxQ==
+X-Gm-Message-State: ACrzQf1Ej+0oEPQmdFpnXWx0EE9wvQ89YZWpTRwKQdGMS3OqG/7YgxtT
+ YQ9/JDqiaY65MZlIoh4glM1ilA==
+X-Google-Smtp-Source: AMsMyM583CSyvzfW7hvLvS2YLzraRjiDIMgfcnhQn6MJJI5HzjlWw2/kXIDVrIO/EQRj+6pndv1ZFw==
+X-Received: by 2002:a17:90a:46ce:b0:200:a7b4:6511 with SMTP id
+ x14-20020a17090a46ce00b00200a7b46511mr191669pjg.101.1667510876328; 
+ Thu, 03 Nov 2022 14:27:56 -0700 (PDT)
+Received: from [192.168.229.227] ([206.83.113.103])
+ by smtp.gmail.com with ESMTPSA id
+ f11-20020a65590b000000b0046fd180640asm1209638pgu.24.2022.11.03.14.27.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Nov 2022 14:27:55 -0700 (PDT)
+Message-ID: <e88339b1-7ffa-d044-2151-465409e61f90@linaro.org>
+Date: Fri, 4 Nov 2022 08:27:48 +1100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+5y85AoNMBnS846D"
-Content-Disposition: inline
-In-Reply-To: <20221103084925.3860524-1-laurent@vivier.eu>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] meson: avoid unused arguments of main() in compiler tests
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: berrange@redhat.com, sw@weilnetz.de
+References: <20221103172110.168235-1-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221103172110.168235-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,30 +93,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 11/4/22 04:21, Paolo Bonzini wrote:
+> meson.build has one test where "main" is declared unnecessarily
+> with argc and argv arguments, but does not use them.  Because
+> the test needs -Werror too, HAVE_BROKEN_SIZE_MAX is defined
+> incorrectly.
+> 
+> Fix the test and, for consistency, remove argc and argv whenever
+> they are not needed.
+> 
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> ---
+>   meson.build | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 
---+5y85AoNMBnS846D
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
-
---+5y85AoNMBnS846D
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNkMjMACgkQnKSrs4Gr
-c8g+LAgAmNVLNEnRn0t0hseMb/PXtenBiw/B0TfZ1oFL/PUaGD2TcPUUFH3xJFmP
-9qXaX+fztxd5kUZP71ng7qGcHjy9HzgI0TWqMvELn1ASqn+T4RyLckqByFSs+Nm2
-po4ChAfVBGCT7oRYUkHH0yIVxMb3mMHf/qbcjrm6vcHRklJdKtP7pAJv4J6WfgDF
-ePVseh06BzXFBkwA8uW7KECNhv9aCJPNDYxBTYgI8Mdqpv0tQYcY3loH2WMnPErL
-15dvYcnWSs84bbBJyNb3uXebaqEHi1kAlbmkLve0rpLkGSNKV4dak8HmOt/HorG2
-txy9WiedEEVWmcypLNIpI3G/rMG5BQ==
-=CGwR
------END PGP SIGNATURE-----
-
---+5y85AoNMBnS846D--
-
+r~
 
