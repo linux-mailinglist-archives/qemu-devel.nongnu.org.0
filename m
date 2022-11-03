@@ -2,92 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 167B061899A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 21:33:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08D6F6189E8
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 21:49:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqgtO-0007ej-68; Thu, 03 Nov 2022 16:32:52 -0400
+	id 1oqh84-0005Xq-OV; Thu, 03 Nov 2022 16:48:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqgsy-0007ZS-Iq
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 16:32:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqgsx-0006U0-7s
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 16:32:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667507542;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gWRMXbZuWodk+ZBI/GrzAI+gKOgHumjszDV6MqhtouU=;
- b=V50o2JqVUZLdIT6zACu2SEmMsK/ts7sl8ZO7D6fadd1nx6XhEw3arUmY2+kI5szVhfNlSx
- CBtPKOyGUjiVWUKgS0NDqUNjRYzls6nsFQO9fpLr+QYQinlAd30gzjHUomtmvPSpBB18Lj
- 5JAle2eNsnzEOCovijGCFK5d1piqAqg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-336-brn7D6YXMN2ru1rSY9Q_fA-1; Thu, 03 Nov 2022 16:32:21 -0400
-X-MC-Unique: brn7D6YXMN2ru1rSY9Q_fA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j2-20020a05600c1c0200b003cf7397fc9bso1347001wms.5
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 13:32:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oqh7v-0005X8-4g
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 16:47:51 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oqh7t-0000TW-Kp
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 16:47:50 -0400
+Received: by mail-pf1-x430.google.com with SMTP id k15so2744132pfg.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 13:47:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/aGx0ytp20nSiOUXLDXVjtjJUGmuVLNqcYsFB3FfZaQ=;
+ b=twPaO43Z3EMlq8Rvf2sj2CLfqaei0qfAfyjVpjZz3U22mnqVarSED2JW6VhS1UPO6p
+ hOnaeXKeo/nQ8t1wK9jJOsWLoMWSaM1sZD3a01Q9gva37N+yRBqBcG0mFI4EMc8Qgzf/
+ i9oHv+a3zjy7+HY+Hcydtu4OwteUTM6fn8g7WtvcnBFpp9lVCcP46+Cu4fq9xRFuPAVG
+ Rnh80Jgf7MbfU41phlxy+KCAW05N9tcXFUqfXpD5dADxGze8A0kpGc+K47KImRwEIk2C
+ rMqiFwOecoCIlQofxzFryL8vmMROB53ENeqEdDtrik7Dp6AE/83bKKDbFsUA1ZT094/m
+ etLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gWRMXbZuWodk+ZBI/GrzAI+gKOgHumjszDV6MqhtouU=;
- b=vBMIUXw6CowlyF1w4cMpF0pO3S96JuoRm1UiSRrJNKgW5+13imgAU/w5/lelCM79no
- CiOD3X61lGn6Z2L0oI56u9ehaLkQI8J0HTuOgU27AnChLe/96F8w8K3xfZ3yrUnihk5l
- u8DcZ0IHd6kMlO0is3lrTjFHfAnkgbubf1Hx5L0U4VDIhRKDx8dLhuyfCnRYtAg5RrFp
- LIjzzHVRMLyxyhVqH4AaZK46SftdHkPKLPfWy9jSQe/Oa8vzU5XzoKHGCIylOr30sbS1
- lYf8C8LxvxQ8fUGeqorSYnYZ/Fc7lw/dukNZApClZAxedkEfbhU1XiWKfjf4YrXOshuT
- 1Uog==
-X-Gm-Message-State: ACrzQf1uFnoNfuk4xHexY3WyXT75ci1A/GS0NL/ZheHQWZpV+2mFbANs
- Pa5PRo6rfXgrW2twpakaIGS+P0OYYysegz2uZMw8cV3U7tKqADx4VK73BQrV7qE3bzksKxDHuor
- MbIyga1+COC3X/qg=
-X-Received: by 2002:adf:ef82:0:b0:234:ef87:dc8d with SMTP id
- d2-20020adfef82000000b00234ef87dc8dmr20694386wro.297.1667507540075; 
- Thu, 03 Nov 2022 13:32:20 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6DeMUXOaEfFcbyPDVGUFjJaJnbW+xXo2F+NBX8yphPRjnCBwdE8k7ErcVdOhmG8SAYC11RqA==
-X-Received: by 2002:adf:ef82:0:b0:234:ef87:dc8d with SMTP id
- d2-20020adfef82000000b00234ef87dc8dmr20694372wro.297.1667507539856; 
- Thu, 03 Nov 2022 13:32:19 -0700 (PDT)
-Received: from redhat.com ([2.55.15.188]) by smtp.gmail.com with ESMTPSA id
- q23-20020a1ce917000000b003c5571c27a1sm1022066wmc.32.2022.11.03.13.32.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Nov 2022 13:32:18 -0700 (PDT)
-Date: Thu, 3 Nov 2022 16:32:13 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- peter.maydell@linaro.org, philmd@linaro.org, qemu-devel@nongnu.org,
- stefanha@redhat.com
-Subject: Re: [PULL v2 00/82] pci,pc,virtio: features, tests, fixes, cleanups
-Message-ID: <20221103163136-mutt-send-email-mst@kernel.org>
-References: <2821393d-21fe-cb7b-1396-dac6fe4dfa6b@linaro.org>
- <20221103154208.91501-1-ani@anisinha.ca>
- <CAARzgwzc66yTTSiKT6Q4-hGZ2m1jcuy8d9D_NjacVpCMut=3tw@mail.gmail.com>
- <CAARzgwxTpKmAqb7K7MzKG8MF6q3U8=z4nbxGoK-0b-rxPSvz+Q@mail.gmail.com>
- <CAARzgwyVA8M_9S2Hio5m9Zin9JyeWcHUeejQJj6=e98FkPYL2A@mail.gmail.com>
- <Y2P9QAMyL2MIfbSL@redhat.com>
- <CAARzgwzJtTaq317XvdMxd2JTZm9C+NjNNFE84anUORE0WxEx9w@mail.gmail.com>
+ bh=/aGx0ytp20nSiOUXLDXVjtjJUGmuVLNqcYsFB3FfZaQ=;
+ b=JBa+IiijWG5QKVhidKBehwjEfjuh91Z5DyD0IxJ2S+IhZ4LyLdAM+faQS+MmAFUobr
+ Xjd1gkRA9hebCWPmER/HgzyuaO9NUIyijPn3dTnw6Sqwb1jqpV1EeQ9ZJOlSQGVzdkg6
+ K+3B3dcLmWR7o0OiR/YndXw1idKVprOKMEXqLBi+SPzMcNGcLq2sIYHF/QLnwFSuUgNz
+ 4CF0dBfd9xmxk232YBtZr/wEWLVkFyC6Um0dfDz1o4VmEdnA7ltNLI5uOkO4gOcILLVT
+ z/ImzULDYv841taH4Rrab2Rmh5oPzw/6V4JNgk1CgsFTOKbS+6Wmam3K75QeIEx4PerT
+ vY4w==
+X-Gm-Message-State: ACrzQf1bMTEPVBNyBJ2IHyDuP5GChDNLcOZgxynPOUnWDFvsRdF8ClUt
+ k4zNY4N4PRJOhiq3mUtqYRhfnw==
+X-Google-Smtp-Source: AMsMyM4DB/D9ctQtoQyEP38Q3z80bHocm3ZANKPV/geAr0GFL+aecZxM8qaGPjzxtFAC6tG27ZTVLA==
+X-Received: by 2002:a05:6a00:15c8:b0:565:bc96:1c5b with SMTP id
+ o8-20020a056a0015c800b00565bc961c5bmr32352825pfu.52.1667508467922; 
+ Thu, 03 Nov 2022 13:47:47 -0700 (PDT)
+Received: from [192.168.229.227] ([206.83.113.103])
+ by smtp.gmail.com with ESMTPSA id
+ e20-20020a63e014000000b0045ff216a0casm1208798pgh.3.2022.11.03.13.47.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Nov 2022 13:47:47 -0700 (PDT)
+Message-ID: <90980f4b-aeea-5c0d-11d4-e2609b455435@linaro.org>
+Date: Fri, 4 Nov 2022 07:47:40 +1100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAARzgwzJtTaq317XvdMxd2JTZm9C+NjNNFE84anUORE0WxEx9w@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH RFC] target/loongarch: Fix emulation of float-point
+ disable exception
+Content-Language: en-US
+To: Rui Wang <wangrui@loongson.cn>, Song Gao <gaosong@loongson.cn>,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Cc: qemu-devel@nongnu.org, hev <qemu@hev.cc>
+References: <20221103080232.55953-1-wangrui@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221103080232.55953-1-wangrui@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,58 +94,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 03, 2022 at 11:14:21PM +0530, Ani Sinha wrote:
-> 
-> 
-> On Thu, Nov 3, 2022 at 23:11 Daniel P. Berrangé <berrange@redhat.com> wrote:
-> 
->     On Thu, Nov 03, 2022 at 10:26:26PM +0530, Ani Sinha wrote:
->     > On Thu, Nov 3, 2022 at 10:18 PM Ani Sinha <ani@anisinha.ca> wrote:
->     > >
->     > > On Thu, Nov 3, 2022 at 10:17 PM Ani Sinha <ani@anisinha.ca> wrote:
->     > > >
->     > > > On Thu, Nov 3, 2022 at 9:12 PM Ani Sinha <ani@anisinha.ca> wrote:
->     > > > >
->     > > > > > To pull this image:
->     > > > >
->     > > > > > $ docker pull registry.gitlab.com/qemu-project/qemu/fedora:latest
->     > > > >
->     > > > > Actually the URL is:
->     > > > >
->     > > > > $ docker pull registry.gitlab.com/qemu-project/qemu/qemu/
->     fedora:latest
->     > > > >
->     > > > > > (or to be sure to pull the very same:)
->     > > > >
->     > > > > > $ docker pull
->     > > > > > registry.gitlab.com/qemu-project/qemu/
->     fedora:d6d20c1c6aede3a652eb01b781530cc10392de2764503c84f9bf4eb1d7a89d26
->     > > > >
->     > > > > Same here,
->     > > > >
->     > > > > registry.gitlab.com/qemu-project/qemu/qemu/
->     fedora:d6d20c1c6aede3a652eb01b781530cc10392de2764503c84f9bf4eb1d7a89d26
->     > > >
->     > > > I pulled this container,
->     >
->     > This is fc35, the same mst is using:
->     >
->     > # cat /etc/fedora-release
->     > Fedora release 35 (Thirty Five)
->     >
->     > Hmm. Something else is going on in the gitlab specific environment.
-> 
->     Or it is a non-deterministic race condition and the chance  of hitting
->     it varies based on your hardware and/or CPU load.
-> 
-> 
-> Can we kick off the same CI job again? Does it pass this time? 
-> 
+On 11/3/22 19:02, Rui Wang wrote:
+> +static void check_fpe(DisasContext *ctx)
+> +{
+> +#ifndef CONFIG_USER_ONLY
+> +    TCGLabel *skip = gen_new_label();
+> +    TCGv tmp = tcg_temp_new();
+> +
+> +    tcg_gen_andi_tl(tmp, cpu_euen, R_CSR_EUEN_FPE_MASK);
+> +    tcg_gen_brcond_tl(TCG_COND_NE, tmp, ctx->zero, skip);
+> +    tcg_temp_free(tmp);
+> +
+> +    generate_exception(ctx, EXCCODE_FPD);
+> +    ctx->base.is_jmp = DISAS_EXIT_UPDATE;
+> +
+> +    gen_set_label(skip);
+> +#endif
+> +}
 
-It's completely deterministic on gitlab. Stefan also reproduced on
-his F36 box.
+While this works, it is very inefficient.
 
--- 
-MST
+You should cache the state of this bit in tb->flags, as set by cpu_get_tb_cpu_state.
+Compare, for instance, target/riscv/,
 
+FIELD(TB_FLAGS, MSTATUS_HS_FS, 16, 2)
+
+for which ctx->mstatus_hs_fs controls whether the fpu is clean, dirty, or disabled.
+
+At present, loongarch is using 3 bits of tb->flags for the mmu_idx, re-using that for 
+privilege level in check_plv.  Which is nearly correct, except for the case of paging 
+disabled in user mode.  This probably never happens in practice, but unless the cpu 
+disallows such a state, this should be corrected.
+
+
+r~
 
