@@ -2,119 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A11161847A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:31:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D1C618480
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:32:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqd6u-0000TQ-S9; Thu, 03 Nov 2022 12:30:36 -0400
+	id 1oqd7s-0001MV-J6; Thu, 03 Nov 2022 12:31:32 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1oqd6k-0000Sk-PZ
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 12:30:22 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqd7l-0001Eq-3v
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 12:31:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1oqd6h-00022Q-IK
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 12:30:21 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id B39505802BB;
- Thu,  3 Nov 2022 12:30:17 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 03 Nov 2022 12:30:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1667493017; x=1667500217; bh=z/
- C3hpsaAUauBg1lNZ7x2lDFowPPF1DONENeXdvNlHg=; b=cJt3hR7v7SCNla7eXQ
- i90372/VJvPGU+ek4EklPY7Z1h9eNHAS6q98C2Pkp/Ks5TkT/I6+O+oiLSzUi3qG
- YQMXVCqPCd853tICbc9Ot5iuYoTcY9sDj153nfGnceQroa51z/zyStTVx6kKk+qk
- swy2GVse/rzWnvNiZyrkq9+QKIkMO6c+HBDbcT5815ZqaSg+CqMieNF+suoTkG9q
- d35+VbbvhhxHny0REo2fqtAFKjWH69jfafARLlrDEkwPR5G+OeeWexyMY69xWTQs
- 9hG31aLQZ1NBst4OsgmoFm7sgmmNccS27ItzTJewBOjAI1mf3W5sYVfz7O2QQkH2
- KECw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1667493017; x=1667500217; bh=z/C3hpsaAUauBg1lNZ7x2lDFowPP
- F1DONENeXdvNlHg=; b=Xp/UUWwX3MA3A3FhOL+uUmo98+p/mBAOVE6y3oteimnp
- BGsyKhPGyDalEGVnTkf9KbzLLGczmkIRzvTCBCbaWYaYtZJ7s5wGS5ox4pse97E8
- ItmT6KnFilBemeBsPjQnDXYjjEjoHoULHaLQ5ONvcVTOm++bj/0zi0P2ns0QvcPP
- cS23hOm5hfOhMomcRE7PFy4MEYmjfnQ+MjemMLurvahmVpbBGyjQ/6JonkxsSyqd
- mpJ1O2FcOAHrD7eaBmcAr7R0mLw53nA40XEYmYrMS73USeELLLLl1ODQZhSxynXT
- atH9QYZog6S+m644Se0gu6hLvqJpioy/eHJRfVxNzQ==
-X-ME-Sender: <xms:l-xjY2y2hvIUc2gnuKmrrWWgeYya4CvqS9xJWrYD_Y-xuI4mNmjJSA>
- <xme:l-xjYyTQxmaFzyvy445bumuVSyUrIFPKtLq4mk5xop0IdzEhsisFjkoKABFLZueIJ
- _ZKaVY9Hldx5BNRbsI>
-X-ME-Received: <xmr:l-xjY4VPN3ITYs_DHTBDcn0JNGi4bFeXCmQaCWWhWxcF7179z9Avu7Aj4w18LzVT5te7CQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudelgdekfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehttddttddttddvnecuhfhrohhmpedfmfhirhhi
- lhhlucetrdcuufhhuhhtvghmohhvfdcuoehkihhrihhllhesshhhuhhtvghmohhvrdhnrg
- hmvgeqnecuggftrfgrthhtvghrnhephffgffehieelieefveeukeevtdevvdfhtdduvdet
- vdffhffhfffgieehfeehvdelnecuffhomhgrihhnpegrmhgurdgtohhmnecuvehluhhsth
- gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhlsehshhhu
- thgvmhhovhdrnhgrmhgv
-X-ME-Proxy: <xmx:l-xjY8jFfTy07E1c7ongwMhBptl1nbLk6rZYXP8u8pvzK_kobDzp7A>
- <xmx:l-xjY4Cq4sEeo9PzVqE0bdOqfmBEOuz9ttBC1q_GaEfz2uCOh3GTHA>
- <xmx:l-xjY9I0mOHHOewyM90VoMTKjcRtGwCR02bJND_jqEDOfMUVKD57NA>
- <xmx:mexjY98KrJllNKgIt3jvB18QJ7eC1KSYIZeGELfE3xb7jcLc6UHJNQ>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 3 Nov 2022 12:30:15 -0400 (EDT)
-Received: by box.shutemov.name (Postfix, from userid 1000)
- id 1EC92104769; Thu,  3 Nov 2022 19:30:12 +0300 (+03)
-Date: Thu, 3 Nov 2022 19:30:12 +0300
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: Michael Roth <michael.roth@amd.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,	Jim Mattson <jmattson@google.com>,
- Joerg Roedel <joro@8bytes.org>,	Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,	Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,	Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,	luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com,	ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com,	ddutile@redhat.com,
- dhildenb@redhat.com,	Quentin Perret <qperret@google.com>,
- tabba@google.com,	mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>,	wei.w.wang@intel.com
-Subject: Re: [PATCH v9 1/8] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20221103163012.25zof5lyxvizltwl@box.shutemov.name>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-2-chao.p.peng@linux.intel.com>
- <20221031174738.fklhlia5fmaiinpe@amd.com>
- <20221102211404.l5whyif3j3k67fv2@box.shutemov.name>
- <20221102220700.5u4mj7fm37m6ust2@amd.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqd7j-0002Bx-H7
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 12:31:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667493082;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bpKJaCiHOUhfpWsLlKGlVek6Mfaeeg5hzjIKFLCZIJY=;
+ b=iX8LAX7H0FIxALlbBi10hzdNwghpSlrxZUwuciD4ledAoRprzXIEB2F+IFPUbU1dyQ5wz/
+ z59Z9LdLMAALJomBAvW6sA7n9e31T4dd/zj7BHeU52SwX2jp9MP1Y6HdMAr+LwM7fylXsT
+ 8zrdH7DAXH3zNtV4dseg2/ApPG8vd7w=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-576-AQ0cMyI1MlmZLy8giF_jTw-1; Thu, 03 Nov 2022 12:31:20 -0400
+X-MC-Unique: AQ0cMyI1MlmZLy8giF_jTw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ i128-20020a1c3b86000000b003cf4ff1b917so1089332wma.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 09:31:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bpKJaCiHOUhfpWsLlKGlVek6Mfaeeg5hzjIKFLCZIJY=;
+ b=MjrG4m2NL8/fP6rpnepLsUjt4f8CuNVqJXtNZt9r35apWp0HsE+Ni76Y/Rp4rr4T3v
+ eAx/zELaEKNFXSzZcLCSzdsZ0SYKc5sPhv5jSI2iD2m+l7WjVO+XcmY2EE0f/19vkQqN
+ bChxofdAtO2TPJ+EPEee24fhN3TlrTHkXRdGa3nRGu10kLMk5pkaNGVR6cRQgqb6xD0Z
+ qOilmKeIm/vSHWAVNk/y4p6O1hrGmMj3Qsak0OjD4sztjVcd99//GI14TwR9ztRp7XMh
+ h3OPllNdJnlNPB4w5kpUrZumRdXvDEFlPQxMyhr2ILsmr/6JuIyQZSyMJmAA7e6LZ3mL
+ pYkg==
+X-Gm-Message-State: ACrzQf3MBB8d/q7D8csYhHqGwEpwnZBVZaKSR9sAJ6RWvMD/0eF10+vS
+ YVX1aKAxpGWCpgxKat+ivvlyWX0HN/7eCKjhfCmhw658th33cK3k3W8Nvj0VVFZj7dcwlHlqVUQ
+ Kx31V0eTAJW25WYA=
+X-Received: by 2002:a5d:420f:0:b0:238:3d2a:cd24 with SMTP id
+ n15-20020a5d420f000000b002383d2acd24mr3364528wrq.469.1667493079681; 
+ Thu, 03 Nov 2022 09:31:19 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4lKQw6X+Cg9iCPd/p1PhH6dX46YfjrPqnJzclZ87aEVnNMTccya/id/VFqG9sNsPUD1VXMuA==
+X-Received: by 2002:a5d:420f:0:b0:238:3d2a:cd24 with SMTP id
+ n15-20020a5d420f000000b002383d2acd24mr3364514wrq.469.1667493079405; 
+ Thu, 03 Nov 2022 09:31:19 -0700 (PDT)
+Received: from redhat.com ([2.55.15.188]) by smtp.gmail.com with ESMTPSA id
+ iv9-20020a05600c548900b003cf87623c16sm490732wmb.4.2022.11.03.09.31.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Nov 2022 09:31:18 -0700 (PDT)
+Date: Thu, 3 Nov 2022 12:31:15 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org,
+	Christian Borntraeger <borntraeger@linux.ibm.com>
+Subject: Re: [RFC PATCH] virtio: re-order vm_running and use_started checks
+Message-ID: <20221103122827-mutt-send-email-mst@kernel.org>
+References: <20221014132108.2559156-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221102220700.5u4mj7fm37m6ust2@amd.com>
-Received-SPF: pass client-ip=66.111.4.230; envelope-from=kirill@shutemov.name;
- helo=new4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221014132108.2559156-1-alex.bennee@linaro.org>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -131,39 +97,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 02, 2022 at 05:07:00PM -0500, Michael Roth wrote:
-> On Thu, Nov 03, 2022 at 12:14:04AM +0300, Kirill A. Shutemov wrote:
-> > On Mon, Oct 31, 2022 at 12:47:38PM -0500, Michael Roth wrote:
-> > > 
-> > > In v8 there was some discussion about potentially passing the page/folio
-> > > and order as part of the invalidation callback, I ended up needing
-> > > something similar for SEV-SNP, and think it might make sense for other
-> > > platforms. This main reasoning is:
-> > > 
-> > >   1) restoring kernel directmap:
-> > > 
-> > >      Currently SNP (and I believe TDX) need to either split or remove kernel
-> > >      direct mappings for restricted PFNs, since there is no guarantee that
-> > >      other PFNs within a 2MB range won't be used for non-restricted
-> > >      (which will cause an RMP #PF in the case of SNP since the 2MB
-> > >      mapping overlaps with guest-owned pages)
-> > 
-> > That's news to me. Where the restriction for SNP comes from?
+On Fri, Oct 14, 2022 at 02:21:08PM +0100, Alex Bennée wrote:
+> During migration the virtio device state can be restored before we
+> restart the VM. As no devices can be running while the VM is paused it
+> makes sense to bail out early in that case.
 > 
-> Sorry, missed your first question.
+> This returns the order introduced in:
 > 
-> For SNP at least, the restriction is documented in APM Volume 2, Section
-> 15.36.10, First row of Table 15-36 (preceeding paragraph has more
-> context). I forgot to mention this is only pertaining to writes by the
-> host to 2MB pages that contain guest-owned subpages, for reads it's
-> not an issue, but I think the implementation requirements end up being
-> the same either way:
+>  9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
 > 
->   https://www.amd.com/system/files/TechDocs/24593.pdf
+> to what virtio-sock was doing longhand.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
 
-Looks like you wanted restricted memfd to be backed by secretmem rather
-then normal memfd. It would help preserve directmap.
+Still checking but this seems to cause make check to fail on Fedora 36 under ubsan.
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+> ---
+>  include/hw/virtio/virtio.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index f41b4a7e64..ebb58feaac 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -385,14 +385,14 @@ static inline bool virtio_is_big_endian(VirtIODevice *vdev)
+>  
+>  static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
+>  {
+> -    if (vdev->use_started) {
+> -        return vdev->started;
+> -    }
+> -
+>      if (!vdev->vm_running) {
+>          return false;
+>      }
+>  
+> +    if (vdev->use_started) {
+> +        return vdev->started;
+> +    }
+> +
+>      return status & VIRTIO_CONFIG_S_DRIVER_OK;
+>  }
+>  
+> -- 
+> 2.34.1
+
 
