@@ -2,65 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B622F617AF2
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 11:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB03A617AD1
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 11:28:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqXck-0003qG-07; Thu, 03 Nov 2022 06:39:02 -0400
+	id 1oqXS6-00005o-FM; Thu, 03 Nov 2022 06:28:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
- id 1oqXch-0003oX-A9
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 06:38:59 -0400
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
- id 1oqXcd-0005Os-MS
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 06:38:58 -0400
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 2874A5E714;
- Thu,  3 Nov 2022 13:28:14 +0300 (MSK)
-Received: from davydov-max-nux.yandex-team.ru (unknown
- [2a02:6b8:b081:b685::1:2c])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 3zS6WKEiGd-SBNGvdUO; Thu, 03 Nov 2022 13:28:12 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1667471292; bh=zTYKplbsefH5RrdlEaZUIQ/+SCEfYmAnPEkCvaDk6Bs=;
- h=Cc:Message-Id:References:Date:In-Reply-To:Subject:To:From;
- b=tcK5ShP2B6PwbAjZJP53KzVUeKCeJ2yRYsrrQTiU7kuF29jQGaYdhXafh9sqQRNc6
- uKOMWQZPsPCahKwwQCha/n8lKRuzd6ih5DkbCM4iC0la0W9nMMMTNVXye1BKANYODr
- 1IELROnObEbberSoNy8lYaDtwJonBSoEbKc22BDU=
-Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Maksim Davydov <davydov-max@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: davydov-max@yandex-team.ru, vsementsov@yandex-team.ru, eduardo@habkost.net,
- marcel.apfelbaum@gmail.com, philmd@linaro.org, wangyanan55@huawei.com,
- jsnow@redhat.com, crosa@redhat.com, bleal@redhat.com, eblake@redhat.com,
- armbru@redhat.com, pbonzini@redhat.com, berrange@redhat.com, alxndr@bu.edu,
- bsd@redhat.com, stefanha@redhat.com, thuth@redhat.com,
- darren.kenny@oracle.com, Qiuhao.Li@outlook.com, lvivier@redhat.com
-Subject: [PATCH v3 4/4] scripts: add script to compare compatible properties
-Date: Thu,  3 Nov 2022 13:27:40 +0300
-Message-Id: <20221103102741.11201-5-davydov-max@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221103102741.11201-1-davydov-max@yandex-team.ru>
-References: <20221103102741.11201-1-davydov-max@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqXS4-00005Z-IM
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 06:28:00 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqXS3-0003jf-6y
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 06:28:00 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id z14so2053080wrn.7
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 03:27:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=07tfAOTSqyXeodZsOMoqgCopIEICg2eAaSJD38f0RrI=;
+ b=xssb7QIjyZTy2V0FkDFN0JVuFnZ/FHEW+Io66e+pYeZzZzXjF2sKN3XWXAquKC1ZMD
+ cJ2cGycbmpogWYltxYwMPJItGpq7TEZMkpIskZ03mKfefJSyigMQyn2tjSAOjZlaLALv
+ icSLElJlJoYo4zJOwmaIKuZVTCCrDL00XupsLaDbvYhT5YjaHgw8XYEcipQiDcA2DiKA
+ ysTVTlXtGoM96pHZtmZZEqohFW+Z1bahUFfKej2MwUP5IdbWnkVIT71Df7MjX3yGM6C1
+ Y6AA29xjAfDExXA3POofq/NxcjJgV1F35aUNdSkLSodTeYdKcRUpSxbCfGIrd1xiw8Hb
+ tajw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=07tfAOTSqyXeodZsOMoqgCopIEICg2eAaSJD38f0RrI=;
+ b=r9a7/WBOIc92ZPGyNs3qmHD878nv8y02MELGGWa7kTdpK5tEwlIcRXl9G+GTgYBgRZ
+ gHKvTNgOsXjzsgcBlhPZcq3L3rsAW3EBpvfURHIT+EUx7UpaizvDG54MJODjD3qoVIO1
+ usINTbtA5IX+HVUl7x3VnLtHSM2xXpKwUwpJMu2QG7j3MGMDCuxxGCaGo+T+0Qo0lh60
+ iqlyy0aJxgG0Ww+U+iJH5N77vAc6vqF46vQ92OHZ+ITV+kF6oVFVejsjsI467x1pLFvd
+ ELqKhd1cGsmHTNwLTmujR+sD7wVhCIuzAXVBm8EyQjVsbNUIsaJRDuz5wKpcsw+cV2h5
+ 1wKw==
+X-Gm-Message-State: ACrzQf0lRaxQJgCh8mhvk7u5DPMaDMdZ2kfS+hoXnj0ok+HsAMjRsuAf
+ paZPnGSNCE+hz1wNQeHP8W+LokfwJxg7mQ==
+X-Google-Smtp-Source: AMsMyM6WMnKOkB7eh2vl8lKNdVuPm/QILZeLYrWvvuIpx/a9arO8invSsb55RhOTGQLU/SsqAPoG4g==
+X-Received: by 2002:a5d:5505:0:b0:236:582b:7eb0 with SMTP id
+ b5-20020a5d5505000000b00236582b7eb0mr18058036wrv.68.1667471277361; 
+ Thu, 03 Nov 2022 03:27:57 -0700 (PDT)
+Received: from [192.168.182.175] (216.red-88-29-181.dynamicip.rima-tde.net.
+ [88.29.181.216]) by smtp.gmail.com with ESMTPSA id
+ w11-20020a5d608b000000b002366f9bd717sm588286wrt.45.2022.11.03.03.27.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Nov 2022 03:27:56 -0700 (PDT)
+Message-ID: <3c9455e5-07cc-c1b5-bafd-7786153b5b9a@linaro.org>
+Date: Thu, 3 Nov 2022 11:27:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.1
+Subject: Re: [PATCH] tests/unit: simpler variable sequence for test-io-channel
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: laurent@vivier.eu, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Bernhard Beschow <shentey@gmail.com>
+References: <20221103102329.2581508-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221103102329.2581508-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=davydov-max@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,551 +92,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This script run QEMU to obtain compat_props of machines and default
-values of different types and produce appropriate table. This table
-can be used to compare machine types to choose the most suitable
-machine. Also this table in json or csv format should be used to check that
-new machine doesn't affect previous ones by comparing tables with and
-without new machine.
-Default values of properties are needed to fill "holes" in the table (one
-machine has these properties and another not. For instance, 2.12 mt has
-`{ "EPYC-" TYPE_X86_CPU, "xlevel", "0x8000000a" }`, but compat_pros of
-3.1 mt doesn't have it. So, to compare these machines we need to fill
-unknown value of "EPYC-x86_64-cpu-xlevel" for 3.1 mt. This unknown value
-in the table I called "hole". To get values (default values) for these
-"holes" the script uses list of appropriate methods.)
+On 3/11/22 11:23, Alex Bennée wrote:
+> This avoids some compilers complaining about a potentially
+> un-initialised [src|dst]argv. In retrospect using GString was overkill
+> for what we are constructing.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   tests/unit/test-io-channel-command.c | 14 ++++----------
+>   1 file changed, 4 insertions(+), 10 deletions(-)
 
-Notes:
-* some init values from the devices can't be available like properties
-  from virtio-9p when configure has --disable-virtfs. This situations will
-  be seen in the table as "unavailable driver".
-* Default values can be obtained in an unobvious way, like x86 features.
-  If the script doesn't know how to get property default value to compare
-  one machine with another it fills "holes" with "unavailable method". This
-  is done because script uses whitelist model to get default values of
-  different types. It means that the method that can't be applied to a new
-  type that can crash this script. It is better to get an "unavailable
-  driver" when creating a new machine with new compatible properties than
-  to break this script. So it turns out a more stable and generic script.
-* If the default value can't be obtained because this property doesn't
-  exist or because this property can't have default value, appropriate
-  "hole" will be filled by "unknown property" or "no default value"
-* If the property is applied to the abstract class, the script collects
-  default values from all child classes (set of default values)
-
-Example:
-
-./scripts/compare_mt.py --mt pc-q35-3.1 pc-q35-4.0
-
-╒═══════════════════════════════════════════════════════════╤══════════════╤════════════════════╕
-│                                                           │  pc-q35-3.1  │     pc-q35-4.0     │
-╞═══════════════════════════════════════════════════════════╪══════════════╪════════════════════╡
-│ Cascadelake-Server-x86_64-cpu:mpx                         │     True     │       False        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ Cascadelake-Server-x86_64-cpu:stepping                    │      5       │         6          │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ Icelake-Client-x86_64-cpu:mpx                             │     True     │ unavailable driver │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ Icelake-Server-x86_64-cpu:mpx                             │     True     │       False        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ Opteron_G3-x86_64-cpu:rdtscp                              │    False     │        True        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ Opteron_G4-x86_64-cpu:rdtscp                              │    False     │        True        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ Opteron_G5-x86_64-cpu:rdtscp                              │    False     │        True        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ Skylake-Client-IBRS-x86_64-cpu:mpx                        │     True     │       False        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ Skylake-Client-x86_64-cpu:mpx                             │     True     │       False        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ Skylake-Server-IBRS-x86_64-cpu:mpx                        │     True     │       False        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ Skylake-Server-x86_64-cpu:mpx                             │     True     │       False        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ intel-iommu:dma-drain                                     │    False     │        True        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ memory-backend-file:x-use-canonical-path-for-ramblock-id  │     True     │  no default value  │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ memory-backend-memfd:x-use-canonical-path-for-ramblock-id │     True     │  no default value  │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ pcie-root-port:x-speed                                    │     2_5      │         16         │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ pcie-root-port:x-width                                    │      1       │         32         │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ pcie-root-port-base:disable-acs                           │     True     │       False        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ tpm-crb:ppi                                               │    False     │        True        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ tpm-tis:ppi                                               │    False     │        True        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ usb-kbd:serial                                            │      42      │  no default value  │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ usb-mouse:serial                                          │      42      │  no default value  │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ usb-tablet:serial                                         │      42      │  no default value  │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ virtio-balloon-device:qemu-4-0-config-size                │    False     │        True        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ virtio-blk-device:discard                                 │    False     │        True        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ virtio-blk-device:write-zeroes                            │    False     │        True        │
-├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-│ x86_64-cpu:x-intel-pt-auto-level                          │    False     │        True        │
-╘═══════════════════════════════════════════════════════════╧══════════════╧════════════════════╛
-
-Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
----
- scripts/compare_mt.py | 440 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 440 insertions(+)
- create mode 100755 scripts/compare_mt.py
-
-diff --git a/scripts/compare_mt.py b/scripts/compare_mt.py
-new file mode 100755
-index 0000000000..31ac86dddd
---- /dev/null
-+++ b/scripts/compare_mt.py
-@@ -0,0 +1,440 @@
-+#!/usr/bin/env python3
-+#
-+# Script to compare machine type compatible properties (include/hw/boards.h).
-+# compat_props are applied to the driver during initialization to change
-+# default values, for instance, to maintain compatibility.
-+# This script constructs table with machines and values of their compat_props
-+# to compare and to find places for improvements or places with bugs. If
-+# during the comparision, some machine type doesn't have a property (it is in
-+# the comparision table because another machine type has it), then the
-+# appropriate method will be used to obtain the default value of this driver
-+# property via qmp command (e.g. query-cpu-model-expansion for x86_64-cpu).
-+# These methods are defined below in qemu_propery_methods.
-+#
-+# Copyright (c) Yandex Technologies LLC, 2022
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program; if not, see <http://www.gnu.org/licenses/>.
-+
-+from tabulate import tabulate
-+import sys
-+from os import path
-+from argparse import ArgumentParser, RawTextHelpFormatter, Namespace
-+import pandas as pd
-+from typing import Callable, List, Dict, Set, Generator, Tuple, Union, Any
-+
-+try:
-+    qemu_dir = path.abspath(path.dirname(path.dirname(__file__)))
-+    sys.path.append(path.join(qemu_dir, 'python'))
-+    from qemu.machine import QEMUMachine
-+except ModuleNotFoundError as exc:
-+    print(f"Module '{exc.name}' not found.")
-+    print("Try export PYTHONPATH=top-qemu-dir/python or run from top-qemu-dir")
-+    sys.exit(1)
-+
-+
-+default_cmd_line = 'build/qemu-system-x86_64 -enable-kvm -machine none'
-+
-+
-+# Methods to get right values of drivers props
-+#
-+# Use these methods as a 'whitelist' and add entries only if necessary. It's
-+# important to be stable and predictable in analysis and tests.
-+# Be careful:
-+# * Names should be in qom-list-types format (486-x86_64-cpu, not 486)
-+# * Specialization always wins (from 'device' and 'x86_64-cpu', 'x86_64-cpu'
-+#   will be used for '486-x86_64-cpu')
-+
-+# It's default stub for all undefined in property_methods drivers because all
-+# QEMU types are inherited from Object
-+def get_object_prop(vm: QEMUMachine, device: str, prop_name: str):
-+    return 'Unavailable method'
-+
-+
-+def get_device_prop(vm: QEMUMachine, device: str, prop_name: str) -> str:
-+    device_props = vm.command('device-list-properties', typename=device)
-+    for prop in device_props:
-+        if prop['name'] == prop_name:
-+            return str(prop.get('default-value', 'No default value'))
-+
-+    return 'Unknown property'
-+
-+
-+def get_x86_64_cpu_prop(vm: QEMUMachine, device: str, prop_name: str) -> str:
-+    # crop last 11 chars '-x86_64-cpu'
-+    props = vm.command('query-cpu-model-expansion', type='full',
-+                       model={'name': device[:-11]})['model']['props']
-+    return str(props.get(prop_name, 'Unknown property'))
-+
-+
-+# Now it's stub, because all memory_backend types don't have default values
-+# but this behaviour can be changed
-+def get_memory_backend_prop(vm: QEMUMachine, driver: str,
-+                            prop_name: str) -> str:
-+    memory_backend_props = vm.command('qom-list-properties', typename=driver)
-+    for prop in memory_backend_props:
-+        if prop['name'] == prop_name:
-+            return str(prop.get('default-value', 'No default value'))
-+
-+    return 'Unknown property'
-+
-+
-+class GetPropMethod:
-+    def __init__(self, driver_name: str,
-+                 method: Callable[[QEMUMachine, str, str], str]) -> None:
-+        self.name = driver_name
-+        self.get_prop = method
-+
-+
-+qemu_property_methods = [
-+        GetPropMethod('device', get_device_prop),
-+        GetPropMethod('x86_64-cpu', get_x86_64_cpu_prop),
-+        GetPropMethod('memory-backend', get_memory_backend_prop)
-+]
-+
-+# all types in QEMU are inherited from Object
-+qemu_default_method = GetPropMethod('object', get_object_prop)
-+# End of methods definition
-+
-+
-+class Driver:
-+    def __init__(self, driver_defs: Dict, driver_name: str, parent_name: str,
-+                 is_abstr: bool, list_of_children: List[str],
-+                 get_prop_method: GetPropMethod) -> None:
-+        self.driver_defs = driver_defs
-+        self.name = driver_name
-+        self.parent = parent_name
-+        self.abstract = is_abstr
-+        self.children = list_of_children
-+        self.method = get_prop_method
-+
-+
-+    def is_parent(self, driver_name: str) -> bool:
-+        if driver_name not in self.driver_defs:
-+            return False
-+
-+        cur_parent = self.parent
-+        while cur_parent:
-+            if driver_name == cur_parent:
-+                return True
-+            cur_parent = self.driver_defs[cur_parent].parent
-+
-+        return False
-+
-+
-+    def set_prop_method(self, prop_method: GetPropMethod) -> None:
-+        if prop_method.name != self.name:
-+            return
-+
-+        self.method = prop_method
-+        if not self.abstract:
-+            return
-+
-+        for child in self.children:
-+            # specialization always wins
-+            if self.is_parent(self.driver_defs[child].method.name):
-+                self.driver_defs[child].method = prop_method
-+
-+
-+class DriverDefinitions:
-+    def __init__(self, vm: QEMUMachine, default_method: GetPropMethod,
-+                 property_methods: List[GetPropMethod]) -> None:
-+        self.driver_defs: Dict[str, Driver] = {}
-+        self.default_method = default_method
-+        self.property_methods = property_methods
-+        self.vm = vm
-+
-+        qom_all_types = vm.command('qom-list-types', abstract=True)
-+        for obj_type in qom_all_types:
-+            # parent of Object is None
-+            parent = obj_type.get('parent', None)
-+            abstr = obj_type.get('abstract', False)
-+            name = obj_type['name']
-+            if abstr:
-+                list_child_objs = vm.command('qom-list-types', implements=name,
-+                                             abstract=True)
-+                child_list = [child['name'] for child in list_child_objs]
-+                self.driver_defs[name] = Driver(self.driver_defs, name, parent,
-+                                                abstr, child_list,
-+                                                default_method)
-+            else:
-+                self.driver_defs[name] = Driver(self.driver_defs, name, parent,
-+                                                abstr, [], default_method)
-+
-+        for prop_method in property_methods:
-+            # skipping other architectures and etc
-+            if prop_method.name not in self.driver_defs:
-+                continue
-+            self.driver_defs[prop_method.name].set_prop_method(prop_method)
-+
-+
-+    def add_prop_value(self, driver: str, prop: str, prop_list: list) -> None:
-+        # wrong driver name or disabled in config driver
-+        if driver not in self.driver_defs:
-+            prop_list.append('Unavailable driver')
-+            return
-+
-+        if not self.driver_defs[driver].abstract:
-+            prop_list.append(self.driver_defs[driver].method.get_prop(self.vm,
-+                                                                      driver,
-+                                                                      prop))
-+            return
-+
-+        # if abstract we need to collect default values from all children
-+        values = set()
-+        for child in self.driver_defs[driver].children:
-+            if self.driver_defs[child].abstract:
-+                continue
-+
-+            values.add(self.driver_defs[child].method.get_prop(self.vm, child,
-+                                                               prop))
-+
-+        prop_list.append(list(values))
-+
-+
-+class Machine:
-+    # raw_mt_dict - dict produced by `query-machines`
-+    def __init__(self, raw_mt_dict: dict) -> None:
-+        self.name = raw_mt_dict['name']
-+        self.compat_props: Dict[str, Dict[str, str]] = {}
-+        # properties are applied sequentially and can rewrite values as in QEMU
-+        for prop in raw_mt_dict['compat-props']:
-+            if prop['driver'] not in self.compat_props:
-+                self.compat_props[prop['driver']] = {}
-+            self.compat_props[prop['driver']][prop['property']] = prop['value']
-+
-+
-+script_desc="""Script to compare machine types (their compat_props).
-+
-+If a property applies to an abstract class this script collects default \
-+values of all child classes and prints them as a set.
-+
-+"Unavailable method" - means that this script doesn't know how to get \
-+default values of the driver. To add method use the construction described \
-+at the top of the script.
-+"Unavailable driver" - means that this script doesn't know this driver. \
-+For instance, this can happen if you configure QEMU without this device or \
-+if machine type definition has error.
-+"No default value" - means that the appropriate method can't get the default \
-+value and most likely that this property doesn't have it.
-+"Unknown property" - means that the appropriate method can't find property \
-+with this name."""
-+
-+
-+def parse_args() -> Namespace:
-+    parser = ArgumentParser(formatter_class=RawTextHelpFormatter,
-+                            description=script_desc)
-+    parser.add_argument('--format', choices=['human-readable', 'json', 'csv'],
-+                        default='human-readable',
-+                        help='returns table in json format')
-+    parser.add_argument('--raw', action='store_true',
-+                        help='prints ALL defined properties without value '
-+                             'transformation. By default, only properties '
-+                             'with different values will be printed and with '
-+                             'value transformation(e.g. "on" -> True)')
-+    parser.add_argument('--cmd-line', default=default_cmd_line,
-+                        help='command line to start qemu. '
-+                             f'Default: "{default_cmd_line}"')
-+
-+    mt_args_group = parser.add_mutually_exclusive_group()
-+    mt_args_group.add_argument('--all', action='store_true',
-+                               help='prints all available machine types (list '
-+                                    'of machine types will be ignored). '
-+                                    'Execution may take several minutes!')
-+    mt_args_group.add_argument('--mt', nargs="*", type=str,
-+                               help='list of Machine Types '
-+                                    'that will be compared')
-+
-+    return parser.parse_args()
-+
-+
-+# return socket_name, major version, minor version, revision
-+def mt_comp(mt: Machine) -> Tuple[str, int, int, int]:
-+    # none, microvm, x-remote and etc.
-+    if '-' not in mt.name or '.' not in mt.name:
-+        return mt.name, 0, 0, 0
-+
-+    socket, ver = mt.name.rsplit('-', 1)
-+    ver_list = list(map(int, ver.split('.', 2)))
-+    ver_list += [0] * (3 - len(ver_list))
-+    return socket, ver_list[0], ver_list[1], ver_list[2]
-+
-+
-+# construct list of machine type definitions (primarily compat_props) from QEMU
-+def get_mt_definitions(vm: QEMUMachine) -> List[Machine]:
-+    raw_mt_defs = vm.command('query-machines', compat_props=True)
-+    mt_defs: List[Machine] = []
-+    for raw_mt in raw_mt_defs:
-+        mt_defs.append(Machine(raw_mt))
-+
-+    mt_defs.sort(key=mt_comp)
-+    return mt_defs
-+
-+
-+def get_req_mt(vm: QEMUMachine, args: Namespace) -> List[Machine]:
-+    mt_defs = get_mt_definitions(vm)
-+    if args.all:
-+        return mt_defs
-+
-+    list_mt = [mt.name for mt in mt_defs]
-+
-+    if args.mt is None:
-+                print('Enter machine types for comparision or use --help')
-+                print('List of available machine types:')
-+                print(*list_mt, sep='\n')
-+                sys.exit(1)
-+
-+    for mt in args.mt:
-+        if mt not in list_mt:
-+            print('Wrong machine type name')
-+            print('List of available machine types:')
-+            print(*list_mt, sep='\n')
-+            sys.exit(1)
-+
-+    requested_mt = []
-+    for mt in mt_defs:
-+        if mt.name in args.mt:
-+            requested_mt.append(mt)
-+
-+    return requested_mt
-+
-+
-+# method to iterate through all requested properties in machine definitions
-+def get_req_props(mt_defs: list) -> Generator[Tuple[str, str], None, None]:
-+    driver_props: Dict[str, Set[str]] = {}
-+    for mt in mt_defs:
-+        compat_props = mt.compat_props
-+        for driver, prop in compat_props.items():
-+            if driver not in driver_props:
-+                driver_props[driver] = set()
-+            driver_props[driver].update(prop.keys())
-+
-+    for driver, props in sorted(driver_props.items()):
-+        for prop in sorted(props):
-+            yield driver, prop
-+
-+
-+def transform_value(value: str) -> Union[str, bool]:
-+    true_list = ['true', 'on']
-+    false_list = ['false', 'off']
-+
-+    out = value.lower()
-+
-+    if out in true_list:
-+        return True
-+
-+    if out in false_list:
-+        return False
-+
-+    return out
-+
-+
-+def transform_number(value: str) -> Union[int, None]:
-+    try:
-+        # C doesn't work with underscore ('2_5' != 25)
-+        if '_' in value:
-+            raise ValueError
-+
-+        return int(value, 0)
-+
-+    except ValueError:
-+        return None
-+
-+
-+# delete rows with the same values for all mt and transform values to make it
-+# easier to compare
-+def transform_table(table: Dict, mt_names: List[str]) -> pd.DataFrame:
-+    new_table: Dict[str, List] = {}
-+    for full_prop_name, prop_values in table.items():
-+        new_row: List[Any] = []
-+        all_values = set()
-+        # original number format if not all values are the same in the row
-+        numeric_values = set()
-+        for mt_prop_val in prop_values:
-+            if type(mt_prop_val) is list:
-+                transformed_val_list = list(map(transform_value, mt_prop_val))
-+                if len(transformed_val_list) == 1:
-+                    new_row.append(transformed_val_list[0])
-+                else:
-+                    new_row.append(transformed_val_list)
-+
-+                numeric_values.update(set(map(transform_number, mt_prop_val)))
-+                all_values.update(set(transformed_val_list))
-+            else:
-+                transformed_val = transform_value(mt_prop_val)
-+                new_row.append(transformed_val)
-+                numeric_values.add(transform_number(mt_prop_val))
-+                all_values.add(transformed_val)
-+
-+        if len(mt_names) > 1:
-+            if len(all_values) == 1:
-+                continue
-+
-+            if None not in numeric_values and len(numeric_values) == 1:
-+                continue
-+
-+        new_table[full_prop_name] = new_row
-+
-+    return pd.DataFrame.from_dict(new_table, orient='index', columns=mt_names)
-+
-+
-+def fill_prop_table(mt_list: List[Machine],
-+                    qemu_drivers: DriverDefinitions,
-+                    is_raw: bool) -> pd.DataFrame:
-+    table: Dict[str, List] = {}
-+    for driver, prop in get_req_props(mt_list):
-+        name = f'{driver}:{prop}'
-+        table[name] = []
-+        for mt in mt_list:
-+            if driver in mt.compat_props:
-+                # values from QEMU machine type definitions
-+                if prop in mt.compat_props[driver]:
-+                    table[name].append(mt.compat_props[driver][prop])
-+                    continue
-+
-+            # values from QEMU type definitions
-+            qemu_drivers.add_prop_value(driver, prop, table[name])
-+
-+    headers = [mt.name for mt in mt_list]
-+
-+    if is_raw:
-+        return pd.DataFrame.from_dict(table, orient='index', columns=headers)
-+
-+    return transform_table(table, headers)
-+
-+
-+def print_table(table: pd.DataFrame, table_format: str) -> None:
-+    if table_format == 'json':
-+        print(comp_table.to_json())
-+    elif table_format == 'csv':
-+        print(comp_table.to_csv())
-+    else:
-+        print(tabulate(comp_table, showindex=True, stralign='center',
-+                       colalign=('left',), tablefmt='fancy_grid',
-+                       headers='keys', disable_numparse=True))
-+
-+
-+if __name__ == '__main__':
-+    args = parse_args()
-+    qemu_arg_list = args.cmd_line.split(' ')
-+    with QEMUMachine(binary=qemu_arg_list[0],
-+                     qmp_timer=15, args=qemu_arg_list[1:]) as vm:
-+        vm.launch()
-+
-+        req_mt = get_req_mt(vm, args)
-+        qemu_drivers = DriverDefinitions(vm, qemu_default_method,
-+                                         qemu_property_methods)
-+        comp_table = fill_prop_table(req_mt, qemu_drivers, args.raw)
-+        print_table(comp_table, args.format)
-+
-+        vm.shutdown()
--- 
-2.25.1
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
