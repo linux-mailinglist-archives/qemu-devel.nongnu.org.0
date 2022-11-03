@@ -2,93 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54790617BE2
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 12:50:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA593617BC0
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 12:39:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqYAM-0006DL-Hs; Thu, 03 Nov 2022 07:13:46 -0400
+	id 1oqYIt-0001MC-21; Thu, 03 Nov 2022 07:22:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oqYAH-0006A3-AU; Thu, 03 Nov 2022 07:13:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1oqYIS-0001IR-25
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:22:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oqYA8-00034N-FM; Thu, 03 Nov 2022 07:13:40 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A3AOjdR019840;
- Thu, 3 Nov 2022 11:13:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=iFxLPgKl0WCnlX8f4umk6MwtyXy8my1CKpAlG26JCEs=;
- b=OxrxVf5mz0RDc1IYhhOcVTTG6+MpxewZ6FxfO8SweqjEUFXbOtrj5xDAzNWht3jD5aUK
- MMvULbWATYZJJDaC12HpYptOK+wl5z5wjwNPIXkmLwmz9yBBPjMm8RJ6lIF2MqZh61Dt
- jpg/nKiI4rK1UmB0Ghp4WKm2WXOO9Wc/nhjqn8dskyQiK7cVoHBDzLS5R4DcU6HsRp/3
- xJcdriFXoP424Sd3pHWDv60rJoPkq41vsmTR4lo5UKaQxdQNzkUIx9ekmS58kheMA3/s
- 4vumGYFMIQvaoe/z434P5q4emN030kVG2fhcuXNJg7G/54/iC2slFaNLP5Qf6vKd3J/Z Ww== 
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmbva9bad-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 11:13:30 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3B7I7h002454;
- Thu, 3 Nov 2022 11:13:28 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma06fra.de.ibm.com with ESMTP id 3kguejeerg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 11:13:28 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2A3BDPDZ36373202
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 3 Nov 2022 11:13:25 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CCEA5A4057;
- Thu,  3 Nov 2022 11:13:25 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 94405A404D;
- Thu,  3 Nov 2022 11:13:25 +0000 (GMT)
-Received: from heavy (unknown [9.171.39.72])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Thu,  3 Nov 2022 11:13:25 +0000 (GMT)
-Date: Thu, 3 Nov 2022 12:13:24 +0100
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org
-Subject: Re: [PATCH 05/26] target/s390x: Change help_goto_direct to work on
- displacements
-Message-ID: <20221103111324.tc62zg5yfc67befu@heavy>
-References: <20221006034421.1179141-1-richard.henderson@linaro.org>
- <20221006034421.1179141-6-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1oqYIP-0004Rh-TO
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:22:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667474524;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ux3m9Pk64tq6UdkJ4I6mb58Aa13yWuk+ekJZSNfZ/b4=;
+ b=P1fTbKrNz7LT/pAy2yXin2E+x3+gtt8D1ZWwyt3OldcF5shlDUczY2msADKcEK+ljJhV9K
+ 9dPVFSqjMKAtTZOafzegkU/0wS1DZiCLmsAPUbPaqoL4ePQeztuGZBHvVgV28mWgvUZVgO
+ X/CgBu+9n4DZJUhzp+JZN0MhT7YcJ1c=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-313-lgL-0anYPzmOkTmKDYVvYQ-1; Thu, 03 Nov 2022 07:22:00 -0400
+X-MC-Unique: lgL-0anYPzmOkTmKDYVvYQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ j13-20020a05620a288d00b006be7b2a758fso1718966qkp.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 04:22:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ux3m9Pk64tq6UdkJ4I6mb58Aa13yWuk+ekJZSNfZ/b4=;
+ b=B8R1w9JwK2znoM1PMHKdu7H/HWp0I7fwc/Iyx+Te0qd1Le7DTYUQJ0Ddw/EAmmGdTQ
+ e9i6fHzGn4vu8n292Tos+3aDG/fOlR/ppcmwd+4hDnzrUyhkOMx/SNsRoWNXe/pt66Ma
+ VKnG089JTeP2TKozmSsZlbvPMk7mGQaubd0reJXq7z4cYREuTvZAlvcoA0CqzwUiTwFE
+ WEJ5jkTnRZYs9hclZEML9bhU9h2/qUzXlTkQJMAB4gb1Fp1R0wvz5DtIRTY/sntVUvVR
+ xt2l5XzXJuOIXv51LwnRvHsf6kVWZ4ub2u9zU22QrqaFr24ZXYQvX6CA5f82yNOR8PYp
+ WUZw==
+X-Gm-Message-State: ACrzQf2tUIgMQTQmJkWtOyhTTqVtLnsgCYyKmxN3K1Ltfdcl7+5loftE
+ r9wnVtFFEHH5iGkevihg4FPnGCVUClHNUG0OWNQKyUCPzjMvUk92ocheekSePqA1WopOcPil0i/
+ UpDbQ6lMGdec9Dwc=
+X-Received: by 2002:a05:620a:414d:b0:6ee:e31f:6253 with SMTP id
+ k13-20020a05620a414d00b006eee31f6253mr21624288qko.350.1667474519858; 
+ Thu, 03 Nov 2022 04:21:59 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4gKGp5Esn4q08oqlevXnjWnv1AM/gAdKIVaBYMoJfq1kW9W2Rn8Rhkj6rgw0J/XOHyiE3bVw==
+X-Received: by 2002:a05:620a:414d:b0:6ee:e31f:6253 with SMTP id
+ k13-20020a05620a414d00b006eee31f6253mr21624267qko.350.1667474519626; 
+ Thu, 03 Nov 2022 04:21:59 -0700 (PDT)
+Received: from [192.168.100.30] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ c18-20020ac85192000000b0035bafecff78sm327917qtn.74.2022.11.03.04.21.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Nov 2022 04:21:59 -0700 (PDT)
+Message-ID: <bdd5dcce-10df-6f08-8ed4-b4e994fdc336@redhat.com>
+Date: Thu, 3 Nov 2022 12:21:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221006034421.1179141-6-richard.henderson@linaro.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: S1tsMs7KvSeUDL_RkhwVXlzPqLXluREp
-X-Proofpoint-GUID: S1tsMs7KvSeUDL_RkhwVXlzPqLXluREp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-03_02,2022-11-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015
- mlxlogscore=691 lowpriorityscore=0 bulkscore=0 phishscore=0 suspectscore=0
- adultscore=0 priorityscore=1501 mlxscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211030076
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v14 16/17] tests/qtest: netdev: test stream and dgram
+ backends
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, xen-devel@lists.xenproject.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Stefan Weil <sw@weilnetz.de>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>, Greg Kurz <groug@kaod.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20221021090922.170074-1-lvivier@redhat.com>
+ <20221021090922.170074-17-lvivier@redhat.com>
+ <700ef645-6cb6-66e6-00a9-3db187be0c43@redhat.com>
+ <0fd82709-7612-25e0-66c0-d9494931d8c4@redhat.com>
+ <e6aa73fb-f5e3-b24c-b963-b66849c9925f@linaro.org>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <e6aa73fb-f5e3-b24c-b963-b66849c9925f@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,13 +115,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Oct 05, 2022 at 08:44:00PM -0700, Richard Henderson wrote:
-> In preparation for TARGET_TB_PCREL, reduce reliance on absolute values.
+On 11/3/22 12:07, Philippe Mathieu-Daudé wrote:
+> On 3/11/22 10:33, Laurent Vivier wrote:
+>> On 10/28/22 07:04, Jason Wang wrote:
+>>>
+>>> 在 2022/10/21 17:09, Laurent Vivier 写道:
+>>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>>>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+>>>> ---
+>>>
+>>>
+>>> I got this:
+>>>
+>>> 63/63 ERROR:../tests/qtest/netdev-socket.c:139:test_stream_inet_ipv6: assertion failed 
+>>> (resp == expect): ("st0: index=0,type=stream,connection error\r\n" == "st0: 
+>>> index=0,type=stream,tcp:::1:40389\r\n") ERROR
+>>> 63/63 qemu:qtest+qtest-x86_64 / qtest-x86_64/netdev-socket                  ERROR 5.29s 
+>>> killed by signal 6 SIGABRT
+>>>  >>> QTEST_QEMU_IMG=./qemu-img QTEST_QEMU_BINARY=./qemu-system-x86_64 
+>>> MALLOC_PERTURB_=96 
+>>> QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon 
+>>> G_TEST_DBUS_DAEMON=/home/devel/git/qemu/tests/dbus-vmstate-daemon.sh 
+>>> /home/devel/git/qemu/build/tests/qtest/netdev-socket --tap -k
+>>> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀ 
+>>> ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+>>> stderr:
+>>> **
+>>> ERROR:../tests/qtest/netdev-socket.c:139:test_stream_inet_ipv6: assertion failed (resp 
+>>> == expect): ("st0: index=0,type=stream,connection error\r\n" == "st0: 
+>>> index=0,type=stream,tcp:::1:40389\r\n")
+>>>
+>>> (test program exited with status code -6)
+>>
+>> I'm not able to reproduce the problem.
+>>
+>> Is this 100% reproducible?
+>> Is IPv6 enabled on your test machine?
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/s390x/tcg/translate.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+> If IPv6 is not available, this test should be skipped, not failing.
 
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+I agree.
+But I'm not sure it's the real cause of the problem (perhaps a firewall problem?).
+
+I think I should update my inet_get_free_port_socket() to get a free port from AF_INET6 
+and not only from AF_INET.
+
+Thanks,
+Laurent
+
 
