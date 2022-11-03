@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60820617DBC
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 14:21:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C485D617DD7
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 14:25:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqa9U-0007DX-VI; Thu, 03 Nov 2022 09:21:01 -0400
+	id 1oqaCh-00017G-N8; Thu, 03 Nov 2022 09:24:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oqa8c-00078u-Kg; Thu, 03 Nov 2022 09:20:08 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oqa8Y-00070l-Qg; Thu, 03 Nov 2022 09:20:06 -0400
-Received: from [127.0.0.1] (unknown [221.220.143.85])
- by APP-05 (Coremail) with SMTP id zQCowABHTrb4v2Nj8v4PCA--.38383S2;
- Thu, 03 Nov 2022 21:19:53 +0800 (CST)
-Message-ID: <3ffebed8-997d-e276-bf4a-c75508b0be11@ict.ac.cn>
-Date: Thu, 3 Nov 2022 21:19:53 +0800
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oqaCb-00014s-CX
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 09:24:15 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oqaCW-0007sA-BW
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 09:24:11 -0400
+Received: by mail-pf1-x429.google.com with SMTP id g62so1564999pfb.10
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 06:24:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dUcG8eu+T5Tt5XdWgqz+j2jbBEUf/7Mklz9kPc5OdLo=;
+ b=RGpCTaBzvpkYFXhvgoJ1gc7Q1XsaTDqD59XgctYGpoejDpbxMbmJC7TQouCeCyBlI4
+ RdFW66Enayqbg7POGPKteOtUv+Xe6npgccfLszruE8PHIALPHoaq/HVm77X7oJ2RnWpJ
+ UqXHaz1I0UrTEMGd+x529JmmMD4EgA6E07s6OoVMWW0bA2njJ94FJepKCDeJC4vEwtiY
+ otds3fU4iR5yzesLvPZKN1803wpwH3P4jt4TgR0ez71qhXVMw0YOX5fLzymj9tWicgmu
+ SrUZXdPbJSgGFf1/LfvgSYZepZusZ6nLfRZnY7i0XWw+d/WN7+kkdSv+3AwvyZCehx9b
+ +VPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dUcG8eu+T5Tt5XdWgqz+j2jbBEUf/7Mklz9kPc5OdLo=;
+ b=p9ovU2U2jPCkgS1kxFa/itoUBNurq3kwmvUDpyf9FuAO0sI4qzviq+w8D7vX0L5GE+
+ yVW7hYVZClRurbQJQnZJbUCMigBTT3zs42Y4qtJXRPB6GWd7lSE0wuvtLvnsMcyz11cu
+ tH1HvuHXUReynNXO/OtwgBxspVsHx1/ryxv5yjlnBDsZlBW7KBIg/Gml/9UZ4gA3dTtL
+ kp7oxnRJ5LsEhurEZoqSGVxDrBODWPc3KBBJtKzQ1R5EHfTrhfpaielb5Ck8oEFiSyJ8
+ 0LzN3PrltChSjv3W7Io7e2E1QEQ++Nt7uX2WTTp5XYeCepzv7GUxu954YuRacdEfd3ye
+ SipQ==
+X-Gm-Message-State: ACrzQf2O5pGp97KKIwWFkuUcLSmUaAdjq+ABvrHCVGvg/VsXHw+AQeIW
+ FjuS8VWVKCyAAvuPS8bPQu4PDXFc/dOOhCvXBnqXvg==
+X-Google-Smtp-Source: AMsMyM4idyWCrwPSMcGGJsIAcWPZuAKo2KizW6H6aPw+cNvq1nLQbJNCpM6814C22yC4MFWdGU4DaPqo7ozRb/EUHvk=
+X-Received: by 2002:a05:6a00:1595:b0:56d:e04d:e0ab with SMTP id
+ u21-20020a056a00159500b0056de04de0abmr11944380pfk.51.1667481846147; Thu, 03
+ Nov 2022 06:24:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v3 4/4] hw/nvme: add polling support
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Keith Busch <kbusch@kernel.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, "open list:nvme"
- <qemu-block@nongnu.org>
-References: <20220827091258.3589230-1-fanjinhao21s@ict.ac.cn>
- <20220827091258.3589230-5-fanjinhao21s@ict.ac.cn>
- <Y1EswYz077swwhuc@cormorant.local>
- <D1741E76-294E-41F6-B87B-70C2A4CF778C@ict.ac.cn>
- <Y2OvzcfeawKWvvJ0@cormorant.local>
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <Y2OvzcfeawKWvvJ0@cormorant.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: zQCowABHTrb4v2Nj8v4PCA--.38383S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
- VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY47k0a2IF6F4UM7kC6x804xWl14x267AK
- xVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGw
- A2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I
- 6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr
- 1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv
- 0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z2
- 80aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IE
- e2xFo4CEbIxvr21lc2xSY4AK67AK6ry8MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
- IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
- C2KfnxnUUI43ZEXa7IU8pOJ5UUUUU==
-X-Originating-IP: [221.220.143.85]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.84;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221102054706.1015830-1-richard.henderson@linaro.org>
+ <CAFEAcA_meGSRv=Fa1D-F=a3VF=TnHHORGAZoi5aPOkVAbGPm4w@mail.gmail.com>
+In-Reply-To: <CAFEAcA_meGSRv=Fa1D-F=a3VF=TnHHORGAZoi5aPOkVAbGPm4w@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 3 Nov 2022 13:23:55 +0000
+Message-ID: <CAFEAcA_dfNpVKWorvprdywGEaquDDVfdRf2-RJHrAm0aKYKeBA@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Two fixes for secure ptw
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, philmd@linaro.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,28 +83,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/3/2022 8:10 PM, Klaus Jensen wrote:
-> I agree that the spec is a little unclear on this point. In any case, in
-> Linux, when the driver has decided that the sq tail must be updated,
-> it will use this check:
-> 
->    (new_idx - event_idx - 1) < (new_idx - old)
+On Thu, 3 Nov 2022 at 13:19, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Wed, 2 Nov 2022 at 05:47, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> >
+> > Reversed the sense of non-secure in get_phys_addr_lpae,
+> > and failed to initialize attrs.secure for ARMMMUIdx_Phys_S.
+> >
+> > Fixes: 48da29e4 ("target/arm: Add ptw_idx to S1Translate")
+> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1293
+> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > ---
+> >  target/arm/ptw.c | 15 ++++++++-------
+> >  1 file changed, 8 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+> > index 58a7bbda50..df3573f150 100644
+> > --- a/target/arm/ptw.c
+> > +++ b/target/arm/ptw.c
+> > @@ -1357,7 +1357,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+> >      descaddr |= (address >> (stride * (4 - level))) & indexmask;
+> >      descaddr &= ~7ULL;
+> >      nstable = extract32(tableattrs, 4, 1);
+> > -    if (!nstable) {
+> > +    if (nstable) {
+> >          /*
+> >           * Stage2_S -> Stage2 or Phys_S -> Phys_NS
+> >           * Assert that the non-secure idx are even, and relative order.
+> > @@ -2671,6 +2671,13 @@ static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
+> >      bool is_secure = ptw->in_secure;
+> >      ARMMMUIdx s1_mmu_idx;
+> >
+> > +    /*
+> > +     * The page table entries may downgrade secure to non-secure, but
+> > +     * cannot upgrade an non-secure translation regime's attributes
+> > +     * to secure.
+> > +     */
+> > +    result->f.attrs.secure = is_secure;
+> > +
+> >      switch (mmu_idx) {
+> >      case ARMMMUIdx_Phys_S:
+> >      case ARMMMUIdx_Phys_NS:
+> > @@ -2712,12 +2719,6 @@ static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
+> >          break;
+> >      }
+> >
+> > -    /*
+> > -     * The page table entries may downgrade secure to non-secure, but
+> > -     * cannot upgrade an non-secure translation regime's attributes
+> > -     * to secure.
+> > -     */
+> > -    result->f.attrs.secure = is_secure;
+> >      result->f.attrs.user = regime_is_user(env, mmu_idx);
+>
+> Do we also need to move this setting of attrs.user ?
+> get_phys_addr_disabled() doesn't set that either.
 
-When eventidx is already behind, it's like:
+I've applied this to target-arm.next for the moment anyway, since
+it is definitely fixing an attrs.secure related bug. I can replace
+that with a v2 or we can do a follow-on patch, depending whether
+you get to this before or after I send out a pullreq.
 
-  0
-  1 <- event_idx
-  2 <- old
-  3 <- new_idx
-  4
-  .
-  .
-  .
-
-In this case, (new_idx - event_idx - 1) = 3-1-1 = 1 >= (new_idx - old) = 
-3-2=1, so the host won't update sq tail. Where am I wrong in this example?
-
-> 
-> So it doesn't account for if or not eventidx was already behind.
-
+thanks
+-- PMM
 
