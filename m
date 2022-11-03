@@ -2,70 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B964618368
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:00:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B6C6183B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:05:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqcdJ-0005hG-Ii; Thu, 03 Nov 2022 11:59:57 -0400
+	id 1oqch8-0000c0-5H; Thu, 03 Nov 2022 12:03:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oqcd8-0005bN-Lw
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 11:59:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1oqcgp-0000H0-20; Thu, 03 Nov 2022 12:03:37 -0400
+Received: from mout.kundenserver.de ([212.227.17.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oqcd6-0005Nl-LN
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 11:59:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667491183;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=2hvA2RgXMjX6dGbX/aKoI2VaC9I92ypzLjs3gi00AnY=;
- b=AHhNLPh1wECNP41N7Cjua1cykOi9D+lc4hAYP/yTJ9Q4gpIVlSFeUi1mra7h0ClXxxSo14
- 74s4xJJe7BP4OGMDvNG+rHrLWVm175mF2uwhxjubt5C9E0clNVVUgzCHowMAEJO+vAXwMv
- HYIY3tGOahpiuF+Sc0DquiZNwuXlbsw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-504-WqePUa16PF2wHv7FHoccZw-1; Thu, 03 Nov 2022 11:59:42 -0400
-X-MC-Unique: WqePUa16PF2wHv7FHoccZw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23A6829AA3BF;
- Thu,  3 Nov 2022 15:59:42 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EFA0D40C2140;
- Thu,  3 Nov 2022 15:59:40 +0000 (UTC)
-Date: Thu, 3 Nov 2022 15:59:38 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Ani Sinha <ani@anisinha.ca>, philmd@linaro.org, mst@redhat.com,
- peter.maydell@linaro.org, qemu-devel@nongnu.org, stefanha@redhat.com
-Subject: Re: [PULL v2 00/82] pci,pc,virtio: features, tests, fixes, cleanups
-Message-ID: <Y2Plai60TK1kErl5@redhat.com>
-References: <2821393d-21fe-cb7b-1396-dac6fe4dfa6b@linaro.org>
- <20221103154208.91501-1-ani@anisinha.ca>
- <CAJSP0QXxO_1WYL-FUZrRFOE9guOEVVr9Ss2jubkdHvAMwPwZqA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1oqcgn-00063g-7r; Thu, 03 Nov 2022 12:03:34 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MZCKd-1oUGS90Nfd-00V5l3; Thu, 03 Nov 2022 17:03:28 +0100
+Message-ID: <98b8b2e3-636d-a550-1eb2-e2e2d3d24959@vivier.eu>
+Date: Thu, 3 Nov 2022 17:03:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAJSP0QXxO_1WYL-FUZrRFOE9guOEVVr9Ss2jubkdHvAMwPwZqA@mail.gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH] tests/unit: simpler variable sequence for test-io-channel
+Content-Language: fr
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+References: <20221103102329.2581508-1-alex.bennee@linaro.org>
+ <94f8b6c2-ca50-9f4b-cf9d-d4cc8aa569c5@vivier.eu> <87wn8cjmqh.fsf@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <87wn8cjmqh.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:PCxyFPGxm5ZonqSMmlZ1iRy9bqLN4Qqxx/9V4s+BYEIU8tcIBLR
+ O+Me/Cd0/C4QHziqH+0/CewT6VeEx0xkyOTGE4UHF6oDGAUg0yhzDld5ze76BmRTmqurE3+
+ BGyvmtV6h5et5o9/wc9t9D6OGNnhh4xF4BtRmwkonVnu4cACP/OFTTWRY6WNMDDbmMzthaA
+ WHZ6g+HvJCKFGY0azfl5A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xC47mMGqyhk=:WF3sn+Png6jEDeEP2jILR5
+ er3hQp1JrH6BiXqgLzj7Xv2fS7oh8eQ9q8jVz4s9pZ0X2FmuNgw+AqmG0PXSP7ke2EKyO7OIX
+ jWO56+IwXKZKoUrg1SBRzTiomVyLmQG7o7XwSKAuoZ8SBHVqYK3AYSzw3dUVp+snaVtBqW7WV
+ AzgkAI8yiIo7rCJFkkMtHlkYEFXpcXgwM4mW747SGua/G+49A0kgoi68/MQ1XKhz6jDj7AizH
+ GC0PZCpJySNbzzcJjfZxu0pzhdQQNhny18kSTvdDOoFVBECbDkWvcg86eZgiKy7szVH4t2vsH
+ kSU/WzdHsLfCMUfI4ELVjFJfd5eQiW3H4RroM4SqRQk4JxT/7fIU6BN/Vly3TXhD0kyLDq21s
+ BqAT/Qh7Md6oHYo58tJwRiOccdM+4oINFRNXLclDpZyr53lRbYuc456DN+kAqchqOS04MWcE+
+ FuuSHHc+wZEMJEnu3ZrugC8aTT9VuEnY5roo6GEftAHh1+whSSdLbbjQrdiIlnRc5KCTXdoZY
+ k2j8u9PLAEz5BZMjOwuvjqMAeU8aZzYRiWssiiTKqY7VWqxnByU3+6WX/JoiGXez1KqUak9V8
+ Cg5660qCHo82ydt5d2o5lyJIWfgd63CV/oi51E2DVeNPXf5WkNRUiwK6StSyEp2e5fhjhF7Ro
+ ziFPL0Kaoh1jczBw7sCMs4nT6NbqmvyAlmtoTFPSwrPQuKZz0cYvu4rFVPuDMvMm1nB9X99iM
+ v+Zhbx9jgFLd25iU4/cj/u7cUz4683v7Mwo6iAeFyiOXh0TynBZfdVuHDizfvpwPCHabBmbiD
+ z/HSDQf
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,36 +72,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 03, 2022 at 11:49:21AM -0400, Stefan Hajnoczi wrote:
-> gitlab-runner can run locally with minimal setup:
-> https://bagong.gitlab.io/posts/run-gitlab-ci-locally/
+Le 03/11/2022 à 12:32, Alex Bennée a écrit :
 > 
-> I haven't tried it yet, but that seems like the most reliable (and
-> easiest) way to reproduce the CI environment.
+> Laurent Vivier <laurent@vivier.eu> writes:
+> 
+>> Le 03/11/2022 à 11:23, Alex Bennée a écrit :
+>>> This avoids some compilers complaining about a potentially
+>>> un-initialised [src|dst]argv. In retrospect using GString was overkill
+>>> for what we are constructing.
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>> ---
+>>>    tests/unit/test-io-channel-command.c | 14 ++++----------
+>>>    1 file changed, 4 insertions(+), 10 deletions(-)
+>>> diff --git a/tests/unit/test-io-channel-command.c
+>>> b/tests/unit/test-io-channel-command.c
+>>> index 43e29c8cfb..19f72eab96 100644
+>>> --- a/tests/unit/test-io-channel-command.c
+>>> +++ b/tests/unit/test-io-channel-command.c
+>>> @@ -33,19 +33,13 @@ static void test_io_channel_command_fifo(bool async)
+>>>    {
+>>>        g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
+>>>        g_autofree gchar *fifo = g_strdup_printf("%s/%s", tmpdir, TEST_FIFO);
+>>> -    g_autoptr(GString) srcargs = g_string_new(socat);
+>>> -    g_autoptr(GString) dstargs = g_string_new(socat);
+>>> -    g_auto(GStrv) srcargv;
+>>> -    g_auto(GStrv) dstargv;
+>>> +    g_autofree gchar *srcargs = g_strdup_printf("%s - PIPE:%s,wronly", socat, fifo);
+>>> +    g_autofree gchar *dstargs = g_strdup_printf("%s PIPE:%s,rdonly -", socat, fifo);
+>>> +    g_auto(GStrv) srcargv = g_strsplit(srcargs, " ", -1);
+>>> +    g_auto(GStrv) dstargv = g_strsplit(dstargs, " ", -1);
+>>>        QIOChannel *src, *dst;
+>>>        QIOChannelTest *test;
+>>>    -    g_string_append_printf(srcargs, " - PIPE:%s,wronly", fifo);
+>>> -    g_string_append_printf(dstargs, " PIPE:%s,rdonly -", fifo);
+>>> -
+>>> -    srcargv = g_strsplit(srcargs->str, " ", -1);
+>>> -    dstargv = g_strsplit(dstargs->str, " ", -1);
+>>> -
+>>>        src = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) srcargv,
+>>>                                                        O_WRONLY,
+>>>                                                        &error_abort));
+>>
+>> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+>>
+>> Do you want this be merged via trivial branch?
+> 
+> I'm easy either way. I've got a for-7.2/misc-fixes branch which I'll
+> send once I can figure out whats going on with the avocado console
+> interaction code.
 
-IMHO that is total overkill.
+Applied to my trivial-patches branch.
 
-Just running the containers directly is what I'd recommend for any
-attempt to reproduce problems. There isn't actually anything gitlab
-specific in our CI environment, gitlab merely provides the harness
-for invoking jobs. This is good as it means we can move our CI to
-another systems if we find Gitlab no longer meets our needs, and
-our actual build env won't change, as it'll be the same containers
-still.
+Thanks,
+Laurent
 
-I wouldn't recommend QEMU contributors to tie their local workflow
-into the use of gitlab-runner, when they can avoid that dependency.
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
