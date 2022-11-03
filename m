@@ -2,86 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05517618BC3
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 23:46:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42DB618C9C
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 00:12:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqixr-0008LR-9Y; Thu, 03 Nov 2022 18:45:35 -0400
+	id 1oqjMD-0006Y6-KY; Thu, 03 Nov 2022 19:10:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oqixk-0008Kd-Tp
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 18:45:29 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oqjGs-00030t-MB
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 19:05:15 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oqixh-0000mL-0E
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 18:45:27 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id z26so2980779pff.1
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 15:45:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9tXecOxnZSBCU09GuG3ealQ3HvnH7ZACKp9zv6w8O3s=;
- b=ZKg37rNnf6v3HRJbY+MWyZFG2aOHsESybhGXtyQEtl2HuhJK06AlyCw/TMO8ksajrK
- NgGUZr15zP4HjPZD814JD/yqzomasHloWsXyvffdxYUqwhQBhCVFS/btJl7Tvgnnn+f+
- Xk7J8WNWGwgfiWBvgc6HSGPjwD2rMp9y0VonX8hz/fNk5jQB3WpKpQVjFJzDl+OdWjJv
- dJ+tmNYu9L7Ktr64HSQgPFkE4doZl62cJ0gOnRWmoWpdQ0UfVO/U8ogHgEmD4MXdYTwu
- 4dnnMRY6qrJzk+TndqlE/sVGZHMi3zGFn4VzlRHVcRk9I7Ny22iCfaecgjQK1f/0clFx
- AKpQ==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oqjGf-0003US-Tx
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 19:05:13 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id gw22so3039774pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 16:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ty7NKEPl0IHHIKXvP+jXCaEpuJOC+fqTvmEMtCpQ/20=;
+ b=rQnp+SwB2zMSq0CxGruqys/HkI4BO0cs24vZcUtuIOAevup3Y78FQIob1VLtYPM4TW
+ cAdQKut1sAQnbM6RE4Nm9dOd/n1bzcGOEZ2ElA8ACLK+5DrOk66Qd9UjphJMHGodCVhB
+ suednwHwQu0747FO0ErJ6MskTw3c1IHuy97x4qT7qRTobrAjI2qqaQ9qrsYHObDuiLne
+ 9nFHuZfBYQuomcslj83mRerOA09HO4FMwWxhwjluEXAf5450VKKTvi3I6AJxRsOgPMbS
+ 0iZx3Y49cYnH4f0Dk4p0nvsEgI5F5O70XswxtMhuqEnZHAoYkQNfeej4jHze5fR+sQEe
+ eEWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9tXecOxnZSBCU09GuG3ealQ3HvnH7ZACKp9zv6w8O3s=;
- b=CHrZyO/06ZkiqL5D4gobtRH1yvhMDspL/CQ5YkvDkEHfUnDqNuVzysf+8Ki75U6Jqa
- DaPymwB/7xfAmcE+Oc/oPz3z+g9wAlEf+Rvy11GBh0t8rfHgWhPcMGTLNeFL+wYafW5j
- xfsvj2sLyS77qXlLMXHXQa0vuaHAxuw0J9iY0pgmMuv8cVeGSDnubJGj1xECeHg/DPMx
- /9OKdBpFBKQBEVj3Fvm9RbetbiS+A5jJkp+NksSE5Lli4jqlHjAjE2wMaLoBVPrSCq4F
- ovDPdPsKYe9vBTYyfHM51N/2bQlyMAQh4WehvUJIXqwHyZ818rS0salCCeMqmxkSXekQ
- wknQ==
-X-Gm-Message-State: ACrzQf35WMd+UCDvyiJ4h3G4n4U4HOa2693D+CnoR56lFt75eHBpcuE9
- M1G9ZNjADppFZoTeDlFX0r1+Rg==
-X-Google-Smtp-Source: AMsMyM6oir80VUfPNO3BJ6MJMvZunu4n0XgH/OxWI6nsO4NLcizvey8NGjxYmZkScTME2hkWu06x+g==
-X-Received: by 2002:a63:464d:0:b0:441:5968:cd0e with SMTP id
- v13-20020a63464d000000b004415968cd0emr28989676pgk.595.1667515523287; 
- Thu, 03 Nov 2022 15:45:23 -0700 (PDT)
-Received: from [192.168.229.227] ([206.83.113.103])
- by smtp.gmail.com with ESMTPSA id
- 123-20020a621781000000b00562784609fbsm1216809pfx.209.2022.11.03.15.45.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Nov 2022 15:45:21 -0700 (PDT)
-Message-ID: <0d6bed9b-9776-8dc3-9e8c-8b64eeda0ee0@linaro.org>
-Date: Fri, 4 Nov 2022 09:45:11 +1100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ty7NKEPl0IHHIKXvP+jXCaEpuJOC+fqTvmEMtCpQ/20=;
+ b=FsGlnS0FzWSIJU5m5cJdBrRHRWIkEIijcAZI8RDtBzVPwFhn1VLYKswKhxw8oMcJAD
+ 0wJuFxLvdWutTm9AuuxJBEUSD+03VBy6dLkhaSR8SSdBSqGqPojBy35mp4zXfFGv795+
+ Kr+7o4DTSD3XlYz1/ZW7XnQp337MsXs7KGdOGnDG87yIP2MF+2TJqeDPu5+tig/S9X9A
+ BnDHZDFqWpaTDl4/pCECYpDDpKelRanfIJgjOIZSzrkt048Ha6t5I0oW9v2kQhe5THxM
+ l+65DcjUMMYzs12GTOMMWRBno5MxBqd75EEiuzU/H4kQPJLJkZ2DBTpL3NW3FRELXyCt
+ d3+Q==
+X-Gm-Message-State: ACrzQf2J9YgApQRhwOBK/87NzvyQODYXAgDMfQLrWh/NnfeyYnYlYLnQ
+ hWyPBme459H+O1tB1i6aZHcOfA==
+X-Google-Smtp-Source: AMsMyM4SAC4AWjYSYyCN4S3X8KC1TnM1iyPSaM02SstCPPdhS3uGTSJeL2KSiB26C81hZIhFnQ7kZg==
+X-Received: by 2002:a17:902:d4ce:b0:188:5340:4a3a with SMTP id
+ o14-20020a170902d4ce00b0018853404a3amr5770987plg.79.1667516698820; 
+ Thu, 03 Nov 2022 16:04:58 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ x12-20020a62860c000000b0056281da3bcbsm1297475pfd.149.2022.11.03.16.04.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Nov 2022 16:04:57 -0700 (PDT)
+Date: Thu, 3 Nov 2022 23:04:53 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 5/8] KVM: Register/unregister the guest private memory
+ regions
+Message-ID: <Y2RJFWplouV2iF5E@google.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-6-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH] gitlab-ci: split clang-user to avoid timeout
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>
-References: <20221103212321.387738-1-stefanha@redhat.com>
- <e188327c-9afc-db4b-4a83-e88ac31cd353@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <e188327c-9afc-db4b-4a83-e88ac31cd353@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221025151344.3784230-6-chao.p.peng@linux.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, FSL_HELO_FAKE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,115 +113,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/4/22 09:32, Philippe Mathieu-Daudé wrote:
-> +Richard
-> 
-> On 3/11/22 22:23, Stefan Hajnoczi wrote:
->> GitLab CI times out when the clang-user job takes over 1 hour. Split it
->> into parts that check various architectures.
->>
->> An alternative is to have one job per architecture but that clutters the
->> pipeline view and maybe there is some sharing when multiple targets are
->> built at once.
->>
->> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->> ---
->>   .gitlab-ci.d/buildtest-template.yml | 11 +++++++++++
->>   .gitlab-ci.d/buildtest.yml          | 18 +++++++++---------
->>   2 files changed, 20 insertions(+), 9 deletions(-)
->>
->> diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
->> index 73ecfabb8d..38b055e139 100644
->> --- a/.gitlab-ci.d/buildtest-template.yml
->> +++ b/.gitlab-ci.d/buildtest-template.yml
->> @@ -81,3 +81,14 @@
->>       - du -chs ${CI_PROJECT_DIR}/avocado-cache
->>     variables:
->>       QEMU_JOB_AVOCADO: 1
->> +
->> +.clang-user-template:
->> +  extends: .native_build_job_template
->> +  needs:
->> +    job: amd64-debian-user-cross-container
->> +  variables:
->> +    IMAGE: debian-all-test-cross
->> +    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --disable-system
->> +      --extra-cflags=-fsanitize=undefined
->> +      --extra-cflags=-fno-sanitize-recover=undefined
->> +    MAKE_CHECK_ARGS: check-unit check-tcg
->> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
->> index 6c05c46397..116fce4e8f 100644
->> --- a/.gitlab-ci.d/buildtest.yml
->> +++ b/.gitlab-ci.d/buildtest.yml
->> @@ -323,16 +323,16 @@ clang-system:
->>         ppc-softmmu s390x-softmmu
->>       MAKE_CHECK_ARGS: check-qtest check-tcg
->> -clang-user:
->> -  extends: .native_build_job_template
->> -  needs:
->> -    job: amd64-debian-user-cross-container
->> +# clang-user takes too long so split it into parts
->> +clang-user-part1:
->> +  extends: .clang-user-template
->>     variables:
->> -    IMAGE: debian-all-test-cross
->> -    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --disable-system
->> -      
->> --target-list-exclude=microblazeel-linux-user,aarch64_be-linux-user,i386-linux-user,m68k-linux-user,mipsn32el-linux-user,xtensaeb-linux-user
-> 
-> We can exclude these targets which are a bit redundant:
-> 
-> 
-> armeb-linux-user,mips64-linux-user,mipsel-linux-user,mipsn32-linux-user,ppc64-linux-user,sh4-linux-user,sparc-linux-user,riscv32-linux-user
-> 
-> Alternatively, instead of using the exclude pattern, we can switch to including the 
-> targets which do have tcg tests:
-> 
-> $ ls -1 tests/tcg/
-> Makefile.target
-> README
-> aarch64
-> alpha
-> arm
-> cris
-> hexagon
-> hppa
-> i386
-> loongarch64
-> m68k
-> minilib
-> mips
-> multiarch
-> nios2
-> openrisc
-> ppc
-> ppc64
-> ppc64le
-> riscv64
-> s390x
-> sh4
-> sparc64
-> tricore
-> x86_64
-> xtensa
-> 
-> Although we have 'multiarch' :/
+On Tue, Oct 25, 2022, Chao Peng wrote:
+> @@ -4708,6 +4802,24 @@ static long kvm_vm_ioctl(struct file *filp,
+>  		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
+>  		break;
+>  	}
+> +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
+> +	case KVM_MEMORY_ENCRYPT_REG_REGION:
+> +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
 
-If we're talking about tests, this runs on debian-all-test-cross, which has fewer 
-cross-compilers than that.
+I'm having second thoughts about usurping KVM_MEMORY_ENCRYPT_(UN)REG_REGION.  Aside
+from the fact that restricted/protected memory may not be encrypted, there are
+other potential use cases for per-page memory attributes[*], e.g. to make memory
+read-only (or no-exec, or exec-only, etc...) without having to modify memslots.
 
-However, the main purpose of clang-user is to make sure that stuff *builds* with clang, as 
-opposed to gcc, which is where we've seen most problems in the past.  So we do want as 
-much coverage across targets/*/ as possible, even if cross-compilers for tests are not 
-available.
+Any paravirt use case where the attributes of a page are effectively dictated by
+the guest is going to run into the exact same performance problems with memslots,
+which isn't suprising in hindsight since shared vs. private is really just an
+attribute, albeit with extra special semantics.
 
-I agree that we can drop some redundancy, like aarch64_be, armbe, mips{set}, riscv32, 
-which have no remarkable difference in linux-user/.  But be careful of e.g. ppc64 vs 
-ppc64le and sparc vs sparc64 which have very different ABIs.
+And if we go with a brand new ioctl(), maybe someday in the very distant future
+we can deprecate and delete KVM_MEMORY_ENCRYPT_(UN)REG_REGION.
 
-Perhaps an interesting split would be those guests supported by debian-all-test-cross, for 
-which we build + test, and the others, for which we build only.
+Switching to a new ioctl() should be a minor change, i.e. shouldn't throw too big
+of a wrench into things.
 
+Something like:
 
-r~
+  KVM_SET_MEMORY_ATTRIBUTES
+
+  struct kvm_memory_attributes {
+	__u64 address;
+	__u64 size;
+	__u64 flags;
+  }
+
+[*] https://lore.kernel.org/all/Y1a1i9vbJ%2FpVmV9r@google.com
+
+> +		struct kvm_enc_region region;
+> +		bool set = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
+> +
+> +		if (!kvm_arch_has_private_mem(kvm))
+> +			goto arch_vm_ioctl;
+> +
+> +		r = -EFAULT;
+> +		if (copy_from_user(&region, argp, sizeof(region)))
+> +			goto out;
+> +
+> +		r = kvm_vm_ioctl_set_mem_attr(kvm, region.addr,
+> +					      region.size, set);
+> +		break;
+> +	}
+> +#endif
 
