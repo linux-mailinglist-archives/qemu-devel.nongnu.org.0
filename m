@@ -2,85 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5A8617AF3
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 11:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D050617AF7
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 11:40:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqXbs-0003bi-Bd; Thu, 03 Nov 2022 06:38:08 -0400
+	id 1oqXcu-0003xH-MH; Thu, 03 Nov 2022 06:39:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1oqXbp-0003bH-DM
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 06:38:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oqXcs-0003vR-IW; Thu, 03 Nov 2022 06:39:10 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1oqXbm-0005Li-8S
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 06:38:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667471880;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SbDC2Mwl9eSSBsT2AW5/yGipvZuHluLgyKkgXCaE6v8=;
- b=b9Qp4qGTQ0E8UlyEwXsEaaX8a0IAjxqpu8gJY9rOo2WpEVIiHgdMmCeoNZCyy34Hd14BTL
- KIF/0ecC9SfhUFhWIKa0iGw8VLL1faW/9PS9XUXWuO8CloEymRPN3/NJfgOO782PvlmD1w
- vUC5SX3KytmvZfyZ8xL/nPg8gyyNjGY=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-644-dO4QyggTMuSIBHM9E1-UIw-1; Thu, 03 Nov 2022 06:37:59 -0400
-X-MC-Unique: dO4QyggTMuSIBHM9E1-UIw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- f20-20020a0564021e9400b00461ea0ce17cso1069433edf.16
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 03:37:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SbDC2Mwl9eSSBsT2AW5/yGipvZuHluLgyKkgXCaE6v8=;
- b=vT9BydYnVH7IdtH30D3IOj4fsad12d5kVPrvi9/iY4wmPkiFfxsA2p3SUOYqGaXZfG
- 6hgq49W8TLyUtVXK0x1gy0XhGRCEgBtJGz9J38xFsaZzNENXEeJY6uqTWxC/hCSUGlBs
- MV4KpBE49K/363FnF0h7QwepaFz2NMtEb3VI/ti2F4S6UIuvVOyUxqH/YtKxsnAmqkha
- 2U+g0Fdnz1113DHdM5WlzYAEddj3CMfzsF0A+BwmTVy9ezArSARjVbXwhy+fBfTSpZyM
- 0hWOxo7ULCs3wBiL3oqSz1pz2fFAH8w67adHDB8ru3Lt6YYABrUsSAOS0XxmF36msSto
- nsmQ==
-X-Gm-Message-State: ACrzQf0s119Nlz4Yy/7iw4uXlszDLXUM/Jb7T1u8cCbGDbd1zFiahGXY
- sKtfqvNkySrKPVxlTr2m9A8ucR8sBqt7VVx4VmRsin+w3NYR30rGQnl+jUVKi9myN8k1LDDXuhO
- BB2j/R1iQRenMjuvtStlJ3adOVs6RnGc=
-X-Received: by 2002:a05:6402:2706:b0:461:b93c:cbd8 with SMTP id
- y6-20020a056402270600b00461b93ccbd8mr29395149edd.254.1667471878502; 
- Thu, 03 Nov 2022 03:37:58 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4o9yL+UzbJkKeWvVim3Pe3D08A7aJByKoGyKI16Zs6APXYV/pgxadWJ/3vZMntPofFWH1YOsLOGCwJl6JjD/k=
-X-Received: by 2002:a05:6402:2706:b0:461:b93c:cbd8 with SMTP id
- y6-20020a056402270600b00461b93ccbd8mr29395127edd.254.1667471878294; Thu, 03
- Nov 2022 03:37:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1oqXcp-0005Qt-M7; Thu, 03 Nov 2022 06:39:10 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A38qRo6008498;
+ Thu, 3 Nov 2022 10:39:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=pp1;
+ bh=Bb9gcCdmmXCB7MmLtAMVVE/JP8nnwPIg8lOiAsMOU/M=;
+ b=RU+np1qWcfvLTjfyjfkhtZO6xuNU3XYeS5kqjSfR3H1rZxcUpD5I13V5Qki8314vx8nn
+ RqeiUuldH+jwhp18q9NRUuHz0g2GHD42fmY9YCrkhEV+Oy6v1xOPQ4t2BpC2IOKXUP89
+ Fec2uLmEQV01K4REGdJuQN6mIei7n4WuFRAWJhlUssrc8j2H/C48iDms15wz47Z6JGA6
+ Z6jE+xhzs0/CP+ikmyTEkBPKLysOXegN3exTBA/P4rfvk3JEOo4JuciE+FdUIMms5E2C
+ DB/KZ2BmozsBcpapk0NGvZfo4FRVRt6YHs2BMpbAOVyI2kWqkyVHGjdQZjXaxUxSobT1 HA== 
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmah1k4ke-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Nov 2022 10:39:01 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3Aa4lq024567;
+ Thu, 3 Nov 2022 10:38:59 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3kguej0kbc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Nov 2022 10:38:59 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2A3AcvAD47841634
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 3 Nov 2022 10:38:57 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 02AD211C064;
+ Thu,  3 Nov 2022 10:38:57 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B455E11C05E;
+ Thu,  3 Nov 2022 10:38:56 +0000 (GMT)
+Received: from heavy (unknown [9.171.39.72])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu,  3 Nov 2022 10:38:56 +0000 (GMT)
+Date: Thu, 3 Nov 2022 11:38:55 +0100
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 01/26] target/s390x: Use tcg_constant_* in local contexts
+Message-ID: <20221103103855.2fuhlbcdptecvbrj@heavy>
+References: <20221006034421.1179141-1-richard.henderson@linaro.org>
+ <20221006034421.1179141-2-richard.henderson@linaro.org>
 MIME-Version: 1.0
-References: <CAGxU2F4zRGASAv4YLoQpfRB-2cvaMij6YZo6t9E+69MZ+8Mong@mail.gmail.com>
- <CACycT3vMVbm94OYtUgB9bS6_pU6FKh1Y6kWPyAxi4rvjUfQ3qg@mail.gmail.com>
- <20221026101716.zwl5rkwb7awq4mvw@sgarzare-redhat>
-In-Reply-To: <20221026101716.zwl5rkwb7awq4mvw@sgarzare-redhat>
-From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Thu, 3 Nov 2022 11:37:46 +0100
-Message-ID: <CAGxU2F7Fyxw3UkZK=b2SwS5YrriThYaRGDiF9W4MCCC4MSA6xA@mail.gmail.com>
-Subject: Re: Issue with VDUSE (QSD vduse-blk export) and vhost-vdpa
-To: Yongji Xie <xieyongji@bytedance.com>
-Cc: Linux Virtualization <virtualization@lists.linux-foundation.org>, 
- qemu devel list <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221006034421.1179141-2-richard.henderson@linaro.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: DsVzDOD90hfyPR98EerLiRg_04JNOQJ2
+X-Proofpoint-ORIG-GUID: DsVzDOD90hfyPR98EerLiRg_04JNOQJ2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-03_02,2022-11-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ lowpriorityscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=670
+ clxscore=1015 phishscore=0 mlxscore=0 adultscore=0 impostorscore=0
+ spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211030073
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,101 +106,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Oct 26, 2022 at 12:17 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
->
-> On Wed, Oct 26, 2022 at 05:39:23PM +0800, Yongji Xie wrote:
-> >Hi Stefano,
-> >
-> >On Wed, Oct 26, 2022 at 5:12 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
-> >>
-> >> Hi Xie,
-> >> I was testing libblkio [1] with QSD vduse-blk export and had some
-> >> issues.
-> >>
-> >> In a nutshell, QSD prints me the following messages when using
-> >> vhost-vdpa to access the device:
-> >>
-> >>   Failed to get vq[0] iova mapping
-> >>   Failed to update vring for vq[0]
-> >>
-> >> This happens only with vhost-vdpa, using virtio-vdpa instead the device
-> >> works fine.
-> >> I'm using Linux v6.0 and QEMU master (commit
-> >> 214a8da23651f2472b296b3293e619fd58d9e212).
-> >>
-> >> I haven't had much time to investigate, I hope to do it next week, but
-> >> maybe it's much faster for you.
-> >>
-> >> I saw that ioctl(VDUSE_IOTLB_GET_FD) in libvduse.c returns -1 (EPERM),
-> >> so IIUC in the kernel vduse_dev_broken() was called, and the device is
-> >> in a broken state.
-> >>
-> >>
-> >> We will use libblkio in QEMU [2] to access vDPA devices via vhost-vdpa.
-> >> But I'm doing these tests without QEMU for now, using an example inside
-> >> the libblkio repo:
-> >>
-> >> # Build libblkio and examples
-> >>     # Fedora/CentOS/RHEL
-> >>     dnf install -y git meson rust cargo python3-docutils rustfmt
-> >>     # Debian/Ubuntu
-> >>     apt-get install -y git meson rustc cargo python3-docutils
-> >>
-> >>     git clone https://gitlab.com/libblkio/libblkio.git
-> >>
-> >>     cd libblkio
-> >>     git checkout v1.1.0
-> >>
-> >>     meson setup build
-> >>     meson compile -C build
-> >>
-> >>
-> >> # On terminal 1
-> >>     modprobe vduse
-> >>     modprobe vhost-vdpa
-> >>
-> >>     qemu-img create -f qcow2 -o preallocation=full /path/to/test.qcow2 1g
-> >>
-> >>     qemu-storage-daemon \
-> >>       --blockdev file,filename=/path/to/test.qcow2,cache.direct=on,aio=native,node-name=file \
-> >>       --blockdev qcow2,file=file,node-name=qcow2 \
-> >>       --object iothread,id=iothread0 \
-> >>       --export vduse-blk,id=vduse0,name=vduse0,num-queues=1,node-name=qcow2,writable=on,iothread=iothread0
-> >>
-> >>
-> >> # On terminal 2
-> >>     vdpa dev add name vduse0 mgmtdev vduse
-> >>
-> >>     cd libblkio/build
-> >>
-> >>     # blkio-bench executes
-> >>     ./examples/blkio-bench virtio-blk-vhost-vdpa \
-> >>       path=/dev/vhost-vdpa-0 --runtime=5 --readwrite=randread
-> >>
-> >>     # after this step, QSD (running on terminal 1) prints the following messages:
-> >>       Failed to get vq[0] iova mapping
-> >>       Failed to update vring for vq[0]
-> >>
-> >> I don't know if I'm doing something wrong or in libblkio we have some
-> >> issue, but using vdpa-sim-blk works correctly, so maybe there is
-> >> something in vduse that is missing.
-> >>
-> >> Any help or suggestion is welcome :-)
-> >>
-> >
-> >I'd like to know whether bio-bench uses the shared memory
-> >(tmpfs/hugetlbfs) as the vdpa memory region. This is what VDUSE needs.
->
-> Okay, so IIUC every memory regions should have an associated fd.
->
-> The buffers in libblkio are already allocated in this way, but it is not
-> true for the virtqueue memory, I'll change it and test.
+On Wed, Oct 05, 2022 at 08:43:56PM -0700, Richard Henderson wrote:
+> Replace tcg_const_* with tcg_constant_* in contexts
+> where the free to remove is nearby.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/s390x/tcg/translate.c | 408 +++++++++++++----------------------
+>  1 file changed, 145 insertions(+), 263 deletions(-)
 
-I just changed the virtqueue memory allocation as you suggested, and it worked!
-
-MR here: https://gitlab.com/libblkio/libblkio/-/merge_requests/141
-
-Thanks for the help,
-Stefano
-
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
