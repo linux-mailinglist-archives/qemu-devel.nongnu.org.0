@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886BC617E3D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 14:44:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B92D617E4D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 14:46:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqaUg-0001ZZ-TL; Thu, 03 Nov 2022 09:42:58 -0400
+	id 1oqaXX-0008P9-KK; Thu, 03 Nov 2022 09:45:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oqaUL-0001R3-0I; Thu, 03 Nov 2022 09:42:38 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ id 1oqaXI-00082P-JR; Thu, 03 Nov 2022 09:45:38 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oqaUF-0002Bk-AE; Thu, 03 Nov 2022 09:42:30 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A3DHaPK031119;
- Thu, 3 Nov 2022 13:42:19 GMT
+ id 1oqaWq-0002gs-N7; Thu, 03 Nov 2022 09:45:35 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A3CLvZ4014893;
+ Thu, 3 Nov 2022 13:45:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=date : from : to : cc :
  subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=xdPYx3LjER40f19ccoGM+Ji5HeyTgMigtJVK/5VQXZU=;
- b=S9y9how7v/w9sl4r8xcfRxRDO6DUO0OdmAPizP76zCIAI02c15WQqaROHePobz8KtKXM
- rFQhXyhe1tAMd4BY53q4Kz8+GBILAvStyWHnnwkEhhALVPEWTosINE6kbNNvlqv27iMm
- 6t/qUTAwBGVreXbsnbacbP36uu01mjDBt8Ft7IyUZuoVxs6hfHj1bJyKzvErNn+rro2G
- AxLeIZq4HSyCZene3RFxrbUzVKzRL28vCFYT3eJ30tNnbw4bm5LAaYk9b0v5RT6JjAGD
- Y0VYSGvIMCcxWpMcMqPe/rAWu8JpKXO3eOwLyfXGdFo/yh4QF5p3gPi+pxlRnuFIiS/L 8g== 
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmdwr9qkx-1
+ in-reply-to; s=pp1; bh=VQWQKUu2CADa1a3rGKBOKgAJ3BNv/que8GyfIEBOtsk=;
+ b=jjRS/1ey1A+5US5qT6GWp2oW/ZI/8Fi/Uw/EzLfDC3IV8NlP1TCS98jnGe+pK0EgRXPG
+ 4In0k5VVpAY+uUGGb7vsFngDaV+8ek6TdQQ+BQT6wQIChHETb0DTgY1ib8cBWOO7741T
+ 3DgaZXYqNWABjMQnKN/7xKyv09eDd3fgIoMO05xRspV0paautrNpHbG/pRvHA9pKtk8S
+ 85q5hz2qZpWn2xVJJmDw3/p4cfaCia9z7g+fnC5ywsQJlpKvspYIkRoNqIZ15xvb4be1
+ aRMjGSTTsZ7SRFuEV6HBMC6yKcS926umkcSscZZAqCc5+2yjMmvTSSbnwjVrEdlL50vs LA== 
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmdk8jx90-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 13:42:19 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3DZuUj009676;
- Thu, 3 Nov 2022 13:42:17 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma04fra.de.ibm.com with ESMTP id 3kgut8xm6e-1
+ Thu, 03 Nov 2022 13:45:04 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3DajIc014551;
+ Thu, 3 Nov 2022 13:45:02 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04ams.nl.ibm.com with ESMTP id 3kgut98uac-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 13:42:17 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2A3DgEmC66584916
+ Thu, 03 Nov 2022 13:45:02 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2A3Dj0eD655884
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 3 Nov 2022 13:42:14 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C3E67AE04D;
- Thu,  3 Nov 2022 13:42:14 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8ADDDAE045;
- Thu,  3 Nov 2022 13:42:14 +0000 (GMT)
+ Thu, 3 Nov 2022 13:45:00 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 23E8B4C044;
+ Thu,  3 Nov 2022 13:45:00 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DEF804C040;
+ Thu,  3 Nov 2022 13:44:59 +0000 (GMT)
 Received: from heavy (unknown [9.171.39.72])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Thu,  3 Nov 2022 13:42:14 +0000 (GMT)
-Date: Thu, 3 Nov 2022 14:42:13 +0100
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Thu,  3 Nov 2022 13:44:59 +0000 (GMT)
+Date: Thu, 3 Nov 2022 14:44:58 +0100
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: qemu-s390x@nongnu.org
-Subject: Re: [PATCH 12/26] target/s390x: Move masking of psw.addr to
- cpu_get_tb_cpu_state
-Message-ID: <20221103134213.6h2lcmwcs6hykirt@heavy>
+Subject: Re: [PATCH 13/26] target/s390x: Add disp argument to update_psw_addr
+Message-ID: <20221103134458.okfo7q7vmqszok47@heavy>
 References: <20221006034421.1179141-1-richard.henderson@linaro.org>
- <20221006034421.1179141-13-richard.henderson@linaro.org>
+ <20221006034421.1179141-14-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221006034421.1179141-13-richard.henderson@linaro.org>
+In-Reply-To: <20221006034421.1179141-14-richard.henderson@linaro.org>
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: oC2ZiaXfDh5JUVE-SEIW0Los50YS5mxE
-X-Proofpoint-GUID: oC2ZiaXfDh5JUVE-SEIW0Los50YS5mxE
+X-Proofpoint-GUID: MKT5y59oq_OgvdK2cVGmCWgamoI5sSMv
+X-Proofpoint-ORIG-GUID: MKT5y59oq_OgvdK2cVGmCWgamoI5sSMv
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
  definitions=2022-11-03_04,2022-11-03_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015
- phishscore=0 impostorscore=0 adultscore=0 priorityscore=1501 bulkscore=0
- malwarescore=0 mlxlogscore=814 mlxscore=0 spamscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211030093
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+ priorityscore=1501
+ clxscore=1015 adultscore=0 suspectscore=0 phishscore=0 mlxlogscore=906
+ impostorscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211030093
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -104,21 +103,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Oct 05, 2022 at 08:44:07PM -0700, Richard Henderson wrote:
-> Masking after the fact in s390x_tr_init_disas_context
-> provides incorrect information to tb_lookup.
+On Wed, Oct 05, 2022 at 08:44:08PM -0700, Richard Henderson wrote:
+> Rename to update_psw_addr_disp at the same time.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/s390x/cpu.h           | 13 +++++++------
->  target/s390x/tcg/translate.c |  6 ------
->  2 files changed, 7 insertions(+), 12 deletions(-)
+>  target/s390x/tcg/translate.c | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
 
-How can we end up in a situation where this matters? E.g. if we are in
-64-bit mode and execute
-
-    0xa12345678: sam31
-
-we will get a specification exception, and cpu_get_tb_cpu_state() will
-not run. And for valid 31-bit addresses masking should be a no-op.
+Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
