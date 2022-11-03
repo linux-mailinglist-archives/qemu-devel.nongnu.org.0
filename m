@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 826BB617919
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 09:51:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9887561791B
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 09:51:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqVv1-0006ds-QF; Thu, 03 Nov 2022 04:49:47 -0400
+	id 1oqVv4-0006dt-RH; Thu, 03 Nov 2022 04:49:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oqVuq-0006YO-Hg
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oqVuo-0006XE-KN
  for qemu-devel@nongnu.org; Thu, 03 Nov 2022 04:49:41 -0400
-Received: from mout.kundenserver.de ([212.227.126.131])
+Received: from mout.kundenserver.de ([212.227.126.187])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oqVum-0004BB-AC
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 04:49:34 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oqVuk-0004B8-GB
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 04:49:33 -0400
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1M60HD-1owJjg2PRz-007QLv; Thu, 03
- Nov 2022 09:49:27 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MelWf-1pQP6503xl-00ak5J; Thu, 03
+ Nov 2022 09:49:28 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>, Helge Deller <deller@gmx.de>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 2/4] linux-user: Add close_range() syscall
-Date: Thu,  3 Nov 2022 09:49:23 +0100
-Message-Id: <20221103084925.3860524-3-laurent@vivier.eu>
+Cc: Laurent Vivier <laurent@vivier.eu>,
+	Helge Deller <deller@gmx.de>
+Subject: [PULL 3/4] linux-user: Add strace output for timer_settime64() syscall
+Date: Thu,  3 Nov 2022 09:49:24 +0100
+Message-Id: <20221103084925.3860524-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20221103084925.3860524-1-laurent@vivier.eu>
 References: <20221103084925.3860524-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:OMuKM6XGJRrCYJA0EyyV0txYvybMK6TNBtMkOcxwpyg7/u5rc5t
- E8lcFnodQ3lmOO1KPmBgkXW98Z9svnng1QIScnSO8p1/TKGpV+UwhVAC59Hudy7x7Sg1HyQ
- BxnJX6DkECmgp1yagXvMAlFZ8nrtrN3JAglt3PFGLO5Y3bK5DT/GwtajcggBTxDH895PBky
- 5kpsPQq2RuqqG71YboPyg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pDPZUDN2Qlg=:spj9zDi3mqo0QxqM+PSwZf
- pvpER+Hf5Rn7OCuD2xGNQXQC923XjNm2BfiiVEBogxEQsowX7wMMiTpDb3Cfwxsz2ZMjBKcHJ
- vcQ9ZpifZ6dVfbnA/3WP4WKRSzeOAL+Cizi29oJn+QorCGF/lp1lt01NMHpBEluFBHRZVTx4q
- EZcKUDRVrw+LjL7GNjnrEVxjvoAj2N1Ux4ebT93FHZgWcaCsTLYMRlWAuq8TMRJ2lU3pgk+P/
- W8di5B9D3BS1Cq1AJHStvEBP9aZOZY2a4STpzgbzde9HCjb6o/emGazO0GIq8jeatw4j8DZC7
- /ClLGovtcN5S7ECOVDnEFbA+r8eyxY9fY/xWLVszcpPTgiGQScbJbNlGOVw7DoD3YjqHSoLT2
- gqYy1d45HdNkb70kk13CAaAaP4eNlmWbAqmZOa4g/FjjgqP1eXtnkUxj01WQ6r4bzNIPfckyu
- x60kOM4Mu9slrWHZzON2x3AILIs3TH2ZYvfpoJcpaJr2topEBZOLuqtysBYxlxU9pkfPPhUYV
- CSCpyIs1ZNzyOT00LZ1XLnzXgu3JCUeyHPjn2ic0X2Y0xsIEw4QBYqHXMluTnVTY8QR+6es3F
- 4YO9ulW5LBDewwno2a3n5gNC+bIkZCUpEYsWQki+Ixbfaz65wxDCLcWsa81x9vTp2dQlThcr8
- SAaS6PnCysZI7bEb2QQnwRevOdnvloLsjSYrA6kYaiAqgdyb8ZzLV9QVBc/fpC1TSiaVFYKZ2
- 9/aBGFg0JtK23hdWzOv/0X5tX7nV82YsmT4GoeqZbTXfqD+2f/pKzz/WjJh0fG1x4KxYnL8/z
- ZB3wt5z
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:tIjU4I5Up+ove+yzfTiT39raIYDAdo8nf9XWPUxTxo4YCBTjKv7
+ 9OTZZvu0GvXvY8d+AH+KLz0FyuSMDp24CGILsqZcLLqPCLfF8pFEgFK3SJnYFM1x9KsUWE/
+ GtW1AD55qhBmcGQzIac5wQSncmOz5jGN+HfHYkoWbOXNnFZX6kgx6zVwk8pj/4BU2A0o8ih
+ F/LSuOGU2c3+wJWn/c+7A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QjUCUJ+0Dk4=:eaxrq0whxB3ijSJljf50Fb
+ P6cYBLL7vjnNR+cweRHuHdXROTZqHZ9hRZu8GSsrh08rUBRsLMvuZFcTXWSfV0Xi2T6yAtFbM
+ QGbB4r/V0Rtvzg8l3nxDMBmAKPztxNhLfeejIliMRiPcABHh6HsS9Dkis7zMb0PyTQzO0jxu8
+ 7tHHeEIhWUmNGaRxiy29wwwW35w8nHpdGarONxpXN8rL+gLCMvUUoJTLvcKuw8E5950/LAuk2
+ D9hCo+kVer6rJeSq9it42ieGEU7AWRMUbhs1LntdrEfPD4W99glfiWuMy/bRvQYszJ6tz8DYU
+ yRIBfu1xK/6uXj8s2QpdW50iSy4UhvObIMqFZQrB3DergggYSYOagET/PvuRnMIaUX2n1xvr9
+ Qs/RSl4GfLZnLFaduf1uNODxZBbA8aMWvP/0Xj7T/ntL7NZ+0Ht+Fvktqgae9iDi+Nn5zeIuO
+ bCSgR2YWKUR1YAs6HrKfaJXXG3zTdIfL50YbRqiENekaq1MDkMwg/8Y0flGlJD0QdNcCmn8lx
+ pVET1teU+VT7F03nHV/uIRglnraC9SovjjD28OjE+REwZh3tC6ZAcUx0XHcxurkoQCITWG8B2
+ DOqea5mfDrUiw1hSmlxtKU+RsmJy4UbbbyPkL94z95/JLiazNAj59qxvi1YPHZIsiJQVuYLb6
+ Co3VGkhBg4rbO8eShd2J1EsQoRq4GuKFOJ/C+AxI2ASKdd6FM73gyePsj4akg5DEZT/B6bReM
+ Tii0QUtSbEJ5UwHkSeNUFi2u28+uz1z66C1zy0veh+ty7LO2UmqbCLmDfSVjmuYmsHHD3MN4o
+ P9n7Loj
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -73,66 +73,33 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Helge Deller <deller@gmx.de>
 
+Add missing timer_settime64() strace output and specify format for
+timer_settime().
+
 Signed-off-by: Helge Deller <deller@gmx.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <Y1dLJoEDhJ2AAYDn@p100>
+
+Message-Id: <Y1b5eIXFoMRDcDL9@p100>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.list |  3 +++
- linux-user/syscall.c   | 19 +++++++++++++++++++
- 2 files changed, 22 insertions(+)
+ linux-user/strace.list | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 3df2184580aa..cd995e5d56db 100644
+index cd995e5d56db..3a898e2532d3 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -103,6 +103,9 @@
- #ifdef TARGET_NR_close
- { TARGET_NR_close, "close" , "%s(%d)", NULL, NULL },
+@@ -1534,7 +1534,10 @@
+ { TARGET_NR_timer_gettime, "timer_gettime" , NULL, NULL, NULL },
  #endif
-+#ifdef TARGET_NR_close_range
-+{ TARGET_NR_close_range, "close_range" , "%s(%u,%u,%u)", NULL, NULL },
+ #ifdef TARGET_NR_timer_settime
+-{ TARGET_NR_timer_settime, "timer_settime" , NULL, NULL, NULL },
++{ TARGET_NR_timer_settime, "timer_settime" , "%s(%d,%d,%p,%p)", NULL, NULL },
 +#endif
- #ifdef TARGET_NR_connect
- { TARGET_NR_connect, "connect" , "%s(%d,%#x,%d)", NULL, NULL },
++#ifdef TARGET_NR_timer_settime64
++{ TARGET_NR_timer_settime64, "timer_settime64" , "%s(%d,%d,%p,%p)", NULL, NULL },
  #endif
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8402c1399d3c..8b18adfba894 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -364,6 +364,13 @@ _syscall3(int,sys_syslog,int,type,char*,bufp,int,len)
- #ifdef __NR_exit_group
- _syscall1(int,exit_group,int,error_code)
- #endif
-+#if defined(__NR_close_range) && defined(TARGET_NR_close_range)
-+#define __NR_sys_close_range __NR_close_range
-+_syscall3(int,sys_close_range,int,first,int,last,int,flags)
-+#ifndef CLOSE_RANGE_CLOEXEC
-+#define CLOSE_RANGE_CLOEXEC     (1U << 2)
-+#endif
-+#endif
- #if defined(__NR_futex)
- _syscall6(int,sys_futex,int *,uaddr,int,op,int,val,
-           const struct timespec *,timeout,int *,uaddr2,int,val3)
-@@ -8756,6 +8763,18 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-     case TARGET_NR_close:
-         fd_trans_unregister(arg1);
-         return get_errno(close(arg1));
-+#if defined(__NR_close_range) && defined(TARGET_NR_close_range)
-+    case TARGET_NR_close_range:
-+        ret = get_errno(sys_close_range(arg1, arg2, arg3));
-+        if (ret == 0 && !(arg3 & CLOSE_RANGE_CLOEXEC)) {
-+            abi_long fd, maxfd;
-+            maxfd = MIN(arg2, target_fd_max);
-+            for (fd = arg1; fd < maxfd; fd++) {
-+                fd_trans_unregister(fd);
-+            }
-+        }
-+        return ret;
-+#endif
- 
-     case TARGET_NR_brk:
-         return do_brk(arg1);
+ #ifdef TARGET_NR_timerfd
+ { TARGET_NR_timerfd, "timerfd" , NULL, NULL, NULL },
 -- 
 2.37.3
 
