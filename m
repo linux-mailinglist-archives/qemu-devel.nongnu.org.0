@@ -2,87 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC3661803C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 15:55:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8BEF61804C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 15:58:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqbbz-0007kG-UG; Thu, 03 Nov 2022 10:54:31 -0400
+	id 1oqbes-0000sV-Vs; Thu, 03 Nov 2022 10:57:31 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqbbt-0007iC-RF
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 10:54:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <sir@cmpwn.com>) id 1oqbep-0000rg-TD
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 10:57:27 -0400
+Received: from out-211.mta0.migadu.com ([91.218.175.211])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqbbf-0004DO-91
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 10:54:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667487250;
+ (Exim 4.90_1) (envelope-from <sir@cmpwn.com>) id 1oqben-0004kA-99
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 10:57:27 -0400
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cmpwn.com; s=key1;
+ t=1667487442;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6tnqjt8S+JqsKHM35Jfbh6RhJr6JWXZ48tikqYbUzzk=;
- b=MtmU2OYuPu0pEHqmilUGjPAC2RWzIUIJKb6ksP5xQT2KHJAfOVUcCLNuTI7mPjcjNKjVwG
- ++yqwIW2/slpmK406qX6bCMthi1F0BYmwj2ui1WxSJQiBhvg8Xyp0qfCaORCAcymD96qBz
- kwQ0uk7d0vdlK8DEXCIemyDMRMoZ2VA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-134-4XTh6LOiMfyrmRBSxx4fBw-1; Thu, 03 Nov 2022 10:54:08 -0400
-X-MC-Unique: 4XTh6LOiMfyrmRBSxx4fBw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- k1-20020adfb341000000b00238745c9b1aso524362wrd.5
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 07:54:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6tnqjt8S+JqsKHM35Jfbh6RhJr6JWXZ48tikqYbUzzk=;
- b=yD7HP5jiNUBhQ7tcDTeF40GX0yJKb9P1qS0dkVmaIXh++wPu9N8+l/NxJ5UqUmjS5p
- j5j+X6rnk15WrbFfvs00tEUjFSllKG0LpCZS+K5RU2H1nACxlsSTfJP0E9gleSlLXjNo
- zOx7sU6QSPCac+M+nYc5mWtZc3/wHlrGCs5w/YrURVG6vtuGc8f/0SbXe8mXHJJ1HtAY
- Vh9v0JVjhpSQXRByIWPPuxcYiQiE2raQNRtD3bwKB6TpuZGKA0KtSHg8dN5vBLaRvIMB
- j0TljQ1FnOOG9qsP4Kcf7YxlO3DBmRO1UdgJlQGY8DJm33U3Dk0dwFqa7O/IYHd4KTKs
- VBvA==
-X-Gm-Message-State: ACrzQf0m/6yYm3NxcXznNFXOXXJERAh4HEp6QP7VY1VKItxHZcl3g7h0
- FZIVDJTJlHmxbkiYQjYPBPJbG6fYHyOGfR17ATq4iOPGeZ/6v0kI3BwooOAkTRa6u6HUQuPqL1+
- kYNN/rF9q8p/3Bx0=
-X-Received: by 2002:a05:6000:1372:b0:236:bf8e:a78c with SMTP id
- q18-20020a056000137200b00236bf8ea78cmr16266898wrz.197.1667487246639; 
- Thu, 03 Nov 2022 07:54:06 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4mWxoMg0coJAkjw0La85kaWw2QbxyvnPXAJhfWyvZZQ1UOXn82Ocm+TU6wY14NwwzKtWv4fg==
-X-Received: by 2002:a05:6000:1372:b0:236:bf8e:a78c with SMTP id
- q18-20020a056000137200b00236bf8ea78cmr16266875wrz.197.1667487246297; 
- Thu, 03 Nov 2022 07:54:06 -0700 (PDT)
-Received: from redhat.com ([2.55.15.188]) by smtp.gmail.com with ESMTPSA id
- s11-20020a1cf20b000000b003cf47fdead5sm94189wmc.30.2022.11.03.07.54.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Nov 2022 07:54:05 -0700 (PDT)
-Date: Thu, 3 Nov 2022 10:54:02 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL v2 00/82] pci,pc,virtio: features, tests, fixes, cleanups
-Message-ID: <20221103103747-mutt-send-email-mst@kernel.org>
-References: <20221102160336.616599-1-mst@redhat.com> <Y2LJX2HHiHpiKzKd@fedora>
- <20221103081148-mutt-send-email-mst@kernel.org>
- <CAJSP0QXvJwvO311ELJZBQZx-M3aKvRgEfk6PX7So8n9n0X3HhQ@mail.gmail.com>
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Yju7kUqadQp8sitN8jI3Pn5CCNyfTqfPJCZ7HzAZRXA=;
+ b=Pz7kiPrEYP7SVZ/XM60WGFokgvpzPb2VgBdcZbt/vlN0HNAg7r82zlw/B1+Olj47kQC4P8
+ je3Unu7ye+Vm3ZUuhROn5Ai3McswQN4Z7EZaVJRBXU6+uvK2AHkHUsDV0bBky5VXQbuRM6
+ 0TBz+uxT9cm2e5id/TVuQ2YcYaxwrPplgCOTRYUhbJrwncUq7hmpl2VnyR3XRhhYBGi6VQ
+ DN/v7YpI7sSyQh2VDiVb5yRHZn7SeeWZ9drwVLTE1FrQVEZGR8nL57+qNB3IdWM/+XIOWQ
+ IaIt3W1Tl84Sk7Ok8ImRQzgfy/+rw8yo04ZKRcO/RXt8Wrgqd9YyztghsM08Sw==
+From: Drew DeVault <sir@cmpwn.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: Drew DeVault <sir@cmpwn.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2] linux-user: implement execveat
+Date: Thu,  3 Nov 2022 15:57:19 +0100
+Message-Id: <20221103145719.3470738-1-sir@cmpwn.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJSP0QXvJwvO311ELJZBQZx-M3aKvRgEfk6PX7So8n9n0X3HhQ@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Migadu-Flow: FLOW_OUT
+Received-SPF: pass client-ip=91.218.175.211; envelope-from=sir@cmpwn.com;
+ helo=out-211.mta0.migadu.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,122 +62,245 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 03, 2022 at 09:29:56AM -0400, Stefan Hajnoczi wrote:
-> On Thu, 3 Nov 2022 at 08:14, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > On Wed, Nov 02, 2022 at 03:47:43PM -0400, Stefan Hajnoczi wrote:
-> > > On Wed, Nov 02, 2022 at 12:02:14PM -0400, Michael S. Tsirkin wrote:
-> > > > Changes from v1:
-> > > >
-> > > > Applied and squashed fixes by Igor, Lei He, Hesham Almatary for
-> > > > bugs that tripped up the pipeline.
-> > > > Updated expected files for core-count test.
-> > >
-> > > Several "make check" CI failures have occurred. They look like they are
-> > > related. Here is one (see the URLs at the bottom of this email for more
-> > > details):
-> > >
-> > > 17/106 ERROR:../tests/qtest/qos-test.c:191:subprocess_run_one_test: child process (/arm/virt/virtio-mmio/virtio-bus/virtio-net-device/virtio-net/virtio-net-tests/vhost-user/flags-mismatch/subprocess [8609]) failed unexpectedly ERROR
-> > >  17/106 qemu:qtest+qtest-arm / qtest-arm/qos-test                     ERROR          31.44s   killed by signal 6 SIGABRT
-> > > >>> G_TEST_DBUS_DAEMON=/builds/qemu-project/qemu/tests/dbus-vmstate-daemon.sh MALLOC_PERTURB_=49 QTEST_QEMU_IMG=./qemu-img QTEST_QEMU_BINARY=./qemu-system-arm QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon /builds/qemu-project/qemu/build/tests/qtest/qos-test --tap -k
-> > > ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
-> > > stderr:
-> > > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-> > > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > > qemu-system-arm: Failed to set msg fds.
-> > > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> > > qemu-system-arm: -chardev socket,id=chr-reconnect,path=/tmp/vhost-test-6PT2U1/reconnect.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-6PT2U1/reconnect.sock,server=on
-> > > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-> > > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > > qemu-system-arm: Failed to set msg fds.
-> > > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> > > qemu-system-arm: -chardev socket,id=chr-connect-fail,path=/tmp/vhost-test-H8G7U1/connect-fail.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-H8G7U1/connect-fail.sock,server=on
-> > > qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: Failed to read msg header. Read 0 instead of 12. Original request 1.
-> > > qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: vhost_backend_init failed: Protocol error
-> > > qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: failed to init vhost_net for queue 0
-> > > qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-H8G7U1/connect-fail.sock,server=on
-> > > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-> > > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > > qemu-system-arm: Failed to set msg fds.
-> > > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> > > qemu-system-arm: -chardev socket,id=chr-flags-mismatch,path=/tmp/vhost-test-94UYU1/flags-mismatch.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-94UYU1/flags-mismatch.sock,server=on
-> > > qemu-system-arm: Failed to write msg. Wrote -1 instead of 52.
-> > > qemu-system-arm: vhost_set_mem_table failed: Invalid argument (22)
-> > > qemu-system-arm: Failed to set msg fds.
-> > > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > > UndefinedBehaviorSanitizer:DEADLYSIGNAL
-> > > ==8618==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55e34deccab0 bp 0x000000000000 sp 0x7ffc94894710 T8618)
-> > > ==8618==The signal is caused by a READ memory access.
-> > > ==8618==Hint: address points to the zero page.
-> > >     #0 0x55e34deccab0 in ldl_he_p /builds/qemu-project/qemu/include/qemu/bswap.h:301:5
-> > >     #1 0x55e34deccab0 in ldn_he_p /builds/qemu-project/qemu/include/qemu/bswap.h:440:1
-> > >     #2 0x55e34deccab0 in flatview_write_continue /builds/qemu-project/qemu/build/../softmmu/physmem.c:2824:19
-> > >     #3 0x55e34dec9f21 in flatview_write /builds/qemu-project/qemu/build/../softmmu/physmem.c:2867:12
-> > >     #4 0x55e34dec9f21 in address_space_write /builds/qemu-project/qemu/build/../softmmu/physmem.c:2963:18
-> > >     #5 0x55e34decace7 in address_space_unmap /builds/qemu-project/qemu/build/../softmmu/physmem.c:3306:9
-> > >     #6 0x55e34de6d4ec in vhost_memory_unmap /builds/qemu-project/qemu/build/../hw/virtio/vhost.c:342:9
-> > >     #7 0x55e34de6d4ec in vhost_virtqueue_stop /builds/qemu-project/qemu/build/../hw/virtio/vhost.c:1242:5
-> > >     #8 0x55e34de72904 in vhost_dev_stop /builds/qemu-project/qemu/build/../hw/virtio/vhost.c:1882:9
-> > >     #9 0x55e34d890514 in vhost_net_stop_one /builds/qemu-project/qemu/build/../hw/net/vhost_net.c:331:5
-> > >     #10 0x55e34d88fef6 in vhost_net_start /builds/qemu-project/qemu/build/../hw/net/vhost_net.c:404:13
-> > >     #11 0x55e34de0bec6 in virtio_net_vhost_status /builds/qemu-project/qemu/build/../hw/net/virtio-net.c:307:13
-> > >     #12 0x55e34de0bec6 in virtio_net_set_status /builds/qemu-project/qemu/build/../hw/net/virtio-net.c:388:5
-> > >     #13 0x55e34de5e409 in virtio_set_status /builds/qemu-project/qemu/build/../hw/virtio/virtio.c:2442:9
-> > >     #14 0x55e34da22a50 in virtio_mmio_write /builds/qemu-project/qemu/build/../hw/virtio/virtio-mmio.c:428:9
-> > >     #15 0x55e34deb44a6 in memory_region_write_accessor /builds/qemu-project/qemu/build/../softmmu/memory.c:493:5
-> > >     #16 0x55e34deb428a in access_with_adjusted_size /builds/qemu-project/qemu/build/../softmmu/memory.c:555:18
-> > >     #17 0x55e34deb402d in memory_region_dispatch_write /builds/qemu-project/qemu/build/../softmmu/memory.c
-> > >     #18 0x55e34deccaf1 in flatview_write_continue /builds/qemu-project/qemu/build/../softmmu/physmem.c:2825:23
-> > >     #19 0x55e34dec9f21 in flatview_write /builds/qemu-project/qemu/build/../softmmu/physmem.c:2867:12
-> > >     #20 0x55e34dec9f21 in address_space_write /builds/qemu-project/qemu/build/../softmmu/physmem.c:2963:18
-> > >     #21 0x55e34ded0bf6 in qtest_process_command /builds/qemu-project/qemu/build/../softmmu/qtest.c
-> > >     #22 0x55e34ded008d in qtest_process_inbuf /builds/qemu-project/qemu/build/../softmmu/qtest.c:796:9
-> > >     #23 0x55e34e109b02 in tcp_chr_read /builds/qemu-project/qemu/build/../chardev/char-socket.c:508:13
-> > >     #24 0x7fc6c665d0ae in g_main_context_dispatch (/lib64/libglib-2.0.so.0+0x550ae)
-> > >     #25 0x55e34e1fc1bc in glib_pollfds_poll /builds/qemu-project/qemu/build/../util/main-loop.c:297:9
-> > >     #26 0x55e34e1fc1bc in os_host_main_loop_wait /builds/qemu-project/qemu/build/../util/main-loop.c:320:5
-> > >     #27 0x55e34e1fc1bc in main_loop_wait /builds/qemu-project/qemu/build/../util/main-loop.c:596:11
-> > >     #28 0x55e34da52de6 in qemu_main_loop /builds/qemu-project/qemu/build/../softmmu/runstate.c:739:9
-> > >     #29 0x55e34d60a4f5 in qemu_default_main /builds/qemu-project/qemu/build/../softmmu/main.c:37:14
-> > >     #30 0x7fc6c43a5eaf in __libc_start_call_main (/lib64/libc.so.6+0x3feaf)
-> > >     #31 0x7fc6c43a5f5f in __libc_start_main@GLIBC_2.2.5 (/lib64/libc.so.6+0x3ff5f)
-> > >     #32 0x55e34d5e1094 in _start (/builds/qemu-project/qemu/build/qemu-system-arm+0xc17094)
-> > > UndefinedBehaviorSanitizer can not provide additional info.
-> > > SUMMARY: UndefinedBehaviorSanitizer: SEGV /builds/qemu-project/qemu/include/qemu/bswap.h:301:5 in ldl_he_p
-> > > ==8618==ABORTING
-> > > Broken pipe
-> > > ../tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU process but encountered exit status 1 (expected 0)
-> > > **
-> > > ERROR:../tests/qtest/qos-test.c:191:subprocess_run_one_test: child process (/arm/virt/virtio-mmio/virtio-bus/virtio-net-device/virtio-net/virtio-net-tests/vhost-user/flags-mismatch/subprocess [8609]) failed unexpectedly
-> > > (test program exited with status code -6)
-> > >
-> > > https://gitlab.com/qemu-project/qemu/-/jobs/3265209698
-> > > https://gitlab.com/qemu-project/qemu/-/pipelines/683909108
-> > >
-> > > Stefan
-> >
-> >
-> > Ugh. I need to build with ubsan to reproduce yes? didn't trigger for me
-> > I am wondering how to bisect on gitlab.
-> 
-> I searched for "clang-system" (the name of the job) in .gitlab-ci.d to
-> get the job commands. The GitLab job output also contains details of
-> the commands that were run (unfortunately it doesn't expand
-> environment variables so some aspects are not visible from the GitLab
-> output).
-> 
-> That led to the following local command-line:
-> 
-> $ git checkout 645ec851
-> $ ./configure --enable-werror --disable-docs --target-list=arm-softmmu
-> --cc=clang --cxx=clang++ --extra-cflags=-fsanitize=undefined
-> --extra-cflags=-fno-sanitize-recover=undefined && make check-qtest
-> It reproduces locally on my Fedora 36 machine.
-> 
-> Stefan
+References: https://gitlab.com/qemu-project/qemu/-/issues/1007
+Signed-off-by: Drew DeVault <sir@cmpwn.com>
+---
+ linux-user/syscall.c | 204 +++++++++++++++++++++++--------------------
+ 1 file changed, 111 insertions(+), 93 deletions(-)
 
-Oh I'm still on 35, that's why.
-
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index f55cdebee5..57f0b2f0e8 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -633,7 +633,12 @@ safe_syscall4(pid_t, wait4, pid_t, pid, int *, status, int, options, \
+ #endif
+ safe_syscall5(int, waitid, idtype_t, idtype, id_t, id, siginfo_t *, infop, \
+               int, options, struct rusage *, rusage)
++#if defined(TARGET_NR_execveat)
++safe_syscall5(int, execveat, int, dirfd, const char *, filename,
++        char **, argv, char **, envp, int, flags)
++#else
+ safe_syscall3(int, execve, const char *, filename, char **, argv, char **, envp)
++#endif
+ #if defined(TARGET_NR_select) || defined(TARGET_NR__newselect) || \
+     defined(TARGET_NR_pselect6) || defined(TARGET_NR_pselect6_time64)
+ safe_syscall6(int, pselect6, int, nfds, fd_set *, readfds, fd_set *, writefds, \
+@@ -8281,6 +8286,107 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
+     return safe_openat(dirfd, path(pathname), flags, mode);
+ }
+ 
++static int do_execveat(CPUArchState *cpu_env, int dirfd, abi_long pathname, abi_long guest_argp, abi_long guest_envp, int flags)
++{
++    int ret;
++    char **argp, **envp;
++    int argc, envc;
++    abi_ulong gp;
++    abi_ulong addr;
++    char **q;
++    void *p;
++
++    argc = 0;
++
++    for (gp = guest_argp; gp; gp += sizeof(abi_ulong)) {
++        if (get_user_ual(addr, gp))
++            return -TARGET_EFAULT;
++        if (!addr)
++            break;
++        argc++;
++    }
++    envc = 0;
++    for (gp = guest_envp; gp; gp += sizeof(abi_ulong)) {
++        if (get_user_ual(addr, gp))
++            return -TARGET_EFAULT;
++        if (!addr)
++            break;
++        envc++;
++    }
++
++    argp = g_new0(char *, argc + 1);
++    envp = g_new0(char *, envc + 1);
++
++    for (gp = guest_argp, q = argp; gp;
++          gp += sizeof(abi_ulong), q++) {
++        if (get_user_ual(addr, gp))
++            goto execve_efault;
++        if (!addr)
++            break;
++        if (!(*q = lock_user_string(addr)))
++            goto execve_efault;
++    }
++    *q = NULL;
++
++    for (gp = guest_envp, q = envp; gp;
++          gp += sizeof(abi_ulong), q++) {
++        if (get_user_ual(addr, gp))
++            goto execve_efault;
++        if (!addr)
++            break;
++        if (!(*q = lock_user_string(addr)))
++            goto execve_efault;
++    }
++    *q = NULL;
++
++    /* Although execve() is not an interruptible syscall it is
++     * a special case where we must use the safe_syscall wrapper:
++     * if we allow a signal to happen before we make the host
++     * syscall then we will 'lose' it, because at the point of
++     * execve the process leaves QEMU's control. So we use the
++     * safe syscall wrapper to ensure that we either take the
++     * signal as a guest signal, or else it does not happen
++     * before the execve completes and makes it the other
++     * program's problem.
++     */
++    if (!(p = lock_user_string(pathname)))
++        goto execve_efault;
++
++#if defined(TARGET_NR_execveat)
++    ret = get_errno(safe_execveat(dirfd, p, argp, envp, flags));
++#else
++    assert(dirfd == AT_FDCWD && flags == 0);
++    ret = get_errno(safe_execve(p, argp, envp));
++#endif
++
++    unlock_user(p, pathname, 0);
++
++    goto execve_end;
++
++execve_efault:
++    ret = -TARGET_EFAULT;
++
++execve_end:
++    for (gp = guest_argp, q = argp; *q;
++          gp += sizeof(abi_ulong), q++) {
++        if (get_user_ual(addr, gp)
++            || !addr)
++            break;
++        unlock_user(*q, addr, 0);
++    }
++    for (gp = guest_envp, q = envp; *q;
++          gp += sizeof(abi_ulong), q++) {
++        if (get_user_ual(addr, gp)
++            || !addr)
++            break;
++        unlock_user(*q, addr, 0);
++    }
++
++    g_free(argp);
++    g_free(envp);
++    return ret;
++}
++
+ #define TIMER_MAGIC 0x0caf0000
+ #define TIMER_MAGIC_MASK 0xffff0000
+ 
+@@ -8748,101 +8854,13 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         ret = get_errno(unlinkat(arg1, p, arg3));
+         unlock_user(p, arg2, 0);
+         return ret;
++#endif
++#if defined(TARGET_NR_execveat)
++    case TARGET_NR_execveat:
++        return do_execveat(cpu_env, arg1, arg2, arg3, arg4, arg5);
+ #endif
+     case TARGET_NR_execve:
+-        {
+-            char **argp, **envp;
+-            int argc, envc;
+-            abi_ulong gp;
+-            abi_ulong guest_argp;
+-            abi_ulong guest_envp;
+-            abi_ulong addr;
+-            char **q;
+-
+-            argc = 0;
+-            guest_argp = arg2;
+-            for (gp = guest_argp; gp; gp += sizeof(abi_ulong)) {
+-                if (get_user_ual(addr, gp))
+-                    return -TARGET_EFAULT;
+-                if (!addr)
+-                    break;
+-                argc++;
+-            }
+-            envc = 0;
+-            guest_envp = arg3;
+-            for (gp = guest_envp; gp; gp += sizeof(abi_ulong)) {
+-                if (get_user_ual(addr, gp))
+-                    return -TARGET_EFAULT;
+-                if (!addr)
+-                    break;
+-                envc++;
+-            }
+-
+-            argp = g_new0(char *, argc + 1);
+-            envp = g_new0(char *, envc + 1);
+-
+-            for (gp = guest_argp, q = argp; gp;
+-                  gp += sizeof(abi_ulong), q++) {
+-                if (get_user_ual(addr, gp))
+-                    goto execve_efault;
+-                if (!addr)
+-                    break;
+-                if (!(*q = lock_user_string(addr)))
+-                    goto execve_efault;
+-            }
+-            *q = NULL;
+-
+-            for (gp = guest_envp, q = envp; gp;
+-                  gp += sizeof(abi_ulong), q++) {
+-                if (get_user_ual(addr, gp))
+-                    goto execve_efault;
+-                if (!addr)
+-                    break;
+-                if (!(*q = lock_user_string(addr)))
+-                    goto execve_efault;
+-            }
+-            *q = NULL;
+-
+-            if (!(p = lock_user_string(arg1)))
+-                goto execve_efault;
+-            /* Although execve() is not an interruptible syscall it is
+-             * a special case where we must use the safe_syscall wrapper:
+-             * if we allow a signal to happen before we make the host
+-             * syscall then we will 'lose' it, because at the point of
+-             * execve the process leaves QEMU's control. So we use the
+-             * safe syscall wrapper to ensure that we either take the
+-             * signal as a guest signal, or else it does not happen
+-             * before the execve completes and makes it the other
+-             * program's problem.
+-             */
+-            ret = get_errno(safe_execve(p, argp, envp));
+-            unlock_user(p, arg1, 0);
+-
+-            goto execve_end;
+-
+-        execve_efault:
+-            ret = -TARGET_EFAULT;
+-
+-        execve_end:
+-            for (gp = guest_argp, q = argp; *q;
+-                  gp += sizeof(abi_ulong), q++) {
+-                if (get_user_ual(addr, gp)
+-                    || !addr)
+-                    break;
+-                unlock_user(*q, addr, 0);
+-            }
+-            for (gp = guest_envp, q = envp; *q;
+-                  gp += sizeof(abi_ulong), q++) {
+-                if (get_user_ual(addr, gp)
+-                    || !addr)
+-                    break;
+-                unlock_user(*q, addr, 0);
+-            }
+-
+-            g_free(argp);
+-            g_free(envp);
+-        }
+-        return ret;
++        return do_execveat(cpu_env, AT_FDCWD, arg1, arg2, arg3, 0);
+     case TARGET_NR_chdir:
+         if (!(p = lock_user_string(arg1)))
+             return -TARGET_EFAULT;
 -- 
-MST
+2.38.1
 
 
