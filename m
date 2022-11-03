@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF3A617C85
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 13:28:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B42B8617CD7
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 13:41:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqZIt-0006Ho-Fb; Thu, 03 Nov 2022 08:26:39 -0400
+	id 1oqZVe-0002QR-5B; Thu, 03 Nov 2022 08:39:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r@hev.cc>) id 1oqZIY-0006E9-Lm
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 08:26:18 -0400
-Received: from mail-pg1-f180.google.com ([209.85.215.180])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <r@hev.cc>) id 1oqZIU-0006J0-8w
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 08:26:18 -0400
-Received: by mail-pg1-f180.google.com with SMTP id q1so1498063pgl.11
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 05:26:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sYF+tf/vm2o+bg+v9DU0WiWNvOFsy2g0xfelqn64Pek=;
- b=rDNtPRvtoSIVF9WL13BKTLOAcTCEDPJn6UgMGKOxrV9Va5JI0kde8fVMdvhYbxbnXk
- r0W4sAO86ffJ3EzzNA7HjX2b2ZjmNVSBoBWogt6fe1irVuB9T8Erimvtt3MFl+pHNn9z
- HkFqgOU6Zvl+j7lQKRg7DDzQd8Rmv+DUilzGDy6DeeXTN9MUyN10OcUeNxt2pAKfpnKi
- OoSRMvPVHkQCaiBjbc5ICruft8Y/nsRPCbPofG+pYgjfQxOujC0PAZb6h5UYEzXaVE6t
- 9CzGtBFsR2YBpFAouodIPJ8b0+zoOAuKPdiFSuCJRzuFK0VykdjxZBQxovDhny5XHH+G
- 9xxw==
-X-Gm-Message-State: ACrzQf2Up0wqV4liFMP2dzp2VE6vpClBNud7Uy/V9AFFwb2c8pKPCsmn
- TvB9EKjlM+82sgHVNI4KNP589g==
-X-Google-Smtp-Source: AMsMyM7gKKmWEKXR865lKBKG2ltQAJptlXdG6fU3ELDMt0l6zDoEPH1RCCXlgLsW6oiQZ7v569svaQ==
-X-Received: by 2002:aa7:9e1c:0:b0:56c:78fa:2a2 with SMTP id
- y28-20020aa79e1c000000b0056c78fa02a2mr30607044pfq.65.1667478372145; 
- Thu, 03 Nov 2022 05:26:12 -0700 (PDT)
-Received: from localhost.localdomain ([2400:8901:e002:5400::])
- by smtp.gmail.com with ESMTPSA id
- j12-20020a170902da8c00b00172b87d9770sm558732plx.81.2022.11.03.05.26.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Nov 2022 05:26:11 -0700 (PDT)
-From: Rui Wang <wangrui@loongson.cn>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- qemu-devel@nongnu.org, hev <qemu@hev.cc>, Rui Wang <wangrui@loongson.cn>
-Subject: [PATCH v2] target/loongarch: Fix emulation of float-point disable
- exception
-Date: Thu,  3 Nov 2022 20:25:51 +0800
-Message-Id: <20221103122551.152380-1-wangrui@loongson.cn>
-X-Mailer: git-send-email 2.38.1
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1oqZV7-0002Jq-2t
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 08:39:19 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1oqZV2-0000Z8-S8
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 08:39:16 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8AxjrdmtmNjOjsEAA--.9693S3;
+ Thu, 03 Nov 2022 20:39:02 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8CxJldltmNjofgLAA--.16257S2; 
+ Thu, 03 Nov 2022 20:39:02 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+	stefanha@gmail.com
+Subject: [PULL 0/7] loongarch-to-apply queue
+Date: Thu,  3 Nov 2022 20:38:54 +0800
+Message-Id: <20221103123901.2811990-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.215.180; envelope-from=r@hev.cc;
- helo=mail-pg1-f180.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
+X-CM-TRANSID: AQAAf8CxJldltmNjofgLAA--.16257S2
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7tFWUZF18Zr17CF4rZr1UJrb_yoW8Ary8pr
+ 13Cry3Wr4rJrZxXrn3J345Xr15Jr4xGr42qF17J348Cr17Ar1UXr18t34kZFyUG348Jryj
+ vr18Aw1UWF1UAwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ b0kFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x
+ 0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE
+ 44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFVCjc4
+ AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
+ Y20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+ 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0
+ I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
+ k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
+ xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7xRE6wZ7UUUUU==
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,443 +74,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We need to emulate it to generate a floating point disable exception
-when CSR.EUEN.FPE is zero.
+The following changes since commit a11f65ec1b8adcb012b89c92819cbda4dc25aaf1:
 
-Signed-off-by: Rui Wang <wangrui@loongson.cn>
----
- target/loongarch/cpu.c                        |  2 ++
- target/loongarch/cpu.h                        | 13 +++++++
- .../loongarch/insn_trans/trans_farith.c.inc   | 30 ++++++++++++++++
- target/loongarch/insn_trans/trans_fcmp.c.inc  | 11 ++++--
- .../loongarch/insn_trans/trans_fmemory.c.inc  | 34 +++++++++++++++----
- target/loongarch/insn_trans/trans_fmov.c.inc  | 29 ++++++++++++++--
- .../insn_trans/trans_privileged.c.inc         |  2 +-
- target/loongarch/translate.c                  |  2 +-
- 8 files changed, 110 insertions(+), 13 deletions(-)
+  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2022-11-01 13:49:33 -0400)
 
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index 1512664214..46b04cbdad 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -48,6 +48,7 @@ static const char * const excp_names[] = {
-     [EXCCODE_BRK] = "Break",
-     [EXCCODE_INE] = "Instruction Non-Existent",
-     [EXCCODE_IPE] = "Instruction privilege error",
-+    [EXCCODE_FPD] = "Floating Point Disabled",
-     [EXCCODE_FPE] = "Floating Point Exception",
-     [EXCCODE_DBP] = "Debug breakpoint",
-     [EXCCODE_BCE] = "Bound Check Exception",
-@@ -185,6 +186,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
-     case EXCCODE_BRK:
-     case EXCCODE_INE:
-     case EXCCODE_IPE:
-+    case EXCCODE_FPD:
-     case EXCCODE_FPE:
-     case EXCCODE_BCE:
-         env->CSR_BADV = env->pc;
-diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-index dbce176564..2729a114c2 100644
---- a/target/loongarch/cpu.h
-+++ b/target/loongarch/cpu.h
-@@ -14,6 +14,7 @@
- #include "qemu/timer.h"
- #include "exec/memory.h"
- #include "hw/sysbus.h"
-+#include "cpu-csr.h"
- 
- #define IOCSRF_TEMP             0
- #define IOCSRF_NODECNT          1
-@@ -391,6 +392,14 @@ static inline int cpu_mmu_index(CPULoongArchState *env, bool ifetch)
- #endif
- }
- 
-+/*
-+ * LoongArch CPUs hardware flags.
-+ * bit[2..0] for MMU index.
-+ * bit[7..4] for CSR.EUEN.{ BTE, ASXE, SXE, FPE }.
-+ */
-+#define HW_FLAGS_MMU_MASK   0x07
-+#define HW_FLAGS_EUEN_FPE   0x10
-+
- static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
-                                         target_ulong *pc,
-                                         target_ulong *cs_base,
-@@ -399,6 +408,10 @@ static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
-     *pc = env->pc;
-     *cs_base = 0;
-     *flags = cpu_mmu_index(env, false);
-+
-+    if (FIELD_EX64(env->CSR_EUEN, CSR_EUEN, FPE)) {
-+        *flags |= HW_FLAGS_EUEN_FPE;
-+    }
- }
- 
- void loongarch_cpu_list(void);
-diff --git a/target/loongarch/insn_trans/trans_farith.c.inc b/target/loongarch/insn_trans/trans_farith.c.inc
-index 7bb3f41aee..e2dec75dfb 100644
---- a/target/loongarch/insn_trans/trans_farith.c.inc
-+++ b/target/loongarch/insn_trans/trans_farith.c.inc
-@@ -3,9 +3,22 @@
-  * Copyright (c) 2021 Loongson Technology Corporation Limited
-  */
- 
-+#ifndef CONFIG_USER_ONLY
-+#define CHECK_FPE do { \
-+    if ((ctx->base.tb->flags & HW_FLAGS_EUEN_FPE) == 0) { \
-+        generate_exception(ctx, EXCCODE_FPD); \
-+        return false; \
-+    } \
-+} while (0)
-+#else
-+#define CHECK_FPE
-+#endif
-+
- static bool gen_fff(DisasContext *ctx, arg_fff *a,
-                     void (*func)(TCGv, TCGv_env, TCGv, TCGv))
- {
-+    CHECK_FPE;
-+
-     func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj], cpu_fpr[a->fk]);
-     return true;
- }
-@@ -13,6 +26,8 @@ static bool gen_fff(DisasContext *ctx, arg_fff *a,
- static bool gen_ff(DisasContext *ctx, arg_ff *a,
-                    void (*func)(TCGv, TCGv_env, TCGv))
- {
-+    CHECK_FPE;
-+
-     func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj]);
-     return true;
- }
-@@ -22,6 +37,9 @@ static bool gen_muladd(DisasContext *ctx, arg_ffff *a,
-                        int flag)
- {
-     TCGv_i32 tflag = tcg_constant_i32(flag);
-+
-+    CHECK_FPE;
-+
-     func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj],
-          cpu_fpr[a->fk], cpu_fpr[a->fa], tflag);
-     return true;
-@@ -29,18 +47,24 @@ static bool gen_muladd(DisasContext *ctx, arg_ffff *a,
- 
- static bool trans_fcopysign_s(DisasContext *ctx, arg_fcopysign_s *a)
- {
-+    CHECK_FPE;
-+
-     tcg_gen_deposit_i64(cpu_fpr[a->fd], cpu_fpr[a->fk], cpu_fpr[a->fj], 0, 31);
-     return true;
- }
- 
- static bool trans_fcopysign_d(DisasContext *ctx, arg_fcopysign_d *a)
- {
-+    CHECK_FPE;
-+
-     tcg_gen_deposit_i64(cpu_fpr[a->fd], cpu_fpr[a->fk], cpu_fpr[a->fj], 0, 63);
-     return true;
- }
- 
- static bool trans_fabs_s(DisasContext *ctx, arg_fabs_s *a)
- {
-+    CHECK_FPE;
-+
-     tcg_gen_andi_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], MAKE_64BIT_MASK(0, 31));
-     gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
-     return true;
-@@ -48,12 +72,16 @@ static bool trans_fabs_s(DisasContext *ctx, arg_fabs_s *a)
- 
- static bool trans_fabs_d(DisasContext *ctx, arg_fabs_d *a)
- {
-+    CHECK_FPE;
-+
-     tcg_gen_andi_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], MAKE_64BIT_MASK(0, 63));
-     return true;
- }
- 
- static bool trans_fneg_s(DisasContext *ctx, arg_fneg_s *a)
- {
-+    CHECK_FPE;
-+
-     tcg_gen_xori_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], 0x80000000);
-     gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
-     return true;
-@@ -61,6 +89,8 @@ static bool trans_fneg_s(DisasContext *ctx, arg_fneg_s *a)
- 
- static bool trans_fneg_d(DisasContext *ctx, arg_fneg_d *a)
- {
-+    CHECK_FPE;
-+
-     tcg_gen_xori_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], 0x8000000000000000LL);
-     return true;
- }
-diff --git a/target/loongarch/insn_trans/trans_fcmp.c.inc b/target/loongarch/insn_trans/trans_fcmp.c.inc
-index 93a6a2230f..2ccf646ccb 100644
---- a/target/loongarch/insn_trans/trans_fcmp.c.inc
-+++ b/target/loongarch/insn_trans/trans_fcmp.c.inc
-@@ -25,10 +25,13 @@ static uint32_t get_fcmp_flags(int cond)
- 
- static bool trans_fcmp_cond_s(DisasContext *ctx, arg_fcmp_cond_s *a)
- {
--    TCGv var = tcg_temp_new();
-+    TCGv var;
-     uint32_t flags;
-     void (*fn)(TCGv, TCGv_env, TCGv, TCGv, TCGv_i32);
- 
-+    CHECK_FPE;
-+
-+    var = tcg_temp_new();
-     fn = (a->fcond & 1 ? gen_helper_fcmp_s_s : gen_helper_fcmp_c_s);
-     flags = get_fcmp_flags(a->fcond >> 1);
- 
-@@ -41,9 +44,13 @@ static bool trans_fcmp_cond_s(DisasContext *ctx, arg_fcmp_cond_s *a)
- 
- static bool trans_fcmp_cond_d(DisasContext *ctx, arg_fcmp_cond_d *a)
- {
--    TCGv var = tcg_temp_new();
-+    TCGv var;
-     uint32_t flags;
-     void (*fn)(TCGv, TCGv_env, TCGv, TCGv, TCGv_i32);
-+
-+    CHECK_FPE;
-+
-+    var = tcg_temp_new();
-     fn = (a->fcond & 1 ? gen_helper_fcmp_s_d : gen_helper_fcmp_c_d);
-     flags = get_fcmp_flags(a->fcond >> 1);
- 
-diff --git a/target/loongarch/insn_trans/trans_fmemory.c.inc b/target/loongarch/insn_trans/trans_fmemory.c.inc
-index 74ee98f63a..3025a1d3e9 100644
---- a/target/loongarch/insn_trans/trans_fmemory.c.inc
-+++ b/target/loongarch/insn_trans/trans_fmemory.c.inc
-@@ -15,6 +15,8 @@ static bool gen_fload_i(DisasContext *ctx, arg_fr_i *a, MemOp mop)
-     TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
-     TCGv temp = NULL;
- 
-+    CHECK_FPE;
-+
-     if (a->imm) {
-         temp = tcg_temp_new();
-         tcg_gen_addi_tl(temp, addr, a->imm);
-@@ -36,6 +38,8 @@ static bool gen_fstore_i(DisasContext *ctx, arg_fr_i *a, MemOp mop)
-     TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
-     TCGv temp = NULL;
- 
-+    CHECK_FPE;
-+
-     if (a->imm) {
-         temp = tcg_temp_new();
-         tcg_gen_addi_tl(temp, addr, a->imm);
-@@ -54,8 +58,11 @@ static bool gen_floadx(DisasContext *ctx, arg_frr *a, MemOp mop)
- {
-     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
--    TCGv addr = tcg_temp_new();
-+    TCGv addr;
- 
-+    CHECK_FPE;
-+
-+    addr = tcg_temp_new();
-     tcg_gen_add_tl(addr, src1, src2);
-     tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-     maybe_nanbox_load(cpu_fpr[a->fd], mop);
-@@ -68,8 +75,11 @@ static bool gen_fstorex(DisasContext *ctx, arg_frr *a, MemOp mop)
- {
-     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
--    TCGv addr = tcg_temp_new();
-+    TCGv addr;
-+
-+    CHECK_FPE;
- 
-+    addr = tcg_temp_new();
-     tcg_gen_add_tl(addr, src1, src2);
-     tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-     tcg_temp_free(addr);
-@@ -81,8 +91,11 @@ static bool gen_fload_gt(DisasContext *ctx, arg_frr *a, MemOp mop)
- {
-     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
--    TCGv addr = tcg_temp_new();
-+    TCGv addr;
- 
-+    CHECK_FPE;
-+
-+    addr = tcg_temp_new();
-     gen_helper_asrtgt_d(cpu_env, src1, src2);
-     tcg_gen_add_tl(addr, src1, src2);
-     tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-@@ -96,8 +109,11 @@ static bool gen_fstore_gt(DisasContext *ctx, arg_frr *a, MemOp mop)
- {
-     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
--    TCGv addr = tcg_temp_new();
-+    TCGv addr;
-+
-+    CHECK_FPE;
- 
-+    addr = tcg_temp_new();
-     gen_helper_asrtgt_d(cpu_env, src1, src2);
-     tcg_gen_add_tl(addr, src1, src2);
-     tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-@@ -110,8 +126,11 @@ static bool gen_fload_le(DisasContext *ctx, arg_frr *a, MemOp mop)
- {
-     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
--    TCGv addr = tcg_temp_new();
-+    TCGv addr;
- 
-+    CHECK_FPE;
-+
-+    addr = tcg_temp_new();
-     gen_helper_asrtle_d(cpu_env, src1, src2);
-     tcg_gen_add_tl(addr, src1, src2);
-     tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-@@ -125,8 +144,11 @@ static bool gen_fstore_le(DisasContext *ctx, arg_frr *a, MemOp mop)
- {
-     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
--    TCGv addr = tcg_temp_new();
-+    TCGv addr;
-+
-+    CHECK_FPE;
- 
-+    addr = tcg_temp_new();
-     gen_helper_asrtle_d(cpu_env, src1, src2);
-     tcg_gen_add_tl(addr, src1, src2);
-     tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
-diff --git a/target/loongarch/insn_trans/trans_fmov.c.inc b/target/loongarch/insn_trans/trans_fmov.c.inc
-index 5537e3dd35..8e5106db4e 100644
---- a/target/loongarch/insn_trans/trans_fmov.c.inc
-+++ b/target/loongarch/insn_trans/trans_fmov.c.inc
-@@ -10,8 +10,11 @@ static const uint32_t fcsr_mask[4] = {
- static bool trans_fsel(DisasContext *ctx, arg_fsel *a)
- {
-     TCGv zero = tcg_constant_tl(0);
--    TCGv cond = tcg_temp_new();
-+    TCGv cond;
- 
-+    CHECK_FPE;
-+
-+    cond = tcg_temp_new();
-     tcg_gen_ld8u_tl(cond, cpu_env, offsetof(CPULoongArchState, cf[a->ca]));
-     tcg_gen_movcond_tl(TCG_COND_EQ, cpu_fpr[a->fd], cond, zero,
-                        cpu_fpr[a->fj], cpu_fpr[a->fk]);
-@@ -26,6 +29,8 @@ static bool gen_f2f(DisasContext *ctx, arg_ff *a,
-     TCGv dest = cpu_fpr[a->fd];
-     TCGv src = cpu_fpr[a->fj];
- 
-+    CHECK_FPE;
-+
-     func(dest, src);
-     if (nanbox) {
-         gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
-@@ -39,6 +44,8 @@ static bool gen_r2f(DisasContext *ctx, arg_fr *a,
- {
-     TCGv src = gpr_src(ctx, a->rj, EXT_NONE);
- 
-+    CHECK_FPE;
-+
-     func(cpu_fpr[a->fd], src);
-     return true;
- }
-@@ -48,6 +55,8 @@ static bool gen_f2r(DisasContext *ctx, arg_rf *a,
- {
-     TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
- 
-+    CHECK_FPE;
-+
-     func(dest, cpu_fpr[a->fj]);
-     gen_set_gpr(a->rd, dest, EXT_NONE);
- 
-@@ -59,6 +68,8 @@ static bool trans_movgr2fcsr(DisasContext *ctx, arg_movgr2fcsr *a)
-     uint32_t mask = fcsr_mask[a->fcsrd];
-     TCGv Rj = gpr_src(ctx, a->rj, EXT_NONE);
- 
-+    CHECK_FPE;
-+
-     if (mask == UINT32_MAX) {
-         tcg_gen_st32_i64(Rj, cpu_env, offsetof(CPULoongArchState, fcsr0));
-     } else {
-@@ -90,6 +101,8 @@ static bool trans_movfcsr2gr(DisasContext *ctx, arg_movfcsr2gr *a)
- {
-     TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
- 
-+    CHECK_FPE;
-+
-     tcg_gen_ld32u_i64(dest, cpu_env, offsetof(CPULoongArchState, fcsr0));
-     tcg_gen_andi_i64(dest, dest, fcsr_mask[a->fcsrs]);
-     gen_set_gpr(a->rd, dest, EXT_NONE);
-@@ -114,8 +127,11 @@ static void gen_movfrh2gr_s(TCGv dest, TCGv src)
- 
- static bool trans_movfr2cf(DisasContext *ctx, arg_movfr2cf *a)
- {
--    TCGv t0 = tcg_temp_new();
-+    TCGv t0;
-+
-+    CHECK_FPE;
- 
-+    t0 = tcg_temp_new();
-     tcg_gen_andi_tl(t0, cpu_fpr[a->fj], 0x1);
-     tcg_gen_st8_tl(t0, cpu_env, offsetof(CPULoongArchState, cf[a->cd & 0x7]));
-     tcg_temp_free(t0);
-@@ -125,6 +141,8 @@ static bool trans_movfr2cf(DisasContext *ctx, arg_movfr2cf *a)
- 
- static bool trans_movcf2fr(DisasContext *ctx, arg_movcf2fr *a)
- {
-+    CHECK_FPE;
-+
-     tcg_gen_ld8u_tl(cpu_fpr[a->fd], cpu_env,
-                     offsetof(CPULoongArchState, cf[a->cj & 0x7]));
-     return true;
-@@ -132,8 +150,11 @@ static bool trans_movcf2fr(DisasContext *ctx, arg_movcf2fr *a)
- 
- static bool trans_movgr2cf(DisasContext *ctx, arg_movgr2cf *a)
- {
--    TCGv t0 = tcg_temp_new();
-+    TCGv t0;
- 
-+    CHECK_FPE;
-+
-+    t0 = tcg_temp_new();
-     tcg_gen_andi_tl(t0, gpr_src(ctx, a->rj, EXT_NONE), 0x1);
-     tcg_gen_st8_tl(t0, cpu_env, offsetof(CPULoongArchState, cf[a->cd & 0x7]));
-     tcg_temp_free(t0);
-@@ -143,6 +164,8 @@ static bool trans_movgr2cf(DisasContext *ctx, arg_movgr2cf *a)
- 
- static bool trans_movcf2gr(DisasContext *ctx, arg_movcf2gr *a)
- {
-+    CHECK_FPE;
-+
-     tcg_gen_ld8u_tl(gpr_dst(ctx, a->rd, EXT_NONE), cpu_env,
-                     offsetof(CPULoongArchState, cf[a->cj & 0x7]));
-     return true;
-diff --git a/target/loongarch/insn_trans/trans_privileged.c.inc b/target/loongarch/insn_trans/trans_privileged.c.inc
-index 9c4dcbfcfb..ff3a6d95ae 100644
---- a/target/loongarch/insn_trans/trans_privileged.c.inc
-+++ b/target/loongarch/insn_trans/trans_privileged.c.inc
-@@ -159,7 +159,7 @@ static const CSRInfo csr_info[] = {
- 
- static bool check_plv(DisasContext *ctx)
- {
--    if (ctx->base.tb->flags == MMU_USER_IDX) {
-+    if (ctx->mem_idx == MMU_USER_IDX) {
-         generate_exception(ctx, EXCCODE_IPE);
-         return true;
-     }
-diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index 6091772349..34f75b107a 100644
---- a/target/loongarch/translate.c
-+++ b/target/loongarch/translate.c
-@@ -75,7 +75,7 @@ static void loongarch_tr_init_disas_context(DisasContextBase *dcbase,
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
- 
-     ctx->page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
--    ctx->mem_idx = ctx->base.tb->flags;
-+    ctx->mem_idx = ctx->base.tb->flags & HW_FLAGS_MMU_MASK;
- 
-     /* Bound the number of insns to execute to those left on the page.  */
-     bound = -(ctx->base.pc_first | TARGET_PAGE_MASK) / 4;
--- 
-2.38.1
+are available in the Git repository at:
+
+  https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20221103
+
+for you to fetch changes up to d31e2b1af7e6db41e6088679babc3893bd69b4b3:
+
+  target/loongarch: Fix raise_mmu_exception() set wrong exception_index (2022-11-03 17:59:19 +0800)
+
+----------------------------------------------------------------
+pull-loongarch-20221103
+
+----------------------------------------------------------------
+Song Gao (2):
+      target/loongarch: Add exception subcode
+      target/loongarch: Fix raise_mmu_exception() set wrong exception_index
+
+Xiaojuan Yang (5):
+      hw/intc: Convert the memops to with_attrs in LoongArch extioi
+      hw/intc: Fix LoongArch extioi coreisr accessing
+      hw/loongarch: Load FDT table into dram memory space
+      hw/loongarch: Improve fdt for LoongArch virt machine
+      hw/loongarch: Add TPM device for LoongArch virt machine
+
+ hw/intc/loongarch_extioi.c      | 41 ++++++++++++++++-------------
+ hw/intc/trace-events            |  3 +--
+ hw/loongarch/acpi-build.c       | 50 +++++++++++++++++++++++++++++++++--
+ hw/loongarch/virt.c             | 53 ++++++++++++++++++++++++++++++++-----
+ include/hw/loongarch/virt.h     |  3 ---
+ include/hw/pci-host/ls7a.h      |  1 +
+ target/loongarch/cpu.c          |  8 ++++--
+ target/loongarch/cpu.h          | 58 ++++++++++++++++++++++-------------------
+ target/loongarch/iocsr_helper.c | 19 ++++++++------
+ target/loongarch/tlb_helper.c   |  5 ++--
+ 10 files changed, 170 insertions(+), 71 deletions(-)
 
 
