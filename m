@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086066187A3
+	by mail.lfdr.de (Postfix) with ESMTPS id 46CC96187A4
 	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 19:36:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqf4g-0006Re-Ra; Thu, 03 Nov 2022 14:36:22 -0400
+	id 1oqf4j-0006Sr-65; Thu, 03 Nov 2022 14:36:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oqf4b-0006Qy-Mw
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 14:36:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1oqf4d-0006Ra-Jx
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 14:36:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oqf4Z-0005gl-Rm
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 14:36:17 -0400
+ id 1oqf4b-0005gr-40
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 14:36:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667500573;
+ s=mimecast20190719; t=1667500576;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=mP+hs/+3nDgklUncZuE539ElL9gVkZig7ScD+RonTU0=;
- b=hIiUB1FmOAvEJzvqD+23mORMuYzyXUiRwhXIdI4R+me0+jZZKhbzXq2AgDkfT2ESS0XtML
- Bur9F4yX0QaSopRnk284Z3vid1TFxUQp4OQspW8wVe78JcVQaorSsemsquTvbJIHEbnEgT
- wwH9rGWvJsLRPiCoiXsipH+1aHr5wY8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ded1a2U6Xedrxf6kW/l6okfBPQsZfD0YQ01y6VrbaBY=;
+ b=OtLAirlIx2o/mVawdL6qKzNRuNkgkTqMTgVfZRvHaxR+K4dfdhNEbHYte8yJKzCLTm3LL2
+ /rd9qMH/MwkJWuI792nWD/2Z7IrWgyC6jw7K6ufFf8UAv9Fscg5Iz5/j9BqTPPPBWwu9jq
+ 9G0RNU1L5YVuvEE2HTu5rb8/gU2i228=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-526-vvda85UXPlGLvelr0hRrXg-1; Thu, 03 Nov 2022 14:36:12 -0400
-X-MC-Unique: vvda85UXPlGLvelr0hRrXg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-223-iv_X79BQOb2o4EMtzDP6Ww-1; Thu, 03 Nov 2022 14:36:15 -0400
+X-MC-Unique: iv_X79BQOb2o4EMtzDP6Ww-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5256D1C0A104;
- Thu,  3 Nov 2022 18:36:12 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ACFBC800186;
+ Thu,  3 Nov 2022 18:36:14 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B5CFD1121331;
- Thu,  3 Nov 2022 18:36:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2DB74C15BA4;
+ Thu,  3 Nov 2022 18:36:13 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Hanna Reitz <hreitz@redhat.com>, nsoffer@redhat.com,
  <qemu-block@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH v2 0/2] file-posix: alignment probing improvements
-Date: Thu,  3 Nov 2022 14:36:07 -0400
-Message-Id: <20221103183609.363027-1-stefanha@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PATCH v2 1/2] file-posix: fix Linux alignment probing when EIO is
+ returned
+Date: Thu,  3 Nov 2022 14:36:08 -0400
+Message-Id: <20221103183609.363027-2-stefanha@redhat.com>
+In-Reply-To: <20221103183609.363027-1-stefanha@redhat.com>
+References: <20221103183609.363027-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -77,26 +80,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-v2:
-- Make sure that XFS_IOC_DIOINFO takes priority over logical blocksize [Eric Biggers]
-- Included a link to Eric's linux-block regression email
+Linux v6.0 dm-crypt returns errno EIO from unaligned O_DIRECT pread(2)
+calls. Alignment probing fails on dm-crypt devices because the code
+expects EINVAL. This is a kernel regression that is expected to be fixed
+upstream:
+https://lore.kernel.org/linux-block/20221103193837.3b5b4bac@xps.demsh.org/T/#t
 
-These patches fix alignment probing with dm-crypt and add support for the new
-Linux statx(STATX_DIOALIGN) interface.
+Treating any errno as an "unaligned" indicator would be easy, but breaks
+commit 22d182e82b4b ("block/raw-posix: fix launching with failed
+disks"). Offline disks return EIO for correctly aligned requests and
+EINVAL for unaligned requests.
 
-Given that Linux v6.0 kernels with dm-crypt returning EIO are out there, I
-think we might as well rejig the alignment probing loop to handle that.
+It's possible to make both v6.0 dm-crypt and offline disks work: look
+for the transition from EINVAL to EIO instead of for a single EINVAL
+value.
 
-Let's also add support for the new STATX_DIOALIGN interface so probing is not
-required on new kernels.
+Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1290
+Fixes: 22d182e82b4b ("block/raw-posix: fix launching with failed disks")
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ block/file-posix.c | 42 +++++++++++++++---------------------------
+ 1 file changed, 15 insertions(+), 27 deletions(-)
 
-Stefan Hajnoczi (2):
-  file-posix: fix Linux alignment probing when EIO is returned
-  file-posix: add statx(STATX_DIOALIGN) support
-
- block/file-posix.c | 102 ++++++++++++++++++++++++---------------------
- 1 file changed, 55 insertions(+), 47 deletions(-)
-
+diff --git a/block/file-posix.c b/block/file-posix.c
+index b9647c5ffc..b9d62f52fe 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -355,31 +355,6 @@ static bool raw_needs_alignment(BlockDriverState *bs)
+     return s->force_alignment;
+ }
+ 
+-/* Check if read is allowed with given memory buffer and length.
+- *
+- * This function is used to check O_DIRECT memory buffer and request alignment.
+- */
+-static bool raw_is_io_aligned(int fd, void *buf, size_t len)
+-{
+-    ssize_t ret = pread(fd, buf, len, 0);
+-
+-    if (ret >= 0) {
+-        return true;
+-    }
+-
+-#ifdef __linux__
+-    /* The Linux kernel returns EINVAL for misaligned O_DIRECT reads.  Ignore
+-     * other errors (e.g. real I/O error), which could happen on a failed
+-     * drive, since we only care about probing alignment.
+-     */
+-    if (errno != EINVAL) {
+-        return true;
+-    }
+-#endif
+-
+-    return false;
+-}
+-
+ static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
+ {
+     BDRVRawState *s = bs->opaque;
+@@ -426,34 +401,47 @@ static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
+      * try to detect buf_align, which cannot be detected in some cases (e.g.
+      * Gluster). If buf_align cannot be detected, we fallback to the value of
+      * request_alignment.
++     *
++     * The probing loop keeps track of the last errno so that the alignment of
++     * offline disks can be probed. On Linux pread(2) returns with errno EINVAL
++     * for most file descriptors when O_DIRECT alignment constraints are unmet.
++     * Offline disks fail correctly aligned pread(2) with EIO. Therefore it's
++     * possible to detect alignment on offline disks by observing when the
++     * errno changes from EINVAL to something else.
+      */
+ 
+     if (!bs->bl.request_alignment) {
++        int last_errno = 0;
+         int i;
+         size_t align;
+         buf = qemu_memalign(max_align, max_align);
+         for (i = 0; i < ARRAY_SIZE(alignments); i++) {
+             align = alignments[i];
+-            if (raw_is_io_aligned(fd, buf, align)) {
++            if (pread(fd, buf, align, 0) >= 0 ||
++                (errno != EINVAL && last_errno == EINVAL)) {
+                 /* Fallback to safe value. */
+                 bs->bl.request_alignment = (align != 1) ? align : max_align;
+                 break;
+             }
++            last_errno = errno;
+         }
+         qemu_vfree(buf);
+     }
+ 
+     if (!s->buf_align) {
++        int last_errno = 0;
+         int i;
+         size_t align;
+         buf = qemu_memalign(max_align, 2 * max_align);
+         for (i = 0; i < ARRAY_SIZE(alignments); i++) {
+             align = alignments[i];
+-            if (raw_is_io_aligned(fd, buf + align, max_align)) {
++            if (pread(fd, buf + align, max_align, 0) >= 0 ||
++                (errno != EINVAL && last_errno == EINVAL)) {
+                 /* Fallback to request_alignment. */
+                 s->buf_align = (align != 1) ? align : bs->bl.request_alignment;
+                 break;
+             }
++            last_errno = errno;
+         }
+         qemu_vfree(buf);
+     }
 -- 
 2.38.1
 
