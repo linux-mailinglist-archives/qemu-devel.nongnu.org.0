@@ -2,96 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCB561858A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 18:02:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 228EB6185B6
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 18:05:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqdbS-0007gP-PE; Thu, 03 Nov 2022 13:02:06 -0400
+	id 1oqdcc-0008Ma-6m; Thu, 03 Nov 2022 13:03:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oqdbQ-0007fd-3E
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:02:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oqdbz-0007nP-2N; Thu, 03 Nov 2022 13:02:41 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oqdbO-0007MN-A1
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 13:02:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667494921;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jMKW7JdB8nyqnjLo3bFDZzXeOajwaYkvue28PDCK4fI=;
- b=jDtrqZoabBs4fC7AdrWTo3YQd2Cx8R804RY0Q7upxKTfHJ24q0edrB3nLnKEQHQLox5GKG
- GxNUpnHghNEE+i3gxzxTnC64E2YnoYUKz4yMksgmEVSwjNhJ62eBEAHQDm/c/8VOYkX1fr
- S2jy1N26SXkAHlTIfqoeYroiS+xduHM=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-357-JGtfUJQWO2uXBIPiYIa8xg-1; Thu, 03 Nov 2022 13:02:00 -0400
-X-MC-Unique: JGtfUJQWO2uXBIPiYIa8xg-1
-Received: by mail-ej1-f71.google.com with SMTP id
- xc12-20020a170907074c00b007416699ea14so1628742ejb.19
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 10:01:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jMKW7JdB8nyqnjLo3bFDZzXeOajwaYkvue28PDCK4fI=;
- b=wUdna8p2AemHv1/PuVSgybQRJml2TMQFgbu53dNdYa26MBPCHEa2JgxDE3FGuH7YFb
- usLgQQyUlaGmwA3cYmi7+mf/OQWRLo92U4tzFaD3UDqff1rA43jhNFa5MttMGVb10tGY
- dM8HAuJ/pt2FGYU6REbdSyJe3MGKjaxH0H03RFZNPDZw8xTzJAqfvHVQ0EuUmnqaRLbO
- i13l6d3A7JMCzUtM+oF+1sYgvSudh+IHs736GOuPcTeNsEOHCNaEPHIAq5Y8WDuXie8s
- uhrZHg0EClp4/nNtTI/Z0W8p105dXTzXkJYUtWjPamLdOeLT7I8nDYjrVF0zwmxFm+n+
- nwDg==
-X-Gm-Message-State: ACrzQf27M4Oi89UG20z8RgRKp0YwyvDJl7wkpT21XM7DJjdp98OtBD7b
- meDXVW3tcUqYy8rnGcETGGOL80d7yiI5CVS41aKlS+XS1RL401wpR98LrT7IabjxnwkjDYsfZCH
- DGfBB7ZQAvJPsDe0=
-X-Received: by 2002:a17:907:6d06:b0:7ad:b45c:dcab with SMTP id
- sa6-20020a1709076d0600b007adb45cdcabmr28448100ejc.72.1667494916777; 
- Thu, 03 Nov 2022 10:01:56 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7bK7VVBYRNCefp4swMDpHtO9Q1/OdjvOX+AoLlwD1vGv4gnwzxH/pyAmBJD8QnOWkSUZaWIg==
-X-Received: by 2002:a17:907:6d06:b0:7ad:b45c:dcab with SMTP id
- sa6-20020a1709076d0600b007adb45cdcabmr28448073ejc.72.1667494916538; 
- Thu, 03 Nov 2022 10:01:56 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c?
- ([2001:b07:6468:f312:1c09:f536:3de6:228c])
- by smtp.googlemail.com with ESMTPSA id
- d8-20020a170906344800b0073dc5bb7c32sm709487ejb.64.2022.11.03.10.01.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Nov 2022 10:01:56 -0700 (PDT)
-Message-ID: <72512aed-9968-0f15-9f3e-aef3643590e6@redhat.com>
-Date: Thu, 3 Nov 2022 18:01:54 +0100
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oqdbT-0007N4-20; Thu, 03 Nov 2022 13:02:34 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A3FdM21028576;
+ Thu, 3 Nov 2022 17:01:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=zfygsbACEzEVl/O0/PDU0SNvcKoNHrKyDtKfcler3s4=;
+ b=d9DiRZ+agIOTqigbvoYzkDH7QpB7Dl3X1ha0QSOno0uG/T/JkTMd/ToMi+7rTnIyQkmN
+ h4g2pI/ySjWa9rfobS53mW7+9H8Z7Mm2uD7ewUyBD9RrScAzGimQWsQDd/LiUdBTqQNz
+ joB2IGQFxfH7nc4sPpYb7ZVmtQ4zrIzvTl6Uf46KlHzWm04qWe5rHb8JHL+ZCP0qfUoA
+ x/+LWCCF9Mo6JPdeDreGuob5D4J7qBeyfCgFpn9Svi4x/Sz0BIc/Tt0A/bgWRtAq4LPj
+ rY94iE00/MlH6zfSffm1MUGEdz7dT0sMfXBAB45kuh3svC4WGqVikj2An15WB0q9nbA6 QQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmemwqpy2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Nov 2022 17:01:57 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A3GmluT002364;
+ Thu, 3 Nov 2022 17:01:56 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmemwqpx2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Nov 2022 17:01:56 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3H1s1R020712;
+ Thu, 3 Nov 2022 17:01:54 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06fra.de.ibm.com with ESMTP id 3kguejeuhh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Nov 2022 17:01:54 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 2A3GuICP49873324
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 3 Nov 2022 16:56:18 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3DBD45204E;
+ Thu,  3 Nov 2022 17:01:51 +0000 (GMT)
+Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com (unknown
+ [9.152.222.245])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id A70F952050;
+ Thu,  3 Nov 2022 17:01:50 +0000 (GMT)
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, scgl@linux.ibm.com, frankja@linux.ibm.com,
+ berrange@redhat.com, clg@kaod.org
+Subject: [PATCH v11 00/11] s390x: CPU Topology
+Date: Thu,  3 Nov 2022 18:01:39 +0100
+Message-Id: <20221103170150.20789-1-pmorel@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH 7/9] block: bdrv_create_file is a coroutine_fn
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-References: <20221103134206.4041928-1-eesposit@redhat.com>
- <20221103134206.4041928-8-eesposit@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20221103134206.4041928-8-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: -6IJvBYCphr0yUXo_hd0oM4SxLEXYWBx
+X-Proofpoint-GUID: 2T6Ot3VZh0xvXWGOG519wYNiO974-Uf3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-03_04,2022-11-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ impostorscore=0 adultscore=0 bulkscore=0 priorityscore=1501 clxscore=1015
+ spamscore=0 lowpriorityscore=0 mlxlogscore=999 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211030110
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,64 +111,200 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/3/22 14:42, Emanuele Giuseppe Esposito wrote:
-> It is always called in coroutine_fn callbacks, therefore
-> it can directly call bdrv_co_create().
-> 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   block.c                            | 6 ++++--
->   include/block/block-global-state.h | 3 ++-
->   2 files changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/block.c b/block.c
-> index eeb7a02aa2..e5e70acf15 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -527,6 +527,7 @@ static int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
->   {
->       int ret;
->       GLOBAL_STATE_CODE();
-> +    assert(qemu_in_coroutine());
->       assert(*errp == NULL);
->   
->       if (!drv->bdrv_co_create_opts) {
-> @@ -717,7 +718,8 @@ out:
->       return ret;
->   }
->   
-> -int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
-> +int coroutine_fn bdrv_create_file(const char *filename, QemuOpts *opts,
-> +                                  Error **errp)
->   {
->       QemuOpts *protocol_opts;
->       BlockDriver *drv;
-> @@ -758,7 +760,7 @@ int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
->           goto out;
->       }
->   
-> -    ret = bdrv_create(drv, filename, protocol_opts, errp);
-> +    ret = bdrv_co_create(drv, filename, protocol_opts, errp);
->   out:
->       qemu_opts_del(protocol_opts);
->       qobject_unref(qdict);
-> diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
-> index 73795a0095..bd461f06a1 100644
-> --- a/include/block/block-global-state.h
-> +++ b/include/block/block-global-state.h
-> @@ -57,7 +57,8 @@ BlockDriver *bdrv_find_protocol(const char *filename,
->   BlockDriver *bdrv_find_format(const char *format_name);
->   int bdrv_create(BlockDriver *drv, const char* filename,
->                   QemuOpts *opts, Error **errp);
-> -int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp);
-> +int coroutine_fn bdrv_create_file(const char *filename, QemuOpts *opts,
-> +                                  Error **errp);
->   
->   BlockDriverState *bdrv_new(void);
->   int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+Hi,
 
-Ah, I see now why patch 6 is needed, but please adjust the commit message.
+The implementation of the CPU Topology in QEMU has been drastically
+modified since the last patch series and the number of LOCs has been
+greatly reduced.
 
-Paolo
+0) Two new patches in front of the series:
+   - A preliminary patch to move the machine properties to the 
+     class_init routine
+   - The max thread machine class attribute patch.
 
+  Both patches could be taken upstream separatly from each other and
+  from the rest of the series.
+
+1) Unnecessary objects have been removed, only a single S390Topology
+   object is created to support migration and reset.
+
+2) The introduction of drawers and books is deferred to a later version.
+
+3) A new machine property, topology, is added for new machines for test
+   purpose and migration to/from a host without facility 11 from/to a
+   host with the facility 11.
+
+Also a documentation has been added to the series.
+
+
+To use the QEMU patches, you will need Linux V6-rc1 or newer,
+or use the following Linux mainline patches:
+
+f5ecfee94493 2022-07-20 KVM: s390: resetting the Topology-Change-Report    
+24fe0195bc19 2022-07-20 KVM: s390: guest support for topology function     
+0130337ec45b 2022-07-20 KVM: s390: Cleanup ipte lock access and SIIF fac.. 
+
+Currently this code is for KVM only, I have no idea if it is interesting
+to provide a TCG patch. If ever it will be done in another series.
+
+To have a better understanding of the S390x CPU Topology and its
+implementation in QEMU you can have a look at the documentation in the
+last patch of this series.
+
+The admin will want to match the host and the guest topology, taking
+into account that the guest does not recognize multithreading.
+Consequently, two vCPU assigned to threads of the same real CPU should
+preferably be assigned to the same socket of the guest machine.
+
+Regards,
+Pierre
+
+Pierre Morel (11):
+  s390x: Register TYPE_S390_CCW_MACHINE properties as class properties
+  s390x/cpu topology: add max_threads machine class attribute
+  s390x/cpu topology: core_id sets s390x CPU topology
+  s390x/cpu topology: reporting the CPU topology to the guest
+  s390x/cpu_topology: resetting the Topology-Change-Report
+  s390x/cpu_topology: CPU topology migration
+  target/s390x: interception of PTF instruction
+  s390x/cpu topology: add topology_capable QEMU capability
+  s390x/cpu topology: add topology machine property
+  s390x/cpu_topology: activating CPU topology
+  docs/s390x: document s390x cpu topology
+
+ docs/system/s390x/cpu-topology.rst |  80 ++++++++
+ include/hw/boards.h                |   3 +
+ include/hw/s390x/cpu-topology.h    |  45 +++++
+ include/hw/s390x/s390-virtio-ccw.h |  10 +
+ target/s390x/cpu.h                 |  81 ++++++++
+ target/s390x/kvm/kvm_s390x.h       |   1 +
+ hw/core/machine.c                  |   3 +
+ hw/s390x/cpu-topology.c            | 286 +++++++++++++++++++++++++++++
+ hw/s390x/s390-virtio-ccw.c         | 192 +++++++++++++------
+ target/s390x/cpu-sysemu.c          |  21 +++
+ target/s390x/cpu_topology.c        | 100 ++++++++++
+ target/s390x/kvm/kvm.c             |  50 ++++-
+ util/qemu-config.c                 |   4 +
+ hw/s390x/meson.build               |   1 +
+ qemu-options.hx                    |   6 +-
+ target/s390x/meson.build           |   1 +
+ 16 files changed, 827 insertions(+), 57 deletions(-)
+ create mode 100644 docs/system/s390x/cpu-topology.rst
+ create mode 100644 include/hw/s390x/cpu-topology.h
+ create mode 100644 hw/s390x/cpu-topology.c
+ create mode 100644 target/s390x/cpu_topology.c
+
+-- 
+2.31.1
+
+Changelog:
+
+- since v10
+
+- change machine attribute "topology-disable" to "topology"
+  (Cedric)
+- Add preliminary patch for machine properties
+  (Cedric)
+- Use next machine as 7.2
+  (Cedric / Connie)
+- Remove unecessary mutex
+  (Thomas)
+- use ENOTSUP return value for kvm_s390_topology_set_mtcr()
+  (Cedric)
+- Add explanation on container and cpu TLEs
+  (Thomas)
+- use again cpu and socket count in topology structure
+  (Cedric)
+- Suppress the S390TopoTLE structure and integrate
+  the TLE masks to the socket structure.
+  (-)
+- the STSI instruction now finds the topology from the machine
+  (Cedric)
+
+- since v9
+
+- remove books and drawers
+
+- remove thread denying and replace with a merge
+  of cores * threads to specify the CPUs available
+  to the guest
+
+- add a class option to avoid topology on older
+  machines
+  (Cedric)
+
+- Allocate a SYSIB buffer of the maximal length to
+  avoid overflow.
+  (Nico, Janis)
+
+- suppress redundancy of smp parameters in topology
+  and use directly the machine smp structure
+
+- Early check for topology support
+  (Cedric)
+
+- since v8
+
+- Linux patches are now mainline
+
+- simplification of the implementation
+  (Janis)
+
+- Migration, new machine definition
+  (Thomas)
+
+- Documentation
+
+- since v7
+
+- Coherence with the Linux patch series changes for MTCR get
+  (Pierre)
+
+- check return values during new CPU creation
+  (Thomas)
+
+- Improving codding style and argument usages
+  (Thomas)
+
+- since v6
+
+- Changes on smp args in qemu-options
+  (Daniel)
+  
+- changed comments in machine.jason
+  (Daniel)
+ 
+- Added reset
+  (Janosch)
+
+- since v5
+
+- rebasing on newer QEMU version
+
+- reworked most lines above 80 characters.
+
+- since v4
+
+- Added drawer and books to topology
+
+- Added numa topology
+
+- Added documentation
+
+- since v3
+
+- Added migration
+  (Thomas)
+
+- Separated STSI instruction from KVM to prepare TCG
+  (Thomas)
+
+- Take care of endianess to prepare TCG
+  (Thomas)
+
+- Added comments on STSI CPU container and PFT instruction
+  (Thomas)
+
+- Moved enabling the instructions as the last patch
+  (Thomas)
 
