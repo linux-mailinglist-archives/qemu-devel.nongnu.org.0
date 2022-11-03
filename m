@@ -2,49 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63630617C34
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 13:10:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5E9617C39
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 13:11:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqZ1E-0006XC-6k; Thu, 03 Nov 2022 08:08:24 -0400
+	id 1oqZ41-0007dP-OA; Thu, 03 Nov 2022 08:11:17 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1oqZ1C-0006Wx-0p; Thu, 03 Nov 2022 08:08:22 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oqZ3u-0007aR-5D; Thu, 03 Nov 2022 08:11:14 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1oqZ19-0003XI-42; Thu, 03 Nov 2022 08:08:21 -0400
-Received: from [192.168.178.185] (p57907e6e.dip0.t-ipconnect.de
- [87.144.126.110])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 0BD17DA0277;
- Thu,  3 Nov 2022 13:08:15 +0100 (CET)
-Message-ID: <4d8598bd-1be5-e890-a854-88715a07339d@weilnetz.de>
-Date: Thu, 3 Nov 2022 13:08:14 +0100
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oqZ3n-0003xq-8S; Thu, 03 Nov 2022 08:11:09 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 96BBD5C00DD;
+ Thu,  3 Nov 2022 08:10:56 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 03 Nov 2022 08:10:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1667477456; x=1667563856; bh=h6
+ /V1TrkYKhnepM6tpNUDitOZR1yg0yXyl76dCR7Pno=; b=NABz3Q8FtqUGbktXYr
+ MzMrtQNywoxmiPNDjOjYe4eJNKoC+L4xYCFNU96aXQ6gl+jP4tIkyFZYphyLf1gB
+ 9487sfUb9By6g4qdJf45lS7afZqG+po1v4XIH/FBAbaDcs/7s/sRFNBZzqEsK114
+ EFQrAeXA/BIm/LFKmC3Do89Nx6L2EUzyi8sktgkyd2NywMvcZQZeCtKt+g0goHuR
+ y5HCC7LuzeJxsQpCihb3/UppwWX4g9rA4aFOW7VpAUxntcR6qG3XWHKnPcVGxJE2
+ +E6fgzrcNlESTbnugnD6SgfV3gwJGHIkQn7S9QFj8AZoctsewbmn5AEMBqomR1om
+ i3lA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1667477456; x=1667563856; bh=h6/V1TrkYKhnepM6tpNUDitOZR1y
+ g0yXyl76dCR7Pno=; b=cr9Mfdp1vPvs5I5mCgzTWelt8fh/YTN89/x9rlSl6b0v
+ Cp5+SPsiKe8tU7Fu6jN8LaxAgg87wnkfmlwuNs3QBxDimV67lwb7awv1TE+6GJvz
+ +BWED/ib2nTwv6c0+4voNFrtppyWA1Y2d/61oN4KEwEBxNUc3sS8UgXY0H52+OUk
+ hHFtBaffHMlSU3DOcsq6utQhjA5CL0wfX5mWoONnnWaXS4lE4NU0kgXNlsc+jGLb
+ Cpke0oyitTtfuN9YrZK1oJ5IRS/FnXSuGQzDb7GPfUHSZN6t/a+VTuBzOoJb/Goc
+ C0+vfLKVH4iMaEVpI/dF9jgilhSnfPkacmoI5KR+Qw==
+X-ME-Sender: <xms:z69jYzcKpFzMCn8D_L4cq-wLyMeUE9reXd537INq41WjWIgmjdiR0A>
+ <xme:z69jY5PfrzeGEZ_E5c2XUJ_Ox6a6YGywsozw262H8U-SJ-Z8l-tyVnGulnZ49aYUj
+ Jczm3vHpH03VaBP3GI>
+X-ME-Received: <xmr:z69jY8ibpEWLdFj-Us5AG9TIYTY15KP90cBc8tni27hvawECD7Smc8A90V8fLWch26E>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudelgdefudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteffffej
+ veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:z69jY09wT9zTMmaAwvvCyadLZjZnWYaYkXqFa8kMU5d0ux-N36t_Fw>
+ <xmx:z69jY_uP0XOWJL80K5dsCSjJTq3a8zMRO_xiSzDcw2bAmXTYjL3-sw>
+ <xmx:z69jYzFs4H2fvEvdYLrI8A_0BCQf5yjIE73wQ8_z-HU4SY9rvEvsow>
+ <xmx:0K9jY5LA1r5X6VJJOnHESauZWArhE12R5BI8o7thv8CY2hrgFZ3rNA>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 3 Nov 2022 08:10:54 -0400 (EDT)
+Date: Thu, 3 Nov 2022 13:10:53 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Keith Busch <kbusch@kernel.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ "open list:nvme" <qemu-block@nongnu.org>
+Subject: Re: [PATCH v3 4/4] hw/nvme: add polling support
+Message-ID: <Y2OvzcfeawKWvvJ0@cormorant.local>
+References: <20220827091258.3589230-1-fanjinhao21s@ict.ac.cn>
+ <20220827091258.3589230-5-fanjinhao21s@ict.ac.cn>
+ <Y1EswYz077swwhuc@cormorant.local>
+ <D1741E76-294E-41F6-B87B-70C2A4CF778C@ict.ac.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.1
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
-References: <20221102202258.456359-1-sw@weilnetz.de>
- <CAFEAcA_qLBPvn02wGcAuyQQObgF0PVb=V3OtnG+C51N69xhCjQ@mail.gmail.com>
-Subject: Re: [PATCH for 7.2] Fix broken configure with -Wunused-parameter
-In-Reply-To: <CAFEAcA_qLBPvn02wGcAuyQQObgF0PVb=V3OtnG+C51N69xhCjQ@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Vjo5QyUMHJJsZnrymN1LR9VT"
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="WQSrJ1BSDQFDZHWY"
+Content-Disposition: inline
+In-Reply-To: <D1741E76-294E-41F6-B87B-70C2A4CF778C@ict.ac.cn>
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,229 +102,61 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
-Reply-to:  Stefan Weil <sw@weilnetz.de>
-From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Vjo5QyUMHJJsZnrymN1LR9VT
-Content-Type: multipart/mixed; boundary="------------nKoEzSSM7MD1ZO4JMmHf74af";
- protected-headers="v1"
-From: Stefan Weil <sw@weilnetz.de>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
-Message-ID: <4d8598bd-1be5-e890-a854-88715a07339d@weilnetz.de>
-Subject: Re: [PATCH for 7.2] Fix broken configure with -Wunused-parameter
-References: <20221102202258.456359-1-sw@weilnetz.de>
- <CAFEAcA_qLBPvn02wGcAuyQQObgF0PVb=V3OtnG+C51N69xhCjQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA_qLBPvn02wGcAuyQQObgF0PVb=V3OtnG+C51N69xhCjQ@mail.gmail.com>
 
---------------nKoEzSSM7MD1ZO4JMmHf74af
-Content-Type: multipart/mixed; boundary="------------2oJQQGF8x1r0kVVUkR2zAfTo"
-
---------------2oJQQGF8x1r0kVVUkR2zAfTo
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-QW0gMDMuMTEuMjIgdW0gMTI6NDggc2NocmllYiBQZXRlciBNYXlkZWxsOg0KDQo+IE9uIFdl
-ZCwgMiBOb3YgMjAyMiBhdCAyMDoyNCwgU3RlZmFuIFdlaWwgdmlhIDxxZW11LWRldmVsQG5v
-bmdudS5vcmc+IHdyb3RlOg0KPj4gVGhlIGNvbmZpZ3VyZSBzY3JpcHQgZmFpbHMgYmVjYXVz
-ZSBpdCB0cmllcyB0byBjb21waWxlIHNtYWxsIEMgcHJvZ3JhbXMNCj4+IHdpdGggYSBtYWlu
-IGZ1bmN0aW9uIHdoaWNoIGlzIGRlY2xhcmVkIHdpdGggYXJndW1lbnRzIGFyZ2MgYW5kIGFy
-Z3YNCj4+IGFsdGhvdWdoIHRob3NlIGFyZ3VtZW50cyBhcmUgdW51c2VkLg0KPj4NCj4+IFJ1
-bm5pbmcgYGNvbmZpZ3VyZSAtZXh0cmEtY2ZsYWdzPS1XdW51c2VkLXBhcmFtZXRlcmAgdHJp
-Z2dlcnMgdGhlIHByb2JsZW0uDQo+PiBjb25maWd1cmUgZm9yIGEgbmF0aXZlIGJ1aWxkIGRv
-ZXMgYWJvcnQgYnV0IHNob3dzIHRoZSBlcnJvciBpbiBjb25maWcubG9nLg0KPj4gQSBjcm9z
-cyBidWlsZCBjb25maWd1cmUgZm9yIFdpbmRvd3Mgd2l0aCBEZWJpYW4gc3RhYmxlIGFib3J0
-cyB3aXRoIGFuDQo+PiBlcnJvci4NCj4+DQo+PiBBdm9pZGluZyB1bnVzZWQgYXJndW1lbnRz
-IGZpeGVzIHRoaXMuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogU3RlZmFuIFdlaWwgPHN3QHdl
-aWxuZXR6LmRlPg0KPj4gLS0tDQo+Pg0KPj4gU2VlIGh0dHBzOi8vZ2l0bGFiLmNvbS9xZW11
-LXByb2plY3QvcWVtdS8tL2lzc3Vlcy8xMjk1Lg0KPj4NCj4+IEkgbm90aWNlZCB0aGUgcHJv
-YmxlbSBiZWNhdXNlIEkgb2Z0ZW4gY29tcGlsZSB3aXRoIC1XZXh0cmEuDQo+Pg0KPj4gU3Rl
-ZmFuDQo+Pg0KPj4gICBjb25maWd1cmUgfCA3ICsrKystLS0NCj4+ICAgMSBmaWxlIGNoYW5n
-ZWQsIDQgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0
-IGEvY29uZmlndXJlIGIvY29uZmlndXJlDQo+PiBpbmRleCA0Mjc1ZjU0MTlmLi4xMTA2YzA0
-ZmVhIDEwMDc1NQ0KPj4gLS0tIGEvY29uZmlndXJlDQo+PiArKysgYi9jb25maWd1cmUNCj4+
-IEBAIC0xMjU4LDYgKzEyNTgsNyBAQCBpZiB0ZXN0ICIkc3RhY2tfcHJvdGVjdG9yIiAhPSAi
-bm8iOyB0aGVuDQo+PiAgICAgY2F0ID4gJFRNUEMgPDwgRU9GDQo+PiAgIGludCBtYWluKGlu
-dCBhcmdjLCBjaGFyICphcmd2W10pDQo+PiAgIHsNCj4+ICsgICAgKHZvaWQpYXJnYzsNCj4g
-SSdtIG5vdCBhIGh1Z2UgZmFuIG9mIHRoaXMgc3ludGF4LCBhbmQgaXQgZG9lc24ndCBtYXRj
-aCB0aGUgd2F5DQo+IHdlIGRlYWwgd2l0aCAiYXJndW1lbnQgaXMgdW51c2VkIiBlbHNld2hl
-cmUgaW4gdGhlIGNvZGViYXNlDQo+ICh3aGVyZSB3ZSBlaXRoZXIgZG9uJ3QgY2FyZSBhYm91
-dCBpdCBvciBlbHNlIHVzZSB0aGUgR0NDICd1bnVzZWQnDQo+IGF0dHJpYnV0ZSBoaWRkZW4g
-YmVoaW5kIHRoZSBnbGliIEdfR05VQ19VTlVTRUQgbWFjcm8pLg0KDQoNCkFueSBvdGhlciB2
-YXJpYW50IGlzIGFsc28gZmluZSBmb3IgbWUsIGZvciBleGFtcGxlICJ1c2luZyIgYXJnYyBi
-eSBhIA0KInJldHVybiBhcmdjID09IDA7IiBpbnN0ZWFkIG9mICJyZXR1cm4gMDsiLiBXb3Vs
-ZCB0aGF0IGJlIGJldHRlcj8gSWYgDQp0aGVyZSBpcyBhbiBhY2NlcHRlZCB2YXJpYW50LCBJ
-IGNhbiBlaXRoZXIgc2VuZCBhIHYyIHBhdGNoLCBvciBtYXliZSANCnN1Y2ggYSB0cml2aWFs
-IGNoYW5nZSBjYW4gYmUgYXBwbGllZCB3aGVuIG1lcmdpbmcuDQoNCg0KPiBJIGFtIHN1cnBy
-aXNlZCB0aGF0IHRoaXMgZGlkbid0IGdldCBjYXVnaHQgYnkgdGhlIGNoZWNrIGluDQo+IGRv
-X2NvbXBpbGVyX3dlcnJvcigpLCB3aGljaCBpcyBzdXBwb3NlZCB0byByZXBvcnQgInRoaXMN
-Cj4gY29uZmlndXJlIHRlc3QgcGFzc2VkIHdpdGhvdXQgLVdlcnJvciBidXQgZmFpbGVkIHdp
-dGgNCj4gLVdlcnJvciwgc28gY29uZmlndXJlIGlzIHByb2JhYmx5IGJ1Z2d5LiIuIFRoYXQn
-cyB3aGF0J3MNCj4gc3VwcG9zZWQgdG8gY2F0Y2ggInlvdXIgY29tcGlsZXIgd2FybnMgb24g
-c3R1ZmYgb3VyIGRvZXNuJ3QNCj4gaW4gdGhlIHRlc3QgY2FzZSBwcm9ncmFtcyIuDQo+DQo+
-IElmIHlvdSdyZSBidWlsZGluZyB3aXRoIC0tZGlzYWJsZS13ZXJyb3IgdGhlbiBjb25maWd1
-cmUNCj4gc2hvdWxkIGJlIE9LIGFueXdheS4gVGhpcyBpcyBwcm9iYWJseSBhIGdvb2QgaWRl
-YSBpZiB5b3Ugd2FudA0KPiB0byBidWlsZCB3aXRoIGV4dHJhIHdhcm5pbmcgYXJndW1lbnRz
-IGluIC0tZXh0cmEtY2ZsYWdzLg0KPiBJZiBpdCBkb2Vzbid0IHdvcmsgcmlnaHQgZXZlbiB3
-aXRoIC0tZGlzYWJsZS13ZXJyb3IgdGhhdCdzDQo+IGFsc28gc29tZXRoaW5nIHdlIHNob3Vs
-ZCBpbnZlc3RpZ2F0ZS4NCg0KDQpDcm9zcyBidWlsZHMgZm9yIFdpbmRvd3MgZmFpbCB3aXRo
-IGFuZCB3aXRob3V0IC0tZGlzYWJsZS13ZXJyb3IuIFNlZSANCmFsc28gbXkgYnVnIHJlcG9y
-dCBodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9qZWN0L3FlbXUvLS9pc3N1ZXMvMTI5NS4N
-Cg0KWW91IGFyZSByaWdodCB0aGF0IHRoaXMgaXMgc3RyYW5nZSBhbmQgc2hvdWxkIGJlIGlu
-dmVzdGlnYXRlZCwgDQplc3BlY2lhbGx5IGJlY2F1c2UgbmF0aXZlIGJ1aWxkcyBkb24ndCBm
-YWlsIGxpa2UgdGhhdC4NCg0KDQo+PiAgICAgICBjaGFyIGFycls2NF0sICpwID0gYXJyLCAq
-YyA9IGFyZ3ZbMF07DQo+PiAgICAgICB3aGlsZSAoKmMpIHsNCj4+ICAgICAgICAgICAqcCsr
-ID0gKmMrKzsNCj4+IEBAIC0xNjA3LDcgKzE2MDgsNyBAQCBmaQ0KPj4NCj4+ICAgaWYgdGVz
-dCAiJHNhZmVfc3RhY2siID0gInllcyI7IHRoZW4NCj4+ICAgY2F0ID4gJFRNUEMgPDwgRU9G
-DQo+PiAtaW50IG1haW4oaW50IGFyZ2MsIGNoYXIgKmFyZ3ZbXSkNCj4+ICtpbnQgbWFpbih2
-b2lkKQ0KPj4gICB7DQo+PiAgICNpZiAhIF9faGFzX2ZlYXR1cmUoc2FmZV9zdGFjaykNCj4+
-ICAgI2Vycm9yIFNhZmVTdGFjayBEaXNhYmxlZA0KPj4gQEAgLTE2MjksNyArMTYzMCw3IEBA
-IEVPRg0KPj4gICAgIGZpDQo+PiAgIGVsc2UNCj4+ICAgY2F0ID4gJFRNUEMgPDwgRU9GDQo+
-PiAtaW50IG1haW4oaW50IGFyZ2MsIGNoYXIgKmFyZ3ZbXSkNCj4+ICtpbnQgbWFpbih2b2lk
-KQ0KPj4gICB7DQo+PiAgICNpZiBkZWZpbmVkKF9faGFzX2ZlYXR1cmUpDQo+PiAgICNpZiBf
-X2hhc19mZWF0dXJlKHNhZmVfc3RhY2spDQo+PiBAQCAtMTY3NSw3ICsxNjc2LDcgQEAgc3Rh
-dGljIGNvbnN0IGludCBaID0gMTsNCj4+ICAgI2RlZmluZSBUQVVUKFgpICgoWCkgPT0gWikN
-Cj4+ICAgI2RlZmluZSBQQVJFTihYLCBZKSAoWCA9PSBZKQ0KPj4gICAjZGVmaW5lIElEKFgp
-IChYKQ0KPj4gLWludCBtYWluKGludCBhcmdjLCBjaGFyICphcmd2W10pDQo+PiAraW50IG1h
-aW4odm9pZCkNCj4+ICAgew0KPj4gICAgICAgaW50IHggPSAwLCB5ID0gMDsNCj4+ICAgICAg
-IHggPSBJRCh4KTsNCj4gTm8gb2JqZWN0aW9uIHRvIHRoZSBjYXNlcyB3aGVyZSB3ZSBjYW4g
-cGFzcyAidm9pZCIsIHRoYXQncw0KPiBhIG5lYXRlciB3YXkgdG8gd3JpdGUgdGhlIHRlc3Qg
-YW55d2F5Lg0KPg0KPiB0aGFua3MNCj4gLS0gUE1NDQo+DQo=
---------------2oJQQGF8x1r0kVVUkR2zAfTo
-Content-Type: application/pgp-keys; name="OpenPGP_0xE08C21D5677450AD.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xE08C21D5677450AD.asc"
-Content-Description: OpenPGP public key
+--WQSrJ1BSDQFDZHWY
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+On Nov  3 10:18, Jinhao Fan wrote:
+> at 7:10 PM, Klaus Jensen <its@irrelevant.dk> wrote:
+>=20
+> > This doesn't do what you expect it to. By not updaring the eventidx it
+> > will fall behind the actual head, causing the host to think that the
+> > device is not processing events (but it is!), resulting in doorbell
+> > ringing.
+>=20
+> I=E2=80=99m not sure I understand this correctly.=20
+>=20
+> In 7.13.1 in NVMe Spec 1.4c it says "If updating an entry in the Shadow
+> Doorbell buffer **changes** the value from being less than or equal to the
+> value of the corresponding EventIdx buffer entry to being greater than th=
+at
+> value, then the host shall also update the controller's corresponding
+> doorbell register to match the value of that entry in the Shadow Doorbell
+> buffer.=E2=80=9D
+>=20
+> So my understanding is that once the eventidx falls behind the actual hea=
+d,
+> the host will only ring the doorbell once but *not* for future submission=
+s.
+>=20
+> Is this not what real hosts are doing?
 
-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
-T7uiC0aTwAsniiln1XFlGBISNLB1HL/gUc9FJj8qmYgvUBZIzUjmm56up6er8ca9
-2tARdBylQF3E9MJ/E4dVrmTyvOlddAb/MG1Ge425mjt0dRfOx8Qc7Pxs+d3UNVSu
-Bm+WtuSgk+JNIT08c+WSXec8mE4hVdrKbAvCo9dcT5Gal2r6FSvRVY5kba3t280x
-utLSp470k3+DO+AgVigbHr3scXlJXZe1m4luqBSkEBDNH2sAQoBrNVwVaCZqZRTN
-TFN0ZWZhbiBXZWlsIChVbml2ZXJzaXTDpHRzYmlibGlvdGhlayBNYW5uaGVpbSkg
-PHN0ZWZhbi53ZWlsQHVuaS1tYW5uaGVpbS5kZT7CwY4EEwEIADgWIQRJI2/qdcld
-aY7Ct4rgjCHVZ3RQrQUCYlMdZAIbAwULCQgHAwUVCgkICwUWAgMBAAIeBQIXgAAK
-CRDgjCHVZ3RQrRo6D/9MSqnSGOjWrcsiXbUsQmNKzI1JZOuabam3P9V/rILU7K4/
-b9E6Bk5Vjo/6A4xMtC9y6L244Upn4MTdUofkBdd9dMG8eZ2oofsMGIeEmr4EFfKb
-/LoZtIUJaNfiwvd3YakEmaAfd+AWIEAVYlVSxWHeCMowTNYxbSW+/M0ExGw1BErt
-oFiz3Ti8iYNfgz2l9cwrKhQEnzZlHUq06AIbzch/nXFFcc3EBDz+J6x//DCclb6Y
-8oLJRerrOJqpcpTYrwr+UDbh8JOqiUWUQ1BrbIZb+J5rU+DghBmNAWpd6yTbxX0T
-I7g2Hu7gPdzhrLLRO+rQsDK3T+JdVQ9xyoWugFIw4YepAad5uo/2e+q38a+h57EK
-Vsy4xfAEV/Mr4hl9KCY2hkiQYMKHvN1EZp72crAiPgDZxh6wTJZ979RHY2apq8XM
-Y41uP5mwdHxFA1Al/5+syajNlTzsNdYB5Ucx5TwNU0TifM13exHw8lQZOaWbDZS4
-QYwzeFWuEFse9ESmCQX5Pggw+ABFXOtPeqEfIO8v3QbT1vFlJ57iFBUiem967/JV
-a0RQyEvAKj0T5124N8Hi1oa8TPk5oSe8id5jSgGD9twbS0HX2KcmwAF/A5MgP7hx
-0X4EfhsJtDxFDy5PnoC8ADE2wcKDsTgqfDS/EQc6OeQCKceR45wyOT0Y3kbEa87B
-TQRV3J49ARAAt9nArtjFnqmRHL0oY5KCrF5ONph6xm3rof74lZ/CTkG0zu9OhmbW
-s6MMNsHgM7lRGIcKou7vUQE8/TEXh3+0eRdCiEYXP9jYTTXosU/+y/hOY33x9Sw/
-tCEHXiz6M+rp74O1P+zqXSlmx8zzNy33dDdXUT+bF1C6Y7WEChIIjlOfLHOBeazN
-dCqDxRDM/CKeI/UWx/wm0z1DNEuD8crUXIgdxY3dBAm1bBK041+3GXP8gYLN4qew
-T1VoG35Ya3PrrTC/zMAumagjiF3/1NCAmH6eSOzw21EloDBR76K1noDGCfRM2dp0
-78rS/BO+QtlN4+UWQLkB+crHxqXWk0u+gka2A7ZBHFYky/oUVIK1/ar6swnTRHj2
-0Ga+rukzcdxQRJ2kwGeRrqLH1JO8p72ptvswMyzVPhk8sE2S9llPrbznj6fc9f5m
-y5x9i5Fh4Mt2z7u+wBSdck2wV5eThEPz7UziXgtbq74Hja7tuoQxUhcpOIBXKl8b
-MLtjxlO7VmH312VzfiBYqQku9fHg3E/Hi+uon2fJaifFbuViZqfZq9bKT/UWG0+0
-cKc2d4os+3uwGcjraUjCFSXmGU27YqiW8jeM7pIa03QoAhWIH9ApAOVBqWF6drFz
-6/oFcSl9qbY/4IneJ/eb0eyjHllegydGEuIShrXYZLiQqSX4yj/3vE8AEQEAAcLB
-XwQYAQgACQUCVdyePQIbDAAKCRDgjCHVZ3RQrWEaEACTrt0WUxL1AT6BarJ3fOPV
-ZjiioO+3LPhw98ci7afeScEK84cGv+KLgxawvOo7dbwEX6VceQvJ0LTZ1oYPuYeZ
-MjiG7Qdf9uwgk3VwHf4S9pNxsqyVxHPotN9RPWwqoH9ihmO/ml7uC3gH0SFiU/RR
-lc3c9X/u+6SbkSEUZrUrPFQKJ3dpfjnA3RCPTI3fTKr8jycA5A5A77Daba3L+MXj
-c71/tn6MZCZmK7unSfpXq4rbGrIgMWnFKMBgeRONUWRFIOm5lReEjLHiABCli8t4
-Txr2ATswA4atmC4JzP8J/WPWe2xDMvsOXu+bGgW5BSO053MQz1JyJf1ExClNTkYu
-Vlm712JFE7Xzc2cg9P796KI3CKGbytTpaTrVx3ZajqHY1xfZy3vHolR8pfGZ8xcY
-XhFtkD71/BSyqpkrPVvbGkLZOm4b/SzWCGCDYx9xBB//m25lfpZ+Du2u91pvC97Z
-6Qty5nRp9kZvAeidmSunItU0Q4jKQlFnn6ZyLhPk4mwuVSUec8dGIdda8cQRaG/J
-lpLUZi2cnhKAnGaAaLGycQ/NEMVjtN8z6ZHCe3eAa1bEPwSZAbRHuCZ+Iqh6gPzn
-K88LhGUr/vzHYKKn25QWYQ7rJi2H1cu8BQ3lQpRunkCIithJ5gwoS0ZFSEM25FdI
-hvjSVVSRyxiu/zrDuO/s6g=3D=3D
-=3DumGL
------END PGP PUBLIC KEY BLOCK-----
+I agree that the spec is a little unclear on this point. In any case, in
+Linux, when the driver has decided that the sq tail must be updated,
+it will use this check:
 
---------------2oJQQGF8x1r0kVVUkR2zAfTo--
+  (new_idx - event_idx - 1) < (new_idx - old)
 
---------------nKoEzSSM7MD1ZO4JMmHf74af--
+So it doesn't account for if or not eventidx was already behind.
 
---------------Vjo5QyUMHJJsZnrymN1LR9VT
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+--WQSrJ1BSDQFDZHWY
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmNjry4FAwAAAAAACgkQ4Iwh1Wd0UK03
-lA/+NSLnlhEpIhiYLD+rf+DO80cD0JyDvuv7htnJxSue/zJ/XkGkMc6i2LlPDX1+2t2igTWhF8h2
-GteI+Vn8cW9SchiEEvNY2GqT4egQzpdq9JZgm4bx22qlCdPsnfaMW/Fs3o6v0/YktObxqab/jNB8
-uaxuykvNAFrAw/OxNwHHk8nDhZlydNK2ItHxdq/HtDHb6XupUFIwR7MPQOE1/CDpyBIYkMxaYJyJ
-SU63+ORdf3bVHftIhFKXAekckL4PloBQXkkBgAUI2BcG4UJJI5uSJFBSnNYdd2H75sRCVyPdOeCz
-ajv/hFgSP6ZqMXaB13BIjAV9BIegk0XBNkRMdufKqDShj61kBCKJxPd4l3tgMeBKokU9QzTf61Bd
-iW8id9AmkTBesYLytMpEKXrk3TxSS65C1C9aFkL5toDU2vlCeNmqei+wyFiX1gXIkzwac54riNCr
-N8Vn3tKJjN+AbCAgI8wiBa3dfA4c2wcP6qCc6JhBt3w5Ke34tr4wVZJ4W92khzYNg9hhsR4Gjjyi
-Gl873KGMEXRTXmHl7MZNd2y01Ibh8PbpKw9vqela7z3C6W8TMJkPzK9lT76pPoyO9MEW23C7BUtY
-B/qNcCMTUpKADptSmOmGG66LJ0BU2Zsv3LVBYAwfWitD/kYLwoHWvIdYGsPGS7pYgzHQDsIXPTI2
-gsI=
-=zFD+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNjr8wACgkQTeGvMW1P
+Delmagf+Nmuc29NFFdAVfRRf4ntOkvGWraqpvC8/WlbrEKkoVTref1Iz38MIw3LN
+X6V23kGB4+FAcZZTiUeZWT+3vO+tGgwXSo4v320ALe/JqiA6vcCWE98319ezgfo4
+lPWyV4DiB808cWvUMezGBN7yiijn/z9pkD034Qw311ATRXPo8cbe3P6SKCgvQjp1
+pvX7TGS9IWN6qMWcMac9T0KZSdNMcIwbXl76NmqWajq1T24c/zazfN/cJnuQSy6z
+3yfNYolxRb4avGXebpUDHjzd707WJm/LFEptU1bMQ1IatbAv06lOCiGZiM7K3Ago
+2Iq4QHudTyflAHK2rBnZjFwpxsPMkg==
+=IdtH
 -----END PGP SIGNATURE-----
 
---------------Vjo5QyUMHJJsZnrymN1LR9VT--
+--WQSrJ1BSDQFDZHWY--
 
