@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABF9B618715
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 19:08:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1030C61872A
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 19:14:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqecL-00059U-F5; Thu, 03 Nov 2022 14:07:06 -0400
+	id 1oqehk-0000s8-7f; Thu, 03 Nov 2022 14:12:40 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oqecJ-00058T-RC
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 14:07:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oqehh-0000q0-FQ
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 14:12:37 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oqecI-0001Bx-8o
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 14:07:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667498820;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MLKEO0QMIaVX8XK2f4C5VWnWcOO6NQUlKGJtRhPhpCc=;
- b=KJZflPcXLEajsY/dfbdwX9tRwq5zPIGWTCuswuoaKzOXV9Ormcqi9zb0WntU5uqrqd57gT
- 8qMYP/xFpLirem48UE6Jv64n4GyfJPUMe52NO9hrCaLH+OHUjIP2jbcmAAm8wWThpDelgj
- m57U1Engbz9+s+NrJHDt4x9qaU1/0oc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-532-MwUxPB0uOhq7p4vjPWwH5g-1; Thu, 03 Nov 2022 14:06:57 -0400
-X-MC-Unique: MwUxPB0uOhq7p4vjPWwH5g-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 72AD53C01DFB;
- Thu,  3 Nov 2022 18:06:56 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.71])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 03BF6492B06;
- Thu,  3 Nov 2022 18:06:54 +0000 (UTC)
-Date: Thu, 3 Nov 2022 19:06:53 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 2/9] block-copy: add missing coroutine_fn annotations
-Message-ID: <Y2QDPXegFTdpBy6S@redhat.com>
-References: <20221103134206.4041928-1-eesposit@redhat.com>
- <20221103134206.4041928-3-eesposit@redhat.com>
- <8f24c24c-ca61-108c-924b-39465a3c67fe@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1oqehe-0001yk-5u
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 14:12:36 -0400
+Received: from frapeml100006.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4N3Bd06Z3Qz6887q;
+ Fri,  4 Nov 2022 02:10:28 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
+ frapeml100006.china.huawei.com (7.182.85.201) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 3 Nov 2022 19:12:16 +0100
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Thu, 3 Nov
+ 2022 18:12:16 +0000
+Date: Thu, 3 Nov 2022 18:12:15 +0000
+To: Gregory Price <gregory.price@memverge.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>, Gregory Price
+ <gourry.memverge@gmail.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "alison.schofield@intel.com" <alison.schofield@intel.com>,
+ "dave@stgolabs.net" <dave@stgolabs.net>, "a.manzanares@samsung.com"
+ <a.manzanares@samsung.com>, "bwidawsk@kernel.org" <bwidawsk@kernel.org>
+Subject: Re: [PATCH 1/2] hw/cxl: set cxl-type3 device type to
+ PCI_CLASS_MEMORY_CXL
+Message-ID: <20221103181215.00004d71@Huawei.com>
+In-Reply-To: <Y1mhqcCirwpQU5lH@memverge.com>
+References: <20221006233702.18532-1-gregory.price@memverge.com>
+ <20221026160545-mutt-send-email-mst@kernel.org>
+ <BN6PR17MB312197C4CA958ED267BB576683309@BN6PR17MB3121.namprd17.prod.outlook.com>
+ <20221026161044-mutt-send-email-mst@kernel.org>
+ <Y1mhqcCirwpQU5lH@memverge.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8f24c24c-ca61-108c-924b-39465a3c67fe@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,40 +76,23 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 03.11.2022 um 17:56 hat Paolo Bonzini geschrieben:
-> On 11/3/22 14:41, Emanuele Giuseppe Esposito wrote:
-> > block_copy_reset_unallocated and block_copy_is_cluster_allocated are
-> > only called by backup_run, a corotuine_fn itself.
+On Wed, 26 Oct 2022 17:07:53 -0400
+Gregory Price <gregory.price@memverge.com> wrote:
 
-s/corotuine_fn/coroutine_fn/
-
-> > 
-> > Same applies to block_copy_block_status, called by
-> > block_copy_dirty_clusters.
-> > 
-> > Therefore mark them as coroutine too.
-> > 
-> > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> On Wed, Oct 26, 2022 at 04:11:29PM -0400, Michael S. Tsirkin wrote:
+> > He does but in the end he sends patches not pull requests.
+> > I don't care really as long as someone will send it up.
+> >   
 > 
-> They don't need to be coroutine_fn.  coroutine_fn is needed if you call
-> another coroutine_fn, but not if you _are only called_ by coroutine_fn.
-> There is nothing in these functions that needs them to be called from a
-> coroutine.
-> 
-> The only exception is qemu_coroutine_yield(), which is the only leaf
-> coroutine_fn.
+> Jonathan will submit this, it's not a critical issue so it can wait for
+> the larger feature set.
 
-I think it can make sense to have coroutine_fn as a documentation for
-things that are only ever called in a coroutine even if they could
-theoretically also work outside of coroutine context.
+Sure, I'll roll it with a few other similarly minor fixes in a few days as
+a patch set.
 
-Otherwise, when we want to introduce a coroutine_fn call somewhere, it's
-not only less obvious that it's even possible to do, but we'll have to
-add potentially many additional coroutine_fn annotations in the whole
-call chain in an otherwise unrelated patch.
-
-Kevin
-
+Jonathan
 
