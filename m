@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985BC617E3B
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C79617E39
 	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 14:44:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqaUU-0001U6-Nb; Thu, 03 Nov 2022 09:42:42 -0400
+	id 1oqaUa-0001W3-Hp; Thu, 03 Nov 2022 09:42:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oqaUE-0001NG-Sd
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 09:42:26 -0400
+ id 1oqaUH-0001Or-38
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 09:42:31 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oqaU2-0002AS-8q
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 09:42:17 -0400
+ id 1oqaU3-0002B5-UJ
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 09:42:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667482932;
+ s=mimecast20190719; t=1667482934;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R8Y6MqeY9uMftCHi6j1YVmdZ2ZBL/Gmr9aHkUtAGbI0=;
- b=Z1cTHOVlqLPkkKI4BZl6Tn5vHZKDYBXFr9GyZhr5kXbMDn5fQ2jT75Wm5RDzzEh9Cm+1Ym
- AYEjuKcBu2cNpYlJHZ9cy6pymXh8k/VtVIy2NTIv7qNjwQX9bcFDgVk0iu4u8elGOxhrM8
- DIJWNFnUCkZqnW0ZzIT5o4N8JVnFtFA=
+ bh=T5EAPYCWqMZIO6Cx6jONtaAAllh35b/71raTNKU9Xwg=;
+ b=UBZVZRqYjWctKJtvnWFYFn4AoPTiA0FbfZYpuiC5GPhCiDrjS+N7rB08D3i+frCT1sBcEx
+ GJiVWsx6UWsgA3iF/A+/B0AjBlV57BJQQgPsdZLoDHwp899DWU7Hd41PjsLTUcq5eGvOtT
+ KrmTkK/7Ft97bqRd+PtIp8zAinGmrio=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-675-2kQiEL81MUWm9YtYGPVgEg-1; Thu, 03 Nov 2022 09:42:10 -0400
-X-MC-Unique: 2kQiEL81MUWm9YtYGPVgEg-1
+ us-mta-675-8f_VYrP-Meqrj0pRwLL_Qw-1; Thu, 03 Nov 2022 09:42:11 -0400
+X-MC-Unique: 8f_VYrP-Meqrj0pRwLL_Qw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75EBE8027F5;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B8BE6101E14D;
  Thu,  3 Nov 2022 13:42:10 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B58A40C6EC3;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E27D40C6EC3;
  Thu,  3 Nov 2022 13:42:10 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
@@ -50,9 +50,9 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH 6/9] block/vmdk: add missing coroutine_fn annotations
-Date: Thu,  3 Nov 2022 09:42:03 -0400
-Message-Id: <20221103134206.4041928-7-eesposit@redhat.com>
+Subject: [PATCH 7/9] block: bdrv_create_file is a coroutine_fn
+Date: Thu,  3 Nov 2022 09:42:04 -0400
+Message-Id: <20221103134206.4041928-8-eesposit@redhat.com>
 In-Reply-To: <20221103134206.4041928-1-eesposit@redhat.com>
 References: <20221103134206.4041928-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,86 +82,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-vmdk_co_create_opts() is a coroutine_fn, and calls vmdk_co_do_create()
-which in turn can call two callbacks: vmdk_co_create_opts_cb and
-vmdk_co_create_cb.
-
-Mark all these functions as coroutine_fn, since vmdk_co_create_opts()
-is the only caller.
+It is always called in coroutine_fn callbacks, therefore
+it can directly call bdrv_co_create().
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block/vmdk.c | 36 +++++++++++++++++++-----------------
- 1 file changed, 19 insertions(+), 17 deletions(-)
+ block.c                            | 6 ++++--
+ include/block/block-global-state.h | 3 ++-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 26376352b9..0c32bf2e83 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -2285,10 +2285,11 @@ exit:
+diff --git a/block.c b/block.c
+index eeb7a02aa2..e5e70acf15 100644
+--- a/block.c
++++ b/block.c
+@@ -527,6 +527,7 @@ static int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
+ {
+     int ret;
+     GLOBAL_STATE_CODE();
++    assert(qemu_in_coroutine());
+     assert(*errp == NULL);
+ 
+     if (!drv->bdrv_co_create_opts) {
+@@ -717,7 +718,8 @@ out:
      return ret;
  }
  
--static int vmdk_create_extent(const char *filename, int64_t filesize,
--                              bool flat, bool compress, bool zeroed_grain,
--                              BlockBackend **pbb,
--                              QemuOpts *opts, Error **errp)
-+static int coroutine_fn vmdk_create_extent(const char *filename,
-+                                           int64_t filesize, bool flat,
-+                                           bool compress, bool zeroed_grain,
-+                                           BlockBackend **pbb,
-+                                           QemuOpts *opts, Error **errp)
+-int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
++int coroutine_fn bdrv_create_file(const char *filename, QemuOpts *opts,
++                                  Error **errp)
  {
-     int ret;
-     BlockBackend *blk = NULL;
-@@ -2366,14 +2367,14 @@ static int filename_decompose(const char *filename, char *path, char *prefix,
-  *           non-split format.
-  * idx >= 1: get the n-th extent if in a split subformat
-  */
--typedef BlockBackend *(*vmdk_create_extent_fn)(int64_t size,
--                                               int idx,
--                                               bool flat,
--                                               bool split,
--                                               bool compress,
--                                               bool zeroed_grain,
--                                               void *opaque,
--                                               Error **errp);
-+typedef BlockBackend * coroutine_fn (*vmdk_create_extent_fn)(int64_t size,
-+                                                             int idx,
-+                                                             bool flat,
-+                                                             bool split,
-+                                                             bool compress,
-+                                                             bool zeroed_grain,
-+                                                             void *opaque,
-+                                                             Error **errp);
+     QemuOpts *protocol_opts;
+     BlockDriver *drv;
+@@ -758,7 +760,7 @@ int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp)
+         goto out;
+     }
  
- static void vmdk_desc_add_extent(GString *desc,
-                                  const char *extent_line_fmt,
-@@ -2616,7 +2617,7 @@ typedef struct {
-     QemuOpts *opts;
- } VMDKCreateOptsData;
+-    ret = bdrv_create(drv, filename, protocol_opts, errp);
++    ret = bdrv_co_create(drv, filename, protocol_opts, errp);
+ out:
+     qemu_opts_del(protocol_opts);
+     qobject_unref(qdict);
+diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
+index 73795a0095..bd461f06a1 100644
+--- a/include/block/block-global-state.h
++++ b/include/block/block-global-state.h
+@@ -57,7 +57,8 @@ BlockDriver *bdrv_find_protocol(const char *filename,
+ BlockDriver *bdrv_find_format(const char *format_name);
+ int bdrv_create(BlockDriver *drv, const char* filename,
+                 QemuOpts *opts, Error **errp);
+-int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp);
++int coroutine_fn bdrv_create_file(const char *filename, QemuOpts *opts,
++                                  Error **errp);
  
--static BlockBackend *vmdk_co_create_opts_cb(int64_t size, int idx,
-+static BlockBackend * coroutine_fn vmdk_co_create_opts_cb(int64_t size, int idx,
-                                             bool flat, bool split, bool compress,
-                                             bool zeroed_grain, void *opaque,
-                                             Error **errp)
-@@ -2768,10 +2769,11 @@ exit:
-     return ret;
- }
- 
--static BlockBackend *vmdk_co_create_cb(int64_t size, int idx,
--                                       bool flat, bool split, bool compress,
--                                       bool zeroed_grain, void *opaque,
--                                       Error **errp)
-+static BlockBackend * coroutine_fn vmdk_co_create_cb(int64_t size, int idx,
-+                                                     bool flat, bool split,
-+                                                     bool compress,
-+                                                     bool zeroed_grain,
-+                                                     void *opaque, Error **errp)
- {
-     int ret;
-     BlockDriverState *bs;
+ BlockDriverState *bdrv_new(void);
+ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
 -- 
 2.31.1
 
