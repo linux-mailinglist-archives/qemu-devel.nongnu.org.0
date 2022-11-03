@@ -2,95 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D050617AF7
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 11:40:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0C8617B12
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 11:50:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqXcu-0003xH-MH; Thu, 03 Nov 2022 06:39:12 -0400
+	id 1oqXmg-0001yG-R0; Thu, 03 Nov 2022 06:49:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oqXcs-0003vR-IW; Thu, 03 Nov 2022 06:39:10 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <zhenyzha@redhat.com>)
+ id 1oqXmT-0001wn-Hg
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 06:49:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oqXcp-0005Qt-M7; Thu, 03 Nov 2022 06:39:10 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A38qRo6008498;
- Thu, 3 Nov 2022 10:39:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=pp1;
- bh=Bb9gcCdmmXCB7MmLtAMVVE/JP8nnwPIg8lOiAsMOU/M=;
- b=RU+np1qWcfvLTjfyjfkhtZO6xuNU3XYeS5kqjSfR3H1rZxcUpD5I13V5Qki8314vx8nn
- RqeiUuldH+jwhp18q9NRUuHz0g2GHD42fmY9YCrkhEV+Oy6v1xOPQ4t2BpC2IOKXUP89
- Fec2uLmEQV01K4REGdJuQN6mIei7n4WuFRAWJhlUssrc8j2H/C48iDms15wz47Z6JGA6
- Z6jE+xhzs0/CP+ikmyTEkBPKLysOXegN3exTBA/P4rfvk3JEOo4JuciE+FdUIMms5E2C
- DB/KZ2BmozsBcpapk0NGvZfo4FRVRt6YHs2BMpbAOVyI2kWqkyVHGjdQZjXaxUxSobT1 HA== 
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmah1k4ke-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 10:39:01 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A3Aa4lq024567;
- Thu, 3 Nov 2022 10:38:59 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3kguej0kbc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Nov 2022 10:38:59 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2A3AcvAD47841634
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 3 Nov 2022 10:38:57 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 02AD211C064;
- Thu,  3 Nov 2022 10:38:57 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B455E11C05E;
- Thu,  3 Nov 2022 10:38:56 +0000 (GMT)
-Received: from heavy (unknown [9.171.39.72])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Thu,  3 Nov 2022 10:38:56 +0000 (GMT)
-Date: Thu, 3 Nov 2022 11:38:55 +0100
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 01/26] target/s390x: Use tcg_constant_* in local contexts
-Message-ID: <20221103103855.2fuhlbcdptecvbrj@heavy>
-References: <20221006034421.1179141-1-richard.henderson@linaro.org>
- <20221006034421.1179141-2-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+ (Exim 4.90_1) (envelope-from <zhenyzha@redhat.com>)
+ id 1oqXmP-0006nt-TC
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 06:49:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667472540;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pdvLPeIXX14v9L373p1TA5wskSCMO4JjjC+04vQ7Gv4=;
+ b=dfeRU1EbHHfGi13ea4UYKoOwPfRP9/WAN4RKBYa8QusyeXOZHZ4m4uDSjL2Hb/cyYGln0g
+ STuTo80DYZwRPhvwU64Suio4fTJu8oIex1Tls7DxVqWQxa11bXwg8fYGiabN90VCXfXQGZ
+ MBLcBo6Kdk4752VFnToJYUwxVy00exE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-97-oAr9yuEDPLaMtwx1chsm5A-1; Thu, 03 Nov 2022 06:47:25 -0400
+X-MC-Unique: oAr9yuEDPLaMtwx1chsm5A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4510B185A79C;
+ Thu,  3 Nov 2022 10:47:25 +0000 (UTC)
+Received: from cav-thunderx1s-cn88xx-03.khw4.lab.eng.bos.redhat.com
+ (cav-thunderx1s-cn88xx-03.khw4.lab.eng.bos.redhat.com [10.19.240.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 103872024CBF;
+ Thu,  3 Nov 2022 10:47:25 +0000 (UTC)
+From: Zhenyu Zhang <zhenyzha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: zhenyzha@redhat.com, shan.gavin@gmail.com, liuyd.fnst@fujitsu.com,
+ eric.auger@redhat.com
+Subject: [PATCH] qom.json: default the prealloc-threads to smp-cpus
+Date: Thu,  3 Nov 2022 06:47:16 -0400
+Message-Id: <20221103104716.179635-1-zhenyzha@redhat.com>
+MIME-Version: 1.0\nContent-Type: text/plain;
+ charset=UTF-8\nContent-Transfer-Encoding: 8bit
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221006034421.1179141-2-richard.henderson@linaro.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: DsVzDOD90hfyPR98EerLiRg_04JNOQJ2
-X-Proofpoint-ORIG-GUID: DsVzDOD90hfyPR98EerLiRg_04JNOQJ2
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-03_02,2022-11-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- lowpriorityscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=670
- clxscore=1015 phishscore=0 mlxscore=0 adultscore=0 impostorscore=0
- spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211030073
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=zhenyzha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, BOGUS_MIME_VERSION=3.499,
+ DKIMWL_WL_HIGH=-1.047, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,15 +77,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Oct 05, 2022 at 08:43:56PM -0700, Richard Henderson wrote:
-> Replace tcg_const_* with tcg_constant_* in contexts
-> where the free to remove is nearby.
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/s390x/tcg/translate.c | 408 +++++++++++++----------------------
->  1 file changed, 145 insertions(+), 263 deletions(-)
+Since the amount of prealloc-threads to smp-cpus is
+defaulted in hostmem, so sync this information.
 
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
+---
+ qapi/qom.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/qapi/qom.json b/qapi/qom.json
+index 87fcad2423..ac4cd213a7 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -576,7 +576,7 @@
+ #
+ # @prealloc: if true, preallocate memory (default: false)
+ #
+-# @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
++# @prealloc-threads: number of CPU threads to use for prealloc (default: smp-cpus) (since 7.1)
+ #
+ # @prealloc-context: thread context to use for creation of preallocation threads
+ #                    (default: none) (since 7.2)
+-- 
+2.31.1
+
 
