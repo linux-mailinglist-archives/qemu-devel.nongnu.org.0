@@ -2,88 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490CE618AFB
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 23:01:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D20618BC2
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 23:44:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqiFa-00085W-Au; Thu, 03 Nov 2022 17:59:50 -0400
+	id 1oqiu0-0006Hp-EU; Thu, 03 Nov 2022 18:41:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqiFX-000854-6U
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:59:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqiFU-0002s6-UX
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:59:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667512784;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hYukSrmFJKZ8/0iliA96o0czGm6EYOCv9f4DD4yfzRE=;
- b=dxOtXEWioiH+wX5OicKyKQ7YegL/XSMjh5Y1eM397P3I4Jr0mU0xwdYx/ihfixjO89BSqf
- Zq+Xp9iLfaRhvc8+zo+zz8tiEFqA+VrV7g+vLuZO5TByX1edzyuPrV8aoXHBJ2NXFeGefU
- ew0ir4mFvCnGH82+JYzGSOE5PlS2fWg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-584-j3JhNRIMPU6oB63khUAHfA-1; Thu, 03 Nov 2022 17:59:42 -0400
-X-MC-Unique: j3JhNRIMPU6oB63khUAHfA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v188-20020a1cacc5000000b003cf76c4ae66so3245619wme.7
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 14:59:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqilN-0002Di-3y
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 18:32:41 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqilK-0007S0-QT
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 18:32:40 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id k8so4817138wrh.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 15:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4Qw6m8qKQPRpagCcZkmgrQopMNLbRlskPbKimTe0cOc=;
+ b=EIOcHYdp6wV/QkcACd4mBXYt9o8Oqd8pFzOkQN35lWa5PjG202iB/Ntw+1CxPxYYz7
+ u1IIZGR6OmcngQG/bflVZHaLWBLxpQy1kBpoajKy7dpwODsHRKEDmRnp61Dv+JfJQ/DM
+ zX+zwk3/+nh78GEHfHsdMSRiH4+zIpzZR6hMCj6nqmrseR/ko4iDf0gwbCQpn31Vh5hn
+ IIN4S4s139qyaDzlJ0lXeD2gt5eAJK1Dwl2FIY3LjBu54iBCqbsfKcUQ8mYarVaMREkC
+ Z8GX0hh5qsbRQ4oGgLaBGJbOnprpant6XMhmIn75YvEWiFkEebLO2fE7bwDY/9SQAuRl
+ 2rsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hYukSrmFJKZ8/0iliA96o0czGm6EYOCv9f4DD4yfzRE=;
- b=YVgF871vWxn4vL9wzsk4g4NaukDkTLWNMYO9ROwjkId6I22QZGqHhSK/9pKn871pQP
- 6xmTG+6sWic4p0IpjSaMVA56YL4M/pqt8U2sstv4gUQSfPnLQGFopCepV6sD7yZCbIGT
- /mxW+nX9s/+Klzi0RJ5i1a3zcV9hkNXDleaABt5KQ1X4lTuZ0nFBR5I284cX2a0CHFrA
- QaaBP56D4PiRuWrm1GbIvkcTORMfjoUoi96xXnMgzCp9Gvh6wD3zoOTBW/l/epf6bM5y
- JeJrNpfTSyxrRSA0rkQ7cG9b16QYH35rEAlef7BQLFhZEtGbxO+iXF8d+KQY+phM0jFN
- a9Fg==
-X-Gm-Message-State: ACrzQf0uJEFkU0QO2KQoiJC9Jw3wAqF8td6lta4khNxnqFbCsXxq+ilX
- QUx6HfeL9Hgy9+3/DdlY8c58RlswdhtfnpVQTT4BR1Zh13jwZhvX97r42ogxP3jDZvPfE9KGU/9
- waepgMnBCskWWwlo=
-X-Received: by 2002:a5d:424a:0:b0:23a:4ac:397e with SMTP id
- s10-20020a5d424a000000b0023a04ac397emr1033873wrr.716.1667512780718; 
- Thu, 03 Nov 2022 14:59:40 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6+CiMJZn7pnyDGLBEQuprk4ZDRga+Pf8+qDJ4c5ocP26g7+8xNukwXtFrnDNRGjoraHDnM/g==
-X-Received: by 2002:a5d:424a:0:b0:23a:4ac:397e with SMTP id
- s10-20020a5d424a000000b0023a04ac397emr1033861wrr.716.1667512780394; 
- Thu, 03 Nov 2022 14:59:40 -0700 (PDT)
-Received: from redhat.com ([2.52.149.81]) by smtp.gmail.com with ESMTPSA id
- v4-20020a5d6784000000b00235da296623sm1808083wru.31.2022.11.03.14.59.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Nov 2022 14:59:39 -0700 (PDT)
-Date: Thu, 3 Nov 2022 17:59:36 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL v2 00/82] pci,pc,virtio: features, tests, fixes, cleanups
-Message-ID: <20221103175638-mutt-send-email-mst@kernel.org>
-References: <20221102160336.616599-1-mst@redhat.com> <Y2LJX2HHiHpiKzKd@fedora>
- <20221103081148-mutt-send-email-mst@kernel.org>
- <CAJSP0QXvJwvO311ELJZBQZx-M3aKvRgEfk6PX7So8n9n0X3HhQ@mail.gmail.com>
+ bh=4Qw6m8qKQPRpagCcZkmgrQopMNLbRlskPbKimTe0cOc=;
+ b=WhR77nkpkvR05ku+2UnByPwrFnxVjE8iWc8Jel6RN+fKzP6YezckfB0p418996Bm7Y
+ +DNyGZpgymKM5vdXFupCRw+1XBpQBwKTYvTIQ5jzYKrqMRJ4+qrVXrdWZIt/a9PQ74zB
+ DAAs2GVpSlJZe68Lp19/WYG0MLeMpajSPe1mrpz3ZLhvDp/ovQoOf6dP1JOqt3AUC0of
+ Je/GpB89JI0mYOd/BPHWGXx0aWHkV6kCJBHYglitQX+v8+Le2a1uLikcqRQJ2osvCpXh
+ lIl0t/cZhls9QtZxxUW+Qd6SwATp5sPqucm8IpXqxGzTBKGcYmPrymfrfK4FIj80e9rB
+ 5GNA==
+X-Gm-Message-State: ACrzQf11Qi0sQXaZKwMaj97SaZQGPMipR73EQ0l1H+6cwVhT0980c/4w
+ tMMfZxnMHYR2oddwguEE7dxBFg==
+X-Google-Smtp-Source: AMsMyM5y8FsaB1O28rl+bGU9iELZnvQhZ3eHThXgK8VPYdtmkKJornxm84pooraiQxB6QVLjuy1GRg==
+X-Received: by 2002:a5d:5a14:0:b0:236:c206:f1f9 with SMTP id
+ bq20-20020a5d5a14000000b00236c206f1f9mr17299180wrb.694.1667514754044; 
+ Thu, 03 Nov 2022 15:32:34 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ v3-20020a1cac03000000b003c6f3e5ba42sm919252wme.46.2022.11.03.15.32.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Nov 2022 15:32:33 -0700 (PDT)
+Message-ID: <e188327c-9afc-db4b-4a83-e88ac31cd353@linaro.org>
+Date: Thu, 3 Nov 2022 23:32:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJSP0QXvJwvO311ELJZBQZx-M3aKvRgEfk6PX7So8n9n0X3HhQ@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.1
+Subject: Re: [PATCH] gitlab-ci: split clang-user to avoid timeout
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>
+References: <20221103212321.387738-1-stefanha@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221103212321.387738-1-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,129 +94,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 03, 2022 at 09:29:56AM -0400, Stefan Hajnoczi wrote:
-> On Thu, 3 Nov 2022 at 08:14, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > On Wed, Nov 02, 2022 at 03:47:43PM -0400, Stefan Hajnoczi wrote:
-> > > On Wed, Nov 02, 2022 at 12:02:14PM -0400, Michael S. Tsirkin wrote:
-> > > > Changes from v1:
-> > > >
-> > > > Applied and squashed fixes by Igor, Lei He, Hesham Almatary for
-> > > > bugs that tripped up the pipeline.
-> > > > Updated expected files for core-count test.
-> > >
-> > > Several "make check" CI failures have occurred. They look like they are
-> > > related. Here is one (see the URLs at the bottom of this email for more
-> > > details):
-> > >
-> > > 17/106 ERROR:../tests/qtest/qos-test.c:191:subprocess_run_one_test: child process (/arm/virt/virtio-mmio/virtio-bus/virtio-net-device/virtio-net/virtio-net-tests/vhost-user/flags-mismatch/subprocess [8609]) failed unexpectedly ERROR
-> > >  17/106 qemu:qtest+qtest-arm / qtest-arm/qos-test                     ERROR          31.44s   killed by signal 6 SIGABRT
-> > > >>> G_TEST_DBUS_DAEMON=/builds/qemu-project/qemu/tests/dbus-vmstate-daemon.sh MALLOC_PERTURB_=49 QTEST_QEMU_IMG=./qemu-img QTEST_QEMU_BINARY=./qemu-system-arm QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon /builds/qemu-project/qemu/build/tests/qtest/qos-test --tap -k
-> > > ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
-> > > stderr:
-> > > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-> > > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > > qemu-system-arm: Failed to set msg fds.
-> > > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> > > qemu-system-arm: -chardev socket,id=chr-reconnect,path=/tmp/vhost-test-6PT2U1/reconnect.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-6PT2U1/reconnect.sock,server=on
-> > > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-> > > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > > qemu-system-arm: Failed to set msg fds.
-> > > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> > > qemu-system-arm: -chardev socket,id=chr-connect-fail,path=/tmp/vhost-test-H8G7U1/connect-fail.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-H8G7U1/connect-fail.sock,server=on
-> > > qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: Failed to read msg header. Read 0 instead of 12. Original request 1.
-> > > qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: vhost_backend_init failed: Protocol error
-> > > qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: failed to init vhost_net for queue 0
-> > > qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-H8G7U1/connect-fail.sock,server=on
-> > > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-> > > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > > qemu-system-arm: Failed to set msg fds.
-> > > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> > > qemu-system-arm: -chardev socket,id=chr-flags-mismatch,path=/tmp/vhost-test-94UYU1/flags-mismatch.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-94UYU1/flags-mismatch.sock,server=on
-> > > qemu-system-arm: Failed to write msg. Wrote -1 instead of 52.
-> > > qemu-system-arm: vhost_set_mem_table failed: Invalid argument (22)
-> > > qemu-system-arm: Failed to set msg fds.
-> > > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > > UndefinedBehaviorSanitizer:DEADLYSIGNAL
-> > > ==8618==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55e34deccab0 bp 0x000000000000 sp 0x7ffc94894710 T8618)
-> > > ==8618==The signal is caused by a READ memory access.
-> > > ==8618==Hint: address points to the zero page.
-> > >     #0 0x55e34deccab0 in ldl_he_p /builds/qemu-project/qemu/include/qemu/bswap.h:301:5
-> > >     #1 0x55e34deccab0 in ldn_he_p /builds/qemu-project/qemu/include/qemu/bswap.h:440:1
-> > >     #2 0x55e34deccab0 in flatview_write_continue /builds/qemu-project/qemu/build/../softmmu/physmem.c:2824:19
-> > >     #3 0x55e34dec9f21 in flatview_write /builds/qemu-project/qemu/build/../softmmu/physmem.c:2867:12
-> > >     #4 0x55e34dec9f21 in address_space_write /builds/qemu-project/qemu/build/../softmmu/physmem.c:2963:18
-> > >     #5 0x55e34decace7 in address_space_unmap /builds/qemu-project/qemu/build/../softmmu/physmem.c:3306:9
-> > >     #6 0x55e34de6d4ec in vhost_memory_unmap /builds/qemu-project/qemu/build/../hw/virtio/vhost.c:342:9
-> > >     #7 0x55e34de6d4ec in vhost_virtqueue_stop /builds/qemu-project/qemu/build/../hw/virtio/vhost.c:1242:5
-> > >     #8 0x55e34de72904 in vhost_dev_stop /builds/qemu-project/qemu/build/../hw/virtio/vhost.c:1882:9
-> > >     #9 0x55e34d890514 in vhost_net_stop_one /builds/qemu-project/qemu/build/../hw/net/vhost_net.c:331:5
-> > >     #10 0x55e34d88fef6 in vhost_net_start /builds/qemu-project/qemu/build/../hw/net/vhost_net.c:404:13
-> > >     #11 0x55e34de0bec6 in virtio_net_vhost_status /builds/qemu-project/qemu/build/../hw/net/virtio-net.c:307:13
-> > >     #12 0x55e34de0bec6 in virtio_net_set_status /builds/qemu-project/qemu/build/../hw/net/virtio-net.c:388:5
-> > >     #13 0x55e34de5e409 in virtio_set_status /builds/qemu-project/qemu/build/../hw/virtio/virtio.c:2442:9
-> > >     #14 0x55e34da22a50 in virtio_mmio_write /builds/qemu-project/qemu/build/../hw/virtio/virtio-mmio.c:428:9
-> > >     #15 0x55e34deb44a6 in memory_region_write_accessor /builds/qemu-project/qemu/build/../softmmu/memory.c:493:5
-> > >     #16 0x55e34deb428a in access_with_adjusted_size /builds/qemu-project/qemu/build/../softmmu/memory.c:555:18
-> > >     #17 0x55e34deb402d in memory_region_dispatch_write /builds/qemu-project/qemu/build/../softmmu/memory.c
-> > >     #18 0x55e34deccaf1 in flatview_write_continue /builds/qemu-project/qemu/build/../softmmu/physmem.c:2825:23
-> > >     #19 0x55e34dec9f21 in flatview_write /builds/qemu-project/qemu/build/../softmmu/physmem.c:2867:12
-> > >     #20 0x55e34dec9f21 in address_space_write /builds/qemu-project/qemu/build/../softmmu/physmem.c:2963:18
-> > >     #21 0x55e34ded0bf6 in qtest_process_command /builds/qemu-project/qemu/build/../softmmu/qtest.c
-> > >     #22 0x55e34ded008d in qtest_process_inbuf /builds/qemu-project/qemu/build/../softmmu/qtest.c:796:9
-> > >     #23 0x55e34e109b02 in tcp_chr_read /builds/qemu-project/qemu/build/../chardev/char-socket.c:508:13
-> > >     #24 0x7fc6c665d0ae in g_main_context_dispatch (/lib64/libglib-2.0.so.0+0x550ae)
-> > >     #25 0x55e34e1fc1bc in glib_pollfds_poll /builds/qemu-project/qemu/build/../util/main-loop.c:297:9
-> > >     #26 0x55e34e1fc1bc in os_host_main_loop_wait /builds/qemu-project/qemu/build/../util/main-loop.c:320:5
-> > >     #27 0x55e34e1fc1bc in main_loop_wait /builds/qemu-project/qemu/build/../util/main-loop.c:596:11
-> > >     #28 0x55e34da52de6 in qemu_main_loop /builds/qemu-project/qemu/build/../softmmu/runstate.c:739:9
-> > >     #29 0x55e34d60a4f5 in qemu_default_main /builds/qemu-project/qemu/build/../softmmu/main.c:37:14
-> > >     #30 0x7fc6c43a5eaf in __libc_start_call_main (/lib64/libc.so.6+0x3feaf)
-> > >     #31 0x7fc6c43a5f5f in __libc_start_main@GLIBC_2.2.5 (/lib64/libc.so.6+0x3ff5f)
-> > >     #32 0x55e34d5e1094 in _start (/builds/qemu-project/qemu/build/qemu-system-arm+0xc17094)
-> > > UndefinedBehaviorSanitizer can not provide additional info.
-> > > SUMMARY: UndefinedBehaviorSanitizer: SEGV /builds/qemu-project/qemu/include/qemu/bswap.h:301:5 in ldl_he_p
-> > > ==8618==ABORTING
-> > > Broken pipe
-> > > ../tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU process but encountered exit status 1 (expected 0)
-> > > **
-> > > ERROR:../tests/qtest/qos-test.c:191:subprocess_run_one_test: child process (/arm/virt/virtio-mmio/virtio-bus/virtio-net-device/virtio-net/virtio-net-tests/vhost-user/flags-mismatch/subprocess [8609]) failed unexpectedly
-> > > (test program exited with status code -6)
-> > >
-> > > https://gitlab.com/qemu-project/qemu/-/jobs/3265209698
-> > > https://gitlab.com/qemu-project/qemu/-/pipelines/683909108
-> > >
-> > > Stefan
-> >
-> >
-> > Ugh. I need to build with ubsan to reproduce yes? didn't trigger for me
-> > I am wondering how to bisect on gitlab.
-> 
-> I searched for "clang-system" (the name of the job) in .gitlab-ci.d to
-> get the job commands. The GitLab job output also contains details of
-> the commands that were run (unfortunately it doesn't expand
-> environment variables so some aspects are not visible from the GitLab
-> output).
-> 
-> That led to the following local command-line:
-> 
-> $ git checkout 645ec851
-> $ ./configure --enable-werror --disable-docs --target-list=arm-softmmu
-> --cc=clang --cxx=clang++ --extra-cflags=-fsanitize=undefined
-> --extra-cflags=-fno-sanitize-recover=undefined && make check-qtest
-> 
-> It reproduces locally on my Fedora 36 machine.
-> 
-> Stefan
++Richard
 
-Does not reproduce locally for me :(
+On 3/11/22 22:23, Stefan Hajnoczi wrote:
+> GitLab CI times out when the clang-user job takes over 1 hour. Split it
+> into parts that check various architectures.
+> 
+> An alternative is to have one job per architecture but that clutters the
+> pipeline view and maybe there is some sharing when multiple targets are
+> built at once.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   .gitlab-ci.d/buildtest-template.yml | 11 +++++++++++
+>   .gitlab-ci.d/buildtest.yml          | 18 +++++++++---------
+>   2 files changed, 20 insertions(+), 9 deletions(-)
+> 
+> diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
+> index 73ecfabb8d..38b055e139 100644
+> --- a/.gitlab-ci.d/buildtest-template.yml
+> +++ b/.gitlab-ci.d/buildtest-template.yml
+> @@ -81,3 +81,14 @@
+>       - du -chs ${CI_PROJECT_DIR}/avocado-cache
+>     variables:
+>       QEMU_JOB_AVOCADO: 1
+> +
+> +.clang-user-template:
+> +  extends: .native_build_job_template
+> +  needs:
+> +    job: amd64-debian-user-cross-container
+> +  variables:
+> +    IMAGE: debian-all-test-cross
+> +    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --disable-system
+> +      --extra-cflags=-fsanitize=undefined
+> +      --extra-cflags=-fno-sanitize-recover=undefined
+> +    MAKE_CHECK_ARGS: check-unit check-tcg
+> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+> index 6c05c46397..116fce4e8f 100644
+> --- a/.gitlab-ci.d/buildtest.yml
+> +++ b/.gitlab-ci.d/buildtest.yml
+> @@ -323,16 +323,16 @@ clang-system:
+>         ppc-softmmu s390x-softmmu
+>       MAKE_CHECK_ARGS: check-qtest check-tcg
+>   
+> -clang-user:
+> -  extends: .native_build_job_template
+> -  needs:
+> -    job: amd64-debian-user-cross-container
+> +# clang-user takes too long so split it into parts
+> +clang-user-part1:
+> +  extends: .clang-user-template
+>     variables:
+> -    IMAGE: debian-all-test-cross
+> -    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --disable-system
+> -      --target-list-exclude=microblazeel-linux-user,aarch64_be-linux-user,i386-linux-user,m68k-linux-user,mipsn32el-linux-user,xtensaeb-linux-user
 
-With some guessing I figured out this is the 1st bad commit:
+We can exclude these targets which are a bit redundant:
 
-virtio: re-order vm_running and use_started checks
+ 
+armeb-linux-user,mips64-linux-user,mipsel-linux-user,mipsn32-linux-user,ppc64-linux-user,sh4-linux-user,sparc-linux-user,riscv32-linux-user
 
-it's a bugfix not easy to revert ...
+Alternatively, instead of using the exclude pattern, we can switch to 
+including the targets which do have tcg tests:
 
--- 
-MST
+$ ls -1 tests/tcg/
+Makefile.target
+README
+aarch64
+alpha
+arm
+cris
+hexagon
+hppa
+i386
+loongarch64
+m68k
+minilib
+mips
+multiarch
+nios2
+openrisc
+ppc
+ppc64
+ppc64le
+riscv64
+s390x
+sh4
+sparc64
+tricore
+x86_64
+xtensa
+
+Although we have 'multiarch' :/
+
+We can also drop check-unit, but not sure if it saves much.
+
+> -      --extra-cflags=-fsanitize=undefined --extra-cflags=-fno-sanitize-recover=undefined
+> -    MAKE_CHECK_ARGS: check-unit check-tcg
+> +    TARGETS: aarch64-linux-user,alpha-linux-user,armeb-linux-user,arm-linux-user,cris-linux-user,hexagon-linux-user,hppa-linux-user,loongarch64-linux-user,microblaze-linux-user,mips64el-linux-user,mips64-linux-user,mipsel-linux-user,mips-linux-user,mipsn32-linux-user
+> +
+> +clang-user-part2:
+> +  extends: .clang-user-template
+> +  variables:
+> +    TARGETS: nios2-linux-user,or1k-linux-user,ppc64le-linux-user,ppc64-linux-user,ppc-linux-user,riscv32-linux-user,riscv64-linux-user,s390x-linux-user,sh4eb-linux-user,sh4-linux-user,sparc32plus-linux-user,sparc64-linux-user,sparc-linux-user,x86_64-linux-user,xtensa-linux-user
+>   
+>   # Set LD_JOBS=1 because this requires LTO and ld consumes a large amount of memory.
+>   # On gitlab runners, default value sometimes end up calling 2 lds concurrently and
 
 
