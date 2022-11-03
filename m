@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D60D617422
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 03:20:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D1561749C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 03:56:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqPou-0006OR-2M; Wed, 02 Nov 2022 22:19:04 -0400
+	id 1oqQNt-0000SW-47; Wed, 02 Nov 2022 22:55:13 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oqPom-0006O3-Gm; Wed, 02 Nov 2022 22:18:56 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21] helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oqPoj-0008LJ-JF; Wed, 02 Nov 2022 22:18:56 -0400
-Received: from smtpclient.apple (unknown [159.226.43.16])
- by APP-01 (Coremail) with SMTP id qwCowAAnL4_7JGNjq4Q6CA--.51620S2;
- Thu, 03 Nov 2022 10:18:36 +0800 (CST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH v3 4/4] hw/nvme: add polling support
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <Y1EswYz077swwhuc@cormorant.local>
-Date: Thu, 3 Nov 2022 10:18:35 +0800
-Cc: qemu-devel <qemu-devel@nongnu.org>, Keith Busch <kbusch@kernel.org>,
- Stefan Hajnoczi <stefanha@gmail.com>,
- "open list:nvme" <qemu-block@nongnu.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <D1741E76-294E-41F6-B87B-70C2A4CF778C@ict.ac.cn>
-References: <20220827091258.3589230-1-fanjinhao21s@ict.ac.cn>
- <20220827091258.3589230-5-fanjinhao21s@ict.ac.cn>
- <Y1EswYz077swwhuc@cormorant.local>
-To: Klaus Jensen <its@irrelevant.dk>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-CM-TRANSID: qwCowAAnL4_7JGNjq4Q6CA--.51620S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Gw47GrWDJr1kJFyxCw47twb_yoWfWFc_uF
- Z7tFyxJwsIvFn8JF9Fkr4j9rW3Kw45u3Z7Ga1xXr47X3WjvFsavryDur43ZrWfGF4qyrZI
- yr95tr4Sgwn0gjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbwxYjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
- 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
- 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0
- cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4
- vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
- Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJV
- W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l
- 4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
- AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
- cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI
- 8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
- 6r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU2YiiDUUUU
-X-Originating-IP: [159.226.43.16]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1oqQNq-0000Rx-5C
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 22:55:11 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1oqQNo-00052s-Hq
+ for qemu-devel@nongnu.org; Wed, 02 Nov 2022 22:55:09 -0400
+Received: by mail-pl1-x629.google.com with SMTP id 4so709024pli.0
+ for <qemu-devel@nongnu.org>; Wed, 02 Nov 2022 19:55:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=7U08m4TM3eeWWGOOMd2Vnh7U/Jcu1ez0NntUYoKhBd0=;
+ b=Q+/eyVjVYmw6xbIhG+UP0+OlvzdTrqNY/Xib6alE0X8/kVq4W4dm4H+CUx7UJyLRwN
+ Rxh4GcervLwa8hzwkto5AtDPSmFhCfWZM6DArpgni6ShfT5MBmaYxtxUXoxDB6ZD9DYL
+ Hax6loWnTpZE7G5JlxzVGolUGk306y7x6p0QhXOBvLjtGFtVf2Et7x1+i2Rghn4xPUN/
+ xfBxr37bvJriEj56+aLhAHw7Y0tziOFP+XksgD8v3pcrE9yKuNMLtBxnvwRfo8MUUjE/
+ fkP7RTBBLKIsfMXdhg1USdzNj9I/pLkUZIhDX21oe4S0TNWlP7SmdmB48yDeLMyR8El/
+ depQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7U08m4TM3eeWWGOOMd2Vnh7U/Jcu1ez0NntUYoKhBd0=;
+ b=5m2SJVZHJp25cGrVa2WavIxDMrnEguZT78xWVkRHBGIgLQY68nnfmoiFQvls0JMr1y
+ efj9GxpMPNWYa0FdW7JSWMwaAQ5Api7QhGlQ+jzaYEG3pQ438jBCzpyfzXKLD7vp7zp/
+ bRnlcpUYvTi04wEylu1GA6/Z3v/kxDJUkmr2X5zn69ejqkR8bsJp++oaLhcg7koOnFmc
+ nBFCidaKMZ0E0HRZMYWpd41450wouhIH7oEYxZOP0VJGvWP5WeJ4WX1MI7jUqhqtSCqx
+ pD5DnhpbdGTmMQe//Qg0v3mrQSfJAQeEAZnMzM9LXnWP5eRX9/Gu6x1dCJtQoZn7LEL5
+ qGNQ==
+X-Gm-Message-State: ACrzQf1XdGhS+1B8r66Ggi4VzCG+5gNIVV8ihqKVwntyzHW/0SUrKg3e
+ 69FUwOrlbO9TsrF3UsSc6YgGfOP9f//OHU+Y
+X-Google-Smtp-Source: AMsMyM6lU5Yq8osdDQS2+iPIUN8MOELcQ97dcBAKq0Od0Ns6tyyWAH6w+XvWxMCFerAybBoC/ddSEg==
+X-Received: by 2002:a17:90a:600a:b0:213:2a:851c with SMTP id
+ y10-20020a17090a600a00b00213002a851cmr45756240pji.177.1667444106683; 
+ Wed, 02 Nov 2022 19:55:06 -0700 (PDT)
+Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+ by smtp.gmail.com with ESMTPSA id
+ s5-20020a170902a50500b00185507b5ef8sm9024779plq.50.2022.11.02.19.55.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Nov 2022 19:55:06 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Yan Vugenfirer <yan@daynix.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH] tests/qtest/libqos/e1000e: Set E1000_CTRL_SLU
+Date: Thu,  3 Nov 2022 11:54:51 +0900
+Message-Id: <20221103025451.27446-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.38.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::629;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,30 +90,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-at 7:10 PM, Klaus Jensen <its@irrelevant.dk> wrote:
+The later device status check depends on E1000_STATUS_LU, which is
+enabled by E1000_CTRL_SLU. Though E1000_STATUS_LU is not implemented
+and E1000_STATUS_LU is always available in the current implementation,
+be a bit nicer and set E1000_CTRL_SLU just in case the bit is
+implemented in the future.
 
-> This doesn't do what you expect it to. By not updaring the eventidx it
-> will fall behind the actual head, causing the host to think that the
-> device is not processing events (but it is!), resulting in doorbell
-> ringing.
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+ tests/qtest/libqos/e1000e.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I=E2=80=99m not sure I understand this correctly.=20
-
-In 7.13.1 in NVMe Spec 1.4c it says "If updating an entry in the Shadow
-Doorbell buffer **changes** the value from being less than or equal to =
-the
-value of the corresponding EventIdx buffer entry to being greater than =
-that
-value, then the host shall also update the controller's corresponding
-doorbell register to match the value of that entry in the Shadow =
-Doorbell
-buffer.=E2=80=9D
-
-So my understanding is that once the eventidx falls behind the actual =
-head,
-the host will only ring the doorbell once but *not* for future =
-submissions.
-
-Is this not what real hosts are doing?=
+diff --git a/tests/qtest/libqos/e1000e.c b/tests/qtest/libqos/e1000e.c
+index 1f2ccccb8f..11d9f55c66 100644
+--- a/tests/qtest/libqos/e1000e.c
++++ b/tests/qtest/libqos/e1000e.c
+@@ -122,7 +122,7 @@ static void e1000e_pci_start_hw(QOSGraphObject *obj)
+ 
+     /* Reset the device */
+     val = e1000e_macreg_read(&d->e1000e, E1000_CTRL);
+-    e1000e_macreg_write(&d->e1000e, E1000_CTRL, val | E1000_CTRL_RST);
++    e1000e_macreg_write(&d->e1000e, E1000_CTRL, val | E1000_CTRL_RST | E1000_CTRL_SLU);
+ 
+     /* Enable and configure MSI-X */
+     qpci_msix_enable(&d->pci_dev);
+-- 
+2.38.1
 
 
