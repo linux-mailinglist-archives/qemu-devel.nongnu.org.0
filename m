@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 385D8617E90
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 14:58:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A088A617EC3
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 15:03:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqajc-0000YO-Qf; Thu, 03 Nov 2022 09:58:22 -0400
+	id 1oqanQ-0003NA-Je; Thu, 03 Nov 2022 10:02:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oqajV-0000UG-Rt
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 09:58:14 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oqanM-0003MT-91
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 10:02:12 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oqajR-0004R5-6c
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 09:58:13 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oqanK-00059N-Hg
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 10:02:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667483888;
+ s=mimecast20190719; t=1667484129;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CZKJhCKPnQiHhb080C1ioExfRcxOVqovC3v0UbURZxE=;
- b=hmuQF046VLLJ6W96BgIt3h0k6RhZkblzopRQ+pZpVuwLzUxvlDAh0bGHRZ6bR0JOYqrYj4
- BlEXfwYkwwI+68GRlkYE8GPvNUF2dn2vObpCJC3uf9MGknoFNqFYRLbPl/FRUOx7r9WYKD
- jOBEQQv2I+9/A1BZ1AxV4tCrHaaRR8c=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=M+06UHPSmLRpdx7YcqMO59ecqtPv2uX59Tw1JtucUYQ=;
+ b=PfGjGEtGHiwUf7LYYqxfLsfR57UoJyEnE72w1pz+Ftlvu7DhP3GRyufwdYbeHbT/1tjioU
+ SOp/EzwQzJ6EgskX0ElO6p9Q3HbSdkLaBeQAWSJ38gRLjfgWoeQaog0Xrz1i+tvSkwAopL
+ nYBb4WtzxpshvcWJ7CVHQPy3mgh9Zbk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-402-pxhYwNZSOvOWEkha8oJSlw-1; Thu, 03 Nov 2022 09:58:04 -0400
-X-MC-Unique: pxhYwNZSOvOWEkha8oJSlw-1
+ us-mta-660-UCMeUhFwPKKL-jVm19SY6A-1; Thu, 03 Nov 2022 10:02:07 -0400
+X-MC-Unique: UCMeUhFwPKKL-jVm19SY6A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7049E3C0DDD5;
- Thu,  3 Nov 2022 13:58:04 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D82F01121325;
- Thu,  3 Nov 2022 13:58:03 +0000 (UTC)
-Date: Thu, 3 Nov 2022 09:57:51 -0400
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Eric Biggers <ebiggers@kernel.org>, qemu-devel@nongnu.org,
- hreitz@redhat.com, qemu-block@nongnu.org, nsoffer@redhat.com
-Subject: Re: [PATCH 1/2] file-posix: fix Linux alignment probing when EIO is
- returned
-Message-ID: <Y2PI3x/JkWPIrcv6@fedora>
-References: <20221101190031.6766-1-stefanha@redhat.com>
- <20221101190031.6766-2-stefanha@redhat.com>
- <Y2HVgnwAPdTIaZR6@sol.localdomain>
- <Y2HasGvN6qMFq29A@sol.localdomain> <Y2OPaxoX7UanUzTd@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53EE1857D0A;
+ Thu,  3 Nov 2022 14:02:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 27326111F3B6;
+ Thu,  3 Nov 2022 14:02:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DC89921E6900; Thu,  3 Nov 2022 15:02:03 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel@nongnu.org,  stefanha@redhat.com
+Subject: Re: [PULL v2 00/28] QAPI patches patches for 2022-10-25
+References: <20221026183532.487708-1-armbru@redhat.com>
+ <CAJSP0QV0_jwZWU93VKNjycicD8ng2NPczzXmCU4QCNJm+nvB+w@mail.gmail.com>
+Date: Thu, 03 Nov 2022 15:02:03 +0100
+In-Reply-To: <CAJSP0QV0_jwZWU93VKNjycicD8ng2NPczzXmCU4QCNJm+nvB+w@mail.gmail.com>
+ (Stefan Hajnoczi's message of "Sun, 30 Oct 2022 15:04:55 -0400")
+Message-ID: <87sfj05e78.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="j1CQlMyCOA2ggU97"
-Content-Disposition: inline
-In-Reply-To: <Y2OPaxoX7UanUzTd@redhat.com>
+Content-Type: text/plain
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -67,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,84 +79,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Stefan Hajnoczi <stefanha@gmail.com> writes:
 
---j1CQlMyCOA2ggU97
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Wed, 26 Oct 2022 at 14:44, Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> The following changes since commit e750a7ace492f0b450653d4ad368a77d6f660fb8:
+>>
+>>   Merge tag 'pull-9p-20221024' of https://github.com/cschoenebeck/qemu into staging (2022-10-24 14:27:12 -0400)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://repo.or.cz/qemu/armbru.git tags/pull-qapi-2022-10-25-v2
+>>
+>> for you to fetch changes up to c0f24f8f31ca82e34ef037bfe34ef71eeecb401d:
+>>
+>>   qapi: Drop temporary logic to support conversion step by step (2022-10-26 20:08:52 +0200)
+>>
+>> ----------------------------------------------------------------
+>> QAPI patches patches for 2022-10-25
+>>
+>> ----------------------------------------------------------------
+>> Markus Armbruster (28):
+>>       docs/devel/qapi-code-gen: Update example to match current code
+>>       qapi: Tidy up whitespace in generated code
+>>       docs/devel/qapi-code-gen: Extend example for next commit's change
+>>       qapi: Start to elide redundant has_FOO in generated C
+>>       qapi tests: Elide redundant has_FOO in generated C
+>>       qapi acpi: Elide redundant has_FOO in generated C
+>>       qapi audio: Elide redundant has_FOO in generated C
+>>       qapi block: Elide redundant has_FOO in generated C
+>
+> This commit breaks qemu-iotests 056 in CI. I have included
+> instructions for reproducing it locally below. I will drop this pull
+> request for now. Please note that the QEMU 7.2 soft freeze is on
+> Tuesday.
 
-On Thu, Nov 03, 2022 at 10:52:43AM +0100, Kevin Wolf wrote:
-> Am 02.11.2022 um 03:49 hat Eric Biggers geschrieben:
-> > On Tue, Nov 01, 2022 at 07:27:16PM -0700, Eric Biggers wrote:
-> > > On Tue, Nov 01, 2022 at 03:00:30PM -0400, Stefan Hajnoczi wrote:
-> > > > Linux dm-crypt returns errno EIO from unaligned O_DIRECT pread(2) c=
-alls.
-> > >=20
-> > > Citation needed.  For direct I/O to block devices, the kernel's block=
- layer
-> > > checks the alignment before the I/O is actually submitted to the unde=
-rlying
-> > > block device.  See
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
-ee/block/fops.c?h=3Dv6.1-rc3#n306
-> > >=20
-> > > > Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1290
-> > >=20
-> > > That "bug" seems to be based on a misunderstanding of the kernel sour=
-ce code,
-> > > and not any actual testing.
-> > >=20
-> > > I just tested it, and the error code is EINVAL.
-> > >=20
-> >=20
-> > I think I see what's happening.  The kernel code was broken just a few =
-months
-> > ago, in v6.0 by the commit "block: relax direct io memory alignment"
-> > (https://git.kernel.org/linus/b1a000d3b8ec582d).  Now the block layer l=
-ets DIO
-> > through when the user buffer is only aligned to the device's dma_alignm=
-ent.  But
-> > a dm-crypt device has a dma_alignment of 512 even when the crypto secto=
-r size
-> > (and thus also the logical block size) is 4096.  So there is now a case=
- where
-> > misaligned DIO can reach dm-crypt, when that shouldn't be possible.
-> >=20
-> > It also means that STATX_DIOALIGN will give the wrong value for
-> > stx_dio_mem_align in the above case, 512 instead of 4096.  This is beca=
-use
-> > STATX_DIOALIGN for block devices relies on the dma_alignment.
->=20
-> In other words, STATX_DIOALIGN is unusable from the start because we
-> don't know whether the information it returns is actually correct? :-/
->=20
-> I guess we could still use the value returned by STATX_DIOALIGN as a
-> preferred value that we'll use if it survives probing, and otherwise
-> fall back to the same probing we've always been doing because there was
-> no (or no sane) way to get the information from the kernel.
+I finally managed to debug this one.  I think a v3 is best.  And then
+we'll see whether the series can still go in, or needs to wait for the
+next cycle.
 
-Yes, it seems probing is required to verify the values returned by
-STATX_DIOALIGN. At least until enough time passes so we can say
-"STATX_DIOALIGN has been correct for X years and no one is running those
-old kernels anymore".
-
-Stefan
-
---j1CQlMyCOA2ggU97
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNjyN8ACgkQnKSrs4Gr
-c8j+bAgAo8lYaqN0LsFGayZQMcY18oIv+R3D/3xQb8BymA4VWfkSagKzyIjQgpRC
-R4pR/vjw1cDiPeAMSyZM7G6ItQ4KhzKBo12Fj+w00RFrp5PAnlfK4qbSrCVuzGWs
-piSVnKW2l/u/uet5lw4A1+Q2/Csepj0n87MUzySbJfKv/st+WiWcUizJZ3TNfbv/
-ddXPOYzSJYCsCV+aBF91ZmtDeq+N4zqt6I8rcimlf6tE/vAN1hdKNep3ZQhlrFNh
-GD9t/y1XCCkP3f51I3OD4lxV1bBw5EW3kFqCV4VYWJR/3qLRhCytK+IYMDEOodHi
-iO6+oFAWCvpLp69M5isrqHzmNeSvcQ==
-=JFSc
------END PGP SIGNATURE-----
-
---j1CQlMyCOA2ggU97--
+Thanks!
 
 
