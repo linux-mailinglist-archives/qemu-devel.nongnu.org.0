@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07778618A8B
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 22:28:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7B0618A96
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 22:32:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqhko-0005tp-GL; Thu, 03 Nov 2022 17:28:02 -0400
+	id 1oqhoS-0007nB-BP; Thu, 03 Nov 2022 17:31:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oqhkm-0005pE-2Y
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:28:00 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ id 1oqhoO-0007ml-PZ
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:31:44 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oqhkk-000720-38
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:27:59 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- c15-20020a17090a1d0f00b0021365864446so2989752pjd.4
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 14:27:57 -0700 (PDT)
+ id 1oqhoM-0007hc-6Y
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:31:44 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id q9so2827995pfg.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 14:31:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=sXQQyIT65bC2M538koSQDkAxNlFJjz168y3aMJbsqdw=;
- b=CPLW8dsQGcNT1WyYm8ZSiDQab5M+NViFnv2J3OOWLbLMO6ghh+Z0fb38y1JdLvzamu
- aZO9/t5ZFZ/OBtrXfYgyy1O20OQUoLKqxnfffgU2taiLRuKaOXW/a+1s+wrqS2EBU5jt
- 60tEz77DLdYISLbm65LsN6d3zi0QaYWQT77tyLQwuhPKdlYFgg0J3UAMJICTh0q4otIG
- k2utk3NfoW3Fqnm1mlnL9EOH63/OtAobisEOAfVOqNB5mOq4cbnsnLTl1w6l3cxMulHP
- GC7pU3WTuEDRNNwU7JzTPma2hk8R53UiDGaKzLQ44kOn1/+oWTBLjRBbsWS8jHYliXBY
- kpVw==
+ bh=FWr6fk4ToKf25ek7WyHQ/HokEXMF2FGDoUM9E18DSoY=;
+ b=nFs8GNhSI1ywimhFzNWlYsjV/oqELGeax7cn4J+G0MvTxIxdOdFYGejKWcIdaCKgGw
+ MOYABN+SrTgprkSfQFfsvMIR2lGChHxi48dbkJjRoIgy1rF8wpxnNScShpRfGOFzRzkG
+ WgzzetcIi3dVppcJadHn7jVqjMSDeLiSouZAeiSYvPoJuL7915YKQfGwFSp3Iuc+umXO
+ 5TAmiC3oBTxLrMuP+0DuQEmPoiKnigIrXjYzPpQfu+H+Q3cRNIHk9wkaSjIr4jCXbAcP
+ J7hrGcGNkFwo/FwANOuGeeA0wlwrPPXYRvfA22o5NDqlJsWheOeWsX6XSMrBPEC9VyZb
+ pTjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sXQQyIT65bC2M538koSQDkAxNlFJjz168y3aMJbsqdw=;
- b=VkwNgyoz/lu3+rrgnG+kLzh0FHAbQ5OnPvQz5fHvicICyTrlF+e6ukAzYXyVisHkpm
- H2mI4oQjbNh8k0qaQNicw5VadknEi8VIerXayArW9Fmn3weDUh3WpVSQVrmC2cIhqbrc
- Itt9aHRonCOpYac8cSeKgedH9U6FoYn9ScAfgDb7HFDzw21cjG2CBHBcBpfS8+huew/J
- J3BHqtEvuOmtumry+S3cXzwdHnY969Qd3eb51YnQx2h1CxoQnJaEea1+Fpch7h9kYhHJ
- G0B71ddi6q2wdSEUnUm/QkuoPie2FAGL5yaNWYDBrKjJ+u5z47FG9AVlABOAsW6+nczO
- 6KxQ==
-X-Gm-Message-State: ACrzQf1Ej+0oEPQmdFpnXWx0EE9wvQ89YZWpTRwKQdGMS3OqG/7YgxtT
- YQ9/JDqiaY65MZlIoh4glM1ilA==
-X-Google-Smtp-Source: AMsMyM583CSyvzfW7hvLvS2YLzraRjiDIMgfcnhQn6MJJI5HzjlWw2/kXIDVrIO/EQRj+6pndv1ZFw==
-X-Received: by 2002:a17:90a:46ce:b0:200:a7b4:6511 with SMTP id
- x14-20020a17090a46ce00b00200a7b46511mr191669pjg.101.1667510876328; 
- Thu, 03 Nov 2022 14:27:56 -0700 (PDT)
+ bh=FWr6fk4ToKf25ek7WyHQ/HokEXMF2FGDoUM9E18DSoY=;
+ b=jvQcNa4mVQERy9Ql7zffjsYfl/sDlq3hsU+ewnRr6iZv2i/DFLzOHN6bWQd+0DwZIj
+ Fwu5TrcnIdESIOK7J6ThJHEyX9z1NWsNpPi2eu/rWbSexbv+efZ3H2/3VDitFK0qmNcz
+ N0FRBXTsQVV/Ti7y4QGV5ups3B6x8x2yr6m3bG8BdKHQTvV6sp6+3BIs0onZMbhJ76I2
+ kR0qsxY8JNjO9NO3f4zg4noOWm0SHNhDEXABPca5/5wgCfJoG4tDAx/HhXORBIPXTmIo
+ 8RzTSsfrEVAPqQkEce838qCmxPbOELmxLgpO6zt1sWdNX/N1BVOTq3CiBHVypCQM7Qla
+ xF3w==
+X-Gm-Message-State: ACrzQf3ROZMYJW92jSzLm+BMO0QbNVQZhZF+UjipLEye01o4NQ4nKO3U
+ +NwLidGHXC5VrV+CdgOQaASreA==
+X-Google-Smtp-Source: AMsMyM68ezTKuamU/ngjgBY6lXzsi9RIf8K7PTE1QUvQbwSr+zxeiOcV+YhfXWWoxuIZ+FL6UVGZUw==
+X-Received: by 2002:aa7:94b1:0:b0:56c:8da8:4e3 with SMTP id
+ a17-20020aa794b1000000b0056c8da804e3mr32228553pfl.62.1667511100545; 
+ Thu, 03 Nov 2022 14:31:40 -0700 (PDT)
 Received: from [192.168.229.227] ([206.83.113.103])
  by smtp.gmail.com with ESMTPSA id
- f11-20020a65590b000000b0046fd180640asm1209638pgu.24.2022.11.03.14.27.53
+ u10-20020a170902bf4a00b00185507b5ef8sm1146947pls.50.2022.11.03.14.31.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Nov 2022 14:27:55 -0700 (PDT)
-Message-ID: <e88339b1-7ffa-d044-2151-465409e61f90@linaro.org>
-Date: Fri, 4 Nov 2022 08:27:48 +1100
+ Thu, 03 Nov 2022 14:31:39 -0700 (PDT)
+Message-ID: <395832eb-2eb6-bdf6-21c1-0f643b0bbf58@linaro.org>
+Date: Fri, 4 Nov 2022 08:31:31 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH] meson: avoid unused arguments of main() in compiler tests
+Subject: Re: [PATCH 2/2] gitlab: show configure/make args before running
 Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: berrange@redhat.com, sw@weilnetz.de
-References: <20221103172110.168235-1-pbonzini@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20221103173044.3969425-1-berrange@redhat.com>
+ <20221103173044.3969425-3-berrange@redhat.com>
+ <CAJSP0QW_soqfj9d=6nkvzMPUzZGwzhfRDXg7QK4Q8OkNCO1+xw@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221103172110.168235-1-pbonzini@redhat.com>
+In-Reply-To: <CAJSP0QW_soqfj9d=6nkvzMPUzZGwzhfRDXg7QK4Q8OkNCO1+xw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,21 +100,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/4/22 04:21, Paolo Bonzini wrote:
-> meson.build has one test where "main" is declared unnecessarily
-> with argc and argv arguments, but does not use them.  Because
-> the test needs -Werror too, HAVE_BROKEN_SIZE_MAX is defined
-> incorrectly.
+On 11/4/22 06:06, Stefan Hajnoczi wrote:
+> On Thu, 3 Nov 2022 at 13:30, Daniel P. Berrangé <berrange@redhat.com> wrote:
+>>
+>> When debugging failed jobs it is helpful to see the
+>> full configure/make args used, without having to search
+>> the gitlab config file to figure it out.
+>>
+>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>> ---
+>>   .gitlab-ci.d/buildtest-template.yml  |  4 ++++
+>>   .gitlab-ci.d/crossbuild-template.yml | 15 +++++++++++++++
+>>   2 files changed, 19 insertions(+)
 > 
-> Fix the test and, for consistency, remove argc and argv whenever
-> they are not needed.
-> 
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
-> ---
->   meson.build | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+> On IRC Mark suggested sh -xc "$CMD" to avoid duplication. I'm not sure
+> how to get escaping right though.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+set -x && ../configure ... ?
+
 
 r~
+
 
