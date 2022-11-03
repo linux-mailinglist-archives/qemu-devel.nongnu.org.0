@@ -2,71 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95FD4617BEA
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 12:51:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63630617C34
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 13:10:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqYj3-0006rn-KQ; Thu, 03 Nov 2022 07:49:37 -0400
+	id 1oqZ1E-0006XC-6k; Thu, 03 Nov 2022 08:08:24 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oqYic-0006mS-C0
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:49:21 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oqYiZ-0000D0-VM
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:49:09 -0400
-Received: by mail-pg1-x534.google.com with SMTP id q71so1426902pgq.8
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 04:49:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=JaaT6AL6V4GSHM3aZ04xCdYXCqKPVK5C7p0zfX1D8jA=;
- b=HypRgTJYVOfkTEmo++FQRvYPY7/Y+kRwYQJIsfUBdKFnTq07ODBVlKy/jBDdlh8Bw1
- Agknywkz9440iqbg2MfsAWrbGP0uapwg0WJl1wiUH+ek8KlN86MXYkK/cu6kA60+sMFj
- ByZhMsbFCWb6hFwX3TBEA4H3IZpzlKYlg8DnvV16JOXWX/YrLQBpvnJSIV4LTxSq5Nok
- Ns/qQDexlXNevTJQsmSf0dgmNH4orwBbgFvv+RIYJ4rYcbNMvOcr1Ollk3Z+faa3SNvw
- 4NfT4RKdgL6cIPQ0MiQU4y+R69INrpCzbids6txOTMXGBNFhNFNstJqHRRKBRw9O2nyn
- CmTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JaaT6AL6V4GSHM3aZ04xCdYXCqKPVK5C7p0zfX1D8jA=;
- b=pEfjqM0F1qwwecPAIWs+2ACHJ+OklWbjlXpdRA9KuoEw3l9JUCqIBtFgrwIuS+yulm
- B+aU0Z3hHaqv70j/kqM4uMQAQkxxONEwqVvyYrePV/z1MX5JEgaXW4FKJpGLQps5CI2H
- KaA0wlm58ONB+cLaGypKpCCrYDV7Eyusc8wdp9GEDoUdMp0/t4J/9fp/BClUhBwJ4eAa
- 57ftbjzASzIVrS+nU8jEgD+7BTpCgfQ6LepDpCu2A0BNOVpC28Xn9omQJyHLtMev1a5A
- zsHmqPxk0huEKcUV9Y8JT9rrdtxI4piBX0RLjc1nZR6bHuVDP3/ZQIFEwBQMBT60WSg2
- 7ckA==
-X-Gm-Message-State: ACrzQf3wZsghdBeSnvXh5Bj5/Y17MwFkUflhHGwY7G5cuYUI0dHZfD0p
- wrVETVZY0lhoQhB32lfmz46J/+S5dUqs51WtNIWkqg==
-X-Google-Smtp-Source: AMsMyM4kWIk/lbJYayUZH0dYcHtkmELEclLVbUXPSUQK6dv61g3esCG3n9Iwa7YilWJnbe+3jNu8Kzgc3g9H/73EgZk=
-X-Received: by 2002:a63:84c6:0:b0:46f:f8b0:ba09 with SMTP id
- k189-20020a6384c6000000b0046ff8b0ba09mr10186227pgd.192.1667476145363; Thu, 03
- Nov 2022 04:49:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
+ id 1oqZ1C-0006Wx-0p; Thu, 03 Nov 2022 08:08:22 -0400
+Received: from mail.weilnetz.de ([37.120.169.71]
+ helo=mail.v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
+ id 1oqZ19-0003XI-42; Thu, 03 Nov 2022 08:08:21 -0400
+Received: from [192.168.178.185] (p57907e6e.dip0.t-ipconnect.de
+ [87.144.126.110])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 0BD17DA0277;
+ Thu,  3 Nov 2022 13:08:15 +0100 (CET)
+Message-ID: <4d8598bd-1be5-e890-a854-88715a07339d@weilnetz.de>
+Date: Thu, 3 Nov 2022 13:08:14 +0100
 MIME-Version: 1.0
-References: <20221102202258.456359-1-sw@weilnetz.de>
-In-Reply-To: <20221102202258.456359-1-sw@weilnetz.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Nov 2022 11:48:53 +0000
-Message-ID: <CAFEAcA_qLBPvn02wGcAuyQQObgF0PVb=V3OtnG+C51N69xhCjQ@mail.gmail.com>
-Subject: Re: [PATCH for 7.2] Fix broken configure with -Wunused-parameter
-To: Stefan Weil <sw@weilnetz.de>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.1
+To: Peter Maydell <peter.maydell@linaro.org>
 Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221102202258.456359-1-sw@weilnetz.de>
+ <CAFEAcA_qLBPvn02wGcAuyQQObgF0PVb=V3OtnG+C51N69xhCjQ@mail.gmail.com>
+Subject: Re: [PATCH for 7.2] Fix broken configure with -Wunused-parameter
+In-Reply-To: <CAFEAcA_qLBPvn02wGcAuyQQObgF0PVb=V3OtnG+C51N69xhCjQ@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Vjo5QyUMHJJsZnrymN1LR9VT"
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,95 +58,229 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Stefan Weil <sw@weilnetz.de>
+From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 2 Nov 2022 at 20:24, Stefan Weil via <qemu-devel@nongnu.org> wrote:
->
-> The configure script fails because it tries to compile small C programs
-> with a main function which is declared with arguments argc and argv
-> although those arguments are unused.
->
-> Running `configure -extra-cflags=-Wunused-parameter` triggers the problem.
-> configure for a native build does abort but shows the error in config.log.
-> A cross build configure for Windows with Debian stable aborts with an
-> error.
->
-> Avoiding unused arguments fixes this.
->
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
-> ---
->
-> See https://gitlab.com/qemu-project/qemu/-/issues/1295.
->
-> I noticed the problem because I often compile with -Wextra.
->
-> Stefan
->
->  configure | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/configure b/configure
-> index 4275f5419f..1106c04fea 100755
-> --- a/configure
-> +++ b/configure
-> @@ -1258,6 +1258,7 @@ if test "$stack_protector" != "no"; then
->    cat > $TMPC << EOF
->  int main(int argc, char *argv[])
->  {
-> +    (void)argc;
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Vjo5QyUMHJJsZnrymN1LR9VT
+Content-Type: multipart/mixed; boundary="------------nKoEzSSM7MD1ZO4JMmHf74af";
+ protected-headers="v1"
+From: Stefan Weil <sw@weilnetz.de>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Message-ID: <4d8598bd-1be5-e890-a854-88715a07339d@weilnetz.de>
+Subject: Re: [PATCH for 7.2] Fix broken configure with -Wunused-parameter
+References: <20221102202258.456359-1-sw@weilnetz.de>
+ <CAFEAcA_qLBPvn02wGcAuyQQObgF0PVb=V3OtnG+C51N69xhCjQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA_qLBPvn02wGcAuyQQObgF0PVb=V3OtnG+C51N69xhCjQ@mail.gmail.com>
 
-I'm not a huge fan of this syntax, and it doesn't match the way
-we deal with "argument is unused" elsewhere in the codebase
-(where we either don't care about it or else use the GCC 'unused'
-attribute hidden behind the glib G_GNUC_UNUSED macro).
+--------------nKoEzSSM7MD1ZO4JMmHf74af
+Content-Type: multipart/mixed; boundary="------------2oJQQGF8x1r0kVVUkR2zAfTo"
 
-I am surprised that this didn't get caught by the check in
-do_compiler_werror(), which is supposed to report "this
-configure test passed without -Werror but failed with
--Werror, so configure is probably buggy.". That's what's
-supposed to catch "your compiler warns on stuff our doesn't
-in the test case programs".
+--------------2oJQQGF8x1r0kVVUkR2zAfTo
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-If you're building with --disable-werror then configure
-should be OK anyway. This is probably a good idea if you want
-to build with extra warning arguments in --extra-cflags.
-If it doesn't work right even with --disable-werror that's
-also something we should investigate.
+QW0gMDMuMTEuMjIgdW0gMTI6NDggc2NocmllYiBQZXRlciBNYXlkZWxsOg0KDQo+IE9uIFdl
+ZCwgMiBOb3YgMjAyMiBhdCAyMDoyNCwgU3RlZmFuIFdlaWwgdmlhIDxxZW11LWRldmVsQG5v
+bmdudS5vcmc+IHdyb3RlOg0KPj4gVGhlIGNvbmZpZ3VyZSBzY3JpcHQgZmFpbHMgYmVjYXVz
+ZSBpdCB0cmllcyB0byBjb21waWxlIHNtYWxsIEMgcHJvZ3JhbXMNCj4+IHdpdGggYSBtYWlu
+IGZ1bmN0aW9uIHdoaWNoIGlzIGRlY2xhcmVkIHdpdGggYXJndW1lbnRzIGFyZ2MgYW5kIGFy
+Z3YNCj4+IGFsdGhvdWdoIHRob3NlIGFyZ3VtZW50cyBhcmUgdW51c2VkLg0KPj4NCj4+IFJ1
+bm5pbmcgYGNvbmZpZ3VyZSAtZXh0cmEtY2ZsYWdzPS1XdW51c2VkLXBhcmFtZXRlcmAgdHJp
+Z2dlcnMgdGhlIHByb2JsZW0uDQo+PiBjb25maWd1cmUgZm9yIGEgbmF0aXZlIGJ1aWxkIGRv
+ZXMgYWJvcnQgYnV0IHNob3dzIHRoZSBlcnJvciBpbiBjb25maWcubG9nLg0KPj4gQSBjcm9z
+cyBidWlsZCBjb25maWd1cmUgZm9yIFdpbmRvd3Mgd2l0aCBEZWJpYW4gc3RhYmxlIGFib3J0
+cyB3aXRoIGFuDQo+PiBlcnJvci4NCj4+DQo+PiBBdm9pZGluZyB1bnVzZWQgYXJndW1lbnRz
+IGZpeGVzIHRoaXMuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogU3RlZmFuIFdlaWwgPHN3QHdl
+aWxuZXR6LmRlPg0KPj4gLS0tDQo+Pg0KPj4gU2VlIGh0dHBzOi8vZ2l0bGFiLmNvbS9xZW11
+LXByb2plY3QvcWVtdS8tL2lzc3Vlcy8xMjk1Lg0KPj4NCj4+IEkgbm90aWNlZCB0aGUgcHJv
+YmxlbSBiZWNhdXNlIEkgb2Z0ZW4gY29tcGlsZSB3aXRoIC1XZXh0cmEuDQo+Pg0KPj4gU3Rl
+ZmFuDQo+Pg0KPj4gICBjb25maWd1cmUgfCA3ICsrKystLS0NCj4+ICAgMSBmaWxlIGNoYW5n
+ZWQsIDQgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0
+IGEvY29uZmlndXJlIGIvY29uZmlndXJlDQo+PiBpbmRleCA0Mjc1ZjU0MTlmLi4xMTA2YzA0
+ZmVhIDEwMDc1NQ0KPj4gLS0tIGEvY29uZmlndXJlDQo+PiArKysgYi9jb25maWd1cmUNCj4+
+IEBAIC0xMjU4LDYgKzEyNTgsNyBAQCBpZiB0ZXN0ICIkc3RhY2tfcHJvdGVjdG9yIiAhPSAi
+bm8iOyB0aGVuDQo+PiAgICAgY2F0ID4gJFRNUEMgPDwgRU9GDQo+PiAgIGludCBtYWluKGlu
+dCBhcmdjLCBjaGFyICphcmd2W10pDQo+PiAgIHsNCj4+ICsgICAgKHZvaWQpYXJnYzsNCj4g
+SSdtIG5vdCBhIGh1Z2UgZmFuIG9mIHRoaXMgc3ludGF4LCBhbmQgaXQgZG9lc24ndCBtYXRj
+aCB0aGUgd2F5DQo+IHdlIGRlYWwgd2l0aCAiYXJndW1lbnQgaXMgdW51c2VkIiBlbHNld2hl
+cmUgaW4gdGhlIGNvZGViYXNlDQo+ICh3aGVyZSB3ZSBlaXRoZXIgZG9uJ3QgY2FyZSBhYm91
+dCBpdCBvciBlbHNlIHVzZSB0aGUgR0NDICd1bnVzZWQnDQo+IGF0dHJpYnV0ZSBoaWRkZW4g
+YmVoaW5kIHRoZSBnbGliIEdfR05VQ19VTlVTRUQgbWFjcm8pLg0KDQoNCkFueSBvdGhlciB2
+YXJpYW50IGlzIGFsc28gZmluZSBmb3IgbWUsIGZvciBleGFtcGxlICJ1c2luZyIgYXJnYyBi
+eSBhIA0KInJldHVybiBhcmdjID09IDA7IiBpbnN0ZWFkIG9mICJyZXR1cm4gMDsiLiBXb3Vs
+ZCB0aGF0IGJlIGJldHRlcj8gSWYgDQp0aGVyZSBpcyBhbiBhY2NlcHRlZCB2YXJpYW50LCBJ
+IGNhbiBlaXRoZXIgc2VuZCBhIHYyIHBhdGNoLCBvciBtYXliZSANCnN1Y2ggYSB0cml2aWFs
+IGNoYW5nZSBjYW4gYmUgYXBwbGllZCB3aGVuIG1lcmdpbmcuDQoNCg0KPiBJIGFtIHN1cnBy
+aXNlZCB0aGF0IHRoaXMgZGlkbid0IGdldCBjYXVnaHQgYnkgdGhlIGNoZWNrIGluDQo+IGRv
+X2NvbXBpbGVyX3dlcnJvcigpLCB3aGljaCBpcyBzdXBwb3NlZCB0byByZXBvcnQgInRoaXMN
+Cj4gY29uZmlndXJlIHRlc3QgcGFzc2VkIHdpdGhvdXQgLVdlcnJvciBidXQgZmFpbGVkIHdp
+dGgNCj4gLVdlcnJvciwgc28gY29uZmlndXJlIGlzIHByb2JhYmx5IGJ1Z2d5LiIuIFRoYXQn
+cyB3aGF0J3MNCj4gc3VwcG9zZWQgdG8gY2F0Y2ggInlvdXIgY29tcGlsZXIgd2FybnMgb24g
+c3R1ZmYgb3VyIGRvZXNuJ3QNCj4gaW4gdGhlIHRlc3QgY2FzZSBwcm9ncmFtcyIuDQo+DQo+
+IElmIHlvdSdyZSBidWlsZGluZyB3aXRoIC0tZGlzYWJsZS13ZXJyb3IgdGhlbiBjb25maWd1
+cmUNCj4gc2hvdWxkIGJlIE9LIGFueXdheS4gVGhpcyBpcyBwcm9iYWJseSBhIGdvb2QgaWRl
+YSBpZiB5b3Ugd2FudA0KPiB0byBidWlsZCB3aXRoIGV4dHJhIHdhcm5pbmcgYXJndW1lbnRz
+IGluIC0tZXh0cmEtY2ZsYWdzLg0KPiBJZiBpdCBkb2Vzbid0IHdvcmsgcmlnaHQgZXZlbiB3
+aXRoIC0tZGlzYWJsZS13ZXJyb3IgdGhhdCdzDQo+IGFsc28gc29tZXRoaW5nIHdlIHNob3Vs
+ZCBpbnZlc3RpZ2F0ZS4NCg0KDQpDcm9zcyBidWlsZHMgZm9yIFdpbmRvd3MgZmFpbCB3aXRo
+IGFuZCB3aXRob3V0IC0tZGlzYWJsZS13ZXJyb3IuIFNlZSANCmFsc28gbXkgYnVnIHJlcG9y
+dCBodHRwczovL2dpdGxhYi5jb20vcWVtdS1wcm9qZWN0L3FlbXUvLS9pc3N1ZXMvMTI5NS4N
+Cg0KWW91IGFyZSByaWdodCB0aGF0IHRoaXMgaXMgc3RyYW5nZSBhbmQgc2hvdWxkIGJlIGlu
+dmVzdGlnYXRlZCwgDQplc3BlY2lhbGx5IGJlY2F1c2UgbmF0aXZlIGJ1aWxkcyBkb24ndCBm
+YWlsIGxpa2UgdGhhdC4NCg0KDQo+PiAgICAgICBjaGFyIGFycls2NF0sICpwID0gYXJyLCAq
+YyA9IGFyZ3ZbMF07DQo+PiAgICAgICB3aGlsZSAoKmMpIHsNCj4+ICAgICAgICAgICAqcCsr
+ID0gKmMrKzsNCj4+IEBAIC0xNjA3LDcgKzE2MDgsNyBAQCBmaQ0KPj4NCj4+ICAgaWYgdGVz
+dCAiJHNhZmVfc3RhY2siID0gInllcyI7IHRoZW4NCj4+ICAgY2F0ID4gJFRNUEMgPDwgRU9G
+DQo+PiAtaW50IG1haW4oaW50IGFyZ2MsIGNoYXIgKmFyZ3ZbXSkNCj4+ICtpbnQgbWFpbih2
+b2lkKQ0KPj4gICB7DQo+PiAgICNpZiAhIF9faGFzX2ZlYXR1cmUoc2FmZV9zdGFjaykNCj4+
+ICAgI2Vycm9yIFNhZmVTdGFjayBEaXNhYmxlZA0KPj4gQEAgLTE2MjksNyArMTYzMCw3IEBA
+IEVPRg0KPj4gICAgIGZpDQo+PiAgIGVsc2UNCj4+ICAgY2F0ID4gJFRNUEMgPDwgRU9GDQo+
+PiAtaW50IG1haW4oaW50IGFyZ2MsIGNoYXIgKmFyZ3ZbXSkNCj4+ICtpbnQgbWFpbih2b2lk
+KQ0KPj4gICB7DQo+PiAgICNpZiBkZWZpbmVkKF9faGFzX2ZlYXR1cmUpDQo+PiAgICNpZiBf
+X2hhc19mZWF0dXJlKHNhZmVfc3RhY2spDQo+PiBAQCAtMTY3NSw3ICsxNjc2LDcgQEAgc3Rh
+dGljIGNvbnN0IGludCBaID0gMTsNCj4+ICAgI2RlZmluZSBUQVVUKFgpICgoWCkgPT0gWikN
+Cj4+ICAgI2RlZmluZSBQQVJFTihYLCBZKSAoWCA9PSBZKQ0KPj4gICAjZGVmaW5lIElEKFgp
+IChYKQ0KPj4gLWludCBtYWluKGludCBhcmdjLCBjaGFyICphcmd2W10pDQo+PiAraW50IG1h
+aW4odm9pZCkNCj4+ICAgew0KPj4gICAgICAgaW50IHggPSAwLCB5ID0gMDsNCj4+ICAgICAg
+IHggPSBJRCh4KTsNCj4gTm8gb2JqZWN0aW9uIHRvIHRoZSBjYXNlcyB3aGVyZSB3ZSBjYW4g
+cGFzcyAidm9pZCIsIHRoYXQncw0KPiBhIG5lYXRlciB3YXkgdG8gd3JpdGUgdGhlIHRlc3Qg
+YW55d2F5Lg0KPg0KPiB0aGFua3MNCj4gLS0gUE1NDQo+DQo=
+--------------2oJQQGF8x1r0kVVUkR2zAfTo
+Content-Type: application/pgp-keys; name="OpenPGP_0xE08C21D5677450AD.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xE08C21D5677450AD.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
->      char arr[64], *p = arr, *c = argv[0];
->      while (*c) {
->          *p++ = *c++;
-> @@ -1607,7 +1608,7 @@ fi
->
->  if test "$safe_stack" = "yes"; then
->  cat > $TMPC << EOF
-> -int main(int argc, char *argv[])
-> +int main(void)
->  {
->  #if ! __has_feature(safe_stack)
->  #error SafeStack Disabled
-> @@ -1629,7 +1630,7 @@ EOF
->    fi
->  else
->  cat > $TMPC << EOF
-> -int main(int argc, char *argv[])
-> +int main(void)
->  {
->  #if defined(__has_feature)
->  #if __has_feature(safe_stack)
-> @@ -1675,7 +1676,7 @@ static const int Z = 1;
->  #define TAUT(X) ((X) == Z)
->  #define PAREN(X, Y) (X == Y)
->  #define ID(X) (X)
-> -int main(int argc, char *argv[])
-> +int main(void)
->  {
->      int x = 0, y = 0;
->      x = ID(x);
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-No objection to the cases where we can pass "void", that's
-a neater way to write the test anyway.
+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
+T7uiC0aTwAsniiln1XFlGBISNLB1HL/gUc9FJj8qmYgvUBZIzUjmm56up6er8ca9
+2tARdBylQF3E9MJ/E4dVrmTyvOlddAb/MG1Ge425mjt0dRfOx8Qc7Pxs+d3UNVSu
+Bm+WtuSgk+JNIT08c+WSXec8mE4hVdrKbAvCo9dcT5Gal2r6FSvRVY5kba3t280x
+utLSp470k3+DO+AgVigbHr3scXlJXZe1m4luqBSkEBDNH2sAQoBrNVwVaCZqZRTN
+TFN0ZWZhbiBXZWlsIChVbml2ZXJzaXTDpHRzYmlibGlvdGhlayBNYW5uaGVpbSkg
+PHN0ZWZhbi53ZWlsQHVuaS1tYW5uaGVpbS5kZT7CwY4EEwEIADgWIQRJI2/qdcld
+aY7Ct4rgjCHVZ3RQrQUCYlMdZAIbAwULCQgHAwUVCgkICwUWAgMBAAIeBQIXgAAK
+CRDgjCHVZ3RQrRo6D/9MSqnSGOjWrcsiXbUsQmNKzI1JZOuabam3P9V/rILU7K4/
+b9E6Bk5Vjo/6A4xMtC9y6L244Upn4MTdUofkBdd9dMG8eZ2oofsMGIeEmr4EFfKb
+/LoZtIUJaNfiwvd3YakEmaAfd+AWIEAVYlVSxWHeCMowTNYxbSW+/M0ExGw1BErt
+oFiz3Ti8iYNfgz2l9cwrKhQEnzZlHUq06AIbzch/nXFFcc3EBDz+J6x//DCclb6Y
+8oLJRerrOJqpcpTYrwr+UDbh8JOqiUWUQ1BrbIZb+J5rU+DghBmNAWpd6yTbxX0T
+I7g2Hu7gPdzhrLLRO+rQsDK3T+JdVQ9xyoWugFIw4YepAad5uo/2e+q38a+h57EK
+Vsy4xfAEV/Mr4hl9KCY2hkiQYMKHvN1EZp72crAiPgDZxh6wTJZ979RHY2apq8XM
+Y41uP5mwdHxFA1Al/5+syajNlTzsNdYB5Ucx5TwNU0TifM13exHw8lQZOaWbDZS4
+QYwzeFWuEFse9ESmCQX5Pggw+ABFXOtPeqEfIO8v3QbT1vFlJ57iFBUiem967/JV
+a0RQyEvAKj0T5124N8Hi1oa8TPk5oSe8id5jSgGD9twbS0HX2KcmwAF/A5MgP7hx
+0X4EfhsJtDxFDy5PnoC8ADE2wcKDsTgqfDS/EQc6OeQCKceR45wyOT0Y3kbEa87B
+TQRV3J49ARAAt9nArtjFnqmRHL0oY5KCrF5ONph6xm3rof74lZ/CTkG0zu9OhmbW
+s6MMNsHgM7lRGIcKou7vUQE8/TEXh3+0eRdCiEYXP9jYTTXosU/+y/hOY33x9Sw/
+tCEHXiz6M+rp74O1P+zqXSlmx8zzNy33dDdXUT+bF1C6Y7WEChIIjlOfLHOBeazN
+dCqDxRDM/CKeI/UWx/wm0z1DNEuD8crUXIgdxY3dBAm1bBK041+3GXP8gYLN4qew
+T1VoG35Ya3PrrTC/zMAumagjiF3/1NCAmH6eSOzw21EloDBR76K1noDGCfRM2dp0
+78rS/BO+QtlN4+UWQLkB+crHxqXWk0u+gka2A7ZBHFYky/oUVIK1/ar6swnTRHj2
+0Ga+rukzcdxQRJ2kwGeRrqLH1JO8p72ptvswMyzVPhk8sE2S9llPrbznj6fc9f5m
+y5x9i5Fh4Mt2z7u+wBSdck2wV5eThEPz7UziXgtbq74Hja7tuoQxUhcpOIBXKl8b
+MLtjxlO7VmH312VzfiBYqQku9fHg3E/Hi+uon2fJaifFbuViZqfZq9bKT/UWG0+0
+cKc2d4os+3uwGcjraUjCFSXmGU27YqiW8jeM7pIa03QoAhWIH9ApAOVBqWF6drFz
+6/oFcSl9qbY/4IneJ/eb0eyjHllegydGEuIShrXYZLiQqSX4yj/3vE8AEQEAAcLB
+XwQYAQgACQUCVdyePQIbDAAKCRDgjCHVZ3RQrWEaEACTrt0WUxL1AT6BarJ3fOPV
+ZjiioO+3LPhw98ci7afeScEK84cGv+KLgxawvOo7dbwEX6VceQvJ0LTZ1oYPuYeZ
+MjiG7Qdf9uwgk3VwHf4S9pNxsqyVxHPotN9RPWwqoH9ihmO/ml7uC3gH0SFiU/RR
+lc3c9X/u+6SbkSEUZrUrPFQKJ3dpfjnA3RCPTI3fTKr8jycA5A5A77Daba3L+MXj
+c71/tn6MZCZmK7unSfpXq4rbGrIgMWnFKMBgeRONUWRFIOm5lReEjLHiABCli8t4
+Txr2ATswA4atmC4JzP8J/WPWe2xDMvsOXu+bGgW5BSO053MQz1JyJf1ExClNTkYu
+Vlm712JFE7Xzc2cg9P796KI3CKGbytTpaTrVx3ZajqHY1xfZy3vHolR8pfGZ8xcY
+XhFtkD71/BSyqpkrPVvbGkLZOm4b/SzWCGCDYx9xBB//m25lfpZ+Du2u91pvC97Z
+6Qty5nRp9kZvAeidmSunItU0Q4jKQlFnn6ZyLhPk4mwuVSUec8dGIdda8cQRaG/J
+lpLUZi2cnhKAnGaAaLGycQ/NEMVjtN8z6ZHCe3eAa1bEPwSZAbRHuCZ+Iqh6gPzn
+K88LhGUr/vzHYKKn25QWYQ7rJi2H1cu8BQ3lQpRunkCIithJ5gwoS0ZFSEM25FdI
+hvjSVVSRyxiu/zrDuO/s6g=3D=3D
+=3DumGL
+-----END PGP PUBLIC KEY BLOCK-----
 
-thanks
--- PMM
+--------------2oJQQGF8x1r0kVVUkR2zAfTo--
+
+--------------nKoEzSSM7MD1ZO4JMmHf74af--
+
+--------------Vjo5QyUMHJJsZnrymN1LR9VT
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmNjry4FAwAAAAAACgkQ4Iwh1Wd0UK03
+lA/+NSLnlhEpIhiYLD+rf+DO80cD0JyDvuv7htnJxSue/zJ/XkGkMc6i2LlPDX1+2t2igTWhF8h2
+GteI+Vn8cW9SchiEEvNY2GqT4egQzpdq9JZgm4bx22qlCdPsnfaMW/Fs3o6v0/YktObxqab/jNB8
+uaxuykvNAFrAw/OxNwHHk8nDhZlydNK2ItHxdq/HtDHb6XupUFIwR7MPQOE1/CDpyBIYkMxaYJyJ
+SU63+ORdf3bVHftIhFKXAekckL4PloBQXkkBgAUI2BcG4UJJI5uSJFBSnNYdd2H75sRCVyPdOeCz
+ajv/hFgSP6ZqMXaB13BIjAV9BIegk0XBNkRMdufKqDShj61kBCKJxPd4l3tgMeBKokU9QzTf61Bd
+iW8id9AmkTBesYLytMpEKXrk3TxSS65C1C9aFkL5toDU2vlCeNmqei+wyFiX1gXIkzwac54riNCr
+N8Vn3tKJjN+AbCAgI8wiBa3dfA4c2wcP6qCc6JhBt3w5Ke34tr4wVZJ4W92khzYNg9hhsR4Gjjyi
+Gl873KGMEXRTXmHl7MZNd2y01Ibh8PbpKw9vqela7z3C6W8TMJkPzK9lT76pPoyO9MEW23C7BUtY
+B/qNcCMTUpKADptSmOmGG66LJ0BU2Zsv3LVBYAwfWitD/kYLwoHWvIdYGsPGS7pYgzHQDsIXPTI2
+gsI=
+=zFD+
+-----END PGP SIGNATURE-----
+
+--------------Vjo5QyUMHJJsZnrymN1LR9VT--
 
