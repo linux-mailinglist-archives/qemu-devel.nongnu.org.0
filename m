@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0B57617E3E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 14:44:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05774617E3F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 14:44:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqaUe-0001ZM-L3; Thu, 03 Nov 2022 09:42:52 -0400
+	id 1oqaUb-0001XL-QB; Thu, 03 Nov 2022 09:42:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oqaUK-0001Qz-VE
+ id 1oqaUK-0001R1-Q7
  for qemu-devel@nongnu.org; Thu, 03 Nov 2022 09:42:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oqaUE-0002B8-Jd
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 09:42:29 -0400
+ id 1oqaUE-0002BT-K1
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 09:42:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667482934;
+ s=mimecast20190719; t=1667482936;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tuswhSpoE/Ge6YHXiTn5cciYkEGvSk/tZ5o+iUcShrM=;
- b=Y4IZ5xN8gOl6ml+EK7euqWTijW25ZbZ+GmiVvmCG0OGq0uNuKrYpaWbdsH7Vc3amcwE6Rk
- 7I2y3CUWJs/Ow76Si3xxyKjbW13Ygh4uP2o8V6pjBWfwWhtvEpzFPRveG0pGaahuu1ZXR/
- zZPC46s2C/XBaEHjMeA0S8PkMhLNR90=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6z9lyDF0J2gq1fZQvXggcuNmz30BZSPi1TGya37k5PM=;
+ b=J61AnvkRdeIS7GU5jFsCnNy3nTb1nkbyERBiewIsW1W0K3MNDlrRNXind5A8wL41SYp0kD
+ w044D3LbjSXudecYFYzzEy+QIgpN2hx3SON9CWhXrgIA8+7iIqqoHQ1+tXhocstnhX7Qe7
+ CBSE1az6Kav0y7PfAV/rpF6Hx535C50=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-4vpHnrHIPl6P8u9ybA-Qrw-1; Thu, 03 Nov 2022 09:42:11 -0400
-X-MC-Unique: 4vpHnrHIPl6P8u9ybA-Qrw-1
+ us-mta-148-JUsPFZwWOeuovfbdl4gCxg-1; Thu, 03 Nov 2022 09:42:11 -0400
+X-MC-Unique: JUsPFZwWOeuovfbdl4gCxg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 084F23C0F222;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C63F857FAC;
  Thu,  3 Nov 2022 13:42:11 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C167740C6EC3;
- Thu,  3 Nov 2022 13:42:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1123540C6EC3;
+ Thu,  3 Nov 2022 13:42:11 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -50,16 +50,16 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH 8/9] block: bdrv_create is never called in non-coroutine
- context
-Date: Thu,  3 Nov 2022 09:42:05 -0400
-Message-Id: <20221103134206.4041928-9-eesposit@redhat.com>
+Subject: [PATCH 9/9] block/dirty-bitmap: remove unnecessary
+ qemu_in_coroutine() case
+Date: Thu,  3 Nov 2022 09:42:06 -0400
+Message-Id: <20221103134206.4041928-10-eesposit@redhat.com>
 In-Reply-To: <20221103134206.4041928-1-eesposit@redhat.com>
 References: <20221103134206.4041928-1-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,65 +83,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Delete the if case and make sure it won't be called again
-in coroutines.
+bdrv_can_store_new_dirty_bitmap and bdrv_remove_persistent_dirty_bitmap
+check if they are running in a coroutine, directly calling the
+coroutine callback if it's the case.
+Except that no coroutine calls such functions, therefore that check
+can be removed.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block.c | 37 ++++++++++++++++---------------------
- 1 file changed, 16 insertions(+), 21 deletions(-)
+ block/dirty-bitmap.c | 66 +++++++++++++++++++-------------------------
+ 1 file changed, 29 insertions(+), 37 deletions(-)
 
-diff --git a/block.c b/block.c
-index e5e70acf15..1ee76a8694 100644
---- a/block.c
-+++ b/block.c
-@@ -557,30 +557,25 @@ static void coroutine_fn bdrv_create_co_entry(void *opaque)
- int bdrv_create(BlockDriver *drv, const char* filename,
-                 QemuOpts *opts, Error **errp)
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index bf3dc0512a..8092d08261 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -418,24 +418,20 @@ bdrv_co_remove_persistent_dirty_bitmap_entry(void *opaque)
+ int bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
+                                         Error **errp)
  {
-+    Coroutine *co;
-+    CreateCo cco = {
-+        .drv = drv,
-+        .filename = g_strdup(filename),
-+        .opts = opts,
-+        .ret = NOT_DONE,
-+        .err = NULL,
-+    };
-     GLOBAL_STATE_CODE();
-+    assert(!qemu_in_coroutine());
- 
 -    if (qemu_in_coroutine()) {
--        /* Fast-path if already in coroutine context */
--        return bdrv_co_create(drv, filename, opts, errp);
+-        return bdrv_co_remove_persistent_dirty_bitmap(bs, name, errp);
 -    } else {
 -        Coroutine *co;
--        CreateCo cco = {
--            .drv = drv,
--            .filename = g_strdup(filename),
--            .opts = opts,
--            .ret = NOT_DONE,
--            .err = NULL,
+-        BdrvRemovePersistentDirtyBitmapCo s = {
+-            .bs = bs,
+-            .name = name,
+-            .errp = errp,
+-            .ret = -EINPROGRESS,
 -        };
 -
--        co = qemu_coroutine_create(bdrv_create_co_entry, &cco);
--        qemu_coroutine_enter(co);
--        while (cco.ret == NOT_DONE) {
--            aio_poll(qemu_get_aio_context(), true);
--        }
--        error_propagate(errp, cco.err);
--        g_free(cco.filename);
--        return cco.ret;
-+    co = qemu_coroutine_create(bdrv_create_co_entry, &cco);
-+    qemu_coroutine_enter(co);
-+    while (cco.ret == NOT_DONE) {
-+        aio_poll(qemu_get_aio_context(), true);
-     }
-+    error_propagate(errp, cco.err);
-+    g_free(cco.filename);
-+    return cco.ret;
+-        co = qemu_coroutine_create(bdrv_co_remove_persistent_dirty_bitmap_entry,
+-                                   &s);
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, s.ret == -EINPROGRESS);
+-
+-        return s.ret;
+-    }
++    Coroutine *co;
++    BdrvRemovePersistentDirtyBitmapCo s = {
++        .bs = bs,
++        .name = name,
++        .errp = errp,
++        .ret = -EINPROGRESS,
++    };
++    assert(!qemu_in_coroutine());
++    co = qemu_coroutine_create(bdrv_co_remove_persistent_dirty_bitmap_entry,
++                                &s);
++    bdrv_coroutine_enter(bs, co);
++    BDRV_POLL_WHILE(bs, s.ret == -EINPROGRESS);
++
++    return s.ret;
  }
  
- /**
+ bool
+@@ -494,25 +490,21 @@ bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
+                                      uint32_t granularity, Error **errp)
+ {
+     IO_CODE();
+-    if (qemu_in_coroutine()) {
+-        return bdrv_co_can_store_new_dirty_bitmap(bs, name, granularity, errp);
+-    } else {
+-        Coroutine *co;
+-        BdrvCanStoreNewDirtyBitmapCo s = {
+-            .bs = bs,
+-            .name = name,
+-            .granularity = granularity,
+-            .errp = errp,
+-            .in_progress = true,
+-        };
+-
+-        co = qemu_coroutine_create(bdrv_co_can_store_new_dirty_bitmap_entry,
+-                                   &s);
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, s.in_progress);
+-
+-        return s.ret;
+-    }
++    Coroutine *co;
++    BdrvCanStoreNewDirtyBitmapCo s = {
++        .bs = bs,
++        .name = name,
++        .granularity = granularity,
++        .errp = errp,
++        .in_progress = true,
++    };
++    assert(!qemu_in_coroutine());
++    co = qemu_coroutine_create(bdrv_co_can_store_new_dirty_bitmap_entry,
++                                &s);
++    bdrv_coroutine_enter(bs, co);
++    BDRV_POLL_WHILE(bs, s.in_progress);
++
++    return s.ret;
+ }
+ 
+ void bdrv_disable_dirty_bitmap(BdrvDirtyBitmap *bitmap)
 -- 
 2.31.1
 
