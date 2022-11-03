@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D6F6189E8
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 21:49:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18FD5618A58
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 22:13:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqh84-0005Xq-OV; Thu, 03 Nov 2022 16:48:00 -0400
+	id 1oqhUx-0005dW-Kq; Thu, 03 Nov 2022 17:11:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oqh7v-0005X8-4g
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 16:47:51 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+ id 1oqhUk-0005dG-AT
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:11:26 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oqh7t-0000TW-Kp
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 16:47:50 -0400
-Received: by mail-pf1-x430.google.com with SMTP id k15so2744132pfg.2
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 13:47:49 -0700 (PDT)
+ id 1oqhUi-0004P2-2m
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 17:11:25 -0400
+Received: by mail-pg1-x535.google.com with SMTP id q1so2724229pgl.11
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 14:11:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=/aGx0ytp20nSiOUXLDXVjtjJUGmuVLNqcYsFB3FfZaQ=;
- b=twPaO43Z3EMlq8Rvf2sj2CLfqaei0qfAfyjVpjZz3U22mnqVarSED2JW6VhS1UPO6p
- hOnaeXKeo/nQ8t1wK9jJOsWLoMWSaM1sZD3a01Q9gva37N+yRBqBcG0mFI4EMc8Qgzf/
- i9oHv+a3zjy7+HY+Hcydtu4OwteUTM6fn8g7WtvcnBFpp9lVCcP46+Cu4fq9xRFuPAVG
- Rnh80Jgf7MbfU41phlxy+KCAW05N9tcXFUqfXpD5dADxGze8A0kpGc+K47KImRwEIk2C
- rMqiFwOecoCIlQofxzFryL8vmMROB53ENeqEdDtrik7Dp6AE/83bKKDbFsUA1ZT094/m
- etLQ==
+ bh=LA2SPkYkjFkOyFejLOy3z5Lm9UbIywrJXG/aLzTuemQ=;
+ b=XfXQJkz35wM90N/jGxoCaFiq5khP3Hialen7yV7mgUqH+2d8AkbYZxvsWY0GEnV7Rj
+ uklyYqqnTpwRHTK7FRo0jVZSeHJJf20h5oaf5wbrEjhIu7ocWP8H/wjxhqu31ruKh9kr
+ dVW9+dTi2f/dGo02LBK6Pj3+hj6SgUwyBv58meeiSB1lq6b1cPhXNQ6M4OASBZ59Jbxr
+ o+MDySMXQgEYKV182rCpoy8gU/NtynQbQd5pKTj8MIhKshDZfSB8OXFNci1+IXiWOLYa
+ Y/FBBhLKm0R0Sm8nIs11lG7Oe+u3V2lAI4ulGa0YpNLzzUY/uStThTSsteXvGDxiQwVY
+ PQjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/aGx0ytp20nSiOUXLDXVjtjJUGmuVLNqcYsFB3FfZaQ=;
- b=JBa+IiijWG5QKVhidKBehwjEfjuh91Z5DyD0IxJ2S+IhZ4LyLdAM+faQS+MmAFUobr
- Xjd1gkRA9hebCWPmER/HgzyuaO9NUIyijPn3dTnw6Sqwb1jqpV1EeQ9ZJOlSQGVzdkg6
- K+3B3dcLmWR7o0OiR/YndXw1idKVprOKMEXqLBi+SPzMcNGcLq2sIYHF/QLnwFSuUgNz
- 4CF0dBfd9xmxk232YBtZr/wEWLVkFyC6Um0dfDz1o4VmEdnA7ltNLI5uOkO4gOcILLVT
- z/ImzULDYv841taH4Rrab2Rmh5oPzw/6V4JNgk1CgsFTOKbS+6Wmam3K75QeIEx4PerT
- vY4w==
-X-Gm-Message-State: ACrzQf1bMTEPVBNyBJ2IHyDuP5GChDNLcOZgxynPOUnWDFvsRdF8ClUt
- k4zNY4N4PRJOhiq3mUtqYRhfnw==
-X-Google-Smtp-Source: AMsMyM4DB/D9ctQtoQyEP38Q3z80bHocm3ZANKPV/geAr0GFL+aecZxM8qaGPjzxtFAC6tG27ZTVLA==
-X-Received: by 2002:a05:6a00:15c8:b0:565:bc96:1c5b with SMTP id
- o8-20020a056a0015c800b00565bc961c5bmr32352825pfu.52.1667508467922; 
- Thu, 03 Nov 2022 13:47:47 -0700 (PDT)
+ bh=LA2SPkYkjFkOyFejLOy3z5Lm9UbIywrJXG/aLzTuemQ=;
+ b=fJSYtHH8zerNdUjpCa7yWxnhTQLp2SetQhkZtsaKNEuaOHPGFpWG3gJfnzTcYkqDz9
+ VoGzLk2nOr10YSAJ8s2jYsBlt3jqOk87XnckJnlfr+uScAnRxY86DiiL49/ZZO2gW74y
+ tGlUB5c7ugcR7ta4bc3JSIOTVezwmD7ZDqYW9Wvow9j6l0k8asPTfCuE5z9/Qy2MMZtV
+ vHU4b0HH6vIHXj72BfrH/+DK5HXvbSTOdYC7U/DCZha6WMXRnaIq2hp0Clm6UAoW/XZm
+ IfoUl2cHpbsf+rnx1+7mI3wzP4c88+294X7Ck5ut5GjUPe4xmif5kSE6LMfNf5KZcK1e
+ j+KQ==
+X-Gm-Message-State: ACrzQf3W7JSCghq7jalAQZuvvTzWto5xQ3laRlh7eHugwULbyz/kj7QQ
+ 2pkbGB9dHLNsohHkPwf2CR4BPA==
+X-Google-Smtp-Source: AMsMyM7WlfumVU03xBeN6Cyo8vMAi2dHaTHJAOafj+rZXvnabrOZOHolmm9povzLUFXCAe0LWYzeHQ==
+X-Received: by 2002:a05:6a00:1253:b0:56d:8742:a9ff with SMTP id
+ u19-20020a056a00125300b0056d8742a9ffmr21891927pfi.5.1667509882171; 
+ Thu, 03 Nov 2022 14:11:22 -0700 (PDT)
 Received: from [192.168.229.227] ([206.83.113.103])
  by smtp.gmail.com with ESMTPSA id
- e20-20020a63e014000000b0045ff216a0casm1208798pgh.3.2022.11.03.13.47.44
+ d5-20020a170902b70500b00186748fe6ccsm1060223pls.214.2022.11.03.14.11.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Nov 2022 13:47:47 -0700 (PDT)
-Message-ID: <90980f4b-aeea-5c0d-11d4-e2609b455435@linaro.org>
-Date: Fri, 4 Nov 2022 07:47:40 +1100
+ Thu, 03 Nov 2022 14:11:21 -0700 (PDT)
+Message-ID: <514c0f75-8e89-9a65-01c1-0053961d5676@linaro.org>
+Date: Fri, 4 Nov 2022 08:11:14 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH RFC] target/loongarch: Fix emulation of float-point
- disable exception
+Subject: Re: [PATCH v2] target/loongarch: Fix emulation of float-point disable
+ exception
 Content-Language: en-US
-To: Rui Wang <wangrui@loongson.cn>, Song Gao <gaosong@loongson.cn>,
- Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Cc: qemu-devel@nongnu.org, hev <qemu@hev.cc>
-References: <20221103080232.55953-1-wangrui@loongson.cn>
+To: Rui Wang <wangrui@loongson.cn>
+Cc: Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>, 
+ qemu-devel@nongnu.org, hev <qemu@hev.cc>
+References: <20221103122551.152380-1-wangrui@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221103080232.55953-1-wangrui@loongson.cn>
+In-Reply-To: <20221103122551.152380-1-wangrui@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,37 +94,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/3/22 19:02, Rui Wang wrote:
-> +static void check_fpe(DisasContext *ctx)
-> +{
+On 11/3/22 23:25, Rui Wang wrote:
+> +/*
+> + * LoongArch CPUs hardware flags.
+> + * bit[2..0] for MMU index.
+> + * bit[7..4] for CSR.EUEN.{ BTE, ASXE, SXE, FPE }.
+> + */
+> +#define HW_FLAGS_MMU_MASK   0x07
+> +#define HW_FLAGS_EUEN_FPE   0x10
+> +
+>   static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
+>                                           target_ulong *pc,
+>                                           target_ulong *cs_base,
+> @@ -399,6 +408,10 @@ static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
+>       *pc = env->pc;
+>       *cs_base = 0;
+>       *flags = cpu_mmu_index(env, false);
+> +
+> +    if (FIELD_EX64(env->CSR_EUEN, CSR_EUEN, FPE)) {
+> +        *flags |= HW_FLAGS_EUEN_FPE;
+> +    }
+>   }
+>   
+>   void loongarch_cpu_list(void);
+> diff --git a/target/loongarch/insn_trans/trans_farith.c.inc b/target/loongarch/insn_trans/trans_farith.c.inc
+> index 7bb3f41aee..e2dec75dfb 100644
+> --- a/target/loongarch/insn_trans/trans_farith.c.inc
+> +++ b/target/loongarch/insn_trans/trans_farith.c.inc
+> @@ -3,9 +3,22 @@
+>    * Copyright (c) 2021 Loongson Technology Corporation Limited
+>    */
+>   
 > +#ifndef CONFIG_USER_ONLY
-> +    TCGLabel *skip = gen_new_label();
-> +    TCGv tmp = tcg_temp_new();
-> +
-> +    tcg_gen_andi_tl(tmp, cpu_euen, R_CSR_EUEN_FPE_MASK);
-> +    tcg_gen_brcond_tl(TCG_COND_NE, tmp, ctx->zero, skip);
-> +    tcg_temp_free(tmp);
-> +
-> +    generate_exception(ctx, EXCCODE_FPD);
-> +    ctx->base.is_jmp = DISAS_EXIT_UPDATE;
-> +
-> +    gen_set_label(skip);
+> +#define CHECK_FPE do { \
+> +    if ((ctx->base.tb->flags & HW_FLAGS_EUEN_FPE) == 0) { \
+> +        generate_exception(ctx, EXCCODE_FPD); \
+> +        return false; \
+> +    } \
+> +} while (0)
+> +#else
+> +#define CHECK_FPE
 > +#endif
-> +}
 
-While this works, it is very inefficient.
+Oh excellent, you found the correct solution on your own.
 
-You should cache the state of this bit in tb->flags, as set by cpu_get_tb_cpu_state.
-Compare, for instance, target/riscv/,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-FIELD(TB_FLAGS, MSTATUS_HS_FS, 16, 2)
+The only thing remaining from my comments on v1, which should be a separate patch, is to 
+separate PG from PLV in tb->flags, so that the check
 
-for which ctx->mstatus_hs_fs controls whether the fpu is clean, dirty, or disabled.
+> --- a/target/loongarch/insn_trans/trans_privileged.c.inc
+> +++ b/target/loongarch/insn_trans/trans_privileged.c.inc
+> @@ -159,7 +159,7 @@ static const CSRInfo csr_info[] = {
+>   
+>   static bool check_plv(DisasContext *ctx)
+>   {
+> -    if (ctx->base.tb->flags == MMU_USER_IDX) {
+> +    if (ctx->mem_idx == MMU_USER_IDX) {
 
-At present, loongarch is using 3 bits of tb->flags for the mmu_idx, re-using that for 
-privilege level in check_plv.  Which is nearly correct, except for the case of paging 
-disabled in user mode.  This probably never happens in practice, but unless the cpu 
-disallows such a state, this should be corrected.
+here is correct.  I would suggest
+
+#define HW_FLAGS_PLV_MASK   R_CSR_CRMD_PLV_MASK  /* 0x03 */
+#define HW_FLAGS_CRMD_PG    R_CSR_CRMD_PG_MASK   /* 0x10 */
+#define HW_FLAGS_EUEN_FPE   0x04
+
+For cpu_get_tb_cpu_state
+
+     *flags = env->CSR_CRMD & (R_CSR_CRMD_PLV_MASK | R_CSR_CRMD_PG_MASK);
+     *flags |= FIELD_EX64(env->CSR_EUEN, CSR_EUEN, FPE) * HW_FLAGS_EUEN_FPE;
+
+And for loongarch_tr_init_disas_context,
+
+     ctx->plv = ctx->base.tb->flags & HW_FLAGS_PLV_MASK;
+     if (ctx->base.tb->flags & HW_FLAGS_CRMD_PG_MASK) {
+         ctx->mem_idx = ctx->plv;
+     } else {
+         ctx->mem_idx = MMU_DA_IDX;
+     }
 
 
 r~
