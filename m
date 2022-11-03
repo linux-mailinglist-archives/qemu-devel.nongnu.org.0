@@ -2,91 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B291617BD1
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 12:43:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E017617BD5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 12:45:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqY5J-0001GX-Dz; Thu, 03 Nov 2022 07:08:39 -0400
+	id 1oqY5e-0001gA-Qi; Thu, 03 Nov 2022 07:08:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqY4K-000176-9f
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:07:37 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqY59-0001Xe-Vp
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:08:25 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqY46-0001W5-GH
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:07:30 -0400
-Received: by mail-wr1-x432.google.com with SMTP id k8so2252040wrh.1
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 04:07:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqY58-0001qL-Iv
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 07:08:23 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id t4so889441wmj.5
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 04:08:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ioAj/03PTFf/uaiN9wTTpWC9jrZkUh7XgFAdXmVFeT0=;
- b=j0V8X8STX7IWgaMvz/VBrVye0Zw1tiw9dS0tetGfb65dn/24Em4poHnWrjFjPRu1rW
- QPF06iaqBLCbRK6LCjsRkgQmrsZbVF0k2ri6CHtKeYb+paUGktf4erRVPj4BQT3qQQjB
- 29a584Pa2jOV2tTR2UAMow5MJ2eJ++FQDxg65xYCJeW+ps2Osv1OeKUFXUoLCgAr2g79
- oQP9zTPuBFnyFufkdvLPz0fQB1DlD33oHRBxenaInenjUnLdj2riIZTh3djfxjPzPvYs
- zsGgVwuuhjJkz5YO6NIgE1ymjoIaajiow9YxleDaIhXGJK/WusZHNC78e14PJ0+zE/XV
- zd2g==
+ bh=xIbQCrkcJfImG8cdWqyClu3+i6GpExPlrGJWMiW5x9o=;
+ b=yk6tk2s2b60kXcaAhe4wNfxkBtYWpFA1K2NaPuVRgbUZumyWUlqzUQDH867PcyR3DI
+ o6FNVY6aOSKXv6p3IQQKbOn7BQgmn1lfym4m/xJgZAS8QAfyDpr+rRRP+jKafFOFtpPu
+ 8jz9YqIPg8dWdyiN02aGEmIJLdA/jYQ2GRRmYLA6jiKrGikbBxFs8Eyi9m0gQlD78Afk
+ bcxOeuwxE9fqT6exOoos9Q10znLhHQlsUl2U/cojNdlsbqiCKUnnAxYM9vvt6jU+G/Z6
+ JcRDmOPBsf0rMUxoDXpLkTvztI//wtSGQDegXAX8aXs+Iv5U0Edxd28c452y0mHpSC0X
+ U6MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ioAj/03PTFf/uaiN9wTTpWC9jrZkUh7XgFAdXmVFeT0=;
- b=RDhKwbHGCX3DrKTCpqPlBGg6h59L918Qa6yqzfTRHMVE9rjNq6AqQDy+UYCToPaY6K
- gLeRt5IK1/Ofzt+RqcUqHQ8kB9t+vMFxnfMMUXnHNuZG5U8v8IK/Yox+H71QCqB//0TR
- DCRx4bQR+7DVpbHuYJ01BYqcHokzzjSSir2b4pTeln/sTRufClBoAbRTxENp2Hy4RK9R
- LzR4PS7+nHb48d95gE6qRxeQh2/sCX+pZOeT1zg8taET6IneVJbu1XzR4LXBBFdMNOAk
- QyBY1gY7u70IxagmQND0yQqB+XlDVI0haXbaVhj03vvxDKuZpJD78n1gbtngzIFYch+J
- XlSw==
-X-Gm-Message-State: ACrzQf2VFqz7iW1gUk3VChdQ2AFlMtV42u3+mvrgCLrnveMWJq8mWWWc
- ZlYsYHkitwQaa6bm/HPVnEfapA==
-X-Google-Smtp-Source: AMsMyM7NGSI02kuYWsWBe/V7h4jAfDD1+ML65sT6lw5hyMNAqTtrwDeLdnnqMIolLSgYthT6UlPUSg==
-X-Received: by 2002:a5d:50ca:0:b0:236:776c:3075 with SMTP id
- f10-20020a5d50ca000000b00236776c3075mr18645206wrt.656.1667473636709; 
- Thu, 03 Nov 2022 04:07:16 -0700 (PDT)
+ bh=xIbQCrkcJfImG8cdWqyClu3+i6GpExPlrGJWMiW5x9o=;
+ b=OqaSVpJCV9v7zIszHep/vNV6IMLp/y2QqiPDDZirinOsn02QO/j5LAdDPruNYK68Ty
+ jVT7QjYFnK8cPPirJBLhxwL72QMpVN0eyfCw4vQhrdTL44FCliJOpvZLfUoFEGx4zbcX
+ XDoKFO5QU0ay77F9YBN2eLBOXK5Y39hfU3PAiDy8H5DRNqmLSKD+KHVC1HwNlamSTcgL
+ Ay19X8H+QEGzboIcxMfyA8FVnwu65gMNnMMAJp9x5EuESJTZZveZLLnJlMc1PmL8WM4T
+ I+G8fnuK1rER1dJOJ5cu01QPZqg2U/etE4PdB0sXGHGofKXH0E6Q6GtwRNFREOzAX4LA
+ C1hQ==
+X-Gm-Message-State: ACrzQf3Tb4h0Ih3ZSAzQSQU3EiIaLT9MWUktcPqtzJcwB65zW6p2aJFM
+ jHOZlu8aWuPnWQ4jDA5ygWg2Bg==
+X-Google-Smtp-Source: AMsMyM6r4RIbo5Gvq6pAOFS7Yja9gtbO0j6tdOjHtDepDH1TdPZDF/PaWbzAL8K42W2zswCgNGvN4A==
+X-Received: by 2002:a05:600c:468e:b0:3c6:f510:735c with SMTP id
+ p14-20020a05600c468e00b003c6f510735cmr18638999wmo.179.1667473701169; 
+ Thu, 03 Nov 2022 04:08:21 -0700 (PDT)
 Received: from [192.168.182.175] (216.red-88-29-181.dynamicip.rima-tde.net.
  [88.29.181.216]) by smtp.gmail.com with ESMTPSA id
- l16-20020adfa390000000b002362f6fcaf5sm619394wrb.48.2022.11.03.04.07.14
+ h1-20020a05600c350100b003c6c182bef9sm5625522wmq.36.2022.11.03.04.08.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Nov 2022 04:07:15 -0700 (PDT)
-Message-ID: <e6aa73fb-f5e3-b24c-b963-b66849c9925f@linaro.org>
-Date: Thu, 3 Nov 2022 12:07:13 +0100
+ Thu, 03 Nov 2022 04:08:20 -0700 (PDT)
+Message-ID: <77d8aaea-cab9-6e79-7fea-b228b7a9d82d@linaro.org>
+Date: Thu, 3 Nov 2022 12:08:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH v14 16/17] tests/qtest: netdev: test stream and dgram
- backends
+Subject: Re: [PATCH] Add missing include statement for global xml_builtin
 Content-Language: en-US
-To: Laurent Vivier <lvivier@redhat.com>, Jason Wang <jasowang@redhat.com>,
+To: Stefan Weil <sw@weilnetz.de>, qemu-trivial@nongnu.org,
  qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, xen-devel@lists.xenproject.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, Stefan Weil <sw@weilnetz.de>,
- David Gibson <david@gibson.dropbear.id.au>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>, Greg Kurz <groug@kaod.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20221021090922.170074-1-lvivier@redhat.com>
- <20221021090922.170074-17-lvivier@redhat.com>
- <700ef645-6cb6-66e6-00a9-3db187be0c43@redhat.com>
- <0fd82709-7612-25e0-66c0-d9494931d8c4@redhat.com>
+References: <20221103083815.464612-1-sw@weilnetz.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <0fd82709-7612-25e0-66c0-d9494931d8c4@redhat.com>
+In-Reply-To: <20221103083815.464612-1-sw@weilnetz.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,43 +90,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/11/22 10:33, Laurent Vivier wrote:
-> On 10/28/22 07:04, Jason Wang wrote:
->>
->> 在 2022/10/21 17:09, Laurent Vivier 写道:
->>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->>> ---
->>
->>
->> I got this:
->>
->> 63/63 ERROR:../tests/qtest/netdev-socket.c:139:test_stream_inet_ipv6: 
->> assertion failed (resp == expect): ("st0: 
->> index=0,type=stream,connection error\r\n" == "st0: 
->> index=0,type=stream,tcp:::1:40389\r\n") ERROR
->> 63/63 qemu:qtest+qtest-x86_64 / 
->> qtest-x86_64/netdev-socket                  ERROR 5.29s killed by 
->> signal 6 SIGABRT
->>  >>> QTEST_QEMU_IMG=./qemu-img QTEST_QEMU_BINARY=./qemu-system-x86_64 
->> MALLOC_PERTURB_=96 
->> QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon 
->> G_TEST_DBUS_DAEMON=/home/devel/git/qemu/tests/dbus-vmstate-daemon.sh 
->> /home/devel/git/qemu/build/tests/qtest/netdev-socket --tap -k
->> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― ✀ ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
->> stderr:
->> **
->> ERROR:../tests/qtest/netdev-socket.c:139:test_stream_inet_ipv6: 
->> assertion failed (resp == expect): ("st0: 
->> index=0,type=stream,connection error\r\n" == "st0: 
->> index=0,type=stream,tcp:::1:40389\r\n")
->>
->> (test program exited with status code -6)
+On 3/11/22 09:38, Stefan Weil via wrote:
+> This fixes some compiler warnings with compiler flag
+> -Wmissing-variable-declarations (tested with clang):
 > 
-> I'm not able to reproduce the problem.
+>      aarch64_be-linux-user-gdbstub-xml.c:564:19: warning: no previous extern declaration for non-static variable 'xml_builtin' [-Wmissing-variable-declarations]
+>      aarch64-linux-user-gdbstub-xml.c:564:19: warning: no previous extern declaration for non-static variable 'xml_builtin' [-Wmissing-variable-declarations]
+>      aarch64-softmmu-gdbstub-xml.c:1763:19: warning: no previous extern declaration for non-static variable 'xml_builtin' [-Wmissing-variable-declarations]
 > 
-> Is this 100% reproducible?
-> Is IPv6 enabled on your test machine?
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+> ---
+>   scripts/feature_to_c.sh | 1 +
+>   1 file changed, 1 insertion(+)
 
-If IPv6 is not available, this test should be skipped, not failing.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
