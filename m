@@ -2,99 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708C961845F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 521C7618460
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Nov 2022 17:28:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqd3w-0007HZ-SE; Thu, 03 Nov 2022 12:27:28 -0400
+	id 1oqd4C-0007Of-Hv; Thu, 03 Nov 2022 12:27:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1oqd3u-0007G8-NB
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 12:27:26 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oqd4A-0007OU-NC
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 12:27:42 -0400
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vannapurve@google.com>)
- id 1oqd3s-0001au-Dl
- for qemu-devel@nongnu.org; Thu, 03 Nov 2022 12:27:26 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id q9so2098936pfg.5
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 09:27:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oqd48-0001eN-P9
+ for qemu-devel@nongnu.org; Thu, 03 Nov 2022 12:27:42 -0400
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-370547b8ca0so20768687b3.0
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 09:27:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Qbc9/7qEOtavwLw8LQp9XE09/9bhelNZbWmBfVDGw/4=;
- b=nRKfJ4QQ3+p6c+xIQjyLkoMwJvMnwYkAuaPcWumPlxJnVKcvToJsNiOAGYenmja0Sy
- 0RoJkXdIm/TX+G8gnDZ+obkXWdspQdCFRI8jyQ0Jbs1WkCbaBSCKMFWUKWu6G3aYiNf+
- UQS/IMoncWgX6OOaPRMaCTiHd4UobAg5+BLo68MES2g/g2g52drNelqM/o5S6rL276vQ
- 59B9YcfdRSBbO8RH0qvr4sgiqXAKyJqC46UCoo6fS3cz6SnqinDkZiU40iLNXr90+JsU
- JTENrIEpqr75AzmQXB9iCQJUqbZTKhHGlXw36gDu1kRfRLSYiBKX6y1lz/w+ys/ieg8s
- 2YFA==
+ bh=Jwsg74A/C1OXz+a65N8/QfNsIlNn0yRxNQdslLWDhic=;
+ b=eb9SjGRQ5YkRfwXPWXRqWbKH9awYQNh1lYia5ljW2BPjUsFPkww8Lw5zb4tAqVs0/I
+ utKpZUc80Yd1r1dzeBNiUxV979veqaDwgVi3Yfl6dKVjtZjJhjYpJ1WxoNFqa/GOMJ/V
+ xWqG7LtATXWeBuPnMlrYTp9FXaHWzeTlCBYDbti2CA6u7vLmByHjH6IeqPD+b7A7upVo
+ tNVOq6uNV+NhQLClz7VOYjbO8+X24ki6ClNjNMqSjX+2lcvCdXP2UVd6qKH4EC6VjHmz
+ rCxJ71iM4hM6CRyZPQP8eEk8DbI4Li3enOK2dJBQGE3T3XIw9QbGs0sWIwjtZQGdHas/
+ 9vgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Qbc9/7qEOtavwLw8LQp9XE09/9bhelNZbWmBfVDGw/4=;
- b=DUXyuDa1OOvXqz78W204EuvqZ8OdOiFVQj07ZhQADHvaQ7TaHBiz9BBgV69B2BC5yb
- +ihxOxFrMaRe5RY5xjjOy/uYXyiIbWVI6jq+VS40xieIG6KorxWiv5uzujg/Txa0nZYY
- /orY8njqxAsf+fg/arrHdmbzR88bQr9zHb1vQtk3wvgS+2J8LYtcjey5MGf23cgHFc5P
- eNAGtS73KJxBHCnpyRBj6cHzq9JIuBXEnN0/TNvwBQFG7A6Fyo8RQfjoiz4sVhUmIml+
- fpvBqEEM50EFdPufm+9GTrBouKGmxyQLGX30c6gDqoj58CVpnFPIoU55lmzOEHrVJQAr
- eZtA==
-X-Gm-Message-State: ACrzQf1O72kPtGK2SFfe3nEzsvEfaXI1qtHfrxKsgiAiBsQtZz/UrbeG
- Mpu3sN9GTFL1csH4LdarTtY2M1lXV3LdQ6XOeTY4EQ==
-X-Google-Smtp-Source: AMsMyM7LsxnGFqh+M0E5h18/S54Hm40LIPJDB0peNXRc06g8NnvtmJDyMzFqlwvdks3WF/JqPmHtsXk2TpzQtF/OoJ8=
-X-Received: by 2002:a63:c4c:0:b0:46f:e243:503a with SMTP id
- 12-20020a630c4c000000b0046fe243503amr14314192pgm.483.1667492842447; Thu, 03
- Nov 2022 09:27:22 -0700 (PDT)
+ bh=Jwsg74A/C1OXz+a65N8/QfNsIlNn0yRxNQdslLWDhic=;
+ b=TrTdkm3cwT179WZIwBk4tQxZwAir3TPlSWMiS0ZM+7KDdHQ/BVP5Smoy9JBZJBZ75n
+ X2+2IkqIrPJFlxU0QO0JZ58dNTLPoT1+u2SplW1MSjEFCWPaswsJRWUyvgyTHLNd4BDr
+ VIKu0D1tTpY//+luBtbdQ8Wh2nR7vzsm5CjVpibuwmgrLCkq7SMP62ee3tW5JI2+Kf8R
+ M0jm33V22IZa7pGrBws1DKQytYizk0OpCTMlwrWMTMF76klQUeQRyKghsl6hC8R7MGuc
+ vqAeEw/+CNtZ9pGrZOfQFM6jn6hQ5aeulIL7h/atPX68mUKz3niIRoKxWhU7XWWhQML0
+ hZKA==
+X-Gm-Message-State: ACrzQf385QUd630q5HpxU0ojX948Sj7wBJ4bX/QIk3FslZbniPGKFKv6
+ hRaBk4gqu86d2S7T0UjtZNnoYAMKBpvTbpCmmqU=
+X-Google-Smtp-Source: AMsMyM58Kkj3hsS+8oBsLSFpE8IBInB1EdXwlp74CS0n2mqK+c2C4AZ7P/s5eG0cMDaT7Sv/5DVVa5QD2Yk8wQafw+I=
+X-Received: by 2002:a0d:f0c2:0:b0:370:10ff:17fa with SMTP id
+ z185-20020a0df0c2000000b0037010ff17famr28641585ywe.239.1667492858825; Thu, 03
+ Nov 2022 09:27:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220915142913.2213336-1-chao.p.peng@linux.intel.com>
- <20220915142913.2213336-2-chao.p.peng@linux.intel.com>
- <CAGtprH_MiCxT2xSxD2UrM4M+ghL0V=XEZzEX4Fo5wQKV4fAL4w@mail.gmail.com>
- <20221021134711.GA3607894@chaop.bj.intel.com> <Y1LGRvVaWwHS+Zna@google.com>
- <20221024145928.66uehsokp7bpa2st@box.shutemov.name>
-In-Reply-To: <20221024145928.66uehsokp7bpa2st@box.shutemov.name>
-From: Vishal Annapurve <vannapurve@google.com>
-Date: Thu, 3 Nov 2022 21:57:11 +0530
-Message-ID: <CAGtprH95A_1Xwaf9uCS6VX6Vi8jTTeewS1WYOwC6bFk5kq9G+g@mail.gmail.com>
-Subject: Re: [PATCH v8 1/8] mm/memfd: Introduce userspace inaccessible memfd
-To: "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Sean Christopherson <seanjc@google.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, 
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, 
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org, 
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, 
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>, 
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, 
- Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org, jun.nakajima@intel.com,
- dave.hansen@intel.com, ak@linux.intel.com, david@redhat.com, 
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com, 
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, 
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+References: <2821393d-21fe-cb7b-1396-dac6fe4dfa6b@linaro.org>
+ <20221103154208.91501-1-ani@anisinha.ca>
+ <CAJSP0QXxO_1WYL-FUZrRFOE9guOEVVr9Ss2jubkdHvAMwPwZqA@mail.gmail.com>
+ <20221103115817-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221103115817-mutt-send-email-mst@kernel.org>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 3 Nov 2022 12:27:27 -0400
+Message-ID: <CAJSP0QWkB5Kosy8b-RgTfMJXKto=qyv0iR_HD4DB+J+6VcxdKA@mail.gmail.com>
+Subject: Re: [PULL v2 00/82] pci,pc,virtio: features, tests, fixes, cleanups
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, philmd@linaro.org, peter.maydell@linaro.org, 
+ qemu-devel@nongnu.org, stefanha@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=vannapurve@google.com; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x112d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,60 +87,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 24, 2022 at 8:30 PM Kirill A . Shutemov
-<kirill.shutemov@linux.intel.com> wrote:
+On Thu, 3 Nov 2022 at 11:59, Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> On Fri, Oct 21, 2022 at 04:18:14PM +0000, Sean Christopherson wrote:
-> > On Fri, Oct 21, 2022, Chao Peng wrote:
-> > > >
-> > > > In the context of userspace inaccessible memfd, what would be a
-> > > > suggested way to enforce NUMA memory policy for physical memory
-> > > > allocation? mbind[1] won't work here in absence of virtual address
-> > > > range.
-> > >
-> > > How about set_mempolicy():
-> > > https://www.man7.org/linux/man-pages/man2/set_mempolicy.2.html
+> On Thu, Nov 03, 2022 at 11:49:21AM -0400, Stefan Hajnoczi wrote:
+> > gitlab-runner can run locally with minimal setup:
+> > https://bagong.gitlab.io/posts/run-gitlab-ci-locally/
 > >
-> > Andy Lutomirski brought this up in an off-list discussion way back when the whole
-> > private-fd thing was first being proposed.
+> > I haven't tried it yet, but that seems like the most reliable (and
+> > easiest) way to reproduce the CI environment.
 > >
-> >   : The current Linux NUMA APIs (mbind, move_pages) work on virtual addresses.  If
-> >   : we want to support them for TDX private memory, we either need TDX private
-> >   : memory to have an HVA or we need file-based equivalents. Arguably we should add
-> >   : fmove_pages and fbind syscalls anyway, since the current API is quite awkward
-> >   : even for tools like numactl.
+> > Stefan
 >
-> Yeah, we definitely have gaps in API wrt NUMA, but I don't think it be
-> addressed in the initial submission.
->
-> BTW, it is not regression comparing to old KVM slots, if the memory is
-> backed by memfd or other file:
->
-> MBIND(2)
->        The  specified policy will be ignored for any MAP_SHARED mappings in the
->        specified memory range.  Rather the pages will be allocated according to
->        the  memory  policy  of the thread that caused the page to be allocated.
->        Again, this may not be the thread that called mbind().
->
-> It is not clear how to define fbind(2) semantics, considering that multiple
-> processes may compete for the same region of page cache.
->
-> Should it be per-inode or per-fd? Or maybe per-range in inode/fd?
->
+> How does one pass in variables do you know? Environment?
 
-David's analysis on mempolicy with shmem seems to be right. set_policy
-on virtual address range does seem to change the shared policy for the
-inode irrespective of the mapping type.
+Haven't tried it yet, sorry.
 
-Maybe having a way to set numa policy per-range in the inode would be
-at par with what we can do today via mbind on virtual address ranges.
-
-
-
-> fmove_pages(2) should be relatively straight forward, since it is
-> best-effort and does not guarantee that the page will note be moved
-> somewhare else just after return from the syscall.
->
-> --
->   Kiryl Shutsemau / Kirill A. Shutemov
+Stefan
 
