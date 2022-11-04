@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68BEF618FA6
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 05:54:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81739619118
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 07:29:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqoha-0005Cb-CJ; Fri, 04 Nov 2022 00:53:10 -0400
+	id 1oqqBF-0004WJ-Bj; Fri, 04 Nov 2022 02:27:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oqohY-0005CU-9T
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 00:53:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oqqAw-0004Vi-3t
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 02:27:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oqohW-00008n-TW
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 00:53:08 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oqqAu-0003fo-HA
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 02:27:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667537585;
+ s=mimecast20190719; t=1667543251;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R+1/yLMqN0VJonc5zni8ZO5gxOJ6l1fYzHOkFD7nkh4=;
- b=DO7G/iLA1pFq5lPO2DcJKwcSS4bRvO2zVBRFf2/O3odsvwZxf4IhbYMDsn0mboAAiDG64I
- 04Z4Ajybt9yZRZiKqIoQZzibFTLN8o1uDSq+le5ld92C63yvKz42oL5hb49slgX847Uukk
- jWC4lj2sd4kf/oPYPvE9gzatCO/OiLY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-519-laWzVkSDMqCInMXGtguI4w-1; Fri, 04 Nov 2022 00:53:04 -0400
-X-MC-Unique: laWzVkSDMqCInMXGtguI4w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 96ABE185A78B;
- Fri,  4 Nov 2022 04:53:03 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6541A40C6EE9;
- Fri,  4 Nov 2022 04:53:03 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 486B521E6900; Fri,  4 Nov 2022 05:53:02 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: Zhenyu Zhang <zhenyzha@redhat.com>,  qemu-devel@nongnu.org,
- shan.gavin@gmail.com,  liuyd.fnst@fujitsu.com,  eric.auger@redhat.com,
- Igor Mammedov <imammedo@redhat.com>,  Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH] qom.json: default the prealloc-threads to smp-cpus
-References: <20221103104716.179635-1-zhenyzha@redhat.com>
- <7eecb87f-7d37-93d0-db93-21f7c6374d91@linaro.org>
-Date: Fri, 04 Nov 2022 05:53:02 +0100
-In-Reply-To: <7eecb87f-7d37-93d0-db93-21f7c6374d91@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 3 Nov 2022 12:00:15
- +0100")
-Message-ID: <87bkpn2udt.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=6gq+TDykKifyjASusyQjgEh09DDwI9MHp2M4YH8X7q8=;
+ b=e5cUFCDb9YpdEMMzGHwtoXKp14Ca3MgA6kY3xY/pfJ20r0+CW/jSfkEgslE+nYtOIX2UI/
+ FQvs6i3q19yJoLbdTxl0VU0rppKO6gNg22avyoeONxwD/HznjqSbKZZcX1qBYNr94HiSA3
+ CwFzNRQJxvHu4xMogrgl/8A6ESCDGlk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-596-6BgGE1KRPDeh8sNuvoPxdA-1; Fri, 04 Nov 2022 02:27:29 -0400
+X-MC-Unique: 6BgGE1KRPDeh8sNuvoPxdA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ u13-20020adfa18d000000b00236566b5b40so921536wru.9
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 23:27:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6gq+TDykKifyjASusyQjgEh09DDwI9MHp2M4YH8X7q8=;
+ b=SFDQ5JcYH8qZZftGcnoSAZAWqeUZC4eKrDwgTmVV6C5tO1oOZ7UhyrbmWrH4bjz6wy
+ nEqyZYpUdqD7gmdrE6OWEOOJcnEICbMBx10q8PHu35BWJ5vlT6T5/neQyhM0UjcORmfk
+ URG2idLOjtrxp2KgXijnIXJxeX9/YLPYoTeekaCSMruulJ7OOKvYtOLjyLi9Dhu/ROen
+ KBvLaxbSlCOsyahinE177sFmY+3QuKNiH1k5NT1L8bw23xm0Cl73pZbOIzJLtoCzqARy
+ TtYZ9NRAoTvtQ3Hp/YiQbxnolPOvVSUIdnrTW2XbCMyT73XhawrcWEeVa/fc4oxTulfc
+ AEMg==
+X-Gm-Message-State: ACrzQf2XGvAez+UWc2X+eMQQZbpBTd5tV5azwcy6vb6SQ1S+P3z9XEOt
+ TiGVvyOITBE37aeoxLrHjOtD7ziGwN4IAyFAk8XRkLT978lQo+J3uVf+aptQgyAohMlMjdXzsMp
+ 2n8CdroA1ksrPfnY=
+X-Received: by 2002:a5d:4d12:0:b0:236:751a:9c90 with SMTP id
+ z18-20020a5d4d12000000b00236751a9c90mr21091157wrt.609.1667543248409; 
+ Thu, 03 Nov 2022 23:27:28 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4pS5rZVyf48O/ZLSHWpaidGtSRaf7SziigWJocjVS7aW06/zOJxLVuQB3Fgkw3HQ9T8/uqqQ==
+X-Received: by 2002:a5d:4d12:0:b0:236:751a:9c90 with SMTP id
+ z18-20020a5d4d12000000b00236751a9c90mr21091142wrt.609.1667543248177; 
+ Thu, 03 Nov 2022 23:27:28 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-201.web.vodafone.de.
+ [109.43.177.201]) by smtp.gmail.com with ESMTPSA id
+ y3-20020a056000108300b002366f300e57sm2576068wrw.23.2022.11.03.23.27.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Nov 2022 23:27:27 -0700 (PDT)
+Message-ID: <599dd8d8-33d0-1bd7-dfe3-01bb2712f2bc@redhat.com>
+Date: Fri, 4 Nov 2022 07:27:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] gitlab-ci: split clang-user to avoid timeout
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20221103212321.387738-1-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221103212321.387738-1-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,39 +104,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+On 03/11/2022 22.23, Stefan Hajnoczi wrote:
+> GitLab CI times out when the clang-user job takes over 1 hour.
 
-> On 3/11/22 11:47, Zhenyu Zhang wrote:
->> Since the amount of prealloc-threads to smp-cpus is
->> defaulted in hostmem, so sync this information.
+Oh, that's new to me ... is that a regression? Has something become slower? 
+Or did we just add more stuff to the user builds recently?
 
-Has this always defaulted to smp-cpus, or did this change along the way?
+Anyway, if it's just taking a little bit longer than 1h, it's likely better 
+to bump the timeout by 10 minutes (to 70 minutes), I guess that will still 
+take less CI minutes to run than to have two jobs.
 
->> Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
->> ---
->>   qapi/qom.json | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->> diff --git a/qapi/qom.json b/qapi/qom.json
->> index 87fcad2423..ac4cd213a7 100644
->> --- a/qapi/qom.json
->> +++ b/qapi/qom.json
->> @@ -576,7 +576,7 @@
->>   #
->>   # @prealloc: if true, preallocate memory (default: false)
->>   #
->> -# @prealloc-threads: number of CPU threads to use for prealloc (default=
-: 1)
->> +# @prealloc-threads: number of CPU threads to use for prealloc (default=
-: smp-cpus) (since 7.1)
->
-> The property is present since 5.0. Shouldn't this be "(default: smp-cpus)=
- (since 5.0)"?
-
-Yes.
-
->>   #
->>   # @prealloc-context: thread context to use for creation of preallocati=
-on threads
->>   #                    (default: none) (since 7.2)
+  Thomas
 
 
