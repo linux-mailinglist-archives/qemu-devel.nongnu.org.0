@@ -2,64 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4614619F1A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 18:45:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F351F619F1F
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 18:46:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1or0kQ-00075n-Ji; Fri, 04 Nov 2022 13:44:54 -0400
+	id 1or0ly-0008Is-AO; Fri, 04 Nov 2022 13:46:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
- id 1or0kO-00071M-FU
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 13:44:52 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1or0lm-0008Gm-KD
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 13:46:23 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fweimer@redhat.com>)
- id 1or0kL-0004qg-Pk
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 13:44:51 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1or0lk-0005KA-D8
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 13:46:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667583886;
+ s=mimecast20190719; t=1667583975;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MYCFOzGoJkuwN6ZJDxOKITRramjbLqCBdcxOwNeBwOY=;
- b=Sj6KDCoNXiRoD7Xef2o/+e4x2kvg3qtVN64mvEMrGy/iFRv1Av2XHpweYDDFSAZwUMRvm2
- Uc6rhmEOnpmWSlxloToQ2FTXPNJZ/PgtNJjeVsxoPFqvflXEKOS3jtHOmGJ8hmX0rPw24F
- rv5j6aa7YJMb2P3F56cUeoSRqOIUqYE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-237-fBEG5FljPUu4bCkEXxfueg-1; Fri, 04 Nov 2022 13:44:43 -0400
-X-MC-Unique: fBEG5FljPUu4bCkEXxfueg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 148D2101A528;
- Fri,  4 Nov 2022 17:44:43 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.16.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BFE720182B4;
- Fri,  4 Nov 2022 17:44:40 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Cc: virtio-fs@redhat.com,  qemu-devel@nongnu.org,  Misono Tomohiro
- <misono.tomohiro@jp.fujitsu.com>,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Miklos Szeredi <mszeredi@redhat.com>,  Stefan
- Hajnoczi <stefanha@redhat.com>,  German Maglione <gmaglione@redhat.com>,
- Sergio Lopez <slp@redhat.com>
-Subject: Re: Use of unshare(CLONE_FS) in virtiofsd
-References: <87r0yj17l6.fsf@oldenburg.str.redhat.com>
- <Y2UM/C3aYtQwf40M@redhat.com>
-Date: Fri, 04 Nov 2022 18:44:39 +0100
-In-Reply-To: <Y2UM/C3aYtQwf40M@redhat.com> (Vivek Goyal's message of "Fri, 4
- Nov 2022 09:00:44 -0400")
-Message-ID: <875yfuzkag.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=FUHJsVNTBmD+5vFs+oKTZLEPCSc7nyAYfGx1niyhxcw=;
+ b=OPHsbtfGe9VOb/swwKxAh/Ypjd0gMXSa61HXoZXRCHlpuA9Ua4k8FU6cZf2ahMBoQ2gTwn
+ TPEBa5XI+KLM8F4GSVzThnhVX8W+9WElYMRcCWiryqjU3J1DvIb95gaaQrmz+5y5hWm5xo
+ XkhzasryWaamJz2n+h7A8xCDEjzAei4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-357-JyefMGHUPlqdT9yM3aTYTg-1; Fri, 04 Nov 2022 13:46:14 -0400
+X-MC-Unique: JyefMGHUPlqdT9yM3aTYTg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 133-20020a1c028b000000b003cf9d6c4016so23538wmc.8
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 10:46:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FUHJsVNTBmD+5vFs+oKTZLEPCSc7nyAYfGx1niyhxcw=;
+ b=Y+9AtbkXtre3TOOrlpG1ng5hcfluIpdEJOZRKDKHayTOQYrmfig3BPnM4sNYB0l9nF
+ Y5Bb8sBziR0Avju3t+m1zfCK6KCCoCU5q1QqF1+E0+lxbikRpybCVdvHZ9GVGy+gXLef
+ wBOF3Sj6Ki71JRW70FWS2JcCMNEqckIdTBY7fINGC3xQqcdoRMVVoXyyq9Sd+zPtjodY
+ Ll3l73p8NkzD8UISsH6PHD71BrICqbZr0xBrpL8s+j7sAt4oqzEgp/8A2oddCSTIic5P
+ W2uY7tqUK8Fe4MU3LRetNGHvHtSk+G06RuVFuRPKC/t3jUEFZyjSu/NMik5dAPQEOyrO
+ G5Mg==
+X-Gm-Message-State: ACrzQf053zuTtd9qzmKBH3rNpiCab4FD0LGOYK6i7JmJ8Ko+9grC5C0O
+ UR5jSRB/xqXD/AGCqr3RoqL6UAFoBKJao/5tI0PXRE2AXRzQayzE2qhiGlmjOkc8GKY+iQIqWLq
+ 8QoTed3NJgEDN/Ow=
+X-Received: by 2002:a1c:4641:0:b0:3cf:4ff3:8d2f with SMTP id
+ t62-20020a1c4641000000b003cf4ff38d2fmr25216979wma.107.1667583972830; 
+ Fri, 04 Nov 2022 10:46:12 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7laYG9htyiUg2d3+UO2qn8WoUJxOamc0kVs5QHxsbOYx7vw3TNLubpN85V/MTpxo0npTdddg==
+X-Received: by 2002:a1c:4641:0:b0:3cf:4ff3:8d2f with SMTP id
+ t62-20020a1c4641000000b003cf4ff38d2fmr25216959wma.107.1667583972448; 
+ Fri, 04 Nov 2022 10:46:12 -0700 (PDT)
+Received: from redhat.com ([2.55.180.182]) by smtp.gmail.com with ESMTPSA id
+ j5-20020a5d4485000000b002365730eae8sm3892875wrq.55.2022.11.04.10.46.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Nov 2022 10:46:11 -0700 (PDT)
+Date: Fri, 4 Nov 2022 13:46:08 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org,
+	Christian Borntraeger <borntraeger@linux.ibm.com>
+Subject: Re: [RFC PATCH] virtio: re-order vm_running and use_started checks
+Message-ID: <20221104134508-mutt-send-email-mst@kernel.org>
+References: <20221014132108.2559156-1-alex.bennee@linaro.org>
+ <20221104115340-mutt-send-email-mst@kernel.org>
+ <877d0ak7dp.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=fweimer@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <877d0ak7dp.fsf@linaro.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,49 +99,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Vivek Goyal:
+On Fri, Nov 04, 2022 at 04:31:08PM +0000, Alex Bennée wrote:
+> 
+> "Michael S. Tsirkin" <mst@redhat.com> writes:
+> 
+> > On Fri, Oct 14, 2022 at 02:21:08PM +0100, Alex Bennée wrote:
+> >> During migration the virtio device state can be restored before we
+> >> restart the VM. As no devices can be running while the VM is paused it
+> >> makes sense to bail out early in that case.
+> >> 
+> >> This returns the order introduced in:
+> >> 
+> >>  9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
+> >> 
+> >> to what virtio-sock was doing longhand.
+> >> 
+> >> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> >> Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
+> >
+> >
+> > What happens now:
+> >
+> > with this applied I get:
+> >
+> > https://gitlab.com/mitsirkin/qemu/-/pipelines/685829158/failures
+> >
+> > ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
+> > stderr:
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: -chardev
+> > socket,id=chr-reconnect,path=/tmp/vhost-test-QLKXU1/reconnect.sock,server=on:
+> > info: QEMU waiting for connection on:
+> > disconnected:unix:/tmp/vhost-test-QLKXU1/reconnect.sock,server=on
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: -chardev
+> > socket,id=chr-connect-fail,path=/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on:
+> > info: QEMU waiting for connection on:
+> > disconnected:unix:/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on
+> > qemu-system-arm: -netdev
+> > vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: Failed to
+> > read msg header. Read 0 instead of 12. Original request 1.
+> > qemu-system-arm: -netdev
+> > vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on:
+> > vhost_backend_init failed: Protocol error
+> > qemu-system-arm: -netdev
+> > vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: failed to
+> > init vhost_net for queue 0
+> > qemu-system-arm: -netdev
+> > vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: info: QEMU
+> > waiting for connection on:
+> > disconnected:unix:/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: -chardev
+> > socket,id=chr-flags-mismatch,path=/tmp/vhost-test-3MO5U1/flags-mismatch.sock,server=on:
+> > info: QEMU waiting for connection on:
+> > disconnected:unix:/tmp/vhost-test-3MO5U1/flags-mismatch.sock,server=on
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 52.
+> > qemu-system-arm: vhost_set_mem_table failed: Invalid argument (22)
+> > qemu-system-arm: unable to start vhost net: 22: falling back on userspace virtio
+> > vhost lacks feature mask 0x40000000 for backend
+> > qemu-system-arm: failed to init vhost_net for queue 0
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 2 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 3 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -5: Input/output error (5)
+> > qemu-system-arm: ../hw/virtio/virtio-bus.c:211: void
+> > virtio_bus_release_ioeventfd(VirtioBusState *): Assertion
+> > `bus->ioeventfd_grabbed != 0' failed.
+> > ../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
+> > **
+> > ERROR:../tests/qtest/qos-test.c:191:subprocess_run_one_test: child
+> > process
+> > (/arm/virt/virtio-mmio/virtio-bus/vhost-user-gpio-device/vhost-user-gpio/vhost-user-gpio-tests/read-guest-mem/memfile/subprocess
+> > [8735]) failed unexpectedly
+> > (test program exited with status code -6)
+> > ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+> >
+> >
+> >
+> >
+> > without this it passes:
+> >
+> > https://gitlab.com/mitsirkin/qemu/-/jobs/3275949777
+> >
+> >
+> > this only triggers under github, clang-system job.
+> > trying to decide what to do now. revert just this?
+> 
+> I must admit I didn't run that directly. My build box is currently out
+> of commission but can we get more detail about the abort?
 
->>  The usual
->> recommendation for emulating it is to use openat with O_PATH, and then
->> use getxattr on the virtual /proc/self/fd path.  This needs an
->> additional system call (openat, getxattr, close instead of fchdir,
->> getxattr),
->
-> openat(O_PATH) + getxattr(/proc/self/fd) + close() sounds reasonable
-> too. Not sure why did we not take that path. May be due to that extra
-> syscall or something else.
+Just run it under gitlab. The only trick is to set QEMU_CI to 1
+when running the pipeline.
 
-Thanks.
 
->> but it avoids the unshare(CLONE_FS) call behind libc's back.
->
-> Hmm.., did not know that libc does not like threads calling
-> unshare(CLONE_FS). Not sure why that is a problem.
+> It looks like the vhost negotiation is totally broken and can't even
+> find the VQs
 
-Here's a corner case: We plan to add chroot detection to NSS module
-loading (so that we do not load NSS modules after chroot), as a form of
-security hardening.  If the application calls unshare(CLONE_FS) and then
-chroot, which NSS modules are loaded depends on which threads call NSS
-functions.
+Donnu really. I'm trying to figure out what kind of revert gets
+a working tree.
 
-One could argue that chdir/chroot are problematic, not
-unshare(CLONE_FS). 8-)
 
-> BTW, we need separate umask per thread as well. During file creation 
-> we might be switching to umask provide in fuse protocol message
-> and then switch back. Given multiple therads might be doing this
-> creation in parallel, so we ofcourse need this to be per thread
-> property.
-
-That's a good point.  That's not something that can be worked around
-with *at functions.
-
-> So if your patches for pthread_create() with per thread filesystem
-> attributes finally goes upstream, I guess we should be able to
-> make use of it and drop unshare(CLONE_FS).
-
-Thank you for the feedback.
-
-Florian
+> >
+> >
+> >> ---
+> >>  include/hw/virtio/virtio.h | 8 ++++----
+> >>  1 file changed, 4 insertions(+), 4 deletions(-)
+> >> 
+> >> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> >> index f41b4a7e64..ebb58feaac 100644
+> >> --- a/include/hw/virtio/virtio.h
+> >> +++ b/include/hw/virtio/virtio.h
+> >> @@ -385,14 +385,14 @@ static inline bool virtio_is_big_endian(VirtIODevice *vdev)
+> >>  
+> >>  static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
+> >>  {
+> >> -    if (vdev->use_started) {
+> >> -        return vdev->started;
+> >> -    }
+> >> -
+> >>      if (!vdev->vm_running) {
+> >>          return false;
+> >>      }
+> >>  
+> >> +    if (vdev->use_started) {
+> >> +        return vdev->started;
+> >> +    }
+> >> +
+> >>      return status & VIRTIO_CONFIG_S_DRIVER_OK;
+> >>  }
+> >>  
+> >> -- 
+> >> 2.34.1
+> 
+> 
+> -- 
+> Alex Bennée
 
 
