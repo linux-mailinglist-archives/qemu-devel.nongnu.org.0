@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C6A6193BE
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 10:43:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C39B36193CB
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 10:46:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqtDG-0007Ff-KV; Fri, 04 Nov 2022 05:42:10 -0400
+	id 1oqtGx-0000nW-6y; Fri, 04 Nov 2022 05:45:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqtD7-0007DB-Q2
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:42:02 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqtD5-00067G-3m
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:42:01 -0400
-Received: by mail-wr1-x432.google.com with SMTP id bk15so6208987wrb.13
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 02:41:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Eyolgd9snAmDnylLxMB6aqZBFzrOFTsWRVnlOpBec1A=;
- b=oC9AyKYEyTf/l9SBwYmb/820cbO2DbUe5OToYyUkqftDw1Eb1dygGdSzGlp1jzOS2O
- l1Xhz5lFgor7I2JQaj3xcP41Jpk3A6gahzTAcTRkAYvuH+kV0oI0qTKZsE2aIFRqRnU7
- OAY1VgkvEvXYcX7D9SzXekz/SRP9WUPpfHEARPlLisQz4DT7vV8isQV45ZESAzIh3LDI
- 1oP/bX2UAGotnNEObdPJPRlfQLPQeFCmQCRIGC7qOnI8sl0j7ENTKtJmf/N+ZxC/iy5y
- TRGDeTnvHv7+UogzHA5KmCgXMWbub4tebfnrwb8SvSPylKds+y0olP1A8lL+y8+jq0nH
- Bu4Q==
+ (Exim 4.90_1) (envelope-from <zhenyzha@redhat.com>)
+ id 1oqtGP-0000mn-Bb
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:45:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhenyzha@redhat.com>)
+ id 1oqtGN-0006iE-Ei
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:45:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667555122;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xXmWFMPWiLjyR/+5yAWEy15f0QKOsFRRWviQlJ5EU9I=;
+ b=g5Zj4iBVTC6wCyQ1zkHU2c/ownCtLBR9qBJkkOIzE0v7phtlw8gEz+SLs7a6JorPo2H1TC
+ 3QqDykmD5D3mJWIiiLYloPAe5+yqwoVzhwElRIljQCXUi4tNdRLRf8FPTOMQRCKBdbqSvj
+ sqmgQMf9NAKDEpc02M69IT9h84i/nuI=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-434-aAHOi5Y5PfmDsPHRgoxzZA-1; Fri, 04 Nov 2022 05:45:21 -0400
+X-MC-Unique: aAHOi5Y5PfmDsPHRgoxzZA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ sc40-20020a1709078a2800b007ae024e5e82so2888833ejc.13
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 02:45:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Eyolgd9snAmDnylLxMB6aqZBFzrOFTsWRVnlOpBec1A=;
- b=1aabUTRcAdEQayGscSDUQTcHhm3ESEWX+NZmSZDxpTkLT7ECbFVRn2lqW0XwdhJevX
- t79DJJ0kOXK8OUw/DoCcmaSQc2ECg4uVLDnqPORGS7DtwCaENRtxMOSmQxRpVs6Vv4WZ
- 99/KEEIu5KAx92aqh1KYSA46gfVv8f8ESivWpg24wXufM3P/tddl1xjvgAJ11D769cMQ
- OceMj1SuazOSAuvF5H3WpI2PfX2qbx61SFUFRxWavHXu6s3Tr5wiWQDdBDhZrEEaQcBB
- EIimqaziMybeXid07MGguyk6/vimcEB9InGTFqmKL7OZ1Ywe75VPHlpwt/bkLwVbGJ5X
- sG2A==
-X-Gm-Message-State: ACrzQf12wDkq+Msw5vaWYiF4GV8hShSMNhgZwd2E8KdqilXqQBBdtxco
- m5qpN20eh2WJMk4fIhFhbZPcvg==
-X-Google-Smtp-Source: AMsMyM6woUxGKSHSu0aPafJq9CLz+TJ9HagbLpUZH0EVLKRDGepuzz4F+dmDHl71bOjsxsw+y5bioQ==
-X-Received: by 2002:adf:e804:0:b0:236:657e:756e with SMTP id
- o4-20020adfe804000000b00236657e756emr22083743wrm.452.1667554916356; 
- Fri, 04 Nov 2022 02:41:56 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- m5-20020a7bcb85000000b003bfaba19a8fsm2223387wmi.35.2022.11.04.02.41.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Nov 2022 02:41:55 -0700 (PDT)
-Message-ID: <296866ca-a6d9-796b-46ca-797937d44f12@linaro.org>
-Date: Fri, 4 Nov 2022 10:41:54 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xXmWFMPWiLjyR/+5yAWEy15f0QKOsFRRWviQlJ5EU9I=;
+ b=irUayTKjUtGNZnq7hcb4uc44fDjApPJpm4Oz4xR2LOCe59i5AdthNlFGLe1frgOD1d
+ u9DjbuLFOIBoTEgDHateoNrPP+gL6icyRCMgzbLL6YxmmNGtuwljuUbVjVyFyTUMJ7CK
+ Q0Oby1AFXUlgtjQgbIMotBm5T0a+p6aOB0JDICb9nwDnbsNYE13uxsKJhXwZX4g0cNNO
+ twJ3vUPXdFaqDu+zkRbP943X1XiDS5EuePmRdt8m6z3/7RRkglNhqmc3HJdiGyeAdKrQ
+ VFx8/8xnD3eulm75VTDEYKzEyMwA1DlKVbmaKV8eGgXQjsULcNwDqyabkjsz1Il0AUcY
+ Qi8A==
+X-Gm-Message-State: ACrzQf0k4UTSmrVywPl5ZW2bhn4vuFkTo0NC42ajXqBLv33qLutdn4od
+ oZX5RkIT7eOtj2552dfyVEbV0xAXA/2mBJn0V8H61NpssyenIvdfJmG1i+w9jHncYSb0V0GFnva
+ FEejVO3mNu64jctKg6UA4UitcBkvaxzk=
+X-Received: by 2002:a17:907:3e20:b0:7ad:b54a:442f with SMTP id
+ hp32-20020a1709073e2000b007adb54a442fmr31215522ejc.636.1667555119949; 
+ Fri, 04 Nov 2022 02:45:19 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7LAM9Qm69pIJH6zLWlvZjOaQd83UqYY3UvuBNhMlGG1O/VKijHBQW00Ik0m4h/ZgfXOi5/nzWSt5h9OWrqbJE=
+X-Received: by 2002:a17:907:3e20:b0:7ad:b54a:442f with SMTP id
+ hp32-20020a1709073e2000b007adb54a442fmr31215498ejc.636.1667555119725; Fri, 04
+ Nov 2022 02:45:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH] tests/avocado/machine_aspeed.py: Reduce noise on the
- console for SDK tests
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@aj.id.au>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20221104075347.370503-1-clg@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221104075347.370503-1-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20221103104716.179635-1-zhenyzha@redhat.com>
+ <7eecb87f-7d37-93d0-db93-21f7c6374d91@linaro.org>
+ <CAJFLiBJSYLm11xUfWPFTOi9xMPk6WYE+G+v3-mhWzV=xp-YHAQ@mail.gmail.com>
+ <949eb8d1-2298-de8e-6492-33a8cd4ee100@linaro.org>
+In-Reply-To: <949eb8d1-2298-de8e-6492-33a8cd4ee100@linaro.org>
+From: Zhenyu Zhang <zhenyzha@redhat.com>
+Date: Fri, 4 Nov 2022 17:44:43 +0800
+Message-ID: <CAJFLiBKsYwpJQ8a0rbF0yk2xUK0difmShnT5aDQDFs_-Ae+_bA@mail.gmail.com>
+Subject: Re: [PATCH] qom.json: default the prealloc-threads to smp-cpus
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, shan.gavin@gmail.com, liuyd.fnst@fujitsu.com, 
+ eric.auger@redhat.com, Igor Mammedov <imammedo@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=zhenyzha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,72 +98,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/11/22 08:53, Cédric Le Goater wrote:
-> The Aspeed SDK images are based on OpenBMC which starts a lot of
-> services. The output noise on the console can break from time to time
-> the test waiting for the logging prompt.
+Ok, many thanks for the clarification.
+I'll post a v2 patch to correct it.
 
-IIUC OpenBMC uses systemd, so you can mask pointless services from
-the kernel cmdline. See for example test_arm_quanta_gsj():
-
-  # Disable drivers and services that stall for a long time during boot,
-  # to avoid running past the 90-second timeout. These may be removed
-  # as the corresponding device support is added.
-  kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + (
-          'console=${console} '
-          'mem=${mem} '
-          'initcall_blacklist=npcm_i2c_bus_driver_init '
-          'systemd.mask=systemd-random-seed.service '
-          'systemd.mask=dropbearkey.service '
-  )
-
-> Change the U-Boot bootargs variable to add "quiet" to the kernel
-> command line and reduce the output volume. This also drops the test on
-> the CPU id which was nice to have but not essential.
-> 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->   tests/avocado/machine_aspeed.py | 17 ++++++++++++-----
->   1 file changed, 12 insertions(+), 5 deletions(-)
-> 
-> diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
-> index fba6527026..1fc385e1c8 100644
-> --- a/tests/avocado/machine_aspeed.py
-> +++ b/tests/avocado/machine_aspeed.py
-> @@ -12,6 +12,7 @@
->   from avocado_qemu import wait_for_console_pattern
->   from avocado_qemu import exec_command
->   from avocado_qemu import exec_command_and_wait_for_pattern
-> +from avocado_qemu import interrupt_interactive_console_until_pattern
->   from avocado.utils import archive
->   from avocado import skipIf
->   
-> @@ -182,6 +183,8 @@ def test_arm_ast2600_evb_buildroot(self):
->   
->   class AST2x00MachineSDK(QemuSystemTest):
->   
-> +    EXTRA_BOOTARGS = ' quiet'
-
-Maybe less bug-prone to handle the spaces around EXTRA_BOOTARGS where
-the variable is used.
-
-> -    def do_test_arm_aspeed_sdk_start(self, image, cpu_id):
-> +    def do_test_arm_aspeed_sdk_start(self, image):
->           self.require_netdev('user')
->           self.vm.set_console()
->           self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
-> @@ -202,9 +205,13 @@ def do_test_arm_aspeed_sdk_start(self, image, cpu_id):
->           self.vm.launch()
->   
->           self.wait_for_console_pattern('U-Boot 2019.04')
-> -        self.wait_for_console_pattern('## Loading kernel from FIT Image')
-> +        interrupt_interactive_console_until_pattern(
-> +            self, 'Hit any key to stop autoboot:', 'ast#')
-> +        exec_command_and_wait_for_pattern(
-> +            self, 'setenv bootargs ${bootargs}' + self.EXTRA_BOOTARGS, 'ast#')
-> +        exec_command_and_wait_for_pattern(
-> +            self, 'boot', '## Loading kernel from FIT Image')
->           self.wait_for_console_pattern('Starting kernel ...')
-> -        self.wait_for_console_pattern('Booting Linux on physical CPU ' + cpu_id)
+On Fri, Nov 4, 2022 at 5:29 PM Philippe Mathieu-Daud=C3=A9 <philmd@linaro.o=
+rg> wrote:
+>
+> On 4/11/22 02:57, Zhenyu Zhang wrote:
+> > Hello Philippe
+> >
+> > I checked out this modified patch:
+> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg888815.html
+> > It should have been merged in 7.1
+>
+> This changed the default value, not the property availability.
+>
+> IIUC the '(since X)' format document when a property got added,
+> regardless its default value.
+>
+> This property is available since 5.0.
+>
+> The default value changed in 7.1. You are correct we need to update
+> the new value in documentation, but the 'since' tag should refer
+> to when the property got added: 5.0.
+>
+> > On Thu, Nov 3, 2022 at 7:00 PM Philippe Mathieu-Daud=C3=A9 <philmd@lina=
+ro.org> wrote:
+> >>
+> >> On 3/11/22 11:47, Zhenyu Zhang wrote:
+> >>> Since the amount of prealloc-threads to smp-cpus is
+> >>> defaulted in hostmem, so sync this information.
+> >>>
+> >>> Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
+> >>> ---
+> >>>    qapi/qom.json | 2 +-
+> >>>    1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/qapi/qom.json b/qapi/qom.json
+> >>> index 87fcad2423..ac4cd213a7 100644
+> >>> --- a/qapi/qom.json
+> >>> +++ b/qapi/qom.json
+> >>> @@ -576,7 +576,7 @@
+> >>>    #
+> >>>    # @prealloc: if true, preallocate memory (default: false)
+> >>>    #
+> >>> -# @prealloc-threads: number of CPU threads to use for prealloc (defa=
+ult: 1)
+> >>> +# @prealloc-threads: number of CPU threads to use for prealloc (defa=
+ult: smp-cpus) (since 7.1)
+> >>
+> >> The property is present since 5.0. Shouldn't this be "(default:
+> >> smp-cpus) (since 5.0)"?
+> >>
+> >>>    #
+> >>>    # @prealloc-context: thread context to use for creation of preallo=
+cation threads
+> >>>    #                    (default: none) (since 7.2)
+> >>
+> >
+>
 
 
