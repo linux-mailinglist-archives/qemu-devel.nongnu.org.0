@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F07619CC4
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:14:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F6D619CC5
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:14:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqzJI-0006ze-MY; Fri, 04 Nov 2022 12:12:50 -0400
+	id 1oqzJT-0007XB-E6; Fri, 04 Nov 2022 12:12:59 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1oqzJ3-0006ll-CE
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:12:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1oqzJH-0007IR-Ud
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:12:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1oqzJ1-00007U-RJ
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:12:33 -0400
+ id 1oqzJG-00009C-Fy
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:12:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667578350;
+ s=mimecast20190719; t=1667578365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=cmOVibxmTAn9wWvCNpZjrcHMCBtOJ7buNn+r6f/S4bg=;
- b=MdLDti3OlaIl6CZ5PFfNB1sOupl2o+WsUfbPa11rFN8Mv1zrto86yjYe3xzQp11JECGl8F
- nCdd1B4L6wWxmJWRTslGEtY7XmXFmmUJWzRe0Is5PH43oRIJ5xNrSfLkKkAb5vX1xXFiTE
- p8oZVDHfltl5b7abLvMThx/VtT6hrBs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z+Dtv2GvyfaHdqaWlIeZLp8NbKnNhdasb5YmvQdBEMg=;
+ b=EMgfARImPJPrTZLfeEd8jpykgqP5sNiSIdkyxADl5KUX4VHzd6tpcFQGjOOqO4Hblch17z
+ iOuDjTvUDtCVySKlm/O/NmONWNXQ88KTFXLM2oDERUe+FZ2mYw/cOw4PNsxK67SHw80cee
+ YZ4DkqPW0vXb/b5yMP57Gdx1jsBi364=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-Qz8Ea9rkOsm6lCsGfIiqdA-1; Fri, 04 Nov 2022 12:12:29 -0400
-X-MC-Unique: Qz8Ea9rkOsm6lCsGfIiqdA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-468-qPC2TPkuMKySLctdqfcrLA-1; Fri, 04 Nov 2022 12:12:44 -0400
+X-MC-Unique: qPC2TPkuMKySLctdqfcrLA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B659E381496C
- for <qemu-devel@nongnu.org>; Fri,  4 Nov 2022 16:12:28 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E9C19800186
+ for <qemu-devel@nongnu.org>; Fri,  4 Nov 2022 16:12:43 +0000 (UTC)
 Received: from [172.30.42.193] (unknown [10.22.17.245])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89F3D4EA4C;
- Fri,  4 Nov 2022 16:12:28 +0000 (UTC)
-Subject: [PULL 0/1] VFIO fix for v7.2-rc0
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BCE8540C835A;
+ Fri,  4 Nov 2022 16:12:43 +0000 (UTC)
+Subject: [PULL 1/1] vfio/migration: Fix wrong enum usage
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: alex.williamson@redhat.com
-Date: Fri, 04 Nov 2022 10:12:27 -0600
-Message-ID: <166757797349.2504527.17538714015825495328.stgit@omen>
+Date: Fri, 04 Nov 2022 10:12:43 -0600
+Message-ID: <166757835382.2504527.15205692838331854517.stgit@omen>
+In-Reply-To: <166757797349.2504527.17538714015825495328.stgit@omen>
+References: <166757797349.2504527.17538714015825495328.stgit@omen>
 User-Agent: StGit/1.5.dev2+g9ce680a52bd9
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -77,29 +80,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit ece5f8374d0416a339f0c0a9399faa2c42d4ad6f:
+From: Avihai Horon <avihaih@nvidia.com>
 
-  Merge tag 'linux-user-for-7.2-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-11-03 10:55:05 -0400)
+vfio_migration_init() initializes VFIOMigration->device_state using enum
+of VFIO migration protocol v2. Current implemented protocol is v1 so v1
+enum should be used. Fix it.
 
-are available in the Git repository at:
-
-  https://gitlab.com/alex.williamson/qemu.git tags/vfio-fixes-v7.2-rc0.0
-
-for you to fetch changes up to 2461e752199ca457bf0973b6c8a77dc30585809c:
-
-  vfio/migration: Fix wrong enum usage (2022-11-03 15:57:31 -0600)
-
-----------------------------------------------------------------
-VFIO fixes for v7.2-rc0
-
- * Correct initial migration device state using correct v1
-   protocol enum (Avihai Horon)
-
-----------------------------------------------------------------
-Avihai Horon (1):
-      vfio/migration: Fix wrong enum usage
-
- hw/vfio/migration.c | 2 +-
+Fixes: 429c72800654 ("vfio/migration: Fix incorrect initialization value for parameters in VFIOMigration")
+Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+Link: https://lore.kernel.org/r/20221016085752.32740-1-avihaih@nvidia.com
+Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+---
+ hw/vfio/migration.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+index 3de4252111ee..c74453e0b5e0 100644
+--- a/hw/vfio/migration.c
++++ b/hw/vfio/migration.c
+@@ -806,7 +806,7 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+     }
+ 
+     vbasedev->migration = g_new0(VFIOMigration, 1);
+-    vbasedev->migration->device_state = VFIO_DEVICE_STATE_RUNNING;
++    vbasedev->migration->device_state = VFIO_DEVICE_STATE_V1_RUNNING;
+     vbasedev->migration->vm_running = runstate_is_running();
+ 
+     ret = vfio_region_setup(obj, vbasedev, &vbasedev->migration->region,
+
 
 
