@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38E061940C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 11:02:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D49761940A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 11:01:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqtWO-0003nG-I0; Fri, 04 Nov 2022 06:01:56 -0400
+	id 1oqtVd-0002ma-6e; Fri, 04 Nov 2022 06:01:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oqtVI-0002O8-0k
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 06:00:49 -0400
+ id 1oqtVJ-0002Tg-R4
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 06:00:51 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oqtVA-0000v7-94
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 06:00:47 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1oqtVE-0000vJ-BK
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 06:00:48 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Cxq9jF4mRjvHsEAA--.15001S3;
- Fri, 04 Nov 2022 18:00:37 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8Bx37fG4mRjwHsEAA--.10403S3;
+ Fri, 04 Nov 2022 18:00:38 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxPuDC4mRjYmUNAA--.37849S8; 
+ AQAAf8AxPuDC4mRjYmUNAA--.37849S9; 
  Fri, 04 Nov 2022 18:00:37 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org,
 	stefanha@gmail.com
-Subject: [PULL v2 6/9] target/loongarch: Add exception subcode
-Date: Fri,  4 Nov 2022 18:00:30 +0800
-Message-Id: <20221104100033.3473980-7-gaosong@loongson.cn>
+Subject: [PULL v2 7/9] target/loongarch: Fix raise_mmu_exception() set wrong
+ exception_index
+Date: Fri,  4 Nov 2022 18:00:31 +0800
+Message-Id: <20221104100033.3473980-8-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20221104100033.3473980-1-gaosong@loongson.cn>
 References: <20221104100033.3473980-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxPuDC4mRjYmUNAA--.37849S8
+X-CM-TRANSID: AQAAf8AxPuDC4mRjYmUNAA--.37849S9
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxXFW8Xr1xJr4rJry5ZFWrKrg_yoWrAr1xpF
- s2ka47tryYkFZFk34xJa15Kw13W34xJw4xJw15X3yktFy8t340vr4DWw4rJr9xXrZ5J3yx
- ZF90yryj9wsrCrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoW7tr13JF4fWr1UGFWkJw45Awb_yoW8Cw13pF
+ 9ruryUKr48JFWDAaykXa9YqFn8Xr47CF42ganaq3yFkw4aqr1jvF4kt3srKF1UJa1rX34I
+ vF45Ar1jvF4rWaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  bn8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF
@@ -50,7 +51,7 @@ X-Coremail-Antispam: 1Uk129KBjvJXoWxXFW8Xr1xJr4rJry5ZFWrKrg_yoWrAr1xpF
  kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
  6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
  8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE
- 2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
+ 2Ix0cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
  xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF
  7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -75,111 +76,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We need subcodes to distinguish the same excode cs->exception_indexs,
-such as EXCCODE_ADEF/EXCCODE_ADEM.
+When the address is invalid address, We should set exception_index
+according to MMUAccessType, and EXCCODE_ADEF need't update badinstr.
+Otherwise, The system enters an infinite loop. e.g:
+run test.c on system mode
+test.c:
+    #include<stdio.h>
+
+    void (*func)(int *);
+
+    int main()
+    {
+        int i = 8;
+        void *ptr = (void *)0x4000000000000000;
+        func = ptr;
+        func(&i);
+        return 0;
+    }
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20221101073210.3934280-1-gaosong@loongson.cn>
+Message-ID: <20221101073210.3934280-2-gaosong@loongson.cn>
 ---
- target/loongarch/cpu.c |  7 +++--
- target/loongarch/cpu.h | 58 ++++++++++++++++++++++--------------------
- 2 files changed, 36 insertions(+), 29 deletions(-)
+ target/loongarch/cpu.c        | 1 +
+ target/loongarch/tlb_helper.c | 5 +++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index 49393d95d8..b28aaed5ba 100644
+index b28aaed5ba..1512664214 100644
 --- a/target/loongarch/cpu.c
 +++ b/target/loongarch/cpu.c
-@@ -220,7 +220,10 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
-         env->CSR_TLBRERA = FIELD_DP64(env->CSR_TLBRERA, CSR_TLBRERA,
-                                       PC, (env->pc >> 2));
-     } else {
--        env->CSR_ESTAT = FIELD_DP64(env->CSR_ESTAT, CSR_ESTAT, ECODE, cause);
-+        env->CSR_ESTAT = FIELD_DP64(env->CSR_ESTAT, CSR_ESTAT, ECODE,
-+                                    EXCODE_MCODE(cause));
-+        env->CSR_ESTAT = FIELD_DP64(env->CSR_ESTAT, CSR_ESTAT, ESUBCODE,
-+                                    EXCODE_SUBCODE(cause));
-         env->CSR_PRMD = FIELD_DP64(env->CSR_PRMD, CSR_PRMD, PPLV,
-                                    FIELD_EX64(env->CSR_CRMD, CSR_CRMD, PLV));
-         env->CSR_PRMD = FIELD_DP64(env->CSR_PRMD, CSR_PRMD, PIE,
-@@ -257,7 +260,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
-             env->pc = env->CSR_TLBRENTRY;
-         } else {
-             env->pc = env->CSR_EENTRY;
--            env->pc += cause * vec_size;
-+            env->pc += EXCODE_MCODE(cause) * vec_size;
+@@ -177,6 +177,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
          }
-         qemu_log_mask(CPU_LOG_INT,
-                       "%s: PC " TARGET_FMT_lx " ERA " TARGET_FMT_lx
-diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-index dce999aaac..dbce176564 100644
---- a/target/loongarch/cpu.h
-+++ b/target/loongarch/cpu.h
-@@ -75,33 +75,37 @@ FIELD(FCSR0, CAUSE, 24, 5)
- #define FP_DIV0           8
- #define FP_INVALID        16
+         QEMU_FALLTHROUGH;
+     case EXCCODE_PIF:
++    case EXCCODE_ADEF:
+         cause = cs->exception_index;
+         update_badinstr = 0;
+         break;
+diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
+index 610b6d123c..d2f8fb0c60 100644
+--- a/target/loongarch/tlb_helper.c
++++ b/target/loongarch/tlb_helper.c
+@@ -229,7 +229,8 @@ static void raise_mmu_exception(CPULoongArchState *env, target_ulong address,
+     switch (tlb_error) {
+     default:
+     case TLBRET_BADADDR:
+-        cs->exception_index = EXCCODE_ADEM;
++        cs->exception_index = access_type == MMU_INST_FETCH
++                              ? EXCCODE_ADEF : EXCCODE_ADEM;
+         break;
+     case TLBRET_NOMATCH:
+         /* No TLB match for a mapped address */
+@@ -643,7 +644,7 @@ bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     CPULoongArchState *env = &cpu->env;
+     hwaddr physical;
+     int prot;
+-    int ret = TLBRET_BADADDR;
++    int ret;
  
--#define  EXCCODE_EXTERNAL_INT   64   /* plus external interrupt number */
--#define  EXCCODE_INT                 0
--#define  EXCCODE_PIL                 1
--#define  EXCCODE_PIS                 2
--#define  EXCCODE_PIF                 3
--#define  EXCCODE_PME                 4
--#define  EXCCODE_PNR                 5
--#define  EXCCODE_PNX                 6
--#define  EXCCODE_PPI                 7
--#define  EXCCODE_ADEF                8 /* Different exception subcode */
--#define  EXCCODE_ADEM                8
--#define  EXCCODE_ALE                 9
--#define  EXCCODE_BCE                 10
--#define  EXCCODE_SYS                 11
--#define  EXCCODE_BRK                 12
--#define  EXCCODE_INE                 13
--#define  EXCCODE_IPE                 14
--#define  EXCCODE_FPD                 15
--#define  EXCCODE_SXD                 16
--#define  EXCCODE_ASXD                17
--#define  EXCCODE_FPE                 18 /* Different exception subcode */
--#define  EXCCODE_VFPE                18
--#define  EXCCODE_WPEF                19 /* Different exception subcode */
--#define  EXCCODE_WPEM                19
--#define  EXCCODE_BTD                 20
--#define  EXCCODE_BTE                 21
--#define  EXCCODE_DBP                 26 /* Reserved subcode used for debug */
-+#define EXCODE(code, subcode) ( ((subcode) << 6) | (code) )
-+#define EXCODE_MCODE(code)    ( (code) & 0x3f )
-+#define EXCODE_SUBCODE(code)  ( (code) >> 6 )
-+
-+#define  EXCCODE_EXTERNAL_INT        64   /* plus external interrupt number */
-+#define  EXCCODE_INT                 EXCODE(0, 0)
-+#define  EXCCODE_PIL                 EXCODE(1, 0)
-+#define  EXCCODE_PIS                 EXCODE(2, 0)
-+#define  EXCCODE_PIF                 EXCODE(3, 0)
-+#define  EXCCODE_PME                 EXCODE(4, 0)
-+#define  EXCCODE_PNR                 EXCODE(5, 0)
-+#define  EXCCODE_PNX                 EXCODE(6, 0)
-+#define  EXCCODE_PPI                 EXCODE(7, 0)
-+#define  EXCCODE_ADEF                EXCODE(8, 0) /* Different exception subcode */
-+#define  EXCCODE_ADEM                EXCODE(8, 1)
-+#define  EXCCODE_ALE                 EXCODE(9, 0)
-+#define  EXCCODE_BCE                 EXCODE(10, 0)
-+#define  EXCCODE_SYS                 EXCODE(11, 0)
-+#define  EXCCODE_BRK                 EXCODE(12, 0)
-+#define  EXCCODE_INE                 EXCODE(13, 0)
-+#define  EXCCODE_IPE                 EXCODE(14, 0)
-+#define  EXCCODE_FPD                 EXCODE(15, 0)
-+#define  EXCCODE_SXD                 EXCODE(16, 0)
-+#define  EXCCODE_ASXD                EXCODE(17, 0)
-+#define  EXCCODE_FPE                 EXCODE(18, 0) /* Different exception subcode */
-+#define  EXCCODE_VFPE                EXCODE(18, 1)
-+#define  EXCCODE_WPEF                EXCODE(19, 0) /* Different exception subcode */
-+#define  EXCCODE_WPEM                EXCODE(19, 1)
-+#define  EXCCODE_BTD                 EXCODE(20, 0)
-+#define  EXCCODE_BTE                 EXCODE(21, 0)
-+#define  EXCCODE_DBP                 EXCODE(26, 0) /* Reserved subcode used for debug */
- 
- /* cpucfg[0] bits */
- FIELD(CPUCFG0, PRID, 0, 32)
+     /* Data access */
+     ret = get_physical_address(env, &physical, &prot, address,
 -- 
 2.31.1
 
