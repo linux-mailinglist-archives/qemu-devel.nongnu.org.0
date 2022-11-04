@@ -2,61 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F6D619CC5
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:14:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E574619CCA
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:15:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqzJT-0007XB-E6; Fri, 04 Nov 2022 12:12:59 -0400
+	id 1oqzKG-0001GU-Sy; Fri, 04 Nov 2022 12:13:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1oqzJH-0007IR-Ud
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:12:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqzKD-00014C-2F
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:13:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1oqzJG-00009C-Fy
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:12:47 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqzKA-0000GZ-FD
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:13:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667578365;
+ s=mimecast20190719; t=1667578410;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z+Dtv2GvyfaHdqaWlIeZLp8NbKnNhdasb5YmvQdBEMg=;
- b=EMgfARImPJPrTZLfeEd8jpykgqP5sNiSIdkyxADl5KUX4VHzd6tpcFQGjOOqO4Hblch17z
- iOuDjTvUDtCVySKlm/O/NmONWNXQ88KTFXLM2oDERUe+FZ2mYw/cOw4PNsxK67SHw80cee
- YZ4DkqPW0vXb/b5yMP57Gdx1jsBi364=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-468-qPC2TPkuMKySLctdqfcrLA-1; Fri, 04 Nov 2022 12:12:44 -0400
-X-MC-Unique: qPC2TPkuMKySLctdqfcrLA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E9C19800186
- for <qemu-devel@nongnu.org>; Fri,  4 Nov 2022 16:12:43 +0000 (UTC)
-Received: from [172.30.42.193] (unknown [10.22.17.245])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BCE8540C835A;
- Fri,  4 Nov 2022 16:12:43 +0000 (UTC)
-Subject: [PULL 1/1] vfio/migration: Fix wrong enum usage
-From: Alex Williamson <alex.williamson@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: alex.williamson@redhat.com
-Date: Fri, 04 Nov 2022 10:12:43 -0600
-Message-ID: <166757835382.2504527.15205692838331854517.stgit@omen>
-In-Reply-To: <166757797349.2504527.17538714015825495328.stgit@omen>
-References: <166757797349.2504527.17538714015825495328.stgit@omen>
-User-Agent: StGit/1.5.dev2+g9ce680a52bd9
+ bh=QdWNrMRBpPzE0S0+fjtOtBB2+L1BmxMtp5ndP7VwqPc=;
+ b=er/VT8Wro0OmBQ+ZKUQCq4vPWXwA/MbYpnLQZlhAaMv8SQ0VappPOnaoqhMbq87DSkMhCy
+ WYX7uUiXWMFTFHDSYUEgzCbAzBcyUhSDH5GQdzel+QZoHH0z1KK7Oz8UuSd+H4mayyynp5
+ TBCLDSj/mNlYGnAJkUuOqvQ7l2SdOjM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-499-LJ6jMw8bMZisfVdmcXJtrA-1; Fri, 04 Nov 2022 12:13:29 -0400
+X-MC-Unique: LJ6jMw8bMZisfVdmcXJtrA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ o13-20020adfa10d000000b00232c00377a0so1395911wro.13
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 09:13:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=QdWNrMRBpPzE0S0+fjtOtBB2+L1BmxMtp5ndP7VwqPc=;
+ b=uNIGepKUIdpyvnEGL7ZL6pQ8mp7RpCsnEyqGYFJBN1VBfvafNyOLolriG/oKQH+x1+
+ +/E3rx66SntzptK7O5rPkb4MXv+4JD3tg2ziIdEv6IjHm01mc3hT1c9XnGYzeDD/5POn
+ Mgo9xlhsVY8ayM24AgS/p0Q5l0J0dxL2hieVhwBHHd7lH+OW1RGJXULxxi60wzTV1cQb
+ 5PCG36x+tsGd1ui1nFM7upSlYIE+dVYVUsypBxUPghQJ1ia4Rz6TNkZsPIUc9NWTbBJx
+ FloZXtgLh4OJTpqkRI6RmrGfTeiCNAoYkahPnMLv+42VL3nos/67cub1OnANpSJ16a7m
+ WAxQ==
+X-Gm-Message-State: ACrzQf1r7J1zUsEUFYZ67QniRHU9thIISu5zfOT3ZB4UMuoO4uKMTDke
+ Fzy1lwO6TN/0RCbI26X6n2qMinOzH9Y5GxW39c8jAWfmbDnJY0WjkZ153PUknBjuvqdZrTjPz9J
+ lGUiLDm7qCWpkrn8=
+X-Received: by 2002:adf:fbc7:0:b0:220:6004:18ca with SMTP id
+ d7-20020adffbc7000000b00220600418camr22653401wrs.632.1667578407916; 
+ Fri, 04 Nov 2022 09:13:27 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4jFTOMc+slzZYx8qO/Zr8/jotugW3BDogxUUVKVGnp62f1Uha/fvTzcSYZz2JwzaT9+dSW4Q==
+X-Received: by 2002:adf:fbc7:0:b0:220:6004:18ca with SMTP id
+ d7-20020adffbc7000000b00220600418camr22653378wrs.632.1667578407603; 
+ Fri, 04 Nov 2022 09:13:27 -0700 (PDT)
+Received: from redhat.com ([2.55.180.182]) by smtp.gmail.com with ESMTPSA id
+ q23-20020a1ce917000000b003c5571c27a1sm3889246wmc.32.2022.11.04.09.13.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Nov 2022 09:13:27 -0700 (PDT)
+Date: Fri, 4 Nov 2022 12:13:23 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH] virtio: re-order vm_running and use_started checks
+Message-ID: <20221104121158-mutt-send-email-mst@kernel.org>
+References: <20221014132108.2559156-1-alex.bennee@linaro.org>
+ <20221104115340-mutt-send-email-mst@kernel.org>
+ <302d7a5f-069a-f071-b1c2-56bdbb1f625f@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <302d7a5f-069a-f071-b1c2-56bdbb1f625f@linux.ibm.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,34 +99,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Avihai Horon <avihaih@nvidia.com>
+On Fri, Nov 04, 2022 at 04:59:35PM +0100, Christian Borntraeger wrote:
+> 
+> 
+> Am 04.11.22 um 16:56 schrieb Michael S. Tsirkin:
+> > On Fri, Oct 14, 2022 at 02:21:08PM +0100, Alex Bennée wrote:
+> > > During migration the virtio device state can be restored before we
+> > > restart the VM. As no devices can be running while the VM is paused it
+> > > makes sense to bail out early in that case.
+> > > 
+> > > This returns the order introduced in:
+> > > 
+> > >   9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
+> > > 
+> > > to what virtio-sock was doing longhand.
+> > > 
+> > > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> > > Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
+> > 
+> > 
+> > What happens now:
+> > 
+> > with this applied I get:
+> > 
+> > https://gitlab.com/mitsirkin/qemu/-/pipelines/685829158/failures
+> > 
+> > ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
+> > stderr:
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: -chardev socket,id=chr-reconnect,path=/tmp/vhost-test-QLKXU1/reconnect.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-QLKXU1/reconnect.sock,server=on
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: -chardev socket,id=chr-connect-fail,path=/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on
+> > qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: Failed to read msg header. Read 0 instead of 12. Original request 1.
+> > qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: vhost_backend_init failed: Protocol error
+> > qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: failed to init vhost_net for queue 0
+> > qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: -chardev socket,id=chr-flags-mismatch,path=/tmp/vhost-test-3MO5U1/flags-mismatch.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-3MO5U1/flags-mismatch.sock,server=on
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 52.
+> > qemu-system-arm: vhost_set_mem_table failed: Invalid argument (22)
+> > qemu-system-arm: unable to start vhost net: 22: falling back on userspace virtio
+> > vhost lacks feature mask 0x40000000 for backend
+> > qemu-system-arm: failed to init vhost_net for queue 0
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 2 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 3 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
+> > qemu-system-arm: Failed to set msg fds.
+> > qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
+> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+> > qemu-system-arm: vhost VQ 0 ring restore failed: -5: Input/output error (5)
+> > qemu-system-arm: ../hw/virtio/virtio-bus.c:211: void virtio_bus_release_ioeventfd(VirtioBusState *): Assertion `bus->ioeventfd_grabbed != 0' failed.
+> > ../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
+> > **
+> > ERROR:../tests/qtest/qos-test.c:191:subprocess_run_one_test: child process (/arm/virt/virtio-mmio/virtio-bus/vhost-user-gpio-device/vhost-user-gpio/vhost-user-gpio-tests/read-guest-mem/memfile/subprocess [8735]) failed unexpectedly
+> > (test program exited with status code -6)
+> > ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+> > 
+> > 
+> > 
+> > 
+> > without this it passes:
+> > 
+> > https://gitlab.com/mitsirkin/qemu/-/jobs/3275949777
+> > 
+> > 
+> > this only triggers under github, clang-system job.
+> > trying to decide what to do now. revert just this?
+> When we revert this save/restore for vsock is broken. Not sure, maybe we must use a more fine-grained fix as outlined in my initial mail?
 
-vfio_migration_init() initializes VFIOMigration->device_state using enum
-of VFIO migration protocol v2. Current implemented protocol is v1 so v1
-enum should be used. Fix it.
+I realize this, we should also revert 9f6bcfd99f.
 
-Fixes: 429c72800654 ("vfio/migration: Fix incorrect initialization value for parameters in VFIOMigration")
-Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-Reviewed-by: Zhang Chen <chen.zhang@intel.com>
-Link: https://lore.kernel.org/r/20221016085752.32740-1-avihaih@nvidia.com
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
----
- hw/vfio/migration.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 3de4252111ee..c74453e0b5e0 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -806,7 +806,7 @@ static int vfio_migration_init(VFIODevice *vbasedev,
-     }
- 
-     vbasedev->migration = g_new0(VFIOMigration, 1);
--    vbasedev->migration->device_state = VFIO_DEVICE_STATE_RUNNING;
-+    vbasedev->migration->device_state = VFIO_DEVICE_STATE_V1_RUNNING;
-     vbasedev->migration->vm_running = runstate_is_running();
- 
-     ret = vfio_region_setup(obj, vbasedev, &vbasedev->migration->region,
-
+-- 
+MST
 
 
