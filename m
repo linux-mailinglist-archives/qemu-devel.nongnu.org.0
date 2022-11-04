@@ -2,95 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A903A619120
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 07:33:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 439E7619165
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 07:49:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqqFh-0006sQ-UX; Fri, 04 Nov 2022 02:32:30 -0400
+	id 1oqqUy-0003gf-9q; Fri, 04 Nov 2022 02:48:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oqqFY-0006qX-V3; Fri, 04 Nov 2022 02:32:20 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oqqUp-0003gP-1l
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 02:48:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oqqFW-0004Iu-Gy; Fri, 04 Nov 2022 02:32:20 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id DA9D13200488;
- Fri,  4 Nov 2022 02:32:15 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Fri, 04 Nov 2022 02:32:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1667543535; x=1667629935; bh=on
- 33JlTQLCqTX36bOSgKt3VzbZsv/2FVWFZ7QSDlnk4=; b=PotBdQ9GqPTvH8rLQW
- PUFTpatFFCBYpqwf6icBdo+Jyv9Lj0KUUiLVwmaWT2xToAsmDOtGj2uBURpRkxt+
- gfg8OL0NtDmHlHY37wecGu/Q0X15Hf/X9ZFTHRWLIj8g/wpUdweoeh0x1Av8uNqM
- qqq/XA+g5xbOCt9ZZcpXYwvjpueSo2H8M4L3Vj2CORum4+LGFrAuCXyDNp2dfPF8
- /6PqBy5Pzqxab7vj7DDZnDJGQV2lv9AweErRJYneS3EjmSf9vlhhvyd5rUKS8n5v
- JTgvxevl64GP/GCla/Wz2ZkXvI9TaKDTIIyZ4oIF8UaE8LHCeTZZ9H3xgB4IAIo2
- hAyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1667543535; x=1667629935; bh=on33JlTQLCqTX36bOSgKt3VzbZsv
- /2FVWFZ7QSDlnk4=; b=nNLgu7rtR8HwqIySpb9bWd5AO5HLQIT9Lm6OT0rOdmV9
- UChjfCz4WFxkUDSvFezGoUP41FyY5YAAHUpBpg2GcpPa6Qy0PRgSA7WF6TTeIgTn
- uSsmFjw+vPG8PHKen8zVVNI03qApO27eppTjpMvyStIljJi5ucxBoWYdRMWikRKP
- JZ2pimjLpXA1rrOJqJpqS7drtGywK5jNbc/dDIefTF1jNX6UIZDFCwbMh8bzubJ5
- d5fCPdW74L6aqlME8bpIW6ihFH+zwKSZ/44aS3zlCRHchvQNa435abPtnvitbYpm
- qrEerRm9PB5Nx1qEiuifPp/uXE6kO4SDeqv1+Cb3bw==
-X-ME-Sender: <xms:77FkY9WncJVvWsImEDW_Zok6rs9AEsooznd3sMLKqVUOiTK7mCm16Q>
- <xme:77FkY9nvEo5yfJ3-0KcMpDSM6d2b4oZKTaVlo_0gGoK6TJbjIh-697SdPNt3FZg_0
- OfkKZBnm2bxzjNrQNU>
-X-ME-Received: <xmr:77FkY5Zt-cIhHJWmRta4nS-WJAx7-_pc68IUJce8Czc8zncLC2yfNmj32t3Ice_hf4K3yifD6E9pe7PvNwEjACO9XsmyGw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddtgdeljecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteffffej
- veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:77FkYwXZ03vvQ7MguX9zmKK-Ro2NKzz5GUm2cHNO48TQ6a0JiB7jyw>
- <xmx:77FkY3mpDbFGTKT6CVF7EIptAzSMG9QrqXteqldMnl7d7tYIzZks8g>
- <xmx:77FkY9d6hlOUdO4YcU-sQ5IkyUT2E27Urje9FFcgYBgj5HqVtDrQSg>
- <xmx:77FkYwBJmpsdHy4BafHTXGJBjjyOO-UiEKUO_MfY491WPkJ3bGMaBw>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Nov 2022 02:32:13 -0400 (EDT)
-Date: Fri, 4 Nov 2022 07:32:12 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Keith Busch <kbusch@kernel.org>,
- Stefan Hajnoczi <stefanha@gmail.com>,
- "open list:nvme" <qemu-block@nongnu.org>
-Subject: Re: [PATCH v3 4/4] hw/nvme: add polling support
-Message-ID: <Y2Sx7O4MFHKrvXQA@cormorant.local>
-References: <20220827091258.3589230-1-fanjinhao21s@ict.ac.cn>
- <20220827091258.3589230-5-fanjinhao21s@ict.ac.cn>
- <Y1EswYz077swwhuc@cormorant.local>
- <D1741E76-294E-41F6-B87B-70C2A4CF778C@ict.ac.cn>
- <Y2OvzcfeawKWvvJ0@cormorant.local>
- <3ffebed8-997d-e276-bf4a-c75508b0be11@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oqqUm-0006EY-SJ
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 02:48:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667544483;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=29TVQ0AXgE0D1S2xTl17dBkYH38ygKaTwvkS7Y3yvwM=;
+ b=hffpPcCLolxYRByFPOy3sgLHoaahzYXpKxwE3Rt99UZvp3rHC6bPzenFMIuLbCL/hHXpN8
+ VKEyCArxePYy7i+81EuHp5ZAc+Qz0R21B3Lc4wAv4kFU86PX+y3JWVESGdnYDl3Ur7TMto
+ S535kNdBsriT+5fIFyZqLYwbIB9PbdM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-265-0PrKCzxdPZyuOLgaNMyPcQ-1; Fri, 04 Nov 2022 02:48:01 -0400
+X-MC-Unique: 0PrKCzxdPZyuOLgaNMyPcQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ f1-20020a1cc901000000b003cf703a4f08so1344853wmb.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 23:48:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=29TVQ0AXgE0D1S2xTl17dBkYH38ygKaTwvkS7Y3yvwM=;
+ b=cRAv+rfvCGtgjw0L7vrN9dq74FGUDddriur6XoB1mCGsUBS8wNhrDh0U2lx059PRkL
+ tyFipAwsY9KWgVn2NN5eKxlh3W3NC4Eq5I3jSVkWIHnl3gLf7cJCe9/Fd2ukYTdHV5tL
+ 4f8Ihss95UTrARJJImmu2vV78gNIWEt+BC04p+o+FGpLefdrH+t05nP+/aBrqPKFW8DG
+ /I8/cNOPDZ1qTAiEPhKJLgseIrOs9sfxigqnzUa47vh5dDJ8LE4swxCr6drhht6ogfBq
+ fj3qghAd+rPLJyBK8H2E5NAn7gpS1r05hv5YrUQGR0RBhI8qCr0jn+fwFzTL5PnHOYuD
+ ewhg==
+X-Gm-Message-State: ACrzQf0KXtX5q7rSe4D1DA4Bl4ICUDIW7FjjpYKtIioEP949+TLlIRG6
+ hsqjajOSd/V0JtC1P8zJu7/XnHiMWxztMJDvwTW4lxGvomQdjRWxFdYy8Uisb/zqaM3yLW8UKEi
+ rkzv6UpCxGbogrq0=
+X-Received: by 2002:a5d:4a0c:0:b0:236:5d98:1be4 with SMTP id
+ m12-20020a5d4a0c000000b002365d981be4mr21229650wrq.590.1667544480717; 
+ Thu, 03 Nov 2022 23:48:00 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7P+F+R/79Qkq13J0P0StG9q0RcWVkIxdQ4kRudwe8HRqZ/pRansNsq/3a/60bpuV8cXDa/Ng==
+X-Received: by 2002:a5d:4a0c:0:b0:236:5d98:1be4 with SMTP id
+ m12-20020a5d4a0c000000b002365d981be4mr21229633wrq.590.1667544480490; 
+ Thu, 03 Nov 2022 23:48:00 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-201.web.vodafone.de.
+ [109.43.177.201]) by smtp.gmail.com with ESMTPSA id
+ p25-20020a05600c1d9900b003cf77e6091bsm1937280wms.11.2022.11.03.23.47.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Nov 2022 23:47:59 -0700 (PDT)
+Message-ID: <4274de61-292d-b3e0-8f86-d7000122a715@redhat.com>
+Date: Fri, 4 Nov 2022 07:47:57 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="ch0BNqNArxCFBFyA"
-Content-Disposition: inline
-In-Reply-To: <3ffebed8-997d-e276-bf4a-c75508b0be11@ict.ac.cn>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PULL 02/10] pci-bridge/cxl_downstream: Add a CXL switch
+ downstream port
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20220616165703.42226-1-mst@redhat.com>
+ <20220616165703.42226-3-mst@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220616165703.42226-3-mst@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,54 +104,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 16/06/2022 18.57, Michael S. Tsirkin wrote:
+> From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> 
+> Emulation of a simple CXL Switch downstream port.
+> The Device ID has been allocated for this use.
+> 
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Message-Id: <20220616145126.8002-3-Jonathan.Cameron@huawei.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>   hw/cxl/cxl-host.c              |  43 +++++-
+>   hw/pci-bridge/cxl_downstream.c | 249 +++++++++++++++++++++++++++++++++
+>   hw/pci-bridge/meson.build      |   2 +-
+>   3 files changed, 291 insertions(+), 3 deletions(-)
+>   create mode 100644 hw/pci-bridge/cxl_downstream.c
 
---ch0BNqNArxCFBFyA
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Hi!
 
-On Nov  3 21:19, Jinhao Fan wrote:
-> On 11/3/2022 8:10 PM, Klaus Jensen wrote:
-> > I agree that the spec is a little unclear on this point. In any case, in
-> > Linux, when the driver has decided that the sq tail must be updated,
-> > it will use this check:
-> >=20
-> >    (new_idx - event_idx - 1) < (new_idx - old)
->=20
-> When eventidx is already behind, it's like:
->=20
->  0
->  1 <- event_idx
->  2 <- old
->  3 <- new_idx
->  4
->  .
->  .
->  .
->=20
-> In this case, (new_idx - event_idx - 1) =3D 3-1-1 =3D 1 >=3D (new_idx - o=
-ld) =3D
-> 3-2=3D1, so the host won't update sq tail. Where am I wrong in this examp=
-le?
->=20
+There is a memory problem somewhere in this new device. I can make QEMU 
+crash by running something like this:
 
-That becomes 1 >=3D 1, i.e. "true". So this will result in the driver
-doing an mmio doorbell write.
+$ MALLOC_PERTURB_=59 ./qemu-system-x86_64 -M x-remote \
+     -display none -monitor stdio
+QEMU 7.1.50 monitor - type 'help' for more information
+(qemu) device_add cxl-downstream
+./qemu/qom/object.c:1188:5: runtime error: member access within misaligned 
+address 0x3b3b3b3b3b3b3b3b for type 'struct Object', which requires 8 byte 
+alignment
+0x3b3b3b3b3b3b3b3b: note: pointer points here
+<memory cannot be printed>
+Bus error (core dumped)
 
---ch0BNqNArxCFBFyA
-Content-Type: application/pgp-signature; name="signature.asc"
+Could you have a look if you've got some spare minutes?
 
------BEGIN PGP SIGNATURE-----
+  Thomas
 
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNksesACgkQTeGvMW1P
-DelUUggAjS7n+KgWwYdJBBCdsfTgOr27rNNJlp9c8dGW5WcRMipbgkk1tAxDAryT
-NRxSz8nPqHkwGpfGF/iK2ti76tVvUQGgSX4RlQRKAv4Ltu2QOjitP7XupNmQChVG
-tfArR1fAPThD5hAftnG2HEQFhjfkqApCXkMMP2mdAIxatGKO+ChEydrtBNW+C3W+
-BMe8VqTXSZURVi+sB6VYWwxJu5kCh78moI/ExJg0n1e/uN7anCnHJrkdlb/VrKV2
-iV8+dDZD7AKzdAJo/0XZZeW6QNKfaqLH+naflQ3LuViM3jv8Zh3Rhbq2qZFK4FOT
-Hk6C4wX/BI8XpqWhHz5PYmCBMyDP8A==
-=dKic
------END PGP SIGNATURE-----
-
---ch0BNqNArxCFBFyA--
 
