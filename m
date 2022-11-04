@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4DD6193F9
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 10:59:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202B66193F2
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 10:58:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqtSN-0005lE-Nj; Fri, 04 Nov 2022 05:57:47 -0400
+	id 1oqtSL-0005ir-Kx; Fri, 04 Nov 2022 05:57:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oqtRn-0005Zl-Bl
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:57:16 -0400
+ id 1oqtRm-0005ZD-71
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:57:10 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oqtRj-0000HW-Q5
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:57:11 -0400
+ id 1oqtRj-0000HR-Gx
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:57:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667555827;
+ s=mimecast20190719; t=1667555826;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PGysYoRxqY8UMV5t+VFdY13Fiksq/DOO9btd4CD6csk=;
- b=D3ejY2+mj/BC7eovMZCyxgbcfSBAH6eNej256gNnWrs5zsqcxqDQcZyxNbso8HFJ/a44/0
- yX4RMUESp+DjID3VrBQV+gd81XMGsEVDmRHL0giboNltOvm4fE33lJfykX3X8akWTnZDjN
- 5yLO/QZlv84MXn00IHm4SG5KsWtf0RM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3421AU3i61P6bt+m3hZQkZTiF6WrCYIKBa9iKiN7Mis=;
+ b=MDTw0AO0NY7hJS84mOfb8ue2pOyt/EH7PPfuYgyG8Ceunc9SH5wH6EUkhAr51fT236Vwli
+ REdjuZ3s0LBkapjwrDY6Jvf15mD/x4RR6qJDss9J2y/feW+SLZbp/PfxFc59ciD5too7Hd
+ 5W+lhg9tzvlyrygiCvCe/9lccyPIVeU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-328-joSdEdPLMa-9MyqogfKVLA-1; Fri, 04 Nov 2022 05:57:03 -0400
-X-MC-Unique: joSdEdPLMa-9MyqogfKVLA-1
+ us-mta-352-skt7YxxHN22kSlWCOeDFwQ-1; Fri, 04 Nov 2022 05:57:03 -0400
+X-MC-Unique: skt7YxxHN22kSlWCOeDFwQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 226CF1C006AD;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6910085A5B6;
  Fri,  4 Nov 2022 09:57:03 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA62240C8459;
- Fri,  4 Nov 2022 09:57:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B4E040C83EC;
+ Fri,  4 Nov 2022 09:57:03 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -50,9 +50,9 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v2 2/9] block-copy: add missing coroutine_fn annotations
-Date: Fri,  4 Nov 2022 05:56:53 -0400
-Message-Id: <20221104095700.4117433-3-eesposit@redhat.com>
+Subject: [PATCH v2 3/9] nbd/server.c: add missing coroutine_fn annotations
+Date: Fri,  4 Nov 2022 05:56:54 -0400
+Message-Id: <20221104095700.4117433-4-eesposit@redhat.com>
 In-Reply-To: <20221104095700.4117433-1-eesposit@redhat.com>
 References: <20221104095700.4117433-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -82,8 +82,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These functions end up calling bdrv_common_block_status_above(), a
-generated_co_wrapper function.
+These functions end up calling bdrv_*() implemented as generated_co_wrapper
+functions.
 In addition, they also happen to be always called in coroutine context,
 meaning all callers are coroutine_fn.
 This means that the g_c_w function will enter the qemu_in_coroutine()
@@ -92,49 +92,55 @@ Therefore we need to mark such functions coroutine_fn too.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block/block-copy.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ nbd/server.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/block/block-copy.c b/block/block-copy.c
-index bb947afdda..f33ab1d0b6 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -577,8 +577,9 @@ static coroutine_fn int block_copy_task_entry(AioTask *task)
-     return ret;
+diff --git a/nbd/server.c b/nbd/server.c
+index ada16089f3..e2eec0cf46 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -2141,8 +2141,9 @@ static int nbd_extent_array_add(NBDExtentArray *ea,
+     return 0;
  }
  
--static int block_copy_block_status(BlockCopyState *s, int64_t offset,
--                                   int64_t bytes, int64_t *pnum)
-+static coroutine_fn int block_copy_block_status(BlockCopyState *s,
-+                                                int64_t offset,
-+                                                int64_t bytes, int64_t *pnum)
+-static int blockstatus_to_extents(BlockDriverState *bs, uint64_t offset,
+-                                  uint64_t bytes, NBDExtentArray *ea)
++static int coroutine_fn blockstatus_to_extents(BlockDriverState *bs,
++                                               uint64_t offset, uint64_t bytes,
++                                               NBDExtentArray *ea)
  {
-     int64_t num;
-     BlockDriverState *base;
-@@ -613,8 +614,9 @@ static int block_copy_block_status(BlockCopyState *s, int64_t offset,
-  * Check if the cluster starting at offset is allocated or not.
-  * return via pnum the number of contiguous clusters sharing this allocation.
-  */
--static int block_copy_is_cluster_allocated(BlockCopyState *s, int64_t offset,
--                                           int64_t *pnum)
-+static int coroutine_fn block_copy_is_cluster_allocated(BlockCopyState *s,
-+                                                        int64_t offset,
-+                                                        int64_t *pnum)
+     while (bytes) {
+         uint32_t flags;
+@@ -2168,8 +2169,9 @@ static int blockstatus_to_extents(BlockDriverState *bs, uint64_t offset,
+     return 0;
+ }
+ 
+-static int blockalloc_to_extents(BlockDriverState *bs, uint64_t offset,
+-                                 uint64_t bytes, NBDExtentArray *ea)
++static int coroutine_fn blockalloc_to_extents(BlockDriverState *bs,
++                                              uint64_t offset, uint64_t bytes,
++                                              NBDExtentArray *ea)
  {
-     BlockDriverState *bs = s->source->bs;
-     int64_t count, total_count = 0;
-@@ -669,8 +671,9 @@ void block_copy_reset(BlockCopyState *s, int64_t offset, int64_t bytes)
-  * @return 0 when the cluster at @offset was unallocated,
-  *         1 otherwise, and -ret on error.
-  */
--int64_t block_copy_reset_unallocated(BlockCopyState *s,
--                                     int64_t offset, int64_t *count)
-+int64_t coroutine_fn block_copy_reset_unallocated(BlockCopyState *s,
-+                                                  int64_t offset,
-+                                                  int64_t *count)
+     while (bytes) {
+         int64_t num;
+@@ -2220,11 +2222,12 @@ static int nbd_co_send_extents(NBDClient *client, uint64_t handle,
+ }
+ 
+ /* Get block status from the exported device and send it to the client */
+-static int nbd_co_send_block_status(NBDClient *client, uint64_t handle,
+-                                    BlockDriverState *bs, uint64_t offset,
+-                                    uint32_t length, bool dont_fragment,
+-                                    bool last, uint32_t context_id,
+-                                    Error **errp)
++static int
++coroutine_fn nbd_co_send_block_status(NBDClient *client, uint64_t handle,
++                                      BlockDriverState *bs, uint64_t offset,
++                                      uint32_t length, bool dont_fragment,
++                                      bool last, uint32_t context_id,
++                                      Error **errp)
  {
      int ret;
-     int64_t clusters, bytes;
+     unsigned int nb_extents = dont_fragment ? 1 : NBD_MAX_BLOCK_STATUS_EXTENTS;
 -- 
 2.31.1
 
