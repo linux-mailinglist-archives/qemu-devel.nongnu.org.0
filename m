@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E574619CCA
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:15:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2CD3619CCB
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:15:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqzKG-0001GU-Sy; Fri, 04 Nov 2022 12:13:48 -0400
+	id 1oqzKz-00044f-IY; Fri, 04 Nov 2022 12:14:33 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqzKD-00014C-2F
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:13:46 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqzKt-0003uw-OE
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:14:27 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqzKA-0000GZ-FD
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:13:44 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqzKr-0000Ox-NJ
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:14:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667578410;
+ s=mimecast20190719; t=1667578465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QdWNrMRBpPzE0S0+fjtOtBB2+L1BmxMtp5ndP7VwqPc=;
- b=er/VT8Wro0OmBQ+ZKUQCq4vPWXwA/MbYpnLQZlhAaMv8SQ0VappPOnaoqhMbq87DSkMhCy
- WYX7uUiXWMFTFHDSYUEgzCbAzBcyUhSDH5GQdzel+QZoHH0z1KK7Oz8UuSd+H4mayyynp5
- TBCLDSj/mNlYGnAJkUuOqvQ7l2SdOjM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=t1v4NnqYdmYaTo8+dLm7heZ6NBB2BOQlnA3xQtfHe8g=;
+ b=MVHzrCAepFSLMnBD8VnHnM6aQdOnyHOyG4swHF56wYSDl1u08R6P5+/Y6aXwfhcxqGIM25
+ xaTaL2e6XjmCUKm8kqhfTjpVTMK5E6HJ5EJNNRb/tIm3ekCSlEb46DTNRviOa1Dbqwm6yC
+ dTT1tAXKTuaJ0sDeSDFuPRP97AnCHVQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-499-LJ6jMw8bMZisfVdmcXJtrA-1; Fri, 04 Nov 2022 12:13:29 -0400
-X-MC-Unique: LJ6jMw8bMZisfVdmcXJtrA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- o13-20020adfa10d000000b00232c00377a0so1395911wro.13
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 09:13:29 -0700 (PDT)
+ us-mta-553-6kz2yE_nPd6EQCE2myzU8Q-1; Fri, 04 Nov 2022 12:14:23 -0400
+X-MC-Unique: 6kz2yE_nPd6EQCE2myzU8Q-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l42-20020a05600c1d2a00b003cf8e70c1ecso940929wms.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 09:14:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QdWNrMRBpPzE0S0+fjtOtBB2+L1BmxMtp5ndP7VwqPc=;
- b=uNIGepKUIdpyvnEGL7ZL6pQ8mp7RpCsnEyqGYFJBN1VBfvafNyOLolriG/oKQH+x1+
- +/E3rx66SntzptK7O5rPkb4MXv+4JD3tg2ziIdEv6IjHm01mc3hT1c9XnGYzeDD/5POn
- Mgo9xlhsVY8ayM24AgS/p0Q5l0J0dxL2hieVhwBHHd7lH+OW1RGJXULxxi60wzTV1cQb
- 5PCG36x+tsGd1ui1nFM7upSlYIE+dVYVUsypBxUPghQJ1ia4Rz6TNkZsPIUc9NWTbBJx
- FloZXtgLh4OJTpqkRI6RmrGfTeiCNAoYkahPnMLv+42VL3nos/67cub1OnANpSJ16a7m
- WAxQ==
-X-Gm-Message-State: ACrzQf1r7J1zUsEUFYZ67QniRHU9thIISu5zfOT3ZB4UMuoO4uKMTDke
- Fzy1lwO6TN/0RCbI26X6n2qMinOzH9Y5GxW39c8jAWfmbDnJY0WjkZ153PUknBjuvqdZrTjPz9J
- lGUiLDm7qCWpkrn8=
-X-Received: by 2002:adf:fbc7:0:b0:220:6004:18ca with SMTP id
- d7-20020adffbc7000000b00220600418camr22653401wrs.632.1667578407916; 
- Fri, 04 Nov 2022 09:13:27 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4jFTOMc+slzZYx8qO/Zr8/jotugW3BDogxUUVKVGnp62f1Uha/fvTzcSYZz2JwzaT9+dSW4Q==
-X-Received: by 2002:adf:fbc7:0:b0:220:6004:18ca with SMTP id
- d7-20020adffbc7000000b00220600418camr22653378wrs.632.1667578407603; 
- Fri, 04 Nov 2022 09:13:27 -0700 (PDT)
+ bh=t1v4NnqYdmYaTo8+dLm7heZ6NBB2BOQlnA3xQtfHe8g=;
+ b=WjTcJmkvsepjbpl4/GRVMdsmMbsa3UHtKLfgoQsvJZgDlEp3u3xPCTdcsRZ25it6M7
+ wm9uQqFE8SfdyefQ/7CL9iSDpqbDdPNz+Seta4hAegLCMJDu5VL+1RQRrWKHVRNHryB5
+ lwpwiSnLxj8QRfgaLNXTMIfFT5am1SOikdDePDY+nPOtZlNPQV7L5xwF/Q16A00uHYbP
+ 8GGNG6jbOjoW3OyH/aQwWwpSLzW02iMphE7B2s3RbKmnicn8h0EE6caZJQKU7sd+r5Cr
+ KE5VcHtI4hjCNkscWkvixZluzD1J+nJi1XXE+UkitPNA2jzqDqt7yziJZmy3gYc7+fxl
+ Mp2A==
+X-Gm-Message-State: ACrzQf0n5J/dMHiXyWqHhubgKjGP4zVb3XWyEoUWoys/8cdiDfsSmOA4
+ tufHWPg8Svo7D0RxftBNnMjv3Emm5vqO2KdvtqUkeCQ2I6PFu52ftvSe6zb32LxVQ11SGXWaTiE
+ NyUL+rR0MLbxJ/k8=
+X-Received: by 2002:a05:600c:15c9:b0:3cf:6054:3b3b with SMTP id
+ v9-20020a05600c15c900b003cf60543b3bmr27058295wmf.167.1667578462271; 
+ Fri, 04 Nov 2022 09:14:22 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7eyYUzb/qGCcecphUZr0+aKlOS/1DdtMBNuOeNQp12kGbc6Ojv5fTFqpkLoUmmdhZuyI49tw==
+X-Received: by 2002:a05:600c:15c9:b0:3cf:6054:3b3b with SMTP id
+ v9-20020a05600c15c900b003cf60543b3bmr27058264wmf.167.1667578461893; 
+ Fri, 04 Nov 2022 09:14:21 -0700 (PDT)
 Received: from redhat.com ([2.55.180.182]) by smtp.gmail.com with ESMTPSA id
- q23-20020a1ce917000000b003c5571c27a1sm3889246wmc.32.2022.11.04.09.13.26
+ w8-20020adfd4c8000000b0023672104c24sm3734375wrk.74.2022.11.04.09.14.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 09:13:27 -0700 (PDT)
-Date: Fri, 4 Nov 2022 12:13:23 -0400
+ Fri, 04 Nov 2022 09:14:21 -0700 (PDT)
+Date: Fri, 4 Nov 2022 12:14:18 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Christian Borntraeger <borntraeger@linux.ibm.com>
 Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Subject: Re: [RFC PATCH] virtio: re-order vm_running and use_started checks
-Message-ID: <20221104121158-mutt-send-email-mst@kernel.org>
+Message-ID: <20221104121339-mutt-send-email-mst@kernel.org>
 References: <20221014132108.2559156-1-alex.bennee@linaro.org>
  <20221104115340-mutt-send-email-mst@kernel.org>
  <302d7a5f-069a-f071-b1c2-56bdbb1f625f@linux.ibm.com>
@@ -199,7 +199,13 @@ On Fri, Nov 04, 2022 at 04:59:35PM +0100, Christian Borntraeger wrote:
 > > trying to decide what to do now. revert just this?
 > When we revert this save/restore for vsock is broken. Not sure, maybe we must use a more fine-grained fix as outlined in my initial mail?
 
-I realize this, we should also revert 9f6bcfd99f.
+
+
+Could you take a look here pls?
+
+https://gitlab.com/mitsirkin/qemu/-/tree/testrevert1
+
+
 
 -- 
 MST
