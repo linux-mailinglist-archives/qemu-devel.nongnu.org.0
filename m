@@ -2,115 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CE16198A9
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 15:00:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2690B6198D9
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 15:09:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqxDr-0003PI-70; Fri, 04 Nov 2022 09:59:03 -0400
+	id 1oqxN9-0000BD-Hz; Fri, 04 Nov 2022 10:08:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oqxDp-0003Oy-HG; Fri, 04 Nov 2022 09:59:01 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oqxN7-00009j-0E
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 10:08:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oqxDm-0006DK-GS; Fri, 04 Nov 2022 09:59:01 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A4C8iXd007843;
- Fri, 4 Nov 2022 13:58:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=oxqzXZJNZZUrJ6Gen6mCqqKLdtXAv9PEgVaayua/+qU=;
- b=Z6F3Xi2aB6HcF+OTFIO4J0ERDeJsexLv6vkGjIdY4g4JcIIM9bByxhtrkRtYc1ie1vpA
- UwOhRqRG1Q/9QSHai0D05q87kAUBaz1cjdXFbJqLFme/Xoc0Mj9vENQwTDFCObcKWq4G
- G1TZ4DGGMHAGjtM5AJz+e2WBNXCgtGUEmOpSaNvxImLJjWFToaUVC6FPkwiHur8L1Wyc
- bIlqyB+FlIvR4l/X+ntpBYmlVkdECrCx6sdGMosHbMq8cOV1ohkWY+swnN/yQEOashAU
- HQNObGPnJdJk9OpnKLjdS42O97Vx2uemDpxjYwqpJ7lGaQY9/09Hfv1jypOdsnj58HDX pQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmq07ynqs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Nov 2022 13:58:49 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A4CAQPr006216;
- Fri, 4 Nov 2022 13:58:49 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmq07ynpb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Nov 2022 13:58:48 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A4Dq5Zf010636;
- Fri, 4 Nov 2022 13:58:47 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03ams.nl.ibm.com with ESMTP id 3kgut92gdn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Nov 2022 13:58:46 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2A4Dr9DR38076862
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Nov 2022 13:53:09 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C33C0AE045;
- Fri,  4 Nov 2022 13:58:43 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BF908AE04D;
- Fri,  4 Nov 2022 13:58:42 +0000 (GMT)
-Received: from [9.171.69.218] (unknown [9.171.69.218])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  4 Nov 2022 13:58:42 +0000 (GMT)
-Message-ID: <15af77a0-adba-9801-c9ef-db110233197d@linux.ibm.com>
-Date: Fri, 4 Nov 2022 14:58:42 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oqxN4-0007oM-No
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 10:08:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667570913;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=F81pttFdbfmsLNaUHX8ip+H3ml9caj4SrX+nqGEF1IU=;
+ b=bMFgJc/aOtxL3o+tZU3+c+rxU32FUc+KVkCpsZw9vKsNY1QT0fhZUQwNUVZIwKq/nOFwl7
+ rWQMO6Pq9YOY8Fb0UnrjRgUnFYp4pqsL4j1DdNTFdCcDh0zeiTp5mHRNm2/TZPZCrXVUW9
+ kax+wbUh2AgMjAcJc80LCadix2tmzHQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-278-9FvT7gZoM3i0E3GhzqKuCw-1; Fri, 04 Nov 2022 10:08:32 -0400
+X-MC-Unique: 9FvT7gZoM3i0E3GhzqKuCw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ bg21-20020a05600c3c9500b003c2acbff422so3787125wmb.0
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 07:08:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=F81pttFdbfmsLNaUHX8ip+H3ml9caj4SrX+nqGEF1IU=;
+ b=ROFP8M/GiNHRgSgCjYYHAnawdNL6jRrmBaIEF8ufaXfiESE1O/5pNCFmSiFb7kypeK
+ GLQyKLyRCgeI1a1rJRQo6muCJiHMTR4Zs8bkCJnPyap5B+kFiQbVQBJYKpMYuF/pe90d
+ dPF8CPL3kPIqetbl3jgobkQI0iRgFv8Cbe46o2ULhQKN9g7HmRycMASpJk3K1pgFkrVs
+ KEAnf7q5H/peHENu5ur2gNPbgkke0WGuj7FkGmbj0VT5rjHepINXCn26wOO+b2xWaioB
+ 0SZUh/SNxfprF3dqe2wE1i7w3Ds6NiW5YZONz9sJXh06fAwr62v7FVeJKJJTHbMsBwAV
+ IABw==
+X-Gm-Message-State: ACrzQf23Y+8Momgat/jWqtMtWBB0GC8XUCZyvtmwZXGU5E2VwNc/c+1A
+ ZXL7+32gyBkBc49TgL6v+JBPF7xeILshk2vyH7MXBFEYQYsWKJwNURm4H1ULyQwYOYskU1lbpzq
+ mz8ltIpgh8WimBrA=
+X-Received: by 2002:a5d:4ac8:0:b0:236:781a:8d2d with SMTP id
+ y8-20020a5d4ac8000000b00236781a8d2dmr23214126wrs.715.1667570909885; 
+ Fri, 04 Nov 2022 07:08:29 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6+iBh09v+z6Ziw9YViIfjc6YDRFYTdxTcQ3thrnKrPZN0Qh5T6Ge04zrc7gn5th3ePfm3LgA==
+X-Received: by 2002:a5d:4ac8:0:b0:236:781a:8d2d with SMTP id
+ y8-20020a5d4ac8000000b00236781a8d2dmr23214098wrs.715.1667570909498; 
+ Fri, 04 Nov 2022 07:08:29 -0700 (PDT)
+Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ p7-20020a05600c358700b003c6b9749505sm1002842wmq.30.2022.11.04.07.08.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Nov 2022 07:08:28 -0700 (PDT)
+Message-ID: <6d2f8cc3-f2de-d13a-8691-f71efcba5b81@redhat.com>
+Date: Fri, 4 Nov 2022 15:08:27 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v11 01/11] s390x: Register TYPE_S390_CCW_MACHINE
- properties as class properties
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2] gitlab-ci: increase clang-user timeout
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com
-References: <20221103170150.20789-1-pmorel@linux.ibm.com>
- <20221103170150.20789-2-pmorel@linux.ibm.com>
- <3f913a58-e7d0-539e-3bc0-6cbd5608db8e@redhat.com>
- <7d809617-67e0-d233-97b2-8534e2a4610f@linux.ibm.com>
- <6415cf08-e6a1-c72a-1c56-907d3a446a8c@kaod.org>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <6415cf08-e6a1-c72a-1c56-907d3a446a8c@kaod.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20221104113659.427690-1-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20221104113659.427690-1-stefanha@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 6IZN23bgQYLA5X6fYCu14iKrRa7ao3Tl
-X-Proofpoint-ORIG-GUID: D5mrQGLF8qIyXIi7GO6zitXJS-N83vsn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-04_09,2022-11-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- impostorscore=0 adultscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
- priorityscore=1501 clxscore=1015 malwarescore=0 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211040089
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -126,71 +101,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 04/11/2022 12.36, Stefan Hajnoczi wrote:
+> The clang-user test exceeds the 1 hour timeout occassionally.
+> 
+> Philippe Mathieu-Daudé has pointed out that the number of tcg tests has
+> increased since QEMU 7.1. The execution time therefore probably reflects
+> a legitimate increase in tests rather than a performance regression.
+> 
+> Bump the timeout to prevent CI failures.
+> 
+> Suggested-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+> v2:
+> - Increase the timeout instead of splitting tests [Thomas]
+> ---
+>   .gitlab-ci.d/buildtest.yml | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+> index 6c05c46397..7173749c52 100644
+> --- a/.gitlab-ci.d/buildtest.yml
+> +++ b/.gitlab-ci.d/buildtest.yml
+> @@ -327,6 +327,7 @@ clang-user:
+>     extends: .native_build_job_template
+>     needs:
+>       job: amd64-debian-user-cross-container
+> +  timeout: 70m
+>     variables:
+>       IMAGE: debian-all-test-cross
+>       CONFIGURE_ARGS: --cc=clang --cxx=clang++ --disable-system
 
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-On 11/4/22 11:53, Cédric Le Goater wrote:
-> On 11/4/22 11:16, Pierre Morel wrote:
->>
->>
->> On 11/4/22 07:32, Thomas Huth wrote:
->>> On 03/11/2022 18.01, Pierre Morel wrote:
->>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>>> ---
->>>>   hw/s390x/s390-virtio-ccw.c | 127 
->>>> +++++++++++++++++++++----------------
->>>>   1 file changed, 72 insertions(+), 55 deletions(-)
->>>
->>> -EMISSINGPATCHDESCRIPTION
->>>
->>> ... please add some words *why* this is a good idea / necessary.
->>
->> I saw that the i386 patch had no description for the same patch so...
->>
->> To be honest I do not know why it is necessary.
->> The only reason I see is to be in sync with the PC implementation.
->>
->> So what about:
->> "
->> Register TYPE_S390_CCW_MACHINE properties as class properties
->> to be conform with the X architectures
->> "
->> ?
->>
->> @Cédric , any official recommendation for doing that?
-> 
-> There was a bunch of commits related to QOM in this series :
-> 
->    91def7b83 arm/virt: Register most properties as class properties
->    f5730c69f0 i386: Register feature bit properties as class properties
-> 
-> which moved property definitions at the class level.
-> 
-> Then,
-> 
->    commit d8fb7d0969 ("vl: switch -M parsing to keyval")
-> 
-> changed machine_help_func() to use a machine class and not machine
-> instance anymore.
-> 
-> I would use the same kind of commit log and add a Fixes tag to get it
-> merged in 7.2
-> 
-> With that,
-> 
-> Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> 
-> Thanks,
-> 
-> C.
-> 
-> 
-
-OK,
-Thanks,
-
-Pierre
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
