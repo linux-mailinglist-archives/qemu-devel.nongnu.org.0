@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E642061A05A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 19:54:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B21DC61A19C
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 20:55:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1or1oj-0002vk-RT; Fri, 04 Nov 2022 14:53:25 -0400
+	id 1or2lD-0005OM-KL; Fri, 04 Nov 2022 15:53:51 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1or1oh-0002uq-3K
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 14:53:23 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ (Exim 4.90_1) (envelope-from <francesco.cagnin@gmail.com>)
+ id 1or1dr-00054K-UG; Fri, 04 Nov 2022 14:42:12 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1or1of-000657-JD
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 14:53:22 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- f5-20020a17090a4a8500b002131bb59d61so8080887pjh.1
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 11:53:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=i9oKGR3dFj8eHeA7Ntn9YaUWFVgkAsTJGd3eqM2jUTw=;
- b=xiWf9OIUUs9DtfZ9DK7B4x3SwUziDn9XTbpL6cCXB8x01mL9fj5QJxqqeo+Z+OESsj
- bq357ZAmp4XgOXnLWutUl2v9T19MkgQd2DdAq3XxhjYpXgf3kCpCvJ4fziDEtNCWB+D1
- 1Fh0qsM03PyiAllarNUrENuctal9HxfoJspVnai5PWY43+3PaGQ7aQOQxw8vuT0q8Ptx
- bmWmz5/B+G4ICLI6SSFyS96dx06DC+ym/VRGLVcd8//No0nx8mjWZszYKpFjggiyT5iZ
- 6otu6UOMnrcNc9wVUjJBXR9kLYoPNZuzrD3RqVnKL0goq5s5XiVPJUBLOCwxOOEgSBvV
- pDOg==
+ (Exim 4.90_1) (envelope-from <francesco.cagnin@gmail.com>)
+ id 1or1dq-0004Za-4k; Fri, 04 Nov 2022 14:42:11 -0400
+Received: by mail-wr1-x430.google.com with SMTP id o4so8249869wrq.6;
+ Fri, 04 Nov 2022 11:42:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=MYr9jl5psSrRQcbaLPKPaO442xdmOLg8RfIuQFPRHEY=;
+ b=oHDKHPpfFpD3xGbrP3aYtubfn0lHr+pTNacL4qRYMol9hyM7qZpVzvLazfI8IOy6wB
+ ECIPijeLX/2QCkf9KvGHxgKfVHgmHmJURnrHXaSMJ/m2ByiI6RtMtacGhVipJN1REzei
+ WPnCTX7VAUqIfPReik+40+lstucdzWvcYhya/Lc1TOmflkaZBtSuCPrZFTwI1nCxHtDW
+ 5IEf4BCFcS1vuiF0QIGv68U/RpC1uBc9iGA6fQ+nQkt2d/8ykWOT4XgZfEUv3yhLhUlx
+ Nf95Mg0jcI+VA4xHqj2ehlYl3IfOJUpI2beTjk4WLNeKPOtQ/A04nQhniCOow/QGpLoA
+ ZsFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=i9oKGR3dFj8eHeA7Ntn9YaUWFVgkAsTJGd3eqM2jUTw=;
- b=mKPXc8BHlMHwZopOESEE+w5PnUrCANeRxRfEDV8XfVD4MoDVQtdZ+pnKi0UqKHiyb9
- 1+khF/zUn2lIO/ExwXxbf43McvbmSabVkRttRrVPtoDBKUo0zhAl+9fiVa+5hzbkGmaJ
- i0iI0/twlRLK9oC2rHI2ojR9z8RQNhQid5XvBWNCGUA8O8q1+Di8VuXNLyvR6Gi2cugj
- nXKqV3xJXUYnYzcLA3i5E6xizq+lJ8UssrA6CNJh7eFlmx+JBJpur3kPVWeSwWxHJGGl
- VNApCNQiAKX0ATRdxf30QcxV7toTo9J6vX0K9GL5yZx2b3qfzWJwznQ30lPYTvalgE2y
- sjhA==
-X-Gm-Message-State: ACrzQf3r66lwfyAqHESHDMD8PwyVZyx9qfF7ZAWzUvL7OT5j6Xm0B2z0
- DuuSJqBeOzB5DcEqPHc28vIg1PwXZmfqX604UcS7SI4r3zY2rQ==
-X-Google-Smtp-Source: AMsMyM59sytolC9n0CNF7mAdJa6R3aM0P/KZyO18sZRRfQSKSpMOsQ1G+7x6v8eYHpHjzQNg5vKj8//x4uwjfjDwQ2w=
-X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
- jm23-20020a17090304d700b001788564f754mr36958812plb.60.1667587999265; Fri, 04
- Nov 2022 11:53:19 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=MYr9jl5psSrRQcbaLPKPaO442xdmOLg8RfIuQFPRHEY=;
+ b=SqBhJhlbeTcTrKbFoZ3mwPEMXMuu7OocYAXRjGOQxPCOjIesgbb4ZoEWR/axO2I8Rj
+ 4ME5d0epg+Vp1RVUnJ0XsHuyv4BYdY0SmTUhZ8f2FimjPIGcxdfOf1jSVoKTZbdotgRf
+ gFWHlAEoWxCrvDSxBOCc88ZBha2I7RsdcnkZf2Oqbr6lUQrlR/xvEuLjVjEUG5y/l404
+ Sq2rvZOgQ1pVnbUKgr9QD3DEUagzU26xWPrw9K2S1HlyKXChBrgwUmsh/eFxLicex8CB
+ k8S24HSIe/OPF6mPr2Z1R49niMNDzhKY6KjLFWM1rRikgIGJgpCVBeZYE9BIHGZRCf2e
+ wGsQ==
+X-Gm-Message-State: ACrzQf1e8f56tCnxCdrQ+iFFUdWy3Z1ZcWTiBuVNZv42WLIwmXNzQ0iB
+ EhUavttpkJ6bbOu4lwRbX586sjb4seVWmA==
+X-Google-Smtp-Source: AMsMyM55eSVKRnIYaWT+TH9Veu9Hoq/QA6o062dTcY0c8TANDNHfowtdJCo9Z2CexLQ6adv7dEMf1Q==
+X-Received: by 2002:adf:f58f:0:b0:236:eea6:d4c with SMTP id
+ f15-20020adff58f000000b00236eea60d4cmr11265774wro.39.1667587326053; 
+ Fri, 04 Nov 2022 11:42:06 -0700 (PDT)
+Received: from localhost.localdomain (216.87.95.79.rev.sfr.net. [79.95.87.216])
+ by smtp.gmail.com with ESMTPSA id
+ q11-20020a05600000cb00b00236e9755c02sm22217wrx.111.2022.11.04.11.42.04
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 04 Nov 2022 11:42:05 -0700 (PDT)
+From: francesco.cagnin@gmail.com
+X-Google-Original-From: fcagnin@quarkslab.com
+To: qemu-devel@nongnu.org
+Cc: dirty@apple.com, r.bolshakov@yadro.com, peter.maydell@linaro.org,
+ qemu-arm@nongnu.org, agraf@csgraf.de, pbonzini@redhat.com,
+ Francesco Cagnin <fcagnin@quarkslab.com>
+Subject: [PATCH 0/3] Add gdbstub support to HVF
+Date: Fri,  4 Nov 2022 19:40:58 +0100
+Message-Id: <20221104184101.6923-1-fcagnin@quarkslab.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 4 Nov 2022 18:53:07 +0000
-Message-ID: <CAFEAcA-uLCqTGRPv4KLkc8b4j0QDhx5CFrspcSF+W1NdTDHN1g@mail.gmail.com>
-Subject: Intermittent hang on x86 replay avocado test?
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=francesco.cagnin@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 04 Nov 2022 15:53:47 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,20 +88,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On my machine this avocado test:
+From: Francesco Cagnin <fcagnin@quarkslab.com>
 
-./build/all/tests/venv/bin/avocado run
-./build/all/tests/avocado/replay_kernel.py:ReplayKernelNormal.test_x86_64_pc
+Hello,
 
-seems to hang intermittently (maybe 1 time in 3?).
+This patch series aims to add gdbstub support to HVF (the 'QEMU
+accelerator on macOS that employs Hypervisor.framework') on Apple
+Silicon hosts.
 
-Does anybody else see this? Looking at the avocado logs suggests
-the record part runs fine but the replay part hangs very early
-in the kernel bootup. (Or possibly Avocado has got confused and
-isn't logging all the output.)
+The proposed implementation, structured like the KVM counterpart,
+handles single-stepping, software breakpoints, hardware breakpoints and
+hardware watchpoints on single-core guests (i.e. '-smp 1'). (If
+possible, I'd like to receive guidance on how to add proper support for
+multi-core guests.)
 
-I couldn't trigger it outside avocado.
+The patch has been most recently tested working on macOS Ventura 13.0
+hosts and Linux kernel 5.19 guests with the test script
+'tests/guest-debug/test-gdbstub.py' (slightly updated to make it work
+with Linux kernels compiled on macOS).
 
-thanks
--- PMM
+If deemed useful, I can also submit an analogous patch targeting Intel
+hosts.
+
+Francesco Cagnin (3):
+  arm: move KVM breakpoints helpers
+  hvf: implement guest debugging on Apple Silicon hosts
+  hvf: handle writes of MDSCR_EL1 and DBG*_EL1
+
+ accel/hvf/hvf-accel-ops.c | 124 ++++++++++++++
+ accel/hvf/hvf-all.c       |  24 +++
+ cpu.c                     |   3 +
+ include/sysemu/hvf.h      |  29 ++++
+ include/sysemu/hvf_int.h  |   1 +
+ target/arm/debug_helper.c | 241 +++++++++++++++++++++++++++
+ target/arm/hvf/hvf.c      | 334 +++++++++++++++++++++++++++++++++++++-
+ target/arm/internals.h    |  50 ++++++
+ target/arm/kvm64.c        | 276 -------------------------------
+ 9 files changed, 805 insertions(+), 277 deletions(-)
+
+-- 
+2.38.1
+
 
