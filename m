@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217A7619CD2
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:16:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B9A6619CD5
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:16:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqzM8-0006r1-I6; Fri, 04 Nov 2022 12:15:44 -0400
+	id 1oqzMh-00089u-VQ; Fri, 04 Nov 2022 12:16:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oqzLn-0006Of-69
+ id 1oqzLq-0006Qy-4j
  for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:32 -0400
 Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oqzLi-0000ey-QB
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:21 -0400
-Received: by mail-wr1-x429.google.com with SMTP id l14so7756720wrw.2
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 09:15:17 -0700 (PDT)
+ id 1oqzLj-0000fP-Ph
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:22 -0400
+Received: by mail-wr1-x429.google.com with SMTP id z14so7736022wrn.7
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 09:15:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=H9hwAA0DcxOYZoJyqoZ1ozIGEqWmFdqQjoUlMglPP7E=;
- b=NZZYVQ2dDrw2Vs9agDigkkpKHdMad07r+c/c+q+589OubuGsPBwh28jnfjjwPis6zS
- Hdfv4ppIT8F2xPvylW3/pB9m0x5N5vWBlIDtrhiGF1By2hh0V8/8CPOzbg8apIe7ZcCQ
- HR4cDRFGS1qBWRmrg61cf21fijIjIG8a/6/g3a57r72PMRwtM1IQWpLMYI28ob4LCERL
- +GJDHXVoB5JJo8q8/HhH+BTp29+PlcnjXsYcrKFfaM8wchPxglT4vLnp9ITCAymjYVhi
- ABMT+Fl9co5jCCejWs9bsBavPRERttPlI5uX2iXk9sevE49swYba3Dg67VU2qAPTG7BU
- ok+w==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=BU6PNz3e99/tD5N663Lv9AewYZquVRh/84XMEC2v1g8=;
+ b=U2ljhIqqroADthC6bE9W8xn64W4wuRDyi+MmbEFW1diIa4wIJA+rE+W9FX2GLXG+yB
+ xV8lnNova0psX12PLfJgHSlvHGXipwtYsG2X7ve/pvsGb+eHR68RlFthwiQ5x1czwCEz
+ MT+BJIi3dAyyo5zrg7oZIFzCILC+SHZXIe2dKJoM4JGXp8gBV/z8tVP0LplaXU5JcDiM
+ WAl9JxNZPIyEDmVZBqgcITGx6bPasD16rAvrnOMf/FHI2j6GVzTnUs4sakgzNRUJjQ93
+ XSu7Ovvj+G1qJ6frs3S25YW9IZCLsbKoucmWmrwpwhQKqaNdz0tdUqgvjdXqSw3lKko5
+ JF+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=H9hwAA0DcxOYZoJyqoZ1ozIGEqWmFdqQjoUlMglPP7E=;
- b=AftF1TK4nFHFx1NU8ibBzoUXw6y/7mUoQT2wXgVlX4wTI1I1u47bZXrjuFu+sZj+kE
- U3gITWJnp8sWF/D28pyfjV9ydWB3Zbavd+j9je8CX1jxaCaoJD2DG5UHWsMsKRp1Aq7N
- 4bjYp8MQmW81IkQuyD8o7GMYl4VFY/ciZfzTpznYTkZiCq/6Hwy8I8j7L506Nf4YPPfi
- OXbm4/JWbRU/jmJ4xehVMSklAi32ox7i6suMryGX+05Kp7IQhlsgeC9YJgkF1mUBYozQ
- kxoWhu5KEWuaRQe8LSkkAihoJv7KvjJJfcLo9qrcpZSAhFMockNjuOfw4ek71mfJKVXd
- 04tg==
-X-Gm-Message-State: ACrzQf0bx2I6kg0q7leu68iuhXBLrUQIis1qNUUwN+BP/9kHtMA2JMlz
- A1RGbNT7Zou/1FyKAEvdE2hSQbjYmSgw5A==
-X-Google-Smtp-Source: AMsMyM4owx1KqXDgTHAHmF2kuapX8ziCR+ECdFmfo3A4DVRRWOAghpvsjodUEeWvBooZnF0oM5Sk/A==
-X-Received: by 2002:adf:fe01:0:b0:22c:de9a:9896 with SMTP id
- n1-20020adffe01000000b0022cde9a9896mr259812wrr.27.1667578516125; 
- Fri, 04 Nov 2022 09:15:16 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BU6PNz3e99/tD5N663Lv9AewYZquVRh/84XMEC2v1g8=;
+ b=qEkkCBuh7oECwZSja4/L2PEvLV2VERc4WLNjaPT2Wg4U2IRWNBzBg3MUQ9u4MdlXfc
+ 6lo2b8ilXJnuQvscCLNUNJPBzhewYcSMMlOLrE8UAYbpMe1lOLfri2QcjIwneT3PCPXH
+ I7zf7CTh8X2s7Y5a/oVBTXWURI5tIPjQEIT/PHe6AAzo0OEbPXnNeGQFOIuZhtWRecAw
+ EP0tZdDjfZZace3WgSicPOOqyu4/GgKruHCj7XwNlS55umVGxG1U8FIscWgLJ80zjvzV
+ Ce4hbgYH+T/I6dtrVR+xtbTZtuVfrLdzQZ26tT6pHkpKRE+5YxfTN106KYUPYrVfbGx9
+ pFDg==
+X-Gm-Message-State: ACrzQf1Z1Wk1uUKNpkFqBw7JpyXxkj69jjMDQDwARXhYgkeHB6zjSz0R
+ lzrVmVpD4pXrBpv+XQDmy0zH8M1s0ggZwQ==
+X-Google-Smtp-Source: AMsMyM5iABiKrHxgKVwdJrrzrQLhBTQmIhfHy46QBt1u3QXPm0teZC/SQ3Q+RIvKLs2j0/9mEZoKKQ==
+X-Received: by 2002:a5d:5a97:0:b0:236:9701:97d2 with SMTP id
+ bp23-20020a5d5a97000000b00236970197d2mr249304wrb.185.1667578517534; 
+ Fri, 04 Nov 2022 09:15:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- ay5-20020a5d6f05000000b0022e57e66824sm4649645wrb.99.2022.11.04.09.15.14
+ ay5-20020a5d6f05000000b0022e57e66824sm4649645wrb.99.2022.11.04.09.15.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 09:15:15 -0700 (PDT)
+ Fri, 04 Nov 2022 09:15:17 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
@@ -64,12 +65,14 @@ Cc: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
  Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-s390x@nongnu.org,
  qemu-ppc@nongnu.org
-Subject: [PATCH for-8.0 0/9] reset: Remove some deprecated APIs
-Date: Fri,  4 Nov 2022 16:15:04 +0000
-Message-Id: <20221104161513.2455862-1-peter.maydell@linaro.org>
+Subject: [PATCH for-8.0 1/9] hw/s390x/s390-pci-inst.c: Use device_cold_reset()
+ to reset PCI devices
+Date: Fri,  4 Nov 2022 16:15:05 +0000
+Message-Id: <20221104161513.2455862-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221104161513.2455862-1-peter.maydell@linaro.org>
+References: <20221104161513.2455862-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::429;
  envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
@@ -79,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,55 +98,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patchset removes the remaining uses of some deprecated
-reset-related APIs:
- * device_legacy_reset() -- replaced with device_cold_reset()
-   (conversions require some thought)
- * qdev_reset_all() -- replaced with device_cold_reset()
-   (mechanical no-behaviour-change conversion)
- * qbus_reset_all() -- replaced with bus_cold_reset()
-   (mechanical no-behaviour-change conversion)
+The semantic difference between the deprecated device_legacy_reset()
+function and the newer device_cold_reset() function is that the new
+function resets both the device itself and any qbuses it owns,
+whereas the legacy function resets just the device itself and nothing
+else.
 
-The first four patches have been on the list already; the
-first three have been reviewed.
+In s390-pci-inst.c we use device_legacy_reset() to reset an
+S390PCIBusDevice.  This device doesn't have any child qbuses, so the
+functions do the same thing and we can stop using the deprecated one.
 
-Mostly just tested with 'make check' and 'make check-avocado'.
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/s390x/s390-pci-inst.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This is of course all for-8.0 material, but I figured I
-might as well push it out on list for review, especially
-since I have some followup stuff that depends on this.
-
-thanks
--- PMM
-
-Peter Maydell (9):
-  hw/s390x/s390-pci-inst.c: Use device_cold_reset() to reset PCI devices
-  hw/audio/intel-hda: don't reset codecs twice
-  hw/audio/intel-hda: Drop unnecessary prototype
-  hw/usb/hcd-xhci: Reset the XHCIState with device_cold_reset()
-  pci: Use device_cold_reset() and bus_cold_reset()
-  hw/hyperv/vmbus: Use device_cold_reset() and bus_cold_reset()
-  Replace use of qdev_reset_all() with device_cold_reset()
-  qdev: Remove qdev_reset_all() and qbus_reset_all()
-  hw: Remove device_legacy_reset()
-
- include/hw/qdev-core.h     | 35 ---------------------
- hw/audio/intel-hda.c       |  6 +---
- hw/core/qdev.c             | 64 --------------------------------------
- hw/hyperv/vmbus.c          |  4 +--
- hw/i386/xen/xen_platform.c |  2 +-
- hw/input/adb.c             |  2 +-
- hw/pci/pci.c               |  6 ++--
- hw/pci/pci_bridge.c        |  2 +-
- hw/remote/vfio-user-obj.c  |  2 +-
- hw/s390x/s390-pci-inst.c   |  2 +-
- hw/s390x/s390-virtio-ccw.c |  2 +-
- hw/usb/dev-uas.c           |  2 +-
- hw/usb/hcd-xhci-pci.c      |  2 +-
- hw/usb/hcd-xhci-sysbus.c   |  2 +-
- hw/core/trace-events       |  4 ---
- 15 files changed, 15 insertions(+), 122 deletions(-)
-
+diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+index 20a9bcc7afb..16f5a3e81b4 100644
+--- a/hw/s390x/s390-pci-inst.c
++++ b/hw/s390x/s390-pci-inst.c
+@@ -272,7 +272,7 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
+                 stw_p(&ressetpci->hdr.rsp, CLP_RC_SETPCIFN_FHOP);
+                 goto out;
+             }
+-            device_legacy_reset(DEVICE(pbdev));
++            device_cold_reset(DEVICE(pbdev));
+             pbdev->fh &= ~FH_MASK_ENABLE;
+             pbdev->state = ZPCI_FS_DISABLED;
+             stl_p(&ressetpci->fh, pbdev->fh);
 -- 
 2.25.1
 
