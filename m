@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E4BD619534
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 12:14:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4721361956E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 12:36:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqudT-0001Nf-3F; Fri, 04 Nov 2022 07:13:19 -0400
+	id 1oquyr-00019i-Bg; Fri, 04 Nov 2022 07:35:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oqudQ-0001NV-Pw
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:13:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oqudL-0004gJ-5K
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:13:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667560389;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8KDJ1RJq8F1kD9O1rJJ5VIgVidhcPnJhr49kpA9tapE=;
- b=Av4aHjp7ftlJPwzAj2pmgD2oScCVf1g2ooadDB17ADRzlz3WZW0ZWh3XUkwXOp/GUoAGi1
- gsJ/xOFgbwpwGBr5NITv75JqyFZY/cbCs8AO3n1A9RL0QbNHlup/rQtDu5Ec7T8hABfQQj
- FnoSD/znVVZM1DkX4z5Y6La9aynv2Mk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-240-tUDirOa8OLCZG3s77sxoiw-1; Fri, 04 Nov 2022 07:13:06 -0400
-X-MC-Unique: tUDirOa8OLCZG3s77sxoiw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6877A800B23;
- Fri,  4 Nov 2022 11:13:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D9F3403160;
- Fri,  4 Nov 2022 11:13:04 +0000 (UTC)
-Date: Fri, 4 Nov 2022 11:13:02 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH] tests/qtest: netdev: test stream and dgram backends
-Message-ID: <Y2Tzvp5Z+bSBdTBj@redhat.com>
-References: <20221104092236.184792-1-lvivier@redhat.com>
- <Y2TeNFBUnwW9XZBk@redhat.com>
- <680deee3-ccf7-b32c-2dfe-189ab02463d4@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oquyp-00018M-Da
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:23 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oquym-00084s-KN
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:23 -0400
+Received: by mail-wr1-x434.google.com with SMTP id l14so6681726wrw.2
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 04:35:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=xs0cAzuJbQmpzNJTlX5CiKuU22tOMOycVjeYOqAoYLo=;
+ b=LhZz1HNyIeLBRkVProbSsGXjTz+C7tOmXRiyqaiMTKZSj3/GlrWUz6kg6tfA5CR9Xh
+ w3jUROFJpS1w/rUjgO96w+hMCvBi0R0fvjgOjGZm4S++iIKonjtB8Wc2Yzb6oZ69ujxW
+ sFICQ4oU6j1rofFiYdBwceuucNMY6jCW/0pF+f23IjqdAxYe8HqEFEzBJ59YWcn8ApWz
+ mCeK2tnfmQQFHtxSK5NMauaCXZQA36U5bbWkgcjg2C7cmR7//oOSo3kRCRCvlKDc8svP
+ SGgszm6MKMgz/dFf56Vs88Z358TQOBAvankalJtljYq2J6p6Y7oaaGDX1yam4RGPquRi
+ CZfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xs0cAzuJbQmpzNJTlX5CiKuU22tOMOycVjeYOqAoYLo=;
+ b=wpedG+agsxN+y1jIU7saOZoeVOr74Z/3bp0mAKdgryPwFeZ527EkdJ5YhoMdKqNUGu
+ VfhHK36JzxevedWaUEXAzNjX8awc3SJBF1AHOnX0kKAHsQlmfEE6F22TbbOlrbtEpV0K
+ 3sz1X2dZVsaXTAZryR143PxV/0V26K0zG9SoZSrKrrJuX3cFHDIMPvwDXJmN+b6BpdBA
+ aNImjxP+C51wYhXCcfgWu5xfGWv+wsuFkOT7mVaQ2DUBZ3KQuEUnMl0+IRBLLPcNyRfy
+ MR0AeabUmf3w1DzsLq71cpiKD431MmsImUh1MXoqIFn17RnEy97RRCXKc8crdJgZLbB+
+ S0Dw==
+X-Gm-Message-State: ACrzQf3jyIfFaXM5siPKeJxuSvxifFYg0gsZAyEgYrWX2jNev7b3fs6Q
+ c/3FRI0EicQk035atWsiGEsZ7AgIskJnDw==
+X-Google-Smtp-Source: AMsMyM6OtyiFdNIvQuiftJ7qeyLgWrj7p+1gDpT8pReZtSVftqNx6Gf2oecq/9Y+NDj/30NJvdzJGg==
+X-Received: by 2002:a5d:51c2:0:b0:236:7000:8e82 with SMTP id
+ n2-20020a5d51c2000000b0023670008e82mr22011360wrv.191.1667561718435; 
+ Fri, 04 Nov 2022 04:35:18 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ g17-20020a5d4891000000b0023655e51c33sm3255743wrq.4.2022.11.04.04.35.17
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Nov 2022 04:35:17 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/7] target-arm queue
+Date: Fri,  4 Nov 2022 11:35:08 +0000
+Message-Id: <20221104113515.2278508-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <680deee3-ccf7-b32c-2dfe-189ab02463d4@redhat.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,50 +83,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 04, 2022 at 11:58:29AM +0100, Laurent Vivier wrote:
-> On 11/4/22 10:41, Daniel P. Berrangé wrote:
-> ...
-> > > +static void test_stream_unix(void)
-> > > +{
-> > > +    QTestState *qts0, *qts1;
-> > > +    char *expect;
-> > > +    gchar *path;
-> > > +    int ret;
-> > > +
-> > > +    ret = g_file_open_tmp("netdev-XXXXXX", &path, NULL);
-> > > +    g_assert_true(ret >= 0);
-> > > +    close(ret);
-> > 
-> > This is creating a zero length plain file, and then paassing
-> > that as a path for the UNIX socket.
-> > 
-> > This is pretty dubious and only works because the code will
-> > be doing 'unlink' on the path. Just delete this as there's
-> > no reason to pre-create anything on disk for UNIX sockets.
-> > 
-> 
-> The idea here is to generate a path for the socket and to be sure this path
-> is actually not already in use.
+Hi; this pull request has a collection of bug fixes for rc0.
+The big one is the trusted firmware boot regression fix.
 
-Create a temporary directory, and let it create a socket inside
-that dir ?
+thanks
+-- PMM
 
-> The same for the abstract one, how to be sure we are not running the same
-> test concurrently and select a different unix name?
+The following changes since commit ece5f8374d0416a339f0c0a9399faa2c42d4ad6f:
 
-I guess creating the temp file gives you an indirect guarantee, because
-we know the tempfile path will be transformed to an abstract socket path
-by twiddling byte 0 to NUL.
+  Merge tag 'linux-user-for-7.2-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-11-03 10:55:05 -0400)
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+are available in the Git repository at:
 
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20221104
+
+for you to fetch changes up to cead7fa4c06087c86c67c5ce815cc1ff0bfeac3a:
+
+  target/arm: Two fixes for secure ptw (2022-11-04 10:58:58 +0000)
+
+----------------------------------------------------------------
+target-arm queue:
+ * Fix regression booting Trusted Firmware
+ * Honor HCR_E2H and HCR_TGE in ats_write64()
+ * Copy the entire vector in DO_ZIP
+ * Fix Privileged Access Never (PAN) for aarch32
+ * Make TLBIOS and TLBIRANGE ops trap on HCR_EL2.TTLB
+ * Set SCR_EL3.HXEn when direct booting kernel
+ * Set SME and SVE EL3 vector lengths when direct booting kernel
+
+----------------------------------------------------------------
+Ake Koomsin (1):
+      target/arm: Honor HCR_E2H and HCR_TGE in ats_write64()
+
+Peter Maydell (3):
+      hw/arm/boot: Set SME and SVE EL3 vector lengths when booting kernel
+      hw/arm/boot: Set SCR_EL3.HXEn when booting kernel
+      target/arm: Make TLBIOS and TLBIRANGE ops trap on HCR_EL2.TTLB
+
+Richard Henderson (2):
+      target/arm: Copy the entire vector in DO_ZIP
+      target/arm: Two fixes for secure ptw
+
+Timofey Kutergin (1):
+      target/arm: Fix Privileged Access Never (PAN) for aarch32
+
+ hw/arm/boot.c           |  5 ++++
+ target/arm/helper.c     | 64 +++++++++++++++++++++++++++++--------------------
+ target/arm/ptw.c        | 50 ++++++++++++++++++++++++++++----------
+ target/arm/sve_helper.c |  4 ++--
+ 4 files changed, 83 insertions(+), 40 deletions(-)
 
