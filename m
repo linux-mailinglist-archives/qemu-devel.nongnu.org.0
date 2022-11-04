@@ -2,102 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F50619175
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 07:56:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7F8C61921C
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 08:38:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqqbL-0005qT-21; Fri, 04 Nov 2022 02:54:52 -0400
+	id 1oqrEm-00086l-Sc; Fri, 04 Nov 2022 03:35:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oqqb2-0005q9-U6
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 02:54:33 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqqrn-0005ZC-DI
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 03:11:51 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oqqb1-00073N-0l
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 02:54:32 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqqrl-0000nE-87
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 03:11:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667544868;
+ s=mimecast20190719; t=1667545907;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1PLwjNrS10hAl93Noag9w4eSRGv8NX8MdSS5oxSA4BI=;
- b=UlLDWPOeCxXi9Tf6hUkbBOgZhsybeho9/vWRxpuLX/5EiJG0LzfJxXOAHD1WHYPmWIpqXY
- N7jM62u0c9hYIVIOHpb6MA5GrUImKUTf/PgMN7qOVyHx29JZbMZ651Kx1CZU5UComKsl9/
- KI+ecOoCoX/34LGZlg2lewf7GulboJs=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VU8Kjmih8OLoUuq0S8n8YDeaRgiQBrQ0MdEuP1JENMw=;
+ b=IxvrSmlP0zh6mNB88CO2PygbpJiyYD58WoCH/w44bS1BAm/gwFR3BuGfe2hBwvhMe7jHE7
+ kZ82McQXI4jea2yABPp8Q72YF2xPV0jZY7dz6x9V5BF0mCrwAijB8aVP8V4jZ1Z//ZwdNc
+ VyqYj6FBkmnfWkJAHjEK0anDTGw+1YA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-169-nFaZwHGENX68NNmxoMyGSw-1; Fri, 04 Nov 2022 02:54:24 -0400
-X-MC-Unique: nFaZwHGENX68NNmxoMyGSw-1
-Received: by mail-pf1-f200.google.com with SMTP id
- f189-20020a6238c6000000b0056e3400fdc0so1973982pfa.10
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 23:54:24 -0700 (PDT)
+ us-mta-375-UW9WnXJUM6Oo3I3nFKhntw-1; Fri, 04 Nov 2022 03:11:46 -0400
+X-MC-Unique: UW9WnXJUM6Oo3I3nFKhntw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ j20-20020adfb314000000b002366d9f67aaso946012wrd.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 00:11:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1PLwjNrS10hAl93Noag9w4eSRGv8NX8MdSS5oxSA4BI=;
- b=VSd6taQrLMq12h/lWUp9ZQv0V/gAvmdA9l8P2QHMy0wA4H6uocZjt8gy8kBrHyKUlj
- I8Mr9JWkyStewHtGySJkZrWipSYUsYTFJV/pU5/HhIrhYmJ4SFYy6rHvTEWghmKUCWfc
- rxRvIkf+7M2l79PwZwkNj05GWaiQ+LTnv4rl2DTLxigllAygDf1lFi0dPX0pMuIpSO79
- rwAxAKz4mT4SPsDeG6b+31IxNb0sgs/mGDkcflaW20eWppfgKNRamABxQV+5o4glv36E
- rwljEvqAd2AiBIr+2AAY3Gfryy0LK1GMMhgGurhHe8dUW2/2yxyKkxmtg1GasuliPNdj
- 5vjw==
-X-Gm-Message-State: ACrzQf1mL1Fd0nsU7vrFFIDtucsm2EMAl0/DwP3SEdASALGhqrW3ylT+
- t0xpIA2dwDUpgX7d5qajpw71oqlIZKQQQWuUcX4LRzVS1SOl78RKamYGZMdTfxjC8dMGYURSHVT
- trArkN66boII0Qm0=
-X-Received: by 2002:a17:902:eb8a:b0:186:949e:8eb6 with SMTP id
- q10-20020a170902eb8a00b00186949e8eb6mr34444905plg.63.1667544863280; 
- Thu, 03 Nov 2022 23:54:23 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5oynVY5eRCch1+7iu0gHDiqvgDtt/2V13XPjw3vIEzqAfpQKMY9zH+TdeGGfW+fRvotJU5mg==
-X-Received: by 2002:a17:902:eb8a:b0:186:949e:8eb6 with SMTP id
- q10-20020a170902eb8a00b00186949e8eb6mr34444879plg.63.1667544862994; 
- Thu, 03 Nov 2022 23:54:22 -0700 (PDT)
-Received: from [10.72.13.71] ([43.228.180.230])
- by smtp.gmail.com with ESMTPSA id
- p188-20020a62d0c5000000b005668b26ade0sm1863136pfg.136.2022.11.03.23.54.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Nov 2022 23:54:22 -0700 (PDT)
-Message-ID: <f37dc07b-5855-7823-2028-c50fa4b10eb1@redhat.com>
-Date: Fri, 4 Nov 2022 14:54:11 +0800
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VU8Kjmih8OLoUuq0S8n8YDeaRgiQBrQ0MdEuP1JENMw=;
+ b=UKi5IO6WQJY3dztXz2ePf9+isImyzRqAApmRiqX+eX67eSGjCvgVluxC0hLScuwibi
+ FwwbMVXZkwJdveq6rSq7+7axRWpyjg47fpt0iC+cJhmJHcXPz+UtvZH5146updpnxEOo
+ qhqcOl9G73hvoMWgLvXuQ/h6o3ULT2zT8rgngWpmToXZbCyTbAfnUH3MUHrJidlb8KrU
+ GYYfuxjunTom9RaJj/3tc2YPrA3HhvNujknoAdui4JdHtpzPT053YT4Z9UrfPrXKBRcY
+ JF844uB2sBUiyIzJWm7dbvqG+TN8bwcvgbd3DH6Pj7qDXGmfWkNLwWZNIDjxiLOI8H+n
+ XmLw==
+X-Gm-Message-State: ACrzQf1V613X0gb7hfghLiQYVX1gkB57PWwPHH0p1NSIkQrt+uXYr+db
+ iTAXh6+hwtLZwJP0dyUJlTgWg3/Rz2ebVJQQznTFE+0HSmiqK/aBue+bCq8Qm3oZa0axRa5EP9K
+ epuUQEGGpvGylHtI=
+X-Received: by 2002:adf:fbd0:0:b0:236:aad0:b357 with SMTP id
+ d16-20020adffbd0000000b00236aad0b357mr21419746wrs.401.1667545904658; 
+ Fri, 04 Nov 2022 00:11:44 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM675N3Bg/Xe0W9D/os7zl5drPJStpV0iek81Nayei1h9wx+QwIKUdVFwefawW2Rhj1vYtgneA==
+X-Received: by 2002:adf:fbd0:0:b0:236:aad0:b357 with SMTP id
+ d16-20020adffbd0000000b00236aad0b357mr21419732wrs.401.1667545904422; 
+ Fri, 04 Nov 2022 00:11:44 -0700 (PDT)
+Received: from redhat.com ([2.52.149.81]) by smtp.gmail.com with ESMTPSA id
+ bj4-20020a0560001e0400b002322bff5b3bsm3350129wrb.54.2022.11.04.00.11.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Nov 2022 00:11:43 -0700 (PDT)
+Date: Fri, 4 Nov 2022 03:11:40 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Yajun Wu <yajunw@nvidia.com>
+Cc: qemu-devel@nongnu.org, parav@nvidia.com
+Subject: Re: [PATCH v3 0/2] vhost-user: Support vhost_dev_start
+Message-ID: <20221104025833-mutt-send-email-mst@kernel.org>
+References: <20220629022517.2600911-1-yajunw@nvidia.com>
+ <20221017064452.1226514-1-yajunw@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.0
-Subject: Re: [PATCH v14 16/17] tests/qtest: netdev: test stream and dgram
- backends
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, xen-devel@lists.xenproject.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, Stefan Weil <sw@weilnetz.de>,
- David Gibson <david@gibson.dropbear.id.au>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Eric Blake <eblake@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>, Greg Kurz <groug@kaod.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20221021090922.170074-1-lvivier@redhat.com>
- <20221021090922.170074-17-lvivier@redhat.com>
- <700ef645-6cb6-66e6-00a9-3db187be0c43@redhat.com>
- <0fd82709-7612-25e0-66c0-d9494931d8c4@redhat.com>
-Content-Language: en-US
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <0fd82709-7612-25e0-66c0-d9494931d8c4@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221017064452.1226514-1-yajunw@nvidia.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,77 +95,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-在 2022/11/3 17:33, Laurent Vivier 写道:
-> On 10/28/22 07:04, Jason Wang wrote:
->>
->> 在 2022/10/21 17:09, Laurent Vivier 写道:
->>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
->>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
->>> ---
->>
->>
->> I got this:
->>
->> 63/63 ERROR:../tests/qtest/netdev-socket.c:139:test_stream_inet_ipv6: 
->> assertion failed (resp == expect): ("st0: 
->> index=0,type=stream,connection error\r\n" == "st0: 
->> index=0,type=stream,tcp:::1:40389\r\n") ERROR
->> 63/63 qemu:qtest+qtest-x86_64 / 
->> qtest-x86_64/netdev-socket                  ERROR 5.29s   killed by 
->> signal 6 SIGABRT
->>  >>> QTEST_QEMU_IMG=./qemu-img QTEST_QEMU_BINARY=./qemu-system-x86_64 
->> MALLOC_PERTURB_=96 
->> QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon 
->> G_TEST_DBUS_DAEMON=/home/devel/git/qemu/tests/dbus-vmstate-daemon.sh 
->> /home/devel/git/qemu/build/tests/qtest/netdev-socket --tap -k
->> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― 
->> ✀ 
->> ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
->> stderr:
->> **
->> ERROR:../tests/qtest/netdev-socket.c:139:test_stream_inet_ipv6: 
->> assertion failed (resp == expect): ("st0: 
->> index=0,type=stream,connection error\r\n" == "st0: 
->> index=0,type=stream,tcp:::1:40389\r\n")
->>
->> (test program exited with status code -6)
->
-> I'm not able to reproduce the problem.
->
-> Is this 100% reproducible?
+On Mon, Oct 17, 2022 at 02:44:50PM +0800, Yajun Wu wrote:
+> The motivation of adding vhost-user vhost_dev_start support is to
+> improve backend configuration speed and reduce live migration VM
+> downtime.
+> 
+> Today VQ configuration is issued one by one. For virtio net with
+> multi-queue support, backend needs to update RSS (Receive side
+> scaling) on every rx queue enable. Updating RSS is time-consuming
+> (typical time like 7ms).
+> 
+> Implement already defined vhost status and message in the vhost
+> specification [1].
+> (a) VHOST_USER_PROTOCOL_F_STATUS
+> (b) VHOST_USER_SET_STATUS
+> (c) VHOST_USER_GET_STATUS
+> 
+> Send message VHOST_USER_SET_STATUS with VIRTIO_CONFIG_S_DRIVER_OK for
+> device start and reset(0) for device stop.
+> 
+> On reception of the DRIVER_OK message, backend can apply the needed setting
+> only once (instead of incremental) and also utilize parallelism on enabling
+> queues.
+> 
+> This improves QEMU's live migration downtime with vhost user backend
+> implementation by great margin, specially for the large number of VQs of 64
+> from 800 msec to 250 msec.
+> 
+> Another change is to move the device start routines after finishing all the
+> necessary device and VQ configuration, further aligning to the virtio
+> specification for "device initialization sequence".
+> 
+> [1] https://qemu-project.gitlab.io/qemu/interop/vhost-user.html#introduction
 
 
-Yes.
+This patchset seems to trip up ubsan.
+https://gitlab.com/mitsirkin/qemu/-/pipelines/684763327/failures
 
 
-> Is IPv6 enabled on your test machine?
+specifially:
+
+passes before this patchset:
+https://gitlab.com/mitsirkin/qemu/-/jobs/3269302594
+
+fails with this patchset:
+https://gitlab.com/mitsirkin/qemu/-/pipelines/684763327/failures
+
+(there's one patch on top but it seems unrelated)
 
 
-Yes.
+Seems hard to debug, only reproduced under gitlab though Stefan reports
+reproducing this locally.
+I'm thinking of dropping this patchset for now, deferring to next
+release - thoughts?
 
-Try to investigate it more, it looks like the reason is hostname. I'm 
-testing in ubunut which has the following things in /etc/hosts
 
-127.0.0.1    localhost
-127.0.1.1    jason-ThinkPad-X1-Carbon-6th
-192.168.100.2   guest
 
-# The following lines are desirable for IPv6 capable hosts
-::1     ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-
-So localhost is mapped to ipv4 and there's no ipv6 mappings here. Using 
-"::1" for the address seems to fix the issue.
-
-Thanks
-
->
-> Thanks,
-> Laurent
->
+> v3:
+> - rebase
+> 
+> v2:
+> - add setting status bit VIRTIO_CONFIG_S_FEATURES_OK
+> - avoid adding status bits already set
+> 
+> Yajun Wu (2):
+>   vhost: Change the sequence of device start
+>   vhost-user: Support vhost_dev_start
+> 
+>  hw/block/vhost-user-blk.c | 18 ++++++----
+>  hw/net/vhost_net.c        | 12 +++----
+>  hw/virtio/vhost-user.c    | 74 ++++++++++++++++++++++++++++++++++++++-
+>  3 files changed, 90 insertions(+), 14 deletions(-)
+> 
+> -- 
+> 2.27.0
 
 
