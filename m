@@ -2,90 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C18619D6E
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:37:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED5A619DD3
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:53:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqzgT-00048y-0e; Fri, 04 Nov 2022 12:36:45 -0400
+	id 1oqzuW-00086q-MI; Fri, 04 Nov 2022 12:51:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqzgR-00048P-71
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:36:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1oqzuT-00086N-VQ
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:51:13 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqzgP-0003ja-BM
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:36:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667579800;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pcbnIkm7yFDxFFThtYnvVEKO5/m6mxZ88n/gMxURpzw=;
- b=R1cP8sIj6wAPTuhCtgIHhBrIquEN/NJ1gLpCxQ6yFOK93UdpsLukahBxNgggmdklRd0A9q
- 00BXcjfSiHyLlzZiO00/ZRq6IUll/cKyxrOQK+ZQTTn2W+grRMeEsLNNMscMmDOkrujUju
- LacNcxcj5RS45SJRRENBLYeQMQlgClw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-583-ZkqwJm5xMP6mL0wAYT2bSQ-1; Fri, 04 Nov 2022 12:36:37 -0400
-X-MC-Unique: ZkqwJm5xMP6mL0wAYT2bSQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- p14-20020a05600c204e00b003cf4cce4da5so1945457wmg.0
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 09:36:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pcbnIkm7yFDxFFThtYnvVEKO5/m6mxZ88n/gMxURpzw=;
- b=U6EUkJkv3Oy9jdPyNcBcEM2EynUhSUdmR38lOyZRfltZjjsbqAE45ijMOXSYhiH1mc
- yk8ObbDpaDnTVM++3FfYkRPXu03x+oP30Y5mM8fLlMa4c2vEu81ohEkgbaCpyJWDdvzr
- Uhxen32zOhM8bstNPi9b6t4c3agW6CR2A9rgJIFy+y554N61QKY1Do+1aGa1njJzTH9g
- j9RrLV815reChCyp+1UqWV2rar3MIfBM8MEukc8PGu4Q76RxmgSomL3GHS/5k+7IeceW
- WeF1aZDmX8DDTRu1Pr0anlMWt/zeJHrNCfCVrPteaJrOk/T+V2VdcC8udYtz9k9y827f
- k1Yg==
-X-Gm-Message-State: ACrzQf1svOSkCQ2hEQ028h4EXgockh/57Az5jcKI4umW9qL3q53wiIzn
- dNDme7U5ReCntdRyxJ0iA22UbWOUr6TZp9oeo0k3sR2n257MWDscBLOPgQgWYb5i55D3G7YV1O7
- sq250oVNO18z+gWMboPMvC2l53B24AQFZsATciFhAOSr736vVTGOli3C9nuBF
-X-Received: by 2002:a5d:42c6:0:b0:235:1b3a:8d2e with SMTP id
- t6-20020a5d42c6000000b002351b3a8d2emr22657167wrr.689.1667579796265; 
- Fri, 04 Nov 2022 09:36:36 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4VwN/RvN4LJR6nQ7QTDfUUvfOvwhIRGAz1oo1L5WbujpR3zATOkKdFLNQLx4bkSiVi1DRQiw==
-X-Received: by 2002:a5d:42c6:0:b0:235:1b3a:8d2e with SMTP id
- t6-20020a5d42c6000000b002351b3a8d2emr22657137wrr.689.1667579795843; 
- Fri, 04 Nov 2022 09:36:35 -0700 (PDT)
-Received: from redhat.com ([2.55.180.182]) by smtp.gmail.com with ESMTPSA id
- bs21-20020a056000071500b00228cd9f6349sm3764867wrb.106.2022.11.04.09.36.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 09:36:35 -0700 (PDT)
-Date: Fri, 4 Nov 2022 12:36:31 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Lev Kujawski <lkujaw@mailbox.org>, Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>, John Snow <jsnow@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org
-Subject: Re: [PULL 68/86] hw/ide/piix: Ignore writes of hardwired PCI command
- register bits
-Message-ID: <20221104123545-mutt-send-email-mst@kernel.org>
-References: <20221031124928.128475-1-mst@redhat.com>
- <20221031124928.128475-69-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1oqzuQ-0005gb-N7
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:51:13 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A4FFF31021192;
+ Fri, 4 Nov 2022 16:51:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=EcTqLBwJWIhht36zxmad5anw2ZOi8Z1u8hSM/m94H6o=;
+ b=UQ6RFUTpuk+VwMrH4JlYK+aa8FwU+ltzpxUxkIo3T3RsgQ1FefzMPTR8gjk9sftzBY/H
+ k5J7rNTivnduQ4KzVypnZ0z4Hww50gbt52LiLCB94erKaZ3q+dMqVUej+KQBPlK3JI5q
+ HQYmkr+5ZN2PjAPp7CpBNpb76wEGRhvviHWYoFekkV2t6QP5IqzfcqqxyiestwyYa22A
+ eQhXtAdGDioLIMtCdnulFLMC4Z+nwHQQ7Be70fQ2Z5iHIpiYDF/RRLiBQ9VJnXFtuvVu
+ lgZiz+u2lFZPQPRjZBNqtxtT2Sm/1xYDfAvFq+ND4fpQNF6vXBR1PrUJelgc8T3GutOb fg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmpjre94p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Nov 2022 16:51:07 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A4FLChA025948;
+ Fri, 4 Nov 2022 16:51:07 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmpjre942-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Nov 2022 16:51:07 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A4Gohc4010835;
+ Fri, 4 Nov 2022 16:51:05 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04ams.nl.ibm.com with ESMTP id 3kgut9anfc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Nov 2022 16:51:05 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2A4Gp3V46488826
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 4 Nov 2022 16:51:03 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 506FC11C050;
+ Fri,  4 Nov 2022 16:51:03 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2082E11C04C;
+ Fri,  4 Nov 2022 16:51:03 +0000 (GMT)
+Received: from [9.179.4.209] (unknown [9.179.4.209])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  4 Nov 2022 16:51:03 +0000 (GMT)
+Message-ID: <dc6522b4-0bae-d0b9-431a-6c635fe0492c@linux.ibm.com>
+Date: Fri, 4 Nov 2022 17:51:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.0
+Subject: Re: [RFC PATCH] virtio: re-order vm_running and use_started checks
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20221014132108.2559156-1-alex.bennee@linaro.org>
+ <20221104115340-mutt-send-email-mst@kernel.org>
+ <302d7a5f-069a-f071-b1c2-56bdbb1f625f@linux.ibm.com>
+ <20221104121339-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20221104121339-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: kjS9UAjkuApNBrL8uKFldb4fM2ikznjR
+X-Proofpoint-ORIG-GUID: 9ijCqzF86sA0fazi3RU8OclJdgRochGR
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221031124928.128475-69-mst@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-04_11,2022-11-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ clxscore=1015 spamscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
+ impostorscore=0 mlxlogscore=999 phishscore=0 mlxscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211040105
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,150 +121,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Oct 31, 2022 at 08:53:57AM -0400, Michael S. Tsirkin wrote:
-> From: Lev Kujawski <lkujaw@mailbox.org>
-> 
-> One method to enable PCI bus mastering for IDE controllers, often used
-> by x86 firmware, is to write 0x7 to the PCI command register.  Neither
-> the PIIX 3/4 specifications nor actual PIIX 3 hardware (a Tyan S1686D
-> system) permit setting the Memory Space Enable (MSE) bit, thus the
-> command register would be left in an unspecified state without this
-> patch.
-> 
-> * hw/core/machine.c
->   Facilitate migration by not masking writes to the PIIX 3/4 PCICMD
->   register for machine states of QEMU versions prior to 7.2.
-> * hw/ide/piix.c
->   a) Add a reference to the PIIX 4 data sheet.
->   b) Mask the MSE bit using the QEMU PCI device wmask field.
->   c) Define a new boolean property, x-filter-pcicmd, to control
->      whether the write mask is enabled and enable it by default
->      for both the PIIX 3 and PIIX 4 IDE controllers.
-> * include/hw/ide/pci.h
->   Add the boolean filter_pcicmd field to the PCIIDEState structure,
->   because the PIIX IDE controllers do not define their own state.
-> * tests/qtest/ide-test.c
->   Use the command_disabled field of the QPCIDevice testing model to
->   indicate that PCI_COMMAND_MEMORY is hardwired within PIIX 3/4 IDE
->   controllers.
-> 
-> Signed-off-by: Lev Kujawski <lkujaw@mailbox.org>
-> Message-Id: <20221024094621.512806-3-lkujaw@mailbox.org>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
 
-Caused test asserts reported by Stefan. Dropped for now,
-pls figure the issue out and resubmit. Thanks!
-> ---
->  include/hw/ide/pci.h   |  1 +
->  hw/core/machine.c      |  2 ++
->  hw/ide/piix.c          | 24 ++++++++++++++++++++++++
->  tests/qtest/ide-test.c |  1 +
->  4 files changed, 28 insertions(+)
+Am 04.11.22 um 17:14 schrieb Michael S. Tsirkin:
+> On Fri, Nov 04, 2022 at 04:59:35PM +0100, Christian Borntraeger wrote:
+>>
+>>
+>> Am 04.11.22 um 16:56 schrieb Michael S. Tsirkin:
+>>> On Fri, Oct 14, 2022 at 02:21:08PM +0100, Alex Bennée wrote:
+>>>> During migration the virtio device state can be restored before we
+>>>> restart the VM. As no devices can be running while the VM is paused it
+>>>> makes sense to bail out early in that case.
+>>>>
+>>>> This returns the order introduced in:
+>>>>
+>>>>    9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
+>>>>
+>>>> to what virtio-sock was doing longhand.
+>>>>
+>>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>>> Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
+>>>
+>>>
+>>> What happens now:
+>>>
+>>> with this applied I get:
+>>>
+>>> https://gitlab.com/mitsirkin/qemu/-/pipelines/685829158/failures
+>>>
+>>> ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
+>>> stderr:
+>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to set msg fds.
+>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: -chardev socket,id=chr-reconnect,path=/tmp/vhost-test-QLKXU1/reconnect.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-QLKXU1/reconnect.sock,server=on
+>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to set msg fds.
+>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: -chardev socket,id=chr-connect-fail,path=/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on
+>>> qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: Failed to read msg header. Read 0 instead of 12. Original request 1.
+>>> qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: vhost_backend_init failed: Protocol error
+>>> qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: failed to init vhost_net for queue 0
+>>> qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on
+>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to set msg fds.
+>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: -chardev socket,id=chr-flags-mismatch,path=/tmp/vhost-test-3MO5U1/flags-mismatch.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-3MO5U1/flags-mismatch.sock,server=on
+>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 52.
+>>> qemu-system-arm: vhost_set_mem_table failed: Invalid argument (22)
+>>> qemu-system-arm: unable to start vhost net: 22: falling back on userspace virtio
+>>> vhost lacks feature mask 0x40000000 for backend
+>>> qemu-system-arm: failed to init vhost_net for queue 0
+>>> qemu-system-arm: Failed to set msg fds.
+>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to set msg fds.
+>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to set msg fds.
+>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to set msg fds.
+>>> qemu-system-arm: vhost VQ 2 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to set msg fds.
+>>> qemu-system-arm: vhost VQ 3 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to set msg fds.
+>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to set msg fds.
+>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to set msg fds.
+>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to set msg fds.
+>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
+>>> qemu-system-arm: Failed to set msg fds.
+>>> qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
+>>> qemu-system-arm: Failed to set msg fds.
+>>> qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
+>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
+>>> qemu-system-arm: vhost VQ 0 ring restore failed: -5: Input/output error (5)
+>>> qemu-system-arm: ../hw/virtio/virtio-bus.c:211: void virtio_bus_release_ioeventfd(VirtioBusState *): Assertion `bus->ioeventfd_grabbed != 0' failed.
+>>> ../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
+>>> **
+>>> ERROR:../tests/qtest/qos-test.c:191:subprocess_run_one_test: child process (/arm/virt/virtio-mmio/virtio-bus/vhost-user-gpio-device/vhost-user-gpio/vhost-user-gpio-tests/read-guest-mem/memfile/subprocess [8735]) failed unexpectedly
+>>> (test program exited with status code -6)
+>>> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+>>>
+>>>
+>>>
+>>>
+>>> without this it passes:
+>>>
+>>> https://gitlab.com/mitsirkin/qemu/-/jobs/3275949777
+>>>
+>>>
+>>> this only triggers under github, clang-system job.
+>>> trying to decide what to do now. revert just this?
+>> When we revert this save/restore for vsock is broken. Not sure, maybe we must use a more fine-grained fix as outlined in my initial mail?
 > 
-> diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
-> index d8384e1c42..5424b00a9e 100644
-> --- a/include/hw/ide/pci.h
-> +++ b/include/hw/ide/pci.h
-> @@ -53,6 +53,7 @@ struct PCIIDEState {
->      MemoryRegion bmdma_bar;
->      MemoryRegion cmd_bar[2];
->      MemoryRegion data_bar[2];
-> +    bool filter_pcicmd; /* used only for piix3/4 */
->  };
->  
->  static inline IDEState *bmdma_active_if(BMDMAState *bmdma)
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 907fa78ff0..65fdfe2fed 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -42,6 +42,8 @@
->  
->  GlobalProperty hw_compat_7_1[] = {
->      { "virtio-device", "queue_reset", "false" },
-> +    { "piix3-ide", "x-filter-pcicmd", "false" },
-> +    { "piix4-ide", "x-filter-pcicmd", "false" },
->  };
->  const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
->  
-> diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-> index de1f4f0efb..a3af32e126 100644
-> --- a/hw/ide/piix.c
-> +++ b/hw/ide/piix.c
-> @@ -25,6 +25,8 @@
->   * References:
->   *  [1] 82371FB (PIIX) AND 82371SB (PIIX3) PCI ISA IDE XCELERATOR,
->   *      290550-002, Intel Corporation, April 1997.
-> + *  [2] 82371AB PCI-TO-ISA / IDE XCELERATOR (PIIX4), 290562-001,
-> + *      Intel Corporation, April 1997.
->   */
->  
->  #include "qemu/osdep.h"
-> @@ -160,6 +162,21 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
->      uint8_t *pci_conf = dev->config;
->      int rc;
->  
-> +    /*
-> +     * Mask all IDE PCI command register bits except for Bus Master
-> +     * Function Enable (bit 2) and I/O Space Enable (bit 0), as the
-> +     * remainder are hardwired to 0 [1, p.48] [2, p.89-90].
-> +     *
-> +     * NOTE: According to the PIIX3 datasheet [1], the Memory Space
-> +     * Enable (MSE, bit 1) is hardwired to 1, but this is contradicted
-> +     * by actual PIIX3 hardware, the datasheet itself (viz., Default
-> +     * Value: 0000h), and the PIIX4 datasheet [2].
-> +     */
-> +    if (d->filter_pcicmd) {
-> +        pci_set_word(dev->wmask + PCI_COMMAND,
-> +                     PCI_COMMAND_MASTER | PCI_COMMAND_IO);
-> +    }
-> +
->      pci_conf[PCI_CLASS_PROG] = 0x80; // legacy ATA mode
->  
->      bmdma_setup_bar(d);
-> @@ -185,6 +202,11 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
->      }
->  }
->  
-> +static Property pci_piix_ide_properties[] = {
-> +    DEFINE_PROP_BOOL("x-filter-pcicmd", PCIIDEState, filter_pcicmd, TRUE),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
->  /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
->  static void piix3_ide_class_init(ObjectClass *klass, void *data)
->  {
-> @@ -198,6 +220,7 @@ static void piix3_ide_class_init(ObjectClass *klass, void *data)
->      k->device_id = PCI_DEVICE_ID_INTEL_82371SB_1;
->      k->class_id = PCI_CLASS_STORAGE_IDE;
->      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-> +    device_class_set_props(dc, pci_piix_ide_properties);
->      dc->hotpluggable = false;
->  }
->  
-> @@ -220,6 +243,7 @@ static void piix4_ide_class_init(ObjectClass *klass, void *data)
->      k->device_id = PCI_DEVICE_ID_INTEL_82371AB;
->      k->class_id = PCI_CLASS_STORAGE_IDE;
->      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-> +    device_class_set_props(dc, pci_piix_ide_properties);
->      dc->hotpluggable = false;
->  }
->  
-> diff --git a/tests/qtest/ide-test.c b/tests/qtest/ide-test.c
-> index dbe1563b23..d5cec7c14c 100644
-> --- a/tests/qtest/ide-test.c
-> +++ b/tests/qtest/ide-test.c
-> @@ -174,6 +174,7 @@ static QPCIDevice *get_pci_device(QTestState *qts, QPCIBar *bmdma_bar,
->  
->      *ide_bar = qpci_legacy_iomap(dev, IDE_BASE);
->  
-> +    dev->command_disabled = PCI_COMMAND_MEMORY;
->      qpci_device_enable(dev);
->  
->      return dev;
-> -- 
-> MST
 > 
+> 
+> Could you take a look here pls?
+> 
+> https://gitlab.com/mitsirkin/qemu/-/tree/testrevert1
 
+I kicked of our regression test suite for s390.
 
