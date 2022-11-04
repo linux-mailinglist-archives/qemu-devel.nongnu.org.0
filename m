@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C617619CE0
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:18:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4379619CD3
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:16:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqzMt-0000km-Lu; Fri, 04 Nov 2022 12:16:31 -0400
+	id 1oqzMe-0007pv-JW; Fri, 04 Nov 2022 12:16:16 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oqzM6-0006lq-VV
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:43 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ id 1oqzM1-0006WF-Q4
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:41 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oqzLt-0000i3-63
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:42 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- fn7-20020a05600c688700b003b4fb113b86so3499150wmb.0
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 09:15:28 -0700 (PDT)
+ id 1oqzLw-0000iF-E4
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:37 -0400
+Received: by mail-wr1-x429.google.com with SMTP id o4so7744497wrq.6
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 09:15:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=HvsbSFL9/X7+hG+QCwobd7oX/Vj9erH1J5f0aYS/jDg=;
- b=mhw6QbusoIMNJKftAzbRjxbwF66YGlRfvYgnJWtAqu8XoAjznJ1Wx5eTqlXv10X2X3
- bVoHZ+9sVlA6b3y9DRByq1HJHvuy17SzWSxSX64KQBMrt4ZaChS1QDgkNCTrR9fcYRoZ
- tGSM6IvPK5K2RJfUg+s2gS1QzvdM8u7jyFjL/Br2PAIzV5Bw8pw9f41CDhJQ46nIy5uR
- iSRZwRBXa4w2eIMZi9EnlUKSY9cg9diSlnSOvMpvMI4EogiW9u+UHQIK1aazOoQMYn/f
- s1mHpbjYs1g88fbt9oMWQJLKXRzmE1rZjVJYTmkjr2OB2TYtX0INHTrecPA8YiMZkE4P
- elXg==
+ bh=LgwWUCq9zFhY/xMo6SS9MgYNo0IB4SrVXfC493SuMF0=;
+ b=YY3iouWoz76g+Hk0iylTL3vOsBfGKqg7n38dfcJafUcKJYmnT5KFf4Xxt0oBnxeyzx
+ 0GbXyA5MlFk9236AWpsqEiMAPzpsK2ewwR9oNFCfyOFxlIqB5t7DweesP34RP3dO7wA8
+ YMelY6Q7J/ZLdgs/mh1RNyNbakvM3Gl1sS3GH0OCi1494MS4YhmT7alLALpnL0kfpHA9
+ skob8Qdn5gNtuv87hJo9vPSF+Jm/6d1yAo8v6wBjawyubV7dDfU1YcMFlaxhNt1yDX4P
+ 6CcLyE3SqPk0k1HGKuquusyFKOm/MFXMOnzCQKMW67/7d9iscQRSvTCKoD49kuIRfZ4r
+ RE8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=HvsbSFL9/X7+hG+QCwobd7oX/Vj9erH1J5f0aYS/jDg=;
- b=vw/BF2gIcpTCyFq9cDFH6QyMNX02gaH7o/zMJb5lnYbo/bjatWrJAEfIP7tblhkai6
- wAuaSZgQTJhquWuiTI1bvkcsJe5rHtldlaGhQ/yt1UO+sseVt+a8iBA6gbh7P4UbylUY
- E/yPaoCleF1jrEfvBEqDpkR6yVpUdjUqwrISw25l1jt8u3SruRjC3OrcSoISxfTsqib1
- jp/7gxVQCIlUh1uI7Jyr9Cjsr8G9vPbxhtTaUbtnoMMre3Gabe6teKJuWo+KBeqbI2NP
- ifeVbIWScSkndzA1lZYlHH9njzNrooC0MCFPR0YM6izIJWbFuTkI2y81IwmnwAwmxg0B
- 4IKw==
-X-Gm-Message-State: ACrzQf0GnvfLEPT7p6V6opJaWKbUPTSwLLs5ESTB39r0F0kgmmigmZhl
- L5OZ0HsxmIFfcg5mZ9r08OzD4hMQwbZ+2g==
-X-Google-Smtp-Source: AMsMyM6xBxj486S2wdyYugmEtRlzDi3x7014+zTkgAM0FtxobC6dMfknOA9Bf/AWxdmhCYCiYGyhRw==
-X-Received: by 2002:a1c:25c1:0:b0:3cf:4dc4:5a97 with SMTP id
- l184-20020a1c25c1000000b003cf4dc45a97mr31960218wml.147.1667578527696; 
- Fri, 04 Nov 2022 09:15:27 -0700 (PDT)
+ bh=LgwWUCq9zFhY/xMo6SS9MgYNo0IB4SrVXfC493SuMF0=;
+ b=IW5+2Gcman2tkgv/soyjaLLCotKLhB2tDsthb10HCvvle6kiscbAcLwdPId3nmqkRy
+ 9f/4oZjml2gDjZmsgtbfg6fH/QbWTUfkEKEPkO9j8wweidNEPHgcTzeTvOUizgnwWRmh
+ 2UqnBoClQhMPPqmcd1JT6iecllV5Nebp0t9xrdq4Nr+c0D7rfk/PC7lfFB5ea7Upa1xl
+ BfsSEz2Fa1h/UthCuyb0qscvmO9bQ50v5gfiTEnLr6RllKMCieh8NbjqgsiprB/6Bno1
+ oLLFCUO0j72ZXYMZlbqMcj1bbNiJXtEl9cCYM1cAdPX/wTJLbt+CBBIProjMFypLI8mK
+ CCkA==
+X-Gm-Message-State: ACrzQf1UboSCFN72d3IWr83+ON6Ewy9QvkiCoW/DG+qkinei0wjud2nQ
+ ml0k9u2K8vFU75haCOYJcXB2/R2aTkeYbw==
+X-Google-Smtp-Source: AMsMyM4BTWX4pGWM4xnaIxX0rV1FeIKOgkAIIaht/6CoFCylEfg9oCtNJkgPs3FqXCQ8NUOonzvQCA==
+X-Received: by 2002:a5d:59af:0:b0:236:6b90:1e65 with SMTP id
+ p15-20020a5d59af000000b002366b901e65mr22964926wrr.362.1667578529175; 
+ Fri, 04 Nov 2022 09:15:29 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- ay5-20020a5d6f05000000b0022e57e66824sm4649645wrb.99.2022.11.04.09.15.26
+ ay5-20020a5d6f05000000b0022e57e66824sm4649645wrb.99.2022.11.04.09.15.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 09:15:27 -0700 (PDT)
+ Fri, 04 Nov 2022 09:15:28 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
@@ -66,16 +65,16 @@ Cc: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
  Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-s390x@nongnu.org,
  qemu-ppc@nongnu.org
-Subject: [PATCH for-8.0 8/9] qdev: Remove qdev_reset_all() and qbus_reset_all()
-Date: Fri,  4 Nov 2022 16:15:12 +0000
-Message-Id: <20221104161513.2455862-9-peter.maydell@linaro.org>
+Subject: [PATCH for-8.0 9/9] hw: Remove device_legacy_reset()
+Date: Fri,  4 Nov 2022 16:15:13 +0000
+Message-Id: <20221104161513.2455862-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221104161513.2455862-1-peter.maydell@linaro.org>
 References: <20221104161513.2455862-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,135 +97,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Remove the qdev_reset_all() and qbus_reset_all() functions, now we
-have moved all the callers over to the new device_cold_reset() and
-bus_cold_reset() functions.
+The device_legacy_reset() function is now not used anywhere, so we
+can remove the implementation.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/qdev-core.h | 26 --------------------
- hw/core/qdev.c         | 54 ------------------------------------------
- hw/core/trace-events   |  4 ----
- 3 files changed, 84 deletions(-)
+ include/hw/qdev-core.h |  9 ---------
+ hw/core/qdev.c         | 10 ----------
+ 2 files changed, 19 deletions(-)
 
 diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 785dd5a56ef..c7eda169d78 100644
+index c7eda169d78..35fddb19a64 100644
 --- a/include/hw/qdev-core.h
 +++ b/include/hw/qdev-core.h
-@@ -743,32 +743,6 @@ int qdev_walk_children(DeviceState *dev,
-                        qdev_walkerfn *post_devfn, qbus_walkerfn *post_busfn,
-                        void *opaque);
+@@ -776,15 +776,6 @@ BusState *sysbus_get_default(void);
+ char *qdev_get_fw_dev_path(DeviceState *dev);
+ char *qdev_get_own_fw_dev_path_from_handler(BusState *bus, DeviceState *dev);
  
 -/**
-- * @qdev_reset_all:
-- * Reset @dev. See @qbus_reset_all() for more details.
+- * device_legacy_reset:
 - *
+- * Reset a single device (by calling the reset method).
 - * Note: This function is deprecated and will be removed when it becomes unused.
 - * Please use device_cold_reset() now.
 - */
--void qdev_reset_all(DeviceState *dev);
--void qdev_reset_all_fn(void *opaque);
+-void device_legacy_reset(DeviceState *dev);
 -
--/**
-- * @qbus_reset_all:
-- * @bus: Bus to be reset.
-- *
-- * Reset @bus and perform a bus-level ("hard") reset of all devices connected
-- * to it, including recursive processing of all buses below @bus itself.  A
-- * hard reset means that qbus_reset_all will reset all state of the device.
-- * For PCI devices, for example, this will include the base address registers
-- * or configuration space.
-- *
-- * Note: This function is deprecated and will be removed when it becomes unused.
-- * Please use bus_cold_reset() now.
-- */
--void qbus_reset_all(BusState *bus);
--void qbus_reset_all_fn(void *opaque);
--
+ void device_class_set_props(DeviceClass *dc, Property *props);
+ 
  /**
-  * device_cold_reset:
-  * Reset device @dev and perform a recursive processing using the resettable
 diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 0806d8fcaaa..3b0f04c5c6d 100644
+index 3b0f04c5c6d..2743191efe7 100644
 --- a/hw/core/qdev.c
 +++ b/hw/core/qdev.c
-@@ -237,60 +237,6 @@ void qdev_set_legacy_instance_id(DeviceState *dev, int alias_id,
-     dev->alias_required_for_version = required_for_version;
+@@ -857,16 +857,6 @@ void device_class_set_parent_unrealize(DeviceClass *dc,
+     dc->unrealize = dev_unrealize;
  }
  
--static int qdev_prereset(DeviceState *dev, void *opaque)
+-void device_legacy_reset(DeviceState *dev)
 -{
--    trace_qdev_reset_tree(dev, object_get_typename(OBJECT(dev)));
--    return 0;
--}
+-    DeviceClass *klass = DEVICE_GET_CLASS(dev);
 -
--static int qbus_prereset(BusState *bus, void *opaque)
--{
--    trace_qbus_reset_tree(bus, object_get_typename(OBJECT(bus)));
--    return 0;
--}
--
--static int qdev_reset_one(DeviceState *dev, void *opaque)
--{
--    device_legacy_reset(dev);
--
--    return 0;
--}
--
--static int qbus_reset_one(BusState *bus, void *opaque)
--{
--    BusClass *bc = BUS_GET_CLASS(bus);
--    trace_qbus_reset(bus, object_get_typename(OBJECT(bus)));
--    if (bc->reset) {
--        bc->reset(bus);
+-    trace_qdev_reset(dev, object_get_typename(OBJECT(dev)));
+-    if (klass->reset) {
+-        klass->reset(dev);
 -    }
--    return 0;
 -}
 -
--void qdev_reset_all(DeviceState *dev)
--{
--    trace_qdev_reset_all(dev, object_get_typename(OBJECT(dev)));
--    qdev_walk_children(dev, qdev_prereset, qbus_prereset,
--                       qdev_reset_one, qbus_reset_one, NULL);
--}
--
--void qdev_reset_all_fn(void *opaque)
--{
--    qdev_reset_all(DEVICE(opaque));
--}
--
--void qbus_reset_all(BusState *bus)
--{
--    trace_qbus_reset_all(bus, object_get_typename(OBJECT(bus)));
--    qbus_walk_children(bus, qdev_prereset, qbus_prereset,
--                       qdev_reset_one, qbus_reset_one, NULL);
--}
--
--void qbus_reset_all_fn(void *opaque)
--{
--    BusState *bus = opaque;
--    qbus_reset_all(bus);
--}
--
- void device_cold_reset(DeviceState *dev)
+ Object *qdev_get_machine(void)
  {
-     resettable_reset(OBJECT(dev), RESET_TYPE_COLD);
-diff --git a/hw/core/trace-events b/hw/core/trace-events
-index 9b3ecce3b2f..d6ab5c74b90 100644
---- a/hw/core/trace-events
-+++ b/hw/core/trace-events
-@@ -3,11 +3,7 @@ loader_write_rom(const char *name, uint64_t gpa, uint64_t size, bool isrom) "%s:
- 
- # qdev.c
- qdev_reset(void *obj, const char *objtype) "obj=%p(%s)"
--qdev_reset_all(void *obj, const char *objtype) "obj=%p(%s)"
--qdev_reset_tree(void *obj, const char *objtype) "obj=%p(%s)"
- qbus_reset(void *obj, const char *objtype) "obj=%p(%s)"
--qbus_reset_all(void *obj, const char *objtype) "obj=%p(%s)"
--qbus_reset_tree(void *obj, const char *objtype) "obj=%p(%s)"
- qdev_update_parent_bus(void *obj, const char *objtype, void *oldp, const char *oldptype, void *newp, const char *newptype) "obj=%p(%s) old_parent=%p(%s) new_parent=%p(%s)"
- 
- # resettable.c
+     static Object *dev;
 -- 
 2.25.1
 
