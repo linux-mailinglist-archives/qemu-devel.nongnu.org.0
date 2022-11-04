@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78AD66195B8
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 13:01:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98756195C3
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 13:03:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqvMe-0007F4-2U; Fri, 04 Nov 2022 08:00:00 -0400
+	id 1oqvQ0-0000H9-80; Fri, 04 Nov 2022 08:03:29 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <regressions@leemhuis.info>)
- id 1oqvMb-0007Ef-K5
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:59:57 -0400
-Received: from wp530.webpack.hosteurope.de ([80.237.130.52])
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oqvPb-0000E3-9G
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 08:03:03 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <regressions@leemhuis.info>)
- id 1oqvMZ-0003NM-PZ
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:59:57 -0400
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1oqvMU-0004Ta-0v; Fri, 04 Nov 2022 12:59:50 +0100
-Message-ID: <db612736-1704-e2c0-0223-675f8ffacc76@leemhuis.info>
-Date: Fri, 4 Nov 2022 12:59:49 +0100
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oqvPZ-00044j-Dx
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 08:03:02 -0400
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-527-vJKZLTJiOD2Nd9Vp5mvg_Q-1; Fri, 04 Nov 2022 08:01:02 -0400
+X-MC-Unique: vJKZLTJiOD2Nd9Vp5mvg_Q-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0DC8929AB3F7;
+ Fri,  4 Nov 2022 12:01:02 +0000 (UTC)
+Received: from bahia.redhat.com (unknown [10.39.192.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B94F9403161;
+ Fri,  4 Nov 2022 12:01:00 +0000 (UTC)
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Greg Kurz <groug@kaod.org>
+Subject: [PATCH 0/2] util/log: Make the per-thread flag immutable
+Date: Fri,  4 Nov 2022 13:00:57 +0100
+Message-Id: <20221104120059.678470-1-groug@kaod.org>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: Commit 'iomap: add support for dma aligned direct-io' causes
- qemu/KVM boot failures #forregzbot
-Content-Language: en-US, de-DE
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-To: linux-kernel@vger.kernel.org,
- "regressions@lists.linux.dev" <regressions@lists.linux.dev>
-Cc: linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org, kvm@vger.kernel.org
-References: <fb869c88bd48ea9018e1cc349918aa7cdd524931.camel@redhat.com>
- <99249078-2026-c76c-87eb-8e3ac5dde73d@leemhuis.info>
-In-Reply-To: <99249078-2026-c76c-87eb-8e3ac5dde73d@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1667563195;
- 05267e1a; 
-X-HE-SMSGID: 1oqvMU-0004Ta-0v
-Received-SPF: pass client-ip=80.237.130.52;
- envelope-from=regressions@leemhuis.info; helo=wp530.webpack.hosteurope.de
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,28 +66,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-[Note: this mail is primarily send for documentation purposes and/or for
-regzbot, my Linux kernel regression tracking bot. That's why I removed
-most or all folks from the list of recipients, but left any that looked
-like a mailing lists. These mails usually contain '#forregzbot' in the
-subject, to make them easy to spot and filter out.]
-
-On 30.09.22 13:52, Thorsten Leemhuis wrote:
-> 
-> Hi, this is your Linux kernel regression tracker. This might be a Qemu
-> bug, but it's exposed by kernel change, so I at least want to have it in
-> the tracking. I'll simply remove it in a few weeks, if it turns out that
-> nobody except Maxim hits this.
-
-There was one more report:
-https://lore.kernel.org/all/20221020031725.7d01051a@xps.demsh.org/
-
-But that's it so far. I'll put this to rest for now:
-
-#regzbot monitor:
-https://lore.kernel.org/all/20221020031725.7d01051a@xps.demsh.org/
-#regzbot invalid: a kernel change exposed a bug in qemu that maybe still
-needs to be fixed, *if* more people run into this
-
+While working on the "util/log: Always send errors to logfile when daemoniz=
+ed"=0D
+series [1], I've encountered some issues with the per-thread flag. They ste=
+m=0D
+from the code not being designed to allow the per-thread flag to be enabled=
+=0D
+or disabled more than once, but nothing is done to prevent that from=0D
+happening. This results in unexpected results like the creation of a log=0D
+file with a `%d` in its name or confusing errors when using the `log`=0D
+command in the monitor.=0D
+=0D
+I'm posting fixes separately now in case it makes sense to merge them durin=
+g=0D
+soft freeze. If so, I'll open an issue as explained in this recent mail [2]=
+.=0D
+=0D
+[1] https://patchew.org/QEMU/20221019151651.334334-1-groug@kaod.org/=0D
+[2] https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg00137.html=
+=0D
+=0D
+Date: Wed, 19 Oct 2022 17:16:49 +0200=0D
+Message-ID: <20221019151651.334334-1-groug@kaod.org>=0D
+=0D
+Greg Kurz (2):=0D
+  util/log: Make the per-thread flag immutable=0D
+  util/log: Ignore per-thread flag if global file already there=0D
+=0D
+ util/log.c | 9 +++++++++=0D
+ 1 file changed, 9 insertions(+)=0D
+=0D
+-- =0D
+2.38.1=0D
+=0D
 
 
