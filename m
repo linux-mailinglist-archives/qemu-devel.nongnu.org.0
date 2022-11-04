@@ -2,79 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB3A16193E7
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 10:54:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5636193ED
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 10:56:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqtOe-0003ZW-7b; Fri, 04 Nov 2022 05:53:56 -0400
+	id 1oqtQZ-0004bA-VG; Fri, 04 Nov 2022 05:55:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqtOW-0003Xj-4s
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:53:53 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqtOT-00081N-U3
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:53:47 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- l39-20020a05600c1d2700b003cf93c8156dso1309358wms.4
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 02:53:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=uF10kh7rdQzxcnpF4qdIqs20P2/RsA3ucKZ1h31KLhY=;
- b=m2Lr/g7tgZOoPS56V2FQigSuDXrcMb9W4GYfeF6TevrL1pV2Yg7xlP2i4iwm/SdZIt
- PCVzdK765fITzGUJT3lofeOe1Zv0RkBNE827NZI80iaHXcz2/dXr8UQeWzUQBvhEkYub
- JaArneLsv3DBcBNTsHsVgcU8eYT2u4X2Bep76lBH9HEr8X3i6/I9xibNsrrWJLL30LgM
- bM/WFdPo/z4qXu1UHngTRCC+mrvv6Cc0ak35OsmGO4uto1MKob1l7rScjqfzX85e7Am/
- Z++vTul9IyGCVPYlQdP0swDQXPeUlVuwsQhT9F4LjM3+NPTkjDYjFfC07/bv9A2W0V2E
- Shqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uF10kh7rdQzxcnpF4qdIqs20P2/RsA3ucKZ1h31KLhY=;
- b=o/ODcSGYrGwt0ozZzrpo6JcbvelDYRxVKVkfY6O9JAp+Zg0BFqsyD5rOaiRhnd8BYa
- BdPI3hbKtqdP++xRUvlpASHmDBd2ZPssiW7bx/TQrpk+GfvSACtNHUfdS9vyduMEjU7c
- Z3jpt+bGx7O+ukV8Ve2R0gZXMJdrwy+bK0h6FKp8gQC1dNDFBPxIL+O8/nbhQOMoC+Ad
- 2lkdQbRRChvl+eKmUEKg9WjihDOa05wP3o0GCD8O0tmaYE8Shn7IJ0Z80gRMkgrcQjBI
- sV+2zDqk3Tjhh3dsCq0Ny+W3JYJ4ha6+ZTJ7l9UrcII0hF9aL0adajmfRjXXrmFzFU5m
- Xs1w==
-X-Gm-Message-State: ACrzQf0K78teaD+OF13TC6+sOyFGy/xJlDEpUJ+b9Qh8F1AGk43AUH/+
- gkQne2TwJbpYuFzBNxcOIdobQQ==
-X-Google-Smtp-Source: AMsMyM5zHtiy8iQpc2dXa/IcemJv7CZRchX836LulpWqX1vrdyvheyY0XX6h105AAh4njepYU5RccA==
-X-Received: by 2002:a05:600c:314f:b0:3c7:87f:6c7d with SMTP id
- h15-20020a05600c314f00b003c7087f6c7dmr23250666wmo.149.1667555624017; 
- Fri, 04 Nov 2022 02:53:44 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- k16-20020a5d6e90000000b002366d1cc198sm2894857wrz.41.2022.11.04.02.53.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Nov 2022 02:53:43 -0700 (PDT)
-Message-ID: <b22ae5f1-41d9-3739-e219-a717b7ab8b98@linaro.org>
-Date: Fri, 4 Nov 2022 10:53:41 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.1
+ (Exim 4.90_1) (envelope-from <sir@cmpwn.com>) id 1oqtQS-0004a2-3i
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:55:48 -0400
+Received: from out-182.mta0.migadu.com ([2001:41d0:1004:224b::b6])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sir@cmpwn.com>) id 1oqtQO-0008U8-Vl
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:55:47 -0400
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cmpwn.com; s=key1;
+ t=1667555740;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qSMbPOOtxD6D/qf+FUo7MTJk23mCD7Fvue/+rAJ6Xck=;
+ b=T5fNmU7xvBSjlmzBWfP8tWeUEHIKfyNo0GnHmU4IxFid2vrK/g83v2L5KywkvTQiiOb2/8
+ Qzmh9nKKoU+Mhqw/t5OSJVzCp7teVXBNNFncc1QVTLXHDEAjfsjLjZVoB9fydA3LPrHOrM
+ urARIvjrIm3of8X4q0JT4uEilvLPEXzED5J2NWHrDFcWcJByXBdznkGfu+jysloFVDbJ00
+ E5ej1/f7vLCUTnxntdVsBYrvddYccFysZgBkZwK68vtV0i+BgUlaOwH4MKZ092lfpZWSsY
+ DbU4nnKjohWX7ryQIufPqBEaZn755+fy1E5RlHm1zpRAPCifd8KNyrozX6jbmg==
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 04 Nov 2022 10:55:39 +0100
+Message-Id: <CO3F6B8K38DE.1OTGB55K8CMB2@taiga>
 Subject: Re: [PATCH v3] linux-user: implement execveat
-Content-Language: en-US
-To: Drew DeVault <sir@cmpwn.com>, Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, Helge Deller <deller@gmx.de>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: "Drew DeVault" <sir@cmpwn.com>
+To: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>, "Laurent
+ Vivier" <laurent@vivier.eu>
+Cc: <qemu-devel@nongnu.org>, "Helge Deller" <deller@gmx.de>
 References: <20221103173212.3724698-1-sir@cmpwn.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221103173212.3724698-1-sir@cmpwn.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+ <b22ae5f1-41d9-3739-e219-a717b7ab8b98@linaro.org>
+In-Reply-To: <b22ae5f1-41d9-3739-e219-a717b7ab8b98@linaro.org>
+X-Migadu-Flow: FLOW_OUT
+Received-SPF: pass client-ip=2001:41d0:1004:224b::b6;
+ envelope-from=sir@cmpwn.com; helo=out-182.mta0.migadu.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,263 +67,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Drew,
+On Fri Nov 4, 2022 at 10:53 AM CET, Philippe Mathieu-Daud=C3=A9 wrote:
+> Splitting this big patch would ease review:
 
-On 3/11/22 18:32, Drew DeVault wrote:
-> References: https://gitlab.com/qemu-project/qemu/-/issues/1007
-> Signed-off-by: Drew DeVault <sir@cmpwn.com>
-> ---
-> v2 => v3:
-> - Rebase to address the is_proc_myself fix
-> - Drop the ifdefs
-> 
->   linux-user/syscall.c | 203 ++++++++++++++++++++++---------------------
->   1 file changed, 105 insertions(+), 98 deletions(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 8402c1399d..38fbbbad6a 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -689,7 +689,8 @@ safe_syscall4(pid_t, wait4, pid_t, pid, int *, status, int, options, \
->   #endif
->   safe_syscall5(int, waitid, idtype_t, idtype, id_t, id, siginfo_t *, infop, \
->                 int, options, struct rusage *, rusage)
-> -safe_syscall3(int, execve, const char *, filename, char **, argv, char **, envp)
-> +safe_syscall5(int, execveat, int, dirfd, const char *, filename,
-> +        char **, argv, char **, envp, int, flags)
->   #if defined(TARGET_NR_select) || defined(TARGET_NR__newselect) || \
->       defined(TARGET_NR_pselect6) || defined(TARGET_NR_pselect6_time64)
->   safe_syscall6(int, pselect6, int, nfds, fd_set *, readfds, fd_set *, writefds, \
-> @@ -8349,6 +8350,106 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
->       return safe_openat(dirfd, path(pathname), flags, mode);
->   }
->   
-> +static int do_execveat(CPUArchState *cpu_env, int dirfd, abi_long pathname, abi_long guest_argp, abi_long guest_envp, int flags)
-> +{
-> +    int ret;
-> +    char **argp, **envp;
-> +    int argc, envc;
-> +    abi_ulong gp;
-> +    abi_ulong addr;
-> +    char **q;
-> +    void *p;
-> +
-> +    argc = 0;
-> +
-> +    for (gp = guest_argp; gp; gp += sizeof(abi_ulong)) {
-> +        if (get_user_ual(addr, gp))
-> +            return -TARGET_EFAULT;
-> +        if (!addr)
-> +            break;
-> +        argc++;
-> +    }
-> +    envc = 0;
-> +    for (gp = guest_envp; gp; gp += sizeof(abi_ulong)) {
-> +        if (get_user_ual(addr, gp))
-> +            return -TARGET_EFAULT;
-> +        if (!addr)
-> +            break;
-> +        envc++;
-> +    }
-> +
-> +    argp = g_new0(char *, argc + 1);
-> +    envp = g_new0(char *, envc + 1);
-> +
-> +    for (gp = guest_argp, q = argp; gp;
-> +          gp += sizeof(abi_ulong), q++) {
-> +        if (get_user_ual(addr, gp))
-> +            goto execve_efault;
-> +        if (!addr)
-> +            break;
-> +        if (!(*q = lock_user_string(addr)))
-> +            goto execve_efault;
-> +    }
-> +    *q = NULL;
-> +
-> +    for (gp = guest_envp, q = envp; gp;
-> +          gp += sizeof(abi_ulong), q++) {
-> +        if (get_user_ual(addr, gp))
-> +            goto execve_efault;
-> +        if (!addr)
-> +            break;
-> +        if (!(*q = lock_user_string(addr)))
-> +            goto execve_efault;
-> +    }
-> +    *q = NULL;
-> +
-> +    /* Although execve() is not an interruptible syscall it is
-> +     * a special case where we must use the safe_syscall wrapper:
-> +     * if we allow a signal to happen before we make the host
-> +     * syscall then we will 'lose' it, because at the point of
-> +     * execve the process leaves QEMU's control. So we use the
-> +     * safe syscall wrapper to ensure that we either take the
-> +     * signal as a guest signal, or else it does not happen
-> +     * before the execve completes and makes it the other
-> +     * program's problem.
-> +     */
-> +    if (!(p = lock_user_string(pathname)))
-> +        goto execve_efault;
-> +
-> +    if (is_proc_myself(p, "exe")) {
-> +        ret = get_errno(safe_execveat(dirfd, exec_path, argp, envp, flags));
-> +    } else {
-> +        ret = get_errno(safe_execveat(dirfd, p, argp, envp, flags));
-> +    }
-> +
-> +    unlock_user(p, pathname, 0);
-> +
-> +    goto execve_end;
-> +
-> +execve_efault:
-> +    ret = -TARGET_EFAULT;
-> +
-> +execve_end:
-> +    for (gp = guest_argp, q = argp; *q;
-> +          gp += sizeof(abi_ulong), q++) {
-> +        if (get_user_ual(addr, gp)
-> +            || !addr)
-> +            break;
-> +        unlock_user(*q, addr, 0);
-> +    }
-> +    for (gp = guest_envp, q = envp; *q;
-> +          gp += sizeof(abi_ulong), q++) {
-> +        if (get_user_ual(addr, gp)
-> +            || !addr)
-> +            break;
-> +        unlock_user(*q, addr, 0);
-> +    }
-> +
-> +    g_free(argp);
-> +    g_free(envp);
-> +    return ret;
-> +}
-> +
->   #define TIMER_MAGIC 0x0caf0000
->   #define TIMER_MAGIC_MASK 0xffff0000
->   
-> @@ -8846,104 +8947,10 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
->           unlock_user(p, arg2, 0);
->           return ret;
->   #endif
-> +    case TARGET_NR_execveat:
-> +        return do_execveat(cpu_env, arg1, arg2, arg3, arg4, arg5);
->       case TARGET_NR_execve:
-> -        {
-> -            char **argp, **envp;
-> -            int argc, envc;
-> -            abi_ulong gp;
-> -            abi_ulong guest_argp;
-> -            abi_ulong guest_envp;
-> -            abi_ulong addr;
-> -            char **q;
-> -
-> -            argc = 0;
-> -            guest_argp = arg2;
-> -            for (gp = guest_argp; gp; gp += sizeof(abi_ulong)) {
-> -                if (get_user_ual(addr, gp))
-> -                    return -TARGET_EFAULT;
-> -                if (!addr)
-> -                    break;
-> -                argc++;
-> -            }
-> -            envc = 0;
-> -            guest_envp = arg3;
-> -            for (gp = guest_envp; gp; gp += sizeof(abi_ulong)) {
-> -                if (get_user_ual(addr, gp))
-> -                    return -TARGET_EFAULT;
-> -                if (!addr)
-> -                    break;
-> -                envc++;
-> -            }
-> -
-> -            argp = g_new0(char *, argc + 1);
-> -            envp = g_new0(char *, envc + 1);
-> -
-> -            for (gp = guest_argp, q = argp; gp;
-> -                  gp += sizeof(abi_ulong), q++) {
-> -                if (get_user_ual(addr, gp))
-> -                    goto execve_efault;
-> -                if (!addr)
-> -                    break;
-> -                if (!(*q = lock_user_string(addr)))
-> -                    goto execve_efault;
-> -            }
-> -            *q = NULL;
-> -
-> -            for (gp = guest_envp, q = envp; gp;
-> -                  gp += sizeof(abi_ulong), q++) {
-> -                if (get_user_ual(addr, gp))
-> -                    goto execve_efault;
-> -                if (!addr)
-> -                    break;
-> -                if (!(*q = lock_user_string(addr)))
-> -                    goto execve_efault;
-> -            }
-> -            *q = NULL;
-> -
-> -            if (!(p = lock_user_string(arg1)))
-> -                goto execve_efault;
-> -            /* Although execve() is not an interruptible syscall it is
-> -             * a special case where we must use the safe_syscall wrapper:
-> -             * if we allow a signal to happen before we make the host
-> -             * syscall then we will 'lose' it, because at the point of
-> -             * execve the process leaves QEMU's control. So we use the
-> -             * safe syscall wrapper to ensure that we either take the
-> -             * signal as a guest signal, or else it does not happen
-> -             * before the execve completes and makes it the other
-> -             * program's problem.
-> -             */
-> -            if (is_proc_myself(p, "exe")) {
-> -                ret = get_errno(safe_execve(exec_path, argp, envp));
-> -            } else {
-> -                ret = get_errno(safe_execve(p, argp, envp));
-> -            }
-> -            unlock_user(p, arg1, 0);
-> -
-> -            goto execve_end;
-> -
-> -        execve_efault:
-> -            ret = -TARGET_EFAULT;
-> -
-> -        execve_end:
-> -            for (gp = guest_argp, q = argp; *q;
-> -                  gp += sizeof(abi_ulong), q++) {
-> -                if (get_user_ual(addr, gp)
-> -                    || !addr)
-> -                    break;
-> -                unlock_user(*q, addr, 0);
-> -            }
-> -            for (gp = guest_envp, q = envp; *q;
-> -                  gp += sizeof(abi_ulong), q++) {
-> -                if (get_user_ual(addr, gp)
-> -                    || !addr)
-> -                    break;
-> -                unlock_user(*q, addr, 0);
-> -            }
-> -
-> -            g_free(argp);
-> -            g_free(envp);
-> -        }
-> -        return ret;
-> +        return do_execveat(cpu_env, AT_FDCWD, arg1, arg2, arg3, 0);
->       case TARGET_NR_chdir:
->           if (!(p = lock_user_string(arg1)))
->               return -TARGET_EFAULT;
+It's only +165/-131, are you sure it really needs to be split?
 
-Splitting this big patch would ease review:
-
-1/ Replace safe_execve() by safe_execveat()
-
-    -safe_execve(exec_path, argp, envp))
-    +safe_execveat(AT_FDCWD, exec_path, argp, envp, 0));
-
-2/ Extract do_execve()
-
-3/ Convert do_execve() to do_execveat() adding dirfd/flags args
-
-4/ Add TARGET_NR_execveat case
-
-Thanks,
-
-Phil.
+> 1/ Replace safe_execve() by safe_execveat()
+>
+>     -safe_execve(exec_path, argp, envp))
+>     +safe_execveat(AT_FDCWD, exec_path, argp, envp, 0));
+>
+> 2/ Extract do_execve()
+>
+> 3/ Convert do_execve() to do_execveat() adding dirfd/flags args
+>
+> 4/ Add TARGET_NR_execveat case
 
