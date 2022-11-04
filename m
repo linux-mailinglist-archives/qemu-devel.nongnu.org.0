@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6266861956F
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 12:36:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 110C8619571
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 12:36:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oquyx-0001Fh-Bw; Fri, 04 Nov 2022 07:35:31 -0400
+	id 1oquyw-0001Ee-6c; Fri, 04 Nov 2022 07:35:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oquys-0001Bd-Im
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:26 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ id 1oquyt-0001D8-Ou
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:27 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oquyq-00086U-Ua
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:26 -0400
-Received: by mail-wm1-x335.google.com with SMTP id p16so2857896wmc.3
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 04:35:24 -0700 (PDT)
+ id 1oquys-00087F-3F
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:27 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id z14so6655568wrn.7
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 04:35:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=OaH3AJ6++HqpYB2gMwyPaC+oyNj5p0BkbapcfI5PAjg=;
- b=dNaPdlqvrfIYhdca05Z+nNHc25pxVkN2v9HdKE+VNT0Jpv+paH0gxGBZFKs01wfqKB
- PBKTDgR1Dkuzjz3kNMUm8N8uMQXyXBfwj8p5KGGRzRA1GPs29xuh/Uqzoh8Dqv0xqW0D
- pUi08KNzXD9pMcenhot5nui/SIg3xqZinCU0Vy6K3kZr6nBWLilW3p6HkUe9wMWH51VO
- VgJzQF9EHuBu3RFjIg7c1F2Z8wXmAD2nPwZDoI+3tMyI8eXUzAytk+d6RUNip21QZ5Ns
- tCM9JKat1yky6bm7mNVIrPutF/fnolPzA24diEFGjmX28qEIwftxhQAPUh72P6t4ZHN7
- VA0g==
+ :reply-to; bh=B0i2dCHDu9lWZFqlFLWm0pVGENdI0RfMEclSaPXpBTU=;
+ b=Ilwq2q2nEtKKOaBDN9UJvFQY7Ae5thrM+vvIn1kyQYQimvgo6jigHPqe6xZ34dUXKE
+ fDr58CRsVR1ZU/l31dyWEZ4ZrWQOzPj1806Xp1WgJwVhQlb0IBjRZkEcYU03WoEu+1QT
+ z6Kxdh/1X5osRfjIfnvK8Czk6gcEsPV9+uxW1+qe0j3gdftB253T+dFEXuKMVeW5SXVx
+ fhmEXv65tJdy5e10SkxjOh30tYN3WRmfSvSWlkY6lF2BRN/pm4K74f2NHoeG7AKoUxvr
+ yXtr9GsChzMEiYWXLVodWiPaH7ujc3bXilWHryui9HmuH8kvb1vJT5WTyWWMTMy6jK4Q
+ 4UNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OaH3AJ6++HqpYB2gMwyPaC+oyNj5p0BkbapcfI5PAjg=;
- b=aXVo6FhpbDsXt4lAvHpAF9dle5bkq0iwEE020z95rjZLcIpMdM3lOVB8hEjar+sAur
- PhsVdJawNwbsRf5rHnKx4UBn1ISV4BCnDxxwoCbB+tONjegM7JzBsI/zgyWDNkijOzJv
- NsFRAyDKrBJMdayT5Mq9/m87NKT3ZkEqNKl4Fzoyhkh2BpVpilIdr7WsKbBzyRgw2cCM
- d9rRp/cszY7U0szzWIYhkwY3y1SC27crnpRmHFmidu0oeqoBI9PbWOX/K0EYeVzytgF/
- ltF64bcBqcrTNwj2g2e0W3W3NZl0beMZFLqtcJ1/dC58u1cXi5N57VM7Xlufj9Zl6Sjf
- yt8Q==
-X-Gm-Message-State: ACrzQf03LEEmC68eCmwCT6FaGi0pP9zd2lIHxFBOPb557Og3+ldQ9O/e
- j9PXUwauo0HODx3H9bXFdqd11dFkga4jSg==
-X-Google-Smtp-Source: AMsMyM6qf6Ugnn344TEx5XKTSVON1pPQCaeCWTWUmKjCYGMIfihudr0wrmRD4Evbtndl6G/qf2siSQ==
-X-Received: by 2002:a05:600c:2242:b0:3cf:4ccc:7418 with SMTP id
- a2-20020a05600c224200b003cf4ccc7418mr32804125wmm.191.1667561723499; 
- Fri, 04 Nov 2022 04:35:23 -0700 (PDT)
+ bh=B0i2dCHDu9lWZFqlFLWm0pVGENdI0RfMEclSaPXpBTU=;
+ b=PUXpDQd+aouP+s+N8bX7ocE6ZSiaxMpGyY95ByhsdjyrGoB/j045orZFoeFoErgcSE
+ a83wRBAJF0ePEoheDStoRUEv5KPbkTpkTVY84aIbjDpimeL/i+BIC8Zpv6bwtqX2si1T
+ K80j9OKhBmBL+caBHrCAst6ENtP5JEF1X3jhHUSmz5i09Ibw5Qhqed8ekYQrRz7w6eX1
+ /+Ajh+kmQVbRK15PcyjVKoVKGnLILiXiDOehrwKLGw/pqWp8pEFAY5jMAMVmpZjYTb9T
+ +pvs5FG+tBK0xMIWJdwEg3TbvJ+8qHCHrmuIW2gq+9vM9dQusxHBLSsk9JPZ1JkeU3tp
+ KiQA==
+X-Gm-Message-State: ACrzQf2CKFLrpwt50uqie8UyE9pIJL04640XpUBzTKVUerRciH/E3LwH
+ yF+jrNRZvI7pS4EYCy164D23ralXmRcyWA==
+X-Google-Smtp-Source: AMsMyM5lZ/gqW2jrFRm5Z/UOwk6atRhDKoNsBZUplDjI9uWi5kTS+kLln7F0nmEcDCcFxNKyuPamrA==
+X-Received: by 2002:adf:e30f:0:b0:236:d8ef:9ede with SMTP id
+ b15-20020adfe30f000000b00236d8ef9edemr15922883wrj.170.1667561724422; 
+ Fri, 04 Nov 2022 04:35:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- g17-20020a5d4891000000b0023655e51c33sm3255743wrq.4.2022.11.04.04.35.22
+ g17-20020a5d4891000000b0023655e51c33sm3255743wrq.4.2022.11.04.04.35.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 04:35:22 -0700 (PDT)
+ Fri, 04 Nov 2022 04:35:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/7] target/arm: Copy the entire vector in DO_ZIP
-Date: Fri,  4 Nov 2022 11:35:13 +0000
-Message-Id: <20221104113515.2278508-6-peter.maydell@linaro.org>
+Subject: [PULL 6/7] target/arm: Honor HCR_E2H and HCR_TGE in ats_write64()
+Date: Fri,  4 Nov 2022 11:35:14 +0000
+Message-Id: <20221104113515.2278508-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221104113515.2278508-1-peter.maydell@linaro.org>
 References: <20221104113515.2278508-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,37 +88,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Ake Koomsin <ake@igel.co.jp>
 
-With odd_ofs set, we weren't copying enough data.
+We need to check HCR_E2H and HCR_TGE to select the right MMU index for
+the correct translation regime.
 
-Fixes: 09eb6d7025d1 ("target/arm: Move sve zip high_ofs into simd_data")
-Reported-by: Idan Horowitz <idan.horowitz@gmail.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-id: 20221031054144.3574-1-richard.henderson@linaro.org
+To check for EL2&0 translation regime:
+- For S1E0*, S1E1* and S12E* ops, check both HCR_E2H and HCR_TGE
+- For S1E2* ops, check only HCR_E2H
+
+Signed-off-by: Ake Koomsin <ake@igel.co.jp>
+Message-id: 20221101064250.12444-1-ake@igel.co.jp
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/sve_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/arm/helper.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 3d0d2987cd0..1afeadf9c85 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -3366,10 +3366,10 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)       \
-     /* We produce output faster than we consume input.               \
-        Therefore we must be mindful of possible overlap.  */         \
-     if (unlikely((vn - vd) < (uintptr_t)oprsz)) {                    \
--        vn = memcpy(&tmp_n, vn, oprsz_2);                            \
-+        vn = memcpy(&tmp_n, vn, oprsz);                              \
-     }                                                                \
-     if (unlikely((vm - vd) < (uintptr_t)oprsz)) {                    \
--        vm = memcpy(&tmp_m, vm, oprsz_2);                            \
-+        vm = memcpy(&tmp_m, vm, oprsz);                              \
-     }                                                                \
-     for (i = 0; i < oprsz_2; i += sizeof(TYPE)) {                    \
-         *(TYPE *)(vd + H(2 * i + 0)) = *(TYPE *)(vn + odd_ofs + H(i)); \
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 077581187e7..d8c8223ec38 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -3501,19 +3501,22 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
+     MMUAccessType access_type = ri->opc2 & 1 ? MMU_DATA_STORE : MMU_DATA_LOAD;
+     ARMMMUIdx mmu_idx;
+     int secure = arm_is_secure_below_el3(env);
++    uint64_t hcr_el2 = arm_hcr_el2_eff(env);
++    bool regime_e20 = (hcr_el2 & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE);
+ 
+     switch (ri->opc2 & 6) {
+     case 0:
+         switch (ri->opc1) {
+         case 0: /* AT S1E1R, AT S1E1W, AT S1E1RP, AT S1E1WP */
+             if (ri->crm == 9 && (env->pstate & PSTATE_PAN)) {
+-                mmu_idx = ARMMMUIdx_Stage1_E1_PAN;
++                mmu_idx = regime_e20 ?
++                          ARMMMUIdx_E20_2_PAN : ARMMMUIdx_Stage1_E1_PAN;
+             } else {
+-                mmu_idx = ARMMMUIdx_Stage1_E1;
++                mmu_idx = regime_e20 ? ARMMMUIdx_E20_2 : ARMMMUIdx_Stage1_E1;
+             }
+             break;
+         case 4: /* AT S1E2R, AT S1E2W */
+-            mmu_idx = ARMMMUIdx_E2;
++            mmu_idx = hcr_el2 & HCR_E2H ? ARMMMUIdx_E20_2 : ARMMMUIdx_E2;
+             break;
+         case 6: /* AT S1E3R, AT S1E3W */
+             mmu_idx = ARMMMUIdx_E3;
+@@ -3524,13 +3527,13 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
+         }
+         break;
+     case 2: /* AT S1E0R, AT S1E0W */
+-        mmu_idx = ARMMMUIdx_Stage1_E0;
++        mmu_idx = regime_e20 ? ARMMMUIdx_E20_0 : ARMMMUIdx_Stage1_E0;
+         break;
+     case 4: /* AT S12E1R, AT S12E1W */
+-        mmu_idx = ARMMMUIdx_E10_1;
++        mmu_idx = regime_e20 ? ARMMMUIdx_E20_2 : ARMMMUIdx_E10_1;
+         break;
+     case 6: /* AT S12E0R, AT S12E0W */
+-        mmu_idx = ARMMMUIdx_E10_0;
++        mmu_idx = regime_e20 ? ARMMMUIdx_E20_0 : ARMMMUIdx_E10_0;
+         break;
+     default:
+         g_assert_not_reached();
 -- 
 2.25.1
 
