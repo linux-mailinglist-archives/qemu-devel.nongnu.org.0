@@ -2,81 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C7FC61A19B
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 20:55:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B45561A0F6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 20:28:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1or2lR-0005SC-ET; Fri, 04 Nov 2022 15:54:05 -0400
+	id 1or2L6-0001cU-Dw; Fri, 04 Nov 2022 15:26:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <francesco.cagnin@gmail.com>)
- id 1or1dv-00057U-Ph; Fri, 04 Nov 2022 14:42:16 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <francesco.cagnin@gmail.com>)
- id 1or1dt-0004a8-5I; Fri, 04 Nov 2022 14:42:15 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id y16so8204087wrt.12;
- Fri, 04 Nov 2022 11:42:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+LhvshoGo+0uNsOuHxgdSok/D64fUCM0kZHJtoCIL0s=;
- b=kh5P9+GB+NXGI7SVMDhhfxwEEWM54e+lmrP2SErEoMKZ/UdP+/NFXaYpceMf7igYSI
- 8CHF5zErDnqnxgLZzXSa0Fg8OevMY3M7K6j6MTo9kY5A8OAx7i5qdkO6OspX9qBLFkze
- XTNQp8ZS6QbVgaSmn0hLmASLM408GQYC+F/+epzoMOxDWrA0vnf0GYDFzYWYTH2JZckW
- HMQdS3XnWWZTzzihcB/IZztAusmUv4Wan4jiX+1B9HUj3xNNBNTYuD1Ro+e7Wtl6jgRC
- Ns3AI5NYV0UfUgv7KVLfm1JSBcBMEk3yFWHdGDkxkMWynkxIl2QBgPa4sBFPlXzGV4bk
- xW9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+LhvshoGo+0uNsOuHxgdSok/D64fUCM0kZHJtoCIL0s=;
- b=yIjdGNk+K1jRgkFsNA70NUJSqE2FYzKZFLlkWwc05LsvTvT94P84DguomlPKD68EQJ
- 4M/32NV0lj+mvTwiq0lBtN9litKUrxhizI45A/XsqYZlrOGRXl9QDkSa447fgqe8NvN8
- gOlYEyZ/JE6ZRbbIPum73PfnbsDKShdGF3lgvLWRtmqFF7GWJBR7DWOmHgke/Ntt6iLC
- ZedrX+oc9vaHSUPM5O+vbqsrLpBA0edFqB/KLaHCPCRkI2tuoG2fVfU5pchwqeryJXtG
- pxiVo8xkOEi06DVIM/CbEa+e/8SQPkSY4wzTFMVVthaa4bEscNQzR/g+MyLiEruG5u3I
- MV6A==
-X-Gm-Message-State: ACrzQf1JPj/n308A96alhcVjlUGs2bRsxr/LeBWpFBE4T1p5BOUOOjim
- gqOy/8XGFvVjpu1nruuUGtA2cxu9OUYb9A==
-X-Google-Smtp-Source: AMsMyM6JISVD+Zx0SVo6qTjMQxq5grlOrnrUjIzfICBLy06hLypAbHTAmjA0ezTMl3Y0hQaX30mQsg==
-X-Received: by 2002:adf:ab1d:0:b0:236:6301:c77 with SMTP id
- q29-20020adfab1d000000b0023663010c77mr23023457wrc.119.1667587330343; 
- Fri, 04 Nov 2022 11:42:10 -0700 (PDT)
-Received: from localhost.localdomain (216.87.95.79.rev.sfr.net. [79.95.87.216])
- by smtp.gmail.com with ESMTPSA id
- q11-20020a05600000cb00b00236e9755c02sm22217wrx.111.2022.11.04.11.42.09
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 04 Nov 2022 11:42:10 -0700 (PDT)
-From: francesco.cagnin@gmail.com
-X-Google-Original-From: fcagnin@quarkslab.com
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1or2Kx-0001Y4-QB
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 15:26:44 -0400
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1or2Kt-0002M6-KP
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 15:26:43 -0400
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2A4DuNpP020336; Fri, 4 Nov 2022 19:26:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=wv9J8nwr6XaNw4/yWT31Jogn+yDTqtBC5WfhL4m+UQ4=;
+ b=XGnfVVrNjiJigSnPv8ajxNV/F0ZUuUGwgaKJAmb6s9t8EN9yEmH5f+L88gziYa4FRTUR
+ B3uXEPNgXaXhCOfqrkIZPNvpY5lirvZ7mN9+glydpySgDowFLuF2hBH25XQraUFgFGbS
+ GAYOF5AOh4ykDBfD5cyCjcyAy75yhjSJJNyT495qUuiiBZigAxg0fz4tFtsMDDweIxhh
+ h2QpNoa0jOIc1RleSMwP1+aotWrdv08wEz4zrX6baWjdTk3X+ZYoJALr/Xf5Gi9nzZ6c
+ 2CK6ogH+5Tis90pz5yLvlrs9kJ0lmCDVdc3gelcM8RP8mOlTgRm5hAaJKuwLa61SZrXN sw== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kn02s9hpg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Nov 2022 19:26:36 +0000
+Received: from pps.filterd (NALASPPMTA05.qualcomm.com [127.0.0.1])
+ by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 2A4JLPAU029672; 
+ Fri, 4 Nov 2022 19:26:35 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA05.qualcomm.com (PPS) with ESMTPS id 3khdmjykjp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Fri, 04 Nov 2022 19:26:34 +0000
+Received: from NALASPPMTA05.qualcomm.com (NALASPPMTA05.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A4JOAA4032407;
+ Fri, 4 Nov 2022 19:26:33 GMT
+Received: from hu-devc-lv-u18-c.qualcomm.com (hu-tsimpson-lv.qualcomm.com
+ [10.47.235.220])
+ by NALASPPMTA05.qualcomm.com (PPS) with ESMTP id 2A4JQXQa001461;
+ Fri, 04 Nov 2022 19:26:33 +0000
+Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
+ id EEE8A5000A7; Fri,  4 Nov 2022 12:26:32 -0700 (PDT)
+From: Taylor Simpson <tsimpson@quicinc.com>
 To: qemu-devel@nongnu.org
-Cc: dirty@apple.com, r.bolshakov@yadro.com, peter.maydell@linaro.org,
- qemu-arm@nongnu.org, agraf@csgraf.de, pbonzini@redhat.com,
- Francesco Cagnin <fcagnin@quarkslab.com>
-Subject: [PATCH 3/3] hvf: handle writes of MDSCR_EL1 and DBG*_EL1
-Date: Fri,  4 Nov 2022 19:41:01 +0100
-Message-Id: <20221104184101.6923-4-fcagnin@quarkslab.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221104184101.6923-1-fcagnin@quarkslab.com>
-References: <20221104184101.6923-1-fcagnin@quarkslab.com>
+Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, philmd@linaro.org,
+ ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
+Subject: [PATCH v3 00/11] Hexagon (target/hexagon) performance and bug fixes
+Date: Fri,  4 Nov 2022 12:26:20 -0700
+Message-Id: <20221104192631.29434-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=francesco.cagnin@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: S8nefSlFe4h7DXMvyY2k7OzEZg3ttfhD
+X-Proofpoint-GUID: S8nefSlFe4h7DXMvyY2k7OzEZg3ttfhD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-04_11,2022-11-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ spamscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 mlxlogscore=586 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211040121
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=tsimpson@qualcomm.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 04 Nov 2022 15:53:47 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,177 +105,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Francesco Cagnin <fcagnin@quarkslab.com>
-
-This proved to be required when debugging the Linux kernel's initial
-code, as the Hypervisor framework was triggering 'EC_SYSTEMREGISTERTRAP'
-VM exits after enabling trap exceptions with
-'hv_vcpu_set_trap_debug_exceptions()'.
-
-Signed-off-by: Francesco Cagnin <fcagnin@quarkslab.com>
----
- target/arm/hvf/hvf.c | 140 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 140 insertions(+)
-
-diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-index 211b296500..dbc3605f6d 100644
---- a/target/arm/hvf/hvf.c
-+++ b/target/arm/hvf/hvf.c
-@@ -97,6 +97,71 @@ static void hvf_arm_init_debug(CPUState *cpu)
- #define SYSREG_PMCEID1_EL0    SYSREG(3, 3, 9, 12, 7)
- #define SYSREG_PMCCNTR_EL0    SYSREG(3, 3, 9, 13, 0)
- #define SYSREG_PMCCFILTR_EL0  SYSREG(3, 3, 14, 15, 7)
-+#define SYSREG_MDSCR_EL1      SYSREG(2, 0, 0, 2, 2)
-+#define SYSREG_DBGBVR0_EL1    SYSREG(2, 0, 0, 0, 4)
-+#define SYSREG_DBGBCR0_EL1    SYSREG(2, 0, 0, 0, 5)
-+#define SYSREG_DBGWVR0_EL1    SYSREG(2, 0, 0, 0, 6)
-+#define SYSREG_DBGWCR0_EL1    SYSREG(2, 0, 0, 0, 7)
-+#define SYSREG_DBGBVR1_EL1    SYSREG(2, 0, 0, 1, 4)
-+#define SYSREG_DBGBCR1_EL1    SYSREG(2, 0, 0, 1, 5)
-+#define SYSREG_DBGWVR1_EL1    SYSREG(2, 0, 0, 1, 6)
-+#define SYSREG_DBGWCR1_EL1    SYSREG(2, 0, 0, 1, 7)
-+#define SYSREG_DBGBVR2_EL1    SYSREG(2, 0, 0, 2, 4)
-+#define SYSREG_DBGBCR2_EL1    SYSREG(2, 0, 0, 2, 5)
-+#define SYSREG_DBGWVR2_EL1    SYSREG(2, 0, 0, 2, 6)
-+#define SYSREG_DBGWCR2_EL1    SYSREG(2, 0, 0, 2, 7)
-+#define SYSREG_DBGBVR3_EL1    SYSREG(2, 0, 0, 3, 4)
-+#define SYSREG_DBGBCR3_EL1    SYSREG(2, 0, 0, 3, 5)
-+#define SYSREG_DBGWVR3_EL1    SYSREG(2, 0, 0, 3, 6)
-+#define SYSREG_DBGWCR3_EL1    SYSREG(2, 0, 0, 3, 7)
-+#define SYSREG_DBGBVR4_EL1    SYSREG(2, 0, 0, 4, 4)
-+#define SYSREG_DBGBCR4_EL1    SYSREG(2, 0, 0, 4, 5)
-+#define SYSREG_DBGWVR4_EL1    SYSREG(2, 0, 0, 4, 6)
-+#define SYSREG_DBGWCR4_EL1    SYSREG(2, 0, 0, 4, 7)
-+#define SYSREG_DBGBVR5_EL1    SYSREG(2, 0, 0, 5, 4)
-+#define SYSREG_DBGBCR5_EL1    SYSREG(2, 0, 0, 5, 5)
-+#define SYSREG_DBGWVR5_EL1    SYSREG(2, 0, 0, 5, 6)
-+#define SYSREG_DBGWCR5_EL1    SYSREG(2, 0, 0, 5, 7)
-+#define SYSREG_DBGBVR6_EL1    SYSREG(2, 0, 0, 6, 4)
-+#define SYSREG_DBGBCR6_EL1    SYSREG(2, 0, 0, 6, 5)
-+#define SYSREG_DBGWVR6_EL1    SYSREG(2, 0, 0, 6, 6)
-+#define SYSREG_DBGWCR6_EL1    SYSREG(2, 0, 0, 6, 7)
-+#define SYSREG_DBGBVR7_EL1    SYSREG(2, 0, 0, 7, 4)
-+#define SYSREG_DBGBCR7_EL1    SYSREG(2, 0, 0, 7, 5)
-+#define SYSREG_DBGWVR7_EL1    SYSREG(2, 0, 0, 7, 6)
-+#define SYSREG_DBGWCR7_EL1    SYSREG(2, 0, 0, 7, 7)
-+#define SYSREG_DBGBVR8_EL1    SYSREG(2, 0, 0, 8, 4)
-+#define SYSREG_DBGBCR8_EL1    SYSREG(2, 0, 0, 8, 5)
-+#define SYSREG_DBGWVR8_EL1    SYSREG(2, 0, 0, 8, 6)
-+#define SYSREG_DBGWCR8_EL1    SYSREG(2, 0, 0, 8, 7)
-+#define SYSREG_DBGBVR9_EL1    SYSREG(2, 0, 0, 9, 4)
-+#define SYSREG_DBGBCR9_EL1    SYSREG(2, 0, 0, 9, 5)
-+#define SYSREG_DBGWVR9_EL1    SYSREG(2, 0, 0, 9, 6)
-+#define SYSREG_DBGWCR9_EL1    SYSREG(2, 0, 0, 9, 7)
-+#define SYSREG_DBGBVR10_EL1   SYSREG(2, 0, 0, 10, 4)
-+#define SYSREG_DBGBCR10_EL1   SYSREG(2, 0, 0, 10, 5)
-+#define SYSREG_DBGWVR10_EL1   SYSREG(2, 0, 0, 10, 6)
-+#define SYSREG_DBGWCR10_EL1   SYSREG(2, 0, 0, 10, 7)
-+#define SYSREG_DBGBVR11_EL1   SYSREG(2, 0, 0, 11, 4)
-+#define SYSREG_DBGBCR11_EL1   SYSREG(2, 0, 0, 11, 5)
-+#define SYSREG_DBGWVR11_EL1   SYSREG(2, 0, 0, 11, 6)
-+#define SYSREG_DBGWCR11_EL1   SYSREG(2, 0, 0, 11, 7)
-+#define SYSREG_DBGBVR12_EL1   SYSREG(2, 0, 0, 12, 4)
-+#define SYSREG_DBGBCR12_EL1   SYSREG(2, 0, 0, 12, 5)
-+#define SYSREG_DBGWVR12_EL1   SYSREG(2, 0, 0, 12, 6)
-+#define SYSREG_DBGWCR12_EL1   SYSREG(2, 0, 0, 12, 7)
-+#define SYSREG_DBGBVR13_EL1   SYSREG(2, 0, 0, 13, 4)
-+#define SYSREG_DBGBCR13_EL1   SYSREG(2, 0, 0, 13, 5)
-+#define SYSREG_DBGWVR13_EL1   SYSREG(2, 0, 0, 13, 6)
-+#define SYSREG_DBGWCR13_EL1   SYSREG(2, 0, 0, 13, 7)
-+#define SYSREG_DBGBVR14_EL1   SYSREG(2, 0, 0, 14, 4)
-+#define SYSREG_DBGBCR14_EL1   SYSREG(2, 0, 0, 14, 5)
-+#define SYSREG_DBGWVR14_EL1   SYSREG(2, 0, 0, 14, 6)
-+#define SYSREG_DBGWCR14_EL1   SYSREG(2, 0, 0, 14, 7)
-+#define SYSREG_DBGBVR15_EL1   SYSREG(2, 0, 0, 15, 4)
-+#define SYSREG_DBGBCR15_EL1   SYSREG(2, 0, 0, 15, 5)
-+#define SYSREG_DBGWVR15_EL1   SYSREG(2, 0, 0, 15, 6)
-+#define SYSREG_DBGWCR15_EL1   SYSREG(2, 0, 0, 15, 7)
- 
- #define WFX_IS_WFE (1 << 0)
- 
-@@ -1041,6 +1106,81 @@ static int hvf_sysreg_write(CPUState *cpu, uint32_t reg, uint64_t val)
-     case SYSREG_OSDLR_EL1:
-         /* Dummy register */
-         break;
-+    case SYSREG_MDSCR_EL1:
-+        env->cp15.mdscr_el1 = val;
-+        break;
-+    case SYSREG_DBGBVR0_EL1:
-+    case SYSREG_DBGBVR1_EL1:
-+    case SYSREG_DBGBVR2_EL1:
-+    case SYSREG_DBGBVR3_EL1:
-+    case SYSREG_DBGBVR4_EL1:
-+    case SYSREG_DBGBVR5_EL1:
-+    case SYSREG_DBGBVR6_EL1:
-+    case SYSREG_DBGBVR7_EL1:
-+    case SYSREG_DBGBVR8_EL1:
-+    case SYSREG_DBGBVR9_EL1:
-+    case SYSREG_DBGBVR10_EL1:
-+    case SYSREG_DBGBVR11_EL1:
-+    case SYSREG_DBGBVR12_EL1:
-+    case SYSREG_DBGBVR13_EL1:
-+    case SYSREG_DBGBVR14_EL1:
-+    case SYSREG_DBGBVR15_EL1:
-+        env->cp15.dbgbvr[SYSREG_CRM(reg)] = val;
-+        break;
-+    case SYSREG_DBGBCR0_EL1:
-+    case SYSREG_DBGBCR1_EL1:
-+    case SYSREG_DBGBCR2_EL1:
-+    case SYSREG_DBGBCR3_EL1:
-+    case SYSREG_DBGBCR4_EL1:
-+    case SYSREG_DBGBCR5_EL1:
-+    case SYSREG_DBGBCR6_EL1:
-+    case SYSREG_DBGBCR7_EL1:
-+    case SYSREG_DBGBCR8_EL1:
-+    case SYSREG_DBGBCR9_EL1:
-+    case SYSREG_DBGBCR10_EL1:
-+    case SYSREG_DBGBCR11_EL1:
-+    case SYSREG_DBGBCR12_EL1:
-+    case SYSREG_DBGBCR13_EL1:
-+    case SYSREG_DBGBCR14_EL1:
-+    case SYSREG_DBGBCR15_EL1:
-+        env->cp15.dbgbcr[SYSREG_CRM(reg)] = val;
-+        break;
-+    case SYSREG_DBGWVR0_EL1:
-+    case SYSREG_DBGWVR1_EL1:
-+    case SYSREG_DBGWVR2_EL1:
-+    case SYSREG_DBGWVR3_EL1:
-+    case SYSREG_DBGWVR4_EL1:
-+    case SYSREG_DBGWVR5_EL1:
-+    case SYSREG_DBGWVR6_EL1:
-+    case SYSREG_DBGWVR7_EL1:
-+    case SYSREG_DBGWVR8_EL1:
-+    case SYSREG_DBGWVR9_EL1:
-+    case SYSREG_DBGWVR10_EL1:
-+    case SYSREG_DBGWVR11_EL1:
-+    case SYSREG_DBGWVR12_EL1:
-+    case SYSREG_DBGWVR13_EL1:
-+    case SYSREG_DBGWVR14_EL1:
-+    case SYSREG_DBGWVR15_EL1:
-+        env->cp15.dbgwvr[SYSREG_CRM(reg)] = val;
-+        break;
-+    case SYSREG_DBGWCR0_EL1:
-+    case SYSREG_DBGWCR1_EL1:
-+    case SYSREG_DBGWCR2_EL1:
-+    case SYSREG_DBGWCR3_EL1:
-+    case SYSREG_DBGWCR4_EL1:
-+    case SYSREG_DBGWCR5_EL1:
-+    case SYSREG_DBGWCR6_EL1:
-+    case SYSREG_DBGWCR7_EL1:
-+    case SYSREG_DBGWCR8_EL1:
-+    case SYSREG_DBGWCR9_EL1:
-+    case SYSREG_DBGWCR10_EL1:
-+    case SYSREG_DBGWCR11_EL1:
-+    case SYSREG_DBGWCR12_EL1:
-+    case SYSREG_DBGWCR13_EL1:
-+    case SYSREG_DBGWCR14_EL1:
-+    case SYSREG_DBGWCR15_EL1:
-+        env->cp15.dbgwcr[SYSREG_CRM(reg)] = val;
-+        break;
-     default:
-         cpu_synchronize_state(cpu);
-         trace_hvf_unhandled_sysreg_write(env->pc, reg,
--- 
-2.38.1
-
+MSkKUGVyZm9ybWFuY2UgaW1wcm92ZW1lbnQKQWRkIHBrdCBhbmQgaW5zbiB0byBEaXNhc0NvbnRl
+eHQKTWFueSBmdW5jdGlvbnMgbmVlZCBpbmZvcm1hdGlvbiBmcm9tIGFsbCAzIHN0cnVjdHVyZXMs
+IHNvIG1lcmdlCnRoZW0gdG9nZXRoZXIuCgoyKQpCdWcgZml4CkZpeCBwcmVkaWNhdGVkIGFzc2ln
+bm1lbnQgdG8gLnRtcCBhbmQgLmN1cgoKCjMpClBlcmZvcm1hbmNlIGltcHJvdmVtZW50CkFkZCBv
+dmVycmlkZXMgZm9yIFMyX2Fzcl9yX3Jfc2F0L1MyX2FzbF9yX3Jfc2F0ClRoZXNlIGZ1bmN0aW9u
+cyB3aWxsIG5vdCBiZSBoYW5kbGVkIGJ5IGlkZWYtcGFyc2VyCgo0LTExKQpUaGUgZmluYWwgOCBw
+YXRjaGVzIGltcHJvdmUgY2hhbmdlLW9mLWZsb3cgaGFuZGxpbmcuCgpDdXJyZW50bHksIHdlIHNl
+dCB0aGUgUEMgdG8gYSBuZXcgYWRkcmVzcyBiZWZvcmUgZXhpdGluZyBhIFRCLiAgVGhlCnVsdGlt
+YXRlIGdvYWwgaXMgdG8gdXNlIGRpcmVjdCBibG9jayBjaGFpbmluZy4gIEhvd2V2ZXIsIHNldmVy
+YWwgc3RlcHMKYXJlIG5lZWRlZCBhbG9uZyB0aGUgd2F5LgoKNCkKV2hlbiBhIHBhY2tldCBoYXMg
+bW9yZSB0aGFuIG9uZSBjaGFuZ2Utb2YtZmxvdyAoQ09GKSBpbnN0cnVjdGlvbiwgb25seQp0aGUg
+Zmlyc3Qgb25lIHRha2VuIGlzIGNvbnNpZGVyZWQuICBUaGUgcnVudGltZSBib29ra2VlcGluZyBp
+cyBvbmx5Cm5lZWRlZCB3aGVuIHRoZXJlIGlzIG1vcmUgdGhhbiBvbmUgQ09GIGluc3RydWN0aW9u
+IGluIGEgcGFja2V0LgoKNSwgNikKUmVtb3ZlIFBDIGFuZCBuZXh0X1BDIGZyb20gdGhlIHJ1bnRp
+bWUgc3RhdGUgYW5kIGFsd2F5cyB1c2UgYQp0cmFuc2xhdGlvbi10aW1lIGNvbnN0YW50LiAgTm90
+ZSB0aGF0IG5leHRfUEMgaXMgdXNlZCBieSBjYWxsIGluc3RydWN0aW9ucwp0byBzZXQgTFIgYW5k
+IGJ5IGNvbmRpdGlvbmFsIENPRiBpbnN0cnVjdGlvbnMgdG8gc2V0IHRoZSBmYWxsLXRocm91Z2gK
+YWRkcmVzcy4KCjcsIDgsIDkpCkFkZCBoZWxwZXIgb3ZlcnJpZGVzIGZvciBDT0YgaW5zdHJ1Y3Rp
+b25zLiAgSW4gcGFydGljdWxhciwgd2UgbXVzdApkaXN0aW5ndWlzaCB0aG9zZSB0aGF0IHVzZSBh
+IFBDLXJlbGF0aXZlIGFkZHJlc3MgZm9yIHRoZSBkZXN0aW5hdGlvbi4KVGhlc2UgYXJlIGNhbmRp
+ZGF0ZXMgZm9yIGRpcmVjdCBibG9jayBjaGFpbmluZyBsYXRlci4KCjEwKQpVc2UgZGlyZWN0IGJs
+b2NrIGNoYWluaW5nIGZvciBwYWNrZXRzIHRoYXQgaGF2ZSBhIHNpbmdsZSBQQy1yZWxhdGl2ZQpD
+T0YgaW5zdHJ1Y3Rpb24uICBJbnN0ZWFkIG9mIGdlbmVyYXRpbmcgdGhlIGNvZGUgd2hpbGUgcHJv
+Y2Vzc2luZyB0aGUKaW5zdHJ1Y3Rpb24sIHdlIHJlY29yZCB0aGUgZWZmZWN0IGluIERpc2FzQ29u
+dGV4dCBhbmQgZ2VuZXJhdGUgdGhlIGNvZGUKZHVyaW5nIGdlbl9lbmRfdGIuCgoxMSkKVXNlIGRp
+cmVjdCBibG9jayBjaGFpbmluZyBmb3IgdGlnaHQgbG9vcHMuICBXZSBsb29rIGZvciBUQnMgdGhh
+dCBlbmQKd2l0aCBhbiBlbmRsb29wMCB0aGF0IHdpbGwgYnJhbmNoIGJhY2sgdG8gdGhlIFRCIHN0
+YXJ0IGFkZHJlc3MuCgoKKioqKiBDaGFuZ2VzIGluIFYzICoqKioKTWVyZ2UgcHJldmlvdXNseSBl
+bWFpbGVkIHBhdGNoZXMgaW50byBzaW5nbGUgc2VyaWVzCk1lcmdlIGZ1bmN0aW9ucyB0aGF0IGNo
+ZWNrIGlmIHZyZWcgaXMgcHJlbG9hZGVkCgoqKioqIENoYW5nZXMgaW4gVjIgKioqKgpVcGRhdGUg
+dGVzdCBjYXNlIHRvIHVzZSBib3RoIHRydWUgYW5kIGZhbHNlIHByZWRpY2F0ZXMKQWRkIGZpeCBm
+b3IgLmN1cgpTaW1wbGlmeSB0ZXN0IGluIG5lZWRfcGt0X2hhc19tdWx0aV9jb2YKQWRkcmVzcyBm
+ZWVkYmFjayBmcm9tIE1hdGhldXMgVGF2YXJlcyBCZXJuYXJkaW5vIDxxdWljX21hdGhiZXJuQHF1
+aWNpbmMuY29tPgogICAgUmVhcnJhbmdlIG5ldy12YWx1ZS1qdW1wIG92ZXJyaWRlcwogICAgU2lt
+cGxpZnkgZ2VuX3dyaXRlX25ld19wY19hZGRyCgoKClRheWxvciBTaW1wc29uICgxMSk6CiAgSGV4
+YWdvbiAodGFyZ2V0L2hleGFnb24pIEFkZCBwa3QgYW5kIGluc24gdG8gRGlzYXNDb250ZXh0CiAg
+SGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIEZpeCBwcmVkaWNhdGVkIGFzc2lnbm1lbnQgdG8gLnRt
+cCBhbmQgLmN1cgogIEhleGFnb24gKHRhcmdldC9oZXhhZ29uKSBBZGQgb3ZlcnJpZGVzIGZvcgog
+ICAgUzJfYXNyX3Jfcl9zYXQvUzJfYXNsX3Jfcl9zYXQKICBIZXhhZ29uICh0YXJnZXQvaGV4YWdv
+bikgT25seSB1c2UgYnJhbmNoX3Rha2VuIHdoZW4gcGFja2V0IGhhcyBtdWx0aQogICAgY29mCiAg
+SGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIFJlbW92ZSBQQyBmcm9tIHRoZSBydW50aW1lIHN0YXRl
+CiAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIFJlbW92ZSBuZXh0X1BDIGZyb20gcnVudGltZSBz
+dGF0ZQogIEhleGFnb24gKHRhcmdldC9oZXhhZ29uKSBBZGQgb3ZlcnJpZGVzIGZvciBkaXJlY3Qg
+Y2FsbCBpbnN0cnVjdGlvbnMKICBIZXhhZ29uICh0YXJnZXQvaGV4YWdvbikgQWRkIG92ZXJyaWRl
+cyBmb3IgY29tcG91bmQgY29tcGFyZSBhbmQganVtcAogIEhleGFnb24gKHRhcmdldC9oZXhhZ29u
+KSBBZGQgb3ZlcnJpZGVzIGZvciB2YXJpb3VzIGZvcm1zIG9mIGp1bXAKICBIZXhhZ29uICh0YXJn
+ZXQvaGV4YWdvbikgVXNlIGRpcmVjdCBibG9jayBjaGFpbmluZyBmb3IgZGlyZWN0CiAgICBqdW1w
+L2JyYW5jaAogIEhleGFnb24gKHRhcmdldC9oZXhhZ29uKSBVc2UgZGlyZWN0IGJsb2NrIGNoYWlu
+aW5nIGZvciB0aWdodCBsb29wcwoKIHRhcmdldC9oZXhhZ29uL2NwdS5oICAgICAgICAgICAgICAg
+IHwgIDE4ICstCiB0YXJnZXQvaGV4YWdvbi9nZW5fdGNnLmggICAgICAgICAgICB8IDQwMCArKysr
+KysrKysrKysrKysrKysrKysrKysrLQogdGFyZ2V0L2hleGFnb24vZ2VuX3RjZ19odnguaCAgICAg
+ICAgfCAgIDYgKy0KIHRhcmdldC9oZXhhZ29uL2luc24uaCAgICAgICAgICAgICAgIHwgICA5ICst
+CiB0YXJnZXQvaGV4YWdvbi9tYWNyb3MuaCAgICAgICAgICAgICB8ICAxNiArLQogdGFyZ2V0L2hl
+eGFnb24vbW12ZWMvbWFjcm9zLmggICAgICAgfCAgIDQgKy0KIHRhcmdldC9oZXhhZ29uL3RyYW5z
+bGF0ZS5oICAgICAgICAgIHwgIDIxICstCiB0YXJnZXQvaGV4YWdvbi9kZWNvZGUuYyAgICAgICAg
+ICAgICB8ICAxNSArLQogdGFyZ2V0L2hleGFnb24vZ2VucHRyLmMgICAgICAgICAgICAgfCA0MTkg
+KysrKysrKysrKysrKysrKysrKysrKysrKysrLQogdGFyZ2V0L2hleGFnb24vb3BfaGVscGVyLmMg
+ICAgICAgICAgfCAgMjggKy0KIHRhcmdldC9oZXhhZ29uL3RyYW5zbGF0ZS5jICAgICAgICAgIHwg
+MjM1ICsrKysrKysrKysrLS0tLS0KIHRlc3RzL3RjZy9oZXhhZ29uL2h2eF9taXNjLmMgICAgICAg
+IHwgIDcyICsrKysrCiB0ZXN0cy90Y2cvaGV4YWdvbi91c3IuYyAgICAgICAgICAgICB8ICAzMCAr
+LQogdGFyZ2V0L2hleGFnb24vZ2VuX2hlbHBlcl9mdW5jcy5weSAgfCAgMTMgKy0KIHRhcmdldC9o
+ZXhhZ29uL2dlbl9oZWxwZXJfcHJvdG9zLnB5IHwgIDE0ICstCiB0YXJnZXQvaGV4YWdvbi9nZW5f
+dGNnX2Z1bmNzLnB5ICAgICB8ICAzOCArKy0KIHRhcmdldC9oZXhhZ29uL2hleF9jb21tb24ucHkg
+ICAgICAgIHwgIDI5ICstCiAxNyBmaWxlcyBjaGFuZ2VkLCAxMjI5IGluc2VydGlvbnMoKyksIDEz
+OCBkZWxldGlvbnMoLSkKCi0tIAoyLjE3LjEKCg==
 
