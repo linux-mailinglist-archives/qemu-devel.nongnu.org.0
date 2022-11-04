@@ -2,53 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D6F619415
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 11:03:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 265B361940E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 11:02:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqtXE-0005ae-MS; Fri, 04 Nov 2022 06:02:48 -0400
+	id 1oqtX3-0004k6-Gq; Fri, 04 Nov 2022 06:02:37 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oqtVI-0002OA-1u
+ id 1oqtVI-0002OC-2N
  for qemu-devel@nongnu.org; Fri, 04 Nov 2022 06:00:49 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oqtVA-0000um-9T
+ (envelope-from <gaosong@loongson.cn>) id 1oqtVA-0000ul-8u
  for qemu-devel@nongnu.org; Fri, 04 Nov 2022 06:00:47 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Bx3NjC4mRjqnsEAA--.15189S3;
- Fri, 04 Nov 2022 18:00:34 +0800 (CST)
+ by gateway (Coremail) with SMTP id _____8BxLLbE4mRjrnsEAA--.3560S3;
+ Fri, 04 Nov 2022 18:00:36 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxPuDC4mRjYmUNAA--.37849S2; 
- Fri, 04 Nov 2022 18:00:34 +0800 (CST)
+ AQAAf8AxPuDC4mRjYmUNAA--.37849S3; 
+ Fri, 04 Nov 2022 18:00:35 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org,
-	stefanha@gmail.com
-Subject: [PULL v2 0/9] loongarch-to-apply queue
-Date: Fri,  4 Nov 2022 18:00:24 +0800
-Message-Id: <20221104100033.3473980-1-gaosong@loongson.cn>
+Cc: richard.henderson@linaro.org, stefanha@gmail.com,
+ Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL v2 1/9] hw/intc: Convert the memops to with_attrs in LoongArch
+ extioi
+Date: Fri,  4 Nov 2022 18:00:25 +0800
+Message-Id: <20221104100033.3473980-2-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20221104100033.3473980-1-gaosong@loongson.cn>
+References: <20221104100033.3473980-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxPuDC4mRjYmUNAA--.37849S2
+X-CM-TRANSID: AQAAf8AxPuDC4mRjYmUNAA--.37849S3
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7Ww45AFW5Zr45XFykGr4fAFb_yoW8trWxpr
- 1a9r13Gr4rJrZxZrnIyw13XFn8Jr48Gr42q3W7t34rCa13Ar1UXr48t3s2qFyUJ34UJryj
- qF18Aw15WF4DXwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoWxGry5Cw47tF43tF47Zr17trb_yoWrWryrpr
+ Wxu3sIgr1Uta1xGrs093WUZF18Gws3XryavF4a9a4S9w1DC34F9a4vqr92yFWY934kAryq
+ gayfXr1YgF1qyrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  b0AFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF
  7I0E14v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
  CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E
  6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7x
  kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
  6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
- 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE
+ 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
  2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
  xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
  7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
@@ -74,57 +78,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit ece5f8374d0416a339f0c0a9399faa2c42d4ad6f:
+From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 
-  Merge tag 'linux-user-for-7.2-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-11-03 10:55:05 -0400)
+Converting the MemoryRegionOps read/write handlers to
+with_attrs in LoongArch extioi emulation.
 
-are available in the Git repository at:
+Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20221021015307.2570844-2-yangxiaojuan@loongson.cn>
+Signed-off-by: Song Gao <gaosong@loongson.cn>
+---
+ hw/intc/loongarch_extioi.c | 31 +++++++++++++++++--------------
+ hw/intc/trace-events       |  3 +--
+ 2 files changed, 18 insertions(+), 16 deletions(-)
 
-  https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20221104
-
-for you to fetch changes up to 2419978cb09e11bc53a07d4de5621424d2a6a86d:
-
-  target/loongarch: Fix emulation of float-point disable exception (2022-11-04 17:10:53 +0800)
-
-----------------------------------------------------------------
-pull-loongarch-20221104
-
-v2:
- - fix win32/win64 complie error;
- - Add Rui Wang' patches.
-
-----------------------------------------------------------------
-Rui Wang (2):
-      target/loongarch: Adjust the layout of hardware flags bit fields
-      target/loongarch: Fix emulation of float-point disable exception
-
-Song Gao (2):
-      target/loongarch: Add exception subcode
-      target/loongarch: Fix raise_mmu_exception() set wrong exception_index
-
-Xiaojuan Yang (5):
-      hw/intc: Convert the memops to with_attrs in LoongArch extioi
-      hw/intc: Fix LoongArch extioi coreisr accessing
-      hw/loongarch: Load FDT table into dram memory space
-      hw/loongarch: Improve fdt for LoongArch virt machine
-      hw/loongarch: Add TPM device for LoongArch virt machine
-
- hw/intc/loongarch_extioi.c                         | 41 +++++++------
- hw/intc/trace-events                               |  3 +-
- hw/loongarch/acpi-build.c                          | 51 +++++++++++++++-
- hw/loongarch/virt.c                                | 53 ++++++++++++++---
- include/hw/loongarch/virt.h                        |  3 -
- include/hw/pci-host/ls7a.h                         |  1 +
- target/loongarch/cpu.c                             | 10 +++-
- target/loongarch/cpu.h                             | 69 +++++++++++++---------
- target/loongarch/insn_trans/trans_farith.c.inc     | 30 ++++++++++
- target/loongarch/insn_trans/trans_fcmp.c.inc       | 11 +++-
- target/loongarch/insn_trans/trans_fmemory.c.inc    | 34 +++++++++--
- target/loongarch/insn_trans/trans_fmov.c.inc       | 29 ++++++++-
- target/loongarch/insn_trans/trans_privileged.c.inc |  2 +-
- target/loongarch/iocsr_helper.c                    | 19 +++---
- target/loongarch/tlb_helper.c                      |  5 +-
- target/loongarch/translate.c                       |  6 +-
- 16 files changed, 283 insertions(+), 84 deletions(-)
+diff --git a/hw/intc/loongarch_extioi.c b/hw/intc/loongarch_extioi.c
+index 22803969bc..72f4b0cde5 100644
+--- a/hw/intc/loongarch_extioi.c
++++ b/hw/intc/loongarch_extioi.c
+@@ -68,44 +68,45 @@ static void extioi_setirq(void *opaque, int irq, int level)
+     extioi_update_irq(s, irq, level);
+ }
+ 
+-static uint64_t extioi_readw(void *opaque, hwaddr addr, unsigned size)
++static MemTxResult extioi_readw(void *opaque, hwaddr addr, uint64_t *data,
++                                unsigned size, MemTxAttrs attrs)
+ {
+     LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+     unsigned long offset = addr & 0xffff;
+-    uint32_t index, cpu, ret = 0;
++    uint32_t index, cpu;
+ 
+     switch (offset) {
+     case EXTIOI_NODETYPE_START ... EXTIOI_NODETYPE_END - 1:
+         index = (offset - EXTIOI_NODETYPE_START) >> 2;
+-        ret = s->nodetype[index];
++        *data = s->nodetype[index];
+         break;
+     case EXTIOI_IPMAP_START ... EXTIOI_IPMAP_END - 1:
+         index = (offset - EXTIOI_IPMAP_START) >> 2;
+-        ret = s->ipmap[index];
++        *data = s->ipmap[index];
+         break;
+     case EXTIOI_ENABLE_START ... EXTIOI_ENABLE_END - 1:
+         index = (offset - EXTIOI_ENABLE_START) >> 2;
+-        ret = s->enable[index];
++        *data = s->enable[index];
+         break;
+     case EXTIOI_BOUNCE_START ... EXTIOI_BOUNCE_END - 1:
+         index = (offset - EXTIOI_BOUNCE_START) >> 2;
+-        ret = s->bounce[index];
++        *data = s->bounce[index];
+         break;
+     case EXTIOI_COREISR_START ... EXTIOI_COREISR_END - 1:
+         index = ((offset - EXTIOI_COREISR_START) & 0x1f) >> 2;
+         cpu = ((offset - EXTIOI_COREISR_START) >> 8) & 0x3;
+-        ret = s->coreisr[cpu][index];
++        *data = s->coreisr[cpu][index];
+         break;
+     case EXTIOI_COREMAP_START ... EXTIOI_COREMAP_END - 1:
+         index = (offset - EXTIOI_COREMAP_START) >> 2;
+-        ret = s->coremap[index];
++        *data = s->coremap[index];
+         break;
+     default:
+         break;
+     }
+ 
+-    trace_loongarch_extioi_readw(addr, ret);
+-    return ret;
++    trace_loongarch_extioi_readw(addr, *data);
++    return MEMTX_OK;
+ }
+ 
+ static inline void extioi_enable_irq(LoongArchExtIOI *s, int index,\
+@@ -127,8 +128,9 @@ static inline void extioi_enable_irq(LoongArchExtIOI *s, int index,\
+     }
+ }
+ 
+-static void extioi_writew(void *opaque, hwaddr addr,
+-                          uint64_t val, unsigned size)
++static MemTxResult extioi_writew(void *opaque, hwaddr addr,
++                          uint64_t val, unsigned size,
++                          MemTxAttrs attrs)
+ {
+     LoongArchExtIOI *s = LOONGARCH_EXTIOI(opaque);
+     int i, cpu, index, old_data, irq;
+@@ -231,11 +233,12 @@ static void extioi_writew(void *opaque, hwaddr addr,
+     default:
+         break;
+     }
++    return MEMTX_OK;
+ }
+ 
+ static const MemoryRegionOps extioi_ops = {
+-    .read = extioi_readw,
+-    .write = extioi_writew,
++    .read_with_attrs = extioi_readw,
++    .write_with_attrs = extioi_writew,
+     .impl.min_access_size = 4,
+     .impl.max_access_size = 4,
+     .valid.min_access_size = 4,
+diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+index 0a90c1cdec..6fbc2045e6 100644
+--- a/hw/intc/trace-events
++++ b/hw/intc/trace-events
+@@ -306,6 +306,5 @@ loongarch_msi_set_irq(int irq_num) "set msi irq %d"
+ 
+ # loongarch_extioi.c
+ loongarch_extioi_setirq(int irq, int level) "set extirq irq %d level %d"
+-loongarch_extioi_readw(uint64_t addr, uint32_t val) "addr: 0x%"PRIx64 "val: 0x%x"
++loongarch_extioi_readw(uint64_t addr, uint64_t val) "addr: 0x%"PRIx64 "val: 0x%" PRIx64
+ loongarch_extioi_writew(uint64_t addr, uint64_t val) "addr: 0x%"PRIx64 "val: 0x%" PRIx64
+-
+-- 
+2.31.1
 
 
