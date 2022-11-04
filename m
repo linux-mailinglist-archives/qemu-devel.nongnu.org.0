@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8612619388
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 10:31:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96AEC619397
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 10:33:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqt0r-0003Wb-GP; Fri, 04 Nov 2022 05:29:21 -0400
+	id 1oqt3n-0005LI-Cu; Fri, 04 Nov 2022 05:32:23 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqt0p-0003WO-Db
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:29:19 -0400
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqt3l-0005Ks-3X
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:32:21 -0400
 Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqt0n-0004Rx-CZ
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:29:18 -0400
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1oqt3j-0004vS-Bx
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:32:20 -0400
 Received: by mail-wm1-x334.google.com with SMTP id
- v124-20020a1cac82000000b003cf7a4ea2caso5011316wme.5
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 02:29:16 -0700 (PDT)
+ h125-20020a1c2183000000b003cf9c3f3b80so66765wmh.0
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 02:32:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=fpGtaJUHMU409jQZHhjec2Vb0Myr/AQ8gIeHLerUyyA=;
- b=mV0DCk4IefrkRJSTAdOtLRLcsbNQSPB+7ShRzwABj2ZNwpwfLOAgcklNWIASCY/AHX
- YQrKBzIi0PNS2/z3cMDReJVKk2YG3PIFedHzfQ7p5460M/4YhnkUUjLk5e7XCBrYi40b
- MN+qChW57LRVnb++naa8NG58OYxFw1XnUFaAFXHq9JYTBnXqojyzQfdGmsSG73T37zHo
- glElWxeJOrOoG2GaqPeFZvndLWawA80M0b/3efNKr11tExmhlXm6+JJfHUO8LbgVvG1g
- tq64UfqwMReVhuIXLh1FlKxekQ9iEC5/Qg1AsnuD2YrBed3O52jfrOAdgI8TgTvPOzKr
- 4lmQ==
+ bh=Q5Ah71G+S/BzGs2ro9LqQS2XyggIleclMEHnuszJH/4=;
+ b=Hk7FEL/9z5EBsCEaOQ/t88bM5I1XoSGT9uBwTKPhHQuhLij6xBD22AjFEqwTNi6XY6
+ TB5EBXtu//cP/ifgm5n6fqyedngQS+frrxYyxIx5tZhjGlcn9zIXamopNHAGVnvo66ue
+ rMXuM0/vY3PUIdQoac/WaEKYVdNV/1aJN3BoAkoc0ux0WserRc24VrzvZcHzj8XeFndv
+ BMudDXWCQhz25ZQOTtqVmBfzX+6VPYBHsZs9w4xxwT/0pkBPzUswLPAnKDGXl+XRoMo6
+ FDKQMd4CpF8bwRN5JVZkHbNIFB2Q68xpE9WPWbCLiBaqWqk5e2KLadPizfhZt2zvrJEi
+ 4U+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fpGtaJUHMU409jQZHhjec2Vb0Myr/AQ8gIeHLerUyyA=;
- b=WCnhHabBxdZspk6qhqNwiq06Zv2PQkyZBSzBCulwWBAiRoAkGlXICfUXo//wbRGRiq
- wAZmwlF60EdU/0YX3ztbqsyt37qw0UCcGsOCt+I17Pebt8bbCPWKLStY23bNwx2xwkiK
- DgeWKckIApQYldEYKdzSO41cm3fqhQQSlhEaQbpoET33k4I8ADiLKQQvEQJyQCUlA0zq
- 8e94z1Hw3kfEVvJB3VjV2VV6WYst5Gk3yfFpP2lY9WguRUWY1V0C3xJYZg45vAD7FA4I
- LtHiEGDACRczkz7JE1emZYiG9t7cVEcqyJKRV+PsC6iY6w4ArAq0M3Ve7g3G9njD/jWE
- 05eg==
-X-Gm-Message-State: ACrzQf0PBgcBIeHvsrpbdjT8yDJt3lSX+p7vwCNZ/5qJOxcW/jOTav58
- XhDiFWYW7dr980krTSbLCCgDBg==
-X-Google-Smtp-Source: AMsMyM5k0FMoTsKQBVCXKSFCkVBRn4JwEpFMrChZAypJJmiqmULDc6fDx67pM2ZvObfVUIjNp0XcUQ==
-X-Received: by 2002:a1c:f202:0:b0:3c2:10de:4016 with SMTP id
- s2-20020a1cf202000000b003c210de4016mr32834628wmc.158.1667554155771; 
- Fri, 04 Nov 2022 02:29:15 -0700 (PDT)
+ bh=Q5Ah71G+S/BzGs2ro9LqQS2XyggIleclMEHnuszJH/4=;
+ b=HEq0e6OL0/3f0nY1NaGXlVeRFgiXe9yq9tiSLw0OtriyYdufEkKSujyyiEXOWbhnlH
+ hyfty2ZayjON1PxMrIatb5SJcHuFxpa/aW5i/v1+l8ZwxxhrZT4nXSwK5YTt1MqNcxYL
+ nywuzMUa60/+Mm9+Ip5t3F1usvOorqhpIqGbG/cMXZGgzD806tv5qnmMkAjZMsi2myox
+ J9o8uFLtcYQFZvS0jrkaxr7L8mks7prrnexfUdxNcFneoml6NQyCPfdMyJUKvwZsxKGd
+ XlxfgJv/NKeUVueeQ+DYJ4qjQlhyuc6CvY3TjJZCgftW2YbOl5/Rw2MFphYi2jqY3fLS
+ Ap7Q==
+X-Gm-Message-State: ACrzQf2x1PVXddB+6Et3oHidJUwuSn6Sl8ASyVKBi3oeVnCX+v6WbClF
+ bliuk/jCT2yJE1h1oQ8rPBHG2w==
+X-Google-Smtp-Source: AMsMyM7+OQwyDoDi16VVQDbMHGveM0cUY3bs8zdVwj8MPjQgHGgfMf2IIUaeMhknLD+A5EIxyi7Srg==
+X-Received: by 2002:a05:600c:2194:b0:3cf:758f:160e with SMTP id
+ e20-20020a05600c219400b003cf758f160emr16194367wme.175.1667554337615; 
+ Fri, 04 Nov 2022 02:32:17 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- j5-20020a5d4485000000b002365730eae8sm2922986wrq.55.2022.11.04.02.29.14
+ h8-20020a05600c2ca800b003b4a699ce8esm2525828wmc.6.2022.11.04.02.32.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Nov 2022 02:29:14 -0700 (PDT)
-Message-ID: <949eb8d1-2298-de8e-6492-33a8cd4ee100@linaro.org>
-Date: Fri, 4 Nov 2022 10:29:13 +0100
+ Fri, 04 Nov 2022 02:32:17 -0700 (PDT)
+Message-ID: <7a67e04a-d723-95e6-0575-1a5a8786d54e@linaro.org>
+Date: Fri, 4 Nov 2022 10:32:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH] qom.json: default the prealloc-threads to smp-cpus
+Subject: Re: [PATCH] gitlab-ci: split clang-user to avoid timeout
 Content-Language: en-US
-To: Zhenyu Zhang <zhenyzha@redhat.com>
-Cc: qemu-devel@nongnu.org, shan.gavin@gmail.com, liuyd.fnst@fujitsu.com,
- eric.auger@redhat.com, Igor Mammedov <imammedo@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20221103104716.179635-1-zhenyzha@redhat.com>
- <7eecb87f-7d37-93d0-db93-21f7c6374d91@linaro.org>
- <CAJFLiBJSYLm11xUfWPFTOi9xMPk6WYE+G+v3-mhWzV=xp-YHAQ@mail.gmail.com>
+To: Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20221103212321.387738-1-stefanha@redhat.com>
+ <599dd8d8-33d0-1bd7-dfe3-01bb2712f2bc@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CAJFLiBJSYLm11xUfWPFTOi9xMPk6WYE+G+v3-mhWzV=xp-YHAQ@mail.gmail.com>
+In-Reply-To: <599dd8d8-33d0-1bd7-dfe3-01bb2712f2bc@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::334;
@@ -95,53 +97,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4/11/22 02:57, Zhenyu Zhang wrote:
-> Hello Philippe
+On 4/11/22 07:27, Thomas Huth wrote:
+> On 03/11/2022 22.23, Stefan Hajnoczi wrote:
+>> GitLab CI times out when the clang-user job takes over 1 hour.
 > 
-> I checked out this modified patch:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg888815.html
-> It should have been merged in 7.1
+> Oh, that's new to me ... is that a regression? Has something become 
+> slower? Or did we just add more stuff to the user builds recently?
 
-This changed the default value, not the property availability.
+We added more TCG tests:
 
-IIUC the '(since X)' format document when a property got added,
-regardless its default value.
+$ git diff --stat v7.1.0.. -- tests/tcg/
+  tests/tcg/Makefile.target                              |   36 +-
+  tests/tcg/aarch64/Makefile.softmmu-target              |   11 +-
+  tests/tcg/aarch64/Makefile.target                      |   15 +-
+  tests/tcg/arm/Makefile.target                          |    9 +-
+  tests/tcg/cris/Makefile.target                         |    2 +-
+  tests/tcg/hexagon/usr.c                                |   10 +
+  tests/tcg/i386/Makefile.softmmu-target                 |    3 +-
+  tests/tcg/i386/Makefile.target                         |   41 +-
+  tests/tcg/i386/README                                  |    9 +
+  tests/tcg/i386/test-3dnow.c                            |    3 +
+  tests/tcg/i386/test-avx.c                              |  364 ++++++++++
+  tests/tcg/i386/test-avx.py                             |  375 ++++++++++
+  tests/tcg/i386/test-i386-bmi2.c                        |  169 ++++-
+  tests/tcg/i386/test-i386.c                             |  575 
++--------------
+  tests/tcg/i386/test-mmx.c                              |  315 ++++++++
+  tests/tcg/i386/test-mmx.py                             |  244 +++++++
+  tests/tcg/i386/x86.csv                                 | 4658 
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  tests/tcg/multiarch/Makefile.target                    |   21 +-
+  tests/tcg/multiarch/linux/linux-madvise.c              |   70 ++
+  tests/tcg/multiarch/munmap-pthread.c                   |   79 +++
+  tests/tcg/multiarch/noexec.c.inc                       |  139 ++++
+  tests/tcg/multiarch/system/Makefile.softmmu-target     |    2 +-
+  tests/tcg/nios2/10m50-ghrd.ld                          |   14 +-
+  tests/tcg/nios2/Makefile.softmmu-target                |    3 +-
+  tests/tcg/ppc64/Makefile.target                        |    8 +-
+  tests/tcg/ppc64le/Makefile.target                      |   26 +-
+  tests/tcg/riscv64/Makefile.target                      |    1 +
+  tests/tcg/riscv64/noexec.c                             |   79 +++
+  tests/tcg/s390x/Makefile.target                        |   34 +-
+  tests/tcg/s390x/noexec.c                               |  106 +++
+  tests/tcg/s390x/vistr.c                                |   45 ++
+  tests/tcg/sh4/Makefile.target                          |   12 -
+  tests/tcg/x86_64/Makefile.softmmu-target               |    3 +-
+  tests/tcg/x86_64/Makefile.target                       |    7 +-
+  tests/tcg/x86_64/noexec.c                              |   75 ++
+  42 files changed, 6877 insertions(+), 686 deletions(-)
 
-This property is available since 5.0.
+Also more s390x tests are going to be merged soon.
 
-The default value changed in 7.1. You are correct we need to update
-the new value in documentation, but the 'since' tag should refer
-to when the property got added: 5.0.
-
-> On Thu, Nov 3, 2022 at 7:00 PM Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
->>
->> On 3/11/22 11:47, Zhenyu Zhang wrote:
->>> Since the amount of prealloc-threads to smp-cpus is
->>> defaulted in hostmem, so sync this information.
->>>
->>> Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
->>> ---
->>>    qapi/qom.json | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/qapi/qom.json b/qapi/qom.json
->>> index 87fcad2423..ac4cd213a7 100644
->>> --- a/qapi/qom.json
->>> +++ b/qapi/qom.json
->>> @@ -576,7 +576,7 @@
->>>    #
->>>    # @prealloc: if true, preallocate memory (default: false)
->>>    #
->>> -# @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
->>> +# @prealloc-threads: number of CPU threads to use for prealloc (default: smp-cpus) (since 7.1)
->>
->> The property is present since 5.0. Shouldn't this be "(default:
->> smp-cpus) (since 5.0)"?
->>
->>>    #
->>>    # @prealloc-context: thread context to use for creation of preallocation threads
->>>    #                    (default: none) (since 7.2)
->>
+> Anyway, if it's just taking a little bit longer than 1h, it's likely 
+> better to bump the timeout by 10 minutes (to 70 minutes), I guess that 
+> will still take less CI minutes to run than to have two jobs.
+> 
+>   Thomas
 > 
 
 
