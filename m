@@ -2,87 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F351F619F1F
+	by mail.lfdr.de (Postfix) with ESMTPS id D043F619F1E
 	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 18:46:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1or0ly-0008Is-AO; Fri, 04 Nov 2022 13:46:30 -0400
+	id 1or0mG-0008Sr-Bw; Fri, 04 Nov 2022 13:46:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1or0lm-0008Gm-KD
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 13:46:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1or0lk-0005KA-D8
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 13:46:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667583975;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FUHJsVNTBmD+5vFs+oKTZLEPCSc7nyAYfGx1niyhxcw=;
- b=OPHsbtfGe9VOb/swwKxAh/Ypjd0gMXSa61HXoZXRCHlpuA9Ua4k8FU6cZf2ahMBoQ2gTwn
- TPEBa5XI+KLM8F4GSVzThnhVX8W+9WElYMRcCWiryqjU3J1DvIb95gaaQrmz+5y5hWm5xo
- XkhzasryWaamJz2n+h7A8xCDEjzAei4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-357-JyefMGHUPlqdT9yM3aTYTg-1; Fri, 04 Nov 2022 13:46:14 -0400
-X-MC-Unique: JyefMGHUPlqdT9yM3aTYTg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 133-20020a1c028b000000b003cf9d6c4016so23538wmc.8
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 10:46:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1or0mC-0008Pb-MJ
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 13:46:45 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1or0mA-0005Ky-SB
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 13:46:44 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ bg9-20020a05600c3c8900b003bf249616b0so3615322wmb.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 10:46:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1s0J5w9v0Xo1esNgUem6w9OA8kAw86lLOV2fLd62HT0=;
+ b=DbGVRNxP4K6KRncyqS4liItd0kFmIbN2/T2Jm3hS73/MXSkjDkCeBUI2arT4XasfoZ
+ yXUqHD5J5waQP8ApCy5m3tK1ieI9uOeDzv2TSeB6Hu8TA0yQvjNTlW3ZS/2NDt4iCQSL
+ 1+4Rzy8AnBauEfNtg7DA1WZfE5ioZnU4+OdLW4hpNSZPEvAJZVL3Ms/OTsFXKdqpLrZw
+ 5ONikPxaZaqX1voSA2pHcTK5XSYUwlYZ4QBy+nKMXRpY867lvu8FSxeX1iWySeishnUK
+ tW7c3cVgCJ2YALG3RkWInbBTXqHSe2SHGcvgHoWk6GyPo5DC/80p1dAkQ2R293obSBXc
+ HJKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FUHJsVNTBmD+5vFs+oKTZLEPCSc7nyAYfGx1niyhxcw=;
- b=Y+9AtbkXtre3TOOrlpG1ng5hcfluIpdEJOZRKDKHayTOQYrmfig3BPnM4sNYB0l9nF
- Y5Bb8sBziR0Avju3t+m1zfCK6KCCoCU5q1QqF1+E0+lxbikRpybCVdvHZ9GVGy+gXLef
- wBOF3Sj6Ki71JRW70FWS2JcCMNEqckIdTBY7fINGC3xQqcdoRMVVoXyyq9Sd+zPtjodY
- Ll3l73p8NkzD8UISsH6PHD71BrICqbZr0xBrpL8s+j7sAt4oqzEgp/8A2oddCSTIic5P
- W2uY7tqUK8Fe4MU3LRetNGHvHtSk+G06RuVFuRPKC/t3jUEFZyjSu/NMik5dAPQEOyrO
- G5Mg==
-X-Gm-Message-State: ACrzQf053zuTtd9qzmKBH3rNpiCab4FD0LGOYK6i7JmJ8Ko+9grC5C0O
- UR5jSRB/xqXD/AGCqr3RoqL6UAFoBKJao/5tI0PXRE2AXRzQayzE2qhiGlmjOkc8GKY+iQIqWLq
- 8QoTed3NJgEDN/Ow=
-X-Received: by 2002:a1c:4641:0:b0:3cf:4ff3:8d2f with SMTP id
- t62-20020a1c4641000000b003cf4ff38d2fmr25216979wma.107.1667583972830; 
- Fri, 04 Nov 2022 10:46:12 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7laYG9htyiUg2d3+UO2qn8WoUJxOamc0kVs5QHxsbOYx7vw3TNLubpN85V/MTpxo0npTdddg==
-X-Received: by 2002:a1c:4641:0:b0:3cf:4ff3:8d2f with SMTP id
- t62-20020a1c4641000000b003cf4ff38d2fmr25216959wma.107.1667583972448; 
- Fri, 04 Nov 2022 10:46:12 -0700 (PDT)
-Received: from redhat.com ([2.55.180.182]) by smtp.gmail.com with ESMTPSA id
- j5-20020a5d4485000000b002365730eae8sm3892875wrq.55.2022.11.04.10.46.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 10:46:11 -0700 (PDT)
-Date: Fri, 4 Nov 2022 13:46:08 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org,
-	Christian Borntraeger <borntraeger@linux.ibm.com>
-Subject: Re: [RFC PATCH] virtio: re-order vm_running and use_started checks
-Message-ID: <20221104134508-mutt-send-email-mst@kernel.org>
-References: <20221014132108.2559156-1-alex.bennee@linaro.org>
- <20221104115340-mutt-send-email-mst@kernel.org>
- <877d0ak7dp.fsf@linaro.org>
+ bh=1s0J5w9v0Xo1esNgUem6w9OA8kAw86lLOV2fLd62HT0=;
+ b=LgSO5+li/g4pR4j6j5jBsYDOUpD5l3fZmVWl7ofT9G4gqawZTAerW78GyPgEP6Zw67
+ EahTNrsAXwal3JWrL1QMShFikTwsONQbFRzvsLZy4CyxAkoQurkSkcYrRMqojlp+eUBU
+ HwrTFMCj/ZEEkNvT4UjE9XvYmCUCC+axewPOZxSmvL0aZwzg+dQ1zBHqP6ykMe/f/3PR
+ hN3umxeZNCe7el3YAxeTrCCjpLHItQmh7pTAQ2vq7iV+XAb7hCzMrrI6k4Yuvqq5ucau
+ sXrhzthhv7JQjCfEiY3FzHStPBxyxlpA5zK4Urqunm1C+0yiLl3OI+EK+wQ0hhDRuTM9
+ J6Pw==
+X-Gm-Message-State: ACrzQf3amtcRQhbYh7mlHyJvkqlLLOW6KQLu4u/bVfLTVgq2v/2GOwhX
+ cPy5kgRVRVvWtGxx53IFZ6Im9A==
+X-Google-Smtp-Source: AMsMyM7AC8Nj/2LLDPCPik4UCe3bODvU8FHASs+xSxmwsVOW/TC92MvcxmNMXZEnk4UekOl8f2EhOw==
+X-Received: by 2002:a05:600c:548c:b0:3c6:d8dd:2a72 with SMTP id
+ iv12-20020a05600c548c00b003c6d8dd2a72mr34059636wmb.179.1667584001592; 
+ Fri, 04 Nov 2022 10:46:41 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ l19-20020a05600c1d1300b003c3a1d8c8e6sm59163wms.19.2022.11.04.10.46.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Nov 2022 10:46:41 -0700 (PDT)
+Message-ID: <b17a585a-91d3-e799-4fdc-2df5422e15cb@linaro.org>
+Date: Fri, 4 Nov 2022 18:46:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.1
+Subject: Re: [PATCH for-8.0 8/9] qdev: Remove qdev_reset_all() and
+ qbus_reset_all()
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20221104161513.2455862-1-peter.maydell@linaro.org>
+ <20221104161513.2455862-9-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221104161513.2455862-9-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <877d0ak7dp.fsf@linaro.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,176 +101,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 04, 2022 at 04:31:08PM +0000, Alex Bennée wrote:
+On 4/11/22 17:15, Peter Maydell wrote:
+> Remove the qdev_reset_all() and qbus_reset_all() functions, now we
+> have moved all the callers over to the new device_cold_reset() and
+> bus_cold_reset() functions.
 > 
-> "Michael S. Tsirkin" <mst@redhat.com> writes:
-> 
-> > On Fri, Oct 14, 2022 at 02:21:08PM +0100, Alex Bennée wrote:
-> >> During migration the virtio device state can be restored before we
-> >> restart the VM. As no devices can be running while the VM is paused it
-> >> makes sense to bail out early in that case.
-> >> 
-> >> This returns the order introduced in:
-> >> 
-> >>  9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
-> >> 
-> >> to what virtio-sock was doing longhand.
-> >> 
-> >> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> >> Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
-> >
-> >
-> > What happens now:
-> >
-> > with this applied I get:
-> >
-> > https://gitlab.com/mitsirkin/qemu/-/pipelines/685829158/failures
-> >
-> > ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
-> > stderr:
-> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to set msg fds.
-> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: -chardev
-> > socket,id=chr-reconnect,path=/tmp/vhost-test-QLKXU1/reconnect.sock,server=on:
-> > info: QEMU waiting for connection on:
-> > disconnected:unix:/tmp/vhost-test-QLKXU1/reconnect.sock,server=on
-> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to set msg fds.
-> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: -chardev
-> > socket,id=chr-connect-fail,path=/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on:
-> > info: QEMU waiting for connection on:
-> > disconnected:unix:/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on
-> > qemu-system-arm: -netdev
-> > vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: Failed to
-> > read msg header. Read 0 instead of 12. Original request 1.
-> > qemu-system-arm: -netdev
-> > vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on:
-> > vhost_backend_init failed: Protocol error
-> > qemu-system-arm: -netdev
-> > vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: failed to
-> > init vhost_net for queue 0
-> > qemu-system-arm: -netdev
-> > vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: info: QEMU
-> > waiting for connection on:
-> > disconnected:unix:/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on
-> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to set msg fds.
-> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: -chardev
-> > socket,id=chr-flags-mismatch,path=/tmp/vhost-test-3MO5U1/flags-mismatch.sock,server=on:
-> > info: QEMU waiting for connection on:
-> > disconnected:unix:/tmp/vhost-test-3MO5U1/flags-mismatch.sock,server=on
-> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 52.
-> > qemu-system-arm: vhost_set_mem_table failed: Invalid argument (22)
-> > qemu-system-arm: unable to start vhost net: 22: falling back on userspace virtio
-> > vhost lacks feature mask 0x40000000 for backend
-> > qemu-system-arm: failed to init vhost_net for queue 0
-> > qemu-system-arm: Failed to set msg fds.
-> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to set msg fds.
-> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to set msg fds.
-> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to set msg fds.
-> > qemu-system-arm: vhost VQ 2 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to set msg fds.
-> > qemu-system-arm: vhost VQ 3 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to set msg fds.
-> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to set msg fds.
-> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to set msg fds.
-> > qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to set msg fds.
-> > qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> > qemu-system-arm: Failed to set msg fds.
-> > qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
-> > qemu-system-arm: Failed to set msg fds.
-> > qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
-> > qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-> > qemu-system-arm: vhost VQ 0 ring restore failed: -5: Input/output error (5)
-> > qemu-system-arm: ../hw/virtio/virtio-bus.c:211: void
-> > virtio_bus_release_ioeventfd(VirtioBusState *): Assertion
-> > `bus->ioeventfd_grabbed != 0' failed.
-> > ../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
-> > **
-> > ERROR:../tests/qtest/qos-test.c:191:subprocess_run_one_test: child
-> > process
-> > (/arm/virt/virtio-mmio/virtio-bus/vhost-user-gpio-device/vhost-user-gpio/vhost-user-gpio-tests/read-guest-mem/memfile/subprocess
-> > [8735]) failed unexpectedly
-> > (test program exited with status code -6)
-> > ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-> >
-> >
-> >
-> >
-> > without this it passes:
-> >
-> > https://gitlab.com/mitsirkin/qemu/-/jobs/3275949777
-> >
-> >
-> > this only triggers under github, clang-system job.
-> > trying to decide what to do now. revert just this?
-> 
-> I must admit I didn't run that directly. My build box is currently out
-> of commission but can we get more detail about the abort?
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   include/hw/qdev-core.h | 26 --------------------
+>   hw/core/qdev.c         | 54 ------------------------------------------
+>   hw/core/trace-events   |  4 ----
+>   3 files changed, 84 deletions(-)
 
-Just run it under gitlab. The only trick is to set QEMU_CI to 1
-when running the pipeline.
+> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+> index 0806d8fcaaa..3b0f04c5c6d 100644
+> --- a/hw/core/qdev.c
+> +++ b/hw/core/qdev.c
 
+> -static int qbus_reset_one(BusState *bus, void *opaque)
+> -{
+> -    BusClass *bc = BUS_GET_CLASS(bus);
+> -    trace_qbus_reset(bus, object_get_typename(OBJECT(bus)));
+> -    if (bc->reset) {
+> -        bc->reset(bus);
+> -    }
+> -    return 0;
+> -}
 
-> It looks like the vhost negotiation is totally broken and can't even
-> find the VQs
+> diff --git a/hw/core/trace-events b/hw/core/trace-events
+> index 9b3ecce3b2f..d6ab5c74b90 100644
+> --- a/hw/core/trace-events
+> +++ b/hw/core/trace-events
+> @@ -3,11 +3,7 @@ loader_write_rom(const char *name, uint64_t gpa, uint64_t size, bool isrom) "%s:
+>   
+>   # qdev.c
+>   qdev_reset(void *obj, const char *objtype) "obj=%p(%s)"
+> -qdev_reset_all(void *obj, const char *objtype) "obj=%p(%s)"
+> -qdev_reset_tree(void *obj, const char *objtype) "obj=%p(%s)"
+>   qbus_reset(void *obj, const char *objtype) "obj=%p(%s)"
 
-Donnu really. I'm trying to figure out what kind of revert gets
-a working tree.
+We can also remove the "qbus_reset" event.
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-> >
-> >
-> >> ---
-> >>  include/hw/virtio/virtio.h | 8 ++++----
-> >>  1 file changed, 4 insertions(+), 4 deletions(-)
-> >> 
-> >> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> >> index f41b4a7e64..ebb58feaac 100644
-> >> --- a/include/hw/virtio/virtio.h
-> >> +++ b/include/hw/virtio/virtio.h
-> >> @@ -385,14 +385,14 @@ static inline bool virtio_is_big_endian(VirtIODevice *vdev)
-> >>  
-> >>  static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
-> >>  {
-> >> -    if (vdev->use_started) {
-> >> -        return vdev->started;
-> >> -    }
-> >> -
-> >>      if (!vdev->vm_running) {
-> >>          return false;
-> >>      }
-> >>  
-> >> +    if (vdev->use_started) {
-> >> +        return vdev->started;
-> >> +    }
-> >> +
-> >>      return status & VIRTIO_CONFIG_S_DRIVER_OK;
-> >>  }
-> >>  
-> >> -- 
-> >> 2.34.1
-> 
-> 
-> -- 
-> Alex Bennée
+> -qbus_reset_all(void *obj, const char *objtype) "obj=%p(%s)"
+> -qbus_reset_tree(void *obj, const char *objtype) "obj=%p(%s)"
+>   qdev_update_parent_bus(void *obj, const char *objtype, void *oldp, const char *oldptype, void *newp, const char *newptype) "obj=%p(%s) old_parent=%p(%s) new_parent=%p(%s)"
+>   
+>   # resettable.c
 
 
