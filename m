@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA17619CD6
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE37619CD7
 	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:16:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqzMQ-00076s-Oo; Fri, 04 Nov 2022 12:16:02 -0400
+	id 1oqzMd-0007iv-Rn; Fri, 04 Nov 2022 12:16:15 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oqzLx-0006Ua-11
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:38 -0400
+ id 1oqzLy-0006Vq-Gh
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:40 -0400
 Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oqzLq-0000h9-9U
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:32 -0400
+ id 1oqzLr-0000hh-GT
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:34 -0400
 Received: by mail-wm1-x32f.google.com with SMTP id
- m7-20020a05600c090700b003cf8a105d9eso3469809wmp.5
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 09:15:25 -0700 (PDT)
+ a11-20020a05600c2d4b00b003cf6f5fd9f1so3486392wmg.2
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 09:15:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uG5SydxIxnzXe0zp1rVqhMwUuqy9ImGn1CKFVjwW+XQ=;
- b=f6AiWZfGjfV7sC62uy+i3tQqAbE4yiuhdFonGVNorS5TVGNgIIjrjdeqPGgHBir6CB
- Bcgq+RmD7nxhEsel5mayWoLui9skUdvI7bjhr841x2U0v/JH7gPcjb1CxoM/e7gT3DPc
- 7Sxw68q9KUIHJW4jFKEzAM6dY8+/e+ZsVX7vXDCQxz9xeCitA6FJS+SvG/K+UfwHw+yw
- nWGNyFk+Gnn3WudySZLvh72YXeZm0k/xcZnKrbIEN6spFwZEEHwXLH2sNUUkwTzj0nGk
- OXDM5+KnpBcRpjmNW73tFhAwMrUWBPIjFro1fHorsUIOkkUBzR/HSjp/laLcGZRk3sSN
- LnkA==
+ bh=sTkwi7Kgw/qzL36aV64p1zqgyIMatepywYUB/dB5ZGQ=;
+ b=re9Ld2U7i0MrouSpvW7FQHSDE76UKP1JTox3T+A4joPvemuAMZkuuR5UtrBOmcfPG7
+ XXKPW7rFkG0rl116yUERt/Q7QTtXfeJ2NrxoHNUkU/nss0pO8tczCL33k5P+nYEG6BJs
+ 9F0m126CqU0d0sHOHX/xR+AkoHm4Me7pdPP6NxGnXW+KQQ4H6Z+JKfQpYd8xQMpK6Cni
+ XOZ6zsoiBT5hi9rp2UWm/lFdxx4ssskcXRdlxNHvMzsbdy1VrQzDw5tMos3HA7OQV8JR
+ ilODHt/AUbSAhXjjHu3AnNDXJ+J28acBGDueihSSPXPi37kgv42E++24ZJZaIVH6hxQT
+ LzvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uG5SydxIxnzXe0zp1rVqhMwUuqy9ImGn1CKFVjwW+XQ=;
- b=sOMS0/4Pb6sQ+4Mb/steNFhFt9I9qcijmTWUUEoEEetnCVDcWi0QZyFZcl/VvAl+V6
- yaApZmvGqyWLsN5Y46+CnRvQrpYxIJ4MJlvar60IjyIC8a6jnVKjlJC7LsIl783fMD4S
- cZZn7NaY1VPlpPcxcUoJa1jq96mr+KpMRbl0kwlbSioebXs0FH6n3NVPs9baC2pW7OMc
- 70jinehyskBRvhxwDO3y4+72mm4zEioXN3NYPrxN8cr2sJ20Em4z6ZzaD3HiXLNqb8Uy
- f4aohLlj2rae8/WdfYtjvt0b27ME+15PKUWuXv/6y4qV2sLcpPR/3j921jWPvwZNm9hq
- o3Bg==
-X-Gm-Message-State: ACrzQf1kqcQ7QJQH10/h8txU4jdkGluS3E3wEI1sxQIidK4Ysk9nxnUd
- ZQFH8kssHWpSTOqVDlqGYOQYk6qMVChUwQ==
-X-Google-Smtp-Source: AMsMyM6nd8sd7u+q0wMgJzgBB7tYOTFcc+rEBh56Eg4FvZD/GosAwj85UsWLEe2vYTqTObUFVjYTOg==
-X-Received: by 2002:a7b:c009:0:b0:3cf:6b95:73c8 with SMTP id
- c9-20020a7bc009000000b003cf6b9573c8mr21109806wmb.121.1667578524612; 
- Fri, 04 Nov 2022 09:15:24 -0700 (PDT)
+ bh=sTkwi7Kgw/qzL36aV64p1zqgyIMatepywYUB/dB5ZGQ=;
+ b=DWaE5mydWhmO/46WfNG0oWcXsbOC9z64WLdldNUHeFhBAEjB0yYS388TiXHDZJzY4j
+ 5fH3ca3RXaGJl+gxifJe0Is5BntchBceAEDXp6wuJ1FACI8sAj1h2xbz9zn/4q/+6z7C
+ 9yJfCTofJHpxy4LeFURyA/srIQW6aroKM7T7VDirM1wVloZrYNxXe6Eg8tNTwUkvEBM7
+ XlZC1Pn87vAq8GfLfKtiqFhD/sJrdXuTfBm8HupweikjZtNP83Tcf3YpjzuH5uV0D/jE
+ AcSHJDV9Y6CCbTwt7+2bIwaRbOZJljlSe3hmJSooM27DInSOLpLu6Px8oG0L2WPNhQnw
+ GrGQ==
+X-Gm-Message-State: ACrzQf2OcmYgMpfNKY4J7KXTwwwQhzhVEeccgNvNasRojk9M/uQF6R+w
+ PlCetQz7YFgYoXCIuzxRKcUga7XkX+e22A==
+X-Google-Smtp-Source: AMsMyM77O+INJOuOhsvCtyqwvd6bVoj+gSxv0T4pH7DCXHrd+rW9vBHqkthGaDRWMl1Hi38gAPWV6Q==
+X-Received: by 2002:a05:600c:1f11:b0:3cf:73f0:b753 with SMTP id
+ bd17-20020a05600c1f1100b003cf73f0b753mr17848736wmb.100.1667578526126; 
+ Fri, 04 Nov 2022 09:15:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- ay5-20020a5d6f05000000b0022e57e66824sm4649645wrb.99.2022.11.04.09.15.23
+ ay5-20020a5d6f05000000b0022e57e66824sm4649645wrb.99.2022.11.04.09.15.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 09:15:24 -0700 (PDT)
+ Fri, 04 Nov 2022 09:15:25 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
@@ -66,10 +66,10 @@ Cc: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
  Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-s390x@nongnu.org,
  qemu-ppc@nongnu.org
-Subject: [PATCH for-8.0 6/9] hw/hyperv/vmbus: Use device_cold_reset() and
- bus_cold_reset()
-Date: Fri,  4 Nov 2022 16:15:10 +0000
-Message-Id: <20221104161513.2455862-7-peter.maydell@linaro.org>
+Subject: [PATCH for-8.0 7/9] Replace use of qdev_reset_all() with
+ device_cold_reset()
+Date: Fri,  4 Nov 2022 16:15:11 +0000
+Message-Id: <20221104161513.2455862-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221104161513.2455862-1-peter.maydell@linaro.org>
 References: <20221104161513.2455862-1-peter.maydell@linaro.org>
@@ -99,52 +99,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In the vmbus code we currently use the legacy functions
-qdev_reset_all() and qbus_reset_all().  These perform a recursive
-reset, starting from either a qbus or a qdev.  However they do not
-permit any of the devices in the tree to use three-phase reset,
-because device reset goes through the device_legacy_reset() function
-that only calls the single DeviceClass::reset method.
+The legacy function qdev_reset_all() performs a recursive reset,
+starting from a qdev.  However, it does not permit any of the devices
+in the tree to use three-phase reset, because device reset goes
+through the device_legacy_reset() function that only calls the single
+DeviceClass::reset method.
 
-Switch to using the device_cold_reset() and bus_cold_reset()
-functions.  These also perform a recursive reset, where first the
-children are reset and then finally the parent, but they use the new
-(...in 2020...) Resettable mechanism, which supports both the old
-style single-reset method and also the new 3-phase reset handling.
+Switch to using the device_cold_reset() function instead.  This also
+performs a recursive reset, where first the children are reset and
+then finally the parent, but it uses the new (...in 2020...)
+Resettable mechanism, which supports both the old style single-reset
+method and also the new 3-phase reset handling.
 
-This should be a no-behaviour-change commit which just reduces the
-use of a deprecated API.
+This commit changes the five remaining uses of this function.
 
 Commit created with:
-  sed -i -e 's/qdev_reset_all/device_cold_reset/g;s/qbus_reset_all/bus_cold_reset/g' hw/hyperv/*.c
+ sed -i -e 's/qdev_reset_all/device_cold_reset/g' hw/i386/xen/xen_platform.c hw/input/adb.c hw/remote/vfio-user-obj.c hw/s390x/s390-virtio-ccw.c hw/usb/dev-uas.c
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/hyperv/vmbus.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/i386/xen/xen_platform.c | 2 +-
+ hw/input/adb.c             | 2 +-
+ hw/remote/vfio-user-obj.c  | 2 +-
+ hw/s390x/s390-virtio-ccw.c | 2 +-
+ hw/usb/dev-uas.c           | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
-index 30bc04e1c4c..f345f310b0f 100644
---- a/hw/hyperv/vmbus.c
-+++ b/hw/hyperv/vmbus.c
-@@ -1578,7 +1578,7 @@ static bool vmbus_initialized(VMBus *vmbus)
- 
- static void vmbus_reset_all(VMBus *vmbus)
- {
--    qbus_reset_all(BUS(vmbus));
-+    bus_cold_reset(BUS(vmbus));
+diff --git a/hw/i386/xen/xen_platform.c b/hw/i386/xen/xen_platform.c
+index a64265cca07..7db0d94ec28 100644
+--- a/hw/i386/xen/xen_platform.c
++++ b/hw/i386/xen/xen_platform.c
+@@ -177,7 +177,7 @@ static void pci_xen_ide_unplug(DeviceState *dev, bool aux)
+             blk_unref(blk);
+         }
+     }
+-    qdev_reset_all(dev);
++    device_cold_reset(dev);
  }
  
- static void post_msg(VMBus *vmbus, void *msgdata, uint32_t msglen)
-@@ -2035,7 +2035,7 @@ static void vdev_reset_on_close(VMBusDevice *vdev)
+ static void unplug_disks(PCIBus *b, PCIDevice *d, void *opaque)
+diff --git a/hw/input/adb.c b/hw/input/adb.c
+index 84331b9fce6..214ae6f42b3 100644
+--- a/hw/input/adb.c
++++ b/hw/input/adb.c
+@@ -43,7 +43,7 @@ static const char *adb_commands[] = {
+ 
+ static void adb_device_reset(ADBDevice *d)
+ {
+-    qdev_reset_all(DEVICE(d));
++    device_cold_reset(DEVICE(d));
+ }
+ 
+ static int do_adb_request(ADBBusState *s, uint8_t *obuf, const uint8_t *buf,
+diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+index c6cc53acf2d..6ff14e0b9c0 100644
+--- a/hw/remote/vfio-user-obj.c
++++ b/hw/remote/vfio-user-obj.c
+@@ -685,7 +685,7 @@ static int vfu_object_device_reset(vfu_ctx_t *vfu_ctx, vfu_reset_type_t type)
+         return 0;
      }
  
-     /* all channels closed -- reset device */
--    qdev_reset_all(DEVICE(vdev));
-+    device_cold_reset(DEVICE(vdev));
- }
+-    qdev_reset_all(DEVICE(o->pci_dev));
++    device_cold_reset(DEVICE(o->pci_dev));
  
- static void handle_close_channel(VMBus *vmbus, vmbus_message_close_channel *msg,
+     return 0;
+ }
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 806de32034c..13a9ca62800 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -110,7 +110,7 @@ static void subsystem_reset(void)
+     for (i = 0; i < ARRAY_SIZE(reset_dev_types); i++) {
+         dev = DEVICE(object_resolve_path_type("", reset_dev_types[i], NULL));
+         if (dev) {
+-            qdev_reset_all(dev);
++            device_cold_reset(dev);
+         }
+     }
+ }
+diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
+index 5192b062d6f..88f99c05d53 100644
+--- a/hw/usb/dev-uas.c
++++ b/hw/usb/dev-uas.c
+@@ -791,7 +791,7 @@ static void usb_uas_task(UASDevice *uas, uas_iu *iu)
+ 
+     case UAS_TMF_LOGICAL_UNIT_RESET:
+         trace_usb_uas_tmf_logical_unit_reset(uas->dev.addr, tag, lun);
+-        qdev_reset_all(&dev->qdev);
++        device_cold_reset(&dev->qdev);
+         usb_uas_queue_response(uas, tag, UAS_RC_TMF_COMPLETE);
+         break;
+ 
 -- 
 2.25.1
 
