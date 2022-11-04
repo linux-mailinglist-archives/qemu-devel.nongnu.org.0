@@ -2,95 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8DA8619121
+	by mail.lfdr.de (Postfix) with ESMTPS id A903A619120
 	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 07:33:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqqFY-0006q1-Vf; Fri, 04 Nov 2022 02:32:21 -0400
+	id 1oqqFh-0006sQ-UX; Fri, 04 Nov 2022 02:32:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oqqFU-0006pS-FT
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 02:32:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oqqFY-0006qX-V3; Fri, 04 Nov 2022 02:32:20 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oqqFR-0004IW-Nq
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 02:32:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667543530;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dX8cYlxJwzDZfvXPmozCJZLGXUiHzZ12cOvdwmDkv18=;
- b=R1NiTbgVWlPCDxV0B6VdSimgNRkPGmp4t6u50K61ez5B20Q/HQQ0Q3R7PBcovJ6MkggJ1U
- pr4yi3sGhubDEFFz3JmVfhpS2jNatykWI045mWn/TA6umKA/4vBjKHA8utYtgd5bzV0MfH
- xqH/LMrv6gDpMoe1DG4RtBiz7WnA+0U=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-48-M4Io3TAeNsOgPT3oPflmLg-1; Fri, 04 Nov 2022 02:32:09 -0400
-X-MC-Unique: M4Io3TAeNsOgPT3oPflmLg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r187-20020a1c44c4000000b003c41e9ae97dso3781734wma.6
- for <qemu-devel@nongnu.org>; Thu, 03 Nov 2022 23:32:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dX8cYlxJwzDZfvXPmozCJZLGXUiHzZ12cOvdwmDkv18=;
- b=R/Oz+axsyYc923yCDpWHLyoMEGRCJTSiO7mRpdTeNJhv/WLs65v6qDBajwgcw1loSU
- DjgdzEJKWPMiK+bl7kSz83mmNS/i68krpLcSmVrongdvSNJCKeCBvenrfL7eP0Y+5kad
- d2cah2XyfI+a1p8wuAVZC+2/NUXSQ4NekzNEMuSPGsK4A1CvTqGiqg3B7FlWau18ODIp
- ktccb22UpFEUiMwNbPQbSjFLQjH16zkmG5W7wbh+yefJjrPOQHrETu2Fog7RzkAvkwFB
- 9sDzy5tSVQLKV2qXnJGkxBODIrEeaSnsFaHb3outphu2LJOdCN9N2gZMce9QEz3P1j+A
- a2NA==
-X-Gm-Message-State: ACrzQf15qpFJ1TKNoozdh01yktSi0vNtaQfurJuGwZZbGg3QpUMnZjPD
- kEUM4QtBgb53wWUtT4T6Ons4EBMHxbeWdyUsjr/njNkTNX7e37SvhVLScvZ7XMZDMYFnZ0JBqPi
- 9P2eACKPmzAnKXHs=
-X-Received: by 2002:a5d:66c3:0:b0:236:aa03:aa3c with SMTP id
- k3-20020a5d66c3000000b00236aa03aa3cmr20211259wrw.243.1667543528550; 
- Thu, 03 Nov 2022 23:32:08 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6/B0giTptju8b2+QSdvxuySWuyQWqrYA8qov43OG4E4ougW5ZycKL2COPdW0bIpu1zXYwbpw==
-X-Received: by 2002:a5d:66c3:0:b0:236:aa03:aa3c with SMTP id
- k3-20020a5d66c3000000b00236aa03aa3cmr20211248wrw.243.1667543528367; 
- Thu, 03 Nov 2022 23:32:08 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-177-201.web.vodafone.de.
- [109.43.177.201]) by smtp.gmail.com with ESMTPSA id
- h7-20020a5d4307000000b00236883f2f5csm2509259wrq.94.2022.11.03.23.32.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Nov 2022 23:32:07 -0700 (PDT)
-Message-ID: <3f913a58-e7d0-539e-3bc0-6cbd5608db8e@redhat.com>
-Date: Fri, 4 Nov 2022 07:32:05 +0100
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1oqqFW-0004Iu-Gy; Fri, 04 Nov 2022 02:32:20 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id DA9D13200488;
+ Fri,  4 Nov 2022 02:32:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Fri, 04 Nov 2022 02:32:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1667543535; x=1667629935; bh=on
+ 33JlTQLCqTX36bOSgKt3VzbZsv/2FVWFZ7QSDlnk4=; b=PotBdQ9GqPTvH8rLQW
+ PUFTpatFFCBYpqwf6icBdo+Jyv9Lj0KUUiLVwmaWT2xToAsmDOtGj2uBURpRkxt+
+ gfg8OL0NtDmHlHY37wecGu/Q0X15Hf/X9ZFTHRWLIj8g/wpUdweoeh0x1Av8uNqM
+ qqq/XA+g5xbOCt9ZZcpXYwvjpueSo2H8M4L3Vj2CORum4+LGFrAuCXyDNp2dfPF8
+ /6PqBy5Pzqxab7vj7DDZnDJGQV2lv9AweErRJYneS3EjmSf9vlhhvyd5rUKS8n5v
+ JTgvxevl64GP/GCla/Wz2ZkXvI9TaKDTIIyZ4oIF8UaE8LHCeTZZ9H3xgB4IAIo2
+ hAyA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1667543535; x=1667629935; bh=on33JlTQLCqTX36bOSgKt3VzbZsv
+ /2FVWFZ7QSDlnk4=; b=nNLgu7rtR8HwqIySpb9bWd5AO5HLQIT9Lm6OT0rOdmV9
+ UChjfCz4WFxkUDSvFezGoUP41FyY5YAAHUpBpg2GcpPa6Qy0PRgSA7WF6TTeIgTn
+ uSsmFjw+vPG8PHKen8zVVNI03qApO27eppTjpMvyStIljJi5ucxBoWYdRMWikRKP
+ JZ2pimjLpXA1rrOJqJpqS7drtGywK5jNbc/dDIefTF1jNX6UIZDFCwbMh8bzubJ5
+ d5fCPdW74L6aqlME8bpIW6ihFH+zwKSZ/44aS3zlCRHchvQNa435abPtnvitbYpm
+ qrEerRm9PB5Nx1qEiuifPp/uXE6kO4SDeqv1+Cb3bw==
+X-ME-Sender: <xms:77FkY9WncJVvWsImEDW_Zok6rs9AEsooznd3sMLKqVUOiTK7mCm16Q>
+ <xme:77FkY9nvEo5yfJ3-0KcMpDSM6d2b4oZKTaVlo_0gGoK6TJbjIh-697SdPNt3FZg_0
+ OfkKZBnm2bxzjNrQNU>
+X-ME-Received: <xmr:77FkY5Zt-cIhHJWmRta4nS-WJAx7-_pc68IUJce8Czc8zncLC2yfNmj32t3Ice_hf4K3yifD6E9pe7PvNwEjACO9XsmyGw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddtgdeljecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteffffej
+ veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:77FkYwXZ03vvQ7MguX9zmKK-Ro2NKzz5GUm2cHNO48TQ6a0JiB7jyw>
+ <xmx:77FkY3mpDbFGTKT6CVF7EIptAzSMG9QrqXteqldMnl7d7tYIzZks8g>
+ <xmx:77FkY9d6hlOUdO4YcU-sQ5IkyUT2E27Urje9FFcgYBgj5HqVtDrQSg>
+ <xmx:77FkYwBJmpsdHy4BafHTXGJBjjyOO-UiEKUO_MfY491WPkJ3bGMaBw>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 4 Nov 2022 02:32:13 -0400 (EDT)
+Date: Fri, 4 Nov 2022 07:32:12 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Keith Busch <kbusch@kernel.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ "open list:nvme" <qemu-block@nongnu.org>
+Subject: Re: [PATCH v3 4/4] hw/nvme: add polling support
+Message-ID: <Y2Sx7O4MFHKrvXQA@cormorant.local>
+References: <20220827091258.3589230-1-fanjinhao21s@ict.ac.cn>
+ <20220827091258.3589230-5-fanjinhao21s@ict.ac.cn>
+ <Y1EswYz077swwhuc@cormorant.local>
+ <D1741E76-294E-41F6-B87B-70C2A4CF778C@ict.ac.cn>
+ <Y2OvzcfeawKWvvJ0@cormorant.local>
+ <3ffebed8-997d-e276-bf4a-c75508b0be11@ict.ac.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v11 01/11] s390x: Register TYPE_S390_CCW_MACHINE
- properties as class properties
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20221103170150.20789-1-pmorel@linux.ibm.com>
- <20221103170150.20789-2-pmorel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221103170150.20789-2-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ch0BNqNArxCFBFyA"
+Content-Disposition: inline
+In-Reply-To: <3ffebed8-997d-e276-bf4a-c75508b0be11@ict.ac.cn>
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,18 +106,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 03/11/2022 18.01, Pierre Morel wrote:
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->   hw/s390x/s390-virtio-ccw.c | 127 +++++++++++++++++++++----------------
->   1 file changed, 72 insertions(+), 55 deletions(-)
 
--EMISSINGPATCHDESCRIPTION
+--ch0BNqNArxCFBFyA
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-... please add some words *why* this is a good idea / necessary.
+On Nov  3 21:19, Jinhao Fan wrote:
+> On 11/3/2022 8:10 PM, Klaus Jensen wrote:
+> > I agree that the spec is a little unclear on this point. In any case, in
+> > Linux, when the driver has decided that the sq tail must be updated,
+> > it will use this check:
+> >=20
+> >    (new_idx - event_idx - 1) < (new_idx - old)
+>=20
+> When eventidx is already behind, it's like:
+>=20
+>  0
+>  1 <- event_idx
+>  2 <- old
+>  3 <- new_idx
+>  4
+>  .
+>  .
+>  .
+>=20
+> In this case, (new_idx - event_idx - 1) =3D 3-1-1 =3D 1 >=3D (new_idx - o=
+ld) =3D
+> 3-2=3D1, so the host won't update sq tail. Where am I wrong in this examp=
+le?
+>=20
 
-  Thanks,
-   Thomas
+That becomes 1 >=3D 1, i.e. "true". So this will result in the driver
+doing an mmio doorbell write.
 
+--ch0BNqNArxCFBFyA
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNksesACgkQTeGvMW1P
+DelUUggAjS7n+KgWwYdJBBCdsfTgOr27rNNJlp9c8dGW5WcRMipbgkk1tAxDAryT
+NRxSz8nPqHkwGpfGF/iK2ti76tVvUQGgSX4RlQRKAv4Ltu2QOjitP7XupNmQChVG
+tfArR1fAPThD5hAftnG2HEQFhjfkqApCXkMMP2mdAIxatGKO+ChEydrtBNW+C3W+
+BMe8VqTXSZURVi+sB6VYWwxJu5kCh78moI/ExJg0n1e/uN7anCnHJrkdlb/VrKV2
+iV8+dDZD7AKzdAJo/0XZZeW6QNKfaqLH+naflQ3LuViM3jv8Zh3Rhbq2qZFK4FOT
+Hk6C4wX/BI8XpqWhHz5PYmCBMyDP8A==
+=dKic
+-----END PGP SIGNATURE-----
+
+--ch0BNqNArxCFBFyA--
 
