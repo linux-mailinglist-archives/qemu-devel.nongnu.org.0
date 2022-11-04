@@ -2,115 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54DC4619AE4
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F75619AE3
 	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 16:03:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqyCn-0006XR-T6; Fri, 04 Nov 2022 11:02:03 -0400
+	id 1oqyCr-0006az-W1; Fri, 04 Nov 2022 11:02:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oqy9E-0004Tn-Km; Fri, 04 Nov 2022 10:58:20 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1oqyCQ-0006UV-3O
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 11:01:41 -0400
+Received: from mout.kundenserver.de ([212.227.17.10])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oqy9C-0006O8-M2; Fri, 04 Nov 2022 10:58:20 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A4DZAOc028673;
- Fri, 4 Nov 2022 14:58:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Fyuo93m4F2dIpXl+bNdSko4Nid5gkbEtt33cOeSzgKk=;
- b=lj8QmjEVXEuY2Uj/Vj2CAh9fbBRKl5Sf/swNcHq/qmMstG0p82vAesCYalZvnnAUsiwe
- SJWy7+YaBHs5hMumzvOaYVg14Xz//RYUDHXr3DMkT13NjiW35H4aMiFCTbjiPJjgoHeQ
- a50TorPyCjhToRcNb3DiHw/62yEG47kFxaKQQymKK2669HkZFkfVAPxJmUdoThyh6XW9
- gpnmy2Q6UyTKmDSZQqiu1Oq6Eaall/VF/z3MBIHla+MG5a/RIRDe59bGz69T4jGA33Hs
- 3h3od2oBMGO3GQManrOSlf0Zc8BInxcBC4bdcfoLgaCkjDNQbe1GJu8uDpTOOajkMDwY 7w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmphftk1c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Nov 2022 14:58:05 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A49PPmT002009;
- Fri, 4 Nov 2022 14:58:05 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmphftk02-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Nov 2022 14:58:04 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A4EpZ5R024229;
- Fri, 4 Nov 2022 14:58:02 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06ams.nl.ibm.com with ESMTP id 3kguej2j7a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Nov 2022 14:58:02 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2A4EqOYK49676732
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Nov 2022 14:52:24 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3A328AE04D;
- Fri,  4 Nov 2022 14:57:59 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2ED35AE045;
- Fri,  4 Nov 2022 14:57:58 +0000 (GMT)
-Received: from [9.171.69.218] (unknown [9.171.69.218])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  4 Nov 2022 14:57:58 +0000 (GMT)
-Message-ID: <7177da22-ca19-6510-9bf3-4120140f5431@linux.ibm.com>
-Date: Fri, 4 Nov 2022 15:57:57 +0100
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1oqyCM-0006sK-KX
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 11:01:37 -0400
+Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1N2m3G-1p12Nd3YQm-0132h6; Fri, 04 Nov 2022 16:00:54 +0100
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+Subject: [PATCH v2] tests/qtest: netdev: test stream and dgram backends
+Date: Fri,  4 Nov 2022 16:00:49 +0100
+Message-Id: <20221104150049.236667-1-lvivier@redhat.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v11 01/11] s390x: Register TYPE_S390_CCW_MACHINE
- properties as class properties
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com
-References: <20221103170150.20789-1-pmorel@linux.ibm.com>
- <20221103170150.20789-2-pmorel@linux.ibm.com>
- <3f913a58-e7d0-539e-3bc0-6cbd5608db8e@redhat.com>
- <7d809617-67e0-d233-97b2-8534e2a4610f@linux.ibm.com>
- <6415cf08-e6a1-c72a-1c56-907d3a446a8c@kaod.org>
- <7a3c34dc-2c16-6fdd-e8bc-7a1c623823ae@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <7a3c34dc-2c16-6fdd-e8bc-7a1c623823ae@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: R9INAsguU-ve2zQKYO0f4SuJ9kpdZ2m_
-X-Proofpoint-ORIG-GUID: Jqc-cGEB8wQb1HKSWrsARiGLpaER4zVX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-04_09,2022-11-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0
- mlxscore=0 suspectscore=0 lowpriorityscore=0 mlxlogscore=999
- malwarescore=0 bulkscore=0 impostorscore=0 phishscore=0 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211040095
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:5T/IJfQeLPnOuWitjRrSlOMWj7jod56/NpaBtlvpn7ZRl8jdARh
+ VWfBDiH9FjEFQSXis0nsYkjRRjIGRiS9ebInkQa4WEb9U+25jpL3lEkCVm5+O81xW1M55gu
+ dcGo0bq+VzvQQtvrxvvke6ElzXeq2pV0rvMKmAuhVPeScsJjzqs//XAfjnDJDaVtrNs8nTJ
+ u3DlTbXHBiYQH7IMemdKg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:tFuQnaLW/3o=:q9BtVzUGWVDcvtuwLPSVlA
+ RwplqpqNVf9c/rDj4W0P75VFLhYPqpjZdeb+xqxHhQXiCrjaQTm7RZ6NkZTsL6/ISqjF7v1wS
+ SACcRp/5pGbXOqHh5LAQGIRYhFuGZ1x0dzlMGbQmahfuBFMltgTJ91Zq5cwVQZ+AiPtx0LQkI
+ Gtf2XP5/bNUX6DmbtGcegWqUDP0Qjrnyfwo2+0sg5NmPrVDbBeVZuq0Fs8g05olluVilRNAT0
+ SLAJictI02faWOt4ENqIvqsC/F4fETLZ6W5hMNco2D+WQ+vwSo+/VBYdVilfKY3qaB3WnLPzs
+ gOl6RyVzbgkYmaakoNAhCytY5D4fFnTBPbxTo6rg9J/gpJpGoHONkefWtcNx2+zluuyaI1dxK
+ snBonDClJEhCtdD0YFj09yPqCg36Wpy2xil7tR2dTAd/gi1NxUwW1SUvi3G7eScXmwGRXTCrm
+ O+FuJC+F22YG89kcKqkxufdrAn+u+xyHG8YjhE7gkLHI70k3gwL+D2l67NIMttfiq9ux+pSm7
+ wBY60PO4dO+V1XtTd1Q8I0cqpt6JHtehaEPSH2pn8cVMhaNjpX+15a9E0L/2x553tjY5HmrzS
+ 6f6OoEXtcra64wIK/80YY3D1lbzyGXbuJQbRSyPaEhVX922lRHcbSj01HN3CgYixnv94eh+CN
+ ZBnF72jr7KExy8a3BC7VUT0MEEiPRBd6CaKG3wvzK+j/Fg9Lq1Hz5cSGXHr01hV4cGvKfcPPx
+ sWiGtxzg/RpzDlJ0BIesmhhdEL70sNsWNLrZO3iGWy/l3th+POSOUgXGQI61Rei91JhUQcwSc
+ Ns1NSEP
+Received-SPF: permerror client-ip=212.227.17.10;
+ envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001,
+ SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -126,83 +74,487 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+---
 
+Notes:
+    v2:
+    - Fix ipv6 free port allocation
+    - Check for IPv4, IPv6, AF_UNIX
+    - Use g_mkdtemp() rather than g_file_open_tmp()
+    - Use socketpair() in test_stream_fd()
+    
+    v1: compared to v14 of "qapi: net: add unix socket type support to netdev backend":
+    - use IP addresses 127.0.0.1 and ::1 rather than localhost
 
-On 11/4/22 15:29, Thomas Huth wrote:
-> On 04/11/2022 11.53, Cédric Le Goater wrote:
->> On 11/4/22 11:16, Pierre Morel wrote:
->>>
->>>
->>> On 11/4/22 07:32, Thomas Huth wrote:
->>>> On 03/11/2022 18.01, Pierre Morel wrote:
->>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>>>> ---
->>>>>   hw/s390x/s390-virtio-ccw.c | 127 
->>>>> +++++++++++++++++++++----------------
->>>>>   1 file changed, 72 insertions(+), 55 deletions(-)
->>>>
->>>> -EMISSINGPATCHDESCRIPTION
->>>>
->>>> ... please add some words *why* this is a good idea / necessary.
->>>
->>> I saw that the i386 patch had no description for the same patch so...
->>>
->>> To be honest I do not know why it is necessary.
->>> The only reason I see is to be in sync with the PC implementation.
->>>
->>> So what about:
->>> "
->>> Register TYPE_S390_CCW_MACHINE properties as class properties
->>> to be conform with the X architectures
->>> "
->>> ?
->>>
->>> @Cédric , any official recommendation for doing that?
->>
->> There was a bunch of commits related to QOM in this series :
->>
->>    91def7b83 arm/virt: Register most properties as class properties
->>    f5730c69f0 i386: Register feature bit properties as class properties
->>
->> which moved property definitions at the class level.
->>
->> Then,
->>
->>    commit d8fb7d0969 ("vl: switch -M parsing to keyval")
->>
->> changed machine_help_func() to use a machine class and not machine
->> instance anymore.
->>
->> I would use the same kind of commit log and add a Fixes tag to get it
->> merged in 7.2
-> 
-> Ah, so this fixes the problem that running QEMU with " -M 
-> s390-ccw-virtio,help" does not show the s390x-specific properties 
-> anymore? ... that's certainly somethings that should be mentioned in the 
-> commit message! What about something like this:
-> 
-> "Currently, when running 'qemu-system-s390x -M -M s390-ccw-virtio,help' 
-> the s390x-specific properties are not listed anymore. This happens 
-> because since commit d8fb7d0969 ("vl: switch -M parsing to keyval") the 
-> properties have to be defined at the class level and not at the instance 
-> level anymore. Fix it on s390x now, too, by moving the registration of 
-> the properties to the class level"
-> 
-> Fixes: d8fb7d0969 ("vl: switch -M parsing to keyval")
-> 
-> ?
-> 
->   Thomas
-> 
+ tests/qtest/meson.build     |   2 +
+ tests/qtest/netdev-socket.c | 435 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 437 insertions(+)
+ create mode 100644 tests/qtest/netdev-socket.c
 
-That seems really good :)
-
-Thank you Thomas!
-
-Regards,
-Pierre
-
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index c07a5b1a5f43..43d075b76280 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -27,6 +27,7 @@ qtests_generic = [
+   'test-hmp',
+   'qos-test',
+   'readconfig-test',
++  'netdev-socket',
+ ]
+ if config_host.has_key('CONFIG_MODULES')
+   qtests_generic += [ 'modules-test' ]
+@@ -304,6 +305,7 @@ qtests = {
+   'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
+   'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'],
+   'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
++  'netdev-socket': files('netdev-socket.c', '../unit/socket-helpers.c'),
+ }
+ 
+ gvnc = dependency('gvnc-1.0', required: false)
+diff --git a/tests/qtest/netdev-socket.c b/tests/qtest/netdev-socket.c
+new file mode 100644
+index 000000000000..dd46214f69c7
+--- /dev/null
++++ b/tests/qtest/netdev-socket.c
+@@ -0,0 +1,435 @@
++/*
++ * QTest testcase for netdev stream and dgram
++ *
++ * Copyright (c) 2022 Red Hat, Inc.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include <glib/gstdio.h>
++#include "../unit/socket-helpers.h"
++#include "libqtest.h"
++
++#define CONNECTION_TIMEOUT    5
++
++#define EXPECT_STATE(q, e, t)                             \
++do {                                                      \
++    char *resp = qtest_hmp(q, "info network");            \
++    if (t) {                                              \
++        strrchr(resp, t)[0] = 0;                          \
++    }                                                     \
++    g_test_timer_start();                                 \
++    while (g_test_timer_elapsed() < CONNECTION_TIMEOUT) { \
++        if (strcmp(resp, e) == 0) {                       \
++            break;                                        \
++        }                                                 \
++        g_free(resp);                                     \
++        resp = qtest_hmp(q, "info network");              \
++        if (t) {                                          \
++            strrchr(resp, t)[0] = 0;                      \
++        }                                                 \
++    }                                                     \
++    g_assert_cmpstr(resp, ==, e);                         \
++    g_free(resp);                                         \
++} while (0)
++
++static char *tmpdir;
++
++static int inet_get_free_port_socket_ipv4(int sock)
++{
++    struct sockaddr_in addr;
++    socklen_t len;
++
++    memset(&addr, 0, sizeof(addr));
++    addr.sin_family = AF_INET;
++    addr.sin_addr.s_addr = INADDR_ANY;
++    addr.sin_port = 0;
++    if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
++        return -1;
++    }
++
++    len = sizeof(addr);
++    if (getsockname(sock,  (struct sockaddr *)&addr, &len) < 0) {
++        return -1;
++    }
++
++    return ntohs(addr.sin_port);
++}
++
++static int inet_get_free_port_socket_ipv6(int sock)
++{
++    struct sockaddr_in6 addr;
++    socklen_t len;
++
++    memset(&addr, 0, sizeof(addr));
++    addr.sin6_family = AF_INET6;
++    addr.sin6_addr = in6addr_any;
++    addr.sin6_port = 0;
++    if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
++        return -1;
++    }
++
++    len = sizeof(addr);
++    if (getsockname(sock,  (struct sockaddr *)&addr, &len) < 0) {
++        return -1;
++    }
++
++    return ntohs(addr.sin6_port);
++}
++
++static int inet_get_free_port_multiple(int nb, int *port, bool ipv6)
++{
++    int sock[nb];
++    int i;
++
++    for (i = 0; i < nb; i++) {
++        sock[i] = socket(ipv6 ? AF_INET6 : AF_INET, SOCK_STREAM, 0);
++        if (sock[i] < 0) {
++            break;
++        }
++        port[i] = ipv6 ? inet_get_free_port_socket_ipv6(sock[i]) :
++                         inet_get_free_port_socket_ipv4(sock[i]);
++        if (port[i] == -1) {
++            break;
++        }
++    }
++
++    nb = i;
++    for (i = 0; i < nb; i++) {
++        closesocket(sock[i]);
++    }
++
++    return nb;
++}
++
++static int inet_get_free_port(bool ipv6)
++{
++    int nb, port;
++
++    nb = inet_get_free_port_multiple(1, &port, ipv6);
++    g_assert_cmpint(nb, ==, 1);
++
++    return port;
++}
++
++static void test_stream_inet_ipv4(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int port;
++
++    port = inet_get_free_port(false);
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=true,addr.type=inet,"
++                       "addr.ipv4=on,addr.ipv6=off,"
++                       "addr.host=127.0.0.1,addr.port=%d", port);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,server=false,id=st0,addr.type=inet,"
++                       "addr.ipv4=on,addr.ipv6=off,"
++                       "addr.host=127.0.0.1,addr.port=%d", port);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,tcp:127.0.0.1:%d\r\n",
++                             port);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    /* the port is unknown, check only the address */
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,tcp:127.0.0.1", ':');
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_inet_ipv6(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int port;
++
++    port = inet_get_free_port(true);
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=true,addr.type=inet,"
++                       "addr.ipv4=off,addr.ipv6=on,"
++                       "addr.host=::1,addr.port=%d", port);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,server=false,id=st0,addr.type=inet,"
++                       "addr.ipv4=off,addr.ipv6=on,"
++                       "addr.host=::1,addr.port=%d", port);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,tcp:::1:%d\r\n",
++                             port);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    /* the port is unknown, check only the address */
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,tcp:::1", ':');
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_unix(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    gchar *path;
++
++    path = g_strconcat(tmpdir, "/stream_unix", NULL);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=true,"
++                       "addr.type=unix,addr.path=%s,",
++                       path);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=false,"
++                       "addr.type=unix,addr.path=%s",
++                       path);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
++    EXPECT_STATE(qts1, expect, 0);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++    g_free(path);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_unix_abstract(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    gchar *path;
++
++    path = g_strconcat(tmpdir, "/stream_unix_abstract", NULL);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=true,"
++                       "addr.type=unix,addr.path=%s,"
++                       "addr.abstract=on",
++                       path);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=false,"
++                       "addr.type=unix,addr.path=%s,addr.abstract=on",
++                       path);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
++    EXPECT_STATE(qts1, expect, 0);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++    g_free(path);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_fd(void)
++{
++    QTestState *qts0, *qts1;
++    int sock[2];
++    int ret;
++
++    ret = socketpair(AF_LOCAL, SOCK_STREAM, 0, sock);
++    g_assert_true(ret == 0);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,addr.type=fd,addr.str=%d",
++                       sock[0]);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,unix:\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,addr.type=fd,addr.str=%d",
++                       sock[1]);
++
++    EXPECT_STATE(qts1, "st0: index=0,type=stream,unix:\r\n", 0);
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,unix:\r\n", 0);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++
++    closesocket(sock[0]);
++    closesocket(sock[1]);
++}
++
++static void test_dgram_inet(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int port[2];
++    int nb;
++
++    nb = inet_get_free_port_multiple(2, port, false);
++    g_assert_cmpint(nb, ==, 2);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,"
++                       "local.type=inet,local.host=127.0.0.1,local.port=%d,"
++                       "remote.type=inet,remote.host=127.0.0.1,remote.port=%d",
++                        port[0], port[1]);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,"
++                             "udp=127.0.0.1:%d/127.0.0.1:%d\r\n",
++                             port[0], port[1]);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,"
++                       "local.type=inet,local.host=127.0.0.1,local.port=%d,"
++                       "remote.type=inet,remote.host=127.0.0.1,remote.port=%d",
++                        port[1], port[0]);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,"
++                             "udp=127.0.0.1:%d/127.0.0.1:%d\r\n",
++                             port[1], port[0]);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_dgram_mcast(void)
++{
++    QTestState *qts;
++
++    qts = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,"
++                       "remote.type=inet,remote.host=230.0.0.1,remote.port=1234");
++
++    EXPECT_STATE(qts, "st0: index=0,type=dgram,mcast=230.0.0.1:1234\r\n", 0);
++
++    qtest_quit(qts);
++}
++
++static void test_dgram_unix(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    gchar *path0, *path1;
++
++    path0 = g_strconcat(tmpdir, "/dgram_unix0", NULL);
++    path1 = g_strconcat(tmpdir, "/dgram_unix1", NULL);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,local.type=unix,local.path=%s,"
++                       "remote.type=unix,remote.path=%s",
++                       path0, path1);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,udp=%s:%s\r\n",
++                             path0, path1);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,local.type=unix,local.path=%s,"
++                       "remote.type=unix,remote.path=%s",
++                       path1, path0);
++
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,udp=%s:%s\r\n",
++                             path1, path0);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    unlink(path0);
++    g_free(path0);
++    unlink(path1);
++    g_free(path1);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_dgram_fd(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int ret;
++    int sv[2];
++
++    ret = socketpair(PF_UNIX, SOCK_DGRAM, 0, sv);
++    g_assert_cmpint(ret, !=, -1);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,local.type=fd,local.str=%d",
++                       sv[0]);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,fd=%d unix\r\n", sv[0]);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,local.type=fd,local.str=%d",
++                       sv[1]);
++
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,fd=%d unix\r\n", sv[1]);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++
++    closesocket(sv[0]);
++    closesocket(sv[1]);
++}
++
++int main(int argc, char **argv)
++{
++    int ret;
++    bool has_ipv4, has_ipv6, has_afunix;
++    gchar dir[] = "/tmp/netdev-socket.XXXXXX";
++
++    g_test_init(&argc, &argv, NULL);
++
++    if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
++        g_printerr("socket_check_protocol_support() failed\n");
++        goto end;
++    }
++
++    if (g_mkdtemp(dir) == NULL) {
++        g_error("g_mkdtemp: %s", g_strerror(errno));
++    }
++    tmpdir = dir;
++
++    if (has_ipv4) {
++        qtest_add_func("/netdev/stream/inet/ipv4", test_stream_inet_ipv4);
++        qtest_add_func("/netdev/dgram/inet", test_dgram_inet);
++        qtest_add_func("/netdev/dgram/mcast", test_dgram_mcast);
++    }
++    if (has_ipv6) {
++        qtest_add_func("/netdev/stream/inet/ipv6", test_stream_inet_ipv6);
++    }
++
++    socket_check_afunix_support(&has_afunix);
++    if (has_afunix) {
++        qtest_add_func("/netdev/dgram/unix", test_dgram_unix);
++        qtest_add_func("/netdev/stream/unix", test_stream_unix);
++        qtest_add_func("/netdev/stream/unix/abstract",
++                       test_stream_unix_abstract);
++        qtest_add_func("/netdev/stream/fd", test_stream_fd);
++        qtest_add_func("/netdev/dgram/fd", test_dgram_fd);
++    }
++
++end:
++    ret = g_test_run();
++
++    g_rmdir(dir);
++
++    return ret;
++}
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+2.38.1
+
 
