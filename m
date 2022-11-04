@@ -2,101 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EADB6619368
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 10:24:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B68619369
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 10:24:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqsuC-00076S-5Q; Fri, 04 Nov 2022 05:22:28 -0400
+	id 1oqsud-0007Ui-ET; Fri, 04 Nov 2022 05:22:55 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oqssl-0006Lj-RF
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:21:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1oqsua-0007RZ-64
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:22:52 -0400
+Received: from mout.kundenserver.de ([217.72.192.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oqssi-0002xB-3r
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:20:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667553652;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F/uDVs+WbRAxDuhIuGKrU/El/HK+W+eAbOKXFNT99Zc=;
- b=Rx3/kFa6WO1XpJKMPWlkbjYzVxCc6sncg6lZfGBEPJBwcHuDO4l9dH8PHLXJ5Ctmb9zF9Y
- 5U8ZvVLQh2knsYCzDcdniKAn/brj+VzO6VqMIiy7Q4PNJ4ZDSp3ewlhnsexaIFYDvD0QyO
- twOACdyN42+PoXd7Qg2cjZ6AAZm/QLo=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-641-drmtN_PXMqGvBzYlu26d7w-1; Fri, 04 Nov 2022 05:20:51 -0400
-X-MC-Unique: drmtN_PXMqGvBzYlu26d7w-1
-Received: by mail-ej1-f69.google.com with SMTP id
- gn34-20020a1709070d2200b0079330e196c8so2865861ejc.16
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 02:20:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=F/uDVs+WbRAxDuhIuGKrU/El/HK+W+eAbOKXFNT99Zc=;
- b=4nQYBDQFjPatj74BzXkI6LDQuCENLy++7tuGH0Xxu0TJzHb73L4aEbhp/hug2Q9gAC
- TRypiw09k4vmMkXYHhyIN+B8kGgoa3FgYXEO4P+2MmAKH5cbeZv2BQwZMQbekGyBP7Qm
- +ERMZmDujLiDvtEI1d2hW1sP3yjCWQjG0oqSgT3WdEN3rI7wf/rYk1x6wqO0vtis5v43
- xDYxk3/XqYAdOGCAnQeyvDd6ypNvIG8m9NwrevzWB0I3hLGAf3kiX1pBvicOsqu9EgGK
- Q43rQKKG1pT4emPquC6pe9DhzeydfQslEiy1HQWNN4tbxJinHtEGwUnSSwJS4g5TkHKa
- dcvQ==
-X-Gm-Message-State: ACrzQf1yHF9uziWqKQGoBtNIOxtT/5CMNR8XyasXcMm5/wDgeZwraVVM
- Dx9aqSArZbTMwkdlJIW+PXmoASuca60FRwqBQdc6ytgDNp5URbwlj36Ysq3MU/4B0igppZ5rcCm
- p9Ef8F179E+CGtT8=
-X-Received: by 2002:a50:fc03:0:b0:461:5d8d:5811 with SMTP id
- i3-20020a50fc03000000b004615d8d5811mr34914878edr.351.1667553650176; 
- Fri, 04 Nov 2022 02:20:50 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6dImflT162PFfS6YpSHTfWZTEcqMOql4Slb04/ECiaAmIIYGNlkMwkwOaR36Wg0ERCgUpbww==
-X-Received: by 2002:a50:fc03:0:b0:461:5d8d:5811 with SMTP id
- i3-20020a50fc03000000b004615d8d5811mr34914860edr.351.1667553649976; 
- Fri, 04 Nov 2022 02:20:49 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- kz7-20020a17090777c700b007806c1474e1sm1528041ejc.127.2022.11.04.02.20.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Nov 2022 02:20:49 -0700 (PDT)
-Message-ID: <a0594b2a-9ceb-9738-75d0-e583236cf38c@redhat.com>
-Date: Fri, 4 Nov 2022 10:20:47 +0100
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1oqsuW-0003O6-Mc
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:22:51 -0400
+Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1M6EOc-1oxSTe3tYO-006jaG; Fri, 04 Nov 2022 10:22:39 +0100
+From: Laurent Vivier <lvivier@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+Subject: [PATCH] tests/qtest: netdev: test stream and dgram backends
+Date: Fri,  4 Nov 2022 10:22:36 +0100
+Message-Id: <20221104092236.184792-1-lvivier@redhat.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 2/9] block-copy: add missing coroutine_fn annotations
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org
-References: <20221103134206.4041928-1-eesposit@redhat.com>
- <20221103134206.4041928-3-eesposit@redhat.com>
- <8f24c24c-ca61-108c-924b-39465a3c67fe@redhat.com>
- <Y2QDPXegFTdpBy6S@redhat.com>
- <dfb4906f-5fff-0430-a3c8-c1f660d3497d@redhat.com>
- <aa37a312-96c1-3bf7-29fe-fbe83eb48f61@redhat.com>
- <ac92cf1f-49c4-b263-f48f-4be17044d61e@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <ac92cf1f-49c4-b263-f48f-4be17044d61e@redhat.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:fa8iIP0Ca49gB+e2lnkdrSuqanfc8uGOL83iqrVFK1+7sGVK77L
+ j6HIrR/JzfC8o1UHv5YFFkw0r02nGcLM3erRT5HQp6It0WExhD9EvN4Ftt57mw84BOMqln0
+ YL29ModcppG5YXZ7LRF2BEozT842mkbyJbYxDq5YsuYjO7RHj0TTNhLBnA+FZH7HUJ66GuH
+ 2dThyrvQs08mw47zlkVvQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qWuSVMo1VR8=:aACVtmlkISNHsZzi/eFw6Y
+ SS1jm9cRR6/YfFBXo78nslkPDHZfVRegBI0kZsSERFV0ugXv9dI2LrnF8XiVuzzjwMMYQYMiw
+ yQ3yauwiHMc3fqVE4NfB5O9/cp6DHS9WtjhXUJn6Ce92S46kNr+hPJlGIZlBkcGqICifo8RrV
+ J6UTksGfssKuOYECNt8tftusWfKp1qEh9kDQY4/CJmqB09LPWZcALwpqpKfPABQ95jhogRHYR
+ 0j5zQDJjUv1RcXSM6v8zGGzU4mrkVxcDMbviAHUkCab/zs/Hfk9Ox+uWTXo1ey7RPmNdWEv4W
+ Cx3W2dRliDkAGBTKZg3ef8q8Y6Fnwotr0awBiW9XICh9MO1qK2MubKKiRy/IWCKBlhLpE2CYf
+ J8dFbgK9Z/IdswO1Hpw2+KV5zAamVO9Mf+iwu34xJSWRmmiGafobQ4a0zDFQDkkjAqxRm3Qzw
+ kZEc+Cbx1ZOMROzDzHhnCm0ZkEIQP1IYh/FMSsWKtxqViqEkj3aS2WMVEDwllrxIjlEX+Oijs
+ Th5RZo5qu5jlABdkMYM4dagmXxHnptBLME41j3isIucWDKIlMY/fQ/kqrpnLvdMcJ1iA2fbYq
+ HSYzC2HAGsZcgF45cTIMriS6e4yXvtJDbU9ZgVVrrrdEmwhCx/ma9rx4IiXbwLQbp9HlqLHt7
+ p7O7g+xkiqv+4fTYTj1TkdbR0M09hScLut8XKqh49DRqtYXh5uNJoq4eNRQ6ECVxweEWL1rTb
+ 44dHGRWCP0jmxcLVmvLWrkLY0qd1+wywu0FQkx2hj8vt0r5TQje6PSzFIuPcyxtaB/BDxQqYi
+ GplB0i/
+Received-SPF: permerror client-ip=217.72.192.75;
+ envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_FAIL=0.001, SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,91 +72,461 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+---
 
+Notes:
+    compared to v14 of "qapi: net: add unix socket type support to netdev backend":
+    - use IP addresses 127.0.0.1 and ::1 rather than localhost
 
-Am 04/11/2022 um 09:44 schrieb Paolo Bonzini:
-> On 11/4/22 08:35, Emanuele Giuseppe Esposito wrote:
->> But isn't it a bug also not to mark a function _only_ called by
->> coroutine_fn? My point is that if this function is an implementation of
->> a BlockDriver callback marked as coroutine_fn (like in patch 6 with
->> vmdk), then it would make sense.
-> 
-> If a function implements a coroutine_fn callback but does not suspend,
-> then it makes sense to mark it coroutine_fn.
-> 
-> In general it's not a bug.  In most cases it would only be a coincidence
-> that the function is called from a coroutine_fn.  For example consider
-> bdrv_round_to_clusters().  Marking it coroutine_fn signals that it may
-> suspend now (it doesn't) or in the future.  However it's only doing some
-> math based on the result of bdrv_get_info(), so it is extremely unlikely
-> that this will happen.
-> 
-> In this case... oh wait.  block_copy_is_cluster_allocated is calling
-> bdrv_is_allocated, and block_copy_reset_unallocated calls
-> block_copy_is_cluster_allocated.  bdrv_is_allocated is a mixed
-> coroutine/non-coroutine function, and in this case it is useful to
-> document that bdrv_is_allocated will suspend.  The patch is correct,
-> only the commit message is wrong.
+ tests/qtest/meson.build     |   1 +
+ tests/qtest/netdev-socket.c | 423 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 424 insertions(+)
+ create mode 100644 tests/qtest/netdev-socket.c
 
-[...]
-
->> This is actually the point of this serie (which I might not have
->> explained well in the cover letter), every function marked here is
->> eventually called by/calling a BlockDriver callback marked as
->> coroutine_fn.
-> 
-> Again I don't think this is useful in general, but your three patches
-> (2/3/6) did catch cases that wants to be coroutine_fn.  So my objection
-> is dropped with just a better commit message.
-
-I see your point about "in general it's not a bug".
-At this point I just want to make sure that we agree that it's correct
-to add coroutine_fn because of "the function calls a g_c_w that
-suspends" *&&* "all the callers are coroutine_fn". If the callers
-weren't coroutine_fn then g_c_w would just create a new coroutine and
-poll, and I don't think that would be part of your definition of "can
-suspend".
-
-Thank you,
-Emanuele
-
-> 
->> Currently we have something like this:
->> BlockDriver {
->>      void coroutine_fn (*bdrv_A)(void) = implA;
->> }
->>
->> void coroutine_fn implA() {
->>      funcB();
->>      funcC();
->> }
->>
->> void funcB() {}; <--- missing coroutine_fn?
->> void funcC() {}; <--- missing coroutine_fn?
->>
->> In addition, as I understand draining is not allowed in coroutines.
-> 
-> ... except we have bdrv_co_yield_to_drain() to allow that, sort of. :/
-> 
->> If a function/callback only running in coroutines is not marked as
->> coroutine_fn, then it will be less obvious to notice that draining is
->> not allowed there.
-> 
-> I think it has to be judged case by base.  Your patches prove that, in
-> most cases, you have coroutine_fn for things that ultimately do some
-> kind of I/O or query.  In general the interesting path to explore is
-> "coroutine_fn calls (indirectly) non-coroutine_fn calls (indirectly)
-> generated_co_wrapper".  The vrc tool could be extended to help finding
-> them, with commands like
-> 
->     label coroutine_fn bdrv_co_read
->     label coroutine_fn bdrv_co_write
->     ...
->     label generated_co_wrapper bdrv_read
->     label generated_co_wrapper bdrv_write
->     paths coroutine_fn !coroutine_fn generated_co_wrapper
-> 
-> Paolo
-> 
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index c07a5b1a5f43..6953797e4e3e 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -27,6 +27,7 @@ qtests_generic = [
+   'test-hmp',
+   'qos-test',
+   'readconfig-test',
++  'netdev-socket',
+ ]
+ if config_host.has_key('CONFIG_MODULES')
+   qtests_generic += [ 'modules-test' ]
+diff --git a/tests/qtest/netdev-socket.c b/tests/qtest/netdev-socket.c
+new file mode 100644
+index 000000000000..e931b6ce5b61
+--- /dev/null
++++ b/tests/qtest/netdev-socket.c
+@@ -0,0 +1,423 @@
++/*
++ * QTest testcase for netdev stream and dgram
++ *
++ * Copyright (c) 2022 Red Hat, Inc.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "libqtest.h"
++
++#define CONNECTION_TIMEOUT    5
++
++#define EXPECT_STATE(q, e, t)                             \
++do {                                                      \
++    char *resp = qtest_hmp(q, "info network");            \
++    if (t) {                                              \
++        strrchr(resp, t)[0] = 0;                          \
++    }                                                     \
++    g_test_timer_start();                                 \
++    while (g_test_timer_elapsed() < CONNECTION_TIMEOUT) { \
++        if (strcmp(resp, e) == 0) {                       \
++            break;                                        \
++        }                                                 \
++        g_free(resp);                                     \
++        resp = qtest_hmp(q, "info network");              \
++        if (t) {                                          \
++            strrchr(resp, t)[0] = 0;                      \
++        }                                                 \
++    }                                                     \
++    g_assert_cmpstr(resp, ==, e);                         \
++    g_free(resp);                                         \
++} while (0)
++
++static int inet_get_free_port_socket(int sock)
++{
++    struct sockaddr_in addr;
++    socklen_t len;
++
++    memset(&addr, 0, sizeof(addr));
++    addr.sin_family = AF_INET;
++    addr.sin_addr.s_addr = INADDR_ANY;
++    addr.sin_port = 0;
++    if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
++        return -1;
++    }
++
++    len = sizeof(addr);
++    if (getsockname(sock,  (struct sockaddr *)&addr, &len) < 0) {
++        return -1;
++    }
++
++    return ntohs(addr.sin_port);
++}
++
++static int inet_get_free_port_multiple(int nb, int *port)
++{
++    int sock[nb];
++    int i;
++
++    for (i = 0; i < nb; i++) {
++        sock[i] = socket(AF_INET, SOCK_STREAM, 0);
++        if (sock[i] < 0) {
++            break;
++        }
++        port[i] = inet_get_free_port_socket(sock[i]);
++        if (port[i] == -1) {
++            break;
++        }
++    }
++
++    nb = i;
++    for (i = 0; i < nb; i++) {
++        closesocket(sock[i]);
++    }
++
++    return nb;
++}
++
++static int inet_get_free_port(void)
++{
++    int nb, port;
++
++    nb = inet_get_free_port_multiple(1, &port);
++    g_assert_cmpint(nb, ==, 1);
++
++    return port;
++}
++
++static void test_stream_inet_ipv4(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int port;
++
++    port = inet_get_free_port();
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=true,addr.type=inet,"
++                       "addr.ipv4=on,addr.ipv6=off,"
++                       "addr.host=127.0.0.1,addr.port=%d", port);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,server=false,id=st0,addr.type=inet,"
++                       "addr.ipv4=on,addr.ipv6=off,"
++                       "addr.host=127.0.0.1,addr.port=%d", port);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,tcp:127.0.0.1:%d\r\n",
++                             port);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    /* the port is unknown, check only the address */
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,tcp:127.0.0.1", ':');
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_inet_ipv6(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int port;
++
++    port = inet_get_free_port();
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=true,addr.type=inet,"
++                       "addr.ipv4=off,addr.ipv6=on,"
++                       "addr.host=::1,addr.port=%d", port);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,server=false,id=st0,addr.type=inet,"
++                       "addr.ipv4=off,addr.ipv6=on,"
++                       "addr.host=::1,addr.port=%d", port);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,tcp:::1:%d\r\n",
++                             port);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    /* the port is unknown, check only the address */
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,tcp:::1", ':');
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_unix(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    gchar *path;
++    int ret;
++
++    ret = g_file_open_tmp("netdev-XXXXXX", &path, NULL);
++    g_assert_true(ret >= 0);
++    close(ret);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=true,"
++                       "addr.type=unix,addr.path=%s,",
++                       path);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=false,"
++                       "addr.type=unix,addr.path=%s",
++                       path);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
++    EXPECT_STATE(qts1, expect, 0);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++    unlink(path);
++    g_free(path);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_unix_abstract(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    gchar *path;
++    int ret;
++
++    ret = g_file_open_tmp("netdev-XXXXXX", &path, NULL);
++    g_assert_true(ret >= 0);
++    close(ret);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=true,"
++                       "addr.type=unix,addr.path=%s,"
++                       "addr.abstract=on",
++                       path);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=false,"
++                       "addr.type=unix,addr.path=%s,addr.abstract=on",
++                       path);
++
++    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
++    EXPECT_STATE(qts1, expect, 0);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++    unlink(path);
++    g_free(path);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_stream_fd(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int ret, sock0, sock1;
++    struct sockaddr_un addr;
++    gchar *path;
++
++    ret = g_file_open_tmp("netdev-XXXXXX", &path, NULL);
++    g_assert_true(ret >= 0);
++    close(ret);
++    addr.sun_family = AF_UNIX;
++    strcpy(addr.sun_path, path);
++
++    unlink(addr.sun_path);
++    sock0 = socket(AF_LOCAL, SOCK_STREAM, 0);
++    g_assert_cmpint(sock0, !=, -1);
++
++    ret = bind(sock0, (struct sockaddr *)&addr, sizeof(addr));
++    g_assert_cmpint(ret, !=, -1);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=true,"
++                       "addr.type=fd,addr.str=%d",
++                       sock0);
++
++    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
++
++    sock1 = socket(AF_LOCAL, SOCK_STREAM, 0);
++    g_assert_cmpint(sock1, !=, -1);
++
++    ret = connect(sock1, (struct sockaddr *)&addr, sizeof(addr));
++    g_assert_cmpint(ret, !=, -1);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev stream,id=st0,server=false,addr.type=fd,addr.str=%d",
++                       sock1);
++
++
++    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
++    EXPECT_STATE(qts1, expect, 0);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++
++    closesocket(sock0);
++    closesocket(sock1);
++
++    g_free(path);
++}
++
++static void test_dgram_inet(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int port[2];
++    int nb;
++
++    nb = inet_get_free_port_multiple(2, port);
++    g_assert_cmpint(nb, ==, 2);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,"
++                       "local.type=inet,local.host=127.0.0.1,local.port=%d,"
++                       "remote.type=inet,remote.host=127.0.0.1,remote.port=%d",
++                        port[0], port[1]);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,"
++                             "udp=127.0.0.1:%d/127.0.0.1:%d\r\n",
++                             port[0], port[1]);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,"
++                       "local.type=inet,local.host=127.0.0.1,local.port=%d,"
++                       "remote.type=inet,remote.host=127.0.0.1,remote.port=%d",
++                        port[1], port[0]);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,"
++                             "udp=127.0.0.1:%d/127.0.0.1:%d\r\n",
++                             port[1], port[0]);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_dgram_mcast(void)
++{
++    QTestState *qts;
++
++    qts = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,"
++                       "remote.type=inet,remote.host=230.0.0.1,remote.port=1234");
++
++    EXPECT_STATE(qts, "st0: index=0,type=dgram,mcast=230.0.0.1:1234\r\n", 0);
++
++    qtest_quit(qts);
++}
++
++static void test_dgram_unix(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    gchar *path0, *path1;
++    int ret;
++
++    ret = g_file_open_tmp("netdev-XXXXXX", &path0, NULL);
++    g_assert_true(ret >= 0);
++    close(ret);
++
++    ret = g_file_open_tmp("netdev-XXXXXX", &path1, NULL);
++    g_assert_true(ret >= 0);
++    close(ret);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,local.type=unix,local.path=%s,"
++                       "remote.type=unix,remote.path=%s",
++                       path0, path1);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,udp=%s:%s\r\n",
++                             path0, path1);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,local.type=unix,local.path=%s,"
++                       "remote.type=unix,remote.path=%s",
++                       path1, path0);
++
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,udp=%s:%s\r\n",
++                             path1, path0);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    unlink(path0);
++    g_free(path0);
++    unlink(path1);
++    g_free(path1);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++}
++
++static void test_dgram_fd(void)
++{
++    QTestState *qts0, *qts1;
++    char *expect;
++    int ret;
++    int sv[2];
++
++    ret = socketpair(PF_UNIX, SOCK_DGRAM, 0, sv);
++    g_assert_cmpint(ret, !=, -1);
++
++    qts0 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,local.type=fd,local.str=%d",
++                       sv[0]);
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,fd=%d unix\r\n", sv[0]);
++    EXPECT_STATE(qts0, expect, 0);
++    g_free(expect);
++
++    qts1 = qtest_initf("-nodefaults "
++                       "-netdev dgram,id=st0,local.type=fd,local.str=%d",
++                       sv[1]);
++
++
++    expect = g_strdup_printf("st0: index=0,type=dgram,fd=%d unix\r\n", sv[1]);
++    EXPECT_STATE(qts1, expect, 0);
++    g_free(expect);
++
++    qtest_quit(qts1);
++    qtest_quit(qts0);
++
++    closesocket(sv[0]);
++    closesocket(sv[1]);
++}
++
++int main(int argc, char **argv)
++{
++    int ret;
++
++    g_test_init(&argc, &argv, NULL);
++
++    qtest_add_func("/netdev/stream/inet/ipv4", test_stream_inet_ipv4);
++    qtest_add_func("/netdev/stream/inet/ipv6", test_stream_inet_ipv6);
++    qtest_add_func("/netdev/stream/unix", test_stream_unix);
++    qtest_add_func("/netdev/stream/unix/abstract", test_stream_unix_abstract);
++    qtest_add_func("/netdev/stream/fd", test_stream_fd);
++    qtest_add_func("/netdev/dgram/inet", test_dgram_inet);
++    qtest_add_func("/netdev/dgram/mcast", test_dgram_mcast);
++    qtest_add_func("/netdev/dgram/unix", test_dgram_unix);
++    qtest_add_func("/netdev/dgram/fd", test_dgram_fd);
++
++    ret = g_test_run();
++
++    return ret;
++}
+-- 
+2.38.1
 
 
