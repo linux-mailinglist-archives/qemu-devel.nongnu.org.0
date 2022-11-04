@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDBB3619CB3
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E90E619CC2
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:14:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqzEl-0000PH-Uu; Fri, 04 Nov 2022 12:08:07 -0400
+	id 1oqzF6-00010M-PM; Fri, 04 Nov 2022 12:08:28 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oqzEG-0008B6-Nf
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:07:37 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oqzEP-0008Hf-FW
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:07:47 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oqzE4-0007eR-9i
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:07:36 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oqzE9-0007do-4A
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:07:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667578040;
+ s=mimecast20190719; t=1667578038;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s4t8jY1wjKzzbbd84P/Q3HKuQ2LWGEfxE4+t1s3j2z4=;
- b=Zree0JzggR6ivshX4ognBqsXSfdpG+i0rpK4LXR17C3NoKKO7Y/zSfxO0onqLK14PeSDXu
- 6xttAoQ30S80Vy4UxgpluekJQkHlKoOvgIaJ90jCkG8qzK6MHefViVik4ARCJnSyVWzqH7
- ulVypbgZCpoyqxnLj2GbmUtHJjFWlcc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PZ4YO+4nzUkO+2zB3AgiXLxWXC/C0COaEQchV0GHDuE=;
+ b=JViI0panXnMuhyF+ujRKKr6Wc+O+sMZ65/YWluhRJ2KQOurMhyi29SwazUNkqBrqv1yGLj
+ dngyMkkDULY44vHBvlIoI6Z9gjP7D66XY4gbo40WTlsba2miD/GW8eXPqCq0wsh8DjPo7q
+ Kok0HcGHsfNmcaUImQlZh3kv9bHHhHE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-84-MM8u4uS1MmOX_MWPpforBw-1; Fri, 04 Nov 2022 12:07:15 -0400
-X-MC-Unique: MM8u4uS1MmOX_MWPpforBw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-26-aXdfVZfxMsme1yC5BjhNWA-1; Fri, 04 Nov 2022 12:07:15 -0400
+X-MC-Unique: aXdfVZfxMsme1yC5BjhNWA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AACBE1C09075;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB15D85A59D;
  Fri,  4 Nov 2022 16:07:14 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 85093C15BA4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 868D140C6EE9;
  Fri,  4 Nov 2022 16:07:14 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 47B1F21E66C6; Fri,  4 Nov 2022 17:07:12 +0100 (CET)
+ id 49FE821E649C; Fri,  4 Nov 2022 17:07:12 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: jsnow@redhat.com, eblake@redhat.com, michael.roth@amd.com,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  qemu-block@nongnu.org
-Subject: [PATCH v3 08/30] blockdev: Clean up abuse of DriveBackup member format
-Date: Fri,  4 Nov 2022 17:06:50 +0100
-Message-Id: <20221104160712.3005652-9-armbru@redhat.com>
+Subject: [PATCH v3 09/30] nbd/server: Clean up abuse of BlockExportOptionsNbd
+ member @arg
+Date: Fri,  4 Nov 2022 17:06:51 +0100
+Message-Id: <20221104160712.3005652-10-armbru@redhat.com>
 In-Reply-To: <20221104160712.3005652-1-armbru@redhat.com>
 References: <20221104160712.3005652-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -80,87 +81,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-drive-backup argument @format defaults to the format of the source
-unless @mode is "existing".
+block-export-add argument @name defaults to the value of argument
+@node-name.
 
-drive_backup_prepare() implements this by copying the source's
-@format_name to DriveBackup member @format.  It leaves @has_format
-false, violating the "has_format == !!format" invariant.  Unclean.
-Falls apart when we elide @has_format (commit after next): then QAPI
-passes @format, which is a string constant, to g_free().  iotest 056
-duly explodes.
+nbd_export_create() implements this by copying @node_name to @name.
+It leaves @has_node_name false, violating the "has_node_name ==
+!!node_name" invariant.  Unclean.  Falls apart when we elide
+@has_node_name (next commit): then QAPI frees the same value twice,
+once for @node_name and once @name.  iotest 307 duly explodes.
 
-Clean it up.  Since the value stored in member @format is not actually
+Goes back to commit c62d24e906 "blockdev-nbd: Boxed argument type for
+nbd-server-add" (v5.0.0).  Got moved from qmp_nbd_server_add() to
+nbd_export_create() (commit 56ee86261e), then copied back (commit
+b6076afcab).  Commit 8675cbd68b "nbd: Utilize QAPI_CLONE for type
+conversion" (v5.2.0) cleaned up the copy in qmp_nbd_server_add()
+noting
+
+    Second, our assignment to arg->name is fishy: the generated QAPI code
+    for qapi_free_NbdServerAddOptions does not visit arg->name if
+    arg->has_name is false, but if it DID visit it, we would have
+    introduced a double-free situation when arg is finally freed.
+
+Exactly.  However, the copy in nbd_export_create() remained dirty.
+
+Clean it up.  Since the value stored in member @name is not actually
 used outside this function, use a local variable instead of modifying
 the QAPI object.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Cc: qemu-block@nongnu.org
 ---
- blockdev.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ nbd/server.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/blockdev.c b/blockdev.c
-index 3f1dec6242..d6550e0dc8 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1686,6 +1686,7 @@ static void drive_backup_prepare(BlkActionState *common, Error **errp)
-     BlockDriverState *source = NULL;
-     AioContext *aio_context;
-     AioContext *old_context;
-+    const char *format;
-     QDict *options;
-     Error *local_err = NULL;
-     int flags;
-@@ -1717,9 +1718,9 @@ static void drive_backup_prepare(BlkActionState *common, Error **errp)
-     /* Paired with .clean() */
-     bdrv_drained_begin(bs);
- 
--    if (!backup->has_format) {
--        backup->format = backup->mode == NEW_IMAGE_MODE_EXISTING ?
--                         NULL : (char *) bs->drv->format_name;
-+    format = backup->format;
-+    if (!format && backup->mode != NEW_IMAGE_MODE_EXISTING) {
-+        format = bs->drv->format_name;
+diff --git a/nbd/server.c b/nbd/server.c
+index ada16089f3..0570596312 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1638,6 +1638,7 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
+ {
+     NBDExport *exp = container_of(blk_exp, NBDExport, common);
+     BlockExportOptionsNbd *arg = &exp_args->u.nbd;
++    const char *name = arg->name ?: exp_args->node_name;
+     BlockBackend *blk = blk_exp->blk;
+     int64_t size;
+     uint64_t perm, shared_perm;
+@@ -1653,12 +1654,8 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
+         return -EINVAL;
      }
  
-     /* Early check to avoid creating target */
-@@ -1758,19 +1759,19 @@ static void drive_backup_prepare(BlkActionState *common, Error **errp)
+-    if (!arg->has_name) {
+-        arg->name = exp_args->node_name;
+-    }
+-
+-    if (strlen(arg->name) > NBD_MAX_STRING_SIZE) {
+-        error_setg(errp, "export name '%s' too long", arg->name);
++    if (strlen(name) > NBD_MAX_STRING_SIZE) {
++        error_setg(errp, "export name '%s' too long", name);
+         return -EINVAL;
      }
  
-     if (backup->mode != NEW_IMAGE_MODE_EXISTING) {
--        assert(backup->format);
-+        assert(format);
-         if (source) {
-             /* Implicit filters should not appear in the filename */
-             BlockDriverState *explicit_backing =
-                 bdrv_skip_implicit_filters(source);
- 
-             bdrv_refresh_filename(explicit_backing);
--            bdrv_img_create(backup->target, backup->format,
-+            bdrv_img_create(backup->target, format,
-                             explicit_backing->filename,
-                             explicit_backing->drv->format_name, NULL,
-                             size, flags, false, &local_err);
-         } else {
--            bdrv_img_create(backup->target, backup->format, NULL, NULL, NULL,
-+            bdrv_img_create(backup->target, format, NULL, NULL, NULL,
-                             size, flags, false, &local_err);
-         }
-     }
-@@ -1783,8 +1784,8 @@ static void drive_backup_prepare(BlkActionState *common, Error **errp)
-     options = qdict_new();
-     qdict_put_str(options, "discard", "unmap");
-     qdict_put_str(options, "detect-zeroes", "unmap");
--    if (backup->format) {
--        qdict_put_str(options, "driver", backup->format);
-+    if (format) {
-+        qdict_put_str(options, "driver", format);
+@@ -1667,8 +1664,8 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
+         return -EINVAL;
      }
  
-     target_bs = bdrv_open(backup->target, NULL, options, flags, errp);
+-    if (nbd_export_find(arg->name)) {
+-        error_setg(errp, "NBD server already has export named '%s'", arg->name);
++    if (nbd_export_find(name)) {
++        error_setg(errp, "NBD server already has export named '%s'", name);
+         return -EEXIST;
+     }
+ 
+@@ -1688,7 +1685,7 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
+     }
+ 
+     QTAILQ_INIT(&exp->clients);
+-    exp->name = g_strdup(arg->name);
++    exp->name = g_strdup(name);
+     exp->description = g_strdup(arg->description);
+     exp->nbdflags = (NBD_FLAG_HAS_FLAGS | NBD_FLAG_SEND_FLUSH |
+                      NBD_FLAG_SEND_FUA | NBD_FLAG_SEND_CACHE);
 -- 
 2.37.3
 
