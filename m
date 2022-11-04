@@ -2,84 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5775A619247
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 08:59:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB47E61927C
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 09:12:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqrbg-0002Si-0w; Fri, 04 Nov 2022 03:59:16 -0400
+	id 1oqrn0-0007Pe-NS; Fri, 04 Nov 2022 04:10:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqrbb-0002SF-J1
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 03:59:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <sir@cmpwn.com>) id 1oqrmx-0007MM-Pp
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 04:10:56 -0400
+Received: from out-94.mta0.migadu.com ([2001:41d0:1004:224b::5e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqrbX-00078F-MS
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 03:59:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667548746;
+ (Exim 4.90_1) (envelope-from <sir@cmpwn.com>) id 1oqrmr-0000Qi-KZ
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 04:10:52 -0400
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cmpwn.com; s=key1;
+ t=1667549416;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/0ol5Lyvq6MsDs+W7RXp58hpokdEIUpmHyN4rUJlHkU=;
- b=AORgj4RPYaN9dmfKXb0xvbbwGtuDLH2CbJ+s/34zA52Jlvuno9HlKr1FuyI7sOo3xedJht
- eWfCNJaIpVKSqhva4doh8Ylj2dCoZROazR2Lgmnfo9kcf8OpT+EENSMJDy1nO0N3dybo36
- Gw8gExLRwUhqYbOGQbhP+eLStAUpThY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-627-EVjxGMl-MjKIuuP2-Kj5aw-1; Fri, 04 Nov 2022 03:59:05 -0400
-X-MC-Unique: EVjxGMl-MjKIuuP2-Kj5aw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v191-20020a1cacc8000000b003bdf7b78dccso1981198wme.3
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 00:59:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/0ol5Lyvq6MsDs+W7RXp58hpokdEIUpmHyN4rUJlHkU=;
- b=Jjqmiq8gJFusGyoD+7vRoE1l+udkJ2iiOH0MhKqke36GHCaOd9jfuNKmkKgukLi24r
- 7WEACji/LljhhStzldCXLNTfJVe9c6C6ODiMTgJYQyD/kka1E7Up9AQenvOWRGlw7YY6
- lGi8OvF9djH0+LreotldiCDZ27Ai8Qwf/wvg3V7wfl6DobYiYH6yuuG2T/181tFR8lb8
- i6XrU2qwOGsVSC5bCuRRcoq2p62lrkLUZPQVJbFHzZX/BbHMJElP29CsSpDJtWdUyEmu
- b6PUwicj/MZLol//uv64OpZA24zquQAk5ae/acFQVcy05JI8gEVH6FYPh4+taH3zlwIA
- fjxA==
-X-Gm-Message-State: ACrzQf10q1lIn5IvjO79vrTCVNaQ/HFO04z+HDG46qPWfLIcCHUc1QrW
- TBSfr7HP+9XQyfohJM3jJT+sXZtbnLXhP0jvLuIkCGSBrcpFYg1BW86Y5gubi4bA4XKH6MWGmhn
- rAO6sEzTNMwU5Zrs=
-X-Received: by 2002:a05:600c:3b82:b0:3cf:6cc7:5b7b with SMTP id
- n2-20020a05600c3b8200b003cf6cc75b7bmr18650258wms.126.1667548743749; 
- Fri, 04 Nov 2022 00:59:03 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7u+SF+Bxnkkh+Lr31ejQWHGUXqKNm/9CvOPaer/Wwkoxy5ET9tK+Y3UIWt6q7Yh6TFyH73fg==
-X-Received: by 2002:a05:600c:3b82:b0:3cf:6cc7:5b7b with SMTP id
- n2-20020a05600c3b8200b003cf6cc75b7bmr18650246wms.126.1667548743427; 
- Fri, 04 Nov 2022 00:59:03 -0700 (PDT)
-Received: from redhat.com ([2.52.149.81]) by smtp.gmail.com with ESMTPSA id
- d22-20020a1c7316000000b003cdf141f363sm2070588wmb.11.2022.11.04.00.59.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 00:59:02 -0700 (PDT)
-Date: Fri, 4 Nov 2022 03:58:59 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Yajun Wu <yajunw@nvidia.com>
-Cc: qemu-devel@nongnu.org, parav@nvidia.com
-Subject: Re: [PATCH v3 0/2] vhost-user: Support vhost_dev_start
-Message-ID: <20221104035133-mutt-send-email-mst@kernel.org>
-References: <20220629022517.2600911-1-yajunw@nvidia.com>
- <20221017064452.1226514-1-yajunw@nvidia.com>
- <20221104025833-mutt-send-email-mst@kernel.org>
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/B4mMgn1ZcNNyIfTJAGQxMoHLJAIGWbEf2SJpfdpR2A=;
+ b=N+aFT4kDfMHCgqU9vRzI8Tl5niFVKhaBQt6xXlb0GBuoO+wB90d/2ucphauCmbKetpbamW
+ /lZY93E9UQYV0VJ3T6qsFx13uYks1XHGVzobFxFRkBeEovZ1PWANb4qbo52UpcqjAAoRBS
+ ub9SQo6AjwuS9zAoFOqHQWl2HyV03B/gQQNWcyoO2Dc/H05woKAGAZalIFrgE1v4+wytsI
+ zN9rmRVhayaoUjN8xvsBEJ+wK3xsICpVPVh/VLqqY5Tcz3c7Q2KIQAsPMAkyIJOq7Rp9XU
+ muB3LFTWSlEAU/mX7jHQEU67yHsVoLmWXDSrPB5dygoAptl5DUdUZKFHMsW+lw==
+From: Drew DeVault <sir@cmpwn.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: Drew DeVault <sir@cmpwn.com>, qemu-devel@nongnu.org,
+ "Helge Deller" <deller@gmx.de>
+Subject: [PATCH v4] linux-user: implement execveat
+Date: Fri,  4 Nov 2022 09:10:15 +0100
+Message-Id: <20221104081015.706009-1-sir@cmpwn.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221104025833-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+Received-SPF: pass client-ip=2001:41d0:1004:224b::5e;
+ envelope-from=sir@cmpwn.com; helo=out-94.mta0.migadu.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,163 +62,375 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 04, 2022 at 03:11:44AM -0400, Michael S. Tsirkin wrote:
-> On Mon, Oct 17, 2022 at 02:44:50PM +0800, Yajun Wu wrote:
-> > The motivation of adding vhost-user vhost_dev_start support is to
-> > improve backend configuration speed and reduce live migration VM
-> > downtime.
-> > 
-> > Today VQ configuration is issued one by one. For virtio net with
-> > multi-queue support, backend needs to update RSS (Receive side
-> > scaling) on every rx queue enable. Updating RSS is time-consuming
-> > (typical time like 7ms).
-> > 
-> > Implement already defined vhost status and message in the vhost
-> > specification [1].
-> > (a) VHOST_USER_PROTOCOL_F_STATUS
-> > (b) VHOST_USER_SET_STATUS
-> > (c) VHOST_USER_GET_STATUS
-> > 
-> > Send message VHOST_USER_SET_STATUS with VIRTIO_CONFIG_S_DRIVER_OK for
-> > device start and reset(0) for device stop.
-> > 
-> > On reception of the DRIVER_OK message, backend can apply the needed setting
-> > only once (instead of incremental) and also utilize parallelism on enabling
-> > queues.
-> > 
-> > This improves QEMU's live migration downtime with vhost user backend
-> > implementation by great margin, specially for the large number of VQs of 64
-> > from 800 msec to 250 msec.
-> > 
-> > Another change is to move the device start routines after finishing all the
-> > necessary device and VQ configuration, further aligning to the virtio
-> > specification for "device initialization sequence".
-> > 
-> > [1] https://qemu-project.gitlab.io/qemu/interop/vhost-user.html#introduction
-> 
-> 
-> This patchset seems to trip up ubsan.
-> https://gitlab.com/mitsirkin/qemu/-/pipelines/684763327/failures
-> 
-> 
-> specifially:
-> 
-> passes before this patchset:
-> https://gitlab.com/mitsirkin/qemu/-/jobs/3269302594
-> 
-> fails with this patchset:
-> https://gitlab.com/mitsirkin/qemu/-/pipelines/684763327/failures
-> 
-> (there's one patch on top but it seems unrelated)
-> 
+References: https://gitlab.com/qemu-project/qemu/-/issues/1007
+Signed-off-by: Drew DeVault <sir@cmpwn.com>
+---
+v3 => v4: implement strace for execveat
 
-And this is with just this patchset:
-https://gitlab.com/mitsirkin/qemu/-/pipelines/685419082/failures
-in fact it's just the 1st patch:
-https://gitlab.com/mitsirkin/qemu/-/pipelines/685417959/failures
+ linux-user/strace.c    |  91 +++++++++++-------
+ linux-user/strace.list |   2 +-
+ linux-user/syscall.c   | 203 +++++++++++++++++++++--------------------
+ 3 files changed, 165 insertions(+), 131 deletions(-)
 
-log here:
-https://gitlab.com/mitsirkin/qemu/-/jobs/3273601845
-
-emu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-qemu-system-arm: Failed to set msg fds.
-qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-qemu-system-arm: -chardev socket,id=chr-reconnect,path=/tmp/vhost-test-U5G0U1/reconnect.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-U5G0U1/reconnect.sock,server=on
-qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-qemu-system-arm: Failed to set msg fds.
-qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-qemu-system-arm: -chardev socket,id=chr-connect-fail,path=/tmp/vhost-test-CN7ZU1/connect-fail.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-CN7ZU1/connect-fail.sock,server=on
-qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: Failed to read msg header. Read 0 instead of 12. Original request 1.
-qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: vhost_backend_init failed: Protocol error
-qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: failed to init vhost_net for queue 0
-qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-CN7ZU1/connect-fail.sock,server=on
-qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
-qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-qemu-system-arm: Failed to set msg fds.
-qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-qemu-system-arm: -chardev socket,id=chr-flags-mismatch,path=/tmp/vhost-test-4KRYU1/flags-mismatch.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-4KRYU1/flags-mismatch.sock,server=on
-qemu-system-arm: Failed to write msg. Wrote -1 instead of 52.
-qemu-system-arm: vhost_set_mem_table failed: Invalid argument (22)
-qemu-system-arm: Failed to set msg fds.
-qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-UndefinedBehaviorSanitizer:DEADLYSIGNAL
-==8621==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55c91aca0620 bp 0x000000000000 sp 0x7ffd150b8600 T8621)
-==8621==The signal is caused by a READ memory access.
-==8621==Hint: address points to the zero page.
-    #0 0x55c91aca0620 in ldl_he_p /builds/mitsirkin/qemu/include/qemu/bswap.h:301:5
-    #1 0x55c91aca0620 in ldn_he_p /builds/mitsirkin/qemu/include/qemu/bswap.h:440:1
-    #2 0x55c91aca0620 in flatview_write_continue /builds/mitsirkin/qemu/build/../softmmu/physmem.c:2824:19
-    #3 0x55c91ac9da91 in flatview_write /builds/mitsirkin/qemu/build/../softmmu/physmem.c:2867:12
-    #4 0x55c91ac9da91 in address_space_write /builds/mitsirkin/qemu/build/../softmmu/physmem.c:2963:18
-    #5 0x55c91ac9e857 in address_space_unmap /builds/mitsirkin/qemu/build/../softmmu/physmem.c:3306:9
-    #6 0x55c91ac461ec in vhost_memory_unmap /builds/mitsirkin/qemu/build/../hw/virtio/vhost.c:342:9
-    #7 0x55c91ac461ec in vhost_virtqueue_stop /builds/mitsirkin/qemu/build/../hw/virtio/vhost.c:1242:5
-    #8 0x55c91ac46484 in vhost_dev_stop /builds/mitsirkin/qemu/build/../hw/virtio/vhost.c:1882:9
-    #9 0x55c91a664cc4 in vhost_net_stop_one /builds/mitsirkin/qemu/build/../hw/net/vhost_net.c:329:5
-    #10 0x55c91a6646a6 in vhost_net_start /builds/mitsirkin/qemu/build/../hw/net/vhost_net.c:402:13
-    #11 0x55c91abdfda6 in virtio_net_vhost_status /builds/mitsirkin/qemu/build/../hw/net/virtio-net.c:297:13
-    #12 0x55c91abdfda6 in virtio_net_set_status /builds/mitsirkin/qemu/build/../hw/net/virtio-net.c:378:5
-    #13 0x55c91ac322a9 in virtio_set_status /builds/mitsirkin/qemu/build/../hw/virtio/virtio.c:2442:9
-    #14 0x55c91a7f69a0 in virtio_mmio_write /builds/mitsirkin/qemu/build/../hw/virtio/virtio-mmio.c:428:9
-    #15 0x55c91ac882b6 in memory_region_write_accessor /builds/mitsirkin/qemu/build/../softmmu/memory.c:492:5
-    #16 0x55c91ac8809a in access_with_adjusted_size /builds/mitsirkin/qemu/build/../softmmu/memory.c:554:18
-    #17 0x55c91ac87e3d in memory_region_dispatch_write /builds/mitsirkin/qemu/build/../softmmu/memory.c
-    #18 0x55c91aca0661 in flatview_write_continue /builds/mitsirkin/qemu/build/../softmmu/physmem.c:2825:23
-    #19 0x55c91ac9da91 in flatview_write /builds/mitsirkin/qemu/build/../softmmu/physmem.c:2867:12
-    #20 0x55c91ac9da91 in address_space_write /builds/mitsirkin/qemu/build/../softmmu/physmem.c:2963:18
-    #21 0x55c91aca4766 in qtest_process_command /builds/mitsirkin/qemu/build/../softmmu/qtest.c
-    #22 0x55c91aca3bfd in qtest_process_inbuf /builds/mitsirkin/qemu/build/../softmmu/qtest.c:796:9
-    #23 0x55c91aedd672 in tcp_chr_read /builds/mitsirkin/qemu/build/../chardev/char-socket.c:508:13
-    #24 0x7f199db120ae in g_main_context_dispatch (/lib64/libglib-2.0.so.0+0x550ae)
-    #25 0x55c91afcfd2c in glib_pollfds_poll /builds/mitsirkin/qemu/build/../util/main-loop.c:297:9
-    #26 0x55c91afcfd2c in os_host_main_loop_wait /builds/mitsirkin/qemu/build/../util/main-loop.c:320:5
-    #27 0x55c91afcfd2c in main_loop_wait /builds/mitsirkin/qemu/build/../util/main-loop.c:596:11
-    #28 0x55c91a826d36 in qemu_main_loop /builds/mitsirkin/qemu/build/../softmmu/runstate.c:739:9
-    #29 0x55c91a3df4e5 in qemu_default_main /builds/mitsirkin/qemu/build/../softmmu/main.c:37:14
-    #30 0x7f199b85aeaf in __libc_start_call_main (/lib64/libc.so.6+0x3feaf)
-    #31 0x7f199b85af5f in __libc_start_main@GLIBC_2.2.5 (/lib64/libc.so.6+0x3ff5f)
-    #32 0x55c91a3b6084 in _start (/builds/mitsirkin/qemu/build/qemu-system-arm+0xc16084)
-UndefinedBehaviorSanitizer can not provide additional info.
-SUMMARY: UndefinedBehaviorSanitizer: SEGV /builds/mitsirkin/qemu/include/qemu/bswap.h:301:5 in ldl_he_p
-==8621==ABORTING
-Broken pipe
-../tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU process but encountered exit status 1 (expected 0)
-**
-ERROR:../tests/qtest/qos-test.c:191:subprocess_run_one_test: child process (/arm/virt/virtio-mmio/virtio-bus/virtio-net-device/virtio-net/virtio-net-tests/vhost-user/flags-mismatch/subprocess [8612]) failed unexpectedly
-(test program exited with status code -6)
-
-
-
-
-
-
-
-> Seems hard to debug, only reproduced under gitlab though Stefan reports
-> reproducing this locally.
-> I'm thinking of dropping this patchset for now, deferring to next
-> release - thoughts?
-> 
-> 
-> 
-> > v3:
-> > - rebase
-> > 
-> > v2:
-> > - add setting status bit VIRTIO_CONFIG_S_FEATURES_OK
-> > - avoid adding status bits already set
-> > 
-> > Yajun Wu (2):
-> >   vhost: Change the sequence of device start
-> >   vhost-user: Support vhost_dev_start
-> > 
-> >  hw/block/vhost-user-blk.c | 18 ++++++----
-> >  hw/net/vhost_net.c        | 12 +++----
-> >  hw/virtio/vhost-user.c    | 74 ++++++++++++++++++++++++++++++++++++++-
-> >  3 files changed, 90 insertions(+), 14 deletions(-)
-> > 
-> > -- 
-> > 2.27.0
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 9ae5a812cd..4d1a14b88f 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -616,38 +616,6 @@ print_semctl(CPUArchState *cpu_env, const struct syscallname *name,
+ }
+ #endif
+ 
+-static void
+-print_execve(CPUArchState *cpu_env, const struct syscallname *name,
+-             abi_long arg1, abi_long arg2, abi_long arg3,
+-             abi_long arg4, abi_long arg5, abi_long arg6)
+-{
+-    abi_ulong arg_ptr_addr;
+-    char *s;
+-
+-    if (!(s = lock_user_string(arg1)))
+-        return;
+-    qemu_log("%s(\"%s\",{", name->name, s);
+-    unlock_user(s, arg1, 0);
+-
+-    for (arg_ptr_addr = arg2; ; arg_ptr_addr += sizeof(abi_ulong)) {
+-        abi_ulong *arg_ptr, arg_addr;
+-
+-        arg_ptr = lock_user(VERIFY_READ, arg_ptr_addr, sizeof(abi_ulong), 1);
+-        if (!arg_ptr)
+-            return;
+-    arg_addr = tswapal(*arg_ptr);
+-        unlock_user(arg_ptr, arg_ptr_addr, 0);
+-        if (!arg_addr)
+-            break;
+-        if ((s = lock_user_string(arg_addr))) {
+-            qemu_log("\"%s\",", s);
+-            unlock_user(s, arg_addr, 0);
+-        }
+-    }
+-
+-    qemu_log("NULL})");
+-}
+-
+ #ifdef TARGET_NR_ipc
+ static void
+ print_ipc(CPUArchState *cpu_env, const struct syscallname *name,
+@@ -1136,6 +1104,16 @@ UNUSED static struct flags clone_flags[] = {
+     FLAG_END,
+ };
+ 
++UNUSED static struct flags execveat_flags[] = {
++#ifdef AT_EMPTY_PATH
++    FLAG_GENERIC(AT_EMPTY_PATH),
++#endif
++#ifdef AT_SYMLINK_NOFOLLOW
++    FLAG_GENERIC(AT_SYMLINK_NOFOLLOW),
++#endif
++    FLAG_END,
++};
++
+ UNUSED static struct flags msg_flags[] = {
+     /* send */
+     FLAG_GENERIC(MSG_CONFIRM),
+@@ -1969,6 +1947,55 @@ print_execv(CPUArchState *cpu_env, const struct syscallname *name,
+ }
+ #endif
+ 
++static void
++print_execve_argv(abi_long argv, int last)
++{
++    abi_ulong arg_ptr_addr;
++    char *s;
++
++    qemu_log("{");
++    for (arg_ptr_addr = argv; ; arg_ptr_addr += sizeof(abi_ulong)) {
++        abi_ulong *arg_ptr, arg_addr;
++
++        arg_ptr = lock_user(VERIFY_READ, arg_ptr_addr, sizeof(abi_ulong), 1);
++        if (!arg_ptr)
++            return;
++        arg_addr = tswapal(*arg_ptr);
++        unlock_user(arg_ptr, arg_ptr_addr, 0);
++        if (!arg_addr)
++            break;
++        if ((s = lock_user_string(arg_addr))) {
++            qemu_log("\"%s\",", s);
++            unlock_user(s, arg_addr, 0);
++        }
++    }
++    qemu_log("NULL}%s", get_comma(last));
++}
++
++static void
++print_execve(CPUArchState *cpu_env, const struct syscallname *name,
++             abi_long arg1, abi_long arg2, abi_long arg3,
++             abi_long arg4, abi_long arg5, abi_long arg6)
++{
++    print_syscall_prologue(name);
++    print_string(arg1, 0);
++    print_execve_argv(arg2, 1);
++    print_syscall_epilogue(name);
++}
++
++static void
++print_execveat(CPUArchState *cpu_env, const struct syscallname *name,
++             abi_long arg1, abi_long arg2, abi_long arg3,
++             abi_long arg4, abi_long arg5, abi_long arg6)
++{
++    print_syscall_prologue(name);
++    print_at_dirfd(arg1, 0);
++    print_string(arg2, 0);
++    print_execve_argv(arg3, 0);
++    print_flags(execveat_flags, arg5, 1);
++    print_syscall_epilogue(name);
++}
++
+ #if defined(TARGET_NR_faccessat) || defined(TARGET_NR_faccessat2)
+ static void
+ print_faccessat(CPUArchState *cpu_env, const struct syscallname *name,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 3df2184580..17d2f0fee8 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -161,7 +161,7 @@
+ { TARGET_NR_execve, "execve" , NULL, print_execve, NULL },
+ #endif
+ #ifdef TARGET_NR_execveat
+-{ TARGET_NR_execveat, "execveat" , NULL, NULL, NULL },
++{ TARGET_NR_execveat, "execveat" , NULL, print_execveat, NULL },
+ #endif
+ #ifdef TARGET_NR_exec_with_loader
+ { TARGET_NR_exec_with_loader, "exec_with_loader" , NULL, NULL, NULL },
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 8402c1399d..38fbbbad6a 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -689,7 +689,8 @@ safe_syscall4(pid_t, wait4, pid_t, pid, int *, status, int, options, \
+ #endif
+ safe_syscall5(int, waitid, idtype_t, idtype, id_t, id, siginfo_t *, infop, \
+               int, options, struct rusage *, rusage)
+-safe_syscall3(int, execve, const char *, filename, char **, argv, char **, envp)
++safe_syscall5(int, execveat, int, dirfd, const char *, filename,
++        char **, argv, char **, envp, int, flags)
+ #if defined(TARGET_NR_select) || defined(TARGET_NR__newselect) || \
+     defined(TARGET_NR_pselect6) || defined(TARGET_NR_pselect6_time64)
+ safe_syscall6(int, pselect6, int, nfds, fd_set *, readfds, fd_set *, writefds, \
+@@ -8349,6 +8350,106 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
+     return safe_openat(dirfd, path(pathname), flags, mode);
+ }
+ 
++static int do_execveat(CPUArchState *cpu_env, int dirfd, abi_long pathname, abi_long guest_argp, abi_long guest_envp, int flags)
++{
++    int ret;
++    char **argp, **envp;
++    int argc, envc;
++    abi_ulong gp;
++    abi_ulong addr;
++    char **q;
++    void *p;
++
++    argc = 0;
++
++    for (gp = guest_argp; gp; gp += sizeof(abi_ulong)) {
++        if (get_user_ual(addr, gp))
++            return -TARGET_EFAULT;
++        if (!addr)
++            break;
++        argc++;
++    }
++    envc = 0;
++    for (gp = guest_envp; gp; gp += sizeof(abi_ulong)) {
++        if (get_user_ual(addr, gp))
++            return -TARGET_EFAULT;
++        if (!addr)
++            break;
++        envc++;
++    }
++
++    argp = g_new0(char *, argc + 1);
++    envp = g_new0(char *, envc + 1);
++
++    for (gp = guest_argp, q = argp; gp;
++          gp += sizeof(abi_ulong), q++) {
++        if (get_user_ual(addr, gp))
++            goto execve_efault;
++        if (!addr)
++            break;
++        if (!(*q = lock_user_string(addr)))
++            goto execve_efault;
++    }
++    *q = NULL;
++
++    for (gp = guest_envp, q = envp; gp;
++          gp += sizeof(abi_ulong), q++) {
++        if (get_user_ual(addr, gp))
++            goto execve_efault;
++        if (!addr)
++            break;
++        if (!(*q = lock_user_string(addr)))
++            goto execve_efault;
++    }
++    *q = NULL;
++
++    /* Although execve() is not an interruptible syscall it is
++     * a special case where we must use the safe_syscall wrapper:
++     * if we allow a signal to happen before we make the host
++     * syscall then we will 'lose' it, because at the point of
++     * execve the process leaves QEMU's control. So we use the
++     * safe syscall wrapper to ensure that we either take the
++     * signal as a guest signal, or else it does not happen
++     * before the execve completes and makes it the other
++     * program's problem.
++     */
++    if (!(p = lock_user_string(pathname)))
++        goto execve_efault;
++
++    if (is_proc_myself(p, "exe")) {
++        ret = get_errno(safe_execveat(dirfd, exec_path, argp, envp, flags));
++    } else {
++        ret = get_errno(safe_execveat(dirfd, p, argp, envp, flags));
++    }
++
++    unlock_user(p, pathname, 0);
++
++    goto execve_end;
++
++execve_efault:
++    ret = -TARGET_EFAULT;
++
++execve_end:
++    for (gp = guest_argp, q = argp; *q;
++          gp += sizeof(abi_ulong), q++) {
++        if (get_user_ual(addr, gp)
++            || !addr)
++            break;
++        unlock_user(*q, addr, 0);
++    }
++    for (gp = guest_envp, q = envp; *q;
++          gp += sizeof(abi_ulong), q++) {
++        if (get_user_ual(addr, gp)
++            || !addr)
++            break;
++        unlock_user(*q, addr, 0);
++    }
++
++    g_free(argp);
++    g_free(envp);
++    return ret;
++}
++
+ #define TIMER_MAGIC 0x0caf0000
+ #define TIMER_MAGIC_MASK 0xffff0000
+ 
+@@ -8846,104 +8947,10 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         unlock_user(p, arg2, 0);
+         return ret;
+ #endif
++    case TARGET_NR_execveat:
++        return do_execveat(cpu_env, arg1, arg2, arg3, arg4, arg5);
+     case TARGET_NR_execve:
+-        {
+-            char **argp, **envp;
+-            int argc, envc;
+-            abi_ulong gp;
+-            abi_ulong guest_argp;
+-            abi_ulong guest_envp;
+-            abi_ulong addr;
+-            char **q;
+-
+-            argc = 0;
+-            guest_argp = arg2;
+-            for (gp = guest_argp; gp; gp += sizeof(abi_ulong)) {
+-                if (get_user_ual(addr, gp))
+-                    return -TARGET_EFAULT;
+-                if (!addr)
+-                    break;
+-                argc++;
+-            }
+-            envc = 0;
+-            guest_envp = arg3;
+-            for (gp = guest_envp; gp; gp += sizeof(abi_ulong)) {
+-                if (get_user_ual(addr, gp))
+-                    return -TARGET_EFAULT;
+-                if (!addr)
+-                    break;
+-                envc++;
+-            }
+-
+-            argp = g_new0(char *, argc + 1);
+-            envp = g_new0(char *, envc + 1);
+-
+-            for (gp = guest_argp, q = argp; gp;
+-                  gp += sizeof(abi_ulong), q++) {
+-                if (get_user_ual(addr, gp))
+-                    goto execve_efault;
+-                if (!addr)
+-                    break;
+-                if (!(*q = lock_user_string(addr)))
+-                    goto execve_efault;
+-            }
+-            *q = NULL;
+-
+-            for (gp = guest_envp, q = envp; gp;
+-                  gp += sizeof(abi_ulong), q++) {
+-                if (get_user_ual(addr, gp))
+-                    goto execve_efault;
+-                if (!addr)
+-                    break;
+-                if (!(*q = lock_user_string(addr)))
+-                    goto execve_efault;
+-            }
+-            *q = NULL;
+-
+-            if (!(p = lock_user_string(arg1)))
+-                goto execve_efault;
+-            /* Although execve() is not an interruptible syscall it is
+-             * a special case where we must use the safe_syscall wrapper:
+-             * if we allow a signal to happen before we make the host
+-             * syscall then we will 'lose' it, because at the point of
+-             * execve the process leaves QEMU's control. So we use the
+-             * safe syscall wrapper to ensure that we either take the
+-             * signal as a guest signal, or else it does not happen
+-             * before the execve completes and makes it the other
+-             * program's problem.
+-             */
+-            if (is_proc_myself(p, "exe")) {
+-                ret = get_errno(safe_execve(exec_path, argp, envp));
+-            } else {
+-                ret = get_errno(safe_execve(p, argp, envp));
+-            }
+-            unlock_user(p, arg1, 0);
+-
+-            goto execve_end;
+-
+-        execve_efault:
+-            ret = -TARGET_EFAULT;
+-
+-        execve_end:
+-            for (gp = guest_argp, q = argp; *q;
+-                  gp += sizeof(abi_ulong), q++) {
+-                if (get_user_ual(addr, gp)
+-                    || !addr)
+-                    break;
+-                unlock_user(*q, addr, 0);
+-            }
+-            for (gp = guest_envp, q = envp; *q;
+-                  gp += sizeof(abi_ulong), q++) {
+-                if (get_user_ual(addr, gp)
+-                    || !addr)
+-                    break;
+-                unlock_user(*q, addr, 0);
+-            }
+-
+-            g_free(argp);
+-            g_free(envp);
+-        }
+-        return ret;
++        return do_execveat(cpu_env, AT_FDCWD, arg1, arg2, arg3, 0);
+     case TARGET_NR_chdir:
+         if (!(p = lock_user_string(arg1)))
+             return -TARGET_EFAULT;
+-- 
+2.38.1
 
 
