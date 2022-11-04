@@ -2,97 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0B4619F8A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 19:17:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E642061A05A
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 19:54:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1or1EJ-00055b-Db; Fri, 04 Nov 2022 14:15:47 -0400
+	id 1or1oj-0002vk-RT; Fri, 04 Nov 2022 14:53:25 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1or1EE-00054t-RU
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 14:15:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1or1EC-0000yD-E5
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 14:15:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667585738;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0QNaoZvbFH82nNfHOVqtODbOGLDI8ukR9cpbm9+T3IQ=;
- b=RVKODDxpe9lYk0E9OqTUSfwL8svfqH+ZSuPWIFrR+YBIRxHiVLNEtOvjOSF0c1iG6woeSq
- MlE5EUs2yRFS/V15NmpF/TM3CGUGzWIwJo1jVOOptWd5jszHCOs2xebcehUTuvr0Y4dPKW
- EsTfoYsDVh91i/eo7bQ/4WwkK4u2mN8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-435-2Zh35QvKOIiriNnC6yQUPA-1; Fri, 04 Nov 2022 14:15:36 -0400
-X-MC-Unique: 2Zh35QvKOIiriNnC6yQUPA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- l42-20020a05600c1d2a00b003cf8e70c1ecso1086666wms.4
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 11:15:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1or1oh-0002uq-3K
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 14:53:23 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1or1of-000657-JD
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 14:53:22 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ f5-20020a17090a4a8500b002131bb59d61so8080887pjh.1
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 11:53:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=i9oKGR3dFj8eHeA7Ntn9YaUWFVgkAsTJGd3eqM2jUTw=;
+ b=xiWf9OIUUs9DtfZ9DK7B4x3SwUziDn9XTbpL6cCXB8x01mL9fj5QJxqqeo+Z+OESsj
+ bq357ZAmp4XgOXnLWutUl2v9T19MkgQd2DdAq3XxhjYpXgf3kCpCvJ4fziDEtNCWB+D1
+ 1Fh0qsM03PyiAllarNUrENuctal9HxfoJspVnai5PWY43+3PaGQ7aQOQxw8vuT0q8Ptx
+ bmWmz5/B+G4ICLI6SSFyS96dx06DC+ym/VRGLVcd8//No0nx8mjWZszYKpFjggiyT5iZ
+ 6otu6UOMnrcNc9wVUjJBXR9kLYoPNZuzrD3RqVnKL0goq5s5XiVPJUBLOCwxOOEgSBvV
+ pDOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0QNaoZvbFH82nNfHOVqtODbOGLDI8ukR9cpbm9+T3IQ=;
- b=e3z93vVg76UJIfqmvQVdvw2GM1bUHBJFAmLLD71cSl3mQufvREKlPXjD6HUxrEl48P
- wrViTU337TAoFt8VsW4ny264sb4I4eU4DTwtZncFP0sSNfsUfM1a3OIGFE52H/apw+CM
- DpAjjc+TqSX3WupB79kETGdfLlqB+Y3X05YDp/4dBNJmBdRT9FWpHJKL6DyYODxm9yiV
- mOpSxl+KNHfmV5POYBYmVPuzJweF2UukArikr2SvH8Q6A22E7fcdcSbDbuzy/XxsObFb
- g+lgDmVobL/3Aq0qqwmXkR/EwgCt3U5afi7zL2sg+wGjI1Qlt0ESLHYhW0DiLyxazA2h
- lNfQ==
-X-Gm-Message-State: ACrzQf12XJzNIq8v75XCPxQeng+KIOeFzaLJcYDWDL5nl4YlKEoXIgVh
- wDA8MGQ3o1HabKbY7hI3Rpbh7VW7eK98FsADR5QHlOWN6IgeUd42btFUvkkbFBr1SuC4yNojzT0
- f13DVCiFekMmoFhE=
-X-Received: by 2002:a05:6000:1566:b0:236:6a6f:6c27 with SMTP id
- 6-20020a056000156600b002366a6f6c27mr23452660wrz.553.1667585735095; 
- Fri, 04 Nov 2022 11:15:35 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6lpH8G09cP8rMhd3X60IvNI4rnRMZTxTxGVqgWuC3/LuZqthhEIeW8j41ABnvgIxRO6ytOrQ==
-X-Received: by 2002:a05:6000:1566:b0:236:6a6f:6c27 with SMTP id
- 6-20020a056000156600b002366a6f6c27mr23452644wrz.553.1667585734864; 
- Fri, 04 Nov 2022 11:15:34 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-177-201.web.vodafone.de.
- [109.43.177.201]) by smtp.gmail.com with ESMTPSA id
- n17-20020a05600c4f9100b003c701c12a17sm3857478wmq.12.2022.11.04.11.15.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Nov 2022 11:15:34 -0700 (PDT)
-Message-ID: <daa4cc28-2635-23fb-d176-ca5515893bf2@redhat.com>
-Date: Fri, 4 Nov 2022 19:15:32 +0100
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=i9oKGR3dFj8eHeA7Ntn9YaUWFVgkAsTJGd3eqM2jUTw=;
+ b=mKPXc8BHlMHwZopOESEE+w5PnUrCANeRxRfEDV8XfVD4MoDVQtdZ+pnKi0UqKHiyb9
+ 1+khF/zUn2lIO/ExwXxbf43McvbmSabVkRttRrVPtoDBKUo0zhAl+9fiVa+5hzbkGmaJ
+ i0iI0/twlRLK9oC2rHI2ojR9z8RQNhQid5XvBWNCGUA8O8q1+Di8VuXNLyvR6Gi2cugj
+ nXKqV3xJXUYnYzcLA3i5E6xizq+lJ8UssrA6CNJh7eFlmx+JBJpur3kPVWeSwWxHJGGl
+ VNApCNQiAKX0ATRdxf30QcxV7toTo9J6vX0K9GL5yZx2b3qfzWJwznQ30lPYTvalgE2y
+ sjhA==
+X-Gm-Message-State: ACrzQf3r66lwfyAqHESHDMD8PwyVZyx9qfF7ZAWzUvL7OT5j6Xm0B2z0
+ DuuSJqBeOzB5DcEqPHc28vIg1PwXZmfqX604UcS7SI4r3zY2rQ==
+X-Google-Smtp-Source: AMsMyM59sytolC9n0CNF7mAdJa6R3aM0P/KZyO18sZRRfQSKSpMOsQ1G+7x6v8eYHpHjzQNg5vKj8//x4uwjfjDwQ2w=
+X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
+ jm23-20020a17090304d700b001788564f754mr36958812plb.60.1667587999265; Fri, 04
+ Nov 2022 11:53:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] tests/qtest/ac97-test: add up-/downsampling tests
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-References: <20221022160052.1132-1-vr_qemu@t-online.de>
- <CAJ+F1CLjiCs4zSxSpr_OPWDM9_xCC0YfJTL_82umDB-rX6aW3Q@mail.gmail.com>
- <b3c5e4b6-0208-0b0d-fef4-b536ce889dfc@t-online.de>
- <CAJ+F1C+HmS7Y8Wu88uwr5DVcspstGS+MMFAH_QB5Cd3LiVxoNA@mail.gmail.com>
- <9f4b112e-c687-2846-3cee-2f130847dd51@t-online.de>
- <8ff8d033-9394-d114-6145-e36707dc9056@redhat.com>
- <f8e296e2-8be6-cb62-49c2-bc1b636cf8c6@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <f8e296e2-8be6-cb62-49c2-bc1b636cf8c6@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 4 Nov 2022 18:53:07 +0000
+Message-ID: <CAFEAcA-uLCqTGRPv4KLkc8b4j0QDhx5CFrspcSF+W1NdTDHN1g@mail.gmail.com>
+Subject: Intermittent hang on x86 replay avocado test?
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,73 +83,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 04/11/2022 18.56, Philippe Mathieu-Daudé wrote:
-> On 4/11/22 18:33, Thomas Huth wrote:
->> On 26/10/2022 21.34, Volker Rümelin wrote:
->>> Am 25.10.22 um 09:44 schrieb Marc-André Lureau:
->>>> Hi
->>>>
->>>> On Tue, Oct 25, 2022 at 12:31 AM Volker Rümelin<vr_qemu@t-online.de> wrote:
->>>>> Am 24.10.22 um 10:13 schrieb Marc-André Lureau:
->>>>>> Hi
->>>>>>
->>>>>> On Mon, Oct 24, 2022 at 9:28 AM Volker Rümelin<vr_qemu@t-online.de>
->>>>>> wrote:
->>>>>>
->>>>>>      Test if the audio subsystem can handle extreme up- and down-
->>>>>>      sampling ratios like 44100/1 and 1/44100. For some time these
->>>>>>      used to trigger QEMU aborts. The test was taken from
->>>>>>      https://gitlab.com/qemu-project/qemu/-/issues/71  where it was
->>>>>>      used to demonstrate a very different issue.
->>>>>>
->>>>>>      Suggested-by: Marc-André Lureau<marcandre.lureau@redhat.com>
->>>>>>      Signed-off-by: Volker Rümelin<vr_qemu@t-online.de>
->>>>>>
->>>>>>
->>>>>> Thanks for working on this
->>>>>>
->>>>>> It seems to show something different though:
->>>>>> "
->>>>>> A bug was just triggered in audio_calloc
->>>>>> Save all your work and restart without audio
->>>>>> I am sorry
->>>>>> "
->>>>>>
->>>>>> AUD_open_out() is called with audsettings: {freq = 1, nchannels = 2,
->>>>>> fmt = AUDIO_FORMAT_S16, endianness = 0}
->>>>>>
->>>>>> And that's it. Any idea?
->>>>> Hi,
->>>>>
->>>>> the scary message is expected and doesn't mean this qos-test failed.
->>>>> This is the currently not so silent 'the audio subsystem should (...)
->>>>> silently give up' case.
->>>> Ok, but it's not silent. According to the AC97 spec, "if the value
->>>> written to the register is supported that value will be echoed back
->>>> when read, otherwise the closest (higher in case of a tie) sample rate
->>>> supported is returned". We should probably pick a low sample rate,
->>>> like 8000 (see Table 32 in spec 2.1) for anything below it.
->>>
->>> Hi,
->>>
->>> I don't think we should limit the lowest sample rate to 8000 Hz. The 
->>> sample rates in AC97 revision 2.1 Table 32 are sample rates the codec 
->>> should support at minimum. We are free to support the whole 1-65535 Hz 
->>> sample rate range.
->>
->> FWIW, a minimum sample rate of 1 Hz also does not make much sense. You 
->> cannot hear that frequency anymore... so it does not really make that much 
->> sense to support such low frequencies here. Just my 0.02 €.
-> 
-> Still useful when using a sound card as signal generator, i.e.:
-> https://www.allaboutcircuits.com/technical-articles/how-to-use-your-computer-as-an-arbitrary-waveform-generator/ 
+On my machine this avocado test:
 
-I dare to say that you can reproduce low frequency wave forms with higher 
-sample rates, too. In the example on that page, the author also reproduces a 
-signal with the rate of 441 Hz with a sample rate of 22050 Hz, so I do not 
-really see your point here why lower sample rates should still be useful here.
+./build/all/tests/venv/bin/avocado run
+./build/all/tests/avocado/replay_kernel.py:ReplayKernelNormal.test_x86_64_pc
 
-  Thomas
+seems to hang intermittently (maybe 1 time in 3?).
 
+Does anybody else see this? Looking at the avocado logs suggests
+the record part runs fine but the replay part hangs very early
+in the kernel bootup. (Or possibly Avocado has got confused and
+isn't logging all the output.)
 
+I couldn't trigger it outside avocado.
+
+thanks
+-- PMM
 
