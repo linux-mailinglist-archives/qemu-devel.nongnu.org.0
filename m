@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3508A619578
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 12:37:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1531A619572
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 12:36:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oquyu-0001Bz-CX; Fri, 04 Nov 2022 07:35:28 -0400
+	id 1oquyw-0001F3-S2; Fri, 04 Nov 2022 07:35:30 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oquyr-0001Af-NC
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:25 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ id 1oquys-0001BP-AR
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:26 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oquyp-000858-Tf
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:25 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id v1so6629999wrt.11
+ id 1oquyq-00086G-4g
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:26 -0400
+Received: by mail-wr1-x430.google.com with SMTP id v1so6630064wrt.11
  for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 04:35:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=rEqx4pUAyvcNCFw109Z//pIeNENb6Z5peeqvuKyFDlg=;
- b=GO4S1Crt0+leZ3f2QF5c7B6Mtn03OXb9a3Rd89djx/6cdOk08SrGN0immgDh+FqoTD
- QIB11iDi8MRJdvw4zyoVO5Vfpd8MtI9BeE0ddKl/IR3aVjz14VyJlNmPP4fizCZSJkcf
- imXM59/IO/Gdk7WFRE3TABld9Qbzgqy7RbZnd3x9PhL0VD39f4mIRyNzsN8T6bRpKu8f
- mCGCAUm1gbvwpi7kgHcHusW/qp4gv/23iJZ24hidL0Jyi3zYxDBEcfVcE+k/Oienn1JW
- R9pz9Tvvql+6LJeIvzbTEK1BSbDb5zEnj7gwXLBxFfILG3HD9Fx0JL6W04jPWM65R/GC
- TQ/w==
+ :reply-to; bh=gsbbbX/qa9xmeVzw5HZUsZ9ZpD/YYuH0dDHJDSfXWZQ=;
+ b=ZeOHCQRrtNzIKgpELT9ADoKjafjVr+WCyoXI8lZ7l/sxpIfTL+3xnIFQQ2wUnYoVmV
+ fuxV1NQ24BuM25YBsEEDr8BM8jcSq7UJYXO+3v3URbmkD1eFi4BYsXytzScstpTaXMgx
+ GE22Cq2eaqRpBOPms5KSETdDeu7cfg5+VN372yWfyKNvgGXhp3Tf95ZBxGWpYs+VeYqo
+ tMQOsvXkZD2815b7WuZezoI8AfIdVQoYKiuISqRZs1AATqyT48XPWu98ixLfFLV6FXsH
+ aumtmfsV6TLR6E116WSMrGUe4zippnPnfLODP3VVa10GoK44uX+1BLCPez8kG3a7Y82A
+ nMAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rEqx4pUAyvcNCFw109Z//pIeNENb6Z5peeqvuKyFDlg=;
- b=dnX5OFYcIsctNSU/K1A2kdmK1cY5aY7r+Bcq7wrIqg3RplAgWJg1a5KgFMVbxeeKgx
- ceensm6R2rBzqG2HvxPa8BgQl3H1gn7lWRA2ZiUOmYmO0KEBQf74qKpul613mNDic2Se
- Ooh7Q1JdZdo95B+91vvOaUH+y/AQMyAh78DPwFoYP9eKMj4iEW/iBKMSEjWyLBah9mPe
- YFSBM6mgakPjPtQdEOEaN44mReDKtvzQlx4uPcM8Q/BH2HMO+5wDdPqVHgAuG+QdXgKP
- vERv9XlvmICiwwSJYSS0LJrGZGDM2wp0EgncVc0uffHg5ZeoQLOH9dMvKV7XfX2AQ9uN
- eaVA==
-X-Gm-Message-State: ACrzQf3THxET0kcL34R3sD2M+mBphvXw4/X4xO9jA+1gjOMHhK0p1eDQ
- w82eissjbnm7MHywMOh3JADwBZhg0tzAdQ==
-X-Google-Smtp-Source: AMsMyM6I+d9DosjM0zqIFL452k15FZxHssemXD1WfmSOz8MTmtbNdfFTqM00zKHjYEKSb8XpHdSeKg==
-X-Received: by 2002:a5d:4f8d:0:b0:236:714b:29f0 with SMTP id
- d13-20020a5d4f8d000000b00236714b29f0mr21052319wru.145.1667561721325; 
- Fri, 04 Nov 2022 04:35:21 -0700 (PDT)
+ bh=gsbbbX/qa9xmeVzw5HZUsZ9ZpD/YYuH0dDHJDSfXWZQ=;
+ b=h693VYy/Cbr4IglNEG93KtbqCn/1RqV9da8ktEIYz4fCAH5gZswGD9fyJaUcxHra23
+ OicSMHtVMNAF0+aeGbsLO2Y9q1+jp4rdf6Gj/s41Ub6NhHf6WwtMqqY/uJuZfw8MzAXw
+ RPpwJtfVZtr9vnxRJg64+qARUWL/oSXb40mieDsdyVdg7z2LOr11gMZ5W6Zum7IO6BPT
+ cWH4LshrQxCPFdteUoHE8HHKs+REySMuaLDikupT1LCHSmB475r6OvmfZmkavCvZyBtQ
+ wAHi3ZhQPaaqQxym5MEyPm1nfgTvubcYQnR3e5Ki8YA/nti+JfUZZVUlx6biuH+r2286
+ 3ffw==
+X-Gm-Message-State: ANoB5pkd0RHRpavz1RkA+AoYG7YIjTHKMuJCGGfRrEkkzRYy5jcKE296
+ nwJgwSDzUtrlJLiWrFJoFRh5/rE/FE6m6w==
+X-Google-Smtp-Source: AA0mqf4s/FUqKF9myTrYg05tSzQ9bXp75jlQQv7akJ+/EFqUe5daqLKnIzDNZ1crC1qfOq8boYxFGA==
+X-Received: by 2002:adf:f60f:0:b0:23a:d94d:40d1 with SMTP id
+ t15-20020adff60f000000b0023ad94d40d1mr1581875wrp.18.1667561722499; 
+ Fri, 04 Nov 2022 04:35:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- g17-20020a5d4891000000b0023655e51c33sm3255743wrq.4.2022.11.04.04.35.20
+ g17-20020a5d4891000000b0023655e51c33sm3255743wrq.4.2022.11.04.04.35.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 04:35:20 -0700 (PDT)
+ Fri, 04 Nov 2022 04:35:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/7] target/arm: Make TLBIOS and TLBIRANGE ops trap on
- HCR_EL2.TTLB
-Date: Fri,  4 Nov 2022 11:35:11 +0000
-Message-Id: <20221104113515.2278508-4-peter.maydell@linaro.org>
+Subject: [PULL 4/7] target/arm: Fix Privileged Access Never (PAN) for aarch32
+Date: Fri,  4 Nov 2022 11:35:12 +0000
+Message-Id: <20221104113515.2278508-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221104113515.2278508-1-peter.maydell@linaro.org>
 References: <20221104113515.2278508-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,119 +88,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The HCR_EL2.TTLB bit is supposed to trap all EL1 execution of TLB
-maintenance instructions.  However we have added new TLB insns for
-FEAT_TLBIOS and FEAT_TLBIRANGE, and forgot to set their accessfn to
-access_ttlb.  Add the missing accessfns.
+From: Timofey Kutergin <tkutergin@gmail.com>
 
+When we implemented the PAN support we theoretically wanted
+to support it for both AArch32 and AArch64, but in practice
+several bugs made it essentially unusable with an AArch32
+guest. Fix all those problems:
+
+    - Use CPSR.PAN to check for PAN state in aarch32 mode
+    - throw permission fault during address translation when PAN is
+      enabled and kernel tries to access user acessible page
+    - ignore SCTLR_XP bit for armv7 and armv8 (conflicts with SCTLR_SPAN).
+
+Signed-off-by: Timofey Kutergin <tkutergin@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20221027112619.2205229-1-tkutergin@gmail.com
+[PMM: tweak commit message]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 36 ++++++++++++++++++------------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ target/arm/helper.c | 13 +++++++++++--
+ target/arm/ptw.c    | 35 ++++++++++++++++++++++++++++++-----
+ 2 files changed, 41 insertions(+), 7 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index b070a20f1ad..efbdc657a2d 100644
+index efbdc657a2d..077581187e7 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6717,51 +6717,51 @@ static const ARMCPRegInfo pauth_reginfo[] = {
- static const ARMCPRegInfo tlbirange_reginfo[] = {
-     { .name = "TLBI_RVAE1IS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 2, .opc2 = 1,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1is_write },
-     { .name = "TLBI_RVAAE1IS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 2, .opc2 = 3,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1is_write },
-    { .name = "TLBI_RVALE1IS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 2, .opc2 = 5,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1is_write },
-     { .name = "TLBI_RVAALE1IS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 2, .opc2 = 7,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1is_write },
-     { .name = "TLBI_RVAE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 1,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1is_write },
-     { .name = "TLBI_RVAAE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 3,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1is_write },
-    { .name = "TLBI_RVALE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 5,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1is_write },
-     { .name = "TLBI_RVAALE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 7,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1is_write },
-     { .name = "TLBI_RVAE1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 1,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1_write },
-     { .name = "TLBI_RVAAE1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 3,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1_write },
-    { .name = "TLBI_RVALE1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 5,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1_write },
-     { .name = "TLBI_RVAALE1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 6, .opc2 = 7,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_rvae1_write },
-     { .name = "TLBI_RIPAS2E1IS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 0, .opc2 = 2,
-@@ -6832,27 +6832,27 @@ static const ARMCPRegInfo tlbirange_reginfo[] = {
- static const ARMCPRegInfo tlbios_reginfo[] = {
-     { .name = "TLBI_VMALLE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 0,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vmalle1is_write },
-     { .name = "TLBI_VAE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 1,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1is_write },
-     { .name = "TLBI_ASIDE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 2,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vmalle1is_write },
-     { .name = "TLBI_VAAE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 3,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1is_write },
-     { .name = "TLBI_VALE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 5,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1is_write },
-     { .name = "TLBI_VAALE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 7,
--      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .access = PL1_W, .accessfn = access_ttlb, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vae1is_write },
-     { .name = "TLBI_ALLE2OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 1, .opc2 = 0,
+@@ -11003,6 +11003,15 @@ ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
+ }
+ #endif
+ 
++static bool arm_pan_enabled(CPUARMState *env)
++{
++    if (is_a64(env)) {
++        return env->pstate & PSTATE_PAN;
++    } else {
++        return env->uncached_cpsr & CPSR_PAN;
++    }
++}
++
+ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
+ {
+     ARMMMUIdx idx;
+@@ -11023,7 +11032,7 @@ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
+         }
+         break;
+     case 1:
+-        if (env->pstate & PSTATE_PAN) {
++        if (arm_pan_enabled(env)) {
+             idx = ARMMMUIdx_E10_1_PAN;
+         } else {
+             idx = ARMMMUIdx_E10_1;
+@@ -11032,7 +11041,7 @@ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
+     case 2:
+         /* Note that TGE does not apply at EL2.  */
+         if (arm_hcr_el2_eff(env) & HCR_E2H) {
+-            if (env->pstate & PSTATE_PAN) {
++            if (arm_pan_enabled(env)) {
+                 idx = ARMMMUIdx_E20_2_PAN;
+             } else {
+                 idx = ARMMMUIdx_E20_2;
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index 58a7bbda505..e04dccff44f 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -503,12 +503,11 @@ static bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
+  * @mmu_idx:     MMU index indicating required translation regime
+  * @ap:          The 3-bit access permissions (AP[2:0])
+  * @domain_prot: The 2-bit domain access permissions
++ * @is_user: TRUE if accessing from PL0
+  */
+-static int ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx,
+-                         int ap, int domain_prot)
++static int ap_to_rw_prot_is_user(CPUARMState *env, ARMMMUIdx mmu_idx,
++                         int ap, int domain_prot, bool is_user)
+ {
+-    bool is_user = regime_is_user(env, mmu_idx);
+-
+     if (domain_prot == 3) {
+         return PAGE_READ | PAGE_WRITE;
+     }
+@@ -552,6 +551,20 @@ static int ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx,
+     }
+ }
+ 
++/*
++ * Translate section/page access permissions to page R/W protection flags
++ * @env:         CPUARMState
++ * @mmu_idx:     MMU index indicating required translation regime
++ * @ap:          The 3-bit access permissions (AP[2:0])
++ * @domain_prot: The 2-bit domain access permissions
++ */
++static int ap_to_rw_prot(CPUARMState *env, ARMMMUIdx mmu_idx,
++                         int ap, int domain_prot)
++{
++   return ap_to_rw_prot_is_user(env, mmu_idx, ap, domain_prot,
++                                regime_is_user(env, mmu_idx));
++}
++
+ /*
+  * Translate section/page access permissions to page R/W protection flags.
+  * @ap:      The 2-bit simple AP (AP[2:1])
+@@ -720,6 +733,7 @@ static bool get_phys_addr_v6(CPUARMState *env, S1Translate *ptw,
+     hwaddr phys_addr;
+     uint32_t dacr;
+     bool ns;
++    int user_prot;
+ 
+     /* Pagetable walk.  */
+     /* Lookup l1 descriptor.  */
+@@ -831,8 +845,10 @@ static bool get_phys_addr_v6(CPUARMState *env, S1Translate *ptw,
+                 goto do_fault;
+             }
+             result->f.prot = simple_ap_to_rw_prot(env, mmu_idx, ap >> 1);
++            user_prot = simple_ap_to_rw_prot_is_user(ap >> 1, 1);
+         } else {
+             result->f.prot = ap_to_rw_prot(env, mmu_idx, ap, domain_prot);
++            user_prot = ap_to_rw_prot_is_user(env, mmu_idx, ap, domain_prot, 1);
+         }
+         if (result->f.prot && !xn) {
+             result->f.prot |= PAGE_EXEC;
+@@ -842,6 +858,14 @@ static bool get_phys_addr_v6(CPUARMState *env, S1Translate *ptw,
+             fi->type = ARMFault_Permission;
+             goto do_fault;
+         }
++        if (regime_is_pan(env, mmu_idx) &&
++            !regime_is_user(env, mmu_idx) &&
++            user_prot &&
++            access_type != MMU_INST_FETCH) {
++            /* Privileged Access Never fault */
++            fi->type = ARMFault_Permission;
++            goto do_fault;
++        }
+     }
+     if (ns) {
+         /* The NS bit will (as required by the architecture) have no effect if
+@@ -2773,7 +2797,8 @@ static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
+     if (regime_using_lpae_format(env, mmu_idx)) {
+         return get_phys_addr_lpae(env, ptw, address, access_type, false,
+                                   result, fi);
+-    } else if (regime_sctlr(env, mmu_idx) & SCTLR_XP) {
++    } else if (arm_feature(env, ARM_FEATURE_V7) ||
++               regime_sctlr(env, mmu_idx) & SCTLR_XP) {
+         return get_phys_addr_v6(env, ptw, address, access_type, result, fi);
+     } else {
+         return get_phys_addr_v5(env, ptw, address, access_type, result, fi);
 -- 
 2.25.1
 
