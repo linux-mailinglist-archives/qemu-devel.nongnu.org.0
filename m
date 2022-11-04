@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 264A2619EE9
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 18:37:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A5E619EE6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 18:37:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1or0cd-0000HT-AU; Fri, 04 Nov 2022 13:36:51 -0400
+	id 1or0cj-0000Mi-HB; Fri, 04 Nov 2022 13:36:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1or0cb-0000Eh-AZ
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 13:36:49 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1or0ch-0000Ls-AM
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 13:36:55 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1or0cZ-0003vm-Hh
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 13:36:48 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- v124-20020a1cac82000000b003cf7a4ea2caso5858411wme.5
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 10:36:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1or0ce-0003w4-H0
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 13:36:55 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id o4so8041108wrq.6
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 10:36:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ySa/ES1xlmucJALkQqyY4MyTUUQjejtiY/uWInOLY+4=;
- b=SK6pmIJRsk8psOxrmc2Va0Ka7wocLvkL/vtltbKUjsIiyAaTzQzGaFnryr8O50sVR+
- oBMt1mrtkQiEukvXmJyWW4ZvsDReaRF11eTMOJjBhaHW3BZ0jVVjn0YWjk9ReaKlCLKA
- J6pki4HsFSIWAD6xUO2ULqv8CZic3PCzpPLAryOn4U8eVGuhjjntKP9aiHGJTiRDmSX1
- zaPi8gt2nT3eRf8/pku+e0RfNq6DQOnEIuEtdMwz/bqInEk7Oj5Pza3JE6QpH4at25d2
- rR7m+fthDAuL26QMeuHFKyhFqb0Cr27pJMADItClys10z/e3lQh1KAlCsD32qpPO2omO
- v7tw==
+ bh=N+83DGVTzGZnIoL+PWZmwCaL/Wjexo+oA9y1TGSpj+Y=;
+ b=TiHz2TQNPQvcMplUXUSZZgHPYRtQ39YAmL0Z7xong3kRTMGXtw5v9HxHXrw1CiaiA1
+ OrBuvlW1YcdKuxkiH6Q2D8+cOWXhzL3IQcdu3mgEmvzmcivEc8R9qNSPce6XtFCR0hKL
+ TXT01QxQrSSvRvHBlKCJ18u8wtUmHsihD2H0ykX1nsVQBhCDsJrfG7jFod3JxcE/KfWf
+ w9V2d3nXmvFUO+cDD8o/vUpjT4PEx+a4ewRFvD0YWYTaymisJ0ISY5iC6wxkDdo6AYEi
+ SzE91R/vhKMWDm3S8pKBRSmMiltmN1GsTJ5bJH+St6u9CwYuSVW17VFy1bkG4km8YlAA
+ f0sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ySa/ES1xlmucJALkQqyY4MyTUUQjejtiY/uWInOLY+4=;
- b=FuRrSRrWKF83y2LHQO6BXVh3p0r9m71hc9bAaVy1nksH6RFlS09qvWNqh+C0uhTz1r
- N1ICBfbV792fENCmCbKMzLi/CoUyFeijxRjAievyCwHoQRReYd8FBJlLO07rwcLPHMO/
- MCK6tVBRH+44PclsdlslbhhSBoYxEemg2w+nVyNmVcbliZQO0/dvldndWM//kwe4VimU
- QnWswv9epGJ6kIbHmGaVqVXpzwD+MpJDUnsZCnKkoeMtpgGnLPydnSDSN42hGs+QSFox
- VVeHkmY/stdsalTBOTjurzEXxLuQpAgVH4FAotQLrao7e1H+DPD5hVOtnWY12HUjPSZt
- oq0Q==
-X-Gm-Message-State: ACrzQf1umsSfOQWP/M8wqQyNbGEFNCDvqmBcDujsbhOm7IvFw8qPLfuq
- kKxvLCGFaIBARvL6LF3Ufzzb1ibD9eC9Dw==
-X-Google-Smtp-Source: AMsMyM6dSZAV/rHO+C0EsJs5FqoHvpz9Bwy50ahjBAsjPTXnWhW95aVsA4ebLd7ko1um2faAr+3Z7g==
-X-Received: by 2002:a1c:c901:0:b0:3cf:6fdb:3367 with SMTP id
- f1-20020a1cc901000000b003cf6fdb3367mr20427783wmb.119.1667583405907; 
- Fri, 04 Nov 2022 10:36:45 -0700 (PDT)
+ bh=N+83DGVTzGZnIoL+PWZmwCaL/Wjexo+oA9y1TGSpj+Y=;
+ b=Sz1RPLx/jRJb/BaDN2LqLyd4TjK2lwpHHaeeFCD4QWXzmqHHhLZAAgzj5b60CB2sVk
+ qVmAVS/6+ARalRyMyGlPhgVxpEC2kMf975B4eOksS/Q1LwD0PDFHej+EwWx5NZhIHYjX
+ z/L+TfYxXg8b5xomqEpBw1/Lf/kQtkt8VmSg83kgJXub9QfNjlw0JVkAx4sGMaSTnmJq
+ fhZQbnVy9XUfcurnYAwv1NqGaPwcxzYBKegM6Z8mAbPeYw2qNko17/8lG+FOs9y1jF+a
+ Al2+QVD4YqvVuXh32q98KaCMu5RCdaUbxkC8UtT5rM00FX9tOlfTYPMJSXs300oM9XW/
+ Sikg==
+X-Gm-Message-State: ACrzQf3cdAHVUGsaSesFESJ25TA66h2ApoQXDfhbMOR8BdxfpOLQfTcQ
+ 3TkmjoxKTA5p4YaLEE9MmpMHEgv9OC06xQ==
+X-Google-Smtp-Source: AMsMyM5BkRR2kTbO775dgKM+64S9JNGPZLnfjhXLvIxcEOMbgbx+vgSeSHEeoiVvgiNltsmcOer0vQ==
+X-Received: by 2002:adf:a348:0:b0:236:beb8:9698 with SMTP id
+ d8-20020adfa348000000b00236beb89698mr19540285wrb.507.1667583410788; 
+ Fri, 04 Nov 2022 10:36:50 -0700 (PDT)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- m15-20020a056000024f00b002365b759b65sm3747615wrz.86.2022.11.04.10.36.44
+ q5-20020adff945000000b0022ae0965a8asm3809663wrr.24.2022.11.04.10.36.49
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 04 Nov 2022 10:36:45 -0700 (PDT)
+ Fri, 04 Nov 2022 10:36:50 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <laurent@vivier.eu>, Helge Deller <deller@gmx.de>,
  Drew DeVault <sir@cmpwn.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v5 2/5] linux-user/strace: Extract print_execve_argv() from
- print_execve()
-Date: Fri,  4 Nov 2022 18:36:29 +0100
-Message-Id: <20221104173632.1052-3-philmd@linaro.org>
+Subject: [PATCH v5 3/5] linux-user/strace: Add output for execveat() syscall
+Date: Fri,  4 Nov 2022 18:36:30 +0100
+Message-Id: <20221104173632.1052-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221104173632.1052-1-philmd@linaro.org>
 References: <20221104173632.1052-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,106 +93,70 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Drew DeVault <sir@cmpwn.com>
 
-In order to add print_execveat() which re-use common code from
-print_execve(), extract print_execve_argv() from it.
-
 Signed-off-by: Drew DeVault <sir@cmpwn.com>
 Message-Id: <20221104081015.706009-1-sir@cmpwn.com>
-[PMD: Split of bigger patch, filled description, fixed style]
+Suggested-by: Helge Deller <deller@gmx.de>
+[PMD: Split of bigger patch]
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- linux-user/strace.c | 71 +++++++++++++++++++++++++--------------------
- 1 file changed, 39 insertions(+), 32 deletions(-)
+ linux-user/strace.c    | 23 +++++++++++++++++++++++
+ linux-user/strace.list |  2 +-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 25c47f0316..3d11d2f759 100644
+index 3d11d2f759..7bccb4f0c0 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -616,38 +616,6 @@ print_semctl(CPUArchState *cpu_env, const struct syscallname *name,
- }
- #endif
+@@ -1104,6 +1104,16 @@ UNUSED static const struct flags clone_flags[] = {
+     FLAG_END,
+ };
  
--static void
--print_execve(CPUArchState *cpu_env, const struct syscallname *name,
--             abi_long arg1, abi_long arg2, abi_long arg3,
--             abi_long arg4, abi_long arg5, abi_long arg6)
--{
--    abi_ulong arg_ptr_addr;
--    char *s;
--
--    if (!(s = lock_user_string(arg1)))
--        return;
--    qemu_log("%s(\"%s\",{", name->name, s);
--    unlock_user(s, arg1, 0);
--
--    for (arg_ptr_addr = arg2; ; arg_ptr_addr += sizeof(abi_ulong)) {
--        abi_ulong *arg_ptr, arg_addr;
--
--        arg_ptr = lock_user(VERIFY_READ, arg_ptr_addr, sizeof(abi_ulong), 1);
--        if (!arg_ptr)
--            return;
--    arg_addr = tswapal(*arg_ptr);
--        unlock_user(arg_ptr, arg_ptr_addr, 0);
--        if (!arg_addr)
--            break;
--        if ((s = lock_user_string(arg_addr))) {
--            qemu_log("\"%s\",", s);
--            unlock_user(s, arg_addr, 0);
--        }
--    }
--
--    qemu_log("NULL})");
--}
--
- #ifdef TARGET_NR_ipc
- static void
- print_ipc(CPUArchState *cpu_env, const struct syscallname *name,
-@@ -1969,6 +1937,45 @@ print_execv(CPUArchState *cpu_env, const struct syscallname *name,
++UNUSED static const struct flags execveat_flags[] = {
++#ifdef AT_EMPTY_PATH
++    FLAG_GENERIC(AT_EMPTY_PATH),
++#endif
++#ifdef AT_SYMLINK_NOFOLLOW
++    FLAG_GENERIC(AT_SYMLINK_NOFOLLOW),
++#endif
++    FLAG_END,
++};
++
+ UNUSED static const struct flags msg_flags[] = {
+     /* send */
+     FLAG_GENERIC(MSG_CONFIRM),
+@@ -1976,6 +1986,19 @@ print_execve(CPUArchState *cpu_env, const struct syscallname *name,
+     print_syscall_epilogue(name);
  }
- #endif
  
 +static void
-+print_execve_argv(abi_long argv, int last)
-+{
-+    abi_ulong arg_ptr_addr;
-+    char *s;
-+
-+    qemu_log("{");
-+    for (arg_ptr_addr = argv; ; arg_ptr_addr += sizeof(abi_ulong)) {
-+        abi_ulong *arg_ptr, arg_addr;
-+
-+        arg_ptr = lock_user(VERIFY_READ, arg_ptr_addr, sizeof(abi_ulong), 1);
-+        if (!arg_ptr) {
-+            return;
-+        }
-+        arg_addr = tswapal(*arg_ptr);
-+        unlock_user(arg_ptr, arg_ptr_addr, 0);
-+        if (!arg_addr) {
-+            break;
-+        }
-+        s = lock_user_string(arg_addr);
-+        if (s) {
-+            qemu_log("\"%s\",", s);
-+            unlock_user(s, arg_addr, 0);
-+        }
-+    }
-+    qemu_log("NULL}%s", get_comma(last));
-+}
-+
-+static void
-+print_execve(CPUArchState *cpu_env, const struct syscallname *name,
-+             abi_long arg1, abi_long arg2, abi_long arg3,
-+             abi_long arg4, abi_long arg5, abi_long arg6)
++print_execveat(CPUArchState *cpu_env, const struct syscallname *name,
++               abi_long arg1, abi_long arg2, abi_long arg3,
++               abi_long arg4, abi_long arg5, abi_long arg6)
 +{
 +    print_syscall_prologue(name);
-+    print_string(arg1, 0);
-+    print_execve_argv(arg2, 1);
++    print_at_dirfd(arg1, 0);
++    print_string(arg2, 0);
++    print_execve_argv(arg3, 0);
++    print_flags(execveat_flags, arg5, 1);
 +    print_syscall_epilogue(name);
 +}
 +
  #if defined(TARGET_NR_faccessat) || defined(TARGET_NR_faccessat2)
  static void
  print_faccessat(CPUArchState *cpu_env, const struct syscallname *name,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 3a898e2532..bb21c05414 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -164,7 +164,7 @@
+ { TARGET_NR_execve, "execve" , NULL, print_execve, NULL },
+ #endif
+ #ifdef TARGET_NR_execveat
+-{ TARGET_NR_execveat, "execveat" , NULL, NULL, NULL },
++{ TARGET_NR_execveat, "execveat" , NULL, print_execveat, NULL },
+ #endif
+ #ifdef TARGET_NR_exec_with_loader
+ { TARGET_NR_exec_with_loader, "exec_with_loader" , NULL, NULL, NULL },
 -- 
 2.38.1
 
