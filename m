@@ -2,99 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 365886199FA
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 15:31:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 552D9619A4C
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 15:41:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqxhl-0006jj-0l; Fri, 04 Nov 2022 10:30:00 -0400
+	id 1oqxrG-0003xq-8K; Fri, 04 Nov 2022 10:39:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oqxhe-0006jI-Is
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 10:29:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oqxha-0002G9-6F
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 10:29:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667572184;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K0NQRmCrmy0snNMqQGvOxaS4uPp+eLjooqLWgEXCU88=;
- b=i2RlMpW6KiotriufQZDU3ZlnkzZIQG3YGI2VQeCU5NEhrwE5CB5JIPjNbsoawr28wf2bU4
- e4Gl5PMFPwgZ6XypUymUJm3uq9QZcSF/j48oGH1YTTWUyy9+8RIsAJc/MDBMEMVj5YyQqy
- yelBRF9FfwDRxoti8D4F0WnDZ2qby8M=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-361-AVudW_OoM5K8-nGLtlB5UA-1; Fri, 04 Nov 2022 10:29:44 -0400
-X-MC-Unique: AVudW_OoM5K8-nGLtlB5UA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h8-20020a1c2108000000b003cf550bfc8dso4344473wmh.2
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 07:29:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oqxrE-0003xT-CP; Fri, 04 Nov 2022 10:39:44 -0400
+Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oqxrC-0003k6-5n; Fri, 04 Nov 2022 10:39:44 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-36cbcda2157so45044347b3.11; 
+ Fri, 04 Nov 2022 07:39:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=B/BHVOj8xAoG7l9QBbuTtX2+IW6S1ePSCEuZKYXcStU=;
+ b=PrkF7zjeA0YwmHUrXyOQle7YDncoGEWyp+OMhCd+F4GO7+nXtrv8Yn9A1M3a5vuhxY
+ J38dZenVTOn4prm6PpJskkkcK8GpQqz9AGUh819X+ZOSQksJgEzl9yRBxOUpvFYca3AA
+ JPRrzsrLOYVaFwsn5Tubej5rDmtHFyA/tVQqt8+9MaPAy3EXmGFegdWxc6wI+6JYMusH
+ +vQxFGmeiuAPqc7ZSUl5GQcpdcLShgIxmfSd8Wh711f9xO6Axcpx1SgOvB9g3Oi3heYy
+ gmHBkA7LZm0cQ4+PWEAY5ZH4TI6ZTpz5K7Hw7ceCzSvCLMS15eRuiukY4hkzzlmRdRf8
+ ul5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=K0NQRmCrmy0snNMqQGvOxaS4uPp+eLjooqLWgEXCU88=;
- b=JyFpaH139sV9E/3Xv3gaygDQ94EnZELx29p/8kKo65pcPDpmVjA0X6r/I7Rg1huafO
- K3J26lfH5h9oc6qadRlqxHDeBANW5nwHHyCxOuHIqIKjusMAQwcbxQhBfLq9Q8DE636z
- b2P/lK9sz0L+RWF9o/Ie8TFb7dfkV96EdBC2yTadLu58B4wP0y7jlzzvS/WwLr5cM5TY
- HRvT4eursHxZ/EPg1p+fHMiLfbhsNdVKAjnfRKYhoy3OWKhPYO9uBrVoHVBOHR52dx5z
- 1W5weWMbTznqu1FJakTtTQ0c0COSE3hTRJlZOY1PMya0d6uxhkAdSYTB3QI+DsEZ7srW
- jPFA==
-X-Gm-Message-State: ACrzQf1+RnmCt0PcEnNnnurzmWgmsy4aUTSLJ5yugc00qRsihMscOy2v
- gAHjHlwW9X0yAQ5Wk0PAw9kM+8vTnbMNdzrkm4hYjE0SxpuAAzIDW5IPalXb7HbZW9JbGkFSsV/
- ja56HbE5ltwid+WM=
-X-Received: by 2002:a05:600c:3d8a:b0:3c6:f241:cb36 with SMTP id
- bi10-20020a05600c3d8a00b003c6f241cb36mr23848756wmb.115.1667572182934; 
- Fri, 04 Nov 2022 07:29:42 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5b4jwcT/qiNkNkDn0JGgJsf2gDj2TH9ztahfx6jfDmW8RW+kgc5CPYDKLVgnl4o5IDLvpj/g==
-X-Received: by 2002:a05:600c:3d8a:b0:3c6:f241:cb36 with SMTP id
- bi10-20020a05600c3d8a00b003c6f241cb36mr23848702wmb.115.1667572182483; 
- Fri, 04 Nov 2022 07:29:42 -0700 (PDT)
-Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- v9-20020a5d4b09000000b00228a6ce17b4sm3634702wrq.37.2022.11.04.07.29.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Nov 2022 07:29:41 -0700 (PDT)
-Message-ID: <7a3c34dc-2c16-6fdd-e8bc-7a1c623823ae@redhat.com>
-Date: Fri, 4 Nov 2022 15:29:40 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=B/BHVOj8xAoG7l9QBbuTtX2+IW6S1ePSCEuZKYXcStU=;
+ b=NLi0j389A7tFzq5IdBKGY8uD82VzIBzddlsVKYZlOI+kL4lHTA9R5ToQOL0JwnpuMW
+ 0T7Y7Qyc+fJ33uyAsRcPnReSjG2LOQObljvsf8abu0DfZz4bx/h7msnlGhl1Y80g4mg4
+ CZK5vsn1qh+V3Cy4rODT0gj0VUVEFXh8NwnbWCBv0CTf6gtgJEtCnTNgQuyzpZjvzCFG
+ C9IOIbsOZswUzX3D+NLtiFLYUK6LrOvmiKkXgLzy5Wi65Y7ZhRwZvHImETqK3cnEfHA1
+ PsoAspfR1/nHZCQJQtxKWOx+u/Wep6jwAg366hz1ZhTiwQ7dBcCl7K3I4DmmkZKO/JHq
+ 45sg==
+X-Gm-Message-State: ACrzQf2TdECbGKZhPcm7fNPQ0hLrBlzlgRy10O2VlwmWqnI1+8/xW9u2
+ iF27ylrmP/mjTRwWotygzdqqKgrB3arhQ0HJkZI=
+X-Google-Smtp-Source: AMsMyM6r+2FqQhNintFYwF9bXMWF6gjNl4DO2jVne7laAYBhGbuC++687BF+n2rkPAX1RCCIQqqfHphOHbIWe3H/SoI=
+X-Received: by 2002:a81:8445:0:b0:36c:c302:8926 with SMTP id
+ u66-20020a818445000000b0036cc3028926mr35527313ywf.296.1667572780133; Fri, 04
+ Nov 2022 07:39:40 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com
-References: <20221103170150.20789-1-pmorel@linux.ibm.com>
- <20221103170150.20789-2-pmorel@linux.ibm.com>
- <3f913a58-e7d0-539e-3bc0-6cbd5608db8e@redhat.com>
- <7d809617-67e0-d233-97b2-8534e2a4610f@linux.ibm.com>
- <6415cf08-e6a1-c72a-1c56-907d3a446a8c@kaod.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v11 01/11] s390x: Register TYPE_S390_CCW_MACHINE
- properties as class properties
-In-Reply-To: <6415cf08-e6a1-c72a-1c56-907d3a446a8c@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221103161727.4116147-1-laurent@vivier.eu>
+In-Reply-To: <20221103161727.4116147-1-laurent@vivier.eu>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Fri, 4 Nov 2022 10:39:28 -0400
+Message-ID: <CAJSP0QUG8_sx5Jct1XjGX8_kdYGpJ6akQnnyZbZ8ODNZsfemAQ@mail.gmail.com>
+Subject: Re: [PULL 00/10] Trivial branch for 7.2 patches
+To: Laurent Vivier <laurent@vivier.eu>, Stefan Weil <sw@weilnetz.de>
+Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1129.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,68 +83,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 04/11/2022 11.53, Cédric Le Goater wrote:
-> On 11/4/22 11:16, Pierre Morel wrote:
->>
->>
->> On 11/4/22 07:32, Thomas Huth wrote:
->>> On 03/11/2022 18.01, Pierre Morel wrote:
->>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>>> ---
->>>>   hw/s390x/s390-virtio-ccw.c | 127 +++++++++++++++++++++----------------
->>>>   1 file changed, 72 insertions(+), 55 deletions(-)
->>>
->>> -EMISSINGPATCHDESCRIPTION
->>>
->>> ... please add some words *why* this is a good idea / necessary.
->>
->> I saw that the i386 patch had no description for the same patch so...
->>
->> To be honest I do not know why it is necessary.
->> The only reason I see is to be in sync with the PC implementation.
->>
->> So what about:
->> "
->> Register TYPE_S390_CCW_MACHINE properties as class properties
->> to be conform with the X architectures
->> "
->> ?
->>
->> @Cédric , any official recommendation for doing that?
-> 
-> There was a bunch of commits related to QOM in this series :
-> 
->    91def7b83 arm/virt: Register most properties as class properties
->    f5730c69f0 i386: Register feature bit properties as class properties
-> 
-> which moved property definitions at the class level.
-> 
-> Then,
-> 
->    commit d8fb7d0969 ("vl: switch -M parsing to keyval")
-> 
-> changed machine_help_func() to use a machine class and not machine
-> instance anymore.
-> 
-> I would use the same kind of commit log and add a Fixes tag to get it
-> merged in 7.2
+Hi Stefan and Laurent,
+Please take a look at this CI failure, I think it's triggered by this
+pull request:
 
-Ah, so this fixes the problem that running QEMU with " -M 
-s390-ccw-virtio,help" does not show the s390x-specific properties anymore? 
-... that's certainly somethings that should be mentioned in the commit 
-message! What about something like this:
+arm-linux-gnueabi-gcc -Isubprojects/libvhost-user/libvhost-user.a.p
+-Isubprojects/libvhost-user -I../subprojects/libvhost-user
+-fdiagnostics-color=3Dauto -Wall -Winvalid-pch -Werror -std=3Dgnu11 -O2 -g
+-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -D_FILE_OFFSET_BITS=3D64
+-D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef
+-Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common
+-fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits
+-Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers
+-Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined
+-Wimplicit-fallthrough=3D2 -Wno-missing-include-dirs
+-Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPIE
+-pthread -D_GNU_SOURCE -MD -MQ
+subprojects/libvhost-user/libvhost-user.a.p/libvhost-user.c.o -MF
+subprojects/libvhost-user/libvhost-user.a.p/libvhost-user.c.o.d -o
+subprojects/libvhost-user/libvhost-user.a.p/libvhost-user.c.o -c
+../subprojects/libvhost-user/libvhost-user.c
+../subprojects/libvhost-user/libvhost-user.c: In function =E2=80=98generate=
+_faults=E2=80=99:
+../subprojects/libvhost-user/libvhost-user.c:664:27: error: format
+=E2=80=98%zx=E2=80=99 expects argument of type =E2=80=98size_t=E2=80=99, bu=
+t argument 6 has type
+=E2=80=98uint64_t=E2=80=99 {aka =E2=80=98long long unsigned int=E2=80=99} [=
+-Werror=3Dformat=3D]
+664 | vu_panic(dev, "%s: Failed to userfault region %d "
+| ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+......
+668 | dev_region->size, dev_region->mmap_offset,
+| ~~~~~~~~~~~~~~~~
+| |
+| uint64_t {aka long long unsigned int}
+../subprojects/libvhost-user/libvhost-user.c:665:50: note: format
+string is defined here
+665 | "@%" PRIx64 " + size:%zx offset: %zx: (ufd=3D%d)%s\n",
+| ~~^
+| |
+| unsigned int
+| %llx
+../subprojects/libvhost-user/libvhost-user.c:664:27: error: format
+=E2=80=98%zx=E2=80=99 expects argument of type =E2=80=98size_t=E2=80=99, bu=
+t argument 7 has type
+=E2=80=98uint64_t=E2=80=99 {aka =E2=80=98long long unsigned int=E2=80=99} [=
+-Werror=3Dformat=3D]
+664 | vu_panic(dev, "%s: Failed to userfault region %d "
+| ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+......
+668 | dev_region->size, dev_region->mmap_offset,
+| ~~~~~~~~~~~~~~~~~~~~~~~
+| |
+| uint64_t {aka long long unsigned int}
+../subprojects/libvhost-user/libvhost-user.c:665:62: note: format
+string is defined here
+665 | "@%" PRIx64 " + size:%zx offset: %zx: (ufd=3D%d)%s\n",
+| ~~^
+| |
+| unsigned int
+| %llx
+cc1: all warnings being treated as errors
 
-"Currently, when running 'qemu-system-s390x -M -M s390-ccw-virtio,help' the 
-s390x-specific properties are not listed anymore. This happens because since 
-commit d8fb7d0969 ("vl: switch -M parsing to keyval") the properties have to 
-be defined at the class level and not at the instance level anymore. Fix it 
-on s390x now, too, by moving the registration of the properties to the class 
-level"
+https://gitlab.com/qemu-project/qemu/-/jobs/3275327714
 
-Fixes: d8fb7d0969 ("vl: switch -M parsing to keyval")
-
-?
-
-  Thomas
-
+On Thu, 3 Nov 2022 at 12:20, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit a11f65ec1b8adcb012b89c92819cbda4dc25aa=
+f1:
+>
+>   Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into=
+ staging (2022-11-01 13:49:33 -0400)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-7.2-=
+pull-request
+>
+> for you to fetch changes up to 489db95896b86dacdde9dab1de84745880449e37:
+>
+>   tests/unit: simpler variable sequence for test-io-channel (2022-11-03 1=
+7:16:34 +0100)
+>
+> ----------------------------------------------------------------
+> Pull request trivial branch 20221103
+>
+> ----------------------------------------------------------------
+>
+> Alex Benn=C3=A9e (1):
+>   tests/unit: simpler variable sequence for test-io-channel
+>
+> Chuck Zmudzinski (1):
+>   xen/pt: fix syntax error that causes FTBFS in some configurations
+>
+> Han Han (1):
+>   qapi: virtio: Fix the introduced version
+>
+> Philippe Mathieu-Daud=C3=A9 (3):
+>   target/m68k: Rename qregs.def -> qregs.h.inc
+>   target/s390x: Rename insn-data/format.def -> insn-data/format.h.inc
+>   target/tricore: Rename csfr.def -> csfr.h.inc
+>
+> Stefan Weil (4):
+>   Fix some typos in documentation and comments
+>   libvhost-user: Fix wrong type of argument to formatting function
+>     (reported by LGTM)
+>   libvhost-user: Fix format strings
+>   libvhost-user: Add format attribute to local function vu_panic
+>
+>  docs/devel/testing.rst                        |  2 +-
+>  docs/system/arm/cpu-features.rst              |  2 +-
+>  docs/system/loongarch/loongson3.rst           |  2 +-
+>  docs/tools/virtiofsd.rst                      |  2 +-
+>  hw/xen/meson.build                            |  2 +-
+>  include/exec/memory.h                         |  2 +-
+>  qapi/qom.json                                 |  2 +-
+>  qapi/virtio.json                              | 34 +++++++++----------
+>  qemu-options.hx                               | 10 +++---
+>  qga/qapi-schema.json                          |  2 +-
+>  subprojects/libvhost-user/libvhost-user.c     | 19 ++++++++---
+>  target/m68k/{qregs.def =3D> qregs.h.inc}        |  0
+>  target/m68k/translate.c                       |  4 +--
+>  .../tcg/{insn-data.def =3D> insn-data.h.inc}    |  2 +-
+>  .../{insn-format.def =3D> insn-format.h.inc}    |  0
+>  target/s390x/tcg/translate.c                  | 10 +++---
+>  target/tricore/{csfr.def =3D> csfr.h.inc}       |  0
+>  target/tricore/translate.c                    |  4 +--
+>  tests/qtest/libqtest.h                        |  2 +-
+>  tests/unit/test-io-channel-command.c          | 14 +++-----
+>  20 files changed, 60 insertions(+), 55 deletions(-)
+>  rename target/m68k/{qregs.def =3D> qregs.h.inc} (100%)
+>  rename target/s390x/tcg/{insn-data.def =3D> insn-data.h.inc} (99%)
+>  rename target/s390x/tcg/{insn-format.def =3D> insn-format.h.inc} (100%)
+>  rename target/tricore/{csfr.def =3D> csfr.h.inc} (100%)
+>
+> --
+> 2.37.3
+>
+>
 
