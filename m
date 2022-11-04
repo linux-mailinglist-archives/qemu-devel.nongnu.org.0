@@ -2,104 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD31461A337
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 22:21:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6CC061A3EE
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 23:13:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1or46N-0001Ey-TH; Fri, 04 Nov 2022 17:19:47 -0400
+	id 1or4uH-0006TF-4z; Fri, 04 Nov 2022 18:11:21 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1or46L-0001Dl-Ca
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 17:19:45 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1or4pS-0002q6-77
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 18:06:22 -0400
+Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1or46J-0008WK-El
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 17:19:45 -0400
-Received: by mail-pf1-x435.google.com with SMTP id y203so5573663pfb.4
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 14:19:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Q9ugyqOccmZowmlQRWmpT6Mn2YOA1KD6X2k+Tf7TPbA=;
- b=RdPxBPZxRTrKi5VyUPbTa4PsV8EOmVSMHgdDTAto2Y3fDrK1yMJfnyHZGOAvZE51hC
- MUTtzoVHHX3zY/UFvFQlLPFajO7Vk3UMWasOYjOunInXxRe9GMgvy1prXwrGnsWHLQTq
- MkB4hXkPdaYmZNJhW5Z57kkp8cXynosPMw6g3gXtm3aJ5VZv/vU0u99UNnhtOR7mBQ/S
- QL/4AUeWJ9N/SNvmKiWOBa8KZXdzPs5PSg0nheKWUsEYBsob3rOduKBZLw054Y3uq3k4
- U296HEgVheMABieNv5oHp9dnkof3mwu5OIEwrSvKx9gbTi9SI4ERJkf3JYtYBgDx3FuJ
- lMUA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1or4pP-0006R3-9P
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 18:06:21 -0400
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-13b103a3e5dso7006907fac.2
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 15:06:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Y7QVdHhGWMg06XVCBwuPr4aU6JANhS+CWd+TwQLCYYM=;
+ b=r/Fj3DhLMdaD7yvXjQDIjoqxe46/gcZNj3bqpV25yoj3WDRkaCusDEkRja8rI66gpD
+ svubwLrLDo+ZC2fWhyIRg4fZOOs+T1E0FPFTxIWdW8uIrLJhZVCPMpLxGH+SuGq6muSh
+ UjLiSGodzs8hgEhYW0srqzwsjoY87QzgFNkxxZaWBn5AG9MQXVQkDeO3+SgnZA900nO1
+ /MJoeBSMxvQx/87y2fXOjpFfY2feQ0jvizcdvob95sOfdZKCClCpkpnRnYyfE+uw7+nv
+ 15kIUcAQC7bsCuJZBAWrBFweZh4OVnOMazBcxjah6Hc07sqCPYrpS3+2LcCnYi2Rim/q
+ 8YEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q9ugyqOccmZowmlQRWmpT6Mn2YOA1KD6X2k+Tf7TPbA=;
- b=JmrfnlWUHTmeOUV7Y7IJlAPf6iF8MMksQ2dXpQnfjuXKrtmv6JYnInPso4ua8fU9Ga
- ZX+nfdauZxab1O/OYn/nMdiHzG9OPmOOc+9mcwW2yO8ep9+2Qxb216Kl++NAFydO5LGX
- BhPwkmjE1TmumPvsL346cisEpaH1jC16ceJOzKhIRozAkFBtTz6Lqj7UL29cetgFf2VC
- giVdg7Moql/aEmUGeCR065BLhn4+7JSI9++MFfYVk5FQcbNTwhxqNDFbFBgZhLjMg7dM
- r8YbNKybUqRmPLOI21W/E8UrtyJ8Q6nod06oFup2LF2Dfc6fVhMIIJQx5IuUuU9w8Fr2
- jD3Q==
-X-Gm-Message-State: ACrzQf3q/8B1PpDNDlEA6WUyJ/oUAuopmdQtP/oIFsDxHfpFA1wl2YCn
- 1fa4W/BinUziCYFdDL8iT9WVWQ==
-X-Google-Smtp-Source: AMsMyM5HLN09MZ7XXfHooCD3zs8msfwo0CBHOrCrZEPWc/5ODnQb86suM3i3C9TKpVcD/J1sy4dlFA==
-X-Received: by 2002:a63:215f:0:b0:46f:c464:a054 with SMTP id
- s31-20020a63215f000000b0046fc464a054mr23293449pgm.420.1667596775547; 
- Fri, 04 Nov 2022 14:19:35 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- d10-20020a621d0a000000b00562664d5027sm77216pfd.61.2022.11.04.14.19.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 14:19:35 -0700 (PDT)
-Date: Fri, 4 Nov 2022 21:19:31 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 5/8] KVM: Register/unregister the guest private memory
- regions
-Message-ID: <Y2WB48kD0J4VGynX@google.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-6-chao.p.peng@linux.intel.com>
- <Y2RJFWplouV2iF5E@google.com>
- <20221104082843.GA4142342@chaop.bj.intel.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y7QVdHhGWMg06XVCBwuPr4aU6JANhS+CWd+TwQLCYYM=;
+ b=PDjx8zKo2T4UrRlaxhR1Wvc8IbgBYAf8p/JFvLEZdmtQLXPoedoGRgCzuTzk/fxqak
+ y7UN1HrSGvgIbDGhhnnmsxSH1EQMrJepgTnTL8kV1t4uG+O9vF1G7bb5mjUhqg5Rp/6a
+ xijdBO/sflc0Nmho+kCZD+ZW+/R94Uc1jezIreFk9POhlJsmTK13BRL/gFEgeaMp7rZS
+ NWOIr1mAqWpfh5ZIWoWe0ny9k6/C+c1PhYyP/FBtrD1dZTwX7/bdhkCSi2hp9ubo4Jnw
+ pdQK8/grDxbVZF2IvyPMMFqKfG/YeofDLb6/qxpYVSK8+S+ia8YxxOaFo3TdN86IZg0B
+ ypeA==
+X-Gm-Message-State: ACrzQf1SMhtgrkHdyVIM8Rx2sUO0oTTI3pjITh0FTpnzfLfgL2WTEaQ2
+ MpetUJAIoco1HRtTRtjkX/PZng==
+X-Google-Smtp-Source: AMsMyM7MTv6EpxzQ6rsKocS7ctcA3xXCtCcL4STWicQ3TrLteE09vWGVMY/U8msfZt75dteYBJVRoA==
+X-Received: by 2002:a05:6870:c34e:b0:13c:19bc:6e41 with SMTP id
+ e14-20020a056870c34e00b0013c19bc6e41mr33069676oak.115.1667599576945; 
+ Fri, 04 Nov 2022 15:06:16 -0700 (PDT)
+Received: from [192.168.229.227] ([172.58.176.28])
+ by smtp.gmail.com with ESMTPSA id
+ i5-20020a4aab05000000b0049ded99501bsm118791oon.40.2022.11.04.15.06.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Nov 2022 15:06:16 -0700 (PDT)
+Message-ID: <4075c55b-3b1b-9fb6-c4fb-000c2d0a4591@linaro.org>
+Date: Sat, 5 Nov 2022 09:06:05 +1100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221104082843.GA4142342@chaop.bj.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=seanjc@google.com; helo=mail-pf1-x435.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, FSL_HELO_FAKE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] target/arm: Two fixes for secure ptw
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, philmd@linaro.org, qemu-arm@nongnu.org
+References: <20221102054706.1015830-1-richard.henderson@linaro.org>
+ <CAFEAcA_meGSRv=Fa1D-F=a3VF=TnHHORGAZoi5aPOkVAbGPm4w@mail.gmail.com>
+ <2d9a7f5e-0ec0-89da-53f0-b5624f540ae8@linaro.org>
+ <CAFEAcA-XqHm+bFk4QSzG=QJCwUncGmD43qxK0FBSXZbVaPY4pQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA-XqHm+bFk4QSzG=QJCwUncGmD43qxK0FBSXZbVaPY4pQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::36;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,153 +96,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Paolo, any thoughts before I lead things further astray?
+On 11/4/22 21:58, Peter Maydell wrote:
+> OK. Do we ever do anything with the attrs for a phys tlb lookup
+> except use them internally for details of the stage 2 tlb walk ?
+> I guess they get used for the memory transaction to do the walk.
+> That matches the old code that just had a local MemTxAttrs in
+> arm_ldq_ptw() to do the walk which therefore implicitly got
+> user == false.
 
-On Fri, Nov 04, 2022, Chao Peng wrote:
-> On Thu, Nov 03, 2022 at 11:04:53PM +0000, Sean Christopherson wrote:
-> > On Tue, Oct 25, 2022, Chao Peng wrote:
-> > > @@ -4708,6 +4802,24 @@ static long kvm_vm_ioctl(struct file *filp,
-> > >  		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
-> > >  		break;
-> > >  	}
-> > > +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
-> > > +	case KVM_MEMORY_ENCRYPT_REG_REGION:
-> > > +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
-> > 
-> > I'm having second thoughts about usurping KVM_MEMORY_ENCRYPT_(UN)REG_REGION.  Aside
-> > from the fact that restricted/protected memory may not be encrypted, there are
-> > other potential use cases for per-page memory attributes[*], e.g. to make memory
-> > read-only (or no-exec, or exec-only, etc...) without having to modify memslots.
-> > 
-> > Any paravirt use case where the attributes of a page are effectively dictated by
-> > the guest is going to run into the exact same performance problems with memslots,
-> > which isn't suprising in hindsight since shared vs. private is really just an
-> > attribute, albeit with extra special semantics.
-> > 
-> > And if we go with a brand new ioctl(), maybe someday in the very distant future
-> > we can deprecate and delete KVM_MEMORY_ENCRYPT_(UN)REG_REGION.
-> > 
-> > Switching to a new ioctl() should be a minor change, i.e. shouldn't throw too big
-> > of a wrench into things.
-> > 
-> > Something like:
-> > 
-> >   KVM_SET_MEMORY_ATTRIBUTES
-> > 
-> >   struct kvm_memory_attributes {
-> > 	__u64 address;
-> > 	__u64 size;
-> > 	__u64 flags;
+Exactly.
 
-Oh, this is half-baked.  I lost track of which flags were which.  What I intended
-was a separate, initially-unused flags, e.g.
+I can't think of any reason .user would be apply outside of the stage1 lookup, which is 
+what records the setting for any future mmio.
 
- struct kvm_memory_attributes {
-	__u64 address;
-	__u64 size;
-	__u64 attributes;
-	__u64 flags;
-  }
 
-so that KVM can tweak behavior and/or extend the effective size of the struct.
-
-> I like the idea of adding a new ioctl(). But putting all attributes into
-> a flags in uAPI sounds not good to me, e.g. forcing userspace to set all
-> attributes in one call can cause pain for userspace, probably for KVM
-> implementation as well. For private<->shared memory conversion, we
-> actually only care the KVM_MEM_ATTR_SHARED or KVM_MEM_ATTR_PRIVATE bit,
-
-Not necessarily, e.g. I can see pKVM wanting to convert from RW+PRIVATE => RO+SHARED
-or even RW+PRIVATE => NONE+SHARED so that the guest can't write/access the memory
-while it's accessible from the host.
-
-And if this does extend beyond shared/private, dropping from RWX=>R, i.e. dropping
-WX permissions, would also be a common operation.
-
-Hmm, typing that out makes me think that if we do end up supporting other "attributes",
-i.e. protections, we should go straight to full RWX protections instead of doing
-things piecemeal, i.e. add individual protections instead of combinations like
-NO_EXEC and READ_ONLY.  The protections would have to be inverted for backwards
-compatibility, but that's easy enough to handle.  The semantics could be like
-protection keys, which also have inverted persmissions, where the final protections
-are the combination of memslot+attributes, i.e. a read-only memslot couldn't be made
-writable via attributes.
-
-E.g. userspace could do "NO_READ | NO_WRITE | NO_EXEC" to temporarily block access
-to memory without needing to delete the memslot.  KVM would need to disallow
-unsupported combinations, e.g. disallowed effective protections would be:
-
-  - W or WX [unless there's an arch that supports write-only memory]
-  - R or RW [until KVM plumbs through support for no-exec, or it's unsupported in hardware]
-  - X       [until KVM plumbs through support for exec-only, or it's unsupported in hardware]
-
-Anyways, that's all future work...
-
-> but we force userspace to set other irrelevant bits as well if use this
-> API.
-
-They aren't irrelevant though, as the memory attributes are all describing the
-allowed protections for a given page.  If there's a use case where userspace "can't"
-keep track of the attributes for whatever reason, then userspace could do a RMW
-to set/clear attributes.  Alternatively, the ioctl() could take an "operation" and
-support WRITE/OR/AND to allow setting/clearing individual flags, e.g. tweak the
-above to be: 
- 
- struct kvm_memory_attributes {
-	__u64 address;
-	__u64 size;
-	__u64 attributes;
-	__u32 operation;
-	__u32 flags;
-  }
-
-> I looked at kvm_device_attr, sounds we can do similar:
-
-The device attributes deal with isolated, arbitrary values, whereas memory attributes
-are flags, i.e. devices are 1:1 whereas memory is 1:MANY.  There is no "unset" for
-device attributes, because they aren't flags.  Device attributes vs. memory attributes
-really are two very different things that just happen to use a common name.
-
-If it helped clarify things without creating naming problems, we could even use
-PROTECTIONS instead of ATTRIBUTES.
-
->   KVM_SET_MEMORY_ATTR
-> 
->   struct kvm_memory_attr {
-> 	__u64 address;
-> 	__u64 size;
-> #define KVM_MEM_ATTR_SHARED	BIT(0)
-> #define KVM_MEM_ATTR_READONLY	BIT(1)
-> #define KVM_MEM_ATTR_NOEXEC	BIT(2)
-> 	__u32 attr;
-
-As above, letting userspace set only a single attribute would prevent setting
-(or clearing) multiple attributes in a single ioctl().
-
-> 	__u32 pad;
->   }
-> 
-> I'm not sure if we need KVM_GET_MEMORY_ATTR/KVM_HAS_MEMORY_ATTR as well,
-
-Definitely would need to communicate to userspace that various attributes are
-supported.  That doesn't necessarily require a common ioctl(), but I don't see
-any reason not to add a common helper, and adding a common helper would mean
-KVM_CAP_PRIVATE_MEM can go away.  But it should return a bitmask so that userspace
-can do a single query to get all supported attributes, e.g. KVM_SUPPORTED_MEMORY_ATTRIBUTES.  
-
-As for KVM_GET_MEMORY_ATTRIBUTES, we wouldn't necessarily have to provide such an
-API, e.g. we could hold off until someone came along with a RMW use case (as above).
-That said, debug would likely be a nightmare without KVM_GET_MEMORY_ATTRIBUTES,
-so it's probably best to add it straightway.
-
-> but sounds like we need a KVM_UNSET_MEMORY_ATTR.
-
-No need if the setter operates on all attributes.
-
-> Since we are exposing the attribute directly to userspace I also think
-> we'd better treat shared memory as the default, so even when the private
-> memory is not used, the bit can still be meaningful. So define BIT(0) as
-> KVM_MEM_ATTR_PRIVATE instead of KVM_MEM_ATTR_SHARED.
-
-Ah, right.
+r~
 
