@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4721361956E
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 12:36:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A9A619577
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 12:36:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oquyr-00019i-Bg; Fri, 04 Nov 2022 07:35:25 -0400
+	id 1oquys-0001A8-0e; Fri, 04 Nov 2022 07:35:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oquyp-00018M-Da
+ id 1oquyp-00018q-PO
  for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:23 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oquym-00084s-KN
+ id 1oquym-00084y-Vy
  for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:23 -0400
-Received: by mail-wr1-x434.google.com with SMTP id l14so6681726wrw.2
+Received: by mail-wm1-x336.google.com with SMTP id o30so2862781wms.2
  for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 04:35:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=xs0cAzuJbQmpzNJTlX5CiKuU22tOMOycVjeYOqAoYLo=;
- b=LhZz1HNyIeLBRkVProbSsGXjTz+C7tOmXRiyqaiMTKZSj3/GlrWUz6kg6tfA5CR9Xh
- w3jUROFJpS1w/rUjgO96w+hMCvBi0R0fvjgOjGZm4S++iIKonjtB8Wc2Yzb6oZ69ujxW
- sFICQ4oU6j1rofFiYdBwceuucNMY6jCW/0pF+f23IjqdAxYe8HqEFEzBJ59YWcn8ApWz
- mCeK2tnfmQQFHtxSK5NMauaCXZQA36U5bbWkgcjg2C7cmR7//oOSo3kRCRCvlKDc8svP
- SGgszm6MKMgz/dFf56Vs88Z358TQOBAvankalJtljYq2J6p6Y7oaaGDX1yam4RGPquRi
- CZfw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=nHWSJ+DS7zWi4CyAI29TJeB0bJ7NNMFTP3CfxToiYuk=;
+ b=jDlzL+hr4/8FeN+SSwQdFCjCO/yzF9FDEwRxWBVrGnsNA8l70VtCjHwJH5WWlL3gFn
+ A/PIVllWV+CYAza9um2JHZJCPeXnw/eH/UuaynhjDEV7xnC/GG8x+77c89yEBWkNoplO
+ QejDHSHnH47ZvkZUj8fRcbPZDJbotu+bSSYbbMLUQPiCL3CMiUwIEuoTJCwGurAKGGgw
+ AC7PpJpGJ0DLDh4qseZWvo29umuhT1hLbkRubAHvrW4w27LkGqNr1ZiUaix8UbfTqmDB
+ d+aCpaPdsPfO96e4fJjdthnVcsWehuH0laNZDo3QzqZJVVo6LTjwVxml5mBPTqsC9Jno
+ P1ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xs0cAzuJbQmpzNJTlX5CiKuU22tOMOycVjeYOqAoYLo=;
- b=wpedG+agsxN+y1jIU7saOZoeVOr74Z/3bp0mAKdgryPwFeZ527EkdJ5YhoMdKqNUGu
- VfhHK36JzxevedWaUEXAzNjX8awc3SJBF1AHOnX0kKAHsQlmfEE6F22TbbOlrbtEpV0K
- 3sz1X2dZVsaXTAZryR143PxV/0V26K0zG9SoZSrKrrJuX3cFHDIMPvwDXJmN+b6BpdBA
- aNImjxP+C51wYhXCcfgWu5xfGWv+wsuFkOT7mVaQ2DUBZ3KQuEUnMl0+IRBLLPcNyRfy
- MR0AeabUmf3w1DzsLq71cpiKD431MmsImUh1MXoqIFn17RnEy97RRCXKc8crdJgZLbB+
- S0Dw==
-X-Gm-Message-State: ACrzQf3jyIfFaXM5siPKeJxuSvxifFYg0gsZAyEgYrWX2jNev7b3fs6Q
- c/3FRI0EicQk035atWsiGEsZ7AgIskJnDw==
-X-Google-Smtp-Source: AMsMyM6OtyiFdNIvQuiftJ7qeyLgWrj7p+1gDpT8pReZtSVftqNx6Gf2oecq/9Y+NDj/30NJvdzJGg==
-X-Received: by 2002:a5d:51c2:0:b0:236:7000:8e82 with SMTP id
- n2-20020a5d51c2000000b0023670008e82mr22011360wrv.191.1667561718435; 
- Fri, 04 Nov 2022 04:35:18 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=nHWSJ+DS7zWi4CyAI29TJeB0bJ7NNMFTP3CfxToiYuk=;
+ b=Hl0TPUg0W0PYJqFekA04x6RlyJ2l19ZAghnQdbGeGe8M6ugJwpcF7RgrOLZjcwdGfM
+ AyoCOaV9QVWEJQeX7phnBzsbOdSXbs/sjJTJOgdkcJ5OGc1oKRRCiy/tukJMIgzEwJze
+ Q3LmUSuknKICqhhU47G8sBwEh28uvPTW+4BKe+MH6PNQB8qNXSuhWKmJeAvlUmgddaoh
+ 3kE+yKsAML43hcj5vI3d6LfjnaN5IRI5CI2NSuXks17ViL7WKc9XKtJuFvHFTEfoIhPh
+ ttoal7xeTe4deE7iIGOWJvYrIa2uP7gh8yzqY2c+z1luWLUOKjbGHCwrLZrqfVt4OKzm
+ j7qQ==
+X-Gm-Message-State: ACrzQf3Yx/rFK1frXt5Ns4lnXRw+6I5U3NetpCKpPDoieudYvtm43EXn
+ QfgxAw1Ms2DevVAPVrzucfybIPbKN23c4w==
+X-Google-Smtp-Source: AMsMyM50U9ulJBcuL2KW7WkksjBoQDh+CfrSHeHYoFuPHbkRXzKOHREj4XxONeb+mfBSiiQYH7BP4g==
+X-Received: by 2002:a05:600c:18a3:b0:3cf:8df1:ce6e with SMTP id
+ x35-20020a05600c18a300b003cf8df1ce6emr5735723wmp.5.1667561719384; 
+ Fri, 04 Nov 2022 04:35:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- g17-20020a5d4891000000b0023655e51c33sm3255743wrq.4.2022.11.04.04.35.17
+ g17-20020a5d4891000000b0023655e51c33sm3255743wrq.4.2022.11.04.04.35.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 04:35:17 -0700 (PDT)
+ Fri, 04 Nov 2022 04:35:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/7] target-arm queue
-Date: Fri,  4 Nov 2022 11:35:08 +0000
-Message-Id: <20221104113515.2278508-1-peter.maydell@linaro.org>
+Subject: [PULL 1/7] hw/arm/boot: Set SME and SVE EL3 vector lengths when
+ booting kernel
+Date: Fri,  4 Nov 2022 11:35:09 +0000
+Message-Id: <20221104113515.2278508-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221104113515.2278508-1-peter.maydell@linaro.org>
+References: <20221104113515.2278508-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,53 +89,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi; this pull request has a collection of bug fixes for rc0.
-The big one is the trusted firmware boot regression fix.
+When we direct boot a kernel on a CPU which emulates EL3, we need
+to set up the EL3 system registers as the Linux kernel documentation
+specifies:
+ https://www.kernel.org/doc/Documentation/arm64/booting.rst
 
-thanks
--- PMM
+For SVE and SME this includes:
+    - ZCR_EL3.LEN must be initialised to the same value for all CPUs the
+      kernel is executed on.
+    - SMCR_EL3.LEN must be initialised to the same value for all CPUs the
+      kernel will execute on.
 
-The following changes since commit ece5f8374d0416a339f0c0a9399faa2c42d4ad6f:
+Although we are technically compliant with this, the "same value" we
+currently use by default is the reset value of 0.  This will end up
+forcing the guest kernel's SVE and SME vector length to be only the
+smallest supported length.
 
-  Merge tag 'linux-user-for-7.2-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-11-03 10:55:05 -0400)
+Initialize the vector length fields to their maximum possible value,
+which is 0xf. If the implementation doesn't actually support that
+vector length then the effective vector length will be constrained
+down to the maximum supported value at point of use.
 
-are available in the Git repository at:
+This allows the guest to use all the vector lengths the emulated CPU
+supports (by programming the _EL2 and _EL1 versions of these
+registers.)
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20221104
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20221027140207.413084-2-peter.maydell@linaro.org
+---
+ hw/arm/boot.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-for you to fetch changes up to cead7fa4c06087c86c67c5ce815cc1ff0bfeac3a:
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index b106f314685..17d38260faf 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -764,10 +764,12 @@ static void do_cpu_reset(void *opaque)
+                     }
+                     if (cpu_isar_feature(aa64_sve, cpu)) {
+                         env->cp15.cptr_el[3] |= R_CPTR_EL3_EZ_MASK;
++                        env->vfp.zcr_el[3] = 0xf;
+                     }
+                     if (cpu_isar_feature(aa64_sme, cpu)) {
+                         env->cp15.cptr_el[3] |= R_CPTR_EL3_ESM_MASK;
+                         env->cp15.scr_el3 |= SCR_ENTP2;
++                        env->vfp.smcr_el[3] = 0xf;
+                     }
+                     /* AArch64 kernels never boot in secure mode */
+                     assert(!info->secure_boot);
+-- 
+2.25.1
 
-  target/arm: Two fixes for secure ptw (2022-11-04 10:58:58 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * Fix regression booting Trusted Firmware
- * Honor HCR_E2H and HCR_TGE in ats_write64()
- * Copy the entire vector in DO_ZIP
- * Fix Privileged Access Never (PAN) for aarch32
- * Make TLBIOS and TLBIRANGE ops trap on HCR_EL2.TTLB
- * Set SCR_EL3.HXEn when direct booting kernel
- * Set SME and SVE EL3 vector lengths when direct booting kernel
-
-----------------------------------------------------------------
-Ake Koomsin (1):
-      target/arm: Honor HCR_E2H and HCR_TGE in ats_write64()
-
-Peter Maydell (3):
-      hw/arm/boot: Set SME and SVE EL3 vector lengths when booting kernel
-      hw/arm/boot: Set SCR_EL3.HXEn when booting kernel
-      target/arm: Make TLBIOS and TLBIRANGE ops trap on HCR_EL2.TTLB
-
-Richard Henderson (2):
-      target/arm: Copy the entire vector in DO_ZIP
-      target/arm: Two fixes for secure ptw
-
-Timofey Kutergin (1):
-      target/arm: Fix Privileged Access Never (PAN) for aarch32
-
- hw/arm/boot.c           |  5 ++++
- target/arm/helper.c     | 64 +++++++++++++++++++++++++++++--------------------
- target/arm/ptw.c        | 50 ++++++++++++++++++++++++++++----------
- target/arm/sve_helper.c |  4 ++--
- 4 files changed, 83 insertions(+), 40 deletions(-)
 
