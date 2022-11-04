@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110C8619571
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 12:36:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66290619570
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 12:36:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oquyw-0001Ee-6c; Fri, 04 Nov 2022 07:35:30 -0400
+	id 1oquzC-0001NU-Pf; Fri, 04 Nov 2022 07:35:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oquyt-0001D8-Ou
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:27 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ id 1oquz8-0001NC-44
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:42 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oquys-00087F-3F
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:27 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id z14so6655568wrn.7
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 04:35:25 -0700 (PDT)
+ id 1oquys-00087O-Lu
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:40 -0400
+Received: by mail-wr1-x434.google.com with SMTP id o4so6667669wrq.6
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 04:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=B0i2dCHDu9lWZFqlFLWm0pVGENdI0RfMEclSaPXpBTU=;
- b=Ilwq2q2nEtKKOaBDN9UJvFQY7Ae5thrM+vvIn1kyQYQimvgo6jigHPqe6xZ34dUXKE
- fDr58CRsVR1ZU/l31dyWEZ4ZrWQOzPj1806Xp1WgJwVhQlb0IBjRZkEcYU03WoEu+1QT
- z6Kxdh/1X5osRfjIfnvK8Czk6gcEsPV9+uxW1+qe0j3gdftB253T+dFEXuKMVeW5SXVx
- fhmEXv65tJdy5e10SkxjOh30tYN3WRmfSvSWlkY6lF2BRN/pm4K74f2NHoeG7AKoUxvr
- yXtr9GsChzMEiYWXLVodWiPaH7ujc3bXilWHryui9HmuH8kvb1vJT5WTyWWMTMy6jK4Q
- 4UNg==
+ :reply-to; bh=TK36xDI/Bedr+1cIQUf9pmiyP0CsOopzktqKeVg1tdc=;
+ b=CwgSab0DFfsNtlJTI3tyOh6Q2Yt3Hycy0QO1Gk9H2QplJOUjDyll6ASKg54J+JedCN
+ Ygo0meKrsfqZt16gg+X00/JRwCLNFB0E+VqgY6P0SQrnP8B4SBGz0sN0exiZUgIDpsjB
+ mY4gjQ4Ou4tcOdCOpQb4q70vri9KlDIdokoQdDLY1Y6pslYNWZFLoWE1b5+MYbnsrpBI
+ 85ahl9x+IQPDqHOwQFBG0Nt2FPNrPg4XG3sjoinlmP+0GXl2yTbaYtVcTai5eKb3oRLh
+ 6jQo2G4mPz/o+LLKCHag7KxOG4VP9MgBjq2L0KClJRmPZPK0nYsGUNKgcJvSdrM3N/xf
+ Gt7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=B0i2dCHDu9lWZFqlFLWm0pVGENdI0RfMEclSaPXpBTU=;
- b=PUXpDQd+aouP+s+N8bX7ocE6ZSiaxMpGyY95ByhsdjyrGoB/j045orZFoeFoErgcSE
- a83wRBAJF0ePEoheDStoRUEv5KPbkTpkTVY84aIbjDpimeL/i+BIC8Zpv6bwtqX2si1T
- K80j9OKhBmBL+caBHrCAst6ENtP5JEF1X3jhHUSmz5i09Ibw5Qhqed8ekYQrRz7w6eX1
- /+Ajh+kmQVbRK15PcyjVKoVKGnLILiXiDOehrwKLGw/pqWp8pEFAY5jMAMVmpZjYTb9T
- +pvs5FG+tBK0xMIWJdwEg3TbvJ+8qHCHrmuIW2gq+9vM9dQusxHBLSsk9JPZ1JkeU3tp
- KiQA==
-X-Gm-Message-State: ACrzQf2CKFLrpwt50uqie8UyE9pIJL04640XpUBzTKVUerRciH/E3LwH
- yF+jrNRZvI7pS4EYCy164D23ralXmRcyWA==
-X-Google-Smtp-Source: AMsMyM5lZ/gqW2jrFRm5Z/UOwk6atRhDKoNsBZUplDjI9uWi5kTS+kLln7F0nmEcDCcFxNKyuPamrA==
-X-Received: by 2002:adf:e30f:0:b0:236:d8ef:9ede with SMTP id
- b15-20020adfe30f000000b00236d8ef9edemr15922883wrj.170.1667561724422; 
- Fri, 04 Nov 2022 04:35:24 -0700 (PDT)
+ bh=TK36xDI/Bedr+1cIQUf9pmiyP0CsOopzktqKeVg1tdc=;
+ b=b4yWSCJSTcJJB9MbMwCYZAS0q5Ufb0krLcCLopku8fEWGwV13zXiTqvsSa/0Ax+KjX
+ H3d+YpS+UNHtfk53ibLqmgI8w9Bew3tb7CXGwwRPCz6VyvKglr9ZwVkoZ1V1durgIzPK
+ BapzLJToa+9B1gcFrteSflyK3taiCXE3fs1jnGPZ6GBY1V1HjryBCz2XgR5QnfrIVV2V
+ VoGg0y2qEAb++QuKJgHIWYAtI+haByOMI0UUihlyq87f6XZoan/UHnTW+4gGUrt8bxRY
+ o1t2hAb5QyC5D8XZK1BhE+bnOXiAzgJx48ZHFz5LrEolZRUNWmuITdtZ0UUg+cmpN/Gg
+ +8Kg==
+X-Gm-Message-State: ACrzQf3f63VdeUC91ilWui6M7HVEFc1+jquDAcixdVpI9peek3jJF3fT
+ TETItsn9c3jeD/1nXAX0V9OG3Ex0e4H3Ew==
+X-Google-Smtp-Source: AMsMyM4Iyu4dLZ9Gjv1j1Sk/w9Qq7sQ/r8ubxFpHj/znyRef8wgKapl+AJMEPEfvYub9P5/W4wcmhg==
+X-Received: by 2002:a5d:45d0:0:b0:236:8201:1cb7 with SMTP id
+ b16-20020a5d45d0000000b0023682011cb7mr21817787wrs.417.1667561725365; 
+ Fri, 04 Nov 2022 04:35:25 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- g17-20020a5d4891000000b0023655e51c33sm3255743wrq.4.2022.11.04.04.35.23
+ g17-20020a5d4891000000b0023655e51c33sm3255743wrq.4.2022.11.04.04.35.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 04:35:23 -0700 (PDT)
+ Fri, 04 Nov 2022 04:35:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/7] target/arm: Honor HCR_E2H and HCR_TGE in ats_write64()
-Date: Fri,  4 Nov 2022 11:35:14 +0000
-Message-Id: <20221104113515.2278508-7-peter.maydell@linaro.org>
+Subject: [PULL 7/7] target/arm: Two fixes for secure ptw
+Date: Fri,  4 Nov 2022 11:35:15 +0000
+Message-Id: <20221104113515.2278508-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221104113515.2278508-1-peter.maydell@linaro.org>
 References: <20221104113515.2278508-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,70 +88,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ake Koomsin <ake@igel.co.jp>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-We need to check HCR_E2H and HCR_TGE to select the right MMU index for
-the correct translation regime.
+Reversed the sense of non-secure in get_phys_addr_lpae,
+and failed to initialize attrs.secure for ARMMMUIdx_Phys_S.
 
-To check for EL2&0 translation regime:
-- For S1E0*, S1E1* and S12E* ops, check both HCR_E2H and HCR_TGE
-- For S1E2* ops, check only HCR_E2H
-
-Signed-off-by: Ake Koomsin <ake@igel.co.jp>
-Message-id: 20221101064250.12444-1-ake@igel.co.jp
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Fixes: 48da29e4 ("target/arm: Add ptw_idx to S1Translate")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1293
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ target/arm/ptw.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 077581187e7..d8c8223ec38 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -3501,19 +3501,22 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
-     MMUAccessType access_type = ri->opc2 & 1 ? MMU_DATA_STORE : MMU_DATA_LOAD;
-     ARMMMUIdx mmu_idx;
-     int secure = arm_is_secure_below_el3(env);
-+    uint64_t hcr_el2 = arm_hcr_el2_eff(env);
-+    bool regime_e20 = (hcr_el2 & (HCR_E2H | HCR_TGE)) == (HCR_E2H | HCR_TGE);
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index e04dccff44f..3745ac97234 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -1381,7 +1381,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+     descaddr |= (address >> (stride * (4 - level))) & indexmask;
+     descaddr &= ~7ULL;
+     nstable = extract32(tableattrs, 4, 1);
+-    if (!nstable) {
++    if (nstable) {
+         /*
+          * Stage2_S -> Stage2 or Phys_S -> Phys_NS
+          * Assert that the non-secure idx are even, and relative order.
+@@ -2695,6 +2695,13 @@ static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
+     bool is_secure = ptw->in_secure;
+     ARMMMUIdx s1_mmu_idx;
  
-     switch (ri->opc2 & 6) {
-     case 0:
-         switch (ri->opc1) {
-         case 0: /* AT S1E1R, AT S1E1W, AT S1E1RP, AT S1E1WP */
-             if (ri->crm == 9 && (env->pstate & PSTATE_PAN)) {
--                mmu_idx = ARMMMUIdx_Stage1_E1_PAN;
-+                mmu_idx = regime_e20 ?
-+                          ARMMMUIdx_E20_2_PAN : ARMMMUIdx_Stage1_E1_PAN;
-             } else {
--                mmu_idx = ARMMMUIdx_Stage1_E1;
-+                mmu_idx = regime_e20 ? ARMMMUIdx_E20_2 : ARMMMUIdx_Stage1_E1;
-             }
-             break;
-         case 4: /* AT S1E2R, AT S1E2W */
--            mmu_idx = ARMMMUIdx_E2;
-+            mmu_idx = hcr_el2 & HCR_E2H ? ARMMMUIdx_E20_2 : ARMMMUIdx_E2;
-             break;
-         case 6: /* AT S1E3R, AT S1E3W */
-             mmu_idx = ARMMMUIdx_E3;
-@@ -3524,13 +3527,13 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
-         }
++    /*
++     * The page table entries may downgrade secure to non-secure, but
++     * cannot upgrade an non-secure translation regime's attributes
++     * to secure.
++     */
++    result->f.attrs.secure = is_secure;
++
+     switch (mmu_idx) {
+     case ARMMMUIdx_Phys_S:
+     case ARMMMUIdx_Phys_NS:
+@@ -2736,12 +2743,6 @@ static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
          break;
-     case 2: /* AT S1E0R, AT S1E0W */
--        mmu_idx = ARMMMUIdx_Stage1_E0;
-+        mmu_idx = regime_e20 ? ARMMMUIdx_E20_0 : ARMMMUIdx_Stage1_E0;
-         break;
-     case 4: /* AT S12E1R, AT S12E1W */
--        mmu_idx = ARMMMUIdx_E10_1;
-+        mmu_idx = regime_e20 ? ARMMMUIdx_E20_2 : ARMMMUIdx_E10_1;
-         break;
-     case 6: /* AT S12E0R, AT S12E0W */
--        mmu_idx = ARMMMUIdx_E10_0;
-+        mmu_idx = regime_e20 ? ARMMMUIdx_E20_0 : ARMMMUIdx_E10_0;
-         break;
-     default:
-         g_assert_not_reached();
+     }
+ 
+-    /*
+-     * The page table entries may downgrade secure to non-secure, but
+-     * cannot upgrade an non-secure translation regime's attributes
+-     * to secure.
+-     */
+-    result->f.attrs.secure = is_secure;
+     result->f.attrs.user = regime_is_user(env, mmu_idx);
+ 
+     /*
 -- 
 2.25.1
 
