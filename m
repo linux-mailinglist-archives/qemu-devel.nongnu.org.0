@@ -2,111 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA8F619DE6
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:59:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43055619EDB
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 18:35:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1or01Y-0001lK-2P; Fri, 04 Nov 2022 12:58:32 -0400
+	id 1or0Zo-0007JU-9w; Fri, 04 Nov 2022 13:33:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1or01V-0001kr-5d
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:58:29 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1or0Zm-0007JN-9M
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 13:33:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1or01Q-0006jp-Py
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:58:28 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A4FJ41k020747;
- Fri, 4 Nov 2022 16:58:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : from : to : cc : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=dPoKPHMqPYHzq8j2WPQLuET57f3msdpQlXvMyx20GM0=;
- b=pXb4HarTd90iNImzJ7Tk7EamCvyC4dARAFC6ZWvtUM16Ckbnhpj3+vnO0Y/dpah9u9JX
- jCSdxsx3rEfIvK5MWqqcqwvMX6JDm/g6iA9YY90vEywivfCjlIYf9ufyw3UJAbSwhK+O
- Tv3VZHUDakVkPOlv+Nvzc+OXtzn8QyXjTRraB4EPp+ilmZnumkWMJp+hIC1ldTQcMcha
- ISxwIlOY2+AU1TUjWYdisAqXcJy+J6lnpu05+RodmNqD1U2Z0MneKfJiqudHXgBI4iq7
- 5jZJmPcYoTingbg4PM1uIkPX3W6v+ScGJOtK9MUdMzJvQVnbUgLADKXqxKB6PUyWoKsO JQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmpjref70-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Nov 2022 16:58:22 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A4Dd4KO025646;
- Fri, 4 Nov 2022 16:58:22 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmpjref6e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Nov 2022 16:58:22 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A4GoiRG010838;
- Fri, 4 Nov 2022 16:58:20 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04ams.nl.ibm.com with ESMTP id 3kgut9anng-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Nov 2022 16:58:20 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2A4GwIU259900296
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Nov 2022 16:58:18 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 11BA511C04C;
- Fri,  4 Nov 2022 16:58:18 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CCDE511C04A;
- Fri,  4 Nov 2022 16:58:17 +0000 (GMT)
-Received: from [9.179.4.209] (unknown [9.179.4.209])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  4 Nov 2022 16:58:17 +0000 (GMT)
-Message-ID: <e858e92d-79db-9e75-f3c2-abd40974dc9f@linux.ibm.com>
-Date: Fri, 4 Nov 2022 17:58:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [RFC PATCH] virtio: re-order vm_running and use_started checks
-Content-Language: en-US
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20221014132108.2559156-1-alex.bennee@linaro.org>
- <20221104115340-mutt-send-email-mst@kernel.org>
- <302d7a5f-069a-f071-b1c2-56bdbb1f625f@linux.ibm.com>
- <20221104121339-mutt-send-email-mst@kernel.org>
- <dc6522b4-0bae-d0b9-431a-6c635fe0492c@linux.ibm.com>
-In-Reply-To: <dc6522b4-0bae-d0b9-431a-6c635fe0492c@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: HzqpQrKz5qUvOZCZjdjtYXykTmRnqHGt
-X-Proofpoint-ORIG-GUID: 7xO-id2E_VZufoVouowM2anw0dQST8m5
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1or0Zk-0003RG-1K
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 13:33:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667583228;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=S06mxTRAB/uH4p09zfbVpnzQn3NZ33nncPpIH515IsE=;
+ b=B4NvSrDQhS9TAn7Gt2lt/oh0DvqxCs801IaK8q1j9KXrTxxmzM6oHDoKE1a2u9VBgg1Qzl
+ 9lc2R3BktHUVnVNTpAcgtLEQnfQbXEaMN2aTt5X9gfu69T8v0BkpMMm6IpSeyRi3HfN+yz
+ rrrC1btCbPHHFBiVyBmJhK51H8rLpT4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-153-J6TZbVZoNCWCmmFViG6H0A-1; Fri, 04 Nov 2022 13:33:46 -0400
+X-MC-Unique: J6TZbVZoNCWCmmFViG6H0A-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ m24-20020adfa3d8000000b00236774fd74aso1441356wrb.8
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 10:33:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=S06mxTRAB/uH4p09zfbVpnzQn3NZ33nncPpIH515IsE=;
+ b=FSIfi42DbYwoykhVA+8/ubcU9pr8GDfvkAoBlfeA1SSOqRZgI5+nfrQZqgyDfybBK+
+ By0FDXXiwfVYCUnymdYTr+Vb9/WeqsRuMdqCZKl1KMUXnTGkRdylTxlHAZCaISN27WWn
+ nn68nnLnc8HCU0KXzmuVEdajSeO7vLA/BP+V4Eq8XPTzfVnuXe7IWozMIW2CkecQ7uCN
+ qCFdTC/60DdK6Uk6YhyWkWJ4gue6dg2AVpqxgI427Zgsr9syCy6yrmdvvWPHMS2Itcue
+ WlQHHdnMG01/adR/XczXckJ/b+wpvJahcrTivI0s9HmQy01lK6XHYmxLb3HdfG3uLTMy
+ 0Mcw==
+X-Gm-Message-State: ACrzQf3wTRD4X8gS9b5oLBa43vrW//XvXNJtEmtJlf0x6qq8RMoejZ1n
+ 1BsTYaj6ftkF66y0bljL3hKum8a+8DPS88AZ7PI3rxvj+EnSnXnoNgFygA2xNv/KCEdcyHaSBmQ
+ sFvOGNNyNmSeJ2Yc=
+X-Received: by 2002:a5d:6da2:0:b0:236:791d:e5a1 with SMTP id
+ u2-20020a5d6da2000000b00236791de5a1mr23198347wrs.665.1667583225761; 
+ Fri, 04 Nov 2022 10:33:45 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5acXDbpFGCa1E0smb1tt8Ww4Kw1pzRC7AhhleKtioAQjOlLkNzMoWJT4cCF9z0DZJSGLBt3Q==
+X-Received: by 2002:a5d:6da2:0:b0:236:791d:e5a1 with SMTP id
+ u2-20020a5d6da2000000b00236791de5a1mr23198328wrs.665.1667583225514; 
+ Fri, 04 Nov 2022 10:33:45 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-201.web.vodafone.de.
+ [109.43.177.201]) by smtp.gmail.com with ESMTPSA id
+ d33-20020a05600c4c2100b003cf37c5ddc0sm21734wmp.22.2022.11.04.10.33.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Nov 2022 10:33:44 -0700 (PDT)
+Message-ID: <8ff8d033-9394-d114-6145-e36707dc9056@redhat.com>
+Date: Fri, 4 Nov 2022 18:33:43 +0100
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-04_11,2022-11-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- clxscore=1015 spamscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
- impostorscore=0 mlxlogscore=999 phishscore=0 mlxscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211040105
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20221022160052.1132-1-vr_qemu@t-online.de>
+ <CAJ+F1CLjiCs4zSxSpr_OPWDM9_xCC0YfJTL_82umDB-rX6aW3Q@mail.gmail.com>
+ <b3c5e4b6-0208-0b0d-fef4-b536ce889dfc@t-online.de>
+ <CAJ+F1C+HmS7Y8Wu88uwr5DVcspstGS+MMFAH_QB5Cd3LiVxoNA@mail.gmail.com>
+ <9f4b112e-c687-2846-3cee-2f130847dd51@t-online.de>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/qtest/ac97-test: add up-/downsampling tests
+In-Reply-To: <9f4b112e-c687-2846-3cee-2f130847dd51@t-online.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,118 +105,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 04.11.22 um 17:51 schrieb Christian Borntraeger:
-> 
-> 
-> Am 04.11.22 um 17:14 schrieb Michael S. Tsirkin:
->> On Fri, Nov 04, 2022 at 04:59:35PM +0100, Christian Borntraeger wrote:
+On 26/10/2022 21.34, Volker Rümelin wrote:
+> Am 25.10.22 um 09:44 schrieb Marc-André Lureau:
+>> Hi
+>>
+>> On Tue, Oct 25, 2022 at 12:31 AM Volker Rümelin<vr_qemu@t-online.de>  wrote:
+>>> Am 24.10.22 um 10:13 schrieb Marc-André Lureau:
+>>>> Hi
+>>>>
+>>>> On Mon, Oct 24, 2022 at 9:28 AM Volker Rümelin<vr_qemu@t-online.de>
+>>>> wrote:
+>>>>
+>>>>      Test if the audio subsystem can handle extreme up- and down-
+>>>>      sampling ratios like 44100/1 and 1/44100. For some time these
+>>>>      used to trigger QEMU aborts. The test was taken from
+>>>>      https://gitlab.com/qemu-project/qemu/-/issues/71  where it was
+>>>>      used to demonstrate a very different issue.
+>>>>
+>>>>      Suggested-by: Marc-André Lureau<marcandre.lureau@redhat.com>
+>>>>      Signed-off-by: Volker Rümelin<vr_qemu@t-online.de>
+>>>>
+>>>>
+>>>> Thanks for working on this
+>>>>
+>>>> It seems to show something different though:
+>>>> "
+>>>> A bug was just triggered in audio_calloc
+>>>> Save all your work and restart without audio
+>>>> I am sorry
+>>>> "
+>>>>
+>>>> AUD_open_out() is called with audsettings: {freq = 1, nchannels = 2,
+>>>> fmt = AUDIO_FORMAT_S16, endianness = 0}
+>>>>
+>>>> And that's it. Any idea?
+>>> Hi,
 >>>
->>>
->>> Am 04.11.22 um 16:56 schrieb Michael S. Tsirkin:
->>>> On Fri, Oct 14, 2022 at 02:21:08PM +0100, Alex Bennée wrote:
->>>>> During migration the virtio device state can be restored before we
->>>>> restart the VM. As no devices can be running while the VM is paused it
->>>>> makes sense to bail out early in that case.
->>>>>
->>>>> This returns the order introduced in:
->>>>>
->>>>>    9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
->>>>>
->>>>> to what virtio-sock was doing longhand.
->>>>>
->>>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>>>> Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
->>>>
->>>>
->>>> What happens now:
->>>>
->>>> with this applied I get:
->>>>
->>>> https://gitlab.com/mitsirkin/qemu/-/pipelines/685829158/failures
->>>>
->>>> ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
->>>> stderr:
->>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
->>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to set msg fds.
->>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: -chardev socket,id=chr-reconnect,path=/tmp/vhost-test-QLKXU1/reconnect.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-QLKXU1/reconnect.sock,server=on
->>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
->>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to set msg fds.
->>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: -chardev socket,id=chr-connect-fail,path=/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on
->>>> qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: Failed to read msg header. Read 0 instead of 12. Original request 1.
->>>> qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: vhost_backend_init failed: Protocol error
->>>> qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: failed to init vhost_net for queue 0
->>>> qemu-system-arm: -netdev vhost-user,id=hs0,chardev=chr-connect-fail,vhostforce=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-L9Q6U1/connect-fail.sock,server=on
->>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
->>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to set msg fds.
->>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: -chardev socket,id=chr-flags-mismatch,path=/tmp/vhost-test-3MO5U1/flags-mismatch.sock,server=on: info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-3MO5U1/flags-mismatch.sock,server=on
->>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 52.
->>>> qemu-system-arm: vhost_set_mem_table failed: Invalid argument (22)
->>>> qemu-system-arm: unable to start vhost net: 22: falling back on userspace virtio
->>>> vhost lacks feature mask 0x40000000 for backend
->>>> qemu-system-arm: failed to init vhost_net for queue 0
->>>> qemu-system-arm: Failed to set msg fds.
->>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to set msg fds.
->>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
->>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to set msg fds.
->>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to set msg fds.
->>>> qemu-system-arm: vhost VQ 2 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to set msg fds.
->>>> qemu-system-arm: vhost VQ 3 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
->>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to set msg fds.
->>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
->>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to set msg fds.
->>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to set msg fds.
->>>> qemu-system-arm: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to set msg fds.
->>>> qemu-system-arm: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
->>>> qemu-system-arm: Failed to set msg fds.
->>>> qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
->>>> qemu-system-arm: Failed to set msg fds.
->>>> qemu-system-arm: vhost_set_vring_call failed: Invalid argument (22)
->>>> qemu-system-arm: Failed to write msg. Wrote -1 instead of 20.
->>>> qemu-system-arm: vhost VQ 0 ring restore failed: -5: Input/output error (5)
->>>> qemu-system-arm: ../hw/virtio/virtio-bus.c:211: void virtio_bus_release_ioeventfd(VirtioBusState *): Assertion `bus->ioeventfd_grabbed != 0' failed.
->>>> ../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
->>>> **
->>>> ERROR:../tests/qtest/qos-test.c:191:subprocess_run_one_test: child process (/arm/virt/virtio-mmio/virtio-bus/vhost-user-gpio-device/vhost-user-gpio/vhost-user-gpio-tests/read-guest-mem/memfile/subprocess [8735]) failed unexpectedly
->>>> (test program exited with status code -6)
->>>> ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
->>>>
->>>>
->>>>
->>>>
->>>> without this it passes:
->>>>
->>>> https://gitlab.com/mitsirkin/qemu/-/jobs/3275949777
->>>>
->>>>
->>>> this only triggers under github, clang-system job.
->>>> trying to decide what to do now. revert just this?
->>> When we revert this save/restore for vsock is broken. Not sure, maybe we must use a more fine-grained fix as outlined in my initial mail?
->>
->>
->>
->> Could you take a look here pls?
->>
->> https://gitlab.com/mitsirkin/qemu/-/tree/testrevert1
+>>> the scary message is expected and doesn't mean this qos-test failed.
+>>> This is the currently not so silent 'the audio subsystem should (...)
+>>> silently give up' case.
+>> Ok, but it's not silent. According to the AC97 spec, "if the value
+>> written to the register is supported that value will be echoed back
+>> when read, otherwise the closest (higher in case of a tie) sample rate
+>> supported is returned". We should probably pick a low sample rate,
+>> like 8000 (see Table 32 in spec 2.1) for anything below it.
 > 
-> I kicked of our regression test suite for s390.
+> Hi,
+> 
+> I don't think we should limit the lowest sample rate to 8000 Hz. The sample 
+> rates in AC97 revision 2.1 Table 32 are sample rates the codec should 
+> support at minimum. We are free to support the whole 1-65535 Hz sample rate 
+> range.
 
-This branch also seems to fix my original problem.
-Regression is still running but looks good so far.
+FWIW, a minimum sample rate of 1 Hz also does not make much sense. You 
+cannot hear that frequency anymore... so it does not really make that much 
+sense to support such low frequencies here. Just my 0.02 €.
+
+> This is a convenient way to test edge cases. If you think the 
+> audio_bug message is an issue, I'll improve the error handling in AUD_open_* 
+> first and then resend this qos test.
+
+I agree with Marc-André - the error message looks confusing when running the 
+test. Maybe you could simply fence it with qtest_enable() at least?
+
+>>> The noaudio backend uses a mixing-engine buffer size of 1024 audio
+>>> frames and AUD_open_* tries to allocate memory for 1024/44100 = 0.0232
+>>> audio frames for the resample buffer in audio_pcm_sw_alloc_resources_*.
+>>> This allocation fails and produces the scary message. The error is
+>>> handled correctly and AUD_open_* returns NULL. AUD_read and AUD_write
+>>> return early if this pointer is NULL and the audio frontend callback
+>>> functions will also not be called because the audio_frontend_frames_*
+>>> functions return 0 in this case.
+>> Thanks, it'd be nice to have such a description in the commit message.
+> 
+> I'll improve the commit message of patch version 2.
+
+A v2 would be appreciated!
+
+  Thanks,
+   Thomas
+
 
