@@ -2,90 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED3346192D5
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 09:35:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD0C6192ED
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 09:45:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqs9P-0005YG-6i; Fri, 04 Nov 2022 04:34:07 -0400
+	id 1oqsJC-0007v4-7p; Fri, 04 Nov 2022 04:44:14 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oqs9A-0005Xp-9b
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 04:33:56 -0400
-Received: from mga18.intel.com ([134.134.136.126])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oqsJA-0007uj-8I
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 04:44:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oqs94-0003by-IU
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 04:33:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667550826; x=1699086826;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=LBhw6eQcS71AQTHPgtJidpmNdTMwoZDoM5imFH5VGeA=;
- b=RWdIBc/c6yRV9Ds5CQ8LFlX/64CF2CU2CiOa0C3EP1qMCcQCddyewWqS
- IGly1VcsEcqmQyQgNeQFsSnI5dDS1ytifJc/PSb+LW2DKqwmLAjpcufVL
- MjI+AUDxm6EjXarU1VkY8gTv8HO5FyOZR8E0Q7mT32uVssC1NK1LAJoVp
- xv1SlcuqzQ8BN7WbmPpLcljuxTBrboUOPR7W62uuRJNSVl53rapnmOTII
- HlW/5Kj04EeRDx5y1ITsHfH/Q0jk2v0xv3tkWvBprhKLknB0/XGJDaUtE
- zbCx8CEKt1QDpEhYswRJ8mRKHaw6t5X1jVyx/VmfJlERT3TKpJRqhZvis A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="293240809"
-X-IronPort-AV: E=Sophos;i="5.96,136,1665471600"; d="scan'208";a="293240809"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2022 01:33:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="637512630"
-X-IronPort-AV: E=Sophos;i="5.96,136,1665471600"; d="scan'208";a="637512630"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by fmsmga007.fm.intel.com with ESMTP; 04 Nov 2022 01:33:10 -0700
-Date: Fri, 4 Nov 2022 16:28:43 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 5/8] KVM: Register/unregister the guest private memory
- regions
-Message-ID: <20221104082843.GA4142342@chaop.bj.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-6-chao.p.peng@linux.intel.com>
- <Y2RJFWplouV2iF5E@google.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oqsJ8-0004zA-KE
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 04:44:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667551449;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a17jxPgkWYFLveumbLwLPpwqCJiWdszz8EIHQDT3JNg=;
+ b=Q3d87Gzon/ImQ8fA40DLF03dckae4HvQZOfbEh/qQgInU/1Au+gGfyoj0QEi7ZkVl3IL0x
+ j2/grRq5A3/uATfH8U4JqyYi1JyIaVPEcgc3rIa2WELOvdQqzlb8pAiG8RyoZkbXQjjNPe
+ HHnTXvI5I/1IjLfAYkYpdLLVl8xiqTY=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-41-qybG9lBkMR-kbDIuLvwc9A-1; Fri, 04 Nov 2022 04:44:08 -0400
+X-MC-Unique: qybG9lBkMR-kbDIuLvwc9A-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ dz9-20020a0564021d4900b0045d9a3aded4so3069976edb.22
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 01:44:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=a17jxPgkWYFLveumbLwLPpwqCJiWdszz8EIHQDT3JNg=;
+ b=lPXowHT5AgdBCBmdgbQ0Z8k5HouGVT4K6Z8Yp0bpmnNz0iJIxrURlTK1A+BS8PUABv
+ OUbp2P5yJYd/IZMMP0gcQ5GW+k8nbwnbl6fByPVSaRxP/lT8WxeY0TQshB3DzPmUwpJw
+ OIo33UpseZZCGGDGT2Sjjay3zBV1A5g71c1O2WYo4pfbCC8cHdWkS9ykD00zYKE3sNgH
+ z0okxTShFir84AWB/LP32iBikWx1YhbKOTBGDW5scYMUfB6sNZdmMHYKbwIjY3uZSsdU
+ lGG6phqQkQsi9Z3fBvDuR2IvxCyN8ireDZVwrjfO2URyvHk8MJuHwsb6EjwnNPzImSnQ
+ VAwg==
+X-Gm-Message-State: ACrzQf30mUycLC3HaiOZ1Z7Jv/j4pO85n+2oZM+GEUDUD9Qnwko+NF+q
+ 6pSUx4BJmBdGLmECw6J0YT8KCTVfSU6GgRXz0mv/mOeqt6z7tFsVYs5PG9iFkP1WtaB3rf1yV0N
+ 5zgvntdNzlEUxsfE=
+X-Received: by 2002:a17:906:9c82:b0:781:5752:4f2b with SMTP id
+ fj2-20020a1709069c8200b0078157524f2bmr32587454ejc.561.1667551447197; 
+ Fri, 04 Nov 2022 01:44:07 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6wdj+qBY6zA41npFBb75+1sYup9YxCerhLKjAKWrn9MK58zEELaq6sstLzH6ZZo/dx2avMvw==
+X-Received: by 2002:a17:906:9c82:b0:781:5752:4f2b with SMTP id
+ fj2-20020a1709069c8200b0078157524f2bmr32587438ejc.561.1667551446916; 
+ Fri, 04 Nov 2022 01:44:06 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:4783:a68:c1ee:15c5?
+ ([2001:b07:6468:f312:4783:a68:c1ee:15c5])
+ by smtp.googlemail.com with ESMTPSA id
+ kx23-20020a170907775700b0078ba492db81sm1523733ejc.9.2022.11.04.01.44.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Nov 2022 01:44:06 -0700 (PDT)
+Message-ID: <ac92cf1f-49c4-b263-f48f-4be17044d61e@redhat.com>
+Date: Fri, 4 Nov 2022 09:44:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y2RJFWplouV2iF5E@google.com>
-Received-SPF: none client-ip=134.134.136.126;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga18.intel.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH 2/9] block-copy: add missing coroutine_fn annotations
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+References: <20221103134206.4041928-1-eesposit@redhat.com>
+ <20221103134206.4041928-3-eesposit@redhat.com>
+ <8f24c24c-ca61-108c-924b-39465a3c67fe@redhat.com>
+ <Y2QDPXegFTdpBy6S@redhat.com>
+ <dfb4906f-5fff-0430-a3c8-c1f660d3497d@redhat.com>
+ <aa37a312-96c1-3bf7-29fe-fbe83eb48f61@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <aa37a312-96c1-3bf7-29fe-fbe83eb48f61@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,95 +109,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 03, 2022 at 11:04:53PM +0000, Sean Christopherson wrote:
-> On Tue, Oct 25, 2022, Chao Peng wrote:
-> > @@ -4708,6 +4802,24 @@ static long kvm_vm_ioctl(struct file *filp,
-> >  		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
-> >  		break;
-> >  	}
-> > +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
-> > +	case KVM_MEMORY_ENCRYPT_REG_REGION:
-> > +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
-> 
-> I'm having second thoughts about usurping KVM_MEMORY_ENCRYPT_(UN)REG_REGION.  Aside
-> from the fact that restricted/protected memory may not be encrypted, there are
-> other potential use cases for per-page memory attributes[*], e.g. to make memory
-> read-only (or no-exec, or exec-only, etc...) without having to modify memslots.
-> 
-> Any paravirt use case where the attributes of a page are effectively dictated by
-> the guest is going to run into the exact same performance problems with memslots,
-> which isn't suprising in hindsight since shared vs. private is really just an
-> attribute, albeit with extra special semantics.
-> 
-> And if we go with a brand new ioctl(), maybe someday in the very distant future
-> we can deprecate and delete KVM_MEMORY_ENCRYPT_(UN)REG_REGION.
-> 
-> Switching to a new ioctl() should be a minor change, i.e. shouldn't throw too big
-> of a wrench into things.
-> 
-> Something like:
-> 
->   KVM_SET_MEMORY_ATTRIBUTES
-> 
->   struct kvm_memory_attributes {
-> 	__u64 address;
-> 	__u64 size;
-> 	__u64 flags;
->   }
+On 11/4/22 08:35, Emanuele Giuseppe Esposito wrote:
+> But isn't it a bug also not to mark a function _only_ called by
+> coroutine_fn? My point is that if this function is an implementation of
+> a BlockDriver callback marked as coroutine_fn (like in patch 6 with
+> vmdk), then it would make sense.
 
-I like the idea of adding a new ioctl(). But putting all attributes into
-a flags in uAPI sounds not good to me, e.g. forcing userspace to set all
-attributes in one call can cause pain for userspace, probably for KVM
-implementation as well. For private<->shared memory conversion, we
-actually only care the KVM_MEM_ATTR_SHARED or KVM_MEM_ATTR_PRIVATE bit,
-but we force userspace to set other irrelevant bits as well if use this
-API.
+If a function implements a coroutine_fn callback but does not suspend, 
+then it makes sense to mark it coroutine_fn.
 
-I looked at kvm_device_attr, sounds we can do similar:
+In general it's not a bug.  In most cases it would only be a coincidence 
+that the function is called from a coroutine_fn.  For example consider 
+bdrv_round_to_clusters().  Marking it coroutine_fn signals that it may 
+suspend now (it doesn't) or in the future.  However it's only doing some 
+math based on the result of bdrv_get_info(), so it is extremely unlikely 
+that this will happen.
 
-  KVM_SET_MEMORY_ATTR
+In this case... oh wait.  block_copy_is_cluster_allocated is calling 
+bdrv_is_allocated, and block_copy_reset_unallocated calls 
+block_copy_is_cluster_allocated.  bdrv_is_allocated is a mixed 
+coroutine/non-coroutine function, and in this case it is useful to 
+document that bdrv_is_allocated will suspend.  The patch is correct, 
+only the commit message is wrong.
 
-  struct kvm_memory_attr {
-	__u64 address;
-	__u64 size;
-#define KVM_MEM_ATTR_SHARED	BIT(0)
-#define KVM_MEM_ATTR_READONLY	BIT(1)
-#define KVM_MEM_ATTR_NOEXEC	BIT(2)
-	__u32 attr;
-	__u32 pad;
-  }
+Likewise for blockstatus_to_extents in patch 3, where the commit message 
+does mention bdrv_* functions.  As I mentioned in my quick review of 
+patch 3, this can also snowball into a series of its own to clean up all 
+callees of bdrv_co_common_block_status_above, similar to what Alberto 
+did for read/write functions back in June, so that they are properly 
+marked as coroutine_fn.  If you want to do it, don't do it by hand 
+though, you can use his static analyzer.  It's slow but it's faster than 
+doing it by hand.
 
-I'm not sure if we need KVM_GET_MEMORY_ATTR/KVM_HAS_MEMORY_ATTR as well,
-but sounds like we need a KVM_UNSET_MEMORY_ATTR.
+> This is actually the point of this serie (which I might not have
+> explained well in the cover letter), every function marked here is
+> eventually called by/calling a BlockDriver callback marked as coroutine_fn.
 
-Since we are exposing the attribute directly to userspace I also think
-we'd better treat shared memory as the default, so even when the private
-memory is not used, the bit can still be meaningful. So define BIT(0) as
-KVM_MEM_ATTR_PRIVATE instead of KVM_MEM_ATTR_SHARED.
+Again I don't think this is useful in general, but your three patches 
+(2/3/6) did catch cases that wants to be coroutine_fn.  So my objection 
+is dropped with just a better commit message.
 
-Thanks,
-Chao
-
+> Currently we have something like this:
+> BlockDriver {
+>      void coroutine_fn (*bdrv_A)(void) = implA;
+> }
 > 
-> [*] https://lore.kernel.org/all/Y1a1i9vbJ%2FpVmV9r@google.com
+> void coroutine_fn implA() {
+>      funcB();
+>      funcC();
+> }
 > 
-> > +		struct kvm_enc_region region;
-> > +		bool set = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
-> > +
-> > +		if (!kvm_arch_has_private_mem(kvm))
-> > +			goto arch_vm_ioctl;
-> > +
-> > +		r = -EFAULT;
-> > +		if (copy_from_user(&region, argp, sizeof(region)))
-> > +			goto out;
-> > +
-> > +		r = kvm_vm_ioctl_set_mem_attr(kvm, region.addr,
-> > +					      region.size, set);
-> > +		break;
-> > +	}
-> > +#endif
+> void funcB() {}; <--- missing coroutine_fn?
+> void funcC() {}; <--- missing coroutine_fn?
+> 
+> In addition, as I understand draining is not allowed in coroutines.
+
+... except we have bdrv_co_yield_to_drain() to allow that, sort of. :/
+
+> If a function/callback only running in coroutines is not marked as
+> coroutine_fn, then it will be less obvious to notice that draining is
+> not allowed there.
+
+I think it has to be judged case by base.  Your patches prove that, in 
+most cases, you have coroutine_fn for things that ultimately do some 
+kind of I/O or query.  In general the interesting path to explore is 
+"coroutine_fn calls (indirectly) non-coroutine_fn calls (indirectly) 
+generated_co_wrapper".  The vrc tool could be extended to help finding 
+them, with commands like
+
+     label coroutine_fn bdrv_co_read
+     label coroutine_fn bdrv_co_write
+     ...
+     label generated_co_wrapper bdrv_read
+     label generated_co_wrapper bdrv_write
+     paths coroutine_fn !coroutine_fn generated_co_wrapper
+
+Paolo
+
 
