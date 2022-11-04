@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66290619570
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 12:36:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49656619590
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 12:45:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oquzC-0001NU-Pf; Fri, 04 Nov 2022 07:35:46 -0400
+	id 1oqv6z-0000Jw-Eb; Fri, 04 Nov 2022 07:43:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oquz8-0001NC-44
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:42 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ id 1oqv6x-0000Iw-RV
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:43:47 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oquys-00087O-Lu
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:35:40 -0400
-Received: by mail-wr1-x434.google.com with SMTP id o4so6667669wrq.6
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 04:35:26 -0700 (PDT)
+ id 1oqv6w-0000wc-2B
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 07:43:47 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id d20so3568978plr.10
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 04:43:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=TK36xDI/Bedr+1cIQUf9pmiyP0CsOopzktqKeVg1tdc=;
- b=CwgSab0DFfsNtlJTI3tyOh6Q2Yt3Hycy0QO1Gk9H2QplJOUjDyll6ASKg54J+JedCN
- Ygo0meKrsfqZt16gg+X00/JRwCLNFB0E+VqgY6P0SQrnP8B4SBGz0sN0exiZUgIDpsjB
- mY4gjQ4Ou4tcOdCOpQb4q70vri9KlDIdokoQdDLY1Y6pslYNWZFLoWE1b5+MYbnsrpBI
- 85ahl9x+IQPDqHOwQFBG0Nt2FPNrPg4XG3sjoinlmP+0GXl2yTbaYtVcTai5eKb3oRLh
- 6jQo2G4mPz/o+LLKCHag7KxOG4VP9MgBjq2L0KClJRmPZPK0nYsGUNKgcJvSdrM3N/xf
- Gt7g==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=2cbGWn9NdUuWCs26mj3asm8NMohzdvg8Sydr0LytHy8=;
+ b=G8pK61r/8FqsfTQKrVhAjlMk2vSD+RQTQaDyuR2DywX2W4QKLWiQIGIpGVj4wwdRZ/
+ 32vHXdOr198UAqw7gDR/kKRV7ILVAc3HvR3dK5r0FJ2TF/FWRIYZjWwxfa3zeu+ZDNSa
+ nfiz32MIpJZW5RMGMo9BU2ystG+ScDy21fxuuMVReAI0O3H7X+sN6pGqJMdr2ke5JCsh
+ Liv8ke97yKDVeZvwYtNrOrUWXWTleEXvyb2djF55DaDEQX6HVoSvx97jjwtZb+WepNL2
+ jywsJYzvp7Q5GeXiwTD5tnzS0W1nHhmusBAt/a1ayq/ESfyFdcdfUB4pd25ZZpl/zM7U
+ f/bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=TK36xDI/Bedr+1cIQUf9pmiyP0CsOopzktqKeVg1tdc=;
- b=b4yWSCJSTcJJB9MbMwCYZAS0q5Ufb0krLcCLopku8fEWGwV13zXiTqvsSa/0Ax+KjX
- H3d+YpS+UNHtfk53ibLqmgI8w9Bew3tb7CXGwwRPCz6VyvKglr9ZwVkoZ1V1durgIzPK
- BapzLJToa+9B1gcFrteSflyK3taiCXE3fs1jnGPZ6GBY1V1HjryBCz2XgR5QnfrIVV2V
- VoGg0y2qEAb++QuKJgHIWYAtI+haByOMI0UUihlyq87f6XZoan/UHnTW+4gGUrt8bxRY
- o1t2hAb5QyC5D8XZK1BhE+bnOXiAzgJx48ZHFz5LrEolZRUNWmuITdtZ0UUg+cmpN/Gg
- +8Kg==
-X-Gm-Message-State: ACrzQf3f63VdeUC91ilWui6M7HVEFc1+jquDAcixdVpI9peek3jJF3fT
- TETItsn9c3jeD/1nXAX0V9OG3Ex0e4H3Ew==
-X-Google-Smtp-Source: AMsMyM4Iyu4dLZ9Gjv1j1Sk/w9Qq7sQ/r8ubxFpHj/znyRef8wgKapl+AJMEPEfvYub9P5/W4wcmhg==
-X-Received: by 2002:a5d:45d0:0:b0:236:8201:1cb7 with SMTP id
- b16-20020a5d45d0000000b0023682011cb7mr21817787wrs.417.1667561725365; 
- Fri, 04 Nov 2022 04:35:25 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- g17-20020a5d4891000000b0023655e51c33sm3255743wrq.4.2022.11.04.04.35.24
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 04:35:24 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 7/7] target/arm: Two fixes for secure ptw
-Date: Fri,  4 Nov 2022 11:35:15 +0000
-Message-Id: <20221104113515.2278508-8-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221104113515.2278508-1-peter.maydell@linaro.org>
-References: <20221104113515.2278508-1-peter.maydell@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2cbGWn9NdUuWCs26mj3asm8NMohzdvg8Sydr0LytHy8=;
+ b=4ODO1+iMQQ3bT6NCHeKNXiTeTpNMioelE0k0wQCiQOy7vM7yj7ETx+/L9lmJ0fUYe0
+ Ugb0XSVvPnLNfMhCvgTBgIFjPT6pyftDBQNKo+z13B914XBj3X2UWsx/WRzEjG7ZvQmA
+ aV2tKonqIfMplHP5HsEOKEiR4RxC1JVGfXNISrc6GkcQGS4Ou6pJBTwu8gEX7PPNnDK+
+ WNdfSJdN6OazrpVMev2pZADx+oC/sQdG+s1aco657N8eKGAL8CO9zaI2lpDKxNtuX/eI
+ ampk/GucEVDN4XovoIwOu3R8OUIoNDUnz8LMkIjmLFSPeRhgxKKREhNmkmsxQK3JC6TH
+ 0Iyw==
+X-Gm-Message-State: ACrzQf3fmZB8FkCpv3PC0Y3Zb9ZIC3XCSZpdZNCVoJ2wwgmUyYPVxYKt
+ YnV5lFw5dFikh1+Z2TVGOngy1ueGqP+WtnqmgumnLg==
+X-Google-Smtp-Source: AMsMyM49nrexT3aVl/uvIrJS99RwL4V43jNBxz1Z59wC0LgjUN5eDy9Y8/FTRyhNdDL7WvHBrb+ZTaw3+IwbXOx4m8I=
+X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
+ jm23-20020a17090304d700b001788564f754mr35213271plb.60.1667562224527; Fri, 04
+ Nov 2022 04:43:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+References: <20220929093035.4231-1-cfontana@suse.de>
+ <3568bac0-1b64-d096-b78a-29f628a70448@suse.de>
+ <b68f4730-be61-b635-057e-270f3f74f63b@suse.de> <Y1rPI2sXcxjbVIbd@redhat.com>
+ <b3af1867-008c-779a-a53a-5d11721aa4e8@suse.de>
+In-Reply-To: <b3af1867-008c-779a-a53a-5d11721aa4e8@suse.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 4 Nov 2022 11:43:32 +0000
+Message-ID: <CAFEAcA8CVVCZhtnAdLrUjBiRevf+QYMW2f8sV-euV0rm5wX+Pw@mail.gmail.com>
+Subject: Re: [PATCH v9 0/5] improve error handling for module load
+To: Claudio Fontana <cfontana@suse.de>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, 
+ dinechin@redhat.com, Gerd Hoffmann <kraxel@redhat.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,62 +91,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On Fri, 4 Nov 2022 at 09:05, Claudio Fontana <cfontana@suse.de> wrote:
+>
+> On 10/27/22 20:34, Kevin Wolf wrote:
+> > Am 27.10.2022 um 16:52 hat Claudio Fontana geschrieben:
+> >> A ping on this one, is there anything more that needs to be urgently
+> >> addressed before it can be queued for inclusion?  This is currently
+> >> creating problems for upstream kubevirt, due to the error handling not
+> >> properly reporting permissions errors on module file access.
+> >
+> > What is the right tree to take this one?
+> >
+> > get_maintainers.pl doesn't show anything for module.[ch], which might be
+> > why nobody feels responsible for merging this.
+> >
+> > Kevin
+>
+> Ping,
+>
+> there is no util/* catch-all, so indeed it seems an unmaintained section of QEMU,
+> Richard and Markus took an interest to review the patches,
+>
+> but it seems that the project needs a maintainer / queue for the util/module.[ch]..
+>
+> Peter could you help with this?
 
-Reversed the sense of non-secure in get_phys_addr_lpae,
-and failed to initialize attrs.secure for ARMMMUIdx_Phys_S.
+I asked on IRC, and Paolo said he'd take this series.
 
-Fixes: 48da29e4 ("target/arm: Add ptw_idx to S1Translate")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1293
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/ptw.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index e04dccff44f..3745ac97234 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -1381,7 +1381,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
-     descaddr |= (address >> (stride * (4 - level))) & indexmask;
-     descaddr &= ~7ULL;
-     nstable = extract32(tableattrs, 4, 1);
--    if (!nstable) {
-+    if (nstable) {
-         /*
-          * Stage2_S -> Stage2 or Phys_S -> Phys_NS
-          * Assert that the non-secure idx are even, and relative order.
-@@ -2695,6 +2695,13 @@ static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
-     bool is_secure = ptw->in_secure;
-     ARMMMUIdx s1_mmu_idx;
- 
-+    /*
-+     * The page table entries may downgrade secure to non-secure, but
-+     * cannot upgrade an non-secure translation regime's attributes
-+     * to secure.
-+     */
-+    result->f.attrs.secure = is_secure;
-+
-     switch (mmu_idx) {
-     case ARMMMUIdx_Phys_S:
-     case ARMMMUIdx_Phys_NS:
-@@ -2736,12 +2743,6 @@ static bool get_phys_addr_with_struct(CPUARMState *env, S1Translate *ptw,
-         break;
-     }
- 
--    /*
--     * The page table entries may downgrade secure to non-secure, but
--     * cannot upgrade an non-secure translation regime's attributes
--     * to secure.
--     */
--    result->f.attrs.secure = is_secure;
-     result->f.attrs.user = regime_is_user(env, mmu_idx);
- 
-     /*
--- 
-2.25.1
-
+thanks
+-- PMM
 
