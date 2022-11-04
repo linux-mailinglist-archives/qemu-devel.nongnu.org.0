@@ -2,110 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4E1A61943D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 11:11:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3C961944B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 11:18:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqte8-0006wr-BI; Fri, 04 Nov 2022 06:09:56 -0400
+	id 1oqtku-0002w5-UM; Fri, 04 Nov 2022 06:16:56 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oqtdp-0006uH-5m; Fri, 04 Nov 2022 06:09:39 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oqtks-0002v5-C1
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 06:16:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oqtdn-0002NT-Dt; Fri, 04 Nov 2022 06:09:36 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A48IsA8011815;
- Fri, 4 Nov 2022 10:09:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=DOikEzhjvm1chpCqhNmIbjF5HD7/MFd6glT9U6jtehE=;
- b=RJsEDOE/yLe4BHhz+TM3ROVJAgKFAEfiQgn5FytUbZzq1AJzhG6I0SXyFhS/yMEAbGKw
- A0LbPcwN9TCEkD0Nxm0Hyfz9Mz/z/vi35v73Ys+qirmGLVeWW0CGnZ+cqj2od9AKXgCl
- OjfycX0+5ll6eTARFUDPIvS7CL03strlLFUz7me18MaIcfNg0rDXZTR9FyB+uRRoxkrk
- dbH9HiyouKNar8aMtHdJI+QNXf9gXrRGfDUWsCOPOTuZH4jFQnqkJZev2SDEp1ZcHq+1
- SDSaBmvDYuN4G4Nj3D3mRorJtLFJzIEKm+eHsMpyTimc5F38Ir9lJg6KchNkia0W6TlM QQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmpn9hdux-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Nov 2022 10:09:27 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A48l2ss005680;
- Fri, 4 Nov 2022 10:09:27 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmpn9hdty-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Nov 2022 10:09:26 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A49pNJv006375;
- Fri, 4 Nov 2022 10:09:24 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma01fra.de.ibm.com with ESMTP id 3kgut9fm3r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Nov 2022 10:09:23 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2A4A9veX52101462
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Nov 2022 10:09:57 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9E148AE051;
- Fri,  4 Nov 2022 10:09:20 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4DA28AE045;
- Fri,  4 Nov 2022 10:09:19 +0000 (GMT)
-Received: from [9.171.69.218] (unknown [9.171.69.218])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri,  4 Nov 2022 10:09:19 +0000 (GMT)
-Message-ID: <728a5046-bd09-8b13-05d2-984e1871c38c@linux.ibm.com>
-Date: Fri, 4 Nov 2022 11:09:19 +0100
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oqtkq-0003zQ-7k
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 06:16:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667557011;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ISveDu6ex4tEIg5EhCMNsw5f9kNMuSDvwHJ26eyixdA=;
+ b=Zb9sREhR9YhrvTKB4U5UoM9lGp4g4dATTzeA8iMZYkacaog8xw50cl9yKc3Luv7NqaJ1V4
+ AO3E5DTHPUdY6MAn8IM5uG3ygl7CxtsM6NvTTG4zHs0IucuNcDmkQiFA5/vCT2irlePl4L
+ ICa6Lnfy4EOLs72Xy4TkEKv77vXoSew=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-410-EtbDi1msOS2hjaVphRv8VA-1; Fri, 04 Nov 2022 06:16:47 -0400
+X-MC-Unique: EtbDi1msOS2hjaVphRv8VA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 653E486F134;
+ Fri,  4 Nov 2022 10:16:47 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5839640C6EE9;
+ Fri,  4 Nov 2022 10:16:46 +0000 (UTC)
+Date: Fri, 4 Nov 2022 10:16:43 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Drew DeVault <sir@cmpwn.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v3] linux-user: implement execveat
+Message-ID: <Y2Tmi8Ni5aYiFR6O@redhat.com>
+References: <20221103173212.3724698-1-sir@cmpwn.com>
+ <b22ae5f1-41d9-3739-e219-a717b7ab8b98@linaro.org>
+ <CO3F6B8K38DE.1OTGB55K8CMB2@taiga>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v11 09/11] s390x/cpu topology: add topology machine
- property
-To: Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
- clg@kaod.org
-References: <20221103170150.20789-1-pmorel@linux.ibm.com>
- <20221103170150.20789-10-pmorel@linux.ibm.com> <87bkpox8cw.fsf@redhat.com>
-Content-Language: en-US
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <87bkpox8cw.fsf@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Sh01q_duHgE8q5fcEp-OrrbxBWSCRQKW
-X-Proofpoint-ORIG-GUID: 7AcYBKDutY86pyEu_avo2dSnAu1Fl3qp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-04_06,2022-11-03_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0
- spamscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
- clxscore=1015 adultscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211040062
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CO3F6B8K38DE.1OTGB55K8CMB2@taiga>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,53 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 11/3/22 18:20, Cornelia Huck wrote:
-> On Thu, Nov 03 2022, Pierre Morel <pmorel@linux.ibm.com> wrote:
+On Fri, Nov 04, 2022 at 10:55:39AM +0100, Drew DeVault wrote:
+> On Fri Nov 4, 2022 at 10:53 AM CET, Philippe Mathieu-Daudé wrote:
+> > Splitting this big patch would ease review:
 > 
->> We keep the possibility to switch on/off the topology on newer
->> machines with the property topology=[on|off].
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   include/hw/boards.h                |  3 +++
->>   include/hw/s390x/cpu-topology.h    |  8 +++-----
->>   include/hw/s390x/s390-virtio-ccw.h |  1 +
->>   hw/core/machine.c                  |  3 +++
->>   hw/s390x/cpu-topology.c            | 19 +++++++++++++++++++
->>   hw/s390x/s390-virtio-ccw.c         | 28 ++++++++++++++++++++++++++++
->>   util/qemu-config.c                 |  4 ++++
->>   qemu-options.hx                    |  6 +++++-
->>   8 files changed, 66 insertions(+), 6 deletions(-)
->>
->> diff --git a/include/hw/boards.h b/include/hw/boards.h
->> index 311ed17e18..67147c47bf 100644
->> --- a/include/hw/boards.h
->> +++ b/include/hw/boards.h
->> @@ -379,6 +379,9 @@ struct MachineState {
->>       } \
->>       type_init(machine_initfn##_register_types)
->>   
->> +extern GlobalProperty hw_compat_7_2[];
->> +extern const size_t hw_compat_7_2_len;
-> 
-> This still needs to go into a separate patch that introduces the 8.0
-> machine types for the relevant machines... I'll probably write that
-> patch soon (next week or so), you can pick it then into this series.
+> It's only +165/-131, are you sure it really needs to be split?
+
+IMHO it is a standard best practice that code movement always be
+done in a separate commit from bug fixes / new features, regardless
+of # lines of code affected. I've seen way too many patches where
+bugs have been hidden due code movement / whitespace changes mixed
+in, even when the patch was small.
+
+> > 1/ Replace safe_execve() by safe_execveat()
+> >
+> >     -safe_execve(exec_path, argp, envp))
+> >     +safe_execveat(AT_FDCWD, exec_path, argp, envp, 0));
+> >
+> > 2/ Extract do_execve()
+> >
+> > 3/ Convert do_execve() to do_execveat() adding dirfd/flags args
+> >
+> > 4/ Add TARGET_NR_execveat case
 > 
 
-Oh sorry, I forgot to suppress these two definitions for this series.
-I do not need this for now.
-I will probably need your patch introducing the 8.0 for the next spin.
-
-Thanks,
-Pierre
-
+With regards,
+Daniel
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
