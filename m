@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097BF6195C1
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 13:02:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FAF46195C6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 13:04:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqvOp-0008Bl-61; Fri, 04 Nov 2022 08:02:15 -0400
+	id 1oqvQ7-0000MU-8q; Fri, 04 Nov 2022 08:03:35 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oqvNw-0007gU-J9
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 08:01:20 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oqvPc-0000Eb-7s
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 08:03:08 -0400
 Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oqvNu-0003kw-7m
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 08:01:19 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oqvPZ-00044l-OD
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 08:03:03 -0400
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-462-VpO-cxy7Pwe3M8VpEXY-7A-1; Fri, 04 Nov 2022 08:01:03 -0400
-X-MC-Unique: VpO-cxy7Pwe3M8VpEXY-7A-1
+ us-mta-623-fYKI456xOoeQGzzuLSfqmg-1; Fri, 04 Nov 2022 08:01:05 -0400
+X-MC-Unique: fYKI456xOoeQGzzuLSfqmg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7E2EA800B23;
- Fri,  4 Nov 2022 12:01:03 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 30F16101A56C;
+ Fri,  4 Nov 2022 12:01:05 +0000 (UTC)
 Received: from bahia.redhat.com (unknown [10.39.192.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D1A549BB9A;
- Fri,  4 Nov 2022 12:01:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C16AA403161;
+ Fri,  4 Nov 2022 12:01:03 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -37,9 +37,10 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Greg Kurz <groug@kaod.org>
-Subject: [PATCH 1/2] util/log: Make the per-thread flag immutable
-Date: Fri,  4 Nov 2022 13:00:58 +0100
-Message-Id: <20221104120059.678470-2-groug@kaod.org>
+Subject: [PATCH 2/2] util/log: Ignore per-thread flag if global file already
+ there
+Date: Fri,  4 Nov 2022 13:00:59 +0100
+Message-Id: <20221104120059.678470-3-groug@kaod.org>
 In-Reply-To: <20221104120059.678470-1-groug@kaod.org>
 References: <20221104120059.678470-1-groug@kaod.org>
 MIME-Version: 1.0
@@ -67,46 +68,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Per-thread logging was implemented under the assumption that once
-enabled, it is not possible to switch back to single file logging.
-This isn't enforced though and it is possible to go through the
-global file opening sequence in per-thread mode. The code isn't
-ready for this and produces unexpected results as detailed below.
+If QEMU is started with `-D qemu.log.%d` without any `-d` option,
+doing `log all` in the monitor fails with:
 
-Start QEMU in system emulation mode with `-D ./qemu.log.%d -d tid`
-and then change the log level from the monitor to something that
-doesn't have tid, e.g. `log cpu_reset`. The value of log_flags
-is zero and per_thread is set to false : the rest of the code
-then assumes it is running in the global log case and opens a
-file named `qemu.log.%d`, which is obviously not an expected
-behavior.
+Filename template with '%d' required for 'tid'
 
-Enforce the immutability of the flag early in qemu_set_log_internal()
-so that its value is correct for all subsequent users.
+It is confusing since '%d' was actually passed.
+
+This happens because QEMU caches the log file name with %d converted
+to getpid() since `tid` wasn't required. This name isn't suitable
+for a subsequent enablement of per-thread logs. There's little cause
+to change the behavior as `-d tid` is mostly used at user-only startup.
+
+Drop the per-thread from the requested flags in this case : `log all`
+will thus enable everything except `tid` instead of failing. This is
+preferable over forcing the user to enable each log item individually.
+
+With this patch, `tid` is now truely immutable : it can only be set
+or unset from the command line and never changed afterwards.
 
 Fixes: 4e51069d6793 ("util/log: Support per-thread log files")
 Cc: richard.henderson@linaro.org
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- util/log.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ util/log.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/util/log.c b/util/log.c
-index 39866bdaf2fa..b7d2b6e09cfe 100644
+index b7d2b6e09cfe..c2198badf240 100644
 --- a/util/log.c
 +++ b/util/log.c
-@@ -206,6 +206,11 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
-     QEMU_LOCK_GUARD(&global_mutex);
-     logfile = global_file;
+@@ -209,6 +209,10 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
+     /* The per-thread flag is immutable. */
+     if (log_per_thread) {
+         log_flags |= LOG_PER_THREAD;
++    } else {
++        if (global_filename) {
++            log_flags &= ~LOG_PER_THREAD;
++        }
+     }
  
-+    /* The per-thread flag is immutable. */
-+    if (log_per_thread) {
-+        log_flags |= LOG_PER_THREAD;
-+    }
-+
      per_thread = log_flags & LOG_PER_THREAD;
- 
-     if (changed_name) {
 -- 
 2.38.1
 
