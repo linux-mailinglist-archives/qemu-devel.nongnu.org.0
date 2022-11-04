@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A056193FA
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 10:59:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D6F619415
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 11:03:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqtSK-0005hz-4Z; Fri, 04 Nov 2022 05:57:44 -0400
+	id 1oqtXE-0005ae-MS; Fri, 04 Nov 2022 06:02:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oqtRp-0005a7-Tm
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:57:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oqtRm-0000Ii-AE
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:57:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667555829;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6z9lyDF0J2gq1fZQvXggcuNmz30BZSPi1TGya37k5PM=;
- b=g2WrAvp2ZAJsN5AWWZVPavp269g5BOrMcExqbpbKmW6ISXkn03zf/FWZ0GW+VEwd7uaoIJ
- EfegdMUsAhf7J3WEc891KvAeb6Sw8TX14BkvYlpzF8U1nZv8FVIPpHjRVBGA+o8+XQ+GfH
- kJSIPrQ2wHP2MTH+YUMkXYnzPrzx2sM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-478-6Sa7DZxzPr62gwsKG-GpEQ-1; Fri, 04 Nov 2022 05:57:05 -0400
-X-MC-Unique: 6Sa7DZxzPr62gwsKG-GpEQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 26B11185A794;
- Fri,  4 Nov 2022 09:57:05 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE7C840C8459;
- Fri,  4 Nov 2022 09:57:04 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v2 9/9] block/dirty-bitmap: remove unnecessary
- qemu_in_coroutine() case
-Date: Fri,  4 Nov 2022 05:57:00 -0400
-Message-Id: <20221104095700.4117433-10-eesposit@redhat.com>
-In-Reply-To: <20221104095700.4117433-1-eesposit@redhat.com>
-References: <20221104095700.4117433-1-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1oqtVI-0002OA-1u
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 06:00:49 -0400
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1oqtVA-0000um-9T
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 06:00:47 -0400
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8Bx3NjC4mRjqnsEAA--.15189S3;
+ Fri, 04 Nov 2022 18:00:34 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8AxPuDC4mRjYmUNAA--.37849S2; 
+ Fri, 04 Nov 2022 18:00:34 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+	stefanha@gmail.com
+Subject: [PULL v2 0/9] loongarch-to-apply queue
+Date: Fri,  4 Nov 2022 18:00:24 +0800
+Message-Id: <20221104100033.3473980-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-CM-TRANSID: AQAAf8AxPuDC4mRjYmUNAA--.37849S2
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7Ww45AFW5Zr45XFykGr4fAFb_yoW8trWxpr
+ 1a9r13Gr4rJrZxZrnIyw13XFn8Jr48Gr42q3W7t34rCa13Ar1UXr48t3s2qFyUJ34UJryj
+ qF18Aw15WF4DXwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ b0AFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
+ CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E
+ 6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7x
+ kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
+ 6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+ 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE
+ 2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
+ xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
+ 7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,102 +74,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-bdrv_can_store_new_dirty_bitmap and bdrv_remove_persistent_dirty_bitmap
-check if they are running in a coroutine, directly calling the
-coroutine callback if it's the case.
-Except that no coroutine calls such functions, therefore that check
-can be removed.
+The following changes since commit ece5f8374d0416a339f0c0a9399faa2c42d4ad6f:
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- block/dirty-bitmap.c | 66 +++++++++++++++++++-------------------------
- 1 file changed, 29 insertions(+), 37 deletions(-)
+  Merge tag 'linux-user-for-7.2-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-11-03 10:55:05 -0400)
 
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index bf3dc0512a..8092d08261 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -418,24 +418,20 @@ bdrv_co_remove_persistent_dirty_bitmap_entry(void *opaque)
- int bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
-                                         Error **errp)
- {
--    if (qemu_in_coroutine()) {
--        return bdrv_co_remove_persistent_dirty_bitmap(bs, name, errp);
--    } else {
--        Coroutine *co;
--        BdrvRemovePersistentDirtyBitmapCo s = {
--            .bs = bs,
--            .name = name,
--            .errp = errp,
--            .ret = -EINPROGRESS,
--        };
--
--        co = qemu_coroutine_create(bdrv_co_remove_persistent_dirty_bitmap_entry,
--                                   &s);
--        bdrv_coroutine_enter(bs, co);
--        BDRV_POLL_WHILE(bs, s.ret == -EINPROGRESS);
--
--        return s.ret;
--    }
-+    Coroutine *co;
-+    BdrvRemovePersistentDirtyBitmapCo s = {
-+        .bs = bs,
-+        .name = name,
-+        .errp = errp,
-+        .ret = -EINPROGRESS,
-+    };
-+    assert(!qemu_in_coroutine());
-+    co = qemu_coroutine_create(bdrv_co_remove_persistent_dirty_bitmap_entry,
-+                                &s);
-+    bdrv_coroutine_enter(bs, co);
-+    BDRV_POLL_WHILE(bs, s.ret == -EINPROGRESS);
-+
-+    return s.ret;
- }
- 
- bool
-@@ -494,25 +490,21 @@ bool bdrv_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
-                                      uint32_t granularity, Error **errp)
- {
-     IO_CODE();
--    if (qemu_in_coroutine()) {
--        return bdrv_co_can_store_new_dirty_bitmap(bs, name, granularity, errp);
--    } else {
--        Coroutine *co;
--        BdrvCanStoreNewDirtyBitmapCo s = {
--            .bs = bs,
--            .name = name,
--            .granularity = granularity,
--            .errp = errp,
--            .in_progress = true,
--        };
--
--        co = qemu_coroutine_create(bdrv_co_can_store_new_dirty_bitmap_entry,
--                                   &s);
--        bdrv_coroutine_enter(bs, co);
--        BDRV_POLL_WHILE(bs, s.in_progress);
--
--        return s.ret;
--    }
-+    Coroutine *co;
-+    BdrvCanStoreNewDirtyBitmapCo s = {
-+        .bs = bs,
-+        .name = name,
-+        .granularity = granularity,
-+        .errp = errp,
-+        .in_progress = true,
-+    };
-+    assert(!qemu_in_coroutine());
-+    co = qemu_coroutine_create(bdrv_co_can_store_new_dirty_bitmap_entry,
-+                                &s);
-+    bdrv_coroutine_enter(bs, co);
-+    BDRV_POLL_WHILE(bs, s.in_progress);
-+
-+    return s.ret;
- }
- 
- void bdrv_disable_dirty_bitmap(BdrvDirtyBitmap *bitmap)
--- 
-2.31.1
+are available in the Git repository at:
+
+  https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20221104
+
+for you to fetch changes up to 2419978cb09e11bc53a07d4de5621424d2a6a86d:
+
+  target/loongarch: Fix emulation of float-point disable exception (2022-11-04 17:10:53 +0800)
+
+----------------------------------------------------------------
+pull-loongarch-20221104
+
+v2:
+ - fix win32/win64 complie error;
+ - Add Rui Wang' patches.
+
+----------------------------------------------------------------
+Rui Wang (2):
+      target/loongarch: Adjust the layout of hardware flags bit fields
+      target/loongarch: Fix emulation of float-point disable exception
+
+Song Gao (2):
+      target/loongarch: Add exception subcode
+      target/loongarch: Fix raise_mmu_exception() set wrong exception_index
+
+Xiaojuan Yang (5):
+      hw/intc: Convert the memops to with_attrs in LoongArch extioi
+      hw/intc: Fix LoongArch extioi coreisr accessing
+      hw/loongarch: Load FDT table into dram memory space
+      hw/loongarch: Improve fdt for LoongArch virt machine
+      hw/loongarch: Add TPM device for LoongArch virt machine
+
+ hw/intc/loongarch_extioi.c                         | 41 +++++++------
+ hw/intc/trace-events                               |  3 +-
+ hw/loongarch/acpi-build.c                          | 51 +++++++++++++++-
+ hw/loongarch/virt.c                                | 53 ++++++++++++++---
+ include/hw/loongarch/virt.h                        |  3 -
+ include/hw/pci-host/ls7a.h                         |  1 +
+ target/loongarch/cpu.c                             | 10 +++-
+ target/loongarch/cpu.h                             | 69 +++++++++++++---------
+ target/loongarch/insn_trans/trans_farith.c.inc     | 30 ++++++++++
+ target/loongarch/insn_trans/trans_fcmp.c.inc       | 11 +++-
+ target/loongarch/insn_trans/trans_fmemory.c.inc    | 34 +++++++++--
+ target/loongarch/insn_trans/trans_fmov.c.inc       | 29 ++++++++-
+ target/loongarch/insn_trans/trans_privileged.c.inc |  2 +-
+ target/loongarch/iocsr_helper.c                    | 19 +++---
+ target/loongarch/tlb_helper.c                      |  5 +-
+ target/loongarch/translate.c                       |  6 +-
+ 16 files changed, 283 insertions(+), 84 deletions(-)
 
 
