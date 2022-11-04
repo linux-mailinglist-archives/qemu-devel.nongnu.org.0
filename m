@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D49761940A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 11:01:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A25861940B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 11:01:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqtVd-0002ma-6e; Fri, 04 Nov 2022 06:01:14 -0400
+	id 1oqtWF-0003JD-64; Fri, 04 Nov 2022 06:01:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oqtVJ-0002Tg-R4
+ id 1oqtVJ-0002TY-Pr
  for qemu-devel@nongnu.org; Fri, 04 Nov 2022 06:00:51 -0400
 Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oqtVE-0000vJ-BK
+ (envelope-from <gaosong@loongson.cn>) id 1oqtVE-0000vI-CT
  for qemu-devel@nongnu.org; Fri, 04 Nov 2022 06:00:48 -0400
 Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Bx37fG4mRjwHsEAA--.10403S3;
+ by gateway (Coremail) with SMTP id _____8DxPLfG4mRjw3sEAA--.3575S3;
  Fri, 04 Nov 2022 18:00:38 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.185])
  by localhost.localdomain (Coremail) with SMTP id
- AQAAf8AxPuDC4mRjYmUNAA--.37849S9; 
- Fri, 04 Nov 2022 18:00:37 +0800 (CST)
+ AQAAf8AxPuDC4mRjYmUNAA--.37849S10; 
+ Fri, 04 Nov 2022 18:00:38 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org,
-	stefanha@gmail.com
-Subject: [PULL v2 7/9] target/loongarch: Fix raise_mmu_exception() set wrong
- exception_index
-Date: Fri,  4 Nov 2022 18:00:31 +0800
-Message-Id: <20221104100033.3473980-8-gaosong@loongson.cn>
+Cc: richard.henderson@linaro.org, stefanha@gmail.com,
+ Rui Wang <wangrui@loongson.cn>
+Subject: [PULL v2 8/9] target/loongarch: Adjust the layout of hardware flags
+ bit fields
+Date: Fri,  4 Nov 2022 18:00:32 +0800
+Message-Id: <20221104100033.3473980-9-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20221104100033.3473980-1-gaosong@loongson.cn>
 References: <20221104100033.3473980-1-gaosong@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8AxPuDC4mRjYmUNAA--.37849S9
+X-CM-TRANSID: AQAAf8AxPuDC4mRjYmUNAA--.37849S10
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7tr13JF4fWr1UGFWkJw45Awb_yoW8Cw13pF
- 9ruryUKr48JFWDAaykXa9YqFn8Xr47CF42ganaq3yFkw4aqr1jvF4kt3srKF1UJa1rX34I
- vF45Ar1jvF4rWaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+X-Coremail-Antispam: 1Uk129KBjvJXoWxXrW5Gw43Kr1xGw1kCF45ZFb_yoW5WF4kpF
+ 17CF17KF4UGrZ7Aas5Xa9xXr1UZr4rGr4xXayfK393Kr43Xrn5Xr4vqr9IgFWUGay09ry2
+ vF4DAwn8CF48X3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
  qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
  bn8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
  AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF
@@ -50,7 +50,7 @@ X-Coremail-Antispam: 1Uk129KBjvJXoW7tr13JF4fWr1UGFWkJw45Awb_yoW8Cw13pF
  6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7x
  kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
  6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
- 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE
+ 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
  2Ix0cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
  xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF
  7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
@@ -76,67 +76,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When the address is invalid address, We should set exception_index
-according to MMUAccessType, and EXCCODE_ADEF need't update badinstr.
-Otherwise, The system enters an infinite loop. e.g:
-run test.c on system mode
-test.c:
-    #include<stdio.h>
+From: Rui Wang <wangrui@loongson.cn>
 
-    void (*func)(int *);
-
-    int main()
-    {
-        int i = 8;
-        void *ptr = (void *)0x4000000000000000;
-        func = ptr;
-        func(&i);
-        return 0;
-    }
-
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Song Gao <gaosong@loongson.cn>
+Signed-off-by: Rui Wang <wangrui@loongson.cn>
+Message-Id: <20221104040517.222059-2-wangrui@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20221101073210.3934280-2-gaosong@loongson.cn>
 ---
- target/loongarch/cpu.c        | 1 +
- target/loongarch/tlb_helper.c | 5 +++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ target/loongarch/cpu.h                             | 9 ++++++++-
+ target/loongarch/insn_trans/trans_privileged.c.inc | 2 +-
+ target/loongarch/translate.c                       | 6 +++++-
+ 3 files changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index b28aaed5ba..1512664214 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -177,6 +177,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
-         }
-         QEMU_FALLTHROUGH;
-     case EXCCODE_PIF:
-+    case EXCCODE_ADEF:
-         cause = cs->exception_index;
-         update_badinstr = 0;
-         break;
-diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
-index 610b6d123c..d2f8fb0c60 100644
---- a/target/loongarch/tlb_helper.c
-+++ b/target/loongarch/tlb_helper.c
-@@ -229,7 +229,8 @@ static void raise_mmu_exception(CPULoongArchState *env, target_ulong address,
-     switch (tlb_error) {
-     default:
-     case TLBRET_BADADDR:
--        cs->exception_index = EXCCODE_ADEM;
-+        cs->exception_index = access_type == MMU_INST_FETCH
-+                              ? EXCCODE_ADEF : EXCCODE_ADEM;
-         break;
-     case TLBRET_NOMATCH:
-         /* No TLB match for a mapped address */
-@@ -643,7 +644,7 @@ bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     CPULoongArchState *env = &cpu->env;
-     hwaddr physical;
-     int prot;
--    int ret = TLBRET_BADADDR;
-+    int ret;
+diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+index dbce176564..f482ad94fe 100644
+--- a/target/loongarch/cpu.h
++++ b/target/loongarch/cpu.h
+@@ -14,6 +14,7 @@
+ #include "qemu/timer.h"
+ #include "exec/memory.h"
+ #include "hw/sysbus.h"
++#include "cpu-csr.h"
  
-     /* Data access */
-     ret = get_physical_address(env, &physical, &prot, address,
+ #define IOCSRF_TEMP             0
+ #define IOCSRF_NODECNT          1
+@@ -391,6 +392,12 @@ static inline int cpu_mmu_index(CPULoongArchState *env, bool ifetch)
+ #endif
+ }
+ 
++/*
++ * LoongArch CPUs hardware flags.
++ */
++#define HW_FLAGS_PLV_MASK   R_CSR_CRMD_PLV_MASK  /* 0x03 */
++#define HW_FLAGS_CRMD_PG    R_CSR_CRMD_PG_MASK   /* 0x10 */
++
+ static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
+                                         target_ulong *pc,
+                                         target_ulong *cs_base,
+@@ -398,7 +405,7 @@ static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
+ {
+     *pc = env->pc;
+     *cs_base = 0;
+-    *flags = cpu_mmu_index(env, false);
++    *flags = env->CSR_CRMD & (R_CSR_CRMD_PLV_MASK | R_CSR_CRMD_PG_MASK);
+ }
+ 
+ void loongarch_cpu_list(void);
+diff --git a/target/loongarch/insn_trans/trans_privileged.c.inc b/target/loongarch/insn_trans/trans_privileged.c.inc
+index 9c4dcbfcfb..ff3a6d95ae 100644
+--- a/target/loongarch/insn_trans/trans_privileged.c.inc
++++ b/target/loongarch/insn_trans/trans_privileged.c.inc
+@@ -159,7 +159,7 @@ static const CSRInfo csr_info[] = {
+ 
+ static bool check_plv(DisasContext *ctx)
+ {
+-    if (ctx->base.tb->flags == MMU_USER_IDX) {
++    if (ctx->mem_idx == MMU_USER_IDX) {
+         generate_exception(ctx, EXCCODE_IPE);
+         return true;
+     }
+diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
+index 6091772349..31462b2b61 100644
+--- a/target/loongarch/translate.c
++++ b/target/loongarch/translate.c
+@@ -75,7 +75,11 @@ static void loongarch_tr_init_disas_context(DisasContextBase *dcbase,
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+ 
+     ctx->page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
+-    ctx->mem_idx = ctx->base.tb->flags;
++    if (ctx->base.tb->flags & HW_FLAGS_CRMD_PG) {
++        ctx->mem_idx = ctx->base.tb->flags & HW_FLAGS_PLV_MASK;
++    } else {
++        ctx->mem_idx = MMU_DA_IDX;
++    }
+ 
+     /* Bound the number of insns to execute to those left on the page.  */
+     bound = -(ctx->base.pc_first | TARGET_PAGE_MASK) / 4;
 -- 
 2.31.1
 
