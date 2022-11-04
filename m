@@ -2,86 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9A6619CD5
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:16:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07AD7619CD1
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:15:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqzMh-00089u-VQ; Fri, 04 Nov 2022 12:16:20 -0400
+	id 1oqzM6-0006B8-7b; Fri, 04 Nov 2022 12:15:42 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oqzLq-0006Qy-4j
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:32 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oqzLj-0000fP-Ph
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:22 -0400
-Received: by mail-wr1-x429.google.com with SMTP id z14so7736022wrn.7
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 09:15:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BU6PNz3e99/tD5N663Lv9AewYZquVRh/84XMEC2v1g8=;
- b=U2ljhIqqroADthC6bE9W8xn64W4wuRDyi+MmbEFW1diIa4wIJA+rE+W9FX2GLXG+yB
- xV8lnNova0psX12PLfJgHSlvHGXipwtYsG2X7ve/pvsGb+eHR68RlFthwiQ5x1czwCEz
- MT+BJIi3dAyyo5zrg7oZIFzCILC+SHZXIe2dKJoM4JGXp8gBV/z8tVP0LplaXU5JcDiM
- WAl9JxNZPIyEDmVZBqgcITGx6bPasD16rAvrnOMf/FHI2j6GVzTnUs4sakgzNRUJjQ93
- XSu7Ovvj+G1qJ6frs3S25YW9IZCLsbKoucmWmrwpwhQKqaNdz0tdUqgvjdXqSw3lKko5
- JF+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BU6PNz3e99/tD5N663Lv9AewYZquVRh/84XMEC2v1g8=;
- b=qEkkCBuh7oECwZSja4/L2PEvLV2VERc4WLNjaPT2Wg4U2IRWNBzBg3MUQ9u4MdlXfc
- 6lo2b8ilXJnuQvscCLNUNJPBzhewYcSMMlOLrE8UAYbpMe1lOLfri2QcjIwneT3PCPXH
- I7zf7CTh8X2s7Y5a/oVBTXWURI5tIPjQEIT/PHe6AAzo0OEbPXnNeGQFOIuZhtWRecAw
- EP0tZdDjfZZace3WgSicPOOqyu4/GgKruHCj7XwNlS55umVGxG1U8FIscWgLJ80zjvzV
- Ce4hbgYH+T/I6dtrVR+xtbTZtuVfrLdzQZ26tT6pHkpKRE+5YxfTN106KYUPYrVfbGx9
- pFDg==
-X-Gm-Message-State: ACrzQf1Z1Wk1uUKNpkFqBw7JpyXxkj69jjMDQDwARXhYgkeHB6zjSz0R
- lzrVmVpD4pXrBpv+XQDmy0zH8M1s0ggZwQ==
-X-Google-Smtp-Source: AMsMyM5iABiKrHxgKVwdJrrzrQLhBTQmIhfHy46QBt1u3QXPm0teZC/SQ3Q+RIvKLs2j0/9mEZoKKQ==
-X-Received: by 2002:a5d:5a97:0:b0:236:9701:97d2 with SMTP id
- bp23-20020a5d5a97000000b00236970197d2mr249304wrb.185.1667578517534; 
- Fri, 04 Nov 2022 09:15:17 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- ay5-20020a5d6f05000000b0022e57e66824sm4649645wrb.99.2022.11.04.09.15.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 09:15:17 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oqzLg-0005yI-Bc
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oqzLd-0000eL-Qu
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:15:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667578513;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=sJR4fddbZOxcPMgQY405ulC488zF4pzggKXH01czHxA=;
+ b=RwPRs2Aj+ewqFcj6fDdD//eAT7eFbCq4rF976xqsqPb31njvJYPMHzp3z1T6lCqE7dHxkB
+ 5mrOIGAYS0PpDndSELe1yNEAy9DLTBWW4JVog2BFPcOHV7rsTwiR45XdBPQl7Uy15DeRhq
+ f++bn5OrRQgZxgQXJY0H2StgjL+4t8k=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-675-1FWO3MQVMW6y-gIvYp2mAA-1; Fri, 04 Nov 2022 12:15:09 -0400
+X-MC-Unique: 1FWO3MQVMW6y-gIvYp2mAA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 41502185A78B;
+ Fri,  4 Nov 2022 16:15:09 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D4B84EA4C;
+ Fri,  4 Nov 2022 16:15:09 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id EF8C121E6900; Fri,  4 Nov 2022 17:15:06 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org
-Subject: [PATCH for-8.0 1/9] hw/s390x/s390-pci-inst.c: Use device_cold_reset()
- to reset PCI devices
-Date: Fri,  4 Nov 2022 16:15:05 +0000
-Message-Id: <20221104161513.2455862-2-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221104161513.2455862-1-peter.maydell@linaro.org>
-References: <20221104161513.2455862-1-peter.maydell@linaro.org>
+Cc: jsnow@redhat.com,  eblake@redhat.com,  michael.roth@amd.com
+Subject: Re: [PATCH v3 00/30] qapi: Elide redundant has_FOO in generated C
+References: <20221104160712.3005652-1-armbru@redhat.com>
+Date: Fri, 04 Nov 2022 17:15:06 +0100
+In-Reply-To: <20221104160712.3005652-1-armbru@redhat.com> (Markus Armbruster's
+ message of "Fri, 4 Nov 2022 17:06:42 +0100")
+Message-ID: <87wn8azofp.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,36 +78,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The semantic difference between the deprecated device_legacy_reset()
-function and the newer device_cold_reset() function is that the new
-function resets both the device itself and any qbuses it owns,
-whereas the legacy function resets just the device itself and nothing
-else.
+Markus Armbruster <armbru@redhat.com> writes:
 
-In s390-pci-inst.c we use device_legacy_reset() to reset an
-S390PCIBusDevice.  This device doesn't have any child qbuses, so the
-functions do the same thing and we can stop using the deprecated one.
+> In QAPI, absent optional members are distinct from any present value.
+> We thus represent an optional schema member FOO as two C members: a
+> FOO with the member's type, and a bool has_FOO.  Likewise for function
+> arguments.
+>
+> However, the has_FOO is actually redundant for a pointer-valued FOO,
+> which can be null only when has_FOO is false, i.e. has_FOO == !!FOO.
+> Except for arrays, where we a null FOO can also be a present empty
+> array.
+>
+> The redundant has_FOO are a nuisance to work with.  Improve the
+> generator to elide them.
+>
+> PATCH 01+02 are trivial documentation cleanups.
+>
+> PATCH 03 tweaks an example in documentation so it'll show the change.
+>
+> PATCH 04 improves the code generator, but nerfs the change for the
+> schema modules where handwritten code needs to be updated.
+>
+> PATCH 05-07,10-29 un-nerf in reviewable chunks.  Their commit messages
+> refer back to PATCH 04 for an explanation of the transformation.
+> Please read that first.  Note that these patches combine the
+> mechanical transformation with obvious, local follow-up
+> simplifications.  If you want them separate for easier review, let me
+> know.
+>
+> PATCH 08+09 clean up in preparation for PATCH 10.
+>
+> PATCH 28 drops the nerfing code.
 
-Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/s390x/s390-pci-inst.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-index 20a9bcc7afb..16f5a3e81b4 100644
---- a/hw/s390x/s390-pci-inst.c
-+++ b/hw/s390x/s390-pci-inst.c
-@@ -272,7 +272,7 @@ int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
-                 stw_p(&ressetpci->hdr.rsp, CLP_RC_SETPCIFN_FHOP);
-                 goto out;
-             }
--            device_legacy_reset(DEVICE(pbdev));
-+            device_cold_reset(DEVICE(pbdev));
-             pbdev->fh &= ~FH_MASK_ENABLE;
-             pbdev->state = ZPCI_FS_DISABLED;
-             stl_p(&ressetpci->fh, pbdev->fh);
--- 
-2.25.1
+PATCH 30, of course.
 
 
