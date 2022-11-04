@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D5A619C9C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:10:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E587C619CB8
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 17:12:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqzEy-0000fG-Cd; Fri, 04 Nov 2022 12:08:20 -0400
+	id 1oqzF4-0000uE-Uf; Fri, 04 Nov 2022 12:08:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oqzER-0008JB-J3
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:07:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oqzEN-0008F8-8S
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:07:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oqzE9-0007eO-6a
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:07:46 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oqzE9-0007ev-15
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 12:07:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667578040;
+ s=mimecast20190719; t=1667578041;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P3OUPLrYfO0zi+DwrOeCon/NRxhQMWc7biO4jCypvto=;
- b=NwBiKIJuCLJdwMH3ZLByzMeABTKvBCqJpRAclgxeyfpVBxpqEQPrboyopj1v7wfVBRfkQ/
- jtKYCGtkn2lwgvmzXMcz8giiO4cCT77LQifC1RgVs+QkZeWmN2+5XjpWAUTCD1mGhq6cCs
- vT5uI3vEVVvkgwrGnDdEiI6GpwJozsY=
+ bh=xTYyTyqKLDNSwYYDOCwnAZwifSQNB/qEmVBc4Td73mw=;
+ b=EJ0YcawAaVUbMfy6pfbJZffa95Mu+7Q945vEmxvllq/giVLUgXBuAHgBUebrb2rbBgkS1k
+ b5geiGXip4/lFIprmnGl5T4v1Na+m8mwqYaozjitVLFJPj/sGrTbsUIsA4aLpgF4TeI2v6
+ of76t6VByHfCWyF5NBtTBoVkfr+eiTM=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-170-xIIz-bGGMveD52F36ga_EQ-1; Fri, 04 Nov 2022 12:07:18 -0400
-X-MC-Unique: xIIz-bGGMveD52F36ga_EQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-451-9wkRTibOMiCfBMwxCJmJjg-1; Fri, 04 Nov 2022 12:07:16 -0400
+X-MC-Unique: 9wkRTibOMiCfBMwxCJmJjg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 348BE3810D4B;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 12B8D1C09072;
  Fri,  4 Nov 2022 16:07:16 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DB31A1121330;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DC1B74EA4C;
  Fri,  4 Nov 2022 16:07:15 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 749EE21E66AB; Fri,  4 Nov 2022 17:07:12 +0100 (CET)
+ id 76E6621E60CE; Fri,  4 Nov 2022 17:07:12 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: jsnow@redhat.com, eblake@redhat.com, michael.roth@amd.com,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v3 27/30] qapi ui: Elide redundant has_FOO in generated C
-Date: Fri,  4 Nov 2022 17:07:09 +0100
-Message-Id: <20221104160712.3005652-28-armbru@redhat.com>
+ Laurent Vivier <lvivier@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v3 28/30] qapi virtio: Elide redundant has_FOO in generated C
+Date: Fri,  4 Nov 2022 17:07:10 +0100
+Message-Id: <20221104160712.3005652-29-armbru@redhat.com>
 In-Reply-To: <20221104160712.3005652-1-armbru@redhat.com>
 References: <20221104160712.3005652-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,215 +84,67 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 The has_FOO for pointer-valued FOO are redundant, except for arrays.
 They are also a nuisance to work with.  Recent commit "qapi: Start to
 elide redundant has_FOO in generated C" provided the means to elide
-them step by step.  This is the step for qapi/ui.json.
+them step by step.  This is the step for qapi/virtio.json.
 
 Said commit explains the transformation in more detail.  The invariant
 violations mentioned there do not occur here.
 
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- monitor/hmp-cmds.c     | 12 ++++--------
- ui/console.c           |  4 ++--
- ui/input.c             |  4 ++--
- ui/spice-core.c        |  5 -----
- ui/vnc.c               | 10 ----------
- scripts/qapi/schema.py |  1 -
- 6 files changed, 8 insertions(+), 28 deletions(-)
+ hw/virtio/virtio.c     | 1 -
+ monitor/hmp-cmds.c     | 4 ++--
+ scripts/qapi/schema.py | 1 -
+ 3 files changed, 2 insertions(+), 4 deletions(-)
 
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 808446b4c9..883bc7064d 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -4664,7 +4664,6 @@ VirtioStatus *qmp_x_query_virtio_status(const char *path, Error **errp)
+     status->disable_legacy_check = vdev->disable_legacy_check;
+     status->bus_name = g_strdup(vdev->bus_name);
+     status->use_guest_notifier_mask = vdev->use_guest_notifier_mask;
+-    status->has_vhost_dev = vdev->vhost_started;
+ 
+     if (vdev->vhost_started) {
+         VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
 diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 3ada344d77..263b7762ab 100644
+index 263b7762ab..b847b26041 100644
 --- a/monitor/hmp-cmds.c
 +++ b/monitor/hmp-cmds.c
-@@ -548,11 +548,9 @@ static void hmp_info_vnc_clients(Monitor *mon, VncClientInfoList *client)
+@@ -2549,7 +2549,7 @@ void hmp_virtio_status(Monitor *mon, const QDict *qdict)
  
-         hmp_info_VncBasicInfo(mon, qapi_VncClientInfo_base(cinfo), "Client");
-         monitor_printf(mon, "    x509_dname: %s\n",
--                       cinfo->has_x509_dname ?
--                       cinfo->x509_dname : "none");
-+                       cinfo->x509_dname ?: "none");
-         monitor_printf(mon, "    sasl_username: %s\n",
--                       cinfo->has_sasl_username ?
--                       cinfo->sasl_username : "none");
-+                       cinfo->sasl_username ?: "none");
+     monitor_printf(mon, "%s:\n", path);
+     monitor_printf(mon, "  device_name:             %s %s\n",
+-                   s->name, s->has_vhost_dev ? "(vhost)" : "");
++                   s->name, s->vhost_dev ? "(vhost)" : "");
+     monitor_printf(mon, "  device_id:               %d\n", s->device_id);
+     monitor_printf(mon, "  vhost_started:           %s\n",
+                    s->vhost_started ? "true" : "false");
+@@ -2585,7 +2585,7 @@ void hmp_virtio_status(Monitor *mon, const QDict *qdict)
+     monitor_printf(mon, "  Backend features:\n");
+     hmp_virtio_dump_features(mon, s->backend_features);
  
-         client = client->next;
-     }
-@@ -597,7 +595,7 @@ void hmp_info_vnc(Monitor *mon, const QDict *qdict)
-             hmp_info_vnc_authcrypt(mon, "  ", info->auth,
-                                info->has_vencrypt ? &info->vencrypt : NULL);
-         }
--        if (info->has_display) {
-+        if (info->display) {
-             monitor_printf(mon, "  Display: %s\n", info->display);
-         }
-         info2l = info2l->next;
-@@ -1401,7 +1399,6 @@ void hmp_set_password(Monitor *mon, const QDict *qdict)
-     }
- 
-     if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
--        opts.u.vnc.has_display = !!display;
-         opts.u.vnc.display = (char *)display;
-     }
- 
-@@ -1429,7 +1426,6 @@ void hmp_expire_password(Monitor *mon, const QDict *qdict)
-     }
- 
-     if (opts.protocol == DISPLAY_PROTOCOL_VNC) {
--        opts.u.vnc.has_display = !!display;
-         opts.u.vnc.display = (char *)display;
-     }
- 
-@@ -1714,7 +1710,7 @@ hmp_screendump(Monitor *mon, const QDict *qdict)
-         goto end;
-     }
- 
--    qmp_screendump(filename, id != NULL, id, id != NULL, head,
-+    qmp_screendump(filename, id, id != NULL, head,
-                    input_format != NULL, format, &err);
- end:
-     hmp_handle_error(mon, err);
-diff --git a/ui/console.c b/ui/console.c
-index 65c117874c..1b1d84dadc 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -407,7 +407,7 @@ static void graphic_hw_update_bh(void *con)
- 
- /* Safety: coroutine-only, concurrent-coroutine safe, main thread only */
- void coroutine_fn
--qmp_screendump(const char *filename, bool has_device, const char *device,
-+qmp_screendump(const char *filename, const char *device,
-                bool has_head, int64_t head,
-                bool has_format, ImageFormat format, Error **errp)
- {
-@@ -416,7 +416,7 @@ qmp_screendump(const char *filename, bool has_device, const char *device,
-     DisplaySurface *surface;
-     int fd;
- 
--    if (has_device) {
-+    if (device) {
-         con = qemu_console_lookup_by_device_name(device, has_head ? head : 0,
-                                                  errp);
-         if (!con) {
-diff --git a/ui/input.c b/ui/input.c
-index e2a90af889..8f4a87d1d7 100644
---- a/ui/input.c
-+++ b/ui/input.c
-@@ -124,7 +124,7 @@ qemu_input_find_handler(uint32_t mask, QemuConsole *con)
-     return NULL;
- }
- 
--void qmp_input_send_event(bool has_device, const char *device,
-+void qmp_input_send_event(const char *device,
-                           bool has_head, int64_t head,
-                           InputEventList *events, Error **errp)
- {
-@@ -133,7 +133,7 @@ void qmp_input_send_event(bool has_device, const char *device,
-     Error *err = NULL;
- 
-     con = NULL;
--    if (has_device) {
-+    if (device) {
-         if (!has_head) {
-             head = 0;
-         }
-diff --git a/ui/spice-core.c b/ui/spice-core.c
-index c3ac20ad43..72f8f1681c 100644
---- a/ui/spice-core.c
-+++ b/ui/spice-core.c
-@@ -222,7 +222,6 @@ static void channel_event(int event, SpiceChannelEventInfo *info)
-         break;
-     case SPICE_CHANNEL_EVENT_INITIALIZED:
-         if (auth) {
--            server->has_auth = true;
-             server->auth = g_strdup(auth);
-         }
-         add_channel_info(client, info);
-@@ -522,13 +521,9 @@ static SpiceInfo *qmp_query_spice_real(Error **errp)
-     port = qemu_opt_get_number(opts, "port", 0);
-     tls_port = qemu_opt_get_number(opts, "tls-port", 0);
- 
--    info->has_auth = true;
-     info->auth = g_strdup(auth);
--
--    info->has_host = true;
-     info->host = g_strdup(addr ? addr : "*");
- 
--    info->has_compiled_version = true;
-     major = (SPICE_SERVER_VERSION & 0xff0000) >> 16;
-     minor = (SPICE_SERVER_VERSION & 0xff00) >> 8;
-     micro = SPICE_SERVER_VERSION & 0xff;
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 88f55cbf3c..d9eacad759 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -244,7 +244,6 @@ static VncServerInfo *vnc_server_info_get(VncDisplay *vd)
-     info = g_malloc0(sizeof(*info));
-     vnc_init_basic_info_from_server_addr(vd->listener->sioc[0],
-                                          qapi_VncServerInfo_base(info), &err);
--    info->has_auth = true;
-     info->auth = g_strdup(vnc_auth_name(vd));
-     if (err) {
-         qapi_free_VncServerInfo(info);
-@@ -263,13 +262,10 @@ static void vnc_client_cache_auth(VncState *client)
-     if (client->tls) {
-         client->info->x509_dname =
-             qcrypto_tls_session_get_peer_name(client->tls);
--        client->info->has_x509_dname =
--            client->info->x509_dname != NULL;
-     }
- #ifdef CONFIG_VNC_SASL
-     if (client->sasl.conn &&
-         client->sasl.username) {
--        client->info->has_sasl_username = true;
-         client->info->sasl_username = g_strdup(client->sasl.username);
-     }
- #endif
-@@ -341,11 +337,9 @@ static VncClientInfo *qmp_query_vnc_client(const VncState *client)
- 
-     if (client->tls) {
-         info->x509_dname = qcrypto_tls_session_get_peer_name(client->tls);
--        info->has_x509_dname = info->x509_dname != NULL;
-     }
- #ifdef CONFIG_VNC_SASL
-     if (client->sasl.conn && client->sasl.username) {
--        info->has_sasl_username = true;
-         info->sasl_username = g_strdup(client->sasl.username);
-     }
- #endif
-@@ -426,11 +420,8 @@ VncInfo *qmp_query_vnc(Error **errp)
-             abort();
-         }
- 
--        info->has_host = true;
--        info->has_service = true;
-         info->has_family = true;
- 
--        info->has_auth = true;
-         info->auth = g_strdup(vnc_auth_name(vd));
-     }
- 
-@@ -568,7 +559,6 @@ VncInfo2List *qmp_query_vnc_servers(Error **errp)
-         if (vd->dcl.con) {
-             dev = DEVICE(object_property_get_link(OBJECT(vd->dcl.con),
-                                                   "device", &error_abort));
--            info->has_display = true;
-             info->display = g_strdup(dev->id);
-         }
-         for (i = 0; vd->listener != NULL && i < vd->listener->nsioc; i++) {
+-    if (s->has_vhost_dev) {
++    if (s->vhost_dev) {
+         monitor_printf(mon, "  VHost:\n");
+         monitor_printf(mon, "    nvqs:           %d\n",
+                        s->vhost_dev->nvqs);
 diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 3673296ad8..fd18f8249b 100644
+index fd18f8249b..b2df148e01 100644
 --- a/scripts/qapi/schema.py
 +++ b/scripts/qapi/schema.py
 @@ -759,7 +759,6 @@ def need_has(self):
          assert self.type
          # Temporary hack to support dropping the has_FOO in reviewable chunks
          opt_out = [
--            'qapi/ui.json',
-             'qapi/virtio.json',
+-            'qapi/virtio.json',
              'qga/qapi-schema.json']
          if self.info and any(self.info.fname.endswith(mod)
+                              for mod in opt_out):
 -- 
 2.37.3
 
