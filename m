@@ -2,71 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 552D9619A4C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 15:41:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54DC4619AE4
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 16:03:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqxrG-0003xq-8K; Fri, 04 Nov 2022 10:39:46 -0400
+	id 1oqyCn-0006XR-T6; Fri, 04 Nov 2022 11:02:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oqxrE-0003xT-CP; Fri, 04 Nov 2022 10:39:44 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oqxrC-0003k6-5n; Fri, 04 Nov 2022 10:39:44 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-36cbcda2157so45044347b3.11; 
- Fri, 04 Nov 2022 07:39:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=B/BHVOj8xAoG7l9QBbuTtX2+IW6S1ePSCEuZKYXcStU=;
- b=PrkF7zjeA0YwmHUrXyOQle7YDncoGEWyp+OMhCd+F4GO7+nXtrv8Yn9A1M3a5vuhxY
- J38dZenVTOn4prm6PpJskkkcK8GpQqz9AGUh819X+ZOSQksJgEzl9yRBxOUpvFYca3AA
- JPRrzsrLOYVaFwsn5Tubej5rDmtHFyA/tVQqt8+9MaPAy3EXmGFegdWxc6wI+6JYMusH
- +vQxFGmeiuAPqc7ZSUl5GQcpdcLShgIxmfSd8Wh711f9xO6Axcpx1SgOvB9g3Oi3heYy
- gmHBkA7LZm0cQ4+PWEAY5ZH4TI6ZTpz5K7Hw7ceCzSvCLMS15eRuiukY4hkzzlmRdRf8
- ul5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=B/BHVOj8xAoG7l9QBbuTtX2+IW6S1ePSCEuZKYXcStU=;
- b=NLi0j389A7tFzq5IdBKGY8uD82VzIBzddlsVKYZlOI+kL4lHTA9R5ToQOL0JwnpuMW
- 0T7Y7Qyc+fJ33uyAsRcPnReSjG2LOQObljvsf8abu0DfZz4bx/h7msnlGhl1Y80g4mg4
- CZK5vsn1qh+V3Cy4rODT0gj0VUVEFXh8NwnbWCBv0CTf6gtgJEtCnTNgQuyzpZjvzCFG
- C9IOIbsOZswUzX3D+NLtiFLYUK6LrOvmiKkXgLzy5Wi65Y7ZhRwZvHImETqK3cnEfHA1
- PsoAspfR1/nHZCQJQtxKWOx+u/Wep6jwAg366hz1ZhTiwQ7dBcCl7K3I4DmmkZKO/JHq
- 45sg==
-X-Gm-Message-State: ACrzQf2TdECbGKZhPcm7fNPQ0hLrBlzlgRy10O2VlwmWqnI1+8/xW9u2
- iF27ylrmP/mjTRwWotygzdqqKgrB3arhQ0HJkZI=
-X-Google-Smtp-Source: AMsMyM6r+2FqQhNintFYwF9bXMWF6gjNl4DO2jVne7laAYBhGbuC++687BF+n2rkPAX1RCCIQqqfHphOHbIWe3H/SoI=
-X-Received: by 2002:a81:8445:0:b0:36c:c302:8926 with SMTP id
- u66-20020a818445000000b0036cc3028926mr35527313ywf.296.1667572780133; Fri, 04
- Nov 2022 07:39:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oqy9E-0004Tn-Km; Fri, 04 Nov 2022 10:58:20 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oqy9C-0006O8-M2; Fri, 04 Nov 2022 10:58:20 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A4DZAOc028673;
+ Fri, 4 Nov 2022 14:58:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=Fyuo93m4F2dIpXl+bNdSko4Nid5gkbEtt33cOeSzgKk=;
+ b=lj8QmjEVXEuY2Uj/Vj2CAh9fbBRKl5Sf/swNcHq/qmMstG0p82vAesCYalZvnnAUsiwe
+ SJWy7+YaBHs5hMumzvOaYVg14Xz//RYUDHXr3DMkT13NjiW35H4aMiFCTbjiPJjgoHeQ
+ a50TorPyCjhToRcNb3DiHw/62yEG47kFxaKQQymKK2669HkZFkfVAPxJmUdoThyh6XW9
+ gpnmy2Q6UyTKmDSZQqiu1Oq6Eaall/VF/z3MBIHla+MG5a/RIRDe59bGz69T4jGA33Hs
+ 3h3od2oBMGO3GQManrOSlf0Zc8BInxcBC4bdcfoLgaCkjDNQbe1GJu8uDpTOOajkMDwY 7w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmphftk1c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Nov 2022 14:58:05 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A49PPmT002009;
+ Fri, 4 Nov 2022 14:58:05 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kmphftk02-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Nov 2022 14:58:04 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A4EpZ5R024229;
+ Fri, 4 Nov 2022 14:58:02 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06ams.nl.ibm.com with ESMTP id 3kguej2j7a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Nov 2022 14:58:02 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 2A4EqOYK49676732
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 4 Nov 2022 14:52:24 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3A328AE04D;
+ Fri,  4 Nov 2022 14:57:59 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2ED35AE045;
+ Fri,  4 Nov 2022 14:57:58 +0000 (GMT)
+Received: from [9.171.69.218] (unknown [9.171.69.218])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri,  4 Nov 2022 14:57:58 +0000 (GMT)
+Message-ID: <7177da22-ca19-6510-9bf3-4120140f5431@linux.ibm.com>
+Date: Fri, 4 Nov 2022 15:57:57 +0100
 MIME-Version: 1.0
-References: <20221103161727.4116147-1-laurent@vivier.eu>
-In-Reply-To: <20221103161727.4116147-1-laurent@vivier.eu>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Fri, 4 Nov 2022 10:39:28 -0400
-Message-ID: <CAJSP0QUG8_sx5Jct1XjGX8_kdYGpJ6akQnnyZbZ8ODNZsfemAQ@mail.gmail.com>
-Subject: Re: [PULL 00/10] Trivial branch for 7.2 patches
-To: Laurent Vivier <laurent@vivier.eu>, Stefan Weil <sw@weilnetz.de>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v11 01/11] s390x: Register TYPE_S390_CCW_MACHINE
+ properties as class properties
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com
+References: <20221103170150.20789-1-pmorel@linux.ibm.com>
+ <20221103170150.20789-2-pmorel@linux.ibm.com>
+ <3f913a58-e7d0-539e-3bc0-6cbd5608db8e@redhat.com>
+ <7d809617-67e0-d233-97b2-8534e2a4610f@linux.ibm.com>
+ <6415cf08-e6a1-c72a-1c56-907d3a446a8c@kaod.org>
+ <7a3c34dc-2c16-6fdd-e8bc-7a1c623823ae@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <7a3c34dc-2c16-6fdd-e8bc-7a1c623823ae@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: R9INAsguU-ve2zQKYO0f4SuJ9kpdZ2m_
+X-Proofpoint-ORIG-GUID: Jqc-cGEB8wQb1HKSWrsARiGLpaER4zVX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-04_09,2022-11-03_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0
+ mlxscore=0 suspectscore=0 lowpriorityscore=0 mlxlogscore=999
+ malwarescore=0 bulkscore=0 impostorscore=0 phishscore=0 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211040095
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,142 +126,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Stefan and Laurent,
-Please take a look at this CI failure, I think it's triggered by this
-pull request:
 
-arm-linux-gnueabi-gcc -Isubprojects/libvhost-user/libvhost-user.a.p
--Isubprojects/libvhost-user -I../subprojects/libvhost-user
--fdiagnostics-color=3Dauto -Wall -Winvalid-pch -Werror -std=3Dgnu11 -O2 -g
--U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -D_FILE_OFFSET_BITS=3D64
--D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef
--Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common
--fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits
--Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers
--Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined
--Wimplicit-fallthrough=3D2 -Wno-missing-include-dirs
--Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPIE
--pthread -D_GNU_SOURCE -MD -MQ
-subprojects/libvhost-user/libvhost-user.a.p/libvhost-user.c.o -MF
-subprojects/libvhost-user/libvhost-user.a.p/libvhost-user.c.o.d -o
-subprojects/libvhost-user/libvhost-user.a.p/libvhost-user.c.o -c
-../subprojects/libvhost-user/libvhost-user.c
-../subprojects/libvhost-user/libvhost-user.c: In function =E2=80=98generate=
-_faults=E2=80=99:
-../subprojects/libvhost-user/libvhost-user.c:664:27: error: format
-=E2=80=98%zx=E2=80=99 expects argument of type =E2=80=98size_t=E2=80=99, bu=
-t argument 6 has type
-=E2=80=98uint64_t=E2=80=99 {aka =E2=80=98long long unsigned int=E2=80=99} [=
--Werror=3Dformat=3D]
-664 | vu_panic(dev, "%s: Failed to userfault region %d "
-| ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-......
-668 | dev_region->size, dev_region->mmap_offset,
-| ~~~~~~~~~~~~~~~~
-| |
-| uint64_t {aka long long unsigned int}
-../subprojects/libvhost-user/libvhost-user.c:665:50: note: format
-string is defined here
-665 | "@%" PRIx64 " + size:%zx offset: %zx: (ufd=3D%d)%s\n",
-| ~~^
-| |
-| unsigned int
-| %llx
-../subprojects/libvhost-user/libvhost-user.c:664:27: error: format
-=E2=80=98%zx=E2=80=99 expects argument of type =E2=80=98size_t=E2=80=99, bu=
-t argument 7 has type
-=E2=80=98uint64_t=E2=80=99 {aka =E2=80=98long long unsigned int=E2=80=99} [=
--Werror=3Dformat=3D]
-664 | vu_panic(dev, "%s: Failed to userfault region %d "
-| ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-......
-668 | dev_region->size, dev_region->mmap_offset,
-| ~~~~~~~~~~~~~~~~~~~~~~~
-| |
-| uint64_t {aka long long unsigned int}
-../subprojects/libvhost-user/libvhost-user.c:665:62: note: format
-string is defined here
-665 | "@%" PRIx64 " + size:%zx offset: %zx: (ufd=3D%d)%s\n",
-| ~~^
-| |
-| unsigned int
-| %llx
-cc1: all warnings being treated as errors
 
-https://gitlab.com/qemu-project/qemu/-/jobs/3275327714
+On 11/4/22 15:29, Thomas Huth wrote:
+> On 04/11/2022 11.53, Cédric Le Goater wrote:
+>> On 11/4/22 11:16, Pierre Morel wrote:
+>>>
+>>>
+>>> On 11/4/22 07:32, Thomas Huth wrote:
+>>>> On 03/11/2022 18.01, Pierre Morel wrote:
+>>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>>>>> ---
+>>>>>   hw/s390x/s390-virtio-ccw.c | 127 
+>>>>> +++++++++++++++++++++----------------
+>>>>>   1 file changed, 72 insertions(+), 55 deletions(-)
+>>>>
+>>>> -EMISSINGPATCHDESCRIPTION
+>>>>
+>>>> ... please add some words *why* this is a good idea / necessary.
+>>>
+>>> I saw that the i386 patch had no description for the same patch so...
+>>>
+>>> To be honest I do not know why it is necessary.
+>>> The only reason I see is to be in sync with the PC implementation.
+>>>
+>>> So what about:
+>>> "
+>>> Register TYPE_S390_CCW_MACHINE properties as class properties
+>>> to be conform with the X architectures
+>>> "
+>>> ?
+>>>
+>>> @Cédric , any official recommendation for doing that?
+>>
+>> There was a bunch of commits related to QOM in this series :
+>>
+>>    91def7b83 arm/virt: Register most properties as class properties
+>>    f5730c69f0 i386: Register feature bit properties as class properties
+>>
+>> which moved property definitions at the class level.
+>>
+>> Then,
+>>
+>>    commit d8fb7d0969 ("vl: switch -M parsing to keyval")
+>>
+>> changed machine_help_func() to use a machine class and not machine
+>> instance anymore.
+>>
+>> I would use the same kind of commit log and add a Fixes tag to get it
+>> merged in 7.2
+> 
+> Ah, so this fixes the problem that running QEMU with " -M 
+> s390-ccw-virtio,help" does not show the s390x-specific properties 
+> anymore? ... that's certainly somethings that should be mentioned in the 
+> commit message! What about something like this:
+> 
+> "Currently, when running 'qemu-system-s390x -M -M s390-ccw-virtio,help' 
+> the s390x-specific properties are not listed anymore. This happens 
+> because since commit d8fb7d0969 ("vl: switch -M parsing to keyval") the 
+> properties have to be defined at the class level and not at the instance 
+> level anymore. Fix it on s390x now, too, by moving the registration of 
+> the properties to the class level"
+> 
+> Fixes: d8fb7d0969 ("vl: switch -M parsing to keyval")
+> 
+> ?
+> 
+>   Thomas
+> 
 
-On Thu, 3 Nov 2022 at 12:20, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit a11f65ec1b8adcb012b89c92819cbda4dc25aa=
-f1:
->
->   Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into=
- staging (2022-11-01 13:49:33 -0400)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-7.2-=
-pull-request
->
-> for you to fetch changes up to 489db95896b86dacdde9dab1de84745880449e37:
->
->   tests/unit: simpler variable sequence for test-io-channel (2022-11-03 1=
-7:16:34 +0100)
->
-> ----------------------------------------------------------------
-> Pull request trivial branch 20221103
->
-> ----------------------------------------------------------------
->
-> Alex Benn=C3=A9e (1):
->   tests/unit: simpler variable sequence for test-io-channel
->
-> Chuck Zmudzinski (1):
->   xen/pt: fix syntax error that causes FTBFS in some configurations
->
-> Han Han (1):
->   qapi: virtio: Fix the introduced version
->
-> Philippe Mathieu-Daud=C3=A9 (3):
->   target/m68k: Rename qregs.def -> qregs.h.inc
->   target/s390x: Rename insn-data/format.def -> insn-data/format.h.inc
->   target/tricore: Rename csfr.def -> csfr.h.inc
->
-> Stefan Weil (4):
->   Fix some typos in documentation and comments
->   libvhost-user: Fix wrong type of argument to formatting function
->     (reported by LGTM)
->   libvhost-user: Fix format strings
->   libvhost-user: Add format attribute to local function vu_panic
->
->  docs/devel/testing.rst                        |  2 +-
->  docs/system/arm/cpu-features.rst              |  2 +-
->  docs/system/loongarch/loongson3.rst           |  2 +-
->  docs/tools/virtiofsd.rst                      |  2 +-
->  hw/xen/meson.build                            |  2 +-
->  include/exec/memory.h                         |  2 +-
->  qapi/qom.json                                 |  2 +-
->  qapi/virtio.json                              | 34 +++++++++----------
->  qemu-options.hx                               | 10 +++---
->  qga/qapi-schema.json                          |  2 +-
->  subprojects/libvhost-user/libvhost-user.c     | 19 ++++++++---
->  target/m68k/{qregs.def =3D> qregs.h.inc}        |  0
->  target/m68k/translate.c                       |  4 +--
->  .../tcg/{insn-data.def =3D> insn-data.h.inc}    |  2 +-
->  .../{insn-format.def =3D> insn-format.h.inc}    |  0
->  target/s390x/tcg/translate.c                  | 10 +++---
->  target/tricore/{csfr.def =3D> csfr.h.inc}       |  0
->  target/tricore/translate.c                    |  4 +--
->  tests/qtest/libqtest.h                        |  2 +-
->  tests/unit/test-io-channel-command.c          | 14 +++-----
->  20 files changed, 60 insertions(+), 55 deletions(-)
->  rename target/m68k/{qregs.def =3D> qregs.h.inc} (100%)
->  rename target/s390x/tcg/{insn-data.def =3D> insn-data.h.inc} (99%)
->  rename target/s390x/tcg/{insn-format.def =3D> insn-format.h.inc} (100%)
->  rename target/tricore/{csfr.def =3D> csfr.h.inc} (100%)
->
-> --
-> 2.37.3
->
->
+That seems really good :)
+
+Thank you Thomas!
+
+Regards,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
