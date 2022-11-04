@@ -2,56 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5636193ED
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 10:56:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69656193FE
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 10:59:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqtQZ-0004bA-VG; Fri, 04 Nov 2022 05:55:56 -0400
+	id 1oqtSX-0005sT-2p; Fri, 04 Nov 2022 05:57:57 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sir@cmpwn.com>) id 1oqtQS-0004a2-3i
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:55:48 -0400
-Received: from out-182.mta0.migadu.com ([2001:41d0:1004:224b::b6])
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oqtRn-0005Zk-Fb
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:57:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sir@cmpwn.com>) id 1oqtQO-0008U8-Vl
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:55:47 -0400
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cmpwn.com; s=key1;
- t=1667555740;
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oqtRj-0000Hp-TF
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 05:57:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667555827;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qSMbPOOtxD6D/qf+FUo7MTJk23mCD7Fvue/+rAJ6Xck=;
- b=T5fNmU7xvBSjlmzBWfP8tWeUEHIKfyNo0GnHmU4IxFid2vrK/g83v2L5KywkvTQiiOb2/8
- Qzmh9nKKoU+Mhqw/t5OSJVzCp7teVXBNNFncc1QVTLXHDEAjfsjLjZVoB9fydA3LPrHOrM
- urARIvjrIm3of8X4q0JT4uEilvLPEXzED5J2NWHrDFcWcJByXBdznkGfu+jysloFVDbJ00
- E5ej1/f7vLCUTnxntdVsBYrvddYccFysZgBkZwK68vtV0i+BgUlaOwH4MKZ092lfpZWSsY
- DbU4nnKjohWX7ryQIufPqBEaZn755+fy1E5RlHm1zpRAPCifd8KNyrozX6jbmg==
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 04 Nov 2022 10:55:39 +0100
-Message-Id: <CO3F6B8K38DE.1OTGB55K8CMB2@taiga>
-Subject: Re: [PATCH v3] linux-user: implement execveat
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Drew DeVault" <sir@cmpwn.com>
-To: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>, "Laurent
- Vivier" <laurent@vivier.eu>
-Cc: <qemu-devel@nongnu.org>, "Helge Deller" <deller@gmx.de>
-References: <20221103173212.3724698-1-sir@cmpwn.com>
- <b22ae5f1-41d9-3739-e219-a717b7ab8b98@linaro.org>
-In-Reply-To: <b22ae5f1-41d9-3739-e219-a717b7ab8b98@linaro.org>
-X-Migadu-Flow: FLOW_OUT
-Received-SPF: pass client-ip=2001:41d0:1004:224b::b6;
- envelope-from=sir@cmpwn.com; helo=out-182.mta0.migadu.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JqblM9AVjisqfNOcNXk1wtsJQ8lIYFV/ZOxqb/qa4/k=;
+ b=DZXEo9eHaa9ypz4GHbryZ0rEkYt5HVbs+n+y/cetADqgMslcZKfUSzKuc7yGJw8MalBm/0
+ tbtu9l2/ed7yGnH5hqyhbrlHPO5p2GhNpuXxz5JARGpkJQpPeg2FLcim+VsY+zZAApZoZq
+ wcSv4OYqOioDrUDGZWM3kl8/z+jAfck=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-263-5andKCDoOImAWRJdx2bPUw-1; Fri, 04 Nov 2022 05:57:03 -0400
+X-MC-Unique: 5andKCDoOImAWRJdx2bPUw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 87FAD811E7A;
+ Fri,  4 Nov 2022 09:57:02 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 28B4240C835A;
+ Fri,  4 Nov 2022 09:57:02 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: [PATCH v2 0/9] Still more coroutine and various fixes in block layer
+Date: Fri,  4 Nov 2022 05:56:51 -0400
+Message-Id: <20221104095700.4117433-1-eesposit@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,19 +79,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri Nov 4, 2022 at 10:53 AM CET, Philippe Mathieu-Daud=C3=A9 wrote:
-> Splitting this big patch would ease review:
+This is a dump of all minor coroutine-related fixes found while looking
+around and testing various things in the QEMU block layer.
 
-It's only +165/-131, are you sure it really needs to be split?
+Patches aim to:
+- add missing coroutine_fn annotation to the functions
+- simplify to avoid the typical "if in coroutine: fn()
+  // else create_coroutine(fn)" already present in generated_co_wraper
+  functions.
+- make sure that if a BlockDriver callback is defined as coroutine_fn, then
+  it is always running in a coroutine.
 
-> 1/ Replace safe_execve() by safe_execveat()
->
->     -safe_execve(exec_path, argp, envp))
->     +safe_execveat(AT_FDCWD, exec_path, argp, envp, 0));
->
-> 2/ Extract do_execve()
->
-> 3/ Convert do_execve() to do_execveat() adding dirfd/flags args
->
-> 4/ Add TARGET_NR_execveat case
+Emanuele
+---
+v2:
+* clarified commit message in patches 2/3/6 on why we add coroutine_fn
+
+Emanuele Giuseppe Esposito (9):
+  block: call bdrv_co_drain_begin in a coroutine
+  block-copy: add missing coroutine_fn annotations
+  nbd/server.c: add missing coroutine_fn annotations
+  block-backend: replace bdrv_*_above with blk_*_above
+  block: distinguish between bdrv_create running in coroutine and not
+  block/vmdk: add missing coroutine_fn annotations
+  block: bdrv_create_file is a coroutine_fn
+  block: bdrv_create is never called in non-coroutine context
+  block/dirty-bitmap: remove unnecessary qemu_in_coroutine() case
+
+ block.c                            | 111 +++++++++++++++++------------
+ block/block-backend.c              |  21 ++++++
+ block/block-copy.c                 |  15 ++--
+ block/commit.c                     |   4 +-
+ block/dirty-bitmap.c               |  66 ++++++++---------
+ block/vmdk.c                       |  36 +++++-----
+ include/block/block-global-state.h |   3 +-
+ include/sysemu/block-backend-io.h  |   9 +++
+ nbd/server.c                       |  43 +++++------
+ qemu-img.c                         |   4 +-
+ 10 files changed, 182 insertions(+), 130 deletions(-)
+
+-- 
+2.31.1
+
 
