@@ -2,94 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB76461921D
+	by mail.lfdr.de (Postfix) with ESMTPS id DFEE761921E
 	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 08:38:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oqrF9-0008I6-96; Fri, 04 Nov 2022 03:35:59 -0400
+	id 1oqrFx-0000Yx-No; Fri, 04 Nov 2022 03:36:49 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqqyT-0008Q4-Rz
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 03:18:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oqrET-0007z6-JG
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 03:35:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oqqyR-0001c0-Vz
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 03:18:45 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oqrEQ-0003xM-WF
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 03:35:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667546321;
+ s=mimecast20190719; t=1667547313;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sHOxG+KVp+HDbOCVmDzem7EKnMaOIzmgqHutk9bmBWg=;
- b=XCuUQMjx+rjrErAaoPd1qVTKVJTO4onuIFO+ndozSCTroSpaBv1uD601RpKLBAZAwvEdH7
- 1o58hXmOq8M93/RGX/rOMgID6iNDLLdOxZmmEJc5YBzzMYsGWKks9gmT7ZFQsgvZ+nFVM+
- OUUdAwrZICsytVE2iK5DkWKEVXggGQ8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vSoA1e7ZzxP68EwlMejZ/wGgfswP4eLGZ9/MvjWUHmc=;
+ b=SoU82T5vLwp6Vra6lgDmnqiGseAHDD2WO7wQvKaTcKTdGDu41pFoqFyBjL+1hYkwKKRUXk
+ EfddzQ1aP5bpNRUAEh3VLqfkPF2E78DgoHOSp5T+4q/qT/gBelWKo80VDuWsN+o589XUpJ
+ yv3NxKSW/wufwqDFbmpBzQW6+4bhgZg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-298-JJDsxdlZPrSJz5NE3rdXnQ-1; Fri, 04 Nov 2022 03:18:39 -0400
-X-MC-Unique: JJDsxdlZPrSJz5NE3rdXnQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u13-20020adfa18d000000b00236566b5b40so952405wru.9
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 00:18:39 -0700 (PDT)
+ us-mta-57-0kP_p2VDNQSatqTKUb0JOA-1; Fri, 04 Nov 2022 03:35:12 -0400
+X-MC-Unique: 0kP_p2VDNQSatqTKUb0JOA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ u20-20020adfc654000000b0022cc05e9119so954727wrg.16
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 00:35:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sHOxG+KVp+HDbOCVmDzem7EKnMaOIzmgqHutk9bmBWg=;
- b=CQhGvi2gWpuHra6L1P1BwtCtIjectMARLjGpT/ZdzCDLIQ+SIckdrGghfJI6y2LkoR
- eMWBCs39WIOz+7Mid02vBNzrVAp2J2qFWjM7C8a0y5Jgwko6ljxtNe+iLXBZggawu1Hy
- 4MuOM+S6Wo1UwEh3xxJ9ovxuQ+fypBUKhlqbRnKJmDGIxNFnTk0rTeJGnGytxlE/f8ak
- UKKu9l3AH8UCUoyHug8HBajhIwVOA4ix7LB1RMzqmi3RubWYDWjBqLYlPWTzp3pB++Vm
- Pyk1tgqLd9/xZx2hEjS9Vsskfr7ee7hSqY0nKe0tTKVoYmXaOkt9N6iDNq3nLJoafqVW
- 9dgA==
-X-Gm-Message-State: ACrzQf114oMceYzLEsr0h4p7XoKocJAOqwInq3RQVevTxQbMoYzM0boP
- m+9iXMXE1m79ERZy72qMzHA80Q31R9cjFy0+fDkp4hDJtGd6QG7npJZ+tXJPVWzIpvLzQ4ebhZ8
- EMWo2q4XuScvqyxA=
-X-Received: by 2002:a5d:6d86:0:b0:236:77fd:94f with SMTP id
- l6-20020a5d6d86000000b0023677fd094fmr21596142wrs.389.1667546318055; 
- Fri, 04 Nov 2022 00:18:38 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4T+YtM5KerumUJe0aL9aPI0AoWyncott7wvvfsL4VNWKHyax5vaOV9gOibPIBJTMCSDNAzVg==
-X-Received: by 2002:a5d:6d86:0:b0:236:77fd:94f with SMTP id
- l6-20020a5d6d86000000b0023677fd094fmr21596119wrs.389.1667546317800; 
- Fri, 04 Nov 2022 00:18:37 -0700 (PDT)
-Received: from redhat.com ([2.52.149.81]) by smtp.gmail.com with ESMTPSA id
- y19-20020a05600c365300b003cf75f56105sm2182757wmq.41.2022.11.04.00.18.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 00:18:37 -0700 (PDT)
-Date: Fri, 4 Nov 2022 03:18:34 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "open list:virtiofs" <virtio-fs@redhat.com>
-Subject: Re: [PATCH  v4 10/22] hw/virtio: move vm_running check to
- virtio_device_started
-Message-ID: <20221104031804-mutt-send-email-mst@kernel.org>
-References: <20220802095010.3330793-1-alex.bennee@linaro.org>
- <20220802095010.3330793-11-alex.bennee@linaro.org>
- <20221103123856-mutt-send-email-mst@kernel.org>
- <87o7tnkfqy.fsf@linaro.org>
- <20221103162957-mutt-send-email-mst@kernel.org>
- <20221103173542-mutt-send-email-mst@kernel.org>
+ bh=vSoA1e7ZzxP68EwlMejZ/wGgfswP4eLGZ9/MvjWUHmc=;
+ b=hHxhfAWLB2j/Xg7sFftN+xGuqIWNe97IHYbbCHLUP2uEpzH/CGcym/4TPR6QnJgNx0
+ wBgB2+tfDKdn9KJo62mGhja4cAIyqQE6Ha2IHySWKBpqWRALmdoUnm6HaIgs9IOfd6wz
+ tmEO9arpTsj+uss4RxRa6wR3b7WngLO5oApvci4rWYUha0VHdqR3AjzFVXd9kNPRQUgr
+ E/gJcaFHDUUSx5WZ/pb149P+QISq/+cMa2BzfZmsMrz5RcmEblyF5JhRiFZ2m5qYRKUr
+ f4No4ejc3GSKe7rdNM2pNiE4fBCdEAadXGVC1udpSan2+uEe7bkT5TMYlmdDvCPRXu0r
+ sUXQ==
+X-Gm-Message-State: ACrzQf213jeTN5qJVMKZF0SlbwHoPD/xZRTNGjPKr4eKridszQSso5J0
+ pBGHfUmnkpfybTsIsTgUquE6dbbvsFt6tDezp4B/sD731x7Kf0ldDWphnbcIRl0bykmlaKRJZ1B
+ O2l5KH7ZhOZvxed0=
+X-Received: by 2002:a05:600c:3c92:b0:3b5:62e4:e423 with SMTP id
+ bg18-20020a05600c3c9200b003b562e4e423mr22595292wmb.162.1667547311014; 
+ Fri, 04 Nov 2022 00:35:11 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6AMJcstaksTnVLzfF+ZDwogh8c3JDwnrKbIinto5Vsy5xcsPkq4/cYVSIQCWIprU5V914MSA==
+X-Received: by 2002:a05:600c:3c92:b0:3b5:62e4:e423 with SMTP id
+ bg18-20020a05600c3c9200b003b562e4e423mr22595266wmb.162.1667547310681; 
+ Fri, 04 Nov 2022 00:35:10 -0700 (PDT)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id
+ bj9-20020a0560001e0900b002365cd93d05sm2731613wrb.102.2022.11.04.00.35.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Nov 2022 00:35:10 -0700 (PDT)
+Message-ID: <aa37a312-96c1-3bf7-29fe-fbe83eb48f61@redhat.com>
+Date: Fri, 4 Nov 2022 08:35:08 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 2/9] block-copy: add missing coroutine_fn annotations
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org
+References: <20221103134206.4041928-1-eesposit@redhat.com>
+ <20221103134206.4041928-3-eesposit@redhat.com>
+ <8f24c24c-ca61-108c-924b-39465a3c67fe@redhat.com>
+ <Y2QDPXegFTdpBy6S@redhat.com>
+ <dfb4906f-5fff-0430-a3c8-c1f660d3497d@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <dfb4906f-5fff-0430-a3c8-c1f660d3497d@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221103173542-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.047,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,168 +110,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 03, 2022 at 05:35:57PM -0400, Michael S. Tsirkin wrote:
-> On Thu, Nov 03, 2022 at 04:30:48PM -0400, Michael S. Tsirkin wrote:
-> > On Thu, Nov 03, 2022 at 07:18:30PM +0000, Alex Bennée wrote:
-> > > 
-> > > "Michael S. Tsirkin" <mst@redhat.com> writes:
-> > > 
-> > > > On Tue, Aug 02, 2022 at 10:49:58AM +0100, Alex Bennée wrote:
-> > > >> All the boilerplate virtio code does the same thing (or should at
-> > > >> least) of checking to see if the VM is running before attempting to
-> > > >> start VirtIO. Push the logic up to the common function to avoid
-> > > >> getting a copy and paste wrong.
-> > > >> 
-> > > >> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> > > >
-> > > > How bad is it if we drop this?
-> > > 
-> > > 
-> > > I assume it will break gpio. Why do we want to drop this now? It has
-> > > been merged awhile. However there was a follow-up patch which tweaked
-> > > the order of checks in virtio_device_started.
-> > 
-> > And that follow up patch trips up UBSAN:
-> > 
-> > https://gitlab.com/mitsirkin/qemu/-/pipelines/684763327
-> > 
-> 
-> 
-> And more specifically this
-> 
-> https://gitlab.com/mitsirkin/qemu/-/jobs/3269957848
-
-I'm sorry, I misread the results. Triggers without this
-patch too so it's not to blame. Pls ignore.
 
 
-> > 
-> > 
-> > > >
-> > > >> ---
-> > > >>  include/hw/virtio/virtio.h   | 5 +++++
-> > > >>  hw/virtio/vhost-user-fs.c    | 6 +-----
-> > > >>  hw/virtio/vhost-user-i2c.c   | 6 +-----
-> > > >>  hw/virtio/vhost-user-rng.c   | 6 +-----
-> > > >>  hw/virtio/vhost-user-vsock.c | 6 +-----
-> > > >>  hw/virtio/vhost-vsock.c      | 6 +-----
-> > > >>  6 files changed, 10 insertions(+), 25 deletions(-)
-> > > >> 
-> > > >> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> > > >> index 9bb2485415..74e7ad5a92 100644
-> > > >> --- a/include/hw/virtio/virtio.h
-> > > >> +++ b/include/hw/virtio/virtio.h
-> > > >> @@ -100,6 +100,7 @@ struct VirtIODevice
-> > > >>      VirtQueue *vq;
-> > > >>      MemoryListener listener;
-> > > >>      uint16_t device_id;
-> > > >> +    /* @vm_running: current VM running state via virtio_vmstate_change() */
-> > > >>      bool vm_running;
-> > > >>      bool broken; /* device in invalid state, needs reset */
-> > > >>      bool use_disabled_flag; /* allow use of 'disable' flag when needed */
-> > > >> @@ -376,6 +377,10 @@ static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
-> > > >>          return vdev->started;
-> > > >>      }
-> > > >>  
-> > > >> +    if (!vdev->vm_running) {
-> > > >> +        return false;
-> > > >> +    }
-> > > >> +
-> > > >>      return status & VIRTIO_CONFIG_S_DRIVER_OK;
-> > > >>  }
-> > > >>  
-> > > >> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> > > >> index e513e4fdda..d2bebba785 100644
-> > > >> --- a/hw/virtio/vhost-user-fs.c
-> > > >> +++ b/hw/virtio/vhost-user-fs.c
-> > > >> @@ -122,11 +122,7 @@ static void vuf_stop(VirtIODevice *vdev)
-> > > >>  static void vuf_set_status(VirtIODevice *vdev, uint8_t status)
-> > > >>  {
-> > > >>      VHostUserFS *fs = VHOST_USER_FS(vdev);
-> > > >> -    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
-> > > >> -
-> > > >> -    if (!vdev->vm_running) {
-> > > >> -        should_start = false;
-> > > >> -    }
-> > > >> +    bool should_start = virtio_device_started(vdev, status);
-> > > >>  
-> > > >>      if (fs->vhost_dev.started == should_start) {
-> > > >>          return;
-> > > >> diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
-> > > >> index 6020eee093..b930cf6d5e 100644
-> > > >> --- a/hw/virtio/vhost-user-i2c.c
-> > > >> +++ b/hw/virtio/vhost-user-i2c.c
-> > > >> @@ -93,11 +93,7 @@ static void vu_i2c_stop(VirtIODevice *vdev)
-> > > >>  static void vu_i2c_set_status(VirtIODevice *vdev, uint8_t status)
-> > > >>  {
-> > > >>      VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
-> > > >> -    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
-> > > >> -
-> > > >> -    if (!vdev->vm_running) {
-> > > >> -        should_start = false;
-> > > >> -    }
-> > > >> +    bool should_start = virtio_device_started(vdev, status);
-> > > >>  
-> > > >>      if (i2c->vhost_dev.started == should_start) {
-> > > >>          return;
-> > > >> diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
-> > > >> index 3a7bf8e32d..a9c1c4bc79 100644
-> > > >> --- a/hw/virtio/vhost-user-rng.c
-> > > >> +++ b/hw/virtio/vhost-user-rng.c
-> > > >> @@ -90,11 +90,7 @@ static void vu_rng_stop(VirtIODevice *vdev)
-> > > >>  static void vu_rng_set_status(VirtIODevice *vdev, uint8_t status)
-> > > >>  {
-> > > >>      VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-> > > >> -    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
-> > > >> -
-> > > >> -    if (!vdev->vm_running) {
-> > > >> -        should_start = false;
-> > > >> -    }
-> > > >> +    bool should_start = virtio_device_started(vdev, status);
-> > > >>  
-> > > >>      if (rng->vhost_dev.started == should_start) {
-> > > >>          return;
-> > > >> diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
-> > > >> index 0f8ff99f85..22c1616ebd 100644
-> > > >> --- a/hw/virtio/vhost-user-vsock.c
-> > > >> +++ b/hw/virtio/vhost-user-vsock.c
-> > > >> @@ -55,11 +55,7 @@ const VhostDevConfigOps vsock_ops = {
-> > > >>  static void vuv_set_status(VirtIODevice *vdev, uint8_t status)
-> > > >>  {
-> > > >>      VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
-> > > >> -    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
-> > > >> -
-> > > >> -    if (!vdev->vm_running) {
-> > > >> -        should_start = false;
-> > > >> -    }
-> > > >> +    bool should_start = virtio_device_started(vdev, status);
-> > > >>  
-> > > >>      if (vvc->vhost_dev.started == should_start) {
-> > > >>          return;
-> > > >> diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-> > > >> index 0338de892f..8031c164a5 100644
-> > > >> --- a/hw/virtio/vhost-vsock.c
-> > > >> +++ b/hw/virtio/vhost-vsock.c
-> > > >> @@ -70,13 +70,9 @@ static int vhost_vsock_set_running(VirtIODevice *vdev, int start)
-> > > >>  static void vhost_vsock_set_status(VirtIODevice *vdev, uint8_t status)
-> > > >>  {
-> > > >>      VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
-> > > >> -    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
-> > > >> +    bool should_start = virtio_device_started(vdev, status);
-> > > >>      int ret;
-> > > >>  
-> > > >> -    if (!vdev->vm_running) {
-> > > >> -        should_start = false;
-> > > >> -    }
-> > > >> -
-> > > >>      if (vvc->vhost_dev.started == should_start) {
-> > > >>          return;
-> > > >>      }
-> > > >> -- 
-> > > >> 2.30.2
-> > > 
-> > > 
-> > > -- 
-> > > Alex Bennée
+Am 03/11/2022 um 19:36 schrieb Paolo Bonzini:
+> On 11/3/22 19:06, Kevin Wolf wrote:
+>> I think it can make sense to have coroutine_fn as a documentation for
+>> things that are only ever called in a coroutine even if they could
+>> theoretically also work outside of coroutine context.
+>>
+>> Otherwise, when we want to introduce a coroutine_fn call somewhere, it's
+>> not only less obvious that it's even possible to do, but we'll have to
+>> add potentially many additional coroutine_fn annotations in the whole
+>> call chain in an otherwise unrelated patch.
+> 
+> This is true.Â  On the other hand, coroutine_fn also means "this is
+> allowed to suspend", which may have implications on the need for locking
+> in the caller.Â  So you need to judge case-by-case.
+> 
+> If there are good reasons to add the note, you could add an assertion
+> that you are qemu_in_coroutine(), which notes that you are in a
+> coroutine but you don't suspend.Â  In this case however I don't think
+> it's likely that there will be a coroutine_fn call added later.
+> 
+> I guess I tend to err on the side of "it's good that it's not obvious
+> that you can call a coroutine_fn", but I also need to correct myself as
+> qemu_coroutine_yield() is not the only leaf; there is also
+> qemu_co_queue_next() and qemu_co_queue_restart_all(), which are
+> coroutine_fn because they rely on the queuing behavior of
+> aio_co_enter().Â  In this case I violated my own rule because it is
+> always a bug to call these functions outside coroutine context.
+> 
+
+But isn't it a bug also not to mark a function _only_ called by
+coroutine_fn? My point is that if this function is an implementation of
+a BlockDriver callback marked as coroutine_fn (like in patch 6 with
+vmdk), then it would make sense.
+
+This is actually the point of this serie (which I might not have
+explained well in the cover letter), every function marked here is
+eventually called by/calling a BlockDriver callback marked as coroutine_fn.
+
+Currently we have something like this:
+BlockDriver {
+    void coroutine_fn (*bdrv_A)(void) = implA;
+}
+
+void coroutine_fn implA() {
+    funcB();
+    funcC();
+}
+
+void funcB() {}; <--- missing coroutine_fn?
+void funcC() {}; <--- missing coroutine_fn?
+
+In addition, as I understand draining is not allowed in coroutines. If a
+function/callback only running in coroutines is not marked as
+coroutine_fn, then it will be less obvious to notice that draining is
+not allowed there.
+
+Emanuele
 
 
