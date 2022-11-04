@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6CC061A3EE
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 23:13:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5674261A400
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Nov 2022 23:20:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1or4uH-0006TF-4z; Fri, 04 Nov 2022 18:11:21 -0400
+	id 1or52Q-0003Dq-Gv; Fri, 04 Nov 2022 18:19:46 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1or4pS-0002q6-77
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 18:06:22 -0400
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
+ id 1or4rX-0004hE-Gy
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 18:08:31 -0400
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1or4pP-0006R3-9P
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 18:06:21 -0400
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-13b103a3e5dso7006907fac.2
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 15:06:17 -0700 (PDT)
+ id 1or4rV-0006cO-K0
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 18:08:30 -0400
+Received: by mail-oi1-x231.google.com with SMTP id b124so6568667oia.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 15:08:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Y7QVdHhGWMg06XVCBwuPr4aU6JANhS+CWd+TwQLCYYM=;
- b=r/Fj3DhLMdaD7yvXjQDIjoqxe46/gcZNj3bqpV25yoj3WDRkaCusDEkRja8rI66gpD
- svubwLrLDo+ZC2fWhyIRg4fZOOs+T1E0FPFTxIWdW8uIrLJhZVCPMpLxGH+SuGq6muSh
- UjLiSGodzs8hgEhYW0srqzwsjoY87QzgFNkxxZaWBn5AG9MQXVQkDeO3+SgnZA900nO1
- /MJoeBSMxvQx/87y2fXOjpFfY2feQ0jvizcdvob95sOfdZKCClCpkpnRnYyfE+uw7+nv
- 15kIUcAQC7bsCuJZBAWrBFweZh4OVnOMazBcxjah6Hc07sqCPYrpS3+2LcCnYi2Rim/q
- 8YEw==
+ bh=meWGddgcbOMaLuRwCWTOH+hphL0kFdbNFrr8O0m3evc=;
+ b=GbTtXAf36DGTnnMRHGXYN3KHf5DVEP0AmmnwtS4ilmXFk3XYa1rV8iz6s1PE3OQfWU
+ DeIn2xXrqo5ngEsDUzfulEfoEdu9xvXzbIh2HbwpJpDIY/+WpIiiYvcCG9v1hZXfTcJw
+ bIIkQfpskmMe4i8mIdxb0vMVQA+Q3B6yJqddNZaeBBPDl+phbf8zKOCbfROeQUp+0O7z
+ aXyMsLbWs0z+BzgcTbL88QlHbZUakzMtoLqg7WKFaeGluxgUt9oT6yk7uXM2VLxpYpr3
+ wyx6/VoiGotPrJiDO4r+RQtg8NpQ6oMmT8jl7/ClUUt5NBPyQ+IDPMlP8yBsV+lB+fcY
+ fUEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Y7QVdHhGWMg06XVCBwuPr4aU6JANhS+CWd+TwQLCYYM=;
- b=PDjx8zKo2T4UrRlaxhR1Wvc8IbgBYAf8p/JFvLEZdmtQLXPoedoGRgCzuTzk/fxqak
- y7UN1HrSGvgIbDGhhnnmsxSH1EQMrJepgTnTL8kV1t4uG+O9vF1G7bb5mjUhqg5Rp/6a
- xijdBO/sflc0Nmho+kCZD+ZW+/R94Uc1jezIreFk9POhlJsmTK13BRL/gFEgeaMp7rZS
- NWOIr1mAqWpfh5ZIWoWe0ny9k6/C+c1PhYyP/FBtrD1dZTwX7/bdhkCSi2hp9ubo4Jnw
- pdQK8/grDxbVZF2IvyPMMFqKfG/YeofDLb6/qxpYVSK8+S+ia8YxxOaFo3TdN86IZg0B
- ypeA==
-X-Gm-Message-State: ACrzQf1SMhtgrkHdyVIM8Rx2sUO0oTTI3pjITh0FTpnzfLfgL2WTEaQ2
- MpetUJAIoco1HRtTRtjkX/PZng==
-X-Google-Smtp-Source: AMsMyM7MTv6EpxzQ6rsKocS7ctcA3xXCtCcL4STWicQ3TrLteE09vWGVMY/U8msfZt75dteYBJVRoA==
-X-Received: by 2002:a05:6870:c34e:b0:13c:19bc:6e41 with SMTP id
- e14-20020a056870c34e00b0013c19bc6e41mr33069676oak.115.1667599576945; 
- Fri, 04 Nov 2022 15:06:16 -0700 (PDT)
+ bh=meWGddgcbOMaLuRwCWTOH+hphL0kFdbNFrr8O0m3evc=;
+ b=bf6JnUYk2k4rNII4aeuApnbWEbZxaTm8dZVPAw4Rh+AcG9nE8deAfyMiqptnLeh7os
+ lIEI2dKMq7/gdkAlfIkRP54m3tjyRonGVPjDievmu9JYUDNkiyZhMLZBXh9x9+gWj8n4
+ BdtNl6ZWv4I+FHAp8siC877vYJvcEO1EC0MWaai3jQleZ2iy0zScVoqMuW7ultLIDh2W
+ Xr+2SO7MoEWHkMW1Eo6YQuqdSdmBprXs70qfFoSg54thS77awsWRwrhSRkV5OQVEVQSJ
+ pv56zrP5He4exQszoKyNEkATA1vDBiYf1lt0iBPkmqGxAWw1IFl6UvpOCC9S1CztaBpO
+ M0hg==
+X-Gm-Message-State: ACrzQf3bC8RqP48Xxyq4xMgGbnqjJlY9WHebLmwhWvCU/zviJe9kOaqu
+ dzgw0Cgo+k6JNs5JQ0KU+WPF7xVIgYJbtbxi
+X-Google-Smtp-Source: AMsMyM4o9GgPTeAmTyTSBk3n6YihNdSi6V95uu3x50W4aWCCm5BDYynkyTSsrpwLBT9VnSWLYYQBCg==
+X-Received: by 2002:aca:b603:0:b0:359:c5a9:b9ac with SMTP id
+ g3-20020acab603000000b00359c5a9b9acmr286052oif.33.1667599708044; 
+ Fri, 04 Nov 2022 15:08:28 -0700 (PDT)
 Received: from [192.168.229.227] ([172.58.176.28])
  by smtp.gmail.com with ESMTPSA id
- i5-20020a4aab05000000b0049ded99501bsm118791oon.40.2022.11.04.15.06.12
+ k131-20020aca3d89000000b003549db40f38sm92187oia.46.2022.11.04.15.08.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Nov 2022 15:06:16 -0700 (PDT)
-Message-ID: <4075c55b-3b1b-9fb6-c4fb-000c2d0a4591@linaro.org>
-Date: Sat, 5 Nov 2022 09:06:05 +1100
+ Fri, 04 Nov 2022 15:08:26 -0700 (PDT)
+Message-ID: <5be81b92-83c1-29d5-8af2-1c6fe49a7520@linaro.org>
+Date: Sat, 5 Nov 2022 09:08:17 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH] target/arm: Two fixes for secure ptw
+Subject: Re: [PATCH v3 1/2] target/loongarch: Adjust the layout of hardware
+ flags bit fields
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, philmd@linaro.org, qemu-arm@nongnu.org
-References: <20221102054706.1015830-1-richard.henderson@linaro.org>
- <CAFEAcA_meGSRv=Fa1D-F=a3VF=TnHHORGAZoi5aPOkVAbGPm4w@mail.gmail.com>
- <2d9a7f5e-0ec0-89da-53f0-b5624f540ae8@linaro.org>
- <CAFEAcA-XqHm+bFk4QSzG=QJCwUncGmD43qxK0FBSXZbVaPY4pQ@mail.gmail.com>
+To: Rui Wang <wangrui@loongson.cn>
+Cc: Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>, 
+ qemu-devel@nongnu.org, hev <qemu@hev.cc>
+References: <20221104040517.222059-1-wangrui@loongson.cn>
+ <20221104040517.222059-2-wangrui@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA-XqHm+bFk4QSzG=QJCwUncGmD43qxK0FBSXZbVaPY4pQ@mail.gmail.com>
+In-Reply-To: <20221104040517.222059-2-wangrui@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::36;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x231.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,18 +95,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/4/22 21:58, Peter Maydell wrote:
-> OK. Do we ever do anything with the attrs for a phys tlb lookup
-> except use them internally for details of the stage 2 tlb walk ?
-> I guess they get used for the memory transaction to do the walk.
-> That matches the old code that just had a local MemTxAttrs in
-> arm_ldq_ptw() to do the walk which therefore implicitly got
-> user == false.
+On 11/4/22 15:05, Rui Wang wrote:
+>   static bool check_plv(DisasContext *ctx)
+>   {
+> -    if (ctx->base.tb->flags == MMU_USER_IDX) {
+> +    if (ctx->mem_idx == MMU_USER_IDX) {
 
-Exactly.
-
-I can't think of any reason .user would be apply outside of the stage1 lookup, which is 
-what records the setting for any future mmio.
+Not quite.  This needs to check HW_FLAGS_PLV_MASK, not the mem_idx.  That was the intent 
+of keeping them separate in HW_FLAGS.
 
 
 r~
