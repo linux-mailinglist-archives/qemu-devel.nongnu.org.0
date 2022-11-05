@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C25B61DC45
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 17:54:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 708F261DC48
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:05:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMQu-0003De-UZ; Sat, 05 Nov 2022 12:54:12 -0400
+	id 1orMaU-0007Tm-HL; Sat, 05 Nov 2022 13:04:06 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMQh-0003C9-FM
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 12:53:59 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMaT-0007Tb-BT
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:04:05 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMQc-0004G4-K9
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 12:53:55 -0400
-Received: by mail-wr1-x434.google.com with SMTP id w14so10826860wru.8
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 09:53:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMaQ-0005a7-P0
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:04:04 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id a14so10866450wru.5
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:04:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=v8SQF5Wl6eAwhSQtss5w1Jlr+jYQZdEuizv/UAXQ9lQ=;
- b=RBGxF1SGzyHyqyRyYJcq3K8yQUIrquCH/+STL4ssmen14E45zBWYCD8AruCsIb0dZu
- nEGubGFI8bNZ41eCieHYTB9IP2xhsL2/GoRhslm+1A2N0cX6cQF0Ak5R202CbTqshlFu
- NTGiUGgaVm2dHa0l+lxH7eDtbpQ4BqieavJcbd9J744YoBuWOIbLVg4gVcOfSoewHxq5
- 1/vSgiBylIJE/F5JTk5tuX1AaNHlIikWHagMDTMQDe+C4Jtb1mmAWwJXazhUOjy66mRm
- Fs2mCBk1H/zhj96IY8Gsvuyn3/FFLMVG3h3nRCkMe5cHMtlieBpHsDX85OUF5D8X7qh5
- qOpQ==
+ bh=q8ZOXA7WbT+JrPNePoLeRoAg7WgBFc+L5quMpjXNo9s=;
+ b=Fa9XaVm6stRBW/UiGpjw6QVQCyv0MkEceez/XIqDH0V6HsGHTSIwhCqCWdRpLSK08/
+ rU2Xs6Tc4GNLaJpOX3PsdqAcxBiSrhn4jhjBCCyKAROl+QvYnk4WwU0G1/bADtzQO2v6
+ AvimMLAJPWBaLp8PqSoxu1b2tkKSxG0klkWlGym+sPd4qJk4wowJK4XWsexaU9Vf0bo8
+ SIrXiNp3sUO57bP0U/edNWQKDGJHMD2qIfLpGUs6JDT56s+cjFJ8088wAe297WywNpeZ
+ /uRZAciBqXiKBZyBfYoNdYga4yu6PvsLyZaZjlxv6j+82+Y0EkVy5arEOxstsuKtiAlx
+ DwfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=v8SQF5Wl6eAwhSQtss5w1Jlr+jYQZdEuizv/UAXQ9lQ=;
- b=wKOTeADtvC/DZOzv/G8izH/YJpll4NzhH+eWht0sNH+llKt42LKFhgDYIG7P+kS1Vk
- XUbODIhicG1oxt5hNNgKyDekeN//cQQCy7KUSjm7vzVJVlGDLpEXW26oEeyM0lz3W0WZ
- tnkPVgWGpvAOjOSQSnPbwnziw7px0tzHhpsueSh9fhE7/QzRu7Okj76oogGR1bjvy89z
- /YWHGafEQgOFZKdKlGnn/68ajCXLKm1Zr99ea22w3XiPckzSrGgGGUMUt19oEhc49XTa
- zWrdUODjX2VQALvLuDHS07leaEgZvu3HsnQcRGgLSbG1NxGtTVx/6Su5j3CDwvp4Z3xq
- WRjQ==
-X-Gm-Message-State: ACrzQf37kHCkqfyYqmfI4KBGKCtp54MmfrFbfyNctBIoPIGZxEygmdb8
- 5P+nwzrDXlPXCuZGUcct4ubK0SaM5z6P8w==
-X-Google-Smtp-Source: AMsMyM4lwQTqEu8JelInj53aiQAm6mDbv/J1gKJ5Qg0uRXAcdByIuIomXD6V8Qx8HJaoD/Tj3/V1/A==
-X-Received: by 2002:a5d:69c2:0:b0:236:86fc:4400 with SMTP id
- s2-20020a5d69c2000000b0023686fc4400mr25938661wrw.69.1667667230900; 
- Sat, 05 Nov 2022 09:53:50 -0700 (PDT)
+ bh=q8ZOXA7WbT+JrPNePoLeRoAg7WgBFc+L5quMpjXNo9s=;
+ b=7SEplAbqL0GgjjZY4ZvGXR5oMNNYHgjkxiXXz3GdroTiMnAf/LNwEOnCBAu1Y+6S/0
+ lg6DepAeEyLOjSvJK2GC5A6pK1Ee+jzSN5ywmtNsFuromBpxlQkoEQE9A8HAQ8ybPZd0
+ bXK8ZzciEyVBNmEkUkS9UjAjgrC4tfHq9IKUo0RqS/TCIdJtQIQ0OnR+aqIdcDOZUvFW
+ FvDCcIBXztMflnzeCncELL3eUVwZI0tpEtDyBKYBuva6yUTwBznzqrvRW7ltFBF1dzI4
+ NzHTd82TNzg7wuHmd6fH8hA+8MY1PwhtBwsHB3u1AWKNKOL+ui0I87ugHCCKEftDjtMm
+ v6Cg==
+X-Gm-Message-State: ACrzQf19issCzWnCvQhkhRyZu2MXxARXgLydJ1j8vI0hjwsR3y0n++Zg
+ KDWMXiSdh0tJ/eEROVfYvEdvEw==
+X-Google-Smtp-Source: AMsMyM7kGnYCcq4/mOpIdC7Vd+26LppxGL/bGZxjhJImtuck6PR4O9HXzWnj4Al861vdGjT3hCL4yQ==
+X-Received: by 2002:adf:a3cf:0:b0:236:5270:7f29 with SMTP id
+ m15-20020adfa3cf000000b0023652707f29mr26521708wrb.382.1667667840561; 
+ Sat, 05 Nov 2022 10:04:00 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- f17-20020a5d6651000000b002362f6fcaf5sm2559811wrw.48.2022.11.05.09.53.49
+ j22-20020a05600c1c1600b003a6125562e1sm3139200wms.46.2022.11.05.10.03.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Nov 2022 09:53:50 -0700 (PDT)
-Message-ID: <6401597e-eff1-5369-e137-02c7064ad5e5@linaro.org>
-Date: Sat, 5 Nov 2022 17:53:48 +0100
+ Sat, 05 Nov 2022 10:03:59 -0700 (PDT)
+Message-ID: <7cd77bd3-2d0a-5d26-7e74-176beafee1ae@linaro.org>
+Date: Sat, 5 Nov 2022 18:03:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH] tests/qtest/libqos/e1000e: Use IVAR shift definitions
+Subject: Re: [PATCH v3 18/30] qapi net: Elide redundant has_FOO in generated C
 Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Yan Vugenfirer <yan@daynix.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>
-References: <20221105053010.38037-1-akihiko.odaki@daynix.com>
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: jsnow@redhat.com, eblake@redhat.com, michael.roth@amd.com,
+ Jason Wang <jasowang@redhat.com>
+References: <20221104160712.3005652-1-armbru@redhat.com>
+ <20221104160712.3005652-19-armbru@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221105053010.38037-1-akihiko.odaki@daynix.com>
+In-Reply-To: <20221104160712.3005652-19-armbru@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,13 +92,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/11/22 06:30, Akihiko Odaki wrote:
-> There were still some constants defined in e1000_regs.h.
+On 4/11/22 17:07, Markus Armbruster wrote:
+> The has_FOO for pointer-valued FOO are redundant, except for arrays.
+> They are also a nuisance to work with.  Recent commit "qapi: Start to
+> elide redundant has_FOO in generated C" provided the means to elide
+> them step by step.  This is the step for qapi/net.json.
 > 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> Said commit explains the transformation in more detail.  The invariant
+> violations mentioned there do not occur here.
+> 
+> Cc: Jason Wang <jasowang@redhat.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   tests/qtest/libqos/e1000e.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+>   hw/net/virtio-net.c    |  3 +--
+>   monitor/hmp-cmds.c     |  1 -
+>   net/announce.c         |  8 +++----
+>   net/hub.c              |  2 +-
+>   net/l2tpv3.c           |  2 +-
+>   net/net.c              | 25 ++++++++++-----------
+>   net/slirp.c            |  4 ++--
+>   net/socket.c           | 18 +++++++--------
+>   net/tap-win32.c        |  2 +-
+>   net/tap.c              | 51 +++++++++++++++++++++---------------------
+>   net/vhost-vdpa.c       |  6 ++---
+>   scripts/qapi/schema.py |  1 -
+>   12 files changed, 59 insertions(+), 64 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
