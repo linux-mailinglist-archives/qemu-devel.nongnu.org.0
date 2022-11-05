@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502DC61DC49
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7AA161DC4B
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:08:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMdG-0000ky-Dy; Sat, 05 Nov 2022 13:06:58 -0400
+	id 1orMea-0001z1-2E; Sat, 05 Nov 2022 13:08:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMdF-0000kq-4R
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:06:57 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMeY-0001yj-Kq
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:08:18 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMdD-00065p-B5
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:06:56 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id cl5so10853035wrb.9
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:06:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMeX-0006J3-4K
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:08:18 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ t25-20020a1c7719000000b003cfa34ea516so458495wmi.1
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:08:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=J3NiaZ0BwxU10XNGW4z0lfqGeQEUIY94y3x137DSPFA=;
- b=P/MxcNo1MG1843E+Wxw0hoLtggnv0qU1s/FTSMiwsXxfDYARUeGCm9unaszI3i0dmW
- ffMPaK63r+diBh6Xwh609CT7G7+NfeIVHfYt7nPTrmaTqdT6cISw73+LJgpkKk8eWNWZ
- SXI3w0dQcDCFK/q1OgBM0EpJ5NTaJU0ZF637/VBpIFkt93yB/DrQ1rwM36g8CtBxi3ZT
- LSDKKSrzs/3qwckzgsHiQr8Wz1FwXLR7xVaFsTGXxzHBQZ3qW5Xq7rD56o51Q/a3+IJz
- +QDRkcffu7Fv+/Z7ftTuvpAi7lXcHBgK8lOZCgWtIIaGLcHDia5u0FEaMGW2DQWyI36F
- IAlA==
+ bh=wkSVijzMPf3Xr32bbOH7q/P+haXyZGCdnhQvCnD0X8U=;
+ b=fNCyFjnJ0xcT1k7uVUbR3pwqTk3Yk2vOonxLISAyyRt5wehfWy3PRSn29hO51FIcMq
+ O/Nx9g1TBiVxHleyz48fQW3U0Vje1m5W3E7cFw1JUPoox8KMnplaKFDwenkPCVE30EuZ
+ N4lLPbSK7ol2TbFzJX0PUM13XS+2Dd+TryoRlc04ZOnceDwv7wdhHh5T2FScYH+nkq8J
+ Lj27zk0KpG3puwMAL7m1w4065MxOHK+5OE6686Qzbeh2wXHvPzpg9+jgX9lygFos4e0a
+ k1GPDkiS7FIx2RbdxwZuMwIvw9jRyrsXb9ZsBB4mzExi77xEy9awfYLVahPOKaxa9LQL
+ Sl1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=J3NiaZ0BwxU10XNGW4z0lfqGeQEUIY94y3x137DSPFA=;
- b=BQ4PmNqucXbn//g5/rxz56hmbrnj7928/Qw2Ha1acAyRk/hWlGDNQdWStBME494YmY
- Tuzf0Wb7xCRNHLRJfGQ6s1EL72iWh+kh95yfVtMCZF4zcbAPNyJfWliyGBBbSa3+n/Kk
- p9RBMKVUZo5ZBSuJhATkWI/3jp238ix1VJ3ukqCjEkaLxravrblXE5zvX9GBPQEBvYl7
- Ovq+77nWu9+/YSg9uDRfaJG+b8A0PlDEMPxAjeH1/WyuOIYOu7Rg4s6w/rUg/h7QYg41
- 1OyJcKm8GPxMj/xnDu1wm/PxMbLmLrypCBKfEAXIuyJ3s24JczegzWfzS7uCkXIXJWS6
- feOw==
-X-Gm-Message-State: ACrzQf2q/baUzpErpcywo4KsV8BOhh+qmANrxqbPhvkpO1FoAVkPsNRA
- g14YQKbU1fNCfjoiRrYAlRnI8IGLR0dLBg==
-X-Google-Smtp-Source: AMsMyM509F7ANM8/YY7QOlVDSf/jyHT+6dV0zRL06XGxfAXtnSeJYLRiSxFgclQFEGzY0fpRrF0b3Q==
-X-Received: by 2002:adf:e7c7:0:b0:236:6994:a0b4 with SMTP id
- e7-20020adfe7c7000000b002366994a0b4mr27477006wrn.610.1667668013977; 
- Sat, 05 Nov 2022 10:06:53 -0700 (PDT)
+ bh=wkSVijzMPf3Xr32bbOH7q/P+haXyZGCdnhQvCnD0X8U=;
+ b=z12oiCtYMB6tu+wK/xl12zXBgWGJQu2/9YkIYamXxuY21iPXJpVBCJ/kMcGGG/7pj5
+ 5e++PmDa4c+QF2A4iuWfDeYc6DaXDZXUotORzwul2W5rB3kMmKWbTCJrQLNjpVPrqPAF
+ uDDmik0bmo9/5cG0R4ETal7BtZmCpAq8YJ1b+KPX/sjI2JYc4DlAAxAmLHV3u1XZBC4Y
+ 5e2+adRJtJB5yHuGwhCK5Gq1I6+oJxbHZu18FrfXuftPmn3qfD1KhtaBhvgdB7S/w/lm
+ g7hoE5U8gKtHLcm/p36TNTLcV0e5kW9lYxqmKnPsUrbS/0FjYjBjf1KJ1BJOXeq4hYwy
+ KM/A==
+X-Gm-Message-State: ACrzQf0P6nWpWBurl/MWZOaVrQMcRsgOlHNhVnnd7KeyhnaXgBbNGJaK
+ rB2gCMhTyDdEunqQYTw1kNVM9Q==
+X-Google-Smtp-Source: AMsMyM6/BFd0A3v+Mep9YXzG5FpqAAOGQy5Ii/Bk5lRi/R4nkLSfTkJi31k7V5sn2XS+FzSsCUW20Q==
+X-Received: by 2002:a05:600c:6885:b0:3bd:d782:623c with SMTP id
+ fn5-20020a05600c688500b003bdd782623cmr27172139wmb.102.1667668095650; 
+ Sat, 05 Nov 2022 10:08:15 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n1-20020a1ca401000000b003cf66a2d433sm6184427wme.33.2022.11.05.10.06.52
+ i19-20020a05600c355300b003b49ab8ff53sm3314387wmq.8.2022.11.05.10.08.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Nov 2022 10:06:52 -0700 (PDT)
-Message-ID: <bd26b45d-d07f-9114-ec8b-8d6a963e8eb3@linaro.org>
-Date: Sat, 5 Nov 2022 18:06:51 +0100
+ Sat, 05 Nov 2022 10:08:14 -0700 (PDT)
+Message-ID: <09fa7cb5-fd6d-1741-d9c0-0729c8ec751a@linaro.org>
+Date: Sat, 5 Nov 2022 18:08:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH v3 20/30] qapi qdev qom: Elide redundant has_FOO in
+Subject: Re: [PATCH v3 22/30] qapi rocker: Elide redundant has_FOO in
  generated C
 Content-Language: en-US
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: jsnow@redhat.com, eblake@redhat.com, michael.roth@amd.com,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
+ Jiri Pirko <jiri@resnulli.us>
 References: <20221104160712.3005652-1-armbru@redhat.com>
- <20221104160712.3005652-21-armbru@redhat.com>
+ <20221104160712.3005652-23-armbru@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221104160712.3005652-21-armbru@redhat.com>
+In-Reply-To: <20221104160712.3005652-23-armbru@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,26 +98,18 @@ On 4/11/22 17:07, Markus Armbruster wrote:
 > The has_FOO for pointer-valued FOO are redundant, except for arrays.
 > They are also a nuisance to work with.  Recent commit "qapi: Start to
 > elide redundant has_FOO in generated C" provided the means to elide
-> them step by step.  This is the step for qapi/qdev.json and
-> qapi/qom.json.
+> them step by step.  This is the step for qapi/rocker.json.
 > 
 > Said commit explains the transformation in more detail.  The invariant
 > violations mentioned there do not occur here.
 > 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Cc: Eduardo Habkost <eduardo@habkost.net>
+> Cc: Jiri Pirko <jiri@resnulli.us>
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   hw/acpi/memory_hotplug.c    | 2 +-
->   hw/core/qdev.c              | 2 +-
->   hw/ppc/spapr.c              | 2 +-
->   hw/ppc/spapr_drc.c          | 3 +--
->   qom/qom-qmp-cmds.c          | 7 +------
->   stubs/qdev.c                | 6 ++----
->   tests/qtest/fuzz/qos_fuzz.c | 3 +--
->   scripts/qapi/schema.py      | 2 --
->   8 files changed, 8 insertions(+), 19 deletions(-)
+>   hw/net/rocker/rocker_of_dpa.c | 13 ++-----------
+>   monitor/hmp-cmds.c            | 22 +++++++++++-----------
+>   scripts/qapi/schema.py        |  1 -
+>   3 files changed, 13 insertions(+), 23 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
