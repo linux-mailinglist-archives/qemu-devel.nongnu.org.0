@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6ED061DC25
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 17:53:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C25B61DC45
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 17:54:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMOi-00026s-6l; Sat, 05 Nov 2022 12:51:56 -0400
+	id 1orMQu-0003De-UZ; Sat, 05 Nov 2022 12:54:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMOe-00025e-6u
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 12:51:52 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMQh-0003C9-FM
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 12:53:59 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMOc-00044L-Bb
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 12:51:51 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id a14so10841995wru.5
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 09:51:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMQc-0004G4-K9
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 12:53:55 -0400
+Received: by mail-wr1-x434.google.com with SMTP id w14so10826860wru.8
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 09:53:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=l3DP+h3V1IDQbnM0hfx1DXAHPn1xld/Lw9N0C1Y9Qxw=;
- b=QGmX0D0O94HvrKKu6ums7RAi/EvO0baN/VeADO+6wKPFD5gahSpnLK21X+dTMZodhJ
- +heAhbalBUX7ZRqVjm5fcIpstcV/WBsb8CyjZXuq2ou8nvd6cEkcQsSsYwOXEyIwZBDa
- eMXfFrglHxClKPDxCoOIvU3IS+0PfpPsvcX9IHyExES5FNnbPJilUPiOr9QI5uKf56Tf
- g2zm1WEKTNSULKOdy0G8K6Lpv72IdfFpOO+YP/Ik5wzX1Dxy9Vjdi7qpF7j+i8WqaYBW
- VbxDUo7qlGxEuTiJO3/+w6xjraSdXYL0J5oQHqFucLMBwKrb3TnnxKpKbNGdvu3lx5Zz
- xYUQ==
+ bh=v8SQF5Wl6eAwhSQtss5w1Jlr+jYQZdEuizv/UAXQ9lQ=;
+ b=RBGxF1SGzyHyqyRyYJcq3K8yQUIrquCH/+STL4ssmen14E45zBWYCD8AruCsIb0dZu
+ nEGubGFI8bNZ41eCieHYTB9IP2xhsL2/GoRhslm+1A2N0cX6cQF0Ak5R202CbTqshlFu
+ NTGiUGgaVm2dHa0l+lxH7eDtbpQ4BqieavJcbd9J744YoBuWOIbLVg4gVcOfSoewHxq5
+ 1/vSgiBylIJE/F5JTk5tuX1AaNHlIikWHagMDTMQDe+C4Jtb1mmAWwJXazhUOjy66mRm
+ Fs2mCBk1H/zhj96IY8Gsvuyn3/FFLMVG3h3nRCkMe5cHMtlieBpHsDX85OUF5D8X7qh5
+ qOpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=l3DP+h3V1IDQbnM0hfx1DXAHPn1xld/Lw9N0C1Y9Qxw=;
- b=ffveVuDDgXVY+bFo6L5mycVno+/tG6K/xXInWdvQAvGGotlpupMCOB0Y1/OtTIOP/4
- Hzmm5aTDh4Gek2ne6TaX31SnKU3ET35nvZYXOksaFZ/uKis9npAf1BJ8zGueyk5JpUVV
- mPMLqXZab76tA+Q9xHYXZO9mn4zZvO5CJsswZXmK1ccLsFjcO7HvTXIBGV6PCR0P8fRB
- da+dsf8uSmbdjlQxetAxvK32Fyj1rneutm9KehxYEwyUBczFjqqeCN+4ZvGgwJe6D3B9
- jKFDYZv9NRPYV+9lfLk/YYrjDlYghGhZZNDZMuoZl7FA5SO3GTgkKwqGjm1oHAeyixMs
- DQUg==
-X-Gm-Message-State: ACrzQf3WqUg6eOCbIZ3rDY7XxY2jQxCKVJbbr8kVb9XePfq/NhuWhlvR
- jrJtYdaS9GVuE1e/Gj5TWCQuWQ==
-X-Google-Smtp-Source: AMsMyM6zdqhie7+os0oEAQf5XLwpx9fQ0IBMB1pNHuI8Aa0TVfLodFS1xH4u+NpDm+qJBZdXqDiM7A==
-X-Received: by 2002:adf:f10e:0:b0:239:6cea:a4ff with SMTP id
- r14-20020adff10e000000b002396ceaa4ffmr8244469wro.36.1667667108266; 
- Sat, 05 Nov 2022 09:51:48 -0700 (PDT)
+ bh=v8SQF5Wl6eAwhSQtss5w1Jlr+jYQZdEuizv/UAXQ9lQ=;
+ b=wKOTeADtvC/DZOzv/G8izH/YJpll4NzhH+eWht0sNH+llKt42LKFhgDYIG7P+kS1Vk
+ XUbODIhicG1oxt5hNNgKyDekeN//cQQCy7KUSjm7vzVJVlGDLpEXW26oEeyM0lz3W0WZ
+ tnkPVgWGpvAOjOSQSnPbwnziw7px0tzHhpsueSh9fhE7/QzRu7Okj76oogGR1bjvy89z
+ /YWHGafEQgOFZKdKlGnn/68ajCXLKm1Zr99ea22w3XiPckzSrGgGGUMUt19oEhc49XTa
+ zWrdUODjX2VQALvLuDHS07leaEgZvu3HsnQcRGgLSbG1NxGtTVx/6Su5j3CDwvp4Z3xq
+ WRjQ==
+X-Gm-Message-State: ACrzQf37kHCkqfyYqmfI4KBGKCtp54MmfrFbfyNctBIoPIGZxEygmdb8
+ 5P+nwzrDXlPXCuZGUcct4ubK0SaM5z6P8w==
+X-Google-Smtp-Source: AMsMyM4lwQTqEu8JelInj53aiQAm6mDbv/J1gKJ5Qg0uRXAcdByIuIomXD6V8Qx8HJaoD/Tj3/V1/A==
+X-Received: by 2002:a5d:69c2:0:b0:236:86fc:4400 with SMTP id
+ s2-20020a5d69c2000000b0023686fc4400mr25938661wrw.69.1667667230900; 
+ Sat, 05 Nov 2022 09:53:50 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- m6-20020a1c2606000000b003c6edc05159sm6372253wmm.1.2022.11.05.09.51.46
+ f17-20020a5d6651000000b002362f6fcaf5sm2559811wrw.48.2022.11.05.09.53.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Nov 2022 09:51:47 -0700 (PDT)
-Message-ID: <586fea0b-c702-7684-1d95-f0b17c0dbad9@linaro.org>
-Date: Sat, 5 Nov 2022 17:51:44 +0100
+ Sat, 05 Nov 2022 09:53:50 -0700 (PDT)
+Message-ID: <6401597e-eff1-5369-e137-02c7064ad5e5@linaro.org>
+Date: Sat, 5 Nov 2022 17:53:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH for-7.2] tests/qtest: Fix two format strings
-To: Stefan Weil <sw@weilnetz.de>, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>,
- David Alan Gilbert <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20221105115525.623059-1-sw@weilnetz.de>
+Subject: Re: [PATCH] tests/qtest/libqos/e1000e: Use IVAR shift definitions
 Content-Language: en-US
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Yan Vugenfirer <yan@daynix.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>
+References: <20221105053010.38037-1-akihiko.odaki@daynix.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221105115525.623059-1-sw@weilnetz.de>
+In-Reply-To: <20221105053010.38037-1-akihiko.odaki@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,11 +93,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 5/11/22 12:55, Stefan Weil via wrote:
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+On 5/11/22 06:30, Akihiko Odaki wrote:
+> There were still some constants defined in e1000_regs.h.
+> 
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 > ---
->   tests/qtest/migration-test.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   tests/qtest/libqos/e1000e.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
