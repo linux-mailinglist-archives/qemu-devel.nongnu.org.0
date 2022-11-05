@@ -2,47 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8CF61D996
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 12:08:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5E261D9BD
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 12:46:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orH0Z-0006Ua-5V; Sat, 05 Nov 2022 07:06:39 -0400
+	id 1orHbI-0004Fi-SX; Sat, 05 Nov 2022 07:44:36 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1orH0N-0006U0-30; Sat, 05 Nov 2022 07:06:28 -0400
+ (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
+ id 1orHbD-0004CY-Hc; Sat, 05 Nov 2022 07:44:31 -0400
 Received: from mail.weilnetz.de ([37.120.169.71]
  helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1orH09-0007iA-Nj; Sat, 05 Nov 2022 07:06:26 -0400
-Received: from [192.168.44.88] (unknown [185.238.219.80])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 34E46DA08BC;
- Sat,  5 Nov 2022 12:06:10 +0100 (CET)
-Message-ID: <9e580f85-9b3b-fad3-be16-a47d61a1f964@weilnetz.de>
-Date: Sat, 5 Nov 2022 12:06:09 +0100
+ (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
+ id 1orHbB-0005mI-ME; Sat, 05 Nov 2022 07:44:31 -0400
+Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTP id B9771DA08BC;
+ Sat,  5 Nov 2022 12:44:25 +0100 (CET)
+Received: by qemu.weilnetz.de (Postfix, from userid 1000)
+ id 9C0644621B3; Sat,  5 Nov 2022 12:44:25 +0100 (CET)
+To: qemu-trivial@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>
+Subject: [PATCH for-7.2] accel/tcg: Suppress compiler warning with flag
+ -Wclobbered
+Date: Sat,  5 Nov 2022 12:44:24 +0100
+Message-Id: <20221105114424.622563-1-sw@weilnetz.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH v2 3/4] libvhost-user: Fix two more format strings
-To: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, Laurent Vivier <laurent@vivier.eu>
-References: <20221105102448.436469-1-sw@weilnetz.de>
- <20221105102448.436469-4-sw@weilnetz.de>
-In-Reply-To: <20221105102448.436469-4-sw@weilnetz.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=stefan@weilnetz.de;
  helo=mail.v2201612906741603.powersrv.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,16 +57,37 @@ Reply-to:  Stefan Weil <sw@weilnetz.de>
 From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 05.11.22 um 11:24 schrieb Stefan Weil via:
+At least some versions of gcc show a warning when compiler flag -Wclobbered
+is used (tested with gcc on Debian bookworm i386 and with cross gcc for
+Windows on Debian bullseye).
 
-> This fix is required for 32 bit host. The bug was detected by CI
-> for arm-linux, but is also relevant for i386-linux.
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+---
+ accel/tcg/translate-all.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-
-s/host/hosts/
-
-I won't send a v3 for that. Maybe it can be fixed when merging this patch.
-
-Stefan
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 921944a5ab..90191d97ec 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -743,6 +743,8 @@ void page_collection_unlock(struct page_collection *set)
+ #endif /* !CONFIG_USER_ONLY */
+ 
+ /* Called with mmap_lock held for user mode emulation.  */
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wclobbered"
+ TranslationBlock *tb_gen_code(CPUState *cpu,
+                               target_ulong pc, target_ulong cs_base,
+                               uint32_t flags, int cflags)
+@@ -1020,6 +1022,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     }
+     return tb;
+ }
++#pragma GCC diagnostic pop
+ 
+ /* user-mode: call with mmap_lock held */
+ void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr)
+-- 
+2.30.2
 
 
