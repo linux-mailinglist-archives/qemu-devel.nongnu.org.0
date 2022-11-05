@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C3261DCA8
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:46:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8979661DC57
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:20:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMpX-0008Bs-U9; Sat, 05 Nov 2022 13:19:39 -0400
+	id 1orMpc-0008Cu-PH; Sat, 05 Nov 2022 13:19:44 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMnx-0007Bv-LJ
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMnx-0007Bu-LF
  for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:18:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMns-0007an-Ub
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMnt-0007ap-F1
  for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:17:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1667668672;
@@ -22,55 +22,53 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MtEUbBVVYdPzeiTU39HNTaDMuOUKjIcjW007vq8qqcw=;
- b=YjeHtSfDOrDk2wTnUOON8NVVcQXZkBS5OYQbunyAMHPo+WRvonCM7t8oHfhlJEkaMDYyZN
- 3A3EdEYeTnmFeo+aVxvNPqe3sEfLRhb76DHsvgXNqrR3JxitBxKzW9E7vBobyjFjm6QgXN
- wvhBxq/MUS0vaJSLkHOeVh+8nZvIS3U=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CfH2mXgywnYC2kputq4S7gjRrDkltol0CBs+dWJ0/XM=;
+ b=Hal6WK6/6ABSKTMbsijMIdCYvm6HWVEvde4D+ldz9k8p3LqjLVcLsIoWwuA8MJmLohEUNY
+ a0UGyHZgO76mwXWk9LFUILh3y+U9SiA5/NCmxU+H3BgYSx7vIgibVafAtTNjaPvSaFV04H
+ Sa3WFGw1uACDoMkkskOvz67hmamuLZQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-331-hb-sssW_NO2lzM7ApD05HQ-1; Sat, 05 Nov 2022 13:17:48 -0400
-X-MC-Unique: hb-sssW_NO2lzM7ApD05HQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- ay40-20020a05600c1e2800b003cf8aa16377so3800182wmb.7
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:17:48 -0700 (PDT)
+ us-mta-342-enCpY4VUPFut8lpxSlul6w-1; Sat, 05 Nov 2022 13:17:51 -0400
+X-MC-Unique: enCpY4VUPFut8lpxSlul6w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ bg25-20020a05600c3c9900b003cf3ed7e27bso3840131wmb.4
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:17:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MtEUbBVVYdPzeiTU39HNTaDMuOUKjIcjW007vq8qqcw=;
- b=2YfjLPsFMT76MFC0p+tlH8msN8XKNU6mFw+7gqU+hpYo1qtM745+yWViasGUJGdASE
- SKnuScVMlvi/71vTzdezg1fdIUdZtgJVtSMeu0S/BVc/+Rq1MCMk55iyQfGTlB/q6J1s
- gCG0BEnAi//NRra9O7sbQmSUKjyh5KzclwX10Jv6hIFIAc48ikmYlonGBEyDnph/7kBD
- WZq4Cdvyvpqe3hdYL1hSq9JuLgXY/silgZwKcnREM5lE5+c6zZN/uODnEwYcEmtir37V
- hIwhjT/bx8yTNRRBl05vUHPgpPEvv/sAtpDtt0TLYk9BDNRemZC3cF7dYl5KfT2/FQB1
- Wfew==
-X-Gm-Message-State: ACrzQf0DT8tqvNOSivPrEx7D89gchplBHSlmLLxLp4oz+tJSJwZfcEim
- 6KgGyocWtj2lzRVmJ5aTQ4XTJepBxFIcxyg495DwaHTbQe410dxjl+KkmdCZZtDnJne3tzlJWhu
- J+R7i+ZpZSvFWLETxn+Wg7IZJ6b5NHZMS46+6XzrI5ZaF8cGGd6DVLdPRonk+
-X-Received: by 2002:adf:f687:0:b0:236:481f:83a6 with SMTP id
- v7-20020adff687000000b00236481f83a6mr26543484wrp.342.1667668666964; 
- Sat, 05 Nov 2022 10:17:46 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4anUKoQUNghkOy+PttWWtzMxHXCRzlXFYBfqS2lVz4Fg/Gmv8XkqiG8G0e/DT6S6VjikDQRg==
-X-Received: by 2002:adf:f687:0:b0:236:481f:83a6 with SMTP id
- v7-20020adff687000000b00236481f83a6mr26543473wrp.342.1667668666663; 
- Sat, 05 Nov 2022 10:17:46 -0700 (PDT)
+ bh=CfH2mXgywnYC2kputq4S7gjRrDkltol0CBs+dWJ0/XM=;
+ b=oT0gQd+Ow708+glzANY1BT6yyHCOwzWadRhOb6h+oD2yyl73xIL/TyopcyWgPSiVqh
+ NxVr6Au30Kh3gzr4xHc5LYYWDGRjm8W1TS2om2NH7GhE9hrsuH/OxXk2Ccn/tDnCFbgP
+ zz4F68w/FUrnRBMia2yAgVNVLMzC9V4x7NWerlELG5nKRC9k/pI3LFBRKegsS8eDiz8w
+ tH+HbLNTfEnPctg94An5U2igziQhyZAyUxxGZpyJ68n4Mj3qOAtha/lPRfD9coo9eWpP
+ 4l5uqLbY2ORIPMjX6wmVTWLDmZHLt07fbZsNKVpTY6Q4FRUuRWZEdrEzl+Gk/282Qi3t
+ 7dYA==
+X-Gm-Message-State: ACrzQf0KiWBsDpLDuhomaeIIMPyyMb3zP1vDiSHzDvOt4sXCqaW6I055
+ DHzU99jVx92pkKoAGsN91NeLd/ptoaD8pv9+ASN+FgCal1dp42jRRcbpS66FLc0snc0cgvb7yAB
+ Mn+OL20/UA/lkx9HQFmDo5AKdSuhSBrTGvPTXMJxpXvaD1AT1btMYE/7bPz7e
+X-Received: by 2002:a05:6000:1887:b0:236:7b1a:b14c with SMTP id
+ a7-20020a056000188700b002367b1ab14cmr26444420wri.173.1667668669649; 
+ Sat, 05 Nov 2022 10:17:49 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5PeN5awOtDiOgIsPsA5/oLB24E4Fdr0KCOZme8G7oKS5wlPdBt48izPbnt/cWY9nd9LcZkoQ==
+X-Received: by 2002:a05:6000:1887:b0:236:7b1a:b14c with SMTP id
+ a7-20020a056000188700b002367b1ab14cmr26444403wri.173.1667668669320; 
+ Sat, 05 Nov 2022 10:17:49 -0700 (PDT)
 Received: from redhat.com ([2.52.152.137]) by smtp.gmail.com with ESMTPSA id
- p15-20020adfce0f000000b0022cbf4cda62sm3147075wrn.27.2022.11.05.10.17.44
+ m11-20020a5d4a0b000000b0022ca921dc67sm2549053wrq.88.2022.11.05.10.17.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 10:17:46 -0700 (PDT)
-Date: Sat, 5 Nov 2022 13:17:43 -0400
+ Sat, 05 Nov 2022 10:17:48 -0700 (PDT)
+Date: Sat, 5 Nov 2022 13:17:47 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Daney <david.daney@fungible.com>,
- Marcin Nowakowski <marcin.nowakowski@fungible.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@fungible.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PULL v3 47/81] virtio-rng-pci: Allow setting nvectors, so we can
- use MSI-X
-Message-ID: <20221105171116.432921-48-mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Yajun Wu <yajunw@nvidia.com>,
+ Parav Pandit <parav@nvidia.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL v3 48/81] vhost-user: Fix out of order vring host notification
+ handling
+Message-ID: <20221105171116.432921-49-mst@redhat.com>
 References: <20221105171116.432921-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -79,7 +77,7 @@ Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221105171116.432921-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -103,65 +101,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Daney <david.daney@fungible.com>
+From: Yajun Wu <yajunw@nvidia.com>
 
-Most other virtio-pci devices allow MSI-X, let's have it for rng too.
+vhost backend sends host notification for every VQ. If backend creates
+VQs in parallel, the VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG may
+arrive to QEMU in different order than incremental queue index order.
 
-Signed-off-by: David Daney <david.daney@fungible.com>
-Reviewed-by: Marcin Nowakowski <marcin.nowakowski@fungible.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@fungible.com>
-Message-Id: <20221014160947.66105-1-philmd@fungible.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+For example VQ 1's message arrive earlier than VQ 0's:
+After alloc VhostUserHostNotifier for VQ 1. GPtrArray becomes
+
+    [ nil, VQ1 pointer ]
+
+After alloc VhostUserHostNotifier for VQ 0. GPtrArray becomes
+
+    [ VQ0 pointer, nil, VQ1 pointer ]
+
+This is wrong. fetch_notifier will return NULL for VQ 1 in
+vhost_user_get_vring_base, causes host notifier miss removal(leak).
+
+The fix is to remove current element from GPtrArray, make the right
+position for element to insert.
+
+Fixes: 503e355465 ("virtio/vhost-user: dynamically assign VhostUserHostNotifiers")
+Signed-off-by: Yajun Wu <yajunw@nvidia.com>
+Acked-by: Parav Pandit <parav@nvidia.com>
+
+Message-Id: <20221018023651.1359420-1-yajunw@nvidia.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-rng-pci.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ hw/virtio/vhost-user.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/virtio/virtio-rng-pci.c b/hw/virtio/virtio-rng-pci.c
-index 151ece6f94..6e76f8b57b 100644
---- a/hw/virtio/virtio-rng-pci.c
-+++ b/hw/virtio/virtio-rng-pci.c
-@@ -13,6 +13,7 @@
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 03415b6c95..d256ce589b 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1543,6 +1543,11 @@ static VhostUserHostNotifier *fetch_or_create_notifier(VhostUserState *u,
  
- #include "hw/virtio/virtio-pci.h"
- #include "hw/virtio/virtio-rng.h"
-+#include "hw/qdev-properties.h"
- #include "qapi/error.h"
- #include "qemu/module.h"
- #include "qom/object.h"
-@@ -31,11 +32,23 @@ struct VirtIORngPCI {
-     VirtIORNG vdev;
- };
- 
-+static Property virtio_rng_properties[] = {
-+    DEFINE_PROP_BIT("ioeventfd", VirtIOPCIProxy, flags,
-+                    VIRTIO_PCI_FLAG_USE_IOEVENTFD_BIT, true),
-+    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
-+                       DEV_NVECTORS_UNSPECIFIED),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void virtio_rng_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
- {
-     VirtIORngPCI *vrng = VIRTIO_RNG_PCI(vpci_dev);
-     DeviceState *vdev = DEVICE(&vrng->vdev);
- 
-+    if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
-+        vpci_dev->nvectors = 2;
-+    }
-+
-     if (!qdev_realize(vdev, BUS(&vpci_dev->bus), errp)) {
-         return;
-     }
-@@ -54,6 +67,7 @@ static void virtio_rng_pci_class_init(ObjectClass *klass, void *data)
-     pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_RNG;
-     pcidev_k->revision = VIRTIO_PCI_ABI_VERSION;
-     pcidev_k->class_id = PCI_CLASS_OTHERS;
-+    device_class_set_props(dc, virtio_rng_properties);
- }
- 
- static void virtio_rng_initfn(Object *obj)
+     n = g_ptr_array_index(u->notifiers, idx);
+     if (!n) {
++        /*
++         * In case notification arrive out-of-order,
++         * make room for current index.
++         */
++        g_ptr_array_remove_index(u->notifiers, idx);
+         n = g_new0(VhostUserHostNotifier, 1);
+         n->idx = idx;
+         g_ptr_array_insert(u->notifiers, idx, n);
 -- 
 MST
 
