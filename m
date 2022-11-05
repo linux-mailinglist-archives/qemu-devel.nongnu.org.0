@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64A961DCDC
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:56:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FFC161DC82
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:35:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMmx-0006eG-FN; Sat, 05 Nov 2022 13:16:59 -0400
+	id 1orMn7-0006pG-HO; Sat, 05 Nov 2022 13:17:09 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMm8-0006Kf-3g
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:16:10 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMmC-0006PF-KA
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:16:12 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMm6-0007J0-B4
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:16:07 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMmB-0007Kh-4e
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:16:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667668565;
+ s=mimecast20190719; t=1667668570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lZrzez510xiVz7CEUkck5REzpmtbqexQFYk8M50bGII=;
- b=UVNdYMQVOLIRyGUmHB/PntMf14IUB72PsNB4gU1+9/4fE+pbohwSvI3iWxCi9G9mf3gjXu
- ZTVVf2FvioVbwqhLtk0CbRJunjcSwmJgm8CMrg5j8C8bQkgS78ac8yYU009TdPRJwoNkPG
- VnTCZYWqUwwQZYYF610IIgB3kcd8Frc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QV55IR7eujU4B3oXa/XKl/tm8iHeHPiunvIEBSbyaF4=;
+ b=YCXKGuq34opr0JBCuCPifVnmiTu1kQe6uevaOqqFghglQUhF/Jlu28L6b1LIa+q2k4yLtl
+ o0KnFO1Rkmf1dFs/Wm4KvuiyA5t67um2GQUqqkYmte3CDAjVy4ZewrtZdymhW7fpI5/sqc
+ P/mlRKj3t0lnKOrV8KfZjEhJKhvxAcc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-311-WFCOYmsJNEa9B7vyGh90hA-1; Sat, 05 Nov 2022 13:16:04 -0400
-X-MC-Unique: WFCOYmsJNEa9B7vyGh90hA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- l16-20020adfc790000000b00230c2505f96so1874619wrg.4
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:16:04 -0700 (PDT)
+ us-mta-253-UWgrcNIOMUCVcuqBPdl_Ug-1; Sat, 05 Nov 2022 13:16:09 -0400
+X-MC-Unique: UWgrcNIOMUCVcuqBPdl_Ug-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ c5-20020a1c3505000000b003c56da8e894so6015997wma.0
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:16:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lZrzez510xiVz7CEUkck5REzpmtbqexQFYk8M50bGII=;
- b=UWQYvBtV185vE0d0fZHl+OQkKumYUa6ABBMsHegfFdIvg7TAyaRa5xrTHtHD4cT6xk
- mfTmTPbog+jOkM0VsrzY246d9Dc9OGX2weWNfA9JTIzkWHJwAsIb/Uj9WadTG6fJWwtq
- 5vuHmxElzQyrBlozbLQjQ9wlqR4uEmY2iiHLaIUlJ+M+s+x1IfzYqLxYv9K3PKl15lxP
- Bh53Rg1ey4luHZPYXdxWAX6PoZaMaYD+QclURp8FkwOp2GH0e6O0ycsF6MppfRmAVxR+
- WmzctxcAuqVp4cBL00McbABMUHFYK2K7UMYni2yKkmJ94J+M8lMDHM9GA/G0hkF+5rkC
- 6qcw==
-X-Gm-Message-State: ACrzQf3rnnzgK9H/BYDPCXw/E2dlMoYc9TIqsPSDbQXitBp1kt8J7mas
- uHAHCXRFHGkZ+xqPuUUcQWY6z1UmqLy9iLoz07nqXnTz5w7v2R35l4JxpSBJQ5vesW8H72mM7PT
- E7qz4Ak0Agrmf08SV36LY6egdsJyHmix9JWlYOgO9bqEpKAtB5WvaXYjyfO5c
-X-Received: by 2002:a05:600c:6d3:b0:3cf:9b42:b5f5 with SMTP id
- b19-20020a05600c06d300b003cf9b42b5f5mr5692695wmn.196.1667668563301; 
- Sat, 05 Nov 2022 10:16:03 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM41tSX0ciraCKh9D+vMYTUTATrVLkwbZUPgiwa5rrFpAo1p0jdqdaXNX3ehWEDs6xUHckwhEw==
-X-Received: by 2002:a05:600c:6d3:b0:3cf:9b42:b5f5 with SMTP id
- b19-20020a05600c06d300b003cf9b42b5f5mr5692667wmn.196.1667668562973; 
- Sat, 05 Nov 2022 10:16:02 -0700 (PDT)
+ bh=QV55IR7eujU4B3oXa/XKl/tm8iHeHPiunvIEBSbyaF4=;
+ b=bw9U5yFYMEVOZoCCDwuQbcZWRSQtttPQilI7+o3zxUf20A0c5cwU4tt+3T549u2kkE
+ axQxeJ4GFwLpF4Wj7T4sB/FPfnF1vpB47fGEZYfGJ7I6ezNWOBB4Pmq1LgPSbU08A1eo
+ E9YF0YirSMQ4gPjQOIIpSdeQ5R0vW8G9uxyz7BSxAq3beC/hQR/1AOS6MqsGl4+EyuWb
+ ybzuzI4tO4fEJmsIepetZqrIVbZ7BoPTFqSci1zrSyp4vtaUfs51R9U6Ubx2Cf8gH9II
+ MxPX33uSHoZNAksfBUqjkNn7jDIdI2SR52J1EjFvpv9Wsp3iN9wo82gMtxcsN8PvcQ95
+ bdAg==
+X-Gm-Message-State: ACrzQf0R2av4vQd2knBKmQU+xMQVg9NWCkqBnHJGyClYSq8K7TiQPCI+
+ zkGmqb+OMRWW42I8qiD0bcFvMpd7Pv/2XdG9TrE+e+yetHHNuenPGlmcosJ95cA605oQag47lnF
+ FvkjqP+y/Ow2Y5f/eM69MpNjA2/CJj+VYHfwUGGbz/vrw94vetawr8REZWA5L
+X-Received: by 2002:a05:600c:3546:b0:3cf:a18e:12e5 with SMTP id
+ i6-20020a05600c354600b003cfa18e12e5mr2146235wmq.112.1667668566871; 
+ Sat, 05 Nov 2022 10:16:06 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7Vr2ZLoDcVaYHHSVX1d14sGfNDBErb/fkMfYzM+4oX1YcsUVH+g1a9f/euysaKyfsxEMGTow==
+X-Received: by 2002:a05:600c:3546:b0:3cf:a18e:12e5 with SMTP id
+ i6-20020a05600c354600b003cfa18e12e5mr2146213wmq.112.1667668566513; 
+ Sat, 05 Nov 2022 10:16:06 -0700 (PDT)
 Received: from redhat.com ([2.52.152.137]) by smtp.gmail.com with ESMTPSA id
- iv9-20020a05600c548900b003cf87623c16sm7183249wmb.4.2022.11.05.10.16.00
+ f19-20020adfb613000000b0022dc6e76bbdsm2594867wre.46.2022.11.05.10.16.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 10:16:02 -0700 (PDT)
-Date: Sat, 5 Nov 2022 13:15:59 -0400
+ Sat, 05 Nov 2022 10:16:05 -0700 (PDT)
+Date: Sat, 5 Nov 2022 13:16:03 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, Ani Sinha <ani@anisinha.ca>,
@@ -73,9 +73,9 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Ani Sinha <ani@anisinha.ca>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PULL v3 12/81] acpi/tests/avocado/bits: disable acpi PSS tests that
- are failing in biosbits
-Message-ID: <20221105171116.432921-13-mst@redhat.com>
+Subject: [PULL v3 13/81] acpi/tests/avocado/bits: add biosbits config file
+ for running bios tests
+Message-ID: <20221105171116.432921-14-mst@redhat.com>
 References: <20221105171116.432921-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -110,23 +110,9 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Ani Sinha <ani@anisinha.ca>
 
-PSS tests in acpi test suite seems to be failing in biosbits. This is because
-the test is unable to find PSS support in QEMU bios. Let us disable
-them for now so that make check does not fail. We can fix the tests and
-re-enable them later.
-
-Example failure:
-
----- ACPI _PSS (Pstate) table conformance tests ----
-[assert] _PSS must exist FAIL
-  \_SB_.CPUS.C000
-  No _PSS exists
-Summary: 1 passed, 1 failed
----- ACPI _PSS (Pstate) runtime tests ----
-[assert] _PSS must exist FAIL
-  \_SB_.CPUS.C000
-  No _PSS exists
-Summary: 0 passed, 1 failed
+This change adds initial biosbits config file that instructs biosbits to run
+bios test suits in batch mode. Additionally acpi and smbios structures are also
+dumped.
 
 Cc: Daniel P. Berrangé <berrange@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
@@ -138,28 +124,38 @@ Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Michael Tsirkin <mst@redhat.com>
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221021095108.104843-4-ani@anisinha.ca>
+Message-Id: <20221021095108.104843-5-ani@anisinha.ca>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/avocado/acpi-bits/bits-tests/testacpi.py2 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../avocado/acpi-bits/bits-config/bits-cfg.txt | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+ create mode 100644 tests/avocado/acpi-bits/bits-config/bits-cfg.txt
 
-diff --git a/tests/avocado/acpi-bits/bits-tests/testacpi.py2 b/tests/avocado/acpi-bits/bits-tests/testacpi.py2
-index 9ec452f330..dbc150076e 100644
---- a/tests/avocado/acpi-bits/bits-tests/testacpi.py2
-+++ b/tests/avocado/acpi-bits/bits-tests/testacpi.py2
-@@ -36,8 +36,8 @@ import time
- 
- def register_tests():
-     testsuite.add_test("ACPI _MAT (Multiple APIC Table Entry) under Processor objects", test_mat, submenu="ACPI Tests")
--    testsuite.add_test("ACPI _PSS (Pstate) table conformance tests", test_pss, submenu="ACPI Tests")
--    testsuite.add_test("ACPI _PSS (Pstate) runtime tests", test_pstates, submenu="ACPI Tests")
-+#    testsuite.add_test("ACPI _PSS (Pstate) table conformance tests", test_pss, submenu="ACPI Tests")
-+#    testsuite.add_test("ACPI _PSS (Pstate) runtime tests", test_pstates, submenu="ACPI Tests")
-     testsuite.add_test("ACPI DSDT (Differentiated System Description Table)", test_dsdt, submenu="ACPI Tests")
-     testsuite.add_test("ACPI FACP (Fixed ACPI Description Table)", test_facp, submenu="ACPI Tests")
-     testsuite.add_test("ACPI HPET (High Precision Event Timer Table)", test_hpet, submenu="ACPI Tests")
+diff --git a/tests/avocado/acpi-bits/bits-config/bits-cfg.txt b/tests/avocado/acpi-bits/bits-config/bits-cfg.txt
+new file mode 100644
+index 0000000000..8010804453
+--- /dev/null
++++ b/tests/avocado/acpi-bits/bits-config/bits-cfg.txt
+@@ -0,0 +1,18 @@
++# BITS configuration file
++[bits]
++
++# To run BITS in batch mode, set batch to a list of one or more of the
++# following keywords; BITS will then run all of the requested operations, then
++# save the log file to disk.
++#
++# test: Run the full BITS testsuite.
++# acpi: Dump all ACPI structures.
++# smbios: Dump all SMBIOS structures.
++#
++# Leave batch set to an empty string to disable batch mode.
++# batch =
++
++# Uncomment the following to run all available batch operations
++# please take a look at boot/python/init.py in bits zip file
++# to see how these options are parsed and used.
++batch = test acpi smbios
 -- 
 MST
 
