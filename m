@@ -2,58 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAAC761D97F
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 11:42:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8CF61D996
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 12:08:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orGc8-0004UF-Ck; Sat, 05 Nov 2022 06:41:24 -0400
+	id 1orH0Z-0006Ua-5V; Sat, 05 Nov 2022 07:06:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stweil@bss11.bib.uni-mannheim.de>)
- id 1orGc5-0004Tb-I4; Sat, 05 Nov 2022 06:41:21 -0400
-Received: from smtp.mail.uni-mannheim.de ([2001:7c0:2900:60::869b:6050])
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
+ id 1orH0N-0006U0-30; Sat, 05 Nov 2022 07:06:28 -0400
+Received: from mail.weilnetz.de ([37.120.169.71]
+ helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stweil@bss11.bib.uni-mannheim.de>)
- id 1orGbq-00036i-3t; Sat, 05 Nov 2022 06:41:21 -0400
-Received: from localhost (localhost [127.0.0.1])
- by smtp.mail.uni-mannheim.de (Postfix) with ESMTP id 0711C100CFE;
- Sat,  5 Nov 2022 11:25:20 +0100 (CET)
-X-Virus-Scanned: amavisd-new at uni-mannheim.de
-Received: from smtp.mail.uni-mannheim.de ([134.155.96.80])
- by localhost (mail-r83.rz.uni-mannheim.de [127.0.0.1]) (amavisd-new,
- port 10024)
- with ESMTP id g6E-RqwaLwB3; Sat,  5 Nov 2022 11:25:19 +0100 (CET)
-Received: from bss11.bib.uni-mannheim.de (unknown
- [IPv6:2001:7c0:2900:8024::869b:24a1])
- by smtp.mail.uni-mannheim.de (Postfix) with ESMTPS id DFDED100C07;
- Sat,  5 Nov 2022 11:25:19 +0100 (CET)
-Received: from stweil by bss11.bib.uni-mannheim.de with local (Exim 4.94.2)
- (envelope-from <stweil@bss11.bib.uni-mannheim.de>)
- id 1orGMZ-001pcB-Kh; Sat, 05 Nov 2022 11:25:19 +0100
-To: qemu-devel@nongnu.org,
-	qemu-trivial@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 4/4] libvhost-user: Add format attribute to local function
- vu_panic
-Date: Sat,  5 Nov 2022 11:24:48 +0100
-Message-Id: <20221105102448.436469-5-sw@weilnetz.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221105102448.436469-1-sw@weilnetz.de>
-References: <20221105102448.436469-1-sw@weilnetz.de>
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
+ id 1orH09-0007iA-Nj; Sat, 05 Nov 2022 07:06:26 -0400
+Received: from [192.168.44.88] (unknown [185.238.219.80])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 34E46DA08BC;
+ Sat,  5 Nov 2022 12:06:10 +0100 (CET)
+Message-ID: <9e580f85-9b3b-fad3-be16-a47d61a1f964@weilnetz.de>
+Date: Sat, 5 Nov 2022 12:06:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2001:7c0:2900:60::869b:6050;
- envelope-from=stweil@bss11.bib.uni-mannheim.de; helo=smtp.mail.uni-mannheim.de
-X-Spam_score_int: -15
-X-Spam_score: -1.6
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.1
+Subject: Re: [PATCH v2 3/4] libvhost-user: Fix two more format strings
+To: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, Laurent Vivier <laurent@vivier.eu>
+References: <20221105102448.436469-1-sw@weilnetz.de>
+ <20221105102448.436469-4-sw@weilnetz.de>
+In-Reply-To: <20221105102448.436469-4-sw@weilnetz.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_NONE=0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,46 +60,16 @@ Reply-to:  Stefan Weil <sw@weilnetz.de>
 From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220422070144.1043697-4-sw@weilnetz.de>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- subprojects/libvhost-user/libvhost-user.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+Am 05.11.22 um 11:24 schrieb Stefan Weil via:
 
-diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
-index 80f9952e71..d6ee6e7d91 100644
---- a/subprojects/libvhost-user/libvhost-user.c
-+++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -45,6 +45,17 @@
- #include "libvhost-user.h"
- 
- /* usually provided by GLib */
-+#if     __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ > 4)
-+#if !defined(__clang__) && (__GNUC__ == 4 && __GNUC_MINOR__ == 4)
-+#define G_GNUC_PRINTF(format_idx, arg_idx) \
-+  __attribute__((__format__(gnu_printf, format_idx, arg_idx)))
-+#else
-+#define G_GNUC_PRINTF(format_idx, arg_idx) \
-+  __attribute__((__format__(__printf__, format_idx, arg_idx)))
-+#endif
-+#else   /* !__GNUC__ */
-+#define G_GNUC_PRINTF(format_idx, arg_idx)
-+#endif  /* !__GNUC__ */
- #ifndef MIN
- #define MIN(x, y) ({                            \
-             typeof(x) _min1 = (x);              \
-@@ -151,7 +162,7 @@ vu_request_to_string(unsigned int req)
-     }
- }
- 
--static void
-+static void G_GNUC_PRINTF(2, 3)
- vu_panic(VuDev *dev, const char *msg, ...)
- {
-     char *buf = NULL;
--- 
-2.30.2
+> This fix is required for 32 bit host. The bug was detected by CI
+> for arm-linux, but is also relevant for i386-linux.
+
+
+s/host/hosts/
+
+I won't send a v3 for that. Maybe it can be fixed when merging this patch.
+
+Stefan
 
 
