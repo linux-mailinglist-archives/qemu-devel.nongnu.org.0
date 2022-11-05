@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5544761A6D5
+	by mail.lfdr.de (Postfix) with ESMTPS id 4964A61A6D4
 	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 03:12:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1or8eK-0003c7-Qr; Fri, 04 Nov 2022 22:11:08 -0400
+	id 1or8eO-0003cJ-HH; Fri, 04 Nov 2022 22:11:12 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r@hev.cc>) id 1or8eI-0003bl-U7
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 22:11:06 -0400
-Received: from mail-pg1-f170.google.com ([209.85.215.170])
+ (Exim 4.90_1) (envelope-from <r@hev.cc>) id 1or8eM-0003c8-Nc
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 22:11:10 -0400
+Received: from mail-pj1-f42.google.com ([209.85.216.42])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <r@hev.cc>) id 1or8eH-00052V-5i
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 22:11:06 -0400
-Received: by mail-pg1-f170.google.com with SMTP id e129so5831664pgc.9
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 19:11:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <r@hev.cc>) id 1or8eK-00052o-9c
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 22:11:10 -0400
+Received: by mail-pj1-f42.google.com with SMTP id
+ z5-20020a17090a8b8500b00210a3a2364fso8886805pjn.0
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 19:11:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zAsCSoNFqlfiwspvtN/3cVt2V0uwvF1YPd0T7BCFVy8=;
- b=3zTjgN9tc6/UYyBLd/LFnjAciLb4bNqq4Ok0MR7H1Sz9EVbgqN/Rqzg4xCCiitwlSW
- 52SGbcinG4M4FakF7EwomDjyLfjexrFVjaBNvGM+KQoOuNck0cC9EachFTp4aTkgMA3r
- apleQgtxSMMAs4ytb+EHrdtSnl6a6wPVvFQB3nSf51lPrk+YYiuDr/ctt0ZzI54ry1VU
- UWWiIO89ykd6x8CR1QONO6xA9meXn+LezyiyqVkB9h9CgzwcApXDHdlyJgFzxM8uOFpB
- pomhySVugKSSvnkC49Ld4GRHjgcJ82pU2LZ8KkuYqn7aUCJy+5Jpya3RuAYAqavOpqeK
- QE7Q==
-X-Gm-Message-State: ACrzQf1MtKu97BLYmqubUzT1Oq5IVJcm6XL/4moX2lPGHX5lKJBCA9p5
- grDQ8yffNzzw3wwdrjMo4SoacQ==
-X-Google-Smtp-Source: AMsMyM78vQxeI0CSs1lQuhrLXsT1uNMORjy2mozr8Li3pbl3aOLJ92Knwg9NmmPNpgM6QQacXtXHag==
-X-Received: by 2002:a05:6a00:1145:b0:52b:78c:fa26 with SMTP id
- b5-20020a056a00114500b0052b078cfa26mr38337156pfm.27.1667614263205; 
- Fri, 04 Nov 2022 19:11:03 -0700 (PDT)
+ bh=x3tebq6dulZnl5/liq5ufrVgCHbhfTrGnq9bjSVASts=;
+ b=kuL1wxcTldIMN+DE37TfqtfsLaAb6lOl1zPXUxF4w1Mj+s7ePC324QzbUVEIgEnyHZ
+ mJ6VRoXoJCUGsdU2XgzOiT/o1b0Hh/QSDFJ0N44uPzDP5Gxcy955HTyKhjzWk9lCg7uu
+ NCVp9xVlE7K6TKvvs7mwyNT1yHqP17Kve3vkq0LKS047eKwfPn+uexKNNiZ6Qi5n8kCg
+ rCPd56wuZdYeVbHNtY8fORdYyiiQnTCaiVAvCuuHkkpnfrIRsAZEdDeXoH3Zl5x/M8QY
+ b9hLU+9N7gotDc1brLhMKGRB1kcyTd6l+OMYSHrDQ7GA+Nb34xY7R1/ghNy+JYNDVqri
+ Cc+w==
+X-Gm-Message-State: ACrzQf0WDbVNSHSc1DA+PGHrcOrrfr4MNYBIBCylmDrBiBLvbFmfS5Jw
+ H82BtAwDbjxT0oBaQn/jXIME7A==
+X-Google-Smtp-Source: AMsMyM6sl1sPrBI4hynX+HYZbASEmgWEdqhlj5TAIVacyAoe3UYISRpRWiZ4RTYuhbrTMZoZzrUTag==
+X-Received: by 2002:a17:90a:5987:b0:215:d4e8:6f7f with SMTP id
+ l7-20020a17090a598700b00215d4e86f7fmr14964311pji.246.1667614266849; 
+ Fri, 04 Nov 2022 19:11:06 -0700 (PDT)
 Received: from localhost.localdomain ([2400:8901:e002:5400::])
  by smtp.gmail.com with ESMTPSA id
- d18-20020a170902aa9200b00186a2274382sm407809plr.76.2022.11.04.19.11.00
+ d18-20020a170902aa9200b00186a2274382sm407809plr.76.2022.11.04.19.11.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Nov 2022 19:11:02 -0700 (PDT)
+ Fri, 04 Nov 2022 19:11:06 -0700 (PDT)
 From: Rui Wang <wangrui@loongson.cn>
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>,
  qemu-devel@nongnu.org, hev <qemu@hev.cc>, Rui Wang <wangrui@loongson.cn>
-Subject: [PATCH v4 1/2] target/loongarch: Adjust the layout of hardware flags
- bit fields
-Date: Sat,  5 Nov 2022 10:10:21 +0800
-Message-Id: <20221105021022.558242-2-wangrui@loongson.cn>
+Subject: [PATCH v4 2/2] target/loongarch: Fix emulation of float-point disable
+ exception
+Date: Sat,  5 Nov 2022 10:10:22 +0800
+Message-Id: <20221105021022.558242-3-wangrui@loongson.cn>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221105021022.558242-1-wangrui@loongson.cn>
 References: <20221105021022.558242-1-wangrui@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.215.170; envelope-from=r@hev.cc;
- helo=mail-pg1-f170.google.com
+Received-SPF: pass client-ip=209.85.216.42; envelope-from=r@hev.cc;
+ helo=mail-pj1-f42.google.com
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
@@ -78,146 +79,396 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+We need to emulate it to generate a floating point disable exception
+when CSR.EUEN.FPE is zero.
+
 Signed-off-by: Rui Wang <wangrui@loongson.cn>
 ---
- target/loongarch/cpu.h                        | 27 ++++++++++++-------
- .../insn_trans/trans_privileged.c.inc         |  4 +--
- target/loongarch/tlb_helper.c                 |  4 +--
- target/loongarch/translate.c                  |  7 ++++-
- target/loongarch/translate.h                  |  3 ++-
- 5 files changed, 29 insertions(+), 16 deletions(-)
+ target/loongarch/cpu.c                        |  2 ++
+ target/loongarch/cpu.h                        |  2 ++
+ .../loongarch/insn_trans/trans_farith.c.inc   | 30 ++++++++++++++++
+ target/loongarch/insn_trans/trans_fcmp.c.inc  | 11 ++++--
+ .../loongarch/insn_trans/trans_fmemory.c.inc  | 34 +++++++++++++++----
+ target/loongarch/insn_trans/trans_fmov.c.inc  | 29 ++++++++++++++--
+ 6 files changed, 97 insertions(+), 11 deletions(-)
 
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 1512664214..46b04cbdad 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -48,6 +48,7 @@ static const char * const excp_names[] = {
+     [EXCCODE_BRK] = "Break",
+     [EXCCODE_INE] = "Instruction Non-Existent",
+     [EXCCODE_IPE] = "Instruction privilege error",
++    [EXCCODE_FPD] = "Floating Point Disabled",
+     [EXCCODE_FPE] = "Floating Point Exception",
+     [EXCCODE_DBP] = "Debug breakpoint",
+     [EXCCODE_BCE] = "Bound Check Exception",
+@@ -185,6 +186,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
+     case EXCCODE_BRK:
+     case EXCCODE_INE:
+     case EXCCODE_IPE:
++    case EXCCODE_FPD:
+     case EXCCODE_FPE:
+     case EXCCODE_BCE:
+         env->CSR_BADV = env->pc;
 diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
-index dbce176564..026cd6bb52 100644
+index 026cd6bb52..e15c633b0b 100644
 --- a/target/loongarch/cpu.h
 +++ b/target/loongarch/cpu.h
-@@ -14,6 +14,7 @@
- #include "qemu/timer.h"
- #include "exec/memory.h"
- #include "hw/sysbus.h"
-+#include "cpu-csr.h"
- 
- #define IOCSRF_TEMP             0
- #define IOCSRF_NODECNT          1
-@@ -373,24 +374,30 @@ struct LoongArchCPUClass {
-  * 0 for kernel mode, 3 for user mode.
-  * Define an extra index for DA(direct addressing) mode.
+@@ -397,6 +397,7 @@ static inline int cpu_mmu_index(CPULoongArchState *env, bool ifetch)
   */
--#define MMU_KERNEL_IDX   0
--#define MMU_USER_IDX     3
--#define MMU_DA_IDX       4
-+#define MMU_PLV_KERNEL   0
-+#define MMU_PLV_USER     3
-+#define MMU_IDX_KERNEL   MMU_PLV_KERNEL
-+#define MMU_IDX_USER     MMU_PLV_USER
-+#define MMU_IDX_DA       4
+ #define HW_FLAGS_PLV_MASK   R_CSR_CRMD_PLV_MASK  /* 0x03 */
+ #define HW_FLAGS_CRMD_PG    R_CSR_CRMD_PG_MASK   /* 0x10 */
++#define HW_FLAGS_EUEN_FPE   0x04
  
- static inline int cpu_mmu_index(CPULoongArchState *env, bool ifetch)
- {
- #ifdef CONFIG_USER_ONLY
--    return MMU_USER_IDX;
-+    return MMU_IDX_USER;
- #else
--    uint8_t pg = FIELD_EX64(env->CSR_CRMD, CSR_CRMD, PG);
--
--    if (!pg) {
--        return MMU_DA_IDX;
-+    if (FIELD_EX64(env->CSR_CRMD, CSR_CRMD, PG)) {
-+        return FIELD_EX64(env->CSR_CRMD, CSR_CRMD, PLV);
-     }
--    return FIELD_EX64(env->CSR_CRMD, CSR_CRMD, PLV);
-+    return MMU_IDX_DA;
- #endif
- }
- 
-+/*
-+ * LoongArch CPUs hardware flags.
-+ */
-+#define HW_FLAGS_PLV_MASK   R_CSR_CRMD_PLV_MASK  /* 0x03 */
-+#define HW_FLAGS_CRMD_PG    R_CSR_CRMD_PG_MASK   /* 0x10 */
-+
  static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
                                          target_ulong *pc,
-                                         target_ulong *cs_base,
-@@ -398,7 +405,7 @@ static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
- {
+@@ -406,6 +407,7 @@ static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
      *pc = env->pc;
      *cs_base = 0;
--    *flags = cpu_mmu_index(env, false);
-+    *flags = env->CSR_CRMD & (R_CSR_CRMD_PLV_MASK | R_CSR_CRMD_PG_MASK);
+     *flags = env->CSR_CRMD & (R_CSR_CRMD_PLV_MASK | R_CSR_CRMD_PG_MASK);
++    *flags |= FIELD_EX64(env->CSR_EUEN, CSR_EUEN, FPE) * HW_FLAGS_EUEN_FPE;
  }
  
  void loongarch_cpu_list(void);
-diff --git a/target/loongarch/insn_trans/trans_privileged.c.inc b/target/loongarch/insn_trans/trans_privileged.c.inc
-index 9c4dcbfcfb..40f82becb0 100644
---- a/target/loongarch/insn_trans/trans_privileged.c.inc
-+++ b/target/loongarch/insn_trans/trans_privileged.c.inc
-@@ -159,7 +159,7 @@ static const CSRInfo csr_info[] = {
+diff --git a/target/loongarch/insn_trans/trans_farith.c.inc b/target/loongarch/insn_trans/trans_farith.c.inc
+index 7bb3f41aee..7081fbb89b 100644
+--- a/target/loongarch/insn_trans/trans_farith.c.inc
++++ b/target/loongarch/insn_trans/trans_farith.c.inc
+@@ -3,9 +3,22 @@
+  * Copyright (c) 2021 Loongson Technology Corporation Limited
+  */
  
- static bool check_plv(DisasContext *ctx)
++#ifndef CONFIG_USER_ONLY
++#define CHECK_FPE do { \
++    if ((ctx->base.tb->flags & HW_FLAGS_EUEN_FPE) == 0) { \
++        generate_exception(ctx, EXCCODE_FPD); \
++        return true; \
++    } \
++} while (0)
++#else
++#define CHECK_FPE
++#endif
++
+ static bool gen_fff(DisasContext *ctx, arg_fff *a,
+                     void (*func)(TCGv, TCGv_env, TCGv, TCGv))
  {
--    if (ctx->base.tb->flags == MMU_USER_IDX) {
-+    if (ctx->plv == MMU_PLV_USER) {
-         generate_exception(ctx, EXCCODE_IPE);
-         return true;
-     }
-@@ -335,7 +335,7 @@ TRANS(iocsrwr_d, gen_iocsrwr, gen_helper_iocsrwr_d)
- 
- static void check_mmu_idx(DisasContext *ctx)
++    CHECK_FPE;
++
+     func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj], cpu_fpr[a->fk]);
+     return true;
+ }
+@@ -13,6 +26,8 @@ static bool gen_fff(DisasContext *ctx, arg_fff *a,
+ static bool gen_ff(DisasContext *ctx, arg_ff *a,
+                    void (*func)(TCGv, TCGv_env, TCGv))
  {
--    if (ctx->mem_idx != MMU_DA_IDX) {
-+    if (ctx->mem_idx != MMU_IDX_DA) {
-         tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next + 4);
-         ctx->base.is_jmp = DISAS_EXIT;
-     }
-diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
-index d2f8fb0c60..c6d1de50fe 100644
---- a/target/loongarch/tlb_helper.c
-+++ b/target/loongarch/tlb_helper.c
-@@ -170,8 +170,8 @@ static int get_physical_address(CPULoongArchState *env, hwaddr *physical,
-                                 int *prot, target_ulong address,
-                                 MMUAccessType access_type, int mmu_idx)
++    CHECK_FPE;
++
+     func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj]);
+     return true;
+ }
+@@ -22,6 +37,9 @@ static bool gen_muladd(DisasContext *ctx, arg_ffff *a,
+                        int flag)
  {
--    int user_mode = mmu_idx == MMU_USER_IDX;
--    int kernel_mode = mmu_idx == MMU_KERNEL_IDX;
-+    int user_mode = mmu_idx == MMU_IDX_USER;
-+    int kernel_mode = mmu_idx == MMU_IDX_KERNEL;
-     uint32_t plv, base_c, base_v;
-     int64_t addr_high;
-     uint8_t da = FIELD_EX64(env->CSR_CRMD, CSR_CRMD, DA);
-diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index 6091772349..38ced69803 100644
---- a/target/loongarch/translate.c
-+++ b/target/loongarch/translate.c
-@@ -75,7 +75,12 @@ static void loongarch_tr_init_disas_context(DisasContextBase *dcbase,
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     TCGv_i32 tflag = tcg_constant_i32(flag);
++
++    CHECK_FPE;
++
+     func(cpu_fpr[a->fd], cpu_env, cpu_fpr[a->fj],
+          cpu_fpr[a->fk], cpu_fpr[a->fa], tflag);
+     return true;
+@@ -29,18 +47,24 @@ static bool gen_muladd(DisasContext *ctx, arg_ffff *a,
  
-     ctx->page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
--    ctx->mem_idx = ctx->base.tb->flags;
-+    ctx->plv = ctx->base.tb->flags & HW_FLAGS_PLV_MASK;
-+    if (ctx->base.tb->flags & HW_FLAGS_CRMD_PG) {
-+        ctx->mem_idx = ctx->plv;
-+    } else {
-+        ctx->mem_idx = MMU_IDX_DA;
-+    }
+ static bool trans_fcopysign_s(DisasContext *ctx, arg_fcopysign_s *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_deposit_i64(cpu_fpr[a->fd], cpu_fpr[a->fk], cpu_fpr[a->fj], 0, 31);
+     return true;
+ }
  
-     /* Bound the number of insns to execute to those left on the page.  */
-     bound = -(ctx->base.pc_first | TARGET_PAGE_MASK) / 4;
-diff --git a/target/loongarch/translate.h b/target/loongarch/translate.h
-index 9cc12512d1..6d2e382e8b 100644
---- a/target/loongarch/translate.h
-+++ b/target/loongarch/translate.h
-@@ -29,7 +29,8 @@ typedef struct DisasContext {
-     DisasContextBase base;
-     target_ulong page_start;
-     uint32_t opcode;
--    int mem_idx;
-+    uint16_t mem_idx;
-+    uint16_t plv;
-     TCGv zero;
-     /* Space for 3 operands plus 1 extra for address computation. */
-     TCGv temp[4];
+ static bool trans_fcopysign_d(DisasContext *ctx, arg_fcopysign_d *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_deposit_i64(cpu_fpr[a->fd], cpu_fpr[a->fk], cpu_fpr[a->fj], 0, 63);
+     return true;
+ }
+ 
+ static bool trans_fabs_s(DisasContext *ctx, arg_fabs_s *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_andi_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], MAKE_64BIT_MASK(0, 31));
+     gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
+     return true;
+@@ -48,12 +72,16 @@ static bool trans_fabs_s(DisasContext *ctx, arg_fabs_s *a)
+ 
+ static bool trans_fabs_d(DisasContext *ctx, arg_fabs_d *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_andi_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], MAKE_64BIT_MASK(0, 63));
+     return true;
+ }
+ 
+ static bool trans_fneg_s(DisasContext *ctx, arg_fneg_s *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_xori_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], 0x80000000);
+     gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
+     return true;
+@@ -61,6 +89,8 @@ static bool trans_fneg_s(DisasContext *ctx, arg_fneg_s *a)
+ 
+ static bool trans_fneg_d(DisasContext *ctx, arg_fneg_d *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_xori_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], 0x8000000000000000LL);
+     return true;
+ }
+diff --git a/target/loongarch/insn_trans/trans_fcmp.c.inc b/target/loongarch/insn_trans/trans_fcmp.c.inc
+index 93a6a2230f..2ccf646ccb 100644
+--- a/target/loongarch/insn_trans/trans_fcmp.c.inc
++++ b/target/loongarch/insn_trans/trans_fcmp.c.inc
+@@ -25,10 +25,13 @@ static uint32_t get_fcmp_flags(int cond)
+ 
+ static bool trans_fcmp_cond_s(DisasContext *ctx, arg_fcmp_cond_s *a)
+ {
+-    TCGv var = tcg_temp_new();
++    TCGv var;
+     uint32_t flags;
+     void (*fn)(TCGv, TCGv_env, TCGv, TCGv, TCGv_i32);
+ 
++    CHECK_FPE;
++
++    var = tcg_temp_new();
+     fn = (a->fcond & 1 ? gen_helper_fcmp_s_s : gen_helper_fcmp_c_s);
+     flags = get_fcmp_flags(a->fcond >> 1);
+ 
+@@ -41,9 +44,13 @@ static bool trans_fcmp_cond_s(DisasContext *ctx, arg_fcmp_cond_s *a)
+ 
+ static bool trans_fcmp_cond_d(DisasContext *ctx, arg_fcmp_cond_d *a)
+ {
+-    TCGv var = tcg_temp_new();
++    TCGv var;
+     uint32_t flags;
+     void (*fn)(TCGv, TCGv_env, TCGv, TCGv, TCGv_i32);
++
++    CHECK_FPE;
++
++    var = tcg_temp_new();
+     fn = (a->fcond & 1 ? gen_helper_fcmp_s_d : gen_helper_fcmp_c_d);
+     flags = get_fcmp_flags(a->fcond >> 1);
+ 
+diff --git a/target/loongarch/insn_trans/trans_fmemory.c.inc b/target/loongarch/insn_trans/trans_fmemory.c.inc
+index 74ee98f63a..3025a1d3e9 100644
+--- a/target/loongarch/insn_trans/trans_fmemory.c.inc
++++ b/target/loongarch/insn_trans/trans_fmemory.c.inc
+@@ -15,6 +15,8 @@ static bool gen_fload_i(DisasContext *ctx, arg_fr_i *a, MemOp mop)
+     TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv temp = NULL;
+ 
++    CHECK_FPE;
++
+     if (a->imm) {
+         temp = tcg_temp_new();
+         tcg_gen_addi_tl(temp, addr, a->imm);
+@@ -36,6 +38,8 @@ static bool gen_fstore_i(DisasContext *ctx, arg_fr_i *a, MemOp mop)
+     TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv temp = NULL;
+ 
++    CHECK_FPE;
++
+     if (a->imm) {
+         temp = tcg_temp_new();
+         tcg_gen_addi_tl(temp, addr, a->imm);
+@@ -54,8 +58,11 @@ static bool gen_floadx(DisasContext *ctx, arg_frr *a, MemOp mop)
+ {
+     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+-    TCGv addr = tcg_temp_new();
++    TCGv addr;
+ 
++    CHECK_FPE;
++
++    addr = tcg_temp_new();
+     tcg_gen_add_tl(addr, src1, src2);
+     tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
+     maybe_nanbox_load(cpu_fpr[a->fd], mop);
+@@ -68,8 +75,11 @@ static bool gen_fstorex(DisasContext *ctx, arg_frr *a, MemOp mop)
+ {
+     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+-    TCGv addr = tcg_temp_new();
++    TCGv addr;
++
++    CHECK_FPE;
+ 
++    addr = tcg_temp_new();
+     tcg_gen_add_tl(addr, src1, src2);
+     tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
+     tcg_temp_free(addr);
+@@ -81,8 +91,11 @@ static bool gen_fload_gt(DisasContext *ctx, arg_frr *a, MemOp mop)
+ {
+     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+-    TCGv addr = tcg_temp_new();
++    TCGv addr;
+ 
++    CHECK_FPE;
++
++    addr = tcg_temp_new();
+     gen_helper_asrtgt_d(cpu_env, src1, src2);
+     tcg_gen_add_tl(addr, src1, src2);
+     tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
+@@ -96,8 +109,11 @@ static bool gen_fstore_gt(DisasContext *ctx, arg_frr *a, MemOp mop)
+ {
+     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+-    TCGv addr = tcg_temp_new();
++    TCGv addr;
++
++    CHECK_FPE;
+ 
++    addr = tcg_temp_new();
+     gen_helper_asrtgt_d(cpu_env, src1, src2);
+     tcg_gen_add_tl(addr, src1, src2);
+     tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
+@@ -110,8 +126,11 @@ static bool gen_fload_le(DisasContext *ctx, arg_frr *a, MemOp mop)
+ {
+     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+-    TCGv addr = tcg_temp_new();
++    TCGv addr;
+ 
++    CHECK_FPE;
++
++    addr = tcg_temp_new();
+     gen_helper_asrtle_d(cpu_env, src1, src2);
+     tcg_gen_add_tl(addr, src1, src2);
+     tcg_gen_qemu_ld_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
+@@ -125,8 +144,11 @@ static bool gen_fstore_le(DisasContext *ctx, arg_frr *a, MemOp mop)
+ {
+     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+     TCGv src2 = gpr_src(ctx, a->rk, EXT_NONE);
+-    TCGv addr = tcg_temp_new();
++    TCGv addr;
++
++    CHECK_FPE;
+ 
++    addr = tcg_temp_new();
+     gen_helper_asrtle_d(cpu_env, src1, src2);
+     tcg_gen_add_tl(addr, src1, src2);
+     tcg_gen_qemu_st_tl(cpu_fpr[a->fd], addr, ctx->mem_idx, mop);
+diff --git a/target/loongarch/insn_trans/trans_fmov.c.inc b/target/loongarch/insn_trans/trans_fmov.c.inc
+index 5537e3dd35..8e5106db4e 100644
+--- a/target/loongarch/insn_trans/trans_fmov.c.inc
++++ b/target/loongarch/insn_trans/trans_fmov.c.inc
+@@ -10,8 +10,11 @@ static const uint32_t fcsr_mask[4] = {
+ static bool trans_fsel(DisasContext *ctx, arg_fsel *a)
+ {
+     TCGv zero = tcg_constant_tl(0);
+-    TCGv cond = tcg_temp_new();
++    TCGv cond;
+ 
++    CHECK_FPE;
++
++    cond = tcg_temp_new();
+     tcg_gen_ld8u_tl(cond, cpu_env, offsetof(CPULoongArchState, cf[a->ca]));
+     tcg_gen_movcond_tl(TCG_COND_EQ, cpu_fpr[a->fd], cond, zero,
+                        cpu_fpr[a->fj], cpu_fpr[a->fk]);
+@@ -26,6 +29,8 @@ static bool gen_f2f(DisasContext *ctx, arg_ff *a,
+     TCGv dest = cpu_fpr[a->fd];
+     TCGv src = cpu_fpr[a->fj];
+ 
++    CHECK_FPE;
++
+     func(dest, src);
+     if (nanbox) {
+         gen_nanbox_s(cpu_fpr[a->fd], cpu_fpr[a->fd]);
+@@ -39,6 +44,8 @@ static bool gen_r2f(DisasContext *ctx, arg_fr *a,
+ {
+     TCGv src = gpr_src(ctx, a->rj, EXT_NONE);
+ 
++    CHECK_FPE;
++
+     func(cpu_fpr[a->fd], src);
+     return true;
+ }
+@@ -48,6 +55,8 @@ static bool gen_f2r(DisasContext *ctx, arg_rf *a,
+ {
+     TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+ 
++    CHECK_FPE;
++
+     func(dest, cpu_fpr[a->fj]);
+     gen_set_gpr(a->rd, dest, EXT_NONE);
+ 
+@@ -59,6 +68,8 @@ static bool trans_movgr2fcsr(DisasContext *ctx, arg_movgr2fcsr *a)
+     uint32_t mask = fcsr_mask[a->fcsrd];
+     TCGv Rj = gpr_src(ctx, a->rj, EXT_NONE);
+ 
++    CHECK_FPE;
++
+     if (mask == UINT32_MAX) {
+         tcg_gen_st32_i64(Rj, cpu_env, offsetof(CPULoongArchState, fcsr0));
+     } else {
+@@ -90,6 +101,8 @@ static bool trans_movfcsr2gr(DisasContext *ctx, arg_movfcsr2gr *a)
+ {
+     TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+ 
++    CHECK_FPE;
++
+     tcg_gen_ld32u_i64(dest, cpu_env, offsetof(CPULoongArchState, fcsr0));
+     tcg_gen_andi_i64(dest, dest, fcsr_mask[a->fcsrs]);
+     gen_set_gpr(a->rd, dest, EXT_NONE);
+@@ -114,8 +127,11 @@ static void gen_movfrh2gr_s(TCGv dest, TCGv src)
+ 
+ static bool trans_movfr2cf(DisasContext *ctx, arg_movfr2cf *a)
+ {
+-    TCGv t0 = tcg_temp_new();
++    TCGv t0;
++
++    CHECK_FPE;
+ 
++    t0 = tcg_temp_new();
+     tcg_gen_andi_tl(t0, cpu_fpr[a->fj], 0x1);
+     tcg_gen_st8_tl(t0, cpu_env, offsetof(CPULoongArchState, cf[a->cd & 0x7]));
+     tcg_temp_free(t0);
+@@ -125,6 +141,8 @@ static bool trans_movfr2cf(DisasContext *ctx, arg_movfr2cf *a)
+ 
+ static bool trans_movcf2fr(DisasContext *ctx, arg_movcf2fr *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_ld8u_tl(cpu_fpr[a->fd], cpu_env,
+                     offsetof(CPULoongArchState, cf[a->cj & 0x7]));
+     return true;
+@@ -132,8 +150,11 @@ static bool trans_movcf2fr(DisasContext *ctx, arg_movcf2fr *a)
+ 
+ static bool trans_movgr2cf(DisasContext *ctx, arg_movgr2cf *a)
+ {
+-    TCGv t0 = tcg_temp_new();
++    TCGv t0;
+ 
++    CHECK_FPE;
++
++    t0 = tcg_temp_new();
+     tcg_gen_andi_tl(t0, gpr_src(ctx, a->rj, EXT_NONE), 0x1);
+     tcg_gen_st8_tl(t0, cpu_env, offsetof(CPULoongArchState, cf[a->cd & 0x7]));
+     tcg_temp_free(t0);
+@@ -143,6 +164,8 @@ static bool trans_movgr2cf(DisasContext *ctx, arg_movgr2cf *a)
+ 
+ static bool trans_movcf2gr(DisasContext *ctx, arg_movcf2gr *a)
+ {
++    CHECK_FPE;
++
+     tcg_gen_ld8u_tl(gpr_dst(ctx, a->rd, EXT_NONE), cpu_env,
+                     offsetof(CPULoongArchState, cf[a->cj & 0x7]));
+     return true;
 -- 
 2.38.1
 
