@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98EA61DC8A
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:36:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C3261DCA8
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:46:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMqe-0000YS-Qy; Sat, 05 Nov 2022 13:20:48 -0400
+	id 1orMpX-0008Bs-U9; Sat, 05 Nov 2022 13:19:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMno-0007AA-33
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:18:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMnx-0007Bv-LJ
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:18:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMnk-0007aE-3O
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:17:49 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMns-0007an-Ub
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:17:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667668666;
+ s=mimecast20190719; t=1667668672;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u5w7CZvyWmbkUiTzBcO0zP8z+AAuQB0yroUM/lTFU5g=;
- b=PeOTKlTkk66/TsWLNtNjNOy3EfcXyrvGfI21nHcGNDZkK3Dr38jgVuLrkZiKqK3BOzJVae
- 4wGz6zGjI6rn85M7xb1h77N9skmencunxLZ8FhVf4NZ9mR51RA6RRFmb9eN0wxouCjjDt9
- hLDcT55LqUi47Gt0UfFuW0BU38tmex8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MtEUbBVVYdPzeiTU39HNTaDMuOUKjIcjW007vq8qqcw=;
+ b=YjeHtSfDOrDk2wTnUOON8NVVcQXZkBS5OYQbunyAMHPo+WRvonCM7t8oHfhlJEkaMDYyZN
+ 3A3EdEYeTnmFeo+aVxvNPqe3sEfLRhb76DHsvgXNqrR3JxitBxKzW9E7vBobyjFjm6QgXN
+ wvhBxq/MUS0vaJSLkHOeVh+8nZvIS3U=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-86-T4JSR9SjORa48U7xfYlsLA-1; Sat, 05 Nov 2022 13:17:45 -0400
-X-MC-Unique: T4JSR9SjORa48U7xfYlsLA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- az40-20020a05600c602800b003cfa26c40easo438398wmb.1
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:17:45 -0700 (PDT)
+ us-mta-331-hb-sssW_NO2lzM7ApD05HQ-1; Sat, 05 Nov 2022 13:17:48 -0400
+X-MC-Unique: hb-sssW_NO2lzM7ApD05HQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ ay40-20020a05600c1e2800b003cf8aa16377so3800182wmb.7
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:17:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=u5w7CZvyWmbkUiTzBcO0zP8z+AAuQB0yroUM/lTFU5g=;
- b=IiT2SwtZ9QyWXATwR3bf72sUpVMRvmWm/yvGQwAJCDxK1KLXNWjX9GXBdosNz/5qW5
- gA2aIQfsl+QgCtjBJ4IGjm5CEes5Nkni4OllzUhm3iFvQMwwmQAiU0as7FRSnyguPUy+
- 0s60IeGXOCNVhX2e5o8GWOIjVEwWuxls2fbdIJRiHyQKcxxUeTh/jPXy/58GOxlXcFVh
- htF+kGje8TYeWrqxydE81fQWndEOuclspWBOahoSlmoX/V+lue/UQtflHiBEcCnFUAob
- nAsGOzoqmEjmiK0YA4Wz3by3DeYLRDeLeJ8lRQ6fd7ZxtzWtVexV4JZNsTTQ9ic8XrBF
- /oXA==
-X-Gm-Message-State: ACrzQf16pr40oXl752v0puQXiJvSzt7iUn0TjknwgyqijAdHrwahbayq
- IXuxh2rCKM/mUtyN89zXP1n1U2iOyrUPSdZH3BhvizXRR3L+DHCaM0Nem5Zm0OOUnP37Cw+zPT+
- M2lBol/uGrUhuifLopylde8gZ+papX6yToxdIH+O9SJ1NiKKryJdku4ZVVEF1
-X-Received: by 2002:adf:eac6:0:b0:238:6b48:4bb6 with SMTP id
- o6-20020adfeac6000000b002386b484bb6mr9350083wrn.34.1667668663908; 
- Sat, 05 Nov 2022 10:17:43 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM70B9o+AS3MAF/QPCDXYLoDMywBDevvr1yRecqRuhRuhIFaIuJLWtA6AHzrsZxI4MPgeOIQBQ==
-X-Received: by 2002:adf:eac6:0:b0:238:6b48:4bb6 with SMTP id
- o6-20020adfeac6000000b002386b484bb6mr9350067wrn.34.1667668663562; 
- Sat, 05 Nov 2022 10:17:43 -0700 (PDT)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MtEUbBVVYdPzeiTU39HNTaDMuOUKjIcjW007vq8qqcw=;
+ b=2YfjLPsFMT76MFC0p+tlH8msN8XKNU6mFw+7gqU+hpYo1qtM745+yWViasGUJGdASE
+ SKnuScVMlvi/71vTzdezg1fdIUdZtgJVtSMeu0S/BVc/+Rq1MCMk55iyQfGTlB/q6J1s
+ gCG0BEnAi//NRra9O7sbQmSUKjyh5KzclwX10Jv6hIFIAc48ikmYlonGBEyDnph/7kBD
+ WZq4Cdvyvpqe3hdYL1hSq9JuLgXY/silgZwKcnREM5lE5+c6zZN/uODnEwYcEmtir37V
+ hIwhjT/bx8yTNRRBl05vUHPgpPEvv/sAtpDtt0TLYk9BDNRemZC3cF7dYl5KfT2/FQB1
+ Wfew==
+X-Gm-Message-State: ACrzQf0DT8tqvNOSivPrEx7D89gchplBHSlmLLxLp4oz+tJSJwZfcEim
+ 6KgGyocWtj2lzRVmJ5aTQ4XTJepBxFIcxyg495DwaHTbQe410dxjl+KkmdCZZtDnJne3tzlJWhu
+ J+R7i+ZpZSvFWLETxn+Wg7IZJ6b5NHZMS46+6XzrI5ZaF8cGGd6DVLdPRonk+
+X-Received: by 2002:adf:f687:0:b0:236:481f:83a6 with SMTP id
+ v7-20020adff687000000b00236481f83a6mr26543484wrp.342.1667668666964; 
+ Sat, 05 Nov 2022 10:17:46 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4anUKoQUNghkOy+PttWWtzMxHXCRzlXFYBfqS2lVz4Fg/Gmv8XkqiG8G0e/DT6S6VjikDQRg==
+X-Received: by 2002:adf:f687:0:b0:236:481f:83a6 with SMTP id
+ v7-20020adff687000000b00236481f83a6mr26543473wrp.342.1667668666663; 
+ Sat, 05 Nov 2022 10:17:46 -0700 (PDT)
 Received: from redhat.com ([2.52.152.137]) by smtp.gmail.com with ESMTPSA id
- az2-20020adfe182000000b00226dba960b4sm2748089wrb.3.2022.11.05.10.17.42
+ p15-20020adfce0f000000b0022cbf4cda62sm3147075wrn.27.2022.11.05.10.17.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 10:17:43 -0700 (PDT)
-Date: Sat, 5 Nov 2022 13:17:41 -0400
+ Sat, 05 Nov 2022 10:17:46 -0700 (PDT)
+Date: Sat, 5 Nov 2022 13:17:43 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL v3 46/81] virtio-net: enable vq reset feature
-Message-ID: <20221105171116.432921-47-mst@redhat.com>
+ David Daney <david.daney@fungible.com>,
+ Marcin Nowakowski <marcin.nowakowski@fungible.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@fungible.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PULL v3 47/81] virtio-rng-pci: Allow setting nvectors, so we can
+ use MSI-X
+Message-ID: <20221105171116.432921-48-mst@redhat.com>
 References: <20221105171116.432921-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221105171116.432921-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -97,30 +103,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+From: David Daney <david.daney@fungible.com>
 
-Add virtqueue reset feature for virtio-net
+Most other virtio-pci devices allow MSI-X, let's have it for rng too.
 
-Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Message-Id: <20221017092558.111082-16-xuanzhuo@linux.alibaba.com>
+Signed-off-by: David Daney <david.daney@fungible.com>
+Reviewed-by: Marcin Nowakowski <marcin.nowakowski@fungible.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@fungible.com>
+Message-Id: <20221014160947.66105-1-philmd@fungible.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/net/virtio-net.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/virtio/virtio-rng-pci.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index e68daf51bb..8b32339b76 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -788,6 +788,7 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
-     }
+diff --git a/hw/virtio/virtio-rng-pci.c b/hw/virtio/virtio-rng-pci.c
+index 151ece6f94..6e76f8b57b 100644
+--- a/hw/virtio/virtio-rng-pci.c
++++ b/hw/virtio/virtio-rng-pci.c
+@@ -13,6 +13,7 @@
  
-     if (!get_vhost_net(nc->peer)) {
-+        virtio_add_feature(&features, VIRTIO_F_RING_RESET);
-         return features;
-     }
+ #include "hw/virtio/virtio-pci.h"
+ #include "hw/virtio/virtio-rng.h"
++#include "hw/qdev-properties.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+ #include "qom/object.h"
+@@ -31,11 +32,23 @@ struct VirtIORngPCI {
+     VirtIORNG vdev;
+ };
  
++static Property virtio_rng_properties[] = {
++    DEFINE_PROP_BIT("ioeventfd", VirtIOPCIProxy, flags,
++                    VIRTIO_PCI_FLAG_USE_IOEVENTFD_BIT, true),
++    DEFINE_PROP_UINT32("vectors", VirtIOPCIProxy, nvectors,
++                       DEV_NVECTORS_UNSPECIFIED),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void virtio_rng_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+ {
+     VirtIORngPCI *vrng = VIRTIO_RNG_PCI(vpci_dev);
+     DeviceState *vdev = DEVICE(&vrng->vdev);
+ 
++    if (vpci_dev->nvectors == DEV_NVECTORS_UNSPECIFIED) {
++        vpci_dev->nvectors = 2;
++    }
++
+     if (!qdev_realize(vdev, BUS(&vpci_dev->bus), errp)) {
+         return;
+     }
+@@ -54,6 +67,7 @@ static void virtio_rng_pci_class_init(ObjectClass *klass, void *data)
+     pcidev_k->device_id = PCI_DEVICE_ID_VIRTIO_RNG;
+     pcidev_k->revision = VIRTIO_PCI_ABI_VERSION;
+     pcidev_k->class_id = PCI_CLASS_OTHERS;
++    device_class_set_props(dc, virtio_rng_properties);
+ }
+ 
+ static void virtio_rng_initfn(Object *obj)
 -- 
 MST
 
