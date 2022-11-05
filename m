@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C160F61DC9E
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:41:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A22661DCB5
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:52:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMrB-0001Kp-FG; Sat, 05 Nov 2022 13:21:21 -0400
+	id 1orMr9-0001FA-Du; Sat, 05 Nov 2022 13:21:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMpF-0007qH-Dk
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMpG-0007qO-0j
  for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:19:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMpD-0007qV-3H
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMpE-0007qk-D5
  for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:19:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667668756;
+ s=mimecast20190719; t=1667668759;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=b7tBODySCSVS0cvFan2OucwmNA/UHr9T82r+sfnQz3c=;
- b=Vmv7AKqsHZot7i+TiiMu2qG1VLcMsDVOJe0WFNJKMK3pCZoarcGqrW09N9zTCxk00XK5K0
- G5eo2nA9sH7HFUFE20zsILpTswRRFpF1WC7GQndTDdMJo51sT5SKM/6vi43A4MLAMLEO8Y
- Ii/1GNEF0Dk2bA6xkwE7mS05Aiq3YOU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3HLl4tNY2+/lq1uK3hyu+teGqpzhceB9L+dLDgAZow8=;
+ b=Kb6Cs5jhj9QYIPOfVY0NVsQfMDjwuaBssK165dKcOC79Kkr2qtDowRGVQsl8/4h1GI7wBy
+ fuvRdGN/gIt01QnPwO9VzSL1SoJGjc2N+7KDl/qGJdjTSOf3re2JCHEX1JOQqckez4KpXt
+ 0+pwMBC+YTliyToLovISW5nekuZ+Fhs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-637-FDv-Kf6lPi-EwXKEjV5T-w-1; Sat, 05 Nov 2022 13:19:15 -0400
-X-MC-Unique: FDv-Kf6lPi-EwXKEjV5T-w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- h8-20020a1c2108000000b003cf550bfc8dso6003498wmh.2
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:19:15 -0700 (PDT)
+ us-mta-338-XX26o0JENcqrzLI2DaEvLw-1; Sat, 05 Nov 2022 13:19:18 -0400
+X-MC-Unique: XX26o0JENcqrzLI2DaEvLw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ e8-20020a05600c218800b003cf634f5280so2453758wme.8
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:19:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=b7tBODySCSVS0cvFan2OucwmNA/UHr9T82r+sfnQz3c=;
- b=jTWnd7scAqlQIVZsWNdFLCzb385pySOSDPiicPnd/OsY0Lvc8fqUhx8qzaqagtBQCq
- zF+4tv58qW7ZRofGd/RYDLTehwU0TXUghG8tIueijuad5PxgFmSn+MHlH/oqChW/+Eej
- IC/Z8VH5ySlXztNWMhxEhILw6kPaA/jXv0U/pLoonAgyCaSP6WInoB9Ttx1ABIOWKJfx
- 3bX60SOCJo0E6+rD/TdRTA4rDmi3juZ/mWG0BMTdBNxEghOGdVDZtBEkI4kBVLwQxmh5
- B3ry92dhLRxrHSlevm4vmRmTRi3v2QL/TEapI0wR8f9Ytl+KCCWS6Cg4UXzO+iYZyiED
- x3tw==
-X-Gm-Message-State: ACrzQf0l/zZmiBynl2ekR/lhfiaV6lJHh5UbFbakeQmScLInkjGBMclQ
- BRig674wRnXvCWnPDHFphTAzOOBW9tb5IJsGmZ3/N5J8vr6Dbj95aW4ZIj+L9TwyDy2zEgtSRDf
- 7ac3thnZQsAL9qehzgZrFk0BfxOLmzkqYwa2cp+EEfXVFna/XVZtE/wEvZ85H
-X-Received: by 2002:a5d:58d9:0:b0:236:5b81:2c99 with SMTP id
- o25-20020a5d58d9000000b002365b812c99mr26609238wrf.494.1667668754194; 
- Sat, 05 Nov 2022 10:19:14 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4Ce1iyT2pTvixbUOBV+fsFD/PQQeNiuVRE6O5mtclh/2lLLmqHgiNYvDrdT6zUhfqZehUADA==
-X-Received: by 2002:a5d:58d9:0:b0:236:5b81:2c99 with SMTP id
- o25-20020a5d58d9000000b002365b812c99mr26609216wrf.494.1667668753848; 
- Sat, 05 Nov 2022 10:19:13 -0700 (PDT)
+ bh=3HLl4tNY2+/lq1uK3hyu+teGqpzhceB9L+dLDgAZow8=;
+ b=2zBXmuLXUaoVpnrXHZpmWcZfEQsyQBjpynCDkzcBaczZA+8acrCX8Sb6zrXvN5BBZw
+ QSors9wPTEBeFI97SFKOdpy8pNJoC+0+FUA9jK1UncDWjxzP3Pkzm5FHOgOFzngvTXbN
+ GdTzZu0Sl9mxBhB4uwWee351o6mUt6YQuiT2WACoapRreFhHciGrcTNy4GtCLIQHI4GK
+ DkOaWt4+URaqH+/pwaKeBG4a+n8fFVOzmgHW6fjKnPArMxWs73pr7pNBFcS6C/1NDQsM
+ 5PCjS/rev7nbldOG0/KokbF9H9Rum/bwfU6w85OGN/qxKVN6pqSGYQb9c67HRvfAuDBn
+ 9OHg==
+X-Gm-Message-State: ACrzQf0f0oSOtzxMGm7Vh4YWDGouKCS3LbkLImzCEtkXS5ErR5ui6Jvu
+ oARQMvKHrOW64EZkKHoTbVA4Gl1v72xZ3/zR9O9Dz4RScaMswBgi6Hg5UYWXv8PwPEImGjbWVee
+ TF1kp7z31Bw8KYKyQCUITlI9EpEPQO7bGQZXOHnnTUgAmb0kA9kxB9vUhYJjh
+X-Received: by 2002:a05:6000:1042:b0:236:f509:1dc3 with SMTP id
+ c2-20020a056000104200b00236f5091dc3mr12302924wrx.313.1667668757103; 
+ Sat, 05 Nov 2022 10:19:17 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6guEzegBANSXFBoY1/fr5/IZPijf+4WxlY5Btrn32pEFmMSfstc0dcf732kKoazwb40ntu+Q==
+X-Received: by 2002:a05:6000:1042:b0:236:f509:1dc3 with SMTP id
+ c2-20020a056000104200b00236f5091dc3mr12302902wrx.313.1667668756759; 
+ Sat, 05 Nov 2022 10:19:16 -0700 (PDT)
 Received: from redhat.com ([2.52.152.137]) by smtp.gmail.com with ESMTPSA id
- e5-20020adfef05000000b00225307f43fbsm2645491wro.44.2022.11.05.10.19.12
+ n25-20020a1c7219000000b003cf774c31a0sm6241138wmc.16.2022.11.05.10.19.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 10:19:13 -0700 (PDT)
-Date: Sat, 5 Nov 2022 13:19:10 -0400
+ Sat, 05 Nov 2022 10:19:16 -0700 (PDT)
+Date: Sat, 5 Nov 2022 13:19:14 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>,
- Yi Liu <yi.l.liu@intel.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Yi Liu <yi.l.liu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PULL v3 77/81] intel-iommu: drop VTDBus
-Message-ID: <20221105171116.432921-78-mst@redhat.com>
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL v3 78/81] intel-iommu: convert VTD_PE_GET_FPD_ERR() to be a
+ function
+Message-ID: <20221105171116.432921-79-mst@redhat.com>
 References: <20221105171116.432921-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -77,7 +78,7 @@ Content-Disposition: inline
 In-Reply-To: <20221105171116.432921-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -103,438 +104,103 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Jason Wang <jasowang@redhat.com>
 
-We introduce VTDBus structure as an intermediate step for searching
-the address space. This works well with SID based matching/lookup. But
-when we want to support SID plus PASID based address space lookup,
-this intermediate steps turns out to be a burden. So the patch simply
-drops the VTDBus structure and use the PCIBus and devfn as the key for
-the g_hash_table(). This simplifies the codes and the future PASID
-extension.
-
-To prevent being slower for past vtd_find_as_from_bus_num() callers, a
-vtd_as cache indexed by the bus number is introduced to store the last
-recent search result of a vtd_as belongs to a specific bus.
+We used to have a macro for VTD_PE_GET_FPD_ERR() but it has an
+internal goto which prevents it from being reused. This patch convert
+that macro to a dedicated function and let the caller to decide what
+to do (e.g using goto or not). This makes sure it can be re-used for
+other function that requires fault reporting.
 
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20221028061436.30093-3-jasowang@redhat.com>
+Message-Id: <20221028061436.30093-4-jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Yi Liu <yi.l.liu@intel.com>
 ---
- include/hw/i386/intel_iommu.h |  11 +-
- hw/i386/intel_iommu.c         | 234 +++++++++++++++++-----------------
- 2 files changed, 118 insertions(+), 127 deletions(-)
+ hw/i386/intel_iommu.c | 42 ++++++++++++++++++++++++++++--------------
+ 1 file changed, 28 insertions(+), 14 deletions(-)
 
-diff --git a/include/hw/i386/intel_iommu.h b/include/hw/i386/intel_iommu.h
-index 67653b0f9b..e49fff2a6c 100644
---- a/include/hw/i386/intel_iommu.h
-+++ b/include/hw/i386/intel_iommu.h
-@@ -58,7 +58,6 @@ typedef struct VTDContextEntry VTDContextEntry;
- typedef struct VTDContextCacheEntry VTDContextCacheEntry;
- typedef struct VTDAddressSpace VTDAddressSpace;
- typedef struct VTDIOTLBEntry VTDIOTLBEntry;
--typedef struct VTDBus VTDBus;
- typedef union VTD_IR_TableEntry VTD_IR_TableEntry;
- typedef union VTD_IR_MSIAddress VTD_IR_MSIAddress;
- typedef struct VTDPASIDDirEntry VTDPASIDDirEntry;
-@@ -111,12 +110,6 @@ struct VTDAddressSpace {
-     IOVATree *iova_tree;          /* Traces mapped IOVA ranges */
- };
- 
--struct VTDBus {
--    PCIBus* bus;		/* A reference to the bus to provide translation for */
--    /* A table of VTDAddressSpace objects indexed by devfn */
--    VTDAddressSpace *dev_as[];
--};
--
- struct VTDIOTLBEntry {
-     uint64_t gfn;
-     uint16_t domain_id;
-@@ -253,8 +246,8 @@ struct IntelIOMMUState {
-     uint32_t context_cache_gen;     /* Should be in [1,MAX] */
-     GHashTable *iotlb;              /* IOTLB */
- 
--    GHashTable *vtd_as_by_busptr;   /* VTDBus objects indexed by PCIBus* reference */
--    VTDBus *vtd_as_by_bus_num[VTD_PCI_BUS_MAX]; /* VTDBus objects indexed by bus number */
-+    GHashTable *vtd_address_spaces;             /* VTD address spaces */
-+    VTDAddressSpace *vtd_as_cache[VTD_PCI_BUS_MAX]; /* VTD address space cache */
-     /* list of registered notifiers */
-     QLIST_HEAD(, VTDAddressSpace) vtd_as_with_notifiers;
- 
 diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 271de995be..9fe5a222eb 100644
+index 9fe5a222eb..9029ee98f4 100644
 --- a/hw/i386/intel_iommu.c
 +++ b/hw/i386/intel_iommu.c
-@@ -61,6 +61,16 @@
-     }                                                                         \
- }
- 
-+/*
-+ * PCI bus number (or SID) is not reliable since the device is usaully
-+ * initalized before guest can configure the PCI bridge
-+ * (SECONDARY_BUS_NUMBER).
-+ */
-+struct vtd_as_key {
-+    PCIBus *bus;
-+    uint8_t devfn;
-+};
-+
- static void vtd_address_space_refresh_all(IntelIOMMUState *s);
- static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n);
- 
-@@ -210,6 +220,27 @@ static guint vtd_uint64_hash(gconstpointer v)
-     return (guint)*(const uint64_t *)v;
- }
- 
-+static gboolean vtd_as_equal(gconstpointer v1, gconstpointer v2)
-+{
-+    const struct vtd_as_key *key1 = v1;
-+    const struct vtd_as_key *key2 = v2;
-+
-+    return (key1->bus == key2->bus) && (key1->devfn == key2->devfn);
-+}
-+
-+/*
-+ * Note that we use pointer to PCIBus as the key, so hashing/shifting
-+ * based on the pointer value is intended. Note that we deal with
-+ * collisions through vtd_as_equal().
-+ */
-+static guint vtd_as_hash(gconstpointer v)
-+{
-+    const struct vtd_as_key *key = v;
-+    guint value = (guint)(uintptr_t)key->bus;
-+
-+    return (guint)(value << 8 | key->devfn);
-+}
-+
- static gboolean vtd_hash_remove_by_domain(gpointer key, gpointer value,
-                                           gpointer user_data)
- {
-@@ -248,22 +279,14 @@ static gboolean vtd_hash_remove_by_page(gpointer key, gpointer value,
- static void vtd_reset_context_cache_locked(IntelIOMMUState *s)
- {
-     VTDAddressSpace *vtd_as;
--    VTDBus *vtd_bus;
--    GHashTableIter bus_it;
--    uint32_t devfn_it;
-+    GHashTableIter as_it;
- 
-     trace_vtd_context_cache_reset();
- 
--    g_hash_table_iter_init(&bus_it, s->vtd_as_by_busptr);
-+    g_hash_table_iter_init(&as_it, s->vtd_address_spaces);
- 
--    while (g_hash_table_iter_next (&bus_it, NULL, (void**)&vtd_bus)) {
--        for (devfn_it = 0; devfn_it < PCI_DEVFN_MAX; ++devfn_it) {
--            vtd_as = vtd_bus->dev_as[devfn_it];
--            if (!vtd_as) {
--                continue;
--            }
--            vtd_as->context_cache_entry.context_cache_gen = 0;
--        }
-+    while (g_hash_table_iter_next (&as_it, NULL, (void**)&vtd_as)) {
-+        vtd_as->context_cache_entry.context_cache_gen = 0;
-     }
-     s->context_cache_gen = 1;
- }
-@@ -993,32 +1016,6 @@ static bool vtd_slpte_nonzero_rsvd(uint64_t slpte, uint32_t level)
-     return slpte & rsvd_mask;
- }
- 
--/* Find the VTD address space associated with a given bus number */
--static VTDBus *vtd_find_as_from_bus_num(IntelIOMMUState *s, uint8_t bus_num)
--{
--    VTDBus *vtd_bus = s->vtd_as_by_bus_num[bus_num];
--    GHashTableIter iter;
--
--    if (vtd_bus) {
--        return vtd_bus;
--    }
--
--    /*
--     * Iterate over the registered buses to find the one which
--     * currently holds this bus number and update the bus_num
--     * lookup table.
--     */
--    g_hash_table_iter_init(&iter, s->vtd_as_by_busptr);
--    while (g_hash_table_iter_next(&iter, NULL, (void **)&vtd_bus)) {
--        if (pci_bus_num(vtd_bus->bus) == bus_num) {
--            s->vtd_as_by_bus_num[bus_num] = vtd_bus;
--            return vtd_bus;
--        }
--    }
--
--    return NULL;
+@@ -49,17 +49,6 @@
+ /* pe operations */
+ #define VTD_PE_GET_TYPE(pe) ((pe)->val[0] & VTD_SM_PASID_ENTRY_PGTT)
+ #define VTD_PE_GET_LEVEL(pe) (2 + (((pe)->val[0] >> 2) & VTD_SM_PASID_ENTRY_AW))
+-#define VTD_PE_GET_FPD_ERR(ret_fr, is_fpd_set, s, source_id, addr, is_write) {\
+-    if (ret_fr) {                                                             \
+-        ret_fr = -ret_fr;                                                     \
+-        if (is_fpd_set && vtd_is_qualified_fault(ret_fr)) {                   \
+-            trace_vtd_fault_disabled();                                       \
+-        } else {                                                              \
+-            vtd_report_dmar_fault(s, source_id, addr, ret_fr, is_write);      \
+-        }                                                                     \
+-        goto error;                                                           \
+-    }                                                                         \
 -}
--
- /* Given the @iova, get relevant @slptep. @slpte_level will be the last level
-  * of the translation, can be used for deciding the size of large page.
-  */
-@@ -1632,26 +1629,15 @@ static bool vtd_switch_address_space(VTDAddressSpace *as)
  
- static void vtd_switch_address_space_all(IntelIOMMUState *s)
- {
-+    VTDAddressSpace *vtd_as;
-     GHashTableIter iter;
--    VTDBus *vtd_bus;
--    int i;
- 
--    g_hash_table_iter_init(&iter, s->vtd_as_by_busptr);
--    while (g_hash_table_iter_next(&iter, NULL, (void **)&vtd_bus)) {
--        for (i = 0; i < PCI_DEVFN_MAX; i++) {
--            if (!vtd_bus->dev_as[i]) {
--                continue;
--            }
--            vtd_switch_address_space(vtd_bus->dev_as[i]);
--        }
-+    g_hash_table_iter_init(&iter, s->vtd_address_spaces);
-+    while (g_hash_table_iter_next(&iter, NULL, (void **)&vtd_as)) {
-+        vtd_switch_address_space(vtd_as);
-     }
+ /*
+  * PCI bus number (or SID) is not reliable since the device is usaully
+@@ -1716,6 +1705,19 @@ out:
+     trace_vtd_pt_enable_fast_path(source_id, success);
  }
  
--static inline uint16_t vtd_make_source_id(uint8_t bus_num, uint8_t devfn)
--{
--    return ((bus_num & 0xffUL) << 8) | (devfn & 0xffUL);
--}
--
- static const bool vtd_qualified_faults[] = {
-     [VTD_FR_RESERVED] = false,
-     [VTD_FR_ROOT_ENTRY_P] = false,
-@@ -1686,18 +1672,37 @@ static inline bool vtd_is_interrupt_addr(hwaddr addr)
-     return VTD_INTERRUPT_ADDR_FIRST <= addr && addr <= VTD_INTERRUPT_ADDR_LAST;
- }
- 
-+static gboolean vtd_find_as_by_sid(gpointer key, gpointer value,
-+                                   gpointer user_data)
++static void vtd_report_fault(IntelIOMMUState *s,
++                             int err, bool is_fpd_set,
++                             uint16_t source_id,
++                             hwaddr addr,
++                             bool is_write)
 +{
-+    struct vtd_as_key *as_key = (struct vtd_as_key *)key;
-+    uint16_t target_sid = *(uint16_t *)user_data;
-+    uint16_t sid = PCI_BUILD_BDF(pci_bus_num(as_key->bus), as_key->devfn);
-+    return sid == target_sid;
-+}
-+
-+static VTDAddressSpace *vtd_get_as_by_sid(IntelIOMMUState *s, uint16_t sid)
-+{
-+    uint8_t bus_num = PCI_BUS_NUM(sid);
-+    VTDAddressSpace *vtd_as = s->vtd_as_cache[bus_num];
-+
-+    if (vtd_as &&
-+        (sid == PCI_BUILD_BDF(pci_bus_num(vtd_as->bus), vtd_as->devfn))) {
-+        return vtd_as;
++    if (is_fpd_set && vtd_is_qualified_fault(err)) {
++        trace_vtd_fault_disabled();
++    } else {
++        vtd_report_dmar_fault(s, source_id, addr, err, is_write);
 +    }
-+
-+    vtd_as = g_hash_table_find(s->vtd_address_spaces, vtd_find_as_by_sid, &sid);
-+    s->vtd_as_cache[bus_num] = vtd_as;
-+
-+    return vtd_as;
 +}
 +
- static void vtd_pt_enable_fast_path(IntelIOMMUState *s, uint16_t source_id)
- {
--    VTDBus *vtd_bus;
-     VTDAddressSpace *vtd_as;
-     bool success = false;
- 
--    vtd_bus = vtd_find_as_from_bus_num(s, VTD_SID_TO_BUS(source_id));
--    if (!vtd_bus) {
--        goto out;
--    }
--
--    vtd_as = vtd_bus->dev_as[VTD_SID_TO_DEVFN(source_id)];
-+    vtd_as = vtd_get_as_by_sid(s, source_id);
-     if (!vtd_as) {
-         goto out;
-     }
-@@ -1733,7 +1738,7 @@ static bool vtd_do_iommu_translate(VTDAddressSpace *vtd_as, PCIBus *bus,
-     VTDContextCacheEntry *cc_entry;
-     uint64_t slpte, page_mask;
-     uint32_t level;
--    uint16_t source_id = vtd_make_source_id(bus_num, devfn);
-+    uint16_t source_id = PCI_BUILD_BDF(bus_num, devfn);
-     int ret_fr;
-     bool is_fpd_set = false;
-     bool reads = true;
-@@ -1905,11 +1910,10 @@ static void vtd_context_device_invalidate(IntelIOMMUState *s,
-                                           uint16_t source_id,
-                                           uint16_t func_mask)
- {
-+    GHashTableIter as_it;
-     uint16_t mask;
--    VTDBus *vtd_bus;
-     VTDAddressSpace *vtd_as;
-     uint8_t bus_n, devfn;
--    uint16_t devfn_it;
- 
-     trace_vtd_inv_desc_cc_devices(source_id, func_mask);
- 
-@@ -1932,32 +1936,31 @@ static void vtd_context_device_invalidate(IntelIOMMUState *s,
-     mask = ~mask;
- 
-     bus_n = VTD_SID_TO_BUS(source_id);
--    vtd_bus = vtd_find_as_from_bus_num(s, bus_n);
--    if (vtd_bus) {
--        devfn = VTD_SID_TO_DEVFN(source_id);
--        for (devfn_it = 0; devfn_it < PCI_DEVFN_MAX; ++devfn_it) {
--            vtd_as = vtd_bus->dev_as[devfn_it];
--            if (vtd_as && ((devfn_it & mask) == (devfn & mask))) {
--                trace_vtd_inv_desc_cc_device(bus_n, VTD_PCI_SLOT(devfn_it),
--                                             VTD_PCI_FUNC(devfn_it));
--                vtd_iommu_lock(s);
--                vtd_as->context_cache_entry.context_cache_gen = 0;
--                vtd_iommu_unlock(s);
--                /*
--                 * Do switch address space when needed, in case if the
--                 * device passthrough bit is switched.
--                 */
--                vtd_switch_address_space(vtd_as);
--                /*
--                 * So a device is moving out of (or moving into) a
--                 * domain, resync the shadow page table.
--                 * This won't bring bad even if we have no such
--                 * notifier registered - the IOMMU notification
--                 * framework will skip MAP notifications if that
--                 * happened.
--                 */
--                vtd_sync_shadow_page_table(vtd_as);
--            }
-+    devfn = VTD_SID_TO_DEVFN(source_id);
-+
-+    g_hash_table_iter_init(&as_it, s->vtd_address_spaces);
-+    while (g_hash_table_iter_next(&as_it, NULL, (void**)&vtd_as)) {
-+        if ((pci_bus_num(vtd_as->bus) == bus_n) &&
-+            (vtd_as->devfn & mask) == (devfn & mask)) {
-+            trace_vtd_inv_desc_cc_device(bus_n, VTD_PCI_SLOT(vtd_as->devfn),
-+                                         VTD_PCI_FUNC(vtd_as->devfn));
-+            vtd_iommu_lock(s);
-+            vtd_as->context_cache_entry.context_cache_gen = 0;
-+            vtd_iommu_unlock(s);
-+            /*
-+             * Do switch address space when needed, in case if the
-+             * device passthrough bit is switched.
-+             */
-+            vtd_switch_address_space(vtd_as);
-+            /*
-+             * So a device is moving out of (or moving into) a
-+             * domain, resync the shadow page table.
-+             * This won't bring bad even if we have no such
-+             * notifier registered - the IOMMU notification
-+             * framework will skip MAP notifications if that
-+             * happened.
-+             */
-+            vtd_sync_shadow_page_table(vtd_as);
+ /* Map dev to context-entry then do a paging-structures walk to do a iommu
+  * translation.
+  *
+@@ -1776,7 +1778,11 @@ static bool vtd_do_iommu_translate(VTDAddressSpace *vtd_as, PCIBus *bus,
+         is_fpd_set = ce.lo & VTD_CONTEXT_ENTRY_FPD;
+         if (!is_fpd_set && s->root_scalable) {
+             ret_fr = vtd_ce_get_pasid_fpd(s, &ce, &is_fpd_set);
+-            VTD_PE_GET_FPD_ERR(ret_fr, is_fpd_set, s, source_id, addr, is_write);
++            if (ret_fr) {
++                vtd_report_fault(s, -ret_fr, is_fpd_set,
++                                 source_id, addr, is_write);
++                goto error;
++            }
          }
-     }
- }
-@@ -2473,18 +2476,13 @@ static bool vtd_process_device_iotlb_desc(IntelIOMMUState *s,
- {
-     VTDAddressSpace *vtd_dev_as;
-     IOMMUTLBEvent event;
--    struct VTDBus *vtd_bus;
-     hwaddr addr;
-     uint64_t sz;
-     uint16_t sid;
--    uint8_t devfn;
-     bool size;
--    uint8_t bus_num;
+     } else {
+         ret_fr = vtd_dev_to_context_entry(s, bus_num, devfn, &ce);
+@@ -1784,7 +1790,11 @@ static bool vtd_do_iommu_translate(VTDAddressSpace *vtd_as, PCIBus *bus,
+         if (!ret_fr && !is_fpd_set && s->root_scalable) {
+             ret_fr = vtd_ce_get_pasid_fpd(s, &ce, &is_fpd_set);
+         }
+-        VTD_PE_GET_FPD_ERR(ret_fr, is_fpd_set, s, source_id, addr, is_write);
++        if (ret_fr) {
++            vtd_report_fault(s, -ret_fr, is_fpd_set,
++                             source_id, addr, is_write);
++            goto error;
++        }
+         /* Update context-cache */
+         trace_vtd_iotlb_cc_update(bus_num, devfn, ce.hi, ce.lo,
+                                   cc_entry->context_cache_gen,
+@@ -1820,7 +1830,11 @@ static bool vtd_do_iommu_translate(VTDAddressSpace *vtd_as, PCIBus *bus,
  
-     addr = VTD_INV_DESC_DEVICE_IOTLB_ADDR(inv_desc->hi);
-     sid = VTD_INV_DESC_DEVICE_IOTLB_SID(inv_desc->lo);
--    devfn = sid & 0xff;
--    bus_num = sid >> 8;
-     size = VTD_INV_DESC_DEVICE_IOTLB_SIZE(inv_desc->hi);
+     ret_fr = vtd_iova_to_slpte(s, &ce, addr, is_write, &slpte, &level,
+                                &reads, &writes, s->aw_bits);
+-    VTD_PE_GET_FPD_ERR(ret_fr, is_fpd_set, s, source_id, addr, is_write);
++    if (ret_fr) {
++        vtd_report_fault(s, -ret_fr, is_fpd_set, source_id,
++                         addr, is_write);
++        goto error;
++    }
  
-     if ((inv_desc->lo & VTD_INV_DESC_DEVICE_IOTLB_RSVD_LO) ||
-@@ -2495,12 +2493,11 @@ static bool vtd_process_device_iotlb_desc(IntelIOMMUState *s,
-         return false;
-     }
- 
--    vtd_bus = vtd_find_as_from_bus_num(s, bus_num);
--    if (!vtd_bus) {
--        goto done;
--    }
--
--    vtd_dev_as = vtd_bus->dev_as[devfn];
-+    /*
-+     * Using sid is OK since the guest should have finished the
-+     * initialization of both the bus and device.
-+     */
-+    vtd_dev_as = vtd_get_as_by_sid(s, sid);
-     if (!vtd_dev_as) {
-         goto done;
-     }
-@@ -3427,27 +3424,27 @@ static const MemoryRegionOps vtd_mem_ir_ops = {
- 
- VTDAddressSpace *vtd_find_add_as(IntelIOMMUState *s, PCIBus *bus, int devfn)
- {
--    uintptr_t key = (uintptr_t)bus;
--    VTDBus *vtd_bus = g_hash_table_lookup(s->vtd_as_by_busptr, &key);
-+    /*
-+     * We can't simply use sid here since the bus number might not be
-+     * initialized by the guest.
-+     */
-+    struct vtd_as_key key = {
-+        .bus = bus,
-+        .devfn = devfn,
-+    };
-     VTDAddressSpace *vtd_dev_as;
-     char name[128];
- 
--    if (!vtd_bus) {
--        uintptr_t *new_key = g_malloc(sizeof(*new_key));
--        *new_key = (uintptr_t)bus;
--        /* No corresponding free() */
--        vtd_bus = g_malloc0(sizeof(VTDBus) + sizeof(VTDAddressSpace *) * \
--                            PCI_DEVFN_MAX);
--        vtd_bus->bus = bus;
--        g_hash_table_insert(s->vtd_as_by_busptr, new_key, vtd_bus);
--    }
--
--    vtd_dev_as = vtd_bus->dev_as[devfn];
--
-+    vtd_dev_as = g_hash_table_lookup(s->vtd_address_spaces, &key);
-     if (!vtd_dev_as) {
-+        struct vtd_as_key *new_key = g_malloc(sizeof(*new_key));
-+
-+        new_key->bus = bus;
-+        new_key->devfn = devfn;
-+
-         snprintf(name, sizeof(name), "vtd-%02x.%x", PCI_SLOT(devfn),
-                  PCI_FUNC(devfn));
--        vtd_bus->dev_as[devfn] = vtd_dev_as = g_new0(VTDAddressSpace, 1);
-+        vtd_dev_as = g_new0(VTDAddressSpace, 1);
- 
-         vtd_dev_as->bus = bus;
-         vtd_dev_as->devfn = (uint8_t)devfn;
-@@ -3503,6 +3500,8 @@ VTDAddressSpace *vtd_find_add_as(IntelIOMMUState *s, PCIBus *bus, int devfn)
-                                             &vtd_dev_as->nodmar, 0);
- 
-         vtd_switch_address_space(vtd_dev_as);
-+
-+        g_hash_table_insert(s->vtd_address_spaces, new_key, vtd_dev_as);
-     }
-     return vtd_dev_as;
- }
-@@ -3881,7 +3880,6 @@ static void vtd_realize(DeviceState *dev, Error **errp)
- 
-     QLIST_INIT(&s->vtd_as_with_notifiers);
-     qemu_mutex_init(&s->iommu_lock);
--    memset(s->vtd_as_by_bus_num, 0, sizeof(s->vtd_as_by_bus_num));
-     memory_region_init_io(&s->csrmem, OBJECT(s), &vtd_mem_ops, s,
-                           "intel_iommu", DMAR_REG_SIZE);
- 
-@@ -3903,8 +3901,8 @@ static void vtd_realize(DeviceState *dev, Error **errp)
-     /* No corresponding destroy */
-     s->iotlb = g_hash_table_new_full(vtd_uint64_hash, vtd_uint64_equal,
-                                      g_free, g_free);
--    s->vtd_as_by_busptr = g_hash_table_new_full(vtd_uint64_hash, vtd_uint64_equal,
--                                              g_free, g_free);
-+    s->vtd_address_spaces = g_hash_table_new_full(vtd_as_hash, vtd_as_equal,
-+                                      g_free, g_free);
-     vtd_init(s);
-     sysbus_mmio_map(SYS_BUS_DEVICE(s), 0, Q35_HOST_BRIDGE_IOMMU_ADDR);
-     pci_setup_iommu(bus, vtd_host_dma_iommu, dev);
+     page_mask = vtd_slpt_level_page_mask(level);
+     access_flags = IOMMU_ACCESS_FLAG(reads, writes);
 -- 
 MST
 
