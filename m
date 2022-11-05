@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7245861A660
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 01:20:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 851D061A662
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 01:21:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1or6ub-00028d-3I; Fri, 04 Nov 2022 20:19:49 -0400
+	id 1or6w2-0002op-Cx; Fri, 04 Nov 2022 20:21:18 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1or6uY-00028W-PA
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 20:19:46 -0400
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a])
+ id 1or6w0-0002oP-6H
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 20:21:16 -0400
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1or6uJ-0006we-QX
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 20:19:46 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id p127so6777789oih.9
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 17:19:31 -0700 (PDT)
+ id 1or6vy-00073k-5H
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 20:21:15 -0400
+Received: by mail-oi1-x22b.google.com with SMTP id t62so6767194oib.12
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 17:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=HO8hUGptfHZ7baQb4oEqw6VUzOXPekRgzzVa2Dwxf0I=;
- b=Qa0qtsn2XrMEL4Chlpc3yB4XINasSUmPHv1Yja2umOW532u0wX/nfyxdMAswNEKXZR
- qKGHO0AYUGeRWSrUmfYMFgR7+Zt0kiBWhet0aZDC1cH9CaF41iCn756C0mYdt4Z1y+5W
- 93USFSjEUY6a18x0gZiAkNl0aEM+vUj0mIRHSkK1qfj8oucNcWYBIqYllX66P2WWzdUp
- mQ2Trj21Hy9c8RmbmKwP5pCEp0sXs0A2hxjxr7O7rdXWWfRnWMC5XP5/nDwUqdSMe1PH
- Bu2o4/qHtDWFYymXRAbBwrvS0KMCbtVLwEnQSfIiUq96SH27cTDX5nJ09CjtGNh3zU0A
- JW0g==
+ bh=UDT2kgPJr1NVMKNmOW1pfjGuDsgVBUXcmx24MG8pW68=;
+ b=OBNUfPxAHiqYuGNoRK2yGP4b5PvOzCx+rATrV4JSiTlps1KnK8uUWIVnwEEJkViazQ
+ kbKGWJfFX04obCCsVNQFiOHMqMLhYa34s5jmo+e/w3ycEZ1Tdmlr8OHMn5hELVw0GSYp
+ 6CuPRHmGIuGwzh+9J1orzCHIj9/u4VYkfIALvVzD1jgsHyoFtWgJ3H3zt1o8G1eFhENU
+ pr0KtKdd6/Wdwg8feLLotIQB7C6j4HVcN6XkfSkbyw3j0ump5QEp9yvomngRy8Bmw0Uy
+ qKZWZpOR94Rx2j3Z7AP0uxUR2fDbHO31qcMRq2Yjeqvf/jCPcpz1Tv0Jgi/oSyf5SZ+b
+ KgLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HO8hUGptfHZ7baQb4oEqw6VUzOXPekRgzzVa2Dwxf0I=;
- b=Tk6EsHxL14xPtV5PACM+Ua8Mu/E2TYAoi9E83fw3UckzXd+2EZzTvWYMwsNMY/ClcN
- rRELB8EU1plifHeqxc6K6WZRFCwPpyU6KTBPslmRAtZsbZ4Of6ZBWo23LyOoevPUK6gc
- GnbCIsrAHDq4Fy0WuSFbVnhbCtroWr9HKpEjFYlEG+b9BkCvtTDfjRjtmw0CT4+fHr85
- fsmBU4+1BFSYKlmB0O9zehSNNkMaVpDTCyyI8wzBhX/JgGkGCoiA5ihFXfcaJEJmFIVr
- m2D2hrYy4jvXksgj0o8S0hZjUiu3MvjzdFxDZR2D0VqqUjvhZE/YQmfUcAAuxofk2B9C
- 0WdQ==
-X-Gm-Message-State: ACrzQf29sJzkJzXJejxKBYacqJKeEJxcikrF11VThY3/L3DTfGRWgHVf
- I8PX4TEKOm3u29pqIvR3vrh9uw==
-X-Google-Smtp-Source: AMsMyM5KpF6cMUUNaxUKI4wr2086uxKWi8hax/Sv8sc1OwoIIf3T29kzvo4BZZxQ7zD/mcHH1uoIsQ==
-X-Received: by 2002:aca:a996:0:b0:35a:c23:238f with SMTP id
- s144-20020acaa996000000b0035a0c23238fmr16390423oie.27.1667607570653; 
- Fri, 04 Nov 2022 17:19:30 -0700 (PDT)
+ bh=UDT2kgPJr1NVMKNmOW1pfjGuDsgVBUXcmx24MG8pW68=;
+ b=1ekGNap81cy+SZ0KR5W7BSR96CSZ5OkN69eEI2j4be2fmACgRjpqK9ZjS7X10Axqxh
+ T28WuEhI2SdgQb8w2/qNmJSZBmVVvJI5WfP7KRdNFBd7biS6D0Z9J9BSpx1A636GaVTK
+ njiEmZCabeYi7XSuvu+3LSb4fID3CVrAjCl6GCZ83dpdeQKMzFKL5VNHGJsydnlNwweT
+ eGdhS6U9beONLnq9oU3Z8XVOLD0ipLrVpiT7hcR6O2SPXstjx9Db79dptvjMl3v6M7VW
+ AOCOolFQXo4W3EtOCm6jroCynJBfRB8pfQEg0DYqTmEpvJwa9lwpc7w88+ZQ9x3uL286
+ VPtA==
+X-Gm-Message-State: ACrzQf10iqaNfuoPt4QmXpKcORR8qieARSvC6vFbqaQBiStyqWx1Ywu1
+ y1+w4iVhLBhvbUyzpuMiPB095g==
+X-Google-Smtp-Source: AMsMyM524tVV3tL6u38LdXUju37qxbMECUXtlfPk8+wW7x2IxbA3MORkwXTtccjJUg/Op4CB4XBBNg==
+X-Received: by 2002:a05:6808:1207:b0:353:e6cf:6d46 with SMTP id
+ a7-20020a056808120700b00353e6cf6d46mr20928990oil.207.1667607672920; 
+ Fri, 04 Nov 2022 17:21:12 -0700 (PDT)
 Received: from [192.168.229.227] ([172.58.176.28])
  by smtp.gmail.com with ESMTPSA id
- z20-20020a9d62d4000000b0066c34486aa7sm304297otk.73.2022.11.04.17.19.24
+ ba12-20020a056870c58c00b0013b911d5960sm209745oab.49.2022.11.04.17.21.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Nov 2022 17:19:30 -0700 (PDT)
-Message-ID: <5188b67a-8403-b468-e121-5990476dd5a0@linaro.org>
-Date: Sat, 5 Nov 2022 11:19:18 +1100
+ Fri, 04 Nov 2022 17:21:12 -0700 (PDT)
+Message-ID: <e05fc3e1-f0d3-aa1c-fe5b-d65e452f4ef1@linaro.org>
+Date: Sat, 5 Nov 2022 11:21:02 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
@@ -71,14 +71,15 @@ From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <20221104192631.29434-8-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,15 +96,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 11/5/22 06:26, Taylor Simpson wrote:
-> +    tcg_gen_andi_tl(lsb, pred, 1);
-> +    if (!sense) {
-> +        tcg_gen_xori_tl(lsb, lsb, 1);
+> +static void gen_write_new_pc_addr(DisasContext *ctx, TCGv addr, TCGv pred)
+> +{
+> +    TCGLabel *pred_false = NULL;
+> +    if (pred != NULL) {
+> +        pred_false = gen_new_label();
+> +        tcg_gen_brcondi_tl(TCG_COND_EQ, pred, 0, pred_false);
 > +    }
-> +    gen_write_new_pc_pcrel(ctx, pc_off, lsb);
-> +    tcg_gen_brcondi_tl(TCG_COND_EQ, lsb, 0, skip);
 
-Better to change the branch condition than invert the lsb.
-
+It would be nice to pass down the entire branch condition.  Trivial for usage within this 
+patch, but more complex for others.
 
 r~
 
