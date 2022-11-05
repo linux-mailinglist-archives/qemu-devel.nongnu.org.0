@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D66761DCD5
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:54:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0B161DCDB
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:56:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMq8-0000HR-IP; Sat, 05 Nov 2022 13:20:17 -0400
+	id 1orMox-0007d9-VW; Sat, 05 Nov 2022 13:19:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMmx-0006j6-VR
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMmz-0006jB-8k
  for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:17:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMmv-0007PG-Js
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:16:59 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMmx-0007PV-Ae
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:17:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667668616;
+ s=mimecast20190719; t=1667668618;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ERzEI18Yr0lNIjwRz1p2jXmUs5Nmir9DxqjwcH2xiP0=;
- b=Ja/glQFtMgSM3rT05nNNennClBUPZI0RvjnGXY9h1mzUq2nAbEThghAGB59qKEwT5L2OH6
- rDncDSMA3G80K3uosq1VkEiB5gPK4WMmFvScUo4OAJONouV6xei/nilnpLpskNJ6xVolA3
- fPG96jdz0YJzhMDIsu1BuXRiyVT5e4I=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AUNROwimy56ru7jUnT8XzU0OHxs3NUEEOApuJES962g=;
+ b=Q/2YbNPHD/KhEYVTusCzMu1l4GxoNxnRh08O/FhQJrpiFwUFW87vWhSMQllotPOvOnCZaK
+ ccQsMf5S4eberjtWPnbHvUrDK36KSkeFDOacrq31g8/2C1te+u9t5/X06rqLmeGHCsVb24
+ U/7hF282rDr8m6GCWgevetD2nuONfzw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-365-ZRFN3EWaPF20hQVtYaBGNQ-1; Sat, 05 Nov 2022 13:16:55 -0400
-X-MC-Unique: ZRFN3EWaPF20hQVtYaBGNQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r206-20020a1c44d7000000b003cf9bd60855so425867wma.6
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:16:54 -0700 (PDT)
+ us-mta-488-8NuMPSgQP-6jpyCzCPfxIg-1; Sat, 05 Nov 2022 13:16:57 -0400
+X-MC-Unique: 8NuMPSgQP-6jpyCzCPfxIg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ c10-20020a7bc84a000000b003cf81c2d3efso2454198wml.7
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:16:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ERzEI18Yr0lNIjwRz1p2jXmUs5Nmir9DxqjwcH2xiP0=;
- b=knmtH+Ur6W3SBXxrQQdnNUSDm4+jTqq+06kN4sYBK3puJO3ZAcynXO+w9uxFVqYLiO
- mQgcp/I4HCF39Wm9UEiyAJzphQazPKhM1iIAY783OdeIvzOBSDwC5C4SrzxHbqZ92VDU
- fCNAbY/Wq7N4HRShCXTDI/Oy2++fjVEBh6z1qdYEH+2dHIxDdnfA9F+dui47qB70EhVH
- SRxVdD+Wl5YfIADO9XLQ9JBDQYZ2fnWRt17MAdhWNO6NRoG1ap0+2i1z2BRVkZq81ZY0
- /LezJguvtIDb2ysJkRDG6ZZaqG34lPm07KgZDesUtfJihgBxewf8Kes5In0uXmOKhf/I
- /dSg==
-X-Gm-Message-State: ACrzQf1F/uUUi0duu7lld5Lf4G0hRB69nWAmRkVUIbrjwp9eHN0g79B/
- 66lrOpcHsBCkb9t8VZyvU8lZlAwhqzlMt9CcvUYl0CgSYqW/QI5gwxmM2i06sli/GkQ+78wzDzk
- kIfxyIETX6JeyyNNPjz6gSdxEoEpHfUJBz2XAFvI+kRbhuMCu18AwcjoQWQ3c
-X-Received: by 2002:a7b:c5d8:0:b0:3cf:9cd9:a889 with SMTP id
- n24-20020a7bc5d8000000b003cf9cd9a889mr4522065wmk.26.1667668613459; 
- Sat, 05 Nov 2022 10:16:53 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM5H6nwyuBfbX7biE5SfAx3jZFBXCC2asffpoF6pNlx/L+Kv3Qchb7SqU2ttJgYJpm5FUPiyBA==
-X-Received: by 2002:a7b:c5d8:0:b0:3cf:9cd9:a889 with SMTP id
- n24-20020a7bc5d8000000b003cf9cd9a889mr4522049wmk.26.1667668612995; 
- Sat, 05 Nov 2022 10:16:52 -0700 (PDT)
+ bh=AUNROwimy56ru7jUnT8XzU0OHxs3NUEEOApuJES962g=;
+ b=TpJCjE5j6mgcOpw9GgvGveWP7JQe2aGx8uYHF/JMkTAev3W6PDyNVc6WLxWm9xg7db
+ t7cpv9BmG1ge1a8/9WcklmXLtyYytUbArFmboUw6fjKrfYtLk71jRIbVCAc/dlw1yj0i
+ RIILqheIBriYIh4CeqZUzcmz1+UNs481KF3dUlJx/q/9bS+DiZXs6FYABAjwtSkYUhP3
+ BjidqGdmezuDVM7i9JD0kPd8HnAsi883cDOxlLKiclWXI4D3xAquXhm4l5Ks9zdBMo3J
+ e2PQJvZa1k9G7AOSwryrSaAayVRm+YdB0fKY4+I8nrtBPUZud5BrwFBz+fVrtfzazHQT
+ wuxg==
+X-Gm-Message-State: ACrzQf16KOcHGdKHuXlOSnfFu+Xlj3yatA7FzP8uQKJzWookfEUPWF+b
+ 13SVOBcqkNt1gvM39Ph6TQNDlel6zDmhC2LAXGxCpKSgsvZiCkEpedXaLmwCWfD6+0rBE9WTCCJ
+ hYdpiEEM+8YeLH3g3FtaCD9s/fonm9o8arI1vHX4y7BqWv4PMteYkNMlqe1u2
+X-Received: by 2002:a5d:5f04:0:b0:236:cae9:2991 with SMTP id
+ cl4-20020a5d5f04000000b00236cae92991mr20910941wrb.120.1667668616021; 
+ Sat, 05 Nov 2022 10:16:56 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6ZdhLGKSFpmtRZTGXXoRCSbRJuw2gvBYmpL8RGs3Om9qQ+a29dFn3OhJ3Zm0N0GF88Cjxn1w==
+X-Received: by 2002:a5d:5f04:0:b0:236:cae9:2991 with SMTP id
+ cl4-20020a5d5f04000000b00236cae92991mr20910926wrb.120.1667668615705; 
+ Sat, 05 Nov 2022 10:16:55 -0700 (PDT)
 Received: from redhat.com ([2.52.152.137]) by smtp.gmail.com with ESMTPSA id
- q12-20020a5d61cc000000b002238ea5750csm3070341wrv.72.2022.11.05.10.16.51
+ r9-20020adfdc89000000b002258235bda3sm2613416wrj.61.2022.11.05.10.16.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 10:16:52 -0700 (PDT)
-Date: Sat, 5 Nov 2022 13:16:49 -0400
+ Sat, 05 Nov 2022 10:16:55 -0700 (PDT)
+Date: Sat, 5 Nov 2022 13:16:53 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
@@ -67,9 +67,8 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Chris Browy <cbrowy@avery-design.com>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
  Ben Widawsky <ben.widawsky@intel.com>
-Subject: [PULL v3 28/81] hw/cxl/cdat: CXL CDAT Data Object Exchange
- implementation
-Message-ID: <20221105171116.432921-29-mst@redhat.com>
+Subject: [PULL v3 29/81] hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
+Message-ID: <20221105171116.432921-30-mst@redhat.com>
 References: <20221105171116.432921-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -77,7 +76,7 @@ Content-Disposition: inline
 In-Reply-To: <20221105171116.432921-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -103,500 +102,331 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
 
-The Data Object Exchange implementation of CXL Coherent Device Attribute
-Table (CDAT). This implementation is referring to "Coherent Device
-Attribute Table Specification, Rev. 1.03, July. 2022" and "Compute
-Express Link Specification, Rev. 3.0, July. 2022"
+The CDAT can be specified in two ways. One is to add ",cdat=<filename>"
+in "-device cxl-type3"'s command option. The file is required to provide
+the whole CDAT table in binary mode. The other is to use the default
+that provides some 'reasonable' numbers based on type of memory and
+size.
 
-This patch adds core support that will be shared by both
-end-points and switch port emulation.
+The DOE capability supporting CDAT is added to hw/mem/cxl_type3.c with
+capability offset 0x190. The config read/write to this capability range
+can be generated in the OS to request the CDAT data.
 
 Signed-off-by: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
 Signed-off-by: Chris Browy <cbrowy@avery-design.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Message-Id: <20221014151045.24781-4-Jonathan.Cameron@huawei.com>
+
+Message-Id: <20221014151045.24781-5-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/cxl/cxl_cdat.h      | 165 ++++++++++++++++++++++++
- include/hw/cxl/cxl_component.h |   7 ++
- include/hw/cxl/cxl_device.h    |   3 +
- include/hw/cxl/cxl_pci.h       |   1 +
- hw/cxl/cxl-cdat.c              | 224 +++++++++++++++++++++++++++++++++
- hw/cxl/meson.build             |   1 +
- 6 files changed, 401 insertions(+)
- create mode 100644 include/hw/cxl/cxl_cdat.h
- create mode 100644 hw/cxl/cxl-cdat.c
+ hw/mem/cxl_type3.c | 255 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 255 insertions(+)
 
-diff --git a/include/hw/cxl/cxl_cdat.h b/include/hw/cxl/cxl_cdat.h
-new file mode 100644
-index 0000000000..52c232e912
---- /dev/null
-+++ b/include/hw/cxl/cxl_cdat.h
-@@ -0,0 +1,165 @@
-+/*
-+ * CXL CDAT Structure
-+ *
-+ * Copyright (C) 2021 Avery Design Systems, Inc.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef CXL_CDAT_H
-+#define CXL_CDAT_H
-+
-+#include "hw/cxl/cxl_pci.h"
-+
-+/*
-+ * Reference:
-+ *   Coherent Device Attribute Table (CDAT) Specification, Rev. 1.03, July. 2022
-+ *   Compute Express Link (CXL) Specification, Rev. 3.0, Aug. 2022
-+ */
-+/* Table Access DOE - CXL r3.0 8.1.11 */
-+#define CXL_DOE_TABLE_ACCESS      2
-+#define CXL_DOE_PROTOCOL_CDAT     ((CXL_DOE_TABLE_ACCESS << 16) | CXL_VENDOR_ID)
-+
-+/* Read Entry - CXL r3.0 8.1.11.1 */
-+#define CXL_DOE_TAB_TYPE_CDAT 0
-+#define CXL_DOE_TAB_ENT_MAX 0xFFFF
-+
-+/* Read Entry Request - CXL r3.0 8.1.11.1 Table 8-13 */
-+#define CXL_DOE_TAB_REQ 0
-+typedef struct CDATReq {
-+    DOEHeader header;
-+    uint8_t req_code;
-+    uint8_t table_type;
-+    uint16_t entry_handle;
-+} QEMU_PACKED CDATReq;
-+
-+/* Read Entry Response - CXL r3.0 8.1.11.1 Table 8-14 */
-+#define CXL_DOE_TAB_RSP 0
-+typedef struct CDATRsp {
-+    DOEHeader header;
-+    uint8_t rsp_code;
-+    uint8_t table_type;
-+    uint16_t entry_handle;
-+} QEMU_PACKED CDATRsp;
-+
-+/* CDAT Table Format - CDAT Table 1 */
-+#define CXL_CDAT_REV 2
-+typedef struct CDATTableHeader {
-+    uint32_t length;
-+    uint8_t revision;
-+    uint8_t checksum;
-+    uint8_t reserved[6];
-+    uint32_t sequence;
-+} QEMU_PACKED CDATTableHeader;
-+
-+/* CDAT Structure Types - CDAT Table 2 */
-+typedef enum {
-+    CDAT_TYPE_DSMAS = 0,
-+    CDAT_TYPE_DSLBIS = 1,
-+    CDAT_TYPE_DSMSCIS = 2,
-+    CDAT_TYPE_DSIS = 3,
-+    CDAT_TYPE_DSEMTS = 4,
-+    CDAT_TYPE_SSLBIS = 5,
-+} CDATType;
-+
-+typedef struct CDATSubHeader {
-+    uint8_t type;
-+    uint8_t reserved;
-+    uint16_t length;
-+} CDATSubHeader;
-+
-+/* Device Scoped Memory Affinity Structure - CDAT Table 3 */
-+typedef struct CDATDsmas {
-+    CDATSubHeader header;
-+    uint8_t DSMADhandle;
-+    uint8_t flags;
-+#define CDAT_DSMAS_FLAG_NV              (1 << 2)
-+#define CDAT_DSMAS_FLAG_SHAREABLE       (1 << 3)
-+#define CDAT_DSMAS_FLAG_HW_COHERENT     (1 << 4)
-+#define CDAT_DSMAS_FLAG_DYNAMIC_CAP     (1 << 5)
-+    uint16_t reserved;
-+    uint64_t DPA_base;
-+    uint64_t DPA_length;
-+} QEMU_PACKED CDATDsmas;
-+
-+/* Device Scoped Latency and Bandwidth Information Structure - CDAT Table 5 */
-+typedef struct CDATDslbis {
-+    CDATSubHeader header;
-+    uint8_t handle;
-+    /* Definitions of these fields refer directly to HMAT fields */
-+    uint8_t flags;
-+    uint8_t data_type;
-+    uint8_t reserved;
-+    uint64_t entry_base_unit;
-+    uint16_t entry[3];
-+    uint16_t reserved2;
-+} QEMU_PACKED CDATDslbis;
-+
-+/* Device Scoped Memory Side Cache Information Structure - CDAT Table 6 */
-+typedef struct CDATDsmscis {
-+    CDATSubHeader header;
-+    uint8_t DSMAS_handle;
-+    uint8_t reserved[3];
-+    uint64_t memory_side_cache_size;
-+    uint32_t cache_attributes;
-+} QEMU_PACKED CDATDsmscis;
-+
-+/* Device Scoped Initiator Structure - CDAT Table 7 */
-+typedef struct CDATDsis {
-+    CDATSubHeader header;
-+    uint8_t flags;
-+    uint8_t handle;
-+    uint16_t reserved;
-+} QEMU_PACKED CDATDsis;
-+
-+/* Device Scoped EFI Memory Type Structure - CDAT Table 8 */
-+typedef struct CDATDsemts {
-+    CDATSubHeader header;
-+    uint8_t DSMAS_handle;
-+    uint8_t EFI_memory_type_attr;
-+    uint16_t reserved;
-+    uint64_t DPA_offset;
-+    uint64_t DPA_length;
-+} QEMU_PACKED CDATDsemts;
-+
-+/* Switch Scoped Latency and Bandwidth Information Structure - CDAT Table 9 */
-+typedef struct CDATSslbisHeader {
-+    CDATSubHeader header;
-+    uint8_t data_type;
-+    uint8_t reserved[3];
-+    uint64_t entry_base_unit;
-+} QEMU_PACKED CDATSslbisHeader;
-+
-+/* Switch Scoped Latency and Bandwidth Entry - CDAT Table 10 */
-+typedef struct CDATSslbe {
-+    uint16_t port_x_id;
-+    uint16_t port_y_id;
-+    uint16_t latency_bandwidth;
-+    uint16_t reserved;
-+} QEMU_PACKED CDATSslbe;
-+
-+typedef struct CDATSslbis {
-+    CDATSslbisHeader sslbis_header;
-+    CDATSslbe sslbe[];
-+} QEMU_PACKED CDATSslbis;
-+
-+typedef struct CDATEntry {
-+    void *base;
-+    uint32_t length;
-+} CDATEntry;
-+
-+typedef struct CDATObject {
-+    CDATEntry *entry;
-+    int entry_len;
-+
-+    int (*build_cdat_table)(CDATSubHeader ***cdat_table, void *priv);
-+    void (*free_cdat_table)(CDATSubHeader **cdat_table, int num, void *priv);
-+    bool to_update;
-+    void *private;
-+    char *filename;
-+    uint8_t *buf;
-+    struct CDATSubHeader **built_buf;
-+    int built_buf_len;
-+} CDATObject;
-+#endif /* CXL_CDAT_H */
-diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
-index 94ec2f07d7..34075cfb72 100644
---- a/include/hw/cxl/cxl_component.h
-+++ b/include/hw/cxl/cxl_component.h
-@@ -19,6 +19,7 @@
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index 568c9d62f5..255590201a 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -12,9 +12,246 @@
  #include "qemu/range.h"
- #include "qemu/typedefs.h"
- #include "hw/register.h"
-+#include "qapi/error.h"
+ #include "qemu/rcu.h"
+ #include "sysemu/hostmem.h"
++#include "sysemu/numa.h"
+ #include "hw/cxl/cxl.h"
+ #include "hw/pci/msix.h"
  
- enum reg_type {
-     CXL2_DEVICE,
-@@ -184,6 +185,8 @@ typedef struct cxl_component {
-             struct PCIDevice *pdev;
-         };
-     };
++#define DWORD_BYTE 4
 +
-+    CDATObject cdat;
- } CXLComponentState;
- 
- void cxl_component_register_block_init(Object *obj,
-@@ -220,4 +223,8 @@ static inline hwaddr cxl_decode_ig(int ig)
- 
- CXLComponentState *cxl_get_hb_cstate(PCIHostState *hb);
- 
-+void cxl_doe_cdat_init(CXLComponentState *cxl_cstate, Error **errp);
-+void cxl_doe_cdat_release(CXLComponentState *cxl_cstate);
-+void cxl_doe_cdat_update(CXLComponentState *cxl_cstate, Error **errp);
++/* Default CDAT entries for a memory region */
++enum {
++    CT3_CDAT_DSMAS,
++    CT3_CDAT_DSLBIS0,
++    CT3_CDAT_DSLBIS1,
++    CT3_CDAT_DSLBIS2,
++    CT3_CDAT_DSLBIS3,
++    CT3_CDAT_DSEMTS,
++    CT3_CDAT_NUM_ENTRIES
++};
 +
- #endif
-diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-index e4d221cdb3..449b0edfe9 100644
---- a/include/hw/cxl/cxl_device.h
-+++ b/include/hw/cxl/cxl_device.h
-@@ -243,6 +243,9 @@ struct CXLType3Dev {
-     AddressSpace hostmem_as;
-     CXLComponentState cxl_cstate;
-     CXLDeviceState cxl_dstate;
++static int ct3_build_cdat_entries_for_mr(CDATSubHeader **cdat_table,
++                                         int dsmad_handle, MemoryRegion *mr)
++{
++    g_autofree CDATDsmas *dsmas = NULL;
++    g_autofree CDATDslbis *dslbis0 = NULL;
++    g_autofree CDATDslbis *dslbis1 = NULL;
++    g_autofree CDATDslbis *dslbis2 = NULL;
++    g_autofree CDATDslbis *dslbis3 = NULL;
++    g_autofree CDATDsemts *dsemts = NULL;
 +
-+    /* DOE */
-+    DOECap doe_cdat;
++    dsmas = g_malloc(sizeof(*dsmas));
++    if (!dsmas) {
++        return -ENOMEM;
++    }
++    *dsmas = (CDATDsmas) {
++        .header = {
++            .type = CDAT_TYPE_DSMAS,
++            .length = sizeof(*dsmas),
++        },
++        .DSMADhandle = dsmad_handle,
++        .flags = CDAT_DSMAS_FLAG_NV,
++        .DPA_base = 0,
++        .DPA_length = int128_get64(mr->size),
++    };
++
++    /* For now, no memory side cache, plausiblish numbers */
++    dslbis0 = g_malloc(sizeof(*dslbis0));
++    if (!dslbis0) {
++        return -ENOMEM;
++    }
++    *dslbis0 = (CDATDslbis) {
++        .header = {
++            .type = CDAT_TYPE_DSLBIS,
++            .length = sizeof(*dslbis0),
++        },
++        .handle = dsmad_handle,
++        .flags = HMAT_LB_MEM_MEMORY,
++        .data_type = HMAT_LB_DATA_READ_LATENCY,
++        .entry_base_unit = 10000, /* 10ns base */
++        .entry[0] = 15, /* 150ns */
++    };
++
++    dslbis1 = g_malloc(sizeof(*dslbis1));
++    if (!dslbis1) {
++        return -ENOMEM;
++    }
++    *dslbis1 = (CDATDslbis) {
++        .header = {
++            .type = CDAT_TYPE_DSLBIS,
++            .length = sizeof(*dslbis1),
++        },
++        .handle = dsmad_handle,
++        .flags = HMAT_LB_MEM_MEMORY,
++        .data_type = HMAT_LB_DATA_WRITE_LATENCY,
++        .entry_base_unit = 10000,
++        .entry[0] = 25, /* 250ns */
++    };
++
++    dslbis2 = g_malloc(sizeof(*dslbis2));
++    if (!dslbis2) {
++        return -ENOMEM;
++    }
++    *dslbis2 = (CDATDslbis) {
++        .header = {
++            .type = CDAT_TYPE_DSLBIS,
++            .length = sizeof(*dslbis2),
++        },
++        .handle = dsmad_handle,
++        .flags = HMAT_LB_MEM_MEMORY,
++        .data_type = HMAT_LB_DATA_READ_BANDWIDTH,
++        .entry_base_unit = 1000, /* GB/s */
++        .entry[0] = 16,
++    };
++
++    dslbis3 = g_malloc(sizeof(*dslbis3));
++    if (!dslbis3) {
++        return -ENOMEM;
++    }
++    *dslbis3 = (CDATDslbis) {
++        .header = {
++            .type = CDAT_TYPE_DSLBIS,
++            .length = sizeof(*dslbis3),
++        },
++        .handle = dsmad_handle,
++        .flags = HMAT_LB_MEM_MEMORY,
++        .data_type = HMAT_LB_DATA_WRITE_BANDWIDTH,
++        .entry_base_unit = 1000, /* GB/s */
++        .entry[0] = 16,
++    };
++
++    dsemts = g_malloc(sizeof(*dsemts));
++    if (!dsemts) {
++        return -ENOMEM;
++    }
++    *dsemts = (CDATDsemts) {
++        .header = {
++            .type = CDAT_TYPE_DSEMTS,
++            .length = sizeof(*dsemts),
++        },
++        .DSMAS_handle = dsmad_handle,
++        /* Reserved - the non volatile from DSMAS matters */
++        .EFI_memory_type_attr = 2,
++        .DPA_offset = 0,
++        .DPA_length = int128_get64(mr->size),
++    };
++
++    /* Header always at start of structure */
++    cdat_table[CT3_CDAT_DSMAS] = g_steal_pointer(&dsmas);
++    cdat_table[CT3_CDAT_DSLBIS0] = g_steal_pointer(&dslbis0);
++    cdat_table[CT3_CDAT_DSLBIS1] = g_steal_pointer(&dslbis1);
++    cdat_table[CT3_CDAT_DSLBIS2] = g_steal_pointer(&dslbis2);
++    cdat_table[CT3_CDAT_DSLBIS3] = g_steal_pointer(&dslbis3);
++    cdat_table[CT3_CDAT_DSEMTS] = g_steal_pointer(&dsemts);
++
++    return 0;
++}
++
++static int ct3_build_cdat_table(CDATSubHeader ***cdat_table, void *priv)
++{
++    g_autofree CDATSubHeader **table = NULL;
++    MemoryRegion *nonvolatile_mr;
++    CXLType3Dev *ct3d = priv;
++    int dsmad_handle = 0;
++    int rc;
++
++    if (!ct3d->hostmem) {
++        return 0;
++    }
++
++    nonvolatile_mr = host_memory_backend_get_memory(ct3d->hostmem);
++    if (!nonvolatile_mr) {
++        return -EINVAL;
++    }
++
++    table = g_malloc0(CT3_CDAT_NUM_ENTRIES * sizeof(*table));
++    if (!table) {
++        return -ENOMEM;
++    }
++
++    rc = ct3_build_cdat_entries_for_mr(table, dsmad_handle++, nonvolatile_mr);
++    if (rc < 0) {
++        return rc;
++    }
++
++    *cdat_table = g_steal_pointer(&table);
++
++    return CT3_CDAT_NUM_ENTRIES;
++}
++
++static void ct3_free_cdat_table(CDATSubHeader **cdat_table, int num, void *priv)
++{
++    int i;
++
++    for (i = 0; i < num; i++) {
++        g_free(cdat_table[i]);
++    }
++    g_free(cdat_table);
++}
++
++static bool cxl_doe_cdat_rsp(DOECap *doe_cap)
++{
++    CDATObject *cdat = &CXL_TYPE3(doe_cap->pdev)->cxl_cstate.cdat;
++    uint16_t ent;
++    void *base;
++    uint32_t len;
++    CDATReq *req = pcie_doe_get_write_mbox_ptr(doe_cap);
++    CDATRsp rsp;
++
++    assert(cdat->entry_len);
++
++    /* Discard if request length mismatched */
++    if (pcie_doe_get_obj_len(req) <
++        DIV_ROUND_UP(sizeof(CDATReq), DWORD_BYTE)) {
++        return false;
++    }
++
++    ent = req->entry_handle;
++    base = cdat->entry[ent].base;
++    len = cdat->entry[ent].length;
++
++    rsp = (CDATRsp) {
++        .header = {
++            .vendor_id = CXL_VENDOR_ID,
++            .data_obj_type = CXL_DOE_TABLE_ACCESS,
++            .reserved = 0x0,
++            .length = DIV_ROUND_UP((sizeof(rsp) + len), DWORD_BYTE),
++        },
++        .rsp_code = CXL_DOE_TAB_RSP,
++        .table_type = CXL_DOE_TAB_TYPE_CDAT,
++        .entry_handle = (ent < cdat->entry_len - 1) ?
++                        ent + 1 : CXL_DOE_TAB_ENT_MAX,
++    };
++
++    memcpy(doe_cap->read_mbox, &rsp, sizeof(rsp));
++    memcpy(doe_cap->read_mbox + DIV_ROUND_UP(sizeof(rsp), DWORD_BYTE),
++           base, len);
++
++    doe_cap->read_mbox_len += rsp.header.length;
++
++    return true;
++}
++
++static uint32_t ct3d_config_read(PCIDevice *pci_dev, uint32_t addr, int size)
++{
++    CXLType3Dev *ct3d = CXL_TYPE3(pci_dev);
++    uint32_t val;
++
++    if (pcie_doe_read_config(&ct3d->doe_cdat, addr, size, &val)) {
++        return val;
++    }
++
++    return pci_default_read_config(pci_dev, addr, size);
++}
++
++static void ct3d_config_write(PCIDevice *pci_dev, uint32_t addr, uint32_t val,
++                              int size)
++{
++    CXLType3Dev *ct3d = CXL_TYPE3(pci_dev);
++
++    pcie_doe_write_config(&ct3d->doe_cdat, addr, val, size);
++    pci_default_write_config(pci_dev, addr, val, size);
++}
++
+ /*
+  * Null value of all Fs suggested by IEEE RA guidelines for use of
+  * EU, OUI and CID
+@@ -140,6 +377,11 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
+     return true;
+ }
+ 
++static DOEProtocol doe_cdat_prot[] = {
++    { CXL_VENDOR_ID, CXL_DOE_TABLE_ACCESS, cxl_doe_cdat_rsp },
++    { }
++};
++
+ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+ {
+     CXLType3Dev *ct3d = CXL_TYPE3(pci_dev);
+@@ -189,6 +431,14 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+     for (i = 0; i < msix_num; i++) {
+         msix_vector_use(pci_dev, i);
+     }
++
++    /* DOE Initailization */
++    pcie_doe_init(pci_dev, &ct3d->doe_cdat, 0x190, doe_cdat_prot, true, 0);
++
++    cxl_cstate->cdat.build_cdat_table = ct3_build_cdat_table;
++    cxl_cstate->cdat.free_cdat_table = ct3_free_cdat_table;
++    cxl_cstate->cdat.private = ct3d;
++    cxl_doe_cdat_init(cxl_cstate, errp);
+ }
+ 
+ static void ct3_exit(PCIDevice *pci_dev)
+@@ -197,6 +447,7 @@ static void ct3_exit(PCIDevice *pci_dev)
+     CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
+     ComponentRegisters *regs = &cxl_cstate->crb;
+ 
++    cxl_doe_cdat_release(cxl_cstate);
+     g_free(regs->special_ops);
+     address_space_destroy(&ct3d->hostmem_as);
+ }
+@@ -296,6 +547,7 @@ static Property ct3_props[] = {
+     DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
+                      HostMemoryBackend *),
+     DEFINE_PROP_UINT64("sn", CXLType3Dev, sn, UI64_NULL),
++    DEFINE_PROP_STRING("cdat", CXLType3Dev, cxl_cstate.cdat.filename),
+     DEFINE_PROP_END_OF_LIST(),
  };
  
- #define TYPE_CXL_TYPE3 "cxl-type3"
-diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
-index 01cf002096..3cb79eca1e 100644
---- a/include/hw/cxl/cxl_pci.h
-+++ b/include/hw/cxl/cxl_pci.h
-@@ -13,6 +13,7 @@
- #include "qemu/compiler.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pcie.h"
-+#include "hw/cxl/cxl_cdat.h"
+@@ -361,6 +613,9 @@ static void ct3_class_init(ObjectClass *oc, void *data)
+     pc->device_id = 0xd93; /* LVF for now */
+     pc->revision = 1;
  
- #define CXL_VENDOR_ID 0x1e98
- 
-diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
-new file mode 100644
-index 0000000000..3653aa56f0
---- /dev/null
-+++ b/hw/cxl/cxl-cdat.c
-@@ -0,0 +1,224 @@
-+/*
-+ * CXL CDAT Structure
-+ *
-+ * Copyright (C) 2021 Avery Design Systems, Inc.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
++    pc->config_write = ct3d_config_write;
++    pc->config_read = ct3d_config_read;
 +
-+#include "qemu/osdep.h"
-+#include "hw/pci/pci.h"
-+#include "hw/cxl/cxl.h"
-+#include "qapi/error.h"
-+#include "qemu/error-report.h"
-+
-+static void cdat_len_check(CDATSubHeader *hdr, Error **errp)
-+{
-+    assert(hdr->length);
-+    assert(hdr->reserved == 0);
-+
-+    switch (hdr->type) {
-+    case CDAT_TYPE_DSMAS:
-+        assert(hdr->length == sizeof(CDATDsmas));
-+        break;
-+    case CDAT_TYPE_DSLBIS:
-+        assert(hdr->length == sizeof(CDATDslbis));
-+        break;
-+    case CDAT_TYPE_DSMSCIS:
-+        assert(hdr->length == sizeof(CDATDsmscis));
-+        break;
-+    case CDAT_TYPE_DSIS:
-+        assert(hdr->length == sizeof(CDATDsis));
-+        break;
-+    case CDAT_TYPE_DSEMTS:
-+        assert(hdr->length == sizeof(CDATDsemts));
-+        break;
-+    case CDAT_TYPE_SSLBIS:
-+        assert(hdr->length >= sizeof(CDATSslbisHeader));
-+        assert((hdr->length - sizeof(CDATSslbisHeader)) %
-+               sizeof(CDATSslbe) == 0);
-+        break;
-+    default:
-+        error_setg(errp, "Type %d is reserved", hdr->type);
-+    }
-+}
-+
-+static void ct3_build_cdat(CDATObject *cdat, Error **errp)
-+{
-+    g_autofree CDATTableHeader *cdat_header = NULL;
-+    g_autofree CDATEntry *cdat_st = NULL;
-+    uint8_t sum = 0;
-+    int ent, i;
-+
-+    /* Use default table if fopen == NULL */
-+    assert(cdat->build_cdat_table);
-+
-+    cdat_header = g_malloc0(sizeof(*cdat_header));
-+    if (!cdat_header) {
-+        error_setg(errp, "Failed to allocate CDAT header");
-+        return;
-+    }
-+
-+    cdat->built_buf_len = cdat->build_cdat_table(&cdat->built_buf, cdat->private);
-+
-+    if (!cdat->built_buf_len) {
-+        /* Build later as not all data available yet */
-+        cdat->to_update = true;
-+        return;
-+    }
-+    cdat->to_update = false;
-+
-+    cdat_st = g_malloc0(sizeof(*cdat_st) * (cdat->built_buf_len + 1));
-+    if (!cdat_st) {
-+        error_setg(errp, "Failed to allocate CDAT entry array");
-+        return;
-+    }
-+
-+    /* Entry 0 for CDAT header, starts with Entry 1 */
-+    for (ent = 1; ent < cdat->built_buf_len + 1; ent++) {
-+        CDATSubHeader *hdr = cdat->built_buf[ent - 1];
-+        uint8_t *buf = (uint8_t *)cdat->built_buf[ent - 1];
-+
-+        cdat_st[ent].base = hdr;
-+        cdat_st[ent].length = hdr->length;
-+
-+        cdat_header->length += hdr->length;
-+        for (i = 0; i < hdr->length; i++) {
-+            sum += buf[i];
-+        }
-+    }
-+
-+    /* CDAT header */
-+    cdat_header->revision = CXL_CDAT_REV;
-+    /* For now, no runtime updates */
-+    cdat_header->sequence = 0;
-+    cdat_header->length += sizeof(CDATTableHeader);
-+    sum += cdat_header->revision + cdat_header->sequence +
-+        cdat_header->length;
-+    /* Sum of all bytes including checksum must be 0 */
-+    cdat_header->checksum = ~sum + 1;
-+
-+    cdat_st[0].base = g_steal_pointer(&cdat_header);
-+    cdat_st[0].length = sizeof(*cdat_header);
-+    cdat->entry_len = 1 + cdat->built_buf_len;
-+    cdat->entry = g_steal_pointer(&cdat_st);
-+}
-+
-+static void ct3_load_cdat(CDATObject *cdat, Error **errp)
-+{
-+    g_autofree CDATEntry *cdat_st = NULL;
-+    uint8_t sum = 0;
-+    int num_ent;
-+    int i = 0, ent = 1, file_size = 0;
-+    CDATSubHeader *hdr;
-+    FILE *fp = NULL;
-+
-+    /* Read CDAT file and create its cache */
-+    fp = fopen(cdat->filename, "r");
-+    if (!fp) {
-+        error_setg(errp, "CDAT: Unable to open file");
-+        return;
-+    }
-+
-+    fseek(fp, 0, SEEK_END);
-+    file_size = ftell(fp);
-+    fseek(fp, 0, SEEK_SET);
-+    cdat->buf = g_malloc0(file_size);
-+
-+    if (fread(cdat->buf, file_size, 1, fp) == 0) {
-+        error_setg(errp, "CDAT: File read failed");
-+        return;
-+    }
-+
-+    fclose(fp);
-+
-+    if (file_size < sizeof(CDATTableHeader)) {
-+        error_setg(errp, "CDAT: File too short");
-+        return;
-+    }
-+    i = sizeof(CDATTableHeader);
-+    num_ent = 1;
-+    while (i < file_size) {
-+        hdr = (CDATSubHeader *)(cdat->buf + i);
-+        cdat_len_check(hdr, errp);
-+        i += hdr->length;
-+        num_ent++;
-+    }
-+    if (i != file_size) {
-+        error_setg(errp, "CDAT: File length missmatch");
-+        return;
-+    }
-+
-+    cdat_st = g_malloc0(sizeof(*cdat_st) * num_ent);
-+    if (!cdat_st) {
-+        error_setg(errp, "CDAT: Failed to allocate entry array");
-+        return;
-+    }
-+
-+    /* Set CDAT header, Entry = 0 */
-+    cdat_st[0].base = cdat->buf;
-+    cdat_st[0].length = sizeof(CDATTableHeader);
-+    i = 0;
-+
-+    while (i < cdat_st[0].length) {
-+        sum += cdat->buf[i++];
-+    }
-+
-+    /* Read CDAT structures */
-+    while (i < file_size) {
-+        hdr = (CDATSubHeader *)(cdat->buf + i);
-+        cdat_len_check(hdr, errp);
-+
-+        cdat_st[ent].base = hdr;
-+        cdat_st[ent].length = hdr->length;
-+
-+        while (cdat->buf + i <
-+               (uint8_t *)cdat_st[ent].base + cdat_st[ent].length) {
-+            assert(i < file_size);
-+            sum += cdat->buf[i++];
-+        }
-+
-+        ent++;
-+    }
-+
-+    if (sum != 0) {
-+        warn_report("CDAT: Found checksum mismatch in %s", cdat->filename);
-+    }
-+    cdat->entry_len = num_ent;
-+    cdat->entry = g_steal_pointer(&cdat_st);
-+}
-+
-+void cxl_doe_cdat_init(CXLComponentState *cxl_cstate, Error **errp)
-+{
-+    CDATObject *cdat = &cxl_cstate->cdat;
-+
-+    if (cdat->filename) {
-+        ct3_load_cdat(cdat, errp);
-+    } else {
-+        ct3_build_cdat(cdat, errp);
-+    }
-+}
-+
-+void cxl_doe_cdat_update(CXLComponentState *cxl_cstate, Error **errp)
-+{
-+    CDATObject *cdat = &cxl_cstate->cdat;
-+
-+    if (cdat->to_update) {
-+        ct3_build_cdat(cdat, errp);
-+    }
-+}
-+
-+void cxl_doe_cdat_release(CXLComponentState *cxl_cstate)
-+{
-+    CDATObject *cdat = &cxl_cstate->cdat;
-+
-+    free(cdat->entry);
-+    if (cdat->built_buf) {
-+        cdat->free_cdat_table(cdat->built_buf, cdat->built_buf_len,
-+                              cdat->private);
-+    }
-+    if (cdat->buf) {
-+        free(cdat->buf);
-+    }
-+}
-diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
-index f117b99949..cfa95ffd40 100644
---- a/hw/cxl/meson.build
-+++ b/hw/cxl/meson.build
-@@ -4,6 +4,7 @@ softmmu_ss.add(when: 'CONFIG_CXL',
-                    'cxl-device-utils.c',
-                    'cxl-mailbox-utils.c',
-                    'cxl-host.c',
-+                   'cxl-cdat.c',
-                ),
-                if_false: files(
-                    'cxl-host-stubs.c',
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+     dc->desc = "CXL PMEM Device (Type 3)";
+     dc->reset = ct3d_reset;
 -- 
 MST
 
