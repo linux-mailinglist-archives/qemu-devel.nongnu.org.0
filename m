@@ -2,63 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E37F61DDEB
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 20:54:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C9461DE92
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 22:22:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orPDc-0008EF-BK; Sat, 05 Nov 2022 15:52:40 -0400
+	id 1orQag-0001Ro-7Z; Sat, 05 Nov 2022 17:20:34 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1orPDZ-0008Bg-Ir; Sat, 05 Nov 2022 15:52:37 -0400
-Received: from mout.kundenserver.de ([212.227.17.10])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1orPDX-0003aD-Tt; Sat, 05 Nov 2022 15:52:37 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mrggc-1pKuYf323A-00niqp; Sat, 05
- Nov 2022 20:52:33 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 7/7] tests/unit: simpler variable sequence for test-io-channel
-Date: Sat,  5 Nov 2022 20:52:27 +0100
-Message-Id: <20221105195227.354769-8-laurent@vivier.eu>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221105195227.354769-1-laurent@vivier.eu>
-References: <20221105195227.354769-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1orQad-0001Re-AP
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 17:20:31 -0400
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1orQaa-0007NK-JL
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 17:20:30 -0400
+Received: by mail-io1-xd2b.google.com with SMTP id h206so6233966iof.10
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 14:20:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=mf+QvkQJDbiiiOLZTAlFAVgDSNgIvJp/dpYmJSCM6Xk=;
+ b=x4AdXAthfXVe39pdEJ6vi+c1mZQi0/yYuv4aG6PR5oCDq7LRwATNaQJlwFX65H/h5u
+ /Rn2g5hvDiemnI1fYOinCVnXRM9CQw4WSiTmyzTcabhoXI3VdbyBLfIoQl6hcVKS7D42
+ d+RuqfmBo3UnaoKm4MFVKQ/ZeKR2dBhE6BcaN96hqVB8p6IYznNLiFnsYrZSzxbM4xRr
+ S1ypBvfIaXAw8IGLt6OoKry4DVlNRz8UR4cGOh8SamekshP1V3vVdhfZMhRMumWbtqOg
+ 443edW6cSoGFKNJHjy7CXSctLDFWKIltswWzeGuxYrTAE6jPY37GkmwZKngOJ0ttYr+k
+ 1/fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mf+QvkQJDbiiiOLZTAlFAVgDSNgIvJp/dpYmJSCM6Xk=;
+ b=MeCTQeEWRUlv5RqKQW9nBotycRoyy93u92MjQZ0EHQe7wedTohq25g8BN85q7wEbfp
+ LschqEGMXqy2SMjPunrEPokCITTSs9bLer3exMODGAMMZ+de0L2a7mOSm4hy7p28nMW2
+ WRu1IEfwieSqXqiRZ+VkkQZ5jHcenDKIaDbtOzxZd3vsmWdKa0bK6+kF1MnHXky/5Ge1
+ vAc88CBxqcovXK4ktfTIk8e6roFkD7NI7rgopWlthJ1MRjOgcyoq7OVfjD4ZuILhEG2u
+ dXIbUA9iAXLrD5rY/zDWNrTgFe/gHl8OvYj00Wfqnm+blRqflWEuP8GyFteyR4B3alJM
+ Lvsw==
+X-Gm-Message-State: ACrzQf1SnVzasF1/vPHvhkJYM9MPjqAhBynoQujrB0LtKsmjyqF6H/b0
+ QM7j7fVG3EzdvXDlymsZCkDoow==
+X-Google-Smtp-Source: AMsMyM6BaY95voT4vaoH9n8JvesHla3KWlWko+01xfgg7GrKklOOe1L3dHTWMrmsiDq5TGBO3TxrZQ==
+X-Received: by 2002:a02:a682:0:b0:34c:14fc:b490 with SMTP id
+ j2-20020a02a682000000b0034c14fcb490mr25933763jam.196.1667683226139; 
+ Sat, 05 Nov 2022 14:20:26 -0700 (PDT)
+Received: from [192.168.229.227] ([172.58.160.8])
+ by smtp.gmail.com with ESMTPSA id
+ b3-20020a92c143000000b002f165ceb09bsm1201718ilh.64.2022.11.05.14.20.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 05 Nov 2022 14:20:25 -0700 (PDT)
+Message-ID: <8c52dad5-8754-ec38-fd3f-cc4bdc5a14f7@linaro.org>
+Date: Sun, 6 Nov 2022 08:20:17 +1100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:idn9M6w809Wg0kzBDRVKIgdKyAQZl8yRNnohGPOT3bZ8wB2D+Tj
- 59UHgvUOKM1J99pNc7Jft31BH0W584DHj4A1OhIHktv/9ZichgK3/NlVlE18d/LihG1iEHu
- wnI47fZTP/vSf1iOByTurVGxfqLz3kK/KMES15S3tiykv8/annIApX/iwqxSgfabytFqJYL
- bGcBlbOq1S75nMfOZEAZA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pdIXSVdsuio=:HfKm1WmNnl4jFUYsHPF+1w
- LpS6eNISJg7qhj8o8W55RTiSt3kVaUg4025Ii63CpJtdr/IZhYCEPfAQeNm0iBBJcIweOK/4C
- J9f6Hoknr24yl668j1RJHQ9FpqSBLDyv8ckHQ2ToCiaeyuw8NGc4Z/JdokKkZGu+PBYKkWdzs
- t7s8VA1C2Eksy1GCc7b10eW0a8JK/8E8cQVPZe+CxAYtkqqTbWyhGmxfHgX74s52iex8SCmqE
- J5ivpV1StuASh9HmyVH/pm7YOOBnLQGe+Keo53oGoTCZMixyaUGYqUAeloLv65t09yyHmMk6i
- OV04LRrVYhaljGgFV2Shg/7kv0WXyIwmZTsRUYDtcckcPFvmgMik4jQ1okD1eu5L2K/zTKTCW
- 4E4ZTxCXHXAWKu6bpfZnYmUt61BAl7aquxpwpoENiVUoeOj3XYxueSuNfiUdLJMRbVAINBLGn
- 3q5lLLHxpDUYpfK6CM/lOQvfrnan2f8q6cs2p/gsn5qS1trfZsFu6Ve78C6A2XM6NLx8JrHht
- ulavEWCTmJS7sg3KxgjfsWmgLXn8ommlJE81MVZbeHnL/NXY+RLFb3mFYT0yjaLY92XoywAiO
- oRV78bGv2SO8gNxsDQmI4jKXmy/7NvS22Z10gT+vqE6Yi07HOSwdXQlKgBevTv5i+uhT+iiHn
- OKp7aNmEZta222iLwbN/Yhm+Bl2uZKkk22LLAWoH/puGOu8zE+RKSh57UQnFMuGNMShxruZbw
- PvlMxiuv1pRq7fI1dWcwIbiO4mfxxLpNJoxxRTE1S+dNe+PGfbeDw2oQpoAlW9/4dwsBoqtMK
- i80+zr0
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PULL v3 0/7] loongarch-to-apply queue
+To: Stefan Hajnoczi <stefanha@gmail.com>, Song Gao <gaosong@loongson.cn>
+Cc: qemu-devel@nongnu.org
+References: <20221105032736.3789274-1-gaosong@loongson.cn>
+ <CAJSP0QXYByLhFQs1ifgDN1YV2rHQGRCUdyQ58BjHhPmnZ7J10A@mail.gmail.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAJSP0QXYByLhFQs1ifgDN1YV2rHQGRCUdyQ58BjHhPmnZ7J10A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,50 +93,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Alex Bennée <alex.bennee@linaro.org>
+On 11/5/22 23:39, Stefan Hajnoczi wrote:
+> On Fri, 4 Nov 2022 at 23:28, Song Gao <gaosong@loongson.cn> wrote:
+>>
+>> The following changes since commit ece5f8374d0416a339f0c0a9399faa2c42d4ad6f:
+>>
+>>    Merge tag 'linux-user-for-7.2-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-11-03 10:55:05 -0400)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://gitlab.com/gaosong/qemu.git tags/pull-loongarch-20221105
+>>
+>> for you to fetch changes up to 6a284614d485f36af6467ce0925df0042aca7a1f:
+>>
+>>    target/loongarch: Fix raise_mmu_exception() set wrong exception_index (2022-11-05 10:52:19 +0800)
+>>
+>> ----------------------------------------------------------------
+>> pull-loongarch-20221105
+>>
+>> V3:
+>> - According to Richard's latest comments, drop patch 8, 9.
+> 
+> v2 has already been merged.
+> 
+> I was going to revert the commits manually but couldn't find Richard's
+> comments on qemu-devel.
+> 
+> Please send a new pull request with more information about why these
+> commits should be reverted. You can use git-revert(1) and state the
+> reasoning in the commit description.
 
-This avoids some compilers complaining about a potentially
-un-initialised [src|dst]argv. In retrospect using GString was overkill
-for what we are constructing.
+Don't revert, just send a follow-up patch.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20221103102329.2581508-1-alex.bennee@linaro.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- tests/unit/test-io-channel-command.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
-index 43e29c8cfbf4..19f72eab961d 100644
---- a/tests/unit/test-io-channel-command.c
-+++ b/tests/unit/test-io-channel-command.c
-@@ -33,19 +33,13 @@ static void test_io_channel_command_fifo(bool async)
- {
-     g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
-     g_autofree gchar *fifo = g_strdup_printf("%s/%s", tmpdir, TEST_FIFO);
--    g_autoptr(GString) srcargs = g_string_new(socat);
--    g_autoptr(GString) dstargs = g_string_new(socat);
--    g_auto(GStrv) srcargv;
--    g_auto(GStrv) dstargv;
-+    g_autofree gchar *srcargs = g_strdup_printf("%s - PIPE:%s,wronly", socat, fifo);
-+    g_autofree gchar *dstargs = g_strdup_printf("%s PIPE:%s,rdonly -", socat, fifo);
-+    g_auto(GStrv) srcargv = g_strsplit(srcargs, " ", -1);
-+    g_auto(GStrv) dstargv = g_strsplit(dstargs, " ", -1);
-     QIOChannel *src, *dst;
-     QIOChannelTest *test;
- 
--    g_string_append_printf(srcargs, " - PIPE:%s,wronly", fifo);
--    g_string_append_printf(dstargs, " PIPE:%s,rdonly -", fifo);
--
--    srcargv = g_strsplit(srcargs->str, " ", -1);
--    dstargv = g_strsplit(dstargs->str, " ", -1);
--
-     src = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) srcargv,
-                                                     O_WRONLY,
-                                                     &error_abort));
--- 
-2.37.3
-
+r~
 
