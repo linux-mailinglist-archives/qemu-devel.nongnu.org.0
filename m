@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAAC661A776
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 05:17:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C272161D77C
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 06:32:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orAbf-0007qu-BR; Sat, 05 Nov 2022 00:16:31 -0400
+	id 1orBlc-0004XI-DG; Sat, 05 Nov 2022 01:30:52 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1orAba-0007nY-4P
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 00:16:28 -0400
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1orBlH-0004OI-4m
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 01:30:31 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1orAbY-0003NM-MD
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 00:16:25 -0400
-Received: by mail-io1-xd2b.google.com with SMTP id y6so5260770iof.9
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 21:16:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FcZNQ/Wa0J9NnQxNlXzQSiFflIC/6iS2smYeOq4K9p0=;
- b=XgMRYaQShY85CFTgEsh832ufrit0e/3JqnDsb7aDts30fn/U3XGS9XNMw2kfpeIJXc
- +Wb1oznIgVV9PZO78QQ8CySHxxF7uPxxuHaxpfWVqPHW2BuHBRqAYQ5qjaY9z+3smlQq
- XFHvDpGbGSfB8MAI2O0yfmh+AFZWzc/2uJ0IsvEuvT78nHL026Xt2dn076jc/7XBb4xv
- BalKK4XRKRRqqCzlELvjCNBzD253JgiDJ9WK+Cdvq3YbFKJ2OS9aKB0nXxNTAeKFogLk
- 2pwA8jF9ptPRxpEf59R0LPF4fzeOtyCH1Ccs6aAcSnxrX25LKc7XE+gdFEXsSBFiCfEI
- nd7g==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1orBlE-0003s0-Ek
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 01:30:30 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ m6-20020a17090a5a4600b00212f8dffec9so6221006pji.0
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 22:30:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=k5Uy0OiWF2UZFBGlBPPqg4zlg2QkR935dX5r1TNmVT8=;
+ b=U8WVuyWfLD02+mxMXqZkRoY7YQM6L1G3j3OL4LsTxVRmm1FMf926LKZcTCkfjk/FVf
+ wfjoUbaUPGsusfyW2syhU0R15umuJrUG8x5Ss6kGD/Conh8rRo6ec5CLr0X2w8HSQ4xr
+ 3Q9k+J7MMIa/qOcuWoGxM1ggIkXlPBucW3PHBafdvrsqulmprKaEVKNJuO2iIOiRGUF8
+ eCsNODQxKCs2uijlBCCe1xFfjEOF6fN/ncRRQn3aesmBptQcgMLvSKtIPXCK5XWl4CBb
+ B6MFW+RRvF+pFrFwmHUkgWXAbvE8Zl0b34rGBDF7qagUt7p9X+6l6+I0E/ekIpQgk/Eg
+ BCkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FcZNQ/Wa0J9NnQxNlXzQSiFflIC/6iS2smYeOq4K9p0=;
- b=tbsr0dVhQmhaun4Mmzf8FeFcNbhILXUuWtahR+oYhEf1TIY2OzGuSrwn9746wO3EPh
- Os7ZjnJmMhL7bTst+cqMOYm2x2Vy94jjo6ruluFUK6orSVKBmPr4z0AuayzsYgLWQE9E
- hy9NNQJ7O5X0QgzDTgjVMbotL9jZUIiH0me1UZOIYj7pgStdIUycLnRBsKr57/DGz27H
- elIiPEP67SFsb0pZdmDYh7KR3t+CsKSqH+GAAXMGCijwBwFNHZsxS7KKQsU2bLTWrbvw
- 6GRWX1R3x8UgWV6cc+CqLuzA78m5+7my0a7sQaBArBKoVkRsTfccJs1YMYssILPv4SOa
- KuMw==
-X-Gm-Message-State: ACrzQf1PYekdytrzsYEv6mgBpb2xdhvOz7SOabGNX0xGBQ6MhrZXgL5h
- KqUkfzaDUUnf0hrxVbuEp1CHahqa8IyPEw==
-X-Google-Smtp-Source: AMsMyM7eacyOzG2lmnCBHuA5s3g0oBVtxkMIbCMwBGmB27La4QRDinPjNJYYzot5dFXIl6W+V4LkzA==
-X-Received: by 2002:a02:a48e:0:b0:375:49d0:a9f9 with SMTP id
- d14-20020a02a48e000000b0037549d0a9f9mr21659901jam.202.1667621783482; 
- Fri, 04 Nov 2022 21:16:23 -0700 (PDT)
-Received: from [192.168.229.227] ([172.58.139.114])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=k5Uy0OiWF2UZFBGlBPPqg4zlg2QkR935dX5r1TNmVT8=;
+ b=njsttuMLpDaS3geA4sa6EceVbKjY0pIgYhcuvT34ayZIzVsHRvWbx4LDFp/a/kqHer
+ DqLqgmx6jwyuC5VhyRMki2E+3/jAeJr+2W0E6ZImgq2Pr394Hvktrs4nukmqHfHMcDwY
+ 0hgEdpaYHGCiHGfbK+1lP8Hdx/wVE8p+8TeVZriijWOedgp1Vx2BmKXMROq2FMDEyntl
+ KsROXlSv/0UbnjpC+IuzVP2YNI6zEKKpqsZ7EUf5uo4mLbawHaMtgVdPNx3zC21BmdN/
+ iTlPxRjCiKWuH0izCOvLe8V/CckZ2kqKnzCSF6i25EIdUE+c4j0S/jK3pcnWFEkIZjeh
+ wCmA==
+X-Gm-Message-State: ACrzQf1vZzGKedChoAF8aLNZjt4RQsNUS9K61rvVNUeaUhoI7HFFxyq4
+ izjNYiDfgNs9b6byRRceK2rVLRwuMkBqXqv9
+X-Google-Smtp-Source: AMsMyM5yQjXQt3Gb1rBk/NojbqaEeGxwnNC1bUgDsc8iP10/pwH42GaO47Xu3xlSAAXhnsDVAzcpuw==
+X-Received: by 2002:a17:90a:2d8b:b0:213:b314:4652 with SMTP id
+ p11-20020a17090a2d8b00b00213b3144652mr38252501pjd.96.1667626225426; 
+ Fri, 04 Nov 2022 22:30:25 -0700 (PDT)
+Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- s13-20020a0566022bcd00b006bbea9f45cesm387260iov.38.2022.11.04.21.16.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Nov 2022 21:16:23 -0700 (PDT)
-Message-ID: <c1cd36a8-191c-38d5-547f-c978ca0ea967@linaro.org>
-Date: Sat, 5 Nov 2022 15:16:13 +1100
+ y15-20020a17090322cf00b00176d347e9a7sm678392plg.233.2022.11.04.22.30.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Nov 2022 22:30:24 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Yan Vugenfirer <yan@daynix.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH] tests/qtest/libqos/e1000e: Use IVAR shift definitions
+Date: Sat,  5 Nov 2022 14:30:10 +0900
+Message-Id: <20221105053010.38037-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v4 2/2] target/loongarch: Fix emulation of float-point
- disable exception
-Content-Language: en-US
-To: Rui Wang <wangrui@loongson.cn>
-Cc: Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>, 
- qemu-devel@nongnu.org, hev <qemu@hev.cc>
-References: <20221105021022.558242-1-wangrui@loongson.cn>
- <20221105021022.558242-3-wangrui@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221105021022.558242-3-wangrui@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,21 +91,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/5/22 13:10, Rui Wang wrote:
-> We need to emulate it to generate a floating point disable exception
-> when CSR.EUEN.FPE is zero.
-> 
-> Signed-off-by: Rui Wang<wangrui@loongson.cn>
-> ---
->   target/loongarch/cpu.c                        |  2 ++
->   target/loongarch/cpu.h                        |  2 ++
->   .../loongarch/insn_trans/trans_farith.c.inc   | 30 ++++++++++++++++
->   target/loongarch/insn_trans/trans_fcmp.c.inc  | 11 ++++--
->   .../loongarch/insn_trans/trans_fmemory.c.inc  | 34 +++++++++++++++----
->   target/loongarch/insn_trans/trans_fmov.c.inc  | 29 ++++++++++++++--
->   6 files changed, 97 insertions(+), 11 deletions(-)
+There were still some constants defined in e1000_regs.h.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+ tests/qtest/libqos/e1000e.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-r~
+diff --git a/tests/qtest/libqos/e1000e.c b/tests/qtest/libqos/e1000e.c
+index 178d61d04f..21683dd0fb 100644
+--- a/tests/qtest/libqos/e1000e.c
++++ b/tests/qtest/libqos/e1000e.c
+@@ -30,9 +30,9 @@
+ #include "e1000e.h"
+ 
+ #define E1000E_IVAR_TEST_CFG \
+-    (E1000E_RX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID             | \
+-     ((E1000E_TX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << 8)    | \
+-     ((E1000E_OTHER_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << 16) | \
++    (((E1000E_RX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_RXQ0_SHIFT) | \
++     ((E1000E_TX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_TXQ0_SHIFT) | \
++     ((E1000E_OTHER_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_OTHER_SHIFT) | \
+      E1000_IVAR_TX_INT_EVERY_WB)
+ 
+ #define E1000E_RING_LEN (0x1000)
+-- 
+2.38.1
+
 
