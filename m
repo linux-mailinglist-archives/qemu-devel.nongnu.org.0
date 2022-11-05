@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7AA161DC4B
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:08:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4014C61DC4C
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:09:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMea-0001z1-2E; Sat, 05 Nov 2022 13:08:20 -0400
+	id 1orMfE-0002U8-GW; Sat, 05 Nov 2022 13:09:00 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMeY-0001yj-Kq
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:08:18 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMf7-0002Sc-UN
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:08:53 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMeX-0006J3-4K
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:08:18 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- t25-20020a1c7719000000b003cfa34ea516so458495wmi.1
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:08:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1orMf4-0006LP-V0
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:08:52 -0400
+Received: by mail-wr1-x432.google.com with SMTP id g12so10834104wrs.10
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:08:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=wkSVijzMPf3Xr32bbOH7q/P+haXyZGCdnhQvCnD0X8U=;
- b=fNCyFjnJ0xcT1k7uVUbR3pwqTk3Yk2vOonxLISAyyRt5wehfWy3PRSn29hO51FIcMq
- O/Nx9g1TBiVxHleyz48fQW3U0Vje1m5W3E7cFw1JUPoox8KMnplaKFDwenkPCVE30EuZ
- N4lLPbSK7ol2TbFzJX0PUM13XS+2Dd+TryoRlc04ZOnceDwv7wdhHh5T2FScYH+nkq8J
- Lj27zk0KpG3puwMAL7m1w4065MxOHK+5OE6686Qzbeh2wXHvPzpg9+jgX9lygFos4e0a
- k1GPDkiS7FIx2RbdxwZuMwIvw9jRyrsXb9ZsBB4mzExi77xEy9awfYLVahPOKaxa9LQL
- Sl1w==
+ bh=iV50sM5mQ6g4Xmijr0JbVJ/U5dzPukuNgGJ3lIbjN4w=;
+ b=CMp6fFnntPsQxwGBJ+WmO0dBulyPtb+++DmHOgi3NjHJ3wP72CXo2ezXrl0If3IDFH
+ ahGq4jnQyCNbTM5aQzjbEh70+uBHbyfCpqfdrTOe/Iad7eZskLJuQ+LNiXPzb7i5lUFU
+ 8jvG0QT2EDHxSfneacDyPjWpFMiAHeq9QTBM6+4aNZRLiphiLAKsj60z4o60E1m0dZ5S
+ 1IwqAVycI7xMbYyHKFhdDVWCAAaxYvroLuL/FjFurDa5JaL78mowW/QBFa/1+lnwaSUB
+ 0qvGaGp/4X6p25CI8VdA1FXJ85y4IxGhmR+dGtYvI2o4HPtHX+/iXmh1N4JvJoaReS77
+ 5giQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=wkSVijzMPf3Xr32bbOH7q/P+haXyZGCdnhQvCnD0X8U=;
- b=z12oiCtYMB6tu+wK/xl12zXBgWGJQu2/9YkIYamXxuY21iPXJpVBCJ/kMcGGG/7pj5
- 5e++PmDa4c+QF2A4iuWfDeYc6DaXDZXUotORzwul2W5rB3kMmKWbTCJrQLNjpVPrqPAF
- uDDmik0bmo9/5cG0R4ETal7BtZmCpAq8YJ1b+KPX/sjI2JYc4DlAAxAmLHV3u1XZBC4Y
- 5e2+adRJtJB5yHuGwhCK5Gq1I6+oJxbHZu18FrfXuftPmn3qfD1KhtaBhvgdB7S/w/lm
- g7hoE5U8gKtHLcm/p36TNTLcV0e5kW9lYxqmKnPsUrbS/0FjYjBjf1KJ1BJOXeq4hYwy
- KM/A==
-X-Gm-Message-State: ACrzQf0P6nWpWBurl/MWZOaVrQMcRsgOlHNhVnnd7KeyhnaXgBbNGJaK
- rB2gCMhTyDdEunqQYTw1kNVM9Q==
-X-Google-Smtp-Source: AMsMyM6/BFd0A3v+Mep9YXzG5FpqAAOGQy5Ii/Bk5lRi/R4nkLSfTkJi31k7V5sn2XS+FzSsCUW20Q==
-X-Received: by 2002:a05:600c:6885:b0:3bd:d782:623c with SMTP id
- fn5-20020a05600c688500b003bdd782623cmr27172139wmb.102.1667668095650; 
- Sat, 05 Nov 2022 10:08:15 -0700 (PDT)
+ bh=iV50sM5mQ6g4Xmijr0JbVJ/U5dzPukuNgGJ3lIbjN4w=;
+ b=r/HxmSQlqC64M2Gxw5lT6filfnvNgoFvglkuMbSdHjwDkRnbiiDitrbClSAIUPKbyh
+ 7BLmkbmItbbTIOc4vQEW0OMOxpjj4PsNV04uANjqTLt5vHrpwUzzmjhm2VFk8I8oaZre
+ YtaF3t/az00ob52xivr8NDB57JhoWMsDJoLnKkzmBlpx3FUOLONBQ1FJj60sz11TzW6t
+ SxfCDafUWUhV0iGWi53wihI5F7lCv4WqOlqignkLuFvZqVA4yMsK0Mym6x/rCr4hIvnp
+ Q6Aq/tSLQ7HF+OHE0ZfOZQf81gfpFQUs6wayQtCgqJnuLJmgjs/Q1LQP7gler6VX+Hzn
+ /9+Q==
+X-Gm-Message-State: ACrzQf2YIJ30hHWMj47nZw9qmv+t4adsb7FEbftUKGzECHkVAw5HRo0k
+ 3RBvzd0LBZCbrS10Thw73JwtAw==
+X-Google-Smtp-Source: AMsMyM7JJMo2fCwHk1u4BL/8zd1yQaqywQtT2RHn0HlF0jJOIIRdbbJbBzWRQHCNuiUm/raT2ricuw==
+X-Received: by 2002:a05:6000:1a85:b0:230:f238:a48c with SMTP id
+ f5-20020a0560001a8500b00230f238a48cmr25423147wry.92.1667668129450; 
+ Sat, 05 Nov 2022 10:08:49 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- i19-20020a05600c355300b003b49ab8ff53sm3314387wmq.8.2022.11.05.10.08.14
+ s7-20020adfeb07000000b0022a3a887ceasm2543108wrn.49.2022.11.05.10.08.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Nov 2022 10:08:14 -0700 (PDT)
-Message-ID: <09fa7cb5-fd6d-1741-d9c0-0729c8ec751a@linaro.org>
-Date: Sat, 5 Nov 2022 18:08:13 +0100
+ Sat, 05 Nov 2022 10:08:48 -0700 (PDT)
+Message-ID: <a6cfd976-6951-a645-a130-124205497069@linaro.org>
+Date: Sat, 5 Nov 2022 18:08:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH v3 22/30] qapi rocker: Elide redundant has_FOO in
+Subject: Re: [PATCH v3 26/30] qapi transaction: Elide redundant has_FOO in
  generated C
 Content-Language: en-US
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Cc: jsnow@redhat.com, eblake@redhat.com, michael.roth@amd.com,
- Jiri Pirko <jiri@resnulli.us>
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-block@nongnu.org
 References: <20221104160712.3005652-1-armbru@redhat.com>
- <20221104160712.3005652-23-armbru@redhat.com>
+ <20221104160712.3005652-27-armbru@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221104160712.3005652-23-armbru@redhat.com>
+In-Reply-To: <20221104160712.3005652-27-armbru@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,18 +98,23 @@ On 4/11/22 17:07, Markus Armbruster wrote:
 > The has_FOO for pointer-valued FOO are redundant, except for arrays.
 > They are also a nuisance to work with.  Recent commit "qapi: Start to
 > elide redundant has_FOO in generated C" provided the means to elide
-> them step by step.  This is the step for qapi/rocker.json.
+> them step by step.  This is the step for qapi/transaction.json.
 > 
 > Said commit explains the transformation in more detail.  The invariant
 > violations mentioned there do not occur here.
 > 
-> Cc: Jiri Pirko <jiri@resnulli.us>
+> In qmp_transaction(), we can't just drop parameter @has_props, since
+> it's used to track whether @props needs to be freed.  Replace it by a
+> local variable.
+> 
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Hanna Reitz <hreitz@redhat.com>
+> Cc: qemu-block@nongnu.org
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   hw/net/rocker/rocker_of_dpa.c | 13 ++-----------
->   monitor/hmp-cmds.c            | 22 +++++++++++-----------
->   scripts/qapi/schema.py        |  1 -
->   3 files changed, 13 insertions(+), 23 deletions(-)
+>   blockdev.c             | 4 ++--
+>   scripts/qapi/schema.py | 1 -
+>   2 files changed, 2 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
