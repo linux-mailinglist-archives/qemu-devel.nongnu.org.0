@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07CEC61D9C4
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 12:54:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97FF961D9C5
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 12:56:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orHk3-0007kE-VO; Sat, 05 Nov 2022 07:53:40 -0400
+	id 1orHm8-0000pJ-ON; Sat, 05 Nov 2022 07:55:48 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1orHk0-0007jj-Ue; Sat, 05 Nov 2022 07:53:36 -0400
-Received: from isrv.corpit.ru ([86.62.121.231])
+ (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
+ id 1orHm2-0000n0-L0; Sat, 05 Nov 2022 07:55:42 -0400
+Received: from mail.weilnetz.de ([37.120.169.71]
+ helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1orHjz-0007Gc-C9; Sat, 05 Nov 2022 07:53:36 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 06FB940653;
- Sat,  5 Nov 2022 14:53:34 +0300 (MSK)
-Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id 94C3F3D3;
- Sat,  5 Nov 2022 14:53:38 +0300 (MSK)
-Received: (nullmailer pid 306579 invoked by uid 1000);
- Sat, 05 Nov 2022 11:53:33 -0000
-From: Michael Tokarev <mjt@tls.msk.ru>
-To: qemu-devel@nongnu.org
-Cc: Michael Tokarev <mjt@tls.msk.ru>, qemu-trivial@nongnu.org,
- Alistair Francis <alistair@alistair23.me>, Bin Meng <bin.meng@windriver.com>
-Subject: [PATCH trivial for 7.2] hw/ssi/sifive_spi.c: spelling: reigster
-Date: Sat,  5 Nov 2022 14:53:29 +0300
-Message-Id: <20221105115329.306527-1-mjt@msgid.tls.msk.ru>
+ (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
+ id 1orHm0-0007d4-Ir; Sat, 05 Nov 2022 07:55:42 -0400
+Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTP id E0B4EDA08BC;
+ Sat,  5 Nov 2022 12:55:37 +0100 (CET)
+Received: by qemu.weilnetz.de (Postfix, from userid 1000)
+ id D7CC14621B3; Sat,  5 Nov 2022 12:55:37 +0100 (CET)
+To: qemu-trivial@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>,
+ David Alan Gilbert <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>
+Subject: [PATCH for-7.2] tests/qtest: Fix two format strings
+Date: Sat,  5 Nov 2022 12:55:25 +0100
+Message-Id: <20221105115525.623059-1-sw@weilnetz.de>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=stefan@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -54,26 +54,36 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  Stefan Weil <sw@weilnetz.de>
+From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fixes: 0694dabe9763847f3010b54ab3ec7d367d2f0ff0
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
 ---
- hw/ssi/sifive_spi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/migration-test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ssi/sifive_spi.c b/hw/ssi/sifive_spi.c
-index 03540cf5ca..1b4a401ca1 100644
---- a/hw/ssi/sifive_spi.c
-+++ b/hw/ssi/sifive_spi.c
-@@ -267,7 +267,7 @@ static void sifive_spi_write(void *opaque, hwaddr addr,
-     case R_RXDATA:
-     case R_IP:
-         qemu_log_mask(LOG_GUEST_ERROR,
--                      "%s: invalid write to read-only reigster 0x%"
-+                      "%s: invalid write to read-only register 0x%"
-                       HWADDR_PRIx " with 0x%x\n", __func__, addr << 2, value);
-         break;
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index d2eb107f0c..f574331b7b 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -2188,7 +2188,7 @@ static void calc_dirty_rate(QTestState *who, uint64_t calc_time)
+     qobject_unref(qmp_command(who,
+                   "{ 'execute': 'calc-dirty-rate',"
+                   "'arguments': { "
+-                  "'calc-time': %ld,"
++                  "'calc-time': %" PRIu64 ","
+                   "'mode': 'dirty-ring' }}",
+                   calc_time));
+ }
+@@ -2203,7 +2203,7 @@ static void dirtylimit_set_all(QTestState *who, uint64_t dirtyrate)
+     qobject_unref(qmp_command(who,
+                   "{ 'execute': 'set-vcpu-dirty-limit',"
+                   "'arguments': { "
+-                  "'dirty-rate': %ld } }",
++                  "'dirty-rate': %" PRIu64 " } }",
+                   dirtyrate));
+ }
  
 -- 
 2.30.2
