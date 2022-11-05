@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F88B61A638
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 01:01:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 931E961A644
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 01:05:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1or6bW-0002Jz-Ah; Fri, 04 Nov 2022 20:00:06 -0400
+	id 1or6fu-0003t6-Nr; Fri, 04 Nov 2022 20:04:38 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1or6bU-0002Jq-Bd
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 20:00:04 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
+ id 1or6fs-0003si-FX
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 20:04:36 -0400
+Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1or6bS-0004EI-8K
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 20:00:04 -0400
-Received: by mail-oi1-x236.google.com with SMTP id r76so6720169oie.13
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 17:00:01 -0700 (PDT)
+ id 1or6fm-0004ub-Ij
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 20:04:35 -0400
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-13b6c1c89bdso7169838fac.13
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 17:04:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=qsRoYWTMk8c0kC68gCy21gJKyc7HyI5YGdRz3g4tAFE=;
- b=DO2YXYx2G8iWZ/Bj/8o4m/Xkz992+yocuRQen6Z3Fs1t+4u5Dg4ANgEVBapV0eueQ1
- XOxpAotvfAoxBnvFrW1zxi1eyLddT7C/ELFntFtq1CE77olI8luYcnrZYkgg6sGxBUXH
- ZGwBCpMIkIWMEcO2oaZjHZ2pVzH8/1Qbtyw/a2JscT7DmiJSSNaskLsE8NbCsukRezqU
- /0NCO6r9DF1C3oDAlhHPtWrzF1frzdbwy0GaUhmB75jPLINSZ7bFS3mNkzs+3a1vDMHL
- etCYtlErVxOrIo1Fnpli3NLU2aU8lXGW6edWIf9SgSNuW3oAowOO5DzXBiMTpT1GQQC4
- NpYA==
+ bh=G0pwnPHzV3CHxUogJGE/FSXR77yFup9eH0AgrTDN4k8=;
+ b=pcGgDOPFjzCMjWcEdmur82MHpwMCqBVkioHgSsRxs/Pvd3XHjgcG/mh0DKlG1LsWWK
+ 6jnsKg2gQ0XWI4XTyREQTuhYs70v9GDwBdi4keuikhKN8xZipUxdoQq8dEXM1hpzzj0i
+ 7TdSxuQo/LhxhGoAcxLfq+hTHt5Grr+hBSInouRwJZO8E0Ros6scfTDR7gW3XreOLcDR
+ U+dd36cNJ2ButNs+JJVs1hL90wbOlQhl3lds9cJp/6XvfzNLKI1b13rxC9kf2hH6D/ay
+ yPF8R1Cjasoe9J/TN/VFw31d6QQ0fIB095IXbINt7zZsqy4qdUefv6m7sw1YhFRsvAPD
+ hEVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qsRoYWTMk8c0kC68gCy21gJKyc7HyI5YGdRz3g4tAFE=;
- b=4ss89qp+eeyoHhseWxXIrdMs/YNxGADADYGtYJLWhzPeiF78YJNBge5vBBi1NKxIpb
- cRM4xfuoU4SkuZ//izHQuLHA/mg6R1uZvMMkQzYHEMKY1SVnVd1gd4B+E1YT+eJgWrpo
- BE5EqNUyX7qCZ/TBwSb4ZSgnFX3vTNg0OdVe65DdQCwZxHMUQ5b7j4HDRTHbJqYXgHpB
- CbZhxC7nQgBSRci+96fTJAKq63DsUAWp7TOjJ+aY4IeZDdodysG5C8AlhmHnU7mwg8BA
- qNxA1b4vHvLzDVQCop9YtJeOlF90vaxQRtec8YNzSrqzPPnjRtPpcnysnykX6mrViJUF
- FrLg==
-X-Gm-Message-State: ACrzQf2zGR9/QjoSU2qyacRG8yavF5x0WOOPDJWUBegHVJsuBvB9zKlR
- d95OxAV+I/hgsGpYDyqf2HWVkQ==
-X-Google-Smtp-Source: AMsMyM73pS0DxdBtqXhYnZwuIXlVLVK8bsm5kO92A3U7Rl8hg1Vjicdk+/rpTkm+8/n1U4rKnybLPw==
-X-Received: by 2002:a54:4016:0:b0:35a:3878:f22a with SMTP id
- x22-20020a544016000000b0035a3878f22amr10312380oie.47.1667606400641; 
- Fri, 04 Nov 2022 17:00:00 -0700 (PDT)
+ bh=G0pwnPHzV3CHxUogJGE/FSXR77yFup9eH0AgrTDN4k8=;
+ b=5DSMXfmK8K6yw+9mZRXDSsw8pv1g612xzYhAJ9qqsqv9L5dFnQp93vtjmJBwR3EGVE
+ 8J8M8P43f9/J/B2hDa0w9WwLf0N4NsrXw34BO5UVf6vp9KzKfw6UzMTEyjhRwrq5Y7wb
+ aUtKl+a9zmaZaLgB5/VcC/WOsFDO7r6cgl2hWBf7jIuciJGKDMuAu2HugD+o6HK3ioEZ
+ KSUylQQSxt2gsWhBIGPiTtjDExmop38IN3RVxPNwJrK/bFYGwpBZEQ5g+reeSBpN03VI
+ Vk91hHYgykxQ5FxFJZThsF1OdqoWZl1xcQ/siX+9VlCvPtu1v2g2+jcUWWUzeClBCM5J
+ ZUpg==
+X-Gm-Message-State: ACrzQf1achaX/rwaegrSLOXDgFnJPjbAwtNVLh9mOx9JyrAAubzzLufs
+ ZVa8LhaX0NF0KSI/uV6GonCcsQ==
+X-Google-Smtp-Source: AMsMyM5hZTd43TltdYm5eyuuauvCcUzMpWm5hZa/vqwPouun1EexUPkQSaDq4KiGbXV5i0tlYRkYjA==
+X-Received: by 2002:a05:6870:d210:b0:13b:9601:89fb with SMTP id
+ g16-20020a056870d21000b0013b960189fbmr14783118oac.203.1667606669145; 
+ Fri, 04 Nov 2022 17:04:29 -0700 (PDT)
 Received: from [192.168.229.227] ([172.58.176.28])
  by smtp.gmail.com with ESMTPSA id
- a8-20020a056870e0c800b00130d060ce80sm204297oab.31.2022.11.04.16.59.54
+ a20-20020a056870d61400b00136a0143de8sm201263oaq.40.2022.11.04.17.04.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Nov 2022 16:59:59 -0700 (PDT)
-Message-ID: <47274054-00f3-d313-9dea-c32202d79ed6@linaro.org>
-Date: Sat, 5 Nov 2022 10:59:47 +1100
+ Fri, 04 Nov 2022 17:04:28 -0700 (PDT)
+Message-ID: <a1e12867-a9e2-08b8-fb75-0fb58ce227e8@linaro.org>
+Date: Sat, 5 Nov 2022 11:04:16 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v3 03/11] Hexagon (target/hexagon) Add overrides for
- S2_asr_r_r_sat/S2_asl_r_r_sat
+Subject: Re: [PATCH v3 04/11] Hexagon (target/hexagon) Only use branch_taken
+ when packet has multi cof
 Content-Language: en-US
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 Cc: philmd@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com,
  quic_mathbern@quicinc.com
 References: <20221104192631.29434-1-tsimpson@quicinc.com>
- <20221104192631.29434-4-tsimpson@quicinc.com>
+ <20221104192631.29434-5-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221104192631.29434-4-tsimpson@quicinc.com>
+In-Reply-To: <20221104192631.29434-5-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x236.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::34;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,155 +97,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 11/5/22 06:26, Taylor Simpson wrote:
-> +static void gen_set_usr_field(int field, TCGv val)
-> +{
-> +    tcg_gen_deposit_tl(hex_new_value[HEX_REG_USR], hex_new_value[HEX_REG_USR],
-> +                       val,
-> +                       reg_field_info[field].offset,
-> +                       reg_field_info[field].width);
-> +}
+> When a packet has more than one change-of-flow instruction, only the first
+> one to branch is considered.  We use the branch_taken variable to keep
+> track of this.
+> 
+> However, when there is a single cof instruction, we don't need the same
+> amount of bookkeeping.
+> 
+> We add the pkt_has_multi_cof member to the Packet structure, and pass this
+> information to the needed functions.
+> 
+> When there is a generated helper function with cof, the generator will
+> pass this pkt_has_multi_cof as a runtime value.
+> 
+> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
+> ---
+>   target/hexagon/insn.h               |  1 +
+>   target/hexagon/macros.h             |  2 +-
+>   target/hexagon/decode.c             | 15 +++++++++++++--
+>   target/hexagon/op_helper.c          | 24 +++++++++++++++---------
+>   target/hexagon/translate.c          |  4 +++-
+>   target/hexagon/gen_helper_funcs.py  |  5 ++++-
+>   target/hexagon/gen_helper_protos.py |  8 ++++++--
+>   target/hexagon/gen_tcg_funcs.py     |  5 +++++
+>   target/hexagon/hex_common.py        |  3 +++
+>   9 files changed, 51 insertions(+), 16 deletions(-)
 
-If you plan to use this for something else, fine, but since you're never clearing USR_OVF, 
-it would be better to use tcg_gen_ori_tl.
-
-
-> +static void gen_sat_i64(TCGv_i64 dst, TCGv_i64 src, uint32_t bits)
-> +{
-> +    TCGLabel *label = gen_new_label();
-> +
-> +    tcg_gen_sextract_i64(dst, src, 0, bits);
-> +    tcg_gen_brcond_i64(TCG_COND_EQ, dst, src, label);
-> +    {
-> +        TCGv_i64 min = tcg_constant_i64(-(1LL << (bits - 1)));
-> +        TCGv_i64 max = tcg_constant_i64((1LL << (bits - 1)) - 1);
-> +        tcg_gen_movcond_i64(TCG_COND_LT, dst, src, tcg_constant_i64(0),
-> +                            min, max);
-> +        gen_set_usr_fieldi(USR_OVF, 1);
-> +    }
-> +    gen_set_label(label);
-> +}
-
-This could be done branchless:
-
-    tcg_gen_smax_i64(dst, src, min);
-    tcg_gen_smin_i64(dst, dst, max);
-
-    tcg_gen_setcond_i64(TCG_COND_NE, o_64, dst, src);
-    tcg_gen_trunc_i64_tl(o_tl, o_64);
-    tcg_gen_shli_tl(o_tl, reg_field_info[USE_OVF].offset);
-    tcg_gen_or_tl(hex_new_value[HEX_REG_USR], hex_new_value[HEX_REG_USR], o_tl);
-
-
-> +static void gen_satval(TCGv_i64 dest, TCGv_i64 source, uint32_t bits)
-> +{
-> +    TCGv_i64 min = tcg_constant_i64(-(1LL << (bits - 1)));
-> +    TCGv_i64 max = tcg_constant_i64((1LL << (bits - 1)) - 1);
-> +
-> +    gen_set_usr_fieldi(USR_OVF, 1);
-> +    tcg_gen_movcond_i64(TCG_COND_LT, dest, source, tcg_constant_i64(0),
-> +                        min, max);
-> +}
-
-Likewise.
-
-> +/* Shift left with saturation */
-> +static void gen_shl_sat(TCGv RdV, TCGv RsV, TCGv shift_amt)
-> +{
-> +    /*
-> +     * int64_t A = (fCAST4_8s(RsV) << shift_amt;
-> +     * if (((int32_t)((fSAT(A)) ^ ((int32_t)(RsV)))) < 0) {
-> +     *     RdV = fSATVALN(32, ((int32_t)(RsV)))
-> +     * } else if (((RsV) > 0) && ((A) == 0)) {
-> +     *     RdV = fSATVALN(32, (RsV));
-> +     * } else {
-> +     *     RdV = fSAT(A);
-> +     * }
-> +     */
-
-A little bit tricky to follow, but is this overflow condition to be the same as
-
-     x_32 = rsv << shift_amt;
-     y_32 = x_32 >> shift_amt;
-     overflow = x_32 != y_32;
-
-i.e. overflow if we've lost bits that are not copies of the sign bit (and thus restored by 
-the arithmetic right shift)?
-
-> +    tcg_gen_ext_i32_i64(RsV_i64, RsV);
-> +    tcg_gen_ext_i32_i64(shift_amt_i64, shift_amt);
-> +    tcg_gen_shl_i64(A, RsV_i64, shift_amt_i64);
-> +
-> +    /* Check for saturation */
-> +    gen_sat_i64(A_sat_i64, A, 32);
-
-Setting USR_OVF here...
-
-> +    tcg_gen_extrl_i64_i32(A_sat, A_sat_i64);
-> +    tcg_gen_xor_tl(tmp, A_sat, RsV);
-> +    tcg_gen_brcondi_tl(TCG_COND_GE, tmp, 0, label1);
-> +    gen_satval(RdV_i64, RsV_i64, 32);
-
-... and also here.  Is this also computing the same saturation value that you did above?
-
-
-> +    tcg_gen_extrl_i64_i32(RdV, RdV_i64);
-> +    tcg_gen_br(done);
-> +
-> +    gen_set_label(label1);
-> +    tcg_gen_brcondi_tl(TCG_COND_LE, RsV, 0, label2);
-> +    tcg_gen_brcondi_i64(TCG_COND_NE, A, 0, label2);
-> +    gen_satval(RdV_i64, RsV_i64, 32);
-
-and again?
-
-> +    tcg_gen_extrl_i64_i32(RdV, RdV_i64);
-> +    tcg_gen_br(done);
-> +
-> +    gen_set_label(label2);
-> +    tcg_gen_mov_tl(RdV, A_sat);
-> +
-> +    gen_set_label(done);
-> +
-> +    tcg_temp_free_i64(RsV_i64);
-> +    tcg_temp_free_i64(shift_amt_i64);
-> +    tcg_temp_free_i64(A);
-> +    tcg_temp_free_i64(A_sat_i64);
-> +    tcg_temp_free(A_sat);
-> +    tcg_temp_free_i64(RdV_i64);
-> +    tcg_temp_free(tmp);
-> +}
-> +
-> +static void gen_sar(TCGv RdV, TCGv RsV, TCGv shift_amt)
-> +{
-> +    /*
-> +     * if (shift_amt < 32) {
-> +     *     RdV = sar(RsV, shift_amt);
-> +     * } else {
-> +     *     if (RsV > 0) {
-> +     *         RdV = 0;
-> +     *     } else {
-> +     *         RdV = ~0;
-> +     *     }
-> +     * }
-> +     */
-> +    TCGLabel *shift_ge_32 = gen_new_label();
-> +    TCGLabel *done = gen_new_label();
-> +
-> +    tcg_gen_brcondi_tl(TCG_COND_GE, shift_amt, 32, shift_ge_32);
-> +    tcg_gen_sar_tl(RdV, RsV, shift_amt);
-> +    tcg_gen_br(done);
-> +
-> +    gen_set_label(shift_ge_32);
-> +    tcg_gen_movcond_tl(TCG_COND_LT, RdV, RsV, tcg_constant_tl(0),
-> +                       tcg_constant_tl(~0), tcg_constant_tl(0));
-
-This is better done as
-
-     shift = min(shift, 31);
-     rdv = rsv >> shift;
-
-without branches.
-
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
