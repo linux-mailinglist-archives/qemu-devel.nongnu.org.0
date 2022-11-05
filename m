@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464B061DC79
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:29:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A4161DC6C
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:28:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMpj-0008Mm-Kt; Sat, 05 Nov 2022 13:19:51 -0400
+	id 1orMpq-0008P0-0Y; Sat, 05 Nov 2022 13:19:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMo8-0007GP-LL
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMoB-0007H1-W0
  for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:18:25 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMo5-0007hX-HH
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:18:10 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMoA-0007io-GZ
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:18:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667668688;
+ s=mimecast20190719; t=1667668692;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=h/XlP9KQaz9Sdj8a6OxlbRsUZL7f47hL0wOEmFmZTnk=;
- b=MgWQPt62ibty9GyO2qMUtNYLwTnJw06aYLxQx6ED3A7CPsZMyRewP0De1DnZCgaiaJZyyJ
- yQ2+ysIPlWbWQRtRMPoa0kfR6UDFcaN47vdJL48GYx0ow5XDJSTGt6N/fAZ+EHrjcLuNw4
- /+iWfElX/VumMaABPjZ5R8kqyF8GUpI=
+ bh=ps8QJRGN+47BbvPd8yHBrkkg70UnCtXifweZPYFMUqM=;
+ b=MvJz/v/e1AfssGHVmS9UhMpanVnaUKdgOCboALRgPBDT16d0K4DAi8ktNoi7gEzZIv3dWp
+ nd0GD1aeyaCcTWEVk3y6Kuvivcu+bio6nSw4Qn6OwRudIxLxTm82aA2tB3FJs+ecE6J1fI
+ 8KNEgzb6gh1MT07VwJrnX7uq3mnV1SM=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-464-E5ywb2NCOT2AXcWhDt_f1Q-1; Sat, 05 Nov 2022 13:18:07 -0400
-X-MC-Unique: E5ywb2NCOT2AXcWhDt_f1Q-1
+ us-mta-652-mEST8sc8OSuSgHTVA_KS6A-1; Sat, 05 Nov 2022 13:18:10 -0400
+X-MC-Unique: mEST8sc8OSuSgHTVA_KS6A-1
 Received: by mail-wm1-f71.google.com with SMTP id
- h8-20020a1c2108000000b003cf550bfc8dso6002267wmh.2
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:18:07 -0700 (PDT)
+ 1-20020a05600c028100b003cf7833293cso6007079wmk.3
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:18:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=h/XlP9KQaz9Sdj8a6OxlbRsUZL7f47hL0wOEmFmZTnk=;
- b=M6AIioNIpY5X2n5PkFVBFXLCOb1ILs3pg2BOvp3zO6dbHhPCpxHYcrNIv6RinHksKJ
- VJRAUT3BHjFZ4D/OabpHS9nRD73lQY4nhuzbuJvmA8A8dUsKuw18NPjK/IihGOJ2FATc
- pGUsd8+Og99Wqt6/Dnr0Wsk933rdF1ussZd9YLNf9kErtT67qlbonX1kAYclsKl4KmjS
- pQp5xklG8ldo88qwMY4keV6+I7JbGWl/0KiHcARljSMGrgm1+guzoW0U+Zu0WKWOpbx3
- qfiI7MtK4bgTiKjDYdmglqRn88i2Yt3pMJ1dPkjyEI+N9ar92nieQeJHFyRVysg+C4vv
- 3k8w==
-X-Gm-Message-State: ACrzQf3v3kjrfuHAe+5cq4NBE9T1tBTfW+1qKIslfttlXnsDgT0b73Fr
- kEDirMVN2d0NxUumzmEkeI3AEQfsiJ73wrdkCv5Ux8+aXWexS7TVImumNspM66+W/f+rf8lFUyQ
- SmoLv/EHUQS/26+fAg6VKXCY38pH11QGIbGfmzpHPHAIxrLXMEPPETxV2VssV
-X-Received: by 2002:adf:f70b:0:b0:236:f367:920f with SMTP id
- r11-20020adff70b000000b00236f367920fmr12186292wrp.129.1667668686148; 
- Sat, 05 Nov 2022 10:18:06 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6XkdLq4M1frNAxCjT41ndadFWsJFz2qbzG8BlKa51CcQGKJdQylD0dFIiWyuVi8eOuPd1bcw==
-X-Received: by 2002:adf:f70b:0:b0:236:f367:920f with SMTP id
- r11-20020adff70b000000b00236f367920fmr12186279wrp.129.1667668685918; 
- Sat, 05 Nov 2022 10:18:05 -0700 (PDT)
+ bh=ps8QJRGN+47BbvPd8yHBrkkg70UnCtXifweZPYFMUqM=;
+ b=nnann8Ib7RHTR+YTJdKgHWbeCgNy4QcxVRfErP8tb8Q2oxScUbD/c95i7+IsbiXHEt
+ FZ0xiEjy0HRZvlxeK9QsJJhEk4Ug0jWZ5+4JuFg/SP3LBKbhVDo8BdfX0q1ppOx61ulp
+ 1EtO4+oU+ASXyXa99/9MnmOotD1JvlEmo7+vqunzHdq6AL/+mny5tgti2gGvZ0gE/jSm
+ WrXktQ+GWDxVQzbWSP77zLIKLNemxS3wNcq8/UG6TnsHsf9o4AE7rn1vVEZerkY3h/J+
+ R0V7KrccJ5wOAb2mRN3x8WkiNEGRyDjd8LEyb+MuD/J159Ngx2W2qBKs0+lTrJpnZRX8
+ cGkg==
+X-Gm-Message-State: ACrzQf3DEDV+ffaZclUKrUsZNft9TolMMFhf8bl1T5Y6k+HaK81UVIKi
+ 8yZmGvScvDf32RGWzVdF1FC5NmDVFmmfJtSWuUezYx50GiCzr+iJNVEsFq3ZffSg89ERW9cVIPy
+ l/kfGwWwrcAWGAFgwMZjF0auvyc3e+EekdhSXGJ7ENodA4KElmv1ED1rup4d9
+X-Received: by 2002:adf:f5cd:0:b0:236:55eb:a25a with SMTP id
+ k13-20020adff5cd000000b0023655eba25amr388922wrp.55.1667668689162; 
+ Sat, 05 Nov 2022 10:18:09 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM5TW32mQX+xs5PptteDJLgC6q/Pmf79RXB1U8Hcalj6hX8hstS6NtzZo8efMyM10iwXTc8UfQ==
+X-Received: by 2002:adf:f5cd:0:b0:236:55eb:a25a with SMTP id
+ k13-20020adff5cd000000b0023655eba25amr388913wrp.55.1667668688930; 
+ Sat, 05 Nov 2022 10:18:08 -0700 (PDT)
 Received: from redhat.com ([2.52.152.137]) by smtp.gmail.com with ESMTPSA id
- t1-20020a1c7701000000b003b3307fb98fsm2916004wmi.24.2022.11.05.10.18.04
+ i5-20020adffc05000000b0023660f6cecfsm2597877wrr.80.2022.11.05.10.18.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 10:18:05 -0700 (PDT)
-Date: Sat, 5 Nov 2022 13:18:03 -0400
+ Sat, 05 Nov 2022 10:18:08 -0700 (PDT)
+Date: Sat, 5 Nov 2022 13:18:06 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL v3 54/81] acpi: add get_dev_aml_func() helper
-Message-ID: <20221105171116.432921-55-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL v3 55/81] acpi: enumerate SMB bridge automatically along with
+ other PCI devices
+Message-ID: <20221105171116.432921-56-mst@redhat.com>
 References: <20221105171116.432921-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -99,45 +104,72 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-It will be used in followup commits to figure out if
-device has it's own, device specific AML block.
+to make that happen (bridge sits at _ADR: 0x001F0003),
+relax PCI enumeration logic to include devices with *function* > 0
+if device has something to say about itself (i.e. has build_dev_aml
+callback set).
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20221017102146.2254096-7-imammedo@redhat.com>
+Message-Id: <20221017102146.2254096-8-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
 ---
- include/hw/acpi/acpi_aml_interface.h | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ hw/i386/acpi-build.c | 27 +++------------------------
+ 1 file changed, 3 insertions(+), 24 deletions(-)
 
-diff --git a/include/hw/acpi/acpi_aml_interface.h b/include/hw/acpi/acpi_aml_interface.h
-index ab76f0e55d..436da069d6 100644
---- a/include/hw/acpi/acpi_aml_interface.h
-+++ b/include/hw/acpi/acpi_aml_interface.h
-@@ -29,11 +29,20 @@ struct AcpiDevAmlIfClass {
-     dev_aml_fn build_dev_aml;
- };
- 
--static inline void call_dev_aml_func(DeviceState *dev, Aml *scope)
-+static inline dev_aml_fn get_dev_aml_func(DeviceState *dev)
- {
-     if (object_dynamic_cast(OBJECT(dev), TYPE_ACPI_DEV_AML_IF)) {
-         AcpiDevAmlIfClass *klass = ACPI_DEV_AML_IF_GET_CLASS(dev);
--        klass->build_dev_aml(ACPI_DEV_AML_IF(dev), scope);
-+        return klass->build_dev_aml;
-+    }
-+    return NULL;
-+}
-+
-+static inline void call_dev_aml_func(DeviceState *dev, Aml *scope)
-+{
-+    dev_aml_fn fn = get_dev_aml_func(dev);
-+    if (fn) {
-+        fn(ACPI_DEV_AML_IF(dev), scope);
-     }
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index e1483bb11a..916343d8d6 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -448,9 +448,10 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+             /*
+              * allow describing coldplugged bridges in ACPI even if they are not
+              * on function 0, as they are not unpluggable, for all other devices
+-             * generate description only for function 0 per slot
++             * generate description only for function 0 per slot, and for other
++             * functions if device on function provides its own AML
+              */
+-            if (func && !bridge_in_acpi) {
++            if (func && !bridge_in_acpi && !get_dev_aml_func(DEVICE(pdev))) {
+                 continue;
+             }
+         } else {
+@@ -1319,25 +1320,6 @@ static Aml *build_q35_osc_method(bool enable_native_pcie_hotplug)
+     return method;
  }
  
+-static void build_smb0(Aml *table, int devnr, int func)
+-{
+-    Aml *scope = aml_scope("_SB.PCI0");
+-    Aml *dev = aml_device("SMB0");
+-    bool ambiguous;
+-    Object *obj;
+-    /*
+-     * temporarily fish out device hosting SMBUS, build_smb0 will be gone once
+-     * PCI enumeration will be switched to call_dev_aml_func()
+-     */
+-    obj = object_resolve_path_type("", TYPE_ICH9_SMB_DEVICE, &ambiguous);
+-    assert(obj && !ambiguous);
+-
+-    aml_append(dev, aml_name_decl("_ADR", aml_int(devnr << 16 | func)));
+-    call_dev_aml_func(DEVICE(obj), dev);
+-    aml_append(scope, dev);
+-    aml_append(table, scope);
+-}
+-
+ static void build_acpi0017(Aml *table)
+ {
+     Aml *dev, *scope, *method;
+@@ -1440,9 +1422,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
+         }
+         build_q35_pci0_int(dsdt);
+-        if (pcms->smbus) {
+-            build_smb0(dsdt, ICH9_SMB_DEV, ICH9_SMB_FUNC);
+-        }
+     }
+ 
+     if (misc->has_hpet) {
 -- 
 MST
 
