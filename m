@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A9361DC65
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:25:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D79961DC60
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:24:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMm6-0006ES-4N; Sat, 05 Nov 2022 13:16:06 -0400
+	id 1orMm2-000646-Fq; Sat, 05 Nov 2022 13:16:02 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMlr-0005vq-95
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMlr-0005vr-Aa
  for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:15:53 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMlo-0007GD-Gj
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMlo-0007GM-GU
  for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:15:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667668537;
+ s=mimecast20190719; t=1667668540;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vr1Y5Ue2DsD1Zo1HCdv3uKEJFz1/uay4tMw6YA67Sxk=;
- b=f+vEvA5V+76vPpMCv+aaqflrdAduoQ5hj9cQHtWSry/iGyQBla6v1Qp4UNu1lNSTETGtJH
- wdliX1oyjGxM6B71NxMQNjWwFuhZAUtwywGOeI8AkmXEhUBNht/xWXuWRP2NRXP9jcUtBY
- L3HThNdOPS7d5shBsFzKn1Wq3aJ3QQM=
+ bh=NBEgnvyPuSubVpepgBU5LLBjdsEmlTwEplvXdoQGW9E=;
+ b=UsDgGKHQVrQcDhrVfFcA3+I7Az7vjxT7Ll45qRJ1Dxi+ySnesusIDTIovT45NgLOkNPu/6
+ WC+SkoGubq4oQRHjz3c85usRDE+8C4SthC6EwoHMUC8czBJ13LbO9pNqV9MSeOAhA3Ciov
+ +Y+b1ql3HG9/sva0/2Ek9/9oF4a6Ruo=
 Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
  [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-246-UQSAVzI5PGO4Ocjij0OcEg-1; Sat, 05 Nov 2022 13:15:36 -0400
-X-MC-Unique: UQSAVzI5PGO4Ocjij0OcEg-1
+ us-mta-308-UI-IdXIQNIaMr_wb1l1qjQ-1; Sat, 05 Nov 2022 13:15:39 -0400
+X-MC-Unique: UI-IdXIQNIaMr_wb1l1qjQ-1
 Received: by mail-wm1-f71.google.com with SMTP id
- m17-20020a05600c3b1100b003cf9cc47da5so1749042wms.9
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:15:36 -0700 (PDT)
+ ay19-20020a05600c1e1300b003cf758f1617so5235796wmb.5
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:15:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vr1Y5Ue2DsD1Zo1HCdv3uKEJFz1/uay4tMw6YA67Sxk=;
- b=4eom4aHTyByJEqEPvlM+sejTnBCUbReIR0sx1T4kCt6OmQFQHQgwfjtE5HLMVyQ8cB
- joHfXiUDjymy4/UbkF6LPw83Zs3UHnP3Fhr38GAqXwJ3VuZ37AioYVILheu7Z1+kTaoR
- EIOGdsIQsZcTow8XBbAuE3K8i5g2JLbOTNnmGp5hsaxLR5qiEpq7S+gWPfTRqhPDTGqA
- aUhUkoQoEwPRbLQglxDuBaw/Y5dy7yOAOnn1HomrvkvYX3eL3lKB+TZPAtYF6dVLkT4O
- oYuYOjJUyWrju4AQyQmtRHJECHxQMHirI2WIy5L/+zznWifXvdfdsn5GLn+mENDnwmLd
- 6Kmg==
-X-Gm-Message-State: ACrzQf28L7cYEYEMfeHD/3K8cLnG7npxxl5LhfAxaPgFfHjw0NADjmjm
- aAdAECJUms3EiPF9qwqFtbChuwa5U6K5+P7t8LanQ8PTgmaE0MosqU9MBp7hrlMLjVuUzP2FNp9
- uEGB6Eu/Bdr2LtU2vR3rSKqFdK17D1yST55nIhRM20dZuKKkZk9aGnJ2P3JCl
-X-Received: by 2002:a1c:27c6:0:b0:3c2:e6df:c79b with SMTP id
- n189-20020a1c27c6000000b003c2e6dfc79bmr36756135wmn.14.1667668534761; 
- Sat, 05 Nov 2022 10:15:34 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7u4cG0YqsNI8LpmdOFneAuuPZ9gRPsySkntGEEd8k69BrgIgUcZ3/Inm87np8yGG6IX9a3Yw==
-X-Received: by 2002:a1c:27c6:0:b0:3c2:e6df:c79b with SMTP id
- n189-20020a1c27c6000000b003c2e6dfc79bmr36756117wmn.14.1667668534469; 
- Sat, 05 Nov 2022 10:15:34 -0700 (PDT)
+ bh=NBEgnvyPuSubVpepgBU5LLBjdsEmlTwEplvXdoQGW9E=;
+ b=tPbnSMG+zI8Cphhx++xbPnsQ3cWKtvXhzorNqOcDnTbLb+YnS4MAUm01fHU3d6oYg/
+ S+v1OKoEX69Dt+B0QcvLqKLrwoEobrgHD/nn2WG73PSIuca/dAUZ1AWlVhaAIW0g8KUf
+ UHmR1V79KSX3W4Edz+qivbAMqfIHTP9wMP2ZWdQn3mnTjmWgPt5o6ssjyDCy+906Ct7k
+ 89fa2Z7ukSw1dmcWPTpVtXTJuQo54Jj3WaVvDahuY4ZOugc7Q69ZrdS+fC+XeVwl4cG7
+ CRqBZuna8OPe3DPxKXCG8hF/OhNn2a8PzESiObkDqjJ1dBsxC6vrOqaCxwKqsTF5eMmR
+ fJdA==
+X-Gm-Message-State: ACrzQf28jlx9SqVXGCBy/1fSL7J/OKfUl+j4W0QTpUOCfNxUldiXabuL
+ 5I9x9T81jYn+UEZGz1d7RtPW7wX0gIXBkMoxYcE42NEQqfi9FsG24ZrAEQR/mVE2HYuq4niuC9L
+ 6hE6NcgBt1evTWS2G9NEejbNAs5V53Bdx+IMgpYDOJFAyaUOIXm5Wtre19/24
+X-Received: by 2002:a05:600c:6885:b0:3c2:9da1:5034 with SMTP id
+ fn5-20020a05600c688500b003c29da15034mr27917555wmb.38.1667668537754; 
+ Sat, 05 Nov 2022 10:15:37 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7kJxtS7uaIno9E//xASWYWpNnEVgdaaXCZdK0aN1+z7PMVPJ8zF+cOdVUdhsBJ6e+NUwK7BQ==
+X-Received: by 2002:a05:600c:6885:b0:3c2:9da1:5034 with SMTP id
+ fn5-20020a05600c688500b003c29da15034mr27917540wmb.38.1667668537515; 
+ Sat, 05 Nov 2022 10:15:37 -0700 (PDT)
 Received: from redhat.com ([2.52.152.137]) by smtp.gmail.com with ESMTPSA id
- v128-20020a1cac86000000b003a3170a7af9sm3116271wme.4.2022.11.05.10.15.33
+ m1-20020a7bca41000000b003c6c3fb3cf6sm3064814wml.18.2022.11.05.10.15.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 10:15:34 -0700 (PDT)
-Date: Sat, 5 Nov 2022 13:15:31 -0400
+ Sat, 05 Nov 2022 10:15:36 -0700 (PDT)
+Date: Sat, 5 Nov 2022 13:15:34 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Robert Hoo <robert.hu@linux.intel.com>, Jingqi Liu <jingqi.liu@intel.com>,
+ Robert Hoo <robert.hu@linux.intel.com>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL v3 03/81] acpi/ssdt: Fix aml_or() and aml_and() in if clause
-Message-ID: <20221105171116.432921-4-mst@redhat.com>
+Subject: [PULL v3 04/81] acpi/nvdimm: define macro for NVDIMM Device _DSM
+Message-ID: <20221105171116.432921-5-mst@redhat.com>
 References: <20221105171116.432921-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -100,56 +100,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Robert Hoo <robert.hu@linux.intel.com>
 
-In If condition, using bitwise and/or, rather than logical and/or.
+Since it will be heavily used in next patch, define macro
+NVDIMM_DEVICE_DSM_UUID for "4309AC30-0D11-11E4-9191-0800200C9A66", which is
+NVDIMM device specific method uuid defined in NVDIMM _DSM interface spec,
+Section 3. [1]
 
-The result change in AML code:
+No functional changes in this patch.
 
-If (((Local6 == Zero) | (Arg0 != Local0)))
-==>
-If (((Local6 == Zero) || (Arg0 != Local0)))
+[1] https://pmem.io/documents/IntelOptanePMem_DSM_Interface-V2.0.pdf
 
-If (((ObjectType (Arg3) == 0x04) & (SizeOf (Arg3) == One)))
-==>
-If (((ObjectType (Arg3) == 0x04) && (SizeOf (Arg3) == One)))
-
-Fixes: 90623ebf603 ("nvdimm acpi: check UUID")
-Fixes: 4568c948066 ("nvdimm acpi: save arg3 of _DSM method")
 Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
-Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220922122155.1326543-3-robert.hu@linux.intel.com>
+Message-Id: <20220922122155.1326543-4-robert.hu@linux.intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/nvdimm.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/acpi/nvdimm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 31e46df0bd..201317c611 100644
+index 201317c611..afff911c1e 100644
 --- a/hw/acpi/nvdimm.c
 +++ b/hw/acpi/nvdimm.c
-@@ -1037,7 +1037,7 @@ static void nvdimm_build_common_dsm(Aml *dev,
+@@ -922,6 +922,7 @@ void nvdimm_init_acpi_state(NVDIMMState *state, MemoryRegion *io,
+ #define NVDIMM_DSM_RFIT_STATUS  "RSTA"
  
-     uuid_invalid = aml_lnot(aml_equal(uuid, expected_uuid));
+ #define NVDIMM_QEMU_RSVD_UUID   "648B9CF2-CDA1-4312-8AD9-49C4AF32BD62"
++#define NVDIMM_DEVICE_DSM_UUID  "4309AC30-0D11-11E4-9191-0800200C9A66"
  
--    unsupport = aml_if(aml_or(unpatched, uuid_invalid, NULL));
-+    unsupport = aml_if(aml_lor(unpatched, uuid_invalid));
- 
-     /*
-      * function 0 is called to inquire what functions are supported by
-@@ -1069,10 +1069,9 @@ static void nvdimm_build_common_dsm(Aml *dev,
-      * in the DSM Spec.
-      */
-     pckg = aml_arg(3);
--    ifctx = aml_if(aml_and(aml_equal(aml_object_type(pckg),
-+    ifctx = aml_if(aml_land(aml_equal(aml_object_type(pckg),
-                    aml_int(4 /* Package */)) /* It is a Package? */,
--                   aml_equal(aml_sizeof(pckg), aml_int(1)) /* 1 element? */,
--                   NULL));
-+                   aml_equal(aml_sizeof(pckg), aml_int(1)) /* 1 element? */));
- 
-     pckg_index = aml_local(2);
-     pckg_buf = aml_local(3);
+ static void nvdimm_build_common_dsm(Aml *dev,
+                                     NVDIMMState *nvdimm_state)
+@@ -1029,8 +1030,7 @@ static void nvdimm_build_common_dsm(Aml *dev,
+                /* UUID for QEMU internal use */), expected_uuid));
+     aml_append(elsectx, ifctx);
+     elsectx2 = aml_else();
+-    aml_append(elsectx2, aml_store(
+-               aml_touuid("4309AC30-0D11-11E4-9191-0800200C9A66")
++    aml_append(elsectx2, aml_store(aml_touuid(NVDIMM_DEVICE_DSM_UUID)
+                /* UUID for NVDIMM Devices */, expected_uuid));
+     aml_append(elsectx, elsectx2);
+     aml_append(method, elsectx);
 -- 
 MST
 
