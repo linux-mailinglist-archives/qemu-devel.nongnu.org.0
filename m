@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93F5861A757
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 04:34:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52BF61A775
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 05:17:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1or9vr-0007w9-V8; Fri, 04 Nov 2022 23:33:19 -0400
+	id 1orAbF-0007h3-PH; Sat, 05 Nov 2022 00:16:05 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1or9rm-0004JD-Fj
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 23:29:06 -0400
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1or9rj-0006TX-Lp
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 23:29:06 -0400
-Received: from loongson.cn (unknown [10.2.5.185])
- by gateway (Coremail) with SMTP id _____8Dxndp82GVjrZoEAA--.15724S3;
- Sat, 05 Nov 2022 11:29:00 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxtuN52GVjeKENAA--.38334S9; 
- Sat, 05 Nov 2022 11:29:00 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org,
-	stefanha@gmail.com
-Subject: [PULL v3 7/7] target/loongarch: Fix raise_mmu_exception() set wrong
- exception_index
-Date: Sat,  5 Nov 2022 11:28:57 +0800
-Message-Id: <20221105032857.3789472-8-gaosong@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20221105032857.3789472-1-gaosong@loongson.cn>
-References: <20221105032857.3789472-1-gaosong@loongson.cn>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1orAbC-0007go-2z
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 00:16:03 -0400
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1orAb9-0003MC-QI
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 00:16:01 -0400
+Received: by mail-io1-xd29.google.com with SMTP id q21so2385572iod.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 21:15:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Lm25FiixbBtxz8ENoD2mHKOV1lXWMxe8gAau3bVD2ZE=;
+ b=v6Sh8N0qjlhgXtSIAzbST2EdpXHd47WvLC0MEZodFDZZy8xubgzyJj9ANLCgWWk0jY
+ OkBjgX3KOi+xqcz1n0yRXlMSAsywybXqGA3GjmIkimu2mhAOWfQzdh829LDpi5PJ/+6/
+ yShfqNUCQRj61k4BgVMz3sCAM/PxfiF6jqoWqKF2S2tISoucQIzzWbPiPjWWt5V96ov3
+ ii3VQjIyo/2yeUrl+gGTjD16uvKpq0ToSuwRcFFj0+plo6Jo0o0pPAmH5Tg0AjZH8mDB
+ m0MF5gMRWdz0IXPVJMLsRnuK++aUb0odAr3+TZCexGEUH0SXKIK1uj5gHke91rSnd0Lj
+ fVXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Lm25FiixbBtxz8ENoD2mHKOV1lXWMxe8gAau3bVD2ZE=;
+ b=lquVfwn/E+OFscrOXrjC4EFKBLlMzyrxi7+tKQxqsGHcXnZmxcxYyd/u4h/R5MLDVW
+ jLcw2CoViUXqEoKlQUw45756nWaJvhe9cS6liZc+FvIOVm+f0WzbkXrQeDy4foQlcA3S
+ tSxY/5ZmalPwCwAE5AYLpnqdqv0rbEoKVMDbsoNBMYJsdjh6M2gPrPx4dILxQN89xAgA
+ nf/YqfMvcoIovrU2GbmhRPUV3QyehN80uD4tMJM3hrkTs/Qisfb8VlwOOS/O53i9x0of
+ j1eKfmyef9WECLOOHqx9uX2ILJQusDbWOof3E27bLuxVyI+KnGFZEa4G0M85ps2gNP5F
+ msqQ==
+X-Gm-Message-State: ACrzQf3iwvdk2Cwt027M/m6rUwo/eHca8Bm1uX4Q9p54XevNcfPFlFDm
+ fGbMpWrZLzQuHv5gEGuCPWmjyyjrxJ98jg==
+X-Google-Smtp-Source: AMsMyM4Ck/9/DYSkjT1ZQdqSiRmmNXMNirUhck6Lyq1yYchYLAwOaSrKXAci6QGwg+91Nk3rvo92nA==
+X-Received: by 2002:a05:6638:12c1:b0:342:a36a:b2b1 with SMTP id
+ v1-20020a05663812c100b00342a36ab2b1mr24351440jas.275.1667621758144; 
+ Fri, 04 Nov 2022 21:15:58 -0700 (PDT)
+Received: from [192.168.229.227] ([172.58.139.114])
+ by smtp.gmail.com with ESMTPSA id
+ ch5-20020a0566383e8500b00372f8e38931sm297035jab.111.2022.11.04.21.15.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Nov 2022 21:15:57 -0700 (PDT)
+Message-ID: <08168c4c-b207-84cf-4675-fa629ebb13b1@linaro.org>
+Date: Sat, 5 Nov 2022 15:15:44 +1100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxtuN52GVjeKENAA--.38334S9
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoW7tr13JF4fWr1UGFWkJw45Awb_yoW8Cw13pF
- 9ruryUKr48JFWDAaykXa9YqFn8Xr47CF42ganaq3yFkw4aqr1jvF4kt3srKF1UJa1rX34I
- vF45Ar1jvF4rWaDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- b0AFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
- AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF
- 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x
- 0267AKxVW8JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE
- 44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26rWlOx8S6xCaFVCjc4
- AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
- Y20_WwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
- 80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0
- I7IYx2IY67AKxVW5JVW7JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04
- k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7Cj
- xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v4 1/2] target/loongarch: Adjust the layout of hardware
+ flags bit fields
+Content-Language: en-US
+To: Rui Wang <wangrui@loongson.cn>
+Cc: Song Gao <gaosong@loongson.cn>, Xiaojuan Yang <yangxiaojuan@loongson.cn>, 
+ qemu-devel@nongnu.org, hev <qemu@hev.cc>
+References: <20221105021022.558242-1-wangrui@loongson.cn>
+ <20221105021022.558242-2-wangrui@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221105021022.558242-2-wangrui@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,68 +95,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When the address is invalid address, We should set exception_index
-according to MMUAccessType, and EXCCODE_ADEF need't update badinstr.
-Otherwise, The system enters an infinite loop. e.g:
-run test.c on system mode
-test.c:
-    #include<stdio.h>
+On 11/5/22 13:10, Rui Wang wrote:
+> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Rui Wang<wangrui@loongson.cn>
+> ---
+>   target/loongarch/cpu.h                        | 27 ++++++++++++-------
+>   .../insn_trans/trans_privileged.c.inc         |  4 +--
+>   target/loongarch/tlb_helper.c                 |  4 +--
+>   target/loongarch/translate.c                  |  7 ++++-
+>   target/loongarch/translate.h                  |  3 ++-
+>   5 files changed, 29 insertions(+), 16 deletions(-)
 
-    void (*func)(int *);
-
-    int main()
-    {
-        int i = 8;
-        void *ptr = (void *)0x4000000000000000;
-        func = ptr;
-        func(&i);
-        return 0;
-    }
-
-Signed-off-by: Song Gao <gaosong@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20221101073210.3934280-2-gaosong@loongson.cn>
----
- target/loongarch/cpu.c        | 1 +
- target/loongarch/tlb_helper.c | 5 +++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-index b28aaed5ba..1512664214 100644
---- a/target/loongarch/cpu.c
-+++ b/target/loongarch/cpu.c
-@@ -177,6 +177,7 @@ static void loongarch_cpu_do_interrupt(CPUState *cs)
-         }
-         QEMU_FALLTHROUGH;
-     case EXCCODE_PIF:
-+    case EXCCODE_ADEF:
-         cause = cs->exception_index;
-         update_badinstr = 0;
-         break;
-diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
-index 610b6d123c..d2f8fb0c60 100644
---- a/target/loongarch/tlb_helper.c
-+++ b/target/loongarch/tlb_helper.c
-@@ -229,7 +229,8 @@ static void raise_mmu_exception(CPULoongArchState *env, target_ulong address,
-     switch (tlb_error) {
-     default:
-     case TLBRET_BADADDR:
--        cs->exception_index = EXCCODE_ADEM;
-+        cs->exception_index = access_type == MMU_INST_FETCH
-+                              ? EXCCODE_ADEF : EXCCODE_ADEM;
-         break;
-     case TLBRET_NOMATCH:
-         /* No TLB match for a mapped address */
-@@ -643,7 +644,7 @@ bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     CPULoongArchState *env = &cpu->env;
-     hwaddr physical;
-     int prot;
--    int ret = TLBRET_BADADDR;
-+    int ret;
- 
-     /* Data access */
-     ret = get_physical_address(env, &physical, &prot, address,
--- 
-2.31.1
-
+r~
 
