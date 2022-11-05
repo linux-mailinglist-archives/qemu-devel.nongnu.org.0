@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E7A61DC1F
+	by mail.lfdr.de (Postfix) with ESMTPS id 212A261DC20
 	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 17:45:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMGl-0003xt-C7; Sat, 05 Nov 2022 12:43:43 -0400
+	id 1orMGv-0003yr-0p; Sat, 05 Nov 2022 12:43:53 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMGj-0003xc-O3
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 12:43:41 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMGs-0003yR-NO
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 12:43:50 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMGh-0002kz-OX
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 12:43:41 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMGr-0002lJ-6n
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 12:43:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667666618;
+ s=mimecast20190719; t=1667666628;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=mZfqK9t1aPn2FYlaLvOCZZS2miUbp3Crlth9yXF2eSA=;
- b=GebjrA2QgAef6RTbhv+Ez5pVEgmiwkrpPBOV6fJPdM/vDFJ+fnzbPCNpfrdrI6e/K3ddd+
- EaVoR0CAZNwOxiOlV/giiugEbKIGogjh7CGx8t94rs4SySv9XGX68+5BqKxZoFZAXzWyiw
- ROUhTJN2jurzyloi2Z0U9IVmOuZUU60=
+ bh=zmkZCIBLPF+4+RAGE7aYka+ubfra/UPTpxwDP8ZiRd4=;
+ b=hgUcOLZSxY2DkettDghyNVkwUok+vWFPNdX13XqLwsZWo5Q/cjsyZqgscoqpcWAK5GUFWC
+ LKv0FSTXvxwG23v/ruulsKhKNyePvkZU3cE5ZjvWFMHRnNOiuWQmWoremsyAAkBEthlqe+
+ sb+PHM0zJsCcq/hPkELEVL6R2aOe4yA=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-642-N6Oi9RXQNeGaNZ0sTXKtXg-1; Sat, 05 Nov 2022 12:43:36 -0400
-X-MC-Unique: N6Oi9RXQNeGaNZ0sTXKtXg-1
+ us-mta-636-Fq2tFj5pM4q7q_K-9ctdVQ-1; Sat, 05 Nov 2022 12:43:47 -0400
+X-MC-Unique: Fq2tFj5pM4q7q_K-9ctdVQ-1
 Received: by mail-wm1-f69.google.com with SMTP id
- c130-20020a1c3588000000b003b56be513e1so3828789wma.0
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 09:43:36 -0700 (PDT)
+ r206-20020a1c44d7000000b003cf9bd60855so393587wma.6
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 09:43:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mZfqK9t1aPn2FYlaLvOCZZS2miUbp3Crlth9yXF2eSA=;
- b=EYtZP7QVvbo0cwizRRWJ8Ualh5bmHi547DNlCqtbORbreOdXxZ8eI+8jHNvBlJKhUg
- et4BC9Fqfad5nfAteVsFc6aOfPSqqJDiTEOlUax1MfI+H7xm6x/CLTcuo59lAQNYK9lN
- 2bIQsx+HwdCS//nT0Jm1SYPTuHhpi7dEF1qK7HmycjOhUL6EpqHOl/g4mjnE9dKkT0Bl
- F1pUAXn3Hl4xhmElDnhQ/TaS84gIphgrwJZJh5uIL6lBPmX51P+hhxDexxPUam4PHqSq
- OvsiXO9+tjHAG23XISz+kmK0bI9KN7eX6B3Azn9etIzvhrmGchpF0jj93eVAtg1oaYjS
- keIg==
-X-Gm-Message-State: ACrzQf0N20uHnhQCBj+oPODqvNFSREVPnqE+9lQ9uM4m8YQ1ud8y1QzR
- oZ46hfJFwGF69mcM/5O1Qu05o1vdcsffogYKQHiRx3+dm2WoUhFmbNFw1Ynor/Fc0MQMTebAGW5
- xPwzDFUN4KMLNPhA=
-X-Received: by 2002:a05:600c:654f:b0:3c3:b5b7:43a9 with SMTP id
- dn15-20020a05600c654f00b003c3b5b743a9mr38247696wmb.201.1667666615714; 
- Sat, 05 Nov 2022 09:43:35 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4udWlukMppuubnUB4b4YHmtu589q7EligQIOqBFfcCPBtWzma3uSFAAsy4CNqfZWczsCeLMg==
-X-Received: by 2002:a05:600c:654f:b0:3c3:b5b7:43a9 with SMTP id
- dn15-20020a05600c654f00b003c3b5b743a9mr38247684wmb.201.1667666615510; 
- Sat, 05 Nov 2022 09:43:35 -0700 (PDT)
+ bh=zmkZCIBLPF+4+RAGE7aYka+ubfra/UPTpxwDP8ZiRd4=;
+ b=eHtR06jz8eEtXL6GuyRl8EPcuhYfSPa9DAVgM6URnu2RxAKameXXbIkGb2ge8IuFhZ
+ Gg7RheB3cnj8FtyWThHYYW0Lp0KR4CYRXTOnwBOt10YxzLoClQbKocRwiHDjWEsnBwZM
+ KR8EthZXS2VgKG0jpGbH9IzADueQ2EnKazrSbbZYov5uJtpzIxuZMJxSXazmYiabrBIw
+ +LlCAcpk9hoSvCsh8i+YoFJW4NCzyHJoWn1dBLPI+uyigYlE+aCYkkuGpUaFDG3va72z
+ Y4gQOLv/GvYjM3L8Iy9VzUz2CvPQLBonvmwMceaIEStLgzf6Voso5D/bwqSlvlFgFsbi
+ I5Sg==
+X-Gm-Message-State: ACrzQf3b4/LMGNdO5e6YVXEargG+rTBvjikLkDmwcFcPLDMixgkN1Iyz
+ 7Ybo3Y8RNyah7qaX9adIo/GKMUsSzYk0wOygiitVstQVrE7iW7iBKD11M6ul/LAS6oN+IEAp5LN
+ FRK9G0PqYD+mcDUg=
+X-Received: by 2002:adf:fa51:0:b0:236:5100:f595 with SMTP id
+ y17-20020adffa51000000b002365100f595mr25597735wrr.309.1667666625980; 
+ Sat, 05 Nov 2022 09:43:45 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM41irevzoIdAy5FTsWGMJaOjZriAj0kBY/2x2i3DRpbth0RV6ZcSm+n7oAw05rmv/6r1Ll1+w==
+X-Received: by 2002:adf:fa51:0:b0:236:5100:f595 with SMTP id
+ y17-20020adffa51000000b002365100f595mr25597728wrr.309.1667666625787; 
+ Sat, 05 Nov 2022 09:43:45 -0700 (PDT)
 Received: from redhat.com ([2.52.152.137]) by smtp.gmail.com with ESMTPSA id
- s1-20020a7bc381000000b003c6b874a0dfsm3426424wmj.14.2022.11.05.09.43.33
+ p20-20020a05600c359400b003a6a3595edasm3178913wmq.27.2022.11.05.09.43.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 09:43:35 -0700 (PDT)
-Date: Sat, 5 Nov 2022 12:43:29 -0400
+ Sat, 05 Nov 2022 09:43:45 -0700 (PDT)
+Date: Sat, 5 Nov 2022 12:43:42 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Longpeng(Mike)" <longpeng2@huawei.com>
-Cc: stefanha@redhat.com, jasowang@redhat.com, sgarzare@redhat.com,
- cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
- yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org,
- xiehong@huawei.com
-Subject: Re: [PATCH v7 resend 0/4] add generic vDPA device support
-Message-ID: <20221105103601-mutt-send-email-mst@kernel.org>
-References: <20221105083629.1058-1-longpeng2@huawei.com>
+To: Yajun Wu <yajunw@nvidia.com>
+Cc: qemu-devel@nongnu.org, parav@nvidia.com
+Subject: Re: [PATCH v3 1/2] vhost: Change the sequence of device start
+Message-ID: <20221105103207-mutt-send-email-mst@kernel.org>
+References: <20220629022517.2600911-1-yajunw@nvidia.com>
+ <20221017064452.1226514-1-yajunw@nvidia.com>
+ <20221017064452.1226514-2-yajunw@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221105083629.1058-1-longpeng2@huawei.com>
+In-Reply-To: <20221017064452.1226514-2-yajunw@nvidia.com>
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -97,102 +96,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Nov 05, 2022 at 04:36:25PM +0800, Longpeng(Mike) wrote:
-> From: Longpeng <longpeng2@huawei.com>
+On Mon, Oct 17, 2022 at 02:44:51PM +0800, Yajun Wu wrote:
+> This patch is part of adding vhost-user vhost_dev_start support. The
+> motivation is to improve backend configuration speed and reduce live
+> migration VM downtime.
 > 
-> Hi guys,
+> Moving the device start routines after finishing all the necessary device
+> and VQ configuration, further aligning to the virtio specification for
+> "device initialization sequence".
 > 
-> With the generic vDPA device, QEMU won't need to touch the device
-> types any more, such like vfio.
+> Following patch will add vhost-user vhost_dev_start support.
+> 
+> Signed-off-by: Yajun Wu <yajunw@nvidia.com>
+> Acked-by: Parav Pandit <parav@nvidia.com>
+> 
+> ---
+>  hw/block/vhost-user-blk.c | 18 +++++++++++-------
+>  hw/net/vhost_net.c        | 12 ++++++------
+>  2 files changed, 17 insertions(+), 13 deletions(-)
+> 
+> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> index 84902dde17..f4deb8cd5d 100644
+> --- a/hw/block/vhost-user-blk.c
+> +++ b/hw/block/vhost-user-blk.c
+> @@ -164,13 +164,6 @@ static int vhost_user_blk_start(VirtIODevice *vdev, Error **errp)
+>          goto err_guest_notifiers;
+>      }
+>  
+> -    ret = vhost_dev_start(&s->dev, vdev);
+> -    if (ret < 0) {
+> -        error_setg_errno(errp, -ret, "Error starting vhost");
+> -        goto err_guest_notifiers;
+> -    }
+> -    s->started_vu = true;
+> -
+>      /* guest_notifier_mask/pending not used yet, so just unmask
+>       * everything here. virtio-pci will do the right thing by
+>       * enabling/disabling irqfd.
+> @@ -179,9 +172,20 @@ static int vhost_user_blk_start(VirtIODevice *vdev, Error **errp)
+>          vhost_virtqueue_mask(&s->dev, vdev, i, false);
+>      }
+>  
+> +    s->dev.vq_index_end = s->dev.nvqs;
+> +    ret = vhost_dev_start(&s->dev, vdev);
+> +    if (ret < 0) {
+> +        error_setg_errno(errp, -ret, "Error starting vhost");
+> +        goto err_guest_notifiers;
+> +    }
+> +    s->started_vu = true;
+> +
+>      return ret;
+>  
+>  err_guest_notifiers:
+> +    for (i = 0; i < s->dev.nvqs; i++) {
+> +        vhost_virtqueue_mask(&s->dev, vdev, i, true);
+> +    }
+>      k->set_guest_notifiers(qbus->parent, s->dev.nvqs, false);
+>  err_host_notifiers:
+>      vhost_dev_disable_notifiers(&s->dev, vdev);
+> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> index d28f8b974b..d6924f5e57 100644
+> --- a/hw/net/vhost_net.c
+> +++ b/hw/net/vhost_net.c
+> @@ -387,21 +387,21 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+>          } else {
+>              peer = qemu_get_peer(ncs, n->max_queue_pairs);
+>          }
+> -        r = vhost_net_start_one(get_vhost_net(peer), dev);
+> -
+> -        if (r < 0) {
+> -            goto err_start;
+> -        }
+>  
+>          if (peer->vring_enable) {
+>              /* restore vring enable state */
+>              r = vhost_set_vring_enable(peer, peer->vring_enable);
+>  
+>              if (r < 0) {
+> -                vhost_net_stop_one(get_vhost_net(peer), dev);
+>                  goto err_start;
+>              }
+>          }
+> +
+> +        r = vhost_net_start_one(get_vhost_net(peer), dev);
+> +        if (r < 0) {
+> +            vhost_net_stop_one(get_vhost_net(peer), dev);
 
-With this kind of passthrough migration is completely MIA right?
-Better add a blocker...
-And given this is there an advantage over VFIO?
+Error handling broken here. Corrupts memory if triggered.
+I fixed it up when applying just because of the freeze
+but I won't do this generally.
 
-> We can use the generic vDPA device as follow:
->   -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
->   Or
->   -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
->   vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
-
-> Changes v6 -> v7:
->     (v6: https://mail.gnu.org/archive/html/qemu-devel/2022-05/msg02821.html)
->     - rebase. [Jason]
->     - add documentation . [Stefan]
-> 
-> Changes v5 -> v6:
->   Patch 2:
->     - Turn to the original approach in the RFC to initialize the
->       virtio_pci_id_info array. [Michael]
-> 	  https://lore.kernel.org/all/20220105005900.860-2-longpeng2@huawei.com/
->   Patch 3:
->     - Fix logical error of exception handler around the post_init.
->       [Stefano]
->     - Fix some coding style warnings. [Stefano]
->   Patch 4:
->     - Fix some coding style warnings. [Stefano]
-> 
-> Changes v4 -> v5:
->   Patch 3:
->     - remove vhostfd [Jason]
->     - support virtio-mmio [Jason]
-> 
-> Changes v3 -> v4:
->   v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg877015.html
->   - reorganize the series [Stefano]
->   - fix some typos [Stefano]
->   - fix logical error in vhost_vdpa_device_realize [Stefano]
-> 
-> Changes v2 -> v3
->   Patch 4 & 5:
->     - only call vdpa ioctls in vdpa-dev.c [Stefano, Longpeng]
->     - s/VQS_NUM/VQS_COUNT  [Stefano]
->     - check both vdpa_dev_fd and vdpa_dev [Stefano]
->   Patch 6:
->     - move all steps into vhost_vdpa_device_unrealize. [Stefano]
-> 
-> Changes RFC -> v2
->   Patch 1:
->     - rename 'pdev_id' to 'trans_devid'  [Michael]
->     - only use transitional device id for the devices
->       listed in the spec  [Michael]
->     - use macros to make the id_info table clearer  [Longpeng]
->     - add some modern devices in the id_info table  [Longpeng]
->   Patch 2:
->     - remove the GET_VECTORS_NUM command  [Jason]
->   Patch 4:
->     - expose vdpa_dev_fd as a QOM preperty  [Stefan]
->     - introduce vhost_vdpa_device_get_u32 as a common
->       function to make the code clearer  [Stefan]
->     - fix the misleading description of 'dc->desc'  [Stefano]
->   Patch 5:
->     - check returned number of virtqueues  [Stefan]
->   Patch 6:
->     - init s->num_queues  [Stefano]
->     - free s->dev.vqs  [Stefano]
-> 
-> 
-> Longpeng (Mike) (4):
->   virtio: get class_id and pci device id by the virtio id
->   vdpa: add vdpa-dev support
->   vdpa: add vdpa-dev-pci support
->   docs: Add generic vhost-vdpa device documentation
-> 
->  docs/system/devices/vhost-vdpa-device.rst |  43 +++
->  hw/virtio/Kconfig                         |   5 +
->  hw/virtio/meson.build                     |   2 +
->  hw/virtio/vdpa-dev-pci.c                  | 102 ++++++
->  hw/virtio/vdpa-dev.c                      | 377 ++++++++++++++++++++++
->  hw/virtio/virtio-pci.c                    |  88 +++++
->  include/hw/virtio/vdpa-dev.h              |  43 +++
->  include/hw/virtio/virtio-pci.h            |   5 +
->  8 files changed, 665 insertions(+)
->  create mode 100644 docs/system/devices/vhost-vdpa-device.rst
->  create mode 100644 hw/virtio/vdpa-dev-pci.c
->  create mode 100644 hw/virtio/vdpa-dev.c
->  create mode 100644 include/hw/virtio/vdpa-dev.h
-> 
+> +            goto err_start;
+> +        }
+>      }
+>  
+>      return 0;
 > -- 
-> 2.23.0
+> 2.27.0
 
 
