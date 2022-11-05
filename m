@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E7F61A6AB
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 02:34:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF5061A6BD
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 02:45:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1or83n-0004u0-E4; Fri, 04 Nov 2022 21:33:23 -0400
+	id 1or8EN-0007Jh-VG; Fri, 04 Nov 2022 21:44:19 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1or83l-0004tr-B8
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 21:33:21 -0400
+ id 1or8EM-0007JL-8u
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 21:44:18 -0400
 Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1or83j-0000L4-0A
- for qemu-devel@nongnu.org; Fri, 04 Nov 2022 21:33:21 -0400
+ id 1or8EK-0001Zw-K6
+ for qemu-devel@nongnu.org; Fri, 04 Nov 2022 21:44:18 -0400
 Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-13d9a3bb27aso6554780fac.11
- for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 18:33:17 -0700 (PDT)
+ 586e51a60fabf-1322d768ba7so7364695fac.5
+ for <qemu-devel@nongnu.org>; Fri, 04 Nov 2022 18:44:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=7l31v8YfVNSkm6VRsC7DY5agfM5CLJRzmpDnHKKXlIs=;
- b=Bd/kbOPz+Vkpmj1AXbcz1m9jo1/82zpIwftR65euy6+RXiMNXzwHcmYk9RqjzXY7gM
- pAAidOzewmFG0Dwi5uvCRLcrOF5aeDtsjIz9lOFJhDNbXPiCle5hD46Uo34mtgrHAGOf
- kExftYNRKTxyTxr7rtL28YvtEdDzjc9h+DfZMMB1C5C72cF9kq261izsIcTXzp0K7qyW
- dRmuIu9X8LG3gACr/9Hm3yjzLlSo7Hf8R5evoz0FqiifPJN0NVvnmq8fnQQb0ZnSlYjy
- H0D8/2f8zxWsn6K5T4EvJQ8IFvNuqDO9yrWkAysTDbjXvaD5c/gmYzD4YWK1cJcXR3Zl
- 64vg==
+ bh=+kfOVFfUuyltu2VgUPycEmTu6JFVALqe9o8gGiW6GQQ=;
+ b=QflVLzPWlfk9T/YSiD+rXFIvp9vK8JthHFRe+sHm3hVN4mfNLLyNpcXHzwJ1aLcZU3
+ /l+/lieinmWgj0OGhU8gzAJpgPvHwRQvtjW31LP++/y4lJECdzGOS3+vyFkjWluqeCeD
+ OhNFbnww/vcQ7bp25aiucJ6y6XbJtzR3s3pAMgLKV9y2cakrNxwK5A9YT+x7fLTuF4vg
+ 0I8C5/HpehOieqVUoxkU7pGFIj6Ye0IVWve9hVg8TEz9K6as8veXi+QpSlTytWR/FZv7
+ rGyNo4hswYZk3MI7i5Y4vb8fG0p93vP4NdGQAfcJisscUOpIItBWGhdSMdNUCBKyAuI/
+ rv4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7l31v8YfVNSkm6VRsC7DY5agfM5CLJRzmpDnHKKXlIs=;
- b=oD8Z9lTCJcOU2g/xOk7TaJeTV0FYWs1ojyxcEGV0T+7Dlui45dtr+zhGlt0rcsp7pM
- gN34+WRF2W4JWMUC00Y2fThgoxUtOqTguWWHFq5RR1+s7Q3ptbOsBhEAZMNr2Vmi431P
- mePlMqSUb2s2StNDods/d2rrIHVatElXMoFw/Lxj7G3JJVwsb+0XFP4GikmuDNUbuJS7
- m8YmkrtwIaRripYOFLVJXO8PmkJa3LySMlOY+BykyBBVaBVEwhJeyzvh9bARcaLjqA1I
- Pu86vf0FslVuQ/qzsQJ/dTBHD6lak04815Js4X7EtjmxuiLKtzHTX33CiTyq66w5Pj1T
- gArg==
-X-Gm-Message-State: ACrzQf31BVUTMa01Q3Nt24ixgr6iCv1b8auZakcEC95Dp+/UeW8tqbel
- OkcTx+NPefFaqc4KH3I2bkqkYg==
-X-Google-Smtp-Source: AMsMyM4zLtucOnHYNL4EKZMNRVtUHtX8qAVXvKunJ2wYdyXthqdMlmdytI8tlasywv/9C31K7sO1pg==
-X-Received: by 2002:a05:6870:470d:b0:13c:d3d5:3f3f with SMTP id
- b13-20020a056870470d00b0013cd3d53f3fmr21717963oaq.73.1667611996744; 
- Fri, 04 Nov 2022 18:33:16 -0700 (PDT)
+ bh=+kfOVFfUuyltu2VgUPycEmTu6JFVALqe9o8gGiW6GQQ=;
+ b=6ms3KqueqYIw95nhRmt7sT9oxo5U2ACT7FvOi2o16PNDp9/cS1Cm9xV6It7oEIMRao
+ rG5sAq/+twXGhsEfyi5KezPpmvHzQOHQdl74PDx5WMo2RvLuw4aO1Xlxn2gY+ubSswmP
+ XTaBxs0BlqRsaOQY659VegNTZU/07+7sQEEw6iUY0Yn99A6qoATp+dR2dcly9S4Z8M4k
+ krhxg2S9xQia3UZfXXMOEM/sm64KCHXkLuB+fWRM55NsC35G4shmDu68tLlTxYBZ+g3T
+ yCtafZvGpnA7uZIQ4n4y+IFpm1DAqiQgDabkEolOJ9XUWGKPG3ZHheWVNSVrmVmi0yNt
+ 56Rg==
+X-Gm-Message-State: ACrzQf2o2o3mi9PN/tPas3nhpcx3nVc+2R2KKlfKxAxrEzA208SoLVL8
+ WRRQqdBZnkCFgjUSuB7DNvL9aQ==
+X-Google-Smtp-Source: AMsMyM75b2Oyl/WN4xUBxax7IUCAqt3frld9UCeevAVcQZGBqnIyq1hFTONz2eNUyg+Oi0frCPyL5g==
+X-Received: by 2002:a05:6870:e416:b0:13b:71ae:599c with SMTP id
+ n22-20020a056870e41600b0013b71ae599cmr32663833oag.215.1667612653760; 
+ Fri, 04 Nov 2022 18:44:13 -0700 (PDT)
 Received: from [192.168.229.227] ([172.58.176.28])
  by smtp.gmail.com with ESMTPSA id
- j5-20020aca6545000000b0035a2f3e423esm257272oiw.32.2022.11.04.18.33.10
+ c12-20020a056830000c00b0066c39c99ae5sm393251otp.25.2022.11.04.18.44.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Nov 2022 18:33:16 -0700 (PDT)
-Message-ID: <1a998d59-4302-06f9-c62f-aba2079a0238@linaro.org>
-Date: Sat, 5 Nov 2022 12:33:03 +1100
+ Fri, 04 Nov 2022 18:44:13 -0700 (PDT)
+Message-ID: <a13e4232-dea1-3050-b0c8-a6cd0cec3137@linaro.org>
+Date: Sat, 5 Nov 2022 12:44:01 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v3 10/11] Hexagon (target/hexagon) Use direct block
- chaining for direct jump/branch
+Subject: Re: [PATCH v3 11/11] Hexagon (target/hexagon) Use direct block
+ chaining for tight loops
 Content-Language: en-US
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 Cc: philmd@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com,
  quic_mathbern@quicinc.com
 References: <20221104192631.29434-1-tsimpson@quicinc.com>
- <20221104192631.29434-11-tsimpson@quicinc.com>
+ <20221104192631.29434-12-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221104192631.29434-11-tsimpson@quicinc.com>
+In-Reply-To: <20221104192631.29434-12-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=2001:4860:4864:20::2e;
@@ -100,33 +100,45 @@ On 11/5/22 06:26, Taylor Simpson wrote:
 > Direct block chaining is documented here
 > https://qemu.readthedocs.io/en/latest/devel/tcg.html#direct-block-chaining
 > 
-> Recall that Hexagon allows packets with multiple jumps where only the first
-> one with a true predicate will actually jump.  So, we can only use direct
-> block chaining when the packet contains a single PC-relative jump.
+> Hexagon inner loops end with the endloop0 instruction
+> To go back to the beginning of the loop, this instructions writes to PC
+> from register SA0 (start address 0).  To use direct block chaining, we
+> have to assign PC with a constant value.  So, we specialize the code
+> generation when the start of the translation block is equal to SA0.
+> 
+> When this is the case, we defer the compare/branch from endloop0 to
+> gen_end_tb.  When this is done, we can assign the start address of the TB
+> to PC.
+> 
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>   target/hexagon/cpu.h       | 17 ++++++++----
+>   target/hexagon/gen_tcg.h   |  3 ++
+>   target/hexagon/translate.h |  1 +
+>   target/hexagon/genptr.c    | 57 ++++++++++++++++++++++++++++++++++++++
+>   target/hexagon/translate.c | 34 +++++++++++++++++++++++
+>   5 files changed, 107 insertions(+), 5 deletions(-)
+> 
+> diff --git a/target/hexagon/cpu.h b/target/hexagon/cpu.h
+> index ff8c26272d..5260e0f127 100644
+> --- a/target/hexagon/cpu.h
+> +++ b/target/hexagon/cpu.h
+> @@ -152,16 +152,23 @@ struct ArchCPU {
+>   
+>   #include "cpu_bits.h"
+>   
+> +typedef union {
+> +    uint32_t i;
+> +    struct {
+> +        bool is_tight_loop:1;
+> +    };
+> +} HexStateFlags;
 
-Not quite accurate.
+I don't see this as an improvement on manual flags handling, as it makes the flags value 
+be dependent on host bit-field ordering.  This makes it more difficult to compare traces 
+across hosts.
 
-Only the first two direct branches can use direct block chaining.  Other exits from the 
-translation block could use indirect block chaining (tcg_gen_lookup_and_goto_ptr).  You 
-just have to remember which is taken.
-
-That said, this is certainly an improvement.
-
-> +    if (ctx->pkt->pkt_has_multi_cof) {
-> +        gen_write_new_pc_addr(ctx, tcg_constant_tl(dest), pred);
-> +    } else {
-> +        /* Defer this jump to the end of the TB */
-> +        g_assert(ctx->branch_cond == NULL);
-> +        ctx->has_single_direct_branch = true;
-> +        if (pred != NULL) {
-> +            ctx->branch_cond = tcg_temp_local_new();
-> +            tcg_gen_mov_tl(ctx->branch_cond, pred);
-> +        }
-> +        ctx->branch_dest = dest;
-
-Perhaps re-use hex_branch_taken as branch_cond?
-
-Anyway,
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
