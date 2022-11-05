@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50AA561DC88
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC86061DC6B
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:27:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMrA-0001Iw-Pj; Sat, 05 Nov 2022 13:21:20 -0400
+	id 1orMrA-0001HC-4Z; Sat, 05 Nov 2022 13:21:20 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMpM-0007rU-Dx
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMpP-0007sV-D5
  for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:19:31 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMpK-0007rF-Pc
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:19:28 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMpN-0007rY-IK
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:19:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667668766;
+ s=mimecast20190719; t=1667668769;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=wH9In1dsmo/cnU0MTw9nPlthORSI2VXK6ZI0gdJrLTs=;
- b=Ldv1wiYIu6u4c/5RJGfvGpy9aEWdigv54YAzDdv4u6bpBWUpE5T0GBze6g+47e5kqq8CX3
- y8T4+1IoiZZbWiSMxHhb7mhRr7dhWUNyO9kqTf/vOV3dbFx50Tgd6fbqLrs7ralewPQDiD
- w2AL9htC52L6vpatyXKyTPgw/VKf0ms=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=As5aksLgJGKiOjHHM7RxMlpTX7dtaJu29uk4Jkwtx/A=;
+ b=aph8syJPMdQfUT1JnUZg1mjWYmHYLmWPw1ODWD63IIVSU13i5ucavIUfGZwpUk+2KNgkC/
+ mRA31dT7hwtRDdqerIW/9VWAWzPmX4HpsSI2SsGlTC5pHJl2VJIiZ+ZF3aMfRpAe485y5m
+ /bdtuBDXj80vvPjDN2bfFdwM67rCwq0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-501-KhlL6P6UMLG-SibguzVpSg-1; Sat, 05 Nov 2022 13:19:25 -0400
-X-MC-Unique: KhlL6P6UMLG-SibguzVpSg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 1-20020a05600c028100b003cf7833293cso6008353wmk.3
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:19:24 -0700 (PDT)
+ us-mta-549-GOiKROWOPFGyqPsTeB2pdw-1; Sat, 05 Nov 2022 13:19:27 -0400
+X-MC-Unique: GOiKROWOPFGyqPsTeB2pdw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i7-20020a1c3b07000000b003c5e6b44ebaso5989907wma.9
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:19:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wH9In1dsmo/cnU0MTw9nPlthORSI2VXK6ZI0gdJrLTs=;
- b=V8l4bCOKSM/aa0pIfQ4u7a2QZ3RZdPPefj/4fLpk3rJAI4PRc7WvB50hrNjnarRwVT
- 1Nm7gFwi48LVZAkqOHFCvfT/DlJevtVHry5Po0wT69h+etvYC7+m8udHCERC9k1ufTSg
- kS7EzUNfRquyl0Pj255AStiLgAhqd3GtnJxfET9D2FmLkXwIMYXrFH5a9MZoYkDjAzpR
- DanYFoDZIkEkVH14Lb1rLL85wUgOJuOtPXsjjVu1i6PjLJfAgrUnQFyFnpCivSqB64Hb
- o1o9cmrxatYrrdYAqGMlnuciwNzzpiwyG2Ylg0bSCITnKTfAfbZRenKrDj/7xTf7YTbO
- /0dA==
-X-Gm-Message-State: ACrzQf0SdEe7wDF88TXR2iLtr7/tjBCmmajGUv57fOXzrT7JBC2+fYFW
- 5Sm2rdntQ2AuvHd1RbcDyfvxBElqSoY76wYwAQ9bez/5Q+CYugzI2FoYHCaRzzNfgMTQoAJK9Qy
- WVsqRs829u5DH0yQ5lL72tVSy7NLp5taIbC0w0neRbQ96w204y/ieRS+PUf2Z
-X-Received: by 2002:a05:600c:2044:b0:3cf:570f:db5e with SMTP id
- p4-20020a05600c204400b003cf570fdb5emr33042301wmg.57.1667668763637; 
- Sat, 05 Nov 2022 10:19:23 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6Y8TLF9y0GgJc5r6n8Tnul17c30w18uZru+WaVGNh0p4cZ7q/v4RY97NqiBEVFtaf8L0X9Mw==
-X-Received: by 2002:a05:600c:2044:b0:3cf:570f:db5e with SMTP id
- p4-20020a05600c204400b003cf570fdb5emr33042275wmg.57.1667668763303; 
- Sat, 05 Nov 2022 10:19:23 -0700 (PDT)
+ bh=As5aksLgJGKiOjHHM7RxMlpTX7dtaJu29uk4Jkwtx/A=;
+ b=z7jihbXI70x5aeFJ7Jp8IUw6L2U10XgxD2na5v47IkNdbR1mwwTzGJOsFXYijlKnEB
+ CZFg11CS+FWizfYvtKkAsSbbA5sZaUSZzlG/EEuVV3z/+HLY07a2IkmF43PgE+2E/weI
+ VUDsr8/SbSRMJIa1En9yHd30fi8rjcFnASFXha0QDgMZnGzm8Lkeyk/HZ2jiavE4wtmu
+ gB3OkD8owUtnD88NYePDWeRJkYzOD8w53IitluGuXlOdLT91Dyt6wtcknRElp9m90PlO
+ MS6AD9cuV2uODmXl2AzXakvwWxR1Gm1xZZyc7xDYz2YlTXjQWnjowAM/90U3XBTrZ8VC
+ b1SA==
+X-Gm-Message-State: ACrzQf3rKjB7J/+IgtNF1ckyYFkyMTcv+qkM+iq7pLxC8k9NC0So/VdR
+ mo3xgmIyTMrL/eGmxsOjzGEpj3K+o9/uDPdUd7UrW2uRQ0NC0qXISSAzcimPmLufrV/RQsN5rWP
+ /dwGiYzSXk3k5fYEBQ2LPVELral6cN794Y/rCF0nyLdyzES2f2FkfeO7cV9NA
+X-Received: by 2002:a05:600c:48a7:b0:3cf:8025:c899 with SMTP id
+ j39-20020a05600c48a700b003cf8025c899mr17647300wmp.26.1667668766483; 
+ Sat, 05 Nov 2022 10:19:26 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6EW0Oorf7hcyTcHkisiQ3ySTSiBnqwCWTZzvVxrtTonWk+oVLpiKLlSz9q1D+oj8Glkqr+UA==
+X-Received: by 2002:a05:600c:48a7:b0:3cf:8025:c899 with SMTP id
+ j39-20020a05600c48a700b003cf8025c899mr17647288wmp.26.1667668766197; 
+ Sat, 05 Nov 2022 10:19:26 -0700 (PDT)
 Received: from redhat.com ([2.52.152.137]) by smtp.gmail.com with ESMTPSA id
- f11-20020a05600c4e8b00b003b435c41103sm9047262wmq.0.2022.11.05.10.19.21
+ l66-20020a1c2545000000b003cdf141f363sm3236235wml.11.2022.11.05.10.19.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 10:19:22 -0700 (PDT)
-Date: Sat, 5 Nov 2022 13:19:20 -0400
+ Sat, 05 Nov 2022 10:19:25 -0700 (PDT)
+Date: Sat, 5 Nov 2022 13:19:23 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>, Yajun Wu <yajunw@nvidia.com>,
- Parav Pandit <parav@nvidia.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-block@nongnu.org
-Subject: [PULL v3 80/81] vhost: Change the sequence of device start
-Message-ID: <20221105171116.432921-81-mst@redhat.com>
+ Parav Pandit <parav@nvidia.com>
+Subject: [PULL v3 81/81] vhost-user: Support vhost_dev_start
+Message-ID: <20221105171116.432921-82-mst@redhat.com>
 References: <20221105171116.432921-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -102,97 +99,170 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Yajun Wu <yajunw@nvidia.com>
 
-This patch is part of adding vhost-user vhost_dev_start support. The
-motivation is to improve backend configuration speed and reduce live
-migration VM downtime.
+The motivation of adding vhost-user vhost_dev_start support is to
+improve backend configuration speed and reduce live migration VM
+downtime.
 
-Moving the device start routines after finishing all the necessary device
-and VQ configuration, further aligning to the virtio specification for
-"device initialization sequence".
+Today VQ configuration is issued one by one. For virtio net with
+multi-queue support, backend needs to update RSS (Receive side
+scaling) on every rx queue enable. Updating RSS is time-consuming
+(typical time like 7ms).
 
-Following patch will add vhost-user vhost_dev_start support.
+Implement already defined vhost status and message in the vhost
+specification [1].
+(a) VHOST_USER_PROTOCOL_F_STATUS
+(b) VHOST_USER_SET_STATUS
+(c) VHOST_USER_GET_STATUS
+
+Send message VHOST_USER_SET_STATUS with VIRTIO_CONFIG_S_DRIVER_OK for
+device start and reset(0) for device stop.
+
+On reception of the DRIVER_OK message, backend can apply the needed setting
+only once (instead of incremental) and also utilize parallelism on enabling
+queues.
+
+This improves QEMU's live migration downtime with vhost user backend
+implementation by great margin, specially for the large number of VQs of 64
+from 800 msec to 250 msec.
+
+[1] https://qemu-project.gitlab.io/qemu/interop/vhost-user.html
 
 Signed-off-by: Yajun Wu <yajunw@nvidia.com>
 Acked-by: Parav Pandit <parav@nvidia.com>
-
-Message-Id: <20221017064452.1226514-2-yajunw@nvidia.com>
+Message-Id: <20221017064452.1226514-3-yajunw@nvidia.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/block/vhost-user-blk.c | 18 +++++++++++-------
- hw/net/vhost_net.c        | 11 +++++------
- 2 files changed, 16 insertions(+), 13 deletions(-)
+ hw/virtio/vhost-user.c | 74 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 73 insertions(+), 1 deletion(-)
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 13bf5cc47a..28409c90f7 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -168,13 +168,6 @@ static int vhost_user_blk_start(VirtIODevice *vdev, Error **errp)
-         goto err_guest_notifiers;
-     }
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index d256ce589b..abe23d4ebe 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -81,6 +81,7 @@ enum VhostUserProtocolFeature {
+     VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
+     /* Feature 14 reserved for VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS. */
+     VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
++    VHOST_USER_PROTOCOL_F_STATUS = 16,
+     VHOST_USER_PROTOCOL_F_MAX
+ };
  
--    ret = vhost_dev_start(&s->dev, vdev);
--    if (ret < 0) {
--        error_setg_errno(errp, -ret, "Error starting vhost");
--        goto err_guest_notifiers;
--    }
--    s->started_vu = true;
--
-     /* guest_notifier_mask/pending not used yet, so just unmask
-      * everything here. virtio-pci will do the right thing by
-      * enabling/disabling irqfd.
-@@ -183,9 +176,20 @@ static int vhost_user_blk_start(VirtIODevice *vdev, Error **errp)
-         vhost_virtqueue_mask(&s->dev, vdev, i, false);
-     }
+@@ -126,6 +127,8 @@ typedef enum VhostUserRequest {
+     VHOST_USER_GET_MAX_MEM_SLOTS = 36,
+     VHOST_USER_ADD_MEM_REG = 37,
+     VHOST_USER_REM_MEM_REG = 38,
++    VHOST_USER_SET_STATUS = 39,
++    VHOST_USER_GET_STATUS = 40,
+     VHOST_USER_MAX
+ } VhostUserRequest;
  
-+    s->dev.vq_index_end = s->dev.nvqs;
-+    ret = vhost_dev_start(&s->dev, vdev);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "Error starting vhost");
-+        goto err_guest_notifiers;
-+    }
-+    s->started_vu = true;
-+
-     return ret;
- 
- err_guest_notifiers:
-+    for (i = 0; i < s->dev.nvqs; i++) {
-+        vhost_virtqueue_mask(&s->dev, vdev, i, true);
-+    }
-     k->set_guest_notifiers(qbus->parent, s->dev.nvqs, false);
- err_host_notifiers:
-     vhost_dev_disable_notifiers(&s->dev, vdev);
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 53b2fac4f6..feda448878 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -389,21 +389,20 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-         } else {
-             peer = qemu_get_peer(ncs, n->max_queue_pairs);
-         }
--        r = vhost_net_start_one(get_vhost_net(peer), dev);
--
--        if (r < 0) {
--            goto err_start;
--        }
- 
-         if (peer->vring_enable) {
-             /* restore vring enable state */
-             r = vhost_set_vring_enable(peer, peer->vring_enable);
- 
-             if (r < 0) {
--                vhost_net_stop_one(get_vhost_net(peer), dev);
-                 goto err_start;
-             }
-         }
-+
-+        r = vhost_net_start_one(get_vhost_net(peer), dev);
-+        if (r < 0) {
-+            goto err_start;
-+        }
-     }
- 
+@@ -1452,6 +1455,43 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64,
      return 0;
+ }
+ 
++static int vhost_user_set_status(struct vhost_dev *dev, uint8_t status)
++{
++    return vhost_user_set_u64(dev, VHOST_USER_SET_STATUS, status, false);
++}
++
++static int vhost_user_get_status(struct vhost_dev *dev, uint8_t *status)
++{
++    uint64_t value;
++    int ret;
++
++    ret = vhost_user_get_u64(dev, VHOST_USER_GET_STATUS, &value);
++    if (ret < 0) {
++        return ret;
++    }
++    *status = value;
++
++    return 0;
++}
++
++static int vhost_user_add_status(struct vhost_dev *dev, uint8_t status)
++{
++    uint8_t s;
++    int ret;
++
++    ret = vhost_user_get_status(dev, &s);
++    if (ret < 0) {
++        return ret;
++    }
++
++    if ((s & status) == status) {
++        return 0;
++    }
++    s |= status;
++
++    return vhost_user_set_status(dev, s);
++}
++
+ static int vhost_user_set_features(struct vhost_dev *dev,
+                                    uint64_t features)
+ {
+@@ -1460,6 +1500,7 @@ static int vhost_user_set_features(struct vhost_dev *dev,
+      * backend is actually logging changes
+      */
+     bool log_enabled = features & (0x1ULL << VHOST_F_LOG_ALL);
++    int ret;
+ 
+     /*
+      * We need to include any extra backend only feature bits that
+@@ -1467,9 +1508,18 @@ static int vhost_user_set_features(struct vhost_dev *dev,
+      * VHOST_USER_F_PROTOCOL_FEATURES bit for enabling protocol
+      * features.
+      */
+-    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES,
++    ret = vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES,
+                               features | dev->backend_features,
+                               log_enabled);
++
++    if (virtio_has_feature(dev->protocol_features,
++                           VHOST_USER_PROTOCOL_F_STATUS)) {
++        if (!ret) {
++            return vhost_user_add_status(dev, VIRTIO_CONFIG_S_FEATURES_OK);
++        }
++    }
++
++    return ret;
+ }
+ 
+ static int vhost_user_set_protocol_features(struct vhost_dev *dev,
+@@ -2620,6 +2670,27 @@ void vhost_user_cleanup(VhostUserState *user)
+     user->chr = NULL;
+ }
+ 
++static int vhost_user_dev_start(struct vhost_dev *dev, bool started)
++{
++    if (!virtio_has_feature(dev->protocol_features,
++                            VHOST_USER_PROTOCOL_F_STATUS)) {
++        return 0;
++    }
++
++    /* Set device status only for last queue pair */
++    if (dev->vq_index + dev->nvqs != dev->vq_index_end) {
++        return 0;
++    }
++
++    if (started) {
++        return vhost_user_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
++                                          VIRTIO_CONFIG_S_DRIVER |
++                                          VIRTIO_CONFIG_S_DRIVER_OK);
++    } else {
++        return vhost_user_set_status(dev, 0);
++    }
++}
++
+ const VhostOps user_ops = {
+         .backend_type = VHOST_BACKEND_TYPE_USER,
+         .vhost_backend_init = vhost_user_backend_init,
+@@ -2654,4 +2725,5 @@ const VhostOps user_ops = {
+         .vhost_backend_mem_section_filter = vhost_user_mem_section_filter,
+         .vhost_get_inflight_fd = vhost_user_get_inflight_fd,
+         .vhost_set_inflight_fd = vhost_user_set_inflight_fd,
++        .vhost_dev_start = vhost_user_dev_start,
+ };
 -- 
 MST
 
