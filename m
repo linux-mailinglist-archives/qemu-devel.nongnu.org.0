@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1150461D9CB
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 12:58:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40CD961D9CC
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 12:59:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orHo9-0001np-3t; Sat, 05 Nov 2022 07:57:53 -0400
+	id 1orHox-0002B3-Uq; Sat, 05 Nov 2022 07:58:45 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan.weil@weilnetz.de>)
- id 1orHo7-0001nM-5n; Sat, 05 Nov 2022 07:57:51 -0400
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
+ id 1orHop-000272-Gg; Sat, 05 Nov 2022 07:58:37 -0400
 Received: from mail.weilnetz.de ([37.120.169.71]
  helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan.weil@weilnetz.de>)
- id 1orHo5-0007tj-Kq; Sat, 05 Nov 2022 07:57:50 -0400
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
+ id 1orHon-00081p-89; Sat, 05 Nov 2022 07:58:35 -0400
 Received: from [192.168.44.88] (unknown [185.238.219.80])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 363D6DA0EB6;
- Sat,  5 Nov 2022 12:57:46 +0100 (CET)
-Message-ID: <6d819738-8ab1-0358-e54a-719103aaef09@weilnetz.de>
-Date: Sat, 5 Nov 2022 12:57:45 +0100
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id C8510DA119A;
+ Sat,  5 Nov 2022 12:58:30 +0100 (CET)
+Message-ID: <933228d0-c3d0-0262-96d6-d9f099c0d970@weilnetz.de>
+Date: Sat, 5 Nov 2022 12:58:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH trivial for 7.2 1/2] hw/usb/hcd-xhci.c: spelling: tranfer
+Subject: Re: [PATCH trivial for 7.2 2/2] hw/virtio/virtio.c: spelling: suppoted
 To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20221105114851.306206-1-mjt@msgid.tls.msk.ru>
-In-Reply-To: <20221105114851.306206-1-mjt@msgid.tls.msk.ru>
+Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20221105114851.306206-1-mjt@tls.msk.ru>
+ <20221105114851.306206-2-mjt@msgid.tls.msk.ru>
+In-Reply-To: <20221105114851.306206-2-mjt@msgid.tls.msk.ru>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------t1eFuYd2Yyh0s0R61utCwgCT"
-Received-SPF: pass client-ip=37.120.169.71;
- envelope-from=stefan.weil@weilnetz.de; helo=mail.v2201612906741603.powersrv.de
+ boundary="------------m4OYKQUyn1zda0MfEnSjAvKU"
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -57,47 +58,51 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
-Reply-to:  Stefan Weil <stefan.weil@weilnetz.de>
+Reply-to:  Stefan Weil <sw@weilnetz.de>
 From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------t1eFuYd2Yyh0s0R61utCwgCT
-Content-Type: multipart/mixed; boundary="------------zbqTolIphq7z0dtFOlqmrFJF";
+--------------m4OYKQUyn1zda0MfEnSjAvKU
+Content-Type: multipart/mixed; boundary="------------sFp0XYEVQg8DHneMUtkcu0MC";
  protected-headers="v1"
-From: Stefan Weil <stefan.weil@weilnetz.de>
+From: Stefan Weil <sw@weilnetz.de>
 To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Message-ID: <6d819738-8ab1-0358-e54a-719103aaef09@weilnetz.de>
-Subject: Re: [PATCH trivial for 7.2 1/2] hw/usb/hcd-xhci.c: spelling: tranfer
-References: <20221105114851.306206-1-mjt@msgid.tls.msk.ru>
-In-Reply-To: <20221105114851.306206-1-mjt@msgid.tls.msk.ru>
+Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Message-ID: <933228d0-c3d0-0262-96d6-d9f099c0d970@weilnetz.de>
+Subject: Re: [PATCH trivial for 7.2 2/2] hw/virtio/virtio.c: spelling:
+ suppoted
+References: <20221105114851.306206-1-mjt@tls.msk.ru>
+ <20221105114851.306206-2-mjt@msgid.tls.msk.ru>
+In-Reply-To: <20221105114851.306206-2-mjt@msgid.tls.msk.ru>
 
---------------zbqTolIphq7z0dtFOlqmrFJF
-Content-Type: multipart/mixed; boundary="------------jEbrQyp7kYcc3aAU0vbj4DYo"
+--------------sFp0XYEVQg8DHneMUtkcu0MC
+Content-Type: multipart/mixed; boundary="------------200YiJfGf2PSSzwaWGhF0baO"
 
---------------jEbrQyp7kYcc3aAU0vbj4DYo
+--------------200YiJfGf2PSSzwaWGhF0baO
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: base64
 
 QW0gMDUuMTEuMjIgdW0gMTI6NDggc2NocmllYiBNaWNoYWVsIFRva2FyZXY6DQo+IEZpeGVz
-OiBlZmZhZjVhMjQwZTAzMDIwZjRhZTk1M2UxMGI3NjQ2MjJjM2U4N2NjDQo+IFNpZ25lZC1v
+OiBmMzAzNGFkNzFmY2QwYTZhNThiYzM3ODMwZjE4MmIzMDdmMDg5MTU5DQo+IFNpZ25lZC1v
 ZmYtYnk6IE1pY2hhZWwgVG9rYXJldiA8bWp0QHRscy5tc2sucnU+DQo+IC0tLQ0KPiAgIGh3
-L3VzYi9oY2QteGhjaS5jIHwgMiArLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
-bigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2h3L3VzYi9oY2QteGhj
-aS5jIGIvaHcvdXNiL2hjZC14aGNpLmMNCj4gaW5kZXggODI5OWYzNWU2Ni4uYjg5YjYxOGVj
-MiAxMDA2NDQNCj4gLS0tIGEvaHcvdXNiL2hjZC14aGNpLmMNCj4gKysrIGIvaHcvdXNiL2hj
-ZC14aGNpLmMNCj4gQEAgLTc5Niw3ICs3OTYsNyBAQCBzdGF0aWMgaW50IHhoY2lfcmluZ19j
-aGFpbl9sZW5ndGgoWEhDSVN0YXRlICp4aGNpLCBjb25zdCBYSENJUmluZyAqcmluZykNCj4g
-ICAgICAgICAgICAqLw0KPiAgICAgICB9IHdoaWxlIChsZW5ndGggPCBUUkJfTElOS19MSU1J
-VCAqIDY1NTM2IC8gVFJCX1NJWkUpOw0KPiAgIA0KPiAtICAgIHFlbXVfbG9nX21hc2soTE9H
-X0dVRVNUX0VSUk9SLCAiJXM6IGV4Y2VlZGVkIG1heGltdW0gdHJhbmZlciByaW5nIHNpemUh
-XG4iLA0KPiArICAgIHFlbXVfbG9nX21hc2soTE9HX0dVRVNUX0VSUk9SLCAiJXM6IGV4Y2Vl
-ZGVkIG1heGltdW0gdHJhbnNmZXIgcmluZyBzaXplIVxuIiwNCj4gICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIF9fZnVuY19fKTsNCj4gICANCj4gICAgICAgcmV0dXJuIC0xOw0KDQpS
-ZXZpZXdlZC1ieTogU3RlZmFuIFdlaWwgPHN3QHdlaWxuZXR6LmRlPg0K
---------------jEbrQyp7kYcc3aAU0vbj4DYo
+L3ZpcnRpby92aXJ0aW8uYyB8IDIgKy0NCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9ody92aXJ0aW8vdmly
+dGlvLmMgYi9ody92aXJ0aW8vdmlydGlvLmMNCj4gaW5kZXggODA4NDQ2YjRjOS4uZTc2MjE4
+YmRkNSAxMDA2NDQNCj4gLS0tIGEvaHcvdmlydGlvL3ZpcnRpby5jDQo+ICsrKyBiL2h3L3Zp
+cnRpby92aXJ0aW8uYw0KPiBAQCAtMzQwLDcgKzM0MCw3IEBAIHFtcF92aXJ0aW9fZmVhdHVy
+ZV9tYXBfdCB2aXJ0aW9fbmV0X2ZlYXR1cmVfbWFwW10gPSB7DQo+ICAgcW1wX3ZpcnRpb19m
+ZWF0dXJlX21hcF90IHZpcnRpb19zY3NpX2ZlYXR1cmVfbWFwW10gPSB7DQo+ICAgICAgIEZF
+QVRVUkVfRU5UUlkoVklSVElPX1NDU0lfRl9JTk9VVCwgXA0KPiAgICAgICAgICAgICAgICJW
+SVJUSU9fU0NTSV9GX0lOT1VUOiBSZXF1ZXN0cyBpbmNsdWRpbmcgcmVhZCBhbmQgd3JpdGFi
+bGUgZGF0YSAiDQo+IC0gICAgICAgICAgICAiYnVmZmVycyBzdXBwb3RlZCIpLA0KPiArICAg
+ICAgICAgICAgImJ1ZmZlcnMgc3VwcG9ydGVkIiksDQo+ICAgICAgIEZFQVRVUkVfRU5UUlko
+VklSVElPX1NDU0lfRl9IT1RQTFVHLCBcDQo+ICAgICAgICAgICAgICAgIlZJUlRJT19TQ1NJ
+X0ZfSE9UUExVRzogUmVwb3J0aW5nIGFuZCBoYW5kbGluZyBob3QtcGx1ZyBldmVudHMgIg0K
+PiAgICAgICAgICAgICAgICJzdXBwb3J0ZWQiKSwNCg0KUmV2aWV3ZWQtYnk6IFN0ZWZhbiBX
+ZWlsIDxzd0B3ZWlsbmV0ei5kZT4NCg==
+--------------200YiJfGf2PSSzwaWGhF0baO
 Content-Type: application/pgp-keys; name="OpenPGP_0xE08C21D5677450AD.asc"
 Content-Disposition: attachment; filename="OpenPGP_0xE08C21D5677450AD.asc"
 Content-Description: OpenPGP public key
@@ -206,30 +211,30 @@ hvjSVVSRyxiu/zrDuO/s6g=3D=3D
 =3DumGL
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------jEbrQyp7kYcc3aAU0vbj4DYo--
+--------------200YiJfGf2PSSzwaWGhF0baO--
 
---------------zbqTolIphq7z0dtFOlqmrFJF--
+--------------sFp0XYEVQg8DHneMUtkcu0MC--
 
---------------t1eFuYd2Yyh0s0R61utCwgCT
+--------------m4OYKQUyn1zda0MfEnSjAvKU
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmNmT7kFAwAAAAAACgkQ4Iwh1Wd0UK3j
-Ag/+OSoNc79mKm6Pj6WP5dCuHxeRgnqBSgoaFdS3ayc+nXNYI/Gbh8ehBisnG0SR5lhCa9j2xfOi
-rdfsJOrLSQ3YSBvS/M8cPRFeRLIOCJPTJlucT+sCBohZ5l1MTsFJUIl/pXWspgjQwpWYILL+4DSA
-3P40YDvX8urf+2WtK9G1SqsObWgDs45lBDbi4DEW2SOUfPwFxqidc6E6qFs9rGTiryXWUROVzXcO
-6AJXGv+sU/VnUUxFevohUiI3cXqSC61a+Id2PKd+BwSUHFVablpFDqS+rQuG5lHsg2tssyQv4SK1
-WfuWXGkWjcoBCHarkZ2q6O6v4/xeFPIQuGvKZoGIBWqb3M0DCCBlg3Hsz79jy1/7TXQlmQkEMjcK
-A+2/xMDHbWa585YGV6S+zjAzlIplHbLYoTEBlOxEyKW8ZxuC8+i8ecpQgGcNG0A6yFzzzNWHdjFU
-0WJi2tQN8OypsrVqYOGMRg4CEINVZyG2WZ+yTCo/dzid6vtFqQBUr34KbBbAbm5y5z7cQ66MnwWW
-dD+0YzS2nmP6grNwxn9kEVQVqjY+fO+4lLAgBbJnrLNBM4VlwyfwbmscF0WS1ekS5+CQFlYAKCOj
-sOIyXeeGfLxqTb5P63TMman/ZdfSpEcYJ2E+6JFSwLmq8I1dqqtmJjj+ynuzgcr4kcxQYvqGz3yw
-7rU=
-=mj9U
+wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmNmT+YFAwAAAAAACgkQ4Iwh1Wd0UK0C
+ow//SQiEo9zgPp+x9HwFkiVN/5UdyCUxBst4oXAZPgYOtXC2YWPbtJO6Zzq2xfPbDP+LtYqu0N6z
++fIW7/II/4xm+baGgMzHW24gNobIaA24J3H9zx/LBiClOhvzDhKTnVF16viPY2rsskVTlrq37BHZ
+DnSmOWND7+Qc/C9sxN1ikOuYIaqeaTaGRbtXQvN5D+NuREI8pEacYb56an94mQVdRfxwpPG9Acej
+bWPiXkuCXhgpGC8bif49w6wnRvABO63PFjcuZX3MScFvtcNrtChjvUTw8v3J8byCyBuC7AC0w91C
+RJoTRm122KgYbU9m58S+Di+z4rHzLQpVkwSVqAqh27AWILIgRmufbGhmPFG9ULR6tNpmb56iK85Y
+gJpd7lDHv5QtsFJsluV4Xi6/aPdQnfu68dTUcBG1l9SOdl9siFQyzeBeXyJ9ClP4Mu+OpzwrjttZ
+fPLmcLiMNW5hUtiCQdtFuT+JWmiLuWQjbzpO4jQNMNelSkoeK3y18uTVKabZ6H1HXuEicQ/QZyBI
+Xk9dZJq+5c0pV2ld+cY1pdM5CivMQfLQDfqwPthwUCIIopcgyLvYDTFPEa+aQs7gyjnYikDV2eDK
+XxKOwWla2q/hzB7198i3rl816/9lnaGi+9WLvZc59Nzb7b7TgmClX5AiukA86pcvojDAsnpXaMpN
+gdg=
+=eVPd
 -----END PGP SIGNATURE-----
 
---------------t1eFuYd2Yyh0s0R61utCwgCT--
+--------------m4OYKQUyn1zda0MfEnSjAvKU--
 
