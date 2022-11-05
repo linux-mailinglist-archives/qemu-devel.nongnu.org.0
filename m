@@ -2,49 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CE2C61D8BA
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 09:26:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60B0861D8CB
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 09:38:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orETy-0001g0-SB; Sat, 05 Nov 2022 04:24:50 -0400
+	id 1orEfe-0006lw-Jo; Sat, 05 Nov 2022 04:36:54 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1orETu-0001el-S9
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 04:24:46 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+ id 1orEfY-0006lZ-Pg
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 04:36:48 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1orETs-0000hi-7n
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 04:24:45 -0400
-Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4N49Rq4gdjzpWBQ;
- Sat,  5 Nov 2022 16:20:55 +0800 (CST)
+ id 1orEfS-0002J0-HB
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 04:36:48 -0400
+Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4N49nk3nKMz15MJF;
+ Sat,  5 Nov 2022 16:36:26 +0800 (CST)
 Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
  kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Sat, 5 Nov 2022 16:24:30 +0800
+ 15.1.2375.31; Sat, 5 Nov 2022 16:36:32 +0800
 To: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
  <sgarzare@redhat.com>
 CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
  <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
  <xiehong@huawei.com>, Longpeng <longpeng2@huawei.com>
-Subject: [PATCH v7 4/4] docs: Add generic vhost-vdpa device documentation
-Date: Sat, 5 Nov 2022 16:24:04 +0800
-Message-ID: <20221105082404.1007-5-longpeng2@huawei.com>
+Subject: [PATCH v7 resend 0/4] add generic vDPA device support
+Date: Sat, 5 Nov 2022 16:36:25 +0800
+Message-ID: <20221105083629.1058-1-longpeng2@huawei.com>
 X-Mailer: git-send-email 2.25.0.windows.1
-In-Reply-To: <20221105082404.1007-1-longpeng2@huawei.com>
-References: <20221105082404.1007-1-longpeng2@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.148.223]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
  kwepemi100025.china.huawei.com (7.221.188.158)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
- helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.255; envelope-from=longpeng2@huawei.com;
+ helo=szxga08-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -69,61 +67,94 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Longpeng <longpeng2@huawei.com>
 
-Signed-off-by: Longpeng <longpeng2@huawei.com>
----
- docs/system/devices/vhost-vdpa-device.rst | 43 +++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
- create mode 100644 docs/system/devices/vhost-vdpa-device.rst
+Hi guys,
 
-diff --git a/docs/system/devices/vhost-vdpa-device.rst b/docs/system/devices/vhost-vdpa-device.rst
-new file mode 100644
-index 0000000000..50173299e0
---- /dev/null
-+++ b/docs/system/devices/vhost-vdpa-device.rst
-@@ -0,0 +1,43 @@
-+
-+=========================
-+generic vhost-vdpa device
-+=========================
-+
-+This document explains the usage of the generic vhost vdpa device.
-+
-+Description
-+-----------
-+
-+vDPA(virtio data path acceleration) device is a device that uses a datapath
-+which complies with the virtio specifications with vendor specific control
-+path.
-+
-+QEMU provides two types of vhost-vdpa devices to enable the vDPA device, one
-+is type sensitive which means QEMU needs to know the actual device type
-+(e.g. net, blk, scsi) and another is called "generic vdpa device" which is
-+type insensitive (likes vfio-pci). 
-+
-+Examples
-+--------
-+
-+Prepare the vhost-vdpa backends first:
-+
-+::
-+  host# ls -l /dev/vhost-vdpa-*
-+  crw------- 1 root root 236, 0 Nov  2 00:49 /dev/vhost-vdpa-0
-+
-+Start QEMU with virtio-mmio bus:
-+
-+::
-+  host# qemu-system                                                  \
-+      -M microvm -m 512 -smp 2 -kernel ... -initrd ...               \
-+      -device vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-0           \
-+      ...
-+
-+Start QEMU with virtio-pci bus:
-+
-+::
-+  host# qemu-system                                                  \
-+      -M pc -m 512 -smp 2                                            \
-+      -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-0       \
-+      ...
+With the generic vDPA device, QEMU won't need to touch the device
+types any more, such like vfio.
+
+We can use the generic vDPA device as follow:
+  -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
+  Or
+  -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
+  vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
+
+Changes v6 -> v7:
+    (v6: https://mail.gnu.org/archive/html/qemu-devel/2022-05/msg02821.html)
+    - rebase. [Jason]
+    - add documentation . [Stefan]
+
+Changes v5 -> v6:
+  Patch 2:
+    - Turn to the original approach in the RFC to initialize the
+      virtio_pci_id_info array. [Michael]
+	  https://lore.kernel.org/all/20220105005900.860-2-longpeng2@huawei.com/
+  Patch 3:
+    - Fix logical error of exception handler around the post_init.
+      [Stefano]
+    - Fix some coding style warnings. [Stefano]
+  Patch 4:
+    - Fix some coding style warnings. [Stefano]
+
+Changes v4 -> v5:
+  Patch 3:
+    - remove vhostfd [Jason]
+    - support virtio-mmio [Jason]
+
+Changes v3 -> v4:
+  v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg877015.html
+  - reorganize the series [Stefano]
+  - fix some typos [Stefano]
+  - fix logical error in vhost_vdpa_device_realize [Stefano]
+
+Changes v2 -> v3
+  Patch 4 & 5:
+    - only call vdpa ioctls in vdpa-dev.c [Stefano, Longpeng]
+    - s/VQS_NUM/VQS_COUNT  [Stefano]
+    - check both vdpa_dev_fd and vdpa_dev [Stefano]
+  Patch 6:
+    - move all steps into vhost_vdpa_device_unrealize. [Stefano]
+
+Changes RFC -> v2
+  Patch 1:
+    - rename 'pdev_id' to 'trans_devid'  [Michael]
+    - only use transitional device id for the devices
+      listed in the spec  [Michael]
+    - use macros to make the id_info table clearer  [Longpeng]
+    - add some modern devices in the id_info table  [Longpeng]
+  Patch 2:
+    - remove the GET_VECTORS_NUM command  [Jason]
+  Patch 4:
+    - expose vdpa_dev_fd as a QOM preperty  [Stefan]
+    - introduce vhost_vdpa_device_get_u32 as a common
+      function to make the code clearer  [Stefan]
+    - fix the misleading description of 'dc->desc'  [Stefano]
+  Patch 5:
+    - check returned number of virtqueues  [Stefan]
+  Patch 6:
+    - init s->num_queues  [Stefano]
+    - free s->dev.vqs  [Stefano]
+
+
+Longpeng (Mike) (4):
+  virtio: get class_id and pci device id by the virtio id
+  vdpa: add vdpa-dev support
+  vdpa: add vdpa-dev-pci support
+  docs: Add generic vhost-vdpa device documentation
+
+ docs/system/devices/vhost-vdpa-device.rst |  43 +++
+ hw/virtio/Kconfig                         |   5 +
+ hw/virtio/meson.build                     |   2 +
+ hw/virtio/vdpa-dev-pci.c                  | 102 ++++++
+ hw/virtio/vdpa-dev.c                      | 377 ++++++++++++++++++++++
+ hw/virtio/virtio-pci.c                    |  88 +++++
+ include/hw/virtio/vdpa-dev.h              |  43 +++
+ include/hw/virtio/virtio-pci.h            |   5 +
+ 8 files changed, 665 insertions(+)
+ create mode 100644 docs/system/devices/vhost-vdpa-device.rst
+ create mode 100644 hw/virtio/vdpa-dev-pci.c
+ create mode 100644 hw/virtio/vdpa-dev.c
+ create mode 100644 include/hw/virtio/vdpa-dev.h
+
 -- 
 2.23.0
 
