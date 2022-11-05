@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D57961DCA9
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:50:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EBED61DC85
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:36:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMpy-00005j-MH; Sat, 05 Nov 2022 13:20:06 -0400
+	id 1orMpz-00008v-Rh; Sat, 05 Nov 2022 13:20:07 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMoO-0007PK-Ah
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:18:28 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMoV-0007W2-5I
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:18:36 -0400
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMoM-0007jr-8r
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:18:28 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMoQ-0007kP-0q
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:18:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667668705;
+ s=mimecast20190719; t=1667668709;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c/cLew8bMa1wxPGKcVwPToMwd5hFO5px9x2lp9qcZKA=;
- b=OgGY9Z7K7WdF0/ZXGAjql4M0dcTycb33nKkvL228f+UlYlFv7GHj8/dQb0TL+d/3OwYymo
- t8aI4nbL+gbl5AmqUOFg1nXa37U5tN2zgTJuSOHyOnSadeZfzkThCRSDITMQXwbD3H75Ho
- X5bY1GKGSOQIlTCqFOR8fBVl5xs6j+o=
+ bh=VhqK01gpDvzkT5GTeXlE5BJ7AbDBJOHBjeecaXlv+RM=;
+ b=NNVHm98pIb4FHRvj/2JWXGM9Y0UpXyFP2vzpTC4bXJZqAkbXlTvz6IiDs9UsL60NDk4ehf
+ Sz1kGOGfFvuPjZ33N6rcSRstTzY8StHJh4HetnW558A52QuNgB7Vm3x++R35D6n+2dATyk
+ VxciYBVbmK2Yg3IKo/j0lHTC4zlsjq4=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-635-c50AWllIPYWfQm8FoXdQBg-1; Sat, 05 Nov 2022 13:18:24 -0400
-X-MC-Unique: c50AWllIPYWfQm8FoXdQBg-1
+ us-mta-15--9RhV7ywMImzuwh90zen4g-1; Sat, 05 Nov 2022 13:18:28 -0400
+X-MC-Unique: -9RhV7ywMImzuwh90zen4g-1
 Received: by mail-wm1-f69.google.com with SMTP id
- 1-20020a05600c028100b003cf7833293cso6007359wmk.3
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:18:24 -0700 (PDT)
+ m17-20020a05600c3b1100b003cf9cc47da5so1752011wms.9
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:18:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=c/cLew8bMa1wxPGKcVwPToMwd5hFO5px9x2lp9qcZKA=;
- b=Ve5N+z64yIVThYO568mqEM1D2SGbZLD4rEfNef8RMlK8sQ5Z9Tt6MRfEybcU/5httC
- L0BRRmspz/l8MzKOYFItMgStvfXsuqamIKnzVX9NdtfhyDtKfvqyx/cMTJ4oTnRICQFf
- eOYcGiGgbXwNEYPn3KJJxzBbGdfUSTzParszP0w+ms5WqHHFfl4dqlvgCh8d6TU5rKhP
- wAfDTpSt/omhejANXpXhw7cBJjZoomNvjscL78ZhdeqX76xrGjGaUjv5KQB9WYdDQnE7
- 6lR5s4lVeYoJY2OfZLJTZlKeP58/zn+e3LHSc+59nVHuq+nuqqhJgBaPbcAsL2imiJGy
- /KXQ==
-X-Gm-Message-State: ACrzQf3cGjqCWS9ONV6F+XY4uuWtymNpgo+DjcMOFpGE0p9o0NSw54gM
- zih63r0UKYnnBpOlqDgA1rF5daAkd8otomr0IXGh+40DFU3+irQuODIiRw0AERUdKNxdxRz2GYM
- ZM2C04QcogI7Uk0QGl4R9oaAkDaFvdcUmqgPRL4bJrU8liymWBEdWKeqLPJ50
-X-Received: by 2002:a5d:6408:0:b0:236:a69f:f3ef with SMTP id
- z8-20020a5d6408000000b00236a69ff3efmr26413465wru.176.1667668703272; 
- Sat, 05 Nov 2022 10:18:23 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6PyLndrBrbOKwdPSb8hoSUZqPpbwDNNKnnZbdDAwfzDQDMWhRCzluGssot5NdNtz1lH3gJJA==
-X-Received: by 2002:a5d:6408:0:b0:236:a69f:f3ef with SMTP id
- z8-20020a5d6408000000b00236a69ff3efmr26413447wru.176.1667668702951; 
- Sat, 05 Nov 2022 10:18:22 -0700 (PDT)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VhqK01gpDvzkT5GTeXlE5BJ7AbDBJOHBjeecaXlv+RM=;
+ b=n0vrOOKdWwxTGchhqLUWR8/83Rv94os9TQtrdjPsNRv7jog83JWB8Laz3u521IzrNs
+ V7RHxNJ36j2GGxvNxiH4zoB+UByc0ht9I1shgt6I7if19zHx2EdSQq8PqISI0iXR9ooP
+ YsslSg5/lB8IrVjGrREGS4Sl3dRXZCqyS8xpYuY3bycibg9tuqCLL8u9MZ8fWYu01zGK
+ gybmp4FsTZ+IawytLQc20SLqaus3ihbimQ4r+73bCrxCvQKZgW1Xe1uJcbWqq2ZRzxJW
+ KKrmd3Ch0xj9vQIfbCnJsDFWPeaWsbpOFK7yh6ta2Un/g/4O/S2mtsZ7oHqm1rSQT164
+ rh+w==
+X-Gm-Message-State: ACrzQf0hjjVPhkp1W6YHqWjFkaOvoqcs8d7V0fAjrqQTNbn/+Xgz4AJd
+ jysZrAisgwjb5tPXfQ2/SaR44zp9ENFsGrdRRH7H6E9d+3cjY3D2h3VIp4WPkLIOz3krELM1PUq
+ pPCbYsV/B1qq1/1naijEemHnAV66OBsnmmRvF10EA68nI5Gzr40rZ+nr3vTGk
+X-Received: by 2002:a7b:c2aa:0:b0:3cf:9d25:9d76 with SMTP id
+ c10-20020a7bc2aa000000b003cf9d259d76mr4144213wmk.192.1667668706679; 
+ Sat, 05 Nov 2022 10:18:26 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7PRIA1F4LdFBXMylX9X4+zk+xtwvIpCeeHkKj+IkSr9PDRn5ifVXFcoJ10sjF/5dGDy14fvQ==
+X-Received: by 2002:a7b:c2aa:0:b0:3cf:9d25:9d76 with SMTP id
+ c10-20020a7bc2aa000000b003cf9d259d76mr4144200wmk.192.1667668706448; 
+ Sat, 05 Nov 2022 10:18:26 -0700 (PDT)
 Received: from redhat.com ([2.52.152.137]) by smtp.gmail.com with ESMTPSA id
- c2-20020a5d4f02000000b002366553eca7sm2553760wru.83.2022.11.05.10.18.21
+ j13-20020adfea4d000000b0023bb7e4b8b1sm2663494wrn.82.2022.11.05.10.18.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 10:18:22 -0700 (PDT)
-Date: Sat, 5 Nov 2022 13:18:20 -0400
+ Sat, 05 Nov 2022 10:18:25 -0700 (PDT)
+Date: Sat, 5 Nov 2022 13:18:23 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Christian A. Ehrhardt" <lk@c--e.de>,
- Alexander Bulekov <alxndr@bu.edu>, qemu-stable@nongnu.org,
- Eric DeVolder <eric.devolder@oracle.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL v3 60/81] hw/acpi/erst.c: Fix memory handling issues
-Message-ID: <20221105171116.432921-61-mst@redhat.com>
+ Markus Armbruster <armbru@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL v3 61/81] MAINTAINERS: Add qapi/virtio.json to section "virtio"
+Message-ID: <20221105171116.432921-62-mst@redhat.com>
 References: <20221105171116.432921-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221105171116.432921-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -84,7 +87,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,62 +103,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: "Christian A. Ehrhardt" <lk@c--e.de>
+From: Markus Armbruster <armbru@redhat.com>
 
-- Fix memset argument order: The second argument is
-  the value, the length goes last.
-- Fix an integer overflow reported by Alexander Bulekov.
-
-Both issues allow the guest to overrun the host buffer
-allocated for the ERST memory device.
-
-Cc: Eric DeVolder <eric.devolder@oracle.com
-Cc: Alexander Bulekov <alxndr@bu.edu>
-Cc: qemu-stable@nongnu.org
-Fixes: f7e26ffa590 ("ACPI ERST: support for ACPI ERST feature")
-Tested-by: Alexander Bulekov <alxndr@bu.edu>
-Signed-off-by: Christian A. Ehrhardt <lk@c--e.de>
-Message-Id: <20221024154233.1043347-1-lk@c--e.de>
-Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1268
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Eric DeVolder <eric.devolder@oracle.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20221020120458.80709-1-armbru@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/acpi/erst.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
-index df856b2669..aefcc03ad6 100644
---- a/hw/acpi/erst.c
-+++ b/hw/acpi/erst.c
-@@ -635,7 +635,7 @@ static unsigned read_erst_record(ERSTDeviceState *s)
-         if (record_length < UEFI_CPER_RECORD_MIN_SIZE) {
-             rc = STATUS_FAILED;
-         }
--        if ((s->record_offset + record_length) > exchange_length) {
-+        if (record_length > exchange_length - s->record_offset) {
-             rc = STATUS_FAILED;
-         }
-         /* If all is ok, copy the record to the exchange buffer */
-@@ -684,7 +684,7 @@ static unsigned write_erst_record(ERSTDeviceState *s)
-     if (record_length < UEFI_CPER_RECORD_MIN_SIZE) {
-         return STATUS_FAILED;
-     }
--    if ((s->record_offset + record_length) > exchange_length) {
-+    if (record_length > exchange_length - s->record_offset) {
-         return STATUS_FAILED;
-     }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8b7d49b089..28cc70c25f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2017,6 +2017,7 @@ S: Supported
+ F: hw/*/virtio*
+ F: hw/virtio/Makefile.objs
+ F: hw/virtio/trace-events
++F: qapi/virtio.json
+ F: net/vhost-user.c
+ F: include/hw/virtio/
  
-@@ -716,7 +716,7 @@ static unsigned write_erst_record(ERSTDeviceState *s)
-     if (nvram) {
-         /* Write the record into the slot */
-         memcpy(nvram, exchange, record_length);
--        memset(nvram + record_length, exchange_length - record_length, 0xFF);
-+        memset(nvram + record_length, 0xFF, exchange_length - record_length);
-         /* If a new record, increment the record_count */
-         if (!record_found) {
-             uint32_t record_count;
 -- 
 MST
 
