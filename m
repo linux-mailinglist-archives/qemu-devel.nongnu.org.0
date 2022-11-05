@@ -2,91 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234C161DC21
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E7A61DC1F
 	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 17:45:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMGa-0003wY-OE; Sat, 05 Nov 2022 12:43:32 -0400
+	id 1orMGl-0003xt-C7; Sat, 05 Nov 2022 12:43:43 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMGY-0003vz-6V
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 12:43:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMGj-0003xc-O3
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 12:43:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMGW-0002k6-B6
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 12:43:29 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMGh-0002kz-OX
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 12:43:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667666605;
+ s=mimecast20190719; t=1667666618;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZbgdQBT26sSe+OBSdhm68ikrU2gfhpY1IDfefjLX5aI=;
- b=NW+lMfrWFKvQn2JDU3y3ZtJOp8HTrXycngO9P07I55feH4/Dv5mMpbbPzOyDN/EP+18d6P
- kyfaLM8HuqlRqXacUg2ps650ZwLkWGGcaIcfbgkkhAmU9S+rzCIL1M+WU8lXz3TfW2DPHb
- JzhiyuieFj1xlkk79ghArtotge53NYs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mZfqK9t1aPn2FYlaLvOCZZS2miUbp3Crlth9yXF2eSA=;
+ b=GebjrA2QgAef6RTbhv+Ez5pVEgmiwkrpPBOV6fJPdM/vDFJ+fnzbPCNpfrdrI6e/K3ddd+
+ EaVoR0CAZNwOxiOlV/giiugEbKIGogjh7CGx8t94rs4SySv9XGX68+5BqKxZoFZAXzWyiw
+ ROUhTJN2jurzyloi2Z0U9IVmOuZUU60=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-423-M_n0hMCUP365gYU4pmdilg-1; Sat, 05 Nov 2022 12:43:24 -0400
-X-MC-Unique: M_n0hMCUP365gYU4pmdilg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j2-20020a05600c1c0200b003cf7397fc9bso3804289wms.5
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 09:43:23 -0700 (PDT)
+ us-mta-642-N6Oi9RXQNeGaNZ0sTXKtXg-1; Sat, 05 Nov 2022 12:43:36 -0400
+X-MC-Unique: N6Oi9RXQNeGaNZ0sTXKtXg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c130-20020a1c3588000000b003b56be513e1so3828789wma.0
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 09:43:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZbgdQBT26sSe+OBSdhm68ikrU2gfhpY1IDfefjLX5aI=;
- b=MgBI6se2HzhmQY38ZerdN9k85sCZX7w80ry845ReI0XPeloSkw1CQfvzECQeBk8utC
- 3QgS6g8HVkooRNud7Mop5Aw3N4ZYsIynW/cczV+b/aKIJ/arfKSiKHcT+xAazRZCFmVo
- JbOpn0S+Mu/dLC5Il73TCeG4virtNmNNwVbzO9TthEuhVbaVwVn0Eo6nNI+kQZeujh2j
- aHmvlGUAN1DA54/BVCcQA0XTm2jj5H6iVF9srb6Pnk/cGlIar946ddOsLfsBQ953rBNE
- rB4AQIGJ7vWwDmbcipoLMpa2LuSzrlQ3q0bIkUHhtH4uk3TYJth21T/x9Mr4ppAFrQLr
- xu+A==
-X-Gm-Message-State: ACrzQf2MrgXlhV3HXGCmr6+PfN3kf41syLiozvo6r+T8CUOzCXzuWlt2
- Je2FKEz0BXG2/ADLEfPr39RDs3w1SZ/FNQdHBwVbX+b1sEw1bWmK0FtoELaqkEg2iVnwGgqjg+5
- +zC5ouLxmc+pUNeI=
-X-Received: by 2002:a05:600c:54d1:b0:3cf:a39f:eafe with SMTP id
- iw17-20020a05600c54d100b003cfa39feafemr1497154wmb.159.1667666602888; 
- Sat, 05 Nov 2022 09:43:22 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7JYnTgckzxd6BiBtZHbu5yn/L3Nwsh8yg0Um0rpI5FFjylMV8sXWwDK2TGrNYqWiFL0DOf8A==
-X-Received: by 2002:a05:600c:54d1:b0:3cf:a39f:eafe with SMTP id
- iw17-20020a05600c54d100b003cfa39feafemr1497135wmb.159.1667666602597; 
- Sat, 05 Nov 2022 09:43:22 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mZfqK9t1aPn2FYlaLvOCZZS2miUbp3Crlth9yXF2eSA=;
+ b=EYtZP7QVvbo0cwizRRWJ8Ualh5bmHi547DNlCqtbORbreOdXxZ8eI+8jHNvBlJKhUg
+ et4BC9Fqfad5nfAteVsFc6aOfPSqqJDiTEOlUax1MfI+H7xm6x/CLTcuo59lAQNYK9lN
+ 2bIQsx+HwdCS//nT0Jm1SYPTuHhpi7dEF1qK7HmycjOhUL6EpqHOl/g4mjnE9dKkT0Bl
+ F1pUAXn3Hl4xhmElDnhQ/TaS84gIphgrwJZJh5uIL6lBPmX51P+hhxDexxPUam4PHqSq
+ OvsiXO9+tjHAG23XISz+kmK0bI9KN7eX6B3Azn9etIzvhrmGchpF0jj93eVAtg1oaYjS
+ keIg==
+X-Gm-Message-State: ACrzQf0N20uHnhQCBj+oPODqvNFSREVPnqE+9lQ9uM4m8YQ1ud8y1QzR
+ oZ46hfJFwGF69mcM/5O1Qu05o1vdcsffogYKQHiRx3+dm2WoUhFmbNFw1Ynor/Fc0MQMTebAGW5
+ xPwzDFUN4KMLNPhA=
+X-Received: by 2002:a05:600c:654f:b0:3c3:b5b7:43a9 with SMTP id
+ dn15-20020a05600c654f00b003c3b5b743a9mr38247696wmb.201.1667666615714; 
+ Sat, 05 Nov 2022 09:43:35 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4udWlukMppuubnUB4b4YHmtu589q7EligQIOqBFfcCPBtWzma3uSFAAsy4CNqfZWczsCeLMg==
+X-Received: by 2002:a05:600c:654f:b0:3c3:b5b7:43a9 with SMTP id
+ dn15-20020a05600c654f00b003c3b5b743a9mr38247684wmb.201.1667666615510; 
+ Sat, 05 Nov 2022 09:43:35 -0700 (PDT)
 Received: from redhat.com ([2.52.152.137]) by smtp.gmail.com with ESMTPSA id
- v14-20020adfedce000000b00236883f2f5csm2534550wro.94.2022.11.05.09.43.20
+ s1-20020a7bc381000000b003c6b874a0dfsm3426424wmj.14.2022.11.05.09.43.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 09:43:22 -0700 (PDT)
-Date: Sat, 5 Nov 2022 12:43:05 -0400
+ Sat, 05 Nov 2022 09:43:35 -0700 (PDT)
+Date: Sat, 5 Nov 2022 12:43:29 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Yajun Wu <yajunw@nvidia.com>, Parav Pandit <parav@nvidia.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-block@nongnu.org
-Subject: Re: [PULL v2 31/82] vhost: Change the sequence of device start
-Message-ID: <20221105124218-mutt-send-email-mst@kernel.org>
-References: <20221102160336.616599-1-mst@redhat.com>
- <20221102160336.616599-32-mst@redhat.com>
- <CAG4p6K6=HcZs+TfzC7QMmUxKhity0_dYo4-UWwiXv7oJSvDO2g@mail.gmail.com>
+To: "Longpeng(Mike)" <longpeng2@huawei.com>
+Cc: stefanha@redhat.com, jasowang@redhat.com, sgarzare@redhat.com,
+ cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
+ yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org,
+ xiehong@huawei.com
+Subject: Re: [PATCH v7 resend 0/4] add generic vDPA device support
+Message-ID: <20221105103601-mutt-send-email-mst@kernel.org>
+References: <20221105083629.1058-1-longpeng2@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAG4p6K6=HcZs+TfzC7QMmUxKhity0_dYo4-UWwiXv7oJSvDO2g@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20221105083629.1058-1-longpeng2@huawei.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,154 +97,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Nov 05, 2022 at 05:35:57PM +0100, Bernhard Beschow wrote:
+On Sat, Nov 05, 2022 at 04:36:25PM +0800, Longpeng(Mike) wrote:
+> From: Longpeng <longpeng2@huawei.com>
 > 
+> Hi guys,
 > 
-> On Wed, Nov 2, 2022 at 5:24 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> 
->     From: Yajun Wu <yajunw@nvidia.com>
-> 
->     This patch is part of adding vhost-user vhost_dev_start support. The
->     motivation is to improve backend configuration speed and reduce live
->     migration VM downtime.
-> 
->     Moving the device start routines after finishing all the necessary device
->     and VQ configuration, further aligning to the virtio specification for
->     "device initialization sequence".
-> 
->     Following patch will add vhost-user vhost_dev_start support.
-> 
->     Signed-off-by: Yajun Wu <yajunw@nvidia.com>
->     Acked-by: Parav Pandit <parav@nvidia.com>
-> 
->     Message-Id: <20221017064452.1226514-2-yajunw@nvidia.com>
->     Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->     Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->     ---
->      hw/block/vhost-user-blk.c | 18 +++++++++++-------
->      hw/net/vhost_net.c        | 12 ++++++------
->      2 files changed, 17 insertions(+), 13 deletions(-)
-> 
-> 
-> A git bisect tells me that this is the first bad commit for failing qos-tests
-> which only fail when parallel jobs are enabled, e.g. `make check-qtest -j8`:
-> 
-> Summary of Failures:
-> 
->  76/541 qemu:qtest+qtest-aarch64 / qtest-aarch64/qos-test                      
->   ERROR          18.68s   killed by signal 6 SIGABRT
->  77/541 qemu:qtest+qtest-arm / qtest-arm/qos-test                              
->   ERROR          17.60s   killed by signal 6 SIGABRT
->  93/541 qemu:qtest+qtest-i386 / qtest-i386/qos-test                            
->   ERROR          18.98s   killed by signal 6 SIGABRT
-> 108/541 qemu:qtest+qtest-ppc64 / qtest-ppc64/qos-test                          
->   ERROR          16.40s   killed by signal 6 SIGABRT
-> 112/541 qemu:qtest+qtest-i386 / qtest-i386/bios-tables-test                    
->   ERROR          145.94s   killed by signal 6 SIGABRT
-> 130/541 qemu:qtest+qtest-x86_64 / qtest-x86_64/qos-test                        
->   ERROR          17.32s   killed by signal 6 SIGABRT
-> 243/541 qemu:qtest+qtest-x86_64 / qtest-x86_64/bios-tables-test                
->   ERROR          127.70s   killed by signal 6 SIGABRT
-> 
-> Ok:                 500
-> Expected Fail:      0  
-> Fail:               7  
-> Unexpected Pass:    0  
-> Skipped:            34  
-> Timeout:            0  
-> 
-> Can anyone else reproduce this?
+> With the generic vDPA device, QEMU won't need to touch the device
+> types any more, such like vfio.
 
-Could you pls try latest for_upstream in my tree?
-That should have this fixed.
+With this kind of passthrough migration is completely MIA right?
+Better add a blocker...
+And given this is there an advantage over VFIO?
 
-Thanks!
+> We can use the generic vDPA device as follow:
+>   -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
+>   Or
+>   -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
+>   vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
 
-
-> Here is a log of one failed case:
+> Changes v6 -> v7:
+>     (v6: https://mail.gnu.org/archive/html/qemu-devel/2022-05/msg02821.html)
+>     - rebase. [Jason]
+>     - add documentation . [Stefan]
 > 
-> # child process (/aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/
-> virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/flags-mismatch/subprocess
-> [384604]) killed by signal 6 (Aborted), core dumped
-> # child process (/aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/
-> virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/flags-mismatch/subprocess
-> [384604]) stdout: ""
-> # child process (/aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/
-> virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/flags-mismatch/subprocess
-> [384604]) stderr: "qemu-system-aarch64: -chardev socket,id=
-> chr-flags-mismatch,path=/tmp/vhost-test-BBEAV1/flags-mismatch.sock,server=on:
-> info: QEMU waiting for connection on: disconnected:unix:/tmp/vhost-test-BBEAV1/
-> flags-mismatch.sock,server=on\nqemu-system-aarch64: Failed to write msg. Wrote
-> -1 instead of 52.\nqemu-system-aarch64: vhost_set_mem_table failed: Invalid
-> argument (22)\nqemu-system-aarch64: Failed to set msg fds.\
-> nqemu-system-aarch64: vhost VQ 0 ring restore failed: -22: Invalid argument
-> (22)\nBroken pipe\n../src/tests/qtest/libqtest.c:188: kill_qemu() detected QEMU
-> death from signal 11 (Segmentation fault) (core dumped)\n"
-> Bail out! ERROR:../src/tests/qtest/qos-test.c:191:subprocess_run_one_test:
-> child process (/aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/
-> virtio-net-pci/virtio-net/virtio-net-tests/vhost-user/flags-mismatch/subprocess
-> [384604]) failed unexpectedly
-> ----------------------------------- stderr -----------------------------------
-> qemu-system-aarch64: Failed to write msg. Wrote -1 instead of 20.
-> qemu-system-aarch64: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> qemu-system-aarch64: Failed to set msg fds.
-> qemu-system-aarch64: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> qemu-system-aarch64: -chardev socket,id=chr-reconnect,path=/tmp/
-> vhost-test-FTJ0U1/reconnect.sock,server=on: info: QEMU waiting for connection
-> on: disconnected:unix:/tmp/vhost-test-FTJ0U1/reconnect.sock,server=on
-> qemu-system-aarch64: Failed to write msg. Wrote -1 instead of 20.
-> qemu-system-aarch64: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> qemu-system-aarch64: Failed to set msg fds.
-> qemu-system-aarch64: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> qemu-system-aarch64: -chardev socket,id=chr-connect-fail,path=/tmp/
-> vhost-test-4W4DV1/connect-fail.sock,server=on: info: QEMU waiting for
-> connection on: disconnected:unix:/tmp/vhost-test-4W4DV1/
-> connect-fail.sock,server=on
-> qemu-system-aarch64: -netdev vhost-user,id=hs0,chardev=
-> chr-connect-fail,vhostforce=on: Failed to read msg header. Read 0 instead of
-> 12. Original request 1.
-> qemu-system-aarch64: -netdev vhost-user,id=hs0,chardev=
-> chr-connect-fail,vhostforce=on: vhost_backend_init failed: Protocol error
-> qemu-system-aarch64: -netdev vhost-user,id=hs0,chardev=
-> chr-connect-fail,vhostforce=on: failed to init vhost_net for queue 0
-> qemu-system-aarch64: -netdev vhost-user,id=hs0,chardev=
-> chr-connect-fail,vhostforce=on: info: QEMU waiting for connection on:
-> disconnected:unix:/tmp/vhost-test-4W4DV1/connect-fail.sock,server=on
-> qemu-system-aarch64: Failed to set msg fds.
-> qemu-system-aarch64: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> qemu-system-aarch64: Failed to set msg fds.
-> qemu-system-aarch64: vhost VQ 1 ring restore failed: -22: Invalid argument (22)
-> qemu-system-aarch64: -chardev socket,id=chr-flags-mismatch,path=/tmp/
-> vhost-test-BBEAV1/flags-mismatch.sock,server=on: info: QEMU waiting for
-> connection on: disconnected:unix:/tmp/vhost-test-BBEAV1/
-> flags-mismatch.sock,server=on
-> qemu-system-aarch64: Failed to write msg. Wrote -1 instead of 52.
-> qemu-system-aarch64: vhost_set_mem_table failed: Invalid argument (22)
-> qemu-system-aarch64: Failed to set msg fds.
-> qemu-system-aarch64: vhost VQ 0 ring restore failed: -22: Invalid argument (22)
-> Broken pipe
-> ../src/tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from signal
-> 11 (Segmentation fault) (core dumped)
-> **
-> ERROR:../src/tests/qtest/qos-test.c:191:subprocess_run_one_test: child process
-> (/aarch64/virt/generic-pcihost/pci-bus-generic/pci-bus/virtio-net-pci/
-> virtio-net/virtio-net-tests/vhost-user/flags-mismatch/subprocess [384604])
-> failed unexpectedly
+> Changes v5 -> v6:
+>   Patch 2:
+>     - Turn to the original approach in the RFC to initialize the
+>       virtio_pci_id_info array. [Michael]
+> 	  https://lore.kernel.org/all/20220105005900.860-2-longpeng2@huawei.com/
+>   Patch 3:
+>     - Fix logical error of exception handler around the post_init.
+>       [Stefano]
+>     - Fix some coding style warnings. [Stefano]
+>   Patch 4:
+>     - Fix some coding style warnings. [Stefano]
 > 
-> (test program exited with status code -6)
-> ==============================================================================
+> Changes v4 -> v5:
+>   Patch 3:
+>     - remove vhostfd [Jason]
+>     - support virtio-mmio [Jason]
 > 
-> =================================== 77/541 ===================================
-> test:         qemu:qtest+qtest-arm / qtest-arm/qos-test
-> start time:   16:04:10
-> duration:     17.60s
-> result:       killed by signal 6 SIGABRT
-> command:      MALLOC_PERTURB_=98 QTEST_QEMU_IMG=./qemu-img
-> QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon
-> QTEST_QEMU_BINARY=./qemu-system-arm G_TEST_DBUS_DAEMON=../src/tests/
-> dbus-vmstate-daemon.sh ./tests/qtest/qos-test --tap -k
+> Changes v3 -> v4:
+>   v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg877015.html
+>   - reorganize the series [Stefano]
+>   - fix some typos [Stefano]
+>   - fix logical error in vhost_vdpa_device_realize [Stefano]
 > 
-> Best regards,
-> Bernhard
+> Changes v2 -> v3
+>   Patch 4 & 5:
+>     - only call vdpa ioctls in vdpa-dev.c [Stefano, Longpeng]
+>     - s/VQS_NUM/VQS_COUNT  [Stefano]
+>     - check both vdpa_dev_fd and vdpa_dev [Stefano]
+>   Patch 6:
+>     - move all steps into vhost_vdpa_device_unrealize. [Stefano]
+> 
+> Changes RFC -> v2
+>   Patch 1:
+>     - rename 'pdev_id' to 'trans_devid'  [Michael]
+>     - only use transitional device id for the devices
+>       listed in the spec  [Michael]
+>     - use macros to make the id_info table clearer  [Longpeng]
+>     - add some modern devices in the id_info table  [Longpeng]
+>   Patch 2:
+>     - remove the GET_VECTORS_NUM command  [Jason]
+>   Patch 4:
+>     - expose vdpa_dev_fd as a QOM preperty  [Stefan]
+>     - introduce vhost_vdpa_device_get_u32 as a common
+>       function to make the code clearer  [Stefan]
+>     - fix the misleading description of 'dc->desc'  [Stefano]
+>   Patch 5:
+>     - check returned number of virtqueues  [Stefan]
+>   Patch 6:
+>     - init s->num_queues  [Stefano]
+>     - free s->dev.vqs  [Stefano]
+> 
+> 
+> Longpeng (Mike) (4):
+>   virtio: get class_id and pci device id by the virtio id
+>   vdpa: add vdpa-dev support
+>   vdpa: add vdpa-dev-pci support
+>   docs: Add generic vhost-vdpa device documentation
+> 
+>  docs/system/devices/vhost-vdpa-device.rst |  43 +++
+>  hw/virtio/Kconfig                         |   5 +
+>  hw/virtio/meson.build                     |   2 +
+>  hw/virtio/vdpa-dev-pci.c                  | 102 ++++++
+>  hw/virtio/vdpa-dev.c                      | 377 ++++++++++++++++++++++
+>  hw/virtio/virtio-pci.c                    |  88 +++++
+>  include/hw/virtio/vdpa-dev.h              |  43 +++
+>  include/hw/virtio/virtio-pci.h            |   5 +
+>  8 files changed, 665 insertions(+)
+>  create mode 100644 docs/system/devices/vhost-vdpa-device.rst
+>  create mode 100644 hw/virtio/vdpa-dev-pci.c
+>  create mode 100644 hw/virtio/vdpa-dev.c
+>  create mode 100644 include/hw/virtio/vdpa-dev.h
+> 
+> -- 
+> 2.23.0
 
 
