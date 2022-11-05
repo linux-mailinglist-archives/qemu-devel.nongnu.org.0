@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E8861DC71
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:28:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1DBC61DC95
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Nov 2022 18:39:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orMp6-0007kX-5X; Sat, 05 Nov 2022 13:19:12 -0400
+	id 1orMp5-0007iB-7F; Sat, 05 Nov 2022 13:19:11 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMn3-0006kr-Mk
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMn4-0006kt-V0
  for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:17:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMn1-0007Pu-Pq
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:17:05 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orMn3-0007QF-8P
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 13:17:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667668621;
+ s=mimecast20190719; t=1667668624;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ETyx33uCkrggVRTo3HiD7Tje2UJXCck/b2Qi00flxlo=;
- b=UzbI4qpco9e6WCPu2RbmdD/WpR8lLc7eLAAvFn0UNXBrkM2jjWRfbQ8gP7Ng250FmA8+3z
- lRmvRNUEkNBV5UneXIuwYGCXGGif348XjHqHacjuGbB8EikL6PxJ9G1sG/IsaCzCXODlUY
- T/tm6XRLBtyTehdAbV6hqEO9Zq4h1To=
+ bh=u/T3Dt9wIyzlRr9uFngTKw2OSvTs4mJnNOFX6ReE5Y4=;
+ b=iVHtLkltBZouca6MOkVpVOAWE0baIDWhpav8Erv8jWdep5dPOvrXpg0PPwBRZXdZVyp9Dg
+ DTQkCl+YSzd9dUg+rRN0OFCPebQM8oo6J8VPhjTHBGwQkMqPbxOcRlZO33H371f8n6r1H+
+ bk/r8NhOkwJGQhvAp2C1xjT51Hvapmk=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-331-l9Np-PvTMmGdanpEG-fW5Q-1; Sat, 05 Nov 2022 13:17:00 -0400
-X-MC-Unique: l9Np-PvTMmGdanpEG-fW5Q-1
+ us-mta-496-uj0hMr2pPa-b6Ic5Rail_g-1; Sat, 05 Nov 2022 13:17:03 -0400
+X-MC-Unique: uj0hMr2pPa-b6Ic5Rail_g-1
 Received: by mail-wm1-f69.google.com with SMTP id
- l42-20020a05600c1d2a00b003cf8e70c1ecso2467973wms.4
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:16:59 -0700 (PDT)
+ l42-20020a05600c1d2a00b003cf8e70c1ecso2468020wms.4
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 10:17:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ETyx33uCkrggVRTo3HiD7Tje2UJXCck/b2Qi00flxlo=;
- b=RaL2pdJW/99I+riyyNREGTjQuxUSHS1Z02PMPgz4yXUUlALv8jcWJQPMdeX+0/iLe5
- eAch1xCinnk7w2xus23QdPlj0ky+2qP632a6pRT6FV8cBiyasSmjV2y6eku1XpyTMR6r
- CanGTXvByjdCCW5Z/LaD4ootaeV/OWb7t+WGWftnKNkfH68wKn01SfhV/pKFWzRi4PwG
- Vmvh2iZ0NMAEkZ/XCq1U9cHI28KWLGoxlQ5Wl+lbP1pDkJuYattoqebNeCJ2oK4FiMgv
- Hs22m9bYcEdkFvDLAuQtnw8UE9A3MRQKd/8HfuYHCJS0s5S0CwqiyqpWDgzNIgqH5kG/
- 2VxA==
-X-Gm-Message-State: ACrzQf2tUTWjITo7UwAuxsN4PMH+up0ehtfpSG5ghvIcY2uw4h7EldEU
- sogu3R1kMXfjW3fj6smU8dNfs4IWBo/BgCKTnzCfjKmB6elMDklIAQ7GqmHhOshnOVKLCrh3BEA
- e3NJyUxTLaII4iH0f7ZtPbvy/MUyEBDekuvDn9anjJX8CWLQFZuqzoyOvazeP
-X-Received: by 2002:a05:600c:1553:b0:3c6:e12d:6f32 with SMTP id
- f19-20020a05600c155300b003c6e12d6f32mr36589813wmg.109.1667668618674; 
- Sat, 05 Nov 2022 10:16:58 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6ShpOjPknsdPIzj9tmlRcKua5f8Zz8r1OVQT5I4M1yGjUIoPtfE/XfM74nvWt6DLEoiM7P/w==
-X-Received: by 2002:a05:600c:1553:b0:3c6:e12d:6f32 with SMTP id
- f19-20020a05600c155300b003c6e12d6f32mr36589799wmg.109.1667668618293; 
- Sat, 05 Nov 2022 10:16:58 -0700 (PDT)
+ bh=u/T3Dt9wIyzlRr9uFngTKw2OSvTs4mJnNOFX6ReE5Y4=;
+ b=Q1pAfBWf5kYlZzHVqjt7UoTSkwXpImivj4zOnEqsVhZydWDO3YF79vQKm1K5X5TmQO
+ U9ey+p1Ars9pHPGAn1T1f/Ib/a1Gh9V+qstPLDhx0TMou+HMGvWO3Rpe2wsvxXCznULA
+ 23mb0SpujHQkXCCvEKeZ74pEe9vBorv4C/OUHMidVQmXO72fEKBF2yqqc4102hnUXnCS
+ 3Z94wv0HIx1J7l8WnOP1KJS5/EHpMkIPlXniEYUXBT00rCQY/Pg8lTcqbC8mmD7vpI89
+ KviaB/oixLEB0dMa9Cd+FpHnWqgZ4mmlAIvI8/9TRiIy3imfjhtlBWnOZJ13Evbmb0UZ
+ S4Qg==
+X-Gm-Message-State: ACrzQf0zbBxNPTp2e/3HuC+aDqbhmqv0D2LyYvnZGHHFyPwSpk11xBU7
+ WmxkVxM6DPbR3k8mPZMfBG9H/3Zh9mdw/DxsV3mJn+++Z+GoC6JdzIDm6YtSGfM0CbYcXWXShhw
+ zvKXD+8tPU+VlUxLtimLCuss63amwrJz9Kpl4ruwoDVRiFot6G6dBrp7s7G6Z
+X-Received: by 2002:a1c:2942:0:b0:3cf:a30c:bb78 with SMTP id
+ p63-20020a1c2942000000b003cfa30cbb78mr1776299wmp.20.1667668621723; 
+ Sat, 05 Nov 2022 10:17:01 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6FTvFT2FcRqROn+Mty42q2Guqm5/277siBG2U0fYhB/w1zsb7DuICAGg9qS9ZSHTbnzFGT7w==
+X-Received: by 2002:a1c:2942:0:b0:3cf:a30c:bb78 with SMTP id
+ p63-20020a1c2942000000b003cfa30cbb78mr1776287wmp.20.1667668621428; 
+ Sat, 05 Nov 2022 10:17:01 -0700 (PDT)
 Received: from redhat.com ([2.52.152.137]) by smtp.gmail.com with ESMTPSA id
- q12-20020a5d61cc000000b002238ea5750csm3070590wrv.72.2022.11.05.10.16.56
+ c5-20020a05600c0a4500b003b4a68645e9sm7272979wmq.34.2022.11.05.10.16.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 10:16:57 -0700 (PDT)
-Date: Sat, 5 Nov 2022 13:16:55 -0400
+ Sat, 05 Nov 2022 10:17:00 -0700 (PDT)
+Date: Sat, 5 Nov 2022 13:16:58 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Ben Widawsky <ben.widawsky@intel.com>
-Subject: [PULL v3 30/81] hw/pci-bridge/cxl-upstream: Add a CDAT table access
- DOE
-Message-ID: <20221105171116.432921-31-mst@redhat.com>
+ Eric Auger <eric.auger@redhat.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: [PULL v3 31/81] hw/virtio/virtio-iommu-pci: Enforce the device is
+ plugged on the root bus
+Message-ID: <20221105171116.432921-32-mst@redhat.com>
 References: <20221105171116.432921-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -76,7 +75,7 @@ Content-Disposition: inline
 In-Reply-To: <20221105171116.432921-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -100,304 +99,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From: Eric Auger <eric.auger@redhat.com>
 
-This Data Object Exchange Mailbox allows software to query the
-latency and bandwidth between ports on the switch. For now
-only provide information on routes between the upstream port and
-each downstream port (not p2p).
+In theory the virtio-iommu-pci could be plugged anywhere in the PCIe
+topology and as long as the dt/acpi info are properly built this should
+work. However at the moment we fail to do that because the
+virtio-iommu-pci BDF is not computed at plug time and in that case
+vms->virtio_iommu_bdf gets an incorrect value.
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+For instance if the virtio-iommu-pci is plugged onto a pcie root port
+and the virtio-iommu protects a virtio-block-pci device the guest does
+not boot.
 
---
-Changes since v8: Mostly to match the type 3 equivalent
- - Move enum out of function and give it a more descriptive namespace.
-Message-Id: <20221014151045.24781-6-Jonathan.Cameron@huawei.com>
+So let's do not pretend we do support this case and fail the initialize()
+if we detect the virtio-iommu-pci is plugged anywhere else than on the
+root bus. Anyway this ability is not needed.
+
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Message-Id: <20221012163448.121368-1-eric.auger@redhat.com>
+Reviewed-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Tested-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/cxl/cxl_cdat.h    |   1 +
- hw/pci-bridge/cxl_upstream.c | 195 ++++++++++++++++++++++++++++++++++-
- 2 files changed, 195 insertions(+), 1 deletion(-)
+ hw/virtio/virtio-iommu-pci.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/cxl/cxl_cdat.h b/include/hw/cxl/cxl_cdat.h
-index 52c232e912..e9eda00142 100644
---- a/include/hw/cxl/cxl_cdat.h
-+++ b/include/hw/cxl/cxl_cdat.h
-@@ -131,6 +131,7 @@ typedef struct CDATSslbisHeader {
-     uint64_t entry_base_unit;
- } QEMU_PACKED CDATSslbisHeader;
+diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
+index 79ea8334f0..7ef2f9dcdb 100644
+--- a/hw/virtio/virtio-iommu-pci.c
++++ b/hw/virtio/virtio-iommu-pci.c
+@@ -17,6 +17,7 @@
+ #include "hw/qdev-properties-system.h"
+ #include "qapi/error.h"
+ #include "hw/boards.h"
++#include "hw/pci/pci_bus.h"
+ #include "qom/object.h"
  
-+#define CDAT_PORT_ID_USP 0x100
- /* Switch Scoped Latency and Bandwidth Entry - CDAT Table 10 */
- typedef struct CDATSslbe {
-     uint16_t port_x_id;
-diff --git a/hw/pci-bridge/cxl_upstream.c b/hw/pci-bridge/cxl_upstream.c
-index a83a3e81e4..9b8b57df9d 100644
---- a/hw/pci-bridge/cxl_upstream.c
-+++ b/hw/pci-bridge/cxl_upstream.c
-@@ -10,11 +10,12 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/log.h"
-+#include "hw/qdev-properties.h"
- #include "hw/pci/msi.h"
- #include "hw/pci/pcie.h"
- #include "hw/pci/pcie_port.h"
- 
--#define CXL_UPSTREAM_PORT_MSI_NR_VECTOR 1
-+#define CXL_UPSTREAM_PORT_MSI_NR_VECTOR 2
- 
- #define CXL_UPSTREAM_PORT_MSI_OFFSET 0x70
- #define CXL_UPSTREAM_PORT_PCIE_CAP_OFFSET 0x90
-@@ -28,6 +29,7 @@ typedef struct CXLUpstreamPort {
- 
-     /*< public >*/
-     CXLComponentState cxl_cstate;
-+    DOECap doe_cdat;
- } CXLUpstreamPort;
- 
- CXLComponentState *cxl_usp_to_cstate(CXLUpstreamPort *usp)
-@@ -60,6 +62,9 @@ static void cxl_usp_dvsec_write_config(PCIDevice *dev, uint32_t addr,
- static void cxl_usp_write_config(PCIDevice *d, uint32_t address,
-                                  uint32_t val, int len)
+ typedef struct VirtIOIOMMUPCI VirtIOIOMMUPCI;
+@@ -44,6 +45,7 @@ static Property virtio_iommu_pci_properties[] = {
+ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
  {
-+    CXLUpstreamPort *usp = CXL_USP(d);
+     VirtIOIOMMUPCI *dev = VIRTIO_IOMMU_PCI(vpci_dev);
++    PCIBus *pbus = pci_get_bus(&vpci_dev->pci_dev);
+     DeviceState *vdev = DEVICE(&dev->vdev);
+     VirtIOIOMMU *s = VIRTIO_IOMMU(vdev);
+ 
+@@ -57,11 +59,17 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+             s->reserved_regions[i].type != VIRTIO_IOMMU_RESV_MEM_T_MSI) {
+             error_setg(errp, "reserved region %d has an invalid type", i);
+             error_append_hint(errp, "Valid values are 0 and 1\n");
++            return;
+         }
+     }
++    if (!pci_bus_is_root(pbus)) {
++        error_setg(errp, "virtio-iommu-pci must be plugged on the root bus");
++        return;
++    }
 +
-+    pcie_doe_write_config(&usp->doe_cdat, address, val, len);
-     pci_bridge_write_config(d, address, val, len);
-     pcie_cap_flr_write_config(d, address, val, len);
-     pcie_aer_write_config(d, address, val, len);
-@@ -67,6 +72,18 @@ static void cxl_usp_write_config(PCIDevice *d, uint32_t address,
-     cxl_usp_dvsec_write_config(d, address, val, len);
+     object_property_set_link(OBJECT(dev), "primary-bus",
+-                             OBJECT(pci_get_bus(&vpci_dev->pci_dev)),
+-                             &error_abort);
++                             OBJECT(pbus), &error_abort);
++
+     virtio_pci_force_virtio_1(vpci_dev);
+     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
  }
- 
-+static uint32_t cxl_usp_read_config(PCIDevice *d, uint32_t address, int len)
-+{
-+    CXLUpstreamPort *usp = CXL_USP(d);
-+    uint32_t val;
-+
-+    if (pcie_doe_read_config(&usp->doe_cdat, address, len, &val)) {
-+        return val;
-+    }
-+
-+    return pci_default_read_config(d, address, len);
-+}
-+
- static void latch_registers(CXLUpstreamPort *usp)
- {
-     uint32_t *reg_state = usp->cxl_cstate.crb.cache_mem_registers;
-@@ -119,6 +136,167 @@ static void build_dvsecs(CXLComponentState *cxl)
-                                REG_LOC_DVSEC_REVID, dvsec);
- }
- 
-+static bool cxl_doe_cdat_rsp(DOECap *doe_cap)
-+{
-+    CDATObject *cdat = &CXL_USP(doe_cap->pdev)->cxl_cstate.cdat;
-+    uint16_t ent;
-+    void *base;
-+    uint32_t len;
-+    CDATReq *req = pcie_doe_get_write_mbox_ptr(doe_cap);
-+    CDATRsp rsp;
-+
-+    cxl_doe_cdat_update(&CXL_USP(doe_cap->pdev)->cxl_cstate, &error_fatal);
-+    assert(cdat->entry_len);
-+
-+    /* Discard if request length mismatched */
-+    if (pcie_doe_get_obj_len(req) <
-+        DIV_ROUND_UP(sizeof(CDATReq), sizeof(uint32_t))) {
-+        return false;
-+    }
-+
-+    ent = req->entry_handle;
-+    base = cdat->entry[ent].base;
-+    len = cdat->entry[ent].length;
-+
-+    rsp = (CDATRsp) {
-+        .header = {
-+            .vendor_id = CXL_VENDOR_ID,
-+            .data_obj_type = CXL_DOE_TABLE_ACCESS,
-+            .reserved = 0x0,
-+            .length = DIV_ROUND_UP((sizeof(rsp) + len), sizeof(uint32_t)),
-+        },
-+        .rsp_code = CXL_DOE_TAB_RSP,
-+        .table_type = CXL_DOE_TAB_TYPE_CDAT,
-+        .entry_handle = (ent < cdat->entry_len - 1) ?
-+                        ent + 1 : CXL_DOE_TAB_ENT_MAX,
-+    };
-+
-+    memcpy(doe_cap->read_mbox, &rsp, sizeof(rsp));
-+        memcpy(doe_cap->read_mbox + DIV_ROUND_UP(sizeof(rsp), sizeof(uint32_t)),
-+           base, len);
-+
-+    doe_cap->read_mbox_len += rsp.header.length;
-+
-+    return true;
-+}
-+
-+static DOEProtocol doe_cdat_prot[] = {
-+    { CXL_VENDOR_ID, CXL_DOE_TABLE_ACCESS, cxl_doe_cdat_rsp },
-+    { }
-+};
-+
-+enum {
-+    CXL_USP_CDAT_SSLBIS_LAT,
-+    CXL_USP_CDAT_SSLBIS_BW,
-+    CXL_USP_CDAT_NUM_ENTRIES
-+};
-+
-+static int build_cdat_table(CDATSubHeader ***cdat_table, void *priv)
-+{
-+    g_autofree CDATSslbis *sslbis_latency = NULL;
-+    g_autofree CDATSslbis *sslbis_bandwidth = NULL;
-+    CXLUpstreamPort *us = CXL_USP(priv);
-+    PCIBus *bus = &PCI_BRIDGE(us)->sec_bus;
-+    int devfn, sslbis_size, i;
-+    int count = 0;
-+    uint16_t port_ids[256];
-+
-+    for (devfn = 0; devfn < ARRAY_SIZE(bus->devices); devfn++) {
-+        PCIDevice *d = bus->devices[devfn];
-+        PCIEPort *port;
-+
-+        if (!d || !pci_is_express(d) || !d->exp.exp_cap) {
-+            continue;
-+        }
-+
-+        /*
-+         * Whilst the PCI express spec doesn't allow anything other than
-+         * downstream ports on this bus, let us be a little paranoid
-+         */
-+        if (!object_dynamic_cast(OBJECT(d), TYPE_PCIE_PORT)) {
-+            continue;
-+        }
-+
-+        port = PCIE_PORT(d);
-+        port_ids[count] = port->port;
-+        count++;
-+    }
-+
-+    /* May not yet have any ports - try again later */
-+    if (count == 0) {
-+        return 0;
-+    }
-+
-+    sslbis_size = sizeof(CDATSslbis) + sizeof(*sslbis_latency->sslbe) * count;
-+    sslbis_latency = g_malloc(sslbis_size);
-+    if (!sslbis_latency) {
-+        return -ENOMEM;
-+    }
-+    *sslbis_latency = (CDATSslbis) {
-+        .sslbis_header = {
-+            .header = {
-+                .type = CDAT_TYPE_SSLBIS,
-+                .length = sslbis_size,
-+            },
-+            .data_type = HMATLB_DATA_TYPE_ACCESS_LATENCY,
-+            .entry_base_unit = 10000,
-+        },
-+    };
-+
-+    for (i = 0; i < count; i++) {
-+        sslbis_latency->sslbe[i] = (CDATSslbe) {
-+            .port_x_id = CDAT_PORT_ID_USP,
-+            .port_y_id = port_ids[i],
-+            .latency_bandwidth = 15, /* 150ns */
-+        };
-+    }
-+
-+    sslbis_bandwidth = g_malloc(sslbis_size);
-+    if (!sslbis_bandwidth) {
-+        return 0;
-+    }
-+    *sslbis_bandwidth = (CDATSslbis) {
-+        .sslbis_header = {
-+            .header = {
-+                .type = CDAT_TYPE_SSLBIS,
-+                .length = sslbis_size,
-+            },
-+            .data_type = HMATLB_DATA_TYPE_ACCESS_BANDWIDTH,
-+            .entry_base_unit = 1000,
-+        },
-+    };
-+
-+    for (i = 0; i < count; i++) {
-+        sslbis_bandwidth->sslbe[i] = (CDATSslbe) {
-+            .port_x_id = CDAT_PORT_ID_USP,
-+            .port_y_id = port_ids[i],
-+            .latency_bandwidth = 16, /* 16 GB/s */
-+        };
-+    }
-+
-+    *cdat_table = g_malloc0(sizeof(*cdat_table) * CXL_USP_CDAT_NUM_ENTRIES);
-+    if (!*cdat_table) {
-+        return -ENOMEM;
-+    }
-+
-+    /* Header always at start of structure */
-+    (*cdat_table)[CXL_USP_CDAT_SSLBIS_LAT] = g_steal_pointer(&sslbis_latency);
-+    (*cdat_table)[CXL_USP_CDAT_SSLBIS_BW] = g_steal_pointer(&sslbis_bandwidth);
-+
-+    return CXL_USP_CDAT_NUM_ENTRIES;
-+}
-+
-+static void free_default_cdat_table(CDATSubHeader **cdat_table, int num,
-+                                    void *priv)
-+{
-+    int i;
-+
-+    for (i = 0; i < num; i++) {
-+        g_free(cdat_table[i]);
-+    }
-+    g_free(cdat_table);
-+}
-+
- static void cxl_usp_realize(PCIDevice *d, Error **errp)
- {
-     PCIEPort *p = PCIE_PORT(d);
-@@ -161,6 +339,14 @@ static void cxl_usp_realize(PCIDevice *d, Error **errp)
-                      PCI_BASE_ADDRESS_MEM_TYPE_64,
-                      component_bar);
- 
-+    pcie_doe_init(d, &usp->doe_cdat, cxl_cstate->dvsec_offset, doe_cdat_prot,
-+                  true, 1);
-+
-+    cxl_cstate->cdat.build_cdat_table = build_cdat_table;
-+    cxl_cstate->cdat.free_cdat_table = free_default_cdat_table;
-+    cxl_cstate->cdat.private = d;
-+    cxl_doe_cdat_init(cxl_cstate, errp);
-+
-     return;
- 
- err_cap:
-@@ -179,6 +365,11 @@ static void cxl_usp_exitfn(PCIDevice *d)
-     pci_bridge_exitfn(d);
- }
- 
-+static Property cxl_upstream_props[] = {
-+    DEFINE_PROP_STRING("cdat", CXLUpstreamPort, cxl_cstate.cdat.filename),
-+    DEFINE_PROP_END_OF_LIST()
-+};
-+
- static void cxl_upstream_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-@@ -186,6 +377,7 @@ static void cxl_upstream_class_init(ObjectClass *oc, void *data)
- 
-     k->is_bridge = true;
-     k->config_write = cxl_usp_write_config;
-+    k->config_read = cxl_usp_read_config;
-     k->realize = cxl_usp_realize;
-     k->exit = cxl_usp_exitfn;
-     k->vendor_id = 0x19e5; /* Huawei */
-@@ -194,6 +386,7 @@ static void cxl_upstream_class_init(ObjectClass *oc, void *data)
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-     dc->desc = "CXL Switch Upstream Port";
-     dc->reset = cxl_usp_reset;
-+    device_class_set_props(dc, cxl_upstream_props);
- }
- 
- static const TypeInfo cxl_usp_info = {
 -- 
 MST
 
