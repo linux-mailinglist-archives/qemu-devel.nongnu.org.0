@@ -2,83 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00E2061E186
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 11:15:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A6D61E1E4
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 12:39:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orcev-0000rL-GD; Sun, 06 Nov 2022 05:13:45 -0500
+	id 1ordyQ-0003QC-MH; Sun, 06 Nov 2022 06:37:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1orceo-0000po-M7
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 05:13:40 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ordyO-0003Pw-7L
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 06:37:56 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1orcel-00053m-Mm
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 05:13:38 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ordyK-0007Nq-RB
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 06:37:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667729614;
+ s=mimecast20190719; t=1667734671;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gy6sy6y++mj4WfXWzGGFNgGlEpl7nhv8IFyXQpC7EYU=;
- b=LtciByDtGajemftByvkCXqsAst5ljoa/XUlRjaREtDKCTjl12yz9PP2Y3YlMhN5npqK7ib
- GsQgrpDSAd6lMrzOdC6C9sbRiZGzsF/7QoDeB4d+nCLhZkTxPWms5VtvehDPI7xcEvG5an
- SyjUlMiMtTNGaNAuKZWAMa7n8DPIfmE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hvYtUaq9PZ7P1LfxxWz8L3x7PiJUZo8m0lYyPPjz+XQ=;
+ b=hNLkShXKXKaVNR9ylx/mb5AWk5hVXZjSBpcOyjX+TbTbT3H2FoKQdmd2Tigr4CjccO2Sdq
+ e0K4UyHksoC/ulRqrAxKcxm1qOeOhJMTstN8fitPkEY5VeKmLgO/ZCL7uVDKh04r+2Sbu1
+ TyKIFJdg3sA5m56NF2B+WZb0TH+YHTc=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-208-GSvxhKHTMwu_mwXemXEWsA-1; Sun, 06 Nov 2022 05:13:33 -0500
-X-MC-Unique: GSvxhKHTMwu_mwXemXEWsA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c130-20020a1c3588000000b003b56be513e1so4641517wma.0
- for <qemu-devel@nongnu.org>; Sun, 06 Nov 2022 02:13:32 -0800 (PST)
+ us-mta-118--SGONIWsO2OnWhlEedcdeg-1; Sun, 06 Nov 2022 06:37:49 -0500
+X-MC-Unique: -SGONIWsO2OnWhlEedcdeg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ v18-20020a056402349200b004622e273bbbso6390034edc.14
+ for <qemu-devel@nongnu.org>; Sun, 06 Nov 2022 03:37:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gy6sy6y++mj4WfXWzGGFNgGlEpl7nhv8IFyXQpC7EYU=;
- b=tvHxTzkySEFvn1bAU6i96xHdX6/Qnmc2U48qM/zM+4Wg4latgR4F3lvKb8/8IJQdWf
- 0m59Bc2i8AOH/RdX262uGBERuZmhKIxKie6GMeQ50ALgjD6Fr3bV1G1X8uLXYv7Ob2Nx
- r5anHSpArBzx/KzUGUqnJW2WLHpxdQaWdNejOBa4v0wLYLJd25cFcYHC3zhn/vD2ABAC
- m6xluYIs8ieRsKCzIUOMRissRC3rQ/5qUhBUSEMDyG2/iI7xu4+e0tEEAwiFTTBe5fcn
- HyznV2xcF9Fn0ZtKyoo5sSuAcjLT2oCNQyIfzGiSNg5otO6YHFJYYYUGrsfjlIoffbh0
- m1SA==
-X-Gm-Message-State: ACrzQf1/Rre3NSKBFJhQ06eBPYVbxakko02edKeBL97rLuhs0NhvOlGa
- cHPRtTIMICRQeyDRoesEAFX1smLvPaEfo8HhqjQv6cqTMR3ASFA+X91E7Knw06tMDkqi7LRexcu
- gNCWAvmwe1IAFMKc=
-X-Received: by 2002:adf:cd09:0:b0:236:659a:6902 with SMTP id
- w9-20020adfcd09000000b00236659a6902mr28762379wrm.574.1667729612001; 
- Sun, 06 Nov 2022 02:13:32 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5v1S2kKuS5zlfz02mxn4/ClOao2gbsOFHyU1QNB0WAs16u7/hQQahGHfppdSmWk5wyd5XHjg==
-X-Received: by 2002:adf:cd09:0:b0:236:659a:6902 with SMTP id
- w9-20020adfcd09000000b00236659a6902mr28762366wrm.574.1667729611730; 
- Sun, 06 Nov 2022 02:13:31 -0800 (PST)
+ bh=hvYtUaq9PZ7P1LfxxWz8L3x7PiJUZo8m0lYyPPjz+XQ=;
+ b=tVQuQoai+vHhHkf+GY4xT3rC7k6u/+cvM1zfaf0SF0i81NCXtQfdXJCtICWmOd1LlI
+ 76gorA7t/rBaex32yNhnVX9gqrVLxwcXHHU6fd0IPNHMO+ogxp/itlneiQnigbVUgtn4
+ prTmbnySM07fBHT85orj3Vod58LXxcALPN0hhEeBh/nI/HH2BDJny28WIlQznQ9VjlB5
+ iidiQQTp7QY1fG7lkru+rHCj2Gp3ax4rPoYQ4WoP5uc5I462vwb4+YY0CjpguM/Yk/T4
+ zVMVOrOQsQLr4OcB2YNsLHKE2s+F8HDC4ziz1nRDhOjwV7MlUtsW6vxboqHaAwy3tqRf
+ sijw==
+X-Gm-Message-State: ACrzQf0T/z75PixSu+SrldUEdul3gIcmYnv5NszpcZlLS3x5lqIKndLc
+ ynnErtqxIAgMMWOZd5uodJVxJIhmEQ4nYx4QIYcQsm1JEV2wuI1K4WF+pKno89iNFZ8ZzmVoqj+
+ ZE7auCwW46bJ6Y/0=
+X-Received: by 2002:a05:6402:884:b0:461:1ed:579f with SMTP id
+ e4-20020a056402088400b0046101ed579fmr44671886edy.413.1667734668664; 
+ Sun, 06 Nov 2022 03:37:48 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM4ucyvgaAuUDiTySpxjMelcJvAVksqQKfaZH5y4trZWFzfcldn4jy6hLF0HpAM2plHC2lVPdQ==
+X-Received: by 2002:a05:6402:884:b0:461:1ed:579f with SMTP id
+ e4-20020a056402088400b0046101ed579fmr44671835edy.413.1667734668135; 
+ Sun, 06 Nov 2022 03:37:48 -0800 (PST)
 Received: from [192.168.8.100] (tmo-067-175.customers.d1-online.com.
  [80.187.67.175]) by smtp.gmail.com with ESMTPSA id
- v11-20020a05600c12cb00b003cf75f56105sm5442507wmd.41.2022.11.06.02.13.30
+ ca26-20020a170906a3da00b0078b03d57fa7sm2018768ejb.34.2022.11.06.03.37.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 06 Nov 2022 02:13:31 -0800 (PST)
-Message-ID: <82c388d0-c79b-36cb-e312-1a7c451200e8@redhat.com>
-Date: Sun, 6 Nov 2022 11:13:29 +0100
+ Sun, 06 Nov 2022 03:37:47 -0800 (PST)
+Message-ID: <5fd39710-902e-bc26-65ec-12cabe24178d@redhat.com>
+Date: Sun, 6 Nov 2022 12:37:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v2] s390x/css: revert SCSW ctrl/flag bits on error
+Subject: Re: [PATCH v11 01/11] s390x: Register TYPE_S390_CCW_MACHINE
+ properties as class properties
 Content-Language: en-US
-To: Eric Farman <farman@linux.ibm.com>, Peter Jin <pjin@linux.ibm.com>,
- pasic@linux.ibm.com, borntraeger@linux.ibm.com,
+To: Pierre Morel <pmorel@linux.ibm.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
  richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mjrosato@linux.ibm.com
-Cc: peter@peterjin.org, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-References: <20221027212341.2904795-1-pjin@linux.ibm.com>
- <3a265985495a653b0cb5b4a1cf2cfad29f734dc0.camel@linux.ibm.com>
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com
+References: <20221103170150.20789-1-pmorel@linux.ibm.com>
+ <20221103170150.20789-2-pmorel@linux.ibm.com>
+ <3f913a58-e7d0-539e-3bc0-6cbd5608db8e@redhat.com>
+ <7d809617-67e0-d233-97b2-8534e2a4610f@linux.ibm.com>
+ <6415cf08-e6a1-c72a-1c56-907d3a446a8c@kaod.org>
+ <7a3c34dc-2c16-6fdd-e8bc-7a1c623823ae@redhat.com>
+ <7177da22-ca19-6510-9bf3-4120140f5431@linux.ibm.com>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <3a265985495a653b0cb5b4a1cf2cfad29f734dc0.camel@linux.ibm.com>
+In-Reply-To: <7177da22-ca19-6510-9bf3-4120140f5431@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -103,75 +112,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/10/2022 22.22, Eric Farman wrote:
-> On Thu, 2022-10-27 at 23:23 +0200, Peter Jin wrote:
->> Revert the control and flag bits in the subchannel status word in
->> case
->> the SSCH operation fails with non-zero CC (ditto for CSCH and HSCH).
->> According to POPS, the control and flag bits are only changed if
->> SSCH,
->> CSCH, and HSCH return CC 0, and no other action should be taken
->> otherwise.
->> In order to simulate that after the fact, the bits need to be
->> reverted on
->> non-zero CC.
+On 04/11/2022 15.57, Pierre Morel wrote:
+> 
+> 
+> On 11/4/22 15:29, Thomas Huth wrote:
+>> On 04/11/2022 11.53, Cédric Le Goater wrote:
+>>> On 11/4/22 11:16, Pierre Morel wrote:
+>>>>
+>>>>
+>>>> On 11/4/22 07:32, Thomas Huth wrote:
+>>>>> On 03/11/2022 18.01, Pierre Morel wrote:
+>>>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>>>>>> ---
+>>>>>>   hw/s390x/s390-virtio-ccw.c | 127 +++++++++++++++++++++----------------
+>>>>>>   1 file changed, 72 insertions(+), 55 deletions(-)
+>>>>>
+>>>>> -EMISSINGPATCHDESCRIPTION
+>>>>>
+>>>>> ... please add some words *why* this is a good idea / necessary.
+>>>>
+>>>> I saw that the i386 patch had no description for the same patch so...
+>>>>
+>>>> To be honest I do not know why it is necessary.
+>>>> The only reason I see is to be in sync with the PC implementation.
+>>>>
+>>>> So what about:
+>>>> "
+>>>> Register TYPE_S390_CCW_MACHINE properties as class properties
+>>>> to be conform with the X architectures
+>>>> "
+>>>> ?
+>>>>
+>>>> @Cédric , any official recommendation for doing that?
+>>>
+>>> There was a bunch of commits related to QOM in this series :
+>>>
+>>>    91def7b83 arm/virt: Register most properties as class properties
+>>>    f5730c69f0 i386: Register feature bit properties as class properties
+>>>
+>>> which moved property definitions at the class level.
+>>>
+>>> Then,
+>>>
+>>>    commit d8fb7d0969 ("vl: switch -M parsing to keyval")
+>>>
+>>> changed machine_help_func() to use a machine class and not machine
+>>> instance anymore.
+>>>
+>>> I would use the same kind of commit log and add a Fixes tag to get it
+>>> merged in 7.2
+>>
+>> Ah, so this fixes the problem that running QEMU with " -M 
+>> s390-ccw-virtio,help" does not show the s390x-specific properties anymore? 
+>> ... that's certainly somethings that should be mentioned in the commit 
+>> message! What about something like this:
+>>
+>> "Currently, when running 'qemu-system-s390x -M -M s390-ccw-virtio,help' 
+>> the s390x-specific properties are not listed anymore. This happens because 
+>> since commit d8fb7d0969 ("vl: switch -M parsing to keyval") the properties 
+>> have to be defined at the class level and not at the instance level 
+>> anymore. Fix it on s390x now, too, by moving the registration of the 
+>> properties to the class level"
+>>
+>> Fixes: d8fb7d0969 ("vl: switch -M parsing to keyval")
+>>
+>> ?
+>>
+>>   Thomas
 >>
 > 
-> I'm okay to this point...
-> 
->> This change is necessary due to the fact that the pwrite() in vfio-
->> ccw
->> which triggers the SSCH can fail at any time. Previously, there was
->> only virtio-ccw, whose do_subchannel_work function was only able to
->> return CC0. However, once vfio-ccw went into the mix, it has become
->> necessary to handle errors in code paths that were previously assumed
->> to always return success.
->>
->> In our case, we found that in case of pwrite() failure (which was
->> discovered by strace injection), the subchannel could be stuck in
->> start
->> pending state, which could be problematic if the pwrite() call
->> returns
->> CC2. Experimentation shows that the guest tries to retry the SSCH
->> call as
->> normal for CC2, but it actually continously fails due to the fact
->> that
->> the subchannel is stuck in start pending state even though no start
->> function is actually taking place.
-> 
-> ...but the two paragraphs above are a bit cumbersome to digest. Maybe
-> it's just too late in the week for me. What about something like this?
-> 
-> """
-> While the do_subchannel_work logic for virtual (virtio) devices will
-> return condition code 0, passthrough (vfio) devices may encounter
-> errors from either the host kernel or real hardware that need to be
-> accounted for after this point. This includes restoring the state of
-> the Subchannel Status Word to reflect the subchannel, as these bits
-> would not be set in the event of a non-zero condition code from the
-> affected instructions.
-> 
-> Experimentation has shown that a failure on a START SUBCHANNEL (SSCH)
-> to a passthrough device would leave the subchannel with the START
-> PENDING activity control bit set, thus blocking subsequent SSCH
-> operations in css_do_ssch() until some form of error recovery was
-> undertaken since no interrupt would be expected.
-> """
-> 
->>
->> Signed-off-by: Peter Jin <pjin@linux.ibm.com>
-> 
-> We've talked previously about clearing this within the
-> do_subchannel_work_passthrough routine in order to keep the _virtual
-> paths untouched, but this seems like a reasonable approach to me.
-> 
-> The commit message is probably fine either way, but as far as the code
-> goes:
-> 
-> Reviewed-by: Eric Farman <farman@linux.ibm.com>
+> That seems really good :)
 
-Thanks, I've queued the patch now to my s390x-next branch with the updated 
-commit message. Please double-check whether that looks OK now:
+All right, I've queued this patch (with the updated commit description) and 
+the next one on my s390x-branch for QEMU 7.2:
 
   https://gitlab.com/thuth/qemu/-/commits/s390x-next/
 
