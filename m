@@ -2,78 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE0E61DFC1
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 01:17:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E2A61DFC3
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 01:17:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orTKR-0006il-UN; Sat, 05 Nov 2022 20:15:59 -0400
+	id 1orTM1-0007Ow-U8; Sat, 05 Nov 2022 20:17:39 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1orTKQ-0006iF-Et
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 20:15:58 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1orTKO-0004a0-Lq
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 20:15:58 -0400
-Received: by mail-pf1-x433.google.com with SMTP id q9so7601993pfg.5
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 17:15:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8bxbWEJoBOyBo+VR3YhlP4vcU+d1LVS2IqLK4lRXDSc=;
- b=c8ufsyj4IAX0ifFAPi4m8mp5uuEHkMa7+wA3mMI00MX5euUWtY9X8nN725+fHYuHiw
- OV5UZneKmbvW2FLbO7dNlSaxv+N6KjVP2iuPpIchbRGuGWXVr6S8/TlQ/MpVQO2WngrR
- Xh/CjC1zo073hP2O58R4Mys4vNMr/N9lpw+cqFkUV/yiRVK5MWCXmbojCGlwmdk93h95
- Swh3ERy5qca2r7Y28AMSttoPnY5N3YbK7sYfYOrgDyM20qg4OTKabd55a4VS4zF5FkOJ
- MIE3y7+7RtH9dZxjdRvs/dmTbR7o+vs7K3lWFLjBATCnHt1HNknEeGBnk8vhp6h2X9/b
- bOlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8bxbWEJoBOyBo+VR3YhlP4vcU+d1LVS2IqLK4lRXDSc=;
- b=I+Z9k4Ru+FXGgO4uydzY6Q4/+hWZV8m3K769zs+QcZ21wOtzy+1yxzIZjV41sjkbv4
- vlTYzhk5TUiN3giLgOI5X3cxgwxUXfS8bkAXKeJqUI5jBO9DiH2ZecqJCk7TXrr3itBc
- 0HOkvXtKERhxhH8kuDo3fsrSBlLrRGY0G3pt2rxbixuNR8TQIDjRmV4Ed63O5ukUYlUY
- KgavVe/Udx0r8+DeTIiECkPY6MNWvmbFI5VIzKHtaa0KzWIvK0iXLVwWLPmlWVfK84QQ
- ibA2pYTBXyqoKdd0ZkRzgmSWx/0dRH+8modA3VDy9KEWsCGIeaJjuaorlv3RKDCYR1mr
- voVQ==
-X-Gm-Message-State: ACrzQf0Pdb4XbkHIWNTv6B/8Uml93vDU7UmY50/jadzdQF1ZplO0XfzW
- ZBhsA5kFGgTV2m4YVAagfbspmTO12lZZ5w==
-X-Google-Smtp-Source: AMsMyM4O2lORnXDaYOe6Kxsbt4IaSM57mbgTwJQSP3xhyDwoh/IQ75OlT0sxQ9aZFSCOasUP6j5DBw==
-X-Received: by 2002:a63:f452:0:b0:46f:6d7b:3fc9 with SMTP id
- p18-20020a63f452000000b0046f6d7b3fc9mr37009666pgk.472.1667693755095; 
- Sat, 05 Nov 2022 17:15:55 -0700 (PDT)
-Received: from stoup.. ([172.58.27.185]) by smtp.gmail.com with ESMTPSA id
- b6-20020a170903228600b00186b0ac12c5sm2192692plh.172.2022.11.05.17.15.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 17:15:54 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: philmd@linaro.org,
-	sw@weilnetz.de
-Subject: [PATCH 1/6] disas/nanomips: Move setjmp into nanomips_dis
-Date: Sun,  6 Nov 2022 11:15:34 +1100
-Message-Id: <20221106001540.108571-2-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221106001540.108571-1-richard.henderson@linaro.org>
-References: <20221106001540.108571-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1orTLh-0007Nr-B2
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 20:17:17 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1orTLe-0004d4-9X
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 20:17:17 -0400
+Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N4Zfl1cKfzHtgm;
+ Sun,  6 Nov 2022 08:16:47 +0800 (CST)
+Received: from [10.174.148.223] (10.174.148.223) by
+ kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Sun, 6 Nov 2022 08:17:08 +0800
+Message-ID: <5387e1e7-b741-b6a1-f091-f15d5f136e38@huawei.com>
+Date: Sun, 6 Nov 2022 08:17:07 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v7 resend 0/4] add generic vDPA device support
+To: "Michael S. Tsirkin" <mst@redhat.com>
+CC: <stefanha@redhat.com>, <jasowang@redhat.com>, <sgarzare@redhat.com>,
+ <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
+ <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
+ <xiehong@huawei.com>
+References: <20221105083629.1058-1-longpeng2@huawei.com>
+ <20221105103601-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221105103601-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemi100025.china.huawei.com (7.221.188.158)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
+ helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,114 +66,122 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+From: longpeng2--- via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Reduce the number of local variables within the scope of the
-setjmp by moving it to the existing helper.  The actual length
-returned from Disassemble is not used, because we have already
-determined the length while reading bytes.  Fixes:
 
-nanomips.c: In function ‘print_insn_nanomips’:
-nanomips.c:21925:14: error: variable ‘insn1’ might be clobbered by ‘longjmp’ or ‘vfork’ [-Werror=clobbered]
-nanomips.c:21925:25: error: variable ‘insn2’ might be clobbered by ‘longjmp’ or ‘vfork’ [-Werror=clobbered]
-nanomips.c:21925:36: error: variable ‘insn3’ might be clobbered by ‘longjmp’ or ‘vfork’ [-Werror=clobbered]
-nanomips.c:21926:22: error: variable ‘buf’ might be clobbered by ‘longjmp’ or ‘vfork’ [-Werror=clobbered]
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- disas/nanomips.c | 44 ++++++++++++++++++++------------------------
- 1 file changed, 20 insertions(+), 24 deletions(-)
+在 2022/11/6 0:43, Michael S. Tsirkin 写道:
+> On Sat, Nov 05, 2022 at 04:36:25PM +0800, Longpeng(Mike) wrote:
+>> From: Longpeng <longpeng2@huawei.com>
+>>
+>> Hi guys,
+>>
+>> With the generic vDPA device, QEMU won't need to touch the device
+>> types any more, such like vfio.
+> 
+> With this kind of passthrough migration is completely MIA right?
+> Better add a blocker...
 
-diff --git a/disas/nanomips.c b/disas/nanomips.c
-index 9647f1a8e3..9a69e6880a 100644
---- a/disas/nanomips.c
-+++ b/disas/nanomips.c
-@@ -21905,22 +21905,27 @@ static const Pool MAJOR[2] = {
-        0x0                 },        /* P16 */
- };
- 
--static int nanomips_dis(char **buf,
--                 Dis_info *info,
--                 unsigned short one,
--                 unsigned short two,
--                 unsigned short three)
-+static bool nanomips_dis(char **buf, Dis_info *info,
-+                         unsigned short one,
-+                         unsigned short two,
-+                         unsigned short three)
- {
-     uint16 bits[3] = {one, two, three};
--
-     TABLE_ENTRY_TYPE type;
--    int size = Disassemble(bits, buf, &type, MAJOR, 2, info);
--    return size;
-+    int ret;
-+
-+    ret = sigsetjmp(info->buf, 0);
-+    if (ret != 0) {
-+        return false;
-+    }
-+
-+    ret = Disassemble(bits, buf, &type, MAJOR, 2, info);
-+    return ret >= 0;
- }
- 
- int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
- {
--    int status;
-+    int status, length;
-     bfd_byte buffer[2];
-     uint16_t insn1 = 0, insn2 = 0, insn3 = 0;
-     g_autofree char *buf = NULL;
-@@ -21950,6 +21955,7 @@ int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
-     } else {
-         insn1 = bfd_getl16(buffer);
-     }
-+    length = 2;
-     (*info->fprintf_func)(info->stream, "%04x ", insn1);
- 
-     /* Handle 32-bit opcodes.  */
-@@ -21965,6 +21971,7 @@ int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
-         } else {
-             insn2 = bfd_getl16(buffer);
-         }
-+        length = 4;
-         (*info->fprintf_func)(info->stream, "%04x ", insn2);
-     } else {
-         (*info->fprintf_func)(info->stream, "     ");
-@@ -21982,27 +21989,16 @@ int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
-         } else {
-             insn3 = bfd_getl16(buffer);
-         }
-+        length = 6;
-         (*info->fprintf_func)(info->stream, "%04x ", insn3);
-     } else {
-         (*info->fprintf_func)(info->stream, "     ");
-     }
- 
-     /* Handle runtime errors. */
--    if (sigsetjmp(disassm_info.buf, 0) != 0) {
--        info->insn_type = dis_noninsn;
--        return insn3 ? 6 : insn2 ? 4 : 2;
-+    if (nanomips_dis(&buf, &disassm_info, insn1, insn2, insn3)) {
-+        (*info->fprintf_func) (info->stream, "%s", buf);
-     }
- 
--    int length = nanomips_dis(&buf, &disassm_info, insn1, insn2, insn3);
--
--    /* FIXME: Should probably use a hash table on the major opcode here.  */
--
--    (*info->fprintf_func) (info->stream, "%s", buf);
--    if (length > 0) {
--        return length / 8;
--    }
--
--    info->insn_type = dis_noninsn;
--
--    return insn3 ? 6 : insn2 ? 4 : 2;
-+    return length;
- }
--- 
-2.34.1
+Oh, I missed the "vdpa-dev: mark the device as unmigratable" since v4 
+and I'll add it in the next version.
 
+We'll support passthrough migration in the next step. We have already 
+written a demo that can migrate between some offloading cards.
+
+> And given this is there an advantage over VFIO?
+
+I think the answer is the same as "why we need vDPA" if we compare it 
+with VFIO.
+
+> 
+>> We can use the generic vDPA device as follow:
+>>    -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
+>>    Or
+>>    -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
+>>    vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
+> 
+>> Changes v6 -> v7:
+>>      (v6: https://mail.gnu.org/archive/html/qemu-devel/2022-05/msg02821.html)
+>>      - rebase. [Jason]
+>>      - add documentation . [Stefan]
+>>
+>> Changes v5 -> v6:
+>>    Patch 2:
+>>      - Turn to the original approach in the RFC to initialize the
+>>        virtio_pci_id_info array. [Michael]
+>> 	  https://lore.kernel.org/all/20220105005900.860-2-longpeng2@huawei.com/
+>>    Patch 3:
+>>      - Fix logical error of exception handler around the post_init.
+>>        [Stefano]
+>>      - Fix some coding style warnings. [Stefano]
+>>    Patch 4:
+>>      - Fix some coding style warnings. [Stefano]
+>>
+>> Changes v4 -> v5:
+>>    Patch 3:
+>>      - remove vhostfd [Jason]
+>>      - support virtio-mmio [Jason]
+>>
+>> Changes v3 -> v4:
+>>    v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg877015.html
+>>    - reorganize the series [Stefano]
+>>    - fix some typos [Stefano]
+>>    - fix logical error in vhost_vdpa_device_realize [Stefano]
+>>
+>> Changes v2 -> v3
+>>    Patch 4 & 5:
+>>      - only call vdpa ioctls in vdpa-dev.c [Stefano, Longpeng]
+>>      - s/VQS_NUM/VQS_COUNT  [Stefano]
+>>      - check both vdpa_dev_fd and vdpa_dev [Stefano]
+>>    Patch 6:
+>>      - move all steps into vhost_vdpa_device_unrealize. [Stefano]
+>>
+>> Changes RFC -> v2
+>>    Patch 1:
+>>      - rename 'pdev_id' to 'trans_devid'  [Michael]
+>>      - only use transitional device id for the devices
+>>        listed in the spec  [Michael]
+>>      - use macros to make the id_info table clearer  [Longpeng]
+>>      - add some modern devices in the id_info table  [Longpeng]
+>>    Patch 2:
+>>      - remove the GET_VECTORS_NUM command  [Jason]
+>>    Patch 4:
+>>      - expose vdpa_dev_fd as a QOM preperty  [Stefan]
+>>      - introduce vhost_vdpa_device_get_u32 as a common
+>>        function to make the code clearer  [Stefan]
+>>      - fix the misleading description of 'dc->desc'  [Stefano]
+>>    Patch 5:
+>>      - check returned number of virtqueues  [Stefan]
+>>    Patch 6:
+>>      - init s->num_queues  [Stefano]
+>>      - free s->dev.vqs  [Stefano]
+>>
+>>
+>> Longpeng (Mike) (4):
+>>    virtio: get class_id and pci device id by the virtio id
+>>    vdpa: add vdpa-dev support
+>>    vdpa: add vdpa-dev-pci support
+>>    docs: Add generic vhost-vdpa device documentation
+>>
+>>   docs/system/devices/vhost-vdpa-device.rst |  43 +++
+>>   hw/virtio/Kconfig                         |   5 +
+>>   hw/virtio/meson.build                     |   2 +
+>>   hw/virtio/vdpa-dev-pci.c                  | 102 ++++++
+>>   hw/virtio/vdpa-dev.c                      | 377 ++++++++++++++++++++++
+>>   hw/virtio/virtio-pci.c                    |  88 +++++
+>>   include/hw/virtio/vdpa-dev.h              |  43 +++
+>>   include/hw/virtio/virtio-pci.h            |   5 +
+>>   8 files changed, 665 insertions(+)
+>>   create mode 100644 docs/system/devices/vhost-vdpa-device.rst
+>>   create mode 100644 hw/virtio/vdpa-dev-pci.c
+>>   create mode 100644 hw/virtio/vdpa-dev.c
+>>   create mode 100644 include/hw/virtio/vdpa-dev.h
+>>
+>> -- 
+>> 2.23.0
+> 
+> .
 
