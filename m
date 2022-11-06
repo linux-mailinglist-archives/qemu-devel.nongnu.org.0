@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77FF61E2A2
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 15:40:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CE461E2BD
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 15:51:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orgo3-0004FL-3k; Sun, 06 Nov 2022 09:39:27 -0500
+	id 1orgyi-0000BM-NT; Sun, 06 Nov 2022 09:50:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1orgo0-0004Eh-Ul
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 09:39:25 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1orgnz-0001oc-4L
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 09:39:24 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id
- c15-20020a17090a1d0f00b0021365864446so8219599pjd.4
- for <qemu-devel@nongnu.org>; Sun, 06 Nov 2022 06:39:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=0fB0udMZsQvg+8bmyp7ro9M87xUAvgONQV5uxUWqipI=;
- b=ggDIFH98FXDYmmiwkLS0iwWF9t7b7GVvHrlwecxRF2F053snlg9f9BM67ed2qr++J8
- 6p52T30J7KJwpqNkobym2Re7QqKcq6sapzH5fkgm4S7ISlnEwVbzyTfIgnJPACn38bEo
- QHOrqdf0YZSHaj8nm7iVRVf/8wiOZh+VOBZ568aC9ywLwFmPHyFjl5s9oriXjrlVWetr
- CEWM1YQAUyi2sTjZVHUlrdyGcYhIM8GSpyOL6U3SnmoXg6PIGruQeN5nw5MYQPeAWxuV
- zwg7PBV8rm9eeau4DzANqNGDyu0rxppsPRAtbcvI+UBPAAtnbALgRl+EgAno+fyaVmne
- kGRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0fB0udMZsQvg+8bmyp7ro9M87xUAvgONQV5uxUWqipI=;
- b=XUbFhVuxpNVNDMub6INNiubgwsOHXotxwtQJj5hqAllC5Cqt/k0EUGhjUPo9BpwFEd
- DBNuvV43WhewIw4oDsEmveCs+HusX8HIZJoespmfA1XWzqs0ZEyLKWTqXskvBH+ndbeB
- YcdRYpFbnRlYkMEdxe+ofqBwimF4HIETpgXc/WQQEogv5dNE1+Y1YwbJz3sWdI+KbwJf
- JMZLJ2uqx3fzLcH+Yv1K/XtiRoHK2ATWnbHlxiMNYXbg23CDSv5wjQlVgWxowNy8CiBa
- iUrJh0JzaF4HzyjcSEWvEoLwZQJx7w3OIAsKJiZQJtA9/FyqzXhF6BOWf0vSJa/UheYk
- AYUQ==
-X-Gm-Message-State: ACrzQf0qdiAOlBJJeFDFsZ3CU1RJcK/xj/QlhTnI6Sj4jzd+Ooq3SP40
- GRHQYujqPRnVPlNa9GfKPAvQsw==
-X-Google-Smtp-Source: AMsMyM6V8hLxqW4YpWe4tjoHcKpzTHKqP74L/YQAUFEn42140SN0bgY9R4Hc2Pt8Vs86BMEhLmuFsg==
-X-Received: by 2002:a17:90b:19ca:b0:212:d2c4:83ac with SMTP id
- nm10-20020a17090b19ca00b00212d2c483acmr63709269pjb.166.1667745560751; 
- Sun, 06 Nov 2022 06:39:20 -0800 (PST)
-Received: from localhost.localdomain ([49.206.12.236])
- by smtp.gmail.com with ESMTPSA id
- j17-20020a170902da9100b001811a197797sm3209279plx.194.2022.11.06.06.39.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Nov 2022 06:39:20 -0800 (PST)
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Sunil V L <sunilvl@ventanamicro.com>
-Subject: [PATCH] hw/riscv: virt: Remove size restriction for pflash
-Date: Sun,  6 Nov 2022 20:09:00 +0530
-Message-Id: <20221106143900.2229449-1-sunilvl@ventanamicro.com>
-X-Mailer: git-send-email 2.38.0
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1orgyg-0000AD-03
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 09:50:26 -0500
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1orgya-0003fH-Vs
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 09:50:25 -0500
+Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 1E4AD3F054
+ for <qemu-devel@nongnu.org>; Sun,  6 Nov 2022 14:50:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1667746214;
+ bh=7gb3VSCSgXAACtC0/WGTQfqJiRGPocu9SSWNwiMoT8k=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=PcM5vt2gbV8GP83G/xPfcA6d+UUMJSOwphd9eDYOdvtSVJ4UTIe7TWq38JlUjCHah
+ 3eSPyxcjfe7T1bfS5KHXYBeLbi3EJw+IkhK9Nzp1lgVq5JRUdo5TQMwl/xbzJI7WQp
+ QwiXdRIMERrvKRJOrlElspwt40Tk00AbrvpipkYAN/6lNlmQ6KOqB4HWuudwSwoAk3
+ xM1TxTF6cbh8Bw7oGyLKjZgo/C5DYK0HqbRREAP1N/kQV96om4S+ncNV5kdIM/Pcsj
+ NZiLP+DtmW0pet5szTqgWmNmvI5wNoc+vrLWi+3I6Zeq63vQcpjjth5JFgYvhXqp/x
+ tY9eRRTgrkUAw==
+Received: from
+ juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
+ (localhost [127.0.0.1])
+ by scripts-1.lp.internal (Postfix) with ESMTP id 028E640C89
+ for <qemu-devel@nongnu.org>; Sun,  6 Nov 2022 14:50:13 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 06 Nov 2022 14:41:55 -0000
+From: Thomas Huth <1034423@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 8mabmzqcnyc1g4i7tjyvuprzli-contact-clubl5mz6ldresgvtiayqw6wzb janitor owentuz
+ th-huth
+X-Launchpad-Bug-Reporter: Owen Tuz (owentuz)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20120808150403.6400.41896.malonedeb@chaenomeles.canonical.com>
+Message-Id: <166774571600.49452.13517255266164667433.malone@dale.canonical.com>
+Subject: [Bug 1034423] Re: Guests running OpenIndiana (and relatives) fail to
+ boot on AMD hardware
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="83f7123b02a2b50a64bc29e7e35197179a885279"; Instance="production"
+X-Launchpad-Hash: ba4ac8efa3d65f08f0989ccd95cb014ebbff22d0
+Received-SPF: pass client-ip=185.125.188.251;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,86 +84,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1034423 <1034423@bugs.launchpad.net>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The pflash implementation currently assumes fixed size of the
-backend storage. Due to this, the backend storage file needs to be
-exactly of size 32M. Otherwise, there will be an error like below.
+This bug tracker here is not used anymore. Could you please open a new
+ticket here:
 
-"device requires 33554432 bytes, block backend provides 3145728 bytes"
+https://gitlab.com/qemu-project/qemu/-/issues
 
-Fix this issue by using the actual size of the backing store.
+Thanks!
 
-Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
----
- hw/riscv/virt.c | 33 +++++++++++++++++++++++++--------
- 1 file changed, 25 insertions(+), 8 deletions(-)
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1034423
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index a5bc7353b4..aad175fa31 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -49,6 +49,7 @@
- #include "hw/pci/pci.h"
- #include "hw/pci-host/gpex.h"
- #include "hw/display/ramfb.h"
-+#include "sysemu/block-backend.h"
- 
- /*
-  * The virt machine physical address space used by some of the devices
-@@ -144,10 +145,17 @@ static void virt_flash_map1(PFlashCFI01 *flash,
-                             MemoryRegion *sysmem)
- {
-     DeviceState *dev = DEVICE(flash);
-+    BlockBackend *blk;
-+    hwaddr real_size;
- 
--    assert(QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE));
--    assert(size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
--    qdev_prop_set_uint32(dev, "num-blocks", size / VIRT_FLASH_SECTOR_SIZE);
-+    blk = pflash_cfi01_get_blk(flash);
-+
-+    real_size = blk ? blk_getlength(blk): size;
-+
-+    assert(real_size);
-+    assert(QEMU_IS_ALIGNED(real_size, VIRT_FLASH_SECTOR_SIZE));
-+    assert(real_size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
-+    qdev_prop_set_uint32(dev, "num-blocks", real_size / VIRT_FLASH_SECTOR_SIZE);
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
- 
-     memory_region_add_subregion(sysmem, base,
-@@ -971,15 +979,24 @@ static void create_fdt_flash(RISCVVirtState *s, const MemMapEntry *memmap)
- {
-     char *name;
-     MachineState *mc = MACHINE(s);
--    hwaddr flashsize = virt_memmap[VIRT_FLASH].size / 2;
--    hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
-+    MemoryRegion *flash_mem;
-+    hwaddr flashsize[2];
-+    hwaddr flashbase[2];
-+
-+    flash_mem = pflash_cfi01_get_memory(s->flash[0]);
-+    flashbase[0] = flash_mem->addr;
-+    flashsize[0] = flash_mem->size;
-+
-+    flash_mem = pflash_cfi01_get_memory(s->flash[1]);
-+    flashbase[1] = flash_mem->addr;
-+    flashsize[1] = flash_mem->size;
- 
--    name = g_strdup_printf("/flash@%" PRIx64, flashbase);
-+    name = g_strdup_printf("/flash@%" PRIx64, flashbase[0]);
-     qemu_fdt_add_subnode(mc->fdt, name);
-     qemu_fdt_setprop_string(mc->fdt, name, "compatible", "cfi-flash");
-     qemu_fdt_setprop_sized_cells(mc->fdt, name, "reg",
--                                 2, flashbase, 2, flashsize,
--                                 2, flashbase + flashsize, 2, flashsize);
-+                                 2, flashbase[0], 2, flashsize[0],
-+                                 2, flashbase[1], 2, flashsize[1]);
-     qemu_fdt_setprop_cell(mc->fdt, name, "bank-width", 4);
-     g_free(name);
- }
--- 
-2.38.0
+Title:
+  Guests running OpenIndiana (and relatives) fail to boot on AMD
+  hardware
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  First observed with OpenSolaris 2009.06, and also applies to the
+  latest OpenIndiana release.
+
+  Version: qemu-kvm 1.1.1
+
+  Hardware:
+
+  2 x AMD Opteron 6128 8-core processors, 64GB RAM.
+
+  These guests boot on equivalent Intel hardware.
+
+  To reproduce:
+
+  qemu-kvm -nodefaults -m 512 -cpu host -vga cirrus -usbdevice tablet
+  -vnc :99 -monitor stdio -hda drive.img -cdrom oi-
+  dev-151a5-live-x86.iso -boot order=3Ddc
+
+  I've tested with "-vga std" and various different emulated CPU types,
+  to no effect.
+
+  What happens:
+
+  GRUB loads, and offers multiple boot options, but none work. Some kind
+  of kernel panic flies by very fast before restarting the VM, and
+  careful use of the screenshot button reveals that it reads as follows:
+
+  panic[cpu0]/thread=3Dfec22de0: BAD TRAP: type=3D8 (#df Double fault)
+  rp=3Dfec2b48c add r=3D0
+
+  #df Double fault
+  pid=3D0, pc=3D0xault
+  pid=3D0, pc=3D0xfe800377, sp=3D0xfec40090, eflags=3D0x202
+  cr0: 80050011<pg,wp,et,pe> cr4:b8<pge,pae,pse,de>
+  cr2: 0cr3: ae2f000
+                gs:            1b0    fs:              0   es:         160 =
+  ds:          160
+               edi:                0  esi:              0 ebp:             =
+0 esp: fec2b4c4
+               ebx: c0010015 edx:              0 ecx:             0 eax: fe=
+c40400
+               trp:                 8  err:              0 eip: fe800377  c=
+s:           158
+               efl:             202 usp: fec40090  ss:           160
+  tss.tss_link:     0x0
+  tss.tss_esp0:   0x0
+  tss.tss_ss0:     0x160
+  tss.tss_esp1:   0x0
+  tss.tss_ss1:      0x0
+  tss.tss esp2:     0x0
+  tss.tss_ss2:      0x0
+  tss.tss_cr3:       0xae2f000
+  tss.tss_eip:       0xfec40400
+  tss.tss_eflags:  0x202
+  tss.tss_eax:      0xfec40400
+  tss.tss_ebx:      0xc0010015
+  tss.tss_ecx:      0xc0010000
+  tss.tss_edx:      0x0
+  tss.tss_esp:      0xfec40090
+
+  Warning - stack not written to the dumpbuf
+  fec2b3c8 unix:due+e4 (8, fec2b48c, 0, 0)
+  fec2b478 unix:trap+12fa (fec2b48c, 0, 0)
+  fec2b48c unix:_cmntrap+7c (1b0, 0, 160, 160, 0)
+
+  If there's any more, I haven't managed to catch it.
+
+  Solaris 11 does not seem to suffer from the same issue, although the
+  first message that appears at boot (after the version info) is "trap:
+  Unkown trap type 8 in user mode". Could be related?
+
+  As always, thanks in advance and please let me know if I can help to
+  test, or provide any more information.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1034423/+subscriptions
 
 
