@@ -2,88 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B258361E13E
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 10:18:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A06061E157
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 10:39:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orblf-0004l9-Hj; Sun, 06 Nov 2022 04:16:39 -0500
+	id 1orc68-0001fK-B9; Sun, 06 Nov 2022 04:37:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1orbld-0004kV-7t
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 04:16:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1orc66-0001fC-On
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 04:37:46 -0500
+Received: from mailout06.t-online.de ([194.25.134.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1orblb-0005xX-JQ
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 04:16:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667726195;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lKK5ub85AjM+PKk6s6HZ410dvFHjyHsT80jsjz4kpm4=;
- b=QRaOpCLUpFan7jXCIID/qi76MvvGRBIXHyEmtbpbaCPcltedZsjXXNF9iGnFoVnDdRZzbv
- 7z+LGes+CIu70yFxPdEjnuj6ThlUsriLJSWfQjYahOTJiL7mldJN+dUvtH+X47fbWXQAB0
- oPbfOWx926spx90fV1moYcb2BCkeEJk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-537-LjQ1DIspNdSAGBvYBtPNUw-1; Sun, 06 Nov 2022 04:16:31 -0500
-X-MC-Unique: LjQ1DIspNdSAGBvYBtPNUw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- x10-20020a05600c420a00b003cfa33f2e7cso671695wmh.2
- for <qemu-devel@nongnu.org>; Sun, 06 Nov 2022 01:16:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lKK5ub85AjM+PKk6s6HZ410dvFHjyHsT80jsjz4kpm4=;
- b=yfEB5cmkWxCSKBNjKsT7puxEfjxtSw8toHwL3ggWlAkM+THVcLuocemS2VqWN8Aeby
- YPPWtwvmo3x7bPiLEgFWP+3qx/rD2YhWvwoVCLJXAuNAc9nKH2D/bPsNHWyujVo2epTT
- Bnt1y6XBnG3yVeK7JpI3cqw1bp86FY3Sx2QIduw/Jv3XDB5nMJo0Hw4umZ5JPmRwQPeF
- yMe3Ej5Lul/aee74OER6aiS8kT2RUv0/tngFtSq/x8jip3p8fy+TqcuvZNn21g2FtNdU
- f+CjWgy01gHt11LLm7gEshm9NvQnOmvjRqgd+yScJGM07snfPYAxgo0LQmqRTnjEIBMq
- U2+Q==
-X-Gm-Message-State: ACrzQf3Sc8NOKeO82HQWPRslL74ocK4byY2aK9K+zouG/H5lQ+ydnuzA
- 9OW3n5TsECIZ13daJ8Avw0IS1O2lGyLgnEAaOlflbGLZi5uj0wH2rrYobBs1YdX/ISuOW1xcCF1
- 1Cm7n3XpDmZC02hw=
-X-Received: by 2002:adf:fc12:0:b0:236:9b2e:4843 with SMTP id
- i18-20020adffc12000000b002369b2e4843mr27303279wrr.620.1667726190628; 
- Sun, 06 Nov 2022 01:16:30 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5rGIZgqGjMezEGlS0TVqklbBwAwvfz1GKt7xoBO3+bhPcZRlTYpFobLKvcIvGuorEfruLVsA==
-X-Received: by 2002:adf:fc12:0:b0:236:9b2e:4843 with SMTP id
- i18-20020adffc12000000b002369b2e4843mr27303257wrr.620.1667726190275; 
- Sun, 06 Nov 2022 01:16:30 -0800 (PST)
-Received: from [192.168.8.100] (tmo-067-175.customers.d1-online.com.
- [80.187.67.175]) by smtp.gmail.com with ESMTPSA id
- m42-20020a05600c092a00b003cf5ec79bf9sm4692191wmp.40.2022.11.06.01.16.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 06 Nov 2022 01:16:29 -0800 (PST)
-Message-ID: <ab438f25-2570-ce46-cd8b-a827f97f7d58@redhat.com>
-Date: Sun, 6 Nov 2022 10:16:28 +0100
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1orc64-0000Ic-3w
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 04:37:46 -0500
+Received: from fwd74.dcpf.telekom.de (fwd74.aul.t-online.de [10.223.144.100])
+ by mailout06.t-online.de (Postfix) with SMTP id 3659716CF3;
+ Sun,  6 Nov 2022 10:37:38 +0100 (CET)
+Received: from [192.168.211.200] ([84.175.228.229]) by fwd74.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1orc5x-1tRG1B0; Sun, 6 Nov 2022 10:37:37 +0100
+Message-ID: <423c57bb-ed25-0e32-e14c-e490b754fd02@t-online.de>
+Date: Sun, 6 Nov 2022 10:37:37 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH trivial for 7.2 1/2] hw/usb/hcd-xhci.c: spelling: tranfer
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH] tests/qtest/ac97-test: add up-/downsampling tests
+To: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20221022160052.1132-1-vr_qemu@t-online.de>
+ <CAJ+F1CLjiCs4zSxSpr_OPWDM9_xCC0YfJTL_82umDB-rX6aW3Q@mail.gmail.com>
+ <b3c5e4b6-0208-0b0d-fef4-b536ce889dfc@t-online.de>
+ <CAJ+F1C+HmS7Y8Wu88uwr5DVcspstGS+MMFAH_QB5Cd3LiVxoNA@mail.gmail.com>
+ <9f4b112e-c687-2846-3cee-2f130847dd51@t-online.de>
+ <8ff8d033-9394-d114-6145-e36707dc9056@redhat.com>
 Content-Language: en-US
-To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
-References: <20221105114851.306206-1-mjt@msgid.tls.msk.ru>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221105114851.306206-1-mjt@msgid.tls.msk.ru>
+In-Reply-To: <8ff8d033-9394-d114-6145-e36707dc9056@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1667727457-C9488B6F-2E13D73D/0/0 CLEAN NORMAL
+X-TOI-MSGID: 3a26b08c-101c-4697-a78b-241b48018a87
+Received-SPF: none client-ip=194.25.134.19; envelope-from=vr_qemu@t-online.de;
+ helo=mailout06.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,27 +70,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 05/11/2022 12.48, Michael Tokarev wrote:
-> Fixes: effaf5a240e03020f4ae953e10b764622c3e87cc
-> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> ---
->   hw/usb/hcd-xhci.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-> index 8299f35e66..b89b618ec2 100644
-> --- a/hw/usb/hcd-xhci.c
-> +++ b/hw/usb/hcd-xhci.c
-> @@ -796,7 +796,7 @@ static int xhci_ring_chain_length(XHCIState *xhci, const XHCIRing *ring)
->            */
->       } while (length < TRB_LINK_LIMIT * 65536 / TRB_SIZE);
->   
-> -    qemu_log_mask(LOG_GUEST_ERROR, "%s: exceeded maximum tranfer ring size!\n",
-> +    qemu_log_mask(LOG_GUEST_ERROR, "%s: exceeded maximum transfer ring size!\n",
->                             __func__);
->   
->       return -1;
+Am 04.11.22 um 18:33 schrieb Thomas Huth:
+> On 26/10/2022 21.34, Volker Rümelin wrote:
+>> Am 25.10.22 um 09:44 schrieb Marc-André Lureau:
+>>> Hi
+>>>
+>>> On Tue, Oct 25, 2022 at 12:31 AM Volker Rümelin<vr_qemu@t-online.de> 
+>>> wrote:
+>>>> Am 24.10.22 um 10:13 schrieb Marc-André Lureau:
+>>>>> Hi
+>>>>>
+>>>>> On Mon, Oct 24, 2022 at 9:28 AM Volker Rümelin<vr_qemu@t-online.de>
+>>>>> wrote:
+>>>>>
+>>>>>      Test if the audio subsystem can handle extreme up- and down-
+>>>>>      sampling ratios like 44100/1 and 1/44100. For some time these
+>>>>>      used to trigger QEMU aborts. The test was taken from
+>>>>> https://gitlab.com/qemu-project/qemu/-/issues/71 where it was
+>>>>>      used to demonstrate a very different issue.
+>>>>>
+>>>>>      Suggested-by: Marc-André Lureau<marcandre.lureau@redhat.com>
+>>>>>      Signed-off-by: Volker Rümelin<vr_qemu@t-online.de>
+>>>>>
+>>>>>
+>>>>> Thanks for working on this
+>>>>>
+>>>>> It seems to show something different though:
+>>>>> "
+>>>>> A bug was just triggered in audio_calloc
+>>>>> Save all your work and restart without audio
+>>>>> I am sorry
+>>>>> "
+>>>>>
+>>>>> AUD_open_out() is called with audsettings: {freq = 1, nchannels = 2,
+>>>>> fmt = AUDIO_FORMAT_S16, endianness = 0}
+>>>>>
+>>>>> And that's it. Any idea?
+>>>> Hi,
+>>>>
+>>>> the scary message is expected and doesn't mean this qos-test failed.
+>>>> This is the currently not so silent 'the audio subsystem should (...)
+>>>> silently give up' case.
+>>> Ok, but it's not silent. According to the AC97 spec, "if the value
+>>> written to the register is supported that value will be echoed back
+>>> when read, otherwise the closest (higher in case of a tie) sample rate
+>>> supported is returned". We should probably pick a low sample rate,
+>>> like 8000 (see Table 32 in spec 2.1) for anything below it.
+>>
+>> Hi,
+>>
+>> I don't think we should limit the lowest sample rate to 8000 Hz. The 
+>> sample rates in AC97 revision 2.1 Table 32 are sample rates the codec 
+>> should support at minimum. We are free to support the whole 1-65535 
+>> Hz sample rate range.
+>
+> FWIW, a minimum sample rate of 1 Hz also does not make much sense. You 
+> cannot hear that frequency anymore... so it does not really make that 
+> much sense to support such low frequencies here. Just my 0.02 €.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Hi,
+
+sample rates below a minimum sample rate are currently not supported. 
+The audio device gets disabled. This is why you see the confusing 
+audio_bug() message. The minimum sample rate depends on the selected 
+audio backend and can be changed indirectly with -audiodev arguments. If 
+we change the AC97 minimum sample rate to 8000 Hz, it's much more 
+difficult to test this code path.
+
+>
+>> This is a convenient way to test edge cases. If you think the 
+>> audio_bug message is an issue, I'll improve the error handling in 
+>> AUD_open_* first and then resend this qos test.
+>
+> I agree with Marc-André - the error message looks confusing when 
+> running the test. Maybe you could simply fence it with qtest_enable() 
+> at least?
+
+I have written two patches for the audio subsystem to address this 
+issue. This was two days before QEMU 7.2 soft freeze. I'll send the 
+patches to the mailing list after the release of QEMU 7.2.
+
+>
+>>>> The noaudio backend uses a mixing-engine buffer size of 1024 audio
+>>>> frames and AUD_open_* tries to allocate memory for 1024/44100 = 0.0232
+>>>> audio frames for the resample buffer in 
+>>>> audio_pcm_sw_alloc_resources_*.
+>>>> This allocation fails and produces the scary message. The error is
+>>>> handled correctly and AUD_open_* returns NULL. AUD_read and AUD_write
+>>>> return early if this pointer is NULL and the audio frontend callback
+>>>> functions will also not be called because the audio_frontend_frames_*
+>>>> functions return 0 in this case.
+>>> Thanks, it'd be nice to have such a description in the commit message.
+>>
+>> I'll improve the commit message of patch version 2.
+>
+> A v2 would be appreciated!
+
+I won't forget it.
+
+With best regards,
+Volker
+
+>
+>  Thanks,
+>   Thomas
+>
 
 
