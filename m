@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF1A61DFFF
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 03:39:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3AE761E003
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 03:39:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orVXo-00008r-B5; Sat, 05 Nov 2022 22:37:56 -0400
+	id 1orVXq-0000Cn-TA; Sat, 05 Nov 2022 22:37:58 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1orVXm-00008Z-Ao
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 22:37:54 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
+ id 1orVXp-0000C3-Ko
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 22:37:57 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1orVXk-0003K7-Kx
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 22:37:54 -0400
-Received: by mail-pf1-x434.google.com with SMTP id b29so7721286pfp.13
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 19:37:52 -0700 (PDT)
+ id 1orVXn-0003KK-Oz
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 22:37:57 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id v3so7607080pgh.4
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 19:37:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fVCbfw0csIXiWDQ0FsOhbz/g5Esc2yTlzzD2ayr9qL0=;
- b=oyixP5DpzWiRo0ifM8QOISfUEqHQ/94x0fj6H2oaPLom420TGK+ytB8CDvbR0kcJ0J
- NkFMXJxDJiOkkMi/10vEvTCdvAqD3PnwI5VqF66fyTXyZ540c1YbqpbnoabvP/kvLqQD
- c758ZGBdJozt4y5wUqj0E7V+oct6QiyjcjrYnURkiV1pPkEqk7on7iTAHSYXbgWDFm/I
- xYySCH8siycmZljljuhxqRdWezqxA0ajlZjU3wUU2sBtN1DX01oDab2TDITQJ8RqtD81
- /yiV8ZjhIlbqN+fVkxL+huO6D1So3do9zN+66reu77dPI0tHMhRhNehxk5JDDouICR68
- lFsQ==
+ bh=dpGJViuDySHrQ5ECzH4yPy8F2cBMov2h53f2wnD62c0=;
+ b=Ns0FRD63XW7TAiOShxbT0OysYMLH/q5OvN6eTnx0E1orLttPG0N+fxniLMegbAAskk
+ ENarESS9uQ+HEyCrq2ISmOCQxae7Ex+YDI86KYKnPWLAS7e9EgvN7tLbwrbBaWNvAY9w
+ j96Oa+3o+oR+/xOpaeu+logNwYvCEkPDK2WVdj1xE0WqFLSa7+ckPX3bsTdHwNxlsRDH
+ bn+symyoqx3FOCYSuX+W+u/8lcxmmR7D9uE1crjPKX/H4nBIdgmpE9HyNmekW+EA5Pza
+ +kxpE0TqyB2hPkDdw6sbBfeARw16XVuiT5sYJjtIBXNuPXrS2kilYJjg953TMtREwA3q
+ jGYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fVCbfw0csIXiWDQ0FsOhbz/g5Esc2yTlzzD2ayr9qL0=;
- b=Nx0nmxyz08TKG5b76yr5eLy4J+s8lg1ACTCxNUJe0bI4VrU1Mma3uoDL3gSSAGlVZf
- ZVw6HEvM7JGVt8ZGOKCAN1Rrne09k2KOWgjbezBm612AIws+C5rYho8KNYNJ9X5i/df0
- Kk9PLu32oxnTy4VW5x/UfYTAit7959tk2hIcNX5INtXg/CmzcGQXPLeMQycfxJ/Lorjf
- BawefaLvZ4qR5M/RzNgBv3Nl3vMmVbenkRuO7X0i9M8pQyH85KR1GrnvxVZ9/Kceyxsm
- CZMABwClkSJY1oTv2n0NSOBlGyu2/yVAWkQsCBI+JedPB6NPmnjnuzmumbxKTJvoSPbj
- /XKg==
-X-Gm-Message-State: ACrzQf2ouPEK7nPyiFAVYByG4Rt6yUcK4j4QC1jwdlDoQ7D8H94icB3l
- ihrjzQ+w6AQB6rEkih4ScXFjzx8++xYZdJaJ
-X-Google-Smtp-Source: AMsMyM7w8WO40xRK1Uk8jtRCYbmcjwvxkfWzIHPYTH6rs+QTgtsYv8JupXGWQgU/sMMwZhqaxz8lIg==
-X-Received: by 2002:a05:6a00:cc6:b0:56d:3028:23ea with SMTP id
- b6-20020a056a000cc600b0056d302823eamr39449193pfv.19.1667702271075; 
- Sat, 05 Nov 2022 19:37:51 -0700 (PDT)
+ bh=dpGJViuDySHrQ5ECzH4yPy8F2cBMov2h53f2wnD62c0=;
+ b=rZHDzOWDvg0MiUDba9h2R+36BbW3SmzG6lyChOln1q+KuSzIFmePlBnD5RU+3ZW/uA
+ n8k15w/oCGSEvLBSfMFfCDubQNMjpdoicV/STd92UEPKUMGYERcs2wvY7YxtfZTT1x+o
+ 3kviZ8s5HLfIPPR+9D6AFlfJzESW/N1yWR/bbs40sffdGmlMUQ2gY/9PpKWAjgrsxcKP
+ EhzEbJ7RY7x8W6KPzfTYSirkAkHJ/fYDRMaouyl+9KInL1P5SuU3drrBhyPIljEOqZP1
+ 6YVh96fg1KdwyBvPpEmCGfk+DBdOV0mX+Nv7q+IrjCeUtsmgSw9RB03Qj/P6LsTu+Mod
+ MqPA==
+X-Gm-Message-State: ACrzQf19TF3bAF5/ZhsGbXRCjpgB9wakS57gQrqINX1mNhsFE5TvY3S0
+ xWSCkZnnOaeKw+qnO4frBLFfPaHAzXwt/4yj
+X-Google-Smtp-Source: AMsMyM6M/nSnBdEzAfxYfBXRHX98/9dYIJ93UNep7GW6WBUrcFLxGRtbqZrj6C43a1t/Dfkowr5wMg==
+X-Received: by 2002:a05:6a02:202:b0:42b:d711:f27c with SMTP id
+ bh2-20020a056a02020200b0042bd711f27cmr36596350pgb.246.1667702274122; 
+ Sat, 05 Nov 2022 19:37:54 -0700 (PDT)
 Received: from localhost.localdomain ([2001:8003:d918:7a00:e617:679e:af7:63d])
  by smtp.gmail.com with ESMTPSA id
- m21-20020a170902d19500b0018862bb3976sm2259457plb.308.2022.11.05.19.37.48
+ m21-20020a170902d19500b0018862bb3976sm2259457plb.308.2022.11.05.19.37.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 19:37:50 -0700 (PDT)
+ Sat, 05 Nov 2022 19:37:53 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: philmd@linaro.org,
 	sw@weilnetz.de
-Subject: [RESEND PATCH 3/6] disas/nanomips: Split out read_u16
-Date: Sun,  6 Nov 2022 13:37:32 +1100
-Message-Id: <20221106023735.5277-4-richard.henderson@linaro.org>
+Subject: [RESEND PATCH 4/6] disas/nanomips: Tidy read for 48-bit opcodes
+Date: Sun,  6 Nov 2022 13:37:33 +1100
+Message-Id: <20221106023735.5277-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221106023735.5277-1-richard.henderson@linaro.org>
 References: <20221106023735.5277-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,97 +90,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Split out a helper function for reading a uint16_t
-with the correct endianness.
+There is no point in looking for a 48-bit opcode if we've
+not read the second word for a 32-bit opcode.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- disas/nanomips.c | 48 +++++++++++++++++++-----------------------------
- 1 file changed, 19 insertions(+), 29 deletions(-)
+ disas/nanomips.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/disas/nanomips.c b/disas/nanomips.c
-index 5438def9af..52c7537379 100644
+index 52c7537379..092ea0ca0c 100644
 --- a/disas/nanomips.c
 +++ b/disas/nanomips.c
-@@ -21919,10 +21919,24 @@ static bool nanomips_dis(char **buf, Dis_info *info, uint16_t words[3])
-     return ret >= 0;
- }
- 
-+static bool read_u16(uint16_t *ret, bfd_vma memaddr,
-+                     struct disassemble_info *info)
-+{
-+    int status = (*info->read_memory_func)(memaddr, (bfd_byte *)ret, 2, info);
-+    if (status != 0) {
-+        (*info->memory_error_func)(status, memaddr, info);
-+        return false;
-+    }
-+
-+    if ((info->endian == BFD_ENDIAN_BIG) != HOST_BIG_ENDIAN) {
-+        bswap16s(ret);
-+    }
-+    return true;
-+}
-+
- int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
- {
--    int status, length;
--    bfd_byte buffer[2];
-+    int length;
-     uint16_t words[3] = { };
-     g_autofree char *buf = NULL;
- 
-@@ -21940,48 +21954,24 @@ int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
-     disassm_info.fprintf_func = info->fprintf_func;
-     disassm_info.stream = info->stream;
- 
--    status = (*info->read_memory_func)(memaddr, buffer, 2, info);
--    if (status != 0) {
--        (*info->memory_error_func)(status, memaddr, info);
-+    if (!read_u16(&words[0], memaddr, info)) {
-         return -1;
-     }
--
--    if (info->endian == BFD_ENDIAN_BIG) {
--        words[0] = bfd_getb16(buffer);
--    } else {
--        words[0] = bfd_getl16(buffer);
--    }
-     length = 2;
- 
-     /* Handle 32-bit opcodes.  */
-     if ((words[0] & 0x1000) == 0) {
--        status = (*info->read_memory_func)(memaddr + 2, buffer, 2, info);
--        if (status != 0) {
--            (*info->memory_error_func)(status, memaddr + 2, info);
-+        if (!read_u16(&words[1], memaddr + 2, info)) {
+@@ -21965,14 +21965,14 @@ int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
              return -1;
          }
--
--        if (info->endian == BFD_ENDIAN_BIG) {
--            words[1] = bfd_getb16(buffer);
--        } else {
--            words[1] = bfd_getl16(buffer);
--        }
          length = 4;
-     }
+-    }
  
-     /* Handle 48-bit opcodes.  */
-     if ((words[0] >> 10) == 0x18) {
--        status = (*info->read_memory_func)(memaddr + 4, buffer, 2, info);
--        if (status != 0) {
--            (*info->memory_error_func)(status, memaddr + 4, info);
-+        if (!read_u16(&words[1], memaddr + 4, info)) {
-             return -1;
+-    /* Handle 48-bit opcodes.  */
+-    if ((words[0] >> 10) == 0x18) {
+-        if (!read_u16(&words[1], memaddr + 4, info)) {
+-            return -1;
++        /* Handle 48-bit opcodes.  */
++        if ((words[0] >> 10) == 0x18) {
++            if (!read_u16(&words[1], memaddr + 4, info)) {
++                return -1;
++            }
++            length = 6;
          }
--
--        if (info->endian == BFD_ENDIAN_BIG) {
--            words[2] = bfd_getb16(buffer);
--        } else {
--            words[2] = bfd_getl16(buffer);
--        }
-         length = 6;
+-        length = 6;
      }
  
+     for (int i = 0; i < 6; i += 2) {
 -- 
 2.34.1
 
