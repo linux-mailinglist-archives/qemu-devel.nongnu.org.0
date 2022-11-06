@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C4F61E002
+	by mail.lfdr.de (Postfix) with ESMTPS id 4847761E001
 	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 03:39:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orVXe-00006u-LV; Sat, 05 Nov 2022 22:37:46 -0400
+	id 1orVXi-00007c-6g; Sat, 05 Nov 2022 22:37:50 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1orVXc-00006k-Hx
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 22:37:44 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+ id 1orVXf-00007H-Fr
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 22:37:47 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1orVXb-0003IJ-3W
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 22:37:44 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id q9so7751967pfg.5
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 19:37:42 -0700 (PDT)
+ id 1orVXd-0003Je-Q3
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 22:37:47 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id k22so7751849pfd.3
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 19:37:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=18gErPbuvHkH3yNjqNTWlEXDz9udsdfZ6cJ5FlKaU6w=;
- b=AN2uRMZER7Dhsf2T0X/HKFlgYTdZJTvzj2eJwACGmFqmiDQr76seuh+RdzS1HogreC
- 3SjEYmMHz1IpLfaGVLmw1WDuspewpbC4SpRwPQgoq5x0sjjlwH28CDioevoL57sjA+1c
- CNTh6YqS1AGhEIGWMFf+FCchK7tSKoXLqBi1zP2gbWuuYX9cjs7CeQksco8RysMvLZF/
- 9c2YML+Rmjx6GNxtLRC8yRog/cfyO12R/oz/8f0k36OqLud7vHO7xPIl9hm2ULclh8dw
- 6QxeHQyRxsYdqpmzmAHMRadmSjBQCvbXjJrAcjyUunO6Ij2I26JGY1iYZlqSeQi0/5oH
- uEFQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8bxbWEJoBOyBo+VR3YhlP4vcU+d1LVS2IqLK4lRXDSc=;
+ b=B3RoaapCzBJW3nhw+wBbjruevOuVxFJpxmJEEiQgS+lsJOqlis1IHpm3AlZWV/mHtd
+ NsiI9P9n52U/SE4SZz5M0oKgtSi9eZXiX25gzB4IeFR74HU0xJX9vfFzUX4p7AktGLIm
+ pghyhoSLL3798lLt4n1gupVA8YYStapxoUn/ZE1s+tgWUbYIW9KxjjptHAr6mO1eJIhu
+ VHbVHaTryTOK77nP3X6H2P+GI1MO3QjzCeyfbwnFj36ZCtgL1aFkeclvPZOzUbnM4iuh
+ x82bMqn6QMWHU3PVdL2MiM687Odiw8yjTbTDCgXy2r7ObuprBQm7kNyB9fnfeJbEFJhz
+ Husg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=18gErPbuvHkH3yNjqNTWlEXDz9udsdfZ6cJ5FlKaU6w=;
- b=rEnLSqtrzvwfvbwR/MWfcMdyKMtbKfal8qEdtCAUBI1g+2/8dfr+y7Ee+HI7GiJSpZ
- auELXLOk+ZcGUIbBNpIqBxveLrSNzHI6FvpNrbpjG3NZdCiblMrtxvRUxVvx01M0uf53
- 9IO/9h+S5TLqddXPgRvq14hOYDwTDuuaGp4/cFcTiP+Nv1b8NTCfzJ5V8svdX6z0wAkv
- LMyctw5UvweZXx5+VdQnWwIhJvM1uF5t63N850SYYl0k0odZlufUCt9W352TINoE3J8q
- l0heYHYY1fC2kocZDULqaZCAtU/xbatczkQWXXpXssvt7BK0CJhyDS4KYLqDupTCCcvQ
- Y1Ow==
-X-Gm-Message-State: ACrzQf35lFlGc0hc19Bs4vyMQFORfP2mo/8I5jnL7bssiGfxS8JZ3ZX+
- gLN7NtrcxfjSOcdK3HwGuuIBG9UF073bJ6wU
-X-Google-Smtp-Source: AMsMyM6+heEfKqQ4j4moV2YYbdXqCWrRHPUAcBWuMxO0GogzPLW/o+PrFGaF25Ka4Tdt91ua4Z9Gxg==
-X-Received: by 2002:a05:6a00:1781:b0:561:7f7f:dc38 with SMTP id
- s1-20020a056a00178100b005617f7fdc38mr44043723pfg.42.1667702261358; 
- Sat, 05 Nov 2022 19:37:41 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8bxbWEJoBOyBo+VR3YhlP4vcU+d1LVS2IqLK4lRXDSc=;
+ b=k4YorXMr9I8aLJtTIwcU0ecg+PB8wRegu4n4mVCWZRFc0IQDuBtjnYbimDRPC0922O
+ yU47LYNGbe1XKaoiaXx/2dfL7JqCB8fVSvIsiht8N/BL3gzz90fr0St39amqebWiezCV
+ vUPd8bs/KnVfw5paEd2f688d2qg90+iqG7nBsKPfIVnHtcjL3QsKcANh4Vq8NfA9gnnk
+ IeMCCgbPX2v42Uc0hcJJ71sNcFe9A8c4wWRq6f7vvElXpogw74FxlSTflQMDVJTVRFSI
+ ly4us72ATxzJB1CYj6jgptkTRBq/9X4lw3up5mXZYqNFimkq2T9+GUwX5/zSACCI/DUu
+ Z1UA==
+X-Gm-Message-State: ACrzQf3toNnxItgQyZgq48ZhG4vClsnLy1zSTmZGb9k88lLTFCijV26P
+ yvTzFdC8ABrh//sD0Qwed6kz9sgjnTzZVPDF
+X-Google-Smtp-Source: AMsMyM6qT7UOMXfTMbjpuVX73vf17kpEB7Kbu0940jSqz9NUH/5NJOFJblLhegjDnghpuKZsElzi/Q==
+X-Received: by 2002:a05:6a02:199:b0:469:d0e6:dab8 with SMTP id
+ bj25-20020a056a02019900b00469d0e6dab8mr37757606pgb.97.1667702264479; 
+ Sat, 05 Nov 2022 19:37:44 -0700 (PDT)
 Received: from localhost.localdomain ([2001:8003:d918:7a00:e617:679e:af7:63d])
  by smtp.gmail.com with ESMTPSA id
- m21-20020a170902d19500b0018862bb3976sm2259457plb.308.2022.11.05.19.37.38
+ m21-20020a170902d19500b0018862bb3976sm2259457plb.308.2022.11.05.19.37.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 19:37:40 -0700 (PDT)
+ Sat, 05 Nov 2022 19:37:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: philmd@linaro.org,
 	sw@weilnetz.de
-Subject: [RESEND PATCH 0/6] Two -Wclobbered fixes, plus other cleanup
-Date: Sun,  6 Nov 2022 13:37:29 +1100
-Message-Id: <20221106023735.5277-1-richard.henderson@linaro.org>
+Subject: [RESEND PATCH 1/6] disas/nanomips: Move setjmp into nanomips_dis
+Date: Sun,  6 Nov 2022 13:37:30 +1100
+Message-Id: <20221106023735.5277-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221106023735.5277-1-richard.henderson@linaro.org>
+References: <20221106023735.5277-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,26 +91,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-[ Resend, since apparently only one patch made it to the list. ]
+Reduce the number of local variables within the scope of the
+setjmp by moving it to the existing helper.  The actual length
+returned from Disassemble is not used, because we have already
+determined the length while reading bytes.  Fixes:
 
-Stefan reported for accel/tcg, and I reproduced on Ubuntu 22.04.
+nanomips.c: In function ‘print_insn_nanomips’:
+nanomips.c:21925:14: error: variable ‘insn1’ might be clobbered by ‘longjmp’ or ‘vfork’ [-Werror=clobbered]
+nanomips.c:21925:25: error: variable ‘insn2’ might be clobbered by ‘longjmp’ or ‘vfork’ [-Werror=clobbered]
+nanomips.c:21925:36: error: variable ‘insn3’ might be clobbered by ‘longjmp’ or ‘vfork’ [-Werror=clobbered]
+nanomips.c:21926:22: error: variable ‘buf’ might be clobbered by ‘longjmp’ or ‘vfork’ [-Werror=clobbered]
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ disas/nanomips.c | 44 ++++++++++++++++++++------------------------
+ 1 file changed, 20 insertions(+), 24 deletions(-)
 
-r~
-
-Richard Henderson (6):
-  disas/nanomips: Move setjmp into nanomips_dis
-  disas/nanomips: Merge insn{1,2,3} into words[3]
-  disas/nanomips: Split out read_u16
-  disas/nanomips: Tidy read for 48-bit opcodes
-  tcg: Move TCG_TARGET_HAS_direct_jump init to tb_gen_code
-  accel/tcg: Split out setjmp_gen_code
-
- accel/tcg/translate-all.c |  68 ++++++++++++------------
- disas/nanomips.c          | 106 ++++++++++++++++----------------------
- tcg/tcg.c                 |  12 +++++
- 3 files changed, 90 insertions(+), 96 deletions(-)
-
+diff --git a/disas/nanomips.c b/disas/nanomips.c
+index 9647f1a8e3..9a69e6880a 100644
+--- a/disas/nanomips.c
++++ b/disas/nanomips.c
+@@ -21905,22 +21905,27 @@ static const Pool MAJOR[2] = {
+        0x0                 },        /* P16 */
+ };
+ 
+-static int nanomips_dis(char **buf,
+-                 Dis_info *info,
+-                 unsigned short one,
+-                 unsigned short two,
+-                 unsigned short three)
++static bool nanomips_dis(char **buf, Dis_info *info,
++                         unsigned short one,
++                         unsigned short two,
++                         unsigned short three)
+ {
+     uint16 bits[3] = {one, two, three};
+-
+     TABLE_ENTRY_TYPE type;
+-    int size = Disassemble(bits, buf, &type, MAJOR, 2, info);
+-    return size;
++    int ret;
++
++    ret = sigsetjmp(info->buf, 0);
++    if (ret != 0) {
++        return false;
++    }
++
++    ret = Disassemble(bits, buf, &type, MAJOR, 2, info);
++    return ret >= 0;
+ }
+ 
+ int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
+ {
+-    int status;
++    int status, length;
+     bfd_byte buffer[2];
+     uint16_t insn1 = 0, insn2 = 0, insn3 = 0;
+     g_autofree char *buf = NULL;
+@@ -21950,6 +21955,7 @@ int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
+     } else {
+         insn1 = bfd_getl16(buffer);
+     }
++    length = 2;
+     (*info->fprintf_func)(info->stream, "%04x ", insn1);
+ 
+     /* Handle 32-bit opcodes.  */
+@@ -21965,6 +21971,7 @@ int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
+         } else {
+             insn2 = bfd_getl16(buffer);
+         }
++        length = 4;
+         (*info->fprintf_func)(info->stream, "%04x ", insn2);
+     } else {
+         (*info->fprintf_func)(info->stream, "     ");
+@@ -21982,27 +21989,16 @@ int print_insn_nanomips(bfd_vma memaddr, struct disassemble_info *info)
+         } else {
+             insn3 = bfd_getl16(buffer);
+         }
++        length = 6;
+         (*info->fprintf_func)(info->stream, "%04x ", insn3);
+     } else {
+         (*info->fprintf_func)(info->stream, "     ");
+     }
+ 
+     /* Handle runtime errors. */
+-    if (sigsetjmp(disassm_info.buf, 0) != 0) {
+-        info->insn_type = dis_noninsn;
+-        return insn3 ? 6 : insn2 ? 4 : 2;
++    if (nanomips_dis(&buf, &disassm_info, insn1, insn2, insn3)) {
++        (*info->fprintf_func) (info->stream, "%s", buf);
+     }
+ 
+-    int length = nanomips_dis(&buf, &disassm_info, insn1, insn2, insn3);
+-
+-    /* FIXME: Should probably use a hash table on the major opcode here.  */
+-
+-    (*info->fprintf_func) (info->stream, "%s", buf);
+-    if (length > 0) {
+-        return length / 8;
+-    }
+-
+-    info->insn_type = dis_noninsn;
+-
+-    return insn3 ? 6 : insn2 ? 4 : 2;
++    return length;
+ }
 -- 
 2.34.1
 
