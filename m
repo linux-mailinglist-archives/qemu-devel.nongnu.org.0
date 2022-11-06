@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE78F61E004
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 03:39:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C09561DFFE
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 03:39:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orVXv-0000Qy-SM; Sat, 05 Nov 2022 22:38:03 -0400
+	id 1orVY0-0000VU-Fb; Sat, 05 Nov 2022 22:38:08 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1orVXs-0000Iz-8S
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 22:38:00 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ id 1orVXw-0000TA-Ow
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 22:38:04 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1orVXq-0003KV-Pm
- for qemu-devel@nongnu.org; Sat, 05 Nov 2022 22:38:00 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- f5-20020a17090a4a8500b002131bb59d61so10131189pjh.1
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 19:37:58 -0700 (PDT)
+ id 1orVXu-0003Kf-M8
+ for qemu-devel@nongnu.org; Sat, 05 Nov 2022 22:38:04 -0400
+Received: by mail-pl1-x636.google.com with SMTP id l2so8198188pld.13
+ for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 19:38:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nFcVkwwKAdXNW2Qi73KZvrPPSPwknY42Yj0GP3GIix0=;
- b=e+58qIxgbt7v3Ue2YIY+lIGTDQBnuupUXpPzvHKIQGFCkQAfDagkw8XBKR8U2O6mon
- qvIHiSQQhgVZ+pc7rK0oBb4CSSIPVzJgmo3w/1H0vxG6xY/AnU1UhEc1m8F4Jywtnj7n
- JwO6dvGOC6Sd0EgqHaadA0CmyG3DT3Vflu37lV51MO9lqoqzEd/s5r1GoWMPSJTj8BOG
- kAP09GQdJi4bY6xF3CfgHxRp1awNi93X6knpzFkuOqLgktG8sZtgfXpWY8BBIPZ9LpcA
- 5XLrp/YHfI/SqdBq/LgueezupjYu0Z4cCYTW7gTBEe6kyXBPxYowgPe6NVkVskQz8uwS
- TyBQ==
+ bh=j7WXfOWK53ahgYMgHy1i+j/q7xrqgYKDWQCtOds9hEc=;
+ b=wsaGAT4T6SmnR4faXM1n3hLPx9BoU3RInTpVobHXXwy/Ad07Sp4VlNrQkkiyDt+SXn
+ F2nyw3vZT8mKcN9F0n2gw2b/nU+qHbm8ULVZ5sm56RwCTDHk8d25vvmvjd174WrM+xA3
+ 9p1vEqK0vPJIaMo4xCvVf232F3bZ4AXSOAVLekb3eiUaDdzRzzR88/rivpM29pT+t8yM
+ dpAPYQRzgSPdVfI7ue35uqc3PgZlG7SFSSdVSzVouEBlUctlu86kgjiSyuFhniCy5KC6
+ r5B+h3Ljz8dOjTFRaGhQN7AIbotcTcwkVYvuWIn1watPLDu+GYq+H7lq0GQ951rYxhjM
+ 0zKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nFcVkwwKAdXNW2Qi73KZvrPPSPwknY42Yj0GP3GIix0=;
- b=XNqaAQR8SQvvsnFunoJiP5LbqmibCIwoXZGoU664+FzN+w1R6oKZ/agw3F83Jl+tnX
- d4WQYPabyGjw68sOOTKcTDYl/w3vJKpSty91sCG9EHzefmlN4rCHs7JEr2XdbeeenfgT
- /rdCHorc8jfvQ49C4TCQrGtqSnRzw7VnnlalQOtMI+PT/13Oxf08RkO+GKGEpNZ7yok+
- z5j0W70hKRLKvpTRKBMxV3WimYwU5H1cvgOg9iTZHN1PYQsPXC7MhTM/n/VP7HhMKptx
- g2IQ7V2Y9oXw+kfCeXURoOUxjlZUw4B/ctE/kr6ufCgv189jtGahzKy5lrvSqM9q85oc
- bODg==
-X-Gm-Message-State: ACrzQf3nxmg1Lb6j2dmY8rMtvGRVeJWfEulRwOTQTgrxfKE4QwH6hLWx
- wYtF8B5buFFX/bU0p4PvWXt79OzyibaU/Ewy
-X-Google-Smtp-Source: AMsMyM44rcRHAzCtU1bNlbWz+GMw5EeIvYqBOR1RoJo4ivKwBF5sEBSxifeYFODcjLsmV8uDeM6wMQ==
-X-Received: by 2002:a17:90a:18a:b0:213:1127:897e with SMTP id
- 10-20020a17090a018a00b002131127897emr570469pjc.246.1667702277334; 
- Sat, 05 Nov 2022 19:37:57 -0700 (PDT)
+ bh=j7WXfOWK53ahgYMgHy1i+j/q7xrqgYKDWQCtOds9hEc=;
+ b=bl209WG9BhLJusiZNLk1GkaWp2sgP4O2tg+I8QeqjpNnub9h/Ctqv1R1UCWzDXD/xk
+ zWWiqU+LjMMDCPS87tNoHyZIh8FgC3Gc2ojCr+7c2+Oj78f3Wr8dIKSNZAqo9Z0aw+6v
+ gMXmZT0GBEwRftUiMDKm5us5S6VGSXCm0RoBDqBV9OjyvAVO4cGzXPJeJHvVjznGGTID
+ 40iasiSrOXEaeYetu1ksbY4JnV7V1Zyp6m7d2snFwRunev2Mi6JWEjH1KbardDuaWJwF
+ xRDlP3MVyYvFtbJaFfS5GnamlqGGF3e4GG6Sn4+bAg/hns+Ji4RhiqsFfB5vHQC7/Ex3
+ Q6rQ==
+X-Gm-Message-State: ACrzQf39mZYOymzL/xKuPfBn8Za+IKZNSnTRYF7yg/QWjT+3fpFLpKI2
+ obNgphs2ss6S0jMn5pl8lRF+T32KcHpQgA2N
+X-Google-Smtp-Source: AMsMyM7/r/g5enyVcDZY5d/AEOeGgy8GT7pQ56CHZpUM+F5fAyy1tBuBfMOa9SDauO5OlK618Cg3PQ==
+X-Received: by 2002:a17:902:e846:b0:187:2127:cbb with SMTP id
+ t6-20020a170902e84600b0018721270cbbmr35070168plg.125.1667702280878; 
+ Sat, 05 Nov 2022 19:38:00 -0700 (PDT)
 Received: from localhost.localdomain ([2001:8003:d918:7a00:e617:679e:af7:63d])
  by smtp.gmail.com with ESMTPSA id
- m21-20020a170902d19500b0018862bb3976sm2259457plb.308.2022.11.05.19.37.54
+ m21-20020a170902d19500b0018862bb3976sm2259457plb.308.2022.11.05.19.37.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 19:37:56 -0700 (PDT)
+ Sat, 05 Nov 2022 19:37:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: philmd@linaro.org,
 	sw@weilnetz.de
-Subject: [RESEND PATCH 5/6] tcg: Move TCG_TARGET_HAS_direct_jump init to
- tb_gen_code
-Date: Sun,  6 Nov 2022 13:37:34 +1100
-Message-Id: <20221106023735.5277-6-richard.henderson@linaro.org>
+Subject: [RESEND PATCH 6/6] accel/tcg: Split out setjmp_gen_code
+Date: Sun,  6 Nov 2022 13:37:35 +1100
+Message-Id: <20221106023735.5277-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221106023735.5277-1-richard.henderson@linaro.org>
 References: <20221106023735.5277-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,56 +91,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Isolate the code protected by setjmp.  Fixes:
+
+translate-all.c: In function ‘tb_gen_code’:
+translate-all.c:748:51: error: argument ‘cflags’ might be clobbered by ‘longjmp’ or ‘vfork’ [-Werror=clobbered]
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/translate-all.c | 10 ----------
- tcg/tcg.c                 | 12 ++++++++++++
- 2 files changed, 12 insertions(+), 10 deletions(-)
+ accel/tcg/translate-all.c | 58 ++++++++++++++++++++++-----------------
+ 1 file changed, 33 insertions(+), 25 deletions(-)
 
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 921944a5ab..9ee21f7f52 100644
+index 9ee21f7f52..ac3ee3740c 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -821,16 +821,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     trace_translate_block(tb, pc, tb->tc.ptr);
+@@ -742,6 +742,37 @@ void page_collection_unlock(struct page_collection *set)
  
-     /* generate machine code */
--    tb->jmp_reset_offset[0] = TB_JMP_RESET_OFFSET_INVALID;
--    tb->jmp_reset_offset[1] = TB_JMP_RESET_OFFSET_INVALID;
--    tcg_ctx->tb_jmp_reset_offset = tb->jmp_reset_offset;
--    if (TCG_TARGET_HAS_direct_jump) {
--        tcg_ctx->tb_jmp_insn_offset = tb->jmp_target_arg;
--        tcg_ctx->tb_jmp_target_addr = NULL;
--    } else {
--        tcg_ctx->tb_jmp_insn_offset = NULL;
--        tcg_ctx->tb_jmp_target_addr = tb->jmp_target_arg;
--    }
+ #endif /* !CONFIG_USER_ONLY */
  
- #ifdef CONFIG_PROFILER
-     qatomic_set(&prof->tb_count, prof->tb_count + 1);
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index b43b6a7981..436fcf6ebd 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -4228,6 +4228,18 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb, target_ulong pc_start)
-     }
- #endif
- 
-+    /* Initialize goto_tb jump offsets. */
-+    tb->jmp_reset_offset[0] = TB_JMP_RESET_OFFSET_INVALID;
-+    tb->jmp_reset_offset[1] = TB_JMP_RESET_OFFSET_INVALID;
-+    tcg_ctx->tb_jmp_reset_offset = tb->jmp_reset_offset;
-+    if (TCG_TARGET_HAS_direct_jump) {
-+        tcg_ctx->tb_jmp_insn_offset = tb->jmp_target_arg;
-+        tcg_ctx->tb_jmp_target_addr = NULL;
-+    } else {
-+        tcg_ctx->tb_jmp_insn_offset = NULL;
-+        tcg_ctx->tb_jmp_target_addr = tb->jmp_target_arg;
++/*
++ * Isolate the portion of code gen which can setjmp/longjmp.
++ * Return the size of the generated code, or negative on error.
++ */
++static int setjmp_gen_code(CPUArchState *env, TranslationBlock *tb,
++                           target_ulong pc, void *host_pc,
++                           int *max_insns, int64_t *ti)
++{
++    int ret = sigsetjmp(tcg_ctx->jmp_trans, 0);
++    if (unlikely(ret != 0)) {
++        return ret;
 +    }
 +
-     tcg_reg_alloc_start(s);
++    tcg_func_start(tcg_ctx);
++
++    tcg_ctx->cpu = env_cpu(env);
++    gen_intermediate_code(env_cpu(env), tb, *max_insns, pc, host_pc);
++    assert(tb->size != 0);
++    tcg_ctx->cpu = NULL;
++    *max_insns = tb->icount;
++
++#ifdef CONFIG_PROFILER
++    qatomic_set(&tcg_ctx->prof.tb_count, tcg_ctx->prof.tb_count + 1);
++    qatomic_set(&tcg_ctx->prof.interm_time,
++                tcg_ctx->prof.interm_time + profile_getclock() - *ti);
++    *ti = profile_getclock();
++#endif
++
++    return tcg_gen_code(tcg_ctx, tb, pc);
++}
++
+ /* Called with mmap_lock held for user mode emulation.  */
+ TranslationBlock *tb_gen_code(CPUState *cpu,
+                               target_ulong pc, target_ulong cs_base,
+@@ -754,8 +785,8 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     int gen_code_size, search_size, max_insns;
+ #ifdef CONFIG_PROFILER
+     TCGProfile *prof = &tcg_ctx->prof;
+-    int64_t ti;
+ #endif
++    int64_t ti;
+     void *host_pc;
  
-     /*
+     assert_memory_lock();
+@@ -805,33 +836,10 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     ti = profile_getclock();
+ #endif
+ 
+-    gen_code_size = sigsetjmp(tcg_ctx->jmp_trans, 0);
+-    if (unlikely(gen_code_size != 0)) {
+-        goto error_return;
+-    }
+-
+-    tcg_func_start(tcg_ctx);
+-
+-    tcg_ctx->cpu = env_cpu(env);
+-    gen_intermediate_code(cpu, tb, max_insns, pc, host_pc);
+-    assert(tb->size != 0);
+-    tcg_ctx->cpu = NULL;
+-    max_insns = tb->icount;
+-
+     trace_translate_block(tb, pc, tb->tc.ptr);
+ 
+-    /* generate machine code */
+-
+-#ifdef CONFIG_PROFILER
+-    qatomic_set(&prof->tb_count, prof->tb_count + 1);
+-    qatomic_set(&prof->interm_time,
+-                prof->interm_time + profile_getclock() - ti);
+-    ti = profile_getclock();
+-#endif
+-
+-    gen_code_size = tcg_gen_code(tcg_ctx, tb, pc);
++    gen_code_size = setjmp_gen_code(env, tb, pc, host_pc, &max_insns, &ti);
+     if (unlikely(gen_code_size < 0)) {
+- error_return:
+         switch (gen_code_size) {
+         case -1:
+             /*
 -- 
 2.34.1
 
