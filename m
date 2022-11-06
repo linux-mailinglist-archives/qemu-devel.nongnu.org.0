@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D41B61E303
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 16:33:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 938F461E30F
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 16:34:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orhd9-0005rT-DL; Sun, 06 Nov 2022 10:32:15 -0500
+	id 1orhdE-0005tB-6C; Sun, 06 Nov 2022 10:32:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1orhd6-0005qg-O9
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 10:32:12 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1orhd9-0005rf-M0
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 10:32:15 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1orhd5-0000vW-9m
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 10:32:12 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1orhd8-0000vz-Cg
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 10:32:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667748730;
+ s=mimecast20190719; t=1667748733;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Jgc2Fjem7BpwgiPTCbsRBwjBJpx0JqRMMK+WlDC9Di4=;
- b=QEoOCfe5YiYBhX4QRmQ6F+qf1Cas/97VhAvDqBzglPiHZUBrp/CddqjTmfLVj9WRDvKCKw
- 172QhStxLTZDtxkCQck6R2IqjRYN/Txj+/HkW0eReNRQKm3h5BXKg5XrmDToaNiL7W8upF
- vaWfgLwd8A/g/fHE5j2rI3eihoMo3iE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ytmr1Edaon7a63ByJjxpI7OJQzzEgSsUwdihfNxT29M=;
+ b=Mr9tc9y4hADrjtJjSZI4fNPSJg7jHFs9o6UVOo8ftoLRKCNXrCDC/UmJdLgqfQ6LfTan2n
+ c5MU9nl48Oq94xG7mDRn0+mJ97cS3rtOjocLfxdbUSJZXP1dz2nmnJS7dONWjgNup2StDI
+ s2Yjw4A6Vs6Vs29OAz2IjVD7iCjr09U=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-652-1vAdh6quNsumX92LMuWYyg-1; Sun, 06 Nov 2022 10:32:09 -0500
-X-MC-Unique: 1vAdh6quNsumX92LMuWYyg-1
+ us-mta-158-EFu8zuDcPISVKU4cQIzCLg-1; Sun, 06 Nov 2022 10:32:12 -0500
+X-MC-Unique: EFu8zuDcPISVKU4cQIzCLg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0C2C31C06EC5;
- Sun,  6 Nov 2022 15:32:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1D395185A78F;
+ Sun,  6 Nov 2022 15:32:12 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64C3540C6EC4;
- Sun,  6 Nov 2022 15:32:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A6C9540C6EC4;
+ Sun,  6 Nov 2022 15:32:09 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Cc: Akihiko Odaki <akihiko.odaki@daynix.com>,
+Cc: Stefan Weil <sw@weilnetz.de>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 05/12] tests/qtest/libqos/e1000e: Use IVAR shift definitions
-Date: Sun,  6 Nov 2022 16:31:49 +0100
-Message-Id: <20221106153156.620150-6-thuth@redhat.com>
+Subject: [PULL 06/12] tests/qtest: Fix two format strings
+Date: Sun,  6 Nov 2022 16:31:50 +0100
+Message-Id: <20221106153156.620150-7-thuth@redhat.com>
 In-Reply-To: <20221106153156.620150-1-thuth@redhat.com>
 References: <20221106153156.620150-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,35 +78,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
+From: Stefan Weil <sw@weilnetz.de>
 
-There were still some constants defined in e1000_regs.h.
-
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Message-Id: <20221105053010.38037-1-akihiko.odaki@daynix.com>
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Message-Id: <20221105115525.623059-1-sw@weilnetz.de>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/libqos/e1000e.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/qtest/migration-test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/libqos/e1000e.c b/tests/qtest/libqos/e1000e.c
-index 05af6f2118..80b3e3db90 100644
---- a/tests/qtest/libqos/e1000e.c
-+++ b/tests/qtest/libqos/e1000e.c
-@@ -30,9 +30,9 @@
- #include "e1000e.h"
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index d2eb107f0c..f574331b7b 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -2188,7 +2188,7 @@ static void calc_dirty_rate(QTestState *who, uint64_t calc_time)
+     qobject_unref(qmp_command(who,
+                   "{ 'execute': 'calc-dirty-rate',"
+                   "'arguments': { "
+-                  "'calc-time': %ld,"
++                  "'calc-time': %" PRIu64 ","
+                   "'mode': 'dirty-ring' }}",
+                   calc_time));
+ }
+@@ -2203,7 +2203,7 @@ static void dirtylimit_set_all(QTestState *who, uint64_t dirtyrate)
+     qobject_unref(qmp_command(who,
+                   "{ 'execute': 'set-vcpu-dirty-limit',"
+                   "'arguments': { "
+-                  "'dirty-rate': %ld } }",
++                  "'dirty-rate': %" PRIu64 " } }",
+                   dirtyrate));
+ }
  
- #define E1000E_IVAR_TEST_CFG \
--    (E1000E_RX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID             | \
--     ((E1000E_TX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << 8)    | \
--     ((E1000E_OTHER_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << 16) | \
-+    (((E1000E_RX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_RXQ0_SHIFT) | \
-+     ((E1000E_TX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_TXQ0_SHIFT) | \
-+     ((E1000E_OTHER_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_OTHER_SHIFT) | \
-      E1000_IVAR_TX_INT_EVERY_WB)
- 
- #define E1000E_RING_LEN (0x1000)
 -- 
 2.31.1
 
