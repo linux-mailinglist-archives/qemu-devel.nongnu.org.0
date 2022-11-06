@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463D761E300
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 16:33:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E94561E30B
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 16:33:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orhdO-0005w0-NQ; Sun, 06 Nov 2022 10:32:30 -0500
+	id 1orhdP-0005wM-7s; Sun, 06 Nov 2022 10:32:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1orhdL-0005up-2L
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1orhdL-0005v1-PM
  for qemu-devel@nongnu.org; Sun, 06 Nov 2022 10:32:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1orhdH-0000x2-Rz
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 10:32:26 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1orhdK-0000y4-DB
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 10:32:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667748743;
+ s=mimecast20190719; t=1667748745;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z2HNe7tob13Oi20jhUrK/TxOsUMNDUIP/y6/791f2fY=;
- b=NF37IF/iSz1kSWdro8EySQwhBobHRj1LsFG0OdzcwWYlJoTcXKCdJ8pb8tKLKtnEJvgN8/
- 7QKd2KEhWKHpwEcl3yVPcPIJ/naHg6kegCMIJ2shNL+N5y3RJPSQmmixIssYIA55TWlmU+
- 0yeMLE5qoY5UKoEXL+HjMZA0EeCnzGs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FSc7kASAompedP/qqWg7JHmuf7auHcR0TUlKhC+u7yw=;
+ b=Q+cbbahzuazwlKX4gWlNnFwkmv4NsNzzZn3N6FBUoaFzZmlv1Hgtya6mHAG8upOg2YfIK2
+ hU/+vM8mTRDBzcm1nB36XVH1TwAo9VuZrsjSxM/o4e43XsCCEun5iFZ48MEnG5yUqyvrj/
+ UwHrMHsYyxN/2nfx/WTjPcN1dS9te6g=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-587-WEtfF_akPryHCJE2mSjWKA-1; Sun, 06 Nov 2022 10:32:21 -0500
-X-MC-Unique: WEtfF_akPryHCJE2mSjWKA-1
+ us-mta-290-1aHLLA8UOgWtPCvLjN4MMQ-1; Sun, 06 Nov 2022 10:32:23 -0500
+X-MC-Unique: 1aHLLA8UOgWtPCvLjN4MMQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8780629A9CCB;
- Sun,  6 Nov 2022 15:32:21 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2EC0E185A792;
+ Sun,  6 Nov 2022 15:32:23 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58AFC40C6EC4;
- Sun,  6 Nov 2022 15:32:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F2D3640C6EC4;
+ Sun,  6 Nov 2022 15:32:21 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
 Cc: Pierre Morel <pmorel@linux.ibm.com>
-Subject: [PULL 11/12] s390x: Register TYPE_S390_CCW_MACHINE properties as
- class properties
-Date: Sun,  6 Nov 2022 16:31:55 +0100
-Message-Id: <20221106153156.620150-12-thuth@redhat.com>
+Subject: [PULL 12/12] s390x/cpu topology: add max_threads machine class
+ attribute
+Date: Sun,  6 Nov 2022 16:31:56 +0100
+Message-Id: <20221106153156.620150-13-thuth@redhat.com>
 In-Reply-To: <20221106153156.620150-1-thuth@redhat.com>
 References: <20221106153156.620150-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,199 +79,74 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Pierre Morel <pmorel@linux.ibm.com>
 
-Currently, when running 'qemu-system-s390x -M s390-ccw-virtio,help'
-the s390x-specific properties are not listed anymore. This happens
-because since commit d8fb7d0969 ("vl: switch -M parsing to keyval")
-the properties have to be defined at the class level and not at the
-instance level anymore. Fix it on s390x now, too, by moving the
-registration of the properties to the class level"
+The S390 CPU topology accepts the smp.threads argument while
+in reality it does not effectively allow multthreading.
 
-Fixes: d8fb7d0969 ("vl: switch -M parsing to keyval")
+Let's keep this behavior for machines older than 7.2 and
+refuse to use threads in newer machines until multithreading
+is really exposed to the guest by the machine.
+
 Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-Message-Id: <20221103170150.20789-2-pmorel@linux.ibm.com>
-[thuth: Add patch description]
+Message-Id: <20221103170150.20789-3-pmorel@linux.ibm.com>
+[thuth: Small fixes to the commit description]
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/s390x/s390-virtio-ccw.c | 127 +++++++++++++++++++++----------------
- 1 file changed, 72 insertions(+), 55 deletions(-)
+ include/hw/s390x/s390-virtio-ccw.h |  1 +
+ hw/s390x/s390-virtio-ccw.c         | 11 +++++++++++
+ 2 files changed, 12 insertions(+)
 
+diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+index 8a0090a071..4f8a39abda 100644
+--- a/include/hw/s390x/s390-virtio-ccw.h
++++ b/include/hw/s390x/s390-virtio-ccw.h
+@@ -40,6 +40,7 @@ struct S390CcwMachineClass {
+     bool cpu_model_allowed;
+     bool css_migration_enabled;
+     bool hpage_1m_allowed;
++    int max_threads;
+ };
+ 
+ /* runtime-instrumentation allowed by the machine */
 diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 806de32034..196773c833 100644
+index 196773c833..560ddbb6fb 100644
 --- a/hw/s390x/s390-virtio-ccw.c
 +++ b/hw/s390x/s390-virtio-ccw.c
-@@ -43,6 +43,7 @@
- #include "sysemu/sysemu.h"
- #include "hw/s390x/pv.h"
- #include "migration/blocker.h"
-+#include "qapi/visitor.h"
- 
- static Error *pv_mig_blocker;
- 
-@@ -589,38 +590,6 @@ static ram_addr_t s390_fixup_ram_size(ram_addr_t sz)
-     return newsz;
- }
- 
--static void ccw_machine_class_init(ObjectClass *oc, void *data)
--{
--    MachineClass *mc = MACHINE_CLASS(oc);
--    NMIClass *nc = NMI_CLASS(oc);
--    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
--    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
--
--    s390mc->ri_allowed = true;
--    s390mc->cpu_model_allowed = true;
--    s390mc->css_migration_enabled = true;
--    s390mc->hpage_1m_allowed = true;
--    mc->init = ccw_init;
--    mc->reset = s390_machine_reset;
--    mc->block_default_type = IF_VIRTIO;
--    mc->no_cdrom = 1;
--    mc->no_floppy = 1;
--    mc->no_parallel = 1;
--    mc->no_sdcard = 1;
--    mc->max_cpus = S390_MAX_CPUS;
--    mc->has_hotpluggable_cpus = true;
--    assert(!mc->get_hotplug_handler);
--    mc->get_hotplug_handler = s390_get_hotplug_handler;
--    mc->cpu_index_to_instance_props = s390_cpu_index_to_props;
--    mc->possible_cpu_arch_ids = s390_possible_cpu_arch_ids;
--    /* it is overridden with 'host' cpu *in kvm_arch_init* */
--    mc->default_cpu_type = S390_CPU_TYPE_NAME("qemu");
--    hc->plug = s390_machine_device_plug;
--    hc->unplug_request = s390_machine_device_unplug_request;
--    nc->nmi_monitor_handler = s390_nmi;
--    mc->default_ram_id = "s390.ram";
--}
--
- static inline bool machine_get_aes_key_wrap(Object *obj, Error **errp)
+@@ -85,8 +85,15 @@ out:
+ static void s390_init_cpus(MachineState *machine)
  {
-     S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-@@ -710,19 +679,29 @@ bool hpage_1m_allowed(void)
-     return get_machine_class()->hpage_1m_allowed;
- }
- 
--static char *machine_get_loadparm(Object *obj, Error **errp)
-+static void machine_get_loadparm(Object *obj, Visitor *v,
-+                                 const char *name, void *opaque,
-+                                 Error **errp)
- {
-     S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-+    char *str = g_strndup((char *) ms->loadparm, sizeof(ms->loadparm));
- 
--    /* make a NUL-terminated string */
--    return g_strndup((char *) ms->loadparm, sizeof(ms->loadparm));
-+    visit_type_str(v, name, &str, errp);
-+    g_free(str);
- }
- 
--static void machine_set_loadparm(Object *obj, const char *val, Error **errp)
-+static void machine_set_loadparm(Object *obj, Visitor *v,
-+                                 const char *name, void *opaque,
-+                                 Error **errp)
- {
-     S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-+    char *val;
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
++    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
      int i;
  
-+    if (!visit_type_str(v, name, &val, errp)) {
-+        return;
++    if (machine->smp.threads > s390mc->max_threads) {
++        error_report("S390 does not support more than %d threads.",
++                     s390mc->max_threads);
++        exit(1);
 +    }
 +
-     for (i = 0; i < sizeof(ms->loadparm) && val[i]; i++) {
-         uint8_t c = qemu_toupper(val[i]); /* mimic HMC */
+     /* initialize possible_cpus */
+     mc->possible_cpu_arch_ids(machine);
  
-@@ -740,34 +719,72 @@ static void machine_set_loadparm(Object *obj, const char *val, Error **errp)
-         ms->loadparm[i] = ' '; /* pad right with spaces */
-     }
- }
--static inline void s390_machine_initfn(Object *obj)
-+
-+static void ccw_machine_class_init(ObjectClass *oc, void *data)
+@@ -731,6 +738,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
+     s390mc->cpu_model_allowed = true;
+     s390mc->css_migration_enabled = true;
+     s390mc->hpage_1m_allowed = true;
++    s390mc->max_threads = 1;
+     mc->init = ccw_init;
+     mc->reset = s390_machine_reset;
+     mc->block_default_type = IF_VIRTIO;
+@@ -859,8 +867,11 @@ static void ccw_machine_7_1_instance_options(MachineState *machine)
+ 
+ static void ccw_machine_7_1_class_options(MachineClass *mc)
  {
--    object_property_add_bool(obj, "aes-key-wrap",
--                             machine_get_aes_key_wrap,
--                             machine_set_aes_key_wrap);
--    object_property_set_description(obj, "aes-key-wrap",
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    NMIClass *nc = NMI_CLASS(oc);
-+    HotplugHandlerClass *hc = HOTPLUG_HANDLER_CLASS(oc);
 +    S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
 +
-+    s390mc->ri_allowed = true;
-+    s390mc->cpu_model_allowed = true;
-+    s390mc->css_migration_enabled = true;
-+    s390mc->hpage_1m_allowed = true;
-+    mc->init = ccw_init;
-+    mc->reset = s390_machine_reset;
-+    mc->block_default_type = IF_VIRTIO;
-+    mc->no_cdrom = 1;
-+    mc->no_floppy = 1;
-+    mc->no_parallel = 1;
-+    mc->no_sdcard = 1;
-+    mc->max_cpus = S390_MAX_CPUS;
-+    mc->has_hotpluggable_cpus = true;
-+    assert(!mc->get_hotplug_handler);
-+    mc->get_hotplug_handler = s390_get_hotplug_handler;
-+    mc->cpu_index_to_instance_props = s390_cpu_index_to_props;
-+    mc->possible_cpu_arch_ids = s390_possible_cpu_arch_ids;
-+    /* it is overridden with 'host' cpu *in kvm_arch_init* */
-+    mc->default_cpu_type = S390_CPU_TYPE_NAME("qemu");
-+    hc->plug = s390_machine_device_plug;
-+    hc->unplug_request = s390_machine_device_unplug_request;
-+    nc->nmi_monitor_handler = s390_nmi;
-+    mc->default_ram_id = "s390.ram";
-+
-+    object_class_property_add_bool(oc, "aes-key-wrap",
-+                                   machine_get_aes_key_wrap,
-+                                   machine_set_aes_key_wrap);
-+    object_class_property_set_description(oc, "aes-key-wrap",
-             "enable/disable AES key wrapping using the CPACF wrapping key");
--    object_property_set_bool(obj, "aes-key-wrap", true, NULL);
- 
--    object_property_add_bool(obj, "dea-key-wrap",
--                             machine_get_dea_key_wrap,
--                             machine_set_dea_key_wrap);
--    object_property_set_description(obj, "dea-key-wrap",
-+    object_class_property_add_bool(oc, "dea-key-wrap",
-+                                   machine_get_dea_key_wrap,
-+                                   machine_set_dea_key_wrap);
-+    object_class_property_set_description(oc, "dea-key-wrap",
-             "enable/disable DEA key wrapping using the CPACF wrapping key");
--    object_property_set_bool(obj, "dea-key-wrap", true, NULL);
--    object_property_add_str(obj, "loadparm",
--            machine_get_loadparm, machine_set_loadparm);
--    object_property_set_description(obj, "loadparm",
-+
-+    object_class_property_add(oc, "loadparm", "loadparm",
-+                              machine_get_loadparm, machine_set_loadparm,
-+                              NULL, NULL);
-+    object_class_property_set_description(oc, "loadparm",
-             "Up to 8 chars in set of [A-Za-z0-9. ] (lower case chars converted"
-             " to upper case) to pass to machine loader, boot manager,"
-             " and guest kernel");
- 
--    object_property_add_bool(obj, "zpcii-disable",
--                             machine_get_zpcii_disable,
--                             machine_set_zpcii_disable);
--    object_property_set_description(obj, "zpcii-disable",
-+    object_class_property_add_bool(oc, "zpcii-disable",
-+                                   machine_get_zpcii_disable,
-+                                   machine_set_zpcii_disable);
-+    object_class_property_set_description(oc, "zpcii-disable",
-             "disable zPCI interpretation facilties");
--    object_property_set_bool(obj, "zpcii-disable", false, NULL);
-+}
-+
-+static inline void s390_machine_initfn(Object *obj)
-+{
-+    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
-+
-+    ms->aes_key_wrap = true;
-+    ms->dea_key_wrap = true;
-+    ms->zpcii_disable = false;
+     ccw_machine_7_2_class_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
++    s390mc->max_threads = S390_MAX_CPUS;
  }
+ DEFINE_CCW_MACHINE(7_1, "7.1", false);
  
- static const TypeInfo ccw_machine_info = {
 -- 
 2.31.1
 
