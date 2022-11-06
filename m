@@ -2,90 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B1861E059
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 06:23:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D599461E111
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 09:52:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orY6t-0003Bz-HH; Sun, 06 Nov 2022 01:22:19 -0400
+	id 1orbNI-0007KD-IZ; Sun, 06 Nov 2022 03:51:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orY6m-0003Ac-Ok
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 01:22:12 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1orbNG-0007Jr-2K
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 03:51:26 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1orY6k-0007Hi-LH
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 01:22:12 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1orbNE-0002r5-0n
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 03:51:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667712129;
+ s=mimecast20190719; t=1667724681;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=c6iM5Q6TknzkhQHbj4lvt0UHWv+wtzP58kprhWQTAoA=;
- b=DcYe4G1KGrEcfUhVazdxzDezA/vjmXvgPlxzajpTo8CZMNufIdvkv+NW2lgGPBmrKI3ICb
- 6G6kuXaxC3BrzePdd9beAJ0PjY4wwGwPTAyu1o5YLfIvKPzbTzDfnpXxTuQ1sImfTMKW7b
- a+HOKsTxHlxCxCxmJcThpgdcJbXzh9U=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mn6Pp0tV+sG8nlGqWCyGkNRcDOiTtryHn9zYQhFEwIo=;
+ b=Ru/yYBvsUon5nQ70ArrPYT+z3olgorZDW38pLOY+OXTLQu8siIVhvpmolwcvbbMvDsjtsW
+ YY9AeAkKYrgkGG16Ble3+ngLEaUTpu+MLteOzg7WenvPf9n1GZwnokJ30ycVwWEEGsmABy
+ fBwPpPgC4lb9YqBsEizBgGh6qzbOHDk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-607-gOX5z7i5PuuBoQHZRXy_Vg-1; Sun, 06 Nov 2022 01:22:08 -0400
-X-MC-Unique: gOX5z7i5PuuBoQHZRXy_Vg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- s11-20020adfbc0b000000b0023659af24a8so1980007wrg.14
- for <qemu-devel@nongnu.org>; Sat, 05 Nov 2022 22:22:08 -0700 (PDT)
+ us-mta-493-yAS6WRVOO1uD77TdhuRjMw-1; Sun, 06 Nov 2022 03:51:19 -0500
+X-MC-Unique: yAS6WRVOO1uD77TdhuRjMw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l42-20020a05600c1d2a00b003cf8e70c1ecso3317892wms.4
+ for <qemu-devel@nongnu.org>; Sun, 06 Nov 2022 01:51:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=c6iM5Q6TknzkhQHbj4lvt0UHWv+wtzP58kprhWQTAoA=;
- b=YsLpS9rNqCv1uDTURP/02wHKtMbLxbRuu5RjXHJ8/82FwcklIEaHJNeBm1P/fiLPVu
- 1o+kLDVZhnOwaUO9dRwF2WNr4vflfpURRHFgct5cnM11dkwcTcB3eYEw4f+vyzU7eC8/
- 8J1qDEPAYuXaguBMHuwnBGh6VU/q9WUUAcXTgXm+GbDDdp+ueyM0+fyuYpYAaYs8ITtQ
- ehDGozUl0Ba8nKRY0JRb//kZrMeZtORMvGjTnopRBO9NHqOqoxLlQ+3+nS14vW3eCv/7
- 0F22bToCluIm7AUMjk5s24ba+u+MKfZcfrX7wjQmrqOwdfjnuoMXRVJuGubQLpB7skEC
- i1Vw==
-X-Gm-Message-State: ACrzQf3YokEieLdJW88OwraT7ZgEbWhOb7OAaHjU8CydjvNa4oloSv60
- 8RtIF6IrgkC4I/+M5/UZ4lbihxXDQhIAQsW+0tH2hcqvNDWAPvZsANG3Bi57rZ6C7KM7y2NM/DP
- lrs6b27eN23gFRAk=
-X-Received: by 2002:adf:c601:0:b0:230:7cfa:b3fe with SMTP id
- n1-20020adfc601000000b002307cfab3femr27491807wrg.344.1667712127081; 
- Sat, 05 Nov 2022 22:22:07 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM65fIJP/FQHK6wT+0WF0nOvHmGhRCHymYT7R5HCC6YGfmk/OeJ12Mn+qzOIvLU/s+v339gLrw==
-X-Received: by 2002:adf:c601:0:b0:230:7cfa:b3fe with SMTP id
- n1-20020adfc601000000b002307cfab3femr27491796wrg.344.1667712126771; 
- Sat, 05 Nov 2022 22:22:06 -0700 (PDT)
-Received: from redhat.com ([169.150.226.216]) by smtp.gmail.com with ESMTPSA id
- bd12-20020a05600c1f0c00b003cf4eac8e80sm5235566wmb.23.2022.11.05.22.22.03
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mn6Pp0tV+sG8nlGqWCyGkNRcDOiTtryHn9zYQhFEwIo=;
+ b=Z/udKhgIkGVl3zA14+1t4Y+7gNuzN2X0oxJHoi90ULEMu0n0ldsjpmqpVGpWwFi6mM
+ mkFReYqX7zOcticc0L2HbjE84Cll2RVLA45HcyU5KOFXrxcg/4HlabQNvnOCBSklKv6V
+ LDKrYUJQmihCMXw9Ka8Fk0G6KUY+WhzUNyHxZM4R0XKQIYO50uTz3paaj/CXM9r1lIT3
+ 4mIc3O1QZJ7SHiFtD5TElYtP0XMQOznljyjUuOT2xbgb7GL2EMmLHfRgWEx1oDxYT+kL
+ 518DP3KySJi5wVN1PV585oSGhUMHFd5sY8tZjM/6Tue99f4ZHLvq3f7rw2Fs9Tt9MMpK
+ l/vQ==
+X-Gm-Message-State: ACrzQf1vK9xmOuhxQjNtnM/KPC2+z2BTaL3dCKXBP8y09lhy7MjSrKyb
+ 4H6NwDwEFTSlAcu3lEath3Z4NuXeTDkGPvrtaYFpwVH2krgb6OVroVjXXNRwdh74IchImhJzCU3
+ iny8+YzeBMQQDz8huU8nd0kz/JnjotAjuHtlE7Wk1oVxxiYD6Q/0PEObYvjjHXHns4P0=
+X-Received: by 2002:adf:f9c9:0:b0:236:9c40:c57c with SMTP id
+ w9-20020adff9c9000000b002369c40c57cmr27620371wrr.47.1667724678459; 
+ Sun, 06 Nov 2022 01:51:18 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM47AF3kj98bJo50uHZxDa8eiLOGMD3XLJjAtfPGDeIKDrO8JKy7Ayq8XOGHzhyu88RsCRNRzQ==
+X-Received: by 2002:adf:f9c9:0:b0:236:9c40:c57c with SMTP id
+ w9-20020adff9c9000000b002369c40c57cmr27620351wrr.47.1667724677850; 
+ Sun, 06 Nov 2022 01:51:17 -0700 (PDT)
+Received: from avogadro.local ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
+ by smtp.gmail.com with ESMTPSA id
+ p14-20020adff20e000000b0022e344a63c7sm4169212wro.92.2022.11.06.01.51.16
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Nov 2022 22:22:05 -0700 (PDT)
-Date: Sun, 6 Nov 2022 01:22:00 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Longpeng (Mike,
- Cloud Infrastructure Service Product Dept.)" <longpeng2@huawei.com>
-Cc: stefanha@redhat.com, jasowang@redhat.com, sgarzare@redhat.com,
- cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com,
- yechuan@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org,
- xiehong@huawei.com
-Subject: Re: [PATCH v7 resend 0/4] add generic vDPA device support
-Message-ID: <20221106011943-mutt-send-email-mst@kernel.org>
-References: <20221105083629.1058-1-longpeng2@huawei.com>
- <20221105103601-mutt-send-email-mst@kernel.org>
- <5387e1e7-b741-b6a1-f091-f15d5f136e38@huawei.com>
+ Sun, 06 Nov 2022 01:51:17 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/12] Misc bugfix patches (+ improved module errors) for QEMU
+ 7.2
+Date: Sun,  6 Nov 2022 09:51:03 +0100
+Message-Id: <20221106085115.257018-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5387e1e7-b741-b6a1-f091-f15d5f136e38@huawei.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,125 +97,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Nov 06, 2022 at 08:17:07AM +0800, Longpeng (Mike, Cloud Infrastructure Service Product Dept.) wrote:
-> 
-> 
-> 在 2022/11/6 0:43, Michael S. Tsirkin 写道:
-> > On Sat, Nov 05, 2022 at 04:36:25PM +0800, Longpeng(Mike) wrote:
-> > > From: Longpeng <longpeng2@huawei.com>
-> > > 
-> > > Hi guys,
-> > > 
-> > > With the generic vDPA device, QEMU won't need to touch the device
-> > > types any more, such like vfio.
-> > 
-> > With this kind of passthrough migration is completely MIA right?
-> > Better add a blocker...
-> 
-> Oh, I missed the "vdpa-dev: mark the device as unmigratable" since v4 and
-> I'll add it in the next version.
-> 
-> We'll support passthrough migration in the next step. We have already
-> written a demo that can migrate between some offloading cards.
+The following changes since commit 6295a58ad1b73985b9c32d184de7d2ed1fbe1774:
 
-Hmm ok. Backend disconnect can't work though, can it? State
-is by necessity lost when backend crashes.
+  Merge tag 'pull-target-arm-20221104' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-11-04 11:01:17 -0400)
 
-> > And given this is there an advantage over VFIO?
-> 
-> I think the answer is the same as "why we need vDPA" if we compare it with
-> VFIO.
+are available in the Git repository at:
 
-The answer is mostly because you can migrate and support backend
-disconnect, no?
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-> > 
-> > > We can use the generic vDPA device as follow:
-> > >    -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
-> > >    Or
-> > >    -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
-> > >    vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
-> > 
-> > > Changes v6 -> v7:
-> > >      (v6: https://mail.gnu.org/archive/html/qemu-devel/2022-05/msg02821.html)
-> > >      - rebase. [Jason]
-> > >      - add documentation . [Stefan]
-> > > 
-> > > Changes v5 -> v6:
-> > >    Patch 2:
-> > >      - Turn to the original approach in the RFC to initialize the
-> > >        virtio_pci_id_info array. [Michael]
-> > > 	  https://lore.kernel.org/all/20220105005900.860-2-longpeng2@huawei.com/
-> > >    Patch 3:
-> > >      - Fix logical error of exception handler around the post_init.
-> > >        [Stefano]
-> > >      - Fix some coding style warnings. [Stefano]
-> > >    Patch 4:
-> > >      - Fix some coding style warnings. [Stefano]
-> > > 
-> > > Changes v4 -> v5:
-> > >    Patch 3:
-> > >      - remove vhostfd [Jason]
-> > >      - support virtio-mmio [Jason]
-> > > 
-> > > Changes v3 -> v4:
-> > >    v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg877015.html
-> > >    - reorganize the series [Stefano]
-> > >    - fix some typos [Stefano]
-> > >    - fix logical error in vhost_vdpa_device_realize [Stefano]
-> > > 
-> > > Changes v2 -> v3
-> > >    Patch 4 & 5:
-> > >      - only call vdpa ioctls in vdpa-dev.c [Stefano, Longpeng]
-> > >      - s/VQS_NUM/VQS_COUNT  [Stefano]
-> > >      - check both vdpa_dev_fd and vdpa_dev [Stefano]
-> > >    Patch 6:
-> > >      - move all steps into vhost_vdpa_device_unrealize. [Stefano]
-> > > 
-> > > Changes RFC -> v2
-> > >    Patch 1:
-> > >      - rename 'pdev_id' to 'trans_devid'  [Michael]
-> > >      - only use transitional device id for the devices
-> > >        listed in the spec  [Michael]
-> > >      - use macros to make the id_info table clearer  [Longpeng]
-> > >      - add some modern devices in the id_info table  [Longpeng]
-> > >    Patch 2:
-> > >      - remove the GET_VECTORS_NUM command  [Jason]
-> > >    Patch 4:
-> > >      - expose vdpa_dev_fd as a QOM preperty  [Stefan]
-> > >      - introduce vhost_vdpa_device_get_u32 as a common
-> > >        function to make the code clearer  [Stefan]
-> > >      - fix the misleading description of 'dc->desc'  [Stefano]
-> > >    Patch 5:
-> > >      - check returned number of virtqueues  [Stefan]
-> > >    Patch 6:
-> > >      - init s->num_queues  [Stefano]
-> > >      - free s->dev.vqs  [Stefano]
-> > > 
-> > > 
-> > > Longpeng (Mike) (4):
-> > >    virtio: get class_id and pci device id by the virtio id
-> > >    vdpa: add vdpa-dev support
-> > >    vdpa: add vdpa-dev-pci support
-> > >    docs: Add generic vhost-vdpa device documentation
-> > > 
-> > >   docs/system/devices/vhost-vdpa-device.rst |  43 +++
-> > >   hw/virtio/Kconfig                         |   5 +
-> > >   hw/virtio/meson.build                     |   2 +
-> > >   hw/virtio/vdpa-dev-pci.c                  | 102 ++++++
-> > >   hw/virtio/vdpa-dev.c                      | 377 ++++++++++++++++++++++
-> > >   hw/virtio/virtio-pci.c                    |  88 +++++
-> > >   include/hw/virtio/vdpa-dev.h              |  43 +++
-> > >   include/hw/virtio/virtio-pci.h            |   5 +
-> > >   8 files changed, 665 insertions(+)
-> > >   create mode 100644 docs/system/devices/vhost-vdpa-device.rst
-> > >   create mode 100644 hw/virtio/vdpa-dev-pci.c
-> > >   create mode 100644 hw/virtio/vdpa-dev.c
-> > >   create mode 100644 include/hw/virtio/vdpa-dev.h
-> > > 
-> > > -- 
-> > > 2.23.0
-> > 
-> > .
+for you to fetch changes up to 5141e9a23fc9a890d66a5700920a5ffd8885121f:
+
+  accel: abort if we fail to load the accelerator plugin (2022-11-06 09:48:50 +0100)
+
+----------------------------------------------------------------
+* bug fixes for Win32 event loop
+* bug fixes for -Wextra
+* fix gdb XML for 32-bit x86
+* improve error handling for module load
+----------------------------------------------------------------
+
+Kevin's patch below is a bugfix that Claudio picked up, and became part of
+his series to improve error reporting for modules.
+
+Thanks,
+
+Paolo
+
+Bin Meng (3):
+      util/main-loop: Fix maximum number of wait objects for win32
+      util/main-loop: Avoid adding the same HANDLE twice
+      util/aio-win32: Correct the event array size in aio_poll()
+
+Claudio Fontana (4):
+      module: removed unused function argument "mayfail"
+      module: rename module_load_one to module_load
+      module: add Error arguments to module_load and module_load_qom
+      accel: abort if we fail to load the accelerator plugin
+
+Kevin Wolf (1):
+      dmg: warn when opening dmg images containing blocks of unknown type
+
+Paolo Bonzini (1):
+      meson: avoid unused arguments of main() in compiler tests
+
+Stefan Weil (2):
+      Fix broken configure with -Wunused-parameter
+      Add missing include statement for global xml_builtin
+
+TaiseiIto (1):
+      gdb-xml: Fix size of EFER register on i386 architecture when debugged by GDB
+
+ accel/accel-softmmu.c    |   8 +-
+ audio/audio.c            |  16 ++--
+ block.c                  |  20 +++--
+ block/dmg.c              |  33 +++++++-
+ configure                |   8 +-
+ gdb-xml/i386-32bit.xml   |   2 +-
+ hw/core/qdev.c           |  17 +++-
+ include/qemu/main-loop.h |   2 +
+ include/qemu/module.h    |  37 +++++++--
+ meson.build              |   8 +-
+ qom/object.c             |  18 +++-
+ scripts/feature_to_c.sh  |   1 +
+ softmmu/qtest.c          |   8 +-
+ ui/console.c             |  18 +++-
+ util/aio-win32.c         |   5 +-
+ util/main-loop.c         |  20 +++--
+ util/module.c            | 211 ++++++++++++++++++++++++++---------------------
+ 17 files changed, 290 insertions(+), 142 deletions(-)
+-- 
+2.38.1
 
 
