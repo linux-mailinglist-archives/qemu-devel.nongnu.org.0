@@ -2,80 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14CE461E2BD
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 15:51:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6005461E2B2
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 15:47:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orgyi-0000BM-NT; Sun, 06 Nov 2022 09:50:28 -0500
+	id 1orguQ-0007Em-OK; Sun, 06 Nov 2022 09:46:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1orgyg-0000AD-03
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 09:50:26 -0500
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251])
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1orguO-0007EZ-6z
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 09:46:00 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1orgya-0003fH-Vs
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 09:50:25 -0500
-Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 1E4AD3F054
- for <qemu-devel@nongnu.org>; Sun,  6 Nov 2022 14:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1667746214;
- bh=7gb3VSCSgXAACtC0/WGTQfqJiRGPocu9SSWNwiMoT8k=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=PcM5vt2gbV8GP83G/xPfcA6d+UUMJSOwphd9eDYOdvtSVJ4UTIe7TWq38JlUjCHah
- 3eSPyxcjfe7T1bfS5KHXYBeLbi3EJw+IkhK9Nzp1lgVq5JRUdo5TQMwl/xbzJI7WQp
- QwiXdRIMERrvKRJOrlElspwt40Tk00AbrvpipkYAN/6lNlmQ6KOqB4HWuudwSwoAk3
- xM1TxTF6cbh8Bw7oGyLKjZgo/C5DYK0HqbRREAP1N/kQV96om4S+ncNV5kdIM/Pcsj
- NZiLP+DtmW0pet5szTqgWmNmvI5wNoc+vrLWi+3I6Zeq63vQcpjjth5JFgYvhXqp/x
- tY9eRRTgrkUAw==
-Received: from
- juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
- (localhost [127.0.0.1])
- by scripts-1.lp.internal (Postfix) with ESMTP id 028E640C89
- for <qemu-devel@nongnu.org>; Sun,  6 Nov 2022 14:50:13 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1orguK-0002wK-DH
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 09:45:59 -0500
+Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N4xxL3lNJzRnyC;
+ Sun,  6 Nov 2022 22:45:42 +0800 (CST)
+Received: from [10.174.148.223] (10.174.148.223) by
+ kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Sun, 6 Nov 2022 22:45:46 +0800
+Message-ID: <ff5f0b0b-d844-6a78-2fb4-fa9b2dc8e6f4@huawei.com>
+Date: Sun, 6 Nov 2022 22:45:45 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 06 Nov 2022 14:41:55 -0000
-From: Thomas Huth <1034423@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 8mabmzqcnyc1g4i7tjyvuprzli-contact-clubl5mz6ldresgvtiayqw6wzb janitor owentuz
- th-huth
-X-Launchpad-Bug-Reporter: Owen Tuz (owentuz)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20120808150403.6400.41896.malonedeb@chaenomeles.canonical.com>
-Message-Id: <166774571600.49452.13517255266164667433.malone@dale.canonical.com>
-Subject: [Bug 1034423] Re: Guests running OpenIndiana (and relatives) fail to
- boot on AMD hardware
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="83f7123b02a2b50a64bc29e7e35197179a885279"; Instance="production"
-X-Launchpad-Hash: ba4ac8efa3d65f08f0989ccd95cb014ebbff22d0
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v7 resend 0/4] add generic vDPA device support
+To: "Michael S. Tsirkin" <mst@redhat.com>
+CC: <stefanha@redhat.com>, <jasowang@redhat.com>, <sgarzare@redhat.com>,
+ <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
+ <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
+ <xiehong@huawei.com>
+References: <20221105083629.1058-1-longpeng2@huawei.com>
+ <20221105103601-mutt-send-email-mst@kernel.org>
+ <5387e1e7-b741-b6a1-f091-f15d5f136e38@huawei.com>
+ <20221106011943-mutt-send-email-mst@kernel.org>
+ <2b3d77fc-ece4-32b4-964a-c939613f1ca3@huawei.com>
+ <20221106083701-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221106083701-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemi100025.china.huawei.com (7.221.188.158)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
+ helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,104 +69,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1034423 <1034423@bugs.launchpad.net>
 Sender: "Qemu-devel" <qemu-devel-bounces@nongnu.org>
+Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+From: longpeng2--- via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This bug tracker here is not used anymore. Could you please open a new
-ticket here:
 
-https://gitlab.com/qemu-project/qemu/-/issues
 
-Thanks!
+在 2022/11/6 21:47, Michael S. Tsirkin 写道:
+> On Sun, Nov 06, 2022 at 09:11:39PM +0800, Longpeng (Mike, Cloud Infrastructure Service Product Dept.) wrote:
+>>
+>>
+>> 在 2022/11/6 13:22, Michael S. Tsirkin 写道:
+>>> On Sun, Nov 06, 2022 at 08:17:07AM +0800, Longpeng (Mike, Cloud Infrastructure Service Product Dept.) wrote:
+>>>>
+>>>>
+>>>> 在 2022/11/6 0:43, Michael S. Tsirkin 写道:
+>>>>> On Sat, Nov 05, 2022 at 04:36:25PM +0800, Longpeng(Mike) wrote:
+>>>>>> From: Longpeng <longpeng2@huawei.com>
+>>>>>>
+>>>>>> Hi guys,
+>>>>>>
+>>>>>> With the generic vDPA device, QEMU won't need to touch the device
+>>>>>> types any more, such like vfio.
+>>>>>
+>>>>> With this kind of passthrough migration is completely MIA right?
+>>>>> Better add a blocker...
+>>>>
+>>>> Oh, I missed the "vdpa-dev: mark the device as unmigratable" since v4 and
+>>>> I'll add it in the next version.
+>>>>
+>>>> We'll support passthrough migration in the next step. We have already
+>>>> written a demo that can migrate between some offloading cards.
+>>>
+>>> Hmm ok. Backend disconnect can't work though, can it? State
+>>> is by necessity lost when backend crashes.
+>>> Yes, it can't.
+>>
+>>>>> And given this is there an advantage over VFIO?
+>>>>
+>>>> I think the answer is the same as "why we need vDPA" if we compare it with
+>>>> VFIO.
+>>>
+>>> The answer is mostly because you can migrate and support backend
+>>> disconnect, no?
+>>>
+>> Migrating between different hardware is the first consideration in our
+>> requirement, supporting backend disconnect is a low priority.
+> 
+> I dislike non-orthogonal features though ...
+> And the advantage of keeping it out of process with qemu is
+> I presume security?
+> 
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1034423
+Yes, this is one of the reasons. The TCB of the generic vdpa device is 
+smaller than the existing vdpa device (needs to use the 
+virtio-net/blk/scsi emulation codes).
 
-Title:
-  Guests running OpenIndiana (and relatives) fail to boot on AMD
-  hardware
+Besides, the generic vdpa device can support any virtio device, but the 
+existing vdpa device only supports virtio-net yet.
 
-Status in QEMU:
-  Expired
+Though the existing vdpa device is more powerful and the generic vdpa 
+device would miss some features, it can be an alternative for some users.
 
-Bug description:
-  First observed with OpenSolaris 2009.06, and also applies to the
-  latest OpenIndiana release.
 
-  Version: qemu-kvm 1.1.1
-
-  Hardware:
-
-  2 x AMD Opteron 6128 8-core processors, 64GB RAM.
-
-  These guests boot on equivalent Intel hardware.
-
-  To reproduce:
-
-  qemu-kvm -nodefaults -m 512 -cpu host -vga cirrus -usbdevice tablet
-  -vnc :99 -monitor stdio -hda drive.img -cdrom oi-
-  dev-151a5-live-x86.iso -boot order=3Ddc
-
-  I've tested with "-vga std" and various different emulated CPU types,
-  to no effect.
-
-  What happens:
-
-  GRUB loads, and offers multiple boot options, but none work. Some kind
-  of kernel panic flies by very fast before restarting the VM, and
-  careful use of the screenshot button reveals that it reads as follows:
-
-  panic[cpu0]/thread=3Dfec22de0: BAD TRAP: type=3D8 (#df Double fault)
-  rp=3Dfec2b48c add r=3D0
-
-  #df Double fault
-  pid=3D0, pc=3D0xault
-  pid=3D0, pc=3D0xfe800377, sp=3D0xfec40090, eflags=3D0x202
-  cr0: 80050011<pg,wp,et,pe> cr4:b8<pge,pae,pse,de>
-  cr2: 0cr3: ae2f000
-                gs:            1b0    fs:              0   es:         160 =
-  ds:          160
-               edi:                0  esi:              0 ebp:             =
-0 esp: fec2b4c4
-               ebx: c0010015 edx:              0 ecx:             0 eax: fe=
-c40400
-               trp:                 8  err:              0 eip: fe800377  c=
-s:           158
-               efl:             202 usp: fec40090  ss:           160
-  tss.tss_link:     0x0
-  tss.tss_esp0:   0x0
-  tss.tss_ss0:     0x160
-  tss.tss_esp1:   0x0
-  tss.tss_ss1:      0x0
-  tss.tss esp2:     0x0
-  tss.tss_ss2:      0x0
-  tss.tss_cr3:       0xae2f000
-  tss.tss_eip:       0xfec40400
-  tss.tss_eflags:  0x202
-  tss.tss_eax:      0xfec40400
-  tss.tss_ebx:      0xc0010015
-  tss.tss_ecx:      0xc0010000
-  tss.tss_edx:      0x0
-  tss.tss_esp:      0xfec40090
-
-  Warning - stack not written to the dumpbuf
-  fec2b3c8 unix:due+e4 (8, fec2b48c, 0, 0)
-  fec2b478 unix:trap+12fa (fec2b48c, 0, 0)
-  fec2b48c unix:_cmntrap+7c (1b0, 0, 160, 160, 0)
-
-  If there's any more, I haven't managed to catch it.
-
-  Solaris 11 does not seem to suffer from the same issue, although the
-  first message that appears at boot (after the version info) is "trap:
-  Unkown trap type 8 in user mode". Could be related?
-
-  As always, thanks in advance and please let me know if I can help to
-  test, or provide any more information.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1034423/+subscriptions
-
+>>>>>
+>>>>>> We can use the generic vDPA device as follow:
+>>>>>>      -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
+>>>>>>      Or
+>>>>>>      -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
+>>>>>>      vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
+>>>>>
+>>>>>> Changes v6 -> v7:
+>>>>>>        (v6: https://mail.gnu.org/archive/html/qemu-devel/2022-05/msg02821.html)
+>>>>>>        - rebase. [Jason]
+>>>>>>        - add documentation . [Stefan]
+>>>>>>
+>>>>>> Changes v5 -> v6:
+>>>>>>      Patch 2:
+>>>>>>        - Turn to the original approach in the RFC to initialize the
+>>>>>>          virtio_pci_id_info array. [Michael]
+>>>>>> 	  https://lore.kernel.org/all/20220105005900.860-2-longpeng2@huawei.com/
+>>>>>>      Patch 3:
+>>>>>>        - Fix logical error of exception handler around the post_init.
+>>>>>>          [Stefano]
+>>>>>>        - Fix some coding style warnings. [Stefano]
+>>>>>>      Patch 4:
+>>>>>>        - Fix some coding style warnings. [Stefano]
+>>>>>>
+>>>>>> Changes v4 -> v5:
+>>>>>>      Patch 3:
+>>>>>>        - remove vhostfd [Jason]
+>>>>>>        - support virtio-mmio [Jason]
+>>>>>>
+>>>>>> Changes v3 -> v4:
+>>>>>>      v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg877015.html
+>>>>>>      - reorganize the series [Stefano]
+>>>>>>      - fix some typos [Stefano]
+>>>>>>      - fix logical error in vhost_vdpa_device_realize [Stefano]
+>>>>>>
+>>>>>> Changes v2 -> v3
+>>>>>>      Patch 4 & 5:
+>>>>>>        - only call vdpa ioctls in vdpa-dev.c [Stefano, Longpeng]
+>>>>>>        - s/VQS_NUM/VQS_COUNT  [Stefano]
+>>>>>>        - check both vdpa_dev_fd and vdpa_dev [Stefano]
+>>>>>>      Patch 6:
+>>>>>>        - move all steps into vhost_vdpa_device_unrealize. [Stefano]
+>>>>>>
+>>>>>> Changes RFC -> v2
+>>>>>>      Patch 1:
+>>>>>>        - rename 'pdev_id' to 'trans_devid'  [Michael]
+>>>>>>        - only use transitional device id for the devices
+>>>>>>          listed in the spec  [Michael]
+>>>>>>        - use macros to make the id_info table clearer  [Longpeng]
+>>>>>>        - add some modern devices in the id_info table  [Longpeng]
+>>>>>>      Patch 2:
+>>>>>>        - remove the GET_VECTORS_NUM command  [Jason]
+>>>>>>      Patch 4:
+>>>>>>        - expose vdpa_dev_fd as a QOM preperty  [Stefan]
+>>>>>>        - introduce vhost_vdpa_device_get_u32 as a common
+>>>>>>          function to make the code clearer  [Stefan]
+>>>>>>        - fix the misleading description of 'dc->desc'  [Stefano]
+>>>>>>      Patch 5:
+>>>>>>        - check returned number of virtqueues  [Stefan]
+>>>>>>      Patch 6:
+>>>>>>        - init s->num_queues  [Stefano]
+>>>>>>        - free s->dev.vqs  [Stefano]
+>>>>>>
+>>>>>>
+>>>>>> Longpeng (Mike) (4):
+>>>>>>      virtio: get class_id and pci device id by the virtio id
+>>>>>>      vdpa: add vdpa-dev support
+>>>>>>      vdpa: add vdpa-dev-pci support
+>>>>>>      docs: Add generic vhost-vdpa device documentation
+>>>>>>
+>>>>>>     docs/system/devices/vhost-vdpa-device.rst |  43 +++
+>>>>>>     hw/virtio/Kconfig                         |   5 +
+>>>>>>     hw/virtio/meson.build                     |   2 +
+>>>>>>     hw/virtio/vdpa-dev-pci.c                  | 102 ++++++
+>>>>>>     hw/virtio/vdpa-dev.c                      | 377 ++++++++++++++++++++++
+>>>>>>     hw/virtio/virtio-pci.c                    |  88 +++++
+>>>>>>     include/hw/virtio/vdpa-dev.h              |  43 +++
+>>>>>>     include/hw/virtio/virtio-pci.h            |   5 +
+>>>>>>     8 files changed, 665 insertions(+)
+>>>>>>     create mode 100644 docs/system/devices/vhost-vdpa-device.rst
+>>>>>>     create mode 100644 hw/virtio/vdpa-dev-pci.c
+>>>>>>     create mode 100644 hw/virtio/vdpa-dev.c
+>>>>>>     create mode 100644 include/hw/virtio/vdpa-dev.h
+>>>>>>
+>>>>>> -- 
+>>>>>> 2.23.0
+>>>>>
+>>>>> .
+>>>
+>>>
+>>> .
+> 
+> 
+> .
 
