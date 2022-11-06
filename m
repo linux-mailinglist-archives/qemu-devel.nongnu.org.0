@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70FCC61E112
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 09:52:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B9F61E113
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 09:52:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orbNO-0007L3-7y; Sun, 06 Nov 2022 03:51:34 -0500
+	id 1orbNQ-0007M5-E2; Sun, 06 Nov 2022 03:51:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1orbNJ-0007KT-7T
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 03:51:29 -0500
+ id 1orbNO-0007LJ-0r
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 03:51:34 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1orbNH-0002rV-EW
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 03:51:28 -0500
+ id 1orbNM-0002ri-Ij
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 03:51:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667724686;
+ s=mimecast20190719; t=1667724689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kNNnPkAsfDd7VhzCb/DIEE3yafdNMonfMlCBxiGHmOg=;
- b=HqWtENkCQ9nxunIp7MEv0X36nCUlFTNquQy7Y2jD5PTHTTkq8tWmbPbzDZ2CRKpRa27VMg
- NGBMZ+ls3rEkdXnd+l7NhHy1vNpfnJe9uF+9DnfwFu0UFRnwFSrGMKvEmJ2o7lH/9+tiOG
- ix91Qe1NNnVBCPdFGbh9/Kgx6tnoflA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mkGtGELGFp15mzI/uIt32Qqrp0h+KlVWMEJ0hk1PfEk=;
+ b=A1NG1uqCJTf9obHUp2qhy1Fmkk5wE7eVuoOMc1R3gwCYj395O5Ncdi4hTg452uhNFnfGLz
+ F/BNDaPMKmXsdiYO/Ygl5dFmW9SV/MwVUmKirmhMRvwVX2Ydv6FAfZ6nphP0k0VNYOuenL
+ U/0NqDr1a0btDXVffp2euTNlI1RyuNU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-444-x5gyduFlM0W5FMp_EEx9LQ-1; Sun, 06 Nov 2022 03:51:24 -0500
-X-MC-Unique: x5gyduFlM0W5FMp_EEx9LQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- ay40-20020a05600c1e2800b003cf8aa16377so4511109wmb.7
- for <qemu-devel@nongnu.org>; Sun, 06 Nov 2022 01:51:24 -0700 (PDT)
+ us-mta-344-3VOT2ZxHM8amGvfnd4GrCQ-1; Sun, 06 Nov 2022 03:51:27 -0500
+X-MC-Unique: 3VOT2ZxHM8amGvfnd4GrCQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d23-20020adfa417000000b002364a31b7c9so2006311wra.15
+ for <qemu-devel@nongnu.org>; Sun, 06 Nov 2022 01:51:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kNNnPkAsfDd7VhzCb/DIEE3yafdNMonfMlCBxiGHmOg=;
- b=b+aYwjmjuuEnvqUUPp0MNC2XOLepE4gs+fqrdAwvkCDb60bSsn5z8/1xQwpvrpi4Nr
- 5H3QKA9qsx8BLLEw5dMOD663zqegR8C5qEbx+5+eqXHY8UJFiH8giVm1DrteX6nJ4sa2
- VnsdyUEqwuai9tOnFVzv/sjW7BRrrqfqU+/93NWXtwKXft6DRWRGzGuRaJUb7iio0/O0
- /UvXYWZDmSSE37zyXBUbwGqrXNOZvCSRF/67pTAC1k9kzX5dwwiI7V0nSCWp1G8JHChW
- VXE9a+EhbXhSUVpRO7akWYqEqIq9cZEsdCwAEHbmBCUrR+9dT6XQN6zQ5TJBVOqxbElP
- j99A==
-X-Gm-Message-State: ACrzQf3no65MixI1JgYUL9vaKQEDFXas6epDq/TD/TYSBcoLC0+D+fJq
- LwgxVJkYKFLVBwu7ZaY9nAEY+/CZO3NdPip7hL3N6K1tEHPEFHvHt1Y324AJayp613BsNIYuix9
- 1M3dpo0Z7eSiOQlWW6/4eJyZCSIo9ka3brMPJJGvhxS/x5gJ/nNh8raU0Zt/iCnqjhe0=
-X-Received: by 2002:adf:e10f:0:b0:22a:43e8:969f with SMTP id
- t15-20020adfe10f000000b0022a43e8969fmr29183139wrz.292.1667724683443; 
- Sun, 06 Nov 2022 01:51:23 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM4ZvDvcA7MJuyNCuFT8tcokUdU+I/U0X6qf4k0R0MHaRvcL4HOr9gGwqcQTReAVMEtg0dy8Hg==
-X-Received: by 2002:adf:e10f:0:b0:22a:43e8:969f with SMTP id
- t15-20020adfe10f000000b0022a43e8969fmr29183122wrz.292.1667724683155; 
- Sun, 06 Nov 2022 01:51:23 -0700 (PDT)
+ bh=mkGtGELGFp15mzI/uIt32Qqrp0h+KlVWMEJ0hk1PfEk=;
+ b=0pSbzFzneL4fyEZJnRyN4yLSc/hhs9P+U32maVtjhC/QXg4gFgIksRNiT5mSbdrQ8H
+ /ltSJHHXgiBlvY2dQmqYxjEQ/H+HeHXdPn5WjGXmnDoEWcisgNbhhCa1Lo4nGaiKRARa
+ 5MbwKc3U/zut6HiB1C/5NkUgB8Tw4XP4Um6n8zOgRATwaH4dKAxw2zmWoIeH4ksaJmE1
+ OYXR6ynkj+IjV7REmegrIVvi7xy/jQqGHiONYNSeT9AjvQ19hdbigGCBUCYnLYt+wBcW
+ YnnYTYozbShyMQCubyJnfzhDATztO6dXWJnugSDce/QsumEhbhwREqpLM6hPd1+HGXkw
+ IKbQ==
+X-Gm-Message-State: ACrzQf1VBh52MKb872rovArGfYkYDZsd1aQbJVWxNYM8SiB720zbaGh+
+ ICMRXpZu3SNDD7S+IlaQuvQuKorypaEg2rJwby7Pxr1JmtumyB8/1Q6H64Sck0fwaIqj/UmhZnx
+ KCIXiJLcU0elvPjZ8dPYTMC7mLMhcsgPTZsIgahxcMBk9IbfsiBgBb1Jx4YnovQaWFqM=
+X-Received: by 2002:adf:e6c3:0:b0:236:acdb:4d9b with SMTP id
+ y3-20020adfe6c3000000b00236acdb4d9bmr26982136wrm.528.1667724686129; 
+ Sun, 06 Nov 2022 01:51:26 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM4/dLHPvqvOvZeF36CxtpS70eNgTpS2qkFss4fbEDUW5eIFMcBdFQgaD3vVIxVSL6D2yvlC3w==
+X-Received: by 2002:adf:e6c3:0:b0:236:acdb:4d9b with SMTP id
+ y3-20020adfe6c3000000b00236acdb4d9bmr26982123wrm.528.1667724685871; 
+ Sun, 06 Nov 2022 01:51:25 -0700 (PDT)
 Received: from avogadro.local ([2001:b07:6468:f312:e3ec:5559:7c5c:1928])
  by smtp.gmail.com with ESMTPSA id
- c17-20020a05600c0a5100b003cfa81e2eb4sm1034900wmq.38.2022.11.06.01.51.22
+ p14-20020adff20e000000b0022e344a63c7sm4169466wro.92.2022.11.06.01.51.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Nov 2022 01:51:22 -0700 (PDT)
+ Sun, 06 Nov 2022 01:51:25 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>
-Subject: [PULL 02/12] util/main-loop: Avoid adding the same HANDLE twice
-Date: Sun,  6 Nov 2022 09:51:05 +0100
-Message-Id: <20221106085115.257018-3-pbonzini@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PULL 03/12] util/aio-win32: Correct the event array size in
+ aio_poll()
+Date: Sun,  6 Nov 2022 09:51:06 +0100
+Message-Id: <20221106085115.257018-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221106085115.257018-1-pbonzini@redhat.com>
 References: <20221106085115.257018-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
@@ -82,7 +86,8 @@ X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.045,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ PP_MIME_FAKE_ASCII_TEXT=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,56 +106,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Fix the logic in qemu_add_wait_object() to avoid adding the same
-HANDLE twice, as the behavior is undefined when passing an array
-that contains same HANDLEs to WaitForMultipleObjects() API.
+WaitForMultipleObjects() can only wait for MAXIMUM_WAIT_OBJECTS
+object handles. Correct the event array size in aio_poll() and
+add a assert() to ensure it does not cause out of bound access.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Message-Id: <20221019102015.2441622-2-bmeng.cn@gmail.com>
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20221019102015.2441622-3-bmeng.cn@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/main-loop.h |  2 ++
- util/main-loop.c         | 10 ++++++++++
- 2 files changed, 12 insertions(+)
+ util/aio-win32.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-index aac707d073a1..3c9a9a982def 100644
---- a/include/qemu/main-loop.h
-+++ b/include/qemu/main-loop.h
-@@ -157,6 +157,8 @@ typedef void WaitObjectFunc(void *opaque);
-  * in the main loop's calls to WaitForMultipleObjects.  When the handle
-  * is in a signaled state, QEMU will call @func.
-  *
-+ * If the same HANDLE is added twice, this function returns -1.
-+ *
-  * @handle: The Windows handle to be observed.
-  * @func: A function to be called when @handle is in a signaled state.
-  * @opaque: A pointer-size value that is passed to @func.
-diff --git a/util/main-loop.c b/util/main-loop.c
-index de38876064e4..10fa74c6e319 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -373,10 +373,20 @@ static WaitObjects wait_objects = {0};
- 
- int qemu_add_wait_object(HANDLE handle, WaitObjectFunc *func, void *opaque)
+diff --git a/util/aio-win32.c b/util/aio-win32.c
+index 44003d645ecd..80cfe012ad8f 100644
+--- a/util/aio-win32.c
++++ b/util/aio-win32.c
+@@ -326,9 +326,9 @@ void aio_dispatch(AioContext *ctx)
+ bool aio_poll(AioContext *ctx, bool blocking)
  {
-+    int i;
-     WaitObjects *w = &wait_objects;
-+
-     if (w->num >= MAXIMUM_WAIT_OBJECTS) {
-         return -1;
+     AioHandler *node;
+-    HANDLE events[MAXIMUM_WAIT_OBJECTS + 1];
++    HANDLE events[MAXIMUM_WAIT_OBJECTS];
+     bool progress, have_select_revents, first;
+-    int count;
++    unsigned count;
+     int timeout;
+ 
+     /*
+@@ -369,6 +369,7 @@ bool aio_poll(AioContext *ctx, bool blocking)
+     QLIST_FOREACH_RCU(node, &ctx->aio_handlers, node) {
+         if (!node->deleted && node->io_notify
+             && aio_node_check(ctx, node->is_external)) {
++            assert(count < MAXIMUM_WAIT_OBJECTS);
+             events[count++] = event_notifier_get_handle(node->e);
+         }
      }
-+
-+    for (i = 0; i < w->num; i++) {
-+        /* check if the same handle is added twice */
-+        if (w->events[i] == handle) {
-+            return -1;
-+        }
-+    }
-+
-     w->events[w->num] = handle;
-     w->func[w->num] = func;
-     w->opaque[w->num] = opaque;
 -- 
 2.38.1
 
