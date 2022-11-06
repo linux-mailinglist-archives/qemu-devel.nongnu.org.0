@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76F261E665
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 22:18:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA11861E692
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Nov 2022 22:30:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orn0k-0003BS-8t; Sun, 06 Nov 2022 16:16:58 -0500
+	id 1ornCS-0005L7-51; Sun, 06 Nov 2022 16:29:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1orn0h-0003A0-VS
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 16:16:55 -0500
-Received: from mail-vs1-xe2b.google.com ([2607:f8b0:4864:20::e2b])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ornCQ-0005Ku-DD
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 16:29:02 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1orn0g-0002lF-6W
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 16:16:55 -0500
-Received: by mail-vs1-xe2b.google.com with SMTP id z189so8955623vsb.4
- for <qemu-devel@nongnu.org>; Sun, 06 Nov 2022 13:16:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=qkl7n40MVHTlj5jGhb/Qdl8SSxxuzDMk1W6tp9Ej0VQ=;
- b=nwcuZ6iF3dMLhg/4ky+rmINmIlSUqiUVLPrs/rgqVVIOCmd/SlBO5nRsdeSDASwzWv
- +fSzqlD29dG9dF2+ISjWaG14N89z+nKTqnAAJovVtL0wSvQxS+zNRLPlVGefn900xPGw
- ReYcw9Rif0IKlmfLSTEWB3ra9Ft/vORs11m19CIXSX38JDn97ktgLw/pjpFINpt+lPbU
- cOFtAg/RME6oxs1fk+1S/O9KnOZMBq4F4+ADneo0OdBwRXwmO8YiCsrVc1FnLeFUBGIB
- UeORe1dpalUlX+3+hH+eKOTFIgplUYrjQddQYDrViW8oLDtKOb+qOK+CZNzO21zazmE9
- jXaA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1ornCO-0004F8-Rv
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 16:29:02 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id o7so8893308pjj.1
+ for <qemu-devel@nongnu.org>; Sun, 06 Nov 2022 13:28:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=fkDXzz28NjRzlTJOFYmBkKuiC/yT5mUlXIO5xumc7Co=;
+ b=HA35fM7dV+eClpruwUqVylv/oRbOkcQ//nlLm3C9pkl+HpeuM6x8fFRRh0G40Y+7KC
+ LzJdPbNJcg6JIyz2HEGl3pMwLhMsF4xVTK2GxJ0Tz4DEpMIxGQEbqFhgBPnlNhFh1f+W
+ ewyrlBKqjjrQ5g4HdN2b4OwmgENm37iYi+b8bnK/lVL6n86TQVdiYi3DQB7Bggdrl3o2
+ rcQTp2sP5fNmimp1UPLSxzDPa/D9r1i3aoyAhqfA5qjkWw2TkBFlmlHil/qWlgHMe+HB
+ NAc9+l443k0udhdccUL/hSXUArN8qz0QzsBJXucgMlo+qeM8wMmrO3Cjl7c2VyINBRqp
+ RPGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=qkl7n40MVHTlj5jGhb/Qdl8SSxxuzDMk1W6tp9Ej0VQ=;
- b=ODueH8hNW7XJXOs/0wkG/NKj4zUL7Ug1GL+cLEw2W+gI0fQEz8v26JkjyJu0OBQ1IM
- XQ6blVmQngwXfoswoeSqotB6UayPTmfBc2ykcpUOXw/ljiNBmFhTV/taIYo5cktDjuLn
- LITfbb6UHyIHfeNZq9cDFdbmiKnO2zI0urf02i3O/+3D9RHgOxB1SFfN2wlSTIOqclnV
- 7z1iSQQVfK614nQbauSg/TmAbYHluIALahJAFJLEDYOc/I1KzgmtRc34SX/Z4p5nC2Gv
- PfmbFc/Yz6Iv9aeGYOClzLtR1IdNxjcFei5SRRGKhz4hqX5n/cGUC+kdlgllDn7TxkiA
- SEcQ==
-X-Gm-Message-State: ACrzQf3RZ0cLzIj1iR9/KsR1rLXu8V5+OXkVTPM+s6IRqZcUTCd/g0QL
- 70fbOLppMj1YOIEw1g4fZ5eWGl5OWpFC/NuQB0g=
-X-Google-Smtp-Source: AMsMyM7Fm2rXMATqC94kLNl/1NH4TuFdTo49TFSEPz+xqWJ6GqlHrlayDOQ7BLO+EEpuNJmGcH71VvjAG1feT4i1gSQ=
-X-Received: by 2002:a67:d606:0:b0:3aa:3a3e:95d1 with SMTP id
- n6-20020a67d606000000b003aa3a3e95d1mr27326790vsj.6.1667769412534; Sun, 06 Nov
- 2022 13:16:52 -0800 (PST)
+ bh=fkDXzz28NjRzlTJOFYmBkKuiC/yT5mUlXIO5xumc7Co=;
+ b=lRAvwIeHWXGTCzUozeiNnCtC06F8xOAOzhYqdEG2m9DaPbZppR6wmM+p7hn4dHwrqb
+ moB3mP1y0c/HQrkemmYiy8QDnqZJrAPWTuQXMxqmTqmU9A/KId5GPmv3wQ0yiRtfit3v
+ 3zL0AQvwVN+xChg5KoY09o9lUaFeorNIUdQfv0V5Alj7NEQZNN5PF/6L9IGyBiHQZGNm
+ HoUrCBct57l/TraK3Eaj6GaY9CgfWYTkUhPJGVqeZj0oE7fPf3YJCWYS1e3KRq+tXqwo
+ fVFtrvPVtCvLBs/9RVDo0jJAHFA/WmDivfEIGEP+ejpJdFXCQouzUO9JwZvW4r1ffFNa
+ 4k5w==
+X-Gm-Message-State: ACrzQf3buYcpefCT3uGaKjIv4KnYmlXn/i/FJyc2Hn4VC1GZuPV+k44W
+ lRzOLZmFbhuf4pUgONsrekixVLFcxPdeH4wM
+X-Google-Smtp-Source: AMsMyM76WFI9hHA4016ub3bK5pC8+7eQRPVDPKmPQQkWkD1SRcv+cbakKvViEKDdBktbeb1crWFGww==
+X-Received: by 2002:a17:90b:1c88:b0:203:8400:13a9 with SMTP id
+ oo8-20020a17090b1c8800b00203840013a9mr49067698pjb.46.1667770138503; 
+ Sun, 06 Nov 2022 13:28:58 -0800 (PST)
+Received: from localhost.localdomain ([2001:8003:d918:7a00:f28:fa55:3b51:3624])
+ by smtp.gmail.com with ESMTPSA id
+ 20-20020a621914000000b00563ce1905f4sm2998746pfz.5.2022.11.06.13.28.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 06 Nov 2022 13:28:57 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: balaton@eik.bme.hu,
+	philmd@linaro.org,
+	sw@weilnetz.de
+Subject: [PATCH v2 0/6] Two -Wclobbered fixes, plus other cleanup
+Date: Mon,  7 Nov 2022 08:28:46 +1100
+Message-Id: <20221106212852.152384-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221105171116.432921-1-mst@redhat.com>
- <20221105171116.432921-50-mst@redhat.com>
-In-Reply-To: <20221105171116.432921-50-mst@redhat.com>
-From: Bernhard Beschow <shentey@gmail.com>
-Date: Sun, 6 Nov 2022 22:16:41 +0100
-Message-ID: <CAG4p6K6ZgVmKAfRoaaD99RqtEjU0+qwUncb2=n+8GhNAezgKjg@mail.gmail.com>
-Subject: Re: [PULL v3 49/81] acpi: pc: vga: use AcpiDevAmlIf interface to
- build VGA device descriptors
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, 
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Gerd Hoffmann <kraxel@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Content-Type: multipart/alternative; boundary="00000000000066c6b605ecd3d3a1"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2b;
- envelope-from=shentey@gmail.com; helo=mail-vs1-xe2b.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,108 +89,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000066c6b605ecd3d3a1
-Content-Type: text/plain; charset="UTF-8"
+Stefan reported for accel/tcg, and I reproduced on Ubuntu 22.04.
 
-On Sat, Nov 5, 2022 at 6:45 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+Changes for v2:
+  * Incorporate suggested changes to nanomips.c (phil, balaton).
 
-> From: Igor Mammedov <imammedo@redhat.com>
->
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Message-Id: <20221017102146.2254096-2-imammedo@redhat.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> NB: we do not expect any functional change in
-> any ACPI tables with this change. It's only a refactoring.
->
-> Reviewed-by: Ani Sinha <ani@anisinha.ca>
-> ---
->  hw/display/vga_int.h       |  2 ++
->  hw/display/acpi-vga-stub.c |  7 +++++++
->  hw/display/acpi-vga.c      | 26 ++++++++++++++++++++++++++
->  hw/display/vga-pci.c       |  4 ++++
->  hw/i386/acpi-build.c       | 26 +-------------------------
->  hw/display/meson.build     | 17 +++++++++++++++++
->  6 files changed, 57 insertions(+), 25 deletions(-)
->  create mode 100644 hw/display/acpi-vga-stub.c
->  create mode 100644 hw/display/acpi-vga.c
->
 
-With this "qemu:qtest+qtest-hppa / qtest-hppa/display-vga-test" fails due
-to the symbol "aml_return" being undefined:
+r~
 
-# starting QEMU: exec ./qemu-system-hppa -qtest unix:/tmp/qtest-515650.sock
--qtest-log /dev/null -chardev socket,path=/tmp/qtest-515650.qmp,id=char0
--mon chardev=char0,mode=control -display none -vga none -device virtio-vga
--accel qtest
------------------------------------ stderr
------------------------------------
-Failed to open module:
-qemu/build/qemu-bundle/usr/lib/qemu/hw-display-virtio-vga.so: undefined
-symbol: aml_return
-qemu-system-hppa: -device virtio-vga: 'virtio-vga' is not a valid device
-model name
-Broken pipe
-../src/tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU
-process but encountered exit status 1 (expected 0)
 
-(test program exited with status code -6)
+Richard Henderson (6):
+  disas/nanomips: Move setjmp into nanomips_dis
+  disas/nanomips: Merge insn{1,2,3} into words[3]
+  disas/nanomips: Split out read_u16
+  disas/nanomips: Tidy read for 48-bit opcodes
+  tcg: Move TCG_TARGET_HAS_direct_jump init to tb_gen_code
+  accel/tcg: Split out setjmp_gen_code
 
-Best regards,
-Bernhard
+ accel/tcg/translate-all.c |  68 ++++++++++++-----------
+ disas/nanomips.c          | 110 ++++++++++++++++----------------------
+ tcg/tcg.c                 |  12 +++++
+ 3 files changed, 90 insertions(+), 100 deletions(-)
 
---00000000000066c6b605ecd3d3a1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+2.34.1
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Nov 5, 2022 at 6:45 PM Michae=
-l S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Igor=
- Mammedov &lt;<a href=3D"mailto:imammedo@redhat.com" target=3D"_blank">imam=
-medo@redhat.com</a>&gt;<br>
-<br>
-Signed-off-by: Igor Mammedov &lt;<a href=3D"mailto:imammedo@redhat.com" tar=
-get=3D"_blank">imammedo@redhat.com</a>&gt;<br>
-Message-Id: &lt;<a href=3D"mailto:20221017102146.2254096-2-imammedo@redhat.=
-com" target=3D"_blank">20221017102146.2254096-2-imammedo@redhat.com</a>&gt;=
-<br>
-Reviewed-by: Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com" targe=
-t=3D"_blank">mst@redhat.com</a>&gt;<br>
-Signed-off-by: Michael S. Tsirkin &lt;<a href=3D"mailto:mst@redhat.com" tar=
-get=3D"_blank">mst@redhat.com</a>&gt;<br>
-NB: we do not expect any functional change in<br>
-any ACPI tables with this change. It&#39;s only a refactoring.<br>
-<br>
-Reviewed-by: Ani Sinha &lt;<a href=3D"mailto:ani@anisinha.ca" target=3D"_bl=
-ank">ani@anisinha.ca</a>&gt;<br>
----<br>
-=C2=A0hw/display/vga_int.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 ++<br>
-=C2=A0hw/display/acpi-vga-stub.c |=C2=A0 7 +++++++<br>
-=C2=A0hw/display/acpi-vga.c=C2=A0 =C2=A0 =C2=A0 | 26 ++++++++++++++++++++++=
-++++<br>
-=C2=A0hw/display/vga-pci.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 ++++<br>
-=C2=A0hw/i386/acpi-build.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 26 +----------------=
----------<br>
-=C2=A0hw/display/meson.build=C2=A0 =C2=A0 =C2=A0| 17 +++++++++++++++++<br>
-=C2=A06 files changed, 57 insertions(+), 25 deletions(-)<br>
-=C2=A0create mode 100644 hw/display/acpi-vga-stub.c<br>
-=C2=A0create mode 100644 hw/display/acpi-vga.c<br></blockquote><div><br></d=
-iv><div>With this &quot;qemu:qtest+qtest-hppa / qtest-hppa/display-vga-test=
-&quot; fails due to the  symbol &quot;aml_return&quot; being undefined:</di=
-v><div><br></div><div># starting QEMU: exec ./qemu-system-hppa -qtest unix:=
-/tmp/qtest-515650.sock -qtest-log /dev/null -chardev socket,path=3D/tmp/qte=
-st-515650.qmp,id=3Dchar0 -mon chardev=3Dchar0,mode=3Dcontrol -display none =
--vga none -device virtio-vga -accel qtest<br>------------------------------=
------ stderr -----------------------------------<br>Failed to open module: =
-qemu/build/qemu-bundle/usr/lib/qemu/hw-display-virtio-vga.so: undefined sym=
-bol: aml_return<br>qemu-system-hppa: -device virtio-vga: &#39;virtio-vga&#3=
-9; is not a valid device model name<br>Broken pipe<br>../src/tests/qtest/li=
-bqtest.c:179: kill_qemu() tried to terminate QEMU process but encountered e=
-xit status 1 (expected 0)<br><br>(test program exited with status code -6)<=
-/div><div><br></div><div>Best regards,</div><div>Bernhard</div><br></div></=
-div>
-
---00000000000066c6b605ecd3d3a1--
 
