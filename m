@@ -2,65 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8209561F686
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 15:48:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B43061F6A5
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 15:53:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os3PR-00021F-RB; Mon, 07 Nov 2022 09:47:33 -0500
+	id 1os3UM-0003Sw-TZ; Mon, 07 Nov 2022 09:52:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r@hev.cc>) id 1os3PP-00020t-GL
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:47:31 -0500
-Received: from mail-pj1-f50.google.com ([209.85.216.50])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1os3UK-0003SS-BW
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:52:36 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <r@hev.cc>) id 1os3PN-0001Ip-8S
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:47:31 -0500
-Received: by mail-pj1-f50.google.com with SMTP id k5so10785370pjo.5
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 06:47:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1os3UI-0007vb-ME
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:52:36 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id h9so16641936wrt.0
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 06:52:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Klayg+WpkH+CJg/U8pw+zZPeMnY3Djc00WEgkmrbmK4=;
+ b=rN12ye+Ha30Vy878jAqZsBczem0k7a73UliXiLmqdOyvsUvwN3UAyeTr5Ee7B+EpZQ
+ ulGPIxo0GNTyUezG1XnnOrDVaRUSMzkQsO1+KwwJIt14bSoFyKZonMG5G2RuDcEGoFnb
+ SiBpvywZGXgCHjqWeaLBbTWWyP6vyLls+tBFZQ9D+dQdHhFZBBSl661UGA4tu460a9YE
+ 5LGHbepNAPcf/rH2SlijJgk2R5en9vFx3EeeSEu95jLXPQ8IIWXmlgwncwfolGWiH3lP
+ jxgEobet57aTbZkXl5c0QT/kLVAwemMOU+dBVeMOp4irohu7naQPTvjjiLVE4yF7YVZg
+ 0pDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=QYUwq6ZCwnbW0O+ip18uCuAWBEvaGBxVSZ3K0ygtMHI=;
- b=4h49lDhYO/FOPbIkp2O54P/hbYicmL/inpGWENC3OBXyokL0zrlBGuX8PHy3lHvcha
- /WxK8Y9SZlDQOj51i+oSuCOETBS79b7oI+8Aotd6tCQfPYdkXnUepO5VQixYwRwI6f64
- 0F6gle5pRoj7AAuXKkXjTxharcMOVzyHt9Kz3eNq2sSguP3k0fsivp/M1EzA7r3pqjHS
- V12//x6z6MqgbPFAZpBh0XTn7WJV6KFBF7T9K32rmkf06HpLmrLXFAqfXcYtyNDFLuHj
- jxSIhiwRjRd07rKsntcnVy/NexZhUWdI6btLkpELFggmCpZEDHha6DjX2p13m0HW/oc7
- P8vA==
-X-Gm-Message-State: ACrzQf1XCj/wckhWR+EFzKZuFb/oNd4tlZL8Cg3fY7mWY1zDVH4d4k+G
- b75Dxy9FNLWwDUvyvIAWTg1iPokPOJLd1YdJ
-X-Google-Smtp-Source: AMsMyM7EwUZTaleln8RHyHarD6h+8z/gABO4TFrCTkxNXN3lI5jBFv+JIh4h3k7vSyrqtLZKkk3VSw==
-X-Received: by 2002:a17:902:720a:b0:181:150c:fcc4 with SMTP id
- ba10-20020a170902720a00b00181150cfcc4mr51814853plb.109.1667832447035; 
- Mon, 07 Nov 2022 06:47:27 -0800 (PST)
-Received: from localhost.localdomain ([2400:8901:e002:5400::])
+ bh=Klayg+WpkH+CJg/U8pw+zZPeMnY3Djc00WEgkmrbmK4=;
+ b=U01k33PHMvdpc1Gj8FfAx2Vy8DNEIVd6K6ReEbHtTYDujQBry4TQbpddBzbZoXihIY
+ /HT2v4XNDj/yA0vJWxx5zw4FdpJ7o7D3EtsIuTpsiiEaj81tmI3CNsDTGPVg+JVL9Sni
+ 54zxACZqJWdujhRe7dVPtp3z3cpwdbK9wEAu+AkayVb5AlXLPzM3wIitAk78KByNjbJ+
+ Gcyh4IH2QanNYOYpFpR6saI/DCabGRfHLJoqSi6disV/jxJceqcu2Gc4sh/+pUiaaUBJ
+ SV/46rYcWJ4lBEP5wH4wp9sSuQ7YKnM5Qs8VLu9rc+/Y6vwEZ6RV2izyn8Y+LapDX1jt
+ 6K/Q==
+X-Gm-Message-State: ACrzQf2AQTsfOC5GQXXcVB5l+t73cPe66bH4H95Bf5YMaeURttLchCpn
+ OVWM55aZoJhNmYNbopU6Jej+Vw==
+X-Google-Smtp-Source: AMsMyM63ZGK16hwf9GNARKJB+Na1kQkQ7v/5CLvJlRnX/4eit8Fdb6QzpIrPvanvB4KEI2WCQA4CjA==
+X-Received: by 2002:adf:a74a:0:b0:236:6dc8:f562 with SMTP id
+ e10-20020adfa74a000000b002366dc8f562mr31688305wrd.717.1667832752844; 
+ Mon, 07 Nov 2022 06:52:32 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- c6-20020a17090a4d0600b002135a57029dsm4380054pjg.29.2022.11.07.06.47.24
+ fc15-20020a05600c524f00b003cf57329221sm12976185wmb.14.2022.11.07.06.52.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 06:47:26 -0800 (PST)
-From: Rui Wang <wangrui@loongson.cn>
+ Mon, 07 Nov 2022 06:52:32 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CF73A1FFB7;
+ Mon,  7 Nov 2022 14:52:31 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: WANG Xuerui <git@xen0n.name>,
- Richard Henderson <richard.henderson@linaro.org>, hev <qemu@hev.cc>,
- Rui Wang <wangrui@loongson.cn>
-Subject: [PATCH] tcg/loongarch64: Optimize immediate loading
-Date: Mon,  7 Nov 2022 22:47:13 +0800
-Message-Id: <20221107144713.845550-1-wangrui@loongson.cn>
-X-Mailer: git-send-email 2.38.1
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [RFC PATCH] tests/docker: allow user to override check target
+Date: Mon,  7 Nov 2022 14:52:27 +0000
+Message-Id: <20221107145227.1210499-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.216.50; envelope-from=r@hev.cc;
- helo=mail-pj1-f50.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,106 +94,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-diff:
-  Imm                 Before                  After
-  0000000000000000    addi.w  rd, zero, 0     ori     rd, zero, 0
-                      lu52i.d rd, zero, 0
-  00000000fffff800    lu12i.w rd, -1          addi.w  rd, zero, -2048
-                      ori     rd, rd, 2048    lu32i.d rd, 0
-                      lu32i.d rd, 0
-  ...
+This is useful when trying to bisect a particular failing test behind
+a docker run. For example:
 
-Signed-off-by: Rui Wang <wangrui@loongson.cn>
+  make docker-test-clang@fedora \
+    TARGET_LIST=arm-softmmu \
+    CHECK_TARGET="meson test qtest-arm/qos-test" \
+    J=9 V=1
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tcg/loongarch64/tcg-target.c.inc | 35 +++++++++++---------------------
- 1 file changed, 12 insertions(+), 23 deletions(-)
+ tests/docker/Makefile.include | 2 ++
+ tests/docker/common.rc        | 6 +++---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index d326e28740..7755c4ffd0 100644
---- a/tcg/loongarch64/tcg-target.c.inc
-+++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -274,16 +274,6 @@ static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg)
-     return true;
- }
- 
--static bool imm_part_needs_loading(bool high_bits_are_ones,
--                                   tcg_target_long part)
--{
--    if (high_bits_are_ones) {
--        return part != -1;
--    } else {
--        return part != 0;
--    }
--}
--
- /* Loads a 32-bit immediate into rd, sign-extended.  */
- static void tcg_out_movi_i32(TCGContext *s, TCGReg rd, int32_t val)
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index c87f14477a..ece0aa77df 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -184,6 +184,7 @@ docker:
+ 	@echo '    TARGET_LIST=a,b,c    Override target list in builds.'
+ 	@echo '    EXTRA_CONFIGURE_OPTS="..."'
+ 	@echo '                         Extra configure options.'
++	@echo '    CHECK_TARGET="..."   Override the default `make check` target '
+ 	@echo '    IMAGES="a b c ..":   Restrict available images to subset.'
+ 	@echo '    TESTS="x y z .."     Restrict available tests to subset.'
+ 	@echo '    J=[0..9]*            Overrides the -jN parameter for make commands'
+@@ -230,6 +231,7 @@ docker-run: docker-qemu-src
+ 			$(if $(NETWORK),$(if $(subst $(NETWORK),,1),--net=$(NETWORK)),--net=none) \
+ 			-e TARGET_LIST=$(subst $(SPACE),$(COMMA),$(TARGET_LIST))	\
+ 			-e EXTRA_CONFIGURE_OPTS="$(EXTRA_CONFIGURE_OPTS)" \
++			-e CHECK_TARGET="$(CHECK_TARGET)" 		\
+ 			-e V=$V -e J=$J -e DEBUG=$(DEBUG)		\
+ 			-e SHOW_ENV=$(SHOW_ENV) 			\
+ 			$(if $(NOUSER),,				\
+diff --git a/tests/docker/common.rc b/tests/docker/common.rc
+index e6f8cee0d6..f2769c1ff6 100755
+--- a/tests/docker/common.rc
++++ b/tests/docker/common.rc
+@@ -63,12 +63,12 @@ check_qemu()
  {
-@@ -291,16 +281,16 @@ static void tcg_out_movi_i32(TCGContext *s, TCGReg rd, int32_t val)
-     tcg_target_long hi12 = sextreg(val, 12, 20);
+     # default to make check unless the caller specifies
+     if [ $# = 0 ]; then
+-        INVOCATION="check"
++        INVOCATION="${CHECK_TARGET:-make $MAKEFLAGS check}"
+     else
+-        INVOCATION="$@"
++        INVOCATION="make $MAKEFLAGS $@"
+     fi
  
-     /* Single-instruction cases.  */
--    if (lo == val) {
--        /* val fits in simm12: addi.w rd, zero, val */
--        tcg_out_opc_addi_w(s, rd, TCG_REG_ZERO, val);
--        return;
--    }
--    if (0x800 <= val && val <= 0xfff) {
-+    if (hi12 == 0) {
-         /* val fits in uimm12: ori rd, zero, val */
-         tcg_out_opc_ori(s, rd, TCG_REG_ZERO, val);
-         return;
-     }
-+    if (hi12 == sextreg(lo, 12, 20)) {
-+        /* val fits in simm12: addi.w rd, zero, val */
-+        tcg_out_opc_addi_w(s, rd, TCG_REG_ZERO, val);
-+        return;
-+    }
- 
-     /* High bits must be set; load with lu12i.w + optional ori.  */
-     tcg_out_opc_lu12i_w(s, rd, hi12);
-@@ -334,8 +324,7 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
- 
-     intptr_t pc_offset;
-     tcg_target_long val_lo, val_hi, pc_hi, offset_hi;
--    tcg_target_long hi32, hi52;
--    bool rd_high_bits_are_ones;
-+    tcg_target_long hi12, hi32, hi52;
- 
-     /* Value fits in signed i32.  */
-     if (type == TCG_TYPE_I32 || val == (int32_t)val) {
-@@ -366,25 +355,25 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
-         return;
-     }
- 
-+    hi12 = sextreg(val, 12, 20);
-     hi32 = sextreg(val, 32, 20);
-     hi52 = sextreg(val, 52, 12);
- 
-     /* Single cu52i.d case.  */
--    if (ctz64(val) >= 52) {
-+    if ((hi52 != 0) && (ctz64(val) >= 52)) {
-         tcg_out_opc_cu52i_d(s, rd, TCG_REG_ZERO, hi52);
-         return;
-     }
- 
-     /* Slow path.  Initialize the low 32 bits, then concat high bits.  */
-     tcg_out_movi_i32(s, rd, val);
--    rd_high_bits_are_ones = (int32_t)val < 0;
- 
--    if (imm_part_needs_loading(rd_high_bits_are_ones, hi32)) {
-+    /* Load hi32 and hi52 explicitly when they are unexpected values. */
-+    if (hi32 != sextreg(hi12, 20, 20)) {
-         tcg_out_opc_cu32i_d(s, rd, hi32);
--        rd_high_bits_are_ones = hi32 < 0;
-     }
- 
--    if (imm_part_needs_loading(rd_high_bits_are_ones, hi52)) {
-+    if (hi52 != sextreg(hi32, 20, 12)) {
-         tcg_out_opc_cu52i_d(s, rd, rd, hi52);
-     }
+-    make $MAKEFLAGS $INVOCATION
++    $INVOCATION
  }
+ 
+ test_fail()
 -- 
-2.38.1
+2.34.1
 
 
