@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AAB761F182
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 12:09:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C80CA61F1C4
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 12:25:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orzyA-000068-Fb; Mon, 07 Nov 2022 06:07:10 -0500
+	id 1os0En-00058I-0y; Mon, 07 Nov 2022 06:24:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1orzy8-00005H-3G
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 06:07:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1orzy6-0005fp-3l
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 06:07:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667819224;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7zeNAuSACaLmi+5as1Gb8t9katDir9aRfymZE5llVeo=;
- b=cY2h/Btm6g8n0ryuqu49b42rX2tp5OgBbOHEvqBrZQY5mSr2CqwpNRff94kC3HBM+CLeNK
- T5gFWWwUj1KqG6nuz4mCtDWCpkaYhPmGph0bFqrwhQztTSYHGdtlepZW4PTVwKcefrhEnX
- 2rNkvRsSdoIcpHTEyA41MSxO3xVLy0E=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-65-soYgG2YZNli1O7ICYvYKtQ-1; Mon, 07 Nov 2022 06:07:03 -0500
-X-MC-Unique: soYgG2YZNli1O7ICYvYKtQ-1
-Received: by mail-qk1-f200.google.com with SMTP id
- bs7-20020a05620a470700b006fac7447b1cso2901134qkb.17
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 03:07:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1os0EW-00057S-HS
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 06:24:09 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
+ id 1os0EU-0001YP-I1
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 06:24:03 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ q1-20020a17090a750100b002139ec1e999so9995586pjk.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 03:24:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=In7EM83NQpw5FRQfyQChh1DJYtJcwIhOwu3buUisba0=;
+ b=i9htem0j9rpPBVFI3RGz3ePVC+6QW3DgpOsleM+gGndF4wpKT0M07Ii38LvkGQzgW+
+ aTZtULwgGECFLRAnpTC0yYj1a2XcMreM9guJS1Xs8k/33Q67qWKtuuEA6i/Q2EC2CHUa
+ tUBySY49t38GhshNc/MuYv0rQtPsarFGXeopgUGEe8TYDV1gAvY3saW6yjcklQpl6Kr2
+ Gu3Xw8m1KBWDWL6r1lE6tWkZaeBkBhzH0HlHoXQOWMqtJi7LCq1fDWMFLS7cdSFUzFr7
+ pUwEtXf0ha0McCN60JX9yomyfuiI7YlSnGaeIzR9Rj9x2smt4Q429sBfd3CjcraiySMX
+ TiSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7zeNAuSACaLmi+5as1Gb8t9katDir9aRfymZE5llVeo=;
- b=BNkb2+VWs3+Y70FKuOj2ShSQ8KaQX9NVcZMD9P1uWG7OV9ywnyIH3tOyXhq9VoF+w1
- 8KElnWtXP91pypY/2VQcqssZmkrtU3tcMeZVrEvmf19PmPctQU8WcwSmHYWqCkD2X6RF
- Q51XV6fuwgcAA+lHo7GNnph4h5jAidSj5JNDi8x5RbSVMQWvy2236DP8Vc23Gx3KLWHX
- NLRdlYau5FTr0HmmK0xsWxeJWcAR2z8CFvcGcNoN1rUZ5WPLyUsPf5HfBKFCSoZCyjCQ
- AbythdX+6iYgEx/gtQXy3h4TLHeV+7MCTvujdU9Iu+RyLyTorsnmb0WuYlm8QH2UHFxo
- 5vKA==
-X-Gm-Message-State: ACrzQf1FlC2MzhlDkkU9Z7wE6z42tG0Q/Jk8li0P1Onm7vNXlrzFcX8L
- LvTfpm1O00tXL3LONtsQKeP7KVzutuYMm4JDHloYbw2EKiV/IrnTg+XzeWpLDNijFicpcxOnhIl
- kewXIJMdmrfhSBOhY5gzQAQ+KwbiyW6Q=
-X-Received: by 2002:ad4:5d6d:0:b0:4bb:7821:b326 with SMTP id
- fn13-20020ad45d6d000000b004bb7821b326mr43222662qvb.67.1667819223248; 
- Mon, 07 Nov 2022 03:07:03 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM4cqcuMhUslE4ND3WoAgebgX87Vt3pNmdRN7dBMA81O/srDYR+RQFrK5uEMNs5MdMLT/WusLSFAprHI+/2KRLo=
-X-Received: by 2002:ad4:5d6d:0:b0:4bb:7821:b326 with SMTP id
- fn13-20020ad45d6d000000b004bb7821b326mr43222642qvb.67.1667819223017; Mon, 07
- Nov 2022 03:07:03 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=In7EM83NQpw5FRQfyQChh1DJYtJcwIhOwu3buUisba0=;
+ b=aKYx2CTbYCFHmvPgTTtS8mgvbBsDp4z6s31ZH4jHweLNHyzGYlcvplYf8mE7rMLQDd
+ EAGJ024SUruAgp7iP5ArWV4Woh42ncsUWhJVBygDE3n99RZ4aYZi7KlutaiC/FaRvWKQ
+ cYN4f763+iHnN9zAnE9d1FS4cx6HeuUBVClyrVsKw0bwm0KfJ9hqdsqdnABMBfzwtLzr
+ AmuA1c3uC2+awvLBwr4Q98mJxN3cBKaxaZ5JRFT3DldsK9AfhvYaylOF5Dy8pu2b1m8h
+ YgDaiM1Q+lZ3oR5a6FXfYbq9SgPSqD3iBmJS0TczHf+oXGp5lFq2/jsgcv3dXtuHy4Zn
+ Sexg==
+X-Gm-Message-State: ACrzQf0LxacIyBKhN1ZwduXCu1gs/TJ0gBjvjonm+WLQGazhUPklikRH
+ 4J5FH6BDWG1hu3n/2dFWwkqE8Q==
+X-Google-Smtp-Source: AMsMyM6pPTmvT8O9NiCp5VWcK4eBDUJNhOhco/jMSnLOE5adwu1HcixUiUH1zgtS4rj+2ykNM4Vg0g==
+X-Received: by 2002:a17:902:cecf:b0:187:fd2:79c3 with SMTP id
+ d15-20020a170902cecf00b001870fd279c3mr33374706plg.34.1667820241118; 
+ Mon, 07 Nov 2022 03:24:01 -0800 (PST)
+Received: from sunil-laptop ([49.206.12.236]) by smtp.gmail.com with ESMTPSA id
+ j12-20020a170902da8c00b00186b04776b0sm4783848plx.118.2022.11.07.03.23.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Nov 2022 03:24:00 -0800 (PST)
+Date: Mon, 7 Nov 2022 16:53:53 +0530
+From: Sunil V L <sunilvl@ventanamicro.com>
+To: maobibo <maobibo@loongson.cn>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH] hw/riscv: virt: Remove size restriction for pflash
+Message-ID: <Y2jqyYsiZPh1+TzE@sunil-laptop>
+References: <20221106143900.2229449-1-sunilvl@ventanamicro.com>
+ <80ccc060-32a7-bc38-bf2b-2ef5959a7e0c@loongson.cn>
 MIME-Version: 1.0
-References: <20221107103510.34588-1-mcascell@redhat.com>
-In-Reply-To: <20221107103510.34588-1-mcascell@redhat.com>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Mon, 7 Nov 2022 12:06:52 +0100
-Message-ID: <CAA8xKjXrmS0fkr28AKvNNpyAtM0y0B+5FichpsrhD+mUgnuyKg@mail.gmail.com>
-Subject: Re: [PATCH] hw/sd/sdhci: reset data count in
- sdhci_buff_access_is_sequential()
-To: qemu-devel@nongnu.org
-Cc: philmd@linaro.org, bin.meng@windriver.com, XRivenDell@outlook.com, 
- coc.cyqh@gmail.com, ningqiang1@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mcascell@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <80ccc060-32a7-bc38-bf2b-2ef5959a7e0c@loongson.cn>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,196 +96,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 7, 2022 at 11:35 AM Mauro Matteo Cascella
-<mcascell@redhat.com> wrote:
->
-> Make sure to reset data_count if it's equal to (or exceeds) block_size.
-> This prevents an off-by-one read / write when accessing s->fifo_buffer
-> in sdhci_read_dataport / sdhci_write_dataport, both called right after
-> sdhci_buff_access_is_sequential.
->
-> Fixes: CVE-2022-3872
-> Reported-by: RivenDell <XRivenDell@outlook.com>
-> Reported-by: Siqi Chen <coc.cyqh@gmail.com>
-> Reported-by: ningqiang <ningqiang1@huawei.com>
-> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-> ---
->  hw/sd/sdhci.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-> index 306070c872..aa2fd79df2 100644
-> --- a/hw/sd/sdhci.c
-> +++ b/hw/sd/sdhci.c
-> @@ -978,6 +978,10 @@ static bool sdhci_can_issue_command(SDHCIState *s)
->  static inline bool
->  sdhci_buff_access_is_sequential(SDHCIState *s, unsigned byte_num)
->  {
-> +    if (s->data_count >= (s->blksize & BLOCK_SIZE_MASK)) {
-> +        s->data_count = 0;
-> +    }
-> +
->      if ((s->data_count & 0x3) != byte_num) {
->          trace_sdhci_error("Non-sequential access to Buffer Data Port register"
->                            "is prohibited\n");
-> --
-> 2.38.1
->
+On Mon, Nov 07, 2022 at 05:57:45PM +0800, maobibo wrote:
+> 
+> 
+> 在 2022/11/6 22:39, Sunil V L 写道:
+> > The pflash implementation currently assumes fixed size of the
+> > backend storage. Due to this, the backend storage file needs to be
+> > exactly of size 32M. Otherwise, there will be an error like below.
+> > 
+> > "device requires 33554432 bytes, block backend provides 3145728 bytes"
+> > 
+> > Fix this issue by using the actual size of the backing store.
+> > 
+> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > ---
+> >  hw/riscv/virt.c | 33 +++++++++++++++++++++++++--------
+> >  1 file changed, 25 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> > index a5bc7353b4..aad175fa31 100644
+> > --- a/hw/riscv/virt.c
+> > +++ b/hw/riscv/virt.c
+> > @@ -49,6 +49,7 @@
+> >  #include "hw/pci/pci.h"
+> >  #include "hw/pci-host/gpex.h"
+> >  #include "hw/display/ramfb.h"
+> > +#include "sysemu/block-backend.h"
+> >  
+> >  /*
+> >   * The virt machine physical address space used by some of the devices
+> > @@ -144,10 +145,17 @@ static void virt_flash_map1(PFlashCFI01 *flash,
+> >                              MemoryRegion *sysmem)
+> >  {
+> >      DeviceState *dev = DEVICE(flash);
+> > +    BlockBackend *blk;
+> > +    hwaddr real_size;
+> >  
+> > -    assert(QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE));
+> > -    assert(size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
+> > -    qdev_prop_set_uint32(dev, "num-blocks", size / VIRT_FLASH_SECTOR_SIZE);
+> > +    blk = pflash_cfi01_get_blk(flash);
+> > +
+> > +    real_size = blk ? blk_getlength(blk): size;
+> > +
+> > +    assert(real_size);
+> > +    assert(QEMU_IS_ALIGNED(real_size, VIRT_FLASH_SECTOR_SIZE));
+> > +    assert(real_size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
+> How about add one sentence?
+>        assert(real_size <= size);   
+> 
+> As defined VIRT_FLASH memory space, the total memory space size 64M,
+> Pflash0/Pflash1 cannot be more than 32M. Supposing real size of pflash0
+> is 33M, there will be conflict with address space of pflash1.
+> 
+> regards
+> bibo, mao
+> 
 
-Reproducer:
+Good catch!. Thank you. Will add it in V2.
 
-cat << EOF | ./qemu-system-x86_64 -machine accel=qtest \
--nodefaults -drive if=none,index=0,file=null-co://,format=raw,id=mydrive \
--device sdhci-pci -device sd-card,drive=mydrive -nographic -qtest stdio
-outl 0xcf8 0x80001004
-outl 0xcfc 0x107
-outl 0xcf8 0x80001010
-outl 0xcfc 0xfebf1000
-writel 0xfebf102c 0x7
-writel 0xfebf1004 0x10200
-writel 0xfebf100c 0x200000
-writel 0xfebf1028 0x10000
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1020 0xdeadbeef
-writel 0xfebf1004 0x200
-writel 0xfebf100c 0x20
-writel 0xfebf1028 0x20000
-writel 0x00100000 0xfebf1021
-writel 0xfebf1058 0x00100000
-writel 0xfebf1028 0x8
-writel 0xfebf100c 0x200011
-writel 0xfebf1020 0xaabbccdd
-EOF
-
--- 
-Mauro Matteo Cascella
-Red Hat Product Security
-PGP-Key ID: BB3410B0
-
+Thanks
+Sunil
 
