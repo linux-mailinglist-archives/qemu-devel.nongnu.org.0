@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53BEA620229
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 23:13:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 520A862022B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 23:13:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osAMV-0005Sw-Sc; Mon, 07 Nov 2022 17:12:59 -0500
+	id 1osAMc-0005Vb-D9; Mon, 07 Nov 2022 17:13:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osAMF-0005RI-Qt
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:12:43 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osAML-0005T5-TO
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:12:50 -0500
 Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osAMD-0004Yh-A7
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:12:43 -0500
-Received: by mail-wr1-x435.google.com with SMTP id v1so18219314wrt.11
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:12:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osAMK-0004vy-5F
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:12:49 -0500
+Received: by mail-wr1-x435.google.com with SMTP id a14so18258328wru.5
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:12:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=cNeNMUuSepqL9FvnQaZG9cy7VW1ENolnFrvInf+gIZc=;
- b=qoWs/WTgu+xt4o+ISywWL1S2zwIqaE9rJfc12xPXL/XFXYQmJStnDakCttq/cgu0Ey
- MK7qyaogNVP6bp24hkoU5Z6taO9K5yOJBv90ROMub1cAEhp/IR76LsKIjTtEmcJEGCqV
- VxdNrbKga/FF+M9HudNOL9PZXSRMs6qpnC5WMGLTINc7VdEk4tfStN50KIZrAEN7CH77
- 2pk47SlnNZyg3To3tjzi3IGS+wj1yXhXtRuq77tWm3cVfSsxMqUblqvnjZ01YCVzPVA7
- 2pdt3QF2GuV8uZ06F+FSGUsbzhWeP3xkZwPJ/l1nkzERr6zZgic7vZ+Nkzqyez6ycfKY
- DgGA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YpK+f5f/gQRJ2J/DGs6Tr1bUCA1xTkm0TNYPoo23NHk=;
+ b=uqP3aYn/hZN5L9fzJB0Hth9UPmNDTZst2SS84YWJxpX/xTlAgQ0h3QPS19AaaurTCa
+ PoGZlSt0YlQoNzEZvjKYkvdq6A1lN6OXcAARiAvDqbnIPGGIMvwhaWtfZN0CwVqldZGx
+ zt3vzUewr9cKQpfpBI5c7FkPjBxq7MnxLsE77iAyHw/btCQ9nu7vHvK2jZDocUMaNoLf
+ IBJWluX1z4TLuJy1Ssxi0YxEptvCemNpAyco1iYletEFYUtrokGEyZfyzVvPDoLe/8o/
+ BEV0NKAZSDkXplyn1Yr43tuqoLflMBN2NSLQuF/Jddg71gYcK70ZxYWBoWBYhMtWPx/z
+ G8JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=cNeNMUuSepqL9FvnQaZG9cy7VW1ENolnFrvInf+gIZc=;
- b=CkY6mRgMSuAWOHRgCSmdZzUKnvMNIkTXo44a0xX2qkTl7KGBCtZSD7PdbkjO/Me6fV
- fJW5ng5AiS4dJBG88djCL26sc4ArKztn+4m2WdVLuETTfMG1BlKyDnc3AmcJ4GrUGHoO
- jlARGPi0/0OA5EDxJbVh72mZs2AI7RyBTAVGp14xRLc5Uxy9PzHDEsW7d6BMLHLoOfAX
- zXofHU24DcygjA1VbGV4pa3GmsS4NuxaJKTnirpZFUrdS3aH+PYmswh+cQYb3QO2tdM7
- 6Wu6xm5Mbav8CWem31Q499yulj6NSsz4afe+GIPTfUPoALPFFpi/tk7Ucc4QOA4ySC63
- d6Ww==
-X-Gm-Message-State: ACrzQf1u9+VOanC2pGPc8rZOwxtybYPzG/2nDYDBopQCeEA1VJoXB5MQ
- ft2EVrFU32tU12eTcKrsC0dhG68Mmx+k0Q==
-X-Google-Smtp-Source: AMsMyM50QDu0MsGVJ1OGLg3ohKWtZEoTGa6K8ZToIKGXN3N70WqXiie6gHtjCT97SP+IleohNKWzjQ==
-X-Received: by 2002:adf:e84a:0:b0:236:5f2d:9027 with SMTP id
- d10-20020adfe84a000000b002365f2d9027mr32727685wrn.89.1667859159415; 
- Mon, 07 Nov 2022 14:12:39 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YpK+f5f/gQRJ2J/DGs6Tr1bUCA1xTkm0TNYPoo23NHk=;
+ b=1N/WxOq2o2XhfaO0WktuAuUppKpFukBLabRRy1MDTJ5otJtpZBVZpljhKkJ4MLmlHz
+ yzdl7tZySooomrSWvRUp76je/SpO3snSCeJ4wn0gWCn/mgPbz5t8jt1VYmajx/iuRFlM
+ SvJ2fv8rfMTdn23Mur3MGTT9b2lONNOXp5VXKE/bBfV6iqVgUMwM1E6lRIxlNdGQj0q1
+ 8+TZxZb40Dv6U3SE5yIuWt/SS6bm+iNi6s9z+UPEi3Evw7kPYRjiohRRkyWp7wY9X2Sg
+ kqSnDplQX30Lc/BUkzpRP6LH8GvH2noZH9biTIOOWTTEqP2tvN9Azn9U5ig7nR2XsPHN
+ TyxQ==
+X-Gm-Message-State: ACrzQf3M0UGFpCT71ObuyP41RJ7T4LQs+fhRsRsyncqyMIV8a97gFRq+
+ +Icjic588a7UvD8rCPAyV0IiN1X19c11tg==
+X-Google-Smtp-Source: AMsMyM7VoUWwTmMtSG6ZzgYm+S6b55Xi+ZcFcUunX7CbMi04rng/rcsJdYt2hgEPwflUVxITp18yFg==
+X-Received: by 2002:adf:fdce:0:b0:236:f543:2fd9 with SMTP id
+ i14-20020adffdce000000b00236f5432fd9mr19389406wrs.511.1667859164911; 
+ Mon, 07 Nov 2022 14:12:44 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u6-20020a5d6ac6000000b0022cc0a2cbecsm8620432wrw.15.2022.11.07.14.12.37
+ z3-20020adfe543000000b0023538fb27c1sm8191956wrm.85.2022.11.07.14.12.43
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 07 Nov 2022 14:12:39 -0800 (PST)
+ Mon, 07 Nov 2022 14:12:44 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Sai Pavan Boddu <saipava@xilinx.com>,
@@ -58,14 +59,18 @@ Cc: Sai Pavan Boddu <saipava@xilinx.com>,
  Alexander Bulekov <alxndr@bu.edu>, Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Mauro Matteo Cascella <mcascell@redhat.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>
-Subject: [PATCH-for-7.2 0/2] hw/sd/sdhci: Do not set Buf Wr Ena before writing
+ Andrey Smirnov <andrew.smirnov@gmail.com>,
+ RivenDell <XRivenDell@outlook.com>, Siqi Chen <coc.cyqh@gmail.com>,
+ ningqiang <ningqiang1@huawei.com>
+Subject: [PATCH-for-7.2 1/2] hw/sd/sdhci: Do not set Buf Wr Ena before writing
  block (CVE-2022-3872)
-Date: Mon,  7 Nov 2022 23:12:34 +0100
-Message-Id: <20221107221236.47841-1-philmd@linaro.org>
+Date: Mon,  7 Nov 2022 23:12:35 +0100
+Message-Id: <20221107221236.47841-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221107221236.47841-1-philmd@linaro.org>
+References: <20221107221236.47841-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::435;
  envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
@@ -75,7 +80,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,16 +96,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix for CVE-2022-3872. See description in first patch.
+When sdhci_write_block_to_card() is called to transfer data from
+the FIFO to the SD bus, the data is already present in the buffer
+and we have to consume it directly.
 
-Philippe Mathieu-Daudé (2):
-  hw/sd/sdhci: Do not set Buf Wr Ena before writing block
-    (CVE-2022-3872)
-  hw/sd/sdhci: Factor common Present State bits in sdhci_data_transfer()
+See the description of the 'Buffer Write Enable' bit from the
+'Present State' register (prnsts::SDHC_SPACE_AVAILABLE) in Table
+2.14 from the SDHCI spec v2:
 
- hw/sd/sdhci.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+  Buffer Write Enable
 
+  This status is used for non-DMA write transfers.
+
+  The Host Controller can implement multiple buffers to transfer
+  data efficiently. This read only flag indicates if space is
+  available for write data. If this bit is 1, data can be written
+  to the buffer. A change of this bit from 1 to 0 occurs when all
+  the block data is written to the buffer. A change of this bit
+  from 0 to 1 occurs when top of block data can be written to the
+  buffer and generates the Buffer Write Ready interrupt.
+
+In our case, we do not want to overwrite the buffer, so we want
+this bit to be 0, then set it to 1 once the data is written onto
+the bus.
+
+This is probably a copy/paste error from commit d7dfca0807
+("hw/sdhci: introduce standard SD host controller").
+
+Reproducer:
+https://lore.kernel.org/qemu-devel/CAA8xKjXrmS0fkr28AKvNNpyAtM0y0B+5FichpsrhD+mUgnuyKg@mail.gmail.com/
+
+Fixes: CVE-2022-3872
+Reported-by: RivenDell <XRivenDell@outlook.com>
+Reported-by: Siqi Chen <coc.cyqh@gmail.com>
+Reported-by: ningqiang <ningqiang1@huawei.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ hw/sd/sdhci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
+index 306070c872..f230e7475f 100644
+--- a/hw/sd/sdhci.c
++++ b/hw/sd/sdhci.c
+@@ -954,7 +954,7 @@ static void sdhci_data_transfer(void *opaque)
+             sdhci_read_block_from_card(s);
+         } else {
+             s->prnsts |= SDHC_DOING_WRITE | SDHC_DAT_LINE_ACTIVE |
+-                    SDHC_SPACE_AVAILABLE | SDHC_DATA_INHIBIT;
++                                           SDHC_DATA_INHIBIT;
+             sdhci_write_block_to_card(s);
+         }
+     }
 -- 
 2.38.1
 
