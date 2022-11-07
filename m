@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD17620388
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:14:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5688F6203B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:25:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osBIj-0003UO-8N; Mon, 07 Nov 2022 18:13:09 -0500
+	id 1osBKN-0005ij-EG; Mon, 07 Nov 2022 18:14:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osBIg-0003Tf-8G
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:13:06 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osBKK-0005e1-TD
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:14:48 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osBIe-0001V2-Hg
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:13:06 -0500
-Received: by mail-wr1-x432.google.com with SMTP id z14so18413110wrn.7
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 15:13:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osBKJ-0000g6-Ao
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:14:48 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id 5so7784775wmo.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 15:14:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=fbd2F3WhfZBOG9/vord+0b+DJQMEIuHIX+Rsc1+DDbw=;
- b=eNBwHDjrNsLI7xMcWA/uG6QfHPpiuyZ4XYDSUpTSjWwVaOxpXDYie4K9dwWdPIeHGo
- DQ8vu3yMNi6Le43XkcLSfSiwfOCDVNG+Ni5ljS7Y5L6sMxTkw4wRVo3GFU8zFwhZr89F
- kQQ7P6DY72pDKUPZ4qEjwVbYZpz/QyrAAsZHpz39GpSFJeVEoRxj2pKv7BnCIsagr158
- vXK0GXYjVTg8GJiTmu1pNfYiSuDsyG9LgHNym/AAHlTthdkolyl8YNs0xmUeuLSSpB+L
- z1Y89y4Ay4BQYpukJ/VwkQVRDUpW9PtZYSt/iM4xopZlSvM4mrHH55yw1IhgYchhMsK2
- xxIw==
+ bh=VmAIZZG7Wy8fvzspuBXhWp0ntAe4BEOQBDzNTPwp6DY=;
+ b=T/wFX7dMQa7hHpZWrFBMFMX5/3XmYuh8nL58dgKAUweNYsDWa/LFuNujNXEpkCKkBQ
+ 69hqhOlTJgU2StXm1ZHqkD37z0AimEhuWixlFdeyJ4iofEN7HtN/hetscko1tAwxJ8pA
+ T2HVkhW0bIaP3FinlMT95+WDu3DTL4a5nOzfW2sdXPGkL8JX1HlVm/E+yV0RthIz73PS
+ RFXPzrpKfxywzK5tjMhVK2rNgw2el0hz8+meMkHi+uyoe6ruFU6sEWRYdUISUTQqTgwb
+ xpJLrJDspvK0+qQrF6hwNNYv/+0zA1JG4Fy0ff8JYBPSEggruM7OXxj0uE+duqGQosv2
+ FNZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fbd2F3WhfZBOG9/vord+0b+DJQMEIuHIX+Rsc1+DDbw=;
- b=RSQ83Bw9vlyNioc4Ps5NVPs1KF0CBOormNYvKX3q06mdPCBKfqgl83Q7/mkiz6W6JN
- eFbtpbWJBIcJDP1DUCVbWpHdMw3XyvrvVV0ytzvGkj/ISRSeSQRvBDD5KJrQWAvqMCgX
- 5c16zQ7F1PHUR63p6n3pnJclsNwlss9eqzauvi8wFt5LuSelDXqA5vIRjpqvrwQRnK0Q
- 7uhQE0vyRRaHCPE/nh82X+5cvl94/OQNY/+uAgkJsCblYfcw0JqLHyxYb5qOWdnrVkt+
- jRP0BPr9FjNJ9O1+pWWa1K1Jzm7vMnWA3AciyztS2QNd0RdASulpHNQU2rmBdokQ/s51
- 0O+g==
-X-Gm-Message-State: ACrzQf3Jb+3pM9J6vGhfBylopFU934zE7Bsk4lsZtiWPG2qGcXVcKMdJ
- Bs1bmycpwvIMrFqV/9n7CfkxGA==
-X-Google-Smtp-Source: AMsMyM6Qei/3kt/cCaaT8od8ZbOAVmH8Qgl8CTtQBNIkxHAOFv9c3npMgVLFr0UeSskmpIHIqppjlA==
-X-Received: by 2002:a5d:4a46:0:b0:236:ea45:1e3d with SMTP id
- v6-20020a5d4a46000000b00236ea451e3dmr23036393wrs.38.1667862781966; 
- Mon, 07 Nov 2022 15:13:01 -0800 (PST)
+ bh=VmAIZZG7Wy8fvzspuBXhWp0ntAe4BEOQBDzNTPwp6DY=;
+ b=0zUUhcjnSkuSUm2bPbBTyvXJK1Ox1YKYSRVHtcwx0lYezWKftA1Vp9j2oX7YVT0dUY
+ jyFK23jSSX+G9nhYxlfYM+AzIXanAN4PLSB3VzG1NeX++VQWyMAM56AYNX/DhUCEC2M0
+ x4nrbxGJtL/PqXWxzrqh0uL1JDimYHctqSAlt0cQ/S/G2VVM+hAJlMaHu8clxBmSM6lR
+ oU4bHbk8rZ9XH+pLNIfl7TLKqn+2/v/oIGDP1R3t9YlYOJuV/PNVrSeDDZ0v/P0ZJi2E
+ uSRT4VIrxtxJwmKw+oytDR0Ba9/0z6dlGmJvSYIcw//WLoW2oNDkbA6EwFcomLuiseFR
+ OBhQ==
+X-Gm-Message-State: ACrzQf2CJnG/zG+LoXBkcVbtBhbZIWq25e0rjR+apz0SH3IjXwNiVa4A
+ oE3dF7y+84HEE9dZvuYRQyRGwQ==
+X-Google-Smtp-Source: AMsMyM7OfChRFEFeNeQw+AULDVS4RmmCPbdAJek5SYVNp8jzmXOMyFvwCQXugVHDQ6A8Rt/wqC4j8A==
+X-Received: by 2002:a05:600c:2e46:b0:3cf:8a34:2e98 with SMTP id
+ q6-20020a05600c2e4600b003cf8a342e98mr18265900wmf.30.1667862885374; 
+ Mon, 07 Nov 2022 15:14:45 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n14-20020adfe34e000000b002366ded5864sm8554217wrj.116.2022.11.07.15.13.01
+ g8-20020a5d4888000000b0022e57e66824sm10083488wrq.99.2022.11.07.15.14.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Nov 2022 15:13:01 -0800 (PST)
-Message-ID: <3e42ffb9-0a3d-0eac-2263-d8aa0d6ff198@linaro.org>
-Date: Tue, 8 Nov 2022 00:13:00 +0100
+ Mon, 07 Nov 2022 15:14:44 -0800 (PST)
+Message-ID: <6c08ad4b-0fa0-e8d8-c4f1-cd362e2bd2cb@linaro.org>
+Date: Tue, 8 Nov 2022 00:14:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH] target/mips: enable LBX/LWX/* instructions for Octeon
+Subject: Re: [PATCH v2 2/3] target/mips: Cast offset field of Octeon BBIT to
+ int16_t
 Content-Language: en-US
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, jiaxun.yang@flygoat.com
-References: <166728058455.229236.13834649461181619195.stgit@pasha-ThinkPad-X280>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, pavel.dovgalyuk@ispras.ru
+References: <20221031132531.18122-1-jiaxun.yang@flygoat.com>
+ <20221031132531.18122-3-jiaxun.yang@flygoat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <166728058455.229236.13834649461181619195.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <20221031132531.18122-3-jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,57 +92,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/11/22 06:29, Pavel Dovgalyuk wrote:
-> This patch changes condition and function name for enabling
-> indexed load instructions for Octeon vCPUs. Octeons do not
-> have DSP extension, but implement LBX-and-others.
+On 31/10/22 14:25, Jiaxun Yang wrote:
+> As per "Cavium Networks OCTEON Plus CN50XX Hardware Reference
+> Manual" offset field is signed 16 bit value. However arg_BBIT.offset
+> is unsigned. We need to cast it as signed to do address calculation.
 > 
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > ---
->   target/mips/tcg/translate.c |   10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
+> v2:
+> Do casting in decodetree. (philmd)
+> ---
+>   target/mips/tcg/octeon.decode | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-> index c3f92ea652..6248143c62 100644
-> --- a/target/mips/tcg/translate.c
-> +++ b/target/mips/tcg/translate.c
-> @@ -12173,12 +12173,16 @@ enum {
->   #include "nanomips_translate.c.inc"
+> diff --git a/target/mips/tcg/octeon.decode b/target/mips/tcg/octeon.decode
+> index 8929ad088e..0c787cb498 100644
+> --- a/target/mips/tcg/octeon.decode
+> +++ b/target/mips/tcg/octeon.decode
+> @@ -12,7 +12,7 @@
+>   # BBIT132    111110 ..... ..... ................
 >   
->   /* MIPSDSP functions. */
-> -static void gen_mipsdsp_ld(DisasContext *ctx, uint32_t opc,
-> +
-> +/* Indexed load is not for DSP only */
-> +static void gen_mips_lx(DisasContext *ctx, uint32_t opc,
->                              int rd, int base, int offset)
->   {
->       TCGv t0;
+>   %bbit_p      28:1 16:5
+> -BBIT         11 set:1 . 10 rs:5 ..... offset:16 p=%bbit_p
+> +BBIT         11 set:1 . 10 rs:5 ..... offset:s16 p=%bbit_p
 >   
-> -    check_dsp(ctx);
-> +    if (!(ctx->insn_flags & INSN_OCTEON)) {
-
-Ideally we'd need to check CP0 reg 9 select 7 bit 12 (USEUN in
-Cavium Control) is set, otherwise these instrs are a NOP.
-
-I presume QEMU Octeon emulation expects CvmCtl[USEUN] to be set
-to be more useful; therefore:
+>   # Arithmetic
+>   # BADDU rd, rs, rt
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-> +        check_dsp(ctx);
-> +    }
->       t0 = tcg_temp_new();
->   
->       if (base == 0) {
-> @@ -14523,7 +14527,7 @@ static void decode_opc_special3_legacy(CPUMIPSState *env, DisasContext *ctx)
->           case OPC_LBUX:
->           case OPC_LHX:
->           case OPC_LWX:
-> -            gen_mipsdsp_ld(ctx, op2, rd, rs, rt);
-> +            gen_mips_lx(ctx, op2, rd, rs, rt);
->               break;
->           default:            /* Invalid */
->               MIPS_INVAL("MASK LX");
-> 
 
 
