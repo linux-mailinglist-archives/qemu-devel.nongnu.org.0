@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 723046203AB
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:21:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E97F6203AD
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:22:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osAwI-0000f2-6U; Mon, 07 Nov 2022 17:49:58 -0500
+	id 1osAwR-0000k7-Eq; Mon, 07 Nov 2022 17:50:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAwF-0000ZQ-LB
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:49:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAwJ-0000hf-W3
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:50:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAwE-0003Um-21
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:49:55 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAwI-0003VU-Fq
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:49:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667861393;
+ s=mimecast20190719; t=1667861398;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XvXLXZbH32FwhzwswFLnLBocqzfMXY1xZbOkdJP1NMw=;
- b=aLeaPUFZElKyqABqJGXDLZmrLnaw3WUe5Wg6gtPoEBhPvMjbBkGGN/J2Dgysj89glKq2Bf
- TN95kxsC6GSIqYf7Gqnrmz00WoxcRa6vNWEMVERePc3+6+YU8eNHv7sVThB3+dLgbNj/Bg
- t21U8XOKMCMOqJnTdy5DGkWvNLkdp7A=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NZGu6mZymcXJ37zfWS1UhYBl5zXTWFn3Wk/fHKtTf4w=;
+ b=TDTk3WUUviVmMpkNV0n2eK1K0d4FW6ZRjEdYG3dt4k78Z5SgywKoOOouG2BY/wRbPRFzWs
+ kFDX1TKKITY/3xLZzyrn7+QewpiVVyTL0Lj7U5UVGV0ZFp6L6sryyWp2EyQb8oE3EBFYJ8
+ RICGQ8ph/OiRqW3rTCCNy+z/kWgf4qw=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-647-IBggulmWMK2sSjkV3uEIuQ-1; Mon, 07 Nov 2022 17:49:52 -0500
-X-MC-Unique: IBggulmWMK2sSjkV3uEIuQ-1
-Received: by mail-qv1-f70.google.com with SMTP id
- z18-20020a0cfed2000000b004bc28af6f7dso8529562qvs.4
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:49:52 -0800 (PST)
+ us-mta-550-0Rbr21gHMoyUqRkAP7XOpw-1; Mon, 07 Nov 2022 17:49:57 -0500
+X-MC-Unique: 0Rbr21gHMoyUqRkAP7XOpw-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ mb6-20020a056214550600b004bc0f14f7b2so8505150qvb.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:49:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XvXLXZbH32FwhzwswFLnLBocqzfMXY1xZbOkdJP1NMw=;
- b=WpJONjeikUb91QslyKsnhVuEqO6JTpkyihl74d+VzCTNs5Inva1SRgAOTcDQqbp89A
- tGv0WOrgNASQBhy5P6b4CeSIXIOuYD3mLDf+s8UUgymHVjugpIDrldO1SvqF/KQaCeiA
- 2EEdhBjrsiJ3cPH0YL3BgfjIe8dA5QtcMRFlqwfSzFkClonIaCxvgcVv77+/tvmM+A8T
- McE6YP+yldYCJL/uvjGbt7EdWSGFHTf5xJKhizClE6elanb2KTd8kfEMuUNBsFGKOKRp
- qypQUgGxi6MSB+LOcX/zbPZeMhI7wyTq61t8miKu+O0SCrGjJ4Wn+tOw5qM75kO9sAXZ
- Bdmg==
-X-Gm-Message-State: ACrzQf1t+Uuzt+t6QRLyRf87NfiNDff3ze+6WQ6v+Sj2V6VqClwxt1Kr
- /ooUPPbPOuKfMYLS0CeuHo3Q0vexTL6fINpAPz1elA69QkehGFed9y0WFwApvqo7Z35KYrhAC9t
- eehN6Lja8JNz4/YRuKBTOgzEeXHTwZfdJtKBV8WRLZ1/G2nLrdlpe/1yA57NS
-X-Received: by 2002:a05:6214:c21:b0:4ad:75e:93bb with SMTP id
- a1-20020a0562140c2100b004ad075e93bbmr48729710qvd.27.1667861391769; 
- Mon, 07 Nov 2022 14:49:51 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5RAnLaC6QxEraknEzSiz2eheZHvpDELGr9kJNWz42MRLeWLBnK/EMSfcfQy0yeam3iRWebWA==
-X-Received: by 2002:a05:6214:c21:b0:4ad:75e:93bb with SMTP id
- a1-20020a0562140c2100b004ad075e93bbmr48729686qvd.27.1667861391444; 
- Mon, 07 Nov 2022 14:49:51 -0800 (PST)
+ bh=NZGu6mZymcXJ37zfWS1UhYBl5zXTWFn3Wk/fHKtTf4w=;
+ b=M5iQNFoOtwQ6Fq6kAvPWYyrhBIg54zD/IOiMfRN7Abg1B9sgqjoMMtsKeQqO6QmG4B
+ fG39Cx+c6Ri9ou1ZYQRfZW+fJo3flJZ1WV93WoI2pz3qt9HbkKUPuCLotO6IunH08JTd
+ OVZIHMnwozSnazPS5jCaW3hEDD/SPFOCpxkr9X0kiyFri1YMhOhXW/K3WxKnPcPb+W/f
+ TsUHgPdz8qvDy/yCogzrkxADRzbCbL622D38MJywOLVarGL2SYURLagQ6ZO8KpH9D8UV
+ KbgS0GkySdTK82r42RHLykk3+4cBUqXIRgIQC9NWE+Xfc1ejknrswkf7yMoaRufxUnm9
+ TdsQ==
+X-Gm-Message-State: ACrzQf3PzafMTa+5Vohc06RkNMPnMsFO8bi1ThjPMgkk3I433lfgj6dW
+ SDIAcwesQqh3fnMJFFeSaBp1zDwS67X+NCtKBhg9V9zjJvasJdmRSpSqGD9qOEmQIRkund0Dvxu
+ YYd4JFgjCqBe2K7rEWMQcdIJcjKMAik2eI421mnrDciKRmgZUzWKh/f/gWbHs
+X-Received: by 2002:a0c:e512:0:b0:4bb:95ea:d6d with SMTP id
+ l18-20020a0ce512000000b004bb95ea0d6dmr47402668qvm.72.1667861396390; 
+ Mon, 07 Nov 2022 14:49:56 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM7ZPM4atfHIx0+N25s5G6cqB5TybpCfWGxxqufu7576yXgtflcIk9j8hmeMGAY9rs9H43w63Q==
+X-Received: by 2002:a0c:e512:0:b0:4bb:95ea:d6d with SMTP id
+ l18-20020a0ce512000000b004bb95ea0d6dmr47402650qvm.72.1667861396017; 
+ Mon, 07 Nov 2022 14:49:56 -0800 (PST)
 Received: from redhat.com ([87.249.138.11]) by smtp.gmail.com with ESMTPSA id
- bq44-20020a05620a46ac00b006f7ee901674sm7816796qkb.2.2022.11.07.14.49.49
+ bx12-20020a05622a090c00b0039c7b9522ecsm7044759qtb.35.2022.11.07.14.49.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 14:49:51 -0800 (PST)
-Date: Mon, 7 Nov 2022 17:49:47 -0500
+ Mon, 07 Nov 2022 14:49:55 -0800 (PST)
+Date: Mon, 7 Nov 2022 17:49:51 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL v4 27/83] virtio: introduce __virtio_queue_reset()
-Message-ID: <20221107224600.934080-28-mst@redhat.com>
+Subject: [PULL v4 28/83] virtio: introduce virtio_queue_reset()
+Message-ID: <20221107224600.934080-29-mst@redhat.com>
 References: <20221107224600.934080-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -73,7 +73,7 @@ Content-Disposition: inline
 In-Reply-To: <20221107224600.934080-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,73 +99,64 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 
-Separate the logic of vq reset. This logic will be called directly
-later.
+Introduce a new interface function virtio_queue_reset() to implement
+reset for vq.
+
+Add a new callback to VirtioDeviceClass for queue reset operation for
+each child device.
 
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20221017092558.111082-2-xuanzhuo@linux.alibaba.com>
+Message-Id: <20221017092558.111082-3-xuanzhuo@linux.alibaba.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio.c | 37 +++++++++++++++++++++----------------
- 1 file changed, 21 insertions(+), 16 deletions(-)
+ include/hw/virtio/virtio.h |  2 ++
+ hw/virtio/virtio.c         | 11 +++++++++++
+ 2 files changed, 13 insertions(+)
 
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index f41b4a7e64..74d76c1dbc 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -148,6 +148,7 @@ struct VirtioDeviceClass {
+     void (*set_config)(VirtIODevice *vdev, const uint8_t *config);
+     void (*reset)(VirtIODevice *vdev);
+     void (*set_status)(VirtIODevice *vdev, uint8_t val);
++    void (*queue_reset)(VirtIODevice *vdev, uint32_t queue_index);
+     /* For transitional devices, this is a bitmap of features
+      * that are only exposed on the legacy interface but not
+      * the modern one.
+@@ -286,6 +287,7 @@ int virtio_queue_set_host_notifier_mr(VirtIODevice *vdev, int n,
+                                       MemoryRegion *mr, bool assign);
+ int virtio_set_status(VirtIODevice *vdev, uint8_t val);
+ void virtio_reset(void *opaque);
++void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index);
+ void virtio_update_irq(VirtIODevice *vdev);
+ int virtio_set_features(VirtIODevice *vdev, uint64_t val);
+ 
 diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 808446b4c9..6f42fcadd7 100644
+index 6f42fcadd7..cf5f9ca387 100644
 --- a/hw/virtio/virtio.c
 +++ b/hw/virtio/virtio.c
-@@ -2464,6 +2464,26 @@ static enum virtio_device_endian virtio_current_cpu_endian(void)
-     }
+@@ -2484,6 +2484,17 @@ static void __virtio_queue_reset(VirtIODevice *vdev, uint32_t i)
+     virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
  }
  
-+static void __virtio_queue_reset(VirtIODevice *vdev, uint32_t i)
++void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
 +{
-+    vdev->vq[i].vring.desc = 0;
-+    vdev->vq[i].vring.avail = 0;
-+    vdev->vq[i].vring.used = 0;
-+    vdev->vq[i].last_avail_idx = 0;
-+    vdev->vq[i].shadow_avail_idx = 0;
-+    vdev->vq[i].used_idx = 0;
-+    vdev->vq[i].last_avail_wrap_counter = true;
-+    vdev->vq[i].shadow_avail_wrap_counter = true;
-+    vdev->vq[i].used_wrap_counter = true;
-+    virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
-+    vdev->vq[i].signalled_used = 0;
-+    vdev->vq[i].signalled_used_valid = false;
-+    vdev->vq[i].notification = true;
-+    vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
-+    vdev->vq[i].inuse = 0;
-+    virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++
++    if (k->queue_reset) {
++        k->queue_reset(vdev, queue_index);
++    }
++
++    __virtio_queue_reset(vdev, queue_index);
 +}
 +
  void virtio_reset(void *opaque)
  {
      VirtIODevice *vdev = opaque;
-@@ -2495,22 +2515,7 @@ void virtio_reset(void *opaque)
-     virtio_notify_vector(vdev, vdev->config_vector);
- 
-     for(i = 0; i < VIRTIO_QUEUE_MAX; i++) {
--        vdev->vq[i].vring.desc = 0;
--        vdev->vq[i].vring.avail = 0;
--        vdev->vq[i].vring.used = 0;
--        vdev->vq[i].last_avail_idx = 0;
--        vdev->vq[i].shadow_avail_idx = 0;
--        vdev->vq[i].used_idx = 0;
--        vdev->vq[i].last_avail_wrap_counter = true;
--        vdev->vq[i].shadow_avail_wrap_counter = true;
--        vdev->vq[i].used_wrap_counter = true;
--        virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
--        vdev->vq[i].signalled_used = 0;
--        vdev->vq[i].signalled_used_valid = false;
--        vdev->vq[i].notification = true;
--        vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
--        vdev->vq[i].inuse = 0;
--        virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
-+        __virtio_queue_reset(vdev, i);
-     }
- }
- 
 -- 
 MST
 
