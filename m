@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E7BA61F757
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 16:15:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BDDA61F7A5
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 16:29:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os3oe-0001sp-PJ; Mon, 07 Nov 2022 10:13:36 -0500
+	id 1os42l-0008S5-Vz; Mon, 07 Nov 2022 10:28:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1os3oc-0001rR-Em
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 10:13:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1os3oa-00071K-Td
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 10:13:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667834012;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Uq8qwPDvdYV9JH6DyNZb7wffdpZ/MNjI6/bR90lZT68=;
- b=CqkoELodp0a8q6iuB8YePtI7dV1rpgBPY+yiS7XesdibiN3z3ByY9AWtLrQQcg5hGWoboI
- b8Syu3TbX3wzKwikSMNafeNSzY52S93wM+45u2wiEbPiI90PITARwtoRfX1DLzSS9N2EkS
- G45bR6bU7wg2YHhWeiYc4QKWwYPNz8Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-609-IiKkCnB0NMGE9Z109loMrQ-1; Mon, 07 Nov 2022 10:13:29 -0500
-X-MC-Unique: IiKkCnB0NMGE9Z109loMrQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82CE6101E985;
- Mon,  7 Nov 2022 15:13:28 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.227])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D6A51121315;
- Mon,  7 Nov 2022 15:13:28 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH v2 3/3] block: Start/end drain on correct AioContext
-Date: Mon,  7 Nov 2022 16:13:21 +0100
-Message-Id: <20221107151321.211175-4-hreitz@redhat.com>
-In-Reply-To: <20221107151321.211175-1-hreitz@redhat.com>
-References: <20221107151321.211175-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1os42k-0008Rx-Lp
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 10:28:10 -0500
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1os42i-00015T-Og
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 10:28:10 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id b29so10915680pfp.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 07:28:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=EcVD+xMv4x0qVIyd5cI1F1HrEG/FmKUnXsdIZE5hFnw=;
+ b=4vlSR/jFB153toSIidR7hax986EuwP7brdHjq/fnrS9LVojXUg9ndZi5qusBgW/8DL
+ WsDD4w38G2G+wh5CDOuWXpA/CsMLv8JZK9l/IUNeNzkPVOe/JZBT57gaYmPbVgLxrqk5
+ oz+i6sLsqIr286PazlgNNRuvFu8K4hKDGVxVQD+gvupDqfbDUq/fNU8NjVWf4LB8Nsfg
+ vd23fuvcVIypolglRBx+8StKTeezpzEwAc4IaiUeUx9Qp07SC75nqLzasBUqOA2nt6vq
+ LUlyhAR/3K5KP6sN8ORSPFI1/cduon+RDQy1Bu6sfssRmhIec8DzUb9PWEobBxTa/3PJ
+ fBwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EcVD+xMv4x0qVIyd5cI1F1HrEG/FmKUnXsdIZE5hFnw=;
+ b=4AeGep5+YcctraYau0Y5OqUcDr8YSG1XwoBwy3biGwqUb0kZto2PKoC2/XGLm7INRI
+ I6tZTrlGRQug/5lMPwSpuPC3HcSCY2t8zlT37Hv9FvLAwrzzr2Dvxrajri9nx3WbqpOv
+ uW9qolyjvugz67dwdUd0wIY7tECQJRqJcQtrjVVYKnxGlot+8CY+sUro441GE0fP3HXO
+ /ri4YvF3ZvyQ08i2e3jaPajxIZNobrcivKW2I1BgxxFrEwJJNp9Xbk6Alf3BDTEIOXKK
+ 6vojfie0Io3kwIPTuCGB7NbatDG57bhrAAxUDrFacfqqAxBeFRig+mnMThosW5O4TViT
+ FnEw==
+X-Gm-Message-State: ACrzQf3d1LpCREn+v144CeZJ03UAjC3hvJdD3KNveF2DokHjNXcMycuZ
+ jUiph5gMn0q8bzNQSuymn2mydQ==
+X-Google-Smtp-Source: AMsMyM4NRXHgaLmX2C9aFovCjWG8KrX0tzs6RFQEJaxlU+JEcWoZxxQguMf9X9CHbl1Uo+utnHkRZQ==
+X-Received: by 2002:a63:1508:0:b0:438:eb90:52d1 with SMTP id
+ v8-20020a631508000000b00438eb9052d1mr44196679pgl.252.1667834887010; 
+ Mon, 07 Nov 2022 07:28:07 -0800 (PST)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([116.73.133.26])
+ by smtp.googlemail.com with ESMTPSA id
+ m2-20020a170902768200b0017f72a430adsm5107472pll.71.2022.11.07.07.28.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Nov 2022 07:28:06 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+To: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>
+Cc: Bernhard Beschow <shentey@gmail.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2] hw/acpi: fix breakage due to missing aml stub definitions
+ when acpi is off
+Date: Mon,  7 Nov 2022 20:57:44 +0530
+Message-Id: <20221107152744.868434-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,62 +87,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-bdrv_parent_drained_{begin,end}_single() are supposed to operate on the
-parent, not on the child, so they should not attempt to get the context
-to poll from the child but the parent instead.  BDRV_POLL_WHILE(c->bs)
-does get the context from the child, so we should replace it with
-AIO_WAIT_WHILE() on the parent's context instead.
+Some HW architectures do not support acpi and CONFIG_ACPI is off for them. For
+those architectures, dummy stub function definitions help to resolve symbols.
+This change adds couple of dummy stub definitions so that symbols for those can
+be resolved and failures such as the following can be fixed for or1k targets.
 
-This problem becomes apparent when bdrv_replace_child_noperm() invokes
-bdrv_parent_drained_end_single() after removing a child from a subgraph
-that is in an I/O thread.  By the time bdrv_parent_drained_end_single()
-is called, child->bs is NULL, and so BDRV_POLL_WHILE(c->bs, ...) will
-poll the main loop instead of the I/O thread; but anything that
-bdrv_parent_drained_end_single_no_poll() may have scheduled is going to
-want to run in the I/O thread, but because we poll the main loop, the
-I/O thread is never unpaused, and nothing is run, resulting in a
-deadlock.
+Configuration:
+qemu/build $ ../configure --enable-werror --disable-docs --disable-nettle \
+             --enable-gcrypt --enable-fdt=system --enable-modules \
+             --enable-trace-backends=dtrace --enable-docs \
+	     --enable-vfio-user-server \
+             --target-list="ppc64-softmmu or1k-softmmu s390x-softmmu x86_64-softmmu
+ rx-softmmu sh4-softmmu nios2-softmmu"
 
-Closes: https://gitlab.com/qemu-project/qemu/-/issues/1215
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+actual failure:
+
+qemu/build $ QTEST_QEMU_BINARY=./qemu-system-or1k  ./tests/qtest/qos-test
+
+failed to open module:
+/build/qemu/qemu/build/qemu-bundle/usr/local/lib64/qemu/hw-display-virtio-vga.so:
+undefined symbol: aml_return
+qemu-system-or1k: ../util/error.c:59: error_setv: Assertion `*errp ==
+NULL' failed.
+Broken pipe
+../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from
+signal 6 (Aborted) (core dumped)
+Aborted (core dumped)
+
+CC: Bernhard Beschow <shentey@gmail.com>
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- block/io.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ hw/acpi/aml-build-stub.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/block/io.c b/block/io.c
-index 34b30e304e..b9424024f9 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -71,9 +71,10 @@ static void bdrv_parent_drained_end_single_no_poll(BdrvChild *c,
- void bdrv_parent_drained_end_single(BdrvChild *c)
+changelog:
+v2: cosmetic commit description format update.
+
+diff --git a/hw/acpi/aml-build-stub.c b/hw/acpi/aml-build-stub.c
+index 8d8ad1a314..89a8fec4af 100644
+--- a/hw/acpi/aml-build-stub.c
++++ b/hw/acpi/aml-build-stub.c
+@@ -26,6 +26,16 @@ void aml_append(Aml *parent_ctx, Aml *child)
  {
-     int drained_end_counter = 0;
-+    AioContext *ctx = bdrv_child_get_parent_aio_context(c);
-     IO_OR_GS_CODE();
-     bdrv_parent_drained_end_single_no_poll(c, &drained_end_counter);
--    BDRV_POLL_WHILE(c->bs, qatomic_read(&drained_end_counter) > 0);
-+    AIO_WAIT_WHILE(ctx, qatomic_read(&drained_end_counter) > 0);
  }
  
- static void bdrv_parent_drained_end(BlockDriverState *bs, BdrvChild *ignore,
-@@ -116,13 +117,14 @@ static bool bdrv_parent_drained_poll(BlockDriverState *bs, BdrvChild *ignore,
- 
- void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll)
++Aml *aml_return(Aml *val)
++{
++    return NULL;
++}
++
++Aml *aml_method(const char *name, int arg_count, AmlSerializeFlag sflag)
++{
++    return NULL;
++}
++
+ Aml *aml_resource_template(void)
  {
-+    AioContext *ctx = bdrv_child_get_parent_aio_context(c);
-     IO_OR_GS_CODE();
-     c->parent_quiesce_counter++;
-     if (c->klass->drained_begin) {
-         c->klass->drained_begin(c);
-     }
-     if (poll) {
--        BDRV_POLL_WHILE(c->bs, bdrv_parent_drained_poll_single(c));
-+        AIO_WAIT_WHILE(ctx, bdrv_parent_drained_poll_single(c));
-     }
- }
- 
+     return NULL;
 -- 
-2.36.1
+2.34.1
 
 
