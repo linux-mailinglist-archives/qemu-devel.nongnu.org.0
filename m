@@ -2,83 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73FE861F64E
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 15:41:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8209561F686
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 15:48:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os3Hh-0000ZH-4Z; Mon, 07 Nov 2022 09:39:33 -0500
+	id 1os3PR-00021F-RB; Mon, 07 Nov 2022 09:47:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1os3Hf-0000Yv-Mh
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:39:31 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <r@hev.cc>) id 1os3PP-00020t-GL
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:47:31 -0500
+Received: from mail-pj1-f50.google.com ([209.85.216.50])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1os3HT-00013B-1C
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:39:31 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- j5-20020a05600c410500b003cfa9c0ea76so1869863wmi.3
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 06:39:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=IXs6PaEBUPBAgalsZO5rOuCXzL1sRHPyoX1MVSmBbM0=;
- b=ZNUR42hr/eYrJi8SHQHjk/7wfL8dOyjLtd/aIgVS3fu72AOCcEvbkrfRKEVmEGGie1
- mena68B2A9BLihxdKo5xMn52Fb5sbmMcvIsHqJfWk2MMoBrm0y8eJRZ02ZGRKRp27xXh
- ZpSVzJmyhJr1BmoEzPBM/e6aAmHy8R7mnijXeM/tCYzAK6cj7ElWWbb1YI8ilYCFnuWd
- ehh2jJtPpqV6Yvf2IJWV1BToJAczvC+ZekvxK7OpPPlKT2prfCy9MpssI8Y0gvJPZT7b
- YYWts9gKtEcax8uuGn7brcltEyzkvtuw9jWXQpVmPG7bgoHb2fiUP+s+cbDUnpJSRT6/
- 2I8w==
+ (Exim 4.90_1) (envelope-from <r@hev.cc>) id 1os3PN-0001Ip-8S
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:47:31 -0500
+Received: by mail-pj1-f50.google.com with SMTP id k5so10785370pjo.5
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 06:47:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IXs6PaEBUPBAgalsZO5rOuCXzL1sRHPyoX1MVSmBbM0=;
- b=Wir5kr4FP9ElPo597nb1Al0+E5re1iNPx8VBlU+ZYa/LxjmnrvFj8i1qirED5O2OXz
- 2V8PLW64s24sUv2IsHBLJggwYtR1wDQ7Nwlw9ljwOHfQQSk9kah3SLuHtGocgtwuHos9
- 69bP99AQ7JL3dCftv+gtkujgZ3/Md137HJ30coJhMeuPKgqtuXA0E99AigCi19Mn8YYa
- NNiqqHNvrgxOReckQ1tCHcI0/cG3ysoWaF/crs1AZFhg2A67fkiWT42tvnXUcBozkcg/
- gFLSZnkkFcMDQR0vOaPOKmbUmIuKiBTGhy8G6eh+R2IWEhRzQzr+ObeUqz7yhlB23uhO
- iqvg==
-X-Gm-Message-State: ACrzQf1yZfvusAMyUek3+BY3eGzMR7Ymohu6g6lMvnV5g0po2+GH2vqa
- 4AzlgHP7m+8D8088sxUbJhIafA==
-X-Google-Smtp-Source: AMsMyM5R8VHjbYk8ERW9E9y7nJVmap1KHyMsseUdQ6CHsG6bQPZa1SM+XXyAtaVg6ooG0ELYPrrA+A==
-X-Received: by 2002:a05:600c:4ecf:b0:3cf:8762:1a67 with SMTP id
- g15-20020a05600c4ecf00b003cf87621a67mr20372390wmq.41.1667831955951; 
- Mon, 07 Nov 2022 06:39:15 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QYUwq6ZCwnbW0O+ip18uCuAWBEvaGBxVSZ3K0ygtMHI=;
+ b=4h49lDhYO/FOPbIkp2O54P/hbYicmL/inpGWENC3OBXyokL0zrlBGuX8PHy3lHvcha
+ /WxK8Y9SZlDQOj51i+oSuCOETBS79b7oI+8Aotd6tCQfPYdkXnUepO5VQixYwRwI6f64
+ 0F6gle5pRoj7AAuXKkXjTxharcMOVzyHt9Kz3eNq2sSguP3k0fsivp/M1EzA7r3pqjHS
+ V12//x6z6MqgbPFAZpBh0XTn7WJV6KFBF7T9K32rmkf06HpLmrLXFAqfXcYtyNDFLuHj
+ jxSIhiwRjRd07rKsntcnVy/NexZhUWdI6btLkpELFggmCpZEDHha6DjX2p13m0HW/oc7
+ P8vA==
+X-Gm-Message-State: ACrzQf1XCj/wckhWR+EFzKZuFb/oNd4tlZL8Cg3fY7mWY1zDVH4d4k+G
+ b75Dxy9FNLWwDUvyvIAWTg1iPokPOJLd1YdJ
+X-Google-Smtp-Source: AMsMyM7EwUZTaleln8RHyHarD6h+8z/gABO4TFrCTkxNXN3lI5jBFv+JIh4h3k7vSyrqtLZKkk3VSw==
+X-Received: by 2002:a17:902:720a:b0:181:150c:fcc4 with SMTP id
+ ba10-20020a170902720a00b00181150cfcc4mr51814853plb.109.1667832447035; 
+ Mon, 07 Nov 2022 06:47:27 -0800 (PST)
+Received: from localhost.localdomain ([2400:8901:e002:5400::])
  by smtp.gmail.com with ESMTPSA id
- c16-20020a5d5290000000b0022e36c1113fsm7489803wrv.13.2022.11.07.06.39.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Nov 2022 06:39:15 -0800 (PST)
-Message-ID: <0a146956-a397-54c1-71dd-cd90a68218f7@linaro.org>
-Date: Mon, 7 Nov 2022 15:39:13 +0100
+ c6-20020a17090a4d0600b002135a57029dsm4380054pjg.29.2022.11.07.06.47.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Nov 2022 06:47:26 -0800 (PST)
+From: Rui Wang <wangrui@loongson.cn>
+To: qemu-devel@nongnu.org
+Cc: WANG Xuerui <git@xen0n.name>,
+ Richard Henderson <richard.henderson@linaro.org>, hev <qemu@hev.cc>,
+ Rui Wang <wangrui@loongson.cn>
+Subject: [PATCH] tcg/loongarch64: Optimize immediate loading
+Date: Mon,  7 Nov 2022 22:47:13 +0800
+Message-Id: <20221107144713.845550-1-wangrui@loongson.cn>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH 1/3] arm: move KVM breakpoints helpers
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- francesco.cagnin@gmail.com
-Cc: qemu-devel@nongnu.org, dirty@apple.com, r.bolshakov@yadro.com,
- peter.maydell@linaro.org, agraf@csgraf.de, pbonzini@redhat.com,
- Francesco Cagnin <fcagnin@quarkslab.com>, qemu-arm@nongnu.org
-References: <20221104184101.6923-1-fcagnin@quarkslab.com>
- <20221104184101.6923-2-fcagnin@quarkslab.com> <87a652hmoe.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <87a652hmoe.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=209.85.216.50; envelope-from=r@hev.cc;
+ helo=mail-pj1-f50.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,38 +76,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/11/22 15:15, Alex Bennée wrote:
-> 
-> francesco.cagnin@gmail.com writes:
-> 
->> From: Francesco Cagnin <fcagnin@quarkslab.com>
->>
->> These helpers will be also used for HVF. Aside from reformatting a
->> couple of comments for 'checkpatch.pl', this is just code motion.
->>
->> Signed-off-by: Francesco Cagnin <fcagnin@quarkslab.com>
->> ---
->>   target/arm/debug_helper.c | 241 +++++++++++++++++++++++++++++++++
->>   target/arm/internals.h    |  50 +++++++
-> 
-> Moving out of kvm64.c seems fine to me but I wonder if debug_helper.c is
-> the best location. debug_helpers is currently very focused on just
-> handling the TCG emulation case where as we are doing this tracking just
-> for the VMM cases or KVM and now HVF.
-> 
-> We are (slowly) trying to clean up the code in target/arm so we can
-> support builds like --disable-tcg and to do that we want to avoid too
-> much ifdef hackery in the individual compilation units.
+diff:
+  Imm                 Before                  After
+  0000000000000000    addi.w  rd, zero, 0     ori     rd, zero, 0
+                      lu52i.d rd, zero, 0
+  00000000fffff800    lu12i.w rd, -1          addi.w  rd, zero, -2048
+                      ori     rd, rd, 2048    lu32i.d rd, 0
+                      lu32i.d rd, 0
+  ...
 
+Signed-off-by: Rui Wang <wangrui@loongson.cn>
+---
+ tcg/loongarch64/tcg-target.c.inc | 35 +++++++++++---------------------
+ 1 file changed, 12 insertions(+), 23 deletions(-)
 
-I was planning to move hypervisor-specific code to 
-target/arm/$hypervisor/, but here Francesco wants to re-use the same code
-between 2 hypervisors... Maybe move it to target/arm/hyp_gdbstub.c
-and let meson add it conditionally?
-
->>   target/arm/kvm64.c        | 276 --------------------------------------
->>   3 files changed, 291 insertions(+), 276 deletions(-)
-> <snip>
-> 
+diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
+index d326e28740..7755c4ffd0 100644
+--- a/tcg/loongarch64/tcg-target.c.inc
++++ b/tcg/loongarch64/tcg-target.c.inc
+@@ -274,16 +274,6 @@ static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg)
+     return true;
+ }
+ 
+-static bool imm_part_needs_loading(bool high_bits_are_ones,
+-                                   tcg_target_long part)
+-{
+-    if (high_bits_are_ones) {
+-        return part != -1;
+-    } else {
+-        return part != 0;
+-    }
+-}
+-
+ /* Loads a 32-bit immediate into rd, sign-extended.  */
+ static void tcg_out_movi_i32(TCGContext *s, TCGReg rd, int32_t val)
+ {
+@@ -291,16 +281,16 @@ static void tcg_out_movi_i32(TCGContext *s, TCGReg rd, int32_t val)
+     tcg_target_long hi12 = sextreg(val, 12, 20);
+ 
+     /* Single-instruction cases.  */
+-    if (lo == val) {
+-        /* val fits in simm12: addi.w rd, zero, val */
+-        tcg_out_opc_addi_w(s, rd, TCG_REG_ZERO, val);
+-        return;
+-    }
+-    if (0x800 <= val && val <= 0xfff) {
++    if (hi12 == 0) {
+         /* val fits in uimm12: ori rd, zero, val */
+         tcg_out_opc_ori(s, rd, TCG_REG_ZERO, val);
+         return;
+     }
++    if (hi12 == sextreg(lo, 12, 20)) {
++        /* val fits in simm12: addi.w rd, zero, val */
++        tcg_out_opc_addi_w(s, rd, TCG_REG_ZERO, val);
++        return;
++    }
+ 
+     /* High bits must be set; load with lu12i.w + optional ori.  */
+     tcg_out_opc_lu12i_w(s, rd, hi12);
+@@ -334,8 +324,7 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
+ 
+     intptr_t pc_offset;
+     tcg_target_long val_lo, val_hi, pc_hi, offset_hi;
+-    tcg_target_long hi32, hi52;
+-    bool rd_high_bits_are_ones;
++    tcg_target_long hi12, hi32, hi52;
+ 
+     /* Value fits in signed i32.  */
+     if (type == TCG_TYPE_I32 || val == (int32_t)val) {
+@@ -366,25 +355,25 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
+         return;
+     }
+ 
++    hi12 = sextreg(val, 12, 20);
+     hi32 = sextreg(val, 32, 20);
+     hi52 = sextreg(val, 52, 12);
+ 
+     /* Single cu52i.d case.  */
+-    if (ctz64(val) >= 52) {
++    if ((hi52 != 0) && (ctz64(val) >= 52)) {
+         tcg_out_opc_cu52i_d(s, rd, TCG_REG_ZERO, hi52);
+         return;
+     }
+ 
+     /* Slow path.  Initialize the low 32 bits, then concat high bits.  */
+     tcg_out_movi_i32(s, rd, val);
+-    rd_high_bits_are_ones = (int32_t)val < 0;
+ 
+-    if (imm_part_needs_loading(rd_high_bits_are_ones, hi32)) {
++    /* Load hi32 and hi52 explicitly when they are unexpected values. */
++    if (hi32 != sextreg(hi12, 20, 20)) {
+         tcg_out_opc_cu32i_d(s, rd, hi32);
+-        rd_high_bits_are_ones = hi32 < 0;
+     }
+ 
+-    if (imm_part_needs_loading(rd_high_bits_are_ones, hi52)) {
++    if (hi52 != sextreg(hi32, 20, 12)) {
+         tcg_out_opc_cu52i_d(s, rd, rd, hi52);
+     }
+ }
+-- 
+2.38.1
 
 
