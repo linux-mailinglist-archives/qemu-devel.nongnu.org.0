@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D886203C1
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:28:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5709D620343
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:05:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osAxR-00022E-G9; Mon, 07 Nov 2022 17:51:09 -0500
+	id 1osAxS-00023h-5z; Mon, 07 Nov 2022 17:51:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAxG-0001q9-Qe
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:51:02 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAxH-0001qD-Vo
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:51:03 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAxD-0003zI-Hw
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:50:57 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAxG-000401-Jq
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:50:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667861453;
+ s=mimecast20190719; t=1667861457;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aYfzEellLB7Ub3sC9NitrDHoiYLGqGmIPtZ/cckbwMc=;
- b=Dt/ACVvn5hefXUdUq2q71+szEeM46K/jAxX6XelNUkXArHa9ZvMydeuHjxyzgWEqoGnVMH
- Co/A+f+7ytZSvK5GzeW5zr1Cp5QDiLRYPqftiOtn0uZGsrrDEaZe7cWWkFd6M2UTLp17BE
- T5UwmFJ6Fo59FXejgRFIO201utOKJ/s=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=u5w7CZvyWmbkUiTzBcO0zP8z+AAuQB0yroUM/lTFU5g=;
+ b=ge7fbI563gq3W/mUOD+1j62ptGOaGzS6DsPUuBpFQMDwRlHvz+ddx2wPrwl3ewNO8HHNkV
+ LNzsnUrwwAUWBsnn0k5x/QUhFfIaYkB1+lRiDhT6pu5gNM/RSveWm4/rIsjlPEbW2eXE8T
+ X/0C54Hb5z/9S+4z0c90/qxhQ04bgac=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-343-e1983XGSN5S4JcjBZ8ohuQ-1; Mon, 07 Nov 2022 17:50:52 -0500
-X-MC-Unique: e1983XGSN5S4JcjBZ8ohuQ-1
-Received: by mail-qt1-f198.google.com with SMTP id
- y8-20020ac87088000000b003a528a5b844so9046930qto.18
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:50:52 -0800 (PST)
+ us-mta-315-EIW3vi9LN82XFoHgZmOo4Q-1; Mon, 07 Nov 2022 17:50:56 -0500
+X-MC-Unique: EIW3vi9LN82XFoHgZmOo4Q-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ az31-20020a05620a171f00b006fa2cc1b0bfso11495627qkb.23
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:50:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aYfzEellLB7Ub3sC9NitrDHoiYLGqGmIPtZ/cckbwMc=;
- b=IDYYg343NmYTZ7VSmMXu21t6hVjmpmviozXM8D69vsZHnSq5jLZGh11aqoNfPxmfLT
- 0iTLA6kblEXPx3m62sHW0iXndcT8J6Ro3emX2vn+7gufmS2moWL4eV+eC/Zw3XBNxJ8S
- CC/OXgg/9XuZz7s/FKTY2mPGa4Y2YQP0BAlVjvG6DjBC2EmSvKRPrUo/i+9PcqTKVsLu
- RhZeL4Qnf1itY0DnXx9sMxegbsZ7VwI9BCtJdIhLjfIskuPVY5kgzjJB3VwuqFdIOAuy
- Xbei/09GhTEMkKVOwkB4EzBnRi052LbvmoAV6weao8QJBLuTtBUkT43kkg7/Bm7ozf1O
- TPAA==
-X-Gm-Message-State: ANoB5pk8qHkGtV+IG0SXF6GH5tGmUKRVsTMIHWnFXFGZdtpqN21cnswf
- F1W9y5aHzUFTb+B4VneHMLoelvsgLpcA/MMCR3XaTEq58XARSCLVywo0kEv/cHQN4hXHU/26nip
- uCXqwj5Q9zlvZ8pXYuEVKV8x5F62MRsfvQGGgXJiOomDwcNhoqF7jmWlkI81j
-X-Received: by 2002:ac8:5fd1:0:b0:3a5:8399:bc0a with SMTP id
- k17-20020ac85fd1000000b003a58399bc0amr7534042qta.281.1667861451767; 
- Mon, 07 Nov 2022 14:50:51 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7X8m6XzGokyDwJY7ONito/19o1FUCfLEO7lqi2IBXXdZAHqJfrZpQBuVacQS26qdruziz5Hw==
-X-Received: by 2002:ac8:5fd1:0:b0:3a5:8399:bc0a with SMTP id
- k17-20020ac85fd1000000b003a58399bc0amr7534029qta.281.1667861451473; 
- Mon, 07 Nov 2022 14:50:51 -0800 (PST)
+ bh=u5w7CZvyWmbkUiTzBcO0zP8z+AAuQB0yroUM/lTFU5g=;
+ b=NsTf0tIX7sMgKpBGvoR7UBPqjfVFSZgs0PcEtFXeaRrVLzT8sTsUV37VbBIR34tXnR
+ pkX5ZTHcFfyjstXUhBhEWyhp08PUYrJ0qcydawp9PQvCZvNsR0ViwhyuteKu9tfU3cCs
+ LKMrMrPi5YzaN+xo8UO62vBevtpVwMSvmXhUcOIScOErUL86bpwhKdTeyY/ksDe++yCc
+ kEyvoh1pUEGFa8a6ukC8Iiss1L1L0pcMGtPvFEezS0APvFx7TbsgtNH5SbASYZ+WWLM1
+ v9kfjbYIWnmBya3yCCv/p9uE2MvzzjI/z7GJrKJJheYIlPK8LOhcZHYDH9hqG6G2nQbC
+ TrFQ==
+X-Gm-Message-State: ACrzQf3KGiFXkpIf2iNWD3TpDxn/s+h2u6tipCbHSGbOLgCYM/dLxXXA
+ E/DSI3ezOEKkvQ28U5RJgjAgrcsSKy66t51ZGcGlxr0CP1LHFcQ7DeTH3Jo9XEl9kqCqha3AJlH
+ yblLCSNcLX5NXTo6Q4HFdrRYAwjjWp2OzIHAN41TJ7GKhIzDdg1WRNpNSQZXD
+X-Received: by 2002:a05:622a:4ccc:b0:3a5:4070:1f7e with SMTP id
+ fa12-20020a05622a4ccc00b003a540701f7emr27454067qtb.472.1667861456090; 
+ Mon, 07 Nov 2022 14:50:56 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM6qHiWjBwohAJRJeij0IwLTIqq8K7IEx/V7b2gYphtz4Mls+kzngA9isnTIyVaKzPXAwhurAw==
+X-Received: by 2002:a05:622a:4ccc:b0:3a5:4070:1f7e with SMTP id
+ fa12-20020a05622a4ccc00b003a540701f7emr27454048qtb.472.1667861455800; 
+ Mon, 07 Nov 2022 14:50:55 -0800 (PST)
 Received: from redhat.com ([87.249.138.11]) by smtp.gmail.com with ESMTPSA id
- j19-20020a05620a289300b006b949afa980sm7871734qkp.56.2022.11.07.14.50.49
+ fd7-20020a05622a4d0700b0039a372fbaa5sm6917995qtb.69.2022.11.07.14.50.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 14:50:51 -0800 (PST)
-Date: Mon, 7 Nov 2022 17:50:47 -0500
+ Mon, 07 Nov 2022 14:50:55 -0800 (PST)
+Date: Mon, 7 Nov 2022 17:50:51 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Kangjie Xu <kangjie.xu@linux.alibaba.com>,
  Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL v4 40/83] vhost: vhost-kernel: enable vq reset feature
-Message-ID: <20221107224600.934080-41-mst@redhat.com>
+Subject: [PULL v4 41/83] virtio-net: enable vq reset feature
+Message-ID: <20221107224600.934080-42-mst@redhat.com>
 References: <20221107224600.934080-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -98,32 +97,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 
-Add virtqueue reset feature for vhost-kernel.
+Add virtqueue reset feature for virtio-net
 
-Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20221017092558.111082-15-xuanzhuo@linux.alibaba.com>
+Message-Id: <20221017092558.111082-16-xuanzhuo@linux.alibaba.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/net/vhost_net.c | 1 +
+ hw/net/virtio-net.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index d2926e2ed6..53b2fac4f6 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -47,6 +47,7 @@ static const int kernel_feature_bits[] = {
-     VIRTIO_NET_F_MTU,
-     VIRTIO_F_IOMMU_PLATFORM,
-     VIRTIO_F_RING_PACKED,
-+    VIRTIO_F_RING_RESET,
-     VIRTIO_NET_F_HASH_REPORT,
-     VHOST_INVALID_FEATURE_BIT
- };
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index e68daf51bb..8b32339b76 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -788,6 +788,7 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+     }
+ 
+     if (!get_vhost_net(nc->peer)) {
++        virtio_add_feature(&features, VIRTIO_F_RING_RESET);
+         return features;
+     }
+ 
 -- 
 MST
 
