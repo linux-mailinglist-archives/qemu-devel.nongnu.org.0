@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B43061F6A5
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 15:53:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B150B61F6D3
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 15:56:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os3UM-0003Sw-TZ; Mon, 07 Nov 2022 09:52:38 -0500
+	id 1os3Xt-0005bh-1y; Mon, 07 Nov 2022 09:56:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1os3UK-0003SS-BW
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:52:36 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1os3UI-0007vb-ME
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:52:36 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id h9so16641936wrt.0
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 06:52:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Klayg+WpkH+CJg/U8pw+zZPeMnY3Djc00WEgkmrbmK4=;
- b=rN12ye+Ha30Vy878jAqZsBczem0k7a73UliXiLmqdOyvsUvwN3UAyeTr5Ee7B+EpZQ
- ulGPIxo0GNTyUezG1XnnOrDVaRUSMzkQsO1+KwwJIt14bSoFyKZonMG5G2RuDcEGoFnb
- SiBpvywZGXgCHjqWeaLBbTWWyP6vyLls+tBFZQ9D+dQdHhFZBBSl661UGA4tu460a9YE
- 5LGHbepNAPcf/rH2SlijJgk2R5en9vFx3EeeSEu95jLXPQ8IIWXmlgwncwfolGWiH3lP
- jxgEobet57aTbZkXl5c0QT/kLVAwemMOU+dBVeMOp4irohu7naQPTvjjiLVE4yF7YVZg
- 0pDg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1os3Xq-0005ZO-TH
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:56:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1os3Xp-0004X7-7q
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:56:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667832972;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=zvp/LUJy0xQWoDecCHuWOwBRWdd+un76dTKaeJS+BgA=;
+ b=a7Uu1e2u6QBm0q9kKj7/NGu2lems+vd5n1xkv+fJcFFTAVdNzjjeAj4SJpIL3tywBw5Yuz
+ gIuglDnEzIsjgvDP3K1PItBwBy9jWHTFh4LdixqfgPCHwd0ZaAusQErOFTnQ4NNYclwg0c
+ RKX8DwxueMc2hMFrM76zxGgOP4/oOaU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-218-N6--5sABNj6EU9hAdDGIng-1; Mon, 07 Nov 2022 09:56:11 -0500
+X-MC-Unique: N6--5sABNj6EU9hAdDGIng-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ e21-20020adfa455000000b002365c221b59so2895283wra.22
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 06:56:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Klayg+WpkH+CJg/U8pw+zZPeMnY3Djc00WEgkmrbmK4=;
- b=U01k33PHMvdpc1Gj8FfAx2Vy8DNEIVd6K6ReEbHtTYDujQBry4TQbpddBzbZoXihIY
- /HT2v4XNDj/yA0vJWxx5zw4FdpJ7o7D3EtsIuTpsiiEaj81tmI3CNsDTGPVg+JVL9Sni
- 54zxACZqJWdujhRe7dVPtp3z3cpwdbK9wEAu+AkayVb5AlXLPzM3wIitAk78KByNjbJ+
- Gcyh4IH2QanNYOYpFpR6saI/DCabGRfHLJoqSi6disV/jxJceqcu2Gc4sh/+pUiaaUBJ
- SV/46rYcWJ4lBEP5wH4wp9sSuQ7YKnM5Qs8VLu9rc+/Y6vwEZ6RV2izyn8Y+LapDX1jt
- 6K/Q==
-X-Gm-Message-State: ACrzQf2AQTsfOC5GQXXcVB5l+t73cPe66bH4H95Bf5YMaeURttLchCpn
- OVWM55aZoJhNmYNbopU6Jej+Vw==
-X-Google-Smtp-Source: AMsMyM63ZGK16hwf9GNARKJB+Na1kQkQ7v/5CLvJlRnX/4eit8Fdb6QzpIrPvanvB4KEI2WCQA4CjA==
-X-Received: by 2002:adf:a74a:0:b0:236:6dc8:f562 with SMTP id
- e10-20020adfa74a000000b002366dc8f562mr31688305wrd.717.1667832752844; 
- Mon, 07 Nov 2022 06:52:32 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- fc15-20020a05600c524f00b003cf57329221sm12976185wmb.14.2022.11.07.06.52.32
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zvp/LUJy0xQWoDecCHuWOwBRWdd+un76dTKaeJS+BgA=;
+ b=fDrlRrTGSLAYoEJuXrwQmF//7WtUBjBXScSRrYV7CTiQozD+VVLXhNTyrEJrEUNUCJ
+ gl6QPio4DAijIH5CT02znf9KvWxQ/R+/F1wNE4rhD5jHar7w0IG6FI3hLrtIJ1ymI/Jf
+ +FhAmP+WGgk34MRdfzTlSE5x1TVjJJmfUN2B75CvnftiwnxVgJtpUZfOwUkxBkHw/Zvw
+ uVg4HNAGc5CooUB2/xRPPKhNFCqLyLVp3dnKjgszkaBkkwOHTkLFYG1NqdaNHvIchUh+
+ Tnr3dzycjTrHdAHvhfigvszqhu3Z4mYNxJsG5fYL0xwLql++iDp8KAgQCfLlkkpef21W
+ OgkQ==
+X-Gm-Message-State: ACrzQf3cWg1B3PAcog4UCf1S3YzE79lGDeUS1cphbrLMCZsfhYXx1CTN
+ vkxePSGB+q0QS1TzGu8u2erBW3Wl4adUarx8vGGF3eKfwxr2I+oBE0sn554aybmkFLNqSyuMcBr
+ dELLP70GtngXKoU6D5UXIB8FsUWnZNQCtqxpTCvm0x5sN1VVEfUuXZ28o34Dm
+X-Received: by 2002:adf:f70b:0:b0:236:f367:920f with SMTP id
+ r11-20020adff70b000000b00236f367920fmr17616797wrp.129.1667832969811; 
+ Mon, 07 Nov 2022 06:56:09 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM7VLYlYKitMosIQ4XJs2B7a6mEaMY0Y8Gl0EcXCDBBlOi/daOLEkQ95eotqMNfhXvAOu+U+oQ==
+X-Received: by 2002:adf:f70b:0:b0:236:f367:920f with SMTP id
+ r11-20020adff70b000000b00236f367920fmr17616778wrp.129.1667832969473; 
+ Mon, 07 Nov 2022 06:56:09 -0800 (PST)
+Received: from redhat.com ([169.150.226.212]) by smtp.gmail.com with ESMTPSA id
+ p14-20020adff20e000000b0022e344a63c7sm7616792wro.92.2022.11.07.06.56.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 06:52:32 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CF73A1FFB7;
- Mon,  7 Nov 2022 14:52:31 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Mon, 07 Nov 2022 06:56:09 -0800 (PST)
+Date: Mon, 7 Nov 2022 09:56:06 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [RFC PATCH] tests/docker: allow user to override check target
-Date: Mon,  7 Nov 2022 14:52:27 +0000
-Message-Id: <20221107145227.1210499-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH] checkpatch: better pattern for inline comments
+Message-ID: <20221107145600.566503-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,61 +96,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is useful when trying to bisect a particular failing test behind
-a docker run. For example:
+checkpatch is unhappy about this line:
 
-  make docker-test-clang@fedora \
-    TARGET_LIST=arm-softmmu \
-    CHECK_TARGET="meson test qtest-arm/qos-test" \
-    J=9 V=1
+    WARNING: Block comments use a leading /* on a separate line
+    #50: FILE: hw/acpi/nvdimm.c:1074:
+    +                   aml_equal(aml_sizeof(pckg), aml_int(1)) /* 1 element? */));
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+but there's nothing wrong with it - the check is just too simplistic. It
+will also miss lines which mix inline and block comments.
+
+Instead, let's strip all inline comments from a line and then check for block
+comments.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/docker/Makefile.include | 2 ++
- tests/docker/common.rc        | 6 +++---
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ scripts/checkpatch.pl | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index c87f14477a..ece0aa77df 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -184,6 +184,7 @@ docker:
- 	@echo '    TARGET_LIST=a,b,c    Override target list in builds.'
- 	@echo '    EXTRA_CONFIGURE_OPTS="..."'
- 	@echo '                         Extra configure options.'
-+	@echo '    CHECK_TARGET="..."   Override the default `make check` target '
- 	@echo '    IMAGES="a b c ..":   Restrict available images to subset.'
- 	@echo '    TESTS="x y z .."     Restrict available tests to subset.'
- 	@echo '    J=[0..9]*            Overrides the -jN parameter for make commands'
-@@ -230,6 +231,7 @@ docker-run: docker-qemu-src
- 			$(if $(NETWORK),$(if $(subst $(NETWORK),,1),--net=$(NETWORK)),--net=none) \
- 			-e TARGET_LIST=$(subst $(SPACE),$(COMMA),$(TARGET_LIST))	\
- 			-e EXTRA_CONFIGURE_OPTS="$(EXTRA_CONFIGURE_OPTS)" \
-+			-e CHECK_TARGET="$(CHECK_TARGET)" 		\
- 			-e V=$V -e J=$J -e DEBUG=$(DEBUG)		\
- 			-e SHOW_ENV=$(SHOW_ENV) 			\
- 			$(if $(NOUSER),,				\
-diff --git a/tests/docker/common.rc b/tests/docker/common.rc
-index e6f8cee0d6..f2769c1ff6 100755
---- a/tests/docker/common.rc
-+++ b/tests/docker/common.rc
-@@ -63,12 +63,12 @@ check_qemu()
- {
-     # default to make check unless the caller specifies
-     if [ $# = 0 ]; then
--        INVOCATION="check"
-+        INVOCATION="${CHECK_TARGET:-make $MAKEFLAGS check}"
-     else
--        INVOCATION="$@"
-+        INVOCATION="make $MAKEFLAGS $@"
-     fi
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index e3e3b43076..be37c9e0bf 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -1681,10 +1681,15 @@ sub process {
+ # Block comment styles
  
--    make $MAKEFLAGS $INVOCATION
-+    $INVOCATION
- }
+ 		# Block comments use /* on a line of its own
+-		if ($rawline !~ m@^\+.*/\*.*\*/[ \t)}]*$@ &&	#inline /*...*/
+-		    $rawline =~ m@^\+.*/\*\*?+[ \t]*[^ \t]@) { # /* or /** non-blank
+-			WARN("Block comments use a leading /* on a separate line\n" . $herecurr);
+-		}
++		{
++                    # remove inline #inline /*...*/
++                    my $commentline = $rawline;
++                    while ($commentline =~ s@^(\+.*)/\*.*\*/@$1@o) {
++                    }
++                    if ($commentline =~ m@^\+.*/\*\*?+[ \t]*[^ \t]@) { # /* or /** non-blank
++                            WARN("Block comments use a leading /* on a separate line\n" . $herecurr);
++                    }
++                }
  
- test_fail()
+ # Block comments use * on subsequent lines
+ 		if ($prevline =~ /$;[ \t]*$/ &&			#ends in comment
 -- 
-2.34.1
+MST
 
 
