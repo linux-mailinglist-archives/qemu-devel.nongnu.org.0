@@ -2,111 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F4261FCC2
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 19:05:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1516861FD9E
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 19:33:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os6U2-0000C4-RT; Mon, 07 Nov 2022 13:04:31 -0500
+	id 1os6ue-0007jd-Ip; Mon, 07 Nov 2022 13:32:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1os6Tr-0000A4-Lm; Mon, 07 Nov 2022 13:04:19 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1os6uc-0007jN-N7
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 13:31:58 -0500
+Received: from duck.ash.relay.mailchannels.net ([23.83.222.52])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1os6Tm-0001gu-WC; Mon, 07 Nov 2022 13:04:19 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A7GUkP3001553;
- Mon, 7 Nov 2022 18:04:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=9oZh4CsSa/8Gj4z764dnILKpovbkaksgcK3gclKKLTM=;
- b=R3MgOaZ2GFSZtJ9hKBWm/muQX3IDmuBS/rSoXKXZJq2dLEN5aipBkgwwmrQcQgAqlE4+
- PtjrwLThFZA7s9NpGGwW4/0vBBYRzTL9iRmO549ARV4rvH7yKx/KeplI/fcVZeU3Cz/r
- sCCQt51EuUiEbfHmF94syY3sWCPT0cHOiZUAC/d7Gat8BAtFfM0w6YES5nMq0gcueJGu
- SlOQnnbHk7pZK9HlwAE3KHvNAR9XzzMRxK7fx/9KxGLQ5QbtKQSvCqUD1xjGyZwiPQSc
- QNEeeLUODTvG/kHS2vjG8j3Dp7hNcu9I7PyIdIcbBBGNKTt66KfAmwPSAzi1TQUxpJNq kw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kp1mswxjf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Nov 2022 18:04:08 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A7FbAHw002558;
- Mon, 7 Nov 2022 18:04:08 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kp1mswxgv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Nov 2022 18:04:08 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A7Hq0QL017652;
- Mon, 7 Nov 2022 18:04:06 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3kngncayqm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Nov 2022 18:04:05 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2A7I4etV53281142
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 7 Nov 2022 18:04:40 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DE403A4053;
- Mon,  7 Nov 2022 18:04:02 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 15689A404D;
- Mon,  7 Nov 2022 18:04:02 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.55.88]) by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  7 Nov 2022 18:04:02 +0000 (GMT)
-Message-ID: <4b2dcb313e3409697b702308d94078d16c6cd955.camel@linux.ibm.com>
-Subject: Re: [PATCH v10 1/9] s390x/cpu topology: core_id sets s390x CPU
- topology
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Mon, 07 Nov 2022 19:04:01 +0100
-In-Reply-To: <2657bf9e-add2-1f48-18c9-9f9e5b561c80@linux.ibm.com>
-References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-2-pmorel@linux.ibm.com>
- <ad2a9892184cd5dc7597d411f42e330558146acf.camel@linux.ibm.com>
- <15b829ca-14d0-dc77-5e1e-1b4455784ed6@linux.ibm.com>
- <c1c2a492596c3f853ca260e22ba2c9f8afb9a0ae.camel@linux.ibm.com>
- <2657bf9e-add2-1f48-18c9-9f9e5b561c80@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <dave@stgolabs.net>) id 1os6ua-0001FC-5d
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 13:31:58 -0500
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+ by relay.mailchannels.net (Postfix) with ESMTP id 6DBD4541A98;
+ Mon,  7 Nov 2022 18:31:49 +0000 (UTC)
+Received: from pdx1-sub0-mail-a282 (unknown [127.0.0.6])
+ (Authenticated sender: dreamhost)
+ by relay.mailchannels.net (Postfix) with ESMTPA id B8F6F5421D7;
+ Mon,  7 Nov 2022 18:31:48 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1667845909; a=rsa-sha256;
+ cv=none;
+ b=L8hDvy0NPDoPqGGOatYo3MdQS2UIplmhSj+El0dT+8CTnlOwXs+XnXodzen82+5vfgba6D
+ H1pvTnLq04LUp/Kd84dDBpio1eU3CtJrK0QcuUlwX2y1luTmJJAj84oDdyFggJYZTIgILz
+ uaTJwbD8gh7tPQtSqY6NdAIxG9Ym8UJYEF8SOUGQ5ykaheBJCdUQ057a/umDXnmm5V6Zhj
+ OGBoenR/EYOmzfWPM/f282kjJR/ubgZJhqzooSGxo9ldW0zUM1Z2mlfi58H63+hL4jY6Xl
+ T3T2I/4Y/wAYfYoVFu/L+2hLQzCjPrG9kYkTDgEB2XBlBhlVtnsvyCLYHdwe4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net; s=arc-2022; t=1667845909;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:dkim-signature;
+ bh=vvvSV3j86QKkTx8cOKSuOi44fpjajXBwkUWf7K/nmTk=;
+ b=LG1Jsk1VF5Sk2daj5Q7/5hqE+O6cIaPP9skqUdFfKRyZx55oJAmVedhfpurPJq3fApF+oi
+ 12pecBc2zp8064Vw+AwzjMjq/NDB+Wurso+om7oHe6cN3wiucpBhtuW7yoSxTR5gL60INX
+ SidiHZwjb9ako7gcZonRc+1vPbE6haOQAIbP36/uQ945MoEmBW4Holj0FZNcJkZJFg6BTD
+ DZ5+hkPt3YR26roKhSnbPJPv9Cqs9trXiiVnF1qwSwy8ofw98lD4EBw39Z6VC4WeJdaexV
+ KdLdO0R8sk0c73jVQw1dpDskn+5kvpJ3D24jaEABTv5wPk5nNUxRDTFZJL8kkg==
+ARC-Authentication-Results: i=1; rspamd-5cb65d95c4-8pxgs;
+ auth=pass smtp.auth=dreamhost smtp.mailfrom=dave@stgolabs.net
+X-Sender-Id: dreamhost|x-authsender|dave@stgolabs.net
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|dave@stgolabs.net
+X-MailChannels-Auth-Id: dreamhost
+X-Fumbling-Arithmetic: 4a16206f1279a68a_1667845909226_1453098664
+X-MC-Loop-Signature: 1667845909225:1472000495
+X-MC-Ingress-Time: 1667845909225
+Received: from pdx1-sub0-mail-a282 (pop.dreamhost.com [64.90.62.162])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+ by 100.105.95.137 (trex/6.7.1); Mon, 07 Nov 2022 18:31:49 +0000
+Received: from localhost.localdomain (ip72-199-50-187.sd.sd.cox.net
+ [72.199.50.187])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dave@stgolabs.net)
+ by pdx1-sub0-mail-a282 (Postfix) with ESMTPSA id 4N5fvm218Cz3V;
+ Mon,  7 Nov 2022 10:31:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stgolabs.net;
+ s=dreamhost; t=1667845908;
+ bh=vvvSV3j86QKkTx8cOKSuOi44fpjajXBwkUWf7K/nmTk=;
+ h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
+ b=Ry7v9d/0wxN1jdUAfBREbHmutvXf3dhM3/ocsEhR891V8RezSQtsgc4+AYlpb0aTm
+ meLZo0CiFzTpMAAipr9hkkacUO+FqjmW7CE7rOdU8Vehr511+J3E1A/czNc7bcGPTP
+ ekC/o/WMHAwUktZvgPFMelg4d0d9WJipNwzpJ4uPGum/K7G9cYOeydabeZ9hv6ZzwD
+ j92ghVDwoWm4ghUnsOyiaXEyT6JlD/JRhaYoD7xQ80G94i5959IOI12c4MOUVoAVAe
+ mmX1enoOmgmTCqkSxpfrL+abnng4JmmTBmD1t4sZB1UmkeTnyebs84bl9qrZ3XpSLj
+ QCU3tQ732vAnA==
+From: Davidlohr Bueso <dave@stgolabs.net>
+To: jonathan.cameron@huawei.com,
+	mst@redhat.com
+Cc: qemu-devel@nongnu.org,
+	linux-cxl@vger.kernel.org,
+	dave@stgolabs.net
+Subject: [PATCH] docs/cxl: Fix some typos
+Date: Mon,  7 Nov 2022 10:09:23 -0800
+Message-Id: <20221107180923.27072-1-dave@stgolabs.net>
+X-Mailer: git-send-email 2.38.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ZgFpdZ8MnMqKnNFsmaZLvq_SuwUNJRaK
-X-Proofpoint-ORIG-GUID: twEWzrbzalKBDXHbfRMz4Dd2Db8_LA_S
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-07_08,2022-11-07_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- bulkscore=0 phishscore=0 spamscore=0 clxscore=1015 priorityscore=1501
- mlxscore=0 adultscore=0 impostorscore=0 mlxlogscore=999 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
- definitions=main-2211070144
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=23.83.222.52; envelope-from=dave@stgolabs.net;
+ helo=duck.ash.relay.mailchannels.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,104 +108,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 2022-10-28 at 11:30 +0200, Pierre Morel wrote:
-> 
-> On 10/27/22 22:20, Janis Schoetterl-Glausch wrote:
-> > On Wed, 2022-10-26 at 10:34 +0200, Pierre Morel wrote:
-> > > 
-> > > On 10/25/22 21:58, Janis Schoetterl-Glausch wrote:
-> > > > On Wed, 2022-10-12 at 18:20 +0200, Pierre Morel wrote:
-> > > > > In the S390x CPU topology the core_id specifies the CPU address
-> > > > > and the position of the core withing the topology.
-> > > > > 
-> > > > > Let's build the topology based on the core_id.
-> > > > > s390x/cpu topology: core_id sets s390x CPU topology
-> > > > > 
-> > > > > In the S390x CPU topology the core_id specifies the CPU address
-> > > > > and the position of the cpu withing the topology.
-> > > > > 
-> > > > > Let's build the topology based on the core_id.
-> > > > > 
-> > > > > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> > > > > ---
-> > > > >    include/hw/s390x/cpu-topology.h |  45 +++++++++++
-> > > > >    hw/s390x/cpu-topology.c         | 132 ++++++++++++++++++++++++++++++++
-> > > > >    hw/s390x/s390-virtio-ccw.c      |  21 +++++
-> > > > >    hw/s390x/meson.build            |   1 +
-> > > > >    4 files changed, 199 insertions(+)
-> > > > >    create mode 100644 include/hw/s390x/cpu-topology.h
-> > > > >    create mode 100644 hw/s390x/cpu-topology.c
-> > > > > 
-> > > > [...]
-> > > > 
-> > > > > +/**
-> > > > > + * s390_topology_realize:
-> > > > > + * @dev: the device state
-> > > > > + * @errp: the error pointer (not used)
-> > > > > + *
-> > > > > + * During realize the machine CPU topology is initialized with the
-> > > > > + * QEMU -smp parameters.
-> > > > > + * The maximum count of CPU TLE in the all Topology can not be greater
-> > > > > + * than the maximum CPUs.
-> > > > > + */
-> > > > > +static void s390_topology_realize(DeviceState *dev, Error **errp)
-> > > > > +{
-> > > > > +    MachineState *ms = MACHINE(qdev_get_machine());
-> > > > > +    S390Topology *topo = S390_CPU_TOPOLOGY(dev);
-> > > > > +
-> > > > > +    topo->cpus = ms->smp.cores * ms->smp.threads;
-> > > > 
-> > > > Currently threads are not supported, effectively increasing the number of cpus,
-> > > > so this is currently correct. Once the machine version limits the threads to 1,
-> > > > it is also correct. However, once we support multiple threads, this becomes incorrect.
-> > > > I wonder if it's ok from a backward compatibility point of view to modify the smp values
-> > > > by doing cores *= threads, threads = 1 for old machines.
-> > > 
-> > > Right, this will become incorrect with thread support.
-> > > What about having a dedicated function:
-> > > 
-> > > 	topo->cpus = s390_get_cpus(ms);
-> > > 
-> > > This function will use the S390CcwMachineClass->max_thread introduced
-> > > later to report the correct number of CPUs.
-> > 
-> > I don't think max_threads is exactly what matters here, it's if
-> > threads are supported or not or, if max_threads == 1 it doesn't matter.
-> > The question is how best to do the check. You could check the machine version.
-> > I wonder if you could add a feature bit for the multithreading facility that is
-> > always false and use that.
-> > 
-> > I don't know if using a function makes a difference, that is if it is obvious on
-> > introduction of multithreading support that the function needs to be updated.
-> > (If it is implemented in a way that requires updating, if you check the machine
-> > version it doesn't)
-> > In any case, the name you suggested isn't very descriptive.
-> 
-> I think we care about this machine and olders.
-> Olders do not support topology so this, Multithreading (MT) does not mater.
-> This machine support topology, if I follow Cedric advise, the 
-> "max_thread" will/may be introduce before the topology.
-> 
-> This in fact is not an implementation for MT or does not allow the 
-> implementation of MT it is only a way to get rid of the false 
-> information given to the user that we accept MT.
-> 
-> So I think that when we introduce MT we will take care of making things 
-> right at this place as in other places of the code.
-> 
-> What about we keep the original:
-> 
->      topo->cpus = ms->smp.cores * ms->smp.threads;
+Found while reading the doc.
 
-If topology is only supported for new machines and not the old machines
-for which you set max_threads to a compatibility value (max cpus), then
-you should just ignore the threads, cpus == cores.
-(There might not be any point in keeping a topo->cpus member in this case, I haven't checked)
-> 
-> Which does not do any arm to machines without MT ?
-> 
-> Regards,
-> Pierre
-> 
+Signed-off-by: Davidlohr Bueso <dave@stgolabs.net>
+---
+ docs/system/devices/cxl.rst | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
+index abf7c1f24305..891bbd65d9d8 100644
+--- a/docs/system/devices/cxl.rst
++++ b/docs/system/devices/cxl.rst
+@@ -83,7 +83,7 @@ CXL Fixed Memory Windows (CFMW)
+ A CFMW consists of a particular range of Host Physical Address space
+ which is routed to particular CXL Host Bridges.  At time of generic
+ software initialization it will have a particularly interleaving
+-configuration and associated Quality of Serice Throtling Group (QTG).
++configuration and associated Quality of Service Throttling Group (QTG).
+ This information is available to system software, when making
+ decisions about how to configure interleave across available CXL
+ memory devices.  It is provide as CFMW Structures (CFMWS) in
+@@ -98,7 +98,7 @@ specification defined register interface called CXL Host Bridge
+ Component Registers (CHBCR). The location of this CHBCR MMIO
+ space is described to system software via a CXL Host Bridge
+ Structure (CHBS) in the CEDT ACPI table.  The actual interfaces
+-are identical to those used for other parts of the CXL heirarchy
++are identical to those used for other parts of the CXL hierarchy
+ as CXL Component Registers in PCI BARs.
+ 
+ Interfaces provided include:
+@@ -111,7 +111,7 @@ Interfaces provided include:
+ 
+ CXL Root Ports (CXL RP)
+ ~~~~~~~~~~~~~~~~~~~~~~~
+-A CXL Root Port servers te same purpose as a PCIe Root Port.
++A CXL Root Port servers the same purpose as a PCIe Root Port.
+ There are a number of CXL specific Designated Vendor Specific
+ Extended Capabilities (DVSEC) in PCIe Configuration Space
+ and associated component register access via PCI bars.
+@@ -143,7 +143,7 @@ CXL Memory Devices - Type 3
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ CXL type 3 devices use a PCI class code and are intended to be supported
+ by a generic operating system driver. They have HDM decoders
+-though in these EP devices, the decoder is reponsible not for
++though in these EP devices, the decoder is responsible not for
+ routing but for translation of the incoming host physical address (HPA)
+ into a Device Physical Address (DPA).
+ 
+@@ -209,7 +209,7 @@ Notes:
+     ranges of the system physical address map.  Each CFMW has
+     particular interleave setup across the CXL Host Bridges (HB)
+     CFMW0 provides uninterleaved access to HB0, CFW2 provides
+-    uninterleaved acess to HB1. CFW1 provides interleaved memory access
++    uninterleaved access to HB1. CFW1 provides interleaved memory access
+     across HB0 and HB1.
+ 
+ (2) **Two CXL Host Bridges**. Each of these has 2 CXL Root Ports and
+@@ -282,7 +282,7 @@ Example topology involving a switch::
+             ---------------------------------------------------
+            |    Switch 0  USP as PCI 0d:00.0                   |
+            |    USP has HDM decoder which direct traffic to    |
+-           |    appropiate downstream port                     |
++           |    appropriate downstream port                    |
+            |    Switch BUS appears as 0e                       |
+            |x__________________________________________________|
+             |                  |               |              |
+-- 
+2.38.0
 
 
