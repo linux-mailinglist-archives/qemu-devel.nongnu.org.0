@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A67D6203AC
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:22:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B396203B0
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:22:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osAxN-0001tR-9I; Mon, 07 Nov 2022 17:51:05 -0500
+	id 1osAxN-0001vB-Vu; Mon, 07 Nov 2022 17:51:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAx1-0001hc-9r
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:50:44 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAx2-0001hu-Rp
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:50:46 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAww-0003wi-7b
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAwz-0003wu-TT
  for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:50:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667861435;
+ s=mimecast20190719; t=1667861440;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=LSGuNO4vjhRuhRUypjNteJrUGVo70hUc7qmpgDdqD3w=;
- b=TVNQL8PGgxMfBqS/LmGpxudcP55ze5rJJXcoLWJ9d7sRaj/1u8v+l4x2c0p1gni7+Lp3Ha
- 2AckM64G0bYvSdEf8o8LR2hVEoDgpXcbe6fSTDvBAadEp7SuFFqd3NyM578oGbbiLhEUTA
- 4s4pTjMOg2Yb8Nrb2rFSHaEN4D12J8k=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=86mB4VRuELy+aXvTC76TKdS8NF61AriuuUX2BHwXz70=;
+ b=DFJJId+W/OLwCEj8MjsMe2+TyEx6C7t5A3Auwinn/lhC+HZ7eBpkofXHZ0tahV0BBfxV1o
+ Y+DN9xf+X1XWKh4nbuYmuIpG8htK9FnVU9CP/rgeGD8IQcimhgbDYCkkcz7KoZjB/rge85
+ vN3PaBI4PA2FKOxLQ3ySU3WLnXdAK1g=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-471-0jKU5Ep0N1OIK3KMQZBUOQ-1; Mon, 07 Nov 2022 17:50:34 -0500
-X-MC-Unique: 0jKU5Ep0N1OIK3KMQZBUOQ-1
-Received: by mail-qk1-f198.google.com with SMTP id
- u6-20020a05620a430600b006e47fa02576so11431599qko.22
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:50:34 -0800 (PST)
+ us-mta-77-prptlsXYPGmfoxWkKNyIBA-1; Mon, 07 Nov 2022 17:50:39 -0500
+X-MC-Unique: prptlsXYPGmfoxWkKNyIBA-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ bp10-20020a05620a458a00b006fa29f253dcso11288368qkb.11
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:50:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LSGuNO4vjhRuhRUypjNteJrUGVo70hUc7qmpgDdqD3w=;
- b=Z3NELkV5U9fqwH5us4QCLPN9UtY7eNRU4tR9Km4P6r7YZc/S3U+dAu2Wzc1FmGPrzE
- R0nnjc6m7Mq8vWRMeHyeQwUlvZh/FLCGqtimufLNwzt7qxSBcf5IMaADIUbHbMaSvlpr
- kAbVubkj1vRAZr9KS9fA7rx11iSYt51w05YQEJPhLBQ41wlkZZsrQyq9UlRPYZvebNAv
- Y45X+bCHO7gHpXXR9D+tgKxArLrrqV2i77OsFd0yWKPAIk6GMMsnUn76QyMEFLlbHM88
- IUqzCWOde2wIjPypajiLMrTxwZrQws6G2dCQGttbOBoPywPWEhVvPNQ++E2F0QPML58E
- dMvA==
-X-Gm-Message-State: ACrzQf1ifHsCrBfv7maN4rDpNZWkKmGOjwKPSYxaJr0GvHFz9haYxOqy
- tlk1pnt2oMUPoNZqWQ2z0HpbbdVnEyPREY3LKSZWkQdWi3OCqZOSYFZ770J/3Gq1DlhHEb/EvvH
- ocecsfUpg4rsjcsn14HAmFR2WOcdXdNEBuIBE/FAXvjHj6Ag0uvh/FpuSZ1UW
-X-Received: by 2002:ac8:4996:0:b0:3a5:2502:92d7 with SMTP id
- f22-20020ac84996000000b003a5250292d7mr35230080qtq.521.1667861433782; 
- Mon, 07 Nov 2022 14:50:33 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM4ObJcMx7zXxSXRBITpHT6iozDveIGl1W4Am8TR7yaJD1ugUR+K0jXluGmjYCqe38b1KVGNjQ==
-X-Received: by 2002:ac8:4996:0:b0:3a5:2502:92d7 with SMTP id
- f22-20020ac84996000000b003a5250292d7mr35230060qtq.521.1667861433458; 
- Mon, 07 Nov 2022 14:50:33 -0800 (PST)
+ bh=86mB4VRuELy+aXvTC76TKdS8NF61AriuuUX2BHwXz70=;
+ b=kGiSHt/Ooar2sFZsUgX1hrNGwyXfZ4aq0cV/f87meADgb5zhbIoqLPZECRNf6zsner
+ qGAo2k6bcZuDZwRuqUm35MOckrMAN5Zc9deulus7HzVMn99Wp8caIY9BzS/dctXoCljL
+ 2HBSbOkzlL0+KEu+TirqUoG5JELxXNQJ2bgz/mjMBsebiv81/bmNFNj1+j6BCh30CDNt
+ D91gt2sA3bhc9qA+BzOpiMFF7HTfRVPLSHOLrayYKC/iB7iMPj1cJG6ewu7rWw0sm2wz
+ 3IaygePahpiwuoLLh/ZlTFAxYW2IRx/LTlUIbCO8nOO6AYwyRjE2xLeXdN/dnbrBXP/q
+ MHzQ==
+X-Gm-Message-State: ACrzQf1h8FBEixyx1Ksr4KOwe/o7ksw/5tepxeaDQ5aUs6BkI3aBO0V4
+ zcUfVKMT1nTmR811S1JogR0PjOqRNV0jFVfnL02Fs9mQHlelcfTfFAnya8bhHmEeX61ZybFUxCJ
+ Fan48UWuu3bg5nbw75lqMyDXANrVl7qsMklPNMps/SAvA79i0yF8UpUaCWqac
+X-Received: by 2002:a05:620a:448d:b0:6cf:2a95:a10c with SMTP id
+ x13-20020a05620a448d00b006cf2a95a10cmr37941420qkp.526.1667861438401; 
+ Mon, 07 Nov 2022 14:50:38 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5VdV92udvk93f0KPWyifxxpbUlofg7THPyrFb5OyYVbGSTo5OHW24y0QpP7e03HVy291LPzA==
+X-Received: by 2002:a05:620a:448d:b0:6cf:2a95:a10c with SMTP id
+ x13-20020a05620a448d00b006cf2a95a10cmr37941396qkp.526.1667861438083; 
+ Mon, 07 Nov 2022 14:50:38 -0800 (PST)
 Received: from redhat.com ([87.249.138.11]) by smtp.gmail.com with ESMTPSA id
- 9-20020a370c09000000b006cfc9846594sm7714867qkm.93.2022.11.07.14.50.31
+ q17-20020a37f711000000b006e07228ed53sm7680677qkj.18.2022.11.07.14.50.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 14:50:33 -0800 (PST)
-Date: Mon, 7 Nov 2022 17:50:29 -0500
+ Mon, 07 Nov 2022 14:50:37 -0800 (PST)
+Date: Mon, 7 Nov 2022 17:50:33 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Kangjie Xu <kangjie.xu@linux.alibaba.com>,
  Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL v4 36/83] vhost-net: vhost-kernel: introduce
- vhost_net_virtqueue_restart()
-Message-ID: <20221107224600.934080-37-mst@redhat.com>
+Subject: [PULL v4 37/83] virtio-net: introduce flush_or_purge_queued_packets()
+Message-ID: <20221107224600.934080-38-mst@redhat.com>
 References: <20221107224600.934080-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -101,123 +100,55 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 
-Introduce vhost_net_virtqueue_restart(), which can restart the
-specific virtqueue when the vhost net started running before.
-If it fails to restart the virtqueue, the device will be stopped.
-
-Here we do not reuse vhost_net_start_one() or vhost_dev_start()
-because they work at queue pair level. The mem table and features
-do not change, so we can call the vhost_virtqueue_start() to
-restart a specific queue.
-
-This patch only considers the case of vhost-kernel, when
-NetClientDriver is NET_CLIENT_DRIVER_TAP.
+Introduce the fucntion flush_or_purge_queued_packets(), it will be
+used in device reset and virtqueue reset. Therefore, we extract the
+common logic as a new function.
 
 Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20221017092558.111082-11-xuanzhuo@linux.alibaba.com>
+Message-Id: <20221017092558.111082-12-xuanzhuo@linux.alibaba.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/net/vhost_net.h |  2 ++
- hw/net/vhost_net-stub.c |  6 +++++
- hw/net/vhost_net.c      | 53 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 61 insertions(+)
+ hw/net/virtio-net.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
-index 85d85a4957..40b9a40074 100644
---- a/include/net/vhost_net.h
-+++ b/include/net/vhost_net.h
-@@ -50,4 +50,6 @@ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
- 
- void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
-                                int vq_index);
-+int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
-+                                int vq_index);
- #endif
-diff --git a/hw/net/vhost_net-stub.c b/hw/net/vhost_net-stub.c
-index 2d745e359c..9f7daae99c 100644
---- a/hw/net/vhost_net-stub.c
-+++ b/hw/net/vhost_net-stub.c
-@@ -107,3 +107,9 @@ void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
- {
- 
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index b6903aea54..038a6fba7c 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -124,6 +124,16 @@ static int vq2q(int queue_index)
+     return queue_index / 2;
  }
-+
-+int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
-+                                int vq_index)
+ 
++static void flush_or_purge_queued_packets(NetClientState *nc)
 +{
-+    return 0;
++    if (!nc->peer) {
++        return;
++    }
++
++    qemu_flush_or_purge_queued_packets(nc->peer, true);
++    assert(!virtio_net_get_subqueue(nc)->async_tx.elem);
 +}
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 8beecb4d22..d2926e2ed6 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -34,6 +34,7 @@
- #include "standard-headers/linux/virtio_ring.h"
- #include "hw/virtio/vhost.h"
- #include "hw/virtio/virtio-bus.h"
-+#include "linux-headers/linux/vhost.h"
++
+ /* TODO
+  * - we could suppress RX interrupt if we were so inclined.
+  */
+@@ -566,12 +576,7 @@ static void virtio_net_reset(VirtIODevice *vdev)
  
- 
- /* Features supported by host kernel. */
-@@ -556,3 +557,55 @@ void vhost_net_virtqueue_reset(VirtIODevice *vdev, NetClientState *nc,
-                          net->dev.vqs + idx,
-                          net->dev.vq_index + idx);
+     /* Flush any async TX */
+     for (i = 0;  i < n->max_queue_pairs; i++) {
+-        NetClientState *nc = qemu_get_subqueue(n->nic, i);
+-
+-        if (nc->peer) {
+-            qemu_flush_or_purge_queued_packets(nc->peer, true);
+-            assert(!virtio_net_get_subqueue(nc)->async_tx.elem);
+-        }
++        flush_or_purge_queued_packets(qemu_get_subqueue(n->nic, i));
+     }
  }
-+
-+int vhost_net_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
-+                                int vq_index)
-+{
-+    VHostNetState *net = get_vhost_net(nc->peer);
-+    const VhostOps *vhost_ops = net->dev.vhost_ops;
-+    struct vhost_vring_file file = { };
-+    int idx, r;
-+
-+    if (!net->dev.started) {
-+        return -EBUSY;
-+    }
-+
-+    /* should only be called after backend is connected */
-+    assert(vhost_ops);
-+
-+    idx = vhost_ops->vhost_get_vq_index(&net->dev, vq_index);
-+
-+    r = vhost_virtqueue_start(&net->dev,
-+                              vdev,
-+                              net->dev.vqs + idx,
-+                              net->dev.vq_index + idx);
-+    if (r < 0) {
-+        goto err_start;
-+    }
-+
-+    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
-+        file.index = idx;
-+        file.fd = net->backend;
-+        r = vhost_net_set_backend(&net->dev, &file);
-+        if (r < 0) {
-+            r = -errno;
-+            goto err_start;
-+        }
-+    }
-+
-+    return 0;
-+
-+err_start:
-+    error_report("Error when restarting the queue.");
-+
-+    if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
-+        file.fd = VHOST_FILE_UNBIND;
-+        file.index = idx;
-+        int r = vhost_net_set_backend(&net->dev, &file);
-+        assert(r >= 0);
-+    }
-+
-+    vhost_dev_stop(&net->dev, vdev);
-+
-+    return r;
-+}
+ 
 -- 
 MST
 
