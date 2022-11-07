@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD3F362045F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 01:00:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D2062045C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:59:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osC0r-0004BK-LP; Mon, 07 Nov 2022 18:58:45 -0500
+	id 1osC0l-00047J-3l; Mon, 07 Nov 2022 18:58:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osC0p-0004B4-Sg
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:58:43 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osC0j-000476-Dd
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:58:37 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osC0d-00005u-C4
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:58:43 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id bk15so18471251wrb.13
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 15:58:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osC0h-0000TM-R9
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:58:37 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ i5-20020a1c3b05000000b003cfa97c05cdso23329wma.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 15:58:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NSxc66Fm/34b2nxJZ5QbpZSZKGj6yqN6NZyd5TCHUxQ=;
- b=dsC1oSDlOD15/529xDLe1V0yCa25ADRM3otJbXCKDueymzLfm/UhETNInmmmtGowk9
- +YJi7T75vLxsZJR6nKmYCZgFWYbtL9utL6W9eJcB+xhdVlAjvfUdWxS9/Z79GeGDlA/F
- aJINZWyDbh6HoeoJ2Aegw69UWaZ+8PhB0DHTRni34/osGj8Dbp+C/GFnJSy/XjOI+2Ln
- nx5nh84wZxJhOsEi19i4bnAjbqE4rY4+3TQ7s8Ppartggbp0+VAe0359YP0BycCuRgbj
- 9fl5HQW3cHN5OjCzQXRcy7SxnOuPDLW+G4lAnHEQGPGgDZkJRP6Y0nrycvCaTTBg/+9G
- 1y7w==
+ bh=wqdXWOgF+QqRi3UtOQa5YNqdO+ylycMo+xdPULOGfzw=;
+ b=aoeAt2eMTMja+2VjIMLDVi7a5CKWaAATS7ECeWBJ850iYPMFXzP+eVK0oGQisRblmz
+ 0B392hght6sXes1Zz5NshVBlDUTSQ5QHHiAQVyOR/JrfaYJyguilQ6fyvWIc1gLCZ9wA
+ x/WBisxPCIi0nWtlRsdt4RDpH7S/Zho9wDjWdwuegr7YrxNC0CFlaTFZCRFkMbvBMjgt
+ PDt2jr2fL9gvHCbeN+Viwvqo0d2bszQkoCjUlAEjRaFyXwsL+XqQ/TdhpEn53kIn8n7q
+ lskDxguLs/veqhIv+W9y2YbeRT6jl9H8H9JUn8518oaYC5A8oQy5IhTJ0t00NMehPpxy
+ f17Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NSxc66Fm/34b2nxJZ5QbpZSZKGj6yqN6NZyd5TCHUxQ=;
- b=isaLw5wurrBTV0Dqvs3Cxm10JxElgntEAOXBI52ytwxnVov+xm6dCY4UaoV7ck3ttN
- 4YiH1zi8xe+EIWUbkEzPpkYDZbaau5DyY4SuPPRz3KQE8le3TFThCndEmSYc3SH5YgN1
- fkLUs16YNn6D9HnP8nyo3gVh5MLXMNCn7cLQ5nHchK5fV+6fwoto/b3GS+fW5HxUHUHB
- sg0Qu0g2rU0w0UxbwQrxzS/Vorhcon+uuGgTk+uPYYhxLi1nrduYBG/GIifzU+zRpU5x
- pjwvzhniQuICrs+P5A89HRRAQw6o4FqfXrGaYn4AsexP3GgaYYLSooovr1lEN9cwM0n5
- ttzQ==
-X-Gm-Message-State: ACrzQf0kLDOt2YHTErmFSx4GPGArO4ZaVKwjrnv7hkQRc+FJ4F5ux7iP
- ftb+R5idU1TsKi/pgMquBMAtO6wy+V0SRg==
-X-Google-Smtp-Source: AMsMyM679MsX2Ddk79Mmv57AYEyft46IMz5ly/hKtfCa1AXNo8TrdWBhQNd674Zxo+wZxXFCH4olXw==
-X-Received: by 2002:adf:d4d2:0:b0:236:594f:4a2c with SMTP id
- w18-20020adfd4d2000000b00236594f4a2cmr32728960wrk.705.1667865508886; 
- Mon, 07 Nov 2022 15:58:28 -0800 (PST)
+ bh=wqdXWOgF+QqRi3UtOQa5YNqdO+ylycMo+xdPULOGfzw=;
+ b=gEVh6SVLQkOKwg90uMVIP0DoDY46n0+AgEYqDVJeBdSlp+3LXq64MAloVsOmRD6g3N
+ RCh24IDE4sBSCElDCUhz6ExPdUS+Cwf5YwsdKSW8EgPZ1k8TXK1fDp/yuXwvGxmjMqQp
+ jpP4A2mW0L6qhLIMgR1EDzPGLSqqHywSrlhGfOAeDXDURmqIylOAJHZXHZ2WNnfmQmWl
+ ogK7ZRjbHqgjvI/C3YeCWBCNva8/V2ndyfH9ULEylQEQl81TIGGTv9aSuttIFlIwpS1y
+ kfB9nC1o9d7qbhpHpzpqfo7sOcgWeXDn6MbcedIz9AmLCoA/q2q9/pfcWFAC4Y3Pwd71
+ iRbA==
+X-Gm-Message-State: ACrzQf1wQ49LvAJSufbIh8iN9j9+rqBnsTFQTRrkojHDfPuDgNdS53yf
+ 2NDB26E+a+0yyjwuYM3SZf+YH2AyrjZNpw==
+X-Google-Smtp-Source: AMsMyM7/T7kRcPkLlbwXKD4jbzB51WaZq95ub4t/C3hyGVQ0bxJCcZk8iFp98lZpvqzC2FdXe9r2fg==
+X-Received: by 2002:a05:600c:1994:b0:3cf:7c1e:8227 with SMTP id
+ t20-20020a05600c199400b003cf7c1e8227mr25441066wmq.103.1667865513965; 
+ Mon, 07 Nov 2022 15:58:33 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- l27-20020a05600c1d1b00b003b95ed78275sm10101767wms.20.2022.11.07.15.58.28
+ m21-20020a7bca55000000b003c6c182bef9sm15153410wml.36.2022.11.07.15.58.33
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 07 Nov 2022 15:58:28 -0800 (PST)
+ Mon, 07 Nov 2022 15:58:33 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Aurelien Jarno <aurelien@aurel32.net>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 01/14] target/mips: Set CP0St_{KX, SX, UX} for Loongson-2F
-Date: Tue,  8 Nov 2022 00:58:09 +0100
-Message-Id: <20221107235822.71458-2-philmd@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>,
+ Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Subject: [PULL 02/14] target/mips: Cast offset field of Octeon BBIT to int16_t
+Date: Tue,  8 Nov 2022 00:58:10 +0100
+Message-Id: <20221107235822.71458-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221107235822.71458-1-philmd@linaro.org>
 References: <20221107235822.71458-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,37 +96,33 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-As per an unpublished document, in later reversion of chips
-CP0St_{KX, SX, UX} is not writeable and hardcoded to 1.
-
-Without those bits set, kernel is unable to access XKPHYS address
-segment. So just set them up on CPU reset.
+As per "Cavium Networks OCTEON Plus CN50XX Hardware Reference
+Manual" offset field is signed 16 bit value. However arg_BBIT.offset
+is unsigned. We need to cast it as signed to do address calculation.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Acked-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20221031132531.18122-2-jiaxun.yang@flygoat.com>
+Acked-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20221031132531.18122-3-jiaxun.yang@flygoat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- target/mips/cpu.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ target/mips/tcg/octeon.decode | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index e997c1b9cb..7a565466cb 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -302,6 +302,12 @@ static void mips_cpu_reset(DeviceState *dev)
-     env->CP0_EntryHi_ASID_mask = (env->CP0_Config5 & (1 << CP0C5_MI)) ?
-             0x0 : (env->CP0_Config4 & (1 << CP0C4_AE)) ? 0x3ff : 0xff;
-     env->CP0_Status = (1 << CP0St_BEV) | (1 << CP0St_ERL);
-+    if (env->insn_flags & INSN_LOONGSON2F) {
-+        /* Loongson-2F has those bits hardcoded to 1 */
-+        env->CP0_Status |= (1 << CP0St_KX) | (1 << CP0St_SX) |
-+                            (1 << CP0St_UX);
-+    }
-+
-     /*
-      * Vectored interrupts not implemented, timer on int 7,
-      * no performance counters.
+diff --git a/target/mips/tcg/octeon.decode b/target/mips/tcg/octeon.decode
+index 8929ad088e..0c787cb498 100644
+--- a/target/mips/tcg/octeon.decode
++++ b/target/mips/tcg/octeon.decode
+@@ -12,7 +12,7 @@
+ # BBIT132    111110 ..... ..... ................
+ 
+ %bbit_p      28:1 16:5
+-BBIT         11 set:1 . 10 rs:5 ..... offset:16 p=%bbit_p
++BBIT         11 set:1 . 10 rs:5 ..... offset:s16 p=%bbit_p
+ 
+ # Arithmetic
+ # BADDU rd, rs, rt
 -- 
 2.38.1
 
