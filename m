@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A179620258
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 23:36:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF0762025A
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 23:36:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osAhe-0002Ip-HS; Mon, 07 Nov 2022 17:34:50 -0500
+	id 1osAio-0003MF-Py; Mon, 07 Nov 2022 17:36:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alison.schofield@intel.com>)
- id 1osAhc-0002Ih-Ir
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:34:48 -0500
-Received: from mga14.intel.com ([192.55.52.115])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alison.schofield@intel.com>)
- id 1osAha-0002xR-20
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:34:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667860486; x=1699396486;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=tHr4J8z3pEPEgvZgRQBKNsHQLZGpXYp89ckMk8enDho=;
- b=B9y+VAmiLZdhRvBfFpGdbjCwgjr0+T794+HDg7Ei8NCelPvQe9kqlZdL
- s7lDKO//wXKxyRR0ejktHs6kTeZvl0oJzH2R2tHgks8Yvlh2i0pUhilym
- 1c/3GviYlgMuoD50rNX2OTFN+lLIIB6aKAHoSSJ3FIvhVDYGVO698Hc06
- +GMMavfWa0uu6QLgNdGQ4BpjZsoX/1ApqibijyINT9AXLHTXLmny6PsPL
- q30+FO2IepWm3ie90easRkGljoCMGt/1h5XT3s9FzeBJCqVY1Y04b5E9u
- OK/HoeSvXe2wtWr8kjPBojhci8gnF6MX5CX1q1z8QzDTkUl4ObbDAYbUi Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="310542457"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="310542457"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2022 14:34:40 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="699666180"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="699666180"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2)
- ([10.209.100.77])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2022 14:34:40 -0800
-Date: Mon, 7 Nov 2022 14:34:38 -0800
-From: Alison Schofield <alison.schofield@intel.com>
-To: Davidlohr Bueso <dave@stgolabs.net>
-Cc: jonathan.cameron@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org
-Subject: Re: [PATCH] docs/cxl: Fix some typos
-Message-ID: <Y2mH/jyY90uZv3cz@aschofie-mobl2>
-References: <20221107180923.27072-1-dave@stgolabs.net>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osAil-0003KV-2n
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:35:59 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osAij-0003LX-9R
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:35:58 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id bk15so18267051wrb.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:35:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=vyLVMJzlEcJuqcCq7WI5+MGVf9cjxrFOkhkmR7EICV0=;
+ b=UN6eg6fw8PMrwyIS2CF31GLFA1BHomurqH5G+pquuCWT301Xr2IdCev3PaokeYJRL1
+ jvyBzur7hcfuP4z8BSTXpVWV/WfT+gXHoZZyqNbnXmBdUN1sOu4hY/N7I6wp4XZ4SOrn
+ 33lMh87Wz/yfyS/1jY6axpMI5loMk1eXLSa2mZjDeLVMGxVXSis/FGDVanhR7+EqceqV
+ w28sfF6AXWv1Ty3Z5YVNLHZb7Iq3heSCfd3U0EJbGCmK7KuKUlsaOKJNdLBeKtD2B9jW
+ KiEgn4iUMmKe6phlrUCkzyMNhw+sQjNiqB6wWaHjd6lqKCcA3HNlxnzzhvZtfrfpn65+
+ KsDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vyLVMJzlEcJuqcCq7WI5+MGVf9cjxrFOkhkmR7EICV0=;
+ b=KI7YjXQy2SXeoplAmcneF7Ez6P6mlf6ENDeRn/SL5nyWemcYUkhK5NTcFGbMeYqlrF
+ nOTPm5K4Ar8xaKWPmb3Q6gDuBScWrhzxwqdZlUfjz8/zq4uagIe4NHvMdtFc9ZAsljAd
+ X8v2UjLG24dVY93D1theuCMaz5UBls6Qf+tcT90Kr5NCDdlrsO0GuAfEhZS1aaNWYBeo
+ sEOYWV0qs95ZCjAe0APvXJOT6au9fgQuYMSy3biy1vXqsiHIOpDHHCqyTNV0fJgLoW6F
+ xqQIYJKsCmytNEB0uFJ6ZB94MK/Wartry0QJ/lWCny1AP/tglyB8ZDo4d8OFg3xsakA0
+ Jc3w==
+X-Gm-Message-State: ACrzQf1bZv1J6paaK24tBKyuV/JFlQonFmBuTfrYUuUpHLwjrPRhNiQn
+ vxof6pc6o2GEfqg0PWef5wrFTw==
+X-Google-Smtp-Source: AMsMyM5XZ0zj0iEPX13mUsq9NtyWYSagcj9t9uI5mYFrNdlopvkbapCDiUMXyv2A7Qsh52/iSMwE2w==
+X-Received: by 2002:adf:de8e:0:b0:236:ea40:47ef with SMTP id
+ w14-20020adfde8e000000b00236ea4047efmr22608845wrl.519.1667860555491; 
+ Mon, 07 Nov 2022 14:35:55 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ p7-20020a5d48c7000000b0022cce7689d3sm10076660wrs.36.2022.11.07.14.35.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Nov 2022 14:35:55 -0800 (PST)
+Message-ID: <51a88376-98df-c328-f1ec-4dda482e9bb6@linaro.org>
+Date: Mon, 7 Nov 2022 23:35:54 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221107180923.27072-1-dave@stgolabs.net>
-Received-SPF: pass client-ip=192.55.52.115;
- envelope-from=alison.schofield@intel.com; helo=mga14.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.1
+Subject: Re: [PATCH 2/2] target/mips: Correct check for CABS instructions
+Content-Language: en-US
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>
+References: <20221102165719.190378-1-jiaxun.yang@flygoat.com>
+ <20221102165719.190378-2-jiaxun.yang@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221102165719.190378-2-jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,104 +91,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 07, 2022 at 10:09:23AM -0800, Davidlohr Bueso wrote:
-> Found while reading the doc.
+On 2/11/22 17:57, Jiaxun Yang wrote:
+> Accroading to "MIPS Architecture for Programmers Volume IV-c:
+> The MIPS-3D Application-Specific Extension to the MIPS64 Architecture"
+> (MD00099). CABS.cond.fmt belongs to MIPS-3D ASE, and it has nothing to do
+> with COP1X opcode.
 > 
-> Signed-off-by: Davidlohr Bueso <dave@stgolabs.net>
+> Remove all unnecessary COP1X checks and check for MIPS3D availability
+> in decoding code path.
+> 
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > ---
->  docs/system/devices/cxl.rst | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>   target/mips/tcg/translate.c | 9 +--------
+>   1 file changed, 1 insertion(+), 8 deletions(-)
 > 
-> diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
-> index abf7c1f24305..891bbd65d9d8 100644
-> --- a/docs/system/devices/cxl.rst
-> +++ b/docs/system/devices/cxl.rst
-> @@ -83,7 +83,7 @@ CXL Fixed Memory Windows (CFMW)
->  A CFMW consists of a particular range of Host Physical Address space
->  which is routed to particular CXL Host Bridges.  At time of generic
-to 'a' particular
+> diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+> index e49d2a25a8..23e575ad95 100644
+> --- a/target/mips/tcg/translate.c
+> +++ b/target/mips/tcg/translate.c
+> @@ -1788,16 +1788,8 @@ static inline void gen_cmp ## type ## _ ## fmt(DisasContext *ctx, int n,      \
+>           check_ps(ctx);                                                        \
+>           break;                                                                \
+>       case FMT_D:                                                               \
+> -        if (abs) {                                                            \
+> -            check_cop1x(ctx);                                                 \
+> -        }                                                                     \
+>           check_cp1_registers(ctx, fs | ft);                                    \
+>           break;                                                                \
+> -    case FMT_S:                                                               \
+> -        if (abs) {                                                            \
+> -            check_cop1x(ctx);                                                 \
+> -        }                                                                     \
+> -        break;                                                                \
 
->  software initialization it will have a particularly interleaving
-s/particularly/particular or just remove usage of the entire word
-here and above. Not sure that 'particular'  is particularly helpful
-here ;)
+I'm not sure we want to remove this check on all opcodes handled by
+the FOP_CONDS() macro, and for all architecture variants. Maybe we
+need to special-case CABS.cond.fmt?
 
-> -configuration and associated Quality of Serice Throtling Group (QTG).
-> +configuration and associated Quality of Service Throttling Group (QTG).
->  This information is available to system software, when making
->  decisions about how to configure interleave across available CXL
->  memory devices.  It is provide as CFMW Structures (CFMWS) in
+>       }                                                                         \
+>       gen_ldcmp_fpr##bits(ctx, fp0, fs);                                        \
+>       gen_ldcmp_fpr##bits(ctx, fp1, ft);                                        \
+> @@ -10424,6 +10416,7 @@ static void gen_farith(DisasContext *ctx, enum fopcode op1,
+>       case OPC_CMP_NGT_S:
+>           check_insn_opc_removed(ctx, ISA_MIPS_R6);
+>           if (ctx->opcode & (1 << 6)) {
+> +            check_insn(ctx, ASE_MIPS3D);
 
-s/provide/provided
+You somehow revert commit b8aa4598e2 ("MIPS COP1X (and related)
+instructions") which is in use since 15 years.
 
+>               gen_cmpabs_s(ctx, func - 48, ft, fs, cc);
+>           } else {
+>               gen_cmp_s(ctx, func - 48, ft, fs, cc);
 
-> @@ -98,7 +98,7 @@ specification defined register interface called CXL Host Bridge
->  Component Registers (CHBCR). The location of this CHBCR MMIO
->  space is described to system software via a CXL Host Bridge
->  Structure (CHBS) in the CEDT ACPI table.  The actual interfaces
-> -are identical to those used for other parts of the CXL heirarchy
-> +are identical to those used for other parts of the CXL hierarchy
->  as CXL Component Registers in PCI BARs.
->  
->  Interfaces provided include:
-> @@ -111,7 +111,7 @@ Interfaces provided include:
->  
->  CXL Root Ports (CXL RP)
->  ~~~~~~~~~~~~~~~~~~~~~~~
-> -A CXL Root Port servers te same purpose as a PCIe Root Port.
-> +A CXL Root Port servers the same purpose as a PCIe Root Port.
-
-s/servers/serves
-
->  There are a number of CXL specific Designated Vendor Specific
->  Extended Capabilities (DVSEC) in PCIe Configuration Space
->  and associated component register access via PCI bars.
-> @@ -143,7 +143,7 @@ CXL Memory Devices - Type 3
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  CXL type 3 devices use a PCI class code and are intended to be supported
->  by a generic operating system driver. They have HDM decoders
-> -though in these EP devices, the decoder is reponsible not for
-> +though in these EP devices, the decoder is responsible not for
-
-s/"responsible not"/"not responsible"
-
->  routing but for translation of the incoming host physical address (HPA)
->  into a Device Physical Address (DPA).
->  
-> @@ -209,7 +209,7 @@ Notes:
->      ranges of the system physical address map.  Each CFMW has
->      particular interleave setup across the CXL Host Bridges (HB)
->      CFMW0 provides uninterleaved access to HB0, CFW2 provides
-> -    uninterleaved acess to HB1. CFW1 provides interleaved memory access
-> +    uninterleaved access to HB1. CFW1 provides interleaved memory access
->      across HB0 and HB1.
-
-s/CFW1/CFMW1  s/CFW2/CFMW2
-
->  
->  (2) **Two CXL Host Bridges**. Each of these has 2 CXL Root Ports and
-> @@ -282,7 +282,7 @@ Example topology involving a switch::
->              ---------------------------------------------------
->             |    Switch 0  USP as PCI 0d:00.0                   |
->             |    USP has HDM decoder which direct traffic to    |
-> -           |    appropiate downstream port                     |
-> +           |    appropriate downstream port                    |
-
-to 'the' or to 'an' approp...
-
->             |    Switch BUS appears as 0e                       |
->             |x__________________________________________________|
->              |                  |               |              |
-
-OK - after picking at this a bit, and only picking at the pieces
-I see in this diff, I'll suggest a check back through this section
-entirely, rather than the piecemeal spelling corrections.
-
-Alison
-
-
-
-> -- 
-> 2.38.0
-> 
 
