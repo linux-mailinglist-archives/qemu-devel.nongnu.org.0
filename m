@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35296203BA
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:26:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E646203B3
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:23:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osBRv-0007Rt-J9; Mon, 07 Nov 2022 18:22:39 -0500
+	id 1osBSY-0008Vc-KO; Mon, 07 Nov 2022 18:23:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osBRs-0007Ld-Dj
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:22:36 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osBSV-0008Pg-Tn
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:23:15 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osBRq-00044l-Hh
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:22:35 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id j15so18434574wrq.3
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 15:22:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osBSU-0006xB-4K
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:23:15 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id l14so18470559wrw.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 15:23:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=HYQgmPZbdO8PGa4dwHhNjaQMORxJ4x8u9dRg457yaoo=;
- b=Qf3Uc3ZqblBslMhvgsH+lEXisdpc14Wy2T16hsrnX6RNR5Ii4P4MgPZ0uBGF10MQol
- XrHn/KzwexiSmQNSqDuyjagTBjM81K44ZzCysjs10D5q+vN6N7pS7sdZVqStje12t3JB
- Ql7+4FamKfCacYGCeodJg+jU+I9//riDbMSGK3gTJJOqvSkHDDqqnk5C6YfSxF5LctqB
- 6cCPs24i/FaDfd8MT6RP3z3nxB/9GgRjQz7Zw5YGm41mYhwV8HyklfXrERHDSUXi+iNV
- R07YQA+I+OH43Mhy3GhUlN6xC0Vq3CMdHxtZ8pUFS8dNZcQ4AXH1hB6Kd5ANQn5dgD5z
- y/sQ==
+ bh=LUilsx65evLT3PunLckDq3nDFbVrBlsG/MVd+5Lo2Ao=;
+ b=eLlAob5wXWAsRhG3pDB947nQBCtXyIq7DtyRrsX6YqOLh15mIvkKu4quK/xTSP9qP5
+ C5nnGB/TpbUwOJLdywkjgL+qCUTik2C1C0sTBa6slKMJCtrxgmB2iG3QTBh4CxICikhM
+ 1MZgWJBuWqp5GKWwUpehpxDM7vyIz5HYVeemQbQMjVcVhD/lgcwXDBIf7vwRxBxa79Ia
+ ak5EsvKwmGYpVlW3Z4VqHnZMeNk/n3lP/5WdSCAkEGXT0kapLSBSqjqiTE5GamNZqz1W
+ dOYb72RWZ99Aih1E33W2vrvrncMHXIGoz4FLMLiB6cLmo/fMRjPN/BjZZKmcPfbezVWL
+ WKTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HYQgmPZbdO8PGa4dwHhNjaQMORxJ4x8u9dRg457yaoo=;
- b=0i9yW5RWmVxK0FqiIev8sjOD87naoahvXC0d1DELFPPk21DmZ1MgFuIUp88wSndig9
- wLjJJFpuNZ2Z/oyiG82bl2jb1usfJp7wNTLtKff+peWcUZ0foqLi0N3NZkRqtl4G0FXN
- /YUMOEo3O1lw5yuwndeAxnAP5IxpaDnmMw/uHYh5keoSKl1EIhgDS1Ud6g41Inumb9qy
- 46CrZDOKhugkQue6Nnuc7UiMSeOBP/FIkX+jeP47eh4OvSWxQnrsFj+K53iesL5bRPf+
- 1j7EmtKkd+iFl4dfQV8IsxmKMxRviiQFqEeaOma2uRJaPIrPpzx8wHH6Fbrm1lkXExf7
- 7mdA==
-X-Gm-Message-State: ACrzQf3f42dIjqCdvNJeKw0QPEMXzrhsPXxGMxxFWLJV4u8fyoPQ3TYc
- 3hIj9KJQ6AVw0XTZLaHwBSzraCsfAipwbA==
-X-Google-Smtp-Source: AMsMyM64VKxeENNgqMpyh64ZxOZKxK0X0mQvDKDNVlqn46gvGciiMtDltaw6YBfV1YCRUtviTgh7MQ==
-X-Received: by 2002:adf:d089:0:b0:236:558b:abc8 with SMTP id
- y9-20020adfd089000000b00236558babc8mr32724927wrh.231.1667863351108; 
- Mon, 07 Nov 2022 15:22:31 -0800 (PST)
+ bh=LUilsx65evLT3PunLckDq3nDFbVrBlsG/MVd+5Lo2Ao=;
+ b=2pqE5ID/yQgPiP38hFI5DX9KOmzEKKDdoNajr2zUnXEXKGkQ6+9y3vedoo9Fx83EeC
+ +hAxoEUxPWxgWp/AqEdjHP1NQyGav5kxddBOWGf9xwUAk+XELN82LWjpgsCtQL9gtT/E
+ X/h8KYukk3e6pKn89tlcm56t0H9fvbgMsIqL1kYzhKbG9r8oToBq4Y2sKcyYhJfgbMMw
+ LwnoihjHRkml/VJ204X6SRuqUbgenHGs8pczywtGfKGcsQqH0429T/kEdBwxQJ9GA4Xw
+ 4NNFZdXlAQXNbLCeZd9TsmJ97/Egf8zP0qMGHmTCFxUPQgYqyvTvFwKdRUfkmMe/d0m0
+ vbIA==
+X-Gm-Message-State: ACrzQf2C0nGmJdB14hnF6ShakTFrA/dKC3/UeB9NxiAzMDMp68l/sOZa
+ /dgR8IWFR/8xt+ypFzoLMRjQDLF7ENJJ7Q==
+X-Google-Smtp-Source: AMsMyM4amP+/kyyrkKL7n5tBgunupCiJ0iOSswSts3mIS5GzY3CFHbuaoGra7fjoOI0gvxRYl9cREA==
+X-Received: by 2002:a05:6000:1566:b0:236:6a6f:6c27 with SMTP id
+ 6-20020a056000156600b002366a6f6c27mr33371301wrz.553.1667863392664; 
+ Mon, 07 Nov 2022 15:23:12 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- s13-20020a5d69cd000000b0023659925b2asm8395456wrw.51.2022.11.07.15.22.30
+ g17-20020a5d46d1000000b0022efc4322a9sm8477935wrs.10.2022.11.07.15.23.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Nov 2022 15:22:30 -0800 (PST)
-Message-ID: <0a70bbe0-adb4-d81f-d758-b4fc0de8e490@linaro.org>
-Date: Tue, 8 Nov 2022 00:22:29 +0100
+ Mon, 07 Nov 2022 15:23:12 -0800 (PST)
+Message-ID: <818c2ea3-7e7e-4f33-d196-7efe6e089fc9@linaro.org>
+Date: Tue, 8 Nov 2022 00:23:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH 1/2] target/mips: Don't check COP1X for 64 bit FP mode
+Subject: Re: [PATCH 0/5] disas/nanomips: Format string fixes
 Content-Language: en-US
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-Cc: f4bug@amsat.org
-References: <20221102165719.190378-1-jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Thomas Huth <thuth@redhat.com>,
+ Petar Jovanovic <mips32r2@gmail.com>, Stefan Weil <sw@weilnetz.de>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20221101114458.25756-1-philmd@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221102165719.190378-1-jiaxun.yang@flygoat.com>
+In-Reply-To: <20221101114458.25756-1-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,17 +93,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/11/22 17:57, Jiaxun Yang wrote:
-> Some implementations (i.e. Loongson-2F) may decide to implement a 64 bit
-> FPU without implmenting COP1X instructions.
+On 1/11/22 12:44, Philippe Mathieu-Daudé wrote:
+> Fix invalid string formats reported by Stefan:
+> https://lore.kernel.org/qemu-devel/78553699-00c1-ad69-1d58-02f75a1f4fe3@weilnetz.de/
 > 
-> As the eligibility of 64 bit FP instructions is already determined by
-> CP0St_FR, there is no need to check for COP1X again.
-> 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
->   target/mips/tcg/translate.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Philippe Mathieu-Daudé (5):
+>    disas/nanomips: Fix invalid PRId64 format calling img_format()
+>    disas/nanomips: Fix invalid PRIx64 format calling img_format()
+>    disas/nanomips: Use G_GNUC_PRINTF to avoid invalid string formats
+>    disas/nanomips: Remove headers already included by "qemu/osdep.h"
+>    MAINTAINERS: Inherit from nanoMIPS
 
-Queued to mips-fixes, thanks.
+Queued to mips-fixes.
 
