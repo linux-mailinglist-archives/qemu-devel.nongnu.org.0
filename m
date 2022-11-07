@@ -2,150 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BEE3620235
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 23:17:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B46B620246
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 23:30:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osAQJ-0007p4-LS; Mon, 07 Nov 2022 17:16:55 -0500
+	id 1osAc0-00013r-0z; Mon, 07 Nov 2022 17:29:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1osAPo-0007mD-Kb
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:16:26 -0500
-Received: from mga01.intel.com ([192.55.52.88])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAbi-000128-Cb
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:28:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1osAPl-0004aQ-Lp
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:16:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667859381; x=1699395381;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=PoDmAxe8/YBoCjnLeQ+GRLbkFN54Th4uzg4uPaH+o18=;
- b=DyUOkr35IwUvy1rwq4xPKPE6gIpolj+c0jO2tlHlPFhjohpDrTMZTo5Q
- GAZSalBCfYBw+Q7TQSHdEwcjR23TL7wAc8E8ybwy5Fik7JKiAYTpiEWLb
- XqypYrDq87YUHlprLXXFV77WMvxz+KrI3AJagon7ar5H8rFQ5QckC4sCX
- jgcAwcfbYDSHsmI1ld+aS/JzLz7j4Cbmi3SzT1e63evnFkH4eWS9YTRg0
- 1DHHbwsOV/WysBhQM+lNLFzVqFA9EWGhm4zuLZdBjs1pC/rDII6qy7WMg
- SBulol7jDf41zu0O4lEnR8Vpo4S+l5yjiQb1ARuMk6LMIfNbo2mvSyyjK A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="337259919"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="337259919"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2022 14:16:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="965336811"
-X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="965336811"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga005.fm.intel.com with ESMTP; 07 Nov 2022 14:16:18 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 7 Nov 2022 14:16:17 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Mon, 7 Nov 2022 14:16:17 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.102)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Mon, 7 Nov 2022 14:16:17 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jBMLxJTmHZz8l+dBIp4YbIq3V55vyTNIF5SqSLIomG/dSxnpPHOguybRi9wtfgDhruvtEZuNjbHNAKNUHxw/GP1wrw9lFb1AvNYOhK3W2RFhGj+5jmgQ/+XYOxwqTUrH+gnBnA4ehVeUD6Y/X9IcAHavAosXNpGxeIQ3s8YooG7w2633GhiM+jxW/J8xqqcpXJjufp0PyDU3wg2sxpUSmunhypOEjJsUMT2TSzRIGP3GCRdet98ms4BMAzqPSxhr1fXeHnfvhRxrRA/uCmzu12MGED2asUqWsaPoUnuvgVPkR/qJcvYgGrPTbr3AXxdsEtQKsy46MM4KUPCeNeyQrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WhLEv9Azjt0qY3Evn//GIuOzkhajeIhDg4z9tuIM0sw=;
- b=drGUj5IuUc7XDlwPhPREK36eAwakOo1CqDkETYU07fxgcPemhjF0FWvDXtlm1MzTIVCBmRKHXtlwi7uNVl3f9+y8n9SMOE1m3UVRRmgboEjpoLpOLR6/fwqaiW0Rr+FgpcM2brYBnyie4HZl463K/3lEGIUbznHDxNw5n6t+zdW7bR30KnkDT+ftO7Xkt3TpOq1P9IeQvy23fIn0ytKVn+b7Oc2zbwX1/LqiWxGYBv82CALFSi1to3N+lUoyEAW3hhhAkTkmVlsVWOehsS/I1PqcRbVAzlSUoujQtiOtx+780vhw5Fe/cC8C7avEJKPfXOELUsbwN6T0rpt9FbGDXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by SA1PR11MB6615.namprd11.prod.outlook.com (2603:10b6:806:256::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.25; Mon, 7 Nov
- 2022 22:16:16 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::5236:c530:cc10:68f]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::5236:c530:cc10:68f%4]) with mapi id 15.20.5791.026; Mon, 7 Nov 2022
- 22:16:16 +0000
-Date: Mon, 7 Nov 2022 14:16:12 -0800
-From: Ira Weiny <ira.weiny@intel.com>
-To: Davidlohr Bueso <dave@stgolabs.net>
-CC: <jonathan.cameron@huawei.com>, <mst@redhat.com>, <qemu-devel@nongnu.org>, 
- <linux-cxl@vger.kernel.org>
-Subject: Re: [PATCH] docs/cxl: Fix some typos
-Message-ID: <Y2mDrMFgTZIQrraE@iweiny-desk3>
-References: <20221107180923.27072-1-dave@stgolabs.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20221107180923.27072-1-dave@stgolabs.net>
-X-ClientProxiedBy: SJ0PR03CA0095.namprd03.prod.outlook.com
- (2603:10b6:a03:333::10) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAbg-0000Xc-K8
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:28:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667860119;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9VRpzFEU5XK+jAB3tYaV1lwkLSFNBCs/+Mdr64T2gAE=;
+ b=Rg5gs4dl/PmSB5oEVtPASBkMJ1qynvZcHegLkyw6F+W61CL/9zvHDWG05+EGfYZjFRnGbB
+ OxPexFgC8yGcxl8Uxqp6gO6UiTY32/xrNMbhxT+lPFOp8iZMZSimdWJDzARcYCoibUsq1W
+ D07bR2fmWv+Hw+P4Idm0LbWSmDyhXTo=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-193-IM70ABr9MguGREZkY-P0UQ-1; Mon, 07 Nov 2022 17:28:38 -0500
+X-MC-Unique: IM70ABr9MguGREZkY-P0UQ-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ c19-20020a05622a059300b003a51d69906eso8992233qtb.1
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:28:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9VRpzFEU5XK+jAB3tYaV1lwkLSFNBCs/+Mdr64T2gAE=;
+ b=aRhZqc9KOB6udSoJGu6NjeIw1B2ft3YZrHWTEKZLUp3dd/aq3k73kQVCQcVw3nu0/m
+ v/q3AmwLhLuN5EeS6dTDewyPKBDNsBcBefARlNrPakRg2KL5ysEhZwaPAPghQ1UZsH8b
+ Ov9v+Hh4Fkev3jQdACAkHk22O3mYppXRv1XIFrgqcsqIBTZnK5te+rdeYaIJZLQl8tT6
+ fR3gAvb4xIxWOVv2TMlzdSBdpEm75D1XaDeBT/byUBk1f/yfXJrtSzFyJmjb+hVFaHAR
+ m6tfo+SlMvo1OEbK1yyBfY2zXqExumLgC6JZvTG2KV3DOk1JeVGipHa9IaoKdGT7tM49
+ TVXg==
+X-Gm-Message-State: ACrzQf0kedwImkwqJoonmy2jqeSpx4m5RdfDTPolVIQyRwXe+z+PrE42
+ kNqihlPCwFihUFO5mC94Rj0ketVqdmu3Lw09HucHJ204vBxKw3p7SxMgLR9a9PClrLrGllbT44U
+ J19fdWaLzM49Q9/E=
+X-Received: by 2002:a05:6214:2aa6:b0:4bb:b2e9:4f1c with SMTP id
+ js6-20020a0562142aa600b004bbb2e94f1cmr46469683qvb.29.1667860117805; 
+ Mon, 07 Nov 2022 14:28:37 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM6qUpXk4Wn/dBSkIPHXTJTR0+mGqCKRyLYSSH1RqDea3I7kMZyOZZg0YEaNW0CMwzJfKuqwiw==
+X-Received: by 2002:a05:6214:2aa6:b0:4bb:b2e9:4f1c with SMTP id
+ js6-20020a0562142aa600b004bbb2e94f1cmr46469670qvb.29.1667860117533; 
+ Mon, 07 Nov 2022 14:28:37 -0800 (PST)
+Received: from redhat.com ([87.249.138.11]) by smtp.gmail.com with ESMTPSA id
+ c24-20020a05620a269800b006bba46e5eeasm7816996qkp.37.2022.11.07.14.28.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Nov 2022 14:28:37 -0800 (PST)
+Date: Mon, 7 Nov 2022 17:28:31 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PULL v3 49/81] acpi: pc: vga: use AcpiDevAmlIf interface to
+ build VGA device descriptors
+Message-ID: <20221107172548-mutt-send-email-mst@kernel.org>
+References: <20221105171116.432921-1-mst@redhat.com>
+ <20221105171116.432921-50-mst@redhat.com>
+ <CAG4p6K6ZgVmKAfRoaaD99RqtEjU0+qwUncb2=n+8GhNAezgKjg@mail.gmail.com>
+ <20221107073158-mutt-send-email-mst@kernel.org>
+ <CAARzgwwEayuzcrcSWRmK5UBG56R1SbfHJ0XoV9=T91=wqLMSAg@mail.gmail.com>
+ <20221107080023-mutt-send-email-mst@kernel.org>
+ <489F21DE-0D51-4559-8067-2C096A2DC828@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|SA1PR11MB6615:EE_
-X-MS-Office365-Filtering-Correlation-Id: d8a39f24-c1bc-4ea0-2da9-08dac10db02b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qQGFwGeyUnLVypQxbonTicIjViGyOyYnMHIushVGjnSTAKDpGKkKOmBGgLpki7nKxzeqfhbyD35A2iEkc70Saqhgu5AQLvMpGamcwR3mugpb6fCZT+Z67DWi3nqtsp/6JlPg+FlC6DqySJfkyNfYJiG+Giv/rAdQn7gWTCt+9J9+iHcD1HslCFpnfssXHMmw8KspWnBTLjticJ3KWNf48h3C2HR7WTDjdBn3gTWvyavBVtgfi6FvnLCcU0QVao55dLPy92NSAOGT+xMtpJByztYYOPCN6cr5GoT91ZFX5L5Kn0CvevHdxFyu+pEaj/pww7XK46Kgug4IabWsLw1rrlDbCkooPEuRvjcJxxodOKM3fbj1Dy8cOsKwHzCsowpV3BFQgFqlzDWr0F5Pmlb/4xfm6UzlR2lWBifAvBZs9RmiyJ1HTxDmzUjMLln5aWHwyUApwGUW5eb5OmABngRe5cZMI658QJ1qZZrLoAbKEPC3RxZim7UpNroxsRyp9G50/Nrmd5VJWIsk4QPH8TUzSeOsECNIOTFbsIfw7J9WmkFJbfDodrO0xBAS4fg9WkbLgi1x1v4k3DFGNL2AT0BtCaqCzNF2Bl4IYdBXTQDJeZ/tUY2RS5th2JRx/eTLlpSr0/mNf40mAEZnccpk2P7EzPulmZ2EB3pVAv7BsBc14S/ktdUcAMnXGxIfNk0OM6lKemWTQqzCVOen2hER8jtROQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(7916004)(346002)(396003)(136003)(39860400002)(376002)(366004)(451199015)(478600001)(6486002)(41300700001)(5660300002)(8936002)(44832011)(2906002)(6916009)(316002)(66556008)(66476007)(66946007)(4326008)(8676002)(83380400001)(6512007)(82960400001)(6506007)(6666004)(86362001)(186003)(9686003)(26005)(33716001)(38100700002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZI8Lr5q0dSI8GYO8Hhlv8BnpIyht2JfPvb/Kc/A/fM7N9dCkpeW8qDq7d+OP?=
- =?us-ascii?Q?/tXgOMmTUywS1e7r9XdfWv7B2S2qOBxXzNex6qT83ERRAZ+2FqN1CaLTj/Xc?=
- =?us-ascii?Q?4Xo0JBkVsfz7x84OQjeh4L5DVcWVVgaxkhMQi6kXdrR6EAMxTOVHCM0k85y6?=
- =?us-ascii?Q?BPKO1jkRoJEEag+Z8VAJVhypVFl5DiN20Q0EP7m+5sUnY9IrRk2D9GqN3i3P?=
- =?us-ascii?Q?8R0pSUeOCImuhalpczTXrKS3fXhbrnmmfLjxuVgJG4vNE8teHMc2FOb9qHro?=
- =?us-ascii?Q?Jb/pfB+p2SvaRKIhm9EqHtW4dwn+4++ZfC0a2X2AXJG/wyeUZIesOMfbEJGK?=
- =?us-ascii?Q?a7Ji9qkN3v8y0jKTKw0iUV+F1e2D57Kbth1HcXwVBryDt8jfm3fALxVOq95h?=
- =?us-ascii?Q?TYE72aUKQMTguxiMOHjisAd87D+rBq9vgOr4n7ECCCgACWODRl8UrVNRoeHB?=
- =?us-ascii?Q?MGIILWg3h73nRZmlGeSlQXSkFgAIGxM/hLUJbYHpmKBF882IIiuMMv8c5YTa?=
- =?us-ascii?Q?6Mr8UYf6CapJxCePFgo1bQ5B8qWjABA1k0Vm8c1Ms8aVttYgf+ZvB5cYoWl5?=
- =?us-ascii?Q?347p41SbOA4iqCZ4HAi0J6EYhn8TTIAGb1Mb8McqV1nNEI76JyIvrVez2kcZ?=
- =?us-ascii?Q?6tP3J8Ha9+m3llVMCw03YMBGhyhaFUSj+RDqnHteUJniUHbaMRC7GfjBwwJb?=
- =?us-ascii?Q?aoS2+h+iPjot/DgeMbgz5hwllQI9K4tavCA8V7oNmVBatsz0jYrtMt3HOPmd?=
- =?us-ascii?Q?ygb5Yds+7fDY7iFzSgkcjyXv1Xs00RLzx4petaM8iRUzpoyLpgGLbPGnLydj?=
- =?us-ascii?Q?9U0bprA9EFAWnGwf+wEkm8sW4rcYC7TqDiXLHi6Hky5HsSNkMK94HJzEphTJ?=
- =?us-ascii?Q?uBQBlkB/wDSK7X7swC9M54xAsWRlW9m3hGC35GbUUI/iLpzypZRtpi7ZYydt?=
- =?us-ascii?Q?70Bo/pCdc5FObcW8gUnCBtci9UqXPCYfKKN8aOe2PbxZhglyHNUDV1kssSdV?=
- =?us-ascii?Q?GPeVTCX1FJ7RMziU5ksxuBkyxntyeCFYziPJ80Sw8X8WUDJU7DfeXvfEcKGQ?=
- =?us-ascii?Q?S1qoKpobxhH8vsJMw5Q9mfGcyhqwsflKoHJ5sjiF80Nb88nprrZbuVjHDR5x?=
- =?us-ascii?Q?0mFANLZHfqKLnbS8pzJH4HiFbsVyAjFI/4yUaP0nC/d5u6t8u9tTS5VdzFqb?=
- =?us-ascii?Q?+X3p8hmK1SdoT/daTyuPafT0oY/qCSrxyoHP1BmRgmJ+DGdNKNc+CSUZqxOQ?=
- =?us-ascii?Q?/lxpyFDnGJakIYvhRJBkSHL+qxYBaTL6jAza389E4/zB54fsro+wsiCRq+EB?=
- =?us-ascii?Q?yivL7irwtSVSk2a5pdMxdtDbcn2Vll2Hp+Gu+ZAU5buBdUSJYKbZQzkyHNWb?=
- =?us-ascii?Q?xN2p9TPwN6nmQW4aaJUYRe/yMtglIXoXbpgHTSHzdU36q7AtTblXRBcrIW9I?=
- =?us-ascii?Q?moC4aYIfhWY2ZUr+cS/ixrS0VE2qGI6apkdme+nZAPy3pZGxx5w5k+2hr0cy?=
- =?us-ascii?Q?Bvl2wtHbVq1Lg3JuKrG3IAt27di6zrJAzK+2UmmzGxExc4F5AA7GOYymyGEt?=
- =?us-ascii?Q?ORbd3WmpOryoz2OcoWlMJ1MLPYbiIlSwXGJkjR+7?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8a39f24-c1bc-4ea0-2da9-08dac10db02b
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2022 22:16:16.2732 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MCdvtH5YT0I0wX+IMmGF7wn2aqfU/7onfFestu8aJdrcPo+f3Sl6BEWciEkHYrdy6rRVu0Z2Qcv0tTJdxZ9WTw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6615
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=ira.weiny@intel.com;
- helo=mga01.intel.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <489F21DE-0D51-4559-8067-2C096A2DC828@gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -161,76 +107,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 07, 2022 at 10:09:23AM -0800, Davidlohr Bueso wrote:
-> Found while reading the doc.
+On Mon, Nov 07, 2022 at 10:07:52PM +0000, Bernhard Beschow wrote:
+> Am 7. November 2022 13:00:36 UTC schrieb "Michael S. Tsirkin" <mst@redhat.com>:
+> >On Mon, Nov 07, 2022 at 06:16:25PM +0530, Ani Sinha wrote:
+> >> On Mon, Nov 7, 2022 at 6:03 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >> >
+> >> > On Sun, Nov 06, 2022 at 10:16:41PM +0100, Bernhard Beschow wrote:
+> >> > >
+> >> > >
+> >> > > On Sat, Nov 5, 2022 at 6:45 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >> > >
+> >> > >     From: Igor Mammedov <imammedo@redhat.com>
+> >> > >
+> >> > >     Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> >> > >     Message-Id: <20221017102146.2254096-2-imammedo@redhat.com>
+> >> > >     Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> >> > >     Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> >> > >     NB: we do not expect any functional change in
+> >> > >     any ACPI tables with this change. It's only a refactoring.
+> >> > >
+> >> > >     Reviewed-by: Ani Sinha <ani@anisinha.ca>
+> >> > >     ---
+> >> > >      hw/display/vga_int.h       |  2 ++
+> >> > >      hw/display/acpi-vga-stub.c |  7 +++++++
+> >> > >      hw/display/acpi-vga.c      | 26 ++++++++++++++++++++++++++
+> >> > >      hw/display/vga-pci.c       |  4 ++++
+> >> > >      hw/i386/acpi-build.c       | 26 +-------------------------
+> >> > >      hw/display/meson.build     | 17 +++++++++++++++++
+> >> > >      6 files changed, 57 insertions(+), 25 deletions(-)
+> >> > >      create mode 100644 hw/display/acpi-vga-stub.c
+> >> > >      create mode 100644 hw/display/acpi-vga.c
+> >> > >
+> >> > >
+> >> > > With this "qemu:qtest+qtest-hppa / qtest-hppa/display-vga-test" fails due to
+> >> > > the symbol "aml_return" being undefined:
+> >> > >
+> >> > > # starting QEMU: exec ./qemu-system-hppa -qtest unix:/tmp/qtest-515650.sock
+> >> > > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-515650.qmp,id=char0 -mon
+> >> > > chardev=char0,mode=control -display none -vga none -device virtio-vga -accel
+> >> > > qtest
+> >> > > ----------------------------------- stderr -----------------------------------
+> >> > > Failed to open module: qemu/build/qemu-bundle/usr/lib/qemu/
+> >> > > hw-display-virtio-vga.so: undefined symbol: aml_return
+> >> > > qemu-system-hppa: -device virtio-vga: 'virtio-vga' is not a valid device model
+> >> > > name
+> >> > > Broken pipe
+> >> > > ../src/tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU process
+> >> > > but encountered exit status 1 (expected 0)
+> >> > >
+> >> > > (test program exited with status code -6)
+> >> > >
+> >> > > Best regards,
+> >> > > Bernhard
+> >> >
+> >> > It's unfortunate that it doesn't reproduce for me :(
+> >> 
+> >> To reproduce:
+> >> 
+> >> - docker pull registry.gitlab.com/qemu-project/qemu/qemu/centos8:latest
+> >> - configure line:
+> >> 
+> >> ../configure --enable-werror --disable-docs --disable-nettle
+> >> --enable-gcrypt --enable-fdt=system --enable-modules
+> >> --enable-trace-backends=dtrace --enable-docs --enable-vfio-user-server
+> >> --target-list="ppc64-softmmu or1k-softmmu s390x-softmmu x86_64-softmmu
+> >> rx-softmmu sh4-softmmu nios2-softmmu"
+> >
+> >
+> >I suspect --enable-modules is the difference.
 > 
-> Signed-off-by: Davidlohr Bueso <dave@stgolabs.net>
+> Indeed, I'm building with --enable-modules and got the undefined symbol.
+> 
+> Perhaps we could use the -Wl,--no-undefined linker option when building with modules to catch these errors at link time already?
+> 
+> Best regards,
+> Bernhard
 
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+I don't see how it can work but sure, send a patch :)
 
-> ---
->  docs/system/devices/cxl.rst | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
-> index abf7c1f24305..891bbd65d9d8 100644
-> --- a/docs/system/devices/cxl.rst
-> +++ b/docs/system/devices/cxl.rst
-> @@ -83,7 +83,7 @@ CXL Fixed Memory Windows (CFMW)
->  A CFMW consists of a particular range of Host Physical Address space
->  which is routed to particular CXL Host Bridges.  At time of generic
->  software initialization it will have a particularly interleaving
-> -configuration and associated Quality of Serice Throtling Group (QTG).
-> +configuration and associated Quality of Service Throttling Group (QTG).
->  This information is available to system software, when making
->  decisions about how to configure interleave across available CXL
->  memory devices.  It is provide as CFMW Structures (CFMWS) in
-> @@ -98,7 +98,7 @@ specification defined register interface called CXL Host Bridge
->  Component Registers (CHBCR). The location of this CHBCR MMIO
->  space is described to system software via a CXL Host Bridge
->  Structure (CHBS) in the CEDT ACPI table.  The actual interfaces
-> -are identical to those used for other parts of the CXL heirarchy
-> +are identical to those used for other parts of the CXL hierarchy
->  as CXL Component Registers in PCI BARs.
->  
->  Interfaces provided include:
-> @@ -111,7 +111,7 @@ Interfaces provided include:
->  
->  CXL Root Ports (CXL RP)
->  ~~~~~~~~~~~~~~~~~~~~~~~
-> -A CXL Root Port servers te same purpose as a PCIe Root Port.
-> +A CXL Root Port servers the same purpose as a PCIe Root Port.
->  There are a number of CXL specific Designated Vendor Specific
->  Extended Capabilities (DVSEC) in PCIe Configuration Space
->  and associated component register access via PCI bars.
-> @@ -143,7 +143,7 @@ CXL Memory Devices - Type 3
->  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
->  CXL type 3 devices use a PCI class code and are intended to be supported
->  by a generic operating system driver. They have HDM decoders
-> -though in these EP devices, the decoder is reponsible not for
-> +though in these EP devices, the decoder is responsible not for
->  routing but for translation of the incoming host physical address (HPA)
->  into a Device Physical Address (DPA).
->  
-> @@ -209,7 +209,7 @@ Notes:
->      ranges of the system physical address map.  Each CFMW has
->      particular interleave setup across the CXL Host Bridges (HB)
->      CFMW0 provides uninterleaved access to HB0, CFW2 provides
-> -    uninterleaved acess to HB1. CFW1 provides interleaved memory access
-> +    uninterleaved access to HB1. CFW1 provides interleaved memory access
->      across HB0 and HB1.
->  
->  (2) **Two CXL Host Bridges**. Each of these has 2 CXL Root Ports and
-> @@ -282,7 +282,7 @@ Example topology involving a switch::
->              ---------------------------------------------------
->             |    Switch 0  USP as PCI 0d:00.0                   |
->             |    USP has HDM decoder which direct traffic to    |
-> -           |    appropiate downstream port                     |
-> +           |    appropriate downstream port                    |
->             |    Switch BUS appears as 0e                       |
->             |x__________________________________________________|
->              |                  |               |              |
-> -- 
-> 2.38.0
-> 
+> >
+> >> - # make
+> >> - # QTEST_QEMU_BINARY=./qemu-system-or1k  ./tests/qtest/qos-test
+> >> failed to open module:
+> >> /build/qemu/qemu/build/qemu-bundle/usr/local/lib64/qemu/hw-display-virtio-vga.so:
+> >> undefined symbol: aml_return
+> >> qemu-system-or1k: ../util/error.c:59: error_setv: Assertion `*errp ==
+> >> NULL' failed.
+> >> Broken pipe
+> >> ../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from
+> >> signal 6 (Aborted) (core dumped)
+> >> Aborted (core dumped)
+> >
+
 
