@@ -2,67 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A376861F500
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 15:12:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E98361F3E4
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 14:03:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os2qi-0000pu-Bg; Mon, 07 Nov 2022 09:11:40 -0500
+	id 1os1ky-0004bQ-Ka; Mon, 07 Nov 2022 08:01:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1os2qg-0000ni-74
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:11:38 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1os1kN-0004Pp-7L
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 08:01:03 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1os2qe-00068G-5y
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:11:37 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1os1kG-0001xW-K2
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 08:00:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667830295;
+ s=mimecast20190719; t=1667826048;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=eZzAJzK46QtQVGYFBZiJX0D0YQ7qAKuXYl8nrsSc97w=;
- b=SEbtOAe1SgU9llhxHnmuUBow7wNi5VjLQPBoqIHTngACyAJ8jQqImFmPxzol4tH1K/+wxt
- Vv3dhKYT50z9Bp9FQfsBzH1a6St2gzDgO9gfQ4V+kLOA19Vi3Ekr9dvmHF0cx+rLYj40Ej
- 4cwA2KZnbFtPBDa3kZBnn9+9QGviamE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-8ef0UfCwPJWQ3p70HWkItA-1; Mon, 07 Nov 2022 09:10:34 -0500
-X-MC-Unique: 8ef0UfCwPJWQ3p70HWkItA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DC6032932495
- for <qemu-devel@nongnu.org>; Mon,  7 Nov 2022 14:10:33 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A102140EBF5;
- Mon,  7 Nov 2022 14:10:33 +0000 (UTC)
-Date: Sun, 6 Nov 2022 17:34:01 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: qemu-devel@nongnu.org, alex.williamson@redhat.com
-Subject: Re: [PULL 0/1] VFIO fix for v7.2-rc0
-Message-ID: <Y2g2Wevic4tcnM/s@fedora>
-References: <166757797349.2504527.17538714015825495328.stgit@omen>
+ bh=V+W8yWMpqwOfxNe8dg86+JAu0XDqbr8gf56bgcoz02E=;
+ b=XS6U8/sQn/uRsCuaIyFfPuZ67KH7I1DYrDA22cBQY8diDNU8vxWnVKrvZLuyNXRybGNu98
+ VZZ778+V5PGDon9Hr+KwkQZwN/jfg7Zl6/xeTk7TnTcX6AVxYiNbUWZ5dGgx9GjLnleuc9
+ +9bPmF/zhdZaJsgB420uttYNQEh1W1s=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-639-YPSxULo2PaOtxGc_YA41Gg-1; Mon, 07 Nov 2022 08:00:42 -0500
+X-MC-Unique: YPSxULo2PaOtxGc_YA41Gg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ l16-20020adfc790000000b00230c2505f96so2715690wrg.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 05:00:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=V+W8yWMpqwOfxNe8dg86+JAu0XDqbr8gf56bgcoz02E=;
+ b=VzeSNiYds4UbvqamrUQ7ExR57dspMi68M6mtd+ZyHWuWqn5LeZvggUoCU1kkoU8PDs
+ CyfmDXBzJoZ4bPdOJDdEiSxmh+BX6QgL5Ld4MkLOUjXL/XOmzpZRsENCDDR62FSaPeLu
+ vBU0XaWDNxeeGtSi3vFNDyJFqAp7bPPxm/AYK/V6UsJPxiej9sHrQoMjTmpv2qB1pHMt
+ M/6vdOycKQoCkws+X8WiFFpxSWrmvdmp5TXVKPxr/u0Ssav7oEBlerTxqhChnqT0v335
+ n5MwD/ouIujubXBswJ3aE7Xq9AhybH1dGXhWWPvvjYauVBkr02PdSgZg5XpCrJGWgntf
+ 1TRQ==
+X-Gm-Message-State: ACrzQf3wVVJYLKOanyPLfeiNA0oEMv2YgP7jfSsZFYesogYWe/OPlgNg
+ 5FINN+eQ4vUlXfVm+IVtbZJu8Jn2eGJpBf0+92TC7HtgTD+5Arziz5dbQPrRjjh/yZ8R7sBC80s
+ J4MwB2fh6dc4xuWM=
+X-Received: by 2002:adf:d1c2:0:b0:236:9033:8ead with SMTP id
+ b2-20020adfd1c2000000b0023690338eadmr32609353wrd.653.1667826041270; 
+ Mon, 07 Nov 2022 05:00:41 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM6OvTUqirkiODqAJPG1K9qANes2oFjZD5s9D99apyNTaV9k+jLMyn1G56qCoVon03SPDZ9vow==
+X-Received: by 2002:adf:d1c2:0:b0:236:9033:8ead with SMTP id
+ b2-20020adfd1c2000000b0023690338eadmr32609325wrd.653.1667826040962; 
+ Mon, 07 Nov 2022 05:00:40 -0800 (PST)
+Received: from redhat.com ([169.150.226.212]) by smtp.gmail.com with ESMTPSA id
+ j13-20020a05600c190d00b003b47e8a5d22sm12685062wmq.23.2022.11.07.05.00.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Nov 2022 05:00:40 -0800 (PST)
+Date: Mon, 7 Nov 2022 08:00:36 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PULL v3 49/81] acpi: pc: vga: use AcpiDevAmlIf interface to
+ build VGA device descriptors
+Message-ID: <20221107080023-mutt-send-email-mst@kernel.org>
+References: <20221105171116.432921-1-mst@redhat.com>
+ <20221105171116.432921-50-mst@redhat.com>
+ <CAG4p6K6ZgVmKAfRoaaD99RqtEjU0+qwUncb2=n+8GhNAezgKjg@mail.gmail.com>
+ <20221107073158-mutt-send-email-mst@kernel.org>
+ <CAARzgwwEayuzcrcSWRmK5UBG56R1SbfHJ0XoV9=T91=wqLMSAg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hEnosIX4tUZrpd8+"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <166757797349.2504527.17538714015825495328.stgit@omen>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <CAARzgwwEayuzcrcSWRmK5UBG56R1SbfHJ0XoV9=T91=wqLMSAg@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
- DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,30 +105,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Nov 07, 2022 at 06:16:25PM +0530, Ani Sinha wrote:
+> On Mon, Nov 7, 2022 at 6:03 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Sun, Nov 06, 2022 at 10:16:41PM +0100, Bernhard Beschow wrote:
+> > >
+> > >
+> > > On Sat, Nov 5, 2022 at 6:45 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >
+> > >     From: Igor Mammedov <imammedo@redhat.com>
+> > >
+> > >     Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > >     Message-Id: <20221017102146.2254096-2-imammedo@redhat.com>
+> > >     Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > >     Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > >     NB: we do not expect any functional change in
+> > >     any ACPI tables with this change. It's only a refactoring.
+> > >
+> > >     Reviewed-by: Ani Sinha <ani@anisinha.ca>
+> > >     ---
+> > >      hw/display/vga_int.h       |  2 ++
+> > >      hw/display/acpi-vga-stub.c |  7 +++++++
+> > >      hw/display/acpi-vga.c      | 26 ++++++++++++++++++++++++++
+> > >      hw/display/vga-pci.c       |  4 ++++
+> > >      hw/i386/acpi-build.c       | 26 +-------------------------
+> > >      hw/display/meson.build     | 17 +++++++++++++++++
+> > >      6 files changed, 57 insertions(+), 25 deletions(-)
+> > >      create mode 100644 hw/display/acpi-vga-stub.c
+> > >      create mode 100644 hw/display/acpi-vga.c
+> > >
+> > >
+> > > With this "qemu:qtest+qtest-hppa / qtest-hppa/display-vga-test" fails due to
+> > > the symbol "aml_return" being undefined:
+> > >
+> > > # starting QEMU: exec ./qemu-system-hppa -qtest unix:/tmp/qtest-515650.sock
+> > > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-515650.qmp,id=char0 -mon
+> > > chardev=char0,mode=control -display none -vga none -device virtio-vga -accel
+> > > qtest
+> > > ----------------------------------- stderr -----------------------------------
+> > > Failed to open module: qemu/build/qemu-bundle/usr/lib/qemu/
+> > > hw-display-virtio-vga.so: undefined symbol: aml_return
+> > > qemu-system-hppa: -device virtio-vga: 'virtio-vga' is not a valid device model
+> > > name
+> > > Broken pipe
+> > > ../src/tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU process
+> > > but encountered exit status 1 (expected 0)
+> > >
+> > > (test program exited with status code -6)
+> > >
+> > > Best regards,
+> > > Bernhard
+> >
+> > It's unfortunate that it doesn't reproduce for me :(
+> 
+> To reproduce:
+> 
+> - docker pull registry.gitlab.com/qemu-project/qemu/qemu/centos8:latest
+> - configure line:
+> 
+> ../configure --enable-werror --disable-docs --disable-nettle
+> --enable-gcrypt --enable-fdt=system --enable-modules
+> --enable-trace-backends=dtrace --enable-docs --enable-vfio-user-server
+> --target-list="ppc64-softmmu or1k-softmmu s390x-softmmu x86_64-softmmu
+> rx-softmmu sh4-softmmu nios2-softmmu"
 
---hEnosIX4tUZrpd8+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Applied, thanks.
+I suspect --enable-modules is the difference.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
-
---hEnosIX4tUZrpd8+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNoNlkACgkQnKSrs4Gr
-c8h/8wgAmC02xu09pTiB4MjiFPti9BzvE/cPuh1uwzSVOs8g6PkfBCl12PCCVChn
-nzeG416o0bnvSShjqu4dZCaLePOQ+uHmjQHsqTt7iziux/DPPh4tgA3zXTA6Pxui
-fJipm2KPg2DX9uvjAlRkgvpUh6sePk0sx1Lw6gi8NRc0E0tssAvKS0EcZCh0KTKw
-4Gl7VjNRZt5gyzom/23Ks7UpkTo7xc7LOXImdp+duNkbiHPLZbZFIMXxA6+NQdS/
-4JZXOgV9C0lzFDdpIfxdFbDx+dtUUasYeqR+KvXLFBiojq/nzpum50OzxIGgBxuG
-YQc9dsyZWuIp2aiSg9UjcbkizGlyAw==
-=RgPX
------END PGP SIGNATURE-----
-
---hEnosIX4tUZrpd8+--
+> - # make
+> - # QTEST_QEMU_BINARY=./qemu-system-or1k  ./tests/qtest/qos-test
+> failed to open module:
+> /build/qemu/qemu/build/qemu-bundle/usr/local/lib64/qemu/hw-display-virtio-vga.so:
+> undefined symbol: aml_return
+> qemu-system-or1k: ../util/error.c:59: error_setv: Assertion `*errp ==
+> NULL' failed.
+> Broken pipe
+> ../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from
+> signal 6 (Aborted) (core dumped)
+> Aborted (core dumped)
 
 
