@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7A3620392
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:15:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACDD6203B6
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:25:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osAxP-0001yt-I4; Mon, 07 Nov 2022 17:51:07 -0500
+	id 1osAxQ-00020B-Dg; Mon, 07 Nov 2022 17:51:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAxC-0001ow-6K
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:50:58 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAxG-0001qA-VX
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:51:02 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAx3-0003y2-Dd
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:50:49 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAxC-0003yk-TW
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:50:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667861444;
+ s=mimecast20190719; t=1667861449;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=f2FbzoZ3PQnUW/fnU4amuMiS3Wb694JY7+xlmcZ9RJk=;
- b=cFDKbL+SRDDsTcqyY0Co2yABCU9qy1Hve1meJ3Nvi6bAv3k+F8fgORM1HIdhKTz+wwhCe4
- ZM1ixRSUE1Rz30TJUbQ/EW3H+9bNzLAaxmxwiw9ANIbY0ESm8V6+ctnr+ZwHnawyVtk+AC
- p0whNHBmV5iM5OwaafRXZYJL6RzcRdQ=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=R69TW5AAW3qysOvzyDIF1yD1Oe9R6ooUnUwNn/cIU3g=;
+ b=d9nJZXARH4uPJsm7BSDw6mYCzO5qX4e34FioYpiUPFduLe5S5bqOYjJQ94CWkzeasVChJc
+ S4mjV3dEHjMtVU6bApiDTFI4zCm1mi5nwxKTI8Q4/o1LJ3++J0+T+ZuejJ4Z3FecAJOYzo
+ wasiL1LFNHHqktLGpuH1jemh0g4eO8o=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-659-duo2zAg6NAC9BTLmHHPyrg-1; Mon, 07 Nov 2022 17:50:43 -0500
-X-MC-Unique: duo2zAg6NAC9BTLmHHPyrg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- h8-20020a05620a284800b006b5c98f09fbso11480496qkp.21
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:50:43 -0800 (PST)
+ us-mta-21-5iQUwwUHNg24d-A0XmaM3g-1; Mon, 07 Nov 2022 17:50:48 -0500
+X-MC-Unique: 5iQUwwUHNg24d-A0XmaM3g-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ cj6-20020a05622a258600b003a519d02f59so9049019qtb.5
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:50:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=f2FbzoZ3PQnUW/fnU4amuMiS3Wb694JY7+xlmcZ9RJk=;
- b=sKnBZMHqvxaQ2tEFhfWaiXnQOWpZNN/22WtPBX+h1z+NAn9Kfk9w+g07x0hG0TkBtK
- khQeFU4x6wggcfQo5VL8OVr6OwZ0gcsas+Zu/p23lAjZqDfRZpguIP0gMmtd1nwpaJ+1
- AHp3ITwH/SDNhOXiG2hv7RxzYNhwNAzZer1nCfnclmIk5cCDZOKYn8p46UUpDMyDTv4N
- VgQ3B/guYWPsuz+GUPxdCxd2wj84w6JWDQSHnX3B8c8kJNpTIVTVP6hGj2eGkI3K2hs5
- 3oW1g1bxTkb/ji84CQHsRUiqCCQLzB+MeY73u971KYYW8sqXwsjsotge97q5pM2EhnYX
- FWQQ==
-X-Gm-Message-State: ANoB5pkcLzyipI1+mAM7b2N8G13tpiRtOfrBMZmiAZy037fkWoMeumTr
- OdE54lek9G5cx1oi62W5CEWD/e8orSJdruM9Pn/9vtn/W8za8Iik69lQ36tieDF1OUNqlECYFFA
- GqiSMomM31uUDQpaWpC4D+tJqFL2qW8b+70T/7PbXqVBUxJfceiQgVYIwwX26
-X-Received: by 2002:ac8:5c49:0:b0:3a5:87f0:b8a0 with SMTP id
- j9-20020ac85c49000000b003a587f0b8a0mr6413484qtj.377.1667861443235; 
- Mon, 07 Nov 2022 14:50:43 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf761nXMsHOoaRMUmxPFPJsw1+UqWEn3Dk9KOBeNR1YaQC/UTCppXy+G2/JMXwx1drUc1o6v3A==
-X-Received: by 2002:ac8:5c49:0:b0:3a5:87f0:b8a0 with SMTP id
- j9-20020ac85c49000000b003a587f0b8a0mr6413465qtj.377.1667861442938; 
- Mon, 07 Nov 2022 14:50:42 -0800 (PST)
+ bh=R69TW5AAW3qysOvzyDIF1yD1Oe9R6ooUnUwNn/cIU3g=;
+ b=4EJsuSJslnBbXTXmjMuAr4LYSx1de9CenMBRoP3gCR3ZMCvnPWttl4b8tlYxicLN52
+ qSgWQfMRnAHR5sRtZYvx99ullvAXEJWXISmQMQpkw+2DzgUZtD97botQW/MWcZJHAg32
+ 4ESnpR1TTinyg/OSrAmHTGr+USPYUz/W7CmhoXi/aedr8WhN3YeLUx3kdX9S93HjyhaQ
+ iH9CYJWA0I++1I4Nj1tXmZBkIUUFyb0wwYWfRbkIT2DdFD08ofpLm9Gmv72a01RV4eNF
+ V+ulRLRrezn3SoKwT6Ej4ZrwuIWmW789GsnyIO1Oqg9aboiy6YVeWjGiuVdfyWCRmii7
+ BAtA==
+X-Gm-Message-State: ACrzQf0WwxqbU30WZX8xPcsfZPUPaozAzCxxSD7eox/7mzWzZU4bHTd4
+ uQQkUYmQ4ytaRWqkZDOpIsstTRIzfQOCJTfPYoWTPuordO1aLcJg0DrQ7xcz8fvQSffIwYLZWuR
+ gMx3CXNUcsPFHwShIGBccr1S1ruCECMv5Lsy3Q3KqUXn1P9AgxNUD4NrGTYq9
+X-Received: by 2002:a05:620a:2a0c:b0:6cf:9085:683b with SMTP id
+ o12-20020a05620a2a0c00b006cf9085683bmr37328509qkp.159.1667861447664; 
+ Mon, 07 Nov 2022 14:50:47 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM60ZGGDN4I4v3OYLvuGHZDiKNZP/v15QNwBNX/u8hDztCkn+nimDm7aXJhmleQnaPavQvjfpg==
+X-Received: by 2002:a05:620a:2a0c:b0:6cf:9085:683b with SMTP id
+ o12-20020a05620a2a0c00b006cf9085683bmr37328491qkp.159.1667861447381; 
+ Mon, 07 Nov 2022 14:50:47 -0800 (PST)
 Received: from redhat.com ([87.249.138.11]) by smtp.gmail.com with ESMTPSA id
- k2-20020ac80742000000b0035badb499c7sm6892081qth.21.2022.11.07.14.50.40
+ w27-20020a05620a0e9b00b006ee949b8051sm7617470qkm.51.2022.11.07.14.50.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 14:50:42 -0800 (PST)
-Date: Mon, 7 Nov 2022 17:50:38 -0500
+ Mon, 07 Nov 2022 14:50:47 -0800 (PST)
+Date: Mon, 7 Nov 2022 17:50:43 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Kangjie Xu <kangjie.xu@linux.alibaba.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL v4 38/83] virtio-net: support queue reset
-Message-ID: <20221107224600.934080-39-mst@redhat.com>
+ Kangjie Xu <kangjie.xu@linux.alibaba.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jason Wang <jasowang@redhat.com>
+Subject: [PULL v4 39/83] virtio-net: support queue_enable
+Message-ID: <20221107224600.934080-40-mst@redhat.com>
 References: <20221107224600.934080-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -98,62 +98,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 
-virtio-net and vhost-kernel implement queue reset.
-Queued packets in the corresponding queue pair are flushed
-or purged.
+Support queue_enable in vhost-kernel scenario. It can be called when
+a vq reset operation has been performed and the vq is restared.
 
-For virtio-net, userspace datapath will be disabled later in
-__virtio_queue_reset(). It will set addr of vring to 0 and idx to 0.
-Thus, virtio_net_receive() and virtio_net_flush_tx() will not receive
-or send packets.
+It should be noted that we can restart the vq when the vhost has
+already started. When launching a new vhost device, the vhost is not
+started and all vqs are not initalized until VIRTIO_PCI_COMMON_STATUS
+is written. Thus, we should use vhost_started to differentiate the
+two cases: vq reset and device start.
 
-For vhost-net, the datapath will be disabled in vhost_net_virtqueue_reset().
+Currently it only supports vhost-kernel.
 
-Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20221017092558.111082-13-xuanzhuo@linux.alibaba.com>
+Message-Id: <20221017092558.111082-14-xuanzhuo@linux.alibaba.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/net/virtio-net.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ hw/net/virtio-net.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 038a6fba7c..34fb4b1423 100644
+index 34fb4b1423..e68daf51bb 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -546,6 +546,23 @@ static RxFilterInfo *virtio_net_query_rxfilter(NetClientState *nc)
-     return info;
+@@ -563,6 +563,26 @@ static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+     flush_or_purge_queued_packets(nc);
  }
  
-+static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
++static void virtio_net_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
 +{
 +    VirtIONet *n = VIRTIO_NET(vdev);
 +    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
++    int r;
 +
-+    if (!nc->peer) {
++    if (!nc->peer || !vdev->vhost_started) {
 +        return;
 +    }
 +
 +    if (get_vhost_net(nc->peer) &&
 +        nc->peer->info->type == NET_CLIENT_DRIVER_TAP) {
-+        vhost_net_virtqueue_reset(vdev, nc, queue_index);
++        r = vhost_net_virtqueue_restart(vdev, nc, queue_index);
++        if (r < 0) {
++            error_report("unable to restart vhost net virtqueue: %d, "
++                            "when resetting the queue", queue_index);
++        }
 +    }
-+
-+    flush_or_purge_queued_packets(nc);
 +}
 +
  static void virtio_net_reset(VirtIODevice *vdev)
  {
      VirtIONet *n = VIRTIO_NET(vdev);
-@@ -3827,6 +3844,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
-     vdc->set_features = virtio_net_set_features;
+@@ -3845,6 +3865,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
      vdc->bad_features = virtio_net_bad_features;
      vdc->reset = virtio_net_reset;
-+    vdc->queue_reset = virtio_net_queue_reset;
+     vdc->queue_reset = virtio_net_queue_reset;
++    vdc->queue_enable = virtio_net_queue_enable;
      vdc->set_status = virtio_net_set_status;
      vdc->guest_notifier_mask = virtio_net_guest_notifier_mask;
      vdc->guest_notifier_pending = virtio_net_guest_notifier_pending;
