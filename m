@@ -2,75 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC85F61F482
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 14:40:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A0261F4C4
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 14:59:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os2Lo-0004oE-Et; Mon, 07 Nov 2022 08:39:44 -0500
+	id 1os2do-0000nU-2c; Mon, 07 Nov 2022 08:58:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1os2Lm-0004nw-2A
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 08:39:42 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1os2Lk-00068K-D2
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 08:39:41 -0500
-Received: by mail-pl1-x631.google.com with SMTP id d20so10017826plr.10
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 05:39:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ZUQwD6j+JGi6SjXn5T8pFaR+MHmOjc+TeICPHERrQMM=;
- b=rxmUEJ6ygnPUVw4IcD3ZfkBwGlWpOJWXMpjdT9dgbO59eBLAskb2GdV03308FXSceb
- uJLHcbEQVZn9NKnpOb5zsC4oLEsZEouXSYKWiTKEgjYb/EdWnHHMIXiNBbReKqtTsjqV
- Y8SWk3/juOMlaXcZsgCN7wRj/6lff3lHCKdCXjpD/351hWr7iI8XFpCyCHRVU8eYtkw2
- CjNV5SuwLwCB4uxCiM8RWHQoRD4bqIYTEbfcFDssBNk9YWc75NoDN1kTVEbtGTMBg5Bv
- KQhsL4igmBdkctI5+BtmOiYbDfk+E+zoaMr/AZKgePTHljVpWEW/kbcLbXRvqZX0kphu
- Ettg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZUQwD6j+JGi6SjXn5T8pFaR+MHmOjc+TeICPHERrQMM=;
- b=4J1nMNXGr6O0YTPUrFiENYAqmFmovtC6AREDWf3gJ66C7jvA6YNnFnFNOeeQkZjeXO
- Bgts61CVfCrpLGkcn8/ulJCaHV0Gt5z3lrYE7EXW0NNNh7ORGJqchMqWw0fPPD23qwju
- M2gcC/GFoCSbe+H3DaTeLFM9h8bVne/rx1aRafiv182ChxO2dFDMM6vm+7+4dr73t0RY
- uG1zcT6Av7XuJMupG0bpyHIKT7uWwylzZumjFaOx/QGri7Afw1G24uvsDRXM5wCFJk3T
- XrwPber6ohjcr3tu9zTOyvWJ2ewrQA737KX6GJkcKEO0UiHGtcp/sgsDfoqVy3hRcnUL
- mAIg==
-X-Gm-Message-State: ACrzQf0QEEBOSkfw0bjyg3IbQqW9+sIagZQqoAmhahSrzjHJ8ETQZkhx
- Ipx7iC8gi74SzZ+Lob28g3NYZA==
-X-Google-Smtp-Source: AMsMyM4p2eD/x9sYeCg/GnC7ptAtlkByDv2blh44Zf870LmBbGPNQ/tvrctHk4XsIbvP8xwlMVMcLA==
-X-Received: by 2002:a17:90a:db82:b0:212:d76f:b9e6 with SMTP id
- h2-20020a17090adb8200b00212d76fb9e6mr775920pjv.224.1667828378874; 
- Mon, 07 Nov 2022 05:39:38 -0800 (PST)
-Received: from anisinha-lenovo.ba.nuagenetworks.net ([116.73.133.26])
- by smtp.googlemail.com with ESMTPSA id
- w68-20020a626247000000b0056c063dd4cfsm4512542pfb.66.2022.11.07.05.39.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 05:39:38 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Ani Sinha <ani@anisinha.ca>
-Cc: qemu-devel@nongnu.org
-Subject: [PATCH] hw/acpi: fix breakage due to missing aml stub definitions
- when acpi is off
-Date: Mon,  7 Nov 2022 19:09:20 +0530
-Message-Id: <20221107133920.865060-1-ani@anisinha.ca>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1os2da-0000kC-V5; Mon, 07 Nov 2022 08:58:08 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1os2dY-0006a3-Fo; Mon, 07 Nov 2022 08:58:06 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A7Cq3me016621;
+ Mon, 7 Nov 2022 13:57:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=j8OI/kZE9NG/B9LHEppSpjKOHvhMjkXZRVhBgJaNTy0=;
+ b=VdDjsOjgVJDiW4uqXpXDZJm4j9hYW+kwosW/DwKZhYK4wN95NRJNSgRhGgpAW9GKiR6R
+ 1RKGDK+KK22k9Wd//tCRMCbWdW1sZnqO8x/tY5hS1jttxAztzme+0k37Y8vEUxHeMkiV
+ OfYZRfty8X3YdztGYdeX6tBMC56KWzBdpG4fmt/wWgmIndFrBxbFTHBxvulWSRqnsUOn
+ 6tzkheAeJOqGgxpHbpfMt1FCMSMx3qfnE2hGjqNiipDNx8zvgqExgmMnQahFwSgchi7z
+ FtdcD7KSX6d82V8Wn/a8bOJSp2spNzQrTgLjvxnXW105ru/Jev2E4v0uHaAy+xn8u876 UQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kp14x4n6f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Nov 2022 13:57:53 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A7BUTTn021129;
+ Mon, 7 Nov 2022 13:57:52 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kp14x4n4q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Nov 2022 13:57:52 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A7Do9Ci023822;
+ Mon, 7 Nov 2022 13:57:49 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03fra.de.ibm.com with ESMTP id 3kngp5hx6y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 07 Nov 2022 13:57:49 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2A7DvkC459375922
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 7 Nov 2022 13:57:46 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 554E9AE045;
+ Mon,  7 Nov 2022 13:57:46 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 501D1AE04D;
+ Mon,  7 Nov 2022 13:57:45 +0000 (GMT)
+Received: from [9.171.53.254] (unknown [9.171.53.254])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  7 Nov 2022 13:57:45 +0000 (GMT)
+Message-ID: <621ac6ea-2513-0e78-ab3c-f8c2896ab89c@linux.ibm.com>
+Date: Mon, 7 Nov 2022 14:57:45 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::631;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.1
+Subject: Re: [PATCH v10 2/9] s390x/cpu topology: reporting the CPU topology to
+ the guest
+To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20221012162107.91734-1-pmorel@linux.ibm.com>
+ <20221012162107.91734-3-pmorel@linux.ibm.com>
+ <4c5afcb5754cb829cd8b9ddbf4f74e610d5f6012.camel@linux.ibm.com>
+ <d82372a9-581a-9544-eb6d-7b3e125926f5@linux.ibm.com>
+ <ebfe8dea72adaf23913797c482377f4fd58fd097.camel@linux.ibm.com>
+Content-Language: en-US
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <ebfe8dea72adaf23913797c482377f4fd58fd097.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: ld0loP4o6t3JhFA2aUhUxiEurNRGBHzg
+X-Proofpoint-GUID: UKrIfHiyK32TwhwQgm16kfJmRzS6YTBf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-07_06,2022-11-07_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 malwarescore=0
+ priorityscore=1501 mlxlogscore=999 mlxscore=0 impostorscore=0
+ clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211070110
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,59 +124,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Some HW architectures do not support acpi and CONFIG_ACPI is off for them. For
-those architectures, dummy stub function definitions help to resolve symbols.
-This change adds couple of dummy stub definitions so that symbols for those can
-be resolved and failures such as the following can be fixed for or1k targets.
 
-Configuration:
-qemu/build $ ../configure --enable-werror --disable-docs --disable-nettle
-             --enable-gcrypt --enable-fdt=system --enable-modules
-             --enable-trace-backends=dtrace --enable-docs
-	     --enable-vfio-user-server
-             --target-list="ppc64-softmmu or1k-softmmu s390x-softmmu
-               x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu"
 
-actual failure:
+On 11/7/22 14:20, Janis Schoetterl-Glausch wrote:
+> On Fri, 2022-10-28 at 12:00 +0200, Pierre Morel wrote:
+>>
+>> On 10/27/22 22:42, Janis Schoetterl-Glausch wrote:
+>>> On Wed, 2022-10-12 at 18:21 +0200, Pierre Morel wrote:
+>>>> The guest can use the STSI instruction to get a buffer filled
+>>>> with the CPU topology description.
+>>>>
+>>>> Let us implement the STSI instruction for the basis CPU topology
+>>>> level, level 2.
+>>>>
+>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>>>> ---
+>>>>    include/hw/s390x/cpu-topology.h |   3 +
+>>>>    target/s390x/cpu.h              |  48 ++++++++++++++
+>>>>    hw/s390x/cpu-topology.c         |   8 ++-
+>>>>    target/s390x/cpu_topology.c     | 109 ++++++++++++++++++++++++++++++++
+>>>>    target/s390x/kvm/kvm.c          |   6 +-
+>>>>    target/s390x/meson.build        |   1 +
+>>>>    6 files changed, 172 insertions(+), 3 deletions(-)
+>>>>    create mode 100644 target/s390x/cpu_topology.c
+>>>>
+>>>> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+>>>> index 66c171d0bc..61c11db017 100644
+>>>> --- a/include/hw/s390x/cpu-topology.h
+>>>> +++ b/include/hw/s390x/cpu-topology.h
+>>>> @@ -13,6 +13,8 @@
+>>>>    #include "hw/qdev-core.h"
+>>>>    #include "qom/object.h"
+>>>>    
+>>>> +#define S390_TOPOLOGY_POLARITY_H  0x00
+>>>> +
+>>>>    typedef struct S390TopoContainer {
+>>>>        int active_count;
+>>>>    } S390TopoContainer;
+>>>> @@ -29,6 +31,7 @@ struct S390Topology {
+>>>>        S390TopoContainer *socket;
+>>>>        S390TopoTLE *tle;
+>>>>        MachineState *ms;
+>>>> +    QemuMutex topo_mutex;
+>>>>    };
+>>>>    
+>>>>    #define TYPE_S390_CPU_TOPOLOGY "s390-topology"
+>>>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+>>>> index 7d6d01325b..d604aa9c78 100644
+>>>> --- a/target/s390x/cpu.h
+>>>> +++ b/target/s390x/cpu.h
+>>>>
+>>> [...]
+>>>> +
+>>>> +/* Maxi size of a SYSIB structure is when all CPU are alone in a container */
+>>>
+>>> Max or Maximum.
+>>>
+>>>> +#define S390_TOPOLOGY_SYSIB_SIZE (sizeof(SysIB_151x) +                         \
+>>>> +                                  S390_MAX_CPUS * (sizeof(SysIBTl_container) + \
+>>>> +                                                   sizeof(SysIBTl_cpu)))
+>>>
+>>> Currently this is 16+248*3*8 == 5968 and will grow with books, drawer support to
+>>> 16+248*5*8 == 9936 ...
+>>>
+>>> [...]
+>>>>
+>>>> +
+>>>> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
+>>>> +{
+>>>> +    uint64_t page[S390_TOPOLOGY_SYSIB_SIZE / sizeof(uint64_t)] = {};
+>>>
+>>> ... so calling this page is a bit misleading. Also why not make it a char[]?
+>>> And maybe use a union for type punning.
+>>
+>> OK, what about:
+>>
+>>       union {
+>>           char place_holder[S390_TOPOLOGY_SYSIB_SIZE];
+>>           SysIB_151x sysib;
+>>       } buffer QEMU_ALIGNED(8);
+>>
+> I don't think you need the QEMU_ALIGNED since SysIB_151x already has it. Not that it hurts to be
+> explicit. If you declared the tle member as uint64_t[], you should get the correct alignment
+> automatically and can then drop the explicit one.
 
-qemu/build $ QTEST_QEMU_BINARY=./qemu-system-or1k  ./tests/qtest/qos-test
-failed to open module:
-/build/qemu/qemu/build/qemu-bundle/usr/local/lib64/qemu/hw-display-virtio-vga.so:
-undefined symbol: aml_return
-qemu-system-or1k: ../util/error.c:59: error_setv: Assertion `*errp ==
-NULL' failed.
-Broken pipe
-../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from
-signal 6 (Aborted) (core dumped)
-Aborted (core dumped)
+I find the explicit statement better. Why make it non explicit?
 
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
----
- hw/acpi/aml-build-stub.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> Btw, [] seems to be preferred over [0], at least there is a commit doing a conversion:
+> f7795e4096 ("misc: Replace zero-length arrays with flexible array member (automatic)")
 
-diff --git a/hw/acpi/aml-build-stub.c b/hw/acpi/aml-build-stub.c
-index 8d8ad1a314..89a8fec4af 100644
---- a/hw/acpi/aml-build-stub.c
-+++ b/hw/acpi/aml-build-stub.c
-@@ -26,6 +26,16 @@ void aml_append(Aml *parent_ctx, Aml *child)
- {
- }
- 
-+Aml *aml_return(Aml *val)
-+{
-+    return NULL;
-+}
-+
-+Aml *aml_method(const char *name, int arg_count, AmlSerializeFlag sflag)
-+{
-+    return NULL;
-+}
-+
- Aml *aml_resource_template(void)
- {
-     return NULL;
+OK
+
+>>
+>>>
+>>>> +    SysIB_151x *sysib = (SysIB_151x *) page;
+>>>> +    int len;
+>>>> +
+>>>> +    if (s390_is_pv() || !s390_has_topology() ||
+>>>> +        sel2 < 2 || sel2 > S390_TOPOLOGY_MAX_MNEST) {
+>>>> +        setcc(cpu, 3);
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    len = setup_stsi(sysib, sel2);
+>>>
+>>> This should now be memory safe, but might be larger than 4k,
+>>> the maximum size of the SYSIB. I guess you want to set cc code 3
+>>> in this case and return.
+>>
+>> I do not find why the SYSIB can not be larger than 4k.
+>> Can you point me to this restriction?
+> 
+> Says so at the top of the description of STSI:
+> 
+> The SYSIB is 4K bytes and must begin at a 4 K-byte
+> boundary; otherwise, a specification exception may
+> be recognized.
+
+Right, I guess I can not read.
+
+So I will return CC=3 in case the length is greater than 4K
+
+
+thanks,
+Regards,
+
+Pierre
+
+
 -- 
-2.34.1
-
+Pierre Morel
+IBM Lab Boeblingen
 
