@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC7261F368
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 13:35:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B912A61F380
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 13:40:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os1Kg-0006GF-3L; Mon, 07 Nov 2022 07:34:30 -0500
+	id 1os1PK-00080p-FI; Mon, 07 Nov 2022 07:39:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1os1Kc-0006EN-8l
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 07:34:26 -0500
-Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19])
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1os1P9-0007xi-Ck
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 07:39:07 -0500
+Received: from mr85p00im-zteg06011601.me.com ([17.58.23.186])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1os1Ka-0008Ty-CJ
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 07:34:25 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.167])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 9BF012157A;
- Mon,  7 Nov 2022 12:34:13 +0000 (UTC)
-Received: from kaod.org (37.59.142.101) by DAG8EX2.mxp5.local (172.16.2.72)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Mon, 7 Nov
- 2022 13:34:13 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G00412f3d60c-b117-4dde-8bb5-f318358b51a6,
- D0413842879B1F3F0A9C3937A5D2AA6A62CFA3A1) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Mon, 7 Nov 2022 13:34:12 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-CC: <qemu-devel@nongnu.org>, Alex =?UTF-8?B?QmVubsOpZQ==?=
- <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, "Daniel P .
- =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>
-Subject: Re: [PATCH 0/2] util/log: Make the per-thread flag immutable
-Message-ID: <20221107133412.49688989@bahia>
-In-Reply-To: <136930a7-7e9d-8450-284a-17dba47f4e31@linaro.org>
-References: <20221104120059.678470-1-groug@kaod.org>
- <136930a7-7e9d-8450-284a-17dba47f4e31@linaro.org>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX2.mxp5.local
- (172.16.2.72)
-X-Ovh-Tracer-GUID: 7d1a60f4-4dc1-4552-bb2a-8655b5d9fe1d
-X-Ovh-Tracer-Id: 18105877879949728038
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrvdekgdegudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtgfhisehtjeeftdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeghfefffekvddvudekhfdtgeegheejffeuleehjeegueegffffvdejgeevvdfgvdenucffohhmrghinhepphgrthgthhgvfidrohhrghdpnhhonhhgnhhurdhorhhgpdhgihhtlhgrsgdrtghomhenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehgrhhouhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdgrlhgvgidrsggvnhhnvggvsehlihhnrghrohdrohhrghdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdpsggvrhhrrghnghgvsehrvgguhhgrthdrtghomhdpshhtvghfrghnhhgrsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmh
- hoheegkedpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=178.33.255.19; envelope-from=groug@kaod.org;
- helo=2.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1os1Ov-0002Z0-SH
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 07:39:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
+ t=1667824730; bh=xYh8VzjfiN6w/lPsiKQagcSGwxoIDhYYnJZ7YGg6gAA=;
+ h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
+ b=QWzOsbmYpmV6MmjmjBHnkKYl2mmA59apldhBxz3wkfMrlN5wmMa/jj2t5u9Je9RuR
+ mY5p7IEnNZ3ZT4HpkY5Wax6RjPDmqAjT8rIBYE6fL0+4kLQ7auJZRI2NUREc90VsaD
+ WYTmgmzMxHmEj8BR+kxrhor2IMXExpLeUTDik7bPueG4vz8hqh3+vZAAV36vr6EKNv
+ seG8iKvF2x9DdN2ZYwv6sx4Cr89T7ZOBHgnTqx5+aTrpYM6RmAwbka0x7SdTY0n+U4
+ zGItmfWLfy0TPHiEUn3DAWzzcJmlVvFd0JbbkLTydU0HZAqAYoEqC2zBKtIqwn8sz5
+ dyqE7V1u6rZ/w==
+Received: from smtpclient.apple (mr38p00im-dlb-asmtp-mailmevip.me.com
+ [17.57.152.18])
+ by mr85p00im-zteg06011601.me.com (Postfix) with ESMTPSA id 35210180D32;
+ Mon,  7 Nov 2022 12:38:47 +0000 (UTC)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+Subject: Re: [PATCH 2/3] hvf: implement guest debugging on Apple Silicon hosts
+From: Mads Ynddal <mads@ynddal.dk>
+In-Reply-To: <20221104184101.6923-3-fcagnin@quarkslab.com>
+Date: Mon, 7 Nov 2022 13:38:35 +0100
+Cc: qemu-devel@nongnu.org, dirty@apple.com, r.bolshakov@yadro.com,
+ peter.maydell@linaro.org, qemu-arm@nongnu.org, agraf@csgraf.de,
+ pbonzini@redhat.com, Francesco Cagnin <fcagnin@quarkslab.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <10B025A2-C011-43BF-99CC-3FA3190E88B3@ynddal.dk>
+References: <20221104184101.6923-1-fcagnin@quarkslab.com>
+ <20221104184101.6923-3-fcagnin@quarkslab.com>
+To: francesco.cagnin@gmail.com
+X-Mailer: Apple Mail (2.3731.200.110.1.12)
+X-Proofpoint-ORIG-GUID: r6kUhd8zU0e9K1FNAlBiKyG-HVKbf4kq
+X-Proofpoint-GUID: r6kUhd8zU0e9K1FNAlBiKyG-HVKbf4kq
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ adultscore=0 bulkscore=0 mlxscore=0 spamscore=0 mlxlogscore=686
+ clxscore=1030 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2211070102
+Received-SPF: pass client-ip=17.58.23.186; envelope-from=mads@ynddal.dk;
+ helo=mr85p00im-zteg06011601.me.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,54 +80,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 5 Nov 2022 09:37:26 +1100
-Richard Henderson <richard.henderson@linaro.org> wrote:
 
-> On 11/4/22 23:00, Greg Kurz wrote:
-> > While working on the "util/log: Always send errors to logfile when daemonized"
-> > series [1], I've encountered some issues with the per-thread flag. They stem
-> > from the code not being designed to allow the per-thread flag to be enabled
-> > or disabled more than once, but nothing is done to prevent that from
-> > happening. This results in unexpected results like the creation of a log
-> > file with a `%d` in its name or confusing errors when using the `log`
-> > command in the monitor.
-> > 
-> > I'm posting fixes separately now in case it makes sense to merge them during
-> > soft freeze. If so, I'll open an issue as explained in this recent mail [2].
-> > 
-> > [1] https://patchew.org/QEMU/20221019151651.334334-1-groug@kaod.org/
-> > [2] https://lists.nongnu.org/archive/html/qemu-devel/2022-11/msg00137.html
-> > 
-> > Date: Wed, 19 Oct 2022 17:16:49 +0200
-> > Message-ID: <20221019151651.334334-1-groug@kaod.org>
-> > 
-> > Greg Kurz (2):
-> >    util/log: Make the per-thread flag immutable
-> >    util/log: Ignore per-thread flag if global file already there
-> > 
-> >   util/log.c | 9 +++++++++
-> >   1 file changed, 9 insertions(+)
-> > 
-> 
-> Series:
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
+> On 4 Nov 2022, at 19.41, francesco.cagnin@gmail.com wrote:
+>=20
+> From: Francesco Cagnin <fcagnin@quarkslab.com>
+>=20
+> Support is added for single-stepping, software breakpoints, hardware
+> breakpoints and watchpoints. The code has been structured like the KVM
+> counterpart (and many parts are basically identical).
+>=20
+> Guests can be debugged through the gdbstub.
+>=20
+> Signed-off-by: Francesco Cagnin <fcagnin@quarkslab.com>
+> ---
+> accel/hvf/hvf-accel-ops.c | 124 ++++++++++++++++++++++++
+> accel/hvf/hvf-all.c       |  24 +++++
+> cpu.c                     |   3 +
+> include/sysemu/hvf.h      |  29 ++++++
+> include/sysemu/hvf_int.h  |   1 +
+> target/arm/hvf/hvf.c      | 194 +++++++++++++++++++++++++++++++++++++-
+> 6 files changed, 374 insertions(+), 1 deletion(-)
 
-Thanks for the quick review Richard !
 
-I've created https://gitlab.com/qemu-project/qemu/-/issues/1302 with
-a 7.2 milestone.
+I've been working on the exact same features just last week, and had it =
+working=20
+just hours before you posted, but you beat me to it. I can see we have =
+solved it
+almost exactly the same way, so I won't post my patchset.
 
-Paolo,
+I can see you are missing support for SSTEP_NOIRQ. I've handled it like =
+this:
 
-Can you queue this ?
+diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
+index 5ff5778d55..8b96d2f320 100644
+--- a/accel/hvf/hvf-accel-ops.c
++++ b/accel/hvf/hvf-accel-ops.c
+@@ -343,7 +343,7 @@ static int hvf_accel_init(MachineState *ms)
 
-Cheers,
+ static int hvf_gdbstub_sstep_flags(void)
+ {
+-    return SSTEP_ENABLE;
++    return SSTEP_ENABLE | SSTEP_NOIRQ;
+ }
 
---
-Greg
+ static void hvf_accel_class_init(ObjectClass *oc, void *data)
+diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+index dbc3605f6d..964a4ecf8a 100644
+--- a/target/arm/hvf/hvf.c
++++ b/target/arm/hvf/hvf.c
+@@ -1331,7 +1331,7 @@ int hvf_vcpu_exec(CPUState *cpu)
+     hv_return_t r;
+     bool advance_pc =3D false;
 
-> 
-> r~
+-    if (hvf_inject_interrupts(cpu)) {
++    if (!(cpu->singlestep_enabled & SSTEP_NOIRQ) && =
+hvf_inject_interrupts(cpu)) {
+         return EXCP_INTERRUPT;
+     }
+
+You'll have to suppress the interrupts while you're single-stepping the =
+code.=20
+Otherwise, you'll only be stepping a few times, and suddenly get taken =
+to the
+interrupt-handler.
+
+What issues do you have with multi-core systems?
 
 
