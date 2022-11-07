@@ -2,113 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A0261F4C4
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 14:59:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32DF161F4F9
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 15:09:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os2do-0000nU-2c; Mon, 07 Nov 2022 08:58:20 -0500
+	id 1os2nf-0006z0-9I; Mon, 07 Nov 2022 09:08:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1os2da-0000kC-V5; Mon, 07 Nov 2022 08:58:08 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1os2dY-0006a3-Fo; Mon, 07 Nov 2022 08:58:06 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A7Cq3me016621;
- Mon, 7 Nov 2022 13:57:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=j8OI/kZE9NG/B9LHEppSpjKOHvhMjkXZRVhBgJaNTy0=;
- b=VdDjsOjgVJDiW4uqXpXDZJm4j9hYW+kwosW/DwKZhYK4wN95NRJNSgRhGgpAW9GKiR6R
- 1RKGDK+KK22k9Wd//tCRMCbWdW1sZnqO8x/tY5hS1jttxAztzme+0k37Y8vEUxHeMkiV
- OfYZRfty8X3YdztGYdeX6tBMC56KWzBdpG4fmt/wWgmIndFrBxbFTHBxvulWSRqnsUOn
- 6tzkheAeJOqGgxpHbpfMt1FCMSMx3qfnE2hGjqNiipDNx8zvgqExgmMnQahFwSgchi7z
- FtdcD7KSX6d82V8Wn/a8bOJSp2spNzQrTgLjvxnXW105ru/Jev2E4v0uHaAy+xn8u876 UQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kp14x4n6f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Nov 2022 13:57:53 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A7BUTTn021129;
- Mon, 7 Nov 2022 13:57:52 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kp14x4n4q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Nov 2022 13:57:52 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A7Do9Ci023822;
- Mon, 7 Nov 2022 13:57:49 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03fra.de.ibm.com with ESMTP id 3kngp5hx6y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Nov 2022 13:57:49 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2A7DvkC459375922
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 7 Nov 2022 13:57:46 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 554E9AE045;
- Mon,  7 Nov 2022 13:57:46 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 501D1AE04D;
- Mon,  7 Nov 2022 13:57:45 +0000 (GMT)
-Received: from [9.171.53.254] (unknown [9.171.53.254])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  7 Nov 2022 13:57:45 +0000 (GMT)
-Message-ID: <621ac6ea-2513-0e78-ab3c-f8c2896ab89c@linux.ibm.com>
-Date: Mon, 7 Nov 2022 14:57:45 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1os2nW-0006um-8W
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:08:25 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1os2nS-0000sv-5j
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 09:08:21 -0500
+Received: by mail-wm1-x329.google.com with SMTP id t1so6943065wmi.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 06:08:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0pEsKtTcmK6Ge/i5EQBQ6LfASf28dXHI1IPLk/HalPo=;
+ b=sBV/FN+Pq/5l4vCp+iGbbnJpyW7zw+rEetyTd5hBTnob0XdvqgIJZhLr3tfgYH0yaH
+ SejTUv3OOu4KIn9wyK7mZ0YBgBKpDUGzXGvHa8frsQE8EF1Xc7QgtOKNdEOy34mhGhpv
+ ZS6JBueJ9VmUTKZ3I/KBkt8vPj1uQrhbetW887Iuvk1t3rJfjkbCsOf+vfWJIJfOJP3A
+ fjEtR9LXme++xdFnsyZb4O1TkCiJz+FzL1S/XOUji1O2JAygCPfujKmCS+k0X1YkzQdc
+ ZzQoZGFr+y7Hkz7Ov+qoOceQhSAC1YjPiZdQvjYSQ52LR3Tm5yQVuGppFM682wXrJ2YF
+ yzPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0pEsKtTcmK6Ge/i5EQBQ6LfASf28dXHI1IPLk/HalPo=;
+ b=JyBGm/YuFaFb4P95P0j7WvJOGMov4gG1Y1U0eGFlMDkee03k9ibOAFw5a4j9WvF4C2
+ TMV1PRykbQjjZpo0yHEUr6u4yMdsd5a2wd0vaMFI6SRHs3kpy59M8Cc2EiQv+CVZK2lf
+ KtrxaEMiusnf8c62sSnlFrVLURwVHIFFMoJH1CwpXsMJS9nCN1iD64OeDbf86/pJX3C6
+ H/NYwXpZ5Zj7qgLljkG3p8cN62Gs6c09CPCnHnyBNlAdU9y34T1yo8eKJw0JtlPuVBYb
+ BEVok6ydBYVLNZoVoJK13JMgFVaOFpJHZDKOIVVHJoCWQAL+L37XNouwA7H0xzal+uNY
+ ePXA==
+X-Gm-Message-State: ACrzQf3T1DPSyoTHIPbiynn0iF2w15yKQGTwRbrc/bVsbxWBFj+FLNp7
+ kc1+hVuvgz9LKi5a6usiFu5YUg==
+X-Google-Smtp-Source: AMsMyM48c5G4Zf6qxAQhzdhZEm5+6P01MPokmYhExFsdKmZGTgu2hjFS+CYWpaq8usiMrMbmJH8dQw==
+X-Received: by 2002:a05:600c:15c9:b0:3cf:6054:3b3b with SMTP id
+ v9-20020a05600c15c900b003cf60543b3bmr36236680wmf.167.1667830095900; 
+ Mon, 07 Nov 2022 06:08:15 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ hn3-20020a05600ca38300b003cf78aafdd7sm8142716wmb.39.2022.11.07.06.08.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Nov 2022 06:08:15 -0800 (PST)
+Message-ID: <93096c36-fd3a-2e2f-4ae9-3bf9e4287204@linaro.org>
+Date: Mon, 7 Nov 2022 15:08:13 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v10 2/9] s390x/cpu topology: reporting the CPU topology to
- the guest
-To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-3-pmorel@linux.ibm.com>
- <4c5afcb5754cb829cd8b9ddbf4f74e610d5f6012.camel@linux.ibm.com>
- <d82372a9-581a-9544-eb6d-7b3e125926f5@linux.ibm.com>
- <ebfe8dea72adaf23913797c482377f4fd58fd097.camel@linux.ibm.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.1
+Subject: Re: [PATCH V2] hw/riscv: virt: Remove size restriction for pflash
 Content-Language: en-US
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <ebfe8dea72adaf23913797c482377f4fd58fd097.camel@linux.ibm.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Sunil V L <sunilvl@ventanamicro.com>, Markus Armbruster <armbru@redhat.com>,
+ Bernhard Beschow <shentey@gmail.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+References: <20221107130217.2243815-1-sunilvl@ventanamicro.com>
+ <CAFEAcA8X3Q7s6qZ=ojE9fTLG464rrZw+FX=4hmMOhwR-Q4n2sA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAFEAcA8X3Q7s6qZ=ojE9fTLG464rrZw+FX=4hmMOhwR-Q4n2sA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ld0loP4o6t3JhFA2aUhUxiEurNRGBHzg
-X-Proofpoint-GUID: UKrIfHiyK32TwhwQgm16kfJmRzS6YTBf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-07_06,2022-11-07_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0
- lowpriorityscore=0 adultscore=0 phishscore=0 malwarescore=0
- priorityscore=1501 mlxlogscore=999 mlxscore=0 impostorscore=0
- clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211070110
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -124,135 +96,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 11/7/22 14:20, Janis Schoetterl-Glausch wrote:
-> On Fri, 2022-10-28 at 12:00 +0200, Pierre Morel wrote:
+On 7/11/22 14:06, Peter Maydell wrote:
+> On Mon, 7 Nov 2022 at 13:03, Sunil V L <sunilvl@ventanamicro.com> wrote:
 >>
->> On 10/27/22 22:42, Janis Schoetterl-Glausch wrote:
->>> On Wed, 2022-10-12 at 18:21 +0200, Pierre Morel wrote:
->>>> The guest can use the STSI instruction to get a buffer filled
->>>> with the CPU topology description.
->>>>
->>>> Let us implement the STSI instruction for the basis CPU topology
->>>> level, level 2.
->>>>
->>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>>> ---
->>>>    include/hw/s390x/cpu-topology.h |   3 +
->>>>    target/s390x/cpu.h              |  48 ++++++++++++++
->>>>    hw/s390x/cpu-topology.c         |   8 ++-
->>>>    target/s390x/cpu_topology.c     | 109 ++++++++++++++++++++++++++++++++
->>>>    target/s390x/kvm/kvm.c          |   6 +-
->>>>    target/s390x/meson.build        |   1 +
->>>>    6 files changed, 172 insertions(+), 3 deletions(-)
->>>>    create mode 100644 target/s390x/cpu_topology.c
->>>>
->>>> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
->>>> index 66c171d0bc..61c11db017 100644
->>>> --- a/include/hw/s390x/cpu-topology.h
->>>> +++ b/include/hw/s390x/cpu-topology.h
->>>> @@ -13,6 +13,8 @@
->>>>    #include "hw/qdev-core.h"
->>>>    #include "qom/object.h"
->>>>    
->>>> +#define S390_TOPOLOGY_POLARITY_H  0x00
->>>> +
->>>>    typedef struct S390TopoContainer {
->>>>        int active_count;
->>>>    } S390TopoContainer;
->>>> @@ -29,6 +31,7 @@ struct S390Topology {
->>>>        S390TopoContainer *socket;
->>>>        S390TopoTLE *tle;
->>>>        MachineState *ms;
->>>> +    QemuMutex topo_mutex;
->>>>    };
->>>>    
->>>>    #define TYPE_S390_CPU_TOPOLOGY "s390-topology"
->>>> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
->>>> index 7d6d01325b..d604aa9c78 100644
->>>> --- a/target/s390x/cpu.h
->>>> +++ b/target/s390x/cpu.h
->>>>
->>> [...]
->>>> +
->>>> +/* Maxi size of a SYSIB structure is when all CPU are alone in a container */
->>>
->>> Max or Maximum.
->>>
->>>> +#define S390_TOPOLOGY_SYSIB_SIZE (sizeof(SysIB_151x) +                         \
->>>> +                                  S390_MAX_CPUS * (sizeof(SysIBTl_container) + \
->>>> +                                                   sizeof(SysIBTl_cpu)))
->>>
->>> Currently this is 16+248*3*8 == 5968 and will grow with books, drawer support to
->>> 16+248*5*8 == 9936 ...
->>>
->>> [...]
->>>>
->>>> +
->>>> +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
->>>> +{
->>>> +    uint64_t page[S390_TOPOLOGY_SYSIB_SIZE / sizeof(uint64_t)] = {};
->>>
->>> ... so calling this page is a bit misleading. Also why not make it a char[]?
->>> And maybe use a union for type punning.
+>> The pflash implementation currently assumes fixed size of the
+>> backend storage. Due to this, the backend storage file needs to be
+>> exactly of size 32M. Otherwise, there will be an error like below.
 >>
->> OK, what about:
+>> "device requires 33554432 bytes, block backend provides 4194304 bytes"
 >>
->>       union {
->>           char place_holder[S390_TOPOLOGY_SYSIB_SIZE];
->>           SysIB_151x sysib;
->>       } buffer QEMU_ALIGNED(8);
+>> Fix this issue by using the actual size of the backing store.
 >>
-> I don't think you need the QEMU_ALIGNED since SysIB_151x already has it. Not that it hurts to be
-> explicit. If you declared the tle member as uint64_t[], you should get the correct alignment
-> automatically and can then drop the explicit one.
-
-I find the explicit statement better. Why make it non explicit?
-
-> Btw, [] seems to be preferred over [0], at least there is a commit doing a conversion:
-> f7795e4096 ("misc: Replace zero-length arrays with flexible array member (automatic)")
-
-OK
-
->>
->>>
->>>> +    SysIB_151x *sysib = (SysIB_151x *) page;
->>>> +    int len;
->>>> +
->>>> +    if (s390_is_pv() || !s390_has_topology() ||
->>>> +        sel2 < 2 || sel2 > S390_TOPOLOGY_MAX_MNEST) {
->>>> +        setcc(cpu, 3);
->>>> +        return;
->>>> +    }
->>>> +
->>>> +    len = setup_stsi(sysib, sel2);
->>>
->>> This should now be memory safe, but might be larger than 4k,
->>> the maximum size of the SYSIB. I guess you want to set cc code 3
->>> in this case and return.
->>
->> I do not find why the SYSIB can not be larger than 4k.
->> Can you point me to this restriction?
+>> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+>> ---
 > 
-> Says so at the top of the description of STSI:
-> 
-> The SYSIB is 4K bytes and must begin at a 4 K-byte
-> boundary; otherwise, a specification exception may
-> be recognized.
+> Do you really want the flash device size presented to the guest
+> to be variable depending on what the user passed as a block backend?
+> I don't think this is how we handle flash devices on other boards...
 
-Right, I guess I can not read.
+Ideally handling smaller/bigger backend size should be transparent for
+machine frontend, but we never agreed on what are user expectations and
+how to deal with such cases.
 
-So I will return CC=3 in case the length is greater than 4K
+Long term I'd go for:
 
+- if flash is read-only
 
-thanks,
+   a/ bigger backend: display a warning and ignore extra backend data.
+
+   b/ smaller backend: assume flash block is in erased state and fill
+      missing gap with -1 (the default erase value), displaying a warning
+      on startup.
+
+- if flash is read-write
+
+   a/ bigger backend: display a warning and ignore extra backend data.
+
+   b/ smaller backend: add a property to pflash device to handle missing
+      gap as erased data. If this flag is not set, display a hint and
+      exit with an error.
+
+In Sunil particular case, I suppose the issue comes from commit
+334c388f25 ("hw/block/pflash_cfi0{1, 2}: Error out if device length
+isn't a power of two") which I'm going to revert because the code
+base is not ready for such check:
+
+https://lore.kernel.org/qemu-devel/78b914c5-ce7e-1d4a-0a67-450f286eb869@linaro.org/
+
 Regards,
 
-Pierre
-
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
+Phil.
 
