@@ -2,95 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B46B620246
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 23:30:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A179620258
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 23:36:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osAc0-00013r-0z; Mon, 07 Nov 2022 17:29:00 -0500
+	id 1osAhe-0002Ip-HS; Mon, 07 Nov 2022 17:34:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAbi-000128-Cb
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:28:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <alison.schofield@intel.com>)
+ id 1osAhc-0002Ih-Ir
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:34:48 -0500
+Received: from mga14.intel.com ([192.55.52.115])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAbg-0000Xc-K8
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:28:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667860119;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9VRpzFEU5XK+jAB3tYaV1lwkLSFNBCs/+Mdr64T2gAE=;
- b=Rg5gs4dl/PmSB5oEVtPASBkMJ1qynvZcHegLkyw6F+W61CL/9zvHDWG05+EGfYZjFRnGbB
- OxPexFgC8yGcxl8Uxqp6gO6UiTY32/xrNMbhxT+lPFOp8iZMZSimdWJDzARcYCoibUsq1W
- D07bR2fmWv+Hw+P4Idm0LbWSmDyhXTo=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-193-IM70ABr9MguGREZkY-P0UQ-1; Mon, 07 Nov 2022 17:28:38 -0500
-X-MC-Unique: IM70ABr9MguGREZkY-P0UQ-1
-Received: by mail-qt1-f199.google.com with SMTP id
- c19-20020a05622a059300b003a51d69906eso8992233qtb.1
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:28:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9VRpzFEU5XK+jAB3tYaV1lwkLSFNBCs/+Mdr64T2gAE=;
- b=aRhZqc9KOB6udSoJGu6NjeIw1B2ft3YZrHWTEKZLUp3dd/aq3k73kQVCQcVw3nu0/m
- v/q3AmwLhLuN5EeS6dTDewyPKBDNsBcBefARlNrPakRg2KL5ysEhZwaPAPghQ1UZsH8b
- Ov9v+Hh4Fkev3jQdACAkHk22O3mYppXRv1XIFrgqcsqIBTZnK5te+rdeYaIJZLQl8tT6
- fR3gAvb4xIxWOVv2TMlzdSBdpEm75D1XaDeBT/byUBk1f/yfXJrtSzFyJmjb+hVFaHAR
- m6tfo+SlMvo1OEbK1yyBfY2zXqExumLgC6JZvTG2KV3DOk1JeVGipHa9IaoKdGT7tM49
- TVXg==
-X-Gm-Message-State: ACrzQf0kedwImkwqJoonmy2jqeSpx4m5RdfDTPolVIQyRwXe+z+PrE42
- kNqihlPCwFihUFO5mC94Rj0ketVqdmu3Lw09HucHJ204vBxKw3p7SxMgLR9a9PClrLrGllbT44U
- J19fdWaLzM49Q9/E=
-X-Received: by 2002:a05:6214:2aa6:b0:4bb:b2e9:4f1c with SMTP id
- js6-20020a0562142aa600b004bbb2e94f1cmr46469683qvb.29.1667860117805; 
- Mon, 07 Nov 2022 14:28:37 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM6qUpXk4Wn/dBSkIPHXTJTR0+mGqCKRyLYSSH1RqDea3I7kMZyOZZg0YEaNW0CMwzJfKuqwiw==
-X-Received: by 2002:a05:6214:2aa6:b0:4bb:b2e9:4f1c with SMTP id
- js6-20020a0562142aa600b004bbb2e94f1cmr46469670qvb.29.1667860117533; 
- Mon, 07 Nov 2022 14:28:37 -0800 (PST)
-Received: from redhat.com ([87.249.138.11]) by smtp.gmail.com with ESMTPSA id
- c24-20020a05620a269800b006bba46e5eeasm7816996qkp.37.2022.11.07.14.28.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 14:28:37 -0800 (PST)
-Date: Mon, 7 Nov 2022 17:28:31 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PULL v3 49/81] acpi: pc: vga: use AcpiDevAmlIf interface to
- build VGA device descriptors
-Message-ID: <20221107172548-mutt-send-email-mst@kernel.org>
-References: <20221105171116.432921-1-mst@redhat.com>
- <20221105171116.432921-50-mst@redhat.com>
- <CAG4p6K6ZgVmKAfRoaaD99RqtEjU0+qwUncb2=n+8GhNAezgKjg@mail.gmail.com>
- <20221107073158-mutt-send-email-mst@kernel.org>
- <CAARzgwwEayuzcrcSWRmK5UBG56R1SbfHJ0XoV9=T91=wqLMSAg@mail.gmail.com>
- <20221107080023-mutt-send-email-mst@kernel.org>
- <489F21DE-0D51-4559-8067-2C096A2DC828@gmail.com>
+ (Exim 4.90_1) (envelope-from <alison.schofield@intel.com>)
+ id 1osAha-0002xR-20
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:34:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667860486; x=1699396486;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=tHr4J8z3pEPEgvZgRQBKNsHQLZGpXYp89ckMk8enDho=;
+ b=B9y+VAmiLZdhRvBfFpGdbjCwgjr0+T794+HDg7Ei8NCelPvQe9kqlZdL
+ s7lDKO//wXKxyRR0ejktHs6kTeZvl0oJzH2R2tHgks8Yvlh2i0pUhilym
+ 1c/3GviYlgMuoD50rNX2OTFN+lLIIB6aKAHoSSJ3FIvhVDYGVO698Hc06
+ +GMMavfWa0uu6QLgNdGQ4BpjZsoX/1ApqibijyINT9AXLHTXLmny6PsPL
+ q30+FO2IepWm3ie90easRkGljoCMGt/1h5XT3s9FzeBJCqVY1Y04b5E9u
+ OK/HoeSvXe2wtWr8kjPBojhci8gnF6MX5CX1q1z8QzDTkUl4ObbDAYbUi Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="310542457"
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="310542457"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2022 14:34:40 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="699666180"
+X-IronPort-AV: E=Sophos;i="5.96,145,1665471600"; d="scan'208";a="699666180"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO aschofie-mobl2)
+ ([10.209.100.77])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2022 14:34:40 -0800
+Date: Mon, 7 Nov 2022 14:34:38 -0800
+From: Alison Schofield <alison.schofield@intel.com>
+To: Davidlohr Bueso <dave@stgolabs.net>
+Cc: jonathan.cameron@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
+ linux-cxl@vger.kernel.org
+Subject: Re: [PATCH] docs/cxl: Fix some typos
+Message-ID: <Y2mH/jyY90uZv3cz@aschofie-mobl2>
+References: <20221107180923.27072-1-dave@stgolabs.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <489F21DE-0D51-4559-8067-2C096A2DC828@gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <20221107180923.27072-1-dave@stgolabs.net>
+Received-SPF: pass client-ip=192.55.52.115;
+ envelope-from=alison.schofield@intel.com; helo=mga14.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,96 +77,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 07, 2022 at 10:07:52PM +0000, Bernhard Beschow wrote:
-> Am 7. November 2022 13:00:36 UTC schrieb "Michael S. Tsirkin" <mst@redhat.com>:
-> >On Mon, Nov 07, 2022 at 06:16:25PM +0530, Ani Sinha wrote:
-> >> On Mon, Nov 7, 2022 at 6:03 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >> >
-> >> > On Sun, Nov 06, 2022 at 10:16:41PM +0100, Bernhard Beschow wrote:
-> >> > >
-> >> > >
-> >> > > On Sat, Nov 5, 2022 at 6:45 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >> > >
-> >> > >     From: Igor Mammedov <imammedo@redhat.com>
-> >> > >
-> >> > >     Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> >> > >     Message-Id: <20221017102146.2254096-2-imammedo@redhat.com>
-> >> > >     Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> >> > >     Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >> > >     NB: we do not expect any functional change in
-> >> > >     any ACPI tables with this change. It's only a refactoring.
-> >> > >
-> >> > >     Reviewed-by: Ani Sinha <ani@anisinha.ca>
-> >> > >     ---
-> >> > >      hw/display/vga_int.h       |  2 ++
-> >> > >      hw/display/acpi-vga-stub.c |  7 +++++++
-> >> > >      hw/display/acpi-vga.c      | 26 ++++++++++++++++++++++++++
-> >> > >      hw/display/vga-pci.c       |  4 ++++
-> >> > >      hw/i386/acpi-build.c       | 26 +-------------------------
-> >> > >      hw/display/meson.build     | 17 +++++++++++++++++
-> >> > >      6 files changed, 57 insertions(+), 25 deletions(-)
-> >> > >      create mode 100644 hw/display/acpi-vga-stub.c
-> >> > >      create mode 100644 hw/display/acpi-vga.c
-> >> > >
-> >> > >
-> >> > > With this "qemu:qtest+qtest-hppa / qtest-hppa/display-vga-test" fails due to
-> >> > > the symbol "aml_return" being undefined:
-> >> > >
-> >> > > # starting QEMU: exec ./qemu-system-hppa -qtest unix:/tmp/qtest-515650.sock
-> >> > > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-515650.qmp,id=char0 -mon
-> >> > > chardev=char0,mode=control -display none -vga none -device virtio-vga -accel
-> >> > > qtest
-> >> > > ----------------------------------- stderr -----------------------------------
-> >> > > Failed to open module: qemu/build/qemu-bundle/usr/lib/qemu/
-> >> > > hw-display-virtio-vga.so: undefined symbol: aml_return
-> >> > > qemu-system-hppa: -device virtio-vga: 'virtio-vga' is not a valid device model
-> >> > > name
-> >> > > Broken pipe
-> >> > > ../src/tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU process
-> >> > > but encountered exit status 1 (expected 0)
-> >> > >
-> >> > > (test program exited with status code -6)
-> >> > >
-> >> > > Best regards,
-> >> > > Bernhard
-> >> >
-> >> > It's unfortunate that it doesn't reproduce for me :(
-> >> 
-> >> To reproduce:
-> >> 
-> >> - docker pull registry.gitlab.com/qemu-project/qemu/qemu/centos8:latest
-> >> - configure line:
-> >> 
-> >> ../configure --enable-werror --disable-docs --disable-nettle
-> >> --enable-gcrypt --enable-fdt=system --enable-modules
-> >> --enable-trace-backends=dtrace --enable-docs --enable-vfio-user-server
-> >> --target-list="ppc64-softmmu or1k-softmmu s390x-softmmu x86_64-softmmu
-> >> rx-softmmu sh4-softmmu nios2-softmmu"
-> >
-> >
-> >I suspect --enable-modules is the difference.
+On Mon, Nov 07, 2022 at 10:09:23AM -0800, Davidlohr Bueso wrote:
+> Found while reading the doc.
 > 
-> Indeed, I'm building with --enable-modules and got the undefined symbol.
+> Signed-off-by: Davidlohr Bueso <dave@stgolabs.net>
+> ---
+>  docs/system/devices/cxl.rst | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> Perhaps we could use the -Wl,--no-undefined linker option when building with modules to catch these errors at link time already?
+> diff --git a/docs/system/devices/cxl.rst b/docs/system/devices/cxl.rst
+> index abf7c1f24305..891bbd65d9d8 100644
+> --- a/docs/system/devices/cxl.rst
+> +++ b/docs/system/devices/cxl.rst
+> @@ -83,7 +83,7 @@ CXL Fixed Memory Windows (CFMW)
+>  A CFMW consists of a particular range of Host Physical Address space
+>  which is routed to particular CXL Host Bridges.  At time of generic
+to 'a' particular
+
+>  software initialization it will have a particularly interleaving
+s/particularly/particular or just remove usage of the entire word
+here and above. Not sure that 'particular'  is particularly helpful
+here ;)
+
+> -configuration and associated Quality of Serice Throtling Group (QTG).
+> +configuration and associated Quality of Service Throttling Group (QTG).
+>  This information is available to system software, when making
+>  decisions about how to configure interleave across available CXL
+>  memory devices.  It is provide as CFMW Structures (CFMWS) in
+
+s/provide/provided
+
+
+> @@ -98,7 +98,7 @@ specification defined register interface called CXL Host Bridge
+>  Component Registers (CHBCR). The location of this CHBCR MMIO
+>  space is described to system software via a CXL Host Bridge
+>  Structure (CHBS) in the CEDT ACPI table.  The actual interfaces
+> -are identical to those used for other parts of the CXL heirarchy
+> +are identical to those used for other parts of the CXL hierarchy
+>  as CXL Component Registers in PCI BARs.
+>  
+>  Interfaces provided include:
+> @@ -111,7 +111,7 @@ Interfaces provided include:
+>  
+>  CXL Root Ports (CXL RP)
+>  ~~~~~~~~~~~~~~~~~~~~~~~
+> -A CXL Root Port servers te same purpose as a PCIe Root Port.
+> +A CXL Root Port servers the same purpose as a PCIe Root Port.
+
+s/servers/serves
+
+>  There are a number of CXL specific Designated Vendor Specific
+>  Extended Capabilities (DVSEC) in PCIe Configuration Space
+>  and associated component register access via PCI bars.
+> @@ -143,7 +143,7 @@ CXL Memory Devices - Type 3
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  CXL type 3 devices use a PCI class code and are intended to be supported
+>  by a generic operating system driver. They have HDM decoders
+> -though in these EP devices, the decoder is reponsible not for
+> +though in these EP devices, the decoder is responsible not for
+
+s/"responsible not"/"not responsible"
+
+>  routing but for translation of the incoming host physical address (HPA)
+>  into a Device Physical Address (DPA).
+>  
+> @@ -209,7 +209,7 @@ Notes:
+>      ranges of the system physical address map.  Each CFMW has
+>      particular interleave setup across the CXL Host Bridges (HB)
+>      CFMW0 provides uninterleaved access to HB0, CFW2 provides
+> -    uninterleaved acess to HB1. CFW1 provides interleaved memory access
+> +    uninterleaved access to HB1. CFW1 provides interleaved memory access
+>      across HB0 and HB1.
+
+s/CFW1/CFMW1  s/CFW2/CFMW2
+
+>  
+>  (2) **Two CXL Host Bridges**. Each of these has 2 CXL Root Ports and
+> @@ -282,7 +282,7 @@ Example topology involving a switch::
+>              ---------------------------------------------------
+>             |    Switch 0  USP as PCI 0d:00.0                   |
+>             |    USP has HDM decoder which direct traffic to    |
+> -           |    appropiate downstream port                     |
+> +           |    appropriate downstream port                    |
+
+to 'the' or to 'an' approp...
+
+>             |    Switch BUS appears as 0e                       |
+>             |x__________________________________________________|
+>              |                  |               |              |
+
+OK - after picking at this a bit, and only picking at the pieces
+I see in this diff, I'll suggest a check back through this section
+entirely, rather than the piecemeal spelling corrections.
+
+Alison
+
+
+
+> -- 
+> 2.38.0
 > 
-> Best regards,
-> Bernhard
-
-I don't see how it can work but sure, send a patch :)
-
-> >
-> >> - # make
-> >> - # QTEST_QEMU_BINARY=./qemu-system-or1k  ./tests/qtest/qos-test
-> >> failed to open module:
-> >> /build/qemu/qemu/build/qemu-bundle/usr/local/lib64/qemu/hw-display-virtio-vga.so:
-> >> undefined symbol: aml_return
-> >> qemu-system-or1k: ../util/error.c:59: error_setv: Assertion `*errp ==
-> >> NULL' failed.
-> >> Broken pipe
-> >> ../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from
-> >> signal 6 (Aborted) (core dumped)
-> >> Aborted (core dumped)
-> >
-
 
