@@ -2,99 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F73161EC7A
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 08:53:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8EF61ED00
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 09:36:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1orwv0-00026u-OY; Mon, 07 Nov 2022 02:51:44 -0500
+	id 1orxb5-0005aD-Ma; Mon, 07 Nov 2022 03:35:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1orwuu-00026X-6j
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 02:51:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1orwur-0005ws-Jm
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 02:51:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667807492;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1orxb3-0005ZX-0H
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 03:35:09 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1orxb1-0002Sb-2b
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 03:35:08 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1CF2A1F890;
+ Mon,  7 Nov 2022 08:35:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1667810104; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kbSP6FpNOVapYVsr1yjMpKlqnGWV7CJqmq6iwxA3vjM=;
- b=RNjgWUQz2iNiC6+sU2c4fiTmicKLlVllpWED13ktIFz8YAe0w/ku6eZSiWUnLxJv9RuwMb
- 1qFlCcBvazwJyOW1AGu5eHU6F3/ObOGTgbl/60c+99JsfbnwIQp9kNjN2xfpgYGvmrVuMG
- SCnEfmCyIc5Sq1i+7OB6oZwP0prnfnI=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-619-RxFt__ulPL-LxEycARmwbA-1; Mon, 07 Nov 2022 02:51:31 -0500
-X-MC-Unique: RxFt__ulPL-LxEycARmwbA-1
-Received: by mail-ot1-f71.google.com with SMTP id
- j20-20020a9d7f14000000b0066c532b53eeso5313498otq.18
- for <qemu-devel@nongnu.org>; Sun, 06 Nov 2022 23:51:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kbSP6FpNOVapYVsr1yjMpKlqnGWV7CJqmq6iwxA3vjM=;
- b=F412s/4TVn5yeWTJyAWxIWE+kSgNvvarydhEpjnPIqcl0GK3cUeia0HTLpULB0i1TV
- lsqwIYVqOQNPJmmEyOFq1f8NLgnjmR1fPa6EbgQplfOgW12SjQTmU1PO6UupO38LcaQD
- puozqbfEpbVyr8lfa7d2EdeJMhs6EJZcxjaq3FHDY12Tir5ANneBmaevarYbdk7YWdSb
- sxaTiy+t9+NN9H9QAJQBh4brSFTDiotiOKGUhrsHIdEM2xHYBTEmeL80HK5jsUcxCty0
- TemEX2mMG5jCHWIB5eU1nLLscIFp6IDdNrRQmPCZUP1sNFKMZboicKkBd9viETl/1EK9
- Islw==
-X-Gm-Message-State: ACrzQf2LlYcDUTXkq9UHqs9RrZ8JFZdk21V8nj/oJmOSyEJzzKeDvmMf
- s3WS/fQf1/1UAwUOPpPw0iFeAy/SV/J3pgG+YUeae3TpgpayBLZ8sLOaI06FpgXSm7h5BhgpDk2
- G6eT+fG4GmVszwty0MD0Abnr0rvNCbz8=
-X-Received: by 2002:a05:6808:181e:b0:35a:5959:5909 with SMTP id
- bh30-20020a056808181e00b0035a59595909mr9471487oib.35.1667807486044; 
- Sun, 06 Nov 2022 23:51:26 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM4hVMn2+yOueaWKsAHmWs1Z6UnngCaUao23I8+faThsbfzEYQ6/T8h2lBnQCshg3ZjJ6aVetRF40Ncl1OlPKiA=
-X-Received: by 2002:a05:6808:181e:b0:35a:5959:5909 with SMTP id
- bh30-20020a056808181e00b0035a59595909mr9471471oib.35.1667807485753; Sun, 06
- Nov 2022 23:51:25 -0800 (PST)
+ bh=LTOwMeqeQUFcSkfZsJRu13eS366rhRnjR/Hf5O3Wib0=;
+ b=eoN9FoqFcUqV2njRr1twzk+NAjUQq9t3dFWUN9wIeF/QFU8PBZslM9539hPaloHcgV2LL/
+ 00vK/x1yJcly2KXdL+ZiMsWab25R3AXDUEZuR+Usk1XllJR3pbArufKhzJvBwWGO3pN9MF
+ OW5+JhoyDXd4n901SVVNVQSYCWX7G8E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1667810104;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LTOwMeqeQUFcSkfZsJRu13eS366rhRnjR/Hf5O3Wib0=;
+ b=4r1h1SjBSHFB3YZ5HIsf44d+pE87kj/Pa2Oz06/z2u4SKL/XaHQSI+l2d4UXEcalCFf4TC
+ ZX115ws+L1aC3gDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DEAB913494;
+ Mon,  7 Nov 2022 08:35:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ns+7NDfDaGNPLgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Mon, 07 Nov 2022 08:35:03 +0000
+Message-ID: <188a93f2-30e6-c69b-7a49-a4014e74b2df@suse.de>
+Date: Mon, 7 Nov 2022 09:35:03 +0100
 MIME-Version: 1.0
-References: <20221026095303.37907-1-eperezma@redhat.com>
- <20221026095303.37907-4-eperezma@redhat.com>
- <53480725-89de-f289-c5cc-4b37ede72c31@redhat.com>
- <CAJaqyWdr1_eJmS1otXd0RBKUdu5BZk87_t7F6jZm5Mg8sK9kBQ@mail.gmail.com>
- <CACGkMEuv2zNLAr_BxPcQ3RCH5S91bm6sJFvhL7QetJNXaM_FmQ@mail.gmail.com>
- <CAJaqyWfyDWAe18MYzKmwjm8icCR7Ju4eHx1XRQCVb3M1p9uu+A@mail.gmail.com>
- <CACGkMEsEm6cLuQ9uB+wsbyyjExzYP6ua=cS74p12JdBoqModQg@mail.gmail.com>
- <CAJaqyWeD3KnGeVnmWVFdhf1zX8_62zp9VvM1x=YsAmvPFqX8Sw@mail.gmail.com>
- <CACGkMEv4vm5=-zsBjcLePg0=DAXoDXWMNpv2Z-p-Fz2=M_5Bpg@mail.gmail.com>
- <CAJaqyWdj77zojhcf80FtuYeoE9Kmj1oVimbzdHD942QeScUGaQ@mail.gmail.com>
- <CACGkMEtnLMwR6nOfy6wz+YcN+k-LpMCpaRhVt6WHUt1zFAOyGQ@mail.gmail.com>
- <CAJaqyWfaTuTo78UGKa+0__=hvC0r0oLV7B6+TCuNMA2Yq6LAdw@mail.gmail.com>
-In-Reply-To: <CAJaqyWfaTuTo78UGKa+0__=hvC0r0oLV7B6+TCuNMA2Yq6LAdw@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 7 Nov 2022 15:51:14 +0800
-Message-ID: <CACGkMEsqO4f8NCTEU3O_aXktvggW4FO6cRkPiX9B5FmkpDgjUA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] vdpa: Expose VIRTIO_NET_F_STATUS unconditionally
-To: Eugenio Perez Martin <eperezma@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>
-Cc: qemu-devel@nongnu.org, Gautam Dawar <gdawar@xilinx.com>, 
- Parav Pandit <parav@mellanox.com>, Stefano Garzarella <sgarzare@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Eli Cohen <eli@mellanox.com>, 
- Laurent Vivier <lvivier@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Harpreet Singh Anand <hanand@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PULL 12/12] accel: abort if we fail to load the accelerator
+ plugin
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20221106085115.257018-1-pbonzini@redhat.com>
+ <20221106085115.257018-13-pbonzini@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <20221106085115.257018-13-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,408 +91,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 3, 2022 at 4:12 PM Eugenio Perez Martin <eperezma@redhat.com> w=
-rote:
->
-> On Thu, Nov 3, 2022 at 4:21 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > On Wed, Nov 2, 2022 at 7:19 PM Eugenio Perez Martin <eperezma@redhat.co=
-m> wrote:
-> > >
-> > > On Tue, Nov 1, 2022 at 9:10 AM Jason Wang <jasowang@redhat.com> wrote=
-:
-> > > >
-> > > > On Fri, Oct 28, 2022 at 5:30 PM Eugenio Perez Martin
-> > > > <eperezma@redhat.com> wrote:
-> > > > >
-> > > > > On Fri, Oct 28, 2022 at 3:59 AM Jason Wang <jasowang@redhat.com> =
-wrote:
-> > > > > >
-> > > > > > On Thu, Oct 27, 2022 at 6:18 PM Eugenio Perez Martin
-> > > > > > <eperezma@redhat.com> wrote:
-> > > > > > >
-> > > > > > > On Thu, Oct 27, 2022 at 8:54 AM Jason Wang <jasowang@redhat.c=
-om> wrote:
-> > > > > > > >
-> > > > > > > > On Thu, Oct 27, 2022 at 2:47 PM Eugenio Perez Martin
-> > > > > > > > <eperezma@redhat.com> wrote:
-> > > > > > > > >
-> > > > > > > > > On Thu, Oct 27, 2022 at 6:32 AM Jason Wang <jasowang@redh=
-at.com> wrote:
-> > > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > =E5=9C=A8 2022/10/26 17:53, Eugenio P=C3=A9rez =E5=86=
-=99=E9=81=93:
-> > > > > > > > > > > Now that qemu can handle and emulate it if the vdpa b=
-ackend does not
-> > > > > > > > > > > support it we can offer it always.
-> > > > > > > > > > >
-> > > > > > > > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.co=
-m>
-> > > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > I may miss something but isn't more easier to simply re=
-move the
-> > > > > > > > > > _F_STATUS from vdpa_feature_bits[]?
-> > > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > How is that? if we remove it, the guest cannot ack it so =
-it cannot
-> > > > > > > > > access the net status, isn't it?
-> > > > > > > >
-> > > > > > > > My understanding is that the bits stored in the vdpa_featur=
-e_bits[]
-> > > > > > > > are the features that must be explicitly supported by the v=
-host
-> > > > > > > > device.
-> > > > > > >
-> > > > > > > (Non English native here, so maybe I don't get what you mean =
-:) ) The
-> > > > > > > device may not support them. net simulator lacks some of them
-> > > > > > > actually, and it works.
-> > > > > >
-> > > > > > Speaking too fast, I think I meant that, if the bit doesn't bel=
-ong to
-> > > > > > vdpa_feature_bits[], it is assumed to be supported by the Qemu =
-without
-> > > > > > the support of the vhost. So Qemu won't even try to validate if=
- vhost
-> > > > > > has this support. E.g for vhost-net, we only have:
-> > > > > >
-> > > > > > static const int kernel_feature_bits[] =3D {
-> > > > > >     VIRTIO_F_NOTIFY_ON_EMPTY,
-> > > > > >     VIRTIO_RING_F_INDIRECT_DESC,
-> > > > > >     VIRTIO_RING_F_EVENT_IDX,
-> > > > > >     VIRTIO_NET_F_MRG_RXBUF,
-> > > > > >     VIRTIO_F_VERSION_1,
-> > > > > >     VIRTIO_NET_F_MTU,
-> > > > > >     VIRTIO_F_IOMMU_PLATFORM,
-> > > > > >     VIRTIO_F_RING_PACKED,
-> > > > > >     VIRTIO_NET_F_HASH_REPORT,
-> > > > > >     VHOST_INVALID_FEATURE_BIT
-> > > > > > };
-> > > > > >
-> > > > > > You can see there's no STATUS bit there since it is emulated by=
- Qemu.
-> > > > > >
-> > > > >
-> > > > > Ok now I get what you mean, and yes we may modify the patches in =
-that direction.
-> > > > >
-> > > > > But if we go then we need to modify how qemu ack the features, be=
-cause
-> > > > > the features that are not in vdpa_feature_bits are not acked to t=
-he
-> > > > > device. More on this later.
-> > > > >
-> > > > > > >
-> > > > > > > From what I see these are the only features that will be forw=
-arded to
-> > > > > > > the guest as device_features. If it is not in the list, the f=
-eature
-> > > > > > > will be masked out,
-> > > > > >
-> > > > > > Only when there's no support for this feature from the vhost.
-> > > > > >
-> > > > > > > as if the device does not support it.
-> > > > > > >
-> > > > > > > So now _F_STATUS it was forwarded only if the device supports=
- it. If
-> > > > > > > we remove it from bit_mask, it will never be offered to the g=
-uest. But
-> > > > > > > we want to offer it always, since we will need it for
-> > > > > > > _F_GUEST_ANNOUNCE.
-> > > > > > >
-> > > > > > > Things get more complex because we actually need to ack it ba=
-ck if the
-> > > > > > > device offers it, so the vdpa device can report link_down. We=
- will
-> > > > > > > only emulate LINK_UP always in the case the device does not s=
-upport
-> > > > > > > _F_STATUS.
-> > > > > > >
-> > > > > > > > So if we remove _F_STATUS, Qemu vhost code won't validate i=
-f
-> > > > > > > > vhost-vdpa device has this support:
-> > > > > > > >
-> > > > > > > > uint64_t vhost_get_features(struct vhost_dev *hdev, const i=
-nt *feature_bits,
-> > > > > > > >                             uint64_t features)
-> > > > > > > > {
-> > > > > > > >     const int *bit =3D feature_bits;
-> > > > > > > >     while (*bit !=3D VHOST_INVALID_FEATURE_BIT) {
-> > > > > > > >         uint64_t bit_mask =3D (1ULL << *bit);
-> > > > > > > >         if (!(hdev->features & bit_mask)) {
-> > > > > > > >             features &=3D ~bit_mask;
-> > > > > > > >         }
-> > > > > > > >         bit++;
-> > > > > > > >     }
-> > > > > > > >     return features;
-> > > > > > > > }
-> > > > > > > >
-> > > > > > >
-> > > > > > > Now maybe I'm the one missing something, but why is this not =
-done as a
-> > > > > > > masking directly?
-> > > > > >
-> > > > > > Not sure, the code has been there since day 0.
-> > > > > >
-> > > > > > But you can see from the code:
-> > > > > >
-> > > > > > 1) if STATUS is in feature_bits, we need validate the hdev->fea=
-tures
-> > > > > > and mask it if the vhost doesn't have the support
-> > > > > > 2) if STATUS is not, we don't do the check and driver may still=
- see STATUS
-> > > > > >
-> > > > >
-> > > > > That's useful for _F_GUEST_ANNOUNCE, but we need to ack _F_STATUS=
- for
-> > > > > the device if it supports it.
-> > > >
-> > > > Rethink about this, I don't see why ANNOUNCE depends on STATUS (spe=
-c
-> > > > doesn't say so).
-> > > >
-> > >
-> > > It is needed for the guest to read the status bit:
-> > > """
-> > > status only exists if VIRTIO_NET_F_STATUS is set. Two read-only bits
-> > > (for the driver) are currently defined for the status field:
-> > > VIRTIO_NET_S_LINK_UP and VIRTIO_NET_S_ANNOUNCE.
-> > > """
-> > >
-> > > A change on the standard could be possible, like "status only exists
-> > > if VIRTIO_NET_F_STATUS or VIRTIO_NET_F_GUEST_ANNOUNCE is set".
-> > > However, Linux drivers already expect _F_STATUS to read _S_ANNOUNCE
-> > > and to emulate _F_STATUS in case the device doesn't support it should
-> > > not be a big deal in my opinion.
-> >
-> > RIght, so I think we need a spec patch to clarify the dependency,
-> > currently, spec said ANNOUNCE depends on CTRL_VQ.
-> >
->
-> Would it be enough to expand it under the "Feature bit requirements" sect=
-ion?
->
+Hi all,
 
-Yes.
+and thanks Paolo for taking care of this series, I think I noticed something that seems off:
 
-> > >
-> > > > > QEMU cannot detect by itself when the
-> > > > > link is not up. I think that setting unconditionally
-> > > > > VIRTIO_NET_S_LINK_UP is actually a regression, since the guest ca=
-nnot
-> > > > > detect the link down that way.
-> > > >
-> > > > I think the idea is to still read status from config if the device
-> > > > supports this.
-> > > >
-> > >
-> > > Yes, that's my point. If I delete it from vdpa_feature_bits, it will
-> > > not be acked to the device, so we cannot read status from the device.
-> > >
-> > > > >
-> > > > > To enable _F_STATUS unconditionally is only done in the case the
-> > > > > device does not support it, because its emulation is very easy. T=
-hat
-> > > > > way we support _F_GUEST_ANNOUNCE in all cases without device's
-> > > > > cooperation.
-> > > > >
-> > > > > Having said that, should we go the opposite route and ack _F_STAT=
-E as
-> > > > > long as the device supports it? As an advantage, all backends sho=
-uld
-> > > > > support that at this moment, isn't it?
-> > > >
-> > > > So I think the method used in this patch is fine, but I wonder if i=
-t's
-> > > > better to move it to the vhost layer instead of doing it in vhost_n=
-et
-> > > > since we do the features validation there. We probably need another
-> > > > table as input for get/set features there?
-> > > >
-> > >
-> > > We can discuss how to do it for sure. But as you pointed out,
-> > > vhost_net and virtio_net already modify the features received from th=
-e
-> > > devices, so it makes sense to me to modify the features set by the
-> > > guest.
-> > >
-> > > The problem is that we need to transmit to vhost when ack _F_STATUS
-> > > and when not. The first proposal was to add a new member of vhost_vdp=
-a
-> > > but this is not optimal.
-> > >
-> > > If we add a new table it should be a static const one, and vhost_vdpa
-> > > should have a pointer to it, isn't it?
-> >
-> > Yes.
-> >
-> > > Something like features that
-> > > are emulated by qemu so they must be offered always to the guest?
-> >
-> > Kind of, actually it should be the features:
-> >
-> > 1) could be always seen by guest
-> > 2) when vhost device have this feature, use that
-> > 3) when vhost device doesn't have this feature, emulate one
-> >
->
-> I'm fine with that approach, but restricting the changes to either
-> vhost_net or virtio_net makes more sense to me. The net config space
-> interception goes to virtio_net anyway, not to vhost-vdpa.
->
-> I'll try to prepare the patches with a new array.
+On 11/6/22 09:51, Paolo Bonzini wrote:
+> From: Claudio Fontana <cfontana@suse.de>
+> 
+> if QEMU is configured with modules enabled, it is possible that the
+> load of an accelerator module will fail.
+> Exit in this case, relying on module_object_class_by_name to report
+> the specific load error if any.
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> [claudio: changed abort() to exit(1)]
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> Message-Id: <20220929093035.4231-6-cfontana@suse.de>
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  accel/accel-softmmu.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
+> index 67276e4f5222..f9cdafb148ac 100644
+> --- a/accel/accel-softmmu.c
+> +++ b/accel/accel-softmmu.c
+> @@ -66,6 +66,7 @@ void accel_init_ops_interfaces(AccelClass *ac)
+>  {
+>      const char *ac_name;
+>      char *ops_name;
+> +    ObjectClass *oc;
+>      AccelOpsClass *ops;
+>  
+>      ac_name = object_class_get_name(OBJECT_CLASS(ac));
+> @@ -73,8 +74,13 @@ void accel_init_ops_interfaces(AccelClass *ac)
+>  
+>      ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
+>      ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
 
-I'm ok if Michael is ok with this. I think it might help if we add a
-comment in general vhost code like vhost_get_features(), then readers
-know that each individual vhost implementation can mediate the feature
-by their own.
+I think this last line should be removed. I somehow left it there by mistake.
+Not sure if it hurts, but we assign to "ops" here,
 
->
-> > But a question still, is there a vDPA parent that can't do _F_STATUS
-> > now (if not, we probably don't need to bother now).
-> >
->
-> Only mlx have _F_STATUS at this moment.
->
-> If I understand you correctly, you are proposing not to emulate
-> _F_STATUS if the device does not support it? To emulate _F_STATUS is
-> not a big deal emulating _F_GUEST_ANNOUNCE on top anyway.
+only to reassign to the same variable...
 
-I meant if most of the vDPA parent supports _F_STATUS, there's
-probably no need to emulate it:
+I 
 
-1) simulator, not hard to add status
-2) vp_vdpa, should support _F_STATUS
-3) IFCVF, I guess it should have this support, Ling Shan, can you clarify t=
-his?
-4) ENI, not sure but anyhow it's a legacy parent
+> +    oc = module_object_class_by_name(ops_name);
+> +    if (!oc) {
+> +        error_report("fatal: could not load module for type '%s'", ops_name);
+> +        exit(1);
+> +    }
+>      g_free(ops_name);
+> -
+> +    ops = ACCEL_OPS_CLASS(oc);
 
-Thanks
+here. Do I see it right?
 
->
-> Thanks!
->
-> > Thanks
-> >
-> > >
-> > > Thanks!
-> > >
-> > > > Thanks
-> > > >
-> > > > >
-> > > > > Thanks!
-> > > > >
-> > > > >
-> > > > >
-> > > > >
-> > > > > > Thanks
-> > > > > >
-> > > > > > >
-> > > > > > > Instead of making feature_bits an array of ints, to declare i=
-t as a
-> > > > > > > uint64_t with the valid feature bits and simply return featur=
-es &
-> > > > > > > feature_bits.
-> > > > > > >
-> > > > > > > Thanks!
-> > > > > > >
-> > > > > > > > Thanks
-> > > > > > > >
-> > > > > > > >
-> > > > > > > >
-> > > > > > > > >
-> > > > > > > > > The goal with this patch series is to let the guest acces=
-s the status
-> > > > > > > > > always, even if the device doesn't support _F_STATUS.
-> > > > > > > > >
-> > > > > > > > > > Thanks
-> > > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > > ---
-> > > > > > > > > > >   include/net/vhost-vdpa.h |  1 +
-> > > > > > > > > > >   hw/net/vhost_net.c       | 16 ++++++++++++++--
-> > > > > > > > > > >   net/vhost-vdpa.c         |  3 +++
-> > > > > > > > > > >   3 files changed, 18 insertions(+), 2 deletions(-)
-> > > > > > > > > > >
-> > > > > > > > > > > diff --git a/include/net/vhost-vdpa.h b/include/net/v=
-host-vdpa.h
-> > > > > > > > > > > index b81f9a6f2a..cfbcce6427 100644
-> > > > > > > > > > > --- a/include/net/vhost-vdpa.h
-> > > > > > > > > > > +++ b/include/net/vhost-vdpa.h
-> > > > > > > > > > > @@ -17,5 +17,6 @@
-> > > > > > > > > > >   struct vhost_net *vhost_vdpa_get_vhost_net(NetClien=
-tState *nc);
-> > > > > > > > > > >
-> > > > > > > > > > >   extern const int vdpa_feature_bits[];
-> > > > > > > > > > > +extern const uint64_t vhost_vdpa_net_added_feature_b=
-its;
-> > > > > > > > > > >
-> > > > > > > > > > >   #endif /* VHOST_VDPA_H */
-> > > > > > > > > > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > > > > > > > > > > index d28f8b974b..7c15cc6e8f 100644
-> > > > > > > > > > > --- a/hw/net/vhost_net.c
-> > > > > > > > > > > +++ b/hw/net/vhost_net.c
-> > > > > > > > > > > @@ -109,10 +109,22 @@ static const int *vhost_net_get=
-_feature_bits(struct vhost_net *net)
-> > > > > > > > > > >       return feature_bits;
-> > > > > > > > > > >   }
-> > > > > > > > > > >
-> > > > > > > > > > > +static uint64_t vhost_net_add_feature_bits(struct vh=
-ost_net *net)
-> > > > > > > > > > > +{
-> > > > > > > > > > > +    if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER=
-_VHOST_VDPA) {
-> > > > > > > > > > > +        return vhost_vdpa_net_added_feature_bits;
-> > > > > > > > > > > +    }
-> > > > > > > > > > > +
-> > > > > > > > > > > +    return 0;
-> > > > > > > > > > > +}
-> > > > > > > > > > > +
-> > > > > > > > > > >   uint64_t vhost_net_get_features(struct vhost_net *n=
-et, uint64_t features)
-> > > > > > > > > > >   {
-> > > > > > > > > > > -    return vhost_get_features(&net->dev, vhost_net_g=
-et_feature_bits(net),
-> > > > > > > > > > > -            features);
-> > > > > > > > > > > +    uint64_t ret =3D vhost_get_features(&net->dev,
-> > > > > > > > > > > +                                      vhost_net_get_=
-feature_bits(net),
-> > > > > > > > > > > +                                      features);
-> > > > > > > > > > > +
-> > > > > > > > > > > +    return ret | vhost_net_add_feature_bits(net);
-> > > > > > > > > > >   }
-> > > > > > > > > > >   int vhost_net_get_config(struct vhost_net *net,  ui=
-nt8_t *config,
-> > > > > > > > > > >                            uint32_t config_len)
-> > > > > > > > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > > > > > > > > > index 6d64000202..24d2857593 100644
-> > > > > > > > > > > --- a/net/vhost-vdpa.c
-> > > > > > > > > > > +++ b/net/vhost-vdpa.c
-> > > > > > > > > > > @@ -99,6 +99,9 @@ static const uint64_t vdpa_svq_devi=
-ce_features =3D
-> > > > > > > > > > >       BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-> > > > > > > > > > >       BIT_ULL(VIRTIO_NET_F_STANDBY);
-> > > > > > > > > > >
-> > > > > > > > > > > +const uint64_t vhost_vdpa_net_added_feature_bits =3D
-> > > > > > > > > > > +    BIT_ULL(VIRTIO_NET_F_STATUS);
-> > > > > > > > > > > +
-> > > > > > > > > > >   VHostNetState *vhost_vdpa_get_vhost_net(NetClientSt=
-ate *nc)
-> > > > > > > > > > >   {
-> > > > > > > > > > >       VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState,=
- nc, nc);
-> > > > > > > > > >
-> > > > > > > > >
-> > > > > > > >
-> > > > > > >
-> > > > > >
-> > > > >
-> > > >
-> > >
-> >
->
+>      /*
+>       * all accelerators need to define ops, providing at least a mandatory
+>       * non-NULL create_vcpu_thread operation.
 
+So I suggest:
+
+-     ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));                                                                          
+
+Thanks and sorry for the oversight,
+
+Claudio
 
