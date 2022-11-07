@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E90962034E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:08:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 308FA62032E
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:03:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osAvs-0007xW-Tb; Mon, 07 Nov 2022 17:49:32 -0500
+	id 1osAw1-0008LE-1w; Mon, 07 Nov 2022 17:49:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAvq-0007qf-9z
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:49:30 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAvz-0008FA-2H
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:49:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAvn-0002zt-Ol
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:49:30 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAvw-0003RX-H4
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:49:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667861366;
+ s=mimecast20190719; t=1667861376;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ka3xKwYQsEBDcV0p40BGsY036tvVIO60dV7x4lOIuns=;
- b=bk2R19iy+3jGVwobi2pVijz9rQ1GWoKCvrUfrTOCs0JsU39T/sPfLllu+nsbYW+2esGa+O
- p019Oplb5FyblLldHz+rKDqC6t2+5EzFsoE6dxiebCGq88wvxK8rk+5hu77+Pi32R/Wa/y
- otfsP6hPv0+I5Gi2CBBPUrwJdVBFrbQ=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ERzEI18Yr0lNIjwRz1p2jXmUs5Nmir9DxqjwcH2xiP0=;
+ b=E8fo6qepraQkih46zsREg1hLpAgNyaDXMFzcJBDyt8luRKdWJ8LumkMAPwPHdSQQD38Mj0
+ Z4g4xfLM+R3dyoYmlK4+QeDa68KVyF1IeV6HwtagBcNMSlRWa9KQLGYDaw6xvumssFylmp
+ odiWbFlM254tXmdjScJRDShOG7A0KX8=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-611-9bOHbNUnM9a1WAWHXDzBKg-1; Mon, 07 Nov 2022 17:49:25 -0500
-X-MC-Unique: 9bOHbNUnM9a1WAWHXDzBKg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- w4-20020a05620a444400b006fa24b2f394so11374958qkp.15
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:49:24 -0800 (PST)
+ us-mta-461-MNC5_00KMeqRFh68nl8bDw-1; Mon, 07 Nov 2022 17:49:34 -0500
+X-MC-Unique: MNC5_00KMeqRFh68nl8bDw-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ i17-20020a05620a249100b006fa2e10a2ecso11367295qkn.16
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:49:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ka3xKwYQsEBDcV0p40BGsY036tvVIO60dV7x4lOIuns=;
- b=BnbqM6dQ20jU4r7qw18OfrZ+Ix6Qb55yFMzMnutPGBOBx2+/hbZSt2e7FBtLIWMWaG
- GaDPJjg7wJ/D9ODrwKRt6D/ht7B5ZEIQdS/Y4wWuFN2ZdUujXZocMRE3iQ0mgZ9WlUtZ
- M/yosTUY/MVGWUKXpsRclE31/Z+YaPxYE45poZsK/rcuVaq+EmuuR50yUAa4VvM0xRQY
- KEAbWL+ihZGSzoHQjNyJwdhkyUBZfHPr4ChU2k7KiZ1S6Ghr1tKyd+pg3E5Rq3T6QBZZ
- wi/Ugr5YnCG9XKIS4UdG8cGRieXAxNMAhUYa5L4k4mBogO2fGEmBL5+kFIr5i9YJMDLG
- j7Aw==
-X-Gm-Message-State: ANoB5pkuUtekMBOuUfLMyIWBlQAGYurfcbpWxNphyvJMyGVWvWG3RYuA
- DBaAUYz41p++KNKAsCY5QgD55TUSzpT0bhGS6x/lE3+R0Juv9F7I44jH/J5PfXXgPduFcfMx5YW
- VMvDqDyHbRxLOz1cG2zeCIrKzf0u22g+l1ealV07JhTf2xj6Wii1No1qdMkXD
-X-Received: by 2002:a37:696:0:b0:6fa:eece:f58a with SMTP id
- 144-20020a370696000000b006faeecef58amr3538170qkg.152.1667861364224; 
- Mon, 07 Nov 2022 14:49:24 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5mNBKj9BEGinUkJQkiR5dCohddWtRmCP8A3MEs6kUSyxrt+8ewqUjLms5+TLRfI35OMw1DVw==
-X-Received: by 2002:a37:696:0:b0:6fa:eece:f58a with SMTP id
- 144-20020a370696000000b006faeecef58amr3538139qkg.152.1667861363752; 
- Mon, 07 Nov 2022 14:49:23 -0800 (PST)
+ bh=ERzEI18Yr0lNIjwRz1p2jXmUs5Nmir9DxqjwcH2xiP0=;
+ b=Z1I9ve7hsOmQSgyvyNbRmjGR8oYAKbtkOsjaNolXiUbtN5dvAXQ7rzSLKCYlDju2pb
+ 3UKREt31jc5hFA1sLAfgvJPXNoWIwgnZLoxs6948iOjuRhHCQzYMqOhXNf+t1hVI4ZQh
+ zzHCm0otolfRbXGm9qB7X3mjYVp9VTIOQrP7+VTBY0vPopRveULxgCSKgfiYkcqVPqSc
+ Ial/Hpb17pFWsE5nROzxK6cDZMoHIbVjEqa9YqpzMd5M4GHGrCM0/8dSFNrGBaUXr1Xr
+ 5bo6IGQK8pubfn9h0T14RJHXONYHyaw5sfwY4I/yt65FYCUEtcS2dYrRgLMWuUffRBvO
+ cy0A==
+X-Gm-Message-State: ANoB5pl9wbemjBB9CltUVXzqWncYjyyKpryW6H89dffqsyyFraXEPvqP
+ 9CloUu2GciAIUHdfXfHvr45bPgY7A+Afee+KLxXZROp3kEmEA2vTDKKzfVdLa+5QvOwKTEwMWBT
+ QAQlZRhkxLZHIZhUk+uuaDTZpqwGsxH12N8pucPgYp98mY5idLCUYa2DZlVGW
+X-Received: by 2002:ac8:594d:0:b0:3a5:9c69:3d68 with SMTP id
+ 13-20020ac8594d000000b003a59c693d68mr2726441qtz.670.1667861374193; 
+ Mon, 07 Nov 2022 14:49:34 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6+9a35R1p1GGOHMJysJowt46WP+xNAXfs2Dfwwux9FflW8TIdRNIkL44+YgQ/UCR2d56nuRg==
+X-Received: by 2002:ac8:594d:0:b0:3a5:9c69:3d68 with SMTP id
+ 13-20020ac8594d000000b003a59c693d68mr2726414qtz.670.1667861373752; 
+ Mon, 07 Nov 2022 14:49:33 -0800 (PST)
 Received: from redhat.com ([87.249.138.11]) by smtp.gmail.com with ESMTPSA id
- q3-20020a05620a2a4300b006eed47a1a1esm7789208qkp.134.2022.11.07.14.49.21
+ fd7-20020a05622a4d0700b0039a372fbaa5sm6915963qtb.69.2022.11.07.14.49.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 14:49:23 -0800 (PST)
-Date: Mon, 7 Nov 2022 17:49:19 -0500
+ Mon, 07 Nov 2022 14:49:33 -0800 (PST)
+Date: Mon, 7 Nov 2022 17:49:28 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Huai-Cheng Kuo <hchkuo@avery-design.com.tw>,
  Chris Browy <cbrowy@avery-design.com>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL v4 21/83] hw/pci: PCIe Data Object Exchange emulation
-Message-ID: <20221107224600.934080-22-mst@redhat.com>
+ Ben Widawsky <ben.widawsky@intel.com>
+Subject: [PULL v4 23/83] hw/cxl/cdat: CXL CDAT Data Object Exchange
+ implementation
+Message-ID: <20221107224600.934080-24-mst@redhat.com>
 References: <20221107224600.934080-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -102,76 +103,39 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
 
-Emulation of PCIe Data Object Exchange (DOE)
-PCIE Base Specification r6.0 6.3 Data Object Exchange
+The Data Object Exchange implementation of CXL Coherent Device Attribute
+Table (CDAT). This implementation is referring to "Coherent Device
+Attribute Table Specification, Rev. 1.03, July. 2022" and "Compute
+Express Link Specification, Rev. 3.0, July. 2022"
 
-Supports multiple DOE PCIe Extended Capabilities for a single PCIe
-device. For each capability, a static array of DOEProtocol should be passed
-to pcie_doe_init(). The protocols in that array will be registered under
-the DOE capability structure. For each protocol, vendor ID, type, and
-corresponding callback function (handle_request()) should be implemented.
-This callback function represents how the DOE request for corresponding
-protocol will be handled.
-
-pcie_doe_{read/write}_config() must be appended to corresponding PCI
-device's config_read/write() handler to enable DOE access. In
-pcie_doe_read_config(), false will be returned if pci_config_read()
-offset is not within DOE capability range. In pcie_doe_write_config(),
-the function will have no affect if the address is not within the related
-DOE PCIE extended capability.
+This patch adds core support that will be shared by both
+end-points and switch port emulation.
 
 Signed-off-by: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
 Signed-off-by: Chris Browy <cbrowy@avery-design.com>
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Message-Id: <20221014151045.24781-2-Jonathan.Cameron@huawei.com>
+Message-Id: <20221014151045.24781-4-Jonathan.Cameron@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/pci/pci_ids.h   |   3 +
- include/hw/pci/pcie.h      |   1 +
- include/hw/pci/pcie_doe.h  | 123 +++++++++++++
- include/hw/pci/pcie_regs.h |   4 +
- hw/pci/pcie_doe.c          | 367 +++++++++++++++++++++++++++++++++++++
- MAINTAINERS                |   7 +
- hw/pci/meson.build         |   1 +
- 7 files changed, 506 insertions(+)
- create mode 100644 include/hw/pci/pcie_doe.h
- create mode 100644 hw/pci/pcie_doe.c
+ include/hw/cxl/cxl_cdat.h      | 165 ++++++++++++++++++++++++
+ include/hw/cxl/cxl_component.h |   7 ++
+ include/hw/cxl/cxl_device.h    |   3 +
+ include/hw/cxl/cxl_pci.h       |   1 +
+ hw/cxl/cxl-cdat.c              | 224 +++++++++++++++++++++++++++++++++
+ hw/cxl/meson.build             |   1 +
+ 6 files changed, 401 insertions(+)
+ create mode 100644 include/hw/cxl/cxl_cdat.h
+ create mode 100644 hw/cxl/cxl-cdat.c
 
-diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
-index d5ddea558b..bc9f834fd1 100644
---- a/include/hw/pci/pci_ids.h
-+++ b/include/hw/pci/pci_ids.h
-@@ -157,6 +157,9 @@
- 
- /* Vendors and devices.  Sort key: vendor first, device next. */
- 
-+/* Ref: PCIe r6.0 Table 6-32 */
-+#define PCI_VENDOR_ID_PCI_SIG            0x0001
-+
- #define PCI_VENDOR_ID_LSI_LOGIC          0x1000
- #define PCI_DEVICE_ID_LSI_53C810         0x0001
- #define PCI_DEVICE_ID_LSI_53C895A        0x0012
-diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-index 798a262a0a..698d3de851 100644
---- a/include/hw/pci/pcie.h
-+++ b/include/hw/pci/pcie.h
-@@ -26,6 +26,7 @@
- #include "hw/pci/pcie_aer.h"
- #include "hw/pci/pcie_sriov.h"
- #include "hw/hotplug.h"
-+#include "hw/pci/pcie_doe.h"
- 
- typedef enum {
-     /* for attention and power indicator */
-diff --git a/include/hw/pci/pcie_doe.h b/include/hw/pci/pcie_doe.h
+diff --git a/include/hw/cxl/cxl_cdat.h b/include/hw/cxl/cxl_cdat.h
 new file mode 100644
-index 0000000000..ba4d8b03bd
+index 0000000000..52c232e912
 --- /dev/null
-+++ b/include/hw/pci/pcie_doe.h
-@@ -0,0 +1,123 @@
++++ b/include/hw/cxl/cxl_cdat.h
+@@ -0,0 +1,165 @@
 +/*
-+ * PCIe Data Object Exchange
++ * CXL CDAT Structure
 + *
 + * Copyright (C) 2021 Avery Design Systems, Inc.
 + *
@@ -179,141 +143,226 @@ index 0000000000..ba4d8b03bd
 + * See the COPYING file in the top-level directory.
 + */
 +
-+#ifndef PCIE_DOE_H
-+#define PCIE_DOE_H
++#ifndef CXL_CDAT_H
++#define CXL_CDAT_H
 +
-+#include "qemu/range.h"
-+#include "qemu/typedefs.h"
-+#include "hw/register.h"
++#include "hw/cxl/cxl_pci.h"
 +
 +/*
 + * Reference:
-+ * PCIe r6.0 - 7.9.24 Data Object Exchange Extended Capability
++ *   Coherent Device Attribute Table (CDAT) Specification, Rev. 1.03, July. 2022
++ *   Compute Express Link (CXL) Specification, Rev. 3.0, Aug. 2022
 + */
-+/* Capabilities Register - r6.0 7.9.24.2 */
-+#define PCI_EXP_DOE_CAP             0x04
-+REG32(PCI_DOE_CAP_REG, 0)
-+    FIELD(PCI_DOE_CAP_REG, INTR_SUPP, 0, 1)
-+    FIELD(PCI_DOE_CAP_REG, DOE_INTR_MSG_NUM, 1, 11)
++/* Table Access DOE - CXL r3.0 8.1.11 */
++#define CXL_DOE_TABLE_ACCESS      2
++#define CXL_DOE_PROTOCOL_CDAT     ((CXL_DOE_TABLE_ACCESS << 16) | CXL_VENDOR_ID)
 +
-+/* Control Register - r6.0 7.9.24.3 */
-+#define PCI_EXP_DOE_CTRL            0x08
-+REG32(PCI_DOE_CAP_CONTROL, 0)
-+    FIELD(PCI_DOE_CAP_CONTROL, DOE_ABORT, 0, 1)
-+    FIELD(PCI_DOE_CAP_CONTROL, DOE_INTR_EN, 1, 1)
-+    FIELD(PCI_DOE_CAP_CONTROL, DOE_GO, 31, 1)
++/* Read Entry - CXL r3.0 8.1.11.1 */
++#define CXL_DOE_TAB_TYPE_CDAT 0
++#define CXL_DOE_TAB_ENT_MAX 0xFFFF
 +
-+/* Status Register - r6.0 7.9.24.4 */
-+#define PCI_EXP_DOE_STATUS          0x0c
-+REG32(PCI_DOE_CAP_STATUS, 0)
-+    FIELD(PCI_DOE_CAP_STATUS, DOE_BUSY, 0, 1)
-+    FIELD(PCI_DOE_CAP_STATUS, DOE_INTR_STATUS, 1, 1)
-+    FIELD(PCI_DOE_CAP_STATUS, DOE_ERROR, 2, 1)
-+    FIELD(PCI_DOE_CAP_STATUS, DATA_OBJ_RDY, 31, 1)
++/* Read Entry Request - CXL r3.0 8.1.11.1 Table 8-13 */
++#define CXL_DOE_TAB_REQ 0
++typedef struct CDATReq {
++    DOEHeader header;
++    uint8_t req_code;
++    uint8_t table_type;
++    uint16_t entry_handle;
++} QEMU_PACKED CDATReq;
 +
-+/* Write Data Mailbox Register - r6.0 7.9.24.5 */
-+#define PCI_EXP_DOE_WR_DATA_MBOX    0x10
++/* Read Entry Response - CXL r3.0 8.1.11.1 Table 8-14 */
++#define CXL_DOE_TAB_RSP 0
++typedef struct CDATRsp {
++    DOEHeader header;
++    uint8_t rsp_code;
++    uint8_t table_type;
++    uint16_t entry_handle;
++} QEMU_PACKED CDATRsp;
 +
-+/* Read Data Mailbox Register - 7.9.xx.6 */
-+#define PCI_EXP_DOE_RD_DATA_MBOX    0x14
-+
-+/* PCI-SIG defined Data Object Types - r6.0 Table 6-32 */
-+#define PCI_SIG_DOE_DISCOVERY       0x00
-+
-+#define PCI_DOE_DW_SIZE_MAX         (1 << 18)
-+#define PCI_DOE_PROTOCOL_NUM_MAX    256
-+
-+#define DATA_OBJ_BUILD_HEADER1(v, p)    (((p) << 16) | (v))
-+#define DATA_OBJ_LEN_MASK(len)          ((len) & (PCI_DOE_DW_SIZE_MAX - 1))
-+
-+typedef struct DOEHeader DOEHeader;
-+typedef struct DOEProtocol DOEProtocol;
-+typedef struct DOECap DOECap;
-+
-+struct DOEHeader {
-+    uint16_t vendor_id;
-+    uint8_t data_obj_type;
-+    uint8_t reserved;
++/* CDAT Table Format - CDAT Table 1 */
++#define CXL_CDAT_REV 2
++typedef struct CDATTableHeader {
 +    uint32_t length;
-+} QEMU_PACKED;
++    uint8_t revision;
++    uint8_t checksum;
++    uint8_t reserved[6];
++    uint32_t sequence;
++} QEMU_PACKED CDATTableHeader;
 +
-+/* Protocol infos and rsp function callback */
-+struct DOEProtocol {
-+    uint16_t vendor_id;
-+    uint8_t data_obj_type;
-+    bool (*handle_request)(DOECap *);
-+};
++/* CDAT Structure Types - CDAT Table 2 */
++typedef enum {
++    CDAT_TYPE_DSMAS = 0,
++    CDAT_TYPE_DSLBIS = 1,
++    CDAT_TYPE_DSMSCIS = 2,
++    CDAT_TYPE_DSIS = 3,
++    CDAT_TYPE_DSEMTS = 4,
++    CDAT_TYPE_SSLBIS = 5,
++} CDATType;
 +
-+struct DOECap {
-+    /* Owner */
-+    PCIDevice *pdev;
++typedef struct CDATSubHeader {
++    uint8_t type;
++    uint8_t reserved;
++    uint16_t length;
++} CDATSubHeader;
 +
-+    uint16_t offset;
++/* Device Scoped Memory Affinity Structure - CDAT Table 3 */
++typedef struct CDATDsmas {
++    CDATSubHeader header;
++    uint8_t DSMADhandle;
++    uint8_t flags;
++#define CDAT_DSMAS_FLAG_NV              (1 << 2)
++#define CDAT_DSMAS_FLAG_SHAREABLE       (1 << 3)
++#define CDAT_DSMAS_FLAG_HW_COHERENT     (1 << 4)
++#define CDAT_DSMAS_FLAG_DYNAMIC_CAP     (1 << 5)
++    uint16_t reserved;
++    uint64_t DPA_base;
++    uint64_t DPA_length;
++} QEMU_PACKED CDATDsmas;
 +
-+    struct {
-+        bool intr;
-+        uint16_t vec;
-+    } cap;
++/* Device Scoped Latency and Bandwidth Information Structure - CDAT Table 5 */
++typedef struct CDATDslbis {
++    CDATSubHeader header;
++    uint8_t handle;
++    /* Definitions of these fields refer directly to HMAT fields */
++    uint8_t flags;
++    uint8_t data_type;
++    uint8_t reserved;
++    uint64_t entry_base_unit;
++    uint16_t entry[3];
++    uint16_t reserved2;
++} QEMU_PACKED CDATDslbis;
 +
-+    struct {
-+        bool abort;
-+        bool intr;
-+        bool go;
-+    } ctrl;
++/* Device Scoped Memory Side Cache Information Structure - CDAT Table 6 */
++typedef struct CDATDsmscis {
++    CDATSubHeader header;
++    uint8_t DSMAS_handle;
++    uint8_t reserved[3];
++    uint64_t memory_side_cache_size;
++    uint32_t cache_attributes;
++} QEMU_PACKED CDATDsmscis;
 +
-+    struct {
-+        bool busy;
-+        bool intr;
-+        bool error;
-+        bool ready;
-+    } status;
++/* Device Scoped Initiator Structure - CDAT Table 7 */
++typedef struct CDATDsis {
++    CDATSubHeader header;
++    uint8_t flags;
++    uint8_t handle;
++    uint16_t reserved;
++} QEMU_PACKED CDATDsis;
 +
-+    uint32_t *write_mbox;
-+    uint32_t *read_mbox;
++/* Device Scoped EFI Memory Type Structure - CDAT Table 8 */
++typedef struct CDATDsemts {
++    CDATSubHeader header;
++    uint8_t DSMAS_handle;
++    uint8_t EFI_memory_type_attr;
++    uint16_t reserved;
++    uint64_t DPA_offset;
++    uint64_t DPA_length;
++} QEMU_PACKED CDATDsemts;
 +
-+    /* Mailbox position indicator */
-+    uint32_t read_mbox_idx;
-+    uint32_t read_mbox_len;
-+    uint32_t write_mbox_len;
++/* Switch Scoped Latency and Bandwidth Information Structure - CDAT Table 9 */
++typedef struct CDATSslbisHeader {
++    CDATSubHeader header;
++    uint8_t data_type;
++    uint8_t reserved[3];
++    uint64_t entry_base_unit;
++} QEMU_PACKED CDATSslbisHeader;
 +
-+    /* Protocols and its callback response */
-+    DOEProtocol *protocols;
-+    uint16_t protocol_num;
-+};
++/* Switch Scoped Latency and Bandwidth Entry - CDAT Table 10 */
++typedef struct CDATSslbe {
++    uint16_t port_x_id;
++    uint16_t port_y_id;
++    uint16_t latency_bandwidth;
++    uint16_t reserved;
++} QEMU_PACKED CDATSslbe;
 +
-+void pcie_doe_init(PCIDevice *pdev, DOECap *doe_cap, uint16_t offset,
-+                   DOEProtocol *protocols, bool intr, uint16_t vec);
-+void pcie_doe_fini(DOECap *doe_cap);
-+bool pcie_doe_read_config(DOECap *doe_cap, uint32_t addr, int size,
-+                          uint32_t *buf);
-+void pcie_doe_write_config(DOECap *doe_cap, uint32_t addr,
-+                           uint32_t val, int size);
-+uint32_t pcie_doe_build_protocol(DOEProtocol *p);
-+void *pcie_doe_get_write_mbox_ptr(DOECap *doe_cap);
-+void pcie_doe_set_rsp(DOECap *doe_cap, void *rsp);
-+uint32_t pcie_doe_get_obj_len(void *obj);
-+#endif /* PCIE_DOE_H */
-diff --git a/include/hw/pci/pcie_regs.h b/include/hw/pci/pcie_regs.h
-index 1db86b0ec4..963dc2e170 100644
---- a/include/hw/pci/pcie_regs.h
-+++ b/include/hw/pci/pcie_regs.h
-@@ -179,4 +179,8 @@ typedef enum PCIExpLinkWidth {
- #define PCI_ACS_VER                     0x1
- #define PCI_ACS_SIZEOF                  8
++typedef struct CDATSslbis {
++    CDATSslbisHeader sslbis_header;
++    CDATSslbe sslbe[];
++} QEMU_PACKED CDATSslbis;
++
++typedef struct CDATEntry {
++    void *base;
++    uint32_t length;
++} CDATEntry;
++
++typedef struct CDATObject {
++    CDATEntry *entry;
++    int entry_len;
++
++    int (*build_cdat_table)(CDATSubHeader ***cdat_table, void *priv);
++    void (*free_cdat_table)(CDATSubHeader **cdat_table, int num, void *priv);
++    bool to_update;
++    void *private;
++    char *filename;
++    uint8_t *buf;
++    struct CDATSubHeader **built_buf;
++    int built_buf_len;
++} CDATObject;
++#endif /* CXL_CDAT_H */
+diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
+index 94ec2f07d7..34075cfb72 100644
+--- a/include/hw/cxl/cxl_component.h
++++ b/include/hw/cxl/cxl_component.h
+@@ -19,6 +19,7 @@
+ #include "qemu/range.h"
+ #include "qemu/typedefs.h"
+ #include "hw/register.h"
++#include "qapi/error.h"
  
-+/* DOE Capability Register Fields */
-+#define PCI_DOE_VER                     0x1
-+#define PCI_DOE_SIZEOF                  24
+ enum reg_type {
+     CXL2_DEVICE,
+@@ -184,6 +185,8 @@ typedef struct cxl_component {
+             struct PCIDevice *pdev;
+         };
+     };
 +
- #endif /* QEMU_PCIE_REGS_H */
-diff --git a/hw/pci/pcie_doe.c b/hw/pci/pcie_doe.c
++    CDATObject cdat;
+ } CXLComponentState;
+ 
+ void cxl_component_register_block_init(Object *obj,
+@@ -220,4 +223,8 @@ static inline hwaddr cxl_decode_ig(int ig)
+ 
+ CXLComponentState *cxl_get_hb_cstate(PCIHostState *hb);
+ 
++void cxl_doe_cdat_init(CXLComponentState *cxl_cstate, Error **errp);
++void cxl_doe_cdat_release(CXLComponentState *cxl_cstate);
++void cxl_doe_cdat_update(CXLComponentState *cxl_cstate, Error **errp);
++
+ #endif
+diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+index e4d221cdb3..449b0edfe9 100644
+--- a/include/hw/cxl/cxl_device.h
++++ b/include/hw/cxl/cxl_device.h
+@@ -243,6 +243,9 @@ struct CXLType3Dev {
+     AddressSpace hostmem_as;
+     CXLComponentState cxl_cstate;
+     CXLDeviceState cxl_dstate;
++
++    /* DOE */
++    DOECap doe_cdat;
+ };
+ 
+ #define TYPE_CXL_TYPE3 "cxl-type3"
+diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
+index 01cf002096..3cb79eca1e 100644
+--- a/include/hw/cxl/cxl_pci.h
++++ b/include/hw/cxl/cxl_pci.h
+@@ -13,6 +13,7 @@
+ #include "qemu/compiler.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pcie.h"
++#include "hw/cxl/cxl_cdat.h"
+ 
+ #define CXL_VENDOR_ID 0x1e98
+ 
+diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
 new file mode 100644
-index 0000000000..2210f86968
+index 0000000000..3653aa56f0
 --- /dev/null
-+++ b/hw/pci/pcie_doe.c
-@@ -0,0 +1,367 @@
++++ b/hw/cxl/cxl-cdat.c
+@@ -0,0 +1,224 @@
 +/*
-+ * PCIe Data Object Exchange
++ * CXL CDAT Structure
 + *
 + * Copyright (C) 2021 Avery Design Systems, Inc.
 + *
@@ -322,393 +371,232 @@ index 0000000000..2210f86968
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "qemu/error-report.h"
-+#include "qapi/error.h"
-+#include "qemu/range.h"
 +#include "hw/pci/pci.h"
-+#include "hw/pci/pcie.h"
-+#include "hw/pci/pcie_doe.h"
-+#include "hw/pci/msi.h"
-+#include "hw/pci/msix.h"
++#include "hw/cxl/cxl.h"
++#include "qapi/error.h"
++#include "qemu/error-report.h"
 +
-+#define DWORD_BYTE 4
-+
-+typedef struct DoeDiscoveryReq {
-+    DOEHeader header;
-+    uint8_t index;
-+    uint8_t reserved[3];
-+} QEMU_PACKED DoeDiscoveryReq;
-+
-+typedef struct DoeDiscoveryRsp {
-+    DOEHeader header;
-+    uint16_t vendor_id;
-+    uint8_t data_obj_type;
-+    uint8_t next_index;
-+} QEMU_PACKED DoeDiscoveryRsp;
-+
-+static bool pcie_doe_discovery(DOECap *doe_cap)
++static void cdat_len_check(CDATSubHeader *hdr, Error **errp)
 +{
-+    DoeDiscoveryReq *req = pcie_doe_get_write_mbox_ptr(doe_cap);
-+    DoeDiscoveryRsp rsp;
-+    uint8_t index = req->index;
-+    DOEProtocol *prot;
++    assert(hdr->length);
++    assert(hdr->reserved == 0);
 +
-+    /* Discard request if length does not match DoeDiscoveryReq */
-+    if (pcie_doe_get_obj_len(req) <
-+        DIV_ROUND_UP(sizeof(DoeDiscoveryReq), DWORD_BYTE)) {
-+        return false;
-+    }
-+
-+    rsp.header = (DOEHeader) {
-+        .vendor_id = PCI_VENDOR_ID_PCI_SIG,
-+        .data_obj_type = PCI_SIG_DOE_DISCOVERY,
-+        .length = DIV_ROUND_UP(sizeof(DoeDiscoveryRsp), DWORD_BYTE),
-+    };
-+
-+    /* Point to the requested protocol, index 0 must be Discovery */
-+    if (index == 0) {
-+        rsp.vendor_id = PCI_VENDOR_ID_PCI_SIG;
-+        rsp.data_obj_type = PCI_SIG_DOE_DISCOVERY;
-+    } else {
-+        if (index < doe_cap->protocol_num) {
-+            prot = &doe_cap->protocols[index - 1];
-+            rsp.vendor_id = prot->vendor_id;
-+            rsp.data_obj_type = prot->data_obj_type;
-+        } else {
-+            rsp.vendor_id = 0xFFFF;
-+            rsp.data_obj_type = 0xFF;
-+        }
-+    }
-+
-+    if (index + 1 == doe_cap->protocol_num) {
-+        rsp.next_index = 0;
-+    } else {
-+        rsp.next_index = index + 1;
-+    }
-+
-+    pcie_doe_set_rsp(doe_cap, &rsp);
-+
-+    return true;
-+}
-+
-+static void pcie_doe_reset_mbox(DOECap *st)
-+{
-+    st->read_mbox_idx = 0;
-+    st->read_mbox_len = 0;
-+    st->write_mbox_len = 0;
-+
-+    memset(st->read_mbox, 0, PCI_DOE_DW_SIZE_MAX * DWORD_BYTE);
-+    memset(st->write_mbox, 0, PCI_DOE_DW_SIZE_MAX * DWORD_BYTE);
-+}
-+
-+void pcie_doe_init(PCIDevice *dev, DOECap *doe_cap, uint16_t offset,
-+                   DOEProtocol *protocols, bool intr, uint16_t vec)
-+{
-+    pcie_add_capability(dev, PCI_EXT_CAP_ID_DOE, 0x1, offset,
-+                        PCI_DOE_SIZEOF);
-+
-+    doe_cap->pdev = dev;
-+    doe_cap->offset = offset;
-+
-+    if (intr && (msi_present(dev) || msix_present(dev))) {
-+        doe_cap->cap.intr = intr;
-+        doe_cap->cap.vec = vec;
-+    }
-+
-+    doe_cap->write_mbox = g_malloc0(PCI_DOE_DW_SIZE_MAX * DWORD_BYTE);
-+    doe_cap->read_mbox = g_malloc0(PCI_DOE_DW_SIZE_MAX * DWORD_BYTE);
-+
-+    pcie_doe_reset_mbox(doe_cap);
-+
-+    doe_cap->protocols = protocols;
-+    for (; protocols->vendor_id; protocols++) {
-+        doe_cap->protocol_num++;
-+    }
-+    assert(doe_cap->protocol_num < PCI_DOE_PROTOCOL_NUM_MAX);
-+
-+    /* Increment to allow for the discovery protocol */
-+    doe_cap->protocol_num++;
-+}
-+
-+void pcie_doe_fini(DOECap *doe_cap)
-+{
-+    g_free(doe_cap->read_mbox);
-+    g_free(doe_cap->write_mbox);
-+    g_free(doe_cap);
-+}
-+
-+uint32_t pcie_doe_build_protocol(DOEProtocol *p)
-+{
-+    return DATA_OBJ_BUILD_HEADER1(p->vendor_id, p->data_obj_type);
-+}
-+
-+void *pcie_doe_get_write_mbox_ptr(DOECap *doe_cap)
-+{
-+    return doe_cap->write_mbox;
-+}
-+
-+/*
-+ * Copy the response to read mailbox buffer
-+ * This might be called in self-defined handle_request() if a DOE response is
-+ * required in the corresponding protocol
-+ */
-+void pcie_doe_set_rsp(DOECap *doe_cap, void *rsp)
-+{
-+    uint32_t len = pcie_doe_get_obj_len(rsp);
-+
-+    memcpy(doe_cap->read_mbox + doe_cap->read_mbox_len, rsp, len * DWORD_BYTE);
-+    doe_cap->read_mbox_len += len;
-+}
-+
-+uint32_t pcie_doe_get_obj_len(void *obj)
-+{
-+    uint32_t len;
-+
-+    if (!obj) {
-+        return 0;
-+    }
-+
-+    /* Only lower 18 bits are valid */
-+    len = DATA_OBJ_LEN_MASK(((DOEHeader *)obj)->length);
-+
-+    /* PCIe r6.0 Table 6.29: a value of 00000h indicates 2^18 DW */
-+    return (len) ? len : PCI_DOE_DW_SIZE_MAX;
-+}
-+
-+static void pcie_doe_irq_assert(DOECap *doe_cap)
-+{
-+    PCIDevice *dev = doe_cap->pdev;
-+
-+    if (doe_cap->cap.intr && doe_cap->ctrl.intr) {
-+        if (doe_cap->status.intr) {
-+            return;
-+        }
-+        doe_cap->status.intr = 1;
-+
-+        if (msix_enabled(dev)) {
-+            msix_notify(dev, doe_cap->cap.vec);
-+        } else if (msi_enabled(dev)) {
-+            msi_notify(dev, doe_cap->cap.vec);
-+        }
-+    }
-+}
-+
-+static void pcie_doe_set_ready(DOECap *doe_cap, bool rdy)
-+{
-+    doe_cap->status.ready = rdy;
-+
-+    if (rdy) {
-+        pcie_doe_irq_assert(doe_cap);
-+    }
-+}
-+
-+static void pcie_doe_set_error(DOECap *doe_cap, bool err)
-+{
-+    doe_cap->status.error = err;
-+
-+    if (err) {
-+        pcie_doe_irq_assert(doe_cap);
-+    }
-+}
-+
-+/*
-+ * Check incoming request in write_mbox for protocol format
-+ */
-+static void pcie_doe_prepare_rsp(DOECap *doe_cap)
-+{
-+    bool success = false;
-+    int p;
-+    bool (*handle_request)(DOECap *) = NULL;
-+
-+    if (doe_cap->status.error) {
-+        return;
-+    }
-+
-+    if (doe_cap->write_mbox[0] ==
-+        DATA_OBJ_BUILD_HEADER1(PCI_VENDOR_ID_PCI_SIG, PCI_SIG_DOE_DISCOVERY)) {
-+        handle_request = pcie_doe_discovery;
-+    } else {
-+        for (p = 0; p < doe_cap->protocol_num - 1; p++) {
-+            if (doe_cap->write_mbox[0] ==
-+                pcie_doe_build_protocol(&doe_cap->protocols[p])) {
-+                handle_request = doe_cap->protocols[p].handle_request;
-+                break;
-+            }
-+        }
-+    }
-+
-+    /*
-+     * PCIe r6 DOE 6.30.1:
-+     * If the number of DW transferred does not match the
-+     * indicated Length for a data object, then the
-+     * data object must be silently discarded.
-+     */
-+    if (handle_request && (doe_cap->write_mbox_len ==
-+        pcie_doe_get_obj_len(pcie_doe_get_write_mbox_ptr(doe_cap)))) {
-+        success = handle_request(doe_cap);
-+    }
-+
-+    if (success) {
-+        pcie_doe_set_ready(doe_cap, 1);
-+    } else {
-+        pcie_doe_reset_mbox(doe_cap);
-+    }
-+}
-+
-+/*
-+ * Read from DOE config space.
-+ * Return false if the address not within DOE_CAP range.
-+ */
-+bool pcie_doe_read_config(DOECap *doe_cap, uint32_t addr, int size,
-+                          uint32_t *buf)
-+{
-+    uint32_t shift;
-+    uint16_t doe_offset = doe_cap->offset;
-+
-+    if (!range_covers_byte(doe_offset + PCI_EXP_DOE_CAP,
-+                           PCI_DOE_SIZEOF - 4, addr)) {
-+        return false;
-+    }
-+
-+    addr -= doe_offset;
-+    *buf = 0;
-+
-+    if (range_covers_byte(PCI_EXP_DOE_CAP, DWORD_BYTE, addr)) {
-+        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_REG, INTR_SUPP,
-+                          doe_cap->cap.intr);
-+        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_REG, DOE_INTR_MSG_NUM,
-+                          doe_cap->cap.vec);
-+    } else if (range_covers_byte(PCI_EXP_DOE_CTRL, DWORD_BYTE, addr)) {
-+        /* Must return ABORT=0 and GO=0 */
-+        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_CONTROL, DOE_INTR_EN,
-+                          doe_cap->ctrl.intr);
-+    } else if (range_covers_byte(PCI_EXP_DOE_STATUS, DWORD_BYTE, addr)) {
-+        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DOE_BUSY,
-+                          doe_cap->status.busy);
-+        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DOE_INTR_STATUS,
-+                          doe_cap->status.intr);
-+        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DOE_ERROR,
-+                          doe_cap->status.error);
-+        *buf = FIELD_DP32(*buf, PCI_DOE_CAP_STATUS, DATA_OBJ_RDY,
-+                          doe_cap->status.ready);
-+    /* Mailbox should be DW accessed */
-+    } else if (addr == PCI_EXP_DOE_RD_DATA_MBOX && size == DWORD_BYTE) {
-+        if (doe_cap->status.ready && !doe_cap->status.error) {
-+            *buf = doe_cap->read_mbox[doe_cap->read_mbox_idx];
-+        }
-+    }
-+
-+    /* Process Alignment */
-+    shift = addr % DWORD_BYTE;
-+    *buf = extract32(*buf, shift * 8, size * 8);
-+
-+    return true;
-+}
-+
-+/*
-+ * Write to DOE config space.
-+ * Return if the address not within DOE_CAP range or receives an abort
-+ */
-+void pcie_doe_write_config(DOECap *doe_cap,
-+                           uint32_t addr, uint32_t val, int size)
-+{
-+    uint16_t doe_offset = doe_cap->offset;
-+    uint32_t shift;
-+
-+    if (!range_covers_byte(doe_offset + PCI_EXP_DOE_CAP,
-+                           PCI_DOE_SIZEOF - 4, addr)) {
-+        return;
-+    }
-+
-+    /* Process Alignment */
-+    shift = addr % DWORD_BYTE;
-+    addr -= (doe_offset + shift);
-+    val = deposit32(val, shift * 8, size * 8, val);
-+
-+    switch (addr) {
-+    case PCI_EXP_DOE_CTRL:
-+        if (FIELD_EX32(val, PCI_DOE_CAP_CONTROL, DOE_ABORT)) {
-+            pcie_doe_set_ready(doe_cap, 0);
-+            pcie_doe_set_error(doe_cap, 0);
-+            pcie_doe_reset_mbox(doe_cap);
-+            return;
-+        }
-+
-+        if (FIELD_EX32(val, PCI_DOE_CAP_CONTROL, DOE_GO)) {
-+            pcie_doe_prepare_rsp(doe_cap);
-+        }
-+
-+        if (FIELD_EX32(val, PCI_DOE_CAP_CONTROL, DOE_INTR_EN)) {
-+            doe_cap->ctrl.intr = 1;
-+        /* Clear interrupt bit located within the first byte */
-+        } else if (shift == 0) {
-+            doe_cap->ctrl.intr = 0;
-+        }
++    switch (hdr->type) {
++    case CDAT_TYPE_DSMAS:
++        assert(hdr->length == sizeof(CDATDsmas));
 +        break;
-+    case PCI_EXP_DOE_STATUS:
-+        if (FIELD_EX32(val, PCI_DOE_CAP_STATUS, DOE_INTR_STATUS)) {
-+            doe_cap->status.intr = 0;
-+        }
++    case CDAT_TYPE_DSLBIS:
++        assert(hdr->length == sizeof(CDATDslbis));
 +        break;
-+    case PCI_EXP_DOE_RD_DATA_MBOX:
-+        /* Mailbox should be DW accessed */
-+        if (size != DWORD_BYTE) {
-+            return;
-+        }
-+        doe_cap->read_mbox_idx++;
-+        if (doe_cap->read_mbox_idx == doe_cap->read_mbox_len) {
-+            pcie_doe_reset_mbox(doe_cap);
-+            pcie_doe_set_ready(doe_cap, 0);
-+        } else if (doe_cap->read_mbox_idx > doe_cap->read_mbox_len) {
-+            /* Underflow */
-+            pcie_doe_set_error(doe_cap, 1);
-+        }
++    case CDAT_TYPE_DSMSCIS:
++        assert(hdr->length == sizeof(CDATDsmscis));
 +        break;
-+    case PCI_EXP_DOE_WR_DATA_MBOX:
-+        /* Mailbox should be DW accessed */
-+        if (size != DWORD_BYTE) {
-+            return;
-+        }
-+        doe_cap->write_mbox[doe_cap->write_mbox_len] = val;
-+        doe_cap->write_mbox_len++;
++    case CDAT_TYPE_DSIS:
++        assert(hdr->length == sizeof(CDATDsis));
 +        break;
-+    case PCI_EXP_DOE_CAP:
-+        /* fallthrough */
++    case CDAT_TYPE_DSEMTS:
++        assert(hdr->length == sizeof(CDATDsemts));
++        break;
++    case CDAT_TYPE_SSLBIS:
++        assert(hdr->length >= sizeof(CDATSslbisHeader));
++        assert((hdr->length - sizeof(CDATSslbisHeader)) %
++               sizeof(CDATSslbe) == 0);
++        break;
 +    default:
-+        break;
++        error_setg(errp, "Type %d is reserved", hdr->type);
 +    }
 +}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 07df572adf..8b7d49b089 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1835,6 +1835,13 @@ F: qapi/pci.json
- F: docs/pci*
- F: docs/specs/*pci*
- 
-+PCIE DOE
-+M: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
-+M: Chris Browy <cbrowy@avery-design.com>
-+S: Supported
-+F: include/hw/pci/pcie_doe.h
-+F: hw/pci/pcie_doe.c
 +
- ACPI/SMBIOS
- M: Michael S. Tsirkin <mst@redhat.com>
- M: Igor Mammedov <imammedo@redhat.com>
-diff --git a/hw/pci/meson.build b/hw/pci/meson.build
-index bcc9c75919..5aff7ed1c6 100644
---- a/hw/pci/meson.build
-+++ b/hw/pci/meson.build
-@@ -13,6 +13,7 @@ pci_ss.add(files(
- # allow plugging PCIe devices into PCI buses, include them even if
- # CONFIG_PCI_EXPRESS=n.
- pci_ss.add(files('pcie.c', 'pcie_aer.c'))
-+pci_ss.add(files('pcie_doe.c'))
- softmmu_ss.add(when: 'CONFIG_PCI_EXPRESS', if_true: files('pcie_port.c', 'pcie_host.c'))
- softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
- 
++static void ct3_build_cdat(CDATObject *cdat, Error **errp)
++{
++    g_autofree CDATTableHeader *cdat_header = NULL;
++    g_autofree CDATEntry *cdat_st = NULL;
++    uint8_t sum = 0;
++    int ent, i;
++
++    /* Use default table if fopen == NULL */
++    assert(cdat->build_cdat_table);
++
++    cdat_header = g_malloc0(sizeof(*cdat_header));
++    if (!cdat_header) {
++        error_setg(errp, "Failed to allocate CDAT header");
++        return;
++    }
++
++    cdat->built_buf_len = cdat->build_cdat_table(&cdat->built_buf, cdat->private);
++
++    if (!cdat->built_buf_len) {
++        /* Build later as not all data available yet */
++        cdat->to_update = true;
++        return;
++    }
++    cdat->to_update = false;
++
++    cdat_st = g_malloc0(sizeof(*cdat_st) * (cdat->built_buf_len + 1));
++    if (!cdat_st) {
++        error_setg(errp, "Failed to allocate CDAT entry array");
++        return;
++    }
++
++    /* Entry 0 for CDAT header, starts with Entry 1 */
++    for (ent = 1; ent < cdat->built_buf_len + 1; ent++) {
++        CDATSubHeader *hdr = cdat->built_buf[ent - 1];
++        uint8_t *buf = (uint8_t *)cdat->built_buf[ent - 1];
++
++        cdat_st[ent].base = hdr;
++        cdat_st[ent].length = hdr->length;
++
++        cdat_header->length += hdr->length;
++        for (i = 0; i < hdr->length; i++) {
++            sum += buf[i];
++        }
++    }
++
++    /* CDAT header */
++    cdat_header->revision = CXL_CDAT_REV;
++    /* For now, no runtime updates */
++    cdat_header->sequence = 0;
++    cdat_header->length += sizeof(CDATTableHeader);
++    sum += cdat_header->revision + cdat_header->sequence +
++        cdat_header->length;
++    /* Sum of all bytes including checksum must be 0 */
++    cdat_header->checksum = ~sum + 1;
++
++    cdat_st[0].base = g_steal_pointer(&cdat_header);
++    cdat_st[0].length = sizeof(*cdat_header);
++    cdat->entry_len = 1 + cdat->built_buf_len;
++    cdat->entry = g_steal_pointer(&cdat_st);
++}
++
++static void ct3_load_cdat(CDATObject *cdat, Error **errp)
++{
++    g_autofree CDATEntry *cdat_st = NULL;
++    uint8_t sum = 0;
++    int num_ent;
++    int i = 0, ent = 1, file_size = 0;
++    CDATSubHeader *hdr;
++    FILE *fp = NULL;
++
++    /* Read CDAT file and create its cache */
++    fp = fopen(cdat->filename, "r");
++    if (!fp) {
++        error_setg(errp, "CDAT: Unable to open file");
++        return;
++    }
++
++    fseek(fp, 0, SEEK_END);
++    file_size = ftell(fp);
++    fseek(fp, 0, SEEK_SET);
++    cdat->buf = g_malloc0(file_size);
++
++    if (fread(cdat->buf, file_size, 1, fp) == 0) {
++        error_setg(errp, "CDAT: File read failed");
++        return;
++    }
++
++    fclose(fp);
++
++    if (file_size < sizeof(CDATTableHeader)) {
++        error_setg(errp, "CDAT: File too short");
++        return;
++    }
++    i = sizeof(CDATTableHeader);
++    num_ent = 1;
++    while (i < file_size) {
++        hdr = (CDATSubHeader *)(cdat->buf + i);
++        cdat_len_check(hdr, errp);
++        i += hdr->length;
++        num_ent++;
++    }
++    if (i != file_size) {
++        error_setg(errp, "CDAT: File length missmatch");
++        return;
++    }
++
++    cdat_st = g_malloc0(sizeof(*cdat_st) * num_ent);
++    if (!cdat_st) {
++        error_setg(errp, "CDAT: Failed to allocate entry array");
++        return;
++    }
++
++    /* Set CDAT header, Entry = 0 */
++    cdat_st[0].base = cdat->buf;
++    cdat_st[0].length = sizeof(CDATTableHeader);
++    i = 0;
++
++    while (i < cdat_st[0].length) {
++        sum += cdat->buf[i++];
++    }
++
++    /* Read CDAT structures */
++    while (i < file_size) {
++        hdr = (CDATSubHeader *)(cdat->buf + i);
++        cdat_len_check(hdr, errp);
++
++        cdat_st[ent].base = hdr;
++        cdat_st[ent].length = hdr->length;
++
++        while (cdat->buf + i <
++               (uint8_t *)cdat_st[ent].base + cdat_st[ent].length) {
++            assert(i < file_size);
++            sum += cdat->buf[i++];
++        }
++
++        ent++;
++    }
++
++    if (sum != 0) {
++        warn_report("CDAT: Found checksum mismatch in %s", cdat->filename);
++    }
++    cdat->entry_len = num_ent;
++    cdat->entry = g_steal_pointer(&cdat_st);
++}
++
++void cxl_doe_cdat_init(CXLComponentState *cxl_cstate, Error **errp)
++{
++    CDATObject *cdat = &cxl_cstate->cdat;
++
++    if (cdat->filename) {
++        ct3_load_cdat(cdat, errp);
++    } else {
++        ct3_build_cdat(cdat, errp);
++    }
++}
++
++void cxl_doe_cdat_update(CXLComponentState *cxl_cstate, Error **errp)
++{
++    CDATObject *cdat = &cxl_cstate->cdat;
++
++    if (cdat->to_update) {
++        ct3_build_cdat(cdat, errp);
++    }
++}
++
++void cxl_doe_cdat_release(CXLComponentState *cxl_cstate)
++{
++    CDATObject *cdat = &cxl_cstate->cdat;
++
++    free(cdat->entry);
++    if (cdat->built_buf) {
++        cdat->free_cdat_table(cdat->built_buf, cdat->built_buf_len,
++                              cdat->private);
++    }
++    if (cdat->buf) {
++        free(cdat->buf);
++    }
++}
+diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
+index f117b99949..cfa95ffd40 100644
+--- a/hw/cxl/meson.build
++++ b/hw/cxl/meson.build
+@@ -4,6 +4,7 @@ softmmu_ss.add(when: 'CONFIG_CXL',
+                    'cxl-device-utils.c',
+                    'cxl-mailbox-utils.c',
+                    'cxl-host.c',
++                   'cxl-cdat.c',
+                ),
+                if_false: files(
+                    'cxl-host-stubs.c',
 -- 
 MST
 
