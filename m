@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314CF62045A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:59:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3F362045F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 01:00:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osC0c-00044j-GR; Mon, 07 Nov 2022 18:58:30 -0500
+	id 1osC0r-0004BK-LP; Mon, 07 Nov 2022 18:58:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osC0a-00044X-Io
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:58:28 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osC0p-0004B4-Sg
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:58:43 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osC0Y-0007gk-KD
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:58:28 -0500
-Received: by mail-wr1-x434.google.com with SMTP id w14so18501729wru.8
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 15:58:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osC0d-00005u-C4
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:58:43 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id bk15so18471251wrb.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 15:58:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=MKjW0BrJWZq77neMmk8YH4P6rDKUM9j5IJDTgvuIJVc=;
- b=vjn0HZlvdbDqyaPwahrtuTHfPKEvZoiLGuahiHnx0n8FY2Mb5hEpuL93P67cJ2CPcw
- bT9RpW1bJbBQB8eMfLZZneADR7NS+hx5TeJUa/i4wdDiAwflIe+NmNdYZuoFcjCUM8Ju
- y2T53lv1gUeD6kvApqrdzDUdt2OK0i5PKEb+LBnd3TbBa5Fir1W8+LvW3+HfgPY3zZo+
- F4dknPoMdWKvM8ztHmnSkCEG9vRMD/GXcl1ZuIT90JB3H2j4ilYCjBvfyhm0bFPZuYcR
- rvHnLBZoh1YOrJkkTzqRSes7gcXtrjoKPizM21fjFxBknkTVmLb5rD/l7awSPf0erhxq
- d11Q==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NSxc66Fm/34b2nxJZ5QbpZSZKGj6yqN6NZyd5TCHUxQ=;
+ b=dsC1oSDlOD15/529xDLe1V0yCa25ADRM3otJbXCKDueymzLfm/UhETNInmmmtGowk9
+ +YJi7T75vLxsZJR6nKmYCZgFWYbtL9utL6W9eJcB+xhdVlAjvfUdWxS9/Z79GeGDlA/F
+ aJINZWyDbh6HoeoJ2Aegw69UWaZ+8PhB0DHTRni34/osGj8Dbp+C/GFnJSy/XjOI+2Ln
+ nx5nh84wZxJhOsEi19i4bnAjbqE4rY4+3TQ7s8Ppartggbp0+VAe0359YP0BycCuRgbj
+ 9fl5HQW3cHN5OjCzQXRcy7SxnOuPDLW+G4lAnHEQGPGgDZkJRP6Y0nrycvCaTTBg/+9G
+ 1y7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=MKjW0BrJWZq77neMmk8YH4P6rDKUM9j5IJDTgvuIJVc=;
- b=3NxOlshQbIkPOsjGxgb84X7J99EcTdEdX/+1pmU4o8CVvgJqsdLWfDqKqNP7weliUy
- sfz9Hwgqg/mAYlNoERqiEva2TxAnKP2rupJio2z1hlIZTWnXFboi8Jdfo9CfKZeWUxpA
- MdZZwMMypGDp9AinTZH/ZIn0lyZR7Bf9BBmLcUjRfMJNkb63gxN5oL9mLsl8T3w3G4V8
- po5pqCC7yDkC/hm11mubEkdY3Hp61szN44xzyniBzOof0Q56/AegHpliuj8ZUz9HtGL1
- QkaXOxeQfT69DV+AmfpIQe1GkDK4r8Z7g8RtsNx5twt9c3qO9SlZCKgN0BEiewWIwZoT
- Hvyw==
-X-Gm-Message-State: ACrzQf3ZKiT5HltNtppYXxZSzejutOwxLCeBNRAntyNg3MLuPwJXeQLs
- k5DDRUz8KwgI6N9vklow0NqoJX609h1tng==
-X-Google-Smtp-Source: AMsMyM5VmsUV1u0TCaEatPa98y71TgASMnbXBcdQT4i++Etr9l65qIzVnx10dH8uWQuO7B8CL3sFPQ==
-X-Received: by 2002:adf:ef82:0:b0:234:ef87:dc8d with SMTP id
- d2-20020adfef82000000b00234ef87dc8dmr34533579wro.297.1667865504156; 
- Mon, 07 Nov 2022 15:58:24 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NSxc66Fm/34b2nxJZ5QbpZSZKGj6yqN6NZyd5TCHUxQ=;
+ b=isaLw5wurrBTV0Dqvs3Cxm10JxElgntEAOXBI52ytwxnVov+xm6dCY4UaoV7ck3ttN
+ 4YiH1zi8xe+EIWUbkEzPpkYDZbaau5DyY4SuPPRz3KQE8le3TFThCndEmSYc3SH5YgN1
+ fkLUs16YNn6D9HnP8nyo3gVh5MLXMNCn7cLQ5nHchK5fV+6fwoto/b3GS+fW5HxUHUHB
+ sg0Qu0g2rU0w0UxbwQrxzS/Vorhcon+uuGgTk+uPYYhxLi1nrduYBG/GIifzU+zRpU5x
+ pjwvzhniQuICrs+P5A89HRRAQw6o4FqfXrGaYn4AsexP3GgaYYLSooovr1lEN9cwM0n5
+ ttzQ==
+X-Gm-Message-State: ACrzQf0kLDOt2YHTErmFSx4GPGArO4ZaVKwjrnv7hkQRc+FJ4F5ux7iP
+ ftb+R5idU1TsKi/pgMquBMAtO6wy+V0SRg==
+X-Google-Smtp-Source: AMsMyM679MsX2Ddk79Mmv57AYEyft46IMz5ly/hKtfCa1AXNo8TrdWBhQNd674Zxo+wZxXFCH4olXw==
+X-Received: by 2002:adf:d4d2:0:b0:236:594f:4a2c with SMTP id
+ w18-20020adfd4d2000000b00236594f4a2cmr32728960wrk.705.1667865508886; 
+ Mon, 07 Nov 2022 15:58:28 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u6-20020a7bc046000000b003cf7055c014sm9452311wmc.1.2022.11.07.15.58.23
+ l27-20020a05600c1d1b00b003b95ed78275sm10101767wms.20.2022.11.07.15.58.28
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 07 Nov 2022 15:58:23 -0800 (PST)
+ Mon, 07 Nov 2022 15:58:28 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Aurelien Jarno <aurelien@aurel32.net>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PULL 00/14] MIPS patches for 2022-11-08
-Date: Tue,  8 Nov 2022 00:58:08 +0100
-Message-Id: <20221107235822.71458-1-philmd@linaro.org>
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 01/14] target/mips: Set CP0St_{KX, SX, UX} for Loongson-2F
+Date: Tue,  8 Nov 2022 00:58:09 +0100
+Message-Id: <20221107235822.71458-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221107235822.71458-1-philmd@linaro.org>
+References: <20221107235822.71458-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,59 +91,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit cd706454c6cd239a477cb227caf3e3dfbb742d1a:
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-  Merge tag 'pull-request-2022-11-06' of https://gitlab.com/thuth/qemu into staging (2022-11-07 05:44:44 -0500)
+As per an unpublished document, in later reversion of chips
+CP0St_{KX, SX, UX} is not writeable and hardcoded to 1.
 
-are available in the Git repository at:
+Without those bits set, kernel is unable to access XKPHYS address
+segment. So just set them up on CPU reset.
 
-  https://github.com/philmd/qemu.git tags/mips-20221108
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20221031132531.18122-2-jiaxun.yang@flygoat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ target/mips/cpu.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-for you to fetch changes up to 617fbc31a25e699c4f7cdf0b5d172322516afb20:
-
-  MAINTAINERS: Inherit from nanoMIPS (2022-11-08 00:39:03 +0100)
-
-----------------------------------------------------------------
-MIPS patches queue
-
-- Remove -Wclobbered in nanoMIPS disassembler (Richard Henderson)
-- Fix invalid string formats in nanoMIPS disassembler (myself)
-- Allow Loongson-2F to access XKPHYS in kernel mode (Jiaxun Yang)
-- Octeon opcode fixes (Jiaxun Yang, Pavel Dovgalyuk)
-- MAINTAINERS nanoMIPS update
-
-----------------------------------------------------------------
-
-Jiaxun Yang (4):
-  target/mips: Set CP0St_{KX, SX, UX} for Loongson-2F
-  target/mips: Cast offset field of Octeon BBIT to int16_t
-  target/mips: Disable DSP ASE for Octeon68XX
-  target/mips: Don't check COP1X for 64 bit FP mode
-
-Pavel Dovgalyuk (1):
-  target/mips: Enable LBX/LWX/* instructions for Octeon
-
-Philippe Mathieu-Daudé (5):
-  disas/nanomips: Fix invalid PRId64 format calling img_format()
-  disas/nanomips: Fix invalid PRIx64 format calling img_format()
-  disas/nanomips: Use G_GNUC_PRINTF to avoid invalid string formats
-  disas/nanomips: Remove headers already included by "qemu/osdep.h"
-  MAINTAINERS: Inherit from nanoMIPS
-
-Richard Henderson (4):
-  disas/nanomips: Move setjmp into nanomips_dis
-  disas/nanomips: Merge insn{1,2,3} into words[3]
-  disas/nanomips: Split out read_u16
-  disas/nanomips: Tidy read for 48-bit opcodes
-
- MAINTAINERS                   |   8 +-
- disas/nanomips.c              | 154 +++++++++++++++-------------------
- target/mips/cpu-defs.c.inc    |   4 +-
- target/mips/cpu.c             |   6 ++
- target/mips/tcg/octeon.decode |   2 +-
- target/mips/tcg/translate.c   |  14 ++--
- 6 files changed, 87 insertions(+), 101 deletions(-)
-
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index e997c1b9cb..7a565466cb 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -302,6 +302,12 @@ static void mips_cpu_reset(DeviceState *dev)
+     env->CP0_EntryHi_ASID_mask = (env->CP0_Config5 & (1 << CP0C5_MI)) ?
+             0x0 : (env->CP0_Config4 & (1 << CP0C4_AE)) ? 0x3ff : 0xff;
+     env->CP0_Status = (1 << CP0St_BEV) | (1 << CP0St_ERL);
++    if (env->insn_flags & INSN_LOONGSON2F) {
++        /* Loongson-2F has those bits hardcoded to 1 */
++        env->CP0_Status |= (1 << CP0St_KX) | (1 << CP0St_SX) |
++                            (1 << CP0St_UX);
++    }
++
+     /*
+      * Vectored interrupts not implemented, timer on int 7,
+      * no performance counters.
 -- 
 2.38.1
 
