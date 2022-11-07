@@ -2,88 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3FD61FAFE
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 18:16:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B7961FB70
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 18:32:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os5id-0007eQ-2T; Mon, 07 Nov 2022 12:15:31 -0500
+	id 1os5xy-0003br-NQ; Mon, 07 Nov 2022 12:31:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1os5ia-0007dD-Tp
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 12:15:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1os5iZ-0003rq-1G
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 12:15:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667841325;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BJHwJtJgMwfJKT6EBbx5GmZw0CXp+QPJD5rxD0SOqd0=;
- b=STvWsVf/Q0r3r6PxzCRHkEp6U77Et8fPE8Pee5HWPN6eYB4XtNw3DZnQ8Or7a6Ok78CYSe
- GrzWveOoFQfUpE2G3Uiygzbo6mqtwbd5DSi0mBFk1JoVFmhJkbE1pszH8zf4GCbvw6PYRR
- a4xBy+aVNppwZIYCyzCuA6/PZrdSKC8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-528-hPsXMGSTNmiAM-D28YsIQg-1; Mon, 07 Nov 2022 12:15:23 -0500
-X-MC-Unique: hPsXMGSTNmiAM-D28YsIQg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- w23-20020adf8bd7000000b002358f733307so3032713wra.17
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 09:15:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BJHwJtJgMwfJKT6EBbx5GmZw0CXp+QPJD5rxD0SOqd0=;
- b=ZVg2OtYAxVcdxSEbOuapR2M5VUXjM4/wTUHRoO4LKHYy3LFlxkVf86NZF/YGr4uxeG
- pDCKuKkarNYFvuI1e9FS8zwupRHU10MtO6VUMtq6H2GD+743t7r39lc89htay8/iUW+B
- WBD8SFQoEyC2VGDbTl5CN3SodrbzCxtevzvTJEGyupScWWQMSSd1aB6Z2WnaK5jIYWbE
- 4+qPOzZk2WFcWB5IQNP7jzWTh5wgABGqLAeRZu4RCwsOsyauF+TTUwLEwxbvjLIEIwa5
- 3/KondP3wG1Z6FosV4jEcKFAdBVIIo9aJAblMYy7/BQmPJ9DrYTnObMw6vW3N3pp6Qcb
- t3Tw==
-X-Gm-Message-State: ACrzQf1eme7fd8QWac+xUDVHEb8Xb5i1RzmIfrSWlhALF//x47BnwIC7
- jRL/JJtKU3Dd76whLE6rI7QuNA/QJUD9IBg1SSxplYgopBipioUhhLdUXz3oPkqotInJXUxMS9D
- ggwgalfysaK5WoMs=
-X-Received: by 2002:a5d:6a90:0:b0:236:4835:ca94 with SMTP id
- s16-20020a5d6a90000000b002364835ca94mr31970796wru.187.1667841322701; 
- Mon, 07 Nov 2022 09:15:22 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM6+Za/mVL2i33+7yJaxoYKaKgeBdDvicrOK47MvB70P8ETCO10usp5a2+4qBBwGiC2uo8HgQQ==
-X-Received: by 2002:a5d:6a90:0:b0:236:4835:ca94 with SMTP id
- s16-20020a5d6a90000000b002364835ca94mr31970775wru.187.1667841322348; 
- Mon, 07 Nov 2022 09:15:22 -0800 (PST)
-Received: from redhat.com ([169.150.226.212]) by smtp.gmail.com with ESMTPSA id
- l5-20020a1c7905000000b003cf6e1df4a8sm8469025wme.15.2022.11.07.09.15.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 09:15:21 -0800 (PST)
-Date: Mon, 7 Nov 2022 12:15:17 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] hw/acpi: fix breakage due to missing aml stub
- definitions when acpi is off
-Message-ID: <20221107121433-mutt-send-email-mst@kernel.org>
-References: <20221107152744.868434-1-ani@anisinha.ca>
- <34fa9010-b654-a8dd-6591-5b0f4aa4e5f6@linaro.org>
+ (Exim 4.90_1) (envelope-from <lk@c--e.de>)
+ id 1os5xl-0003aU-47; Mon, 07 Nov 2022 12:31:18 -0500
+Received: from cae.in-ulm.de ([217.10.14.231])
+ by eggs.gnu.org with esmtp (Exim 4.90_1) (envelope-from <lk@c--e.de>)
+ id 1os5xg-00034d-Ss; Mon, 07 Nov 2022 12:31:08 -0500
+Received: by cae.in-ulm.de (Postfix, from userid 1000)
+ id AD5CE140264; Mon,  7 Nov 2022 18:31:00 +0100 (CET)
+Date: Mon, 7 Nov 2022 18:31:00 +0100
+From: "Christian A. Ehrhardt" <lk@c--e.de>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Yajun Wu <yajunw@nvidia.com>, Parav Pandit <parav@nvidia.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-block@nongnu.org
+Subject: Re: [PULL v2 31/82] vhost: Change the sequence of device start
+Message-ID: <Y2lA1OBh61FnXSWY@cae.in-ulm.de>
+References: <20221102160336.616599-1-mst@redhat.com>
+ <20221102160336.616599-32-mst@redhat.com>
+ <CAG4p6K6=HcZs+TfzC7QMmUxKhity0_dYo4-UWwiXv7oJSvDO2g@mail.gmail.com>
+ <20221105124218-mutt-send-email-mst@kernel.org>
+ <Y2f2Qa+nfrF3t/tg@cae.in-ulm.de>
+ <20221107082635-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <34fa9010-b654-a8dd-6591-5b0f4aa4e5f6@linaro.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20221107082635-mutt-send-email-mst@kernel.org>
+Received-SPF: none client-ip=217.10.14.231; envelope-from=lk@c--e.de;
+ helo=cae.in-ulm.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,68 +61,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 07, 2022 at 06:08:49PM +0100, Philippe Mathieu-Daudé wrote:
-> On 7/11/22 16:27, Ani Sinha wrote:
-> > Some HW architectures do not support acpi and CONFIG_ACPI is off for them. For
-> > those architectures, dummy stub function definitions help to resolve symbols.
-> > This change adds couple of dummy stub definitions so that symbols for those can
-> > be resolved and failures such as the following can be fixed for or1k targets.
+On Mon, Nov 07, 2022 at 08:30:32AM -0500, Michael S. Tsirkin wrote:
+> On Sun, Nov 06, 2022 at 07:00:33PM +0100, Christian A. Ehrhardt wrote:
 > > 
-> > Configuration:
-> > qemu/build $ ../configure --enable-werror --disable-docs --disable-nettle \
-> >               --enable-gcrypt --enable-fdt=system --enable-modules \
-> >               --enable-trace-backends=dtrace --enable-docs \
-> > 	     --enable-vfio-user-server \
-> >               --target-list="ppc64-softmmu or1k-softmmu s390x-softmmu x86_64-softmmu
-> >   rx-softmmu sh4-softmmu nios2-softmmu"
+> > Hi,
 > > 
-> > actual failure:
+> > On Sat, Nov 05, 2022 at 12:43:05PM -0400, Michael S. Tsirkin wrote:
+> > > On Sat, Nov 05, 2022 at 05:35:57PM +0100, Bernhard Beschow wrote:
+> > > > 
+> > > > 
+> > > > On Wed, Nov 2, 2022 at 5:24 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > > 
+> > > >     From: Yajun Wu <yajunw@nvidia.com>
+> > > > 
+> > > >     This patch is part of adding vhost-user vhost_dev_start support. The
+> > > >     motivation is to improve backend configuration speed and reduce live
+> > > >     migration VM downtime.
+> > > > 
+> > > >     Moving the device start routines after finishing all the necessary device
+> > > >     and VQ configuration, further aligning to the virtio specification for
+> > > >     "device initialization sequence".
+> > > > 
+> > > >     Following patch will add vhost-user vhost_dev_start support.
+> > > > 
+> > > >     Signed-off-by: Yajun Wu <yajunw@nvidia.com>
+> > > >     Acked-by: Parav Pandit <parav@nvidia.com>
+> > > > 
+> > > >     Message-Id: <20221017064452.1226514-2-yajunw@nvidia.com>
+> > > >     Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > > >     Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > >     ---
+> > > >      hw/block/vhost-user-blk.c | 18 +++++++++++-------
+> > > >      hw/net/vhost_net.c        | 12 ++++++------
+> > > >      2 files changed, 17 insertions(+), 13 deletions(-)
+> > > > 
+> > > > 
+> > > > A git bisect tells me that this is the first bad commit for failing qos-tests
+> > > > which only fail when parallel jobs are enabled, e.g. `make check-qtest -j8`:
 > > 
-> > qemu/build $ QTEST_QEMU_BINARY=./qemu-system-or1k  ./tests/qtest/qos-test
+> > Parallel test run is not required provided that the test machine is
+> > sufficiently busy (load > number of CPU threads). In this case a single
+> > invocation of the qos test will fail reliably with this change.
 > > 
-> > failed to open module:
-> > /build/qemu/qemu/build/qemu-bundle/usr/local/lib64/qemu/hw-display-virtio-vga.so:
-> > undefined symbol: aml_return
-> > qemu-system-or1k: ../util/error.c:59: error_setv: Assertion `*errp ==
-> > NULL' failed.
-> > Broken pipe
-> > ../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from
-> > signal 6 (Aborted) (core dumped)
-> > Aborted (core dumped)
+> > However, the change is not really the root cause of the failures.
 > > 
-> > CC: Bernhard Beschow <shentey@gmail.com>
-> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > ---
-> >   hw/acpi/aml-build-stub.c | 10 ++++++++++
-> >   1 file changed, 10 insertions(+)
+> > > > Summary of Failures:
+> > > > 
+> > > >  76/541 qemu:qtest+qtest-aarch64 / qtest-aarch64/qos-test                      
+> > > >   ERROR          18.68s   killed by signal 6 SIGABRT
+> > > >  77/541 qemu:qtest+qtest-arm / qtest-arm/qos-test                              
+> > > >   ERROR          17.60s   killed by signal 6 SIGABRT
+> > > >  93/541 qemu:qtest+qtest-i386 / qtest-i386/qos-test                            
+> > > >   ERROR          18.98s   killed by signal 6 SIGABRT
+> > > > 108/541 qemu:qtest+qtest-ppc64 / qtest-ppc64/qos-test                          
+> > > >   ERROR          16.40s   killed by signal 6 SIGABRT
+> > > > 112/541 qemu:qtest+qtest-i386 / qtest-i386/bios-tables-test                    
+> > > >   ERROR          145.94s   killed by signal 6 SIGABRT
+> > > > 130/541 qemu:qtest+qtest-x86_64 / qtest-x86_64/qos-test                        
+> > > >   ERROR          17.32s   killed by signal 6 SIGABRT
+> > > > 243/541 qemu:qtest+qtest-x86_64 / qtest-x86_64/bios-tables-test                
+> > > >   ERROR          127.70s   killed by signal 6 SIGABRT
+> > > > 
+> > > > Ok:                 500
+> > > > Expected Fail:      0  
+> > > > Fail:               7  
+> > > > Unexpected Pass:    0  
+> > > > Skipped:            34  
+> > > > Timeout:            0  
+> > > > 
+> > > > Can anyone else reproduce this?
+> > > 
+> > > Could you pls try latest for_upstream in my tree?
+> > > That should have this fixed.
 > > 
-> > changelog:
-> > v2: cosmetic commit description format update.
+> > Your new pull request simply drops this change and this does fix
+> > make check-qtest. However, this looks accidental to me and the real
+> > bug is there in plain origin/master, too.
 > > 
-> > diff --git a/hw/acpi/aml-build-stub.c b/hw/acpi/aml-build-stub.c
-> > index 8d8ad1a314..89a8fec4af 100644
-> > --- a/hw/acpi/aml-build-stub.c
-> > +++ b/hw/acpi/aml-build-stub.c
-> > @@ -26,6 +26,16 @@ void aml_append(Aml *parent_ctx, Aml *child)
-> >   {
-> >   }
-> > +Aml *aml_return(Aml *val)
-> > +{
-> > +    return NULL;
+> > What happens is this backtrace a recursive call to vu_gpio_stop
+> > via the backtrace below. It is caused by a delayed of the TCP
+> > connection (the delayed part only triggers with heavy load on the
+> > machine).
+> > 
+> > You can get the failure back (probably in upstream) if the test is
+> > forced to us "use-started=off" which can be set on the command line.
+> > E.g. like this:
+> > 
+> > diff --git a/tests/qtest/libqos/virtio-gpio.c b/tests/qtest/libqos/virtio-gpio.c
+> > index 762aa6695b..17c6b71e8b 100644
+> > --- a/tests/qtest/libqos/virtio-gpio.c
+> > +++ b/tests/qtest/libqos/virtio-gpio.c
+> > @@ -154,14 +154,14 @@ static void virtio_gpio_register_nodes(void)
+> >      QOSGraphEdgeOptions edge_opts = { };
+> > 
+> >      /* vhost-user-gpio-device */
+> > -    edge_opts.extra_device_opts = "id=gpio0,chardev=chr-vhost-user-test";
+> > +    edge_opts.extra_device_opts = "id=gpio0,chardev=chr-vhost-user-test,use-started=off";
+> >      qos_node_create_driver("vhost-user-gpio-device",
+> >                              virtio_gpio_device_create);
+> >      qos_node_consumes("vhost-user-gpio-device", "virtio-bus", &edge_opts);
+> >      qos_node_produces("vhost-user-gpio-device", "vhost-user-gpio");
+> > 
+> >      /* virtio-gpio-pci */
+> > -    edge_opts.extra_device_opts = "id=gpio0,addr=04.0,chardev=chr-vhost-user-test";
+> > +    edge_opts.extra_device_opts = "id=gpio0,addr=04.0,chardev=chr-vhost-user-test,use-started=on";
+> >      add_qpci_address(&edge_opts, &addr);
+> >      qos_node_create_driver("vhost-user-gpio-pci", virtio_gpio_pci_create);
+> >      qos_node_consumes("vhost-user-gpio-pci", "pci-bus", &edge_opts);
+> > 
+> > 
+> > I haven't verified this but from looking at the code other types of
+> > vhost devices seem to have the same problem (e.g. vhost-user-i2c looks
+> > suspicious).
+> > 
+> > Ok, here's the backtrace:
+> > 
+> > #0  vu_gpio_stop (vdev=vdev@entry=0x560e0ae449d0) at ../hw/virtio/vhost-user-gpio.c:143
+> > #1  0x0000560e0768fb1f in vu_gpio_disconnect (dev=<optimized out>) at ../hw/virtio/vhost-user-gpio.c:260
+> > #2  vu_gpio_event (opaque=<optimized out>, event=<optimized out>) at ../hw/virtio/vhost-user-gpio.c:279
+> > #3  0x0000560e078057b5 in tcp_chr_disconnect_locked (chr=0x560e0a00f800) at ../chardev/char-socket.c:470
+> > #4  0x0000560e078058d3 in tcp_chr_write (chr=0x560e0a00f800, buf=<optimized out>, len=<optimized out>) at ../chardev/char-socket.c:129
+> > #5  0x0000560e07808a63 in qemu_chr_write_buffer (s=s@entry=0x560e0a00f800, buf=buf@entry=0x7ffc76812ac0 <error: Cannot access memory at address 0x7ffc76812ac0>, len=20, offset=offset@entry=0x7ffc76812a40, write_all=write_all@entry=true) at ../chardev/char.c:121
+> > #6  0x0000560e07808e84 in qemu_chr_write (s=0x560e0a00f800, buf=buf@entry=0x7ffc76812ac0 <error: Cannot access memory at address 0x7ffc76812ac0>, len=len@entry=20, write_all=write_all@entry=true) at ../chardev/char.c:173
+> > #7  0x0000560e078010e6 in qemu_chr_fe_write_all (be=be@entry=0x560e0ae44bc0, buf=buf@entry=0x7ffc76812ac0 <error: Cannot access memory at address 0x7ffc76812ac0>, len=len@entry=20) at ../chardev/char-fe.c:53
+> > #8  0x0000560e07676d16 in vhost_user_write (msg=msg@entry=0x7ffc76812ac0, fds=fds@entry=0x0, fd_num=fd_num@entry=0, dev=<optimized out>, dev=<optimized out>) at ../hw/virtio/vhost-user.c:490
+> > #9  0x0000560e076777c0 in vhost_user_get_vring_base (dev=0x560e0ae44c08, ring=0x7ffc76812d80) at ../hw/virtio/vhost-user.c:1260
+> > #10 0x0000560e0767314e in vhost_virtqueue_stop (dev=dev@entry=0x560e0ae44c08, vdev=vdev@entry=0x560e0ae449d0, vq=0x560e0ae7a570, idx=0) at ../hw/virtio/vhost.c:1220
+> > #11 0x0000560e07675236 in vhost_dev_stop (hdev=hdev@entry=0x560e0ae44c08, vdev=vdev@entry=0x560e0ae449d0) at ../hw/virtio/vhost.c:1884
+> > #12 0x0000560e0768f2fd in vu_gpio_stop (vdev=0x560e0ae449d0) at ../hw/virtio/vhost-user-gpio.c:148
+> > #13 0x0000560e0766a6a3 in virtio_set_status (vdev=0x560e0ae449d0, val=<optimized out>) at ../hw/virtio/virtio.c:2442
+> > #14 0x0000560e0751a2e0 in vm_state_notify (running=running@entry=false, state=state@entry=RUN_STATE_SHUTDOWN) at ../softmmu/runstate.c:334
+> > #15 0x0000560e07514d70 in do_vm_stop (send_stop=false, state=RUN_STATE_SHUTDOWN) at ../softmmu/cpus.c:262
+> > #16 vm_shutdown () at ../softmmu/cpus.c:280
+> > #17 0x0000560e0751af63 in qemu_cleanup () at ../softmmu/runstate.c:827
+> > #18 0x0000560e07350f33 in qemu_default_main () at ../softmmu/main.c:38
+> > #19 0x00007f0a5655bd90 in __libc_start_call_main (main=main@entry=0x560e0734c3e0 <main>, argc=argc@entry=25, argv=argv@entry=0x7ffc768130a8) at ../sysdeps/nptl/libc_start_call_main.h:58
+> > #20 0x00007f0a5655be40 in __libc_start_main_impl (main=0x560e0734c3e0 <main>, argc=25, argv=0x7ffc768130a8, init=<optimized out>, fini=<optimized out>, rtld_fini=<optimized out>, stack_end=0x7ffc76813098) at ../csu/libc-start.c:392
+> > #21 0x0000560e07350e55 in _start ()
+> > 
+> > 
+> > Any Ideas how to fix this properly?
+> > 
+> >     regards    Christian
 > 
-> Can't return NULL, otherwise aml_append() will crash.
+> so fundamentally, any write into a socket can trigger stop?
+> I don't think we realized this.
+> Hmm this needs some thought there are likely more issues
+> like this.
 
-This is what rest of functions do.
+The code in net/vhost-user.c seems to realize this and uses
+aio to schedule the close. I was wondering if chardev should
+do this for OPEN/CLOSE events by default (or by request).
+However, I couldn't figure out how to ensure that the device
+remains alive until the callback is actually called.
 
-> We just want the symbol to be defined, so instead:
-> 
->       g_assert_not_reached();
-> 
-> > +}
-
-NULL derefs are actually somewhat easier to debug than asserts.
-
--- 
-MST
+      regards   Christian
 
 
