@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4AC61EA1D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 05:14:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EAA861EA1E
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 05:14:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ortWJ-0002RI-AU; Sun, 06 Nov 2022 23:13:59 -0500
+	id 1ortWI-0002Qy-59; Sun, 06 Nov 2022 23:13:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1ortWE-0002Q2-OH
+ (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1ortWF-0002Q4-Cl
  for qemu-devel@nongnu.org; Sun, 06 Nov 2022 23:13:55 -0500
-Received: from mail-bn8nam12on20610.outbound.protection.outlook.com
- ([2a01:111:f400:fe5b::610]
- helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+Received: from mail-mw2nam12on2061f.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5a::61f]
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1ortWC-0005GL-Ck
- for qemu-devel@nongnu.org; Sun, 06 Nov 2022 23:13:54 -0500
+ (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1ortWC-0005Fj-Jf
+ for qemu-devel@nongnu.org; Sun, 06 Nov 2022 23:13:55 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UPsYNbjLFfxNGmmSLpMFe3jVvjFlQ2B7iO8nRlB0q7fTTXBy2ShtLz0S/otxs1X2LeGNkGFaxbWActsQ2LzT2jcODMeGrFEzMgvu1gSxrOnX2PwZCrMvxDYKDC7f8RoQm20kyapsgada6AdJQE+iDhfezn74Kw28TZRNfgsZX2FCXhakXYrJ7CLm4wGKfrdmQX+tVI5y2lhdojvWHotHPNOolkILipH6FnmKWsA2NCz+kQ69Bhmc043aafPDACsgnUEEn7tHy9vDLXUKjXaQA23fGUgkDB3hwe6ebqT8j9Kz08XvqRuxWxfqW8cfFUQzRTPS4C3RJnpk0A/rG7HM4w==
+ b=JK7ma4klIVfrmHijZ94ImHiwcxDXdqiO2rEGtDNqVm2+AqRyOGriGGe5w2bMtqwUm/1rsYRR1mZ2Yd4jidqrz7nq7P2QGv+95scqGaZObCcKx5aDJpSCAS57bs076xWHkMseBWAF9P+Fbi3mqkEHy5mbDx1x2C/hxOP7IS1Ebf6JVGm4G+ds54sniNiRkm+zQscawI6a37P+yQN6Kyf8IR3PDjajg/O4McvWNPvy3rYDy7sKFjHJowL54t/wLfgdLgY1eqYyColr/RfL+76e1xnvoJj9FXsPpb3oJZ7ySfPsrbZ2xj3l1holGicxu0GVo3qbKARZ2J1Ci6pJJuCnsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MRIrVzGyoncgmRz89jlH8TmeeDLTOqBdn1AEb6i8hwE=;
- b=C9id0YwHQNqrPPzukxINU4iHbomwMzugSgF+yyqOxVEcVN4FCXUz4uOpjZlDar46nkd7MKq+sSIK//V5ZDWefJVrw3fsvqiPb1Sr+7blCHEy34Gfm9ucBoqTDItu55mXREGqQe0b4mZb89LZVN3SFxiLv6auvgICoZf89GY3ycsvz6Q/Mo4y/gaDqEaeFcsBzbRt8BRNRFhWNs79RWoL+liQeF6uCiv4u8H2XceGoYg2Z0k7t0P4XtOsHOXMheCCnQb/jBbj8BsKnsQnnH/KOSDbJFUXtjGcmV2dk3rgycI/zoXFvJPiD3gwnfwPwk0WDIY9GqcEQVmN0tDTbdY8GA==
+ bh=GAZHzXwUDhmCQ5uIEE7zyz3xdGGGkWJX02k/u3/9hAE=;
+ b=BvsMblX6X+GgGuoKMVcVzS63AFLXsIMHOD9PAHQeHRcRgYojpFgCrTEpZOT63vou97nBmKUT3bmJoqU7KZUWgb9UdYeWl7Djw9NlyesmSYKg1xyWgD07beywuR8kgClNf6ZKT2gaxb0HR8L7jz9iagHy37pwR7ZOc26jFYQdRIgb6CBxLo1RjPHGJdQbVX3nKaaRybbFNpHfmK7UWT/9hz47rs6KQpsOEbLTSpKe5KNGwvClLD9+zg3cj06idYZ0cKCOj4mS8e7twkKLtzKiU/TUxzLqJ9EEVMjFfQ8l86H9xEtneFcoZ35iuYMkb5o6TX8sT832lLgCLO6WOOdyqA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
+ 216.228.117.161) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MRIrVzGyoncgmRz89jlH8TmeeDLTOqBdn1AEb6i8hwE=;
- b=i8IlnBco5y0YF1INIdrKz0aVaUlo1R9Cwd5TaL53Bqe+4ONHUxDMFEEV5UhZ50Kr45tjcvlRM1Fo1ifCoIhcFkiLEmITU6QHK1J0VyctQOLuMSv4UoTX9hJKfZF09SytmHHGj7JkWaWL+trChVWy3N41NbdvP/odJfwE3ZAVpgOHSwoaKhh4LSV9ywQjEY+r/6g+MLjg3jQ3RAH7eocBNs+ZnC337AA6bOx1n/gtRjqrkCRRNVz2wgZrhYN9zyQGIHj1I4E2LvSPhG7zz7s2vULGJ8Bt1Z96zOcFTtw8qxN5sQ3A9Q9qE3OfZYz9lpTwOSELmy1oo0el71qqRQwY+g==
-Received: from BN0PR04CA0042.namprd04.prod.outlook.com (2603:10b6:408:e8::17)
- by DM6PR12MB4186.namprd12.prod.outlook.com (2603:10b6:5:21b::11) with
+ bh=GAZHzXwUDhmCQ5uIEE7zyz3xdGGGkWJX02k/u3/9hAE=;
+ b=jVPTcO9rouOZpE/ezUEIXov0Oiep9rqYsciQm0M+ZM0eBvwOhtA8nQvOomCDrAr08g+MFV4f100d/mLkuwnQ3vSF2ioH7ioPlJLgAmG83dVck73BTuowfgQW2kyCfU6TowVrVtLyEjIyMQvOTkWdBI/7+hJVxoWpOubp6DVp8XKTx/Hrq3dLC4i6KW2Auyc3/9Y2kJlQ/FSC+3/2RUOMw54qh//i+RnaAQFSYKAm7D9PgpTPP1MnNmEgXow5YqOlx6DvcNUa4LKpLCRiu/VWfo5+W9/xMo38/Y3R9N2i4LK8nm3wI97QVtX7dG3EE/jZSOX6oeeZDJVyxzf9dRc1ig==
+Received: from DM6PR04CA0016.namprd04.prod.outlook.com (2603:10b6:5:334::21)
+ by BN9PR12MB5194.namprd12.prod.outlook.com (2603:10b6:408:11b::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.25; Mon, 7 Nov
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.26; Mon, 7 Nov
  2022 04:08:48 +0000
-Received: from BN8NAM11FT093.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e8:cafe::2a) by BN0PR04CA0042.outlook.office365.com
- (2603:10b6:408:e8::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.26 via Frontend
+Received: from DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:334:cafe::a) by DM6PR04CA0016.outlook.office365.com
+ (2603:10b6:5:334::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.25 via Frontend
  Transport; Mon, 7 Nov 2022 04:08:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
  smtp.mailfrom=nvidia.com;
  dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BN8NAM11FT093.mail.protection.outlook.com (10.13.177.22) with Microsoft SMTP
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ DM6NAM11FT034.mail.protection.outlook.com (10.13.173.47) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.20.5791.20 via Frontend Transport; Mon, 7 Nov 2022 04:08:47 +0000
 Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Sun, 6 Nov 2022
- 20:08:35 -0800
+ 20:08:40 -0800
 Received: from nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
  (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Sun, 6 Nov 2022
- 20:08:33 -0800
+ 20:08:39 -0800
 From: Yajun Wu <yajunw@nvidia.com>
 To: <qemu-devel@nongnu.org>, <mst@redhat.com>, <yajunw@nvidia.com>,
  <parav@nvidia.com>
-Subject: [PATCH v4 0/2] vhost-user: Support vhost_dev_start
-Date: Mon, 7 Nov 2022 12:08:16 +0800
-Message-ID: <20221107040818.619072-1-yajunw@nvidia.com>
+Subject: [PATCH v4 1/2] vhost: Change the sequence of device start
+Date: Mon, 7 Nov 2022 12:08:17 +0800
+Message-ID: <20221107040818.619072-2-yajunw@nvidia.com>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220629022517.2600911-1-yajunw@nvidia.com>
+In-Reply-To: <20221107040818.619072-1-yajunw@nvidia.com>
 References: <20220629022517.2600911-1-yajunw@nvidia.com>
+ <20221107040818.619072-1-yajunw@nvidia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -80,29 +81,29 @@ X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
  rnnvmail201.nvidia.com (10.129.68.8)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT093:EE_|DM6PR12MB4186:EE_
-X-MS-Office365-Filtering-Correlation-Id: b783d5cf-ed6c-453d-2025-08dac075c527
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT034:EE_|BN9PR12MB5194:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc68067f-0fce-4559-2dce-08dac075c51e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yuSW3CVU9/oiOT37kNtYuSYbrAI9IaG+uMa1RLAz0fCQG+3PuoNpLm4tagJpqSso/Ue/815KTrSFK4OJkkjPq775s9MzhpH4TWi9ygo1h1/4y5Kld55Wo/j4bqkzuQq4217ETic4vA+FGwNStNJ+DzSqNnAanyA7oohbeUEa/c38m5jVHXW8WvVwtotN6u130DYJMUIhnmbY+DKu1whC0urAtbQXRlQtUK/7+jCYzChyKAARvKLBiHCGKPzpg89L1twzSB6HCvi/xW0XwBV3V7x/M4AgvZzdb/lH0MvmJXS3mmn5LAYWATm/YO3DvwuwJIL+vKt0nd4SgVUHPRPy93HLOBSpIiA/YJvm10uqbXrLaMwXs5oH4P3RVDP6Rj/sDHmr++qlF1XRcX6jWc98wzEoZqkTD6MBeBfvU9CsKD1G/eeDjhMNu/wfbrcXvlrvQUeBqPpg3imPydGYX3lj/a8lOx0KCFtAVTK49TGYNyieuub8qZZ1WtMvRV6uWBNT9e0uuVTr3HCzC9q2Pqt5ZvNcebHGO6YUxBicANgFd0QwPHcDFiFz+DvFxlTkbvaJXSFfBsvLSVEm/WNwHtuS+8TN5imZrQuP1YReUoo8+jBic9JyY9kEthbwtj6rNhb5B6jaY3Gbv2GCGIbvFfdyiaNRJ8NPDlYyeoE8r25Wfb1TGO6iUlujdpLKaMUu6DY8hxnsSl3bmHo4aOEWmaEPg3REiJeBsCg7LqrMqSG+p1w+6AuZHVQV1wOFyXD91QTHJS/lCpjk5GxQxvhXf0QaXA==
-X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
- SFS:(13230022)(4636009)(39860400002)(346002)(136003)(376002)(396003)(451199015)(40470700004)(36840700001)(46966006)(82310400005)(36756003)(5660300002)(41300700001)(336012)(8936002)(7696005)(6666004)(82740400003)(966005)(316002)(40480700001)(70206006)(70586007)(36860700001)(55016003)(8676002)(2906002)(110136005)(6636002)(83380400001)(356005)(7636003)(86362001)(40460700003)(26005)(6286002)(2616005)(1076003)(426003)(186003)(16526019)(478600001)(47076005);
+X-Microsoft-Antispam-Message-Info: YGd3jR/S1mSMquejQ1EnTSJc0rPeKU6UxXTF2z3OFLo1J9sxJXyWk9wBAzYYTWSaeyyKoSxXJ8iigwId0l5lD0MFeDjY8UJdRahqFkSsQY/QTw7BmKgb5Db6Yf9UJ6wxB9iC5DYGJ30UUHESBYRisHBRqlL1O/y8vkxJtiEPA06ZJhGPwrMbXm0XSncd2xMimycQdUaIcebtHR4GlV9CHnekc3zIY6C7D+E1nb1pDpxbwg+sCSy5M6nzNt+44WWs2kJyURUs4rlbyjulYMO/fA2V4ZJIc1FW2NGmEOqdRNEYlgNcsKURKsVYnBRUTCR9tXUxbQivM+f8tPKmgJ3B24wLiwSuDESlfnNFdblv3mtGgHyGv/QM9Q1pri7gt0wZJTZVFjF7a0Ew99offQjW/iYFcJIP8xnC1+uqr0foq2XYn2BgQRdFrrJO39I/3DDHB378C5CnYYkF4MjKnLL7H0v0ZNSUQeloL+1RKSq8VoPlwlBrgjEIlIrUkZSrzobv8RmD3KkGXHzXzTSFztBwz6YtDSNqWgoKct/5qRuTBwrvB5n50qxdkP1LzT+Q+CRGk9DDdZvkdYwKf1M25VfMvygo0KlGxdHJtts4VJWZ4xyQvcuMdpEF3SuhHKqFcudDsJs+pqwyMewqb0n7Cb5kf1rpiXAFqrSP28leT0KUtTzbLisNpTKq1DZLwe8u9nSD6Wyzyw2PiW3+vZSmzzEormKu52F9iSloAYY/Qj+IXttxmgkvGr3Zf7f4/OOG6AD32M9H+6Hwow4SpUciMyrp6w==
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(346002)(376002)(396003)(136003)(451199015)(36840700001)(40470700004)(46966006)(336012)(83380400001)(426003)(356005)(7636003)(47076005)(86362001)(36860700001)(82740400003)(5660300002)(2906002)(8936002)(41300700001)(82310400005)(40480700001)(55016003)(6666004)(7696005)(478600001)(2616005)(6286002)(16526019)(1076003)(186003)(26005)(40460700003)(110136005)(316002)(70206006)(70586007)(8676002)(6636002)(36756003);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2022 04:08:47.5697 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b783d5cf-ed6c-453d-2025-08dac075c527
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2022 04:08:47.5580 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc68067f-0fce-4559-2dce-08dac075c51e
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT093.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT034.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4186
-Received-SPF: softfail client-ip=2a01:111:f400:fe5b::610;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5194
+Received-SPF: softfail client-ip=2a01:111:f400:fe5a::61f;
  envelope-from=yajunw@nvidia.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -124,57 +125,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The motivation of adding vhost-user vhost_dev_start support is to
-improve backend configuration speed and reduce live migration VM
-downtime.
+This patch is part of adding vhost-user vhost_dev_start support. The
+motivation is to improve backend configuration speed and reduce live
+migration VM downtime.
 
-Today VQ configuration is issued one by one. For virtio net with
-multi-queue support, backend needs to update RSS (Receive side
-scaling) on every rx queue enable. Updating RSS is time-consuming
-(typical time like 7ms).
+Moving the device start routines after finishing all the necessary device
+and VQ configuration, further aligning to the virtio specification for
+"device initialization sequence".
 
-Implement already defined vhost status and message in the vhost
-specification [1].
-(a) VHOST_USER_PROTOCOL_F_STATUS
-(b) VHOST_USER_SET_STATUS
-(c) VHOST_USER_GET_STATUS
+Following patch will add vhost-user vhost_dev_start support.
 
-Send message VHOST_USER_SET_STATUS with VIRTIO_CONFIG_S_DRIVER_OK for
-device start and reset(0) for device stop.
+Signed-off-by: Yajun Wu <yajunw@nvidia.com>
+Acked-by: Parav Pandit <parav@nvidia.com>
 
-On reception of the DRIVER_OK message, backend can apply the needed setting
-only once (instead of incremental) and also utilize parallelism on enabling
-queues.
+---
+ hw/block/vhost-user-blk.c | 18 +++++++++++-------
+ hw/net/vhost_net.c        | 14 ++++++++------
+ 2 files changed, 19 insertions(+), 13 deletions(-)
 
-This improves QEMU's live migration downtime with vhost user backend
-implementation by great margin, specially for the large number of VQs of 64
-from 800 msec to 250 msec.
-
-Another change is to move the device start routines after finishing all the
-necessary device and VQ configuration, further aligning to the virtio
-specification for "device initialization sequence".
-
-[1] https://qemu-project.gitlab.io/qemu/interop/vhost-user.html#introduction
-
-v4:
-- fix vhost_net_start_one fallback code
-
-v3:
-- rebase
-
-v2:
-- add setting status bit VIRTIO_CONFIG_S_FEATURES_OK
-- avoid adding status bits already set
-
-Yajun Wu (2):
-  vhost: Change the sequence of device start
-  vhost-user: Support vhost_dev_start
-
- hw/block/vhost-user-blk.c | 18 ++++++----
- hw/net/vhost_net.c        | 14 ++++----
- hw/virtio/vhost-user.c    | 74 ++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 92 insertions(+), 14 deletions(-)
-
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index 13bf5cc47a..28409c90f7 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -168,13 +168,6 @@ static int vhost_user_blk_start(VirtIODevice *vdev, Error **errp)
+         goto err_guest_notifiers;
+     }
+ 
+-    ret = vhost_dev_start(&s->dev, vdev);
+-    if (ret < 0) {
+-        error_setg_errno(errp, -ret, "Error starting vhost");
+-        goto err_guest_notifiers;
+-    }
+-    s->started_vu = true;
+-
+     /* guest_notifier_mask/pending not used yet, so just unmask
+      * everything here. virtio-pci will do the right thing by
+      * enabling/disabling irqfd.
+@@ -183,9 +176,20 @@ static int vhost_user_blk_start(VirtIODevice *vdev, Error **errp)
+         vhost_virtqueue_mask(&s->dev, vdev, i, false);
+     }
+ 
++    s->dev.vq_index_end = s->dev.nvqs;
++    ret = vhost_dev_start(&s->dev, vdev);
++    if (ret < 0) {
++        error_setg_errno(errp, -ret, "Error starting vhost");
++        goto err_guest_notifiers;
++    }
++    s->started_vu = true;
++
+     return ret;
+ 
+ err_guest_notifiers:
++    for (i = 0; i < s->dev.nvqs; i++) {
++        vhost_virtqueue_mask(&s->dev, vdev, i, true);
++    }
+     k->set_guest_notifiers(qbus->parent, s->dev.nvqs, false);
+ err_host_notifiers:
+     vhost_dev_disable_notifiers(&s->dev, vdev);
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index d28f8b974b..0fe71ed309 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -387,21 +387,23 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+         } else {
+             peer = qemu_get_peer(ncs, n->max_queue_pairs);
+         }
+-        r = vhost_net_start_one(get_vhost_net(peer), dev);
+-
+-        if (r < 0) {
+-            goto err_start;
+-        }
+ 
+         if (peer->vring_enable) {
+             /* restore vring enable state */
+             r = vhost_set_vring_enable(peer, peer->vring_enable);
+ 
+             if (r < 0) {
+-                vhost_net_stop_one(get_vhost_net(peer), dev);
+                 goto err_start;
+             }
+         }
++
++        r = vhost_net_start_one(get_vhost_net(peer), dev);
++        if (r < 0) {
++            if (peer->vring_enable) {
++                vhost_set_vring_enable(peer, false);
++            }
++            goto err_start;
++        }
+     }
+ 
+     return 0;
 -- 
 2.27.0
 
