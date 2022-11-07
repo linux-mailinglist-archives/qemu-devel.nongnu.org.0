@@ -2,92 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F9761F2C4
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 13:18:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 873C561F338
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 13:29:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os14Y-0006fG-N4; Mon, 07 Nov 2022 07:17:50 -0500
+	id 1os1Dp-0003Iy-J2; Mon, 07 Nov 2022 07:27:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1os142-0006Y5-M4
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 07:17:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1os13t-0004zW-Bg
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 07:17:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667823427;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1os1Dn-0003Hc-2V
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 07:27:23 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1os1Dl-0001OA-E4
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 07:27:22 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A03DB225E7;
+ Mon,  7 Nov 2022 12:27:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1667824039; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P3PYeiCqv8wCHA3q3ErlcU42ag89cxBOYkG/hh6iY38=;
- b=B+paaK0GR4P5afZojsqWsLrZ0jVPslHrg1plNQRqmQj8K3SHFOMtXFGi8RpD50d7pYWu8C
- 0L2HIwY0z7jc8LtMP++9AYHIhAqoY5YU2AmX3CeQMOwOtNU4EINMbvGEBxOAhzN4gs2eNu
- eBAXFnAvkjh0yIoT0gbX8u5zCtgp/J0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-375-YenOBvRjMua40MuS-cCK0g-1; Mon, 07 Nov 2022 07:17:06 -0500
-X-MC-Unique: YenOBvRjMua40MuS-cCK0g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r187-20020a1c44c4000000b003c41e9ae97dso8367546wma.6
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 04:17:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=P3PYeiCqv8wCHA3q3ErlcU42ag89cxBOYkG/hh6iY38=;
- b=fJJMgbzmGGMlvqeVdN7JnS7gwkF6ddc3PBTCX1AY2l2w/qBnNtTuvcGZvSrg/HtmNO
- TMuc4/E5i8V8Gahpwao/laZ/MtKPUirpbv7LPvp6OcLWAJK0pmza43VXRyeZWeVA7dBU
- R/3EdFyVsB8Wk7ukRwUn8n7I2M4IaYkZprbNVHCnkN2v+IcPxHwmPXWF7N3EXZJmoys7
- kRxZ+M9c78xHLWPJeqZwsHyP2auH9IMVjlfVujyhGvlVQG6zX0ljFW9LS2ENA9tf9y35
- COhIqlqcQ0pmR0EoY1eG5KmnzUurC8Q9Hp1Bq0ndtW1ZhLAmMVxef3hChDwjcL7Df8IH
- ek+w==
-X-Gm-Message-State: ACrzQf0tHRgNfKxHmCDqyCN5iSwxNTMUvBwbsK3IgdcjiBsshDiRgSyJ
- mEG5MnBZQeVXdYTM/o0BEvdn7dKlUYgwBRFID+p/yxMfXAF1l62dWUxjCvxxTwjPlQhCIdzPkd0
- qJOQQl6q37ePqqgY=
-X-Received: by 2002:adf:e385:0:b0:236:91a6:bd1b with SMTP id
- e5-20020adfe385000000b0023691a6bd1bmr31456562wrm.278.1667823423490; 
- Mon, 07 Nov 2022 04:17:03 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM4VeOiq0Atg/BIKWc4IS6k91lhXV4EPlQByvS/Bdf0MGBl6xzu5EUMKK7vZa4uly6MYH98xYA==
-X-Received: by 2002:adf:e385:0:b0:236:91a6:bd1b with SMTP id
- e5-20020adfe385000000b0023691a6bd1bmr31456539wrm.278.1667823423136; 
- Mon, 07 Nov 2022 04:17:03 -0800 (PST)
-Received: from redhat.com ([169.150.226.212]) by smtp.gmail.com with ESMTPSA id
- l12-20020a05600c2ccc00b003b47ff307e1sm8441285wmc.31.2022.11.07.04.17.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 04:17:02 -0800 (PST)
-Date: Mon, 7 Nov 2022 07:16:58 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- "open list:virtiofs" <virtio-fs@redhat.com>
-Subject: Re: [RFC PATCH] hw/virtio: introduce virtio_device_should_start
-Message-ID: <20221107071516-mutt-send-email-mst@kernel.org>
-References: <20221107121407.1010913-1-alex.bennee@linaro.org>
+ bh=fY9/aA5mZ7MPYbFvipr5xTcYhxZHi9FylJdTLVmv+g8=;
+ b=t+l6blvvMpPc4jWe5hYTfu0A4d3CQfmEttzWVedDGtlkVZqnNJJ8P+PvsozmIvDpHM4bir
+ U6WXBwTzzxyHf1viv74AIYlWosjRU1KkYenog9j5GbrirSIB3wEyHPDY0mji6mK9rE0+mR
+ WJVHuldvIhraZJFWVo4AeJ/7UKYzNT4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1667824039;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fY9/aA5mZ7MPYbFvipr5xTcYhxZHi9FylJdTLVmv+g8=;
+ b=VptN4zM+ofhhPcytJyXL7FkunZa3z8jnJ2noH8XNdbs555w8RmI0kH3QxXHAU1lM8kbvi1
+ 5/Grgkb2E2K/W5Dg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 729B013AC7;
+ Mon,  7 Nov 2022 12:27:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id XRtVGqf5aGO3NgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Mon, 07 Nov 2022 12:27:19 +0000
+Message-ID: <92cea786-0a5d-1ddd-68d5-14ca98143614@suse.de>
+Date: Mon, 7 Nov 2022 13:27:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221107121407.1010913-1-alex.bennee@linaro.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 2/3] net: Restore printing of the help text with "-nic
+ help"
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, pbonzini@redhat.com
+References: <20221104125705.415923-1-thuth@redhat.com>
+ <20221104125705.415923-3-thuth@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <20221104125705.415923-3-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,163 +90,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 07, 2022 at 12:14:07PM +0000, Alex Bennée wrote:
-> The previous fix to virtio_device_started revealed a problem in its
-> use by both the core and the device code. The core code should be able
-> to handle the device "starting" while the VM isn't running to handle
-> the restoration of migration state. To solve this duel use introduce a
-> new helper for use by the vhost-user backends who all use it to feed a
-> should_start variable.
+should -net and -netdev be adapted too?
+
+For audio, we now have support for help options in both -audiodev and -audio..
+
+Thanks,
+
+Claudio
+
+On 11/4/22 13:57, Thomas Huth wrote:
+> Running QEMU with "-nic help" used to work in QEMU 5.2 and earlier versions
+> (it showed the available netdev backends), but this feature got broken during
+> some refactoring in version 6.0. Let's restore the old behavior, and while
+> we're at it, let's also print the available NIC models here now since this
+> option can be used to configure both, netdev backend and model in one go.
 > 
-> We can also pick up a change vhost_user_blk_set_status while we are at
-> it which follows the same pattern.
-> 
-> Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-
-Hi Alex, did you actually check this under gitlab CI?
-
-
+> Fixes: ad6f932fe8 ("net: do not exit on "netdev_add help" monitor command")
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  include/hw/virtio/virtio.h   | 18 ++++++++++++++++++
->  hw/block/vhost-user-blk.c    |  6 +-----
->  hw/virtio/vhost-user-fs.c    |  2 +-
->  hw/virtio/vhost-user-gpio.c  |  2 +-
->  hw/virtio/vhost-user-i2c.c   |  2 +-
->  hw/virtio/vhost-user-rng.c   |  2 +-
->  hw/virtio/vhost-user-vsock.c |  2 +-
->  hw/virtio/vhost-vsock.c      |  2 +-
->  8 files changed, 25 insertions(+), 11 deletions(-)
+>  net/net.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
 > 
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index f41b4a7e64..3191c618f3 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -389,6 +389,24 @@ static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
->          return vdev->started;
+> diff --git a/net/net.c b/net/net.c
+> index c0516a8067..b4b8f2a9cc 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -1571,8 +1571,18 @@ static int net_param_nic(void *dummy, QemuOpts *opts, Error **errp)
+>      const char *type;
+>  
+>      type = qemu_opt_get(opts, "type");
+> -    if (type && g_str_equal(type, "none")) {
+> -        return 0;    /* Nothing to do, default_net is cleared in vl.c */
+> +    if (type) {
+> +        if (g_str_equal(type, "none")) {
+> +            return 0;    /* Nothing to do, default_net is cleared in vl.c */
+> +        }
+> +        if (is_help_option(type)) {
+> +            GPtrArray *nic_models = qemu_get_nic_models(TYPE_DEVICE);
+> +            show_netdevs();
+> +            printf("\n");
+> +            qemu_show_nic_models(type, (const char **)nic_models->pdata);
+> +            g_ptr_array_free(nic_models, true);
+> +            exit(0);
+> +        }
 >      }
 >  
-> +    return status & VIRTIO_CONFIG_S_DRIVER_OK;
-> +}
-> +
-> +/**
-> + * virtio_device_should_start() - check if device startable
-> + * @vdev - the VirtIO device
-> + * @status - the devices status bits
-> + *
-> + * This is similar to virtio_device_started() but also encapsulates a
-> + * check on the VM status which would prevent a device starting
-> + * anyway.
-> + */
-> +static inline bool virtio_device_should_start(VirtIODevice *vdev, uint8_t status)
-> +{
-> +    if (vdev->use_started) {
-> +        return vdev->started;
-> +    }
-> +
->      if (!vdev->vm_running) {
->          return false;
->      }
-> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index 13bf5cc47a..8feaf12e4e 100644
-> --- a/hw/block/vhost-user-blk.c
-> +++ b/hw/block/vhost-user-blk.c
-> @@ -222,14 +222,10 @@ static void vhost_user_blk_stop(VirtIODevice *vdev)
->  static void vhost_user_blk_set_status(VirtIODevice *vdev, uint8_t status)
->  {
->      VHostUserBlk *s = VHOST_USER_BLK(vdev);
-> -    bool should_start = virtio_device_started(vdev, status);
-> +    bool should_start = virtio_device_should_start(vdev, status);
->      Error *local_err = NULL;
->      int ret;
->  
-> -    if (!vdev->vm_running) {
-> -        should_start = false;
-> -    }
-> -
->      if (!s->connected) {
->          return;
->      }
-> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> index ad0f91c607..1c40f42045 100644
-> --- a/hw/virtio/vhost-user-fs.c
-> +++ b/hw/virtio/vhost-user-fs.c
-> @@ -123,7 +123,7 @@ static void vuf_stop(VirtIODevice *vdev)
->  static void vuf_set_status(VirtIODevice *vdev, uint8_t status)
->  {
->      VHostUserFS *fs = VHOST_USER_FS(vdev);
-> -    bool should_start = virtio_device_started(vdev, status);
-> +    bool should_start = virtio_device_should_start(vdev, status);
->  
->      if (vhost_dev_is_started(&fs->vhost_dev) == should_start) {
->          return;
-> diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
-> index 8b40fe450c..677d1c7730 100644
-> --- a/hw/virtio/vhost-user-gpio.c
-> +++ b/hw/virtio/vhost-user-gpio.c
-> @@ -152,7 +152,7 @@ static void vu_gpio_stop(VirtIODevice *vdev)
->  static void vu_gpio_set_status(VirtIODevice *vdev, uint8_t status)
->  {
->      VHostUserGPIO *gpio = VHOST_USER_GPIO(vdev);
-> -    bool should_start = virtio_device_started(vdev, status);
-> +    bool should_start = virtio_device_should_start(vdev, status);
->  
->      trace_virtio_gpio_set_status(status);
->  
-> diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
-> index bc58b6c0d1..864eba695e 100644
-> --- a/hw/virtio/vhost-user-i2c.c
-> +++ b/hw/virtio/vhost-user-i2c.c
-> @@ -93,7 +93,7 @@ static void vu_i2c_stop(VirtIODevice *vdev)
->  static void vu_i2c_set_status(VirtIODevice *vdev, uint8_t status)
->  {
->      VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
-> -    bool should_start = virtio_device_started(vdev, status);
-> +    bool should_start = virtio_device_should_start(vdev, status);
->  
->      if (vhost_dev_is_started(&i2c->vhost_dev) == should_start) {
->          return;
-> diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
-> index bc1f36c5ac..8b47287875 100644
-> --- a/hw/virtio/vhost-user-rng.c
-> +++ b/hw/virtio/vhost-user-rng.c
-> @@ -90,7 +90,7 @@ static void vu_rng_stop(VirtIODevice *vdev)
->  static void vu_rng_set_status(VirtIODevice *vdev, uint8_t status)
->  {
->      VHostUserRNG *rng = VHOST_USER_RNG(vdev);
-> -    bool should_start = virtio_device_started(vdev, status);
-> +    bool should_start = virtio_device_should_start(vdev, status);
->  
->      if (vhost_dev_is_started(&rng->vhost_dev) == should_start) {
->          return;
-> diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
-> index 7b67e29d83..9431b9792c 100644
-> --- a/hw/virtio/vhost-user-vsock.c
-> +++ b/hw/virtio/vhost-user-vsock.c
-> @@ -55,7 +55,7 @@ const VhostDevConfigOps vsock_ops = {
->  static void vuv_set_status(VirtIODevice *vdev, uint8_t status)
->  {
->      VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
-> -    bool should_start = virtio_device_started(vdev, status);
-> +    bool should_start = virtio_device_should_start(vdev, status);
->  
->      if (vhost_dev_is_started(&vvc->vhost_dev) == should_start) {
->          return;
-> diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-> index 7dc3c73931..aa16d584ee 100644
-> --- a/hw/virtio/vhost-vsock.c
-> +++ b/hw/virtio/vhost-vsock.c
-> @@ -70,7 +70,7 @@ static int vhost_vsock_set_running(VirtIODevice *vdev, int start)
->  static void vhost_vsock_set_status(VirtIODevice *vdev, uint8_t status)
->  {
->      VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
-> -    bool should_start = virtio_device_started(vdev, status);
-> +    bool should_start = virtio_device_should_start(vdev, status);
->      int ret;
->  
->      if (vhost_dev_is_started(&vvc->vhost_dev) == should_start) {
-> -- 
-> 2.34.1
+>      idx = nic_get_free_idx();
 
 
