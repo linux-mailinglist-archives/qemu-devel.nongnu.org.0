@@ -2,118 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C8661FAE3
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 18:12:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B3FD61FAFE
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 18:16:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os5fY-0006Rt-UG; Mon, 07 Nov 2022 12:12:20 -0500
+	id 1os5id-0007eQ-2T; Mon, 07 Nov 2022 12:15:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1os5fW-0006O1-BY
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 12:12:18 -0500
-Received: from esa8.hc2706-39.iphmx.com ([216.71.140.196])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1os5ia-0007dD-Tp
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 12:15:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1os5fR-0007cx-3D
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 12:12:18 -0500
-X-IronPort-RemoteIP: 209.85.210.72
-X-IronPort-MID: 234468146
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:hTYQ668avPKH7OVNIzkNDrUDP3yTJUtcMsCJ2f8bNWPcYEJGY0x3z
- WsXCmrVM6vbMTP9c4sib4m18RkG7cLVmt42SFQ9+3gxFiIbosf7XuiUfxz6V8+wwmwvb67FA
- +E2MISowBUcFyeEzvuVGuG96yI6jeTQHOGU5NfsYkhZXRVjRDoqlSVtkus4hp8AqdWiCkaGt
- MiaT/f3YTdJ4BYpdDNKg06/gEk35q6r4WtH5gZWic1j5zcyqVFEVPrzGonsdxMUcqEMdsamS
- uDKyq2O/2+x13/B3fv8z94X2mVTKlLjFVHmZkh+AsBOsTAbzsAG6ZvXAdJHAathZ5RlqPgqo
- DlFncTYpQ7EpcQgksxEO/VTO3gW0aGrZNYriJVw2CCe5xSuTpfi/xlhJAYkH9wH4OJNPUtHr
- r8xMhEsZRKsvcvjldpXSsE07igiBMziPYdavW05iD+GV7ApRpfMR6iM7thdtNsyrpoWTLCOO
- oxDMGIpM06ojx5nYz/7DLo3mPeuimPXeSAepV6IzUYyyzKIkFAvgOGxbrI5fPShYdRawl62/
- V7hpUnIMj8HK4ebzzeKpyfEaujn2HmTtJgpPKS18+MvjFCNy2g7DhoQWl2m5/6jhSaDt8l3L
- kUV/m8psfF3+hPxCNb6WBK8rTiPuRt0t8dsLtDWITqlksL8izt1zEBYH2MphAAO3CPueQEX6
- w==
-IronPort-HdrOrdr: A9a23:2B27uavBp4S7hCIWcJqzmp1C7skDoNV00zEX/kB9WHVpmwKj5q
- eTddAgpGLJYVcqKQsdcLW7UpVoLkmsl6KdjbNhWItKGTOWxFdAT7sSlrcKoQeQYhEWn9Q1vc
- wQEJSWSueAdWSS5fyb3ODSKadH/DDoytHNuc7ui11Ad0VFUZ1B0itOIjqnMyRNNXZ77FkCeK
- Z0JPArm9NtQxoqhw2AaRg4Y9Q=
-Received: from mail-ot1-f72.google.com ([209.85.210.72])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 07 Nov 2022 12:09:39 -0500
-Received: by mail-ot1-f72.google.com with SMTP id
- 33-20020a9d0124000000b0066adf5218b2so5844408otu.10
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 09:09:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=4HSEmnBkKb5QkT06F6XJTULzrQJy+4h9FWzjVV3yIz4=;
- b=d6rLUbJBXlDE4H/QflkWB+H6x1g1MWVYGugBiuXhN9hVUfYtLUKquzHqO/A6dDcPUc
- dpYFu6jtEIOjCVTJ8W/xjhUNclPkBaSY3avYDHTE/BZ3uILoXSWPkHtGbqLTg3hnNYBU
- xKTQICSrjhgmgNC9DjX8de74Ns5K45xdCd1tUIX1onS7Pqx2NG3Vum5IoGWFTOV1Locy
- RLu4EXuYXhx3CXuOowcKVfOE3oefBGnB+6IqEEL+hmvtAUAcERyL3WgaGpNVvG8YH0wX
- bkwNuYdF73FBCR+vJNHT7sqgjG6sUoR1UgcphJUBOzECWgUeaH/XxSu89FDtNPvUPEMr
- um1w==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1os5iZ-0003rq-1G
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 12:15:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667841325;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BJHwJtJgMwfJKT6EBbx5GmZw0CXp+QPJD5rxD0SOqd0=;
+ b=STvWsVf/Q0r3r6PxzCRHkEp6U77Et8fPE8Pee5HWPN6eYB4XtNw3DZnQ8Or7a6Ok78CYSe
+ GrzWveOoFQfUpE2G3Uiygzbo6mqtwbd5DSi0mBFk1JoVFmhJkbE1pszH8zf4GCbvw6PYRR
+ a4xBy+aVNppwZIYCyzCuA6/PZrdSKC8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-528-hPsXMGSTNmiAM-D28YsIQg-1; Mon, 07 Nov 2022 12:15:23 -0500
+X-MC-Unique: hPsXMGSTNmiAM-D28YsIQg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ w23-20020adf8bd7000000b002358f733307so3032713wra.17
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 09:15:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4HSEmnBkKb5QkT06F6XJTULzrQJy+4h9FWzjVV3yIz4=;
- b=HooV2qjRlfw2q/R9yGmY18nQ28FY/p1p9iMFshGdsJcJLSC0P0EneZ7VN6YTnR4gLv
- kvLuokdCQOyFnfFb7Bokvd4ibc5cpX42ag3UcUCmSNJTBkBj6V5I5gvRNk8zAngf8g9v
- F4BkFM3YcT6hnl0I66hdEVd/QlGIHkHGbHqsBJjM+wIXNSzT9fWwEnPlMcMJXaFv9uaI
- P5EiDqjH+TfvjMefDGpCaHiK+YQT+wwiL7TrCPsprUz2pQv50WYN6I62fCVxqTwY0EpC
- 5EV3XQMv3JEvbXwQ0BB3ARmrXRevFLNYV84CFGGZAEZo5+MwFPEqNyhqgYu2iNnEZAR5
- JcXA==
-X-Gm-Message-State: ANoB5pliPryeEvcvlUe10fo9/LDQ4Rv2flSe57VVSpkhBfLxkSzQuhE5
- Yqxo9LbH7IDlRMHB1qiHyZXpND2FUxXD8achekJe0CkQwsLiRSihEA/SGRhxM94N5AwyWcxkP6Y
- BI9wqYMvTYa0GDc/lrEDVsShUctyaWg==
-X-Received: by 2002:a05:6808:1b08:b0:35a:89ff:1c70 with SMTP id
- bx8-20020a0568081b0800b0035a89ff1c70mr3374168oib.97.1667840979114; 
- Mon, 07 Nov 2022 09:09:39 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4TMUcJOZo85uKjoO4bv28q5WyXsmQJE9AJvsP+xBSdR89lIGMAb9DHk1w9GA0PBigPnONZUw==
-X-Received: by 2002:a05:6808:1b08:b0:35a:89ff:1c70 with SMTP id
- bx8-20020a0568081b0800b0035a89ff1c70mr3374149oib.97.1667840978804; 
- Mon, 07 Nov 2022 09:09:38 -0800 (PST)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- 63-20020aca0542000000b00339befdfad0sm2570421oif.50.2022.11.07.09.09.36
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BJHwJtJgMwfJKT6EBbx5GmZw0CXp+QPJD5rxD0SOqd0=;
+ b=ZVg2OtYAxVcdxSEbOuapR2M5VUXjM4/wTUHRoO4LKHYy3LFlxkVf86NZF/YGr4uxeG
+ pDCKuKkarNYFvuI1e9FS8zwupRHU10MtO6VUMtq6H2GD+743t7r39lc89htay8/iUW+B
+ WBD8SFQoEyC2VGDbTl5CN3SodrbzCxtevzvTJEGyupScWWQMSSd1aB6Z2WnaK5jIYWbE
+ 4+qPOzZk2WFcWB5IQNP7jzWTh5wgABGqLAeRZu4RCwsOsyauF+TTUwLEwxbvjLIEIwa5
+ 3/KondP3wG1Z6FosV4jEcKFAdBVIIo9aJAblMYy7/BQmPJ9DrYTnObMw6vW3N3pp6Qcb
+ t3Tw==
+X-Gm-Message-State: ACrzQf1eme7fd8QWac+xUDVHEb8Xb5i1RzmIfrSWlhALF//x47BnwIC7
+ jRL/JJtKU3Dd76whLE6rI7QuNA/QJUD9IBg1SSxplYgopBipioUhhLdUXz3oPkqotInJXUxMS9D
+ ggwgalfysaK5WoMs=
+X-Received: by 2002:a5d:6a90:0:b0:236:4835:ca94 with SMTP id
+ s16-20020a5d6a90000000b002364835ca94mr31970796wru.187.1667841322701; 
+ Mon, 07 Nov 2022 09:15:22 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM6+Za/mVL2i33+7yJaxoYKaKgeBdDvicrOK47MvB70P8ETCO10usp5a2+4qBBwGiC2uo8HgQQ==
+X-Received: by 2002:a5d:6a90:0:b0:236:4835:ca94 with SMTP id
+ s16-20020a5d6a90000000b002364835ca94mr31970775wru.187.1667841322348; 
+ Mon, 07 Nov 2022 09:15:22 -0800 (PST)
+Received: from redhat.com ([169.150.226.212]) by smtp.gmail.com with ESMTPSA id
+ l5-20020a1c7905000000b003cf6e1df4a8sm8469025wme.15.2022.11.07.09.15.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 09:09:38 -0800 (PST)
-Date: Mon, 7 Nov 2022 12:09:09 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Li Qiang <liq3ea@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>
-Subject: Re: [PATCH v3 0/7] memory: prevent dma-reentracy issues
-Message-ID: <20221107170909.oi6ger3ilt727t5q@mozz.bu.edu>
-References: <20221028191648.964076-1-alxndr@bu.edu>
+ Mon, 07 Nov 2022 09:15:21 -0800 (PST)
+Date: Mon, 7 Nov 2022 12:15:17 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2] hw/acpi: fix breakage due to missing aml stub
+ definitions when acpi is off
+Message-ID: <20221107121433-mutt-send-email-mst@kernel.org>
+References: <20221107152744.868434-1-ani@anisinha.ca>
+ <34fa9010-b654-a8dd-6591-5b0f4aa4e5f6@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20221028191648.964076-1-alxndr@bu.edu>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.140.196; envelope-from=alxndr@bu.edu;
- helo=esa8.hc2706-39.iphmx.com
-X-Spam_score_int: 3
-X-Spam_score: 0.3
-X-Spam_bar: /
-X-Spam_report: (0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <34fa9010-b654-a8dd-6591-5b0f4aa4e5f6@linaro.org>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -129,78 +99,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 221028 1516, Alexander Bulekov wrote:
-> These patches aim to solve two types of DMA-reentrancy issues:
+On Mon, Nov 07, 2022 at 06:08:49PM +0100, Philippe Mathieu-Daudé wrote:
+> On 7/11/22 16:27, Ani Sinha wrote:
+> > Some HW architectures do not support acpi and CONFIG_ACPI is off for them. For
+> > those architectures, dummy stub function definitions help to resolve symbols.
+> > This change adds couple of dummy stub definitions so that symbols for those can
+> > be resolved and failures such as the following can be fixed for or1k targets.
+> > 
+> > Configuration:
+> > qemu/build $ ../configure --enable-werror --disable-docs --disable-nettle \
+> >               --enable-gcrypt --enable-fdt=system --enable-modules \
+> >               --enable-trace-backends=dtrace --enable-docs \
+> > 	     --enable-vfio-user-server \
+> >               --target-list="ppc64-softmmu or1k-softmmu s390x-softmmu x86_64-softmmu
+> >   rx-softmmu sh4-softmmu nios2-softmmu"
+> > 
+> > actual failure:
+> > 
+> > qemu/build $ QTEST_QEMU_BINARY=./qemu-system-or1k  ./tests/qtest/qos-test
+> > 
+> > failed to open module:
+> > /build/qemu/qemu/build/qemu-bundle/usr/local/lib64/qemu/hw-display-virtio-vga.so:
+> > undefined symbol: aml_return
+> > qemu-system-or1k: ../util/error.c:59: error_setv: Assertion `*errp ==
+> > NULL' failed.
+> > Broken pipe
+> > ../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from
+> > signal 6 (Aborted) (core dumped)
+> > Aborted (core dumped)
+> > 
+> > CC: Bernhard Beschow <shentey@gmail.com>
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > ---
+> >   hw/acpi/aml-build-stub.c | 10 ++++++++++
+> >   1 file changed, 10 insertions(+)
+> > 
+> > changelog:
+> > v2: cosmetic commit description format update.
+> > 
+> > diff --git a/hw/acpi/aml-build-stub.c b/hw/acpi/aml-build-stub.c
+> > index 8d8ad1a314..89a8fec4af 100644
+> > --- a/hw/acpi/aml-build-stub.c
+> > +++ b/hw/acpi/aml-build-stub.c
+> > @@ -26,6 +26,16 @@ void aml_append(Aml *parent_ctx, Aml *child)
+> >   {
+> >   }
+> > +Aml *aml_return(Aml *val)
+> > +{
+> > +    return NULL;
 > 
-> 1.) mmio -> dma -> mmio case
-> To solve this, we track whether the device is engaged in io by
-> checking/setting a flag within APIs used for MMIO access.
-> 
-> 2.) bh -> dma write -> mmio case
-> This case is trickier, since we dont have a generic way to associate a
-> bh with the underlying Device/DeviceState. Thus, this version introduces
-> a change to QEMU's DMA APIs to associate each request with the
-> origiantor DeviceState. In total, the affected APIs are used in
-> approximately 250 locations:
-> 
-> dma_memory_valid (1 usage)
-> dma_memory_rw (~5 uses)
-> dma_memory_read (~92 uses)
-> dma_memory_write (~71 uses)
-> dma_memory_set (~4 uses)
-> dma_memory_map (~18 uses)
-> dma_memory_unmap (~21 uses)
-> {ld,st}_{le,be}_{uw,l,q}_dma (~10 uses)
-> ldub_dma (does not appear to be used anywhere)
-> stb_dma (1 usage)
-> dma_buf_read (~18 uses)
-> dma_buf_write (~7 uses)
-> 
-> It is not trivial to mechanically replace all of the invocations:
-> For many cases, this will be as simple as adding DEVICE(s) to the
-> arguments, but there are locations where the code will need to be
-> slightly changed. As such, for now I added "_guarded" versions of most
-> of the APIs which can be used until all of the invocations are fixed.
-> 
-> The end goal is to go through all of hw/ and make the required changes
-> (I will need help with this). Once that is done, the "_guarded" APIs can
-> take the place of the standard DMA APIs and we can mecahnically remove
-> the "_guarded" suffix from all invocations.
-> 
-> These changes do not address devices that bypass DMA apis and directly
-> call into address_space.. APIs. This occurs somewhat commonly, and
-> prevents me from fixing issues in Virtio devices, such as:
-> https://gitlab.com/qemu-project/qemu/-/issues/827
-> I'm not sure what approach we should take for these cases - maybe they
-> should be switched to DMA APIs (or the DMA API expanded).
-> 
-> v2 -> v3: Bite the bullet and modify the DMA APIs, rather than
->     attempting to guess DeviceStates in BHs.
-> 
-> Alexander Bulekov (7):
->   memory: associate DMA accesses with the initiator Device
->   dma-helpers: switch to guarded DMA accesses
->   ahci: switch to guarded DMA acccesses
->   sdhci: switch to guarded DMA accesses
->   ehci: switch to guarded DMA accesses
->   xhci: switch to guarded DMA accesses
->   usb/libhw: switch to guarded DMA accesses
-> 
->  hw/ide/ahci.c          | 16 +++++++++-------
->  hw/sd/sdhci.c          | 43 ++++++++++++++++++++++--------------------
->  hw/usb/hcd-ehci.c      |  8 ++++----
->  hw/usb/hcd-xhci.c      | 24 +++++++++++------------
->  hw/usb/libhw.c         |  4 ++--
->  include/hw/qdev-core.h |  2 ++
->  include/sysemu/dma.h   | 41 ++++++++++++++++++++++++++++++++++++++++
->  softmmu/dma-helpers.c  | 15 ++++++++-------
->  softmmu/memory.c       | 15 +++++++++++++++
->  softmmu/trace-events   |  1 +
->  10 files changed, 117 insertions(+), 52 deletions(-)
-> 
-> -- 
-> 2.27.0
->
+> Can't return NULL, otherwise aml_append() will crash.
 
-ping
+This is what rest of functions do.
+
+> We just want the symbol to be defined, so instead:
+> 
+>       g_assert_not_reached();
+> 
+> > +}
+
+NULL derefs are actually somewhat easier to debug than asserts.
+
+-- 
+MST
+
 
