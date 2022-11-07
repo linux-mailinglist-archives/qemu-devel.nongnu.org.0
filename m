@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4A261EFAF
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 10:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C64AA61EFCE
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 10:59:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oryox-00071U-5d; Mon, 07 Nov 2022 04:53:35 -0500
+	id 1orytH-0002Rs-Bb; Mon, 07 Nov 2022 04:58:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oryou-00071K-Vm
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 04:53:33 -0500
-Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oryos-0003Cc-95
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 04:53:32 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.250])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 510F322563;
- Mon,  7 Nov 2022 09:53:17 +0000 (UTC)
-Received: from kaod.org (37.59.142.96) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12; Mon, 7 Nov
- 2022 10:53:15 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001f6666bc1-8a3f-4c45-a3cd-2c0f0d866bba,
- 6C43477976431A91849322C1890FE44AF44C4A7B) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <1ffbe6ea-e42a-f84f-c499-0444ffca24ac@kaod.org>
-Date: Mon, 7 Nov 2022 10:53:15 +0100
+ (Exim 4.90_1) (envelope-from <maobibo@loongson.cn>)
+ id 1orytE-0002R0-LB; Mon, 07 Nov 2022 04:58:00 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <maobibo@loongson.cn>)
+ id 1orytC-0004VH-83; Mon, 07 Nov 2022 04:58:00 -0500
+Received: from loongson.cn (unknown [10.20.42.170])
+ by gateway (Coremail) with SMTP id _____8AxTbeZ1mhjyAEFAA--.4838S3;
+ Mon, 07 Nov 2022 17:57:45 +0800 (CST)
+Received: from [10.20.42.170] (unknown [10.20.42.170])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Dxd1eZ1mhj_WUOAA--.22038S3; 
+ Mon, 07 Nov 2022 17:57:45 +0800 (CST)
+Message-ID: <80ccc060-32a7-bc38-bf2b-2ef5959a7e0c@loongson.cn>
+Date: Mon, 7 Nov 2022 17:57:45 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: [PATCH v8 8/8] s390x/s390-virtio-ccw: add zpcii-disable machine
- property
-To: Matthew Rosato <mjrosato@linux.ibm.com>, <qemu-s390x@nongnu.org>
-CC: <alex.williamson@redhat.com>, <schnelle@linux.ibm.com>,
- <cohuck@redhat.com>, <thuth@redhat.com>, <farman@linux.ibm.com>,
- <pmorel@linux.ibm.com>, <richard.henderson@linaro.org>, <david@redhat.com>,
- <pasic@linux.ibm.com>, <borntraeger@linux.ibm.com>, <mst@redhat.com>,
- <pbonzini@redhat.com>, <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>
-References: <20220902172737.170349-1-mjrosato@linux.ibm.com>
- <20220902172737.170349-9-mjrosato@linux.ibm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] hw/riscv: virt: Remove size restriction for pflash
 Content-Language: en-US
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220902172737.170349-9-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: bfa59ba9-ef7c-4ce4-9680-bf9fd394f4ee
-X-Ovh-Tracer-Id: 15387955503059340164
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvgedrvdekgddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedutdetleegjefhieekgeffkefhleevgfefjeevffejieevgeefhefgtdfgiedtnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepmhhjrhhoshgrthhosehlihhnuhigrdhisghmrdgtohhmpdhqvghmuhdqshefledtgiesnhhonhhgnhhurdhorhhgpdgrlhgvgidrfihilhhlihgrmhhsohhnsehrvgguhhgrthdrtghomhdpshgthhhnvghllhgvsehlihhnuhigrdhisghmrdgtohhmpdgtohhhuhgtkhesrhgvughhrghtrdgtohhmpdhthhhuthhhsehrvgguhhgrthdrtghomhdpfhgrrhhmrghnsehlihhnuhigrdhisghmrdgtohhmpdhpmhhorhgvlheslhhinhhugidrihgsmhdrtghomhdprhhitghhrghrugdrhhgvnh
- guvghrshhonheslhhinhgrrhhordhorhhgpdgurghvihgusehrvgguhhgrthdrtghomhdpphgrshhitgeslhhinhhugidrihgsmhdrtghomhdpsghorhhnthhrrggvghgvrheslhhinhhugidrihgsmhdrtghomhdpmhhsthesrhgvughhrghtrdgtohhmpdhpsghonhiiihhnihesrhgvughhrghtrdgtohhmpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhkvhhmsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehhedvpdhmohguvgepshhmthhpohhuth
-Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
- helo=3.mo552.mail-out.ovh.net
+To: Sunil V L <sunilvl@ventanamicro.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+References: <20221106143900.2229449-1-sunilvl@ventanamicro.com>
+From: maobibo <maobibo@loongson.cn>
+In-Reply-To: <20221106143900.2229449-1-sunilvl@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Dxd1eZ1mhj_WUOAA--.22038S3
+X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoWxCrW5ZFyxAw15ZF1rtw48Xrb_yoW5Zw4rpF
+ WFkFs3Jr1kJFn7ur1xGw43G345Gw1fJF1UWrWI9w40kr13W3W2gFWrKa48Gry0yr1DXFyD
+ CF98JrZFkFs7XrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ bI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+ 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+ wVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+ x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1l
+ e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2
+ IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4U
+ McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487Mx
+ AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+ Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwI
+ xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8
+ JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
+ C2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUzZ2-UUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=maobibo@loongson.cn;
+ helo=loongson.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,172 +79,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hello,
 
-On 9/2/22 19:27, Matthew Rosato wrote:
-> The zpcii-disable machine property can be used to force-disable the use
-> of zPCI interpretation facilities for a VM.  By default, this setting
-> will be off for machine 7.2 and newer.
 
-KVM will tell if the zPCI interpretation feature is available for
-the VM depending on the host capabilities and activation can be
-handled with the "interpret" property at the device level.
-
-For migration compatibility, zPCI interpretation can be globally
-deactivated with a compat property. So, I don't understand how the
-"zpcii-disable" machine option is useful.
-
-The patch could possibly be reverted for 7.2 and replaced with :
-
-   @@ -921,9 +921,13 @@ static void ccw_machine_7_1_instance_opt
-    static void ccw_machine_7_1_class_options(MachineClass *mc)
-    {
-        S390CcwMachineClass *s390mc = S390_CCW_MACHINE_CLASS(mc);
-   +    static GlobalProperty compat[] = {
-   +        { TYPE_S390_PCI_DEVICE, "interpret", "off", },
-   +    };
-    
-        ccw_machine_7_2_class_options(mc);
-        compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
-   +    compat_props_add(mc->compat_props, compat, G_N_ELEMENTS(compat));
-        s390mc->max_threads = S390_MAX_CPUS;
-        s390mc->topology_capable = false;
-
-    }
-
-Thanks,
-
-C.
-
+在 2022/11/6 22:39, Sunil V L 写道:
+> The pflash implementation currently assumes fixed size of the
+> backend storage. Due to this, the backend storage file needs to be
+> exactly of size 32M. Otherwise, there will be an error like below.
 > 
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> "device requires 33554432 bytes, block backend provides 3145728 bytes"
+> 
+> Fix this issue by using the actual size of the backing store.
+> 
+> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 > ---
->   hw/s390x/s390-pci-kvm.c            |  4 +++-
->   hw/s390x/s390-virtio-ccw.c         | 25 +++++++++++++++++++++++++
->   include/hw/s390x/s390-virtio-ccw.h |  1 +
->   qemu-options.hx                    |  8 +++++++-
->   util/qemu-config.c                 |  4 ++++
->   5 files changed, 40 insertions(+), 2 deletions(-)
+>  hw/riscv/virt.c | 33 +++++++++++++++++++++++++--------
+>  1 file changed, 25 insertions(+), 8 deletions(-)
 > 
-> diff --git a/hw/s390x/s390-pci-kvm.c b/hw/s390x/s390-pci-kvm.c
-> index 9134fe185f..5eb7fd12e2 100644
-> --- a/hw/s390x/s390-pci-kvm.c
-> +++ b/hw/s390x/s390-pci-kvm.c
-> @@ -22,7 +22,9 @@
->   
->   bool s390_pci_kvm_interp_allowed(void)
->   {
-> -    return kvm_s390_get_zpci_op() && !s390_is_pv();
-> +    return (kvm_s390_get_zpci_op() && !s390_is_pv() &&
-> +            !object_property_get_bool(OBJECT(qdev_get_machine()),
-> +                                      "zpcii-disable", NULL));
->   }
->   
->   int s390_pci_kvm_aif_enable(S390PCIBusDevice *pbdev, ZpciFib *fib, bool assist)
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 9a2467c889..f8ecb6172c 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -645,6 +645,21 @@ static inline void machine_set_dea_key_wrap(Object *obj, bool value,
->       ms->dea_key_wrap = value;
->   }
->   
-> +static inline bool machine_get_zpcii_disable(Object *obj, Error **errp)
-> +{
-> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index a5bc7353b4..aad175fa31 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -49,6 +49,7 @@
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci-host/gpex.h"
+>  #include "hw/display/ramfb.h"
+> +#include "sysemu/block-backend.h"
+>  
+>  /*
+>   * The virt machine physical address space used by some of the devices
+> @@ -144,10 +145,17 @@ static void virt_flash_map1(PFlashCFI01 *flash,
+>                              MemoryRegion *sysmem)
+>  {
+>      DeviceState *dev = DEVICE(flash);
+> +    BlockBackend *blk;
+> +    hwaddr real_size;
+>  
+> -    assert(QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE));
+> -    assert(size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
+> -    qdev_prop_set_uint32(dev, "num-blocks", size / VIRT_FLASH_SECTOR_SIZE);
+> +    blk = pflash_cfi01_get_blk(flash);
 > +
-> +    return ms->zpcii_disable;
-> +}
+> +    real_size = blk ? blk_getlength(blk): size;
 > +
-> +static inline void machine_set_zpcii_disable(Object *obj, bool value,
-> +                                             Error **errp)
-> +{
-> +    S390CcwMachineState *ms = S390_CCW_MACHINE(obj);
+> +    assert(real_size);
+> +    assert(QEMU_IS_ALIGNED(real_size, VIRT_FLASH_SECTOR_SIZE));
+> +    assert(real_size / VIRT_FLASH_SECTOR_SIZE <= UINT32_MAX);
+How about add one sentence?
+       assert(real_size <= size);   
+
+As defined VIRT_FLASH memory space, the total memory space size 64M,
+Pflash0/Pflash1 cannot be more than 32M. Supposing real size of pflash0
+is 33M, there will be conflict with address space of pflash1.
+
+regards
+bibo, mao
+
+> +    qdev_prop_set_uint32(dev, "num-blocks", real_size / VIRT_FLASH_SECTOR_SIZE);
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>  
+>      memory_region_add_subregion(sysmem, base,
+> @@ -971,15 +979,24 @@ static void create_fdt_flash(RISCVVirtState *s, const MemMapEntry *memmap)
+>  {
+>      char *name;
+>      MachineState *mc = MACHINE(s);
+> -    hwaddr flashsize = virt_memmap[VIRT_FLASH].size / 2;
+> -    hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
+> +    MemoryRegion *flash_mem;
+> +    hwaddr flashsize[2];
+> +    hwaddr flashbase[2];
 > +
-> +    ms->zpcii_disable = value;
-> +}
+> +    flash_mem = pflash_cfi01_get_memory(s->flash[0]);
+> +    flashbase[0] = flash_mem->addr;
+> +    flashsize[0] = flash_mem->size;
 > +
->   static S390CcwMachineClass *current_mc;
->   
->   /*
-> @@ -740,6 +755,13 @@ static inline void s390_machine_initfn(Object *obj)
->               "Up to 8 chars in set of [A-Za-z0-9. ] (lower case chars converted"
->               " to upper case) to pass to machine loader, boot manager,"
->               " and guest kernel");
-> +
-> +    object_property_add_bool(obj, "zpcii-disable",
-> +                             machine_get_zpcii_disable,
-> +                             machine_set_zpcii_disable);
-> +    object_property_set_description(obj, "zpcii-disable",
-> +            "disable zPCI interpretation facilties");
-> +    object_property_set_bool(obj, "zpcii-disable", false, NULL);
->   }
->   
->   static const TypeInfo ccw_machine_info = {
-> @@ -803,8 +825,11 @@ DEFINE_CCW_MACHINE(7_2, "7.2", true);
->   
->   static void ccw_machine_7_1_instance_options(MachineState *machine)
->   {
-> +    S390CcwMachineState *ms = S390_CCW_MACHINE(machine);
-> +
->       ccw_machine_7_2_instance_options(machine);
->       s390_cpudef_featoff_greater(16, 1, S390_FEAT_PAIE);
-> +    ms->zpcii_disable = true;
->   }
->   
->   static void ccw_machine_7_1_class_options(MachineClass *mc)
-> diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
-> index 3331990e02..8a0090a071 100644
-> --- a/include/hw/s390x/s390-virtio-ccw.h
-> +++ b/include/hw/s390x/s390-virtio-ccw.h
-> @@ -27,6 +27,7 @@ struct S390CcwMachineState {
->       bool aes_key_wrap;
->       bool dea_key_wrap;
->       bool pv;
-> +    bool zpcii_disable;
->       uint8_t loadparm[8];
->   };
->   
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 31c04f7eea..7427dd1ed5 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -37,7 +37,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
->       "                memory-encryption=@var{} memory encryption object to use (default=none)\n"
->       "                hmat=on|off controls ACPI HMAT support (default=off)\n"
->       "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n"
-> -    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n",
-> +    "                cxl-fmw.0.targets.0=firsttarget,cxl-fmw.0.targets.1=secondtarget,cxl-fmw.0.size=size[,cxl-fmw.0.interleave-granularity=granularity]\n"
-> +    "                zpcii-disable=on|off disables zPCI interpretation facilities (default=off)\n",
->       QEMU_ARCH_ALL)
->   SRST
->   ``-machine [type=]name[,prop=value[,...]]``
-> @@ -157,6 +158,11 @@ SRST
->           ::
->   
->               -machine cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=128G,cxl-fmw.0.interleave-granularity=512k
-> +
-> +    ``zpcii-disable=on|off``
-> +        Disables zPCI interpretation facilties on s390-ccw hosts.
-> +        This feature can be used to disable hardware virtual assists
-> +        related to zPCI devices. The default is off.
->   ERST
->   
->   DEF("M", HAS_ARG, QEMU_OPTION_M,
-> diff --git a/util/qemu-config.c b/util/qemu-config.c
-> index 433488aa56..5325f6bf80 100644
-> --- a/util/qemu-config.c
-> +++ b/util/qemu-config.c
-> @@ -236,6 +236,10 @@ static QemuOptsList machine_opts = {
->               .help = "Up to 8 chars in set of [A-Za-z0-9. ](lower case chars"
->                       " converted to upper case) to pass to machine"
->                       " loader, boot manager, and guest kernel",
-> +        },{
-> +            .name = "zpcii-disable",
-> +            .type = QEMU_OPT_BOOL,
-> +            .help = "disable zPCI interpretation facilities",
->           },
->           { /* End of list */ }
->       }
+> +    flash_mem = pflash_cfi01_get_memory(s->flash[1]);
+> +    flashbase[1] = flash_mem->addr;
+> +    flashsize[1] = flash_mem->size;
+>  
+> -    name = g_strdup_printf("/flash@%" PRIx64, flashbase);
+> +    name = g_strdup_printf("/flash@%" PRIx64, flashbase[0]);
+>      qemu_fdt_add_subnode(mc->fdt, name);
+>      qemu_fdt_setprop_string(mc->fdt, name, "compatible", "cfi-flash");
+>      qemu_fdt_setprop_sized_cells(mc->fdt, name, "reg",
+> -                                 2, flashbase, 2, flashsize,
+> -                                 2, flashbase + flashsize, 2, flashsize);
+> +                                 2, flashbase[0], 2, flashsize[0],
+> +                                 2, flashbase[1], 2, flashsize[1]);
+>      qemu_fdt_setprop_cell(mc->fdt, name, "bank-width", 4);
+>      g_free(name);
+>  }
 
 
