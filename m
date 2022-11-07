@@ -2,83 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5767A61EAAA
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 06:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD95861EB00
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 07:29:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oruxf-0002KB-HO; Mon, 07 Nov 2022 00:46:19 -0500
+	id 1orvbz-0002m1-Ff; Mon, 07 Nov 2022 01:27:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1oruxW-0002JA-KK
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 00:46:15 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1oruxU-0001NI-Sm
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 00:46:10 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- r61-20020a17090a43c300b00212f4e9cccdso13485253pjg.5
- for <qemu-devel@nongnu.org>; Sun, 06 Nov 2022 21:46:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=7TorB7iWcnJTNHYhG0GCQsqvK4cyoE344l0UY9t1cn0=;
- b=CPBdQ4UmKBdKcbJlIWctdj7AlqOv6we8Rul/a0e7Pm4h2ReO/LYzp7lg4PE72aHK0i
- qhT9GVf/j0VUCTn9+F1P0ZWeCvPbtRYISfV4udGkdtCeGY6+neOb4YM93chGpnLAml9e
- IDAaH3LNlXzCoyy7jeRC/MHHRDjy0igDW8ylyplphY2XtwQXknZ8wxQ+O5nokhGTP/Pe
- 44ie67iffzwozC7/A4OjTXLaV9w6Y+lThjFrYo8T7koc7dw7bqnx1GDKTTegGMkEbmzC
- e7Rf2GNUcL/6dK1IW6gTVBl/j06+mj+WwjmtR/hmzVuYIi50CMfJu3BWvwjInxp1gZ+D
- BQmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7TorB7iWcnJTNHYhG0GCQsqvK4cyoE344l0UY9t1cn0=;
- b=ajFeOgyd7xhvxHsB/omkzaZo05myBAATD8QMjld7uFMf0QGwucrrnHAHWoxm/Rp65h
- LHRswr/F1+lHTeaaF5WnSURdWCU/O2SXCv6n29To/yrW/mTQZpL96eM6RRmuaee7e3r+
- mS98x15NXCH53zGPYpajOMDghjGyQ3Y0/nYqGXHuo2/XyqDTVms779mBn+0s/diQAalk
- 4HHG4ETHzPg4V+YHfcYOyu2MDKN/nt9coo3E3DXS0YLZSKfFCdM3oed/R2ll+8T6lcDP
- Vg4b87fOc3GqCOHoAhfyqryEE+Ip5pd95fBIq0QEY72iPBjHdP4sLC0rA2hPkwv5auPb
- 4Raw==
-X-Gm-Message-State: ACrzQf0AMpKnHcCUSzzl0+Y5qpSn6ZN7j1oZY27t8Vty2cycWNhtzih9
- +ScW/yaeJizw9wzGdXgCuoXceg==
-X-Google-Smtp-Source: AMsMyM4mMuxBgD0y/QDAVEa3aAo01K93qvYNF3fJl4M+QnSi1TAc2xCNI79RKXGUC1lZZep8O43e9g==
-X-Received: by 2002:a17:902:e5c5:b0:186:5f09:8468 with SMTP id
- u5-20020a170902e5c500b001865f098468mr50124694plf.122.1667799967267; 
- Sun, 06 Nov 2022 21:46:07 -0800 (PST)
-Received: from sunil-laptop ([49.206.12.236]) by smtp.gmail.com with ESMTPSA id
- j17-20020a170902da9100b001811a197797sm4019035plx.194.2022.11.06.21.46.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Nov 2022 21:46:06 -0800 (PST)
-Date: Mon, 7 Nov 2022 11:16:00 +0530
-From: Sunil V L <sunilvl@ventanamicro.com>
-To: Mike Maslenkin <mike.maslenkin@gmail.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Pawel Polawski <ppolawsk@redhat.com>
-Subject: Re: [PATCH] hw/riscv: virt: Remove size restriction for pflash
-Message-ID: <Y2ibaoOzna0iT7Sa@sunil-laptop>
-References: <20221106143900.2229449-1-sunilvl@ventanamicro.com>
- <CAL77WPADAWY8+2FZSQ=4PRcuUrwuUQ22CU+NoVLABM_r+px0pw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1orvbu-0002ln-Ni
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 01:27:54 -0500
+Received: from mail.ispras.ru ([83.149.199.84])
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1orvbs-00081M-8K
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 01:27:54 -0500
+Received: from [10.12.102.111] (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 1D519419E9DE;
+ Mon,  7 Nov 2022 06:27:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 1D519419E9DE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+ s=default; t=1667802438;
+ bh=h3dPnnMhsPslGS7p3Hq80b5MDXZKjZTQyGI+HyLUky4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dv+EKbivK+sBx5Gi/jyu5tFt2F+h7BMJjrHPEGW/GUyKfvf9A6mrGOV/z4C/P+r5l
+ o526buiWvMVW2NnkaFgwT/CDeWq9n6omQ/oC44gdw828FNG1IHrOoRlHE/favJd6jB
+ EsRSqjBOmXTz8T5Hik0jtN3PIOu+bqZvWqSZNuS4=
+Message-ID: <58c2868c-9f60-fb26-f8c4-87e8bc19a90e@ispras.ru>
+Date: Mon, 7 Nov 2022 09:27:17 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAL77WPADAWY8+2FZSQ=4PRcuUrwuUQ22CU+NoVLABM_r+px0pw@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x1029.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: Intermittent hang on x86 replay avocado test?
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Cc: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>
+References: <CAFEAcA-uLCqTGRPv4KLkc8b4j0QDhx5CFrspcSF+W1NdTDHN1g@mail.gmail.com>
+Content-Language: en-US
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+In-Reply-To: <CAFEAcA-uLCqTGRPv4KLkc8b4j0QDhx5CFrspcSF+W1NdTDHN1g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,17 +70,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Nov 06, 2022 at 10:20:57PM +0300, Mike Maslenkin wrote:
-> Hello Sunil!
+On 04.11.2022 21:53, Peter Maydell wrote:
+> On my machine this avocado test:
 > 
-> What about virt_machine_done() function?
-> kernel_entry variable still points to the second flash started from
-> virt_memmap[VIRT_FLASH].size / 2.
+> ./build/all/tests/venv/bin/avocado run
+> ./build/all/tests/avocado/replay_kernel.py:ReplayKernelNormal.test_x86_64_pc
 > 
+> seems to hang intermittently (maybe 1 time in 3?).
+> 
+> Does anybody else see this? Looking at the avocado logs suggests
+> the record part runs fine but the replay part hangs very early
+> in the kernel bootup. (Or possibly Avocado has got confused and
+> isn't logging all the output. >
+> I couldn't trigger it outside avocado.
 
-The base address of the flash has not changed to keep things flexible. So, I
-didn't change this portion of the code to keep the changes minimal.
+I sometimes have the same problem with one of the replay tests (I don't 
+remember which one). It hangs with avocado, but does not hang when I run 
+it with the same command line without avocado.
 
-Thanks
-Sunil
+It could be some replay issue (like infinite waiting for input in 
+main_loop_wait), but I couldn't trigger this behavior with 
+logging/debugging enabled.
+
+Pavel Dovgalyuk
 
