@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92719620344
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:06:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 723046203AB
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:21:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osAw4-0008VK-Nh; Mon, 07 Nov 2022 17:49:44 -0500
+	id 1osAwI-0000f2-6U; Mon, 07 Nov 2022 17:49:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAw3-0008TQ-DN
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:49:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAwF-0000ZQ-LB
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:49:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAw1-0003SB-AF
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:49:43 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osAwE-0003Um-21
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 17:49:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667861380;
+ s=mimecast20190719; t=1667861393;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=AUNROwimy56ru7jUnT8XzU0OHxs3NUEEOApuJES962g=;
- b=ilE+IjqHjPumOvDYAfqz9iVRHgzC4bfNQxzUzkeUZxBJZYGpXYneX58PLJ2PPFs6IVcH2s
- aBU7eA74oG9YFik09q1fZ4l1GdVl57672oIRXXjXnrVAWWb6jB6q+wUVy4RxFIthXl5FKQ
- HyVllobUwcnxhfP+mpSb9qFnJW95ZTI=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XvXLXZbH32FwhzwswFLnLBocqzfMXY1xZbOkdJP1NMw=;
+ b=aLeaPUFZElKyqABqJGXDLZmrLnaw3WUe5Wg6gtPoEBhPvMjbBkGGN/J2Dgysj89glKq2Bf
+ TN95kxsC6GSIqYf7Gqnrmz00WoxcRa6vNWEMVERePc3+6+YU8eNHv7sVThB3+dLgbNj/Bg
+ t21U8XOKMCMOqJnTdy5DGkWvNLkdp7A=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-90-x94ft-HTN1m-16TRyQmRLw-1; Mon, 07 Nov 2022 17:49:39 -0500
-X-MC-Unique: x94ft-HTN1m-16TRyQmRLw-1
-Received: by mail-qk1-f200.google.com with SMTP id
- j13-20020a05620a410d00b006e08208eb31so11319415qko.3
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:49:39 -0800 (PST)
+ us-mta-647-IBggulmWMK2sSjkV3uEIuQ-1; Mon, 07 Nov 2022 17:49:52 -0500
+X-MC-Unique: IBggulmWMK2sSjkV3uEIuQ-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ z18-20020a0cfed2000000b004bc28af6f7dso8529562qvs.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 14:49:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AUNROwimy56ru7jUnT8XzU0OHxs3NUEEOApuJES962g=;
- b=IHn9l/Q0PjhIHuF1fnES+4vJY+34LZGKj1uJiiHpa2oVugm+OivAyDK2knilvRraOR
- qIZOQsqY6dTHRr+EJXTFMEpqsHsILnkcBHhgfBRyrV84SI0k685wFgDabKUumHIfRtHs
- RXFepLhbMG8clMmtc+WvYXZlH/ja60rZC0TMy/jQ/qFRZEREZ/PMSoIAvqqIjkCUz2s9
- qiqaaJwPtdsWfcBsk2M3RQjmkP5HiF7l31+shfquNJx+ykt13AFU4+j5yDWkv6YKdOAH
- yBfQFtuNEznXD3RKyQxzKRAdMK2lgOe6cF2vxG7qcu/HhE+ABuJEhUECwuS7TeRz/noM
- 5ojA==
-X-Gm-Message-State: ACrzQf0rY2MM3IlL7/XeGo78YDxOakt9S+ygd3OYxYeWx3kQV+SirQZt
- 8yRUNBh3+pqhh7IAI9N9BUDo3r0XUEM53sd2iMvNeX/aJ/E7+XzFImfZmQsU5xUhe2A5ieo0TiJ
- w1sa5dobNPaG+DDeDSOPRcxbq8un7wKHHOv/bWO2QBu5sxg7ZDOMpFiK1AQR4
-X-Received: by 2002:ac8:5852:0:b0:3a5:7472:67c8 with SMTP id
- h18-20020ac85852000000b003a5747267c8mr12264964qth.575.1667861378870; 
- Mon, 07 Nov 2022 14:49:38 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM6emZaOfG8KtbVz39M1y48BbIY4v3wCDEVrxSiAXB25bgQgkbUF2I/jtg38iMYpSznCWvs0EQ==
-X-Received: by 2002:ac8:5852:0:b0:3a5:7472:67c8 with SMTP id
- h18-20020ac85852000000b003a5747267c8mr12264930qth.575.1667861378455; 
- Mon, 07 Nov 2022 14:49:38 -0800 (PST)
+ bh=XvXLXZbH32FwhzwswFLnLBocqzfMXY1xZbOkdJP1NMw=;
+ b=WpJONjeikUb91QslyKsnhVuEqO6JTpkyihl74d+VzCTNs5Inva1SRgAOTcDQqbp89A
+ tGv0WOrgNASQBhy5P6b4CeSIXIOuYD3mLDf+s8UUgymHVjugpIDrldO1SvqF/KQaCeiA
+ 2EEdhBjrsiJ3cPH0YL3BgfjIe8dA5QtcMRFlqwfSzFkClonIaCxvgcVv77+/tvmM+A8T
+ McE6YP+yldYCJL/uvjGbt7EdWSGFHTf5xJKhizClE6elanb2KTd8kfEMuUNBsFGKOKRp
+ qypQUgGxi6MSB+LOcX/zbPZeMhI7wyTq61t8miKu+O0SCrGjJ4Wn+tOw5qM75kO9sAXZ
+ Bdmg==
+X-Gm-Message-State: ACrzQf1t+Uuzt+t6QRLyRf87NfiNDff3ze+6WQ6v+Sj2V6VqClwxt1Kr
+ /ooUPPbPOuKfMYLS0CeuHo3Q0vexTL6fINpAPz1elA69QkehGFed9y0WFwApvqo7Z35KYrhAC9t
+ eehN6Lja8JNz4/YRuKBTOgzEeXHTwZfdJtKBV8WRLZ1/G2nLrdlpe/1yA57NS
+X-Received: by 2002:a05:6214:c21:b0:4ad:75e:93bb with SMTP id
+ a1-20020a0562140c2100b004ad075e93bbmr48729710qvd.27.1667861391769; 
+ Mon, 07 Nov 2022 14:49:51 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5RAnLaC6QxEraknEzSiz2eheZHvpDELGr9kJNWz42MRLeWLBnK/EMSfcfQy0yeam3iRWebWA==
+X-Received: by 2002:a05:6214:c21:b0:4ad:75e:93bb with SMTP id
+ a1-20020a0562140c2100b004ad075e93bbmr48729686qvd.27.1667861391444; 
+ Mon, 07 Nov 2022 14:49:51 -0800 (PST)
 Received: from redhat.com ([87.249.138.11]) by smtp.gmail.com with ESMTPSA id
- o16-20020a05620a2a1000b006ce3f1af120sm8085621qkp.44.2022.11.07.14.49.36
+ bq44-20020a05620a46ac00b006f7ee901674sm7816796qkb.2.2022.11.07.14.49.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 14:49:38 -0800 (PST)
-Date: Mon, 7 Nov 2022 17:49:34 -0500
+ Mon, 07 Nov 2022 14:49:51 -0800 (PST)
+Date: Mon, 7 Nov 2022 17:49:47 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Huai-Cheng Kuo <hchkuo@avery-design.com.tw>,
- Chris Browy <cbrowy@avery-design.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Ben Widawsky <ben.widawsky@intel.com>
-Subject: [PULL v4 24/83] hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
-Message-ID: <20221107224600.934080-25-mst@redhat.com>
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jason Wang <jasowang@redhat.com>
+Subject: [PULL v4 27/83] virtio: introduce __virtio_queue_reset()
+Message-ID: <20221107224600.934080-28-mst@redhat.com>
 References: <20221107224600.934080-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -76,7 +73,7 @@ Content-Disposition: inline
 In-Reply-To: <20221107224600.934080-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,333 +97,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 
-The CDAT can be specified in two ways. One is to add ",cdat=<filename>"
-in "-device cxl-type3"'s command option. The file is required to provide
-the whole CDAT table in binary mode. The other is to use the default
-that provides some 'reasonable' numbers based on type of memory and
-size.
+Separate the logic of vq reset. This logic will be called directly
+later.
 
-The DOE capability supporting CDAT is added to hw/mem/cxl_type3.c with
-capability offset 0x190. The config read/write to this capability range
-can be generated in the OS to request the CDAT data.
-
-Signed-off-by: Huai-Cheng Kuo <hchkuo@avery-design.com.tw>
-Signed-off-by: Chris Browy <cbrowy@avery-design.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-Message-Id: <20221014151045.24781-5-Jonathan.Cameron@huawei.com>
+Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20221017092558.111082-2-xuanzhuo@linux.alibaba.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/mem/cxl_type3.c | 255 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 255 insertions(+)
+ hw/virtio/virtio.c | 37 +++++++++++++++++++++----------------
+ 1 file changed, 21 insertions(+), 16 deletions(-)
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 568c9d62f5..255590201a 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -12,9 +12,246 @@
- #include "qemu/range.h"
- #include "qemu/rcu.h"
- #include "sysemu/hostmem.h"
-+#include "sysemu/numa.h"
- #include "hw/cxl/cxl.h"
- #include "hw/pci/msix.h"
- 
-+#define DWORD_BYTE 4
-+
-+/* Default CDAT entries for a memory region */
-+enum {
-+    CT3_CDAT_DSMAS,
-+    CT3_CDAT_DSLBIS0,
-+    CT3_CDAT_DSLBIS1,
-+    CT3_CDAT_DSLBIS2,
-+    CT3_CDAT_DSLBIS3,
-+    CT3_CDAT_DSEMTS,
-+    CT3_CDAT_NUM_ENTRIES
-+};
-+
-+static int ct3_build_cdat_entries_for_mr(CDATSubHeader **cdat_table,
-+                                         int dsmad_handle, MemoryRegion *mr)
-+{
-+    g_autofree CDATDsmas *dsmas = NULL;
-+    g_autofree CDATDslbis *dslbis0 = NULL;
-+    g_autofree CDATDslbis *dslbis1 = NULL;
-+    g_autofree CDATDslbis *dslbis2 = NULL;
-+    g_autofree CDATDslbis *dslbis3 = NULL;
-+    g_autofree CDATDsemts *dsemts = NULL;
-+
-+    dsmas = g_malloc(sizeof(*dsmas));
-+    if (!dsmas) {
-+        return -ENOMEM;
-+    }
-+    *dsmas = (CDATDsmas) {
-+        .header = {
-+            .type = CDAT_TYPE_DSMAS,
-+            .length = sizeof(*dsmas),
-+        },
-+        .DSMADhandle = dsmad_handle,
-+        .flags = CDAT_DSMAS_FLAG_NV,
-+        .DPA_base = 0,
-+        .DPA_length = int128_get64(mr->size),
-+    };
-+
-+    /* For now, no memory side cache, plausiblish numbers */
-+    dslbis0 = g_malloc(sizeof(*dslbis0));
-+    if (!dslbis0) {
-+        return -ENOMEM;
-+    }
-+    *dslbis0 = (CDATDslbis) {
-+        .header = {
-+            .type = CDAT_TYPE_DSLBIS,
-+            .length = sizeof(*dslbis0),
-+        },
-+        .handle = dsmad_handle,
-+        .flags = HMAT_LB_MEM_MEMORY,
-+        .data_type = HMAT_LB_DATA_READ_LATENCY,
-+        .entry_base_unit = 10000, /* 10ns base */
-+        .entry[0] = 15, /* 150ns */
-+    };
-+
-+    dslbis1 = g_malloc(sizeof(*dslbis1));
-+    if (!dslbis1) {
-+        return -ENOMEM;
-+    }
-+    *dslbis1 = (CDATDslbis) {
-+        .header = {
-+            .type = CDAT_TYPE_DSLBIS,
-+            .length = sizeof(*dslbis1),
-+        },
-+        .handle = dsmad_handle,
-+        .flags = HMAT_LB_MEM_MEMORY,
-+        .data_type = HMAT_LB_DATA_WRITE_LATENCY,
-+        .entry_base_unit = 10000,
-+        .entry[0] = 25, /* 250ns */
-+    };
-+
-+    dslbis2 = g_malloc(sizeof(*dslbis2));
-+    if (!dslbis2) {
-+        return -ENOMEM;
-+    }
-+    *dslbis2 = (CDATDslbis) {
-+        .header = {
-+            .type = CDAT_TYPE_DSLBIS,
-+            .length = sizeof(*dslbis2),
-+        },
-+        .handle = dsmad_handle,
-+        .flags = HMAT_LB_MEM_MEMORY,
-+        .data_type = HMAT_LB_DATA_READ_BANDWIDTH,
-+        .entry_base_unit = 1000, /* GB/s */
-+        .entry[0] = 16,
-+    };
-+
-+    dslbis3 = g_malloc(sizeof(*dslbis3));
-+    if (!dslbis3) {
-+        return -ENOMEM;
-+    }
-+    *dslbis3 = (CDATDslbis) {
-+        .header = {
-+            .type = CDAT_TYPE_DSLBIS,
-+            .length = sizeof(*dslbis3),
-+        },
-+        .handle = dsmad_handle,
-+        .flags = HMAT_LB_MEM_MEMORY,
-+        .data_type = HMAT_LB_DATA_WRITE_BANDWIDTH,
-+        .entry_base_unit = 1000, /* GB/s */
-+        .entry[0] = 16,
-+    };
-+
-+    dsemts = g_malloc(sizeof(*dsemts));
-+    if (!dsemts) {
-+        return -ENOMEM;
-+    }
-+    *dsemts = (CDATDsemts) {
-+        .header = {
-+            .type = CDAT_TYPE_DSEMTS,
-+            .length = sizeof(*dsemts),
-+        },
-+        .DSMAS_handle = dsmad_handle,
-+        /* Reserved - the non volatile from DSMAS matters */
-+        .EFI_memory_type_attr = 2,
-+        .DPA_offset = 0,
-+        .DPA_length = int128_get64(mr->size),
-+    };
-+
-+    /* Header always at start of structure */
-+    cdat_table[CT3_CDAT_DSMAS] = g_steal_pointer(&dsmas);
-+    cdat_table[CT3_CDAT_DSLBIS0] = g_steal_pointer(&dslbis0);
-+    cdat_table[CT3_CDAT_DSLBIS1] = g_steal_pointer(&dslbis1);
-+    cdat_table[CT3_CDAT_DSLBIS2] = g_steal_pointer(&dslbis2);
-+    cdat_table[CT3_CDAT_DSLBIS3] = g_steal_pointer(&dslbis3);
-+    cdat_table[CT3_CDAT_DSEMTS] = g_steal_pointer(&dsemts);
-+
-+    return 0;
-+}
-+
-+static int ct3_build_cdat_table(CDATSubHeader ***cdat_table, void *priv)
-+{
-+    g_autofree CDATSubHeader **table = NULL;
-+    MemoryRegion *nonvolatile_mr;
-+    CXLType3Dev *ct3d = priv;
-+    int dsmad_handle = 0;
-+    int rc;
-+
-+    if (!ct3d->hostmem) {
-+        return 0;
-+    }
-+
-+    nonvolatile_mr = host_memory_backend_get_memory(ct3d->hostmem);
-+    if (!nonvolatile_mr) {
-+        return -EINVAL;
-+    }
-+
-+    table = g_malloc0(CT3_CDAT_NUM_ENTRIES * sizeof(*table));
-+    if (!table) {
-+        return -ENOMEM;
-+    }
-+
-+    rc = ct3_build_cdat_entries_for_mr(table, dsmad_handle++, nonvolatile_mr);
-+    if (rc < 0) {
-+        return rc;
-+    }
-+
-+    *cdat_table = g_steal_pointer(&table);
-+
-+    return CT3_CDAT_NUM_ENTRIES;
-+}
-+
-+static void ct3_free_cdat_table(CDATSubHeader **cdat_table, int num, void *priv)
-+{
-+    int i;
-+
-+    for (i = 0; i < num; i++) {
-+        g_free(cdat_table[i]);
-+    }
-+    g_free(cdat_table);
-+}
-+
-+static bool cxl_doe_cdat_rsp(DOECap *doe_cap)
-+{
-+    CDATObject *cdat = &CXL_TYPE3(doe_cap->pdev)->cxl_cstate.cdat;
-+    uint16_t ent;
-+    void *base;
-+    uint32_t len;
-+    CDATReq *req = pcie_doe_get_write_mbox_ptr(doe_cap);
-+    CDATRsp rsp;
-+
-+    assert(cdat->entry_len);
-+
-+    /* Discard if request length mismatched */
-+    if (pcie_doe_get_obj_len(req) <
-+        DIV_ROUND_UP(sizeof(CDATReq), DWORD_BYTE)) {
-+        return false;
-+    }
-+
-+    ent = req->entry_handle;
-+    base = cdat->entry[ent].base;
-+    len = cdat->entry[ent].length;
-+
-+    rsp = (CDATRsp) {
-+        .header = {
-+            .vendor_id = CXL_VENDOR_ID,
-+            .data_obj_type = CXL_DOE_TABLE_ACCESS,
-+            .reserved = 0x0,
-+            .length = DIV_ROUND_UP((sizeof(rsp) + len), DWORD_BYTE),
-+        },
-+        .rsp_code = CXL_DOE_TAB_RSP,
-+        .table_type = CXL_DOE_TAB_TYPE_CDAT,
-+        .entry_handle = (ent < cdat->entry_len - 1) ?
-+                        ent + 1 : CXL_DOE_TAB_ENT_MAX,
-+    };
-+
-+    memcpy(doe_cap->read_mbox, &rsp, sizeof(rsp));
-+    memcpy(doe_cap->read_mbox + DIV_ROUND_UP(sizeof(rsp), DWORD_BYTE),
-+           base, len);
-+
-+    doe_cap->read_mbox_len += rsp.header.length;
-+
-+    return true;
-+}
-+
-+static uint32_t ct3d_config_read(PCIDevice *pci_dev, uint32_t addr, int size)
-+{
-+    CXLType3Dev *ct3d = CXL_TYPE3(pci_dev);
-+    uint32_t val;
-+
-+    if (pcie_doe_read_config(&ct3d->doe_cdat, addr, size, &val)) {
-+        return val;
-+    }
-+
-+    return pci_default_read_config(pci_dev, addr, size);
-+}
-+
-+static void ct3d_config_write(PCIDevice *pci_dev, uint32_t addr, uint32_t val,
-+                              int size)
-+{
-+    CXLType3Dev *ct3d = CXL_TYPE3(pci_dev);
-+
-+    pcie_doe_write_config(&ct3d->doe_cdat, addr, val, size);
-+    pci_default_write_config(pci_dev, addr, val, size);
-+}
-+
- /*
-  * Null value of all Fs suggested by IEEE RA guidelines for use of
-  * EU, OUI and CID
-@@ -140,6 +377,11 @@ static bool cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
-     return true;
- }
- 
-+static DOEProtocol doe_cdat_prot[] = {
-+    { CXL_VENDOR_ID, CXL_DOE_TABLE_ACCESS, cxl_doe_cdat_rsp },
-+    { }
-+};
-+
- static void ct3_realize(PCIDevice *pci_dev, Error **errp)
- {
-     CXLType3Dev *ct3d = CXL_TYPE3(pci_dev);
-@@ -189,6 +431,14 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-     for (i = 0; i < msix_num; i++) {
-         msix_vector_use(pci_dev, i);
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 808446b4c9..6f42fcadd7 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2464,6 +2464,26 @@ static enum virtio_device_endian virtio_current_cpu_endian(void)
      }
-+
-+    /* DOE Initailization */
-+    pcie_doe_init(pci_dev, &ct3d->doe_cdat, 0x190, doe_cdat_prot, true, 0);
-+
-+    cxl_cstate->cdat.build_cdat_table = ct3_build_cdat_table;
-+    cxl_cstate->cdat.free_cdat_table = ct3_free_cdat_table;
-+    cxl_cstate->cdat.private = ct3d;
-+    cxl_doe_cdat_init(cxl_cstate, errp);
  }
  
- static void ct3_exit(PCIDevice *pci_dev)
-@@ -197,6 +447,7 @@ static void ct3_exit(PCIDevice *pci_dev)
-     CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
-     ComponentRegisters *regs = &cxl_cstate->crb;
- 
-+    cxl_doe_cdat_release(cxl_cstate);
-     g_free(regs->special_ops);
-     address_space_destroy(&ct3d->hostmem_as);
- }
-@@ -296,6 +547,7 @@ static Property ct3_props[] = {
-     DEFINE_PROP_LINK("lsa", CXLType3Dev, lsa, TYPE_MEMORY_BACKEND,
-                      HostMemoryBackend *),
-     DEFINE_PROP_UINT64("sn", CXLType3Dev, sn, UI64_NULL),
-+    DEFINE_PROP_STRING("cdat", CXLType3Dev, cxl_cstate.cdat.filename),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -361,6 +613,9 @@ static void ct3_class_init(ObjectClass *oc, void *data)
-     pc->device_id = 0xd93; /* LVF for now */
-     pc->revision = 1;
- 
-+    pc->config_write = ct3d_config_write;
-+    pc->config_read = ct3d_config_read;
++static void __virtio_queue_reset(VirtIODevice *vdev, uint32_t i)
++{
++    vdev->vq[i].vring.desc = 0;
++    vdev->vq[i].vring.avail = 0;
++    vdev->vq[i].vring.used = 0;
++    vdev->vq[i].last_avail_idx = 0;
++    vdev->vq[i].shadow_avail_idx = 0;
++    vdev->vq[i].used_idx = 0;
++    vdev->vq[i].last_avail_wrap_counter = true;
++    vdev->vq[i].shadow_avail_wrap_counter = true;
++    vdev->vq[i].used_wrap_counter = true;
++    virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
++    vdev->vq[i].signalled_used = 0;
++    vdev->vq[i].signalled_used_valid = false;
++    vdev->vq[i].notification = true;
++    vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
++    vdev->vq[i].inuse = 0;
++    virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
++}
 +
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-     dc->desc = "CXL PMEM Device (Type 3)";
-     dc->reset = ct3d_reset;
+ void virtio_reset(void *opaque)
+ {
+     VirtIODevice *vdev = opaque;
+@@ -2495,22 +2515,7 @@ void virtio_reset(void *opaque)
+     virtio_notify_vector(vdev, vdev->config_vector);
+ 
+     for(i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+-        vdev->vq[i].vring.desc = 0;
+-        vdev->vq[i].vring.avail = 0;
+-        vdev->vq[i].vring.used = 0;
+-        vdev->vq[i].last_avail_idx = 0;
+-        vdev->vq[i].shadow_avail_idx = 0;
+-        vdev->vq[i].used_idx = 0;
+-        vdev->vq[i].last_avail_wrap_counter = true;
+-        vdev->vq[i].shadow_avail_wrap_counter = true;
+-        vdev->vq[i].used_wrap_counter = true;
+-        virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
+-        vdev->vq[i].signalled_used = 0;
+-        vdev->vq[i].signalled_used_valid = false;
+-        vdev->vq[i].notification = true;
+-        vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
+-        vdev->vq[i].inuse = 0;
+-        virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
++        __virtio_queue_reset(vdev, i);
+     }
+ }
+ 
 -- 
 MST
 
