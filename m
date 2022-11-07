@@ -2,110 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59AB761F439
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 14:23:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F4D61F45F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 14:30:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os24a-0006IY-HY; Mon, 07 Nov 2022 08:21:56 -0500
+	id 1os2Bf-0000cK-2J; Mon, 07 Nov 2022 08:29:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1os24M-0006EM-4w; Mon, 07 Nov 2022 08:21:43 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1os2BZ-0000av-Ai
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 08:29:10 -0500
+Received: from mr85p00im-ztdg06011201.me.com ([17.58.23.181])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1os245-0006FH-4X; Mon, 07 Nov 2022 08:21:27 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A7BSdYG017940;
- Mon, 7 Nov 2022 13:21:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=KquJ7rvlQjmwSewLGxFyrbm4+CoXHk/g1eYUn+eRdvM=;
- b=JM+XgCc2xp7yFYuoGYn2RPeQ5+lo2PUtk1iMx6GvNBQKYD72rAaBdLz4xF86S8UokbQX
- AFcG5Ce4K4qdWB5UgwSi46qCF9xMY4KYJiSdEVn1TXEmd+htmakW6DPdZ24fPCoh/WrP
- ddIl7WqVKiAgPhZMPj9L60U30nIjE5dmFs4ekds75UetBDRlyGR0gPKJYn1UiZumk+GM
- NbIzMYSbnne4N04hVvCr5Fhn6tJBekmUANJ8jnnzkIk9OwpQLSROMh1QBwvGfvtW0MO/
- wYynZhpOFF9eS7NbqkaVLgjilMowM7Iwm3lOn9ONC4JVO9/qY/gnpXApXBQ2qpaPg2j+ 2Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kp14x3hmm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Nov 2022 13:21:06 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A7CUqYx011656;
- Mon, 7 Nov 2022 13:21:06 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kp14x3hk7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Nov 2022 13:21:05 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A7DKIZU026830;
- Mon, 7 Nov 2022 13:21:03 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma04fra.de.ibm.com with ESMTP id 3kngmqhw8d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Nov 2022 13:21:03 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2A7DLba747841548
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 7 Nov 2022 13:21:37 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D405CA405B;
- Mon,  7 Nov 2022 13:20:59 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F2D2BA4054;
- Mon,  7 Nov 2022 13:20:58 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.55.234])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  7 Nov 2022 13:20:58 +0000 (GMT)
-Message-ID: <ebfe8dea72adaf23913797c482377f4fd58fd097.camel@linux.ibm.com>
-Subject: Re: [PATCH v10 2/9] s390x/cpu topology: reporting the CPU topology
- to the guest
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Mon, 07 Nov 2022 14:20:58 +0100
-In-Reply-To: <d82372a9-581a-9544-eb6d-7b3e125926f5@linux.ibm.com>
-References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-3-pmorel@linux.ibm.com>
- <4c5afcb5754cb829cd8b9ddbf4f74e610d5f6012.camel@linux.ibm.com>
- <d82372a9-581a-9544-eb6d-7b3e125926f5@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: A-CuPbDJiU9CiPi6xsMjXzu1Ps0WW3Bc
-X-Proofpoint-GUID: MMjj-W9aUXI5GTPBiWwJb7KPmYx83DJt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-07_06,2022-11-07_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0
- lowpriorityscore=0 adultscore=0 phishscore=0 malwarescore=0
- priorityscore=1501 mlxlogscore=999 mlxscore=0 impostorscore=0
- clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211070102
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1os2BW-00077B-QX
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 08:29:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
+ t=1667827744; bh=rPCCkICtGd7upsfHv1KYr6ShqHuTrPCWLNYdk6joyx4=;
+ h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
+ b=fIuwI7Szr/gLe/aQV809Qgt6RBVnQRXuLOOYE/fDEHGa9rtB45DYxlDMQtAsQbO96
+ /Ejsm9gTb2MhdwdiPe7xYAXVKZ4DPjSRpPE66W14STlgONZ7mN95N/kxBkd1zc0WHA
+ hO2TyQg3ZEBvF6mbzOO50IDN3dIrjfgqlhxs47wZkeB4KQtglKo4z9uVPMV04a7ygL
+ pkWTpo5ThiyGhsZB5hW1/JNQZVQTkJUKtE2B3tasVGnyJYiwVHqK71vZsD/j0A6/Ht
+ ZHWcv9jCywi8HRcDbw+TtC7VsB1zu9KNAmWUa6CHsB+dl+3iZzlvxcLtp/Zs3qrGK8
+ BuICEcaAHSqqw==
+Received: from smtpclient.apple (mr38p00im-dlb-asmtp-mailmevip.me.com
+ [17.57.152.18])
+ by mr85p00im-ztdg06011201.me.com (Postfix) with ESMTPSA id 703E8960B5C;
+ Mon,  7 Nov 2022 13:29:01 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+Subject: Re: [PATCH 2/3] hvf: implement guest debugging on Apple Silicon hosts
+From: Mads Ynddal <mads@ynddal.dk>
+In-Reply-To: <20221104184101.6923-3-fcagnin@quarkslab.com>
+Date: Mon, 7 Nov 2022 14:28:48 +0100
+Cc: qemu-devel@nongnu.org, dirty@apple.com, r.bolshakov@yadro.com,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM cores" <qemu-arm@nongnu.org>,
+ Alexander Graf <agraf@csgraf.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Francesco Cagnin <fcagnin@quarkslab.com>,
+ =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <2B918171-9464-40DC-AE11-D25E60858370@ynddal.dk>
+References: <20221104184101.6923-1-fcagnin@quarkslab.com>
+ <20221104184101.6923-3-fcagnin@quarkslab.com>
+To: francesco.cagnin@gmail.com
+X-Mailer: Apple Mail (2.3731.200.110.1.12)
+X-Proofpoint-GUID: zm_MDPl4QMKgHiIh4cGBNFDP-AI3WOiM
+X-Proofpoint-ORIG-GUID: zm_MDPl4QMKgHiIh4cGBNFDP-AI3WOiM
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.11.62.513.0000000_definitions?=
+ =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2021-12-02?=
+ =?UTF-8?Q?=5F01_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ bulkscore=0 mlxscore=0
+ mlxlogscore=736 adultscore=0 phishscore=0 clxscore=1030 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2211070109
+Received-SPF: pass client-ip=17.58.23.181; envelope-from=mads@ynddal.dk;
+ helo=mr85p00im-ztdg06011201.me.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -121,119 +83,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 2022-10-28 at 12:00 +0200, Pierre Morel wrote:
-> 
-> On 10/27/22 22:42, Janis Schoetterl-Glausch wrote:
-> > On Wed, 2022-10-12 at 18:21 +0200, Pierre Morel wrote:
-> > > The guest can use the STSI instruction to get a buffer filled
-> > > with the CPU topology description.
-> > > 
-> > > Let us implement the STSI instruction for the basis CPU topology
-> > > level, level 2.
-> > > 
-> > > Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> > > ---
-> > >   include/hw/s390x/cpu-topology.h |   3 +
-> > >   target/s390x/cpu.h              |  48 ++++++++++++++
-> > >   hw/s390x/cpu-topology.c         |   8 ++-
-> > >   target/s390x/cpu_topology.c     | 109 ++++++++++++++++++++++++++++++++
-> > >   target/s390x/kvm/kvm.c          |   6 +-
-> > >   target/s390x/meson.build        |   1 +
-> > >   6 files changed, 172 insertions(+), 3 deletions(-)
-> > >   create mode 100644 target/s390x/cpu_topology.c
-> > > 
-> > > diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
-> > > index 66c171d0bc..61c11db017 100644
-> > > --- a/include/hw/s390x/cpu-topology.h
-> > > +++ b/include/hw/s390x/cpu-topology.h
-> > > @@ -13,6 +13,8 @@
-> > >   #include "hw/qdev-core.h"
-> > >   #include "qom/object.h"
-> > >   
-> > > +#define S390_TOPOLOGY_POLARITY_H  0x00
-> > > +
-> > >   typedef struct S390TopoContainer {
-> > >       int active_count;
-> > >   } S390TopoContainer;
-> > > @@ -29,6 +31,7 @@ struct S390Topology {
-> > >       S390TopoContainer *socket;
-> > >       S390TopoTLE *tle;
-> > >       MachineState *ms;
-> > > +    QemuMutex topo_mutex;
-> > >   };
-> > >   
-> > >   #define TYPE_S390_CPU_TOPOLOGY "s390-topology"
-> > > diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-> > > index 7d6d01325b..d604aa9c78 100644
-> > > --- a/target/s390x/cpu.h
-> > > +++ b/target/s390x/cpu.h
-> > > 
-> > [...]
-> > > +
-> > > +/* Maxi size of a SYSIB structure is when all CPU are alone in a container */
-> > 
-> > Max or Maximum.
-> > 
-> > > +#define S390_TOPOLOGY_SYSIB_SIZE (sizeof(SysIB_151x) +                         \
-> > > +                                  S390_MAX_CPUS * (sizeof(SysIBTl_container) + \
-> > > +                                                   sizeof(SysIBTl_cpu)))
-> > 
-> > Currently this is 16+248*3*8 == 5968 and will grow with books, drawer support to
-> > 16+248*5*8 == 9936 ...
-> > 
-> > [...]
-> > > 
-> > > +
-> > > +void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, uint8_t ar)
-> > > +{
-> > > +    uint64_t page[S390_TOPOLOGY_SYSIB_SIZE / sizeof(uint64_t)] = {};
-> > 
-> > ... so calling this page is a bit misleading. Also why not make it a char[]?
-> > And maybe use a union for type punning.
-> 
-> OK, what about:
-> 
->      union {
->          char place_holder[S390_TOPOLOGY_SYSIB_SIZE];
->          SysIB_151x sysib;
->      } buffer QEMU_ALIGNED(8);
-> 
-I don't think you need the QEMU_ALIGNED since SysIB_151x already has it. Not that it hurts to be
-explicit. If you declared the tle member as uint64_t[], you should get the correct alignment
-automatically and can then drop the explicit one.
-Btw, [] seems to be preferred over [0], at least there is a commit doing a conversion:
-f7795e4096 ("misc: Replace zero-length arrays with flexible array member (automatic)")
-> 
-> > 
-> > > +    SysIB_151x *sysib = (SysIB_151x *) page;
-> > > +    int len;
-> > > +
-> > > +    if (s390_is_pv() || !s390_has_topology() ||
-> > > +        sel2 < 2 || sel2 > S390_TOPOLOGY_MAX_MNEST) {
-> > > +        setcc(cpu, 3);
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    len = setup_stsi(sysib, sel2);
-> > 
-> > This should now be memory safe, but might be larger than 4k,
-> > the maximum size of the SYSIB. I guess you want to set cc code 3
-> > in this case and return.
-> 
-> I do not find why the SYSIB can not be larger than 4k.
-> Can you point me to this restriction?
 
-Says so at the top of the description of STSI:
 
-The SYSIB is 4K bytes and must begin at a 4 K-byte
-boundary; otherwise, a specification exception may
-be recognized.
+> On 4 Nov 2022, at 19.41, francesco.cagnin@gmail.com wrote:
+>=20
+> From: Francesco Cagnin <fcagnin@quarkslab.com>
+>=20
+> Support is added for single-stepping, software breakpoints, hardware
+> breakpoints and watchpoints. The code has been structured like the KVM
+> counterpart (and many parts are basically identical).
+>=20
+> Guests can be debugged through the gdbstub.
+>=20
+> Signed-off-by: Francesco Cagnin <fcagnin@quarkslab.com>
+> ---
+> accel/hvf/hvf-accel-ops.c | 124 ++++++++++++++++++++++++
+> accel/hvf/hvf-all.c       |  24 +++++
+> cpu.c                     |   3 +
+> include/sysemu/hvf.h      |  29 ++++++
+> include/sysemu/hvf_int.h  |   1 +
+> target/arm/hvf/hvf.c      | 194 +++++++++++++++++++++++++++++++++++++-
+> 6 files changed, 374 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
+> index bb70082e45..3e99c80416 100644
+> --- a/include/sysemu/hvf.h
+> +++ b/include/sysemu/hvf.h
+> @@ -1180,6 +1201,9 @@ int hvf_vcpu_exec(CPUState *cpu)
+>=20
+>     flush_cpu_state(cpu);
+>=20
+> +    r =3D hv_vcpu_set_trap_debug_exceptions(cpu->hvf->fd, =
+trap_debug_exceptions);
+> +    assert_hvf_ok(r);
+> +
+>     qemu_mutex_unlock_iothread();
+>     assert_hvf_ok(hv_vcpu_run(cpu->hvf->fd));
 
-Also the graphics show that it is 1024 words long.
-> 
-> 
-> Regards,
-> Pierre
-> 
+We don't need to set this at every call to `hvf_vcpu_exec`. Would it =
+make sense
+to move it to `hvf_arch_update_guest_debug` or even =
+`hvf_arch_init_vcpu`?
 
+(CC'ed Alex Benn=C3=A9e as we discussed the GDB stub in HVF at KVM Forum =
+2022)=
 
