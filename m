@@ -2,76 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BDDA61F7A5
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 16:29:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A72E61F805
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 16:55:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os42l-0008S5-Vz; Mon, 07 Nov 2022 10:28:12 -0500
+	id 1os4Rg-0007dV-Uq; Mon, 07 Nov 2022 10:53:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1os42k-0008Rx-Lp
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 10:28:10 -0500
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1os4Rf-0007dD-O2
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 10:53:55 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1os42i-00015T-Og
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 10:28:10 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id b29so10915680pfp.13
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 07:28:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=EcVD+xMv4x0qVIyd5cI1F1HrEG/FmKUnXsdIZE5hFnw=;
- b=4vlSR/jFB153toSIidR7hax986EuwP7brdHjq/fnrS9LVojXUg9ndZi5qusBgW/8DL
- WsDD4w38G2G+wh5CDOuWXpA/CsMLv8JZK9l/IUNeNzkPVOe/JZBT57gaYmPbVgLxrqk5
- oz+i6sLsqIr286PazlgNNRuvFu8K4hKDGVxVQD+gvupDqfbDUq/fNU8NjVWf4LB8Nsfg
- vd23fuvcVIypolglRBx+8StKTeezpzEwAc4IaiUeUx9Qp07SC75nqLzasBUqOA2nt6vq
- LUlyhAR/3K5KP6sN8ORSPFI1/cduon+RDQy1Bu6sfssRmhIec8DzUb9PWEobBxTa/3PJ
- fBwg==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1os4Re-0003tx-1S
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 10:53:55 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id a14so16883029wru.5
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 07:53:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=II7c2jrqx7KbWlYzrn+fLbqohcEO5c3Z24Bf5+33nyE=;
+ b=x8VmXu38wF/xlUMbmDEU+k+MYjB4HauU3SOVdA5R1IZgXCcYmTjaw7VNVv8/6dLIEa
+ yiTzT4IY96TDYLLTQ1rl49oR4pFaHzHEwrj54bCJA05412ubsBopIwGjFCwRQGaI5HH1
+ rK1IEHxhzcug0V92oBRALXKv6VtQsHLuKZpsrQRac24mt+CEWugx9iWRzgxV9ZeJDZAd
+ UluGIje1x856B8Jq8AgAjv06ae79r5CVa8ew8UTR+3wECalny+fxdx+JVM32ekR7eVz8
+ Hbapz3w2dxLsSzUUHmmkKuAmV0vBUHhmB2bkPv1peBxuq4FQeIlf+z6qruPKe50q8EJi
+ xqZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EcVD+xMv4x0qVIyd5cI1F1HrEG/FmKUnXsdIZE5hFnw=;
- b=4AeGep5+YcctraYau0Y5OqUcDr8YSG1XwoBwy3biGwqUb0kZto2PKoC2/XGLm7INRI
- I6tZTrlGRQug/5lMPwSpuPC3HcSCY2t8zlT37Hv9FvLAwrzzr2Dvxrajri9nx3WbqpOv
- uW9qolyjvugz67dwdUd0wIY7tECQJRqJcQtrjVVYKnxGlot+8CY+sUro441GE0fP3HXO
- /ri4YvF3ZvyQ08i2e3jaPajxIZNobrcivKW2I1BgxxFrEwJJNp9Xbk6Alf3BDTEIOXKK
- 6vojfie0Io3kwIPTuCGB7NbatDG57bhrAAxUDrFacfqqAxBeFRig+mnMThosW5O4TViT
- FnEw==
-X-Gm-Message-State: ACrzQf3d1LpCREn+v144CeZJ03UAjC3hvJdD3KNveF2DokHjNXcMycuZ
- jUiph5gMn0q8bzNQSuymn2mydQ==
-X-Google-Smtp-Source: AMsMyM4NRXHgaLmX2C9aFovCjWG8KrX0tzs6RFQEJaxlU+JEcWoZxxQguMf9X9CHbl1Uo+utnHkRZQ==
-X-Received: by 2002:a63:1508:0:b0:438:eb90:52d1 with SMTP id
- v8-20020a631508000000b00438eb9052d1mr44196679pgl.252.1667834887010; 
- Mon, 07 Nov 2022 07:28:07 -0800 (PST)
-Received: from anisinha-lenovo.ba.nuagenetworks.net ([116.73.133.26])
- by smtp.googlemail.com with ESMTPSA id
- m2-20020a170902768200b0017f72a430adsm5107472pll.71.2022.11.07.07.28.04
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=II7c2jrqx7KbWlYzrn+fLbqohcEO5c3Z24Bf5+33nyE=;
+ b=1Pdud0A5KFoep46el9PPnaYIYCV9YOMpZRflB5J3k9NwYz2W746i0TM5A1wrZYKCvE
+ IFvvhApWI9u5Ao/U+HSsNDm7QJ50rtm9yXrAn0XUK/RkgD+2BkQFr5jdojbaUagqNilg
+ SqKm25UN+onxLYWO2mrTEKprCt1RI2B7FAT1D4aHelrI85+iufwCJjjemSZSRsKuTYMa
+ 6mo0E/rDxJnUA2mex3+f8l4KQBWMhqkz9VMF8sz4MYV2Gf9vkZsPNmkvV78p2vi+FHQz
+ 0Q9dTYCEbMBrubq0kJstp7p7bkcF2X63oB6MeUEgHm8U5eILRwreYQoB3JtcdNiFnrI8
+ 7vhQ==
+X-Gm-Message-State: ACrzQf0KDYez9DWdrWtXU7FX3A7jKs6f9MWTXNv4cT2BQZL+z3i4KP3y
+ MsjlV3/+kc/+7xNLAf6owU1U4g==
+X-Google-Smtp-Source: AMsMyM7Vf0fVjGb9wyzTsVd7ZLx3s48WS2jtyTA0IW/ksAZ2UpcKGAagpAWa2d3VUnSiinelU8/rCw==
+X-Received: by 2002:adf:ff90:0:b0:236:cb5d:4824 with SMTP id
+ j16-20020adfff90000000b00236cb5d4824mr27484252wrr.718.1667836432596; 
+ Mon, 07 Nov 2022 07:53:52 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ bx11-20020a5d5b0b000000b0023677e1157fsm7726125wrb.56.2022.11.07.07.53.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 07:28:06 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Ani Sinha <ani@anisinha.ca>
-Cc: Bernhard Beschow <shentey@gmail.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2] hw/acpi: fix breakage due to missing aml stub definitions
- when acpi is off
-Date: Mon,  7 Nov 2022 20:57:44 +0530
-Message-Id: <20221107152744.868434-1-ani@anisinha.ca>
-X-Mailer: git-send-email 2.34.1
+ Mon, 07 Nov 2022 07:53:52 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 73EC61FFB7;
+ Mon,  7 Nov 2022 15:53:51 +0000 (GMT)
+References: <20221107130217.2243815-1-sunilvl@ventanamicro.com>
+ <CAFEAcA8X3Q7s6qZ=ojE9fTLG464rrZw+FX=4hmMOhwR-Q4n2sA@mail.gmail.com>
+ <Y2kRWNnk7wDxPnBK@sunil-laptop>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Sunil V L <sunilvl@ventanamicro.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Alistair Francis <alistair.francis@wdc.com>, Bin
+ Meng <bin.meng@windriver.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH V2] hw/riscv: virt: Remove size restriction for pflash
+Date: Mon, 07 Nov 2022 15:50:44 +0000
+In-reply-to: <Y2kRWNnk7wDxPnBK@sunil-laptop>
+Message-ID: <871qqehib4.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::42e;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,64 +98,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Some HW architectures do not support acpi and CONFIG_ACPI is off for them. For
-those architectures, dummy stub function definitions help to resolve symbols.
-This change adds couple of dummy stub definitions so that symbols for those can
-be resolved and failures such as the following can be fixed for or1k targets.
 
-Configuration:
-qemu/build $ ../configure --enable-werror --disable-docs --disable-nettle \
-             --enable-gcrypt --enable-fdt=system --enable-modules \
-             --enable-trace-backends=dtrace --enable-docs \
-	     --enable-vfio-user-server \
-             --target-list="ppc64-softmmu or1k-softmmu s390x-softmmu x86_64-softmmu
- rx-softmmu sh4-softmmu nios2-softmmu"
+Sunil V L <sunilvl@ventanamicro.com> writes:
 
-actual failure:
+> On Mon, Nov 07, 2022 at 01:06:38PM +0000, Peter Maydell wrote:
+>> On Mon, 7 Nov 2022 at 13:03, Sunil V L <sunilvl@ventanamicro.com> wrote:
+>> >
+>> > The pflash implementation currently assumes fixed size of the
+>> > backend storage. Due to this, the backend storage file needs to be
+>> > exactly of size 32M. Otherwise, there will be an error like below.
+>> >
+>> > "device requires 33554432 bytes, block backend provides 4194304 bytes"
+>> >
+>> > Fix this issue by using the actual size of the backing store.
+>> >
+>> > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+>> > ---
+>>=20
+>> Do you really want the flash device size presented to the guest
+>> to be variable depending on what the user passed as a block backend?
+>> I don't think this is how we handle flash devices on other boards...
+>>=20
+>
+> Hi Peter,
+>
+> x86 appears to support variable flash but arm doesn't. What is
+> the reason for not supporting variable size flash in arm?
 
-qemu/build $ QTEST_QEMU_BINARY=./qemu-system-or1k  ./tests/qtest/qos-test
+If I recall from the last time we went around this is was the question
+of what you should pad it with.
 
-failed to open module:
-/build/qemu/qemu/build/qemu-bundle/usr/local/lib64/qemu/hw-display-virtio-vga.so:
-undefined symbol: aml_return
-qemu-system-or1k: ../util/error.c:59: error_setv: Assertion `*errp ==
-NULL' failed.
-Broken pipe
-../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from
-signal 6 (Aborted) (core dumped)
-Aborted (core dumped)
+  https://patchew.org/QEMU/20190307093723.655-1-armbru@redhat.com/201903070=
+93723.655-3-armbru@redhat.com/
 
-CC: Bernhard Beschow <shentey@gmail.com>
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
----
- hw/acpi/aml-build-stub.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+>
+> Thanks
+> Sunil
 
-changelog:
-v2: cosmetic commit description format update.
 
-diff --git a/hw/acpi/aml-build-stub.c b/hw/acpi/aml-build-stub.c
-index 8d8ad1a314..89a8fec4af 100644
---- a/hw/acpi/aml-build-stub.c
-+++ b/hw/acpi/aml-build-stub.c
-@@ -26,6 +26,16 @@ void aml_append(Aml *parent_ctx, Aml *child)
- {
- }
- 
-+Aml *aml_return(Aml *val)
-+{
-+    return NULL;
-+}
-+
-+Aml *aml_method(const char *name, int arg_count, AmlSerializeFlag sflag)
-+{
-+    return NULL;
-+}
-+
- Aml *aml_resource_template(void)
- {
-     return NULL;
--- 
-2.34.1
-
+--=20
+Alex Benn=C3=A9e
 
