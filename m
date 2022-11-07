@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904236203CA
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:31:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35296203BA
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 00:26:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osBRR-0006mR-Im; Mon, 07 Nov 2022 18:22:09 -0500
+	id 1osBRv-0007Rt-J9; Mon, 07 Nov 2022 18:22:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osBRP-0006ji-LZ
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:22:07 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osBRs-0007Ld-Dj
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:22:36 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osBRN-0002Et-H7
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:22:06 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- i203-20020a1c3bd4000000b003cfa97c05cdso142518wma.4
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 15:22:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osBRq-00044l-Hh
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 18:22:35 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id j15so18434574wrq.3
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 15:22:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6RPROgLkkUyForOR22QV8mtzIj/4ym+YaGT3QpJKNWU=;
- b=Rf5ryzLiVcrOTvtNEHwQA1HzwOAPepQDYxC8pZXm3cHT7W52LJTGa4mFGGxh6mVmsO
- BKtHESF13IGGd1RrRH+C3b60quIZiIPin+DdAAzDv+7mbrosak7XpR+fbt8XrNAeyXCt
- mm45rkfWmsuYSNAX/c1jEAClzpNqhXfgD9WVaxVLvxfw4l1haMh5tbp+OJRTTzp9a1BD
- 89dKY+OqcTQW82EgrXM6t+bm58wO80WeXMHggdxcHXH7O3tpu3I8p12dlAQa9GO+xVZc
- RYLhVVRLWLcxWhGbT4PeAuXkWzhdYG4WKtLrmaGy8c+FsD9pgEYjp7FGHCg+DNj+xXX5
- GwQg==
+ bh=HYQgmPZbdO8PGa4dwHhNjaQMORxJ4x8u9dRg457yaoo=;
+ b=Qf3Uc3ZqblBslMhvgsH+lEXisdpc14Wy2T16hsrnX6RNR5Ii4P4MgPZ0uBGF10MQol
+ XrHn/KzwexiSmQNSqDuyjagTBjM81K44ZzCysjs10D5q+vN6N7pS7sdZVqStje12t3JB
+ Ql7+4FamKfCacYGCeodJg+jU+I9//riDbMSGK3gTJJOqvSkHDDqqnk5C6YfSxF5LctqB
+ 6cCPs24i/FaDfd8MT6RP3z3nxB/9GgRjQz7Zw5YGm41mYhwV8HyklfXrERHDSUXi+iNV
+ R07YQA+I+OH43Mhy3GhUlN6xC0Vq3CMdHxtZ8pUFS8dNZcQ4AXH1hB6Kd5ANQn5dgD5z
+ y/sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6RPROgLkkUyForOR22QV8mtzIj/4ym+YaGT3QpJKNWU=;
- b=IA2x7RXQ60zmcM2HXw5pmnhiKotiX4QG6iJerhL5Vi1MpNojNghVflmkz/PRWk0zev
- vA9HDurGAMwkIzCL96559mSjp7z1vZ+V9WWCfutBEn+yDzPtVmGWQrKRnDe+PkH3sTbU
- xcNOC0SR70a13mL9257S15MXU6ocjMdg3jESGgOQ6GwugI//duMaofHO/CZN8jeHN0wS
- G4t1l4yaWSkjL6VFqtTTU9d5NwjEB3KsLYGVEJ4IC7v9p01Jppl+I7aBDcTxkwY84O6p
- WpxOeDXUOrOdvMolViyAbIWrqlrkJpsN0KHgZV4zftB3BE71oEx2QHNiogFwN3wyS2/A
- lmhA==
-X-Gm-Message-State: ACrzQf3WuPrPNzr6Kl/2xwNcnjj5yhr82GUn1mTAHzMlEwmMK07wqDUf
- YSSW7n77CJlzQ21HFfM8Pyd4sg==
-X-Google-Smtp-Source: AMsMyM6YJUqDAaQ6HYYPMkOebCkIiHsJhgx3eM27s1CojzBtoW3NZzT+T2TWwcDxvSHo9Cb+KpygXQ==
-X-Received: by 2002:a05:600c:3781:b0:3a6:804a:afc with SMTP id
- o1-20020a05600c378100b003a6804a0afcmr44493403wmr.27.1667863324171; 
- Mon, 07 Nov 2022 15:22:04 -0800 (PST)
+ bh=HYQgmPZbdO8PGa4dwHhNjaQMORxJ4x8u9dRg457yaoo=;
+ b=0i9yW5RWmVxK0FqiIev8sjOD87naoahvXC0d1DELFPPk21DmZ1MgFuIUp88wSndig9
+ wLjJJFpuNZ2Z/oyiG82bl2jb1usfJp7wNTLtKff+peWcUZ0foqLi0N3NZkRqtl4G0FXN
+ /YUMOEo3O1lw5yuwndeAxnAP5IxpaDnmMw/uHYh5keoSKl1EIhgDS1Ud6g41Inumb9qy
+ 46CrZDOKhugkQue6Nnuc7UiMSeOBP/FIkX+jeP47eh4OvSWxQnrsFj+K53iesL5bRPf+
+ 1j7EmtKkd+iFl4dfQV8IsxmKMxRviiQFqEeaOma2uRJaPIrPpzx8wHH6Fbrm1lkXExf7
+ 7mdA==
+X-Gm-Message-State: ACrzQf3f42dIjqCdvNJeKw0QPEMXzrhsPXxGMxxFWLJV4u8fyoPQ3TYc
+ 3hIj9KJQ6AVw0XTZLaHwBSzraCsfAipwbA==
+X-Google-Smtp-Source: AMsMyM64VKxeENNgqMpyh64ZxOZKxK0X0mQvDKDNVlqn46gvGciiMtDltaw6YBfV1YCRUtviTgh7MQ==
+X-Received: by 2002:adf:d089:0:b0:236:558b:abc8 with SMTP id
+ y9-20020adfd089000000b00236558babc8mr32724927wrh.231.1667863351108; 
+ Mon, 07 Nov 2022 15:22:31 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- p15-20020adfce0f000000b0022cbf4cda62sm10225695wrn.27.2022.11.07.15.22.03
+ s13-20020a5d69cd000000b0023659925b2asm8395456wrw.51.2022.11.07.15.22.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Nov 2022 15:22:03 -0800 (PST)
-Message-ID: <3f011b1c-572c-dd4e-4574-9d90dee36116@linaro.org>
-Date: Tue, 8 Nov 2022 00:22:02 +0100
+ Mon, 07 Nov 2022 15:22:30 -0800 (PST)
+Message-ID: <0a70bbe0-adb4-d81f-d758-b4fc0de8e490@linaro.org>
+Date: Tue, 8 Nov 2022 00:22:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH] target/mips: enable LBX/LWX/* instructions for Octeon
+Subject: Re: [PATCH 1/2] target/mips: Don't check COP1X for 64 bit FP mode
 Content-Language: en-US
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, jiaxun.yang@flygoat.com
-References: <166728058455.229236.13834649461181619195.stgit@pasha-ThinkPad-X280>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+Cc: f4bug@amsat.org
+References: <20221102165719.190378-1-jiaxun.yang@flygoat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <166728058455.229236.13834649461181619195.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <20221102165719.190378-1-jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,15 +90,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/11/22 06:29, Pavel Dovgalyuk wrote:
-> This patch changes condition and function name for enabling
-> indexed load instructions for Octeon vCPUs. Octeons do not
-> have DSP extension, but implement LBX-and-others.
+On 2/11/22 17:57, Jiaxun Yang wrote:
+> Some implementations (i.e. Loongson-2F) may decide to implement a 64 bit
+> FPU without implmenting COP1X instructions.
 > 
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> As the eligibility of 64 bit FP instructions is already determined by
+> CP0St_FR, there is no need to check for COP1X again.
+> 
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > ---
->   target/mips/tcg/translate.c |   10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
+>   target/mips/tcg/translate.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Queued to mips-fixes, thanks.
 
