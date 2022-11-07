@@ -2,93 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E98361F3E4
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 14:03:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C883A61F3E5
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Nov 2022 14:03:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1os1ky-0004bQ-Ka; Mon, 07 Nov 2022 08:01:40 -0500
+	id 1os1l8-0004dH-En; Mon, 07 Nov 2022 08:01:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1os1kN-0004Pp-7L
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 08:01:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1os1ko-0004Z0-4j
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 08:01:35 -0500
+Received: from mr85p00im-zteg06021901.me.com ([17.58.23.194])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1os1kG-0001xW-K2
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 08:00:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667826048;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=V+W8yWMpqwOfxNe8dg86+JAu0XDqbr8gf56bgcoz02E=;
- b=XS6U8/sQn/uRsCuaIyFfPuZ67KH7I1DYrDA22cBQY8diDNU8vxWnVKrvZLuyNXRybGNu98
- VZZ778+V5PGDon9Hr+KwkQZwN/jfg7Zl6/xeTk7TnTcX6AVxYiNbUWZ5dGgx9GjLnleuc9
- +9bPmF/zhdZaJsgB420uttYNQEh1W1s=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-639-YPSxULo2PaOtxGc_YA41Gg-1; Mon, 07 Nov 2022 08:00:42 -0500
-X-MC-Unique: YPSxULo2PaOtxGc_YA41Gg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- l16-20020adfc790000000b00230c2505f96so2715690wrg.4
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 05:00:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=V+W8yWMpqwOfxNe8dg86+JAu0XDqbr8gf56bgcoz02E=;
- b=VzeSNiYds4UbvqamrUQ7ExR57dspMi68M6mtd+ZyHWuWqn5LeZvggUoCU1kkoU8PDs
- CyfmDXBzJoZ4bPdOJDdEiSxmh+BX6QgL5Ld4MkLOUjXL/XOmzpZRsENCDDR62FSaPeLu
- vBU0XaWDNxeeGtSi3vFNDyJFqAp7bPPxm/AYK/V6UsJPxiej9sHrQoMjTmpv2qB1pHMt
- M/6vdOycKQoCkws+X8WiFFpxSWrmvdmp5TXVKPxr/u0Ssav7oEBlerTxqhChnqT0v335
- n5MwD/ouIujubXBswJ3aE7Xq9AhybH1dGXhWWPvvjYauVBkr02PdSgZg5XpCrJGWgntf
- 1TRQ==
-X-Gm-Message-State: ACrzQf3wVVJYLKOanyPLfeiNA0oEMv2YgP7jfSsZFYesogYWe/OPlgNg
- 5FINN+eQ4vUlXfVm+IVtbZJu8Jn2eGJpBf0+92TC7HtgTD+5Arziz5dbQPrRjjh/yZ8R7sBC80s
- J4MwB2fh6dc4xuWM=
-X-Received: by 2002:adf:d1c2:0:b0:236:9033:8ead with SMTP id
- b2-20020adfd1c2000000b0023690338eadmr32609353wrd.653.1667826041270; 
- Mon, 07 Nov 2022 05:00:41 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM6OvTUqirkiODqAJPG1K9qANes2oFjZD5s9D99apyNTaV9k+jLMyn1G56qCoVon03SPDZ9vow==
-X-Received: by 2002:adf:d1c2:0:b0:236:9033:8ead with SMTP id
- b2-20020adfd1c2000000b0023690338eadmr32609325wrd.653.1667826040962; 
- Mon, 07 Nov 2022 05:00:40 -0800 (PST)
-Received: from redhat.com ([169.150.226.212]) by smtp.gmail.com with ESMTPSA id
- j13-20020a05600c190d00b003b47e8a5d22sm12685062wmq.23.2022.11.07.05.00.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 05:00:40 -0800 (PST)
-Date: Mon, 7 Nov 2022 08:00:36 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PULL v3 49/81] acpi: pc: vga: use AcpiDevAmlIf interface to
- build VGA device descriptors
-Message-ID: <20221107080023-mutt-send-email-mst@kernel.org>
-References: <20221105171116.432921-1-mst@redhat.com>
- <20221105171116.432921-50-mst@redhat.com>
- <CAG4p6K6ZgVmKAfRoaaD99RqtEjU0+qwUncb2=n+8GhNAezgKjg@mail.gmail.com>
- <20221107073158-mutt-send-email-mst@kernel.org>
- <CAARzgwwEayuzcrcSWRmK5UBG56R1SbfHJ0XoV9=T91=wqLMSAg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAARzgwwEayuzcrcSWRmK5UBG56R1SbfHJ0XoV9=T91=wqLMSAg@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1os1kS-00021W-Td
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 08:01:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
+ t=1667826066; bh=/ESFzzkP6mHGND0cqItFaGCfupdYs+rk+gbj7Nb53NY=;
+ h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
+ b=JyxXl4xnqpDcJgfpBA8Zd+30CnAKM9lrwSy0jc940GSLG1fw+WqdhpBhVUunArhFr
+ l0Nwx3s/MhelH7if6niK2x6g1mM2y/ELVCy167mP4Z2l+X7hPDo2MD0LJdlUjZsm7C
+ BEo/j66QQ8CHXP4anFRRFMAyQAOj+U/Re9Jwiq9+J3W4j3juhwMzFRVgoeE+ubo6vT
+ Bm6RAbuAolQQ9JyndFgrUvZxK/303sEMPIeA/O3nu7WbMYitpezU2uF4EMUnXvdwcp
+ xCqnCFEm/4DQDkLl7M/vJycDFvpEcD6c1uw5bAfc/IVFIBqTWugtgOLXyOw6yeTTXf
+ s+k08OGwSZZeQ==
+Received: from smtpclient.apple (mr38p00im-dlb-asmtp-mailmevip.me.com
+ [17.57.152.18])
+ by mr85p00im-zteg06021901.me.com (Postfix) with ESMTPSA id 08105740B2C;
+ Mon,  7 Nov 2022 13:01:03 +0000 (UTC)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+Subject: Re: [PATCH 1/3] arm: move KVM breakpoints helpers
+From: Mads Ynddal <mads@ynddal.dk>
+In-Reply-To: <20221104184101.6923-2-fcagnin@quarkslab.com>
+Date: Mon, 7 Nov 2022 14:00:42 +0100
+Cc: qemu-devel@nongnu.org, dirty@apple.com, r.bolshakov@yadro.com,
+ peter.maydell@linaro.org, qemu-arm@nongnu.org, agraf@csgraf.de,
+ pbonzini@redhat.com, Francesco Cagnin <fcagnin@quarkslab.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <FB8D474A-61B8-4E88-A7A3-FAEFA5CF4C67@ynddal.dk>
+References: <20221104184101.6923-1-fcagnin@quarkslab.com>
+ <20221104184101.6923-2-fcagnin@quarkslab.com>
+To: francesco.cagnin@gmail.com
+X-Mailer: Apple Mail (2.3731.200.110.1.12)
+X-Proofpoint-GUID: S5bEc1N1UWmEjErFLeO3R6An9L01VXCz
+X-Proofpoint-ORIG-GUID: S5bEc1N1UWmEjErFLeO3R6An9L01VXCz
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=699
+ mlxscore=0 spamscore=0
+ adultscore=0 phishscore=0 bulkscore=0 clxscore=1030 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2211070106
+Received-SPF: pass client-ip=17.58.23.194; envelope-from=mads@ynddal.dk;
+ helo=mr85p00im-zteg06021901.me.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,83 +80,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 07, 2022 at 06:16:25PM +0530, Ani Sinha wrote:
-> On Mon, Nov 7, 2022 at 6:03 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Sun, Nov 06, 2022 at 10:16:41PM +0100, Bernhard Beschow wrote:
-> > >
-> > >
-> > > On Sat, Nov 5, 2022 at 6:45 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > >     From: Igor Mammedov <imammedo@redhat.com>
-> > >
-> > >     Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > >     Message-Id: <20221017102146.2254096-2-imammedo@redhat.com>
-> > >     Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > >     Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > >     NB: we do not expect any functional change in
-> > >     any ACPI tables with this change. It's only a refactoring.
-> > >
-> > >     Reviewed-by: Ani Sinha <ani@anisinha.ca>
-> > >     ---
-> > >      hw/display/vga_int.h       |  2 ++
-> > >      hw/display/acpi-vga-stub.c |  7 +++++++
-> > >      hw/display/acpi-vga.c      | 26 ++++++++++++++++++++++++++
-> > >      hw/display/vga-pci.c       |  4 ++++
-> > >      hw/i386/acpi-build.c       | 26 +-------------------------
-> > >      hw/display/meson.build     | 17 +++++++++++++++++
-> > >      6 files changed, 57 insertions(+), 25 deletions(-)
-> > >      create mode 100644 hw/display/acpi-vga-stub.c
-> > >      create mode 100644 hw/display/acpi-vga.c
-> > >
-> > >
-> > > With this "qemu:qtest+qtest-hppa / qtest-hppa/display-vga-test" fails due to
-> > > the symbol "aml_return" being undefined:
-> > >
-> > > # starting QEMU: exec ./qemu-system-hppa -qtest unix:/tmp/qtest-515650.sock
-> > > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-515650.qmp,id=char0 -mon
-> > > chardev=char0,mode=control -display none -vga none -device virtio-vga -accel
-> > > qtest
-> > > ----------------------------------- stderr -----------------------------------
-> > > Failed to open module: qemu/build/qemu-bundle/usr/lib/qemu/
-> > > hw-display-virtio-vga.so: undefined symbol: aml_return
-> > > qemu-system-hppa: -device virtio-vga: 'virtio-vga' is not a valid device model
-> > > name
-> > > Broken pipe
-> > > ../src/tests/qtest/libqtest.c:179: kill_qemu() tried to terminate QEMU process
-> > > but encountered exit status 1 (expected 0)
-> > >
-> > > (test program exited with status code -6)
-> > >
-> > > Best regards,
-> > > Bernhard
-> >
-> > It's unfortunate that it doesn't reproduce for me :(
+
+> On 4 Nov 2022, at 19.40, francesco.cagnin@gmail.com wrote:
 > 
-> To reproduce:
+> From: Francesco Cagnin <fcagnin@quarkslab.com>
 > 
-> - docker pull registry.gitlab.com/qemu-project/qemu/qemu/centos8:latest
-> - configure line:
+> These helpers will be also used for HVF. Aside from reformatting a
+> couple of comments for 'checkpatch.pl', this is just code motion.
 > 
-> ../configure --enable-werror --disable-docs --disable-nettle
-> --enable-gcrypt --enable-fdt=system --enable-modules
-> --enable-trace-backends=dtrace --enable-docs --enable-vfio-user-server
-> --target-list="ppc64-softmmu or1k-softmmu s390x-softmmu x86_64-softmmu
-> rx-softmmu sh4-softmmu nios2-softmmu"
+> Signed-off-by: Francesco Cagnin <fcagnin@quarkslab.com>
+> ---
+> target/arm/debug_helper.c | 241 +++++++++++++++++++++++++++++++++
+> target/arm/internals.h    |  50 +++++++
+> target/arm/kvm64.c        | 276 --------------------------------------
+> 3 files changed, 291 insertions(+), 276 deletions(-)
 
+Looks good. I was going to do the exact same in my patchset.
 
-I suspect --enable-modules is the difference.
-
-> - # make
-> - # QTEST_QEMU_BINARY=./qemu-system-or1k  ./tests/qtest/qos-test
-> failed to open module:
-> /build/qemu/qemu/build/qemu-bundle/usr/local/lib64/qemu/hw-display-virtio-vga.so:
-> undefined symbol: aml_return
-> qemu-system-or1k: ../util/error.c:59: error_setv: Assertion `*errp ==
-> NULL' failed.
-> Broken pipe
-> ../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from
-> signal 6 (Aborted) (core dumped)
-> Aborted (core dumped)
-
+Reviewed-by: Mads Ynddal <mads@ynddal.dk>
 
