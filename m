@@ -2,78 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288D1621CB9
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 20:09:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 314C1621CC1
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 20:13:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osTyJ-0002JU-1L; Tue, 08 Nov 2022 14:09:19 -0500
+	id 1osU1l-0003mv-1F; Tue, 08 Nov 2022 14:12:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osTyG-0002HH-Jj; Tue, 08 Nov 2022 14:09:16 -0500
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1osU1h-0003mA-LX
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 14:12:49 -0500
+Received: from esa1.hc2706-39.iphmx.com ([68.232.153.39])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osTyE-0003uv-Tw; Tue, 08 Nov 2022 14:09:16 -0500
-Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
- (sas1-c73b4b4f4b95.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 20BA95DC24;
- Tue,  8 Nov 2022 22:08:53 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
- [2a02:6b8:b081:b535::1:28])
- by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- BVLZF4HDCB-8nOO3UWH; Tue, 08 Nov 2022 22:08:52 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1667934532; bh=6bYyNMKD76SEKwEV9OFQWnabfGqL5+o5DH83VU7IYOM=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=wamXqSBKX9LB6UvPIqp8IafZUsh/zkWjGDbwqtbTp3II9enzmy/+ufRI9EJkLomxR
- XcTWyrDF9Ij9jom0F/Wbo839/FhXHJwiI/yoi+n/zkchpOYo0SKcgK8kfMg26A4Tqh
- 8ZHp0Wp5klnUoWbPZcjDiO0qGiehRzSX7oh5AdRg=
-Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <1d2774c6-3108-c236-d31c-8aa58ffdf427@yandex-team.ru>
-Date: Tue, 8 Nov 2022 22:08:49 +0300
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1osU1f-0001BN-Hb
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 14:12:49 -0500
+X-IronPort-RemoteIP: 209.85.161.72
+X-IronPort-MID: 238481557
+X-IronPort-Reputation: None
+X-IronPort-Listener: OutgoingMail
+X-IronPort-SenderGroup: RELAY_GSUITE
+X-IronPort-MailFlowPolicy: $RELAYED
+IronPort-Data: A9a23:iU5L5KjY06NmqwwBz9bZgNRJX1613RIKZh0ujC45NGQN5FlHY01je
+ htvUT2DM/2PN2DxKtp2bYu/8kxQ6JHdn9MySFFspC02RikW8JqUDtmndXv9bniYRiHhoOOLz
+ Cm8hv3odp1coqr0/0/1WlTZhSAgk/rOHv+kUrWs1hlZHWdMUD0mhQ9oh9k3i4tphcnRKw6Ws
+ Jb5rta31GWNglaYCUpJrfPdwP9TlK6q4mlB5wRuPaojUGL2zBH5MrpOfcldEFOlGuG4LsbiL
+ 87fwbew+H/u/htFIrtJRZ6iLyXm6paLVeS/oiM+t5qK23CulQRrukoPD8fwXG8M49m/c3Gd/
+ /0W3XC4YV9B0qQhA43xWTEBe811FfQuFLMqvRFTGCFcpqHLWyKE/hlgMK05FYYGvb5JLWdNz
+ NodMQEjRSzSotOd2JvuH4GAhux7RCXqFIYWu3UlyjaASPh5G9bMRKLF4dIe1zA17ixMNayGN
+ oxJNHw2Mk2GPEcn1lQ/UfrSmM+hgmn5fydwok/TqKYqi4TW5FYqgOS9aYeIJbRmQ+0LpVbCh
+ zPrpV/aAx0wP42NwifGyk+F07qncSTTHdh6+KeD3udnhUDWymENBRk+U1y9rv+kzEmkVLpix
+ 1c8/yMvqe018xXuQIanGRK/p3GAs1gXXN84//AG1TxhA5H8u26xblXohBYdADD6nKfanQAX6
+ 2I=
+IronPort-HdrOrdr: A9a23:gU1/NayAjldTVrkPm3miKrPw4L1zdoMgy1knxilNoNJuA6ulfu
+ SV7YkmPHjP+UossRAb6Kq90cy7K080mqQFg7X5UY3SOTUO/VHYU72KjrGSuAEIeReOj9K1vJ
+ 0IG8MOa+EYT2IK9foSiDPZLz9K+qjgzEnHv5a7815dCStHUeVP1TtYNyqsOnFKZWB9dOQE/V
+ mnivavZQDMRZ3aVKqG77A+MIn+m+E=
+Received: from mail-oo1-f72.google.com ([209.85.161.72])
+ by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 08 Nov 2022 14:12:44 -0500
+Received: by mail-oo1-f72.google.com with SMTP id
+ e10-20020a4a91ca000000b0047f7bf95662so4022506ooh.8
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 11:12:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=JnpE1KG21EOAhE4sTalgaBWeI5Ol5Ny9tzaB84uTx9g=;
+ b=F4SPGrQ6LGGhKGhQmAwcNrzwCIJyeyWa17L1W2xLk9cuVBGVFKU22+VbMMi5PVvQbl
+ BiXOgSrclwD8LqY/kPubFJeVBYAz2hA/AstXzBfnPD1vvPLR8NJXno6npTamhd1d5iBg
+ vxpQi2OJhY9vMEC0G423ClddWoh22N5w3YVGcBUD9BX7Neu007bC0GAa3wjdYKYxr+/2
+ 2aPhJ4Ve4DE8SAqf7U5ABPUf+coXTrdsBEwSABslK4MXcneScoTeepTcjmcQBomPWgik
+ iOQ1FNlDuMzK+zs3savpPmW2Zk7nb3KJzxuoT1caMAQ4Fow9X3/Bwd7AfPPUuTn2crD7
+ cEdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JnpE1KG21EOAhE4sTalgaBWeI5Ol5Ny9tzaB84uTx9g=;
+ b=M7w2SM/WXDFM8kvCo7HUYnwy4LQERyT8J71lB/81ehK5FPaxX4TzrKlxs2w5hW4DkD
+ XRUgxd3lrIGtO4pVyOCQfZ6M727SdTk6KclSU3CZEqU5D4yVpgY4d97/AZcalJ/HoCIt
+ KrxzjzjedAe98pwtqxzNc9D9Oh0anR/68zg+ZQD9nckQsdsEVxJqN2+m2lQCujgWfmJE
+ Z5Q6fS6Cb6plpIx/jGwClXTkncteSvVUwHJvHnamtTQcph3wpuDyzWbmM3/r9hO6GUye
+ tUJaiP9djkh/BsCRyzyI1SwBot8uA7AGUODy2IuCdtPy8FvHcSvTpU485QZaaXtKdZfS
+ FZAQ==
+X-Gm-Message-State: ACrzQf1V6ucQnWViNvpdB1fhSJYqDGUrH/LJy3jpAtRl5o25JuOsGgZb
+ YvrqdnKQ43mfbK1pwBxfawPCy8pJqlQF0IQuxsmt0mmxsVVNgUp+3sQrXZ658/1g6aDYk/Z8RmI
+ 84HZ8QzMobAokTkqMHC2ZRJ8UcC07KA==
+X-Received: by 2002:aca:1a13:0:b0:35a:745a:8cc3 with SMTP id
+ a19-20020aca1a13000000b0035a745a8cc3mr9747027oia.216.1667934763646; 
+ Tue, 08 Nov 2022 11:12:43 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5KWPTm1Hi5WFGbfYh8udv5XTqXPPLv8Sy5ULDL95xJcrl9fGgd+TurqgUIH44VxEullygf0w==
+X-Received: by 2002:aca:1a13:0:b0:35a:745a:8cc3 with SMTP id
+ a19-20020aca1a13000000b0035a745a8cc3mr9746987oia.216.1667934762724; 
+ Tue, 08 Nov 2022 11:12:42 -0800 (PST)
+Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ by smtp.gmail.com with ESMTPSA id
+ i9-20020a056808054900b00350743ac8eesm3756047oig.41.2022.11.08.11.12.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Nov 2022 11:12:42 -0800 (PST)
+Date: Tue, 8 Nov 2022 14:12:08 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Sai Pavan Boddu <saipava@xilinx.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>,
+ RivenDell <XRivenDell@outlook.com>, Siqi Chen <coc.cyqh@gmail.com>,
+ ningqiang <ningqiang1@huawei.com>
+Subject: Re: [PATCH-for-7.2 1/2] hw/sd/sdhci: Do not set Buf Wr Ena before
+ writing block (CVE-2022-3872)
+Message-ID: <20221108191208.cbswzkaib2cpysa4@mozz.bu.edu>
+References: <20221107221236.47841-1-philmd@linaro.org>
+ <20221107221236.47841-2-philmd@linaro.org>
+ <20221108172544.7vvu7wcwyqmhfv3q@mozz.bu.edu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3 06/17] vfio/migration: Fix NULL pointer dereference bug
-Content-Language: en-US
-To: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org,
- Kunkun Jiang <jiangkunkun@huawei.com>, "Zhang, Chen" <chen.zhang@intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Shay Drory <shayd@nvidia.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>,
- Joao Martins <joao.m.martins@oracle.com>
-References: <20221103161620.13120-1-avihaih@nvidia.com>
- <20221103161620.13120-7-avihaih@nvidia.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221103161620.13120-7-avihaih@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221108172544.7vvu7wcwyqmhfv3q@mozz.bu.edu>
+X-CES-GSUITE_AUTH: bf3aNvsZpxl8
+Received-SPF: pass client-ip=68.232.153.39; envelope-from=alxndr@bu.edu;
+ helo=esa1.hc2706-39.iphmx.com
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,28 +127,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/3/22 19:16, Avihai Horon wrote:
-> As part of its error flow, vfio_vmstate_change() accesses
-> MigrationState->to_dst_file without any checks. This can cause a NULL
-> pointer dereference if the error flow is taken and
-> MigrationState->to_dst_file is not set.
+On 221108 1225, Alexander Bulekov wrote:
+> On 221107 2312, Philippe Mathieu-Daudé wrote:
+> > When sdhci_write_block_to_card() is called to transfer data from
+> > the FIFO to the SD bus, the data is already present in the buffer
+> > and we have to consume it directly.
+> > 
+> > See the description of the 'Buffer Write Enable' bit from the
+> > 'Present State' register (prnsts::SDHC_SPACE_AVAILABLE) in Table
+> > 2.14 from the SDHCI spec v2:
+> > 
+> >   Buffer Write Enable
+> > 
+> >   This status is used for non-DMA write transfers.
+> > 
+> >   The Host Controller can implement multiple buffers to transfer
+> >   data efficiently. This read only flag indicates if space is
+> >   available for write data. If this bit is 1, data can be written
+> >   to the buffer. A change of this bit from 1 to 0 occurs when all
+> >   the block data is written to the buffer. A change of this bit
+> >   from 0 to 1 occurs when top of block data can be written to the
+> >   buffer and generates the Buffer Write Ready interrupt.
+> > 
+> > In our case, we do not want to overwrite the buffer, so we want
+> > this bit to be 0, then set it to 1 once the data is written onto
+> > the bus.
+> > 
+> > This is probably a copy/paste error from commit d7dfca0807
+> > ("hw/sdhci: introduce standard SD host controller").
+> > 
+> > Reproducer:
+> > https://lore.kernel.org/qemu-devel/CAA8xKjXrmS0fkr28AKvNNpyAtM0y0B+5FichpsrhD+mUgnuyKg@mail.gmail.com/
+> > 
+> > Fixes: CVE-2022-3872
+> > Reported-by: RivenDell <XRivenDell@outlook.com>
+> > Reported-by: Siqi Chen <coc.cyqh@gmail.com>
+> > Reported-by: ningqiang <ningqiang1@huawei.com>
+> > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > 
-> For example, this can happen if VM is started or stopped not during
-> migration and vfio_vmstate_change() error flow is taken, as
-> MigrationState->to_dst_file is not set at that time.
+> Seems like OSS-Fuzz also found this, not sure why it never made it into
+> a gitlab issue:
+> https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=45986#c4
 > 
-> Fix it by checking that MigrationState->to_dst_file is set before using
-> it.
+> Slightly shorter reproducer:
 > 
-> Fixes: 02a7e71b1e5b ("vfio: Add VM state change handler to know state of VM")
-> Signed-off-by: Avihai Horon<avihaih@nvidia.com>
-> Reviewed-by: Juan Quintela<quintela@redhat.com>
+> cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
+> 512M -nodefaults -device sdhci-pci -device sd-card,drive=mydrive -drive \
+> if=none,index=0,file=null-co://,format=raw,id=mydrive -nographic -qtest \
+> stdio
+> outl 0xcf8 0x80001010
+> outl 0xcfc 0xe0000000
+> outl 0xcf8 0x80001001
+> outl 0xcfc 0x06000000
+> write 0xe0000058 0x1 0x6e
+> write 0xe0000059 0x1 0x5a
+> write 0xe0000028 0x1 0x10
+> write 0xe000002c 0x1 0x05
+> write 0x5a6e 0x1 0x21
+> write 0x5a75 0x1 0x20
+> write 0xe0000005 0x1 0x02
+> write 0xe000000c 0x1 0x01
+> write 0xe000000e 0x1 0x20
+> write 0xe000000f 0x1 0x00
+> write 0xe000000c 0x1 0x00
+> write 0xe0000020 0x1 0x00
+> EOF
 
+Hi Philippe,
+I ran the fuzzer with this series applied and it found:
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
+512M -nodefaults -device sdhci-pci -device sd-card,drive=mydrive -drive \
+if=none,index=0,file=null-co://,format=raw,id=mydrive -nographic -qtest \
+stdio
+outl 0xcf8 0x80001010
+outl 0xcfc 0xe0000000
+outl 0xcf8 0x80001004
+outw 0xcfc 0x06
+write 0xe0000028 0x1 0x08
+write 0xe000002c 0x1 0x05
+write 0xe0000005 0x1 0x02
+write 0x0 0x1 0x21
+write 0x3 0x1 0x20
+write 0xe000000c 0x1 0x01
+write 0xe000000e 0x1 0x20
+write 0xe000000f 0x1 0x00
+write 0xe000000c 0x1 0x20
+write 0xe0000020 0x1 0x00
+EOF
 
--- 
-Best regards,
-Vladimir
-
+The crash seems very similar, but it looks like instead of
+SDHC_TRNS_READ this reproducer sets SDHC_TRNS_MULTI
+-Alex
 
