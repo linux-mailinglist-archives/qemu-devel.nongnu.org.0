@@ -2,60 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC1A7621634
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:24:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8092F621639
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:24:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osPW0-0001us-Qb; Tue, 08 Nov 2022 09:23:48 -0500
+	id 1osPWZ-0002io-Nc; Tue, 08 Nov 2022 09:24:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1osPVz-0001uO-4L
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:23:47 -0500
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1osPWW-0002eE-QV
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:24:20 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1osPVx-00046F-BN
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:23:46 -0500
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1osPWV-0004AV-5Z
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:24:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667917424;
+ s=mimecast20190719; t=1667917458;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DPrd7uB3C7K6F6Jus2wfokC3aGF286sQvpJGdrdDAWI=;
- b=iuKG3qVQftuFStYxbY8HYsdO2JeWalgDACslG4Ntg8Zl7OWnDVs8XtlXCWphb9cwAoeeEm
- 8JcofBweJdn1Gs7UdnwAN0ZgerYyv6SiMeO3Cqf5xJPOuihqDGiShJ6Ff86F5aoBqFnk9m
- 89kv14XR4Nr6GolTBWgnjgvtn5DBnPw=
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bydDDK9MH3KqL1XsWzyHtj4XoCBAET0emCVBntaIOCo=;
+ b=HlskOWVlOMcDPAu2nGdq1ZztJ1GH5Sab3KUvGW1PFHpj1j++8ouTuaKEhL7Xvh19liQ0qP
+ oK76sQV8YeJjObgite6LPCnXlXkfB9Hfm3LmTXzzl2ECPbWK2MRQEgGnUgZpi6ojV684Ah
+ 0JbvEp0M01UFYno7UyoVhxkVu6ufdZM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-544-jUowNtIxMqG6oQveB_Kdkg-1; Tue, 08 Nov 2022 09:23:43 -0500
-X-MC-Unique: jUowNtIxMqG6oQveB_Kdkg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-344--3JC1JzMN9S5PBrxH9mLhg-1; Tue, 08 Nov 2022 09:24:00 -0500
+X-MC-Unique: -3JC1JzMN9S5PBrxH9mLhg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4A989185A794;
- Tue,  8 Nov 2022 14:23:42 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.118])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 828672166B29;
- Tue,  8 Nov 2022 14:23:41 +0000 (UTC)
-Date: Tue, 8 Nov 2022 15:23:40 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v2 0/3] block: Start/end drain on correct AioContext
-Message-ID: <Y2pmbETCfwAfIDyH@redhat.com>
-References: <20221107151321.211175-1-hreitz@redhat.com>
- <Y2pkGq70Z9xGhUis@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E83D2101AA46;
+ Tue,  8 Nov 2022 14:23:59 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.8])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 399547AE5;
+ Tue,  8 Nov 2022 14:23:58 +0000 (UTC)
+From: Alberto Faria <afaria@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
+ Alberto Faria <afaria@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Subject: [PATCH] qapi/block-core: Fix BlockdevOptionsNvmeIoUring @path
+ description
+Date: Tue,  8 Nov 2022 14:23:47 +0000
+Message-Id: <20221108142347.1322674-1-afaria@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y2pkGq70Z9xGhUis@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,7 +60,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,50 +76,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 08.11.2022 um 15:13 hat Kevin Wolf geschrieben:
-> Am 07.11.2022 um 16:13 hat Hanna Reitz geschrieben:
-> > Hi,
-> > 
-> > v1 cover letter:
-> > https://lists.nongnu.org/archive/html/qemu-block/2022-09/msg00389.html
-> > 
-> > bdrv_replace_child_noperm() drains the child via
-> > bdrv_parent_drained_{begin,end}_single().  When it removes a child, the
-> > bdrv_parent_drained_end_single() at its end will be called on an empty
-> > child, making the BDRV_POLL_WHILE() in it poll the main AioContext
-> > (because c->bs is NULL).
-> > 
-> > That’s wrong, though, because it’s supposed to operate on the parent.
-> > bdrv_parent_drained_end_single_no_poll() will have scheduled any BHs in
-> > the parents’ AioContext, which may be anything, not necessarily the main
-> > context.  Therefore, we must poll the parent’s context.
-> > 
-> > Patch 3 does this for both bdrv_parent_drained_{begin,end}_single().
-> > Patch 1 ensures that we can legally call
-> > bdrv_child_get_parent_aio_context() from those I/O context functions,
-> > and patch 2 fixes blk_do_set_aio_context() to not cause an assertion
-> > failure if it beginning a drain can end up in blk_get_aio_context()
-> > before blk->ctx has been updated.
-> 
-> Hmm, I may have unintentionally made this series obsolete with the drain
-> series I sent today. The poll instances that you're fixing simply don't
-> exist any more after it.
-> 
-> Can you check if the bug is gone with my series? I would hope so, but if
-> not, we would probably need to apply a fix in a different place.
+The nvme-io_uring BlockDriver's path option must point at the character
+device of an NVMe namespace, not at an image file.
 
-Actually, on second thoughts, we'd probably still apply your patches as
-a fix for 7.2 and then have my patches which would get rid of the
-polling only in block-next. Patch 1 and 2 of this series would stay in
-the tree, and that seems to make sense to me, too. So obsolete was not
-the right word.
+Fixes: fd66dbd424f5 ("blkio: add libblkio block driver")
+Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Alberto Faria <afaria@redhat.com>
+---
+ qapi/block-core.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-But it would still be interesting to see if my series fixes the bug,
-too, because otherwise it might introduce a regression later.
-
-By the way, is the bug hard to test in a test case? If this series had
-one, I could just have run it myself against my tree.
-
-Kevin
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 6d904004f8..95ac4fa634 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -3704,7 +3704,7 @@
+ #
+ # Driver specific block device options for the nvme-io_uring backend.
+ #
+-# @path: path to the image file
++# @path: path to the NVMe namespace's character device (e.g. /dev/ng0n1).
+ #
+ # Since: 7.2
+ ##
+-- 
+2.38.1
 
 
