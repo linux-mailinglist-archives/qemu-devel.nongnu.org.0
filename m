@@ -2,56 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00FF762147D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:01:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AEB5621514
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:08:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osPAE-0006is-C6; Tue, 08 Nov 2022 09:01:18 -0500
+	id 1osPFf-0001iE-8P; Tue, 08 Nov 2022 09:06:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1osP9x-0006ZA-EI
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:01:05 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1osP9u-0005Rk-5S
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:01:00 -0500
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-346-8SA2lIVQML2qMxQiNpheQg-1; Tue, 08 Nov 2022 09:00:45 -0500
-X-MC-Unique: 8SA2lIVQML2qMxQiNpheQg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE0EE811E81;
- Tue,  8 Nov 2022 14:00:44 +0000 (UTC)
-Received: from bahia.redhat.com (unknown [10.39.192.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 831CAC15BB5;
- Tue,  8 Nov 2022 14:00:43 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Greg Kurz <groug@kaod.org>
-Subject: [PATCH v3 2/2] util/log: Always send errors to logfile when daemonized
-Date: Tue,  8 Nov 2022 15:00:32 +0100
-Message-Id: <20221108140032.1460307-3-groug@kaod.org>
-In-Reply-To: <20221108140032.1460307-1-groug@kaod.org>
-References: <20221108140032.1460307-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1osPFc-0001hx-EJ
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:06:52 -0500
+Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1osPFa-00039n-MN
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:06:52 -0500
+Received: by mail-il1-x12e.google.com with SMTP id o13so7505094ilc.7
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 06:06:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jLvuZ4paUTE9IskW7iyXlzxfzXGXtE7yCKkaB3BjVt4=;
+ b=cvQrQMmvtKV9KK9Q57VbD/AD0n0mpci7oJVJ/NQx6yj3kS8UQ7EGzWsUwLb+r3ZsCx
+ KhxbuxR5ByTdULF5aa5HEB7JnbRYTB4GVfXly2v+Uhkl7euVWS6HsB2+BLm0htD0/4LJ
+ lvLSpo0tSfwJArkeej8VQ9R1nfzImwkMu7ByVFrBZHJa9kdnVSgZJ1+CcRAx84PunXh/
+ wOewKmONj/aTEfCUs261n8arDT7Uuz2tUa9y7oppOH88GDAilXOM1gMHwG0h/C95YM0x
+ AQ1UHBCXjX2wQsx7P5sbnrn06rB0bVTJD8qEBJUO4XKJAiz/G9nEpK9qlD08HUChJumM
+ qYCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jLvuZ4paUTE9IskW7iyXlzxfzXGXtE7yCKkaB3BjVt4=;
+ b=L7wq6GNtyYVDmf4RmXyr+MOBbe/coTW5lKBoQ1SCnQIu50HuD+V9HqGnT6uDc808Uh
+ lTd9TCzY6u0SBV1IRSQvSiqx1HQnboPCrxpK1N4B+56Jk9TBwmLP2CagTkLaBQqOmaLg
+ 69YPBhztf3xGrJ0YA994WG2zDp5PjYXrwcKIsHN4o/zTK9UxkQAwgeIw+kwwPe6xsaHZ
+ RriP9MkkF9utgYFL3WD+pr+XvPhVbu11ToxhkILESxLCA/ywVWXPKqXubqb74IFk/Vc9
+ Zgb5rjApmkL6VErI9SdJMdo8Eo9zLT7ic+lxUxw8xx/mw6a6Fp7dnnSnzWfTZ1u70QOc
+ U4ig==
+X-Gm-Message-State: ACrzQf2gGsjqbvra7Yx62abYSdHkEkrOyyuBA7Gz+cF+LIbwjUmybmXg
+ giBfqIDey7RGbneKbsOTy6C3VgGyUQEASIp5OAtuHQ==
+X-Google-Smtp-Source: AMsMyM4L7O0aM+qJAI5jC3D7KS8vpKq6OPaREpyWHJERWJE+5DNPUuhup6K3mh663OUrxordDosUBtbKQaWD6eZaly8=
+X-Received: by 2002:a92:2601:0:b0:2fc:48be:e77a with SMTP id
+ n1-20020a922601000000b002fc48bee77amr31535194ile.202.1667916409272; Tue, 08
+ Nov 2022 06:06:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
+References: <20221107224600.934080-1-mst@redhat.com>
+ <20221107224600.934080-46-mst@redhat.com>
+ <20221108143641.4bdaae6f@fedora>
+ <CAARzgwzJFUQ_+pRCbx0f-dOyckF2aZUnGt9XV7b0=7AQMJ4Jgg@mail.gmail.com>
+In-Reply-To: <CAARzgwzJFUQ_+pRCbx0f-dOyckF2aZUnGt9XV7b0=7AQMJ4Jgg@mail.gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Tue, 8 Nov 2022 19:36:38 +0530
+Message-ID: <CAARzgwzOCzOSX+Us5fyFEEHGiFLQpO2Z=KCUN+druDzWQ7dD-g@mail.gmail.com>
+Subject: Re: [PULL v4 45/83] tests: acpi: whitelist DSDT before generating
+ PCI-ISA bridge AML automatically
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, 
+ Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=ani@anisinha.ca; helo=mail-il1-x12e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,162 +85,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When QEMU is started with `-daemonize`, all stdio descriptors get
-redirected to `/dev/null`. This basically means that anything
-printed with error_report() and friends is lost.
+On Tue, Nov 8, 2022 at 7:09 PM Ani Sinha <ani@anisinha.ca> wrote:
+>
+> On Tue, Nov 8, 2022 at 7:06 PM Igor Mammedov <imammedo@redhat.com> wrote:
+> >
+> > On Mon, 7 Nov 2022 17:51:11 -0500
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >
+> > > From: Igor Mammedov <imammedo@redhat.com>
+> > >
+> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > > Message-Id: <20221017102146.2254096-3-imammedo@redhat.com>
+> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > ---
+> > >  tests/qtest/bios-tables-test-allowed-diff.h | 34 +++++++++++++++++++++
+> > >  1 file changed, 34 insertions(+)
+> > >
+> > > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> > > index dfb8523c8b..570b17478e 100644
+> > > --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> > > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> > > @@ -1 +1,35 @@
+> > >  /* List of comma-separated changed AML files to ignore */
+> > > +"tests/data/acpi/pc/DSDT",
+> > > +"tests/data/acpi/pc/DSDT.acpierst",
+> > > +"tests/data/acpi/pc/DSDT.acpihmat",
+> > > +"tests/data/acpi/pc/DSDT.bridge",
+> > > +"tests/data/acpi/pc/DSDT.cphp",
+> > > +"tests/data/acpi/pc/DSDT.dimmpxm",
+> > > +"tests/data/acpi/pc/DSDT.hpbridge",
+> > > +"tests/data/acpi/pc/DSDT.hpbrroot",
+> > > +"tests/data/acpi/pc/DSDT.ipmikcs",
+> > > +"tests/data/acpi/pc/DSDT.memhp",
+> > > +"tests/data/acpi/pc/DSDT.nohpet",
+> > > +"tests/data/acpi/pc/DSDT.numamem",
+> > > +"tests/data/acpi/pc/DSDT.roothp",
+> > > +"tests/data/acpi/q35/DSDT",
+> > > +"tests/data/acpi/q35/DSDT.acpierst",
+> > > +"tests/data/acpi/q35/DSDT.acpihmat",
+> > > +"tests/data/acpi/q35/DSDT.applesmc",
+> > > +"tests/data/acpi/q35/DSDT.bridge",
+> > > +"tests/data/acpi/q35/DSDT.cphp",
+> > > +"tests/data/acpi/q35/DSDT.cxl",
+> > > +"tests/data/acpi/q35/DSDT.dimmpxm",
+> > > +"tests/data/acpi/q35/DSDT.ipmibt",
+> > > +"tests/data/acpi/q35/DSDT.ipmismbus",
+> > > +"tests/data/acpi/q35/DSDT.ivrs",
+> > > +"tests/data/acpi/q35/DSDT.memhp",
+> > > +"tests/data/acpi/q35/DSDT.mmio64",
+> > > +"tests/data/acpi/q35/DSDT.multi-bridge",
+> > > +"tests/data/acpi/q35/DSDT.nohpet",
+> > > +"tests/data/acpi/q35/DSDT.numamem",
+> > > +"tests/data/acpi/q35/DSDT.pvpanic-isa",
+> > > +"tests/data/acpi/q35/DSDT.tis.tpm12",
+> > > +"tests/data/acpi/q35/DSDT.tis.tpm2",
+> > > +"tests/data/acpi/q35/DSDT.viot",
+> > > +"tests/data/acpi/q35/DSDT.xapic",
+> >
+> > still missing DSDT.count2 table, likely in other updates (as well)
+> > which should break bisection if not whole pull request.
+> >
+> > I'll prep a tree based on your pull req, with fixups
+> > for you to pull from.
+>
+> Does this mean there will be a v5 for the PR?
+> V4 looks good in the CI so far ...
 
-Current logging code allows to redirect to a file with `-D` but
-this requires to enable some logging item with `-d` as well to
-be functional.
-
-Relax the check on the log flags when QEMU is daemonized, so that
-other users of stderr can benefit from the redirection, without the
-need to enable unwanted debug logs. Previous behaviour is retained
-for the non-daemonized case. The logic is unrolled as an `if` for
-better readability. The qemu_log_level and log_per_thread globals
-reflect the state we want to transition to at this point : use
-them instead of the intermediary locals for correctness.
-
-qemu_set_log_internal() is adapted to open a per-thread log file
-when '-d tid' is passed. This is done by hijacking qemu_try_lock()
-which seems simpler that refactoring the code.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- util/log.c | 72 ++++++++++++++++++++++++++++++++++++++++--------------
- 1 file changed, 53 insertions(+), 19 deletions(-)
-
-diff --git a/util/log.c b/util/log.c
-index fb843453dd49..7837ff991769 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -79,13 +79,15 @@ static int log_thread_id(void)
- 
- static void qemu_log_thread_cleanup(Notifier *n, void *unused)
- {
--    fclose(thread_file);
--    thread_file = NULL;
-+    if (thread_file != stderr) {
-+        fclose(thread_file);
-+        thread_file = NULL;
-+    }
- }
- 
- /* Lock/unlock output. */
- 
--FILE *qemu_log_trylock(void)
-+static FILE *qemu_log_trylock_with_err(Error **errp)
- {
-     FILE *logfile;
- 
-@@ -96,6 +98,9 @@ FILE *qemu_log_trylock(void)
-                 = g_strdup_printf(global_filename, log_thread_id());
-             logfile = fopen(filename, "w");
-             if (!logfile) {
-+                error_setg_errno(errp, errno,
-+                                 "Error opening logfile %s for thread %d",
-+                                 filename, log_thread_id());
-                 return NULL;
-             }
-             thread_file = logfile;
-@@ -122,6 +127,11 @@ FILE *qemu_log_trylock(void)
-     return logfile;
- }
- 
-+FILE *qemu_log_trylock(void)
-+{
-+    return qemu_log_trylock_with_err(NULL);
-+}
-+
- void qemu_log_unlock(FILE *logfile)
- {
-     if (logfile) {
-@@ -265,16 +275,21 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
- #endif
-     qemu_loglevel = log_flags;
- 
--    /*
--     * In all cases we only log if qemu_loglevel is set.
--     * Also:
--     *   If per-thread, open the file for each thread in qemu_log_lock.
--     *   If not daemonized we will always log either to stderr
--     *     or to a file (if there is a filename).
--     *   If we are daemonized, we will only log if there is a filename.
--     */
-     daemonized = is_daemonized();
--    need_to_open_file = log_flags && !per_thread && (!daemonized || filename);
-+    need_to_open_file = false;
-+    if (!daemonized) {
-+        /*
-+         * If not daemonized we only log if qemu_loglevel is set, either to
-+         * stderr or to a file (if there is a filename).
-+         * If per-thread, open the file for each thread in qemu_log_trylock().
-+         */
-+        need_to_open_file = qemu_loglevel && !log_per_thread;
-+    } else {
-+        /*
-+         * If we are daemonized, we will only log if there is a filename.
-+         */
-+        need_to_open_file = filename != NULL;
-+    }
- 
-     if (logfile) {
-         fflush(logfile);
-@@ -287,19 +302,34 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
-         }
-     }
- 
-+    if (log_per_thread && daemonized) {
-+        logfile = thread_file;
-+    }
-+
-     if (!logfile && need_to_open_file) {
-         if (filename) {
--            logfile = fopen(filename, "w");
--            if (!logfile) {
--                error_setg_errno(errp, errno, "Error opening logfile %s",
--                                 filename);
--                return false;
-+            if (log_per_thread) {
-+                logfile = qemu_log_trylock_with_err(errp);
-+                if (!logfile) {
-+                    return false;
-+                }
-+                qemu_log_unlock(logfile);
-+            } else {
-+                logfile = fopen(filename, "w");
-+                if (!logfile) {
-+                    error_setg_errno(errp, errno, "Error opening logfile %s",
-+                                     filename);
-+                    return false;
-+                }
-             }
-             /* In case we are a daemon redirect stderr to logfile */
-             if (daemonized) {
-                 dup2(fileno(logfile), STDERR_FILENO);
-                 fclose(logfile);
--                /* This will skip closing logfile in rcu_close_file. */
-+                /*
-+                 * This will skip closing logfile in rcu_close_file()
-+                 * or qemu_log_thread_cleanup().
-+                 */
-                 logfile = stderr;
-             }
-         } else {
-@@ -308,7 +338,11 @@ static bool qemu_set_log_internal(const char *filename, bool changed_name,
-             logfile = stderr;
-         }
- 
--        qatomic_rcu_set(&global_file, logfile);
-+        if (log_per_thread && daemonized) {
-+            thread_file = logfile;
-+        } else {
-+            qatomic_rcu_set(&global_file, logfile);
-+        }
-     }
-     return true;
- }
--- 
-2.38.1
-
+Never mind. It has merged to QEMU master.
 
