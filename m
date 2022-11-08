@@ -2,92 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB0DA620A1A
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A92620A19
 	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 08:22:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osIvY-0001dt-O4; Tue, 08 Nov 2022 02:21:44 -0500
+	id 1osIvK-0001ZG-KJ; Tue, 08 Nov 2022 02:21:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1osIv9-0001bT-3Q
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 02:21:25 -0500
-Received: from mga12.intel.com ([192.55.52.136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1osIuw-0007go-9O
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 02:21:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1667892066; x=1699428066;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=upQwL5A0Maekh82raTC60T5oBKGppSiNQzfVbZZR6Q8=;
- b=NwG3RxTUwP/Tw9WaaNqdfnbdrSYIpPIWIndFFWYsmpGswP535dF3M9Rz
- sj/RIQGzap0kM7HKtVM76xHmQyeTdbdGqh/HU5Dk2lDCLk8xoHv6VRcbD
- mpeh210tckoc2LPuv8pYRuDKy4zxozlrK2DCUEO9JGPmqoTndpq+GZJWS
- Ke/Kj6kB+7m0mRahxx3YSucPlAJiWipZbvmkJlrL+Pg490vN0ym50YZXY
- B1zUNFxB7nIU21lH0JTM7kuLTPbKt5RfeyVQ0Sipx8VpmwWKAmBcXacVz
- hoGfSZMIeujnfwe5725B5HzZQMcmRqyFXZKkjq/4+36Y0mWzQqUn7AWIi w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="290346347"
-X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; d="scan'208";a="290346347"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Nov 2022 23:21:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="638690908"
-X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; d="scan'208";a="638690908"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by fmsmga007.fm.intel.com with ESMTP; 07 Nov 2022 23:20:50 -0800
-Date: Tue, 8 Nov 2022 15:16:24 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 4/8] KVM: Use gfn instead of hva for mmu_notifier_retry
-Message-ID: <20221108071624.GA76278@chaop.bj.intel.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-5-chao.p.peng@linux.intel.com>
- <CA+EHjTySnJTuLB+XoRya6kS_zw2iMahW9-Ze70oKTf+6k0GrGQ@mail.gmail.com>
- <20221104022813.GA4129873@chaop.bj.intel.com>
- <Y2WSXLtcJOpWPtuv@google.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1osIuQ-0001Ts-Uz
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 02:20:38 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1osIuP-0005mN-9p
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 02:20:34 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id y4so13411588plb.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 23:20:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bc4W1yjwdWqakp0H76k1u3BlvMchjvU4wwr1s0K7yzY=;
+ b=HK8o9pDeQq2grgt0BRnEyU5/hVEr5x3hdW/nA7LOzTWX2K8Mftqi2XqUtvS6t+8T0b
+ qxyba1QRhnww2VIOwP0b/Ez4r7kjQmeFmLzJvalKUHwOb+X4s2qkgubDxMG4A16x3krC
+ nQ7g8HJNGoBwwALuUTCBTlQiMqMP/uh1KFa48tg1RKzi5tYo0Kr5+KyAyWeStOjCTPZE
+ pMeuISUMEeU4ZJI1+sn5zaNjN/G+8oNhc9iijPzmtT7KzM5dCHsEov86O+6dw6gjBW6u
+ N2Xu9+LkO2/pJXjzLxQxS1vj6sp52moeZInDqv9tJD2AJ+or+rTOd3eDJzyXSGzuzDs8
+ t8pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bc4W1yjwdWqakp0H76k1u3BlvMchjvU4wwr1s0K7yzY=;
+ b=TYwV41UH0wnLjsmem47ShWRNDWYUGJRaIqGPkC83IVLm8pJvCr4nU2LnfVrzHAdl1y
+ tHa7S8T3Eg/7G8WkkjrUdXNqcygb0/nn7M1U8ADYm6XGH4otrOlVJpoyR2kiXxCwcql6
+ 34D8Ngqd9N1uW9JkROCpVuCmH1bKv0JjsXHydshpg+jHBmY/2uyYIsgPzEoV41lZdYkR
+ KNV5eLbDd5jIUvt6SolESzXL9O+FcHF68FCQJolW0fnIELGyx1p50PZxtU7YY2XVL//H
+ L+/9mKafAFnJ2JDfOpBtwvTIO1J8iOhsBzIl1BRixVk/bdzLm7yPmJMFSnIu0fpHP7OI
+ 0qIA==
+X-Gm-Message-State: ACrzQf3tvqmdEHuEBa9bWqN3ofE3ZTvyROsgkNUmUZt6giMvM3yJPCB5
+ 50d+f1zxaJxPO+EFjw69Q/67cQ==
+X-Google-Smtp-Source: AMsMyM7Qz0xHxuBQdVcHXr5YlWtPaVvrP6nYo3WaVB09Bs91U256ldGsYLnInuyE7f5IvdB3gDiO7A==
+X-Received: by 2002:a17:902:ebc5:b0:186:b848:c6a with SMTP id
+ p5-20020a170902ebc500b00186b8480c6amr54337937plg.46.1667892024803; 
+ Mon, 07 Nov 2022 23:20:24 -0800 (PST)
+Received: from ?IPV6:2001:8003:d918:7a00:2588:8f43:55e5:fca3?
+ ([2001:8003:d918:7a00:2588:8f43:55e5:fca3])
+ by smtp.gmail.com with ESMTPSA id
+ b16-20020a170902e95000b00186616b8fbasm6227531pll.10.2022.11.07.23.20.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Nov 2022 23:20:24 -0800 (PST)
+Message-ID: <65665a1c-8eed-f487-de8b-5b75b183992a@linaro.org>
+Date: Tue, 8 Nov 2022 18:19:51 +1100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y2WSXLtcJOpWPtuv@google.com>
-Received-SPF: none client-ip=192.55.52.136;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_NONE=0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v4 03/11] Hexagon (target/hexagon) Add overrides for
+ S2_asr_r_r_sat/S2_asl_r_r_sat
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: philmd@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com,
+ quic_mathbern@quicinc.com
+References: <20221108040552.22175-1-tsimpson@quicinc.com>
+ <20221108040552.22175-4-tsimpson@quicinc.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221108040552.22175-4-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,104 +93,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 04, 2022 at 10:29:48PM +0000, Sean Christopherson wrote:
-> On Fri, Nov 04, 2022, Chao Peng wrote:
-> > On Thu, Oct 27, 2022 at 11:29:14AM +0100, Fuad Tabba wrote:
-> > > Hi,
-> > > 
-> > > On Tue, Oct 25, 2022 at 4:19 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
-> > > >
-> > > > Currently in mmu_notifier validate path, hva range is recorded and then
-> > > > checked against in the mmu_notifier_retry_hva() of the page fault path.
-> > > > However, for the to be introduced private memory, a page fault may not
-> > > > have a hva associated, checking gfn(gpa) makes more sense.
-> > > >
-> > > > For existing non private memory case, gfn is expected to continue to
-> > > > work. The only downside is when aliasing multiple gfns to a single hva,
-> > > > the current algorithm of checking multiple ranges could result in a much
-> > > > larger range being rejected. Such aliasing should be uncommon, so the
-> > > > impact is expected small.
-> > > >
-> > > > It also fixes a bug in kvm_zap_gfn_range() which has already been using
-> > > 
-> > > nit: Now it's kvm_unmap_gfn_range().
-> > 
-> > Forgot to mention: the bug is still with kvm_zap_gfn_range(). It calls
-> > kvm_mmu_invalidate_begin/end with a gfn range but before this series
-> > kvm_mmu_invalidate_begin/end actually accept a hva range. Note it's
-> > unrelated to whether we use kvm_zap_gfn_range() or kvm_unmap_gfn_range()
-> > in the following patch (patch 05).
-> 
-> Grr, in the future, if you find an existing bug, please send a patch.  At the
-> very least, report the bug.
+On 11/8/22 15:05, Taylor Simpson wrote:
+> +/* Shift left with saturation */
+> +static void gen_shl_sat(TCGv dst, TCGv src, TCGv shift_amt)
+> +{
+> +    TCGv_i64 src64 = tcg_temp_local_new_i64();
+> +    TCGv_i64 shift64 = tcg_temp_new_i64();
+> +    TCGv_i64 dst64 = tcg_temp_new_i64();
+> +    TCGv dst_sar = tcg_temp_new();
+> +    TCGv ovf = tcg_temp_new();
+> +    TCGv satval = tcg_temp_new();
+> +    TCGv min = tcg_constant_tl(0x80000000);
+> +    TCGv max = tcg_constant_tl(0x7fffffff);
+> +
+> +    /*
+> +     *     dst64 = (int64_t)src << (int64_t)shift_amt
+> +     *     dst = (int32_t)dst64
+> +     *     dst_sar = dst >> shift_amt
+> +     *     if (dst_sar != src) {
+> +     *         usr.OVF = 1
+> +     *         dst = src < 0 ? min : max
+> +     *     }
+> +     */
+> +    tcg_gen_ext_i32_i64(src64, src);
+> +    tcg_gen_ext_i32_i64(shift64, shift_amt);
+> +    tcg_gen_shl_i64(dst64, src64, shift64);
+> +
+> +    tcg_gen_extrl_i64_i32(dst, dst64);
+> +    tcg_gen_sar_tl(dst_sar, dst, shift_amt);
 
-Agreed, this can be sent out separately from this series.
+I don't think this is quite right.  In particular:
 
-> The APICv case that this was added for could very
-> well be broken because of this, and the resulting failures would be an absolute
-> nightmare to debug.
+> +static void gen_asr_r_r_sat(TCGv RdV, TCGv RsV, TCGv RtV)
+> +{
+> +    TCGv shift_amt = tcg_temp_local_new();
+> +    TCGLabel *positive = gen_new_label();
+> +    TCGLabel *done = gen_new_label();
+> +
+> +    tcg_gen_sextract_i32(shift_amt, RtV, 0, 7);
 
-Given the apicv_inhibit should be rare, the change looks good to me.
-Just to be clear, your will send out this fix, right?
+This suggests shift amounts -64 ... 63.
 
-Chao
+> +    tcg_gen_brcondi_tl(TCG_COND_GE, shift_amt, 0, positive);
+> +
+> +    /* Negative shift amount => shift left */
+> +    tcg_gen_neg_tl(shift_amt, shift_amt);
 
-> 
-> Compile tested only...
-> 
-> --
-> From: Sean Christopherson <seanjc@google.com>
-> Date: Fri, 4 Nov 2022 22:20:33 +0000
-> Subject: [PATCH] KVM: x86/mmu: Block all page faults during
->  kvm_zap_gfn_range()
-> 
-> When zapping a GFN range, pass 0 => ALL_ONES for the to-be-invalidated
-> range to effectively block all page faults while the zap is in-progress.
-> The invalidation helpers take a host virtual address, whereas zapping a
-> GFN obviously provides a guest physical address and with the wrong unit
-> of measurement (frame vs. byte).
-> 
-> Alternatively, KVM could walk all memslots to get the associated HVAs,
-> but thanks to SMM, that would require multiple lookups.  And practically
-> speaking, kvm_zap_gfn_range() usage is quite rare and not a hot path,
-> e.g. MTRR and CR0.CD are almost guaranteed to be done only on vCPU0
-> during boot, and APICv inhibits are similarly infrequent operations.
-> 
-> Fixes: edb298c663fc ("KVM: x86/mmu: bump mmu notifier count in kvm_zap_gfn_range")
-> Cc: stable@vger.kernel.org
-> Cc: Maxim Levitsky <mlevitsk@redhat.com>
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> ---
->  arch/x86/kvm/mmu/mmu.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index 6f81539061d6..1ccb769f62af 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-> @@ -6056,7 +6056,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
->  
->  	write_lock(&kvm->mmu_lock);
->  
-> -	kvm_mmu_invalidate_begin(kvm, gfn_start, gfn_end);
-> +	kvm_mmu_invalidate_begin(kvm, 0, -1ul);
->  
->  	flush = kvm_rmap_zap_gfn_range(kvm, gfn_start, gfn_end);
->  
-> @@ -6070,7 +6070,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
->  		kvm_flush_remote_tlbs_with_address(kvm, gfn_start,
->  						   gfn_end - gfn_start);
->  
-> -	kvm_mmu_invalidate_end(kvm, gfn_start, gfn_end);
-> +	kvm_mmu_invalidate_end(kvm, 0, -1ul);
->  
->  	write_unlock(&kvm->mmu_lock);
->  }
-> 
-> base-commit: c12879206e47730ff5ab255bbf625b28ade4028f
-> -- 
+-64 -> 64.
+
+So!  We have two out-of-range shifts in gen_shl_sat, both i64 and i32.
+If we fix one, then we don't even need the extension to i64 either.
+
+Consider
+
+     /*
+      * sh32 = shift & 31;
+      * dst = sh32 == shift ? src : 0;
+      * dst <<= sh32;
+      * dst_sar = dst >> sh32;
+      * if (dst_sar != src) ...
+      */
+     tcg_gen_andi_i32(sh32, shift_amt, 31);
+     tcg_gen_movcond_i32(TCG_COND_EQ, dst,
+                         sh32, shift_amt,
+                         src, tcg_constant_i32(0));
+     tcg_gen_shl_i32(dst, dst, sh32);
+     tcg_gen_sar_i32(dst_sar, dst, sh32);
+
+
+r~
+
 
