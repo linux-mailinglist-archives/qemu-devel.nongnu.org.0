@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABA3621AD8
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 18:37:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF794621B1F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 18:50:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osSWR-0004uD-Hr; Tue, 08 Nov 2022 12:36:28 -0500
+	id 1osSit-0000EM-UK; Tue, 08 Nov 2022 12:49:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1osSWN-0004tS-Sr; Tue, 08 Nov 2022 12:36:23 -0500
-Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1osSWK-00047A-KP; Tue, 08 Nov 2022 12:36:23 -0500
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-13b23e29e36so16992350fac.8; 
- Tue, 08 Nov 2022 09:36:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aM03Lnbwx+LxDm83p7x8hPMZGtBIw203KVosZ7eBCv4=;
- b=m9rYsW5kZsWuUBydW0ktlLs71QmcDVAUg0YqJZWelBRReu0Fq93IXycASNOZAWMX/M
- 9lcMTCWj/u4tE5PNIAX/lkudLeku6/wG/4COIXt4mbzlbo4gsGW70B4NUk193yS2WF6h
- AdBPBkqLrtup8g0XMvBoUKFQ3/jP1xnoS8x812ho/HzWUdY/cNRLW6xlSbb+mG2HSp1G
- CYqToXQMYl9dSNEMgPH0AZXpY2hhwcUtN1Zrkec60w3/8pdtXeoUO68t8ol7eqGi+Exg
- gE4b222aNsXgUskRx+bwUW2/bdkrq7pdhEEKAqcjTOIOQ8REuvBWUA+gMcxcBvg1Vu5Y
- 8WcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aM03Lnbwx+LxDm83p7x8hPMZGtBIw203KVosZ7eBCv4=;
- b=G71ZW5nv35hDSmzoeOOLvoMCGZFmmtQS98OjJybx1BY5BRDvJuSK9BlAW3w5M/F0GV
- yMTJlQZWBP91xRbxP7h42zUDBCiHQMrL/emJQKYxcnSECgi9kPnV4CnG1v8USL424t1l
- gxMebTpFNcxdKQ/rTG7bTZqP7a6erkpBOHwBN1Zc8nWaqEDv3yFTDmKrMe9hiNXS1Boq
- 1CypPio6r+2MqbNwRG8rtU+nUG7DixARUFe8lKKLSobSiTNbuYd9UzMN4WDmSsm3ALyv
- aD14lRYChgPWhFIH3kU4M7TVdmLtlX6TbGPOrcAlHM9s20sIR1vIheV50KFIqGTf3wrZ
- rypw==
-X-Gm-Message-State: ACrzQf2BUbdwJL5fi1KhaFa+1z1oCBUsXANQaTSN6O2/UFZAucoIWwli
- cXjINxikhPWF9PP0LNH7SnA=
-X-Google-Smtp-Source: AMsMyM5h9aeXz4hndSNfy5RNxxN9Ov9wgIGP1fnBJiQnMwdrfe/9guWm273KdZ7NeR9BuFFyZPCe1A==
-X-Received: by 2002:a05:6870:f60e:b0:131:b7cc:f994 with SMTP id
- ek14-20020a056870f60e00b00131b7ccf994mr33786641oab.113.1667928977949; 
- Tue, 08 Nov 2022 09:36:17 -0800 (PST)
-Received: from [192.168.10.102] ([187.34.29.120])
- by smtp.gmail.com with ESMTPSA id
- f6-20020a4aeb06000000b00494ed04f500sm3410667ooj.27.2022.11.08.09.36.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Nov 2022 09:36:17 -0800 (PST)
-Message-ID: <dbc5fe9b-8817-28e2-1a2f-180933440550@gmail.com>
-Date: Tue, 8 Nov 2022 14:36:11 -0300
+ (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
+ id 1osSir-0000Dg-U8
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 12:49:17 -0500
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <davydov-max@yandex-team.ru>)
+ id 1osSio-0006Mo-Ck
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 12:49:17 -0500
+Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
+ (sas1-c73b4b4f4b95.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 7E31E60017;
+ Tue,  8 Nov 2022 20:48:56 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:0:107:fa75:a4ff:fe7d:8480] (unknown
+ [2a02:6b8:0:107:fa75:a4ff:fe7d:8480])
+ by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ Zxz1EXMIpJ-msOONaeQ; Tue, 08 Nov 2022 20:48:55 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1667929735; bh=1mN5cCfCxOOeGhwgCQOAjxagfqufSKMTdQDvdLd8bH8=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=F/Odwj3PFbh1Rn5YNObP/Xt0IMVklEi6tty4iFsTF6FRBbR/3HANHGoOsJBi/PC+J
+ hJUivwuMe6kBHcOoWFDufaqUfT5zj8mtPLpQLpjUVGqJR5iVjj1k/jWxXueD2w+L6q
+ fddGn01vP+069KoelxjBW8L8UbYTFW7Ts8dQH7w8=
+Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <7b128ba8-3074-79ee-fdfc-82d1bb1b1e6c@yandex-team.ru>
+Date: Tue, 8 Nov 2022 20:48:53 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PULL 59/62] hw/block/pflash_cfi0{1, 2}: Error out if device
- length isn't a power of two
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, stefanha@redhat.com,
- Bernhard Beschow <shentey@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20221028163951.810456-1-danielhb413@gmail.com>
- <20221028163951.810456-60-danielhb413@gmail.com>
- <CAJSP0QWiE2gmUB4Fcb_TdS1SzXiS3fFvjoCXjqYbvts0Nvb+HA@mail.gmail.com>
- <78b914c5-ce7e-1d4a-0a67-450f286eb869@linaro.org>
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v3 4/4] scripts: add script to compare compatible
+ properties
 Content-Language: en-US
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <78b914c5-ce7e-1d4a-0a67-450f286eb869@linaro.org>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-devel@nongnu.org
+Cc: eduardo@habkost.net, marcel.apfelbaum@gmail.com, philmd@linaro.org,
+ wangyanan55@huawei.com, jsnow@redhat.com, crosa@redhat.com,
+ bleal@redhat.com, eblake@redhat.com, armbru@redhat.com, pbonzini@redhat.com,
+ berrange@redhat.com, alxndr@bu.edu, bsd@redhat.com, stefanha@redhat.com,
+ thuth@redhat.com, darren.kenny@oracle.com, Qiuhao.Li@outlook.com,
+ lvivier@redhat.com
+References: <20221103102741.11201-1-davydov-max@yandex-team.ru>
+ <20221103102741.11201-5-davydov-max@yandex-team.ru>
+ <a0a1aa51-5f85-868f-5177-969b8cd95591@yandex-team.ru>
+From: Maksim Davydov <davydov-max@yandex-team.ru>
+In-Reply-To: <a0a1aa51-5f85-868f-5177-969b8cd95591@yandex-team.ru>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::34;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x34.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=davydov-max@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,28 +83,338 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Phil,
 
-On 11/1/22 19:49, Philippe Mathieu-Daudé wrote:
-> On 1/11/22 23:23, Stefan Hajnoczi wrote:
->> There is a report that this commit breaks an existing OVMF setup:
->> https://gitlab.com/qemu-project/qemu/-/issues/1290#note_1156507334
+On 11/8/22 18:37, Vladimir Sementsov-Ogievskiy wrote:
+> On 11/3/22 13:27, Maksim Davydov wrote:
+>> This script run QEMU to obtain compat_props of machines and default
+>> values of different types and produce appropriate table. This table
+>> can be used to compare machine types to choose the most suitable
+>> machine. Also this table in json or csv format should be used to 
+>> check that
+>> new machine doesn't affect previous ones by comparing tables with and
+>> without new machine.
+>> Default values of properties are needed to fill "holes" in the table 
+>> (one
+>> machine has these properties and another not. For instance, 2.12 mt has
+>> `{ "EPYC-" TYPE_X86_CPU, "xlevel", "0x8000000a" }`, but compat_pros of
+>> 3.1 mt doesn't have it. So, to compare these machines we need to fill
+>> unknown value of "EPYC-x86_64-cpu-xlevel" for 3.1 mt. This unknown value
+>> in the table I called "hole". To get values (default values) for these
+>> "holes" the script uses list of appropriate methods.)
 >>
->> I'm not familiar with pflash. Please find a way to avoid a regression
->> in QEMU 7.2 here.
-> 
-> Long-standing problem with pflash and underlying images... i.e:
-> https://lore.kernel.org/qemu-devel/20190308062455.29755-1-armbru@redhat.com/
-> 
-> Let's revert for 7.2. Daniel, I can prepare a patch explaining.
+>> Notes:
+>> * some init values from the devices can't be available like properties
+>>    from virtio-9p when configure has --disable-virtfs. This 
+>> situations will
+>>    be seen in the table as "unavailable driver".
+>> * Default values can be obtained in an unobvious way, like x86 features.
+>>    If the script doesn't know how to get property default value to 
+>> compare
+>>    one machine with another it fills "holes" with "unavailable 
+>> method". This
+>>    is done because script uses whitelist model to get default values of
+>>    different types. It means that the method that can't be applied to 
+>> a new
+>>    type that can crash this script. It is better to get an "unavailable
+>>    driver" when creating a new machine with new compatible properties 
+>> than
+>>    to break this script. So it turns out a more stable and generic 
+>> script.
+>> * If the default value can't be obtained because this property doesn't
+>>    exist or because this property can't have default value, appropriate
+>>    "hole" will be filled by "unknown property" or "no default value"
+>> * If the property is applied to the abstract class, the script collects
+>>    default values from all child classes (set of default values)
+>>
+>> Example:
+>>
+>> ./scripts/compare_mt.py --mt pc-q35-3.1 pc-q35-4.0
+>>
+>> ╒═══════════════════════════════════════════════════════════╤══════════════╤════════════════════╕ 
+>>
+>> │                                                           │ 
+>> pc-q35-3.1  │     pc-q35-4.0     │
+>> ╞═══════════════════════════════════════════════════════════╪══════════════╪════════════════════╡ 
+>>
+>> │ Cascadelake-Server-x86_64-cpu:mpx │     True     │       
+>> False        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ Cascadelake-Server-x86_64-cpu:stepping │      5       │         
+>> 6          │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ Icelake-Client-x86_64-cpu:mpx │     True     │ unavailable driver │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ Icelake-Server-x86_64-cpu:mpx │     True     │       False        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ Opteron_G3-x86_64-cpu:rdtscp                              │ 
+>> False     │        True        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ Opteron_G4-x86_64-cpu:rdtscp                              │ 
+>> False     │        True        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ Opteron_G5-x86_64-cpu:rdtscp                              │ 
+>> False     │        True        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ Skylake-Client-IBRS-x86_64-cpu:mpx │     True     │       
+>> False        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ Skylake-Client-x86_64-cpu:mpx │     True     │       False        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ Skylake-Server-IBRS-x86_64-cpu:mpx │     True     │       
+>> False        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ Skylake-Server-x86_64-cpu:mpx │     True     │       False        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ intel-iommu:dma-drain                                     │ 
+>> False     │        True        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ memory-backend-file:x-use-canonical-path-for-ramblock-id │     
+>> True     │  no default value  │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ memory-backend-memfd:x-use-canonical-path-for-ramblock-id │     
+>> True     │  no default value  │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ pcie-root-port:x-speed │     2_5      │         16         │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ pcie-root-port:x-width │      1       │         32         │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ pcie-root-port-base:disable-acs │     True     │       False        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ tpm-crb:ppi                                               │ 
+>> False     │        True        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ tpm-tis:ppi                                               │ 
+>> False     │        True        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ usb-kbd:serial │      42      │  no default value  │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ usb-mouse:serial │      42      │  no default value  │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ usb-tablet:serial │      42      │  no default value  │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ virtio-balloon-device:qemu-4-0-config-size                │ 
+>> False     │        True        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ virtio-blk-device:discard                                 │ 
+>> False     │        True        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ virtio-blk-device:write-zeroes                            │ 
+>> False     │        True        │
+>> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤ 
+>>
+>> │ x86_64-cpu:x-intel-pt-auto-level                          │ 
+>> False     │        True        │
+>> ╘═══════════════════════════════════════════════════════════╧══════════════╧════════════════════╛ 
+>>
+>>
+>> Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
+>> ---
+>>   scripts/compare_mt.py | 440 ++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 440 insertions(+)
+>>   create mode 100755 scripts/compare_mt.py
+>>
+>> diff --git a/scripts/compare_mt.py b/scripts/compare_mt.py
+>> new file mode 100755
+>> index 0000000000..31ac86dddd
+>> --- /dev/null
+>> +++ b/scripts/compare_mt.py
+>> @@ -0,0 +1,440 @@
+>> +#!/usr/bin/env python3
+>> +#
+>> +# Script to compare machine type compatible properties 
+>> (include/hw/boards.h).
+>> +# compat_props are applied to the driver during initialization to 
+>> change
+>> +# default values, for instance, to maintain compatibility.
+>> +# This script constructs table with machines and values of their 
+>> compat_props
+>> +# to compare and to find places for improvements or places with 
+>> bugs. If
+>> +# during the comparision, some machine type doesn't have a property 
+>> (it is in
+>> +# the comparision table because another machine type has it), then the
+>> +# appropriate method will be used to obtain the default value of 
+>> this driver
+>> +# property via qmp command (e.g. query-cpu-model-expansion for 
+>> x86_64-cpu).
+>> +# These methods are defined below in qemu_propery_methods.
+>> +#
+>> +# Copyright (c) Yandex Technologies LLC, 2022
+>> +#
+>> +# This program is free software; you can redistribute it and/or modify
+>> +# it under the terms of the GNU General Public License as published by
+>> +# the Free Software Foundation; either version 2 of the License, or
+>> +# (at your option) any later version.
+>> +#
+>> +# This program is distributed in the hope that it will be useful,
+>> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>> +# GNU General Public License for more details.
+>> +#
+>> +# You should have received a copy of the GNU General Public License
+>> +# along with this program; if not, see <http://www.gnu.org/licenses/>.
+>> +
+>> +from tabulate import tabulate
+>> +import sys
+>> +from os import path
+>> +from argparse import ArgumentParser, RawTextHelpFormatter, Namespace
+>> +import pandas as pd
+>> +from typing import Callable, List, Dict, Set, Generator, Tuple, 
+>> Union, Any
+>> +
+>> +try:
+>> +    qemu_dir = path.abspath(path.dirname(path.dirname(__file__)))
+>> +    sys.path.append(path.join(qemu_dir, 'python'))
+>> +    from qemu.machine import QEMUMachine
+>> +except ModuleNotFoundError as exc:
+>> +    print(f"Module '{exc.name}' not found.")
+>> +    print("Try export PYTHONPATH=top-qemu-dir/python or run from 
+>> top-qemu-dir")
+>> +    sys.exit(1)
+>> +
+>> +
+>> +default_cmd_line = 'build/qemu-system-x86_64 -enable-kvm -machine none'
+>> +
+>> +
+>> +# Methods to get right values of drivers props
+>> +#
+>> +# Use these methods as a 'whitelist' and add entries only if 
+>> necessary. It's
+>> +# important to be stable and predictable in analysis and tests.
+>> +# Be careful:
+>> +# * Names should be in qom-list-types format (486-x86_64-cpu, not 486)
+>> +# * Specialization always wins (from 'device' and 'x86_64-cpu', 
+>> 'x86_64-cpu'
+>> +#   will be used for '486-x86_64-cpu')
+>> +
+>> +# It's default stub for all undefined in property_methods drivers 
+>> because all
+>> +# QEMU types are inherited from Object
+>> +def get_object_prop(vm: QEMUMachine, device: str, prop_name: str):
+>
+> missed "-> str" ?
+>
+Yes, my fault
+>> +    return 'Unavailable method'
+>> +
+>> +
+>> +def get_device_prop(vm: QEMUMachine, device: str, prop_name: str) -> 
+>> str:
+>> +    device_props = vm.command('device-list-properties', 
+>> typename=device)
+>
+> Seems, would be good to cache the result of device-list-properties to 
+> not call it for each property. May be done separately.
+Good idea! I'll add it to reduce the number of the same qmp requests
+>> +    for prop in device_props:
+>> +        if prop['name'] == prop_name:
+>> +            return str(prop.get('default-value', 'No default value'))
+>> +
+>> +    return 'Unknown property'
+>> +
+>> +
+>> +def get_x86_64_cpu_prop(vm: QEMUMachine, device: str, prop_name: 
+>> str) -> str:
+>> +    # crop last 11 chars '-x86_64-cpu'
+>
+> seems assert(device.endswith('-x86_64-cpu') will not hurt
+>
+>> +    props = vm.command('query-cpu-model-expansion', type='full',
+>> +                       model={'name': device[:-11]})['model']['props']
+>> +    return str(props.get(prop_name, 'Unknown property'))
+>> +
+>> +
+>> +# Now it's stub, because all memory_backend types don't have default 
+>> values
+>> +# but this behaviour can be changed
+>> +def get_memory_backend_prop(vm: QEMUMachine, driver: str,
+>> +                            prop_name: str) -> str:
+>> +    memory_backend_props = vm.command('qom-list-properties', 
+>> typename=driver)
+>> +    for prop in memory_backend_props:
+>> +        if prop['name'] == prop_name:
+>> +            return str(prop.get('default-value', 'No default value'))
+>> +
+>> +    return 'Unknown property'
+>> +
+>> +
+>> +class GetPropMethod:
+>> +    def __init__(self, driver_name: str,
+>> +                 method: Callable[[QEMUMachine, str, str], str]) -> 
+>> None:
+>> +        self.name = driver_name
+>> +        self.get_prop = method
+>> +
+>> +
+>> +qemu_property_methods = [
+>> +        GetPropMethod('device', get_device_prop),
+>> +        GetPropMethod('x86_64-cpu', get_x86_64_cpu_prop),
+>> +        GetPropMethod('memory-backend', get_memory_backend_prop)
+>> +]
+>> +
+>> +# all types in QEMU are inherited from Object
+>
+> Hmm, inherited..
+>
+> What do you think about the following:
+>
+> class QEMUObject:
+>    ... (your class Driver, without set_prop_method() method)
+>    def get_prop(...):
+>       return 'Unavailable method'
+>
+> class QEMUDevice(QEMUObject):
+>    def get_prop(...):
+>        <it's yours get_device_prop>
+>
+> class QEMUx86Cpu(QEMUObject):
+>    def get_prop(...):
+>        <it's yours get_x86_64_cpu_prop>
+>
+> class QEMUMemoryBackend(QEMUObject):
+>    ...
+>
+I'll try to improve this part of the script
+>
+> Than, a helper function to create an object of correct class:
+>
+> def new_driver_obj(name, *args, **kwargs):
+>    if name == 'device':
+>        return QEMUDevice(name, *args, **kwargs)
+>    elif name == 'x86_64-cpu':
+>       ...
+>    else
+>       return QEMUObject(...)  # the default
+>
+>
+Thanks for reviewing!
 
-Just sent a revert. I'm not sure if the explanation I provided is
-good enough. I appreciate if you can review it.
+-- 
+Best regards,
+Maksim Davydov
 
-If it's plausible I'll send a pull request ASAP.
-
-
-Thanks,
-
-Daniel
 
