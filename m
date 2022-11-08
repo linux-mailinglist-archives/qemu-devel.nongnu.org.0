@@ -2,99 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE7C6217B2
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 16:10:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7890F6217B3
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 16:11:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osQEF-0007KU-8t; Tue, 08 Nov 2022 10:09:31 -0500
+	id 1osQEp-0007gp-PA; Tue, 08 Nov 2022 10:10:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1osQEC-0007KB-Ri
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:09:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1osQEn-0007fn-7Y
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:10:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1osQE7-0005uZ-O8
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:09:28 -0500
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1osQEi-0000Yf-Ao
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:10:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667920161;
+ s=mimecast20190719; t=1667920199;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ub9f5Wv1bizPlXViM9XJONRVleIcQXvvwBx5YeVq1t8=;
- b=AbuGLLFC85fLS+5HVcXl+JYoe8pBe5uzmsdeMyDCNdBz+hab0Lz4sn+Rfd02spiedkF7vq
- A5JTjpT+JxA7r6vtoZMQ6RqKhj5OXzVPhY083lgn5pIT3JBrzv5A7sZHmm4a6iUzraTHNi
- xVidgBQ3S9Lb5Qj/7KNfZLTlNQaOgCk=
+ bh=iX8mlAmhn5310S/jAwu9TW8aoDgjKU6vqHLKB+ztTjQ=;
+ b=XybKsMtOkcoew6jkpKBxkkPuQildIP7n/8bLxxZ1YwDotpDqcjtjTVB5w+bPRtGbwABN8d
+ fQ9tVqFCy48GoCBgzU/tn1Yfc/VHqMylmHNFQSei58hQgZp+JZCpxTitnAgKMegii1GqNQ
+ Fp2VzTHwos2xEzTCsL0DB8OI684KXN4=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-447-KvYOPE4OOYKi5i2qijQBmw-1; Tue, 08 Nov 2022 10:09:20 -0500
-X-MC-Unique: KvYOPE4OOYKi5i2qijQBmw-1
+ us-mta-660-1zJrmYiSMy2sE9bv0HjGhg-1; Tue, 08 Nov 2022 10:09:57 -0500
+X-MC-Unique: 1zJrmYiSMy2sE9bv0HjGhg-1
 Received: by mail-wm1-f70.google.com with SMTP id
- i82-20020a1c3b55000000b003cf9bd60855so2817657wma.6
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 07:09:19 -0800 (PST)
+ e8-20020a05600c218800b003cf634f5280so3953824wme.8
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 07:09:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ub9f5Wv1bizPlXViM9XJONRVleIcQXvvwBx5YeVq1t8=;
- b=RjbLaqNdl62Yfxj0oqQJjFDbRQk45C39bzEkMmt9MXWDv8K65TbZbKSmpSw6hUi61u
- KEanq/vDCICxq0WDcAnP1GeoJsPjR/iOrr/VCrZ6i34GkqiMy6Madb1R0h/woaxbIngy
- yunOFaRIG4Y34C4eb77vbGRTe8RQxQdTAYqFWGOqjg/Jt6+FR33M1kXSpNiA6IdgJC/9
- 7Pl3uicyGw2i4B7sm2MZbkUWLPDgiDMJpxPW9UukPUG/1cdGJfd+4q1zaKfc18tXAAjC
- ByG0hUdz6bit/l0BanCUxhWlGESitXBay2nnjb4Wh15PBS8wR1t33rYi7dWVk9JY+nCm
- nqRQ==
-X-Gm-Message-State: ACrzQf26eXjgLQh2unEU91CN+s4s8zgwQGFzy9cZAarez5lGkXjRFILe
- /kmaPNQtNwUUNAoqmCERtt/SL1gkskKuTR0jRKWURR3gQWqACuaK0zBmyUQT1OK0Xz5oXlNKhcS
- XYBLS9Rs7mpjGAK8=
-X-Received: by 2002:a05:600c:1e8f:b0:3cf:7126:1fd0 with SMTP id
- be15-20020a05600c1e8f00b003cf71261fd0mr731889wmb.14.1667920158768; 
- Tue, 08 Nov 2022 07:09:18 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5AlFsdWvHvUjKnZC7DOjLhgrPFicGUaHXgh6yTqqImsEPgIR/5lAXf0mITwlM6JLfR/seiOg==
-X-Received: by 2002:a05:600c:1e8f:b0:3cf:7126:1fd0 with SMTP id
- be15-20020a05600c1e8f00b003cf71261fd0mr731873wmb.14.1667920158437; 
- Tue, 08 Nov 2022 07:09:18 -0800 (PST)
-Received: from [192.168.8.100] (tmo-064-15.customers.d1-online.com.
- [80.187.64.15]) by smtp.gmail.com with ESMTPSA id
- h2-20020a5d4302000000b0022ae0965a8asm10383333wrq.24.2022.11.08.07.09.16
+ bh=iX8mlAmhn5310S/jAwu9TW8aoDgjKU6vqHLKB+ztTjQ=;
+ b=jkVSShswoRyBDq2QsWeica6DDHU/jyOkRJGLKweJHK48ppW0sZom6Ilt6YbQFnDhCp
+ zfZlFhirtCUEiotQbZ/mhUXd63JNzZSexUhrp3X0O4q+mRBSJDz3C4pnvPuE71xYT3mA
+ MyLuXM+zDQ00x9QoxzZMyvBAoZerbdoP+6d03PCtVcLFvZsZ5/LOVi1A2ONoq1CsP2VS
+ vcRNCPZwc4KUL5ZrlZMEPVFtxFYTAhIhV0yB3GqQ55dc01meT+0QLJKfnlSleX3IXfSi
+ m8G+iXYzuTbIGSDLmHBGZ42nQMWZaf+I6ul0txyYOwPZ8ecfm23kQnp+mGVc3QAZpzR6
+ BWPg==
+X-Gm-Message-State: ACrzQf3qkXplUxeV8ygmx5Nu/8rMZDaUPZm5MIpnqOFR7ptcphLOXBsw
+ jdhzp34f4fibKpgzcqcZ60mB/I+gf6nuAqyvHm6EJOHrRi2wuAUKGepbSBxlUYLjAURA9ZryENn
+ i6QppvEgCBdi5JKg=
+X-Received: by 2002:adf:d84b:0:b0:236:e0da:61b7 with SMTP id
+ k11-20020adfd84b000000b00236e0da61b7mr27242906wrl.79.1667920196464; 
+ Tue, 08 Nov 2022 07:09:56 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5egHxthKWDVUZ2RrQnB8qAEH7hnmj6xBtYrmLB3/7ZHeZUCbnKzM1fyqlqo2VZLbTL9VrMPA==
+X-Received: by 2002:adf:d84b:0:b0:236:e0da:61b7 with SMTP id
+ k11-20020adfd84b000000b00236e0da61b7mr27242874wrl.79.1667920196161; 
+ Tue, 08 Nov 2022 07:09:56 -0800 (PST)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ c17-20020a05600c0a5100b003cfa81e2eb4sm7917883wmq.38.2022.11.08.07.09.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Nov 2022 07:09:17 -0800 (PST)
-Message-ID: <6a8ecf61-e6c6-62fb-60e1-d4bf9fcf67e3@redhat.com>
-Date: Tue, 8 Nov 2022 16:09:15 +0100
+ Tue, 08 Nov 2022 07:09:55 -0800 (PST)
+Message-ID: <88f02d19-84d8-d1a7-4250-416fd32f1435@redhat.com>
+Date: Tue, 8 Nov 2022 16:09:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PULL 00/55] MIPS patches for 2022-10-30
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 2/9] block-copy: add missing coroutine_fn annotations
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Konstantin Kostiuk <kkostiuk@redhat.com>, Michael Roth
- <michael.roth@amd.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Yonggang Luo <luoyonggang@gmail.com>, Stefan Weil <sw@weilnetz.de>
-Cc: qemu-devel@nongnu.org, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, Stefan Pejic <stefan.pejic@syrmia.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Aurelien Jarno
- <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20221030222841.42377-1-philmd@linaro.org>
- <CAFEAcA-d=GrGNm9vhc6Q-UnQAQt+RLnwRj=dbif=iMKTRAabpQ@mail.gmail.com>
- <ed6dcb59-a936-e254-4786-0630cbe80f0e@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <ed6dcb59-a936-e254-4786-0630cbe80f0e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20221104095700.4117433-1-eesposit@redhat.com>
+ <20221104095700.4117433-3-eesposit@redhat.com>
+ <197f2a27-4c3f-a62b-535c-d1db9ba22a32@yandex-team.ru>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <197f2a27-4c3f-a62b-535c-d1db9ba22a32@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,51 +108,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 08/11/2022 15.23, Philippe Mathieu-Daudé wrote:
-> On 8/11/22 14:59, Peter Maydell wrote:
->> On Sun, 30 Oct 2022 at 22:29, Philippe Mathieu-Daudé <philmd@linaro.org> 
->> wrote:
->>>
->>> The following changes since commit 344744e148e6e865f5a57e745b02a87e5ea534ad:
->>>
->>>    Merge tag 'dump-pull-request' of 
->>> https://gitlab.com/marcandre.lureau/qemu into staging (2022-10-26 
->>> 10:53:49 -0400)
->>>
->>> are available in the Git repository at:
->>>
->>>    https://github.com/philmd/qemu.git tags/mips-20221030
->>>
->>> for you to fetch changes up to 487099aee951e4966936acd3e9afd24c69de85ea:
->>>
->>>    hw/mips/malta: Use bootloader helper to set BAR registers (2022-10-30 
->>> 23:08:10 +0100)
->>>
->>> ----------------------------------------------------------------
->>> MIPS patches queue
->>>
->>> - Convert nanoMIPS disassembler from C++ to C (Milica Lazarevic)
->>
->> Was this the last use of C++ in the tree, or am I forgetting
->> some other part that still needs the C++ compiler?
->>
->> If it is the last thing, we should put in the "Build Dependencies"
->> part of the release notes that a C++ compiler is no longer required
->> and mention that the configure options to specify it will go away in
->> a future release.
-> 
-> I guess the last use is from the Guest Agent on Windows...
-> 
-> $ git ls-files | fgrep .cpp
-> qga/vss-win32/install.cpp
-> qga/vss-win32/provider.cpp
-> qga/vss-win32/requester.cpp
 
-Yes, I think the c++ configure options are still required for that Windows 
-stuff ... but IIRC Paolo once mentioned that we could simplify the linker 
-logic in configure or meson.build once the nanomips stuff has been 
-converted, since we now do not have to mix C and C++ linkage anymore?
 
-  Thomas
+Am 08/11/2022 um 15:48 schrieb Vladimir Sementsov-Ogievskiy:
+> On 11/4/22 12:56, Emanuele Giuseppe Esposito wrote:
+>> These functions end up calling bdrv_common_block_status_above(), a
+>> generated_co_wrapper function.
+> 
+> generated_co_wrapper is not a coroutine_fn. Сonversely it's a function
+> that do a class coroutine wrapping - start a coroutine and do POLL to
+> wait for the coroutine to finish.
+> 
+>> In addition, they also happen to be always called in coroutine context,
+>> meaning all callers are coroutine_fn.
+> 
+> That's also not a reason for marking them coroutine_fn. "coroutine_fn"
+> means that the function can be called only from coroutine context.
+> 
+>> This means that the g_c_w function will enter the qemu_in_coroutine()
+>> case and eventually suspend (or in other words call
+>> qemu_coroutine_yield()).
+>> Therefore we need to mark such functions coroutine_fn too.
+> 
+> I don't think so. Moreover, this breaks the concept, as your new
+> coroutine_fn functions will call generated_co_wrapper functions which
+> are not marked coroutine_fn and never was.
+
+Theoretically not, because marking it coroutine_fn we know that we are
+going in the if(qemu_in_coroutine()) branch of the g_c_w, so we could
+directly replace it with the actual function. Because it's a pain to do
+it with hand, and at some point I/someone should use Alberto static
+analyzer to get rid of that, I decided to leave g_c_w there.
+
+As I understand it, it seems that you and Paolo have a different
+understanding on what coroutine_fn means and where it should be used.
+Honestly I don't understand your point, as you said
+
+> "coroutine_fn"
+> means that the function can be called only from coroutine context.
+
+which is the case for these functions. So could you please clarify?
+
+What I do know is that it's extremely confusing to understand if a
+function that is *not* marked as coroutine_fn is actually being called
+also from coroutines or not.
+
+Which complicates A LOT whatever change or operation I want to perform
+on the BlockDriver callbacks or any other function in the block layer,
+because in the current approach for the AioContext lock removal (which
+you are not aware of, I understand) we need to distinguish between
+functions running in coroutine context and not, and throwing g_c_w
+functions everywhere makes my work much harder that it already is.
+
+Thank you,
+Emanuele
+
+> 
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   block/block-copy.c | 15 +++++++++------
+>>   1 file changed, 9 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/block/block-copy.c b/block/block-copy.c
+>> index bb947afdda..f33ab1d0b6 100644
+>> --- a/block/block-copy.c
+>> +++ b/block/block-copy.c
+>> @@ -577,8 +577,9 @@ static coroutine_fn int
+>> block_copy_task_entry(AioTask *task)
+>>       return ret;
+>>   }
+>>   -static int block_copy_block_status(BlockCopyState *s, int64_t offset,
+>> -                                   int64_t bytes, int64_t *pnum)
+>> +static coroutine_fn int block_copy_block_status(BlockCopyState *s,
+>> +                                                int64_t offset,
+>> +                                                int64_t bytes,
+>> int64_t *pnum)
+>>   {
+>>       int64_t num;
+>>       BlockDriverState *base;
+>> @@ -613,8 +614,9 @@ static int block_copy_block_status(BlockCopyState
+>> *s, int64_t offset,
+>>    * Check if the cluster starting at offset is allocated or not.
+>>    * return via pnum the number of contiguous clusters sharing this
+>> allocation.
+>>    */
+>> -static int block_copy_is_cluster_allocated(BlockCopyState *s, int64_t
+>> offset,
+>> -                                           int64_t *pnum)
+>> +static int coroutine_fn
+>> block_copy_is_cluster_allocated(BlockCopyState *s,
+>> +                                                        int64_t offset,
+>> +                                                        int64_t *pnum)
+>>   {
+>>       BlockDriverState *bs = s->source->bs;
+>>       int64_t count, total_count = 0;
+>> @@ -669,8 +671,9 @@ void block_copy_reset(BlockCopyState *s, int64_t
+>> offset, int64_t bytes)
+>>    * @return 0 when the cluster at @offset was unallocated,
+>>    *         1 otherwise, and -ret on error.
+>>    */
+>> -int64_t block_copy_reset_unallocated(BlockCopyState *s,
+>> -                                     int64_t offset, int64_t *count)
+>> +int64_t coroutine_fn block_copy_reset_unallocated(BlockCopyState *s,
+>> +                                                  int64_t offset,
+>> +                                                  int64_t *count)
+>>   {
+>>       int ret;
+>>       int64_t clusters, bytes;
+> 
 
 
