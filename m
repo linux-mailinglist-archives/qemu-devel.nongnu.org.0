@@ -2,99 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B4862182C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 16:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A8E6218CF
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 16:52:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osQT9-0006fl-6x; Tue, 08 Nov 2022 10:24:55 -0500
+	id 1osQsF-0001jV-9b; Tue, 08 Nov 2022 10:50:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osQT1-0006cI-74
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:24:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osQSu-0001iD-Qo
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:24:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667921069;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J89fdZuxUoU4cG3Aa9maJSlWyxXLzKbnQx7zZg8jrE8=;
- b=Re8ctz65IkrjgCL8SujfR4bZHyGFnLa/yyux8tmaFBcdqTLyAiOQVsE05H7CN8QyZO9qSe
- YEFNPUcaOMeODhR8TqSgeSXdBWhVQEF+a6B/QCaikQre71GqbpyoLePR5oALHto3m2Iy8G
- rJv30rnUOBztCGTkxD1yFpqcoQswrII=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-445-Ym7rmR47M_OXEFsomexohA-1; Tue, 08 Nov 2022 10:24:28 -0500
-X-MC-Unique: Ym7rmR47M_OXEFsomexohA-1
-Received: by mail-qt1-f199.google.com with SMTP id
- f4-20020a05622a114400b003a57f828277so5492063qty.22
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 07:24:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <schspa@gmail.com>)
+ id 1osQsD-0001jI-3f; Tue, 08 Nov 2022 10:50:49 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <schspa@gmail.com>)
+ id 1osQs6-00026y-5W; Tue, 08 Nov 2022 10:50:48 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id z26so14185007pff.1;
+ Tue, 08 Nov 2022 07:50:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4knHnpnx6aWKN7j5NNV+/dRxetRLSyda3Kt5238DxBg=;
+ b=IdPPV84la5Q01TDY8BSP+/CvytXsi3W3//D7x+hJBBIhIu70GhS0T1AK55Qz1jdNWs
+ UOOS7wMrUBgGOdevHe9/dblK21uCUCZQBmrJBQSY8MXijzjJlfWGwQQ6rQLuZboxi8SF
+ MgXmeyegp7w9ekb6v+gBp5igPnpROr5jYa+vyufcUzfUIjoGxXcPasqXg7dEzNq2iHkf
+ ws5k1BELgl7rDT1KgdxcvvVqF8FHllvfgjEo26eehEpZlyJVwzyqLtvst9sVZjRjBjMs
+ 2ajkQK4io01HIAR4ZVZgDGSxbbWIQGIANL874liGrEBIob8HTPDHx+24XrEe7I9tvsGm
+ g/2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=J89fdZuxUoU4cG3Aa9maJSlWyxXLzKbnQx7zZg8jrE8=;
- b=aRew1Ju97jlgUmnNxcpu/5wFOK5ILFuHzRhm/eLNCaMOucRFDvCJeOw940gLLAa+lb
- 9MwShSim+USW7X9U3wvo6Dyx8Z4gjqa1KzOav0/tdu7BJzyN6dMcq3wVnvJYNUqtpk/e
- WQIUQCK/ju6kMiEV6rskMA2fcqYnr8UlA+TR+GGk+xCRL9aypjKyCP+rd80kFsdpN5My
- 4JDZonEVVgMAMQsi3JJeMN2BF5mYRhd3mpZI8ifUwVAKwCxuu3p0Z3eJP437He5XaAjR
- 3OAVXKqkFtV28RGgV8UgEVg8PCu1PeUjioE5OMOrWEFLIXxMCLBVpS2tMyGLMUWt6LiS
- n+QQ==
-X-Gm-Message-State: ACrzQf3jw8azviFh9l4LpV5YLNUPjCTMVpdQ7LjrqIzUso/QB3B1qG1l
- lETc8U67GNK9PmO0RH1LqGd6CirqbfXEuYEAxBpFlZSs3taNnOjD7nHMlHMmrIVp+emWA6InsJd
- 8nOFo3rrfUlZklq0=
-X-Received: by 2002:ad4:5f47:0:b0:4ac:b8de:1484 with SMTP id
- p7-20020ad45f47000000b004acb8de1484mr49687439qvg.77.1667921068219; 
- Tue, 08 Nov 2022 07:24:28 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM7TMWt1/5lACJ9NfwV9n5na8oAeuytvir715uR8FIhuIaYMBbFbkI2XopZcsDAnu8/Dw3Ocrg==
-X-Received: by 2002:ad4:5f47:0:b0:4ac:b8de:1484 with SMTP id
- p7-20020ad45f47000000b004acb8de1484mr49687416qvg.77.1667921067976; 
- Tue, 08 Nov 2022 07:24:27 -0800 (PST)
-Received: from redhat.com ([138.199.52.3]) by smtp.gmail.com with ESMTPSA id
- c8-20020a05620a134800b006ecb9dfdd15sm9212908qkl.92.2022.11.08.07.24.18
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=4knHnpnx6aWKN7j5NNV+/dRxetRLSyda3Kt5238DxBg=;
+ b=C0DMecYPvGcrl+J4KiSKbCXh4hm7YmGn1eHQmoFNC3Ey5QXVgwBkjZLs3pZW+JpAh7
+ F2G1sHzGZ2ZtoVkWLHE0rZMiloGOtL/dx6YFWx81zw37Il2CEnJQ62bKSTK5CrSS/ViB
+ DHIYB3iMiCiv35t/rvOCNssq6JGNLhR+WktuNoOMMPZqoAK2LIOAMgDzzFzoP515n/0F
+ 8QC0NMKGETpVGpqTlNbGRLey0Y7VzqfmXRbEf04LlW/RFPSPGpwY8V0gz2kvvxEzopYA
+ LNpVkChRSlc7wDKMBbLExtup2NjImHuH00v/WchA56m0RW0YJ7XvouXHXXzVr9Se03Jh
+ pcow==
+X-Gm-Message-State: ACrzQf1+YoObwcqd5GqUuwUj5JGnLvhsZkyqxQZfLP6RL6f/zvSrfDJo
+ LKTdsyYr1RgaZWir1gVkdsdijUVcpV9fxOCO
+X-Google-Smtp-Source: AMsMyM4CEi9GAYqC3dxCf9iO3rcZnJ/khMoZ/i4F/eiYuCbjILN7yyjghPIAgFKnhntQqvpHZWrfLA==
+X-Received: by 2002:a65:56c4:0:b0:458:85e:9e65 with SMTP id
+ w4-20020a6556c4000000b00458085e9e65mr49338890pgs.358.1667922639518; 
+ Tue, 08 Nov 2022 07:50:39 -0800 (PST)
+Received: from steamdeck ([125.122.211.175]) by smtp.gmail.com with ESMTPSA id
+ k15-20020aa79d0f000000b0056d73ef41fdsm6548620pfp.75.2022.11.08.07.50.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Nov 2022 07:24:27 -0800 (PST)
-Date: Tue, 8 Nov 2022 10:24:13 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
- f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
- stefanha@redhat.com, crosa@redhat.com,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- "open list:virtiofs" <virtio-fs@redhat.com>
-Subject: Re: [PATCH  v1 5/9] hw/virtio: introduce virtio_device_should_start
-Message-ID: <20221108102011-mutt-send-email-mst@kernel.org>
-References: <20221108092308.1717426-1-alex.bennee@linaro.org>
- <20221108092308.1717426-6-alex.bennee@linaro.org>
- <20221108043249-mutt-send-email-mst@kernel.org>
- <8735atg2vh.fsf@linaro.org>
- <20221108052544-mutt-send-email-mst@kernel.org>
- <87y1slelmw.fsf@linaro.org>
+ Tue, 08 Nov 2022 07:50:38 -0800 (PST)
+References: <20221108023542.17557-1-schspa@gmail.com>
+ <87fsetg5xh.fsf@linaro.org>
+ <CAMA88Tqt-7rCTC38OhZGmCZyO4rFz+HHBNtDjaVCbhna01yScQ@mail.gmail.com>
+ <CAFEAcA8J2Tx4gW5Y2q6qtkJ0BPpM4iWkt3nz0uezV+kiz6m_Ag@mail.gmail.com>
+ <CAFEAcA8KnNE90tHQjRNEVny=s7YLD5Wmff9R8ZyLxxz47bwRGA@mail.gmail.com>
+User-agent: mu4e 1.8.9; emacs 27.2
+From: Schspa Shi <schspa@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Subject: Re: [PATCH] hw/arm/boot: set initrd parameters to 64bit in fdt
+Date: Tue, 08 Nov 2022 23:36:44 +0800
+In-reply-to: <CAFEAcA8KnNE90tHQjRNEVny=s7YLD5Wmff9R8ZyLxxz47bwRGA@mail.gmail.com>
+Message-ID: <875yfpbg38.fsf@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87y1slelmw.fsf@linaro.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=schspa@gmail.com; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,60 +92,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 08, 2022 at 11:21:26AM +0000, Alex Bennée wrote:
-> 
-> "Michael S. Tsirkin" <mst@redhat.com> writes:
-> 
-> > On Tue, Nov 08, 2022 at 10:23:15AM +0000, Alex Bennée wrote:
-> >> 
-> >> "Michael S. Tsirkin" <mst@redhat.com> writes:
-> >> 
-> >> > On Tue, Nov 08, 2022 at 09:23:04AM +0000, Alex Bennée wrote:
-> >> >> The previous fix to virtio_device_started revealed a problem in its
-> >> >> use by both the core and the device code. The core code should be able
-> >> >> to handle the device "starting" while the VM isn't running to handle
-> >> >> the restoration of migration state. To solve this dual use introduce a
-> >> >> new helper for use by the vhost-user backends who all use it to feed a
-> >> >> should_start variable.
-> >> >> 
-> >> >> We can also pick up a change vhost_user_blk_set_status while we are at
-> >> >> it which follows the same pattern.
-> >> >> 
-> >> >> Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
-> >> >> Fixes: 27ba7b027f (hw/virtio: add boilerplate for vhost-user-gpio device)
-> >> >> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> >> >> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> >> >
-> >> > why is this in this patchset?
-> >> 
-> >> As per my cover letter:
-> >> 
-> >>   Most of these patches have been posted before as single patch RFCs. A
-> >>   couple are already scheduled through other trees so will drop out in
-> >>   due course
-> >> 
-> >> but I keep them in my tree until they are merged so I can continue to
-> >> soak test them (and have a stable base for my other WIP trees).
-> >
-> > That's fine just pls don't double-post them on list, certainly
-> > not as part of a patchset.
-> 
-> Why not? Is this breaking some tooling?
 
-Yes patchset breaks git am if you try to apply part of it.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Reposting creates work for reviewers - why should they have to read the same
-patch twice?  In this case it also made me scratch my head trying to
-figure out what to do about it.
+> On Tue, 8 Nov 2022 at 13:54, Peter Maydell <peter.maydell@linaro.org> wro=
+te:
+>>
+>> On Tue, 8 Nov 2022 at 12:52, Schspa Shi <schspa@gmail.com> wrote:
+>> > Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>> > > There is a whole comment in boot.c talking about keeping initrd with=
+in
+>> > > lowmem:
+>> > >
+>> > >     /*
+>> > >      * We want to put the initrd far enough into RAM that when the
+>> > >      * kernel is uncompressed it will not clobber the initrd. However
+>> > >      * on boards without much RAM we must ensure that we still leave
+>> > >      * enough room for a decent sized initrd, and on boards with lar=
+ge
+>> > >      * amounts of RAM we must avoid the initrd being so far up in RAM
+>> > >      * that it is outside lowmem and inaccessible to the kernel.
+>> > >      * So for boards with less  than 256MB of RAM we put the initrd
+>> > >      * halfway into RAM, and for boards with 256MB of RAM or more we=
+ put
+>> > >      * the initrd at 128MB.
+>> > >      * We also refuse to put the initrd somewhere that will definite=
+ly
+>> > >      * overlay the kernel we just loaded, though for kernel formats =
+which
+>> > >      * don't tell us their exact size (eg self-decompressing 32-bit =
+kernels)
+>> > >      * we might still make a bad choice here.
+>> > >      */
+>> > >
+>> >
+>> > I think this lowmem does not mean below 4GB. and it is to make sure
+>> > the initrd_start > memblock_start_of_DRAM for Linux address range chec=
+k.
+>>
+>> The wording of this comment pre-dates 64-bit CPU support: it
+>> is talking about the requirement in the 32-bit booting doc
+>> https://www.kernel.org/doc/Documentation/arm/Booting
+>> that says
+>> "If an initramfs is in use then, as with the dtb, it must be placed in
+>> a region of memory where the kernel decompressor will not overwrite it
+>> while also with the region which will be covered by the kernel's
+>> low-memory mapping."
+>>
+>> So it does mean "below 4GB", because you can't boot a 32-bit kernel
+>> if you don't put the kernel, initrd, etc below 4GB.
+>
+> A kernel person corrects me on the meaning of "lowmem" here -- the
+> kernel means by it "within the first 768MB of RAM". There is also
+> an implicit requirement that everything be within the bottom 32-bits
+> of the physical address space.
+>
 
-But, if you are careful and maintain an ordered changelog after "---"
-and there it says 
-	changes since rfc:
-		no changes, subject changed 
+Thanks for your comment.
 
-then this second part is less of a problem
+In this view, initrd shouldn't be placed higher than 4GB ? But it
+seems the Linux kernel can boot when there is no memory below 4GB.
 
-> -- 
-> Alex Bennée
+I know that lowmem is needed for SWIOTLB etc. It will be used to make
+the 32bit IP work without IOMMU. But it seems it's not required to
+boot.
 
+> -- PMM
+
+--=20
+BRs
+Schspa Shi
 
