@@ -2,96 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90F1620F37
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 12:37:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4C2620F3D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 12:38:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osMv3-0000LG-Cy; Tue, 08 Nov 2022 06:37:29 -0500
+	id 1osMv5-0000MD-IO; Tue, 08 Nov 2022 06:37:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1osMv1-0000Kc-Dg
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 06:37:27 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1osMv4-0000Lz-AJ
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 06:37:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1osMuz-0004oj-Aj
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 06:37:26 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 74D3D32002E2;
- Tue,  8 Nov 2022 06:37:22 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 08 Nov 2022 06:37:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1667907442; x=
- 1667993842; bh=ZQepUu6dGgLNYptds7hbxCQDKTvjqwk1uBRhraJoqGU=; b=m
- /peKEmdHr8ZSCVm7FlLabXVJ8TgU3PqJx32e3mSM/iwxB3xIx74TbyPo6FPUm5zY
- BZavn+az5rlG2HMYnQM7qwv55jgM5hZvapALAJMSj84f+3HhXZnSnkrdfBItIrSl
- RFOEG//xUGqxHZuSm6SdfF7w4b4jZWYRVjQW4Yg955AgnXiX0ogb/vAlkh9dHleh
- caUDlRc8AVCHXKBvqV6X6b+rI/tHmg9B+L7RHhyvw5N+Bqsw18ZCfbS3WmzlH3ds
- YDkJLr+cnsQy8LRyKEvqB7s6xN5bhtT+dnN5bjWMzHJs2VahvIB7yFIcJgivpA+Z
- 78XlqdQfMrHxLLYKgwJPQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1667907442; x=
- 1667993842; bh=ZQepUu6dGgLNYptds7hbxCQDKTvjqwk1uBRhraJoqGU=; b=K
- i6zB4Fxn8Mmp1GrcKK8h8toOwoo3V4jiVHYmspZxXoiW2I4B71WvpHZvieMEdHHZ
- SHv7G3Wpl1Tm5EJpFa8GS7oWYo2eK0yowLyCD54w33STF3O6Of3BZ06N92jp+PvO
- tywO2J0olBDOWt1OjYGD/nh4Srd5T8koQUeE1DJ6fLpNVqhc89U4MdgNy4Us8fGh
- aiiGHpf1eenPvrwS3fMS8sd3q+dy3Ptiw+VJwHO7gMZ0AaDCsM/rL1dCK+vZT2bW
- PALo9jeNtProLN9xaopwUeMmCHHh10TQxF2b3PI3MgfcIi61qpkxjXGvYVnijoZx
- 7U/h5rCz9gk+zQOacjzwQ==
-X-ME-Sender: <xms:cT9qY9X42UqlcBdVFPVs3tUV9hUWSH20FZoz1rX_CMd6D-uGRVi6XQ>
- <xme:cT9qY9lssBb6VlytBM5M8BSuMxKsTd8ili6e5y36FVln8ZGXe91p-vKjqbOuGyaK-
- pAKn9KhMxDF3Ar7L8E>
-X-ME-Received: <xmr:cT9qY5amVagSGOXDBCOTPt1dADrxg9TAplq3TEZUjDfwFu904r8F4jxCf7LGDmzv>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfedtgdefudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefkffggfgfuvfevfhfhjggtgfesthekredttdefjeenucfhrhhomheplfhirgig
- uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
- ggtffrrghtthgvrhhnpeduhfekvedvtdeukeeffefgteelgfeugeeuledttdeijeegieeh
- vefghefgvdefgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
- hrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:cT9qYwUeTosUlzReKD3j2TiOLKKWDY3fI-HR9wsQcHc9B33w1KTGJg>
- <xmx:cT9qY3kKG75MMCZ3nAq7xTbbdQ2lZQ2K9oO-mgWlm_s-PZXbxuMB4Q>
- <xmx:cT9qY9fHXlPSWwiGW1UcMv1oD6PdfhKyyS8CpSiRbZxZ6yAYgcC2Pw>
- <xmx:cj9qY_sExwbM1FbLACbJpTMFKbVSjtEjpGKYQDT0td2DWRVFsDUy8Q>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 8 Nov 2022 06:37:21 -0500 (EST)
-Message-ID: <2fa989d5-905c-f000-bfc3-f396c287ab10@flygoat.com>
-Date: Tue, 8 Nov 2022 11:37:08 +0000
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1osMv2-0005Gm-Jp
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 06:37:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667907448;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=W8Ny0tfZtrLUzV1Gw5xD+ZYbWpvP5UAl7EKGBGmvSho=;
+ b=VsxLqixC5S8WQaPUbiVwEIlF/M3uaGmqVQUebepOQnV5db18bKzdvycFQ3ocbsAyZrWjES
+ GOnh/ebb113eVVrYBapE6ViKjeoTbYtZKsc4t9rKTh5yoNEmgR/ZYDUetT9MIs0hE0/bnT
+ Ymdlwf7U+4NcO+7mgLFH21uydXzZqgY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-550-HxQtWLyHNWW3hVDeA9DImQ-1; Tue, 08 Nov 2022 06:37:26 -0500
+X-MC-Unique: HxQtWLyHNWW3hVDeA9DImQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ e8-20020a05600c218800b003cf634f5280so3749821wme.8
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 03:37:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=W8Ny0tfZtrLUzV1Gw5xD+ZYbWpvP5UAl7EKGBGmvSho=;
+ b=Pg+3k2Y/aXJvBtg/u0/9xVGceHDk5lWGFFYWJS9Juz91ivduYeTHmoCfv09X2b3eNF
+ jciAG5SHo+vQlR6MIoELjx4tONCut5Vo7rbHM9wftBsfBlq1qTu3ZiBMQEDHBZBCCsJ/
+ X2LnlOqX9a4fmYUzkGF472P//h6BcOpmWcNo+Cid8m9Fd9lsWz/Vqa7TobGJaNjq7dPE
+ GhhsWPoAuSTyShmCq0iZHnfxB5aa95BC69RTJcZ3Cy/qM6gR46p2KuNJN3cMn2B5vqNb
+ DvCgLXr7kxWtRZa0zpYgAWiYn/VSpU7WxFb/cBkmxIc3kLDN8uDYjWlJLLqLYbWg1M65
+ f7Lw==
+X-Gm-Message-State: ACrzQf06GqF3E9HHE6tGDdECj4f9UBcLhkhTtkw23ZWEg9/NmZm64JbH
+ tj0uE2n61s4o4ENF7vJzCGohDduy9VYzjd2eZE1nJg9FmJlLmL2ms/MNj2W7+tgZTX6lkJgRFBU
+ MNtpS710JzOiZ3SY=
+X-Received: by 2002:a05:600c:15d6:b0:3cf:8e4b:957e with SMTP id
+ v22-20020a05600c15d600b003cf8e4b957emr19099929wmf.118.1667907445648; 
+ Tue, 08 Nov 2022 03:37:25 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM7kZ0KpUxT3L7JR8k1MHeUQmWiqCPo1q3Du+HZeXaApFq7b75Pw4sEyDi0q5FByaxrCeBAmSQ==
+X-Received: by 2002:a05:600c:15d6:b0:3cf:8e4b:957e with SMTP id
+ v22-20020a05600c15d600b003cf8e4b957emr19099922wmf.118.1667907445415; 
+ Tue, 08 Nov 2022 03:37:25 -0800 (PST)
+Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ j27-20020a05600c1c1b00b003a8434530bbsm15501328wms.13.2022.11.08.03.37.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Nov 2022 03:37:24 -0800 (PST)
+Message-ID: <e35226a6-ad4b-77aa-36b4-7d262b53e178@redhat.com>
+Date: Tue, 8 Nov 2022 12:37:23 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 2/2] target/mips: Correct check for CABS instructions
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v4 4/4] hw/usb: fix tab indentation
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>
-References: <20221102165719.190378-1-jiaxun.yang@flygoat.com>
- <20221102165719.190378-2-jiaxun.yang@flygoat.com>
- <51a88376-98df-c328-f1ec-4dda482e9bb6@linaro.org>
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-In-Reply-To: <51a88376-98df-c328-f1ec-4dda482e9bb6@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+To: Amarjargal Gundjalam <amarjargal16@gmail.com>, qemu-devel@nongnu.org,
+ kraxel@redhat.com
+Cc: berrange@redhat.com, vr_qemu@t-online.de
+References: <cover.1666707782.git.amarjargal16@gmail.com>
+ <6c993f57800f8fef7a910074620f6e80e077a3d1.1666707782.git.amarjargal16@gmail.com>
+ <52cab5c6-ffa8-93fa-7080-e8d0fa7a5729@redhat.com>
+ <bf18e166-4d9d-0371-5598-df54df1f9442@gmail.com>
+ <2cc4aef0-a177-c3a9-03a5-062935261a58@redhat.com>
+In-Reply-To: <2cc4aef0-a177-c3a9-03a5-062935261a58@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.21;
- envelope-from=jiaxun.yang@flygoat.com; helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,82 +104,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-在 2022/11/7 22:35, Philippe Mathieu-Daudé 写道:
-> On 2/11/22 17:57, Jiaxun Yang wrote:
->> Accroading to "MIPS Architecture for Programmers Volume IV-c:
->> The MIPS-3D Application-Specific Extension to the MIPS64 Architecture"
->> (MD00099). CABS.cond.fmt belongs to MIPS-3D ASE, and it has nothing 
->> to do
->> with COP1X opcode.
+On 02/11/2022 07.51, Thomas Huth wrote:
+> On 31/10/2022 20.10, Amarjargal Gundjalam wrote:
 >>
->> Remove all unnecessary COP1X checks and check for MIPS3D availability
->> in decoding code path.
->>
->> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->> ---
->>   target/mips/tcg/translate.c | 9 +--------
->>   1 file changed, 1 insertion(+), 8 deletions(-)
->>
->> diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
->> index e49d2a25a8..23e575ad95 100644
->> --- a/target/mips/tcg/translate.c
->> +++ b/target/mips/tcg/translate.c
->> @@ -1788,16 +1788,8 @@ static inline void gen_cmp ## type ## _ ## 
->> fmt(DisasContext *ctx, int n,      \
->> check_ps(ctx); \
->> break; \
->>       case FMT_D: \
->> -        if (abs) 
->> {                                                            \
->> - check_cop1x(ctx); \
->> - } \
->>           check_cp1_registers(ctx, fs | 
->> ft);                                    \
->> break; \
->> -    case FMT_S: \
->> -        if (abs) 
->> {                                                            \
->> - check_cop1x(ctx); \
->> - } \
->> - break; \
->
-> I'm not sure we want to remove this check on all opcodes handled by
-> the FOP_CONDS() macro, and for all architecture variants. Maybe we
-> need to special-case CABS.cond.fmt?
+>> On 26/10/22 00:22, Thomas Huth wrote:
+>>> On 25/10/2022 16.28, Amarjargal Gundjalam wrote:
+>>>> The TABs should be replaced with spaces, to make sure that we have a
+>>>> consistent coding style with an indentation of 4 spaces everywhere.
+>>>>
+>>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/370
+>>>> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+>>>>
+>>>> Signed-off-by: Amarjargal Gundjalam <amarjargal16@gmail.com>
+>>>> ---
+>>>>   hw/usb/dev-hub.c           |   82 +-
+>>>>   hw/usb/dev-network.c       |  286 +++----
+>>>>   hw/usb/dev-wacom.c         |    4 +-
+>>>>   hw/usb/hcd-musb.c          |  328 ++++----
+>>>>   hw/usb/quirks-pl2303-ids.h |  180 ++--
+>>>>   include/hw/usb.h           |  100 +--
+>>>>   include/hw/usb/dwc2-regs.h | 1608 ++++++++++++++++++------------------
+>>>>   7 files changed, 1294 insertions(+), 1294 deletions(-)
+> ...
+>>>>   diff --git a/hw/usb/dev-wacom.c b/hw/usb/dev-wacom.c
+>>>> index 8323650c6a..7177c17f03 100644
+>>>> --- a/hw/usb/dev-wacom.c
+>>>> +++ b/hw/usb/dev-wacom.c
+>>>> @@ -36,8 +36,8 @@
+>>>>   #include "qom/object.h"
+>>>>     /* Interface requests */
+>>>> -#define WACOM_GET_REPORT    0x2101
+>>>> -#define WACOM_SET_REPORT    0x2109
+>>>> +#define WACOM_GET_REPORT    0x2101
+>>>> +#define WACOM_SET_REPORT    0x2109
+>>>>     struct USBWacomState {
+>>>>       USBDevice dev;
+>>>> diff --git a/hw/usb/hcd-musb.c b/hw/usb/hcd-musb.c
+>>>> index 85f5ff5bd4..6929b026b1 100644
+>>>> --- a/hw/usb/hcd-musb.c
+>>>> +++ b/hw/usb/hcd-musb.c
+>>>> @@ -28,227 +28,227 @@
+>>>>   #include "hw/hw.h"
+>>>>     /* Common USB registers */
+>>>> -#define MUSB_HDRC_FADDR        0x00    /* 8-bit */
+>>>> -#define MUSB_HDRC_POWER        0x01    /* 8-bit */
+>>>> -
+>>>> -#define MUSB_HDRC_INTRTX    0x02    /* 16-bit */
+>>>> -#define MUSB_HDRC_INTRRX    0x04
+>>>> -#define MUSB_HDRC_INTRTXE    0x06
+>>>> -#define MUSB_HDRC_INTRRXE    0x08
+>>>> -#define MUSB_HDRC_INTRUSB    0x0a    /* 8 bit */
+>>>> -#define MUSB_HDRC_INTRUSBE    0x0b    /* 8 bit */
+>>>> -#define MUSB_HDRC_FRAME        0x0c    /* 16-bit */
+>>>> -#define MUSB_HDRC_INDEX        0x0e    /* 8 bit */
+>>>> -#define MUSB_HDRC_TESTMODE    0x0f    /* 8 bit */
+>>>> +#define MUSB_HDRC_FADDR         0x00    /* 8-bit */
+>>>> +#define MUSB_HDRC_POWER         0x01    /* 8-bit */
+>>>> +
+>>>> +#define MUSB_HDRC_INTRTX        0x02    /* 16-bit */
+>>>> +#define MUSB_HDRC_INTRRX        0x04
+>>>> +#define MUSB_HDRC_INTRTXE       0x06
+>>>
+>>> Sorry for not noticing it earlier, and the problem is pre-existing and 
+>>> not related to your patches, but in case you respinning again, my git is 
+>>> complaining here about the spaces at the end of the line:
+>>>
+>>> .git/rebase-apply/patch:524: trailing whitespace.
+>>> #define MUSB_HDRC_INTRTXE       0x06
+>>>
+>>> (maybe this could also be fixed by the maintainer when picking up the patch)
+> ...
+>>>
+>> Should I fix them and submit a new version?
+> 
+> No, let's wait for the maintainer (Gerd) first to decide whether this should 
+> be fixed in this patch or not.
 
-Hmm if I read the code correctly COP1X check is only ran when abs is
-set, and the only case abs is set is for CABS.cond.fmt.
+Seems like Gerd is currently away from keyboard, so I dared to pick up patch 
+1, 3 and 4 for my current pull request (and fixed the white spaces at the 
+line endings in patch 4). For patch 2, I think I'd prefer to wait for Gerd's 
+feedback first what to do best with the fmopl.c file.
 
->
->> } \
->>       gen_ldcmp_fpr##bits(ctx, fp0, 
->> fs);                                        \
->>       gen_ldcmp_fpr##bits(ctx, fp1, 
->> ft);                                        \
->> @@ -10424,6 +10416,7 @@ static void gen_farith(DisasContext *ctx, 
->> enum fopcode op1,
->>       case OPC_CMP_NGT_S:
->>           check_insn_opc_removed(ctx, ISA_MIPS_R6);
->>           if (ctx->opcode & (1 << 6)) {
->> +            check_insn(ctx, ASE_MIPS3D);
->
-> You somehow revert commit b8aa4598e2 ("MIPS COP1X (and related)
-> instructions") which is in use since 15 years.
-
-Still no idea about why it is here in first place....
-CABS.cond.fmt is even not mentioned in MIPS IV manual. So it's unlikely 
-to have
-anything to do with COP1X.
-
-Thanks
-- Jiaxun
-
->
->>               gen_cmpabs_s(ctx, func - 48, ft, fs, cc);
->>           } else {
->>               gen_cmp_s(ctx, func - 48, ft, fs, cc);
->
+  Thomas
 
 
