@@ -2,81 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7FD0620C20
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 10:25:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 189E9620C22
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 10:25:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osKpL-0007Fp-Ky; Tue, 08 Nov 2022 04:23:27 -0500
+	id 1osKpM-0007GX-LO; Tue, 08 Nov 2022 04:23:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1osKpB-0007DV-Up
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:23:17 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ id 1osKpC-0007Dg-Ig
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:23:18 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1osKp8-0005oT-Dl
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:23:17 -0500
-Received: by mail-wr1-x435.google.com with SMTP id a14so19964286wru.5
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 01:23:13 -0800 (PST)
+ id 1osKpA-0005p4-7o
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:23:18 -0500
+Received: by mail-wr1-x430.google.com with SMTP id g12so19904049wrs.10
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 01:23:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7uXwU/1og6Y5YFCCkzlXH6mHIAZKAJashuR6BqLq8xE=;
- b=yH0ZvAcVvt1bGy2FGEbgsuF7dOcFsPLuKCi0FSL6ftwU7PAMVZA1ZJEW+uJ8I2wWEc
- sDYUz21gIlMHSR78txluz2Lowl7GCrNdu+KsK62nfXVWXtRZ48By27XYFB84t3rXaUyz
- G6Nylma9BCS/JJz6OY6+XQ1U6WpHJyjNuVgKE2teAXth8brWX7gGc4WbmkXrYk4jxEwz
- lC+kuvPctRx84mR63rN5IRDvOyjyczG9aHnNE/zrYJ74imLS2/aDZpU0PPZLuHrs3dfz
- 63YA7I/zwysuC0NqmAu23F33wyCK/o9FCbAXLi+cIcvc7p/tcOF1Huh69YIvmDyRnEs1
- qI2w==
+ bh=+Mtx8odvHwCV0bf17EfBgIaZ7U3IJZv+eeZfeBwc4UQ=;
+ b=pylU059h9atBQP2HUJ1P2PS5gPhC528RXgxry6KwVPVJPUphbcC7U9294RnSW+1vxy
+ 7G52xLzTQMlkaXzX8tE1ojTe6NDZN91xdDS+96gOQgKvL9qkfRNq/acxVJsmmONzuiwT
+ 0RoBbKFiG2X4WS/ZU2y8NolvEpt/JT4l2Sp2Ny+9LrTDIJsWPk0jUj0hnoCZgUYX/AS+
+ /6OG5xIZXCclbNAfUrIsRvXAzJhVHgJDTKu9LV0dh8F7RNuHbNeVAKvUjDrsnn9OyINP
+ WmKfY4roK69ctfmrPmJipUJocf67Kb9y0GX5kTY3VSM8s/hXHg+EKy1GjV2qJbG1Q3yQ
+ VBLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7uXwU/1og6Y5YFCCkzlXH6mHIAZKAJashuR6BqLq8xE=;
- b=pnpWHrfe0cukQwDAZrw4YZXzJqVf5w2peUBUzPAd+9yf7qhH2CZwtJUJwMiYaIMbKo
- H1xlaBWkpQmRnP7CqAroeICQqUZojyiYOBZTEb3sq5qM/xMtlbzc7fsA57Y/FoKyaej9
- O2NxGKDdnW31jyCBCyDuj6U/Cccs/qLJRx99bxcwuto/jYL0RK+bCWg7+boQiElPBRMA
- FNdYVZr4HMOAtDIJgMb3yytizq3B2M9PRSf0N1ECl3cbIxeOGLSGaU+aII6v+BYOk2zu
- aVYXdnGj+a9f012PEjaxIe8juVIqKQnNEZt6GHw25M1HBuofnW0GMQX1Ab7rCI1oXA3M
- neew==
-X-Gm-Message-State: ACrzQf2OvCNXVPEq8e/a7TEwYxPMpTP7afxl2XdZf8RLOOflNb1yo34b
- +DDTWrSP3Q8ebIaRgAUMNW3Hxg==
-X-Google-Smtp-Source: AMsMyM60TEM79xarMEhfq2Jxp76LP2dMWcYDyD+kaU36RhUby8NBbEIQPfy0sfcton6BsQ9s3wIjjw==
-X-Received: by 2002:a05:6000:1052:b0:236:6e8e:8403 with SMTP id
- c18-20020a056000105200b002366e8e8403mr34588988wrx.178.1667899391778; 
- Tue, 08 Nov 2022 01:23:11 -0800 (PST)
+ bh=+Mtx8odvHwCV0bf17EfBgIaZ7U3IJZv+eeZfeBwc4UQ=;
+ b=LNjAjjK9FeeZAlT8/IcV+cdMZub81NoOyKfMTbYNEp2Xm5lCETEcARtKIvZmjfSjaR
+ pgG7ZRS7HDWhfnUm1YDNUl4Q/09IrsYzQ2jem+OLArz/9SP+8ANTEDi8upVFoC3nbLLX
+ Sg7y0duZ2KyOmRTwMHVj3tihPAF3W/eUeCtiajtYnotvZbzBUSWzSZOFEdDnrN3g0Q0B
+ UfHLw4DhmNTFC7fxRQYgCYeeFsvzcLgCleFBiweprbFRoh8jlOg4Ps307t0X06nEW5a2
+ xR7D129y4MI2F7GjRrso2vpZZTGVNGlAI5xNh/0zntSwyPR/VI6WSJMMercGAL7W8HpL
+ b6+w==
+X-Gm-Message-State: ACrzQf2boyPhLr72jmcLjrGjtgC76aFnEOXwb4E+CZdOd0e/KKKBj8bk
+ v0+leratdarmSdbeAiSdHY+mOA==
+X-Google-Smtp-Source: AMsMyM7o+8dkKOT21Dl6NyLgXXUlpgQssrxuk38rTG2mYpzszpQf9iqM78gt/GvcoihxEtFQvXdvrg==
+X-Received: by 2002:a5d:4b51:0:b0:236:88a2:267f with SMTP id
+ w17-20020a5d4b51000000b0023688a2267fmr33450222wrs.461.1667899393939; 
+ Tue, 08 Nov 2022 01:23:13 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- ay15-20020a05600c1e0f00b003c6deb5c1edsm11032025wmb.45.2022.11.08.01.23.08
+ b9-20020a05600010c900b002368424f89esm9713795wrx.67.2022.11.08.01.23.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Nov 2022 01:23:09 -0800 (PST)
+ Tue, 08 Nov 2022 01:23:10 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 85ED81FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id B16A91FFBD;
  Tue,  8 Nov 2022 09:23:08 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH  v1 4/9] tests/docker: allow user to override check target
-Date: Tue,  8 Nov 2022 09:23:03 +0000
-Message-Id: <20221108092308.1717426-5-alex.bennee@linaro.org>
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ qemu-block@nongnu.org (open list:Block layer core),
+ virtio-fs@redhat.com (open list:virtiofs)
+Subject: [PATCH  v1 5/9] hw/virtio: introduce virtio_device_should_start
+Date: Tue,  8 Nov 2022 09:23:04 +0000
+Message-Id: <20221108092308.1717426-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221108092308.1717426-1-alex.bennee@linaro.org>
 References: <20221108092308.1717426-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,65 +103,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is useful when trying to bisect a particular failing test behind
-a docker run. For example:
+The previous fix to virtio_device_started revealed a problem in its
+use by both the core and the device code. The core code should be able
+to handle the device "starting" while the VM isn't running to handle
+the restoration of migration state. To solve this dual use introduce a
+new helper for use by the vhost-user backends who all use it to feed a
+should_start variable.
 
-  make docker-test-clang@fedora \
-    TARGET_LIST=arm-softmmu \
-    TEST_COMMAND="meson test qtest-arm/qos-test" \
-    J=9 V=1
+We can also pick up a change vhost_user_blk_set_status while we are at
+it which follows the same pattern.
 
+Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
+Fixes: 27ba7b027f (hw/virtio: add boilerplate for vhost-user-gpio device)
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
 ---
-v1
- - fix s/target /target./
- - CHECK_TARGET -> TEST_COMMAND
----
- tests/docker/Makefile.include | 2 ++
- tests/docker/common.rc        | 6 +++---
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ include/hw/virtio/virtio.h   | 18 ++++++++++++++++++
+ hw/block/vhost-user-blk.c    |  6 +-----
+ hw/virtio/vhost-user-fs.c    |  2 +-
+ hw/virtio/vhost-user-gpio.c  |  2 +-
+ hw/virtio/vhost-user-i2c.c   |  2 +-
+ hw/virtio/vhost-user-rng.c   |  2 +-
+ hw/virtio/vhost-user-vsock.c |  2 +-
+ hw/virtio/vhost-vsock.c      |  2 +-
+ 8 files changed, 25 insertions(+), 11 deletions(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index c87f14477a..fc7a3b7e71 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -184,6 +184,7 @@ docker:
- 	@echo '    TARGET_LIST=a,b,c    Override target list in builds.'
- 	@echo '    EXTRA_CONFIGURE_OPTS="..."'
- 	@echo '                         Extra configure options.'
-+	@echo '    TEST_COMMAND="..."   Override the default `make check` target.'
- 	@echo '    IMAGES="a b c ..":   Restrict available images to subset.'
- 	@echo '    TESTS="x y z .."     Restrict available tests to subset.'
- 	@echo '    J=[0..9]*            Overrides the -jN parameter for make commands'
-@@ -230,6 +231,7 @@ docker-run: docker-qemu-src
- 			$(if $(NETWORK),$(if $(subst $(NETWORK),,1),--net=$(NETWORK)),--net=none) \
- 			-e TARGET_LIST=$(subst $(SPACE),$(COMMA),$(TARGET_LIST))	\
- 			-e EXTRA_CONFIGURE_OPTS="$(EXTRA_CONFIGURE_OPTS)" \
-+			-e TEST_COMMAND="$(TEST_COMMAND)" 		\
- 			-e V=$V -e J=$J -e DEBUG=$(DEBUG)		\
- 			-e SHOW_ENV=$(SHOW_ENV) 			\
- 			$(if $(NOUSER),,				\
-diff --git a/tests/docker/common.rc b/tests/docker/common.rc
-index e6f8cee0d6..9a33df2832 100755
---- a/tests/docker/common.rc
-+++ b/tests/docker/common.rc
-@@ -63,12 +63,12 @@ check_qemu()
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index f41b4a7e64..3191c618f3 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -389,6 +389,24 @@ static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
+         return vdev->started;
+     }
+ 
++    return status & VIRTIO_CONFIG_S_DRIVER_OK;
++}
++
++/**
++ * virtio_device_should_start() - check if device startable
++ * @vdev - the VirtIO device
++ * @status - the devices status bits
++ *
++ * This is similar to virtio_device_started() but also encapsulates a
++ * check on the VM status which would prevent a device starting
++ * anyway.
++ */
++static inline bool virtio_device_should_start(VirtIODevice *vdev, uint8_t status)
++{
++    if (vdev->use_started) {
++        return vdev->started;
++    }
++
+     if (!vdev->vm_running) {
+         return false;
+     }
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index 13bf5cc47a..8feaf12e4e 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -222,14 +222,10 @@ static void vhost_user_blk_stop(VirtIODevice *vdev)
+ static void vhost_user_blk_set_status(VirtIODevice *vdev, uint8_t status)
  {
-     # default to make check unless the caller specifies
-     if [ $# = 0 ]; then
--        INVOCATION="check"
-+        INVOCATION="${TEST_COMMAND:-make $MAKEFLAGS check}"
-     else
--        INVOCATION="$@"
-+        INVOCATION="make $MAKEFLAGS $@"
-     fi
+     VHostUserBlk *s = VHOST_USER_BLK(vdev);
+-    bool should_start = virtio_device_started(vdev, status);
++    bool should_start = virtio_device_should_start(vdev, status);
+     Error *local_err = NULL;
+     int ret;
  
--    make $MAKEFLAGS $INVOCATION
-+    $INVOCATION
- }
+-    if (!vdev->vm_running) {
+-        should_start = false;
+-    }
+-
+     if (!s->connected) {
+         return;
+     }
+diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+index ad0f91c607..1c40f42045 100644
+--- a/hw/virtio/vhost-user-fs.c
++++ b/hw/virtio/vhost-user-fs.c
+@@ -123,7 +123,7 @@ static void vuf_stop(VirtIODevice *vdev)
+ static void vuf_set_status(VirtIODevice *vdev, uint8_t status)
+ {
+     VHostUserFS *fs = VHOST_USER_FS(vdev);
+-    bool should_start = virtio_device_started(vdev, status);
++    bool should_start = virtio_device_should_start(vdev, status);
  
- test_fail()
+     if (vhost_dev_is_started(&fs->vhost_dev) == should_start) {
+         return;
+diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
+index 8b40fe450c..677d1c7730 100644
+--- a/hw/virtio/vhost-user-gpio.c
++++ b/hw/virtio/vhost-user-gpio.c
+@@ -152,7 +152,7 @@ static void vu_gpio_stop(VirtIODevice *vdev)
+ static void vu_gpio_set_status(VirtIODevice *vdev, uint8_t status)
+ {
+     VHostUserGPIO *gpio = VHOST_USER_GPIO(vdev);
+-    bool should_start = virtio_device_started(vdev, status);
++    bool should_start = virtio_device_should_start(vdev, status);
+ 
+     trace_virtio_gpio_set_status(status);
+ 
+diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+index bc58b6c0d1..864eba695e 100644
+--- a/hw/virtio/vhost-user-i2c.c
++++ b/hw/virtio/vhost-user-i2c.c
+@@ -93,7 +93,7 @@ static void vu_i2c_stop(VirtIODevice *vdev)
+ static void vu_i2c_set_status(VirtIODevice *vdev, uint8_t status)
+ {
+     VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
+-    bool should_start = virtio_device_started(vdev, status);
++    bool should_start = virtio_device_should_start(vdev, status);
+ 
+     if (vhost_dev_is_started(&i2c->vhost_dev) == should_start) {
+         return;
+diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
+index bc1f36c5ac..8b47287875 100644
+--- a/hw/virtio/vhost-user-rng.c
++++ b/hw/virtio/vhost-user-rng.c
+@@ -90,7 +90,7 @@ static void vu_rng_stop(VirtIODevice *vdev)
+ static void vu_rng_set_status(VirtIODevice *vdev, uint8_t status)
+ {
+     VHostUserRNG *rng = VHOST_USER_RNG(vdev);
+-    bool should_start = virtio_device_started(vdev, status);
++    bool should_start = virtio_device_should_start(vdev, status);
+ 
+     if (vhost_dev_is_started(&rng->vhost_dev) == should_start) {
+         return;
+diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
+index 7b67e29d83..9431b9792c 100644
+--- a/hw/virtio/vhost-user-vsock.c
++++ b/hw/virtio/vhost-user-vsock.c
+@@ -55,7 +55,7 @@ const VhostDevConfigOps vsock_ops = {
+ static void vuv_set_status(VirtIODevice *vdev, uint8_t status)
+ {
+     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+-    bool should_start = virtio_device_started(vdev, status);
++    bool should_start = virtio_device_should_start(vdev, status);
+ 
+     if (vhost_dev_is_started(&vvc->vhost_dev) == should_start) {
+         return;
+diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
+index 7dc3c73931..aa16d584ee 100644
+--- a/hw/virtio/vhost-vsock.c
++++ b/hw/virtio/vhost-vsock.c
+@@ -70,7 +70,7 @@ static int vhost_vsock_set_running(VirtIODevice *vdev, int start)
+ static void vhost_vsock_set_status(VirtIODevice *vdev, uint8_t status)
+ {
+     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+-    bool should_start = virtio_device_started(vdev, status);
++    bool should_start = virtio_device_should_start(vdev, status);
+     int ret;
+ 
+     if (vhost_dev_is_started(&vvc->vhost_dev) == should_start) {
 -- 
 2.34.1
 
