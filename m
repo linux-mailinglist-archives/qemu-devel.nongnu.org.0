@@ -2,93 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9076216D3
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:32:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8557D6216E2
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:35:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osPdN-0004sW-Pa; Tue, 08 Nov 2022 09:31:25 -0500
+	id 1osPgN-0005bh-HP; Tue, 08 Nov 2022 09:34:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1osPdA-0004rk-BN
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:31:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1osPfR-0005Tl-Ra; Tue, 08 Nov 2022 09:33:36 -0500
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1osPd8-0000Eu-54
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:31:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667917869;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SCUfauZwaB2evRNOHqV4AdHGDoltDtieuP7imswQuD0=;
- b=W4/Pdgk8eDbp3Z3nH2eUHNRo4cRf6Q8P/gcYoXLtOh0S9qs+BWPC0TNA4hkcd3Xd3u9OO2
- iZyk1DLHF7Lxx48mRebPaSqVDUFimgBdfpsD0/KmG6RtIXYm+PjA8PhBd4ZeO20iuWQ6uB
- npv8LamE1YIMqR2ttE/tB+05Yg2fKKc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-605-_iMT2NJTNL-Bys6VN2eS8A-1; Tue, 08 Nov 2022 09:31:07 -0500
-X-MC-Unique: _iMT2NJTNL-Bys6VN2eS8A-1
-Received: by mail-wm1-f72.google.com with SMTP id
- 1-20020a05600c028100b003cf7833293cso9970571wmk.3
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 06:31:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SCUfauZwaB2evRNOHqV4AdHGDoltDtieuP7imswQuD0=;
- b=odu4MgMwyQeKGwgNSzCcMWlHc8X5tb8T7fR0cdIAxS+24ktFjUxYOebq/zthLX3EcD
- q6y4SgVJ2IUlD1buSTap29NJV/YMhikxi9FxIlmuibP1AiifbO29Gi/jdWqNpIm9KCPH
- rlBgaYu9D+iFS0+8RhYxlsR1Tt0IHw/UaUgi0d2d6bzdwy72rsfh4LofyDa/JLdnwkO9
- jwXBhUSmEQqZWwg/4BuimcM0KIxbi/qmGUiuykSxmdsER8woC62Dvulb2v95gDILDg0X
- 4e9isS5WhH4Jay5A8o7+dLPk95LQydPRZPqPJiaXGwJm5Cgu3bPz/Wtcp7ud5WRn+oP2
- yN9Q==
-X-Gm-Message-State: ACrzQf2DQPjh0h3O/bhxmZWAUCzRABaYDvZqYF0cg5Lg8nkQQz3tKSQ8
- m5nTn/do0ad8J/7sOBHC0pTjjdxQOIyMn6AuYcahLL1C5MfWjTHEAAOIuOdRVZHZLnF+2gf79Y7
- n/bedyEpZk4N4IAQ=
-X-Received: by 2002:a05:600c:54e9:b0:3cf:92a6:30ad with SMTP id
- jb9-20020a05600c54e900b003cf92a630admr17972632wmb.152.1667917866645; 
- Tue, 08 Nov 2022 06:31:06 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM4V4QlS9SjQBA3nj0IY3/laOylr9ZLfkCAGj9Sb7y/sJC2Wx8Qi68VBLirEZq5SqkcF8PnfNg==
-X-Received: by 2002:a05:600c:54e9:b0:3cf:92a6:30ad with SMTP id
- jb9-20020a05600c54e900b003cf92a630admr17972612wmb.152.1667917866390; 
- Tue, 08 Nov 2022 06:31:06 -0800 (PST)
-Received: from fedora (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- p13-20020a05600c468d00b003cf75213bb9sm16307503wmo.8.2022.11.08.06.31.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Nov 2022 06:31:05 -0800 (PST)
-Date: Tue, 8 Nov 2022 15:31:05 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Ani
- Sinha <ani@anisinha.ca>
-Subject: Re: [PULL v4 45/83] tests: acpi: whitelist DSDT before generating
- PCI-ISA bridge AML automatically
-Message-ID: <20221108153105.05cfc186@fedora>
-In-Reply-To: <20221108084835-mutt-send-email-mst@kernel.org>
-References: <20221107224600.934080-1-mst@redhat.com>
- <20221107224600.934080-46-mst@redhat.com>
- <20221108143641.4bdaae6f@fedora>
- <20221108084835-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1osPfM-0000wM-ES; Tue, 08 Nov 2022 09:33:33 -0500
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 4ED865F6AB;
+ Tue,  8 Nov 2022 17:33:16 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
+ [2a02:6b8:b081:b535::1:28])
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ flkhtagFLq-XENSRroB; Tue, 08 Nov 2022 17:33:15 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1667917995; bh=bFN4ZeuA68jAnwb9R7vG8Nmh2pryc8oPugg+vfA3W1o=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=FA4d2ROhJHCSwa4kRlIH0UTslHApoiVVjeslzjrFIzlG9Au6IIh5QKwOsESzPwWCM
+ u8lpV/fKnSaqnIXiOxHTuWYqAt21wXJywFTD4uqOhfocQ7Arcls4a0WSZF5/4QGF5O
+ 5msDv1O7Bm9/6Timshc/l7hnC7lwEQsF1wDULEHA=
+Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <1a4627a3-e5c3-5ee7-d953-5719e5a019d1@yandex-team.ru>
+Date: Tue, 8 Nov 2022 17:33:14 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v2 1/9] block: call bdrv_co_drain_begin in a coroutine
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20221104095700.4117433-1-eesposit@redhat.com>
+ <20221104095700.4117433-2-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20221104095700.4117433-2-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,76 +76,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 8 Nov 2022 08:49:01 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
-
-> On Tue, Nov 08, 2022 at 02:36:41PM +0100, Igor Mammedov wrote:
-> > On Mon, 7 Nov 2022 17:51:11 -0500
-> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> >   
-> > > From: Igor Mammedov <imammedo@redhat.com>
-> > > 
-> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > > Message-Id: <20221017102146.2254096-3-imammedo@redhat.com>
-> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > ---
-> > >  tests/qtest/bios-tables-test-allowed-diff.h | 34 +++++++++++++++++++++
-> > >  1 file changed, 34 insertions(+)
-> > > 
-> > > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> > > index dfb8523c8b..570b17478e 100644
-> > > --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> > > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> > > @@ -1 +1,35 @@
-> > >  /* List of comma-separated changed AML files to ignore */
-> > > +"tests/data/acpi/pc/DSDT",
-> > > +"tests/data/acpi/pc/DSDT.acpierst",
-> > > +"tests/data/acpi/pc/DSDT.acpihmat",
-> > > +"tests/data/acpi/pc/DSDT.bridge",
-> > > +"tests/data/acpi/pc/DSDT.cphp",
-> > > +"tests/data/acpi/pc/DSDT.dimmpxm",
-> > > +"tests/data/acpi/pc/DSDT.hpbridge",
-> > > +"tests/data/acpi/pc/DSDT.hpbrroot",
-> > > +"tests/data/acpi/pc/DSDT.ipmikcs",
-> > > +"tests/data/acpi/pc/DSDT.memhp",
-> > > +"tests/data/acpi/pc/DSDT.nohpet",
-> > > +"tests/data/acpi/pc/DSDT.numamem",
-> > > +"tests/data/acpi/pc/DSDT.roothp",
-> > > +"tests/data/acpi/q35/DSDT",
-> > > +"tests/data/acpi/q35/DSDT.acpierst",
-> > > +"tests/data/acpi/q35/DSDT.acpihmat",
-> > > +"tests/data/acpi/q35/DSDT.applesmc",
-> > > +"tests/data/acpi/q35/DSDT.bridge",
-> > > +"tests/data/acpi/q35/DSDT.cphp",
-> > > +"tests/data/acpi/q35/DSDT.cxl",
-> > > +"tests/data/acpi/q35/DSDT.dimmpxm",
-> > > +"tests/data/acpi/q35/DSDT.ipmibt",
-> > > +"tests/data/acpi/q35/DSDT.ipmismbus",
-> > > +"tests/data/acpi/q35/DSDT.ivrs",
-> > > +"tests/data/acpi/q35/DSDT.memhp",
-> > > +"tests/data/acpi/q35/DSDT.mmio64",
-> > > +"tests/data/acpi/q35/DSDT.multi-bridge",
-> > > +"tests/data/acpi/q35/DSDT.nohpet",
-> > > +"tests/data/acpi/q35/DSDT.numamem",
-> > > +"tests/data/acpi/q35/DSDT.pvpanic-isa",
-> > > +"tests/data/acpi/q35/DSDT.tis.tpm12",
-> > > +"tests/data/acpi/q35/DSDT.tis.tpm2",
-> > > +"tests/data/acpi/q35/DSDT.viot",
-> > > +"tests/data/acpi/q35/DSDT.xapic",  
-> > 
-> > still missing DSDT.count2 table, likely in other updates (as well)
-> > which should break bisection if not whole pull request.  
+On 11/4/22 12:56, Emanuele Giuseppe Esposito wrote:
+> It seems that bdrv_open_driver() forgot to create a coroutine
+> where to call bs->drv->bdrv_co_drain_begin(), a callback
+> marked as coroutine_fn.
 > 
-> 
-> That's because I reordered count2 patches to be after these.
+> Because there is no active I/O at this point, the coroutine
+> should end right after entering, so the caller does not need
+> to poll until it is finished.
 
-Aha,
-that should fix the issue.
+Hmm. I see your point. But isn't it better to go the generic way and use a generated coroutine wrapper? Nothing guarantees that .bdrv_co_drain_begin() handlers will never do any yield point even on driver open...
+
+Look for example at bdrv_co_check(). It has a generated wrapper bdrv_check(), declared in include/block/block-io.h
+
+So you just need to declare the wrapper, and use it in bdrv_open_driver(), the code would be clearer too.
 
 > 
-> > I'll prep a tree based on your pull req, with fixups
-> > for you to pull from.  
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   block.c | 36 +++++++++++++++++++++++++++++++-----
+>   1 file changed, 31 insertions(+), 5 deletions(-)
 > 
+> diff --git a/block.c b/block.c
+> index 5311b21f8e..d2b2800039 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -1637,12 +1637,34 @@ out:
+>       g_free(gen_node_name);
+>   }
+>   
+> +typedef struct DrainCo {
+> +    BlockDriverState *bs;
+> +    int ret;
+> +} DrainCo;
+> +
+> +static void coroutine_fn bdrv_co_drain_begin(void *opaque)
+> +{
+> +    int i;
+> +    DrainCo *co = opaque;
+> +    BlockDriverState *bs = co->bs;
+> +
+> +    for (i = 0; i < bs->quiesce_counter; i++) {
+> +        bs->drv->bdrv_co_drain_begin(bs);
+> +    }
+> +    co->ret = 0;
+> +}
+> +
+>   static int bdrv_open_driver(BlockDriverState *bs, BlockDriver *drv,
+>                               const char *node_name, QDict *options,
+>                               int open_flags, Error **errp)
+>   {
+>       Error *local_err = NULL;
+> -    int i, ret;
+> +    int ret;
+> +    Coroutine *co;
+> +    DrainCo dco = {
+> +        .bs = bs,
+> +        .ret = NOT_DONE,
+> +    };
+>       GLOBAL_STATE_CODE();
+>   
+>       bdrv_assign_node_name(bs, node_name, &local_err);
+> @@ -1690,10 +1712,14 @@ static int bdrv_open_driver(BlockDriverState *bs, BlockDriver *drv,
+>       assert(bdrv_min_mem_align(bs) != 0);
+>       assert(is_power_of_2(bs->bl.request_alignment));
+>   
+> -    for (i = 0; i < bs->quiesce_counter; i++) {
+> -        if (drv->bdrv_co_drain_begin) {
+> -            drv->bdrv_co_drain_begin(bs);
+> -        }
+> +    if (drv->bdrv_co_drain_begin) {
+> +        co = qemu_coroutine_create(bdrv_co_drain_begin, &dco);
+> +        qemu_coroutine_enter(co);
+> +        /*
+> +         * There should be no reason for drv->bdrv_co_drain_begin to wait at
+> +         * this point, because the device does not have any active I/O.
+> +         */
+> +        assert(dco.ret != NOT_DONE);
+>       }
+>   
+>       return 0;
+
+-- 
+Best regards,
+Vladimir
 
 
