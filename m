@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323D8621BB6
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 19:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46899621BF8
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 19:35:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osTBI-0002eU-KR; Tue, 08 Nov 2022 13:18:40 -0500
+	id 1osTQF-0005F6-UE; Tue, 08 Nov 2022 13:34:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1osTB5-0002U8-V2
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 13:18:38 -0500
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osTQ6-0005ES-Dh
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 13:34:02 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1osTB4-0004AL-4t
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 13:18:27 -0500
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-370547b8ca0so141675507b3.0
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 10:18:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=PHEMjDnvh5K3WTlMrUGagmE4uNvk6x1u0dPDDG5t1d4=;
- b=Ccrehnb1tBrZha3uk44DH+a/9POzk+sEKhYUdpjEdRCIvmzpniC0GygC/Q/kYiMoia
- aWirazGaDo74iAS2FRkY+94H2GsTNSEoqIIjl7gZnPvwaZ+zuXtQ/re1TPwUQS1jwfV8
- UcWN9daCBrOF9F5h2vgNqebGi3EHl931PO+fY84SwLsldpxCUwCp1hDWsqpWyMp2evop
- 6nTfk8HLmFNLaF0onP2UCLdhd9ZeMyLcKee3LCJXE48fenUxxvrkg1iTLUj1KLrNJbTf
- FDYzp0U2XMPFHL7PH/opomAho6FURbJyL9dGUXY7nYoYHEXD3o4ka9641JzbOM5CrlNs
- WYcQ==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osTQ4-0001tr-NT
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 13:33:58 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id a14so22393058wru.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 10:33:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=JAIXAc5yx7Janb9V19pGhZsThYiXLEelpbY1OVExkgc=;
+ b=nvefmbcPtgNIBWQy1vV2dIs6OuA0cdOYxjMyMBFSo4nfbX2wiKXl7lewx9B2ryLcOL
+ Qied180fLRm2hJ+Yi23y61zEMcNTGadcMrGrh4L/C/XcVjvp5+5htjp37ywf7uvfoH43
+ Yj7Zv96iyW+n58WSX1h7R/y9vWBnvcMO/BjNlpqPgH936L7nuVjHVlHJeihcM2+jjWZP
+ vY3h1HpxAmdW05z5QKHRjloI2cjA1P60xSWSNaZ0yMgGoO6bysvfKiLCpzEH1M72/fBe
+ 4oSpZXXmh5LldTZkWU7BlE/1xOWpR1ZIQY+2h2xJsMKaSRI4FPHdT7Ujru2JU/QVRZtx
+ AqAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=PHEMjDnvh5K3WTlMrUGagmE4uNvk6x1u0dPDDG5t1d4=;
- b=ZIk08kxsjzdI7djdiQNkX7v+vUcx1NalalyyIwdrZ6MZ7+uFXuG95MSoKL8rK8eo30
- J8pkZitsXU5RQjupdK68FcNg/WKOFwBjP4QIuOC9hHUzj8uytkUDVqVHmwZBX+KCdEGO
- dLgDXBbZllE+XcWATEZSNfyjcP0JDSY+YS9OuXUkR+S0uLZbgzu/Tzh9n5Gl9AVk1C8B
- weq/soKPdTZ8RdEAL6R+Gy/NSLFW4pT1/BKGpqEJOUTvFIs5eSA0ziEqHozBUlOCeX1h
- rne+51jFBseC2jhhDvFIXiwEpatfhzcsYrJ76Rs886zUJIcMb8qg/UDQ8n2vOHI0GNw/
- rNTA==
-X-Gm-Message-State: ACrzQf2bYr8gAcvRIQJ6nah+IiuVxRZEvXum8uD2QmUBFE0rvOwBpdGD
- D+MLH+BpOkPhFtTo6Q8h7AK8evtIn/se38gFVDyob2gA
-X-Google-Smtp-Source: AMsMyM52bfqCelMCV0eGMxsqa7okRJhpL9GEF1wHMe/HA5VgaZUd7qAsXYvDKndc8vJouuZM6AMBzSkxX9tvwakVuHM=
-X-Received: by 2002:a81:8445:0:b0:36c:c302:8926 with SMTP id
- u66-20020a818445000000b0036cc3028926mr55664425ywf.296.1667931503885; Tue, 08
- Nov 2022 10:18:23 -0800 (PST)
+ bh=JAIXAc5yx7Janb9V19pGhZsThYiXLEelpbY1OVExkgc=;
+ b=d7cCMawd+SCZWBiN8+i8OIKqY+G/S114q++ASNNTlV5/DkDvd7w7ajuHgGpaCD8LVR
+ Ass7nf+joAVyrLRjGVR+Haz345Z36HdJAd0mOu4fUxQbyaOPtQWh3xkEWroqbBUHtVtw
+ wu5QztrRHnBN2/nWiWHK2/VK2/cN0RBG7Qpj/eGDK9CV8iJLBA8a5J0R0BbcW/s7nXs9
+ leIhl3146ISlwWIP21a1Z0llu27SfP4jDIwqjKDrSW7HjN9JIK8Q7xBhJw1fxXDxOpX1
+ WO6lUrNavPE+qLGrfqAk+KbCyj9in0WrnYJoy9IpjtEeGbHw2aht73VVhhZzobR/j53R
+ AxUw==
+X-Gm-Message-State: ACrzQf0ePk6fp7GO0Jn9NprjEAwY0JPX02UunY+IGErB3MGMOIkR+hDt
+ s9slx4XVM43tCZ2LCP6z6J4PBHbkddmhPQ==
+X-Google-Smtp-Source: AMsMyM48Q9f+baf4ih+ZTK1RG35KBB4cpwpltfc5jiOB+oQ3/1OZgO2o1glprCNgHxKVaCMvouUbyA==
+X-Received: by 2002:adf:e804:0:b0:236:657e:756e with SMTP id
+ o4-20020adfe804000000b00236657e756emr37011960wrm.452.1667932434456; 
+ Tue, 08 Nov 2022 10:33:54 -0800 (PST)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ ay15-20020a05600c1e0f00b003c6deb5c1edsm12651621wmb.45.2022.11.08.10.33.53
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Tue, 08 Nov 2022 10:33:53 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 0/3] Memory/SDHCI/ParallelFlash patches for v7.2.0-rc0
+Date: Tue,  8 Nov 2022 19:33:49 +0100
+Message-Id: <20221108183352.9466-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20221108041929.18417-1-jasowang@redhat.com>
-In-Reply-To: <20221108041929.18417-1-jasowang@redhat.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 8 Nov 2022 13:18:12 -0500
-Message-ID: <CAJSP0QX85Eyf0HmKerQ=7K-QHcEwKh+vUyuyugTErcBO-k-xwg@mail.gmail.com>
-Subject: Re: [PULL 0/2] Net patches
-To: Jason Wang <jasowang@redhat.com>
-Cc: stefanha@redhat.com, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x112b.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,12 +89,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 7 Nov 2022 at 23:20, Jason Wang <jasowang@redhat.com> wrote:
-> Si-Wei Liu (1):
->       vhost-vdpa: fix assert !virtio_net_get_subqueue(nc)->async_tx.elem in virtio_net_reset
+The following changes since commit ade760a2f63804b7ab1839fbc3e5ddbf30538718:
 
-I have applied just this patch to the staging tree.
+  Merge tag 'pull-request-2022-11-08' of https://gitlab.com/thuth/qemu into staging (2022-11-08 11:34:06 -0500)
 
-Thanks,
-Stefan
+are available in the Git repository at:
+
+  https://github.com/philmd/qemu.git tags/memflash-20221108
+
+for you to fetch changes up to cf9b3efd816518f9f210f50a0fa3e46a00b33c27:
+
+  Revert "hw/block/pflash_cfi: Error out if dev length isn't power of 2" (2022-11-08 19:29:25 +0100)
+
+----------------------------------------------------------------
+Memory/SDHCI/ParallelFlash patches queue
+
+- Fix wrong end address dump in 'info mtree' (Zhenzhong Duan)
+- Fix in SDHCI for CVE-2022-3872 (myself)
+- Revert latest pflash check of underlying block size (Daniel
+  Henrique Barboza & myself)
+
+----------------------------------------------------------------
+
+Daniel Henrique Barboza (1):
+  Revert "hw/block/pflash_cfi: Error out if dev length isn't power of 2"
+
+Philippe Mathieu-Daudé (1):
+  hw/sd/sdhci: Do not set Buf Wr Ena before writing block
+    (CVE-2022-3872)
+
+Zhenzhong Duan (1):
+  memory: Fix wrong end address dump
+
+ hw/block/pflash_cfi01.c | 8 ++------
+ hw/block/pflash_cfi02.c | 5 -----
+ hw/sd/sdhci.c           | 2 +-
+ softmmu/physmem.c       | 2 +-
+ 4 files changed, 4 insertions(+), 13 deletions(-)
+
+-- 
+2.38.1
+
 
