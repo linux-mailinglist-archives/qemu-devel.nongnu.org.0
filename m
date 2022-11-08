@@ -2,114 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87946620D42
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 11:29:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4077A620E1B
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 12:05:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osLqW-00080g-La; Tue, 08 Nov 2022 05:28:44 -0500
+	id 1osMOU-0001VN-92; Tue, 08 Nov 2022 06:03:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1osLqU-0007zx-AK; Tue, 08 Nov 2022 05:28:42 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1osLqS-0003BE-0d; Tue, 08 Nov 2022 05:28:42 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A89bbfe004955;
- Tue, 8 Nov 2022 10:28:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=NQgGHMUu3E/7M/S0JfSXKxnlS5eEQY6yEmMwDgaSggQ=;
- b=eY5y2hDoFzwmrkCUuvty+oSbh512vJ69AiUqvMc4ZyeOpYjWv/8orOWBMCFRr9aGAAja
- MlQpWNuztQbr6wQsxkExJWGCV6juDE5W0h1KrHH33d8i/SL4NeIGBB4cbFaB9h6ZZF7d
- l6WekPl5DcHQFcCM0deBDcPCywXXXAFV5cMF5vRENJwwB3QksbUdpGHVXEpz5ZDTCbvD
- aip2LpOqdaoCAa/LV13g6O8l7dXP5G/bXEfEITJyYU1n+OfzigBJ3e9F5IfnY2FkB2Tu
- B+cbG+qZjZF54QrDHIQBLYFStTmczxeB0WH08F+4pbZxWWocEk9go/NM+0vATqQya2q5 iQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kqmn6sc94-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Nov 2022 10:28:30 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2A89dOVD013501;
- Tue, 8 Nov 2022 10:28:29 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kqmn6sc8d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Nov 2022 10:28:29 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A8ANJSw028011;
- Tue, 8 Nov 2022 10:28:27 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma06fra.de.ibm.com with ESMTP id 3kngq8juuh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Nov 2022 10:28:27 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2A8ASOdc63177158
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 8 Nov 2022 10:28:24 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E3CC64C052;
- Tue,  8 Nov 2022 10:28:23 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BCBCD4C044;
- Tue,  8 Nov 2022 10:28:22 +0000 (GMT)
-Received: from [9.171.67.69] (unknown [9.171.67.69])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  8 Nov 2022 10:28:22 +0000 (GMT)
-Message-ID: <bfbed606-d2dd-1b53-87f0-00a7fc0c7a2f@linux.ibm.com>
-Date: Tue, 8 Nov 2022 11:28:22 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1osMOR-0001VA-Jf
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 06:03:47 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1osMOO-0004Me-8U
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 06:03:47 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id io19so13848497plb.8
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 03:03:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=8LX549Pdkac58vBJNEchAIRgJm0xPNvTerD59CCZrFA=;
+ b=kpEsQQQlu8na1AnMaOJhAg8AzQzP2iXsmuU38A6eZVFmhozOdyEWUyCRoypWyB4/Vk
+ xqkvHoITbgO7WFnfwLxEjQgIzGplYxdsdJ9vApdq6mxUcF1lEH3JXM/r3M+t0A10/CLp
+ YuPhD+uhfDqZ51HEyCcbXvXEPJRWMR8xTvHPPAHKAsb/v6aif5S2Sj0FgGSlsZIXqfWw
+ z6Ursm037Fmx37IwQuCCzpvytXkcOjgthHeoeGt9VKDBX3TqrokfU1WboV9DduBA53cc
+ una5NlKe8DAJZn0b0ostixnczU9LGhQvCJszf9G/a3wDZzoIlZ5OQ1extPQ8neANDkI0
+ mZTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8LX549Pdkac58vBJNEchAIRgJm0xPNvTerD59CCZrFA=;
+ b=yK66dMHGUzxxYvI5kiSroeqikEMMiWSs+M9WbjlHuS+zfHfPYtcHp+JCSfLyQP6P9G
+ yAHkam8MZQWB3UvHHwT+yDmtZMEgDcQgIO2ae5wlO8yPpy4KpYo7XQ2uE5LxalCSMDxU
+ 45zoYd8RCIcmaWNmjjxqxS8sqBYQDfq2WIMugrtmrsPtXahVBaOo8Led514pOrQtf3np
+ 0CfnqrTltnwXIUlw5/LIwKh4DP7kw04taDnvWFDNd5AzOioIwj4O54KKWY6MDTWe2GFz
+ fqEsMlM/Z7v8O5s8jLLCqpu2yCksc1qHIsZqzUrl+9kdXCXBLhjVZ07JA3niFjbU0BHj
+ mRgQ==
+X-Gm-Message-State: ACrzQf3odswzusHTbjluIkV9tPixtRr8LylOk7g8lwQLuHKYyb2s5DDf
+ LSCwkr0P3BDgt+kDhC+ea4OCfQ==
+X-Google-Smtp-Source: AMsMyM4vxp+k0A+M6fhZsS6+jkOszM/pEUuZ29MnAYhaYkz40zVUZJV6CGfgxMFuc9DhrtWARCpPRQ==
+X-Received: by 2002:a17:90a:12c4:b0:213:fbf0:319a with SMTP id
+ b4-20020a17090a12c400b00213fbf0319amr42744140pjg.65.1667905422133; 
+ Tue, 08 Nov 2022 03:03:42 -0800 (PST)
+Received: from ?IPV6:2001:8003:d918:7a00:147b:b19a:2ea9:e6f8?
+ ([2001:8003:d918:7a00:147b:b19a:2ea9:e6f8])
+ by smtp.gmail.com with ESMTPSA id
+ d1-20020a170903230100b00178b9c997e5sm6664859plh.138.2022.11.08.03.03.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Nov 2022 03:03:41 -0800 (PST)
+Message-ID: <ab34973e-c045-7e5c-164a-9992ca078307@linaro.org>
+Date: Tue, 8 Nov 2022 21:41:57 +1100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v10 1/9] s390x/cpu topology: core_id sets s390x CPU
- topology
-To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20221012162107.91734-1-pmorel@linux.ibm.com>
- <20221012162107.91734-2-pmorel@linux.ibm.com>
- <ad2a9892184cd5dc7597d411f42e330558146acf.camel@linux.ibm.com>
- <15b829ca-14d0-dc77-5e1e-1b4455784ed6@linux.ibm.com>
- <c1c2a492596c3f853ca260e22ba2c9f8afb9a0ae.camel@linux.ibm.com>
- <2657bf9e-add2-1f48-18c9-9f9e5b561c80@linux.ibm.com>
- <4b2dcb313e3409697b702308d94078d16c6cd955.camel@linux.ibm.com>
+ Thunderbird/102.2.2
+Subject: Re: [PULL v3 3/7] hw/loongarch: Load FDT table into dram memory space
 Content-Language: en-US
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <4b2dcb313e3409697b702308d94078d16c6cd955.camel@linux.ibm.com>
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: stefanha@gmail.com, Xiaojuan Yang <yangxiaojuan@loongson.cn>
+References: <20221105032857.3789472-1-gaosong@loongson.cn>
+ <20221105032857.3789472-4-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221105032857.3789472-4-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: dZ2kW1seKpOIovDP_Aifown-Ynoh-Rsv
-X-Proofpoint-ORIG-GUID: wEIPNO0UyQRDZzq-gGVn8OqiiAjz_7X7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-07_11,2022-11-07_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 mlxscore=0
- bulkscore=0 spamscore=0 clxscore=1015 adultscore=0 malwarescore=0
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 mlxlogscore=999
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211080054
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -126,116 +94,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 11/7/22 19:04, Janis Schoetterl-Glausch wrote:
-> On Fri, 2022-10-28 at 11:30 +0200, Pierre Morel wrote:
->>
->> On 10/27/22 22:20, Janis Schoetterl-Glausch wrote:
->>> On Wed, 2022-10-26 at 10:34 +0200, Pierre Morel wrote:
->>>>
->>>> On 10/25/22 21:58, Janis Schoetterl-Glausch wrote:
->>>>> On Wed, 2022-10-12 at 18:20 +0200, Pierre Morel wrote:
->>>>>> In the S390x CPU topology the core_id specifies the CPU address
->>>>>> and the position of the core withing the topology.
->>>>>>
->>>>>> Let's build the topology based on the core_id.
->>>>>> s390x/cpu topology: core_id sets s390x CPU topology
->>>>>>
->>>>>> In the S390x CPU topology the core_id specifies the CPU address
->>>>>> and the position of the cpu withing the topology.
->>>>>>
->>>>>> Let's build the topology based on the core_id.
->>>>>>
->>>>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>>>>> ---
->>>>>>     include/hw/s390x/cpu-topology.h |  45 +++++++++++
->>>>>>     hw/s390x/cpu-topology.c         | 132 ++++++++++++++++++++++++++++++++
->>>>>>     hw/s390x/s390-virtio-ccw.c      |  21 +++++
->>>>>>     hw/s390x/meson.build            |   1 +
->>>>>>     4 files changed, 199 insertions(+)
->>>>>>     create mode 100644 include/hw/s390x/cpu-topology.h
->>>>>>     create mode 100644 hw/s390x/cpu-topology.c
->>>>>>
->>>>> [...]
->>>>>
->>>>>> +/**
->>>>>> + * s390_topology_realize:
->>>>>> + * @dev: the device state
->>>>>> + * @errp: the error pointer (not used)
->>>>>> + *
->>>>>> + * During realize the machine CPU topology is initialized with the
->>>>>> + * QEMU -smp parameters.
->>>>>> + * The maximum count of CPU TLE in the all Topology can not be greater
->>>>>> + * than the maximum CPUs.
->>>>>> + */
->>>>>> +static void s390_topology_realize(DeviceState *dev, Error **errp)
->>>>>> +{
->>>>>> +    MachineState *ms = MACHINE(qdev_get_machine());
->>>>>> +    S390Topology *topo = S390_CPU_TOPOLOGY(dev);
->>>>>> +
->>>>>> +    topo->cpus = ms->smp.cores * ms->smp.threads;
->>>>>
->>>>> Currently threads are not supported, effectively increasing the number of cpus,
->>>>> so this is currently correct. Once the machine version limits the threads to 1,
->>>>> it is also correct. However, once we support multiple threads, this becomes incorrect.
->>>>> I wonder if it's ok from a backward compatibility point of view to modify the smp values
->>>>> by doing cores *= threads, threads = 1 for old machines.
->>>>
->>>> Right, this will become incorrect with thread support.
->>>> What about having a dedicated function:
->>>>
->>>> 	topo->cpus = s390_get_cpus(ms);
->>>>
->>>> This function will use the S390CcwMachineClass->max_thread introduced
->>>> later to report the correct number of CPUs.
->>>
->>> I don't think max_threads is exactly what matters here, it's if
->>> threads are supported or not or, if max_threads == 1 it doesn't matter.
->>> The question is how best to do the check. You could check the machine version.
->>> I wonder if you could add a feature bit for the multithreading facility that is
->>> always false and use that.
->>>
->>> I don't know if using a function makes a difference, that is if it is obvious on
->>> introduction of multithreading support that the function needs to be updated.
->>> (If it is implemented in a way that requires updating, if you check the machine
->>> version it doesn't)
->>> In any case, the name you suggested isn't very descriptive.
->>
->> I think we care about this machine and olders.
->> Olders do not support topology so this, Multithreading (MT) does not mater.
->> This machine support topology, if I follow Cedric advise, the
->> "max_thread" will/may be introduce before the topology.
->>
->> This in fact is not an implementation for MT or does not allow the
->> implementation of MT it is only a way to get rid of the false
->> information given to the user that we accept MT.
->>
->> So I think that when we introduce MT we will take care of making things
->> right at this place as in other places of the code.
->>
->> What about we keep the original:
->>
->>       topo->cpus = ms->smp.cores * ms->smp.threads;
+On 11/5/22 14:28, Song Gao wrote:
+> From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 > 
-> If topology is only supported for new machines and not the old machines
-> for which you set max_threads to a compatibility value (max cpus), then
-> you should just ignore the threads, cpus == cores.
-> (There might not be any point in keeping a topo->cpus member in this case, I haven't checked)
+> Load FDT table into dram memory space, and the addr is 2 MiB.
+> Since lowmem region starts from 0, FDT base address is located
+> at 2 MiB to avoid NULL pointer access.
+> 
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Acked-by: Song Gao <gaosong@loongson.cn>
+> Message-Id: <20221028014007.2718352-2-yangxiaojuan@loongson.cn>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> ---
+>   hw/loongarch/virt.c         | 18 +++++++++++-------
+>   include/hw/loongarch/virt.h |  3 ---
+>   2 files changed, 11 insertions(+), 10 deletions(-)
 
-Right but, I need the nr_cpus in the topology so I prefer to keep it.
+This breaks make check-tcg:
 
-However, smp.threads has nothing to do there anymore as you pointed.
-I think that nr_cpus should may be named nr_cores and should be set to 
-smp.cores.
+   TEST    hello on loongarch64
+qemu-system-loongarch64: Some ROM regions are overlapping
+These ROM regions might have been loaded by direct user request or by default.
+They could be BIOS/firmware images, a guest kernel, initrd or some other file loaded into 
+guest memory.
+Check whether you intended to load all this guest code, and whether it has been built to 
+load to the correct addresses.
 
-Thanks,
-Regards,
+The following two regions overlap (in the memory address space):
+   hello ELF program header segment 0 (addresses 0x0000000000200000 - 0x0000000000242000)
+   fdt (addresses 0x0000000000200000 - 0x0000000000300000)
+make[1]: *** [Makefile:177: run-hello] Error 1
 
-Pierre
+
+r~
 
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+> 
+> diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+> index 4b595a9ea4..50e9829a94 100644
+> --- a/hw/loongarch/virt.c
+> +++ b/hw/loongarch/virt.c
+> @@ -159,7 +159,6 @@ static void fdt_add_pcie_node(const LoongArchMachineState *lams)
+>                                    1, FDT_PCI_RANGE_MMIO, 2, base_mmio,
+>                                    2, base_mmio, 2, size_mmio);
+>       g_free(nodename);
+> -    qemu_fdt_dumpdtb(ms->fdt, lams->fdt_size);
+>   }
+>   
+>   static void fdt_add_irqchip_node(LoongArchMachineState *lams)
+> @@ -656,6 +655,7 @@ static void loongarch_init(MachineState *machine)
+>       MemoryRegion *address_space_mem = get_system_memory();
+>       LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
+>       int i;
+> +    hwaddr fdt_base;
+>   
+>       if (!cpu_model) {
+>           cpu_model = LOONGARCH_CPU_TYPE_NAME("la464");
+> @@ -760,12 +760,16 @@ static void loongarch_init(MachineState *machine)
+>       lams->machine_done.notify = virt_machine_done;
+>       qemu_add_machine_init_done_notifier(&lams->machine_done);
+>       fdt_add_pcie_node(lams);
+> -
+> -    /* load fdt */
+> -    MemoryRegion *fdt_rom = g_new(MemoryRegion, 1);
+> -    memory_region_init_rom(fdt_rom, NULL, "fdt", VIRT_FDT_SIZE, &error_fatal);
+> -    memory_region_add_subregion(get_system_memory(), VIRT_FDT_BASE, fdt_rom);
+> -    rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, VIRT_FDT_BASE);
+> +    /*
+> +     * Since lowmem region starts from 0, FDT base address is located
+> +     * at 2 MiB to avoid NULL pointer access.
+> +     *
+> +     * Put the FDT into the memory map as a ROM image: this will ensure
+> +     * the FDT is copied again upon reset, even if addr points into RAM.
+> +     */
+> +    fdt_base = 2 * MiB;
+> +    qemu_fdt_dumpdtb(machine->fdt, lams->fdt_size);
+> +    rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, fdt_base);
+>   }
+>   
+>   bool loongarch_is_acpi_enabled(LoongArchMachineState *lams)
+> diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
+> index 09f1c88ee5..45c383f5a7 100644
+> --- a/include/hw/loongarch/virt.h
+> +++ b/include/hw/loongarch/virt.h
+> @@ -28,9 +28,6 @@
+>   #define VIRT_GED_MEM_ADDR       (VIRT_GED_EVT_ADDR + ACPI_GED_EVT_SEL_LEN)
+>   #define VIRT_GED_REG_ADDR       (VIRT_GED_MEM_ADDR + MEMORY_HOTPLUG_IO_LEN)
+>   
+> -#define VIRT_FDT_BASE           0x1c400000
+> -#define VIRT_FDT_SIZE           0x100000
+> -
+>   struct LoongArchMachineState {
+>       /*< private >*/
+>       MachineState parent_obj;
+
 
