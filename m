@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6E2620C4C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 10:33:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F35620C4F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 10:34:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osKyu-0006Hh-5y; Tue, 08 Nov 2022 04:33:20 -0500
+	id 1osKzo-0006hq-4I; Tue, 08 Nov 2022 04:34:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osKyo-0006HN-IB
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:33:14 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osKzf-0006d8-JI
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:34:13 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osKyk-0002Ka-Ad
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:33:12 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osKzd-0006WC-Ji
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:34:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667899989;
+ s=mimecast20190719; t=1667900045;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZLhra6PwfPu5KAYZI0d3ii4giMnI4NKzYX8XK8JRBSE=;
- b=VZ4qx2NMWuuGnzOHae5ePVgAg/+sTpAyGbVj0VoKZSz8BI2+1M56Mi1goXgbhJPeaYNPb+
- JJ3SteNR/MpE/ZLx0yeCVlt6ZK+YR2MCheA1N+J1uydJwbVwrUsq9lMpFHrH5c++LXh5TO
- zsI0dU1o/sMU6eASf3t2H2o5nUHQEwg=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=N+lyAqQEyajv+edu2RW1YAR6wK3LN8HMOZ+kHZo9elc=;
+ b=Xy6cu5LgdRWFpDQjpXNi647cDGq5tYp7aRDb7JlwtnOFxXpyPwxbqRHy78CEDg1ML94vcY
+ gmK5+arr/6ur/EA65Ext4BhTOG0FPIhvtZqecuXDbpSni3uQQR0yhCmvlULdQfSb46ccss
+ GNn+esWLJc/M5Dm+enzQgoviN1LzMG8=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-645-BLfcGXCKO764y1R8uvO9xw-1; Tue, 08 Nov 2022 04:33:08 -0500
-X-MC-Unique: BLfcGXCKO764y1R8uvO9xw-1
-Received: by mail-qk1-f199.google.com with SMTP id
- n13-20020a05620a294d00b006cf933c40feso12507648qkp.20
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 01:33:08 -0800 (PST)
+ us-mta-481-FRDxhYFuNtG7s79HYWygYA-1; Tue, 08 Nov 2022 04:34:03 -0500
+X-MC-Unique: FRDxhYFuNtG7s79HYWygYA-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ g1-20020ad45101000000b004bb5eb9913fso9330590qvp.16
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 01:34:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZLhra6PwfPu5KAYZI0d3ii4giMnI4NKzYX8XK8JRBSE=;
- b=X+cyb+q0U8K9sm/92kpMeKqpCQBb9TDKyAPThavfEGwsdBHbIkXJ0SU4LYjkqnBSfs
- J8h5ECjxfStQVQPxY65xY3GdyMJI3upt06KZV/6GsYOnbGxgbDIL7d7/FIVH/KjMe7cB
- cX5bNHvUyzlqGCeRBVmr3gxnkT1CM9BVi1nkwYJKusAvH0u1NheMfu7XfcDQzUwVVE3w
- w/X2TyUAKJa6MGNGVGiqi4+wPkYHCeJ0Eb/gtvNaFAz3vw4m/7BN5PxiNTHpB1pwpa6H
- LgETwuoHh7NAiipONTHQjA8JaTVdGnl5Ne5m3kUJSVNxYHaJ+Y7NeV+6W1WCUtqvQw79
- O7mw==
-X-Gm-Message-State: ACrzQf2KsPbeKGfehZG0uSp9QpnPoPEfcD6aOIyYDZ9zVAIJTNU1FkVk
- y1y1e1il0douQfEa6h12MPf4f85MVVTRIHFCB7xgeznw4tus2VWBLy6xTEDfMdjUCebPG4a6Ho+
- 0JbnsGW6x/0D/WNw=
-X-Received: by 2002:a05:620a:27cf:b0:6ee:7aba:d34c with SMTP id
- i15-20020a05620a27cf00b006ee7abad34cmr860325qkp.398.1667899987102; 
- Tue, 08 Nov 2022 01:33:07 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5dfuHvSTAMGrHBFONSgowB8ST6hkmnUJk2lPBJBqeGWz3pUvgneab5O9pkeTFbkFrEBI2Kxg==
-X-Received: by 2002:a05:620a:27cf:b0:6ee:7aba:d34c with SMTP id
- i15-20020a05620a27cf00b006ee7abad34cmr860310qkp.398.1667899986701; 
- Tue, 08 Nov 2022 01:33:06 -0800 (PST)
+ bh=N+lyAqQEyajv+edu2RW1YAR6wK3LN8HMOZ+kHZo9elc=;
+ b=qcKicgw5rNG3/03wNdCeH8cx5wMRg9Rf9SQkhretrD4Sc8wo1da9bbpAMNzNRrrhnh
+ OjK9emLn+iwFwnA/ofQAILXWUs9WT97ifFXAqd6pQ+fHxPJgVGYilKWTp46kn5BN+T8K
+ QfQLDI0c0SVzhSj4x30alakFgqN3qhW1s4TLTG+PSHtVLWvGWpnZ+CQJwqAZKWR+laUJ
+ wrOvqbLUIKMnEqj4vcw8WzBi3ZlXeUbLc0r8QrL7r5lA89Q3MQxN1gtNv/c2K3ULR4q6
+ WXwvb3nL2tlyeVtg8r6W2j6AVi0qjIh6Sq3n2M0h+h1VaeaGMeRKSmZrKdhW1ApUgcg6
+ cnQQ==
+X-Gm-Message-State: ACrzQf0bHzmouJBW5g28nqsLK1bfGY6YZ0zMn537Ts8iKQHixu6hUxEy
+ Ro8ssmY1oSqw/lwQTYWyJVPbmH6y3WrQmgcWK7W854+kPGLY45uHF0cwTkJI2RPIuvIgTphe6Vr
+ 3ZdSEjsdnWjzodbo=
+X-Received: by 2002:a05:622a:148c:b0:3a5:b66:f377 with SMTP id
+ t12-20020a05622a148c00b003a50b66f377mr42759252qtx.125.1667900043191; 
+ Tue, 08 Nov 2022 01:34:03 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5ZIhp6xDlM64KmnvdwjcMZWAoHMuJAL6ZqQdQ07U1YKDmGNyKeh5oDgXk+P+B9rlNYx5Hp2Q==
+X-Received: by 2002:a05:622a:148c:b0:3a5:b66:f377 with SMTP id
+ t12-20020a05622a148c00b003a50b66f377mr42759235qtx.125.1667900042730; 
+ Tue, 08 Nov 2022 01:34:02 -0800 (PST)
 Received: from redhat.com ([138.199.52.3]) by smtp.gmail.com with ESMTPSA id
- g10-20020a05620a40ca00b006f3e6933bacsm9028159qko.113.2022.11.08.01.33.01
+ r16-20020ac87ef0000000b003996aa171b9sm7675978qtc.97.2022.11.08.01.33.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Nov 2022 01:33:06 -0800 (PST)
-Date: Tue, 8 Nov 2022 04:32:59 -0500
+ Tue, 08 Nov 2022 01:34:02 -0800 (PST)
+Date: Tue, 8 Nov 2022 04:33:55 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
@@ -74,7 +74,7 @@ Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
  "open list:Block layer core" <qemu-block@nongnu.org>,
  "open list:virtiofs" <virtio-fs@redhat.com>
 Subject: Re: [PATCH  v1 5/9] hw/virtio: introduce virtio_device_should_start
-Message-ID: <20221108043249-mutt-send-email-mst@kernel.org>
+Message-ID: <20221108043313-mutt-send-email-mst@kernel.org>
 References: <20221108092308.1717426-1-alex.bennee@linaro.org>
  <20221108092308.1717426-6-alex.bennee@linaro.org>
 MIME-Version: 1.0
@@ -122,7 +122,7 @@ On Tue, Nov 08, 2022 at 09:23:04AM +0000, Alex Bennée wrote:
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > Cc: "Michael S. Tsirkin" <mst@redhat.com>
 
-why is this in this patchset?
+is this the same as the RFC?
 
 > ---
 >  include/hw/virtio/virtio.h   | 18 ++++++++++++++++++
@@ -264,5 +264,8 @@ why is this in this patchset?
 >      if (vhost_dev_is_started(&vvc->vhost_dev) == should_start) {
 > -- 
 > 2.34.1
+> 
+> 
+> 
 
 
