@@ -2,84 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960286217A3
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 16:05:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE7C6217B2
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 16:10:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osQ9T-00050G-5C; Tue, 08 Nov 2022 10:04:35 -0500
+	id 1osQEF-0007KU-8t; Tue, 08 Nov 2022 10:09:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1osQ93-0004vj-U0
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:04:14 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1osQEC-0007KB-Ri
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:09:28 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1osQ90-0005R6-Fy
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:04:09 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1osQE7-0005uZ-O8
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:09:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667919845;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1667920161;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jxQOX9qI5Q816weuY2735uu256Gb8VOPiCr6mUMaQKY=;
- b=QH7TrWIHP1EKJgYIMQFjHmTwsvagP65Vdc0MHEvV9tIrRzzPf4PbbYKCm5JuujG1rEmJ8D
- pRUVdwlEphmM0JYzSOdlsgLIBd+Wxwc7lUN6ab4QNQMH+3rAVXyHNy71RFqADl51r1zpyf
- bc6glHHZ9q8qH1ZiNxE8eVVC1jsW1k8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-171-EtURvIGBM92myZ9me_qNLg-1; Tue, 08 Nov 2022 10:04:01 -0500
-X-MC-Unique: EtURvIGBM92myZ9me_qNLg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1B640185A7A9;
- Tue,  8 Nov 2022 15:04:01 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E833640C2064;
- Tue,  8 Nov 2022 15:03:58 +0000 (UTC)
-Date: Tue, 8 Nov 2022 15:03:56 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: Andrew Jones <ajones@ventanamicro.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Sunil V L <sunilvl@ventanamicro.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, David Edmondson <david.edmondson@oracle.com>
-Subject: Re: [PATCH V2] hw/riscv: virt: Remove size restriction for pflash
-Message-ID: <Y2pv3M5voj2iLqTo@redhat.com>
-References: <20221107130217.2243815-1-sunilvl@ventanamicro.com>
- <CAFEAcA8X3Q7s6qZ=ojE9fTLG464rrZw+FX=4hmMOhwR-Q4n2sA@mail.gmail.com>
- <Y2kRWNnk7wDxPnBK@sunil-laptop> <871qqehib4.fsf@linaro.org>
- <Y2kv/k5oKGOd+90w@redhat.com>
- <20221107173201.343hkqqugkzdzqcf@kamzik>
- <Y2lBnPuUA4bgKCLL@redhat.com>
- <934d7560-daee-9f7e-2abb-640575768b2f@linaro.org>
+ bh=Ub9f5Wv1bizPlXViM9XJONRVleIcQXvvwBx5YeVq1t8=;
+ b=AbuGLLFC85fLS+5HVcXl+JYoe8pBe5uzmsdeMyDCNdBz+hab0Lz4sn+Rfd02spiedkF7vq
+ A5JTjpT+JxA7r6vtoZMQ6RqKhj5OXzVPhY083lgn5pIT3JBrzv5A7sZHmm4a6iUzraTHNi
+ xVidgBQ3S9Lb5Qj/7KNfZLTlNQaOgCk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-447-KvYOPE4OOYKi5i2qijQBmw-1; Tue, 08 Nov 2022 10:09:20 -0500
+X-MC-Unique: KvYOPE4OOYKi5i2qijQBmw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i82-20020a1c3b55000000b003cf9bd60855so2817657wma.6
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 07:09:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ub9f5Wv1bizPlXViM9XJONRVleIcQXvvwBx5YeVq1t8=;
+ b=RjbLaqNdl62Yfxj0oqQJjFDbRQk45C39bzEkMmt9MXWDv8K65TbZbKSmpSw6hUi61u
+ KEanq/vDCICxq0WDcAnP1GeoJsPjR/iOrr/VCrZ6i34GkqiMy6Madb1R0h/woaxbIngy
+ yunOFaRIG4Y34C4eb77vbGRTe8RQxQdTAYqFWGOqjg/Jt6+FR33M1kXSpNiA6IdgJC/9
+ 7Pl3uicyGw2i4B7sm2MZbkUWLPDgiDMJpxPW9UukPUG/1cdGJfd+4q1zaKfc18tXAAjC
+ ByG0hUdz6bit/l0BanCUxhWlGESitXBay2nnjb4Wh15PBS8wR1t33rYi7dWVk9JY+nCm
+ nqRQ==
+X-Gm-Message-State: ACrzQf26eXjgLQh2unEU91CN+s4s8zgwQGFzy9cZAarez5lGkXjRFILe
+ /kmaPNQtNwUUNAoqmCERtt/SL1gkskKuTR0jRKWURR3gQWqACuaK0zBmyUQT1OK0Xz5oXlNKhcS
+ XYBLS9Rs7mpjGAK8=
+X-Received: by 2002:a05:600c:1e8f:b0:3cf:7126:1fd0 with SMTP id
+ be15-20020a05600c1e8f00b003cf71261fd0mr731889wmb.14.1667920158768; 
+ Tue, 08 Nov 2022 07:09:18 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5AlFsdWvHvUjKnZC7DOjLhgrPFicGUaHXgh6yTqqImsEPgIR/5lAXf0mITwlM6JLfR/seiOg==
+X-Received: by 2002:a05:600c:1e8f:b0:3cf:7126:1fd0 with SMTP id
+ be15-20020a05600c1e8f00b003cf71261fd0mr731873wmb.14.1667920158437; 
+ Tue, 08 Nov 2022 07:09:18 -0800 (PST)
+Received: from [192.168.8.100] (tmo-064-15.customers.d1-online.com.
+ [80.187.64.15]) by smtp.gmail.com with ESMTPSA id
+ h2-20020a5d4302000000b0022ae0965a8asm10383333wrq.24.2022.11.08.07.09.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Nov 2022 07:09:17 -0800 (PST)
+Message-ID: <6a8ecf61-e6c6-62fb-60e1-d4bf9fcf67e3@redhat.com>
+Date: Tue, 8 Nov 2022 16:09:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PULL 00/55] MIPS patches for 2022-10-30
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Michael Roth
+ <michael.roth@amd.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
+ <marcandre.lureau@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Yonggang Luo <luoyonggang@gmail.com>, Stefan Weil <sw@weilnetz.de>
+Cc: qemu-devel@nongnu.org, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Stefan Pejic <stefan.pejic@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Aurelien Jarno
+ <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20221030222841.42377-1-philmd@linaro.org>
+ <CAFEAcA-d=GrGNm9vhc6Q-UnQAQt+RLnwRj=dbif=iMKTRAabpQ@mail.gmail.com>
+ <ed6dcb59-a936-e254-4786-0630cbe80f0e@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <ed6dcb59-a936-e254-4786-0630cbe80f0e@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <934d7560-daee-9f7e-2abb-640575768b2f@linaro.org>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,108 +107,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 08, 2022 at 03:12:42PM +0100, Philippe Mathieu-Daudé wrote:
-> On 7/11/22 18:34, Daniel P. Berrangé wrote:
-> > On Mon, Nov 07, 2022 at 06:32:01PM +0100, Andrew Jones wrote:
-> > > On Mon, Nov 07, 2022 at 04:19:10PM +0000, Daniel P. Berrangé wrote:
-> > > > On Mon, Nov 07, 2022 at 03:50:44PM +0000, Alex Bennée wrote:
-> > > > > 
-> > > > > Sunil V L <sunilvl@ventanamicro.com> writes:
-> > > > > 
-> > > > > > On Mon, Nov 07, 2022 at 01:06:38PM +0000, Peter Maydell wrote:
-> > > > > > > On Mon, 7 Nov 2022 at 13:03, Sunil V L <sunilvl@ventanamicro.com> wrote:
-> > > > > > > > 
-> > > > > > > > The pflash implementation currently assumes fixed size of the
-> > > > > > > > backend storage. Due to this, the backend storage file needs to be
-> > > > > > > > exactly of size 32M. Otherwise, there will be an error like below.
-> > > > > > > > 
-> > > > > > > > "device requires 33554432 bytes, block backend provides 4194304 bytes"
-> > > > > > > > 
-> > > > > > > > Fix this issue by using the actual size of the backing store.
-> > > > > > > > 
-> > > > > > > > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
-> > > > > > > > ---
-> > > > > > > 
-> > > > > > > Do you really want the flash device size presented to the guest
-> > > > > > > to be variable depending on what the user passed as a block backend?
-> > > > > > > I don't think this is how we handle flash devices on other boards...
-> > > > > > > 
-> > > > > > 
-> > > > > > Hi Peter,
-> > > > > > 
-> > > > > > x86 appears to support variable flash but arm doesn't. What is
-> > > > > > the reason for not supporting variable size flash in arm?
-> > > > > 
-> > > > > If I recall from the last time we went around this is was the question
-> > > > > of what you should pad it with.
-> > > > 
-> > > > Padding is a very good thing from the POV of upgrades. Firmware has shown
-> > > > a tendancy to change (grow) over time, and the size has an impact of the
-> > > > guest ABI/live migration state.
-> > > > 
-> > > > To be able to live migrate, or save/restore to/from files, then the machine
-> > > > firmware size needs to be sufficient to cope with future size changes of
-> > > > the firmware. The best way to deal with this is to not use the firmware
-> > > > binaries' minimum compiled size, but instead to pad it upto a higher
-> > > > boundary.
-> > > > 
-> > > > Enforcing such padding is a decent way to prevent users from inadvertantly
-> > > > painting themselves into a corner with a very specific firmware binary
-> > > > size at initial boot.
-> > > 
-> > > Padding is a good idea, but too much causes other problems. When building
-> > > lightweight VMs which may pull the firmware image from a network,
-> > > AArch64 VMs require 64MB of mostly zeros to be transferred first, which
-> > > can become a substantial amount of the overall boot time[*]. Being able to
-> > > create images smaller than the total flash device size, but still add some
-> > > pad for later growth, seems like the happy-medium to shoot for.
-> > 
-> > QEMU configures the firmware using -blockdev, so can use any file
-> > format that QEMU supports at the block layer.  IOW, you can store
-> > the firmware in a qcow2 file and thus you will never fetch any
-> > of the padding zeros to be transferred.  That said I'm not sure
-> > that libvirt supports anything other than a raw file today.
+On 08/11/2022 15.23, Philippe Mathieu-Daudé wrote:
+> On 8/11/22 14:59, Peter Maydell wrote:
+>> On Sun, 30 Oct 2022 at 22:29, Philippe Mathieu-Daudé <philmd@linaro.org> 
+>> wrote:
+>>>
+>>> The following changes since commit 344744e148e6e865f5a57e745b02a87e5ea534ad:
+>>>
+>>>    Merge tag 'dump-pull-request' of 
+>>> https://gitlab.com/marcandre.lureau/qemu into staging (2022-10-26 
+>>> 10:53:49 -0400)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>    https://github.com/philmd/qemu.git tags/mips-20221030
+>>>
+>>> for you to fetch changes up to 487099aee951e4966936acd3e9afd24c69de85ea:
+>>>
+>>>    hw/mips/malta: Use bootloader helper to set BAR registers (2022-10-30 
+>>> 23:08:10 +0100)
+>>>
+>>> ----------------------------------------------------------------
+>>> MIPS patches queue
+>>>
+>>> - Convert nanoMIPS disassembler from C++ to C (Milica Lazarevic)
+>>
+>> Was this the last use of C++ in the tree, or am I forgetting
+>> some other part that still needs the C++ compiler?
+>>
+>> If it is the last thing, we should put in the "Build Dependencies"
+>> part of the release notes that a C++ compiler is no longer required
+>> and mention that the configure options to specify it will go away in
+>> a future release.
 > 
-> Drew might be referring to:
+> I guess the last use is from the Guest Agent on Windows...
 > 
-> https://lore.kernel.org/qemu-devel/20210810134050.396747-1-david.edmondson@oracle.com/
-> 
->  > Currently ARM UEFI images are typically built as 2MB/768kB flash
->  > images for code and variables respectively. These images are both
->  > then padded out to 64MB before being loaded by QEMU.
->  >
->  > Because the images are 64MB each, QEMU allocates 128MB of memory to
->  > read them, and then proceeds to read all 128MB from disk (dirtying
->  > the memory). Of this 128MB less than 3MB is useful - the rest is
->  > zero padding.
->  >
->  > On a machine with 100 VMs this wastes over 12GB of memory.
-> 
-> See previous attempts:
-> - Huawei
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg607292.html
-> - Tencent
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg742066.html
-> - Oracle
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg760065.html
-> - Red Hat
-> https://www.mail-archive.com/qemu-block@nongnu.org/msg81714.html
+> $ git ls-files | fgrep .cpp
+> qga/vss-win32/install.cpp
+> qga/vss-win32/provider.cpp
+> qga/vss-win32/requester.cpp
 
-I've not looked at the patch series above in detail, but I'm thinking
-that even if the file is 64 MB in size, it should never read all 64 MB
-of data. The block layer APIs have ability to detect and report holes,
-so it ought to be possible to only read the data which is non-zero,
-and thus avoid dirtying more than 3 MB of useful
+Yes, I think the c++ configure options are still required for that Windows 
+stuff ... but IIRC Paolo once mentioned that we could simplify the linker 
+logic in configure or meson.build once the nanomips stuff has been 
+converted, since we now do not have to mix C and C++ linkage anymore?
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+  Thomas
 
 
