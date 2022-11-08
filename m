@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70E9621BB0
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 19:18:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323D8621BB6
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 19:19:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osTAS-0002EQ-Ih; Tue, 08 Nov 2022 13:17:48 -0500
+	id 1osTBI-0002eU-KR; Tue, 08 Nov 2022 13:18:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1osTAO-0002E2-AR; Tue, 08 Nov 2022 13:17:44 -0500
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32])
+ id 1osTB5-0002U8-V2
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 13:18:38 -0500
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1osTAM-000461-Qc; Tue, 08 Nov 2022 13:17:44 -0500
-Received: by mail-yb1-xb32.google.com with SMTP id 63so18325972ybq.4;
- Tue, 08 Nov 2022 10:17:41 -0800 (PST)
+ id 1osTB4-0004AL-4t
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 13:18:27 -0500
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-370547b8ca0so141675507b3.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 10:18:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GS5xOBU219I0ts2Koj+cOPUNu6uxItLQP18JOFLZopA=;
- b=erw45iYR4EPeU/gEb2haKJioV4qzBPE7Jzt9dMBGAzAnCpJKSZcCeQlJZWiYwiihb6
- l/0wQngK3f+PoSVtFi5Cjua+3q36KTv8U13KXkFH1s91Tz6A9HOVC1ya9DSAT5Dp9Xpn
- i3qhnJvsaNHtJMmkZTX3drZ83hReEuuNms3l54wH4VkYVTNomSm83Sb4+jBKWLo0Fl0n
- /DcMrie3v8Jo6hgkQofLZcpQK+CKalfMrDgSCdKDYq5tW045gtb7j9FCh19QmpuKDvWW
- vmCwl4eD+aWDNwwVzFFvuTw0XQOzDGdepoDqzN5nEnHj6QKK5DNEIMeQUNSQSM2BoXyn
- PpGQ==
+ bh=PHEMjDnvh5K3WTlMrUGagmE4uNvk6x1u0dPDDG5t1d4=;
+ b=Ccrehnb1tBrZha3uk44DH+a/9POzk+sEKhYUdpjEdRCIvmzpniC0GygC/Q/kYiMoia
+ aWirazGaDo74iAS2FRkY+94H2GsTNSEoqIIjl7gZnPvwaZ+zuXtQ/re1TPwUQS1jwfV8
+ UcWN9daCBrOF9F5h2vgNqebGi3EHl931PO+fY84SwLsldpxCUwCp1hDWsqpWyMp2evop
+ 6nTfk8HLmFNLaF0onP2UCLdhd9ZeMyLcKee3LCJXE48fenUxxvrkg1iTLUj1KLrNJbTf
+ FDYzp0U2XMPFHL7PH/opomAho6FURbJyL9dGUXY7nYoYHEXD3o4ka9641JzbOM5CrlNs
+ WYcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=GS5xOBU219I0ts2Koj+cOPUNu6uxItLQP18JOFLZopA=;
- b=GzMsAsZRHVhn75JpjYPHyRTsFkh7dyGf7Y1mxj5hVF1l4Zx3IvzgO1j1FMG/divEWY
- 3LOTawBAzw+02TNgLQT37Z7v9JwvkqUi/OGv7ij2GiEyNsHNOELZUrBTpJxEMJsp862g
- iDTxu4XEH2XiqEMKGbc79E7ESIh+73Y71y4iyrFOmkSSxhTvmK8MgdBJryG/kkKtyrHa
- tLFvObia0vaO0zXcUdNwgKs0aOgB5wfkq72A5pWt1gRCdxwIZMHu0LK1z9jUHQXd6tfX
- ns1P7X3IsonD6EiHYQrAT1KZ1NQ5mip/ZJ3hZVpfEaI5iKc+TBjnsczm04mAsfffbAji
- clxg==
-X-Gm-Message-State: ACrzQf3yO9AFLcRDvHviZ7f8C/gMx+t2JPOE4l3EAn0y9xY9sKeGML6N
- To9F5rZtpGht30ANO4/ihDgBtv7MoDQhZgQLhlY=
-X-Google-Smtp-Source: AMsMyM7pjtgYboO/aTP5VaNmqlpziAPJizAa7MiHZW72zqNw6aMu5tU14plxNh1bup+C3+wuiBfY/vWRx70nU2lDT58=
-X-Received: by 2002:a05:6902:191:b0:6cd:3a43:cda3 with SMTP id
- t17-20020a056902019100b006cd3a43cda3mr43352552ybh.207.1667931460006; Tue, 08
- Nov 2022 10:17:40 -0800 (PST)
+ bh=PHEMjDnvh5K3WTlMrUGagmE4uNvk6x1u0dPDDG5t1d4=;
+ b=ZIk08kxsjzdI7djdiQNkX7v+vUcx1NalalyyIwdrZ6MZ7+uFXuG95MSoKL8rK8eo30
+ J8pkZitsXU5RQjupdK68FcNg/WKOFwBjP4QIuOC9hHUzj8uytkUDVqVHmwZBX+KCdEGO
+ dLgDXBbZllE+XcWATEZSNfyjcP0JDSY+YS9OuXUkR+S0uLZbgzu/Tzh9n5Gl9AVk1C8B
+ weq/soKPdTZ8RdEAL6R+Gy/NSLFW4pT1/BKGpqEJOUTvFIs5eSA0ziEqHozBUlOCeX1h
+ rne+51jFBseC2jhhDvFIXiwEpatfhzcsYrJ76Rs886zUJIcMb8qg/UDQ8n2vOHI0GNw/
+ rNTA==
+X-Gm-Message-State: ACrzQf2bYr8gAcvRIQJ6nah+IiuVxRZEvXum8uD2QmUBFE0rvOwBpdGD
+ D+MLH+BpOkPhFtTo6Q8h7AK8evtIn/se38gFVDyob2gA
+X-Google-Smtp-Source: AMsMyM52bfqCelMCV0eGMxsqa7okRJhpL9GEF1wHMe/HA5VgaZUd7qAsXYvDKndc8vJouuZM6AMBzSkxX9tvwakVuHM=
+X-Received: by 2002:a81:8445:0:b0:36c:c302:8926 with SMTP id
+ u66-20020a818445000000b0036cc3028926mr55664425ywf.296.1667931503885; Tue, 08
+ Nov 2022 10:18:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20221107221236.47841-1-philmd@linaro.org>
-In-Reply-To: <20221107221236.47841-1-philmd@linaro.org>
+References: <20221108041929.18417-1-jasowang@redhat.com>
+In-Reply-To: <20221108041929.18417-1-jasowang@redhat.com>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 8 Nov 2022 13:17:28 -0500
-Message-ID: <CAJSP0QWQxRyQESv_LW+8ZgZc7Nzds8USydZ=4nD9dkNJSE6kGQ@mail.gmail.com>
-Subject: Re: [PATCH-for-7.2 0/2] hw/sd/sdhci: Do not set Buf Wr Ena before
- writing block (CVE-2022-3872)
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Sai Pavan Boddu <saipava@xilinx.com>, 
- Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org, 
- Alexander Bulekov <alxndr@bu.edu>, Bin Meng <bin.meng@windriver.com>, 
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>
+Date: Tue, 8 Nov 2022 13:18:12 -0500
+Message-ID: <CAJSP0QX85Eyf0HmKerQ=7K-QHcEwKh+vUyuyugTErcBO-k-xwg@mail.gmail.com>
+Subject: Re: [PULL 0/2] Net patches
+To: Jason Wang <jasowang@redhat.com>
+Cc: stefanha@redhat.com, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x112b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,7 +83,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Applied to the staging tree. Thanks!
+On Mon, 7 Nov 2022 at 23:20, Jason Wang <jasowang@redhat.com> wrote:
+> Si-Wei Liu (1):
+>       vhost-vdpa: fix assert !virtio_net_get_subqueue(nc)->async_tx.elem in virtio_net_reset
 
+I have applied just this patch to the staging tree.
+
+Thanks,
 Stefan
 
