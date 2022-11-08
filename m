@@ -2,57 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8092F621639
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:24:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9076216D3
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:32:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osPWZ-0002io-Nc; Tue, 08 Nov 2022 09:24:23 -0500
+	id 1osPdN-0004sW-Pa; Tue, 08 Nov 2022 09:31:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1osPWW-0002eE-QV
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:24:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1osPdA-0004rk-BN
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:31:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1osPWV-0004AV-5Z
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:24:20 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1osPd8-0000Eu-54
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:31:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667917458;
+ s=mimecast20190719; t=1667917869;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=bydDDK9MH3KqL1XsWzyHtj4XoCBAET0emCVBntaIOCo=;
- b=HlskOWVlOMcDPAu2nGdq1ZztJ1GH5Sab3KUvGW1PFHpj1j++8ouTuaKEhL7Xvh19liQ0qP
- oK76sQV8YeJjObgite6LPCnXlXkfB9Hfm3LmTXzzl2ECPbWK2MRQEgGnUgZpi6ojV684Ah
- 0JbvEp0M01UFYno7UyoVhxkVu6ufdZM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-344--3JC1JzMN9S5PBrxH9mLhg-1; Tue, 08 Nov 2022 09:24:00 -0500
-X-MC-Unique: -3JC1JzMN9S5PBrxH9mLhg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E83D2101AA46;
- Tue,  8 Nov 2022 14:23:59 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.192.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 399547AE5;
- Tue,  8 Nov 2022 14:23:58 +0000 (UTC)
-From: Alberto Faria <afaria@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Eric Blake <eblake@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
- Alberto Faria <afaria@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
-Subject: [PATCH] qapi/block-core: Fix BlockdevOptionsNvmeIoUring @path
- description
-Date: Tue,  8 Nov 2022 14:23:47 +0000
-Message-Id: <20221108142347.1322674-1-afaria@redhat.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SCUfauZwaB2evRNOHqV4AdHGDoltDtieuP7imswQuD0=;
+ b=W4/Pdgk8eDbp3Z3nH2eUHNRo4cRf6Q8P/gcYoXLtOh0S9qs+BWPC0TNA4hkcd3Xd3u9OO2
+ iZyk1DLHF7Lxx48mRebPaSqVDUFimgBdfpsD0/KmG6RtIXYm+PjA8PhBd4ZeO20iuWQ6uB
+ npv8LamE1YIMqR2ttE/tB+05Yg2fKKc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-605-_iMT2NJTNL-Bys6VN2eS8A-1; Tue, 08 Nov 2022 09:31:07 -0500
+X-MC-Unique: _iMT2NJTNL-Bys6VN2eS8A-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 1-20020a05600c028100b003cf7833293cso9970571wmk.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 06:31:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SCUfauZwaB2evRNOHqV4AdHGDoltDtieuP7imswQuD0=;
+ b=odu4MgMwyQeKGwgNSzCcMWlHc8X5tb8T7fR0cdIAxS+24ktFjUxYOebq/zthLX3EcD
+ q6y4SgVJ2IUlD1buSTap29NJV/YMhikxi9FxIlmuibP1AiifbO29Gi/jdWqNpIm9KCPH
+ rlBgaYu9D+iFS0+8RhYxlsR1Tt0IHw/UaUgi0d2d6bzdwy72rsfh4LofyDa/JLdnwkO9
+ jwXBhUSmEQqZWwg/4BuimcM0KIxbi/qmGUiuykSxmdsER8woC62Dvulb2v95gDILDg0X
+ 4e9isS5WhH4Jay5A8o7+dLPk95LQydPRZPqPJiaXGwJm5Cgu3bPz/Wtcp7ud5WRn+oP2
+ yN9Q==
+X-Gm-Message-State: ACrzQf2DQPjh0h3O/bhxmZWAUCzRABaYDvZqYF0cg5Lg8nkQQz3tKSQ8
+ m5nTn/do0ad8J/7sOBHC0pTjjdxQOIyMn6AuYcahLL1C5MfWjTHEAAOIuOdRVZHZLnF+2gf79Y7
+ n/bedyEpZk4N4IAQ=
+X-Received: by 2002:a05:600c:54e9:b0:3cf:92a6:30ad with SMTP id
+ jb9-20020a05600c54e900b003cf92a630admr17972632wmb.152.1667917866645; 
+ Tue, 08 Nov 2022 06:31:06 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM4V4QlS9SjQBA3nj0IY3/laOylr9ZLfkCAGj9Sb7y/sJC2Wx8Qi68VBLirEZq5SqkcF8PnfNg==
+X-Received: by 2002:a05:600c:54e9:b0:3cf:92a6:30ad with SMTP id
+ jb9-20020a05600c54e900b003cf92a630admr17972612wmb.152.1667917866390; 
+ Tue, 08 Nov 2022 06:31:06 -0800 (PST)
+Received: from fedora (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ p13-20020a05600c468d00b003cf75213bb9sm16307503wmo.8.2022.11.08.06.31.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Nov 2022 06:31:05 -0800 (PST)
+Date: Tue, 8 Nov 2022 15:31:05 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Ani
+ Sinha <ani@anisinha.ca>
+Subject: Re: [PULL v4 45/83] tests: acpi: whitelist DSDT before generating
+ PCI-ISA bridge AML automatically
+Message-ID: <20221108153105.05cfc186@fedora>
+In-Reply-To: <20221108084835-mutt-send-email-mst@kernel.org>
+References: <20221107224600.934080-1-mst@redhat.com>
+ <20221107224600.934080-46-mst@redhat.com>
+ <20221108143641.4bdaae6f@fedora>
+ <20221108084835-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -60,7 +88,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,30 +104,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The nvme-io_uring BlockDriver's path option must point at the character
-device of an NVMe namespace, not at an image file.
+On Tue, 8 Nov 2022 08:49:01 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Fixes: fd66dbd424f5 ("blkio: add libblkio block driver")
-Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Alberto Faria <afaria@redhat.com>
----
- qapi/block-core.json | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Tue, Nov 08, 2022 at 02:36:41PM +0100, Igor Mammedov wrote:
+> > On Mon, 7 Nov 2022 17:51:11 -0500
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >   
+> > > From: Igor Mammedov <imammedo@redhat.com>
+> > > 
+> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > > Message-Id: <20221017102146.2254096-3-imammedo@redhat.com>
+> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > ---
+> > >  tests/qtest/bios-tables-test-allowed-diff.h | 34 +++++++++++++++++++++
+> > >  1 file changed, 34 insertions(+)
+> > > 
+> > > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> > > index dfb8523c8b..570b17478e 100644
+> > > --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> > > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> > > @@ -1 +1,35 @@
+> > >  /* List of comma-separated changed AML files to ignore */
+> > > +"tests/data/acpi/pc/DSDT",
+> > > +"tests/data/acpi/pc/DSDT.acpierst",
+> > > +"tests/data/acpi/pc/DSDT.acpihmat",
+> > > +"tests/data/acpi/pc/DSDT.bridge",
+> > > +"tests/data/acpi/pc/DSDT.cphp",
+> > > +"tests/data/acpi/pc/DSDT.dimmpxm",
+> > > +"tests/data/acpi/pc/DSDT.hpbridge",
+> > > +"tests/data/acpi/pc/DSDT.hpbrroot",
+> > > +"tests/data/acpi/pc/DSDT.ipmikcs",
+> > > +"tests/data/acpi/pc/DSDT.memhp",
+> > > +"tests/data/acpi/pc/DSDT.nohpet",
+> > > +"tests/data/acpi/pc/DSDT.numamem",
+> > > +"tests/data/acpi/pc/DSDT.roothp",
+> > > +"tests/data/acpi/q35/DSDT",
+> > > +"tests/data/acpi/q35/DSDT.acpierst",
+> > > +"tests/data/acpi/q35/DSDT.acpihmat",
+> > > +"tests/data/acpi/q35/DSDT.applesmc",
+> > > +"tests/data/acpi/q35/DSDT.bridge",
+> > > +"tests/data/acpi/q35/DSDT.cphp",
+> > > +"tests/data/acpi/q35/DSDT.cxl",
+> > > +"tests/data/acpi/q35/DSDT.dimmpxm",
+> > > +"tests/data/acpi/q35/DSDT.ipmibt",
+> > > +"tests/data/acpi/q35/DSDT.ipmismbus",
+> > > +"tests/data/acpi/q35/DSDT.ivrs",
+> > > +"tests/data/acpi/q35/DSDT.memhp",
+> > > +"tests/data/acpi/q35/DSDT.mmio64",
+> > > +"tests/data/acpi/q35/DSDT.multi-bridge",
+> > > +"tests/data/acpi/q35/DSDT.nohpet",
+> > > +"tests/data/acpi/q35/DSDT.numamem",
+> > > +"tests/data/acpi/q35/DSDT.pvpanic-isa",
+> > > +"tests/data/acpi/q35/DSDT.tis.tpm12",
+> > > +"tests/data/acpi/q35/DSDT.tis.tpm2",
+> > > +"tests/data/acpi/q35/DSDT.viot",
+> > > +"tests/data/acpi/q35/DSDT.xapic",  
+> > 
+> > still missing DSDT.count2 table, likely in other updates (as well)
+> > which should break bisection if not whole pull request.  
+> 
+> 
+> That's because I reordered count2 patches to be after these.
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 6d904004f8..95ac4fa634 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3704,7 +3704,7 @@
- #
- # Driver specific block device options for the nvme-io_uring backend.
- #
--# @path: path to the image file
-+# @path: path to the NVMe namespace's character device (e.g. /dev/ng0n1).
- #
- # Since: 7.2
- ##
--- 
-2.38.1
+Aha,
+that should fix the issue.
+
+> 
+> > I'll prep a tree based on your pull req, with fixups
+> > for you to pull from.  
+> 
 
 
