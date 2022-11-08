@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CDC362193F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 17:21:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E91D621946
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 17:24:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osRKU-0003cW-B4; Tue, 08 Nov 2022 11:20:02 -0500
+	id 1osRNr-0004na-Fw; Tue, 08 Nov 2022 11:23:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osRKQ-0003bE-AG; Tue, 08 Nov 2022 11:19:59 -0500
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osRKA-00036j-1n; Tue, 08 Nov 2022 11:19:57 -0500
-Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
- (myt6-81d8ab6a9f9d.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:520a:0:640:81d8:ab6a])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 58B6060D99;
- Tue,  8 Nov 2022 19:19:21 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
- [2a02:6b8:b081:b535::1:28])
- by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- DdGUctjk9u-JJN8UnIB; Tue, 08 Nov 2022 19:19:20 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1667924360; bh=+bEudbmIFY7bScFV+sIGBVBq2VgL3IjuA874bznjPrI=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=IT5ZfBYdCWQuGZYZtVZ9VkRDRRI+dKCaoBuweSiuGQp1ktjKbZ7RrIU6B3bMy6e7P
- Om1NFRgF/uoaa2b5Vn4Hk+z5Ya0q/2KG4m5STOm9AtaHZPEN8N5gxKdmkMkunOcEFa
- mJ6zzy6ncqKPPxmTQDSGnybxxK1tAMH2lHvcG3+Q=
-Authentication-Results: myt6-81d8ab6a9f9d.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <711f6d68-888e-bca0-972e-a05503a039c5@yandex-team.ru>
-Date: Tue, 8 Nov 2022 19:19:19 +0300
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1osRNp-0004nL-UV; Tue, 08 Nov 2022 11:23:29 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1osRNo-0004iR-2O; Tue, 08 Nov 2022 11:23:29 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 33B7622370;
+ Tue,  8 Nov 2022 16:23:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1667924606; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=y5A4/Y1043F8q35NB8HOXYpCV3qlD4OpqoO3AaHB0kk=;
+ b=P7Z1QC2Y3Id8ypINKFHyOWzYR5s3bIDBjeUe4QAcQnOn4t11uLAFwEZbU9Vio5wdDKB93L
+ MI72cYrfo97FcI0c7k8sjjgbqOGH2YTVNrFdT0HT3+0OStnR8me+2okOKOm4l+JMvV0vix
+ 2UGKW+lwD1yTegAKSv9IGhLKRKnZ00M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1667924606;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=y5A4/Y1043F8q35NB8HOXYpCV3qlD4OpqoO3AaHB0kk=;
+ b=juU+3GikNikGNUXM3xZ+nq1VrL9niug1ci8d+wcytw0Co2VvX1JFkG/+SBfnomwQOepPtW
+ enYZvt0QcKCWhsBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id ED038139F1;
+ Tue,  8 Nov 2022 16:23:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id k3FKOH2CamPCdwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Tue, 08 Nov 2022 16:23:25 +0000
+From: Claudio Fontana <cfontana@suse.de>
+To: Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Cc: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-stable@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH] gtk: disable GTK Clipboard with a new option 'gtk_clipboard'
+Date: Tue,  8 Nov 2022 17:23:24 +0100
+Message-Id: <20221108162324.23010-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 2/9] block-copy: add missing coroutine_fn annotations
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20221104095700.4117433-1-eesposit@redhat.com>
- <20221104095700.4117433-3-eesposit@redhat.com>
- <197f2a27-4c3f-a62b-535c-d1db9ba22a32@yandex-team.ru>
- <88f02d19-84d8-d1a7-4250-416fd32f1435@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <88f02d19-84d8-d1a7-4250-416fd32f1435@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,160 +79,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-[add Stefan]
+The GTK Clipboard implementation may cause guest hangs.
 
+Therefore implement a new configure switch --enable-gtk-clipboard,
+disabled by default, as a meson option.
 
-On 11/8/22 18:09, Emanuele Giuseppe Esposito wrote:
-> 
-> 
-> Am 08/11/2022 um 15:48 schrieb Vladimir Sementsov-Ogievskiy:
->> On 11/4/22 12:56, Emanuele Giuseppe Esposito wrote:
->>> These functions end up calling bdrv_common_block_status_above(), a
->>> generated_co_wrapper function.
->>
->> generated_co_wrapper is not a coroutine_fn. Сonversely it's a function
->> that do a class coroutine wrapping - start a coroutine and do POLL to
->> wait for the coroutine to finish.
->>
->>> In addition, they also happen to be always called in coroutine context,
->>> meaning all callers are coroutine_fn.
->>
->> That's also not a reason for marking them coroutine_fn. "coroutine_fn"
->> means that the function can be called only from coroutine context.
->>
->>> This means that the g_c_w function will enter the qemu_in_coroutine()
->>> case and eventually suspend (or in other words call
->>> qemu_coroutine_yield()).
->>> Therefore we need to mark such functions coroutine_fn too.
->>
->> I don't think so. Moreover, this breaks the concept, as your new
->> coroutine_fn functions will call generated_co_wrapper functions which
->> are not marked coroutine_fn and never was.
-> 
-> Theoretically not, 
+Regenerate the meson build options to include it.
 
-Agree, I was wrong in this point
+The initialization of the clipboard is gtk.c, as well as the
+compilation of gtk-clipboard.c are now conditional on this new option
+to be set.
 
-> because marking it coroutine_fn we know that we are
-> going in the if(qemu_in_coroutine()) branch of the g_c_w, so we could
-> directly replace it with the actual function. Because it's a pain to do
-> it with hand, and at some point I/someone should use Alberto static
-> analyzer to get rid of that, I decided to leave g_c_w there.
-> 
-> As I understand it, it seems that you and Paolo have a different
-> understanding on what coroutine_fn means and where it should be used.
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1150
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+---
+ meson.build                   | 9 +++++++++
+ meson_options.txt             | 7 +++++++
+ scripts/meson-buildoptions.sh | 3 +++
+ ui/gtk.c                      | 2 ++
+ ui/meson.build                | 5 ++++-
+ 5 files changed, 25 insertions(+), 1 deletion(-)
 
-Looks so...
-
-But we have a documentation in coroutine.h, let's check:
-
-  * Mark a function that executes in coroutine context
-  *
-  * Functions that execute in coroutine context cannot be called directly from
-  * normal functions.  In the future it would be nice to enable compiler or
-  * static checker support for catching such errors.  This annotation might make
-  * it possible and in the meantime it serves as documentation.
-
-Not very clear, but still it say:
-
-  coroutine_fn = "function that executes in coroutine context"
-  "functions that execute in coroutine context"  =  "cannot be called directly from normal functions"
-
-So, IMHO that corresponds to my point of view: we shouldn't mark by coroutine_fn functions that can be called from both coroutine context and not.
-
-If we want to change the concept, we should start with rewriting this documentation.
-
-> Honestly I don't understand your point, as you said
-> 
->> "coroutine_fn"
->> means that the function can be called only from coroutine context.
-> 
-> which is the case for these functions. So could you please clarify?
-> 
-> What I do know is that it's extremely confusing to understand if a
-> function that is *not* marked as coroutine_fn is actually being called
-> also from coroutines or not.
-> 
-> Which complicates A LOT whatever change or operation I want to perform
-> on the BlockDriver callbacks or any other function in the block layer,
-> because in the current approach for the AioContext lock removal (which
-> you are not aware of, I understand) we need to distinguish between
-> functions running in coroutine context and not, and throwing g_c_w
-> functions everywhere makes my work much harder that it already is.
-
-OK, I understand the problem.
-
-Hmm. Formally marking by "coroutine_fn" a function that theoretically can be called from any context doesn't break things. We just say that since that moment we don't allow to call this function from non-coroutine context.
-
-OK, I tend to agree that you are on the right way, sorry for my skepticism)
-
-PS: you recently introduced a lot of IO_CODE() / GLOBAL_STATE_CODE() marks, which (will be/already) turned into assertions.
-
-This is a lot better than our "coroutine_fn" sign, which actually do no check (and can't do). Don't you plan to swap a "coroutine_fn" noop marker with more meaningful IN_COROUTINE(); (or something like this, which just do assert(qemu_in_coroutine())) at start of the function? It would be a lot safer.
-
-
-> 
-> Thank you,
-> Emanuele
-> 
->>
->>>
->>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>> ---
->>>    block/block-copy.c | 15 +++++++++------
->>>    1 file changed, 9 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/block/block-copy.c b/block/block-copy.c
->>> index bb947afdda..f33ab1d0b6 100644
->>> --- a/block/block-copy.c
->>> +++ b/block/block-copy.c
->>> @@ -577,8 +577,9 @@ static coroutine_fn int
->>> block_copy_task_entry(AioTask *task)
->>>        return ret;
->>>    }
->>>    -static int block_copy_block_status(BlockCopyState *s, int64_t offset,
->>> -                                   int64_t bytes, int64_t *pnum)
->>> +static coroutine_fn int block_copy_block_status(BlockCopyState *s,
->>> +                                                int64_t offset,
->>> +                                                int64_t bytes,
->>> int64_t *pnum)
->>>    {
->>>        int64_t num;
->>>        BlockDriverState *base;
->>> @@ -613,8 +614,9 @@ static int block_copy_block_status(BlockCopyState
->>> *s, int64_t offset,
->>>     * Check if the cluster starting at offset is allocated or not.
->>>     * return via pnum the number of contiguous clusters sharing this
->>> allocation.
->>>     */
->>> -static int block_copy_is_cluster_allocated(BlockCopyState *s, int64_t
->>> offset,
->>> -                                           int64_t *pnum)
->>> +static int coroutine_fn
->>> block_copy_is_cluster_allocated(BlockCopyState *s,
->>> +                                                        int64_t offset,
->>> +                                                        int64_t *pnum)
->>>    {
->>>        BlockDriverState *bs = s->source->bs;
->>>        int64_t count, total_count = 0;
->>> @@ -669,8 +671,9 @@ void block_copy_reset(BlockCopyState *s, int64_t
->>> offset, int64_t bytes)
->>>     * @return 0 when the cluster at @offset was unallocated,
->>>     *         1 otherwise, and -ret on error.
->>>     */
->>> -int64_t block_copy_reset_unallocated(BlockCopyState *s,
->>> -                                     int64_t offset, int64_t *count)
->>> +int64_t coroutine_fn block_copy_reset_unallocated(BlockCopyState *s,
->>> +                                                  int64_t offset,
->>> +                                                  int64_t *count)
->>>    {
->>>        int ret;
->>>        int64_t clusters, bytes;
->>
-> 
-
+diff --git a/meson.build b/meson.build
+index 1d448272ab..8bb96e5e8c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1243,6 +1243,8 @@ if nettle.found() and gmp.found()
+ endif
+ 
+ 
++have_gtk_clipboard = false
++
+ gtk = not_found
+ gtkx11 = not_found
+ vte = not_found
+@@ -1258,12 +1260,18 @@ if not get_option('gtk').auto() or have_system
+                         kwargs: static_kwargs)
+     gtk = declare_dependency(dependencies: [gtk, gtkx11])
+ 
++    have_gtk_clipboard = get_option('gtk_clipboard').enabled()
++
+     if not get_option('vte').auto() or have_system
+       vte = dependency('vte-2.91',
+                        method: 'pkg-config',
+                        required: get_option('vte'),
+                        kwargs: static_kwargs)
+     endif
++  else
++    if get_option('gtk_clipboard').enabled()
++      error('GTK clipboard requested, but GTK not found')
++    endif
+   endif
+ endif
+ 
+@@ -1842,6 +1850,7 @@ if glusterfs.found()
+ endif
+ config_host_data.set('CONFIG_GTK', gtk.found())
+ config_host_data.set('CONFIG_VTE', vte.found())
++config_host_data.set('CONFIG_GTK_CLIPBOARD', have_gtk_clipboard)
+ config_host_data.set('CONFIG_LIBATTR', have_old_libattr)
+ config_host_data.set('CONFIG_LIBCAP_NG', libcap_ng.found())
+ config_host_data.set('CONFIG_EBPF', libbpf.found())
+diff --git a/meson_options.txt b/meson_options.txt
+index 66128178bf..4b749ca549 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -219,6 +219,13 @@ option('vnc_sasl', type : 'feature', value : 'auto',
+        description: 'SASL authentication for VNC server')
+ option('vte', type : 'feature', value : 'auto',
+        description: 'vte support for the gtk UI')
++
++# GTK Clipboard implementation is disabled by default, since it may cause hangs
++# of the guest VCPUs. See gitlab issue 1150:
++# https://gitlab.com/qemu-project/qemu/-/issues/1150
++
++option('gtk_clipboard', type: 'feature', value : 'disabled',
++       description: 'clipboard support for the gtk UI (EXPERIMENTAL, MAY HANG)')
+ option('xkbcommon', type : 'feature', value : 'auto',
+        description: 'xkbcommon support')
+ option('zstd', type : 'feature', value : 'auto',
+diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
+index 2cb0de5601..a542853bfd 100644
+--- a/scripts/meson-buildoptions.sh
++++ b/scripts/meson-buildoptions.sh
+@@ -93,6 +93,7 @@ meson_options_help() {
+   printf "%s\n" '  glusterfs       Glusterfs block device driver'
+   printf "%s\n" '  gnutls          GNUTLS cryptography support'
+   printf "%s\n" '  gtk             GTK+ user interface'
++  printf "%s\n" '  gtk-clipboard   clipboard support for the gtk UI (EXPERIMENTAL, MAY HANG)'
+   printf "%s\n" '  guest-agent     Build QEMU Guest Agent'
+   printf "%s\n" '  guest-agent-msi Build MSI package for the QEMU Guest Agent'
+   printf "%s\n" '  hax             HAX acceleration support'
+@@ -274,6 +275,8 @@ _meson_option_parse() {
+     --disable-gprof) printf "%s" -Dgprof=false ;;
+     --enable-gtk) printf "%s" -Dgtk=enabled ;;
+     --disable-gtk) printf "%s" -Dgtk=disabled ;;
++    --enable-gtk-clipboard) printf "%s" -Dgtk_clipboard=enabled ;;
++    --disable-gtk-clipboard) printf "%s" -Dgtk_clipboard=disabled ;;
+     --enable-guest-agent) printf "%s" -Dguest_agent=enabled ;;
+     --disable-guest-agent) printf "%s" -Dguest_agent=disabled ;;
+     --enable-guest-agent-msi) printf "%s" -Dguest_agent_msi=enabled ;;
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 7ec21f7798..4817623c8f 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -2403,7 +2403,9 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
+         opts->u.gtk.show_tabs) {
+         gtk_menu_item_activate(GTK_MENU_ITEM(s->show_tabs_item));
+     }
++#ifdef CONFIG_GTK_CLIPBOARD
+     gd_clipboard_init(s);
++#endif /* CONFIG_GTK_CLIPBOARD */
+ }
+ 
+ static void early_gtk_display_init(DisplayOptions *opts)
+diff --git a/ui/meson.build b/ui/meson.build
+index ec13949776..c1b137bf33 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -97,7 +97,10 @@ if gtk.found()
+   softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('win32-kbd-hook.c'))
+ 
+   gtk_ss = ss.source_set()
+-  gtk_ss.add(gtk, vte, pixman, files('gtk.c', 'gtk-clipboard.c'))
++  gtk_ss.add(gtk, vte, pixman, files('gtk.c'))
++  if have_gtk_clipboard
++    gtk_ss.add(files('gtk-clipboard.c'))
++  endif
+   gtk_ss.add(when: x11, if_true: files('x_keymap.c'))
+   gtk_ss.add(when: opengl, if_true: files('gtk-gl-area.c'))
+   gtk_ss.add(when: [x11, opengl], if_true: files('gtk-egl.c'))
 -- 
-Best regards,
-Vladimir
+2.26.2
 
 
