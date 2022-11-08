@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDCD620831
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 05:20:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1056208CF
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 06:13:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osG5U-0000Ex-2s; Mon, 07 Nov 2022 23:19:48 -0500
+	id 1osGtw-0003OF-2M; Tue, 08 Nov 2022 00:11:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1osG5Q-0000Dy-Vk
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 23:19:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1osG5O-0004M4-RY
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 23:19:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667881182;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U4rwTbx0Jx9+U35B/T3F/MuX1VBcp4D+gBRZpEwH85I=;
- b=J2NUTrLkI0oG+p/bhZlfzrYsX2B9x53WqtUIbDK6jn17FxWfqlJvfct0WQQBabKHqkFSDU
- efjKLxutz+T622b4sz7f7Cl0GpCKO87SG2rCfo/Ql+nm/S/BNzrTYf0Axh4ehE4KbLeEfj
- TvqJfKdyuMTnLy34Sp/gUTy94gX4Z90=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-498-2g4WXc6nMc-qy_n1ta6C8Q-1; Mon, 07 Nov 2022 23:19:39 -0500
-X-MC-Unique: 2g4WXc6nMc-qy_n1ta6C8Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6DD2C833A06
- for <qemu-devel@nongnu.org>; Tue,  8 Nov 2022 04:19:39 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-14-19.pek2.redhat.com [10.72.14.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 17E40112132D;
- Tue,  8 Nov 2022 04:19:36 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: stefanha@redhat.com
-Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL 2/2] tests/qtest: netdev: test stream and dgram backends
-Date: Tue,  8 Nov 2022 12:19:29 +0800
-Message-Id: <20221108041929.18417-3-jasowang@redhat.com>
-In-Reply-To: <20221108041929.18417-1-jasowang@redhat.com>
-References: <20221108041929.18417-1-jasowang@redhat.com>
+ (Exim 4.90_1) (envelope-from <nyoro.gachu@gmail.com>)
+ id 1osGts-0003Nt-Vm
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 00:11:53 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <nyoro.gachu@gmail.com>)
+ id 1osGtq-0003Vt-3g
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 00:11:52 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id z18so20756031edb.9
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 21:11:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0fLV6R1I/jpug63/adGab44NdvlXkByr+mMlSe4CT/0=;
+ b=WrihF0BG/MiP4jPdHBHLr+Ffy+elBvr4oAlNGtP2SQgXMXdcz/UOGZli7KxPYG630d
+ dOvctsDGEimNREM0pdx5b04GdblKqSc7tmE1pbK3tYyM0Jx+7P3R2mjaZb2fByELVya0
+ zswF29lXMSvXUflZmfkKr5JUmRj92MV/wF5V71dgKyZDPTIomYYgHev8ULDBysra9agf
+ rO4SGovWfgL6MnWIy7ANx8n4bfTTUHdyv6R2/fnY3fpqs/0edWryH9IB0xopVrjG68bE
+ nMQw2GpsB3QjXF2hN3+tOE3i4voExJ3WcxEo3EBAT6sXRkfRrwrGMcTG16bzOXR5y7dY
+ gJBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0fLV6R1I/jpug63/adGab44NdvlXkByr+mMlSe4CT/0=;
+ b=DpBfaLKhZxvIMWpmYYFJnC0VtuEVGHT6yhO2c3Lx/p4qmHR5fIhAJ7fKm0yonXGzxA
+ /8zj2NFOADxWooPrCuE+vwhupJ24Zkjyd/9rJa1aFbbRIXKGMErgkIhtaA0NLc/zz4K0
+ TdHhSjkKBtOTkfVGFs8qpTXsQb2R0J6s+Mt6CrIhEgnkbT4K/76u7zkI1XR3zwasqSxc
+ KIc3PREdo+E9F0ux7S15VYwJptGDGHPF8LSHrX36o+0YjrACANo28r2HnCNdiegg/h8D
+ iIkMO0dcogMDp1gPVwg7frFGokAPbJ7cpfDoOk6FOGxDIq3aEOZAOPW6PzvV8lHkpa0b
+ zRMQ==
+X-Gm-Message-State: ACrzQf1Z74FpKe80SgwjeR/TnF5aINu5OuPhNnMuAiKJeAUZorTE+y4/
+ 25XMP+ZdKW/3J7MBAlx8pj9T4lsvryV0gg==
+X-Google-Smtp-Source: AMsMyM4HC2cTcrnkCAwE+KLxnQ8r7exNsdxpIeYRmE0XF1S7PDO3auzO9hztyU96VCRXTOTJvnyF7w==
+X-Received: by 2002:a05:6402:b6b:b0:461:b9b2:6d58 with SMTP id
+ cb11-20020a0564020b6b00b00461b9b26d58mr54497497edb.186.1667884307080; 
+ Mon, 07 Nov 2022 21:11:47 -0800 (PST)
+Received: from localhost.localdomain ([197.156.137.144])
+ by smtp.gmail.com with ESMTPSA id
+ kv3-20020a17090778c300b0077a11b79b9bsm4187342ejc.133.2022.11.07.21.11.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Nov 2022 21:11:46 -0800 (PST)
+From: nyoro.gachu@gmail.com
+X-Google-Original-From: nyoro.martin@gmail.com
+To: qemu-devel@nongnu.org
+Cc: stefanha@redhat.com, samkergachu@gmail.com, Samker <nyoro.martin@gmail.com>
+Subject: [PATCH] LOCK GUARDS: replace manual lock()/unlock() calls to
+ QEMU_LOCK_GUARD()
+Date: Tue,  8 Nov 2022 08:11:20 +0300
+Message-Id: <20221108051120.6859-1-nyoro.martin@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=nyoro.gachu@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,479 +88,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Laurent Vivier <lvivier@redhat.com>
+From: Samker <nyoro.martin@gmail.com>
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
+This is patch replaces WITH_QEMU_LOCK_GUARD() call with the
+QEMU_LOCK_GUARD()
+
+Signed-off-by: Samker <nyoro.martin@gmail.com>
 ---
- tests/qtest/meson.build     |   2 +
- tests/qtest/netdev-socket.c | 435 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 437 insertions(+)
- create mode 100644 tests/qtest/netdev-socket.c
+ softmmu/physmem.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index c07a5b1..43d075b 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -27,6 +27,7 @@ qtests_generic = [
-   'test-hmp',
-   'qos-test',
-   'readconfig-test',
-+  'netdev-socket',
- ]
- if config_host.has_key('CONFIG_MODULES')
-   qtests_generic += [ 'modules-test' ]
-@@ -304,6 +305,7 @@ qtests = {
-   'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
-   'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'],
-   'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
-+  'netdev-socket': files('netdev-socket.c', '../unit/socket-helpers.c'),
- }
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index fb00596777..907491ae17 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -3115,7 +3115,7 @@ void cpu_register_map_client(QEMUBH *bh)
+ {
+     MapClient *client = g_malloc(sizeof(*client));
  
- gvnc = dependency('gvnc-1.0', required: false)
-diff --git a/tests/qtest/netdev-socket.c b/tests/qtest/netdev-socket.c
-new file mode 100644
-index 0000000..dd46214
---- /dev/null
-+++ b/tests/qtest/netdev-socket.c
-@@ -0,0 +1,435 @@
-+/*
-+ * QTest testcase for netdev stream and dgram
-+ *
-+ * Copyright (c) 2022 Red Hat, Inc.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include <glib/gstdio.h>
-+#include "../unit/socket-helpers.h"
-+#include "libqtest.h"
-+
-+#define CONNECTION_TIMEOUT    5
-+
-+#define EXPECT_STATE(q, e, t)                             \
-+do {                                                      \
-+    char *resp = qtest_hmp(q, "info network");            \
-+    if (t) {                                              \
-+        strrchr(resp, t)[0] = 0;                          \
-+    }                                                     \
-+    g_test_timer_start();                                 \
-+    while (g_test_timer_elapsed() < CONNECTION_TIMEOUT) { \
-+        if (strcmp(resp, e) == 0) {                       \
-+            break;                                        \
-+        }                                                 \
-+        g_free(resp);                                     \
-+        resp = qtest_hmp(q, "info network");              \
-+        if (t) {                                          \
-+            strrchr(resp, t)[0] = 0;                      \
-+        }                                                 \
-+    }                                                     \
-+    g_assert_cmpstr(resp, ==, e);                         \
-+    g_free(resp);                                         \
-+} while (0)
-+
-+static char *tmpdir;
-+
-+static int inet_get_free_port_socket_ipv4(int sock)
-+{
-+    struct sockaddr_in addr;
-+    socklen_t len;
-+
-+    memset(&addr, 0, sizeof(addr));
-+    addr.sin_family = AF_INET;
-+    addr.sin_addr.s_addr = INADDR_ANY;
-+    addr.sin_port = 0;
-+    if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-+        return -1;
-+    }
-+
-+    len = sizeof(addr);
-+    if (getsockname(sock,  (struct sockaddr *)&addr, &len) < 0) {
-+        return -1;
-+    }
-+
-+    return ntohs(addr.sin_port);
-+}
-+
-+static int inet_get_free_port_socket_ipv6(int sock)
-+{
-+    struct sockaddr_in6 addr;
-+    socklen_t len;
-+
-+    memset(&addr, 0, sizeof(addr));
-+    addr.sin6_family = AF_INET6;
-+    addr.sin6_addr = in6addr_any;
-+    addr.sin6_port = 0;
-+    if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-+        return -1;
-+    }
-+
-+    len = sizeof(addr);
-+    if (getsockname(sock,  (struct sockaddr *)&addr, &len) < 0) {
-+        return -1;
-+    }
-+
-+    return ntohs(addr.sin6_port);
-+}
-+
-+static int inet_get_free_port_multiple(int nb, int *port, bool ipv6)
-+{
-+    int sock[nb];
-+    int i;
-+
-+    for (i = 0; i < nb; i++) {
-+        sock[i] = socket(ipv6 ? AF_INET6 : AF_INET, SOCK_STREAM, 0);
-+        if (sock[i] < 0) {
-+            break;
-+        }
-+        port[i] = ipv6 ? inet_get_free_port_socket_ipv6(sock[i]) :
-+                         inet_get_free_port_socket_ipv4(sock[i]);
-+        if (port[i] == -1) {
-+            break;
-+        }
-+    }
-+
-+    nb = i;
-+    for (i = 0; i < nb; i++) {
-+        closesocket(sock[i]);
-+    }
-+
-+    return nb;
-+}
-+
-+static int inet_get_free_port(bool ipv6)
-+{
-+    int nb, port;
-+
-+    nb = inet_get_free_port_multiple(1, &port, ipv6);
-+    g_assert_cmpint(nb, ==, 1);
-+
-+    return port;
-+}
-+
-+static void test_stream_inet_ipv4(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    int port;
-+
-+    port = inet_get_free_port(false);
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,server=true,addr.type=inet,"
-+                       "addr.ipv4=on,addr.ipv6=off,"
-+                       "addr.host=127.0.0.1,addr.port=%d", port);
-+
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev stream,server=false,id=st0,addr.type=inet,"
-+                       "addr.ipv4=on,addr.ipv6=off,"
-+                       "addr.host=127.0.0.1,addr.port=%d", port);
-+
-+    expect = g_strdup_printf("st0: index=0,type=stream,tcp:127.0.0.1:%d\r\n",
-+                             port);
-+    EXPECT_STATE(qts1, expect, 0);
-+    g_free(expect);
-+
-+    /* the port is unknown, check only the address */
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,tcp:127.0.0.1", ':');
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+}
-+
-+static void test_stream_inet_ipv6(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    int port;
-+
-+    port = inet_get_free_port(true);
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,server=true,addr.type=inet,"
-+                       "addr.ipv4=off,addr.ipv6=on,"
-+                       "addr.host=::1,addr.port=%d", port);
-+
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev stream,server=false,id=st0,addr.type=inet,"
-+                       "addr.ipv4=off,addr.ipv6=on,"
-+                       "addr.host=::1,addr.port=%d", port);
-+
-+    expect = g_strdup_printf("st0: index=0,type=stream,tcp:::1:%d\r\n",
-+                             port);
-+    EXPECT_STATE(qts1, expect, 0);
-+    g_free(expect);
-+
-+    /* the port is unknown, check only the address */
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,tcp:::1", ':');
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+}
-+
-+static void test_stream_unix(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    gchar *path;
-+
-+    path = g_strconcat(tmpdir, "/stream_unix", NULL);
-+
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,server=true,"
-+                       "addr.type=unix,addr.path=%s,",
-+                       path);
-+
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,server=false,"
-+                       "addr.type=unix,addr.path=%s",
-+                       path);
-+
-+    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
-+    EXPECT_STATE(qts1, expect, 0);
-+    EXPECT_STATE(qts0, expect, 0);
-+    g_free(expect);
-+    g_free(path);
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+}
-+
-+static void test_stream_unix_abstract(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    gchar *path;
-+
-+    path = g_strconcat(tmpdir, "/stream_unix_abstract", NULL);
-+
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,server=true,"
-+                       "addr.type=unix,addr.path=%s,"
-+                       "addr.abstract=on",
-+                       path);
-+
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,server=false,"
-+                       "addr.type=unix,addr.path=%s,addr.abstract=on",
-+                       path);
-+
-+    expect = g_strdup_printf("st0: index=0,type=stream,unix:%s\r\n", path);
-+    EXPECT_STATE(qts1, expect, 0);
-+    EXPECT_STATE(qts0, expect, 0);
-+    g_free(expect);
-+    g_free(path);
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+}
-+
-+static void test_stream_fd(void)
-+{
-+    QTestState *qts0, *qts1;
-+    int sock[2];
-+    int ret;
-+
-+    ret = socketpair(AF_LOCAL, SOCK_STREAM, 0, sock);
-+    g_assert_true(ret == 0);
-+
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,addr.type=fd,addr.str=%d",
-+                       sock[0]);
-+
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,unix:\r\n", 0);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev stream,id=st0,addr.type=fd,addr.str=%d",
-+                       sock[1]);
-+
-+    EXPECT_STATE(qts1, "st0: index=0,type=stream,unix:\r\n", 0);
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,unix:\r\n", 0);
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+
-+    closesocket(sock[0]);
-+    closesocket(sock[1]);
-+}
-+
-+static void test_dgram_inet(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    int port[2];
-+    int nb;
-+
-+    nb = inet_get_free_port_multiple(2, port, false);
-+    g_assert_cmpint(nb, ==, 2);
-+
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev dgram,id=st0,"
-+                       "local.type=inet,local.host=127.0.0.1,local.port=%d,"
-+                       "remote.type=inet,remote.host=127.0.0.1,remote.port=%d",
-+                        port[0], port[1]);
-+
-+    expect = g_strdup_printf("st0: index=0,type=dgram,"
-+                             "udp=127.0.0.1:%d/127.0.0.1:%d\r\n",
-+                             port[0], port[1]);
-+    EXPECT_STATE(qts0, expect, 0);
-+    g_free(expect);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev dgram,id=st0,"
-+                       "local.type=inet,local.host=127.0.0.1,local.port=%d,"
-+                       "remote.type=inet,remote.host=127.0.0.1,remote.port=%d",
-+                        port[1], port[0]);
-+
-+    expect = g_strdup_printf("st0: index=0,type=dgram,"
-+                             "udp=127.0.0.1:%d/127.0.0.1:%d\r\n",
-+                             port[1], port[0]);
-+    EXPECT_STATE(qts1, expect, 0);
-+    g_free(expect);
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+}
-+
-+static void test_dgram_mcast(void)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_initf("-nodefaults "
-+                       "-netdev dgram,id=st0,"
-+                       "remote.type=inet,remote.host=230.0.0.1,remote.port=1234");
-+
-+    EXPECT_STATE(qts, "st0: index=0,type=dgram,mcast=230.0.0.1:1234\r\n", 0);
-+
-+    qtest_quit(qts);
-+}
-+
-+static void test_dgram_unix(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    gchar *path0, *path1;
-+
-+    path0 = g_strconcat(tmpdir, "/dgram_unix0", NULL);
-+    path1 = g_strconcat(tmpdir, "/dgram_unix1", NULL);
-+
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev dgram,id=st0,local.type=unix,local.path=%s,"
-+                       "remote.type=unix,remote.path=%s",
-+                       path0, path1);
-+
-+    expect = g_strdup_printf("st0: index=0,type=dgram,udp=%s:%s\r\n",
-+                             path0, path1);
-+    EXPECT_STATE(qts0, expect, 0);
-+    g_free(expect);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev dgram,id=st0,local.type=unix,local.path=%s,"
-+                       "remote.type=unix,remote.path=%s",
-+                       path1, path0);
-+
-+
-+    expect = g_strdup_printf("st0: index=0,type=dgram,udp=%s:%s\r\n",
-+                             path1, path0);
-+    EXPECT_STATE(qts1, expect, 0);
-+    g_free(expect);
-+
-+    unlink(path0);
-+    g_free(path0);
-+    unlink(path1);
-+    g_free(path1);
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+}
-+
-+static void test_dgram_fd(void)
-+{
-+    QTestState *qts0, *qts1;
-+    char *expect;
-+    int ret;
-+    int sv[2];
-+
-+    ret = socketpair(PF_UNIX, SOCK_DGRAM, 0, sv);
-+    g_assert_cmpint(ret, !=, -1);
-+
-+    qts0 = qtest_initf("-nodefaults "
-+                       "-netdev dgram,id=st0,local.type=fd,local.str=%d",
-+                       sv[0]);
-+
-+    expect = g_strdup_printf("st0: index=0,type=dgram,fd=%d unix\r\n", sv[0]);
-+    EXPECT_STATE(qts0, expect, 0);
-+    g_free(expect);
-+
-+    qts1 = qtest_initf("-nodefaults "
-+                       "-netdev dgram,id=st0,local.type=fd,local.str=%d",
-+                       sv[1]);
-+
-+
-+    expect = g_strdup_printf("st0: index=0,type=dgram,fd=%d unix\r\n", sv[1]);
-+    EXPECT_STATE(qts1, expect, 0);
-+    g_free(expect);
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+
-+    closesocket(sv[0]);
-+    closesocket(sv[1]);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    int ret;
-+    bool has_ipv4, has_ipv6, has_afunix;
-+    gchar dir[] = "/tmp/netdev-socket.XXXXXX";
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    if (socket_check_protocol_support(&has_ipv4, &has_ipv6) < 0) {
-+        g_printerr("socket_check_protocol_support() failed\n");
-+        goto end;
-+    }
-+
-+    if (g_mkdtemp(dir) == NULL) {
-+        g_error("g_mkdtemp: %s", g_strerror(errno));
-+    }
-+    tmpdir = dir;
-+
-+    if (has_ipv4) {
-+        qtest_add_func("/netdev/stream/inet/ipv4", test_stream_inet_ipv4);
-+        qtest_add_func("/netdev/dgram/inet", test_dgram_inet);
-+        qtest_add_func("/netdev/dgram/mcast", test_dgram_mcast);
-+    }
-+    if (has_ipv6) {
-+        qtest_add_func("/netdev/stream/inet/ipv6", test_stream_inet_ipv6);
-+    }
-+
-+    socket_check_afunix_support(&has_afunix);
-+    if (has_afunix) {
-+        qtest_add_func("/netdev/dgram/unix", test_dgram_unix);
-+        qtest_add_func("/netdev/stream/unix", test_stream_unix);
-+        qtest_add_func("/netdev/stream/unix/abstract",
-+                       test_stream_unix_abstract);
-+        qtest_add_func("/netdev/stream/fd", test_stream_fd);
-+        qtest_add_func("/netdev/dgram/fd", test_dgram_fd);
-+    }
-+
-+end:
-+    ret = g_test_run();
-+
-+    g_rmdir(dir);
-+
-+    return ret;
-+}
+-    WITH_QEMU_LOCK_GUARD(&map_client_list_lock);
++    QEMU_LOCK_GUARD(&map_client_list_lock);
+     client->bh = bh;
+     QLIST_INSERT_HEAD(&map_client_list, client, link);
+     if (!qatomic_read(&bounce.in_use)) {
+@@ -3143,7 +3143,7 @@ void cpu_unregister_map_client(QEMUBH *bh)
+ {
+     MapClient *client;
+ 
+-    WITH_QEMU_LOCK_GUARD(&map_client_list_lock);
++    QEMU_LOCK_GUARD(&map_client_list_lock);
+     QLIST_FOREACH(client, &map_client_list, link) {
+         if (client->bh == bh) {
+             cpu_unregister_map_client_do(client);
 -- 
-2.7.4
+2.25.1
 
 
