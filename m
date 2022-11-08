@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A81621E74
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 22:20:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9CF6621E9D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 22:36:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osW0k-000531-E5; Tue, 08 Nov 2022 16:19:58 -0500
+	id 1osWFH-00062F-Rj; Tue, 08 Nov 2022 16:34:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1osW0j-000510-2z
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 16:19:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1osW0h-0008LY-Dq
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 16:19:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667942394;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mFr2A358K4wvwoF+JEZpSP/ZFheL81HyP78Ha2EEf1c=;
- b=Kc/wp7YpmGdCpL1Y03kAgYj4InOpJa2v/rLf5393z95EdhcVQG2wj4zwba06be3mVIQRDj
- MUSalakTaYVTm04CNSoZTbO69wy2C7nZzQz7UE+3Z5hy+kD31LfPe5xOSp4OaA0WCeVn3E
- wHVf/pcVGiobt+S41reljkzylHP1EdE=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-600-P7DX6aRwNy6yjT8yM_g0tw-1; Tue, 08 Nov 2022 16:19:53 -0500
-X-MC-Unique: P7DX6aRwNy6yjT8yM_g0tw-1
-Received: by mail-lj1-f200.google.com with SMTP id
- e1-20020a2e9841000000b002602ebb584fso5568009ljj.14
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 13:19:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1osWFF-00061n-Rw
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 16:34:57 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1osWFD-0004eG-Qy
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 16:34:57 -0500
+Received: by mail-ed1-x536.google.com with SMTP id a13so24555278edj.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 13:34:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=w2jgdFwEZt2cK3qZyW579znerWyUJrU+xFNDPoeXTbk=;
+ b=ZkyYdGUonF76nS+ueAeUSTeDUC7arq7J9+S2/yvI+UPcAa9Uxe1IKJfN9Pqmr4tEOd
+ T6jcpPe9SMhlIKaqPtUUYKqch5kAT3zrZ+ejJSzqNv3WYUW+HtVEZY7EZCpnych8QW8w
+ se0pjDEshVsQ8RmAKjaeBJ3I48B6hwivenABykNSdx+rCOQxzp2FEPXdaZ0+ZyJkV7/X
+ BbXk7epU9WPZPDRgkFGjBS0UG6jMf0ctyHl/DlGP3g8dv25PvHBf19CQjtS4ul1Lf3G5
+ +2u9vmny8y3RGfTMXefQrwL+jPVCNgIVZgcGzPn+tv7/OuoX/5uePjuzrjT4O1Ueo3Cg
+ 8T2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=mFr2A358K4wvwoF+JEZpSP/ZFheL81HyP78Ha2EEf1c=;
- b=xlxx5S2ybZLnYAizHmHskzGl1146qABT6LshdAqo3NdvmoZug66Ry8srnQ5/czOQo0
- NF4jJOMEEJ73/KmHLyk8KqagMMcfrB2uwkB8Q6e7cyeuc7u8DhtaGGTHnsh9ut+D0cOu
- DBbccaxSDX9gGXNvy/iFcvtAyTBGSZ1ONwA80ju372SjuDofh0RIp2u9NRiGx4ncs0je
- z4pEpUrPKdpL+IKXk603q/hUqOtk1/iJPdmcvCnwxomh7Lrp9MUD3gK8TTi2hXjK8hzw
- gftRPwQcgf5Dl329wefvgoqfUGIBfl1LewOApimYoDcjDGYwq0MFCI9C/W98XdwrxIdf
- PUXA==
-X-Gm-Message-State: ACrzQf3JUIzw/bX3nNKNb5FNRZDvIVMO26I7R/1hcnTH1QnnbXuakffr
- 2uroG/hWSwtdUb/utdQY6jfPJttcP6oVB6PZJCE63PmdU8qK32LDUA0v7soHupEI5PKqG+Hh44n
- Vblzbp3JTo/IgkOf1rH/cf216iHnfbAA=
-X-Received: by 2002:a2e:90cd:0:b0:277:b13:2934 with SMTP id
- o13-20020a2e90cd000000b002770b132934mr19272528ljg.91.1667942391599; 
- Tue, 08 Nov 2022 13:19:51 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5QZpEQu1yzHco2A8bj4ArCuwA+GVc5DKWn4hyEv3IFzttsInKZhekx8SAz3CIszcRNDDsm9Ktaciuoseajg8Q=
-X-Received: by 2002:a2e:90cd:0:b0:277:b13:2934 with SMTP id
- o13-20020a2e90cd000000b002770b132934mr19272523ljg.91.1667942391399; Tue, 08
- Nov 2022 13:19:51 -0800 (PST)
+ bh=w2jgdFwEZt2cK3qZyW579znerWyUJrU+xFNDPoeXTbk=;
+ b=pzzHyehwT3g2OWxs4gMgKciYV1+rR076XUt/5ipP0ApRsMRmU8sm7ULioUOdJwWxVV
+ 1OhBckx9VPmoeErm1LsV5j/EnF5+HDhAPSK6FE7HBz2OpR3pAczY4notUYtSSZOj9Qhu
+ UjtRmib51juMeNekGYi3Iccr1LynDhfAObcneeSKO/3D5yMKE5kHjvJqmsm8RU4OfDaq
+ 7ejLA7bEz0sqk13XEvpOqB0txNS6o1YAHfqZ9qRysNVLcxrXO9M7ZgZDAJ5bYyTK0hls
+ emv3Z7nGyBpYmWbiz99zt1+M89oGQK4gBE+iQgptseI7e91U5+mn1sKTXqqko58fqCkP
+ h+sA==
+X-Gm-Message-State: ACrzQf1N3eUHmMbtlIVrWpK1WOYfoCVEhWu8psIZ5aCxlTHssGAfGh/Q
+ YduU+3o9/Frzdc16et6hbLQ=
+X-Google-Smtp-Source: AMsMyM5Ip55A1yltKs1cIqXkLau8qrpvncXqOqB0f4QwHlIoX7XiH8plB4unzZFdZzwgaKNhlYWv3Q==
+X-Received: by 2002:a05:6402:2893:b0:461:59fd:9b4 with SMTP id
+ eg19-20020a056402289300b0046159fd09b4mr57340231edb.389.1667943294167; 
+ Tue, 08 Nov 2022 13:34:54 -0800 (PST)
+Received: from [127.0.0.1] (dynamic-077-013-156-164.77.13.pool.telefonica.de.
+ [77.13.156.164]) by smtp.gmail.com with ESMTPSA id
+ g20-20020aa7c594000000b00451319a43dasm6079042edq.2.2022.11.08.13.34.53
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 08 Nov 2022 13:34:53 -0800 (PST)
+Date: Tue, 08 Nov 2022 21:34:50 +0000
+From: B <shentey@gmail.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+CC: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: =?US-ASCII?Q?Re=3A_=5BPULL_v3_49/81=5D_acpi=3A_pc=3A_vga=3A_use_AcpiDev?=
+ =?US-ASCII?Q?AmlIf_interface_to_build_VGA_device_descriptors?=
+In-Reply-To: <20221107172548-mutt-send-email-mst@kernel.org>
+References: <20221105171116.432921-1-mst@redhat.com>
+ <20221105171116.432921-50-mst@redhat.com>
+ <CAG4p6K6ZgVmKAfRoaaD99RqtEjU0+qwUncb2=n+8GhNAezgKjg@mail.gmail.com>
+ <20221107073158-mutt-send-email-mst@kernel.org>
+ <CAARzgwwEayuzcrcSWRmK5UBG56R1SbfHJ0XoV9=T91=wqLMSAg@mail.gmail.com>
+ <20221107080023-mutt-send-email-mst@kernel.org>
+ <489F21DE-0D51-4559-8067-2C096A2DC828@gmail.com>
+ <20221107172548-mutt-send-email-mst@kernel.org>
+Message-ID: <28F262F9-D1F6-4CA3-8DCB-878E198512F6@gmail.com>
 MIME-Version: 1.0
-References: <20221108092308.1717426-1-alex.bennee@linaro.org>
- <20221108092308.1717426-3-alex.bennee@linaro.org>
-In-Reply-To: <20221108092308.1717426-3-alex.bennee@linaro.org>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 8 Nov 2022 16:19:39 -0500
-Message-ID: <CAFn=p-bvE2DjSua4GLd5mQoU=JBU1MpcBSVc04RAOs3EgVZPOQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/9] tests/avocado: improve behaviour waiting for login
- prompts
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com, 
- f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com, 
- stefanha@redhat.com, crosa@redhat.com, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,159 +102,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 8, 2022 at 4:26 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->
-> This attempts to deal with the problem of login prompts not being
-> guaranteed to be terminated with a newline. The solution to this is to
-> peek at the incoming data looking to see if we see an up-coming match
-> before we fall back to the old readline() logic. The reason to mostly
-> rely on readline is because I am occasionally seeing the peek stalling
-> despite data being there.
->
-> This seems kinda hacky and gross so I'm open to alternative approaches
-> and cleaner python code.
 
-Hm, yeah. I'm not too sure. I guess if it works, it works -- I don't
-have better suggestions for you here. I need to rewrite a good bit of
-how machine.py works, and time will tell if we still need this kind of
-workaround when I do. I guess if it doesn't hurt anything, go for it.
 
-*shrug*
+Am 7=2E November 2022 22:28:31 UTC schrieb "Michael S=2E Tsirkin" <mst@red=
+hat=2Ecom>:
+>On Mon, Nov 07, 2022 at 10:07:52PM +0000, Bernhard Beschow wrote:
+>> Am 7=2E November 2022 13:00:36 UTC schrieb "Michael S=2E Tsirkin" <mst@=
+redhat=2Ecom>:
+>> >On Mon, Nov 07, 2022 at 06:16:25PM +0530, Ani Sinha wrote:
+>> >> On Mon, Nov 7, 2022 at 6:03 PM Michael S=2E Tsirkin <mst@redhat=2Eco=
+m> wrote:
+>> >> >
+>> >> > On Sun, Nov 06, 2022 at 10:16:41PM +0100, Bernhard Beschow wrote:
+>> >> > >
+>> >> > >
+>> >> > > On Sat, Nov 5, 2022 at 6:45 PM Michael S=2E Tsirkin <mst@redhat=
+=2Ecom> wrote:
+>> >> > >
+>> >> > >     From: Igor Mammedov <imammedo@redhat=2Ecom>
+>> >> > >
+>> >> > >     Signed-off-by: Igor Mammedov <imammedo@redhat=2Ecom>
+>> >> > >     Message-Id: <20221017102146=2E2254096-2-imammedo@redhat=2Eco=
+m>
+>> >> > >     Reviewed-by: Michael S=2E Tsirkin <mst@redhat=2Ecom>
+>> >> > >     Signed-off-by: Michael S=2E Tsirkin <mst@redhat=2Ecom>
+>> >> > >     NB: we do not expect any functional change in
+>> >> > >     any ACPI tables with this change=2E It's only a refactoring=
+=2E
+>> >> > >
+>> >> > >     Reviewed-by: Ani Sinha <ani@anisinha=2Eca>
+>> >> > >     ---
+>> >> > >      hw/display/vga_int=2Eh       |  2 ++
+>> >> > >      hw/display/acpi-vga-stub=2Ec |  7 +++++++
+>> >> > >      hw/display/acpi-vga=2Ec      | 26 +++++++++++++++++++++++++=
++
+>> >> > >      hw/display/vga-pci=2Ec       |  4 ++++
+>> >> > >      hw/i386/acpi-build=2Ec       | 26 +------------------------=
+-
+>> >> > >      hw/display/meson=2Ebuild     | 17 +++++++++++++++++
+>> >> > >      6 files changed, 57 insertions(+), 25 deletions(-)
+>> >> > >      create mode 100644 hw/display/acpi-vga-stub=2Ec
+>> >> > >      create mode 100644 hw/display/acpi-vga=2Ec
+>> >> > >
+>> >> > >
+>> >> > > With this "qemu:qtest+qtest-hppa / qtest-hppa/display-vga-test" =
+fails due to
+>> >> > > the symbol "aml_return" being undefined:
+>> >> > >
+>> >> > > # starting QEMU: exec =2E/qemu-system-hppa -qtest unix:/tmp/qtes=
+t-515650=2Esock
+>> >> > > -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-515650=2E=
+qmp,id=3Dchar0 -mon
+>> >> > > chardev=3Dchar0,mode=3Dcontrol -display none -vga none -device v=
+irtio-vga -accel
+>> >> > > qtest
+>> >> > > ----------------------------------- stderr ---------------------=
+--------------
+>> >> > > Failed to open module: qemu/build/qemu-bundle/usr/lib/qemu/
+>> >> > > hw-display-virtio-vga=2Eso: undefined symbol: aml_return
+>> >> > > qemu-system-hppa: -device virtio-vga: 'virtio-vga' is not a vali=
+d device model
+>> >> > > name
+>> >> > > Broken pipe
+>> >> > > =2E=2E/src/tests/qtest/libqtest=2Ec:179: kill_qemu() tried to te=
+rminate QEMU process
+>> >> > > but encountered exit status 1 (expected 0)
+>> >> > >
+>> >> > > (test program exited with status code -6)
+>> >> > >
+>> >> > > Best regards,
+>> >> > > Bernhard
+>> >> >
+>> >> > It's unfortunate that it doesn't reproduce for me :(
+>> >>=20
+>> >> To reproduce:
+>> >>=20
+>> >> - docker pull registry=2Egitlab=2Ecom/qemu-project/qemu/qemu/centos8=
+:latest
+>> >> - configure line:
+>> >>=20
+>> >> =2E=2E/configure --enable-werror --disable-docs --disable-nettle
+>> >> --enable-gcrypt --enable-fdt=3Dsystem --enable-modules
+>> >> --enable-trace-backends=3Ddtrace --enable-docs --enable-vfio-user-se=
+rver
+>> >> --target-list=3D"ppc64-softmmu or1k-softmmu s390x-softmmu x86_64-sof=
+tmmu
+>> >> rx-softmmu sh4-softmmu nios2-softmmu"
+>> >
+>> >
+>> >I suspect --enable-modules is the difference=2E
+>>=20
+>> Indeed, I'm building with --enable-modules and got the undefined symbol=
+=2E
+>>=20
+>> Perhaps we could use the -Wl,--no-undefined linker option when building=
+ with modules to catch these errors at link time already?
+>>=20
+>> Best regards,
+>> Bernhard
+>
+>I don't see how it can work but sure, send a patch :)
 
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  tests/avocado/avocado_qemu/__init__.py | 89 +++++++++++++++++++++++++-
->  1 file changed, 88 insertions(+), 1 deletion(-)
->
-> diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avoca=
-do_qemu/__init__.py
-> index 910f3ba1ea..d6ff68e171 100644
-> --- a/tests/avocado/avocado_qemu/__init__.py
-> +++ b/tests/avocado/avocado_qemu/__init__.py
-> @@ -131,6 +131,58 @@ def pick_default_qemu_bin(bin_prefix=3D'qemu-system-=
-', arch=3DNone):
->              return path
->      return None
->
-> +def _peek_ahead(console, min_match, success_message):
-> +    """
-> +    peek ahead in the console stream keeping an eye out for the
-> +    success message.
-> +
-> +    Returns some message to process or None, indicating the normal
-> +    readline should occur.
-> +    """
-> +    console_logger =3D logging.getLogger('console')
-> +    peek_len =3D 0
-> +    retries =3D 0
-> +
-> +    while True:
-> +        try:
-> +            old_peek_len =3D peek_len
-> +            peek_ahead =3D console.peek(min_match).decode()
-> +            peek_len =3D len(peek_ahead)
-> +
-> +            # if we get stuck too long lets just fallback to readline
-> +            if peek_len <=3D old_peek_len:
-> +                retries +=3D 1
-> +                if retries > 10:
-> +                    return None
-> +
-> +            # if we see a newline in the peek we can let safely bail
-> +            # and let the normal readline() deal with it
-> +            if peek_ahead.endswith(('\n', '\r', '\r\n')):
-> +                return None
-> +
-> +            # if we haven't seen enough for the whole message but the
-> +            # first part matches lets just loop again
-> +            if len(peek_ahead) < min_match and \
-> +               success_message[:peek_len] in peek_ahead:
-> +                continue
-> +
-> +            # if we see the whole success_message we are done, consume
-> +            # it and pass back so we can exit to the user
-> +            if success_message in peek_ahead:
-> +                return console.read(peek_len).decode()
-> +
-> +            # of course if we've seen enough then this line probably
-> +            # doesn't contain what we are looking for, fallback
-> +            if peek_len > min_match:
-> +                return None
-> +
-> +        except UnicodeDecodeError:
-> +            console_logger.log("error in decode of peek")
-> +            return None
-> +
-> +    # we should never get here
-> +    return None
-> +
->
->  def _console_interaction(test, success_message, failure_message,
->                           send_string, keep_sending=3DFalse, vm=3DNone):
-> @@ -139,17 +191,52 @@ def _console_interaction(test, success_message, fai=
-lure_message,
->          vm =3D test.vm
->      console =3D vm.console_socket.makefile(mode=3D'rb', encoding=3D'utf-=
-8')
->      console_logger =3D logging.getLogger('console')
-> +
-> +    # Establish the minimum number of bytes we would need to
-> +    # potentially match against success_message
-> +    if success_message is not None:
-> +        min_match =3D len(success_message)
-> +    else:
-> +        min_match =3D 0
-> +
-> +    console_logger.debug("looking for %d:(%s), sending %s (always=3D%s)"=
-,
-> +                         min_match, success_message, send_string, keep_s=
-ending)
-> +
->      while True:
-> +        msg =3D None
-> +
-> +        # First send our string, optionally repeating the send next
-> +        # cycle.
->          if send_string:
->              vm.console_socket.sendall(send_string.encode())
->              if not keep_sending:
->                  send_string =3D None # send only once
-> +
-> +        # If the console has no data to read we briefly
-> +        # sleep before continuing.
-> +        if not console.readable():
-> +            time.sleep(0.1)
-> +            continue
-> +
->          try:
-> -            msg =3D console.readline().decode().strip()
-> +
-> +            # First we shall peek ahead for a potential match to cover w=
-aiting
-> +            # for lines without any newlines.
-> +            if min_match > 0:
-> +                msg =3D _peek_ahead(console, min_match, success_message)
-> +
-> +            # otherwise we block here for a full line
-> +            if not msg:
-> +                msg =3D console.readline().decode().strip()
-> +
->          except UnicodeDecodeError:
-> +            console_logger.debug("skipped unicode error")
->              msg =3D None
-> +
-> +        # if nothing came out we continue and try again
->          if not msg:
->              continue
-> +
->          console_logger.debug(msg)
->          if success_message is None or success_message in msg:
->              break
-> --
-> 2.34.1
->
->
+Sounds like circular dependencies=2E Don't count on me any time soon then =
+;)
 
+Best regards,
+Bernhard
+>
+>> >
+>> >> - # make
+>> >> - # QTEST_QEMU_BINARY=3D=2E/qemu-system-or1k  =2E/tests/qtest/qos-te=
+st
+>> >> failed to open module:
+>> >> /build/qemu/qemu/build/qemu-bundle/usr/local/lib64/qemu/hw-display-v=
+irtio-vga=2Eso:
+>> >> undefined symbol: aml_return
+>> >> qemu-system-or1k: =2E=2E/util/error=2Ec:59: error_setv: Assertion `*=
+errp =3D=3D
+>> >> NULL' failed=2E
+>> >> Broken pipe
+>> >> =2E=2E/tests/qtest/libqtest=2Ec:188: kill_qemu() detected QEMU death=
+ from
+>> >> signal 6 (Aborted) (core dumped)
+>> >> Aborted (core dumped)
+>> >
+>
 
