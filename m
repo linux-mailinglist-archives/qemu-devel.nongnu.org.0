@@ -2,115 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC170621A8E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 18:27:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D7F621A90
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 18:27:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osSMo-0001C5-Sm; Tue, 08 Nov 2022 12:26:30 -0500
+	id 1osSN5-0001GD-O5; Tue, 08 Nov 2022 12:26:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1osSMn-0001BQ-G4
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 12:26:29 -0500
-Received: from esa10.hc2706-39.iphmx.com ([216.71.140.198])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1osSMl-0001J8-Ke
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 12:26:29 -0500
-X-IronPort-RemoteIP: 209.85.210.69
-X-IronPort-MID: 238069504
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:8lCmyqsnMufoQaIf9g1h03as5OfnVOtcMUV32f8akzHdYApBsoF/q
- tZmKT3XPauPY2D8f4x0atm/o00AsZGGytVgHFRo/y4xFyJD9ZOVVN+UEBzMMnLJJKUvbq7GA
- +byyDXkBJppJpMJjk71atANlVEliefTAOK5ULSfUsxIbVcMYD87jh5+kPIOjIdtgNyoayuAo
- tq3qMDEULOf82cc3lk8tuTS9nuDgNyo4GlC5wVmNagR1LPjvyJ94Kw3dPnZw0TQH9E88t6SH
- 47r0Ly/92XFyBYhYvvNfmHTKxBirhb6ZGBiu1IPM0SQqkEqSh8ai87XAMEhhXJ/0F1lqTzQJ
- OJl7vRcQS9xVkHFdX90vxNwSkmSNoUfkFPLzOTWXWV+ACQqflO1q8iCAn3aMqU6yr9GOCJP0
- 8YpdiAOSUi9pd2p7eiCH7wEasQLdKEHPasas3BkiDbFVLMoH8GFTKLN6ttVmjw3g6iiH96EP
- 5tfOWcpNk2YJUMeUrsUIMtWcOOAj33vdTFCgFiI46c7/gA/ySQri+i1bouIIoDiqcN9jFrDn
- W/02HbCABgdPYek5GPcyH+Umbqa9c/8cMdIfFGizdZzjViOg2AeFhASfV28p/a/lwi5Qd03F
- qAP0i8nrKx381DyC9ejDlu3p3mLuhNaUN1VewEn1DywJmPvy17xLgA5ovRpObTKaOdeqeQW6
- 2K0
-IronPort-HdrOrdr: A9a23:Sd9MhKNgEcRSdsBcTgyjsMiBIKoaSvp037BL7TEKdfUxSKClfq
- +V7Y0mPG/P5Qr5NEtQ/exoQZPwIk80rKQFg7X5Xo3SJzUO2lHYSr2KhLGKqwEIfReOk9K1vp
- 0QC5RWMsH6CVhmkMrgiTPYLz9P+qjhzImYwcz0yWtrRw0CUc5dBg1CajpyeidNLzWvbvACfq
- a0145mjxeKPUgtS62AaEU4Yw==
-Received: from mail-ot1-f69.google.com ([209.85.210.69])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 08 Nov 2022 12:26:16 -0500
-Received: by mail-ot1-f69.google.com with SMTP id
- l23-20020a9d4c17000000b0066cf87fd9b1so2443592otf.16
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 09:26:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=YQN5hTqT6TJasIwUwTbcU0gyqSa66mpchh6HujJ+enA=;
- b=L3L3EqrYW3c9W8/pCuVYxeka/C3SsdteyWg44KZobBV+pQXj/6dugN0JsUV91I7Fv0
- rLF2v62mtXEU6SX/5Ss7FQTydUeR8Rm/PkHyQUN9A5fQMuumTKQX2J4gbQW6Waf3V18T
- Ww+KYIJBt9fGk82DMb0NKwITOM3KLxAF+hqs93b+WEc1IBEa2Np7bhoUKrGUiN39v/ho
- 0bRy8NjC41mGH7Yb2qh9AowgWjkZYmSHiQiQ6AvfnpPd6CfHLNNrBklNSeX+XmxAUTDV
- 2geC/Bd9XMU1QyYQv+RXZmIKtjlcPpcj4mAKoy8faJGR7FbimiCbRZpTDj6Ce1UGfFNL
- wTjA==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1osSN3-0001Ee-8b
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 12:26:45 -0500
+Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1osSN1-0003GA-KF
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 12:26:45 -0500
+Received: by mail-oa1-x2a.google.com with SMTP id
+ 586e51a60fabf-13c2cfd1126so16969351fac.10
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 09:26:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=lrK0gHo3vQFxmCYTdPuHMJ0gn/TJm6opQJd16pJ8n0s=;
+ b=TEBjmU1LiF0nXgzjt9rq8EUlkBK+Gqk8liEHSPNRCcdsK6ImZjDF98wBsvsTWuKvOQ
+ Eet8sUpPM1oNqXVHhLnHc6AS9lvdwbf6gpSaZ3OsapK/urvUPkeQK14hphpbcd59UXq+
+ vcih0FGuU2bQnSQOwaV4GiBscZ6EqSj81Mh7gAfQLnianFSwUu+OJsGAl18Ew3XEk7rE
+ DkbTnKdmDqZwjRxd9K9lEyxnyRzHueHr79MBZ7mmZKB3NlU58WPktzTHYDb93izAEsvO
+ AUJoGWbDcZT15FoQ/s65z/l/+nyIraX/5ECbzECommtyoEzKzO17kq0jRgofrnlVxWQl
+ qvIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YQN5hTqT6TJasIwUwTbcU0gyqSa66mpchh6HujJ+enA=;
- b=D1MVLgCb0gHe4n853TsT85R62IyA4DrVfLTMMPKS0pW1PwiXAUZtr445YFAAA5yasA
- AP7CSsjBWOLu5G/ISOXCpIFdJmD7EKvwsjBMrTKQzMhNS2MKXQJDaSGqXB6KkBTjLLXj
- puqWR7aOXHwE/JhFuNDlV1mTNP6k3PnbgEr67djLZMY/jNUlA8aiQdSAbHZXiIx2W5lS
- wHgL+pENpm0dGUqXJi4UKsin0zrVs03P0ZpgEPhPgcfwDDMaqWq3vxdNFoyaM6yklTHq
- /JbP0Q2vG0yra4mjSEleEnYHY1UEhGMef9PqX0wB8bj50uQkKZ4u/nmwZH10qqGSHwQo
- wiew==
-X-Gm-Message-State: ACrzQf0E3kTUtt4yLiG+l4/f7Jg7yhFxyZi6vZKoUbHO+ZJI0vcwfXVn
- qAbM8ivNXOr86SukezlrKCyI8qsF33ZOZVnoQihsSpMp0Lwjlt8X3aCL4vp0t2iT10qdFikHlQt
- ACJAdxW6cyJXejEeb0LR6NXR2y3NnDA==
-X-Received: by 2002:aca:3b54:0:b0:35a:4879:ee2e with SMTP id
- i81-20020aca3b54000000b0035a4879ee2emr17533554oia.170.1667928374840; 
- Tue, 08 Nov 2022 09:26:14 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM71K/rkR+1/Spg2f+cs1Frje5Hc/hfeDi1nLqE4L7wy+eSfHECuxO2u4dlgNDy6lul+OOWGqA==
-X-Received: by 2002:aca:3b54:0:b0:35a:4879:ee2e with SMTP id
- i81-20020aca3b54000000b0035a4879ee2emr17533489oia.170.1667928373111; 
- Tue, 08 Nov 2022 09:26:13 -0800 (PST)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lrK0gHo3vQFxmCYTdPuHMJ0gn/TJm6opQJd16pJ8n0s=;
+ b=MYcdJ7kXjF14Os9WbGp1q/8m1u6P1UOuMkFHP+8eC/w58YpfxGJS7E/pHZpGwGnFXq
+ 2GyDX7DSmxKdAvG+qeKpee75aObxEAH4Nv/cCmfv5U41/DKRJH6tNB5CE7XEOjtq70ij
+ AIxzHi2/LuIbpvwwV8u043blGjQ4RipsZw3uc28+TY6ncNmkt+JFTsX0EKttQ4GuZZUq
+ BdndAMaD+CafrSTFOUlpShPzydjkjz0S8ShH+UvDnuSOTzk9V1yfuR8enF54d01vckQh
+ 4XePPWazTJGzGFi9xAamZ7/9MiVghnRVL/Q9Ov/EJezVoNtbozvRDpAHOepjR5iwFfz7
+ NE1A==
+X-Gm-Message-State: ACrzQf28iaOiSIdnKEkl0dzbfzqKgZDQuKJef2rjXYLxhMJbjnD+zzL7
+ YLeDfisbIhIJstHfSSuTFyCUfpxaRD0=
+X-Google-Smtp-Source: AMsMyM4Yo6n2kO3fZIYOGSIjThwYmROuCitxt+3PGDllrBAHUURGQXdUIe5qfGpNcSBgO0uA4f98pg==
+X-Received: by 2002:a05:6870:d60d:b0:13b:9d25:3358 with SMTP id
+ a13-20020a056870d60d00b0013b9d253358mr34774369oaq.217.1667928400495; 
+ Tue, 08 Nov 2022 09:26:40 -0800 (PST)
+Received: from balboa.COMFAST ([187.34.29.120])
  by smtp.gmail.com with ESMTPSA id
- s1-20020a05683004c100b006619533d1ddsm4275607otd.76.2022.11.08.09.26.12
+ e66-20020aca3745000000b0035a5ed5d935sm3680277oia.16.2022.11.08.09.26.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Nov 2022 09:26:12 -0800 (PST)
-Date: Tue, 8 Nov 2022 12:25:44 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Sai Pavan Boddu <saipava@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Bin Meng <bin.meng@windriver.com>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- RivenDell <XRivenDell@outlook.com>, Siqi Chen <coc.cyqh@gmail.com>,
- ningqiang <ningqiang1@huawei.com>
-Subject: Re: [PATCH-for-7.2 1/2] hw/sd/sdhci: Do not set Buf Wr Ena before
- writing block (CVE-2022-3872)
-Message-ID: <20221108172544.7vvu7wcwyqmhfv3q@mozz.bu.edu>
-References: <20221107221236.47841-1-philmd@linaro.org>
- <20221107221236.47841-2-philmd@linaro.org>
+ Tue, 08 Nov 2022 09:26:40 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Bernhard Beschow <shentey@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>
+Subject: [PATCH] Revert "hw/block/pflash_cfi0{1,
+ 2}: Error out if device length isn't a power of two"
+Date: Tue,  8 Nov 2022 14:26:33 -0300
+Message-Id: <20221108172633.860700-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221107221236.47841-2-philmd@linaro.org>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.140.198; envelope-from=alxndr@bu.edu;
- helo=esa10.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2001:4860:4864:20::2a;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -126,70 +93,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 221107 2312, Philippe Mathieu-Daudé wrote:
-> When sdhci_write_block_to_card() is called to transfer data from
-> the FIFO to the SD bus, the data is already present in the buffer
-> and we have to consume it directly.
-> 
-> See the description of the 'Buffer Write Enable' bit from the
-> 'Present State' register (prnsts::SDHC_SPACE_AVAILABLE) in Table
-> 2.14 from the SDHCI spec v2:
-> 
->   Buffer Write Enable
-> 
->   This status is used for non-DMA write transfers.
-> 
->   The Host Controller can implement multiple buffers to transfer
->   data efficiently. This read only flag indicates if space is
->   available for write data. If this bit is 1, data can be written
->   to the buffer. A change of this bit from 1 to 0 occurs when all
->   the block data is written to the buffer. A change of this bit
->   from 0 to 1 occurs when top of block data can be written to the
->   buffer and generates the Buffer Write Ready interrupt.
-> 
-> In our case, we do not want to overwrite the buffer, so we want
-> this bit to be 0, then set it to 1 once the data is written onto
-> the bus.
-> 
-> This is probably a copy/paste error from commit d7dfca0807
-> ("hw/sdhci: introduce standard SD host controller").
-> 
-> Reproducer:
-> https://lore.kernel.org/qemu-devel/CAA8xKjXrmS0fkr28AKvNNpyAtM0y0B+5FichpsrhD+mUgnuyKg@mail.gmail.com/
-> 
-> Fixes: CVE-2022-3872
-> Reported-by: RivenDell <XRivenDell@outlook.com>
-> Reported-by: Siqi Chen <coc.cyqh@gmail.com>
-> Reported-by: ningqiang <ningqiang1@huawei.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+This commit caused a regression [1] that prevents machines that uses
+Open Virtual Machine Firmware (OVMF) to boot.
 
-Seems like OSS-Fuzz also found this, not sure why it never made it into
-a gitlab issue:
-https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=45986#c4
+This is a long standing behavior with how pflash handles images. More
+information about why this happens can be found in [2] and commit
+06f1521795 ("pflash: Require backend size to match device, improve
+errors").
 
-Slightly shorter reproducer:
+This reverts commit 334c388f25707a234c4a0dea05b9df08d7746638.
 
-cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
-512M -nodefaults -device sdhci-pci -device sd-card,drive=mydrive -drive \
-if=none,index=0,file=null-co://,format=raw,id=mydrive -nographic -qtest \
-stdio
-outl 0xcf8 0x80001010
-outl 0xcfc 0xe0000000
-outl 0xcf8 0x80001001
-outl 0xcfc 0x06000000
-write 0xe0000058 0x1 0x6e
-write 0xe0000059 0x1 0x5a
-write 0xe0000028 0x1 0x10
-write 0xe000002c 0x1 0x05
-write 0x5a6e 0x1 0x21
-write 0x5a75 0x1 0x20
-write 0xe0000005 0x1 0x02
-write 0xe000000c 0x1 0x01
-write 0xe000000e 0x1 0x20
-write 0xe000000f 0x1 0x00
-write 0xe000000c 0x1 0x00
-write 0xe0000020 0x1 0x00
-EOF
+[1] https://gitlab.com/qemu-project/qemu/-/issues/1294
+[2] https://lore.kernel.org/qemu-devel/20190308062455.29755-1-armbru@redhat.com/
 
+Cc: Bernhard Beschow <shentey@gmail.com>
+Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1294
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/block/pflash_cfi01.c | 8 ++------
+ hw/block/pflash_cfi02.c | 5 -----
+ 2 files changed, 2 insertions(+), 11 deletions(-)
+
+diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+index 9c235bf66e..0cbc2fb4cb 100644
+--- a/hw/block/pflash_cfi01.c
++++ b/hw/block/pflash_cfi01.c
+@@ -690,7 +690,7 @@ static const MemoryRegionOps pflash_cfi01_ops = {
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
+ 
+-static void pflash_cfi01_fill_cfi_table(PFlashCFI01 *pfl, Error **errp)
++static void pflash_cfi01_fill_cfi_table(PFlashCFI01 *pfl)
+ {
+     uint64_t blocks_per_device, sector_len_per_device, device_len;
+     int num_devices;
+@@ -708,10 +708,6 @@ static void pflash_cfi01_fill_cfi_table(PFlashCFI01 *pfl, Error **errp)
+         sector_len_per_device = pfl->sector_len / num_devices;
+     }
+     device_len = sector_len_per_device * blocks_per_device;
+-    if (!is_power_of_2(device_len)) {
+-        error_setg(errp, "Device size must be a power of two.");
+-        return;
+-    }
+ 
+     /* Hardcoded CFI table */
+     /* Standard "QRY" string */
+@@ -869,7 +865,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
+      */
+     pfl->cmd = 0x00;
+     pfl->status = 0x80; /* WSM ready */
+-    pflash_cfi01_fill_cfi_table(pfl, errp);
++    pflash_cfi01_fill_cfi_table(pfl);
+ }
+ 
+ static void pflash_cfi01_system_reset(DeviceState *dev)
+diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+index ff2fe154c1..2a99b286b0 100644
+--- a/hw/block/pflash_cfi02.c
++++ b/hw/block/pflash_cfi02.c
+@@ -880,11 +880,6 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    if (!is_power_of_2(pfl->chip_len)) {
+-        error_setg(errp, "Device size must be a power of two.");
+-        return;
+-    }
+-
+     memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl),
+                                   &pflash_cfi02_ops, pfl, pfl->name,
+                                   pfl->chip_len, errp);
+-- 
+2.37.3
 
 
