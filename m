@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584DB621E09
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 21:50:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72750621E29
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 21:59:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osVX9-0000xA-0s; Tue, 08 Nov 2022 15:49:23 -0500
+	id 1osVfd-0004Si-Ui; Tue, 08 Nov 2022 15:58:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1osVX5-0000wU-BM; Tue, 08 Nov 2022 15:49:19 -0500
-Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135])
+ id 1osVfb-0004ST-Tz; Tue, 08 Nov 2022 15:58:07 -0500
+Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1osVX3-0004yN-QG; Tue, 08 Nov 2022 15:49:19 -0500
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-37063f855e5so144900957b3.3; 
- Tue, 08 Nov 2022 12:49:17 -0800 (PST)
+ id 1osVfa-0003uR-I8; Tue, 08 Nov 2022 15:58:07 -0500
+Received: by mail-yb1-xb30.google.com with SMTP id 7so14245415ybp.13;
+ Tue, 08 Nov 2022 12:58:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=osecGGmvyozZM6woBsfejq6sstWCMPgyz7CS8A19MFw=;
- b=L8+F2oxf436CDgC8lrz2S6oi7x1mYNC0YQdOqnBPZLS6icXv3r18AOPs2xderthD3X
- HgtTKJ7/OxHgM+muy/Ri/tFlWZ1W/TNsvouvFI5HaOnToXzJABEaVNHj5W0c6+bV0qIg
- 8HV0MhJC1n2Lj5PX/iI8JeWaAnDZXen6swBH/B9S7CUXAxwo9wlpec+CwJhyrq3z4e0+
- hjCqiXmsmBaKh8Pdk0af6P8uRQudGGEOwKTysLJYc4pWuovRbEf9+ab4V01AONFfS5BI
- tmNimtru9v/AyUj//1d/hQSA7W7o+F1zPMfGiTnA+U9Aw9kdUSEjFruQMI0IgEQ1/Jwf
- xJBA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Cj8QwBWEkc9kNmgFJ9+RZDrxldyJXuEFWAGxVlyND4k=;
+ b=kXDvdGbnJjncThVNcF+WoF/Pv24NiJBCsKyIqC2aDZVzmhCHy2wUC+9WZqp7bPXS5N
+ uUj0VT/2QSqAZ0dmNRXZHFH+FWHmqKmhmLmg3dSIqM45iAqSgecbH672i893Txo8UIpJ
+ bDZ5FOifzYP696JzUfwWpmoIOJyDQI8tqXdgO5r1TRJZgGcAU93PbJXMavulhY2x4Bt1
+ 9Xw0+qyVBajfB0sti4UMwk59rSHtmJOMnDB77FjrCuC7T22pJv0i4A3V4qhi4aepsTMr
+ OohXVpxqhdgSBS9/PRgRkeH2n9qqT3OcH9VCYYSGqqjt4bA80Vot3fSldZFl9dkaumjr
+ QaoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=osecGGmvyozZM6woBsfejq6sstWCMPgyz7CS8A19MFw=;
- b=By0j/jNvZlU+OvlXSTb102bTSw1X3XmG0vcbL03oZsYKeZa+xStWKYjANqJY+fLin2
- mRPHC7urVnqm/+vLOjMUW4yf2/6s8cLkT0iIuFDREIXhokdZLm0/NAH2LkF/BmlFODXz
- QK+9iWRdEuv5NkdA+15GLFobTcDDdxGRJmxjC5/K+DP3LYssXbW0VivX+omniQ8mjw9s
- IaHxGZcriZT1WXSOboyg/Zxe2SAZMQFX5ZoK51LdhlpVmqbLzUNJlzouSKKBhMnM+aiE
- A252H3Ze1CIycBEQLprg9rVyA9sjq5EEpPSIXB4DnpGuLmifbw4i63Od/M1gYUAlC93W
- G04A==
-X-Gm-Message-State: ACrzQf0B+UIaKrzzcSstT4ejs8Hm0x9mMSe5SBQyPuT9twyg8htsGHOT
- Fz/jfzcIF+G+JvfWguRrM89Fpm919V5XcLvrPnw=
-X-Google-Smtp-Source: AMsMyM6bga9f69X2U7Qwn6aNNIwnaodIjxrZtqwvaZYM9eZUeReTfbtkFsH1rH702slnxdqz4zsBxaHMkoQIw+Aq0AU=
-X-Received: by 2002:a81:8445:0:b0:36c:c302:8926 with SMTP id
- u66-20020a818445000000b0036cc3028926mr56269870ywf.296.1667940556239; Tue, 08
- Nov 2022 12:49:16 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Cj8QwBWEkc9kNmgFJ9+RZDrxldyJXuEFWAGxVlyND4k=;
+ b=1tpJUop+vGA8IjQf6sVwERj5KR29DLuF84GaRILmdADZeDffbfc/NJ5g6q/CKOf53E
+ usO3GOO6CJbFg/Nyjj1nZe+U15i+HCGZRopSW+TzcoQwruNl7AD7/LwiPKBLD+Qfa3K/
+ 6+BN8T1nVDrEbfGagvy6wyKk4gNjyOlma7mh0mzh9pIspb7rI5bEfzDFPgY9fC/6DJeg
+ 9kMy82SIUtGY1XWd6/UitlF/tCwB8pZ6EX+ujgR5C961CEd1tLH3kY11cbF/pLzcLqd/
+ 3VZUXtoc1GD/W5rifM0tZGioITtluBPwdD08YQsliUkHOUFuwyKAeE5t93ccgYHEmxYn
+ Gjfg==
+X-Gm-Message-State: ACrzQf1Yd1xJBx2rvItl3UvoFQ+9vaHQ7DYT/Ay182E8knb/24B38/el
+ jqqdFhdSP14sSTy8l1pdrONxSITtEKY51qh8HoU=
+X-Google-Smtp-Source: AMsMyM5RoGJcD5fYQ+qFhe3kY/j1o1zd0tl8VlHqKLuotyHOMFLy8qKoPxF5I2hfWGHUdgqa1DJ3iaCprZuUkT/0XEE=
+X-Received: by 2002:a25:1e89:0:b0:6bf:9e55:5cb4 with SMTP id
+ e131-20020a251e89000000b006bf9e555cb4mr57163323ybe.642.1667941084340; Tue, 08
+ Nov 2022 12:58:04 -0800 (PST)
 MIME-Version: 1.0
 References: <20221108183352.9466-1-philmd@linaro.org>
-In-Reply-To: <20221108183352.9466-1-philmd@linaro.org>
+ <CAJSP0QVdQ=wTtgNVDChzu5U1ww3SZAa2HfXjuE4z5uOnFeT_bw@mail.gmail.com>
+In-Reply-To: <CAJSP0QVdQ=wTtgNVDChzu5U1ww3SZAa2HfXjuE4z5uOnFeT_bw@mail.gmail.com>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 8 Nov 2022 15:49:04 -0500
-Message-ID: <CAJSP0QVdQ=wTtgNVDChzu5U1ww3SZAa2HfXjuE4z5uOnFeT_bw@mail.gmail.com>
+Date: Tue, 8 Nov 2022 15:57:52 -0500
+Message-ID: <CAJSP0QVZ8D59AM_tvgHzdhqF6EUefUgmyD9WMtfPUD=nn54v+g@mail.gmail.com>
 Subject: Re: [PULL 0/3] Memory/SDHCI/ParallelFlash patches for v7.2.0-rc0
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
 Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
@@ -62,9 +61,8 @@ Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>,
  qemu-block@nongnu.org, Peter Xu <peterx@redhat.com>, 
  Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1135.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb30.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,54 +85,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 8 Nov 2022 at 13:35, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
-> wrote:
->
-> The following changes since commit ade760a2f63804b7ab1839fbc3e5ddbf305387=
-18:
->
->   Merge tag 'pull-request-2022-11-08' of https://gitlab.com/thuth/qemu in=
-to staging (2022-11-08 11:34:06 -0500)
->
-> are available in the Git repository at:
->
->   https://github.com/philmd/qemu.git tags/memflash-20221108
->
-> for you to fetch changes up to cf9b3efd816518f9f210f50a0fa3e46a00b33c27:
->
->   Revert "hw/block/pflash_cfi: Error out if dev length isn't power of 2" =
-(2022-11-08 19:29:25 +0100)
->
-> ----------------------------------------------------------------
-> Memory/SDHCI/ParallelFlash patches queue
->
-> - Fix wrong end address dump in 'info mtree' (Zhenzhong Duan)
-> - Fix in SDHCI for CVE-2022-3872 (myself)
+I've dropped the SDHCI CVE fix due to the CI failure.
 
-There is a CI failure:
-
->>> G_TEST_DBUS_DAEMON=3D/builds/qemu-project/qemu/tests/dbus-vmstate-daemo=
-n.sh MALLOC_PERTURB_=3D127 QTEST_QEMU_BINARY=3D./qemu-system-arm QTEST_QEMU=
-_STORAGE_DAEMON_BINARY=3D./storage-daemon/qemu-storage-daemon QTEST_QEMU_IM=
-G=3D./qemu-img /builds/qemu-project/qemu/build/tests/qtest/npcm7xx_sdhci-te=
-st --tap -k
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80 =E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
-=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
-=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
-=95
-stderr:
-** Message: 19:27:52.411: /tmp/sdhci_ZD2EV1
-**
-ERROR:../tests/qtest/npcm7xx_sdhci-test.c:101:sdwrite_read: assertion
-failed: (!memcmp(rmsg, msg, len))
-
-https://gitlab.com/qemu-project/qemu/-/jobs/3292896670
+The rest of the commits are still in the staging tree and I plan to
+include them in v7.2.0-rc0.
 
 Stefan
 
