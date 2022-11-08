@@ -2,60 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A0B62135E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 14:49:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C191D621360
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 14:49:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osOxP-0007jH-FK; Tue, 08 Nov 2022 08:48:03 -0500
+	id 1osOyh-00082k-UY; Tue, 08 Nov 2022 08:49:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1osOxN-0007j9-PF
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:48:01 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osOyU-00081R-H7
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:49:10 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1osOxL-00026F-Uz
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:48:01 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osOyS-0003JO-N4
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:49:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667915278;
+ s=mimecast20190719; t=1667915347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=65hNAPzHXJkJHn9En6O4Jtrn9QoHcM26VwxVZRjfjoo=;
- b=H6diNbGGJfR98aBAftKcSFP2LwTOrX02QZ5PgZqb0qfy6coTJjg+SVCnc2yfKHmL1E0Wbb
- 4VsqzuUy1Pzbi9ixJpyWLkUAQkqR5DKpy730qL4e981AsnJDIA05R+QQG/Dm3NXUwtvPJa
- yOXbqQ8wXGHQEn4tJezWW+l9PEX+1qs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-WyUquWd7MHuZSVM9xE02mQ-1; Tue, 08 Nov 2022 08:47:55 -0500
-X-MC-Unique: WyUquWd7MHuZSVM9xE02mQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DDF853814590;
- Tue,  8 Nov 2022 13:47:54 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6CD2DC1E1B1;
- Tue,  8 Nov 2022 13:47:54 +0000 (UTC)
-Date: Tue, 8 Nov 2022 08:47:52 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL v4 00/83] pci,pc,virtio: features, tests, fixes, cleanups
-Message-ID: <Y2peCPLeSN0u7rSe@fedora>
+ bh=O2ZRaatWkc1iwxiiA3rEnatEUKzYJyukKIJCWyL0+hs=;
+ b=PmoeExj4Jt8NqT9ogcKLboVbDB8QGL95EFigy6sghDAuG1zZLr4DXB32NO4lE8n8Ds0GR+
+ or5roT6tsiZlKUfqUj0BxOobd55Pl93BdxMdkJoPdT3aQX3NFkWaXWEQ+wtn4Dz+YP5HZa
+ CZo+kGgWyFbAoIVn6iuI6l6o8uwIL58=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-453-N9xpJG36MC6djlnY8zqpqQ-1; Tue, 08 Nov 2022 08:49:06 -0500
+X-MC-Unique: N9xpJG36MC6djlnY8zqpqQ-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ cm12-20020a05622a250c00b003a521f66e8eso10298700qtb.17
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 05:49:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=O2ZRaatWkc1iwxiiA3rEnatEUKzYJyukKIJCWyL0+hs=;
+ b=VKno9IUqKaakSNZxlMrBkPOluxguDFt4e91YoyAFc62lqoC+azHkF066xFxhRjkfxg
+ w3qy9C6gb977d/rTiZu7/O8oXQafNbu6IVoKiy46lrPfuoySYE2ftJw6ejwbgCZzMikg
+ g1B/Ke0QRKHRaTVJwxurj6DxUZ+tE2XMxWtY98RJdbre6B+8aap8w7IxINS21Kvp+dTR
+ 9n482tbXk1+jBkFsBUHb3DyMEaBKDok6/FebTS8OoakVbgQ2lKL5RpJureR0w31k47Dh
+ rtSdwxnGkoJxHH/yKZCMjcmnmbP0f7arO66A6LUrbKEgvUfqQC2dXN89qCW2VikHhApI
+ XHbg==
+X-Gm-Message-State: ACrzQf1pcSUV65HLjKEj8KIvHbaszOrLfo5dlaMiBlswEZlhDYmOLSL/
+ CHjBwA35zv7z9ofIiaIOuQp27Lzhh3jvo75MGGM+szc3xvLQQwZ17O4alXMLvRRkQ/FTLqtDMMk
+ O1aaoIxpeRcN/98U=
+X-Received: by 2002:a05:622a:249:b0:3a5:75a5:d038 with SMTP id
+ c9-20020a05622a024900b003a575a5d038mr14100802qtx.359.1667915346134; 
+ Tue, 08 Nov 2022 05:49:06 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM6HaoCYANECMQrB/nqh5SQzfrVcU6pZA6PPMcEAGVrIKwIXXKY6wnBGf3NlGxa8Vcsv+E8fdw==
+X-Received: by 2002:a05:622a:249:b0:3a5:75a5:d038 with SMTP id
+ c9-20020a05622a024900b003a575a5d038mr14100783qtx.359.1667915345825; 
+ Tue, 08 Nov 2022 05:49:05 -0800 (PST)
+Received: from redhat.com ([138.199.52.3]) by smtp.gmail.com with ESMTPSA id
+ s13-20020a05620a0bcd00b006bb8b5b79efsm9352573qki.129.2022.11.08.05.49.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Nov 2022 05:49:05 -0800 (PST)
+Date: Tue, 8 Nov 2022 08:49:01 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PULL v4 45/83] tests: acpi: whitelist DSDT before generating
+ PCI-ISA bridge AML automatically
+Message-ID: <20221108084835-mutt-send-email-mst@kernel.org>
 References: <20221107224600.934080-1-mst@redhat.com>
- <20221108012224-mutt-send-email-mst@kernel.org>
+ <20221107224600.934080-46-mst@redhat.com>
+ <20221108143641.4bdaae6f@fedora>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="q6YQwG4rHHhghQVL"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221108012224-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+In-Reply-To: <20221108143641.4bdaae6f@fedora>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -79,76 +98,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Nov 08, 2022 at 02:36:41PM +0100, Igor Mammedov wrote:
+> On Mon, 7 Nov 2022 17:51:11 -0500
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> 
+> > From: Igor Mammedov <imammedo@redhat.com>
+> > 
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > Message-Id: <20221017102146.2254096-3-imammedo@redhat.com>
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > ---
+> >  tests/qtest/bios-tables-test-allowed-diff.h | 34 +++++++++++++++++++++
+> >  1 file changed, 34 insertions(+)
+> > 
+> > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> > index dfb8523c8b..570b17478e 100644
+> > --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> > @@ -1 +1,35 @@
+> >  /* List of comma-separated changed AML files to ignore */
+> > +"tests/data/acpi/pc/DSDT",
+> > +"tests/data/acpi/pc/DSDT.acpierst",
+> > +"tests/data/acpi/pc/DSDT.acpihmat",
+> > +"tests/data/acpi/pc/DSDT.bridge",
+> > +"tests/data/acpi/pc/DSDT.cphp",
+> > +"tests/data/acpi/pc/DSDT.dimmpxm",
+> > +"tests/data/acpi/pc/DSDT.hpbridge",
+> > +"tests/data/acpi/pc/DSDT.hpbrroot",
+> > +"tests/data/acpi/pc/DSDT.ipmikcs",
+> > +"tests/data/acpi/pc/DSDT.memhp",
+> > +"tests/data/acpi/pc/DSDT.nohpet",
+> > +"tests/data/acpi/pc/DSDT.numamem",
+> > +"tests/data/acpi/pc/DSDT.roothp",
+> > +"tests/data/acpi/q35/DSDT",
+> > +"tests/data/acpi/q35/DSDT.acpierst",
+> > +"tests/data/acpi/q35/DSDT.acpihmat",
+> > +"tests/data/acpi/q35/DSDT.applesmc",
+> > +"tests/data/acpi/q35/DSDT.bridge",
+> > +"tests/data/acpi/q35/DSDT.cphp",
+> > +"tests/data/acpi/q35/DSDT.cxl",
+> > +"tests/data/acpi/q35/DSDT.dimmpxm",
+> > +"tests/data/acpi/q35/DSDT.ipmibt",
+> > +"tests/data/acpi/q35/DSDT.ipmismbus",
+> > +"tests/data/acpi/q35/DSDT.ivrs",
+> > +"tests/data/acpi/q35/DSDT.memhp",
+> > +"tests/data/acpi/q35/DSDT.mmio64",
+> > +"tests/data/acpi/q35/DSDT.multi-bridge",
+> > +"tests/data/acpi/q35/DSDT.nohpet",
+> > +"tests/data/acpi/q35/DSDT.numamem",
+> > +"tests/data/acpi/q35/DSDT.pvpanic-isa",
+> > +"tests/data/acpi/q35/DSDT.tis.tpm12",
+> > +"tests/data/acpi/q35/DSDT.tis.tpm2",
+> > +"tests/data/acpi/q35/DSDT.viot",
+> > +"tests/data/acpi/q35/DSDT.xapic",
+> 
+> still missing DSDT.count2 table, likely in other updates (as well)
+> which should break bisection if not whole pull request.
 
---q6YQwG4rHHhghQVL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 08, 2022 at 01:23:16AM -0500, Michael S. Tsirkin wrote:
-> On Mon, Nov 07, 2022 at 05:47:16PM -0500, Michael S. Tsirkin wrote:
-> > Changes from v3:
-> >     Applied and squashed fix by Ani for modular build breakage
-> >     Reordered Julia's patches to avoid bisect breakage
-> >     Checkpatch fixes for Jason's patches
-> >     Added Alex's patch to partially address virtio is_started mess
-> >     There is a bigger issue found by Christian A. Ehrhardt, that
-> >     still needs work
-> >     checkpatch change to avoid breaking on Jason's patches (to make ci =
-pass)
-> >=20
-> > Changes from v2:
-> >     Fixed a bug in error handling in vhost: Change the sequence of devi=
-ce start.
-> >         Contributor placed on watchlist ;)
-> >     Dropped virtio: re-order vm_running and use_started checks
-> >         Due to failures detected by gitlab.
-> >         We'll have to fix it differently.
-> >     Updated expected files for core-count test to fix bisect.
-> >=20
-> > Changes from v1
-> >     Applied and squashed fixes by Igor, Lei He, Hesham Almatary for
-> >     bugs that tripped up the pipeline.
-> >     Updated expected files for core-count test.
-> >=20
-> >=20
-> >=20
-> > The following changes since commit a11f65ec1b8adcb012b89c92819cbda4dc25=
-aaf1:
-> >=20
-> >   Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu in=
-to staging (2022-11-01 13:49:33 -0400)
-> >=20
-> > are available in the Git repository at:
-> >=20
-> >   https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> >=20
-> > for you to fetch changes up to 1ef47f40dce3d5b176ddf76d57b5bfa2efb0b3c6:
->=20
->  5e75ffd664258d3d2fd3d27e92e2748024f53bca now - I found and fixed a typo =
-in a comment in checkpatch and re-pushed
+That's because I reordered count2 patches to be after these.
 
-This didn't make it in, sorry. Please send the typo fix in the next pull
-request.
-
-Thanks,
-Stefan
-
---q6YQwG4rHHhghQVL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNqXggACgkQnKSrs4Gr
-c8gjCgf/Tuwc1lmZDPhQPK/SYFu+1n4Y/Se+QE8klNfsXeh6pO1AmJJvwPJ3CDam
-wpXiCGFnneJcIE27MRRiFRJy4hH//+N7AkmVwmWGd1mPIcAHOWXX1JJFC7pE9lhK
-rq6AdYBF55iuoapOLhFVQ7LUeCRq0K6OuM0VcAXd5dia/8P5WCXMHMAkzemWJ/pv
-aYDYezzWYo2vZRWo393aoPnieMzDHk4rBsNgqk/iW1puyH0CCBd0KIpz3uUJnyiL
-0UOB0DKqpS4eXD1cFMUPdx77B8Nx7U7MfWvcXG3tL5ujntm9zfnjyla+dyF0sDzA
-BmRIZQwOEO0nJrj+PqvBWgfog2zOaQ==
-=fQfG
------END PGP SIGNATURE-----
-
---q6YQwG4rHHhghQVL--
+> I'll prep a tree based on your pull req, with fixups
+> for you to pull from.
 
 
