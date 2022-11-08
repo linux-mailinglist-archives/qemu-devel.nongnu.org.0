@@ -2,77 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C95621462
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:00:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF68621479
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:01:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osP8N-0005oT-0B; Tue, 08 Nov 2022 08:59:23 -0500
+	id 1osPAC-0006er-1x; Tue, 08 Nov 2022 09:01:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1osP8K-0005oJ-HU
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:59:20 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1osP8J-0002Vx-0i
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:59:20 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- c15-20020a17090a1d0f00b0021365864446so13408974pjd.4
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 05:59:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SrBStef6avJLWkxC356sccLV4pepY5F2vco86+v9j+4=;
- b=hFTQicWcxB3NmbDFRlWsj3IyJg8KJHDUZAwzIIPV6ZhqpoiJXloo1ppi4Lw6vVsnSF
- JHGb6vCGGz1eMzRTG1jgKL3TT43ZlA4jb4GFpDCbVGg+Sl1r7g0V9yl5LgFyTGX8z0ce
- iUyUbhUlE1NxLrMd5HDS446Aw4uIng3eOticP5jWWc1KFrNfj+N/j1La3xh0k5m9WwXE
- azBHwWjU/Z72LO5zknMRX4iPodPdx0sSR4Ex4WzmvDkh5/tnVt/2axFe6DDTvI9eGDqM
- elxQ+9Iq0I51PlxLaNGJRJrD/MdS/Fgidki9z3MVshKGz3ZakEjEC81nWYRxYDlRWiou
- fh3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SrBStef6avJLWkxC356sccLV4pepY5F2vco86+v9j+4=;
- b=V1CVDKMQpeKdVk0sPGLSxVdZ9heADsXBCLBERYyj1X/bE2A7vc2N6/0vBxncYeEajF
- vS7zc48EgG7VbDG3/taEBlvPpYiMqktaWipeG9kXDwq6fw+906R93QcY7HnztbK5DzdO
- MOB02JhRR5rswMo+dPuMT07Kzr7EPNVFEgkTEtK7ohkwiikqC7r/vpj/sATIJDFgJzDf
- MgfF+/iottyyXGlR9wkvm9i6BTiOFe3dCSnpXc7K0MtJygQGl9tuural2wrg/YwTdgjF
- mRRGf0pkJqGBpEc+GNMz+GU46REIhHlSelmO3TsUVEftRkiG2hMVkZEw+2ZPYUmqdM4l
- 9ffQ==
-X-Gm-Message-State: ACrzQf1ktLn0G0on9g5euaTfGbu6QkgOvZ8ujfXZy5q2YJPoqtxE42CD
- 6hpQep7QosKWeEp6bSX/bZy/v1Z01qfcMM7RY0KFww==
-X-Google-Smtp-Source: AMsMyM4dUEkkiO1Qj6bkj4S1qThhWrwxOjMdCLPibxwqrIIJ9DCy0AakzwfEsHCocuh7LOrJcjQ82FyEDFqTaOYbeKQ=
-X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
- jm23-20020a17090304d700b001788564f754mr56112690plb.60.1667915956455; Tue, 08
- Nov 2022 05:59:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1osP9v-0006YK-3U
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:01:01 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1osP9s-0005Ja-9q
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:00:58 -0500
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-300-2y77KKN1MqailUdodescBg-1; Tue, 08 Nov 2022 09:00:41 -0500
+X-MC-Unique: 2y77KKN1MqailUdodescBg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 53B78383D0C6;
+ Tue,  8 Nov 2022 14:00:41 +0000 (UTC)
+Received: from bahia.redhat.com (unknown [10.39.192.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D6A2C15E76;
+ Tue,  8 Nov 2022 14:00:39 +0000 (UTC)
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Greg Kurz <groug@kaod.org>
+Subject: [PATCH v3 0/2] util/log: Always send errors to logfile when daemonized
+Date: Tue,  8 Nov 2022 15:00:30 +0100
+Message-Id: <20221108140032.1460307-1-groug@kaod.org>
 MIME-Version: 1.0
-References: <20221030222841.42377-1-philmd@linaro.org>
-In-Reply-To: <20221030222841.42377-1-philmd@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Nov 2022 13:59:05 +0000
-Message-ID: <CAFEAcA-d=GrGNm9vhc6Q-UnQAQt+RLnwRj=dbif=iMKTRAabpQ@mail.gmail.com>
-Subject: Re: [PULL 00/55] MIPS patches for 2022-10-30
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, 
- Huacai Chen <chenhuacai@kernel.org>, Stefan Pejic <stefan.pejic@syrmia.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Aurelien Jarno <aurelien@aurel32.net>, 
- Paul Burton <paulburton@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,37 +66,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 30 Oct 2022 at 22:29, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
-g> wrote:
->
-> The following changes since commit 344744e148e6e865f5a57e745b02a87e5ea534=
-ad:
->
->   Merge tag 'dump-pull-request' of https://gitlab.com/marcandre.lureau/qe=
-mu into staging (2022-10-26 10:53:49 -0400)
->
-> are available in the Git repository at:
->
->   https://github.com/philmd/qemu.git tags/mips-20221030
->
-> for you to fetch changes up to 487099aee951e4966936acd3e9afd24c69de85ea:
->
->   hw/mips/malta: Use bootloader helper to set BAR registers (2022-10-30 2=
-3:08:10 +0100)
->
-> ----------------------------------------------------------------
-> MIPS patches queue
->
-> - Convert nanoMIPS disassembler from C++ to C (Milica Lazarevic)
+When QEMU is started with `--daemonize -D ${logfile} -d ${some_log_item}`,=
+=0D
+error logs from error_report() and friends go to ${logfile}, but if QEMU=0D
+is started with `-daemonize -D ${logfile}` and no `-d`, the file isn't=0D
+even created and all logs go to /dev/null.=0D
+=0D
+This inconsistency is quite confusing for users and gives the impression=0D
+that QEMU doesn't log errors at all. It seems much saner to always create=0D
+the log file when `-D` was passed and to be able to report errors.=0D
+=0D
+It was spotted by the kata-containers project, which happens to do just=0D
+that `--daemonize -D` without `-d` trick.=0D
+=0D
+v3:=0D
+- drop log_append (Paolo's patch)=0D
+- new approach : call qemu_log_trylock() from qemu_set_log_internal() in=0D
+  the per-thread case, instead of trying to special case the main thread=0D
+=0D
+v2:=0D
+- new log_thread_id() implementation for hosts without gettid() syscall=0D
+- avoid conflict between global log file and per-thread logfile=0D
+- style improvements=0D
+=0D
+Greg Kurz (1):=0D
+  util/log: Always send errors to logfile when daemonized=0D
+=0D
+Paolo Bonzini (1):=0D
+  util/log: do not close and reopen log files when flags are turned off=0D
+=0D
+ util/log.c | 84 +++++++++++++++++++++++++++++++++++++-----------------=0D
+ 1 file changed, 58 insertions(+), 26 deletions(-)=0D
+=0D
+-- =0D
+2.38.1=0D
+=0D
 
-Was this the last use of C++ in the tree, or am I forgetting
-some other part that still needs the C++ compiler?
-
-If it is the last thing, we should put in the "Build Dependencies"
-part of the release notes that a C++ compiler is no longer required
-and mention that the configure options to specify it will go away in
-a future release.
-
-thanks
--- PMM
 
