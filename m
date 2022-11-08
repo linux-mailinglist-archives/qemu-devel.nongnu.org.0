@@ -2,89 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB03621635
+	by mail.lfdr.de (Postfix) with ESMTPS id BC1A7621634
 	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:24:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osPVp-0001tT-5X; Tue, 08 Nov 2022 09:23:37 -0500
+	id 1osPW0-0001us-Qb; Tue, 08 Nov 2022 09:23:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osPVn-0001t0-E2
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:23:35 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osPVc-00043O-50
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:23:35 -0500
-Received: by mail-wr1-x431.google.com with SMTP id y16so21174157wrt.12
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 06:23:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cJcqIKV4hqGF4gqiXIh71YwD0/bUxj1G/w7iBsjN2/A=;
- b=ZRhotg1RelTMKIQ1VF5Fa2InRkFoSnuqsAiZXFO98LgX7uc3xj5+mb4x+C+ETbcTrW
- KmIgu0PKOptvVMevuSgenyqDlku3C/D4jjU33oK4r1Z/h2b71KFBsHZYduxfnSj2+rB1
- aYxjWIWqrmwL9i4fZKqF2NeF7CWAatrewgwl/hsjsKZLlE/e82MzTgy4alb9TEBG0oSZ
- 4Wj/+AUx4L+Nn2unOO6K95k4qNG/Lpc99ExbCYNNYZXyoTSTHq3fE799MoCg/1xhyNoH
- ItjsqWg6ToKiJGFoP8er73kA820nps+CFRcE0Yq37UCiZnda8Oha5gmDwAAXScPFV1zf
- 4+DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cJcqIKV4hqGF4gqiXIh71YwD0/bUxj1G/w7iBsjN2/A=;
- b=4HdILsyWo9OKTCkUbMSXMBHs9YMuGhdniAaX3jO5KS+p20TbdoBiPFSP582EEjU3ro
- gDmk3XFZebGApT6WnxdqbEkJeKoSoRi5IeA41G812hGKkChMHoO3LnTtOoNNqRYjxqez
- VZYlw4hXlMoQZEHNSa2N78v+8jvd1QMNb64s+RExlFadqBSbl5ie++RthWxxf1+6xykM
- RiYc+JpahU6buINt4z8S/L3OnX2auuIMNvrAsXaihvwB8L72gN7H+BK35oCy79ZIVcHe
- QkGE0QMFgO4e8jIggt9t8QKNXLyAuEeUWpeHgp5C0Hama9kz0S0QzMFMFt9JRYpnQIy6
- YWVw==
-X-Gm-Message-State: ACrzQf1uXZ3pZj5u0hTUb1yLGbgKWDqe00hz0LS5hyoB5kLUYm568DV5
- gop2jo9boYYVekZqB1vXtJrQWg==
-X-Google-Smtp-Source: AMsMyM6Jy0euBxmwgvyTnTFkoC1uzFByg8TTML28kxDD6ZQAgi2rpxTR+3p3tx6BJgc/j1bierv4pw==
-X-Received: by 2002:a05:6000:16c8:b0:236:c60d:22b9 with SMTP id
- h8-20020a05600016c800b00236c60d22b9mr31767415wrf.526.1667917402674; 
- Tue, 08 Nov 2022 06:23:22 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- l5-20020a1c7905000000b003cf6e1df4a8sm11035696wme.15.2022.11.08.06.23.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Nov 2022 06:23:22 -0800 (PST)
-Message-ID: <ed6dcb59-a936-e254-4786-0630cbe80f0e@linaro.org>
-Date: Tue, 8 Nov 2022 15:23:20 +0100
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1osPVz-0001uO-4L
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:23:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1osPVx-00046F-BN
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:23:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667917424;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DPrd7uB3C7K6F6Jus2wfokC3aGF286sQvpJGdrdDAWI=;
+ b=iuKG3qVQftuFStYxbY8HYsdO2JeWalgDACslG4Ntg8Zl7OWnDVs8XtlXCWphb9cwAoeeEm
+ 8JcofBweJdn1Gs7UdnwAN0ZgerYyv6SiMeO3Cqf5xJPOuihqDGiShJ6Ff86F5aoBqFnk9m
+ 89kv14XR4Nr6GolTBWgnjgvtn5DBnPw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-544-jUowNtIxMqG6oQveB_Kdkg-1; Tue, 08 Nov 2022 09:23:43 -0500
+X-MC-Unique: jUowNtIxMqG6oQveB_Kdkg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4A989185A794;
+ Tue,  8 Nov 2022 14:23:42 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 828672166B29;
+ Tue,  8 Nov 2022 14:23:41 +0000 (UTC)
+Date: Tue, 8 Nov 2022 15:23:40 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2 0/3] block: Start/end drain on correct AioContext
+Message-ID: <Y2pmbETCfwAfIDyH@redhat.com>
+References: <20221107151321.211175-1-hreitz@redhat.com>
+ <Y2pkGq70Z9xGhUis@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PULL 00/55] MIPS patches for 2022-10-30
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- Konstantin Kostiuk <kkostiuk@redhat.com>, Michael Roth
- <michael.roth@amd.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- Stefan Weil <sw@weilnetz.de>
-Cc: qemu-devel@nongnu.org, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, Stefan Pejic <stefan.pejic@syrmia.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Aurelien Jarno
- <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20221030222841.42377-1-philmd@linaro.org>
- <CAFEAcA-d=GrGNm9vhc6Q-UnQAQt+RLnwRj=dbif=iMKTRAabpQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <CAFEAcA-d=GrGNm9vhc6Q-UnQAQt+RLnwRj=dbif=iMKTRAabpQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+In-Reply-To: <Y2pkGq70Z9xGhUis@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,40 +79,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/11/22 14:59, Peter Maydell wrote:
-> On Sun, 30 Oct 2022 at 22:29, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
->>
->> The following changes since commit 344744e148e6e865f5a57e745b02a87e5ea534ad:
->>
->>    Merge tag 'dump-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2022-10-26 10:53:49 -0400)
->>
->> are available in the Git repository at:
->>
->>    https://github.com/philmd/qemu.git tags/mips-20221030
->>
->> for you to fetch changes up to 487099aee951e4966936acd3e9afd24c69de85ea:
->>
->>    hw/mips/malta: Use bootloader helper to set BAR registers (2022-10-30 23:08:10 +0100)
->>
->> ----------------------------------------------------------------
->> MIPS patches queue
->>
->> - Convert nanoMIPS disassembler from C++ to C (Milica Lazarevic)
+Am 08.11.2022 um 15:13 hat Kevin Wolf geschrieben:
+> Am 07.11.2022 um 16:13 hat Hanna Reitz geschrieben:
+> > Hi,
+> > 
+> > v1 cover letter:
+> > https://lists.nongnu.org/archive/html/qemu-block/2022-09/msg00389.html
+> > 
+> > bdrv_replace_child_noperm() drains the child via
+> > bdrv_parent_drained_{begin,end}_single().  When it removes a child, the
+> > bdrv_parent_drained_end_single() at its end will be called on an empty
+> > child, making the BDRV_POLL_WHILE() in it poll the main AioContext
+> > (because c->bs is NULL).
+> > 
+> > That’s wrong, though, because it’s supposed to operate on the parent.
+> > bdrv_parent_drained_end_single_no_poll() will have scheduled any BHs in
+> > the parents’ AioContext, which may be anything, not necessarily the main
+> > context.  Therefore, we must poll the parent’s context.
+> > 
+> > Patch 3 does this for both bdrv_parent_drained_{begin,end}_single().
+> > Patch 1 ensures that we can legally call
+> > bdrv_child_get_parent_aio_context() from those I/O context functions,
+> > and patch 2 fixes blk_do_set_aio_context() to not cause an assertion
+> > failure if it beginning a drain can end up in blk_get_aio_context()
+> > before blk->ctx has been updated.
 > 
-> Was this the last use of C++ in the tree, or am I forgetting
-> some other part that still needs the C++ compiler?
+> Hmm, I may have unintentionally made this series obsolete with the drain
+> series I sent today. The poll instances that you're fixing simply don't
+> exist any more after it.
 > 
-> If it is the last thing, we should put in the "Build Dependencies"
-> part of the release notes that a C++ compiler is no longer required
-> and mention that the configure options to specify it will go away in
-> a future release.
+> Can you check if the bug is gone with my series? I would hope so, but if
+> not, we would probably need to apply a fix in a different place.
 
-I guess the last use is from the Guest Agent on Windows...
+Actually, on second thoughts, we'd probably still apply your patches as
+a fix for 7.2 and then have my patches which would get rid of the
+polling only in block-next. Patch 1 and 2 of this series would stay in
+the tree, and that seems to make sense to me, too. So obsolete was not
+the right word.
 
-$ git ls-files | fgrep .cpp
-qga/vss-win32/install.cpp
-qga/vss-win32/provider.cpp
-qga/vss-win32/requester.cpp
+But it would still be interesting to see if my series fixes the bug,
+too, because otherwise it might introduce a regression later.
 
-Cc'ing QGA & Windows teams.
+By the way, is the bug hard to test in a test case? If this series had
+one, I could just have run it myself against my tree.
+
+Kevin
+
 
