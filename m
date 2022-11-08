@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C4F621B52
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 18:58:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA71621B96
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 19:12:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osSrL-0003oq-Qd; Tue, 08 Nov 2022 12:58:03 -0500
+	id 1osT3r-0007xp-V1; Tue, 08 Nov 2022 13:10:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osSrK-0003o2-2Z
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 12:58:02 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osT3o-0007xK-Bz
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 13:10:57 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osSrI-0002Ii-89
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 12:58:01 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id o30so9314883wms.2
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 09:57:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osT3e-00077y-QF
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 13:10:53 -0500
+Received: by mail-wr1-x434.google.com with SMTP id a14so22282217wru.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 10:10:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=f5oJPPqPjIJNFRPi84YTMbiyp9r3sNtOkARV0kVnlE4=;
- b=S4h1o4THY+ZdA7wf5GA1HxGxs/NlHZYCIUEGviaIlysF31N4PtbWDfltz3VP4jzm9W
- saWgkeecmXpPALtMKaoVHWIkr8HSLO27nke+8WMuTphWtVi75XeqtBjNGRYkLwn5IkSK
- JVEHikd7D7Ga1LCxmUpDhHGTnRmVN+VGTO6NkBVRPeYQDBm0XKO46xDtc0pGH7SO79Gv
- Q9n2RDP1lfoI+pd9a072djvznSa7z0d/PJ7t8UBli/vdooK9ieTQlkdiZsVRr5pxhDcR
- 0ccOaY3DrOrk47BJJyB5lavJ4UYnS3Lgm3gF5nojuCR9MDlvQu8Nqx7BJZM2PONOda9F
- 2s8w==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hNU/IJxTalF4Uu3oU01DpM9WIVHF2Z1dGZRMtmv2vXw=;
+ b=z12uufuVlyku5+u6oHB+TdpkGwzNhgCUfXQcQSmDKvW/0lbgwBrUrFvBdyEtuQBqg7
+ 0rAaj6W6BY10ezk9kms/MN3nlmQIXfkfRk4ELS0UoyqVrFVjwO89CkD05FqRajTKzKtK
+ sowIthmi3C4r7kNhS6kAYya8XJ7dhgP8flhqXj/p7fHGbx9gd5ePYd5ZukliajXp35ym
+ zscgT2AjdSq5yuBMVi1DggW2SocQ70o5aUdFbIY3YXlRb+eIl8lMNC/sLimPJToHRn/3
+ aCak6jS5XbWjQfADToyRQW8azvDdtozl/bzkAI6poQX0c8aT4nwEoTcFDbMoz/c2f4im
+ m/Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=f5oJPPqPjIJNFRPi84YTMbiyp9r3sNtOkARV0kVnlE4=;
- b=tQu8jOIvKZ6pEQ5+kkoBxO35KzIgN8c2VqKK1dbXQHDpKNDhRIINgbQiCrYxu4uFuD
- ZKuYZCh2hm5rHHuK+mNbbCn2vvHXoMHykNa6edpBCVXQqSc3C52iBkLNH5F6B4Zzv+BO
- tZ8dY7EYKUxV+IKBGTA3sN4wnrUYDw/4Pfse1pSQVzcWQav4B+8hkFbNSjtQ6thWRagE
- iaDwqpMjzQ/zVOQDLG/Tlq70NbKbVLN5tx/hC3jEsrU9bcoYmYyrnZmVjuJVwJYHpJe5
- XC3xGKFv3K0qC8gsKABrQXRMHbT6tfycoEsmCghvraKaE2psZykPlgbdTt8iLgrAZqWY
- JNHQ==
-X-Gm-Message-State: ACrzQf2Z1/gzSYedOyywG/cThdJv+C0V+vvBdxHAlxZMlXEmHtTbmij1
- 1MHqcEnPONRgUbLU6fdP65Plpa5vfGfXZA==
-X-Google-Smtp-Source: AMsMyM6XS9ZCL4QYZkvqJ4l2COEA+aezgfUrIYAXqhl9LW3tGilM9VDTO1IV07Vu5T8fzS/V47djxw==
-X-Received: by 2002:a05:600c:4d20:b0:3cf:819c:ed with SMTP id
- u32-20020a05600c4d2000b003cf819c00edmr27577177wmp.166.1667930278141; 
- Tue, 08 Nov 2022 09:57:58 -0800 (PST)
-Received: from localhost.localdomain ([185.126.107.38])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hNU/IJxTalF4Uu3oU01DpM9WIVHF2Z1dGZRMtmv2vXw=;
+ b=FbmgUGwhp+26lgJElHEd4/TUvy69pqlpAd3Fi42uTv5LU5kjMdB30r7EZV8zOpOCJ7
+ 33dJ5yGtoUX2rrBVMMYHobSIQM6SBJFyjItu4NNCD3HMEVALu7PNPuXoMu3m3HK3kq1b
+ BVq4Kr4aqNyaM0sMymZNpTXJYYzru8JAawGDsRY80qqlYjhFXth1emdTlFA02ACFaD0A
+ pvrubtlWwe0TnYoICGdk/sc3lF1JP/u9NBWIEN/NrrIDHV9gja7HJrP5f/ph0Ixchh1L
+ K5L1ouZgI3RUPcnq5eDghJ/pSVeRrunvd6Y5n3GBBZ3MlOnmVHcSBbvDesOZfmjHZayO
+ pWLA==
+X-Gm-Message-State: ACrzQf1Rt3CEcK0e1ZHR8c6aX5PJYn8EiY01khT90v0Yv82QW0V8YkgU
+ S3ZvOhzGaNAlXKB3F6IzJkN8Gg==
+X-Google-Smtp-Source: AMsMyM56KzmQG8OTML3wPQSDzGRzzBwf/YBZGN8M7Z3jySyQWDtHyCM4+a368GnHw7JQgI2CDrcVxA==
+X-Received: by 2002:a5d:47a1:0:b0:236:6f4d:1db3 with SMTP id
+ 1-20020a5d47a1000000b002366f4d1db3mr35848451wrb.383.1667931044173; 
+ Tue, 08 Nov 2022 10:10:44 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- u8-20020adfeb48000000b002366b17ca8bsm12752947wrn.108.2022.11.08.09.57.57
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 08 Nov 2022 09:57:57 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Sunil V L <sunilvl@ventanamicro.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH-for-7.2] Revert "hw/block/pflash_cfi: Error out if dev length
- isn't power of 2"
-Date: Tue,  8 Nov 2022 18:57:55 +0100
-Message-Id: <20221108175755.95141-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+ bk28-20020a0560001d9c00b002365b759b65sm11166136wrb.86.2022.11.08.10.10.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Nov 2022 10:10:43 -0800 (PST)
+Message-ID: <3c53ebf8-7be6-7838-63d6-0dc232399669@linaro.org>
+Date: Tue, 8 Nov 2022 19:10:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.1
+Subject: Re: [PATCH] Revert "hw/block/pflash_cfi0{1, 2}: Error out if device
+ length isn't a power of two"
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: Bernhard Beschow <shentey@gmail.com>, Stefan Hajnoczi <stefanha@gmail.com>
+References: <20221108172633.860700-1-danielhb413@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221108172633.860700-1-danielhb413@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,91 +91,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Commit 334c388f25 ("pflash_cfi: Error out if device length
-isn't a power of two") aimed to finish the effort started by
-commit 06f1521795 ("pflash: Require backend size to match device,
-improve errors"), but unfortunately we are not quite there since
-various machines are still ready to accept incomplete / oversized
-pflash backend images, and now fail, i.e. on Debian bullseye:
+On 8/11/22 18:26, Daniel Henrique Barboza wrote:
+> This commit caused a regression [1] that prevents machines that uses
+> Open Virtual Machine Firmware (OVMF) to boot.
+> 
+> This is a long standing behavior with how pflash handles images. More
+> information about why this happens can be found in [2] and commit
+> 06f1521795 ("pflash: Require backend size to match device, improve
+> errors").
+> 
+> This reverts commit 334c388f25707a234c4a0dea05b9df08d7746638.
+> 
+> [1] https://gitlab.com/qemu-project/qemu/-/issues/1294
+> [2] https://lore.kernel.org/qemu-devel/20190308062455.29755-1-armbru@redhat.com/
+> 
+> Cc: Bernhard Beschow <shentey@gmail.com>
+> Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Cc: Stefan Hajnoczi <stefanha@gmail.com>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1294
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>   hw/block/pflash_cfi01.c | 8 ++------
+>   hw/block/pflash_cfi02.c | 5 -----
+>   2 files changed, 2 insertions(+), 11 deletions(-)
 
- $ qemu-system-x86_64 \
-   -drive \
-   if=pflash,format=raw,unit=0,readonly=on,file=/usr/share/OVMF/OVMF_CODE.fd
- qemu-system-x86_64: Device size must be a power of two.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-where OVMF_CODE.fd comes from the ovmf package, which doesn't
-pad the firmware images to the flash size:
+Thanks, our patches crossed :)
+https://lore.kernel.org/qemu-devel/20221108175755.95141-1-philmd@linaro.org/
 
- $ ls -lh /usr/share/OVMF/
- -rw-r--r-- 1 root root 3.5M Aug 19  2021 OVMF_CODE_4M.fd
- -rw-r--r-- 1 root root 1.9M Aug 19  2021 OVMF_CODE.fd
- -rw-r--r-- 1 root root 128K Aug 19  2021 OVMF_VARS.fd
+I'm queuing yours which is first and will amend the description
+(if you don't disagree).
 
-Since we entered the freeze period to prepare the v7.2.0 release,
-the safest is to revert commit 334c388f25707a234c4a0dea05b9df08d.
+Regards,
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1294
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
-Cc: Sunil V L <sunilvl@ventanamicro.com>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: Bernhard Beschow <shentey@gmail.com>
----
- hw/block/pflash_cfi01.c | 8 ++------
- hw/block/pflash_cfi02.c | 5 -----
- 2 files changed, 2 insertions(+), 11 deletions(-)
-
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 9c235bf66e..0cbc2fb4cb 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
-@@ -690,7 +690,7 @@ static const MemoryRegionOps pflash_cfi01_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
--static void pflash_cfi01_fill_cfi_table(PFlashCFI01 *pfl, Error **errp)
-+static void pflash_cfi01_fill_cfi_table(PFlashCFI01 *pfl)
- {
-     uint64_t blocks_per_device, sector_len_per_device, device_len;
-     int num_devices;
-@@ -708,10 +708,6 @@ static void pflash_cfi01_fill_cfi_table(PFlashCFI01 *pfl, Error **errp)
-         sector_len_per_device = pfl->sector_len / num_devices;
-     }
-     device_len = sector_len_per_device * blocks_per_device;
--    if (!is_power_of_2(device_len)) {
--        error_setg(errp, "Device size must be a power of two.");
--        return;
--    }
- 
-     /* Hardcoded CFI table */
-     /* Standard "QRY" string */
-@@ -869,7 +865,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
-      */
-     pfl->cmd = 0x00;
-     pfl->status = 0x80; /* WSM ready */
--    pflash_cfi01_fill_cfi_table(pfl, errp);
-+    pflash_cfi01_fill_cfi_table(pfl);
- }
- 
- static void pflash_cfi01_system_reset(DeviceState *dev)
-diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index ff2fe154c1..2a99b286b0 100644
---- a/hw/block/pflash_cfi02.c
-+++ b/hw/block/pflash_cfi02.c
-@@ -880,11 +880,6 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    if (!is_power_of_2(pfl->chip_len)) {
--        error_setg(errp, "Device size must be a power of two.");
--        return;
--    }
--
-     memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl),
-                                   &pflash_cfi02_ops, pfl, pfl->name,
-                                   pfl->chip_len, errp);
--- 
-2.38.1
-
+Phil.
 
