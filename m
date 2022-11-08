@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26983622014
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 00:08:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C86AF621FEB
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 00:03:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osXbu-0005Aj-PQ; Tue, 08 Nov 2022 18:02:26 -0500
+	id 1osXbl-00050R-Oh; Tue, 08 Nov 2022 18:02:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1osXbp-00055t-OC
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 18:02:21 -0500
+ id 1osXbb-0004vl-VP
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 18:02:08 -0500
 Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1osXbY-0003fp-G5
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 18:02:21 -0500
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A8MtnV3007240
+ id 1osXbY-0003fy-Ef
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 18:02:06 -0500
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A8Mx5Z1026348
  for <qemu-devel@nongnu.org>; Tue, 8 Nov 2022 23:01:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : subject :
  date : message-id : in-reply-to : references : in-reply-to : references;
- s=corp-2022-7-12; bh=u4td2YSnAGAhvqx717lmtJ5WBU//09BZ8sZAX/vNeGU=;
- b=s8dhzAzvF3iCRSwUYy/e5FlZNr5sgaDie864zOCo3QlfVAjyEH1Aa/X7nVbX5VVOJBqd
- pSa3o0ZtL+2NVk9n3hGLb9+gTHy9Kx2Qcmvk75aDkidPWYEkBJBLfN1SeR3cCw9x8RE2
- h12u4e6/sOrzx0q93GL04Na0seE7AEMRKYfTEr+Fg7jr3P2E3QwAun/X8qs6eyRrZfT9
- Iyx2MBeRti0bRveZFUjgom7ygzC7wUj7ts4/ug5cYsE/IfTnuGB0Bie3TfsiVwFQ2+Ps
- 38Fe4xqUtxpV4OfudngKm+8b64BBnb5fvv+spPc8E5zgyYJPoXGW+BZOMdAu80GGVrXi Hw== 
+ s=corp-2022-7-12; bh=HI6rff0LobHpbQGUZBAD7GPOWnpJE/pV0HBVADMQPW8=;
+ b=hv0yW2OIE7yWePAfM379t/c5MhglYAN48fSVRSakBycrhoXWsLfItByKF6esByBBW/Z+
+ MQN0oOqvJqhcMbv/TF6QLr/1rmuJtCAqrzL/cj828ugpJjYoUetjbVKH4UnoeFMNFQS6
+ iPT10saVHusQO3hfMUs7JJyDuIbM/nlUcqC6y+GF56PPOpNPzbCDGHsC4xb53wbjGm/h
+ 5NFhhNkz0w363V1iLyC3Ixj20R/zZzUJUzpT3zfdDV1i3pCNjSnGcp+C7wTBSKuc1jMh
+ 1I6nsIM79ctA6mjC9HRBoVOjmWWiWFEjW9oUHaY1IqN/E+P4XO/tRniZsRu+/ZJo1wLA 8w== 
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3kqyy18462-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3kqy68g7wh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
  for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 23:01:50 +0000
 Received: from pps.filterd
  (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 2A8LjK6U004437
+ with ESMTP id 2A8LjK6V004437
  for <qemu-devel@nongnu.org>; Tue, 8 Nov 2022 23:01:49 GMT
 Received: from bruckner.us.oracle.com (dhcp-10-65-143-202.vpn.oracle.com
  [10.65.143.202])
  by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3kpcq2k0b9-16
+ 3kpcq2k0b9-17
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 23:01:48 +0000
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 23:01:49 +0000
 From: John Johnson <john.g.johnson@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 15/24] vfio-user: forward msix BAR accesses to server
-Date: Tue,  8 Nov 2022 15:13:37 -0800
-Message-Id: <440467975afbc80a97caaead3222199397c0698e.1667542066.git.john.g.johnson@oracle.com>
+Subject: [PATCH v1 16/24] vfio-user: proxy container connect/disconnect
+Date: Tue,  8 Nov 2022 15:13:38 -0800
+Message-Id: <61dd08e18705b335f8cd02f69698aa8248ebaf96.1667542066.git.john.g.johnson@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1667542066.git.john.g.johnson@oracle.com>
 References: <cover.1667542066.git.john.g.johnson@oracle.com>
@@ -64,16 +64,17 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
  malwarescore=0 mlxlogscore=999 mlxscore=0 phishscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
  definitions=main-2211080151
-X-Proofpoint-GUID: 9Go-UoEuxTCccy2vNEYQsZKRvQLCIT4Y
-X-Proofpoint-ORIG-GUID: 9Go-UoEuxTCccy2vNEYQsZKRvQLCIT4Y
+X-Proofpoint-GUID: l7_1mk2rLeQ6GLGxyFPz6p1jvgrBq2rB
+X-Proofpoint-ORIG-GUID: l7_1mk2rLeQ6GLGxyFPz6p1jvgrBq2rB
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=john.g.johnson@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,297 +90,345 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Server holds device current device pending state
-Use irq masking commands in socket case
-
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/vfio/ccw.c                 |  1 +
- hw/vfio/common.c              | 26 +++++++++++++
- hw/vfio/pci.c                 | 87 ++++++++++++++++++++++++++++++++++++++++++-
- hw/vfio/pci.h                 |  1 +
- hw/vfio/platform.c            |  1 +
- include/hw/vfio/vfio-common.h |  3 ++
- 6 files changed, 118 insertions(+), 1 deletion(-)
+ hw/vfio/common.c              | 207 +++++++++++++++++++++++++++++++++++++++++-
+ hw/vfio/pci.c                 |  18 +++-
+ hw/vfio/user.c                |   3 +
+ hw/vfio/user.h                |   1 +
+ include/hw/vfio/vfio-common.h |   6 ++
+ 5 files changed, 231 insertions(+), 4 deletions(-)
 
-diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index cbd1c25..830ca53 100644
---- a/hw/vfio/ccw.c
-+++ b/hw/vfio/ccw.c
-@@ -615,6 +615,7 @@ static void vfio_ccw_get_device(VFIOGroup *group, VFIOCCWDevice *vcdev,
-     vcdev->vdev.name = name;
-     vcdev->vdev.dev = &vcdev->cdev.parent_obj.parent_obj;
-     vcdev->vdev.io_ops = &vfio_dev_io_ioctl;
-+    vcdev->vdev.irq_mask_works = false;
- 
-     return;
- 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 87cd1d1..b540195 100644
+index b540195..e73a772 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -101,6 +101,32 @@ void vfio_mask_single_irqindex(VFIODevice *vbasedev, int index)
-     VDEV_SET_IRQS(vbasedev, &irq_set);
+@@ -19,6 +19,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include CONFIG_DEVICES
+ #include <sys/ioctl.h>
+ #ifdef CONFIG_KVM
+ #include <linux/kvm.h>
+@@ -2267,6 +2268,208 @@ put_space_exit:
+     return ret;
  }
  
-+void vfio_mask_single_irq(VFIODevice *vbasedev, int index, int irq)
-+{
-+    struct vfio_irq_set irq_set = {
-+        .argsz = sizeof(irq_set),
-+        .flags = VFIO_IRQ_SET_DATA_NONE | VFIO_IRQ_SET_ACTION_MASK,
-+        .index = index,
-+        .start = irq,
-+        .count = 1,
-+    };
 +
-+    VDEV_SET_IRQS(vbasedev, &irq_set);
++#ifdef CONFIG_VFIO_USER
++
++static int vfio_connect_proxy(VFIOProxy *proxy, VFIOGroup *group,
++                              AddressSpace *as, Error **errp)
++{
++    VFIOAddressSpace *space;
++    VFIOContainer *container;
++    int ret;
++
++    /*
++     * try to mirror vfio_connect_container()
++     * as much as possible
++     */
++
++    space = vfio_get_address_space(as);
++
++    container = g_malloc0(sizeof(*container));
++    container->space = space;
++    container->fd = -1;
++    container->error = NULL;
++    container->io_ops = &vfio_cont_io_sock;
++    QLIST_INIT(&container->giommu_list);
++    QLIST_INIT(&container->hostwin_list);
++    QLIST_INIT(&container->vrdl_list);
++    container->proxy = proxy;
++
++    /*
++     * The proxy uses a SW IOMMU in lieu of the HW one
++     * used in the ioctl() version.  Mascarade as TYPE1
++     * for maximum capatibility
++     */
++    container->iommu_type = VFIO_TYPE1_IOMMU;
++
++    /*
++     * VFIO user allows the device server to map guest
++     * memory so it has the same issue with discards as
++     * a local IOMMU has.
++     */
++    ret = vfio_ram_block_discard_disable(container, true);
++    if (ret) {
++        error_setg_errno(errp, -ret, "Cannot set discarding of RAM broken");
++        goto free_container_exit;
++    }
++
++    vfio_host_win_add(container, 0, (hwaddr)-1, proxy->dma_pgsizes);
++    container->pgsizes = proxy->dma_pgsizes;
++    container->dma_max_mappings = proxy->max_dma;
++
++    /* setup bitmask now, but migration support won't be ready until v2 */
++    container->dirty_pages_supported = true;
++    container->max_dirty_bitmap_size = proxy->max_bitmap;
++    container->dirty_pgsizes = proxy->migr_pgsize;
++
++    QLIST_INIT(&container->group_list);
++    QLIST_INSERT_HEAD(&space->containers, container, next);
++
++    group->container = container;
++    QLIST_INSERT_HEAD(&container->group_list, group, container_next);
++
++    container->listener = vfio_memory_listener;
++    memory_listener_register(&container->listener, container->space->as);
++
++    if (container->error) {
++        ret = -1;
++        error_propagate_prepend(errp, container->error,
++            "memory listener initialization failed: ");
++        goto listener_release_exit;
++    }
++
++    container->initialized = true;
++
++    return 0;
++
++listener_release_exit:
++    QLIST_REMOVE(group, container_next);
++    QLIST_REMOVE(container, next);
++    vfio_listener_release(container);
++    vfio_ram_block_discard_disable(container, false);
++
++free_container_exit:
++    g_free(container);
++
++    vfio_put_address_space(space);
++
++    return ret;
 +}
 +
-+void vfio_unmask_single_irq(VFIODevice *vbasedev, int index, int irq)
++static void vfio_disconnect_proxy(VFIOGroup *group)
 +{
-+    struct vfio_irq_set irq_set = {
-+        .argsz = sizeof(irq_set),
-+        .flags = VFIO_IRQ_SET_DATA_NONE | VFIO_IRQ_SET_ACTION_UNMASK,
-+        .index = index,
-+        .start = irq,
-+        .count = 1,
-+    };
++    VFIOContainer *container = group->container;
++    VFIOAddressSpace *space = container->space;
++    VFIOGuestIOMMU *giommu, *tmp;
++    VFIOHostDMAWindow *hostwin, *next;
 +
-+    VDEV_SET_IRQS(vbasedev, &irq_set);
++    /*
++     * try to mirror vfio_disconnect_container()
++     * as much as possible, knowing each device
++     * is in one group and one container
++     */
++
++    QLIST_REMOVE(group, container_next);
++    group->container = NULL;
++
++    /*
++     * Explicitly release the listener first before unset container,
++     * since unset may destroy the backend container if it's the last
++     * group.
++     */
++    memory_listener_unregister(&container->listener);
++
++    QLIST_REMOVE(container, next);
++
++    QLIST_FOREACH_SAFE(giommu, &container->giommu_list, giommu_next, tmp) {
++        memory_region_unregister_iommu_notifier(
++            MEMORY_REGION(giommu->iommu_mr), &giommu->n);
++        QLIST_REMOVE(giommu, giommu_next);
++        g_free(giommu);
++    }
++
++    QLIST_FOREACH_SAFE(hostwin, &container->hostwin_list, hostwin_next,
++                       next) {
++        QLIST_REMOVE(hostwin, hostwin_next);
++        g_free(hostwin);
++    }
++
++    g_free(container);
++    vfio_put_address_space(space);
 +}
 +
- static inline const char *action_to_str(int action)
- {
-     switch (action) {
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index be39a4e..a1ae3fb 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -479,6 +479,7 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
- {
-     VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     VFIOMSIVector *vector;
-+    bool new_vec = false;
-     int ret;
- 
-     trace_vfio_msix_vector_do_use(vdev->vbasedev.name, nr);
-@@ -492,6 +493,7 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
-             error_report("vfio: Error: event_notifier_init failed");
-         }
-         vector->use = true;
-+        new_vec = true;
-         msix_vector_use(pdev, nr);
-     }
- 
-@@ -518,6 +520,7 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
-                 kvm_irqchip_commit_route_changes(&vfio_route_change);
-                 vfio_connect_kvm_msi_virq(vector);
-             }
-+            new_vec = true;
-         }
-     }
- 
-@@ -525,6 +528,8 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
-      * We don't want to have the host allocate all possible MSI vectors
-      * for a device if they're not in use, so we shutdown and incrementally
-      * increase them as needed.
-+     * Otherwise, unmask the vector if the vector is already setup (and we can
-+     * do so) or send the fd if not.
-      */
-     if (vdev->nr_vectors < nr + 1) {
-         vdev->nr_vectors = nr + 1;
-@@ -535,6 +540,8 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
-                 error_report("vfio: failed to enable vectors, %d", ret);
-             }
-         }
-+    } else if (vdev->vbasedev.irq_mask_works && !new_vec) {
-+        vfio_unmask_single_irq(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX, nr);
-     } else {
-         Error *err = NULL;
-         int32_t fd;
-@@ -576,6 +583,12 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
- 
-     trace_vfio_msix_vector_release(vdev->vbasedev.name, nr);
- 
-+    /* just mask vector if peer supports it */
-+    if (vdev->vbasedev.irq_mask_works) {
-+        vfio_mask_single_irq(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX, nr);
++int vfio_user_get_device(VFIOGroup *group, VFIODevice *vbasedev, Error **errp)
++{
++    struct vfio_device_info info = { .argsz = sizeof(info) };
++    int ret;
++
++    ret = VDEV_GET_INFO(vbasedev, &info);
++    if (ret) {
++        error_setg_errno(errp, -ret, "get info failure");
++        return ret;
++    }
++
++    vbasedev->fd = -1;
++    vbasedev->group = group;
++    QLIST_INSERT_HEAD(&group->device_list, vbasedev, next);
++
++    vbasedev->num_irqs = info.num_irqs;
++    vbasedev->num_regions = info.num_regions;
++    vbasedev->flags = info.flags;
++
++    vfio_get_all_regions(vbasedev);
++    vbasedev->reset_works = !!(info.flags & VFIO_DEVICE_FLAGS_RESET);
++    return 0;
++}
++
++VFIOGroup *vfio_user_get_group(VFIOProxy *proxy, AddressSpace *as, Error **errp)
++{
++    VFIOGroup *group;
++
++    /*
++     * Mirror vfio_get_group(), except that each
++     * device gets its own group and container,
++     * unrelated to any host IOMMU groupings
++     */
++    group = g_malloc0(sizeof(*group));
++    group->fd = -1;
++    group->groupid = -1;
++    QLIST_INIT(&group->device_list);
++
++    if (vfio_connect_proxy(proxy, group, as, errp)) {
++        error_prepend(errp, "failed to connect proxy");
++        g_free(group);
++        group = NULL;
++    }
++
++    if (QLIST_EMPTY(&vfio_group_list)) {
++        qemu_register_reset(vfio_reset_handler, NULL);
++    }
++
++    QLIST_INSERT_HEAD(&vfio_group_list, group, next);
++
++    return group;
++}
++
++void vfio_user_put_group(VFIOGroup *group)
++{
++    if (!group || !QLIST_EMPTY(&group->device_list)) {
 +        return;
 +    }
 +
-     /*
-      * There are still old guests that mask and unmask vectors on every
-      * interrupt.  If we're using QEMU bypass with a KVM irqfd, leave all of
-@@ -646,7 +659,7 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
-         if (ret) {
-             error_report("vfio: failed to enable vectors, %d", ret);
-         }
--    } else {
-+    } else if (!vdev->vbasedev.irq_mask_works) {
-         /*
-          * Some communication channels between VF & PF or PF & fw rely on the
-          * physical state of the device and expect that enabling MSI-X from the
-@@ -662,6 +675,13 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
-          */
-         vfio_msix_vector_do_use(&vdev->pdev, 0, NULL, NULL);
-         vfio_msix_vector_release(&vdev->pdev, 0);
-+    } else {
-+        /*
-+         * If we can use irq masking, send an invalid fd on vector 0
-+         * to enable MSI-X without any vectors enabled.
-+         */
-+        vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX, 0,
-+                               VFIO_IRQ_SET_ACTION_TRIGGER, -1, NULL);
-     }
- 
-     trace_vfio_msix_enable(vdev->vbasedev.name);
-@@ -3042,6 +3062,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-     vbasedev->type = VFIO_DEVICE_TYPE_PCI;
-     vbasedev->dev = DEVICE(vdev);
-     vbasedev->io_ops = &vfio_dev_io_ioctl;
-+    vbasedev->irq_mask_works = false;
- 
-     tmp = g_strdup_printf("%s/iommu_group", vbasedev->sysfsdev);
-     len = readlink(tmp, group_path, sizeof(group_path));
-@@ -3474,6 +3495,62 @@ type_init(register_vfio_pci_dev_type)
-  */
- 
- /*
-+ * The server maintains the device's pending interrupts,
-+ * via its MSIX table and PBA, so we treat these acceses
-+ * like PCI config space and forward them.
-+ */
-+static uint64_t vfio_user_pba_read(void *opaque, hwaddr addr,
-+                                   unsigned size)
-+{
-+    VFIOPCIDevice *vdev = opaque;
-+    VFIORegion *region = &vdev->bars[vdev->msix->pba_bar].region;
-+    uint64_t data;
++    vfio_ram_block_discard_disable(group->container, false);
++    vfio_disconnect_proxy(group);
++    QLIST_REMOVE(group, next);
++    g_free(group);
 +
-+    /* server copy is what matters */
-+    data = vfio_region_read(region, addr + vdev->msix->pba_offset, size);
-+    return data;
-+}
-+
-+static void vfio_user_pba_write(void *opaque, hwaddr addr,
-+                                  uint64_t data, unsigned size)
-+{
-+    /* dropped */
-+}
-+
-+static const MemoryRegionOps vfio_user_pba_ops = {
-+    .read = vfio_user_pba_read,
-+    .write = vfio_user_pba_write,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+};
-+
-+static void vfio_user_msix_setup(VFIOPCIDevice *vdev)
-+{
-+    MemoryRegion *vfio_reg, *msix_reg, *pba_reg;
-+
-+    pba_reg = g_new0(MemoryRegion, 1);
-+    vdev->msix->pba_region = pba_reg;
-+
-+    vfio_reg = vdev->bars[vdev->msix->pba_bar].mr;
-+    msix_reg = &vdev->pdev.msix_pba_mmio;
-+    memory_region_init_io(pba_reg, OBJECT(vdev), &vfio_user_pba_ops, vdev,
-+                          "VFIO MSIX PBA", int128_get64(msix_reg->size));
-+    memory_region_add_subregion_overlap(vfio_reg, vdev->msix->pba_offset,
-+                                        pba_reg, 1);
-+}
-+
-+static void vfio_user_msix_teardown(VFIOPCIDevice *vdev)
-+{
-+    MemoryRegion *mr, *sub;
-+
-+    mr = vdev->bars[vdev->msix->pba_bar].mr;
-+    sub = vdev->msix->pba_region;
-+    memory_region_del_subregion(mr, sub);
-+
-+    g_free(vdev->msix->pba_region);
-+    vdev->msix->pba_region = NULL;
-+}
-+
-+/*
-  * Incoming request message callback.
-  *
-  * Runs off main loop, so BQL held.
-@@ -3551,6 +3628,7 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
-     vbasedev->type = VFIO_DEVICE_TYPE_PCI;
-     vbasedev->dev = DEVICE(vdev);
-     vbasedev->io_ops = &vfio_dev_io_sock;
-+    vdev->vbasedev.irq_mask_works = true;
- 
-     ret = VDEV_GET_INFO(vbasedev, &info);
-     if (ret) {
-@@ -3589,6 +3667,9 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
-     if (ret) {
-         goto out_teardown;
-     }
-+    if (vdev->msix != NULL) {
-+        vfio_user_msix_setup(vdev);
++    if (QLIST_EMPTY(&vfio_group_list)) {
++        qemu_unregister_reset(vfio_reset_handler, NULL);
 +    }
++}
++
++#endif /* CONFIG_VFIO_USER */
++
++
+ static void vfio_disconnect_container(VFIOGroup *group)
+ {
+     VFIOContainer *container = group->container;
+@@ -2499,7 +2702,9 @@ void vfio_put_base_device(VFIODevice *vbasedev)
+     QLIST_REMOVE(vbasedev, next);
+     vbasedev->group = NULL;
+     trace_vfio_put_base_device(vbasedev->fd);
+-    close(vbasedev->fd);
++    if (vbasedev->fd != -1) {
++        close(vbasedev->fd);
++    }
+ }
  
-     ret = vfio_interrupt_setup(vdev, errp);
+ int vfio_get_region_info(VFIODevice *vbasedev, int index,
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index a1ae3fb..53e3bb8 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -3584,7 +3584,7 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
+     VFIODevice *vbasedev = &vdev->vbasedev;
+     SocketAddress addr;
+     VFIOProxy *proxy;
+-    struct vfio_device_info info;
++    VFIOGroup *group = NULL;
+     int ret;
+     Error *err = NULL;
+ 
+@@ -3630,9 +3630,15 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
+     vbasedev->io_ops = &vfio_dev_io_sock;
+     vdev->vbasedev.irq_mask_works = true;
+ 
+-    ret = VDEV_GET_INFO(vbasedev, &info);
++    group = vfio_user_get_group(proxy, pci_device_iommu_address_space(pdev),
++                                errp);
++    if (!group) {
++        goto error;
++    }
++
++    ret = vfio_user_get_device(group, vbasedev, errp);
      if (ret) {
-@@ -3612,6 +3693,10 @@ static void vfio_user_instance_finalize(Object *obj)
+-        error_setg_errno(errp, -ret, "get info failure");
++        vfio_user_put_group(group);
+         goto error;
+     }
+ 
+@@ -3692,12 +3698,18 @@ static void vfio_user_instance_finalize(Object *obj)
+ {
      VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
      VFIODevice *vbasedev = &vdev->vbasedev;
- 
-+    if (vdev->msix != NULL) {
-+        vfio_user_msix_teardown(vdev);
-+    }
++    VFIOGroup *group = vbasedev->group;
 +
++    vfio_bars_finalize(vdev);
++    g_free(vdev->emulated_config_bits);
++    g_free(vdev->rom);
+ 
+     if (vdev->msix != NULL) {
+         vfio_user_msix_teardown(vdev);
+     }
+ 
      vfio_put_device(vdev);
++    vfio_user_put_group(group);
  
      if (vbasedev->proxy != NULL) {
-diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index ec17f2e..c04fa58 100644
---- a/hw/vfio/pci.h
-+++ b/hw/vfio/pci.h
-@@ -113,6 +113,7 @@ typedef struct VFIOMSIXInfo {
-     uint32_t table_offset;
-     uint32_t pba_offset;
-     unsigned long *pending;
-+    MemoryRegion *pba_region;
- } VFIOMSIXInfo;
+         vfio_user_disconnect(vbasedev->proxy);
+diff --git a/hw/vfio/user.c b/hw/vfio/user.c
+index 815385b..2d35f83 100644
+--- a/hw/vfio/user.c
++++ b/hw/vfio/user.c
+@@ -1433,3 +1433,6 @@ VFIODevIO vfio_dev_io_sock = {
+     .region_write = vfio_user_io_region_write,
+ };
  
- /*
-diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
-index c136b09..ccf1df7 100644
---- a/hw/vfio/platform.c
-+++ b/hw/vfio/platform.c
-@@ -622,6 +622,7 @@ static void vfio_platform_realize(DeviceState *dev, Error **errp)
-     vbasedev->dev = dev;
-     vbasedev->ops = &vfio_platform_ops;
-     vbasedev->io_ops = &vfio_dev_io_ioctl;
-+    vbasedev->irq_mask_works = false;
++
++VFIOContIO vfio_cont_io_sock = {
++};
+diff --git a/hw/vfio/user.h b/hw/vfio/user.h
+index 359a029..19b8a29 100644
+--- a/hw/vfio/user.h
++++ b/hw/vfio/user.h
+@@ -94,5 +94,6 @@ void vfio_user_set_handler(VFIODevice *vbasedev,
+ int vfio_user_validate_version(VFIOProxy *proxy, Error **errp);
  
-     qemu_mutex_init(&vdev->intp_mutex);
+ extern VFIODevIO vfio_dev_io_sock;
++extern VFIOContIO vfio_cont_io_sock;
  
+ #endif /* VFIO_USER_H */
 diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 6324132..793ca94 100644
+index 793ca94..312ef9c 100644
 --- a/include/hw/vfio/vfio-common.h
 +++ b/include/hw/vfio/vfio-common.h
-@@ -142,6 +142,7 @@ typedef struct VFIODevice {
-     bool no_mmap;
-     bool ram_block_discard_allowed;
-     bool enable_migration;
-+    bool irq_mask_works;
-     VFIODeviceOps *ops;
-     VFIODevIO *io_ops;
-     unsigned int num_irqs;
-@@ -260,6 +261,8 @@ void vfio_put_base_device(VFIODevice *vbasedev);
- void vfio_disable_irqindex(VFIODevice *vbasedev, int index);
- void vfio_unmask_single_irqindex(VFIODevice *vbasedev, int index);
- void vfio_mask_single_irqindex(VFIODevice *vbasedev, int index);
-+void vfio_unmask_single_irq(VFIODevice *vbasedev, int index, int irq);
-+void vfio_mask_single_irq(VFIODevice *vbasedev, int index, int irq);
- int vfio_set_irq_signaling(VFIODevice *vbasedev, int index, int subindex,
-                            int action, int fd, Error **errp);
- void vfio_region_write(void *opaque, hwaddr addr,
+@@ -94,6 +94,7 @@ typedef struct VFIOContainer {
+     uint64_t max_dirty_bitmap_size;
+     unsigned long pgsizes;
+     unsigned int dma_max_mappings;
++    VFIOProxy *proxy;
+     QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
+     QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
+     QLIST_HEAD(, VFIOGroup) group_list;
+@@ -282,6 +283,11 @@ void vfio_put_group(VFIOGroup *group);
+ int vfio_get_device(VFIOGroup *group, const char *name,
+                     VFIODevice *vbasedev, Error **errp);
+ 
++int vfio_user_get_device(VFIOGroup *group, VFIODevice *vbasedev, Error **errp);
++VFIOGroup *vfio_user_get_group(VFIOProxy *proxy, AddressSpace *as,
++                               Error **errp);
++void vfio_user_put_group(VFIOGroup *group);
++
+ extern const MemoryRegionOps vfio_region_ops;
+ typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
+ extern VFIOGroupList vfio_group_list;
 -- 
 1.8.3.1
 
