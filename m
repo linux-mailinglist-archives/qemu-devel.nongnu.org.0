@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB08F621CAD
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 20:06:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 288D1621CB9
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 20:09:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osTvA-0000g0-Da; Tue, 08 Nov 2022 14:06:04 -0500
+	id 1osTyJ-0002JU-1L; Tue, 08 Nov 2022 14:09:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osTv7-0000eV-Sw; Tue, 08 Nov 2022 14:06:01 -0500
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ id 1osTyG-0002HH-Jj; Tue, 08 Nov 2022 14:09:16 -0500
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osTv5-0003KB-Qw; Tue, 08 Nov 2022 14:06:01 -0500
-Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
- (iva4-f06c35e68a0a.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 563835EB77;
- Tue,  8 Nov 2022 22:05:37 +0300 (MSK)
+ id 1osTyE-0003uv-Tw; Tue, 08 Nov 2022 14:09:16 -0500
+Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
+ (sas1-c73b4b4f4b95.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 20BA95DC24;
+ Tue,  8 Nov 2022 22:08:53 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
  [2a02:6b8:b081:b535::1:28])
- by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- t0KOlKXRfc-5YNe7Vl6; Tue, 08 Nov 2022 22:05:36 +0300
+ by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ BVLZF4HDCB-8nOO3UWH; Tue, 08 Nov 2022 22:08:52 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1667934336; bh=bTlB+MnVYnLTZPSrZTEoWE6wSDf4nNFk1Ii0V6aLB10=;
+ t=1667934532; bh=6bYyNMKD76SEKwEV9OFQWnabfGqL5+o5DH83VU7IYOM=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=LzJ2aWs4wUyO4Nc0vluWMPlJGquEYQ2Lpd2pD/fkaSkYx1hfqRGIcMaMlArtXPksV
- 8c9+AzzOiO7NGyByDCI1rH8P0KaAahVoX/7xn4wxVPRGxBsYdcjK6nORK8OZLLgUN2
- RIEgY1HKv0F1Kll4cfkLPXFtLLcoqApUxoVHcyE4=
-Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
+ b=wamXqSBKX9LB6UvPIqp8IafZUsh/zkWjGDbwqtbTp3II9enzmy/+ufRI9EJkLomxR
+ XcTWyrDF9Ij9jom0F/Wbo839/FhXHJwiI/yoi+n/zkchpOYo0SKcgK8kfMg26A4Tqh
+ 8ZHp0Wp5klnUoWbPZcjDiO0qGiehRzSX7oh5AdRg=
+Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <36c8d807-24f0-cd60-9366-4f7d64d96ddd@yandex-team.ru>
-Date: Tue, 8 Nov 2022 22:05:34 +0300
+Message-ID: <1d2774c6-3108-c236-d31c-8aa58ffdf427@yandex-team.ru>
+Date: Tue, 8 Nov 2022 22:08:49 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v3 05/17] vfio/migration: Fix wrong enum usage
+Subject: Re: [PATCH v3 06/17] vfio/migration: Fix NULL pointer dereference bug
 Content-Language: en-US
 To: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org
 Cc: Alex Williamson <alex.williamson@redhat.com>,
@@ -61,13 +61,13 @@ Cc: Alex Williamson <alex.williamson@redhat.com>,
  Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>,
  Joao Martins <joao.m.martins@oracle.com>
 References: <20221103161620.13120-1-avihaih@nvidia.com>
- <20221103161620.13120-6-avihaih@nvidia.com>
+ <20221103161620.13120-7-avihaih@nvidia.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221103161620.13120-6-avihaih@nvidia.com>
+In-Reply-To: <20221103161620.13120-7-avihaih@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,15 +90,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 11/3/22 19:16, Avihai Horon wrote:
-> vfio_migration_init() initializes VFIOMigration->device_state using enum
-> of VFIO migration protocol v2. Current implemented protocol is v1 so v1
-> enum should be used. Fix it.
+> As part of its error flow, vfio_vmstate_change() accesses
+> MigrationState->to_dst_file without any checks. This can cause a NULL
+> pointer dereference if the error flow is taken and
+> MigrationState->to_dst_file is not set.
 > 
-> Fixes: 429c72800654 ("vfio/migration: Fix incorrect initialization value for parameters in VFIOMigration")
+> For example, this can happen if VM is started or stopped not during
+> migration and vfio_vmstate_change() error flow is taken, as
+> MigrationState->to_dst_file is not set at that time.
+> 
+> Fix it by checking that MigrationState->to_dst_file is set before using
+> it.
+> 
+> Fixes: 02a7e71b1e5b ("vfio: Add VM state change handler to know state of VM")
 > Signed-off-by: Avihai Horon<avihaih@nvidia.com>
-> Reviewed-by: Zhang Chen<chen.zhang@intel.com>
+> Reviewed-by: Juan Quintela<quintela@redhat.com>
 
-the commit is already in master branch
+
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
 -- 
 Best regards,
