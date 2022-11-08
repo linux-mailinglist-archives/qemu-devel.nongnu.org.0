@@ -2,70 +2,162 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D04262187C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 16:39:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C5962189D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 16:41:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osQfX-000307-Ku; Tue, 08 Nov 2022 10:37:43 -0500
+	id 1osQj1-0005dv-Df; Tue, 08 Nov 2022 10:41:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osQfP-0002x0-2W
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:37:35 -0500
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1osQiz-0005dR-1W
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:41:17 -0500
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osQfL-0003Ti-6L
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:37:34 -0500
-Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
- (iva4-f06c35e68a0a.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 86E4A60C97;
- Tue,  8 Nov 2022 18:37:11 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
- [2a02:6b8:b081:b535::1:28])
- by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- aA2YMOueop-b9Ne7jkE; Tue, 08 Nov 2022 18:37:10 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1667921830; bh=Fc0m2pjA4MZ8WKveqBWvppYXjLlkU7uQX+iSlGoNB9Q=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=Ur1gSvwl6O8B75KC1VwtnhKEZSQXGn4daboKxyodhRLN2WtZCy+ReR6PJGg+5vxdm
- AgMBsZdYsgACIizt4Av5s5Kkn8SfYjctvyT2g18pnNitM+4i8liXlG31DYQfK3TCGB
- X9bY8QBBhUpaFVB9bfz2440B1zL5SSsxh18hnXow=
-Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <a0a1aa51-5f85-868f-5177-969b8cd95591@yandex-team.ru>
-Date: Tue, 8 Nov 2022 18:37:08 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3 4/4] scripts: add script to compare compatible
- properties
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1osQiw-00039j-K2
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:41:16 -0500
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 2A8E4tf3025244; Tue, 8 Nov 2022 15:41:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=qcppdkim1;
+ bh=VTj81GcM91e5S7lf0RSDZvRYQHBsd2+Hx+F4nqzy2A4=;
+ b=lSGQ8k0U9XmGifcd9VBCmr4HJPl2eKIILDqiCPBcPgXRnkge8u1nmOowntNgqEp2jWbh
+ bjhuN9KkhlDtaY/+r+IO9brwHVEjWCcrTFr0BGYgP1tgyW/HjEJWRlZcl0y8aDAL5PbH
+ QcgzHCxzS/Y5p1FTkVwBt8N98t/Y/vE2d1tKzmggjPBhFlZiU3WF2jzZh8csjUV0F4GI
+ HdZqU5GFDEN6JLhZouy4hNG+mgLG33PmD2tS7uwadBSWYfQI3z+zc9DIQFdc16fVUd7U
+ ER6JnVnd5VDuN9loEPTSBBo97HQQlkwFpCTRvvRBKNu4L0Klt0x/gCLZZlFmU3M9rDDv Zg== 
+Received: from nam11-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11lp2173.outbound.protection.outlook.com [104.47.57.173])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3kqhvj19cj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Nov 2022 15:41:10 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oPbvHcdfNYYXf5YNOH6gJwoWP7OFeTYAYYTqRn7eFKjdk89LZFt2Gt1U+ERTvzmYRshdXHb4/jJ09X/a15phIbdUhrlsQWk0D5CfB1G1nLHM7RGV2pXjg70Q+DNOcWhMq3MZVr9r//AnLbnxyRS/7f9Eg2vKvBtcHDW3sCStmTo7DAx63ppgGIPku0M8D/48XHIPhQoBgQ0Qy54oXx5WgDq5eK+XG+H0PtG8ACdl5l8fIJPOaeLsr/j77jWh3o6y2cFgnNjrBH1fIKTFaYEfQL1LCp4DCacn+Okkz6HCyG62OU71PfEMxuzYMJj0PslrBtPPgv6UGOkCSbZw4p/N6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VTj81GcM91e5S7lf0RSDZvRYQHBsd2+Hx+F4nqzy2A4=;
+ b=MDQPQ7yYT4jy+5+7H2L30ra+7PSvKz0vhLCPPFPUEAjsWf5Kk/wih6PJMY24n9kKrsuvyMRWFMEZbLOM+zjUhJxXcT6hrb/RqCIXYxAhQPfW6GudVgEFXGp9WP27XIeiIXGKnCLWqj9qLPbbETY6a04IvR+b45t3OKm/OK0VYOsy8F7tl7dDnmpJj/zHGUlcgyQOZtcTJSd05r7tuGgm4FSF8P9HEUJxeAgXNFxJclX2HDHoi2oyR7wDgdTnqlFS2VKOgkWRv2C5ym/P3gZaluF27YUztGIxwWXIpK9jNsRvsTcOEnK/Rc2yO4kpd3pEYtEOxZ5EXwn7zsymkNZOWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ (2603:10b6:806:203::12) by SJ0PR02MB7807.namprd02.prod.outlook.com
+ (2603:10b6:a03:325::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.27; Tue, 8 Nov
+ 2022 15:41:06 +0000
+Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::caac:2d02:279d:4270]) by SN4PR0201MB8808.namprd02.prod.outlook.com
+ ([fe80::caac:2d02:279d:4270%9]) with mapi id 15.20.5791.026; Tue, 8 Nov 2022
+ 15:41:05 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+CC: "philmd@linaro.org" <philmd@linaro.org>, "ale@rev.ng" <ale@rev.ng>,
+ "anjo@rev.ng" <anjo@rev.ng>, Brian Cain <bcain@quicinc.com>, "Matheus
+ Bernardino (QUIC)" <quic_mathbern@quicinc.com>
+Subject: RE: [PATCH v4 10/11] Hexagon (target/hexagon) Use direct block
+ chaining for direct jump/branch
+Thread-Topic: [PATCH v4 10/11] Hexagon (target/hexagon) Use direct block
+ chaining for direct jump/branch
+Thread-Index: AQHY8ydtNdQLJIZC8ES19sOlkzaLUK40n9aAgAB9FCA=
+Date: Tue, 8 Nov 2022 15:41:05 +0000
+Message-ID: <SN4PR0201MB88085020EF16C459E65B7032DE3F9@SN4PR0201MB8808.namprd02.prod.outlook.com>
+References: <20221108040552.22175-1-tsimpson@quicinc.com>
+ <20221108040552.22175-11-tsimpson@quicinc.com>
+ <56eccfad-12a7-d854-7e62-d6ec865424f0@linaro.org>
+In-Reply-To: <56eccfad-12a7-d854-7e62-d6ec865424f0@linaro.org>
+Accept-Language: en-US
 Content-Language: en-US
-To: Maksim Davydov <davydov-max@yandex-team.ru>, qemu-devel@nongnu.org
-Cc: eduardo@habkost.net, marcel.apfelbaum@gmail.com, philmd@linaro.org,
- wangyanan55@huawei.com, jsnow@redhat.com, crosa@redhat.com,
- bleal@redhat.com, eblake@redhat.com, armbru@redhat.com, pbonzini@redhat.com,
- berrange@redhat.com, alxndr@bu.edu, bsd@redhat.com, stefanha@redhat.com,
- thuth@redhat.com, darren.kenny@oracle.com, Qiuhao.Li@outlook.com,
- lvivier@redhat.com
-References: <20221103102741.11201-1-davydov-max@yandex-team.ru>
- <20221103102741.11201-5-davydov-max@yandex-team.ru>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221103102741.11201-5-davydov-max@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN4PR0201MB8808:EE_|SJ0PR02MB7807:EE_
+x-ms-office365-filtering-correlation-id: d2a8f97d-af55-4a79-e9c7-08dac19fa63f
+x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: qcvTGZ7FIw2xtrgCOOXqT69dXc//Z5N3miL0ELnbykmwOPj22r0+xw1DoKzMue0ohvxdI34UD2AIJmBQGWTJr7dfWEY+RKIwoip8IVENNWz5UFo1AJdGuBVYoHvjQO/YvvzwrlWSuWzNN656uE2RGBJI+pc8Rkah7E5Sju7uuifsHqfpy+z4npqvTIcjS4AHwVkv8pxfUOwMhd/11wT/o+/IyG1IPlCQKe93vkVukVAgseHDlBifHF550PNrZ7oqqjBGxXx88NnCIdSnkxtfCnOLoMY5JwIJleZncSoOvDYqfV1jkvbGO3G5EOkTSZC+yTFcW8CQldkfLc3bW+XJeSPrMPJIhebUDNH6HKeO4cdhhqCV2h+80++o0yMO4UNTbn4IUmi15cKS0/x4EcgzoA6JMWWgY+L9zY/yoHETH+o9Q4vn9q67FZ0Ifii70tvvDtA4zpwFGEay+Jhhopi3TajfjiJnXXFvj3OKo3CeTzA7fcctM9lgWWQseLE7H3v6ENAhVHJEWsqMLNawNCMChDiUiur7lJo9nLeTHtzCCHIihCCYYYTMY5T62s07RkzrMM/8+c7gitpEOcrmuEqaKJxF2egq5+pB4CKdGDaEOU7j4I00o/vhlWZF4LT13IJBpYKSsDOZodgZ0FiNiFlXn1AYlEhMqUoECBQTVxXm5ihBJLY8ESk5zy751G8arPY5SG6/RhKAKwKlJbdKh3Z3EV0y5veSkGZK6Q16dXomEtFiuKYxyRgJhZgoo6gs0LkE2HsBI8gsrfDu8+IgZJBLcg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(346002)(39860400002)(396003)(366004)(376002)(451199015)(66946007)(2906002)(66556008)(64756008)(66446008)(8676002)(66476007)(76116006)(4326008)(41300700001)(8936002)(33656002)(52536014)(5660300002)(4744005)(54906003)(110136005)(316002)(71200400001)(478600001)(86362001)(107886003)(186003)(9686003)(26005)(83380400001)(53546011)(55016003)(38100700002)(6506007)(7696005)(38070700005)(122000001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?azhZMENvZW16QXd1QU5VWm5SVzlyUHFHZ0JnZGdYTTJ4aTZ1Mko2dWJKaGNs?=
+ =?utf-8?B?N1RJK2IyNkdWd1laQ09ZeG8wMG50b0k0NlQzWWJxK3I2cGY1U2VMdzFIUVN3?=
+ =?utf-8?B?Nk96R3RVTW91ZmsvM2EvOC9UdTZZMUNQMFp6ZXdhZG5PUlNKVmFDNnE5eUdi?=
+ =?utf-8?B?Uzg5UERORmhrUjBCbUplQncyMk5JN3cwSjFrekQwT1R6NmtYSEFrR0VHSnly?=
+ =?utf-8?B?ZlAzRHVxQzJXUUlqL2pFTnF4WWlBRGZLSHphRVRrRWhYaGg0aURiYXF6UFhH?=
+ =?utf-8?B?TzlKYS9VR1BEUkVnUmI1SlZBU0liZDVuSzBpZ0hGOWFTRTE5dFhuY2FGTHJw?=
+ =?utf-8?B?YlJidEtvR2pFM1ZuUFBTNHJiSFdjRFhmSW9iN09kaERVbmVSNm1XV3V1ODlS?=
+ =?utf-8?B?d2J6eTZsejJkdjQzMk1WWW5Lbm4xSHdYRUwrQk9sZ3B4S3UwTFI3cDZISGtz?=
+ =?utf-8?B?QjNxbzJ3NStiRDdxbFJ6UlR0NkYzOUdJLzZrRTc2RFYweFliQ0VXSGZvVXBX?=
+ =?utf-8?B?L1VUVGRYNWFVZlBUTVQzbTFPdElhcU92ZkRIOU9RRHZlVXRqOGd6MEw4bVVs?=
+ =?utf-8?B?dGYxSE53bkpJQnB0bzZndFBwU3FrOVQydWdwN2l2RVlyUDFRTGdYN05jMnU5?=
+ =?utf-8?B?OVIxOTYzTmtxREg1ODBjK3VZZitHbmN0aEhVR3VxczVJQlc1dWxxTHZVamNW?=
+ =?utf-8?B?QzVNUUUxRldrSkorR2orWWJxMURlY084bld4MlhUZnlOOCtKZFlxNkF2MG9X?=
+ =?utf-8?B?R1o2U0I1YUwvOCtaRU1QTGo5T2xIM2pYYVA5YlV3T2U4Y0RzMXIxYitsTkF5?=
+ =?utf-8?B?TFdDUE5UVDlkditaWC85Qk44TVphdWRPeVBOSUZrOEFnK1NEZDdjb3EyRHg5?=
+ =?utf-8?B?MnE1cENVcllzS2RHbXRBS2pRZmRUL2lVbE5YUjJCdmZRQnc1WnZiaWExVlp2?=
+ =?utf-8?B?NmI0YzA0V2htRGN1eGN5dHVsSmFrcUVNMWp4Ry94cTEweDZaOHJodnhyaDdy?=
+ =?utf-8?B?QVZEclpNQW10UERTVG1vN000UmZibHd5dzBSM3pJMHEwZ210TlFBbUM3akky?=
+ =?utf-8?B?SHQ0TWZoUEtmamlOMjZYNVR6Vk1KbVhMaXVCQmw0czEyOWFvZnRCZno2clZx?=
+ =?utf-8?B?NytxR0Y3N0NjSmxsL2xyVkU2VHMrVGx2NGxKT0pUK2JMd2JURnZwV1hoaXRJ?=
+ =?utf-8?B?dFVnRVNONjlMSjVaUDlDUGhMcmVIb01BUEtac1cvRzFoVTdPZ2xnbG9xR1Zp?=
+ =?utf-8?B?YkxxNG00aVk4bm1HNzk3RXFRWVQzM1RCaFFsNzE2ME5rV2hOMVlBczhaSXdB?=
+ =?utf-8?B?ajRmNUdlZmdBVmw2bit1Sjd3bE9HeW04VFFEbjRRSzlCbW9CS0h1STZtZzBF?=
+ =?utf-8?B?VnV5dkJLZW96NVE5cjRwSDlxaWVJM1puTjhob0VUTm5UQjVxQ1ltUVlxR29X?=
+ =?utf-8?B?VGdwUW5lbDZuaGlGR0MrRU00ejJkV2RscXBOQ2htamx3MmpGSXFqMnpTeHBD?=
+ =?utf-8?B?Nkpla2E5ZFNKbkFMa3hBT2NZc3FWSDF5VWNlOU5DRXhRSlBmMW11Z3E3NU15?=
+ =?utf-8?B?cjBwV0xTZndjRG1VQVBVekhoT0xZNFB2aFhrZFlMalgxaWxGNU9QSEVQYzhG?=
+ =?utf-8?B?SXl1YVdLeG1HVHlPbkRXK3VvSkFJNG9FY05sNGMyYUhWRG9oZHFuT0U1Zmtl?=
+ =?utf-8?B?VmJjUlNvZ0RTS2ZDYThjMkJDdEtTcjMrU1grWFloZVQwY1NJT05uNEVVbTZZ?=
+ =?utf-8?B?MGtvWlI1Nlo4Q3hZNmw4cy9adGx1ZXh1SjZjR1MwMHVjbGEvdHlVSnB0eVBx?=
+ =?utf-8?B?bnFseG9CMFVCdGQwcnF1bS9pRmg3UWRVWjlmeEoxZForS1BueVZ5Z0JmZndJ?=
+ =?utf-8?B?bW80dDZIcnNkNlpYQ3lKbEhEVGtXMHM3R0E0TTJlMmNFaitJNjFZaGM2NWF5?=
+ =?utf-8?B?TTVhTjVTZXRnekFDaWQrV1pOajB3ZU95Q3E3UzN1SERyTUpHblVmR0lpMVhV?=
+ =?utf-8?B?TGNqbGZmeTVGWVJuYmFYZk52L1RWVEI1TGcxbWEyWjR3VVk3ekMxb2wvc1d2?=
+ =?utf-8?B?ZEkwbi8va3p1Y245NDB5RnhnNEFuL2h2bzlKVW4yMzdIZ2xDbmE4MllHZGh4?=
+ =?utf-8?Q?WY6RPU5zD7qiNiIZP/OBBZNBJ?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2a8f97d-af55-4a79-e9c7-08dac19fa63f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Nov 2022 15:41:05.9045 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZQYbGc+apLfUsOqz+0Eseol+PlPMC+TnRqbyYvs1Ku3DCrHncqHu7KeaztkiUk1ItXWmWG77suyhF/bciSxHTA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB7807
+X-Proofpoint-ORIG-GUID: TSPtiVtxbIC5DCp9vv1BPCoR_lKhhflL
+X-Proofpoint-GUID: TSPtiVtxbIC5DCp9vv1BPCoR_lKhhflL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-07_11,2022-11-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ impostorscore=0 mlxscore=0 mlxlogscore=705 spamscore=0 suspectscore=0
+ adultscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211080095
+Received-SPF: pass client-ip=205.220.180.131;
+ envelope-from=tsimpson@quicinc.com; helo=mx0b-0031df01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,260 +173,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/3/22 13:27, Maksim Davydov wrote:
-> This script run QEMU to obtain compat_props of machines and default
-> values of different types and produce appropriate table. This table
-> can be used to compare machine types to choose the most suitable
-> machine. Also this table in json or csv format should be used to check that
-> new machine doesn't affect previous ones by comparing tables with and
-> without new machine.
-> Default values of properties are needed to fill "holes" in the table (one
-> machine has these properties and another not. For instance, 2.12 mt has
-> `{ "EPYC-" TYPE_X86_CPU, "xlevel", "0x8000000a" }`, but compat_pros of
-> 3.1 mt doesn't have it. So, to compare these machines we need to fill
-> unknown value of "EPYC-x86_64-cpu-xlevel" for 3.1 mt. This unknown value
-> in the table I called "hole". To get values (default values) for these
-> "holes" the script uses list of appropriate methods.)
-> 
-> Notes:
-> * some init values from the devices can't be available like properties
->    from virtio-9p when configure has --disable-virtfs. This situations will
->    be seen in the table as "unavailable driver".
-> * Default values can be obtained in an unobvious way, like x86 features.
->    If the script doesn't know how to get property default value to compare
->    one machine with another it fills "holes" with "unavailable method". This
->    is done because script uses whitelist model to get default values of
->    different types. It means that the method that can't be applied to a new
->    type that can crash this script. It is better to get an "unavailable
->    driver" when creating a new machine with new compatible properties than
->    to break this script. So it turns out a more stable and generic script.
-> * If the default value can't be obtained because this property doesn't
->    exist or because this property can't have default value, appropriate
->    "hole" will be filled by "unknown property" or "no default value"
-> * If the property is applied to the abstract class, the script collects
->    default values from all child classes (set of default values)
-> 
-> Example:
-> 
-> ./scripts/compare_mt.py --mt pc-q35-3.1 pc-q35-4.0
-> 
-> ╒═══════════════════════════════════════════════════════════╤══════════════╤════════════════════╕
-> │                                                           │  pc-q35-3.1  │     pc-q35-4.0     │
-> ╞═══════════════════════════════════════════════════════════╪══════════════╪════════════════════╡
-> │ Cascadelake-Server-x86_64-cpu:mpx                         │     True     │       False        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ Cascadelake-Server-x86_64-cpu:stepping                    │      5       │         6          │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ Icelake-Client-x86_64-cpu:mpx                             │     True     │ unavailable driver │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ Icelake-Server-x86_64-cpu:mpx                             │     True     │       False        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ Opteron_G3-x86_64-cpu:rdtscp                              │    False     │        True        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ Opteron_G4-x86_64-cpu:rdtscp                              │    False     │        True        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ Opteron_G5-x86_64-cpu:rdtscp                              │    False     │        True        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ Skylake-Client-IBRS-x86_64-cpu:mpx                        │     True     │       False        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ Skylake-Client-x86_64-cpu:mpx                             │     True     │       False        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ Skylake-Server-IBRS-x86_64-cpu:mpx                        │     True     │       False        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ Skylake-Server-x86_64-cpu:mpx                             │     True     │       False        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ intel-iommu:dma-drain                                     │    False     │        True        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ memory-backend-file:x-use-canonical-path-for-ramblock-id  │     True     │  no default value  │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ memory-backend-memfd:x-use-canonical-path-for-ramblock-id │     True     │  no default value  │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ pcie-root-port:x-speed                                    │     2_5      │         16         │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ pcie-root-port:x-width                                    │      1       │         32         │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ pcie-root-port-base:disable-acs                           │     True     │       False        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ tpm-crb:ppi                                               │    False     │        True        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ tpm-tis:ppi                                               │    False     │        True        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ usb-kbd:serial                                            │      42      │  no default value  │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ usb-mouse:serial                                          │      42      │  no default value  │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ usb-tablet:serial                                         │      42      │  no default value  │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ virtio-balloon-device:qemu-4-0-config-size                │    False     │        True        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ virtio-blk-device:discard                                 │    False     │        True        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ virtio-blk-device:write-zeroes                            │    False     │        True        │
-> ├───────────────────────────────────────────────────────────┼──────────────┼────────────────────┤
-> │ x86_64-cpu:x-intel-pt-auto-level                          │    False     │        True        │
-> ╘═══════════════════════════════════════════════════════════╧══════════════╧════════════════════╛
-> 
-> Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
-> ---
->   scripts/compare_mt.py | 440 ++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 440 insertions(+)
->   create mode 100755 scripts/compare_mt.py
-> 
-> diff --git a/scripts/compare_mt.py b/scripts/compare_mt.py
-> new file mode 100755
-> index 0000000000..31ac86dddd
-> --- /dev/null
-> +++ b/scripts/compare_mt.py
-> @@ -0,0 +1,440 @@
-> +#!/usr/bin/env python3
-> +#
-> +# Script to compare machine type compatible properties (include/hw/boards.h).
-> +# compat_props are applied to the driver during initialization to change
-> +# default values, for instance, to maintain compatibility.
-> +# This script constructs table with machines and values of their compat_props
-> +# to compare and to find places for improvements or places with bugs. If
-> +# during the comparision, some machine type doesn't have a property (it is in
-> +# the comparision table because another machine type has it), then the
-> +# appropriate method will be used to obtain the default value of this driver
-> +# property via qmp command (e.g. query-cpu-model-expansion for x86_64-cpu).
-> +# These methods are defined below in qemu_propery_methods.
-> +#
-> +# Copyright (c) Yandex Technologies LLC, 2022
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License as published by
-> +# the Free Software Foundation; either version 2 of the License, or
-> +# (at your option) any later version.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License
-> +# along with this program; if not, see <http://www.gnu.org/licenses/>.
-> +
-> +from tabulate import tabulate
-> +import sys
-> +from os import path
-> +from argparse import ArgumentParser, RawTextHelpFormatter, Namespace
-> +import pandas as pd
-> +from typing import Callable, List, Dict, Set, Generator, Tuple, Union, Any
-> +
-> +try:
-> +    qemu_dir = path.abspath(path.dirname(path.dirname(__file__)))
-> +    sys.path.append(path.join(qemu_dir, 'python'))
-> +    from qemu.machine import QEMUMachine
-> +except ModuleNotFoundError as exc:
-> +    print(f"Module '{exc.name}' not found.")
-> +    print("Try export PYTHONPATH=top-qemu-dir/python or run from top-qemu-dir")
-> +    sys.exit(1)
-> +
-> +
-> +default_cmd_line = 'build/qemu-system-x86_64 -enable-kvm -machine none'
-> +
-> +
-> +# Methods to get right values of drivers props
-> +#
-> +# Use these methods as a 'whitelist' and add entries only if necessary. It's
-> +# important to be stable and predictable in analysis and tests.
-> +# Be careful:
-> +# * Names should be in qom-list-types format (486-x86_64-cpu, not 486)
-> +# * Specialization always wins (from 'device' and 'x86_64-cpu', 'x86_64-cpu'
-> +#   will be used for '486-x86_64-cpu')
-> +
-> +# It's default stub for all undefined in property_methods drivers because all
-> +# QEMU types are inherited from Object
-> +def get_object_prop(vm: QEMUMachine, device: str, prop_name: str):
-
-missed "-> str" ?
-
-> +    return 'Unavailable method'
-> +
-> +
-> +def get_device_prop(vm: QEMUMachine, device: str, prop_name: str) -> str:
-> +    device_props = vm.command('device-list-properties', typename=device)
-
-Seems, would be good to cache the result of device-list-properties to not call it for each property. May be done separately.
-
-> +    for prop in device_props:
-> +        if prop['name'] == prop_name:
-> +            return str(prop.get('default-value', 'No default value'))
-> +
-> +    return 'Unknown property'
-> +
-> +
-> +def get_x86_64_cpu_prop(vm: QEMUMachine, device: str, prop_name: str) -> str:
-> +    # crop last 11 chars '-x86_64-cpu'
-
-seems assert(device.endswith('-x86_64-cpu') will not hurt
-
-> +    props = vm.command('query-cpu-model-expansion', type='full',
-> +                       model={'name': device[:-11]})['model']['props']
-> +    return str(props.get(prop_name, 'Unknown property'))
-> +
-> +
-> +# Now it's stub, because all memory_backend types don't have default values
-> +# but this behaviour can be changed
-> +def get_memory_backend_prop(vm: QEMUMachine, driver: str,
-> +                            prop_name: str) -> str:
-> +    memory_backend_props = vm.command('qom-list-properties', typename=driver)
-> +    for prop in memory_backend_props:
-> +        if prop['name'] == prop_name:
-> +            return str(prop.get('default-value', 'No default value'))
-> +
-> +    return 'Unknown property'
-> +
-> +
-> +class GetPropMethod:
-> +    def __init__(self, driver_name: str,
-> +                 method: Callable[[QEMUMachine, str, str], str]) -> None:
-> +        self.name = driver_name
-> +        self.get_prop = method
-> +
-> +
-> +qemu_property_methods = [
-> +        GetPropMethod('device', get_device_prop),
-> +        GetPropMethod('x86_64-cpu', get_x86_64_cpu_prop),
-> +        GetPropMethod('memory-backend', get_memory_backend_prop)
-> +]
-> +
-> +# all types in QEMU are inherited from Object
-
-Hmm, inherited..
-
-What do you think about the following:
-
-class QEMUObject:
-    ... (your class Driver, without set_prop_method() method)
-    def get_prop(...):
-       return 'Unavailable method'
-
-class QEMUDevice(QEMUObject):
-    def get_prop(...):
-        <it's yours get_device_prop>
-
-class QEMUx86Cpu(QEMUObject):
-    def get_prop(...):
-        <it's yours get_x86_64_cpu_prop>
-
-class QEMUMemoryBackend(QEMUObject):
-    ...
-
-
-Than, a helper function to create an object of correct class:
-
-def new_driver_obj(name, *args, **kwargs):
-    if name == 'device':
-        return QEMUDevice(name, *args, **kwargs)
-    elif name == 'x86_64-cpu':
-       ...
-    else
-       return QEMUObject(...)  # the default
-
-
--- 
-Best regards,
-Vladimir
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBIZW5kZXJz
+b24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc+DQo+IFNlbnQ6IFR1ZXNkYXksIE5vdmVt
+YmVyIDgsIDIwMjIgMToyNCBBTQ0KPiBUbzogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNp
+bmMuY29tPjsgcWVtdS1kZXZlbEBub25nbnUub3JnDQo+IENjOiBwaGlsbWRAbGluYXJvLm9yZzsg
+YWxlQHJldi5uZzsgYW5qb0ByZXYubmc7IEJyaWFuIENhaW4NCj4gPGJjYWluQHF1aWNpbmMuY29t
+PjsgTWF0aGV1cyBCZXJuYXJkaW5vIChRVUlDKQ0KPiA8cXVpY19tYXRoYmVybkBxdWljaW5jLmNv
+bT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2NCAxMC8xMV0gSGV4YWdvbiAodGFyZ2V0L2hleGFn
+b24pIFVzZSBkaXJlY3QgYmxvY2sNCj4gY2hhaW5pbmcgZm9yIGRpcmVjdCBqdW1wL2JyYW5jaA0K
+PiANCj4gT24gMTEvOC8yMiAxNTowNSwgVGF5bG9yIFNpbXBzb24gd3JvdGU6DQo+ID4gICBzdGF0
+aWMgdm9pZCBoZXhhZ29uX3RyX3RiX3N0YXJ0KERpc2FzQ29udGV4dEJhc2UgKmRiLCBDUFVTdGF0
+ZSAqY3B1KQ0KPiA+ICAgew0KPiA+ICsgICAgRGlzYXNDb250ZXh0ICpjdHggPSBjb250YWluZXJf
+b2YoZGIsIERpc2FzQ29udGV4dCwgYmFzZSk7DQo+ID4gKyAgICBjdHgtPmJyYW5jaF9jb25kID0g
+VENHX0NPTkRfTkVWRVI7DQo+ID4gICB9DQo+IA0KPiBUeXBpY2FsbHkgdGhpcyB3b3VsZCBnbyBp
+biBoZXhhZ29uX3RyX2luaXRfZGlzYXNfY29udGV4dCBhcyB3ZWxsLCBidXQgSSBkb24ndA0KPiBz
+dXBwb3NlIGl0IHJlYWxseSBtYXR0ZXJzLg0KDQpBRkFJQ1QsIHRoZXNlIGFyZSBhbHdheXMgY2Fs
+bGVkIGJhY2sgdG8gYmFjay4gIFNvLCBpdCdzIG5vdCBjbGVhciB0byBtZSB3aGF0IHRoZSBkaXN0
+aW5jdGlvbiBzaG91bGQgYmUuDQoNClRheWxvcg0K
 
