@@ -2,64 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74AB662175C
+	by mail.lfdr.de (Postfix) with ESMTPS id 6293E62175B
 	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:50:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osPui-0004C4-PA; Tue, 08 Nov 2022 09:49:20 -0500
+	id 1osPup-0004Nt-HG; Tue, 08 Nov 2022 09:49:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osPuP-0003y5-Pa; Tue, 08 Nov 2022 09:49:10 -0500
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osPuM-00079Y-Ck; Tue, 08 Nov 2022 09:49:01 -0500
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id ABA725E874;
- Tue,  8 Nov 2022 17:48:36 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
- [2a02:6b8:b081:b535::1:28])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- Tc8tDcn69N-mZNa9N3L; Tue, 08 Nov 2022 17:48:36 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1667918916; bh=jg43FIkDDY3+9/2FZWJXs8FyynrlzOeNA/FCItotLWg=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=yofDCRA7PGV1HzSCYWjR4K9CVk3MAtNOHu7kWLSB1aL6J2JPUvdSYBGvDesQP7kY3
- XO8Z/91WM5XMInE4VH02wKYNqJSdCKMweazfmqWdrkQeAVmxhKmDxcXhHBRPbOUH59
- qK/S0Q6R5B/ExASSRUyfli1TWXGuOC2fplM+p770=
-Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <197f2a27-4c3f-a62b-535c-d1db9ba22a32@yandex-team.ru>
-Date: Tue, 8 Nov 2022 17:48:35 +0300
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1osPun-0004M2-Ad
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:49:25 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1osPul-0007lA-8a
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:49:24 -0500
+Received: by mail-ed1-x531.google.com with SMTP id a13so22893128edj.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 06:49:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=TX55RcZFODLRpBQp7mImEqmVNrtuS2jiyxO2W/P4eis=;
+ b=JB6Er2b+Q1N3wD2RnI6Jv5jRdkTPCVdIbLZqMP0sZ8OAnotyTieHnuAOE4j2hklPss
+ l7XS16oCOXfZe31u+JTwGYOXXrTaKS/SLT5Kz+IORdPPU6UjiYzGwxiYWBfG8+loqUHO
+ 1bm4rDkIKBR78txerWN6sRx7HgG1cr3908D7V3AYi2tcTyckJOoECpyVOQEuMt22q1/C
+ 06GY3QuQSrTNUU04GWphytYhFA5XxznTQkaURijAwuv5AT9L4the8G+gsXHxRwDciLRb
+ Iz4xiJXoA+tvidNy3ijcEXVFl8+geKQPxvQuka25IeKPFmrspTcnmKOU9SQo89nSZMvc
+ Zckg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TX55RcZFODLRpBQp7mImEqmVNrtuS2jiyxO2W/P4eis=;
+ b=tUbp3SHP7xK0ERywvhzbAYHHFOWdEGMvJgjV/uUrzMbP3ykgqmZOJzpFNTfR9Py7T8
+ zNFcRLsTphwN7IRTdetMV40WYBEO/PDR4j952vr16Aq5PYytJlSoNqVB6EAyxTTu/Lxl
+ CFjZcLscEjgm84aaXPObWszG4Xcgd5wwCHogCV8c+35M+kpRrIBhD0DYTzicXc5/PoWC
+ dZdr0eOEy/ARu8vY2ZvwvOuZmZwF+sdwk4GIgxdainHYN3q8+PrwFPHEBCvgJYtPujJ8
+ L+kiAnddPB1FqmkDABW2Tz4oYDMCXUvLMgcUqVJRoAGo9DUE05d0ZM2PB17H4Es5ZZzp
+ K7dg==
+X-Gm-Message-State: ACrzQf188gAEU3rdnqThBEQNOHHB+mU7ODVvUqsyVPS4teqqdCeY82xd
+ o3Ympr4Pzv+ZyXePgCk/g/ccnQ==
+X-Google-Smtp-Source: AMsMyM6OQH+4V9TOArlqFNFRbiEozUGbbqIY35xXDej6oQp9ZgT88shaW+hq/mLqJ+ijHP2o1FPXaw==
+X-Received: by 2002:a50:e616:0:b0:461:fc07:b630 with SMTP id
+ y22-20020a50e616000000b00461fc07b630mr55893499edm.219.1667918961166; 
+ Tue, 08 Nov 2022 06:49:21 -0800 (PST)
+Received: from localhost (2001-1ae9-1c2-4c00-748-2a9a-a2a6-1362.ip6.tmcz.cz.
+ [2001:1ae9:1c2:4c00:748:2a9a:a2a6:1362])
+ by smtp.gmail.com with ESMTPSA id
+ k14-20020a056402048e00b00456c6b4b777sm5591188edv.69.2022.11.08.06.49.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Nov 2022 06:49:20 -0800 (PST)
+Date: Tue, 8 Nov 2022 15:49:19 +0100
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Sunil V L <sunilvl@ventanamicro.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, David Edmondson <david.edmondson@oracle.com>
+Subject: Re: [PATCH V2] hw/riscv: virt: Remove size restriction for pflash
+Message-ID: <20221108144919.3t2ryv5mbzfvgm3k@kamzik>
+References: <20221107130217.2243815-1-sunilvl@ventanamicro.com>
+ <CAFEAcA8X3Q7s6qZ=ojE9fTLG464rrZw+FX=4hmMOhwR-Q4n2sA@mail.gmail.com>
+ <Y2kRWNnk7wDxPnBK@sunil-laptop> <871qqehib4.fsf@linaro.org>
+ <Y2kv/k5oKGOd+90w@redhat.com>
+ <20221107173201.343hkqqugkzdzqcf@kamzik>
+ <Y2lBnPuUA4bgKCLL@redhat.com>
+ <934d7560-daee-9f7e-2abb-640575768b2f@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 2/9] block-copy: add missing coroutine_fn annotations
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20221104095700.4117433-1-eesposit@redhat.com>
- <20221104095700.4117433-3-eesposit@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221104095700.4117433-3-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
+In-Reply-To: <934d7560-daee-9f7e-2abb-640575768b2f@linaro.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=ajones@ventanamicro.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,72 +106,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/4/22 12:56, Emanuele Giuseppe Esposito wrote:
-> These functions end up calling bdrv_common_block_status_above(), a
-> generated_co_wrapper function.
+On Tue, Nov 08, 2022 at 03:12:42PM +0100, Philippe Mathieu-Daudé wrote:
+> On 7/11/22 18:34, Daniel P. Berrangé wrote:
+> > On Mon, Nov 07, 2022 at 06:32:01PM +0100, Andrew Jones wrote:
+> > > On Mon, Nov 07, 2022 at 04:19:10PM +0000, Daniel P. Berrangé wrote:
+> > > > On Mon, Nov 07, 2022 at 03:50:44PM +0000, Alex Bennée wrote:
+> > > > > 
+> > > > > Sunil V L <sunilvl@ventanamicro.com> writes:
+> > > > > 
+> > > > > > On Mon, Nov 07, 2022 at 01:06:38PM +0000, Peter Maydell wrote:
+> > > > > > > On Mon, 7 Nov 2022 at 13:03, Sunil V L <sunilvl@ventanamicro.com> wrote:
+> > > > > > > > 
+> > > > > > > > The pflash implementation currently assumes fixed size of the
+> > > > > > > > backend storage. Due to this, the backend storage file needs to be
+> > > > > > > > exactly of size 32M. Otherwise, there will be an error like below.
+> > > > > > > > 
+> > > > > > > > "device requires 33554432 bytes, block backend provides 4194304 bytes"
+> > > > > > > > 
+> > > > > > > > Fix this issue by using the actual size of the backing store.
+> > > > > > > > 
+> > > > > > > > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+> > > > > > > > ---
+> > > > > > > 
+> > > > > > > Do you really want the flash device size presented to the guest
+> > > > > > > to be variable depending on what the user passed as a block backend?
+> > > > > > > I don't think this is how we handle flash devices on other boards...
+> > > > > > > 
+> > > > > > 
+> > > > > > Hi Peter,
+> > > > > > 
+> > > > > > x86 appears to support variable flash but arm doesn't. What is
+> > > > > > the reason for not supporting variable size flash in arm?
+> > > > > 
+> > > > > If I recall from the last time we went around this is was the question
+> > > > > of what you should pad it with.
+> > > > 
+> > > > Padding is a very good thing from the POV of upgrades. Firmware has shown
+> > > > a tendancy to change (grow) over time, and the size has an impact of the
+> > > > guest ABI/live migration state.
+> > > > 
+> > > > To be able to live migrate, or save/restore to/from files, then the machine
+> > > > firmware size needs to be sufficient to cope with future size changes of
+> > > > the firmware. The best way to deal with this is to not use the firmware
+> > > > binaries' minimum compiled size, but instead to pad it upto a higher
+> > > > boundary.
+> > > > 
+> > > > Enforcing such padding is a decent way to prevent users from inadvertantly
+> > > > painting themselves into a corner with a very specific firmware binary
+> > > > size at initial boot.
+> > > 
+> > > Padding is a good idea, but too much causes other problems. When building
+> > > lightweight VMs which may pull the firmware image from a network,
+> > > AArch64 VMs require 64MB of mostly zeros to be transferred first, which
+> > > can become a substantial amount of the overall boot time[*]. Being able to
+> > > create images smaller than the total flash device size, but still add some
+> > > pad for later growth, seems like the happy-medium to shoot for.
+> > 
+> > QEMU configures the firmware using -blockdev, so can use any file
+> > format that QEMU supports at the block layer.  IOW, you can store
+> > the firmware in a qcow2 file and thus you will never fetch any
+> > of the padding zeros to be transferred.  That said I'm not sure
+> > that libvirt supports anything other than a raw file today.
+> 
+> Drew might be referring to:
+> 
+> https://lore.kernel.org/qemu-devel/20210810134050.396747-1-david.edmondson@oracle.com/
 
-generated_co_wrapper is not a coroutine_fn. Ð¡onversely it's a function that do a class coroutine wrapping - start a coroutine and do POLL to wait for the coroutine to finish.
+I was thinking of a different one, but thanks for the reference to this
+one. Daniel's qcow2 proposal sounds like something worth investigating,
+since some padding makes sense, but the guess for how much will likely
+be wrong one direction or the other.
 
-> In addition, they also happen to be always called in coroutine context,
-> meaning all callers are coroutine_fn.
-
-That's also not a reason for marking them coroutine_fn. "coroutine_fn" means that the function can be called only from coroutine context.
-
-> This means that the g_c_w function will enter the qemu_in_coroutine()
-> case and eventually suspend (or in other words call qemu_coroutine_yield()).
-> Therefore we need to mark such functions coroutine_fn too.
-
-I don't think so. Moreover, this breaks the concept, as your new coroutine_fn functions will call generated_co_wrapper functions which are not marked coroutine_fn and never was.
+Thanks,
+drew
 
 > 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   block/block-copy.c | 15 +++++++++------
->   1 file changed, 9 insertions(+), 6 deletions(-)
+>  > Currently ARM UEFI images are typically built as 2MB/768kB flash
+>  > images for code and variables respectively. These images are both
+>  > then padded out to 64MB before being loaded by QEMU.
+>  >
+>  > Because the images are 64MB each, QEMU allocates 128MB of memory to
+>  > read them, and then proceeds to read all 128MB from disk (dirtying
+>  > the memory). Of this 128MB less than 3MB is useful - the rest is
+>  > zero padding.
+>  >
+>  > On a machine with 100 VMs this wastes over 12GB of memory.
 > 
-> diff --git a/block/block-copy.c b/block/block-copy.c
-> index bb947afdda..f33ab1d0b6 100644
-> --- a/block/block-copy.c
-> +++ b/block/block-copy.c
-> @@ -577,8 +577,9 @@ static coroutine_fn int block_copy_task_entry(AioTask *task)
->       return ret;
->   }
->   
-> -static int block_copy_block_status(BlockCopyState *s, int64_t offset,
-> -                                   int64_t bytes, int64_t *pnum)
-> +static coroutine_fn int block_copy_block_status(BlockCopyState *s,
-> +                                                int64_t offset,
-> +                                                int64_t bytes, int64_t *pnum)
->   {
->       int64_t num;
->       BlockDriverState *base;
-> @@ -613,8 +614,9 @@ static int block_copy_block_status(BlockCopyState *s, int64_t offset,
->    * Check if the cluster starting at offset is allocated or not.
->    * return via pnum the number of contiguous clusters sharing this allocation.
->    */
-> -static int block_copy_is_cluster_allocated(BlockCopyState *s, int64_t offset,
-> -                                           int64_t *pnum)
-> +static int coroutine_fn block_copy_is_cluster_allocated(BlockCopyState *s,
-> +                                                        int64_t offset,
-> +                                                        int64_t *pnum)
->   {
->       BlockDriverState *bs = s->source->bs;
->       int64_t count, total_count = 0;
-> @@ -669,8 +671,9 @@ void block_copy_reset(BlockCopyState *s, int64_t offset, int64_t bytes)
->    * @return 0 when the cluster at @offset was unallocated,
->    *         1 otherwise, and -ret on error.
->    */
-> -int64_t block_copy_reset_unallocated(BlockCopyState *s,
-> -                                     int64_t offset, int64_t *count)
-> +int64_t coroutine_fn block_copy_reset_unallocated(BlockCopyState *s,
-> +                                                  int64_t offset,
-> +                                                  int64_t *count)
->   {
->       int ret;
->       int64_t clusters, bytes;
-
--- 
-Best regards,
-Vladimir
-
+> See previous attempts:
+> - Huawei
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg607292.html
+> - Tencent
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg742066.html
+> - Oracle
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg760065.html
+> - Red Hat
+> https://www.mail-archive.com/qemu-block@nongnu.org/msg81714.html
+> 
 
