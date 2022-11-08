@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53FE3621C90
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 19:58:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A7B621CA8
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 20:04:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osTlz-0005EX-Gm; Tue, 08 Nov 2022 13:56:35 -0500
+	id 1osTsc-0007aA-Pe; Tue, 08 Nov 2022 14:03:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osTlr-0005DR-Ul; Tue, 08 Nov 2022 13:56:28 -0500
-Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1osTsR-0007ZL-NE
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 14:03:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osTlp-0003aU-T6; Tue, 08 Nov 2022 13:56:27 -0500
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id DB50A5FF67;
- Tue,  8 Nov 2022 21:56:08 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
- [2a02:6b8:b081:b535::1:28])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- HG5sBiYAfa-u7NW2ZLL; Tue, 08 Nov 2022 21:56:08 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1667933768; bh=tsewd8RT6grxX4kGlrSLwqa1q23KGGcyQZ7M5PkGP04=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=P6hce+quRssBjy5SsXsv5MVnj3kvfYts5Pj0GYVit1XAS3d+0BTOOiPjWEgUeko/p
- hpbXaTUmpJfBGQDTFTWmiqUJhzatzPJOrmnSpy6L33DwjwfwxIyY45+J7l7bFBUMuV
- Y0BNTJ/XDqoj39pN++ir9cFgSSat2zXUL+BIdiSM=
-Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <119d6719-2d7b-31f3-835e-69014d2be151@yandex-team.ru>
-Date: Tue, 8 Nov 2022 21:56:07 +0300
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1osTsP-0001aB-St
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 14:03:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667934192;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to; bh=ktbY182+/U/bFo6KHNJ8u3t5pTNikaQeiFvogGwa9Ig=;
+ b=iA0SuCpaj2cEJk/USqWQ+Tn/tNOUG0bgliXGvPXGJlUbxCY2qxfFa39LoaR722zthWR3+L
+ soAsXNlhFuGDpUfLvGGdilcMSlbGE026lKY98piehcLd4VLlXJy+h/Z/gPTF/jhIdUH8Yd
+ ah7XW4LfD+KsCCTKLQnddhDoAXaO6J8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-347-yzor_Be3MPqaHwMcbGlaWg-1; Tue, 08 Nov 2022 14:03:06 -0500
+X-MC-Unique: yzor_Be3MPqaHwMcbGlaWg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5CB2086EB21;
+ Tue,  8 Nov 2022 19:03:06 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE22C2166B29;
+ Tue,  8 Nov 2022 19:03:05 +0000 (UTC)
+Date: Tue, 8 Nov 2022 13:08:30 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PULL 00/14] MIPS patches for 2022-11-08
+Message-ID: <Y2qbHiudO08oWXyo@fedora>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3 04/17] migration: Simplify migration_iteration_run()
-Content-Language: en-US
-To: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org
-Cc: Alex Williamson <alex.williamson@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org,
- Kunkun Jiang <jiangkunkun@huawei.com>, "Zhang, Chen" <chen.zhang@intel.com>,
- Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Shay Drory <shayd@nvidia.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>,
- Joao Martins <joao.m.martins@oracle.com>
-References: <20221103161620.13120-1-avihaih@nvidia.com>
- <20221103161620.13120-5-avihaih@nvidia.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221103161620.13120-5-avihaih@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.72;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Ycz9+nAGbswvHJkR"
+Content-Disposition: inline
+In-Reply-To: <20221107235822.71458-1-philmd@linaro.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,62 +78,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/3/22 19:16, Avihai Horon wrote:
-> From: Juan Quintela <quintela@redhat.com>
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> ---
->   migration/migration.c | 25 +++++++++++++------------
->   1 file changed, 13 insertions(+), 12 deletions(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index ffe868b86f..59cc3c309b 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -3743,23 +3743,24 @@ static MigIterateState migration_iteration_run(MigrationState *s)
->   
->       trace_migrate_pending(pending_size, s->threshold_size, pend_pre, pend_post);
->   
-> -    if (pending_size && pending_size >= s->threshold_size) {
-> -        /* Still a significant amount to transfer */
-> -        if (!in_postcopy && pend_pre <= s->threshold_size &&
-> -            qatomic_read(&s->start_postcopy)) {
-> -            if (postcopy_start(s)) {
-> -                error_report("%s: postcopy failed to start", __func__);
-> -            }
-> -            return MIG_ITERATE_SKIP;
-> -        }
-> -        /* Just another iteration step */
-> -        qemu_savevm_state_iterate(s->to_dst_file, in_postcopy);
-> -    } else {
-> +
-> +    if (pending_size < s->threshold_size) {
 
-Is corner case "pending_size == s->threshold_size == 0" theoretically possible here? In this case prepatch we go to completion. Afterpatch we go to next iteration..
+--Ycz9+nAGbswvHJkR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->           trace_migration_thread_low_pending(pending_size);
->           migration_completion(s);
->           return MIG_ITERATE_BREAK;
->       }
->   
-> +    /* Still a significant amount to transfer */
-> +    if (!in_postcopy && pend_pre <= s->threshold_size &&
-> +        qatomic_read(&s->start_postcopy)) {
-> +        if (postcopy_start(s)) {
-> +            error_report("%s: postcopy failed to start", __func__);
-> +        }
-> +        return MIG_ITERATE_SKIP;
-> +    }
-> +
-> +    /* Just another iteration step */
-> +    qemu_savevm_state_iterate(s->to_dst_file, in_postcopy);
->       return MIG_ITERATE_RESUME;
->   }
->   
+Applied, thanks.
 
--- 
-Best regards,
-Vladimir
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+
+--Ycz9+nAGbswvHJkR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNqmx4ACgkQnKSrs4Gr
+c8iPoQf+Jc4z0pNu3/faA+FY0aU6zCxSaXuuDmUT6A34sxpk+cuPaPeqj573nDwX
+Ek/cUUr6IBHNAHd11JhkV4eG1VSVd+ohY8W2kt8Kp8gbdX10ZL8Tf190dQjLUvjI
++MKksryRGOHU4f9r4Xde80K7ukiqRX6ohZdijbWJ7bEQjrWDhwunmiK/rooc+dTA
+iQL+DmW2l1lJ7/5VVQJIzO/Gto282YD1McmFfLmtjzB5iLanVtegMN07ArJE/nV/
+P7QPEUZX/ZMJNSngCnGl0ENBUjUKbyvRNLcs8UBzO2h2QKcPZrahmTTMbuCxUmqc
+5hB6l4kYgzqeOGQPjlAwN2B2OXCglA==
+=bUo3
+-----END PGP SIGNATURE-----
+
+--Ycz9+nAGbswvHJkR--
 
 
