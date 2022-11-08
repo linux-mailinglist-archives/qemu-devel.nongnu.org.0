@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4940C621E78
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 22:22:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42476621E82
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 22:23:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osW16-0005Kp-MC; Tue, 08 Nov 2022 16:20:20 -0500
+	id 1osW17-0005OG-1X; Tue, 08 Nov 2022 16:20:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1osW0t-0005FR-9u
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 16:20:10 -0500
+ id 1osW0w-0005FY-4Q
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 16:20:13 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1osW0q-0008Vd-MZ
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 16:20:07 -0500
+ id 1osW0t-00009S-U1
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 16:20:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667942403;
+ s=mimecast20190719; t=1667942407;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/6geCx/2iv4zqgllNBXbXJWKrMBVs+D3OqKdx4CS+ko=;
- b=JGeRmJTKsnFWijP/8eyADqNWLI6f8vbtz2PMa0N/vOX7a4/q2KCucXdtrRJxsEFiTMdG0u
- LDB/Grqjw9IpbvRL6tnER5fWqdBvpbxjVYyOn5sH2cpX/6G9H2De8FCwYylbwy27PZQ2pY
- fwW/VmGzNgBCzeVdbWz/a+JDJ5CGK7Q=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VQ3ATQgKtUyo3XXFzYY5Hl43Lj2yTiPHOQSl+WRJnsw=;
+ b=Oy8SLnjbxwDWcynUAkWOZGEJnJzuTNVs30Lng83TFokdn83Ur9BVYUCO/jcaB1SpaW8JjE
+ KP/h4y8nzOw6PhDti2uzGKZi/Ut3kLbYQC/m8yAYUeJCYX0rVrgzZn7jNu1mhTLgM4dOPK
+ F4ZtUW24BY6bI9UEdf0DVEqimDRkBZg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-444-6i_XSGkCNb2i6OD3TNl4aQ-1; Tue, 08 Nov 2022 16:20:01 -0500
-X-MC-Unique: 6i_XSGkCNb2i6OD3TNl4aQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-252-SN4d4uxvM_-o4ZRA5swXig-1; Tue, 08 Nov 2022 16:20:03 -0500
+X-MC-Unique: SN4d4uxvM_-o4ZRA5swXig-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AD7F23817978;
- Tue,  8 Nov 2022 21:20:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 00B3E185A7AA;
+ Tue,  8 Nov 2022 21:20:03 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21FFA40C2086;
- Tue,  8 Nov 2022 21:19:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A0F54C819;
+ Tue,  8 Nov 2022 21:20:02 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
@@ -49,15 +49,15 @@ Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
  Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH 7/8] virtio-blk: don't acquire AioContext in
- virtio_blk_handle_vq()
-Date: Tue,  8 Nov 2022 16:19:29 -0500
-Message-Id: <20221108211930.876142-8-stefanha@redhat.com>
+Subject: [PATCH 8/8] virtio-blk: minimize virtio_blk_reset() AioContext lock
+ region
+Date: Tue,  8 Nov 2022 16:19:30 -0500
+Message-Id: <20221108211930.876142-9-stefanha@redhat.com>
 In-Reply-To: <20221108211930.876142-1-stefanha@redhat.com>
 References: <20221108211930.876142-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -82,35 +82,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-There is no need to acquire AioContext in virtio_blk_handle_vq() because
-no APIs used in the function require it and nothing else in the
-virtio-blk code requires mutual exclusion anymore.
+blk_drain() needs the lock because it calls AIO_WAIT_WHILE().
+
+The s->rq loop doesn't need the lock because dataplane has been stopped
+when virtio_blk_reset() is called.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/block/virtio-blk.c | 2 --
- 1 file changed, 2 deletions(-)
+ hw/block/virtio-blk.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index faea045178..771d87cfbe 100644
+index 771d87cfbe..0b411b3065 100644
 --- a/hw/block/virtio-blk.c
 +++ b/hw/block/virtio-blk.c
-@@ -784,7 +784,6 @@ void virtio_blk_handle_vq(VirtIOBlock *s, VirtQueue *vq)
+@@ -898,6 +898,7 @@ static void virtio_blk_reset(VirtIODevice *vdev)
+     ctx = blk_get_aio_context(s->blk);
+     aio_context_acquire(ctx);
+     blk_drain(s->blk);
++    aio_context_release(ctx);
  
-     IO_CODE();
- 
--    aio_context_acquire(blk_get_aio_context(s->blk));
-     blk_io_plug(s->blk);
- 
-     do {
-@@ -810,7 +809,6 @@ void virtio_blk_handle_vq(VirtIOBlock *s, VirtQueue *vq)
+     /* We drop queued requests after blk_drain() because blk_drain() itself can
+      * produce them. */
+@@ -908,8 +909,6 @@ static void virtio_blk_reset(VirtIODevice *vdev)
+         virtio_blk_free_request(req);
      }
  
-     blk_io_unplug(s->blk);
--    aio_context_release(blk_get_aio_context(s->blk));
+-    aio_context_release(ctx);
+-
+     assert(!s->dataplane_started);
+     blk_set_enable_write_cache(s->blk, s->original_wce);
  }
- 
- static void virtio_blk_handle_output(VirtIODevice *vdev, VirtQueue *vq)
 -- 
 2.38.1
 
