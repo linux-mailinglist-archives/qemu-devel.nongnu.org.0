@@ -2,66 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492CD62110E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 13:40:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5397A62111F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 13:42:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osNsS-0008Or-SB; Tue, 08 Nov 2022 07:38:52 -0500
+	id 1osNul-00013c-89; Tue, 08 Nov 2022 07:41:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1osNs0-0007uu-JP
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 07:38:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <movement@movementarian.org>)
+ id 1osNtr-0000wG-AY; Tue, 08 Nov 2022 07:40:19 -0500
+Received: from ssh.movementarian.org ([139.162.205.133] helo=movementarian.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1osNrr-0001XX-Th
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 07:38:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667911094;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J5AvUSk33icUn6VLINECmBDRqlVEXNjmiajH7cm7YfA=;
- b=HdxESQ743KJrJECj8MwtFnfn9sqKKbKiWgqxKYvQHiLmmTPRYUpFY/8uzTBXClcktG0sqs
- yprQNrluuOhBsSHdZpotWpGmjWsmlO/10bP5l0j4ovia3SXeYFqaUH5kC5Ej7/HowbxXZ0
- gwcBSVQSvwcY/88xjNjGY6du6JasOLc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-515-zneTLLdwPRql8HqzNSq3dA-1; Tue, 08 Nov 2022 07:38:11 -0500
-X-MC-Unique: zneTLLdwPRql8HqzNSq3dA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C3D7A1C07557;
- Tue,  8 Nov 2022 12:38:10 +0000 (UTC)
-Received: from merkur.redhat.com (unknown [10.39.193.118])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9155210197;
- Tue,  8 Nov 2022 12:38:09 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com, eesposit@redhat.com, stefanha@redhat.com,
- hreitz@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH 13/13] block: Remove poll parameter from
- bdrv_parent_drained_begin_single()
-Date: Tue,  8 Nov 2022 13:37:38 +0100
-Message-Id: <20221108123738.530873-14-kwolf@redhat.com>
-In-Reply-To: <20221108123738.530873-1-kwolf@redhat.com>
-References: <20221108123738.530873-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <movement@movementarian.org>)
+ id 1osNtn-00033A-OA; Tue, 08 Nov 2022 07:40:19 -0500
+Received: from movement by movementarian.org with local (Exim 4.95)
+ (envelope-from <movement@movementarian.org>) id 1osNtT-005hGC-To;
+ Tue, 08 Nov 2022 12:39:55 +0000
+Date: Tue, 8 Nov 2022 12:39:55 +0000
+From: John Levon <levon@movementarian.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-devel <qemu-devel@nongnu.org>,
+ Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@gmail.com>,
+ "open list:nvme" <qemu-block@nongnu.org>
+Subject: Re: [PATCH v3 4/4] hw/nvme: add polling support
+Message-ID: <Y2pOG89mnH3vGG/E@movementarian.org>
+References: <20220827091258.3589230-1-fanjinhao21s@ict.ac.cn>
+ <20220827091258.3589230-5-fanjinhao21s@ict.ac.cn>
+ <Y1EswYz077swwhuc@cormorant.local>
+ <D1741E76-294E-41F6-B87B-70C2A4CF778C@ict.ac.cn>
+ <Y2OvzcfeawKWvvJ0@cormorant.local>
+ <3ffebed8-997d-e276-bf4a-c75508b0be11@ict.ac.cn>
+ <Y2Sx7O4MFHKrvXQA@cormorant.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2Sx7O4MFHKrvXQA@cormorant.local>
+X-Url: http://www.movementarian.org/
+Received-SPF: pass client-ip=139.162.205.133;
+ envelope-from=movement@movementarian.org; helo=movementarian.org
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,88 +61,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-All callers of bdrv_parent_drained_begin_single() pass poll=false now,
-so we don't need the parameter any more.
+On Fri, Nov 04, 2022 at 07:32:12AM +0100, Klaus Jensen wrote:
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- include/block/block-io.h | 5 ++---
- block.c                  | 4 ++--
- block/io.c               | 7 ++-----
- 3 files changed, 6 insertions(+), 10 deletions(-)
+> On Nov  3 21:19, Jinhao Fan wrote:
+> > On 11/3/2022 8:10 PM, Klaus Jensen wrote:
+> > > I agree that the spec is a little unclear on this point. In any case, in
+> > > Linux, when the driver has decided that the sq tail must be updated,
+> > > it will use this check:
+> > > 
+> > >    (new_idx - event_idx - 1) < (new_idx - old)
+> > 
+> > When eventidx is already behind, it's like:
+> > 
+> >  0
+> >  1 <- event_idx
+> >  2 <- old
+> >  3 <- new_idx
+> >  4
+> >  .
+> >  .
+> >  .
+> > 
+> > In this case, (new_idx - event_idx - 1) = 3-1-1 = 1 >= (new_idx - old) =
+> > 3-2=1, so the host won't update sq tail. Where am I wrong in this example?
+> 
+> That becomes 1 >= 1, i.e. "true". So this will result in the driver
+> doing an mmio doorbell write.
 
-diff --git a/include/block/block-io.h b/include/block/block-io.h
-index ddce8550a9..35669f0e62 100644
---- a/include/block/block-io.h
-+++ b/include/block/block-io.h
-@@ -285,10 +285,9 @@ bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
- /**
-  * bdrv_parent_drained_begin_single:
-  *
-- * Begin a quiesced section for the parent of @c. If @poll is true, wait for
-- * any pending activity to cease.
-+ * Begin a quiesced section for the parent of @c.
-  */
--void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll);
-+void bdrv_parent_drained_begin_single(BdrvChild *c);
- 
- /**
-  * bdrv_parent_drained_poll_single:
-diff --git a/block.c b/block.c
-index 12039e9b8a..c200f7afa0 100644
---- a/block.c
-+++ b/block.c
-@@ -2409,7 +2409,7 @@ static void bdrv_replace_child_abort(void *opaque)
-          * new_bs drained when calling bdrv_replace_child_tran() is not a
-          * requirement any more.
-          */
--        bdrv_parent_drained_begin_single(s->child, false);
-+        bdrv_parent_drained_begin_single(s->child);
-         assert(!bdrv_parent_drained_poll_single(s->child));
-     }
-     assert(s->child->parent_quiesce_counter);
-@@ -3016,7 +3016,7 @@ static BdrvChild *bdrv_attach_child_common(BlockDriverState *child_bs,
-      * bdrv_replace_child_noperm() will undrain it if the child node is not
-      * drained. The child was only just created, so polling is not necessary.
-      */
--    bdrv_parent_drained_begin_single(new_child, false);
-+    bdrv_parent_drained_begin_single(new_child);
-     bdrv_replace_child_noperm(new_child, child_bs);
- 
-     BdrvAttachChildCommonState *s = g_new(BdrvAttachChildCommonState, 1);
-diff --git a/block/io.c b/block/io.c
-index d0f641926f..9bcb19e5ee 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -53,7 +53,7 @@ static void bdrv_parent_drained_begin(BlockDriverState *bs, BdrvChild *ignore)
-         if (c == ignore) {
-             continue;
-         }
--        bdrv_parent_drained_begin_single(c, false);
-+        bdrv_parent_drained_begin_single(c);
-     }
- }
- 
-@@ -103,7 +103,7 @@ static bool bdrv_parent_drained_poll(BlockDriverState *bs, BdrvChild *ignore)
-     return busy;
- }
- 
--void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll)
-+void bdrv_parent_drained_begin_single(BdrvChild *c)
- {
-     IO_OR_GS_CODE();
-     assert(c->parent_quiesce_counter == 0);
-@@ -111,9 +111,6 @@ void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll)
-     if (c->klass->drained_begin) {
-         c->klass->drained_begin(c);
-     }
--    if (poll) {
--        BDRV_POLL_WHILE(c->bs, bdrv_parent_drained_poll_single(c));
--    }
- }
- 
- static void bdrv_merge_limits(BlockLimits *dst, const BlockLimits *src)
--- 
-2.38.1
+The code is:
 
+static inline int nvme_dbbuf_need_event(u16 event_idx, u16 new_idx, u16 old)         
+{                                                                                
+        return (u16)(new_idx - event_idx - 1) < (u16)(new_idx - old);            
+}                                                                                
+
+which per the above is "return 1 < 1;", or false. So the above case does *not*
+do an mmio write. No?
+
+regards
+john
 
