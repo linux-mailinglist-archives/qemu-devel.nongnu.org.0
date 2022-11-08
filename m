@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EC2620C1A
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6F7620C19
 	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 10:24:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osKpU-0007Kd-SD; Tue, 08 Nov 2022 04:23:36 -0500
+	id 1osKpO-0007H0-40; Tue, 08 Nov 2022 04:23:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1osKpE-0007ES-UR
+ id 1osKpE-0007EQ-U1
  for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:23:21 -0500
 Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1osKpB-0005pX-Fg
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:23:19 -0500
-Received: by mail-wr1-x436.google.com with SMTP id j15so19957242wrq.3
+ id 1osKpC-0005pq-CD
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:23:20 -0500
+Received: by mail-wr1-x436.google.com with SMTP id a14so19964651wru.5
  for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 01:23:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Tx51MAAfbml8CiT50HNaT+ihFTBqcLj/nxt/MFriuNA=;
- b=sFDh7eMoitvWm8ag6HcNN0yyPQq8J//5Ar0LNIN1AFkFgIhz/XZCkHFrNbsWf7x2d0
- rO2vSXOsn6GrE3qA8cewrnxQ6so01LnsZj7zMW/iQ2HwPQ517XeEIhrq3NvVaJqidkIw
- goD3ISbDssJpS5BKPqOOFfwmLU7U4p6Yd+YlTb+TZhdp79yIW7NIeqPAtn1mRE1oD0wG
- zVyBfinh+8BhUW2EpLRPewJkJOOXXB67xMpiSmjtUDlVgTcZfLXYJH8wgoOkmVr3/Xyi
- iIOsGs5ENHAArIbOwsc49OUfhoyu/Kmtftz/y4uoDi1AlZFizNBHwxtg3SuX5bocLss5
- c3HQ==
+ bh=yLNK2qdPNMQMvzK3A+Wa0kPh913JqNLXh3QyXKK7U+k=;
+ b=u2Z+YKLP0aPMdHuzajDgrxdi213GM3D/1hKyz/jCvCw/YwUnZcRGbGdCrA/QaxQV/L
+ lCDYOSdZYdgIvQtq5BcwgZ+yzqmTEFC1YHxYGLR1yVNfDi7QdMpWSTAzNG7yH7mo9vBf
+ +2114x2Hm1HY+aXxapYEezSSy3hOUP3fhmTSNPEpuCXlIEBUBvjkC2UMBdOnpMgbbGG2
+ 9C70FXtVJ5ipSUFa3MG2Fk94retDjxzbYGLYXUZc+rXbOZ4CA/rkfQO5emnq7C6ccSQx
+ FhQwHLNfteubtBZ32iwVR2r7UreoQNGClrzNlVMlrGwT/WxWmgYVZIrVEc9pqWXTmUzK
+ yyaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Tx51MAAfbml8CiT50HNaT+ihFTBqcLj/nxt/MFriuNA=;
- b=lApGInWOuERg1279BZnBJehIikalVwZGD/wtH8BC7TwPtlOgCDpkPaBXAuiSGlK0vE
- 2XZpz8/JbIvmNAUPnx73WdVX8PYUTKYeAlWUcyuDwIG28V7ug1c3STPvxrWzc237dfWx
- uIXu4kBjd5kZL+XKq9CrJaAE3tBsgaRUP9XO38UOLRxQlXc37YFsk55phJ8vie5pWv8v
- hhC4xr3er3bbr3eaOxOJsocwluSNVwPgzYC4n7J+6e6u8bILCZoNMm80XnFn8Virnca6
- dBGTaL7AW5PLmevfR47opFXN3LBAjACIogpf/OMlasy0xTUUElV9jWyEVw99uhQ6BhiJ
- 9tMA==
-X-Gm-Message-State: ACrzQf18q1/BtFYSRMX9bk3t5GiTrI1Q6v2YBsaLzehTgZXMUrwjOPRt
- 9QS950QICnGk7cxYMohl0VKeuA==
-X-Google-Smtp-Source: AMsMyM5845NIEFhzC+MI7aGG7D80Hi6Au/eW5Eqj6Mr5co6XOB9cw21JOPk6MvAxRV8ZAwr1bZHWWA==
-X-Received: by 2002:a05:6000:10a:b0:236:6a79:f5cf with SMTP id
- o10-20020a056000010a00b002366a79f5cfmr33346242wrx.470.1667899395937; 
- Tue, 08 Nov 2022 01:23:15 -0800 (PST)
+ bh=yLNK2qdPNMQMvzK3A+Wa0kPh913JqNLXh3QyXKK7U+k=;
+ b=NOvnYx91TKV6zvHsgiDB7HQufD6Hae+txjtEiY4tiJ5fte9yz8y72Q8OagH1tUMzI+
+ JQLzsQl0GusE/BLKg673ZKgvaoHYBdYOzi0yKuQ0rR9zSop7lXW9/uo0Ou7CUhFGBVSJ
+ 8Lwg6LW6I0X4AzXqotavkI8yrGLZZRqOGN+Ad85gJKWKxG+VDqCjo1f2H2CVlSwiMn5c
+ i9Zh9jsKtyU0dJPD5+QbtKh91M9J6pSo7ZZkt1PHKJCDRT0h3+/MnZcRU3LxHwiBDppp
+ 0FkQDrMcTA26M8H5ZY+EuYwQqvH7q1qGWwE9hrH4wpTlHMJw6lwM1vHiHKKDJb4x3Kbo
+ V3Cw==
+X-Gm-Message-State: ACrzQf0RemTPOiSeJiBci3pLyBwA3niN6oiKmEve6tV0t6AxNJbk3rQZ
+ EwoEoV+NY40/SJWbK2NwUJNyqF88xaWclA==
+X-Google-Smtp-Source: AMsMyM54Y+9yViienlAebcgJQoSkLcXknIkhbCT9Ig73sse5UW2/8eOu/Jb4qVkPePTou3i9aebRDA==
+X-Received: by 2002:a5d:644b:0:b0:236:862b:9ef1 with SMTP id
+ d11-20020a5d644b000000b00236862b9ef1mr34495500wrw.691.1667899396924; 
+ Tue, 08 Nov 2022 01:23:16 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- k4-20020a05600c168400b003c6f1732f65sm13660697wmn.38.2022.11.08.01.23.09
+ s7-20020adfeb07000000b0022a3a887ceasm9538905wrn.49.2022.11.08.01.23.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Nov 2022 01:23:11 -0800 (PST)
+ Tue, 08 Nov 2022 01:23:13 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 07DFE1FFC0;
+ by zen.linaroharston (Postfix) with ESMTP id 1E7871FFC1;
  Tue,  8 Nov 2022 09:23:09 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH  v1 8/9] docs/devel: simplify the minimal checklist
-Date: Tue,  8 Nov 2022 09:23:07 +0000
-Message-Id: <20221108092308.1717426-9-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH v1 9/9] docs/devel: try and improve the language around patch
+ review
+Date: Tue,  8 Nov 2022 09:23:08 +0000
+Message-Id: <20221108092308.1717426-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221108092308.1717426-1-alex.bennee@linaro.org>
 References: <20221108092308.1717426-1-alex.bennee@linaro.org>
@@ -95,136 +97,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The bullet points are quite long and contain process tips. Move those
-bits of the bullet to the relevant sections and link to them. Use a
-table for nicer formatting of the checklist.
+It is important that contributors take the review process seriously
+and we collaborate in a respectful way while avoiding personal
+attacks. Try and make this clear in the language.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20221012121152.1179051-4-alex.bennee@linaro.org>
-
+Message-Id: <20221012121152.1179051-5-alex.bennee@linaro.org>
 ---
-v2
-  - emphasise a Real Name should be used
-  - s/therefor/therefore/
----
- docs/devel/submitting-a-patch.rst | 75 ++++++++++++++++++++-----------
- 1 file changed, 49 insertions(+), 26 deletions(-)
+ docs/devel/submitting-a-patch.rst | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/docs/devel/submitting-a-patch.rst b/docs/devel/submitting-a-patch.rst
-index 9c7c4331f3..1f2bde0625 100644
+index 1f2bde0625..80e8693bb6 100644
 --- a/docs/devel/submitting-a-patch.rst
 +++ b/docs/devel/submitting-a-patch.rst
-@@ -12,25 +12,18 @@ be committed faster.
- This page seems very long, so if you are only trying to post a quick
- one-shot fix, the bare minimum we ask is that:
- 
---  You **must** provide a Signed-off-by: line (this is a hard
--   requirement because it's how you say "I'm legally okay to contribute
--   this and happy for it to go into QEMU", modeled after the `Linux kernel
--   <http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches?id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n297>`__
--   policy.) ``git commit -s`` or ``git format-patch -s`` will add one.
---  All contributions to QEMU must be **sent as patches** to the
--   qemu-devel `mailing list <https://wiki.qemu.org/Contribute/MailingLists>`__.
--   Patch contributions should not be posted on the bug tracker, posted on
--   forums, or externally hosted and linked to. (We have other mailing lists too,
--   but all patches must go to qemu-devel, possibly with a Cc: to another
--   list.) ``git send-email`` (`step-by-step setup
--   guide <https://git-send-email.io/>`__ and `hints and
--   tips <https://elixir.bootlin.com/linux/latest/source/Documentation/process/email-clients.rst>`__)
--   works best for delivering the patch without mangling it, but
--   attachments can be used as a last resort on a first-time submission.
---  You must read replies to your message, and be willing to act on them.
--   Note, however, that maintainers are often willing to manually fix up
--   first-time contributions, since there is a learning curve involved in
--   making an ideal patch submission.
-+.. list-table:: Minimal Checklist for Patches
-+   :widths: 35 65
-+   :header-rows: 1
+@@ -434,14 +434,20 @@ developers will identify bugs, or suggest a cleaner approach, or even
+ just point out code style issues or commit message typos. You'll need to
+ respond to these, and then send a second version of your patches with
+ the issues fixed. This takes a little time and effort on your part, but
+-if you don't do it then your changes will never get into QEMU. It's also
+-just polite -- it is quite disheartening for a developer to spend time
+-reviewing your code and suggesting improvements, only to find that
+-you're not going to do anything further and it was all wasted effort.
++if you don't do it then your changes will never get into QEMU.
 +
-+   * - Check
-+     - Reason
-+   * - Patches contain Signed-off-by: Real Name <author@email>
-+     - States you are legally able to contribute the code. See :ref:`patch_emails_must_include_a_signed_off_by_line`
-+   * - Sent as patch emails to ``qemu-devel@nongnu.org``
-+     - The project uses an email list based workflow. See :ref:`submitting_your_patches`
-+   * - Be prepared to respond to review comments
-+     - Code that doesn't pass review will not get merged. See :ref:`participating_in_code_review`
++Remember that a maintainer is under no obligation to take your
++patches. If someone has spent the time reviewing your code and
++suggesting improvements and you simply re-post without either
++addressing the comment directly or providing additional justification
++for the change then it becomes wasted effort. You cannot demand others
++merge and then fix up your code after the fact.
  
- You do not have to subscribe to post (list policy is to reply-to-all to
- preserve CCs and keep non-subscribers in the loop on the threads they
-@@ -229,6 +222,19 @@ bisection doesn't land on a known-broken state.
- Submitting your Patches
- -----------------------
+ When replying to comments on your patches **reply to all and not just
+ the sender** -- keeping discussion on the mailing list means everybody
+-can follow it.
++can follow it. Remember the spirit of the :ref:`code_of_conduct` and
++keep discussions respectful and collaborative and avoid making
++personal comments.
  
-+The QEMU project uses a public email based workflow for reviewing and
-+merging patches. As a result all contributions to QEMU must be **sent
-+as patches** to the qemu-devel `mailing list
-+<https://wiki.qemu.org/Contribute/MailingLists>`__. Patch
-+contributions should not be posted on the bug tracker, posted on
-+forums, or externally hosted and linked to. (We have other mailing
-+lists too, but all patches must go to qemu-devel, possibly with a Cc:
-+to another list.) ``git send-email`` (`step-by-step setup guide
-+<https://git-send-email.io/>`__ and `hints and tips
-+<https://elixir.bootlin.com/linux/latest/source/Documentation/process/email-clients.rst>`__)
-+works best for delivering the patch without mangling it, but
-+attachments can be used as a last resort on a first-time submission.
-+
- .. _if_you_cannot_send_patch_emails:
- 
- If you cannot send patch emails
-@@ -314,10 +320,12 @@ git repository to fetch the original commit.
- Patch emails must include a ``Signed-off-by:`` line
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--For more information see `SubmittingPatches 1.12
--<http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches?id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n297>`__.
--This is vital or we will not be able to apply your patch! Please use
--your real name to sign a patch (not an alias or acronym).
-+Your patches **must** include a Signed-off-by: line. This is a hard
-+requirement because it's how you say "I'm legally okay to contribute
-+this and happy for it to go into QEMU". The process is modelled after
-+the `Linux kernel
-+<http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches?id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n297>`__
-+policy.
- 
- If you wrote the patch, make sure your "From:" and "Signed-off-by:"
- lines use the same spelling. It's okay if you subscribe or contribute to
-@@ -327,6 +335,11 @@ include a "From:" line in the body of the email (different from your
- envelope From:) that will give credit to the correct author; but again,
- that author's Signed-off-by: line is mandatory, with the same spelling.
- 
-+There are various tooling options for automatically adding these tags
-+include using ``git commit -s`` or ``git format-patch -s``. For more
-+information see `SubmittingPatches 1.12
-+<http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches?id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n297>`__.
-+
- .. _include_a_meaningful_cover_letter:
- 
- Include a meaningful cover letter
-@@ -397,9 +410,19 @@ Participating in Code Review
- ----------------------------
- 
- All patches submitted to the QEMU project go through a code review
--process before they are accepted. Some areas of code that are well
--maintained may review patches quickly, lesser-loved areas of code may
--have a longer delay.
-+process before they are accepted. This will often mean a series will
-+go through a number of iterations before being picked up by
-+:ref:`maintainers<maintainers>`. You therefore should be prepared to
-+read replies to your messages and be willing to act on them.
-+
-+Maintainers are often willing to manually fix up first-time
-+contributions, since there is a learning curve involved in making an
-+ideal patch submission. However for the best results you should
-+proactively respond to suggestions with changes or justifications for
-+your current approach.
-+
-+Some areas of code that are well maintained may review patches
-+quickly, lesser-loved areas of code may have a longer delay.
- 
- .. _stay_around_to_fix_problems_raised_in_code_review:
+ .. _pay_attention_to_review_comments:
  
 -- 
 2.34.1
