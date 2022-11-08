@@ -2,60 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2EC620664
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 03:01:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930BA6206D9
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 03:37:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osDug-00067W-0V; Mon, 07 Nov 2022 21:00:30 -0500
+	id 1osET3-0004yK-Ao; Mon, 07 Nov 2022 21:36:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1osDuM-000662-Rw; Mon, 07 Nov 2022 21:00:11 -0500
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1osDuJ-0005Hq-JA; Mon, 07 Nov 2022 21:00:10 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R921e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046060;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=12; SR=0;
- TI=SMTPD_---0VUGoIP6_1667872486; 
-Received: from 30.221.97.117(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VUGoIP6_1667872486) by smtp.aliyun-inc.com;
- Tue, 08 Nov 2022 09:54:47 +0800
-Content-Type: multipart/alternative;
- boundary="------------SP66Zx5wG9YOW8Nhqp0S9P8J"
-Message-ID: <062197b1-7eb0-9cdd-663e-a0fae1389fae@linux.alibaba.com>
-Date: Tue, 8 Nov 2022 09:54:38 +0800
+ (Exim 4.90_1) (envelope-from <schspa@gmail.com>)
+ id 1osET0-0004xm-VY; Mon, 07 Nov 2022 21:35:59 -0500
+Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <schspa@gmail.com>)
+ id 1osESz-00044A-7X; Mon, 07 Nov 2022 21:35:58 -0500
+Received: by mail-il1-x136.google.com with SMTP id e19so6856707ili.4;
+ Mon, 07 Nov 2022 18:35:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=f62dMkEZw1/VeoGmNwIOgwTYv39sXyhjpPSKZPA4t+g=;
+ b=ccsxEzQY14gstyXGTTJWJVucgZuywqn21P9YZN/SEhtrISsM15RzLJ8Jk/+Aan4MyX
+ LTJspw3N+A7dWVkJ8C15gGhOpSDB1OLIgifFOWPG1+3zxy3RCiC7Ks5qvMKr43dD5HEW
+ 0KPe+Spd9T4AbUDpOB+wiyM/WGIw2/QnIOph1zzGDNwbwInt5SzZXUMIDgcc7OHZW2Fs
+ Y3vY4sVgQveqYBpHvN4M1y+Y8KeK70CZTqOWxX3xWiiLciB3rRvhx5oy/lUQ3FMxC37R
+ Ugts543DqHkIurPeHXuA1hJH+0G6pljnrHLPvktlOQaQzK3yQIw9d6yT++znB+rmDWQ/
+ YcoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=f62dMkEZw1/VeoGmNwIOgwTYv39sXyhjpPSKZPA4t+g=;
+ b=Awq8dt+6EzugTa96nhkMUm0tzPzc+0VhADy+k0uxyAfDK5WNlLy6r12yYHlWFYAJ4o
+ CEIvL5JPA42mTzrly00SpRYAw8z4P4Yn9IYMTLOGEN1rxrloWXCBCKXIk5H668inxcog
+ NIO/yykMw9LeBtrqEz3PuK39iBrIKrimyBD51lqucp/4H3jkjeWv0XRfQzEC1H82Rl4K
+ 2xsfEnF4WclcueOkPQLA71mHbcAXK7WCrtIdrz+WZ9JbBSUla/syUXU+Wgw0KxySEi3g
+ NOyzKoNtO0PR8bPbMc4r3vLKryfX65waMWa0a0wN+Pl6Oq9JlIJFu7IUUAUfB7hkpxg2
+ 4CnA==
+X-Gm-Message-State: ACrzQf0bZcSswNYLlSEsUAFat7UniogbIqt4Cb6qgWcf9pzULIFixRoG
+ Bo8vAZoBp8kGktanelMZJbA=
+X-Google-Smtp-Source: AMsMyM6csPaRKnJyGVpZmW4d/A7YH9aKoOvmdj+sk3HbE+m/+nDkTbpPLW29yPGnuTK74dPUEsQE3g==
+X-Received: by 2002:a05:6e02:14c4:b0:300:99b4:47f1 with SMTP id
+ o4-20020a056e0214c400b0030099b447f1mr28792826ilk.8.1667874954864; 
+ Mon, 07 Nov 2022 18:35:54 -0800 (PST)
+Received: from MBP.lan (ec2-18-117-95-84.us-east-2.compute.amazonaws.com.
+ [18.117.95.84]) by smtp.gmail.com with ESMTPSA id
+ p21-20020a02b015000000b003750cd6e9f2sm3302743jah.177.2022.11.07.18.35.52
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 07 Nov 2022 18:35:54 -0800 (PST)
+From: Schspa Shi <schspa@gmail.com>
+To: peter.maydell@linaro.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Schspa Shi <schspa@gmail.com>
+Subject: [PATCH] hw/arm/boot: set initrd parameters to 64bit in fdt
+Date: Tue,  8 Nov 2022 10:35:42 +0800
+Message-Id: <20221108023542.17557-1-schspa@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH v1 1/4] target/riscv: Add itrigger support when icount is
- not enabled
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: Alistair Francis <alistair23@gmail.com>, qemu-riscv@nongnu.org,
- Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- sergey.matyukevich@syntacore.com, vladimir.isaev@syntacore.com,
- anatoly.parshintsev@syntacore.com, philipp.tomsich@vrull.eu,
- zhiwei_liu@c-sky.com, qemu-devel@nongnu.org
-References: <20221013062946.7530-1-zhiwei_liu@linux.alibaba.com>
- <20221013062946.7530-2-zhiwei_liu@linux.alibaba.com>
- <CAKmqyKNTyCvjjYOrgAttW36ygGBibTHjA_f1b5AAWp+pF-xAiA@mail.gmail.com>
- <ebdbec47-9dbe-e1a2-5033-9421710debb6@linux.alibaba.com>
- <87wn86g3i2.fsf@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <87wn86g3i2.fsf@linaro.org>
-Received-SPF: pass client-ip=115.124.30.131;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-131.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- HTML_MESSAGE=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::136;
+ envelope-from=schspa@gmail.com; helo=mail-il1-x136.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,129 +84,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------SP66Zx5wG9YOW8Nhqp0S9P8J
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+We use 32bit value for linux,initrd-[start/end], when we have
+loader_start > 4GB, there will be a wrong initrd_start passed
+to the kernel, and the kernel will report the following warning.
 
+[    0.000000] ------------[ cut here ]------------
+[    0.000000] initrd not fully accessible via the linear mapping -- please check your bootloader ...
+[    0.000000] WARNING: CPU: 0 PID: 0 at arch/arm64/mm/init.c:355 arm64_memblock_init+0x158/0x244
+[    0.000000] Modules linked in:
+[    0.000000] CPU: 0 PID: 0 Comm: swapper Tainted: G        W          6.1.0-rc3-13250-g30a0b95b1335-dirty #28
+[    0.000000] Hardware name: Horizon Sigi Virtual development board (DT)
+[    0.000000] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    0.000000] pc : arm64_memblock_init+0x158/0x244
+[    0.000000] lr : arm64_memblock_init+0x158/0x244
+[    0.000000] sp : ffff800009273df0
+[    0.000000] x29: ffff800009273df0 x28: 0000001000cc0010 x27: 0000800000000000
+[    0.000000] x26: 000000000050a3e2 x25: ffff800008b46000 x24: ffff800008b46000
+[    0.000000] x23: ffff800008a53000 x22: ffff800009420000 x21: ffff800008a53000
+[    0.000000] x20: 0000000004000000 x19: 0000000004000000 x18: 00000000ffff1020
+[    0.000000] x17: 6568632065736165 x16: 6c70202d2d20676e x15: 697070616d207261
+[    0.000000] x14: 656e696c20656874 x13: 0a2e2e2e20726564 x12: 0000000000000000
+[    0.000000] x11: 0000000000000000 x10: 00000000ffffffff x9 : 0000000000000000
+[    0.000000] x8 : 0000000000000000 x7 : 796c6c756620746f x6 : 6e20647274696e69
+[    0.000000] x5 : ffff8000093c7c47 x4 : ffff800008a2102f x3 : ffff800009273a88
+[    0.000000] x2 : 80000000fffff038 x1 : 00000000000000c0 x0 : 0000000000000056
+[    0.000000] Call trace:
+[    0.000000]  arm64_memblock_init+0x158/0x244
+[    0.000000]  setup_arch+0x164/0x1cc
+[    0.000000]  start_kernel+0x94/0x4ac
+[    0.000000]  __primary_switched+0xb4/0xbc
+[    0.000000] ---[ end trace 0000000000000000 ]---
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000001000000000-0x0000001007ffffff]
 
-On 2022/11/7 23:58, Alex Bennée wrote:
-> LIU Zhiwei<zhiwei_liu@linux.alibaba.com>  writes:
->
->> On 2022/11/7 9:37, Alistair Francis wrote:
->>> On Thu, Oct 13, 2022 at 4:32 PM LIU Zhiwei<zhiwei_liu@linux.alibaba.com>  wrote:
->>>> When icount is not enabled, there is no API in QEMU that can get the
->>>> guest instruction number.
->>>>
->>>> Translate the guest code in a way that each TB only has one instruction.
->>> I don't think this is a great idea.
->>>
->>> Why can't we just require icount be enabled if a user wants this? Or singlestep?
->> This feature will only be used by users who want to  run the native
->> gdb on Linux. If we run QEMU as a service,  after booting the kernel,
->> we can't predicate whether the users will use native gdb.
->>
->> Besides, icount can't be enabled on MTTCG currently (I am working on
->> this problem)
-> I'm curious as to what your approach is going to be to solve this one?
+To fix it, we can change it to u64 type.
 
-Yes, I am interested in this problem.  But actually, I don't find a 
-clear way.
+Signed-off-by: Schspa Shi <schspa@gmail.com>
+---
+ hw/arm/boot.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-For RR or MTTCG, timers using QEMU_CLOCK_VIRTUAL will set the total 
-icount_budget.
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index 57efb61ee419..da719a4f8874 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -638,14 +638,14 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+     }
+ 
+     if (binfo->initrd_size) {
+-        rc = qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-start",
++        rc = qemu_fdt_setprop_u64(fdt, "/chosen", "linux,initrd-start",
+                                    binfo->initrd_start);
+         if (rc < 0) {
+             fprintf(stderr, "couldn't set /chosen/linux,initrd-start\n");
+             goto fail;
+         }
+ 
+-        rc = qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end",
++        rc = qemu_fdt_setprop_u64(fdt, "/chosen", "linux,initrd-end",
+                                    binfo->initrd_start + binfo->initrd_size);
+         if (rc < 0) {
+             fprintf(stderr, "couldn't set /chosen/linux,initrd-end\n");
+-- 
+2.37.3
 
-  * For RR smp, every cpu has configured the total icount_budget.
-
-  * For MTTCG smp, every cpu can't be configured the total
-    icount_budget.  But we can split the icount_budget, such as divide
-    by smp.cpus, to each core. If one core consumed its budget, it will
-    wait for other cores.  Another way is to kick other cores and split
-    the remaining icount_budget.
-
-I am not sure if there are many other problems related.  It a difficult 
-problem. Looking forward to your advice.
-
-Thanks,
-Zhiwei
-
->
---------------SP66Zx5wG9YOW8Nhqp0S9P8J
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2022/11/7 23:58, Alex Bennée wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:87wn86g3i2.fsf@linaro.org">
-      <pre class="moz-quote-pre" wrap="">
-LIU Zhiwei <a class="moz-txt-link-rfc2396E" href="mailto:zhiwei_liu@linux.alibaba.com">&lt;zhiwei_liu@linux.alibaba.com&gt;</a> writes:
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">On 2022/11/7 9:37, Alistair Francis wrote:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">On Thu, Oct 13, 2022 at 4:32 PM LIU Zhiwei <a class="moz-txt-link-rfc2396E" href="mailto:zhiwei_liu@linux.alibaba.com">&lt;zhiwei_liu@linux.alibaba.com&gt;</a> wrote:
-</pre>
-          <blockquote type="cite">
-            <pre class="moz-quote-pre" wrap="">When icount is not enabled, there is no API in QEMU that can get the
-guest instruction number.
-
-Translate the guest code in a way that each TB only has one instruction.
-</pre>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">I don't think this is a great idea.
-
-Why can't we just require icount be enabled if a user wants this? Or singlestep?
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-This feature will only be used by users who want to  run the native
-gdb on Linux. If we run QEMU as a service,  after booting the kernel,
-we can't predicate whether the users will use native gdb.
-
-Besides, icount can't be enabled on MTTCG currently (I am working on
-this problem)
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-I'm curious as to what your approach is going to be to solve this one?</pre>
-    </blockquote>
-    <p>Yes, I am interested in this problem.  But actually, I don't find
-      a clear way.<br>
-    </p>
-    <p>For RR or MTTCG, timers using QEMU_CLOCK_VIRTUAL will set the
-      total icount_budget. </p>
-    <ul>
-      <li>For RR smp, every cpu has configured the total icount_budget.</li>
-    </ul>
-    <ul>
-      <li>For MTTCG smp, every cpu can't be configured the total
-        icount_budget.  But we can split the icount_budget, such as
-        divide by smp.cpus, to each core. If one core consumed its
-        budget, it will wait for other cores.  Another way is to kick
-        other cores and split the remaining icount_budget.<br>
-      </li>
-    </ul>
-    <p>I am not sure if there are many other problems related.  It a
-      difficult problem. Looking forward to your advice.</p>
-    <p>Thanks,<br>
-      Zhiwei<br>
-    </p>
-    <blockquote type="cite" cite="mid:87wn86g3i2.fsf@linaro.org">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------SP66Zx5wG9YOW8Nhqp0S9P8J--
 
