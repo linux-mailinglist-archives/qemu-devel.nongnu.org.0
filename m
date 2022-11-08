@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF66621207
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 14:11:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A716662127C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 14:34:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osOMo-0007VN-Iq; Tue, 08 Nov 2022 08:10:14 -0500
+	id 1osOj2-00087d-T2; Tue, 08 Nov 2022 08:33:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1osOMl-0007UK-89
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:10:11 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1osOMh-0004x9-MR
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:10:10 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- v4-20020a17090a088400b00212cb0ed97eso13286628pjc.5
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 05:10:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6+L3vgOxPyHeFKtT1+l+E7jVdmDq/CM5cqSp6+JHzd4=;
- b=HG0VhuqAg+Mc0XQcbUEdzsQRVzyTz5Y9mU/p4w1jmEPgrBsEoVK9g/wxc/dAc040ld
- lYo2C+4Hj56ZURQDM5jMPz5DBfwoSBFEYQ1qsKhh2sQ5V5cRBsmINfcIQ+MJJnpfMqnt
- +0kDcoTZzgCzl51+eTytYOQi4WgJZHBXipX4/0LVCRlz5EyfSdjAeHSQocWEh6MnZNSJ
- JcaiTEotkV11yG5ygl4FLzFp/Yld/XmtiZzj9V8l/seTJtNFz5RAPEv6rCbSyUa3+wtE
- oOvzHMtOX2GT/d9xvuxoDNazBixYZJtTLMdBemaTzJ7bkq8jfmDkpGTJLftXOKAXePcD
- US1A==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1osOin-00086g-3R
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:32:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1osOil-0007lF-6t
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:32:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667914373;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kXgfp1WLlMpEjF3HUtVC7sCD/OOvdVoiOVN0QJ2whK4=;
+ b=Pc0Ia+swYUajiMK+saW70A2wZqNyq6slufD+5PE4ylCbRUTfFwv91AnAv9jG7Kh66oWHGu
+ CmRyFlqhyz5ez0xso/eIAmwmu7xQ3tuYhNjezxVq0RnZG8ccylvIDyCLAT+dIQXEHQj6y5
+ fsDpRUxz/qoXsjj1SxCtXECm8miO6B0=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-20-Sij3VmVgNb6Fnr0nU0RR2Q-1; Tue, 08 Nov 2022 08:32:52 -0500
+X-MC-Unique: Sij3VmVgNb6Fnr0nU0RR2Q-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ q13-20020a056402518d00b00462b0599644so10740812edd.20
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 05:32:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6+L3vgOxPyHeFKtT1+l+E7jVdmDq/CM5cqSp6+JHzd4=;
- b=dM9R5D9MUQw6Q8TO377Ac5293Er44v/okRAr6Ye5qCbg1NRk3DkBZLO/7vuJ3fJUpd
- XhzZw6gPOewMh3VF1IPTm895gd99wwtPCLqNObpfBNeP7e9HluKR8kTI8DRUQP7EwFEb
- j/gEkSr5SywwIjF9viI4EVwNprjFttqhoWgHpSpD1fwkCBFcgWWcNqQjIhuG1aVZdTTz
- H7E+59muv+CVi0CRdvYqeJWRS+wX3jBbeHlTzLBdaoYnAO6zMrbJXhE3hQ52HJ0NGK+q
- /JvO9OKyOCWyA61/MCa8654gZ7OErSLp27DCOmxyJK4Q7+eyGcigWuhq2ZXPtRzwk1IF
- /VqQ==
-X-Gm-Message-State: ACrzQf1ZCy4fXFcGSBlUKjAo3XSNkAdYmuekyWk7XWkCdbWVGprPmz9E
- wJ3NqQD7z5KRHaRGM77k1QTAnw==
-X-Google-Smtp-Source: AMsMyM5/W+yorqxGnC+ZFWsm1yBIsz0AguErjixVcZhVQwoK8rTxnQt4MgT/Mlha1R2HKHrkCUa56A==
-X-Received: by 2002:a17:902:db06:b0:187:4736:f77d with SMTP id
- m6-20020a170902db0600b001874736f77dmr35778396plx.113.1667913004971; 
- Tue, 08 Nov 2022 05:10:04 -0800 (PST)
-Received: from ?IPV6:2001:8003:d918:7a00:10f1:4c74:6b10:4a93?
- ([2001:8003:d918:7a00:10f1:4c74:6b10:4a93])
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kXgfp1WLlMpEjF3HUtVC7sCD/OOvdVoiOVN0QJ2whK4=;
+ b=Q26bfD+gBOMLgo9wgP0bqKEPQlybdKRkLTN23ACABiZj7VCb8Z5t8eLNsoloSRUwXd
+ lJv2Y0aoaa9fkgQejUVP4U6AKb/tXVuMxrbOaHIhNnElYMnTeqrO5IamFKVXpz5Z9iKA
+ dy2U4xAqBzGh0QUAXtJlEAsK91EWywmFPGQN2svfMFiEwmG6yNgiJ14V2fOMyo55c1Sr
+ kPkaTLqHqvpUIZ2OoV9zOOXOB26YNLFQvwDxC/jg/Dl9aQyhD8kfeYBYPq9SRMu507GX
+ 53VUYxy1EpSNRwltJBgpF8OqK8H/Ht0DdBcEvQ3MaQO6xo7fUJBk4rHijy0Y+wXWguQG
+ Ya0g==
+X-Gm-Message-State: ACrzQf1L/Toe68uIHKCQIbWHgvCgq0GbN1Iq3ETQVnBbIQAOco+yWuHR
+ 8evcZE9QSFp9G1rWVLww6P6s+PXd4nAJ99O5H2qFWpXt0xQAu66lCGcE4GPtfmwSvpAkHg5db5T
+ L9y7L6uvSEWy2+Fs=
+X-Received: by 2002:a17:907:2c74:b0:7a1:d333:f214 with SMTP id
+ ib20-20020a1709072c7400b007a1d333f214mr54019170ejc.14.1667914370490; 
+ Tue, 08 Nov 2022 05:32:50 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5oLCuaR98UnTF9/+RqJbXsDxKxIvqva9UzkeMTnIN62wC+wM06BdcmSIY+KyeOb+gPV8BP+g==
+X-Received: by 2002:a17:907:2c74:b0:7a1:d333:f214 with SMTP id
+ ib20-20020a1709072c7400b007a1d333f214mr54019154ejc.14.1667914370256; 
+ Tue, 08 Nov 2022 05:32:50 -0800 (PST)
+Received: from fedora (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- c19-20020a170902c1d300b00172e19c2fa9sm6927655plc.9.2022.11.08.05.10.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Nov 2022 05:10:04 -0800 (PST)
-Message-ID: <50ebdf82-740e-f239-7e2b-162a22b758fc@linaro.org>
-Date: Wed, 9 Nov 2022 00:09:58 +1100
+ x16-20020a170906135000b007ae32daf4b9sm4640891ejb.106.2022.11.08.05.32.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Nov 2022 05:32:49 -0800 (PST)
+Date: Tue, 8 Nov 2022 14:32:48 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org, Peter
+ Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v3 00/81] pci,pc,virtio: features, tests, fixes, cleanups
+Message-ID: <20221108143248.4b3042f7@fedora>
+In-Reply-To: <20221107072411-mutt-send-email-mst@kernel.org>
+References: <20221105171116.432921-1-mst@redhat.com>
+ <CAJSP0QW8cYteo8aeDkg0ZZs=6oebdtfGGVnN74pW+gaK10=HSQ@mail.gmail.com>
+ <20221107072411-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 1/1] target/loongarch: Fix loongarch fdt addr confict
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: stefanha@gmaiDDDl.com, yangxiaojuan@loongson.cn, maobibo@loongson.cn
-References: <20221108130204.926434-1-gaosong@loongson.cn>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221108130204.926434-1-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,46 +102,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/9/22 00:02, Song Gao wrote:
-> Fix LoongArch check-tcg error:
->    TEST    hello on loongarch64
-> qemu-system-loongarch64: Some ROM regions are overlapping
-> These ROM regions might have been loaded by direct user request or by default.
-> They could be BIOS/firmware images, a guest kernel, initrd or some other file loaded into guest memory.
-> Check whether you intended to load all this guest code, and whether it has been built to load to the correct addresses.
-> 
-> The following two regions overlap (in the memory address space):
->    hello ELF program header segment 0 (addresses 0x0000000000200000 - 0x0000000000242000)
->    fdt (addresses 0x0000000000200000 - 0x0000000000300000)
-> make[1]: *** [Makefile:177: run-hello] Error 1
-> 
-> Reported-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->   tests/tcg/loongarch64/system/kernel.ld |  7 +++++--
->   1 files changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tests/tcg/loongarch64/system/kernel.ld b/tests/tcg/loongarch64/system/kernel.ld
-> index f1a7c0168c..2110cfe8be 100644
-> --- a/tests/tcg/loongarch64/system/kernel.ld
-> +++ b/tests/tcg/loongarch64/system/kernel.ld
-> @@ -2,8 +2,11 @@ ENTRY(_start)
->   
->   SECTIONS
->   {
-> -    /* Linux kernel legacy start address.  */
-> -    . = 0x9000000000200000;
-> +    /*
-> +     * Linux kernel legacy start address.
-> +     * FDT is load at 0x200000, kernel image size must be smaller than 1M
-> +     */
-> +    . = 0x100000;
+On Mon, 7 Nov 2022 07:30:03 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Or start above the fdt at 3M, to avoid that limitation?
-The comment about the Linux kernel start address no longer applies.
+> On Mon, Nov 07, 2022 at 05:43:44AM -0500, Stefan Hajnoczi wrote:
+> > Hi Michael and Igor,
+> > Looks like the ACPI commits broken the virtio-vga module:
+> >  =20
+> > >>> QTEST_QEMU_IMG=3D./qemu-img MALLOC_PERTURB_=3D60 G_TEST_DBUS_DAEMON=
+=3D/builds/qemu-project/qemu/tests/dbus-vmstate-daemon.sh QTEST_QEMU_BINARY=
+=3D./qemu-system-or1k QTEST_QEMU_STORAGE_DAEMON_BINARY=3D./storage-daemon/q=
+emu-storage-daemon /builds/qemu-project/qemu/build/tests/qtest/device-intro=
+spect-test --tap -k =20
+> > =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80 =E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95
+> > stderr:
+> > failed to open module:
+> > /builds/qemu-project/qemu/build/qemu-bundle/usr/local/lib64/qemu/hw-dis=
+play-virtio-vga.so:
+> > undefined symbol: aml_return
+> > qemu-system-or1k: ../util/error.c:59: error_setv: Assertion `*errp =3D=
+=3D
+> > NULL' failed.
+> > Broken pipe
+> > ../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from
+> > signal 6 (Aborted) (core dumped)
+> > TAP parsing error: Too few tests run (expected 6, got 0)
+> > (test program exited with status code -6)
+> > =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95
+> > 154/274 qemu:qtest+qtest-or1k / qtest-or1k/machine-none-test OK 0.05s
+> > 1 subtests passed
+> > 155/274 qemu:qtest+qtest-or1k / qtest-or1k/qmp-test OK 0.19s 4 subtests=
+ passed
+> > 156/274 qemu:qtest+qtest-or1k / qtest-or1k/qmp-cmd-test ERROR 1.72s
+> > killed by signal 6 SIGABRT =20
+> > >>> QTEST_QEMU_IMG=3D./qemu-img G_TEST_DBUS_DAEMON=3D/builds/qemu-proje=
+ct/qemu/tests/dbus-vmstate-daemon.sh QTEST_QEMU_BINARY=3D./qemu-system-or1k=
+ QTEST_QEMU_STORAGE_DAEMON_BINARY=3D./storage-daemon/qemu-storage-daemon MA=
+LLOC_PERTURB_=3D53 /builds/qemu-project/qemu/build/tests/qtest/qmp-cmd-test=
+ --tap -k =20
+> > =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80 =E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95
+> > stderr:
+> > failed to open module:
+> > /builds/qemu-project/qemu/build/qemu-bundle/usr/local/lib64/qemu/hw-dis=
+play-virtio-vga.so:
+> > undefined symbol: aml_return
+> > qemu-system-or1k: ../util/error.c:59: error_setv: Assertion `*errp =3D=
+=3D
+> > NULL' failed.
+> > Broken pipe
+> > ../tests/qtest/libqtest.c:188: kill_qemu() detected QEMU death from
+> > signal 6 (Aborted) (core dumped)
+> > TAP parsing error: Too few tests run (expected 62, got 31)
+> > (test program exited with status code -6)
+> > =E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95
+> >=20
+> > https://gitlab.com/qemu-project/qemu/-/jobs/3281425457
+> >=20
+> > Stefan =20
+>=20
+>=20
+> Hmm it passed for me:
+>=20
+> https://gitlab.com/mstredhat/qemu/-/jobs/3279401710
 
-Either way,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I'm sorry, I was 'out of service' yesterday.
+I see that Ani already fixed the issue, thanks!
 
-r~
+>=20
+> Igor you did make a change around VGA:
+>=20
+> commit 03d525c27ab0b268cf375d8823f05e91509222b8
+> Author: Igor Mammedov <imammedo@redhat.com>
+> Date:   Mon Oct 17 12:21:36 2022 +0200
+>=20
+>     acpi: pc: vga: use AcpiDevAmlIf interface to build VGA device descrip=
+tors
+>    =20
+>     Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+>     Message-Id: <20221017102146.2254096-2-imammedo@redhat.com>
+>     Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>     Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>     NB: we do not expect any functional change in
+>     any ACPI tables with this change. It's only a refactoring.
+>    =20
+>     Reviewed-by: Ani Sinha <ani@anisinha.ca>
+>=20
+>=20
+> can you take a look pls?
+> How bad is it if I drop that patch?
+
+It can't be dropped without dropping whole series
+which heavily depends on it.
+
+
 
