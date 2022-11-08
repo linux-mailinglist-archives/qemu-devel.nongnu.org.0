@@ -2,116 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314C1621CC1
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 20:13:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB993621D2A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 20:44:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osU1l-0003mv-1F; Tue, 08 Nov 2022 14:12:53 -0500
+	id 1osUVC-00047Y-IJ; Tue, 08 Nov 2022 14:43:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1osU1h-0003mA-LX
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 14:12:49 -0500
-Received: from esa1.hc2706-39.iphmx.com ([68.232.153.39])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1osU1f-0001BN-Hb
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 14:12:49 -0500
-X-IronPort-RemoteIP: 209.85.161.72
-X-IronPort-MID: 238481557
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:iU5L5KjY06NmqwwBz9bZgNRJX1613RIKZh0ujC45NGQN5FlHY01je
- htvUT2DM/2PN2DxKtp2bYu/8kxQ6JHdn9MySFFspC02RikW8JqUDtmndXv9bniYRiHhoOOLz
- Cm8hv3odp1coqr0/0/1WlTZhSAgk/rOHv+kUrWs1hlZHWdMUD0mhQ9oh9k3i4tphcnRKw6Ws
- Jb5rta31GWNglaYCUpJrfPdwP9TlK6q4mlB5wRuPaojUGL2zBH5MrpOfcldEFOlGuG4LsbiL
- 87fwbew+H/u/htFIrtJRZ6iLyXm6paLVeS/oiM+t5qK23CulQRrukoPD8fwXG8M49m/c3Gd/
- /0W3XC4YV9B0qQhA43xWTEBe811FfQuFLMqvRFTGCFcpqHLWyKE/hlgMK05FYYGvb5JLWdNz
- NodMQEjRSzSotOd2JvuH4GAhux7RCXqFIYWu3UlyjaASPh5G9bMRKLF4dIe1zA17ixMNayGN
- oxJNHw2Mk2GPEcn1lQ/UfrSmM+hgmn5fydwok/TqKYqi4TW5FYqgOS9aYeIJbRmQ+0LpVbCh
- zPrpV/aAx0wP42NwifGyk+F07qncSTTHdh6+KeD3udnhUDWymENBRk+U1y9rv+kzEmkVLpix
- 1c8/yMvqe018xXuQIanGRK/p3GAs1gXXN84//AG1TxhA5H8u26xblXohBYdADD6nKfanQAX6
- 2I=
-IronPort-HdrOrdr: A9a23:gU1/NayAjldTVrkPm3miKrPw4L1zdoMgy1knxilNoNJuA6ulfu
- SV7YkmPHjP+UossRAb6Kq90cy7K080mqQFg7X5UY3SOTUO/VHYU72KjrGSuAEIeReOj9K1vJ
- 0IG8MOa+EYT2IK9foSiDPZLz9K+qjgzEnHv5a7815dCStHUeVP1TtYNyqsOnFKZWB9dOQE/V
- mnivavZQDMRZ3aVKqG77A+MIn+m+E=
-Received: from mail-oo1-f72.google.com ([209.85.161.72])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 08 Nov 2022 14:12:44 -0500
-Received: by mail-oo1-f72.google.com with SMTP id
- e10-20020a4a91ca000000b0047f7bf95662so4022506ooh.8
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 11:12:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=JnpE1KG21EOAhE4sTalgaBWeI5Ol5Ny9tzaB84uTx9g=;
- b=F4SPGrQ6LGGhKGhQmAwcNrzwCIJyeyWa17L1W2xLk9cuVBGVFKU22+VbMMi5PVvQbl
- BiXOgSrclwD8LqY/kPubFJeVBYAz2hA/AstXzBfnPD1vvPLR8NJXno6npTamhd1d5iBg
- vxpQi2OJhY9vMEC0G423ClddWoh22N5w3YVGcBUD9BX7Neu007bC0GAa3wjdYKYxr+/2
- 2aPhJ4Ve4DE8SAqf7U5ABPUf+coXTrdsBEwSABslK4MXcneScoTeepTcjmcQBomPWgik
- iOQ1FNlDuMzK+zs3savpPmW2Zk7nb3KJzxuoT1caMAQ4Fow9X3/Bwd7AfPPUuTn2crD7
- cEdA==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1osUVB-00047N-0O
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 14:43:17 -0500
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1osUV9-0002jl-HB
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 14:43:16 -0500
+Received: by mail-yb1-xb34.google.com with SMTP id z192so18648001yba.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 11:43:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=uqib4jKIj4IRrrH5xv6ZyLmE4Q6QWzOMlFUdIKmp9Zs=;
+ b=E9H2dFWT18P0kcTrrWvefbCUJXJTvYkHUWSbIHZHHRuPInxPhcK82m8rg8RbbZoCxC
+ urwIKyG2/Hpiy6s9iNpzjQsm1QV7A/07XSP5gCjonPftOtbUnDNzhXx7JvbjPb32OrpY
+ JoERfbgyQaNMTDMucCTLK09IvQ5DpTbF0FB2kzyeo7PhCrge7EN277EIy7v884n9mioz
+ QdO1ypAITzas1rr4qqOWAVBFvRmoEmNeXHk1O+Dc9PmWNq7u6lSAOvviFJYe+pvf4KTs
+ sTU+hH9iQjtDBcPKG5ZVdN2t+l0BDK3tYrbqrldoXhAx92H2bdOCoaLwnBHdxBdGVbBq
+ A7ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JnpE1KG21EOAhE4sTalgaBWeI5Ol5Ny9tzaB84uTx9g=;
- b=M7w2SM/WXDFM8kvCo7HUYnwy4LQERyT8J71lB/81ehK5FPaxX4TzrKlxs2w5hW4DkD
- XRUgxd3lrIGtO4pVyOCQfZ6M727SdTk6KclSU3CZEqU5D4yVpgY4d97/AZcalJ/HoCIt
- KrxzjzjedAe98pwtqxzNc9D9Oh0anR/68zg+ZQD9nckQsdsEVxJqN2+m2lQCujgWfmJE
- Z5Q6fS6Cb6plpIx/jGwClXTkncteSvVUwHJvHnamtTQcph3wpuDyzWbmM3/r9hO6GUye
- tUJaiP9djkh/BsCRyzyI1SwBot8uA7AGUODy2IuCdtPy8FvHcSvTpU485QZaaXtKdZfS
- FZAQ==
-X-Gm-Message-State: ACrzQf1V6ucQnWViNvpdB1fhSJYqDGUrH/LJy3jpAtRl5o25JuOsGgZb
- YvrqdnKQ43mfbK1pwBxfawPCy8pJqlQF0IQuxsmt0mmxsVVNgUp+3sQrXZ658/1g6aDYk/Z8RmI
- 84HZ8QzMobAokTkqMHC2ZRJ8UcC07KA==
-X-Received: by 2002:aca:1a13:0:b0:35a:745a:8cc3 with SMTP id
- a19-20020aca1a13000000b0035a745a8cc3mr9747027oia.216.1667934763646; 
- Tue, 08 Nov 2022 11:12:43 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5KWPTm1Hi5WFGbfYh8udv5XTqXPPLv8Sy5ULDL95xJcrl9fGgd+TurqgUIH44VxEullygf0w==
-X-Received: by 2002:aca:1a13:0:b0:35a:745a:8cc3 with SMTP id
- a19-20020aca1a13000000b0035a745a8cc3mr9746987oia.216.1667934762724; 
- Tue, 08 Nov 2022 11:12:42 -0800 (PST)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- i9-20020a056808054900b00350743ac8eesm3756047oig.41.2022.11.08.11.12.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Nov 2022 11:12:42 -0800 (PST)
-Date: Tue, 8 Nov 2022 14:12:08 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Sai Pavan Boddu <saipava@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Bin Meng <bin.meng@windriver.com>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Andrey Smirnov <andrew.smirnov@gmail.com>,
- RivenDell <XRivenDell@outlook.com>, Siqi Chen <coc.cyqh@gmail.com>,
- ningqiang <ningqiang1@huawei.com>
-Subject: Re: [PATCH-for-7.2 1/2] hw/sd/sdhci: Do not set Buf Wr Ena before
- writing block (CVE-2022-3872)
-Message-ID: <20221108191208.cbswzkaib2cpysa4@mozz.bu.edu>
-References: <20221107221236.47841-1-philmd@linaro.org>
- <20221107221236.47841-2-philmd@linaro.org>
- <20221108172544.7vvu7wcwyqmhfv3q@mozz.bu.edu>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=uqib4jKIj4IRrrH5xv6ZyLmE4Q6QWzOMlFUdIKmp9Zs=;
+ b=0gHpbtMH2YQRF9J06A2VexZplM6wKecFLDlNBlv61yM3MPEl6N0RlwWuORr7zuvIfn
+ 3VqtMDovXHI0SDcxppB2BClkgE+cYLLL+x4ZmBl1O5E9/wa6kMxhXpIQuZHVXvcRmwMy
+ SGUvgFBFQdRWJbRaV/opvBZzD8p2Q19j9aGBK58Vf6zHtRLHFP6ANptpH3MTkzfU23a5
+ TfhCO8TQNKkyVgci1ZRsOD55fA/mj30lbwwEFPNL/nkRVnF+r4r7jOMm61BSRof7QmCF
+ 72GeKVrmJ9C3l3GO9Ac1TlctJOw81wnTc7yxDhkh5UCl/VNaIEtNvi5EkxUXuheerQ1/
+ +0gQ==
+X-Gm-Message-State: ACrzQf1x1cInfN/ErUak0BusHFcvqabL9wNTCHl6jxFyBwcHgwyR5AAR
+ w4oA+pvwNbJHjFnVFc+4g+JXlndXBYxxiR2itjs=
+X-Google-Smtp-Source: AMsMyM6QpGN5iJZU03EO6iHVJnp8L6PhaqC0VztrlO3oVnLo8ys5BYSCaDT4I5ezBgS4Szh9cD92aBFc3OHjkW41yyw=
+X-Received: by 2002:a25:1e89:0:b0:6bf:9e55:5cb4 with SMTP id
+ e131-20020a251e89000000b006bf9e555cb4mr56869557ybe.642.1667936594390; Tue, 08
+ Nov 2022 11:43:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221108172544.7vvu7wcwyqmhfv3q@mozz.bu.edu>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=68.232.153.39; envelope-from=alxndr@bu.edu;
- helo=esa1.hc2706-39.iphmx.com
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20221107224600.934080-1-mst@redhat.com>
+ <20221107224600.934080-30-mst@redhat.com>
+In-Reply-To: <20221107224600.934080-30-mst@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 8 Nov 2022 14:43:02 -0500
+Message-ID: <CAJSP0QX7Q9K5fmxQuHNY9uKtuRGitc5d6jhnk1s+MdykVBkr6Q@mail.gmail.com>
+Subject: Re: [PULL v4 29/83] virtio: introduce virtio_queue_enable()
+To: "Michael S. Tsirkin" <mst@redhat.com>,
+ Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb34.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -127,96 +85,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 221108 1225, Alexander Bulekov wrote:
-> On 221107 2312, Philippe Mathieu-Daudé wrote:
-> > When sdhci_write_block_to_card() is called to transfer data from
-> > the FIFO to the SD bus, the data is already present in the buffer
-> > and we have to consume it directly.
-> > 
-> > See the description of the 'Buffer Write Enable' bit from the
-> > 'Present State' register (prnsts::SDHC_SPACE_AVAILABLE) in Table
-> > 2.14 from the SDHCI spec v2:
-> > 
-> >   Buffer Write Enable
-> > 
-> >   This status is used for non-DMA write transfers.
-> > 
-> >   The Host Controller can implement multiple buffers to transfer
-> >   data efficiently. This read only flag indicates if space is
-> >   available for write data. If this bit is 1, data can be written
-> >   to the buffer. A change of this bit from 1 to 0 occurs when all
-> >   the block data is written to the buffer. A change of this bit
-> >   from 0 to 1 occurs when top of block data can be written to the
-> >   buffer and generates the Buffer Write Ready interrupt.
-> > 
-> > In our case, we do not want to overwrite the buffer, so we want
-> > this bit to be 0, then set it to 1 once the data is written onto
-> > the bus.
-> > 
-> > This is probably a copy/paste error from commit d7dfca0807
-> > ("hw/sdhci: introduce standard SD host controller").
-> > 
-> > Reproducer:
-> > https://lore.kernel.org/qemu-devel/CAA8xKjXrmS0fkr28AKvNNpyAtM0y0B+5FichpsrhD+mUgnuyKg@mail.gmail.com/
-> > 
-> > Fixes: CVE-2022-3872
-> > Reported-by: RivenDell <XRivenDell@outlook.com>
-> > Reported-by: Siqi Chen <coc.cyqh@gmail.com>
-> > Reported-by: ningqiang <ningqiang1@huawei.com>
-> > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> 
-> Seems like OSS-Fuzz also found this, not sure why it never made it into
-> a gitlab issue:
-> https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=45986#c4
-> 
-> Slightly shorter reproducer:
-> 
-> cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
-> 512M -nodefaults -device sdhci-pci -device sd-card,drive=mydrive -drive \
-> if=none,index=0,file=null-co://,format=raw,id=mydrive -nographic -qtest \
-> stdio
-> outl 0xcf8 0x80001010
-> outl 0xcfc 0xe0000000
-> outl 0xcf8 0x80001001
-> outl 0xcfc 0x06000000
-> write 0xe0000058 0x1 0x6e
-> write 0xe0000059 0x1 0x5a
-> write 0xe0000028 0x1 0x10
-> write 0xe000002c 0x1 0x05
-> write 0x5a6e 0x1 0x21
-> write 0x5a75 0x1 0x20
-> write 0xe0000005 0x1 0x02
-> write 0xe000000c 0x1 0x01
-> write 0xe000000e 0x1 0x20
-> write 0xe000000f 0x1 0x00
-> write 0xe000000c 0x1 0x00
-> write 0xe0000020 0x1 0x00
-> EOF
+On Mon, 7 Nov 2022 at 18:10, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+>
+> Introduce the interface queue_enable() in VirtioDeviceClass and the
+> fucntion virtio_queue_enable() in virtio, it can be called when
+> VIRTIO_PCI_COMMON_Q_ENABLE is written and related virtqueue can be
+> started. It only supports the devices of virtio 1 or later. The
+> not-supported devices can only start the virtqueue when DRIVER_OK.
+>
+> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> Acked-by: Jason Wang <jasowang@redhat.com>
+> Message-Id: <20221017092558.111082-4-xuanzhuo@linux.alibaba.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  include/hw/virtio/virtio.h |  2 ++
+>  hw/virtio/virtio.c         | 14 ++++++++++++++
+>  2 files changed, 16 insertions(+)
+>
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index 74d76c1dbc..b00b3fcf31 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -149,6 +149,7 @@ struct VirtioDeviceClass {
+>      void (*reset)(VirtIODevice *vdev);
+>      void (*set_status)(VirtIODevice *vdev, uint8_t val);
+>      void (*queue_reset)(VirtIODevice *vdev, uint32_t queue_index);
+> +    void (*queue_enable)(VirtIODevice *vdev, uint32_t queue_index);
+>      /* For transitional devices, this is a bitmap of features
+>       * that are only exposed on the legacy interface but not
+>       * the modern one.
+> @@ -288,6 +289,7 @@ int virtio_queue_set_host_notifier_mr(VirtIODevice *vdev, int n,
+>  int virtio_set_status(VirtIODevice *vdev, uint8_t val);
+>  void virtio_reset(void *opaque);
+>  void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index);
+> +void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index);
+>  void virtio_update_irq(VirtIODevice *vdev);
+>  int virtio_set_features(VirtIODevice *vdev, uint64_t val);
+>
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index cf5f9ca387..9683b2e158 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -2495,6 +2495,20 @@ void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+>      __virtio_queue_reset(vdev, queue_index);
+>  }
+>
+> +void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
+> +{
+> +    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+> +
+> +    if (!virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+> +        error_report("queue_enable is only suppported in devices of virtio "
+> +                     "1.0 or later.");
 
-Hi Philippe,
-I ran the fuzzer with this series applied and it found:
+Why is this triggering here? Maybe virtio_queue_enable() is called too
+early. I have verified that the Linux guest driver sets VERSION_1. I
+didn't check what SeaBIOS does.
 
-cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
-512M -nodefaults -device sdhci-pci -device sd-card,drive=mydrive -drive \
-if=none,index=0,file=null-co://,format=raw,id=mydrive -nographic -qtest \
-stdio
-outl 0xcf8 0x80001010
-outl 0xcfc 0xe0000000
-outl 0xcf8 0x80001004
-outw 0xcfc 0x06
-write 0xe0000028 0x1 0x08
-write 0xe000002c 0x1 0x05
-write 0xe0000005 0x1 0x02
-write 0x0 0x1 0x21
-write 0x3 0x1 0x20
-write 0xe000000c 0x1 0x01
-write 0xe000000e 0x1 0x20
-write 0xe000000f 0x1 0x00
-write 0xe000000c 0x1 0x20
-write 0xe0000020 0x1 0x00
-EOF
+$ build/qemu-system-x86_64 -M accel=kvm -m 1G -cpu host -blockdev
+file,node-name=drive0,filename=test.img -device
+virtio-blk-pci,drive=drive0
+qemu: queue_enable is only suppported in devices of virtio 1.0 or later.
 
-The crash seems very similar, but it looks like instead of
-SDHC_TRNS_READ this reproducer sets SDHC_TRNS_MULTI
--Alex
+Stefan
 
