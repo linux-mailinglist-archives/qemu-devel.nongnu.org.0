@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FCFC62129F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 14:41:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A0B62135E
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 14:49:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osOpq-0003sp-0o; Tue, 08 Nov 2022 08:40:14 -0500
+	id 1osOxP-0007jH-FK; Tue, 08 Nov 2022 08:48:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1osOpd-0003sT-IN
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:40:02 -0500
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1osOpa-0003A0-1y
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:40:00 -0500
-Received: by mail-io1-xd36.google.com with SMTP id r81so11450633iod.2
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 05:39:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ULmF6VEXqwYto1otilklnHplX9gsvF7zqxhVT4wvbWU=;
- b=0sqVidzK+1/+zEdInEW4RxHvXn80nkXU1cpVUr1ns/MNYcTFjYFPi+a06HNLiqKC4Q
- O2Rv/ipdq+KH6Qa8nGl3ZJI3OSjYZw27GwN5F0QtikTzv8jBZOfTPkjoBSGKAFY53KQH
- UktEHdmoj+p+bCWDmgbszzLBWD2Nzy1GlD5z0ju1s0gSR1hspZIddRU3uuH4mH2mHK2c
- d3q+syPY828rofTcaB2AH/jiLcbrQjH4wGDTDA3jSltJeZ2BUZtkkk575i7W+ZQQsPt3
- Zflcu9U55PyXxbxQ7wGNJWGNWZVoicDw/j7j7s5/vQ8vQNsX56spE3Kfnzxouo5e0Zlx
- aQRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ULmF6VEXqwYto1otilklnHplX9gsvF7zqxhVT4wvbWU=;
- b=0pUk6WggsAzCj9uERjAv6uNxxmjp1uj+cu5IgUMNTNJqSkmzN90mJhtvY/BtyePYUC
- 2oyPHb1CfKU6W5f+iLeFdenyVpW7ae+IW5XcAYN+qNaVHp5uCGDPoM7K0axtSYz1Kfd6
- 1Zr9bvKtAJBWyJSzINwRck576QOObf9/QGvRgPa3wIhQhKzwkAXu7x7zlPY2EJ6v6Gi8
- ZgbSZ8tzk/z6BmuSfYJW3ViBDbaJcn4QoZvfn01vjh9pXcDIt4xWzbeafAENKlegfUBD
- oCacv/74sZ2uvlTVUOHxHsyF3zgMwwPrZf1Dm4p9lykn2NigDAA7cs66BmjpRhu2qu7L
- dqZw==
-X-Gm-Message-State: ACrzQf3FAZGQy8nVS3B3WHWya2THdDCMTm2TV4WlY2wRTxZIWdtU8KWg
- M54jMteMMrmTdARkTmDXflF3tmJaOOdraA3LAV8dkg==
-X-Google-Smtp-Source: AMsMyM7Gn5mhvqT7VBQilVB7PpTljTkgIl+s0QXValBZ98Jz/Z8O+PRq+4Ex93OKzYusdZWEI8VPhabgVugF4OQhu5w=
-X-Received: by 2002:a05:6638:12cf:b0:375:2799:7bf6 with SMTP id
- v15-20020a05663812cf00b0037527997bf6mr33911334jas.309.1667914795696; Tue, 08
- Nov 2022 05:39:55 -0800 (PST)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1osOxN-0007j9-PF
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:48:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1osOxL-00026F-Uz
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:48:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667915278;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=65hNAPzHXJkJHn9En6O4Jtrn9QoHcM26VwxVZRjfjoo=;
+ b=H6diNbGGJfR98aBAftKcSFP2LwTOrX02QZ5PgZqb0qfy6coTJjg+SVCnc2yfKHmL1E0Wbb
+ 4VsqzuUy1Pzbi9ixJpyWLkUAQkqR5DKpy730qL4e981AsnJDIA05R+QQG/Dm3NXUwtvPJa
+ yOXbqQ8wXGHQEn4tJezWW+l9PEX+1qs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-629-WyUquWd7MHuZSVM9xE02mQ-1; Tue, 08 Nov 2022 08:47:55 -0500
+X-MC-Unique: WyUquWd7MHuZSVM9xE02mQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DDF853814590;
+ Tue,  8 Nov 2022 13:47:54 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6CD2DC1E1B1;
+ Tue,  8 Nov 2022 13:47:54 +0000 (UTC)
+Date: Tue, 8 Nov 2022 08:47:52 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v4 00/83] pci,pc,virtio: features, tests, fixes, cleanups
+Message-ID: <Y2peCPLeSN0u7rSe@fedora>
 References: <20221107224600.934080-1-mst@redhat.com>
- <20221107224600.934080-46-mst@redhat.com>
- <20221108143641.4bdaae6f@fedora>
-In-Reply-To: <20221108143641.4bdaae6f@fedora>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 8 Nov 2022 19:09:44 +0530
-Message-ID: <CAARzgwzJFUQ_+pRCbx0f-dOyckF2aZUnGt9XV7b0=7AQMJ4Jgg@mail.gmail.com>
-Subject: Re: [PULL v4 45/83] tests: acpi: whitelist DSDT before generating
- PCI-ISA bridge AML automatically
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, 
- Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2607:f8b0:4864:20::d36;
- envelope-from=ani@anisinha.ca; helo=mail-io1-xd36.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ <20221108012224-mutt-send-email-mst@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="q6YQwG4rHHhghQVL"
+Content-Disposition: inline
+In-Reply-To: <20221108012224-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,68 +79,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 8, 2022 at 7:06 PM Igor Mammedov <imammedo@redhat.com> wrote:
->
-> On Mon, 7 Nov 2022 17:51:11 -0500
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->
-> > From: Igor Mammedov <imammedo@redhat.com>
-> >
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > Message-Id: <20221017102146.2254096-3-imammedo@redhat.com>
-> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > ---
-> >  tests/qtest/bios-tables-test-allowed-diff.h | 34 +++++++++++++++++++++
-> >  1 file changed, 34 insertions(+)
-> >
-> > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> > index dfb8523c8b..570b17478e 100644
-> > --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> > @@ -1 +1,35 @@
-> >  /* List of comma-separated changed AML files to ignore */
-> > +"tests/data/acpi/pc/DSDT",
-> > +"tests/data/acpi/pc/DSDT.acpierst",
-> > +"tests/data/acpi/pc/DSDT.acpihmat",
-> > +"tests/data/acpi/pc/DSDT.bridge",
-> > +"tests/data/acpi/pc/DSDT.cphp",
-> > +"tests/data/acpi/pc/DSDT.dimmpxm",
-> > +"tests/data/acpi/pc/DSDT.hpbridge",
-> > +"tests/data/acpi/pc/DSDT.hpbrroot",
-> > +"tests/data/acpi/pc/DSDT.ipmikcs",
-> > +"tests/data/acpi/pc/DSDT.memhp",
-> > +"tests/data/acpi/pc/DSDT.nohpet",
-> > +"tests/data/acpi/pc/DSDT.numamem",
-> > +"tests/data/acpi/pc/DSDT.roothp",
-> > +"tests/data/acpi/q35/DSDT",
-> > +"tests/data/acpi/q35/DSDT.acpierst",
-> > +"tests/data/acpi/q35/DSDT.acpihmat",
-> > +"tests/data/acpi/q35/DSDT.applesmc",
-> > +"tests/data/acpi/q35/DSDT.bridge",
-> > +"tests/data/acpi/q35/DSDT.cphp",
-> > +"tests/data/acpi/q35/DSDT.cxl",
-> > +"tests/data/acpi/q35/DSDT.dimmpxm",
-> > +"tests/data/acpi/q35/DSDT.ipmibt",
-> > +"tests/data/acpi/q35/DSDT.ipmismbus",
-> > +"tests/data/acpi/q35/DSDT.ivrs",
-> > +"tests/data/acpi/q35/DSDT.memhp",
-> > +"tests/data/acpi/q35/DSDT.mmio64",
-> > +"tests/data/acpi/q35/DSDT.multi-bridge",
-> > +"tests/data/acpi/q35/DSDT.nohpet",
-> > +"tests/data/acpi/q35/DSDT.numamem",
-> > +"tests/data/acpi/q35/DSDT.pvpanic-isa",
-> > +"tests/data/acpi/q35/DSDT.tis.tpm12",
-> > +"tests/data/acpi/q35/DSDT.tis.tpm2",
-> > +"tests/data/acpi/q35/DSDT.viot",
-> > +"tests/data/acpi/q35/DSDT.xapic",
->
-> still missing DSDT.count2 table, likely in other updates (as well)
-> which should break bisection if not whole pull request.
->
-> I'll prep a tree based on your pull req, with fixups
-> for you to pull from.
 
-Does this mean there will be a v5 for the PR?
-V4 looks good in the CI so far ...
+--q6YQwG4rHHhghQVL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Nov 08, 2022 at 01:23:16AM -0500, Michael S. Tsirkin wrote:
+> On Mon, Nov 07, 2022 at 05:47:16PM -0500, Michael S. Tsirkin wrote:
+> > Changes from v3:
+> >     Applied and squashed fix by Ani for modular build breakage
+> >     Reordered Julia's patches to avoid bisect breakage
+> >     Checkpatch fixes for Jason's patches
+> >     Added Alex's patch to partially address virtio is_started mess
+> >     There is a bigger issue found by Christian A. Ehrhardt, that
+> >     still needs work
+> >     checkpatch change to avoid breaking on Jason's patches (to make ci =
+pass)
+> >=20
+> > Changes from v2:
+> >     Fixed a bug in error handling in vhost: Change the sequence of devi=
+ce start.
+> >         Contributor placed on watchlist ;)
+> >     Dropped virtio: re-order vm_running and use_started checks
+> >         Due to failures detected by gitlab.
+> >         We'll have to fix it differently.
+> >     Updated expected files for core-count test to fix bisect.
+> >=20
+> > Changes from v1
+> >     Applied and squashed fixes by Igor, Lei He, Hesham Almatary for
+> >     bugs that tripped up the pipeline.
+> >     Updated expected files for core-count test.
+> >=20
+> >=20
+> >=20
+> > The following changes since commit a11f65ec1b8adcb012b89c92819cbda4dc25=
+aaf1:
+> >=20
+> >   Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu in=
+to staging (2022-11-01 13:49:33 -0400)
+> >=20
+> > are available in the Git repository at:
+> >=20
+> >   https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> >=20
+> > for you to fetch changes up to 1ef47f40dce3d5b176ddf76d57b5bfa2efb0b3c6:
+>=20
+>  5e75ffd664258d3d2fd3d27e92e2748024f53bca now - I found and fixed a typo =
+in a comment in checkpatch and re-pushed
+
+This didn't make it in, sorry. Please send the typo fix in the next pull
+request.
+
+Thanks,
+Stefan
+
+--q6YQwG4rHHhghQVL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNqXggACgkQnKSrs4Gr
+c8gjCgf/Tuwc1lmZDPhQPK/SYFu+1n4Y/Se+QE8klNfsXeh6pO1AmJJvwPJ3CDam
+wpXiCGFnneJcIE27MRRiFRJy4hH//+N7AkmVwmWGd1mPIcAHOWXX1JJFC7pE9lhK
+rq6AdYBF55iuoapOLhFVQ7LUeCRq0K6OuM0VcAXd5dia/8P5WCXMHMAkzemWJ/pv
+aYDYezzWYo2vZRWo393aoPnieMzDHk4rBsNgqk/iW1puyH0CCBd0KIpz3uUJnyiL
+0UOB0DKqpS4eXD1cFMUPdx77B8Nx7U7MfWvcXG3tL5ujntm9zfnjyla+dyF0sDzA
+BmRIZQwOEO0nJrj+PqvBWgfog2zOaQ==
+=fQfG
+-----END PGP SIGNATURE-----
+
+--q6YQwG4rHHhghQVL--
+
 
