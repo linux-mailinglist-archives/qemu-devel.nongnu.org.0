@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD6B6206DA
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 03:40:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21DD96206DD
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 03:43:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osEVy-0007wb-DU; Mon, 07 Nov 2022 21:39:02 -0500
+	id 1osEZS-0000Mt-Ha; Mon, 07 Nov 2022 21:42:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1osEVv-0007vy-FW
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 21:38:59 -0500
+ id 1osEZP-0000Mb-Nq
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 21:42:35 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1osEVu-0005AN-4O
- for qemu-devel@nongnu.org; Mon, 07 Nov 2022 21:38:59 -0500
+ id 1osEZN-0007jP-WF
+ for qemu-devel@nongnu.org; Mon, 07 Nov 2022 21:42:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667875134;
+ s=mimecast20190719; t=1667875353;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=VsSNAVtj6WsSAsMIncgaGi9ew26+bRToNlEdfk6EMRs=;
- b=Uc2/fvvMEx7KYA33F+DY9WttpOibt1a41sxhZ8wHwlLFsMZRDVPgSNuVmTDxW2bP+8e7yk
- Ik4sahkDvi0bCnRJ/DXXMan3GQUVlNn3uYEoSpnUuVl+1PiM35bjNfgFSoN/s/AMaKh3WK
- D8HwTVAKc9kQgux4zW7e2QikMcyef3Q=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/wGE3kq0P7OIa+pRBrawwxEC7NzoqH3060iV86e0s48=;
+ b=JqaKypeCiSkhAXV5ZVjOUZtnDuuYFI1QXNWUg3sMvB2va/e1r96ST+coGAYNqe9cNTNnEr
+ Z77HPD0EMj1CVzwmzdI4VR9ZRSe4x8L9zA/vSWZtJbSFr8LowM5OZFWhI58VgYXorm7tLH
+ 4PA58hkPtEktdnZeMz95ZS5g76txuxQ=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-384-DgJBu0QNNY21zDCOb3DGIQ-1; Mon, 07 Nov 2022 21:38:53 -0500
-X-MC-Unique: DgJBu0QNNY21zDCOb3DGIQ-1
-Received: by mail-ot1-f71.google.com with SMTP id
- r17-20020a056830135100b0066c3ca9c6d8so6414165otq.15
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 18:38:53 -0800 (PST)
+ us-mta-184-zYI-5JnxOKKlUk2kVku3Kg-1; Mon, 07 Nov 2022 21:42:32 -0500
+X-MC-Unique: zYI-5JnxOKKlUk2kVku3Kg-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ 64-20020a9d0846000000b0066cba79be7aso3157511oty.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 18:42:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=VsSNAVtj6WsSAsMIncgaGi9ew26+bRToNlEdfk6EMRs=;
- b=jyLvznDPTaXU8t2lmcXuZ62OGOQHiSVgH/PR4wYjnXA8uFYEqZ+Kg8HISinZgW47vT
- KcRZzxLWCd/AO9Nwrw7T0EmMvCZGamIKsu0teOnGO7uT/ZHl/uJiqmvunfjueXcrKM53
- ur+MT9pa+MOmnRG+oTTH6I+DJqxJXT/sPnMVRsJcTNlHhp2S6NoMy3EjBXo2vgAEIPQ8
- /Ml97OGU8Nti+SUM1D96TCmsxO2F1919HXvGMmqPSzJdc7Gj2GBLLAyGysungXwbqoBk
- 0pgcYyX5VCeznghnCDuoesu/1q6EEHLfIA+5REqGBZ71RBuOHuQbXfJrYvCiOZfUbr28
- ELXg==
-X-Gm-Message-State: ACrzQf0YyiQ6MHtQ0XkYBffDhOpZicZ4yyPibKRQZBInqgY12LSzoED6
- jLzW6AjwE/Jw9qLMCf/yK8ASCVsGB9CAr44TVYTzCqbwdc+bEDGKElUsQ9c2Z4saBIh4rQqI2Af
- aJTqEawwXZ3XLu5iJaIRv/FolvV73pw4=
-X-Received: by 2002:a05:6830:16c5:b0:66c:6a63:dd4c with SMTP id
- l5-20020a05683016c500b0066c6a63dd4cmr18243650otr.201.1667875132613; 
- Mon, 07 Nov 2022 18:38:52 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM7/+x1ABwnLDKBe6ZR84GcoXL/niJI+9amY2OVsGgjZNDqAHb9SPFoVe+00ppPn2+x8G2vkG2UGe73bsJtOaRg=
-X-Received: by 2002:a05:6830:16c5:b0:66c:6a63:dd4c with SMTP id
- l5-20020a05683016c500b0066c6a63dd4cmr18243639otr.201.1667875132392; Mon, 07
- Nov 2022 18:38:52 -0800 (PST)
+ bh=/wGE3kq0P7OIa+pRBrawwxEC7NzoqH3060iV86e0s48=;
+ b=QVIoEs7NUXw6LPOaDrbDLx14/YvS6p75tI6PtEFNgTl9EQdrXzNYcva419fMN+VMs8
+ cvmsBaWZ+JRDOP+AXHknIAz3P+lAXBAyPMfiAJYhPB0aLX4OofQkJyLxtYXUQE3xo3It
+ Rr3WSHj0nDyUypLJqzAKbeT7mbB/3DOOULc4OSf5Bfyei5ximSmeHc45BxnrRRLvvawm
+ o58jpjHyDL6bLxUKtHwmp/miUVSdaaXJvBFx9svVDlO9/2rSdMiqbWJNaZr9kV+J5Ybu
+ B9iPWSDF+Fl+PIWeiG8RTDKsUcx1BCVfYi0B5sL5Oh67aOk3JjlUA5TEQt+1K94AL750
+ oVxQ==
+X-Gm-Message-State: ACrzQf3UI5Rd0HiasUnaop3Y6TFWP7M52tArsgIzXFPovBR+SzyKEvs+
+ mJ9ns+znRBv9vZrZBrOIlqVRwu5RmCEkorimBbWM2aZKwC5T7zyeNFAKA7wMgKqu9iY/DRlIbsp
+ 82RMlPo61MNKt69uBAO4o/ZlbCu5MxtQ=
+X-Received: by 2002:a9d:604f:0:b0:66c:64d6:1bb4 with SMTP id
+ v15-20020a9d604f000000b0066c64d61bb4mr629140otj.201.1667875350563; 
+ Mon, 07 Nov 2022 18:42:30 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM7C2MuV/jT1pBZ2pqkoDcuiFxPQZEK2h3Qr0HtxvXBx3hZcPE7Us9jIo8uzHH8eDtr00DubyLDF2hQ2gOZdnwI=
+X-Received: by 2002:a9d:604f:0:b0:66c:64d6:1bb4 with SMTP id
+ v15-20020a9d604f000000b0066c64d61bb4mr629137otj.201.1667875350342; Mon, 07
+ Nov 2022 18:42:30 -0800 (PST)
 MIME-Version: 1.0
 References: <20221108004157.1112-1-longpeng2@huawei.com>
- <20221108004157.1112-5-longpeng2@huawei.com>
-In-Reply-To: <20221108004157.1112-5-longpeng2@huawei.com>
+ <20221108004157.1112-6-longpeng2@huawei.com>
+In-Reply-To: <20221108004157.1112-6-longpeng2@huawei.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 8 Nov 2022 10:38:40 +0800
-Message-ID: <CACGkMEvPgjXTuhpCmQWVR4tMKTc0igeMZ7JfxB6fCA==xbuApA@mail.gmail.com>
-Subject: Re: [PATCH v8 4/5] vdpa-dev: mark the device as unmigratable
+Date: Tue, 8 Nov 2022 10:42:18 +0800
+Message-ID: <CACGkMEtPpegJ+GbUseq4Y4=Y6De+trDZ5Ks8UqnTcsyVVPvnaw@mail.gmail.com>
+Subject: Re: [PATCH v8 5/5] docs: Add generic vhost-vdpa device documentation
 To: "Longpeng(Mike)" <longpeng2@huawei.com>
 Cc: stefanha@redhat.com, mst@redhat.com, sgarzare@redhat.com, 
  cohuck@redhat.com, pbonzini@redhat.com, arei.gonglei@huawei.com, 
@@ -99,29 +99,73 @@ On Tue, Nov 8, 2022 at 8:42 AM Longpeng(Mike) <longpeng2@huawei.com> wrote:
 >
 > From: Longpeng <longpeng2@huawei.com>
 >
-> The generic vDPA device doesn't support migration currently, so
-> mark it as unmigratable temporarily.
->
 > Signed-off-by: Longpeng <longpeng2@huawei.com>
-
-Acked-by: Jason Wang <jasowang@redhat.com>
-
 > ---
->  hw/virtio/vdpa-dev.c | 1 +
->  1 file changed, 1 insertion(+)
+>  docs/system/devices/vhost-vdpa-device.rst | 43 +++++++++++++++++++++++
+>  1 file changed, 43 insertions(+)
+>  create mode 100644 docs/system/devices/vhost-vdpa-device.rst
 >
-> diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
-> index 2885d06cbe..62d83d3423 100644
-> --- a/hw/virtio/vdpa-dev.c
-> +++ b/hw/virtio/vdpa-dev.c
-> @@ -327,6 +327,7 @@ static Property vhost_vdpa_device_properties[] = {
->
->  static const VMStateDescription vmstate_vhost_vdpa_device = {
->      .name = "vhost-vdpa-device",
-> +    .unmigratable = 1,
->      .minimum_version_id = 1,
->      .version_id = 1,
->      .fields = (VMStateField[]) {
+> diff --git a/docs/system/devices/vhost-vdpa-device.rst b/docs/system/devices/vhost-vdpa-device.rst
+> new file mode 100644
+> index 0000000000..b758c4fce6
+> --- /dev/null
+> +++ b/docs/system/devices/vhost-vdpa-device.rst
+
+If the doc is for a general vhost-vDPA device, we'd better have a better name?
+
+> @@ -0,0 +1,43 @@
+> +
+> +=========================
+> +generic vhost-vdpa device
+> +=========================
+> +
+> +This document explains the usage of the generic vhost vdpa device.
+> +
+> +Description
+> +-----------
+> +
+> +vDPA(virtio data path acceleration) device is a device that uses a datapath
+> +which complies with the virtio specifications with vendor specific control
+> +path.
+> +
+> +QEMU provides two types of vhost-vdpa devices to enable the vDPA device, one
+> +is type sensitive which means QEMU needs to know the actual device type
+> +(e.g. net, blk, scsi) and another is called "generic vdpa device" which is
+> +type insensitive (likes vfio-pci).
+
+Same as above, if this document is focused on the general vhost-vDPA
+device, we'd better emphasize it. And I don't think mention vfio-pci
+is good idea here since those two are different from a lot of places,
+(e.g the general vhost-vdpa is not transport specific, as demonstrated
+below).
+
+Thanks
+
+> +
+> +Examples
+> +--------
+> +
+> +Prepare the vhost-vdpa backends first:
+> +
+> +::
+> +  host# ls -l /dev/vhost-vdpa-*
+> +  crw------- 1 root root 236, 0 Nov  2 00:49 /dev/vhost-vdpa-0
+> +
+> +Start QEMU with virtio-mmio bus:
+> +
+> +::
+> +  host# qemu-system                                                  \
+> +      -M microvm -m 512 -smp 2 -kernel ... -initrd ...               \
+> +      -device vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-0           \
+> +      ...
+> +
+> +Start QEMU with virtio-pci bus:
+> +
+> +::
+> +  host# qemu-system                                                  \
+> +      -M pc -m 512 -smp 2                                            \
+> +      -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-0       \
+> +      ...
 > --
 > 2.23.0
 >
