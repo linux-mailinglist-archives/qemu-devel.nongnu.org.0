@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22F9620CAD
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 10:50:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02766620CEE
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 11:11:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osLEY-0005yh-2h; Tue, 08 Nov 2022 04:49:30 -0500
+	id 1osLYG-0001vK-HP; Tue, 08 Nov 2022 05:09:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1osLEF-0005x7-Kj
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:49:11 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ (Exim 4.90_1) (envelope-from <francesco.cagnin@gmail.com>)
+ id 1osLYE-0001v2-OV; Tue, 08 Nov 2022 05:09:50 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1osLED-0002om-Vc
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:49:11 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 47D9A1F8BE;
- Tue,  8 Nov 2022 09:49:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1667900948; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9GXfAhwpjQHvM5WitosRUUHWWA1BjIhnva7V+rVvRQk=;
- b=enWGIOOO0GXNi7F2qqYByucGomXVue4cxC/dKYlLghiCeJi4vtzc2ma09yjpKD3mLzhic9
- z5W0zbopjGKz6TUbA5YygkHr2a+8rX3eGNdnyip+Ha1UAod9pYjIDydTkMhJIHBCAb10d6
- Fyp+p93IupaUh9HN40F033df2Pu/wLc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1667900948;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9GXfAhwpjQHvM5WitosRUUHWWA1BjIhnva7V+rVvRQk=;
- b=RI1Q76KXgjs0lN0LBnudNr+fKn5/8x1/jbiaTxN0eBjawoEmVcaCFLyeuUJxbboPN1bea4
- VvKmghpPbwnhKSBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1BD3013398;
- Tue,  8 Nov 2022 09:49:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id J+YUBRQmamM/fQAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 08 Nov 2022 09:49:08 +0000
-Message-ID: <4a72c7c6-4b70-b6bf-705e-3303865066b6@suse.de>
-Date: Tue, 8 Nov 2022 10:49:07 +0100
+ (Exim 4.90_1) (envelope-from <francesco.cagnin@gmail.com>)
+ id 1osLYD-0003uG-4m; Tue, 08 Nov 2022 05:09:50 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id o4so20170609wrq.6;
+ Tue, 08 Nov 2022 02:09:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=PBuuYhT1JpZhLn9k4HBlA5caR0RMHj1xng42owFfgzk=;
+ b=PVevaqfG2bG3Q15g5/Q02LvDxIbahRsrzXEIQmtS/LTtuM8inWMhGItU5Y9cxncxUU
+ 6GDBazTaGt7g8xAHulWDkRM4qIdmGCc+qEjdlOtKy6X7RVEltafpGRvQweu8tFlpENeE
+ E7gAiu15CY9uhjgYxxwwOGcHS87Fq0bImU7h+L6lVsei3BhxKYKWpYT7Y4zvtyQgjpyA
+ HX3ascxys744kTk9Yl8VaDSdCy2pZZ4UYJ235ktvFZpZos9XMPYF4dBzvOwpPzspyoox
+ OQjPUrhXlhI64ILgI+d8znc7I+L2bYYMcMUBH7amsLZBVw+68rv/ukWF2sL57W6xjwxn
+ T5Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=PBuuYhT1JpZhLn9k4HBlA5caR0RMHj1xng42owFfgzk=;
+ b=HPTqsWdz8zFAH4CCK29XYpk5j5w1DhIGjOn2cj/We+RFj4WGGBy+aQnhGXVB3jqSPV
+ GynMqyt40iQidfXbvsBdXyMccLWcbUAkp+jM8/F7dHePTg9NAlSXqdGIRlBJ5+0gZgEQ
+ x+ihIUIIEHtnHerkoAHjL0wk6ptwqVP5p4UkqA7puqMQbgpn4goK3lctdyWAR0IZ9OvK
+ tZ+0b655Ivy4MH1vmg5odAxtsVoFKDbcCN+wHQDoPjqUNupw8z+4wrVRSNI9Os8LkqoM
+ LUhx6SyxwxK+B152yKT/bfJ8mEJeNltXn/MXWFCNjw6qIM1B2e6h+DPGYGYNJaf91WAJ
+ iCmA==
+X-Gm-Message-State: ACrzQf15mjHHpo4KLqFukq+fcVnJ6UBpQFlbcKCXs+wNPwKSpIereaq9
+ 8BfkSKk3KofTcEsaQKZ5Hx9bjhU0RRClRU0KO4I=
+X-Google-Smtp-Source: AMsMyM72fG9tXGcFww3l+94QhKy33EpMprb+NlccQjFR128c0V+kTmFsBqDeJdK9fkGVZ1FEmHFUhCB+f2fO/d2IUBI=
+X-Received: by 2002:adf:ea10:0:b0:236:ec3e:869d with SMTP id
+ q16-20020adfea10000000b00236ec3e869dmr23416470wrm.33.1667902186330; Tue, 08
+ Nov 2022 02:09:46 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 2/3] net: Restore printing of the help text with "-nic
- help"
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, pbonzini@redhat.com
-References: <20221104125705.415923-1-thuth@redhat.com>
- <20221104125705.415923-3-thuth@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <20221104125705.415923-3-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20221104184101.6923-1-fcagnin@quarkslab.com>
+ <20221104184101.6923-3-fcagnin@quarkslab.com>
+ <2B918171-9464-40DC-AE11-D25E60858370@ynddal.dk>
+In-Reply-To: <2B918171-9464-40DC-AE11-D25E60858370@ynddal.dk>
+From: Francesco Cagnin <francesco.cagnin@gmail.com>
+Date: Tue, 8 Nov 2022 11:09:35 +0100
+Message-ID: <CAF8_6KmwMCiNcC-romHoGZhcpPph71b3qv7yn9RHQArV3Q+nDA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] hvf: implement guest debugging on Apple Silicon hosts
+To: Mads Ynddal <mads@ynddal.dk>
+Cc: qemu-devel@nongnu.org, dirty@apple.com, r.bolshakov@yadro.com, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM cores" <qemu-arm@nongnu.org>, 
+ Alexander Graf <agraf@csgraf.de>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Francesco Cagnin <fcagnin@quarkslab.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=francesco.cagnin@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,59 +87,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/4/22 13:57, Thomas Huth wrote:
-> Running QEMU with "-nic help" used to work in QEMU 5.2 and earlier versions
-> (it showed the available netdev backends), but this feature got broken during
-> some refactoring in version 6.0. Let's restore the old behavior, and while
-> we're at it, let's also print the available NIC models here now since this
-> option can be used to configure both, netdev backend and model in one go.
-> 
-> Fixes: ad6f932fe8 ("net: do not exit on "netdev_add help" monitor command")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  net/net.c | 14 ++++++++++++--
->  1 file changed, 12 insertions(+), 2 deletions(-)
-> 
-> diff --git a/net/net.c b/net/net.c
-> index c0516a8067..b4b8f2a9cc 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -1571,8 +1571,18 @@ static int net_param_nic(void *dummy, QemuOpts *opts, Error **errp)
->      const char *type;
->  
->      type = qemu_opt_get(opts, "type");
-> -    if (type && g_str_equal(type, "none")) {
-> -        return 0;    /* Nothing to do, default_net is cleared in vl.c */
-> +    if (type) {
-> +        if (g_str_equal(type, "none")) {
-> +            return 0;    /* Nothing to do, default_net is cleared in vl.c */
-> +        }
-> +        if (is_help_option(type)) {
-> +            GPtrArray *nic_models = qemu_get_nic_models(TYPE_DEVICE);
-> +            show_netdevs();
-> +            printf("\n");
-> +            qemu_show_nic_models(type, (const char **)nic_models->pdata);
-> +            g_ptr_array_free(nic_models, true);
+Mads, thanks for the review and feedbacks. I worked on this a few months
+ago but only managed to have it published now, I'm sorry for work being
+done twice.
 
-nit: would not the order:
+I'll add support for SSTEP_NOIRQ as you suggested.
 
-> +            GPtrArray *nic_models;
-> +            show_netdevs();
-> +            printf("\n");
-> +            nic_models = qemu_get_nic_models(TYPE_DEVICE);
-> +            qemu_show_nic_models(type, (const char **)nic_models->pdata);
-> +            g_ptr_array_free(nic_models, true);
+For multi-core systems there's no particular issue, just I'm not
+familiar with all of these topics and I'm asking for good practices. KVM
+saves breakpoints information in struct 'KVMState', and following the
+same approach I've updated struct 'HVFState' to store equivalent data.
+To keep separate information for each cpu, KVM uses field 'kvm_state' in
+struct 'CPUState' (see 'include/hw/core/cpu.h'), but at the moment
+there's no analogous field for the HVF state (which is instead defined
+as a single global variable in 'accel/hvf/hvf-accel-ops.c'). Should we
+add a new field to 'CPUState' for the HVF state, or take a different
+approach?
 
-flow more logically?
-
-Ciao
-
-C
-
-> +            exit(0);
-> +        }
->      }
->  
->      idx = nic_get_free_idx();
-
+For your last question regarding `hv_vcpu_set_trap_debug_exceptions()`,
+I think it's possible to move it to `hvf_arch_update_guest_debug()` but
+I'm not confident about `hvf_arch_init_vcpu()`, I will experiment again.
 
