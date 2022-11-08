@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D286213E6
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 14:55:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C95621462
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:00:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osP3y-00037M-6N; Tue, 08 Nov 2022 08:54:50 -0500
+	id 1osP8N-0005oT-0B; Tue, 08 Nov 2022 08:59:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1osP3v-00036I-Kx
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:54:47 -0500
-Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1osP8K-0005oJ-HU
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:59:20 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1osP3u-00083e-6d
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:54:47 -0500
-Received: by mail-lj1-x22a.google.com with SMTP id d3so21216700ljl.1
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 05:54:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1osP8J-0002Vx-0i
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:59:20 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ c15-20020a17090a1d0f00b0021365864446so13408974pjd.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 05:59:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DU97Bhg/h7xnHLfOjgiKU7bQHjyEEl5hAMZrQQ+2Uls=;
- b=Uiim2ekKDVbWfS4uAxsM2T1qmTOyDIb9Fut9U3YmNiM5/2y/QdqQPAYB88b2/gsy5Q
- oSYMGqlYaVPU5V58105zyQ92kLUHuAeuuWmol375sR1RllhatwtT4i+yHyywN1nnK82S
- leY75tvU4kj3o+IhgfEjjK6HAv0FaISIegN9fjpSrRPqeEt6IQza3IxmCcFmOHnBZLLM
- n/cNtLfSxykoWJiGGx3XasAya9UhVUJTh04bR3wzs5vp20gtth+YD0I4Ti9nkSvOhFxZ
- UDwDT61XIuqgYjXvEq4k1O6QbKJ522VhPH8aTSYDLCFqucHwU2P1JwBDX3gf9v29McOp
- OqCw==
+ bh=SrBStef6avJLWkxC356sccLV4pepY5F2vco86+v9j+4=;
+ b=hFTQicWcxB3NmbDFRlWsj3IyJg8KJHDUZAwzIIPV6ZhqpoiJXloo1ppi4Lw6vVsnSF
+ JHGb6vCGGz1eMzRTG1jgKL3TT43ZlA4jb4GFpDCbVGg+Sl1r7g0V9yl5LgFyTGX8z0ce
+ iUyUbhUlE1NxLrMd5HDS446Aw4uIng3eOticP5jWWc1KFrNfj+N/j1La3xh0k5m9WwXE
+ azBHwWjU/Z72LO5zknMRX4iPodPdx0sSR4Ex4WzmvDkh5/tnVt/2axFe6DDTvI9eGDqM
+ elxQ+9Iq0I51PlxLaNGJRJrD/MdS/Fgidki9z3MVshKGz3ZakEjEC81nWYRxYDlRWiou
+ fh3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DU97Bhg/h7xnHLfOjgiKU7bQHjyEEl5hAMZrQQ+2Uls=;
- b=k69CJioN/9IW+7Gx8uJTEoImORvpKTFTPXvWPpHV8x16b3ShTPxPxMVKMWX+qkhqaw
- 2PoRdDXvoi0vrXnEIlDgF7RYRjn/BQT0bGQz0iVND9di0OX89OaMLa33gRwaVlVHXY/I
- vQV7t/x1TppoGsF6K156/grRNI2zbIwYnfJSZ2l40FZIbM2iLn+Z2VfiA7EUv+6LGxjR
- I8CSKWjYXcQqA0fj5PPuWxZ862lgpxOw8psm88YgXxe5Lt8Qd4yaTMvlY59SI10MI5/+
- pKSCr7kcyKEW7PwFqoh5pkNfk0fTis/e/L29ybx7iwR3Mmhh6VmJqddb1Xu6SAHd0z9g
- DFDQ==
-X-Gm-Message-State: ACrzQf2sWUejk3Z8qGyP8FI803jgEhIp7aGBvb1bZLY+61IEjoU7yCbw
- cvQjaLkVliQTbwi5WzPua4R/IBF4TVDvvA==
-X-Google-Smtp-Source: AMsMyM44YyZ7VW/g50xm562Ec8A7MyAKNUF7diarbyavz3FsAGBeHZam2blR/d5HrCUZlTunHRrTOQ==
-X-Received: by 2002:a2e:9083:0:b0:277:e69:f69 with SMTP id
- l3-20020a2e9083000000b002770e690f69mr20486237ljg.358.1667915684324; 
- Tue, 08 Nov 2022 05:54:44 -0800 (PST)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- h20-20020ac250d4000000b004a240eb0217sm1789121lfm.251.2022.11.08.05.54.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Nov 2022 05:54:43 -0800 (PST)
-Date: Tue, 8 Nov 2022 14:54:42 +0100
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Vikram Garhwal <vikram.garhwal@amd.com>
-Cc: qemu-devel@nongnu.org, francisco.iglesias@amd.com, edgar.iglesias@amd.com
-Subject: Re: [QEMU][PATCH v2 5/5] MAINTAINERS: Include canfd tests under
- Xilinx CAN
-Message-ID: <20221108135441.GE4571@fralle-msi>
-References: <20221022054746.28217-1-vikram.garhwal@amd.com>
- <20221022054746.28217-6-vikram.garhwal@amd.com>
+ bh=SrBStef6avJLWkxC356sccLV4pepY5F2vco86+v9j+4=;
+ b=V1CVDKMQpeKdVk0sPGLSxVdZ9heADsXBCLBERYyj1X/bE2A7vc2N6/0vBxncYeEajF
+ vS7zc48EgG7VbDG3/taEBlvPpYiMqktaWipeG9kXDwq6fw+906R93QcY7HnztbK5DzdO
+ MOB02JhRR5rswMo+dPuMT07Kzr7EPNVFEgkTEtK7ohkwiikqC7r/vpj/sATIJDFgJzDf
+ MgfF+/iottyyXGlR9wkvm9i6BTiOFe3dCSnpXc7K0MtJygQGl9tuural2wrg/YwTdgjF
+ mRRGf0pkJqGBpEc+GNMz+GU46REIhHlSelmO3TsUVEftRkiG2hMVkZEw+2ZPYUmqdM4l
+ 9ffQ==
+X-Gm-Message-State: ACrzQf1ktLn0G0on9g5euaTfGbu6QkgOvZ8ujfXZy5q2YJPoqtxE42CD
+ 6hpQep7QosKWeEp6bSX/bZy/v1Z01qfcMM7RY0KFww==
+X-Google-Smtp-Source: AMsMyM4dUEkkiO1Qj6bkj4S1qThhWrwxOjMdCLPibxwqrIIJ9DCy0AakzwfEsHCocuh7LOrJcjQ82FyEDFqTaOYbeKQ=
+X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
+ jm23-20020a17090304d700b001788564f754mr56112690plb.60.1667915956455; Tue, 08
+ Nov 2022 05:59:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221022054746.28217-6-vikram.garhwal@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x22a.google.com
-X-Spam_score_int: -1020
-X-Spam_score: -102.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
+References: <20221030222841.42377-1-philmd@linaro.org>
+In-Reply-To: <20221030222841.42377-1-philmd@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Nov 2022 13:59:05 +0000
+Message-ID: <CAFEAcA-d=GrGNm9vhc6Q-UnQAQt+RLnwRj=dbif=iMKTRAabpQ@mail.gmail.com>
+Subject: Re: [PULL 00/55] MIPS patches for 2022-10-30
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, 
+ Huacai Chen <chenhuacai@kernel.org>, Stefan Pejic <stefan.pejic@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Aurelien Jarno <aurelien@aurel32.net>, 
+ Paul Burton <paulburton@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,31 +88,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On [2022 Oct 21] Fri 22:47:46, Vikram Garhwal wrote:
-> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+On Sun, 30 Oct 2022 at 22:29, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
+g> wrote:
+>
+> The following changes since commit 344744e148e6e865f5a57e745b02a87e5ea534=
+ad:
+>
+>   Merge tag 'dump-pull-request' of https://gitlab.com/marcandre.lureau/qe=
+mu into staging (2022-10-26 10:53:49 -0400)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/philmd/qemu.git tags/mips-20221030
+>
+> for you to fetch changes up to 487099aee951e4966936acd3e9afd24c69de85ea:
+>
+>   hw/mips/malta: Use bootloader helper to set BAR registers (2022-10-30 2=
+3:08:10 +0100)
+>
+> ----------------------------------------------------------------
+> MIPS patches queue
+>
+> - Convert nanoMIPS disassembler from C++ to C (Milica Lazarevic)
 
-Reviewed-by: Francisco Iglesias <francisco.iglesias@amd.com>
+Was this the last use of C++ in the tree, or am I forgetting
+some other part that still needs the C++ compiler?
 
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 538af2885c..a642026361 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1756,7 +1756,7 @@ M: Francisco Iglesias <francisco.iglesias@amd.com>
->  S: Maintained
->  F: hw/net/can/xlnx-*
->  F: include/hw/net/xlnx-*
-> -F: tests/qtest/xlnx-can-test*
-> +F: tests/qtest/xlnx-can*-test*
->  
->  EDU
->  M: Jiri Slaby <jslaby@suse.cz>
-> -- 
-> 2.17.1
-> 
-> 
+If it is the last thing, we should put in the "Build Dependencies"
+part of the release notes that a C++ compiler is no longer required
+and mention that the configure options to specify it will go away in
+a future release.
+
+thanks
+-- PMM
 
