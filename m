@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B60621FE9
+	by mail.lfdr.de (Postfix) with ESMTPS id C6880621FEA
 	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 00:03:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osXbZ-0004s1-Af; Tue, 08 Nov 2022 18:02:05 -0500
+	id 1osXba-0004tJ-4E; Tue, 08 Nov 2022 18:02:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1osXbN-0004oP-3Z
+ id 1osXbQ-0004oe-SI
  for qemu-devel@nongnu.org; Tue, 08 Nov 2022 18:02:01 -0500
 Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1osXbI-0003eT-Lc
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 18:01:52 -0500
+ id 1osXbM-0003ee-S4
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 18:01:56 -0500
 Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A8Mx3cW026328
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A8Mx3cb026328
  for <qemu-devel@nongnu.org>; Tue, 8 Nov 2022 23:01:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : subject :
  date : message-id : in-reply-to : references : in-reply-to : references;
- s=corp-2022-7-12; bh=101dO0XePiqDoCCObYc7ZywMB2NbOW2iAUlv9Uos+rI=;
- b=fiUSwCkkZTlgb6aFUn7qVpamihA+fXNWfBYXKtRsP0Zk9guBsJl8xyLpKavPV7w940vN
- 6/qzReaO67oXEaYsex7E4S8GQoe1x2ASl51eE1Ly7D0Z42pzZf6s2UHXS1Rnqk/7leHL
- NS+M12qzbvXRMxYopaALuMiNHuckhkgDal6HU+eSelcGDBH0c42M+3PbIfaYkEB5LlBM
- sbjrE7hI5Wc99ECHzZp5cMbBPkbVww1IB0RedcuW6Qb+dvdoLb4P203joalY2rgZfqOS
- khy+g+xtcHXVkBCMhRImNIdK4dk03b4pBhTrSaSN0HS79w3Y7wtpBu1gPyd5uvmiYU4G Zg== 
+ s=corp-2022-7-12; bh=KpwHfpvO9U6NyFnOWdtO+9EKKukan2COlys4hI+7mvY=;
+ b=vS3fPxgVpU4VsNIYnsqG4EVUeqdBUSSqABU5vQ9ohqcY+kStJiRdU9HFr/YjrkNw2Zbb
+ QADbe+yhRiuZhJENQZCy37Puk/0BzptO/u9yV4c73zBQFlClpKoeL6lE8Zz7ewocKqXL
+ OewtJo48sQVzCFHtOAPby77K/CGfFm6tlo32uCHulj+FieXwmFsGVaNksXmIsTAE0wQa
+ t0QaVEYvLXIQmEQRrQYNBDheB+8DbtSnpJYCSi9JKdtoJuoHVaHk2FKd3ru3Y/FVEfhA
+ q4ATZBL/svLbVKk5sgod1NopVNwxbYFNwEROIm3U15lJq9YSSuHD2+2RWANIpiXtSN8z Gg== 
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3kqy68g7vu-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3kqy68g7vx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 23:01:44 +0000
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 23:01:45 +0000
 Received: from pps.filterd
  (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 2A8LjK6E004437
- for <qemu-devel@nongnu.org>; Tue, 8 Nov 2022 23:01:43 GMT
+ with ESMTP id 2A8LjK6G004437
+ for <qemu-devel@nongnu.org>; Tue, 8 Nov 2022 23:01:44 GMT
 Received: from bruckner.us.oracle.com (dhcp-10-65-143-202.vpn.oracle.com
  [10.65.143.202])
  by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3kpcq2k0b9-3
+ 3kpcq2k0b9-4
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
  for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 23:01:43 +0000
 From: John Johnson <john.g.johnson@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 02/24] vfio-user: add VFIO base abstract class
-Date: Tue,  8 Nov 2022 15:13:24 -0800
-Message-Id: <ef2ad700a3ad540febba3f935fedc23a50555d7c.1667542066.git.john.g.johnson@oracle.com>
+Subject: [PATCH v1 03/24] vfio-user: add container IO ops vector
+Date: Tue,  8 Nov 2022 15:13:25 -0800
+Message-Id: <d357c8c243ef839cc8e41fc1ae5c8db2d98fc2cc.1667542066.git.john.g.johnson@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1667542066.git.john.g.johnson@oracle.com>
 References: <cover.1667542066.git.john.g.johnson@oracle.com>
@@ -64,8 +64,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
  malwarescore=0 mlxlogscore=999 mlxscore=0 phishscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
  definitions=main-2211080151
-X-Proofpoint-GUID: pYLRxRo49djbRpeVdRDi3jTarPOFv4js
-X-Proofpoint-ORIG-GUID: pYLRxRo49djbRpeVdRDi3jTarPOFv4js
+X-Proofpoint-GUID: KwUjbmpk6kSMXG0CJyf3xYJl2gTsgWuL
+X-Proofpoint-ORIG-GUID: KwUjbmpk6kSMXG0CJyf3xYJl2gTsgWuL
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=john.g.johnson@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -90,301 +90,264 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add an abstract base class both the kernel driver
-and user socket implementations can use to share code.
+Used for communication with VFIO driver
+(prep work for vfio-user, which will communicate over a socket)
 
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/vfio/pci.c | 106 +++++++++++++++++++++++++++++++++++-----------------------
- hw/vfio/pci.h |  16 +++++++--
- 2 files changed, 78 insertions(+), 44 deletions(-)
+ hw/vfio/common.c              | 126 ++++++++++++++++++++++++++++--------------
+ include/hw/vfio/vfio-common.h |  33 +++++++++++
+ 2 files changed, 117 insertions(+), 42 deletions(-)
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 939dcc3..60acde5 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -235,7 +235,7 @@ static void vfio_intx_update(VFIOPCIDevice *vdev, PCIINTxRoute *route)
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index ace9562..83d69b9 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -432,12 +432,12 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+         goto unmap_exit;
+     }
  
- static void vfio_intx_routing_notifier(PCIDevice *pdev)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     PCIINTxRoute route;
+-    ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap);
++    ret = CONT_DMA_UNMAP(container, unmap, bitmap);
+     if (!ret) {
+         cpu_physical_memory_set_dirty_lebitmap((unsigned long *)bitmap->data,
+                 iotlb->translated_addr, pages);
+     } else {
+-        error_report("VFIO_UNMAP_DMA with DIRTY_BITMAP : %m");
++        error_report("VFIO_UNMAP_DMA with DIRTY_BITMAP : %s", strerror(-ret));
+     }
  
-     if (vdev->interrupt != VFIO_INT_INTx) {
-@@ -467,7 +467,7 @@ static void vfio_update_kvm_msi_virq(VFIOMSIVector *vector, MSIMessage msg,
- static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
-                                    MSIMessage *msg, IOHandler *handler)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     VFIOMSIVector *vector;
-     int ret;
+     g_free(bitmap->data);
+@@ -465,30 +465,7 @@ static int vfio_dma_unmap(VFIOContainer *container,
+         return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
+     }
  
-@@ -561,7 +561,7 @@ static int vfio_msix_vector_use(PCIDevice *pdev,
- 
- static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     VFIOMSIVector *vector = &vdev->msi_vectors[nr];
- 
-     trace_vfio_msix_vector_release(vdev->vbasedev.name, nr);
-@@ -1109,7 +1109,7 @@ static const MemoryRegionOps vfio_vga_ops = {
-  */
- static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     VFIORegion *region = &vdev->bars[bar].region;
-     MemoryRegion *mmap_mr, *region_mr, *base_mr;
-     PCIIORegion *r;
-@@ -1155,7 +1155,7 @@ static void vfio_sub_page_bar_update_mapping(PCIDevice *pdev, int bar)
-  */
- uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     uint32_t emu_bits = 0, emu_val = 0, phys_val = 0, val;
- 
-     memcpy(&emu_bits, vdev->emulated_config_bits + addr, len);
-@@ -1188,7 +1188,7 @@ uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len)
- void vfio_pci_write_config(PCIDevice *pdev,
-                            uint32_t addr, uint32_t val, int len)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     uint32_t val_le = cpu_to_le32(val);
- 
-     trace_vfio_pci_write_config(vdev->vbasedev.name, addr, val, len);
-@@ -2845,7 +2845,7 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
- 
- static void vfio_realize(PCIDevice *pdev, Error **errp)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-     VFIODevice *vbasedev = &vdev->vbasedev;
-     VFIODevice *vbasedev_iter;
-     VFIOGroup *group;
-@@ -3169,7 +3169,7 @@ error:
- 
- static void vfio_instance_finalize(Object *obj)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(obj);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
-     VFIOGroup *group = vdev->vbasedev.group;
- 
-     vfio_display_finalize(vdev);
-@@ -3189,7 +3189,7 @@ static void vfio_instance_finalize(Object *obj)
- 
- static void vfio_exitfn(PCIDevice *pdev)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
- 
-     vfio_unregister_req_notifier(vdev);
-     vfio_unregister_err_notifier(vdev);
-@@ -3208,7 +3208,7 @@ static void vfio_exitfn(PCIDevice *pdev)
- 
- static void vfio_pci_reset(DeviceState *dev)
- {
--    VFIOPCIDevice *vdev = VFIO_PCI(dev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(dev);
- 
-     trace_vfio_pci_reset(vdev->vbasedev.name);
- 
-@@ -3248,7 +3248,7 @@ post_reset:
- static void vfio_instance_init(Object *obj)
- {
-     PCIDevice *pci_dev = PCI_DEVICE(obj);
--    VFIOPCIDevice *vdev = VFIO_PCI(obj);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
- 
-     device_add_bootindex_property(obj, &vdev->bootindex,
-                                   "bootindex", NULL,
-@@ -3265,24 +3265,12 @@ static void vfio_instance_init(Object *obj)
-     pci_dev->cap_present |= QEMU_PCI_CAP_EXPRESS;
+-    while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
+-        /*
+-         * The type1 backend has an off-by-one bug in the kernel (71a7d3d78e3c
+-         * v4.15) where an overflow in its wrap-around check prevents us from
+-         * unmapping the last page of the address space.  Test for the error
+-         * condition and re-try the unmap excluding the last page.  The
+-         * expectation is that we've never mapped the last page anyway and this
+-         * unmap request comes via vIOMMU support which also makes it unlikely
+-         * that this page is used.  This bug was introduced well after type1 v2
+-         * support was introduced, so we shouldn't need to test for v1.  A fix
+-         * is queued for kernel v5.0 so this workaround can be removed once
+-         * affected kernels are sufficiently deprecated.
+-         */
+-        if (errno == EINVAL && unmap.size && !(unmap.iova + unmap.size) &&
+-            container->iommu_type == VFIO_TYPE1v2_IOMMU) {
+-            trace_vfio_dma_unmap_overflow_workaround();
+-            unmap.size -= 1ULL << ctz64(container->pgsizes);
+-            continue;
+-        }
+-        error_report("VFIO_UNMAP_DMA failed: %s", strerror(errno));
+-        return -errno;
+-    }
+-
+-    return 0;
++    return CONT_DMA_UNMAP(container, &unmap, NULL);
  }
  
--static Property vfio_pci_dev_properties[] = {
--    DEFINE_PROP_PCI_HOST_DEVADDR("host", VFIOPCIDevice, host),
--    DEFINE_PROP_STRING("sysfsdev", VFIOPCIDevice, vbasedev.sysfsdev),
-+static Property vfio_pci_base_dev_properties[] = {
-     DEFINE_PROP_ON_OFF_AUTO("x-pre-copy-dirty-page-tracking", VFIOPCIDevice,
-                             vbasedev.pre_copy_dirty_page_tracking,
-                             ON_OFF_AUTO_ON),
--    DEFINE_PROP_ON_OFF_AUTO("display", VFIOPCIDevice,
--                            display, ON_OFF_AUTO_OFF),
--    DEFINE_PROP_UINT32("xres", VFIOPCIDevice, display_xres, 0),
--    DEFINE_PROP_UINT32("yres", VFIOPCIDevice, display_yres, 0),
-     DEFINE_PROP_UINT32("x-intx-mmap-timeout-ms", VFIOPCIDevice,
-                        intx.mmap_timeout, 1100),
--    DEFINE_PROP_BIT("x-vga", VFIOPCIDevice, features,
--                    VFIO_FEATURE_ENABLE_VGA_BIT, false),
--    DEFINE_PROP_BIT("x-req", VFIOPCIDevice, features,
--                    VFIO_FEATURE_ENABLE_REQ_BIT, true),
--    DEFINE_PROP_BIT("x-igd-opregion", VFIOPCIDevice, features,
--                    VFIO_FEATURE_ENABLE_IGD_OPREGION_BIT, false),
-     DEFINE_PROP_BOOL("x-enable-migration", VFIOPCIDevice,
-                      vbasedev.enable_migration, false),
-     DEFINE_PROP_BOOL("x-no-mmap", VFIOPCIDevice, vbasedev.no_mmap, false),
-@@ -3291,8 +3279,6 @@ static Property vfio_pci_dev_properties[] = {
-     DEFINE_PROP_BOOL("x-no-kvm-intx", VFIOPCIDevice, no_kvm_intx, false),
-     DEFINE_PROP_BOOL("x-no-kvm-msi", VFIOPCIDevice, no_kvm_msi, false),
-     DEFINE_PROP_BOOL("x-no-kvm-msix", VFIOPCIDevice, no_kvm_msix, false),
--    DEFINE_PROP_BOOL("x-no-geforce-quirks", VFIOPCIDevice,
--                     no_geforce_quirks, false),
-     DEFINE_PROP_BOOL("x-no-kvm-ioeventfd", VFIOPCIDevice, no_kvm_ioeventfd,
-                      false),
-     DEFINE_PROP_BOOL("x-no-vfio-ioeventfd", VFIOPCIDevice, no_vfio_ioeventfd,
-@@ -3303,10 +3289,6 @@ static Property vfio_pci_dev_properties[] = {
-                        sub_vendor_id, PCI_ANY_ID),
-     DEFINE_PROP_UINT32("x-pci-sub-device-id", VFIOPCIDevice,
-                        sub_device_id, PCI_ANY_ID),
--    DEFINE_PROP_UINT32("x-igd-gms", VFIOPCIDevice, igd_gms, 0),
--    DEFINE_PROP_UNSIGNED_NODEFAULT("x-nv-gpudirect-clique", VFIOPCIDevice,
--                                   nv_gpudirect_clique,
--                                   qdev_prop_nv_gpudirect_clique, uint8_t),
-     DEFINE_PROP_OFF_AUTO_PCIBAR("x-msix-relocation", VFIOPCIDevice, msix_relo,
-                                 OFF_AUTOPCIBAR_OFF),
-     /*
-@@ -3317,28 +3299,25 @@ static Property vfio_pci_dev_properties[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
+ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
+@@ -501,24 +478,18 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
+         .iova = iova,
+         .size = size,
+     };
++    int ret;
  
--static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
-+static void vfio_pci_base_dev_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *pdc = PCI_DEVICE_CLASS(klass);
+     if (!readonly) {
+         map.flags |= VFIO_DMA_MAP_FLAG_WRITE;
+     }
  
--    dc->reset = vfio_pci_reset;
--    device_class_set_props(dc, vfio_pci_dev_properties);
--    dc->desc = "VFIO-based PCI device assignment";
-+    device_class_set_props(dc, vfio_pci_base_dev_properties);
-+    dc->desc = "VFIO PCI base device";
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
--    pdc->realize = vfio_realize;
-     pdc->exit = vfio_exitfn;
-     pdc->config_read = vfio_pci_read_config;
-     pdc->config_write = vfio_pci_write_config;
+-    /*
+-     * Try the mapping, if it fails with EBUSY, unmap the region and try
+-     * again.  This shouldn't be necessary, but we sometimes see it in
+-     * the VGA ROM space.
+-     */
+-    if (ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map) == 0 ||
+-        (errno == EBUSY && vfio_dma_unmap(container, iova, size, NULL) == 0 &&
+-         ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map) == 0)) {
+-        return 0;
+-    }
++    ret = CONT_DMA_MAP(container, &map);
+ 
+-    error_report("VFIO_MAP_DMA failed: %s", strerror(errno));
+-    return -errno;
++    if (ret < 0) {
++        error_report("VFIO_MAP_DMA failed: %s", strerror(-ret));
++    }
++    return ret;
  }
  
--static const TypeInfo vfio_pci_dev_info = {
--    .name = TYPE_VFIO_PCI,
-+static const TypeInfo vfio_pci_base_dev_info = {
-+    .name = TYPE_VFIO_PCI_BASE,
-     .parent = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(VFIOPCIDevice),
--    .class_init = vfio_pci_dev_class_init,
--    .instance_init = vfio_instance_init,
--    .instance_finalize = vfio_instance_finalize,
-+    .instance_size = 0,
-+    .abstract = true,
-+    .class_init = vfio_pci_base_dev_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_PCIE_DEVICE },
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-@@ -3346,6 +3325,48 @@ static const TypeInfo vfio_pci_dev_info = {
-     },
- };
+ static void vfio_host_win_add(VFIOContainer *container,
+@@ -1263,10 +1234,10 @@ static void vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
+         dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
+     }
  
-+static Property vfio_pci_dev_properties[] = {
-+    DEFINE_PROP_PCI_HOST_DEVADDR("host", VFIOPCIDevice, host),
-+    DEFINE_PROP_STRING("sysfsdev", VFIOPCIDevice, vbasedev.sysfsdev),
-+    DEFINE_PROP_ON_OFF_AUTO("display", VFIOPCIDevice,
-+                            display, ON_OFF_AUTO_OFF),
-+    DEFINE_PROP_UINT32("xres", VFIOPCIDevice, display_xres, 0),
-+    DEFINE_PROP_UINT32("yres", VFIOPCIDevice, display_yres, 0),
-+    DEFINE_PROP_BIT("x-vga", VFIOPCIDevice, features,
-+                    VFIO_FEATURE_ENABLE_VGA_BIT, false),
-+    DEFINE_PROP_BIT("x-req", VFIOPCIDevice, features,
-+                    VFIO_FEATURE_ENABLE_REQ_BIT, true),
-+    DEFINE_PROP_BIT("x-igd-opregion", VFIOPCIDevice, features,
-+                    VFIO_FEATURE_ENABLE_IGD_OPREGION_BIT, false),
-+    DEFINE_PROP_BOOL("x-no-geforce-quirks", VFIOPCIDevice,
-+                     no_geforce_quirks, false),
-+    DEFINE_PROP_UINT32("x-igd-gms", VFIOPCIDevice, igd_gms, 0),
-+    DEFINE_PROP_UNSIGNED_NODEFAULT("x-nv-gpudirect-clique", VFIOPCIDevice,
-+                                   nv_gpudirect_clique,
-+                                   qdev_prop_nv_gpudirect_clique, uint8_t),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
+-    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
++    ret = CONT_DIRTY_BITMAP(container, &dirty, NULL);
+     if (ret) {
+         error_report("Failed to set dirty tracking flag 0x%x errno: %d",
+-                     dirty.flags, errno);
++                     dirty.flags, -ret);
+     }
+ }
+ 
+@@ -1316,11 +1287,11 @@ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+         goto err_out;
+     }
+ 
+-    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
++    ret = CONT_DIRTY_BITMAP(container, dbitmap, range);
+     if (ret) {
+         error_report("Failed to get dirty bitmap for iova: 0x%"PRIx64
+                 " size: 0x%"PRIx64" err: %d", (uint64_t)range->iova,
+-                (uint64_t)range->size, errno);
++                (uint64_t)range->size, -ret);
+         goto err_out;
+     }
+ 
+@@ -2090,6 +2061,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+     container->error = NULL;
+     container->dirty_pages_supported = false;
+     container->dma_max_mappings = 0;
++    container->io_ops = &vfio_cont_io_ioctl;
+     QLIST_INIT(&container->giommu_list);
+     QLIST_INIT(&container->hostwin_list);
+     QLIST_INIT(&container->vrdl_list);
+@@ -2626,3 +2598,73 @@ int vfio_eeh_as_op(AddressSpace *as, uint32_t op)
+     }
+     return vfio_eeh_container_op(container, op);
+ }
 +
-+static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
++/*
++ * Traditional ioctl() based io_ops
++ */
++
++static int vfio_io_dma_map(VFIOContainer *container,
++                           struct vfio_iommu_type1_dma_map *map)
 +{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *pdc = PCI_DEVICE_CLASS(klass);
 +
-+    dc->reset = vfio_pci_reset;
-+    device_class_set_props(dc, vfio_pci_dev_properties);
-+    dc->desc = "VFIO-based PCI device assignment";
-+    pdc->realize = vfio_realize;
++    /*
++     * Try the mapping, if it fails with EBUSY, unmap the region and try
++     * again.  This shouldn't be necessary, but we sometimes see it in
++     * the VGA ROM space.
++     */
++    if (ioctl(container->fd, VFIO_IOMMU_MAP_DMA, map) == 0 ||
++        (errno == EBUSY &&
++         vfio_dma_unmap(container, map->iova, map->size, NULL) == 0 &&
++         ioctl(container->fd, VFIO_IOMMU_MAP_DMA, map) == 0)) {
++        return 0;
++    }
++    return -errno;
 +}
 +
-+static const TypeInfo vfio_pci_dev_info = {
-+    .name = TYPE_VFIO_PCI,
-+    .parent = TYPE_VFIO_PCI_BASE,
-+    .instance_size = sizeof(VFIOKernPCIDevice),
-+    .class_init = vfio_pci_dev_class_init,
-+    .instance_init = vfio_instance_init,
-+    .instance_finalize = vfio_instance_finalize,
-+};
++static int vfio_io_dma_unmap(VFIOContainer *container,
++                             struct vfio_iommu_type1_dma_unmap *unmap,
++                             struct vfio_bitmap *bitmap)
++{
 +
- static Property vfio_pci_dev_nohotplug_properties[] = {
-     DEFINE_PROP_BOOL("ramfb", VFIOPCIDevice, enable_ramfb, false),
-     DEFINE_PROP_END_OF_LIST(),
-@@ -3362,12 +3383,13 @@ static void vfio_pci_nohotplug_dev_class_init(ObjectClass *klass, void *data)
- static const TypeInfo vfio_pci_nohotplug_dev_info = {
-     .name = TYPE_VFIO_PCI_NOHOTPLUG,
-     .parent = TYPE_VFIO_PCI,
--    .instance_size = sizeof(VFIOPCIDevice),
-+    .instance_size = sizeof(VFIOKernPCIDevice),
-     .class_init = vfio_pci_nohotplug_dev_class_init,
++    while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap)) {
++        /*
++         * The type1 backend has an off-by-one bug in the kernel (71a7d3d78e3c
++         * v4.15) where an overflow in its wrap-around check prevents us from
++         * unmapping the last page of the address space.  Test for the error
++         * condition and re-try the unmap excluding the last page.  The
++         * expectation is that we've never mapped the last page anyway and this
++         * unmap request comes via vIOMMU support which also makes it unlikely
++         * that this page is used.  This bug was introduced well after type1 v2
++         * support was introduced, so we shouldn't need to test for v1.  A fix
++         * is queued for kernel v5.0 so this workaround can be removed once
++         * affected kernels are sufficiently deprecated.
++         */
++        if (errno == EINVAL && unmap->size && !(unmap->iova + unmap->size) &&
++            container->iommu_type == VFIO_TYPE1v2_IOMMU) {
++            trace_vfio_dma_unmap_overflow_workaround();
++            unmap->size -= 1ULL << ctz64(container->pgsizes);
++            continue;
++        }
++        error_report("VFIO_UNMAP_DMA failed: %s", strerror(errno));
++        return -errno;
++    }
++
++    return 0;
++}
++
++static int vfio_io_dirty_bitmap(VFIOContainer *container,
++                                struct vfio_iommu_type1_dirty_bitmap *bitmap,
++                                struct vfio_iommu_type1_dirty_bitmap_get *range)
++{
++    int ret;
++
++    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, bitmap);
++
++    return ret < 0 ? -errno : ret;
++}
++
++VFIOContIO vfio_cont_io_ioctl = {
++    .dma_map = vfio_io_dma_map,
++    .dma_unmap = vfio_io_dma_unmap,
++    .dirty_bitmap = vfio_io_dirty_bitmap,
++};
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index e573f5a..6fd40f1 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -75,6 +75,7 @@ typedef struct VFIOAddressSpace {
+ } VFIOAddressSpace;
+ 
+ struct VFIOGroup;
++typedef struct VFIOContIO VFIOContIO;
+ 
+ typedef struct VFIOContainer {
+     VFIOAddressSpace *space;
+@@ -83,6 +84,7 @@ typedef struct VFIOContainer {
+     MemoryListener prereg_listener;
+     unsigned iommu_type;
+     Error *error;
++    VFIOContIO *io_ops;
+     bool initialized;
+     bool dirty_pages_supported;
+     uint64_t dirty_pgsizes;
+@@ -154,6 +156,37 @@ struct VFIODeviceOps {
+     int (*vfio_load_config)(VFIODevice *vdev, QEMUFile *f);
  };
  
- static void register_vfio_pci_dev_type(void)
- {
-+    type_register_static(&vfio_pci_base_dev_info);
-     type_register_static(&vfio_pci_dev_info);
-     type_register_static(&vfio_pci_nohotplug_dev_info);
- }
-diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index 7c236a5..7c5c8ec 100644
---- a/hw/vfio/pci.h
-+++ b/hw/vfio/pci.h
-@@ -115,8 +115,13 @@ typedef struct VFIOMSIXInfo {
-     unsigned long *pending;
- } VFIOMSIXInfo;
- 
--#define TYPE_VFIO_PCI "vfio-pci"
--OBJECT_DECLARE_SIMPLE_TYPE(VFIOPCIDevice, VFIO_PCI)
++#ifdef CONFIG_LINUX
++
 +/*
-+ * TYPE_VFIO_PCI_BASE is an abstract type used to share code
-+ * between VFIO implementations that use a kernel driver
-+ * with those that use user sockets.
++ * The next 2 ops vectors are how Devices and Containers
++ * communicate with the server.  The default option is
++ * through ioctl() to the kernel VFIO driver, but vfio-user
++ * can use a socket to a remote process.
 + */
-+#define TYPE_VFIO_PCI_BASE "vfio-pci-base"
-+OBJECT_DECLARE_SIMPLE_TYPE(VFIOPCIDevice, VFIO_PCI_BASE)
- 
- struct VFIOPCIDevice {
-     PCIDevice pdev;
-@@ -177,6 +182,13 @@ struct VFIOPCIDevice {
-     Notifier irqchip_change_notifier;
- };
- 
-+#define TYPE_VFIO_PCI "vfio-pci"
-+OBJECT_DECLARE_SIMPLE_TYPE(VFIOKernPCIDevice, VFIO_PCI)
 +
-+struct VFIOKernPCIDevice {
-+    VFIOPCIDevice device;
++struct VFIOContIO {
++    int (*dma_map)(VFIOContainer *container,
++                   struct vfio_iommu_type1_dma_map *map);
++    int (*dma_unmap)(VFIOContainer *container,
++                     struct vfio_iommu_type1_dma_unmap *unmap,
++                     struct vfio_bitmap *bitmap);
++    int (*dirty_bitmap)(VFIOContainer *container,
++                        struct vfio_iommu_type1_dirty_bitmap *bitmap,
++                        struct vfio_iommu_type1_dirty_bitmap_get *range);
 +};
 +
- /* Use uin32_t for vendor & device so PCI_ANY_ID expands and cannot match hw */
- static inline bool vfio_pci_is(VFIOPCIDevice *vdev, uint32_t vendor, uint32_t device)
- {
++#define CONT_DMA_MAP(cont, map) \
++    ((cont)->io_ops->dma_map((cont), (map)))
++#define CONT_DMA_UNMAP(cont, unmap, bitmap) \
++    ((cont)->io_ops->dma_unmap((cont), (unmap), (bitmap)))
++#define CONT_DIRTY_BITMAP(cont, bitmap, range) \
++    ((cont)->io_ops->dirty_bitmap((cont), (bitmap), (range)))
++
++extern VFIOContIO vfio_cont_io_ioctl;
++
++#endif /* CONFIG_LINUX */
++
+ typedef struct VFIOGroup {
+     int fd;
+     int groupid;
 -- 
 1.8.3.1
 
