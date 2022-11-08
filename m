@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98FBD621DC7
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 21:40:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 584DB621E09
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 21:50:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osVMp-0007XF-Gh; Tue, 08 Nov 2022 15:38:43 -0500
+	id 1osVX9-0000xA-0s; Tue, 08 Nov 2022 15:49:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1osVMm-0007X3-U9
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 15:38:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1osVMl-0007Pl-5U
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 15:38:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667939917;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EHcWW1I8IWjO0Nj+LmXQCp3kA0MCFB/uTFl00xFqWvU=;
- b=ZZZSE5pBA1vAZ51Jcr56JHPe4DXP7Cszf1m7wvUmJ6FSorQXdBarLwl6RpWvX0cPt589XP
- 2kRh6nl6K5L0CRHaocXMVcKTBGItC0H0gbo0ew9Cqa4FITzQUGPWra8yQ3c97WJbGKAG31
- vz2IaaNFjcuXmQunbSQA53rwMQOCecY=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-591-7HSjnMI-N0avMY9cjNVthA-1; Tue, 08 Nov 2022 15:38:36 -0500
-X-MC-Unique: 7HSjnMI-N0avMY9cjNVthA-1
-Received: by mail-lf1-f72.google.com with SMTP id
- u3-20020a05651220c300b004a4413d37dcso5248800lfr.6
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 12:38:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1osVX5-0000wU-BM; Tue, 08 Nov 2022 15:49:19 -0500
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1osVX3-0004yN-QG; Tue, 08 Nov 2022 15:49:19 -0500
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-37063f855e5so144900957b3.3; 
+ Tue, 08 Nov 2022 12:49:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=osecGGmvyozZM6woBsfejq6sstWCMPgyz7CS8A19MFw=;
+ b=L8+F2oxf436CDgC8lrz2S6oi7x1mYNC0YQdOqnBPZLS6icXv3r18AOPs2xderthD3X
+ HgtTKJ7/OxHgM+muy/Ri/tFlWZ1W/TNsvouvFI5HaOnToXzJABEaVNHj5W0c6+bV0qIg
+ 8HV0MhJC1n2Lj5PX/iI8JeWaAnDZXen6swBH/B9S7CUXAxwo9wlpec+CwJhyrq3z4e0+
+ hjCqiXmsmBaKh8Pdk0af6P8uRQudGGEOwKTysLJYc4pWuovRbEf9+ab4V01AONFfS5BI
+ tmNimtru9v/AyUj//1d/hQSA7W7o+F1zPMfGiTnA+U9Aw9kdUSEjFruQMI0IgEQ1/Jwf
+ xJBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EHcWW1I8IWjO0Nj+LmXQCp3kA0MCFB/uTFl00xFqWvU=;
- b=4tIftuyu9lEDQol0/s1sijB4XBwYpoE7sp4+d4XLzlb2mL8weAMqsjCou9HH7CLCZF
- NzlDHHTTUJHp1U3a2dJPqbibegpyKo8Mlp65xNTwLy81wjwFxD19Kn2ywaqiet1lgWD/
- dDyvVfud3cAjoS+G4DKfljw+vk9fb0vtSb43GqBagUZjQaY16Y/HVIg3lTE4iWGBx4qI
- MoOwPYgh/4cCNjoEF3yFR96aBjd5RJTatEfmWCYByM1VU0vOer5yiN7YipOLUhNl0iLS
- 9scPRwG/bbUWSQ4Mxmtzx3NL2+JT4sUv058QZr6RYoZ6RDlIlZhZvNl7DP4+M6HVoqqj
- vwsg==
-X-Gm-Message-State: ACrzQf0eefrAHUb5E8KvfsiJfkTk8NgtZ5hEPsAb0G+mJZYNV2h2wqUs
- egp7rO9Dl7vgnZLx9rnRNg7ZG1nH/vOM+D92kw7JvH0802NpyVV8bae7r6UJg1ojMiZJnDOc6tl
- 2TgVtHFhraC6BwHJhKjTwnnZdQkgcTKM=
-X-Received: by 2002:ac2:5d4e:0:b0:4b0:830c:3e08 with SMTP id
- w14-20020ac25d4e000000b004b0830c3e08mr20445740lfd.670.1667939914626; 
- Tue, 08 Nov 2022 12:38:34 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5I6pBkNNJ493pQHmfySVP86JrKu3AL1R6EinACyInwSX2YMJbNlvDfv8/3pnqJiAgp3wFfIgMexueX3OoW9LQ=
-X-Received: by 2002:ac2:5d4e:0:b0:4b0:830c:3e08 with SMTP id
- w14-20020ac25d4e000000b004b0830c3e08mr20445714lfd.670.1667939914352; Tue, 08
- Nov 2022 12:38:34 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=osecGGmvyozZM6woBsfejq6sstWCMPgyz7CS8A19MFw=;
+ b=By0j/jNvZlU+OvlXSTb102bTSw1X3XmG0vcbL03oZsYKeZa+xStWKYjANqJY+fLin2
+ mRPHC7urVnqm/+vLOjMUW4yf2/6s8cLkT0iIuFDREIXhokdZLm0/NAH2LkF/BmlFODXz
+ QK+9iWRdEuv5NkdA+15GLFobTcDDdxGRJmxjC5/K+DP3LYssXbW0VivX+omniQ8mjw9s
+ IaHxGZcriZT1WXSOboyg/Zxe2SAZMQFX5ZoK51LdhlpVmqbLzUNJlzouSKKBhMnM+aiE
+ A252H3Ze1CIycBEQLprg9rVyA9sjq5EEpPSIXB4DnpGuLmifbw4i63Od/M1gYUAlC93W
+ G04A==
+X-Gm-Message-State: ACrzQf0B+UIaKrzzcSstT4ejs8Hm0x9mMSe5SBQyPuT9twyg8htsGHOT
+ Fz/jfzcIF+G+JvfWguRrM89Fpm919V5XcLvrPnw=
+X-Google-Smtp-Source: AMsMyM6bga9f69X2U7Qwn6aNNIwnaodIjxrZtqwvaZYM9eZUeReTfbtkFsH1rH702slnxdqz4zsBxaHMkoQIw+Aq0AU=
+X-Received: by 2002:a81:8445:0:b0:36c:c302:8926 with SMTP id
+ u66-20020a818445000000b0036cc3028926mr56269870ywf.296.1667940556239; Tue, 08
+ Nov 2022 12:49:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20221103102741.11201-1-davydov-max@yandex-team.ru>
- <20221103102741.11201-3-davydov-max@yandex-team.ru>
-In-Reply-To: <20221103102741.11201-3-davydov-max@yandex-team.ru>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 8 Nov 2022 15:38:21 -0500
-Message-ID: <CAFn=p-aMT7Z3ybbuLvpZb2dphn5ybhwN=OBnKP23PYWb5KshVg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] python/qmp: increase read buffer size
-To: Maksim Davydov <davydov-max@yandex-team.ru>
-Cc: qemu-devel@nongnu.org, vsementsov@yandex-team.ru, eduardo@habkost.net, 
- marcel.apfelbaum@gmail.com, philmd@linaro.org, wangyanan55@huawei.com, 
- crosa@redhat.com, bleal@redhat.com, eblake@redhat.com, armbru@redhat.com, 
- pbonzini@redhat.com, berrange@redhat.com, alxndr@bu.edu, bsd@redhat.com, 
- stefanha@redhat.com, thuth@redhat.com, darren.kenny@oracle.com, 
- Qiuhao.Li@outlook.com, lvivier@redhat.com
+References: <20221108183352.9466-1-philmd@linaro.org>
+In-Reply-To: <20221108183352.9466-1-philmd@linaro.org>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 8 Nov 2022 15:49:04 -0500
+Message-ID: <CAJSP0QVdQ=wTtgNVDChzu5U1ww3SZAa2HfXjuE4z5uOnFeT_bw@mail.gmail.com>
+Subject: Re: [PULL 0/3] Memory/SDHCI/ParallelFlash patches for v7.2.0-rc0
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
+ Hanna Reitz <hreitz@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, 
+ qemu-block@nongnu.org, Peter Xu <peterx@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1135.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,47 +87,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 3, 2022 at 6:29 AM Maksim Davydov
-<davydov-max@yandex-team.ru> wrote:
+On Tue, 8 Nov 2022 at 13:35, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org=
+> wrote:
 >
-> After modification of "query-machines" command the buffer size should be
-> more than 452kB to contain output with compat-props.
+> The following changes since commit ade760a2f63804b7ab1839fbc3e5ddbf305387=
+18:
 >
-> Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-> ---
->  python/qemu/qmp/qmp_client.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>   Merge tag 'pull-request-2022-11-08' of https://gitlab.com/thuth/qemu in=
+to staging (2022-11-08 11:34:06 -0500)
 >
-> diff --git a/python/qemu/qmp/qmp_client.py b/python/qemu/qmp/qmp_client.py
-> index 5dcda04a75..659fe4d98c 100644
-> --- a/python/qemu/qmp/qmp_client.py
-> +++ b/python/qemu/qmp/qmp_client.py
-> @@ -197,8 +197,8 @@ async def run(self, address='/tmp/qemu.socket'):
->      #: Logger object used for debugging messages.
->      logger = logging.getLogger(__name__)
+> are available in the Git repository at:
 >
-> -    # Read buffer limit; large enough to accept query-qmp-schema
-> -    _limit = (256 * 1024)
-> +    # Read buffer limit; large enough to accept query-machines
-> +    _limit = (512 * 1024)
+>   https://github.com/philmd/qemu.git tags/memflash-20221108
+>
+> for you to fetch changes up to cf9b3efd816518f9f210f50a0fa3e46a00b33c27:
+>
+>   Revert "hw/block/pflash_cfi: Error out if dev length isn't power of 2" =
+(2022-11-08 19:29:25 +0100)
+>
+> ----------------------------------------------------------------
+> Memory/SDHCI/ParallelFlash patches queue
+>
+> - Fix wrong end address dump in 'info mtree' (Zhenzhong Duan)
+> - Fix in SDHCI for CVE-2022-3872 (myself)
 
-wow :)
+There is a CI failure:
 
->
->      # Type alias for pending execute() result items
->      _PendingT = Union[Message, ExecInterruptedError]
-> --
-> 2.25.1
->
+>>> G_TEST_DBUS_DAEMON=3D/builds/qemu-project/qemu/tests/dbus-vmstate-daemo=
+n.sh MALLOC_PERTURB_=3D127 QTEST_QEMU_BINARY=3D./qemu-system-arm QTEST_QEMU=
+_STORAGE_DAEMON_BINARY=3D./storage-daemon/qemu-storage-daemon QTEST_QEMU_IM=
+G=3D./qemu-img /builds/qemu-project/qemu/build/tests/qtest/npcm7xx_sdhci-te=
+st --tap -k
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95 =E2=9C=80 =E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=
+=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=
+=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=95=E2=80=
+=95
+stderr:
+** Message: 19:27:52.411: /tmp/sdhci_ZD2EV1
+**
+ERROR:../tests/qtest/npcm7xx_sdhci-test.c:101:sdwrite_read: assertion
+failed: (!memcmp(rmsg, msg, len))
 
-If you would please submit this to
-https://gitlab.com/qemu-project/python-qemu-qmp I can get it merged
-there quickly, then backport it to qemu.git.
-Or, if you don't have a gitlab account (and do not want one), please
-let me know and I'll port it there myself so you don't have to.
+https://gitlab.com/qemu-project/qemu/-/jobs/3292896670
 
-thanks,
---js
-
+Stefan
 
