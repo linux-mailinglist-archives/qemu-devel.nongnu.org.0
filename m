@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15C8621BFC
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 19:35:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B0B621BF9
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 19:35:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osTQQ-0005J2-BW; Tue, 08 Nov 2022 13:34:18 -0500
+	id 1osTQQ-0005J1-9o; Tue, 08 Nov 2022 13:34:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osTQG-0005G9-7u
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 13:34:08 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osTQL-0005Hv-5U
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 13:34:13 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osTQE-0002QX-GH
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 13:34:07 -0500
-Received: by mail-wr1-x434.google.com with SMTP id k8so22426327wrh.1
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 10:34:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osTQJ-0002Xh-Jp
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 13:34:12 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ c3-20020a1c3503000000b003bd21e3dd7aso12314359wma.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 10:34:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BCjXnigQrezHvMbD6pi+K2YoWSCNKyXOSu5TkCCmKYE=;
- b=xupEfgp6Iy6lz8FlOT/3N+RRZmtkMyeuVwi4vV6lb5re9A+mtqETg6Uxf61sIG92bG
- k/cf97qXblfvWGhfwTB+6T5o2DJ7Z3oWXdVweTTmGRQsethcj2CZs6KenMcq0XwCrAzN
- O4zyT+J7E1Ur3pHcBoZfbX4xoF8t0hZLTwjjmi15b9WC/RSCxk6YkqF74fTzjXUmwBI7
- 1CyjYLVz7kakfmjZYHlPTbfo33DlLcJi7zL7Jpso1zJ4jM8GBDd6uPQjMY1omayj9uP0
- vq76ZIXnmcP0RVPSvDHZlKh0E1+WPLlTCVDYObGJnVY2EDCzM0/Lj7EWCop32bicPT9H
- 6O4Q==
+ bh=EaN4TB87K9SHwpGHJN/1lzTGk4djCbU5hJR52tyhIr4=;
+ b=Yq+4pu0e0gCtN3xILjZowPXv8oHA1hwLgxZSDMEzqAEJgM4nvYuMrx1nafYI7IoBFz
+ nZM5FFKgEZY6JTX7nJZV3bN5I3tsjzBe0YqapDs/PoXJ6ksy8yh7gTxQ4SES72ewa/Km
+ jNVT8kpo9tahlHpRSOJo23vrSCxGSrjZaIUaeT4lCbbOIdHBbgl23B9Bg2SSQZkvZbst
+ OKjBvkgKu57nRz/4nmo+IGYZfLnc5EjiAU2c9m6bJcVwhjNis+2ZVVOQCm49Dl6KKb5B
+ n1EvDhm+o1w3h2fiJJQs4moTFw6B59lepus32el9gSgm7g+1xDICaG3we9vW8ZfXMo8g
+ 3SCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BCjXnigQrezHvMbD6pi+K2YoWSCNKyXOSu5TkCCmKYE=;
- b=Q7PUJAv2nnYNoj9aZ0/37zqUFfr9sG8GvqpFZ7xk+2FEpoqRUAB2xTFadMw5L4Gn/z
- 7EoOvG+52jWAiintaZzG5mrWHIr0ye63/OoAbeafPOc0e3LqX4kknz+CejMl3AE9UZ36
- UuJxNSIRdVch+nBAeI8dxFBEhpyDv8D2NfPUFaFb5RQzjndDSsx38skCd0j1hLGzmE4C
- k3CwYrH6WqhkvrVRd4NNBLWKkeYXTmJ7qzkBg+gUZXu5rqS5hZ80bMsQcBwBpMF6OoqZ
- Z0KwHi/HD/Y1gKxhrX9qTWqhSXpzzcY34f63cLLSXAUvjRD/4ncqwHlNvJOxsE5lr3MT
- 2ifQ==
-X-Gm-Message-State: ACrzQf1NEQXgDyBdaWhv1O+4bvaWu/kydqMVwVukii/7wiOE9eZrHbek
- QSpliKnELwlO5LbZ10wxoOk6oUJwUZER2Q==
-X-Google-Smtp-Source: AMsMyM4OxNZHiETdfw7s0Bgv0ZhYJJKQOtHbyyWmJa6jL8qTA2RLUgud1uqhuv4fcdFX/GdGmPASBg==
-X-Received: by 2002:a5d:4910:0:b0:235:ab9b:33a2 with SMTP id
- x16-20020a5d4910000000b00235ab9b33a2mr36973557wrq.58.1667932444655; 
- Tue, 08 Nov 2022 10:34:04 -0800 (PST)
+ bh=EaN4TB87K9SHwpGHJN/1lzTGk4djCbU5hJR52tyhIr4=;
+ b=vFqVRA/0JMAq/K5keC6ekeIwz49ZtbAZdBVVPYCPI6h8kf912L4al3jqhS59hgvaeE
+ 1HipTQSZAZdBCj9vkc4gk6aKNBXJf3OB745ETHKCAIl6UcHYThYgrIZn9DWmT3wDsob1
+ mxsdPVfVNmROUg99hKG7oOK22yydBAddBNwF2w0tLrnYJCwpPoR7CYUGcaBYCYz+NJum
+ pt0iE+UmtUlkvk6KM/CjccrImPfPSiT5EXZQHm35kBTaO1G9Pp1SmaR/XfhCxaeiUu17
+ CCPdPMKVf6miM0wXAWI/rMthfZptIJS+yiH+t2+qzQbW0i2L25hIcHE81igcnTNm1EEX
+ 9adw==
+X-Gm-Message-State: ACrzQf3hZC/NaKKCmPJ3X769MWayZDMSQUp8JpWfXcYWwambNLF75nTk
+ uq0b4QJENwM4f5Ca00kSIjO1dHGi2ImZBA==
+X-Google-Smtp-Source: AMsMyM4hop53k/H7OdLebRixzUPszSkObfe54NPx0X+BJEft6nwrN79uPtBMz7dpL0TIyLtm0Slr7A==
+X-Received: by 2002:a05:600c:2143:b0:3cf:63dc:d011 with SMTP id
+ v3-20020a05600c214300b003cf63dcd011mr38796548wml.194.1667932449945; 
+ Tue, 08 Nov 2022 10:34:09 -0800 (PST)
 Received: from localhost.localdomain ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- n41-20020a05600c502900b003c6c4639ac6sm12430513wmr.34.2022.11.08.10.34.03
+ j5-20020adfe505000000b0023c8026841csm11367876wrm.23.2022.11.08.10.34.08
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Tue, 08 Nov 2022 10:34:04 -0800 (PST)
+ Tue, 08 Nov 2022 10:34:09 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -59,28 +60,26 @@ Cc: Bin Meng <bin.meng@windriver.com>, Hanna Reitz <hreitz@redhat.com>,
  qemu-block@nongnu.org, Peter Xu <peterx@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- RivenDell <XRivenDell@outlook.com>, Siqi Chen <coc.cyqh@gmail.com>,
- ningqiang <ningqiang1@huawei.com>,
- Mauro Matteo Cascella <mcascell@redhat.com>
-Subject: [PULL 2/3] hw/sd/sdhci: Do not set Buf Wr Ena before writing block
- (CVE-2022-3872)
-Date: Tue,  8 Nov 2022 19:33:51 +0100
-Message-Id: <20221108183352.9466-3-philmd@linaro.org>
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PULL 3/3] Revert "hw/block/pflash_cfi: Error out if dev length isn't
+ power of 2"
+Date: Tue,  8 Nov 2022 19:33:52 +0100
+Message-Id: <20221108183352.9466-4-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221108183352.9466-1-philmd@linaro.org>
 References: <20221108183352.9466-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,87 +95,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When sdhci_write_block_to_card() is called to transfer data from
-the FIFO to the SD bus, the data is already present in the buffer
-and we have to consume it directly.
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-See the description of the 'Buffer Write Enable' bit from the
-'Present State' register (prnsts::SDHC_SPACE_AVAILABLE) in Table
-2.14 from the SDHCI spec v2:
+Commit 334c388f25 ("pflash_cfi: Error out if device length
+isn't a power of two") aimed to finish the effort started by
+commit 06f1521795 ("pflash: Require backend size to match device,
+improve errors"), but unfortunately we are not quite there since
+various machines are still ready to accept incomplete / oversized
+pflash backend images, and now fail, i.e. on Debian bullseye:
 
-  Buffer Write Enable
+ $ qemu-system-x86_64 \
+   -drive \
+   if=pflash,format=raw,unit=0,readonly=on,file=/usr/share/OVMF/OVMF_CODE.fd
+ qemu-system-x86_64: Device size must be a power of two.
 
-  This status is used for non-DMA write transfers.
+where OVMF_CODE.fd comes from the ovmf package, which doesn't
+pad the firmware images to the flash size:
 
-  The Host Controller can implement multiple buffers to transfer
-  data efficiently. This read only flag indicates if space is
-  available for write data. If this bit is 1, data can be written
-  to the buffer. A change of this bit from 1 to 0 occurs when all
-  the block data is written to the buffer. A change of this bit
-  from 0 to 1 occurs when top of block data can be written to the
-  buffer and generates the Buffer Write Ready interrupt.
+ $ ls -lh /usr/share/OVMF/
+ -rw-r--r-- 1 root root 3.5M Aug 19  2021 OVMF_CODE_4M.fd
+ -rw-r--r-- 1 root root 1.9M Aug 19  2021 OVMF_CODE.fd
+ -rw-r--r-- 1 root root 128K Aug 19  2021 OVMF_VARS.fd
 
-In our case, we do not want to overwrite the buffer, so we want
-this bit to be 0, then set it to 1 once the data is written onto
-the bus.
+Since we entered the freeze period to prepare the v7.2.0 release,
+the safest is to revert commit 334c388f25707a234c4a0dea05b9df08d.
 
-This is probably a copy/paste error from commit d7dfca0807
-("hw/sdhci: introduce standard SD host controller").
-
-OSS-Fuzz Report: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=45986#c4
-
-Reproducers:
-
-  $ cat << EOF | \
-     qemu-system-x86_64 -nodefaults -display none -machine accel=qtest \
-       -m 512M  -device sdhci-pci -device sd-card,drive=mydrive \
-       -drive if=none,index=0,file=null-co://,format=raw,id=mydrive \
-       -nographic -qtest stdio
-  outl 0xcf8 0x80001010
-  outl 0xcfc 0xe0000000
-  outl 0xcf8 0x80001001
-  outl 0xcfc 0x06000000
-  write 0xe0000058 0x1 0x6e
-  write 0xe0000059 0x1 0x5a
-  write 0xe0000028 0x1 0x10
-  write 0xe000002c 0x1 0x05
-  write 0x5a6e 0x1 0x21
-  write 0x5a75 0x1 0x20
-  write 0xe0000005 0x1 0x02
-  write 0xe000000c 0x1 0x01
-  write 0xe000000e 0x1 0x20
-  write 0xe000000f 0x1 0x00
-  write 0xe000000c 0x1 0x00
-  write 0xe0000020 0x1 0x00
-  EOF
-
-or https://lore.kernel.org/qemu-devel/CAA8xKjXrmS0fkr28AKvNNpyAtM0y0B+5FichpsrhD+mUgnuyKg@mail.gmail.com/
-
-Fixes: CVE-2022-3872
-Reported-by: RivenDell <XRivenDell@outlook.com>
-Reported-by: Siqi Chen <coc.cyqh@gmail.com>
-Reported-by: ningqiang <ningqiang1@huawei.com>
-Reported-by: ClusterFuzz
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1294
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Tested-by: Mauro Matteo Cascella <mcascell@redhat.com>
-Message-Id: <20221107221236.47841-2-philmd@linaro.org>
+Message-Id: <20221108175755.95141-1-philmd@linaro.org>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20221108172633.860700-1-danielhb413@gmail.com>
 ---
- hw/sd/sdhci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/pflash_cfi01.c | 8 ++------
+ hw/block/pflash_cfi02.c | 5 -----
+ 2 files changed, 2 insertions(+), 11 deletions(-)
 
-diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index 306070c872..f230e7475f 100644
---- a/hw/sd/sdhci.c
-+++ b/hw/sd/sdhci.c
-@@ -954,7 +954,7 @@ static void sdhci_data_transfer(void *opaque)
-             sdhci_read_block_from_card(s);
-         } else {
-             s->prnsts |= SDHC_DOING_WRITE | SDHC_DAT_LINE_ACTIVE |
--                    SDHC_SPACE_AVAILABLE | SDHC_DATA_INHIBIT;
-+                                           SDHC_DATA_INHIBIT;
-             sdhci_write_block_to_card(s);
-         }
+diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+index 9c235bf66e..0cbc2fb4cb 100644
+--- a/hw/block/pflash_cfi01.c
++++ b/hw/block/pflash_cfi01.c
+@@ -690,7 +690,7 @@ static const MemoryRegionOps pflash_cfi01_ops = {
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
+ 
+-static void pflash_cfi01_fill_cfi_table(PFlashCFI01 *pfl, Error **errp)
++static void pflash_cfi01_fill_cfi_table(PFlashCFI01 *pfl)
+ {
+     uint64_t blocks_per_device, sector_len_per_device, device_len;
+     int num_devices;
+@@ -708,10 +708,6 @@ static void pflash_cfi01_fill_cfi_table(PFlashCFI01 *pfl, Error **errp)
+         sector_len_per_device = pfl->sector_len / num_devices;
      }
+     device_len = sector_len_per_device * blocks_per_device;
+-    if (!is_power_of_2(device_len)) {
+-        error_setg(errp, "Device size must be a power of two.");
+-        return;
+-    }
+ 
+     /* Hardcoded CFI table */
+     /* Standard "QRY" string */
+@@ -869,7 +865,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
+      */
+     pfl->cmd = 0x00;
+     pfl->status = 0x80; /* WSM ready */
+-    pflash_cfi01_fill_cfi_table(pfl, errp);
++    pflash_cfi01_fill_cfi_table(pfl);
+ }
+ 
+ static void pflash_cfi01_system_reset(DeviceState *dev)
+diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+index ff2fe154c1..2a99b286b0 100644
+--- a/hw/block/pflash_cfi02.c
++++ b/hw/block/pflash_cfi02.c
+@@ -880,11 +880,6 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    if (!is_power_of_2(pfl->chip_len)) {
+-        error_setg(errp, "Device size must be a power of two.");
+-        return;
+-    }
+-
+     memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl),
+                                   &pflash_cfi02_ops, pfl, pfl->name,
+                                   pfl->chip_len, errp);
 -- 
 2.38.1
 
