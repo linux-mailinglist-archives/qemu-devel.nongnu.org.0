@@ -2,89 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C45621819
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 16:23:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01541621820
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 16:24:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osQRd-0005WV-Ry; Tue, 08 Nov 2022 10:23:21 -0500
+	id 1osQS7-0005ao-Bz; Tue, 08 Nov 2022 10:23:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osQRa-0005W6-Rk
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:23:18 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osQRY-0001Qn-F9
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:23:18 -0500
-Received: by mail-wr1-x434.google.com with SMTP id bs21so21526272wrb.4
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 07:23:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=i1NjSSdk/tsRebihPWNVFmoQN4Q5qdIKWrjBpA0MGRE=;
- b=GfveKDfuImm8JHoTfmQbKTmlq3GFme3W57obxJsjgdVGUgd+t12D3m4SEnFzKXF5LZ
- Ofya460jgF60RUnfQ9FuZHKY8BjdZ10vYB0joPBUC5HWPV4+YAYSkt8Z0Z51ah3I6RLT
- tLXeOiMMrz4ELBmiM12xe/APkRrFP01+oHOwPAHsSI9YtiPyeVGgBWzxvh139lAj1RZm
- w+FeeP9vIqxz8mLUJp7eSkp6c1jGQzXKHZJPuSstY6BycsOeZdqRKk00ja3NzcBR6mPY
- g6yJydGhcfRAGlcXyg1gQC98yhnsFSv9x/5lqelUgYHJzpSthjCsRLi29xUdO80bNU17
- YJug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=i1NjSSdk/tsRebihPWNVFmoQN4Q5qdIKWrjBpA0MGRE=;
- b=QbBUblqkNksqvBGW+6DwxBJ2mLE2bfA7XFUQGXHDmaBEljt13UChweuXwkKQp4/6rQ
- x9GgHDxwc2IO7RBLMr28QHm3fEVeH3DEBLa1JkFcJc+dvmgg9upDVYliyOhmlYUHj8Rb
- +YbIUJlicr7xtV5cQzDo7D2mwJhsiIRo0jnZbtdnFG2RAuh/W/ySwWsTlc189nbxYqcm
- ZtyR3npjG6FoX/wdC1AShWsFtwmVGWeBkWz8SHmzHbwROi1MsR+xG7onewpc/0iQEDYD
- uNPyJEEAJNqIhAvI9nyaqUq+2zyQ1JEvc5JMfRzoNnvlPpB0qyy0Em/SbK7twenHA7h+
- HQIQ==
-X-Gm-Message-State: ACrzQf13ZI/ByFc5GtO2dtIW6/3p7iwvMPWgldPYXy9/dlFF4rcg+tF4
- MN5mbJwGk4CO69kNsqiD3TV70g==
-X-Google-Smtp-Source: AMsMyM7s3CINARRi0GtnA6xxR9wvJcd0cUnxuIODntcPrm94TFea4zLlPGaf3dPHhnUDmR62PRDKBw==
-X-Received: by 2002:a05:6000:178a:b0:236:e1a4:7c5a with SMTP id
- e10-20020a056000178a00b00236e1a47c5amr25463937wrg.428.1667920993856; 
- Tue, 08 Nov 2022 07:23:13 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- c16-20020a5d5290000000b0022e36c1113fsm10551438wrv.13.2022.11.08.07.23.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Nov 2022 07:23:13 -0800 (PST)
-Message-ID: <80cb567b-cd68-42e4-6408-523c96909695@linaro.org>
-Date: Tue, 8 Nov 2022 16:23:11 +0100
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1osQRy-0005Xv-N7
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:23:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1osQRw-0001Wp-HY
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 10:23:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667921019;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lhvmxhQUl7DC+7jfWW+x4f2xtgeZVWrQ+8F7jMxTzRc=;
+ b=Y7lEx3oQEl7CTb6evj35i/LoUPrxZ1xfbdMX4y1nEfYdH3UPhoFGCtrR58rm/otvCZ72kk
+ SqO8AAnAh5em5+H0BstUUv45r1JiuhAwEzDUptyHhAxsXA0SE/dBHLwH/IfMp0omizmAL9
+ wnQS5eLpcbMM6mlSm9vf4aXUVQqCk9M=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-13-JGzh-QeGOGqPXwEaK8y0ew-1; Tue, 08 Nov 2022 10:23:36 -0500
+X-MC-Unique: JGzh-QeGOGqPXwEaK8y0ew-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AE280802804;
+ Tue,  8 Nov 2022 15:23:34 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B8CE40C835A;
+ Tue,  8 Nov 2022 15:23:33 +0000 (UTC)
+Date: Tue, 8 Nov 2022 16:23:32 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 8/9] block: bdrv_create is never called in
+ non-coroutine context
+Message-ID: <Y2p0dIiVffG8Ffwt@redhat.com>
+References: <20221104095700.4117433-1-eesposit@redhat.com>
+ <20221104095700.4117433-9-eesposit@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PULL 00/55] MIPS patches for 2022-10-30
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- Konstantin Kostiuk <kkostiuk@redhat.com>, Michael Roth
- <michael.roth@amd.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Yonggang Luo <luoyonggang@gmail.com>, Stefan Weil <sw@weilnetz.de>
-Cc: qemu-devel@nongnu.org, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, Stefan Pejic <stefan.pejic@syrmia.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Aurelien Jarno
- <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20221030222841.42377-1-philmd@linaro.org>
- <CAFEAcA-d=GrGNm9vhc6Q-UnQAQt+RLnwRj=dbif=iMKTRAabpQ@mail.gmail.com>
- <ed6dcb59-a936-e254-4786-0630cbe80f0e@linaro.org>
- <6a8ecf61-e6c6-62fb-60e1-d4bf9fcf67e3@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <6a8ecf61-e6c6-62fb-60e1-d4bf9fcf67e3@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221104095700.4117433-9-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,32 +81,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 8/11/22 16:09, Thomas Huth wrote:
-> On 08/11/2022 15.23, Philippe Mathieu-Daudé wrote:
->> On 8/11/22 14:59, Peter Maydell wrote:
-
->>> Was this the last use of C++ in the tree, or am I forgetting
->>> some other part that still needs the C++ compiler?
->>>
->>> If it is the last thing, we should put in the "Build Dependencies"
->>> part of the release notes that a C++ compiler is no longer required
->>> and mention that the configure options to specify it will go away in
->>> a future release.
->>
->> I guess the last use is from the Guest Agent on Windows...
->>
->> $ git ls-files | fgrep .cpp
->> qga/vss-win32/install.cpp
->> qga/vss-win32/provider.cpp
->> qga/vss-win32/requester.cpp
+Am 04.11.2022 um 10:56 hat Emanuele Giuseppe Esposito geschrieben:
+> Delete the if case and make sure it won't be called again
+> in coroutines.
 > 
-> Yes, I think the c++ configure options are still required for that 
-> Windows stuff ... but IIRC Paolo once mentioned that we could simplify 
-> the linker logic in configure or meson.build once the nanomips stuff has 
-> been converted, since we now do not have to mix C and C++ linkage anymore?
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Oh I guess I got it, we only need to link qga.exe as a standalone binary
-unrelated to the qemu-system/user binaries, so we can simplify most of
-the linkage?
+In the subject line, it should be "never called in coroutine context"
+rather than "non-coroutine context", right?
+
+Kevin
 
 
