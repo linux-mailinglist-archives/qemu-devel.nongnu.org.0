@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90067621EE1
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 23:12:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA67D621FE8
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 00:03:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osWoL-0001Kj-CK; Tue, 08 Nov 2022 17:11:13 -0500
+	id 1osXbg-0004uS-AJ; Tue, 08 Nov 2022 18:02:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1osWoI-0001KK-64
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 17:11:10 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1osWoD-0003Jg-6O
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 17:11:09 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id o7so15046234pjj.1
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 14:11:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:from:to:cc:subject:date:message-id
- :reply-to; bh=bMhdbNJVUoz0Hj11V1L/5t60JRes0LegbsCxcfC4KLI=;
- b=sNLXw/e8tqibTpV5uRMPGZpTyTqYIfR9CmVVwL9TzoRB2PnnunBBS2sjTCfe8Q/3OW
- 89ha8y56MErb1iPrA9+lYQaTwl+3Ow5giGRGeJSfTLS1I2H2TRj+j74eERGYvDYF/+LM
- 3h96G25BV3w2BIw/wF33+DA7bIjhkWXdBgnGAQoXTOXfIqD1dl/jV4wiCDF+D7KGWUNQ
- gr4VpUKc4vIazBPU8mUOPX9KBBvK607TFaEUoS0ziYGwtKHCoMxNzYHGfgX6J5WVD9+M
- Y2D56L1W1pSl14s5iqKgzg6SvAEA3JVLj3GKr+O5475NrlUSKlVmcIanN/A1CCoQlzCG
- Ri2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:to:from:cc
- :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bMhdbNJVUoz0Hj11V1L/5t60JRes0LegbsCxcfC4KLI=;
- b=JpgLVE/qJvFHU7HZWDcikzC3zxOVyJnWypiUCNOrENk1rQxRfDPLa4vjvG5wKSvxfi
- c9gGkqLiakHUckN6lAqMft6eEU1tnMSw8MpHhWt2UDg7Z0k4zE1KPpSp7qmSmgjqloQZ
- SAsUFJkKQXetupLnUJM7i36bTpzszsPOLau/W0ZRGSQ4kCL+G0yx/zQjLve+8AEI7K59
- hvXavvXYKQMIiX6va63pOvX0QEZ71iMFV+SjInQkV4dyVvcnyMC2g6Y+W3xBisHFwu56
- DYA0mXfq1ZBkNFpziZ7lcj0V0z0rTqLCVMGmm1U5qxq71Mf2bomPINoM3NKPoK0K/uqx
- eA4A==
-X-Gm-Message-State: ACrzQf2zE+uiP/jEcTGvWrDhbX6VrxTMd+r+DEl1X4QilDSCI5k3GJBp
- j0tZcBmZR233haa9a1Cv41hjP5JRBor/Ug==
-X-Google-Smtp-Source: AMsMyM6WciXG6cRpMP5SU0OvjWTdWly9RXBEHgu6Kx/SuqgJQJ44Bxgojed6ci3mKgOSzcuQrJhExA==
-X-Received: by 2002:a17:90a:540e:b0:210:1e26:9422 with SMTP id
- z14-20020a17090a540e00b002101e269422mr57311066pjh.100.1667945462738; 
- Tue, 08 Nov 2022 14:11:02 -0800 (PST)
-Received: from localhost ([50.221.140.188]) by smtp.gmail.com with ESMTPSA id
- t12-20020a1709027fcc00b00177fb862a87sm7399876plb.20.2022.11.08.14.11.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Nov 2022 14:11:02 -0800 (PST)
-Date: Tue, 08 Nov 2022 14:11:02 -0800 (PST)
-X-Google-Original-Date: Tue, 08 Nov 2022 14:11:00 PST (-0800)
-Subject: Re: [PATCH trivial for 7.2] hw/ssi/sifive_spi.c: spelling: reigster
-In-Reply-To: <20221105115329.306527-1-mjt@msgid.tls.msk.ru>
-CC: qemu-devel@nongnu.org, mjt@tls.msk.ru, qemu-trivial@nongnu.org,
- alistair@alistair23.me, bin.meng@windriver.com
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: mjt@tls.msk.ru
-Message-ID: <mhng-33f90530-6bed-4501-913a-0ce40f4d9e0b@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=palmer@dabbelt.com; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
+ id 1osXbN-0004oO-2t
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 18:02:01 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
+ id 1osXbI-0003eU-LY
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 18:01:50 -0500
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A8Mx5Ys026348
+ for <qemu-devel@nongnu.org>; Tue, 8 Nov 2022 23:01:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : subject : date : message-id; s=corp-2022-7-12;
+ bh=y8NSANPMJ/QnIZtEBP1jV/Urw6KSk7aKF1clJYJ269M=;
+ b=kRGAjqqBwhMS6DVz0biGGEPmMMF4fmb6Scspdpx0nvQbYU7uBLmY9QQcq0TqKRA4yxIo
+ kb0FVsrC8eRr4ndjL70kfM7mFWpuS7G6MgEtfy4zWAMcuK4liIRKSYgxyQMySmfEPG74
+ g+gj0nQBR3zQqQy8Pw6FzqgHArmQNPOmjuL8BqM1VPp8lKWhpSCintUtAJVv9wNv6jUQ
+ iS94wesi9kyerUdMoXt1R9DdKRCCAcijMV4eWLSfIg+fTT1QbCVAhvFvHyvVP6ukKENP
+ OD2ycT9u/KH36joM7zCyC5k93I4Lt3zXsMUjzv4hvLwidYFhDXu99Nuo/vHhu10Uz1Vo Aw== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3kqy68g7vs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 23:01:43 +0000
+Received: from pps.filterd
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 2A8LjK6C004437
+ for <qemu-devel@nongnu.org>; Tue, 8 Nov 2022 23:01:42 GMT
+Received: from bruckner.us.oracle.com (dhcp-10-65-143-202.vpn.oracle.com
+ [10.65.143.202])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3kpcq2k0b9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 23:01:42 +0000
+From: John Johnson <john.g.johnson@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 00/24] vfio-user client
+Date: Tue,  8 Nov 2022 15:13:22 -0800
+Message-Id: <cover.1667542066.git.john.g.johnson@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-07_11,2022-11-08_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ spamscore=0 adultscore=0
+ malwarescore=0 mlxlogscore=999 mlxscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2210170000
+ definitions=main-2211080151
+X-Proofpoint-GUID: LQSCGhRWYpIDvGbSLnMlMCaf7POq547l
+X-Proofpoint-ORIG-GUID: LQSCGhRWYpIDvGbSLnMlMCaf7POq547l
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=john.g.johnson@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,36 +85,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, 05 Nov 2022 04:53:29 PDT (-0700), mjt@tls.msk.ru wrote:
-> Fixes: 0694dabe9763847f3010b54ab3ec7d367d2f0ff0
 
-Not sure if I missed something in QEMU land, but those are usually 
-listed more like
+Hello,
 
-Fixes: 0694dabe97 ("hw/ssi: Add SiFive SPI controller support")
+This is the 6th revision of the vfio-user client implementation.
+It is the first patch series (the previous revisions were RFCs)
 
-Checkpatch isn't failing, though.  Either way
+First of all, thank you for your time reviewing the RFC versions.
 
-Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
+The vfio-user framework consists of 3 parts:
+ 1) The VFIO user protocol specification.
+ 2) A client - the VFIO device in QEMU that encapsulates VFIO messages
+    and sends them to the server.
+ 3) A server - a remote process that emulates a device.
 
-Thanks!
+This patchset implements parts 1 and 2.
 
-> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> ---
->  hw/ssi/sifive_spi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/ssi/sifive_spi.c b/hw/ssi/sifive_spi.c
-> index 03540cf5ca..1b4a401ca1 100644
-> --- a/hw/ssi/sifive_spi.c
-> +++ b/hw/ssi/sifive_spi.c
-> @@ -267,7 +267,7 @@ static void sifive_spi_write(void *opaque, hwaddr addr,
->      case R_RXDATA:
->      case R_IP:
->          qemu_log_mask(LOG_GUEST_ERROR,
-> -                      "%s: invalid write to read-only reigster 0x%"
-> +                      "%s: invalid write to read-only register 0x%"
->                        HWADDR_PRIx " with 0x%x\n", __func__, addr << 2, value);
->          break;
+The libvfio-user project (https://github.com/nutanix/libvfio-user)
+can be used by a remote process to handle the protocol to implement the third part.
+We also have upstreamed a patch series that implement a server using QEMU.
+
+
+Contributors:
+
+John G Johnson <john.g.johnson@oracle.com>
+John Levon <john.levon@nutanix.com>
+Thanos Makatos <thanos.makatos@nutanix.com>
+Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Jagannathan Raman <jag.raman@oracle.com>
+
+John Johnson (23):
+  vfio-user: add VFIO base abstract class
+  vfio-user: add container IO ops vector
+  vfio-user: add region cache
+  vfio-user: add device IO ops vector
+  vfio-user: Define type vfio_user_pci_dev_info
+  vfio-user: connect vfio proxy to remote server
+  vfio-user: define socket receive functions
+  vfio-user: define socket send functions
+  vfio-user: get device info
+  vfio-user: get region info
+  vfio-user: region read/write
+  vfio-user: pci_user_realize PCI setup
+  vfio-user: get and set IRQs
+  vfio-user: forward msix BAR accesses to server
+  vfio-user: proxy container connect/disconnect
+  vfio-user: dma map/unmap operations
+  vfio-user: add dma_unmap_all
+  vfio-user: secure DMA support
+  vfio-user: dma read/write operations
+  vfio-user: pci reset
+  vfio-user: add 'x-msg-timeout' option that specifies msg wait times
+  vfio-user: add coalesced posted writes
+  vfio-user: add trace points
+
+Thanos Makatos (1):
+  vfio-user: introduce vfio-user protocol specification
+
+ MAINTAINERS                    |   11 +
+ docs/devel/index-internals.rst |    1 +
+ docs/devel/vfio-user.rst       | 1522 ++++++++++++++++++++++++++++++++
+ hw/vfio/Kconfig                |   10 +
+ hw/vfio/ap.c                   |    1 +
+ hw/vfio/ccw.c                  |    7 +-
+ hw/vfio/common.c               |  648 ++++++++++++--
+ hw/vfio/igd.c                  |   23 +-
+ hw/vfio/meson.build            |    1 +
+ hw/vfio/migration.c            |    2 -
+ hw/vfio/pci-quirks.c           |   19 +-
+ hw/vfio/pci.c                  |  926 ++++++++++++++-----
+ hw/vfio/pci.h                  |   29 +-
+ hw/vfio/platform.c             |    2 +
+ hw/vfio/trace-events           |   15 +
+ hw/vfio/user-protocol.h        |  244 +++++
+ hw/vfio/user.c                 | 1904 ++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/user.h                 |  112 +++
+ include/hw/vfio/vfio-common.h  |   82 ++
+ 19 files changed, 5230 insertions(+), 329 deletions(-)
+ create mode 100644 docs/devel/vfio-user.rst
+ create mode 100644 hw/vfio/user-protocol.h
+ create mode 100644 hw/vfio/user.c
+ create mode 100644 hw/vfio/user.h
+
+-- 
+1.8.3.1
+
 
