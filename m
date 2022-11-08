@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836F8620C8A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 10:44:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F22F9620CAD
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 10:50:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osL8s-0003vk-GL; Tue, 08 Nov 2022 04:43:38 -0500
+	id 1osLEY-0005yh-2h; Tue, 08 Nov 2022 04:49:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1osL8m-0003vQ-14
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:43:32 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1osLEF-0005x7-Kj
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:49:11 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1osL8k-0004U4-Fc
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:43:31 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1osLED-0002om-Vc
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:49:11 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4F31C2241E;
- Tue,  8 Nov 2022 09:43:27 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 47D9A1F8BE;
+ Tue,  8 Nov 2022 09:49:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1667900607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1667900948; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AEEzP1cXBrLdzt+zwd24ttpk3F3UhzTVIXNGQOMEm+g=;
- b=rVO9VOcYJgFt40Ymx1lK24qGFIiXjdTvR607Zs7inS4rHPtYpCcWl41Hc4w8VtvBxDJgyF
- SuIoYj4z/jwGg/u8smAIuY7dTfkYcBSHCdw255E48N4dAP2+Ma7kvKGFBD1FPIymp5YD9C
- 1NcVbWE0t+UHAFnv6FrTC59WJ8bzTnI=
+ bh=9GXfAhwpjQHvM5WitosRUUHWWA1BjIhnva7V+rVvRQk=;
+ b=enWGIOOO0GXNi7F2qqYByucGomXVue4cxC/dKYlLghiCeJi4vtzc2ma09yjpKD3mLzhic9
+ z5W0zbopjGKz6TUbA5YygkHr2a+8rX3eGNdnyip+Ha1UAod9pYjIDydTkMhJIHBCAb10d6
+ Fyp+p93IupaUh9HN40F033df2Pu/wLc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1667900607;
+ s=susede2_ed25519; t=1667900948;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AEEzP1cXBrLdzt+zwd24ttpk3F3UhzTVIXNGQOMEm+g=;
- b=x5xF9VPPLm0k3WM0IBeeFd//XuycK1umW9HJmSaZEsjwmY9J72k0cGV/kgvQKtJqlUNx+P
- q09dw7MJC+F9WZDA==
+ bh=9GXfAhwpjQHvM5WitosRUUHWWA1BjIhnva7V+rVvRQk=;
+ b=RI1Q76KXgjs0lN0LBnudNr+fKn5/8x1/jbiaTxN0eBjawoEmVcaCFLyeuUJxbboPN1bea4
+ VvKmghpPbwnhKSBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1D17513398;
- Tue,  8 Nov 2022 09:43:27 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1BD3013398;
+ Tue,  8 Nov 2022 09:49:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id lamTBb8kamPPeQAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 08 Nov 2022 09:43:27 +0000
-Message-ID: <b7921236-b9ac-aa43-b1a8-863c8df8b7a5@suse.de>
-Date: Tue, 8 Nov 2022 10:43:26 +0100
+ by imap2.suse-dmz.suse.de with ESMTPSA id J+YUBRQmamM/fQAAMHmgww
+ (envelope-from <cfontana@suse.de>); Tue, 08 Nov 2022 09:49:08 +0000
+Message-ID: <4a72c7c6-4b70-b6bf-705e-3303865066b6@suse.de>
+Date: Tue, 8 Nov 2022 10:49:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
@@ -62,16 +62,12 @@ To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, pbonzini@redhat.com
 References: <20221104125705.415923-1-thuth@redhat.com>
  <20221104125705.415923-3-thuth@redhat.com>
- <92cea786-0a5d-1ddd-68d5-14ca98143614@suse.de>
- <6d6d0704-de37-db36-223e-f770311c70fd@redhat.com>
- <2cdf742a-b756-e586-229b-a27ceea4dfd8@suse.de>
- <516f943b-b741-3111-39f2-64aa6b69f0f4@redhat.com>
 From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <516f943b-b741-3111-39f2-64aa6b69f0f4@redhat.com>
+In-Reply-To: <20221104125705.415923-3-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c;
- envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -94,46 +90,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/8/22 09:59, Thomas Huth wrote:
-> On 08/11/2022 09.52, Claudio Fontana wrote:
->> On 11/8/22 09:42, Thomas Huth wrote:
->>> On 07/11/2022 13.27, Claudio Fontana wrote:
->>>> should -net and -netdev be adapted too?
->>>
->>> "-netdev help" already works just fine ... and "-net" should IMHO rather be
->>> removed than improved ;-)
->>>
->>>    Thomas
->>>
->>
->> I wonder if it could be done once for all, in net_init_clients,
->> instead of repeating the is_help_option in net_init_netdev and net_param_nic
->> (and that would take care of net_init_client too, so we'd get "net" for free)..
+On 11/4/22 13:57, Thomas Huth wrote:
+> Running QEMU with "-nic help" used to work in QEMU 5.2 and earlier versions
+> (it showed the available netdev backends), but this feature got broken during
+> some refactoring in version 6.0. Let's restore the old behavior, and while
+> we're at it, let's also print the available NIC models here now since this
+> option can be used to configure both, netdev backend and model in one go.
 > 
-> I don't think that it makes too much sense to have one option for all - 
-> since all three CLI options are slightly different anyway. E.g. "-net nic" 
-> only exists for "-net", "hubport" cannot be used with "-net", "-nic" can 
-> also be used to configure the NIC model, etc.
+> Fixes: ad6f932fe8 ("net: do not exit on "netdev_add help" monitor command")
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  net/net.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
 > 
->   Thomas
-> 
+> diff --git a/net/net.c b/net/net.c
+> index c0516a8067..b4b8f2a9cc 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -1571,8 +1571,18 @@ static int net_param_nic(void *dummy, QemuOpts *opts, Error **errp)
+>      const char *type;
+>  
+>      type = qemu_opt_get(opts, "type");
+> -    if (type && g_str_equal(type, "none")) {
+> -        return 0;    /* Nothing to do, default_net is cleared in vl.c */
+> +    if (type) {
+> +        if (g_str_equal(type, "none")) {
+> +            return 0;    /* Nothing to do, default_net is cleared in vl.c */
+> +        }
+> +        if (is_help_option(type)) {
+> +            GPtrArray *nic_models = qemu_get_nic_models(TYPE_DEVICE);
+> +            show_netdevs();
+> +            printf("\n");
+> +            qemu_show_nic_models(type, (const char **)nic_models->pdata);
+> +            g_ptr_array_free(nic_models, true);
 
-Hi Thomas, I would not suggest to merge everything together,
+nit: would not the order:
 
-I was considering whether it would make sense to just check the "type" id for is_help_option
-once, since all the options "net", "netdev", "nic" have a "type" implied_opt_name,
+> +            GPtrArray *nic_models;
+> +            show_netdevs();
+> +            printf("\n");
+> +            nic_models = qemu_get_nic_models(TYPE_DEVICE);
+> +            qemu_show_nic_models(type, (const char **)nic_models->pdata);
+> +            g_ptr_array_free(nic_models, true);
 
-and so it should be possible to make a list of structs that signify what to do for "net", "netdev", "nic", and 
-loop on that and check for that help string once,
+flow more logically?
 
-and then split off the codepath into the "net", "netdev", "nic" - specific code as it is now,
-either manually or by storing the function that is now in the foreach as a function pointer in the struct, ie moving the is_help_option check one level up.
+Ciao
 
-However, it might not be worth it since it seems that for "nic" the nic models need to also be printed, so it might make things needlessly verbose.
+C
 
-Not sure, have not tried to write the code for it.
+> +            exit(0);
+> +        }
+>      }
+>  
+>      idx = nic_get_free_idx();
 
-Ciao,
-
-Claudio
 
