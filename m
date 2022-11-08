@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11536621A1F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 18:09:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C98621A16
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 18:09:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osS5b-0006KR-Fd; Tue, 08 Nov 2022 12:08:43 -0500
+	id 1osS5d-0006KU-NP; Tue, 08 Nov 2022 12:08:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1osS5Y-0006Jn-4L
+ id 1osS5Y-0006Jm-3K
  for qemu-devel@nongnu.org; Tue, 08 Nov 2022 12:08:41 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1osS5V-00060U-OD
+ id 1osS5V-00060W-Pj
  for qemu-devel@nongnu.org; Tue, 08 Nov 2022 12:08:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1667927317;
@@ -24,24 +24,24 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AKt/gS9lx41ORS/ri2Nys7lYCPEnTWn1ZWiPLgAm4Vo=;
- b=P//sgVx9FjYkRVeWqvJs8qhnD6WUmeVjOBD4dXlbk2rtJmYfxFRNjU/ykaw29NPXgwinZt
- 9OK84Px5cbHZ4igpmdCt/GhfMDdlvFIexoZBFq4Yaodf61gnZuFa1nIGq5FQOyW0wLQgky
- Bg7FWjldQVFvQF+ElD9v/vvzcyFn/HE=
+ bh=If4S3cCeO2eUUCHpP9Nxu6qdTx4M0Bqp6cwVgH/vl/c=;
+ b=EIdGY695INa5cdPofY+gNKBfV7QA1ue+RCn7ER6hZgN0pCAsCi5pe5yvtseEA5DE2fmbyJ
+ ejHdpips4SW+xHBFDS9XAvKqQF/RMPscubSClOuRdV90LsJcAkBwIsPDERN0zERZzCTpBR
+ UAPGref3OkfhyodPHi7PoEGy87gm2W4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-288-Vie0kqGJNkastci29_qAgQ-1; Tue, 08 Nov 2022 12:08:32 -0500
-X-MC-Unique: Vie0kqGJNkastci29_qAgQ-1
+ us-mta-156-bY95kl3AOZqyvMY6N3Tx7Q-1; Tue, 08 Nov 2022 12:08:36 -0500
+X-MC-Unique: bY95kl3AOZqyvMY6N3Tx7Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 31FF0185A7A3;
- Tue,  8 Nov 2022 17:08:32 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 864DD101A56C;
+ Tue,  8 Nov 2022 17:08:35 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 268C1C15BB5;
- Tue,  8 Nov 2022 17:08:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7988FC15BB5;
+ Tue,  8 Nov 2022 17:08:32 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Parav Pandit <parav@mellanox.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -54,9 +54,9 @@ Cc: Parav Pandit <parav@mellanox.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
  kvm@vger.kernel.org, "Gonglei (Arei)" <arei.gonglei@huawei.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v6 09/10] vdpa: Add listener_shadow_vq to vhost_vdpa
-Date: Tue,  8 Nov 2022 18:07:54 +0100
-Message-Id: <20221108170755.92768-10-eperezma@redhat.com>
+Subject: [PATCH v6 10/10] vdpa: Always start CVQ in SVQ mode
+Date: Tue,  8 Nov 2022 18:07:55 +0100
+Message-Id: <20221108170755.92768-11-eperezma@redhat.com>
 In-Reply-To: <20221108170755.92768-1-eperezma@redhat.com>
 References: <20221108170755.92768-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -87,80 +87,272 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The memory listener that thells the device how to convert GPA to qemu's
-va is registered against CVQ vhost_vdpa. This series try to map the
-memory listener translations to ASID 0, while it maps the CVQ ones to
-ASID 1.
-
-Let's tell the listener if it needs to register them on iova tree or
-not.
+Isolate control virtqueue in its own group, allowing to intercept control
+commands but letting dataplane run totally passthrough to the guest.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
-v5: Solve conflict about vhost_iova_tree_remove accepting mem_region by
-    value.
----
- include/hw/virtio/vhost-vdpa.h | 2 ++
- hw/virtio/vhost-vdpa.c         | 6 +++---
- net/vhost-vdpa.c               | 1 +
- 3 files changed, 6 insertions(+), 3 deletions(-)
+v6:
+* Disable control SVQ if the device does not support it because of
+features.
 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index 6560bb9d78..0c3ed2d69b 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -34,6 +34,8 @@ typedef struct vhost_vdpa {
-     struct vhost_vdpa_iova_range iova_range;
-     uint64_t acked_features;
-     bool shadow_vqs_enabled;
-+    /* The listener must send iova tree addresses, not GPA */
-+    bool listener_shadow_vq;
-     /* IOVA mapping used by the Shadow Virtqueue */
-     VhostIOVATree *iova_tree;
-     GPtrArray *shadow_vqs;
+v5:
+* Fixing the not adding cvq buffers when x-svq=on is specified.
+* Move vring state in vhost_vdpa_get_vring_group instead of using a
+  parameter.
+* Rename VHOST_VDPA_NET_CVQ_PASSTHROUGH to VHOST_VDPA_NET_DATA_ASID
+
+v4:
+* Squash vhost_vdpa_cvq_group_is_independent.
+* Rebased on last CVQ start series, that allocated CVQ cmd bufs at load
+* Do not check for cvq index on vhost_vdpa_net_prepare, we only have one
+  that callback registered in that NetClientInfo.
+
+v3:
+* Make asid related queries print a warning instead of returning an
+  error and stop the start of qemu.
+---
+ hw/virtio/vhost-vdpa.c |   3 +-
+ net/vhost-vdpa.c       | 138 ++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 132 insertions(+), 9 deletions(-)
+
 diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 8fd32ba32b..e3914fa40e 100644
+index e3914fa40e..6401e7efb1 100644
 --- a/hw/virtio/vhost-vdpa.c
 +++ b/hw/virtio/vhost-vdpa.c
-@@ -220,7 +220,7 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-                                          vaddr, section->readonly);
+@@ -648,7 +648,8 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
+ {
+     uint64_t features;
+     uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
+-        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
++        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH |
++        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID;
+     int r;
  
-     llsize = int128_sub(llend, int128_make64(iova));
--    if (v->shadow_vqs_enabled) {
-+    if (v->listener_shadow_vq) {
-         int r;
- 
-         mem_region.translated_addr = (hwaddr)(uintptr_t)vaddr,
-@@ -247,7 +247,7 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
-     return;
- 
- fail_map:
--    if (v->shadow_vqs_enabled) {
-+    if (v->listener_shadow_vq) {
-         vhost_iova_tree_remove(v->iova_tree, mem_region);
-     }
- 
-@@ -292,7 +292,7 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
- 
-     llsize = int128_sub(llend, int128_make64(iova));
- 
--    if (v->shadow_vqs_enabled) {
-+    if (v->listener_shadow_vq) {
-         const DMAMap *result;
-         const void *vaddr = memory_region_get_ram_ptr(section->mr) +
-             section->offset_within_region +
+     if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
 diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 85a318faca..02780ee37b 100644
+index 02780ee37b..7245ea70c6 100644
 --- a/net/vhost-vdpa.c
 +++ b/net/vhost-vdpa.c
-@@ -570,6 +570,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+@@ -38,6 +38,9 @@ typedef struct VhostVDPAState {
+     void *cvq_cmd_out_buffer;
+     virtio_net_ctrl_ack *status;
+ 
++    /* Number of address spaces supported by the device */
++    unsigned address_space_num;
++
+     /* The device always have SVQ enabled */
+     bool always_svq;
+     bool started;
+@@ -101,6 +104,9 @@ static const uint64_t vdpa_svq_device_features =
+     BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
+     BIT_ULL(VIRTIO_NET_F_STANDBY);
+ 
++#define VHOST_VDPA_NET_DATA_ASID 0
++#define VHOST_VDPA_NET_CVQ_ASID 1
++
+ VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
+ {
+     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
+@@ -242,6 +248,34 @@ static NetClientInfo net_vhost_vdpa_info = {
+         .check_peer_type = vhost_vdpa_check_peer_type,
+ };
+ 
++static uint32_t vhost_vdpa_get_vring_group(int device_fd, unsigned vq_index)
++{
++    struct vhost_vring_state state = {
++        .index = vq_index,
++    };
++    int r = ioctl(device_fd, VHOST_VDPA_GET_VRING_GROUP, &state);
++
++    return r < 0 ? 0 : state.num;
++}
++
++static int vhost_vdpa_set_address_space_id(struct vhost_vdpa *v,
++                                           unsigned vq_group,
++                                           unsigned asid_num)
++{
++    struct vhost_vring_state asid = {
++        .index = vq_group,
++        .num = asid_num,
++    };
++    int ret;
++
++    ret = ioctl(v->device_fd, VHOST_VDPA_SET_GROUP_ASID, &asid);
++    if (unlikely(ret < 0)) {
++        warn_report("Can't set vq group %u asid %u, errno=%d (%s)",
++            asid.index, asid.num, errno, g_strerror(errno));
++    }
++    return ret;
++}
++
+ static void vhost_vdpa_cvq_unmap_buf(struct vhost_vdpa *v, void *addr)
+ {
+     VhostIOVATree *tree = v->iova_tree;
+@@ -316,11 +350,54 @@ dma_map_err:
+ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+ {
+     VhostVDPAState *s;
+-    int r;
++    struct vhost_vdpa *v;
++    uint32_t cvq_group;
++    int cvq_index, r;
+ 
+     assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+ 
+     s = DO_UPCAST(VhostVDPAState, nc, nc);
++    v = &s->vhost_vdpa;
++
++    v->listener_shadow_vq = s->always_svq;
++    v->shadow_vqs_enabled = s->always_svq;
++    s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_DATA_ASID;
++
++    if (s->always_svq) {
++        goto out;
++    }
++
++    if (s->address_space_num < 2) {
++        return 0;
++    }
++
++    if (!vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
++        return 0;
++    }
++
++    /**
++     * Check if all the virtqueues of the virtio device are in a different vq
++     * than the last vq. VQ group of last group passed in cvq_group.
++     */
++    cvq_index = v->dev->vq_index_end - 1;
++    cvq_group = vhost_vdpa_get_vring_group(v->device_fd, cvq_index);
++    for (int i = 0; i < cvq_index; ++i) {
++        uint32_t group = vhost_vdpa_get_vring_group(v->device_fd, i);
++
++        if (unlikely(group == cvq_group)) {
++            warn_report("CVQ %u group is the same as VQ %u one (%u)", cvq_group,
++                        i, group);
++            return 0;
++        }
++    }
++
++    r = vhost_vdpa_set_address_space_id(v, cvq_group, VHOST_VDPA_NET_CVQ_ASID);
++    if (r == 0) {
++        v->shadow_vqs_enabled = true;
++        s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_ASID;
++    }
++
++out:
+     if (!s->vhost_vdpa.shadow_vqs_enabled) {
+         return 0;
+     }
+@@ -542,12 +619,38 @@ static const VhostShadowVirtqueueOps vhost_vdpa_net_svq_ops = {
+     .avail_handler = vhost_vdpa_net_handle_ctrl_avail,
+ };
+ 
++static uint32_t vhost_vdpa_get_as_num(int vdpa_device_fd)
++{
++    uint64_t features;
++    unsigned num_as;
++    int r;
++
++    r = ioctl(vdpa_device_fd, VHOST_GET_BACKEND_FEATURES, &features);
++    if (unlikely(r < 0)) {
++        warn_report("Cannot get backend features");
++        return 1;
++    }
++
++    if (!(features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID))) {
++        return 1;
++    }
++
++    r = ioctl(vdpa_device_fd, VHOST_VDPA_GET_AS_NUM, &num_as);
++    if (unlikely(r < 0)) {
++        warn_report("Cannot retrieve number of supported ASs");
++        return 1;
++    }
++
++    return num_as;
++}
++
+ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+                                            const char *device,
+                                            const char *name,
+                                            int vdpa_device_fd,
+                                            int queue_pair_index,
+                                            int nvqs,
++                                           unsigned nas,
+                                            bool is_datapath,
+                                            bool svq,
+                                            VhostIOVATree *iova_tree)
+@@ -566,6 +669,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+     qemu_set_info_str(nc, TYPE_VHOST_VDPA);
+     s = DO_UPCAST(VhostVDPAState, nc, nc);
+ 
++    s->address_space_num = nas;
+     s->vhost_vdpa.device_fd = vdpa_device_fd;
      s->vhost_vdpa.index = queue_pair_index;
      s->always_svq = svq;
-     s->vhost_vdpa.shadow_vqs_enabled = svq;
-+    s->vhost_vdpa.listener_shadow_vq = svq;
-     s->vhost_vdpa.iova_tree = iova_tree;
-     if (!is_datapath) {
-         s->cvq_cmd_out_buffer = qemu_memalign(qemu_real_host_page_size(),
+@@ -652,6 +756,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+     g_autoptr(VhostIOVATree) iova_tree = NULL;
+     NetClientState *nc;
+     int queue_pairs, r, i = 0, has_cvq = 0;
++    unsigned num_as = 1;
++    bool svq_cvq;
+ 
+     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+     opts = &netdev->u.vhost_vdpa;
+@@ -693,12 +799,28 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+         return queue_pairs;
+     }
+ 
+-    if (opts->x_svq) {
+-        struct vhost_vdpa_iova_range iova_range;
++    svq_cvq = opts->x_svq;
++    if (has_cvq && !opts->x_svq) {
++        num_as = vhost_vdpa_get_as_num(vdpa_device_fd);
++        svq_cvq = num_as > 1;
++    }
++
++    if (opts->x_svq || svq_cvq) {
++        Error *warn = NULL;
+ 
+-        if (!vhost_vdpa_net_valid_svq_features(features, errp)) {
+-            goto err_svq;
++        svq_cvq = vhost_vdpa_net_valid_svq_features(features,
++                                                   opts->x_svq ? errp : &warn);
++        if (!svq_cvq) {
++            if (opts->x_svq) {
++                goto err_svq;
++            } else {
++                warn_reportf_err(warn, "Cannot shadow CVQ: ");
++            }
+         }
++    }
++
++    if (opts->x_svq || svq_cvq) {
++        struct vhost_vdpa_iova_range iova_range;
+ 
+         vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
+         iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
+@@ -708,15 +830,15 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+ 
+     for (i = 0; i < queue_pairs; i++) {
+         ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+-                                     vdpa_device_fd, i, 2, true, opts->x_svq,
+-                                     iova_tree);
++                                     vdpa_device_fd, i, 2, num_as, true,
++                                     opts->x_svq, iova_tree);
+         if (!ncs[i])
+             goto err;
+     }
+ 
+     if (has_cvq) {
+         nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+-                                 vdpa_device_fd, i, 1, false,
++                                 vdpa_device_fd, i, 1, num_as, false,
+                                  opts->x_svq, iova_tree);
+         if (!nc)
+             goto err;
 -- 
 2.31.1
 
