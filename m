@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89D3621780
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:55:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32653621799
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 16:01:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osPzX-0000xB-OL; Tue, 08 Nov 2022 09:54:19 -0500
+	id 1osQ4d-00030Q-2f; Tue, 08 Nov 2022 09:59:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osPzT-0000wE-Q9; Tue, 08 Nov 2022 09:54:15 -0500
+ id 1osQ4Z-0002zf-Fw; Tue, 08 Nov 2022 09:59:31 -0500
 Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osPzR-00005G-L7; Tue, 08 Nov 2022 09:54:15 -0500
-Received: from sas1-7470331623bb.qloud-c.yandex.net
- (sas1-7470331623bb.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:bd1e:0:640:7470:3316])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id E9B425E83D;
- Tue,  8 Nov 2022 17:54:01 +0300 (MSK)
+ id 1osQ4W-0001fp-3P; Tue, 08 Nov 2022 09:59:31 -0500
+Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
+ (sas1-c73b4b4f4b95.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 0B0C35EB8D;
+ Tue,  8 Nov 2022 17:59:07 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
  [2a02:6b8:b081:b535::1:28])
- by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- ov5wHpMPcn-s1N0nN38; Tue, 08 Nov 2022 17:54:01 +0300
+ by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ Kv3Ry6M0Oe-x5OaXLgv; Tue, 08 Nov 2022 17:59:06 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1667919241; bh=qkRHEdCFol8CpA7lc5DO56Tb2wT1CJTR/6tALbWklZM=;
+ t=1667919546; bh=kZ2UADQ6sW2RnaMSBLLc30lV9tBNlGDOt+4xXNTNJs4=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=EPdJSumAyHrL0e4TT2Gv3DvqYgOR4miIy9TRgPh9HifMuUCXSaoWAc+1j1BK2ihic
- IaElUZ7EEHTGMT1HYf8d2Eqv/E349NE4t2kI28xTdcZ7oLwtiwxLt51C+fAzMrY0Qy
- Gxnvj0zkcpTZwK38YXOsdEejk6aoOzJEmiB4+uec=
-Authentication-Results: sas1-7470331623bb.qloud-c.yandex.net;
+ b=ZzUW14dZNMQYcWeHFEi8qElxoc8J9MAgVL6Yt9cXAIwqZ6juVdwsg9WLJjFAaklcU
+ 5uwIZyhvnQcr332cAs79QGf7JFB+pAy3IS8XAJTkq48EIeysAG5FPzY5v1utnicIKY
+ 18fCBXxs8abr9IUAd2wkpIsMvEXhPyXgZKg/mgYw=
+Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <b54b403d-3f2b-c56b-5676-1c5fa6881c8c@yandex-team.ru>
-Date: Tue, 8 Nov 2022 17:54:00 +0300
+Message-ID: <3b563221-bd67-a597-e12f-5a9106752d38@yandex-team.ru>
+Date: Tue, 8 Nov 2022 17:59:05 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH v2 3/9] nbd/server.c: add missing coroutine_fn annotations
+Subject: Re: [PATCH v2 5/9] block: distinguish between bdrv_create running in
+ coroutine and not
 Content-Language: en-US
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
  Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
 References: <20221104095700.4117433-1-eesposit@redhat.com>
- <20221104095700.4117433-4-eesposit@redhat.com>
+ <20221104095700.4117433-6-eesposit@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221104095700.4117433-4-eesposit@redhat.com>
+In-Reply-To: <20221104095700.4117433-6-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=178.154.239.200;
@@ -76,80 +77,128 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 11/4/22 12:56, Emanuele Giuseppe Esposito wrote:
-> These functions end up calling bdrv_*() implemented as generated_co_wrapper
-> functions.
-
-Same here. Sorry that I joined only on v3.
-
-In past we had a lot of "coroutine wrappers", each IO function in block/io.c and many in block.c had two variants:
-
-coroutine_fn bdrv_co_foo(...)
-
-and a wrapper
-
-bdrv_foo(...)
-
-And that wrapper is not a coroutine_fn, it's for calling from any context: coroutine or not. Now many of these wrappers are auto-generated, you may find them in build/block/block-gen.c after successful make.
-
-"generated_co_wrapper" is a sign for code generation script to generate the wrapper code.
-
-> In addition, they also happen to be always called in coroutine context,
-> meaning all callers are coroutine_fn.
-> This means that the g_c_w function will enter the qemu_in_coroutine()
-> case and eventually suspend (or in other words call qemu_coroutine_yield()).
-> Therefore we need to mark such functions coroutine_fn too.
+> Call two different functions depending on whether bdrv_create
+> is in coroutine or not, following the same pattern as
+> generated_co_wrapper functions.
 > 
+> This allows to also call the coroutine function directly,
+> without using CreateCo or relying in bdrv_create().
+> 
+
+Can we move to auto-generation of bdrv_create(), like for bdrv_check() and friends?
+
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
->   nbd/server.c | 21 ++++++++++++---------
->   1 file changed, 12 insertions(+), 9 deletions(-)
+>   block.c | 74 ++++++++++++++++++++++++++++-----------------------------
+>   1 file changed, 36 insertions(+), 38 deletions(-)
 > 
-> diff --git a/nbd/server.c b/nbd/server.c
-> index ada16089f3..e2eec0cf46 100644
-> --- a/nbd/server.c
-> +++ b/nbd/server.c
-> @@ -2141,8 +2141,9 @@ static int nbd_extent_array_add(NBDExtentArray *ea,
->       return 0;
->   }
+> diff --git a/block.c b/block.c
+> index d2b2800039..0823563e4d 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -522,66 +522,64 @@ typedef struct CreateCo {
+>       Error *err;
+>   } CreateCo;
 >   
-> -static int blockstatus_to_extents(BlockDriverState *bs, uint64_t offset,
-> -                                  uint64_t bytes, NBDExtentArray *ea)
-> +static int coroutine_fn blockstatus_to_extents(BlockDriverState *bs,
-> +                                               uint64_t offset, uint64_t bytes,
-> +                                               NBDExtentArray *ea)
+> -static void coroutine_fn bdrv_create_co_entry(void *opaque)
+> +static int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
+> +                                       QemuOpts *opts, Error **errp)
 >   {
->       while (bytes) {
->           uint32_t flags;
-> @@ -2168,8 +2169,9 @@ static int blockstatus_to_extents(BlockDriverState *bs, uint64_t offset,
->       return 0;
->   }
->   
-> -static int blockalloc_to_extents(BlockDriverState *bs, uint64_t offset,
-> -                                 uint64_t bytes, NBDExtentArray *ea)
-> +static int coroutine_fn blockalloc_to_extents(BlockDriverState *bs,
-> +                                              uint64_t offset, uint64_t bytes,
-> +                                              NBDExtentArray *ea)
->   {
->       while (bytes) {
->           int64_t num;
-> @@ -2220,11 +2222,12 @@ static int nbd_co_send_extents(NBDClient *client, uint64_t handle,
->   }
->   
->   /* Get block status from the exported device and send it to the client */
-> -static int nbd_co_send_block_status(NBDClient *client, uint64_t handle,
-> -                                    BlockDriverState *bs, uint64_t offset,
-> -                                    uint32_t length, bool dont_fragment,
-> -                                    bool last, uint32_t context_id,
-> -                                    Error **errp)
-> +static int
-> +coroutine_fn nbd_co_send_block_status(NBDClient *client, uint64_t handle,
-> +                                      BlockDriverState *bs, uint64_t offset,
-> +                                      uint32_t length, bool dont_fragment,
-> +                                      bool last, uint32_t context_id,
-> +                                      Error **errp)
->   {
+> -    Error *local_err = NULL;
 >       int ret;
->       unsigned int nb_extents = dont_fragment ? 1 : NBD_MAX_BLOCK_STATUS_EXTENTS;
+> +    GLOBAL_STATE_CODE();
+> +    assert(*errp == NULL);
+> +
+> +    if (!drv->bdrv_co_create_opts) {
+> +        error_setg(errp, "Driver '%s' does not support image creation",
+> +                   drv->format_name);
+> +        return -ENOTSUP;
+> +    }
+> +
+> +    ret = drv->bdrv_co_create_opts(drv, filename, opts, errp);
+>   
+> +    if (ret < 0 && !*errp) {
+> +        error_setg_errno(errp, -ret, "Could not create image");
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+> +static void coroutine_fn bdrv_create_co_entry(void *opaque)
+> +{
+>       CreateCo *cco = opaque;
+> -    assert(cco->drv);
+>       GLOBAL_STATE_CODE();
+> +    assert(cco->drv);
+>   
+> -    ret = cco->drv->bdrv_co_create_opts(cco->drv,
+> -                                        cco->filename, cco->opts, &local_err);
+> -    error_propagate(&cco->err, local_err);
+> -    cco->ret = ret;
+> +    cco->ret = bdrv_co_create(cco->drv, cco->filename, cco->opts, &cco->err);
+>   }
+>   
+>   int bdrv_create(BlockDriver *drv, const char* filename,
+>                   QemuOpts *opts, Error **errp)
+>   {
+> -    int ret;
+> -
+>       GLOBAL_STATE_CODE();
+>   
+> -    Coroutine *co;
+> -    CreateCo cco = {
+> -        .drv = drv,
+> -        .filename = g_strdup(filename),
+> -        .opts = opts,
+> -        .ret = NOT_DONE,
+> -        .err = NULL,
+> -    };
+> -
+> -    if (!drv->bdrv_co_create_opts) {
+> -        error_setg(errp, "Driver '%s' does not support image creation", drv->format_name);
+> -        ret = -ENOTSUP;
+> -        goto out;
+> -    }
+> -
+>       if (qemu_in_coroutine()) {
+>           /* Fast-path if already in coroutine context */
+> -        bdrv_create_co_entry(&cco);
+> +        return bdrv_co_create(drv, filename, opts, errp);
+>       } else {
+> +        Coroutine *co;
+> +        CreateCo cco = {
+> +            .drv = drv,
+> +            .filename = g_strdup(filename),
+> +            .opts = opts,
+> +            .ret = NOT_DONE,
+> +            .err = NULL,
+> +        };
+> +
+>           co = qemu_coroutine_create(bdrv_create_co_entry, &cco);
+>           qemu_coroutine_enter(co);
+>           while (cco.ret == NOT_DONE) {
+>               aio_poll(qemu_get_aio_context(), true);
+>           }
+> +        error_propagate(errp, cco.err);
+> +        g_free(cco.filename);
+> +        return cco.ret;
+>       }
+> -
+> -    ret = cco.ret;
+> -    if (ret < 0) {
+> -        if (cco.err) {
+> -            error_propagate(errp, cco.err);
+> -        } else {
+> -            error_setg_errno(errp, -ret, "Could not create image");
+> -        }
+> -    }
+> -
+> -out:
+> -    g_free(cco.filename);
+> -    return ret;
+>   }
+>   
+>   /**
 
 -- 
 Best regards,
