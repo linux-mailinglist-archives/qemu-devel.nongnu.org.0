@@ -2,76 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDAC9620EB7
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 12:22:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7D0620EC6
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 12:23:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osMfa-0000NP-Pa; Tue, 08 Nov 2022 06:21:30 -0500
+	id 1osMgl-00016n-Es; Tue, 08 Nov 2022 06:22:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1osMfU-0000N3-L0
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 06:21:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1osMfS-0001fd-Nj
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 06:21:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667906480;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NdG8gVIkeKrggwlBGyvY9bH0G2bxhUPyGAtUdi5JNiA=;
- b=SVmONkon3bG8jUYOjCMa3O1r8jltdh8MKJj4lVWMa7t9say0jot7NuqkWSDW14V8eS9BRV
- rMctb6RwKGQW2VIER/f7B5tzeXZbnv+zFc/w++JtY3idj7Gogcl3EZliVwhhCnDnhj1SbG
- CkAEZX1Z6M/+q3ca0yyKYysbradvFa0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-544-l28ZxOxnNj6ef5QmPxcqZg-1; Tue, 08 Nov 2022 06:21:15 -0500
-X-MC-Unique: l28ZxOxnNj6ef5QmPxcqZg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 52429381078B;
- Tue,  8 Nov 2022 11:21:14 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.192])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 058EC40C2064;
- Tue,  8 Nov 2022 11:21:13 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2AE02180039D; Tue,  8 Nov 2022 12:21:11 +0100 (CET)
-Date: Tue, 8 Nov 2022 12:21:11 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: Gregory Price <gourry.memverge@gmail.com>, qemu-devel@nongnu.org,
- mst@redhat.com, marcel.apfelbaum@gmail.com, imammedo@redhat.com,
- jonathan.cameron@huawei.com, linux-cxl@vger.kernel.org,
- alison.schofield@intel.com, dave@stgolabs.net,
- a.manzanares@samsung.com, bwidawsk@kernel.org,
- gregory.price@memverge.com, hchkuo@avery-design.com.tw,
- cbrowy@avery-design.com, ira.weiny@intel.com
-Subject: Re: [BUG] hw/i386/pc.c: CXL Fixed Memory Window should not reserve
- e820 in bios
-Message-ID: <20221108112111.czqldmb7wemhqy6f@sirius.home.kraxel.org>
-References: <20221017234001.53297-1-gregory.price@memverge.com>
- <CAARzgwxEO5rr=b_QjiG7RoEdV=9yOgj9gxUxNvuaUnNtUEnhtw@mail.gmail.com>
- <CAD3UvdTWLXf_OecWbtP9wfAvO2+xdWiAUjQHONrgB4AAAjwdHQ@mail.gmail.com>
- <CAARzgwyCTaNoiqtVPS394Nk9LAS05116Dvc2GxifHpO01+ZN4g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1osMgj-00016C-AR
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 06:22:41 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1osMgh-0006SS-78
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 06:22:40 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id cl5so20439093wrb.9
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 03:22:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RQQVfxGXslFxaIYTIhDazAibkGiGo8meDy3HCi/DvrE=;
+ b=bYBSjC43GcWawHK5hAk+w8hGlFQDosmIdhpOVCMQ/WJFZbF21ZwkN7HvEk5tUfqgbv
+ XUUWkih7pdikHcUvrXtLWxLuFxTevwZTGLNlq086U6jBoS60nr0p8V2cj9uNzqCwykPs
+ x+HpbRwnz3nO3Rt5zCTYskCkna67paqMIfGbbU7mPpo4xgCBdXjQwNg9hzUyAfhX+syu
+ JALor57jM2MvtvJ2UmsXKy8A6DkHNtNzbGxDM8Szi+3qDVl+RUw1H/NioaE0qqXQaFDQ
+ BAmuSRdO93fjfFjbyh7YoffE8/h1kmkKfPcKQhz/R6GkTYithi15j3ow9S2jwapW7/uG
+ DgaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=RQQVfxGXslFxaIYTIhDazAibkGiGo8meDy3HCi/DvrE=;
+ b=7/dcgzBdwHf+Un0uG+o6ufPO7QN7MAYVjIYRiZIkOw41Olc9Qcwql6189LvGnHp2Ir
+ f0/lrisnS9o96/2l3/LnYaiKQRWb+MzcKsNmI6RnXsshku9Dn2dtTWxSBN+XlHWB84+Q
+ KNvFGVgcWzzOk3mWVlVCWXjcuXmpslnh7lwsg7aT7dwM4AQgHFC55g2Ao6MB1BFRa7bT
+ 6fLcHKVwigUNJe/vH5R+rRffuCFFhEkRugghF2WSSSIuNFhOfS2bQg/bp0Fm9IVlyY09
+ AfLkEo+rh1fnpJnhapfTO3JupzCpEE5EhrbUpGyFYI16btHafb0Qd9Bz4Jmy9vxzWsWf
+ m8XA==
+X-Gm-Message-State: ACrzQf11n7lHIDRGNYlgc1z0Y99p0FehwYsyV8DQuDnPPCJSVSfxJjRY
+ EOXNadQeY2bANojsDHA2ICBZQQ==
+X-Google-Smtp-Source: AMsMyM41mjm+KISDMC/H6y5fvn4P/T1b7Hf7B1GaL9v1aC9gr9tYBdKli15+wsaiSaBQ08tUz92W7w==
+X-Received: by 2002:a5d:43c5:0:b0:236:6ff9:9167 with SMTP id
+ v5-20020a5d43c5000000b002366ff99167mr35092009wrr.160.1667906552361; 
+ Tue, 08 Nov 2022 03:22:32 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ fc15-20020a05600c524f00b003cf57329221sm15906592wmb.14.2022.11.08.03.22.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Nov 2022 03:22:31 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3B0831FFB7;
+ Tue,  8 Nov 2022 11:22:31 +0000 (GMT)
+References: <20221108092308.1717426-1-alex.bennee@linaro.org>
+ <20221108092308.1717426-6-alex.bennee@linaro.org>
+ <20221108043249-mutt-send-email-mst@kernel.org>
+ <8735atg2vh.fsf@linaro.org>
+ <20221108052544-mutt-send-email-mst@kernel.org>
+User-agent: mu4e 1.9.1; emacs 28.2.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
+ f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
+ stefanha@redhat.com, crosa@redhat.com, Raphael Norwitz
+ <raphael.norwitz@nutanix.com>, Kevin Wolf <kwolf@redhat.com>, Hanna Reitz
+ <hreitz@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Mathieu Poirier
+ <mathieu.poirier@linaro.org>, "open list:Block layer core"
+ <qemu-block@nongnu.org>, "open list:virtiofs" <virtio-fs@redhat.com>
+Subject: Re: [PATCH  v1 5/9] hw/virtio: introduce virtio_device_should_start
+Date: Tue, 08 Nov 2022 11:21:26 +0000
+In-reply-to: <20221108052544-mutt-send-email-mst@kernel.org>
+Message-ID: <87y1slelmw.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAARzgwyCTaNoiqtVPS394Nk9LAS05116Dvc2GxifHpO01+ZN4g@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,25 +104,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-> >> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> >> > index 566accf7e6..5bf5465a21 100644
-> >> > --- a/hw/i386/pc.c
-> >> > +++ b/hw/i386/pc.c
-> >> > @@ -1061,7 +1061,6 @@ void pc_memory_init(PCMachineState *pcms,
-> >> >          hwaddr cxl_size = MiB;
-> >> >
-> >> >          cxl_base = pc_get_cxl_range_start(pcms);
-> >> > -        e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
 
-Just dropping it doesn't look like a good plan to me.
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
-You can try set etc/reserved-memory-end fw_cfg file instead.  Firmware
-(both seabios and ovmf) read it and will make sure the 64bit pci mmio
-window is placed above that address, i.e. this effectively reserves
-address space.  Right now used by memory hotplug code, but should work
-for cxl too I think (disclaimer: don't know much about cxl ...).
+> On Tue, Nov 08, 2022 at 10:23:15AM +0000, Alex Benn=C3=A9e wrote:
+>>=20
+>> "Michael S. Tsirkin" <mst@redhat.com> writes:
+>>=20
+>> > On Tue, Nov 08, 2022 at 09:23:04AM +0000, Alex Benn=C3=A9e wrote:
+>> >> The previous fix to virtio_device_started revealed a problem in its
+>> >> use by both the core and the device code. The core code should be able
+>> >> to handle the device "starting" while the VM isn't running to handle
+>> >> the restoration of migration state. To solve this dual use introduce a
+>> >> new helper for use by the vhost-user backends who all use it to feed a
+>> >> should_start variable.
+>> >>=20
+>> >> We can also pick up a change vhost_user_blk_set_status while we are at
+>> >> it which follows the same pattern.
+>> >>=20
+>> >> Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_=
+started)
+>> >> Fixes: 27ba7b027f (hw/virtio: add boilerplate for vhost-user-gpio dev=
+ice)
+>> >> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> >> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>> >
+>> > why is this in this patchset?
+>>=20
+>> As per my cover letter:
+>>=20
+>>   Most of these patches have been posted before as single patch RFCs. A
+>>   couple are already scheduled through other trees so will drop out in
+>>   due course
+>>=20
+>> but I keep them in my tree until they are merged so I can continue to
+>> soak test them (and have a stable base for my other WIP trees).
+>
+> That's fine just pls don't double-post them on list, certainly
+> not as part of a patchset.
 
-take care & HTH,
-  Gerd
+Why not? Is this breaking some tooling?
 
+--=20
+Alex Benn=C3=A9e
 
