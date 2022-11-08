@@ -2,96 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF1A621598
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:13:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C71B62159A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:13:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osPKa-0003FC-9q; Tue, 08 Nov 2022 09:12:00 -0500
+	id 1osPLZ-0003jc-UA; Tue, 08 Nov 2022 09:13:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1osPKX-0003D9-Ge; Tue, 08 Nov 2022 09:11:57 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1osPKV-0000Wd-O8; Tue, 08 Nov 2022 09:11:57 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id A7A1532006F5;
- Tue,  8 Nov 2022 09:11:51 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Tue, 08 Nov 2022 09:11:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1667916711; x=1668003111; bh=6q
- V+Q03eOr1Bb8mn6PmR8uyKcDSNxWb3fVJYG2gA0tY=; b=gGyodg3l6pL1ngTXXT
- 87hVBDxCRyJOxqb26y3r5MGMT4Yic1O8yEMbak/gdgzV8v58LdBECU+pny+p4wIF
- Lu6XE4fn5tSBwf/hyEMoC8E5ckmqd6205LyObbfCKpq7aajAsqmGE2wtFBpxomFD
- zQyhLd6uIkrqeKsA+xhwKkf70f+GNFyioCy529kGzRTwqR8Gsun7rUlbty8FQ+ck
- 3O8oUWX4cRPxf0zz5ECWvzF2jxO+HfKoguPRcq7fM6o7/J1xkyAW1K3aF+ZsNWoz
- Xf/PY7y1hzKmjyrdAqgVHGRGmF9zjG4gnOealsafxVCcA0v1U1SmT4HTMSsO1NcR
- tGvA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1667916711; x=1668003111; bh=6qV+Q03eOr1Bb8mn6PmR8uyKcDSN
- xWb3fVJYG2gA0tY=; b=nZhHAeY2VpLLH0ZaXEShjgJjQJCF31ZrY7wOJ3/Gmmhy
- AItGgp+TXUVLJ000lnGFoFgVlSsjf21V2ylD2HuolrSgmNReShzeDQWwzwdjE/Jn
- 2OWdWrAPJNDRzxRGt63tJmqgF71m3o8d3YopPt2RRFx06G3EJrBHPCapFqXrXKDW
- P1FxgQTr8jCEyWkSaxWGaoNUVV66cBOuy3d6hN7aFFdJR70R42tI2dUCxaaPAsB5
- gyeOVo25qVZCU3grA3oPPoU0H87vwNppuJFg4yl8xmIiLnS/JG6oAt1q3klGZSqI
- 3adyFFliex+tN3Y8iqhrvGO4DkIoxPPVMMSmwqaVBA==
-X-ME-Sender: <xms:pWNqY9ioPPLM_s8U-txHWiO7WE0Sfa_2RNDe6VHG1fYEnYs8xYMyhw>
- <xme:pWNqYyAQnOKRLqIlF7CT0mingN7IK6b4nvTfwkh0YLwtD9VDa0_NFv_OAcY4JUWd2
- BqbsCpzoZ9kgcYf7pY>
-X-ME-Received: <xmr:pWNqY9H1z0enzJJSEbiLPX6c3aYuaxuWn1yKO5BkOo189KdWwDo4NiMSunhRqagNIQDQhV-9SvywmFTlq87fMh1G0RU5Rg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfedtgdeifecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeekleduhedthfejueefgedtfeeuhefftdehtdfhtefhtdetheeukeeigeevheeu
- geenucffohhmrghinhepfihrihhtvgdrnhhonecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:pmNqYyTc9InWTDSD_wzVjxVtTlFQWdSN1Rv2oeNcPTSb4mLILbNDxA>
- <xmx:pmNqY6zXfSApb9mhSt5ZWi2rxAA6NGxkY9k2OCHHA1UnxZjRd-KrVA>
- <xmx:pmNqY474z2BvLWSq_BSadhS9QzP_KeAFldt4wWYH05JGWIDPUcZBXw>
- <xmx:p2NqYxrUMlx4YBjmnK6mXdfgs63h-cW_oEYz9Dj5Cy2OI_H-m8Vv7Q>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 8 Nov 2022 09:11:48 -0500 (EST)
-Date: Tue, 8 Nov 2022 15:11:46 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: John Levon <levon@movementarian.org>
-Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-devel <qemu-devel@nongnu.org>,
- Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@gmail.com>,
- "open list:nvme" <qemu-block@nongnu.org>
-Subject: Re: [PATCH v3 4/4] hw/nvme: add polling support
-Message-ID: <Y2pjohnZi7kCA3m5@cormorant.local>
-References: <20220827091258.3589230-1-fanjinhao21s@ict.ac.cn>
- <20220827091258.3589230-5-fanjinhao21s@ict.ac.cn>
- <Y1EswYz077swwhuc@cormorant.local>
- <D1741E76-294E-41F6-B87B-70C2A4CF778C@ict.ac.cn>
- <Y2OvzcfeawKWvvJ0@cormorant.local>
- <3ffebed8-997d-e276-bf4a-c75508b0be11@ict.ac.cn>
- <Y2Sx7O4MFHKrvXQA@cormorant.local>
- <Y2pOG89mnH3vGG/E@movementarian.org>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osPLR-0003ed-09
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:12:54 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osPLK-0000ic-Ik
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:12:52 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ ay14-20020a05600c1e0e00b003cf6ab34b61so11782666wmb.2
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 06:12:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=e2RoXLqJmvirSqYb4hwx1T6W2fFgVpgGPtrxxdoqOFk=;
+ b=AlivHb5QcQgGzu4Rb+VHbsHZ0lk2GAPlcpO7HOhkdACszyEs8TiHXlXhHjxW224nvo
+ JzqIITs0OWrFfqsIf7kUFtfXJRbR1g5SMMe7HSTMFN34xv5+cumiE4c/obEuf3auZpFl
+ fUBgJrGvcOA6NZDOGVZN/buCESK+WluPC8dT32JF3X89BOvxAXe16ic9q3UU1ucBBN01
+ szI957l7jnGdoONSH8xxXbe7lHWRc7PnTn/lxrnaK4fpJ5uP48TbRRp0GQVjXl0GS9oq
+ eGjxCSb50Bmawi0FLBPz1Xf7fIbXvyBEQnAnCxhnoFNVq7GF2TgYN6XCH6L4INlr78Av
+ mABQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=e2RoXLqJmvirSqYb4hwx1T6W2fFgVpgGPtrxxdoqOFk=;
+ b=UO+KHNo3njksfVnLKfz28UlveJd0W8dMKj2CmvQmjcLpTjb1cL36WRGcXSeplTE7tu
+ 7gcN+NZg4iaRv2xUkbGXu+lK0ZqrRnOIm1iC3zrzo9LSdi3xTx/PRLvqd3CwpCUA9LZ8
+ w6iZ2ejU9FLBdcNb+zV8lmnFCySe6gJU0pqeEUqiNGMbfroMlG1a2CHmR6NQwjTBin5z
+ AeI6Zv/sIkHempImySwQOrFtccr4+R7Rxks2r3o4ocpvEzVNgMEfSuqsTFn3cAybiySN
+ MxQ/+I0xhnjb8MaJr0sPg5jn9/YC2RzKaQqzekEi56si7uNYMhjznHYmR+iqmb6OFkKg
+ Cv6Q==
+X-Gm-Message-State: ACrzQf1wk3roxdOjaiYtYum1AJ7imz9hUXBN4mDaDq/n6KTXG1WIsvmD
+ SQshbG5bdnRcDEG7Q/k7nkc5xw==
+X-Google-Smtp-Source: AMsMyM7RVKQT2dFEeKCv7XdmDRHABegTAzElOujDLZMI7nFAKmRBNoLBSw3xjDH23y0sAOwLxkADUg==
+X-Received: by 2002:a1c:f009:0:b0:3b4:9398:49c9 with SMTP id
+ a9-20020a1cf009000000b003b4939849c9mr47015140wmb.174.1667916764723; 
+ Tue, 08 Nov 2022 06:12:44 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ bk28-20020a0560001d9c00b002365b759b65sm10598028wrb.86.2022.11.08.06.12.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Nov 2022 06:12:44 -0800 (PST)
+Message-ID: <934d7560-daee-9f7e-2abb-640575768b2f@linaro.org>
+Date: Tue, 8 Nov 2022 15:12:42 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="yiP7tnLbl2wZ6gW9"
-Content-Disposition: inline
-In-Reply-To: <Y2pOG89mnH3vGG/E@movementarian.org>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.1
+Subject: Re: [PATCH V2] hw/riscv: virt: Remove size restriction for pflash
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Andrew Jones <ajones@ventanamicro.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Sunil V L <sunilvl@ventanamicro.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ David Edmondson <david.edmondson@oracle.com>
+References: <20221107130217.2243815-1-sunilvl@ventanamicro.com>
+ <CAFEAcA8X3Q7s6qZ=ojE9fTLG464rrZw+FX=4hmMOhwR-Q4n2sA@mail.gmail.com>
+ <Y2kRWNnk7wDxPnBK@sunil-laptop> <871qqehib4.fsf@linaro.org>
+ <Y2kv/k5oKGOd+90w@redhat.com> <20221107173201.343hkqqugkzdzqcf@kamzik>
+ <Y2lBnPuUA4bgKCLL@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <Y2lBnPuUA4bgKCLL@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,77 +102,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 7/11/22 18:34, Daniel P. Berrangé wrote:
+> On Mon, Nov 07, 2022 at 06:32:01PM +0100, Andrew Jones wrote:
+>> On Mon, Nov 07, 2022 at 04:19:10PM +0000, Daniel P. Berrangé wrote:
+>>> On Mon, Nov 07, 2022 at 03:50:44PM +0000, Alex Bennée wrote:
+>>>>
+>>>> Sunil V L <sunilvl@ventanamicro.com> writes:
+>>>>
+>>>>> On Mon, Nov 07, 2022 at 01:06:38PM +0000, Peter Maydell wrote:
+>>>>>> On Mon, 7 Nov 2022 at 13:03, Sunil V L <sunilvl@ventanamicro.com> wrote:
+>>>>>>>
+>>>>>>> The pflash implementation currently assumes fixed size of the
+>>>>>>> backend storage. Due to this, the backend storage file needs to be
+>>>>>>> exactly of size 32M. Otherwise, there will be an error like below.
+>>>>>>>
+>>>>>>> "device requires 33554432 bytes, block backend provides 4194304 bytes"
+>>>>>>>
+>>>>>>> Fix this issue by using the actual size of the backing store.
+>>>>>>>
+>>>>>>> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+>>>>>>> ---
+>>>>>>
+>>>>>> Do you really want the flash device size presented to the guest
+>>>>>> to be variable depending on what the user passed as a block backend?
+>>>>>> I don't think this is how we handle flash devices on other boards...
+>>>>>>
+>>>>>
+>>>>> Hi Peter,
+>>>>>
+>>>>> x86 appears to support variable flash but arm doesn't. What is
+>>>>> the reason for not supporting variable size flash in arm?
+>>>>
+>>>> If I recall from the last time we went around this is was the question
+>>>> of what you should pad it with.
+>>>
+>>> Padding is a very good thing from the POV of upgrades. Firmware has shown
+>>> a tendancy to change (grow) over time, and the size has an impact of the
+>>> guest ABI/live migration state.
+>>>
+>>> To be able to live migrate, or save/restore to/from files, then the machine
+>>> firmware size needs to be sufficient to cope with future size changes of
+>>> the firmware. The best way to deal with this is to not use the firmware
+>>> binaries' minimum compiled size, but instead to pad it upto a higher
+>>> boundary.
+>>>
+>>> Enforcing such padding is a decent way to prevent users from inadvertantly
+>>> painting themselves into a corner with a very specific firmware binary
+>>> size at initial boot.
+>>
+>> Padding is a good idea, but too much causes other problems. When building
+>> lightweight VMs which may pull the firmware image from a network,
+>> AArch64 VMs require 64MB of mostly zeros to be transferred first, which
+>> can become a substantial amount of the overall boot time[*]. Being able to
+>> create images smaller than the total flash device size, but still add some
+>> pad for later growth, seems like the happy-medium to shoot for.
+> 
+> QEMU configures the firmware using -blockdev, so can use any file
+> format that QEMU supports at the block layer.  IOW, you can store
+> the firmware in a qcow2 file and thus you will never fetch any
+> of the padding zeros to be transferred.  That said I'm not sure
+> that libvirt supports anything other than a raw file today.
 
---yiP7tnLbl2wZ6gW9
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Drew might be referring to:
 
-On Nov  8 12:39, John Levon wrote:
-> On Fri, Nov 04, 2022 at 07:32:12AM +0100, Klaus Jensen wrote:
->=20
-> > On Nov  3 21:19, Jinhao Fan wrote:
-> > > On 11/3/2022 8:10 PM, Klaus Jensen wrote:
-> > > > I agree that the spec is a little unclear on this point. In any cas=
-e, in
-> > > > Linux, when the driver has decided that the sq tail must be updated,
-> > > > it will use this check:
-> > > >=20
-> > > >    (new_idx - event_idx - 1) < (new_idx - old)
-> > >=20
-> > > When eventidx is already behind, it's like:
-> > >=20
-> > >  0
-> > >  1 <- event_idx
-> > >  2 <- old
-> > >  3 <- new_idx
-> > >  4
-> > >  .
-> > >  .
-> > >  .
-> > >=20
-> > > In this case, (new_idx - event_idx - 1) =3D 3-1-1 =3D 1 >=3D (new_idx=
- - old) =3D
-> > > 3-2=3D1, so the host won't update sq tail. Where am I wrong in this e=
-xample?
-> >=20
-> > That becomes 1 >=3D 1, i.e. "true". So this will result in the driver
-> > doing an mmio doorbell write.
->=20
-> The code is:
->=20
-> static inline int nvme_dbbuf_need_event(u16 event_idx, u16 new_idx, u16 o=
-ld)        =20
-> {                                                                        =
-       =20
->         return (u16)(new_idx - event_idx - 1) < (u16)(new_idx - old);    =
-       =20
-> }                                                                        =
-       =20
->=20
-> which per the above is "return 1 < 1;", or false. So the above case does =
-*not*
-> do an mmio write. No?
->=20
+https://lore.kernel.org/qemu-devel/20210810134050.396747-1-david.edmondson@oracle.com/
 
-Whelp.
+  > Currently ARM UEFI images are typically built as 2MB/768kB flash
+  > images for code and variables respectively. These images are both
+  > then padded out to 64MB before being loaded by QEMU.
+  >
+  > Because the images are 64MB each, QEMU allocates 128MB of memory to
+  > read them, and then proceeds to read all 128MB from disk (dirtying
+  > the memory). Of this 128MB less than 3MB is useful - the rest is
+  > zero padding.
+  >
+  > On a machine with 100 VMs this wastes over 12GB of memory.
 
-Looks like I'm in the wrong here, apologies!
+See previous attempts:
+- Huawei
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg607292.html
+- Tencent
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg742066.html
+- Oracle
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg760065.html
+- Red Hat
+https://www.mail-archive.com/qemu-block@nongnu.org/msg81714.html
 
---yiP7tnLbl2wZ6gW9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNqY6EACgkQTeGvMW1P
-DenC/AgAgOly7HLnAAabLjjOmpnFob3u+6rQDM6NiD4yQcXKA0bbSXKKF+9Hg+Lv
-15XkayNXCKj4L1rIPombw2ixm7GgD1IXO7f90lQjN6X0eWpj6G6IdmQuvJBuDLw0
-SSHXUUmlvJ1vGLtHjiyE5VoVmvZjUT0ECOQXUmZsiNLnj2SXUReurMAMnRljIevI
-2IM3ZcnZMNdQymQaOyrcASZR4rFZuBLdS+Ic2PDuQNvK9buJ65s7t5fgcvYeqxZm
-IUD1glWe0CPKvFX8Fi9iqgW7zFpO94C7WGRLVslO6gqmi4fhctS2VEeoXZmsFvEW
-4cXz+nz8GPGyp4YDJwHxgL+71OZjuA==
-=M6nQ
------END PGP SIGNATURE-----
-
---yiP7tnLbl2wZ6gW9--
 
