@@ -2,64 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44B5E62162D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:23:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB03621635
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:24:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osPU7-0000mZ-Vj; Tue, 08 Nov 2022 09:21:52 -0500
+	id 1osPVp-0001tT-5X; Tue, 08 Nov 2022 09:23:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osPTt-0000lj-Cp; Tue, 08 Nov 2022 09:21:38 -0500
-Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osPTq-0007tM-83; Tue, 08 Nov 2022 09:21:35 -0500
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 5BE4F5FF33;
- Tue,  8 Nov 2022 17:21:22 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
- [2a02:6b8:b081:b535::1:28])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- WJ1zSh8C87-LLNiXCqQ; Tue, 08 Nov 2022 17:21:21 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1667917281; bh=vz7r5GvKdphlS2nUn2eGwibAUgRN8DQDqWgIgnWnW4s=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=f4sFeoJG/ZVYo2zcAkT7lfee3DMqWag3P4fS2GF7aQToKG4Mdp2EXsxqgmAggRK2D
- XaZPJzkzQJTJtDKqvUUaiIJDqBpyyOx40F/Lv8kil2Udp3DxEL0MmSzZGtjLOSC+i4
- KBqEJd7o3RgSe9bTi91vJiC4Kg/UUTcJ6Izmw9s8=
-Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <77ab4539-2f55-1fb3-9371-71a0695cc6da@yandex-team.ru>
-Date: Tue, 8 Nov 2022 17:21:21 +0300
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osPVn-0001t0-E2
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:23:35 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osPVc-00043O-50
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:23:35 -0500
+Received: by mail-wr1-x431.google.com with SMTP id y16so21174157wrt.12
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 06:23:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=cJcqIKV4hqGF4gqiXIh71YwD0/bUxj1G/w7iBsjN2/A=;
+ b=ZRhotg1RelTMKIQ1VF5Fa2InRkFoSnuqsAiZXFO98LgX7uc3xj5+mb4x+C+ETbcTrW
+ KmIgu0PKOptvVMevuSgenyqDlku3C/D4jjU33oK4r1Z/h2b71KFBsHZYduxfnSj2+rB1
+ aYxjWIWqrmwL9i4fZKqF2NeF7CWAatrewgwl/hsjsKZLlE/e82MzTgy4alb9TEBG0oSZ
+ 4Wj/+AUx4L+Nn2unOO6K95k4qNG/Lpc99ExbCYNNYZXyoTSTHq3fE799MoCg/1xhyNoH
+ ItjsqWg6ToKiJGFoP8er73kA820nps+CFRcE0Yq37UCiZnda8Oha5gmDwAAXScPFV1zf
+ 4+DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cJcqIKV4hqGF4gqiXIh71YwD0/bUxj1G/w7iBsjN2/A=;
+ b=4HdILsyWo9OKTCkUbMSXMBHs9YMuGhdniAaX3jO5KS+p20TbdoBiPFSP582EEjU3ro
+ gDmk3XFZebGApT6WnxdqbEkJeKoSoRi5IeA41G812hGKkChMHoO3LnTtOoNNqRYjxqez
+ VZYlw4hXlMoQZEHNSa2N78v+8jvd1QMNb64s+RExlFadqBSbl5ie++RthWxxf1+6xykM
+ RiYc+JpahU6buINt4z8S/L3OnX2auuIMNvrAsXaihvwB8L72gN7H+BK35oCy79ZIVcHe
+ QkGE0QMFgO4e8jIggt9t8QKNXLyAuEeUWpeHgp5C0Hama9kz0S0QzMFMFt9JRYpnQIy6
+ YWVw==
+X-Gm-Message-State: ACrzQf1uXZ3pZj5u0hTUb1yLGbgKWDqe00hz0LS5hyoB5kLUYm568DV5
+ gop2jo9boYYVekZqB1vXtJrQWg==
+X-Google-Smtp-Source: AMsMyM6Jy0euBxmwgvyTnTFkoC1uzFByg8TTML28kxDD6ZQAgi2rpxTR+3p3tx6BJgc/j1bierv4pw==
+X-Received: by 2002:a05:6000:16c8:b0:236:c60d:22b9 with SMTP id
+ h8-20020a05600016c800b00236c60d22b9mr31767415wrf.526.1667917402674; 
+ Tue, 08 Nov 2022 06:23:22 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ l5-20020a1c7905000000b003cf6e1df4a8sm11035696wme.15.2022.11.08.06.23.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Nov 2022 06:23:22 -0800 (PST)
+Message-ID: <ed6dcb59-a936-e254-4786-0630cbe80f0e@linaro.org>
+Date: Tue, 8 Nov 2022 15:23:20 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v3 09/30] nbd/server: Clean up abuse of
- BlockExportOptionsNbd member @arg
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.1
+Subject: Re: [PULL 00/55] MIPS patches for 2022-10-30
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: jsnow@redhat.com, eblake@redhat.com, michael.roth@amd.com,
- qemu-block@nongnu.org
-References: <20221104160712.3005652-1-armbru@redhat.com>
- <20221104160712.3005652-10-armbru@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221104160712.3005652-10-armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Michael Roth
+ <michael.roth@amd.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
+ <marcandre.lureau@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ Stefan Weil <sw@weilnetz.de>
+Cc: qemu-devel@nongnu.org, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Stefan Pejic <stefan.pejic@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Aurelien Jarno
+ <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20221030222841.42377-1-philmd@linaro.org>
+ <CAFEAcA-d=GrGNm9vhc6Q-UnQAQt+RLnwRj=dbif=iMKTRAabpQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAFEAcA-d=GrGNm9vhc6Q-UnQAQt+RLnwRj=dbif=iMKTRAabpQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.72;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,44 +100,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/4/22 19:06, Markus Armbruster wrote:
-> block-export-add argument @name defaults to the value of argument
-> @node-name.
+On 8/11/22 14:59, Peter Maydell wrote:
+> On Sun, 30 Oct 2022 at 22:29, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
+>>
+>> The following changes since commit 344744e148e6e865f5a57e745b02a87e5ea534ad:
+>>
+>>    Merge tag 'dump-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2022-10-26 10:53:49 -0400)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://github.com/philmd/qemu.git tags/mips-20221030
+>>
+>> for you to fetch changes up to 487099aee951e4966936acd3e9afd24c69de85ea:
+>>
+>>    hw/mips/malta: Use bootloader helper to set BAR registers (2022-10-30 23:08:10 +0100)
+>>
+>> ----------------------------------------------------------------
+>> MIPS patches queue
+>>
+>> - Convert nanoMIPS disassembler from C++ to C (Milica Lazarevic)
 > 
-> nbd_export_create() implements this by copying @node_name to @name.
-> It leaves @has_node_name false, violating the "has_node_name ==
-> !!node_name" invariant.  Unclean.  Falls apart when we elide
-> @has_node_name (next commit): then QAPI frees the same value twice,
-> once for @node_name and once @name.  iotest 307 duly explodes.
+> Was this the last use of C++ in the tree, or am I forgetting
+> some other part that still needs the C++ compiler?
 > 
-> Goes back to commit c62d24e906 "blockdev-nbd: Boxed argument type for
-> nbd-server-add" (v5.0.0).  Got moved from qmp_nbd_server_add() to
-> nbd_export_create() (commit 56ee86261e), then copied back (commit
-> b6076afcab).  Commit 8675cbd68b "nbd: Utilize QAPI_CLONE for type
-> conversion" (v5.2.0) cleaned up the copy in qmp_nbd_server_add()
-> noting
-> 
->      Second, our assignment to arg->name is fishy: the generated QAPI code
->      for qapi_free_NbdServerAddOptions does not visit arg->name if
->      arg->has_name is false, but if it DID visit it, we would have
->      introduced a double-free situation when arg is finally freed.
-> 
-> Exactly.  However, the copy in nbd_export_create() remained dirty.
-> 
-> Clean it up.  Since the value stored in member @name is not actually
-> used outside this function, use a local variable instead of modifying
-> the QAPI object.
-> 
-> Signed-off-by: Markus Armbruster<armbru@redhat.com>
-> Cc: Eric Blake<eblake@redhat.com>
-> Cc: Vladimir Sementsov-Ogievskiy<vsementsov@yandex-team.ru>
-> Cc:qemu-block@nongnu.org
+> If it is the last thing, we should put in the "Build Dependencies"
+> part of the release notes that a C++ compiler is no longer required
+> and mention that the configure options to specify it will go away in
+> a future release.
 
+I guess the last use is from the Guest Agent on Windows...
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+$ git ls-files | fgrep .cpp
+qga/vss-win32/install.cpp
+qga/vss-win32/provider.cpp
+qga/vss-win32/requester.cpp
 
--- 
-Best regards,
-Vladimir
-
+Cc'ing QGA & Windows teams.
 
