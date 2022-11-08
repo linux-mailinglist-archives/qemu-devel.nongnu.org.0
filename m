@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECDDE6218FC
+	by mail.lfdr.de (Postfix) with ESMTPS id 162006218FD
 	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 17:03:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osR3I-0005dj-OS; Tue, 08 Nov 2022 11:02:18 -0500
+	id 1osR3V-0005qm-RC; Tue, 08 Nov 2022 11:02:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1osR2V-0005Z5-Mo
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 11:01:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1osR2O-0000AH-VS
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 11:01:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667923279;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=en6scsxl1Eh3dQCJGQHarbFsO16HbysKIN+t5ajiUSQ=;
- b=SQtPK1IJimW870LrfMEfk6EUmu6LryGtJpqT/Hxyev3IVP/wDRLLcco/GKKdVw0X253G97
- eGs6BvaU75AV2bj6ucegbAYaZfvJv/tSTkq8aX8Qvv6jMKebnaLiVxyIoKb7hOYOdYRBfu
- 0JUr5QEmmvW9QmV0oWwmLpI+cqNtChA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-0UuHnuniM5KlnDMTNsVNJg-1; Tue, 08 Nov 2022 11:01:14 -0500
-X-MC-Unique: 0UuHnuniM5KlnDMTNsVNJg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 867613C1E730;
- Tue,  8 Nov 2022 16:01:13 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD3ECC15BB5;
- Tue,  8 Nov 2022 16:01:11 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 144A821E6921; Tue,  8 Nov 2022 17:01:08 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Sunil V L <sunilvl@ventanamicro.com>,  Palmer Dabbelt
- <palmer@dabbelt.com>,  Alistair Francis <alistair.francis@wdc.com>,  Bin
- Meng <bin.meng@windriver.com>,  Gerd Hoffmann <kraxel@redhat.com>,
- qemu-riscv@nongnu.org,  qemu-devel@nongnu.org
-Subject: Re: [PATCH V2] hw/riscv: virt: Remove size restriction for pflash
-References: <20221107130217.2243815-1-sunilvl@ventanamicro.com>
- <CAFEAcA8X3Q7s6qZ=ojE9fTLG464rrZw+FX=4hmMOhwR-Q4n2sA@mail.gmail.com>
- <Y2kRWNnk7wDxPnBK@sunil-laptop>
- <CAFEAcA-121P8gwOHRsbp4swP9ah1CZO8rVP75+WyvgF1pou8Aw@mail.gmail.com>
-Date: Tue, 08 Nov 2022 17:01:08 +0100
-In-Reply-To: <CAFEAcA-121P8gwOHRsbp4swP9ah1CZO8rVP75+WyvgF1pou8Aw@mail.gmail.com>
- (Peter Maydell's message of "Mon, 7 Nov 2022 16:08:27 +0000")
-Message-ID: <87tu395tbv.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1osR3I-0005pP-Hd
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 11:02:16 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1osR3C-0002kD-7D
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 11:02:16 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id 6so5635780pgm.6
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 08:02:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=PVJkG9VJ7DZFMOyn/kY/FjYZwSTkpjgDuaI+zyQaH0E=;
+ b=BzWQu+Q/aHb22MQgcV3ZGgK5gFQ5HY1uvrVgyufTEwEbZu7QjayZAx8LFB3aEPFffL
+ oSVeCXtCZlFFMXiuJU6YTy19ByV69TKzRF1q8pyCKLMDPhM2CDtR6I7ZhGN9RhEgTCQt
+ 2FEee2NvcxupnaMh2b+hCbdgeaNlFqWb6b1WA9fSegAbGwTCuC2UkY6RnsLosI+x9wCJ
+ SaitFdoQs403E24+nGvEH6/PiglJFK9zEialeZV3zMXpBWsQtgrcWWoYOyXUWa76W4MC
+ l5Cwh5asqOf8WTrFGQqOfWkymPgYnq5GBHi/oKrb5perl7PyX4xi0Jwn9m+yejTcifV1
+ SJ+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=PVJkG9VJ7DZFMOyn/kY/FjYZwSTkpjgDuaI+zyQaH0E=;
+ b=WGOZxWxYt5metTRBsLAbin2zkETfs2fc9Hdnpb3UjEcrbmYHGaBxofX6J3iAkVBeVD
+ yyZN1oG9vgH688aLXftVZZaHna1W0H8L/UoCBI73ThgyH3Ojyj8nFf7YuKTFsfW/jjTx
+ weDwOnHSDvWvA+3ptHK3KTXy3FnLJL8f5Y1zsBsW642gZDdu2aFCXvN42pIDaUBVg6k9
+ zdsf2i1Saw+P6RjKQcDsC/z+aPDq3oIxS+MHXIP7aMpqayknkx7oO7qJz+VePEze5gAc
+ n35gQ058NtpsmNNXLlotF1bhW2S7hyrzWRAkIJbAyRrOsbNlEVC6YWnY0dSpWWE3Jxpt
+ e8lQ==
+X-Gm-Message-State: ACrzQf0zoeq0c6vbr7IAWRJCAxQS+MP/ky07hHHzQV7wYohA3yHeSbt9
+ eHH2DUd7gZyt65Ov2Smr5mCXQtwu2NuIu/tPcqHUQi/p2DSKdg==
+X-Google-Smtp-Source: AMsMyM4uBa37cFKStCRmvHqafi4exofbYh/P9wvxQhNGQBs08CVlOZ65ZBq2nbF5MYgaH/8yDwMlgNwBrB5hmQyy6/M=
+X-Received: by 2002:a05:6a00:1595:b0:56d:e04d:e0ab with SMTP id
+ u21-20020a056a00159500b0056de04de0abmr38265126pfk.51.1667923327693; Tue, 08
+ Nov 2022 08:02:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 8 Nov 2022 16:01:56 +0000
+Message-ID: <CAFEAcA8Q3XZrdLJhJ4Uj1CX6J04ON9f91p=NuJXxA+cnEfdz6Q@mail.gmail.com>
+Subject: QOM: should you be able to cast from an interface class to the
+ concrete class?
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,104 +83,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Hi; in the QOM model, are you supposed to be able to cast from
+an interface class to the concrete class that is implementing it?
 
-> On Mon, 7 Nov 2022 at 14:08, Sunil V L <sunilvl@ventanamicro.com> wrote:
->>
->> On Mon, Nov 07, 2022 at 01:06:38PM +0000, Peter Maydell wrote:
->> > On Mon, 7 Nov 2022 at 13:03, Sunil V L <sunilvl@ventanamicro.com> wrote:
->> > >
->> > > The pflash implementation currently assumes fixed size of the
->> > > backend storage. Due to this, the backend storage file needs to be
->> > > exactly of size 32M. Otherwise, there will be an error like below.
->> > >
->> > > "device requires 33554432 bytes, block backend provides 4194304 bytes"
->> > >
->> > > Fix this issue by using the actual size of the backing store.
->> > >
->> > > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
->> > > ---
->> >
->> > Do you really want the flash device size presented to the guest
->> > to be variable depending on what the user passed as a block backend?
->> > I don't think this is how we handle flash devices on other boards...
->> >
->
->> x86 appears to support variable flash but arm doesn't. What is
->> the reason for not supporting variable size flash in arm?
->
-> Mostly, that that's the straightforward thing to code.
-> Partly, that it avoids weird cases (eg you can have a backing
-> file that's an odd number of bytes but you can't have a
-> flash that size).
->
-> If x86 has a standard way of handling this then I'm all
-> in favour of being consistent across platforms. What's
-> the x86 board doing there?
+To give a specific example, if I have a ResettableClass *rc
+should I be able to do DeviceClass *dc = DEVICE_CLASS(rc);
+(assuming that the rc I have is actually from a DeviceClass) ?
 
-I'm hardly the expert here, but I messed with it at some time... I guess
-I can try to answer.
+If I'm reading the code correctly, at the moment this isn't possible:
+object_class_dynamic_cast() has code for "if the class we're
+casting from implements interfaces and the class we're casting to
+is an interface, then look through the list of interfaces to
+see if we should be returning the class pointer from the interface
+list", which means you can cast from the concrete class to the
+interface class. But there's no code there to say "if the class
+we're casting from is an interface, try the concrete class".
 
-It's complicated.  More often than not, long development history + need
-for backward compatibility = complicated.  Which makes it (in my
-opinion) not a useful example to follow.
+As far as I can see we do actually record the information we need
+to do this -- InterfaceClass has a field concrete_class that points
+to the concrete class that's implementing it. But this field is
+currently only written, never read.
 
-We use either ROM or flash device(s) to hold the BIOS.
+Should we:
+(a) support casting from the interface class back to the concrete
+class, by adding some extra code in object_class_dynamic_cast(), or
+(b) decide that that isn't something we should be wanting to do,
+and remove the dead concrete_class struct field ?
 
-The flash option exists since v1.1.
+(The thing I was trying to do when I ran into this was
+effectively to add a class method, as opposed to an object method,
+to an interface class. Specifically, the only reason that
+the ResettableClass::get_transitional_function takes an Object*
+is so that it can do an object-to-class cast to get to the
+class pointer for the concrete class, and I had somewhere where
+I wanted to also call that function where I only had the
+ResettableClass *rc, not a specific object.)
 
-The user interface for picking one or the other, and configure contents
-has a long and complicated history.  I'll spare you the details.
-
-ROM contents comes from an image file.  Configurable with -bios.
-Default depends on the machine type.
-
-ROM size is the image file size.  It's mapped so it ends right before
-address 2^32.
-
-It's mapped a second time so it ends right before 2^20.  If the image
-file is larger than 128KiB, only the last 128KiB are mapped there.
-
-Flash contents comes from a block backend.  Configurable with machine
-properties "pflash0" and "pflash1" (or legacy -drive if=pflash).  There
-is no default.  If you don't configure flash contents, you get ROM
-instead.
-
-Flash device size is the block backend size.  Must be a multiple of
-4KiB.
-
-If "pflash0" is configured, we create a flash device so it ends right
-before address 2^32.  If "pflash1" is also configured, we create a
-second flash device so it ends right before the first one (no gap).
-Combined size must not exceed a limit that depends on the machine type.
-
-Aside: why two flash devices?  A physical machine has just one...  Well,
-we need a read-only part for the code, and a read-write part for
-persistent configuration ("varstore" in UEFI parlance).  Physical flash
-devices let you write-protect partially, but our device models don't
-implement that, it's all or nothing.  So we use two.  Kludge.
-
-Again, there's a second mapping that ends right before 2^20, limited to
-128KiB.
-
-
-In my opinion, setting flash or ROM size to the size of the block
-backend or image file is a bad idea.  It tangles up configuration of
-frontend and backend.  We used to do this a lot (e.g. -drive).
-Untangling (e.g. -device and -blockdev) was a lot of work.  With the
-tangle kept around for compatibility.
-
-Doug McIlroy's quip applies: "KISS became MICAHI: make it complicated
-and hide it."
-
-A physical machine has a fixed flash memory size.
-
-A virtual machine models a physical machine.  It has a fixed flash
-memory size, too.
-
-If we want a machine type to model multiple variations of a physical
-machine, say multiple flash sizes, the configuration knob really belongs
-to the machine type.  Hiding it somewhere on the file system instead is
-a bad idea.
-
+thanks
+-- PMM
 
