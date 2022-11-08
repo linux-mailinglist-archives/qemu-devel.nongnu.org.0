@@ -2,72 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162006218FD
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 17:03:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51BF9621911
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 17:07:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osR3V-0005qm-RC; Tue, 08 Nov 2022 11:02:29 -0500
+	id 1osR7B-0007xW-9d; Tue, 08 Nov 2022 11:06:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1osR3I-0005pP-Hd
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 11:02:16 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1osR3C-0002kD-7D
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 11:02:16 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id 6so5635780pgm.6
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 08:02:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=PVJkG9VJ7DZFMOyn/kY/FjYZwSTkpjgDuaI+zyQaH0E=;
- b=BzWQu+Q/aHb22MQgcV3ZGgK5gFQ5HY1uvrVgyufTEwEbZu7QjayZAx8LFB3aEPFffL
- oSVeCXtCZlFFMXiuJU6YTy19ByV69TKzRF1q8pyCKLMDPhM2CDtR6I7ZhGN9RhEgTCQt
- 2FEee2NvcxupnaMh2b+hCbdgeaNlFqWb6b1WA9fSegAbGwTCuC2UkY6RnsLosI+x9wCJ
- SaitFdoQs403E24+nGvEH6/PiglJFK9zEialeZV3zMXpBWsQtgrcWWoYOyXUWa76W4MC
- l5Cwh5asqOf8WTrFGQqOfWkymPgYnq5GBHi/oKrb5perl7PyX4xi0Jwn9m+yejTcifV1
- SJ+w==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1osR78-0007xD-Rm
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 11:06:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1osR77-0000MP-37
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 11:06:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667923572;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yZdV5T/YlW/B23IbmvoGnTDtvp6slgpZ6AzuWMJIx7M=;
+ b=NvNXL+lM/1Xi+HDjDMuy23e9i8KFs0a6NzXYqNwSGOw2hSCO8K5YSv/U/e8d137xrKACpS
+ vK7NPV2ulGH8jzSLN3Y3ocXDxLkdBhCf50qcCAxvnB2l3bFqkxfjg/KdBNQJ0BUj+rizq5
+ Hr66nwcSSo0BGpxXsDK1vQwr/1hlJHo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-413-4i5yt6PANtKRUVV8odRvdw-1; Tue, 08 Nov 2022 11:06:11 -0500
+X-MC-Unique: 4i5yt6PANtKRUVV8odRvdw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ bg21-20020a05600c3c9500b003c2acbff422so952041wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 08:06:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PVJkG9VJ7DZFMOyn/kY/FjYZwSTkpjgDuaI+zyQaH0E=;
- b=WGOZxWxYt5metTRBsLAbin2zkETfs2fc9Hdnpb3UjEcrbmYHGaBxofX6J3iAkVBeVD
- yyZN1oG9vgH688aLXftVZZaHna1W0H8L/UoCBI73ThgyH3Ojyj8nFf7YuKTFsfW/jjTx
- weDwOnHSDvWvA+3ptHK3KTXy3FnLJL8f5Y1zsBsW642gZDdu2aFCXvN42pIDaUBVg6k9
- zdsf2i1Saw+P6RjKQcDsC/z+aPDq3oIxS+MHXIP7aMpqayknkx7oO7qJz+VePEze5gAc
- n35gQ058NtpsmNNXLlotF1bhW2S7hyrzWRAkIJbAyRrOsbNlEVC6YWnY0dSpWWE3Jxpt
- e8lQ==
-X-Gm-Message-State: ACrzQf0zoeq0c6vbr7IAWRJCAxQS+MP/ky07hHHzQV7wYohA3yHeSbt9
- eHH2DUd7gZyt65Ov2Smr5mCXQtwu2NuIu/tPcqHUQi/p2DSKdg==
-X-Google-Smtp-Source: AMsMyM4uBa37cFKStCRmvHqafi4exofbYh/P9wvxQhNGQBs08CVlOZ65ZBq2nbF5MYgaH/8yDwMlgNwBrB5hmQyy6/M=
-X-Received: by 2002:a05:6a00:1595:b0:56d:e04d:e0ab with SMTP id
- u21-20020a056a00159500b0056de04de0abmr38265126pfk.51.1667923327693; Tue, 08
- Nov 2022 08:02:07 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=yZdV5T/YlW/B23IbmvoGnTDtvp6slgpZ6AzuWMJIx7M=;
+ b=U6Ga4HTtOOKbW4P19HzCXiqRaqjchfOHgk+zdNmcWeQT5wZ5ZtRoNdJaOCa2nALQAZ
+ 0TdTYA+MGMQ0BY3RN6JYtWptCw7Zz3OXMdzE2yqn8kSpvjSRWkb0XPDVlUmOP2dTXCQm
+ PNPF3BcFnP6278qyHvNZY2ELBS/Il5zgGTvjnqa4Wt1uBCyINLIdgG8fj5DsGrBMaacs
+ Zau9UNZtFlyuHgU1TDdN4wZOmjF23F39kEN/Urv2mxtG5lLk4HwxeEdpQKSM2poeJImd
+ 8NBusqzEidlamwtcDVC5B+H12d+LuJ6Sdh6NfAEFpvJU4F7w1Y043XNDctbvfI8ijHd3
+ d/qA==
+X-Gm-Message-State: ACrzQf3r9ZCZmPd1g64CRHwHqI5kTVl23X6804Ut3mnybkBTlJQctAiK
+ GEnP3tTqbK/OJOsTb0s+ZYfYuVmT/KJVVYwsSR9f1T3AtrP1nJzM6SSz+t6jgs31NE8E4uwvdx2
+ Utc1PaYUK3s7QyiY=
+X-Received: by 2002:a5d:6887:0:b0:236:8ead:47ab with SMTP id
+ h7-20020a5d6887000000b002368ead47abmr36992080wru.372.1667923569753; 
+ Tue, 08 Nov 2022 08:06:09 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5s/qe4PJSCcPy/hfh8FbmrygOYhL62harP7KPdR8cSJypsum4o8qBL+YSBzvkuBYdVFxldWA==
+X-Received: by 2002:a5d:6887:0:b0:236:8ead:47ab with SMTP id
+ h7-20020a5d6887000000b002368ead47abmr36992034wru.372.1667923569324; 
+ Tue, 08 Nov 2022 08:06:09 -0800 (PST)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ x15-20020adfdd8f000000b002365921c9aesm10899651wrl.77.2022.11.08.08.06.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Nov 2022 08:06:08 -0800 (PST)
+Message-ID: <9eda82a1-4cf4-f65c-08c5-ceaaa1f52f91@redhat.com>
+Date: Tue, 8 Nov 2022 17:06:07 +0100
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 8 Nov 2022 16:01:56 +0000
-Message-ID: <CAFEAcA8Q3XZrdLJhJ4Uj1CX6J04ON9f91p=NuJXxA+cnEfdz6Q@mail.gmail.com>
-Subject: QOM: should you be able to cast from an interface class to the
- concrete class?
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 1/9] block: call bdrv_co_drain_begin in a coroutine
+Content-Language: en-US
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20221104095700.4117433-1-eesposit@redhat.com>
+ <20221104095700.4117433-2-eesposit@redhat.com>
+ <1a4627a3-e5c3-5ee7-d953-5719e5a019d1@yandex-team.ru>
+ <3c45c186-4913-6508-7a97-b11742afb41e@redhat.com>
+ <119e4895-1ee9-ef31-6004-e25d05024210@yandex-team.ru>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <119e4895-1ee9-ef31-6004-e25d05024210@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,42 +110,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi; in the QOM model, are you supposed to be able to cast from
-an interface class to the concrete class that is implementing it?
 
-To give a specific example, if I have a ResettableClass *rc
-should I be able to do DeviceClass *dc = DEVICE_CLASS(rc);
-(assuming that the rc I have is actually from a DeviceClass) ?
 
-If I'm reading the code correctly, at the moment this isn't possible:
-object_class_dynamic_cast() has code for "if the class we're
-casting from implements interfaces and the class we're casting to
-is an interface, then look through the list of interfaces to
-see if we should be returning the class pointer from the interface
-list", which means you can cast from the concrete class to the
-interface class. But there's no code there to say "if the class
-we're casting from is an interface, try the concrete class".
+Am 08/11/2022 um 16:52 schrieb Vladimir Sementsov-Ogievskiy:
+> On 11/8/22 18:13, Emanuele Giuseppe Esposito wrote:
+>>
+>>
+>> Am 08/11/2022 um 15:33 schrieb Vladimir Sementsov-Ogievskiy:
+>>> On 11/4/22 12:56, Emanuele Giuseppe Esposito wrote:
+>>>> It seems that bdrv_open_driver() forgot to create a coroutine
+>>>> where to call bs->drv->bdrv_co_drain_begin(), a callback
+>>>> marked as coroutine_fn.
+>>>>
+>>>> Because there is no active I/O at this point, the coroutine
+>>>> should end right after entering, so the caller does not need
+>>>> to poll until it is finished.
+>>>
+>>> Hmm. I see your point. But isn't it better to go the generic way and use
+>>> a generated coroutine wrapper? Nothing guarantees that
+>>> .bdrv_co_drain_begin() handlers will never do any yield point even on
+>>> driver open...
+>>>
+>>> Look for example at bdrv_co_check(). It has a generated wrapper
+>>> bdrv_check(), declared in include/block/block-io.h
+>>>
+>>> So you just need to declare the wrapper, and use it in
+>>> bdrv_open_driver(), the code would be clearer too.
+>>
+>> I think (and this is a repetition from my previous email) it confuses
+>> the code. It is clear, but then you don't know if we are in a coroutine
+>> context or not.
+> 
+> Hmm. But same thing is true for all callers of coroutine wrappers.
+> 
+> I agree that "coroutine wrapper" is a workaround for the design problem.
+> Really, the fact that in many places we don't know are we in coroutine
+> or not is very uncomfortable.
 
-As far as I can see we do actually record the information we need
-to do this -- InterfaceClass has a field concrete_class that points
-to the concrete class that's implementing it. But this field is
-currently only written, never read.
+And the only way to figure if it's a coroutine or not is by adding
+assertions and pray that the iotests don't fail *and* cover all cases.
 
-Should we:
-(a) support casting from the interface class back to the concrete
-class, by adding some extra code in object_class_dynamic_cast(), or
-(b) decide that that isn't something we should be wanting to do,
-and remove the dead concrete_class struct field ?
+> 
+> But still, I'm not sure that's it good to avoid this workaround in one
+> place and continue to use it in all other places. I think following
+> common design is better. Or rework it deeply by getting rid of the
+> wrappers somehow.
 
-(The thing I was trying to do when I ran into this was
-effectively to add a class method, as opposed to an object method,
-to an interface class. Specifically, the only reason that
-the ResettableClass::get_transitional_function takes an Object*
-is so that it can do an object-to-class cast to get to the
-class pointer for the concrete class, and I had somewhere where
-I wanted to also call that function where I only had the
-ResettableClass *rc, not a specific object.)
+Well, one step at the time :) it's already difficult to verify that such
+replacement cover and is correct for all cases :)
 
-thanks
--- PMM
+> 
+>>
+>> I am very well aware of what you did with your script, and I am working
+>> on extending your g_c_w class with g_c_w_simple, where we drop the
+>> if(qemu_in_coroutine()) case and leave just the coroutine creation.
+>> Therefore, coroutine functions we use only the _co_ function, otherwise
+>> we use g_c_w_simple.
+>> In this way code is clear as you point out, but there is no confusion.
+> 
+> Hmm sounds good, I missed it. Why not use g_c_w_simple here than?
+
+Because I came up with it this morning.
+
+Thank you,
+Emanuele
+
+> 
+>>
+>> Thank you,
+>> Emanuele
+>>>
+>>>>
+>>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>>>> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+>>>> ---
+>>>>    block.c | 36 +++++++++++++++++++++++++++++++-----
+>>>>    1 file changed, 31 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/block.c b/block.c
+>>>> index 5311b21f8e..d2b2800039 100644
+>>>> --- a/block.c
+>>>> +++ b/block.c
+>>>> @@ -1637,12 +1637,34 @@ out:
+>>>>        g_free(gen_node_name);
+>>>>    }
+>>>>    +typedef struct DrainCo {
+>>>> +    BlockDriverState *bs;
+>>>> +    int ret;
+>>>> +} DrainCo;
+>>>> +
+>>>> +static void coroutine_fn bdrv_co_drain_begin(void *opaque)
+>>>> +{
+>>>> +    int i;
+>>>> +    DrainCo *co = opaque;
+>>>> +    BlockDriverState *bs = co->bs;
+>>>> +
+>>>> +    for (i = 0; i < bs->quiesce_counter; i++) {
+>>>> +        bs->drv->bdrv_co_drain_begin(bs);
+>>>> +    }
+>>>> +    co->ret = 0;
+>>>> +}
+>>>> +
+>>>>    static int bdrv_open_driver(BlockDriverState *bs, BlockDriver *drv,
+>>>>                                const char *node_name, QDict *options,
+>>>>                                int open_flags, Error **errp)
+>>>>    {
+>>>>        Error *local_err = NULL;
+>>>> -    int i, ret;
+>>>> +    int ret;
+>>>> +    Coroutine *co;
+>>>> +    DrainCo dco = {
+>>>> +        .bs = bs,
+>>>> +        .ret = NOT_DONE,
+>>>> +    };
+>>>>        GLOBAL_STATE_CODE();
+>>>>          bdrv_assign_node_name(bs, node_name, &local_err);
+>>>> @@ -1690,10 +1712,14 @@ static int bdrv_open_driver(BlockDriverState
+>>>> *bs, BlockDriver *drv,
+>>>>        assert(bdrv_min_mem_align(bs) != 0);
+>>>>        assert(is_power_of_2(bs->bl.request_alignment));
+>>>>    -    for (i = 0; i < bs->quiesce_counter; i++) {
+>>>> -        if (drv->bdrv_co_drain_begin) {
+>>>> -            drv->bdrv_co_drain_begin(bs);
+>>>> -        }
+>>>> +    if (drv->bdrv_co_drain_begin) {
+>>>> +        co = qemu_coroutine_create(bdrv_co_drain_begin, &dco);
+>>>> +        qemu_coroutine_enter(co);
+>>>> +        /*
+>>>> +         * There should be no reason for drv->bdrv_co_drain_begin to
+>>>> wait at
+>>>> +         * this point, because the device does not have any active
+>>>> I/O.
+>>>> +         */
+>>>> +        assert(dco.ret != NOT_DONE);
+>>>>        }
+>>>>          return 0;
+>>>
+>>
+> 
+
 
