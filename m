@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317F16211E8
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 14:04:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF66621207
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 14:11:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osOFa-0001qL-Ae; Tue, 08 Nov 2022 08:02:46 -0500
+	id 1osOMo-0007VN-Iq; Tue, 08 Nov 2022 08:10:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1osOFN-0001id-R1
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:02:33 -0500
-Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1osOFH-0002xC-Li
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:02:32 -0500
-Received: from loongson.cn (unknown [10.20.42.238])
- by gateway (Coremail) with SMTP id _____8DxTLZeU2pjZlEFAA--.5493S3;
- Tue, 08 Nov 2022 21:02:22 +0800 (CST)
-Received: from [10.20.42.238] (unknown [10.20.42.238])
- by localhost.localdomain (Coremail) with SMTP id
- AQAAf8BxmFddU2pjqvkOAA--.23482S3; 
- Tue, 08 Nov 2022 21:02:22 +0800 (CST)
-Subject: Re: [PULL v3 3/7] hw/loongarch: Load FDT table into dram memory space
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: stefanha@gmail.com, Xiaojuan Yang <yangxiaojuan@loongson.cn>
-References: <20221105032857.3789472-1-gaosong@loongson.cn>
- <20221105032857.3789472-4-gaosong@loongson.cn>
- <ab34973e-c045-7e5c-164a-9992ca078307@linaro.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <bd6cf6c0-abc4-fa29-f78c-581368a33249@loongson.cn>
-Date: Tue, 8 Nov 2022 21:02:21 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1osOMl-0007UK-89
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:10:11 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1osOMh-0004x9-MR
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:10:10 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ v4-20020a17090a088400b00212cb0ed97eso13286628pjc.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 05:10:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6+L3vgOxPyHeFKtT1+l+E7jVdmDq/CM5cqSp6+JHzd4=;
+ b=HG0VhuqAg+Mc0XQcbUEdzsQRVzyTz5Y9mU/p4w1jmEPgrBsEoVK9g/wxc/dAc040ld
+ lYo2C+4Hj56ZURQDM5jMPz5DBfwoSBFEYQ1qsKhh2sQ5V5cRBsmINfcIQ+MJJnpfMqnt
+ +0kDcoTZzgCzl51+eTytYOQi4WgJZHBXipX4/0LVCRlz5EyfSdjAeHSQocWEh6MnZNSJ
+ JcaiTEotkV11yG5ygl4FLzFp/Yld/XmtiZzj9V8l/seTJtNFz5RAPEv6rCbSyUa3+wtE
+ oOvzHMtOX2GT/d9xvuxoDNazBixYZJtTLMdBemaTzJ7bkq8jfmDkpGTJLftXOKAXePcD
+ US1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6+L3vgOxPyHeFKtT1+l+E7jVdmDq/CM5cqSp6+JHzd4=;
+ b=dM9R5D9MUQw6Q8TO377Ac5293Er44v/okRAr6Ye5qCbg1NRk3DkBZLO/7vuJ3fJUpd
+ XhzZw6gPOewMh3VF1IPTm895gd99wwtPCLqNObpfBNeP7e9HluKR8kTI8DRUQP7EwFEb
+ j/gEkSr5SywwIjF9viI4EVwNprjFttqhoWgHpSpD1fwkCBFcgWWcNqQjIhuG1aVZdTTz
+ H7E+59muv+CVi0CRdvYqeJWRS+wX3jBbeHlTzLBdaoYnAO6zMrbJXhE3hQ52HJ0NGK+q
+ /JvO9OKyOCWyA61/MCa8654gZ7OErSLp27DCOmxyJK4Q7+eyGcigWuhq2ZXPtRzwk1IF
+ /VqQ==
+X-Gm-Message-State: ACrzQf1ZCy4fXFcGSBlUKjAo3XSNkAdYmuekyWk7XWkCdbWVGprPmz9E
+ wJ3NqQD7z5KRHaRGM77k1QTAnw==
+X-Google-Smtp-Source: AMsMyM5/W+yorqxGnC+ZFWsm1yBIsz0AguErjixVcZhVQwoK8rTxnQt4MgT/Mlha1R2HKHrkCUa56A==
+X-Received: by 2002:a17:902:db06:b0:187:4736:f77d with SMTP id
+ m6-20020a170902db0600b001874736f77dmr35778396plx.113.1667913004971; 
+ Tue, 08 Nov 2022 05:10:04 -0800 (PST)
+Received: from ?IPV6:2001:8003:d918:7a00:10f1:4c74:6b10:4a93?
+ ([2001:8003:d918:7a00:10f1:4c74:6b10:4a93])
+ by smtp.gmail.com with ESMTPSA id
+ c19-20020a170902c1d300b00172e19c2fa9sm6927655plc.9.2022.11.08.05.10.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Nov 2022 05:10:04 -0800 (PST)
+Message-ID: <50ebdf82-740e-f239-7e2b-162a22b758fc@linaro.org>
+Date: Wed, 9 Nov 2022 00:09:58 +1100
 MIME-Version: 1.0
-In-Reply-To: <ab34973e-c045-7e5c-164a-9992ca078307@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 1/1] target/loongarch: Fix loongarch fdt addr confict
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: stefanha@gmaiDDDl.com, yangxiaojuan@loongson.cn, maobibo@loongson.cn
+References: <20221108130204.926434-1-gaosong@loongson.cn>
 Content-Language: en-US
-X-CM-TRANSID: AQAAf8BxmFddU2pjqvkOAA--.23482S3
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBjvJXoWxGryUWrWxtw43Kr4UCw17Wrg_yoWruF15pF
- 93AFy5WrW8tr1kGr1xXryUXFyUArn2ka47Xr42vF40kF4DWr1jqrWUXw1q9FyUA3y8Jr10
- qFykXr9Fv3W5Jw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
- qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
- bxAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
- 1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
- wVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
- x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS
- 0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0V
- AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1l
- Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l42
- xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
- GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI4
- 8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4U
- MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
- 8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j8yCJUUUUU=
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221108130204.926434-1-gaosong@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,108 +94,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-在 2022/11/8 下午6:41, Richard Henderson 写道:
-> On 11/5/22 14:28, Song Gao wrote:
->> From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->>
->> Load FDT table into dram memory space, and the addr is 2 MiB.
->> Since lowmem region starts from 0, FDT base address is located
->> at 2 MiB to avoid NULL pointer access.
->>
->> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->> Acked-by: Song Gao <gaosong@loongson.cn>
->> Message-Id: <20221028014007.2718352-2-yangxiaojuan@loongson.cn>
->> Signed-off-by: Song Gao <gaosong@loongson.cn>
->> ---
->>   hw/loongarch/virt.c         | 18 +++++++++++-------
->>   include/hw/loongarch/virt.h |  3 ---
->>   2 files changed, 11 insertions(+), 10 deletions(-)
->
-> This breaks make check-tcg:
->
->   TEST    hello on loongarch64
+On 11/9/22 00:02, Song Gao wrote:
+> Fix LoongArch check-tcg error:
+>    TEST    hello on loongarch64
 > qemu-system-loongarch64: Some ROM regions are overlapping
-> These ROM regions might have been loaded by direct user request or by 
-> default.
-> They could be BIOS/firmware images, a guest kernel, initrd or some 
-> other file loaded into guest memory.
-> Check whether you intended to load all this guest code, and whether it 
-> has been built to load to the correct addresses.
->
+> These ROM regions might have been loaded by direct user request or by default.
+> They could be BIOS/firmware images, a guest kernel, initrd or some other file loaded into guest memory.
+> Check whether you intended to load all this guest code, and whether it has been built to load to the correct addresses.
+> 
 > The following two regions overlap (in the memory address space):
->   hello ELF program header segment 0 (addresses 0x0000000000200000 - 
-> 0x0000000000242000)
->   fdt (addresses 0x0000000000200000 - 0x0000000000300000)
+>    hello ELF program header segment 0 (addresses 0x0000000000200000 - 0x0000000000242000)
+>    fdt (addresses 0x0000000000200000 - 0x0000000000300000)
 > make[1]: *** [Makefile:177: run-hello] Error 1
->
->
-Thank you,  I had send a patch to fix this.
+> 
+> Reported-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> ---
+>   tests/tcg/loongarch64/system/kernel.ld |  7 +++++--
+>   1 files changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/tests/tcg/loongarch64/system/kernel.ld b/tests/tcg/loongarch64/system/kernel.ld
+> index f1a7c0168c..2110cfe8be 100644
+> --- a/tests/tcg/loongarch64/system/kernel.ld
+> +++ b/tests/tcg/loongarch64/system/kernel.ld
+> @@ -2,8 +2,11 @@ ENTRY(_start)
+>   
+>   SECTIONS
+>   {
+> -    /* Linux kernel legacy start address.  */
+> -    . = 0x9000000000200000;
+> +    /*
+> +     * Linux kernel legacy start address.
+> +     * FDT is load at 0x200000, kernel image size must be smaller than 1M
+> +     */
+> +    . = 0x100000;
 
-Thanks.
-Song Gao
->
->>
->> diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
->> index 4b595a9ea4..50e9829a94 100644
->> --- a/hw/loongarch/virt.c
->> +++ b/hw/loongarch/virt.c
->> @@ -159,7 +159,6 @@ static void fdt_add_pcie_node(const 
->> LoongArchMachineState *lams)
->>                                    1, FDT_PCI_RANGE_MMIO, 2, base_mmio,
->>                                    2, base_mmio, 2, size_mmio);
->>       g_free(nodename);
->> -    qemu_fdt_dumpdtb(ms->fdt, lams->fdt_size);
->>   }
->>     static void fdt_add_irqchip_node(LoongArchMachineState *lams)
->> @@ -656,6 +655,7 @@ static void loongarch_init(MachineState *machine)
->>       MemoryRegion *address_space_mem = get_system_memory();
->>       LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
->>       int i;
->> +    hwaddr fdt_base;
->>         if (!cpu_model) {
->>           cpu_model = LOONGARCH_CPU_TYPE_NAME("la464");
->> @@ -760,12 +760,16 @@ static void loongarch_init(MachineState *machine)
->>       lams->machine_done.notify = virt_machine_done;
->> qemu_add_machine_init_done_notifier(&lams->machine_done);
->>       fdt_add_pcie_node(lams);
->> -
->> -    /* load fdt */
->> -    MemoryRegion *fdt_rom = g_new(MemoryRegion, 1);
->> -    memory_region_init_rom(fdt_rom, NULL, "fdt", VIRT_FDT_SIZE, 
->> &error_fatal);
->> -    memory_region_add_subregion(get_system_memory(), VIRT_FDT_BASE, 
->> fdt_rom);
->> -    rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, 
->> VIRT_FDT_BASE);
->> +    /*
->> +     * Since lowmem region starts from 0, FDT base address is located
->> +     * at 2 MiB to avoid NULL pointer access.
->> +     *
->> +     * Put the FDT into the memory map as a ROM image: this will ensure
->> +     * the FDT is copied again upon reset, even if addr points into 
->> RAM.
->> +     */
->> +    fdt_base = 2 * MiB;
->> +    qemu_fdt_dumpdtb(machine->fdt, lams->fdt_size);
->> +    rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, fdt_base);
->>   }
->>     bool loongarch_is_acpi_enabled(LoongArchMachineState *lams)
->> diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
->> index 09f1c88ee5..45c383f5a7 100644
->> --- a/include/hw/loongarch/virt.h
->> +++ b/include/hw/loongarch/virt.h
->> @@ -28,9 +28,6 @@
->>   #define VIRT_GED_MEM_ADDR       (VIRT_GED_EVT_ADDR + 
->> ACPI_GED_EVT_SEL_LEN)
->>   #define VIRT_GED_REG_ADDR       (VIRT_GED_MEM_ADDR + 
->> MEMORY_HOTPLUG_IO_LEN)
->>   -#define VIRT_FDT_BASE           0x1c400000
->> -#define VIRT_FDT_SIZE           0x100000
->> -
->>   struct LoongArchMachineState {
->>       /*< private >*/
->>       MachineState parent_obj;
->
+Or start above the fdt at 3M, to avoid that limitation?
+The comment about the Linux kernel start address no longer applies.
 
+Either way,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
