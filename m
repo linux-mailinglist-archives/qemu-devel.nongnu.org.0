@@ -2,91 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C71B62159A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:13:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301476215AF
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:14:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osPLZ-0003jc-UA; Tue, 08 Nov 2022 09:13:01 -0500
+	id 1osPMT-0004h4-F2; Tue, 08 Nov 2022 09:13:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osPLR-0003ed-09
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:12:54 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osPLK-0000ic-Ik
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:12:52 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- ay14-20020a05600c1e0e00b003cf6ab34b61so11782666wmb.2
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 06:12:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=e2RoXLqJmvirSqYb4hwx1T6W2fFgVpgGPtrxxdoqOFk=;
- b=AlivHb5QcQgGzu4Rb+VHbsHZ0lk2GAPlcpO7HOhkdACszyEs8TiHXlXhHjxW224nvo
- JzqIITs0OWrFfqsIf7kUFtfXJRbR1g5SMMe7HSTMFN34xv5+cumiE4c/obEuf3auZpFl
- fUBgJrGvcOA6NZDOGVZN/buCESK+WluPC8dT32JF3X89BOvxAXe16ic9q3UU1ucBBN01
- szI957l7jnGdoONSH8xxXbe7lHWRc7PnTn/lxrnaK4fpJ5uP48TbRRp0GQVjXl0GS9oq
- eGjxCSb50Bmawi0FLBPz1Xf7fIbXvyBEQnAnCxhnoFNVq7GF2TgYN6XCH6L4INlr78Av
- mABQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=e2RoXLqJmvirSqYb4hwx1T6W2fFgVpgGPtrxxdoqOFk=;
- b=UO+KHNo3njksfVnLKfz28UlveJd0W8dMKj2CmvQmjcLpTjb1cL36WRGcXSeplTE7tu
- 7gcN+NZg4iaRv2xUkbGXu+lK0ZqrRnOIm1iC3zrzo9LSdi3xTx/PRLvqd3CwpCUA9LZ8
- w6iZ2ejU9FLBdcNb+zV8lmnFCySe6gJU0pqeEUqiNGMbfroMlG1a2CHmR6NQwjTBin5z
- AeI6Zv/sIkHempImySwQOrFtccr4+R7Rxks2r3o4ocpvEzVNgMEfSuqsTFn3cAybiySN
- MxQ/+I0xhnjb8MaJr0sPg5jn9/YC2RzKaQqzekEi56si7uNYMhjznHYmR+iqmb6OFkKg
- Cv6Q==
-X-Gm-Message-State: ACrzQf1wk3roxdOjaiYtYum1AJ7imz9hUXBN4mDaDq/n6KTXG1WIsvmD
- SQshbG5bdnRcDEG7Q/k7nkc5xw==
-X-Google-Smtp-Source: AMsMyM7RVKQT2dFEeKCv7XdmDRHABegTAzElOujDLZMI7nFAKmRBNoLBSw3xjDH23y0sAOwLxkADUg==
-X-Received: by 2002:a1c:f009:0:b0:3b4:9398:49c9 with SMTP id
- a9-20020a1cf009000000b003b4939849c9mr47015140wmb.174.1667916764723; 
- Tue, 08 Nov 2022 06:12:44 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- bk28-20020a0560001d9c00b002365b759b65sm10598028wrb.86.2022.11.08.06.12.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Nov 2022 06:12:44 -0800 (PST)
-Message-ID: <934d7560-daee-9f7e-2abb-640575768b2f@linaro.org>
-Date: Tue, 8 Nov 2022 15:12:42 +0100
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1osPMQ-0004bU-V2
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:13:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1osPMP-0002y2-H1
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:13:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667916833;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NWjGOLQWLUbZG057Q/jP0mTSXtmCsUsVa6DAPKbRCK8=;
+ b=AGpzMrKZVYv5VlPJJUGY9UnrwkGDkjBnYDL0dtcRCGdd1rDw+HQBKTybZrNgG3oekbxZvB
+ int540TDAKo1j6MHWCYF7OHRvEYKwDSmrbverJWqBuNIlWTtLXVhd69kEW1JXSViCP9TJt
+ 6IMM3jp3PT0fI/YqAw6ncCLP9hEZFks=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-616-oUsaQR3_Na2D1P3J2eP3sg-1; Tue, 08 Nov 2022 09:13:49 -0500
+X-MC-Unique: oUsaQR3_Na2D1P3J2eP3sg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FDEC833A0E;
+ Tue,  8 Nov 2022 14:13:49 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.118])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C24AC15BB5;
+ Tue,  8 Nov 2022 14:13:48 +0000 (UTC)
+Date: Tue, 8 Nov 2022 15:13:46 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2 0/3] block: Start/end drain on correct AioContext
+Message-ID: <Y2pkGq70Z9xGhUis@redhat.com>
+References: <20221107151321.211175-1-hreitz@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH V2] hw/riscv: virt: Remove size restriction for pflash
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Andrew Jones <ajones@ventanamicro.com>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Sunil V L <sunilvl@ventanamicro.com>,
- Peter Maydell <peter.maydell@linaro.org>, Palmer Dabbelt
- <palmer@dabbelt.com>, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- David Edmondson <david.edmondson@oracle.com>
-References: <20221107130217.2243815-1-sunilvl@ventanamicro.com>
- <CAFEAcA8X3Q7s6qZ=ojE9fTLG464rrZw+FX=4hmMOhwR-Q4n2sA@mail.gmail.com>
- <Y2kRWNnk7wDxPnBK@sunil-laptop> <871qqehib4.fsf@linaro.org>
- <Y2kv/k5oKGOd+90w@redhat.com> <20221107173201.343hkqqugkzdzqcf@kamzik>
- <Y2lBnPuUA4bgKCLL@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <Y2lBnPuUA4bgKCLL@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+In-Reply-To: <20221107151321.211175-1-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,90 +78,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 7/11/22 18:34, Daniel P. Berrangé wrote:
-> On Mon, Nov 07, 2022 at 06:32:01PM +0100, Andrew Jones wrote:
->> On Mon, Nov 07, 2022 at 04:19:10PM +0000, Daniel P. Berrangé wrote:
->>> On Mon, Nov 07, 2022 at 03:50:44PM +0000, Alex Bennée wrote:
->>>>
->>>> Sunil V L <sunilvl@ventanamicro.com> writes:
->>>>
->>>>> On Mon, Nov 07, 2022 at 01:06:38PM +0000, Peter Maydell wrote:
->>>>>> On Mon, 7 Nov 2022 at 13:03, Sunil V L <sunilvl@ventanamicro.com> wrote:
->>>>>>>
->>>>>>> The pflash implementation currently assumes fixed size of the
->>>>>>> backend storage. Due to this, the backend storage file needs to be
->>>>>>> exactly of size 32M. Otherwise, there will be an error like below.
->>>>>>>
->>>>>>> "device requires 33554432 bytes, block backend provides 4194304 bytes"
->>>>>>>
->>>>>>> Fix this issue by using the actual size of the backing store.
->>>>>>>
->>>>>>> Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
->>>>>>> ---
->>>>>>
->>>>>> Do you really want the flash device size presented to the guest
->>>>>> to be variable depending on what the user passed as a block backend?
->>>>>> I don't think this is how we handle flash devices on other boards...
->>>>>>
->>>>>
->>>>> Hi Peter,
->>>>>
->>>>> x86 appears to support variable flash but arm doesn't. What is
->>>>> the reason for not supporting variable size flash in arm?
->>>>
->>>> If I recall from the last time we went around this is was the question
->>>> of what you should pad it with.
->>>
->>> Padding is a very good thing from the POV of upgrades. Firmware has shown
->>> a tendancy to change (grow) over time, and the size has an impact of the
->>> guest ABI/live migration state.
->>>
->>> To be able to live migrate, or save/restore to/from files, then the machine
->>> firmware size needs to be sufficient to cope with future size changes of
->>> the firmware. The best way to deal with this is to not use the firmware
->>> binaries' minimum compiled size, but instead to pad it upto a higher
->>> boundary.
->>>
->>> Enforcing such padding is a decent way to prevent users from inadvertantly
->>> painting themselves into a corner with a very specific firmware binary
->>> size at initial boot.
->>
->> Padding is a good idea, but too much causes other problems. When building
->> lightweight VMs which may pull the firmware image from a network,
->> AArch64 VMs require 64MB of mostly zeros to be transferred first, which
->> can become a substantial amount of the overall boot time[*]. Being able to
->> create images smaller than the total flash device size, but still add some
->> pad for later growth, seems like the happy-medium to shoot for.
+Am 07.11.2022 um 16:13 hat Hanna Reitz geschrieben:
+> Hi,
 > 
-> QEMU configures the firmware using -blockdev, so can use any file
-> format that QEMU supports at the block layer.  IOW, you can store
-> the firmware in a qcow2 file and thus you will never fetch any
-> of the padding zeros to be transferred.  That said I'm not sure
-> that libvirt supports anything other than a raw file today.
+> v1 cover letter:
+> https://lists.nongnu.org/archive/html/qemu-block/2022-09/msg00389.html
+> 
+> bdrv_replace_child_noperm() drains the child via
+> bdrv_parent_drained_{begin,end}_single().  When it removes a child, the
+> bdrv_parent_drained_end_single() at its end will be called on an empty
+> child, making the BDRV_POLL_WHILE() in it poll the main AioContext
+> (because c->bs is NULL).
+> 
+> That’s wrong, though, because it’s supposed to operate on the parent.
+> bdrv_parent_drained_end_single_no_poll() will have scheduled any BHs in
+> the parents’ AioContext, which may be anything, not necessarily the main
+> context.  Therefore, we must poll the parent’s context.
+> 
+> Patch 3 does this for both bdrv_parent_drained_{begin,end}_single().
+> Patch 1 ensures that we can legally call
+> bdrv_child_get_parent_aio_context() from those I/O context functions,
+> and patch 2 fixes blk_do_set_aio_context() to not cause an assertion
+> failure if it beginning a drain can end up in blk_get_aio_context()
+> before blk->ctx has been updated.
 
-Drew might be referring to:
+Hmm, I may have unintentionally made this series obsolete with the drain
+series I sent today. The poll instances that you're fixing simply don't
+exist any more after it.
 
-https://lore.kernel.org/qemu-devel/20210810134050.396747-1-david.edmondson@oracle.com/
+Can you check if the bug is gone with my series? I would hope so, but if
+not, we would probably need to apply a fix in a different place.
 
-  > Currently ARM UEFI images are typically built as 2MB/768kB flash
-  > images for code and variables respectively. These images are both
-  > then padded out to 64MB before being loaded by QEMU.
-  >
-  > Because the images are 64MB each, QEMU allocates 128MB of memory to
-  > read them, and then proceeds to read all 128MB from disk (dirtying
-  > the memory). Of this 128MB less than 3MB is useful - the rest is
-  > zero padding.
-  >
-  > On a machine with 100 VMs this wastes over 12GB of memory.
-
-See previous attempts:
-- Huawei
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg607292.html
-- Tencent
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg742066.html
-- Oracle
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg760065.html
-- Red Hat
-https://www.mail-archive.com/qemu-block@nongnu.org/msg81714.html
+Kevin
 
 
