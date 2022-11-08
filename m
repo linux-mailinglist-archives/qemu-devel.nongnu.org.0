@@ -2,85 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1332962098F
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 07:24:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0DA620A1A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 08:22:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osI1M-00030v-Jx; Tue, 08 Nov 2022 01:23:42 -0500
+	id 1osIvY-0001dt-O4; Tue, 08 Nov 2022 02:21:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osI1C-0002z7-4f
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 01:23:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1osIv9-0001bT-3Q
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 02:21:25 -0500
+Received: from mga12.intel.com ([192.55.52.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osI16-0000Hc-L8
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 01:23:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667888603;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2gVPLDdHGgFkqNFAGzB8iU07FzD0Db3jAScYkaqj2kA=;
- b=QWSJI2NTUIIBYIxynYVwJ6JpMMnqNKm0AA96Q0En3gTYKlBr5j3W1Xk3iUgtbwm+JqoeLN
- zozEvvFKbjXHYMgwjic1Cwj7A+UjQ0ieL1I63jq1N+Pzr+RGZMW85/Sby1jntaESsAKWAD
- zLsrejaGzv96p+aPyqQqWxpKedoHHl4=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-102-TwOW-dzaNn2irYCyC3qOOA-1; Tue, 08 Nov 2022 01:23:22 -0500
-X-MC-Unique: TwOW-dzaNn2irYCyC3qOOA-1
-Received: by mail-qt1-f197.google.com with SMTP id
- i13-20020ac8764d000000b003a4ec8693dcso9690600qtr.14
- for <qemu-devel@nongnu.org>; Mon, 07 Nov 2022 22:23:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2gVPLDdHGgFkqNFAGzB8iU07FzD0Db3jAScYkaqj2kA=;
- b=RPYjOUtJkNFqryE2i3B/RFtRvDOFGuWnH4FWyXQMM8wf5GXeRebs5P9oYZw9cOr6Zp
- J4+cTsOXCx1AIjRjHIdL01kvZ02ZNRu7kKAKjQu4B/VVX3FSPCCZ87JjmZHHEXWLs6aU
- /1hR1v+2Zx9jBd4j3xRNFD/JnHGLrS2pJJr1WcLIUjMGn5PgVgBTXjz/DAk5cekcB0HQ
- Zl5n3aOmy4gOs6gDnd8fUrWvOcG+ndgfudn6IVbsrt5wjNcGY4GNhr0+bvt6UlNfgk9J
- s8nbzJ72R0TPpXrcNX1FSUfLsgYVRxvud3ldEsqf4S4C83pMx7FIj/EP7GnJ1d1O8JAh
- NO6Q==
-X-Gm-Message-State: ACrzQf348smDFCJ17jleVFtDWzKy38X6QP9vo+owN6Rk+IsMsHMtPYde
- bxfbMU7BuIQVxkGpP+lSHMRIIZ3aIwGhvxxTbGsu1DcYGy+ActfapEyi4HnVP9u8P6C9BypLd0T
- FdOfeXaGpc7TvHvLdg0ODoFt/ovJmkqdJGIg9ncP646dfCE4LeneoAL2CLqh5
-X-Received: by 2002:a05:620a:2b45:b0:6fa:509f:d0c2 with SMTP id
- dp5-20020a05620a2b4500b006fa509fd0c2mr25681061qkb.302.1667888601867; 
- Mon, 07 Nov 2022 22:23:21 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5D+Ek6x0BKMsxaTuGCPz77gGtDEpO71/sOCvPKZOrryxEm/pgtykEkXVs6L0h4qh1EXwFw2w==
-X-Received: by 2002:a05:620a:2b45:b0:6fa:509f:d0c2 with SMTP id
- dp5-20020a05620a2b4500b006fa509fd0c2mr25681043qkb.302.1667888601348; 
- Mon, 07 Nov 2022 22:23:21 -0800 (PST)
-Received: from redhat.com ([138.199.52.3]) by smtp.gmail.com with ESMTPSA id
- bm7-20020a05620a198700b006ce1bfbd603sm8498379qkb.124.2022.11.07.22.23.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Nov 2022 22:23:21 -0800 (PST)
-Date: Tue, 8 Nov 2022 01:23:16 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, stefanha@redhat.com
-Subject: Re: [PULL v4 00/83] pci,pc,virtio: features, tests, fixes, cleanups
-Message-ID: <20221108012224-mutt-send-email-mst@kernel.org>
-References: <20221107224600.934080-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1osIuw-0007go-9O
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 02:21:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667892066; x=1699428066;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=upQwL5A0Maekh82raTC60T5oBKGppSiNQzfVbZZR6Q8=;
+ b=NwG3RxTUwP/Tw9WaaNqdfnbdrSYIpPIWIndFFWYsmpGswP535dF3M9Rz
+ sj/RIQGzap0kM7HKtVM76xHmQyeTdbdGqh/HU5Dk2lDCLk8xoHv6VRcbD
+ mpeh210tckoc2LPuv8pYRuDKy4zxozlrK2DCUEO9JGPmqoTndpq+GZJWS
+ Ke/Kj6kB+7m0mRahxx3YSucPlAJiWipZbvmkJlrL+Pg490vN0ym50YZXY
+ B1zUNFxB7nIU21lH0JTM7kuLTPbKt5RfeyVQ0Sipx8VpmwWKAmBcXacVz
+ hoGfSZMIeujnfwe5725B5HzZQMcmRqyFXZKkjq/4+36Y0mWzQqUn7AWIi w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="290346347"
+X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; d="scan'208";a="290346347"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Nov 2022 23:21:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10524"; a="638690908"
+X-IronPort-AV: E=Sophos;i="5.96,147,1665471600"; d="scan'208";a="638690908"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by fmsmga007.fm.intel.com with ESMTP; 07 Nov 2022 23:20:50 -0800
+Date: Tue, 8 Nov 2022 15:16:24 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 4/8] KVM: Use gfn instead of hva for mmu_notifier_retry
+Message-ID: <20221108071624.GA76278@chaop.bj.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-5-chao.p.peng@linux.intel.com>
+ <CA+EHjTySnJTuLB+XoRya6kS_zw2iMahW9-Ze70oKTf+6k0GrGQ@mail.gmail.com>
+ <20221104022813.GA4129873@chaop.bj.intel.com>
+ <Y2WSXLtcJOpWPtuv@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221107224600.934080-1-mst@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <Y2WSXLtcJOpWPtuv@google.com>
+Received-SPF: none client-ip=192.55.52.136;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_NONE=0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,380 +100,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 07, 2022 at 05:47:16PM -0500, Michael S. Tsirkin wrote:
-> Changes from v3:
->     Applied and squashed fix by Ani for modular build breakage
->     Reordered Julia's patches to avoid bisect breakage
->     Checkpatch fixes for Jason's patches
->     Added Alex's patch to partially address virtio is_started mess
->     There is a bigger issue found by Christian A. Ehrhardt, that
->     still needs work
->     checkpatch change to avoid breaking on Jason's patches (to make ci pass)
+On Fri, Nov 04, 2022 at 10:29:48PM +0000, Sean Christopherson wrote:
+> On Fri, Nov 04, 2022, Chao Peng wrote:
+> > On Thu, Oct 27, 2022 at 11:29:14AM +0100, Fuad Tabba wrote:
+> > > Hi,
+> > > 
+> > > On Tue, Oct 25, 2022 at 4:19 PM Chao Peng <chao.p.peng@linux.intel.com> wrote:
+> > > >
+> > > > Currently in mmu_notifier validate path, hva range is recorded and then
+> > > > checked against in the mmu_notifier_retry_hva() of the page fault path.
+> > > > However, for the to be introduced private memory, a page fault may not
+> > > > have a hva associated, checking gfn(gpa) makes more sense.
+> > > >
+> > > > For existing non private memory case, gfn is expected to continue to
+> > > > work. The only downside is when aliasing multiple gfns to a single hva,
+> > > > the current algorithm of checking multiple ranges could result in a much
+> > > > larger range being rejected. Such aliasing should be uncommon, so the
+> > > > impact is expected small.
+> > > >
+> > > > It also fixes a bug in kvm_zap_gfn_range() which has already been using
+> > > 
+> > > nit: Now it's kvm_unmap_gfn_range().
+> > 
+> > Forgot to mention: the bug is still with kvm_zap_gfn_range(). It calls
+> > kvm_mmu_invalidate_begin/end with a gfn range but before this series
+> > kvm_mmu_invalidate_begin/end actually accept a hva range. Note it's
+> > unrelated to whether we use kvm_zap_gfn_range() or kvm_unmap_gfn_range()
+> > in the following patch (patch 05).
 > 
-> Changes from v2:
->     Fixed a bug in error handling in vhost: Change the sequence of device start.
->         Contributor placed on watchlist ;)
->     Dropped virtio: re-order vm_running and use_started checks
->         Due to failures detected by gitlab.
->         We'll have to fix it differently.
->     Updated expected files for core-count test to fix bisect.
-> 
-> Changes from v1
->     Applied and squashed fixes by Igor, Lei He, Hesham Almatary for
->     bugs that tripped up the pipeline.
->     Updated expected files for core-count test.
-> 
-> 
-> 
-> The following changes since commit a11f65ec1b8adcb012b89c92819cbda4dc25aaf1:
-> 
->   Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2022-11-01 13:49:33 -0400)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> 
-> for you to fetch changes up to 1ef47f40dce3d5b176ddf76d57b5bfa2efb0b3c6:
+> Grr, in the future, if you find an existing bug, please send a patch.  At the
+> very least, report the bug.
 
- 5e75ffd664258d3d2fd3d27e92e2748024f53bca now - I found and fixed a typo in a comment in checkpatch and re-pushed
+Agreed, this can be sent out separately from this series.
 
+> The APICv case that this was added for could very
+> well be broken because of this, and the resulting failures would be an absolute
+> nightmare to debug.
+
+Given the apicv_inhibit should be rare, the change looks good to me.
+Just to be clear, your will send out this fix, right?
+
+Chao
 
 > 
->   checkpatch: better pattern for inline comments (2022-11-07 14:25:51 -0500)
+> Compile tested only...
 > 
-> ----------------------------------------------------------------
-> pci,pc,virtio: features, tests, fixes, cleanups
+> --
+> From: Sean Christopherson <seanjc@google.com>
+> Date: Fri, 4 Nov 2022 22:20:33 +0000
+> Subject: [PATCH] KVM: x86/mmu: Block all page faults during
+>  kvm_zap_gfn_range()
 > 
-> lots of acpi rework
-> first version of biosbits infrastructure
-> ASID support in vhost-vdpa
-> core_count2 support in smbios
-> PCIe DOE emulation
-> virtio vq reset
-> HMAT support
-> part of infrastructure for viommu support in vhost-vdpa
-> VTD PASID support
-> fixes, tests all over the place
+> When zapping a GFN range, pass 0 => ALL_ONES for the to-be-invalidated
+> range to effectively block all page faults while the zap is in-progress.
+> The invalidation helpers take a host virtual address, whereas zapping a
+> GFN obviously provides a guest physical address and with the wrong unit
+> of measurement (frame vs. byte).
 > 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Alternatively, KVM could walk all memslots to get the associated HVAs,
+> but thanks to SMM, that would require multiple lookups.  And practically
+> speaking, kvm_zap_gfn_range() usage is quite rare and not a hot path,
+> e.g. MTRR and CR0.CD are almost guaranteed to be done only on vCPU0
+> during boot, and APICv inhibits are similarly infrequent operations.
 > 
-> ----------------------------------------------------------------
-> Akihiko Odaki (1):
->       msix: Assert that specified vector is in range
+> Fixes: edb298c663fc ("KVM: x86/mmu: bump mmu notifier count in kvm_zap_gfn_range")
+> Cc: stable@vger.kernel.org
+> Cc: Maxim Levitsky <mlevitsk@redhat.com>
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> ---
+>  arch/x86/kvm/mmu/mmu.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Alex Bennée (1):
->       hw/virtio: introduce virtio_device_should_start
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index 6f81539061d6..1ccb769f62af 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+> @@ -6056,7 +6056,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+>  
+>  	write_lock(&kvm->mmu_lock);
+>  
+> -	kvm_mmu_invalidate_begin(kvm, gfn_start, gfn_end);
+> +	kvm_mmu_invalidate_begin(kvm, 0, -1ul);
+>  
+>  	flush = kvm_rmap_zap_gfn_range(kvm, gfn_start, gfn_end);
+>  
+> @@ -6070,7 +6070,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
+>  		kvm_flush_remote_tlbs_with_address(kvm, gfn_start,
+>  						   gfn_end - gfn_start);
+>  
+> -	kvm_mmu_invalidate_end(kvm, gfn_start, gfn_end);
+> +	kvm_mmu_invalidate_end(kvm, 0, -1ul);
+>  
+>  	write_unlock(&kvm->mmu_lock);
+>  }
 > 
-> Ani Sinha (7):
->       hw/i386/e820: remove legacy reserved entries for e820
->       acpi/tests/avocado/bits: initial commit of test scripts that are run by biosbits
->       acpi/tests/avocado/bits: disable acpi PSS tests that are failing in biosbits
->       acpi/tests/avocado/bits: add biosbits config file for running bios tests
->       acpi/tests/avocado/bits: add acpi and smbios avocado tests that uses biosbits
->       acpi/tests/avocado/bits/doc: add a doc file to describe the acpi bits test
->       MAINTAINERS: add myself as the maintainer for acpi biosbits avocado tests
-> 
-> Bernhard Beschow (3):
->       hw/i386/acpi-build: Remove unused struct
->       hw/i386/acpi-build: Resolve redundant attribute
->       hw/i386/acpi-build: Resolve north rather than south bridges
-> 
-> Brice Goglin (4):
->       hmat acpi: Don't require initiator value in -numa
->       tests: acpi: add and whitelist *.hmat-noinitiator expected blobs
->       tests: acpi: q35: add test for hmat nodes without initiators
->       tests: acpi: q35: update expected blobs *.hmat-noinitiators expected HMAT:
-> 
-> Christian A. Ehrhardt (1):
->       hw/acpi/erst.c: Fix memory handling issues
-> 
-> Cindy Lu (1):
->       vfio: move implement of vfio_get_xlat_addr() to memory.c
-> 
-> David Daney (1):
->       virtio-rng-pci: Allow setting nvectors, so we can use MSI-X
-> 
-> Eric Auger (1):
->       hw/virtio/virtio-iommu-pci: Enforce the device is plugged on the root bus
-> 
-> Gregory Price (1):
->       hw/i386/pc.c: CXL Fixed Memory Window should not reserve e820 in bios
-> 
-> Hesham Almatary (3):
->       tests: Add HMAT AArch64/virt empty table files
->       tests: acpi: aarch64/virt: add a test for hmat nodes with no initiators
->       tests: virt: Update expected *.acpihmatvirt tables
-> 
-> Huai-Cheng Kuo (3):
->       hw/pci: PCIe Data Object Exchange emulation
->       hw/cxl/cdat: CXL CDAT Data Object Exchange implementation
->       hw/mem/cxl-type3: Add CXL CDAT Data Object Exchange
-> 
-> Igor Mammedov (11):
->       acpi: pc: vga: use AcpiDevAmlIf interface to build VGA device descriptors
->       tests: acpi: whitelist DSDT before generating PCI-ISA bridge AML automatically
->       acpi: pc/q35: drop ad-hoc PCI-ISA bridge AML routines and let bus ennumeration generate AML
->       tests: acpi: update expected DSDT after ISA bridge is moved directly under PCI host bridge
->       tests: acpi: whitelist DSDT before generating ICH9_SMB AML automatically
->       acpi: add get_dev_aml_func() helper
->       acpi: enumerate SMB bridge automatically along with other PCI devices
->       tests: acpi: update expected blobs
->       tests: acpi: pc/q35 whitelist DSDT before \_GPE cleanup
->       acpi: pc/35: sanitize _GPE declaration order
->       tests: acpi: update expected blobs
-> 
-> Jason Wang (4):
->       intel-iommu: don't warn guest errors when getting rid2pasid entry
->       intel-iommu: drop VTDBus
->       intel-iommu: convert VTD_PE_GET_FPD_ERR() to be a function
->       intel-iommu: PASID support
-> 
-> Jonathan Cameron (2):
->       hw/mem/cxl-type3: Add MSIX support
->       hw/pci-bridge/cxl-upstream: Add a CDAT table access DOE
-> 
-> Julia Suvorova (5):
->       hw/smbios: add core_count2 to smbios table type 4
->       bios-tables-test: teach test to use smbios 3.0 tables
->       tests/acpi: allow changes for core_count2 test
->       bios-tables-test: add test for number of cores > 255
->       tests/acpi: update tables for new core count test
-> 
-> Kangjie Xu (10):
->       virtio: introduce virtio_queue_enable()
->       virtio: core: vq reset feature negotation support
->       virtio-pci: support queue enable
->       vhost: expose vhost_virtqueue_start()
->       vhost: expose vhost_virtqueue_stop()
->       vhost-net: vhost-kernel: introduce vhost_net_virtqueue_reset()
->       vhost-net: vhost-kernel: introduce vhost_net_virtqueue_restart()
->       virtio-net: introduce flush_or_purge_queued_packets()
->       virtio-net: support queue_enable
->       vhost: vhost-kernel: enable vq reset feature
-> 
-> Lei He (4):
->       virtio-crypto: Support asynchronous mode
->       crypto: Support DER encodings
->       crypto: Support export akcipher to pkcs8
->       cryptodev: Add a lkcf-backend for cryptodev
-> 
-> Markus Armbruster (1):
->       MAINTAINERS: Add qapi/virtio.json to section "virtio"
-> 
-> Michael S. Tsirkin (1):
->       checkpatch: better pattern for inline comments
-> 
-> Miguel Luis (4):
->       tests/acpi: virt: allow acpi MADT and FADT changes
->       acpi: fadt: support revision 6.0 of the ACPI specification
->       acpi: arm/virt: madt: bump to revision 4 accordingly to ACPI 6.0 Errata A
->       tests/acpi: virt: update ACPI MADT and FADT binaries
-> 
-> Robert Hoo (5):
->       tests/acpi: allow SSDT changes
->       acpi/ssdt: Fix aml_or() and aml_and() in if clause
->       acpi/nvdimm: define macro for NVDIMM Device _DSM
->       acpi/nvdimm: Implement ACPI NVDIMM Label Methods
->       test/acpi/bios-tables-test: SSDT: update golden master binaries
-> 
-> Xiang Chen (1):
->       hw/arm/virt: Enable HMAT on arm virt machine
-> 
-> Xuan Zhuo (5):
->       virtio: introduce __virtio_queue_reset()
->       virtio: introduce virtio_queue_reset()
->       virtio-pci: support queue reset
->       virtio-net: support queue reset
->       virtio-net: enable vq reset feature
-> 
-> Yajun Wu (3):
->       vhost-user: Fix out of order vring host notification handling
->       vhost: Change the sequence of device start
->       vhost-user: Support vhost_dev_start
-> 
->  tests/avocado/acpi-bits/bits-config/bits-cfg.txt |   18 +
->  qapi/qom.json                                    |    2 +
->  crypto/der.h                                     |  211 +-
->  crypto/rsakey.h                                  |   11 +-
->  hw/display/vga_int.h                             |    2 +
->  hw/i386/e820_memory_layout.h                     |    8 -
->  hw/i386/fw_cfg.h                                 |    1 -
->  hw/i386/intel_iommu_internal.h                   |   16 +-
->  hw/smbios/smbios_build.h                         |    9 +-
->  include/crypto/akcipher.h                        |   21 +
->  include/exec/memory.h                            |    4 +
->  include/hw/acpi/acpi_aml_interface.h             |   13 +-
->  include/hw/cxl/cxl_cdat.h                        |  166 ++
->  include/hw/cxl/cxl_component.h                   |    7 +
->  include/hw/cxl/cxl_device.h                      |    3 +
->  include/hw/cxl/cxl_pci.h                         |    1 +
->  include/hw/firmware/smbios.h                     |   12 +
->  include/hw/i386/intel_iommu.h                    |   18 +-
->  include/hw/pci/msix.h                            |    4 +-
->  include/hw/pci/pci_bus.h                         |    2 +
->  include/hw/pci/pci_ids.h                         |    3 +
->  include/hw/pci/pcie.h                            |    1 +
->  include/hw/pci/pcie_doe.h                        |  123 ++
->  include/hw/pci/pcie_regs.h                       |    4 +
->  include/hw/virtio/vhost.h                        |    5 +
->  include/hw/virtio/virtio-pci.h                   |    5 +
->  include/hw/virtio/virtio.h                       |   26 +-
->  include/net/vhost_net.h                          |    4 +
->  include/sysemu/cryptodev.h                       |   61 +-
->  backends/cryptodev-builtin.c                     |   69 +-
->  backends/cryptodev-lkcf.c                        |  645 ++++++
->  backends/cryptodev-vhost-user.c                  |   53 +-
->  backends/cryptodev.c                             |   44 +-
->  crypto/akcipher.c                                |   18 +
->  crypto/der.c                                     |  313 ++-
->  crypto/rsakey.c                                  |   42 +
->  hw/acpi/aml-build-stub.c                         |   10 +
->  hw/acpi/aml-build.c                              |   13 +-
->  hw/acpi/erst.c                                   |    6 +-
->  hw/acpi/nvdimm.c                                 |  106 +-
->  hw/arm/virt-acpi-build.c                         |   33 +-
->  hw/block/vhost-user-blk.c                        |   24 +-
->  hw/core/machine.c                                |    8 +-
->  hw/cxl/cxl-cdat.c                                |  224 ++
->  hw/display/acpi-vga-stub.c                       |    7 +
->  hw/display/acpi-vga.c                            |   26 +
->  hw/display/vga-pci.c                             |    4 +
->  hw/i386/acpi-build.c                             |  203 +-
->  hw/i386/e820_memory_layout.c                     |   20 +-
->  hw/i386/fw_cfg.c                                 |    3 -
->  hw/i386/intel_iommu.c                            |  694 +++---
->  hw/i386/microvm.c                                |    2 -
->  hw/i386/pc.c                                     |    2 -
->  hw/isa/lpc_ich9.c                                |   23 +
->  hw/isa/piix3.c                                   |   17 +-
->  hw/mem/cxl_type3.c                               |  264 +++
->  hw/net/e1000e.c                                  |   15 +-
->  hw/net/rocker/rocker.c                           |   23 +-
->  hw/net/vhost_net-stub.c                          |   12 +
->  hw/net/vhost_net.c                               |   90 +-
->  hw/net/virtio-net.c                              |   57 +-
->  hw/net/vmxnet3.c                                 |   27 +-
->  hw/nvme/ctrl.c                                   |    5 +-
->  hw/pci-bridge/cxl_upstream.c                     |  195 +-
->  hw/pci/msix.c                                    |   24 +-
->  hw/pci/pcie_doe.c                                |  367 ++++
->  hw/rdma/vmw/pvrdma_main.c                        |    7 +-
->  hw/remote/vfio-user-obj.c                        |    9 +-
->  hw/smbios/smbios.c                               |   19 +-
->  hw/vfio/common.c                                 |   66 +-
->  hw/virtio/vhost-user-fs.c                        |    2 +-
->  hw/virtio/vhost-user-gpio.c                      |    2 +-
->  hw/virtio/vhost-user-i2c.c                       |    2 +-
->  hw/virtio/vhost-user-rng.c                       |    2 +-
->  hw/virtio/vhost-user-vsock.c                     |    2 +-
->  hw/virtio/vhost-user.c                           |   79 +-
->  hw/virtio/vhost-vsock.c                          |    2 +-
->  hw/virtio/vhost.c                                |   16 +-
->  hw/virtio/virtio-crypto.c                        |  339 +--
->  hw/virtio/virtio-iommu-pci.c                     |   12 +-
->  hw/virtio/virtio-pci.c                           |   83 +-
->  hw/virtio/virtio-rng-pci.c                       |   14 +
->  hw/virtio/virtio.c                               |   62 +-
->  softmmu/memory.c                                 |   72 +
->  tests/qtest/bios-tables-test.c                   |  267 ++-
->  tests/unit/test-crypto-der.c                     |  126 +-
->  MAINTAINERS                                      |   15 +
->  backends/meson.build                             |    3 +
->  docs/devel/acpi-bits.rst                         |  145 ++
->  docs/devel/index-build.rst                       |    1 +
->  hw/arm/Kconfig                                   |    1 +
->  hw/cxl/meson.build                               |    1 +
->  hw/display/meson.build                           |   17 +
->  hw/i386/trace-events                             |    2 +
->  hw/pci/meson.build                               |    1 +
->  scripts/checkpatch.pl                            |    6 +-
->  tests/avocado/acpi-bits.py                       |  396 ++++
->  tests/avocado/acpi-bits/bits-tests/smbios.py2    | 2430 ++++++++++++++++++++++
->  tests/avocado/acpi-bits/bits-tests/testacpi.py2  |  283 +++
->  tests/avocado/acpi-bits/bits-tests/testcpuid.py2 |   83 +
->  tests/data/acpi/pc/DSDT                          |  Bin 6422 -> 6501 bytes
->  tests/data/acpi/pc/DSDT.acpierst                 |  Bin 6382 -> 6461 bytes
->  tests/data/acpi/pc/DSDT.acpihmat                 |  Bin 7747 -> 7826 bytes
->  tests/data/acpi/pc/DSDT.bridge                   |  Bin 9496 -> 9575 bytes
->  tests/data/acpi/pc/DSDT.cphp                     |  Bin 6886 -> 6965 bytes
->  tests/data/acpi/pc/DSDT.dimmpxm                  |  Bin 8076 -> 8155 bytes
->  tests/data/acpi/pc/DSDT.hpbridge                 |  Bin 6382 -> 6461 bytes
->  tests/data/acpi/pc/DSDT.hpbrroot                 |  Bin 3069 -> 3107 bytes
->  tests/data/acpi/pc/DSDT.ipmikcs                  |  Bin 6494 -> 6573 bytes
->  tests/data/acpi/pc/DSDT.memhp                    |  Bin 7781 -> 7860 bytes
->  tests/data/acpi/pc/DSDT.nohpet                   |  Bin 6280 -> 6359 bytes
->  tests/data/acpi/pc/DSDT.numamem                  |  Bin 6428 -> 6507 bytes
->  tests/data/acpi/pc/DSDT.roothp                   |  Bin 6656 -> 6699 bytes
->  tests/data/acpi/pc/SSDT.dimmpxm                  |  Bin 734 -> 1815 bytes
->  tests/data/acpi/q35/APIC.acpihmat-noinitiator    |  Bin 0 -> 144 bytes
->  tests/data/acpi/q35/APIC.core-count2             |  Bin 0 -> 2478 bytes
->  tests/data/acpi/q35/DSDT                         |  Bin 8320 -> 8412 bytes
->  tests/data/acpi/q35/DSDT.acpierst                |  Bin 8337 -> 8429 bytes
->  tests/data/acpi/q35/DSDT.acpihmat                |  Bin 9645 -> 9737 bytes
->  tests/data/acpi/q35/DSDT.acpihmat-noinitiator    |  Bin 0 -> 8691 bytes
->  tests/data/acpi/q35/DSDT.applesmc                |  Bin 8366 -> 8458 bytes
->  tests/data/acpi/q35/DSDT.bridge                  |  Bin 11449 -> 11541 bytes
->  tests/data/acpi/q35/DSDT.core-count2             |  Bin 0 -> 32552 bytes
->  tests/data/acpi/q35/DSDT.cphp                    |  Bin 8784 -> 8876 bytes
->  tests/data/acpi/q35/DSDT.cxl                     |  Bin 9646 -> 9738 bytes
->  tests/data/acpi/q35/DSDT.dimmpxm                 |  Bin 9974 -> 10066 bytes
->  tests/data/acpi/q35/DSDT.ipmibt                  |  Bin 8395 -> 8487 bytes
->  tests/data/acpi/q35/DSDT.ipmismbus               |  Bin 8409 -> 8500 bytes
->  tests/data/acpi/q35/DSDT.ivrs                    |  Bin 8337 -> 8429 bytes
->  tests/data/acpi/q35/DSDT.memhp                   |  Bin 9679 -> 9771 bytes
->  tests/data/acpi/q35/DSDT.mmio64                  |  Bin 9450 -> 9542 bytes
->  tests/data/acpi/q35/DSDT.multi-bridge            |  Bin 8640 -> 8732 bytes
->  tests/data/acpi/q35/DSDT.nohpet                  |  Bin 8178 -> 8270 bytes
->  tests/data/acpi/q35/DSDT.numamem                 |  Bin 8326 -> 8418 bytes
->  tests/data/acpi/q35/DSDT.pvpanic-isa             |  Bin 8421 -> 8513 bytes
->  tests/data/acpi/q35/DSDT.tis.tpm12               |  Bin 8926 -> 9018 bytes
->  tests/data/acpi/q35/DSDT.tis.tpm2                |  Bin 8952 -> 9044 bytes
->  tests/data/acpi/q35/DSDT.viot                    |  Bin 9429 -> 9521 bytes
->  tests/data/acpi/q35/DSDT.xapic                   |  Bin 35683 -> 35775 bytes
->  tests/data/acpi/q35/FACP.core-count2             |  Bin 0 -> 244 bytes
->  tests/data/acpi/q35/HMAT.acpihmat-noinitiator    |  Bin 0 -> 288 bytes
->  tests/data/acpi/q35/SRAT.acpihmat-noinitiator    |  Bin 0 -> 312 bytes
->  tests/data/acpi/q35/SSDT.dimmpxm                 |  Bin 734 -> 1815 bytes
->  tests/data/acpi/virt/APIC                        |  Bin 168 -> 172 bytes
->  tests/data/acpi/virt/APIC.acpihmatvirt           |  Bin 0 -> 412 bytes
->  tests/data/acpi/virt/APIC.memhp                  |  Bin 168 -> 172 bytes
->  tests/data/acpi/virt/APIC.numamem                |  Bin 168 -> 172 bytes
->  tests/data/acpi/virt/DSDT.acpihmatvirt           |  Bin 0 -> 5282 bytes
->  tests/data/acpi/virt/FACP                        |  Bin 268 -> 276 bytes
->  tests/data/acpi/virt/FACP.memhp                  |  Bin 268 -> 276 bytes
->  tests/data/acpi/virt/FACP.numamem                |  Bin 268 -> 276 bytes
->  tests/data/acpi/virt/HMAT.acpihmatvirt           |  Bin 0 -> 288 bytes
->  tests/data/acpi/virt/PPTT.acpihmatvirt           |  Bin 0 -> 196 bytes
->  tests/data/acpi/virt/SRAT.acpihmatvirt           |  Bin 0 -> 240 bytes
->  tests/data/acpi/virt/SSDT.memhp                  |  Bin 736 -> 1817 bytes
->  155 files changed, 7996 insertions(+), 1020 deletions(-)
->  create mode 100644 tests/avocado/acpi-bits/bits-config/bits-cfg.txt
->  create mode 100644 include/hw/cxl/cxl_cdat.h
->  create mode 100644 include/hw/pci/pcie_doe.h
->  create mode 100644 backends/cryptodev-lkcf.c
->  create mode 100644 hw/cxl/cxl-cdat.c
->  create mode 100644 hw/display/acpi-vga-stub.c
->  create mode 100644 hw/display/acpi-vga.c
->  create mode 100644 hw/pci/pcie_doe.c
->  create mode 100644 docs/devel/acpi-bits.rst
->  create mode 100644 tests/avocado/acpi-bits.py
->  create mode 100644 tests/avocado/acpi-bits/bits-tests/smbios.py2
->  create mode 100644 tests/avocado/acpi-bits/bits-tests/testacpi.py2
->  create mode 100644 tests/avocado/acpi-bits/bits-tests/testcpuid.py2
->  create mode 100644 tests/data/acpi/q35/APIC.acpihmat-noinitiator
->  create mode 100644 tests/data/acpi/q35/APIC.core-count2
->  create mode 100644 tests/data/acpi/q35/DSDT.acpihmat-noinitiator
->  create mode 100644 tests/data/acpi/q35/DSDT.core-count2
->  create mode 100644 tests/data/acpi/q35/FACP.core-count2
->  create mode 100644 tests/data/acpi/q35/HMAT.acpihmat-noinitiator
->  create mode 100644 tests/data/acpi/q35/SRAT.acpihmat-noinitiator
->  create mode 100644 tests/data/acpi/virt/APIC.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/DSDT.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/HMAT.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/PPTT.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/SRAT.acpihmatvirt
-
+> base-commit: c12879206e47730ff5ab255bbf625b28ade4028f
+> -- 
 
