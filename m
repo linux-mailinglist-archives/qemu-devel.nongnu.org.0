@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1376218DA
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 16:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDDE6218FC
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 17:03:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osQvO-0002gO-4e; Tue, 08 Nov 2022 10:54:06 -0500
+	id 1osR3I-0005dj-OS; Tue, 08 Nov 2022 11:02:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osQui-0002fG-8m; Tue, 08 Nov 2022 10:53:24 -0500
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1osR2V-0005Z5-Mo
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 11:01:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osQuf-0004px-Nb; Tue, 08 Nov 2022 10:53:23 -0500
-Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
- (myt5-70c90f7d6d7d.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 9325060936;
- Tue,  8 Nov 2022 18:52:58 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
- [2a02:6b8:b081:b535::1:28])
- by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- CpyULtU3ow-qvNes3Ud; Tue, 08 Nov 2022 18:52:57 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1667922777; bh=UXGTrQhjQZU1VqUEu+pXPcSKmLJhea/KO4ekCZrTrxE=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=TCNi19DU6hSoL9tu+8R1MLxUzavG8H71BmR0DnBb6idzoyR1YqdPHeFU7YTLN1Z1a
- 0Yxah3RcDAPtJaP6GpdnpZ+UB6gFsxvHIt0rcAj4oljFYNR5SzTtE5cqO47P8HJ5Vq
- ma84JgV3YsXcPKI71BXyH+6ft9STs5vCGHVUgjJg=
-Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <119e4895-1ee9-ef31-6004-e25d05024210@yandex-team.ru>
-Date: Tue, 8 Nov 2022 18:52:57 +0300
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1osR2O-0000AH-VS
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 11:01:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667923279;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=en6scsxl1Eh3dQCJGQHarbFsO16HbysKIN+t5ajiUSQ=;
+ b=SQtPK1IJimW870LrfMEfk6EUmu6LryGtJpqT/Hxyev3IVP/wDRLLcco/GKKdVw0X253G97
+ eGs6BvaU75AV2bj6ucegbAYaZfvJv/tSTkq8aX8Qvv6jMKebnaLiVxyIoKb7hOYOdYRBfu
+ 0JUr5QEmmvW9QmV0oWwmLpI+cqNtChA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-613-0UuHnuniM5KlnDMTNsVNJg-1; Tue, 08 Nov 2022 11:01:14 -0500
+X-MC-Unique: 0UuHnuniM5KlnDMTNsVNJg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 867613C1E730;
+ Tue,  8 Nov 2022 16:01:13 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BD3ECC15BB5;
+ Tue,  8 Nov 2022 16:01:11 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 144A821E6921; Tue,  8 Nov 2022 17:01:08 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Sunil V L <sunilvl@ventanamicro.com>,  Palmer Dabbelt
+ <palmer@dabbelt.com>,  Alistair Francis <alistair.francis@wdc.com>,  Bin
+ Meng <bin.meng@windriver.com>,  Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-riscv@nongnu.org,  qemu-devel@nongnu.org
+Subject: Re: [PATCH V2] hw/riscv: virt: Remove size restriction for pflash
+References: <20221107130217.2243815-1-sunilvl@ventanamicro.com>
+ <CAFEAcA8X3Q7s6qZ=ojE9fTLG464rrZw+FX=4hmMOhwR-Q4n2sA@mail.gmail.com>
+ <Y2kRWNnk7wDxPnBK@sunil-laptop>
+ <CAFEAcA-121P8gwOHRsbp4swP9ah1CZO8rVP75+WyvgF1pou8Aw@mail.gmail.com>
+Date: Tue, 08 Nov 2022 17:01:08 +0100
+In-Reply-To: <CAFEAcA-121P8gwOHRsbp4swP9ah1CZO8rVP75+WyvgF1pou8Aw@mail.gmail.com>
+ (Peter Maydell's message of "Mon, 7 Nov 2022 16:08:27 +0000")
+Message-ID: <87tu395tbv.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 1/9] block: call bdrv_co_drain_begin in a coroutine
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20221104095700.4117433-1-eesposit@redhat.com>
- <20221104095700.4117433-2-eesposit@redhat.com>
- <1a4627a3-e5c3-5ee7-d953-5719e5a019d1@yandex-team.ru>
- <3c45c186-4913-6508-7a97-b11742afb41e@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <3c45c186-4913-6508-7a97-b11742afb41e@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,123 +84,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/8/22 18:13, Emanuele Giuseppe Esposito wrote:
-> 
-> 
-> Am 08/11/2022 um 15:33 schrieb Vladimir Sementsov-Ogievskiy:
->> On 11/4/22 12:56, Emanuele Giuseppe Esposito wrote:
->>> It seems that bdrv_open_driver() forgot to create a coroutine
->>> where to call bs->drv->bdrv_co_drain_begin(), a callback
->>> marked as coroutine_fn.
->>>
->>> Because there is no active I/O at this point, the coroutine
->>> should end right after entering, so the caller does not need
->>> to poll until it is finished.
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> On Mon, 7 Nov 2022 at 14:08, Sunil V L <sunilvl@ventanamicro.com> wrote:
 >>
->> Hmm. I see your point. But isn't it better to go the generic way and use
->> a generated coroutine wrapper? Nothing guarantees that
->> .bdrv_co_drain_begin() handlers will never do any yield point even on
->> driver open...
->>
->> Look for example at bdrv_co_check(). It has a generated wrapper
->> bdrv_check(), declared in include/block/block-io.h
->>
->> So you just need to declare the wrapper, and use it in
->> bdrv_open_driver(), the code would be clearer too.
-> 
-> I think (and this is a repetition from my previous email) it confuses
-> the code. It is clear, but then you don't know if we are in a coroutine
-> context or not.
+>> On Mon, Nov 07, 2022 at 01:06:38PM +0000, Peter Maydell wrote:
+>> > On Mon, 7 Nov 2022 at 13:03, Sunil V L <sunilvl@ventanamicro.com> wrote:
+>> > >
+>> > > The pflash implementation currently assumes fixed size of the
+>> > > backend storage. Due to this, the backend storage file needs to be
+>> > > exactly of size 32M. Otherwise, there will be an error like below.
+>> > >
+>> > > "device requires 33554432 bytes, block backend provides 4194304 bytes"
+>> > >
+>> > > Fix this issue by using the actual size of the backing store.
+>> > >
+>> > > Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
+>> > > ---
+>> >
+>> > Do you really want the flash device size presented to the guest
+>> > to be variable depending on what the user passed as a block backend?
+>> > I don't think this is how we handle flash devices on other boards...
+>> >
+>
+>> x86 appears to support variable flash but arm doesn't. What is
+>> the reason for not supporting variable size flash in arm?
+>
+> Mostly, that that's the straightforward thing to code.
+> Partly, that it avoids weird cases (eg you can have a backing
+> file that's an odd number of bytes but you can't have a
+> flash that size).
+>
+> If x86 has a standard way of handling this then I'm all
+> in favour of being consistent across platforms. What's
+> the x86 board doing there?
 
-Hmm. But same thing is true for all callers of coroutine wrappers.
+I'm hardly the expert here, but I messed with it at some time... I guess
+I can try to answer.
 
-I agree that "coroutine wrapper" is a workaround for the design problem. Really, the fact that in many places we don't know are we in coroutine or not is very uncomfortable.
+It's complicated.  More often than not, long development history + need
+for backward compatibility = complicated.  Which makes it (in my
+opinion) not a useful example to follow.
 
-But still, I'm not sure that's it good to avoid this workaround in one place and continue to use it in all other places. I think following common design is better. Or rework it deeply by getting rid of the wrappers somehow.
+We use either ROM or flash device(s) to hold the BIOS.
 
-> 
-> I am very well aware of what you did with your script, and I am working
-> on extending your g_c_w class with g_c_w_simple, where we drop the
-> if(qemu_in_coroutine()) case and leave just the coroutine creation.
-> Therefore, coroutine functions we use only the _co_ function, otherwise
-> we use g_c_w_simple.
-> In this way code is clear as you point out, but there is no confusion.
+The flash option exists since v1.1.
 
-Hmm sounds good, I missed it. Why not use g_c_w_simple here than?
+The user interface for picking one or the other, and configure contents
+has a long and complicated history.  I'll spare you the details.
 
-> 
-> Thank you,
-> Emanuele
->>
->>>
->>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
->>> ---
->>>    block.c | 36 +++++++++++++++++++++++++++++++-----
->>>    1 file changed, 31 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/block.c b/block.c
->>> index 5311b21f8e..d2b2800039 100644
->>> --- a/block.c
->>> +++ b/block.c
->>> @@ -1637,12 +1637,34 @@ out:
->>>        g_free(gen_node_name);
->>>    }
->>>    +typedef struct DrainCo {
->>> +    BlockDriverState *bs;
->>> +    int ret;
->>> +} DrainCo;
->>> +
->>> +static void coroutine_fn bdrv_co_drain_begin(void *opaque)
->>> +{
->>> +    int i;
->>> +    DrainCo *co = opaque;
->>> +    BlockDriverState *bs = co->bs;
->>> +
->>> +    for (i = 0; i < bs->quiesce_counter; i++) {
->>> +        bs->drv->bdrv_co_drain_begin(bs);
->>> +    }
->>> +    co->ret = 0;
->>> +}
->>> +
->>>    static int bdrv_open_driver(BlockDriverState *bs, BlockDriver *drv,
->>>                                const char *node_name, QDict *options,
->>>                                int open_flags, Error **errp)
->>>    {
->>>        Error *local_err = NULL;
->>> -    int i, ret;
->>> +    int ret;
->>> +    Coroutine *co;
->>> +    DrainCo dco = {
->>> +        .bs = bs,
->>> +        .ret = NOT_DONE,
->>> +    };
->>>        GLOBAL_STATE_CODE();
->>>          bdrv_assign_node_name(bs, node_name, &local_err);
->>> @@ -1690,10 +1712,14 @@ static int bdrv_open_driver(BlockDriverState
->>> *bs, BlockDriver *drv,
->>>        assert(bdrv_min_mem_align(bs) != 0);
->>>        assert(is_power_of_2(bs->bl.request_alignment));
->>>    -    for (i = 0; i < bs->quiesce_counter; i++) {
->>> -        if (drv->bdrv_co_drain_begin) {
->>> -            drv->bdrv_co_drain_begin(bs);
->>> -        }
->>> +    if (drv->bdrv_co_drain_begin) {
->>> +        co = qemu_coroutine_create(bdrv_co_drain_begin, &dco);
->>> +        qemu_coroutine_enter(co);
->>> +        /*
->>> +         * There should be no reason for drv->bdrv_co_drain_begin to
->>> wait at
->>> +         * this point, because the device does not have any active I/O.
->>> +         */
->>> +        assert(dco.ret != NOT_DONE);
->>>        }
->>>          return 0;
->>
-> 
+ROM contents comes from an image file.  Configurable with -bios.
+Default depends on the machine type.
 
--- 
-Best regards,
-Vladimir
+ROM size is the image file size.  It's mapped so it ends right before
+address 2^32.
+
+It's mapped a second time so it ends right before 2^20.  If the image
+file is larger than 128KiB, only the last 128KiB are mapped there.
+
+Flash contents comes from a block backend.  Configurable with machine
+properties "pflash0" and "pflash1" (or legacy -drive if=pflash).  There
+is no default.  If you don't configure flash contents, you get ROM
+instead.
+
+Flash device size is the block backend size.  Must be a multiple of
+4KiB.
+
+If "pflash0" is configured, we create a flash device so it ends right
+before address 2^32.  If "pflash1" is also configured, we create a
+second flash device so it ends right before the first one (no gap).
+Combined size must not exceed a limit that depends on the machine type.
+
+Aside: why two flash devices?  A physical machine has just one...  Well,
+we need a read-only part for the code, and a read-write part for
+persistent configuration ("varstore" in UEFI parlance).  Physical flash
+devices let you write-protect partially, but our device models don't
+implement that, it's all or nothing.  So we use two.  Kludge.
+
+Again, there's a second mapping that ends right before 2^20, limited to
+128KiB.
+
+
+In my opinion, setting flash or ROM size to the size of the block
+backend or image file is a bad idea.  It tangles up configuration of
+frontend and backend.  We used to do this a lot (e.g. -drive).
+Untangling (e.g. -device and -blockdev) was a lot of work.  With the
+tangle kept around for compatibility.
+
+Doug McIlroy's quip applies: "KISS became MICAHI: make it complicated
+and hide it."
+
+A physical machine has a fixed flash memory size.
+
+A virtual machine models a physical machine.  It has a fixed flash
+memory size, too.
+
+If we want a machine type to model multiple variations of a physical
+machine, say multiple flash sizes, the configuration knob really belongs
+to the machine type.  Hiding it somewhere on the file system instead is
+a bad idea.
 
 
