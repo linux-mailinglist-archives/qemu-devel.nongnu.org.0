@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1A2621BA7
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 19:15:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C70E9621BB0
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 19:18:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osT7U-0000rb-F0; Tue, 08 Nov 2022 13:14:44 -0500
+	id 1osTAS-0002EQ-Ih; Tue, 08 Nov 2022 13:17:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1osT7S-0000pv-MW; Tue, 08 Nov 2022 13:14:42 -0500
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35])
+ id 1osTAO-0002E2-AR; Tue, 08 Nov 2022 13:17:44 -0500
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1osT7R-0001Jz-92; Tue, 08 Nov 2022 13:14:42 -0500
-Received: by mail-yb1-xb35.google.com with SMTP id n85so12706677yba.1;
- Tue, 08 Nov 2022 10:14:40 -0800 (PST)
+ id 1osTAM-000461-Qc; Tue, 08 Nov 2022 13:17:44 -0500
+Received: by mail-yb1-xb32.google.com with SMTP id 63so18325972ybq.4;
+ Tue, 08 Nov 2022 10:17:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=bC+ZVKLblWKhw3D3YTLaNlvsIFtSzqZulSjuHUpQTJc=;
- b=NIW4loZRsHvodLJ91KnrAixY0XmSEhuF8C/hEcOyIW2xxqAaN5DCS1nD2FTk8VRzs3
- FpWgGrlhI7Qgxgqa+dbrAOcjuBOIwoCgoLH9KxhvC8arLL19EVef4Blx2w/tC3pJv4pc
- lVVQJaVvWunsjHW66RqpONISt2P66sAvw5zXhLSa9Xi9qQI6s3K7a3ST1Pom2L1bAv9f
- RRhFn3OyWwkGJdpy7oEsXko3S03+2O+g9kd27Qsa9u7DBP4c2jtbUxphrjek5FU3Bhr9
- qGCbKGc3L9jre9qpIC9iuIKdsb0toVpCKjHh1XtQ+LLSzp5ps/5JEVdCwh1JEXCB9OO4
- Uuow==
+ bh=GS5xOBU219I0ts2Koj+cOPUNu6uxItLQP18JOFLZopA=;
+ b=erw45iYR4EPeU/gEb2haKJioV4qzBPE7Jzt9dMBGAzAnCpJKSZcCeQlJZWiYwiihb6
+ l/0wQngK3f+PoSVtFi5Cjua+3q36KTv8U13KXkFH1s91Tz6A9HOVC1ya9DSAT5Dp9Xpn
+ i3qhnJvsaNHtJMmkZTX3drZ83hReEuuNms3l54wH4VkYVTNomSm83Sb4+jBKWLo0Fl0n
+ /DcMrie3v8Jo6hgkQofLZcpQK+CKalfMrDgSCdKDYq5tW045gtb7j9FCh19QmpuKDvWW
+ vmCwl4eD+aWDNwwVzFFvuTw0XQOzDGdepoDqzN5nEnHj6QKK5DNEIMeQUNSQSM2BoXyn
+ PpGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=bC+ZVKLblWKhw3D3YTLaNlvsIFtSzqZulSjuHUpQTJc=;
- b=0/3fQzjBwJ5U0J119bYH9DWPa2qUyGfP38E2YVLeoNyd+BI1kzlD4B6c+ByJMw4Kny
- LPsVaspTnNELcUxZB/wNrlSk85v6eLdYTtT8XTuFtLMEwSdldGVnYVr4OLDItS39ycMR
- KlS+WOF2MKQzXdX93DU3lRnPJsLnjziNvM/7YxyRnbY1vV0vIsseI5P8be+N0AxitQle
- 2b7Gs/9yeB3iZHjqPauD1dh+Q9SOgsAnwI9UHLmQPM5zSSvK+s2fFVjDz8py9dm189kF
- dMbZ7yNou2ZMoomqHCAvkbaImDsz5iR/mluVu8jNGoAv7UR/K6rQ3YLpNUX9bm8n873z
- CnOw==
-X-Gm-Message-State: ACrzQf2iAUpDNj5b80A7xCnRfPsPitpjHsj/yDhLkvgyykKdksuXKE5b
- 6OdnVQriCvV04YWPeR57yXM9/LmiM5qh/YKkYkU=
-X-Google-Smtp-Source: AMsMyM7UjB11iQApuqTVYb1UyVLXpIdVDnHZjYmFG5nhIWySmNUSxqn16xHuPi2VCmCUAWbiUnyLiCuXH6yVwadBbQE=
+ bh=GS5xOBU219I0ts2Koj+cOPUNu6uxItLQP18JOFLZopA=;
+ b=GzMsAsZRHVhn75JpjYPHyRTsFkh7dyGf7Y1mxj5hVF1l4Zx3IvzgO1j1FMG/divEWY
+ 3LOTawBAzw+02TNgLQT37Z7v9JwvkqUi/OGv7ij2GiEyNsHNOELZUrBTpJxEMJsp862g
+ iDTxu4XEH2XiqEMKGbc79E7ESIh+73Y71y4iyrFOmkSSxhTvmK8MgdBJryG/kkKtyrHa
+ tLFvObia0vaO0zXcUdNwgKs0aOgB5wfkq72A5pWt1gRCdxwIZMHu0LK1z9jUHQXd6tfX
+ ns1P7X3IsonD6EiHYQrAT1KZ1NQ5mip/ZJ3hZVpfEaI5iKc+TBjnsczm04mAsfffbAji
+ clxg==
+X-Gm-Message-State: ACrzQf3yO9AFLcRDvHviZ7f8C/gMx+t2JPOE4l3EAn0y9xY9sKeGML6N
+ To9F5rZtpGht30ANO4/ihDgBtv7MoDQhZgQLhlY=
+X-Google-Smtp-Source: AMsMyM7pjtgYboO/aTP5VaNmqlpziAPJizAa7MiHZW72zqNw6aMu5tU14plxNh1bup+C3+wuiBfY/vWRx70nU2lDT58=
 X-Received: by 2002:a05:6902:191:b0:6cd:3a43:cda3 with SMTP id
- t17-20020a056902019100b006cd3a43cda3mr43339537ybh.207.1667931279583; Tue, 08
- Nov 2022 10:14:39 -0800 (PST)
+ t17-20020a056902019100b006cd3a43cda3mr43352552ybh.207.1667931460006; Tue, 08
+ Nov 2022 10:17:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20221108175755.95141-1-philmd@linaro.org>
-In-Reply-To: <20221108175755.95141-1-philmd@linaro.org>
+References: <20221107221236.47841-1-philmd@linaro.org>
+In-Reply-To: <20221107221236.47841-1-philmd@linaro.org>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 8 Nov 2022 13:14:27 -0500
-Message-ID: <CAJSP0QWyiKF+5LhG5fwf37uz1Hy_gxUVvtH20acVc5X-OG2u8w@mail.gmail.com>
-Subject: Re: [PATCH-for-7.2] Revert "hw/block/pflash_cfi: Error out if dev
- length isn't power of 2"
+Date: Tue, 8 Nov 2022 13:17:28 -0500
+Message-ID: <CAJSP0QWQxRyQESv_LW+8ZgZc7Nzds8USydZ=4nD9dkNJSE6kGQ@mail.gmail.com>
+Subject: Re: [PATCH-for-7.2 0/2] hw/sd/sdhci: Do not set Buf Wr Ena before
+ writing block (CVE-2022-3872)
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Sunil V L <sunilvl@ventanamicro.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Markus Armbruster <armbru@redhat.com>, Bernhard Beschow <shentey@gmail.com>
+Cc: qemu-devel@nongnu.org, Sai Pavan Boddu <saipava@xilinx.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org, 
+ Alexander Bulekov <alxndr@bu.edu>, Bin Meng <bin.meng@windriver.com>, 
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,7 +85,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Applied to staging. Thanks!
+Applied to the staging tree. Thanks!
 
 Stefan
 
