@@ -2,85 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189E9620C22
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 10:25:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBAE0620C28
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 10:26:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osKpM-0007GX-LO; Tue, 08 Nov 2022 04:23:28 -0500
+	id 1osKpI-0007F0-WD; Tue, 08 Nov 2022 04:23:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1osKpC-0007Dg-Ig
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:23:18 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ id 1osKpA-0007Cz-Vs
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:23:17 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1osKpA-0005p4-7o
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:23:18 -0500
-Received: by mail-wr1-x430.google.com with SMTP id g12so19904049wrs.10
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 01:23:14 -0800 (PST)
+ id 1osKp8-0005os-Cz
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 04:23:16 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ i5-20020a1c3b05000000b003cfa97c05cdso637969wma.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 01:23:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+Mtx8odvHwCV0bf17EfBgIaZ7U3IJZv+eeZfeBwc4UQ=;
- b=pylU059h9atBQP2HUJ1P2PS5gPhC528RXgxry6KwVPVJPUphbcC7U9294RnSW+1vxy
- 7G52xLzTQMlkaXzX8tE1ojTe6NDZN91xdDS+96gOQgKvL9qkfRNq/acxVJsmmONzuiwT
- 0RoBbKFiG2X4WS/ZU2y8NolvEpt/JT4l2Sp2Ny+9LrTDIJsWPk0jUj0hnoCZgUYX/AS+
- /6OG5xIZXCclbNAfUrIsRvXAzJhVHgJDTKu9LV0dh8F7RNuHbNeVAKvUjDrsnn9OyINP
- WmKfY4roK69ctfmrPmJipUJocf67Kb9y0GX5kTY3VSM8s/hXHg+EKy1GjV2qJbG1Q3yQ
- VBLA==
+ bh=PETkHCmmDlOk/l4eNJN9a+MTbBUaCZh7Q5yajW/EJQg=;
+ b=hPbtvtK/7aEGeHJZpkm4fTHtiVHpzEFss7EumU/eRkqyVZIyvC0m35J6KiCV5OuXJs
+ pumgm04atdVvG+YNmxxP6vePer5bfaKBWfGbLA+Pddf16j+1urASApV3kc+m6AnOrUCa
+ DJnn5jOVCOQ54Y3P54yIwG3f27TBYA0PYUwDRWKJevMzJSG0FYJzP5FtIWUIjwUgAtnV
+ 9das+x+WtVlkjR8G2nzfvtBEPBRKS4DJyja50hpKwBKrPFcTx9f2b5gmFRQxsDbIP9kj
+ CElS34VgLZSbKfKH/NGYrSau+q7REkPUmvjnRfwzv8zG8ZvcLOK+3eK1VP0CkVnhKsa9
+ B4cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+Mtx8odvHwCV0bf17EfBgIaZ7U3IJZv+eeZfeBwc4UQ=;
- b=LNjAjjK9FeeZAlT8/IcV+cdMZub81NoOyKfMTbYNEp2Xm5lCETEcARtKIvZmjfSjaR
- pgG7ZRS7HDWhfnUm1YDNUl4Q/09IrsYzQ2jem+OLArz/9SP+8ANTEDi8upVFoC3nbLLX
- Sg7y0duZ2KyOmRTwMHVj3tihPAF3W/eUeCtiajtYnotvZbzBUSWzSZOFEdDnrN3g0Q0B
- UfHLw4DhmNTFC7fxRQYgCYeeFsvzcLgCleFBiweprbFRoh8jlOg4Ps307t0X06nEW5a2
- xR7D129y4MI2F7GjRrso2vpZZTGVNGlAI5xNh/0zntSwyPR/VI6WSJMMercGAL7W8HpL
- b6+w==
-X-Gm-Message-State: ACrzQf2boyPhLr72jmcLjrGjtgC76aFnEOXwb4E+CZdOd0e/KKKBj8bk
- v0+leratdarmSdbeAiSdHY+mOA==
-X-Google-Smtp-Source: AMsMyM7o+8dkKOT21Dl6NyLgXXUlpgQssrxuk38rTG2mYpzszpQf9iqM78gt/GvcoihxEtFQvXdvrg==
-X-Received: by 2002:a5d:4b51:0:b0:236:88a2:267f with SMTP id
- w17-20020a5d4b51000000b0023688a2267fmr33450222wrs.461.1667899393939; 
- Tue, 08 Nov 2022 01:23:13 -0800 (PST)
+ bh=PETkHCmmDlOk/l4eNJN9a+MTbBUaCZh7Q5yajW/EJQg=;
+ b=byGZI2phifqaPXblQ9V2PaDNgSMBx3qLVBzNzRB1TLQcDwGuydS2RFsFAzU5kjZc3O
+ iJz7Nc1YHQkZe60rT3zDpjvNTaqX/RG44oT5RuYNIkyDGnD3vPg99LGWdcRzxsX+/+Lu
+ inZ/O/ZzS1lKstvtMsdnkX70ckhyewci5uYIW8spPbdHDTX7n0kzFzdBIWpfliDbtzEI
+ gTaiS8psba93F7bPyvd6ahSae2m4Z0GO40qNOxKQYA7A4acw2wlUHwupJIYBJ728nw7W
+ rn9m9yI0AwxQ4iR4XiCZnfGPFc76oJwe/THZLhgZdOqXZbaCftmkKx9A7z9EBSF1cDYb
+ ltXQ==
+X-Gm-Message-State: ACrzQf2aEZ5lJf/iwdYvVNCi/xPrObzIahdy4GMiaJRigJB+l8Isi0Xf
+ S6iSTVBBanwFtujvPWKqIOCOYg==
+X-Google-Smtp-Source: AMsMyM6csYomq8VuV7oHFu8DzTyBwjBkDsLd9w0hDcO6R9weKfH6LGJJiaUL7alO2OTNOxHOmH+ojQ==
+X-Received: by 2002:a05:600c:3c82:b0:3b5:60a6:c80f with SMTP id
+ bg2-20020a05600c3c8200b003b560a6c80fmr36754347wmb.199.1667899392914; 
+ Tue, 08 Nov 2022 01:23:12 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- b9-20020a05600010c900b002368424f89esm9713795wrx.67.2022.11.08.01.23.09
+ z17-20020adfec91000000b002366e8eee11sm9508857wrn.101.2022.11.08.01.23.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 08 Nov 2022 01:23:10 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B16A91FFBD;
+ by zen.linaroharston (Postfix) with ESMTP id CF83E1FFBE;
  Tue,  8 Nov 2022 09:23:08 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- qemu-block@nongnu.org (open list:Block layer core),
- virtio-fs@redhat.com (open list:virtiofs)
-Subject: [PATCH  v1 5/9] hw/virtio: introduce virtio_device_should_start
-Date: Tue,  8 Nov 2022 09:23:04 +0000
-Message-Id: <20221108092308.1717426-6-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH v1 6/9] docs/devel: add a maintainers section to development
+ process
+Date: Tue,  8 Nov 2022 09:23:05 +0000
+Message-Id: <20221108092308.1717426-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221108092308.1717426-1-alex.bennee@linaro.org>
 References: <20221108092308.1717426-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,158 +97,189 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The previous fix to virtio_device_started revealed a problem in its
-use by both the core and the device code. The core code should be able
-to handle the device "starting" while the VM isn't running to handle
-the restoration of migration state. To solve this dual use introduce a
-new helper for use by the vhost-user backends who all use it to feed a
-should_start variable.
+We don't currently have a clear place in the documentation to describe
+the roles and responsibilities of a maintainer. Lets create one so we
+can. I've moved a few small bits out of other files to try and keep
+everything in one place.
 
-We can also pick up a change vhost_user_blk_set_status while we are at
-it which follows the same pattern.
-
-Fixes: 9f6bcfd99f (hw/virtio: move vm_running check to virtio_device_started)
-Fixes: 27ba7b027f (hw/virtio: add boilerplate for vhost-user-gpio device)
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
----
- include/hw/virtio/virtio.h   | 18 ++++++++++++++++++
- hw/block/vhost-user-blk.c    |  6 +-----
- hw/virtio/vhost-user-fs.c    |  2 +-
- hw/virtio/vhost-user-gpio.c  |  2 +-
- hw/virtio/vhost-user-i2c.c   |  2 +-
- hw/virtio/vhost-user-rng.c   |  2 +-
- hw/virtio/vhost-user-vsock.c |  2 +-
- hw/virtio/vhost-vsock.c      |  2 +-
- 8 files changed, 25 insertions(+), 11 deletions(-)
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20221012121152.1179051-2-alex.bennee@linaro.org>
 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index f41b4a7e64..3191c618f3 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -389,6 +389,24 @@ static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
-         return vdev->started;
-     }
- 
-+    return status & VIRTIO_CONFIG_S_DRIVER_OK;
-+}
+---
+v2
+  - s/roll/role
+  - s/projects/project's
+  - mention looking after the long term health of area
+  - add a section on becoming a reviewer
+  - expand becoming section
+  - add footnote about key signing
+---
+ docs/devel/code-of-conduct.rst           |   2 +
+ docs/devel/index-process.rst             |   1 +
+ docs/devel/maintainers.rst               | 106 +++++++++++++++++++++++
+ docs/devel/submitting-a-pull-request.rst |  12 +--
+ 4 files changed, 113 insertions(+), 8 deletions(-)
+ create mode 100644 docs/devel/maintainers.rst
+
+diff --git a/docs/devel/code-of-conduct.rst b/docs/devel/code-of-conduct.rst
+index 195444d1b4..f734ed0317 100644
+--- a/docs/devel/code-of-conduct.rst
++++ b/docs/devel/code-of-conduct.rst
+@@ -1,3 +1,5 @@
++.. _code_of_conduct:
 +
-+/**
-+ * virtio_device_should_start() - check if device startable
-+ * @vdev - the VirtIO device
-+ * @status - the devices status bits
-+ *
-+ * This is similar to virtio_device_started() but also encapsulates a
-+ * check on the VM status which would prevent a device starting
-+ * anyway.
-+ */
-+static inline bool virtio_device_should_start(VirtIODevice *vdev, uint8_t status)
-+{
-+    if (vdev->use_started) {
-+        return vdev->started;
-+    }
+ Code of Conduct
+ ===============
+ 
+diff --git a/docs/devel/index-process.rst b/docs/devel/index-process.rst
+index d0d7a200fd..d50dd74c3e 100644
+--- a/docs/devel/index-process.rst
++++ b/docs/devel/index-process.rst
+@@ -8,6 +8,7 @@ Notes about how to interact with the community and how and where to submit patch
+ 
+    code-of-conduct
+    conflict-resolution
++   maintainers
+    style
+    submitting-a-patch
+    trivial-patches
+diff --git a/docs/devel/maintainers.rst b/docs/devel/maintainers.rst
+new file mode 100644
+index 0000000000..05110909d1
+--- /dev/null
++++ b/docs/devel/maintainers.rst
+@@ -0,0 +1,106 @@
++.. _maintainers:
 +
-     if (!vdev->vm_running) {
-         return false;
-     }
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 13bf5cc47a..8feaf12e4e 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -222,14 +222,10 @@ static void vhost_user_blk_stop(VirtIODevice *vdev)
- static void vhost_user_blk_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostUserBlk *s = VHOST_USER_BLK(vdev);
--    bool should_start = virtio_device_started(vdev, status);
-+    bool should_start = virtio_device_should_start(vdev, status);
-     Error *local_err = NULL;
-     int ret;
++The Role of Maintainers
++=======================
++
++Maintainers are a critical part of the project's contributor ecosystem.
++They come from a wide range of backgrounds from unpaid hobbyists
++working in their spare time to employees who work on the project as
++part of their job. Maintainer activities include:
++
++  - reviewing patches and suggesting changes
++  - collecting patches and preparing pull requests
++  - tending to the long term health of their area
++  - participating in other project activities
++
++They are also human and subject to the same pressures as everyone else
++including overload and burnout. Like everyone else they are subject
++to project's :ref:`code_of_conduct` and should also be exemplars of
++excellent community collaborators.
++
++The MAINTAINERS file
++--------------------
++
++The `MAINTAINERS
++<https://gitlab.com/qemu-project/qemu/-/blob/master/MAINTAINERS>`__
++file contains the canonical list of who is a maintainer. The file
++is machine readable so an appropriately configured git (see
++:ref:`cc_the_relevant_maintainer`) can automatically Cc them on
++patches that touch their area of code.
++
++The file also describes the status of the area of code to give an idea
++of how actively that section is maintained.
++
++.. list-table:: Meaning of support status in MAINTAINERS
++   :widths: 25 75
++   :header-rows: 1
++
++   * - Status
++     - Meaning
++   * - Supported
++     - Someone is actually paid to look after this.
++   * - Maintained
++     - Someone actually looks after it.
++   * - Odd Fixes
++     - It has a maintainer but they don't have time to do
++       much other than throw the odd patch in.
++   * - Orphan
++     - No current maintainer.
++   * - Obsolete
++     - Old obsolete code, should use something else.
++
++Please bear in mind that even if someone is paid to support something
++it does not mean they are paid to support you. This is open source and
++the code comes with no warranty and the project makes no guarantees
++about dealing with bugs or features requests.
++
++
++
++Becoming a reviewer
++-------------------
++
++Most maintainers start by becoming subsystem reviewers. While anyone
++is welcome to review code on the mailing list getting added to the
++MAINTAINERS file with a line like::
++
++  R: Random Hacker <rhacker@example.com>
++
++will ensure that patches touching a given subsystem will automatically
++be CC'd to you.
++
++Becoming a maintainer
++---------------------
++
++Maintainers are volunteers who put themselves forward or have been
++asked by others to keep an eye on an area of code. They have generally
++demonstrated to the community, usually via contributions and code
++reviews, that they have a good understanding of the subsystem. They
++are also trusted to make a positive contribution to the project and
++work well with the other contributors.
++
++The process is simple - simply send a patch to the list that updates
++the ``MAINTAINERS`` file. Sometimes this is done as part of a larger
++series when a new sub-system is being added to the code base. This can
++also be done by a retiring maintainer who nominates their replacement
++after discussion with other contributors.
++
++Once the patch is reviewed and merged the only other step is to make
++sure your GPG key is signed.
++
++.. _maintainer_keys:
++
++Maintainer GPG Keys
++~~~~~~~~~~~~~~~~~~~
++
++GPG is used to sign pull requests so they can be identified as really
++coming from the maintainer. If your key is not already signed by
++members of the QEMU community, you should make arrangements to attend
++a `KeySigningParty <https://wiki.qemu.org/KeySigningParty>`__ (for
++example at KVM Forum) or make alternative arrangements to have your
++key signed by an attendee. Key signing requires meeting another
++community member **in person** [#]_ so please make appropriate
++arrangements.
++
++.. [#] In recent pandemic times we have had to exercise some
++       flexibility here. Maintainers still need to sign their pull
++       requests though.
+diff --git a/docs/devel/submitting-a-pull-request.rst b/docs/devel/submitting-a-pull-request.rst
+index c9d1e8afd9..a4cd7ebbb6 100644
+--- a/docs/devel/submitting-a-pull-request.rst
++++ b/docs/devel/submitting-a-pull-request.rst
+@@ -53,14 +53,10 @@ series) and that "make check" passes before sending out the pull
+ request. As a submaintainer you're one of QEMU's lines of defense
+ against bad code, so double check the details.
  
--    if (!vdev->vm_running) {
--        should_start = false;
--    }
--
-     if (!s->connected) {
-         return;
-     }
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index ad0f91c607..1c40f42045 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -123,7 +123,7 @@ static void vuf_stop(VirtIODevice *vdev)
- static void vuf_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostUserFS *fs = VHOST_USER_FS(vdev);
--    bool should_start = virtio_device_started(vdev, status);
-+    bool should_start = virtio_device_should_start(vdev, status);
+-**All pull requests must be signed**. If your key is not already signed
+-by members of the QEMU community, you should make arrangements to attend
+-a `KeySigningParty <https://wiki.qemu.org/KeySigningParty>`__ (for
+-example at KVM Forum) or make alternative arrangements to have your key
+-signed by an attendee.  Key signing requires meeting another community
+-member \*in person\* so please make appropriate arrangements.  By
+-"signed" here we mean that the pullreq email should quote a tag which is
+-a GPG-signed tag (as created with 'gpg tag -s ...').
++**All pull requests must be signed**. By "signed" here we mean that
++the pullreq email should quote a tag which is a GPG-signed tag (as
++created with 'gpg tag -s ...'). See :ref:`maintainer_keys` for
++details.
  
-     if (vhost_dev_is_started(&fs->vhost_dev) == should_start) {
-         return;
-diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
-index 8b40fe450c..677d1c7730 100644
---- a/hw/virtio/vhost-user-gpio.c
-+++ b/hw/virtio/vhost-user-gpio.c
-@@ -152,7 +152,7 @@ static void vu_gpio_stop(VirtIODevice *vdev)
- static void vu_gpio_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostUserGPIO *gpio = VHOST_USER_GPIO(vdev);
--    bool should_start = virtio_device_started(vdev, status);
-+    bool should_start = virtio_device_should_start(vdev, status);
- 
-     trace_virtio_gpio_set_status(status);
- 
-diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
-index bc58b6c0d1..864eba695e 100644
---- a/hw/virtio/vhost-user-i2c.c
-+++ b/hw/virtio/vhost-user-i2c.c
-@@ -93,7 +93,7 @@ static void vu_i2c_stop(VirtIODevice *vdev)
- static void vu_i2c_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
--    bool should_start = virtio_device_started(vdev, status);
-+    bool should_start = virtio_device_should_start(vdev, status);
- 
-     if (vhost_dev_is_started(&i2c->vhost_dev) == should_start) {
-         return;
-diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
-index bc1f36c5ac..8b47287875 100644
---- a/hw/virtio/vhost-user-rng.c
-+++ b/hw/virtio/vhost-user-rng.c
-@@ -90,7 +90,7 @@ static void vu_rng_stop(VirtIODevice *vdev)
- static void vu_rng_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostUserRNG *rng = VHOST_USER_RNG(vdev);
--    bool should_start = virtio_device_started(vdev, status);
-+    bool should_start = virtio_device_should_start(vdev, status);
- 
-     if (vhost_dev_is_started(&rng->vhost_dev) == should_start) {
-         return;
-diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
-index 7b67e29d83..9431b9792c 100644
---- a/hw/virtio/vhost-user-vsock.c
-+++ b/hw/virtio/vhost-user-vsock.c
-@@ -55,7 +55,7 @@ const VhostDevConfigOps vsock_ops = {
- static void vuv_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
--    bool should_start = virtio_device_started(vdev, status);
-+    bool should_start = virtio_device_should_start(vdev, status);
- 
-     if (vhost_dev_is_started(&vvc->vhost_dev) == should_start) {
-         return;
-diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-index 7dc3c73931..aa16d584ee 100644
---- a/hw/virtio/vhost-vsock.c
-+++ b/hw/virtio/vhost-vsock.c
-@@ -70,7 +70,7 @@ static int vhost_vsock_set_running(VirtIODevice *vdev, int start)
- static void vhost_vsock_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
--    bool should_start = virtio_device_started(vdev, status);
-+    bool should_start = virtio_device_should_start(vdev, status);
-     int ret;
- 
-     if (vhost_dev_is_started(&vvc->vhost_dev) == should_start) {
+ **Pull requests not for master should say "not for master" and have
+ "PULL SUBSYSTEM whatever" in the subject tag**. If your pull request is
 -- 
 2.34.1
 
