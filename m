@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95248621979
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 17:33:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF82621994
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 17:38:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osRVY-0008J8-G4; Tue, 08 Nov 2022 11:31:29 -0500
+	id 1osRXI-0000z1-Nx; Tue, 08 Nov 2022 11:33:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osRV0-00084p-IL; Tue, 08 Nov 2022 11:31:02 -0500
-Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osRUq-0003nh-0P; Tue, 08 Nov 2022 11:30:53 -0500
-Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
- (iva4-f06c35e68a0a.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
- by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 0F9FF60069;
- Tue,  8 Nov 2022 19:30:17 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
- [2a02:6b8:b081:b535::1:28])
- by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- G8P39PuPaA-UFNGFlWO; Tue, 08 Nov 2022 19:30:16 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1667925016; bh=YG+p2T7wWGlXPvH36L1AY8nnYHQiInqaTmT7FUXxEqA=;
- h=In-Reply-To:Cc:Date:References:To:From:Subject:Message-ID;
- b=to3/AD7oIpUb3IUfztmmo+uN2JmZG8qKNDs6x398TB45rZ253pqZsaK9atfXK3D4U
- duRJZM0B7moH+dZB8864LWrHtMmPtaZpJyO6cvhdT0j4+/1rCD3GeJbowZJIW+t7Yj
- xd/7SGCHKaIYw4TcKBKqe2RK0o6rIAbd7IxzD3vg=
-Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <b42cea97-5515-88f3-92fa-1c4ff178854b@yandex-team.ru>
-Date: Tue, 8 Nov 2022 19:30:15 +0300
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1osRXE-0000vv-Qy
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 11:33:13 -0500
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1osRXB-0007u2-O7
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 11:33:12 -0500
+Received: by mail-yb1-xb34.google.com with SMTP id 7so13441364ybp.13
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 08:33:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=iqpLtPHBCJa4cXy8Ww7aJQ5YuWoWdijI/un8ZjuU9E0=;
+ b=E1+Ihef8HM2Q2vWkqPnDAwBYJy2TYsR3yvNkctz1IyubuAZ5ON7z+eyH/nf9fKJK4E
+ QSTkamSj/v2P8BrYyHuloWj/Rkm/7J5sVKV3YZ8aijz5mx/YKr+XQOvw8cL/aGX6EI6G
+ DrH5xyVWAAsPZJIUIHPUAmK1Tcv87del3L5CFfEYkB/RX6IMrXemL+hJXDIWtkfAEulG
+ TXX2s4OP+1sDYvdi2MYcvW48dRIIlkhzT0QggvFBCQvJVLRdGzBDUQJgQZcNNXm97oKi
+ 29ZSqafOSBSXbuSoHX/yGt0kmeV/BSl0SsTS+u02slSlxIJJSXoLy8nJDGuQY7h2gr/I
+ 0gKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iqpLtPHBCJa4cXy8Ww7aJQ5YuWoWdijI/un8ZjuU9E0=;
+ b=VbGV6slgCXfJQL4j8EYGoomDjjjbZ8/vqfe6q6cifJM6Cxy+6lAN+LI1FQ+6+QhVHo
+ psqnowOOKhZ3OlZ/JdG+EjmOpxpn3TAlNtvgnLfyW+PjBcnPvL3PNTvobrDkaPEdqwrn
+ WHw7crS/a/AhlZvws28xZ8fu0lQmB5dTrE7ee9uh+bVuBKqTzbVkt7KZxHYattJrRoQl
+ VQRsT7c+L9Oi7pl4BBwnaKtUkDHiNV6gaQ6GY6D1teZW/IumLuGhEB4woYXq+RHyofw0
+ mJk44B3JpEotP2T2oFB9mhYF6O+4XVu2/bwaLO6H3QFaA6pAieEbC654eywQMZx5KeCs
+ 1TsA==
+X-Gm-Message-State: ACrzQf27HsakpiygJY0qyjCClkTIa8+nvoVmAzxmWeq0TDlQ2pTTPl/0
+ 7OaswkPyD1UKawjWTxCjMdg4WSoOoALqFaX2RkmtGa4HN1dz9g==
+X-Google-Smtp-Source: AMsMyM5xNnYPGiSFnPb+iuMcx0RRdiD//ey0bXE2QrpID4wB5W/87zZE2L6VcTWxRvgMgjxuhqVRd93RdEudE2paNN0=
+X-Received: by 2002:a25:1e89:0:b0:6bf:9e55:5cb4 with SMTP id
+ e131-20020a251e89000000b006bf9e555cb4mr56095419ybe.642.1667925186190; Tue, 08
+ Nov 2022 08:33:06 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2 2/9] block-copy: add missing coroutine_fn annotations
-Content-Language: en-US
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
- Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20221104095700.4117433-1-eesposit@redhat.com>
- <20221104095700.4117433-3-eesposit@redhat.com>
- <197f2a27-4c3f-a62b-535c-d1db9ba22a32@yandex-team.ru>
- <88f02d19-84d8-d1a7-4250-416fd32f1435@redhat.com>
- <711f6d68-888e-bca0-972e-a05503a039c5@yandex-team.ru>
-In-Reply-To: <711f6d68-888e-bca0-972e-a05503a039c5@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.136;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+References: <20221108041929.18417-1-jasowang@redhat.com>
+In-Reply-To: <20221108041929.18417-1-jasowang@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 8 Nov 2022 11:32:54 -0500
+Message-ID: <CAJSP0QVNFCCni5iXz5Dvu0C2oKipNuKk7pKX4t=Gh9zVpzPVZA@mail.gmail.com>
+Subject: Re: [PULL 0/2] Net patches
+To: Jason Wang <jasowang@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Cc: stefanha@redhat.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,20 +82,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/8/22 19:19, Vladimir Sementsov-Ogievskiy wrote:
-> This is a lot better than our "coroutine_fn" sign, which actually do no check (and can't do). Don't you plan to swap a "coroutine_fn" noop marker with more meaningful IN_COROUTINE(); (or something like this, which just do assert(qemu_in_coroutine())) at start of the function? It would be a lot safer.
+On Mon, 7 Nov 2022 at 23:20, Jason Wang <jasowang@redhat.com> wrote:
+>
+> The following changes since commit 524fc737431d240f9d9f10aaf381003092868bac:
+>
+>   util/log: Ignore per-thread flag if global file already there (2022-11-07 16:00:02 -0500)
+>
+> are available in the git repository at:
+>
+>   https://github.com/jasowang/qemu.git tags/net-pull-request
+>
+> for you to fetch changes up to fd2c87c7b0c97be2ac8d334885419f51f5963b51:
+>
+>   tests/qtest: netdev: test stream and dgram backends (2022-11-08 12:10:26 +0800)
+>
+> ----------------------------------------------------------------
+>
+> ----------------------------------------------------------------
+> Laurent Vivier (1):
+>       tests/qtest: netdev: test stream and dgram backends
 
+This test does not pass in CI:
+https://gitlab.com/qemu-project/qemu/-/jobs/3290964536
+https://gitlab.com/qemu-project/qemu/-/jobs/3290964524
+https://gitlab.com/qemu-project/qemu/-/jobs/3290964471
+https://gitlab.com/qemu-project/qemu/-/jobs/3290964475
+https://gitlab.com/qemu-project/qemu/-/jobs/3290964569
 
-Moreover, we can introduce two macros:
+We're in soft freeze now. Please hold off on new tests unless they
+verify regressions/blockers.
 
-IN_COROUTINE() and NOT_COROUTINE(), mark functions correspondingly and drop coroutine_fn mark. Than the picture would be very deterministic:
-
-IN_COROUTINE - function is called only from coroutine context
-NOT_COROUTINE - function is never called from coroutine context
-<no mark> - function may be called from both coroutine and non-coroutine context
-
--- 
-Best regards,
-Vladimir
-
+Thanks,
+Stefan
 
