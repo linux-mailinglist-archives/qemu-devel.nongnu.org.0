@@ -2,74 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AEB5621514
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:08:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF1A621598
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 15:13:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osPFf-0001iE-8P; Tue, 08 Nov 2022 09:06:55 -0500
+	id 1osPKa-0003FC-9q; Tue, 08 Nov 2022 09:12:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1osPFc-0001hx-EJ
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:06:52 -0500
-Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1osPFa-00039n-MN
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 09:06:52 -0500
-Received: by mail-il1-x12e.google.com with SMTP id o13so7505094ilc.7
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 06:06:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=jLvuZ4paUTE9IskW7iyXlzxfzXGXtE7yCKkaB3BjVt4=;
- b=cvQrQMmvtKV9KK9Q57VbD/AD0n0mpci7oJVJ/NQx6yj3kS8UQ7EGzWsUwLb+r3ZsCx
- KhxbuxR5ByTdULF5aa5HEB7JnbRYTB4GVfXly2v+Uhkl7euVWS6HsB2+BLm0htD0/4LJ
- lvLSpo0tSfwJArkeej8VQ9R1nfzImwkMu7ByVFrBZHJa9kdnVSgZJ1+CcRAx84PunXh/
- wOewKmONj/aTEfCUs261n8arDT7Uuz2tUa9y7oppOH88GDAilXOM1gMHwG0h/C95YM0x
- AQ1UHBCXjX2wQsx7P5sbnrn06rB0bVTJD8qEBJUO4XKJAiz/G9nEpK9qlD08HUChJumM
- qYCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jLvuZ4paUTE9IskW7iyXlzxfzXGXtE7yCKkaB3BjVt4=;
- b=L7wq6GNtyYVDmf4RmXyr+MOBbe/coTW5lKBoQ1SCnQIu50HuD+V9HqGnT6uDc808Uh
- lTd9TCzY6u0SBV1IRSQvSiqx1HQnboPCrxpK1N4B+56Jk9TBwmLP2CagTkLaBQqOmaLg
- 69YPBhztf3xGrJ0YA994WG2zDp5PjYXrwcKIsHN4o/zTK9UxkQAwgeIw+kwwPe6xsaHZ
- RriP9MkkF9utgYFL3WD+pr+XvPhVbu11ToxhkILESxLCA/ywVWXPKqXubqb74IFk/Vc9
- Zgb5rjApmkL6VErI9SdJMdo8Eo9zLT7ic+lxUxw8xx/mw6a6Fp7dnnSnzWfTZ1u70QOc
- U4ig==
-X-Gm-Message-State: ACrzQf2gGsjqbvra7Yx62abYSdHkEkrOyyuBA7Gz+cF+LIbwjUmybmXg
- giBfqIDey7RGbneKbsOTy6C3VgGyUQEASIp5OAtuHQ==
-X-Google-Smtp-Source: AMsMyM4L7O0aM+qJAI5jC3D7KS8vpKq6OPaREpyWHJERWJE+5DNPUuhup6K3mh663OUrxordDosUBtbKQaWD6eZaly8=
-X-Received: by 2002:a92:2601:0:b0:2fc:48be:e77a with SMTP id
- n1-20020a922601000000b002fc48bee77amr31535194ile.202.1667916409272; Tue, 08
- Nov 2022 06:06:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1osPKX-0003D9-Ge; Tue, 08 Nov 2022 09:11:57 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1osPKV-0000Wd-O8; Tue, 08 Nov 2022 09:11:57 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id A7A1532006F5;
+ Tue,  8 Nov 2022 09:11:51 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Tue, 08 Nov 2022 09:11:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1667916711; x=1668003111; bh=6q
+ V+Q03eOr1Bb8mn6PmR8uyKcDSNxWb3fVJYG2gA0tY=; b=gGyodg3l6pL1ngTXXT
+ 87hVBDxCRyJOxqb26y3r5MGMT4Yic1O8yEMbak/gdgzV8v58LdBECU+pny+p4wIF
+ Lu6XE4fn5tSBwf/hyEMoC8E5ckmqd6205LyObbfCKpq7aajAsqmGE2wtFBpxomFD
+ zQyhLd6uIkrqeKsA+xhwKkf70f+GNFyioCy529kGzRTwqR8Gsun7rUlbty8FQ+ck
+ 3O8oUWX4cRPxf0zz5ECWvzF2jxO+HfKoguPRcq7fM6o7/J1xkyAW1K3aF+ZsNWoz
+ Xf/PY7y1hzKmjyrdAqgVHGRGmF9zjG4gnOealsafxVCcA0v1U1SmT4HTMSsO1NcR
+ tGvA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1667916711; x=1668003111; bh=6qV+Q03eOr1Bb8mn6PmR8uyKcDSN
+ xWb3fVJYG2gA0tY=; b=nZhHAeY2VpLLH0ZaXEShjgJjQJCF31ZrY7wOJ3/Gmmhy
+ AItGgp+TXUVLJ000lnGFoFgVlSsjf21V2ylD2HuolrSgmNReShzeDQWwzwdjE/Jn
+ 2OWdWrAPJNDRzxRGt63tJmqgF71m3o8d3YopPt2RRFx06G3EJrBHPCapFqXrXKDW
+ P1FxgQTr8jCEyWkSaxWGaoNUVV66cBOuy3d6hN7aFFdJR70R42tI2dUCxaaPAsB5
+ gyeOVo25qVZCU3grA3oPPoU0H87vwNppuJFg4yl8xmIiLnS/JG6oAt1q3klGZSqI
+ 3adyFFliex+tN3Y8iqhrvGO4DkIoxPPVMMSmwqaVBA==
+X-ME-Sender: <xms:pWNqY9ioPPLM_s8U-txHWiO7WE0Sfa_2RNDe6VHG1fYEnYs8xYMyhw>
+ <xme:pWNqYyAQnOKRLqIlF7CT0mingN7IK6b4nvTfwkh0YLwtD9VDa0_NFv_OAcY4JUWd2
+ BqbsCpzoZ9kgcYf7pY>
+X-ME-Received: <xmr:pWNqY9H1z0enzJJSEbiLPX6c3aYuaxuWn1yKO5BkOo189KdWwDo4NiMSunhRqagNIQDQhV-9SvywmFTlq87fMh1G0RU5Rg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfedtgdeifecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeekleduhedthfejueefgedtfeeuhefftdehtdfhtefhtdetheeukeeigeevheeu
+ geenucffohhmrghinhepfihrihhtvgdrnhhonecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:pmNqYyTc9InWTDSD_wzVjxVtTlFQWdSN1Rv2oeNcPTSb4mLILbNDxA>
+ <xmx:pmNqY6zXfSApb9mhSt5ZWi2rxAA6NGxkY9k2OCHHA1UnxZjRd-KrVA>
+ <xmx:pmNqY474z2BvLWSq_BSadhS9QzP_KeAFldt4wWYH05JGWIDPUcZBXw>
+ <xmx:p2NqYxrUMlx4YBjmnK6mXdfgs63h-cW_oEYz9Dj5Cy2OI_H-m8Vv7Q>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 8 Nov 2022 09:11:48 -0500 (EST)
+Date: Tue, 8 Nov 2022 15:11:46 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: John Levon <levon@movementarian.org>
+Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-devel <qemu-devel@nongnu.org>,
+ Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@gmail.com>,
+ "open list:nvme" <qemu-block@nongnu.org>
+Subject: Re: [PATCH v3 4/4] hw/nvme: add polling support
+Message-ID: <Y2pjohnZi7kCA3m5@cormorant.local>
+References: <20220827091258.3589230-1-fanjinhao21s@ict.ac.cn>
+ <20220827091258.3589230-5-fanjinhao21s@ict.ac.cn>
+ <Y1EswYz077swwhuc@cormorant.local>
+ <D1741E76-294E-41F6-B87B-70C2A4CF778C@ict.ac.cn>
+ <Y2OvzcfeawKWvvJ0@cormorant.local>
+ <3ffebed8-997d-e276-bf4a-c75508b0be11@ict.ac.cn>
+ <Y2Sx7O4MFHKrvXQA@cormorant.local>
+ <Y2pOG89mnH3vGG/E@movementarian.org>
 MIME-Version: 1.0
-References: <20221107224600.934080-1-mst@redhat.com>
- <20221107224600.934080-46-mst@redhat.com>
- <20221108143641.4bdaae6f@fedora>
- <CAARzgwzJFUQ_+pRCbx0f-dOyckF2aZUnGt9XV7b0=7AQMJ4Jgg@mail.gmail.com>
-In-Reply-To: <CAARzgwzJFUQ_+pRCbx0f-dOyckF2aZUnGt9XV7b0=7AQMJ4Jgg@mail.gmail.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 8 Nov 2022 19:36:38 +0530
-Message-ID: <CAARzgwzOCzOSX+Us5fyFEEHGiFLQpO2Z=KCUN+druDzWQ7dD-g@mail.gmail.com>
-Subject: Re: [PULL v4 45/83] tests: acpi: whitelist DSDT before generating
- PCI-ISA bridge AML automatically
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, 
- Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2607:f8b0:4864:20::12e;
- envelope-from=ani@anisinha.ca; helo=mail-il1-x12e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="yiP7tnLbl2wZ6gW9"
+Content-Disposition: inline
+In-Reply-To: <Y2pOG89mnH3vGG/E@movementarian.org>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,72 +108,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 8, 2022 at 7:09 PM Ani Sinha <ani@anisinha.ca> wrote:
->
-> On Tue, Nov 8, 2022 at 7:06 PM Igor Mammedov <imammedo@redhat.com> wrote:
-> >
-> > On Mon, 7 Nov 2022 17:51:11 -0500
-> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> >
-> > > From: Igor Mammedov <imammedo@redhat.com>
-> > >
-> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > > Message-Id: <20221017102146.2254096-3-imammedo@redhat.com>
-> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > ---
-> > >  tests/qtest/bios-tables-test-allowed-diff.h | 34 +++++++++++++++++++++
-> > >  1 file changed, 34 insertions(+)
-> > >
-> > > diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> > > index dfb8523c8b..570b17478e 100644
-> > > --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> > > +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> > > @@ -1 +1,35 @@
-> > >  /* List of comma-separated changed AML files to ignore */
-> > > +"tests/data/acpi/pc/DSDT",
-> > > +"tests/data/acpi/pc/DSDT.acpierst",
-> > > +"tests/data/acpi/pc/DSDT.acpihmat",
-> > > +"tests/data/acpi/pc/DSDT.bridge",
-> > > +"tests/data/acpi/pc/DSDT.cphp",
-> > > +"tests/data/acpi/pc/DSDT.dimmpxm",
-> > > +"tests/data/acpi/pc/DSDT.hpbridge",
-> > > +"tests/data/acpi/pc/DSDT.hpbrroot",
-> > > +"tests/data/acpi/pc/DSDT.ipmikcs",
-> > > +"tests/data/acpi/pc/DSDT.memhp",
-> > > +"tests/data/acpi/pc/DSDT.nohpet",
-> > > +"tests/data/acpi/pc/DSDT.numamem",
-> > > +"tests/data/acpi/pc/DSDT.roothp",
-> > > +"tests/data/acpi/q35/DSDT",
-> > > +"tests/data/acpi/q35/DSDT.acpierst",
-> > > +"tests/data/acpi/q35/DSDT.acpihmat",
-> > > +"tests/data/acpi/q35/DSDT.applesmc",
-> > > +"tests/data/acpi/q35/DSDT.bridge",
-> > > +"tests/data/acpi/q35/DSDT.cphp",
-> > > +"tests/data/acpi/q35/DSDT.cxl",
-> > > +"tests/data/acpi/q35/DSDT.dimmpxm",
-> > > +"tests/data/acpi/q35/DSDT.ipmibt",
-> > > +"tests/data/acpi/q35/DSDT.ipmismbus",
-> > > +"tests/data/acpi/q35/DSDT.ivrs",
-> > > +"tests/data/acpi/q35/DSDT.memhp",
-> > > +"tests/data/acpi/q35/DSDT.mmio64",
-> > > +"tests/data/acpi/q35/DSDT.multi-bridge",
-> > > +"tests/data/acpi/q35/DSDT.nohpet",
-> > > +"tests/data/acpi/q35/DSDT.numamem",
-> > > +"tests/data/acpi/q35/DSDT.pvpanic-isa",
-> > > +"tests/data/acpi/q35/DSDT.tis.tpm12",
-> > > +"tests/data/acpi/q35/DSDT.tis.tpm2",
-> > > +"tests/data/acpi/q35/DSDT.viot",
-> > > +"tests/data/acpi/q35/DSDT.xapic",
-> >
-> > still missing DSDT.count2 table, likely in other updates (as well)
-> > which should break bisection if not whole pull request.
-> >
-> > I'll prep a tree based on your pull req, with fixups
-> > for you to pull from.
->
-> Does this mean there will be a v5 for the PR?
-> V4 looks good in the CI so far ...
 
-Never mind. It has merged to QEMU master.
+--yiP7tnLbl2wZ6gW9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Nov  8 12:39, John Levon wrote:
+> On Fri, Nov 04, 2022 at 07:32:12AM +0100, Klaus Jensen wrote:
+>=20
+> > On Nov  3 21:19, Jinhao Fan wrote:
+> > > On 11/3/2022 8:10 PM, Klaus Jensen wrote:
+> > > > I agree that the spec is a little unclear on this point. In any cas=
+e, in
+> > > > Linux, when the driver has decided that the sq tail must be updated,
+> > > > it will use this check:
+> > > >=20
+> > > >    (new_idx - event_idx - 1) < (new_idx - old)
+> > >=20
+> > > When eventidx is already behind, it's like:
+> > >=20
+> > >  0
+> > >  1 <- event_idx
+> > >  2 <- old
+> > >  3 <- new_idx
+> > >  4
+> > >  .
+> > >  .
+> > >  .
+> > >=20
+> > > In this case, (new_idx - event_idx - 1) =3D 3-1-1 =3D 1 >=3D (new_idx=
+ - old) =3D
+> > > 3-2=3D1, so the host won't update sq tail. Where am I wrong in this e=
+xample?
+> >=20
+> > That becomes 1 >=3D 1, i.e. "true". So this will result in the driver
+> > doing an mmio doorbell write.
+>=20
+> The code is:
+>=20
+> static inline int nvme_dbbuf_need_event(u16 event_idx, u16 new_idx, u16 o=
+ld)        =20
+> {                                                                        =
+       =20
+>         return (u16)(new_idx - event_idx - 1) < (u16)(new_idx - old);    =
+       =20
+> }                                                                        =
+       =20
+>=20
+> which per the above is "return 1 < 1;", or false. So the above case does =
+*not*
+> do an mmio write. No?
+>=20
+
+Whelp.
+
+Looks like I'm in the wrong here, apologies!
+
+--yiP7tnLbl2wZ6gW9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNqY6EACgkQTeGvMW1P
+DenC/AgAgOly7HLnAAabLjjOmpnFob3u+6rQDM6NiD4yQcXKA0bbSXKKF+9Hg+Lv
+15XkayNXCKj4L1rIPombw2ixm7GgD1IXO7f90lQjN6X0eWpj6G6IdmQuvJBuDLw0
+SSHXUUmlvJ1vGLtHjiyE5VoVmvZjUT0ECOQXUmZsiNLnj2SXUReurMAMnRljIevI
+2IM3ZcnZMNdQymQaOyrcASZR4rFZuBLdS+Ic2PDuQNvK9buJ65s7t5fgcvYeqxZm
+IUD1glWe0CPKvFX8Fi9iqgW7zFpO94C7WGRLVslO6gqmi4fhctS2VEeoXZmsFvEW
+4cXz+nz8GPGyp4YDJwHxgL+71OZjuA==
+=M6nQ
+-----END PGP SIGNATURE-----
+
+--yiP7tnLbl2wZ6gW9--
 
