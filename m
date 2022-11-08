@@ -2,87 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E01A6211B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 14:00:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 831A16211F3
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Nov 2022 14:05:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osOBZ-0006eD-Ei; Tue, 08 Nov 2022 07:58:37 -0500
+	id 1osOFZ-0001lm-36; Tue, 08 Nov 2022 08:02:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1osOBN-0006Wz-Mr
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 07:58:26 -0500
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1osOBI-0005pP-MK
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 07:58:25 -0500
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-13b6c1c89bdso16092071fac.13
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 04:58:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SFXOtEFct7aZBn9qsLOf6vADmM9nDSRAlMOl6gM3bOU=;
- b=d9DIGKlp3/H3zKXQjsgXloo+q9f6M+lFAYH+7FQN+AAHGVbyyviR2Rf+tRo9JEMwh4
- Cp0Ql/c5VxxOW4fMY0lRlQgnBRireVBnVocGhgJiloSGvZWLKhjBeDgmttUlh2wI54bb
- nXM7iHM+68YYbg95cC3rRUSrPItQpWBEoZT6ggqyXyHbSlTFWvZadjMInHfywRvHbYAc
- 7e2bB/OcdFq3FJ8oD8u3KmgcWy4uueZSU4T04oePv5BSAql2aPnl371jmpyjWwaEA189
- +QkrGyfDxTFzAJckFLSzQoyMsWnHwOWn+r0wmoJ2g6wRngNEjwgIn4/W9VCGxBpkiscu
- LIuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SFXOtEFct7aZBn9qsLOf6vADmM9nDSRAlMOl6gM3bOU=;
- b=5UPm0OZdpwRQVDPWGwIZlJ+v3CTxWXBDaZe/sWL9lYo6a1Kn4e+wxSipA4Z/FqTk3W
- 5Eqb7+Bj86+Q/NQKY2LCPhBNUR6nlq6A0GAMNkiCW8NO9ArZ/ohgTlncMsMTiqNXnLlA
- Rv9hfFXgic481OAGJVkjfKbHxg4fYEw49toL1E6Q7SsxmlZQW+oJo1uf80d3dOoJMajq
- /A/7cbdEksOiD7qMEms1X5d+ntBR5dwF40+0Sc9bms44dLa6bY16F/xRkGpjUvMjqeZ+
- qO8+AxW45AUjht4Homz3hx668P2l4YR60mDvwS48nFcgEFI3HRwQn0CynRkR/v9BbEzR
- 6Hvw==
-X-Gm-Message-State: ACrzQf2aUbNd/W3ruS4iM3kZLnYuRBOEdEbZSzlTcmPuAfgRG4F4DOmP
- kd60FlbHDU8gtRxz8SPyr+4BuA==
-X-Google-Smtp-Source: AMsMyM4sV8tpDE3Tk4lbBxlkATd8acT+EwA4p9ddYCQJD2AAyutnyT2oqH9wJTLhNGrTvl/twgfETA==
-X-Received: by 2002:a05:6870:d28c:b0:130:efc6:9790 with SMTP id
- d12-20020a056870d28c00b00130efc69790mr43807656oae.2.1667912299882; 
- Tue, 08 Nov 2022 04:58:19 -0800 (PST)
-Received: from anup-ubuntu64-vm.. ([103.97.165.210])
- by smtp.gmail.com with ESMTPSA id
- w15-20020a0568080d4f00b0035a81480ffcsm2342501oik.38.2022.11.08.04.58.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Nov 2022 04:58:19 -0800 (PST)
-From: Anup Patel <apatel@ventanamicro.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
-Cc: Atish Patra <atishp@atishpatra.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Anup Patel <anup@brainfault.org>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Anup Patel <apatel@ventanamicro.com>
-Subject: [PATCH v2 5/5] target/riscv: Ensure opcode is saved for all relevant
- instructions
-Date: Tue,  8 Nov 2022 18:27:03 +0530
-Message-Id: <20221108125703.1463577-6-apatel@ventanamicro.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221108125703.1463577-1-apatel@ventanamicro.com>
-References: <20221108125703.1463577-1-apatel@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1osOFE-0001ap-Ey
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:02:31 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1osOF9-0002to-QD
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 08:02:23 -0500
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8BxbbZRU2pjXFEFAA--.5557S3;
+ Tue, 08 Nov 2022 21:02:09 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Axf+BQU2pjmvkOAA--.41900S2; 
+ Tue, 08 Nov 2022 21:02:09 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org,
+	richard.henderson@linaro.org
+Cc: stefanha@gmaiDDDl.com,
+	yangxiaojuan@loongson.cn,
+	maobibo@loongson.cn
+Subject: [PATCH 1/1] target/loongarch: Fix loongarch fdt addr confict
+Date: Tue,  8 Nov 2022 21:02:04 +0800
+Message-Id: <20221108130204.926434-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=apatel@ventanamicro.com; helo=mail-oa1-x2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-CM-TRANSID: AQAAf8Axf+BQU2pjmvkOAA--.41900S2
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7AFW3Ar13tFWftw4rXr47urg_yoW8Xr17pr
+ W3Cr45KF48JF1rAr4kWa4qgFn8trZ7A3Wagay7Ar1rur1DXr1jvr1Ygrn2qFyjk3y0ga1F
+ vFnYyr1a9Fyktw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ b0AFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7
+ CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E
+ 6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWrMcvjeVCFs4IE7x
+ kEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv
+ 6cx26rWl4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+ 8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
+ 2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
+ xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
+ 7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0zRVWlkUUUUU=
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,200 +75,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We should call decode_save_opc() for all relevant instructions which
-can potentially generate a virtual instruction fault or a guest page
-fault because generating transformed instruction upon guest page fault
-expects opcode to be available. Without this, hypervisor will see
-transformed instruction as zero in htinst CSR for guest MMIO emulation
-which makes MMIO emulation in hypervisor slow and also breaks nested
-virtualization.
+Fix LoongArch check-tcg error:
+  TEST    hello on loongarch64
+qemu-system-loongarch64: Some ROM regions are overlapping
+These ROM regions might have been loaded by direct user request or by default.
+They could be BIOS/firmware images, a guest kernel, initrd or some other file loaded into guest memory.
+Check whether you intended to load all this guest code, and whether it has been built to load to the correct addresses.
 
-Fixes: a9814e3e08d2 ("target/riscv: Minimize the calls to decode_save_opc")
-Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+The following two regions overlap (in the memory address space):
+  hello ELF program header segment 0 (addresses 0x0000000000200000 - 0x0000000000242000)
+  fdt (addresses 0x0000000000200000 - 0x0000000000300000)
+make[1]: *** [Makefile:177: run-hello] Error 1
+
+Reported-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- target/riscv/insn_trans/trans_rva.c.inc     | 10 +++++++---
- target/riscv/insn_trans/trans_rvd.c.inc     |  2 ++
- target/riscv/insn_trans/trans_rvf.c.inc     |  2 ++
- target/riscv/insn_trans/trans_rvh.c.inc     |  3 +++
- target/riscv/insn_trans/trans_rvi.c.inc     |  2 ++
- target/riscv/insn_trans/trans_rvzfh.c.inc   |  2 ++
- target/riscv/insn_trans/trans_svinval.c.inc |  3 +++
- 7 files changed, 21 insertions(+), 3 deletions(-)
+ tests/tcg/loongarch64/system/kernel.ld |  7 +++++--
+ 1 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/insn_trans/trans_rva.c.inc b/target/riscv/insn_trans/trans_rva.c.inc
-index 45db82c9be..5f194a447b 100644
---- a/target/riscv/insn_trans/trans_rva.c.inc
-+++ b/target/riscv/insn_trans/trans_rva.c.inc
-@@ -20,8 +20,10 @@
+diff --git a/tests/tcg/loongarch64/system/kernel.ld b/tests/tcg/loongarch64/system/kernel.ld
+index f1a7c0168c..2110cfe8be 100644
+--- a/tests/tcg/loongarch64/system/kernel.ld
++++ b/tests/tcg/loongarch64/system/kernel.ld
+@@ -2,8 +2,11 @@ ENTRY(_start)
  
- static bool gen_lr(DisasContext *ctx, arg_atomic *a, MemOp mop)
+ SECTIONS
  {
--    TCGv src1 = get_address(ctx, a->rs1, 0);
-+    TCGv src1;
- 
-+    decode_save_opc(ctx);
-+    src1 = get_address(ctx, a->rs1, 0);
-     if (a->rl) {
-         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_STRL);
-     }
-@@ -43,6 +45,7 @@ static bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
-     TCGLabel *l1 = gen_new_label();
-     TCGLabel *l2 = gen_new_label();
- 
-+    decode_save_opc(ctx);
-     src1 = get_address(ctx, a->rs1, 0);
-     tcg_gen_brcond_tl(TCG_COND_NE, load_res, src1, l1);
- 
-@@ -81,9 +84,10 @@ static bool gen_amo(DisasContext *ctx, arg_atomic *a,
-                     MemOp mop)
- {
-     TCGv dest = dest_gpr(ctx, a->rd);
--    TCGv src1 = get_address(ctx, a->rs1, 0);
--    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
-+    TCGv src1, src2 = get_gpr(ctx, a->rs2, EXT_NONE);
- 
-+    decode_save_opc(ctx);
-+    src1 = get_address(ctx, a->rs1, 0);
-     func(dest, src1, src2, ctx->mem_idx, mop);
- 
-     gen_set_gpr(ctx, a->rd, dest);
-diff --git a/target/riscv/insn_trans/trans_rvd.c.inc b/target/riscv/insn_trans/trans_rvd.c.inc
-index 1397c1ce1c..6e3159b797 100644
---- a/target/riscv/insn_trans/trans_rvd.c.inc
-+++ b/target/riscv/insn_trans/trans_rvd.c.inc
-@@ -38,6 +38,7 @@ static bool trans_fld(DisasContext *ctx, arg_fld *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
-+    decode_save_opc(ctx);
-     addr = get_address(ctx, a->rs1, a->imm);
-     tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], addr, ctx->mem_idx, MO_TEUQ);
- 
-@@ -52,6 +53,7 @@ static bool trans_fsd(DisasContext *ctx, arg_fsd *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
-+    decode_save_opc(ctx);
-     addr = get_address(ctx, a->rs1, a->imm);
-     tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], addr, ctx->mem_idx, MO_TEUQ);
-     return true;
-diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
-index a1d3eb52ad..965e1f8d11 100644
---- a/target/riscv/insn_trans/trans_rvf.c.inc
-+++ b/target/riscv/insn_trans/trans_rvf.c.inc
-@@ -38,6 +38,7 @@ static bool trans_flw(DisasContext *ctx, arg_flw *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
- 
-+    decode_save_opc(ctx);
-     addr = get_address(ctx, a->rs1, a->imm);
-     dest = cpu_fpr[a->rd];
-     tcg_gen_qemu_ld_i64(dest, addr, ctx->mem_idx, MO_TEUL);
-@@ -54,6 +55,7 @@ static bool trans_fsw(DisasContext *ctx, arg_fsw *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVF);
- 
-+    decode_save_opc(ctx);
-     addr = get_address(ctx, a->rs1, a->imm);
-     tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], addr, ctx->mem_idx, MO_TEUL);
-     return true;
-diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
-index 4f8aecddc7..9248b48c36 100644
---- a/target/riscv/insn_trans/trans_rvh.c.inc
-+++ b/target/riscv/insn_trans/trans_rvh.c.inc
-@@ -36,6 +36,7 @@ static bool do_hlv(DisasContext *ctx, arg_r2 *a, MemOp mop)
- #ifdef CONFIG_USER_ONLY
-     return false;
- #else
-+    decode_save_opc(ctx);
-     if (check_access(ctx)) {
-         TCGv dest = dest_gpr(ctx, a->rd);
-         TCGv addr = get_gpr(ctx, a->rs1, EXT_NONE);
-@@ -82,6 +83,7 @@ static bool do_hsv(DisasContext *ctx, arg_r2_s *a, MemOp mop)
- #ifdef CONFIG_USER_ONLY
-     return false;
- #else
-+    decode_save_opc(ctx);
-     if (check_access(ctx)) {
-         TCGv addr = get_gpr(ctx, a->rs1, EXT_NONE);
-         TCGv data = get_gpr(ctx, a->rs2, EXT_NONE);
-@@ -135,6 +137,7 @@ static bool trans_hsv_d(DisasContext *ctx, arg_hsv_d *a)
- static bool do_hlvx(DisasContext *ctx, arg_r2 *a,
-                     void (*func)(TCGv, TCGv_env, TCGv))
- {
-+    decode_save_opc(ctx);
-     if (check_access(ctx)) {
-         TCGv dest = dest_gpr(ctx, a->rd);
-         TCGv addr = get_gpr(ctx, a->rs1, EXT_NONE);
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-index c49dbec0eb..1665efb639 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -261,6 +261,7 @@ static bool gen_load_i128(DisasContext *ctx, arg_lb *a, MemOp memop)
- 
- static bool gen_load(DisasContext *ctx, arg_lb *a, MemOp memop)
- {
-+    decode_save_opc(ctx);
-     if (get_xl(ctx) == MXL_RV128) {
-         return gen_load_i128(ctx, a, memop);
-     } else {
-@@ -350,6 +351,7 @@ static bool gen_store_i128(DisasContext *ctx, arg_sb *a, MemOp memop)
- 
- static bool gen_store(DisasContext *ctx, arg_sb *a, MemOp memop)
- {
-+    decode_save_opc(ctx);
-     if (get_xl(ctx) == MXL_RV128) {
-         return gen_store_i128(ctx, a, memop);
-     } else {
-diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/insn_trans/trans_rvzfh.c.inc
-index 5d07150cd0..2ad5716312 100644
---- a/target/riscv/insn_trans/trans_rvzfh.c.inc
-+++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
-@@ -49,6 +49,7 @@ static bool trans_flh(DisasContext *ctx, arg_flh *a)
-     REQUIRE_FPU;
-     REQUIRE_ZFH_OR_ZFHMIN(ctx);
- 
-+    decode_save_opc(ctx);
-     t0 = get_gpr(ctx, a->rs1, EXT_NONE);
-     if (a->imm) {
-         TCGv temp = temp_new(ctx);
-@@ -71,6 +72,7 @@ static bool trans_fsh(DisasContext *ctx, arg_fsh *a)
-     REQUIRE_FPU;
-     REQUIRE_ZFH_OR_ZFHMIN(ctx);
- 
-+    decode_save_opc(ctx);
-     t0 = get_gpr(ctx, a->rs1, EXT_NONE);
-     if (a->imm) {
-         TCGv temp = tcg_temp_new();
-diff --git a/target/riscv/insn_trans/trans_svinval.c.inc b/target/riscv/insn_trans/trans_svinval.c.inc
-index 2682bd969f..f3cd7d5c0b 100644
---- a/target/riscv/insn_trans/trans_svinval.c.inc
-+++ b/target/riscv/insn_trans/trans_svinval.c.inc
-@@ -28,6 +28,7 @@ static bool trans_sinval_vma(DisasContext *ctx, arg_sinval_vma *a)
-     /* Do the same as sfence.vma currently */
-     REQUIRE_EXT(ctx, RVS);
- #ifndef CONFIG_USER_ONLY
-+    decode_save_opc(ctx);
-     gen_helper_tlb_flush(cpu_env);
-     return true;
- #endif
-@@ -56,6 +57,7 @@ static bool trans_hinval_vvma(DisasContext *ctx, arg_hinval_vvma *a)
-     /* Do the same as hfence.vvma currently */
-     REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
-+    decode_save_opc(ctx);
-     gen_helper_hyp_tlb_flush(cpu_env);
-     return true;
- #endif
-@@ -68,6 +70,7 @@ static bool trans_hinval_gvma(DisasContext *ctx, arg_hinval_gvma *a)
-     /* Do the same as hfence.gvma currently */
-     REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
-+    decode_save_opc(ctx);
-     gen_helper_hyp_gvma_tlb_flush(cpu_env);
-     return true;
- #endif
+-    /* Linux kernel legacy start address.  */
+-    . = 0x9000000000200000;
++    /*
++     * Linux kernel legacy start address.
++     * FDT is load at 0x200000, kernel image size must be smaller than 1M
++     */
++    . = 0x100000;
+     _text = .;
+     .text : {
+         *(.text)
 -- 
-2.34.1
+2.31.1
 
 
