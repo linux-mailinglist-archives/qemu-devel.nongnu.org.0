@@ -2,87 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B53622F3D
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 16:42:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 167E1622F54
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 16:47:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osnDA-0006Hh-NG; Wed, 09 Nov 2022 10:41:56 -0500
+	id 1osnH6-00079V-Cf; Wed, 09 Nov 2022 10:46:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1osnD8-00065n-Iq
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:41:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1osnGi-0004dq-7s
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:45:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1osnD6-0000Kf-S4
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:41:54 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1osnGa-0002Cn-9B
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:45:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668008511;
+ s=mimecast20190719; t=1668008727;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A+e687B2xvoD8sByt1+glR3yDXj339/X7TA2XYXrUrs=;
- b=IdRYc5ZwocrmEx2Dl0PMa9CbBXN4yyZViXqKYnFgZ3xapADKaenTWKYDhrT2nojQT+THP3
- /fG5Wn/PlyehF26V6RPkxUvJVsOBPccnPNe/MzKRvo59c338kpqbvkNTITJryGymZKUEhg
- nnzhpg5WwIXTvvIXhftqkxG0l7ButPQ=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-543--dsG2EQ_MciD1ozvU6XPFw-1; Wed, 09 Nov 2022 10:41:50 -0500
-X-MC-Unique: -dsG2EQ_MciD1ozvU6XPFw-1
-Received: by mail-pg1-f200.google.com with SMTP id
- q63-20020a632a42000000b0045724b1dfb9so9637248pgq.3
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 07:41:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=A+e687B2xvoD8sByt1+glR3yDXj339/X7TA2XYXrUrs=;
- b=QmtsYlfkUQNE4/hJ5z3TD6IDnSCNgdDFkAaRNQvmQO2s9XgaLfUFZveLLTf5NyBBp7
- wgEv464Dqwred78nzGTDZpAuy7MynTXL/zqILlWvRSCk8mnF3qdzYH+OvZ7KxmHwXoa4
- PBF9zi/NubBt1Rr7mOqU8eoyrO/ydBRUt/C1su9MysmButams9xMJhyFWKgw4KpHZLZS
- aTrRZRSWlhhcLeGCW1QbJS2NY2JWoTaSrR1In/a+FS23Z0e9eV9/hXDjz8mVvPZUA5Mj
- KSzrjnb2N/GdjWWCr1GpcissYuB2bHog2rd8iAIV3d2kuk9zKZyS4YRdNV+g+25mkxa6
- eXDw==
-X-Gm-Message-State: ACrzQf1eYVjX0rJbIFSzGLP4JDGyd94cuyxtYVxv15vu36MTj4ZPzwul
- DvLng2mCcnb7W/RdAmYowAdO/f9/7OtZ51Hj0993k3p7JYXFd8BukS8YM8CM8YYhFeEf9aU3YCh
- Nv8gey4+XcECbv+ZVGUvQ4hfyPaBFHzk=
-X-Received: by 2002:aa7:810d:0:b0:563:1fa6:fecc with SMTP id
- b13-20020aa7810d000000b005631fa6feccmr61614653pfi.24.1668008509667; 
- Wed, 09 Nov 2022 07:41:49 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM7S4LsqJNO5tqd3Uvucl2M1rELcYV2iwwjmZmGtpV+AsNCYGTHrXsceAoSvTpmTikJxxGtqTORs/p6F9izMk4w=
-X-Received: by 2002:aa7:810d:0:b0:563:1fa6:fecc with SMTP id
- b13-20020aa7810d000000b005631fa6feccmr61614623pfi.24.1668008509426; Wed, 09
- Nov 2022 07:41:49 -0800 (PST)
+ bh=JH9aYRRznTn4kzoDiVa5UoS9HBvWBVF2BNGjiMEWqBI=;
+ b=gBlS4oKv2Xdcl54FKm5SdJHakbx3riXYn9PiOQ5cteRpD/XH+2edH6AUh0ElyKlNcVSXsT
+ 8gnFarI+3GicuqAF/f/4VvFA9Rz0rleUmlph9CiDAr7h6pLAeiBTjgCOeqK545ML7I8/cb
+ qNZt2ghX/yfNuJijqok3t9DJ1NSz59Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-568-AAOckC7vMUyjOjiKvxP6_w-1; Wed, 09 Nov 2022 10:45:23 -0500
+X-MC-Unique: AAOckC7vMUyjOjiKvxP6_w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3698D101A52A;
+ Wed,  9 Nov 2022 15:45:23 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 10EAA40C2086;
+ Wed,  9 Nov 2022 15:45:22 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id AB81921E6921; Wed,  9 Nov 2022 16:45:18 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Andrew Jones <ajones@ventanamicro.com>,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Sunil V L <sunilvl@ventanamicro.com>,  Peter
+ Maydell <peter.maydell@linaro.org>,  Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,  Bin Meng
+ <bin.meng@windriver.com>,  Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-riscv@nongnu.org,  qemu-devel@nongnu.org
+Subject: Re: [PATCH V2] hw/riscv: virt: Remove size restriction for pflash
+References: <20221107130217.2243815-1-sunilvl@ventanamicro.com>
+ <CAFEAcA8X3Q7s6qZ=ojE9fTLG464rrZw+FX=4hmMOhwR-Q4n2sA@mail.gmail.com>
+ <Y2kRWNnk7wDxPnBK@sunil-laptop> <871qqehib4.fsf@linaro.org>
+ <Y2kv/k5oKGOd+90w@redhat.com> <20221107173201.343hkqqugkzdzqcf@kamzik>
+ <Y2lBnPuUA4bgKCLL@redhat.com> <87y1skkv2a.fsf@pond.sub.org>
+ <Y2vHmFtfxZBDnFNk@redhat.com>
+Date: Wed, 09 Nov 2022 16:45:18 +0100
+In-Reply-To: <Y2vHmFtfxZBDnFNk@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Wed, 9 Nov 2022 15:30:32 +0000")
+Message-ID: <878rkkku7l.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220810184220.2362292-1-eperezma@redhat.com>
- <20220810184220.2362292-6-eperezma@redhat.com>
- <CACGkMEsEO1hqRMp6d5fR6eMCqCPD4A_8nFTd2ABswWiwX2xSFw@mail.gmail.com>
- <CAJaqyWevZ7d2iNPo68nUP_DdVExD7PMFoJjsFuQ=w5tsMmG2+A@mail.gmail.com>
- <CACGkMEtVBOYzxvzz-p7pN8NF=uLUO9NeVtgKtSD_fHgz8aUDLQ@mail.gmail.com>
- <CAJaqyWcYTSnaNNgb5YRwD_fALWDMwwPzXYKfPc-m669LWcZM2Q@mail.gmail.com>
- <CACGkMEtOvj2zqt-wuvE6DRA429EuouA0w_6=nStqPFRu0B7aEA@mail.gmail.com>
-In-Reply-To: <CACGkMEtOvj2zqt-wuvE6DRA429EuouA0w_6=nStqPFRu0B7aEA@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 9 Nov 2022 16:41:13 +0100
-Message-ID: <CAJaqyWdrCdWJdp2caQrQ9kbwCksjhA0O+watyfp6bACeO3UEJA@mail.gmail.com>
-Subject: Re: [RFC 5/8] vdpa: Add vdpa memory listener
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Cindy Lu <lulu@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Cornelia Huck <cohuck@redhat.com>, Eli Cohen <eli@mellanox.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -106,72 +91,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Aug 23, 2022 at 5:58 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Fri, Aug 19, 2022 at 6:35 PM Eugenio Perez Martin
-> <eperezma@redhat.com> wrote:
-> >
-> > On Fri, Aug 19, 2022 at 11:01 AM Jason Wang <jasowang@redhat.com> wrote=
-:
-> > >
-> > > On Fri, Aug 19, 2022 at 4:30 PM Eugenio Perez Martin
-> > > <eperezma@redhat.com> wrote:
-> > > >
-> > > > On Fri, Aug 19, 2022 at 8:29 AM Jason Wang <jasowang@redhat.com> wr=
-ote:
-> > > > >
-> > > > > On Thu, Aug 11, 2022 at 2:42 AM Eugenio P=C3=A9rez <eperezma@redh=
-at.com> wrote:
-> > > > > >
-> > > > > > This enable net/vdpa to restart the full device when a migratio=
-n is
-> > > > > > started or stopped.
-> > > > > >
-> > > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > >
-> > > > > I have the following questions
-> > > > >
-> > > > > 1) any reason that we need to make this net specific? The dirty p=
-age
-> > > > > tracking via shadow virtqueue is pretty general. And the net spec=
-ific
-> > > > > part was done via NetClientInfo anyhow.
-> > > >
-> > > > The listener is only used to know when migration is started / stopp=
-ed,
-> > > > no need for actual memory tracking. Maybe there is a better way to =
-do
-> > > > so?
-> > >
-> > > Not sure, SaveVMHandlers?
-> > >
-> >
-> > I'm fine with investigating this, but the only entry in the doc says
-> > it's the "legacy way". I assume the "modern way" is through
-> > VMStateDescription, which is in virtio-net.
->
-> Right.
->
-> >
-> > The "pre_save" member already assumes the vhost backend is stopped, so
-> > I'm not sure if this way is valid.
->
-> I wonder if we can
->
-> 1) new VhostOps
-> 2) call that ops in vhost_log_gloabal_start/stop?
->
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Bringing this thread up as I'm rebasing on top of the latest asid version.
+> On Wed, Nov 09, 2022 at 04:26:53PM +0100, Markus Armbruster wrote:
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>>=20
+>> > On Mon, Nov 07, 2022 at 06:32:01PM +0100, Andrew Jones wrote:
+>>=20
+>> [...]
+>>=20
+>> >> Padding is a good idea, but too much causes other problems. When buil=
+ding
+>> >> lightweight VMs which may pull the firmware image from a network,
+>> >> AArch64 VMs require 64MB of mostly zeros to be transferred first, whi=
+ch
+>> >> can become a substantial amount of the overall boot time[*]. Being ab=
+le to
+>> >> create images smaller than the total flash device size, but still add=
+ some
+>> >> pad for later growth, seems like the happy-medium to shoot for.
+>> >
+>> > QEMU configures the firmware using -blockdev,
+>>=20
+>> Yes, even though the devices in question are not block devices.
+>>=20
+>> >                                               so can use any file
+>> > format that QEMU supports at the block layer.  IOW, you can store
+>> > the firmware in a qcow2 file and thus you will never fetch any
+>> > of the padding zeros to be transferred.  That said I'm not sure
+>> > that libvirt supports anything other than a raw file today.=20
+>>=20
+>> Here's another idea.  The "raw" format supports exposing a slice of the
+>> underlying block node (options @offset and @size).  It could support
+>> padding.  Writing to the padding should then grow the underlying node.
+>>=20
+>> Taking a step back to look at the bigger picture...  there are three
+>> issues, I think:
+>>=20
+>> (A) Storing padding on disk is wasteful.
+>>=20
+>>     Use a file system that supports sparse files, or an image format
+>>     that can represent the padding efficiently.
+>>=20
+>> (B) Reading padding into memory is wasteful.
+>>=20
+>>     Matters mostly when a network is involved.  Use an image format that
+>>     can represent the padding efficiently.
+>>=20
+>> (C) Dirtying memory for padding is wasteful.
+>>=20
+>>     I figure KSM could turn zero-padding into holes.
+>>=20
+>>     We could play with mmap() & friends.
+>>=20
+>>     Other ideas?
+>
+> Is (C) actually a separate issue ?  I thought it was simply the
+> result of (B) ?  ie if we skip reading the zero padding, we won't
+> be dirtying the memory with lots of zeros. we'll have mmap'd the
+> full 64 MB, but most won't be paged in since we wouldn't write
+> the zeros to it. Only if the guest writes to those areas do we
+> need to then flush it back out.
 
-We can detect that moment when set_features is called to set _F_LOG.
-The problem is that it makes us duplicate the startup and teardown
-code of the backend.
+I expressed myself poorly.  All three are related, but there's still a
+distinction between each of them in my thinking.
 
-SVQ was proposed originally that way [1].
+Say we use an image format that compresses data.  Represents the padding
+efficiently.  Storage on disk is efficient (A), and so is reading it
+(B).  Trouble is decompressing it to memory dirties the memory unless we
+take care not to write all-zero pages (C).
 
-[1] https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg06049.html
-
-Thanks!
+Clearer now?
 
 
