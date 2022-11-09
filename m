@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3078E623095
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 17:55:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FAEA6230CC
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 17:56:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osoKO-0004BQ-2f; Wed, 09 Nov 2022 11:53:28 -0500
+	id 1osoM7-0005hL-QD; Wed, 09 Nov 2022 11:55:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osoKL-0004AT-4r; Wed, 09 Nov 2022 11:53:25 -0500
-Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1osoM5-0005eW-Tg
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 11:55:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osoK7-0005Aw-24; Wed, 09 Nov 2022 11:53:24 -0500
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 64652601C5;
- Wed,  9 Nov 2022 19:52:49 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
- [2a02:6b8:b081:b535::1:28])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- lZXzPNf7hK-qmNO3sTF; Wed, 09 Nov 2022 19:52:48 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1668012768; bh=pTlI4CTGO199/YfAiebuEfAixvfcJYREZnNNPxlyr00=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=JzIARulAljLnnCis5xzuLAQxiaP3WD9wOMP7zpCCirFuGHRn1MsD2z82hDUPAABRe
- 5x8PKqCNKu1ev9e0XG/k07X8HfwIyd4zlv8u9J/7z9TNkKuarrdGjPdULpm6Km4Cpf
- tls+sAPtbl3SuKlujblmPfPK5rbN36pHhXRXYFkM=
-Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <f44e394a-e447-dae1-5ee8-c5b1a34f6db8@yandex-team.ru>
-Date: Wed, 9 Nov 2022 19:52:48 +0300
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1osoM3-0007An-Al
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 11:55:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668012907;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zTvrYg3rh5/mVJMdFO/l5GUK+ojj5312AU7vTsSskak=;
+ b=Qcshx/daeymVuBYTJOgXp4VQpQJU/s/DVAxEB7aSs5MJLZv0IHJEYPwPBcg1UN679noodU
+ WYwO3IDgSV2Ua2gtHsJEtPpTL/GZ7RJ3JvRz+mRPqek+JUUiz61VFDvpjMYEUi5hx6Euoc
+ jREMctEe1LXPWxZKucjxJhtRseNT1YM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-639-fDMtjZj3NfyTq8f1vuIUzQ-1; Wed, 09 Nov 2022 11:55:03 -0500
+X-MC-Unique: fDMtjZj3NfyTq8f1vuIUzQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F2D41991C5E;
+ Wed,  9 Nov 2022 16:54:54 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.15])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FEFFC4C9D3;
+ Wed,  9 Nov 2022 16:54:54 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Subject: [PATCH for-7.2 0/5] block/mirror: Do not wait for active writes
+Date: Wed,  9 Nov 2022 17:54:47 +0100
+Message-Id: <20221109165452.67927-1-hreitz@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 08/13] stream: Replace subtree drain with a single node
- drain
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: eesposit@redhat.com, stefanha@redhat.com, hreitz@redhat.com,
- pbonzini@redhat.com, qemu-devel@nongnu.org
-References: <20221108123738.530873-1-kwolf@redhat.com>
- <20221108123738.530873-9-kwolf@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221108123738.530873-9-kwolf@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.72;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,71 +75,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/8/22 15:37, Kevin Wolf wrote:
-> The subtree drain was introduced in commit b1e1af394d9 as a way to avoid
-> graph changes between finding the base node and changing the block graph
-> as necessary on completion of the image streaming job.
-> 
-> The block graph could change between these two points because
-> bdrv_set_backing_hd() first drains the parent node, which involved
-> polling and can do anything.
-> 
-> Subtree draining was an imperfect way to make this less likely (because
-> with it, fewer callbacks are called during this window). Everyone agreed
-> that it's not really the right solution, and it was only committed as a
-> stopgap solution.
-> 
-> This replaces the subtree drain with a solution that simply drains the
-> parent node before we try to find the base node, and then call a version
-> of bdrv_set_backing_hd() that doesn't drain, but just asserts that the
-> parent node is already drained.
-> 
-> This way, any graph changes caused by draining happen before we start
-> looking at the graph and things stay consistent between finding the base
-> node and changing the graph.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Hi,
 
-[..]
+For some reason(TM), the mirror job, when in write-blocking mode, has
+decided not to issue background requests while active writes are in
+flight.  (Or rather, it was probably me who decided that.)
 
->   
->       base = bdrv_filter_or_cow_bs(s->above_base);
-> -    if (base) {
-> -        bdrv_ref(base);
-> -    }
-> -
->       unfiltered_base = bdrv_skip_filters(base);
->   
->       if (bdrv_cow_child(unfiltered_bs)) {
-> @@ -82,7 +85,7 @@ static int stream_prepare(Job *job)
->               }
->           }
->   
-> -        bdrv_set_backing_hd(unfiltered_bs, base, &local_err);
-> +        bdrv_set_backing_hd_drained(unfiltered_bs, base, &local_err);
->           ret = bdrv_change_backing_file(unfiltered_bs, base_id, base_fmt, false);
+The problem is that only background requests can really reliably help
+you make progress.  When all the mirror job does is to mirror guest
+writes to the target, but not copy anything else that remains to be
+copied in the disk, it will not make converge.
 
-If we have yield points / polls during bdrv_set_backing_hd_drained() and bdrv_change_backing_file(), it's still bad and another graph-modifying operation may interleave. But b1e1af394d9 reports only polling in bdrv_set_backing_hd(), so I think it's OK to not care about other cases.
+It is unclear why it is that way, so patch 1 simply drops that
+dependency, and attempts to better explain the remaining
+wait-dependencies we have between requests (i.e. why active requests
+must wait on all overlapping requests for the whole range, but
+background requests only wait on any conflicts that concern the
+beginning of the range they want to copy).
 
->           if (local_err) {
->               error_report_err(local_err);
-> @@ -92,10 +95,7 @@ static int stream_prepare(Job *job)
->       }
->   
->   out:
-> -    if (base) {
-> -        bdrv_unref(base);
-> -    }
-> -    bdrv_subtree_drained_end(s->above_base);
-> +    bdrv_drained_end(unfiltered_bs);
->       return ret;
->   }
->   
+Patch 2 is clean-up, patch 3 fixes another bug I found while trying to
+come up with a working test case.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Patch 4 is that test case (I hope it works on your end, too), and patch
+5 is a test case for the fix in patch 3.
+
+
+Hanna Reitz (5):
+  block/mirror: Do not wait for active writes
+  block/mirror: Drop mirror_wait_for_any_operation()
+  block/mirror: Fix NULL s->job in active writes
+  iotests/151: Test that active mirror progresses
+  iotests/151: Test active requests on mirror start
+
+ block/mirror.c             |  78 ++++++++-----
+ tests/qemu-iotests/151     | 227 ++++++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/151.out |   4 +-
+ 3 files changed, 278 insertions(+), 31 deletions(-)
 
 -- 
-Best regards,
-Vladimir
+2.36.1
 
 
