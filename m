@@ -2,99 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7740862294A
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 11:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F08E562295F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 11:58:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osiim-0002ak-Pr; Wed, 09 Nov 2022 05:54:16 -0500
+	id 1osimp-0005mH-2m; Wed, 09 Nov 2022 05:58:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1osiie-0002Zn-Io; Wed, 09 Nov 2022 05:54:08 -0500
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1osiid-00087O-1n; Wed, 09 Nov 2022 05:54:08 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 5155A3200AC0;
- Wed,  9 Nov 2022 05:54:05 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 09 Nov 2022 05:54:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1667991244; x=
- 1668077644; bh=+IAzk32PGmFHkoSkgyshT2NR2DSbJkmn5YKXyjqRqdU=; b=p
- afCYftmDvgbCMf0+bIsQlhgh/zma6DBWq3SiZk4dflwBg21/0qVgeBX1N4rm3fYk
- bCLxIkZtHRII4RVDgM00J+S1ccBkWjNS1LeyNOvNoQTbxN7ZxBsBjrQVrWR6gKtE
- v1k6EbSMK31iQd4Kl35KI/F776UcbyBH9zGKDkYyCFxkFJa+1u6wCVbcGECbOaVv
- GyjsCsQqab2Xek2/9bbfEFlpbVWzUs4Bc3lw5m+WM7iqWRtN5jT2Im0p05b9NXnr
- r1oKC8/LJT21wpOYcztVdv3jcZW7CI4DNr5vO5gyduVSJf+t4icDRWEb9ugHU691
- EtIVIIkpKn9W1xkDq6G2g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1667991244; x=1668077644; bh=+IAzk32PGmFHk
- oSkgyshT2NR2DSbJkmn5YKXyjqRqdU=; b=dkqohzt0K4g4I2cnXJqdlsMtqPaUd
- nZh2WFbooIgKIPrS7qcqKrklEe2yetPI6XKpn9LJ2wfE2uVjXP5ZYjpZcPGSi1EE
- 87suhBwOKQRaMCeh+jnMMXEhtoSQ6KpEuvLYtwMPLZ9KzJKvcPb4Y7crNWy+ViOQ
- r0ZSTGfZhXSv5xapqUWU4qeDGMjM2aSKMDCyaxzypDMLi8IKOl96y5CmeIn+N4Gd
- H0PbNut2flw/hMRpJpkOdvmB1GsQrB0lCfPQJJfAld6/pqQX1/gGSwNxd7JufYZG
- dkz7qrl8uV1tkqv9yfVCAR0hby9vHV3+qpN2HNEmtGmO7vkjNC9WZ1YNA==
-X-ME-Sender: <xms:zIZrY49BO5wUQShEpq6QJ9EmZiGh-8RkK9tSAhzhqltgSJU2Wzo1GA>
- <xme:zIZrYwuA63tGS6M4WZxN0QRhIBjBimNGSxQhOrF6xXgN0R1YUP4FN4z_3Z78wDvwP
- jtvuRV93OZMk4kUIaM>
-X-ME-Received: <xmr:zIZrY-C-0-MA6OLhYp7BeUk61t-tLUpOITyBIVubYTjlYDZWYNimoVXmp7-SH5gCGU8XngMrKxY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfedvgddvudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgfeilefgieevheekueevheehkeefveegiefgheefgfejjeehffefgedujedu
- geenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:zIZrY4fxCLqKUnUUJm-ADk59A6gExLHl4cvaLgPD6OgErZ3TGQ7nsA>
- <xmx:zIZrY9PkhTVBI-XQiElQZP36oVSMiCVqNuPCSuSy6GWNh8OlQisxsQ>
- <xmx:zIZrYymcAoOH6uJe_eochKi_7hbXyjyNDsbSzLuWLZuXrpLA3XZn4A>
- <xmx:zIZrY-r96HDfXrKztDm4Qlplu4HnAe0hyLAbLra-CLgOmVqJj14w9Q>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Nov 2022 05:54:03 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH 2/2] hw/nvme: cleanup error reporting in nvme_init_pci()
-Date: Wed,  9 Nov 2022 11:53:57 +0100
-Message-Id: <20221109105357.30430-3-its@irrelevant.dk>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221109105357.30430-1-its@irrelevant.dk>
-References: <20221109105357.30430-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1osimf-0005iv-NN
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 05:58:18 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1osimd-0003G3-DI
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 05:58:16 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id i3so16332626pfc.11
+ for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 02:58:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=pbY438MvfbCAMLXbRRmVzpwHbmCAEqbkhtDF7/Uydi4=;
+ b=wkwohFmBnl4Hq4HOIn2ttnnGAEl0XbuJN3nqjeub1txPSc5ppUx+ArndMoLJ0d1POt
+ uZrnJ722uprVqBXnwaO2s1+Pwq+oaWQb7wB9gQ9FuMPrzn506N7JkXbbWlsy+OMCi2mg
+ SW7fIj6Jh/5W1ov0aYRbVM89ilmbekKyuFKGj38yJ1QeKpa0rAMVMinu7G3d0+3QVJ3E
+ U9+vrhvYEv8d+P2NlY60NAtXuuMNDCpfYfLGue5y+jK18GI5dcXuA1KRgO5jeC//Oiz5
+ l4+LJ//aklQqb1fQAMUk8oZOMMDIkiVwZNwNdtj4VRlhgxPEEn5pS9HwbJ+ysaNkchfN
+ v9Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=pbY438MvfbCAMLXbRRmVzpwHbmCAEqbkhtDF7/Uydi4=;
+ b=to8+zJndAavXi7613oq3N1AeVfI/hxt2Wn5WOHQgmqktMjayUIVDC3d/Q1MIp2Tahy
+ sV8UbOwStDGOghSbzWAkrdOMgtft+KDHffTI34/fb6dgVceDNZUYLS8ICN/UfM7CTu9x
+ 1vyw3+mxn0ZVKsKk9YGggvnn7e02/Vv1rMuslqileiERiGvbEngw5daofDqU5Ld/J2DF
+ zVwnNX7sDD+dGhQd3k92EQMTgOKoXO75EIWHhtEAINeWcWFisg4GSfkT4i0ngkjMx/jJ
+ CVORGEW+i02cTFQfOIgyeNmJPs81+b9jmvNBVq6uTjRh+UA/ep6ghFz1+hgJbXlS9tSR
+ p89A==
+X-Gm-Message-State: ACrzQf2SE50zIsM2UAzYJmg0LJnsvGnTkvYWICo3iI7uBuSe9ZYjFKI5
+ 8iYtrKuIzCdAPI7lQ46gkrhqSt7joDMlofUE0qtjDw==
+X-Google-Smtp-Source: AMsMyM6kKhGeo25KJF0+2eCnkSO94JCaM9VWYNFG+EJD1ui5B7tq1/mKLL9Dhv5W3dwuNkwdiDA7R4kG4JrJV/w7jbk=
+X-Received: by 2002:a05:6a00:1595:b0:56d:e04d:e0ab with SMTP id
+ u21-20020a056a00159500b0056de04de0abmr41857633pfk.51.1667991493786; Wed, 09
+ Nov 2022 02:58:13 -0800 (PST)
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1437; i=k.jensen@samsung.com;
- h=from:subject; bh=/XGo2GLNnDwFQPXO5wyig+gYL4hADnXqTxx0srMHc94=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGNrhsWigfTVyYQ9nug2E+ugZAPZSFEeGpzy9xDP
- k1C3G0cuJIkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJja4bFAAoJEE3hrzFtTw3pCs
- 0IAJT0LLtUeURGS+YfGy6cjDtrDgV96Q027u5VA2a22oeCLDfHEGapTNBiyWcaEwTFFgeeIy5Um1Pe
- ttneKlenj+2okou7nLiD8Ij7g0awZ8C4LzozDKy+5HRq/o9pwuq9CA4rjzMWgnE6EKC6uMccq2CYAZ
- Cp0P/JZdtrP41lhRP4ka+P8+BhgXjRF5eVnEQU83Ev9cNzpwUXxMlPMulKF8h4kb3njIMiWxpXPzBH
- jEXiFr/9KLuaQGn1oq3Elv3kLUGz7bSc1hmYZAYzZSUOaJu6SH+S3fLtHySySFr/kEjXcXF3nfAQpv
- PpWB4wTPJZlfcG+4DCg7O47zUF2fjbdzdgX6rN
-X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
- fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
- helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20221104184101.6923-1-fcagnin@quarkslab.com>
+ <20221104184101.6923-3-fcagnin@quarkslab.com>
+ <2B918171-9464-40DC-AE11-D25E60858370@ynddal.dk>
+ <CAF8_6KmwMCiNcC-romHoGZhcpPph71b3qv7yn9RHQArV3Q+nDA@mail.gmail.com>
+ <D86C8F4E-517E-4ECC-A66D-E57F551FFECF@ynddal.dk>
+In-Reply-To: <D86C8F4E-517E-4ECC-A66D-E57F551FFECF@ynddal.dk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 9 Nov 2022 10:58:01 +0000
+Message-ID: <CAFEAcA9jVVQhouS7uhmh+gMs328M_0r9Nz3npzrbmBoVhS+=TA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] hvf: implement guest debugging on Apple Silicon hosts
+To: Mads Ynddal <mads@ynddal.dk>
+Cc: Francesco Cagnin <francesco.cagnin@gmail.com>, qemu-devel@nongnu.org,
+ dirty@apple.com, 
+ r.bolshakov@yadro.com, "open list:ARM cores" <qemu-arm@nongnu.org>, 
+ Alexander Graf <agraf@csgraf.de>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Francesco Cagnin <fcagnin@quarkslab.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,54 +91,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On Tue, 8 Nov 2022 at 11:51, Mads Ynddal <mads@ynddal.dk> wrote:
+> I also noticed you are adding 1 to the WRPs and BRPs. As I interpret the
+> documentation, you should subtract 1 instead, given the value 0 is reserved:
+>
+> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+> index dbc3605f6d..80a583cbd1 100644
+> --- a/target/arm/hvf/hvf.c
+> +++ b/target/arm/hvf/hvf.c
+> @@ -39,11 +39,11 @@ static void hvf_arm_init_debug(CPUState *cpu)
+>  {
+>      ARMCPU *arm_cpu = ARM_CPU(cpu);
+>
+> -    max_hw_bps = 1 + extract64(arm_cpu->isar.id_aa64dfr0, 12, 4);
+> +    max_hw_bps = extract64(arm_cpu->isar.id_aa64dfr0, 12, 4) - 1;
+>      hw_breakpoints =
+>          g_array_sized_new(true, true, sizeof(HWBreakpoint), max_hw_bps);
+>
+> -    max_hw_wps = 1 + extract64(arm_cpu->isar.id_aa64dfr0, 20, 4);
+> +    max_hw_wps = extract64(arm_cpu->isar.id_aa64dfr0, 20, 4) - 1;
+>      hw_watchpoints =
+>          g_array_sized_new(true, true, sizeof(HWWatchpoint), max_hw_wps);
+>      return;
+>
+> But the documentation is a bit ambiguous on that. Maybe we can test it?
 
-Replace the local Error variable with errp and ERRP_GUARD().
+Adding 1 is correct -- the field definition is "number of breakpoints - 1",
+so the number of bps is "field value + 1". You don't need to open-code this,
+though -- there are functions arm_num_brps() and arm_num_wrps()
+in target/arm/internals.h that extract the fields from the ID registers
+and adjust them to give the actual number.
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 4cc6ae753295..38eb5ec54f9d 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -7345,13 +7345,13 @@ static int nvme_add_pm_capability(PCIDevice *pci_dev, uint8_t offset)
- 
- static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
- {
-+    ERRP_GUARD();
-+
-     uint8_t *pci_conf = pci_dev->config;
-     uint64_t bar_size;
-     unsigned msix_table_offset, msix_pba_offset;
-     int ret;
- 
--    Error *err = NULL;
--
-     pci_conf[PCI_INTERRUPT_PIN] = 1;
-     pci_config_set_prog_interface(pci_conf, 0x2);
- 
-@@ -7388,13 +7388,13 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
-     }
-     ret = msix_init(pci_dev, n->params.msix_qsize,
-                     &n->bar0, 0, msix_table_offset,
--                    &n->bar0, 0, msix_pba_offset, 0, &err);
-+                    &n->bar0, 0, msix_pba_offset, 0, errp);
-     if (ret < 0) {
-         if (ret == -ENOTSUP) {
--            warn_report_err(err);
-+            warn_report_err(*errp);
-+            *errp = NULL;
-         } else {
--            error_propagate(errp, err);
--            return ret;
-+            return -1;
-         }
-     }
- 
--- 
-2.38.1
-
+thanks
+-- PMM
 
