@@ -2,84 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85EA8622189
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 03:00:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CE7A622198
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 03:06:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osaN7-0002yg-M8; Tue, 08 Nov 2022 20:59:21 -0500
+	id 1osaSw-0005kv-24; Tue, 08 Nov 2022 21:05:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1osaN0-0002yK-Og
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 20:59:14 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1osaMy-0007vC-Iy
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 20:59:13 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- q1-20020a17090a750100b002139ec1e999so562822pjk.1
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 17:59:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=e6hHTJvwNN+Eme1em7qdudGLSwV3YgyVPvGTUDl0PiI=;
- b=lvPXA4F6/Cz2e/ZjcA21ifKgeJwExGdMVl3T1omGdrB8N1Pzo0w2ysFUhPf2CLAc/M
- sXahOIx4wvhTl5aUoyczfbnYpo0ozKZr6+0xoAbJV5d3K9aaT/HaI9UxiN7EzNFXm+ue
- /asc0CIc59C7Y3HkwFU2ZkB47GfI5UOLZE6NoHsIIR3BrbTQw2HsfAtIDYxQmrXacYOA
- +3X0ZT4wVK/esb6IRLbXaH7RxZ2UAFLJB5WXBnmIFexAmTqxsFzBFkHfe+/n5oTMa7rW
- CuBzpkv7OVnnugNTW16GzqUFYTjgApb6WaHZwMweaFP9aDD8CjkAWxekp6uqHg/50Gj4
- szTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=e6hHTJvwNN+Eme1em7qdudGLSwV3YgyVPvGTUDl0PiI=;
- b=iMHizB5IoTiQPHSqK2xTNfQJuv0kxlBhidEmFnJZrlf9Z00Xy4iD/uNLnucgZCPXaM
- NpccsR2M+LfYdgXwvTV4Ezi25G7EBFcKVXClQa3ioRYDHvP66+sjEK1CoAjXWqNYCCzw
- M0KkvBAhmJ0Tn9lSrVxLQ/hB9UIA6tWnwgeup/d2KG2fKFrkMWXv1S3UK7UJg1vM4r5Y
- /QRFbn4PSBB+zVmJWxp8kEpMjIHaAlx29orX2c8SzI35e//UXwOiXJS2XD62oew0muin
- q2f1kI7mdHWYjyGlsdUNNQsVGxX17Q55xt+bbVXE1FeQt1jP45xtfjseFi7uD6hZweX6
- fiaw==
-X-Gm-Message-State: ACrzQf1uTs4IOR0v6LXpjIZqcTFDskXn3zqvNWPizRgtChmvzOb9Qrde
- N2ab6LNHbMsAlyYoWEQD+e82pA==
-X-Google-Smtp-Source: AMsMyM5ypjFLHSMFM+oMQiTWKUMGsLCaJmyuoTM8nfW48+fs4TCKyHW8jp3T+AuNf+PNfEoWKa8LmQ==
-X-Received: by 2002:a17:903:2411:b0:184:7159:dce6 with SMTP id
- e17-20020a170903241100b001847159dce6mr59671054plo.101.1667959150356; 
- Tue, 08 Nov 2022 17:59:10 -0800 (PST)
-Received: from [10.3.10.183] ([203.47.88.146])
- by smtp.gmail.com with ESMTPSA id
- jb5-20020a170903258500b0016c5306917fsm7607543plb.53.2022.11.08.17.59.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Nov 2022 17:59:09 -0800 (PST)
-Message-ID: <bd653ddc-c6ca-3814-c85e-95918f315985@linaro.org>
-Date: Wed, 9 Nov 2022 12:59:03 +1100
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1osaSc-0005ip-MU
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 21:05:09 -0500
+Received: from mail.loongson.cn ([114.242.206.163] helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1osaSZ-0005Ba-Nw
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 21:05:02 -0500
+Received: from loongson.cn (unknown [10.2.5.185])
+ by gateway (Coremail) with SMTP id _____8DxvrfDCmtjTHQFAA--.12731S3;
+ Wed, 09 Nov 2022 10:04:51 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by localhost.localdomain (Coremail) with SMTP id
+ AQAAf8Bxj+DDCmtjgEkPAA--.42108S2; 
+ Wed, 09 Nov 2022 10:04:51 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org,
+	richard.henderson@linaro.org
+Cc: stefanha@gmail.com,
+	yangxiaojuan@loongson.cn,
+	maobibo@loongson.cn
+Subject: [PATCH v2] target/loongarch: Fix loongarch fdt addr confict
+Date: Wed,  9 Nov 2022 10:04:49 +0800
+Message-Id: <20221109020449.978064-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v5 03/11] Hexagon (target/hexagon) Add overrides for
- S2_asr_r_r_sat/S2_asl_r_r_sat
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-Cc: philmd@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com,
- quic_mathbern@quicinc.com
-References: <20221108162906.3166-1-tsimpson@quicinc.com>
- <20221108162906.3166-4-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221108162906.3166-4-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Bxj+DDCmtjgEkPAA--.42108S2
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7AFW3Ar13tFWftw4rXr47urg_yoW8Cry5pF
+ W3ZFsxKr48Xr18Jr4ktFyUZrn8Jr97Aa4aqFW2yr4F9F1DWw1jvrWrZ340vFy8K34fJF10
+ vFWktry2vFn5tw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+ qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+ b0xFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4
+ AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF
+ 7I0E14v26r1j6r4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I
+ 0E14v26r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCF
+ FI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_WwAm72CE4IkC6x0Yz7
+ v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv
+ 8VWrMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+ xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xII
+ jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
+ 0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
+ 67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvj4RC_MaUUUUU
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,22 +75,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/9/22 03:28, Taylor Simpson wrote:
-> These instructions will not be generated by idef-parser, so we override
-> them manually.
-> 
-> Test cases added to tests/tcg/hexagon/usr.c
-> 
-> Co-authored-by: Matheus Tavares Bernardino<quic_mathbern@quicinc.com>
-> Signed-off-by: Matheus Tavares Bernardino<quic_mathbern@quicinc.com>
-> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
-> ---
->   target/hexagon/gen_tcg.h |  10 +++-
->   target/hexagon/genptr.c  | 104 +++++++++++++++++++++++++++++++++++++++
->   tests/tcg/hexagon/usr.c  |  34 ++++++++++---
->   3 files changed, 141 insertions(+), 7 deletions(-)
+Fix LoongArch check-tcg error:
+   TEST    hello on loongarch64
+qemu-system-loongarch64: Some ROM regions are overlapping
+These ROM regions might have been loaded by direct user request or by default.
+They could be BIOS/firmware images, a guest kernel, initrd or some other file loaded into guest memory.
+Check whether you intended to load all this guest code, and whether it has been built to load to the correct addresses.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+The following two regions overlap (in the memory address space):
+   hello ELF program header segment 0 (addresses 0x0000000000200000 - 0x0000000000242000)
+   fdt (addresses 0x0000000000200000 - 0x0000000000300000)
+make[1]: *** [Makefile:177: run-hello] Error 1
 
-r~
+Reported-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Song Gao <gaosong@loongson.cn>
+---
+ hw/loongarch/virt.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/hw/loongarch/virt.c b/hw/loongarch/virt.c
+index 5e4c2790bf..5136940b0b 100644
+--- a/hw/loongarch/virt.c
++++ b/hw/loongarch/virt.c
+@@ -793,13 +793,13 @@ static void loongarch_init(MachineState *machine)
+     qemu_add_machine_init_done_notifier(&lams->machine_done);
+     fdt_add_pcie_node(lams);
+     /*
+-     * Since lowmem region starts from 0, FDT base address is located
+-     * at 2 MiB to avoid NULL pointer access.
+-     *
++     * Since lowmem region starts from 0 and Linux kernel legacy start address
++     * at 2 MiB, FDT base address is located at 1 MiB to avoid NULL pointer
++     * access. FDT size limit with 1 MiB.
+      * Put the FDT into the memory map as a ROM image: this will ensure
+      * the FDT is copied again upon reset, even if addr points into RAM.
+      */
+-    fdt_base = 2 * MiB;
++    fdt_base = 1 * MiB;
+     qemu_fdt_dumpdtb(machine->fdt, lams->fdt_size);
+     rom_add_blob_fixed("fdt", machine->fdt, lams->fdt_size, fdt_base);
+ }
+-- 
+2.31.1
+
 
