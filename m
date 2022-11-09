@@ -2,90 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 892A1622F27
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 16:39:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B53622F3D
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 16:42:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osnAl-0006WA-En; Wed, 09 Nov 2022 10:39:27 -0500
+	id 1osnDA-0006Hh-NG; Wed, 09 Nov 2022 10:41:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1osnAe-0006ER-V9
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:39:21 -0500
-Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1osnAV-0005SF-GX
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:39:20 -0500
-Received: by mail-oi1-x22b.google.com with SMTP id l127so19172057oia.8
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 07:39:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FuGNQafKtIjmYyQ6dCGqMZHuyWXuGpT7BHjqJWaj2jE=;
- b=ekCu3s+MrlIDm77n10i5vUWq6yORkdEQ+ESk7YIeltDlYccut0GdpwD9LYDp6+TfOe
- nFduzHRBMXf56cPa8nkcK1QLsBuLjhLl4c86QtNlAHVIIvYRjbn/39vP9kP4FWsUp0P2
- bspitp9XjP6BJ6te+zKR9+XNsjPXy+MDYjG1cBEY/rq/D3wY6Kezy9+THyC/XWVUcQTc
- rI/xtdZU8HC2RpOUqWMDK9IejMOEOi51hHBSltl3aq8jDHlhqwPBcN9z5a2Jt8Wp5haS
- 7erU0P5La2pOxWHHLVGZ7H+yXHlgcMa/Aq4TcHZcYjS+DeC7zjXcBkXxJJ58OmLbH4pm
- i4bg==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1osnD8-00065n-Iq
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:41:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1osnD6-0000Kf-S4
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:41:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668008511;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A+e687B2xvoD8sByt1+glR3yDXj339/X7TA2XYXrUrs=;
+ b=IdRYc5ZwocrmEx2Dl0PMa9CbBXN4yyZViXqKYnFgZ3xapADKaenTWKYDhrT2nojQT+THP3
+ /fG5Wn/PlyehF26V6RPkxUvJVsOBPccnPNe/MzKRvo59c338kpqbvkNTITJryGymZKUEhg
+ nnzhpg5WwIXTvvIXhftqkxG0l7ButPQ=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-543--dsG2EQ_MciD1ozvU6XPFw-1; Wed, 09 Nov 2022 10:41:50 -0500
+X-MC-Unique: -dsG2EQ_MciD1ozvU6XPFw-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ q63-20020a632a42000000b0045724b1dfb9so9637248pgq.3
+ for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 07:41:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FuGNQafKtIjmYyQ6dCGqMZHuyWXuGpT7BHjqJWaj2jE=;
- b=X4+Q1v6+e9NQ3fmKTWK0lk6ggEQbRWKvbr2wNWBOAbhLJcYvq5Ry2Ur0EdjgZgf3Xz
- /KWY4C2bzsmZZTfK7snVnswhTSqE4/p8DrgITZkJTRq9ONbtrMJ/LSGmwdXrIEBY57yH
- 84LzMIE2He2e12OQIcxaUggWNU3arZbGQlo9Hm2INMW69S2TIE+PaonnqdLObvGDIeuZ
- gSMgekxodc7IntxaF5sw/Ti5tWZHX60jKx4EQSn8udG5dwtpdI7s3jsX7rPGCc8m4yHL
- n9SbbND8zgyYnSITfskLrxp3VbxCa+qkZAvvyUyMJ5rIxPoULkr9xjkZARzw0ID8M7vo
- Vu8w==
-X-Gm-Message-State: ACrzQf0RpYjNcyeEQVSJPbIb/EirK3XQwP6o/iMJr9mDroZ7A95+pCfl
- Y1/TTdRuT9r5qOxqvEmLJOk=
-X-Google-Smtp-Source: AMsMyM7LpA+LooS9WRzyoPfQ2xM9XsqM0UYatlKG9if3vPqZlkoTzdy8rOJPJpLXLtrtUeQ6sQxdJw==
-X-Received: by 2002:a05:6808:1205:b0:354:2815:4f3c with SMTP id
- a5-20020a056808120500b0035428154f3cmr41990985oil.26.1668008350059; 
- Wed, 09 Nov 2022 07:39:10 -0800 (PST)
-Received: from [192.168.10.102] ([187.34.29.120])
- by smtp.gmail.com with ESMTPSA id
- x2-20020a4aaa02000000b0049eedb106e2sm3019832oom.15.2022.11.09.07.39.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Nov 2022 07:39:09 -0800 (PST)
-Message-ID: <2a26f704-cfbe-8965-a7c4-24ab62c1a651@gmail.com>
-Date: Wed, 9 Nov 2022 12:39:05 -0300
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=A+e687B2xvoD8sByt1+glR3yDXj339/X7TA2XYXrUrs=;
+ b=QmtsYlfkUQNE4/hJ5z3TD6IDnSCNgdDFkAaRNQvmQO2s9XgaLfUFZveLLTf5NyBBp7
+ wgEv464Dqwred78nzGTDZpAuy7MynTXL/zqILlWvRSCk8mnF3qdzYH+OvZ7KxmHwXoa4
+ PBF9zi/NubBt1Rr7mOqU8eoyrO/ydBRUt/C1su9MysmButams9xMJhyFWKgw4KpHZLZS
+ aTrRZRSWlhhcLeGCW1QbJS2NY2JWoTaSrR1In/a+FS23Z0e9eV9/hXDjz8mVvPZUA5Mj
+ KSzrjnb2N/GdjWWCr1GpcissYuB2bHog2rd8iAIV3d2kuk9zKZyS4YRdNV+g+25mkxa6
+ eXDw==
+X-Gm-Message-State: ACrzQf1eYVjX0rJbIFSzGLP4JDGyd94cuyxtYVxv15vu36MTj4ZPzwul
+ DvLng2mCcnb7W/RdAmYowAdO/f9/7OtZ51Hj0993k3p7JYXFd8BukS8YM8CM8YYhFeEf9aU3YCh
+ Nv8gey4+XcECbv+ZVGUvQ4hfyPaBFHzk=
+X-Received: by 2002:aa7:810d:0:b0:563:1fa6:fecc with SMTP id
+ b13-20020aa7810d000000b005631fa6feccmr61614653pfi.24.1668008509667; 
+ Wed, 09 Nov 2022 07:41:49 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM7S4LsqJNO5tqd3Uvucl2M1rELcYV2iwwjmZmGtpV+AsNCYGTHrXsceAoSvTpmTikJxxGtqTORs/p6F9izMk4w=
+X-Received: by 2002:aa7:810d:0:b0:563:1fa6:fecc with SMTP id
+ b13-20020aa7810d000000b005631fa6feccmr61614623pfi.24.1668008509426; Wed, 09
+ Nov 2022 07:41:49 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH] avocado: use sha1 for fc31 imgs to avoid first time
- re-download
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, John Snow <jsnow@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-References: <20221022170350.936685-1-danielhb413@gmail.com>
- <Y1ZUsauC6F3yDuny@redhat.com>
- <8d2d7c90-288f-387f-e474-7eefe47005e8@redhat.com>
- <Y1pI2Tg9VTNwrrEE@redhat.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <Y1pI2Tg9VTNwrrEE@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20220810184220.2362292-1-eperezma@redhat.com>
+ <20220810184220.2362292-6-eperezma@redhat.com>
+ <CACGkMEsEO1hqRMp6d5fR6eMCqCPD4A_8nFTd2ABswWiwX2xSFw@mail.gmail.com>
+ <CAJaqyWevZ7d2iNPo68nUP_DdVExD7PMFoJjsFuQ=w5tsMmG2+A@mail.gmail.com>
+ <CACGkMEtVBOYzxvzz-p7pN8NF=uLUO9NeVtgKtSD_fHgz8aUDLQ@mail.gmail.com>
+ <CAJaqyWcYTSnaNNgb5YRwD_fALWDMwwPzXYKfPc-m669LWcZM2Q@mail.gmail.com>
+ <CACGkMEtOvj2zqt-wuvE6DRA429EuouA0w_6=nStqPFRu0B7aEA@mail.gmail.com>
+In-Reply-To: <CACGkMEtOvj2zqt-wuvE6DRA429EuouA0w_6=nStqPFRu0B7aEA@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 9 Nov 2022 16:41:13 +0100
+Message-ID: <CAJaqyWdrCdWJdp2caQrQ9kbwCksjhA0O+watyfp6bACeO3UEJA@mail.gmail.com>
+Subject: Re: [RFC 5/8] vdpa: Add vdpa memory listener
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Cindy Lu <lulu@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Gautam Dawar <gdawar@xilinx.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Eli Cohen <eli@mellanox.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,68 +106,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Aug 23, 2022 at 5:58 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Fri, Aug 19, 2022 at 6:35 PM Eugenio Perez Martin
+> <eperezma@redhat.com> wrote:
+> >
+> > On Fri, Aug 19, 2022 at 11:01 AM Jason Wang <jasowang@redhat.com> wrote=
+:
+> > >
+> > > On Fri, Aug 19, 2022 at 4:30 PM Eugenio Perez Martin
+> > > <eperezma@redhat.com> wrote:
+> > > >
+> > > > On Fri, Aug 19, 2022 at 8:29 AM Jason Wang <jasowang@redhat.com> wr=
+ote:
+> > > > >
+> > > > > On Thu, Aug 11, 2022 at 2:42 AM Eugenio P=C3=A9rez <eperezma@redh=
+at.com> wrote:
+> > > > > >
+> > > > > > This enable net/vdpa to restart the full device when a migratio=
+n is
+> > > > > > started or stopped.
+> > > > > >
+> > > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > >
+> > > > > I have the following questions
+> > > > >
+> > > > > 1) any reason that we need to make this net specific? The dirty p=
+age
+> > > > > tracking via shadow virtqueue is pretty general. And the net spec=
+ific
+> > > > > part was done via NetClientInfo anyhow.
+> > > >
+> > > > The listener is only used to know when migration is started / stopp=
+ed,
+> > > > no need for actual memory tracking. Maybe there is a better way to =
+do
+> > > > so?
+> > >
+> > > Not sure, SaveVMHandlers?
+> > >
+> >
+> > I'm fine with investigating this, but the only entry in the doc says
+> > it's the "legacy way". I assume the "modern way" is through
+> > VMStateDescription, which is in virtio-net.
+>
+> Right.
+>
+> >
+> > The "pre_save" member already assumes the vhost backend is stopped, so
+> > I'm not sure if this way is valid.
+>
+> I wonder if we can
+>
+> 1) new VhostOps
+> 2) call that ops in vhost_log_gloabal_start/stop?
+>
 
+Bringing this thread up as I'm rebasing on top of the latest asid version.
 
-On 10/27/22 06:01, Daniel P. Berrangé wrote:
-> On Thu, Oct 27, 2022 at 09:46:29AM +0200, Thomas Huth wrote:
->> On 24/10/2022 11.02, Daniel P. Berrangé wrote:
->>> On Sat, Oct 22, 2022 at 02:03:50PM -0300, Daniel Henrique Barboza wrote:
->>>> 'make check-avocado' will download any images that aren't present in the
->>>> cache via 'get-vm-images' in tests/Makefile.include. The target that
->>>> downloads fedora 31 images, get-vm-image-fedora-31, will use 'avocado
->>>> vmimage get  --distro=fedora --distro-version=31 --arch=(...)' to
->>>> download the image for each arch. Note that this command does not
->>>> support any argument to set the hash algorithm used and, based on the
->>>> avocado source code [1], DEFAULT_HASH_ALGORITHM is set to "sha1". The
->>>> sha1 hash is stored in a Fedora-Cloud-Base-31-1.9.{ARCH}.qcow2-CHECKSUM
->>>> in the cache.
->>>
->>>> For now, in QEMU, let's use sha1 for all Fedora 31 images. This will
->>>> immediately spares us at least one extra download for each Fedora 31
->>>> image that we're doing in all our CI runs.
->>>>
->>>> [1] https://github.com/avocado-framework/avocado.git @ 942a5d6972906
->>>> [2] https://github.com/avocado-framework/avocado/issues/5496
->>>
->>> Can we just ask Avocado maintainers to fix this problem on their
->>> side to allow use of a modern hash alg as a priority item. We've
->>> already had this problem in QEMU for over a year AFAICT, so doesn't
->>> seem like we need to urgently do a workaround on QEMU side, so we
->>> can get Avocado devs to commit to fixing it in the next month.
->>
->> Do we have such a commitment? ... The avocado version in QEMU is completely
->> backlevel these days, it's still using version 88.1 from May 2021, i.e.
->> there hasn't been any update since more than a year. I recently tried to
->> bump it to a newer version on my own (since I'm still suffering from the
->> problem that find_free_port() does not work if you don't have a local IPv6
->> address), but it's not that straight forward since the recent versions of
->> avocado changed a lot of things (e.g. the new nrunner - do we want to run
->> tests in parallel? If so it breaks a lot of the timeout settings, I think),
->> so an update needs a lot of careful testing...
-> 
-> That it is so difficult to update Avocado after barely more than
-> 1 year is not exactly a strong vote of confidence in our continued
-> use of Avocado long term :-(
+We can detect that moment when set_features is called to set _F_LOG.
+The problem is that it makes us duplicate the startup and teardown
+code of the backend.
 
+SVQ was proposed originally that way [1].
 
-By the way, Avocado just provided a fix for the problem this patch is trying
-to amend:
+[1] https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg06049.html
 
-https://github.com/avocado-framework/avocado/pull/5515#issuecomment-1308872846
+Thanks!
 
-
-Is there an easy way to plug upstream Avocado into QEMU? I would like to test
-tests/avocado/boot_linux.py:BootLinuxPPC64.test_pseries_tcg to see if the problem
-is fixed by Avocado upstream.
-
-
-Thanks,
-
-
-Daniel
-
-
-> 
-> With regards,
-> Daniel
 
