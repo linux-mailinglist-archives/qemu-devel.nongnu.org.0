@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696D9622E46
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 15:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22CAA622F0E
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 16:29:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osmM9-0001cw-D6; Wed, 09 Nov 2022 09:47:09 -0500
+	id 1osmyu-0004Fc-4C; Wed, 09 Nov 2022 10:27:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osmLV-0001RV-Bf
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 09:46:32 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1osmys-0004AJ-Lt
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:27:10 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osmLS-0004V9-Uc
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 09:46:28 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1osmyq-00070h-SC
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:27:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668005185;
+ s=mimecast20190719; t=1668007626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TCy87JibYNqBpSbp4TWwqbbWbuqv+V/Irkto26whthE=;
- b=ZoW8QG8juNaGBRrMW3HTfcH43B7KI+NdzsmsdsFqNaTD5MO+9j0QLWieWvXSoAb8h4/ogS
- VHVB67Piah+5WJWQxM1BXW1psoaM4v5VHGUreJ4foNGEF4boUmhMD7s4WpaiM1KX6soOep
- 5pO07FiftDI9r9CdAI4hUkJMXWwkQNA=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-587-8_zjj5N1OaiVI3u5JNhyQQ-1; Wed, 09 Nov 2022 09:46:24 -0500
-X-MC-Unique: 8_zjj5N1OaiVI3u5JNhyQQ-1
-Received: by mail-qk1-f199.google.com with SMTP id
- j13-20020a05620a288d00b006be7b2a758fso15770725qkp.1
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 06:46:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TCy87JibYNqBpSbp4TWwqbbWbuqv+V/Irkto26whthE=;
- b=gbo8gRbqHoGqktH+Ndj6SqNt7L5xHD63+I1D415lB7uczjyB0TxwBqlaoaM+UkL4dx
- /0/C0h9BTJwdED8ANT+lgMSyBl/KDiwhleNvvRpL6qCa0gYMTEOk3W/SL1DqZHgcZP8P
- shGRDOcE+PB6qAcnE9JdBkAs9Izufw65v1+4cumPguE0/aKmUikKL2QYAxaWqzIasOZC
- mkU45ZzCUnvMhKqkSqdjQLFdDXKJpduIk18/p6YL9OKVMuoEU8oOEF+0LpYTLNuqdHxP
- SLR4W8J5dq2d5S5HlRoS2/44vpPT5uygMtTbsuSFw46iOAoXjxck1fks5MIB4QBx9dcn
- DONw==
-X-Gm-Message-State: ANoB5pltKTiFSWAPkkj+3eHjjF4iPCf4W6xaafTaVQ5+iePp3qyDsxXH
- EgPciweCE+91JMlL/aUZ9Oe32O3GJCWJ8k4LrCBa4NphlJ1t1QMrJ7rq+uQRBCFivdL+/uG04m+
- faljufFUqn8+5b/g=
-X-Received: by 2002:a37:50a:0:b0:6fb:176d:74e6 with SMTP id
- 10-20020a37050a000000b006fb176d74e6mr655389qkf.65.1668005183852; 
- Wed, 09 Nov 2022 06:46:23 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6LxDkJaFjE7Oph6m7Ulz1ove6eMJ60e4zfV51NYJCNhlfLn5G02RfPz1LtRh6s1g3IXaZ/xw==
-X-Received: by 2002:a37:50a:0:b0:6fb:176d:74e6 with SMTP id
- 10-20020a37050a000000b006fb176d74e6mr655367qkf.65.1668005183553; 
- Wed, 09 Nov 2022 06:46:23 -0800 (PST)
-Received: from redhat.com ([185.195.59.47]) by smtp.gmail.com with ESMTPSA id
- f1-20020a05620a408100b006fa4a81e895sm11214040qko.67.2022.11.09.06.46.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Nov 2022 06:46:23 -0800 (PST)
-Date: Wed, 9 Nov 2022 09:46:18 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: qemu-devel@nongnu.org, stefanha@gmail.com, lersek@redhat.com,
- jasowang@redhat.com, peter.maydell@linaro.org, kraxel@redhat.com
-Subject: Re: [PATCH] virtio: remove the excess virtio features check
-Message-ID: <20221109094421-mutt-send-email-mst@kernel.org>
-References: <20221109111021.24344-1-xuanzhuo@linux.alibaba.com>
+ bh=rwqBaj99ui/gUwlHjxV/4pkbk5Oi/YI0YZmoPqu163Y=;
+ b=ZkwE2vSmvtCz/YJ4Ndw92yoMia+S5MiNbMAKGvYgrdgG+0w+CnuMfzG4OaZHdZ3efSX865
+ D9UPqDGspQ1rUiDduM9RL29gWbMgQ96opyw5A5wR+4HUNKoQH5O+8p5/eLFllZu0wPCamO
+ HMYGQqNrqmCPtVrxLH+032+9+B0RXyA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-613-3EcaFopoM_27geS5k1Y5kw-1; Wed, 09 Nov 2022 10:27:00 -0500
+X-MC-Unique: 3EcaFopoM_27geS5k1Y5kw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB9FD101A528;
+ Wed,  9 Nov 2022 15:26:59 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AC902C1908A;
+ Wed,  9 Nov 2022 15:26:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 67F3A21E6921; Wed,  9 Nov 2022 16:26:53 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Andrew Jones <ajones@ventanamicro.com>,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Sunil V L <sunilvl@ventanamicro.com>,  Peter
+ Maydell <peter.maydell@linaro.org>,  Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,  Bin Meng
+ <bin.meng@windriver.com>,  Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-riscv@nongnu.org,  qemu-devel@nongnu.org
+Subject: Re: [PATCH V2] hw/riscv: virt: Remove size restriction for pflash
+References: <20221107130217.2243815-1-sunilvl@ventanamicro.com>
+ <CAFEAcA8X3Q7s6qZ=ojE9fTLG464rrZw+FX=4hmMOhwR-Q4n2sA@mail.gmail.com>
+ <Y2kRWNnk7wDxPnBK@sunil-laptop> <871qqehib4.fsf@linaro.org>
+ <Y2kv/k5oKGOd+90w@redhat.com> <20221107173201.343hkqqugkzdzqcf@kamzik>
+ <Y2lBnPuUA4bgKCLL@redhat.com>
+Date: Wed, 09 Nov 2022 16:26:53 +0100
+In-Reply-To: <Y2lBnPuUA4bgKCLL@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Mon, 7 Nov 2022 17:34:20 +0000")
+Message-ID: <87y1skkv2a.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221109111021.24344-1-xuanzhuo@linux.alibaba.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,41 +90,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 09, 2022 at 07:10:21PM +0800, Xuan Zhuo wrote:
-> In virtio_queue_enable(), we checked virtio feature VIRTIO_F_VERSION_1.
-> 
-> This check is not necessary, and conflict with SeaBIOS. The problem
-> appeared in SeaBIOS. But we also remove this check.
-> 
-> Link: https://www.mail-archive.com/qemu-devel@nongnu.org/msg920538.html
-> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> ---
->  hw/virtio/virtio.c | 5 -----
->  1 file changed, 5 deletions(-)
-> 
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 9683b2e158..701e23ea6a 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -2499,11 +2499,6 @@ void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
->  {
->      VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
->  
-> -    if (!virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-> -        error_report("queue_enable is only suppported in devices of virtio "
-> -                     "1.0 or later.");
-> -    }
-> -
->      if (k->queue_enable) {
->          k->queue_enable(vdev, queue_index);
->      }
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Well this warning turned out to be actually useful.
-Let's see whether we can fix seabios in time for release.
-If yes I would just make it LOG_GUEST_ERR and limit to
-latest machine type but not drop completely.
+> On Mon, Nov 07, 2022 at 06:32:01PM +0100, Andrew Jones wrote:
 
-> -- 
-> 2.32.0.3.g01195cf9f
+[...]
+
+>> Padding is a good idea, but too much causes other problems. When building
+>> lightweight VMs which may pull the firmware image from a network,
+>> AArch64 VMs require 64MB of mostly zeros to be transferred first, which
+>> can become a substantial amount of the overall boot time[*]. Being able =
+to
+>> create images smaller than the total flash device size, but still add so=
+me
+>> pad for later growth, seems like the happy-medium to shoot for.
+>
+> QEMU configures the firmware using -blockdev,
+
+Yes, even though the devices in question are not block devices.
+
+>                                               so can use any file
+> format that QEMU supports at the block layer.  IOW, you can store
+> the firmware in a qcow2 file and thus you will never fetch any
+> of the padding zeros to be transferred.  That said I'm not sure
+> that libvirt supports anything other than a raw file today.=20
+
+Here's another idea.  The "raw" format supports exposing a slice of the
+underlying block node (options @offset and @size).  It could support
+padding.  Writing to the padding should then grow the underlying node.
+
+Taking a step back to look at the bigger picture...  there are three
+issues, I think:
+
+(A) Storing padding on disk is wasteful.
+
+    Use a file system that supports sparse files, or an image format
+    that can represent the padding efficiently.
+
+(B) Reading padding into memory is wasteful.
+
+    Matters mostly when a network is involved.  Use an image format that
+    can represent the padding efficiently.
+
+(C) Dirtying memory for padding is wasteful.
+
+    I figure KSM could turn zero-padding into holes.
+
+    We could play with mmap() & friends.
+
+    Other ideas?
+
+Any solution needs to work both for read-only and read/write padding.
+Throwing away data written to the padding on cold restart is not what
+I'd regard as "works".
 
 
