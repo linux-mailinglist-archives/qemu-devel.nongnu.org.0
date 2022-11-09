@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073F262368F
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 23:28:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D2362369C
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 23:31:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ostYD-0007QY-2y; Wed, 09 Nov 2022 17:28:05 -0500
+	id 1ostaX-0000U8-8p; Wed, 09 Nov 2022 17:30:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ostYB-0007QP-Qp
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 17:28:03 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ostaL-0000Py-Bh
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 17:30:21 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ostY9-00084Y-RM
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 17:28:03 -0500
-Received: by mail-wr1-x433.google.com with SMTP id cl5so27949529wrb.9
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 14:27:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ostaJ-0003ki-J8
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 17:30:17 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id o4so28011566wrq.6
+ for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 14:30:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=0sa3R2ihF5Dy5IUz9+ql6rd3GqWrMn8/HMbYdDYx/jQ=;
- b=BLkqEW89AVbgkJflL82bclIgdD2Eyu1GRzuhSCv8nZU5g+0VWkBVaGEkkiyhUnFN8r
- Q3yoJcrAcrkqTIjh8KZ86rzbkz3YurDQwpWzCoGM3TP5cEMLHbgNZ2nyghKHGzT+Bs38
- mbRbt3cBHM0lH0DK7e9WpiOxHYZ3wVUKHX9kZsWQPkT0JQkUJcclsXSCgySnTZDzBHYX
- Q35WiKPF2pdeTkTzcrc7KqE0+9i7mhnClNa10Q9TLWwKq7iKXYZtYUSPeYmMfsu/BFWl
- gi9yPTuKgIAFcjiWsvYlmpKe7JwC93Ghg8smJvjdqAFpuaRNeR+WHA+urTgXoPLW4COo
- zJ7w==
+ bh=XE5DGm7FvXU6qroNno/aeCApT2yqRvPGBWJreXVEYUc=;
+ b=Zdwa6t+JJ+oHLr3djJnugK4Qcm3LajFRZ1N3jlbBc3PMmGm7cGvIKtyaGdUvwbWcGO
+ lZYLmMPqY2zh1D1Uk06/E9Brz7lVsGhZoKfKBF+x/Jj2pQ7BcEzzc8wTpk9/qPf6ZnCD
+ cjky0aaGGTFQTl8Vh+6Q1FmKHXC2QCVTfsOz6jK32kqnNFYisZF2a4Pwk15QAiO8EtNg
+ Sf9i6YgmMjE16w+FZnvoLjfHcKVnWbs9sThO9CnBJNx/E/vY6DniEpgcKHHO/O4gmxNK
+ OLRIcbNN2jJHOSx6WDiyEThyjtjE2SUkr8kPw/9+SxS6nDRwm394lBkfcXCcUSt9s43P
+ 7QFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0sa3R2ihF5Dy5IUz9+ql6rd3GqWrMn8/HMbYdDYx/jQ=;
- b=RF65nyTEzHVCrYGkQAlQEhunlevnN9bWsiQENKSq9neQMbOvF0VJ5VUhUVbf8Fo+wS
- RejqgG73UZBw71KbS3UH6XJXjuL1YhvStULgyaMgYNGxj9sEZlq6f6VE29zmyrzsfWS7
- AqW5j8QdSYjeh2MH/cRPxF/2Xzxh+KKcXXBrGweMsbjYo1D0k6ZxVbDFMLfn0HxoJwGP
- 7sd9kc6LrfgpK8w4ACgGxtCXjPFlO8rIIViqreRZeMdqfgOuXydsEzeXc9U88dx9mmLd
- /fT6un+9qzI5jAtUsxYLhm8T8A3vB5LLvyk2mPaDPTQtvidD4IHhhY40++7RGpaGFytu
- 8juQ==
-X-Gm-Message-State: ACrzQf0zZf17vJjMR/tsN4LufV5tfqjaNOioiZ+RefLjKheeLnFqUnP/
- XQYs3FQ9UJYtXibTDsvOhnJWOA==
-X-Google-Smtp-Source: AMsMyM46UyYZUrFQb6Z/Xbw6qFUNztv864RI09fgUld6VACEbGHqpaA3AxBG69x862Tl6NTQwxLiRQ==
-X-Received: by 2002:a05:6000:1887:b0:236:7b1a:b14c with SMTP id
- a7-20020a056000188700b002367b1ab14cmr40151909wri.173.1668032876714; 
- Wed, 09 Nov 2022 14:27:56 -0800 (PST)
+ bh=XE5DGm7FvXU6qroNno/aeCApT2yqRvPGBWJreXVEYUc=;
+ b=Vh7jAUCX3BUA2I/PsLPoyn06z9UYuEWuBlkKnsxbN9TKGYULv46CLbVsIRjJgv0Wjv
+ tAlh+QAhvYksvgqemgPr8Io5nMm5h6zeYR9f5O/1eI0y4mQ295E+MqivRWpQKafT2zsU
+ Nfe7ymywy0ALdnMt33B8iCB7zRlzYTa82lCBrQpgsII6cBur9HNpzeNc6RJGmWWYOpCL
+ YzCa/Owr2b9SBglGqIC/3EgQswbgiiORh8v2Ro8GpYYHM4ru6H8Inz5nj00O8IcX0V+S
+ jjoE3hNBntvcFuHMaIZIDOuA9J58z4P691kLZR1NjgEvE/WrOymFN3nCxZWFpOiE/trJ
+ JlQg==
+X-Gm-Message-State: ACrzQf0vcYbjatV1nWlnX5N0/E2xGrQgPGN3nyi+42xcD76cmtfRHSDY
+ 3Bp1GEZvrYwXaG9lcACCcrb2LRxiiJ8/yQ==
+X-Google-Smtp-Source: AMsMyM6/wKvvAALgGupKsgdjPYbeAujULCd9Ap5L8r3zCJWws5ss6dCHe/YDvq03XITDN6WCqxNljw==
+X-Received: by 2002:a05:6000:16c8:b0:236:c60d:22b9 with SMTP id
+ h8-20020a05600016c800b00236c60d22b9mr36081387wrf.526.1668033013565; 
+ Wed, 09 Nov 2022 14:30:13 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- p1-20020a1c5441000000b003b4868eb71bsm2930720wmi.25.2022.11.09.14.27.55
+ z17-20020adfec91000000b002366e8eee11sm13950805wrn.101.2022.11.09.14.30.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Nov 2022 14:27:56 -0800 (PST)
-Message-ID: <7a1fb7fe-22e5-f7cf-6593-630e11bf556a@linaro.org>
-Date: Wed, 9 Nov 2022 23:27:55 +0100
+ Wed, 09 Nov 2022 14:30:13 -0800 (PST)
+Message-ID: <3f256e04-5f32-04e1-011b-bfd3f71a94f6@linaro.org>
+Date: Wed, 9 Nov 2022 23:30:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH] display: include dependencies explicitly
+Subject: Re: [PATCH-for-7.2] hw/display: Declare build_vga_aml() out of
+ "vga_int.h"
 Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Miroslav Rezanina
- <mrezanin@redhat.com>, Frederic Bezies <fredbezies@gmail.com>,
- Laurent Vivier <lvivier@redhat.com>
-References: <20221109222112.74519-1-mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>,
+ Frederic Bezies <fredbezies@gmail.com>, Laurent Vivier <lvivier@redhat.com>
+References: <20221109222312.29347-1-philmd@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221109222112.74519-1-mst@redhat.com>
+In-Reply-To: <20221109222312.29347-1-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,160 +94,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/11/22 23:21, Michael S. Tsirkin wrote:
-> acpi-vga-stub.c pulls in vga_int.h
-> However that currently pulls in ui/console.h which
-> breaks e.g. on systems without pixman.
-> It's better to remove ui/console.h from vga_int.h
-> and directly include it where it's used.
+On 9/11/22 23:23, Philippe Mathieu-Daudé wrote:
+> Commit cfead31326 declared build_vga_aml() in "vga_int.h".
+> This header happens to include various other things, such
+> (indirectly) pixman headers.
 > 
-
-Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
-Reported-by: Frederic Bezies <fredbezies@gmail.com>
-Reported-by: Laurent Vivier <lvivier@redhat.com>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1308
-Fixes: cfead31326 ("AcpiDevAmlIf interface to build VGA device descs")
-
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> The freshly introduced acpi-vga.c includes "vga_int.h" to
+> get build_vga_aml() declaration, but ends including the
+> 'various other things' triggering this build failure (QEMU
+> configured as '--enable-modules --disable-spice'):
+> 
+>    In file included from /home/fred/qemu-git/src/qemu/include/ui/console.h:4,
+>                   from ../hw/display/vga_int.h:30,
+>                   from ../hw/display/acpi-vga.c:4:
+>    include/ui/qemu-pixman.h:12:10: fatal error: pixman.h: No such file or directory
+>       12 | #include <pixman.h>
+>          |          ^~~~~~~~~~
+> 
+> Resolve by declaring build_vga_aml() in a ACPI/VGA specific
+> header named "acpi-vga.h". Adjust MAINTAINERS to avoid
+> checkpatch warnings.
+> 
+> Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
+> Reported-by: Frederic Bezies <fredbezies@gmail.com>
+> Reported-by: Laurent Vivier <lvivier@redhat.com>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1308
+> Fixes: cfead31326 ("AcpiDevAmlIf interface to build VGA device descs")
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   hw/display/vga_int.h        | 1 -
->   include/qemu/typedefs.h     | 2 ++
->   hw/display/ati_2d.c         | 1 +
->   hw/display/cirrus_vga.c     | 1 +
->   hw/display/cirrus_vga_isa.c | 1 +
->   hw/display/vga-isa.c        | 1 +
->   hw/display/vga-mmio.c       | 1 +
->   hw/display/vga-pci.c        | 1 +
->   hw/display/vga.c            | 1 +
->   hw/display/vmware_vga.c     | 1 +
->   10 files changed, 10 insertions(+), 1 deletion(-)
+>   MAINTAINERS                |  1 +
+>   hw/display/acpi-vga-stub.c |  2 +-
+>   hw/display/acpi-vga.c      |  2 +-
+>   hw/display/acpi-vga.h      | 10 ++++++++++
+>   hw/display/vga-pci.c       |  1 +
+>   hw/display/vga_int.h       |  2 --
+>   6 files changed, 14 insertions(+), 4 deletions(-)
+>   create mode 100644 hw/display/acpi-vga.h
 > 
-> diff --git a/hw/display/vga_int.h b/hw/display/vga_int.h
-> index 330406ad9c..7cf0d11201 100644
-> --- a/hw/display/vga_int.h
-> +++ b/hw/display/vga_int.h
-> @@ -27,7 +27,6 @@
->   
->   #include "exec/ioport.h"
->   #include "exec/memory.h"
-> -#include "ui/console.h"
->   
->   #include "hw/display/bochs-vbe.h"
->   #include "hw/acpi/acpi_aml_interface.h"
-> diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-> index 6d4e6d9708..688408e048 100644
-> --- a/include/qemu/typedefs.h
-> +++ b/include/qemu/typedefs.h
-> @@ -132,6 +132,8 @@ typedef struct Visitor Visitor;
->   typedef struct VMChangeStateEntry VMChangeStateEntry;
->   typedef struct VMStateDescription VMStateDescription;
->   typedef struct DumpState DumpState;
-> +typedef struct GraphicHwOps GraphicHwOps;
-> +typedef struct QEMUCursor QEMUCursor;
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index caba73ec41..af4d3bd8fd 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1844,6 +1844,7 @@ S: Supported
+>   F: include/hw/acpi/*
+>   F: include/hw/firmware/smbios.h
+>   F: hw/acpi/*
+> +F: hw/display/acpi*
+>   F: hw/smbios/*
+>   F: hw/i386/acpi-build.[hc]
+>   F: hw/arm/virt-acpi-build.c
 
-Besides the "Please keep this list in case-insensitive alphabetical
-order." in this file header,
+Please discard in favor of
+https://lore.kernel.org/qemu-devel/20221109222112.74519-1-mst@redhat.com/
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
->   /*
->    * Pointer types
-> diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
-> index 692bec91de..7d786653e8 100644
-> --- a/hw/display/ati_2d.c
-> +++ b/hw/display/ati_2d.c
-> @@ -12,6 +12,7 @@
->   #include "ati_regs.h"
->   #include "qemu/log.h"
->   #include "ui/pixel_ops.h"
-> +#include "ui/console.h"
->   
->   /*
->    * NOTE:
-> diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-> index 2577005d03..4cc3567c69 100644
-> --- a/hw/display/cirrus_vga.c
-> +++ b/hw/display/cirrus_vga.c
-> @@ -45,6 +45,7 @@
->   #include "ui/pixel_ops.h"
->   #include "cirrus_vga_internal.h"
->   #include "qom/object.h"
-> +#include "ui/console.h"
->   
->   /*
->    * TODO:
-> diff --git a/hw/display/cirrus_vga_isa.c b/hw/display/cirrus_vga_isa.c
-> index 96144bd690..84be51670e 100644
-> --- a/hw/display/cirrus_vga_isa.c
-> +++ b/hw/display/cirrus_vga_isa.c
-> @@ -31,6 +31,7 @@
->   #include "hw/isa/isa.h"
->   #include "cirrus_vga_internal.h"
->   #include "qom/object.h"
-> +#include "ui/console.h"
->   
->   #define TYPE_ISA_CIRRUS_VGA "isa-cirrus-vga"
->   OBJECT_DECLARE_SIMPLE_TYPE(ISACirrusVGAState, ISA_CIRRUS_VGA)
-> diff --git a/hw/display/vga-isa.c b/hw/display/vga-isa.c
-> index 46abbc5653..2a5437d803 100644
-> --- a/hw/display/vga-isa.c
-> +++ b/hw/display/vga-isa.c
-> @@ -32,6 +32,7 @@
->   #include "qemu/timer.h"
->   #include "hw/loader.h"
->   #include "hw/qdev-properties.h"
-> +#include "ui/console.h"
->   #include "qom/object.h"
->   
->   #define TYPE_ISA_VGA "isa-vga"
-> diff --git a/hw/display/vga-mmio.c b/hw/display/vga-mmio.c
-> index 75dfcedea5..cd2c46776d 100644
-> --- a/hw/display/vga-mmio.c
-> +++ b/hw/display/vga-mmio.c
-> @@ -27,6 +27,7 @@
->   #include "hw/sysbus.h"
->   #include "hw/display/vga.h"
->   #include "hw/qdev-properties.h"
-> +#include "ui/console.h"
->   #include "vga_int.h"
->   
->   /*
-> diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
-> index 9a91de7ed1..df23dbf3a0 100644
-> --- a/hw/display/vga-pci.c
-> +++ b/hw/display/vga-pci.c
-> @@ -30,6 +30,7 @@
->   #include "migration/vmstate.h"
->   #include "vga_int.h"
->   #include "ui/pixel_ops.h"
-> +#include "ui/console.h"
->   #include "qemu/module.h"
->   #include "qemu/timer.h"
->   #include "hw/loader.h"
-> diff --git a/hw/display/vga.c b/hw/display/vga.c
-> index 50ecb1ad02..0cb26a791b 100644
-> --- a/hw/display/vga.c
-> +++ b/hw/display/vga.c
-> @@ -31,6 +31,7 @@
->   #include "vga_int.h"
->   #include "vga_regs.h"
->   #include "ui/pixel_ops.h"
-> +#include "ui/console.h"
->   #include "qemu/timer.h"
->   #include "hw/xen/xen.h"
->   #include "migration/vmstate.h"
-> diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
-> index cedbbde522..53949d2539 100644
-> --- a/hw/display/vmware_vga.c
-> +++ b/hw/display/vmware_vga.c
-> @@ -33,6 +33,7 @@
->   #include "hw/qdev-properties.h"
->   #include "migration/vmstate.h"
->   #include "qom/object.h"
-> +#include "ui/console.h"
->   
->   #undef VERBOSE
->   #define HW_RECT_ACCEL
-
+Note, the MAINTAINERS part is worth salvaging.
 
