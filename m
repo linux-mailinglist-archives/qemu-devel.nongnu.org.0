@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0906230E9
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 18:01:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC976230EE
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 18:02:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osoQw-0003kW-MT; Wed, 09 Nov 2022 12:00:15 -0500
+	id 1osoS1-00041E-RB; Wed, 09 Nov 2022 12:01:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1osoQr-0003jE-Rx
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:00:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1osoQp-00017d-Gk
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:00:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668013205;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xn51H6DYjVjf9shp6E/0IMC7E07oTaEPCEAUwKlDDzU=;
- b=fLZvlEikKl400GZ+j0gXnuUSn84toTbifcVegoOWTzRMSqCuZGSJ+PpbUcRSU2VrQfiFDk
- 3ZiqekvRTSD6EPvFhk+RdCb4HUGTdOAhOX6Bfs4Q0ysbhzvnLDYe1+aX2m531KsJDfTzYV
- KhXtyjhO3eGLfTMbwZBZvBijzKS882k=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-641-RXSMDNqWO1mi_GGy8m2Q4w-1; Wed, 09 Nov 2022 12:00:03 -0500
-X-MC-Unique: RXSMDNqWO1mi_GGy8m2Q4w-1
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-349423f04dbso169061237b3.13
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 09:00:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1osoQx-0003mq-Jj
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:00:15 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1osoQv-00019P-JZ
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:00:15 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ j5-20020a05600c410500b003cfa9c0ea76so1724299wmi.3
+ for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 09:00:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=V5aTWKgcN43+Gn8Ya/Jicxm7hCiOiDyKLSwHBQnrTgs=;
+ b=j7iYK6jbkxxgBEaK9hwd7ZWm526D6cDxC7OiDAnuMvPvKZgHGFCIVkAW7le7Pkb5HW
+ WekmEF0pDyhc9eifFJyQvY25oI2dqiLEfII8jiilBs+jDFTs8K36WXhv5/q6Aou9/Z0b
+ q3ySFQFXkXy00Pf+8jZ9JR7zsJjqecrdVC2opwU+oGGOgmVk6iyz6PEZFim39oPPtvPu
+ 5LVRimAiGp3VyhzRhnw/8kjvKJnnsx3KAQ2cGHWkr9G7jZdkqDz0pIYCxGd3dJiIb/VX
+ bQoNBuV04xUW7B7DVT5biFhGDvQM0vPm3bm+ynyRpjajH1u5bC/VkJePVrWNio87A2lG
+ WDog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=xn51H6DYjVjf9shp6E/0IMC7E07oTaEPCEAUwKlDDzU=;
- b=WP8zO9RA+Fie0AXR6BXeMe8M5GIuPp59JNRd9XWUILOu0i455GCF3DdlQaI4zsrKFD
- jPAAvmHowTaew4Q1tKe+nWRGUU3bFtN90JI7OuoTxq5hhtP7vsCFWIrL3rSusQdmijdd
- xX3jv3KtnByHITaWbQ1MmYMkOvaP4jtQNWJyTiuBnz5+MILbk+jgAm9yNNdZCTA5R+zS
- 7QXOPtafOxhZWRKT31/G5/89A93MYxAG4Y47fd0lN2pBSUGfzCXxgPaiZpSpE+a6Bcp2
- Yv01tHb9QWgE72naETDNMo1HNp8B6ItEogQj5rBfiaARAISPg1worH9JPWw1xgY/YM6y
- fqDQ==
-X-Gm-Message-State: ACrzQf1k2ln02f9t8/SM8vvlHh1a/iH6f0qs/ExQx4qskNyinbr3Ks0J
- OsxdOK+vHS8oQhz/Au55tmASziciNXjq1GBhyk01vpHW9Nd9gg2Ier66codvXbVynUoSrbkwN6I
- GYwWxMZB1kZe/simd5sL5+vz2548PogQ=
-X-Received: by 2002:a25:aa33:0:b0:6d1:a5f:f99 with SMTP id
- s48-20020a25aa33000000b006d10a5f0f99mr32200069ybi.268.1668013202682; 
- Wed, 09 Nov 2022 09:00:02 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM7LuMwEsBlc0mwlpKPQ2ShnkMfKPzpGRmSJ+9178s4QlPmIO9iFECEYgwcZ7W5/mxOTZ9h5Zju1vS1264ApJY8=
-X-Received: by 2002:a25:aa33:0:b0:6d1:a5f:f99 with SMTP id
- s48-20020a25aa33000000b006d10a5f0f99mr32200040ybi.268.1668013202282; 
- Wed, 09 Nov 2022 09:00:02 -0800 (PST)
+ bh=V5aTWKgcN43+Gn8Ya/Jicxm7hCiOiDyKLSwHBQnrTgs=;
+ b=h6M5hBA+4if8QuuFK6bmT9tvCvHzDxQ7kzGML+m5P2oMtEdgvH2mFOuPn/rcYDMIQo
+ WQ55lL9CQIjsDJ5/TWnfBfJoM2V8ISfWUgIW/Zzgm112ENH0Rr0JeVvbn9VWzoO/ALtu
+ 3402YgV1G3VwZGBZkga2DKf/fo49xr3agb+FAsMhG031QxD302N4L1twDe9H3vycRFfn
+ /u4koxivRC5JLrahCwnVqOQ75wRvAAotONwz2Oc62kcDMyh3ne7+jH1xisHgulTvxPYq
+ mSLFAh9ZESi1c6CWH7GAhcLSFNSTuxwPyHoHI9OhJUTYMUq8TRC+R5DxUtAEJC4bAtc0
+ +NBw==
+X-Gm-Message-State: ANoB5pnaUCQhQS+4bFW+K/PAIEQ8NTYidQGyVeQXOC+KxixnV57Ix5BL
+ rbl08wMT5PpV1lZceW49fT7D4nFDSEl+kQ==
+X-Google-Smtp-Source: AA0mqf6gDvvnfZ1ubKJ5WJ0EXs9yuHj4RNNq4XMAGvleioW6mDS++xRP55z9jPJ0zyNkZCi3uWW6TA==
+X-Received: by 2002:a05:600c:4e92:b0:3cf:a6d9:7b03 with SMTP id
+ f18-20020a05600c4e9200b003cfa6d97b03mr13111624wmq.205.1668013211487; 
+ Wed, 09 Nov 2022 09:00:11 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ p5-20020a05600c358500b003c6b9749505sm2514932wmq.30.2022.11.09.09.00.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Nov 2022 09:00:10 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: [PATCH for-8.0 0/2] hw/input/ps2: Convert to 3-phase reset
+Date: Wed,  9 Nov 2022 17:00:07 +0000
+Message-Id: <20221109170009.3498451-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20221109055629.789795-1-leobras@redhat.com>
- <Y2urmk6gG4otYTaZ@work-vm>
-In-Reply-To: <Y2urmk6gG4otYTaZ@work-vm>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Wed, 9 Nov 2022 13:59:51 -0300
-Message-ID: <CAJ6HWG4p78xat61xwPFZT+VAk7ZYFyTvZqqVLNyxw_s3KJ+qJw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] migration: Fix yank on postcopy multifd crashing
- guest after migration
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel@nongnu.org, Li Xiaohui <xiaohli@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lsoaresp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URG_BIZ=0.573 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,144 +87,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 9, 2022 at 10:31 AM Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
->
-> * Leonardo Bras (leobras@redhat.com) wrote:
-> > When multifd and postcopy-ram capabilities are enabled, if a
-> > migrate-start-postcopy is attempted, the migration will finish sending the
-> > memory pages and then crash with the following error:
->
-> How does that happen? Isn't multifd+postcopy still disabled, I see in
-> migrate_caps_check
->
->     if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
->     ....
->         if (cap_list[MIGRATION_CAPABILITY_MULTIFD]) {
->             error_setg(errp, "Postcopy is not yet compatible with multifd");
->             return false;
->         }
->     }
->
+This patchset converts the ps2 keyboard and mouse devices to 3-phase
+reset. The rationale here is that it would be nice to get rid of the
+device_class_set_parent_reset() function, which is used by
+legacy-reset subclasses which want to chain to their parent's reset
+function. There aren't very many of these devices in total, and if we
+convert them all to 3-phase reset they can use the 3-phase-reset
+equivalent (resettable_class_set_parent_phases()).  Eventually this
+will then let us simplify the transitional code for handling old-style
+device reset.
 
-I can't see this happening in upstream code (v7.2.0-rc0). Could you
-please tell me the lines where this happens?
+This is one of a number of patchsets to do this that I'm planning to
+write and send out over the next few weeks. It's all 8.0 material.
 
-I mean, I see cap_list[MIGRATION_CAPABILITY_MULTIFD] and
-cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM] in migrate_caps_check()
-but I can't see them nested like this, so I am probably missing
-something.
+thanks
+-- PMM
 
-This procedure to reproduce was shared by Xiaohui Li (I added a few tweaks):
+Peter Maydell (2):
+  hw/input/ps2: Convert TYPE_PS2_DEVICE to 3-phase reset
+  hw/input/ps2.c: Convert TYPE_PS2_{KBD,MOUSE}_DEVICE to 3-phase reset
 
-1.Boot a guest with any qemu command on source host;
-2.Boot a guest with same qemu command but append '-incoming defer' on
-destination host;
-3.Enable multifd and postcopy capabilities on src and dst hosts:
-{"execute":"migrate-set-capabilities","arguments":{"capabilities":[{"capability":"multifd","state":true}]}}
-{"execute":"migrate-set-capabilities","arguments":{"capabilities":[{"capability":"postcopy-ram","state":true}]}}
-4.During migration is active, switch to postcopy mode:
-{"execute":"migrate-start-postcopy"}
+ include/hw/input/ps2.h |  2 +-
+ hw/input/ps2.c         | 45 +++++++++++++++++++++++++++++-------------
+ 2 files changed, 32 insertions(+), 15 deletions(-)
 
-Best regards,
-Leo
-
-
->
-> Dave
->
-> > qemu-system-x86_64: ../util/yank.c:107: yank_unregister_instance: Assertion
-> > `QLIST_EMPTY(&entry->yankfns)' failed.
-> >
-> > This happens because even though all multifd channels could
-> > yank_register_function(), none of them could unregister it before
-> > unregistering the MIGRATION_YANK_INSTANCE, causing the assert to fail.
-> >
-> > Fix that by calling multifd_load_cleanup() on postcopy_ram_listen_thread()
-> > before MIGRATION_YANK_INSTANCE is unregistered.
-> >
-> > Fixes: b5eea99ec2 ("migration: Add yank feature")
-> > Reported-by: Li Xiaohui <xiaohli@redhat.com>
-> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> > ---
-> >  migration/migration.h |  1 +
-> >  migration/migration.c | 18 +++++++++++++-----
-> >  migration/savevm.c    |  2 ++
-> >  3 files changed, 16 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/migration/migration.h b/migration/migration.h
-> > index cdad8aceaa..240f64efb0 100644
-> > --- a/migration/migration.h
-> > +++ b/migration/migration.h
-> > @@ -473,6 +473,7 @@ void migration_make_urgent_request(void);
-> >  void migration_consume_urgent_request(void);
-> >  bool migration_rate_limit(void);
-> >  void migration_cancel(const Error *error);
-> > +bool migration_load_cleanup(void);
-> >
-> >  void populate_vfio_info(MigrationInfo *info);
-> >  void postcopy_temp_page_reset(PostcopyTmpPage *tmp_page);
-> > diff --git a/migration/migration.c b/migration/migration.c
-> > index 739bb683f3..4f363b2a95 100644
-> > --- a/migration/migration.c
-> > +++ b/migration/migration.c
-> > @@ -486,6 +486,17 @@ void migrate_add_address(SocketAddress *address)
-> >                        QAPI_CLONE(SocketAddress, address));
-> >  }
-> >
-> > +bool migration_load_cleanup(void)
-> > +{
-> > +    Error *local_err = NULL;
-> > +
-> > +    if (multifd_load_cleanup(&local_err)) {
-> > +        error_report_err(local_err);
-> > +        return true;
-> > +    }
-> > +    return false;
-> > +}
-> > +
-> >  static void qemu_start_incoming_migration(const char *uri, Error **errp)
-> >  {
-> >      const char *p = NULL;
-> > @@ -540,8 +551,7 @@ static void process_incoming_migration_bh(void *opaque)
-> >       */
-> >      qemu_announce_self(&mis->announce_timer, migrate_announce_params());
-> >
-> > -    if (multifd_load_cleanup(&local_err) != 0) {
-> > -        error_report_err(local_err);
-> > +    if (migration_load_cleanup()) {
-> >          autostart = false;
-> >      }
-> >      /* If global state section was not received or we are in running
-> > @@ -646,9 +656,7 @@ fail:
-> >      migrate_set_state(&mis->state, MIGRATION_STATUS_ACTIVE,
-> >                        MIGRATION_STATUS_FAILED);
-> >      qemu_fclose(mis->from_src_file);
-> > -    if (multifd_load_cleanup(&local_err) != 0) {
-> > -        error_report_err(local_err);
-> > -    }
-> > +    migration_load_cleanup();
-> >      exit(EXIT_FAILURE);
-> >  }
-> >
-> > diff --git a/migration/savevm.c b/migration/savevm.c
-> > index a0cdb714f7..250caff7f4 100644
-> > --- a/migration/savevm.c
-> > +++ b/migration/savevm.c
-> > @@ -1889,6 +1889,8 @@ static void *postcopy_ram_listen_thread(void *opaque)
-> >          exit(EXIT_FAILURE);
-> >      }
-> >
-> > +    migration_load_cleanup();
-> > +
-> >      migrate_set_state(&mis->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
-> >                                     MIGRATION_STATUS_COMPLETED);
-> >      /*
-> > --
-> > 2.38.1
-> >
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->
+-- 
+2.25.1
 
 
