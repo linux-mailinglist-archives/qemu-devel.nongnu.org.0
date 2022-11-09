@@ -2,80 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB546221B7
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 03:08:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E93C622238
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 03:50:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osaVY-0007Is-Qg; Tue, 08 Nov 2022 21:08:04 -0500
+	id 1osb9I-0001Ig-Gz; Tue, 08 Nov 2022 21:49:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1osaVS-0007IH-G4
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 21:07:58 -0500
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1osaVQ-0008JA-Tv
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 21:07:58 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id v3so14983268pgh.4
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 18:07:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5LEkd/qtbMX2p0tKaDqqxc4WkYTcomjJ9Xq8liuI4jw=;
- b=Jm7P5xS0vgtDsnXHWGC/3ycjCf/hBB/QlP8p2hGNEHFtlibiR5VBx/yn4XzU79jvVi
- 7jxW4t8TZsxtikfgp75POatfdb4ccsvbDlulb8JWc4SAyeDOd9kRmzb1QvIkHAsgcI+D
- S8d12fKq0FjJ4iRI8NUTrELhExJSGxSc4FDmbkbTW3WnFI9w8EJA98qvODpCRgPH3dUr
- qjilVVeqalyEwgFrwmr+6YxFPqzYRgmmwd+E+xiQEkI6aJkyBwIYOVRD4Q5kBYwAvqzr
- nPrpmQrkt31w6dFMjJJLjuo6EEnqbBuHIZ6mjq67sg76Bh7wn0sQEKIiuDLZIEM6BcEJ
- wJzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5LEkd/qtbMX2p0tKaDqqxc4WkYTcomjJ9Xq8liuI4jw=;
- b=FYcsb+kiTOqbVx0rxWXqroXpt7GOdI3m4NhxvdQhvfOSjLpgG6lL10gYuYHnGZWntn
- bZOVNRUlTzN2o7/ms3A23hpw2Zbj5BylyAxg/Wihx9ryiQF4v/bGT5roTGr9aeGLfLuR
- IrLCOrUpJr7+v1RCYPYqdPPfkhYk4tRVoy+YSoifvuF5+nad54Wyr+/eAjs+2Tdgc7+Q
- f7lhssYsI86xU6cnRJP7KeaA4rXF9PWL07TnhUGAcTBkgUMr3hsjjC8R1NLbS2kVj1Q7
- yhQtQbsE0yVCDaVqaSndH/rcotR9CU7tpnpZ9N7TYdXucF9sxmaJttnRsd2ZaQ+6aOAF
- YynA==
-X-Gm-Message-State: ACrzQf1Su4cPFXwA3hCS6QbUIQF9wdSfFGl1jtzrZoY2wAKTLCrez3uS
- o95asgXnDkAG1xxojyDZ6+wQs+nGeH9iRXd2
-X-Google-Smtp-Source: AMsMyM6s/DsoKZ4nxrwg0aemJWX3UrAWbrcpwYytgRL3ZrpxJlmdk6wsMCG6sxs3wG7j4B5r1dvDCQ==
-X-Received: by 2002:a05:6a00:1306:b0:555:6d3f:11ed with SMTP id
- j6-20020a056a00130600b005556d3f11edmr58266724pfu.55.1667959675511; 
- Tue, 08 Nov 2022 18:07:55 -0800 (PST)
-Received: from [10.3.10.183] ([203.47.88.146])
- by smtp.gmail.com with ESMTPSA id
- e17-20020a17090301d100b00177f25f8ab3sm7740166plh.89.2022.11.08.18.07.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Nov 2022 18:07:54 -0800 (PST)
-Message-ID: <2c862b60-66c7-2d0b-1834-94b9f3c103c6@linaro.org>
-Date: Wed, 9 Nov 2022 13:07:49 +1100
+ (Exim 4.90_1) (envelope-from <kai.huang@intel.com>)
+ id 1osb9G-0001IV-0B
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 21:49:06 -0500
+Received: from mga12.intel.com ([192.55.52.136])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kai.huang@intel.com>)
+ id 1osb9D-0003A9-SH
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 21:49:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667962143; x=1699498143;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=JT9qSmVCOixLyiZtI/BYbFb8KHWsKh1ohNOUIG3QAi0=;
+ b=HAOwEvDnWT8E1wgWsUgPr9WFvnLLNTB3blkdRWt8mCL5ca6p6M72DQaY
+ +e25tU5apbrhDw1nusoJFjjcWUHijye0pAum00Hw3dJt/tlLf9tHP13lO
+ 1AqdMcis6N4zQGeIMveIu9jJr1WkjtHXDk8E9jtKMKNHKMN+Ss6oGRCPy
+ cz9r2qbLRSe30UWR1/1GTzcr0Y0K272IAZcJEGI6wj3hyR6SB8lLHgqie
+ /SF8M22kC6scpoPwt5VRSyvjZhBcKzDwwTujC9hlLQqpuG1G4fqxBSVP3
+ P5IproPP8anFIF7MbdZme3P/k7cJ+7vXJUSNVqyLEV/nBbwIObwkv68mA Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="290588889"
+X-IronPort-AV: E=Sophos;i="5.96,149,1665471600"; d="scan'208";a="290588889"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Nov 2022 18:48:56 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="669787893"
+X-IronPort-AV: E=Sophos;i="5.96,149,1665471600"; d="scan'208";a="669787893"
+Received: from scswain-mobl.amr.corp.intel.com (HELO
+ khuang2-desk.gar.corp.intel.com) ([10.212.115.58])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Nov 2022 18:48:54 -0800
+From: Kai Huang <kai.huang@intel.com>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, yang.zhong@linux.intel.com, seanjc@google.com,
+ Kai Huang <kai.huang@intel.com>
+Subject: [PATCH] target/i386: Add SGX aex-notify and EDECCSSA support
+Date: Wed,  9 Nov 2022 15:48:34 +1300
+Message-Id: <20221109024834.172705-1-kai.huang@intel.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH v2] target/loongarch: Fix loongarch fdt addr confict
-Content-Language: en-US
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-Cc: stefanha@gmail.com, yangxiaojuan@loongson.cn, maobibo@loongson.cn
-References: <20221109020449.978064-1-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221109020449.978064-1-gaosong@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=kai.huang@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,27 +75,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/9/22 13:04, Song Gao wrote:
-> Fix LoongArch check-tcg error:
->     TEST    hello on loongarch64
-> qemu-system-loongarch64: Some ROM regions are overlapping
-> These ROM regions might have been loaded by direct user request or by default.
-> They could be BIOS/firmware images, a guest kernel, initrd or some other file loaded into guest memory.
-> Check whether you intended to load all this guest code, and whether it has been built to load to the correct addresses.
-> 
-> The following two regions overlap (in the memory address space):
->     hello ELF program header segment 0 (addresses 0x0000000000200000 - 0x0000000000242000)
->     fdt (addresses 0x0000000000200000 - 0x0000000000300000)
-> make[1]: *** [Makefile:177: run-hello] Error 1
-> 
-> Reported-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->   hw/loongarch/virt.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+The new SGX Asynchronous Exit (AEX) notification mechanism (AEX-notify)
+allows one enclave to receive a notification in the ERESUME after the
+enclave exit due to an AEX.  EDECCSSA is a new SGX user leaf function
+(ENCLU[EDECCSSA]) to facilitate the AEX notification handling.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Whether the hardware supports to create enclave with AEX-notify support
+is enumerated via CPUID.(EAX=0x12,ECX=0x1):EAX[10].  The new EDECCSSA
+user leaf function is enumerated via CPUID.(EAX=0x12,ECX=0x0):EAX[11].
 
+Add support to allow to expose the new SGX AEX-notify feature and the
+new EDECCSSA user leaf function to KVM guest.
 
-r~
+Link: https://lore.kernel.org/lkml/166760360549.4906.809756297092548496.tip-bot2@tip-bot2/
+Link: https://lore.kernel.org/lkml/166760360934.4906.2427175408052308969.tip-bot2@tip-bot2/
+Reviewed-by: Yang Zhong <yang.zhong@linux.intel.com>
+Signed-off-by: Kai Huang <kai.huang@intel.com>
+---
+ target/i386/cpu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 22b681ca37dd..51f212cef50d 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1233,7 +1233,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .feat_names = {
+             "sgx1", "sgx2", NULL, NULL,
+             NULL, NULL, NULL, NULL,
+-            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, "sgx-edeccssa",
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+@@ -1273,7 +1273,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .feat_names = {
+             NULL, "sgx-debug", "sgx-mode64", NULL,
+             "sgx-provisionkey", "sgx-tokenkey", NULL, "sgx-kss",
+-            NULL, NULL, NULL, NULL,
++            NULL, NULL, "sgx-aex-notify", NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+
+base-commit: 466e81ff12013d026e2d0154266fce82bce2ee9b
+-- 
+2.38.1
+
 
