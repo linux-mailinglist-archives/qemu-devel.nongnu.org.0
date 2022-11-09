@@ -2,88 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A1C5622454
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 08:02:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D64622456
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 08:03:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osf5u-0005So-42; Wed, 09 Nov 2022 02:01:54 -0500
+	id 1osf6c-0006dk-5e; Wed, 09 Nov 2022 02:02:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osf5p-0005Qc-Qu
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 02:01:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1osf5o-0001LL-4A
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 02:01:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667977306;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0yDq5uFF1bDHOlQRZKLWD58Arru3aGy3LT0VFgOBqsM=;
- b=PnLsUMTGuqesH66x3pO3JAX5ntw0l9gyh/HydOgZBBjtuRAimAtnFrTzwL9b7Wndpw2ExU
- kuUisCRANac7MpEIUrjRmeSykzA6PG/azz2jH/oQOmqH2ddLFFUu6dQTh41P4v6zr0Dl86
- I9wTIMjT8Ji8cU9YN5N/TDsgJ+AUHj0=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-468-Av26VTDpP8KvBlBQ0AWgtg-1; Wed, 09 Nov 2022 02:01:44 -0500
-X-MC-Unique: Av26VTDpP8KvBlBQ0AWgtg-1
-Received: by mail-qv1-f72.google.com with SMTP id
- ob9-20020a0562142f8900b004bba5363ad9so11104685qvb.8
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 23:01:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1osf6X-0006b4-6p
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 02:02:33 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1osf6V-00023w-Gj
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 02:02:32 -0500
+Received: by mail-pl1-x629.google.com with SMTP id j12so16272750plj.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 23:02:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=iy3i3TDKrp65yr9vk56M6NY8GgxC8G35CVISVv3lJno=;
+ b=NmWxAnjfEkk9wEo1XxKRlSGlCIctP+dmjQk4ztb2to8CutJgyXGHEfSNByXp8kZ9Q5
+ ylNCDcyplMX1wRGCQonvt4l0CI6FOsNxix6EuQf9IaM2lNquicKe5ioKFy8+E7tDx0DE
+ vfkeXd9bzVZsKq8wEg+HVVrSWkfefwe7GaowCVb80dRpBnowYNQbAUeQkdkVoNd1Dz2b
+ PTOonttH3QptSblGkp6XJgndznXcJX5O7SXCXiQ983HoQwZ4e10R2xdPkUUVc+D9gav8
+ 9BqifYDu4f3N+ebbzXLtlPb1jg4tI9uaV9/foxVJnuDAfR4uGv0D09CfqHTS9xzQWgtj
+ gVnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0yDq5uFF1bDHOlQRZKLWD58Arru3aGy3LT0VFgOBqsM=;
- b=6Jxob2AGQx9KCt46cM1r9jO3THzwEKpFZ8t8XyrG+bTBK0nto2WtNEJ3qFwuca6wqO
- sYSizTMC/wdIowmI6yqVnMCvyHubP3awY1U42zH4dH1/FiLSRInQm6I62SzcG2WPuSaZ
- l57prVCFUirtuMs1+R54lRY741rO9r1fkIlmT/SfZFOPQMUEp0JVcR3+d1MkVv1NElWy
- YxtRy9ZHPsNwL2FUrpLA7bxAfeNyIFcvRyi6IL+S5z0GS+ZsA7MxLulzgKyV+pyBmh7w
- mwvbX2aixFjWvZZLwpeWGSgYpJwIVllt6vvzZk6bqQG7kCiEnfBwGYKP0BE7Qxx4RZ0y
- wf1Q==
-X-Gm-Message-State: ACrzQf2+y+hTDFNMmf4nkgu5x9Ig62KOI0kS3iqoxe5MIvikTHSSzDzZ
- MOtQOQsXd9dSYShYNQl7le+giR0uhphBZQ3hzAfZX+Zp0C3RBOdifprcqR8pzOZ1BwL+L4uW5Uh
- XF/E6vHPSgwEgyo0=
-X-Received: by 2002:a05:620a:30a:b0:6e7:ea38:cead with SMTP id
- s10-20020a05620a030a00b006e7ea38ceadmr43230521qkm.702.1667977304380; 
- Tue, 08 Nov 2022 23:01:44 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM6b7L2kSGlwTJuTvmzKoJyvWVIh7UWgw2iPeRjQs+zxt4r0b3T+hTkN+/1SvtvQjfuWAJHMkw==
-X-Received: by 2002:a05:620a:30a:b0:6e7:ea38:cead with SMTP id
- s10-20020a05620a030a00b006e7ea38ceadmr43230509qkm.702.1667977304143; 
- Tue, 08 Nov 2022 23:01:44 -0800 (PST)
-Received: from redhat.com ([185.195.59.52]) by smtp.gmail.com with ESMTPSA id
- bj17-20020a05620a191100b006ef1a8f1b81sm10701255qkb.5.2022.11.08.23.01.41
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iy3i3TDKrp65yr9vk56M6NY8GgxC8G35CVISVv3lJno=;
+ b=ACVHu2M0ZUXgKqPcwMoz8PCIntpw/Xd79OJI97vHEEcEpXpQ6/hoHk9+0NWilcZQWr
+ pOHqyteNjbG1sFZY4Zn5JvPDIPT6/KBZ894tOZ8szUv+MgzzZSJ9wcn5FBBHHR/dGQ4F
+ p4FDjXa0Vc13PQfIsyTngHXhi2arXULS3ceyZky+VL136G8qg4lWlpl85Sc8l3ow7BcW
+ BkrKd3suxmZO2Kv6JhECLbJE3FOFRuxPSRMJ9qc//T2UMQGuHEdZe9vOoAC1B4RqzCaJ
+ qtELojY3iFwYRLJToX8VX1be7zAK8Twa69aihzIwVBu655zG4jF+uM06Sw+2bdq1J9x/
+ +7jg==
+X-Gm-Message-State: ACrzQf0fYx1cSyDwBOmx2XyNTp4pD8vHwpxjKEslEni5sC351SVaStFw
+ oE/H+k/iaoMZCl/ny1vjTfXp40re0MSgeieJ
+X-Google-Smtp-Source: AMsMyM6k8gXDKq8lmDXpHrCcqE0W2yLiEj6tPQ//6bIq6vv3iOU3nXfaD1ae3Mz5VWE0NOFmblR+aQ==
+X-Received: by 2002:a17:90a:8a8c:b0:213:c06c:7003 with SMTP id
+ x12-20020a17090a8a8c00b00213c06c7003mr58140020pjn.147.1667977349964; 
+ Tue, 08 Nov 2022 23:02:29 -0800 (PST)
+Received: from stoup.lan
+ (2001-44b8-2176-c800-855d-0172-a1c2-6464.static.ipv6.internode.on.net.
+ [2001:44b8:2176:c800:855d:172:a1c2:6464])
+ by smtp.gmail.com with ESMTPSA id
+ u8-20020a1709026e0800b0017bb38e4588sm8158784plk.135.2022.11.08.23.02.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Nov 2022 23:01:43 -0800 (PST)
-Date: Wed, 9 Nov 2022 02:01:38 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
- Kangjie Xu <kangjie.xu@linux.alibaba.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>
-Subject: Re: [PULL v4 29/83] virtio: introduce virtio_queue_enable()
-Message-ID: <20221109020000-mutt-send-email-mst@kernel.org>
-References: <20221107224600.934080-30-mst@redhat.com>
- <CAJSP0QX7Q9K5fmxQuHNY9uKtuRGitc5d6jhnk1s+MdykVBkr6Q@mail.gmail.com>
- <CACGkMEva+AEybODA4aWZj1My=P8ZJMZLn9=MLo0ZFJuqdmooTg@mail.gmail.com>
- <20221109013400-mutt-send-email-mst@kernel.org>
- <1667976509.6798587-1-xuanzhuo@linux.alibaba.com>
+ Tue, 08 Nov 2022 23:02:29 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: stefanha@redhat.com
+Subject: [PULL for-7.2 0/2] tcg patch queue
+Date: Wed,  9 Nov 2022 18:02:22 +1100
+Message-Id: <20221109070224.13073-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1667976509.6798587-1-xuanzhuo@linux.alibaba.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,105 +89,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 09, 2022 at 02:48:29PM +0800, Xuan Zhuo wrote:
-> On Wed, 9 Nov 2022 01:39:32 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > On Wed, Nov 09, 2022 at 11:31:23AM +0800, Jason Wang wrote:
-> > > On Wed, Nov 9, 2022 at 3:43 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> > > >
-> > > > On Mon, 7 Nov 2022 at 18:10, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > >
-> > > > > From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-> > > > >
-> > > > > Introduce the interface queue_enable() in VirtioDeviceClass and the
-> > > > > fucntion virtio_queue_enable() in virtio, it can be called when
-> > > > > VIRTIO_PCI_COMMON_Q_ENABLE is written and related virtqueue can be
-> > > > > started. It only supports the devices of virtio 1 or later. The
-> > > > > not-supported devices can only start the virtqueue when DRIVER_OK.
-> > > > >
-> > > > > Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-> > > > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> > > > > Acked-by: Jason Wang <jasowang@redhat.com>
-> > > > > Message-Id: <20221017092558.111082-4-xuanzhuo@linux.alibaba.com>
-> > > > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > > ---
-> > > > >  include/hw/virtio/virtio.h |  2 ++
-> > > > >  hw/virtio/virtio.c         | 14 ++++++++++++++
-> > > > >  2 files changed, 16 insertions(+)
-> > > > >
-> > > > > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> > > > > index 74d76c1dbc..b00b3fcf31 100644
-> > > > > --- a/include/hw/virtio/virtio.h
-> > > > > +++ b/include/hw/virtio/virtio.h
-> > > > > @@ -149,6 +149,7 @@ struct VirtioDeviceClass {
-> > > > >      void (*reset)(VirtIODevice *vdev);
-> > > > >      void (*set_status)(VirtIODevice *vdev, uint8_t val);
-> > > > >      void (*queue_reset)(VirtIODevice *vdev, uint32_t queue_index);
-> > > > > +    void (*queue_enable)(VirtIODevice *vdev, uint32_t queue_index);
-> > > > >      /* For transitional devices, this is a bitmap of features
-> > > > >       * that are only exposed on the legacy interface but not
-> > > > >       * the modern one.
-> > > > > @@ -288,6 +289,7 @@ int virtio_queue_set_host_notifier_mr(VirtIODevice *vdev, int n,
-> > > > >  int virtio_set_status(VirtIODevice *vdev, uint8_t val);
-> > > > >  void virtio_reset(void *opaque);
-> > > > >  void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index);
-> > > > > +void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index);
-> > > > >  void virtio_update_irq(VirtIODevice *vdev);
-> > > > >  int virtio_set_features(VirtIODevice *vdev, uint64_t val);
-> > > > >
-> > > > > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> > > > > index cf5f9ca387..9683b2e158 100644
-> > > > > --- a/hw/virtio/virtio.c
-> > > > > +++ b/hw/virtio/virtio.c
-> > > > > @@ -2495,6 +2495,20 @@ void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
-> > > > >      __virtio_queue_reset(vdev, queue_index);
-> > > > >  }
-> > > > >
-> > > > > +void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
-> > > > > +{
-> > > > > +    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-> > > > > +
-> > > > > +    if (!virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-> > > > > +        error_report("queue_enable is only suppported in devices of virtio "
-> > > > > +                     "1.0 or later.");
-> > > >
-> > > > Why is this triggering here? Maybe virtio_queue_enable() is called too
-> > > > early. I have verified that the Linux guest driver sets VERSION_1. I
-> > > > didn't check what SeaBIOS does.
-> > >
-> > > Looks like a bug, we should check device features here at least and it
-> > > should be guest errors instead of error_report() here.
-> > >
-> > > Thanks
-> > >
-> >
-> > I suspect we should just drop this print. Kangjie?
-> 
-> 
-> I think it is.
-> 
-> At that time, this inspection was only added at hand, and theoretically it
-> should not be performed.
-> 
-> I am responsible for this patch set now.
-> 
-> hi, Michael,
-> 
-> What should I do, do I send a new version again?
-> 
-> Thanks.
+The following changes since commit 60ab36907ded2918d33683f2b66f603b7400d8f3:
 
-I debugged it and replied separately. Can you check EFI drivers too?
+  Update VERSION for v7.2.0-rc0 (2022-11-08 15:53:41 -0500)
 
-> >
-> >
-> > > > $ build/qemu-system-x86_64 -M accel=kvm -m 1G -cpu host -blockdev
-> > > > file,node-name=drive0,filename=test.img -device
-> > > > virtio-blk-pci,drive=drive0
-> > > > qemu: queue_enable is only suppported in devices of virtio 1.0 or later.
-> > > >
-> > > > Stefan
-> > > >
-> >
+are available in the Git repository at:
 
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20221109
+
+for you to fetch changes up to 344b63b380541a63c02ef7a8a6ae66cb0b6f0273:
+
+  accel/tcg: Split out setjmp_gen_code (2022-11-09 12:29:03 +1100)
+
+----------------------------------------------------------------
+Fix -Werror=clobbered issue with tb_gen_code
+
+----------------------------------------------------------------
+Richard Henderson (2):
+      tcg: Move TCG_TARGET_HAS_direct_jump init to tb_gen_code
+      accel/tcg: Split out setjmp_gen_code
+
+ accel/tcg/translate-all.c | 68 +++++++++++++++++++++++------------------------
+ tcg/tcg.c                 | 12 +++++++++
+ 2 files changed, 45 insertions(+), 35 deletions(-)
 
