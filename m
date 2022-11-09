@@ -2,93 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149156231F0
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 18:54:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D735A623209
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 19:07:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ospGR-0000cZ-PZ; Wed, 09 Nov 2022 12:53:27 -0500
+	id 1ospSN-0004nI-De; Wed, 09 Nov 2022 13:05:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ospGQ-0000cF-IA
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:53:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ospSL-0004n1-GB; Wed, 09 Nov 2022 13:05:45 -0500
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ospGO-0006xg-KZ
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:53:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668016403;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fIFfkmHDS92yHk7le82vM/1Y6Sq+JuMyHUNZVyS4r4E=;
- b=UlThhphUvRZ96DV7CvYRuVW8LK7A5sdhf/Oiw4RvXDc0HSuQFrMPPz5uDiZ4EGyuugtZnj
- 4rWC9hSfTmap+ALxhb7/uJ5FPEUMfYu2+P6X+cTMHDMk6bQmVf7xdew9Yeeuk1zU9XanZD
- M68b7H7lAsO27kU6UaXjD2avAZ1t8Uk=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-359-FGBHmlE8Nl-uq7gXiHTvBg-1; Wed, 09 Nov 2022 12:53:22 -0500
-X-MC-Unique: FGBHmlE8Nl-uq7gXiHTvBg-1
-Received: by mail-lj1-f197.google.com with SMTP id
- f14-20020a2e950e000000b0026fa4066f3cso6557288ljh.21
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 09:53:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fIFfkmHDS92yHk7le82vM/1Y6Sq+JuMyHUNZVyS4r4E=;
- b=Ql5zMzF8r3MfzSDoJ0ieYa4h/oLIFjCCvRCcS77ZLPr8ZUt360ocsVDnhcch5ZmhbB
- 2BFxIh1noW+tMalLpPlBgls2OKXgvqeoVzENeUW8ootMj5WewWQHhFsN2eLERRmmoj1A
- NuYnKIHc0JVDsTZ9JACPvPGow9Etyt5qWZtzXY/BSi49oq1PpTnN+Vx3gwAPbgX8pKTH
- DzGt9wI+C48i2K/ZYBsRij0qtUFXhxJQD4wRtKiPFLvUI5t8+6/YbfvGcqyIzJSRmojE
- 49lxcLqLh4p1VHyMY2vbQm7KHLMfUmN8jd/Xqvfuw3ozWo0oHJm90DYEqthQOr17J3gB
- i7Pg==
-X-Gm-Message-State: ACrzQf2Js34oydjcmReL9kVMBoFiwD46D76t4Egxnql5SgFqtL9YYp5s
- Pa53/nJHL/NEYjAo7GSnta+7JhLrFRSfBtKB+3MQaN466vdenc8DSunwDms1TJB1rdeX4Z6C5pb
- 6i9+e4L3EvXU6hhkhFv3Xdxoca2JLaGU=
-X-Received: by 2002:a2e:9d94:0:b0:277:50a:bd5c with SMTP id
- c20-20020a2e9d94000000b00277050abd5cmr7960713ljj.6.1668016400037; 
- Wed, 09 Nov 2022 09:53:20 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5CNWv6qRKUT4zGvHZWpy4cPnjTMrlqtbXPQEAcER6VooEP35Ms+6al4mgBXLTf4wo67EAQTIpxFr4zRaHK/8Q=
-X-Received: by 2002:a2e:9d94:0:b0:277:50a:bd5c with SMTP id
- c20-20020a2e9d94000000b00277050abd5cmr7960694ljj.6.1668016399727; Wed, 09 Nov
- 2022 09:53:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1ospSI-0008CZ-Tc; Wed, 09 Nov 2022 13:05:45 -0500
+Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ (myt6-81d8ab6a9f9d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:520a:0:640:81d8:ab6a])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id 03E9E5F92A;
+ Wed,  9 Nov 2022 21:05:21 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
+ [2a02:6b8:b081:b535::1:28])
+ by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ HSrJdC9NyM-5JN8JtG6; Wed, 09 Nov 2022 21:05:20 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1668017120; bh=wk6/1S1WjLiMo7lT7X7yb+VKKFGfnGHIHgsmylnfJQg=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=Gc8XuuXTIDt6j8vYOfJaJEXAhFvdFA1jvuIXbYa/283QpDEcOALsViJZ/WtyIR+M1
+ jTI+E8zKpK0Roo/mqG0z+PSi+tJdkk+Y5LY4TvlG8qQN/uTAp5n7mnAc6eyC890FPU
+ PCVE+qE1rcen0XjZGGJ6kpGtM0sJ9iuk8a3axDAo=
+Authentication-Results: myt6-81d8ab6a9f9d.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <9fc70d98-24de-0461-cb13-864c7d77e90c@yandex-team.ru>
+Date: Wed, 9 Nov 2022 21:05:19 +0300
 MIME-Version: 1.0
-References: <20221103102741.11201-1-davydov-max@yandex-team.ru>
- <20221103102741.11201-3-davydov-max@yandex-team.ru>
- <CAFn=p-aMT7Z3ybbuLvpZb2dphn5ybhwN=OBnKP23PYWb5KshVg@mail.gmail.com>
- <Y2t1QlBAhqhG9Oaq@redhat.com> <Y2uIL3XkmuiXXSGT@redhat.com>
-In-Reply-To: <Y2uIL3XkmuiXXSGT@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 9 Nov 2022 12:53:08 -0500
-Message-ID: <CAFn=p-ZE3MrNm7Cg=bNamubZMMi13NJJhPcncP5dLj-UBQNcjA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] python/qmp: increase read buffer size
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Maksim Davydov <davydov-max@yandex-team.ru>,
- qemu-devel <qemu-devel@nongnu.org>, 
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Eduardo Habkost <eduardo@habkost.net>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- wangyanan55@huawei.com, Cleber Rosa <crosa@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, 
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>, 
- Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>, 
- Laurent Vivier <lvivier@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000fc594505ed0d547a"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 10/13] block: Call drain callbacks only once
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: eesposit@redhat.com, stefanha@redhat.com, hreitz@redhat.com,
+ pbonzini@redhat.com, qemu-devel@nongnu.org
+References: <20221108123738.530873-1-kwolf@redhat.com>
+ <20221108123738.530873-11-kwolf@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20221108123738.530873-11-kwolf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,239 +74,215 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000fc594505ed0d547a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 11/8/22 15:37, Kevin Wolf wrote:
+> We only need to call both the BlockDriver's callback and the parent
+> callbacks when going from undrained to drained or vice versa. A second
+> drain section doesn't make a difference for the driver or the parent,
+> they weren't supposed to send new requests before and after the second
+> drain.
+> 
+> One thing that gets in the way is the 'ignore_bds_parents' parameter in
+> bdrv_do_drained_begin_quiesce() and bdrv_do_drained_end(): If it is true
+> for the first drain, bs->quiesce_counter will be non-zero, but the
+> parent callbacks still haven't been called, so a second drain where it
+> is false would still have to call them.
+> 
+> Instead of keeping track of this, let's just get rid of the parameter.
+> It was introduced in commit 6cd5c9d7b2d as an optimisation so that
+> during bdrv_drain_all(), we wouldn't recursively drain all parents up to
+> the root for each node, resulting in quadratic complexity. As it happens,
+> calling the callbacks only once solves the same problem, so as of this
+> patch, we'll still have O(n) complexity and ignore_bds_parents is not
+> needed any more.
+> 
+> This patch only ignores the 'ignore_bds_parents' parameter. It will be
+> removed in a separate patch.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>   block.c                      | 13 ++++++-------
+>   block/io.c                   | 24 +++++++++++++-----------
+>   tests/unit/test-bdrv-drain.c | 16 ++++++++++------
+>   3 files changed, 29 insertions(+), 24 deletions(-)
+> 
+> diff --git a/block.c b/block.c
+> index 9d082631d9..8878586f6e 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -2816,7 +2816,6 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
+>   {
+>       BlockDriverState *old_bs = child->bs;
+>       int new_bs_quiesce_counter;
+> -    int drain_saldo;
+>   
+>       assert(!child->frozen);
+>       assert(old_bs != new_bs);
+> @@ -2827,15 +2826,13 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
+>       }
+>   
+>       new_bs_quiesce_counter = (new_bs ? new_bs->quiesce_counter : 0);
+> -    drain_saldo = new_bs_quiesce_counter - child->parent_quiesce_counter;
+>   
+>       /*
+>        * If the new child node is drained but the old one was not, flush
+>        * all outstanding requests to the old child node.
+>        */
+> -    while (drain_saldo > 0 && child->klass->drained_begin) {
+> +    if (new_bs_quiesce_counter && !child->parent_quiesce_counter) {
 
-On Wed, Nov 9, 2022, 6:00 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
+Looks like checking for child->klass->drained_begin was a wrong thing even prepatch?
 
-> On Wed, Nov 09, 2022 at 09:39:14AM +0000, Daniel P. Berrang=C3=A9 wrote:
-> > On Tue, Nov 08, 2022 at 03:38:21PM -0500, John Snow wrote:
-> > > On Thu, Nov 3, 2022 at 6:29 AM Maksim Davydov
-> > > <davydov-max@yandex-team.ru> wrote:
-> > > >
-> > > > After modification of "query-machines" command the buffer size
-> should be
-> > > > more than 452kB to contain output with compat-props.
-> > > >
-> > > > Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
-> > > > Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.r=
-u
-> >
-> > > > ---
-> > > >  python/qemu/qmp/qmp_client.py | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/python/qemu/qmp/qmp_client.py
-> b/python/qemu/qmp/qmp_client.py
-> > > > index 5dcda04a75..659fe4d98c 100644
-> > > > --- a/python/qemu/qmp/qmp_client.py
-> > > > +++ b/python/qemu/qmp/qmp_client.py
-> > > > @@ -197,8 +197,8 @@ async def run(self, address=3D'/tmp/qemu.socket=
-'):
-> > > >      #: Logger object used for debugging messages.
-> > > >      logger =3D logging.getLogger(__name__)
-> > > >
-> > > > -    # Read buffer limit; large enough to accept query-qmp-schema
-> > > > -    _limit =3D (256 * 1024)
-> > > > +    # Read buffer limit; large enough to accept query-machines
-> > > > +    _limit =3D (512 * 1024)
-> > >
-> > > wow :)
-> >
-> > Meanwhile over in python/qemu/qmp/protocol.py the read buffer limit is
-> > set to just 64 kb.
->
+Also, parent_quiesce_counter actually becomes a boolean variable.. Should we stress it by new type and name?
 
-This one will override the other - the protocol limit is for any arbitrary
-full-duplex message-based protocol. It can stay at the lower limit.
+>           bdrv_parent_drained_begin_single(child, true);
+> -        drain_saldo--;
+>       }
+>   
+>       if (old_bs) {
+> @@ -2859,7 +2856,6 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
+>            * more often.
+>            */
 
-(I used protocol.py to implement a qtest client as well, though I didn't
-upstream that piece. If there's interest, I will.)
+the comment above ^^^ should be updated, we are not going to call drained_end more than once anyway
 
->
-> > If the current output of a particular command is known to 450 kb, then
-> > setting this limit to 512 kb is waaaaaaay to conservative, and we'll
-> > inevitably have to change it again when someone finds the next command
-> > that overflows.
-> >
-> > Recall this thread
-> >
-> >    https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg01060.html
-> >
-> > In fact, let me be the someone who demonstrates a real case where 512kb
-> > is not enough....
->
-> Another example...
->
-> Create a guest with 255 vCPUs (current RHEL downstream vCPU limit),
-> and run
->
->   {"execute":"query-stats","arguments":{"target": "vcpu"}}
->
-> it'll get back a 0.38 MB  QMP reply.  RHEL raised the limit to 710
-> vCPUs, giving a little over 1 MB QMP reply. There is a strong desire
-> to go even higher. With 4096 vCPUs it'd get an ~6 MB QMP reply.
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
+>           assert(new_bs->quiesce_counter <= new_bs_quiesce_counter);
 
-You're right, of course. I recalled the thread but I was being lazy about
-it. (Sorry.) I thought, naively, that it was better to speed Maksim along
-for now.
+do we still need this assertion and the comment at all?
 
-I recall you (Daniel) stating that libvirt used a default of 10MB (iirc).
-I'd be happy to adopt that default as well, if only for parity.
+> -        drain_saldo += new_bs->quiesce_counter - new_bs_quiesce_counter;
+>   
+>           if (child->klass->attach) {
+>               child->klass->attach(child);
+> @@ -2869,10 +2865,13 @@ static void bdrv_replace_child_noperm(BdrvChild *child,
+>       /*
+>        * If the old child node was drained but the new one is not, allow
+>        * requests to come in only after the new node has been attached.
+> +     *
+> +     * Update new_bs_quiesce_counter because bdrv_parent_drained_begin_single()
+> +     * polls, which could have changed the value.
+>        */
+> -    while (drain_saldo < 0 && child->klass->drained_end) {
+> +    new_bs_quiesce_counter = (new_bs ? new_bs->quiesce_counter : 0);
+> +    if (!new_bs_quiesce_counter && child->parent_quiesce_counter) {
+>           bdrv_parent_drained_end_single(child);
+> -        drain_saldo++;
+>       }
+>   }
+>   
+> diff --git a/block/io.c b/block/io.c
+> index 870a25d7a5..87c7a92f15 100644
+> --- a/block/io.c
+> +++ b/block/io.c
+> @@ -62,7 +62,7 @@ void bdrv_parent_drained_end_single(BdrvChild *c)
+>   {
+>       IO_OR_GS_CODE();
+>   
+> -    assert(c->parent_quiesce_counter > 0);
+> +    assert(c->parent_quiesce_counter == 1);
+>       c->parent_quiesce_counter--;
+>       if (c->klass->drained_end) {
+>           c->klass->drained_end(c);
+> @@ -109,6 +109,7 @@ static bool bdrv_parent_drained_poll(BlockDriverState *bs, BdrvChild *ignore,
+>   void bdrv_parent_drained_begin_single(BdrvChild *c, bool poll)
+>   {
+>       IO_OR_GS_CODE();
+> +    assert(c->parent_quiesce_counter == 0);
+>       c->parent_quiesce_counter++;
+>       if (c->klass->drained_begin) {
+>           c->klass->drained_begin(c);
+> @@ -352,16 +353,16 @@ void bdrv_do_drained_begin_quiesce(BlockDriverState *bs,
+>                                      BdrvChild *parent, bool ignore_bds_parents)
+>   {
+>       IO_OR_GS_CODE();
+> -    assert(!qemu_in_coroutine());
 
-Maksim, can I trouble you to send a revised patch as an MR to
-gitlab.com/qemu-project/python-qemu-qmp ? If not, a revised patch to the
-mailing list here is fine and with your permission I'll forward-port it
-over to the standalone repo myself. (Or I can just handle it entirely
-myself, if you'd prefer - just let me know.)
+why that is dropped? seems unrelated to the commit
 
-Sorry for the fuss, and thanks for helping to improve QMP testing and
-tooling
+>   
+>       /* Stop things in parent-to-child order */
+>       if (qatomic_fetch_inc(&bs->quiesce_counter) == 0) {
+>           aio_disable_external(bdrv_get_aio_context(bs));
+> -    }
+>   
+> -    bdrv_parent_drained_begin(bs, parent, ignore_bds_parents);
+> -    if (bs->drv && bs->drv->bdrv_drain_begin) {
+> -        bs->drv->bdrv_drain_begin(bs);
+> +        /* TODO Remove ignore_bds_parents, we don't consider it any more */
+> +        bdrv_parent_drained_begin(bs, parent, false);
+> +        if (bs->drv && bs->drv->bdrv_drain_begin) {
+> +            bs->drv->bdrv_drain_begin(bs);
+> +        }
+>       }
+>   }
+>   
+> @@ -412,13 +413,14 @@ static void bdrv_do_drained_end(BlockDriverState *bs, BdrvChild *parent,
+>       assert(bs->quiesce_counter > 0);
+>   
+>       /* Re-enable things in child-to-parent order */
 
---js
+the comment should be moved too, I think
 
->
+> -    if (bs->drv && bs->drv->bdrv_drain_end) {
+> -        bs->drv->bdrv_drain_end(bs);
+> -    }
+> -    bdrv_parent_drained_end(bs, parent, ignore_bds_parents);
+> -
+>       old_quiesce_counter = qatomic_fetch_dec(&bs->quiesce_counter);
+>       if (old_quiesce_counter == 1) {
+> +        if (bs->drv && bs->drv->bdrv_drain_end) {
+> +            bs->drv->bdrv_drain_end(bs);
+> +        }
+> +        /* TODO Remove ignore_bds_parents, we don't consider it any more */
+> +        bdrv_parent_drained_end(bs, parent, false);
+> +
+>           aio_enable_external(bdrv_get_aio_context(bs));
+>       }
+>   }
+> diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
+> index dda08de8db..172bc6debc 100644
+> --- a/tests/unit/test-bdrv-drain.c
+> +++ b/tests/unit/test-bdrv-drain.c
+> @@ -296,7 +296,11 @@ static void test_quiesce_common(enum drain_type drain_type, bool recursive)
+>   
+>       do_drain_begin(drain_type, bs);
+>   
+> -    g_assert_cmpint(bs->quiesce_counter, ==, 1);
+> +    if (drain_type == BDRV_DRAIN_ALL) {
+> +        g_assert_cmpint(bs->quiesce_counter, ==, 2);
+> +    } else {
+> +        g_assert_cmpint(bs->quiesce_counter, ==, 1);
+> +    }
+>       g_assert_cmpint(backing->quiesce_counter, ==, !!recursive);
+>   
+>       do_drain_end(drain_type, bs);
+> @@ -348,8 +352,8 @@ static void test_nested(void)
+>   
+>       for (outer = 0; outer < DRAIN_TYPE_MAX; outer++) {
+>           for (inner = 0; inner < DRAIN_TYPE_MAX; inner++) {
+> -            int backing_quiesce = (outer != BDRV_DRAIN) +
+> -                                  (inner != BDRV_DRAIN);
+> +            int backing_quiesce = (outer == BDRV_DRAIN_ALL) +
+> +                                  (inner == BDRV_DRAIN_ALL);
+>   
+>               g_assert_cmpint(bs->quiesce_counter, ==, 0);
+>               g_assert_cmpint(backing->quiesce_counter, ==, 0);
+> @@ -359,10 +363,10 @@ static void test_nested(void)
+>               do_drain_begin(outer, bs);
+>               do_drain_begin(inner, bs);
+>   
+> -            g_assert_cmpint(bs->quiesce_counter, ==, 2);
+> +            g_assert_cmpint(bs->quiesce_counter, ==, 2 + !!backing_quiesce);
+>               g_assert_cmpint(backing->quiesce_counter, ==, backing_quiesce);
+> -            g_assert_cmpint(s->drain_count, ==, 2);
+> -            g_assert_cmpint(backing_s->drain_count, ==, backing_quiesce);
+> +            g_assert_cmpint(s->drain_count, ==, 1);
+> +            g_assert_cmpint(backing_s->drain_count, ==, !!backing_quiesce);
+>   
+>               do_drain_end(inner, bs);
+>               do_drain_end(outer, bs);
 
---000000000000fc594505ed0d547a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, Nov 9, 2022, 6:00 AM Daniel P. Berrang=C3=A9 &=
-lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">On Wed, Nov 09, 2022 at 09:39:14A=
-M +0000, Daniel P. Berrang=C3=A9 wrote:<br>
-&gt; On Tue, Nov 08, 2022 at 03:38:21PM -0500, John Snow wrote:<br>
-&gt; &gt; On Thu, Nov 3, 2022 at 6:29 AM Maksim Davydov<br>
-&gt; &gt; &lt;<a href=3D"mailto:davydov-max@yandex-team.ru" target=3D"_blan=
-k" rel=3D"noreferrer">davydov-max@yandex-team.ru</a>&gt; wrote:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; After modification of &quot;query-machines&quot; command the=
- buffer size should be<br>
-&gt; &gt; &gt; more than 452kB to contain output with compat-props.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Signed-off-by: Maksim Davydov &lt;<a href=3D"mailto:davydov-=
-max@yandex-team.ru" target=3D"_blank" rel=3D"noreferrer">davydov-max@yandex=
--team.ru</a>&gt;<br>
-&gt; &gt; &gt; Reviewed-by: Vladimir Sementsov-Ogievskiy &lt;<a href=3D"mai=
-lto:vsementsov@yandex-team.ru" target=3D"_blank" rel=3D"noreferrer">vsement=
-sov@yandex-team.ru</a>&gt;<br>
-&gt; &gt; &gt; ---<br>
-&gt; &gt; &gt;=C2=A0 python/qemu/qmp/qmp_client.py | 4 ++--<br>
-&gt; &gt; &gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; diff --git a/python/qemu/qmp/qmp_client.py b/python/qemu/qmp=
-/qmp_client.py<br>
-&gt; &gt; &gt; index 5dcda04a75..659fe4d98c 100644<br>
-&gt; &gt; &gt; --- a/python/qemu/qmp/qmp_client.py<br>
-&gt; &gt; &gt; +++ b/python/qemu/qmp/qmp_client.py<br>
-&gt; &gt; &gt; @@ -197,8 +197,8 @@ async def run(self, address=3D&#39;/tmp/=
-qemu.socket&#39;):<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 #: Logger object used for debugging mess=
-ages.<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 logger =3D logging.getLogger(__name__)<b=
-r>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 # Read buffer limit; large enough to accept q=
-uery-qmp-schema<br>
-&gt; &gt; &gt; -=C2=A0 =C2=A0 _limit =3D (256 * 1024)<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 # Read buffer limit; large enough to accept q=
-uery-machines<br>
-&gt; &gt; &gt; +=C2=A0 =C2=A0 _limit =3D (512 * 1024)<br>
-&gt; &gt; <br>
-&gt; &gt; wow :)<br>
-&gt; <br>
-&gt; Meanwhile over in python/qemu/qmp/protocol.py the read buffer limit is=
-<br>
-&gt; set to just 64 kb.<br></blockquote></div></div><div dir=3D"auto"><br><=
-/div><div dir=3D"auto">This one will override the other - the protocol limi=
-t is for any arbitrary full-duplex message-based protocol. It can stay at t=
-he lower limit.</div><div dir=3D"auto"><br></div><div dir=3D"auto">(I used =
-protocol.py to implement a qtest client as well, though I didn&#39;t upstre=
-am that piece. If there&#39;s interest, I will.)</div><div dir=3D"auto"><br=
-></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex">
-&gt; <br>
-&gt; If the current output of a particular command is known to 450 kb, then=
-<br>
-&gt; setting this limit to 512 kb is waaaaaaay to conservative, and we&#39;=
-ll<br>
-&gt; inevitably have to change it again when someone finds the next command=
-<br>
-&gt; that overflows.<br>
-&gt; <br>
-&gt; Recall this thread<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/=
-2022-09/msg01060.html" rel=3D"noreferrer noreferrer" target=3D"_blank">http=
-s://lists.gnu.org/archive/html/qemu-devel/2022-09/msg01060.html</a><br>
-&gt; <br>
-&gt; In fact, let me be the someone who demonstrates a real case where 512k=
-b<br>
-&gt; is not enough....<br>
-<br>
-Another example...<br>
-<br>
-Create a guest with 255 vCPUs (current RHEL downstream vCPU limit),<br>
-and run<br>
-<br>
-=C2=A0 {&quot;execute&quot;:&quot;query-stats&quot;,&quot;arguments&quot;:{=
-&quot;target&quot;: &quot;vcpu&quot;}}<br>
-<br>
-it&#39;ll get back a 0.38 MB=C2=A0 QMP reply.=C2=A0 RHEL raised the limit t=
-o 710<br>
-vCPUs, giving a little over 1 MB QMP reply. There is a strong desire<br>
-to go even higher. With 4096 vCPUs it&#39;d get an ~6 MB QMP reply.<br>
-<br>
-With regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer noreferrer" target=3D=
-"_blank">https://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a h=
-ref=3D"https://www.flickr.com/photos/dberrange" rel=3D"noreferrer noreferre=
-r" target=3D"_blank">https://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer noreferrer" target=3D"=
-_blank">https://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">https://fstop138.berrange=
-.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer noreferrer" tar=
-get=3D"_blank">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0=
- <a href=3D"https://www.instagram.com/dberrange" rel=3D"noreferrer noreferr=
-er" target=3D"_blank">https://www.instagram.com/dberrange</a> :|<br></block=
-quote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">You&#39;re =
-right, of course. I recalled the thread but I was being lazy about it. (Sor=
-ry.) I thought, naively, that it was better to speed Maksim along for now.<=
-/div><div dir=3D"auto"><br></div><div dir=3D"auto">I recall you (Daniel) st=
-ating that libvirt used a default of 10MB (iirc). I&#39;d be happy to adopt=
- that default as well, if only for parity.</div><div dir=3D"auto"><br></div=
-><div dir=3D"auto">Maksim, can I trouble you to send a revised patch as an =
-MR to <a href=3D"http://gitlab.com/qemu-project/python-qemu-qmp">gitlab.com=
-/qemu-project/python-qemu-qmp</a> ? If not, a revised patch to the mailing =
-list here is fine and with your permission I&#39;ll forward-port it over to=
- the standalone repo myself. (Or I can just handle it entirely myself, if y=
-ou&#39;d prefer - just let me know.)</div><div dir=3D"auto"><br></div><div =
-dir=3D"auto">Sorry for the fuss, and thanks for helping to improve QMP test=
-ing and tooling</div><div dir=3D"auto"><br></div><div dir=3D"auto">--js</di=
-v><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
-x"></blockquote></div></div></div>
-
---000000000000fc594505ed0d547a--
+-- 
+Best regards,
+Vladimir
 
 
