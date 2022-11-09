@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB587622DFE
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 15:32:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C52622E42
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 15:46:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osm6U-0004H6-2j; Wed, 09 Nov 2022 09:30:58 -0500
+	id 1osmKK-0000F8-H2; Wed, 09 Nov 2022 09:45:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osm5S-00048V-DZ; Wed, 09 Nov 2022 09:29:56 -0500
-Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
+ id 1osmKH-0000Eo-7R; Wed, 09 Nov 2022 09:45:13 -0500
+Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1osm5O-0004py-AW; Wed, 09 Nov 2022 09:29:54 -0500
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 28E8E60172;
- Wed,  9 Nov 2022 17:29:23 +0300 (MSK)
+ id 1osmKF-0001q5-7N; Wed, 09 Nov 2022 09:45:12 -0500
+Received: from iva4-f06c35e68a0a.qloud-c.yandex.net
+ (iva4-f06c35e68a0a.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:152e:0:640:f06c:35e6])
+ by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id E1EC15DC20;
+ Wed,  9 Nov 2022 17:44:49 +0300 (MSK)
 Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
  [2a02:6b8:b081:b535::1:28])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- Zc9TdBqAbL-TMNOftsD; Wed, 09 Nov 2022 17:29:22 +0300
+ by iva4-f06c35e68a0a.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ hcddJe3CZ1-imOu7AHR; Wed, 09 Nov 2022 17:44:49 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1668004162; bh=ZODuOeFaxtyqTgtt2gYi4KMdbwdcldBLUkbZWcIQhF8=;
+ t=1668005089; bh=6dVm1lfcOT6R9X2zd9pZ6wDot3EJPdICvA8mnLP5/JE=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=JPlFpXnwUG7R5wsJRAaBRPehSMl+6AY6MswxtZWsnEJcz/Y0eFDMiM4cML8XzrUw+
- ZJurlImkwSOlnruVmG2VOEkKq4fcpvaM6KzlmizQDLwtXj1m0Vp5YzzlHuVr1Jtyqy
- nXQsMa7gwYunez2su36cYuogVB/xS/GjKwG7Upus=
-Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
+ b=PDKQtqW7g44wjPtwmIb107Ie1o4RkD2DnL/3LML8OBubSc97O8FaDLYDy+RRxYA+7
+ /Ui+BL3ay7cCruwKt2/b69zC2q3oKfb7eIvlWXSgbcQdpwcPMGsn+UILsneod1eJ9g
+ eCKvBc2sgvSnIG8xyIcmfp6b082+vNB17vCrDzyk=
+Authentication-Results: iva4-f06c35e68a0a.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <dae1878e-0311-adb0-5eb8-7dbbbf4644b9@yandex-team.ru>
-Date: Wed, 9 Nov 2022 17:29:22 +0300
+Message-ID: <bf93bcbc-a6cd-95ff-dee1-7f7171a5d2de@yandex-team.ru>
+Date: Wed, 9 Nov 2022 17:44:48 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH 03/13] block: Revert .bdrv_drained_begin/end to
- non-coroutine_fn
+Subject: Re: [PATCH 04/13] block: Remove drained_end_counter
 Content-Language: en-US
 To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Cc: eesposit@redhat.com, stefanha@redhat.com, hreitz@redhat.com,
  pbonzini@redhat.com, qemu-devel@nongnu.org
 References: <20221108123738.530873-1-kwolf@redhat.com>
- <20221108123738.530873-4-kwolf@redhat.com>
+ <20221108123738.530873-5-kwolf@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20221108123738.530873-4-kwolf@redhat.com>
+In-Reply-To: <20221108123738.530873-5-kwolf@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.72;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+Received-SPF: pass client-ip=178.154.239.200;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,80 +75,66 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 11/8/22 15:37, Kevin Wolf wrote:
-> Polling during bdrv_drained_end() can be problematic (and in the future,
-> we may get cases for bdrv_drained_begin() where polling is forbidden,
-> and we don't care about already in-flight requests, but just want to
-> prevent new requests from arriving).
+> drained_end_counter is unused now, nobody changes its value any more. It
+> can be removed.
 > 
-> The .bdrv_drained_begin/end callbacks running in a coroutine is the only
-> reason why we have to do this polling, so make them non-coroutine
-> callbacks again. None of the callers actually yield any more.
-> 
-> This means that bdrv_drained_end() effectively doesn't poll any more,
-> even if AIO_WAIT_WHILE() loops are still there (their condition is false
-> from the beginning). This is generally not a problem, but in
-> test-bdrv-drain, some additional explicit aio_poll() calls need to be
-> added because the test case wants to verify the final state after BHs
-> have executed.
-
-So, drained_end_counter is always zero since this commit (and is removed in the next one).
-
+> In cases where we had two almost identical functions that only differed
+> in whether the caller passes drained_end_counter, or whether they would
+> poll for a local drained_end_counter to reach 0, these become a single
+> function.
 > 
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   include/block/block_int-common.h | 10 ++++---
->   block.c                          |  4 +--
->   block/io.c                       | 49 +++++---------------------------
->   block/qed.c                      |  4 +--
->   block/throttle.c                 |  6 ++--
->   tests/unit/test-bdrv-drain.c     | 18 ++++++------
->   6 files changed, 30 insertions(+), 61 deletions(-)
-> 
+
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
 [..]
 
-> --- a/block/qed.c
-> +++ b/block/qed.c
-> @@ -365,7 +365,7 @@ static void bdrv_qed_attach_aio_context(BlockDriverState *bs,
->       }
->   }
 >   
-> -static void coroutine_fn bdrv_qed_co_drain_begin(BlockDriverState *bs)
-> +static void bdrv_qed_co_drain_begin(BlockDriverState *bs)
+>   /* Recursively call BlockDriver.bdrv_drain_begin/end callbacks */
+
+Not about this patch, but what is recursive in bdrv_drain_invoke() ?
+
+> -static void bdrv_drain_invoke(BlockDriverState *bs, bool begin,
+> -                              int *drained_end_counter)
+> +static void bdrv_drain_invoke(BlockDriverState *bs, bool begin)
 >   {
->       BDRVQEDState *s = bs->opaque;
+>       if (!bs->drv || (begin && !bs->drv->bdrv_drain_begin) ||
+>               (!begin && !bs->drv->bdrv_drain_end)) {
+
+[..]
+
 >   
-> @@ -1661,7 +1661,7 @@ static BlockDriver bdrv_qed = {
->       .bdrv_co_check            = bdrv_qed_co_check,
->       .bdrv_detach_aio_context  = bdrv_qed_detach_aio_context,
->       .bdrv_attach_aio_context  = bdrv_qed_attach_aio_context,
-> -    .bdrv_co_drain_begin      = bdrv_qed_co_drain_begin,
-> +    .bdrv_drain_begin         = bdrv_qed_co_drain_begin,
+>   /**
+>    * This function does not poll, nor must any of its recursively called
+> - * functions.  The *drained_end_counter pointee will be incremented
+> - * once 
 
-Rename to bdrv_qed_drain_begin without _co_, as for tests ?
+Seems that is wrong already after previous commit.. Not critical
 
-
->   };
+> for every background operation scheduled, and decremented once
+> - * the operation settles.  Therefore, the pointer must remain valid
+> - * until the pointee reaches 0.  That implies that whoever sets up the
+> - * pointee has to poll until it is 0.
+> - *
+> - * We use atomic operations to access *drained_end_counter, because
+> - * (1) when called from bdrv_set_aio_context_ignore(), the subgraph of
+> - *     @bs may contain nodes in different AioContexts,
+> - * (2) bdrv_drain_all_end() uses the same counter for all nodes,
+> - *     regardless of which AioContext they are in.
+> + * functions.
+>    */
+>   static void bdrv_do_drained_end(BlockDriverState *bs, bool recursive,
+> -                                BdrvChild *parent, bool ignore_bds_parents,
+> -                                int *drained_end_counter)
+> +                                BdrvChild *parent, bool ignore_bds_parents)
+>   {
+>       BdrvChild *child;
+>       int old_quiesce_counter;
 >   
->   static void bdrv_qed_init(void)
-> diff --git a/block/throttle.c b/block/throttle.c
-> index 131eba3ab4..6e3ae1b355 100644
-> --- a/block/throttle.c
-> +++ b/block/throttle.c
-> @@ -214,7 +214,7 @@ static void throttle_reopen_abort(BDRVReopenState *reopen_state)
->       reopen_state->opaque = NULL;
->   }
->   
-> -static void coroutine_fn throttle_co_drain_begin(BlockDriverState *bs)
-> +static void throttle_co_drain_begin(BlockDriverState *bs)
+> -    assert(drained_end_counter != NULL);
+> -
 
-and here.
-
-And you didn't drop coroutine_fn for throttle_co_drain_end
-
-with that fixed:
-
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+[..]
 
 -- 
 Best regards,
