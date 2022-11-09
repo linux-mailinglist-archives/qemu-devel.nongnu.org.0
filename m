@@ -2,111 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C181862225F
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 04:01:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 064A562229F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 04:33:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osbJj-0004OJ-IQ; Tue, 08 Nov 2022 21:59:55 -0500
+	id 1osboX-0002Yf-Ff; Tue, 08 Nov 2022 22:31:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1osbJh-0004O7-93
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 21:59:53 -0500
-Received: from mail-dm3nam02on2060b.outbound.protection.outlook.com
- ([2a01:111:f400:7e83::60b]
- helo=NAM02-DM3-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1osboV-0002YV-D5
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 22:31:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1osbJe-0003w6-VJ
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 21:59:53 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j9fbacrUjIoYH/KMcJyesOk6iGOTOT4CYvziKugKuu7dtN1ux6alTEfTekvWPGy58C6OVvBlfy+VtCpt4hPRCQusZhmiVxC8QjoJETtHUh+zWomcYDuEneuDlOhWCddHN9Uwf5umxTcT52830Lled3dYC5++mfg150q0kJaavjYD+rDUcuoaTAKQwtZ9fPWee5LzqM9Z05orGuxd6roOiZmOBVfVXt27wkEGSVw3C/dbWsNVogLUsDg5JfVA56/GjXBR8WeU4/6hfQEOtKgmYDWz2eFSu8j0KLtTPpwutIwln+nivazgEN9SPU1nc938zmxUryNkH9XWqmZKuVb7Tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C8dZBCDt9j1dVZKgwv3LTAhBWWMOhw64DX2nf/HRfKQ=;
- b=WlIetUljznw3xBJt7kr0t/15WH61FaiW4lJzPt2ngb0FUi3geYzwejmbIc81tp0b9NhfuAa2ao+u5QvcE+O82uZlaHdbhLEGhNS0sObtAssPNL34RmIGPlc+IO63odW/T3BxnUVLlVguNkkK5PUnhMTrpIgcy/0HL5HejPEdnk9yJZS8hxdkvbLhnwOgTCLdLCSobCbV77XMNcji9QJfgyd3vSeD1Kkzy+Wm7yDlAbM11kemNA53IkoI78CcO3syQw8DC+sdh8K//vs/xLxuaDRFPZyVzA41Lve2dhqlnKqHgceyhLGRRPLFrU1XxP1AeSjZ7jwfTWg9ShfC8sl8Cg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C8dZBCDt9j1dVZKgwv3LTAhBWWMOhw64DX2nf/HRfKQ=;
- b=HiVnCKgwmFd8ut2PNFCZhXqybr3uylKfRtwv3cB++5KGU6pdjeyI4GkyO/3jqyx1TBdNlrp8i7YX+4XMv7tG5ZbbFaXndqEut9Qxkbp5VRt8K7FRuE69JHowm0u49vTL0GWz9hg5NU82NACePxLtJVSSd1rOkX/zHH7BiSKmzM4l2uT/5owQfeVtOAbEvSnrmpGD7ivS/CraZUQHhRDw45H1KkLfr4gXi4kOJSqNqUw2MpIljayEFl8Pgr1ECpaTQ2t5oZMYb5j4cVdGay5D8/+sr4pMTbAl5UCet8ev92WdJ3aSI8D1Y4FZqCDO80P69DA1YJ+hRhcO0CPdpEgxwg==
-Received: from CY5PR04CA0010.namprd04.prod.outlook.com (2603:10b6:930:1e::19)
- by SJ0PR12MB5421.namprd12.prod.outlook.com (2603:10b6:a03:3bb::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.27; Wed, 9 Nov
- 2022 02:54:45 +0000
-Received: from CY4PEPF0000B8EE.namprd05.prod.outlook.com
- (2603:10b6:930:1e:cafe::b1) by CY5PR04CA0010.outlook.office365.com
- (2603:10b6:930:1e::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.27 via Frontend
- Transport; Wed, 9 Nov 2022 02:54:45 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CY4PEPF0000B8EE.mail.protection.outlook.com (10.167.241.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5813.11 via Frontend Transport; Wed, 9 Nov 2022 02:54:44 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Tue, 8 Nov 2022
- 18:54:34 -0800
-Received: from nvidia.com (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 8 Nov 2022
- 18:54:32 -0800
-From: Yajun Wu <yajunw@nvidia.com>
-To: <qemu-devel@nongnu.org>, <mst@redhat.com>, <yajunw@nvidia.com>,
- <parav@nvidia.com>
-Subject: [PATCH] vhost: set mem table before device start
-Date: Wed, 9 Nov 2022 10:53:10 +0800
-Message-ID: <20221109025309.1052342-1-yajunw@nvidia.com>
-X-Mailer: git-send-email 2.27.0
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1osboR-0003ou-45
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 22:31:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1667964697;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NuR5OqZiJTZMhgmYbXGzGcUZENRzZi88QOLIKXTehwc=;
+ b=cLL45SHaNV2TAPo+cemIvhgK6qnb/M51MvDMaq+UP9X7+uhst4HIjtoAqGtgFwkOPJKkUK
+ HPP9R6RT2NYYsswwP0VxN1uPwGT1L6ztfgEWAp73SITVpzcIRQMz9TX651LhRuRaDGGMNc
+ Z+nVTIpjcnE0COi9eBDXolzorO0DyVo=
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
+ [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-570-LPjJMQagMLO1bZcgIO1JYA-1; Tue, 08 Nov 2022 22:31:36 -0500
+X-MC-Unique: LPjJMQagMLO1bZcgIO1JYA-1
+Received: by mail-oa1-f71.google.com with SMTP id
+ 586e51a60fabf-13ba8947e4cso7964043fac.6
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 19:31:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NuR5OqZiJTZMhgmYbXGzGcUZENRzZi88QOLIKXTehwc=;
+ b=pwsTMX0M6OYVklx+lDxgn7DS76TBx6BWLBK2Gm1YKcZjlapS3Me/BzBnYHCGuY5oHx
+ 0hOtMygpx7MzTEagfYORrUBOcLnxMhhcs4f7f7wDiigD3/464aEbb8oSYYLpKvaS/ZrK
+ B8W0se7Tgs1BYUV5e0hg4Sf48TRnE7pWCK3T0oyAXuw4tm00lWdDPZiQ3XYbZ9BQtisj
+ IaDaLmLXOYcOfS860Sr08Z+sdZCiMvgbXTOmKVbhG8xOfxggDWml5PbozzFzt80bnT6i
+ UQjwPeJ/3lN2t7rn0yzBA10K20fihDOEzRocORVzFHHvXvlvH1mfaubOfcRbM9YC4wEf
+ tKOg==
+X-Gm-Message-State: ACrzQf0nGiO6D/LUiOgA+xFCgJm+jiL1re4hYTo4VVCbJG/Qo4Wq/MrG
+ MApW/slUbVpSTjN8iSe3D/9LJk1zb1dHr+jaT8M0/+GGNQN4PtfLx5dE4E8MRBPmEsedawgHhHd
+ 2zaEo6DcLYFCt9L4sKaWBVOmBGFg293Y=
+X-Received: by 2002:a05:6830:16c5:b0:66c:6a63:dd4c with SMTP id
+ l5-20020a05683016c500b0066c6a63dd4cmr20727498otr.201.1667964695715; 
+ Tue, 08 Nov 2022 19:31:35 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM6ZE2GhvhVyu8fQbrzilFvzy04FTgqBpYAaROqJcekMbGGjWvCdMYDFEkSQEz5M6kCn5TyR+fZnOF/2r1CiKn8=
+X-Received: by 2002:a05:6830:16c5:b0:66c:6a63:dd4c with SMTP id
+ l5-20020a05683016c500b0066c6a63dd4cmr20727495otr.201.1667964695488; Tue, 08
+ Nov 2022 19:31:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000B8EE:EE_|SJ0PR12MB5421:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3ef054b0-ce13-45db-e8ac-08dac1fdc1c1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BkxHyVfU1qZf0qV6zpAaBDhODzoKSCM1QTa4mSKXEoHgyT8rgNTkFp6j8TOXMVPxhVgfVPOniG8Wq6S62PTqGKr0xV5XQckh7PZb0uNOOAS9G74Wf83p5m09RWY/OLdfNar8q80qoPV0KhcIsob3B412ff6oM5nKLfdnR3AJvDz1FFqSSyyWRpkH691k2ek1zmU/bjRG1tkxRZDDZ4bj5icUcMnaUb8KRLlM7GxjKdTIwZz+SsImJ1tyY4XKg1XRTV83Cdsf9pVTh11BtZd7bjAGg3k87uES9EfXaYHQ/NCizpXCkpROJuTcPC0zSl1QMbE797wewZLmJhftmooKNzlwGM7hPfn5pTekuZQE/Ow2UOg4r7kuuftqsbNO3R81iDrSe2hUSHh+UmFfI/WtY6fE2TDcx11sN1s8jSOTEuFOVymEZzxvtRl7SZScTL94eHnBoUHBM2dOLfJ3xHHwZedQGpsCFXgCwF+tuZupzN9EfxmswGZGCmZ4ncrWmhjpd30TlRKU3yrTP3paHd++5D+j4dIe8JG5rLa9khoTrFmd5meyfaCc/ttr+IRiTT+EBL16d41BNRQfjcFHfGJPTBEzLofvKBPk7PjLaMBxvdYHVMvlXTUdTeCg22JAyBF9amWw2i2koC6giTZLcKZgCigrxexC7Zf/h4nVMoeCmd+ovr7qowxc34erw5gq0nXRShmK7LaXwBjemqmy7sPcuFApKJZiwrUmn6btKVYAsEuZR6b6SflF2thA1n6zP47d7YCGv3Uy/Xi5v20XWOJvyA==
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230022)(4636009)(396003)(346002)(376002)(39860400002)(136003)(451199015)(46966006)(40470700004)(36840700001)(36860700001)(36756003)(356005)(7636003)(82740400003)(86362001)(6636002)(83380400001)(6666004)(40480700001)(55016003)(40460700003)(1076003)(2906002)(336012)(186003)(426003)(2616005)(26005)(47076005)(16526019)(7696005)(6286002)(316002)(70586007)(70206006)(110136005)(478600001)(8676002)(82310400005)(8936002)(5660300002)(41300700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2022 02:54:44.6381 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ef054b0-ce13-45db-e8ac-08dac1fdc1c1
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000B8EE.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5421
-Received-SPF: softfail client-ip=2a01:111:f400:7e83::60b;
- envelope-from=yajunw@nvidia.com;
- helo=NAM02-DM3-obe.outbound.protection.outlook.com
+References: <20221107224600.934080-1-mst@redhat.com>
+ <20221107224600.934080-30-mst@redhat.com>
+ <CAJSP0QX7Q9K5fmxQuHNY9uKtuRGitc5d6jhnk1s+MdykVBkr6Q@mail.gmail.com>
+In-Reply-To: <CAJSP0QX7Q9K5fmxQuHNY9uKtuRGitc5d6jhnk1s+MdykVBkr6Q@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 9 Nov 2022 11:31:23 +0800
+Message-ID: <CACGkMEva+AEybODA4aWZj1My=P8ZJMZLn9=MLo0ZFJuqdmooTg@mail.gmail.com>
+Subject: Re: [PULL v4 29/83] virtio: introduce virtio_queue_enable()
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Kangjie Xu <kangjie.xu@linux.alibaba.com>, qemu-devel@nongnu.org, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,44 +96,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Today guest memory information (through VHOST_USER_SET_MEM_TABLE)
-is sent out during vhost device start. Due to this delay, memory
-pinning is delayed. For 4G guest memory, a VFIO driver usually
-takes around 400+msec to pin the memory.
+On Wed, Nov 9, 2022 at 3:43 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>
+> On Mon, 7 Nov 2022 at 18:10, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> >
+> > Introduce the interface queue_enable() in VirtioDeviceClass and the
+> > fucntion virtio_queue_enable() in virtio, it can be called when
+> > VIRTIO_PCI_COMMON_Q_ENABLE is written and related virtqueue can be
+> > started. It only supports the devices of virtio 1 or later. The
+> > not-supported devices can only start the virtqueue when DRIVER_OK.
+> >
+> > Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> > Acked-by: Jason Wang <jasowang@redhat.com>
+> > Message-Id: <20221017092558.111082-4-xuanzhuo@linux.alibaba.com>
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > ---
+> >  include/hw/virtio/virtio.h |  2 ++
+> >  hw/virtio/virtio.c         | 14 ++++++++++++++
+> >  2 files changed, 16 insertions(+)
+> >
+> > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> > index 74d76c1dbc..b00b3fcf31 100644
+> > --- a/include/hw/virtio/virtio.h
+> > +++ b/include/hw/virtio/virtio.h
+> > @@ -149,6 +149,7 @@ struct VirtioDeviceClass {
+> >      void (*reset)(VirtIODevice *vdev);
+> >      void (*set_status)(VirtIODevice *vdev, uint8_t val);
+> >      void (*queue_reset)(VirtIODevice *vdev, uint32_t queue_index);
+> > +    void (*queue_enable)(VirtIODevice *vdev, uint32_t queue_index);
+> >      /* For transitional devices, this is a bitmap of features
+> >       * that are only exposed on the legacy interface but not
+> >       * the modern one.
+> > @@ -288,6 +289,7 @@ int virtio_queue_set_host_notifier_mr(VirtIODevice *vdev, int n,
+> >  int virtio_set_status(VirtIODevice *vdev, uint8_t val);
+> >  void virtio_reset(void *opaque);
+> >  void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index);
+> > +void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index);
+> >  void virtio_update_irq(VirtIODevice *vdev);
+> >  int virtio_set_features(VirtIODevice *vdev, uint64_t val);
+> >
+> > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> > index cf5f9ca387..9683b2e158 100644
+> > --- a/hw/virtio/virtio.c
+> > +++ b/hw/virtio/virtio.c
+> > @@ -2495,6 +2495,20 @@ void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+> >      __virtio_queue_reset(vdev, queue_index);
+> >  }
+> >
+> > +void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
+> > +{
+> > +    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+> > +
+> > +    if (!virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+> > +        error_report("queue_enable is only suppported in devices of virtio "
+> > +                     "1.0 or later.");
+>
+> Why is this triggering here? Maybe virtio_queue_enable() is called too
+> early. I have verified that the Linux guest driver sets VERSION_1. I
+> didn't check what SeaBIOS does.
 
-This time is accounted towards the VM downtime. When live migrating
-a VM, vhost device start is occuring in vmstate load stage.
+Looks like a bug, we should check device features here at least and it
+should be guest errors instead of error_report() here.
 
-Moving set mem table just after VM bootup, before device start can
-let backend have enough time to pin the guest memory before starting
-the device. This improvements reduces VM downtime by 400+msec.
+Thanks
 
-Signed-off-by: Yajun Wu <yajunw@nvidia.com>
-Acked-by: Parav Pandit <parav@nvidia.com>
----
- hw/virtio/vhost.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index f758f177bb..73e473cd84 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -539,6 +539,14 @@ static void vhost_commit(MemoryListener *listener)
-     }
- 
-     if (!dev->started) {
-+        /* Backend can pin memory before device start, reduce LM downtime */
-+        if (dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_USER &&
-+            dev->n_mem_sections) {
-+            r = dev->vhost_ops->vhost_set_mem_table(dev, dev->mem);
-+            if (r < 0) {
-+                VHOST_OPS_DEBUG(r, "vhost_set_mem_table failed");
-+            }
-+        }
-         goto out;
-     }
- 
--- 
-2.27.0
+>
+> $ build/qemu-system-x86_64 -M accel=kvm -m 1G -cpu host -blockdev
+> file,node-name=drive0,filename=test.img -device
+> virtio-blk-pci,drive=drive0
+> qemu: queue_enable is only suppported in devices of virtio 1.0 or later.
+>
+> Stefan
+>
 
 
