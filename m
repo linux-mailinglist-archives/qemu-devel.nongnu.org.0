@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2EA66236A8
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 23:39:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA026236CE
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 23:52:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ostiF-0004nD-BX; Wed, 09 Nov 2022 17:38:27 -0500
+	id 1ostu0-00081h-OM; Wed, 09 Nov 2022 17:50:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ostiE-0004kX-02
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 17:38:26 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ostty-00080t-WB; Wed, 09 Nov 2022 17:50:35 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ostiC-0003Jv-8U
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 17:38:25 -0500
-Received: by mail-wr1-x433.google.com with SMTP id l14so28046841wrw.2
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 14:38:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Iy8yy8vlGlMp+knGqUVGwF0LY20Vx3+cmnoWREb+ch8=;
- b=lxZFw0sUJIJJhHcMs0q6xv4JSZYnXk5uz77g3f+ZvFYUIpCmdCYUv7d1UW3feohUiM
- NVxPkrJWbW/2ggEXTIszBBhiyCxZzovDcoLLFXbkrvRCKM7Gf63a0x2NxPbMU+hJ2DgJ
- 5P0gcVrsPPLkJx2CKtnzT+4BDSRldWdNhzJSQB+8ddUlCs9d70XxUMU1zJv6BXc4/PAU
- hsqTEwhesPc8SeUxYoyJk7RUOFikxlAAKZrDXzktHVoejkXrtEIv/47a+jJgU5B2PdUC
- uXludtbLCBPSC9jYj+s3TntAjWgS96nt4A+BeDUSxc7jtsv5RpvrLabIi6oKJbi9fULH
- Bdgw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1osttx-0004fR-5Q; Wed, 09 Nov 2022 17:50:34 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ z5-20020a17090a8b8500b00210a3a2364fso4636692pjn.0; 
+ Wed, 09 Nov 2022 14:50:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Nnjg7sYGcGV8ZMC7cM2uPN/IB+TuO9/gM8xS8DM9fYE=;
+ b=Bu2fcSZPwe4BPMaPa6J4bed6gGGMhFFntfCjMhYLFb7AWntxVwi7qfD5X1/ggbqOn7
+ JGxqqggmmpewD+szy4K4PDN87zkfvYiJaJmwfL3fS02GFBqJKY3/2Pg32opje22o+kF4
+ uahAYyfyM3bsmHKAvLTr4y+4F0RRbFMbabQqBsYO4GLdM3XaSdyzZdXwT/hxz8h50QmI
+ oJjjO06JhUvUE5dTZhMBmYkWXtSHL9qSPULq0lkAX38bFUeyvXejPhyJJwyDqkCA0dJW
+ iBKSwJX5zHx5/2mi/2s8+YgNPGc8eDNn0EkHCMCERey2HH9qX/6x00eghy9OfMW9xrSM
+ r2QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Iy8yy8vlGlMp+knGqUVGwF0LY20Vx3+cmnoWREb+ch8=;
- b=tEkZxjGOTHBy9exu7qqgcU4ynsgtAM5wQ0I1PAjUlFs01TsYNvDL+2qETViXKbR5XE
- dtj1OjwYi1VRVW87KANJzpydAsK+cnmdvzTYWX4eVRMJ1vHtU2lHkbBnaM59D+yupkwD
- hpWCzz2g+2jyae3JLOAph12pxn+nXUZ1fTm1QDOnoX8mcrNnlCcP6KOvQwdKwD0uEZuB
- dAZZn8CgZQb651RGoibJiz/DZoKwQcLlF9QsmVgkJZBeYkKegUJk82/FvQQmtunudcZS
- 5U43hs68g/qrhv3xPx0JW1Ly/LKiv7UU4w7uiAPY6z0hFfAEpf/XOoTYdHEzzM/QVkta
- kKTA==
-X-Gm-Message-State: ACrzQf2S9j6kbov932mhB4ZE8DGMvjxbXH6KjAHtvIhwOARQOco4fR4Q
- EfE7Qc0788es3ctVF155yroigZdBSq5FXg==
-X-Google-Smtp-Source: AMsMyM68yBf0N1XwAHxV/5TX46nk9xDLa3VvZLTiVWYfegGCSI9ebk5GcxckpM8dxS6T8bP32p2+/w==
-X-Received: by 2002:a05:6000:110b:b0:236:c717:5015 with SMTP id
- z11-20020a056000110b00b00236c7175015mr37086947wrw.439.1668033502878; 
- Wed, 09 Nov 2022 14:38:22 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- m6-20020a05600c4f4600b003c6cd82596esm3290315wmq.43.2022.11.09.14.38.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Nov 2022 14:38:22 -0800 (PST)
-Message-ID: <a67d3ad1-babf-e165-c77c-8442a59acb70@linaro.org>
-Date: Wed, 9 Nov 2022 23:38:21 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Nnjg7sYGcGV8ZMC7cM2uPN/IB+TuO9/gM8xS8DM9fYE=;
+ b=CDcJcFjQ0c5eHF3niywR/gdZDnspdbsqiEqOTZRPAoOMzxw227ODyA/+SB21GtrxFx
+ D4Yfvo+exyswe1K3zjEJD442fmFV2TxD64FvbSUpCH2pnaa9gPW9HRRNuVWltTEsrTYE
+ C6PTX0r1yV/AD8fVqJlKp1YqqbboJStk3A6j6P9TergY/7IWn1j1HZyqI2FfVH8PL91G
+ rsyXbmMjx7DR164Pdw3dq4SZm50f29eg6dqEdodmzQD64Zc1TL7jKG92fK9NpcY0Ks5+
+ KQvH8QliGTtIPL1aJb6ef+cpc/0XXxXYwsSbeYO+3zlOhSqEW9QmS5y2ocgQXgSdw/r6
+ 9vfA==
+X-Gm-Message-State: ACrzQf2B4PYfJ72lFZ+FcN0S6YPkJ/Pzmwq2FkwYDUM0iY59CDita1qc
+ 4apTdmOzeE9fH3pguquuZYeCpaYwvVWgNH2QIas=
+X-Google-Smtp-Source: AMsMyM5+no1gblYIAStj7C0B4lH+gTKtDmBBEsbmlFZ4ZIuYz4zcRBwEfNGLyk+ytuBaGEvEYzco75k9AN362MX9x64=
+X-Received: by 2002:a17:902:7294:b0:187:146c:316f with SMTP id
+ d20-20020a170902729400b00187146c316fmr57105475pll.149.1668034231201; Wed, 09
+ Nov 2022 14:50:31 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH for-8.0 7/9] hw/intc: Convert TYPE_ARM_GICV3_ITS_COMMON to
- 3-phase reset
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20221109161444.3397405-1-peter.maydell@linaro.org>
- <20221109161444.3397405-8-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221109161444.3397405-8-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20221013062946.7530-1-zhiwei_liu@linux.alibaba.com>
+ <20221013062946.7530-3-zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <20221013062946.7530-3-zhiwei_liu@linux.alibaba.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 10 Nov 2022 08:50:04 +1000
+Message-ID: <CAKmqyKOFKjHG22h-=E4gvhXoq8N2GWeqsV++4pXoYyFG_Hqrow@mail.gmail.com>
+Subject: Re: [PATCH v1 2/4] target/riscv: Add itrigger support when icount is
+ enabled
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Alistair.Francis@wdc.com, 
+ palmer@dabbelt.com, bin.meng@windriver.com, sergey.matyukevich@syntacore.com, 
+ vladimir.isaev@syntacore.com, anatoly.parshintsev@syntacore.com, 
+ philipp.tomsich@vrull.eu, zhiwei_liu@c-sky.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,14 +87,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 9/11/22 17:14, Peter Maydell wrote:
-> Convert the TYPE_ARM_GICV3_ITS_COMMON parent class to 3-phase reset.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On Thu, Oct 13, 2022 at 4:43 PM LIU Zhiwei <zhiwei_liu@linux.alibaba.com> wrote:
+>
+> The max count in itrigger can be 0x3FFF, which will cause a no trivial
+> translation and execution overload.
+>
+> When icount is enabled, QEMU provides API that can fetch guest
+> instruction number. Thus, we can set an timer for itrigger with
+> the count as deadline.
+>
+> Only when timer expires or priviledge mode changes, do lazy update
+> to count.
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->   hw/intc/arm_gicv3_its_common.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
+>  target/riscv/cpu.h        |  2 ++
+>  target/riscv/cpu_helper.c |  3 ++
+>  target/riscv/debug.c      | 59 +++++++++++++++++++++++++++++++++++++++
+>  target/riscv/debug.h      |  1 +
+>  4 files changed, 65 insertions(+)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 24bafda27d..13ca0f20ae 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -329,6 +329,8 @@ struct CPUArchState {
+>      target_ulong tdata3[RV_MAX_TRIGGERS];
+>      struct CPUBreakpoint *cpu_breakpoint[RV_MAX_TRIGGERS];
+>      struct CPUWatchpoint *cpu_watchpoint[RV_MAX_TRIGGERS];
+> +    QEMUTimer *itrigger_timer[RV_MAX_TRIGGERS];
+> +    int64_t last_icount;
+>
+>      /* machine specific rdtime callback */
+>      uint64_t (*rdtime_fn)(void *);
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 263282f230..7d8089b218 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -676,6 +676,9 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+>      if (newpriv == PRV_H) {
+>          newpriv = PRV_U;
+>      }
+> +    if (icount_enabled() && newpriv != env->priv) {
+> +        riscv_itrigger_update_priv(env);
+> +    }
+>      /* tlb_flush is unnecessary as mode is contained in mmu_idx */
+>      env->priv = newpriv;
+>      env->xl = cpu_recompute_xl(env);
+> diff --git a/target/riscv/debug.c b/target/riscv/debug.c
+> index 45a3537d5c..5ff70430a1 100644
+> --- a/target/riscv/debug.c
+> +++ b/target/riscv/debug.c
+> @@ -30,6 +30,7 @@
+>  #include "trace.h"
+>  #include "exec/exec-all.h"
+>  #include "exec/helper-proto.h"
+> +#include "sysemu/cpu-timers.h"
+>
+>  /*
+>   * The following M-mode trigger CSRs are implemented:
+> @@ -569,6 +570,62 @@ void helper_itrigger_match(CPURISCVState *env)
+>      }
+>  }
+>
+> +static void riscv_itrigger_update_count(CPURISCVState *env)
+> +{
+> +    int count, executed;
+> +    /*
+> +     * Record last icount, so that we can evaluate the executed instructions
+> +     * since last priviledge mode change or timer expire.
+> +     */
+> +    int64_t last_icount = env->last_icount, current_icount;
+> +    current_icount = env->last_icount = icount_get_raw();
+> +
+> +    for (int i = 0; i < RV_MAX_TRIGGERS; i++) {
+> +        if (get_trigger_type(env, i) != TRIGGER_TYPE_INST_CNT) {
+> +            continue;
+> +        }
+> +        count = itrigger_get_count(env, i);
+> +        if (!count) {
+> +            continue;
+> +        }
+> +        /*
+> +         * Only when priviledge is changed or itrigger timer expires,
+> +         * the count field in itrigger tdata1 register is updated.
+> +         * And the count field in itrigger only contains remaining value.
+> +         */
+> +        if (check_itrigger_priv(env, i)) {
+> +            /*
+> +             * If itrigger enabled in this priviledge mode, the number of
+> +             * executed instructions since last priviledge change
+> +             * should be reduced from current itrigger count.
+> +             */
+> +            executed = current_icount - last_icount;
+> +            itrigger_set_count(env, i, count - executed);
+> +            if (count == executed) {
+> +                do_trigger_action(env, i);
+> +            }
+> +        } else {
+> +            /*
+> +             * If itrigger is not enabled in this priviledge mode,
+> +             * the number of executed instructions will be discard and
+> +             * the count field in itrigger will not change.
+> +             */
+> +            timer_mod(env->itrigger_timer[i],
+> +                      current_icount + count);
+> +        }
+> +    }
+> +}
+> +
+> +static void riscv_itrigger_timer_cb(void *opaque)
+> +{
+> +    riscv_itrigger_update_count((CPURISCVState *)opaque);
+> +}
+> +
+> +void riscv_itrigger_update_priv(CPURISCVState *env)
+> +{
+> +    riscv_itrigger_update_count(env);
+> +}
+> +
+>  target_ulong tdata_csr_read(CPURISCVState *env, int tdata_index)
+>  {
+>      switch (tdata_index) {
+> @@ -798,5 +855,7 @@ void riscv_trigger_init(CPURISCVState *env)
+>          env->tdata3[i] = 0;
+>          env->cpu_breakpoint[i] = NULL;
+>          env->cpu_watchpoint[i] = NULL;
+> +        env->itrigger_timer[i] = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+> +                                              riscv_itrigger_timer_cb, env);
+>      }
+>  }
+> diff --git a/target/riscv/debug.h b/target/riscv/debug.h
+> index cc3358e69b..c471748d5a 100644
+> --- a/target/riscv/debug.h
+> +++ b/target/riscv/debug.h
+> @@ -146,4 +146,5 @@ bool riscv_cpu_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp);
+>  void riscv_trigger_init(CPURISCVState *env);
+>
+>  bool riscv_itrigger_enabled(CPURISCVState *env);
+> +void riscv_itrigger_update_priv(CPURISCVState *env);
+>  #endif /* RISCV_DEBUG_H */
+> --
+> 2.17.1
+>
+>
 
