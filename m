@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3609A622B86
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 13:29:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B004622B87
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 13:30:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1oskCS-00056i-G7; Wed, 09 Nov 2022 07:29:00 -0500
+	id 1oskCy-0005LQ-Lz; Wed, 09 Nov 2022 07:29:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oskCL-00053w-Qj
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 07:28:54 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oskCw-0005Kk-CH
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 07:29:30 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oskCK-0007bO-1i
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 07:28:53 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oskCu-0008Sp-Ko
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 07:29:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667996931;
+ s=mimecast20190719; t=1667996968;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=qCuUJa0VPDsqXDx+XzFGqn8Jfj9u/LtQeK0wKkgKolk=;
- b=TQyGY5uViMVeeT1K58ACsoEOIIhtKno+3CvxgfQiebxWiE3yNfxZY0KNVB4SmSvu8nGoaU
- 21nA+U+V0jm8gEuZTg1DtHK5p+Rlffa6M08gZwpS609nGrK+qerejdLrgPAXRxPnfCZG11
- 9JYKIfVx6zUNw67sqlXXmMM7rgvD41A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oIfbGEpMn3ZxHXULHbON+b9cK8EcMQ0TguPrHQLFt7k=;
+ b=Z3LNx3ciSEq+6wwAjPeZqQEiPm+cAGud8QKXNkIE+ZbsDtWI2sWTpI0LDYhqk01hC/BYET
+ YJA83i56SiJaf9a0BBT5/4VKGvLieCdlPaCfdiYpL6UobP3ArSesaom+Wou/u1TQaRwLVg
+ 4pgqF1w+A83Gmr9ZegQSBGNAHRuh7BQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-99-8lgE_64VOPWHsWK7GAKWNg-1; Wed, 09 Nov 2022 07:28:47 -0500
-X-MC-Unique: 8lgE_64VOPWHsWK7GAKWNg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-373-MRJibsNKN8y70_Yxeg-aVg-1; Wed, 09 Nov 2022 07:29:24 -0500
+X-MC-Unique: MRJibsNKN8y70_Yxeg-aVg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 526CE858F13;
- Wed,  9 Nov 2022 12:28:47 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D44F492B17;
- Wed,  9 Nov 2022 12:28:46 +0000 (UTC)
-Date: Wed, 9 Nov 2022 13:28:44 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-block@nongnu.org, eesposit@redhat.com, stefanha@redhat.com,
- hreitz@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH 02/13] test-bdrv-drain: Don't yield in
- .bdrv_co_drained_begin/end()
-Message-ID: <Y2uc/Me+wcxoeiC9@redhat.com>
-References: <20221108123738.530873-1-kwolf@redhat.com>
- <20221108123738.530873-3-kwolf@redhat.com>
- <7c2df33b-c7a2-6ed6-d198-1e70c1a009d5@yandex-team.ru>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4617F380671D;
+ Wed,  9 Nov 2022 12:29:24 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CC37EC16922;
+ Wed,  9 Nov 2022 12:29:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C16CD21E6921; Wed,  9 Nov 2022 13:29:20 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  Keith Busch
+ <kbusch@kernel.org>,  Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH 1/2] hw/nvme: fix incorrect use of errp/local_err
+References: <20221109105357.30430-1-its@irrelevant.dk>
+ <20221109105357.30430-2-its@irrelevant.dk>
+Date: Wed, 09 Nov 2022 13:29:20 +0100
+In-Reply-To: <20221109105357.30430-2-its@irrelevant.dk> (Klaus Jensen's
+ message of "Wed, 9 Nov 2022 11:53:56 +0100")
+Message-ID: <87wn84nwf3.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7c2df33b-c7a2-6ed6-d198-1e70c1a009d5@yandex-team.ru>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,104 +80,244 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 09.11.2022 um 11:50 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> On 11/8/22 15:37, Kevin Wolf wrote:
-> > We want to change .bdrv_co_drained_begin/end() back to be non-coroutine
-> > callbacks, so in preparation, avoid yielding in their implementation.
-> > 
-> > This does almost the same as the existing logic in bdrv_drain_invoke(),
-> > by creating and entering coroutines internally. However, since the test
-> > case is by far the heaviest user of coroutine code in drain callbacks,
-> > it is preferable to have the complexity in the test case rather than the
-> > drain core, which is already complicated enough without this.
-> > 
-> > The behaviour for bdrv_drain_begin() is unchanged because we increase
-> > bs->in_flight and this is still polled. However, bdrv_drain_end()
-> > doesn't wait for the spawned coroutine to complete any more. This is
-> > fine, we don't rely on bdrv_drain_end() restarting all operations
-> > immediately before the next aio_poll().
-> > 
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
-> >   tests/unit/test-bdrv-drain.c | 64 ++++++++++++++++++++++++++----------
-> >   1 file changed, 46 insertions(+), 18 deletions(-)
-> > 
-> > diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
-> > index 09dc4a4891..24f34e24ad 100644
-> > --- a/tests/unit/test-bdrv-drain.c
-> > +++ b/tests/unit/test-bdrv-drain.c
-> > @@ -38,12 +38,22 @@ typedef struct BDRVTestState {
-> >       bool sleep_in_drain_begin;
-> >   } BDRVTestState;
-> > +static void coroutine_fn sleep_in_drain_begin(void *opaque)
-> > +{
-> > +    BlockDriverState *bs = opaque;
-> > +
-> > +    qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, 100000);
-> > +    bdrv_dec_in_flight(bs);
-> > +}
-> > +
-> >   static void coroutine_fn bdrv_test_co_drain_begin(BlockDriverState *bs)
-> >   {
-> >       BDRVTestState *s = bs->opaque;
-> >       s->drain_count++;
-> >       if (s->sleep_in_drain_begin) {
-> > -        qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, 100000);
-> > +        Coroutine *co = qemu_coroutine_create(sleep_in_drain_begin, bs);
-> > +        bdrv_inc_in_flight(bs);
-> > +        aio_co_enter(bdrv_get_aio_context(bs), co);
-> >       }
-> >   }
-> > @@ -1916,6 +1926,21 @@ static int coroutine_fn bdrv_replace_test_co_preadv(BlockDriverState *bs,
-> >       return 0;
-> >   }
-> > +static void coroutine_fn bdrv_replace_test_drain_co(void *opaque)
-> > +{
-> > +    BlockDriverState *bs = opaque;
-> > +    BDRVReplaceTestState *s = bs->opaque;
-> > +
-> > +    /* Keep waking io_co up until it is done */
-> > +    while (s->io_co) {
-> > +        aio_co_wake(s->io_co);
-> > +        s->io_co = NULL;
-> > +        qemu_coroutine_yield();
-> > +    }
-> > +    s->drain_co = NULL;
-> > +    bdrv_dec_in_flight(bs);
-> > +}
-> 
-> Same question, don't we need aio_wait_kick() after decrement in_flight.
-> 
-> Also, seems we have here extra waiting level: a special coroutine that waits in a loop.
-> 
-> Could we just do in .drain_begin:
-> 
-> if (s->io_co) {
->    bdrv_inc_in_flight(bs);
-> }
-> 
-> and in .co_preadv instead of waking s->drain_co simply
-> 
-> if (s->drain_count == 1) {
->   bdrv_dec_in_flight(bs);
->   aio_wait_kick();
-> }
-> 
-> or even better, do inc in_flight when io_co becomes not NULL.
+Klaus Jensen <its@irrelevant.dk> writes:
 
-I just did the minimal transformation of the existing code in the test
-case.
+> From: Klaus Jensen <k.jensen@samsung.com>
+>
+> Make nvme_check_constraints() return an int and fix incorrect use of
+> errp/local_err.
+>
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/nvme/ctrl.c | 48 +++++++++++++++++++++++-------------------------
+>  1 file changed, 23 insertions(+), 25 deletions(-)
+>
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index ac3885ce5079..4cc6ae753295 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -7035,7 +7035,7 @@ static const MemoryRegionOps nvme_cmb_ops = {
+>      },
+>  };
+>  
+> -static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+> +static int nvme_check_params(NvmeCtrl *n, Error **errp)
 
-These test cases often test specific interactions between coroutines, so
-I could imagine that the additional yield is not just some inefficient
-code, but coroutines that yield multiple times could actually be the
-scenario that is supposed to be tested.
+I prefer bool true on success, false on failure.  I use int only when it
+lets me return additional information, such as a non-negative value on
+success, or a negative error code on failure.  nvme_init_pci() is an
+example of the latter (although its caller doesn't care).
 
-I didn't check it for this one, but making test cases more efficient
-isn't automatically a good thing if they then end up not testing certain
-code paths any more. So if you intend to make a change here, it would
-need a careful analysis of all test cases that use the driver.
+Local consistency with nvme_init_subsys() is desirable.  You could
+convert it to bool, along with nvme_init_pci().  Or you keep all three
+int.  Up to you.
 
-Kevin
+>  {
+>      NvmeParams *params = &n->params;
+>  
+> @@ -7049,38 +7049,38 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+>      if (n->namespace.blkconf.blk && n->subsys) {
+>          error_setg(errp, "subsystem support is unavailable with legacy "
+>                     "namespace ('drive' property)");
+> -        return;
+> +        return -1;
+>      }
+>  
+>      if (params->max_ioqpairs < 1 ||
+>          params->max_ioqpairs > NVME_MAX_IOQPAIRS) {
+>          error_setg(errp, "max_ioqpairs must be between 1 and %d",
+>                     NVME_MAX_IOQPAIRS);
+> -        return;
+> +        return -1;
+>      }
+>  
+>      if (params->msix_qsize < 1 ||
+>          params->msix_qsize > PCI_MSIX_FLAGS_QSIZE + 1) {
+>          error_setg(errp, "msix_qsize must be between 1 and %d",
+>                     PCI_MSIX_FLAGS_QSIZE + 1);
+> -        return;
+> +        return -1;
+>      }
+>  
+>      if (!params->serial) {
+>          error_setg(errp, "serial property not set");
+> -        return;
+> +        return -1;
+>      }
+>  
+>      if (n->pmr.dev) {
+>          if (host_memory_backend_is_mapped(n->pmr.dev)) {
+>              error_setg(errp, "can't use already busy memdev: %s",
+>                         object_get_canonical_path_component(OBJECT(n->pmr.dev)));
+> -            return;
+> +            return -1;
+>          }
+>  
+>          if (!is_power_of_2(n->pmr.dev->size)) {
+>              error_setg(errp, "pmr backend size needs to be power of 2 in size");
+> -            return;
+> +            return -1;
+>          }
+>  
+>          host_memory_backend_set_mapped(n->pmr.dev, true);
+> @@ -7089,64 +7089,64 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+>      if (n->params.zasl > n->params.mdts) {
+>          error_setg(errp, "zoned.zasl (Zone Append Size Limit) must be less "
+>                     "than or equal to mdts (Maximum Data Transfer Size)");
+> -        return;
+> +        return -1;
+>      }
+>  
+>      if (!n->params.vsl) {
+>          error_setg(errp, "vsl must be non-zero");
+> -        return;
+> +        return -1;
+>      }
+>  
+>      if (params->sriov_max_vfs) {
+>          if (!n->subsys) {
+>              error_setg(errp, "subsystem is required for the use of SR-IOV");
+> -            return;
+> +            return -1;
+>          }
+>  
+>          if (params->sriov_max_vfs > NVME_MAX_VFS) {
+>              error_setg(errp, "sriov_max_vfs must be between 0 and %d",
+>                         NVME_MAX_VFS);
+> -            return;
+> +            return -1;
+>          }
+>  
+>          if (params->cmb_size_mb) {
+>              error_setg(errp, "CMB is not supported with SR-IOV");
+> -            return;
+> +            return -1;
+>          }
+>  
+>          if (n->pmr.dev) {
+>              error_setg(errp, "PMR is not supported with SR-IOV");
+> -            return;
+> +            return -1;
+>          }
+>  
+>          if (!params->sriov_vq_flexible || !params->sriov_vi_flexible) {
+>              error_setg(errp, "both sriov_vq_flexible and sriov_vi_flexible"
+>                         " must be set for the use of SR-IOV");
+> -            return;
+> +            return -1;
+>          }
+>  
+>          if (params->sriov_vq_flexible < params->sriov_max_vfs * 2) {
+>              error_setg(errp, "sriov_vq_flexible must be greater than or equal"
+>                         " to %d (sriov_max_vfs * 2)", params->sriov_max_vfs * 2);
+> -            return;
+> +            return -1;
+>          }
+>  
+>          if (params->max_ioqpairs < params->sriov_vq_flexible + 2) {
+>              error_setg(errp, "(max_ioqpairs - sriov_vq_flexible) must be"
+>                         " greater than or equal to 2");
+> -            return;
+> +            return -1;
+>          }
+>  
+>          if (params->sriov_vi_flexible < params->sriov_max_vfs) {
+>              error_setg(errp, "sriov_vi_flexible must be greater than or equal"
+>                         " to %d (sriov_max_vfs)", params->sriov_max_vfs);
+> -            return;
+> +            return -1;
+>          }
+>  
+>          if (params->msix_qsize < params->sriov_vi_flexible + 1) {
+>              error_setg(errp, "(msix_qsize - sriov_vi_flexible) must be"
+>                         " greater than or equal to 1");
+> -            return;
+> +            return -1;
+>          }
+>  
+>          if (params->sriov_max_vi_per_vf &&
+> @@ -7154,7 +7154,7 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+>              error_setg(errp, "sriov_max_vi_per_vf must meet:"
+>                         " (sriov_max_vi_per_vf - 1) %% %d == 0 and"
+>                         " sriov_max_vi_per_vf >= 1", NVME_VF_RES_GRANULARITY);
+> -            return;
+> +            return -1;
+>          }
+>  
+>          if (params->sriov_max_vq_per_vf &&
+> @@ -7163,9 +7163,11 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+>              error_setg(errp, "sriov_max_vq_per_vf must meet:"
+>                         " (sriov_max_vq_per_vf - 1) %% %d == 0 and"
+>                         " sriov_max_vq_per_vf >= 2", NVME_VF_RES_GRANULARITY);
+> -            return;
+> +            return -1;
+>          }
+>      }
+> +
+> +    return 0;
+>  }
+>  
+>  static void nvme_init_state(NvmeCtrl *n)
+> @@ -7564,7 +7566,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>  {
+>      NvmeCtrl *n = NVME(pci_dev);
+>      NvmeNamespace *ns;
+> -    Error *local_err = NULL;
+>      NvmeCtrl *pn = NVME(pcie_sriov_get_pf(pci_dev));
+>  
+>      if (pci_is_vf(pci_dev)) {
+> @@ -7576,9 +7577,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>          n->subsys = pn->subsys;
+>      }
+>  
+> -    nvme_check_constraints(n, &local_err);
+> -    if (local_err) {
+> -        error_propagate(errp, local_err);
+> +    if (nvme_check_params(n, errp)) {
+
+If you stick to int, then please use
+
+       if (nvme_check_params(n, errp) < 0) {
+
+Here's why.
+
+A bool-valued function that returns false on error we check like
+
+       if (!foo()) {
+
+A pointer-valued function that returns null on error we also check like
+
+       if (!foo()) {
+
+In both cases, convention makes it obvious we're testing for failure.
+
+If you check an int-valued function that returns negative on error like
+
+       if (foo() < 0) {
+
+it's again obvious.
+
+However, if you exploit the fact that it returns zero on success in the
+check like
+
+       if (foo()) {
+
+then convention is of no help to readers.  They need to look up what
+foo() returns to see whether this is checking for success or for
+failure.
+
+Makes sense?
+
+>          return;
+>      }
+>  
+> @@ -7586,7 +7585,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>                &pci_dev->qdev, n->parent_obj.qdev.id);
+>  
+>      if (nvme_init_subsys(n, errp)) {
+> -        error_propagate(errp, local_err);
+>          return;
+>      }
+>      nvme_init_state(n);
 
 
