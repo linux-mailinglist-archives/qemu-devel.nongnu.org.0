@@ -2,70 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA6E662376A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 00:25:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FEB623770
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 00:27:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osuQl-00039n-HQ; Wed, 09 Nov 2022 18:24:27 -0500
+	id 1osuTI-0003ug-Gy; Wed, 09 Nov 2022 18:27:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1osuQi-000390-Tr; Wed, 09 Nov 2022 18:24:24 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osuTG-0003uW-Se
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 18:27:02 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1osuQg-0003Dc-TC; Wed, 09 Nov 2022 18:24:24 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id io19so104977plb.8;
- Wed, 09 Nov 2022 15:24:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=WeNoqBxfPr+NKyZ6LVxOGbm4CdTiTbH7v/Ss9SlOjok=;
- b=awFAoqOBsuF3gJczlm7I9TOHQZ/3wcnZ23v1zWbrScBLDdlmHbuvOsJcy2meDd4kyn
- mK4oAU1++TEMYnAAZG2mie/eEb7Sb9QNJ/N4QRUWphFTaNh3SsZRCnA2Eiw4uLgSpUNS
- x/lm06Vrn059diLY4kb/46XkNJIPa8eKXWI1f4FXaBPnqQKDfhiT5h34lrDnkEZNlR+S
- AcksgXDmbm07AQCaQ8f/3yEKDCcLzsCeQA4hpRMp96AENGrJ56CDUExaDcPoioQ35Ncz
- qLjVk3XOI5wMT1k+JNwBVKMeK7TFjslohn/BAk51/1kChV8ZxZfXm3QsV2qx+LddaZ+N
- junQ==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osuTE-0006mJ-QF
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 18:27:02 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ ay14-20020a05600c1e0e00b003cf6ab34b61so2290013wmb.2
+ for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 15:26:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KBCJrIVNe0zrXCJU5HeQVKKOM1/hllZzpvia9aCOSa8=;
+ b=JhcLK/D3GiJjtLUyiOLKCsWIPXkq5VUgw0ew9AMD+GMHxhkijjPCD21CY/LrMcEuWL
+ Pf29Y1AI5pOyAEu8Td2e7SCbBWOcaM/Cl0KTO06mZMmT3W8e79q7GuFkh0RcI/z5kO/r
+ nBDdtNqt4VFh5LdxdYOzOdELq9j+kiZfNJ+uM3tAZ+Hcul/EMw3vcSV7m855zNDgsDBm
+ /2xfGXp96SxaGXEMuZ2VORBrOxaPfQtsxq9tm/g/fow5S6rgQ1Zun+POMWs9+XbWg2fl
+ WLC2ukX00YXfKqgfKiRgvUBQlJYOdrugjHT8a9Wkk5eWcIuPQnpz6X9CDE0PsVc97Ssf
+ o3Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WeNoqBxfPr+NKyZ6LVxOGbm4CdTiTbH7v/Ss9SlOjok=;
- b=ZyD8+nXMOclMUEwrbFrtVFrdHBKazvnPM1pm+eEV+KpgAERFRHLRSzdqqzGwT1P12E
- KLGSqJvGBq21dBJZ0CTPgHD5O40q1YQwOvEnae6gp+6EfaT8aBJJIlIhIpVrbYqJi4R4
- pHlLJXWp+iquGK9ng54mNODSQOlrEggMaPB5m208gaeq6VzDJaX9T9EYjdIvhoTQYYKn
- /QrBivxUerckQvm8B2K/ebf+K4iznOhGQxt6A0zPs3xpK5DEDhWRiaFwU5t3B3NYyWDO
- QQfRynGs0Vh2bBH92GCk/7UzHfEqvXQKzToIr8LLjQFKuwuzr7jfxifRP48fwH2c0kEn
- xK0g==
-X-Gm-Message-State: ACrzQf1E9ONwTd/O92445SQMFXZ8XEUSNEEHt/xDDKfDdGfdPeAfUG3h
- jlO6QdNQZPV3pFBq3tLEqvxuWQAjIBHVDFH69yM=
-X-Google-Smtp-Source: AMsMyM4dOJe/5YWyjERCIX5D5FwE1yCZdhQZrGZsx4L0/pFy5d/2uAo7xRxmnOSxj+PId4ksCiRdUy1TOgB/X4vV1bM=
-X-Received: by 2002:a17:902:7294:b0:187:146c:316f with SMTP id
- d20-20020a170902729400b00187146c316fmr57189994pll.149.1668036260857; Wed, 09
- Nov 2022 15:24:20 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KBCJrIVNe0zrXCJU5HeQVKKOM1/hllZzpvia9aCOSa8=;
+ b=0sub5KzK2i+cxf3Rd2Hb9JAA2V4ZMivhftzNav6sj/qWVY0FMf4BBYJqsZCCsf+8q3
+ osZKesuHYG/uo//KdvX9y8MRf3tvyp4W1PrtF5eDZCaaIm30xfCRbh6dWkEHKTAfjW65
+ c18EE4MYKZnbEXAmeKbQUn3N1JxCsTYg310xOHcnuBmfFVaUHNVTvhvRGPVZ8GwncT44
+ CTwsI5FqPEXORZfgRW1Uls79CP4xeekhVtffIFrJTHiGcEC8QtSIZQ2kMsfpFOeCefrG
+ 4eaZHPWb/sIw2NDEhxVdvQFBNrAP4LPv/GBAMncxefKge39gcgoYRjIU3VC6w0pMq/0L
+ nJxw==
+X-Gm-Message-State: ACrzQf1QKttKaRxNJt+dsV3+lVWAorZVWcP3ucWin6y/30fBTIDcLyk/
+ AL/UPnVJojIFd8ZkXsOyUkXYHg==
+X-Google-Smtp-Source: AMsMyM4F7fp+9Kp1gX/tcDK6Kv/WULDtdxp9W92q6cye9JDcUEj55N4tSmsvUKfat9ljxLWpRjTvdw==
+X-Received: by 2002:a7b:cd91:0:b0:3cf:47e7:c8bd with SMTP id
+ y17-20020a7bcd91000000b003cf47e7c8bdmr52880191wmj.139.1668036418542; 
+ Wed, 09 Nov 2022 15:26:58 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ h17-20020adff191000000b00236488f62d6sm14047359wro.79.2022.11.09.15.26.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Nov 2022 15:26:58 -0800 (PST)
+Message-ID: <2964d2a7-7fa4-3d2a-e101-28cd788c14dd@linaro.org>
+Date: Thu, 10 Nov 2022 00:26:56 +0100
 MIME-Version: 1.0
-References: <20221016124726.102129-1-mchitale@ventanamicro.com>
- <20221016124726.102129-5-mchitale@ventanamicro.com>
-In-Reply-To: <20221016124726.102129-5-mchitale@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 10 Nov 2022 09:23:54 +1000
-Message-ID: <CAKmqyKMFeWWA+pLvKbxLiHV1C65fyhBWpB2B4E-DeiaOkBus0A@mail.gmail.com>
-Subject: Re: [PATCH v11 4/5] target/riscv: smstateen check for fcsr
-To: Mayuresh Chitale <mchitale@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.1
+Subject: Re: [PATCH] avocado: use sha1 for fc31 imgs to avoid first time
+ re-download
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, John Snow <jsnow@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Jan Richter <jarichte@redhat.com>
+References: <20221022170350.936685-1-danielhb413@gmail.com>
+ <Y1ZUsauC6F3yDuny@redhat.com>
+ <8d2d7c90-288f-387f-e474-7eefe47005e8@redhat.com>
+ <Y1pI2Tg9VTNwrrEE@redhat.com>
+ <2a26f704-cfbe-8965-a7c4-24ab62c1a651@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <2a26f704-cfbe-8965-a7c4-24ab62c1a651@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,193 +102,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Oct 16, 2022 at 11:09 PM Mayuresh Chitale
-<mchitale@ventanamicro.com> wrote:
->
-> If smstateen is implemented and sstateen0.fcsr is clear then the floating point
-> operations must return illegal instruction exception or virtual instruction
-> trap, if relevant.
->
-> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-> Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+On 9/11/22 16:39, Daniel Henrique Barboza wrote:
+> On 10/27/22 06:01, Daniel P. Berrangé wrote:
+>> On Thu, Oct 27, 2022 at 09:46:29AM +0200, Thomas Huth wrote:
+>>> On 24/10/2022 11.02, Daniel P. Berrangé wrote:
+>>>> On Sat, Oct 22, 2022 at 02:03:50PM -0300, Daniel Henrique Barboza 
+>>>> wrote:
+>>>>> 'make check-avocado' will download any images that aren't present 
+>>>>> in the
+>>>>> cache via 'get-vm-images' in tests/Makefile.include. The target that
+>>>>> downloads fedora 31 images, get-vm-image-fedora-31, will use 'avocado
+>>>>> vmimage get  --distro=fedora --distro-version=31 --arch=(...)' to
+>>>>> download the image for each arch. Note that this command does not
+>>>>> support any argument to set the hash algorithm used and, based on the
+>>>>> avocado source code [1], DEFAULT_HASH_ALGORITHM is set to "sha1". The
+>>>>> sha1 hash is stored in a 
+>>>>> Fedora-Cloud-Base-31-1.9.{ARCH}.qcow2-CHECKSUM
+>>>>> in the cache.
+>>>>
+>>>>> For now, in QEMU, let's use sha1 for all Fedora 31 images. This will
+>>>>> immediately spares us at least one extra download for each Fedora 31
+>>>>> image that we're doing in all our CI runs.
+>>>>>
+>>>>> [1] https://github.com/avocado-framework/avocado.git @ 942a5d6972906
+>>>>> [2] https://github.com/avocado-framework/avocado/issues/5496
+>>>>
+>>>> Can we just ask Avocado maintainers to fix this problem on their
+>>>> side to allow use of a modern hash alg as a priority item. We've
+>>>> already had this problem in QEMU for over a year AFAICT, so doesn't
+>>>> seem like we need to urgently do a workaround on QEMU side, so we
+>>>> can get Avocado devs to commit to fixing it in the next month.
+>>>
+>>> Do we have such a commitment? ... The avocado version in QEMU is 
+>>> completely
+>>> backlevel these days, it's still using version 88.1 from May 2021, i.e.
+>>> there hasn't been any update since more than a year. I recently tried to
+>>> bump it to a newer version on my own (since I'm still suffering from the
+>>> problem that find_free_port() does not work if you don't have a local 
+>>> IPv6
+>>> address), but it's not that straight forward since the recent 
+>>> versions of
+>>> avocado changed a lot of things (e.g. the new nrunner - do we want to 
+>>> run
+>>> tests in parallel? If so it breaks a lot of the timeout settings, I 
+>>> think),
+>>> so an update needs a lot of careful testing...
+>>
+>> That it is so difficult to update Avocado after barely more than
+>> 1 year is not exactly a strong vote of confidence in our continued
+>> use of Avocado long term :-(
+> 
+> 
+> By the way, Avocado just provided a fix for the problem this patch is 
+> trying
+> to amend:
+> 
+> https://github.com/avocado-framework/avocado/pull/5515#issuecomment-1308872846
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Thanks Jan!
 
-Alistair
+> Is there an easy way to plug upstream Avocado into QEMU? I would like to 
+> test
+> tests/avocado/boot_linux.py:BootLinuxPPC64.test_pseries_tcg to see if 
+> the problem
+> is fixed by Avocado upstream.
 
-> ---
->  target/riscv/csr.c                        | 23 ++++++++++++
->  target/riscv/insn_trans/trans_rvf.c.inc   | 43 +++++++++++++++++++++--
->  target/riscv/insn_trans/trans_rvzfh.c.inc | 12 +++++++
->  3 files changed, 75 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 71236f2b5d..8b25f885ec 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -84,6 +84,10 @@ static RISCVException fs(CPURISCVState *env, int csrno)
->          !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
->          return RISCV_EXCP_ILLEGAL_INST;
->      }
-> +
-> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
-> +    }
->  #endif
->      return RISCV_EXCP_NONE;
->  }
-> @@ -2023,6 +2027,9 @@ static RISCVException write_mstateen0(CPURISCVState *env, int csrno,
->                                        target_ulong new_val)
->  {
->      uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
->
->      return write_mstateen(env, csrno, wr_mask, new_val);
->  }
-> @@ -2059,6 +2066,10 @@ static RISCVException write_mstateen0h(CPURISCVState *env, int csrno,
->  {
->      uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->      return write_mstateenh(env, csrno, wr_mask, new_val);
->  }
->
-> @@ -2096,6 +2107,10 @@ static RISCVException write_hstateen0(CPURISCVState *env, int csrno,
->  {
->      uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->      return write_hstateen(env, csrno, wr_mask, new_val);
->  }
->
-> @@ -2135,6 +2150,10 @@ static RISCVException write_hstateen0h(CPURISCVState *env, int csrno,
->  {
->      uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->      return write_hstateenh(env, csrno, wr_mask, new_val);
->  }
->
-> @@ -2182,6 +2201,10 @@ static RISCVException write_sstateen0(CPURISCVState *env, int csrno,
->  {
->      uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->      return write_sstateen(env, csrno, wr_mask, new_val);
->  }
->
-> diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
-> index a1d3eb52ad..93657680c6 100644
-> --- a/target/riscv/insn_trans/trans_rvf.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvf.c.inc
-> @@ -24,9 +24,46 @@
->              return false; \
->  } while (0)
->
-> -#define REQUIRE_ZFINX_OR_F(ctx) do {\
-> -    if (!ctx->cfg_ptr->ext_zfinx) { \
-> -        REQUIRE_EXT(ctx, RVF); \
-> +#ifndef CONFIG_USER_ONLY
-> +static inline bool smstateen_fcsr_check(DisasContext *ctx, int index)
-> +{
-> +    CPUState *cpu = ctx->cs;
-> +    CPURISCVState *env = cpu->env_ptr;
-> +    uint64_t stateen = env->mstateen[index];
-> +
-> +    if (!ctx->cfg_ptr->ext_smstateen || env->priv == PRV_M) {
-> +        return true;
-> +    }
-> +
-> +    if (ctx->virt_enabled) {
-> +        stateen &= env->hstateen[index];
-> +    }
-> +
-> +    if (env->priv == PRV_U && has_ext(ctx, RVS)) {
-> +        stateen &= env->sstateen[index];
-> +    }
-> +
-> +    if (!(stateen & SMSTATEEN0_FCSR)) {
-> +        if (ctx->virt_enabled) {
-> +            ctx->virt_inst_excp = true;
-> +        }
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +#else
-> +#define smstateen_fcsr_check(ctx, index) (true)
-> +#endif
-> +
-> +#define REQUIRE_ZFINX_OR_F(ctx) do { \
-> +    if (!has_ext(ctx, RVF)) { \
-> +        if (!ctx->cfg_ptr->ext_zfinx) { \
-> +            return false; \
-> +        } \
-> +        if (!smstateen_fcsr_check(ctx, 0)) { \
-> +            return false; \
-> +        } \
->      } \
->  } while (0)
->
-> diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/insn_trans/trans_rvzfh.c.inc
-> index 5d07150cd0..6c2e338c0a 100644
-> --- a/target/riscv/insn_trans/trans_rvzfh.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
-> @@ -20,18 +20,27 @@
->      if (!ctx->cfg_ptr->ext_zfh) {      \
->          return false;         \
->      }                         \
-> +    if (!smstateen_fcsr_check(ctx, 0)) { \
-> +        return false; \
-> +    } \
->  } while (0)
->
->  #define REQUIRE_ZHINX_OR_ZFH(ctx) do { \
->      if (!ctx->cfg_ptr->ext_zhinx && !ctx->cfg_ptr->ext_zfh) { \
->          return false;                  \
->      }                                  \
-> +    if (!smstateen_fcsr_check(ctx, 0)) { \
-> +        return false; \
-> +    } \
->  } while (0)
->
->  #define REQUIRE_ZFH_OR_ZFHMIN(ctx) do {       \
->      if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin)) { \
->          return false;                         \
->      }                                         \
-> +    if (!smstateen_fcsr_check(ctx, 0)) { \
-> +        return false; \
-> +    } \
->  } while (0)
->
->  #define REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN(ctx) do { \
-> @@ -39,6 +48,9 @@
->            ctx->cfg_ptr->ext_zhinx || ctx->cfg_ptr->ext_zhinxmin)) {     \
->          return false;                                        \
->      }                                                        \
-> +    if (!smstateen_fcsr_check(ctx, 0)) { \
-> +        return false; \
-> +    } \
->  } while (0)
->
->  static bool trans_flh(DisasContext *ctx, arg_flh *a)
-> --
-> 2.25.1
->
->
+See 
+https://lore.kernel.org/qemu-devel/20200403172919.24621-9-philmd@redhat.com/
+
+For your case:
+
+-- >8 --
+diff --git a/tests/requirements.txt b/tests/requirements.txt
+index 0ba561b6bd..e17bc3972c 100644
+--- a/tests/requirements.txt
++++ b/tests/requirements.txt
+@@ -4,3 +4,3 @@
+  # Note that qemu.git/python/ is always implicitly installed.
+-avocado-framework==88.1
++-e 
+git+https://github.com/avocado-framework/avocado.git@b31b868c882d4650d3b7d2fbfc9b8ac0f2c3672b#egg=avocado-framework
+  pycdlib==1.11.0
+---
+
+Regards,
+
+Phil.
 
