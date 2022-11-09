@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8C46236A7
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 23:38:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 057E46236A5
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 23:38:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osthK-00046O-KK; Wed, 09 Nov 2022 17:37:30 -0500
+	id 1osthS-00047v-Ft; Wed, 09 Nov 2022 17:37:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osthH-00045y-UD
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 17:37:27 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osthR-00047c-2m
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 17:37:37 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osthD-000052-P6
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 17:37:26 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- v124-20020a1cac82000000b003cf7a4ea2caso2222322wme.5
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 14:37:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1osthP-0000vN-I3
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 17:37:36 -0500
+Received: by mail-wr1-x434.google.com with SMTP id k8so28042681wrh.1
+ for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 14:37:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=vUrhvf2rK47GJcF2f7MbsPccVzAFUfRUyBtBWgkWKJk=;
- b=L3Iso8YnBd6TVjw2MUowztdUo0s1KZwleQRTq0u/KK1W9uK9mIllBoK3J5zi+VEv2S
- SfwhCJlZrqgZ+861xvroEqjkoS4KBT7JY6QBLcW9szJTHFc4taT2ieVvKa31nfKD8lii
- bhTsr0pft/nUigsMaKzajgqBsKE8UNFM6uSPfUN8rfpKqbtmDA7Sf9c3pU9hn74m/+UC
- dqxv4KZ5vITnNkQPB1RzAhh3WfZa4daXyFaHzDq8XIdRVH9Uu/EMq97P5QaKwRWhXZUG
- TJGWLrt5U7r45wyj85YZwa6s+cq8C4ecHkWFyD9fS8zK9Ul6Db1NdvTsmX5RDEpNl5aj
- kpHA==
+ bh=HCoLr7NCFiPKbkTu4iOMvr8B58fb3/FLRNsP219OTJM=;
+ b=W5yR2FALrFkhIU8Vgk8xuIvJT6tfORTs9SgrV6MSCubV85CWJqfl57wQoAMwi1PvcB
+ eP/SCCKi9yYDxA6U+yxqXhwR5iJLmloZyQwket5w50BR9Rs74mVOKOnRgZY4iWxNali0
+ hjPZ6sbmLwA9SfiMCI+EBsH23Ag+anbepC2dFGgaYEprzNTV/JYGXNDzMoW9riW4R/AZ
+ 7mn2AGAwNY763wG6ueGPM9Lx/ty1qfOeKmYfpcA3XwW+dhrFdacvwkYk8JkihaVfFmak
+ c74YuXPBg2/dd/+oGXjoX5h/csA38NdAJZ6ZYB7cCeQWp/MiCDNMgSV5Y2FhTOPBj5K5
+ +3Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vUrhvf2rK47GJcF2f7MbsPccVzAFUfRUyBtBWgkWKJk=;
- b=4+x9y5J6X40W1ZQyjv8P2vQ46p/3UlIhn7fcbbfXOvkYvoDVMtL5/groXFz0VVlf4O
- V5/dmyNfpdizmnsGE4VzQXtxKbN3fQQ4R+4Ant5+ojzW/UIvgEpTG1AF5dqcvHzD1tLx
- 3z693TDsABeHjKAcNul+choaB9RNkuOWbEYuHD93e/rJAzNh54C9u6Hkgc6jlKvlA19f
- ngyU03lD8/I+SGjkgwj+CindgqDmim8qvviO6bIjCoJ/CWQ7YhBlAb/ApN/Ly8l/wUDP
- XAAtgi8wTP0EuuAv4FESvWnlx76CBaRiWBFvFIW9h2OxnxZXKlrUofNeOcYGjsjGGOyX
- VfRQ==
-X-Gm-Message-State: ACrzQf2P1Q9NjHiCjdxtmhCz0k2ToSMcCsNEl5twb9A0TfIqF2QmStcs
- w8lBfH3ivc7d2Rji9WkUOI8Fbw==
-X-Google-Smtp-Source: AMsMyM7sWYcHrbbH+er6dLYwovEjjZdt2pMzmBZz2SuMyDRdCRT66rSNwLJWj4Q/WaoOZhElkjxYiQ==
-X-Received: by 2002:a05:600c:654f:b0:3c3:b5b7:43a9 with SMTP id
- dn15-20020a05600c654f00b003c3b5b743a9mr52667988wmb.201.1668033438442; 
- Wed, 09 Nov 2022 14:37:18 -0800 (PST)
+ bh=HCoLr7NCFiPKbkTu4iOMvr8B58fb3/FLRNsP219OTJM=;
+ b=irTvcnHHAXIcHVDgBO+cd5CfOHeuMiCU8mNgnEq/2CyNf4XWsxhZ6555jOofvZQ4N6
+ vnO7eooYM1HU1reyrIUmQdqfdPvA9CpZdfLf9wQMnjvFiWkm45+NWaxPzPdgUFnrrDSr
+ Dhi6S/8uILBAQ21tDiBBV9kwX48ftAxhxU3ioXbVEI5WwRCzYeGN7W6GoRSnsqu06nKW
+ ndThOC/6HDtR4dP9BJ6LFiGHvAp9Olzfw/9fqPEv8TRDLH6gROUbFXxrSLZpahQiuUpH
+ yuvFODXVEA3cDhQ0Hji04cQ9hdz0B0sdAvMjXDbw/yR955BhlNL0N8CQnjyaDqqHUSSb
+ 1tjA==
+X-Gm-Message-State: ACrzQf2mhg0YZ0quGeZzXBZCVwTxYJkyzowx5a5w5t69spjx+ZKxnhl/
+ nIxZJvD86CI+zctfcQ/7l19pjg==
+X-Google-Smtp-Source: AMsMyM7q8vq+VCALVlJNlZEEx5UNjd5mHwSQcH65nxIz/4T0ev1WQmyuHGqYJR3RXYIthW49SJMKtQ==
+X-Received: by 2002:a5d:4b45:0:b0:236:501f:7a41 with SMTP id
+ w5-20020a5d4b45000000b00236501f7a41mr40211655wrs.516.1668033453896; 
+ Wed, 09 Nov 2022 14:37:33 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- k25-20020a5d5259000000b0022cc3e67fc5sm14485346wrc.65.2022.11.09.14.37.17
+ p26-20020a1c741a000000b003cf71b1f66csm2843224wmc.0.2022.11.09.14.37.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Nov 2022 14:37:18 -0800 (PST)
-Message-ID: <14f6e37b-2656-ce5d-52ba-dd17ff90342a@linaro.org>
-Date: Wed, 9 Nov 2022 23:37:17 +0100
+ Wed, 09 Nov 2022 14:37:33 -0800 (PST)
+Message-ID: <63113413-5177-87d6-310b-5a48866d3558@linaro.org>
+Date: Wed, 9 Nov 2022 23:37:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH for-8.0 3/9] hw/intc: Convert TYPE_ARM_GIC_COMMON to
- 3-phase reset
+Subject: Re: [PATCH for-8.0 1/9] hw/arm: Convert TYPE_ARM_SMMU to 3-phase reset
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20221109161444.3397405-1-peter.maydell@linaro.org>
- <20221109161444.3397405-4-peter.maydell@linaro.org>
+ <20221109161444.3397405-2-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221109161444.3397405-4-peter.maydell@linaro.org>
+In-Reply-To: <20221109161444.3397405-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,12 +92,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 9/11/22 17:14, Peter Maydell wrote:
-> Convert the TYPE_ARM_GIC_COMMON device to 3-phase reset.  This is a
-> simple no-behaviour-change conversion.
+> Convert the TYPE_ARM_SMMU device to 3-phase reset.  The legacy method
+> doesn't do anything that's invalid in the hold phase, so the
+> conversion is simple and not a behaviour change.
+> 
+> Note that we must convert this base class before we can convert the
+> TYPE_ARM_SMMUV3 subclass -- transitional support in Resettable
+> handles "chain to parent class reset" when the base class is 3-phase
+> and the subclass is still using legacy reset, but not the other way
+> around.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   hw/intc/arm_gic_common.c | 7 ++++---
+>   hw/arm/smmu-common.c | 7 ++++---
 >   1 file changed, 4 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
