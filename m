@@ -2,51 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783A56229CF
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 12:12:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE1D2622AA5
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 12:37:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osiyk-0002Dw-9M; Wed, 09 Nov 2022 06:10:46 -0500
+	id 1osjMW-0008KY-Rc; Wed, 09 Nov 2022 06:35:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1osiyf-0002CV-2X
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 06:10:41 -0500
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1osiyW-000283-5p
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 06:10:40 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R111e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
- MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
- TI=SMTPD_---0VUNyWwp_1667992221; 
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
- fp:SMTPD_---0VUNyWwp_1667992221) by smtp.aliyun-inc.com;
- Wed, 09 Nov 2022 19:10:22 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, stefanha@gmail.com,
- lersek@redhat.com, jasowang@redhat.com, peter.maydell@linaro.org,
- kraxel@redhat.com
-Subject: [PATCH] virtio: remove the excess virtio features check
-Date: Wed,  9 Nov 2022 19:10:21 +0800
-Message-Id: <20221109111021.24344-1-xuanzhuo@linux.alibaba.com>
-X-Mailer: git-send-email 2.32.0.3.g01195cf9f
+ (Exim 4.90_1) (envelope-from <francesco.cagnin@gmail.com>)
+ id 1osjMU-0008IO-Pi; Wed, 09 Nov 2022 06:35:18 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <francesco.cagnin@gmail.com>)
+ id 1osjMI-00071O-H2; Wed, 09 Nov 2022 06:35:18 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ ja4-20020a05600c556400b003cf6e77f89cso2519842wmb.0; 
+ Wed, 09 Nov 2022 03:35:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=FPx0waf55UEgZwXyqqagdDKJJCFfsMAc8aLtD5HI970=;
+ b=FbGtY/B8puhYAYRst3EpLz5SEC/sGRl3tr++X9AY5e5FuToXU1YcGwFXS4xzjtt3Fa
+ gLoamp0SReNVrF8ppi0Utfd3WmMokgnbDlNyFjt1beoP7mHpxCfU/H6rePYfxJ3yAGjq
+ 0uDZxjXQ2mk7oN3jbYufHTH2VhO4kpdEqGLsSxazlD9Duoh7qrmXzdBooMs+98YaYZwA
+ iQuSWBusoHc2dtHKANY+jNZNrbytx8uaj3LOaU1sSgiSQ0ZK+DINOL9ZI983HXQgD9Nu
+ bZomOv1Xe1P4ecbSKKSWizPNNC1Im3JwqPUJ6Qkfs4Pu2DJyWvAvhRi9jtP3G4fSocH/
+ +gWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FPx0waf55UEgZwXyqqagdDKJJCFfsMAc8aLtD5HI970=;
+ b=t7MgynOtwaGJqULRt2FwbadM1FFFd3NvAT2QZrpKgPwplBAlajz6aVQnE7ynPtz4/z
+ MHYCKPMWv0YcG7ZHkzEQwBiqjeQwOsX9Md5n9qrn/Z6bw+wwRfcn0z5CWZJLrwW1aN3v
+ PQEvbdWvpy5tla6NVLsQPe4eRiULaFkCWWSKYEvT0e92WIkOYYUaj2+4MGs1xPLNcla5
+ Hm+AbDsrZLl9sZAz/B4bWdB3HW8P2eJKSyDNG1Y3R/kvgOGmrx0nJ54IEdPGtbSCTAdz
+ 6/vn0Fia/libu0lnpEx6OBQKljrDXmVcJW54wIqgqwt3ERX7NXMJTMeX/HYpZ7AaHaqu
+ F5fw==
+X-Gm-Message-State: ACrzQf2RGjvjmh38lbEeUNtcDTx4KHML3MRzaaOaW9Z8VsBPEh5FX5ba
+ 6GYc2d6Dtdafw7830tHbgJeV9u+k0tUMGQOaD1I=
+X-Google-Smtp-Source: AMsMyM45MTwl5lMlh1d8ui60xgw4kbx9TuRE3pjvXi1GyWL4cL/pOozIyFBG8xdvMhPqu3/HKwDu5QQaoDhban4Ogjo=
+X-Received: by 2002:a1c:19c4:0:b0:3b4:a1da:76c3 with SMTP id
+ 187-20020a1c19c4000000b003b4a1da76c3mr49788239wmz.106.1667993703957; Wed, 09
+ Nov 2022 03:35:03 -0800 (PST)
 MIME-Version: 1.0
-X-Git-Hash: e09a80c2ea
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.133;
- envelope-from=xuanzhuo@linux.alibaba.com;
- helo=out30-133.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+References: <20221104184101.6923-1-fcagnin@quarkslab.com>
+ <20221104184101.6923-3-fcagnin@quarkslab.com>
+ <2B918171-9464-40DC-AE11-D25E60858370@ynddal.dk>
+ <CAF8_6KmwMCiNcC-romHoGZhcpPph71b3qv7yn9RHQArV3Q+nDA@mail.gmail.com>
+ <D86C8F4E-517E-4ECC-A66D-E57F551FFECF@ynddal.dk>
+ <CAFEAcA9jVVQhouS7uhmh+gMs328M_0r9Nz3npzrbmBoVhS+=TA@mail.gmail.com>
+In-Reply-To: <CAFEAcA9jVVQhouS7uhmh+gMs328M_0r9Nz3npzrbmBoVhS+=TA@mail.gmail.com>
+From: Francesco Cagnin <francesco.cagnin@gmail.com>
+Date: Wed, 9 Nov 2022 12:34:53 +0100
+Message-ID: <CAF8_6KmzX=wbGwoYstC7OAJqTnXK0DKiFXM435hcFqszm7+4QQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] hvf: implement guest debugging on Apple Silicon hosts
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Mads Ynddal <mads@ynddal.dk>, qemu-devel@nongnu.org, dirty@apple.com, 
+ r.bolshakov@yadro.com, "open list:ARM cores" <qemu-arm@nongnu.org>, 
+ Alexander Graf <agraf@csgraf.de>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Francesco Cagnin <fcagnin@quarkslab.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=francesco.cagnin@gmail.com; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,34 +89,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In virtio_queue_enable(), we checked virtio feature VIRTIO_F_VERSION_1.
+> In my version, I added the sw breakpoints to `hvf_vcpu_state` so they would
+> follow each CPU, but it's effectively a copy of the global set of breakpoints.
 
-This check is not necessary, and conflict with SeaBIOS. The problem
-appeared in SeaBIOS. But we also remove this check.
+Ah, I missed this field, and it seems the proper one to use. I'll switch
+to this.
 
-Link: https://www.mail-archive.com/qemu-devel@nongnu.org/msg920538.html
-Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
----
- hw/virtio/virtio.c | 5 -----
- 1 file changed, 5 deletions(-)
+> Moving it to `hvf_arch_update_guest_debug` would probably be best. Having it in
+> `hvf_arch_init_vcpu` would mean that it's always enabled. In some corner-cases,
+> that might have an adverse effect.
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 9683b2e158..701e23ea6a 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2499,11 +2499,6 @@ void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
- {
-     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
- 
--    if (!virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
--        error_report("queue_enable is only suppported in devices of virtio "
--                     "1.0 or later.");
--    }
--
-     if (k->queue_enable) {
-         k->queue_enable(vdev, queue_index);
-     }
--- 
-2.32.0.3.g01195cf9f
+I agree, I'll move it to 'hvf_arch_update_guest_debug()'.
 
+> I also noticed you are adding 1 to the WRPs and BRPs. As I interpret the
+> documentation, you should subtract 1 instead, given the value 0 is reserved:
+>
+> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+> index dbc3605f6d..80a583cbd1 100644
+> --- a/target/arm/hvf/hvf.c
+> +++ b/target/arm/hvf/hvf.c
+> @@ -39,11 +39,11 @@ static void hvf_arm_init_debug(CPUState *cpu)
+> {
+> ARMCPU *arm_cpu = ARM_CPU(cpu);
+>
+> - max_hw_bps = 1 + extract64(arm_cpu->isar.id_aa64dfr0, 12, 4);
+> + max_hw_bps = extract64(arm_cpu->isar.id_aa64dfr0, 12, 4) - 1;
+> hw_breakpoints =
+> g_array_sized_new(true, true, sizeof(HWBreakpoint), max_hw_bps);
+>
+> - max_hw_wps = 1 + extract64(arm_cpu->isar.id_aa64dfr0, 20, 4);
+> + max_hw_wps = extract64(arm_cpu->isar.id_aa64dfr0, 20, 4) - 1;
+> hw_watchpoints =
+> g_array_sized_new(true, true, sizeof(HWWatchpoint), max_hw_wps);
+> return;
+>
+> But the documentation is a bit ambiguous on that. Maybe we can test it?
+
+I tested this again and indeed adding 1 is correct. Thanks Peter for
+also pointing out 'arm_num_brps()' and 'arm_num_wrps()', I'll switch to
+those.
 
