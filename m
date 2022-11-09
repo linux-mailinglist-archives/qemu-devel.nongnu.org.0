@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21D2622F85
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 16:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DDE622F8F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 17:01:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osnSS-0001qM-Dt; Wed, 09 Nov 2022 10:57:44 -0500
+	id 1osnVc-0005Eg-PK; Wed, 09 Nov 2022 11:01:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1osnSA-0001cv-Uf
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:57:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1osnVW-0005BI-Kk; Wed, 09 Nov 2022 11:00:54 -0500
+Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1osnS8-0005ob-EC
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:57:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668009442;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kdqvurnWAXVDsjl6mVesUOVqmPHheeOSHJAfsJCbOyU=;
- b=fmfsFSSVjpkgTXepv1rLE/dKIxyD0SJxq4BPPio+rFse4lGAcL/p5fOkZA5kdy7ngCB17s
- rn83ejcq7JuEYv9nX3QLImasJHji34xf9p7VQBIOKuLBv2IB0khd/JrhjqzHQIADgaQyxI
- Zo34vfrQpU8X5p5M6F0qzCzMkI0zt6o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-qt9jf7c4PImCsh-VGGsTlw-1; Wed, 09 Nov 2022 10:57:20 -0500
-X-MC-Unique: qt9jf7c4PImCsh-VGGsTlw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1B640101E157
- for <qemu-devel@nongnu.org>; Wed,  9 Nov 2022 15:57:20 +0000 (UTC)
-Received: from wi2021.rezanina.moe.rezanina.moe (ovpn-193-213.brq.redhat.com
- [10.40.193.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6635440C83BA;
- Wed,  9 Nov 2022 15:57:19 +0000 (UTC)
-From: mrezanin@redhat.com
-To: qemu-devel@nongnu.org
-Cc: Miroslav Rezanina <mrezanin@redhat.com>
-Subject: [PATCH 4/4] host-libusb: Remove unused variable
-Date: Wed,  9 Nov 2022 10:57:14 -0500
-Message-Id: <00df0db69ff9167d38bac81f6d03281955bd861a.1668009030.git.mrezanin@redhat.com>
-In-Reply-To: <cover.1668009030.git.mrezanin@redhat.com>
-References: <cover.1668009030.git.mrezanin@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1osnUy-000105-3q; Wed, 09 Nov 2022 11:00:42 -0500
+Received: from vla1-81430ab5870b.qloud-c.yandex.net
+ (vla1-81430ab5870b.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 4041B5FE15;
+ Wed,  9 Nov 2022 19:00:07 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b535::1:28] (unknown
+ [2a02:6b8:b081:b535::1:28])
+ by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ yE8uhp2k2d-06N0YxUX; Wed, 09 Nov 2022 19:00:06 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1668009606; bh=bR5MYyNL+Nz5KTJ9lJ3v9vIY+Uyc/Zi97McAR79fjyY=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=ozOEwR9AvgcSnTbPU23iEK+tDbXeS2BOAe51O2s6EzeA+0pFbzmiI+NZgVTH+0m8Q
+ 0a6J7Nz7F81Pr0qN80GlU8elkdS7fXtsdlh1KMAvZnKFk56VRZIA07M7HEFdlXooPa
+ 3PR4b9lNVXHuduvo0c9lKACeb27n1LRkPeXEa3Ck=
+Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <18167aa9-e9e6-ea2c-ad96-68a7c972a371@yandex-team.ru>
+Date: Wed, 9 Nov 2022 19:00:06 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mrezanin@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 06/13] block: Drain invidual nodes during reopen
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: eesposit@redhat.com, stefanha@redhat.com, hreitz@redhat.com,
+ pbonzini@redhat.com, qemu-devel@nongnu.org
+References: <20221108123738.530873-1-kwolf@redhat.com>
+ <20221108123738.530873-7-kwolf@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20221108123738.530873-7-kwolf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.72;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,60 +74,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Miroslav Rezanina <mrezanin@redhat.com>
+In subject: individual
 
-Variable unconnected used in usb_host_auto_check function is only incremented
-but never read as line where it is read was disabled since introducing the code.
-This causes 'Unused but set variable' warning on Clang 15.0.1 compiler.
+On 11/8/22 15:37, Kevin Wolf wrote:
+> bdrv_reopen() and friends use subtree drains as a lazy way of covering
+> all the nodes they touch. Turns out that this lazy way is a lot more
+> complicated than just draining the nodes individually, even not
+> accounting for the additional complexity in the drain mechanism itself.
+> 
+> Simplify the code by switching to draining the individual nodes that are
+> already managed in the BlockReopenQueue anyway.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>   block.c             | 11 ++++-------
+>   block/replication.c |  6 ------
+>   blockdev.c          | 13 -------------
+>   3 files changed, 4 insertions(+), 26 deletions(-)
+> 
 
-Removing the variable and disabled code to prevent the warning.
+[..]
 
-Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
----
- hw/usb/host-libusb.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+>       bdrv_reopen_queue_free(queue);
+> -    for (p = drained; p; p = p->next) {
+> -        BlockDriverState *bs = p->data;
+> -        AioContext *ctx = bdrv_get_aio_context(bs);
+> -
+> -        aio_context_acquire(ctx);
 
-diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-index 28f8af8941..176868d345 100644
---- a/hw/usb/host-libusb.c
-+++ b/hw/usb/host-libusb.c
-@@ -1837,7 +1837,6 @@ static void usb_host_auto_check(void *unused)
-     struct USBAutoFilter *f;
-     libusb_device **devs = NULL;
-     struct libusb_device_descriptor ddesc;
--    int unconnected = 0;
-     int i, n;
- 
-     if (usb_host_init() != 0) {
-@@ -1897,9 +1896,6 @@ static void usb_host_auto_check(void *unused)
-         libusb_free_device_list(devs, 1);
- 
-         QTAILQ_FOREACH(s, &hostdevs, next) {
--            if (s->dh == NULL) {
--                unconnected++;
--            }
-             if (s->seen == 0) {
-                 if (s->dh) {
-                     usb_host_close(s);
-@@ -1908,17 +1904,6 @@ static void usb_host_auto_check(void *unused)
-             }
-             s->seen = 0;
-         }
--
--#if 0
--        if (unconnected == 0) {
--            /* nothing to watch */
--            if (usb_auto_timer) {
--                timer_del(usb_auto_timer);
--                trace_usb_host_auto_scan_disabled();
--            }
--            return;
--        }
--#endif
-     }
- 
-     if (!usb_vmstate) {
+In bdrv_reopen_queue_free() we don't have this acquire()/release() pair around bdrv_drained_end(). We don't need it anymore?
+
+> -        bdrv_subtree_drained_end(bs);
+> -        aio_context_release(ctx);
+> -    }
+> -    g_slist_free(drained);
+>   }
+>   
+>   void qmp_blockdev_del(const char *node_name, Error **errp)
+
 -- 
-2.31.1
+Best regards,
+Vladimir
 
 
