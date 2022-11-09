@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC976230EE
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 18:02:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B8C623103
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 18:04:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osoS1-00041E-RB; Wed, 09 Nov 2022 12:01:21 -0500
+	id 1osoR8-0003o8-Rb; Wed, 09 Nov 2022 12:00:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1osoQx-0003mq-Jj
+ id 1osoQx-0003n1-Oh
  for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:00:15 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1osoQv-00019P-JZ
+ id 1osoQw-00019g-5r
  for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:00:15 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- j5-20020a05600c410500b003cfa9c0ea76so1724299wmi.3
+Received: by mail-wr1-x42e.google.com with SMTP id v1so26663395wrt.11
  for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 09:00:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=V5aTWKgcN43+Gn8Ya/Jicxm7hCiOiDyKLSwHBQnrTgs=;
- b=j7iYK6jbkxxgBEaK9hwd7ZWm526D6cDxC7OiDAnuMvPvKZgHGFCIVkAW7le7Pkb5HW
- WekmEF0pDyhc9eifFJyQvY25oI2dqiLEfII8jiilBs+jDFTs8K36WXhv5/q6Aou9/Z0b
- q3ySFQFXkXy00Pf+8jZ9JR7zsJjqecrdVC2opwU+oGGOgmVk6iyz6PEZFim39oPPtvPu
- 5LVRimAiGp3VyhzRhnw/8kjvKJnnsx3KAQ2cGHWkr9G7jZdkqDz0pIYCxGd3dJiIb/VX
- bQoNBuV04xUW7B7DVT5biFhGDvQM0vPm3bm+ynyRpjajH1u5bC/VkJePVrWNio87A2lG
- WDog==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=P/HzFUMC1BdHvhejcPUHEkS5z3kNmrAEn9w+43U063E=;
+ b=o660eO91eDH2HCLaNH3uS51pqdcjZRLQ+mSItNPLq37N3hh4tRvnO/j/IB4tvv/7r7
+ SfIroELONdnArVxIpYjG5rngiq07iVqcJodz3vVGoNxoZ0opxid46zKTfOudlCoYQrO4
+ E841CGYu+NQ4uPVhmOwSva4fntPpBAW+PaEjPnV0Qe2f13tb64Ooc4O8vfMvLc1Gx9fX
+ LDoA3QzoLvx58Wsn28WbITsXwnIBOHF0KC47H1UcZoGgvF1jS2Qnif/uIxixr19JRXxR
+ njXLEmH0MBG0JYVszW9kgM7pkcNmfqnwq3KbGnBT1BMIhm0Ai5AvyixUzgWw7kdiwHPv
+ 3dzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=V5aTWKgcN43+Gn8Ya/Jicxm7hCiOiDyKLSwHBQnrTgs=;
- b=h6M5hBA+4if8QuuFK6bmT9tvCvHzDxQ7kzGML+m5P2oMtEdgvH2mFOuPn/rcYDMIQo
- WQ55lL9CQIjsDJ5/TWnfBfJoM2V8ISfWUgIW/Zzgm112ENH0Rr0JeVvbn9VWzoO/ALtu
- 3402YgV1G3VwZGBZkga2DKf/fo49xr3agb+FAsMhG031QxD302N4L1twDe9H3vycRFfn
- /u4koxivRC5JLrahCwnVqOQ75wRvAAotONwz2Oc62kcDMyh3ne7+jH1xisHgulTvxPYq
- mSLFAh9ZESi1c6CWH7GAhcLSFNSTuxwPyHoHI9OhJUTYMUq8TRC+R5DxUtAEJC4bAtc0
- +NBw==
-X-Gm-Message-State: ANoB5pnaUCQhQS+4bFW+K/PAIEQ8NTYidQGyVeQXOC+KxixnV57Ix5BL
- rbl08wMT5PpV1lZceW49fT7D4nFDSEl+kQ==
-X-Google-Smtp-Source: AA0mqf6gDvvnfZ1ubKJ5WJ0EXs9yuHj4RNNq4XMAGvleioW6mDS++xRP55z9jPJ0zyNkZCi3uWW6TA==
-X-Received: by 2002:a05:600c:4e92:b0:3cf:a6d9:7b03 with SMTP id
- f18-20020a05600c4e9200b003cfa6d97b03mr13111624wmq.205.1668013211487; 
- Wed, 09 Nov 2022 09:00:11 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=P/HzFUMC1BdHvhejcPUHEkS5z3kNmrAEn9w+43U063E=;
+ b=3hCLBJV8JjHWaCmbcvShemjgmZH+5DoX85VVa1SN2SuRZBkq/ilobC04HSBIetVlKI
+ F73/ChKDKI6DMjZ0yy5aJtqi/EElOKIYAQPDwCWy5v3iZ5QGvqpopOqVxPWTl2+68ImA
+ yeqTBnZxBfzd5f6bUaqT6pTMXN5GrrDRSTNSCCapGuoFEM7sWN1qFEH0fp4Hfm3T4ZYl
+ v55QZKB1H6AX7hjttAetJ8FGDBC9nn2PTw2fMSx5GX7DSYCd0eO8QdPGCf/ySW11QZLY
+ 8InYt013RB0ODe75WqunBNHk36PZx0XEBz0iBT8w7iwySQqONwPcTf2777gygGFmZO44
+ KZug==
+X-Gm-Message-State: ACrzQf3HW2ABjEWfH0A3hrKKbm7RYqNJupf0b0NDytWgxcZQuofUOBw0
+ W0EOowjFjJcHJIMNAOrbKjKDxJg43VomSQ==
+X-Google-Smtp-Source: AMsMyM4JPXS45LztCubN674Rtl4Yxdh86s27/GA/WnLJ7Sab7kr4U55gImUQ6kj0bbIh/I8NsN8Zug==
+X-Received: by 2002:adf:f741:0:b0:236:5aa8:a07e with SMTP id
+ z1-20020adff741000000b002365aa8a07emr933201wrp.437.1668013212555; 
+ Wed, 09 Nov 2022 09:00:12 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- p5-20020a05600c358500b003c6b9749505sm2514932wmq.30.2022.11.09.09.00.10
+ p5-20020a05600c358500b003c6b9749505sm2514932wmq.30.2022.11.09.09.00.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Nov 2022 09:00:10 -0800 (PST)
+ Wed, 09 Nov 2022 09:00:12 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH for-8.0 0/2] hw/input/ps2: Convert to 3-phase reset
-Date: Wed,  9 Nov 2022 17:00:07 +0000
-Message-Id: <20221109170009.3498451-1-peter.maydell@linaro.org>
+Subject: [PATCH for-8.0 1/2] hw/input/ps2: Convert TYPE_PS2_DEVICE to 3-phase
+ reset
+Date: Wed,  9 Nov 2022 17:00:08 +0000
+Message-Id: <20221109170009.3498451-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221109170009.3498451-1-peter.maydell@linaro.org>
+References: <20221109170009.3498451-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,30 +90,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patchset converts the ps2 keyboard and mouse devices to 3-phase
-reset. The rationale here is that it would be nice to get rid of the
-device_class_set_parent_reset() function, which is used by
-legacy-reset subclasses which want to chain to their parent's reset
-function. There aren't very many of these devices in total, and if we
-convert them all to 3-phase reset they can use the 3-phase-reset
-equivalent (resettable_class_set_parent_phases()).  Eventually this
-will then let us simplify the transitional code for handling old-style
-device reset.
+Convert the parent class TYPE_PS2_DEVICE to 3-phase reset.  Note that
+we need an 'exit' phase function as well as the usual 'hold' phase
+function, because changing outbound IRQ line state is only permitted
+in 'exit'.  (Strictly speaking it's not supposed to be done in a
+legacy reset handler either, but you can often get away with it.)
 
-This is one of a number of patchsets to do this that I'm planning to
-write and send out over the next few weeks. It's all 8.0 material.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/input/ps2.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-thanks
--- PMM
-
-Peter Maydell (2):
-  hw/input/ps2: Convert TYPE_PS2_DEVICE to 3-phase reset
-  hw/input/ps2.c: Convert TYPE_PS2_{KBD,MOUSE}_DEVICE to 3-phase reset
-
- include/hw/input/ps2.h |  2 +-
- hw/input/ps2.c         | 45 +++++++++++++++++++++++++++++-------------
- 2 files changed, 32 insertions(+), 15 deletions(-)
-
+diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+index 05cf7111e31..47a5d68e300 100644
+--- a/hw/input/ps2.c
++++ b/hw/input/ps2.c
+@@ -1001,12 +1001,18 @@ void ps2_write_mouse(PS2MouseState *s, int val)
+     }
+ }
+ 
+-static void ps2_reset(DeviceState *dev)
++static void ps2_reset_hold(Object *obj)
+ {
+-    PS2State *s = PS2_DEVICE(dev);
++    PS2State *s = PS2_DEVICE(obj);
+ 
+     s->write_cmd = -1;
+     ps2_reset_queue(s);
++}
++
++static void ps2_reset_exit(Object *obj)
++{
++    PS2State *s = PS2_DEVICE(obj);
++
+     ps2_lower_irq(s);
+ }
+ 
+@@ -1281,8 +1287,10 @@ static void ps2_init(Object *obj)
+ static void ps2_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
+ 
+-    dc->reset = ps2_reset;
++    rc->phases.hold = ps2_reset_hold;
++    rc->phases.exit = ps2_reset_exit;
+     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+ }
+ 
 -- 
 2.25.1
 
