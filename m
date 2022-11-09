@@ -2,82 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B166222A3
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 04:34:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3E362230C
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 05:20:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osbr4-0003xD-Qg; Tue, 08 Nov 2022 22:34:22 -0500
+	id 1oscY7-0005b3-Uq; Tue, 08 Nov 2022 23:18:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1osbr2-0003v8-G1
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 22:34:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oscY6-0005av-BY
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 23:18:50 -0500
+Received: from mga01.intel.com ([192.55.52.88])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1osbr0-0005Zc-Vj
- for qemu-devel@nongnu.org; Tue, 08 Nov 2022 22:34:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667964858;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S0mlaz4swd3cgXIaeduugKGgzE0ty1i00VOen4Rb7i4=;
- b=FoEl+fpowu5LpQ7T57DgExHsKdfRJt+DoPnyp+0/rit0qOOuK5/uNXt0AKPBoGX8FY3ULA
- nBn51/0v82VUgn9ZhT21Oqa5Qn8r4YlfNQdcqkQ9aVryRu+VFOiNiLKTu6SCx79IzCvkVM
- U8BSKzEvZfbL2LO7E/PKIB5BCxzq8vg=
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-490-IbUgYj_4P0KiHCA8-jvGFg-1; Tue, 08 Nov 2022 22:34:16 -0500
-X-MC-Unique: IbUgYj_4P0KiHCA8-jvGFg-1
-Received: by mail-oa1-f70.google.com with SMTP id
- 586e51a60fabf-13c2cedb93bso7959482fac.4
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 19:34:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=S0mlaz4swd3cgXIaeduugKGgzE0ty1i00VOen4Rb7i4=;
- b=k3LNlb7rw6PvIcU1cP1/4eoJxpc3Tan1GtwrPeQAtxTpSsPkHbRHiwaQAKlp6bL1WO
- 7DF3RSxHAX6b7DMcLsDen72xWNcaIjvfn8Y2swoegg/Bg3axcZer+LAL6owqzvrmk4oR
- szAJEjomWrhnHKWxFU9b4kwzyTPqTZsKskKQmhsJcK5ASba1vFlM+UD66zQnqmLv8KHd
- SMAIQNb8deoBF1RmpT/2YiGb33trSqglhQWEiVcGAQ+KyuVWz9Mvs8p1N48aroeXbUaB
- 8aLVsMC1yR/fzQp/A5/rrzlX7664mGlLADIWh4978eMS9QHx3p+8kKRes5OhiE4jaP9j
- OPWw==
-X-Gm-Message-State: ACrzQf1yyD6d80yQdQuvkgRPqA02TZifCxP4oSuRZUAnXeKMfGQVnSug
- 6Hcn22Ut7n1yY20g6QNfjnaHSlMiViZyGCkkb0iulzDm2Uz0qBg1YTThMY/SoPZ9oe1ZFLt2W7q
- EjbvBXTGt34L/6Vi+sZqzDPuaunL8zPA=
-X-Received: by 2002:a05:6808:181e:b0:35a:5959:5909 with SMTP id
- bh30-20020a056808181e00b0035a59595909mr14792284oib.35.1667964856169; 
- Tue, 08 Nov 2022 19:34:16 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM4qhZss1WNuXBn35mx8pz922eXY6c4ntUAi396b0GaQ/rycy/k3PKT0OrbLQ/JXm7aDGCFFm0X4rNN7/WacVDE=
-X-Received: by 2002:a05:6808:181e:b0:35a:5959:5909 with SMTP id
- bh30-20020a056808181e00b0035a59595909mr14792283oib.35.1667964856019; Tue, 08
- Nov 2022 19:34:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oscY3-0006ja-66
+ for qemu-devel@nongnu.org; Tue, 08 Nov 2022 23:18:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1667967527; x=1699503527;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=zBd0WQHBdR3NPWzJNZfDs4ykgtZDGmbYGFzZ8L5rmrk=;
+ b=jL9HVOeVIaxAJS5M4eGE8LAJWbEHJ9lABhnz8i2c2Ho+GhtHdkPMuqzp
+ msjWb+4nqV4vU38+YOLTQOhuvSEtlC5jNZt713LMQ/cbhA8uLK4A6HAvR
+ D48hfXfCy/wSxiUhus+24Ez2mCIasAGUktZasGpGvTyzt7nsPypVH+7q3
+ qhHxuPooUziHS40dIZHleFY3P5hyoDblc9Rmmkh8yluOZzldzOmOODphK
+ c+7A5w/C6ZhaxJRKBonwf210gjPr0NIkfwNRIJWeKXKN+NEU0nY/S6H1T
+ JPeF4GOZjAtV4TsCNKXyqU0h8LRc+HMgXtgn6gClstaYUMmAzBn2mqmKm g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="337615024"
+X-IronPort-AV: E=Sophos;i="5.96,149,1665471600"; d="scan'208";a="337615024"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Nov 2022 20:18:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10525"; a="614533677"
+X-IronPort-AV: E=Sophos;i="5.96,149,1665471600"; d="scan'208";a="614533677"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga006.jf.intel.com with ESMTP; 08 Nov 2022 20:18:25 -0800
+Date: Wed, 9 Nov 2022 12:13:58 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Yuan Yao <yuan.yao@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, tabba@google.com,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 6/8] KVM: Update lpage info when private/shared memory
+ are mixed
+Message-ID: <20221109041358.GA118963@chaop.bj.intel.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-7-chao.p.peng@linux.intel.com>
+ <20221108120805.kize74qgzsmarze5@yy-desk-7060>
 MIME-Version: 1.0
-References: <20221108041929.18417-1-jasowang@redhat.com>
- <CAJSP0QVNFCCni5iXz5Dvu0C2oKipNuKk7pKX4t=Gh9zVpzPVZA@mail.gmail.com>
-In-Reply-To: <CAJSP0QVNFCCni5iXz5Dvu0C2oKipNuKk7pKX4t=Gh9zVpzPVZA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 9 Nov 2022 11:34:04 +0800
-Message-ID: <CACGkMEsGE5HOM3fcq4V+_BgU-+Y4OoXc3knBmcAGMzGwZA6KDA@mail.gmail.com>
-Subject: Re: [PULL 0/2] Net patches
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, stefanha@redhat.com,
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221108120805.kize74qgzsmarze5@yy-desk-7060>
+Received-SPF: none client-ip=192.55.52.88;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga01.intel.com
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,48 +99,321 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 9, 2022 at 12:33 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
->
-> On Mon, 7 Nov 2022 at 23:20, Jason Wang <jasowang@redhat.com> wrote:
+On Tue, Nov 08, 2022 at 08:08:05PM +0800, Yuan Yao wrote:
+> On Tue, Oct 25, 2022 at 11:13:42PM +0800, Chao Peng wrote:
+> > When private/shared memory are mixed in a large page, the lpage_info may
+> > not be accurate and should be updated with this mixed info. A large page
+> > has mixed pages can't be really mapped as large page since its
+> > private/shared pages are from different physical memory.
 > >
-> > The following changes since commit 524fc737431d240f9d9f10aaf381003092868bac:
+> > Update lpage_info when private/shared memory attribute is changed. If
+> > both private and shared pages are within a large page region, it can't
+> > be mapped as large page. It's a bit challenge to track the mixed
+> > info in a 'count' like variable, this patch instead reserves a bit in
+> > 'disallow_lpage' to indicate a large page has mixed private/share pages.
 > >
-> >   util/log: Ignore per-thread flag if global file already there (2022-11-07 16:00:02 -0500)
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  arch/x86/include/asm/kvm_host.h |   8 +++
+> >  arch/x86/kvm/mmu/mmu.c          | 112 +++++++++++++++++++++++++++++++-
+> >  arch/x86/kvm/x86.c              |   2 +
+> >  include/linux/kvm_host.h        |  19 ++++++
+> >  virt/kvm/kvm_main.c             |  16 +++--
+> >  5 files changed, 152 insertions(+), 5 deletions(-)
 > >
-> > are available in the git repository at:
+> > diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> > index 7551b6f9c31c..db811a54e3fd 100644
+> > --- a/arch/x86/include/asm/kvm_host.h
+> > +++ b/arch/x86/include/asm/kvm_host.h
+> > @@ -37,6 +37,7 @@
+> >  #include <asm/hyperv-tlfs.h>
 > >
-> >   https://github.com/jasowang/qemu.git tags/net-pull-request
+> >  #define __KVM_HAVE_ARCH_VCPU_DEBUGFS
+> > +#define __KVM_HAVE_ARCH_UPDATE_MEM_ATTR
 > >
-> > for you to fetch changes up to fd2c87c7b0c97be2ac8d334885419f51f5963b51:
+> >  #define KVM_MAX_VCPUS 1024
 > >
-> >   tests/qtest: netdev: test stream and dgram backends (2022-11-08 12:10:26 +0800)
+> > @@ -952,6 +953,13 @@ struct kvm_vcpu_arch {
+> >  #endif
+> >  };
 > >
-> > ----------------------------------------------------------------
+> > +/*
+> > + * Use a bit in disallow_lpage to indicate private/shared pages mixed at the
+> > + * level. The remaining bits are used as a reference count.
+> > + */
+> > +#define KVM_LPAGE_PRIVATE_SHARED_MIXED		(1U << 31)
+> > +#define KVM_LPAGE_COUNT_MAX			((1U << 31) - 1)
+> > +
+> >  struct kvm_lpage_info {
+> >  	int disallow_lpage;
+> >  };
+> > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> > index 33b1aec44fb8..67a9823a8c35 100644
+> > --- a/arch/x86/kvm/mmu/mmu.c
+> > +++ b/arch/x86/kvm/mmu/mmu.c
+> > @@ -762,11 +762,16 @@ static void update_gfn_disallow_lpage_count(const struct kvm_memory_slot *slot,
+> >  {
+> >  	struct kvm_lpage_info *linfo;
+> >  	int i;
+> > +	int disallow_count;
 > >
-> > ----------------------------------------------------------------
-> > Laurent Vivier (1):
-> >       tests/qtest: netdev: test stream and dgram backends
->
-> This test does not pass in CI:
-> https://gitlab.com/qemu-project/qemu/-/jobs/3290964536
-> https://gitlab.com/qemu-project/qemu/-/jobs/3290964524
-> https://gitlab.com/qemu-project/qemu/-/jobs/3290964471
-> https://gitlab.com/qemu-project/qemu/-/jobs/3290964475
-> https://gitlab.com/qemu-project/qemu/-/jobs/3290964569
->
-> We're in soft freeze now. Please hold off on new tests unless they
-> verify regressions/blockers.
+> >  	for (i = PG_LEVEL_2M; i <= KVM_MAX_HUGEPAGE_LEVEL; ++i) {
+> >  		linfo = lpage_info_slot(gfn, slot, i);
+> > +
+> > +		disallow_count = linfo->disallow_lpage & KVM_LPAGE_COUNT_MAX;
+> > +		WARN_ON(disallow_count + count < 0 ||
+> > +			disallow_count > KVM_LPAGE_COUNT_MAX - count);
+> > +
+> >  		linfo->disallow_lpage += count;
+> > -		WARN_ON(linfo->disallow_lpage < 0);
+> >  	}
+> >  }
+> >
+> > @@ -6910,3 +6915,108 @@ void kvm_mmu_pre_destroy_vm(struct kvm *kvm)
+> >  	if (kvm->arch.nx_lpage_recovery_thread)
+> >  		kthread_stop(kvm->arch.nx_lpage_recovery_thread);
+> >  }
+> > +
+> > +static inline bool linfo_is_mixed(struct kvm_lpage_info *linfo)
+> > +{
+> > +	return linfo->disallow_lpage & KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> > +}
+> > +
+> > +static inline void linfo_update_mixed(struct kvm_lpage_info *linfo, bool mixed)
+> > +{
+> > +	if (mixed)
+> > +		linfo->disallow_lpage |= KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> > +	else
+> > +		linfo->disallow_lpage &= ~KVM_LPAGE_PRIVATE_SHARED_MIXED;
+> > +}
+> > +
+> > +static bool mem_attr_is_mixed_2m(struct kvm *kvm, unsigned int attr,
+> > +				 gfn_t start, gfn_t end)
+> > +{
+> > +	XA_STATE(xas, &kvm->mem_attr_array, start);
+> > +	gfn_t gfn = start;
+> > +	void *entry;
+> > +	bool shared = attr == KVM_MEM_ATTR_SHARED;
+> > +	bool mixed = false;
+> > +
+> > +	rcu_read_lock();
+> > +	entry = xas_load(&xas);
+> > +	while (gfn < end) {
+> > +		if (xas_retry(&xas, entry))
+> > +			continue;
+> > +
+> > +		KVM_BUG_ON(gfn != xas.xa_index, kvm);
+> > +
+> > +		if ((entry && !shared) || (!entry && shared)) {
+> > +			mixed = true;
+> > +			goto out;
+> > +		}
+> > +
+> > +		entry = xas_next(&xas);
+> > +		gfn++;
+> > +	}
+> > +out:
+> > +	rcu_read_unlock();
+> > +	return mixed;
+> > +}
+> > +
+> > +static bool mem_attr_is_mixed(struct kvm *kvm, struct kvm_memory_slot *slot,
+> > +			      int level, unsigned int attr,
+> > +			      gfn_t start, gfn_t end)
+> > +{
+> > +	unsigned long gfn;
+> > +	void *entry;
+> > +
+> > +	if (level == PG_LEVEL_2M)
+> > +		return mem_attr_is_mixed_2m(kvm, attr, start, end);
+> > +
+> > +	entry = xa_load(&kvm->mem_attr_array, start);
+> > +	for (gfn = start; gfn < end; gfn += KVM_PAGES_PER_HPAGE(level - 1)) {
+> > +		if (linfo_is_mixed(lpage_info_slot(gfn, slot, level - 1)))
+> > +			return true;
+> > +		if (xa_load(&kvm->mem_attr_array, gfn) != entry)
+> > +			return true;
+> > +	}
+> > +	return false;
+> > +}
+> > +
+> > +void kvm_arch_update_mem_attr(struct kvm *kvm, struct kvm_memory_slot *slot,
+> > +			      unsigned int attr, gfn_t start, gfn_t end)
+> > +{
+> > +
+> > +	unsigned long lpage_start, lpage_end;
+> > +	unsigned long gfn, pages, mask;
+> > +	int level;
+> > +
+> > +	WARN_ONCE(!(attr & (KVM_MEM_ATTR_PRIVATE | KVM_MEM_ATTR_SHARED)),
+> > +			"Unsupported mem attribute.\n");
+> > +
+> > +	/*
+> > +	 * The sequence matters here: we update the higher level basing on the
+> > +	 * lower level's scanning result.
+> > +	 */
+> > +	for (level = PG_LEVEL_2M; level <= KVM_MAX_HUGEPAGE_LEVEL; level++) {
+> > +		pages = KVM_PAGES_PER_HPAGE(level);
+> > +		mask = ~(pages - 1);
+> > +		lpage_start = max(start & mask, slot->base_gfn);
+> > +		lpage_end = (end - 1) & mask;
+> > +
+> > +		/*
+> > +		 * We only need to scan the head and tail page, for middle pages
+> > +		 * we know they are not mixed.
+> > +		 */
+> > +		linfo_update_mixed(lpage_info_slot(lpage_start, slot, level),
+> > +				   mem_attr_is_mixed(kvm, slot, level, attr,
+> > +						     lpage_start, start));
+> 
+> Looks only query the lpage_start, start is not enough:
+> 
+> A and B are private gfns from same lpage_start as below, A > B :
+> lpage_start
+>        |---------A
+>        |----B
+> 
+> Convert A to shared, this makes the upper 2M page to MIX.
+> Convert B to shared, this also makes the upper 2M page to MIX.
+> Convert B to private, this makes the upper 2M page to Non-MIX, but
+> it's incorrect, due to A is shared.
 
-Ok, so I think the netdev socket test could go for 7.3.
+In previous versions this is actually "lpage_start, lpage_start +
+pages", e.g. covers the whole large page. While fixing another issue[*]
+in v8 this was wrongly changed to "lpage_start, start", at that time I
+made an assumption that "end > lpage_start + pages" so the remaining
+scanning in the same large page is useless if we know what attribute we
+will set, this is definitely not true though.
 
-Thanks
+[*]
+https://lore.kernel.org/linux-mm/20220930085914.GA2799703@chaop.bj.intel.com/
 
->
-> Thanks,
-> Stefan
->
-
+Thanks,
+Chao
+> 
+> Same to tail case.
+> 
+> > +
+> > +		if (lpage_start == lpage_end)
+> > +			return;
+> > +
+> > +		for (gfn = lpage_start + pages; gfn < lpage_end; gfn += pages)
+> > +			linfo_update_mixed(lpage_info_slot(gfn, slot, level),
+> > +					   false);
+> > +
+> > +		linfo_update_mixed(lpage_info_slot(lpage_end, slot, level),
+> > +				   mem_attr_is_mixed(kvm, slot, level, attr,
+> > +						     end, lpage_end + pages));
+> > +	}
+> > +}
+> > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> > index 02ad31f46dd7..4276ca73bd7b 100644
+> > --- a/arch/x86/kvm/x86.c
+> > +++ b/arch/x86/kvm/x86.c
+> > @@ -12563,6 +12563,8 @@ static int kvm_alloc_memslot_metadata(struct kvm *kvm,
+> >  		if ((slot->base_gfn + npages) & (KVM_PAGES_PER_HPAGE(level) - 1))
+> >  			linfo[lpages - 1].disallow_lpage = 1;
+> >  		ugfn = slot->userspace_addr >> PAGE_SHIFT;
+> > +		if (kvm_slot_can_be_private(slot))
+> > +			ugfn |= slot->restricted_offset >> PAGE_SHIFT;
+> >  		/*
+> >  		 * If the gfn and userspace address are not aligned wrt each
+> >  		 * other, disable large page support for this slot.
+> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> > index 4ce98fa0153c..6ce36065532c 100644
+> > --- a/include/linux/kvm_host.h
+> > +++ b/include/linux/kvm_host.h
+> > @@ -2284,4 +2284,23 @@ static inline void kvm_account_pgtable_pages(void *virt, int nr)
+> >  /* Max number of entries allowed for each kvm dirty ring */
+> >  #define  KVM_DIRTY_RING_MAX_ENTRIES  65536
+> >
+> > +#ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
+> > +
+> > +#define KVM_MEM_ATTR_SHARED	0x0001
+> > +#define KVM_MEM_ATTR_PRIVATE	0x0002
+> > +
+> > +#ifdef __KVM_HAVE_ARCH_UPDATE_MEM_ATTR
+> > +void kvm_arch_update_mem_attr(struct kvm *kvm, struct kvm_memory_slot *slot,
+> > +			      unsigned int attr, gfn_t start, gfn_t end);
+> > +#else
+> > +static inline void kvm_arch_update_mem_attr(struct kvm *kvm,
+> > +					    struct kvm_memory_slot *slot,
+> > +					    unsigned int attr,
+> > +					    gfn_t start, gfn_t end)
+> > +{
+> > +}
+> > +#endif
+> > +
+> > +#endif /* CONFIG_KVM_GENERIC_PRIVATE_MEM */
+> > +
+> >  #endif
+> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > index fc3835826ace..13a37b4d9e97 100644
+> > --- a/virt/kvm/kvm_main.c
+> > +++ b/virt/kvm/kvm_main.c
+> > @@ -939,7 +939,8 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
+> >
+> >  #ifdef CONFIG_KVM_GENERIC_PRIVATE_MEM
+> >
+> > -static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end)
+> > +static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end,
+> > +				unsigned int attr)
+> >  {
+> >  	struct kvm_gfn_range gfn_range;
+> >  	struct kvm_memory_slot *slot;
+> > @@ -963,6 +964,7 @@ static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end)
+> >  			gfn_range.slot = slot;
+> >
+> >  			r |= kvm_unmap_gfn_range(kvm, &gfn_range);
+> > +			kvm_arch_update_mem_attr(kvm, slot, attr, start, end);
+> >  		}
+> >  	}
+> >
+> > @@ -970,7 +972,6 @@ static void kvm_unmap_mem_range(struct kvm *kvm, gfn_t start, gfn_t end)
+> >  		kvm_flush_remote_tlbs(kvm);
+> >  }
+> >
+> > -#define KVM_MEM_ATTR_SHARED	0x0001
+> >  static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
+> >  				     bool is_private)
+> >  {
+> > @@ -979,6 +980,7 @@ static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
+> >  	void *entry;
+> >  	int idx;
+> >  	int r = 0;
+> > +	unsigned int attr;
+> >
+> >  	if (size == 0 || gpa + size < gpa)
+> >  		return -EINVAL;
+> > @@ -992,7 +994,13 @@ static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
+> >  	 * Guest memory defaults to private, kvm->mem_attr_array only stores
+> >  	 * shared memory.
+> >  	 */
+> > -	entry = is_private ? NULL : xa_mk_value(KVM_MEM_ATTR_SHARED);
+> > +	if (is_private) {
+> > +		attr = KVM_MEM_ATTR_PRIVATE;
+> > +		entry = NULL;
+> > +	} else {
+> > +		attr = KVM_MEM_ATTR_SHARED;
+> > +		entry = xa_mk_value(KVM_MEM_ATTR_SHARED);
+> > +	}
+> >
+> >  	idx = srcu_read_lock(&kvm->srcu);
+> >  	KVM_MMU_LOCK(kvm);
+> > @@ -1005,7 +1013,7 @@ static int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
+> >  			goto err;
+> >  	}
+> >
+> > -	kvm_unmap_mem_range(kvm, start, end);
+> > +	kvm_unmap_mem_range(kvm, start, end, attr);
+> >
+> >  	goto ret;
+> >  err:
+> > --
+> > 2.25.1
+> >
 
