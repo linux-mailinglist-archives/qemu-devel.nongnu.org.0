@@ -2,55 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A517E622B79
+	by mail.lfdr.de (Postfix) with ESMTPS id A09D3622B78
 	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 13:23:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osk6B-0001b6-Gt; Wed, 09 Nov 2022 07:22:31 -0500
+	id 1osk69-0001X1-Ns; Wed, 09 Nov 2022 07:22:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1osk68-0001W1-7b
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 07:22:28 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1osk66-0001Ut-St
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 07:22:27 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1osk66-000544-L2
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 07:22:27 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1osk62-0004gC-2t
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 07:22:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1667996543;
+ s=mimecast20190719; t=1667996539;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=7jIaiaDKssQ2jR0OcvYlr2dm1vmVE2W+aJNgG11GGOM=;
- b=b5W/upR6UxDXOh47iUX/DaHCz8auxGy04ui7Ay4SOCZvjirZXxY3Q6077XVJ5ij4Zrx36y
- CpxFKyJJG6i1QtzoEcKBxe0+wKWC00F4JVUyaFghoPjzhwICm8nn+p+207fSuS3xhXLfZS
- MJezrGoW9BoDVonxEptlxj1gjN5t7HI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=S4WIxkShsBo4VGB8MX8DueIkqaqkNxnMTUTLumNEkCA=;
+ b=bJtn2lsPQmSL2qV+K3ZOWDtGHU2Mc5Uycb5WrJbySXxp7q+bMDihJYRC6ICSrcIaXYTO2p
+ 9LqJpSrzHI2A7pUkiphNCyX6taEjpjgqTJR8TOZT2yCc1njfyxNc8b0Qr+hoqGYXMhUAfn
+ X2aEln5COyQixKyUu+j+JwO/Z6m/DK0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-279-nZNBP0wVOxelpovYpwFKrw-1; Wed, 09 Nov 2022 07:22:12 -0500
-X-MC-Unique: nZNBP0wVOxelpovYpwFKrw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-25-07txKwzBPSuZJ8KwTms9-Q-1; Wed, 09 Nov 2022 07:22:16 -0500
+X-MC-Unique: 07txKwzBPSuZJ8KwTms9-Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0B6E2282380F;
- Wed,  9 Nov 2022 12:22:12 +0000 (UTC)
-Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E8542166B29;
- Wed,  9 Nov 2022 12:22:11 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org,
-	Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH] hw/pci-host/pnv_phb: Avoid quitting QEMU if hotplug of
- pnv-phb-root-port fails
-Date: Wed,  9 Nov 2022 13:22:10 +0100
-Message-Id: <20221109122210.115667-1-thuth@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 07825811E75;
+ Wed,  9 Nov 2022 12:22:16 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD5F9141511E;
+ Wed,  9 Nov 2022 12:22:14 +0000 (UTC)
+Date: Wed, 9 Nov 2022 13:22:13 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-block@nongnu.org, eesposit@redhat.com, stefanha@redhat.com,
+ hreitz@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH 01/13] qed: Don't yield in bdrv_qed_co_drain_begin()
+Message-ID: <Y2ubdQZkc9yDso+M@redhat.com>
+References: <20221108123738.530873-1-kwolf@redhat.com>
+ <20221108123738.530873-2-kwolf@redhat.com>
+ <5ed80ab4-0272-e3b9-411c-0c95f8e52a43@yandex-team.ru>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5ed80ab4-0272-e3b9-411c-0c95f8e52a43@yandex-team.ru>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -74,45 +78,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently QEMU terminates if you try to hotplug pnv-phb-root-port in
-an environment where it is not supported, e.g. if doing this:
+Am 09.11.2022 um 10:27 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> On 11/8/22 15:37, Kevin Wolf wrote:
+> >       int ret;
+> >       trace_qed_need_check_timer_cb(s);
+> > @@ -310,9 +309,20 @@ static void coroutine_fn qed_need_check_timer_entry(void *opaque)
+> >       (void) ret;
+> >   }
+> > +static void coroutine_fn qed_need_check_timer_entry(void *opaque)
+> > +{
+> > +    BDRVQEDState *s = opaque;
+> > +
+> > +    qed_need_check_timer(opaque);
+> > +    bdrv_dec_in_flight(s->bs);
+> 
+> hmm, one question: don't we need aio_wait_kick() call here?
 
- echo "device_add pnv-phb-root-port" | \
- ./qemu-system-ppc64 -monitor stdio -M powernv9
+bdrv_dec_in_flight() already calls aio_wait_kick() internally, so any
+places that use it don't need a separate aio_wait_kick().
 
-To avoid this problem, the pnv_phb_root_port_realize() function should
-not use error_fatal when trying to set the properties which might not
-be available.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/pci-host/pnv_phb.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
-
-diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
-index 7b11f1e8dd..0b26b43736 100644
---- a/hw/pci-host/pnv_phb.c
-+++ b/hw/pci-host/pnv_phb.c
-@@ -241,8 +241,16 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
-      * QOM id. 'chip_id' is going to be used as PCIE chassis for the
-      * root port.
-      */
--    chip_id = object_property_get_int(OBJECT(bus), "chip-id", &error_fatal);
--    index = object_property_get_int(OBJECT(bus), "phb-id", &error_fatal);
-+    chip_id = object_property_get_int(OBJECT(bus), "chip-id", &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+    index = object_property_get_int(OBJECT(bus), "phb-id", &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
- 
-     /* Set unique chassis/slot values for the root port */
-     qdev_prop_set_uint8(dev, "chassis", chip_id);
--- 
-2.31.1
+Kevin
 
 
