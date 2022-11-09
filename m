@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1326231EB
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 18:52:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 149156231F0
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 18:54:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ospE9-0008BD-RL; Wed, 09 Nov 2022 12:51:05 -0500
+	id 1ospGR-0000cZ-PZ; Wed, 09 Nov 2022 12:53:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ospE7-0008As-93
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:51:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ospGQ-0000cF-IA
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:53:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1ospDu-0006Dy-0Q
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:51:03 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ospGO-0006xg-KZ
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:53:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668016231;
+ s=mimecast20190719; t=1668016403;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=GHYU0JIm2iHxzs+XgGB1gIOgEP7otH5jvvoCxzNRhTk=;
- b=Kea3ezphoMe/ReRLUgP1ZoTFRwL7Hq6ws6as9KU5koWNh32czHpvJCooeU56OY4uLxbx1F
- X5oHkeSiyUARHDtJkoU99MC86PNMu7nCdoWjWjw1sNw+XR0AwdptAuCkmkEfy1L3amDbkd
- Uo1VbtEVTNj45X4cEMk6l2jfMpi1UFs=
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
- [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fIFfkmHDS92yHk7le82vM/1Y6Sq+JuMyHUNZVyS4r4E=;
+ b=UlThhphUvRZ96DV7CvYRuVW8LK7A5sdhf/Oiw4RvXDc0HSuQFrMPPz5uDiZ4EGyuugtZnj
+ 4rWC9hSfTmap+ALxhb7/uJ5FPEUMfYu2+P6X+cTMHDMk6bQmVf7xdew9Yeeuk1zU9XanZD
+ M68b7H7lAsO27kU6UaXjD2avAZ1t8Uk=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-658-Ba53a0IdMwCVbbsC-VJpTg-1; Wed, 09 Nov 2022 12:50:27 -0500
-X-MC-Unique: Ba53a0IdMwCVbbsC-VJpTg-1
-Received: by mail-oa1-f72.google.com with SMTP id
- 586e51a60fabf-131f323c158so8871097fac.5
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 09:50:27 -0800 (PST)
+ us-mta-359-FGBHmlE8Nl-uq7gXiHTvBg-1; Wed, 09 Nov 2022 12:53:22 -0500
+X-MC-Unique: FGBHmlE8Nl-uq7gXiHTvBg-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ f14-20020a2e950e000000b0026fa4066f3cso6557288ljh.21
+ for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 09:53:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=GHYU0JIm2iHxzs+XgGB1gIOgEP7otH5jvvoCxzNRhTk=;
- b=78I63KGsT5iJeQy2gYOcTaDed4mK4jsitG5ZApe/nhnWMzj5/vHR7ueX676/UpDhEG
- KIlohO99VAOZaWqwgsZz+JnKuE8LrMHlZeVd1Oyu2dVrZkrEGv2pnBmfh/NiZAfoZg0X
- 04w/njxyWkwBpclUYvJ6NZJB9nbuBPU3pu1AM74Yy7GM17Lq9uslMVgOWvB3qbXMRrIq
- QOHZ3qbxJnGJ9a8lpuxlPzFSiPqeSPJrj85E69Lob6/UEyvvTXp7RnPsDj6QRQJ+9POe
- 6S0UFuw8V3wnhGyB5Sx2npZlWVX/YLHEqZH9byYeAJvnOQfh5XNvjEJYu2D99MgpGl+m
- ikTg==
-X-Gm-Message-State: ACrzQf3Gtr6GZBxxYXyAsqcfywxce7d7IzXIMFqDnGV5fH8R7TucGio/
- DdZ0PeoI/IED829zoAnR7pySkxlK3tMTh2YhWSkNzekncrpWm7wNeCg9I6pjPzdDN8WLcOXCxLw
- ZAOdtNwj+YVd6FwLyT7PcY0DcC0BC/VY=
-X-Received: by 2002:a05:6870:15d1:b0:12b:91ce:e419 with SMTP id
- k17-20020a05687015d100b0012b91cee419mr43823898oad.14.1668016227150; 
- Wed, 09 Nov 2022 09:50:27 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5yv+ccsubs/PGj8bItbK6/MSIaa3LR/PkyminxqhFdew8Gc1OCVAkR6/x2KAY3WRZgTPoTqsQRhEFA/s2DnD8=
-X-Received: by 2002:a05:6870:15d1:b0:12b:91ce:e419 with SMTP id
- k17-20020a05687015d100b0012b91cee419mr43823887oad.14.1668016226917; Wed, 09
- Nov 2022 09:50:26 -0800 (PST)
+ bh=fIFfkmHDS92yHk7le82vM/1Y6Sq+JuMyHUNZVyS4r4E=;
+ b=Ql5zMzF8r3MfzSDoJ0ieYa4h/oLIFjCCvRCcS77ZLPr8ZUt360ocsVDnhcch5ZmhbB
+ 2BFxIh1noW+tMalLpPlBgls2OKXgvqeoVzENeUW8ootMj5WewWQHhFsN2eLERRmmoj1A
+ NuYnKIHc0JVDsTZ9JACPvPGow9Etyt5qWZtzXY/BSi49oq1PpTnN+Vx3gwAPbgX8pKTH
+ DzGt9wI+C48i2K/ZYBsRij0qtUFXhxJQD4wRtKiPFLvUI5t8+6/YbfvGcqyIzJSRmojE
+ 49lxcLqLh4p1VHyMY2vbQm7KHLMfUmN8jd/Xqvfuw3ozWo0oHJm90DYEqthQOr17J3gB
+ i7Pg==
+X-Gm-Message-State: ACrzQf2Js34oydjcmReL9kVMBoFiwD46D76t4Egxnql5SgFqtL9YYp5s
+ Pa53/nJHL/NEYjAo7GSnta+7JhLrFRSfBtKB+3MQaN466vdenc8DSunwDms1TJB1rdeX4Z6C5pb
+ 6i9+e4L3EvXU6hhkhFv3Xdxoca2JLaGU=
+X-Received: by 2002:a2e:9d94:0:b0:277:50a:bd5c with SMTP id
+ c20-20020a2e9d94000000b00277050abd5cmr7960713ljj.6.1668016400037; 
+ Wed, 09 Nov 2022 09:53:20 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5CNWv6qRKUT4zGvHZWpy4cPnjTMrlqtbXPQEAcER6VooEP35Ms+6al4mgBXLTf4wo67EAQTIpxFr4zRaHK/8Q=
+X-Received: by 2002:a2e:9d94:0:b0:277:50a:bd5c with SMTP id
+ c20-20020a2e9d94000000b00277050abd5cmr7960694ljj.6.1668016399727; Wed, 09 Nov
+ 2022 09:53:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20221109173750.201615-1-thuth@redhat.com>
-In-Reply-To: <20221109173750.201615-1-thuth@redhat.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Wed, 9 Nov 2022 19:50:14 +0200
-Message-ID: <CAPMcbCqngW+KsXWWKx1tUdLiDZCc44OPBP2AsJubqwOtnLE9CQ@mail.gmail.com>
-Subject: Re: [PATCH] qga: Allow building of the guest agent without system
- emulators or tools
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, 
- Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000af768205ed0d4aa3"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+References: <20221103102741.11201-1-davydov-max@yandex-team.ru>
+ <20221103102741.11201-3-davydov-max@yandex-team.ru>
+ <CAFn=p-aMT7Z3ybbuLvpZb2dphn5ybhwN=OBnKP23PYWb5KshVg@mail.gmail.com>
+ <Y2t1QlBAhqhG9Oaq@redhat.com> <Y2uIL3XkmuiXXSGT@redhat.com>
+In-Reply-To: <Y2uIL3XkmuiXXSGT@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 9 Nov 2022 12:53:08 -0500
+Message-ID: <CAFn=p-ZE3MrNm7Cg=bNamubZMMi13NJJhPcncP5dLj-UBQNcjA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] python/qmp: increase read buffer size
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Maksim Davydov <davydov-max@yandex-team.ru>,
+ qemu-devel <qemu-devel@nongnu.org>, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Eduardo Habkost <eduardo@habkost.net>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ wangyanan55@huawei.com, Cleber Rosa <crosa@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, 
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>, 
+ Laurent Vivier <lvivier@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000fc594505ed0d547a"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,7 +89,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,190 +105,239 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000af768205ed0d4aa3
+--000000000000fc594505ed0d547a
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+On Wed, Nov 9, 2022, 6:00 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
+wrote:
 
-On Wed, Nov 9, 2022 at 7:37 PM Thomas Huth <thuth@redhat.com> wrote:
+> On Wed, Nov 09, 2022 at 09:39:14AM +0000, Daniel P. Berrang=C3=A9 wrote:
+> > On Tue, Nov 08, 2022 at 03:38:21PM -0500, John Snow wrote:
+> > > On Thu, Nov 3, 2022 at 6:29 AM Maksim Davydov
+> > > <davydov-max@yandex-team.ru> wrote:
+> > > >
+> > > > After modification of "query-machines" command the buffer size
+> should be
+> > > > more than 452kB to contain output with compat-props.
+> > > >
+> > > > Signed-off-by: Maksim Davydov <davydov-max@yandex-team.ru>
+> > > > Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.r=
+u
+> >
+> > > > ---
+> > > >  python/qemu/qmp/qmp_client.py | 4 ++--
+> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/python/qemu/qmp/qmp_client.py
+> b/python/qemu/qmp/qmp_client.py
+> > > > index 5dcda04a75..659fe4d98c 100644
+> > > > --- a/python/qemu/qmp/qmp_client.py
+> > > > +++ b/python/qemu/qmp/qmp_client.py
+> > > > @@ -197,8 +197,8 @@ async def run(self, address=3D'/tmp/qemu.socket=
+'):
+> > > >      #: Logger object used for debugging messages.
+> > > >      logger =3D logging.getLogger(__name__)
+> > > >
+> > > > -    # Read buffer limit; large enough to accept query-qmp-schema
+> > > > -    _limit =3D (256 * 1024)
+> > > > +    # Read buffer limit; large enough to accept query-machines
+> > > > +    _limit =3D (512 * 1024)
+> > >
+> > > wow :)
+> >
+> > Meanwhile over in python/qemu/qmp/protocol.py the read buffer limit is
+> > set to just 64 kb.
+>
 
-> If configuring with "--disable-system --disable-user --enable-guest-agent"
-> the linking currently fails with:
+This one will override the other - the protocol limit is for any arbitrary
+full-duplex message-based protocol. It can stay at the lower limit.
+
+(I used protocol.py to implement a qtest client as well, though I didn't
+upstream that piece. If there's interest, I will.)
+
 >
-> qga/qemu-ga.p/commands.c.o: In function `qmp_command_info':
-> build/../../home/thuth/devel/qemu/qga/commands.c:70: undefined reference
-> to `qmp_command_name'
-> build/../../home/thuth/devel/qemu/qga/commands.c:71: undefined reference
-> to `qmp_command_is_enabled'
-> build/../../home/thuth/devel/qemu/qga/commands.c:72: undefined reference
-> to `qmp_has_success_response'
-> qga/qemu-ga.p/commands.c.o: In function `qmp_guest_info':
-> build/../../home/thuth/devel/qemu/qga/commands.c:82: undefined reference
-> to `qmp_for_each_command'
-> qga/qemu-ga.p/commands.c.o: In function `qmp_guest_exec':
-> build/../../home/thuth/devel/qemu/qga/commands.c:410: undefined reference
-> to `qbase64_decode'
-> qga/qemu-ga.p/channel-posix.c.o: In function `ga_channel_open':
-> build/../../home/thuth/devel/qemu/qga/channel-posix.c:214: undefined
-> reference to `unix_listen'
-> build/../../home/thuth/devel/qemu/qga/channel-posix.c:228: undefined
-> reference to `socket_parse'
-> build/../../home/thuth/devel/qemu/qga/channel-posix.c:234: undefined
-> reference to `socket_listen'
-> qga/qemu-ga.p/commands-posix.c.o: In function `qmp_guest_file_write':
-> build/../../home/thuth/devel/qemu/qga/commands-posix.c:527: undefined
-> reference to `qbase64_decode'
+> > If the current output of a particular command is known to 450 kb, then
+> > setting this limit to 512 kb is waaaaaaay to conservative, and we'll
+> > inevitably have to change it again when someone finds the next command
+> > that overflows.
+> >
+> > Recall this thread
+> >
+> >    https://lists.gnu.org/archive/html/qemu-devel/2022-09/msg01060.html
+> >
+> > In fact, let me be the someone who demonstrates a real case where 512kb
+> > is not enough....
 >
-> Let's make sure that we also compile and link the required files if
-> the system emulators have not been enabled.
+> Another example...
 >
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  qapi/meson.build  | 2 +-
->  stubs/meson.build | 2 +-
->  util/meson.build  | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+> Create a guest with 255 vCPUs (current RHEL downstream vCPU limit),
+> and run
 >
-> diff --git a/qapi/meson.build b/qapi/meson.build
-> index 9a36c15c04..fbdb442fdf 100644
-> --- a/qapi/meson.build
-> +++ b/qapi/meson.build
-> @@ -13,7 +13,7 @@ util_ss.add(files(
->  if have_system
->    util_ss.add(files('qapi-type-helpers.c'))
->  endif
-> -if have_system or have_tools
-> +if have_system or have_tools or have_ga
->    util_ss.add(files(
->      'qmp-dispatch.c',
->      'qmp-event.c',
-> diff --git a/stubs/meson.build b/stubs/meson.build
-> index 4314161f5f..c96a74f095 100644
-> --- a/stubs/meson.build
-> +++ b/stubs/meson.build
-> @@ -49,7 +49,7 @@ stub_ss.add(files('vmstate.c'))
->  stub_ss.add(files('vm-stop.c'))
->  stub_ss.add(files('win32-kbd-hook.c'))
->  stub_ss.add(files('cpu-synchronize-state.c'))
-> -if have_block
-> +if have_block or have_ga
->    stub_ss.add(files('replay-tools.c'))
->  endif
->  if have_system
-> diff --git a/util/meson.build b/util/meson.build
-> index 59c1f467bb..b260539bd5 100644
-> --- a/util/meson.build
-> +++ b/util/meson.build
-> @@ -68,7 +68,7 @@ if have_system
->    util_ss.add(when: 'CONFIG_LINUX', if_true: files('userfaultfd.c'))
->  endif
+>   {"execute":"query-stats","arguments":{"target": "vcpu"}}
 >
-> -if have_block
-> +if have_block or have_ga
->    util_ss.add(files('aiocb.c', 'async.c', 'aio-wait.c'))
->    util_ss.add(files('base64.c'))
->    util_ss.add(files('buffer.c'))
+> it'll get back a 0.38 MB  QMP reply.  RHEL raised the limit to 710
+> vCPUs, giving a little over 1 MB QMP reply. There is a strong desire
+> to go even higher. With 4096 vCPUs it'd get an ~6 MB QMP reply.
+>
+> With regards,
+> Daniel
 > --
-> 2.31.1
->
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
 >
 
---000000000000af768205ed0d4aa3
+You're right, of course. I recalled the thread but I was being lazy about
+it. (Sorry.) I thought, naively, that it was better to speed Maksim along
+for now.
+
+I recall you (Daniel) stating that libvirt used a default of 10MB (iirc).
+I'd be happy to adopt that default as well, if only for parity.
+
+Maksim, can I trouble you to send a revised patch as an MR to
+gitlab.com/qemu-project/python-qemu-qmp ? If not, a revised patch to the
+mailing list here is fine and with your permission I'll forward-port it
+over to the standalone repo myself. (Or I can just handle it entirely
+myself, if you'd prefer - just let me know.)
+
+Sorry for the fuss, and thanks for helping to improve QMP testing and
+tooling
+
+--js
+
+>
+
+--000000000000fc594505ed0d547a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
-tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 9=
-, 2022 at 7:37 PM Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth=
-@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">If configuring with &quot;--disable-system --disable-user --enab=
-le-guest-agent&quot;<br>
-the linking currently fails with:<br>
-<br>
-qga/qemu-ga.p/commands.c.o: In function `qmp_command_info&#39;:<br>
-build/../../home/thuth/devel/qemu/qga/commands.c:70: undefined reference to=
- `qmp_command_name&#39;<br>
-build/../../home/thuth/devel/qemu/qga/commands.c:71: undefined reference to=
- `qmp_command_is_enabled&#39;<br>
-build/../../home/thuth/devel/qemu/qga/commands.c:72: undefined reference to=
- `qmp_has_success_response&#39;<br>
-qga/qemu-ga.p/commands.c.o: In function `qmp_guest_info&#39;:<br>
-build/../../home/thuth/devel/qemu/qga/commands.c:82: undefined reference to=
- `qmp_for_each_command&#39;<br>
-qga/qemu-ga.p/commands.c.o: In function `qmp_guest_exec&#39;:<br>
-build/../../home/thuth/devel/qemu/qga/commands.c:410: undefined reference t=
-o `qbase64_decode&#39;<br>
-qga/qemu-ga.p/channel-posix.c.o: In function `ga_channel_open&#39;:<br>
-build/../../home/thuth/devel/qemu/qga/channel-posix.c:214: undefined refere=
-nce to `unix_listen&#39;<br>
-build/../../home/thuth/devel/qemu/qga/channel-posix.c:228: undefined refere=
-nce to `socket_parse&#39;<br>
-build/../../home/thuth/devel/qemu/qga/channel-posix.c:234: undefined refere=
-nce to `socket_listen&#39;<br>
-qga/qemu-ga.p/commands-posix.c.o: In function `qmp_guest_file_write&#39;:<b=
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Wed, Nov 9, 2022, 6:00 AM Daniel P. Berrang=C3=A9 &=
+lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">On Wed, Nov 09, 2022 at 09:39:14A=
+M +0000, Daniel P. Berrang=C3=A9 wrote:<br>
+&gt; On Tue, Nov 08, 2022 at 03:38:21PM -0500, John Snow wrote:<br>
+&gt; &gt; On Thu, Nov 3, 2022 at 6:29 AM Maksim Davydov<br>
+&gt; &gt; &lt;<a href=3D"mailto:davydov-max@yandex-team.ru" target=3D"_blan=
+k" rel=3D"noreferrer">davydov-max@yandex-team.ru</a>&gt; wrote:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; After modification of &quot;query-machines&quot; command the=
+ buffer size should be<br>
+&gt; &gt; &gt; more than 452kB to contain output with compat-props.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Signed-off-by: Maksim Davydov &lt;<a href=3D"mailto:davydov-=
+max@yandex-team.ru" target=3D"_blank" rel=3D"noreferrer">davydov-max@yandex=
+-team.ru</a>&gt;<br>
+&gt; &gt; &gt; Reviewed-by: Vladimir Sementsov-Ogievskiy &lt;<a href=3D"mai=
+lto:vsementsov@yandex-team.ru" target=3D"_blank" rel=3D"noreferrer">vsement=
+sov@yandex-team.ru</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt;=C2=A0 python/qemu/qmp/qmp_client.py | 4 ++--<br>
+&gt; &gt; &gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; diff --git a/python/qemu/qmp/qmp_client.py b/python/qemu/qmp=
+/qmp_client.py<br>
+&gt; &gt; &gt; index 5dcda04a75..659fe4d98c 100644<br>
+&gt; &gt; &gt; --- a/python/qemu/qmp/qmp_client.py<br>
+&gt; &gt; &gt; +++ b/python/qemu/qmp/qmp_client.py<br>
+&gt; &gt; &gt; @@ -197,8 +197,8 @@ async def run(self, address=3D&#39;/tmp/=
+qemu.socket&#39;):<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 #: Logger object used for debugging mess=
+ages.<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 logger =3D logging.getLogger(__name__)<b=
 r>
-build/../../home/thuth/devel/qemu/qga/commands-posix.c:527: undefined refer=
-ence to `qbase64_decode&#39;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 # Read buffer limit; large enough to accept q=
+uery-qmp-schema<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 _limit =3D (256 * 1024)<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 # Read buffer limit; large enough to accept q=
+uery-machines<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 _limit =3D (512 * 1024)<br>
+&gt; &gt; <br>
+&gt; &gt; wow :)<br>
+&gt; <br>
+&gt; Meanwhile over in python/qemu/qmp/protocol.py the read buffer limit is=
 <br>
-Let&#39;s make sure that we also compile and link the required files if<br>
-the system emulators have not been enabled.<br>
+&gt; set to just 64 kb.<br></blockquote></div></div><div dir=3D"auto"><br><=
+/div><div dir=3D"auto">This one will override the other - the protocol limi=
+t is for any arbitrary full-duplex message-based protocol. It can stay at t=
+he lower limit.</div><div dir=3D"auto"><br></div><div dir=3D"auto">(I used =
+protocol.py to implement a qtest client as well, though I didn&#39;t upstre=
+am that piece. If there&#39;s interest, I will.)</div><div dir=3D"auto"><br=
+></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex">
+&gt; <br>
+&gt; If the current output of a particular command is known to 450 kb, then=
 <br>
-Signed-off-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=
-=3D"_blank">thuth@redhat.com</a>&gt;<br>
----<br>
-=C2=A0qapi/meson.build=C2=A0 | 2 +-<br>
-=C2=A0stubs/meson.build | 2 +-<br>
-=C2=A0util/meson.build=C2=A0 | 2 +-<br>
-=C2=A03 files changed, 3 insertions(+), 3 deletions(-)<br>
+&gt; setting this limit to 512 kb is waaaaaaay to conservative, and we&#39;=
+ll<br>
+&gt; inevitably have to change it again when someone finds the next command=
 <br>
-diff --git a/qapi/meson.build b/qapi/meson.build<br>
-index 9a36c15c04..fbdb442fdf 100644<br>
---- a/qapi/meson.build<br>
-+++ b/qapi/meson.build<br>
-@@ -13,7 +13,7 @@ util_ss.add(files(<br>
-=C2=A0if have_system<br>
-=C2=A0 =C2=A0util_ss.add(files(&#39;qapi-type-helpers.c&#39;))<br>
-=C2=A0endif<br>
--if have_system or have_tools<br>
-+if have_system or have_tools or have_ga<br>
-=C2=A0 =C2=A0util_ss.add(files(<br>
-=C2=A0 =C2=A0 =C2=A0&#39;qmp-dispatch.c&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0&#39;qmp-event.c&#39;,<br>
-diff --git a/stubs/meson.build b/stubs/meson.build<br>
-index 4314161f5f..c96a74f095 100644<br>
---- a/stubs/meson.build<br>
-+++ b/stubs/meson.build<br>
-@@ -49,7 +49,7 @@ stub_ss.add(files(&#39;vmstate.c&#39;))<br>
-=C2=A0stub_ss.add(files(&#39;vm-stop.c&#39;))<br>
-=C2=A0stub_ss.add(files(&#39;win32-kbd-hook.c&#39;))<br>
-=C2=A0stub_ss.add(files(&#39;cpu-synchronize-state.c&#39;))<br>
--if have_block<br>
-+if have_block or have_ga<br>
-=C2=A0 =C2=A0stub_ss.add(files(&#39;replay-tools.c&#39;))<br>
-=C2=A0endif<br>
-=C2=A0if have_system<br>
-diff --git a/util/meson.build b/util/meson.build<br>
-index 59c1f467bb..b260539bd5 100644<br>
---- a/util/meson.build<br>
-+++ b/util/meson.build<br>
-@@ -68,7 +68,7 @@ if have_system<br>
-=C2=A0 =C2=A0util_ss.add(when: &#39;CONFIG_LINUX&#39;, if_true: files(&#39;=
-userfaultfd.c&#39;))<br>
-=C2=A0endif<br>
+&gt; that overflows.<br>
+&gt; <br>
+&gt; Recall this thread<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/=
+2022-09/msg01060.html" rel=3D"noreferrer noreferrer" target=3D"_blank">http=
+s://lists.gnu.org/archive/html/qemu-devel/2022-09/msg01060.html</a><br>
+&gt; <br>
+&gt; In fact, let me be the someone who demonstrates a real case where 512k=
+b<br>
+&gt; is not enough....<br>
 <br>
--if have_block<br>
-+if have_block or have_ga<br>
-=C2=A0 =C2=A0util_ss.add(files(&#39;aiocb.c&#39;, &#39;async.c&#39;, &#39;a=
-io-wait.c&#39;))<br>
-=C2=A0 =C2=A0util_ss.add(files(&#39;base64.c&#39;))<br>
-=C2=A0 =C2=A0util_ss.add(files(&#39;buffer.c&#39;))<br>
+Another example...<br>
+<br>
+Create a guest with 255 vCPUs (current RHEL downstream vCPU limit),<br>
+and run<br>
+<br>
+=C2=A0 {&quot;execute&quot;:&quot;query-stats&quot;,&quot;arguments&quot;:{=
+&quot;target&quot;: &quot;vcpu&quot;}}<br>
+<br>
+it&#39;ll get back a 0.38 MB=C2=A0 QMP reply.=C2=A0 RHEL raised the limit t=
+o 710<br>
+vCPUs, giving a little over 1 MB QMP reply. There is a strong desire<br>
+to go even higher. With 4096 vCPUs it&#39;d get an ~6 MB QMP reply.<br>
+<br>
+With regards,<br>
+Daniel<br>
 -- <br>
-2.31.1<br>
-<br>
-</blockquote></div>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer noreferrer" target=3D=
+"_blank">https://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a h=
+ref=3D"https://www.flickr.com/photos/dberrange" rel=3D"noreferrer noreferre=
+r" target=3D"_blank">https://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer noreferrer" target=3D"=
+_blank">https://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com=
+" rel=3D"noreferrer noreferrer" target=3D"_blank">https://fstop138.berrange=
+.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer noreferrer" tar=
+get=3D"_blank">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0=
+ <a href=3D"https://www.instagram.com/dberrange" rel=3D"noreferrer noreferr=
+er" target=3D"_blank">https://www.instagram.com/dberrange</a> :|<br></block=
+quote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">You&#39;re =
+right, of course. I recalled the thread but I was being lazy about it. (Sor=
+ry.) I thought, naively, that it was better to speed Maksim along for now.<=
+/div><div dir=3D"auto"><br></div><div dir=3D"auto">I recall you (Daniel) st=
+ating that libvirt used a default of 10MB (iirc). I&#39;d be happy to adopt=
+ that default as well, if only for parity.</div><div dir=3D"auto"><br></div=
+><div dir=3D"auto">Maksim, can I trouble you to send a revised patch as an =
+MR to <a href=3D"http://gitlab.com/qemu-project/python-qemu-qmp">gitlab.com=
+/qemu-project/python-qemu-qmp</a> ? If not, a revised patch to the mailing =
+list here is fine and with your permission I&#39;ll forward-port it over to=
+ the standalone repo myself. (Or I can just handle it entirely myself, if y=
+ou&#39;d prefer - just let me know.)</div><div dir=3D"auto"><br></div><div =
+dir=3D"auto">Sorry for the fuss, and thanks for helping to improve QMP test=
+ing and tooling</div><div dir=3D"auto"><br></div><div dir=3D"auto">--js</di=
+v><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x"></blockquote></div></div></div>
 
---000000000000af768205ed0d4aa3--
+--000000000000fc594505ed0d547a--
 
 
