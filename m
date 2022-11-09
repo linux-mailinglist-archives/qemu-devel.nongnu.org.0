@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64BF5622F84
+	by mail.lfdr.de (Postfix) with ESMTPS id C21D2622F85
 	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 16:58:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osnSR-0001oo-Le; Wed, 09 Nov 2022 10:57:43 -0500
+	id 1osnSS-0001qM-Dt; Wed, 09 Nov 2022 10:57:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1osnSB-0001dB-UU
+ id 1osnSA-0001cv-Uf
  for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:57:28 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1osnS8-0005i7-Fm
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:57:27 -0500
+ id 1osnS8-0005ob-EC
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 10:57:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668009440;
+ s=mimecast20190719; t=1668009442;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OBA3OTIbSIue2sNhbGgq/ZfVBLgLT7sNawdYdjMymsI=;
- b=ZebqwtOg5e6l5S3Tf6k/4+r7+ZwRcWnRJlC0/XoCfCv8oriQs9CfcFYIYhMGqIqbG+goTh
- X8SoqyZ0Sh1Q5MSidxJOJi+9l/4TzPwOUc5eVGoLfRmMMGl/6lSPVB2fMXeVzZ/3xyF/bz
- RJwJv1qVzOpxcM10fS3yd6zI1W30daM=
+ bh=kdqvurnWAXVDsjl6mVesUOVqmPHheeOSHJAfsJCbOyU=;
+ b=fmfsFSSVjpkgTXepv1rLE/dKIxyD0SJxq4BPPio+rFse4lGAcL/p5fOkZA5kdy7ngCB17s
+ rn83ejcq7JuEYv9nX3QLImasJHji34xf9p7VQBIOKuLBv2IB0khd/JrhjqzHQIADgaQyxI
+ Zo34vfrQpU8X5p5M6F0qzCzMkI0zt6o=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-341-cYwd1En7NJSHBLwFcZeBfQ-1; Wed, 09 Nov 2022 10:57:19 -0500
-X-MC-Unique: cYwd1En7NJSHBLwFcZeBfQ-1
+ us-mta-553-qt9jf7c4PImCsh-VGGsTlw-1; Wed, 09 Nov 2022 10:57:20 -0500
+X-MC-Unique: qt9jf7c4PImCsh-VGGsTlw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 19448833AEC
- for <qemu-devel@nongnu.org>; Wed,  9 Nov 2022 15:57:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1B640101E157
+ for <qemu-devel@nongnu.org>; Wed,  9 Nov 2022 15:57:20 +0000 (UTC)
 Received: from wi2021.rezanina.moe.rezanina.moe (ovpn-193-213.brq.redhat.com
  [10.40.193.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 74A2140C2086;
- Wed,  9 Nov 2022 15:57:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6635440C83BA;
+ Wed,  9 Nov 2022 15:57:19 +0000 (UTC)
 From: mrezanin@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Miroslav Rezanina <mrezanin@redhat.com>
-Subject: [PATCH 3/4] qemu-img: remove unused variable
-Date: Wed,  9 Nov 2022 10:57:13 -0500
-Message-Id: <e86d5b57f9d13bde995c616a533b876f1fb8a527.1668009030.git.mrezanin@redhat.com>
+Subject: [PATCH 4/4] host-libusb: Remove unused variable
+Date: Wed,  9 Nov 2022 10:57:14 -0500
+Message-Id: <00df0db69ff9167d38bac81f6d03281955bd861a.1668009030.git.mrezanin@redhat.com>
 In-Reply-To: <cover.1668009030.git.mrezanin@redhat.com>
 References: <cover.1668009030.git.mrezanin@redhat.com>
 MIME-Version: 1.0
@@ -80,38 +80,57 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Miroslav Rezanina <mrezanin@redhat.com>
 
-Variable block_count used in img_dd function is only incremented but never read.
+Variable unconnected used in usb_host_auto_check function is only incremented
+but never read as line where it is read was disabled since introducing the code.
 This causes 'Unused but set variable' warning on Clang 15.0.1 compiler.
 
-Removing the variable to prevent the warning.
+Removing the variable and disabled code to prevent the warning.
 
 Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
 ---
- qemu-img.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/usb/host-libusb.c | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index a3b64c88af..a9b3a8103c 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -4922,7 +4922,7 @@ static int img_dd(int argc, char **argv)
-     const char *out_fmt = "raw";
-     const char *fmt = NULL;
-     int64_t size = 0;
--    int64_t block_count = 0, out_pos, in_pos;
-+    int64_t out_pos, in_pos;
-     bool force_share = false;
-     struct DdInfo dd = {
-         .flags = 0,
-@@ -5122,7 +5122,7 @@ static int img_dd(int argc, char **argv)
+diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
+index 28f8af8941..176868d345 100644
+--- a/hw/usb/host-libusb.c
++++ b/hw/usb/host-libusb.c
+@@ -1837,7 +1837,6 @@ static void usb_host_auto_check(void *unused)
+     struct USBAutoFilter *f;
+     libusb_device **devs = NULL;
+     struct libusb_device_descriptor ddesc;
+-    int unconnected = 0;
+     int i, n;
  
-     in.buf = g_new(uint8_t, in.bsz);
+     if (usb_host_init() != 0) {
+@@ -1897,9 +1896,6 @@ static void usb_host_auto_check(void *unused)
+         libusb_free_device_list(devs, 1);
  
--    for (out_pos = 0; in_pos < size; block_count++) {
-+    for (out_pos = 0; in_pos < size; ) {
-         int bytes = (in_pos + in.bsz > size) ? size - in_pos : in.bsz;
+         QTAILQ_FOREACH(s, &hostdevs, next) {
+-            if (s->dh == NULL) {
+-                unconnected++;
+-            }
+             if (s->seen == 0) {
+                 if (s->dh) {
+                     usb_host_close(s);
+@@ -1908,17 +1904,6 @@ static void usb_host_auto_check(void *unused)
+             }
+             s->seen = 0;
+         }
+-
+-#if 0
+-        if (unconnected == 0) {
+-            /* nothing to watch */
+-            if (usb_auto_timer) {
+-                timer_del(usb_auto_timer);
+-                trace_usb_host_auto_scan_disabled();
+-            }
+-            return;
+-        }
+-#endif
+     }
  
-         ret = blk_pread(blk1, in_pos, bytes, in.buf, 0);
+     if (!usb_vmstate) {
 -- 
 2.31.1
 
