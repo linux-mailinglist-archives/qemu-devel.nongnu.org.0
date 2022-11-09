@@ -2,80 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 022B5623102
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 18:04:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AF8262314A
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 18:20:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osoS1-00040y-Rd; Wed, 09 Nov 2022 12:01:21 -0500
+	id 1osoiz-0004fv-Ep; Wed, 09 Nov 2022 12:18:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1osoQz-0003nc-2O
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:00:22 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1osoQx-0001AD-C1
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:00:16 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- 187-20020a1c02c4000000b003cf9c3f3b80so1689280wmc.0
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 09:00:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rBlWL4FLtY8mNZis1U2K8M01p6OCavCbUHNH6wH10ks=;
- b=cnIOyNhigbJdv0VAYsfj2TpeBr28bxf6/i7swW4drNVDB7CKtQl8NC+hq3G2zXNEwi
- Dh86RL2wu8YYOp/nN/QP+Ngd+IRhO7ErUTg/cLfae9naJKUExA7gvZzQZkP8pkrb1yZA
- e8w0GKFLje1kg1VBr2ymkQgtp4tL8fj9xlQq1Eqj4Dt5xpMgYQS7n1Ok4Ul5yVueXRig
- F0Vbtx/6dAI3FiaABJZKP7J1Y00f8+pKI3PJqgNwrAgMmqEQttZjPpp+ylqpmr3ElT/x
- 1kCqwzqy2Kk2Niafw5+rZepuv4NBktFc2jBB7l8ROpVlUvU2I5QavdORt0BNsMiWgVBS
- FVJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rBlWL4FLtY8mNZis1U2K8M01p6OCavCbUHNH6wH10ks=;
- b=FT11A2YamsAkG8Qdfrmx6dHg/JXQ6leiQdwnVvWr/0FdSwcgc8dHl1HLs5HA9x7NdY
- DLgK2CMWptgbDIUT+MIrP2rnKi4KI6VBHUPPstTBvpnqug8K0eg1lmjpXd7I4ajRhUOC
- QrLh4CZvcXPjUhConepzvqaS3V7hCeLYjNiI5pCcVIYpT9LHoftuOuMasO5NpaeLfnMs
- lSRur6hfr9vsQ8jq2McjGGjQckVm+DJYO+mefZUoqhP4WQkbQBM5kFwxd945tGcDIVEr
- ZfBN8++pwPKvkSKgF+W0Hu5XJjLX3ZateEDxsqwoZIlIAHQisJl0uL89Uc6msyu//qKN
- HCYQ==
-X-Gm-Message-State: ACrzQf2qzCnyVv8v8AeGF18SCTTnYFarBAzv+h8tnxVFOFTNZq2IiXpI
- Wt62C/9SQ4kALWOBcRoCCwW4QBup2wFmmg==
-X-Google-Smtp-Source: AMsMyM5r3v9Z4lkxTX8QFE3z8lQC4EqraqO4MmpCkVw/ebor3yhFuarqmetLOcYXCwSTYQpQf+C2pg==
-X-Received: by 2002:a05:600c:3482:b0:3cf:6af4:c4fa with SMTP id
- a2-20020a05600c348200b003cf6af4c4famr938490wmq.117.1668013213636; 
- Wed, 09 Nov 2022 09:00:13 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- p5-20020a05600c358500b003c6b9749505sm2514932wmq.30.2022.11.09.09.00.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Nov 2022 09:00:13 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH for-8.0 2/2] hw/input/ps2.c: Convert TYPE_PS2_{KBD,
- MOUSE}_DEVICE to 3-phase reset
-Date: Wed,  9 Nov 2022 17:00:09 +0000
-Message-Id: <20221109170009.3498451-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221109170009.3498451-1-peter.maydell@linaro.org>
-References: <20221109170009.3498451-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1osoix-0004fG-8Y
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:18:51 -0500
+Received: from mail-dm6nam11on20604.outbound.protection.outlook.com
+ ([2a01:111:f400:7eaa::604]
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1osoik-0005Tn-4J
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 12:18:50 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OcZoHNv4rLpveG6WYPMLNocpUQ1au3HoKsXBZmKEC+K7Mw1G/YgPZlMS6jwAngNIJ82aoKlQmI3pC1pP7njJGWDK4pwHJrekUzjYRfshS1DUr2YbsyKX2BSA50U63qJ2uv2rXvYYyV6Rb/8YH1MhEILKndAIbd+3nM1tmlzV0MMLHsicZ1WBrr3BUtksnRBv33oEmox05mqf+y0zf/c1cGfa7WV9Zg1Ph33sLauqPzGVxuw3eioUYvXR+152L+740aavHTBLb5MjoIhamBgwFuP5tZwk2I5y/4xwIWuTKvWdO70c0ukTpYd8w+C4UJyFQfuU1YKC96KixRSivQ3P8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A9Ev+LyKwfy5Y+ePpAJ3OZmlHz9IZMYMpVFSQX2ouLY=;
+ b=gTCx/idJc8FJy1Joj885SKcC9aRuxL68fPaGpxaqL4PO3rfzRVSuH9BAhYao7+ZV9aqi6TEtwsIXnHNEC43oxgg1a3U8wX2HYEtS8zVXFoIgCT7x1rnbNAvCQ2wWcmrPCBOP4q78AYRnQavKneSdPpwDJuxxnf/ctfViYNWmrSYMl1QCHm7HC6fqd6TJK1mVTENIN0xgCI/FzZqCkUmCTSLD1ZhMtlz/xsZb+OnGim9lwpTsq797T9NsiBedMA3WBztiVkxnQ3LECBXFaMq+cFTkJxtQ+23KeSna0IdEiuhPCJCh5m05/60QxZXNqbeVRxutogH28pY5k3AoDuF3JQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A9Ev+LyKwfy5Y+ePpAJ3OZmlHz9IZMYMpVFSQX2ouLY=;
+ b=o28K+pPeaOPoJh43jZKdz/1cetRZBP754WhrPIgkyhhOcsIO72/diV60JKkMzb2hbZlHZ6JHWgOioQW6xqXQ7drZWHJCb9WnuL5Ot3KFERahSuPvM8jeiio+up0mpoaTO9r4Z7RJZy1LSmZ0HP7151QiX8SDelTru5UblXIX/rs=
+Received: from DS7PR03CA0171.namprd03.prod.outlook.com (2603:10b6:5:3b2::26)
+ by PH8PR12MB7159.namprd12.prod.outlook.com (2603:10b6:510:229::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.27; Wed, 9 Nov
+ 2022 17:13:31 +0000
+Received: from DM6NAM11FT023.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3b2:cafe::3d) by DS7PR03CA0171.outlook.office365.com
+ (2603:10b6:5:3b2::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.27 via Frontend
+ Transport; Wed, 9 Nov 2022 17:13:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT023.mail.protection.outlook.com (10.13.173.96) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5813.12 via Frontend Transport; Wed, 9 Nov 2022 17:13:30 +0000
+Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Wed, 9 Nov
+ 2022 11:13:30 -0600
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Subject: [ANNOUNCE] QEMU 7.2.0-rc0 is now available
+From: Michael Roth <michael.roth@amd.com>
+To: <qemu-devel@nongnu.org>
+CC: <stefanha@gmail.com>
+Date: Wed, 9 Nov 2022 11:12:45 -0600
+Message-ID: <166801396551.1184933.14277873527447433168@amd.com>
+User-Agent: alot/0.9
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT023:EE_|PH8PR12MB7159:EE_
+X-MS-Office365-Filtering-Correlation-Id: 828fd0d6-d854-4d62-63db-08dac275b9ca
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rbqC2CO0rzYmo6PsDTAPEeelqubkDx+BysvfYZRH1BxgV6QaXd5G8eLtnXXaO+adRDksNVQcSxpBjNl7QijyD8eyBPcQfX7iQ16+IR+3E7JcaiOxInhlb/BHSzNbLQgZiX5m4wNO0hAfzUINjcpW0IvbnW7LmDu+bVfyRap7Obt6UsAIKvPKDqKwF7Pu7Mw1oFrhNc6v6xhrJwpQo0ROm3BXBWT7hniXv5dMNUOobvgy1GJuR0A4kLbhPyzI6rpx8ZOl78ySRJe5nT9b2LhqPBNLXoJK8JyXrOx6uMozGtOzZBjgzt/OQxxeMEP+tCIE1BUO9Eb01MI6xysaQgobT4YSu5ZqzX90fPKnqxTWDdWD8qIOaADFHRMtIb6bsBvdbFRnK3DUl9+JR36FgBRFhEfgH66P0lBJkIXJ8tfCUrEEwRxx5ywiIAblkFBQWCYlXj/EVE8KA92xFiqBZceSb6D16CCNrZN3q17ESLed2j02+iy494Kg/hM9AYmrcACUUa7OmnNRizsaDh5OrAkUt3w1QPuyiuVySMck2Mw/OyapeWjdzpjXHvx9nmTX7d5oypK0sayIaL0b/qHmU7quDCQjJ9zlKovzoS/zCE1ANHQZVNRZYyHBB2Co48eDYIs2aok0lkWclvy446pv6NxvUU7croCTWpYwiwy+UPxIQ0iLtxOXLohq7zl0f+XJEU/fVXpopywUmWoJOTRfH+ZNh++7FtPwYTRF8cNjXJY4wv/3sUKcPkEdgkZdPn7yRhzLp2fk6fTKsAAMvFNe/uM1Q7DBiziclD91cDlwDTfHz1HgZq0bTTurkZFYgWlMdszBgLIeLxDOUQkZS+2P+Va33w==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230022)(4636009)(136003)(376002)(39860400002)(346002)(396003)(451199015)(46966006)(36840700001)(40470700004)(4744005)(70206006)(316002)(6916009)(36756003)(70586007)(82310400005)(4326008)(8676002)(82740400003)(36860700001)(356005)(83380400001)(966005)(478600001)(41300700001)(6666004)(40480700001)(16526019)(81166007)(336012)(186003)(47076005)(8936002)(5660300002)(26005)(44832011)(426003)(2616005)(40460700003)(86362001)(2906002)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2022 17:13:30.9576 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 828fd0d6-d854-4d62-63db-08dac275b9ca
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT023.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7159
+Received-SPF: softfail client-ip=2a01:111:f400:7eaa::604;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
+ SPF_HELO_PASS=-0.001, T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,112 +118,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Convert the child classes TYPE_PS2_KBD_DEVICE and
-TYPE_PS2_MOUSE_DEVICE to the 3-phase reset system.  This allows us to
-stop using the old device_class_set_parent_reset() function.
+Hello,
 
-We don't need to register an 'exit' phase function for the
-subclasses, because they have no work to do in that phase.  Passing
-NULL to resettable_class_set_parent_phases() will result in the
-parent class method being called for that phase, so we don't need to
-register a function purely to chain to the parent 'exit' phase
-function.
+On behalf of the QEMU Team, I'd like to announce the availability of the
+first release candidate for the QEMU 7.2 release. This release is meant
+for testing purposes and should not be used in a production environment.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/hw/input/ps2.h |  2 +-
- hw/input/ps2.c         | 31 ++++++++++++++++++++-----------
- 2 files changed, 21 insertions(+), 12 deletions(-)
+  http://download.qemu-project.org/qemu-7.2.0-rc0.tar.xz
+  http://download.qemu-project.org/qemu-7.2.0-rc0.tar.xz.sig
 
-diff --git a/include/hw/input/ps2.h b/include/hw/input/ps2.h
-index ff777582cd6..cd61a634c39 100644
---- a/include/hw/input/ps2.h
-+++ b/include/hw/input/ps2.h
-@@ -36,7 +36,7 @@
- struct PS2DeviceClass {
-     SysBusDeviceClass parent_class;
- 
--    DeviceReset parent_reset;
-+    ResettablePhases parent_phases;
- };
- 
- /*
-diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-index 47a5d68e300..3253ab6a92c 100644
---- a/hw/input/ps2.c
-+++ b/hw/input/ps2.c
-@@ -1042,13 +1042,16 @@ static void ps2_common_post_load(PS2State *s)
-     q->cwptr = ccount ? (q->rptr + ccount) & (PS2_BUFFER_SIZE - 1) : -1;
- }
- 
--static void ps2_kbd_reset(DeviceState *dev)
-+static void ps2_kbd_reset_hold(Object *obj)
- {
--    PS2DeviceClass *ps2dc = PS2_DEVICE_GET_CLASS(dev);
--    PS2KbdState *s = PS2_KBD_DEVICE(dev);
-+    PS2DeviceClass *ps2dc = PS2_DEVICE_GET_CLASS(obj);
-+    PS2KbdState *s = PS2_KBD_DEVICE(obj);
- 
-     trace_ps2_kbd_reset(s);
--    ps2dc->parent_reset(dev);
-+
-+    if (ps2dc->parent_phases.hold) {
-+        ps2dc->parent_phases.hold(obj);
-+    }
- 
-     s->scan_enabled = 1;
-     s->translate = 0;
-@@ -1056,13 +1059,16 @@ static void ps2_kbd_reset(DeviceState *dev)
-     s->modifiers = 0;
- }
- 
--static void ps2_mouse_reset(DeviceState *dev)
-+static void ps2_mouse_reset_hold(Object *obj)
- {
--    PS2DeviceClass *ps2dc = PS2_DEVICE_GET_CLASS(dev);
--    PS2MouseState *s = PS2_MOUSE_DEVICE(dev);
-+    PS2DeviceClass *ps2dc = PS2_DEVICE_GET_CLASS(obj);
-+    PS2MouseState *s = PS2_MOUSE_DEVICE(obj);
- 
-     trace_ps2_mouse_reset(s);
--    ps2dc->parent_reset(dev);
-+
-+    if (ps2dc->parent_phases.hold) {
-+        ps2dc->parent_phases.hold(obj);
-+    }
- 
-     s->mouse_status = 0;
-     s->mouse_resolution = 0;
-@@ -1245,10 +1251,12 @@ static void ps2_mouse_realize(DeviceState *dev, Error **errp)
- static void ps2_kbd_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
-     PS2DeviceClass *ps2dc = PS2_DEVICE_CLASS(klass);
- 
-     dc->realize = ps2_kbd_realize;
--    device_class_set_parent_reset(dc, ps2_kbd_reset, &ps2dc->parent_reset);
-+    resettable_class_set_parent_phases(rc, NULL, ps2_kbd_reset_hold, NULL,
-+                                       &ps2dc->parent_phases);
-     dc->vmsd = &vmstate_ps2_keyboard;
- }
- 
-@@ -1262,11 +1270,12 @@ static const TypeInfo ps2_kbd_info = {
- static void ps2_mouse_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
-     PS2DeviceClass *ps2dc = PS2_DEVICE_CLASS(klass);
- 
-     dc->realize = ps2_mouse_realize;
--    device_class_set_parent_reset(dc, ps2_mouse_reset,
--                                  &ps2dc->parent_reset);
-+    resettable_class_set_parent_phases(rc, NULL, ps2_mouse_reset_hold, NULL,
-+                                       &ps2dc->parent_phases);
-     dc->vmsd = &vmstate_ps2_mouse;
- }
- 
--- 
-2.25.1
+You can help improve the quality of the QEMU 7.2 release by testing this
+release and reporting bugs using our GitLab issue tracker:
 
+  https://gitlab.com/qemu-project/qemu/-/milestones/7#tab-issues
+
+The release plan, as well a documented known issues for release
+candidates, are available at:
+
+  http://wiki.qemu.org/Planning/7.2
+
+Please add entries to the ChangeLog for the 7.2 release below:
+
+  http://wiki.qemu.org/ChangeLog/7.2
+
+Thank you to everyone involved!
 
