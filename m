@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1808462281D
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 11:11:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96B5362282B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 11:13:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osi2c-0001Ay-1p; Wed, 09 Nov 2022 05:10:42 -0500
+	id 1osi4t-0002Y3-1f; Wed, 09 Nov 2022 05:13:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1osi2Y-0001Aa-LI
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 05:10:38 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1osi2X-0003bj-3K
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 05:10:38 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- c15-20020a17090a1d0f00b0021365864446so1446433pjd.4
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 02:10:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Tn+URKDFhLV5lcim97pXyJs0pFUBgUnky0TLNFsyy1s=;
- b=RneHEtERxwFI1lXQQ/HcMg0EbKbQ1XRE67dnnE+ifLO5E0C4bNNz/fV0WlTerBeZIg
- KEkGwvMVZO1SC0AW1oQHdS/B/yzgvZbb2kF4X1mbirtsrF7E/TLEAVTmM9xK5VWuUNcp
- WfKuICbbTn1QeqxcnLjx/jXgXz8CH0jve4Zzi2CbTct9CRxulznyywwSuWPFfA1FL7Bx
- Do/Xiu/kHz7WUE4nnzIvj3vzmj2uYLgBXwpCzvlAHXx8miPUCFMdiMJsyyRIoHJxeA4X
- dkPz6k1/5D0/ghcezAZmMeULs7Mae3TVKR73dKhoHT+E6RtXkepT7wrHgoIckdYDPVkO
- vvIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Tn+URKDFhLV5lcim97pXyJs0pFUBgUnky0TLNFsyy1s=;
- b=aZyay2zJddqjkXd1ssk8eAkkSCWtOEdXEqWFCFB5IoSpcrJ19ZTouzAFiSlqqBXCvt
- 5ZohXmCL4dXRBHl594g7UMaJL8hHuZ12E/lI8pbeJUh3Cm8NHvDL3JlbrQPHv328ATjw
- mmyHvPup7oKdmY3bfk5VW8YkOtv1NG0qfr1VewVN545YATzWqWR9bTI6HEoo8TzkQizi
- FO9kufT3dzKoxV1tNVyGMBpa0oWYSkqAMk/7VB6tAkxUOfOI2OLFAKshp2kwmti5ah1r
- DqMrA3YeQ7rfoHei0xSm7Bf38J7Hr4KYLG9Cywy2NK/PlN4Y9JjN6BuLplMeu9zU/rqQ
- eWkg==
-X-Gm-Message-State: ACrzQf3eTjVhAGDIucKhFZhmo5OyZRV0KYJUTrlNS6D0zuSiIeQZFpYf
- Se+q0/lF28H2KPuK/mbZ5F6H7NRs+OBhYUsI2CXIqgHMCqQ=
-X-Google-Smtp-Source: AMsMyM7BxBSKuBpeomvEnG9m916cRVNSqiAaw124ZZRUv1B94W2r4O6JedntLcgGArZhCV5tkpngQs7AR+5WKLG05vg=
-X-Received: by 2002:a17:90b:4b81:b0:213:341d:3ea6 with SMTP id
- lr1-20020a17090b4b8100b00213341d3ea6mr61248625pjb.19.1667988635278; Wed, 09
- Nov 2022 02:10:35 -0800 (PST)
-MIME-Version: 1.0
-References: <6FE4D6CD-1F6C-4632-92ED-9233C8F0EB87@amazon.com>
-In-Reply-To: <6FE4D6CD-1F6C-4632-92ED-9233C8F0EB87@amazon.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 9 Nov 2022 10:10:23 +0000
-Message-ID: <CAFEAcA-gz1=4we6wNy3dyW8yTjpWUf2iERSMrHD55Pd=-xeeuw@mail.gmail.com>
-Subject: Re: Questions about QEMU exception
-To: "Li, Kevin" <cnkevin@amazon.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1osi4p-0002XY-Gk
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 05:12:59 -0500
+Received: from mr85p00im-zteg06011601.me.com ([17.58.23.186])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1osi4n-0003x2-KS
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 05:12:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
+ t=1667988770; bh=BFNhYGg9PQArRQyA69WUp2ISuGC+rzVLCTn1PuAYVks=;
+ h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
+ b=cYncNX1YQ5bHDBZO+re4DwbNUGuueTNOUHxLwNf5fgfYC4A8Sw9Scof8IakSI6MjW
+ T6FuCLjvvq7nZB83AcX1bWkT2khVR6KWtA3GSZYDofjTUygfKazfuBTej2Fn9CoKcy
+ F5RiCa5O0KQODIHpK+bwHdbQ1VuoT8uqn9ur7hCdhS6v3ZHt7/yUWYP6c0+YCpxrVt
+ A09asNHawe2u5d3JlZ2wMWcC0Ka4t1AsFCzIGh4hSA+oe6nUp+cjRUH1KFV1QvMupS
+ 4zzFkrFmE9zblrOStmBm9p9ui83wPYETvXpfXo+U6+2FhTML8r1Jt7FvcWkdo7aazz
+ VXxyRVjG+MiGQ==
+Received: from smtpclient.apple (mr38p00im-dlb-asmtp-mailmevip.me.com
+ [17.57.152.18])
+ by mr85p00im-zteg06011601.me.com (Postfix) with ESMTPSA id 8AD1C180CA0;
+ Wed,  9 Nov 2022 10:12:48 +0000 (UTC)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.200.110.1.12\))
+Subject: Re: [PATCH 2/3] hvf: implement guest debugging on Apple Silicon hosts
+From: Mads Ynddal <mads@ynddal.dk>
+In-Reply-To: <D86C8F4E-517E-4ECC-A66D-E57F551FFECF@ynddal.dk>
+Date: Wed, 9 Nov 2022 11:12:36 +0100
+Cc: qemu-devel@nongnu.org, dirty@apple.com, r.bolshakov@yadro.com,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM cores" <qemu-arm@nongnu.org>,
+ Alexander Graf <agraf@csgraf.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Francesco Cagnin <fcagnin@quarkslab.com>,
+ =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Message-Id: <EF30A57C-C82F-41C0-A8B2-047DFF696A7C@ynddal.dk>
+References: <20221104184101.6923-1-fcagnin@quarkslab.com>
+ <20221104184101.6923-3-fcagnin@quarkslab.com>
+ <2B918171-9464-40DC-AE11-D25E60858370@ynddal.dk>
+ <CAF8_6KmwMCiNcC-romHoGZhcpPph71b3qv7yn9RHQArV3Q+nDA@mail.gmail.com>
+ <D86C8F4E-517E-4ECC-A66D-E57F551FFECF@ynddal.dk>
+To: Francesco Cagnin <francesco.cagnin@gmail.com>
+X-Mailer: Apple Mail (2.3731.200.110.1.12)
+X-Proofpoint-GUID: pBGoCoOX0g80k4yA6J_mK0C_gHeTkaRV
+X-Proofpoint-ORIG-GUID: pBGoCoOX0g80k4yA6J_mK0C_gHeTkaRV
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.816,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-01-18=5F01:2022-01-14=5F01,2022-01-18=5F01,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxlogscore=462
+ adultscore=0 mlxscore=0 phishscore=0 malwarescore=0 suspectscore=0
+ spamscore=0 clxscore=1030 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2211090078
+Received-SPF: pass client-ip=17.58.23.186; envelope-from=mads@ynddal.dk;
+ helo=mr85p00im-zteg06011601.me.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,36 +86,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 9 Nov 2022 at 01:53, Li, Kevin <cnkevin@amazon.com> wrote:
->
-> Hi qemu community,
->
->
->
-> We are working on some open source project which uses qemu on mac, and we=
- have some signing process to sign qemu-system-x86_64.
->
-> If qemu-system-x86_64 is not signed, we don=E2=80=99t see any problem, bu=
-t after sign it, we got the following error:
->
->
->
-> qemu-system-x86_64 -M none -netdev help]: stdout=3D\"Accelerators support=
-ed in QEMU binary:\\ntcg\\nhax\\nhvf\\n\", stderr=3D\"qemu-system-x86_64: a=
-llocate 1073741824 bytes for jit buffer: Invalid argument
->
->
->
-> Does anyone has clue about what change may result in this failure?
 
-You don't say which QEMU version you're using. Does it still happen
-with the most recent release? Does it still happen if you build
-from current head-of-git ?
+> On 8 Nov 2022, at 12.51, Mads Ynddal <mads@ynddal.dk> wrote:
+>=20
+> I also noticed you are adding 1 to the WRPs and BRPs. As I interpret =
+the
+> documentation, you should subtract 1 instead, given the value 0 is =
+reserved:
 
-PS: I think the QEMU build process should already be signing the executable=
-,
-so I'm not sure why you need to sign it again (see scripts/entitlement.sh).
-
-thanks
--- PMM
+I tested it, and you do have to add 1. I guess it's implied that you =
+cannot have
+less than 2 WRPs/BRPs then.=
 
