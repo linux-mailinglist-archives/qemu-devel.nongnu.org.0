@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D64622456
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 08:03:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C18A622455
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 08:03:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osf6c-0006dk-5e; Wed, 09 Nov 2022 02:02:38 -0500
+	id 1osf6g-0006ez-1y; Wed, 09 Nov 2022 02:02:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1osf6X-0006b4-6p
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 02:02:33 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ id 1osf6a-0006cS-PE
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 02:02:36 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1osf6V-00023w-Gj
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 02:02:32 -0500
-Received: by mail-pl1-x629.google.com with SMTP id j12so16272750plj.5
- for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 23:02:31 -0800 (PST)
+ id 1osf6Y-0002Ee-Re
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 02:02:36 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ e7-20020a17090a77c700b00216928a3917so991102pjs.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Nov 2022 23:02:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=iy3i3TDKrp65yr9vk56M6NY8GgxC8G35CVISVv3lJno=;
- b=NmWxAnjfEkk9wEo1XxKRlSGlCIctP+dmjQk4ztb2to8CutJgyXGHEfSNByXp8kZ9Q5
- ylNCDcyplMX1wRGCQonvt4l0CI6FOsNxix6EuQf9IaM2lNquicKe5ioKFy8+E7tDx0DE
- vfkeXd9bzVZsKq8wEg+HVVrSWkfefwe7GaowCVb80dRpBnowYNQbAUeQkdkVoNd1Dz2b
- PTOonttH3QptSblGkp6XJgndznXcJX5O7SXCXiQ983HoQwZ4e10R2xdPkUUVc+D9gav8
- 9BqifYDu4f3N+ebbzXLtlPb1jg4tI9uaV9/foxVJnuDAfR4uGv0D09CfqHTS9xzQWgtj
- gVnQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FPCwCw8NIdnDIzeLfwT3RMHDD1OYAbg9lFHMIclkLr0=;
+ b=S0IX/GQz57Ov1GzWNEM1mP4DgoxQx2b/+8j0COusPABm9qwM7d56ZXpKI7cYjCuPRt
+ L6p+MKguGJ2IBUiWtsO1TXfxuH24MrRrKnDyF0Wacs5h9P+N6yazZjuJlw7lUSqRTh+B
+ MtxduwFMygtY1WqSFjYgaepVNCqfHEVb4UHvjadTru1MHlD5usUXFM8puyptI96z6Eoh
+ 786BHYnRFXSmbj3cfq1UgWDKbgBODEnEYciY9qy1Bc7bZjckr9nhGuVV+jtJfaZe5EUN
+ WqWpF+jTSJhMAjNNieH2XeygSu0vaoVvUv6Lq+FGu+8jzu3y3UG+ExNh/aHF26JY1+j8
+ h4Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iy3i3TDKrp65yr9vk56M6NY8GgxC8G35CVISVv3lJno=;
- b=ACVHu2M0ZUXgKqPcwMoz8PCIntpw/Xd79OJI97vHEEcEpXpQ6/hoHk9+0NWilcZQWr
- pOHqyteNjbG1sFZY4Zn5JvPDIPT6/KBZ894tOZ8szUv+MgzzZSJ9wcn5FBBHHR/dGQ4F
- p4FDjXa0Vc13PQfIsyTngHXhi2arXULS3ceyZky+VL136G8qg4lWlpl85Sc8l3ow7BcW
- BkrKd3suxmZO2Kv6JhECLbJE3FOFRuxPSRMJ9qc//T2UMQGuHEdZe9vOoAC1B4RqzCaJ
- qtELojY3iFwYRLJToX8VX1be7zAK8Twa69aihzIwVBu655zG4jF+uM06Sw+2bdq1J9x/
- +7jg==
-X-Gm-Message-State: ACrzQf0fYx1cSyDwBOmx2XyNTp4pD8vHwpxjKEslEni5sC351SVaStFw
- oE/H+k/iaoMZCl/ny1vjTfXp40re0MSgeieJ
-X-Google-Smtp-Source: AMsMyM6k8gXDKq8lmDXpHrCcqE0W2yLiEj6tPQ//6bIq6vv3iOU3nXfaD1ae3Mz5VWE0NOFmblR+aQ==
-X-Received: by 2002:a17:90a:8a8c:b0:213:c06c:7003 with SMTP id
- x12-20020a17090a8a8c00b00213c06c7003mr58140020pjn.147.1667977349964; 
- Tue, 08 Nov 2022 23:02:29 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FPCwCw8NIdnDIzeLfwT3RMHDD1OYAbg9lFHMIclkLr0=;
+ b=kw49iNU0rsrYHcW/pbK5UyPURQc/lz/DQlpmCpXF0NM95VxlKPEYm/VPgLCdop7uiS
+ 4qsM/wWWG23/G1Gr6JrUibNtafJKpdBibmnAUgFNGuubrEO2KPOUKXsMi3O5kO0xJb3U
+ Hy1fnpQmF4fKsb0JO38X9JwQ/ZeU7SwO704Oi+hHlhc0tS4I4qy+ukDqcTUaqPBEvhrW
+ eQb6DK7SIVYziuTofooHXKNL4pYKnU0GObqwXj0uhmib5Edfaua4jM9whjBhJaecGqZC
+ f0eYcI0WTQdZ/iErwHs05ZLGOlv1Dw8dc1JpL2HTZm/HXPjUETAsl32oAtJdjIYtMCUR
+ dYjQ==
+X-Gm-Message-State: ACrzQf3JsMitP0T6r8RjXR+YMI5k5v1abHnk1NXt+rgVU859BlfoeXk+
+ TijDzszV6QV8ibkhoR3VrlxlHJpA1fidbVH1
+X-Google-Smtp-Source: AMsMyM4xeOz2XJXN8ceo1UeA6U8DrDlawHOzoTVTafyJKsc+szQi31nE/0sfZ0cWVU7/HCMVICTm/g==
+X-Received: by 2002:a17:90a:b011:b0:213:473e:6fe1 with SMTP id
+ x17-20020a17090ab01100b00213473e6fe1mr61559377pjq.229.1667977352863; 
+ Tue, 08 Nov 2022 23:02:32 -0800 (PST)
 Received: from stoup.lan
  (2001-44b8-2176-c800-855d-0172-a1c2-6464.static.ipv6.internode.on.net.
  [2001:44b8:2176:c800:855d:172:a1c2:6464])
  by smtp.gmail.com with ESMTPSA id
- u8-20020a1709026e0800b0017bb38e4588sm8158784plk.135.2022.11.08.23.02.27
+ u8-20020a1709026e0800b0017bb38e4588sm8158784plk.135.2022.11.08.23.02.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Nov 2022 23:02:29 -0800 (PST)
+ Tue, 08 Nov 2022 23:02:32 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com
-Subject: [PULL for-7.2 0/2] tcg patch queue
-Date: Wed,  9 Nov 2022 18:02:22 +1100
-Message-Id: <20221109070224.13073-1-richard.henderson@linaro.org>
+Cc: stefanha@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 1/2] tcg: Move TCG_TARGET_HAS_direct_jump init to tb_gen_code
+Date: Wed,  9 Nov 2022 18:02:23 +1100
+Message-Id: <20221109070224.13073-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221109070224.13073-1-richard.henderson@linaro.org>
+References: <20221109070224.13073-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,27 +94,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 60ab36907ded2918d33683f2b66f603b7400d8f3:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ accel/tcg/translate-all.c | 10 ----------
+ tcg/tcg.c                 | 12 ++++++++++++
+ 2 files changed, 12 insertions(+), 10 deletions(-)
 
-  Update VERSION for v7.2.0-rc0 (2022-11-08 15:53:41 -0500)
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 921944a5ab..9ee21f7f52 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -821,16 +821,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     trace_translate_block(tb, pc, tb->tc.ptr);
+ 
+     /* generate machine code */
+-    tb->jmp_reset_offset[0] = TB_JMP_RESET_OFFSET_INVALID;
+-    tb->jmp_reset_offset[1] = TB_JMP_RESET_OFFSET_INVALID;
+-    tcg_ctx->tb_jmp_reset_offset = tb->jmp_reset_offset;
+-    if (TCG_TARGET_HAS_direct_jump) {
+-        tcg_ctx->tb_jmp_insn_offset = tb->jmp_target_arg;
+-        tcg_ctx->tb_jmp_target_addr = NULL;
+-    } else {
+-        tcg_ctx->tb_jmp_insn_offset = NULL;
+-        tcg_ctx->tb_jmp_target_addr = tb->jmp_target_arg;
+-    }
+ 
+ #ifdef CONFIG_PROFILER
+     qatomic_set(&prof->tb_count, prof->tb_count + 1);
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index b43b6a7981..436fcf6ebd 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -4228,6 +4228,18 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb, target_ulong pc_start)
+     }
+ #endif
+ 
++    /* Initialize goto_tb jump offsets. */
++    tb->jmp_reset_offset[0] = TB_JMP_RESET_OFFSET_INVALID;
++    tb->jmp_reset_offset[1] = TB_JMP_RESET_OFFSET_INVALID;
++    tcg_ctx->tb_jmp_reset_offset = tb->jmp_reset_offset;
++    if (TCG_TARGET_HAS_direct_jump) {
++        tcg_ctx->tb_jmp_insn_offset = tb->jmp_target_arg;
++        tcg_ctx->tb_jmp_target_addr = NULL;
++    } else {
++        tcg_ctx->tb_jmp_insn_offset = NULL;
++        tcg_ctx->tb_jmp_target_addr = tb->jmp_target_arg;
++    }
++
+     tcg_reg_alloc_start(s);
+ 
+     /*
+-- 
+2.34.1
 
-are available in the Git repository at:
-
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20221109
-
-for you to fetch changes up to 344b63b380541a63c02ef7a8a6ae66cb0b6f0273:
-
-  accel/tcg: Split out setjmp_gen_code (2022-11-09 12:29:03 +1100)
-
-----------------------------------------------------------------
-Fix -Werror=clobbered issue with tb_gen_code
-
-----------------------------------------------------------------
-Richard Henderson (2):
-      tcg: Move TCG_TARGET_HAS_direct_jump init to tb_gen_code
-      accel/tcg: Split out setjmp_gen_code
-
- accel/tcg/translate-all.c | 68 +++++++++++++++++++++++------------------------
- tcg/tcg.c                 | 12 +++++++++
- 2 files changed, 45 insertions(+), 35 deletions(-)
 
