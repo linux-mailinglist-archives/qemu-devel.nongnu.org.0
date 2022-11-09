@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4AD3623663
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 23:15:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F26A623672
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Nov 2022 23:22:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ostKg-0002o5-7p; Wed, 09 Nov 2022 17:14:06 -0500
+	id 1ostRq-0005dD-3P; Wed, 09 Nov 2022 17:21:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ostKe-0002nk-Gw
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 17:14:04 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ostRo-0005d2-Oy
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 17:21:28 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1ostKc-0002z9-A8
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 17:14:04 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ostRn-00024T-5T
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 17:21:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668032041;
+ s=mimecast20190719; t=1668032486;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8W80mubGQ6BcERYizMKh7VpwVmz7MsCvQlUhnLE6V6A=;
- b=XIR5bEhJ8aZUMztEhKGIXh3kZx0QgkWUFbqWrcOc8BcQx8LKw6CLopck6v0l0RDGDehHqK
- THGlcc6g8uzHzKwoK1p365FbmpZj3MbioNqfppowk/DwaUgYsg2TeP/6EBhPZZJ/dfl3uo
- dyP7ZeK13+rlO9GfzMxTGYvBhVZqHwQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-100-P0s2ieIZOM6lggUK1HfNyw-1; Wed, 09 Nov 2022 17:13:57 -0500
-X-MC-Unique: P0s2ieIZOM6lggUK1HfNyw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 14C0386EB21;
- Wed,  9 Nov 2022 22:13:57 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 20869111CA01;
- Wed,  9 Nov 2022 22:13:55 +0000 (UTC)
-Date: Wed, 9 Nov 2022 17:13:54 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, eesposit@redhat.com, hreitz@redhat.com,
- pbonzini@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH 03/13] block: Revert .bdrv_drained_begin/end to
- non-coroutine_fn
-Message-ID: <Y2wmInwu1OsufgOR@fedora>
-References: <20221108123738.530873-1-kwolf@redhat.com>
- <20221108123738.530873-4-kwolf@redhat.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=0r4Tg5S82MUeEAee817i1gl5swYW+BlFqtWlqhxJ0jQ=;
+ b=AwyAXpFTL/N8ClTA9cZnHIk8hM48iqwXRtPnSr+hj0QKo9BkJKDGGNjUNWogb25cGq8qNR
+ cIhilNL3ZQwqkgah90Fz24scNlIplZjS2rfpCNPl3dWYghb0lNOXawsXHpk3DBpPMwJnVd
+ BQzjchHS0ncI+1wD6z7cBwGf8m+r+6g=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-60-o5UrcCyXP7uc8mGrmd8bqw-1; Wed, 09 Nov 2022 17:21:24 -0500
+X-MC-Unique: o5UrcCyXP7uc8mGrmd8bqw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ bg21-20020a05600c3c9500b003c2acbff422so2242325wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 14:21:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0r4Tg5S82MUeEAee817i1gl5swYW+BlFqtWlqhxJ0jQ=;
+ b=gkPsfWrnrLgw8nmL6st/Rqr3KpQU+wK2M6zcUlAzOw6q9LZqsc3FcGQSlOnuI0j7ak
+ B56LysDIYuzwa3cBNaxr6gA6viCB8swvnGZFyGNDl5vEJSLNP8PLQ//cfRnNXQiDJOtA
+ mNXIcrJrAx3g1s/Wdch8a7rNRnVcHTkoE001krHHoLeYaAVYVcckJL4Ths22zdDFc083
+ ZlEum6rsLMZ8J8EbDqRkU9gy5rZzSFWWMFgqCI3Xbwvdot8BQCvK7eoBADxd1F0GUU1A
+ DitijinlUGuhGPztSEeXApXs70ZM/HGGyPrHoWogko403WidC4rkAcUZbliWl3ni6FrH
+ f+wQ==
+X-Gm-Message-State: ACrzQf0s2/OaCcyn03PTo0SAhP8t3yKsge3Drvd3PD+O86sFOuRCiUHX
+ xNmf3JnN7xg7/kx4WlsXhG8zp2VsfPYOVgVEEZlVExB4I6XF7tFWscAItJ/WPboS7iSXjZ49SLZ
+ F0xu+tOOpOs0ppsB1dIrwym+roRK6cI2j6ksmtTkftxoZZlati/KUS6DfsS99
+X-Received: by 2002:a1c:c901:0:b0:3cf:6fdb:3367 with SMTP id
+ f1-20020a1cc901000000b003cf6fdb3367mr37280044wmb.119.1668032483514; 
+ Wed, 09 Nov 2022 14:21:23 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5GShc7mm5HX5qM/2kY2nZTj0xz6x2jJvcTeV4lxZL5Nv1e3uw3wLsIURHKKSs6P0Ja14yzew==
+X-Received: by 2002:a1c:c901:0:b0:3cf:6fdb:3367 with SMTP id
+ f1-20020a1cc901000000b003cf6fdb3367mr37280029wmb.119.1668032483226; 
+ Wed, 09 Nov 2022 14:21:23 -0800 (PST)
+Received: from redhat.com ([2.52.23.68]) by smtp.gmail.com with ESMTPSA id
+ u2-20020a5d4342000000b0022eafed36ebsm14065518wrr.73.2022.11.09.14.21.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Nov 2022 14:21:22 -0800 (PST)
+Date: Wed, 9 Nov 2022 17:21:20 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH] display: include dependencies explicitly
+Message-ID: <20221109222112.74519-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Ki6MYUT1w1UqmYIy"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221108123738.530873-4-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,323 +92,148 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+acpi-vga-stub.c pulls in vga_int.h
+However that currently pulls in ui/console.h which
+breaks e.g. on systems without pixman.
+It's better to remove ui/console.h from vga_int.h
+and directly include it where it's used.
 
---Ki6MYUT1w1UqmYIy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ hw/display/vga_int.h        | 1 -
+ include/qemu/typedefs.h     | 2 ++
+ hw/display/ati_2d.c         | 1 +
+ hw/display/cirrus_vga.c     | 1 +
+ hw/display/cirrus_vga_isa.c | 1 +
+ hw/display/vga-isa.c        | 1 +
+ hw/display/vga-mmio.c       | 1 +
+ hw/display/vga-pci.c        | 1 +
+ hw/display/vga.c            | 1 +
+ hw/display/vmware_vga.c     | 1 +
+ 10 files changed, 10 insertions(+), 1 deletion(-)
 
-On Tue, Nov 08, 2022 at 01:37:28PM +0100, Kevin Wolf wrote:
-> Polling during bdrv_drained_end() can be problematic (and in the future,
-> we may get cases for bdrv_drained_begin() where polling is forbidden,
-> and we don't care about already in-flight requests, but just want to
-> prevent new requests from arriving).
->=20
-> The .bdrv_drained_begin/end callbacks running in a coroutine is the only
-> reason why we have to do this polling, so make them non-coroutine
-> callbacks again. None of the callers actually yield any more.
->=20
-> This means that bdrv_drained_end() effectively doesn't poll any more,
-> even if AIO_WAIT_WHILE() loops are still there (their condition is false
-> from the beginning). This is generally not a problem, but in
-> test-bdrv-drain, some additional explicit aio_poll() calls need to be
-> added because the test case wants to verify the final state after BHs
-> have executed.
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  include/block/block_int-common.h | 10 ++++---
->  block.c                          |  4 +--
->  block/io.c                       | 49 +++++---------------------------
->  block/qed.c                      |  4 +--
->  block/throttle.c                 |  6 ++--
->  tests/unit/test-bdrv-drain.c     | 18 ++++++------
->  6 files changed, 30 insertions(+), 61 deletions(-)
-
-Wow, surprisingly little has to change to make these non-coroutine_fn.
-
->=20
-> diff --git a/include/block/block_int-common.h b/include/block/block_int-c=
-ommon.h
-> index 5a2cc077a0..0956acbb60 100644
-> --- a/include/block/block_int-common.h
-> +++ b/include/block/block_int-common.h
-> @@ -735,17 +735,19 @@ struct BlockDriver {
->      void (*bdrv_io_unplug)(BlockDriverState *bs);
-> =20
->      /**
-> -     * bdrv_co_drain_begin is called if implemented in the beginning of a
-> +     * bdrv_drain_begin is called if implemented in the beginning of a
->       * drain operation to drain and stop any internal sources of request=
-s in
->       * the driver.
-> -     * bdrv_co_drain_end is called if implemented at the end of the drai=
-n.
-> +     * bdrv_drain_end is called if implemented at the end of the drain.
->       *
->       * They should be used by the driver to e.g. manage scheduled I/O
->       * requests, or toggle an internal state. After the end of the drain=
- new
->       * requests will continue normally.
-> +     *
-> +     * Implementations of both functions must not call aio_poll().
->       */
-> -    void coroutine_fn (*bdrv_co_drain_begin)(BlockDriverState *bs);
-> -    void coroutine_fn (*bdrv_co_drain_end)(BlockDriverState *bs);
-> +    void (*bdrv_drain_begin)(BlockDriverState *bs);
-> +    void (*bdrv_drain_end)(BlockDriverState *bs);
-> =20
->      bool (*bdrv_supports_persistent_dirty_bitmap)(BlockDriverState *bs);
->      bool coroutine_fn (*bdrv_co_can_store_new_dirty_bitmap)(
-> diff --git a/block.c b/block.c
-> index 3bd594eb2a..fed8077993 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -1705,8 +1705,8 @@ static int bdrv_open_driver(BlockDriverState *bs, B=
-lockDriver *drv,
->      assert(is_power_of_2(bs->bl.request_alignment));
-> =20
->      for (i =3D 0; i < bs->quiesce_counter; i++) {
-> -        if (drv->bdrv_co_drain_begin) {
-> -            drv->bdrv_co_drain_begin(bs);
-> +        if (drv->bdrv_drain_begin) {
-> +            drv->bdrv_drain_begin(bs);
->          }
->      }
-> =20
-> diff --git a/block/io.c b/block/io.c
-> index 34b30e304e..183b407f5b 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -250,55 +250,20 @@ typedef struct {
->      int *drained_end_counter;
->  } BdrvCoDrainData;
-> =20
-> -static void coroutine_fn bdrv_drain_invoke_entry(void *opaque)
-> -{
-> -    BdrvCoDrainData *data =3D opaque;
-> -    BlockDriverState *bs =3D data->bs;
-> -
-> -    if (data->begin) {
-> -        bs->drv->bdrv_co_drain_begin(bs);
-> -    } else {
-> -        bs->drv->bdrv_co_drain_end(bs);
-> -    }
-> -
-> -    /* Set data->done and decrement drained_end_counter before bdrv_wake=
-up() */
-> -    qatomic_mb_set(&data->done, true);
-> -    if (!data->begin) {
-> -        qatomic_dec(data->drained_end_counter);
-> -    }
-> -    bdrv_dec_in_flight(bs);
-> -
-> -    g_free(data);
-> -}
-> -
-> -/* Recursively call BlockDriver.bdrv_co_drain_begin/end callbacks */
-> +/* Recursively call BlockDriver.bdrv_drain_begin/end callbacks */
->  static void bdrv_drain_invoke(BlockDriverState *bs, bool begin,
->                                int *drained_end_counter)
->  {
-> -    BdrvCoDrainData *data;
-> -
-> -    if (!bs->drv || (begin && !bs->drv->bdrv_co_drain_begin) ||
-> -            (!begin && !bs->drv->bdrv_co_drain_end)) {
-> +    if (!bs->drv || (begin && !bs->drv->bdrv_drain_begin) ||
-> +            (!begin && !bs->drv->bdrv_drain_end)) {
->          return;
->      }
-> =20
-> -    data =3D g_new(BdrvCoDrainData, 1);
-> -    *data =3D (BdrvCoDrainData) {
-> -        .bs =3D bs,
-> -        .done =3D false,
-> -        .begin =3D begin,
-> -        .drained_end_counter =3D drained_end_counter,
-> -    };
-> -
-> -    if (!begin) {
-> -        qatomic_inc(drained_end_counter);
-> +    if (begin) {
-> +        bs->drv->bdrv_drain_begin(bs);
-> +    } else {
-> +        bs->drv->bdrv_drain_end(bs);
->      }
-> -
-> -    /* Make sure the driver callback completes during the polling phase =
-for
-> -     * drain_begin. */
-> -    bdrv_inc_in_flight(bs);
-> -    data->co =3D qemu_coroutine_create(bdrv_drain_invoke_entry, data);
-> -    aio_co_schedule(bdrv_get_aio_context(bs), data->co);
->  }
-> =20
->  /* Returns true if BDRV_POLL_WHILE() should go into a blocking aio_poll(=
-) */
-> diff --git a/block/qed.c b/block/qed.c
-> index 013f826c44..301ff8fd86 100644
-> --- a/block/qed.c
-> +++ b/block/qed.c
-> @@ -365,7 +365,7 @@ static void bdrv_qed_attach_aio_context(BlockDriverSt=
-ate *bs,
->      }
->  }
-> =20
-> -static void coroutine_fn bdrv_qed_co_drain_begin(BlockDriverState *bs)
-> +static void bdrv_qed_co_drain_begin(BlockDriverState *bs)
-
-This function needs to be renamed s/_co_//.
-
->  {
->      BDRVQEDState *s =3D bs->opaque;
-> =20
-> @@ -1661,7 +1661,7 @@ static BlockDriver bdrv_qed =3D {
->      .bdrv_co_check            =3D bdrv_qed_co_check,
->      .bdrv_detach_aio_context  =3D bdrv_qed_detach_aio_context,
->      .bdrv_attach_aio_context  =3D bdrv_qed_attach_aio_context,
-> -    .bdrv_co_drain_begin      =3D bdrv_qed_co_drain_begin,
-> +    .bdrv_drain_begin         =3D bdrv_qed_co_drain_begin,
->  };
-> =20
->  static void bdrv_qed_init(void)
-> diff --git a/block/throttle.c b/block/throttle.c
-> index 131eba3ab4..6e3ae1b355 100644
-> --- a/block/throttle.c
-> +++ b/block/throttle.c
-> @@ -214,7 +214,7 @@ static void throttle_reopen_abort(BDRVReopenState *re=
-open_state)
->      reopen_state->opaque =3D NULL;
->  }
-> =20
-> -static void coroutine_fn throttle_co_drain_begin(BlockDriverState *bs)
-> +static void throttle_co_drain_begin(BlockDriverState *bs)
-
-Same here.
-
->  {
->      ThrottleGroupMember *tgm =3D bs->opaque;
->      if (qatomic_fetch_inc(&tgm->io_limits_disabled) =3D=3D 0) {
-> @@ -261,8 +261,8 @@ static BlockDriver bdrv_throttle =3D {
->      .bdrv_reopen_commit                 =3D   throttle_reopen_commit,
->      .bdrv_reopen_abort                  =3D   throttle_reopen_abort,
-> =20
-> -    .bdrv_co_drain_begin                =3D   throttle_co_drain_begin,
-> -    .bdrv_co_drain_end                  =3D   throttle_co_drain_end,
-
-Is throttle_co_drain_end() still marked coroutine_fn? It also need to be
-renamed to throttle_drain_end().
-
-> +    .bdrv_drain_begin                   =3D   throttle_co_drain_begin,
-> +    .bdrv_drain_end                     =3D   throttle_co_drain_end,
-> =20
->      .is_filter                          =3D   true,
->      .strong_runtime_opts                =3D   throttle_strong_runtime_op=
-ts,
-> diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
-> index 24f34e24ad..695519ee02 100644
-> --- a/tests/unit/test-bdrv-drain.c
-> +++ b/tests/unit/test-bdrv-drain.c
-> @@ -46,7 +46,7 @@ static void coroutine_fn sleep_in_drain_begin(void *opa=
-que)
->      bdrv_dec_in_flight(bs);
->  }
-> =20
-> -static void coroutine_fn bdrv_test_co_drain_begin(BlockDriverState *bs)
-> +static void bdrv_test_drain_begin(BlockDriverState *bs)
->  {
->      BDRVTestState *s =3D bs->opaque;
->      s->drain_count++;
-> @@ -57,7 +57,7 @@ static void coroutine_fn bdrv_test_co_drain_begin(Block=
-DriverState *bs)
->      }
->  }
-> =20
-> -static void coroutine_fn bdrv_test_co_drain_end(BlockDriverState *bs)
-> +static void bdrv_test_drain_end(BlockDriverState *bs)
->  {
->      BDRVTestState *s =3D bs->opaque;
->      s->drain_count--;
-> @@ -111,8 +111,8 @@ static BlockDriver bdrv_test =3D {
->      .bdrv_close             =3D bdrv_test_close,
->      .bdrv_co_preadv         =3D bdrv_test_co_preadv,
-> =20
-> -    .bdrv_co_drain_begin    =3D bdrv_test_co_drain_begin,
-> -    .bdrv_co_drain_end      =3D bdrv_test_co_drain_end,
-> +    .bdrv_drain_begin       =3D bdrv_test_drain_begin,
-> +    .bdrv_drain_end         =3D bdrv_test_drain_end,
-> =20
->      .bdrv_child_perm        =3D bdrv_default_perms,
-> =20
-> @@ -1703,6 +1703,7 @@ static void test_blockjob_commit_by_drained_end(voi=
-d)
->      bdrv_drained_begin(bs_child);
->      g_assert(!job_has_completed);
->      bdrv_drained_end(bs_child);
-> +    aio_poll(qemu_get_aio_context(), false);
->      g_assert(job_has_completed);
-> =20
->      bdrv_unref(bs_parents[0]);
-> @@ -1858,6 +1859,7 @@ static void test_drop_intermediate_poll(void)
-> =20
->      g_assert(!job_has_completed);
->      ret =3D bdrv_drop_intermediate(chain[1], chain[0], NULL);
-> +    aio_poll(qemu_get_aio_context(), false);
->      g_assert(ret =3D=3D 0);
->      g_assert(job_has_completed);
-> =20
-> @@ -1946,7 +1948,7 @@ static void coroutine_fn bdrv_replace_test_drain_co=
-(void *opaque)
->   * .was_drained.
->   * Increment .drain_count.
->   */
-> -static void coroutine_fn bdrv_replace_test_co_drain_begin(BlockDriverSta=
-te *bs)
-> +static void bdrv_replace_test_drain_begin(BlockDriverState *bs)
->  {
->      BDRVReplaceTestState *s =3D bs->opaque;
-> =20
-> @@ -1977,7 +1979,7 @@ static void coroutine_fn bdrv_replace_test_read_ent=
-ry(void *opaque)
->   * If .drain_count reaches 0 and the node has a backing file, issue a
->   * read request.
->   */
-> -static void coroutine_fn bdrv_replace_test_co_drain_end(BlockDriverState=
- *bs)
-> +static void bdrv_replace_test_drain_end(BlockDriverState *bs)
->  {
->      BDRVReplaceTestState *s =3D bs->opaque;
-> =20
-> @@ -2002,8 +2004,8 @@ static BlockDriver bdrv_replace_test =3D {
->      .bdrv_close             =3D bdrv_replace_test_close,
->      .bdrv_co_preadv         =3D bdrv_replace_test_co_preadv,
-> =20
-> -    .bdrv_co_drain_begin    =3D bdrv_replace_test_co_drain_begin,
-> -    .bdrv_co_drain_end      =3D bdrv_replace_test_co_drain_end,
-> +    .bdrv_drain_begin       =3D bdrv_replace_test_drain_begin,
-> +    .bdrv_drain_end         =3D bdrv_replace_test_drain_end,
-> =20
->      .bdrv_child_perm        =3D bdrv_default_perms,
->  };
-> --=20
-> 2.38.1
->=20
-
---Ki6MYUT1w1UqmYIy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNsJiIACgkQnKSrs4Gr
-c8iolwgAwJK/Px9p2VNLJoke7suTkUqQFC/mTWcowjNjjPnou9/atfu68O/JIX13
-zzeDH/P1BLSma2+SsHgEMhiXgXrR1Em58rFMh0jmS07PnEfd4KvNsrQnvE/odCMA
-ivmwDeTQf+kzmOjWYh/QZDd1hEEQUIg0cHBUlpU8VHmeR5tOoSnHkMfxaPq86hw4
-OgUl8J4J7ziHT6buOgEvtyxL4OQ42YUxjc5E/yyoxG06tjcXRl0ZOPe5NFDw+o7q
-FwZIQLYV1TuIwiz67oFygXuHHGpTc6a9s18NDvrSc//fkvySSWZ5qHdyD8uKNZE/
-/JOwyWpcSY3kAhJlZrBmPto4hBo0sw==
-=arbP
------END PGP SIGNATURE-----
-
---Ki6MYUT1w1UqmYIy--
+diff --git a/hw/display/vga_int.h b/hw/display/vga_int.h
+index 330406ad9c..7cf0d11201 100644
+--- a/hw/display/vga_int.h
++++ b/hw/display/vga_int.h
+@@ -27,7 +27,6 @@
+ 
+ #include "exec/ioport.h"
+ #include "exec/memory.h"
+-#include "ui/console.h"
+ 
+ #include "hw/display/bochs-vbe.h"
+ #include "hw/acpi/acpi_aml_interface.h"
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index 6d4e6d9708..688408e048 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -132,6 +132,8 @@ typedef struct Visitor Visitor;
+ typedef struct VMChangeStateEntry VMChangeStateEntry;
+ typedef struct VMStateDescription VMStateDescription;
+ typedef struct DumpState DumpState;
++typedef struct GraphicHwOps GraphicHwOps;
++typedef struct QEMUCursor QEMUCursor;
+ 
+ /*
+  * Pointer types
+diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
+index 692bec91de..7d786653e8 100644
+--- a/hw/display/ati_2d.c
++++ b/hw/display/ati_2d.c
+@@ -12,6 +12,7 @@
+ #include "ati_regs.h"
+ #include "qemu/log.h"
+ #include "ui/pixel_ops.h"
++#include "ui/console.h"
+ 
+ /*
+  * NOTE:
+diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
+index 2577005d03..4cc3567c69 100644
+--- a/hw/display/cirrus_vga.c
++++ b/hw/display/cirrus_vga.c
+@@ -45,6 +45,7 @@
+ #include "ui/pixel_ops.h"
+ #include "cirrus_vga_internal.h"
+ #include "qom/object.h"
++#include "ui/console.h"
+ 
+ /*
+  * TODO:
+diff --git a/hw/display/cirrus_vga_isa.c b/hw/display/cirrus_vga_isa.c
+index 96144bd690..84be51670e 100644
+--- a/hw/display/cirrus_vga_isa.c
++++ b/hw/display/cirrus_vga_isa.c
+@@ -31,6 +31,7 @@
+ #include "hw/isa/isa.h"
+ #include "cirrus_vga_internal.h"
+ #include "qom/object.h"
++#include "ui/console.h"
+ 
+ #define TYPE_ISA_CIRRUS_VGA "isa-cirrus-vga"
+ OBJECT_DECLARE_SIMPLE_TYPE(ISACirrusVGAState, ISA_CIRRUS_VGA)
+diff --git a/hw/display/vga-isa.c b/hw/display/vga-isa.c
+index 46abbc5653..2a5437d803 100644
+--- a/hw/display/vga-isa.c
++++ b/hw/display/vga-isa.c
+@@ -32,6 +32,7 @@
+ #include "qemu/timer.h"
+ #include "hw/loader.h"
+ #include "hw/qdev-properties.h"
++#include "ui/console.h"
+ #include "qom/object.h"
+ 
+ #define TYPE_ISA_VGA "isa-vga"
+diff --git a/hw/display/vga-mmio.c b/hw/display/vga-mmio.c
+index 75dfcedea5..cd2c46776d 100644
+--- a/hw/display/vga-mmio.c
++++ b/hw/display/vga-mmio.c
+@@ -27,6 +27,7 @@
+ #include "hw/sysbus.h"
+ #include "hw/display/vga.h"
+ #include "hw/qdev-properties.h"
++#include "ui/console.h"
+ #include "vga_int.h"
+ 
+ /*
+diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
+index 9a91de7ed1..df23dbf3a0 100644
+--- a/hw/display/vga-pci.c
++++ b/hw/display/vga-pci.c
+@@ -30,6 +30,7 @@
+ #include "migration/vmstate.h"
+ #include "vga_int.h"
+ #include "ui/pixel_ops.h"
++#include "ui/console.h"
+ #include "qemu/module.h"
+ #include "qemu/timer.h"
+ #include "hw/loader.h"
+diff --git a/hw/display/vga.c b/hw/display/vga.c
+index 50ecb1ad02..0cb26a791b 100644
+--- a/hw/display/vga.c
++++ b/hw/display/vga.c
+@@ -31,6 +31,7 @@
+ #include "vga_int.h"
+ #include "vga_regs.h"
+ #include "ui/pixel_ops.h"
++#include "ui/console.h"
+ #include "qemu/timer.h"
+ #include "hw/xen/xen.h"
+ #include "migration/vmstate.h"
+diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
+index cedbbde522..53949d2539 100644
+--- a/hw/display/vmware_vga.c
++++ b/hw/display/vmware_vga.c
+@@ -33,6 +33,7 @@
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "qom/object.h"
++#include "ui/console.h"
+ 
+ #undef VERBOSE
+ #define HW_RECT_ACCEL
+-- 
+MST
 
 
