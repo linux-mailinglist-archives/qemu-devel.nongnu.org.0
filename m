@@ -2,60 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CAED623778
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 00:31:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A04606237C5
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 00:54:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osuWo-0005qU-HC; Wed, 09 Nov 2022 18:30:42 -0500
+	id 1osusz-0002xK-T7; Wed, 09 Nov 2022 18:53:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <conor@kernel.org>)
- id 1osuWj-0005qB-46; Wed, 09 Nov 2022 18:30:37 -0500
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1osusw-0002wT-Ku
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 18:53:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <conor@kernel.org>)
- id 1osuWh-00021x-7n; Wed, 09 Nov 2022 18:30:36 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6E9BE61D22;
- Wed,  9 Nov 2022 23:30:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B1EAC433D6;
- Wed,  9 Nov 2022 23:30:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668036631;
- bh=ExRzSHy55vSQc7H7NEGr4HN/FkfFIhRcSib8XYzZx2Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nkN+kI+GtEa6PZgqJrHGesS1KLlngdMDlrZrSZNeijc9z2TdnRUJpMDNsTUZHkjcq
- iDinuJluofHQkacPhNuJGPLXEhuxRtWKY7xPSRRwhdOiziqUbEdcyuSUUvT/W96vPu
- b3rOdEVCWrR/Dd63vrMgnJNFrOuogdatDhztC0ptmFKPoqs1CRMof/vGTTu/ZvnFFx
- 0qIPhfypb7BayFzn3n1kLpNrlBn6zvtqkWdlXSgEx++/mfFNB9rsUmNlzhjc858pTh
- 7tjNAhWmaDidoPsvsvnpQp2DVarF9ZGKp0oLOJ6gOUQJRmicU8HDI46pzMtt0fzBNC
- UGeApalMMY93A==
-Date: Wed, 9 Nov 2022 23:30:28 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH] hw/misc/pfsoc: add fabric clocks to ioscb
-Message-ID: <Y2w4FOfeLnHqNkd2@spud>
-References: <20221109190849.1556711-1-conor@kernel.org>
- <84b8985a-6fab-ff76-7058-f702203474c0@linaro.org>
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1osuss-0004Pt-Mk
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 18:53:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668038009;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7LvRy1bjb7DxzPdZjx1Ckxq/ftVi415szuObTWdvdTU=;
+ b=FhRDou09vEq0RlU6CY3YZpQRZym3K9BHxOsmYcAywyDDKi+7xirtM2lsSu1jpT7zyS9ttK
+ gJ8ZoaTtBm5Hjg5S3LRRKtKfieVoK1kRSknh90m5ZDZPmC+ULKLcC5Ce/AnYEvOKqmivuz
+ JceCOgforsKruMKGi6/NsGDq52HEXiY=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-572-RZyVjgszPYGJiQG7SO99_w-1; Wed, 09 Nov 2022 18:53:28 -0500
+X-MC-Unique: RZyVjgszPYGJiQG7SO99_w-1
+Received: by mail-io1-f70.google.com with SMTP id
+ g13-20020a056602072d00b006c60d59110fso76765iox.12
+ for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 15:53:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7LvRy1bjb7DxzPdZjx1Ckxq/ftVi415szuObTWdvdTU=;
+ b=0cnLj2IeTxFHd7gr8VpXdmS6HF3XrUfKIPsj8+EKpr+xCx9bC6sllb2e3tnT5PJ9MS
+ B4Q5/UYYfATZ8LMCXiDOuSgKT0YJsgbv6M7r+UuY7Mvg3tuDclcXLwTBwWBQE+wXgu1z
+ gfnnfAnwJF02jwbEJMu1pEj+4Tbt1FxBzg0Epxnl9F6u9BQEIxSIPTUX4sd/s7E2BV0Z
+ dYM0FxPXqz21hM6SSWafMdJhtVRDd0vvmS53zMuae5Bx27kbXYhgnlywzehf0os+2Zpt
+ islGFMaTPKMKCHxaOYEHU1PGGMgoKRapJUkfQ7wpx/klUIvZ5IKhimDx8xCWjSIkN7ZV
+ T7Jw==
+X-Gm-Message-State: ACrzQf3f1Xb3mxwISymQf/mlw8ym2/2jRZs9jz/pGIKOdo9gNe5orVLu
+ EDw9kwPIRS64tn7beTGVvYhpYs6mWp9KZGVOzLfBjkh0e/ZuQS+xsY4Eie+iLOJx75VC112w8FU
+ 1IU89hWcGZSvin1+v4cK0y1wenjQ9kCY=
+X-Received: by 2002:a5e:d506:0:b0:6a4:b8b3:a6f0 with SMTP id
+ e6-20020a5ed506000000b006a4b8b3a6f0mr35621548iom.138.1668038007763; 
+ Wed, 09 Nov 2022 15:53:27 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5s0Q6JNeEC5n6u83ApxtDKOsLaYknnFBIE7kK8JHxNkCNeqgS3T8GvQ9lD6rfjXe9OYRt/oz72IJxcanW8BrQ=
+X-Received: by 2002:a5e:d506:0:b0:6a4:b8b3:a6f0 with SMTP id
+ e6-20020a5ed506000000b006a4b8b3a6f0mr35621540iom.138.1668038007529; Wed, 09
+ Nov 2022 15:53:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <84b8985a-6fab-ff76-7058-f702203474c0@linaro.org>
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=conor@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <20221104095700.4117433-1-eesposit@redhat.com>
+ <20221104095700.4117433-3-eesposit@redhat.com>
+ <197f2a27-4c3f-a62b-535c-d1db9ba22a32@yandex-team.ru>
+ <88f02d19-84d8-d1a7-4250-416fd32f1435@redhat.com>
+ <711f6d68-888e-bca0-972e-a05503a039c5@yandex-team.ru>
+ <460d096e-c642-166c-a4fd-77f953bfe33a@redhat.com>
+In-Reply-To: <460d096e-c642-166c-a4fd-77f953bfe33a@redhat.com>
+From: Alberto Faria <afaria@redhat.com>
+Date: Wed, 9 Nov 2022 23:52:51 +0000
+Message-ID: <CAELaAXwR_t9JyL=iMATGCp0cd-rRtKJ_OaSnu1hLGk8B3RaYNQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/9] block-copy: add missing coroutine_fn annotations
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org, 
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, 
+ Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,114 +100,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 10, 2022 at 12:18:44AM +0100, Philippe Mathieu-Daudé wrote:
-> On 9/11/22 20:08, Conor Dooley wrote:
-> > From: Conor Dooley <conor.dooley@microchip.com>
-> > 
-> > On PolarFire SoC, some peripherals (eg the PCI root port) are clocked by
-> > "Clock Conditioning Circuitry" in the FPGA. The specific clock depends
-> > on the FPGA bitstream & can be locked to one particular {D,P}LL - in the
-> > Icicle Kit Reference Design v2022.09 or later this is/will be the case.
-> > 
-> > Linux v6.1+ will have a driver for this peripheral and devicetrees that
-> > previously relied on "fixed-frequency" clock nodes have been switched
-> > over to clock-controller nodes. The IOSCB region is represented in QEMU,
-> > but the specific region of it that the CCCs occupy has not so v6.1-rcN
-> > kernels fail to boot in QEMU.
-> > 
-> > Add the regions as unimplemented so that the status-quo in terms of boot
-> > is maintained.
-> > 
-> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> > ---
-> > The last line there is a white lie. v6.1-rcN has both v2022.09 and
-> > v2022.10 reference design changes. This patch only accounts for the
-> > v2022.09 changes. The FPGA design is a moving target and I am not
-> > really sure how to handle that in QEMU. For v2022.10 a bunch of stuff
-> > got changed, including the addresses that DDR lies at which I am not
-> > sure how to handle yet.
-> > 
-> > That puts my todo list of broken things to:
-> > - MMC (only direct kernel boot works), pre v2022.09 reference issue
-> 
-> How do you start without 'direct kernel boot'?
+On Wed, Nov 9, 2022 at 12:24 PM Emanuele Giuseppe Esposito
+<eesposit@redhat.com> wrote:
+> CCing also Alberto and Paolo
+>
+> So basically I think what we need is something that scans the whole
+> block layer code and puts the right coroutine_fn annotations (or
+> assertions, if you want) in the right places.
+>
+> The rule should be (anyone please correct me if I am wrong):
+> - if a function is only called by coroutine_fn functions, then it's a
+> coroutine_fn. Theoretically all these functions should eventually end up
+> calling qemu_coroutine_yield or similar.
+>
+> - if it's called only from non-coroutine, then leave it as it is.
+> Probably asserting is a good idea.
+>
+> - if it's used by both, then it's a case-by-case decision: I think for
+> simple functions, we can use a special annotation and document that they
+> should always consider that they could run in both cases.
+> If it's a big function like the g_c_w, call only the _co_ version in
+> coroutine_fn, and create a coroutine or call the non-coroutine
+> counterpart if we are not in coroutine context.
+> Which is also what I am trying to do with g_c_w_simple.
+>
+> However, it would be nice to assign this to someone and do this
+> automatically, not doing it by hand. I am not sure if Alberto static
+> analyzer is currently capable of doing that.
+>
+> What do you all think?
 
-You used to be able to load the "bios" etc and follow the boot flow [0].
-This no longer works, and has not for at least a year. I assume it still
-works if you check out the (fossilised) versions mentioned in that doc.
-Think I said it last time I sent patches, but we had some floating around
-internally that I know /did/ work at some point about this time last year
-but I was never able to figure out the correct alignment of the stars to
-get working myself. It required pretty decent changes to the sdhci driver,
-which, I'm hoping cease to be required with the v2022.10 reference
-design that I mentioned else where in this patch.
-But one problem at a time ;)
+From what I've seen so far of coroutine_fn, its intended semantics
+seem to align completely with the `async` of many languages. The only
+restriction is that a function that calls coroutine_fn functions
+(a.k.a. coroutines) must itself be coroutine_fn. Marking other
+functions as coroutine_fn, as you mention in your first bullet above,
+just artificially restricts them to coroutine context. Similarly,
+restricting functions to non-coroutine context may not generally be
+useful, except when there is an alternative version of the function
+that is optimized for coroutine context in some way (e.g., calling a
+coroutine_fn instead of the corresponding generated_co_wrapper).
 
-0 - https://www.qemu.org/docs/master/system/riscv/microchip-icicle-kit.html
+But maybe you're writing a function that you predict will eventually
+need to call a coroutine, even though it doesn't today. In those cases
+it could make sense to mark it coroutine_fn, to prevent non-coroutine
+callers from appearing and later breaking, but this should probably be
+the exception, not the rule.
 
-> > - PCI root port address, address changed in v2022.09 but from a cursory
-> >    check, I didn't see any PCI support in the first place. It's connected
-> >    to a FIC, so I think it can just be made into an unimplemented region.
-> > - DDR address changes, 2022.10 issue. Looks like a straightforward
-> >    change to hw/riscv/pfsoc.c but I don't think it'll be backwards
-> >    compatible.
-> > - hwrng breaks boot. Tipping away at this one, hopefully I'll have a fix
-> >    for it soon. Need to implement the irq side of the mailbox for it.
-> > 
-> > I'll send some more patches as I work through them.
-> > 
-> >   hw/misc/mchp_pfsoc_ioscb.c         | 6 ++++++
-> >   include/hw/misc/mchp_pfsoc_ioscb.h | 1 +
-> >   2 files changed, 7 insertions(+)
-> > 
-> > diff --git a/hw/misc/mchp_pfsoc_ioscb.c b/hw/misc/mchp_pfsoc_ioscb.c
-> > index f4fd55a0e5..f976e42f72 100644
-> > --- a/hw/misc/mchp_pfsoc_ioscb.c
-> > +++ b/hw/misc/mchp_pfsoc_ioscb.c
-> > @@ -33,6 +33,7 @@
-> >    */
-> >   #define IOSCB_WHOLE_REG_SIZE        0x10000000
-> >   #define IOSCB_SUBMOD_REG_SIZE       0x1000
-> > +#define IOSCB_CCC_REG_SIZE          0x2000000
-> >   /*
-> >    * There are many sub-modules in the IOSCB module.
-> > @@ -45,6 +46,7 @@
-> >   #define IOSCB_LANE23_BASE           0x06510000
-> >   #define IOSCB_CTRL_BASE             0x07020000
-> >   #define IOSCB_CFG_BASE              0x07080000
-> > +#define IOSCB_CCC_BASE              0x08000000
-> >   #define IOSCB_PLL_MSS_BASE          0x0E001000
-> >   #define IOSCB_CFM_MSS_BASE          0x0E002000
-> >   #define IOSCB_PLL_DDR_BASE          0x0E010000
-> > @@ -168,6 +170,10 @@ static void mchp_pfsoc_ioscb_realize(DeviceState *dev, Error **errp)
-> >                             "mchp.pfsoc.ioscb.cfg", IOSCB_SUBMOD_REG_SIZE);
-> >       memory_region_add_subregion(&s->container, IOSCB_CFG_BASE, &s->cfg);
-> > +    memory_region_init_io(&s->ccc, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
-> > +                          "mchp.pfsoc.ioscb.ccc", IOSCB_CCC_REG_SIZE);
-> > +    memory_region_add_subregion(&s->container, IOSCB_CCC_BASE, &s->ccc);
-> 
-> Unrelated but using the TYPE_UNIMPLEMENTED_DEVICE would ease tracing all
-> these block accesses, as the block name would appear before the
-> address/size. See for example aspeed_mmio_map_unimplemented();
+My WIP static analyzer [1] should be able to find most cases where a
+non-coroutine_fn function calls a coroutine (some complicated cases
+involving function pointers and typedefs are not yet implemented). It
+also complains about cases where a coroutine calls a
+generated_co_wrapper (see the no_coroutine_fn annotation, which you
+can also apply to functions other than generated_co_wrappers). You can
+use it today: just merge [1] with your code and run (after building
+QEMU):
 
-I just copy pasted what was already here. Follow on patch for the
-conversions since most of what's in this file is effectively
-unimplemented?
+    ./static-analyzer.py build block
 
-> >       memory_region_init_io(&s->pll_mss, OBJECT(s), &mchp_pfsoc_pll_ops, s,
-> >                             "mchp.pfsoc.ioscb.pll_mss", IOSCB_SUBMOD_REG_SIZE);
-> >       memory_region_add_subregion(&s->container, IOSCB_PLL_MSS_BASE, &s->pll_mss);
-> > diff --git a/include/hw/misc/mchp_pfsoc_ioscb.h b/include/hw/misc/mchp_pfsoc_ioscb.h
-> > index 9235523e33..687b213742 100644
-> > --- a/include/hw/misc/mchp_pfsoc_ioscb.h
-> > +++ b/include/hw/misc/mchp_pfsoc_ioscb.h
-> > @@ -30,6 +30,7 @@ typedef struct MchpPfSoCIoscbState {
-> >       MemoryRegion lane23;
-> >       MemoryRegion ctrl;
-> >       MemoryRegion cfg;
-> > +    MemoryRegion ccc;
-> >       MemoryRegion pll_mss;
-> >       MemoryRegion cfm_mss;
-> >       MemoryRegion pll_ddr;
-> 
+Alberto
+
+[1] https://gitlab.com/albertofaria/qemu/-/tree/static-analysis
+
 
