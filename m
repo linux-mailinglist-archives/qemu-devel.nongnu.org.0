@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FAF624280
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 13:42:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC02624289
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 13:46:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot6rN-0001CR-Fa; Thu, 10 Nov 2022 07:40:45 -0500
+	id 1ot6wB-0002t7-Ph; Thu, 10 Nov 2022 07:45:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ot6rK-0001C1-Bg
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:40:42 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot6vx-0002qm-7o
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:45:32 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1ot6rI-00068Z-3o
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:40:42 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot6vv-00028i-7d
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:45:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668084038;
+ s=mimecast20190719; t=1668084323;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6GJDmslE5kpRIeRte7cJxqHO6JYkG0L07TgHNDXOjsI=;
- b=gVwnco7PxdUhUpZUfdcLV0c7XxFRydpDShADpo6rxxovIpyWdACJq/nrnFP0fO+Xd+Oupz
- pYSU7eH2/iYgMDydATSyHAX840dVs7mcVswWD8CWMSmFPkf8cqwNOVc/JRjPFESW9eEzHj
- JkpDN13scRxFJvzIpKiw3Z/MmaWiJS8=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OVY42sqe2r7quUIQVcoKlSKUdEKDes0CbYO0SzjXPVE=;
+ b=cL4O28ud+Xnsa6ihmpSlga8L+l8Fo/zM2hvMTk9dKsi38Y3zwbv8X9nEMizRF1CtRwEbg8
+ p93z2JcSl/0zJsl7XXXexu5dqK4uR/qW3rUtmi6wNlMjQse9oB8HNAJWVAkeM40GK6UhXn
+ xxossev1nmqfxxOYNs/5LnoWfpeSdco=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-248-ZsJA7ARKP6iJFJ8avQwkNQ-1; Thu, 10 Nov 2022 07:40:37 -0500
-X-MC-Unique: ZsJA7ARKP6iJFJ8avQwkNQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- ne36-20020a1709077ba400b007aeaf3dcbcaso639609ejc.6
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 04:40:37 -0800 (PST)
+ us-mta-530-KqC2RFrUNl2QuOUuY4uuPQ-1; Thu, 10 Nov 2022 07:45:22 -0500
+X-MC-Unique: KqC2RFrUNl2QuOUuY4uuPQ-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ 186-20020a6300c3000000b004702c90a4bdso946200pga.9
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 04:45:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6GJDmslE5kpRIeRte7cJxqHO6JYkG0L07TgHNDXOjsI=;
- b=xOaGNrad+mlTFT/TTx06cLM25ezhyRBJsFfaTgeQkp9t1z9bjhRoUKTOVdzhD/V12x
- f7WpBjFYxf7csoNMFMa8xcyQwpnJw2ks6oIVmviSTsW7+NX4m9IonI5O7oI7fXnSY7Je
- zHcT3+dCGrenNdIrcLCLwzgYKxibQwY+6k2AGq/KYZKxf+4LMhYIcWinMz8D3MVrOtTa
- 5jHBIxBEvL+Lp0+gQNhqv4bEXHzrCy2Sz6ytDzDxUcpRl3Ks7M5SlRWNG06fKXb+Sfh3
- E/0umf491Jzi8nlmzeSNiA1ggBghbz9WvzL0nzBUTDoHKkh9N+BliwIa9LGPRPJ68pyh
- hEkg==
-X-Gm-Message-State: ACrzQf2ccdUcf5nq9pg9TVfaflrpUMSa6+YG/8ldJckXkWaFW4PGuXUn
- NxwzqXMtafhBP1qeWw5s5SCc4DJlPy/BD68+BNQ9HlD2OddzUAjKuZ/KitZpyUkgndieLw8eePN
- taXEZV1rVCVkFlWk=
-X-Received: by 2002:a05:6402:1cc9:b0:456:7669:219b with SMTP id
- ds9-20020a0564021cc900b004567669219bmr2307869edb.221.1668084036114; 
- Thu, 10 Nov 2022 04:40:36 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM7SYcRzSsV2Rs1/EU+7abg/+uLahP3r4uuKBvB/CRiKbK7CWiHWX0HPgwzo59vC8aUsK4gCjw==
-X-Received: by 2002:a05:6402:1cc9:b0:456:7669:219b with SMTP id
- ds9-20020a0564021cc900b004567669219bmr2307853edb.221.1668084035758; 
- Thu, 10 Nov 2022 04:40:35 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
- ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
+ bh=OVY42sqe2r7quUIQVcoKlSKUdEKDes0CbYO0SzjXPVE=;
+ b=o0yiAlTIqHiadc2SB1I7azq2gij2BQKsAS11ii2wNiL0Ugh+GvpG3Cqd1t0+0n3y8q
+ v+QTFLmX2R7be5inKz3L9aBxn+kiLgdR8mcpHsnF0xz67PLPEIa1jmpqMO28p+glwz1l
+ /NipFZPhK7M59jQRvnBlmBaficM6jjhoO77dQ/MLzQUC2KXa7BzJqCcrC/LL2t0CrN7a
+ ZqP7KMc1uLfAibpp1yoYgcPbtg670OIn9AAif1uXB1i4HKTg5wmG5EB+3LsbD8gbLX2W
+ RGf94W5stTbMkC7+V06L0oVUa6BtKP8Jjecse3rEqqEs3+00xcEPgj9On8EBP2wO/1tl
+ rILQ==
+X-Gm-Message-State: ACrzQf0hGKJeSMSo2DHGa0Q+Za7HT8SLCYyLL2+60MOs31KAa1gw2VhJ
+ Dlrw64X/z+VKKgoZPGN2nxnPPmFS5iCjjONTdYENhEJJY8jvZbrCnb8N8qcdo2wRY+8wbBdUiWz
+ Lf3+SRnyG4k9hETs=
+X-Received: by 2002:a63:5a14:0:b0:41d:c892:2e9 with SMTP id
+ o20-20020a635a14000000b0041dc89202e9mr2445923pgb.457.1668084321289; 
+ Thu, 10 Nov 2022 04:45:21 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM46XHBgqxwbR+IHv2n1U+635aT5aVVc5fE/Q0F+VxZTuogxUMCdxuZ0VPKyuHYBKxVqzjIulA==
+X-Received: by 2002:a63:5a14:0:b0:41d:c892:2e9 with SMTP id
+ o20-20020a635a14000000b0041dc89202e9mr2445904pgb.457.1668084320832; 
+ Thu, 10 Nov 2022 04:45:20 -0800 (PST)
+Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- t18-20020a1709063e5200b007a62215eb4esm7283881eji.16.2022.11.10.04.40.34
+ a3-20020a170902710300b0017534ffd491sm11220703pll.163.2022.11.10.04.45.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 04:40:34 -0800 (PST)
-Message-ID: <6ed00204-fc89-0e3a-c128-0b0e8eb3d66b@redhat.com>
-Date: Thu, 10 Nov 2022 13:40:33 +0100
+ Thu, 10 Nov 2022 04:45:20 -0800 (PST)
+Message-ID: <800d64b9-c01f-bb12-7db3-b0f559382d1f@redhat.com>
+Date: Thu, 10 Nov 2022 13:45:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH for-7.2 3/5] block/mirror: Fix NULL s->job in active writes
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 1/3] net: Move the code to collect available NIC models to
+ a separate function
 Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, John Snow
- <jsnow@redhat.com>, Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-References: <20221109165452.67927-1-hreitz@redhat.com>
- <20221109165452.67927-4-hreitz@redhat.com> <Y2zqGLunpfbCGElN@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <Y2zqGLunpfbCGElN@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ pbonzini@redhat.com, qemu-devel@nongnu.org
+References: <20221104125705.415923-1-thuth@redhat.com>
+ <20221104125705.415923-2-thuth@redhat.com> <87sfiufyuu.fsf@linaro.org>
+ <ecc705e7-28b4-c332-fea0-a3db61ecc95b@redhat.com>
+In-Reply-To: <ecc705e7-28b4-c332-fea0-a3db61ecc95b@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,23 +103,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10.11.22 13:10, Kevin Wolf wrote:
-> Am 09.11.2022 um 17:54 hat Hanna Reitz geschrieben:
->> There is a small gap in mirror_start_job() before putting the mirror
->> filter node into the block graph (bdrv_append() call) and the actual job
->> being created.  Before the job is created, MirrorBDSOpaque.job is NULL.
+On 10/11/2022 11.35, Thomas Huth wrote:
+> On 07/11/2022 18.34, Alex Bennée wrote:
 >>
->> It is possible that requests come in when bdrv_drained_end() is called,
->> and those requests would see MirrorBDSOpaque.job == NULL.  Have our
->> filter node handle that case gracefully.
+>> Thomas Huth <thuth@redhat.com> writes:
 >>
->> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> This can only happen because bdrv_drained_end() polls, right? So after
-> changing that it won't be necessary any more, but this series is for 7.2
-> and the drain one isn't, so this is the right thing to do for now.
+>>> The code that collects the available NIC models is not really specific
+>>> to PCI anymore and will be required in the next patch, too, so let's
+>>> move this into a new separate function in net.c instead.
+>>>
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>>   include/net/net.h |  1 +
+>>>   hw/pci/pci.c      | 29 +----------------------------
+>>>   net/net.c         | 36 ++++++++++++++++++++++++++++++++++++
+>>>   3 files changed, 38 insertions(+), 28 deletions(-)
+>>>
+>>> diff --git a/include/net/net.h b/include/net/net.h
+>>> index 3db75ff841..c96cefb89a 100644
+>>> --- a/include/net/net.h
+>>> +++ b/include/net/net.h
+>>> @@ -189,6 +189,7 @@ void qemu_set_vnet_hdr_len(NetClientState *nc, int len);
+>>>   int qemu_set_vnet_le(NetClientState *nc, bool is_le);
+>>>   int qemu_set_vnet_be(NetClientState *nc, bool is_be);
+>>>   void qemu_macaddr_default_if_unset(MACAddr *macaddr);
+>>> +GPtrArray *qemu_get_nic_models(const char *device_type);
+>>>   int qemu_show_nic_models(const char *arg, const char *const *models);
+>>>   void qemu_check_nic_model(NICInfo *nd, const char *model);
+>>>   int qemu_find_nic_model(NICInfo *nd, const char * const *models,
+>>> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+>>> index 2f450f6a72..2b7b343e82 100644
+>>> --- a/hw/pci/pci.c
+>>> +++ b/hw/pci/pci.c
+>>> @@ -1964,7 +1964,6 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus 
+>>> *rootbus,
+>>>                                  const char *default_devaddr)
+>>>   {
+>>>       const char *devaddr = nd->devaddr ? nd->devaddr : default_devaddr;
+>>> -    GSList *list;
+>>>       GPtrArray *pci_nic_models;
+>>>       PCIBus *bus;
+>>>       PCIDevice *pci_dev;
+>>> @@ -1979,33 +1978,7 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus 
+>>> *rootbus,
+>>>           nd->model = g_strdup("virtio-net-pci");
+>>>       }
+>>> -    list = object_class_get_list_sorted(TYPE_PCI_DEVICE, false);
+>>> -    pci_nic_models = g_ptr_array_new();
+>>> -    while (list) {
+>>> -        DeviceClass *dc = OBJECT_CLASS_CHECK(DeviceClass, list->data,
+>>> -                                             TYPE_DEVICE);
+>>> -        GSList *next;
+>>> -        if (test_bit(DEVICE_CATEGORY_NETWORK, dc->categories) &&
+>>> -            dc->user_creatable) {
+>>> -            const char *name = object_class_get_name(list->data);
+>>> -            /*
+>>> -             * A network device might also be something else than a NIC, 
+>>> see
+>>> -             * e.g. the "rocker" device. Thus we have to look for the 
+>>> "netdev"
+>>> -             * property, too. Unfortunately, some devices like 
+>>> virtio-net only
+>>> -             * create this property during instance_init, so we have to 
+>>> create
+>>> -             * a temporary instance here to be able to check it.
+>>> -             */
+>>> -            Object *obj = object_new_with_class(OBJECT_CLASS(dc));
+>>> -            if (object_property_find(obj, "netdev")) {
+>>> -                g_ptr_array_add(pci_nic_models, (gpointer)name);
+>>> -            }
+>>> -            object_unref(obj);
+>>> -        }
+>>> -        next = list->next;
+>>> -        g_slist_free_1(list);
+>>> -        list = next;
+>>> -    }
+>>> -    g_ptr_array_add(pci_nic_models, NULL);
+>>> +    pci_nic_models = qemu_get_nic_models(TYPE_PCI_DEVICE);
+>>>       if (qemu_show_nic_models(nd->model, (const char 
+>>> **)pci_nic_models->pdata)) {
+>>>           exit(0);
+>>> diff --git a/net/net.c b/net/net.c
+>>> index 840ad9dca5..c0516a8067 100644
+>>> --- a/net/net.c
+>>> +++ b/net/net.c
+>>> @@ -899,6 +899,42 @@ static int nic_get_free_idx(void)
+>>>       return -1;
+>>>   }
+>>> +GPtrArray *qemu_get_nic_models(const char *device_type)
+>>> +{
+>>> +    GPtrArray *nic_models;
+>>> +    GSList *list;
+>>> +
+>>> +    list = object_class_get_list_sorted(device_type, false);
+>>> +    nic_models = g_ptr_array_new();
+>>> +    while (list) {
+>>> +        DeviceClass *dc = OBJECT_CLASS_CHECK(DeviceClass, list->data,
+>>> +                                             TYPE_DEVICE);
+>>> +        GSList *next;
+>>> +        if (test_bit(DEVICE_CATEGORY_NETWORK, dc->categories) &&
+>>> +            dc->user_creatable) {
+>>> +            const char *name = object_class_get_name(list->data);
+>>> +            /*
+>>> +             * A network device might also be something else than a NIC, 
+>>> see
+>>> +             * e.g. the "rocker" device. Thus we have to look for the 
+>>> "netdev"
+>>> +             * property, too. Unfortunately, some devices like 
+>>> virtio-net only
+>>> +             * create this property during instance_init, so we have to 
+>>> create
+>>> +             * a temporary instance here to be able to check it.
+>>> +             */
+>>> +            Object *obj = object_new_with_class(OBJECT_CLASS(dc));
+>>> +            if (object_property_find(obj, "netdev")) {
+>>> +                g_ptr_array_add(nic_models, (gpointer)name);
+>>> +            }
+>>> +            object_unref(obj);
+>>> +        }
+>>> +        next = list->next;
+>>> +        g_slist_free_1(list);
+>>> +        list = next;
+>>> +    }
+>>> +    g_ptr_array_add(nic_models, NULL);
+>>> +
+>>> +    return nic_models;
+>>> +}
+>>
+>> Is it worth freeing as you go and playing the next/list dance when you
+>> could just:
+>>
+>>    GPtrArray *qemu_get_nic_models(const char *device_type)
+>>    {
+>>        GPtrArray *nic_models = g_ptr_array_new();
+>>        g_autoptr(GSList) list = object_class_get_list_sorted(device_type, 
+>> false);
+>>
+>>        do {
+>>            DeviceClass *dc = OBJECT_CLASS_CHECK(DeviceClass, list->data,
+>>                                                 TYPE_DEVICE);
+>>            if (test_bit(DEVICE_CATEGORY_NETWORK, dc->categories) &&
+>>                dc->user_creatable) {
+>>                const char *name = object_class_get_name(list->data);
+>>                /*
+>>                 * A network device might also be something else than a 
+>> NIC, see
+>>                 * e.g. the "rocker" device. Thus we have to look for the 
+>> "netdev"
+>>                 * property, too. Unfortunately, some devices like 
+>> virtio-net only
+>>                 * create this property during instance_init, so we have to 
+>> create
+>>                 * a temporary instance here to be able to check it.
+>>                 */
+>>                Object *obj = object_new_with_class(OBJECT_CLASS(dc));
+>>                if (object_property_find(obj, "netdev")) {
+>>                    g_ptr_array_add(nic_models, (gpointer)name);
+>>                }
+>>                object_unref(obj);
+>>            }
+>>        } while ((list = g_slist_next(list)));
+>>        g_ptr_array_add(nic_models, NULL);
+>>
+>>        return nic_models;
+>>    }
+>>
+>> I must admit I'm not super clear on the lifetimes
+>> object_class_get_list_sorted but I assume the contents are static and we
+>> only need the equivalent of g_slist_free.
+> 
+> Looks like it could work, too. I'll add a patch on top to change it.
 
-I was wondering the same, but I haven’t tested it yet.
+Ok, now I've tried, and it does not work - valgrind compains about leaking 
+memory here. The problem is: You have to keep the pointer to the list head 
+around, by doing list = g_slist_next(list) you leave memory behind that 
+cannot be freed anymore. Thus I'll drop this change for now, since keeping 
+the pointer to the list head just for freeing it later is also ugly.
 
-Hanna
+  Thomas
 
 
