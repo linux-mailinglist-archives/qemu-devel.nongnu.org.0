@@ -2,79 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA793624B7C
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 21:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C333624BFA
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 21:36:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otDxS-00076b-Aa; Thu, 10 Nov 2022 15:15:30 -0500
+	id 1otEFr-0004Gw-Hq; Thu, 10 Nov 2022 15:34:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1otDxP-00075u-Ip
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 15:15:27 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1otDxM-0008N7-Qe
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 15:15:27 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id e129so2641871pgc.9
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 12:15:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=7kU1Fmm9CcGPpOr2iltM31XctOgHOsMqtXntGdu/Ijo=;
- b=iK4ESxze4WRcP1I9avKzOONE+8yF2PH7h583DKiZG2B5pyOQY/sPGlacjrlxsBRWmQ
- 55RLpsf5HbnorXUGjt9ZDqy5kTxdOlC3dOCyvU05DoVO9GlhCW0xhk0KC6+z9i13nEuw
- hmJrK3YeO2WGqKaKDoRn1zqCu/6aeQDX3XR7z3kQvvg1DB+iSJxu23dXq8rrwVJMtQcq
- PedV4r6cICNq1O9/9Akj91Lb21tY7rZlp1SrQwIuCPkOHc0+sFD8eV/physxOuQvOtaO
- hUCxRuJ9+du/p5Sj7JYUPUfcw87F1DMmi6HT+AovUcuGOB5/+z4yyVcWn1OGaKnvQS7k
- p0Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7kU1Fmm9CcGPpOr2iltM31XctOgHOsMqtXntGdu/Ijo=;
- b=EPHDzIUz+NFVm365g9E/jarwDCtD4JQnrD8LkWyMNlW3GTB0Zy6lxBO/SM9F3mZh+8
- /ruShU1hZbLkIy3B7l84BWrvEIkROWcw461uojM0gk0eUqJK7k7Dq0G8y2gAP/PWstqo
- +tnEwLpclGpDDQwZDpdITaRGVyELs+EpVNfrQnSNDhhgv/Bi/Ge9RJDk2yqAwPLq85mz
- ahfxVE3fKvhFsAgeQqVvlvI9OKtSfvxaByN79Ap3LGC/J6bPjhFdYxNj5MQPrmm6apKb
- LMSifRdj1XvUi54/h6SHl1ozjwxrrAbNrY/0xDJgrWHxOS7H75CUJ4kPpKfndKttBdtT
- CW4g==
-X-Gm-Message-State: ACrzQf0dZUgKIfyWs3hw9c0aabw7NmtdvtDqf5m4Czr/Sc0vKrLpTCJt
- hfJiKj6W2zGTacx+xtfW4+2JiRbbx0pF7dLp5zC5HA==
-X-Google-Smtp-Source: AMsMyM5yesfqJvEC5D1lmY2SF1qtqo9hzNcYZchexjfWttfwzk5Yn2fdpw9XgtMBILNgNns5ZTclTA4DvSIG3hXN3nA=
-X-Received: by 2002:a63:1d1c:0:b0:46b:2753:2a60 with SMTP id
- d28-20020a631d1c000000b0046b27532a60mr3143167pgd.192.1668111322768; Thu, 10
- Nov 2022 12:15:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1otEFp-0004Ge-2w; Thu, 10 Nov 2022 15:34:29 -0500
+Received: from vps-vb.mhejs.net ([37.28.154.113])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
+ id 1otEFn-0003Sy-59; Thu, 10 Nov 2022 15:34:28 -0500
+Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
+ (envelope-from <mail@maciej.szmigiero.name>)
+ id 1otEFC-0007yw-2b; Thu, 10 Nov 2022 21:33:50 +0100
+Message-ID: <79cdedf6-49a3-2899-86a6-555540a17ce6@maciej.szmigiero.name>
+Date: Thu, 10 Nov 2022 21:33:44 +0100
 MIME-Version: 1.0
-References: <20221110190825.879620-1-sw@weilnetz.de>
-In-Reply-To: <20221110190825.879620-1-sw@weilnetz.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 10 Nov 2022 20:15:11 +0000
-Message-ID: <CAFEAcA_wAt7Jq=uCXf1jBT5z4-xRPMX-GZzTBBiy15456hEa=Q@mail.gmail.com>
-Subject: Re: [PATCH for-7.2] Fix several typos in documentation (found by
- codespell)
-To: Stefan Weil <sw@weilnetz.de>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, 
- Ani Sinha <ani@anisinha.ca>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- David Hildenbrand <david@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
- "Michael S . Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Content-Language: en-US, pl-PL
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+References: <20221104161513.2455862-1-peter.maydell@linaro.org>
+ <20221104161513.2455862-7-peter.maydell@linaro.org>
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Subject: Re: [PATCH for-8.0 6/9] hw/hyperv/vmbus: Use device_cold_reset() and
+ bus_cold_reset()
+In-Reply-To: <20221104161513.2455862-7-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=37.28.154.113;
+ envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,21 +65,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 10 Nov 2022 at 19:09, Stefan Weil via <qemu-devel@nongnu.org> wrote:
->
-> Those typos are in files which are used to generate the QEMU manual.
->
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+On 4.11.2022 17:15, Peter Maydell wrote:
+> In the vmbus code we currently use the legacy functions
+> qdev_reset_all() and qbus_reset_all().  These perform a recursive
+> reset, starting from either a qbus or a qdev.  However they do not
+> permit any of the devices in the tree to use three-phase reset,
+> because device reset goes through the device_legacy_reset() function
+> that only calls the single DeviceClass::reset method.
+> 
+> Switch to using the device_cold_reset() and bus_cold_reset()
+> functions.  These also perform a recursive reset, where first the
+> children are reset and then finally the parent, but they use the new
+> (...in 2020...) Resettable mechanism, which supports both the old
+> style single-reset method and also the new 3-phase reset handling.
+> 
+> This should be a no-behaviour-change commit which just reduces the
+> use of a deprecated API.
+> 
+> Commit created with:
+>    sed -i -e 's/qdev_reset_all/device_cold_reset/g;s/qbus_reset_all/bus_cold_reset/g' hw/hyperv/*.c
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->
-> I did not fix memory_region_init_resizeable_ram. That might be done after 7.2.
+>   hw/hyperv/vmbus.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
+> index 30bc04e1c4c..f345f310b0f 100644
+> --- a/hw/hyperv/vmbus.c
+> +++ b/hw/hyperv/vmbus.c
+> @@ -1578,7 +1578,7 @@ static bool vmbus_initialized(VMBus *vmbus)
+>   
+>   static void vmbus_reset_all(VMBus *vmbus)
+>   {
+> -    qbus_reset_all(BUS(vmbus));
+> +    bus_cold_reset(BUS(vmbus));
+>   }
+>   
+>   static void post_msg(VMBus *vmbus, void *msgdata, uint32_t msglen)
+> @@ -2035,7 +2035,7 @@ static void vdev_reset_on_close(VMBusDevice *vdev)
+>       }
+>   
+>       /* all channels closed -- reset device */
+> -    qdev_reset_all(DEVICE(vdev));
+> +    device_cold_reset(DEVICE(vdev));
+>   }
+>   
+>   static void handle_close_channel(VMBus *vmbus, vmbus_message_close_channel *msg,
 
-I think that's a UK vs US spellings one anyway... eg
-https://dictionary.cambridge.org/dictionary/english/sizable
-just says "mainly US spelling of sizeable" and cross refers to:
-https://dictionary.cambridge.org/dictionary/english/sizeable
+Resetting a guest with VMBus still works fine with this patch, so:
+Reviewed-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
 
-and I think resizeable/resizable is the same.
+Thanks,
+Maciej
 
--- PMM
 
