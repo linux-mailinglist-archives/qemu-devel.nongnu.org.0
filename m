@@ -2,46 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9DFE6239A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 03:14:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 272BE6239A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 03:16:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osx3p-00023K-0b; Wed, 09 Nov 2022 21:12:57 -0500
+	id 1osx6s-0002yd-6f; Wed, 09 Nov 2022 21:16:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1osx3j-00022j-72
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 21:12:51 -0500
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1osx6o-0002yH-Pt; Wed, 09 Nov 2022 21:16:02 -0500
 Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1osx3W-0002UV-JR
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 21:12:50 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R291e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
- MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=7; SR=0;
- TI=SMTPD_---0VUQOnFs_1668046349; 
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
- fp:SMTPD_---0VUQOnFs_1668046349) by smtp.aliyun-inc.com;
- Thu, 10 Nov 2022 10:12:30 +0800
-Message-ID: <1668046343.214681-1-xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH] virtio: remove the excess virtio features check
-Date: Thu, 10 Nov 2022 10:12:23 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, stefanha@gmail.com, lersek@redhat.com,
- jasowang@redhat.com, peter.maydell@linaro.org, kraxel@redhat.com
-References: <20221109111021.24344-1-xuanzhuo@linux.alibaba.com>
- <20221109094421-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20221109094421-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
+ id 1osx6m-0007cJ-PA; Wed, 09 Nov 2022 21:16:02 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R161e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
+ MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=12; SR=0;
+ TI=SMTPD_---0VUQOu09_1668046551; 
+Received: from 30.221.97.70(mailfrom:zhiwei_liu@linux.alibaba.com
+ fp:SMTPD_---0VUQOu09_1668046551) by smtp.aliyun-inc.com;
+ Thu, 10 Nov 2022 10:15:53 +0800
+Message-ID: <4fb639df-889f-a76d-6c62-126ec4d9e5e1@linux.alibaba.com>
+Date: Thu, 10 Nov 2022 10:15:42 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v1 4/4] target/riscv: Add itrigger_enabled field to
+ CPURISCVState
+To: Alistair Francis <alistair23@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, Alistair.Francis@wdc.com,
+ palmer@dabbelt.com, bin.meng@windriver.com,
+ sergey.matyukevich@syntacore.com, vladimir.isaev@syntacore.com,
+ anatoly.parshintsev@syntacore.com, philipp.tomsich@vrull.eu,
+ zhiwei_liu@c-sky.com
+References: <20221013062946.7530-1-zhiwei_liu@linux.alibaba.com>
+ <20221013062946.7530-5-zhiwei_liu@linux.alibaba.com>
+ <CAKmqyKO0EUKg7k95RGnk3_=4BXynECBPfV5-_2VPW4A7p45daw@mail.gmail.com>
+Content-Language: en-US
+From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+In-Reply-To: <CAKmqyKO0EUKg7k95RGnk3_=4BXynECBPfV5-_2VPW4A7p45daw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=115.124.30.57;
- envelope-from=xuanzhuo@linux.alibaba.com;
+ envelope-from=zhiwei_liu@linux.alibaba.com;
  helo=out30-57.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
 X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
  USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -59,46 +70,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 9 Nov 2022 09:46:18 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> On Wed, Nov 09, 2022 at 07:10:21PM +0800, Xuan Zhuo wrote:
-> > In virtio_queue_enable(), we checked virtio feature VIRTIO_F_VERSION_1.
-> >
-> > This check is not necessary, and conflict with SeaBIOS. The problem
-> > appeared in SeaBIOS. But we also remove this check.
-> >
-> > Link: https://www.mail-archive.com/qemu-devel@nongnu.org/msg920538.html
-> > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> > ---
-> >  hw/virtio/virtio.c | 5 -----
-> >  1 file changed, 5 deletions(-)
-> >
-> > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> > index 9683b2e158..701e23ea6a 100644
-> > --- a/hw/virtio/virtio.c
-> > +++ b/hw/virtio/virtio.c
-> > @@ -2499,11 +2499,6 @@ void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
-> >  {
-> >      VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-> >
-> > -    if (!virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-> > -        error_report("queue_enable is only suppported in devices of virtio "
-> > -                     "1.0 or later.");
-> > -    }
-> > -
-> >      if (k->queue_enable) {
-> >          k->queue_enable(vdev, queue_index);
-> >      }
->
-> Well this warning turned out to be actually useful.
-> Let's see whether we can fix seabios in time for release.
-> If yes I would just make it LOG_GUEST_ERR and limit to
-> latest machine type but not drop completely.
 
-OK.
+On 2022/11/10 6:55, Alistair Francis wrote:
+> On Thu, Oct 13, 2022 at 4:51 PM LIU Zhiwei <zhiwei_liu@linux.alibaba.com> wrote:
+>> Avoid calling riscv_itrigger_enabled() when calculate the tbflags.
+>> As the itrigger enable status can only be changed when write
+>> tdata1, migration load or itrigger fire, update env->itrigger_enabled
+>> at these places.
+>>
+>> Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+>> ---
+>>   target/riscv/cpu.h        |  1 +
+>>   target/riscv/cpu_helper.c |  3 +--
+>>   target/riscv/debug.c      |  3 +++
+>>   target/riscv/machine.c    | 15 +++++++++++++++
+>>   4 files changed, 20 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index 13ca0f20ae..44499df9da 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -331,6 +331,7 @@ struct CPUArchState {
+>>       struct CPUWatchpoint *cpu_watchpoint[RV_MAX_TRIGGERS];
+>>       QEMUTimer *itrigger_timer[RV_MAX_TRIGGERS];
+>>       int64_t last_icount;
+>> +    bool itrigger_enabled;
+>>
+>>       /* machine specific rdtime callback */
+>>       uint64_t (*rdtime_fn)(void *);
+>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>> index 7d8089b218..95c766aec0 100644
+>> --- a/target/riscv/cpu_helper.c
+>> +++ b/target/riscv/cpu_helper.c
+>> @@ -106,8 +106,7 @@ void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
+>>                              get_field(env->mstatus_hs, MSTATUS_VS));
+>>       }
+>>       if (riscv_feature(env, RISCV_FEATURE_DEBUG) && !icount_enabled()) {
+>> -        flags = FIELD_DP32(flags, TB_FLAGS, ITRIGGER,
+>> -                           riscv_itrigger_enabled(env));
+>> +        flags = FIELD_DP32(flags, TB_FLAGS, ITRIGGER, env->itrigger_enabled);
+>>       }
+>>   #endif
+>>
+>> diff --git a/target/riscv/debug.c b/target/riscv/debug.c
+>> index db7745d4a3..2c0c8b18db 100644
+>> --- a/target/riscv/debug.c
+>> +++ b/target/riscv/debug.c
+>> @@ -565,6 +565,7 @@ void helper_itrigger_match(CPURISCVState *env)
+>>           }
+>>           itrigger_set_count(env, i, count--);
+>>           if (!count) {
+>> +            env->itrigger_enabled = riscv_itrigger_enabled(env);
+>>               do_trigger_action(env, i);
+>>           }
+>>       }
+>> @@ -662,6 +663,8 @@ static void itrigger_reg_write(CPURISCVState *env, target_ulong index,
+>>                   /* set the count to timer */
+>>                   timer_mod(env->itrigger_timer[index],
+>>                             env->last_icount + itrigger_get_count(env, index));
+>> +            } else {
+>> +                env->itrigger_enabled = riscv_itrigger_enabled(env);
+>>               }
+>>           }
+>>           break;
+>> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+>> index c2a94a82b3..cd32a52e19 100644
+>> --- a/target/riscv/machine.c
+>> +++ b/target/riscv/machine.c
+>> @@ -21,6 +21,8 @@
+>>   #include "qemu/error-report.h"
+>>   #include "sysemu/kvm.h"
+>>   #include "migration/cpu.h"
+>> +#include "sysemu/cpu-timers.h"
+>> +#include "debug.h"
+>>
+>>   static bool pmp_needed(void *opaque)
+>>   {
+>> @@ -229,11 +231,24 @@ static bool debug_needed(void *opaque)
+>>       return riscv_feature(env, RISCV_FEATURE_DEBUG);
+>>   }
+>>
+>> +static int debug_post_load(void *opaque, int version_id)
+>> +{
+>> +    RISCVCPU *cpu = opaque;
+>> +    CPURISCVState *env = &cpu->env;
+>> +
+>> +    if (icount_enabled()) {
+>> +        env->itrigger_enabled = riscv_itrigger_enabled(env);
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   static const VMStateDescription vmstate_debug = {
+>>       .name = "cpu/debug",
+>>       .version_id = 2,
+>>       .minimum_version_id = 2,
+> The versions here should be bumped
 
+Hi Alistair and Richard,
 
+I am not sure if we should bump versions when just add post_load 
+callback without adding new fields.  I once upstreamed a patch
+with a similar change but not bumping version.
+
+Could you give some principles for bumping versions?
+
+Thanks,
+Zhiwei
+
+> Alistair
 >
-> > --
-> > 2.32.0.3.g01195cf9f
->
+>>       .needed = debug_needed,
+>> +    .post_load = debug_post_load,
+>>       .fields = (VMStateField[]) {
+>>           VMSTATE_UINTTL(env.trigger_cur, RISCVCPU),
+>>           VMSTATE_UINTTL_ARRAY(env.tdata1, RISCVCPU, RV_MAX_TRIGGERS),
+>> --
+>> 2.17.1
+>>
+>>
 
