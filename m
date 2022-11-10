@@ -2,91 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B07623FFD
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 11:37:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC61C624028
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 11:42:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot4uh-0004Sc-HI; Thu, 10 Nov 2022 05:36:03 -0500
+	id 1ot4zW-00073X-Ok; Thu, 10 Nov 2022 05:41:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot4uR-0004Pr-0v
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 05:35:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1ot4zU-00073A-1L
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 05:41:00 -0500
+Received: from mail-bn8nam12on2060a.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5b::60a]
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot4uP-0003iU-6k
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 05:35:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668076543;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6hZGp1VAFcLK03jBBoEVfDzGSthi0Iv/q08I5lrM8e4=;
- b=aKuQmjOHReL0PvB+Se8PplK4gGrwCseezQWi7qmkCZnfdtjquL1DWXFaWzQ22/dHCgpfsW
- 1z3kKb4XJTd9Oe9Gincqw0tbBvDkDqAz7g0/X6OZrtSOciHsstswnSzIAR28c/nPu8BH8B
- hqknK+JE5b5BZRvBL7m+8+gPpe9bBDw=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-37-yaXbF_bqP0WDNarmTVKEIQ-1; Thu, 10 Nov 2022 05:35:42 -0500
-X-MC-Unique: yaXbF_bqP0WDNarmTVKEIQ-1
-Received: by mail-pg1-f198.google.com with SMTP id
- p18-20020a63e652000000b0046b27534651so814731pgj.17
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 02:35:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6hZGp1VAFcLK03jBBoEVfDzGSthi0Iv/q08I5lrM8e4=;
- b=H6O5Jk+ZSR55TChpKGrpw/vxDE50aDJvunpG2YqlvitLCnZVjL4YnxXB39QA43S8tZ
- pFhKHRljGVvFQMHS+X4Q2nurgm5jlJo6BqqRvV9NDPYtwrU7jT/ni1/aufVPkiBsgade
- 3PFznYpTw8xd2evfF1sCIhBieCQJNQG1ev4UdWK4r8mIc+KmYtCchOHrYjphGgQJxUJO
- BIuNLRdj8ahLSBgp2Gx9LV4MNLGH8axeZUeKzfXKpVGasLGWM9AgqTbvjHFBUGLEBGC9
- d64l+0hsye73zkDm0PWIQ/vhj90Zrb6AD/TpFNd1qasAfL1TS1mbdmNO5bD6rbNuJXtt
- QR6w==
-X-Gm-Message-State: ACrzQf2pPwltcjgqJ9iszoRxkJnsW93T3PWKu2ZNrhusEbqugrjo5d0z
- 8PLiqp/fHzQc9xS8uO/W5CWLng+HKKm/ZAUVo+LlXj6xDTUYsydNaiCwInzN7S4XEmlua48Q2iM
- lpYWQ0MMUQApi/Qg=
-X-Received: by 2002:a63:f505:0:b0:46f:59af:c1f4 with SMTP id
- w5-20020a63f505000000b0046f59afc1f4mr2139153pgh.344.1668076541160; 
- Thu, 10 Nov 2022 02:35:41 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM6rRjMKCrcSxs5k5uh9ebThbhdJJRhbeRZ5r1J6zfhy0n+iHsUehxE93cuYdKGZYRjoiFq90Q==
-X-Received: by 2002:a63:f505:0:b0:46f:59af:c1f4 with SMTP id
- w5-20020a63f505000000b0046f59afc1f4mr2139135pgh.344.1668076540803; 
- Thu, 10 Nov 2022 02:35:40 -0800 (PST)
-Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- i3-20020a17090a7e0300b002036006d65bsm2764666pjl.39.2022.11.10.02.35.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 02:35:40 -0800 (PST)
-Message-ID: <ecc705e7-28b4-c332-fea0-a3db61ecc95b@redhat.com>
-Date: Thu, 10 Nov 2022 11:35:33 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+ (Exim 4.90_1) (envelope-from <yajunw@nvidia.com>) id 1ot4zR-0007DW-I4
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 05:40:59 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R4vNwSfR2Hsb2Jzt3OLETqZBgE29RrN6m7jnJida31AEoH6dOAsV188wWrrnCuehmlY+T1y4/6cTSIeIUODHoREoknNnw3C3INplL//TCEEnVLaOO06DyEFLpu3m4+sP6ij77YDzKBX80IVDbg5dWQ3GvDGFgphfRxotpI73ZYZqEH1TVDbrbGLlfGoWq0omJodDKtOTe/PZk4ovCNE9X7/drnKiz9yH2n/j4Yje2kXzHPuc7tHs6DKm+y3mdlpawyba80vU8AOuaR3YRc6VHVd/REXs7EmwLaB0dFKbqPHSOQbE9+Vcm3TY2AgflWgbzKeM/WvP7Y2u3fzArmaj4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ilB8gFu8Vbs1TAWt+V/hYeXFnzpfp8n++6BpnC1GJPg=;
+ b=ZwER9RGHb4+lBURWrvz1cmRClH26QtAW7lYVXOb49s9hlwbOiHJuVq0wqVzwMyow0gn4wMUlYGQZ6uVCshsVqvcFvW6HJSDsTyDeVKDJY2F9fTJSvdmIJmL4PASbHxymla16mNdEixOU2/k0qMiopDJtX3GWy3U0MhXya2jSIzK/BoDfJzwQ62Fd4nggSH1uVe7viSVR6mleapYHkTCXkN5ZOFe6CVXB95bZApKwYD17jzzAJ1pKuHrtxtr43+n/iubTYbm1YCbYfg18qqZY5LasZYdfj8OBYPsH3Fo1AFKWffCft57WhSdkbLMmq8W75lzERl+XtSZW9Hr/AxoP8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ilB8gFu8Vbs1TAWt+V/hYeXFnzpfp8n++6BpnC1GJPg=;
+ b=hiX3wbXqOkULFBoXHrYsJLh4fuMClTz0QH3K8mDlsq7qTTrmBOxeDteZwUTw7BLvZHDmK/y82SjxlzDGs67VodP/rudCj52lgRgos9q5Ew0E61yPAaG01jJ1cDYVdFf2IiRfYqa97lPhLUweeLrJN+FmSkR5GQjk2uxLZahJaLPJEpcvuaGGZgM5Pp3y9HnNKUZiZvwWeix0jLcQ+JBwgBdZ7hD+mLeSwux+lc3tUIpwIGJPWhp0tC1jpToOY+chXiXzjztOfVLcB5MvA84s92AYd4NEemMYLbo1+8TByexuo/510kYWMIBjGi/HMO/Kfeel4swnHFUM+gWFNzf4lA==
+Received: from DM4PR12MB5168.namprd12.prod.outlook.com (2603:10b6:5:397::8) by
+ CY8PR12MB7434.namprd12.prod.outlook.com (2603:10b6:930:52::20) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5813.12; Thu, 10 Nov 2022 10:35:50 +0000
+Received: from DM4PR12MB5168.namprd12.prod.outlook.com
+ ([fe80::2bec:c2ce:ead9:c610]) by DM4PR12MB5168.namprd12.prod.outlook.com
+ ([fe80::2bec:c2ce:ead9:c610%9]) with mapi id 15.20.5813.013; Thu, 10 Nov 2022
+ 10:35:50 +0000
+From: Yajun Wu <yajunw@nvidia.com>
+To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "mst@redhat.com"
+ <mst@redhat.com>, Parav Pandit <parav@nvidia.com>
+Subject: RE: [PATCH  v2 1/4] hw/virtio: incorporate backend features in
+ features
+Thread-Topic: [PATCH  v2 1/4] hw/virtio: incorporate backend features in
+ features
+Thread-Index: AQHYoo420afh1hRyOUGAOazdHACteK4guCnwgAAfj4CAF7yUgA==
+Date: Thu, 10 Nov 2022 10:35:49 +0000
+Message-ID: <DM4PR12MB5168D79B6312F25544556B13B6019@DM4PR12MB5168.namprd12.prod.outlook.com>
+References: <20220728135503.1060062-1-alex.bennee@linaro.org>
+ <20220728135503.1060062-2-alex.bennee@linaro.org>
+ <DM4PR12MB5168A6071D5A3A961E0CCB69B6309@DM4PR12MB5168.namprd12.prod.outlook.com>
+ <877d0n58t6.fsf@linaro.org>
+In-Reply-To: <877d0n58t6.fsf@linaro.org>
+Accept-Language: zh-CN, en-US
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- pbonzini@redhat.com, qemu-devel@nongnu.org
-References: <20221104125705.415923-1-thuth@redhat.com>
- <20221104125705.415923-2-thuth@redhat.com> <87sfiufyuu.fsf@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 1/3] net: Move the code to collect available NIC models to
- a separate function
-In-Reply-To: <87sfiufyuu.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR12MB5168:EE_|CY8PR12MB7434:EE_
+x-ms-office365-filtering-correlation-id: 51bd884e-a3fe-4fe4-91c5-08dac30755f4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: oG8mmwNd2esAi7Ker8/gHcHxAqbOqwIj1gF82h/JRWq431J+a7MrBjISkXN2Y+MjTR2vV1QZMCotMUMzuGrePk8QkOJ5MPNACy1IBtJdDmyaga4ZwXRuMSj2qFyVWUJN5f+gJ3s6Qh3mNnyMd/H1B2ACAm9Eh1aDYrtWNxZMuvqeqR42ijtPB1f/kk2ZXX6BgtjOopWfOejMSoZ2IGkKh7jfMJNT3cFAVNsKfNrVZ8Z9BPfBGRILDk8PBGG5WVUaf/He9sArlCcfopMnqpqehd3ZHUb9iAScSXDzDzjfJq20C6oSDFdP9V5dEiTnaU+fJb6xveMCZblgLzXs+RAx+/YnR2JZpG9T3qsqH3TBpU8JnAJfwa8oEXpvBCDnJcilyee3WMA6WgU4HX1HTbwBSaI0aBs2gS4o72mCRZAwkyuXnm/14giXVQddShwEY6t9VWNlw1iQ6NsdciC7oGM2y42rpQZcny/BMesEaUpOpnReoy8HhktmOSrUfkOSUNkTuFnfKIQKSf2lN9L5c6yJfmmBsr6DLmKkgjSGhyVCKVdgeHGar0MoIfu01UjHBZuZN1dBhxCpA9+EZBv032Qto18TR9jmecG+bblGvpYYwECJlvHsTyyLREh2DOW2HkKkyRj7hTJZZ2DLdhClpSqmSWCF1jB6Kvo57wn81hJ4cY98RdAR/8gsnslOeaei/4VRRkoa1XZa81LPEG7EBi5Y/7Zyt6WOTTUX5x4+FeAq7OAeEFHfvEdggaMUsKMSU0W7tHK9Ysst/OtS1ridWud20u5hCtUO6Ras2WdQu1Wf7dc=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB5168.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(396003)(346002)(136003)(376002)(366004)(39860400002)(451199015)(6506007)(7696005)(33656002)(86362001)(38070700005)(122000001)(38100700002)(186003)(2906002)(54906003)(9686003)(26005)(83380400001)(53546011)(66574015)(6916009)(5660300002)(107886003)(52536014)(966005)(478600001)(8936002)(71200400001)(55016003)(66556008)(45080400002)(66476007)(8676002)(41300700001)(64756008)(66446008)(4326008)(316002)(66946007)(76116006);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?rMMAjlteBr+Sn6KBCGv0XxSyaPlYMVma7JwksJ+73MNdO4oP49Oi1XIFvY?=
+ =?iso-8859-1?Q?a6YJTjIKymBkz4FIPFjqZdgpWmPhtDbzMTOLoGlg7DF4R8IgzWx1UpZwl5?=
+ =?iso-8859-1?Q?70/hxoMfOMwKfuBtC8T1IGofUE0K0gw1uNVzp9RY9Oo5L7TP+alN7Vzn5e?=
+ =?iso-8859-1?Q?wzAw4sHJr8EWXwmbcRpcQkxesuLvCBLkDkrHiCxfoLqOqpsvAyvyVjfpYN?=
+ =?iso-8859-1?Q?JjpApG/bK32coOpKeFoo21EO4dLDeOu5uZxwC5VkxBfDvFXdnIapsRrn05?=
+ =?iso-8859-1?Q?fEb9psNgbll8RCmW4uEj2amOq7V//0PXFjHxvgr3vrAGTjxhqVe0TNIfef?=
+ =?iso-8859-1?Q?vazVRwcGc5CFS/a1lYDywSdqClqzKGoujYbjwEhghQhtz5wPx1HuXXn8l5?=
+ =?iso-8859-1?Q?WKEXaUprsDXXdMn3gJxOm1POcZHIldLj+WaPQiMHL3/4kKl2GtXQB3pNoU?=
+ =?iso-8859-1?Q?ZJnzjQ8Vo/d++OTeU1qAMvoVPhu/wIid7nx27SV/ySfFtvFE2fAm9P4MBK?=
+ =?iso-8859-1?Q?yVuwucCmQUAASzLkWnct8Wl5TnshCrgfjQ0wyDtkL5OH0siWM2PcStHZdC?=
+ =?iso-8859-1?Q?sZ48kKEtjjtn2bq/OeBFmjE9bGGg/Xf0DxhjOr4gSxuSYXoXw+UbyH810U?=
+ =?iso-8859-1?Q?VuNSBCdNUD7nf9yQchm/g6QDuJUfBxV3vlg6spdtkNTBpEaRNE1ox0g8Ts?=
+ =?iso-8859-1?Q?EB1QLcc4zbCzk0QSVhyZoQhojoXruQCO5Lz+NJ14X8rnyAKrVdkjN33jKI?=
+ =?iso-8859-1?Q?EqrPIULg/4kQwBsd+Nix/ihSNhy2XyPlD3UcF8ibLSke5rlgvBEq3uHOYz?=
+ =?iso-8859-1?Q?Lf6Wd5sVRoy3C84epF6YGR+rx7JlFHPqBIJWr6h4wAXiGd0dZMDL66RhmP?=
+ =?iso-8859-1?Q?g7PF1tsrifZ59FpAuhDRvoYLd7G+J1nfdIRDulGYbFmti9QvNevpX0rTXk?=
+ =?iso-8859-1?Q?GHO1FIkSe2zR8pw98oJBSxc1Gf8LY6/fhzi8BjFwL6gO35gCjYsRbFNH2W?=
+ =?iso-8859-1?Q?ofYm3lxaMSRDwSVwq+MwB8GbsNjLZxyvOfZadD14EIDuAydi1gAoB7Vdco?=
+ =?iso-8859-1?Q?7lZ50IK0NEN8mAgpHLf+uQ8R4XzmTdjmuOW2NnBFaltw/IK5V47VkW1Tko?=
+ =?iso-8859-1?Q?Fa07l/TSPH6MoIowgJj/r38f6KMxmqbpTX0vumlSWaAy3azi4sq6HZ0nBx?=
+ =?iso-8859-1?Q?o9Kc7ANYfe7YLY4tcinbXrTIgsbSPkGDZ4qTSgXQBd+M6FRktq/pun+9fl?=
+ =?iso-8859-1?Q?6yiMMXMc3biZQa8UZlqxUF94cEqVNeyxCj7S6FJnvQMv/RiJYgL6RKUFcJ?=
+ =?iso-8859-1?Q?PU4nrQCAB8Ciw62d3F2krw+NsKFMQQ2hjRKoIZAwFS6/OAQgagOQwhbwBm?=
+ =?iso-8859-1?Q?IA/YuxscJcxfC6VVn5mDthjmC4RCXWwbc3wggHC4Z5zEvhE5mdNAVdsan7?=
+ =?iso-8859-1?Q?MBYuubQfBVvxbfXCHvR0Rnm5FlPdXthrM4mK11iwtzEeq0Tvcc5mcG9Jks?=
+ =?iso-8859-1?Q?5U00D99avs5xTIKwuM0z5zuYFNb/ufWJmTu/Tw/dVsHAsyFPpBRgsYITCD?=
+ =?iso-8859-1?Q?VBguOI1F7NBi/BPoSFqtD/K/vcMUB62IlCKreZNYM6chW+hp5UI6Sm6gjf?=
+ =?iso-8859-1?Q?F+7RN6XBc1xN1nMGKDPgOr78FSBQom/kpn?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5168.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51bd884e-a3fe-4fe4-91c5-08dac30755f4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Nov 2022 10:35:50.0001 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EVRbw66M2FD/+Oy1b4woq9zo75gjHW2/SX6l9dyai8z9YS1Rg3F/9bDH/IB2KFIVvWZFJr2F1Y8HaQqlz98eNQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7434
+Received-SPF: softfail client-ip=2a01:111:f400:fe5b::60a;
+ envelope-from=yajunw@nvidia.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,163 +141,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 07/11/2022 18.34, Alex Bennée wrote:
-> 
-> Thomas Huth <thuth@redhat.com> writes:
-> 
->> The code that collects the available NIC models is not really specific
->> to PCI anymore and will be required in the next patch, too, so let's
->> move this into a new separate function in net.c instead.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   include/net/net.h |  1 +
->>   hw/pci/pci.c      | 29 +----------------------------
->>   net/net.c         | 36 ++++++++++++++++++++++++++++++++++++
->>   3 files changed, 38 insertions(+), 28 deletions(-)
->>
->> diff --git a/include/net/net.h b/include/net/net.h
->> index 3db75ff841..c96cefb89a 100644
->> --- a/include/net/net.h
->> +++ b/include/net/net.h
->> @@ -189,6 +189,7 @@ void qemu_set_vnet_hdr_len(NetClientState *nc, int len);
->>   int qemu_set_vnet_le(NetClientState *nc, bool is_le);
->>   int qemu_set_vnet_be(NetClientState *nc, bool is_be);
->>   void qemu_macaddr_default_if_unset(MACAddr *macaddr);
->> +GPtrArray *qemu_get_nic_models(const char *device_type);
->>   int qemu_show_nic_models(const char *arg, const char *const *models);
->>   void qemu_check_nic_model(NICInfo *nd, const char *model);
->>   int qemu_find_nic_model(NICInfo *nd, const char * const *models,
->> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
->> index 2f450f6a72..2b7b343e82 100644
->> --- a/hw/pci/pci.c
->> +++ b/hw/pci/pci.c
->> @@ -1964,7 +1964,6 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus *rootbus,
->>                                  const char *default_devaddr)
->>   {
->>       const char *devaddr = nd->devaddr ? nd->devaddr : default_devaddr;
->> -    GSList *list;
->>       GPtrArray *pci_nic_models;
->>       PCIBus *bus;
->>       PCIDevice *pci_dev;
->> @@ -1979,33 +1978,7 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus *rootbus,
->>           nd->model = g_strdup("virtio-net-pci");
->>       }
->>   
->> -    list = object_class_get_list_sorted(TYPE_PCI_DEVICE, false);
->> -    pci_nic_models = g_ptr_array_new();
->> -    while (list) {
->> -        DeviceClass *dc = OBJECT_CLASS_CHECK(DeviceClass, list->data,
->> -                                             TYPE_DEVICE);
->> -        GSList *next;
->> -        if (test_bit(DEVICE_CATEGORY_NETWORK, dc->categories) &&
->> -            dc->user_creatable) {
->> -            const char *name = object_class_get_name(list->data);
->> -            /*
->> -             * A network device might also be something else than a NIC, see
->> -             * e.g. the "rocker" device. Thus we have to look for the "netdev"
->> -             * property, too. Unfortunately, some devices like virtio-net only
->> -             * create this property during instance_init, so we have to create
->> -             * a temporary instance here to be able to check it.
->> -             */
->> -            Object *obj = object_new_with_class(OBJECT_CLASS(dc));
->> -            if (object_property_find(obj, "netdev")) {
->> -                g_ptr_array_add(pci_nic_models, (gpointer)name);
->> -            }
->> -            object_unref(obj);
->> -        }
->> -        next = list->next;
->> -        g_slist_free_1(list);
->> -        list = next;
->> -    }
->> -    g_ptr_array_add(pci_nic_models, NULL);
->> +    pci_nic_models = qemu_get_nic_models(TYPE_PCI_DEVICE);
->>   
->>       if (qemu_show_nic_models(nd->model, (const char **)pci_nic_models->pdata)) {
->>           exit(0);
->> diff --git a/net/net.c b/net/net.c
->> index 840ad9dca5..c0516a8067 100644
->> --- a/net/net.c
->> +++ b/net/net.c
->> @@ -899,6 +899,42 @@ static int nic_get_free_idx(void)
->>       return -1;
->>   }
->>   
->> +GPtrArray *qemu_get_nic_models(const char *device_type)
->> +{
->> +    GPtrArray *nic_models;
->> +    GSList *list;
->> +
->> +    list = object_class_get_list_sorted(device_type, false);
->> +    nic_models = g_ptr_array_new();
->> +    while (list) {
->> +        DeviceClass *dc = OBJECT_CLASS_CHECK(DeviceClass, list->data,
->> +                                             TYPE_DEVICE);
->> +        GSList *next;
->> +        if (test_bit(DEVICE_CATEGORY_NETWORK, dc->categories) &&
->> +            dc->user_creatable) {
->> +            const char *name = object_class_get_name(list->data);
->> +            /*
->> +             * A network device might also be something else than a NIC, see
->> +             * e.g. the "rocker" device. Thus we have to look for the "netdev"
->> +             * property, too. Unfortunately, some devices like virtio-net only
->> +             * create this property during instance_init, so we have to create
->> +             * a temporary instance here to be able to check it.
->> +             */
->> +            Object *obj = object_new_with_class(OBJECT_CLASS(dc));
->> +            if (object_property_find(obj, "netdev")) {
->> +                g_ptr_array_add(nic_models, (gpointer)name);
->> +            }
->> +            object_unref(obj);
->> +        }
->> +        next = list->next;
->> +        g_slist_free_1(list);
->> +        list = next;
->> +    }
->> +    g_ptr_array_add(nic_models, NULL);
->> +
->> +    return nic_models;
->> +}
-> 
-> Is it worth freeing as you go and playing the next/list dance when you
-> could just:
-> 
->    GPtrArray *qemu_get_nic_models(const char *device_type)
->    {
->        GPtrArray *nic_models = g_ptr_array_new();
->        g_autoptr(GSList) list = object_class_get_list_sorted(device_type, false);
-> 
->        do {
->            DeviceClass *dc = OBJECT_CLASS_CHECK(DeviceClass, list->data,
->                                                 TYPE_DEVICE);
->            if (test_bit(DEVICE_CATEGORY_NETWORK, dc->categories) &&
->                dc->user_creatable) {
->                const char *name = object_class_get_name(list->data);
->                /*
->                 * A network device might also be something else than a NIC, see
->                 * e.g. the "rocker" device. Thus we have to look for the "netdev"
->                 * property, too. Unfortunately, some devices like virtio-net only
->                 * create this property during instance_init, so we have to create
->                 * a temporary instance here to be able to check it.
->                 */
->                Object *obj = object_new_with_class(OBJECT_CLASS(dc));
->                if (object_property_find(obj, "netdev")) {
->                    g_ptr_array_add(nic_models, (gpointer)name);
->                }
->                object_unref(obj);
->            }
->        } while ((list = g_slist_next(list)));
->        g_ptr_array_add(nic_models, NULL);
-> 
->        return nic_models;
->    }
-> 
-> I must admit I'm not super clear on the lifetimes
-> object_class_get_list_sorted but I assume the contents are static and we
-> only need the equivalent of g_slist_free.
+Hi Alex,
 
-Looks like it could work, too. I'll add a patch on top to change it.
+Sorry for the late response, I missed your mail.
+You can test together with dpdk and have reproduce.
 
-  Thomas
+Steps:
+1. DPDK=20
+git clone https://github.com/DPDK/dpdk.git
+git checkout v22.07
+meson build -Dexamples=3Dvhost_blk
+ninja -C build
+cd /tmp/
+sudo dpdk/build/examples/dpdk-vhost_blk # it's a daemon=20
 
+2. Add blk device to qemu, then bootup VM.
+  <qemu:commandline>
+    <qemu:arg value=3D'-chardev'/>
+    <qemu:arg value=3D'socket,id=3Dchar0,path=3D/tmp/vhost.socket'/>
+    <qemu:arg value=3D'-device'/>
+    <qemu:arg value=3D'vhost-user-blk-pci,chardev=3Dchar0,num-queues=3D1'/>
+  </qemu:commandline>
+
+Without this commit, you can get device ready log from dpdk-vhost_blk:
+
+VHOST_CONFIG: (/tmp/vhost.socket) negotiated Vhost-user protocol features: =
+0x11ebf
+VHOST_CONFIG: (/tmp/vhost.socket) negotiated Virtio features: 0x100000000
+VHOST_CONFIG: (/tmp/vhost.socket) virtio is now ready for processing.
+New Device /tmp/vhost.socket, Device ID 0
+Ctrlr Worker Thread start
+
+With this commit, device won't be ready and VM will hang.=20
+You can see VHOST_USER_F_PROTOCOL_FEATURES bit is added.
+
+VHOST_CONFIG: (/tmp/vhost.socket) negotiated Virtio features: 0x140000000
+
+Dpdk code related:
+./lib/vhost/vhost_user.c
+
+2044     /*                                                                =
+         =20
+2045      * When VHOST_USER_F_PROTOCOL_FEATURES is not negotiated,         =
+         =20
+2046      * the ring starts already enabled. Otherwise, it is enabled via  =
+         =20
+2047      * the SET_VRING_ENABLE message.                                  =
+         =20
+2048      */                                                               =
+         =20
+2049     if (!(dev->features & (1ULL << VHOST_USER_F_PROTOCOL_FEATURES))) {=
+         =20
+2050         vq->enabled =3D true;                                         =
+           =20
+2051     }
+
+
+Thanks,
+Yajun=20
+
+
+
+
+-----Original Message-----
+From: Alex Benn=E9e <alex.bennee@linaro.org>=20
+Sent: Wednesday, October 26, 2022 3:42 PM
+To: Yajun Wu <yajunw@nvidia.com>
+Cc: qemu-devel@nongnu.org; mst@redhat.com; Parav Pandit <parav@nvidia.com>
+Subject: Re: [PATCH v2 1/4] hw/virtio: incorporate backend features in feat=
+ures
+
+External email: Use caution opening links or attachments
+
+
+Yajun Wu <yajunw@nvidia.com> writes:
+
+> Hi Alex,
+>
+> With this change, VHOST_USER_F_PROTOCOL_FEATURES bit will be set to=20
+> backend for virtio block device (previously not).
+>
+> From https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2F=
+www.qemu.org%2Fdocs%2Fmaster%2Finterop%2Fvhost-user.html&amp;data=3D05%7C01=
+%7Cyajunw%40nvidia.com%7C2e8901540bf441248ec608dab725ca87%7C43083d15727340c=
+1b7db39efd9ccc17a%7C0%7C0%7C638023670196631779%7CUnknown%7CTWFpbGZsb3d8eyJW=
+IjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C=
+%7C&amp;sdata=3Dy5g9wwTfh%2BxrkESRypoo4pg3eKYInyDerDmI844PBSE%3D&amp;reserv=
+ed=3D0 spec:
+> If VHOST_USER_F_PROTOCOL_FEATURES has not been negotiated, the ring start=
+s directly in the enabled state.
+> If VHOST_USER_F_PROTOCOL_FEATURES has been negotiated, the ring is=20
+> initialized in a disabled state and is enabled by=20
+> VHOST_USER_SET_VRING_ENABLE with parameter 1.
+>
+> Vhost-user-blk won't send out VHOST_USER_SET_VRING_ENABLE today.
+> Backend gets VHOST_USER_F_PROTOCOL_FEATURES negotiated and can't get VHOS=
+T_USER_SET_VRING_ENABLE.
+> VQs keep in disabled state.
+
+If the backend advertises protocol features but the stub doesn't support it=
+ how does it get enabled?
+
+The testing I did was mostly by hand with the gpio backend and using the qt=
+ests. I Think we need to add some acceptance testing into avocado with some=
+ real daemons because I don't think we have enough coverage with the curren=
+t qtest approach.
+
+>
+> Can you check on this scenario?
+>
+> Thanks
+>
+> -----Original Message-----
+> From: Qemu-devel <qemu-devel-bounces+yajunw=3Dnvidia.com@nongnu.org> On=20
+> Behalf Of Alex Benn=E9e
+> Sent: Thursday, July 28, 2022 9:55 PM
+> To: qemu-devel@nongnu.org
+> Cc: mst@redhat.com; Alex Benn=E9e <alex.bennee@linaro.org>
+> Subject: [PATCH v2 1/4] hw/virtio: incorporate backend features in=20
+> features
+>
+> External email: Use caution opening links or attachments
+>
+>
+> There are some extra bits used over a vhost-user connection which are hid=
+den from the device itself. We need to set them here to ensure we enable th=
+ings like the protocol extensions.
+>
+> Currently net/vhost-user.c has it's own inscrutable way of persisting thi=
+s data but it really should live in the core vhost_user code.
+>
+> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
+> Message-Id: <20220726192150.2435175-7-alex.bennee@linaro.org>
+> ---
+>  hw/virtio/vhost-user.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c index=20
+> 75b8df21a4..1936a44e82 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -1460,7 +1460,14 @@ static int vhost_user_set_features(struct vhost_de=
+v *dev,
+>       */
+>      bool log_enabled =3D features & (0x1ULL << VHOST_F_LOG_ALL);
+>
+> -    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features,
+> +    /*
+> +     * We need to include any extra backend only feature bits that
+> +     * might be needed by our device. Currently this includes the
+> +     * VHOST_USER_F_PROTOCOL_FEATURES bit for enabling protocol
+> +     * features.
+> +     */
+> +    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES,
+> +                              features | dev->backend_features,
+>                                log_enabled);  }
+
+
+--
+Alex Benn=E9e
 
