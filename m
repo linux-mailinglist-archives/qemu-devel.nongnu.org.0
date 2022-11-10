@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29EC9624AEC
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 20:50:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B9C624AF0
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 20:50:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otDY2-0003HT-Oj; Thu, 10 Nov 2022 14:49:14 -0500
+	id 1otDZV-00057U-1Y; Thu, 10 Nov 2022 14:50:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otDXz-0003Gz-3a
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 14:49:11 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otDZT-000570-Hl
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 14:50:43 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otDXx-0007oV-1Y
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 14:49:10 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id l14so3781654wrw.2
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 11:49:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otDZR-0001XQ-Sl
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 14:50:43 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id w14so3759391wru.8
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 11:50:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=EZP30iwI9WBWM3EHBSZQVEaVDnDf3pQFGhRgDwC3HxY=;
- b=i4GARIbCWODAp/sM2XTGSEvbWUbk7YNjyaHu5iDs0/bqYkAOThs9Fq6js8vEbkQyjm
- i8i3ukWFndZYesiNG4/Gb0jewUv7iHwQ5nbC4o+EAFu7/QiElQYRXAvXJaVCExS5EXev
- aPBcYm2hZTyQtKYsAwA8soGjioEvL+mDcULCgN4mWQKMwgetBO6yL2QVSnA7NqkANs+U
- WxfV9QlcF6X0AexRlj3EdOk5ks1n2+RiHnolGWc7RVbJpJ6vlih0+x6KK2wIb9STTmOJ
- UpZgaKRw9hJHeNCD5/F4HzcR+PpBNk3MCxMydGuNpU1qa32d7sWTfrGLK3waB5XW/3tp
- 4j9A==
+ bh=PThKRh0NG5pEJ9WWU7KS02YyuzUCjXpY8pSUus1Ba/Y=;
+ b=uAh2k55eSdyFP79Y++YOKX5KyDXxWmSmMWJ5eC8TaMhZWihhObjW3ZBVuEkEGWU0jF
+ DeaGj5mr6Z9FB4+FxLshxjNdGoCK43AUhNHet3yh9ACIYfEFToyXvg9pyORO6Ekby8vS
+ e1xJQnmI3S139TpHrEDVcfMyS+Xq+NeqyqOIOZLOs+f+IXVoIprWAmMhAWRZ56Yz7cex
+ s0LfVpGekK22tuEd7XBQgZMMIz0EUmoxRw122U6s26M1twY5PzaywZN++lomwHAgk3Yb
+ SFanPWU7oDNHHV81C1R0qlETIygskWNEXT2fOZS1bAnQJV9E/hbf6GtnPR396W+4yjPP
+ HYHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=EZP30iwI9WBWM3EHBSZQVEaVDnDf3pQFGhRgDwC3HxY=;
- b=3tlQd4Hk8jp6aRkzmcpp6axW+8jFQqgzCnciUXpBGGjSzdBN1mSILanHwyd7JpDAjY
- USbvJHuZvGTQz7zLvrxBwzRQqWOyVBNc010pV2l6w0g+/atqsGJf1u3wBoKLMAt3o7Mq
- 6sGuAbFCuiEjw5+ihthZA5qH4t8FJZi36MOWatg1m6psGhEw/nPTT50HDIIedhP5bjpR
- iL83RiE7tU+MCA9bMn2nKt2eIeHAljNW/VCgSawTye4QzKBmR/8SvjS55yMDLEE62qOF
- 3gqZXA8RMIMl4oVaZ8AZ2/P4XzqP1Sqb3UqOWWFMPna7P2rF91cTaSnOt+P5GB7pJcls
- 0+0A==
-X-Gm-Message-State: ACrzQf2ecRGZk+ysxiBxJNnV/1R15zR90VzGE9hqMdiB1/9J7zb4J2+d
- 71qw7kbkqm8icg6FAFcb3NxV8w==
-X-Google-Smtp-Source: AMsMyM6eCN+revb/VQ1hKz8Yx2E7cXG7zOFfVP5LBtzIs6JyUkrKn8x1sFVRPv1KBWIAkOUKuWqewQ==
-X-Received: by 2002:a5d:6da2:0:b0:236:791d:e5a1 with SMTP id
- u2-20020a5d6da2000000b00236791de5a1mr41943330wrs.665.1668109747355; 
- Thu, 10 Nov 2022 11:49:07 -0800 (PST)
+ bh=PThKRh0NG5pEJ9WWU7KS02YyuzUCjXpY8pSUus1Ba/Y=;
+ b=tBcD0ByVNJD9dFU+v/4At50w6mZr2E4uDpaVrBlPtosp0yzam7hScDwRemIksxreGh
+ tRq+N1OP2O/WZjq2n+FI04KsWKJE2fCIc3OaQoDmFzu/jD3fuXR9bcXnBk9RV0b/Fo9Z
+ xf7ngBc8wvsMHQuFlmGzi823gZVMF1ly0Uz8qu6nMaL6cipxb4I9fgFA42NjCOYSV5zM
+ gqHChkfShg8wdLahRR1blZrQPLVbwSRCU6g0k3Q1tV523fx+WpklqTRIEfHuIP9jfSKN
+ wd/e98xjGLucvCWuvWMyLr4pZ7zrLcHA94QF9mRySlMidXjFLdP+6+n9d/0xuzvxUCBU
+ ALvQ==
+X-Gm-Message-State: ACrzQf1eV/+kwF7vQR9LsFPaK1w35P8hzqMrKvcFHd3b8rkXIEhRrZEP
+ s+6/atiHxlQyiy/K2E7RBpxgrEMkYo6feDhh
+X-Google-Smtp-Source: AMsMyM5Fix+WQOwkXAfVTSFslrxMjuL61PpzHT2V/5hdx3oDkE7jKN4WTebO2enDB6PQI5QyBKMenQ==
+X-Received: by 2002:a5d:4008:0:b0:235:a4c4:97c2 with SMTP id
+ n8-20020a5d4008000000b00235a4c497c2mr43334654wrp.295.1668109840642; 
+ Thu, 10 Nov 2022 11:50:40 -0800 (PST)
 Received: from [192.168.7.115] ([109.111.120.167])
  by smtp.gmail.com with ESMTPSA id
- l26-20020a05600c2cda00b003cf774c31a0sm6575136wmc.16.2022.11.10.11.49.06
+ y15-20020a5d614f000000b0022ae401e9e0sm11387wrt.78.2022.11.10.11.50.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 11:49:06 -0800 (PST)
-Message-ID: <8a9b533c-43d9-104f-2f00-35ccec74719c@linaro.org>
-Date: Thu, 10 Nov 2022 20:49:05 +0100
+ Thu, 10 Nov 2022 11:50:40 -0800 (PST)
+Message-ID: <672dbf74-bba3-a711-6469-caba9dd67050@linaro.org>
+Date: Thu, 10 Nov 2022 20:50:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH for-8.0 1/2] hw/misc/mos6522: Convert TYPE_MOS6522 to
- 3-phase reset
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <20221110143459.3833425-1-peter.maydell@linaro.org>
- <20221110143459.3833425-2-peter.maydell@linaro.org>
+Subject: Re: [PATCH for-7.2] Fix several typos in documentation (found by
+ codespell)
 Content-Language: en-US
+To: Stefan Weil <sw@weilnetz.de>, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Ani Sinha <ani@anisinha.ca>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
+References: <20221110190825.879620-1-sw@weilnetz.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221110143459.3833425-2-peter.maydell@linaro.org>
+In-Reply-To: <20221110190825.879620-1-sw@weilnetz.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,14 +96,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/11/22 15:34, Peter Maydell wrote:
-> Convert the TYPE_MOS6522 parent class to use 3-phase reset.  This is
-> a prerequisite for converting its subclasses.
+On 10/11/22 20:08, Stefan Weil wrote:
+> Those typos are in files which are used to generate the QEMU manual.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
 > ---
->   hw/misc/mos6522.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> I did not fix memory_region_init_resizeable_ram. That might be done after 7.2.
+> 
+> Stefan
+> 
+>   docs/devel/acpi-bits.rst       | 2 +-
+>   docs/system/devices/can.rst    | 2 +-
+>   hw/scsi/esp.c                  | 6 +++---
+>   include/exec/memory.h          | 6 +++---
+>   qapi/virtio.json               | 4 ++--
+>   qemu-options.hx                | 6 +++---
+>   tests/qtest/libqos/qgraph.h    | 2 +-
+>   tests/qtest/libqos/virtio-9p.c | 2 +-
+>   8 files changed, 15 insertions(+), 15 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
