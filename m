@@ -2,94 +2,150 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D0EB624323
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 14:24:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D2862435C
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 14:38:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot7Wm-0001PU-CH; Thu, 10 Nov 2022 08:23:32 -0500
+	id 1ot7jZ-000543-Dm; Thu, 10 Nov 2022 08:36:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ot7Wk-0001P6-9b
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 08:23:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1ot7jW-00053L-Hb; Thu, 10 Nov 2022 08:36:42 -0500
+Received: from mail-bn7nam10on2046.outbound.protection.outlook.com
+ ([40.107.92.46] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1ot7Wh-00065Y-6I
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 08:23:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668086603;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=q3q7vZZ6hvLVnoXGfWB8YvLJ7mySd3fvzdjJdGt/+ak=;
- b=Kk1c/UokPZZ4bZarbtwX7aq06GQyrSGluORAiVkoz2ugOX6stC43F9XnAYGaXq84EbRmNW
- 30G6I9bRqFPeb3w8DKd4xNGsgBpIiozPn82piBRazpkz4gT4sCqqrYVHvjBesMV3NLGVQs
- oNnGyvAbQTSXsqZn5uc5a1UnnB22aUY=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-85-5vslwAx8Od-B4Gq36Y1ImQ-1; Thu, 10 Nov 2022 08:23:22 -0500
-X-MC-Unique: 5vslwAx8Od-B4Gq36Y1ImQ-1
-Received: by mail-pg1-f197.google.com with SMTP id
- v18-20020a637a12000000b0046ed84b94efso998452pgc.6
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 05:23:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=q3q7vZZ6hvLVnoXGfWB8YvLJ7mySd3fvzdjJdGt/+ak=;
- b=GnxltXSuo+frd62Z2pt3yNvj21b2eHqGoOKACpDmaxrq7iQLZtOsly5Nyn6La5zOFG
- znr0dJ2RkshJfOcjST6GSqdLiTVuF2qR4BlC/DHIZRZ1+Lyc8pIkfAtTRfGDrnBZQ370
- 0SoF7gAoQY9jhVZF/4hAw4R6jU+fyZwFwr24zFyRR14a1OOnBNDTNMFCsy3vTqvVH1iV
- wElrLww0NJUcvJQ6bnlf0HyBzEYSoKqdP3rmZV47ZHdx1yuEMbqkBnxVRemj+SIPc+E+
- GFJGMh25PHMNkHn5N5Apw2ZtRgT/8NXq0f9WvCR6miye0ds7S39avA+yY5p2HiBxL9mi
- XFjw==
-X-Gm-Message-State: ACrzQf0+J34ZQ/TnAVBFRbuqNWoGSaSipAVB7KVSPO+30Y1EfZFEJXwB
- 0HmuA1Vzqv3lryBCWIDvLQ4ka0baugXrR48KzDAz6BrmUEaKUr6VrRGKHnSGxcfjyP4nN52Z/6h
- GICAjy3aMiI3bWdGN4a/GQLS/gKHGFVE=
-X-Received: by 2002:a17:902:ce82:b0:187:3591:edac with SMTP id
- f2-20020a170902ce8200b001873591edacmr48488798plg.153.1668086600648; 
- Thu, 10 Nov 2022 05:23:20 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM60JtWWo+8r1fX04eXc7OnFF8dnAgixl/Vtg8iEneJB0G+bnbPRN9yBXp2W/vnf9wtqStSSz51zIUu0h7utnR0=
-X-Received: by 2002:a17:902:ce82:b0:187:3591:edac with SMTP id
- f2-20020a170902ce8200b001873591edacmr48488761plg.153.1668086600262; Thu, 10
- Nov 2022 05:23:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
+ id 1ot7jU-0006Tg-5v; Thu, 10 Nov 2022 08:36:42 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NNpLZVjXLF2Kn9ibDTECkaTlRqZbX1/HlyVIm+oLDuUmudOYrroztP+WvYVTbhcxw1eLcBEVeSmPfQs7tlhXR0x68pndQrhdc8jef/DeS5kNHRgHFf115yztIRCWzZAk/AXsBvwV71WBgf6QyH6c/KrnUDZ0j9j0mvaGNtc00S8VwMt0mNQgEC18wBO1fe66al4Pp4vFkGIaYGRDL2lM+ilZSPTw+dLgDByurbTilZoriFoQo2c+HePmgawUp+UDCWId/NQbfUVx8QRlf5yBbXu+Uy7EHYraEyHlAjTI5CMvZxPD8IhnPO4FZC/fEHYuk40MW1V3oYCrUf096TVktQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qz6NEgCfODxv072Zp409coQJ1ZpgzeNR+xbM+NtvKfU=;
+ b=gU83pELU/PB1bR5qo8LU9gZWo7fNC+DVWXQFQUrwnYgdQ0LlKVsyZPThvTJfYldYyV9WB8QiD3bf1FAeIBbjbrLd2R2Em/O9QmPGRS7AD1pFHflwKcOA5AGhI3LUm1LLvhhT/6ZzJWZM63MOkP7YbkSVJouFug3HVsFmi/iWqxb8QLWPJ16W/lSwrYUIOumSP7rCJUPns2FUP49JYyW+jlS4ZT5A1+ibYYtrHYkWGtmxnTujqhtg9xC7Qqc+w4ajnJbsH+n5qAgIVwBxSPou2J5HMmIH3yQX1czfoa5/XWQFqNYaWEIwgvkZf+D1IYRX3SLZU/7XcRhra6s3nhT4+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qz6NEgCfODxv072Zp409coQJ1ZpgzeNR+xbM+NtvKfU=;
+ b=ChC9G/Eg2Zhw7ih58XNsTCtyWuRCeC/HStOJZtn1xbKOmbQZ1ZrK2Oi646eJ7Kn6W1cLDIg/PQwxGfoyyanzB7MAJK3M7xQNAWrUjgpEYjFx4TCTiP/rZQiqGoKQskv9HygGpAIfXj6iiOGdqZ150zqVNM+HSBldOwgKJtnR0afIVYQqWQhQVb8lH3W/Q/vApoSvQS6Xsb58OOnpRLxCOpyfcS31LhJvv64vEsSFjFtVuM/pw014JU8QOMArhpAbyIIlb65OfcqPNdGUoLLuvON+m9V2ghn/QCkQgwxA24QRDS3G7N01H5Q76WGCW2BYicf7gtWBpkAK4R2xdKtTcw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
+ by SA0PR12MB4351.namprd12.prod.outlook.com (2603:10b6:806:71::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5813.13; Thu, 10 Nov
+ 2022 13:36:34 +0000
+Received: from DM6PR12MB5549.namprd12.prod.outlook.com
+ ([fe80::53a7:afdb:d6d0:f167]) by DM6PR12MB5549.namprd12.prod.outlook.com
+ ([fe80::53a7:afdb:d6d0:f167%9]) with mapi id 15.20.5813.013; Thu, 10 Nov 2022
+ 13:36:34 +0000
+Message-ID: <a469eb6a-8630-0e2e-e000-4a24bbb9b26d@nvidia.com>
+Date: Thu, 10 Nov 2022 15:36:19 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v3 01/17] migration: Remove res_compatible parameter
+Content-Language: en-US
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-devel@nongnu.org
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Eric Blake <eblake@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-s390x@nongnu.org, qemu-block@nongnu.org,
+ Kunkun Jiang <jiangkunkun@huawei.com>, "Zhang, Chen" <chen.zhang@intel.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Shay Drory <shayd@nvidia.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>,
+ Joao Martins <joao.m.martins@oracle.com>
+References: <20221103161620.13120-1-avihaih@nvidia.com>
+ <20221103161620.13120-2-avihaih@nvidia.com>
+ <fbf06ccb-c339-d323-c01e-455109bed372@yandex-team.ru>
+From: Avihai Horon <avihaih@nvidia.com>
+In-Reply-To: <fbf06ccb-c339-d323-c01e-455109bed372@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI1PR07CA0250.eurprd07.prod.outlook.com
+ (2603:10a6:803:b4::17) To DM6PR12MB5549.namprd12.prod.outlook.com
+ (2603:10b6:5:209::13)
 MIME-Version: 1.0
-References: <20221108170755.92768-1-eperezma@redhat.com>
- <20221108170755.92768-8-eperezma@redhat.com>
- <CACGkMEvzw283JE9Uo6kqKuAJ4CWpWyHciHe8DazLEP5Xzw91wg@mail.gmail.com>
-In-Reply-To: <CACGkMEvzw283JE9Uo6kqKuAJ4CWpWyHciHe8DazLEP5Xzw91wg@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 10 Nov 2022 14:22:44 +0100
-Message-ID: <CAJaqyWcbYLzdEcPMMjDNWsGV4bkb8NTJnNHj5Wp+v4WbM+LHeQ@mail.gmail.com>
-Subject: Re: [PATCH v6 07/10] vdpa: Add asid parameter to
- vhost_vdpa_dma_map/unmap
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Parav Pandit <parav@mellanox.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>, 
- Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Gautam Dawar <gdawar@xilinx.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Cornelia Huck <cohuck@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, kvm@vger.kernel.org, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB5549:EE_|SA0PR12MB4351:EE_
+X-MS-Office365-Filtering-Correlation-Id: 842f952d-d578-4386-d6b6-08dac3209549
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WFHff325W13+zCX/R5lGTAnhzF+11V5z1ohCjGKF5pP4MyVZCGzMCCkREz6K1OTSULrdFrTHDzl67+p2E+W0H+WUtWKLiCQ9k36C+B/KgbxTNLM4NrAOwuerzrodTsS6QTl0kIKFlCwV9VtzcCWVzeZc9B7Om5Q31kYSaMU+JOMmfSVMZx1DGoSADURrk7O1pCV+ykS8tcVtmdp+Od0QgnSaCdEDbAGZzBW3Fm9nCgsvKduzxzeLhkx9NaL5tD/7v1khVsHGzUzkebZGRRjbYaL8IB5iPfwpc0vxsS2S1H63V6f7g8M/I9g8K0qru70f5ajCsLaYdlIYoXF9qWDhpBfkepGijTAAVLCSlLdgbbSOs11vis0ap6+mxVcolzEEE0zdlsPoCO8R/0xAG5+eEyyGENVOYY2h1oPJ/o33E1XbkGNLO6d8Mart0sSUS63AyYR4N77ODL9KbawUWprHpNSmnazmi+I43bLcIHxd2gx5z6JPrTQImjGyRu1FNieQzq8UEX8KJf4NKB/p3kBrTcZ8RPjqWFQLQjgakrm5y6L74sO8mnnbZcso4jFZ2/NnWk/0/1QoOr7cNG8KKrrD3OPXM3A4QZvZtPoWWBVuLF9z7+bANr/6ec+6GUabcPAbbvgOaIUJeovXkyqPxGUiqpi66/nefCP3p5Kys9ATL5aKsW6UVkS/9vi1fKEjv/hEaW1DFFQy93s74T9jGF4IKEQWRiTxXyxMNemDmfQ2Cwrj3JRThqN968KvMC8ECVVnTzRBUIEfBeD8YxN6CTyAZYJVsUr78x3kJ3M9QRHIx1A=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB5549.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(39860400002)(366004)(396003)(136003)(376002)(346002)(451199015)(54906003)(316002)(66556008)(66476007)(66946007)(8676002)(4326008)(86362001)(31696002)(478600001)(6486002)(83380400001)(53546011)(6506007)(6512007)(6666004)(26005)(2616005)(186003)(38100700002)(2906002)(31686004)(41300700001)(5660300002)(7416002)(36756003)(8936002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RHFyalB5RFhHRmlWM3Y0c1FZRVUrMk9UU0Y2K0lHNENEUG0vYi90UEdlVDlq?=
+ =?utf-8?B?NE1FR1FNNC82cXJQby9sbytUc3k3R0dKK3ZFVWFVMHdQT0RyNk9LQzdMQjFs?=
+ =?utf-8?B?WTJMSzRPK004MkwvK3ZkUm0rZC9LVUV3VTdBWkxxSGRKMTJVL05ja1FPUm1U?=
+ =?utf-8?B?U29ZQzJTWUZZNkZjRGswUndnKzlzMkxzZGxHTjJRbjJOOTl2aUlFWkZsS2xx?=
+ =?utf-8?B?bXF5QTRRUnU5NzRCVkZ2d2ZRTHVWTG1hQVpoQWhNeGNkaHY0WTdZZmVGRlEy?=
+ =?utf-8?B?cTdvbnhiWGhmaFRSbVJGRkdtV2haNlAvSjN6OEp0bXpZb0hMU3hFYkRwSlFy?=
+ =?utf-8?B?WXhhNkNsdWNIRFZocXRqSTJtZy9ubFpSOVZzbTNkaDdjSjZxVjRBanJ1VllI?=
+ =?utf-8?B?UUMzTmMydDNzWVpEcEpmbkJGWHowM0tCQml1QVQyMjNhUFhoOUx2emlzOGNG?=
+ =?utf-8?B?UEZoNnBDTUxjR3BDTHZNa1NTQi92MDFLSjJkUjRQK2YvNERzc0NqTW0xZkVK?=
+ =?utf-8?B?WWgrVHc5ajUzelRCb21FVUpScUMxcURNS2h1cGhwRHNRZll2OVJYUDN6c3Zo?=
+ =?utf-8?B?MDBuMFkxNEJ0YnJqQmRuTlY2R3hwWEJYS1dKQnMwN0JZRjQ5WEhHeTNua3pD?=
+ =?utf-8?B?ejA3cnQzQjNpKzNNS09PSEJ5TmlvOVJEbE9HZFdkQm9KcU5wZm5VQk9DWFZQ?=
+ =?utf-8?B?alp5a3ZrajU0Um5wSGJvNFI5cE1FVnJtcEJDRHI4dUtRUVd3MmdDZ1RFUzdJ?=
+ =?utf-8?B?Ykp3ZTZGc1FZeDNPOTFvUk0raFcwNTFJZnU5YStCYXp2b3ZqOStDNzJick1I?=
+ =?utf-8?B?dGs5SitxditwbFJiQm1wSWJEZ1YyaTYrbDBWZTJKZzd0aXcxUnVSelFNZ1NO?=
+ =?utf-8?B?N2xIRlBWVlJpVVM3N0ZMQzQzbG44dWo3MEYxMndkcnhrdXk5YldJUmpjRzZx?=
+ =?utf-8?B?MnYwa09DYkRiSE1SVG5ybVVuTnhFalc1VG1mZ2RVSWJJTnJUSC9vdWYyLzI5?=
+ =?utf-8?B?YlVMV0svcy84ZUpGWVR5QS9xR0ZveHV3OWxoQ3JqMXFKMERSckZyd0M4L3l3?=
+ =?utf-8?B?Vi9CR2lBamd3Wjk5WUNHdWJCN3haSHVJRXdiRXE2RjFsNlRENXZBem9yS1o4?=
+ =?utf-8?B?ank5UUVXQ1d4c0p5TGZoVDNodGg0Z1pUcmJsTHVBSFFVOUVxYmU2eVBWTTBu?=
+ =?utf-8?B?Z0J3d1UzYTYwZGpiMFZ5UlJzaHgvY3ArNnFkdURlNFdJWG5uT2pPTDRPQ3BT?=
+ =?utf-8?B?TUM2VnFOSy9weEFaQUhYZXQ1QUQwU2srWU5sNFI2YnJzZnkvQ3RDRjRUM2dP?=
+ =?utf-8?B?enFRbW42eENGUGdpb09qcWlUZlBTRmxBalNVcC9BZHAyR09BWS82N2ZoZGw5?=
+ =?utf-8?B?NnFZbDBkYmdJM05GR0lsUEFiZk9iY3NQdSt5SzBFUXZrbmV2WXJEeExSbmpX?=
+ =?utf-8?B?dXB0UkJrWWZyUGRiTGdab0V6d1ZJbzZ4YTNXR1hpdFdDaGlpakppN3ZMTkVo?=
+ =?utf-8?B?NXJuNlVYN0JsQko1SEhhSldyaUlSN05OUlVCc0NVVWRTcFZveU5rWWV1ZThP?=
+ =?utf-8?B?UmVmc0NueTRjNmRPMXZCRkNCeTlhSThNVEJCZVRUVk0rYUhNN0NrWThiTFNY?=
+ =?utf-8?B?c0l5Z0RwNVVyY1JnajA2S3UwdDFMdVR3RVQxWmhXS2pGbVNKUWZYSEZpVE5Q?=
+ =?utf-8?B?OTZsUUk2U1pVblMwSDJpMWk5ai9XUGY1UWxBcTg5V0g4dlFsSS9tMlIyMC94?=
+ =?utf-8?B?aTFGNXRJSnpIUmhYa3BnKy9JN2NvT1ZTbjdvV3FDeHF4a1lEZ2RhcGpjckVh?=
+ =?utf-8?B?R0gxUE50dTRPS0UySkp1enBTQTdXSXErazdTMmhtQXV1QXBVVmpxQllPMUlv?=
+ =?utf-8?B?Y1dGYVIzTTlxR1puUDNoU0FtZW8xN3RvU0pYQTRSODhjbDdwUDBaQjQ3VWRo?=
+ =?utf-8?B?cnJDdHp4SUVIZVo3emRBcEpVVFNjSGFaa3g5Q0NoL2FwRlN3aGNUeTYxMkxT?=
+ =?utf-8?B?TDA0MkM0eUl4cUw1NDdSeHNScW5JNUh0bmFRYjVQVkRMdkgydDdyV3ErUnJo?=
+ =?utf-8?B?SGQ0YktnaWV3V2RJNHNDZmgycVh6Kys3R0JVN1U2ZWkweXRxS0UyMjh2L0dZ?=
+ =?utf-8?Q?GdicJR4RslQIhWooHW9rjUZYH?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 842f952d-d578-4386-d6b6-08dac3209549
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2022 13:36:33.9391 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ljIOSxgyr351r5UAAbGufjcva/8K02PJZVD9IgvV45BoDefPUSfgrZtSCGrC7CSspIFj1mK6Pdy7WWGpY3Hp4g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4351
+Received-SPF: softfail client-ip=40.107.92.46; envelope-from=avihaih@nvidia.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,287 +161,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 10, 2022 at 6:51 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Wed, Nov 9, 2022 at 1:08 AM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
-rote:
-> >
-> > So the caller can choose which ASID is destined.
-> >
-> > No need to update the batch functions as they will always be called fro=
-m
-> > memory listener updates at the moment. Memory listener updates will
-> > always update ASID 0, as it's the passthrough ASID.
-> >
-> > All vhost devices's ASID are 0 at this moment.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> > v5:
-> > * Solve conflict, now vhost_vdpa_svq_unmap_ring returns void
-> > * Change comment on zero initialization.
-> >
-> > v4: Add comment specifying behavior if device does not support _F_ASID
-> >
-> > v3: Deleted unneeded space
-> > ---
-> >  include/hw/virtio/vhost-vdpa.h |  8 +++++---
-> >  hw/virtio/vhost-vdpa.c         | 29 +++++++++++++++++++----------
-> >  net/vhost-vdpa.c               |  6 +++---
-> >  hw/virtio/trace-events         |  4 ++--
-> >  4 files changed, 29 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-v=
-dpa.h
-> > index 1111d85643..6560bb9d78 100644
-> > --- a/include/hw/virtio/vhost-vdpa.h
-> > +++ b/include/hw/virtio/vhost-vdpa.h
-> > @@ -29,6 +29,7 @@ typedef struct vhost_vdpa {
-> >      int index;
-> >      uint32_t msg_type;
-> >      bool iotlb_batch_begin_sent;
-> > +    uint32_t address_space_id;
->
-> So the trick is let device specific code to zero this during allocation?
->
 
-Yes, but I don't see how that is a trick :). All other parameters also
-trust it to be 0 at allocation.
-
-> >      MemoryListener listener;
-> >      struct vhost_vdpa_iova_range iova_range;
-> >      uint64_t acked_features;
-> > @@ -42,8 +43,9 @@ typedef struct vhost_vdpa {
-> >      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> >  } VhostVDPA;
-> >
-> > -int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-> > -                       void *vaddr, bool readonly);
-> > -int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr siz=
-e);
-> > +int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iov=
-a,
-> > +                       hwaddr size, void *vaddr, bool readonly);
-> > +int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr i=
-ova,
-> > +                         hwaddr size);
-> >
-> >  #endif
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 23efb8f49d..8fd32ba32b 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -72,22 +72,24 @@ static bool vhost_vdpa_listener_skipped_section(Mem=
-oryRegionSection *section,
-> >      return false;
-> >  }
-> >
-> > -int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-> > -                       void *vaddr, bool readonly)
-> > +int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iov=
-a,
-> > +                       hwaddr size, void *vaddr, bool readonly)
-> >  {
-> >      struct vhost_msg_v2 msg =3D {};
-> >      int fd =3D v->device_fd;
-> >      int ret =3D 0;
-> >
-> >      msg.type =3D v->msg_type;
-> > +    msg.asid =3D asid; /* 0 if vdpa device does not support asid */
+On 08/11/2022 19:52, Vladimir Sementsov-Ogievskiy wrote:
+> External email: Use caution opening links or attachments
 >
-> The comment here is confusing. If this is a requirement, we need either
 >
-> 1) doc this
+> On 11/3/22 19:16, Avihai Horon wrote:
+>> From: Juan Quintela <quintela@redhat.com>
+>>
+>> It was only used for RAM, and in that case, it means that this amount
+>> of data was sent for memory.
 >
-> or
+> Not clear for me, what means "this amount of data was sent for 
+> memory"... That amount of data was not yet sent, actually.
 >
-> 2) perform necessary checks in the function itself.
+Yes, this should be changed to something like:
+
+"It was only used for RAM, and in that case, it means that this amount
+of data still needs to be sent for memory, and can be sent in any phase
+of migration. The same functionality can be achieved without res_compatible,
+so just delete the field in all callers and change the definition of 
+res_postcopy accordingly.".
+>> Just delete the field in all callers.
+>>
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> ---
+>>   hw/s390x/s390-stattrib.c       |  6 ++----
+>>   hw/vfio/migration.c            | 10 ++++------
+>>   hw/vfio/trace-events           |  2 +-
+>>   include/migration/register.h   | 20 ++++++++++----------
+>>   migration/block-dirty-bitmap.c |  7 +++----
+>>   migration/block.c              |  7 +++----
+>>   migration/migration.c          |  9 ++++-----
+>>   migration/ram.c                |  8 +++-----
+>>   migration/savevm.c             | 14 +++++---------
+>>   migration/savevm.h             |  4 +---
+>>   migration/trace-events         |  2 +-
+>>   11 files changed, 37 insertions(+), 52 deletions(-)
+>>
 >
-
-I only documented it in vhost_vdpa_dma_unmap and now I realize it.
-Would it work to just copy that comment here?
-
-> >      msg.iotlb.iova =3D iova;
-> >      msg.iotlb.size =3D size;
-> >      msg.iotlb.uaddr =3D (uint64_t)(uintptr_t)vaddr;
-> >      msg.iotlb.perm =3D readonly ? VHOST_ACCESS_RO : VHOST_ACCESS_RW;
-> >      msg.iotlb.type =3D VHOST_IOTLB_UPDATE;
-> >
-> > -   trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.iotlb.iova, msg.iotlb=
-.size,
-> > -                            msg.iotlb.uaddr, msg.iotlb.perm, msg.iotlb=
-.type);
-> > +    trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.asid, msg.iotlb.iova=
-,
-> > +                             msg.iotlb.size, msg.iotlb.uaddr, msg.iotl=
-b.perm,
-> > +                             msg.iotlb.type);
-> >
-> >      if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
-> >          error_report("failed to write, fd=3D%d, errno=3D%d (%s)",
-> > @@ -98,18 +100,24 @@ int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwadd=
-r iova, hwaddr size,
-> >      return ret;
-> >  }
-> >
-> > -int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr siz=
-e)
-> > +int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr i=
-ova,
-> > +                         hwaddr size)
-> >  {
-> >      struct vhost_msg_v2 msg =3D {};
-> >      int fd =3D v->device_fd;
-> >      int ret =3D 0;
-> >
-> >      msg.type =3D v->msg_type;
-> > +    /*
-> > +     * The caller must set asid =3D 0 if the device does not support a=
-sid.
-> > +     * This is not an ABI break since it is set to 0 by the initialize=
-r anyway.
-> > +     */
-> > +    msg.asid =3D asid;
-> >      msg.iotlb.iova =3D iova;
-> >      msg.iotlb.size =3D size;
-> >      msg.iotlb.type =3D VHOST_IOTLB_INVALIDATE;
-> >
-> > -    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.iotlb.iova,
-> > +    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.asid, msg.iotlb.io=
-va,
-> >                                 msg.iotlb.size, msg.iotlb.type);
-> >
-> >      if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
-> > @@ -229,7 +237,7 @@ static void vhost_vdpa_listener_region_add(MemoryLi=
-stener *listener,
-> >      }
-> >
-> >      vhost_vdpa_iotlb_batch_begin_once(v);
-> > -    ret =3D vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
-> > +    ret =3D vhost_vdpa_dma_map(v, 0, iova, int128_get64(llsize),
+> [..]
 >
-> Can we use v->address_space_id here? Then we don't need to modify this
-> line when we support multiple asids logic in the future.
+>> diff --git a/include/migration/register.h b/include/migration/register.h
+>> index c1dcff0f90..1950fee6a8 100644
+>> --- a/include/migration/register.h
+>> +++ b/include/migration/register.h
+>> @@ -48,18 +48,18 @@ typedef struct SaveVMHandlers {
+>>       int (*save_setup)(QEMUFile *f, void *opaque);
+>>       void (*save_live_pending)(QEMUFile *f, void *opaque,
+>>                                 uint64_t threshold_size,
+>> -                              uint64_t *res_precopy_only,
+>> -                              uint64_t *res_compatible,
+>> -                              uint64_t *res_postcopy_only);
+>> +                              uint64_t *rest_precopy,
+>> +                              uint64_t *rest_postcopy);
+>>       /* Note for save_live_pending:
+>> -     * - res_precopy_only is for data which must be migrated in 
+>> precopy phase
+>> -     *     or in stopped state, in other words - before target vm start
+>> -     * - res_compatible is for data which may be migrated in any phase
+>> -     * - res_postcopy_only is for data which must be migrated in 
+>> postcopy phase
+>> -     *     or in stopped state, in other words - after source vm stop
+>> +     * - res_precopy is for data which must be migrated in precopy
+>> +     *     phase or in stopped state, in other words - before target
+>> +     *     vm start
+>> +     * - res_postcopy is for data which must be migrated in postcopy
+>> +     *     phase or in stopped state, in other words - after source vm
+>> +     *     stop
+>>        *
+>> -     * Sum of res_postcopy_only, res_compatible and 
+>> res_postcopy_only is the
+>> -     * whole amount of pending data.
+>> +     * Sum of res_precopy and res_postcopy is the whole amount of
+>> +     * pending data.
+>>        */
+>>
+>>
 >
+> [..]
+>
+>> diff --git a/migration/ram.c b/migration/ram.c
+>> index dc1de9ddbc..20167e1102 100644
+>> --- a/migration/ram.c
+>> +++ b/migration/ram.c
+>> @@ -3435,9 +3435,7 @@ static int ram_save_complete(QEMUFile *f, void 
+>> *opaque)
+>>   }
+>>
+>>   static void ram_save_pending(QEMUFile *f, void *opaque, uint64_t 
+>> max_size,
+>> -                             uint64_t *res_precopy_only,
+>> -                             uint64_t *res_compatible,
+>> -                             uint64_t *res_postcopy_only)
+>> +                             uint64_t *res_precopy, uint64_t 
+>> *res_postcopy)
+>>   {
+>>       RAMState **temp = opaque;
+>>       RAMState *rs = *temp;
+>> @@ -3457,9 +3455,9 @@ static void ram_save_pending(QEMUFile *f, void 
+>> *opaque, uint64_t max_size,
+>>
+>>       if (migrate_postcopy_ram()) {
+>>           /* We can do postcopy, and all the data is postcopiable */
+>> -        *res_compatible += remaining_size;
+>> +        *res_postcopy += remaining_size;
+>
+> That's seems to be not quite correct.
+>
+> res_postcopy is defined as "data which must be migrated in postcopy", 
+> but that's not true here, as RAM can be migrated both in precopy and 
+> postcopy.
+>
+> Still we really can include "compat" into "postcopy" just because in 
+> the logic of migration_iteration_run() we don't actually distinguish 
+> "compat" and "post". The logic only depends on "total" and "pre".
+>
+> So, if we want to combine "compat" into "post", we should redefine 
+> "post" in the comment in include/migration/register.h, something like 
+> this:
+>
+> - res_precopy is for data which MUST be migrated in precopy
+>   phase or in stopped state, in other words - before target
+>   vm start
+>
+> - res_postcopy is for all data except for declared in res_precopy.
+>   res_postcopy data CAN be migrated in postcopy, i.e. after target
+>   vm start.
+>
+>
+You are right, the definition of res_postcopy should be changed.
 
-The registered memory listener is the one of the last vhost_vdpa, the
-one that handles the last queue.
-
-If all data virtqueues are not shadowed but CVQ is,
-v->address_space_id is 1 with the current code. But the listener is
-actually mapping the ASID 0, not 1.
-
-Another alternative is to register it to the last data virtqueue, not
-the last queue of vhost_vdpa. But it is hard to express it in a
-generic way at virtio/vhost-vdpa.c . To have a boolean indicating the
-vhost_vdpa we want to register its memory listener?
-
-It seems easier to me to simply assign 0 at GPA translations. If SVQ
-is enabled for all queues, then 0 is GPA to qemu's VA + SVQ stuff. If
-it is not, 0 is always GPA to qemu's VA.
+Yet, I am not sure if this patch really makes things more clear/simple.
+Juan, what do you think?
 
 Thanks!
-
-> Thanks
+>>       } else {
+>> -        *res_precopy_only += remaining_size;
+>> +        *res_precopy += remaining_size;
+>>       }
+>>   }
+>>
 >
-> >                               vaddr, section->readonly);
-> >      if (ret) {
-> >          error_report("vhost vdpa map fail!");
-> > @@ -303,7 +311,7 @@ static void vhost_vdpa_listener_region_del(MemoryLi=
-stener *listener,
-> >          vhost_iova_tree_remove(v->iova_tree, *result);
-> >      }
-> >      vhost_vdpa_iotlb_batch_begin_once(v);
-> > -    ret =3D vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
-> > +    ret =3D vhost_vdpa_dma_unmap(v, 0, iova, int128_get64(llsize));
-> >      if (ret) {
-> >          error_report("vhost_vdpa dma unmap error!");
-> >      }
-> > @@ -884,7 +892,7 @@ static void vhost_vdpa_svq_unmap_ring(struct vhost_=
-vdpa *v, hwaddr addr)
-> >      }
-> >
-> >      size =3D ROUND_UP(result->size, qemu_real_host_page_size());
-> > -    r =3D vhost_vdpa_dma_unmap(v, result->iova, size);
-> > +    r =3D vhost_vdpa_dma_unmap(v, v->address_space_id, result->iova, s=
-ize);
-> >      if (unlikely(r < 0)) {
-> >          error_report("Unable to unmap SVQ vring: %s (%d)", g_strerror(=
--r), -r);
-> >          return;
-> > @@ -924,7 +932,8 @@ static bool vhost_vdpa_svq_map_ring(struct vhost_vd=
-pa *v, DMAMap *needle,
-> >          return false;
-> >      }
-> >
-> > -    r =3D vhost_vdpa_dma_map(v, needle->iova, needle->size + 1,
-> > +    r =3D vhost_vdpa_dma_map(v, v->address_space_id, needle->iova,
-> > +                           needle->size + 1,
-> >                             (void *)(uintptr_t)needle->translated_addr,
-> >                             needle->perm =3D=3D IOMMU_RO);
-> >      if (unlikely(r !=3D 0)) {
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index fb35b17ab4..ca1acc0410 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -258,7 +258,7 @@ static void vhost_vdpa_cvq_unmap_buf(struct vhost_v=
-dpa *v, void *addr)
-> >          return;
-> >      }
-> >
-> > -    r =3D vhost_vdpa_dma_unmap(v, map->iova, map->size + 1);
-> > +    r =3D vhost_vdpa_dma_unmap(v, v->address_space_id, map->iova, map-=
->size + 1);
-> >      if (unlikely(r !=3D 0)) {
-> >          error_report("Device cannot unmap: %s(%d)", g_strerror(r), r);
-> >      }
-> > @@ -298,8 +298,8 @@ static int vhost_vdpa_cvq_map_buf(struct vhost_vdpa=
- *v, void *buf, size_t size,
-> >          return r;
-> >      }
-> >
-> > -    r =3D vhost_vdpa_dma_map(v, map.iova, vhost_vdpa_net_cvq_cmd_page_=
-len(), buf,
-> > -                           !write);
-> > +    r =3D vhost_vdpa_dma_map(v, v->address_space_id, map.iova,
-> > +                           vhost_vdpa_net_cvq_cmd_page_len(), buf, !wr=
-ite);
-> >      if (unlikely(r < 0)) {
-> >          goto dma_map_err;
-> >      }
-> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> > index 820dadc26c..0ad9390307 100644
-> > --- a/hw/virtio/trace-events
-> > +++ b/hw/virtio/trace-events
-> > @@ -30,8 +30,8 @@ vhost_user_write(uint32_t req, uint32_t flags) "req:%=
-d flags:0x%"PRIx32""
-> >  vhost_user_create_notifier(int idx, void *n) "idx:%d n:%p"
-> >
-> >  # vhost-vdpa.c
-> > -vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iov=
-a, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: =
-%d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx6=
-4" perm: 0x%"PRIx8" type: %"PRIu8
-> > -vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint64_t i=
-ova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova:=
- 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
-> > +vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint32_t asi=
-d, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type=
-) "vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" siz=
-e: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
-> > +vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint32_t a=
-sid, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: =
-%"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
-> >  vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, ui=
-nt8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
-> >  vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t=
- type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
-> >  vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t lle=
-nd, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64=
-" vaddr: %p read-only: %d"
-> > --
-> > 2.31.1
-> >
 >
-
+> -- 
+> Best regards,
+> Vladimir
+>
 
