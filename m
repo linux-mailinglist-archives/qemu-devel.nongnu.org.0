@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD58623E76
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 10:20:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5165B623E9B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 10:30:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot3iJ-0008Ct-8q; Thu, 10 Nov 2022 04:19:12 -0500
+	id 1ot3rs-0002Om-4y; Thu, 10 Nov 2022 04:29:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ot3hu-0008AW-JT
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:18:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ot3hp-0001MB-87
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:18:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668071919;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9PtmWacVDvNbdGp459ch/P1Oe2nNfD3EATd2WZYwb7g=;
- b=XfPgr+sr2I/BFAN6LkloEujTx9X8e2sWtNyDz1W+6go/z+kFJeUSQixwL83ngOS4pIe+ng
- cmJAoBeYc/PoaB/onz6VLWEVP++pVzlZWef+i5/uliHFiQryivs7lNErrTJ8JvyMd68afA
- xzM/ELkSvNNZoGuXsNkIy1OJ2NpM3Es=
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
- [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-623-i8PBkA3IN0aun7vSGG-rBw-1; Thu, 10 Nov 2022 04:18:36 -0500
-X-MC-Unique: i8PBkA3IN0aun7vSGG-rBw-1
-Received: by mail-oa1-f71.google.com with SMTP id
- 586e51a60fabf-13d553369a0so752285fac.22
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 01:18:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ot3rq-0002Oe-2s
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:29:02 -0500
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ot3rm-0008HQ-RA
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:29:01 -0500
+Received: by mail-pg1-x536.google.com with SMTP id s196so1259560pgs.3
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 01:28:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Tdo36KjQn5981X064LxmF4x/YKppU+FsYaF9I5q1hDQ=;
+ b=S9NxEcGknzkTetCwqHShHBQ6/h21p+st/tCUHOBrOGFW6FszscE3sNMpmN60XsZElS
+ wElbm+u6WTEl346x4N2FZ0KBLUntv2uF6EdDZvOqado33yPIxLTIuVvuHeJHF3pFR9DK
+ hOLvyeBzijbqUaGIPO+zlzBzhSblZtSVVUZ28pdpsk5oXNvHaTjsTYLeXGA0KoXzWbv2
+ lAXEc1Wz9anYxH9fMlzPW5RVM1RjvQwV57ILxjEiWUXk/sv/z0RLhyPCG37j7u9c6/Mh
+ h0O2P3GEbtEzXCgoxDya2ALRHQMnDlWr3hg9aOuzmT5RCOZd0Kn4E26D4NwtTtoquU5X
+ whow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=9PtmWacVDvNbdGp459ch/P1Oe2nNfD3EATd2WZYwb7g=;
- b=IalIssn6l78bTkShFd0DJVAe+SJVrrqQAqB0awLCBGzzyyHPXGl8QiQc4Qen/H6YsW
- d6Nt2KpZPlO8UEJBdc1UNmXG/N6JCTCvUTHN+MltgP9MjqPp5sF6C1CX6JKKMbSxYAIB
- PITkZnZx2EECttcXGuK0ulyao/USmAyI/dT68CQtPlTqHbORLHbN7b/zgYNgjZmjoSsS
- Wgq1NP5t4HeToqWuK3HXKVoL12rdZC7imFsjpy6T8INXQbzPSWUBWltFYSYcpEbwaJw9
- 11TQlqWg5wfzF7WYSUqgeKxoWD1bqJeJvIEwfMlxFJUKwHvsX+xZNkWWVR2j5LNPgBjg
- K1Zw==
-X-Gm-Message-State: ACrzQf0VhB5NdZXNNORlttmIOVwu0gjtxFE1wLTsFMrG0P5xxsyFus5F
- GGhzeeA6Atqn53HiGDTEK/+tt5PSmN3VyWYqIqSlu+5+VAXONtk9GNXZvk++4QfnmrXOuOhyPfy
- sTg0WAXiG2TvjwHmate88iDD0ZqMu0ow=
-X-Received: by 2002:aca:908:0:b0:354:68aa:9c59 with SMTP id
- 8-20020aca0908000000b0035468aa9c59mr1219340oij.35.1668071915354; 
- Thu, 10 Nov 2022 01:18:35 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM6Tp8lBsCX/YkLKAWg00+3DBcZbS8InVA1mCDgm3pJ7HO6AcV3G+pYtk1ajInNRDYZBqcROem+5XM0FGUMFy4w=
-X-Received: by 2002:aca:908:0:b0:354:68aa:9c59 with SMTP id
- 8-20020aca0908000000b0035468aa9c59mr1219337oij.35.1668071915096; Thu, 10 Nov
- 2022 01:18:35 -0800 (PST)
+ bh=Tdo36KjQn5981X064LxmF4x/YKppU+FsYaF9I5q1hDQ=;
+ b=qZ+2OeCLJFosIAFhjMR4SfBI3u8Rm7QHvMmWTYbtmRDYWgACVmzO0QB+LKaQG2dTfR
+ ahGSL594a8F8iJslFD4alDlVZsn1XQFNQTUuGBXVrod0x1RzcF+ow33AlK5nPutMOMRv
+ 5oR65YgkDKlXT51rRuSsgm/otjrv4QQ4zbOgsp9h6c/l27KBS6gxsB7oltkzts+iqZXa
+ mrykkn7fq3fvgv5+r+7EwMFg247jU0jy7Zdy8t51HykyltD/kBdXBH1174ekvW7bjp+I
+ pmeBQVF8MYseZOri4KsBjiqU43gemyMSR4HGuB2/Wgs4WhcUrjnlpIP0rgeKgw8cRczi
+ vyqQ==
+X-Gm-Message-State: ANoB5pnqtI2vSEFGOyLgLvsD7ygVEDcV9IsFXWgmmaib85yXrV6rwFjE
+ RKnzw/GqcE8H99myovW1iu9ZKE5kgLq4w/sGSD+zDg==
+X-Google-Smtp-Source: AA0mqf4zCcXBBxT9tc9j9BKCYW+9ymazBdOiId7OJLowRkeKbUQ5JjVIcWMBW45uHJON/KpOwI4DCCK1lNray/qgwiE=
+X-Received: by 2002:a63:81c6:0:b0:470:537b:9afc with SMTP id
+ t189-20020a6381c6000000b00470537b9afcmr21994163pgd.231.1668072536490; Thu, 10
+ Nov 2022 01:28:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20221110082755.12372-1-xuanzhuo@linux.alibaba.com>
-In-Reply-To: <20221110082755.12372-1-xuanzhuo@linux.alibaba.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 10 Nov 2022 17:18:23 +0800
-Message-ID: <CACGkMEtKg3XHj+_dBGEJ4yBM_PRMuKBizQEVXXB5qgSF==n6DQ@mail.gmail.com>
-Subject: Re: [PATCH] virtio-net: fix for heap-buffer-overflow
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20221107224600.934080-1-mst@redhat.com>
+ <20221107224600.934080-45-mst@redhat.com>
+ <e491b2fe-5959-4837-fce9-a7d2cb2448e6@redhat.com>
+ <20221109162607-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20221109162607-mutt-send-email-mst@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 10 Nov 2022 09:28:44 +0000
+Message-ID: <CAFEAcA974tkv531hxgy8cWkOBcxP1WzzHAThAPxUomMbg6ymRg@mail.gmail.com>
+Subject: Re: [PULL v4 44/83] acpi: pc: vga: use AcpiDevAmlIf interface to
+ build VGA device descriptors
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org, 
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>, 
+ Bernhard Beschow <shentey@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,108 +92,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 10, 2022 at 4:28 PM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
->
-> Run shell script:
->
->     cat << EOF | valgrind qemu-system-i386 -display none -machine accel=qtest, -m \
->     512M -M q35 -nodefaults -device virtio-net,netdev=net0 -netdev \
->     user,id=net0 -qtest stdio
->     outl 0xcf8 0x80000810
->     outl 0xcfc 0xc000
->     outl 0xcf8 0x80000804
->     outl 0xcfc 0x01
->     outl 0xc00d 0x0200
->     outl 0xcf8 0x80000890
->     outb 0xcfc 0x4
->     outl 0xcf8 0x80000889
->     outl 0xcfc 0x1c000000
->     outl 0xcf8 0x80000893
->     outw 0xcfc 0x100
->     EOF
->
-> Got:
->     ==68666== Invalid read of size 8
->     ==68666==    at 0x688536: virtio_net_queue_enable (virtio-net.c:575)
->     ==68666==    by 0x6E31AE: memory_region_write_accessor (memory.c:492)
->     ==68666==    by 0x6E098D: access_with_adjusted_size (memory.c:554)
->     ==68666==    by 0x6E4DB3: memory_region_dispatch_write (memory.c:1521)
->     ==68666==    by 0x6E31AE: memory_region_write_accessor (memory.c:492)
->     ==68666==    by 0x6E098D: access_with_adjusted_size (memory.c:554)
->     ==68666==    by 0x6E4DB3: memory_region_dispatch_write (memory.c:1521)
->     ==68666==    by 0x6EBCD3: flatview_write_continue (physmem.c:2820)
->     ==68666==    by 0x6EBFBF: flatview_write (physmem.c:2862)
->     ==68666==    by 0x6EF5E7: address_space_write (physmem.c:2958)
->     ==68666==    by 0x6DFDEC: cpu_outw (ioport.c:70)
->     ==68666==    by 0x6F6DF0: qtest_process_command (qtest.c:480)
->     ==68666==  Address 0x29087fe8 is 24 bytes after a block of size 416 in arena "client"
->
-> That is reported by Alexander Bulekov. https://gitlab.com/qemu-project/qemu/-/issues/1309
->
-> Here, the queue_index is the index of the cvq, but cvq does not have the
-> corresponding NetClientState,
+On Wed, 9 Nov 2022 at 21:42, Michael S. Tsirkin <mst@redhat.com> wrote:
 
-This is not necessarily truth for some backends like vhost-vDPA.
-
-> so overflow appears.
-
-Note that this is guest trigger-able, so anything that is below the
-VIRTIO_QUEUE_MAX but greater or equal than cvq index could hit this.
-
+> > > diff --git a/hw/display/meson.build b/hw/display/meson.build
+> > > index adc53dd8b6..7a725ed80e 100644
+> > > --- a/hw/display/meson.build
+> > > +++ b/hw/display/meson.build
+> > > @@ -38,10 +38,21 @@ softmmu_ss.add(when: 'CONFIG_NEXTCUBE', if_true: files('next-fb.c'))
+> > >   specific_ss.add(when: 'CONFIG_VGA', if_true: files('vga.c'))
+> > > +if (config_all_devices.has_key('CONFIG_VGA_CIRRUS') or
+> > > +    config_all_devices.has_key('CONFIG_VGA_PCI') or
+> > > +    config_all_devices.has_key('CONFIG_VMWARE_VGA') or
+> > > +    config_all_devices.has_key('CONFIG_ATI_VGA')
+> > > +   )
+> > > +  softmmu_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-vga.c'),
+> > > +                                      if_false: files('acpi-vga-stub.c'))
+> > > +endif
 >
-> I add a check here, ignore illegal queue_index and cvq queue_index.
->
-> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> ---
->  hw/net/virtio-net.c | 18 ++++++++++++++++--
->  1 file changed, 16 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 975bbc22f9..88f25709d6 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -549,7 +549,14 @@ static RxFilterInfo *virtio_net_query_rxfilter(NetClientState *nc)
->  static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+> Igor what does  CONFIG_ACPI mean? It depends on the target but this
+> library is target independent. Is this just always built then?
 
-If we require the VirtioDeviceClass to validate the index, let's add a
-document there. Or we can let the transport to validate this.
+That kind of config symbol means "some machine we want to build needs
+ACPI, so build it". So if you build at least one machine that needs
+ACPI, CONFIG_ACPI gets defined, and the acpi-specific files are built.
+If your QEMU configure line and possibly any custom config file
+mean you're not building any ACPI machines, then CONFIG_ACPI is
+not defined, and we don't need to build in the acpi-specifics,
+which makes the binary smaller. For instance if you set
+--target-list=or1k-softmmu then no machine wants ACPI and
+CONFIG_ACPI won't get set. If you set --target-list=or1k-softmmu,x86_64-softmmu
+then the PC machine types want ACPI and CONFIG_ACPI is set.
 
-Thanks
+(Essentially we're opting to make the build faster by building the
+object file once rather than per-target, at the cost of the
+executables for the target architectures which don't use the
+feature being a bit bigger with code they aren't going to use.)
 
->  {
->      VirtIONet *n = VIRTIO_NET(vdev);
-> -    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
-> +    NetClientState *nc;
-> +
-> +    /* validate queue_index and skip for cvq */
-> +    if (queue_index >= n->max_queue_pairs * 2) {
-> +        return;
-> +    }
-> +
-> +    nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
->
->      if (!nc->peer) {
->          return;
-> @@ -566,9 +573,16 @@ static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
->  static void virtio_net_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
->  {
->      VirtIONet *n = VIRTIO_NET(vdev);
-> -    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
-> +    NetClientState *nc;
->      int r;
->
-> +    /* validate queue_index and skip for cvq */
-> +    if (queue_index >= n->max_queue_pairs * 2) {
-> +        return;
-> +    }
-> +
-> +    nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
-> +
->      if (!nc->peer || !vdev->vhost_started) {
->          return;
->      }
-> --
-> 2.32.0.3.g01195cf9f
->
+Note that this means that for a machine type which does not use ACPI, it
+may either:
+ (1) be being built in the same build as a machine that does use
+ ACPI, so be linked against the "real" ACPI source files
+ (2) be being built in a build with no ACPI machines, so be
+ linked against the stub files
 
+and it also means that the code in the "real" ACPI source files
+cannot assume that it's being used in a machine which is actually
+using ACPI.
+
+thanks
+-- PMM
 
