@@ -2,100 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B9A623BC0
+	by mail.lfdr.de (Postfix) with ESMTPS id 838DB623BC3
 	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 07:25:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot0yk-0000Ja-9Y; Thu, 10 Nov 2022 01:23:58 -0500
+	id 1ot101-0001BO-Qy; Thu, 10 Nov 2022 01:25:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ot0yX-0000HP-CU; Thu, 10 Nov 2022 01:23:45 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ot0zz-00017c-BA
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 01:25:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ot0yV-0006oc-MC; Thu, 10 Nov 2022 01:23:45 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id CD1855C0160;
- Thu, 10 Nov 2022 01:23:41 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 10 Nov 2022 01:23:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1668061421; x=
- 1668147821; bh=GqyIELdNKjk1b44ic5vW5y5bX/deE+BfdTODabeQy6s=; b=L
- GB+u2nXihHD/XK2iEUsTI8LCxPxDA9ylcb8DNN7j9Pnvn9XMO32e6OJwfsRUgh1e
- Aydb24/sqa33svpoe4NCuEhs73955+Ga/p3kcwy4hRweOOX61pyJIG2mSoZUX37z
- /u2O7IVf2xMD1YRYuXpdwOhTmhPJC4xroT38mZ4xgvzfdfl+ppOiq3SS0nVB2aui
- yhEJsNIJdM8YqoEu5wSbvGFQBZy1FKeFc4JLdQ6oqahurTwYm8RhmUufvHD2aL7G
- oxozFtmT6ehVTnU138vb4Dvw8X8LNVp1ZPO7CRtao5ew7gU5YTr2JoYlHZJnqMof
- fpmYyyJg/ZzT3FpeeEDiQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1668061421; x=1668147821; bh=GqyIELdNKjk1b
- 44ic5vW5y5bX/deE+BfdTODabeQy6s=; b=n1cMHkhYm1L7kWb4iFiOJ/031X0NV
- WackfSM28E50D3k88WtGzncsXp6ETKuXulf5ZOCZOU2Ha7+k4RCgC+yh///RORtO
- G8V29nWu1btuypeizXuQof2yHCewaFNkPvoJnH1fVUExlnBKhFRacuq5P8Zcbh7g
- uu62SLFo15DvKw7yuLfiKISUuUxmy6FhCZY2bthpPecx7w7WhZ4Q8rJGFlTZD639
- y51RRp60HjNBmA0KQ8hdDPvg364qfXC6MN2tW3NgfQuIlSxqo7eMK5CQaQlOoZA4
- zSd3W6wdOAdmBbJ9ACcNUXd4xrQ0ZolXLuw8Al1FSjLOYE/OQiR+lXCzw==
-X-ME-Sender: <xms:7ZhsY9YrAEjPPYXev0Y6Yjx5no4FLp_iY19gB79V6_wFHMcU390DBg>
- <xme:7ZhsY0YKsxSrnFBfVXbUpIUf83MHt2KSfntrCYWoRnwppKUTc5c5M_Iv_OfAUbhJG
- 0MxQ9e0sbwVzcSIyBI>
-X-ME-Received: <xmr:7ZhsY_-bXs9DAqDTZOFGW4cI7GH6eIIyf4zbJkYR2LgSWOresV6UXq9mmdBoXkFbcloOM--XehsC-dcShYAd88Aq4_GXgFLLyxBqFA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeefgdelhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgfeilefgieevheekueevheehkeefveegiefgheefgfejjeehffefgedujedu
- geenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:7ZhsY7rxZoHTy3jx78oToX2hKV9X75Mc12-dc3uPxgPmkdWgBw8Y_w>
- <xmx:7ZhsY4rMvfWs5MlKPp2CrhMfOFtL-dm0_vGjU2Pxqv17tsPGOSOP9Q>
- <xmx:7ZhsYxSvsuMob1aVFg7R495Cq6IP8GshQPvyP_JRL8f9g6dq3rzfqA>
- <xmx:7ZhsYxl7pU-JlHl1yV7hcgcMBr_ZUBwvmbxz0JgLgvmPtBlRA6R-AA>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Nov 2022 01:23:40 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 2/2] hw/nvme: cleanup error reporting in nvme_init_pci()
-Date: Thu, 10 Nov 2022 07:23:35 +0100
-Message-Id: <20221110062335.18401-3-its@irrelevant.dk>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221110062335.18401-1-its@irrelevant.dk>
-References: <20221110062335.18401-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1ot0zx-0007BU-7B
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 01:25:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668061512;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1yPCMesLzAi91hlI11sYZW04SqKKMi7wFZsNU5sCdCM=;
+ b=iCJo4egfY+zjq90okRp9CzpEBKV/ueECYeq3WRV+N1BfkHiiTp/+7mbWHUgBdFk+uaqlLW
+ U0ZCCvPEHyhishhGJanxGqJrTojzs2fwbAWjiZGOGsAX8bSwfSb0ERiEsDjMUmQf1PkKxl
+ v5W7o4WlK5WdA3FDdtml4lxGTMcJWFM=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-672-PJnCl2KZN-K7EJ1fHl3kxQ-1; Thu, 10 Nov 2022 01:25:09 -0500
+X-MC-Unique: PJnCl2KZN-K7EJ1fHl3kxQ-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ 36-20020a17090a0fa700b00213d5296e13so590554pjz.6
+ for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 22:25:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=1yPCMesLzAi91hlI11sYZW04SqKKMi7wFZsNU5sCdCM=;
+ b=Icf5l2gh9JBbcCUKkm6wM/0LKJmhU89WQBid1HCN6IIstNZXStYc0uTzb1W5kjjyXr
+ kSpw9/JSwCkHbUHX/GyVqwEqClu6XEh9kDmo0KP+w3+Jr/OytE4Ni5AzaJN/DvCQeRmd
+ 8GqvIO+Ubw1dGleQKks5BGzpgJlX1rkeVavItcqhnf/lP5UPk36n1No3xjHo9ne9h77t
+ fXDY339WZBWkOpzgphTMce/eQl8CVpizQ3hfgghtsMGcmGru0jBIFxUUVQmolqBNiBdN
+ FZ7cQpgM4aPZDRzGRXKaXL7kuHot3Rs+1PPxYzQl+zdNrUJHzwxAJk3TENysx8TrfBaV
+ h3Tg==
+X-Gm-Message-State: ACrzQf132v0YRFVvwx3yv+uwxPprRLvWbXVUHcgUxAIVxifUTW30oc84
+ 4O2TdR1rbjqHz1An/FZ83o+R7BsJoRu73RetGDbluRy1MePF5Hn7UXb6wv2Fh9SdCfjr7PDRjkf
+ Xv1EXZMMNLFW2L3c=
+X-Received: by 2002:a17:90a:f2cb:b0:213:9afa:d13a with SMTP id
+ gt11-20020a17090af2cb00b002139afad13amr64280203pjb.180.1668061507933; 
+ Wed, 09 Nov 2022 22:25:07 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5RptU47vR52AXRUeK0iNkW8pvYXotqtTe+FgttOxgennvPrdRh0GM5XJ8kbZwrZB9h5E+V0g==
+X-Received: by 2002:a17:90a:f2cb:b0:213:9afa:d13a with SMTP id
+ gt11-20020a17090af2cb00b002139afad13amr64280188pjb.180.1668061507558; 
+ Wed, 09 Nov 2022 22:25:07 -0800 (PST)
+Received: from [10.72.13.112] ([43.228.180.230])
+ by smtp.gmail.com with ESMTPSA id
+ l5-20020a622505000000b0056be1581126sm9636709pfl.143.2022.11.09.22.24.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Nov 2022 22:25:05 -0800 (PST)
+Message-ID: <5eb848d8-eb27-4c27-377d-cb6edfe3718c@redhat.com>
+Date: Thu, 10 Nov 2022 14:24:20 +0800
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2248; i=k.jensen@samsung.com;
- h=from:subject; bh=RSsMSLyP5YpRe5Zj1zzYBj797y2T13E9eElrWVZGcDA=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGNsmOcNf9rrKhGgSKpMsYV/wr3vOh5sxFN4J0TN
- +YFeBfSi4IkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjbJjnAAoJEE3hrzFtTw3pmF
- cIALoPc0vpzmGirwr/lDNjhPYtjkNoeXz3Zm9JoBj5w2JKdaiXdlijZmkd+Dz3nB0kD7D4aHVaNOrE
- y5wce/qlJ3O63TmlzXkF0nnMQXSyhu2ko1tUXKZS6ual66YFqy5oDyZ4h5to0XHMcT6gPAIq7Wz58x
- Fh6V3aIB7ptE4vjUU/8CQBiG8BTYKxHMCHnJ46VTP9wsVQvAhQfjRVvA7UaR6rFQybyCkbVYuKCgji
- Btb9rUcwFhZxjVs6387hv4mGyckQwiAnMHF94UGmRPkg32i/Ox4uWnJeEmT8VxvQNYIXQgAxeXEbd7
- 1wxdIHxWX5O4k+tI2w036Hip6XBd5qsLx7MaYL
-X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
- fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PATCH v6 10/10] vdpa: Always start CVQ in SVQ mode
+Content-Language: en-US
+To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
+Cc: Parav Pandit <parav@mellanox.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Si-Wei Liu <si-wei.liu@oracle.com>, Laurent Vivier <lvivier@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Cornelia Huck <cohuck@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, kvm@vger.kernel.org,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20221108170755.92768-1-eperezma@redhat.com>
+ <20221108170755.92768-11-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20221108170755.92768-11-eperezma@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,79 +111,330 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Klaus Jensen <k.jensen@samsung.com>
 
-Replace the local Error variable with errp and ERRP_GUARD() and change
-the return value to bool.
+在 2022/11/9 01:07, Eugenio Pérez 写道:
+> Isolate control virtqueue in its own group, allowing to intercept control
+> commands but letting dataplane run totally passthrough to the guest.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c | 23 ++++++++++-------------
- 1 file changed, 10 insertions(+), 13 deletions(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index a5c0a5fa6ce2..e23af4db91ae 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -7343,15 +7343,14 @@ static int nvme_add_pm_capability(PCIDevice *pci_dev, uint8_t offset)
-     return 0;
- }
- 
--static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
-+static bool nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
- {
-+    ERRP_GUARD();
-     uint8_t *pci_conf = pci_dev->config;
-     uint64_t bar_size;
-     unsigned msix_table_offset, msix_pba_offset;
-     int ret;
- 
--    Error *err = NULL;
--
-     pci_conf[PCI_INTERRUPT_PIN] = 1;
-     pci_config_set_prog_interface(pci_conf, 0x2);
- 
-@@ -7388,14 +7387,12 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
-     }
-     ret = msix_init(pci_dev, n->params.msix_qsize,
-                     &n->bar0, 0, msix_table_offset,
--                    &n->bar0, 0, msix_pba_offset, 0, &err);
--    if (ret < 0) {
--        if (ret == -ENOTSUP) {
--            warn_report_err(err);
--        } else {
--            error_propagate(errp, err);
--            return ret;
--        }
-+                    &n->bar0, 0, msix_pba_offset, 0, errp);
-+    if (ret == -ENOTSUP) {
-+        warn_report_err(*errp);
-+        *errp = NULL;
-+    } else {
-+        return false;
-     }
- 
-     nvme_update_msixcap_ts(pci_dev, n->conf_msix_qsize);
-@@ -7412,7 +7409,7 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
-         nvme_init_sriov(n, pci_dev, 0x120);
-     }
- 
--    return 0;
-+    return true;
- }
- 
- static void nvme_init_subnqn(NvmeCtrl *n)
-@@ -7588,7 +7585,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-         return;
-     }
-     nvme_init_state(n);
--    if (nvme_init_pci(n, pci_dev, errp)) {
-+    if (!nvme_init_pci(n, pci_dev, errp)) {
-         return;
-     }
-     nvme_init_ctrl(n, pci_dev);
--- 
-2.38.1
+I think we need to tweak the title to "vdpa: Always start CVQ in SVQ 
+mode if possible". Since SVQ for CVQ can't be enabled without ASID support?
+
+
+>
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> ---
+> v6:
+> * Disable control SVQ if the device does not support it because of
+> features.
+>
+> v5:
+> * Fixing the not adding cvq buffers when x-svq=on is specified.
+> * Move vring state in vhost_vdpa_get_vring_group instead of using a
+>    parameter.
+> * Rename VHOST_VDPA_NET_CVQ_PASSTHROUGH to VHOST_VDPA_NET_DATA_ASID
+>
+> v4:
+> * Squash vhost_vdpa_cvq_group_is_independent.
+> * Rebased on last CVQ start series, that allocated CVQ cmd bufs at load
+> * Do not check for cvq index on vhost_vdpa_net_prepare, we only have one
+>    that callback registered in that NetClientInfo.
+>
+> v3:
+> * Make asid related queries print a warning instead of returning an
+>    error and stop the start of qemu.
+> ---
+>   hw/virtio/vhost-vdpa.c |   3 +-
+>   net/vhost-vdpa.c       | 138 ++++++++++++++++++++++++++++++++++++++---
+>   2 files changed, 132 insertions(+), 9 deletions(-)
+>
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index e3914fa40e..6401e7efb1 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -648,7 +648,8 @@ static int vhost_vdpa_set_backend_cap(struct vhost_dev *dev)
+>   {
+>       uint64_t features;
+>       uint64_t f = 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
+> -        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
+> +        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH |
+> +        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID;
+>       int r;
+>   
+>       if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) {
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index 02780ee37b..7245ea70c6 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -38,6 +38,9 @@ typedef struct VhostVDPAState {
+>       void *cvq_cmd_out_buffer;
+>       virtio_net_ctrl_ack *status;
+>   
+> +    /* Number of address spaces supported by the device */
+> +    unsigned address_space_num;
+
+
+I'm not sure this is the best place to store thing like this since it 
+can cause confusion. We will have multiple VhostVDPAState when 
+multiqueue is enabled.
+
+
+> +
+>       /* The device always have SVQ enabled */
+>       bool always_svq;
+>       bool started;
+> @@ -101,6 +104,9 @@ static const uint64_t vdpa_svq_device_features =
+>       BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
+>       BIT_ULL(VIRTIO_NET_F_STANDBY);
+>   
+> +#define VHOST_VDPA_NET_DATA_ASID 0
+> +#define VHOST_VDPA_NET_CVQ_ASID 1
+> +
+>   VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
+>   {
+>       VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
+> @@ -242,6 +248,34 @@ static NetClientInfo net_vhost_vdpa_info = {
+>           .check_peer_type = vhost_vdpa_check_peer_type,
+>   };
+>   
+> +static uint32_t vhost_vdpa_get_vring_group(int device_fd, unsigned vq_index)
+> +{
+> +    struct vhost_vring_state state = {
+> +        .index = vq_index,
+> +    };
+> +    int r = ioctl(device_fd, VHOST_VDPA_GET_VRING_GROUP, &state);
+> +
+> +    return r < 0 ? 0 : state.num;
+
+
+Assume 0 when ioctl() fail is probably not a good idea: errors in ioctl 
+might be hidden. It would be better to fallback to 0 when ASID is not 
+supported.
+
+
+> +}
+> +
+> +static int vhost_vdpa_set_address_space_id(struct vhost_vdpa *v,
+> +                                           unsigned vq_group,
+> +                                           unsigned asid_num)
+> +{
+> +    struct vhost_vring_state asid = {
+> +        .index = vq_group,
+> +        .num = asid_num,
+> +    };
+> +    int ret;
+> +
+> +    ret = ioctl(v->device_fd, VHOST_VDPA_SET_GROUP_ASID, &asid);
+> +    if (unlikely(ret < 0)) {
+> +        warn_report("Can't set vq group %u asid %u, errno=%d (%s)",
+> +            asid.index, asid.num, errno, g_strerror(errno));
+> +    }
+> +    return ret;
+> +}
+> +
+>   static void vhost_vdpa_cvq_unmap_buf(struct vhost_vdpa *v, void *addr)
+>   {
+>       VhostIOVATree *tree = v->iova_tree;
+> @@ -316,11 +350,54 @@ dma_map_err:
+>   static int vhost_vdpa_net_cvq_start(NetClientState *nc)
+>   {
+>       VhostVDPAState *s;
+> -    int r;
+> +    struct vhost_vdpa *v;
+> +    uint32_t cvq_group;
+> +    int cvq_index, r;
+>   
+>       assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+>   
+>       s = DO_UPCAST(VhostVDPAState, nc, nc);
+> +    v = &s->vhost_vdpa;
+> +
+> +    v->listener_shadow_vq = s->always_svq;
+> +    v->shadow_vqs_enabled = s->always_svq;
+> +    s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_DATA_ASID;
+> +
+> +    if (s->always_svq) {
+> +        goto out;
+> +    }
+> +
+> +    if (s->address_space_num < 2) {
+> +        return 0;
+> +    }
+> +
+> +    if (!vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
+> +        return 0;
+> +    }
+
+
+Any reason we do the above check during the start/stop? It should be 
+easier to do that in the initialization.
+
+
+> +
+> +    /**
+> +     * Check if all the virtqueues of the virtio device are in a different vq
+> +     * than the last vq. VQ group of last group passed in cvq_group.
+> +     */
+> +    cvq_index = v->dev->vq_index_end - 1;
+> +    cvq_group = vhost_vdpa_get_vring_group(v->device_fd, cvq_index);
+> +    for (int i = 0; i < cvq_index; ++i) {
+> +        uint32_t group = vhost_vdpa_get_vring_group(v->device_fd, i);
+> +
+> +        if (unlikely(group == cvq_group)) {
+> +            warn_report("CVQ %u group is the same as VQ %u one (%u)", cvq_group,
+> +                        i, group);
+> +            return 0;
+> +        }
+> +    }
+> +
+> +    r = vhost_vdpa_set_address_space_id(v, cvq_group, VHOST_VDPA_NET_CVQ_ASID);
+> +    if (r == 0) {
+> +        v->shadow_vqs_enabled = true;
+> +        s->vhost_vdpa.address_space_id = VHOST_VDPA_NET_CVQ_ASID;
+> +    }
+> +
+> +out:
+>       if (!s->vhost_vdpa.shadow_vqs_enabled) {
+>           return 0;
+>       }
+> @@ -542,12 +619,38 @@ static const VhostShadowVirtqueueOps vhost_vdpa_net_svq_ops = {
+>       .avail_handler = vhost_vdpa_net_handle_ctrl_avail,
+>   };
+>   
+> +static uint32_t vhost_vdpa_get_as_num(int vdpa_device_fd)
+> +{
+> +    uint64_t features;
+> +    unsigned num_as;
+> +    int r;
+> +
+> +    r = ioctl(vdpa_device_fd, VHOST_GET_BACKEND_FEATURES, &features);
+> +    if (unlikely(r < 0)) {
+> +        warn_report("Cannot get backend features");
+> +        return 1;
+> +    }
+> +
+> +    if (!(features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID))) {
+> +        return 1;
+> +    }
+> +
+> +    r = ioctl(vdpa_device_fd, VHOST_VDPA_GET_AS_NUM, &num_as);
+> +    if (unlikely(r < 0)) {
+> +        warn_report("Cannot retrieve number of supported ASs");
+> +        return 1;
+
+
+Let's return error here. This help to identify bugs of qemu or kernel.
+
+
+> +    }
+> +
+> +    return num_as;
+> +}
+> +
+>   static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+>                                              const char *device,
+>                                              const char *name,
+>                                              int vdpa_device_fd,
+>                                              int queue_pair_index,
+>                                              int nvqs,
+> +                                           unsigned nas,
+>                                              bool is_datapath,
+>                                              bool svq,
+>                                              VhostIOVATree *iova_tree)
+> @@ -566,6 +669,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+>       qemu_set_info_str(nc, TYPE_VHOST_VDPA);
+>       s = DO_UPCAST(VhostVDPAState, nc, nc);
+>   
+> +    s->address_space_num = nas;
+>       s->vhost_vdpa.device_fd = vdpa_device_fd;
+>       s->vhost_vdpa.index = queue_pair_index;
+>       s->always_svq = svq;
+> @@ -652,6 +756,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+>       g_autoptr(VhostIOVATree) iova_tree = NULL;
+>       NetClientState *nc;
+>       int queue_pairs, r, i = 0, has_cvq = 0;
+> +    unsigned num_as = 1;
+> +    bool svq_cvq;
+>   
+>       assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+>       opts = &netdev->u.vhost_vdpa;
+> @@ -693,12 +799,28 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+>           return queue_pairs;
+>       }
+>   
+> -    if (opts->x_svq) {
+> -        struct vhost_vdpa_iova_range iova_range;
+> +    svq_cvq = opts->x_svq;
+> +    if (has_cvq && !opts->x_svq) {
+> +        num_as = vhost_vdpa_get_as_num(vdpa_device_fd);
+> +        svq_cvq = num_as > 1;
+> +    }
+
+
+The above check is not easy to follow, how about?
+
+svq_cvq = vhost_vdpa_get_as_num() > 1 ? true : opts->x_svq;
+
+
+> +
+> +    if (opts->x_svq || svq_cvq) {
+
+
+Any chance we can have opts->x_svq = true but svq_cvq = false? Checking 
+svq_cvq seems sufficient here.
+
+
+> +        Error *warn = NULL;
+>   
+> -        if (!vhost_vdpa_net_valid_svq_features(features, errp)) {
+> -            goto err_svq;
+> +        svq_cvq = vhost_vdpa_net_valid_svq_features(features,
+> +                                                   opts->x_svq ? errp : &warn);
+> +        if (!svq_cvq) {
+
+
+Same question as above.
+
+
+> +            if (opts->x_svq) {
+> +                goto err_svq;
+> +            } else {
+> +                warn_reportf_err(warn, "Cannot shadow CVQ: ");
+> +            }
+>           }
+> +    }
+> +
+> +    if (opts->x_svq || svq_cvq) {
+> +        struct vhost_vdpa_iova_range iova_range;
+>   
+>           vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
+>           iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
+> @@ -708,15 +830,15 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+>   
+>       for (i = 0; i < queue_pairs; i++) {
+>           ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+> -                                     vdpa_device_fd, i, 2, true, opts->x_svq,
+> -                                     iova_tree);
+> +                                     vdpa_device_fd, i, 2, num_as, true,
+
+
+I don't get why we need pass num_as to a specific vhost_vdpa structure. 
+It should be sufficient to pass asid there.
+
+Thanks
+
+
+> +                                     opts->x_svq, iova_tree);
+>           if (!ncs[i])
+>               goto err;
+>       }
+>   
+>       if (has_cvq) {
+>           nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+> -                                 vdpa_device_fd, i, 1, false,
+> +                                 vdpa_device_fd, i, 1, num_as, false,
+>                                    opts->x_svq, iova_tree);
+>           if (!nc)
+>               goto err;
 
 
