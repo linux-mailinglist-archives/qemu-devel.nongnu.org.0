@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D015623B30
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 06:22:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91768623B32
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 06:22:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot00z-0007H8-Aj; Thu, 10 Nov 2022 00:22:13 -0500
+	id 1ot01b-0007Sp-1i; Thu, 10 Nov 2022 00:22:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ot00x-0007GX-8n
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 00:22:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1ot01Z-0007Rj-4i
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 00:22:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ot00v-0002qn-Jk
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 00:22:11 -0500
+ id 1ot01X-0002yp-Is
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 00:22:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668057728;
+ s=mimecast20190719; t=1668057766;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=39bJkdb1ZhD+vECu9SAvHeqKZ+aFs/dYe/MiEsKgSjY=;
- b=IOJ8InrUqltqd4pDwS2mmNAWyYZbp4ScO6i0CGx+sLoMqYm8RwTe2GbZkmrKBkwtGAkCTB
- 7J/dVlktKVT0BOLHGjku2qqes16V/NSxa128nO+WY8gSRPuJ/i1vQ4uDfpVLBALX/yX2vO
- 9s0UONY+D/5ycYJhllPKJjgnu4OSjaQ=
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=zBADNIHQ/2w9bsFk7qq7GQ+B6yI6upSrghyoXHyUfDo=;
+ b=bRWbMT3qo1MJK1WptQQro1zv1rT3UMcexdg2zKthGkKXzflLxGVlMrGtI6X3+2KA/mP5gS
+ 2H+yJGFV1ezmyGgmCSW5rTrqQ1tlZdpEqpW4Q4FgYnBDv7qXSvbXncz+ccTSghb4GWJk88
+ jkEMTa0GomSBDJuvq+3ThZiurgRF42U=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-260-NJ31-IFeNtSSK6aStCYP3A-1; Thu, 10 Nov 2022 00:22:05 -0500
-X-MC-Unique: NJ31-IFeNtSSK6aStCYP3A-1
-Received: by mail-oa1-f70.google.com with SMTP id
- 586e51a60fabf-13bdcfbd787so557225fac.18
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 21:22:05 -0800 (PST)
+ us-mta-7-4zVTI-KEMSWvzq5l9o3atw-1; Thu, 10 Nov 2022 00:22:38 -0500
+X-MC-Unique: 4zVTI-KEMSWvzq5l9o3atw-1
+Received: by mail-ot1-f71.google.com with SMTP id
+ ck9-20020a056830648900b0066c56ff7b33so550328otb.20
+ for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 21:22:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=39bJkdb1ZhD+vECu9SAvHeqKZ+aFs/dYe/MiEsKgSjY=;
- b=rtYFcLv/T6YDkTRk2qLw/6YcWwsoh2cDwm+wdoPo/hACcT3NxHOt/+jDxVJaJehnpJ
- PFjwY0zDoPKoVnRY8zwlT5o1Gjikm2Q2t2Z2q2Yn/NP3YxJLUA881d++XMfWfrIUnwHr
- ff0G+/xRk+iicZc2ZRJ78YRuY9OCeYQ/+TQ2j3ioFazfJPWOOgl0L4iRPnfXOSlWBjgY
- rBVlvjbBf9iHkwV5itdH8xYIb/ycqyqJpr7yEnYry5AiuR9XWb9hsnHQq0UzgZ/qGSBT
- sWchngVEslRobJAsxDWbx4xh2TUKs8S2zIOVRq895SWkQR25EbTcUiFJjcGr9a3f12KI
- xFqw==
-X-Gm-Message-State: ACrzQf2au+10CziPjCQCavpOM3XzxPNRckuBR4NJJNY/bNdNQ/kCA5lT
- LrPAU43CRD6WMZU1ews9ubaGp8UCIuCwUZN4prrjXioNhoYeqbgQ0VAse+uzckq7mXFs1kiju+I
- M/Rr0ouhuCDysOzzjXHYGg1kUhjiL07w=
-X-Received: by 2002:aca:908:0:b0:354:68aa:9c59 with SMTP id
- 8-20020aca0908000000b0035468aa9c59mr1094243oij.35.1668057725215; 
- Wed, 09 Nov 2022 21:22:05 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5Ntrqyanq4iCvD/7JhkyrTaPhUkC3GXZMAZSkKLcKRV9waH6kFq/1vvPwY9tNcDd4EGPMzUp1ibemhm+vI5Lg=
-X-Received: by 2002:aca:908:0:b0:354:68aa:9c59 with SMTP id
- 8-20020aca0908000000b0035468aa9c59mr1094225oij.35.1668057725029; Wed, 09 Nov
- 2022 21:22:05 -0800 (PST)
+ bh=zBADNIHQ/2w9bsFk7qq7GQ+B6yI6upSrghyoXHyUfDo=;
+ b=Vg/uZtiTeSVvIvzkSmIwl0HALNOsgGfbtR7jXZWNEAPZpnW6++9U5+t1e+6ydRniSJ
+ G9I+i5lTEEhrswOCWZiEIipjMJaK1q48UeD2d7VK88ELZGTEAwGESUPqL0VsmTw30kKo
+ yF+1AB1rsbFg2kfA2PImqa7R2KN1YqbTmDa5kCvbDc3e146Gj1BION74ojPqcTawM2W/
+ 59cysDYkeJl+NgAzT+p93hQ/7ASZ6vUtHd4N2npszNVEOrxfJ/eNVBzHug561ti2TiFB
+ ygs8Drk7gUAcf5JavQHhmQMG0jr0yr4dqgmK7RwxUeo2cT5NVi1y1KBTGyPLic8qRB71
+ Yx3g==
+X-Gm-Message-State: ACrzQf2FFAefgkIsoQ59SfF4H26tVar6EnwzHn0uE6+dIY6K3AN2uXh+
+ gIqq7Px33oY2mv2wn9LhkemqW5w+BICN3hj8x7BLpb3uHHFAzzJV4WCAch8m9Ml+YPrngCp73Ub
+ 8uuuQQ8Hi/QCVQvGeym3BOVI+6HqI7nI=
+X-Received: by 2002:a05:6808:181e:b0:35a:5959:5909 with SMTP id
+ bh30-20020a056808181e00b0035a59595909mr17148334oib.35.1668057757428; 
+ Wed, 09 Nov 2022 21:22:37 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM4fFxYqbqgMLqtqpgis0P4gU8U/nEIqOFJsyP10xJ7MQKudn4hRCzjbgLwqGbIMqBeg/bACAqJ5q+/FHECoafY=
+X-Received: by 2002:a05:6808:181e:b0:35a:5959:5909 with SMTP id
+ bh30-20020a056808181e00b0035a59595909mr17148329oib.35.1668057757247; Wed, 09
+ Nov 2022 21:22:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20221108170755.92768-1-eperezma@redhat.com>
- <20221108170755.92768-2-eperezma@redhat.com>
-In-Reply-To: <20221108170755.92768-2-eperezma@redhat.com>
+ <20221108170755.92768-3-eperezma@redhat.com>
+In-Reply-To: <20221108170755.92768-3-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 10 Nov 2022 13:21:53 +0800
-Message-ID: <CACGkMEtvbSbsNZQV5RB1yyNzpam4QezdJ-f75nh4ToMJU=KYQQ@mail.gmail.com>
-Subject: Re: [PATCH v6 01/10] vdpa: Use v->shadow_vqs_enabled in
- vhost_vdpa_svqs_start & stop
+Date: Thu, 10 Nov 2022 13:22:25 +0800
+Message-ID: <CACGkMEt0EVQtRUVqFpfdAKPhqgEdmLWhCvLKDjF0gMMj=rh+9w@mail.gmail.com>
+Subject: Re: [PATCH v6 02/10] vhost: set SVQ device call handler at SVQ start
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, Parav Pandit <parav@mellanox.com>, 
  Stefan Hajnoczi <stefanha@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>, 
@@ -80,14 +79,14 @@ Cc: qemu-devel@nongnu.org, Parav Pandit <parav@mellanox.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,46 +106,62 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On Wed, Nov 9, 2022 at 1:08 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wro=
 te:
 >
-> This function used to trust in v->shadow_vqs !=3D NULL to know if it must
-> start svq or not.
+> By the end of this series CVQ is shadowed as long as the features
+> support it.
 >
-> This is not going to be valid anymore, as qemu is going to allocate svq
-> unconditionally (but it will only start them conditionally).
+> Since we don't know at the beginning of qemu running if this is
+> supported, move the event notifier handler setting to the start of the
+> SVQ, instead of the start of qemu run.
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 
-It might be a waste of memory if we did this. Any reason for this?
+Acked-by: Jason Wang <jasowang@redhat.com>
 
 Thanks
 
->
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 > ---
->  hw/virtio/vhost-vdpa.c | 4 ++--
+>  hw/virtio/vhost-shadow-virtqueue.c | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 7468e44b87..7f0ff4df5b 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -1029,7 +1029,7 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev =
-*dev)
->      Error *err =3D NULL;
->      unsigned i;
->
-> -    if (!v->shadow_vqs) {
-> +    if (!v->shadow_vqs_enabled) {
->          return true;
->      }
->
-> @@ -1082,7 +1082,7 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *=
-dev)
+> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-=
+virtqueue.c
+> index 5bd14cad96..264ddc166d 100644
+> --- a/hw/virtio/vhost-shadow-virtqueue.c
+> +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> @@ -648,6 +648,7 @@ void vhost_svq_start(VhostShadowVirtqueue *svq, VirtI=
+ODevice *vdev,
 >  {
->      struct vhost_vdpa *v =3D dev->opaque;
+>      size_t desc_size, driver_size, device_size;
 >
-> -    if (!v->shadow_vqs) {
-> +    if (!v->shadow_vqs_enabled) {
->          return;
+> +    event_notifier_set_handler(&svq->hdev_call, vhost_svq_handle_call);
+>      svq->next_guest_avail_elem =3D NULL;
+>      svq->shadow_avail_idx =3D 0;
+>      svq->shadow_used_idx =3D 0;
+> @@ -704,6 +705,7 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
+>      g_free(svq->desc_state);
+>      qemu_vfree(svq->vring.desc);
+>      qemu_vfree(svq->vring.used);
+> +    event_notifier_set_handler(&svq->hdev_call, NULL);
+>  }
+>
+>  /**
+> @@ -740,7 +742,6 @@ VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *io=
+va_tree,
 >      }
 >
+>      event_notifier_init_fd(&svq->svq_kick, VHOST_FILE_UNBIND);
+> -    event_notifier_set_handler(&svq->hdev_call, vhost_svq_handle_call);
+>      svq->iova_tree =3D iova_tree;
+>      svq->ops =3D ops;
+>      svq->ops_opaque =3D ops_opaque;
+> @@ -763,7 +764,6 @@ void vhost_svq_free(gpointer pvq)
+>      VhostShadowVirtqueue *vq =3D pvq;
+>      vhost_svq_stop(vq);
+>      event_notifier_cleanup(&vq->hdev_kick);
+> -    event_notifier_set_handler(&vq->hdev_call, NULL);
+>      event_notifier_cleanup(&vq->hdev_call);
+>      g_free(vq);
+>  }
 > --
 > 2.31.1
 >
