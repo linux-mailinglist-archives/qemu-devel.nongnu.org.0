@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204EF624B1D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 21:02:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052FB624B23
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 21:04:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otDjF-000124-Hj; Thu, 10 Nov 2022 15:00:49 -0500
+	id 1otDmQ-0002BP-Q5; Thu, 10 Nov 2022 15:04:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otDj3-000119-IQ
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 15:00:39 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1otDmO-0002Aw-EQ
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 15:04:04 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otDj0-0007IW-GB
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 15:00:37 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id y16so3778675wrt.12
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 12:00:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1otDmM-00015E-QV
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 15:04:04 -0500
+Received: by mail-wr1-x431.google.com with SMTP id g12so3800516wrs.10
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 12:04:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aVJjmGjtuUm/zbNp8vq26/O3T6paQMXxVdrGVZ93uDs=;
- b=f+voIhNV7AhAgDXVNERK9WC7OhTpUkbjuUFYxFZz6W9FzNHGwlblqzyCIfK/ijYcnw
- 3MFMSGqSZ6wG97gr8FqEPMAIcg98fClfpX7YbLi8GnFwKbQ/XAPQ73l8s+rFazo0fs2F
- p//eu4kzI60CnrntPnXSq1qnU1984lf0VF/6J4YV827p+a462caFcBMj/8YzvZgF/2BQ
- klI0eOEaXHzPv7BN/8B8gAmC2xLUytO3eUSdZfq7KA0wl2W0f/XsbAfubyYfXnMtmmw9
- vQwHXGl0OqrrM6CvqcbC8GiZfRNQoV0lSRaCVsOX9aWpPnCA/G3YJdu5rl+j+aeE4OSu
- FVQA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FZmDXkWIQDQX4rVgrGfLvjkptXWJU1Fmckwyj2CnWPY=;
+ b=tiQx+8iDh6P9X0uZXVz0TmRMe5SZZIxcjdpGM9FRhluVu3U22UC3kSaw6fjksXdvnY
+ RYeOiGS60+LRaSVwj4LOuY0Yho+8WqFvhpwwNDxcowBKdZytkAoi6BWHAPhHedCFzO4Z
+ Pw84xMltCRLwSkGdxlxAA0rzhCcICV9eGPfTqaMytJpeeIKqsi06JNG8eH6vNuh5v2Aa
+ iybGne/xhBm2i+jbqEI8UATDwUVlvi/GC7v5iBtER5WZ8Qo6DlFmwYtPdN92jGVP0ybA
+ k2AOOxssdueEc+cGMZSI6op7qdGKOJkW4j5bkfIQjYfee1IOW4ZAyQoKjSudCdWF6hje
+ mc3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aVJjmGjtuUm/zbNp8vq26/O3T6paQMXxVdrGVZ93uDs=;
- b=WE8MTKR9sFvy67zIuowcsVnXGrKLGjiz1b+vxoeuDeZ+z/Yt4gbUOqDFQKJcfnxNw9
- 2I4YLu+2XYtNI+ct3911NuRAl45XxigFUUo0UC1zS3Do4/f/IXrCgntWar6dkmL/fmh5
- AIWGVK1t+ynMirlEHpjtrWHAHiZoKSi93DWv7ugz8hAqwA75auJZoYf4eji74xvBlK7N
- s/U9ELd8uygDynbDz9Px5I0taqbzuVw/v+SiZZB1/4ZY7cB+/VOPaNJHfT72U9E7aAfz
- xzKsIWrasFq3ojKDXdwwME0oXDYPQX7vLaXNBX2/stIDLxCOKhdGu7NacvCygdCZlM1i
- WAfQ==
-X-Gm-Message-State: ACrzQf2ZJhy5L2Kb6un/bshkcno0u9oDeMeYs8h2P0oKFICVvtwuHJ8i
- emL1gsg6NOT9jbT0k+Mf2VsW7A==
-X-Google-Smtp-Source: AMsMyM7E+mIwVhRa4nWOCNFOPt63xfTSIlh0bWkUHAX+hnEpv1P7vzk2b5HPp5k2vjKes1sFrUsNng==
-X-Received: by 2002:a05:6000:a13:b0:236:da43:2ef1 with SMTP id
- co19-20020a0560000a1300b00236da432ef1mr1074823wrb.697.1668110433001; 
- Thu, 10 Nov 2022 12:00:33 -0800 (PST)
-Received: from [192.168.7.115] ([109.111.120.167])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FZmDXkWIQDQX4rVgrGfLvjkptXWJU1Fmckwyj2CnWPY=;
+ b=tmyIWKFpwbvyQKQgxWuzALPAtIQmecEPRKq+Myzk5E6V9iFtsdK4Ms5Zw1FuK6bCtl
+ QgPGnMwZ6sSJ+0MwptF4ve6SNS4Mc8wsDpcYOMP8u/WYrQxpy5FrBi9iBTt2mJcoKD8f
+ 9rslwilhPFqC2ute2q14tA2kPaKdbO0O9x0BMNn86eiQwgdJH1IZYNEdKxmkpHNfWWah
+ bLpm70gCYiGi4n7Onw+45ognW3enn/1RPekXjV+hYXsjUBie3PKaNuikZuKrojCzf3Pr
+ wfMbAPegq+vBFEHFJqlHUmwAQqRiaUJFOBduaWdkVqn+FpVfg/S2PI2txFeOKGbMtvQ2
+ hwYQ==
+X-Gm-Message-State: ACrzQf2CTwNuRh5Mq0qxsQia3UdnvBdXG1ZD0v8zHHtT/Lr83DMK/Vvb
+ KdRATimrzdQYZIwJNXdS6sP8AA==
+X-Google-Smtp-Source: AMsMyM5Q3M0Xkx6eErnIh6mZq2jY5HCKWlc/h7MT9yj8q5VPD2Wf/OYbWvfJgmqFbYgxN0sQK9bY3Q==
+X-Received: by 2002:a5d:4e8c:0:b0:236:6f5a:e893 with SMTP id
+ e12-20020a5d4e8c000000b002366f5ae893mr41229058wru.44.1668110641081; 
+ Thu, 10 Nov 2022 12:04:01 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- e13-20020a5d594d000000b0022cdb687bf9sm126854wri.0.2022.11.10.12.00.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 12:00:32 -0800 (PST)
-Message-ID: <eb8745ad-8075-c6ea-6fac-4437530c63b4@linaro.org>
-Date: Thu, 10 Nov 2022 21:00:30 +0100
+ bt17-20020a056000081100b0023677e1157fsm49296wrb.56.2022.11.10.12.04.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Nov 2022 12:04:00 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B3EE91FFB7;
+ Thu, 10 Nov 2022 20:03:59 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [RFC PATCH] gitlab: integrate coverage report
+Date: Thu, 10 Nov 2022 20:03:56 +0000
+Message-Id: <20221110200356.3425353-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH] libdecnumber/dpd/decimal64: Fix compiler warning from
- Clang 15
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-ppc@nongnu.org, qemu-trivial@nongnu.org, mrezanin@redhat.com,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <20221110131112.104283-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221110131112.104283-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,45 +96,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/11/22 14:11, Thomas Huth wrote:
-> Clang 15 from Fedora 37 complains:
-> 
->   ../libdecnumber/dpd/decimal64.c:620:8: error: variable 'n' set but
->   not used [-Werror,-Wunused-but-set-variable]
->     Int  n;                     /* output bunch counter */
->          ^
->   1 error generated.
-> 
-> Remove the unused variable to silence the compiler warning.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   libdecnumber/dpd/decimal64.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/libdecnumber/dpd/decimal64.c b/libdecnumber/dpd/decimal64.c
-> index 4816176410..290dbe8177 100644
-> --- a/libdecnumber/dpd/decimal64.c
-> +++ b/libdecnumber/dpd/decimal64.c
-> @@ -617,7 +617,6 @@ static const uInt multies[]={131073, 26215, 5243, 1049, 210};
->   #endif
->   void decDigitsToDPD(const decNumber *dn, uInt *targ, Int shift) {
->     Int  cut;		      /* work */
-> -  Int  n;		      /* output bunch counter */
->     Int  digits=dn->digits;     /* digit countdown */
->     uInt dpd;		      /* densely packed decimal value */
->     uInt bin;		      /* binary value 0-999 */
-> @@ -676,7 +675,7 @@ void decDigitsToDPD(const decNumber *dn, uInt *targ, Int shift) {
->       bin=0;			   /* [keep compiler quiet] */
->     #endif
->   
-> -  for(n=0; digits>0; n++) {	   /* each output bunch */
-> +  while (digits > 0) {             /* each output bunch */
->       #if DECDPUN==3		   /* fast path, 3-at-a-time */
->         bin=*inu;			   /* 3 digits ready for convert */
->         digits-=3;		   /* [may go negative] */
+This should hopefully give is nice coverage information about what our
+tests (or at least the subset we are running) have hit. Ideally we
+would want a way to trigger coverage on tests likely to be affected by
+the current commit.
 
-Or we could we backport the upstream fix :)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ .gitlab-ci.d/buildtest.yml | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-https://gcc.gnu.org/git/?p=gcc.git;a=blobdiff;f=libdecnumber/dpd/decimal64.c;h=f72c5730ac3b473e2c334f604e7e52da9711fa72;hp=269eaecade5115a62e979897742cd5decec0681e;hb=8a79685989bff33f479d0ac2df0e18d55d3ba78b;hpb=e1d1842b5432472330384d1523bb3c3132c4fea0
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 7173749c52..d21b4a1fd4 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -494,7 +494,17 @@ check-gprof-gcov:
+     IMAGE: ubuntu2004
+     MAKE_CHECK_ARGS: check
+   after_script:
+-    - ${CI_PROJECT_DIR}/scripts/ci/coverage-summary.sh
++    - cd build
++    - gcovr --xml-pretty --exclude-unreachable-branches --print-summary
++        -o coverage.xml --root ${CI_PROJECT_DIR} . *.p
++  coverage: /^\s*lines:\s*\d+.\d+\%/
++  artifacts:
++    name: ${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}
++    expire_in: 2 days
++    reports:
++      coverage_report:
++        coverage_format: cobertura
++        path: build/coverage.xml
+ 
+ build-oss-fuzz:
+   extends: .native_build_job_template
+-- 
+2.34.1
+
 
