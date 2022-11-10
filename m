@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E61623C6A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 08:09:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44903623C57
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 08:07:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot1d6-0003pD-Rg; Thu, 10 Nov 2022 02:05:40 -0500
+	id 1ot1db-00041K-As; Thu, 10 Nov 2022 02:06:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ot1cz-0003lc-Do; Thu, 10 Nov 2022 02:05:33 -0500
+ id 1ot1dE-0003xF-10; Thu, 10 Nov 2022 02:05:48 -0500
 Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ot1cx-0007Qs-52; Thu, 10 Nov 2022 02:05:33 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 585AB5C01BE;
- Thu, 10 Nov 2022 02:05:30 -0500 (EST)
+ id 1ot1cy-0007TU-LS; Thu, 10 Nov 2022 02:05:47 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id CFA235C0136;
+ Thu, 10 Nov 2022 02:05:31 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 10 Nov 2022 02:05:30 -0500
+ by compute2.internal (MEProxy); Thu, 10 Nov 2022 02:05:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1668063930; x=
- 1668150330; bh=m27MvJoRFmWAtQFcI6sig9pik+Inj8DqQ/00wBbTiws=; b=a
- Ysq7d05S1A68AcKrJdOAQXkUhsUSUfcnZQN9WbdCUfZuqlmWewIYMMqqX4/pykp+
- yEYA1hbgYdBXhfHmdC+B+kaWN6PjpWCVVOp2/muGA7hUNeBCRdkZCvWFbMdEsje7
- VUAzBywZBKjiLQxR8mV/N5UntP3KE99coN7OwFZVH8yWvCszUQ3hq426KU4gX/y7
- tarYPnC9VVWXAE0pIIJ1UEtKafb/DBzWGP+4THr+O/tKdkeh7XESpKAwKvBGuBAg
- VUVR6JB8kSpCi4Q+kphXzYNRYeY9q96J0B5spcl1Ay3M8xuOPR/ZGeVlzRahStj2
- Jnx2FNs2sog0rIsExElaQ==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1668063931; x=
+ 1668150331; bh=BzoDTzQ23eff/L/GUm5ST5aMFbm+im6scMvm7PCp1Hs=; b=b
+ hY3lBATMSF6xsjhPdyCxUW2IxGofy//S8uk7G5IrhboPJx6+2Yu265qpy2A2m3Tg
+ uFw3eCXVcroWwfjuamqmbfJ11Oe02SuU41L8CCGNtdWKsvUI3jB/LbXiahCkxIG5
+ me/ivXZPRjPIOt8ks719MPhwbhpqs1ORx2wq2qeK6xl4HpdUsfSjyb2+WR6ELp2o
+ /GVnWa3i7ni+r0KxmGkWF5piSWyzTXsprCUS55UXCt2luOzoSkCZBAWhI3g31iTa
+ wt0VckBLyD7S28QzaPaciWm43IQuxYFWW71f8w69BgMviqObtYRUe12bB4p2bm1U
+ nlhJVZYwoWt41MRw/3RsQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1668063930; x=1668150330; bh=m27MvJoRFmWAt
- QFcI6sig9pik+Inj8DqQ/00wBbTiws=; b=D/CNVCRMrcBHaaEU8uQZdA5sSQ5Mb
- oXt6d3MNxCsGFc6GBaZ0YeLAjNs3a1pgeaPlu641EIjask6fimiBPFJp5qKiJJyp
- vn/SFKR5Vv2FBrIFETzNryqjkyKkJrqRsMnd3CxeAZZ8jR/suoxKNDkBuebqjrTS
- BBoE3bW7XE5/e8OBMKjHGiTLjktfVBAvEeG0ZpOT1L/k6J90bes9+kJawT1q0iR4
- jyzbvqLtXt6aYYOghqqg0IAobl0N3ZA5CA13z1a+gs9ug72PiH7mKlG5IvbXzv20
- QBVpsoyuPnGSO1+/xcpHuiSmSJkH8BCCUpk/7tEW0rANxcsnAQMFiSsAA==
-X-ME-Sender: <xms:uqJsYz7JkQiBQtSUWicfovm3L_GhlPDocBMAbZdNwXMuH-EpSWVkJA>
- <xme:uqJsY45__jGNosg78kjYdJaTyBypO3MLQ9vo2u8HUTWBIHSh2XSRGi8rXBjSGut4_
- xWAabA0Irs0uCoIT1Q>
-X-ME-Received: <xmr:uqJsY6c7PqK_j32igWzQqF2VVQFMLx54sKU4UiJm-bxbil9haoNy4Q1DujkvIqmDbt7uVPVTDWO1NruOMVN2XejWN2GYkZhKdoN3rA>
+ :x-sasl-enc; s=fm1; t=1668063931; x=1668150331; bh=BzoDTzQ23eff/
+ L/GUm5ST5aMFbm+im6scMvm7PCp1Hs=; b=FY41xgiOMmlQuVhCaI3m1OuXxdV22
+ dnrpO1qMC1FecO9wqihLWLIp63ZJWrfvKMGZSMIorjXdgMUGni/yf7w1chFq+mle
+ BJVAWgc3UQ+w44bVEXd2Ze+qqk2oqOS+noV426VEkfzd2Hbgm6LVPooyUkd1FDM1
+ +rORuB3JwSfz9I7yOHDm/3LHlHEJ2wWIS6dBWJZspXCj6sIehxjYaHRoOJp8Qihz
+ fZLEiMjvD/hxdU/6EBYe95g7hoc8n3f6kSeJNsxTlEtCbMDKELPfT1IGYQKl9kBu
+ SoGCjbqO7jVnyW5YI6kWYsUOdNC8YqdpmgwRPtyTKxuvmjbq6QcfRRzog==
+X-ME-Sender: <xms:u6JsY26fgXVJ4Ap8VRHTEnCsldfKw4FfZhKhhWbM3ceaXmUlKjWDpg>
+ <xme:u6JsY_7RyyJ50utWVJHLWN9LDMXYNvtZ3cNjM7Mhyn9u66f5HUppnuIUja3UTsbfE
+ hGFtPeHcMEsCRcljjw>
+X-ME-Received: <xmr:u6JsY1f1-sCiW0N7S282USSzCV6AVeqW9rBf1hHGkkh1GqbT_ZNh-l2Ihwu0UADCT_vT1rvB_HcsmyGAybpHDT23BixzBW6MbX2j_g>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeefgddutdehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -56,45 +56,45 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeefgddutdehucetufdoteggod
  htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
  udegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:uqJsY0Lc7hL_eAEi-kRxUzr2nWX80-t-JaWWGzcKYxf1AbQ9-0FnTA>
- <xmx:uqJsY3LYsi5uXtDAmeipyM4vHqDIJbA_RR-ZB_pmv6QxIlxMJqsTqw>
- <xmx:uqJsY9wwm3YIALG0-MIHSG3Xtls9lzmwwmrlJnRI6hyuqdfY-vKxUg>
- <xmx:uqJsY_1VzkZnHhYoBgBX6Lo8msk8XDe8Fj3ST8U09Qm8ESbSiK09pw>
+X-ME-Proxy: <xmx:u6JsYzIMXobdnP4XoabNqNz_072GHegQfAnPTJbiIpF9e36c6uuZsg>
+ <xmx:u6JsY6LhW4sMsURRhINUaCTQYJ5H-pHnG0nTGDA3gzae-F_ui0AydQ>
+ <xmx:u6JsY0w6FeFnCGHwPnIdt2eYSuR8v9_4vCWCfCO6On9_Hua0W5EqgA>
+ <xmx:u6JsY20dlrkrbAD24JKLqYdZk9TUpY8X5PKPXA-71J7MWWeBub4ISg>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Nov 2022 02:05:28 -0500 (EST)
+ 10 Nov 2022 02:05:30 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
  Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH for-7.2 v2 2/6] hw/nvme: fix cancellation of format operations
-Date: Thu, 10 Nov 2022 08:05:19 +0100
-Message-Id: <20221110070523.36290-3-its@irrelevant.dk>
+Subject: [PATCH for-7.2 v2 3/6] hw/nvme: fix flush cancel
+Date: Thu, 10 Nov 2022 08:05:20 +0100
+Message-Id: <20221110070523.36290-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221110070523.36290-1-its@irrelevant.dk>
 References: <20221110070523.36290-1-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=794; i=k.jensen@samsung.com;
- h=from:subject; bh=sIQGrip7/wT+D8iG6kE80FBYmznll9TCCzlVCVoEgvA=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGNsorKCS8FuVAvuPC9kHui5ZjbcoGgQwEMw8vBO
- NJbnLe6c7YkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjbKKyAAoJEE3hrzFtTw3ph4
- QH/3oPJxwFdurEw7g5tU5bAHcdzq+z5jjSruJt7MlPd5UDYoGhDAQX2Z7HxwEumP/ZvFnuhddMusJr
- N7P9nM6hFXCGx/3fgy9LBvE1fHuQ2KPX2zHXoWps09afi1PbZhew9Y2hAXbJpc8EAmI2VhGog2sj0w
- RCdR4R04FXWXrhILpJYUx5bmQDFY42gA5Rcq9gwxrG5WvIVwzUwOZyGOAjhnK0mQ3byREDM+mM3wtp
- nwPupo8Nt+66D9UzWlS4lSQCxwwSirdv7OoD/glxcf6h1n3NepGsmfgIYVIZtD5U69TTxNdNA5XNdL
- uE9VOK8QPYN6Zf4pMzRFFocDIAi//LJK/1AKtH
+X-Developer-Signature: v=1; a=openpgp-sha256; l=579; i=k.jensen@samsung.com;
+ h=from:subject; bh=boLQthCSkHOwADoUmz/febG+wI6yHubBYDBggyhscBU=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGNsorO0jSg+B4Xn6MFe5ZwRpsbCwXHhgyYBQhn1
+ XtoocIIW84kBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjbKKzAAoJEE3hrzFtTw3psk
+ EIAL24LCWLSpF2FdLFUIMdnyLziqQS0JCuhaiG5q2uGXQ69BzG8qE/dUrK+gxEWMVHmSufythl0HJK
+ zcVkqTfeQt+WodYrmZ1GIURAJwqI0jeoMKe4KUHZvQQpZJCRSZE9LqA5ZmzUHXbK8C3LHB2h8bDOvs
+ PumPxGhNq3SCTu21s6vgAtMBbJYD6zeuclUFzivSAjr9qrQDo+si0YhpsiwijZ3tGBWliz5Iu9n7SU
+ S0xnzyZ5FcBfm/QYZ4NmPv2TmZqfHgihP0mZwopw3wGvxatN2++3FIEphPCm0nFh6J0BFxE7T+H49d
+ fNlx+JTC5TED1sqJ7PSpsvPmNKAXXd+rBAw6pQ
 X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
  fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
  helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,27 +112,20 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Cancelling a format operation neglects to set iocb->ret as well as
-clearing the iocb->aiocb after cancelling the underlying aiocb.
+Make sure that iocb->aiocb is NULL'ed when cancelling.
 
-Fix this.
-
-Fixes: 3bcf26d3d619 ("hw/nvme: reimplement format nvm to allow cancellation")
+Fixes: 38f4ac65ac88 ("hw/nvme: reimplement flush to allow cancellation")
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/nvme/ctrl.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 918af03d32be..819c02067191 100644
+index 819c02067191..fe748fc18a2e 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -5762,8 +5762,11 @@ static void nvme_format_cancel(BlockAIOCB *aiocb)
- {
-     NvmeFormatAIOCB *iocb = container_of(aiocb, NvmeFormatAIOCB, common);
+@@ -3176,6 +3176,7 @@ static void nvme_flush_cancel(BlockAIOCB *acb)
  
-+    iocb->ret = -ECANCELED;
-+
      if (iocb->aiocb) {
          blk_aio_cancel_async(iocb->aiocb);
 +        iocb->aiocb = NULL;
