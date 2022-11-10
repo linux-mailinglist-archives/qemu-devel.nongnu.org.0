@@ -2,61 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09918624298
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 13:53:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66EB06242A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 13:55:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot72y-00044o-1l; Thu, 10 Nov 2022 07:52:45 -0500
+	id 1ot75P-0005kW-LS; Thu, 10 Nov 2022 07:55:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot72o-00044C-3B
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:52:34 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1ot75B-0005ic-J9
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:55:05 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot72m-0007VH-Ol
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:52:33 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1ot759-0001Z9-OG
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:55:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668084751;
+ s=mimecast20190719; t=1668084898;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yt3kIUE40aFmrB/WJw24YkSi3cH7sKtl0qiAtyDPQSc=;
- b=i7FVHAeFyNfxUVK+kGaWzG0nGDapDNby4egc/6B679cyrqEGfim8UAiKxqTkcVWFq+mzRU
- VOVUCh1/RKwPuzSbVLCAFK/jV5l2TjkDZwFXDdDqMDsThbf4HjBzwLwLLTTPHNLky2Untp
- H8veNjwUKQwBLUXYW7irkjilLjep6b8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-67-USV8hlDjPRCIXRQ1j5RgZg-1; Thu, 10 Nov 2022 07:52:30 -0500
-X-MC-Unique: USV8hlDjPRCIXRQ1j5RgZg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0F2C21C05AAB;
- Thu, 10 Nov 2022 12:52:30 +0000 (UTC)
-Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 166302166B29;
- Thu, 10 Nov 2022 12:52:28 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Jason Wang <jasowang@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, pbonzini@redhat.com,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v2 3/3] net: Replace "Supported NIC models" with "Available
- NIC models"
-Date: Thu, 10 Nov 2022 13:52:24 +0100
-Message-Id: <20221110125224.99596-4-thuth@redhat.com>
-In-Reply-To: <20221110125224.99596-1-thuth@redhat.com>
-References: <20221110125224.99596-1-thuth@redhat.com>
+ bh=kv5D6nGeZeuA43cQkawKbkRfxQtTJUdYYzC/bcuYvc0=;
+ b=X5M1hE5GkzGOsnmoTsyjALDnYjyp3eH2Rz8KW0QLvUvrxA++qdiGdguEMQtlY5Y3JckwM4
+ K2Kdb5Oed/10gN1yGWI3g3IZCIa/ySP/IznOttiDNWWOOowSJNjGZBuiISXJOlL5DtVRY5
+ JueYZJupzZKOyXHKprLD9Yl8OQiHvs8=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-149-aTG8i7NNNaeWCXzeJm7edw-1; Thu, 10 Nov 2022 07:54:57 -0500
+X-MC-Unique: aTG8i7NNNaeWCXzeJm7edw-1
+Received: by mail-pl1-f200.google.com with SMTP id
+ n12-20020a170902e54c00b00188515e81a6so1316917plf.23
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 04:54:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kv5D6nGeZeuA43cQkawKbkRfxQtTJUdYYzC/bcuYvc0=;
+ b=z75l4Kamz6Hlj645OWPGfOpGqBN4Z4nMVztynxy9wnL3jREr/KWUVk3ydRMsCumX4e
+ npxIuB6M+Tcaws8SGNBgpFqvVmGPXx7kwaF1jj1Hf9hx2WZlWHg0D2eqedj37gi1zBM5
+ WBa5bQxhOz7wch08doWfgZrViQ63kqYZfWRj/NL5PcHNxKVAvFFVwtzuQcSSo2Xyp0Qr
+ Tr+BdqwmFXiefTH1xWWtxcSwTWByInwMEDLDlBhyMAjV2doMKYy+t8tcLt3RlEfajpVE
+ AgTO4Ikx3WZhcJlcmwQnVkZxwQK3prNF961J1MJixTrV1SW/dbZ1nGzXk9LpG0nJgpHj
+ L9mA==
+X-Gm-Message-State: ACrzQf2WRlfVPO/4Cu75NJ+eOxC/JeNiA0ZFHvm3MpF/LrlToOebXTCb
+ TPFheb/910ccs3LIBj7zM+C7b5DEzPJD5r0tXeBvCevATImKUKHhxWgfAbKBQ6qGtJ9x2MjIkCW
+ ZkrV9Wx7wLl98K9mMupcKPsqdgtQ4kb8=
+X-Received: by 2002:a17:902:ce82:b0:187:3591:edac with SMTP id
+ f2-20020a170902ce8200b001873591edacmr48415181plg.153.1668084896463; 
+ Thu, 10 Nov 2022 04:54:56 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5Cm0JGbxU9riW7wMxVo0gNnoX6jBW7PsAWVyfOuZl1wzOGsVVTjmJX6t9u+i577FFLTl11gxgK8m4ELOLS+NY=
+X-Received: by 2002:a17:902:ce82:b0:187:3591:edac with SMTP id
+ f2-20020a170902ce8200b001873591edacmr48415155plg.153.1668084896156; Thu, 10
+ Nov 2022 04:54:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+References: <20221108170755.92768-1-eperezma@redhat.com>
+ <20221108170755.92768-2-eperezma@redhat.com>
+ <CACGkMEtvbSbsNZQV5RB1yyNzpam4QezdJ-f75nh4ToMJU=KYQQ@mail.gmail.com>
+In-Reply-To: <CACGkMEtvbSbsNZQV5RB1yyNzpam4QezdJ-f75nh4ToMJU=KYQQ@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 10 Nov 2022 13:54:20 +0100
+Message-ID: <CAJaqyWdf-A8xEDVyX9f6y3FZhyp9bYMnuFU2jWFStCCvVNkDTA@mail.gmail.com>
+Subject: Re: [PATCH v6 01/10] vdpa: Use v->shadow_vqs_enabled in
+ vhost_vdpa_svqs_start & stop
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Parav Pandit <parav@mellanox.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Gautam Dawar <gdawar@xilinx.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, 
+ Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Cornelia Huck <cohuck@redhat.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, kvm@vger.kernel.org, 
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,31 +105,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Just because a NIC model is compiled into the QEMU binary does not
-necessary mean that it can be used with each and every machine.
-So let's rather talk about "available" models instead of "supported"
-models, just to avoid confusion.
+On Thu, Nov 10, 2022 at 6:22 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Wed, Nov 9, 2022 at 1:08 AM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
+rote:
+> >
+> > This function used to trust in v->shadow_vqs !=3D NULL to know if it mu=
+st
+> > start svq or not.
+> >
+> > This is not going to be valid anymore, as qemu is going to allocate svq
+> > unconditionally (but it will only start them conditionally).
+>
+> It might be a waste of memory if we did this. Any reason for this?
+>
 
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- net/net.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Well, it's modelled after vhost_vdpa notifier member [1].
 
-diff --git a/net/net.c b/net/net.c
-index cdd3ebc515..5d96c8858f 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -941,7 +941,7 @@ int qemu_show_nic_models(const char *arg, const char *const *models)
-         return 0;
-     }
- 
--    printf("Supported NIC models:\n");
-+    printf("Available NIC models:\n");
-     for (i = 0 ; models[i]; i++) {
-         printf("%s\n", models[i]);
-     }
--- 
-2.31.1
+But sure we can reduce the memory usage if SVQ is not used. The first
+function that needs it is vhost_set_vring_kick. But I think it is not
+a good function to place the delayed allocation.
+
+Would it work to move the allocation to vhost_set_features vhost op?
+It seems unlikely to me to call callbacks that can affect SVQ earlier
+than that one. Or maybe to create a new one and call it the first on
+vhost.c:vhost_dev_start?
+
+Thanks!
+
+[1] The notifier member already allocates VIRTIO_QUEUE_MAX
+VhostVDPAHostNotifier for each vhost_vdpa, It is easy to reduce at
+least to the number of virtqueues on a vhost_vdpa. Should I send a
+patch for this one?
+
+
+> Thanks
+>
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >  hw/virtio/vhost-vdpa.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 7468e44b87..7f0ff4df5b 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -1029,7 +1029,7 @@ static bool vhost_vdpa_svqs_start(struct vhost_de=
+v *dev)
+> >      Error *err =3D NULL;
+> >      unsigned i;
+> >
+> > -    if (!v->shadow_vqs) {
+> > +    if (!v->shadow_vqs_enabled) {
+> >          return true;
+> >      }
+> >
+> > @@ -1082,7 +1082,7 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev=
+ *dev)
+> >  {
+> >      struct vhost_vdpa *v =3D dev->opaque;
+> >
+> > -    if (!v->shadow_vqs) {
+> > +    if (!v->shadow_vqs_enabled) {
+> >          return;
+> >      }
+> >
+> > --
+> > 2.31.1
+> >
+>
 
 
