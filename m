@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6526B623F16
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 10:54:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8159D623F17
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 10:54:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot4Fv-0003nh-MY; Thu, 10 Nov 2022 04:53:56 -0500
+	id 1ot4GP-0003zZ-BL; Thu, 10 Nov 2022 04:54:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ot4Ft-0003nK-2F
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:53:53 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ot4GK-0003yX-So
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:54:21 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ot4Fq-0004pW-GV
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:53:51 -0500
-Received: by mail-wr1-x429.google.com with SMTP id g12so1434592wrs.10
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 01:53:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ot4GJ-0005K7-Ay
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:54:20 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ r203-20020a1c44d4000000b003cfa97c05cdso1270974wma.4
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 01:54:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=gRbqk1kXDPO//q/XNHuQaq4+pZmCl31ECIpw7PO202A=;
- b=tbRoEvlBNKhUAdS2WqhycLB4vVVifiDcU7fBdJ4eVR/qu4FZ6U0XW90WzLjkiFFakT
- efOD/V7+l1BKEJyZBEvUpO3TVQq0w/uC5Cwkyo0IIzAKOOlHs05vlJZwd2iztVgWZxWu
- n+rx3TTCpJZbU27nGrvrNwCTJn4TJ0yc3wWprKXtND2J3QXrGHDocGwdOFLOEdf3JFHJ
- mN4zfTellLZSrucjDuGcKawm8IrlEMNbULANdLHy701WfW7i/Q4G3+hlW10C6fb+XZds
- LAz/rfFRs3GYOw6jZYYmFQhubX24Ac6frMw6KJm3fgAWKpimJJlwQqKdBNKahILKE/PU
- LAHg==
+ bh=REgkQxRARMi48PfmAasEjKYo7kp4BFH2kurz6rFvCyc=;
+ b=kBOGFkoWqkNWwobuRqxBEdwXWcNXASzsYQM50EJsMNiDBCMqnTti+2iqUDo5Ss/NSr
+ 7u5+vxC5gIgIGqdpn3zL8Z5tgeJqAwjsxc/w0lD7Igyl85Wl7ylIh3HSeYjd4tBa0M1i
+ DEMKuI8i6BA6P+74EYDrFw5djsg+DFqAMnfGF9XRZ2JUKPi63zkrV4vxBlOKqIhrSiBe
+ fjX8BLsBXAw25baEiBKlfIcv8uBwHR2dOh/sjz/JhVWoVjh4tm8gHLv1gb84/GRfaH7s
+ pn6o57SLPZaMPc9irjEJzbF7rifVqBEuL7MxymqV2mwfTSiHu3uR0tmNz+8/vRPQAw9v
+ v+DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gRbqk1kXDPO//q/XNHuQaq4+pZmCl31ECIpw7PO202A=;
- b=PfK7u7XeZbFb+CfbR1dwKh2g2F9hE1prfmyPU8PD8CqUBVmhTPGiwppim5mMrpJpu6
- TpRg6x1SaFTYmyKMR0rKiuHv7x3rHxI8yPZeImBvbNgx581bYB1MU51/BPHV6OoskdV9
- 1sDtElEZMCvYckAv/RuzpilH0OJ4x8hIj1opqNcDmr9l2Z2PFx7uV/629hCdKzlfRi/F
- g7Ml8qaVQZTj1PuO3H+RBzF/abPptLA+tJsfuWRND0pX70Msi2tUMhJF9JD91Hhu90Jd
- CHZB3oe4dgGAcYmM/DftTN4a6cyBk+9nC9hCHzFKhpw8RIP5c6x5TMiF4Nh3OZLRjJGM
- zFyQ==
-X-Gm-Message-State: ACrzQf1/+5aJkTGNiIY9EuJBBshPB+wRlK3Xl35yuDOp3kp/plvbmRkC
- kK9Ru82FJQr0sgbLv5n9YRoBRw==
-X-Google-Smtp-Source: AMsMyM55HadIN2timXdooQqMqK6Y1w3k6krdJ/qI0eUpUGbGrZXXcnETsrAjnHdanUcO0JAuzmxtlQ==
-X-Received: by 2002:adf:a2dc:0:b0:238:3e97:7901 with SMTP id
- t28-20020adfa2dc000000b002383e977901mr24740226wra.323.1668074028873; 
- Thu, 10 Nov 2022 01:53:48 -0800 (PST)
+ bh=REgkQxRARMi48PfmAasEjKYo7kp4BFH2kurz6rFvCyc=;
+ b=pBEsdeGFV3Yb3vAQ21wRkXep0Nra7ZA68cLvqMdPdH0EpyKumYsAj/JvFxJw54ZvPK
+ MoNp69c15wopn2udsPryOjxj8/s5DNCeWVLWFr7+IUaT1aulEZeO6589DXvOPj49iD1o
+ ni3VdXxQuiK3pwK+s0QpqHIxEwDJyLXIaxsekpwGvQ/aomFElcxvvzk2T/k93sTqGjQ7
+ ZceWGUKMwWGXcW7mPCM/s0VrH9PQa9a+7F0mk539XHICQMV2PQXLiywyQHxjHULhJLBI
+ KB7IQKLiSKki/C+BInRkKdPAdMynvuarvY5W9trhxxBxIaCoBDM4dpmB5cSzVJe87Ag0
+ P1XQ==
+X-Gm-Message-State: ACrzQf2yBu4vjYhM+Ua2maiu4q43IXv6/9RU9ZQc4atXDTz6uEK6G9GI
+ qipVomBaj3s/bMy2r+XvKQ+FHg==
+X-Google-Smtp-Source: AMsMyM7RkfdZ8wFjF4jJLRQd33XxaBT6MQSHnznsuaoS959IlczaymDON4EGf8cdvSTv7V2uaGMmlQ==
+X-Received: by 2002:a7b:cbc1:0:b0:3c6:c013:9345 with SMTP id
+ n1-20020a7bcbc1000000b003c6c0139345mr1009276wmi.172.1668074056740; 
+ Thu, 10 Nov 2022 01:54:16 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- v2-20020adfedc2000000b00228daaa84aesm15408377wro.25.2022.11.10.01.53.48
+ l18-20020a05600c1d1200b003b95ed78275sm4984593wms.20.2022.11.10.01.54.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 01:53:48 -0800 (PST)
-Message-ID: <b408f286-2262-480e-01d7-230240bc743c@linaro.org>
-Date: Thu, 10 Nov 2022 10:53:47 +0100
+ Thu, 10 Nov 2022 01:54:16 -0800 (PST)
+Message-ID: <a769c3cf-2b7a-acaa-db5b-4808eb64c351@linaro.org>
+Date: Thu, 10 Nov 2022 10:54:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.1
 Subject: Re: [PATCH for-7.2 v2 2/6] hw/nvme: fix cancellation of format
  operations
 Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
 To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
  Klaus Jensen <k.jensen@samsung.com>
 References: <20221110070523.36290-1-its@irrelevant.dk>
  <20221110070523.36290-3-its@irrelevant.dk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221110070523.36290-3-its@irrelevant.dk>
+ <b408f286-2262-480e-01d7-230240bc743c@linaro.org>
+In-Reply-To: <b408f286-2262-480e-01d7-230240bc743c@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,36 +95,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/11/22 08:05, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
+On 10/11/22 10:53, Philippe Mathieu-Daudé wrote:
+> On 10/11/22 08:05, Klaus Jensen wrote:
+>> From: Klaus Jensen <k.jensen@samsung.com>
+>>
+>> Cancelling a format operation neglects to set iocb->ret as well as
+>> clearing the iocb->aiocb after cancelling the underlying aiocb.
+>>
+>> Fix this.
+>>
+>> Fixes: 3bcf26d3d619 ("hw/nvme: reimplement format nvm to allow 
+>> cancellation")
+>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>> ---
+>>   hw/nvme/ctrl.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>> index 918af03d32be..819c02067191 100644
+>> --- a/hw/nvme/ctrl.c
+>> +++ b/hw/nvme/ctrl.c
+>> @@ -5762,8 +5762,11 @@ static void nvme_format_cancel(BlockAIOCB *aiocb)
+>>   {
+>>       NvmeFormatAIOCB *iocb = container_of(aiocb, NvmeFormatAIOCB, 
+>> common);
+>> +    iocb->ret = -ECANCELED;
+>> +
+>>       if (iocb->aiocb) {
+>>           blk_aio_cancel_async(iocb->aiocb);
+>> +        iocb->aiocb = NULL;
+>>       }
+>>   }
 > 
-> Cancelling a format operation neglects to set iocb->ret as well as
-> clearing the iocb->aiocb after cancelling the underlying aiocb.
-> 
-> Fix this.
-> 
-> Fixes: 3bcf26d3d619 ("hw/nvme: reimplement format nvm to allow cancellation")
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->   hw/nvme/ctrl.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 918af03d32be..819c02067191 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -5762,8 +5762,11 @@ static void nvme_format_cancel(BlockAIOCB *aiocb)
->   {
->       NvmeFormatAIOCB *iocb = container_of(aiocb, NvmeFormatAIOCB, common);
->   
-> +    iocb->ret = -ECANCELED;
-> +
->       if (iocb->aiocb) {
->           blk_aio_cancel_async(iocb->aiocb);
-> +        iocb->aiocb = NULL;
->       }
->   }
->   
+> What about nvme_flush_cancel()?
 
-What about nvme_flush_cancel()?
+Ah, this is what the next patch fixes...
 
