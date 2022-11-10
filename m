@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E61F623B40
+	by mail.lfdr.de (Postfix) with ESMTPS id C26BB623B41
 	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 06:30:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot07H-00029R-Ue; Thu, 10 Nov 2022 00:28:43 -0500
+	id 1ot08W-0003Au-Gw; Thu, 10 Nov 2022 00:30:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ot07G-00029I-Be
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 00:28:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1ot08T-0003AV-I4
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 00:29:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ot07E-0005im-K3
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 00:28:42 -0500
+ id 1ot08R-000718-VN
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 00:29:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668058119;
+ s=mimecast20190719; t=1668058195;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FZ9yNZRWrzRVhGuUcnX8i46nuRNhbHXIg73hJkv2J6c=;
- b=hdVx6xiIgl5fUZuWGyyUk0L5pVavpMdwx4jGzNDcqZcu3JGZibJymuaVKkgnfxV3wEB8WQ
- p+/i+ntHxmpOLIIBDvZJJ14iqv/mdeGO9oeQ01q0LmThZDxZ7CVFphcjjSiznfduWSaJoQ
- emLnzl9fC5GuiUg1ojBO8O3BwxmExNk=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MIhAVnv+/+S3krzuCVUj1n9SXlWXtXtQLWkbB7aRrMc=;
+ b=X4qqQmLtJ25oXlE4q1xo7uJcRJ4lfHUHWlPBCsg9r58xBgSaycHzWHus8kR4avTiZLdIgB
+ dhGk6B3S6rfopU862b+YcI3WVD8+kXybpSiDUlMyoY0YvOpngVtzzyPi/grlWWAYHxwPLw
+ 6DwaLZyA80MGrGWfvXXLBr/ERNV/oI4=
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
+ [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-402-shy7DZeoPtyN2f6M-r9q1w-1; Thu, 10 Nov 2022 00:28:38 -0500
-X-MC-Unique: shy7DZeoPtyN2f6M-r9q1w-1
-Received: by mail-oo1-f72.google.com with SMTP id
- v10-20020a4a860a000000b00480b3e2b5afso289037ooh.12
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 21:28:37 -0800 (PST)
+ us-mta-139-1myyg7N_PEaWq2v4p9nw3A-1; Thu, 10 Nov 2022 00:29:46 -0500
+X-MC-Unique: 1myyg7N_PEaWq2v4p9nw3A-1
+Received: by mail-oa1-f71.google.com with SMTP id
+ 586e51a60fabf-13ba8947e4cso581497fac.6
+ for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 21:29:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FZ9yNZRWrzRVhGuUcnX8i46nuRNhbHXIg73hJkv2J6c=;
- b=TIYeSkIvCMr3bEUEM7rw2DzMQCVwggiJB9FjqFAq7yVaexax4pX7YT/841uxOD6J/T
- cXgvuBrjWtOFBeeyPo5XZz3vUJGF/69vzOvyfZgUlF/6GE0N4NKCpjPuLvOn1V9whqct
- l2Bgim+2gybgvQgDgOYlYwz7WLHQzRHlecV3QMjYj34fXLBMOBnU0S/UFtYFdkjvtVyK
- Mkkk3QcPCXeb8CU0CK4hZ/fCmbDbe0RtbgQq64YNScdTDusK1Eq3P7JcXus565bBQnJH
- JdOWwX94UcaMUCjuM8n0hhUufr7Z4t20ovC9x2OGVgaKW4YjltQqFiCcK9It9U7BTrkV
- SBNg==
-X-Gm-Message-State: ACrzQf3ggqBzLYuCFXEAEZ7NkxsSNjcltRSfc7r526kYi+mB6gDgRWDB
- iv2VjceJY3KaqCsBLDehP2takikK2ieo4oyR2RxGo/52bGCUheog99Q9gcC89TBlo3NnKJR7w+5
- gwXYjW8+buGYn6rtnqMzYoC9Dv8yqGEw=
+ bh=MIhAVnv+/+S3krzuCVUj1n9SXlWXtXtQLWkbB7aRrMc=;
+ b=uPkLFnh3iEbtdZFUsNXv99SGArc8JfZFo8gDNhxuS6hmPlcbp5At2h52MWpVfv4Z+0
+ vM5MpYpF4h6d3rq9s5aTvMeOoeZT2LIyhxh/9eQjoCRu79n3L5lPxaZLQMZgmpHO00F0
+ NsT2LmTcHN6XJIttKlmDKXjrySvEftkdFVB95177u9wIlH0nX1oU1dWg+RJjPaTO6Jaw
+ /8lPj/G9RhxacwslMJ2XnwTxtzCiTdLcd7sBKEn/cR/zHnyWg4IYf0AQNAP/DRfQtxiZ
+ oQkq9sb3sUgZ5w2h9yhlDe3H7XsYS6Kr13VINGXjxHgmPpfDh3RvoGBNlBqWCMRkFtSx
+ ea0w==
+X-Gm-Message-State: ACrzQf1+xbnqvAIdj/REr1nKZayVdH2x40JmCCMDhxpOHnYjRnllBIkJ
+ NsIG4PlfA9DqPziPQxl6iqcJK+4gHmhSIcjvQ/XvLYB1tzDvksiJGyue63j3JiZ2yqTGIlkt5uP
+ 6N6ib3IU6hAy4tAAQGTldMCAg0SZ8KhU=
 X-Received: by 2002:a05:6871:54e:b0:13b:29b7:e2e8 with SMTP id
- t14-20020a056871054e00b0013b29b7e2e8mr45848520oal.35.1668058117445; 
- Wed, 09 Nov 2022 21:28:37 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5B16fN8VF8lBDbDb2ll+gYuLLDYt1XE0XjaaKO1pEu2jEE1ZLsIgbSLNm2JA0dpBB7rBsdmF3wknx0vsGViYM=
+ t14-20020a056871054e00b0013b29b7e2e8mr45849457oal.35.1668058185485; 
+ Wed, 09 Nov 2022 21:29:45 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5hvq2a3d534EXhf5VZh8Fa4rg/SX3V11YbzbGDsvCqCrH5WxHXv9/kAXS+loSnWVxVAvFpzJXGcRagOwroa2Y=
 X-Received: by 2002:a05:6871:54e:b0:13b:29b7:e2e8 with SMTP id
- t14-20020a056871054e00b0013b29b7e2e8mr45848507oal.35.1668058117216; Wed, 09
- Nov 2022 21:28:37 -0800 (PST)
+ t14-20020a056871054e00b0013b29b7e2e8mr45849448oal.35.1668058185297; Wed, 09
+ Nov 2022 21:29:45 -0800 (PST)
 MIME-Version: 1.0
 References: <20221108170755.92768-1-eperezma@redhat.com>
- <20221108170755.92768-4-eperezma@redhat.com>
-In-Reply-To: <20221108170755.92768-4-eperezma@redhat.com>
+ <20221108170755.92768-5-eperezma@redhat.com>
+In-Reply-To: <20221108170755.92768-5-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 10 Nov 2022 13:28:24 +0800
-Message-ID: <CACGkMEvPeJhjB=CV5-XagUw7urpjRgLa+F9KB2qpd3s_kjEZ8g@mail.gmail.com>
-Subject: Re: [PATCH v6 03/10] vhost: Allocate SVQ device file descriptors at
- device start
+Date: Thu, 10 Nov 2022 13:29:33 +0800
+Message-ID: <CACGkMEvpXdAfSLXtpEsjsrRQ_iMjLk_PjmYh7p9HpuDpDvH_UA@mail.gmail.com>
+Subject: Re: [PATCH v6 04/10] vdpa: add vhost_vdpa_net_valid_svq_features
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Cc: qemu-devel@nongnu.org, Parav Pandit <parav@mellanox.com>, 
  Stefan Hajnoczi <stefanha@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>, 
@@ -80,7 +79,7 @@ Cc: qemu-devel@nongnu.org, Parav Pandit <parav@mellanox.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -107,164 +106,69 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On Wed, Nov 9, 2022 at 1:08 AM Eugenio P=C3=A9rez <eperezma@redhat.com> wro=
 te:
 >
-> The next patches will start control SVQ if possible. However, we don't
-> know if that will be possible at qemu boot anymore.
->
-> Delay device file descriptors until we know it at device start.
+> It will be reused at vdpa device start so let's extract in its own functi=
+on
 >
 > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> ---
 
 Acked-by: Jason Wang <jasowang@redhat.com>
 
 Thanks
 
-> ---
->  hw/virtio/vhost-shadow-virtqueue.c | 31 ++------------------------
->  hw/virtio/vhost-vdpa.c             | 35 ++++++++++++++++++++++++------
->  2 files changed, 30 insertions(+), 36 deletions(-)
+>  net/vhost-vdpa.c | 26 +++++++++++++++++---------
+>  1 file changed, 17 insertions(+), 9 deletions(-)
 >
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-=
-virtqueue.c
-> index 264ddc166d..3b05bab44d 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> @@ -715,43 +715,18 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
->   * @iova_tree: Tree to perform descriptors translations
->   * @ops: SVQ owner callbacks
->   * @ops_opaque: ops opaque pointer
-> - *
-> - * Returns the new virtqueue or NULL.
-> - *
-> - * In case of error, reason is reported through error_report.
->   */
->  VhostShadowVirtqueue *vhost_svq_new(VhostIOVATree *iova_tree,
->                                      const VhostShadowVirtqueueOps *ops,
->                                      void *ops_opaque)
->  {
-> -    g_autofree VhostShadowVirtqueue *svq =3D g_new0(VhostShadowVirtqueue=
-, 1);
-> -    int r;
-> -
-> -    r =3D event_notifier_init(&svq->hdev_kick, 0);
-> -    if (r !=3D 0) {
-> -        error_report("Couldn't create kick event notifier: %s (%d)",
-> -                     g_strerror(errno), errno);
-> -        goto err_init_hdev_kick;
-> -    }
-> -
-> -    r =3D event_notifier_init(&svq->hdev_call, 0);
-> -    if (r !=3D 0) {
-> -        error_report("Couldn't create call event notifier: %s (%d)",
-> -                     g_strerror(errno), errno);
-> -        goto err_init_hdev_call;
-> -    }
-> +    VhostShadowVirtqueue *svq =3D g_new0(VhostShadowVirtqueue, 1);
->
->      event_notifier_init_fd(&svq->svq_kick, VHOST_FILE_UNBIND);
->      svq->iova_tree =3D iova_tree;
->      svq->ops =3D ops;
->      svq->ops_opaque =3D ops_opaque;
-> -    return g_steal_pointer(&svq);
-> -
-> -err_init_hdev_call:
-> -    event_notifier_cleanup(&svq->hdev_kick);
-> -
-> -err_init_hdev_kick:
-> -    return NULL;
-> +    return svq;
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index e370ecb8eb..d3b1de481b 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -106,6 +106,22 @@ VHostNetState *vhost_vdpa_get_vhost_net(NetClientSta=
+te *nc)
+>      return s->vhost_net;
 >  }
 >
->  /**
-> @@ -763,7 +738,5 @@ void vhost_svq_free(gpointer pvq)
->  {
->      VhostShadowVirtqueue *vq =3D pvq;
->      vhost_svq_stop(vq);
-> -    event_notifier_cleanup(&vq->hdev_kick);
-> -    event_notifier_cleanup(&vq->hdev_call);
->      g_free(vq);
->  }
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 7f0ff4df5b..3df2775760 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -428,15 +428,11 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hd=
-ev, struct vhost_vdpa *v,
->
->      shadow_vqs =3D g_ptr_array_new_full(hdev->nvqs, vhost_svq_free);
->      for (unsigned n =3D 0; n < hdev->nvqs; ++n) {
-> -        g_autoptr(VhostShadowVirtqueue) svq;
-> +        VhostShadowVirtqueue *svq;
->
->          svq =3D vhost_svq_new(v->iova_tree, v->shadow_vq_ops,
->                              v->shadow_vq_ops_opaque);
-> -        if (unlikely(!svq)) {
-> -            error_setg(errp, "Cannot create svq %u", n);
-> -            return -1;
-> -        }
-> -        g_ptr_array_add(shadow_vqs, g_steal_pointer(&svq));
-> +        g_ptr_array_add(shadow_vqs, svq);
->      }
->
->      v->shadow_vqs =3D g_steal_pointer(&shadow_vqs);
-> @@ -864,11 +860,23 @@ static int vhost_vdpa_svq_set_fds(struct vhost_dev =
-*dev,
->      const EventNotifier *event_notifier =3D &svq->hdev_kick;
->      int r;
->
-> +    r =3D event_notifier_init(&svq->hdev_kick, 0);
-> +    if (r !=3D 0) {
-> +        error_setg_errno(errp, -r, "Couldn't create kick event notifier"=
-);
-> +        goto err_init_hdev_kick;
+> +static bool vhost_vdpa_net_valid_svq_features(uint64_t features, Error *=
+*errp)
+> +{
+> +    uint64_t invalid_dev_features =3D
+> +        features & ~vdpa_svq_device_features &
+> +        /* Transport are all accepted at this point */
+> +        ~MAKE_64BIT_MASK(VIRTIO_TRANSPORT_F_START,
+> +                         VIRTIO_TRANSPORT_F_END - VIRTIO_TRANSPORT_F_STA=
+RT);
+> +
+> +    if (invalid_dev_features) {
+> +        error_setg(errp, "vdpa svq does not work with features 0x%" PRIx=
+64,
+> +                   invalid_dev_features);
 > +    }
 > +
-> +    r =3D event_notifier_init(&svq->hdev_call, 0);
-> +    if (r !=3D 0) {
-> +        error_setg_errno(errp, -r, "Couldn't create call event notifier"=
-);
-> +        goto err_init_hdev_call;
-> +    }
+> +    return !invalid_dev_features;
+> +}
 > +
->      file.fd =3D event_notifier_get_fd(event_notifier);
->      r =3D vhost_vdpa_set_vring_dev_kick(dev, &file);
->      if (unlikely(r !=3D 0)) {
->          error_setg_errno(errp, -r, "Can't set device kick fd");
-> -        return r;
-> +        goto err_init_set_dev_fd;
->      }
+>  static int vhost_vdpa_net_check_device_id(struct vhost_net *net)
+>  {
+>      uint32_t device_id;
+> @@ -675,15 +691,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const =
+char *name,
+>      if (opts->x_svq) {
+>          struct vhost_vdpa_iova_range iova_range;
 >
->      event_notifier =3D &svq->hdev_call;
-> @@ -876,8 +884,18 @@ static int vhost_vdpa_svq_set_fds(struct vhost_dev *=
-dev,
->      r =3D vhost_vdpa_set_vring_dev_call(dev, &file);
->      if (unlikely(r !=3D 0)) {
->          error_setg_errno(errp, -r, "Can't set device call fd");
-> +        goto err_init_set_dev_fd;
->      }
->
-> +    return 0;
-> +
-> +err_init_set_dev_fd:
-> +    event_notifier_set_handler(&svq->hdev_call, NULL);
-> +
-> +err_init_hdev_call:
-> +    event_notifier_cleanup(&svq->hdev_kick);
-> +
-> +err_init_hdev_kick:
->      return r;
->  }
->
-> @@ -1089,6 +1107,9 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *=
-dev)
->      for (unsigned i =3D 0; i < v->shadow_vqs->len; ++i) {
->          VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs, i=
-);
->          vhost_vdpa_svq_unmap_rings(dev, svq);
-> +
-> +        event_notifier_cleanup(&svq->hdev_kick);
-> +        event_notifier_cleanup(&svq->hdev_call);
->      }
->  }
+> -        uint64_t invalid_dev_features =3D
+> -            features & ~vdpa_svq_device_features &
+> -            /* Transport are all accepted at this point */
+> -            ~MAKE_64BIT_MASK(VIRTIO_TRANSPORT_F_START,
+> -                             VIRTIO_TRANSPORT_F_END - VIRTIO_TRANSPORT_F=
+_START);
+> -
+> -        if (invalid_dev_features) {
+> -            error_setg(errp, "vdpa svq does not work with features 0x%" =
+PRIx64,
+> -                       invalid_dev_features);
+> +        if (!vhost_vdpa_net_valid_svq_features(features, errp)) {
+>              goto err_svq;
+>          }
 >
 > --
 > 2.31.1
