@@ -2,86 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778C1623BD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 07:29:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DEFA623BC2
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 07:25:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot10p-0002YU-TP; Thu, 10 Nov 2022 01:26:07 -0500
+	id 1ot0ym-0000Ke-C4; Thu, 10 Nov 2022 01:24:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ot10k-0002Rl-3k
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 01:26:03 -0500
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ot10h-0001cM-Ho
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 01:26:01 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id b62so895230pgc.0
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 22:25:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AC+ag6DjlMRVYIRoMVgQ7eyLCeIppVPRSyLkAkRwpvs=;
- b=kK/C+42LsThvwCQFrkDc/mlyygvLhVi9rXrMi4AupdNcFwIL30l3TblGgXUouT65zf
- kT43Tl9oVyUNICttiAsetLCSC+qT12RAG8HKz7jO7V75tfAIwLD+Re3JQ84qB/an3OtE
- aJOlIHjJDP/MqI7rlgkn4s2x19IWo1Qrpp26ypAWJMolq12i/gXCby/cUnxuFfBAP332
- KOz4Ht378jQLub9/0AoTLxVjV8NdOY3CbQAwfPsDzuji/wvn0Hgr516LxD+OQDA616oN
- EdXwVq9uN1Utc3uH7hACMMEzvWciWyEJC2rVvLgxFTbRw9xaM9hQB6XqDHQ9wFmHlLVj
- iNwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AC+ag6DjlMRVYIRoMVgQ7eyLCeIppVPRSyLkAkRwpvs=;
- b=DzX/xk14nYIwx6M3C7lxdRI6syjFvMdm0Lfk2s64vfAjEMRK87QvSTCMO6UalxPrLs
- gmFsgH+2owl3HXu1X4C1ByrUDxV9U4NQ0krDmKdsKAEXHIL2zLrJiKsKo5n9cCF0AqDK
- MvO/TA+Lp0sxzGBrEvSlhiWK3Sdq7b7tx5pv5T++emK3csWWU3YWEC2yEh4wPs7GSX5U
- ddrHrLmdAPIlOWNA0d4jegR5Pt1yyiHzvxARqCY8ZlvWWNJ2GlICOz+a0ZlXdN3if5Xl
- hXWfU5MuzaP9mUSZi0RnSoEzOaQ7lu46ZMq6/Di7HWTSPlvSRMQbYLVvxU4gxAF98ir/
- R6Bg==
-X-Gm-Message-State: ACrzQf3Z7o0qlZhNddnTbSoLKK1fIYqayN1ctJRdGns6fI3S7WqkmcdQ
- 2JIFWTSQ8YXfYZDYKXAxETr5JbgMFKrclsOj
-X-Google-Smtp-Source: AMsMyM6IAijeGYPaL6noQcBtDCehjnU2U/fk3DnEnRxCrtEsW2uCSqPhMn/t1VbJhcan3XAnB3FzKw==
-X-Received: by 2002:a63:4752:0:b0:439:5dcc:fd78 with SMTP id
- w18-20020a634752000000b004395dccfd78mr52947253pgk.104.1668061557966; 
- Wed, 09 Nov 2022 22:25:57 -0800 (PST)
-Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
- by smtp.gmail.com with ESMTPSA id
- m4-20020a17090ade0400b002108cabbe31sm2289003pjv.9.2022.11.09.22.25.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Nov 2022 22:25:57 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, virtio-fs@redhat.com,
- Yuval Shaia <yuval.shaia.ml@gmail.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Yan Vugenfirer <yan@daynix.com>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 10/10] spice-app: Use qemu_get_runtime_dir()
-Date: Thu, 10 Nov 2022 15:23:29 +0900
-Message-Id: <20221110062329.13363-11-akihiko.odaki@daynix.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ot0yY-0000Hv-RF; Thu, 10 Nov 2022 01:23:46 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1ot0yV-0006oM-I5; Thu, 10 Nov 2022 01:23:46 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id B977F5C00C0;
+ Thu, 10 Nov 2022 01:23:38 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 10 Nov 2022 01:23:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:message-id:mime-version:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1668061418; x=1668147818; bh=FA
+ pDijFXAz6JphGwU8xT8S6hjRiG+tfCHsYo3aNqUlc=; b=ofT6q9KusmXLEE+ztx
+ LHESz7l4N4auggEGixfSA5JPXwDKtZJuDRRfApDljKfSZgbMoZavCn4ChqX+a0tX
+ IHuA5c8f1PNwBPaFYr0dz8sgarfJpokhswkch6jiWYO4HSEMN0/w0AvRTN6czmYO
+ jfMsspkMKyvx5v46xIaueVqAcKszNo6lpeTyENySGEYNeXXob5rGTSwvLZcX93tF
+ 9b6EU5lAtP6UPgK71000FGT7PxxyC91I+Hg6EHvE4RkyxSW6rHv039+FW/yeC48a
+ yGyHUDl08UhsdwQ18N+evisAJsGulQ7IRv2jYVvQITPHcQP/BOrIlNaBugHyVNkL
+ LdTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1668061418; x=1668147818; bh=FApDijFXAz6Jp
+ hGwU8xT8S6hjRiG+tfCHsYo3aNqUlc=; b=Uy1YHcnddbp1yxkji2IMqlNTvz3RL
+ 8sJqdghA0dFq7viA2fJRMYC0suyWvLEuBECJ8hcSPrvzdIp8e2Lc3Qs9nf9/LYfL
+ 5zsR0nQ4E14QZF+DSC0loT+IZa9DMv6p9hg6FV7f/AMCINi1YBmdIiYVmuGdc1te
+ lGlEMuDSqAs3Kc+V1eGHNEHuCb75/NdNru0oLidncuG4a99cKE46NvMxUbHE0I4U
+ U+ho3RygQ3OxfqL7GS+QI6AAJrwS1Gk671xclA8s+EEkZENWx8U90PMcuXfm1193
+ J2CXFWvysA5X7ogMEZ5GIGpi9mDQp5XbvRZaegBYJ89wow82HLYsSpipw==
+X-ME-Sender: <xms:6phsYyGYXGVJwgoqFLPXfRdyTdlbmt_qQTNl-T-dwZr45LRjLEuv0w>
+ <xme:6phsYzWIfH3Tbf-W0XhOar2dLDmxrDwS0U4qdCkyWR6fHKUFucDC3Ty3KhuLyYqs1
+ omv_CZpFBwA3e9C510>
+X-ME-Received: <xmr:6phsY8L0oc6GgGKHhvrjFiGlch1X5PavApyQ41H046JynVUHJgBOhUOoGf7mq-S1WWyjI4YVtGqq6Z--jMKABlnCMBah4PAnNKSXwg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeefgdelhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvfevufffkffotggggfesthekredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepudekvdfgueejvdfgvdefffffhfehiedtieejkeelfedvhfegvddvtdefueekgfeu
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:6phsY8HulqBGfaIkjdnEuTZCtqudRTg35I-rBcw_T94fDb_54lygMw>
+ <xmx:6phsY4XS9K4r-FwaoqhahUloGoBMeqRqiwdCBGWGVRBNTBOtEMtGYg>
+ <xmx:6phsY_O841wZJG34HObeh_si5vXhIvHrnrCI3ZPzvSa2CFPQj-wheA>
+ <xmx:6phsY_StfY3G8bwjlf64bw2txBeoaSMCxfIbRWoXHpkh_VeRpVewGw>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 10 Nov 2022 01:23:36 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PATCH v2 0/2] hw/nvme: errp fixes
+Date: Thu, 10 Nov 2022 07:23:33 +0100
+Message-Id: <20221110062335.18401-1-its@irrelevant.dk>
 X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221110062329.13363-1-akihiko.odaki@daynix.com>
-References: <20221110062329.13363-1-akihiko.odaki@daynix.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=304; i=k.jensen@samsung.com;
+ h=from:subject; bh=F3nlHPkosQL8t1HCWUwlzeqWy3sHX9ulnC+084+5Y9I=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGNsmOYppN6iLUa6KgRvAk1lpgEDFIWyIQmwQWnB
+ OvSP0e6ZP4kBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjbJjmAAoJEE3hrzFtTw3pOI
+ AH/0e/FEiVPMDlY1lVAv21SqRvDtYzxY8Xl8TqPa1UTgOU2+1aDpGL+jmW1Yi2cI0x3uFGGG2yfcHz
+ QyNASWBY7X5hnVCB3gu4NXgHYLhPv3lioQbGuasp1uQBkEUK82ou/ivKq3ubEPfqvPwhvQXK91tzvE
+ gDfsRfIgmwoXuQPov+w0s/bh7D3CJxsi14+m6NMk3SMKlauda0hQ5iKtJKbj2KLFEsY6/U8ET3qiTj
+ zT/1Q4YyfJEud8XTjCi54z5qkx6e22ovED+87ar2UQWymswBapKd0itPxV4s5ksAZSRZrcoB5lGwiZ
+ tav61pSE398nheeJtl8fU8C3Ne2VWoFAPGwqc3
+X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
+ fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::52a;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x52a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,29 +109,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-qemu_get_runtime_dir() provides QEMU-specific fallback of runtime
-directory.
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- ui/spice-app.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Fix a couple of invalid errp usages.
 
-diff --git a/ui/spice-app.c b/ui/spice-app.c
-index 7e71e18da9..feb162baa7 100644
---- a/ui/spice-app.c
-+++ b/ui/spice-app.c
-@@ -145,8 +145,8 @@ static void spice_app_display_early_init(DisplayOptions *opts)
-     atexit(spice_app_atexit);
- 
-     if (qemu_name) {
--        app_dir = g_build_filename(g_get_user_runtime_dir(),
--                                   "qemu", qemu_name, NULL);
-+        g_autofree char *run = qemu_get_runtime_dir();
-+        app_dir = g_build_filename(run, "qemu", qemu_name, NULL);
-         if (g_mkdir_with_parents(app_dir, S_IRWXU) < -1) {
-             error_report("Failed to create directory %s: %s",
-                          app_dir, strerror(errno));
+Klaus Jensen (2):
+  hw/nvme: fix incorrect use of errp/local_err
+  hw/nvme: cleanup error reporting in nvme_init_pci()
+
+ hw/nvme/ctrl.c | 71 +++++++++++++++++++++++---------------------------
+ 1 file changed, 33 insertions(+), 38 deletions(-)
+
 -- 
 2.38.1
 
