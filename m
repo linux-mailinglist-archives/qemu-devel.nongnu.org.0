@@ -2,88 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EA3624A7F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 20:19:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9ECA624A98
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 20:23:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otD54-0001R6-Fw; Thu, 10 Nov 2022 14:19:18 -0500
+	id 1otD8h-00035J-1G; Thu, 10 Nov 2022 14:23:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otD4k-0001Od-Bx
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 14:18:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
+ id 1otD8e-00034b-V1
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 14:23:00 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]
+ helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otD4g-0006t1-ST
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 14:18:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668107934;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PxiaKQ5NQWFDlvoa7YDCSpOuzuef3mGmBJCZ20SYVms=;
- b=U0jlC2lUI1LKGppvk0WdfTh+bR8ay7TQIFBObrrsFYdrurFG8TVWjyH9f6iQwbuZCTGIsG
- ON0858OaCB9RciUQhi0se5iRom+RMQnQHY3KXrdELL+RULfPjfcIzsIBOY47zuO5TUw5Tf
- 8xrLP5ju9QuUtrZn/+5vtbz87m5TWM0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-460-nR36UUiQOh2m1qhjHrvsSQ-1; Thu, 10 Nov 2022 14:18:53 -0500
-X-MC-Unique: nR36UUiQOh2m1qhjHrvsSQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- u20-20020adfc654000000b0022cc05e9119so614617wrg.16
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 11:18:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PxiaKQ5NQWFDlvoa7YDCSpOuzuef3mGmBJCZ20SYVms=;
- b=JcN4ob+EhreNzMhqwlX/agtvPbcT7657ZvRx79x1txiznJS8ZirXDekoZKAPsj7waZ
- fXINiMy225f14jU9s1OlKVD4V1vn8/EThyDv/a4fETFrqr5Uy62gAfSp0a8NyrZaYE3u
- t5lp7LOxn0DHz4waGKsMFdtngf2gOd3oKJw0EsYJ7bnO+gPhyzK/lYmkkeMEqv+oqNmX
- am3xYA4g4mFchcFm/rlpR852yd87JQghsPYafmwtFQfYXNrhlYu6LBztJ8XQGJvkOiea
- YdE03FxdCtJeFjq2gbuRR7nNV8kumdZACSWRH6k00LRTb9DyQNAPfKII6ueMq6YL296q
- FCbQ==
-X-Gm-Message-State: ACrzQf3RWZxfW22NCginBl2iAOCBZDGrkH5EV82lUTtBrBCHaCR3qWTP
- IJPzDMWZI5k7KYuQEGaHWlE8kq4/Rz89TBHIFFtz9F+4Sbi7OPJHSPGKro7+QHF5ZzuBnkLTPQN
- dVFzs4ejaNoGj9X8=
-X-Received: by 2002:a05:600c:3506:b0:3cf:70ac:7039 with SMTP id
- h6-20020a05600c350600b003cf70ac7039mr40356609wmq.145.1668107931893; 
- Thu, 10 Nov 2022 11:18:51 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM5EwtPLip9K1d5j4cwAW2DGFhfG+MmUw1HNVo1pbwXx7kl8JvlS1bYWGCgj0s946HIQgyn7rg==
-X-Received: by 2002:a05:600c:3506:b0:3cf:70ac:7039 with SMTP id
- h6-20020a05600c350600b003cf70ac7039mr40356579wmq.145.1668107931425; 
- Thu, 10 Nov 2022 11:18:51 -0800 (PST)
-Received: from redhat.com ([2.52.3.250]) by smtp.gmail.com with ESMTPSA id
- z3-20020adfe543000000b0023538fb27c1sm16347891wrm.85.2022.11.10.11.18.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 11:18:50 -0800 (PST)
-Date: Thu, 10 Nov 2022 14:18:46 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Weil <sw@weilnetz.de>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Ani Sinha <ani@anisinha.ca>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH for-7.2] Fix several typos in documentation (found by
- codespell)
-Message-ID: <20221110141838-mutt-send-email-mst@kernel.org>
-References: <20221110190825.879620-1-sw@weilnetz.de>
+ (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
+ id 1otD8c-0007pc-HT
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 14:23:00 -0500
+Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTP id B1E9CDA043F;
+ Thu, 10 Nov 2022 20:22:56 +0100 (CET)
+Received: by qemu.weilnetz.de (Postfix, from userid 1000)
+ id 989AB462074; Thu, 10 Nov 2022 20:22:56 +0100 (CET)
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>
+Subject: [RFC: PATCH v2] Add new build targets 'check-spelling' and
+ 'check-spelling-docs'
+Date: Thu, 10 Nov 2022 20:22:55 +0100
+Message-Id: <20221110192255.880576-1-sw@weilnetz.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221110190825.879620-1-sw@weilnetz.de>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=stefan@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,201 +55,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Stefan Weil <sw@weilnetz.de>
+From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 10, 2022 at 08:08:25PM +0100, Stefan Weil wrote:
-> Those typos are in files which are used to generate the QEMU manual.
-> 
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+`make check-spelling` can now be used to get a list of spelling errors.
+It uses the latest version of codespell, a spell checker implemented in Python.
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+'make check-spelling-docs' checks the generated documentation.
 
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+---
 
-> ---
-> 
-> I did not fix memory_region_init_resizeable_ram. That might be done after 7.2.
-> 
-> Stefan
-> 
->  docs/devel/acpi-bits.rst       | 2 +-
->  docs/system/devices/can.rst    | 2 +-
->  hw/scsi/esp.c                  | 6 +++---
->  include/exec/memory.h          | 6 +++---
->  qapi/virtio.json               | 4 ++--
->  qemu-options.hx                | 6 +++---
->  tests/qtest/libqos/qgraph.h    | 2 +-
->  tests/qtest/libqos/virtio-9p.c | 2 +-
->  8 files changed, 15 insertions(+), 15 deletions(-)
-> 
-> diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
-> index c9564d871a..5e22be8ef6 100644
-> --- a/docs/devel/acpi-bits.rst
-> +++ b/docs/devel/acpi-bits.rst
-> @@ -132,7 +132,7 @@ Under ``tests/avocado/`` as the root we have:
->  
->     (a) They are python2.7 based scripts and not python 3 scripts.
->     (b) They are run from within the bios bits VM and is not subjected to QEMU
-> -       build/test python script maintainance and dependency resolutions.
-> +       build/test python script maintenance and dependency resolutions.
->     (c) They need not be loaded by avocado framework when running tests.
->  
->  
-> diff --git a/docs/system/devices/can.rst b/docs/system/devices/can.rst
-> index fe37af8223..24b0d4cf41 100644
-> --- a/docs/system/devices/can.rst
-> +++ b/docs/system/devices/can.rst
-> @@ -169,7 +169,7 @@ and with bitrate switch::
->  
->    cangen can0 -b
->  
-> -The test can be run viceversa, generate messages in the guest system and capture them
-> +The test can be run vice-versa, generate messages in the guest system and capture them
->  in the host one and much more combinations.
->  
->  Links to other resources
-> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index e5b281e836..e52188d022 100644
-> --- a/hw/scsi/esp.c
-> +++ b/hw/scsi/esp.c
-> @@ -515,7 +515,7 @@ static void do_dma_pdma_cb(ESPState *s)
->          } else {
->              /*
->               * Extra message out bytes received: update cmdfifo_cdb_offset
-> -             * and then switch to commmand phase
-> +             * and then switch to command phase
->               */
->              s->cmdfifo_cdb_offset = fifo8_num_used(&s->cmdfifo);
->              s->rregs[ESP_RSTAT] = STAT_TC | STAT_CD;
-> @@ -627,7 +627,7 @@ static void esp_do_dma(ESPState *s)
->          } else {
->              /*
->               * Extra message out bytes received: update cmdfifo_cdb_offset
-> -             * and then switch to commmand phase
-> +             * and then switch to command phase
->               */
->              s->cmdfifo_cdb_offset = fifo8_num_used(&s->cmdfifo);
->              s->rregs[ESP_RSTAT] = STAT_TC | STAT_CD;
-> @@ -738,7 +738,7 @@ static void esp_do_nodma(ESPState *s)
->          } else {
->              /*
->               * Extra message out bytes received: update cmdfifo_cdb_offset
-> -             * and then switch to commmand phase
-> +             * and then switch to command phase
->               */
->              s->cmdfifo_cdb_offset = fifo8_num_used(&s->cmdfifo);
->              s->rregs[ESP_RSTAT] = STAT_TC | STAT_CD;
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 80fa75baa1..91f8a2395a 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -561,7 +561,7 @@ typedef void (*ReplayRamDiscard)(MemoryRegionSection *section, void *opaque);
->   * A #RamDiscardManager coordinates which parts of specific RAM #MemoryRegion
->   * regions are currently populated to be used/accessed by the VM, notifying
->   * after parts were discarded (freeing up memory) and before parts will be
-> - * populated (consuming memory), to be used/acessed by the VM.
-> + * populated (consuming memory), to be used/accessed by the VM.
->   *
->   * A #RamDiscardManager can only be set for a RAM #MemoryRegion while the
->   * #MemoryRegion isn't mapped yet; it cannot change while the #MemoryRegion is
-> @@ -585,7 +585,7 @@ typedef void (*ReplayRamDiscard)(MemoryRegionSection *section, void *opaque);
->   * Listeners are called in multiples of the minimum granularity (unless it
->   * would exceed the registered range) and changes are aligned to the minimum
->   * granularity within the #MemoryRegion. Listeners have to prepare for memory
-> - * becomming discarded in a different granularity than it was populated and the
-> + * becoming discarded in a different granularity than it was populated and the
->   * other way around.
->   */
->  struct RamDiscardManagerClass {
-> @@ -1247,7 +1247,7 @@ void memory_region_init_ram_flags_nomigrate(MemoryRegion *mr,
->                                              Error **errp);
->  
->  /**
-> - * memory_region_init_resizeable_ram:  Initialize memory region with resizeable
-> + * memory_region_init_resizeable_ram:  Initialize memory region with resizable
->   *                                     RAM.  Accesses into the region will
->   *                                     modify memory directly.  Only an initial
->   *                                     portion of this RAM is actually used.
-> diff --git a/qapi/virtio.json b/qapi/virtio.json
-> index 872c7e3623..019d2d1987 100644
-> --- a/qapi/virtio.json
-> +++ b/qapi/virtio.json
-> @@ -321,7 +321,7 @@
->  #          },
->  #          "backend-features": {
->  #              "dev-features": [
-> -#                  "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features negotation supported",
-> +#                  "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features negotiation supported",
->  #                  "VIRTIO_NET_F_GSO: Handling GSO-type packets supported",
->  #                  "VIRTIO_NET_F_CTRL_MAC_ADDR: MAC address set through control channel",
->  #                  "VIRTIO_NET_F_GUEST_ANNOUNCE: Driver sending gratuitous packets supported",
-> @@ -394,7 +394,7 @@
->  #          },
->  #          "host-features": {
->  #              "dev-features": [
-> -#                  "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features negotation supported",
-> +#                  "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features negotiation supported",
->  #                  "VIRTIO_NET_F_GSO: Handling GSO-type packets supported",
->  #                  "VIRTIO_NET_F_CTRL_MAC_ADDR: MAC address set through control channel",
->  #                  "VIRTIO_NET_F_GUEST_ANNOUNCE: Driver sending gratuitous packets supported",
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 8b8a4a5d01..7f99d15b23 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -139,7 +139,7 @@ SRST
->          interleave requirements before enabling the memory devices.
->  
->          ``targets.X=target`` provides the mapping to CXL host bridges
-> -        which may be identified by the id provied in the -device entry.
-> +        which may be identified by the id provided in the -device entry.
->          Multiple entries are needed to specify all the targets when
->          the fixed memory window represents interleaved memory. X is the
->          target index from 0.
-> @@ -362,7 +362,7 @@ SRST
->    \ 
->  ``-numa cpu,node-id=node[,socket-id=x][,core-id=y][,thread-id=z]``
->    \ 
-> -``-numa hmat-lb,initiator=node,target=node,hierarchy=hierarchy,data-type=tpye[,latency=lat][,bandwidth=bw]``
-> +``-numa hmat-lb,initiator=node,target=node,hierarchy=hierarchy,data-type=type[,latency=lat][,bandwidth=bw]``
->    \ 
->  ``-numa hmat-cache,node-id=node,size=size,level=level[,associativity=str][,policy=str][,line=size]``
->      Define a NUMA node and assign RAM and VCPUs to it. Set the NUMA
-> @@ -1785,7 +1785,7 @@ SRST
->      directory on host is made directly accessible by guest as a pass-through
->      file system by using the 9P network protocol for communication between
->      host and guests, if desired even accessible, shared by several guests
-> -    simultaniously.
-> +    simultaneously.
->  
->      Note that ``-virtfs`` is actually just a convenience shortcut for its
->      generalized form ``-fsdev -device virtio-9p-pci``.
-> diff --git a/tests/qtest/libqos/qgraph.h b/tests/qtest/libqos/qgraph.h
-> index 5c0046e989..287022a67c 100644
-> --- a/tests/qtest/libqos/qgraph.h
-> +++ b/tests/qtest/libqos/qgraph.h
-> @@ -381,7 +381,7 @@ QOSGraphObject *qos_driver_new(QOSGraphNode *node, QOSGraphObject *parent,
->   * mind: only tests with a path down from the actual test case node (leaf) up
->   * to the graph's root node are actually executed by the qtest framework. And
->   * the qtest framework uses QMP to automatically check which QEMU drivers are
-> - * actually currently available, and accordingly qos marks certain pathes as
-> + * actually currently available, and accordingly qos marks certain paths as
->   * 'unavailable' in such cases (e.g. when QEMU was compiled without support for
->   * a certain feature).
->   */
-> diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-> index ae9b0a20e2..7f21028256 100644
-> --- a/tests/qtest/libqos/virtio-9p.c
-> +++ b/tests/qtest/libqos/virtio-9p.c
-> @@ -31,7 +31,7 @@
->  static QGuestAllocator *alloc;
->  static char *local_test_path;
->  
-> -/* Concatenates the passed 2 pathes. Returned result must be freed. */
-> +/* Concatenates the passed 2 paths. Returned result must be freed. */
->  static char *concat_path(const char* a, const char* b)
->  {
->      return g_build_filename(a, b, NULL);
-> -- 
-> 2.30.2
+v2: Additional target check-spelling-docs, updated ignore-words
+
+This RFC can already be used for manual tests, but still reports false
+positives, mostly because some variable names are interpreted as words.
+These words can either be ignored in the check, or in some cases the code
+might be changed to use different variable names.
+
+The check currently only skips a few directories and files, so for example
+checked out submodules are also checked.
+
+The rule can be extended to allow user provided ignore and skip lists,
+for example by introducing Makefile variables CODESPELL_SKIP=userfile
+or CODESPELL_IGNORE=userfile. A limited check could be implemented by
+providing a base directory CODESPELL_START=basedirectory, for example
+CODESPELL_START=docs.
+
+After fixing some typos (patch was just sent to the list), these
+"typos" remain in the generated documentation:
+
+SUMMARY:
+crypted       3
+ede           4
+inflight     32
+informations  3
+mor           1
+vas           1
+
+Regards,
+Stefan
+
+ tests/Makefile.include       | 19 +++++++++++++++++++
+ tests/codespell/README.rst   | 18 ++++++++++++++++++
+ tests/codespell/exclude-file |  3 +++
+ tests/codespell/ignore-words | 21 +++++++++++++++++++++
+ tests/requirements.txt       |  1 +
+ 5 files changed, 62 insertions(+)
+ create mode 100644 tests/codespell/README.rst
+ create mode 100644 tests/codespell/exclude-file
+ create mode 100644 tests/codespell/ignore-words
+
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 9422ddaece..66424c2eac 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -155,6 +155,25 @@ check-acceptance-deprecated-warning:
+ 
+ check-acceptance: check-acceptance-deprecated-warning | check-avocado
+ 
++CODESPELL_DIR=$(SRC_PATH)/tests/codespell
++
++.PHONY: check-spelling
++check-spelling: check-venv
++	source $(TESTS_VENV_DIR)/bin/activate && \
++	cd "$(SRC_PATH)" && \
++	codespell -s . \
++	  --exclude-file=$(CODESPELL_DIR)/exclude-file \
++	  --ignore-words=$(CODESPELL_DIR)/ignore-words \
++	  --skip="./.git,./bin,./build,./linux-headers,./roms,*.patch,nohup.out"
++
++.PHONY: check-spelling-docs
++check-spelling-docs: check-venv
++	source $(TESTS_VENV_DIR)/bin/activate && \
++	codespell -s docs \
++	  --exclude-file=$(CODESPELL_DIR)/exclude-file \
++	  --ignore-words=$(CODESPELL_DIR)/ignore-words \
++	  --skip="docs/manual/_static,docs/manual/searchindex.js,nohup.out"
++
+ # Consolidated targets
+ 
+ .PHONY: check check-clean get-vm-images
+diff --git a/tests/codespell/README.rst b/tests/codespell/README.rst
+new file mode 100644
+index 0000000000..67e070d631
+--- /dev/null
++++ b/tests/codespell/README.rst
+@@ -0,0 +1,18 @@
++=============================
++Check spelling with codespell
++=============================
++
++`make check-spelling` can be used to get a list of spelling errors.
++It reports files with spelling errors and a summary of all misspelled words.
++The report is generated by the latest version of codespell, a spell checker
++implemented in Python.
++
++See https://github.com/codespell-project/codespell for more information.
++
++Some file patterns are excluded from the check.
++
++In addition tests/codespell includes several files which are used to
++suppress certain false positives in the codespell report.
++
++exclude-file - complete lines which should be ignored
++ignore-words - list of words which should be ignored
+diff --git a/tests/codespell/exclude-file b/tests/codespell/exclude-file
+new file mode 100644
+index 0000000000..57de81a4eb
+--- /dev/null
++++ b/tests/codespell/exclude-file
+@@ -0,0 +1,3 @@
++ * VAS controller.
++number generator daemon such as the one found in the vhost-device crate of
++introspection.  The latter can conceivably confuse clients, so tread
+diff --git a/tests/codespell/ignore-words b/tests/codespell/ignore-words
+new file mode 100644
+index 0000000000..0deb4cc65f
+--- /dev/null
++++ b/tests/codespell/ignore-words
+@@ -0,0 +1,21 @@
++asign
++bu
++buid
++busses
++conectix
++dout
++falt
++fpr
++hace
++hax
++hda
++nd
++ot
++pard
++parm
++ptd
++ser
++som
++synopsys
++te
++ue
+diff --git a/tests/requirements.txt b/tests/requirements.txt
+index 0ba561b6bd..dd44e6768f 100644
+--- a/tests/requirements.txt
++++ b/tests/requirements.txt
+@@ -4,3 +4,4 @@
+ # Note that qemu.git/python/ is always implicitly installed.
+ avocado-framework==88.1
+ pycdlib==1.11.0
++codespell
+-- 
+2.30.2
 
 
