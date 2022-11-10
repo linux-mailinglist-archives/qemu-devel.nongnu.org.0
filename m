@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DEFA623BC2
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F583623BC4
 	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 07:25:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot0ym-0000Ke-C4; Thu, 10 Nov 2022 01:24:00 -0500
+	id 1ot0yi-0000ID-3f; Thu, 10 Nov 2022 01:23:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ot0yY-0000Hv-RF; Thu, 10 Nov 2022 01:23:46 -0500
+ id 1ot0yX-0000HR-Kr; Thu, 10 Nov 2022 01:23:45 -0500
 Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ot0yV-0006oM-I5; Thu, 10 Nov 2022 01:23:46 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id B977F5C00C0;
- Thu, 10 Nov 2022 01:23:38 -0500 (EST)
+ id 1ot0yV-0006oS-F2; Thu, 10 Nov 2022 01:23:45 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 366A05C0165;
+ Thu, 10 Nov 2022 01:23:40 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 10 Nov 2022 01:23:38 -0500
+ by compute3.internal (MEProxy); Thu, 10 Nov 2022 01:23:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:message-id:mime-version:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1668061418; x=1668147818; bh=FA
- pDijFXAz6JphGwU8xT8S6hjRiG+tfCHsYo3aNqUlc=; b=ofT6q9KusmXLEE+ztx
- LHESz7l4N4auggEGixfSA5JPXwDKtZJuDRRfApDljKfSZgbMoZavCn4ChqX+a0tX
- IHuA5c8f1PNwBPaFYr0dz8sgarfJpokhswkch6jiWYO4HSEMN0/w0AvRTN6czmYO
- jfMsspkMKyvx5v46xIaueVqAcKszNo6lpeTyENySGEYNeXXob5rGTSwvLZcX93tF
- 9b6EU5lAtP6UPgK71000FGT7PxxyC91I+Hg6EHvE4RkyxSW6rHv039+FW/yeC48a
- yGyHUDl08UhsdwQ18N+evisAJsGulQ7IRv2jYVvQITPHcQP/BOrIlNaBugHyVNkL
- LdTw==
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1668061420; x=
+ 1668147820; bh=sgioLd2MkKpqwtbF7s9cz970hEfW7mt5iQrKUNfw5KU=; b=M
+ wgrodXzESsxAbqg5q2wMUa9fRlW0g6/ZHz60eSwtWGvthnffYJxZmuH/rzlkznub
+ 7YhqRs8V/96IAULqA8uqyJE1RRlCnNLpddJNaMJcid+R5W0eMkJ1uFfXcJDAP9+0
+ niKWu0KxgufSMOj6C9jGtQOhQgEt+UjakGlIa9WtC5QAy/mEuJZwzjw3x08bphD0
+ SlcxIW4l+W0CAoYDAiCSHkOoF1fjYKdNJw8OsduJ2n3mN985egLpp5W0ahhTHYWS
+ MClhWVrElbfX0khTsQufJfcafMG3oR0xt40+q14fiIDrevSHGfjxkeed0fuzoIh9
+ qVJBUsiDQrnKvW5mTZeYw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1668061418; x=1668147818; bh=FApDijFXAz6Jp
- hGwU8xT8S6hjRiG+tfCHsYo3aNqUlc=; b=Uy1YHcnddbp1yxkji2IMqlNTvz3RL
- 8sJqdghA0dFq7viA2fJRMYC0suyWvLEuBECJ8hcSPrvzdIp8e2Lc3Qs9nf9/LYfL
- 5zsR0nQ4E14QZF+DSC0loT+IZa9DMv6p9hg6FV7f/AMCINi1YBmdIiYVmuGdc1te
- lGlEMuDSqAs3Kc+V1eGHNEHuCb75/NdNru0oLidncuG4a99cKE46NvMxUbHE0I4U
- U+ho3RygQ3OxfqL7GS+QI6AAJrwS1Gk671xclA8s+EEkZENWx8U90PMcuXfm1193
- J2CXFWvysA5X7ogMEZ5GIGpi9mDQp5XbvRZaegBYJ89wow82HLYsSpipw==
-X-ME-Sender: <xms:6phsYyGYXGVJwgoqFLPXfRdyTdlbmt_qQTNl-T-dwZr45LRjLEuv0w>
- <xme:6phsYzWIfH3Tbf-W0XhOar2dLDmxrDwS0U4qdCkyWR6fHKUFucDC3Ty3KhuLyYqs1
- omv_CZpFBwA3e9C510>
-X-ME-Received: <xmr:6phsY8L0oc6GgGKHhvrjFiGlch1X5PavApyQ41H046JynVUHJgBOhUOoGf7mq-S1WWyjI4YVtGqq6Z--jMKABlnCMBah4PAnNKSXwg>
+ :x-sasl-enc; s=fm1; t=1668061420; x=1668147820; bh=sgioLd2MkKpqw
+ tbF7s9cz970hEfW7mt5iQrKUNfw5KU=; b=aa4n1L2jfCbxIg+JCnQ6XH5d8lUAF
+ Ewit/JhUih6aAMxRHp04anjvibBj05Cq8fCFApQV4Gd94vpc2TcK9XJsqWtiVhxj
+ AXx4tYGf5kZJp68BYMlqZnz0eqgfQrWrn1iuy8/nzS6BCS68ZgrqDR1tfo1dHUOI
+ 57yk3VHmK+Bjs8frZqcKNE2ggJLJeD6mds3ONSpnHiqNQYkdHa1ov8j+Rnf09N4E
+ 1CqSRWIaCSYoyn0nYMQBtgjkv4/XDgWZx7lmQZhWzsdyqa4dpM5Tz5G6O5ccf5mI
+ DuJ+iHjhnQz09aIQzkhbwuasobG6UMnV2mcEk9j6aFRu9vsTWQRIeeQDA==
+X-ME-Sender: <xms:7JhsYyBiDuvAzrEoUGGWZX-Q5UUxOMhmjeV7O_j66t0yq4T92QXkkQ>
+ <xme:7JhsY8ijvn6BWxk8TnSKdDogFMrh9Aj5P86eBaKI7_d8sR4jJssIIo0AWokmRPJ9U
+ YC3VkW7mvn1PLftyEc>
+X-ME-Received: <xmr:7JhsY1nEEaLx6TcmigcB3WJv0acAiPCUtOvDJZVGRCh2f-lV3Nbwu4Il1vEgOyWFMGqQkfxaYSrTPHviheBZzs42URrlodz3fucKxw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeefgdelhecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvfevufffkffotggggfesthekredtredtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepudekvdfgueejvdfgvdefffffhfehiedtieejkeelfedvhfegvddvtdefueekgfeu
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
- esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:6phsY8HulqBGfaIkjdnEuTZCtqudRTg35I-rBcw_T94fDb_54lygMw>
- <xmx:6phsY4XS9K4r-FwaoqhahUloGoBMeqRqiwdCBGWGVRBNTBOtEMtGYg>
- <xmx:6phsY_O841wZJG34HObeh_si5vXhIvHrnrCI3ZPzvSa2CFPQj-wheA>
- <xmx:6phsY_StfY3G8bwjlf64bw2txBeoaSMCxfIbRWoXHpkh_VeRpVewGw>
+ fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeegvddtheeukedufedugeeigfdvhfetgfegtddvfeejheevgeeijedvfedttdel
+ heenucffohhmrghinhepqhguvghvrdhiugenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:7JhsYwz852w9qYiCc1Xzi2r9njK8axEovEKfcSKn6sm2GiPeYXLsrw>
+ <xmx:7JhsY3TdjMqCnhupBpLWEJDw82AabCT29mLbYzUAmT5QlT9fPYzQiQ>
+ <xmx:7JhsY7YexwzvrOSahmTlJ41EUdc5b9_PWwVS9FoUVnLvDkNQ8GHuEQ>
+ <xmx:7JhsYxdltLHIRIK_EjF9oSHET6HV8FT6wdtIJxLzCUV8YUcdZyX5JQ>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Nov 2022 01:23:36 -0500 (EST)
+ 10 Nov 2022 01:23:38 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
 Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH v2 0/2] hw/nvme: errp fixes
-Date: Thu, 10 Nov 2022 07:23:33 +0100
-Message-Id: <20221110062335.18401-1-its@irrelevant.dk>
+Subject: [PATCH v2 1/2] hw/nvme: fix incorrect use of errp/local_err
+Date: Thu, 10 Nov 2022 07:23:34 +0100
+Message-Id: <20221110062335.18401-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.38.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20221110062335.18401-1-its@irrelevant.dk>
+References: <20221110062335.18401-1-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=304; i=k.jensen@samsung.com;
- h=from:subject; bh=F3nlHPkosQL8t1HCWUwlzeqWy3sHX9ulnC+084+5Y9I=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGNsmOYppN6iLUa6KgRvAk1lpgEDFIWyIQmwQWnB
- OvSP0e6ZP4kBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjbJjmAAoJEE3hrzFtTw3pOI
- AH/0e/FEiVPMDlY1lVAv21SqRvDtYzxY8Xl8TqPa1UTgOU2+1aDpGL+jmW1Yi2cI0x3uFGGG2yfcHz
- QyNASWBY7X5hnVCB3gu4NXgHYLhPv3lioQbGuasp1uQBkEUK82ou/ivKq3ubEPfqvPwhvQXK91tzvE
- gDfsRfIgmwoXuQPov+w0s/bh7D3CJxsi14+m6NMk3SMKlauda0hQ5iKtJKbj2KLFEsY6/U8ET3qiTj
- zT/1Q4YyfJEud8XTjCi54z5qkx6e22ovED+87ar2UQWymswBapKd0itPxV4s5ksAZSRZrcoB5lGwiZ
- tav61pSE398nheeJtl8fU8C3Ne2VWoFAPGwqc3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6666; i=k.jensen@samsung.com;
+ h=from:subject; bh=VhWa9wmAJgXTuIehLSpLWthbtZo4skKBJL5rS+4ZZJs=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGNsmOa5LjPRmT4kThDzJX24aZcpcF1MWMHVGtop
+ /N6LZGBeBIkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjbJjmAAoJEE3hrzFtTw3pU5
+ oH/2wsppDMkW+2S7avLA7PZ38arlPPVjl1+/p9cPQ64IWfKtMYSFO2UR52mzsAMw83zQQwXhC9HR0M
+ h4TqNp1Ov/o/dWkgO2SlUETwX53wVeFNzzefpBsHZKiqZL2HJsaV2OVdKA6TPmK2PmIYCcy3gSFZbh
+ +cAdWa2gFvb0lx6mI5P+UfFtf2fHn8/kzDQjsf0qqghTX0IFhc9+nI9nMKj+oEsg8mpFcQBcoyXpZg
+ 0UAIl+2T1zatag8KCopPwO8H6hhO5i3nRlGJZKWTbwPJXOuajJoXa8gT8lBXl1GxcQzVWP5iuZDcnm
+ UpUfloLI7Uv8aMi/+PeH6sewOpPFj+hc1cQKQi
 X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
  fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
@@ -111,15 +112,198 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Fix a couple of invalid errp usages.
+Make nvme_check_constraints() return a bool and fix an invalid error
+propagation where the actual error is thrown away in favor of an unused
+local Error value.
 
-Klaus Jensen (2):
-  hw/nvme: fix incorrect use of errp/local_err
-  hw/nvme: cleanup error reporting in nvme_init_pci()
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c | 48 +++++++++++++++++++++++-------------------------
+ 1 file changed, 23 insertions(+), 25 deletions(-)
 
- hw/nvme/ctrl.c | 71 +++++++++++++++++++++++---------------------------
- 1 file changed, 33 insertions(+), 38 deletions(-)
-
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index ac3885ce5079..a5c0a5fa6ce2 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -7035,7 +7035,7 @@ static const MemoryRegionOps nvme_cmb_ops = {
+     },
+ };
+ 
+-static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
++static bool nvme_check_params(NvmeCtrl *n, Error **errp)
+ {
+     NvmeParams *params = &n->params;
+ 
+@@ -7049,38 +7049,38 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+     if (n->namespace.blkconf.blk && n->subsys) {
+         error_setg(errp, "subsystem support is unavailable with legacy "
+                    "namespace ('drive' property)");
+-        return;
++        return false;
+     }
+ 
+     if (params->max_ioqpairs < 1 ||
+         params->max_ioqpairs > NVME_MAX_IOQPAIRS) {
+         error_setg(errp, "max_ioqpairs must be between 1 and %d",
+                    NVME_MAX_IOQPAIRS);
+-        return;
++        return false;
+     }
+ 
+     if (params->msix_qsize < 1 ||
+         params->msix_qsize > PCI_MSIX_FLAGS_QSIZE + 1) {
+         error_setg(errp, "msix_qsize must be between 1 and %d",
+                    PCI_MSIX_FLAGS_QSIZE + 1);
+-        return;
++        return false;
+     }
+ 
+     if (!params->serial) {
+         error_setg(errp, "serial property not set");
+-        return;
++        return false;
+     }
+ 
+     if (n->pmr.dev) {
+         if (host_memory_backend_is_mapped(n->pmr.dev)) {
+             error_setg(errp, "can't use already busy memdev: %s",
+                        object_get_canonical_path_component(OBJECT(n->pmr.dev)));
+-            return;
++            return false;
+         }
+ 
+         if (!is_power_of_2(n->pmr.dev->size)) {
+             error_setg(errp, "pmr backend size needs to be power of 2 in size");
+-            return;
++            return false;
+         }
+ 
+         host_memory_backend_set_mapped(n->pmr.dev, true);
+@@ -7089,64 +7089,64 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+     if (n->params.zasl > n->params.mdts) {
+         error_setg(errp, "zoned.zasl (Zone Append Size Limit) must be less "
+                    "than or equal to mdts (Maximum Data Transfer Size)");
+-        return;
++        return false;
+     }
+ 
+     if (!n->params.vsl) {
+         error_setg(errp, "vsl must be non-zero");
+-        return;
++        return false;
+     }
+ 
+     if (params->sriov_max_vfs) {
+         if (!n->subsys) {
+             error_setg(errp, "subsystem is required for the use of SR-IOV");
+-            return;
++            return false;
+         }
+ 
+         if (params->sriov_max_vfs > NVME_MAX_VFS) {
+             error_setg(errp, "sriov_max_vfs must be between 0 and %d",
+                        NVME_MAX_VFS);
+-            return;
++            return false;
+         }
+ 
+         if (params->cmb_size_mb) {
+             error_setg(errp, "CMB is not supported with SR-IOV");
+-            return;
++            return false;
+         }
+ 
+         if (n->pmr.dev) {
+             error_setg(errp, "PMR is not supported with SR-IOV");
+-            return;
++            return false;
+         }
+ 
+         if (!params->sriov_vq_flexible || !params->sriov_vi_flexible) {
+             error_setg(errp, "both sriov_vq_flexible and sriov_vi_flexible"
+                        " must be set for the use of SR-IOV");
+-            return;
++            return false;
+         }
+ 
+         if (params->sriov_vq_flexible < params->sriov_max_vfs * 2) {
+             error_setg(errp, "sriov_vq_flexible must be greater than or equal"
+                        " to %d (sriov_max_vfs * 2)", params->sriov_max_vfs * 2);
+-            return;
++            return false;
+         }
+ 
+         if (params->max_ioqpairs < params->sriov_vq_flexible + 2) {
+             error_setg(errp, "(max_ioqpairs - sriov_vq_flexible) must be"
+                        " greater than or equal to 2");
+-            return;
++            return false;
+         }
+ 
+         if (params->sriov_vi_flexible < params->sriov_max_vfs) {
+             error_setg(errp, "sriov_vi_flexible must be greater than or equal"
+                        " to %d (sriov_max_vfs)", params->sriov_max_vfs);
+-            return;
++            return false;
+         }
+ 
+         if (params->msix_qsize < params->sriov_vi_flexible + 1) {
+             error_setg(errp, "(msix_qsize - sriov_vi_flexible) must be"
+                        " greater than or equal to 1");
+-            return;
++            return false;
+         }
+ 
+         if (params->sriov_max_vi_per_vf &&
+@@ -7154,7 +7154,7 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+             error_setg(errp, "sriov_max_vi_per_vf must meet:"
+                        " (sriov_max_vi_per_vf - 1) %% %d == 0 and"
+                        " sriov_max_vi_per_vf >= 1", NVME_VF_RES_GRANULARITY);
+-            return;
++            return false;
+         }
+ 
+         if (params->sriov_max_vq_per_vf &&
+@@ -7163,9 +7163,11 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+             error_setg(errp, "sriov_max_vq_per_vf must meet:"
+                        " (sriov_max_vq_per_vf - 1) %% %d == 0 and"
+                        " sriov_max_vq_per_vf >= 2", NVME_VF_RES_GRANULARITY);
+-            return;
++            return false;
+         }
+     }
++
++    return true;
+ }
+ 
+ static void nvme_init_state(NvmeCtrl *n)
+@@ -7564,7 +7566,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+ {
+     NvmeCtrl *n = NVME(pci_dev);
+     NvmeNamespace *ns;
+-    Error *local_err = NULL;
+     NvmeCtrl *pn = NVME(pcie_sriov_get_pf(pci_dev));
+ 
+     if (pci_is_vf(pci_dev)) {
+@@ -7576,9 +7577,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+         n->subsys = pn->subsys;
+     }
+ 
+-    nvme_check_constraints(n, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    if (!nvme_check_params(n, errp)) {
+         return;
+     }
+ 
+@@ -7586,7 +7585,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+               &pci_dev->qdev, n->parent_obj.qdev.id);
+ 
+     if (nvme_init_subsys(n, errp)) {
+-        error_propagate(errp, local_err);
+         return;
+     }
+     nvme_init_state(n);
 -- 
 2.38.1
 
