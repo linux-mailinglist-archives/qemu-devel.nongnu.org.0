@@ -2,101 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0963624B32
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 21:07:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B6B624B45
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 21:10:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otDoy-00031G-JE; Thu, 10 Nov 2022 15:06:44 -0500
+	id 1otDsc-0003n6-L3; Thu, 10 Nov 2022 15:10:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1otDow-000315-Ne
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 15:06:42 -0500
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1otDsa-0003mq-Hb
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 15:10:28 -0500
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1otDou-0003N0-4N
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 15:06:42 -0500
-Received: by mail-pg1-x534.google.com with SMTP id o13so2631517pgu.7
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 12:06:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=qAlpSiWPFJC6v5OKKunr5qvlqoVrXquKYjzcoe1SyVc=;
- b=s9HF6LHGTF6eKfCzsKX9FWUdVKeTMh/pkFaFPKYT0H/d4OcOkPXr+0PLIQfX6kQ8cC
- Q64JtYebCdaU4ruWo7vOG4vxzCvbf/2RKLE1KNtbitWQ8USo0uklGuWav/4tDaTlFs6W
- J6Y4kL0unkMwatSWRT7ksIKS8SVHxhP1XKVRgR1T1zWDYn6jIqZIsJGf7oOlihyXVFbd
- 0fJb0UlwvmxM7pKZs3I6/RrzXuReRbcfrXYqhpPSmf2PKsS1vNFDHltDDL3yKYYAvjar
- 0KJ9USRBIJHcvcJeqnyACzk9N+VJy0yc4DTHiyUqXB49s0LJfIJy8GxXJG4zJMQkeMSU
- tXrQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1otDsZ-0005ls-0l
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 15:10:28 -0500
+Received: by mail-pl1-x636.google.com with SMTP id p21so2444613plr.7
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 12:10:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=e9Bbc/iSAY67W6rSQDZkn+dZyTYNCJX7t5ReSKaZbtw=;
+ b=LFPrLMFep+cHR26OrbRU/4/YoliCZ8key5BsvmqFlBjPsO3kzGEMSujTUpf3sxsfXl
+ LTbhnyh2zKvTaAsCF6dtQPbdkrabS7p01cEhxkXcwECj0MTbLx+RvBihKTBZxoslquqs
+ kcRzDq90+k4Uxv0m2IEF/lOkVvNyTaI+D/nNEunHCeouY2faZTQzmrOCqD1s8QLma8eL
+ voeSCQ2YRB3qiFHq+qWOT6X6POfYAVE7RXRXIVRVq81g8jQ6tcAMN8DjOGeX1lvXvTON
+ 6BIGm1i+Yq6AejYYf3s195Ah7ndnPtrhZXFbl22lJS8Sq1/HqyG62aX1g9Qk8Yul9Y0z
+ 7s2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qAlpSiWPFJC6v5OKKunr5qvlqoVrXquKYjzcoe1SyVc=;
- b=C9U3lEEjcbktwe9XYMvLwG8jJDldjlhOHiactzkj7B3LJEE43WvvFRKvKffHz4xvKQ
- g4dSgAtyKKWzI5EF1kYWmzAJXpKwSd22zN7FMPBASQtlWmzXinf4RczaO0AOT7b2iBjp
- h5KF6hCpPmM7oPvbgIgFz6J7FF+fJkhSTMWCgtXG4TjIpQqhQ1/mGj1nBnNR3JfdtZGT
- FVJE+3PJrYREpfrDDXeH8zzA/xl3cxon9Uhs9BEPMi0nWvCwx8vhIq7+nAzlmfzucQ8N
- QB6EpsScJm8jOzDgoks/0F//TeIx7pe/NEZxa3bHDkkkyEb8hGo5meC0wZBjuNIN0zm5
- dK2Q==
-X-Gm-Message-State: ACrzQf1QJjwBmAP6YZTrtsZ/uHDiuA9oC+5cXs+LqSofXWWFNIUStspE
- ntEZsUcN9qslUznUOzCRicfjqQ==
-X-Google-Smtp-Source: AMsMyM5mFyfKXM8lYQiQhk8wd0EOlRpGOMeyUwap0ARCZELHfNLQu3vKFpmelexnZtvDHcT8xi35cA==
-X-Received: by 2002:a63:ff45:0:b0:46a:e818:b622 with SMTP id
- s5-20020a63ff45000000b0046ae818b622mr3140651pgk.550.1668110797941; 
- Thu, 10 Nov 2022 12:06:37 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- d15-20020a170902cecf00b001871461688esm69853plg.175.2022.11.10.12.06.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 12:06:37 -0800 (PST)
-Date: Thu, 10 Nov 2022 20:06:33 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
-Subject: Re: [PATCH v9 4/8] KVM: Use gfn instead of hva for mmu_notifier_retry
-Message-ID: <Y21ZyTdIHSe4HLkU@google.com>
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
- <20221025151344.3784230-5-chao.p.peng@linux.intel.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=e9Bbc/iSAY67W6rSQDZkn+dZyTYNCJX7t5ReSKaZbtw=;
+ b=uHuvw50d7k5gDwAySicTuoTgE9TBhMGGR1WjCu+MdCiQscT/v8CgoMyUnvOTkkQkn/
+ xUTpyXf8qxNKXm4JaeKC/mNfxUDCxKiXVx+1BztqrWk2oOcTh/gIOdR+SbaTbVyLwldJ
+ rFJkuJDWU1hy1L8wiP9biWUlTLnNHnypvGwagp9uJOIdRNTeUviAd7DZusfvOrhFAlRB
+ bqbvFwzEKsBHHAl+2nWQUPkuIGIeea0tib1WygQcMe75S3aLt7xxuVLIYEB+UQfYD8RX
+ S64HxhUTQ9Xsq0at7B3cqkHEjxNOc4eP/ZuPrr0RIzyIZm4wGzVN04ICpfEs3LTOWVwB
+ awsQ==
+X-Gm-Message-State: ACrzQf3JXWY3llTgfDVAVO0DDWbM+lwZUrXYDeLBEYb2R8jCfk1PQ5pa
+ HXZkH6VYZ67vhWk40tq8tZSdEIFb1Q8yfxUnRI8ctw==
+X-Google-Smtp-Source: AMsMyM6h7AbmWDtrf3iS3n9CqEhPTgrNgxb9u5uZRBFcLDFkaZkoGhkvpeOx7W6x22jKIIbuuo/o4OC8CW+Q1v17QR8=
+X-Received: by 2002:a17:903:495:b0:186:9295:2012 with SMTP id
+ jj21-20020a170903049500b0018692952012mr1844761plb.19.1668111025486; Thu, 10
+ Nov 2022 12:10:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221025151344.3784230-5-chao.p.peng@linux.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=seanjc@google.com; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+References: <20221110190825.879620-1-sw@weilnetz.de>
+In-Reply-To: <20221110190825.879620-1-sw@weilnetz.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 10 Nov 2022 20:10:13 +0000
+Message-ID: <CAFEAcA_BC8yK8LSPkJ=whtg3K6-zgSCxjOgkwhFMAVdk04Pv2w@mail.gmail.com>
+Subject: Re: [PATCH for-7.2] Fix several typos in documentation (found by
+ codespell)
+To: Stefan Weil <sw@weilnetz.de>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, 
+ Ani Sinha <ani@anisinha.ca>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ David Hildenbrand <david@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
+ "Michael S . Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,293 +90,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Oct 25, 2022, Chao Peng wrote:
-> @@ -715,15 +715,9 @@ static void kvm_mmu_notifier_change_pte(struct mmu_notifier *mn,
->  	kvm_handle_hva_range(mn, address, address + 1, pte, kvm_set_spte_gfn);
->  }
->  
-> -void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
-> -			      unsigned long end)
-> +static inline
+On Thu, 10 Nov 2022 at 19:09, Stefan Weil via <qemu-devel@nongnu.org> wrote:
+>
+> Those typos are in files which are used to generate the QEMU manual.
+>
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+> ---
+>
+> I did not fix memory_region_init_resizeable_ram. That might be done after 7.2.
+>
+> Stefan
+>
+>  docs/devel/acpi-bits.rst       | 2 +-
+>  docs/system/devices/can.rst    | 2 +-
+>  hw/scsi/esp.c                  | 6 +++---
+>  include/exec/memory.h          | 6 +++---
+>  qapi/virtio.json               | 4 ++--
+>  qemu-options.hx                | 6 +++---
+>  tests/qtest/libqos/qgraph.h    | 2 +-
+>  tests/qtest/libqos/virtio-9p.c | 2 +-
+>  8 files changed, 15 insertions(+), 15 deletions(-)
+>
+> diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
+> index c9564d871a..5e22be8ef6 100644
+> --- a/docs/devel/acpi-bits.rst
+> +++ b/docs/devel/acpi-bits.rst
+> @@ -132,7 +132,7 @@ Under ``tests/avocado/`` as the root we have:
+>
+>     (a) They are python2.7 based scripts and not python 3 scripts.
+>     (b) They are run from within the bios bits VM and is not subjected to QEMU
+> -       build/test python script maintainance and dependency resolutions.
+> +       build/test python script maintenance and dependency resolutions.
+>     (c) They need not be loaded by avocado framework when running tests.
+>
+>
+> diff --git a/docs/system/devices/can.rst b/docs/system/devices/can.rst
+> index fe37af8223..24b0d4cf41 100644
+> --- a/docs/system/devices/can.rst
+> +++ b/docs/system/devices/can.rst
+> @@ -169,7 +169,7 @@ and with bitrate switch::
+>
+>    cangen can0 -b
+>
+> -The test can be run viceversa, generate messages in the guest system and capture them
+> +The test can be run vice-versa, generate messages in the guest system and capture them
+>  in the host one and much more combinations.
 
-Don't tag static functions with "inline" unless they're in headers, in which case
-the inline is effectively required.  In pretty much every scenario, the compiler
-can do a better job of optimizing inline vs. non-inline, i.e. odds are very good
-the compiler would inline this helper anyways, and if not, there would likely be
-a good reason not to inline it.
+This isn't a grammatical use of vice-versa, so if we're touching it
+then I think the sentence should be recast, eg:
+"The test can also be run the other way around, generating
+messages in the guest system and capturing them in the host system.
+Other combinations are also possible."
 
-It'll be a moot point in this case (more below), but this would also reduce the
-line length and avoid the wrap.
+(In fact the whole file could do with a proof-reading pass.)
 
-> void update_invalidate_range(struct kvm *kvm, gfn_t start,
-> +							    gfn_t end)
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-I appreciate the effort to make this easier to read, but making such a big divergence
-from the kernel's preferred formatting is often counter-productive, e.g. I blinked a
-few times when first reading this code.
-
-Again, moot point this time (still below ;-) ), but for future reference, better
-options are to either let the line poke out or simply wrap early to get the
-bundling of parameters that you want, e.g.
-
-  static inline void update_invalidate_range(struct kvm *kvm, gfn_t start, gfn_t end)
-
-or 
-
-  static inline void update_invalidate_range(struct kvm *kvm,
-					     gfn_t start, gfn_t end)
-
->  {
-> -	/*
-> -	 * The count increase must become visible at unlock time as no
-> -	 * spte can be established without taking the mmu_lock and
-> -	 * count is also read inside the mmu_lock critical section.
-> -	 */
-> -	kvm->mmu_invalidate_in_progress++;
->  	if (likely(kvm->mmu_invalidate_in_progress == 1)) {
->  		kvm->mmu_invalidate_range_start = start;
->  		kvm->mmu_invalidate_range_end = end;
-> @@ -744,6 +738,28 @@ void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
->  	}
->  }
->  
-> +static void mark_invalidate_in_progress(struct kvm *kvm, gfn_t start, gfn_t end)
-
-Splitting the helpers this way yields a weird API overall, e.g. it's possible
-(common, actually) to have an "end" without a "begin".
-
-Taking the range in the "end" is also dangerous/misleading/imbalanced, because _if_
-there are multiple ranges in a batch, each range would need to be unwound
-independently, e.g. the invocation of the "end" helper in
-kvm_mmu_notifier_invalidate_range_end() is flat out wrong, it just doesn't cause
-problems because KVM doesn't (currently) try to unwind regions (and probably never
-will, but that's beside the point).
-
-Rather than shunt what is effectively the "begin" into a separate helper, provide
-three separate APIs, e.g. begin, range_add, end.  That way, begin+end don't take a
-range and thus are symmetrical, always paired, and can't screw up unwinding since
-they don't have a range to unwind.
-
-It'll require three calls in every case, but that's not the end of the world since
-none of these flows are super hot paths.
-
-> +{
-> +	/*
-> +	 * The count increase must become visible at unlock time as no
-> +	 * spte can be established without taking the mmu_lock and
-> +	 * count is also read inside the mmu_lock critical section.
-> +	 */
-> +	kvm->mmu_invalidate_in_progress++;
-
-This should invalidate (ha!) mmu_invalidate_range_{start,end}, and then WARN in
-mmu_invalidate_retry() if the range isn't valid.  And the "add" helper should
-WARN if mmu_invalidate_in_progress == 0.
-
-> +}
-> +
-> +static bool kvm_mmu_handle_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
-
-"handle" is waaaay too generic.  Just match kvm_unmap_gfn_range() and call it
-kvm_mmu_unmap_gfn_range().  This is a local function so it's unlikely to collide
-with arch code, now or in the future.
-
-> +{
-> +	update_invalidate_range(kvm, range->start, range->end);
-> +	return kvm_unmap_gfn_range(kvm, range);
-> +}
-
-Overall, this?  Compile tested only...
-
----
- arch/x86/kvm/mmu/mmu.c   |  8 +++++---
- include/linux/kvm_host.h | 33 +++++++++++++++++++++------------
- virt/kvm/kvm_main.c      | 30 +++++++++++++++++++++---------
- 3 files changed, 47 insertions(+), 24 deletions(-)
-
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index 93c389eaf471..d4b373e3e524 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -4259,7 +4259,7 @@ static bool is_page_fault_stale(struct kvm_vcpu *vcpu,
- 		return true;
- 
- 	return fault->slot &&
--	       mmu_invalidate_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
-+	       mmu_invalidate_retry_gfn(vcpu->kvm, mmu_seq, fault->gfn);
- }
- 
- static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
-@@ -6098,7 +6098,9 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
- 
- 	write_lock(&kvm->mmu_lock);
- 
--	kvm_mmu_invalidate_begin(kvm, gfn_start, gfn_end);
-+	kvm_mmu_invalidate_begin(kvm);
-+
-+	kvm_mmu_invalidate_range_add(kvm, gfn_start, gfn_end);
- 
- 	flush = kvm_rmap_zap_gfn_range(kvm, gfn_start, gfn_end);
- 
-@@ -6112,7 +6114,7 @@ void kvm_zap_gfn_range(struct kvm *kvm, gfn_t gfn_start, gfn_t gfn_end)
- 		kvm_flush_remote_tlbs_with_address(kvm, gfn_start,
- 						   gfn_end - gfn_start);
- 
--	kvm_mmu_invalidate_end(kvm, gfn_start, gfn_end);
-+	kvm_mmu_invalidate_end(kvm);
- 
- 	write_unlock(&kvm->mmu_lock);
- }
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index e6e66c5e56f2..29aa6d6827cc 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -778,8 +778,8 @@ struct kvm {
- 	struct mmu_notifier mmu_notifier;
- 	unsigned long mmu_invalidate_seq;
- 	long mmu_invalidate_in_progress;
--	unsigned long mmu_invalidate_range_start;
--	unsigned long mmu_invalidate_range_end;
-+	gfn_t mmu_invalidate_range_start;
-+	gfn_t mmu_invalidate_range_end;
- #endif
- 	struct list_head devices;
- 	u64 manual_dirty_log_protect;
-@@ -1378,10 +1378,9 @@ void kvm_mmu_free_memory_cache(struct kvm_mmu_memory_cache *mc);
- void *kvm_mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
- #endif
- 
--void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
--			      unsigned long end);
--void kvm_mmu_invalidate_end(struct kvm *kvm, unsigned long start,
--			    unsigned long end);
-+void kvm_mmu_invalidate_begin(struct kvm *kvm);
-+void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end);
-+void kvm_mmu_invalidate_end(struct kvm *kvm);
- 
- long kvm_arch_dev_ioctl(struct file *filp,
- 			unsigned int ioctl, unsigned long arg);
-@@ -1952,9 +1951,9 @@ static inline int mmu_invalidate_retry(struct kvm *kvm, unsigned long mmu_seq)
- 	return 0;
- }
- 
--static inline int mmu_invalidate_retry_hva(struct kvm *kvm,
-+static inline int mmu_invalidate_retry_gfn(struct kvm *kvm,
- 					   unsigned long mmu_seq,
--					   unsigned long hva)
-+					   gfn_t gfn)
- {
- 	lockdep_assert_held(&kvm->mmu_lock);
- 	/*
-@@ -1963,10 +1962,20 @@ static inline int mmu_invalidate_retry_hva(struct kvm *kvm,
- 	 * that might be being invalidated. Note that it may include some false
- 	 * positives, due to shortcuts when handing concurrent invalidations.
- 	 */
--	if (unlikely(kvm->mmu_invalidate_in_progress) &&
--	    hva >= kvm->mmu_invalidate_range_start &&
--	    hva < kvm->mmu_invalidate_range_end)
--		return 1;
-+	if (unlikely(kvm->mmu_invalidate_in_progress)) {
-+		/*
-+		 * Dropping mmu_lock after bumping mmu_invalidate_in_progress
-+		 * but before updating the range is a KVM bug.
-+		 */
-+		if (WARN_ON_ONCE(kvm->mmu_invalidate_range_start == INVALID_GPA ||
-+				 kvm->mmu_invalidate_range_end == INVALID_GPA))
-+			return 1;
-+
-+		if (gfn >= kvm->mmu_invalidate_range_start &&
-+		    gfn < kvm->mmu_invalidate_range_end)
-+			return 1;
-+	}
-+
- 	if (kvm->mmu_invalidate_seq != mmu_seq)
- 		return 1;
- 	return 0;
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 43bbe4fde078..e9e03b979f77 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -540,9 +540,7 @@ static void kvm_mmu_notifier_invalidate_range(struct mmu_notifier *mn,
- 
- typedef bool (*hva_handler_t)(struct kvm *kvm, struct kvm_gfn_range *range);
- 
--typedef void (*on_lock_fn_t)(struct kvm *kvm, unsigned long start,
--			     unsigned long end);
--
-+typedef void (*on_lock_fn_t)(struct kvm *kvm);
- typedef void (*on_unlock_fn_t)(struct kvm *kvm);
- 
- struct kvm_hva_range {
-@@ -628,7 +626,8 @@ static __always_inline int __kvm_handle_hva_range(struct kvm *kvm,
- 				locked = true;
- 				KVM_MMU_LOCK(kvm);
- 				if (!IS_KVM_NULL_FN(range->on_lock))
--					range->on_lock(kvm, range->start, range->end);
-+					range->on_lock(kvm);
-+
- 				if (IS_KVM_NULL_FN(range->handler))
- 					break;
- 			}
-@@ -715,8 +714,7 @@ static void kvm_mmu_notifier_change_pte(struct mmu_notifier *mn,
- 	kvm_handle_hva_range(mn, address, address + 1, pte, kvm_set_spte_gfn);
- }
- 
--void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
--			      unsigned long end)
-+void kvm_mmu_invalidate_begin(struct kvm *kvm)
- {
- 	/*
- 	 * The count increase must become visible at unlock time as no
-@@ -724,6 +722,15 @@ void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
- 	 * count is also read inside the mmu_lock critical section.
- 	 */
- 	kvm->mmu_invalidate_in_progress++;
-+
-+	kvm->mmu_invalidate_range_start = INVALID_GPA;
-+	kvm->mmu_invalidate_range_end = INVALID_GPA;
-+}
-+
-+void kvm_mmu_invalidate_range_add(struct kvm *kvm, gfn_t start, gfn_t end)
-+{
-+	WARN_ON_ONCE(!kvm->mmu_invalidate_in_progress);
-+
- 	if (likely(kvm->mmu_invalidate_in_progress == 1)) {
- 		kvm->mmu_invalidate_range_start = start;
- 		kvm->mmu_invalidate_range_end = end;
-@@ -744,6 +751,12 @@ void kvm_mmu_invalidate_begin(struct kvm *kvm, unsigned long start,
- 	}
- }
- 
-+static bool kvm_mmu_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
-+{
-+	kvm_mmu_invalidate_range_add(kvm, range->start, range->end);
-+	return kvm_unmap_gfn_range(kvm, range);
-+}
-+
- static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
- 					const struct mmu_notifier_range *range)
- {
-@@ -752,7 +765,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
- 		.start		= range->start,
- 		.end		= range->end,
- 		.pte		= __pte(0),
--		.handler	= kvm_unmap_gfn_range,
-+		.handler	= kvm_mmu_unmap_gfn_range,
- 		.on_lock	= kvm_mmu_invalidate_begin,
- 		.on_unlock	= kvm_arch_guest_memory_reclaimed,
- 		.flush_on_ret	= true,
-@@ -791,8 +804,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
- 	return 0;
- }
- 
--void kvm_mmu_invalidate_end(struct kvm *kvm, unsigned long start,
--			    unsigned long end)
-+void kvm_mmu_invalidate_end(struct kvm *kvm)
- {
- 	/*
- 	 * This sequence increase will notify the kvm page fault that
-
-base-commit: d663b8a285986072428a6a145e5994bc275df994
--- 
-
+thanks
+-- PMM
 
