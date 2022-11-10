@@ -2,69 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008E962488F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 18:47:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E63E6248BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 18:55:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otBdJ-0001Da-Do; Thu, 10 Nov 2022 12:46:33 -0500
+	id 1otBkC-0005uC-4g; Thu, 10 Nov 2022 12:53:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otBdH-0001D7-6d
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 12:46:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otBdF-0005DG-9d
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 12:46:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668102388;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gNSXoGsb1MyjjZh3k3wUX/1a0zqzZ3ELTDM0moh8/ho=;
- b=I2Z6ecAbcqu0nVV3XFv5Isr4kFnF82MrD7zRTm4cSrSixHLNFQYcH2zUqxjnTUWd2jGb+X
- YHnYKdaND84vVrr4HDJMLr54aXQSV15FTA0sImAmNhrDb6W6BzBPu3CX+5h3w5mNGdevL9
- LLlvykEB2LTgTz4JEe3iY7c2SvXxf8o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-260-vT2wlnqFOGmWZY6piEHuuw-1; Thu, 10 Nov 2022 12:46:25 -0500
-X-MC-Unique: vT2wlnqFOGmWZY6piEHuuw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 17C8C185A79C;
- Thu, 10 Nov 2022 17:46:25 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 53EA640C83DF;
- Thu, 10 Nov 2022 17:46:24 +0000 (UTC)
-Date: Thu, 10 Nov 2022 18:46:23 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v2 0/3] block: Start/end drain on correct AioContext
-Message-ID: <Y2047+8HinvJE25K@redhat.com>
-References: <20221107151321.211175-1-hreitz@redhat.com>
- <Y20EJFt1w7xstZtC@redhat.com>
- <4b94c12a-13d3-67a0-f46b-631c40e2b2cb@redhat.com>
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1otBk9-0005tj-Ny
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 12:53:37 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1otBk8-0002KI-18
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 12:53:37 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id u6so2033289plq.12
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 09:53:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=2oKQDlB6eYx+fAXvKZFnqwvhnIR4JQKKCXs9/v8+asA=;
+ b=USq4b5Vh1OXggTCD0w44axvUCuw0wgwmRJONRIlB95PFBRewtOpmoKc7I2XbMFe+Jt
+ py6SLDlrcfHe9Q3VO4+7dfiMGs6dPX9qHKjrdWteekp4+U/DoQ8k4+BtA12MyhPAKSwW
+ oWUbDGwbmbtRu0HlyiAF1gzP3/dmYGn+4ag1yp2zQxUQz3Y8R8NAepQDJa1zRgnFTAwp
+ 482q2MupCDGAkGCVertYK1p6MwGRwEAvRckuUOPwVBujunwWETFLz4d1bnde8cgKCLkj
+ 6U6T7ZnM4yWVZOheoRcwISEPaZCMlXQ5G+O2GSFI15kWlhWhoPX3ZMRej3KuRu/bUqnC
+ oRxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2oKQDlB6eYx+fAXvKZFnqwvhnIR4JQKKCXs9/v8+asA=;
+ b=YoKAdp2+wp+WHXtev3jgJIejImukUCpctzH6j2TU9Q+6x/yWVMABBXtYBh6hwOJK/O
+ Pt0G6PJSf2I2qzmg6RvEqDlbPSCVz8DO/w0ozKdMkGfBQlF6AlrhnrVSb2dr9ICpHVLY
+ gouxMa6QQ4o7y4MsVuNIRzthrqBW4ILEiRZnfp8MPD3VkCBWjpnVccYjCErTP7zap7Qo
+ iVolbMveTQcPXGpo788FTO9O+iRkoPUM3Ay5DXP+Y3X20D140p0HxARSQJg2aA35aNAe
+ CqfA+u6SPzV4S495Yc3TQv+zsa6+MehRmwHH8f4riJ3MIgd282Erz2zfLjUgNQBifK5L
+ 07Sw==
+X-Gm-Message-State: ANoB5pkv87lOdAoGYt6LmD9jVlzBrFO81VT2w2I0juexAxA9GafqOf7o
+ jtlScyOGcbtQ5/ou96ILepKHtg==
+X-Google-Smtp-Source: AA0mqf5Tm7voUfqlq46fUuj/FQZ0U+LCKMGUSx8RMJOkkJOakWUAIRLRpdmCoJrBserqv+E6AVAQEA==
+X-Received: by 2002:a17:903:120f:b0:188:82fc:e259 with SMTP id
+ l15-20020a170903120f00b0018882fce259mr18758217plh.61.1668102813812; 
+ Thu, 10 Nov 2022 09:53:33 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ i13-20020a170902c94d00b00172e19c5f8bsm11666966pla.168.2022.11.10.09.53.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Nov 2022 09:53:33 -0800 (PST)
+Date: Thu, 10 Nov 2022 17:53:29 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com
+Subject: Re: [PATCH v9 4/8] KVM: Use gfn instead of hva for mmu_notifier_retry
+Message-ID: <Y206mVuJlXjO10qx@google.com>
+References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
+ <20221025151344.3784230-5-chao.p.peng@linux.intel.com>
+ <CA+EHjTySnJTuLB+XoRya6kS_zw2iMahW9-Ze70oKTf+6k0GrGQ@mail.gmail.com>
+ <20221104022813.GA4129873@chaop.bj.intel.com>
+ <Y2WSXLtcJOpWPtuv@google.com>
+ <20221108071624.GA76278@chaop.bj.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4b94c12a-13d3-67a0-f46b-631c40e2b2cb@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <20221108071624.GA76278@chaop.bj.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=seanjc@google.com; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,47 +117,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 10.11.2022 um 17:11 hat Hanna Reitz geschrieben:
-> On 10.11.22 15:01, Kevin Wolf wrote:
-> > Am 07.11.2022 um 16:13 hat Hanna Reitz geschrieben:
-> > > Hi,
-> > > 
-> > > v1 cover letter:
-> > > https://lists.nongnu.org/archive/html/qemu-block/2022-09/msg00389.html
-> > > 
-> > > bdrv_replace_child_noperm() drains the child via
-> > > bdrv_parent_drained_{begin,end}_single().  When it removes a child, the
-> > > bdrv_parent_drained_end_single() at its end will be called on an empty
-> > > child, making the BDRV_POLL_WHILE() in it poll the main AioContext
-> > > (because c->bs is NULL).
-> > > 
-> > > That’s wrong, though, because it’s supposed to operate on the parent.
-> > > bdrv_parent_drained_end_single_no_poll() will have scheduled any BHs in
-> > > the parents’ AioContext, which may be anything, not necessarily the main
-> > > context.  Therefore, we must poll the parent’s context.
-> > > 
-> > > Patch 3 does this for both bdrv_parent_drained_{begin,end}_single().
-> > > Patch 1 ensures that we can legally call
-> > > bdrv_child_get_parent_aio_context() from those I/O context functions,
-> > > and patch 2 fixes blk_do_set_aio_context() to not cause an assertion
-> > > failure if it beginning a drain can end up in blk_get_aio_context()
-> > > before blk->ctx has been updated.
-> > Thanks, applied to the block branch.
+On Tue, Nov 08, 2022, Chao Peng wrote:
+> On Fri, Nov 04, 2022 at 10:29:48PM +0000, Sean Christopherson wrote:
+> > The APICv case that this was added for could very well be broken because of
+> > this, and the resulting failures would be an absolute nightmare to debug.
 > 
-> Thanks!
-> 
-> I tested your drain series, and it does indeed fix the bug, too.
-> (Sorry for the delay, I thought it’d take less time to write an
-> iotest...)
+> Given the apicv_inhibit should be rare, the change looks good to me.
+> Just to be clear, your will send out this fix, right?
 
-Thanks for testing, it's good to have this confirmed.
-
-> > I would still be interested in a test case as a follow-up.
-> 
-> Got it working now and sent as “tests/stream-under-throttle: New test”.
-
-Great! I'll take a look.
-
-Kevin
-
+Ya, I'll post an official patch.
 
