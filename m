@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34EC0624700
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 17:31:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7308C624708
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 17:31:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otAQo-0007OP-S3; Thu, 10 Nov 2022 11:29:34 -0500
+	id 1otASK-0008Ok-BN; Thu, 10 Nov 2022 11:31:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otAQm-0007OC-Ll
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 11:29:32 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otAS9-0008JL-G7
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 11:31:04 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otAQk-0003zC-Lv
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 11:29:32 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otAS4-0005eN-Tn
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 11:30:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668097768;
+ s=mimecast20190719; t=1668097851;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=izypq1FJFQgpUSg8lE7GKeyl2LPNZrjmX4reSN1jshQ=;
- b=IGQkS5ThIp16zx9r7pbGjmXLPOWIOqp05Zk82eIEX0mlnfT/6Sy31M6g/ejC/DX8TgJDdx
- x8K6nJDJEAgdCGeLrk6gYD5/EWIAWjmhJ4+kvkn1ShzuKVjG0y1mVpQA3hMKdVef+LLI2b
- r98ZzvmBihlqpx25YOhQcpOlgrel+IQ=
+ bh=rtEXcT2tS3C1urB6CvC83gwpobbWIpFxSGHbQB5uUGI=;
+ b=bu3JVwJEaSkTpys2Wmqa/0eoqPf/Vaox2xrIO3XUTI5VDc/4WOAp+t66goX3rpFGSr5+Ly
+ XcY3GTuITlE3e/Vl49mthAwGMFHExw1Qbt2mroIgWL4OmRzkPSBe3s7e7StjfqpJIL9Xnf
+ ccI/OhYQ99L+U5CNdc7Mga4u38PgU3U=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-272-yftsk_TzP0yubbnt5B6EXg-1; Thu, 10 Nov 2022 11:29:27 -0500
-X-MC-Unique: yftsk_TzP0yubbnt5B6EXg-1
+ us-mta-628-uyGpY9pbMiSDNp7SQtkcfg-1; Thu, 10 Nov 2022 11:30:50 -0500
+X-MC-Unique: uyGpY9pbMiSDNp7SQtkcfg-1
 Received: by mail-wm1-f70.google.com with SMTP id
- j2-20020a05600c1c0200b003cf7397fc9bso1222127wms.5
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 08:29:26 -0800 (PST)
+ p14-20020a05600c204e00b003cf4cce4da5so805979wmg.0
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 08:30:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=izypq1FJFQgpUSg8lE7GKeyl2LPNZrjmX4reSN1jshQ=;
- b=yT7wRmBTWUEgurq6HZB5F87OYY79r0f1HAS9Y0UeFsOK/+QCFP0VO13c3wv0KlAwON
- oOAZDuxqkh5x493rEekpccRkKwtp+iqz6RJlkmX5RbFF450NkqhknHzFnXKUj3JBnEeD
- sc/6PuQ6ZRrLz2PPt6XnWju0SEpTE9kqU/2Ocq+w1KLMti2GWrBWcE1SYAN/uUy76b+q
- 71e9U8hljrEwzGpjAwJb6g7RyH7iLJrp1/ILONQwjoGvMEHlBcfeAAb8xZhR77al/Qr6
- sSfeHB5U9/Y/u7NeMKvDIBfRsWajZHaOJpBri6pcj5rLsKn+CdzqOwsAcCPolOvotNoH
- fqVA==
-X-Gm-Message-State: ACrzQf2Ia+lt1dcGvRQn0z/tJg/Wi+3QFPMu1vpBuaGsej9hrmcar5oH
- Uqpva0YB+87hKjONQDu5cvYF3b2lwa6Hr1gXS86n7etdwCGvpZMUO6OOfc7hw0ilNkWOXKfPzep
- vNGGLDpmDSHkixK0=
-X-Received: by 2002:a1c:448b:0:b0:3cf:6fcd:e171 with SMTP id
- r133-20020a1c448b000000b003cf6fcde171mr40838366wma.163.1668097765893; 
- Thu, 10 Nov 2022 08:29:25 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM7vRGn68dc6MqNh8KizYNINsE7v5ztlBOdpf7pwzNgkN8zJWIWgDwGIMia9Cvg/sYSa4RPFkw==
-X-Received: by 2002:a1c:448b:0:b0:3cf:6fcd:e171 with SMTP id
- r133-20020a1c448b000000b003cf6fcde171mr40838345wma.163.1668097765608; 
- Thu, 10 Nov 2022 08:29:25 -0800 (PST)
+ bh=rtEXcT2tS3C1urB6CvC83gwpobbWIpFxSGHbQB5uUGI=;
+ b=ha13dri5fYPBuwFg3oVkNZp3sdkYwV71XGFulEAujPZvZs8J/cvLf6fQW79Dww3YJ/
+ qz7EGZMcB/CeqUcXAVJMBneV02N7u6Z8/ATHKNH0HMczaCCjehlGbvZFa/RrYl3BN91H
+ sDsGlCkPM6KUfxjMmxtLkUooehuPD/kWwfi4x52vjJZsTqQzhRXaSfckUtL2FAClzXlL
+ JVDWymWDLrqaOKXthWU3Ccz0gbgnpxhtbsztPZ4UDkOYXPHVYUDgTO5qIopJHYl8iJx9
+ lcKZlBf4qCRJJMSCvVrADRAmF6rtFLiRgQxe6Mui3D/ZMOdER1R7/g/T4ydstMjEhl0U
+ j5Aw==
+X-Gm-Message-State: ACrzQf0QPfmeMyBKHT/feSKNsxBDfePgeErqvMiicPYLuTCnhpADzNXt
+ /8DYE+FgZ8iD7G/M9gQuP28SLhgB8HdbRZyjbYhBwc6Mm0BeKZlg+uVjvMXgfij9YQrvj+Fh1r0
+ M83GtVp3jgvMeDfg=
+X-Received: by 2002:a7b:c009:0:b0:3cf:6b95:73c8 with SMTP id
+ c9-20020a7bc009000000b003cf6b9573c8mr40536138wmb.121.1668097849424; 
+ Thu, 10 Nov 2022 08:30:49 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM4QmNAarOn++wzGwEygWNP3ukm836YfgPL9hPJEdwn26sVXk7lqS5D390sRtyCGLBPE/C0kXg==
+X-Received: by 2002:a7b:c009:0:b0:3cf:6b95:73c8 with SMTP id
+ c9-20020a7bc009000000b003cf6b9573c8mr40536122wmb.121.1668097849123; 
+ Thu, 10 Nov 2022 08:30:49 -0800 (PST)
 Received: from redhat.com ([2.52.3.250]) by smtp.gmail.com with ESMTPSA id
- iw2-20020a05600c54c200b003cf77e6091bsm5419392wmb.11.2022.11.10.08.29.23
+ p5-20020a05600c358500b003c6b9749505sm6422788wmq.30.2022.11.10.08.30.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 08:29:24 -0800 (PST)
-Date: Thu, 10 Nov 2022 11:29:21 -0500
+ Thu, 10 Nov 2022 08:30:48 -0800 (PST)
+Date: Thu, 10 Nov 2022 11:30:45 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- Laurent Vivier <lvivier@redhat.com>,
+Cc: qemu-devel@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Ani Sinha <ani@anisinha.ca>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Richard W.M. Jones" <rjones@redhat.com>
 Subject: Re: [PATCH 0/4] hw: make TCO watchdog actually work by default for Q35
-Message-ID: <20221110112700-mutt-send-email-mst@kernel.org>
+Message-ID: <20221110112956-mutt-send-email-mst@kernel.org>
 References: <20221031131934.425448-1-berrange@redhat.com>
- <Y1/SoFxe3P2HVV3W@redhat.com>
- <20221031114835-mutt-send-email-mst@kernel.org>
- <20221101135724.7f89868c@fedora> <Y2EZFXOMR7sTDJGf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y2EZFXOMR7sTDJGf@redhat.com>
+In-Reply-To: <20221031131934.425448-1-berrange@redhat.com>
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -105,77 +102,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Nov 01, 2022 at 01:03:17PM +0000, Daniel P. Berrangé wrote:
-> On Tue, Nov 01, 2022 at 01:57:24PM +0100, Igor Mammedov wrote:
-> > On Mon, 31 Oct 2022 11:48:58 -0400
-> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > 
-> > > On Mon, Oct 31, 2022 at 01:50:24PM +0000, Daniel P. Berrangé wrote:
-> > > > On Mon, Oct 31, 2022 at 01:19:30PM +0000, Daniel P. Berrangé wrote:  
-> > > > > The TCO watchdog is unconditionally integrated into the Q35 machine
-> > > > > type by default, but at the same time is unconditionally disabled
-> > > > > from firing by a host config option that overrides guest OS attempts
-> > > > > to enable it. People have to know to set a magic -global to make
-> > > > > it non-broken  
-> > > > 
-> > > > Incidentally I found that originally the TCO watchdog was not
-> > > > unconditionally enabled. Its exposure to the guest could be
-> > > > turned on/off using
-> > > > 
-> > > >   -global ICH9-LPC.enable_tco=bool
-> > > > 
-> > > > This was implemented for machine type compat, but it also gave
-> > > > apps a way to disable the watchdog functionality. Unfortunately
-> > > > that ability was discarded in this series:
-> > > > 
-> > > >   https://lore.kernel.org/all/1453564933-29638-1-git-send-email-ehabkost@redhat.com/
-> > > > 
-> > > > but the 'enable_tco' property still exists in QOM, but silently
-> > > > ignored.
-> > > > 
-> > > > Seems we should either fix the impl of 'enable_tco', or remove the
-> > > > QOM property entirely, so we don't pretend it can be toggled anymore.
-> > > > 
-> > > > With regards,
-> > > > Daniel  
-> > > 
-> > > i am inclined to say you are right and the fix is to fix the impl.
-> > 
-> > Is there need for users to disable whatchdog at all?
-> > It was always present since then and no one complained, 
-> > so perhaps we should ditch property instead fixing it
-> > to keep it simple.
+On Mon, Oct 31, 2022 at 01:19:30PM +0000, Daniel P. Berrangé wrote:
+> The TCO watchdog is unconditionally integrated into the Q35 machine
+> type by default, but at the same time is unconditionally disabled
+> from firing by a host config option that overrides guest OS attempts
+> to enable it. People have to know to set a magic -global to make
+> it non-broken
 > 
-> Thinking about it more, I think we should NOT fix the 'enable_tco' property,
-> because there will be no way for a mgmt appp to tell if they're using a
-> fixed or broken QEMU.
-
-This is always the case for any bug. We don't as a rule add properties
-for this, it is distro's responsibility to pick bugfixes for
-features users care about.
-
-What makes this bug different?
-
-
-> So if they use 'enable_tco' on a broken QEMU and then
-> live migrate, they'll get an guest ABI change. If we did want to support
-> disabling it, then we should have a brand new property that apps can probe
-> for.
+> IOW we're exposing a broken watchdog by default to all Q35 machines,
+> but which to the guest OS & its apps looks fully functional :-(
 > 
-> In the absence of a request to disable watchdog, I'd say we just delete
-> 'enable_tco' right now. If someone wants it in future, we can add it with
-> a new name.
+> This behaviour was set in response to feedback from Michael:
 > 
-> With regards,
-> Daniel
+>   https://lists.gnu.org/archive/html/qemu-devel/2015-06/msg07128.html
+> 
+>     "I think sample high is a safer default."
+> 
+> but as explained in the commit message in the last patch, I think the
+> watchdog defaults were already safe without that pin strap setting.
+> The guest OS needs to take explicit action to clear the guest visible
+> 'no reboot' flag, and so we don't need a second guest hidden 'no reboot'
+> flag to override that choice IMHO. Am I missing something ?
+> 
+> NB, I'm toggling this for 7.2 machine type since that's the current
+> git latest machine. Since this has already been "broken" for 7 years
+> though, I am ambivalent about whether we try todo this for 7.2, vs
+> just wait until the 8.0 machine types arrive.
 
-I am really stressed about watchdog firing and resetting VMs that previously
-were working fine. Adding this without a safety mechanism to quickly
-disable in case of problems in the field is not wise imho.
 
+So I expect v2 with minor issues fixed and hopefully a
+fixed property (we can debate removing it down the road
+if we want).
+
+
+> Daniel P. Berrangé (4):
+>   hw/acpi: add trace events for TCO watchdog register access
+>   hw/isa: add trace events for ICH9 LPC chip config access
+>   hw/watchdog: add trace events for watchdog action handling
+>   hw/isa: enable TCO watchdog reboot pin strap by default
+> 
+>  hw/acpi/tco.c            | 41 +++++++++++++++++++++++++++-------------
+>  hw/acpi/trace-events     |  2 ++
+>  hw/i386/pc.c             |  4 +++-
+>  hw/isa/lpc_ich9.c        |  5 ++++-
+>  hw/isa/trace-events      |  4 ++++
+>  hw/watchdog/trace-events |  4 ++++
+>  hw/watchdog/watchdog.c   |  4 ++++
+>  tests/qtest/tco-test.c   |  2 +-
+>  8 files changed, 50 insertions(+), 16 deletions(-)
+> 
 > -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 2.37.3
 
 
