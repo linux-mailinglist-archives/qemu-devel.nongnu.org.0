@@ -2,84 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8159D623F17
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 10:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0836B623F2E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 10:58:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot4GP-0003zZ-BL; Thu, 10 Nov 2022 04:54:25 -0500
+	id 1ot4Ja-0005nJ-Tu; Thu, 10 Nov 2022 04:57:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ot4GK-0003yX-So
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:54:21 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ot4GJ-0005K7-Ay
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:54:20 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- r203-20020a1c44d4000000b003cfa97c05cdso1270974wma.4
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 01:54:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=REgkQxRARMi48PfmAasEjKYo7kp4BFH2kurz6rFvCyc=;
- b=kBOGFkoWqkNWwobuRqxBEdwXWcNXASzsYQM50EJsMNiDBCMqnTti+2iqUDo5Ss/NSr
- 7u5+vxC5gIgIGqdpn3zL8Z5tgeJqAwjsxc/w0lD7Igyl85Wl7ylIh3HSeYjd4tBa0M1i
- DEMKuI8i6BA6P+74EYDrFw5djsg+DFqAMnfGF9XRZ2JUKPi63zkrV4vxBlOKqIhrSiBe
- fjX8BLsBXAw25baEiBKlfIcv8uBwHR2dOh/sjz/JhVWoVjh4tm8gHLv1gb84/GRfaH7s
- pn6o57SLPZaMPc9irjEJzbF7rifVqBEuL7MxymqV2mwfTSiHu3uR0tmNz+8/vRPQAw9v
- v+DQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot4JZ-0005mo-4E
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:57:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot4JX-0006w5-DX
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:57:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668074258;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Scbl1bp5XfiaDnXgT0IsOTs8ETs2VVaAkn8rAxavUlo=;
+ b=W/aSlcTWOXrkyhXl41BK22zz1aqL+XB6Eq+BBgwPvoq9yO21gRt0ffQeCzpVvWYeuZTFGq
+ szE3fzZeJkldDShupMGEEGou/JUpQoNUxPWFzvJ9wc4imR8bMDMLOjNVJZaRi6RRFrMOBn
+ a22KInE2E1oJQk7nwh2SUaaXnrB32rU=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-81-IRSTllnHO12PgMLSF9mxJg-1; Thu, 10 Nov 2022 04:57:36 -0500
+X-MC-Unique: IRSTllnHO12PgMLSF9mxJg-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ v10-20020a17090a7c0a00b00215deac75b4so873891pjf.3
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 01:57:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=REgkQxRARMi48PfmAasEjKYo7kp4BFH2kurz6rFvCyc=;
- b=pBEsdeGFV3Yb3vAQ21wRkXep0Nra7ZA68cLvqMdPdH0EpyKumYsAj/JvFxJw54ZvPK
- MoNp69c15wopn2udsPryOjxj8/s5DNCeWVLWFr7+IUaT1aulEZeO6589DXvOPj49iD1o
- ni3VdXxQuiK3pwK+s0QpqHIxEwDJyLXIaxsekpwGvQ/aomFElcxvvzk2T/k93sTqGjQ7
- ZceWGUKMwWGXcW7mPCM/s0VrH9PQa9a+7F0mk539XHICQMV2PQXLiywyQHxjHULhJLBI
- KB7IQKLiSKki/C+BInRkKdPAdMynvuarvY5W9trhxxBxIaCoBDM4dpmB5cSzVJe87Ag0
- P1XQ==
-X-Gm-Message-State: ACrzQf2yBu4vjYhM+Ua2maiu4q43IXv6/9RU9ZQc4atXDTz6uEK6G9GI
- qipVomBaj3s/bMy2r+XvKQ+FHg==
-X-Google-Smtp-Source: AMsMyM7RkfdZ8wFjF4jJLRQd33XxaBT6MQSHnznsuaoS959IlczaymDON4EGf8cdvSTv7V2uaGMmlQ==
-X-Received: by 2002:a7b:cbc1:0:b0:3c6:c013:9345 with SMTP id
- n1-20020a7bcbc1000000b003c6c0139345mr1009276wmi.172.1668074056740; 
- Thu, 10 Nov 2022 01:54:16 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
+ bh=Scbl1bp5XfiaDnXgT0IsOTs8ETs2VVaAkn8rAxavUlo=;
+ b=ieVat7Vp9uIt7BBSSEbMjm3GSSt+lZ1vEsDV6nV/bCeNI8uXNjnRMPx96wY31T6hOw
+ 7GDQAn93NRwl4D3PhnUNjFxJV/jfJV8IyVZ6NMlFrzQQZkeE4oNIofVCfR8WhT9kEbAm
+ ziPnQQILd5ldNviL/0Q0ZnbFv/ryvLv09cfE6/KW5bxun3E8CqYoW/sDkvThRwSvNe8Y
+ m/901Yq+AScJlWfF+C1iHoZAXSSxebyzitFt2IZvZkJ8zGLcEjLMOWHQSLy2MKW8Gswq
+ wCzvxMVZvYEbML27yR86a340t1DBXF0WJO/tlx/Jt4efZaaK8gEJoA1+cKq5mSI3Q9lR
+ B5UA==
+X-Gm-Message-State: ACrzQf2jT3hTF4WFKKXP5pNadNWt4D6ijoNLcDgEHnZA0SLRzUK/2bCL
+ 8/JrIcRCJWKOwSXwF9iWaQQ0cfw7CpVOVrXg3xLql4vpKosIpPZ14/bFtqGCIGvSeaUFlUAxLZ8
+ 4w2tH0OyeKL5FJ4Q=
+X-Received: by 2002:aa7:81d3:0:b0:563:5c10:6cd6 with SMTP id
+ c19-20020aa781d3000000b005635c106cd6mr2279317pfn.53.1668074255722; 
+ Thu, 10 Nov 2022 01:57:35 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM4i2qdWL9Ba13EU0jSFkIdCBzfkMVSE9vohVlNqflq7FsQFjPdGv2lwUjB6ecDk0kKoJIYkrQ==
+X-Received: by 2002:aa7:81d3:0:b0:563:5c10:6cd6 with SMTP id
+ c19-20020aa781d3000000b005635c106cd6mr2279303pfn.53.1668074255447; 
+ Thu, 10 Nov 2022 01:57:35 -0800 (PST)
+Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- l18-20020a05600c1d1200b003b95ed78275sm4984593wms.20.2022.11.10.01.54.14
+ w15-20020a1709026f0f00b00181f8523f60sm10733324plk.225.2022.11.10.01.57.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 01:54:16 -0800 (PST)
-Message-ID: <a769c3cf-2b7a-acaa-db5b-4808eb64c351@linaro.org>
-Date: Thu, 10 Nov 2022 10:54:13 +0100
+ Thu, 10 Nov 2022 01:57:34 -0800 (PST)
+Message-ID: <0b29d9e3-9ce2-633c-1d73-cb5b0b9105ee@redhat.com>
+Date: Thu, 10 Nov 2022 10:57:27 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH for-7.2 v2 2/6] hw/nvme: fix cancellation of format
- operations
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] qga: Allow building of the guest agent without system
+ emulators or tools
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <k.jensen@samsung.com>
-References: <20221110070523.36290-1-its@irrelevant.dk>
- <20221110070523.36290-3-its@irrelevant.dk>
- <b408f286-2262-480e-01d7-230240bc743c@linaro.org>
-In-Reply-To: <b408f286-2262-480e-01d7-230240bc743c@linaro.org>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, Konstantin Kostiuk <kkostiuk@redhat.com>,
+ qemu-trivial@nongnu.org, Michael Roth <michael.roth@amd.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20221109173750.201615-1-thuth@redhat.com>
+ <b81930e5-9df7-a80a-5db4-09290a3b71f3@linaro.org>
+ <87wn83jr54.fsf@pond.sub.org>
+ <cee224a9-b107-9bf1-66d5-b631d5a88345@redhat.com>
+ <208d1191-6852-c74c-2a06-d65a6a657f4d@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <208d1191-6852-c74c-2a06-d65a6a657f4d@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,39 +107,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/11/22 10:53, Philippe Mathieu-Daudé wrote:
-> On 10/11/22 08:05, Klaus Jensen wrote:
->> From: Klaus Jensen <k.jensen@samsung.com>
->>
->> Cancelling a format operation neglects to set iocb->ret as well as
->> clearing the iocb->aiocb after cancelling the underlying aiocb.
->>
->> Fix this.
->>
->> Fixes: 3bcf26d3d619 ("hw/nvme: reimplement format nvm to allow 
->> cancellation")
->> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->> ---
->>   hw/nvme/ctrl.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->> index 918af03d32be..819c02067191 100644
->> --- a/hw/nvme/ctrl.c
->> +++ b/hw/nvme/ctrl.c
->> @@ -5762,8 +5762,11 @@ static void nvme_format_cancel(BlockAIOCB *aiocb)
->>   {
->>       NvmeFormatAIOCB *iocb = container_of(aiocb, NvmeFormatAIOCB, 
->> common);
->> +    iocb->ret = -ECANCELED;
->> +
->>       if (iocb->aiocb) {
->>           blk_aio_cancel_async(iocb->aiocb);
->> +        iocb->aiocb = NULL;
->>       }
->>   }
+On 10/11/2022 10.49, Philippe Mathieu-Daudé wrote:
+> On 10/11/22 09:35, Thomas Huth wrote:
+>> On 10/11/2022 06.49, Markus Armbruster wrote:
+>>> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
+>>>
+>>>> On 9/11/22 18:37, Thomas Huth wrote:
+>>>>> If configuring with "--disable-system --disable-user --enable-guest-agent"
+>>>>> the linking currently fails with:
+>>>>>
+>>>>> qga/qemu-ga.p/commands.c.o: In function `qmp_command_info':
+>>>>> build/../../home/thuth/devel/qemu/qga/commands.c:70: undefined 
+>>>>> reference to `qmp_command_name'
 > 
-> What about nvme_flush_cancel()?
+>>>>> Let's make sure that we also compile and link the required files if
+>>>>> the system emulators have not been enabled.
+>>>>>
+>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>
+>>> I wonder for how long this has been broken.
+>>>
+>>> Should we add such a configuration to CI?
+>>
+>> Some month ago, I'd say: Sure! ... but considering that gitlab now limits 
+>> the available CI minutes and that apparently nobody really cares about 
+>> this configuration (otherwise someone would have complained about this 
+>> earlier), I think it's not that important to have a separate CI test for 
+>> this configuration.
+> 
+> We could eventually add a job restricted to qemu-project CI (not in
+> forks).
 
-Ah, this is what the next patch fixes...
+The problem is: Who's going to create such jobs? Someone needs to write the 
+yaml stuff and test it first. And at least I pretty much lost motivation to 
+work on new yaml stuff, since this burns my private CI minutes (which I 
+rather need for my maintainer duties instead).
+
+  Thomas
+
 
