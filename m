@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC2C623C55
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 08:07:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4AAF623C5B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 08:07:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot1d8-0003qB-Ar; Thu, 10 Nov 2022 02:05:42 -0500
+	id 1ot1d8-0003q8-BV; Thu, 10 Nov 2022 02:05:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ot1d2-0003mN-31; Thu, 10 Nov 2022 02:05:38 -0500
+ id 1ot1d3-0003mT-D2; Thu, 10 Nov 2022 02:05:38 -0500
 Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ot1d0-0007bp-7i; Thu, 10 Nov 2022 02:05:35 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 62C4C5C01BF;
- Thu, 10 Nov 2022 02:05:33 -0500 (EST)
+ id 1ot1d1-0007fY-Ir; Thu, 10 Nov 2022 02:05:37 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id C25235C0153;
+ Thu, 10 Nov 2022 02:05:34 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 10 Nov 2022 02:05:33 -0500
+ by compute2.internal (MEProxy); Thu, 10 Nov 2022 02:05:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1668063933; x=
- 1668150333; bh=+q37KJqetTbMGxdU+/QWTLOK1xl3R4MQU0inD7AbpQM=; b=d
- V8zyYfpY8l7/pcf3kH0OnM/T1baHxFLZk+bu9AsJN1bRxcSMv+WZ0pq/H2Yhr7uN
- lRTyUljfqQIkQixim3HGRwlOuXMy1d7JXhhaxMkXUEVEjZWxV6KYWuzwNvsnsDhg
- bgqeBA8G13IAAA1fSgNCQHhF8xb+hZFEUsSI/7J8ZhyZLnMQqlOk+jgjiuiD80jD
- pYdfmQ8SsNh1hEGGkiW2PTYGv4+MXXffan60LbvGSkdRJthqsiVmbOdIA/UuSAJX
- QdPydYYY/YnL5993NyJpR7amgC9nl2TuCJt3GpCq9+BdoXjrFqw9d+Tt2Q6W5I8R
- MIOv90OFq9KjlGPm8RXeQ==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1668063934; x=
+ 1668150334; bh=dpK/AXVrw0wKyFZ+msLjs6r4jWGMrg7IpCn1dnDY/nc=; b=I
+ 7Mg1EYV9RpkOF7Rmk5PlyBdl94AphRwIMfGyKG+Ao/Di3Z10X1DvpZLvj6z4yYL6
+ x3pjeH6LwguaXsTIz3MRR9GgWlGyFsl7902z/G/XGjZq/Opezf+vf5EvhK+QdPu6
+ hdfHxIxfWLxWlRmqs9oQ+9Hjw3JlzNMjWTT3tw30RgOBP/R9pI+Fjryg5SjNwnns
+ iPllLovsK2TGBfn50iWKF57sDU0YZL8upjFQVYJBL9LtWhAD3VlIIZmqhjePfpnL
+ SApuM9deUy/tZLU2Ow7S0XSYrsmkB6WUtGlC693OtKhhvQRs2rkxVxpVRiV3Pmaz
+ q5qjSye4hBsTb1DFEqzdw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1668063933; x=1668150333; bh=+q37KJqetTbMG
- xdU+/QWTLOK1xl3R4MQU0inD7AbpQM=; b=wX9k3FtDgUwThvasZkxtd9b4Rv7Ep
- fG82oSztKTJRFUkm9vWRLUmnh09k0DDF1EVQ5986SyauOfa/XfWFZIoy0cwA9Vv3
- eSQ1nYMe8ADvhdgJNAx836vJZpOWQb3IYKBhUXlCl72nRAiDIifv1i1m27X6o5BX
- ar0jBT/T6pZgmfJ/UjirUGg6Bx3bKAr0m2lVHczE/+5+Q2K8Z1a7zOQpyrXRAP4U
- 3WkE1LlZA2e+wr2JhY7/WKV7e1gzcNZxpeOXgrD6MPUdJmO+dl0j9IERjVo6u18V
- CzSQdgvceSjp5cchI6g+wn/Xic3emUlblK16mBnbZGABHDv2TY8RcseMA==
-X-ME-Sender: <xms:vaJsY5cSbVZYJ96iY0Xl3cRVhztzk2M_QvHfaIDQo1v8CnNbY6UNLQ>
- <xme:vaJsY3OwTijHYB1-kcUaBNSvVY4kT5m-BHFUIPnMeZAfWDhhy-Iabh1wFgmhFqlgL
- -JRxCOPrySDoFgXamA>
-X-ME-Received: <xmr:vaJsYyjLbDfLcGi7hSt5iqQWSHwVbjyMICExgaje1kCXxbwmhJ37L1jythYQz74haHylRGbN9pB8EZcxnj7QT8EVJaHInkBa6qtU0w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeefgddutdegucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm1; t=1668063934; x=1668150334; bh=dpK/AXVrw0wKy
+ FZ+msLjs6r4jWGMrg7IpCn1dnDY/nc=; b=SEnV4RUo6DmQUGx2OnEv6DMxK5K9y
+ gVit1mRMKCa3A7L+XGJCQN8gYirEnGbqiSDCX0ZgY1DA8VMB4O02uVeHqXV/LTdd
+ NWEOifb5cHJizIp7RWRVxcbEt9w0gGft/kOrEtpTtucmYoAYTQSwYiUS5hOLjTQQ
+ Ku7+KdPOk103i9pgDUGZbGUZSuTz6NZQblu1PrrLJRYO1ERWb3RugZ6Lf+MTTlh2
+ ODyXbxEQ/iin5H7v9BixiD4ClvY2a7bYGmTtaayo5u0MZ5esBQ3fPfCMcHBYY2oD
+ z0BMDaU5ZLcX5NriQKBVW4+6um8XR1fzM9rJ7mZt83/fJDOVoZ3HxHrfg==
+X-ME-Sender: <xms:vqJsY8PLtJyrqjww60SkDsRmoHeS3pkDcLRcX-gCRDdv4Wlb4XQS3g>
+ <xme:vqJsYy8QxmEowK_xdTtUvNozrZfT-HCmKAy9u3lh2VrlHxUDoURz9mbB68ID9Wt83
+ Vg_daSKiwNA0nat_uI>
+X-ME-Received: <xmr:vqJsYzR2kzgRQs6weVfET8kWJqq6tFOEEhHNCqKLJPPOrrlQp1hxSmQjRAbde9wweyn6GTV6FEA7xFmKJ5cYRlwjAuNNmY5o6lSdaQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeefgddutdehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
@@ -56,34 +56,33 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeefgddutdegucetufdoteggod
  htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
  udegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:vaJsYy_cm5WTcwMOKOJ0dnKeisk4eiYshpjsGyhSwz91hr_XoE80ng>
- <xmx:vaJsY1u-xrQeW-FuvW8XQbWkkFTTA7UOd3mNHdKb0ErOVuZa9N7sYA>
- <xmx:vaJsYxFrb25zlTaw1aAMjeVxl3xOht1BNsfyep1xOlIKJG_ci8s_qQ>
- <xmx:vaJsY9LB-V3L8JFp3GMlzHGkIRCIqIdfvCnoNZyJsucuZu6wiONEqg>
+X-ME-Proxy: <xmx:vqJsY0t4z-e0_qn5X3D72ahThwhZy_LfZTUIOwjq3G39rtLxwFB-yg>
+ <xmx:vqJsY0de0UTXQS5H1mjZ-lziGh9STsCwByJ3FYQ9_ts0GIJdFEvLzA>
+ <xmx:vqJsY42KM2SixdQZ5h-MAmcCmLpqlfr_E5fofCAjh1_OmSB1B7nwGw>
+ <xmx:vqJsY87Uu2y24ocSh5ZoOt_QFus-ONpg3YyMFk1qIw6jfbp3JYV91A>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Nov 2022 02:05:32 -0500 (EST)
+ 10 Nov 2022 02:05:33 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
  Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH for-7.2 v2 4/6] hw/nvme: fix cancellation handling in zone
- reset
-Date: Thu, 10 Nov 2022 08:05:21 +0100
-Message-Id: <20221110070523.36290-5-its@irrelevant.dk>
+Subject: [PATCH for-7.2 v2 5/6] hw/nvme: fix cancellation handling in dsm
+Date: Thu, 10 Nov 2022 08:05:22 +0100
+Message-Id: <20221110070523.36290-6-its@irrelevant.dk>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221110070523.36290-1-its@irrelevant.dk>
 References: <20221110070523.36290-1-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1746; i=k.jensen@samsung.com;
- h=from:subject; bh=n7Dcj1qGEyBaxhTLSaJ/sp063OE/KCgn13JRZLe8DfU=;
- b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGNsorNwHW4m9wF91XzbKmOJp55FWQZjJos6T4e/
- 3nW/12JioYkBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjbKKzAAoJEE3hrzFtTw3pqg
- 8H/0itizwi01O5jr9DL2bQmSyH1J8clyBx4pY2aaSEwvFC1gzgQgFg+Q/NncpsJuK3xc0d+c1Asgya
- BCqNsOxigFanibmvEChS+z0okqPCghyYcGkGjZGyHLQW3dGflIIs5ND8bvkD33t7YndfEh20XN60d8
- LXknswxAjHB/VM0WaOxKZ68b9MLh9PoJSVGd0bL2UiZ2Q6v1QiCHL2WRb5k3O5osxWSfjaPpQmzGR6
- HhT5DOt46L5J65jkuHyfiygen27mcuxSw3D+4dP+SSBH5BUhx6xupYtqw96z6HJH+0fK9cOipFwt24
- VcgU7IvjFXjVVTpF4MuUzTYAbSXqAvXMwXqK2V
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1917; i=k.jensen@samsung.com;
+ h=from:subject; bh=tbY5b8GPyHs2k8mhY6tLvoyX/S+S++hnbWuhpyft6XU=;
+ b=owJ4nAFtAZL+kA0DAAoBTeGvMW1PDekByyZiAGNsorM59JsO8gn3Q3VnLIr/+XUF/JybRzgeLMvQ
+ 9muVug12W4kBMwQAAQoAHRYhBFIoM6p14tzmokdmwE3hrzFtTw3pBQJjbKKzAAoJEE3hrzFtTw3pAB
+ gH/2z9NdSrQoqJQ3qcOkC4aSkgToXh1/1ypo+2xMKuqKuhxksBwEIpmj7FKdDne9ccx+Tfhe2r9ZM0
+ +9UXkO5badIJV0NfiwFtkPA3Wu8pMG8NzGIpdl5gRIH+cJYR4ANv3pqfFjkZdPVpNvPukklcuqxQ4F
+ LIOFV425oPHRxqbZhgdCXVjrrIBGxZUarHOkjWHWxxavG7O/rjwTyha3MCsLupr/ZFJSq3+SSkjxGS
+ AZzCOMR+gTplgglv/18UUveXBGT0AuO89I1vrLyS2L6B13SuQcacAhSHlDfotZJkT9EicsjNgcl/Qc
+ M+ZjFSBsP+ImcGWoRdDVHelSWto24jkt6KA6s9
 X-Developer-Key: i=k.jensen@samsung.com; a=openpgp;
  fpr=DDCA4D9C9EF931CC3468427263D56FC5E55DA838
 Content-Transfer-Encoding: 8bit
@@ -113,52 +112,61 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-If the zone reset operation is cancelled but the block unmap operation
-completes normally, the callback will continue resetting the next zone
-since it neglects to check iocb->ret which will have been set to
--ECANCELED. Make sure that this is checked and bail out if an error is
-present.
+When the DSM operation is cancelled asynchronously, we set iocb->ret to
+-ECANCELED. However, the callback function only checks the return value
+of the completed aio, which may have completed succesfully prior to the
+cancellation and thus the callback ends up continuing the dsm operation
+instead of bailing out. Fix this.
 
-Fixes: 63d96e4ffd71 ("hw/nvme: reimplement zone reset to allow cancellation")
+Fixes: d7d1474fd85d ("hw/nvme: reimplement dsm to allow cancellation")
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ hw/nvme/ctrl.c | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index fe748fc18a2e..fa8e4b8dd53a 100644
+index fa8e4b8dd53a..6f217c3951bd 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -3772,14 +3772,8 @@ static void nvme_zone_reset_epilogue_cb(void *opaque, int ret)
-     int64_t moff;
-     int count;
+@@ -2384,16 +2384,10 @@ static void nvme_dsm_md_cb(void *opaque, int ret)
+     uint64_t slba;
+     uint32_t nlb;
  
 -    if (ret < 0) {
--        nvme_zone_reset_cb(iocb, ret);
+-        iocb->ret = ret;
++    if (ret < 0 || iocb->ret < 0 || !ns->lbaf.ms) {
+         goto done;
+     }
+ 
+-    if (!ns->lbaf.ms) {
+-        nvme_dsm_cb(iocb, 0);
 -        return;
 -    }
 -
--    if (!ns->lbaf.ms) {
--        nvme_zone_reset_cb(iocb, 0);
--        return;
-+    if (ret < 0 || iocb->ret < 0 || !ns->lbaf.ms) {
-+        goto out;
-     }
+     range = &iocb->range[iocb->idx - 1];
+     slba = le64_to_cpu(range->slba);
+     nlb = le32_to_cpu(range->nlb);
+@@ -2406,7 +2400,6 @@ static void nvme_dsm_md_cb(void *opaque, int ret)
+     ret = nvme_block_status_all(ns, slba, nlb, BDRV_BLOCK_ZERO);
+     if (ret) {
+         if (ret < 0) {
+-            iocb->ret = ret;
+             goto done;
+         }
  
-     moff = nvme_moff(ns, iocb->zone->d.zslba);
-@@ -3789,6 +3783,9 @@ static void nvme_zone_reset_epilogue_cb(void *opaque, int ret)
-                                         BDRV_REQ_MAY_UNMAP,
-                                         nvme_zone_reset_cb, iocb);
+@@ -2420,8 +2413,7 @@ static void nvme_dsm_md_cb(void *opaque, int ret)
      return;
-+
-+out:
-+    nvme_zone_reset_cb(iocb, ret);
+ 
+ done:
+-    iocb->aiocb = NULL;
+-    qemu_bh_schedule(iocb->bh);
++    nvme_dsm_cb(iocb, ret);
  }
  
- static void nvme_zone_reset_cb(void *opaque, int ret)
-@@ -3797,7 +3794,9 @@ static void nvme_zone_reset_cb(void *opaque, int ret)
-     NvmeRequest *req = iocb->req;
-     NvmeNamespace *ns = req->ns;
+ static void nvme_dsm_cb(void *opaque, int ret)
+@@ -2434,7 +2426,9 @@ static void nvme_dsm_cb(void *opaque, int ret)
+     uint64_t slba;
+     uint32_t nlb;
  
 -    if (ret < 0) {
 +    if (iocb->ret < 0) {
