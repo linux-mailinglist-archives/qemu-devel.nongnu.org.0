@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163EA6249FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 19:53:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7AE56249FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 19:54:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otCeA-0000Wf-O4; Thu, 10 Nov 2022 13:51:30 -0500
+	id 1otCg3-0001XS-21; Thu, 10 Nov 2022 13:53:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1otCe8-0000TV-Gz
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 13:51:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otCg0-0001Ws-Lf
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 13:53:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1otCe6-0004yU-Jq
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 13:51:28 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otCfy-0005n0-Kj
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 13:53:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668106285;
+ s=mimecast20190719; t=1668106402;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oIAXGYjHRzPUlRIjQX4w+qrIjyrEPktD0b9Vf5ABP1k=;
- b=GoouKp3cJGBXKPpLFujVqSj6IOBeOZ9oD5EBxy1oVLNUUs3xNwmFPx5va8ya8rbdRj91zd
- ubjHF+5sgOXe62rw/k+B4uVBj+Fs2bnaMq0YjYZHzcNtwRqAKBIQofm/MvoVKM/0xNRwCR
- 776AZNIKUJFilyNhDUkV2gz8FT1tflU=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NB1EY0bhJeMMFEOjWjNXhLdRpCbmM2+fi2awf3ykoPA=;
+ b=fZFakKnS/5eFkAZVGtGEdMKRO7LIki8LuGmoIM58AaxYSCQcBeHkRlc27BBf8T5Lcxq4ZX
+ eQPiTZ/eCNr9+3al9uQD/lPvznV/BDVtUldinVnL3rsG7qsy7NCHoEHbg17+lTOsyK+ovV
+ L8xbBRoaiIG1UvnQ9LdEvXOT8wZ4DcQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-259-eukqjz9YNUK4vo5hTnq23g-1; Thu, 10 Nov 2022 13:51:22 -0500
-X-MC-Unique: eukqjz9YNUK4vo5hTnq23g-1
-Received: by mail-ot1-f70.google.com with SMTP id
- s5-20020a9d7585000000b0066c7a3ddf59so1273524otk.13
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 10:51:22 -0800 (PST)
+ us-mta-606-7vct8DeENrimNuuoE-MbDw-1; Thu, 10 Nov 2022 13:53:20 -0500
+X-MC-Unique: 7vct8DeENrimNuuoE-MbDw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ bi19-20020a05600c3d9300b003cf9d6c4016so3085280wmb.8
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 10:53:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oIAXGYjHRzPUlRIjQX4w+qrIjyrEPktD0b9Vf5ABP1k=;
- b=Ny63XFiPzZJYRsAYUNz2SByp6GxPb4vrNA3wYMh5sE3ofjKz54UGAez4htEN8blQdZ
- JYQ5pSCzyPBJ2ZmUxgvuHmPRDD2nAqqUBQhO7/+ZKVzsAu9nOrc/TprMMkYlZ8yzBRdQ
- NRHt5yV7jmbqNYsny3X0IyPV4Pg8JSL9Umt/dkSA4AXAX3X/XhWgTGd3hnOP/ULWmDRD
- C4rhVjzFdYdRhZhXHjZdrIoO42W/zA845TivJMSF/LI4PLN63h3YZ9MnxUTKBePCfMQH
- 4h3M2h4t8nehaqioux4y+zU51RAlVtkCOMK3z/m7wSUYfdlH0kxQOhfbI44wcVAyl1Vi
- lhNQ==
-X-Gm-Message-State: ACrzQf0k7Hvnge4mxbfYi2fxPLtB01RQKtlA1VKT8cXWKDv5XLdiSqcc
- /Nt3tg4+Qu9D6K4PPKwPeKPu5LQiOeZ42x/SsuSL6dfvhzWm+6xhgsUp/JWbRU+OxXREbAzDcF3
- dUz9IujK+naWWovTGEzPfaGuMQuM4c3U=
-X-Received: by 2002:a9d:6191:0:b0:66b:99a2:feb9 with SMTP id
- g17-20020a9d6191000000b0066b99a2feb9mr1847679otk.359.1668106281238; 
- Thu, 10 Nov 2022 10:51:21 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM7GqFYRJZd+rrORYwGuytZP+GxKCibtunJmHywlsj96/fMiOlhu/2lrQdZo3u/qglcI07z7kKa+yXo5ufThfmI=
-X-Received: by 2002:a9d:6191:0:b0:66b:99a2:feb9 with SMTP id
- g17-20020a9d6191000000b0066b99a2feb9mr1847662otk.359.1668106280983; Thu, 10
- Nov 2022 10:51:20 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NB1EY0bhJeMMFEOjWjNXhLdRpCbmM2+fi2awf3ykoPA=;
+ b=6helnA7Ya9/fPWyZ7lauNg7X/UuSUrWK97trX3Q/s4Wt0ohtEFHIfC1TmD6uXLqG17
+ TKTIUItvUqB/tvPJO4RfrjrR62/IDF871q4vSCwI1m8SdAJW+eG+dKvzPmOaQFgxFmqZ
+ 4qbfECNBhesaWwCT/hegv2ehxGxZ/bbymD6pCA2Dewjo1I5NbwR0bUQxxf9R71Tu+pYp
+ dEPX4FlbX42nL5BISnM0aQOp6oUwuVk5yTUtMnYy/BrwtVo/aofusjhrb94jVRfQWspz
+ pm6NIhMv/4k+hEIlG6nC5UTdJo+13/28Kc+AaOJvyDijsRvKSwu0xspcMiv54WEC37ts
+ Djww==
+X-Gm-Message-State: ACrzQf1sgUmCDQXF4MDB2VhTrZ735aFm3lcZ/qW9X+074DMxY3kCszMN
+ ZMq7CmPHlQxARQftyH+dXyleChM0siorTywi1ejwtTQD3xC9VxVaeMNBL8pZRK3lfSs3KpPYIbM
+ GRVPywvKxPltYCRE=
+X-Received: by 2002:a05:600c:4313:b0:3cf:894d:1d05 with SMTP id
+ p19-20020a05600c431300b003cf894d1d05mr29416307wme.32.1668106399592; 
+ Thu, 10 Nov 2022 10:53:19 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM6Q/0R16Voo6qJPy3k9PKhGIwQgys8BoMF4w/qtHm1JC3lE3JtD3McX/oXLvHT0H020AmXs4A==
+X-Received: by 2002:a05:600c:4313:b0:3cf:894d:1d05 with SMTP id
+ p19-20020a05600c431300b003cf894d1d05mr29416290wme.32.1668106399306; 
+ Thu, 10 Nov 2022 10:53:19 -0800 (PST)
+Received: from redhat.com ([2.52.3.250]) by smtp.gmail.com with ESMTPSA id
+ o39-20020a05600c33a700b003b47e75b401sm5522254wmp.37.2022.11.10.10.53.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Nov 2022 10:53:18 -0800 (PST)
+Date: Thu, 10 Nov 2022 13:53:15 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: huangy81@chinatelecom.cn
+Cc: qemu-devel <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
+Subject: Re: [PATCH v3 0/2] Fix the virtio features negotiation flaw
+Message-ID: <20221110135231-mutt-send-email-mst@kernel.org>
+References: <cover.1667136717.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-References: <20221107103510.34588-1-mcascell@redhat.com>
- <CAA8xKjXrmS0fkr28AKvNNpyAtM0y0B+5FichpsrhD+mUgnuyKg@mail.gmail.com>
- <CAEUhbmWjuKX06P1FAAujAh4uMeqaXTFi8SE-zujVYsKnpkmzAA@mail.gmail.com>
- <CAJwEsV=kb3Cpnq=2ozpxBs7KGo916zOa64B5T1J_3uLjODNFwA@mail.gmail.com>
- <CAA8xKjW0JR-zs+YY5ui+KDhp9yY3AhzmwDaRrCY0GS7kaE2Z+w@mail.gmail.com>
- <CAEUhbmWj=4f8Kn3WLHZFz_LzDoU_yBW7mhvC_mR7Be6JdMFC1A@mail.gmail.com>
-In-Reply-To: <CAEUhbmWj=4f8Kn3WLHZFz_LzDoU_yBW7mhvC_mR7Be6JdMFC1A@mail.gmail.com>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Thu, 10 Nov 2022 19:51:09 +0100
-Message-ID: <CAA8xKjV9siB7KCs=Dn9xpoyB74T-YfJmWrq6FA=G48ZsWj4qUA@mail.gmail.com>
-Subject: Re: [PATCH] hw/sd/sdhci: reset data count in
- sdhci_buff_access_is_sequential()
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: Siqi Chen <coc.cyqh@gmail.com>, qemu-devel@nongnu.org, philmd@linaro.org, 
- bin.meng@windriver.com, XRivenDell@outlook.com, ningqiang1@huawei.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mcascell@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1667136717.git.huangy81@chinatelecom.cn>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,132 +98,191 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 9, 2022 at 5:19 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Wed, Nov 9, 2022 at 6:10 PM Mauro Matteo Cascella
-> <mcascell@redhat.com> wrote:
-> >
-> > On Wed, Nov 9, 2022 at 10:45 AM Siqi Chen <coc.cyqh@gmail.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > >This reproducer does not crash my QEMU. Am I missing anything?
-> > > I submitted the reproducer. Because the overflow is only one byte, it=
- may not be detected by the host's heap allocator.  Do you compile your qem=
-u with sanitizer?  This is my build configuration: "./configure --target-li=
-st=3Dx86_64-softmmu --enable-sanitizers"
-> >
-> > Right, you need to recompile QEMU with ASAN support. This is an
-> > excerpt of the stack trace:
->
-> Is this documented somewhere? Is fuzzing.rst the right doc for this
-> feature? Looking at fuzzing.rst it says --enable-sanitizers is
-> optional.
-
-Not sure it's documented somewhere, this is how I usually compile:
-
-$ ../configure --target-list=3Dx86_64-softmmu --enable-sanitizers
---extra-cflags=3D-g3 \
- --enable-kvm --disable-tcg --enable-debug --enable-debug-info --disable-we=
-rror
-
-Then just run the PoC using ./x86_64-softmmu/qemu-system-x86_64 should
-do the trick.
-
-> Turning on --enable-sanitizers makes the build fail:
->
-> FAILED: subprojects/libvduse/libvduse.a.p/libvduse.c.o
-> cc -m64 -mcx16 -Isubprojects/libvduse/libvduse.a.p
-> -Isubprojects/libvduse -I../subprojects/libvduse
-> -fdiagnostics-color=3Dauto -Wall -Winvalid-pch -Werror -std=3Dgnu11 -O2 -=
-g
-> -fsanitize=3Dundefined -fsanitize=3Daddress -U_FORTIFY
-> _SOURCE -D_FORTIFY_SOURCE=3D2 -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURC=
-E
-> -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings
-> -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv
-> -Wold-style-declaration -W
-> old-style-definition -Wtype-limits -Wformat-security -Wformat-y2k
-> -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs
-> -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=3D2
-> -Wno-missing-include-dirs -Wn
-> o-shift-negative-value -Wno-psabi -fstack-protector-strong -fPIE
-> -D_GNU_SOURCE -MD -MQ subprojects/libvduse/libvduse.a.p/libvduse.c.o
-> -MF subprojects/libvduse/libvduse.a.p/libvduse.c.o.d -o
-> subprojects/libvduse/libvduse.a
-> .p/libvduse.c.o -c ../subprojects/libvduse/libvduse.c
-> In file included from /usr/include/string.h:495,
-> from ../subprojects/libvduse/libvduse.c:24:
-> In function =E2=80=98strncpy=E2=80=99,
-> inlined from =E2=80=98vduse_dev_create=E2=80=99 at ../subprojects/libvdus=
-e/libvduse.c:1312:5:
-> /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error:
-> =E2=80=98__builtin_strncpy=E2=80=99 specified bound 256 equals destinatio=
-n size
-> [-Werror=3Dstringop-truncation]
-> 106 | return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest=
-));
-> | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> cc1: all warnings being treated as errors
->
-> I am using GCC 9.4 on Ubuntu 20.04
->
-> >
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > =3D=3D39159=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addre=
-ss
-> > 0x615000022880 at pc 0x55b023db5fe1 bp 0x7fffeeef1650 sp
-> > 0x7fffeeef1648
-> > WRITE of size 1 at 0x615000022880 thread T0
-> >     #0 0x55b023db5fe0 in sdhci_write_dataport ../../hw/sd/sdhci.c:562
-> >     #1 0x55b023dc1cc7 in sdhci_write ../../hw/sd/sdhci.c:1216
-> >     #2 0x55b024521e01 in memory_region_write_accessor ../../softmmu/mem=
-ory.c:492
-> >     #3 0x55b0245222ab in access_with_adjusted_size ../../softmmu/memory=
-.c:554
-> >     #4 0x55b02452ff15 in memory_region_dispatch_write
-> > ../../softmmu/memory.c:1514
-> >     #5 0x55b024568c67 in flatview_write_continue ../../softmmu/physmem.=
-c:2814
-> >     #6 0x55b02456908d in flatview_write ../../softmmu/physmem.c:2856
-> >     #7 0x55b024569a74 in address_space_write ../../softmmu/physmem.c:29=
-52
-> >     #8 0x55b02457a63c in qtest_process_command ../../softmmu/qtest.c:53=
-8
-> >     #9 0x55b02457ef97 in qtest_process_inbuf ../../softmmu/qtest.c:796
-> >     #10 0x55b02457f089 in qtest_read ../../softmmu/qtest.c:808
-> >     #11 0x55b0249d4372 in qemu_chr_be_write_impl ../../chardev/char.c:2=
-01
-> >     #12 0x55b0249d4414 in qemu_chr_be_write ../../chardev/char.c:213
-> >     #13 0x55b0249db586 in fd_chr_read ../../chardev/char-fd.c:72
-> >     #14 0x55b02466ba5b in qio_channel_fd_source_dispatch
-> > ../../io/channel-watch.c:84
-> >     #15 0x7f88093af0ae in g_main_context_dispatch
-> > (/lib64/libglib-2.0.so.0+0x550ae)
-> >     #16 0x55b024c5ff14 in glib_pollfds_poll ../../util/main-loop.c:297
-> >     #17 0x55b024c600fa in os_host_main_loop_wait ../../util/main-loop.c=
-:320
-> >     #18 0x55b024c603f3 in main_loop_wait ../../util/main-loop.c:596
-> >     #19 0x55b023fcca21 in qemu_main_loop ../../softmmu/runstate.c:726
-> >     #20 0x55b023679735 in qemu_main ../../softmmu/main.c:36
-> >     #21 0x55b023679766 in main ../../softmmu/main.c:45
-> >     #22 0x7f8808728f5f in __libc_start_call_main (/lib64/libc.so.6+0x40=
-f5f)
-> >     #23 0x7f880872900f in __libc_start_main_impl (/lib64/libc.so.6+0x41=
-00f)
-> >     #24 0x55b023679644 in _start (./qemu-system-x86_64+0x20f2644)
-> >
->
-> Regards,
-> Bin
->
+On Sun, Oct 30, 2022 at 09:52:37PM +0800, huangy81@chinatelecom.cn wrote:
+> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> 
+> v3:
+> -rebase on master
+> -code clean on [PATCH v2 1/2]: keep the commit self-consistent and
+>  do not modify the logic of saving acked_features. Just abstract the
+>  util function.
+> -modify the [PATCH v2 2/2] logic: change the behavior of saving
+>  acked_features in chr_closed_bh: saving acked_features only if
+>  features aren't 0. For the case of 0, we implement it in
+>  virtio_net_set_features function, which will save the acked_features
+>  in advance, including assign 0 to acked_features.
+> 
+> Thanks Michael for the comments and suggestions about the self-consistent
+> of commits. :)
 
 
---=20
-Mauro Matteo Cascella
-Red Hat Product Security
-PGP-Key ID: BB3410B0
+This breaks multiple build configs:
+
+https://gitlab.com/mstredhat/qemu/-/pipelines/691382555/failures
+
+
+> Please review,
+> 
+> Yong
+> 
+> v2:
+> Fix the typo in subject of [PATCH v2 2/2] 
+> 
+> v1:
+> This is the version 1 of the series and it is exactly the same as
+> RFC version, but fixing a typo in subject, which is reported by Michael. 
+> 
+> As for test for the behavior suggested by Michael, IMHO, it could be
+> post in another series, since i found that testing the negotiation
+> behavior using QGraph Test Framework requires more work than i thought.
+> 
+> The test patch may implement the following logic...
+> 1. Introduce a fresh new qmp command to query netdev info, which show
+>    the NetClient status including guest features and acked_features.
+> 2. Using vhost-user QGraph Test to check the behavior of the vhost user
+>    protocol cmd VHOST_USER_SET_FEATURES. 
+> 3. Adding acked_features into TestServer, which receive the features
+>    set by QEMU.
+> 4. Compare the acked_feature in TestServer with the acked_features 
+>    in the output of qmp query command.
+> 
+> Anyway, idea above can be discussed in the future and any suggestion
+> are welcom. Let's fix the existing bug first, :)
+> 
+> Please review,
+> 
+> Yong
+> 
+> Patch for RFC can be found in the following:
+> https://patchew.org/QEMU/20220926063641.25038-1-huangy81@chinatelecom.cn/
+> 
+> This patchset aim to fix the unexpected negotiation features for
+> vhost-user netdev interface. 
+> 
+> Steps to reproduce the issue:
+> Prepare a vm (CentOS 8 in my work scenario) with vhost-user
+> backend interface and configure qemu as server mode. So dpdk
+> would connect qemu's unix socket periodically.
+> 
+> 1. start vm in background and restart openvswitch service 
+>    concurrently and repeatedly in the process of vm start. 
+> 
+> 2. check if negotiated virtio features of port is "0x40000000" at
+>    dpdk side by executing:
+>    ovs-vsctl list interface | grep features | grep {port_socket_path}
+>        
+> 3. if features equals "0x40000000", go to the vm and check if sending 
+>    arp package works, executing:
+>    arping {IP_ADDR}
+>    if vm interface is configured to boot with dhcp protocol, it
+>    would get no ip. 
+> 
+> After doing above steps, we'll find the arping not work, the ovs on
+> host side has forwarded unexpected arp packages, which be added 0x0000
+> in the head of ethenet frame.  Though qemu report some error when
+> read/write cmd of vhost protocol during the process of vm start,
+> like the following:
+> 
+> "Failed to set msg fds"
+> "vhost VQ 0 ring restore failed: -22: Invalid argument (22)"
+> 
+> The vm does not stop or report more suggestive error message, it
+> seems that everthing is ok. 
+> 
+> The root cause is that dpdk port negotiated nothing but only one
+> VHOST_USER_F_PROTOCOL_FEATURES feature with vhost-user interface at
+> qemu side, which is an unexpected behavior. qemu only load the
+> VHOST_USER_F_PROTOCOL_FEATURES when VHOST_USER_SET_FEATURES and loss
+> the guest features configured by front-end virtio driver using the
+> VIRTIO_PCI_COMMON_GF addr, which is stored in acked_features field
+> of struct vhost_dev.
+> 
+> To explain how the acked_features disappear, we may need to know the
+> lifecyle of acked_features in vhost_dev during feature negotiation. 
+> 
+> 1. qemu init acked_features field of struct vhost_dev in vhost_net_init()
+>    by calling vhost_net_ack_features(), the init value fetched from
+>    acked_features field of struct NetVhostUserState, which is the backup
+>    role after vhost stopping or unix socket closed.
+>    In the first time, the acked_features of struct NetVhostUserState is 0
+>    so the init value of vhost_dev's acked_features also 0. 
+> 
+> 2. when guest virtio driver set features, qemu accept the features and
+>    call virtio_set_features to store the features as acked_features in
+>    vhost_dev.
+> 
+> 3. when unix socket closed or vhost_dev device doesn't work and be
+>    stopped unexpectedly, qemu will call chr_closed_bh or vhost_user_stop,
+>    which will copy acked_features from vhost_dev to NetVhostUserState and
+>    cleanup the vhost_dev. Since virtio driver not allowed to set features
+>    once status of virtio device changes to VIRTIO_CONFIG_S_FEATURE_OK,
+>    qemu need to backup it in case of loss. 
+>     
+> 4. once unix socket return to normal and get connected, qemu will
+>    call vhost_user_start to restore the vhost_dev and fetch the
+>    acked_features stored in NetVhostUserState previously. 
+> 
+> The above flow works fine in the normal scenarios, but it doesn't cover
+> the scenario that openvswitch service restart in the same time of
+> virtio features negotiation.
+> 
+> Let's analyze such scenario: 
+>        qemu                                 dpdk
+> 
+>    vhost_net_init()                          
+>          |                      systemctl stop openvswitch.service
+>    virtio_set_features()                     | 
+>          |                      systemctl start openvswitch.service
+>    virtio_set_status()                      
+> 
+> Ovs stop service before guset setting virtio features, chr_closed_bh()
+> be called and fetch acked_features in vhost_dev, if may store the
+> incomplete features to NetVhostUserState since it doesn't include
+> guest features, eg "0x40000000". 
+> 
+> Guest set virtio features with another features, eg "0x7060a782",
+> this value will store in acked_features of vhost_dev, which is the
+> right and up-to-date features.
+> 
+> After ovs service show up, qemu unix socket get connected and call
+> vhost_user_start(), which will restore acked_features of vhost_dev
+> using NetVhostUserState and "0x40000000" be loaded, which is obsolete.
+> 
+> Guest set virtio device status and therefore qemu call 
+> virtio_net_vhost_status finally, checking if vhost-net device has
+> started, start it if not, consequently the obsolete acked_features
+> "0x40000000" be negotiated after calling vhost_dev_set_features(). 
+> 
+> So the key point of solving this issue making the acked_features 
+> in NetVhostUserState up-to-date, these patchset provide this
+> solution.  
+> 
+> [PATCH 1/2]: Abstract the existing code of saving acked_features
+>              into vhost_user_save_acked_features so the next
+>              patch seems clean. 
+> 
+> [PATCH 2/2]: Save the acked_features to NetVhostUserState once
+>              Guest virtio driver configured. This step makes
+>              acked_features in NetVhostUserState up-to-date. 
+> 
+> Please review, any comments and suggestions are welcome. 
+> 
+> Best regard.
+> 
+> Yong
+> 
+> Hyman Huang (2):
+>   vhost-user: Refactor vhost acked features saving
+>   vhost-net: Fix the virtio features negotiation flaw
+> 
+>  hw/net/vhost_net.c       |  9 +++++++++
+>  hw/net/virtio-net.c      |  5 +++++
+>  include/net/vhost-user.h |  2 ++
+>  include/net/vhost_net.h  |  2 ++
+>  net/vhost-user.c         | 35 +++++++++++++++++++----------------
+>  5 files changed, 37 insertions(+), 16 deletions(-)
+> 
+> -- 
+> 1.8.3.1
 
 
