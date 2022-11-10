@@ -2,65 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85060623DA3
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 09:37:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7AD9623DAE
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 09:41:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot33Q-0004eq-Ga; Thu, 10 Nov 2022 03:36:56 -0500
+	id 1ot37V-0006Cz-Fz; Thu, 10 Nov 2022 03:41:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot337-0004cP-9M
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 03:36:48 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot377-00067x-Vj
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 03:40:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot335-0007cC-KG
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 03:36:37 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot36w-0002OK-Og
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 03:40:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668069393;
+ s=mimecast20190719; t=1668069633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=J3V9SmN/TM9udW5nH4p2vCPkZ/LtgVkUzDNVbu0XGYU=;
- b=IomsGqTNQELHq6Csm/Vp96mhpB26FBoSLJIGZAaJxktzYaz84NUtGee50kdlh/mF8tD2Ek
- wFnFfHkocQ4nEI0wTwhYyHdUni2IA/Gmgv32ZO8c9rCd/qJuR9XRtxl+l5BQsylwMokBIR
- QlAQPiA6QwHUkayiLf4H1uipKyymC40=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-315-nn_T3fZFNsGU66JGYw44dA-1; Thu, 10 Nov 2022 03:36:29 -0500
-X-MC-Unique: nn_T3fZFNsGU66JGYw44dA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2B9523C02196;
- Thu, 10 Nov 2022 08:36:29 +0000 (UTC)
-Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 352BE49BB69;
- Thu, 10 Nov 2022 08:36:28 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Konstantin Kostiuk <kkostiuk@redhat.com>
-Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v2] qga: Allow building of the guest agent without system
- emulators or tools
-Date: Thu, 10 Nov 2022 09:36:26 +0100
-Message-Id: <20221110083626.31899-1-thuth@redhat.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+LNe6IR2yt8w7VLI/K/uzfjuOwS4WZNb6EcrK/fyJzo=;
+ b=YUUJgcaRzCKkeqtq98Z0iYKBoaI5VIcHlNSYZrYVJSqkQn9GlPEVAFD5RARLSoUQEuOepE
+ YCNEwFQsCJTHCTgw4sCy7fhv3TAHZ5EQkiHVrlCWxzjwrfrIPP9MACER6ibHOaF6XKVKfR
+ Y6ECwuhXUgMPeULHn+n7dYCdMZ7iJJA=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-593-745Ra3pAP6mGymlvCz1TrQ-1; Thu, 10 Nov 2022 03:40:32 -0500
+X-MC-Unique: 745Ra3pAP6mGymlvCz1TrQ-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ x14-20020a17090a2b0e00b002134b1401ddso763601pjc.8
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 00:40:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+LNe6IR2yt8w7VLI/K/uzfjuOwS4WZNb6EcrK/fyJzo=;
+ b=gFmZKF3gWxe+Fn4KM8P3vrHRx+DBl/j1K6HoVerH9aE6eFnMqKcoMetPcHecIWdf11
+ /tn+qL44bIRiM0fduMggbEG3fulvksB9P8JCRxAOp8bg8Gx1sExaIEIGlv9jrHY4iR13
+ 54/QuGS/ji7q5WUxDxJuDQwixsJoZuWCogumyzNeF8H2AS26G9KvdQn92G6/ITDPmq1K
+ i4KtE8EVgomXNwlvRLXHKQFR7NrZi0YihhimbWO9X02LqQKAr31NjLSLXOczOtmF9BRy
+ FDYbdfKizUXXAPivM2jwPSHTwrXBOKPQq0iC/xkYRHH35h+9SFPV6KNesMGFAHkFmaH9
+ svHA==
+X-Gm-Message-State: ACrzQf1xMAr9obtS6dfA/IhSPbiF1zgULm6D5xBBrfV36rR1SCriYo0X
+ 79XjHkEkBwuFJWitRi0CMh/MajZJ1WAAa/7dTW73icVyhgDkTKLcUKs1vZs4bslNWKqAXQn0z0z
+ 2qB3LTNOaEXvEpf4=
+X-Received: by 2002:a17:902:7283:b0:188:612b:1d31 with SMTP id
+ d3-20020a170902728300b00188612b1d31mr33668104pll.81.1668069631626; 
+ Thu, 10 Nov 2022 00:40:31 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM798lz+pGjmGtM3mWxeM1gWjciXK81f5vKAkgcAi1IIM5N1Cm8c9fRNxTvedrEQqjlkaoeuZw==
+X-Received: by 2002:a17:902:7283:b0:188:612b:1d31 with SMTP id
+ d3-20020a170902728300b00188612b1d31mr33668089pll.81.1668069631352; 
+ Thu, 10 Nov 2022 00:40:31 -0800 (PST)
+Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ x4-20020a170902a38400b00186cf82717fsm10634228pla.165.2022.11.10.00.40.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Nov 2022 00:40:30 -0800 (PST)
+Message-ID: <034e43ec-614e-28cb-36fd-2ebd4d6a09c8@redhat.com>
+Date: Thu, 10 Nov 2022 09:40:25 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 1/4] rtl8139: Remove unused variable
+Content-Language: en-US
+To: mrezanin@redhat.com, qemu-devel@nongnu.org
+References: <cover.1668009030.git.mrezanin@redhat.com>
+ <15a32dd06c492216cbf27cd3ddcbe1e9afb8d8f5.1668009030.git.mrezanin@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Jason Wang <jasowang@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <15a32dd06c492216cbf27cd3ddcbe1e9afb8d8f5.1668009030.git.mrezanin@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,108 +100,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-If configuring with "--disable-system --disable-user --enable-guest-agent"
-the linking currently fails with:
+On 09/11/2022 16.57, mrezanin@redhat.com wrote:
+> From: Miroslav Rezanina <mrezanin@redhat.com>
+> 
+> Variable send_count used in rtl8139_cplus_transmit_one function is only
+> incremented but never read. This causes 'Unused but set variable' warning
+> on Clang 15.0.1 compiler.
+> 
+> Removing the variable to prevent the warning.
+> 
+> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
+> ---
+>   hw/net/rtl8139.c | 2 --
+>   1 file changed, 2 deletions(-)
+> 
+> diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
+> index 6b65823b4b..e6643e3c9d 100644
+> --- a/hw/net/rtl8139.c
+> +++ b/hw/net/rtl8139.c
+> @@ -2156,7 +2156,6 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
+>                       ip_data_len, saved_size - ETH_HLEN, large_send_mss);
+>   
+>                   int tcp_send_offset = 0;
+> -                int send_count = 0;
+>   
+>                   /* maximum IP header length is 60 bytes */
+>                   uint8_t saved_ip_header[60];
+> @@ -2261,7 +2260,6 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
+>                       /* add transferred count to TCP sequence number */
+>                       stl_be_p(&p_tcp_hdr->th_seq,
+>                                chunk_size + ldl_be_p(&p_tcp_hdr->th_seq));
+> -                    ++send_count;
+>                   }
+>   
+>                   /* Stop sending this frame */
 
-qga/qemu-ga.p/commands.c.o: In function `qmp_command_info':
-build/../../home/thuth/devel/qemu/qga/commands.c:70: undefined reference to `qmp_command_name'
-build/../../home/thuth/devel/qemu/qga/commands.c:71: undefined reference to `qmp_command_is_enabled'
-build/../../home/thuth/devel/qemu/qga/commands.c:72: undefined reference to `qmp_has_success_response'
-qga/qemu-ga.p/commands.c.o: In function `qmp_guest_info':
-build/../../home/thuth/devel/qemu/qga/commands.c:82: undefined reference to `qmp_for_each_command'
-qga/qemu-ga.p/commands.c.o: In function `qmp_guest_exec':
-build/../../home/thuth/devel/qemu/qga/commands.c:410: undefined reference to `qbase64_decode'
-qga/qemu-ga.p/channel-posix.c.o: In function `ga_channel_open':
-build/../../home/thuth/devel/qemu/qga/channel-posix.c:214: undefined reference to `unix_listen'
-build/../../home/thuth/devel/qemu/qga/channel-posix.c:228: undefined reference to `socket_parse'
-build/../../home/thuth/devel/qemu/qga/channel-posix.c:234: undefined reference to `socket_listen'
-qga/qemu-ga.p/commands-posix.c.o: In function `qmp_guest_file_write':
-build/../../home/thuth/devel/qemu/qga/commands-posix.c:527: undefined reference to `qbase64_decode'
-
-Let's make sure that we also compile and link the required files if
-the system emulators have not been enabled.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- v2: Refine the file list in the util/ folder (as suggested by Philippe)
-
- qapi/meson.build  |  2 +-
- stubs/meson.build |  2 +-
- util/meson.build  | 20 ++++++++++++--------
- 3 files changed, 14 insertions(+), 10 deletions(-)
-
-diff --git a/qapi/meson.build b/qapi/meson.build
-index 9a36c15c04..fbdb442fdf 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -13,7 +13,7 @@ util_ss.add(files(
- if have_system
-   util_ss.add(files('qapi-type-helpers.c'))
- endif
--if have_system or have_tools
-+if have_system or have_tools or have_ga
-   util_ss.add(files(
-     'qmp-dispatch.c',
-     'qmp-event.c',
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 4314161f5f..c96a74f095 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -49,7 +49,7 @@ stub_ss.add(files('vmstate.c'))
- stub_ss.add(files('vm-stop.c'))
- stub_ss.add(files('win32-kbd-hook.c'))
- stub_ss.add(files('cpu-synchronize-state.c'))
--if have_block
-+if have_block or have_ga
-   stub_ss.add(files('replay-tools.c'))
- endif
- if have_system
-diff --git a/util/meson.build b/util/meson.build
-index 59c1f467bb..25b9b61f98 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -68,20 +68,25 @@ if have_system
-   util_ss.add(when: 'CONFIG_LINUX', if_true: files('userfaultfd.c'))
- endif
- 
--if have_block
--  util_ss.add(files('aiocb.c', 'async.c', 'aio-wait.c'))
-+if have_block or have_ga
-+  util_ss.add(files('aiocb.c', 'async.c'))
-   util_ss.add(files('base64.c'))
-+  util_ss.add(files('lockcnt.c'))
-+  util_ss.add(files('main-loop.c'))
-+  util_ss.add(files('qemu-coroutine.c', 'qemu-coroutine-lock.c', 'qemu-coroutine-io.c'))
-+  util_ss.add(files('coroutine-@0@.c'.format(config_host['CONFIG_COROUTINE_BACKEND'])))
-+  util_ss.add(files('thread-pool.c', 'qemu-timer.c'))
-+  util_ss.add(files('qemu-sockets.c'))
-+endif
-+if have_block
-+  util_ss.add(files('aio-wait.c'))
-   util_ss.add(files('buffer.c'))
-   util_ss.add(files('bufferiszero.c'))
--  util_ss.add(files('coroutine-@0@.c'.format(config_host['CONFIG_COROUTINE_BACKEND'])))
-   util_ss.add(files('hbitmap.c'))
-   util_ss.add(files('hexdump.c'))
-   util_ss.add(files('iova-tree.c'))
--  util_ss.add(files('iov.c', 'qemu-sockets.c', 'uri.c'))
--  util_ss.add(files('lockcnt.c'))
--  util_ss.add(files('main-loop.c'))
-+  util_ss.add(files('iov.c', 'uri.c'))
-   util_ss.add(files('nvdimm-utils.c'))
--  util_ss.add(files('qemu-coroutine.c', 'qemu-coroutine-lock.c', 'qemu-coroutine-io.c'))
-   util_ss.add(when: 'CONFIG_LINUX', if_true: [
-     files('vhost-user-server.c'), vhost_user
-   ])
-@@ -89,7 +94,6 @@ if have_block
-   util_ss.add(files('qemu-coroutine-sleep.c'))
-   util_ss.add(files('qemu-co-shared-resource.c'))
-   util_ss.add(files('qemu-co-timeout.c'))
--  util_ss.add(files('thread-pool.c', 'qemu-timer.c'))
-   util_ss.add(files('readline.c'))
-   util_ss.add(files('throttle.c'))
-   util_ss.add(files('timed-average.c'))
--- 
-2.31.1
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
