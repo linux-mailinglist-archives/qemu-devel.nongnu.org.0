@@ -2,94 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D029C624251
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 13:25:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 828CE624255
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 13:26:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot6bG-0000IJ-Ty; Thu, 10 Nov 2022 07:24:06 -0500
+	id 1ot6ch-0001Iq-GN; Thu, 10 Nov 2022 07:25:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot6bF-0000Gt-42
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:24:05 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ot6cW-0001Gn-29
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:25:27 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot6bD-0003F8-8r
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:24:04 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ot6cT-00041X-V2
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:25:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668083040;
+ s=mimecast20190719; t=1668083121;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PDrAryEekNs1fTCojr/1O9mZqVwyXZ3l5bd5HUqc7eo=;
- b=LLIEf58HE99G87yk8dp1Y3YWegsraLkZ2YQLYSR5FY9PMOKYhrAYLw/gQaMguqD+C4ns4G
- Jb/0MAS8gba4vszoD9a/271heD2kEQePqhbbaO/NVVC6eG7b0sV/E/oVEd74yN8hR7WYJS
- jVb9n0pYVFnFKKqivrxOazA89m/tPGI=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Q9sOq3ArB3nGOxvV39adhirp0xPiw6BD46Br6A3jim4=;
+ b=f0hy8ucXxMdtyqARk53CWI67tT6S/0Il9/vrlvnT1rpDyTzPFAPDPJ1lGuT5OpIl8pSzVG
+ zoR1kS90yM3MD15Mu7bxFke/vLow4AQdqb9KszcDyoEKw7jM37SKGlo51+STlsXw730AAq
+ M1hz6KtypT7QJNhIxYF+zwpwvQA7Hoo=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-592-wfYQOkCnMX2VCgkREsbCvw-1; Thu, 10 Nov 2022 07:23:59 -0500
-X-MC-Unique: wfYQOkCnMX2VCgkREsbCvw-1
-Received: by mail-pj1-f70.google.com with SMTP id
- n4-20020a17090a2fc400b002132adb9485so1054208pjm.0
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 04:23:59 -0800 (PST)
+ us-mta-120-Q0t4tepAPWuv5peWvx2jBg-1; Thu, 10 Nov 2022 07:25:20 -0500
+X-MC-Unique: Q0t4tepAPWuv5peWvx2jBg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ u13-20020adfa18d000000b00236566b5b40so308263wru.9
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 04:25:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PDrAryEekNs1fTCojr/1O9mZqVwyXZ3l5bd5HUqc7eo=;
- b=t9NSHphBZExyokWE2NBTjXayPwHo475cP0PQfQFrU4ARvwK7IvFpE0zw2Axjy+pcBL
- /U9SfYudhZRRoZZi80DuKAwwQ/glojIMmW6/bwWprP8UsC2xLSGGmvsHWwm3R74hx5+O
- Sv8mCIdzT49r2lhB5HP3CsyQFt4Ar2b7xHQDOQVVuDJVMoWxJNxZwyZ7YQ+KsBeggg7e
- 6dqpJI6dv/8v6QLG9qUlmf9fkE6QVuaNYGgxm2mNr/yb7FGNODpLUJf+iQ9FSQrHb97L
- EqGALvQWuRMyz6YLsMWcuUMelkjn4ePqsKbt4Trv9LZOcDhWESMDjnXmPXmbHbqVDc74
- Lo5g==
-X-Gm-Message-State: ACrzQf1Jp5XXdGDvkfm+ZRED062mcDlX666hY8E+Ir/EAPtyE4hwqmf0
- DxTD7UMmYmPp6N6xphXyJmqQIE4SAV44vKw3iHaHnK5N1VLPrRsoFkbQVnfcIu6FivI0Vx9NmDm
- vqNi0e9faf3qcKPE=
-X-Received: by 2002:a05:6a02:282:b0:439:7a97:ccd with SMTP id
- bk2-20020a056a02028200b004397a970ccdmr56128027pgb.297.1668083038451; 
- Thu, 10 Nov 2022 04:23:58 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM53VqlQA4QIHlA/IHVtZpQf9OXgaQfL7pEiZgc7WyndGuAvQEbN9nNQGma9wmlY7lecj2Y4gQ==
-X-Received: by 2002:a05:6a02:282:b0:439:7a97:ccd with SMTP id
- bk2-20020a056a02028200b004397a970ccdmr56128006pgb.297.1668083038105; 
- Thu, 10 Nov 2022 04:23:58 -0800 (PST)
-Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- z18-20020a170903019200b001782f94f8ebsm11284143plg.3.2022.11.10.04.23.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 04:23:57 -0800 (PST)
-Message-ID: <38b8709e-206c-0493-60c2-14b22030a9c2@redhat.com>
-Date: Thu, 10 Nov 2022 13:23:51 +0100
+ bh=Q9sOq3ArB3nGOxvV39adhirp0xPiw6BD46Br6A3jim4=;
+ b=2mWjcanHfvkuQ0j+NjlXrSbXLnoFWpVoY1WBN9XzPDJbAtydYmnyrTxd98CYuVRWm9
+ e/eX0uU67GmnaTXxhqOgYgqSNAbkqrw/1ApLFlWs0q2or26lBai2Y8B7TJSfkhcfUxpr
+ ll57/zMZCwZsCLOOmKKBiS+X3RzgdfZiygBIoTb2haEyN7tXe//QFJtA1t5Q0mHs5z6Y
+ FekKcufUrPh0d8NgXbpIfPqzaS1yo/4M3cwLywu7IZeS+Nttg1WGeIfKqmxfWbTaql/L
+ lTwnGHCwxj5C45fv5uZ0DrzHcFn52Ywwca1hhvjwuEZKtrBM2DU0N3Xq+4z3zY5RL7bL
+ 9DqQ==
+X-Gm-Message-State: ACrzQf3VNIrQQtXumqadTt2eh/hpQy5W7hLv4MQgabqomC3s14hsHMy2
+ 1O59NOX2z5SdrwBKyAJUU78uUCPxMEN59qNET0nOXUUNZGA4ffZ8HJZ0HduiHmXbYyPEGfuMgP+
+ /dQuSWX+2gVLPzck=
+X-Received: by 2002:a5d:524e:0:b0:236:6a61:3b92 with SMTP id
+ k14-20020a5d524e000000b002366a613b92mr41610104wrc.328.1668083119177; 
+ Thu, 10 Nov 2022 04:25:19 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5VfDGphCWD0wa/3ITH7C2PrQKLc6MdsOLKLzBuXOa0/FOieRvBzvsJePXHxj/NtZCzwdRbIA==
+X-Received: by 2002:a5d:524e:0:b0:236:6a61:3b92 with SMTP id
+ k14-20020a5d524e000000b002366a613b92mr41610077wrc.328.1668083118894; 
+ Thu, 10 Nov 2022 04:25:18 -0800 (PST)
+Received: from redhat.com ([2.52.3.250]) by smtp.gmail.com with ESMTPSA id
+ g4-20020a5d5404000000b00228d52b935asm16032641wrv.71.2022.11.10.04.25.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Nov 2022 04:25:18 -0800 (PST)
+Date: Thu, 10 Nov 2022 07:25:14 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Parav Pandit <parav@mellanox.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Cornelia Huck <cohuck@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, kvm@vger.kernel.org,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v6 00/10] ASID support in vhost-vdpa net
+Message-ID: <20221110072455-mutt-send-email-mst@kernel.org>
+References: <20221108170755.92768-1-eperezma@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, pbonzini@redhat.com
-References: <20221104125705.415923-1-thuth@redhat.com>
- <20221104125705.415923-3-thuth@redhat.com>
- <4a72c7c6-4b70-b6bf-705e-3303865066b6@suse.de>
- <9a4db614-297d-a85f-9788-ed46c71bb66b@redhat.com>
- <38ca7d88-dcb8-597b-7d15-90cfd1bc5017@suse.de>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 2/3] net: Restore printing of the help text with "-nic
- help"
-In-Reply-To: <38ca7d88-dcb8-597b-7d15-90cfd1bc5017@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20221108170755.92768-1-eperezma@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,93 +106,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/11/2022 13.05, Claudio Fontana wrote:
-> On 11/10/22 12:42, Thomas Huth wrote:
->> On 08/11/2022 10.49, Claudio Fontana wrote:
->>> On 11/4/22 13:57, Thomas Huth wrote:
->>>> Running QEMU with "-nic help" used to work in QEMU 5.2 and earlier versions
->>>> (it showed the available netdev backends), but this feature got broken during
->>>> some refactoring in version 6.0. Let's restore the old behavior, and while
->>>> we're at it, let's also print the available NIC models here now since this
->>>> option can be used to configure both, netdev backend and model in one go.
->>>>
->>>> Fixes: ad6f932fe8 ("net: do not exit on "netdev_add help" monitor command")
->>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>> ---
->>>>    net/net.c | 14 ++++++++++++--
->>>>    1 file changed, 12 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/net/net.c b/net/net.c
->>>> index c0516a8067..b4b8f2a9cc 100644
->>>> --- a/net/net.c
->>>> +++ b/net/net.c
->>>> @@ -1571,8 +1571,18 @@ static int net_param_nic(void *dummy, QemuOpts *opts, Error **errp)
->>>>        const char *type;
->>>>    
->>>>        type = qemu_opt_get(opts, "type");
->>>> -    if (type && g_str_equal(type, "none")) {
->>>> -        return 0;    /* Nothing to do, default_net is cleared in vl.c */
->>>> +    if (type) {
->>>> +        if (g_str_equal(type, "none")) {
->>>> +            return 0;    /* Nothing to do, default_net is cleared in vl.c */
->>>> +        }
->>>> +        if (is_help_option(type)) {
->>>> +            GPtrArray *nic_models = qemu_get_nic_models(TYPE_DEVICE);
->>>> +            show_netdevs();
->>>> +            printf("\n");
->>>> +            qemu_show_nic_models(type, (const char **)nic_models->pdata);
->>>> +            g_ptr_array_free(nic_models, true);
->>>
->>> nit: would not the order:
->>>
->>>> +            GPtrArray *nic_models;
->>>> +            show_netdevs();
->>>> +            printf("\n");
->>>> +            nic_models = qemu_get_nic_models(TYPE_DEVICE);
->>>> +            qemu_show_nic_models(type, (const char **)nic_models->pdata);
->>>> +            g_ptr_array_free(nic_models, true);
->>>
->>> flow more logically?
->>
->> I think that's mostly a matter of taste ...
+On Tue, Nov 08, 2022 at 06:07:45PM +0100, Eugenio Pérez wrote:
+> Control VQ is the way net devices use to send changes to the device state, like
+> the number of active queues or its mac address.
 > 
-> To some extent, but for the reader it would make more sense not to intermix unrelated code?
-
-I'm pretty sure that as soon as I change it, another reviewer
-shows up and asks me to put everything into one line again
-since they prefer more compact code ;-)
-
-> I'd say:
+> QEMU needs to intercept this queue so it can track these changes and is able to
+> migrate the device. It can do it from 1576dbb5bbc4 ("vdpa: Add x-svq to
+> NetdevVhostVDPAOptions"). However, to enable x-svq implies to shadow all VirtIO
+> device's virtqueues, which will damage performance.
 > 
-> - show_netdevs
-> _ get nic models
-> - show nic models
+> This series adds address space isolation, so the device and the guest
+> communicate directly with them (passthrough) and CVQ communication is split in
+> two: The guest communicates with QEMU and QEMU forwards the commands to the
+> device.
 > 
-> instead of:
+> Comments are welcome. Thanks!
+
+
+This is not 7.2 material, right?
+
+> v6:
+> - Do not allocate SVQ resources like file descriptors if SVQ cannot be used.
+> - Disable shadow CVQ if the device does not support it because of net
+>   features.
 > 
-> - get nic models
-> - show netdevs
-> - show nic models
-
-I get your point, and I would immediately agree with you if we
-were allowed to do:
-
-         show_netdevs();
-         printf("\n");
-         GPtrArray *nic_models = qemu_get_nic_models(TYPE_DEVICE);
-         qemu_show_nic_models(type, (const char **)nic_models->pdata);
-         g_ptr_array_free(nic_models, true);
-
-Although this is possible nowadays (since we're using
-not C89 anymore), it's against the QEMU coding style.
-
-So it's a trade-off now - use two lines of code and have some more
-chronological code flow, or use one line of more compact code.
-
-I'm in favor of the more compact code. So please let's stop
-bike-shedding now.
-
-  Thanks,
-   Thomas
+> v5:
+> - Move vring state in vhost_vdpa_get_vring_group instead of using a
+>   parameter.
+> - Rename VHOST_VDPA_NET_CVQ_PASSTHROUGH to VHOST_VDPA_NET_DATA_ASID
+> 
+> v4:
+> - Rebased on last CVQ start series, that allocated CVQ cmd bufs at load
+> - Squash vhost_vdpa_cvq_group_is_independent.
+> - Do not check for cvq index on vhost_vdpa_net_prepare, we only have one
+>   that callback registered in that NetClientInfo.
+> - Add comment specifying behavior if device does not support _F_ASID
+> - Update headers to a later Linux commit to not to remove SETUP_RNG_SEED
+> 
+> v3:
+> - Do not return an error but just print a warning if vdpa device initialization
+>   returns failure while getting AS num of VQ groups
+> - Delete extra newline
+> 
+> v2:
+> - Much as commented on series [1], handle vhost_net backend through
+>   NetClientInfo callbacks instead of directly.
+> - Fix not freeing SVQ properly when device does not support CVQ
+> - Add BIT_ULL missed checking device's backend feature for _F_ASID.
+> 
+> Eugenio Pérez (10):
+>   vdpa: Use v->shadow_vqs_enabled in vhost_vdpa_svqs_start & stop
+>   vhost: set SVQ device call handler at SVQ start
+>   vhost: Allocate SVQ device file descriptors at device start
+>   vdpa: add vhost_vdpa_net_valid_svq_features
+>   vdpa: move SVQ vring features check to net/
+>   vdpa: Allocate SVQ unconditionally
+>   vdpa: Add asid parameter to vhost_vdpa_dma_map/unmap
+>   vdpa: Store x-svq parameter in VhostVDPAState
+>   vdpa: Add listener_shadow_vq to vhost_vdpa
+>   vdpa: Always start CVQ in SVQ mode
+> 
+>  include/hw/virtio/vhost-vdpa.h     |  10 +-
+>  hw/virtio/vhost-shadow-virtqueue.c |  35 +-----
+>  hw/virtio/vhost-vdpa.c             | 114 ++++++++++---------
+>  net/vhost-vdpa.c                   | 171 ++++++++++++++++++++++++++---
+>  hw/virtio/trace-events             |   4 +-
+>  5 files changed, 222 insertions(+), 112 deletions(-)
+> 
+> -- 
+> 2.31.1
+> 
 
 
