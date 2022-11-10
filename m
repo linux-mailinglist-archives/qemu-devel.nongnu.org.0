@@ -2,91 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3B46246A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 17:12:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34EC0624700
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 17:31:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otA9f-0004vn-DU; Thu, 10 Nov 2022 11:11:51 -0500
+	id 1otAQo-0007OP-S3; Thu, 10 Nov 2022 11:29:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1otA9d-0004vW-ET
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 11:11:49 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otAQm-0007OC-Ll
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 11:29:32 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1otA9b-0008ED-V2
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 11:11:49 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otAQk-0003zC-Lv
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 11:29:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668096707;
+ s=mimecast20190719; t=1668097768;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u8r93YjqtG/Rulh11Ii9XrViKCR/uv3D3YNw0yGpDuM=;
- b=VbfuKG2ByvmbahUStgQ5VqRC+ifimYrJ1iwZCDeDUFCHBjkpLK8iWKgive+8oafg8F/bi3
- tih+ZgOf92i0tT67igMKLGKkM0UJqzqVNg2Gk8AWoqoknEddusdWuEAOxYgVMvJhL4YCHW
- YpThapDh5jgM9SN6oLJEOZ4p3nFM+PU=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=izypq1FJFQgpUSg8lE7GKeyl2LPNZrjmX4reSN1jshQ=;
+ b=IGQkS5ThIp16zx9r7pbGjmXLPOWIOqp05Zk82eIEX0mlnfT/6Sy31M6g/ejC/DX8TgJDdx
+ x8K6nJDJEAgdCGeLrk6gYD5/EWIAWjmhJ4+kvkn1ShzuKVjG0y1mVpQA3hMKdVef+LLI2b
+ r98ZzvmBihlqpx25YOhQcpOlgrel+IQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-416-LL6uGOSIPlK9zKygZZIr4w-1; Thu, 10 Nov 2022 11:11:46 -0500
-X-MC-Unique: LL6uGOSIPlK9zKygZZIr4w-1
-Received: by mail-ej1-f70.google.com with SMTP id
- hp16-20020a1709073e1000b007adf5a83df7so1512030ejc.1
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 08:11:45 -0800 (PST)
+ us-mta-272-yftsk_TzP0yubbnt5B6EXg-1; Thu, 10 Nov 2022 11:29:27 -0500
+X-MC-Unique: yftsk_TzP0yubbnt5B6EXg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j2-20020a05600c1c0200b003cf7397fc9bso1222127wms.5
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 08:29:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=u8r93YjqtG/Rulh11Ii9XrViKCR/uv3D3YNw0yGpDuM=;
- b=4cYIXtSnn/+yKtx5N9XZ6zlC7QLaqjoeZGaiRwapMMohFkTs8I2AGdPJAxVqudmxQZ
- MA/kfHn5+ZeiPT+hlwHl3QlG8shJLtw5TMYQGiKXKWyagDk0i2BFxg7/5oJCqBVMrIfx
- rjDWSXfJ2UvfwcU2FzhxuXxelJs3R+XvrtRLxwFH3prWJhSAt8yeVeGfusncDIui6wf+
- KF0dMRKstNvocrEKwS+PymPOpL/J++AYLXqipyjBX5+xdQUcF+foWukTvXTykl9HkT4J
- 4sb4bRF/767BmdQK8gY5tl/TJaZn9eX0zvXiKHYWzUnwykGgxESuYqvCDncyP6mHSkcl
- f86A==
-X-Gm-Message-State: ACrzQf0tQHH4EVtdQHAFHKakTIcRudftnRXrGtPym9SpOTtewEcJOhYT
- D9rT5lcsawAV8ntDrYvAWNOU4DHj9Ox08K0757av6jG3ypl4hp5O4ygBf9Nly8CDGthTJzVRsbU
- fYpmKox1YwwohKBg=
-X-Received: by 2002:a17:906:6d19:b0:78d:3c82:a875 with SMTP id
- m25-20020a1709066d1900b0078d3c82a875mr3209986ejr.465.1668096704951; 
- Thu, 10 Nov 2022 08:11:44 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM6uRbqT9pXklXs55fhyjNm4wUAPzQMMDhZSUlfU09C2ZI5FrA7dfKYdZsjzaDuhoFc7RUtk2w==
-X-Received: by 2002:a17:906:6d19:b0:78d:3c82:a875 with SMTP id
- m25-20020a1709066d1900b0078d3c82a875mr3209976ejr.465.1668096704696; 
- Thu, 10 Nov 2022 08:11:44 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
- ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
- by smtp.gmail.com with ESMTPSA id
- lx8-20020a170906af0800b00782fbb7f5f7sm7352648ejb.113.2022.11.10.08.11.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 08:11:44 -0800 (PST)
-Message-ID: <4b94c12a-13d3-67a0-f46b-631c40e2b2cb@redhat.com>
-Date: Thu, 10 Nov 2022 17:11:43 +0100
+ bh=izypq1FJFQgpUSg8lE7GKeyl2LPNZrjmX4reSN1jshQ=;
+ b=yT7wRmBTWUEgurq6HZB5F87OYY79r0f1HAS9Y0UeFsOK/+QCFP0VO13c3wv0KlAwON
+ oOAZDuxqkh5x493rEekpccRkKwtp+iqz6RJlkmX5RbFF450NkqhknHzFnXKUj3JBnEeD
+ sc/6PuQ6ZRrLz2PPt6XnWju0SEpTE9kqU/2Ocq+w1KLMti2GWrBWcE1SYAN/uUy76b+q
+ 71e9U8hljrEwzGpjAwJb6g7RyH7iLJrp1/ILONQwjoGvMEHlBcfeAAb8xZhR77al/Qr6
+ sSfeHB5U9/Y/u7NeMKvDIBfRsWajZHaOJpBri6pcj5rLsKn+CdzqOwsAcCPolOvotNoH
+ fqVA==
+X-Gm-Message-State: ACrzQf2Ia+lt1dcGvRQn0z/tJg/Wi+3QFPMu1vpBuaGsej9hrmcar5oH
+ Uqpva0YB+87hKjONQDu5cvYF3b2lwa6Hr1gXS86n7etdwCGvpZMUO6OOfc7hw0ilNkWOXKfPzep
+ vNGGLDpmDSHkixK0=
+X-Received: by 2002:a1c:448b:0:b0:3cf:6fcd:e171 with SMTP id
+ r133-20020a1c448b000000b003cf6fcde171mr40838366wma.163.1668097765893; 
+ Thu, 10 Nov 2022 08:29:25 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM7vRGn68dc6MqNh8KizYNINsE7v5ztlBOdpf7pwzNgkN8zJWIWgDwGIMia9Cvg/sYSa4RPFkw==
+X-Received: by 2002:a1c:448b:0:b0:3cf:6fcd:e171 with SMTP id
+ r133-20020a1c448b000000b003cf6fcde171mr40838345wma.163.1668097765608; 
+ Thu, 10 Nov 2022 08:29:25 -0800 (PST)
+Received: from redhat.com ([2.52.3.250]) by smtp.gmail.com with ESMTPSA id
+ iw2-20020a05600c54c200b003cf77e6091bsm5419392wmb.11.2022.11.10.08.29.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Nov 2022 08:29:24 -0800 (PST)
+Date: Thu, 10 Nov 2022 11:29:21 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ani Sinha <ani@anisinha.ca>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>
+Subject: Re: [PATCH 0/4] hw: make TCO watchdog actually work by default for Q35
+Message-ID: <20221110112700-mutt-send-email-mst@kernel.org>
+References: <20221031131934.425448-1-berrange@redhat.com>
+ <Y1/SoFxe3P2HVV3W@redhat.com>
+ <20221031114835-mutt-send-email-mst@kernel.org>
+ <20221101135724.7f89868c@fedora> <Y2EZFXOMR7sTDJGf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 0/3] block: Start/end drain on correct AioContext
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20221107151321.211175-1-hreitz@redhat.com>
- <Y20EJFt1w7xstZtC@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <Y20EJFt1w7xstZtC@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+In-Reply-To: <Y2EZFXOMR7sTDJGf@redhat.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,41 +105,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10.11.22 15:01, Kevin Wolf wrote:
-> Am 07.11.2022 um 16:13 hat Hanna Reitz geschrieben:
->> Hi,
->>
->> v1 cover letter:
->> https://lists.nongnu.org/archive/html/qemu-block/2022-09/msg00389.html
->>
->> bdrv_replace_child_noperm() drains the child via
->> bdrv_parent_drained_{begin,end}_single().  When it removes a child, the
->> bdrv_parent_drained_end_single() at its end will be called on an empty
->> child, making the BDRV_POLL_WHILE() in it poll the main AioContext
->> (because c->bs is NULL).
->>
->> That’s wrong, though, because it’s supposed to operate on the parent.
->> bdrv_parent_drained_end_single_no_poll() will have scheduled any BHs in
->> the parents’ AioContext, which may be anything, not necessarily the main
->> context.  Therefore, we must poll the parent’s context.
->>
->> Patch 3 does this for both bdrv_parent_drained_{begin,end}_single().
->> Patch 1 ensures that we can legally call
->> bdrv_child_get_parent_aio_context() from those I/O context functions,
->> and patch 2 fixes blk_do_set_aio_context() to not cause an assertion
->> failure if it beginning a drain can end up in blk_get_aio_context()
->> before blk->ctx has been updated.
-> Thanks, applied to the block branch.
+On Tue, Nov 01, 2022 at 01:03:17PM +0000, Daniel P. Berrang� wrote:
+> On Tue, Nov 01, 2022 at 01:57:24PM +0100, Igor Mammedov wrote:
+> > On Mon, 31 Oct 2022 11:48:58 -0400
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > 
+> > > On Mon, Oct 31, 2022 at 01:50:24PM +0000, Daniel P. Berrang� wrote:
+> > > > On Mon, Oct 31, 2022 at 01:19:30PM +0000, Daniel P. Berrang� wrote:  
+> > > > > The TCO watchdog is unconditionally integrated into the Q35 machine
+> > > > > type by default, but at the same time is unconditionally disabled
+> > > > > from firing by a host config option that overrides guest OS attempts
+> > > > > to enable it. People have to know to set a magic -global to make
+> > > > > it non-broken  
+> > > > 
+> > > > Incidentally I found that originally the TCO watchdog was not
+> > > > unconditionally enabled. Its exposure to the guest could be
+> > > > turned on/off using
+> > > > 
+> > > >   -global ICH9-LPC.enable_tco=bool
+> > > > 
+> > > > This was implemented for machine type compat, but it also gave
+> > > > apps a way to disable the watchdog functionality. Unfortunately
+> > > > that ability was discarded in this series:
+> > > > 
+> > > >   https://lore.kernel.org/all/1453564933-29638-1-git-send-email-ehabkost@redhat.com/
+> > > > 
+> > > > but the 'enable_tco' property still exists in QOM, but silently
+> > > > ignored.
+> > > > 
+> > > > Seems we should either fix the impl of 'enable_tco', or remove the
+> > > > QOM property entirely, so we don't pretend it can be toggled anymore.
+> > > > 
+> > > > With regards,
+> > > > Daniel  
+> > > 
+> > > i am inclined to say you are right and the fix is to fix the impl.
+> > 
+> > Is there need for users to disable whatchdog at all?
+> > It was always present since then and no one complained, 
+> > so perhaps we should ditch property instead fixing it
+> > to keep it simple.
+> 
+> Thinking about it more, I think we should NOT fix the 'enable_tco' property,
+> because there will be no way for a mgmt appp to tell if they're using a
+> fixed or broken QEMU.
 
-Thanks!
+This is always the case for any bug. We don't as a rule add properties
+for this, it is distro's responsibility to pick bugfixes for
+features users care about.
 
-I tested your drain series, and it does indeed fix the bug, too. (Sorry 
-for the delay, I thought it’d take less time to write an iotest...)
+What makes this bug different?
 
-> I would still be interested in a test case as a follow-up.
 
-Got it working now and sent as “tests/stream-under-throttle: New test”.
+> So if they use 'enable_tco' on a broken QEMU and then
+> live migrate, they'll get an guest ABI change. If we did want to support
+> disabling it, then we should have a brand new property that apps can probe
+> for.
+> 
+> In the absence of a request to disable watchdog, I'd say we just delete
+> 'enable_tco' right now. If someone wants it in future, we can add it with
+> a new name.
+> 
+> With regards,
+> Daniel
 
-Hanna
+I am really stressed about watchdog firing and resetting VMs that previously
+were working fine. Adding this without a safety mechanism to quickly
+disable in case of problems in the field is not wise imho.
+
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
