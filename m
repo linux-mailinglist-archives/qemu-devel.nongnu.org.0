@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C483E624C85
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 22:07:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52944624C8B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 22:07:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otEl0-0005bD-S8; Thu, 10 Nov 2022 16:06:42 -0500
+	id 1otEl1-0005bo-J1; Thu, 10 Nov 2022 16:06:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otEkv-0005Z0-8q
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 16:06:38 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otEkx-0005an-Sn
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 16:06:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otEkt-0005lJ-IT
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 16:06:37 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otEkw-0005lh-35
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 16:06:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668114394;
+ s=mimecast20190719; t=1668114397;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v/+Ib26XYn/cnBad90+Kpxhtppp0fwV/vTeyR3L6z+I=;
- b=XsGaFOqZBuDFkbhv6RyeISrWaYPLo06tsrohCN/Vq+K1XCb7CziRtt2xh0Sag5y0oP/Ppx
- WEGZVzyi6Xmb1W+bZvMaunt+g5xX4yw+nGJAlVK3fWLmF13cZ8rSAh3PB4z1OzkJw1DJyw
- ri8bnZykTxoAI439rQ3l+jVA9Upc3QA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fYyyJ4Ve4Y4kmza5yOzDSeKWNwn1L8uYdfhTgrW7BRg=;
+ b=btDZk3i6DGJ3XR98DYeae9W/inczmT1s6tgb+N7GMWmJYLKU4M5jPSuPEdL56Ell6y4HTS
+ RqGWG88hlXAlZkMjEdP4qS7Vjg1vvxwQmQciAR7kF/1fsKav07DL8PE7HzSEtu7X+uKu2t
+ N0osPXQrOs8cE8MuePT0SBDPG6m80QY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-516-HdA8HyuLPQGHCg1f7VaV_w-1; Thu, 10 Nov 2022 16:06:33 -0500
-X-MC-Unique: HdA8HyuLPQGHCg1f7VaV_w-1
-Received: by mail-wr1-f71.google.com with SMTP id
- i12-20020adfaacc000000b0023cd08e3b56so650411wrc.12
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 13:06:33 -0800 (PST)
+ us-mta-638-Av7tGkTZMUGLBrqiiE3huw-1; Thu, 10 Nov 2022 16:06:36 -0500
+X-MC-Unique: Av7tGkTZMUGLBrqiiE3huw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ s7-20020adfa287000000b00236c367fcddso645762wra.6
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 13:06:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=v/+Ib26XYn/cnBad90+Kpxhtppp0fwV/vTeyR3L6z+I=;
- b=gDY3w9Dyj3+UNqH6ERBL4xlt5xWFybfVZFYuf0AtqWvNWqtg6wA1dKFFxhHS8dweMY
- H7ArUq0JQ4u8ulaNraT09Bmd/hB1qh6L8bcUdKtjls5gPMQXDAAjHejZ0z6PSMktRLT/
- j1ZRSyKsXLMnADhwtSELFQDuNJhYZK5/kctDGo955BKzIIw0e3Zzwy7sC9NdapDY5T1p
- 1n09RnAf0yp1QdXQ7noUvuLI5zNNX5w6llGaj0R6tLfq44Pz8PZcvNdK97t8uHYgs8hK
- G5JzxDFPplwdauyq6mwO9/ADDduajILzPh0x+0sAkFlXt9lPkf4dlxSA1FoyAl2EkkzX
- 5+Vg==
-X-Gm-Message-State: ACrzQf1sbHOv9yNBHxPogxg0KWrBgfVSZ8O+4HiBO/cHO7/8uIASJePY
- bVOSCEmFfSBgkfpP2clgxg8e88fi2VSDsJak10XE4wX22Oc4aoy7zsgMFvWB6zJmV5T8dKumqss
- 9cCvLr+wp6+74MuDAkpffjS/uKjykeGt4aotcz1aJkoL5XIXzOOxwzLjLVziE
-X-Received: by 2002:a05:600c:3b9e:b0:3cf:93de:14b1 with SMTP id
- n30-20020a05600c3b9e00b003cf93de14b1mr24136196wms.148.1668114391872; 
- Thu, 10 Nov 2022 13:06:31 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM4uk+aCCCIX8fwK8lE3eVLcylfo+aiD6r91Kuf6Bo5ehfw5Pe5ZZ3iIrfg1JFTvvFLXq8QepQ==
-X-Received: by 2002:a05:600c:3b9e:b0:3cf:93de:14b1 with SMTP id
- n30-20020a05600c3b9e00b003cf93de14b1mr24136178wms.148.1668114391517; 
- Thu, 10 Nov 2022 13:06:31 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fYyyJ4Ve4Y4kmza5yOzDSeKWNwn1L8uYdfhTgrW7BRg=;
+ b=hFI1aoJqSVYiIVF9zVyyfUmzP0beTn8aNlHveeN9lx4voa3/8HR2PF6CWtgA6Zzt1q
+ K0Ospa1AGubk7N4jTfTDoZYB+QItDh97eSb4ZeW2bZmKkK4HzvxHXl+dPggIOx6DpOYh
+ uPQ9DGyUJGoWXpPpD1NP1tQW0xSQZrkq/IFUtLrYENwBDYdOFLExQFRQseLlWaXKqyRa
+ CmCiLp/gT2MHwgxNKHJLvtcHTw0zhwiXjJovBTwPsnEbyOaoT1svtxdKKkOs4cn74Wsy
+ QoB4DsQPCIruuZWurnJb163nd7MPghfpMX/WuIrvwp92Rcl2v9o3Oq0kbLbwP+bcumxi
+ uUAA==
+X-Gm-Message-State: ACrzQf3/RKYF0IVELowkwwSNOxZ1DNcTMHB+A0uSZqrrJzW+A0gCy/2w
+ hfuoae8Au1OreCeUlwO0b5BMO9GY552qo264cXz05ZWaRP1QAbg36pi/mxJHGG3UgiHn1VZWPQx
+ s9QPdGFxgJUryt47nzYs4pjm+xHvDRL5NbZST9uj0F3E9xzyLIwn/lCZ3FTkC
+X-Received: by 2002:a5d:40cc:0:b0:22e:ed53:771c with SMTP id
+ b12-20020a5d40cc000000b0022eed53771cmr1119615wrq.297.1668114394685; 
+ Thu, 10 Nov 2022 13:06:34 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM7JSFiFdhHIYn+DQOQ+JIQKScTU8XCd2GE9BkqzycT/Zp5ACXNKrc+JO15+F2n1Aeg1lvqRRg==
+X-Received: by 2002:a5d:40cc:0:b0:22e:ed53:771c with SMTP id
+ b12-20020a5d40cc000000b0022eed53771cmr1119607wrq.297.1668114394414; 
+ Thu, 10 Nov 2022 13:06:34 -0800 (PST)
 Received: from redhat.com ([2.52.3.250]) by smtp.gmail.com with ESMTPSA id
- t17-20020a05600c199100b003b4fdbb6319sm6467096wmq.21.2022.11.10.13.06.29
+ m8-20020adfe948000000b002366553eca7sm136103wrn.83.2022.11.10.13.06.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 13:06:31 -0800 (PST)
-Date: Thu, 10 Nov 2022 16:06:28 -0500
+ Thu, 10 Nov 2022 13:06:33 -0800 (PST)
+Date: Thu, 10 Nov 2022 16:06:31 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Laurent Vivier <lvivier@redhat.com>,
- Miroslav Rezanina <mrezanin@redhat.com>,
- Frederic Bezies <fredbezies@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PULL 2/3] display: include dependencies explicitly
-Message-ID: <20221110210428.137015-3-mst@redhat.com>
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Jason Wang <jasowang@redhat.com>
+Subject: [PULL 3/3] virtio-net: fix for heap-buffer-overflow
+Message-ID: <20221110210428.137015-4-mst@redhat.com>
 References: <20221110210428.137015-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20221110210428.137015-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -103,155 +98,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-acpi-vga-stub.c pulls in vga_int.h
-However that currently pulls in ui/console.h which
-breaks e.g. on systems without pixman.
-It's better to remove ui/console.h from vga_int.h
-and directly include it where it's used.
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 
+Run shell script:
+
+    cat << EOF | valgrind qemu-system-i386 -display none -machine accel=qtest, -m \
+    512M -M q35 -nodefaults -device virtio-net,netdev=net0 -netdev \
+    user,id=net0 -qtest stdio
+    outl 0xcf8 0x80000810
+    outl 0xcfc 0xc000
+    outl 0xcf8 0x80000804
+    outl 0xcfc 0x01
+    outl 0xc00d 0x0200
+    outl 0xcf8 0x80000890
+    outb 0xcfc 0x4
+    outl 0xcf8 0x80000889
+    outl 0xcfc 0x1c000000
+    outl 0xcf8 0x80000893
+    outw 0xcfc 0x100
+    EOF
+
+Got:
+    ==68666== Invalid read of size 8
+    ==68666==    at 0x688536: virtio_net_queue_enable (virtio-net.c:575)
+    ==68666==    by 0x6E31AE: memory_region_write_accessor (memory.c:492)
+    ==68666==    by 0x6E098D: access_with_adjusted_size (memory.c:554)
+    ==68666==    by 0x6E4DB3: memory_region_dispatch_write (memory.c:1521)
+    ==68666==    by 0x6E31AE: memory_region_write_accessor (memory.c:492)
+    ==68666==    by 0x6E098D: access_with_adjusted_size (memory.c:554)
+    ==68666==    by 0x6E4DB3: memory_region_dispatch_write (memory.c:1521)
+    ==68666==    by 0x6EBCD3: flatview_write_continue (physmem.c:2820)
+    ==68666==    by 0x6EBFBF: flatview_write (physmem.c:2862)
+    ==68666==    by 0x6EF5E7: address_space_write (physmem.c:2958)
+    ==68666==    by 0x6DFDEC: cpu_outw (ioport.c:70)
+    ==68666==    by 0x6F6DF0: qtest_process_command (qtest.c:480)
+    ==68666==  Address 0x29087fe8 is 24 bytes after a block of size 416 in arena "client"
+
+That is reported by Alexander Bulekov. https://gitlab.com/qemu-project/qemu/-/issues/1309
+
+Here, the queue_index is the index of the cvq, but in some cases cvq
+does not have the corresponding NetClientState, so overflow appears.
+
+I add a check here, ignore illegal queue_index and cvq queue_index.
+
+Note the queue_index is below the VIRTIO_QUEUE_MAX but greater or equal
+than cvq index could hit this. Other devices are similar.
+
+Fixes: 7f863302 ("virtio-net: support queue_enable")
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1309
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Message-Id: <20221110095739.130393-1-xuanzhuo@linux.alibaba.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <20221109222112.74519-1-mst@redhat.com>
-Tested-by: Laurent Vivier <lvivier@redhat.com>
-Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
-Reported-by: Frederic Bezies <fredbezies@gmail.com>
-Reported-by: Laurent Vivier <lvivier@redhat.com>
-Fixes: cfead31326 ("AcpiDevAmlIf interface to build VGA device descs")
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/display/vga_int.h        | 1 -
- include/qemu/typedefs.h     | 2 ++
- hw/display/ati_2d.c         | 1 +
- hw/display/cirrus_vga.c     | 1 +
- hw/display/cirrus_vga_isa.c | 1 +
- hw/display/vga-isa.c        | 1 +
- hw/display/vga-mmio.c       | 1 +
- hw/display/vga-pci.c        | 1 +
- hw/display/vga.c            | 1 +
- hw/display/vmware_vga.c     | 1 +
- 10 files changed, 10 insertions(+), 1 deletion(-)
+ include/hw/virtio/virtio.h |  2 ++
+ hw/net/virtio-net.c        | 18 ++++++++++++++++--
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/hw/display/vga_int.h b/hw/display/vga_int.h
-index 330406ad9c..7cf0d11201 100644
---- a/hw/display/vga_int.h
-+++ b/hw/display/vga_int.h
-@@ -27,7 +27,6 @@
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index 141a253a2c..a973811cbf 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -148,7 +148,9 @@ struct VirtioDeviceClass {
+     void (*set_config)(VirtIODevice *vdev, const uint8_t *config);
+     void (*reset)(VirtIODevice *vdev);
+     void (*set_status)(VirtIODevice *vdev, uint8_t val);
++    /* Device must validate queue_index.  */
+     void (*queue_reset)(VirtIODevice *vdev, uint32_t queue_index);
++    /* Device must validate queue_index.  */
+     void (*queue_enable)(VirtIODevice *vdev, uint32_t queue_index);
+     /* For transitional devices, this is a bitmap of features
+      * that are only exposed on the legacy interface but not
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 8b32339b76..aba12759d5 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -549,7 +549,14 @@ static RxFilterInfo *virtio_net_query_rxfilter(NetClientState *nc)
+ static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+ {
+     VirtIONet *n = VIRTIO_NET(vdev);
+-    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
++    NetClientState *nc;
++
++    /* validate queue_index and skip for cvq */
++    if (queue_index >= n->max_queue_pairs * 2) {
++        return;
++    }
++
++    nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
  
- #include "exec/ioport.h"
- #include "exec/memory.h"
--#include "ui/console.h"
+     if (!nc->peer) {
+         return;
+@@ -566,9 +573,16 @@ static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+ static void virtio_net_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
+ {
+     VirtIONet *n = VIRTIO_NET(vdev);
+-    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
++    NetClientState *nc;
+     int r;
  
- #include "hw/display/bochs-vbe.h"
- #include "hw/acpi/acpi_aml_interface.h"
-diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index 6d4e6d9708..688408e048 100644
---- a/include/qemu/typedefs.h
-+++ b/include/qemu/typedefs.h
-@@ -132,6 +132,8 @@ typedef struct Visitor Visitor;
- typedef struct VMChangeStateEntry VMChangeStateEntry;
- typedef struct VMStateDescription VMStateDescription;
- typedef struct DumpState DumpState;
-+typedef struct GraphicHwOps GraphicHwOps;
-+typedef struct QEMUCursor QEMUCursor;
- 
- /*
-  * Pointer types
-diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
-index 692bec91de..7d786653e8 100644
---- a/hw/display/ati_2d.c
-+++ b/hw/display/ati_2d.c
-@@ -12,6 +12,7 @@
- #include "ati_regs.h"
- #include "qemu/log.h"
- #include "ui/pixel_ops.h"
-+#include "ui/console.h"
- 
- /*
-  * NOTE:
-diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-index c1e719a405..6e8c747c46 100644
---- a/hw/display/cirrus_vga.c
-+++ b/hw/display/cirrus_vga.c
-@@ -45,6 +45,7 @@
- #include "ui/pixel_ops.h"
- #include "cirrus_vga_internal.h"
- #include "qom/object.h"
-+#include "ui/console.h"
- 
- /*
-  * TODO:
-diff --git a/hw/display/cirrus_vga_isa.c b/hw/display/cirrus_vga_isa.c
-index 96144bd690..84be51670e 100644
---- a/hw/display/cirrus_vga_isa.c
-+++ b/hw/display/cirrus_vga_isa.c
-@@ -31,6 +31,7 @@
- #include "hw/isa/isa.h"
- #include "cirrus_vga_internal.h"
- #include "qom/object.h"
-+#include "ui/console.h"
- 
- #define TYPE_ISA_CIRRUS_VGA "isa-cirrus-vga"
- OBJECT_DECLARE_SIMPLE_TYPE(ISACirrusVGAState, ISA_CIRRUS_VGA)
-diff --git a/hw/display/vga-isa.c b/hw/display/vga-isa.c
-index 46abbc5653..2a5437d803 100644
---- a/hw/display/vga-isa.c
-+++ b/hw/display/vga-isa.c
-@@ -32,6 +32,7 @@
- #include "qemu/timer.h"
- #include "hw/loader.h"
- #include "hw/qdev-properties.h"
-+#include "ui/console.h"
- #include "qom/object.h"
- 
- #define TYPE_ISA_VGA "isa-vga"
-diff --git a/hw/display/vga-mmio.c b/hw/display/vga-mmio.c
-index 75dfcedea5..cd2c46776d 100644
---- a/hw/display/vga-mmio.c
-+++ b/hw/display/vga-mmio.c
-@@ -27,6 +27,7 @@
- #include "hw/sysbus.h"
- #include "hw/display/vga.h"
- #include "hw/qdev-properties.h"
-+#include "ui/console.h"
- #include "vga_int.h"
- 
- /*
-diff --git a/hw/display/vga-pci.c b/hw/display/vga-pci.c
-index 9a91de7ed1..df23dbf3a0 100644
---- a/hw/display/vga-pci.c
-+++ b/hw/display/vga-pci.c
-@@ -30,6 +30,7 @@
- #include "migration/vmstate.h"
- #include "vga_int.h"
- #include "ui/pixel_ops.h"
-+#include "ui/console.h"
- #include "qemu/module.h"
- #include "qemu/timer.h"
- #include "hw/loader.h"
-diff --git a/hw/display/vga.c b/hw/display/vga.c
-index 50ecb1ad02..0cb26a791b 100644
---- a/hw/display/vga.c
-+++ b/hw/display/vga.c
-@@ -31,6 +31,7 @@
- #include "vga_int.h"
- #include "vga_regs.h"
- #include "ui/pixel_ops.h"
-+#include "ui/console.h"
- #include "qemu/timer.h"
- #include "hw/xen/xen.h"
- #include "migration/vmstate.h"
-diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
-index cedbbde522..53949d2539 100644
---- a/hw/display/vmware_vga.c
-+++ b/hw/display/vmware_vga.c
-@@ -33,6 +33,7 @@
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "qom/object.h"
-+#include "ui/console.h"
- 
- #undef VERBOSE
- #define HW_RECT_ACCEL
++    /* validate queue_index and skip for cvq */
++    if (queue_index >= n->max_queue_pairs * 2) {
++        return;
++    }
++
++    nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
++
+     if (!nc->peer || !vdev->vhost_started) {
+         return;
+     }
 -- 
 MST
 
