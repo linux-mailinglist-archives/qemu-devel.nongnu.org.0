@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BAAE623BC1
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 07:25:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C2A623BD2
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 07:27:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot0zy-00015a-F6; Thu, 10 Nov 2022 01:25:14 -0500
+	id 1ot10F-0001cy-Pe; Thu, 10 Nov 2022 01:25:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ot0zv-000120-VX
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 01:25:12 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ id 1ot10E-0001b9-45
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 01:25:30 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ot0zu-0007Ap-BY
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 01:25:11 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id g62so1000558pfb.10
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 22:25:10 -0800 (PST)
+ id 1ot10C-0008BK-Fe
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 01:25:29 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id 130so1010513pfu.8
+ for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 22:25:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Z3a+uika0IuKJSzenVXCbwEeRP8jHQz1XjaRHlAccWc=;
- b=3J0mI99k88V6+rgMqq+qNiEIY4rKvJtS40pQb3MeWVpaW8r81XOqhs8EhH8U7K7U7B
- XIfXtE8bDSu8m+B5vAQcgCwmNjHzud4bFze8yP0rk+7HWnMMM9kzu84AtQ+xoX+8awFh
- rFswlS+eGrpSJ8cYUn9Mal0EetquY5+7LdJFAsD806Y91fQTyIIuCXlzjyXgPDlWVB/X
- M48TMYMVMAZRbD5LWbtp2Hx981Zfx128Tw+RSl2BHC28v2oY3hFBEFgX+/z5KcTen0n6
- ObmYKd5Z7JeJaj5jk6PbxbIqGigrh1dnl2UX0bITtOsJW2CX2Djj+UiKT3R56ovTsRvh
- unvg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=S71uA1qqGC/6TbeUsoWwC8+Ke/IgKE6MHXg9S63X/NM=;
+ b=SvdcrHY2llLs4WZ3DvA/ncziaTqbJB351OtwHnPQwOYmURQ8NlIRyreRtXb/DesUKz
+ PdCHpes9TJ23o6WK6f/3o7tpq3e6NK1B9FM5nrdRbDhGOf+VvkFH5ZRAtH0HL5I8amaz
+ OWuN8NeilWMFejjIupDvX4e6kyHQj9vS2Kjdu7u7VMC7PbOF7UbMUn7Y0aOeul9+oRcg
+ HcjzOHQoOJJe5S6Ld0XRHyP2V4qeP6hfj04Q6ub0Zv+ge5R5uEl9DCP8bwgbji+dH+0h
+ DZ+CqHbtgVrxDZDCwLKzimc6BUCC62u9+4r9wUuifusx8LO1kvdNzeMfBL50A7pUHhj1
+ i99Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Z3a+uika0IuKJSzenVXCbwEeRP8jHQz1XjaRHlAccWc=;
- b=mbLOICwhUQ7MgS2F++DOo5iw/G7OVYBJMTPYDJEV4zYW0OpgpzlAsmYbLRn4LLqBRU
- giNkXoEjxK2jDvDasrmSdyFg6z2KmSF1XKPUkO9SAidwWKqXPLsA0S47NGSRQgitsDcf
- yBZKup+IvF6ENDNEdgdJ92Y6OAbs8t6twFeBgu4sOPbR3T8qi8RTQZ3XPNlr5PijbMkO
- Oq8o7ZVy76o8fMmQ64iHOVgIEspuSl5HdnjkuaiovEVijD0S7GPaf8uJ53+V47u4b98G
- CagiAAlSHhFGU9slsmChy6rOYui7Ftri+gScqkbQag4VBIClajCjAPO4kKfs+fiWi8Sy
- xDFw==
-X-Gm-Message-State: ANoB5pnuDl5cs9NzK3tftv/G3KIG6UOsqwt6/7nazWQ9g00Ga+zMTeU9
- YGHAkYgMmdD3pf6365Fbf5gXQxuU0Jl8f95n
-X-Google-Smtp-Source: AA0mqf7zMy46AlnIqz6UVZ1c7JeK3Hq03jHcdyI70dF4sTe6/t0blrfzFFq+wSp1qxBLYYeQg1RjnA==
-X-Received: by 2002:a63:2352:0:b0:470:537b:9d23 with SMTP id
- u18-20020a632352000000b00470537b9d23mr1396201pgm.185.1668061503549; 
- Wed, 09 Nov 2022 22:25:03 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=S71uA1qqGC/6TbeUsoWwC8+Ke/IgKE6MHXg9S63X/NM=;
+ b=EgwORPiO9NNrb/jBdaORG1xM9Ps4jea6ebEnKYoHg4ju0hpM8Ax6+i4c5eCJ/3f+W0
+ vSoc72aAH6mQHRDTHNw3SyvFT52Q6DUiwvxRW5o8FD50xM/e4twiEZRYLUqR2gI/YScK
+ DM2/GB11i40viGe3VB/4d4V7ClM96YL6qsSAkSajP7N/7KM9baA5frzHH+6cHjfOtfal
+ 4vhv539PYXsxke5F6FkHhdkxlfxpb3TF2qhd0uVhJnScwR60ZlwhhTECtbonW/Xj51dr
+ WemodSPUpv+oRGnz4sfnEkaroVjw9/R74rK1FH98sVSKcsEsWgSFoOsxLf+8UzHhyoUA
+ pzGg==
+X-Gm-Message-State: ACrzQf27kLyJewgz6oCbwr8qOjETJQ3GUFiIDu6fLxBLMjAt40YiLXpG
+ tW7OrsASVrNIvANbxc7kO/0XDGrOT0I/CVPF
+X-Google-Smtp-Source: AMsMyM6JikEmRZQunYdpsOQwSF3vlcb2gC6ojlu0XzZCSxGcUG9fvpeiWNS66sanZjs3z05wwSomJA==
+X-Received: by 2002:a62:1544:0:b0:56d:6af0:c131 with SMTP id
+ 65-20020a621544000000b0056d6af0c131mr54779410pfv.51.1668061525873; 
+ Wed, 09 Nov 2022 22:25:25 -0800 (PST)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- m4-20020a17090ade0400b002108cabbe31sm2289003pjv.9.2022.11.09.22.23.35
+ m4-20020a17090ade0400b002108cabbe31sm2289003pjv.9.2022.11.09.22.25.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Nov 2022 22:25:02 -0800 (PST)
+ Wed, 09 Nov 2022 22:25:07 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, virtio-fs@redhat.com,
@@ -65,14 +66,16 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, virtio-fs@redhat.com,
  Stefan Hajnoczi <stefanha@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Stefan Weil <sw@weilnetz.de>, Yan Vugenfirer <yan@daynix.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 00/10] util: Introduce qemu_get_runtime_dir()
-Date: Thu, 10 Nov 2022 15:23:19 +0900
-Message-Id: <20221110062329.13363-1-akihiko.odaki@daynix.com>
+Subject: [PATCH 01/10] qga: Remove platform GUID definitions
+Date: Thu, 10 Nov 2022 15:23:20 +0900
+Message-Id: <20221110062329.13363-2-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221110062329.13363-1-akihiko.odaki@daynix.com>
+References: <20221110062329.13363-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::42b;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,65 +97,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-qemu_get_runtime_dir() returns a dynamically allocated directory path
-that is appropriate for storing runtime files. It corresponds to "run"
-directory in Unix.
+GUID_DEVINTERFACE_DISK and GUID_DEVINTERFACE_STORAGEPORT are already
+defined by MinGW-w64. They are not only unnecessary, but can lead to
+duplicate definition errors at link time with some unknown condition.
 
-With a tree-wide search, it was found that there are several cases
-where such a functionality is implemented so let's have one as a common
-utlity function.
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+ qga/commands-win32.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-A notable feature of qemu_get_runtime_dir() is that it uses
-$XDG_RUNTIME_DIR if available. While the function is often called by
-executables which requires root privileges, it is still possible that
-they are called from a user without privilege to write the system
-runtime directory. In fact, I decided to write this patch when I ran
-virtiofsd in a Linux namespace created by a normal user and realized
-it tries to write the system runtime directory, not writable in this
-case. $XDG_RUNTIME_DIR should provide a writable directory in such
-cases.
-
-This function does not use qemu_get_local_state_dir() or its logic
-for Windows. Actually the implementation of qemu_get_local_state_dir()
-for Windows seems not right as it calls g_get_system_data_dirs(),
-which refers to $XDG_DATA_DIRS. In Unix terminology, it is basically
-"/usr/share", not "/var", which qemu_get_local_state_dir() is intended
-to provide. Instead, this function try to use the following in order:
-- $XDG_RUNTIME_DIR
-- LocalAppData folder
-- get_relocated_path(CONFIG_QEMU_LOCALSTATEDIR "/run")
-
-This function does not use g_get_user_runtime_dir() either as it
-falls back to g_get_user_cache_dir() when $XDG_DATA_DIRS is not
-available. In the case, we rather use:
-get_relocated_path(CONFIG_QEMU_LOCALSTATEDIR "/run")
-
-Akihiko Odaki (10):
-  qga: Remove platform GUID definitions
-  util: Introduce qemu_get_runtime_dir()
-  ivshmem-server: Use qemu_get_runtime_dir()
-  contrib/rdmacm-mux: Use qemu_get_runtime_dir()
-  qga: Use qemu_get_runtime_dir()
-  scsi: Use qemu_get_runtime_dir()
-  virtiofsd: Use qemu_get_runtime_dir()
-  module: Use qemu_get_runtime_dir()
-  util: Remove qemu_get_local_state_dir()
-  spice-app: Use qemu_get_runtime_dir()
-
- include/qemu/osdep.h           | 10 +++++++---
- contrib/ivshmem-server/main.c  | 20 ++++++++++++++++----
- contrib/rdmacm-mux/main.c      | 22 ++++++++++++++--------
- qga/commands-win32.c           |  7 -------
- qga/main.c                     |  9 ++++-----
- scsi/qemu-pr-helper.c          |  6 +++---
- tools/virtiofsd/fuse_virtio.c  |  6 +++---
- ui/spice-app.c                 |  4 ++--
- util/module.c                  |  3 ++-
- util/oslib-posix.c             |  9 +++++++--
- util/oslib-win32.c             | 24 ++++++++++++++++++++----
- contrib/rdmacm-mux/meson.build |  2 +-
- 12 files changed, 79 insertions(+), 43 deletions(-)
-
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index ec9f55b453..dde5d401bb 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -506,13 +506,6 @@ static GuestDiskBusType find_bus_type(STORAGE_BUS_TYPE bus)
+     return win2qemu[(int)bus];
+ }
+ 
+-DEFINE_GUID(GUID_DEVINTERFACE_DISK,
+-        0x53f56307L, 0xb6bf, 0x11d0, 0x94, 0xf2,
+-        0x00, 0xa0, 0xc9, 0x1e, 0xfb, 0x8b);
+-DEFINE_GUID(GUID_DEVINTERFACE_STORAGEPORT,
+-        0x2accfe60L, 0xc130, 0x11d2, 0xb0, 0x82,
+-        0x00, 0xa0, 0xc9, 0x1e, 0xfb, 0x8b);
+-
+ static void get_pci_address_for_device(GuestPCIAddress *pci,
+                                        HDEVINFO dev_info)
+ {
 -- 
 2.38.1
 
