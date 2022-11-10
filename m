@@ -2,66 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC63E624203
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 13:10:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D029C624251
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 13:25:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot6Nt-0005Yp-N2; Thu, 10 Nov 2022 07:10:17 -0500
+	id 1ot6bG-0000IJ-Ty; Thu, 10 Nov 2022 07:24:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ot6No-0005Xn-VC
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:10:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot6bF-0000Gt-42
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:24:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ot6Nl-00019e-Ck
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:10:10 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot6bD-0003F8-8r
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 07:24:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668082208;
+ s=mimecast20190719; t=1668083040;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kAsrBlElC3PLCz9wCaADJO+zkp1Y3XBFOH5WIFmrr9k=;
- b=JPnqoqBrO0iF/LsW22o5LGJLd/MOTiSLie+0kSNYATloHOq2rrAAM9Iui9f+Lz6vG/3UwK
- YNeizTxXgDbWR+ZEy18bhj8z/5jSm3vdZYnLwAEJvN+3phvW+mbTuQxNOh9qvchDwSrGPJ
- PzPvVIwyNFmutXoVehLH4LdKErL8r9I=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-159-z61XLka8Pk6q45KDw0upLw-1; Thu, 10 Nov 2022 07:10:02 -0500
-X-MC-Unique: z61XLka8Pk6q45KDw0upLw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6DC3E3C1068D;
- Thu, 10 Nov 2022 12:10:02 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F18120290AF;
- Thu, 10 Nov 2022 12:10:01 +0000 (UTC)
-Date: Thu, 10 Nov 2022 13:10:00 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: Re: [PATCH for-7.2 3/5] block/mirror: Fix NULL s->job in active writes
-Message-ID: <Y2zqGLunpfbCGElN@redhat.com>
-References: <20221109165452.67927-1-hreitz@redhat.com>
- <20221109165452.67927-4-hreitz@redhat.com>
+ bh=PDrAryEekNs1fTCojr/1O9mZqVwyXZ3l5bd5HUqc7eo=;
+ b=LLIEf58HE99G87yk8dp1Y3YWegsraLkZ2YQLYSR5FY9PMOKYhrAYLw/gQaMguqD+C4ns4G
+ Jb/0MAS8gba4vszoD9a/271heD2kEQePqhbbaO/NVVC6eG7b0sV/E/oVEd74yN8hR7WYJS
+ jVb9n0pYVFnFKKqivrxOazA89m/tPGI=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-592-wfYQOkCnMX2VCgkREsbCvw-1; Thu, 10 Nov 2022 07:23:59 -0500
+X-MC-Unique: wfYQOkCnMX2VCgkREsbCvw-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ n4-20020a17090a2fc400b002132adb9485so1054208pjm.0
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 04:23:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PDrAryEekNs1fTCojr/1O9mZqVwyXZ3l5bd5HUqc7eo=;
+ b=t9NSHphBZExyokWE2NBTjXayPwHo475cP0PQfQFrU4ARvwK7IvFpE0zw2Axjy+pcBL
+ /U9SfYudhZRRoZZi80DuKAwwQ/glojIMmW6/bwWprP8UsC2xLSGGmvsHWwm3R74hx5+O
+ Sv8mCIdzT49r2lhB5HP3CsyQFt4Ar2b7xHQDOQVVuDJVMoWxJNxZwyZ7YQ+KsBeggg7e
+ 6dqpJI6dv/8v6QLG9qUlmf9fkE6QVuaNYGgxm2mNr/yb7FGNODpLUJf+iQ9FSQrHb97L
+ EqGALvQWuRMyz6YLsMWcuUMelkjn4ePqsKbt4Trv9LZOcDhWESMDjnXmPXmbHbqVDc74
+ Lo5g==
+X-Gm-Message-State: ACrzQf1Jp5XXdGDvkfm+ZRED062mcDlX666hY8E+Ir/EAPtyE4hwqmf0
+ DxTD7UMmYmPp6N6xphXyJmqQIE4SAV44vKw3iHaHnK5N1VLPrRsoFkbQVnfcIu6FivI0Vx9NmDm
+ vqNi0e9faf3qcKPE=
+X-Received: by 2002:a05:6a02:282:b0:439:7a97:ccd with SMTP id
+ bk2-20020a056a02028200b004397a970ccdmr56128027pgb.297.1668083038451; 
+ Thu, 10 Nov 2022 04:23:58 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM53VqlQA4QIHlA/IHVtZpQf9OXgaQfL7pEiZgc7WyndGuAvQEbN9nNQGma9wmlY7lecj2Y4gQ==
+X-Received: by 2002:a05:6a02:282:b0:439:7a97:ccd with SMTP id
+ bk2-20020a056a02028200b004397a970ccdmr56128006pgb.297.1668083038105; 
+ Thu, 10 Nov 2022 04:23:58 -0800 (PST)
+Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id
+ z18-20020a170903019200b001782f94f8ebsm11284143plg.3.2022.11.10.04.23.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Nov 2022 04:23:57 -0800 (PST)
+Message-ID: <38b8709e-206c-0493-60c2-14b22030a9c2@redhat.com>
+Date: Thu, 10 Nov 2022 13:23:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221109165452.67927-4-hreitz@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, pbonzini@redhat.com
+References: <20221104125705.415923-1-thuth@redhat.com>
+ <20221104125705.415923-3-thuth@redhat.com>
+ <4a72c7c6-4b70-b6bf-705e-3303865066b6@suse.de>
+ <9a4db614-297d-a85f-9788-ed46c71bb66b@redhat.com>
+ <38ca7d88-dcb8-597b-7d15-90cfd1bc5017@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 2/3] net: Restore printing of the help text with "-nic
+ help"
+In-Reply-To: <38ca7d88-dcb8-597b-7d15-90cfd1bc5017@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,21 +105,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 09.11.2022 um 17:54 hat Hanna Reitz geschrieben:
-> There is a small gap in mirror_start_job() before putting the mirror
-> filter node into the block graph (bdrv_append() call) and the actual job
-> being created.  Before the job is created, MirrorBDSOpaque.job is NULL.
+On 10/11/2022 13.05, Claudio Fontana wrote:
+> On 11/10/22 12:42, Thomas Huth wrote:
+>> On 08/11/2022 10.49, Claudio Fontana wrote:
+>>> On 11/4/22 13:57, Thomas Huth wrote:
+>>>> Running QEMU with "-nic help" used to work in QEMU 5.2 and earlier versions
+>>>> (it showed the available netdev backends), but this feature got broken during
+>>>> some refactoring in version 6.0. Let's restore the old behavior, and while
+>>>> we're at it, let's also print the available NIC models here now since this
+>>>> option can be used to configure both, netdev backend and model in one go.
+>>>>
+>>>> Fixes: ad6f932fe8 ("net: do not exit on "netdev_add help" monitor command")
+>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>> ---
+>>>>    net/net.c | 14 ++++++++++++--
+>>>>    1 file changed, 12 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/net/net.c b/net/net.c
+>>>> index c0516a8067..b4b8f2a9cc 100644
+>>>> --- a/net/net.c
+>>>> +++ b/net/net.c
+>>>> @@ -1571,8 +1571,18 @@ static int net_param_nic(void *dummy, QemuOpts *opts, Error **errp)
+>>>>        const char *type;
+>>>>    
+>>>>        type = qemu_opt_get(opts, "type");
+>>>> -    if (type && g_str_equal(type, "none")) {
+>>>> -        return 0;    /* Nothing to do, default_net is cleared in vl.c */
+>>>> +    if (type) {
+>>>> +        if (g_str_equal(type, "none")) {
+>>>> +            return 0;    /* Nothing to do, default_net is cleared in vl.c */
+>>>> +        }
+>>>> +        if (is_help_option(type)) {
+>>>> +            GPtrArray *nic_models = qemu_get_nic_models(TYPE_DEVICE);
+>>>> +            show_netdevs();
+>>>> +            printf("\n");
+>>>> +            qemu_show_nic_models(type, (const char **)nic_models->pdata);
+>>>> +            g_ptr_array_free(nic_models, true);
+>>>
+>>> nit: would not the order:
+>>>
+>>>> +            GPtrArray *nic_models;
+>>>> +            show_netdevs();
+>>>> +            printf("\n");
+>>>> +            nic_models = qemu_get_nic_models(TYPE_DEVICE);
+>>>> +            qemu_show_nic_models(type, (const char **)nic_models->pdata);
+>>>> +            g_ptr_array_free(nic_models, true);
+>>>
+>>> flow more logically?
+>>
+>> I think that's mostly a matter of taste ...
 > 
-> It is possible that requests come in when bdrv_drained_end() is called,
-> and those requests would see MirrorBDSOpaque.job == NULL.  Have our
-> filter node handle that case gracefully.
+> To some extent, but for the reader it would make more sense not to intermix unrelated code?
+
+I'm pretty sure that as soon as I change it, another reviewer
+shows up and asks me to put everything into one line again
+since they prefer more compact code ;-)
+
+> I'd say:
 > 
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> - show_netdevs
+> _ get nic models
+> - show nic models
+> 
+> instead of:
+> 
+> - get nic models
+> - show netdevs
+> - show nic models
 
-This can only happen because bdrv_drained_end() polls, right? So after
-changing that it won't be necessary any more, but this series is for 7.2
-and the drain one isn't, so this is the right thing to do for now.
+I get your point, and I would immediately agree with you if we
+were allowed to do:
 
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+         show_netdevs();
+         printf("\n");
+         GPtrArray *nic_models = qemu_get_nic_models(TYPE_DEVICE);
+         qemu_show_nic_models(type, (const char **)nic_models->pdata);
+         g_ptr_array_free(nic_models, true);
+
+Although this is possible nowadays (since we're using
+not C89 anymore), it's against the QEMU coding style.
+
+So it's a trade-off now - use two lines of code and have some more
+chronological code flow, or use one line of more compact code.
+
+I'm in favor of the more compact code. So please let's stop
+bike-shedding now.
+
+  Thanks,
+   Thomas
 
 
