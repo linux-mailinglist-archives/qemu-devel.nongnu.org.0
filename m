@@ -2,54 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C333624BFA
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 21:36:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F51624C2E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 21:52:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otEFr-0004Gw-Hq; Thu, 10 Nov 2022 15:34:31 -0500
+	id 1otEVv-0007p5-O6; Thu, 10 Nov 2022 15:51:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1otEFp-0004Ge-2w; Thu, 10 Nov 2022 15:34:29 -0500
-Received: from vps-vb.mhejs.net ([37.28.154.113])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mail@maciej.szmigiero.name>)
- id 1otEFn-0003Sy-59; Thu, 10 Nov 2022 15:34:28 -0500
-Received: from MUA by vps-vb.mhejs.net with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94.2)
- (envelope-from <mail@maciej.szmigiero.name>)
- id 1otEFC-0007yw-2b; Thu, 10 Nov 2022 21:33:50 +0100
-Message-ID: <79cdedf6-49a3-2899-86a6-555540a17ce6@maciej.szmigiero.name>
-Date: Thu, 10 Nov 2022 21:33:44 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1otEVu-0007lq-Bo
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 15:51:06 -0500
+Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1otEVs-0003UT-UC
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 15:51:06 -0500
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-333a4a5d495so26739097b3.10
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 12:51:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=tPehdSCdLbP2/WnizRK4fDTWbg268LcHnDEfIRPYeBo=;
+ b=I2Xvn6yJkPQvq0ebrWQGn4+svBEoTFrTN7K212D1eTZk5kP4XPgKKDUbFZ+2pK5AWV
+ PtJYfmQwdRtc68hwdBYav/KM2CpwIY6Ynww6ZVuOBAyG6KNqC9aGMOc3Q5C8I1bwBS7l
+ 64WKZ/r9EPMovkB4Nrw/hVBCbpnUPfmR1zwjcwx6QU0YJCyODR2CsZVt2xAb/DBEizSj
+ 8Ivmwu2SHuBQ/cF27uMccgmaHrQxe7eZCppo8h02vwpH5mhrbF876urPZcmG6uCsi5dQ
+ EoEDV5rwHwwGhV09YmblFBaImj//YAdp4BRdv4EJzPc+d6HUNbksPsfKjk0owqVEFwoy
+ UlpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=tPehdSCdLbP2/WnizRK4fDTWbg268LcHnDEfIRPYeBo=;
+ b=VCzyZ6dm83rQkpAxihs8ClyB6o6+dBRIJ42R/dBrqVVSeUR7wH2TGsGld+dFgbhjmU
+ XJfkOQpmckfq0Q6gz2lqKm3f58ss2YYJyFoDDfmTP0SQTMv4TSzrAzTqr65ZsrdlWWHw
+ 4b1TBR8A3QA8rnyoGtAGXKBoFn37/UMmZKV4RlZMd9h1pjmLB81JyPXKS90Ya90F4eOe
+ zeFjFpmwcsl9f0onRAX2Le+6KCcLOW41OmzlKQlqO4SYabyhIcdjSA/AMiOdakfaJdze
+ VWp/VQmyl+KtURlccXkM66BTXeoPqUIzeZdTX57Ce5FWkV3QlwNOx6PjR04/d+7iJxRP
+ 51IA==
+X-Gm-Message-State: ACrzQf3S0XpHk/c4iP2TnmeizaprbCBYAQOBHjjHONKLn0v6Ztklxh8A
+ XR85n0uZW67nsiRJsaFu9c7C/BdaPNmEnNYAx4g=
+X-Google-Smtp-Source: AMsMyM4Q1e6+vZAicY3BQFxaXnmIX+mEyr/y7hCxsFzMUO+qp6B2BxBcBNGwnyiYD1lnOyetZ7ISGzqOiYPwVnOMMM8=
+X-Received: by 2002:a81:6d06:0:b0:36f:ce83:4f91 with SMTP id
+ i6-20020a816d06000000b0036fce834f91mr64701085ywc.156.1668113463626; Thu, 10
+ Nov 2022 12:51:03 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Content-Language: en-US, pl-PL
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Matthew Rosato <mjrosato@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-References: <20221104161513.2455862-1-peter.maydell@linaro.org>
- <20221104161513.2455862-7-peter.maydell@linaro.org>
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Subject: Re: [PATCH for-8.0 6/9] hw/hyperv/vmbus: Use device_cold_reset() and
- bus_cold_reset()
-In-Reply-To: <20221104161513.2455862-7-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=37.28.154.113;
- envelope-from=mail@maciej.szmigiero.name; helo=vps-vb.mhejs.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221028191648.964076-1-alxndr@bu.edu>
+In-Reply-To: <20221028191648.964076-1-alxndr@bu.edu>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 10 Nov 2022 15:50:51 -0500
+Message-ID: <CAJSP0QXf3ZiNOQc7ok8Wq6C5np+Q7SDuXu6jmuMivxq6RkGFQA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/7] memory: prevent dma-reentracy issues
+To: Alexander Bulekov <alxndr@bu.edu>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Mauro Matteo Cascella <mcascell@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, 
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Bandan Das <bsd@redhat.com>, 
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, 
+ Bin Meng <bin.meng@windriver.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
+ Siqi Chen <coc.cyqh@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x112e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,58 +99,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 4.11.2022 17:15, Peter Maydell wrote:
-> In the vmbus code we currently use the legacy functions
-> qdev_reset_all() and qbus_reset_all().  These perform a recursive
-> reset, starting from either a qbus or a qdev.  However they do not
-> permit any of the devices in the tree to use three-phase reset,
-> because device reset goes through the device_legacy_reset() function
-> that only calls the single DeviceClass::reset method.
-> 
-> Switch to using the device_cold_reset() and bus_cold_reset()
-> functions.  These also perform a recursive reset, where first the
-> children are reset and then finally the parent, but they use the new
-> (...in 2020...) Resettable mechanism, which supports both the old
-> style single-reset method and also the new 3-phase reset handling.
-> 
-> This should be a no-behaviour-change commit which just reduces the
-> use of a deprecated API.
-> 
-> Commit created with:
->    sed -i -e 's/qdev_reset_all/device_cold_reset/g;s/qbus_reset_all/bus_cold_reset/g' hw/hyperv/*.c
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   hw/hyperv/vmbus.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
-> index 30bc04e1c4c..f345f310b0f 100644
-> --- a/hw/hyperv/vmbus.c
-> +++ b/hw/hyperv/vmbus.c
-> @@ -1578,7 +1578,7 @@ static bool vmbus_initialized(VMBus *vmbus)
->   
->   static void vmbus_reset_all(VMBus *vmbus)
->   {
-> -    qbus_reset_all(BUS(vmbus));
-> +    bus_cold_reset(BUS(vmbus));
->   }
->   
->   static void post_msg(VMBus *vmbus, void *msgdata, uint32_t msglen)
-> @@ -2035,7 +2035,7 @@ static void vdev_reset_on_close(VMBusDevice *vdev)
->       }
->   
->       /* all channels closed -- reset device */
-> -    qdev_reset_all(DEVICE(vdev));
-> +    device_cold_reset(DEVICE(vdev));
->   }
->   
->   static void handle_close_channel(VMBus *vmbus, vmbus_message_close_channel *msg,
+Preventing this class of bugs is important but QEMU is currently
+frozen for the 7.2 release. I'm a little concerned about regressions
+in a patch series that changes core device emulation code.
 
-Resetting a guest with VMBus still works fine with this patch, so:
-Reviewed-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
+I'll review the series on Monday and if anyone has strong opinions on
+whether to merge this into 7.2, please say so. My thoughts are that
+this should be merged in the 7.3 release cycle so there's time to work
+out any issues.
 
-Thanks,
-Maciej
-
+Stefan
 
