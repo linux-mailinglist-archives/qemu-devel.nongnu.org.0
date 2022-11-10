@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904E5623A2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 04:05:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3123623A98
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 04:45:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1osxr6-0006r1-Fd; Wed, 09 Nov 2022 22:03:52 -0500
+	id 1osyTe-00058I-C9; Wed, 09 Nov 2022 22:43:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenyzha@redhat.com>)
- id 1osxr3-0006qW-7w
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 22:03:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenyzha@redhat.com>)
- id 1osxr0-0001FR-T3
- for qemu-devel@nongnu.org; Wed, 09 Nov 2022 22:03:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668049425;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eKioFEkp8BJEFmkFz42t805E4P5A9hO3Wyi4CHX5wGw=;
- b=HJ7UMG74YDWAmEB/ptuv4pWVFjosDxqlRXvARJYSMFjW/2vrSuzpLQEPm8CjCtmhi20ICv
- DdSjFSk1DmU327FfB+l9OVDWlv8bT/PEnhGc9PBgIHVBg7E1PPNyQUzY9CyM7D/rDKpRtp
- 00MvS79Ztu6EpL1jCg9pzESraojQoMU=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-37-hg9gxj27NtSFjIWzm5zDzw-1; Wed, 09 Nov 2022 22:03:43 -0500
-X-MC-Unique: hg9gxj27NtSFjIWzm5zDzw-1
-Received: by mail-ej1-f72.google.com with SMTP id
- nc4-20020a1709071c0400b0078a5ceb571bso378226ejc.4
- for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 19:03:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1osyTb-00057q-93
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 22:43:39 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1osyTY-0003fc-Ot
+ for qemu-devel@nongnu.org; Wed, 09 Nov 2022 22:43:39 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id d20so460942plr.10
+ for <qemu-devel@nongnu.org>; Wed, 09 Nov 2022 19:43:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=f/U+jXcrnvblc9DPK9gu7LEVFtN1/S5/pj255KLxNWk=;
+ b=dMy/p9mfL+7rdQFZP/2okfUSWuijCQojhNVCIkwVdGC4mdxmqz8KrI4BwLHmaOG5fa
+ gPeOoQWa4AHEWjpEkFxvK/E5XnKAXdhpUbuoI9K/pyqYoy830IAnWd04S6fmmz8tCsOQ
+ YA13BoPNEuG46gFmouyfIAXrkrdGLmK17DzIs+b4QOty0x0WJs9TT9/Wnv8xZueZgYNv
+ tEi4ckrkuOSmcQIhC1gIeSVIH/1wUWbWVYPcEPZLZEvxSwm+7/gyRA+6Wfu9a31Pk6G7
+ HDWoIu8ybzPcfBYcrv2svU2QGQ05tmEbZ/OjQrF99EhGcPNjeYzIjKo/zDq56M/5QKfd
+ jozA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=eKioFEkp8BJEFmkFz42t805E4P5A9hO3Wyi4CHX5wGw=;
- b=oRDM9JtwMDVERVnhpDbBlPkoZtizXryrwzHLFpmAfOJWZDbH90WAZ+mkNJevUqRnpF
- Z0pa8KzC2Xds6tq3WZ46C/ItMO+MNKjAwN3413JTAhisVq8U2ENh7m50zD/1X8ja6ZwH
- 1FMu/009j3LDktTzLGKopD3UR33aQnCjTSuDL6BJyfCWaBGK8okil9sQyPoMBVOggDF0
- Um3Zo84LM3dN2VKZP9n6URJ3gQtFsp+/rDshh5rWLzo69ouxhku3QyZeTcrL+wCZYfsN
- fm7adwmQ6hSpRBMvElwJGBU5gxli9Xd5V/fg80+gM2YwPMn9N2rXgh5VwAB6OW+IBp2G
- 9/Lg==
-X-Gm-Message-State: ACrzQf2X8FO7mp5aY9xci9HC0rkr8ikzChy8gm2V/EOQ/qNeN+EbIR/q
- SI85teJb8Gjmk9c1q1I3NmsB0tNGhYVxyPWParwvIp5Ej4Hg+ivjCVlSS3mLmo5b2bJ5PrwgbYw
- uLlaUFhnDA7TmOUcQoUGNSdNzln+ox/k=
-X-Received: by 2002:a05:6402:544:b0:463:beae:427f with SMTP id
- i4-20020a056402054400b00463beae427fmr45416431edx.29.1668049422512; 
- Wed, 09 Nov 2022 19:03:42 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM6g9n63sNSfyf6vx0pcHxRDc+N9QWJ3eKhcLzD/Ipcsl6XceKshXO/A19fPKOOrZ4E5KFOdxxSH+Hypn83yPjI=
-X-Received: by 2002:a05:6402:544:b0:463:beae:427f with SMTP id
- i4-20020a056402054400b00463beae427fmr45416421edx.29.1668049422313; Wed, 09
- Nov 2022 19:03:42 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=f/U+jXcrnvblc9DPK9gu7LEVFtN1/S5/pj255KLxNWk=;
+ b=XxChIXG+bcHclVwihS44e6JLm1M2kC560eWyuxEz2DtVXowAW/MyYZ5kq7cZP5DNtS
+ vhBm6D/e/ETOfJnYvE1wciPGDjJ+NfDvs35aEiva8ixYcBV9OWYJDOuI87E9HKqRZgJX
+ usPPRJzBWCM+r6abF2bTXZybn4eJl7rrfJWSm8yiPLUhNDvtNrxdpgWVhVESGzEPvgn2
+ 14buuFh9Jy0wHxCRgGMyobh9WtptYgGMHyK51S+P8JKYE6zP1STtc6DCZfXVGwN5IWsc
+ mQAJ3NyRSS9ytAdLHI4C9h5LQPrjQdayD9t01gvYhlD1RrIqkzoKpnmeu3EY289Lcc02
+ GHAg==
+X-Gm-Message-State: ACrzQf30Y8awZVcEX1U3PtwIRBvLa4wMTIP1tcVRquqfKnr2PojcOavj
+ Hy9IgAGh64wy2MyHJdqsEWRyvQ==
+X-Google-Smtp-Source: AMsMyM7yQUKov5TJOMNVzrS/rkCAGKa0KMLn76dlRM9TcCDH5LMBveUF1OmEh+pbwzLBX1pirHe0oQ==
+X-Received: by 2002:a17:90a:bd04:b0:213:f087:446b with SMTP id
+ y4-20020a17090abd0400b00213f087446bmr53523446pjr.122.1668051814356; 
+ Wed, 09 Nov 2022 19:43:34 -0800 (PST)
+Received: from ?IPV6:2001:44b8:2176:c800:cc47:10aa:3fa4:e6ca?
+ (2001-44b8-2176-c800-cc47-10aa-3fa4-e6ca.static.ipv6.internode.on.net.
+ [2001:44b8:2176:c800:cc47:10aa:3fa4:e6ca])
+ by smtp.gmail.com with ESMTPSA id
+ w124-20020a623082000000b00560cdb3784bsm9030121pfw.60.2022.11.09.19.43.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Nov 2022 19:43:33 -0800 (PST)
+Message-ID: <43f92886-cb13-3f80-a307-9bb1d9515413@linaro.org>
+Date: Thu, 10 Nov 2022 14:43:28 +1100
 MIME-Version: 1.0
-References: <20221104103017.181600-1-zhenyzha@redhat.com>
- <87o7tgpi9s.fsf@pond.sub.org>
-In-Reply-To: <87o7tgpi9s.fsf@pond.sub.org>
-From: Zhenyu Zhang <zhenyzha@redhat.com>
-Date: Thu, 10 Nov 2022 11:03:06 +0800
-Message-ID: <CAJFLiBJNZPWDU6SDf3xUMORRywYouu74h7sRcFvtytDQrFo+3A@mail.gmail.com>
-Subject: Re: [PATCH v2] qom.json: default the prealloc-threads to smp-cpus
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, philmd@linaro.org, shan.gavin@gmail.com, 
- liuyd.fnst@fujitsu.com, eric.auger@redhat.com, imammedo@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=zhenyzha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] Use a more portable way to enable target specific
+ functions
+Content-Language: en-US
+To: Tom Stellard <tstellar@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+References: <20221109220307.226283-1-tstellar@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221109220307.226283-1-tstellar@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,73 +96,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Many thanks for your patient review, I learned a lot.
-I will send v3 to correct it.
+On 11/10/22 09:03, Tom Stellard wrote:
+> This adds function attributes for avx2, sse2, etc. specialized
+> functions.  These attributes are supported by both clang and gcc and
+> are necessary in order to build the code with clang.  The existing gcc
+> specific pragmas were left in place due to a comment in
+> utils/bufferiszero.c which mentions the pragmas are needed before headers
+> to work around a bug in gcc <= 4.8.
 
-On Wed, Nov 9, 2022 at 5:52 PM Markus Armbruster <armbru@redhat.com> wrote:
->
-> The subject is misleading, I'm afraid.  It suggests you're changing the
-> default.  You don't, you just fix its documentation.
->
-> Zhenyu Zhang <zhenyzha@redhat.com> writes:
->
-> > Since the amount of prealloc-threads to smp-cpus is
-> > defaulted in hostmem, so sync this information.
->
-> Covering history could be helpful.
->
-> Here's my try
->
->     qapi/qom: Memory backend property prealloc-threads doc fix
->
->     Commit ffac16fab3 "hostmem: introduce "prealloc-threads" property"
->     (v5.0.0) changed the default number of threads from number of CPUs
->     to 1.  This was deemed a regression, and fixed in commit f8d426a685
->     "hostmem: default the amount of prealloc-threads to smp-cpus".
->     Except the documentation remained unchanged.  Update it now.
->
-> >
-> > Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
->
-> The following part ...
->
-> > v1: https://www.mail-archive.com/qemu-devel@nongnu.org/msg919682.html
-> >
-> > Changelog
-> > =========
-> > v2:
-> >   * This property is available since 5.0.                     (Philippe)
-> > ---
->
-> ... needs to go below the --- line, so it doesn't go into git.
->
-> >  qapi/qom.json | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/qapi/qom.json b/qapi/qom.json
-> > index 87fcad2423..b2f6bceec7 100644
-> > --- a/qapi/qom.json
-> > +++ b/qapi/qom.json
-> > @@ -576,7 +576,7 @@
-> >  #
-> >  # @prealloc: if true, preallocate memory (default: false)
-> >  #
-> > -# @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
-> > +# @prealloc-threads: number of CPU threads to use for prealloc (default: smp-cpus) (since 5.0)
->
-> Long line.
->
-> "smp-cpus" is not defined.  It's QOM property /machine/smp member @cpus,
-> commonly set with -M smp.cpus=N (or its sugared form -smp cpus=N).
->
-> Suggest
->
->    # @prealloc-threads: number of CPU threads to use for prealloc
->    # (default: number of CPUs) (since 5.0)
->
-> >  #
-> >  # @prealloc-context: thread context to use for creation of preallocation threads
-> >  #                    (default: none) (since 7.2)
->
+GCC 4.8 is now below our minimum, surely.
+We should be able to simply replace the pragma with the attribute.
 
+
+r~
 
