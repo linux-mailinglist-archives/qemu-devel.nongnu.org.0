@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D412623F89
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 11:11:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DA1623F88
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 11:11:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot4Sv-0003Lm-Sk; Thu, 10 Nov 2022 05:07:21 -0500
+	id 1ot4Sv-0003Iq-8k; Thu, 10 Nov 2022 05:07:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ot4Sg-0002xt-0U
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 05:07:09 -0500
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
+ id 1ot4Sl-00032c-7S
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 05:07:11 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ot4Sd-0006Wo-Kp
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 05:07:05 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id h193so1325716pgc.10
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 02:07:02 -0800 (PST)
+ id 1ot4Si-0006Xl-Ee
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 05:07:10 -0500
+Received: by mail-pg1-x532.google.com with SMTP id 6so1341669pgm.6
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 02:07:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yAOm4xAwUIMS3nIWuITf2mBCrb5XaCIFaM5bi4ZPZPo=;
- b=FzX5sSAo1Yghg/9iJmCKRz6A0J0oBZyMFd7GIvtQkSc0AtS+KpbwVYSKQ0JviepakQ
- dSCZ1fwzZvpS/VyYyQtQBe37/PW7POcjekM7H2TK+YpEpxCpGspq1RwJVwTGQxZ6Z/Im
- GhWOPYgQbGPIf5Oq/Asbc3faa4temdUQpuUARn5A7CXA0Xio6L6nmI+HJBdtocy5+rMS
- 5navhqpgfZpgapSPGqmknLkhvDH01TZV6hxW93pfT3vYD3yx/I9e7Khrq9GaRV+0SB1S
- e+jBx3++sqv8HcX+vta9efK+01F6sMPI8L29yK3U6JNPf8t+BUC2blqIXnDQrz0rtzSC
- 9lBw==
+ bh=BJn5Gpsfix8eR37iFYW0tYNid+vOro5KOtMhRy0rf4c=;
+ b=EXLxVaqBSxFla3mrNQ0uCKB4AVKP5YbOPNhdR37wmBcgLqpmrG95sOnnaDp79D9NvT
+ gtCBOIrQ/u5D7BEg87qNA0ZdDnNdRla2UXj/BXAldgviwIm484QxC8uOsIEMBAp7N+bO
+ tExqdyK5VLHC9Cvv2DZULt/F8KiBFTmxVsT13D4zSAws/o5z+QYQojZSTSIwSMRsB1+P
+ l1O6p+RmS3Jhxqrv4y0T/1NK4cCPUtOi6MSIZE9899SZZTbTLb2yRJPZHZU89sOF2TtC
+ lRASyQpeNEu070oW6wOYwcQkEE+LbxMOul2y2DnEfGbW/dIbSoXuyN618OC28TscBWv5
+ uRyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yAOm4xAwUIMS3nIWuITf2mBCrb5XaCIFaM5bi4ZPZPo=;
- b=wyt3sN31jd+eVtLOZ3L2yf6GePwZG77QQ2wawhja+3txifOf0EdZafA8PbHG6mJePq
- p/rUj2r+mJJGWvbTkwEeS0WIKkSundAkLSBexH3KJ7CaOuy4zavMiNXzl+I4DWS11PKu
- tKndXds3aRXPj7s3GKXn86TQgDIETmDGYiKkU5UvnYBLOG5zkVSrSPvlE1Qn51BAiMX1
- K18j36d7iqhkb9V8/Q3YHB1hFY4nh8HORho/XwkJN+bqcDPo53IaWpg8blMNvnUIFQmR
- 7EwhUGgHfPg9CUU2M9LAD0MSzZdggYUWl0QZGOtF2mAQLwnLLsLQib0Fc+M28PImu8oa
- dGVA==
-X-Gm-Message-State: ACrzQf2a8Gr3onsJJ8GAZFs1odesoLBuvR4yunJFN3DAB2iWmifwJISf
- xfNBK9WooMTlnzU7rjma17paPi57u/qfmiPQ
-X-Google-Smtp-Source: AMsMyM4TyVnAG+CPyw3qO98UboKFICZ+4vOHPJM+KKopATlB/0WjzWFE2sc/56gzt73n49DaQFQwJQ==
-X-Received: by 2002:a63:e348:0:b0:46f:25cc:d554 with SMTP id
- o8-20020a63e348000000b0046f25ccd554mr55884639pgj.598.1668074821018; 
- Thu, 10 Nov 2022 02:07:01 -0800 (PST)
+ bh=BJn5Gpsfix8eR37iFYW0tYNid+vOro5KOtMhRy0rf4c=;
+ b=kNkeKI1Iq5rqra3z0hhozJTzWQc73Rl50+UXRKsG0HDcsLgaxYO3Y798OC8zf1UkwA
+ L8lh1lOv3ZsULG4Whf3z6aCHKJH/HSHkX0yMivpKkzR8a87V3t7Ange1zD+YCSaOMYxE
+ MS3DbcIAuhgFGdrpvEoQ7Y9gJ0suv+a88w17nPt4nnJLx3hbneVO19188h3YVKsUdoNc
+ GpAI+P+ks1BNt4hDSnZxxKuq5Q70tO/PY0/2HKe+lWzIUhIJV/2eQpWKTvLBAJnm7wKr
+ DzDymWMN4CieZur2EfXpCA2SDqgWoQ+vXygrz1s709eYV/xaLY2DlO6G29LfUADOg8iB
+ B9fA==
+X-Gm-Message-State: ACrzQf33pBpfs6o2fftD+MEDpZdWQMwMpOEuQBCM8sozzGRkx6+x7VuG
+ +KmBuuEp5+MhnzA/CY+stbxFRqmZ53ft160q
+X-Google-Smtp-Source: AMsMyM75nyWTRspZhix8ZHtmIBtV6N5dp8WlK05WmRPucObIO3mEIkCprl9RBOft3Oyp+Czhe202XQ==
+X-Received: by 2002:a63:560c:0:b0:46e:c390:17b4 with SMTP id
+ k12-20020a63560c000000b0046ec39017b4mr2167642pgb.482.1668074824510; 
+ Thu, 10 Nov 2022 02:07:04 -0800 (PST)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
  by smtp.gmail.com with ESMTPSA id
- a9-20020a1709027e4900b001714e7608fdsm10730780pln.256.2022.11.10.02.06.57
+ a9-20020a1709027e4900b001714e7608fdsm10730780pln.256.2022.11.10.02.07.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 02:07:00 -0800 (PST)
+ Thu, 10 Nov 2022 02:07:04 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, virtio-fs@redhat.com,
@@ -66,22 +66,22 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, virtio-fs@redhat.com,
  Stefan Hajnoczi <stefanha@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Stefan Weil <sw@weilnetz.de>, Yan Vugenfirer <yan@daynix.com>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v2 07/10] virtiofsd: Use qemu_get_runtime_dir()
-Date: Thu, 10 Nov 2022 19:06:26 +0900
-Message-Id: <20221110100629.61496-8-akihiko.odaki@daynix.com>
+Subject: [PATCH v2 08/10] module: Use qemu_get_runtime_dir()
+Date: Thu, 10 Nov 2022 19:06:27 +0900
+Message-Id: <20221110100629.61496-9-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221110100629.61496-1-akihiko.odaki@daynix.com>
 References: <20221110100629.61496-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::52d;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x52d.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::532;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,33 +97,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-qemu_get_runtime_dir() is used to construct the path to a lock file.
+qemu_get_runtime_dir() is used to construct the path to module upgrades.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ util/module.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 9368e292e4..b9eeed85e6 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -901,12 +901,12 @@ static bool fv_socket_lock(struct fuse_session *se)
- {
-     g_autofree gchar *sk_name = NULL;
-     g_autofree gchar *pidfile = NULL;
--    g_autofree gchar *state = NULL;
-+    g_autofree gchar *run = NULL;
-     g_autofree gchar *dir = NULL;
-     Error *local_err = NULL;
+diff --git a/util/module.c b/util/module.c
+index 32e263163c..580658edf4 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -242,7 +242,8 @@ int module_load(const char *prefix, const char *name, Error **errp)
+     version_dir = g_strcanon(g_strdup(QEMU_PKGVERSION),
+                              G_CSET_A_2_Z G_CSET_a_2_z G_CSET_DIGITS "+-.~",
+                              '_');
+-    dirs[n_dirs++] = g_strdup_printf("/var/run/qemu/%s", version_dir);
++    g_autofree char *run = qemu_get_runtime_dir();
++    dirs[n_dirs++] = g_build_filename(run, "qemu", version_dir, NULL);
+ #endif
+     assert(n_dirs <= ARRAY_SIZE(dirs));
  
--    state = qemu_get_local_state_dir();
--    dir = g_build_filename(state, "run", "virtiofsd", NULL);
-+    run = qemu_get_runtime_dir();
-+    dir = g_build_filename(run, "virtiofsd", NULL);
- 
-     if (g_mkdir_with_parents(dir, S_IRWXU) < 0) {
-         fuse_log(FUSE_LOG_ERR, "%s: Failed to create directory %s: %s\n",
 -- 
 2.38.1
 
