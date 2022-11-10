@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0766A624D53
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 22:53:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA45F624D6A
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 23:04:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otFUA-0001u9-7E; Thu, 10 Nov 2022 16:53:22 -0500
+	id 1otFdH-0006cv-Dr; Thu, 10 Nov 2022 17:02:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otFU5-0001ou-28
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 16:53:17 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otFU3-00076S-IR
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 16:53:16 -0500
-Received: by mail-pl1-x632.google.com with SMTP id u6so2647801plq.12
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 13:53:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5ypLncOxtDkpHcqWArYxmJgZ/pvMqCED/1Cp3lP41Sg=;
- b=BnIohzgX+OQISabeNT3dMmnLjTBhVlLUE0fkKcuv70iy6VokuYXtZK/Mhs66xVGmqo
- pv0+IHU7gUgslJRHR71Y9+1rEU3nk+TxET24TVL1/0L4WIT+kmy5FXMQ8G3jnpDDwZUZ
- J2ClIZfcToUf3+LdkYpycFkvLfGdWFf8bKMs0a9n5N1aVGXw8uUUTo1c3F4/h1ku9gMc
- dudIeKsVJnibMcuzpge4bKWbk/1oYYFOXyab7xMOA7F5P/VPELgDokJn2QmEBz6zqyAU
- 1C7LIqs2hr88xxZ35jyfkAcpsoG7WsXFNR88HAo/Hh58w999D14OdJND72/VTYxb/J+C
- K1qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5ypLncOxtDkpHcqWArYxmJgZ/pvMqCED/1Cp3lP41Sg=;
- b=Cgifqec8g8A7/kON5befUhSx5Aie47Ldy1o4T0L40uFkAyolor9sU3Asf9RlkmObBD
- S4TwfAZn3+iVGdJcCYn4xisCd2Qa18HVahneVlXllSFw+zJsyloHUR56TwZsJt9/ss9D
- wzw25cfcP81fuLU7zMhgwzA5fxQYANJosgED/skRn4Ncaav41syyKR/ibAqy59Ivhoba
- 9VUm9uinPBhUXkGHNv7OBpcn9sIOeX4mUNc+AtthZhWH9U6gF/qiE56Xwth10hWs7HPg
- Pch0Ag0n5GIRKS0f2IzXb1hV7jClnFGgfdZNZkeXZNBspOCqFjTb+M3Nyv9W8ub1PFRk
- bYPA==
-X-Gm-Message-State: ANoB5plV8+NmJqb2kJQYBFGBbZz0XMrVxrJU/uxtf+HICn/Uv5U6Z0xA
- ByvRkHMX3dQ5FJM/LiFpTn36Fw==
-X-Google-Smtp-Source: AA0mqf7OaJYCqts78+ScLeVFVQDkhXD5Ts622G05tFGIrmQAfiBgVBnAngRB/sMp7TQNFYEbtFVFbw==
-X-Received: by 2002:a17:903:230f:b0:188:649b:a0c9 with SMTP id
- d15-20020a170903230f00b00188649ba0c9mr1958920plh.150.1668117194080; 
- Thu, 10 Nov 2022 13:53:14 -0800 (PST)
-Received: from ?IPV6:2001:44b8:2176:c800:aef:59aa:1faf:7e61?
- (2001-44b8-2176-c800-0aef-59aa-1faf-7e61.static.ipv6.internode.on.net.
- [2001:44b8:2176:c800:aef:59aa:1faf:7e61])
- by smtp.gmail.com with ESMTPSA id
- a188-20020a624dc5000000b0056299fd2ba2sm119566pfb.162.2022.11.10.13.53.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 13:53:13 -0800 (PST)
-Message-ID: <90599cd8-fc50-b0a4-8a88-0e083b020798@linaro.org>
-Date: Fri, 11 Nov 2022 07:53:07 +1000
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1otFdF-0006ci-Cj; Thu, 10 Nov 2022 17:02:45 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1otFd4-0004Vj-5D; Thu, 10 Nov 2022 17:02:45 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 816FC5C00FB;
+ Thu, 10 Nov 2022 17:02:32 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 10 Nov 2022 17:02:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1668117752; x=1668204152; bh=so
+ I9meYorrmY9KmLIoVm00y6412ezaOIE/TPZpbYxCs=; b=psOJo6Fq76srgWv65s
+ 6jqL3FTRsgJfeZiXMVkN34I2Nl2D9PIGcow1yTsRDK/+J/ku1Lt1Bx282tLcH+3d
+ a8nqTJVqmLr8v6pW/OL+++xjCpGoUwu639FQnPpvjohqUuaYpA1b+kBd6KclM9xz
+ LXZyZsiI40NYqogbo//owc/yS/mHu7OkcFIzjPHriuyYDeMHconDQzWp4CSgWxl4
+ J+eqsKFUmMQQ+8bvyh05e6ux60flLM7fHyQLvMQWBypGVHkswNpnidPXWpPUun3j
+ 0XNaG9nYnG9r7HU777hNBVSpPHDzgW8I5NhHlBeEF7vKsciXWss/lfbfiUdWY/4g
+ t6GQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1668117752; x=1668204152; bh=soI9meYorrmY9KmLIoVm00y6412e
+ zaOIE/TPZpbYxCs=; b=llU2Rfp0TnSjaPYyS9BCqBkt3NNZWXa+73nuyH3rBoh1
+ AzYNWo5EC4210TF91s+2iMxpa7qSuIV1Vrol6Ta4C7nS8N+llGZ1vci5xPRDEhIY
+ X7ISgv7BiknG3axaijhlfRbDKNmqLG3BT/C/cfkWqe/U8s/uL3liz/snzgWQ4uMA
+ VfkTRqo0FgxVFRz7KDxeJDYXLy45OR+Pk5PqpB6ZeGGEX17gxY9OXVYE9r0iU6aE
+ qd3Q/35HXZO75UM/7lN/EujiCnvpDDEfEywlV7VgdoJMn9um6oTjhCcWkt48JFSP
+ PuEg+7bNcS736qgPw7BB4yeUBhQWg1eGZnIimjIcfQ==
+X-ME-Sender: <xms:93RtY_0l9416jYyopdnHcySuEMAoRjjwh9C6aXq4yuU3GXm2nX_OWQ>
+ <xme:93RtY-GWjjEGZHh_3-oqG3DEuPPiGmcJeD10hxg7EIWTrY7sIuaV2NkxLC7RATPp4
+ 0hfX6vC_rtm-vV4Ozw>
+X-ME-Received: <xmr:93RtY_67EGKtge5Dz8p4ttXKKlgIyJB7Wfyy9pQJHtK8mNmatMWAVe3OrKDdOukcIYuV7wEWBBQoMqhTLVdvg6ltJ_8QIA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeeggdduheejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhephfejgffggeevkedvueektdelleetueffheeigeduteffudekvdekteekledt
+ gfeinecuffhomhgrihhnpehquggvvhdrihgunecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:93RtY02rEaFr8fnJ9b9XUTFYzPTzOWYR_8PM1oMMfxYsOzKtvoqFcw>
+ <xmx:93RtYyHirGE6MKcElKTfyw5qbdbAaA6cOE_vWVvM1TfoK672FRSXVQ>
+ <xmx:93RtY1-KGH_xoSuATSpvF2c7N5C4VidLjREpo_0_J3r15NnsqwBwAA>
+ <xmx:-HRtY-jKhOV1MR0CcZoDclnkxMqYqEuxGi2TvjLlJ5ia_WtU5RlBng>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 10 Nov 2022 17:02:30 -0500 (EST)
+Date: Thu, 10 Nov 2022 23:02:28 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH v2 1/2] hw/nvme: fix incorrect use of errp/local_err
+Message-ID: <Y2109Agnt13saEL9@cormorant.local>
+References: <20221110062335.18401-1-its@irrelevant.dk>
+ <20221110062335.18401-2-its@irrelevant.dk>
+ <61b53454-25eb-862e-dc10-d8528b26332e@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH for-8.0 2/2] hw/misc: Convert TYPE_MOS6522 subclasses to
- 3-phase reset
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <20221110143459.3833425-1-peter.maydell@linaro.org>
- <20221110143459.3833425-3-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221110143459.3833425-3-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="FH1Zdhq8ARKXcpWa"
+Content-Disposition: inline
+In-Reply-To: <61b53454-25eb-862e-dc10-d8528b26332e@linaro.org>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,20 +101,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/11/22 00:34, Peter Maydell wrote:
-> Convert the various subclasses of TYPE_MOS6522 to 3-phase reset.
-> This removes some uses of device_class_set_parent_reset(), which we
-> would eventually like to be able to get rid of.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   include/hw/misc/mos6522.h |  2 +-
->   hw/misc/mac_via.c         | 26 ++++++++++++++++----------
->   hw/misc/macio/cuda.c      | 14 ++++++++------
->   hw/misc/macio/pmu.c       | 14 ++++++++------
->   4 files changed, 33 insertions(+), 23 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+--FH1Zdhq8ARKXcpWa
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-r~
+On Nov 10 10:59, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 10/11/22 07:23, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > Make nvme_check_constraints() return a bool and fix an invalid error
+> > propagation where the actual error is thrown away in favor of an unused
+> > local Error value.
+> >=20
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > ---
+> >   hw/nvme/ctrl.c | 48 +++++++++++++++++++++++-------------------------
+> >   1 file changed, 23 insertions(+), 25 deletions(-)
+>=20
+> > @@ -7586,7 +7585,6 @@ static void nvme_realize(PCIDevice *pci_dev, Erro=
+r **errp)
+> >                 &pci_dev->qdev, n->parent_obj.qdev.id);
+> >       if (nvme_init_subsys(n, errp)) {
+>=20
+> Similarly nvme_init_subsys() could return a boolean.
+>=20
+
+Yes, Markus pointed that out as well. A lot of functions would benefit
+=66rom similar changes, but I'd rather defer that until after 7.2 ;)
+
+--FH1Zdhq8ARKXcpWa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNtdPQACgkQTeGvMW1P
+DemUEQgAtTZSzvVICmK56sF7MrEHHFqT2mot7yDuKMsGJdrCLk3LZp3mAri3N9Mg
+Tspjacs9K86bq1pV7TT5U18e7RdyyEO3bwEVxtLrRJ0gIWFaae+1e2ncOWkVsBbU
+LfDuNoGCEa7xtRDGRwHUoY8TbPwW89AMnXHK3HlLWZWrNBL4AZB3d1gWKzocSvl1
+ogN19mCTYIr94Msi0uXZwR+NtDB/abLMDjEq5Iwe0EytHW2CcvvV8dgX3Z7HMTM7
+hpqqnV+G/EsHyojN7jxrYtWsjtadjTxxjn4bztEwn/da2OEm+VtyZETpfF6V6LOi
+4EJiubpe2gnXPJqAp1QMY6ft0vLqcw==
+=CIN0
+-----END PGP SIGNATURE-----
+
+--FH1Zdhq8ARKXcpWa--
 
