@@ -2,96 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0836B623F2E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 10:58:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0093623F2D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 10:58:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot4Ja-0005nJ-Tu; Thu, 10 Nov 2022 04:57:43 -0500
+	id 1ot4Jk-0005sz-8l; Thu, 10 Nov 2022 04:57:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot4JZ-0005mo-4E
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:57:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1ot4Jh-0005s5-MY
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:57:49 -0500
+Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot4JX-0006w5-DX
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:57:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668074258;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Scbl1bp5XfiaDnXgT0IsOTs8ETs2VVaAkn8rAxavUlo=;
- b=W/aSlcTWOXrkyhXl41BK22zz1aqL+XB6Eq+BBgwPvoq9yO21gRt0ffQeCzpVvWYeuZTFGq
- szE3fzZeJkldDShupMGEEGou/JUpQoNUxPWFzvJ9wc4imR8bMDMLOjNVJZaRi6RRFrMOBn
- a22KInE2E1oJQk7nwh2SUaaXnrB32rU=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-81-IRSTllnHO12PgMLSF9mxJg-1; Thu, 10 Nov 2022 04:57:36 -0500
-X-MC-Unique: IRSTllnHO12PgMLSF9mxJg-1
-Received: by mail-pj1-f71.google.com with SMTP id
- v10-20020a17090a7c0a00b00215deac75b4so873891pjf.3
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 01:57:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Scbl1bp5XfiaDnXgT0IsOTs8ETs2VVaAkn8rAxavUlo=;
- b=ieVat7Vp9uIt7BBSSEbMjm3GSSt+lZ1vEsDV6nV/bCeNI8uXNjnRMPx96wY31T6hOw
- 7GDQAn93NRwl4D3PhnUNjFxJV/jfJV8IyVZ6NMlFrzQQZkeE4oNIofVCfR8WhT9kEbAm
- ziPnQQILd5ldNviL/0Q0ZnbFv/ryvLv09cfE6/KW5bxun3E8CqYoW/sDkvThRwSvNe8Y
- m/901Yq+AScJlWfF+C1iHoZAXSSxebyzitFt2IZvZkJ8zGLcEjLMOWHQSLy2MKW8Gswq
- wCzvxMVZvYEbML27yR86a340t1DBXF0WJO/tlx/Jt4efZaaK8gEJoA1+cKq5mSI3Q9lR
- B5UA==
-X-Gm-Message-State: ACrzQf2jT3hTF4WFKKXP5pNadNWt4D6ijoNLcDgEHnZA0SLRzUK/2bCL
- 8/JrIcRCJWKOwSXwF9iWaQQ0cfw7CpVOVrXg3xLql4vpKosIpPZ14/bFtqGCIGvSeaUFlUAxLZ8
- 4w2tH0OyeKL5FJ4Q=
-X-Received: by 2002:aa7:81d3:0:b0:563:5c10:6cd6 with SMTP id
- c19-20020aa781d3000000b005635c106cd6mr2279317pfn.53.1668074255722; 
- Thu, 10 Nov 2022 01:57:35 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM4i2qdWL9Ba13EU0jSFkIdCBzfkMVSE9vohVlNqflq7FsQFjPdGv2lwUjB6ecDk0kKoJIYkrQ==
-X-Received: by 2002:aa7:81d3:0:b0:563:5c10:6cd6 with SMTP id
- c19-20020aa781d3000000b005635c106cd6mr2279303pfn.53.1668074255447; 
- Thu, 10 Nov 2022 01:57:35 -0800 (PST)
-Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- w15-20020a1709026f0f00b00181f8523f60sm10733324plk.225.2022.11.10.01.57.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 01:57:34 -0800 (PST)
-Message-ID: <0b29d9e3-9ce2-633c-1d73-cb5b0b9105ee@redhat.com>
-Date: Thu, 10 Nov 2022 10:57:27 +0100
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1ot4Jf-00073e-1F
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:57:49 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R131e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+ MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=3; SR=0;
+ TI=SMTPD_---0VUSZXiz_1668074259; 
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
+ fp:SMTPD_---0VUSZXiz_1668074259) by smtp.aliyun-inc.com;
+ Thu, 10 Nov 2022 17:57:40 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>
+Subject: [PATCH v1] virtio-net: fix for heap-buffer-overflow
+Date: Thu, 10 Nov 2022 17:57:39 +0800
+Message-Id: <20221110095739.130393-1-xuanzhuo@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] qga: Allow building of the guest agent without system
- emulators or tools
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Konstantin Kostiuk <kkostiuk@redhat.com>,
- qemu-trivial@nongnu.org, Michael Roth <michael.roth@amd.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20221109173750.201615-1-thuth@redhat.com>
- <b81930e5-9df7-a80a-5db4-09290a3b71f3@linaro.org>
- <87wn83jr54.fsf@pond.sub.org>
- <cee224a9-b107-9bf1-66d5-b631d5a88345@redhat.com>
- <208d1191-6852-c74c-2a06-d65a6a657f4d@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <208d1191-6852-c74c-2a06-d65a6a657f4d@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Git-Hash: a0d4629c32
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.131;
+ envelope-from=xuanzhuo@linux.alibaba.com;
+ helo=out30-131.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,42 +61,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/11/2022 10.49, Philippe Mathieu-Daudé wrote:
-> On 10/11/22 09:35, Thomas Huth wrote:
->> On 10/11/2022 06.49, Markus Armbruster wrote:
->>> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
->>>
->>>> On 9/11/22 18:37, Thomas Huth wrote:
->>>>> If configuring with "--disable-system --disable-user --enable-guest-agent"
->>>>> the linking currently fails with:
->>>>>
->>>>> qga/qemu-ga.p/commands.c.o: In function `qmp_command_info':
->>>>> build/../../home/thuth/devel/qemu/qga/commands.c:70: undefined 
->>>>> reference to `qmp_command_name'
-> 
->>>>> Let's make sure that we also compile and link the required files if
->>>>> the system emulators have not been enabled.
->>>>>
->>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>
->>> I wonder for how long this has been broken.
->>>
->>> Should we add such a configuration to CI?
->>
->> Some month ago, I'd say: Sure! ... but considering that gitlab now limits 
->> the available CI minutes and that apparently nobody really cares about 
->> this configuration (otherwise someone would have complained about this 
->> earlier), I think it's not that important to have a separate CI test for 
->> this configuration.
-> 
-> We could eventually add a job restricted to qemu-project CI (not in
-> forks).
+Run shell script:
 
-The problem is: Who's going to create such jobs? Someone needs to write the 
-yaml stuff and test it first. And at least I pretty much lost motivation to 
-work on new yaml stuff, since this burns my private CI minutes (which I 
-rather need for my maintainer duties instead).
+    cat << EOF | valgrind qemu-system-i386 -display none -machine accel=qtest, -m \
+    512M -M q35 -nodefaults -device virtio-net,netdev=net0 -netdev \
+    user,id=net0 -qtest stdio
+    outl 0xcf8 0x80000810
+    outl 0xcfc 0xc000
+    outl 0xcf8 0x80000804
+    outl 0xcfc 0x01
+    outl 0xc00d 0x0200
+    outl 0xcf8 0x80000890
+    outb 0xcfc 0x4
+    outl 0xcf8 0x80000889
+    outl 0xcfc 0x1c000000
+    outl 0xcf8 0x80000893
+    outw 0xcfc 0x100
+    EOF
 
-  Thomas
+Got:
+    ==68666== Invalid read of size 8
+    ==68666==    at 0x688536: virtio_net_queue_enable (virtio-net.c:575)
+    ==68666==    by 0x6E31AE: memory_region_write_accessor (memory.c:492)
+    ==68666==    by 0x6E098D: access_with_adjusted_size (memory.c:554)
+    ==68666==    by 0x6E4DB3: memory_region_dispatch_write (memory.c:1521)
+    ==68666==    by 0x6E31AE: memory_region_write_accessor (memory.c:492)
+    ==68666==    by 0x6E098D: access_with_adjusted_size (memory.c:554)
+    ==68666==    by 0x6E4DB3: memory_region_dispatch_write (memory.c:1521)
+    ==68666==    by 0x6EBCD3: flatview_write_continue (physmem.c:2820)
+    ==68666==    by 0x6EBFBF: flatview_write (physmem.c:2862)
+    ==68666==    by 0x6EF5E7: address_space_write (physmem.c:2958)
+    ==68666==    by 0x6DFDEC: cpu_outw (ioport.c:70)
+    ==68666==    by 0x6F6DF0: qtest_process_command (qtest.c:480)
+    ==68666==  Address 0x29087fe8 is 24 bytes after a block of size 416 in arena "client"
+
+That is reported by Alexander Bulekov. https://gitlab.com/qemu-project/qemu/-/issues/1309
+
+Here, the queue_index is the index of the cvq, but in some cases cvq
+does not have the corresponding NetClientState, so overflow appears.
+
+I add a check here, ignore illegal queue_index and cvq queue_index.
+
+Note the queue_index is below the VIRTIO_QUEUE_MAX but greater or equal
+than cvq index could hit this. Other devices are similar.
+
+Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+---
+ hw/net/virtio-net.c        | 18 ++++++++++++++++--
+ include/hw/virtio/virtio.h |  2 ++
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 975bbc22f9..88f25709d6 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -549,7 +549,14 @@ static RxFilterInfo *virtio_net_query_rxfilter(NetClientState *nc)
+ static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+ {
+     VirtIONet *n = VIRTIO_NET(vdev);
+-    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
++    NetClientState *nc;
++
++    /* validate queue_index and skip for cvq */
++    if (queue_index >= n->max_queue_pairs * 2) {
++        return;
++    }
++
++    nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
+ 
+     if (!nc->peer) {
+         return;
+@@ -566,9 +573,16 @@ static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+ static void virtio_net_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
+ {
+     VirtIONet *n = VIRTIO_NET(vdev);
+-    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
++    NetClientState *nc;
+     int r;
+ 
++    /* validate queue_index and skip for cvq */
++    if (queue_index >= n->max_queue_pairs * 2) {
++        return;
++    }
++
++    nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
++
+     if (!nc->peer || !vdev->vhost_started) {
+         return;
+     }
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index 1423dba379..6e7c0c09f7 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -148,7 +148,9 @@ struct VirtioDeviceClass {
+     void (*set_config)(VirtIODevice *vdev, const uint8_t *config);
+     void (*reset)(VirtIODevice *vdev);
+     void (*set_status)(VirtIODevice *vdev, uint8_t val);
++    /* Device must validate queue_index.  */
+     void (*queue_reset)(VirtIODevice *vdev, uint32_t queue_index);
++    /* Device must validate queue_index.  */
+     void (*queue_enable)(VirtIODevice *vdev, uint32_t queue_index);
+     /* For transitional devices, this is a bitmap of features
+      * that are only exposed on the legacy interface but not
+-- 
+2.32.0.3.g01195cf9f
 
 
