@@ -2,89 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8908E623DBC
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 09:46:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CE0623E32
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 10:01:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot3Bs-00009U-81; Thu, 10 Nov 2022 03:45:40 -0500
+	id 1ot3Q7-0003mu-RX; Thu, 10 Nov 2022 04:00:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot3BQ-00006s-B6
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 03:45:12 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ot3Q5-0003ml-5n
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:00:21 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot3BO-0005pU-Rp
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 03:45:12 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1ot3Q3-00028T-9D
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:00:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668069910;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vvAg1kNhG4FiNRhilzMHeg0+4jDFDcbXk7nkb9d25Qk=;
- b=cVYCMTG+l7NzZayjfirbsA5jdIahFgc2WMqOesACVWHgDqxnR4lpiSoySm9V5WCqxOt7eq
- ZTIPGpLrMmstMoFUYoyNSM8YsnASW4ecSs4Nfo112WBBpgHCOcmt/nA8S8esA57n31ubjt
- 3wVHUYw7Gcp/KLIjGPWgBM9HIbAkrHQ=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-488-GZc7ZZfxMpKZqidA-skdwA-1; Thu, 10 Nov 2022 03:45:07 -0500
-X-MC-Unique: GZc7ZZfxMpKZqidA-skdwA-1
-Received: by mail-pl1-f198.google.com with SMTP id
- h16-20020a170902f55000b001871b770a83so969186plf.9
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 00:45:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vvAg1kNhG4FiNRhilzMHeg0+4jDFDcbXk7nkb9d25Qk=;
- b=FO/IW82RbUWc69ZtbGWYRvVUUqls17hGUf6QcrKMynG1DtsP0tUciwBECEdPnlwBx9
- J4rRpRdmpdh8TA4oYaC75Pa/8CT0FxTT9WHfBgyz8SomXLS5AvbQVNupszI+9T8LntG0
- jQpLVlHEMfFcyaF4/K79DimN4yKZEVlx89eJnJj3mguctZU6pUh/zoJIOlxlHls/lrBX
- 4sOreF7beFBWnoBcD9BYWjslifxprv8YkZy2KLXbF8Vzs6m9phS/D9z4x/JW6/GX99Qe
- bcxoD7kswIWDAtUSnVTkKjbAfrIt0CtkKQvBLeRAziiAixXL62ZYHgCCI9a41+0p+t0R
- euLA==
-X-Gm-Message-State: ACrzQf2Z36O6615RcMDCrSTWb2yxzNi7ZKnmcsJXj9dSdCrXu+zBbvp3
- cF1hJS2GVxAiPNFRwM01dMn8pLKgjFkXb43T+y74Cl/dbJKAtOKao27OmEDMGT+8SA/+7YygJ7Y
- HPSqJYoNpBzhjR9g=
-X-Received: by 2002:a17:903:2447:b0:186:e200:6109 with SMTP id
- l7-20020a170903244700b00186e2006109mr64489659pls.104.1668069906504; 
- Thu, 10 Nov 2022 00:45:06 -0800 (PST)
-X-Google-Smtp-Source: AMsMyM4SNhd/8cGWcCMZDDUOpkZJ/+GxrlkA7qWduIFeh5UopuwznJZ8vmR/bQJmbfMblux4wiS5Hw==
-X-Received: by 2002:a17:903:2447:b0:186:e200:6109 with SMTP id
- l7-20020a170903244700b00186e2006109mr64489650pls.104.1668069906228; 
- Thu, 10 Nov 2022 00:45:06 -0800 (PST)
-Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- w7-20020a634747000000b0042b5095b7b4sm8720609pgk.5.2022.11.10.00.45.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 00:45:05 -0800 (PST)
-Message-ID: <f6c1e498-7f23-5489-56d7-d1b1b598ef19@redhat.com>
-Date: Thu, 10 Nov 2022 09:44:59 +0100
+ s=mimecast20190719; t=1668070817;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=F6UYlNQiyHGtEPDHyD3ecewrIcYjfL8Gw2XvrS0QCq0=;
+ b=A+P0wUfS90YKsF28kz6e5HlAttN+zhVyKqBfgO7rmNNLe41/p2Sow31zvx499XFuzDiBEJ
+ kgtYgfNVRvBpmqfusNRiNDKI1OxSCA83UsETq0D6Sjqo42dINPPELofbZ8Y2EdmDwOHb2k
+ AXAHnRW3fMVCy53TMvSUFaYA/YbCRec=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-288-YzV_v9uMMLycLDF_kg2pVA-1; Thu, 10 Nov 2022 04:00:14 -0500
+X-MC-Unique: YzV_v9uMMLycLDF_kg2pVA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37D57185A79C;
+ Thu, 10 Nov 2022 09:00:14 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 270D0141511F;
+ Thu, 10 Nov 2022 09:00:12 +0000 (UTC)
+Date: Thu, 10 Nov 2022 09:00:07 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Tom Stellard <tstellar@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] Use a more portable way to enable target specific
+ functions
+Message-ID: <Y2y9l7R1x+Tw1ii6@redhat.com>
+References: <20221109220307.226283-1-tstellar@redhat.com>
+ <43f92886-cb13-3f80-a307-9bb1d9515413@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 4/4] host-libusb: Remove unused variable
-Content-Language: en-US
-To: mrezanin@redhat.com, qemu-devel@nongnu.org
-References: <cover.1668009030.git.mrezanin@redhat.com>
- <00df0db69ff9167d38bac81f6d03281955bd861a.1668009030.git.mrezanin@redhat.com>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <00df0db69ff9167d38bac81f6d03281955bd861a.1668009030.git.mrezanin@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <43f92886-cb13-3f80-a307-9bb1d9515413@linaro.org>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,64 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 09/11/2022 16.57, mrezanin@redhat.com wrote:
-> From: Miroslav Rezanina <mrezanin@redhat.com>
+On Thu, Nov 10, 2022 at 02:43:28PM +1100, Richard Henderson wrote:
+> On 11/10/22 09:03, Tom Stellard wrote:
+> > This adds function attributes for avx2, sse2, etc. specialized
+> > functions.  These attributes are supported by both clang and gcc and
+> > are necessary in order to build the code with clang.  The existing gcc
+> > specific pragmas were left in place due to a comment in
+> > utils/bufferiszero.c which mentions the pragmas are needed before headers
+> > to work around a bug in gcc <= 4.8.
 > 
-> Variable unconnected used in usb_host_auto_check function is only incremented
-> but never read as line where it is read was disabled since introducing the code.
-> This causes 'Unused but set variable' warning on Clang 15.0.1 compiler.
-> 
-> Removing the variable and disabled code to prevent the warning.
-> 
-> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-> ---
->   hw/usb/host-libusb.c | 15 ---------------
->   1 file changed, 15 deletions(-)
-> 
-> diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-> index 28f8af8941..176868d345 100644
-> --- a/hw/usb/host-libusb.c
-> +++ b/hw/usb/host-libusb.c
-> @@ -1837,7 +1837,6 @@ static void usb_host_auto_check(void *unused)
->       struct USBAutoFilter *f;
->       libusb_device **devs = NULL;
->       struct libusb_device_descriptor ddesc;
-> -    int unconnected = 0;
->       int i, n;
->   
->       if (usb_host_init() != 0) {
-> @@ -1897,9 +1896,6 @@ static void usb_host_auto_check(void *unused)
->           libusb_free_device_list(devs, 1);
->   
->           QTAILQ_FOREACH(s, &hostdevs, next) {
-> -            if (s->dh == NULL) {
-> -                unconnected++;
-> -            }
->               if (s->seen == 0) {
->                   if (s->dh) {
->                       usb_host_close(s);
-> @@ -1908,17 +1904,6 @@ static void usb_host_auto_check(void *unused)
->               }
->               s->seen = 0;
->           }
-> -
-> -#if 0
-> -        if (unconnected == 0) {
-> -            /* nothing to watch */
-> -            if (usb_auto_timer) {
-> -                timer_del(usb_auto_timer);
-> -                trace_usb_host_auto_scan_disabled();
-> -            }
-> -            return;
-> -        }
-> -#endif
->       }
->   
->       if (!usb_vmstate) {
+> GCC 4.8 is now below our minimum, surely.
+> We should be able to simply replace the pragma with the attribute.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+We mandate at least GCC v7.4 or Clang v6.0 (or XCode Clang v10.0)
+
+> 
+> 
+> r~
+> 
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
