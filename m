@@ -2,77 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202496242F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 14:11:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 792FA6242FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 14:11:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot7KY-0006eg-PK; Thu, 10 Nov 2022 08:10:54 -0500
+	id 1ot7LE-0006vE-Fs; Thu, 10 Nov 2022 08:11:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ot7KX-0006eV-HA
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 08:10:53 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ot7KV-0005TV-NV
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 08:10:53 -0500
-Received: by mail-pl1-x636.google.com with SMTP id l2so1332550pld.13
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 05:10:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=F4HU4Zf/XUz28Q2C+Raa91AJATypFbj1PkjfmOQeoy4=;
- b=ZEMatztZvL9KQapyGMkoWcCa+lfVumbS2MNS5Gb4mZot3v0BnSDBHNMFZoPqq/C5KQ
- v0jdCZc8Tu7yj/j1NYaqDX/oC8wPV6v2+adNgmeBXGwKHOxp0kvpTrbOc4ANzJaCbNH7
- edDRADs1nwtjuf6kNOwNvCm/Ew7GdwoOIHojir0QQV2mNey9Apxq4pZXraiJB7KQmhaf
- Xi1kxta/U5ck09IvNKtrwB+mA1OajVAbved0KCCz4yncJQBZ3JmMzKhaCcBuR16fmxxt
- qB+qcn9V0OaTH1Dx+7QpxCO3BtMtTxk4mLnPC0h311Htn2mGo4tVbHDW/RXCvG+mf9V0
- yzDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=F4HU4Zf/XUz28Q2C+Raa91AJATypFbj1PkjfmOQeoy4=;
- b=vQwuGHZYfTTnZLtvkGFQ+mUp3TblxZ5FKobMUN7VXKhCzSCcZQVfzSgXhp6UU7G0z3
- m5trLVBy0Jm4vtfNIwEEY+E1eeVc9qr51M3UOc+voKri19AXL+ly2CgQbW/8BnN6Fy0j
- GmdUuZyfX61oF1T9WY1YLhhxNQwkn0Stc9ZkYOjmgOec3KbDWpd24ILCrW4kGwt4LRnI
- zpj6QoCvqLJNgpcqc4KzlbSN9Cz4GHxeCszLoSe+Yisdz4MEgyyEBc734S+L9CvtCj86
- hF3Mvrfg7rmTlxyWAVwLdaXJz/R48auCpSkT3cCSUyF60UdUScQXeJl8qUWEl/n53k/4
- WDIg==
-X-Gm-Message-State: ACrzQf02fOKaBTHQ6MBECP299HhT1hHTGQ07YjF+HFCgJEbKgT8h3NqG
- voN8ng6ILjGAu1UQ7nTYkU+4Qm4q0v+czOGgJTe7vg==
-X-Google-Smtp-Source: AMsMyM4Z6BM3+jAmgi1/Qj3Lt7kPcdD0YYabcre9eNmxpzeT0rmyq8Wj1LTiI0VEmZjHKBT/BMkbspO6QUb768fB5qk=
-X-Received: by 2002:a17:903:4d7:b0:178:8564:f754 with SMTP id
- jm23-20020a17090304d700b001788564f754mr64565661plb.60.1668085850074; Thu, 10
- Nov 2022 05:10:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot7L0-0006pr-Qf
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 08:11:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot7Ky-0005Ye-AT
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 08:11:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668085879;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=v3gw2G1IKycHc6COf+xO6RDQKjVqpoUfJQ2fqEx2HX8=;
+ b=Cwm7r2ZpHZaqgLBjgfORGgEBYDdFEcm6BhpsK5M+wTjQ6A3X+VBg+2vSAH5QAsvtYvlzr8
+ eLx3QSyqsCXnNiP7vhRGTRkWqJ7Ly8F2+F6xcF34x98HNbP9qXOFDiWhSlas+hBu1bjfA5
+ m5OMGaFznh+XXYywqDKEY1eGb414yUE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-206-N_uLEFG8OYiWQI8ezntmog-1; Thu, 10 Nov 2022 08:11:15 -0500
+X-MC-Unique: N_uLEFG8OYiWQI8ezntmog-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EBB5B1C05AE8;
+ Thu, 10 Nov 2022 13:11:14 +0000 (UTC)
+Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D63E3112131B;
+ Thu, 10 Nov 2022 13:11:13 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: qemu-ppc@nongnu.org, qemu-trivial@nongnu.org, mrezanin@redhat.com,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Subject: [PATCH] libdecnumber/dpd/decimal64: Fix compiler warning from Clang 15
+Date: Thu, 10 Nov 2022 14:11:12 +0100
+Message-Id: <20221110131112.104283-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20221101071048.29553-1-yangyicong@huawei.com>
- <20221102040935-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20221102040935-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 10 Nov 2022 13:10:38 +0000
-Message-ID: <CAFEAcA_9eiMiGRPimtLc4UrfTktPO33cbs6gRhR1D+jH8eJ_SA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] Only generate cluster node in PPTT when specified
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Yicong Yang <yangyicong@huawei.com>, imammedo@redhat.com, ani@anisinha.ca, 
- eduardo@habkost.net, marcel.apfelbaum@gmail.com, f4bug@amsat.org, 
- wangyanan55@huawei.com, qemu-devel@nongnu.org, jonathan.cameron@huawei.com, 
- linuxarm@huawei.com, yangyicong@hisilicon.com, prime.zeng@huawei.com, 
- hesham.almatary@huawei.com, ionela.voinescu@arm.com, 
- darren@os.amperecomputing.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x636.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,38 +75,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 2 Nov 2022 at 08:17, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Tue, Nov 01, 2022 at 03:10:42PM +0800, Yicong Yang wrote:
-> > From: Yicong Yang <yangyicong@hisilicon.com>
-> >
-> > This series mainly change the policy for building a cluster topology node
-> > in PPTT. Previously we'll always build a cluster node in PPTT without
-> > asking the user, after this set the cluster node will be built only the
-> > the user specify through "-smp clusters=X".
-> >
-> > One problem is related to this but not fully caused by this, see the
-> > discussion in [*]. When booting the VM with `-smp 8` and 4 numa nodes,
-> > the linux scheduling domains in the VM misses the NUMA domains. It's
-> > because the MC level span extends to Cluster level (which is generated
-> > by the Qemu by default) that spans all the cpus in the system, then the
-> > scheduling domain building stops at MC level since it already includes all
-> > the cpus.
-> >
-> > Considering cluster is an optional level and most platforms don't have it,
-> > they may even don't realize this is built and a always build policy cannot
-> > emulate the real topology on these platforms. So in this series improve the
-> > policy to only generate cluster when the user explicitly want it.
-> >
-> > Update the tests and test tables accordingly.
->
-> I think we can classify this as a bugfix and so allow after
-> the freeze, however, this needs ack from ARM maintainers then.
+Clang 15 from Fedora 37 complains:
 
-I don't use, test or understand any of the ACPI related code :-)
-I'm happy to leave it up to your judgement whether this should go
-into this release or wait for 8.0.
+ ../libdecnumber/dpd/decimal64.c:620:8: error: variable 'n' set but
+ not used [-Werror,-Wunused-but-set-variable]
+   Int  n;                     /* output bunch counter */
+        ^
+ 1 error generated.
 
-thanks
--- PMM
+Remove the unused variable to silence the compiler warning.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ libdecnumber/dpd/decimal64.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/libdecnumber/dpd/decimal64.c b/libdecnumber/dpd/decimal64.c
+index 4816176410..290dbe8177 100644
+--- a/libdecnumber/dpd/decimal64.c
++++ b/libdecnumber/dpd/decimal64.c
+@@ -617,7 +617,6 @@ static const uInt multies[]={131073, 26215, 5243, 1049, 210};
+ #endif
+ void decDigitsToDPD(const decNumber *dn, uInt *targ, Int shift) {
+   Int  cut;		      /* work */
+-  Int  n;		      /* output bunch counter */
+   Int  digits=dn->digits;     /* digit countdown */
+   uInt dpd;		      /* densely packed decimal value */
+   uInt bin;		      /* binary value 0-999 */
+@@ -676,7 +675,7 @@ void decDigitsToDPD(const decNumber *dn, uInt *targ, Int shift) {
+     bin=0;			   /* [keep compiler quiet] */
+   #endif
+ 
+-  for(n=0; digits>0; n++) {	   /* each output bunch */
++  while (digits > 0) {             /* each output bunch */
+     #if DECDPUN==3		   /* fast path, 3-at-a-time */
+       bin=*inu;			   /* 3 digits ready for convert */
+       digits-=3;		   /* [may go negative] */
+-- 
+2.31.1
+
 
