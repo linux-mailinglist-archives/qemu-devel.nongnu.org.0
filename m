@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1AB623F12
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 10:51:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6526B623F16
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 10:54:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot4DO-0001qu-Fx; Thu, 10 Nov 2022 04:51:18 -0500
+	id 1ot4Fv-0003nh-MY; Thu, 10 Nov 2022 04:53:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ot4DG-0001lu-8L
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:51:16 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ot4Ft-0003nK-2F
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:53:53 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ot4DD-0001g2-Bb
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:51:09 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id 5so783048wmo.1
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 01:51:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ot4Fq-0004pW-GV
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 04:53:51 -0500
+Received: by mail-wr1-x429.google.com with SMTP id g12so1434592wrs.10
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 01:53:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=YLmYjIaaYY/WnQSGr15pjyedyV5fzY72IBKJBL51+uI=;
- b=KsQZILA6P9R2aJ6nqrjfyMS26VxnikGhNbfSJbJ4bcqlvUE8nJ29MJ1BnLP1Xa7nlM
- qEgk41v8ZK9oC+MV1SA3DhYQPHYb5hlDwWvJV0AQloBxMV2CqqHjoNozUkCKcAyvWcNZ
- tR2A6Vh/X/RWb4ywJ2hOL3t0filnJ/K20g+QKqeEqT9DQ3yCySYmf32GJOPLDHgcdjwD
- qe+/KBByw7zn8ti5LLlf8f375qNEKlP0Bwoxh4Fds4c+8RVCJgLNiWIyk2xbBaZoMRci
- kAJtYpRvSaVjQd1+5it0y3UdnGIJdcVOo4hkm/DdAn7psGi1gpaPlFLFR2CCTwzb9BaT
- yGsQ==
+ bh=gRbqk1kXDPO//q/XNHuQaq4+pZmCl31ECIpw7PO202A=;
+ b=tbRoEvlBNKhUAdS2WqhycLB4vVVifiDcU7fBdJ4eVR/qu4FZ6U0XW90WzLjkiFFakT
+ efOD/V7+l1BKEJyZBEvUpO3TVQq0w/uC5Cwkyo0IIzAKOOlHs05vlJZwd2iztVgWZxWu
+ n+rx3TTCpJZbU27nGrvrNwCTJn4TJ0yc3wWprKXtND2J3QXrGHDocGwdOFLOEdf3JFHJ
+ mN4zfTellLZSrucjDuGcKawm8IrlEMNbULANdLHy701WfW7i/Q4G3+hlW10C6fb+XZds
+ LAz/rfFRs3GYOw6jZYYmFQhubX24Ac6frMw6KJm3fgAWKpimJJlwQqKdBNKahILKE/PU
+ LAHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YLmYjIaaYY/WnQSGr15pjyedyV5fzY72IBKJBL51+uI=;
- b=pw5fELmTa/YjcCCKB2DVqqtszhqXCZ4pPh98AslmG97+ka8Uv/idMIz1OhoNJfNNtP
- vaZ/OL90WrLoNHdq7SwVVbcWrr2Gjp3Vo3FwCfgWE75Hi127Uu/A5dsSlxSiFYQUBzTM
- QshFIoee2QePpGnNG9xrGVhpAzYSRD2Cx0/mCSSqfnygahko8+3lE1qNmvdO8STPYr9+
- EqFP7jjdldL74ZKxHUIHsAbNbkrfmXVZzUXpw7i2rmTEdLP2lqJq6QkU4v5bIv3o6hVv
- YzhIzW17hrAXUcOuFyf6GFX+phb9nyuE0w/2vjRPwXHPGRbizrtIoTz6q8BWy9Om7zuC
- i0Bw==
-X-Gm-Message-State: ANoB5pl8FoGCcjo5aWHDLWB3GBlu/IoCa0AG66Vwxbnq3uPSkabnLoIX
- icRuRQZVPiPQqmv48/0DiZnmmg==
-X-Google-Smtp-Source: AA0mqf5CEUpON1eBENtxeWzpj+6hgehnsUfGlYOWTYrwLCJh/XyRRYkY38hH4buTuxoLjSVoDfKgqQ==
-X-Received: by 2002:a7b:c385:0:b0:3cf:c908:b1a3 with SMTP id
- s5-20020a7bc385000000b003cfc908b1a3mr825037wmj.129.1668073865709; 
- Thu, 10 Nov 2022 01:51:05 -0800 (PST)
+ bh=gRbqk1kXDPO//q/XNHuQaq4+pZmCl31ECIpw7PO202A=;
+ b=PfK7u7XeZbFb+CfbR1dwKh2g2F9hE1prfmyPU8PD8CqUBVmhTPGiwppim5mMrpJpu6
+ TpRg6x1SaFTYmyKMR0rKiuHv7x3rHxI8yPZeImBvbNgx581bYB1MU51/BPHV6OoskdV9
+ 1sDtElEZMCvYckAv/RuzpilH0OJ4x8hIj1opqNcDmr9l2Z2PFx7uV/629hCdKzlfRi/F
+ g7Ml8qaVQZTj1PuO3H+RBzF/abPptLA+tJsfuWRND0pX70Msi2tUMhJF9JD91Hhu90Jd
+ CHZB3oe4dgGAcYmM/DftTN4a6cyBk+9nC9hCHzFKhpw8RIP5c6x5TMiF4Nh3OZLRjJGM
+ zFyQ==
+X-Gm-Message-State: ACrzQf1/+5aJkTGNiIY9EuJBBshPB+wRlK3Xl35yuDOp3kp/plvbmRkC
+ kK9Ru82FJQr0sgbLv5n9YRoBRw==
+X-Google-Smtp-Source: AMsMyM55HadIN2timXdooQqMqK6Y1w3k6krdJ/qI0eUpUGbGrZXXcnETsrAjnHdanUcO0JAuzmxtlQ==
+X-Received: by 2002:adf:a2dc:0:b0:238:3e97:7901 with SMTP id
+ t28-20020adfa2dc000000b002383e977901mr24740226wra.323.1668074028873; 
+ Thu, 10 Nov 2022 01:53:48 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- h8-20020a05600c314800b003b3365b38f9sm5000743wmo.10.2022.11.10.01.51.04
+ v2-20020adfedc2000000b00228daaa84aesm15408377wro.25.2022.11.10.01.53.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 01:51:05 -0800 (PST)
-Message-ID: <62a21dca-21d3-08a1-e0ad-6bdfefaa9cc0@linaro.org>
-Date: Thu, 10 Nov 2022 10:51:03 +0100
+ Thu, 10 Nov 2022 01:53:48 -0800 (PST)
+Message-ID: <b408f286-2262-480e-01d7-230240bc743c@linaro.org>
+Date: Thu, 10 Nov 2022 10:53:47 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH v2] qga: Allow building of the guest agent without system
- emulators or tools
+Subject: Re: [PATCH for-7.2 v2 2/6] hw/nvme: fix cancellation of format
+ operations
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Konstantin Kostiuk <kkostiuk@redhat.com>
-Cc: qemu-trivial@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20221110083626.31899-1-thuth@redhat.com>
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <k.jensen@samsung.com>
+References: <20221110070523.36290-1-its@irrelevant.dk>
+ <20221110070523.36290-3-its@irrelevant.dk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221110083626.31899-1-thuth@redhat.com>
+In-Reply-To: <20221110070523.36290-3-its@irrelevant.dk>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,38 +93,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/11/22 09:36, Thomas Huth wrote:
-> If configuring with "--disable-system --disable-user --enable-guest-agent"
-> the linking currently fails with:
+On 10/11/22 08:05, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
 > 
-> qga/qemu-ga.p/commands.c.o: In function `qmp_command_info':
-> build/../../home/thuth/devel/qemu/qga/commands.c:70: undefined reference to `qmp_command_name'
-> build/../../home/thuth/devel/qemu/qga/commands.c:71: undefined reference to `qmp_command_is_enabled'
-> build/../../home/thuth/devel/qemu/qga/commands.c:72: undefined reference to `qmp_has_success_response'
-> qga/qemu-ga.p/commands.c.o: In function `qmp_guest_info':
-> build/../../home/thuth/devel/qemu/qga/commands.c:82: undefined reference to `qmp_for_each_command'
-> qga/qemu-ga.p/commands.c.o: In function `qmp_guest_exec':
-> build/../../home/thuth/devel/qemu/qga/commands.c:410: undefined reference to `qbase64_decode'
-> qga/qemu-ga.p/channel-posix.c.o: In function `ga_channel_open':
-> build/../../home/thuth/devel/qemu/qga/channel-posix.c:214: undefined reference to `unix_listen'
-> build/../../home/thuth/devel/qemu/qga/channel-posix.c:228: undefined reference to `socket_parse'
-> build/../../home/thuth/devel/qemu/qga/channel-posix.c:234: undefined reference to `socket_listen'
-> qga/qemu-ga.p/commands-posix.c.o: In function `qmp_guest_file_write':
-> build/../../home/thuth/devel/qemu/qga/commands-posix.c:527: undefined reference to `qbase64_decode'
+> Cancelling a format operation neglects to set iocb->ret as well as
+> clearing the iocb->aiocb after cancelling the underlying aiocb.
 > 
-> Let's make sure that we also compile and link the required files if
-> the system emulators have not been enabled.
+> Fix this.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Fixes: 3bcf26d3d619 ("hw/nvme: reimplement format nvm to allow cancellation")
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->   v2: Refine the file list in the util/ folder (as suggested by Philippe)
+>   hw/nvme/ctrl.c | 3 +++
+>   1 file changed, 3 insertions(+)
 > 
->   qapi/meson.build  |  2 +-
->   stubs/meson.build |  2 +-
->   util/meson.build  | 20 ++++++++++++--------
->   3 files changed, 14 insertions(+), 10 deletions(-)
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 918af03d32be..819c02067191 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -5762,8 +5762,11 @@ static void nvme_format_cancel(BlockAIOCB *aiocb)
+>   {
+>       NvmeFormatAIOCB *iocb = container_of(aiocb, NvmeFormatAIOCB, common);
+>   
+> +    iocb->ret = -ECANCELED;
+> +
+>       if (iocb->aiocb) {
+>           blk_aio_cancel_async(iocb->aiocb);
+> +        iocb->aiocb = NULL;
+>       }
+>   }
+>   
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
+What about nvme_flush_cancel()?
 
