@@ -2,77 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F5B6241A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 12:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F376241AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 12:43:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot5vc-0001ME-I5; Thu, 10 Nov 2022 06:41:04 -0500
+	id 1ot5wn-000230-99; Thu, 10 Nov 2022 06:42:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ot5vW-0001M5-H6
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 06:40:58 -0500
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1ot5vU-0002IR-GI
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 06:40:58 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id 4so1246275pli.0
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 03:40:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=LwP9Wp38sUSTJiInpg7KuOJ5x3Xk+Hn5+6sexlmjPbk=;
- b=ylpe9Ti/4sl2Is0S1VlJwCZZ54uXsJrKFfnCacqGr9VedZD78REieRNW5jgKqdJFLM
- xWXUHFbikWiL+3RAiKWEt002SDpt4CZJsrO2c2nN8HbmvGZVicOHfDCkOkN/GcUyUQZE
- aUEa5Iz9mdoT6rMvVlnTwZu3rKZBu04Fr0Q64RGk/sd/m//WlOSDIhHj3ybqnB6PRoAg
- OotqGEHDV7u5Qi4J00WsADYGmQjMOUVVBOgrJGMovPIbuO3x4PlDWMH0VByi0WhQhV0D
- SKLcmID24d/FiKDAiP6hpBmg2FqeyKZR0Vfy8YOQUA2+Db6uNnGh2cK113361oRhNQoc
- SwWQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot5wl-00021X-0X
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 06:42:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1ot5wj-0005A5-Fl
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 06:42:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668080532;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BXlaJxrf4HnKzGxbdRyL2RJ9itg8kOkt0odnO8FNvoM=;
+ b=JKfXF3kjZwTmEO6JoAHy+Mkp/mtJ+lDKEN58BQZeMmqcbUmzgxTnAbxG6lgO/bXMpuLVXb
+ 2dQn7LaEHAd4QS+GIUrO+0KoruLUZj4Rxbu7aZoUxwxBGAnRvVe2zE1OfWFQn7a9tI1Bsk
+ p+XtUc1ss55kdreR2OxFoUkxaAnrc/o=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-568-liuF7nF-MFWxj64BDBCuPw-1; Thu, 10 Nov 2022 06:42:11 -0500
+X-MC-Unique: liuF7nF-MFWxj64BDBCuPw-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ h185-20020a636cc2000000b0046fc6e0065dso882435pgc.5
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 03:42:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LwP9Wp38sUSTJiInpg7KuOJ5x3Xk+Hn5+6sexlmjPbk=;
- b=vkn5KHaonuP9bqTe8UCDGeoiZkbzK+HGVcDU4N0fXe9McUBOuBDiLdsr/smlLwGHmm
- XfG1AYoNwGTLFUtKMOgCNMsN2XN2YuzIHUA5h6RInV6N3531gr8V3Toz9T1VXNu72mYH
- WkEKmR2stKQ0UBq0pbLDXi/Lzq/eOVl3kIzRE9p2VS/BcHm5RaNTFK4Cy+gqytfTlsx4
- g2T7z7npdd3ZTqGdXlAk6H2w3Wc+DdRayvg9WXm5ZMs4f1Df7g/R+e5HLXHUtlvnmAK/
- bJYeYy2AHkalAStIlB+r4CyAPb8r0eRUj7oP5W76kLV+kce4e0FxRkp/PJbjoXMWkngv
- dG3w==
-X-Gm-Message-State: ACrzQf0fRaWeP0yNCRTOs3FUv7J/rPoR6I6NYkAeBzT2wn/R08fhefb+
- Um5JKvyQqeivo8JhJ5hbydHHhQk5nBXMk+cz
-X-Google-Smtp-Source: AMsMyM6ZskixnYBhAb2G5DGu+ETYT36BIHYQ9JOshZdSG8AHSIXDmYI3oMBXT2h4u5EzC32MxeAXIw==
-X-Received: by 2002:a17:902:b28c:b0:186:708e:6ed7 with SMTP id
- u12-20020a170902b28c00b00186708e6ed7mr63828461plr.98.1668080454312; 
- Thu, 10 Nov 2022 03:40:54 -0800 (PST)
-Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BXlaJxrf4HnKzGxbdRyL2RJ9itg8kOkt0odnO8FNvoM=;
+ b=sk4m1jHcANrBS9OAOAt1OTlGt1Sti0AmtHRaQuDXrCM+6hQtGhWEgoNTEwN5sIRn69
+ zzl/Qq8/xUOiycc0wRPi2gEK7XT2U+FO0SvHK3fo5AC8mhpC52IQjap89S02FkGijskW
+ mQvIA3U8BthYVubfVxo1bqnt7oUxH9B1lmv9jY+7HXRdl0FErBig5yMqTRST6eS6ZO8h
+ zs0kBamfXaHjkNcSX+2YCOFjNuHgqAkiDf178PIPlry2P577rs7OaVLxH4lUktM5yBKl
+ f6b6cwJtgidDgte35uzi5b5Zz8IfQHy4ZRgIHESKFuMucM/BRFKHEybMjIrhwsRy7Ej5
+ P0/A==
+X-Gm-Message-State: ACrzQf2x93IHrep+Y+PCkf5zWJlavHQrtxQSSaxWHfy77uB6PqSFGZUj
+ fBPNBfAUhUTPJgQKnBBIsL5cxVLCyb/FkV9nQQczJXCk4koVPeUHiBBgU9VfKC4CW0Qt3Ctzf++
+ hYr+hE1owFGuk1RI=
+X-Received: by 2002:a17:902:e843:b0:186:b180:3c3a with SMTP id
+ t3-20020a170902e84300b00186b1803c3amr65284581plg.66.1668080530512; 
+ Thu, 10 Nov 2022 03:42:10 -0800 (PST)
+X-Google-Smtp-Source: AMsMyM5kizdnUcapZ9QjEpfBKh8DYuwkx6XA8CTyGDJjevwXuzpiDvfEBv56RbFax4u29IqGtsNguA==
+X-Received: by 2002:a17:902:e843:b0:186:b180:3c3a with SMTP id
+ t3-20020a170902e84300b00186b1803c3amr65284567plg.66.1668080530237; 
+ Thu, 10 Nov 2022 03:42:10 -0800 (PST)
+Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- u2-20020a17090341c200b001766a3b2a26sm11068414ple.105.2022.11.10.03.40.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 03:40:53 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH] tests/qtest/libqos/e1000e: Remove "other" interrupts
-Date: Thu, 10 Nov 2022 20:40:45 +0900
-Message-Id: <20221110114045.65544-1-akihiko.odaki@daynix.com>
-X-Mailer: git-send-email 2.38.1
+ f5-20020a655505000000b00434760ee36asm8865571pgr.16.2022.11.10.03.42.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Nov 2022 03:42:09 -0800 (PST)
+Message-ID: <9a4db614-297d-a85f-9788-ed46c71bb66b@redhat.com>
+Date: Thu, 10 Nov 2022 12:42:03 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62c;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 2/3] net: Restore printing of the help text with "-nic
+ help"
+Content-Language: en-US
+To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, pbonzini@redhat.com
+References: <20221104125705.415923-1-thuth@redhat.com>
+ <20221104125705.415923-3-thuth@redhat.com>
+ <4a72c7c6-4b70-b6bf-705e-3303865066b6@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <4a72c7c6-4b70-b6bf-705e-3303865066b6@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,39 +103,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The "other" kind of interrupts are not used in the tests.
+On 08/11/2022 10.49, Claudio Fontana wrote:
+> On 11/4/22 13:57, Thomas Huth wrote:
+>> Running QEMU with "-nic help" used to work in QEMU 5.2 and earlier versions
+>> (it showed the available netdev backends), but this feature got broken during
+>> some refactoring in version 6.0. Let's restore the old behavior, and while
+>> we're at it, let's also print the available NIC models here now since this
+>> option can be used to configure both, netdev backend and model in one go.
+>>
+>> Fixes: ad6f932fe8 ("net: do not exit on "netdev_add help" monitor command")
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   net/net.c | 14 ++++++++++++--
+>>   1 file changed, 12 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/net/net.c b/net/net.c
+>> index c0516a8067..b4b8f2a9cc 100644
+>> --- a/net/net.c
+>> +++ b/net/net.c
+>> @@ -1571,8 +1571,18 @@ static int net_param_nic(void *dummy, QemuOpts *opts, Error **errp)
+>>       const char *type;
+>>   
+>>       type = qemu_opt_get(opts, "type");
+>> -    if (type && g_str_equal(type, "none")) {
+>> -        return 0;    /* Nothing to do, default_net is cleared in vl.c */
+>> +    if (type) {
+>> +        if (g_str_equal(type, "none")) {
+>> +            return 0;    /* Nothing to do, default_net is cleared in vl.c */
+>> +        }
+>> +        if (is_help_option(type)) {
+>> +            GPtrArray *nic_models = qemu_get_nic_models(TYPE_DEVICE);
+>> +            show_netdevs();
+>> +            printf("\n");
+>> +            qemu_show_nic_models(type, (const char **)nic_models->pdata);
+>> +            g_ptr_array_free(nic_models, true);
+> 
+> nit: would not the order:
+> 
+>> +            GPtrArray *nic_models;
+>> +            show_netdevs();
+>> +            printf("\n");
+>> +            nic_models = qemu_get_nic_models(TYPE_DEVICE);
+>> +            qemu_show_nic_models(type, (const char **)nic_models->pdata);
+>> +            g_ptr_array_free(nic_models, true);
+> 
+> flow more logically?
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- tests/qtest/libqos/e1000e.h | 1 -
- tests/qtest/libqos/e1000e.c | 1 -
- 2 files changed, 2 deletions(-)
+I think that's mostly a matter of taste ... and as long as the declaration 
+of the variable has to stay at the top of the block (according to QEMU's 
+coding style), I think I'd also prefer to keep the initialization there.
 
-diff --git a/tests/qtest/libqos/e1000e.h b/tests/qtest/libqos/e1000e.h
-index a22f5fdbad..3bf285af42 100644
---- a/tests/qtest/libqos/e1000e.h
-+++ b/tests/qtest/libqos/e1000e.h
-@@ -24,7 +24,6 @@
- 
- #define E1000E_RX0_MSG_ID           (0)
- #define E1000E_TX0_MSG_ID           (1)
--#define E1000E_OTHER_MSG_ID         (2)
- 
- #define E1000E_TDLEN    (0x3808)
- #define E1000E_TDT      (0x3818)
-diff --git a/tests/qtest/libqos/e1000e.c b/tests/qtest/libqos/e1000e.c
-index 80b3e3db90..3b51bafcb7 100644
---- a/tests/qtest/libqos/e1000e.c
-+++ b/tests/qtest/libqos/e1000e.c
-@@ -32,7 +32,6 @@
- #define E1000E_IVAR_TEST_CFG \
-     (((E1000E_RX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_RXQ0_SHIFT) | \
-      ((E1000E_TX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_TXQ0_SHIFT) | \
--     ((E1000E_OTHER_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_OTHER_SHIFT) | \
-      E1000_IVAR_TX_INT_EVERY_WB)
- 
- #define E1000E_RING_LEN (0x1000)
--- 
-2.38.1
+  Thomas
 
 
