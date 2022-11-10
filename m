@@ -2,66 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38A66243CC
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 15:02:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B8C624453
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Nov 2022 15:30:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ot87L-0007ik-0z; Thu, 10 Nov 2022 09:01:19 -0500
+	id 1ot8YJ-0006tU-7E; Thu, 10 Nov 2022 09:29:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ot87J-0007ia-10
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 09:01:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ot87H-00077r-3Q
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 09:01:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668088874;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ofmZqiDWuEFCKD5Ztsqxkv1Vrpsth+8eP5q7VkG/8jg=;
- b=HHcHQdYOhNsVr1d3pO6PU41E9j92fejBm/CJgjVtEcwp5qIfPwNVfEGy485A1TEgB/LWoT
- etOQHWBT2JUSM2l0aiREkMOh+RGwOqIuSbk5z7NslgpbkLJIEYol6yK8sEgcpwEwYA4pxF
- bC7hXk7glD3NAWL+67A2e1f0V8rlbR0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-519-cWLvk4DkPx-CHARdwhWYQA-1; Thu, 10 Nov 2022 09:01:12 -0500
-X-MC-Unique: cWLvk4DkPx-CHARdwhWYQA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9CC873850E89;
- Thu, 10 Nov 2022 14:01:11 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D6546112131B;
- Thu, 10 Nov 2022 14:01:10 +0000 (UTC)
-Date: Thu, 10 Nov 2022 15:01:08 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v2 0/3] block: Start/end drain on correct AioContext
-Message-ID: <Y20EJFt1w7xstZtC@redhat.com>
-References: <20221107151321.211175-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ot8YF-0006t7-GE
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 09:29:07 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ot8YE-0007Qt-14
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 09:29:07 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id l14so2523607wrw.2
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 06:29:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=KeBF/SYc9WD7Nty/WAMvMpKYbJLTLdB2z2IFJY2Cf10=;
+ b=yhfxHROesogbtskTyi5qMZbRp8/5UKVU3Lf5Uf3+JS/JI4BQ14kncMpSYpWqyRBrNG
+ 3KZQ3eNdpP02do3xPLYlY8UKG/SZcRGnI6mvBdfyy4fo2JKAVR4DurZm44mFeSM92NSN
+ z9lQp+nyqWqUhIHOA0ZvO4yK1sYcMbZr8dwHWWJVm41WhvefwHYl8CBwrZzu3dnfypcg
+ 6MtwHGWmD/jTJuW/WF0/yj6/pj4bZCJ1gG9TZd2tjxZVaDhHfjvNDVh/XQOd7dqBQtSv
+ Dc4vooDUjEIUO1vpXmdMyff2d0T8ZVPo4OMFnBJvykJx3vG3iqfGXjvbkwFnQGdBc6ra
+ x2dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KeBF/SYc9WD7Nty/WAMvMpKYbJLTLdB2z2IFJY2Cf10=;
+ b=6ea9lj4OkebJaKDsuKIHN40aBaXr+7bS+bcjWALUkkygkYXVKMoaAl0xd/f80hLXqO
+ 9zDkD/s6fxbJonqHtj6zFhUoXS0Mieq4QwS13Ma77XgxwJZzxLgECucW2Nk6XnXxUfKs
+ iitUOaSTr0CA1QkfASzfZeNT7jpHroH+ecBS3HxZ8uCpJA3YGdjbXQYFoHy2Z/GOkM9Z
+ +pu/7qwEW8mtp/K+5rQjFJH0CLCcj6+MV6rj9UXFketG1BPwdrhXW2c334OZy5trNzhe
+ IxmFv0bxlFrLgAAXtPwkqkklSNOBvut8ItOk87nGSq7/Nvegbf1E70JZgEyEKiIJlDkR
+ 7HmA==
+X-Gm-Message-State: ACrzQf0LqdLJ+UXqPPYCCXCSltbnNIX0WPN89zmOQCP1xbGRLs/DXeXp
+ Wne1bFA09OvHuz+pNqthQKIpTfgKD7qM9g==
+X-Google-Smtp-Source: AMsMyM6GT4wPm444Yl6FWyFEdZ8Fjgr+UlXkvMxFftQhkZ81w8e5HatfrDv03N4v7bRJmqylTPRtZg==
+X-Received: by 2002:adf:fc05:0:b0:236:63fa:c792 with SMTP id
+ i5-20020adffc05000000b0023663fac792mr1021459wrr.476.1668090544156; 
+ Thu, 10 Nov 2022 06:29:04 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ n15-20020a05600c3b8f00b003c6c3fb3cf6sm6312634wms.18.2022.11.10.06.29.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Nov 2022 06:29:03 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH for-7.2] tests/avocado: Raise timeout for
+ boot_linux.py:BootLinuxPPC64.test_pseries_tcg
+Date: Thu, 10 Nov 2022 14:29:01 +0000
+Message-Id: <20221110142901.3832318-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221107151321.211175-1-hreitz@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,34 +87,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 07.11.2022 um 16:13 hat Hanna Reitz geschrieben:
-> Hi,
-> 
-> v1 cover letter:
-> https://lists.nongnu.org/archive/html/qemu-block/2022-09/msg00389.html
-> 
-> bdrv_replace_child_noperm() drains the child via
-> bdrv_parent_drained_{begin,end}_single().  When it removes a child, the
-> bdrv_parent_drained_end_single() at its end will be called on an empty
-> child, making the BDRV_POLL_WHILE() in it poll the main AioContext
-> (because c->bs is NULL).
-> 
-> That’s wrong, though, because it’s supposed to operate on the parent.
-> bdrv_parent_drained_end_single_no_poll() will have scheduled any BHs in
-> the parents’ AioContext, which may be anything, not necessarily the main
-> context.  Therefore, we must poll the parent’s context.
-> 
-> Patch 3 does this for both bdrv_parent_drained_{begin,end}_single().
-> Patch 1 ensures that we can legally call
-> bdrv_child_get_parent_aio_context() from those I/O context functions,
-> and patch 2 fixes blk_do_set_aio_context() to not cause an assertion
-> failure if it beginning a drain can end up in blk_get_aio_context()
-> before blk->ctx has been updated.
+On my machine, a debug build of QEMU takes about 260 seconds to
+complete this test, so with the current timeout value of 180 seconds
+it always times out.  Double the timeout value to 360 so the test
+definitely has enough time to complete.
 
-Thanks, applied to the block branch.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ tests/avocado/boot_linux.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I would still be interested in a test case as a follow-up.
-
-Kevin
+diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
+index 571d33882ae..2be4be395d1 100644
+--- a/tests/avocado/boot_linux.py
++++ b/tests/avocado/boot_linux.py
+@@ -116,7 +116,7 @@ class BootLinuxPPC64(LinuxTest):
+     :avocado: tags=arch:ppc64
+     """
+ 
+-    timeout = 180
++    timeout = 360
+ 
+     def test_pseries_tcg(self):
+         """
+-- 
+2.25.1
 
 
