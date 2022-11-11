@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C8E462548A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 08:43:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87DE8625498
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 08:48:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otOft-0006dY-BV; Fri, 11 Nov 2022 02:42:05 -0500
+	id 1otOfs-0006cm-UQ; Fri, 11 Nov 2022 02:42:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otOfn-0006Qr-Eu
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:41:59 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
+ id 1otOfo-0006RP-1L
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:42:00 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otOfk-0007wx-Vn
+ id 1otOfm-0008TL-DM
  for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:41:59 -0500
-Received: by mail-pl1-x630.google.com with SMTP id c2so3606800plz.11
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 23:41:55 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ b1-20020a17090a7ac100b00213fde52d49so4042615pjl.3
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 23:41:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=KbxYnYMZOdgUIKzB3W7e4WMSmPoKgVqMloJtF9P8blQ=;
- b=JIq3MuhGP0xwgKD7RVZhZAtekwztkmgNKhrEPRscQ4bjdpIqzEhyDZ3b5upHGgqZ9e
- yebruR2XNtCPWMqgPS6jQbXCc7Ebx+YcTL4NtP7lnJvT2/d8/syi0oSgMhIkW7Ic3JZr
- LrgfBv3g1jcMGAHOiT7Mor9WbwA73XOG9j6FA55975u+1MMzLyln1xkR4czbz6MTi/Ql
- BIApSoav1vWNmEWep6k0FAIpMYiz0yT5bkozL91vutXmIqMmrUYx59iSuEU5UPf1v4ll
- yDxD6KkyOzqA03i371UnA4f/6Q8tq6dXYMzzsLgqBa57FQDHRYSrldz7ONnjbR+gv/dM
- YKKQ==
+ :reply-to; bh=hLmDMZ6Q2dYQvv5OiwJz7cIfL/6TjT5fPdV3Xfp0DQ4=;
+ b=VcHJ+uLkTnF3d7zgP8Ry046aISww/6Hd1Udnlqkop4/nuqhVmcuoFvjfEbOg1xblFP
+ JTdPaOEYFAopzw2AFQu1CYpNONovTGo3XamBGBL8S6QYn8+T+/uAlBYhrv7mlAcTo4RJ
+ 1QLCcYa50wpkYACjH0mREYjXRXtVnv3JtFR7x7OcNWNsvBYQkmS/2y+2MEp9F84pdyvP
+ Sh3xDgAGUKF8/P6XwCovZmRUAr7PoNay+49e07zVw5WwiL7ydTlplaOKKN8+KbjHwUqh
+ Eh0GtTTWyHTxyjSOsfGTFoWkx8SmcUn2cPx5KdnlYRcfilCgRpnn7Dl7eNKfQN4bd0SA
+ CQZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KbxYnYMZOdgUIKzB3W7e4WMSmPoKgVqMloJtF9P8blQ=;
- b=xH5kfjGuFH3g0kK+Llg0NQLAlK42epzLQ5ECn1nmf7ch+k61M9K7C4oJly9kNhi5QX
- 4VaYxcDS+mAGqRHP/YU3UhJh2qq9WP8BdM1GXVDp8jwBpPtpyWn7LoMFqreUzhQgqfC3
- spDq707be8/9xz4FsRf1VxHzRCExDhjXi6D7DiglM6jarKbfeZCzWj8PQQEIfHeSRB/v
- 57y7vV9lvYxf5elRn69/ZX6gaNbKgWf3ZcsQ4OvLcSqUXPyu1gnottLZhOSyaw7U34Bk
- Vlc7Yiw8Mlvlmbq8lFJf5NbhEKLZxvQgrKvFAIb1XPV5Skmx87L8sbDTNb3aK88XNSyW
- tDOw==
-X-Gm-Message-State: ANoB5pnFvzUZfUlTA4lTcnjoc0Uo4nUQpgjM6gm7NRIXbkLjv2qL9S3Q
- TMHNKrExEU9IlZKQ30XS4FLMbiP0BuxAh037
-X-Google-Smtp-Source: AA0mqf7sLR4CiNBY8GSTlFfPKRyCu2mcPVZP+N1+SQriKbHolGkvpv1l9sQYjMKGnx0nrtncuqkuNw==
-X-Received: by 2002:a17:90a:ac11:b0:213:f398:ed51 with SMTP id
- o17-20020a17090aac1100b00213f398ed51mr575046pjq.216.1668152514904; 
- Thu, 10 Nov 2022 23:41:54 -0800 (PST)
+ bh=hLmDMZ6Q2dYQvv5OiwJz7cIfL/6TjT5fPdV3Xfp0DQ4=;
+ b=uOhPJOzCOBRSEoiNkDsFP+iJ2GN+QbRPrmJmqn9bKG9nXadwNN+BlHS0QJpO6dHFaG
+ sOoKrWuyZDUup8gamBVJbjewYCeNKSnOGtssAiDhG5pAnlCcnIxtkHPTpEi2+vWJJDYZ
+ FAVE+dCXnCzR0YnG+rr/hiPhm0ISfH6J6j3TA36ATbKUOjmfA+HtmRDjeJRv+gcP/IVw
+ daw5fht7eIiVx9JzNMqMxeBfBMmy+++JVG08V+k2h12ee0WQdPiGjEbO55ny7SLkBUT9
+ Sdsg+5URboC0F3VkOuSYtv93q8pIEmh3vewuLH6id20GaWQuj1yBMzMDdhoOazgvgrau
+ WVhg==
+X-Gm-Message-State: ANoB5pmja5JCC+KzdJMcLXfE5ugT6DKF2W9hXSY/pfALQ9w1MkVfa5lQ
+ BwlQziExVoBVjRWJHaD84pO/rqZ1G70zZz7V
+X-Google-Smtp-Source: AA0mqf56ShdZlZ2ABoGlJd1ibWsrujjd5CJH7z/Y601qbzgXmYES+wipXmuq0c0njMWkzTpzHYdWgA==
+X-Received: by 2002:a17:902:9b96:b0:186:8558:ded2 with SMTP id
+ y22-20020a1709029b9600b001868558ded2mr1400707plp.95.1668152516965; 
+ Thu, 10 Nov 2022 23:41:56 -0800 (PST)
 Received: from stoup.lan
  (2001-44b8-2176-c800-0aef-59aa-1faf-7e61.static.ipv6.internode.on.net.
  [2001:44b8:2176:c800:aef:59aa:1faf:7e61])
  by smtp.gmail.com with ESMTPSA id
- o15-20020a170902d4cf00b001754fa42065sm976069plg.143.2022.11.10.23.41.53
+ o15-20020a170902d4cf00b001754fa42065sm976069plg.143.2022.11.10.23.41.55
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 23:41:54 -0800 (PST)
+ Thu, 10 Nov 2022 23:41:56 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-8.0 v3 20/45] accel/tcg/plugin: Avoid duplicate copy in
- copy_call
-Date: Fri, 11 Nov 2022 17:40:36 +1000
-Message-Id: <20221111074101.2069454-21-richard.henderson@linaro.org>
+Subject: [PATCH for-8.0 v3 21/45] accel/tcg/plugin: Use copy_op in
+ append_{udata, mem}_cb
+Date: Fri, 11 Nov 2022 17:40:37 +1000
+Message-Id: <20221111074101.2069454-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221111074101.2069454-1-richard.henderson@linaro.org>
 References: <20221111074101.2069454-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,28 +92,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We copied all of the arguments in copy_op_nocheck.
-We only need to replace the one argument that we change.
+Better to re-use the existing function for copying ops.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/plugin-gen.c | 2 --
- 1 file changed, 2 deletions(-)
+ accel/tcg/plugin-gen.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
-index 9e359c006a..77e6823d6b 100644
+index 77e6823d6b..a6aaacd053 100644
 --- a/accel/tcg/plugin-gen.c
 +++ b/accel/tcg/plugin-gen.c
-@@ -397,9 +397,7 @@ static TCGOp *copy_call(TCGOp **begin_op, TCGOp *op, void *empty_func,
+@@ -415,11 +415,11 @@ static TCGOp *append_udata_cb(const struct qemu_plugin_dyn_cb *cb,
+     op = copy_const_ptr(&begin_op, op, cb->userp);
  
-     func_idx = TCGOP_CALLO(op) + TCGOP_CALLI(op);
-     *cb_idx = func_idx;
--
-     op->args[func_idx] = (uintptr_t)func;
--    op->args[func_idx + 1] = old_op->args[func_idx + 1];
+     /* copy the ld_i32, but note that we only have to copy it once */
+-    begin_op = QTAILQ_NEXT(begin_op, link);
+-    tcg_debug_assert(begin_op && begin_op->opc == INDEX_op_ld_i32);
+     if (*cb_idx == -1) {
+-        op = tcg_op_insert_after(tcg_ctx, op, INDEX_op_ld_i32);
+-        memcpy(op->args, begin_op->args, sizeof(op->args));
++        op = copy_op(&begin_op, op, INDEX_op_ld_i32);
++    } else {
++        begin_op = QTAILQ_NEXT(begin_op, link);
++        tcg_debug_assert(begin_op && begin_op->opc == INDEX_op_ld_i32);
+     }
  
-     return op;
- }
+     /* call */
+@@ -462,11 +462,11 @@ static TCGOp *append_mem_cb(const struct qemu_plugin_dyn_cb *cb,
+     op = copy_const_ptr(&begin_op, op, cb->userp);
+ 
+     /* copy the ld_i32, but note that we only have to copy it once */
+-    begin_op = QTAILQ_NEXT(begin_op, link);
+-    tcg_debug_assert(begin_op && begin_op->opc == INDEX_op_ld_i32);
+     if (*cb_idx == -1) {
+-        op = tcg_op_insert_after(tcg_ctx, op, INDEX_op_ld_i32);
+-        memcpy(op->args, begin_op->args, sizeof(op->args));
++        op = copy_op(&begin_op, op, INDEX_op_ld_i32);
++    } else {
++        begin_op = QTAILQ_NEXT(begin_op, link);
++        tcg_debug_assert(begin_op && begin_op->opc == INDEX_op_ld_i32);
+     }
+ 
+     /* extu_tl_i64 */
 -- 
 2.34.1
 
