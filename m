@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC3D625944
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 12:23:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28370625947
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 12:25:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otS7s-0005KQ-Cs; Fri, 11 Nov 2022 06:23:12 -0500
+	id 1otS9U-0007IR-CZ; Fri, 11 Nov 2022 06:24:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1otS7q-0005ET-9q
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:23:10 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1otS9T-0007ID-1q
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:24:51 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1otS7o-0003dJ-PW
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:23:10 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1otS9Q-0004Ee-LN
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:24:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668165787;
+ s=mimecast20190719; t=1668165888;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2eKR15EPpg9gmvm20aURzuqf1g7IBaUOiQr+6KOE8qI=;
- b=ZMz19EZJGfrVh4wY0dBNY6M5/f+hpPCr6nw1T6I4+ZvPVTIrVAPi+p/h6O6U612SYOaq7S
- Ch2xuofbkxo2g0PnfkhH3qX4sWga/cuCO9yxiXj3IZNfDWSi6M8C5sw7mWvgK18RldorV5
- gaZE2WzT/9lf5GIc9AhBAr94iU5rdNA=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qJeJ6kNOCV1VC+/cqRS1aguTl7e/FQ5+wtTFc/BbRjg=;
+ b=QgSyknWv8dqE3RTk+7SvZW6VxYqUMoAQsRaO03AsjDlWMRGmr3J+QxuQE3SwEgpR9Lc+nl
+ RdToWd2ebhPxHfsldkzLFYrI1scbrg13fkWzHXRGn9ypvnzjJq14YFdLsz1a1AMlCeNUYq
+ IP16gWZXDJW4tvWmV97pC0pwjSN9BgM=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-637-VXzqHJ43M0q-ij0jwVWPrA-1; Fri, 11 Nov 2022 06:23:05 -0500
-X-MC-Unique: VXzqHJ43M0q-ij0jwVWPrA-1
-Received: by mail-qt1-f198.google.com with SMTP id
- s14-20020a05622a1a8e00b00397eacd9c1aso3438844qtc.21
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 03:23:05 -0800 (PST)
+ us-mta-321-jYL_TloKM7GQBmbwDuiK1g-1; Fri, 11 Nov 2022 06:24:46 -0500
+X-MC-Unique: jYL_TloKM7GQBmbwDuiK1g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ u20-20020adfc654000000b0022cc05e9119so934047wrg.16
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 03:24:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2eKR15EPpg9gmvm20aURzuqf1g7IBaUOiQr+6KOE8qI=;
- b=SrxMcLhoraFvl5GmgxXL+8OULIiSEWJaCqgu9dWreXoMOBwwaqzwiPzjjcoyiYamYc
- bkfHQdtxLGcZox2gksMiNhK5z4Dug0K3K8zw1lEE409oNRNQLtgqr6RqjxqFIHP/zX3s
- sijzF7fKzKC/dWtUy/PUKLoPS/++HNJfWE4oZhyfbZ02sUBMsCyzGHLKiwQ0yMtHO+Ge
- OBPoLO1qCsvR1zIx81fTg+ZqD9iKQ4m062wiWW8i1DZxLHoUZN+yGjiUhtPCx+D1J5u4
- JWHLwQE4mgjkjikiMaCAeSTEP6vEvMoVRpHOvACtyPiFTDBU5uDur3172jV9tx/J+jPG
- h1hA==
-X-Gm-Message-State: ANoB5pkR5m6s0A6qTV1IQo+CDg/XIpu74AIbxgox+gW1z7+XGUBr8/TX
- koGvZpaw3y4V5dWkaDHZhvjw/mmcF5rq+Vlt/nQQjcUCVPegDsn4ncKn/iWW2aFYEjndkg242v4
- 8TXZHP8ZGj5tahi0=
-X-Received: by 2002:a05:6214:2dc7:b0:4bb:754f:e974 with SMTP id
- nc7-20020a0562142dc700b004bb754fe974mr1432118qvb.2.1668165785427; 
- Fri, 11 Nov 2022 03:23:05 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf62dYvLb7FLn2+Ycc8mSeBJrx0osExTXDpYABI3bmdZZCh29zRmuYN52eg/Yc+Gf0ndQjWThQ==
-X-Received: by 2002:a05:6214:2dc7:b0:4bb:754f:e974 with SMTP id
- nc7-20020a0562142dc700b004bb754fe974mr1432113qvb.2.1668165785223; 
- Fri, 11 Nov 2022 03:23:05 -0800 (PST)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- fu33-20020a05622a5da100b003a5172220dbsm1137107qtb.8.2022.11.11.03.23.04
+ bh=qJeJ6kNOCV1VC+/cqRS1aguTl7e/FQ5+wtTFc/BbRjg=;
+ b=660u+Pr8MpgyuZAXRWibB6Y0BqqUfG54dnRnz7PBI5dyBOzuAXVv9IV/M8DjSFdXJ8
+ CKxeA0si0KMcbCNrNmGxLHn1NCq0L8PsUEe6Lj/J1AxAw+TGZb1MwwE7kO6FOVr3LKKx
+ s+54Yz14N08umcq6k0FpzoTPl+ew6BIAXYZ+dy2j2vxsvikttOpDlEZEmR2wxYGME4ZI
+ hDBl/MWb2Ta+g3QUHPg/spIZ7yWiErREPoCFr8OulR6iOCmdC+Gi9My+r8zOP6EGqnq1
+ 3i9AuxfAFnwJeBoivySlqozIGWgnTIsrf2GxA7b/ulUHC0TxgQHn5Q52BDqxY7NBNK5V
+ 9Duw==
+X-Gm-Message-State: ANoB5plQX4i6gMbSiV21HLSYSAdEWvNOct25I7lYH782U3Y86wb2TEHR
+ y6x5hXpB2DmmqlTx0G5XzQDWOcUaOxBuIQi7auariR9Urf9S/o/pkR2yaz+O+O4fAUVTyCYlv1H
+ DIep/yo5qIOkgg60=
+X-Received: by 2002:a05:600c:11:b0:3c6:7abb:9d2b with SMTP id
+ g17-20020a05600c001100b003c67abb9d2bmr885518wmc.182.1668165885656; 
+ Fri, 11 Nov 2022 03:24:45 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf67wzPPGVrRbeECDkdJd5ecFrsIRlmyDkVdGqzHwBjYsJrkosH18hCNe4ziYCTdVDAZ9Qno+w==
+X-Received: by 2002:a05:600c:11:b0:3c6:7abb:9d2b with SMTP id
+ g17-20020a05600c001100b003c67abb9d2bmr885511wmc.182.1668165885380; 
+ Fri, 11 Nov 2022 03:24:45 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.googlemail.com with ESMTPSA id
+ p16-20020a5d48d0000000b00236c1f2cecesm1968658wrs.81.2022.11.11.03.24.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 03:23:05 -0800 (PST)
-Message-ID: <9808260a-df91-a3f0-7dec-76b568733057@redhat.com>
-Date: Fri, 11 Nov 2022 12:23:03 +0100
+ Fri, 11 Nov 2022 03:24:44 -0800 (PST)
+Message-ID: <d9c073ea-7379-7f51-f55b-b9c70d3daabf@redhat.com>
+Date: Fri, 11 Nov 2022 12:24:44 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 00/13] block: Simplify drain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH] Add missing pixman dependecy
 Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: stefanha@redhat.com, hreitz@redhat.com, pbonzini@redhat.com,
- qemu-devel@nongnu.org
-References: <20221108123738.530873-1-kwolf@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <20221108123738.530873-1-kwolf@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+To: mrezanin@redhat.com, qemu-devel@nongnu.org
+Cc: imammedo@redhat.com
+References: <20221109153417.49132-1-mrezanin@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20221109153417.49132-1-mrezanin@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,77 +102,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 11/9/22 16:34, mrezanin@redhat.com wrote:
+> From: Miroslav Rezanina <mrezanin@redhat.com>
+> 
+> Commit cfead31326 'acpi: pc: vga: use AcpiDevAmlIf interface to build VGA device descriptors' added
+> a new file - acpi-vga.c. This file (indirectly) includes pixman.h file so we need to ensure pixman
+> is available when file is compiled.
+> 
+> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
 
+The patch is fine, but I think the new file does not need vga_int.h and 
+therefore does not need to include pixman.h.  Can you try?
 
-Am 08/11/2022 um 13:37 schrieb Kevin Wolf:
-> I'm aware that exactly nobody has been looking forward to a series with
-> this title, but it has to be. The way drain works means that we need to
-> poll in bdrv_replace_child_noperm() and that makes things rather messy
-> with Emanuele's multiqueue work because you must not poll while you hold
-> the graph lock.
-> 
-> The other reason why it has to be is that drain is way too complex and
-> there are too many different cases. Some simplification like this will
-> hopefully make it considerably more maintainable. The diffstat probably
-> tells something, too.
-> 
-> There are roughly speaking three parts in this series:
-> 
-> 1. Make BlockDriver.bdrv_drained_begin/end() non-coroutine_fn again,
->    which allows us to not poll on bdrv_drained_end() any more.
-> 
-> 2. Remove subtree drains. They are a considerable complication in the
->    whole drain machinery (in particular, they require polling in the
->    BdrvChildClass.attach/detach() callbacks that are called during
->    bdrv_replace_child_noperm()) and none of their users actually has a
->    good reason to use them.
-> 
-> 3. Finally get rid of polling in bdrv_replace_child_noperm() by
->    requiring that the child is already drained by the caller and calling
->    callbacks only once and not again for every nested drain section.
-> 
-> If necessary, a prefix of this series can be merged that covers only the
-> first or the first two parts and it would still make sense.
+Paolo
 
-I added by Reviewed-by where I felt confortable with the code, the other
-parts I am not enough confident to review them.
-But yes if this works it will be very helpful for the AioContext lock
-removal!
-
-Thank you,
-Emanuele
-
+> ---
+>   hw/display/meson.build | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> Kevin Wolf (13):
->   qed: Don't yield in bdrv_qed_co_drain_begin()
->   test-bdrv-drain: Don't yield in .bdrv_co_drained_begin/end()
->   block: Revert .bdrv_drained_begin/end to non-coroutine_fn
->   block: Remove drained_end_counter
->   block: Inline bdrv_drain_invoke()
->   block: Drain invidual nodes during reopen
->   block: Don't use subtree drains in bdrv_drop_intermediate()
->   stream: Replace subtree drain with a single node drain
->   block: Remove subtree drains
->   block: Call drain callbacks only once
->   block: Remove ignore_bds_parents parameter from drain functions
->   block: Don't poll in bdrv_replace_child_noperm()
->   block: Remove poll parameter from bdrv_parent_drained_begin_single()
-> 
->  include/block/block-global-state.h |   3 +
->  include/block/block-io.h           |  52 +---
->  include/block/block_int-common.h   |  17 +-
->  include/block/block_int-io.h       |  12 -
->  block.c                            | 132 ++++++-----
->  block/block-backend.c              |   4 +-
->  block/io.c                         | 281 ++++------------------
->  block/qed.c                        |  24 +-
->  block/replication.c                |   6 -
->  block/stream.c                     |  20 +-
->  block/throttle.c                   |   6 +-
->  blockdev.c                         |  13 -
->  blockjob.c                         |   2 +-
->  tests/unit/test-bdrv-drain.c       | 369 +++++++----------------------
->  14 files changed, 270 insertions(+), 671 deletions(-)
-> 
+> diff --git a/hw/display/meson.build b/hw/display/meson.build
+> index 7a725ed80e..c8e84e9707 100644
+> --- a/hw/display/meson.build
+> +++ b/hw/display/meson.build
+> @@ -43,7 +43,7 @@ if (config_all_devices.has_key('CONFIG_VGA_CIRRUS') or
+>       config_all_devices.has_key('CONFIG_VMWARE_VGA') or
+>       config_all_devices.has_key('CONFIG_ATI_VGA')
+>      )
+> -  softmmu_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-vga.c'),
+> +  softmmu_ss.add(when: 'CONFIG_ACPI', if_true: [files('acpi-vga.c'), pixman],
+>                                         if_false: files('acpi-vga-stub.c'))
+>   endif
+>   
+> @@ -51,7 +51,7 @@ if config_all_devices.has_key('CONFIG_QXL')
+>     qxl_ss = ss.source_set()
+>     qxl_ss.add(when: 'CONFIG_QXL', if_true: [files('qxl.c', 'qxl-logger.c', 'qxl-render.c'),
+>                                              pixman, spice])
+> -  qxl_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-vga.c'),
+> +  qxl_ss.add(when: 'CONFIG_ACPI', if_true: [files('acpi-vga.c'), pixman],
+>                                     if_false: files('acpi-vga-stub.c'))
+>     hw_display_modules += {'qxl': qxl_ss}
+>   endif
+> @@ -99,14 +99,14 @@ if config_all_devices.has_key('CONFIG_VIRTIO_VGA')
+>                       if_true: [files('virtio-vga.c'), pixman])
+>     virtio_vga_ss.add(when: 'CONFIG_VHOST_USER_VGA',
+>                       if_true: files('vhost-user-vga.c'))
+> -  virtio_vga_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-vga.c'),
+> +  virtio_vga_ss.add(when: 'CONFIG_ACPI', if_true: [files('acpi-vga.c'), pixman],
+>                                            if_false: files('acpi-vga-stub.c'))
+>     hw_display_modules += {'virtio-vga': virtio_vga_ss}
+>   
+>     virtio_vga_gl_ss = ss.source_set()
+>     virtio_vga_gl_ss.add(when: ['CONFIG_VIRTIO_VGA', virgl, opengl],
+>                          if_true: [files('virtio-vga-gl.c'), pixman])
+> -  virtio_vga_gl_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-vga.c'),
+> +  virtio_vga_gl_ss.add(when: 'CONFIG_ACPI', if_true: [files('acpi-vga.c'), pixman],
+>                                               if_false: files('acpi-vga-stub.c'))
+>     hw_display_modules += {'virtio-vga-gl': virtio_vga_gl_ss}
+>   endif
 
 
