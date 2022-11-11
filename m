@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D592626170
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 19:37:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB6E626146
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 19:36:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otYsA-0007sj-8R; Fri, 11 Nov 2022 13:35:27 -0500
+	id 1otYsC-0007zE-LB; Fri, 11 Nov 2022 13:35:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otYrn-0007rN-6Y
+ id 1otYrl-0007pC-De
  for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:35:06 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otYrl-0007Om-4y
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:35:02 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id k8so7556705wrh.1
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 10:34:57 -0800 (PST)
+ id 1otYrg-0007OO-4K
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:34:59 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ m7-20020a05600c090700b003cf8a105d9eso3650979wmp.5
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 10:34:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KjvcD/bUb6v85GBYMsY2wRda3lPUntOnEJ8cQndopVc=;
- b=j07ZcctBaiVRR4dHoUX9jCUfu4N4o7HNNO6oPYNq/GaPjeAsFFnZJfoBUGtZa7iaVC
- q7Tk8wIPIr3lqDUZ/U9GgOVskORuQJhX2zf3JXG98i1S58y29kCb7N+62SW+0myhkOtD
- QVqjnwVU8Hbe6zEOhXf/wVIJW3kZmpxtnHDeFJAvao/pPWbSHgAtY+tHi3oNMubkT0ai
- nIGN8RERXD+MGSz1CQTDUPYbIngyaiSRAHT0SucBRJNeS6/MCbvLg97iJTEbGPF27foP
- 3euQevj5rwR32v2a/X8vycNPPui7dx2sG4u5N9cozpWDNekiDzJ4y1b0Ej5lURnLsFq2
- hfTQ==
+ bh=K9jGL/FUfAGFTfK5rC1/vlTivx143+0Q3Bji1lhCRr0=;
+ b=jV89u6VyjjKDtLneJt5fS9UV2mCgXTocsWf31iKNM2xoZsDGxM5sw6zgwCVqVs6Y2M
+ 7E/H/nRgJJ3fEa6DHcxszXDkHLn+h9maEi2NSyalttYU+6JS2xF2TJHgFeXfHx20z0RK
+ PxcSozAJ+7GJaToOyiHNOOU1RPSJ76wOk9k3VWXyfLbIHLhFQiuai0uETtR6n1vZXCj6
+ aBThDJM9AzHJy3hNaSSci5zjiWyKBx27vmFnCaTzSrUR8QjZ8t3d0yzLB6CLFggVtqMe
+ kYIP4nf5rZJAWKkP9G9lIEgbokKjhQi/M8vmLA8dvz/JRUdFNLdEABrn5gofil0kL9vm
+ 8OUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KjvcD/bUb6v85GBYMsY2wRda3lPUntOnEJ8cQndopVc=;
- b=dYeImgXHZZ5eyitGZVndHrM2Ghub+bXU21kKf20rOU8ZSjyhLgugVHFVQEI4SAaIb6
- 3EAWcUzu46kNBq+AWT2Gz3mUSIgmK0XXomlCxb+/1RMTY2z+Yf3bdWkM1lf0nKIlh6HG
- Hq8bdEtoAgoCDL0X/BiM5ddRHe6/2bpjFALL0ROR1ITeBEPLUH1LWvymRym7ofFwvay8
- sLngAXHkwaMQ2oGIPQwl5J9lYrb6u+nUKor98HUkzmfWQU4diOMkRD7bdRpRaq5GC6n3
- pUY2Fa/m43A0Ly2yGB/XeZaCe1F/Di1g8dSACkKyXYUkkH14pgEUlURQdEKYdL2WIjO/
- z5YQ==
-X-Gm-Message-State: ANoB5pnu+XdVAWvJzshY11fdvMGJZSnC9UeRWawl+jk8giVYynhDTiZu
- 89r2YuGdZT2agXaZCwJfW02PHg==
-X-Google-Smtp-Source: AA0mqf4jHdXwT+07aSV3JQymPXLBWFlFBOCfyq7XM6J/G1XScEyOZkpznnYp/Nm7WZcPlAxOogtz+A==
-X-Received: by 2002:a5d:68c1:0:b0:236:84b5:c0d8 with SMTP id
- p1-20020a5d68c1000000b0023684b5c0d8mr2071393wrw.342.1668191695330; 
- Fri, 11 Nov 2022 10:34:55 -0800 (PST)
+ bh=K9jGL/FUfAGFTfK5rC1/vlTivx143+0Q3Bji1lhCRr0=;
+ b=b8XfaXgUpawM1k8s0dWaxhc/GZa0xHDJYLsttHCEqzbCOWYkZ99oZ5QU69pggcuKW/
+ 5GFe3BI6zCrV93HLtSoP8Un37XRw7nyR6aRybLdJ/kmKfUdq1eEFwz4f1qf6sMl7lCTq
+ tErIr0CmqfyVFK45iwRaBpGaZUBQoBylX9RGW8gKc4IuurhT//KCYylbVw3Lk62DYQLG
+ CR8cd9Sdm/lNvJQtSNr9NYMCZdd9Uyu0slLSZpnNuVjX3vFCQboW7dQ6OYYRJDOgu1z9
+ ZzyqRJitLct+gipm3Dd48xXzCfF9lIEge8bUg3omKQ4xSSVqngFSzCFVGumz3Q2WGRZR
+ zmdA==
+X-Gm-Message-State: ANoB5pmBqlE+P/oJlQNh43dw5uKH9IOZ9WIoT0ZN+U7w6zG8BvwtrE5Q
+ 93NqckFKyMMWbbjl9MlXVBUx/Q==
+X-Google-Smtp-Source: AA0mqf4HiG+4YkOls4Q5nuipJaZYjXv+TrKFHGyeeAE26LnkqWZCxI4CfMYQjHncYPAqT8bXQezzlw==
+X-Received: by 2002:a05:600c:5022:b0:3cf:96da:3846 with SMTP id
+ n34-20020a05600c502200b003cf96da3846mr2103417wmr.10.1668191694600; 
+ Fri, 11 Nov 2022 10:34:54 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- u17-20020a05600c4d1100b003cfb7c02542sm3505512wmp.11.2022.11.11.10.34.51
+ e1-20020adfe381000000b0023662d97130sm2523569wrm.20.2022.11.11.10.34.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 11 Nov 2022 10:34:51 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F38891FFB8;
- Fri, 11 Nov 2022 18:25:36 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 18D891FFC4;
+ Fri, 11 Nov 2022 18:25:37 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: f4bug@amsat.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Wenchao Wang <wenchao.wang@intel.com>, Kamil Rytarowski <kamil@netbsd.org>,
- Reinoud Zandijk <reinoud@netbsd.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- haxm-team@intel.com (open list:X86 HAXM CPUs),
- kvm@vger.kernel.org (open list:X86 KVM CPUs)
-Subject: [PATCH v5 13/20] target/i386: add explicit initialisation for
- MexTxAttrs
-Date: Fri, 11 Nov 2022 18:25:28 +0000
-Message-Id: <20221111182535.64844-14-alex.bennee@linaro.org>
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v5 14/20] hw/audio: explicitly set .requester_type for
+ intel-hda
+Date: Fri, 11 Nov 2022 18:25:29 +0000
+Message-Id: <20221111182535.64844-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221111182535.64844-1-alex.bennee@linaro.org>
 References: <20221111182535.64844-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,85 +96,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Where appropriate initialise with MEMTXATTRS_CPU otherwise use
-MEMTXATTRS_UNSPECIFIED instead of the null initialiser.
+This is simulating a bus master writing data back into system memory.
+Mark it as such.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/i386/cpu.h           | 4 +++-
- target/i386/hax/hax-all.c   | 2 +-
- target/i386/nvmm/nvmm-all.c | 2 +-
- target/i386/sev.c           | 2 +-
- target/i386/whpx/whpx-all.c | 2 +-
- 5 files changed, 7 insertions(+), 5 deletions(-)
+ hw/audio/intel-hda.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index d4bc19577a..04ab96b076 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -2246,7 +2246,9 @@ static inline uint32_t cpu_compute_eflags(CPUX86State *env)
+diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
+index f38117057b..95c28b315c 100644
+--- a/hw/audio/intel-hda.c
++++ b/hw/audio/intel-hda.c
+@@ -345,7 +345,7 @@ static void intel_hda_corb_run(IntelHDAState *d)
  
- static inline MemTxAttrs cpu_get_mem_attrs(CPUX86State *env)
+ static void intel_hda_response(HDACodecDevice *dev, bool solicited, uint32_t response)
  {
--    return ((MemTxAttrs) { .secure = (env->hflags & HF_SMM_MASK) != 0 });
-+    MemTxAttrs attrs = MEMTXATTRS_CPU(env_cpu(env));
-+    attrs.secure = (env->hflags & HF_SMM_MASK) != 0;
-+    return attrs;
- }
- 
- static inline int32_t x86_get_a20_mask(CPUX86State *env)
-diff --git a/target/i386/hax/hax-all.c b/target/i386/hax/hax-all.c
-index b185ee8de4..337090e16f 100644
---- a/target/i386/hax/hax-all.c
-+++ b/target/i386/hax/hax-all.c
-@@ -385,7 +385,7 @@ static int hax_handle_io(CPUArchState *env, uint32_t df, uint16_t port,
- {
-     uint8_t *ptr;
-     int i;
--    MemTxAttrs attrs = { 0 };
-+    MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
- 
-     if (!df) {
-         ptr = (uint8_t *) buffer;
-diff --git a/target/i386/nvmm/nvmm-all.c b/target/i386/nvmm/nvmm-all.c
-index b75738ee9c..cb0720a6fa 100644
---- a/target/i386/nvmm/nvmm-all.c
-+++ b/target/i386/nvmm/nvmm-all.c
-@@ -502,7 +502,7 @@ nvmm_vcpu_post_run(CPUState *cpu, struct nvmm_vcpu_exit *exit)
- static void
- nvmm_io_callback(struct nvmm_io *io)
- {
--    MemTxAttrs attrs = { 0 };
-+    MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-     int ret;
- 
-     ret = address_space_rw(&address_space_io, io->port, attrs, io->data,
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 32f7dbac4e..292cbcdd92 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -1274,7 +1274,7 @@ bool sev_add_kernel_loader_hashes(SevKernelLoaderContext *ctx, Error **errp)
-     uint8_t *hashp;
-     size_t hash_len = HASH_SIZE;
-     hwaddr mapped_len = sizeof(*padded_ht);
--    MemTxAttrs attrs = { 0 };
-+    MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-     bool ret = true;
- 
-     /*
-diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
-index e738d83e81..42846144dd 100644
---- a/target/i386/whpx/whpx-all.c
-+++ b/target/i386/whpx/whpx-all.c
-@@ -791,7 +791,7 @@ static HRESULT CALLBACK whpx_emu_ioport_callback(
-     void *ctx,
-     WHV_EMULATOR_IO_ACCESS_INFO *IoAccess)
- {
--    MemTxAttrs attrs = { 0 };
-+    MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-     address_space_rw(&address_space_io, IoAccess->Port, attrs,
-                      &IoAccess->Data, IoAccess->AccessSize,
-                      IoAccess->Direction);
+-    const MemTxAttrs attrs = { .memory = true };
++    const MemTxAttrs attrs = { .requester_type = MTRT_PCI, .memory = true };
+     HDACodecBus *bus = HDA_BUS(dev->qdev.parent_bus);
+     IntelHDAState *d = container_of(bus, IntelHDAState, codecs);
+     hwaddr addr;
 -- 
 2.34.1
 
