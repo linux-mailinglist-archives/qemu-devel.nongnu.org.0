@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCE6A625B08
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 14:14:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC7D625B55
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 14:38:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otSyu-000748-3p; Fri, 11 Nov 2022 07:18:00 -0500
+	id 1otSz7-0007CS-HL; Fri, 11 Nov 2022 07:18:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1otSyp-0006zS-Fv
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:17:55 -0500
+ id 1otSz1-00078q-QN
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:18:10 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1otSyh-0008Sm-Kv
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:17:53 -0500
+ id 1otSyz-00009n-7t
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:18:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668169066;
+ s=mimecast20190719; t=1668169084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z26EXTIIOGhSt9l97S+QVjBK6ldXpU5F3uIh93mrA+o=;
- b=gZnYNHCqvm6Z4qNzNBq9cQlH8Ayt0iVRJefZodz8b+L27Lus/FzSC/5nRi1Uz3SxAg9rxn
- LWDoDutfZ1T4yIrbvbvlDJIopRrxUcCWKSrnJz4P3N5EOHN/DstJMNrwiSdP7Z0aSbX6Hw
- x4gETnrqQhkkUGMWJNY7z0W0NaJiKiw=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=aPyCcmmI0EUPwv4X1pWSoRg5r7xP8YENC89k7mlIiEc=;
+ b=CfFjLhWlaakDyLmUQbXUuKPSkm/pNuW68ZK8AuVTjkknQsXR0HbsibDODbrtYOyMVjklE6
+ 2BB08y+/qFcMPEMjH0Sqncy3frtYwKJND6fABqOzcQaeLYJwGMAMqzbwjTPx5rvJK06zgd
+ y9jpOu5FEiXdLWw3gmDvc92j7nVkd30=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-561-WiGh7D-3MJaZmqYoWJHeew-1; Fri, 11 Nov 2022 07:17:45 -0500
-X-MC-Unique: WiGh7D-3MJaZmqYoWJHeew-1
-Received: by mail-qv1-f72.google.com with SMTP id
- l6-20020ad44446000000b004bb60364075so3564418qvt.13
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 04:17:45 -0800 (PST)
+ us-mta-361-4WjSX3iLNvGqZT6Y_lsiTQ-1; Fri, 11 Nov 2022 07:18:03 -0500
+X-MC-Unique: 4WjSX3iLNvGqZT6Y_lsiTQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ v7-20020a05620a0f0700b006faffce43b2so4566052qkl.9
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 04:18:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=z26EXTIIOGhSt9l97S+QVjBK6ldXpU5F3uIh93mrA+o=;
- b=hU3k4Iuv04B8pHEq4KuXPsCUnX26ualCiHZtMnm0RQDxtuJNByYLpBuwgB/IcXekaJ
- xwzGbmrsls91XMYNAvtW/WlWZJFv8N1bH/t7qRt6H+1Ug7ty/wRXVhXwgTZUiPfpuegD
- QTYC84tya+nq57+M7Gl5e9Gfyt9HJUJuPzX2VCka3q2IfhVlAv+clZ0W4tcIo699qZld
- VnERPJe8lx0/K+b3CkaX+3DH8nlUH4/tgB0KO7NDmQ5z2kyWO47OL/LDO/nZj4u8BbkD
- 0GLE+VXRAzn4sGxOpp/BSo6sV/ruviguSZsALeFbtzZnf54q12ZOjGcZe0T/ajX8DhSz
- NPvA==
-X-Gm-Message-State: ANoB5pmoKy51okgQhfjAaXJlcJFxse0mo33tNVAMO/a+JTE3Prfa8rO5
- 40z5iqHvdDcX+/AHQ8Mru3k3Dbl/s2ugrLZ1+8XNdYwVvm3hnq04do1qgfC92zXimZT2OqjQ7vq
- iPPrSNcQwNqPAmTk=
-X-Received: by 2002:a05:622a:481b:b0:3a5:1c8e:7c58 with SMTP id
- fb27-20020a05622a481b00b003a51c8e7c58mr924100qtb.371.1668169065165; 
- Fri, 11 Nov 2022 04:17:45 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf76M2RuiKoxuLxRrZ2XtEEqBBfkFMX9v18J8/v8hXjvBylq445E5temw/+LM7eCznAIOG7XEg==
-X-Received: by 2002:a05:622a:481b:b0:3a5:1c8e:7c58 with SMTP id
- fb27-20020a05622a481b00b003a51c8e7c58mr924088qtb.371.1668169064980; 
- Fri, 11 Nov 2022 04:17:44 -0800 (PST)
+ bh=aPyCcmmI0EUPwv4X1pWSoRg5r7xP8YENC89k7mlIiEc=;
+ b=FZouslzeZwub8z8npWcBuC0vSj+sdkzvpQG3L3JThoBpf9QQN1opkPaZgKRjRKSlTo
+ UMW7CfI07lPxfagaHzMP90kwCjxFkExG4Fb5mwUYTXs0S+dO8D5qWsllpRdrvCK5JnHe
+ JOXPCUA087Z8N/6WickG1AGq/5zj6K7SPLjAjaCoYZq+bLXdZ3RjR2aalTUBd7ce5KpA
+ 97CayaeD04AYVKoDrzsrCd5NDt/oEkGDtDWN/C41TqvZjyiFRmFhRKqJBf+ZEnBgv9Am
+ 5coFLXQRMmG5Bcf2nN01WMPs3MhyaD9b3nMoqVVPqhB0IBPA16zoGwfJQHCdWY/QOfl1
+ y/sg==
+X-Gm-Message-State: ANoB5pkkbQ1e/QB2u5HkXBrmlRZ6634Cgog1RqQMhad4wuQtJqTm7XBd
+ WEaTJiW9/+NVOGppm6S0uS0cDWf2tj3cgaRwqrWr/lLA8pbhIfsvQMFq19CAvOhbLig61v3D9VI
+ Win5uoIyhtMNhYz0=
+X-Received: by 2002:a05:622a:6004:b0:39c:cb6a:300b with SMTP id
+ he4-20020a05622a600400b0039ccb6a300bmr980679qtb.181.1668169082965; 
+ Fri, 11 Nov 2022 04:18:02 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4LrxKbx353s8+CjITnDxUbpI9NvNunGnm0FPgw4wC3c8PPDKenhVOtAKwzWnPNcy5ZLasMfw==
+X-Received: by 2002:a05:622a:6004:b0:39c:cb6a:300b with SMTP id
+ he4-20020a05622a600400b0039ccb6a300bmr980665qtb.181.1668169082756; 
+ Fri, 11 Nov 2022 04:18:02 -0800 (PST)
 Received: from [192.168.149.123]
  (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
  by smtp.gmail.com with ESMTPSA id
- az17-20020a05620a171100b006f3e6933bacsm1264201qkb.113.2022.11.11.04.17.43
+ ga16-20020a05622a591000b003a598fcddefsm1166450qtb.87.2022.11.11.04.18.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 04:17:44 -0800 (PST)
-Message-ID: <095751c2-1536-0594-f9d2-d8f239141a8e@redhat.com>
-Date: Fri, 11 Nov 2022 13:17:42 +0100
+ Fri, 11 Nov 2022 04:18:02 -0800 (PST)
+Message-ID: <dc4e80ae-67a4-45b2-6ad0-5eb32fb0d923@redhat.com>
+Date: Fri, 11 Nov 2022 13:17:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 1/8] virtio_queue_aio_attach_host_notifier: remove
- AioContext lock
+Subject: Re: [PATCH 2/8] block-backend: enable_write_cache should be atomic
 Content-Language: en-US
 To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-block@nongnu.org,
  Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>
 References: <20221108211930.876142-1-stefanha@redhat.com>
- <20221108211930.876142-2-stefanha@redhat.com>
+ <20221108211930.876142-3-stefanha@redhat.com>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <20221108211930.876142-2-stefanha@redhat.com>
+In-Reply-To: <20221108211930.876142-3-stefanha@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
@@ -111,26 +110,16 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Am 08/11/2022 um 22:19 schrieb Stefan Hajnoczi:
 > From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 >
-> virtio_queue_aio_attach_host_notifier() and
-> virtio_queue_aio_attach_host_notifier_nopoll() run always in the
-> main loop, so there is no need to protect them with AioContext
-> lock.
+> It is read from IO_CODE and written with BQL held,
+> so setting it as atomic should be enough.
 >
-> On the other side, virtio_queue_aio_detach_host_notifier() runs
-> in a bh in the iothread context, but it is always scheduled
-> (thus serialized) by the main loop. Therefore removing the
-> AioContext lock is safe.
->
-> In order to remove the AioContext lock it is necessary to switch
-> aio_wait_bh_oneshot() to AIO_WAIT_WHILE_UNLOCKED(). virtio-blk and
-> virtio-scsi are the only users of aio_wait_bh_oneshot() so it is
-> possible to make this change.
->
-> For now bdrv_set_aio_context() still needs the AioContext lock.
+> Also remove the aiocontext lock that was sporadically
+> taken around the set.
 >
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Message-Id: <20220609143727.1151816-2-eesposit@redhat.com>
+> Message-Id: <20220609143727.1151816-3-eesposit@redhat.com>
 >
 
 
