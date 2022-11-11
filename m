@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9E6625A83
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 13:33:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F2A625A81
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 13:33:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otTDw-0001wx-W7; Fri, 11 Nov 2022 07:33:33 -0500
+	id 1otTCU-00008u-DF; Fri, 11 Nov 2022 07:32:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otTDu-0001rM-AT
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:33:30 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1otTBv-00008Y-9M
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:31:27 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otTDs-0005Gg-53
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:33:29 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id z14so6296275wrn.7
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 04:33:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yjGpxZfEiOa5JoPrsdDQO+zXasfryVL3gpO1/RFVn8g=;
- b=EZZ/5dH8LAdf4MWEyaXQqSV6lemUHKsarvZr7qJxTiti6y0CMVdUjw+T0q4XfqCn5M
- DNSIkcZR6VDku1Bi+FXWmA8P3bjxJuZNK7W9qq9zNLXvuiJR03g8iG144ROyo3jjOEo6
- OYxVRc3C2JtnTkLmEQxjgulzH9srcL2Wh8cxIKf0nLxsP6gdE5z4nrsc14E+lBAOgiB4
- yLb4/cBQTtwap2Hy/ckRMpabxnnlqgBdd7hb4iaPoHoN9eyC872zKLRtV7x0J75FGuNm
- FQwnbphY5lBERi3pFpMndewg4B7KN2/wHWWJ1ZGOLrtEqDSUKXhThOv8h+FmzxwVk2G+
- 5BEg==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1otTBt-0004np-Jb
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:31:27 -0500
+Received: by mail-pf1-x430.google.com with SMTP id z26so4806620pff.1
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 04:31:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=LFR6YxEE4rEtvs8RF1SO5pq8xTjjIT/h7YDoNcp+bW0=;
+ b=LehIN7KZKl7ndDb50VRFfSUCPlOOhy1J2TXGpzc2L1rTUhIPbaUqoblaCYCLrXqzFW
+ 1FbbxCxh/L41gljA0iphUJzF2vKtjdupWOrEk3MqZSEG/8Zc4arsH9sTu0kNcwFw51tR
+ B6d0NI80XriJMRQf1jlGJrNOGg52rAoeZUw2J68/C6A1myRCfKYUP2pDo72Bw5gSRxnc
+ gbnMcUDudzxz8bepqTovHNWJ9ynS7wNMDDwY9bpAM9/cJ3d4Fr0HYFIKK9WDjRDYRK3o
+ 9HNIHV9F1w2Jg/lbvc3KL6bhs52b8KMib3gv+bwdIZI6FW3Qb2E5WRSYWbdMFReEo+Rt
+ VlMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=yjGpxZfEiOa5JoPrsdDQO+zXasfryVL3gpO1/RFVn8g=;
- b=7QWcnqTBXtGOa23G27ZfZ8y24YIsyzBJ70IQyKwsPqsBQb1LM6cHyekOVb0OsOfiOJ
- RAg+zO3+0tsPtdOTvq96G4lWszS+emLdIxgBvBJqrP28ACJQKpXvE0Kx8Kjcw5a+32Tm
- VHrbNkDq/JiuCw+rwsWjx2XEm9L1zAR334hUMDObVNgKxvKeT9p6pPwHCqKaCyQPrKVA
- urHhO7kuZL/0L1rVCJSvT4rv/n9+CSjMvTQ35b/yX9NKZHBK767O0oqGSMJFb37kHUP7
- qSZ2SnzWBkWfofMIFs7T/SW3Rx/nkDTibXgCPPRAB+rcA5KFyXZ1RAk/GyzE9AsaxhT/
- XjYQ==
-X-Gm-Message-State: ANoB5pnA3tV9VPLB266QWtTQhRGG0F/cfHc8HrptYwCsZIEyVshdmfF5
- 4opQQ9xEWGpld7J01+PZySIRMw==
-X-Google-Smtp-Source: AA0mqf7reoeC1aF91AuXD7RK8eRIj6oCKA31+u8BUe+1LBFe6h63SKEl8iz6LEaFeqsADmGs2nYGfw==
-X-Received: by 2002:adf:e58b:0:b0:22e:2f06:80f3 with SMTP id
- l11-20020adfe58b000000b0022e2f0680f3mr1154481wrm.79.1668170005954; 
- Fri, 11 Nov 2022 04:33:25 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- m6-20020a05600c4f4600b003c6cd82596esm9305055wmq.43.2022.11.11.04.33.25
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=LFR6YxEE4rEtvs8RF1SO5pq8xTjjIT/h7YDoNcp+bW0=;
+ b=lYbO6foXJaqoHcf5xczv5s7rmJzw5E1nwZy3DMAROZEqm6eCUHd1fr87J+TMtgdxGS
+ +WhaLT/r7Gn/D5vgKYbn+IIvCWfrWDywqLqFjg2JEBkF3VlYxOYn+HeMRPzdRexffiaa
+ Zi2DSN9r4hCxLKMcbJV7V+bN2npQs1Ny5LEbzFSXKXuc1BKcF+yupR7ayeYURURabI2s
+ Dfn+KSnPK0wRwCXOhGReVmqJGquhKli6CElvKbw2cjgUzFZlKxaQtyZh5Wt7Yv4cF21k
+ n7g6WPRnKfwawtV6v8ZRh/4MKM3BaMRCzhaMpYOfPPDYrwXKD8stSYRXsUgCdzLAfjsd
+ fldA==
+X-Gm-Message-State: ANoB5pm3kWOZHoO4QqRyQ1d9i/VRlBDpTZymwOwdtpqDiCn56xk573bJ
+ c8ZekGJrN81AzVCi0kQs8pF7Eg==
+X-Google-Smtp-Source: AA0mqf5nikmw782+/MDCAkLJqXRuTJ3wcpwTUoGBL/HhUDCyGd9DGnkof0IE3byv9YM5e9b3gMFvSg==
+X-Received: by 2002:a05:6a00:10c8:b0:56d:2317:4565 with SMTP id
+ d8-20020a056a0010c800b0056d23174565mr2417226pfu.54.1668169883321; 
+ Fri, 11 Nov 2022 04:31:23 -0800 (PST)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.143.216])
+ by smtp.googlemail.com with ESMTPSA id
+ v129-20020a622f87000000b0056bf24f0837sm1465453pfv.166.2022.11.11.04.31.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 04:33:25 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BF0B31FFB7;
- Fri, 11 Nov 2022 12:33:24 +0000 (GMT)
-References: <874jv6enct.fsf@linaro.org> <87zgcyd70g.fsf@linaro.org>
- <Y21+VFqKpF6LGz2C@x1n>
-User-agent: mu4e 1.9.1; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Xu <peterx@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin"
- <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philippe.mathieu-daude@linaro.org>, Peter
- Maydell <peter.maydell@linaro.org>
-Subject: Re: should ioapic_service really be modelling cpu writes?
-Date: Fri, 11 Nov 2022 12:26:21 +0000
-In-reply-to: <Y21+VFqKpF6LGz2C@x1n>
-Message-ID: <87r0y9d623.fsf@linaro.org>
+ Fri, 11 Nov 2022 04:31:22 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+To: Ani Sinha <ani@anisinha.ca>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH v2] acpi/tests/avocado/bits: some misc fixes
+Date: Fri, 11 Nov 2022 18:01:08 +0530
+Message-Id: <20221111123108.1231451-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::430;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,195 +89,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Most of the changes are trivial. The bits test timeout has now been increased
+to 110 seconds in order to accommodate slower systems and fewer unnecessary
+failures. Removed of the reference to non-existent README file in docs.
 
-Peter Xu <peterx@redhat.com> writes:
+CC: Thomas Huth <thuth@redhat.com>
+CC: qemu-trivial@nongnu.org
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ changed from v1: address Thomas' suggestions.
 
-> Hi, Alex,
->
-> On Thu, Nov 10, 2022 at 05:55:51PM +0000, Alex Benn=C3=A9e wrote:
->>=20
->> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
->>=20
->> > Hi,
->> >
->> > I've been trying to remove current_cpu hacks from our hw/ emulation and
->> > replace them with an explicit cpu_index derived from MemTxAttrs. So far
->> > this has been going mostly ok but I've run into problems on x86 due to
->> > the way the apic/ioapic are modelled. It comes down to the function
->> > ioapic_service() which eventually does:
->> >
->> >    /* No matter whether IR is enabled, we translate
->> >     * the IOAPIC message into a MSI one, and its
->> >     * address space will decide whether we need a
->> >     * translation. */
->> >    stl_le_phys(ioapic_as, info.addr, info.data);
->> >
->> > Which essentially calls the memory API to simulate a memory write.
->> > However to generate a properly formed MemTxAttrs we need to know what
->> > CPU we are running on. In the case of ioapic_service() we may well be =
-in
->> > the main thread either for an expiring timer:
->> >
->> >  hpet_timer->qemu_set_irq->ioapic_set_irq
->> >
->> > or for reset handling:
->> >
->> >  pc_machine_reset->hpet_reset->qemu_set_irq->ioapic_set_irq
->> >
->> > neither of which can get a associated CPU. I assume if the actual writ=
-es
->> > are triggered we never actually actioned stuff because we had:
->> >
->> >   DeviceState *cpu_get_current_apic(void)
->> >   {
->> >       if (current_cpu) {
->> >           X86CPU *cpu =3D X86_CPU(current_cpu);
->> >           return cpu->apic_state;
->> >       } else {
->> >           return NULL;
->> >       }
->> >   }
->> >
->> > which basically causes the updates to be dropped on the floor.
->
-> I think it shouldn't?  Normally the irq will be in MSI format (IOAPIC will
-> translate to an MSI in QEMU, per ioapic_entry_parse()).
->
-> I had a feeling that it'll just go the shortcut here (MSI always starts
-> with 0xfeeXXXXX so definitely bigger than 0xfff):
->
->     if (addr > 0xfff || !index) {
->         /* MSI and MMIO APIC are at the same memory location,
->          * but actually not on the global bus: MSI is on PCI bus
->          * APIC is connected directly to the CPU.
->          * Mapping them on the global bus happens to work because
->          * MSI registers are reserved in APIC MMIO and vice versa. */
->         MSIMessage msi =3D { .address =3D addr, .data =3D val };
->         apic_send_msi(&msi);
->         return;
->     }
->
-> apic_send_msi() doesn't need a cpu context.
+ docs/devel/acpi-bits.rst   | 7 +++----
+ tests/avocado/acpi-bits.py | 5 +++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-Ahh so yes maybe my changes where too quick to reject the MMIO. So I've
-made the following tweak to ioapic_service():
+diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
+index c9564d871a..2c776ab166 100644
+--- a/docs/devel/acpi-bits.rst
++++ b/docs/devel/acpi-bits.rst
+@@ -38,10 +38,9 @@ Under ``tests/avocado/`` as the root we have:
+    │ ├── bits-config
+    │ │ └── bits-cfg.txt
+    │ ├── bits-tests
+-   │ │ ├── smbios.py2
+-   │ │ ├── testacpi.py2
+-   │ │ └── testcpuid.py2
+-   │ └── README
++   │   ├── smbios.py2
++   │   ├── testacpi.py2
++   │   └── testcpuid.py2
+    ├── acpi-bits.py
+ 
+ * ``tests/avocado``:
+diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
+index 8745a58a76..2edc36fc26 100644
+--- a/tests/avocado/acpi-bits.py
++++ b/tests/avocado/acpi-bits.py
+@@ -385,8 +385,9 @@ def test_acpi_smbios_bits(self):
+         self._vm.launch()
+         # biosbits has been configured to run all the specified test suites
+         # in batch mode and then automatically initiate a vm shutdown.
+-        # sleep for maximum of one minute
+-        max_sleep_time = time.monotonic() + 60
++        # sleep for maximum of a minute and 50 seconds in order to accommodate
++        # even slower test setups.
++        max_sleep_time = time.monotonic() + 110
+         while self._vm.is_running() and time.monotonic() < max_sleep_time:
+             time.sleep(1)
+ 
+-- 
+2.34.1
 
-                /*
-                 * No matter whether IR is enabled, we translate
-                 * the IOAPIC message into a MSI one, and its
-                 * address space will decide whether we need a
-                 * translation.
-                 *
-                 * As it is an access from something other than the
-                 * CPU or a PCI device we set its source as machine
-                 * specific.
-                 */
-                {
-                    MemTxAttrs attrs =3D MEMTXATTRS_MACHINE(MEMTX_IOAPIC);
-                    MemTxResult res;
-
-                    address_space_stl_le(ioapic_as, info.addr, info.data,
-                                         attrs, &res);
-                    if (res !=3D MEMTX_ERROR) {
-                        qemu_log_mask(LOG_GUEST_ERROR,
-                                      "%s: couldn't write to %"PRIx32"\n", =
-__func__, info.addr);
-                    }
-                }
-
-and I had already tweaked the pci_msi_trigger so:
-
-  static void pci_msi_trigger(PCIDevice *dev, MSIMessage msg)
-  {
-      MemTxAttrs attrs =3D {
-          .requester_type =3D MTRT_PCI,
-          .requester_id =3D pci_requester_id(dev)
-      };
-      address_space_stl_le(&dev->bus_master_as, msg.address, msg.data,
-                           attrs, NULL);
-  }
-
-> No expert on that, but per my understanding ioapic isn't really bound to
-> any apic, so it doesn't need any cpu context.  As a quick reference of
-> that, one can look at Intel SDM Vol 3 Chap 10, figure 10.3 will be a
-> generic modern x86_64 system APIC structure.
->
-> In hardware there should have a 3-wire apic bus that take care of all the
-> messaging, including at least not only ioapic irqs to any cores, or IPIs
-> between the cores.  The messages coming from the ioapic should not require
-> any apic too as it can come from devices, just like what we do with qemu
-> when the device does things like pci_set_irq(), iiuc.
-<snip>
->
-> AFAICT apic_mem_write() doesn't mean that this cpu will take this IRQ.  T=
-he
-> target core to respond to the IRQ will be defined in the dest ID field of
-> either an MSI message or embeded in the IOAPIC entry being setup by the
-> guest driver.  E.g. MSI message format can also be found in SDM Vol 3 chap
-> 10.11.1, in QEMU we can refer to "dest" field of apic_send_msi().
-
-
-So now the start of apic_mem_write checks and validates MSIs first:
-
-  static MemTxResult apic_mem_write(void *opaque, hwaddr addr, uint64_t val,
-                                    unsigned int size, MemTxAttrs attrs)
-  {
-      DeviceState *dev;
-      APICCommonState *s;
-      int index =3D (addr >> 4) & 0xff;
-
-      if (size < 4) {
-          return MEMTX_ERROR;
-      }
-
-      /*
-       * MSI and MMIO APIC are at the same memory location, but actually
-       * not on the global bus: MSI is on PCI bus APIC is connected
-       * directly to the CPU.
-       *
-       * We can check the MemTxAttrs to check they are coming from where
-       * we expect. Even though the MSI registers are reserved in APIC
-       * MMIO and vice versa they shouldn't respond to CPU writes.
-       */
-      if (addr > 0xfff || !index) {
-          switch (attrs.requester_type) {
-          case MTRT_MACHINE:
-              /* should be from the directly wired IOPIC */
-              if (attrs.requester_id !=3D MEMTX_IOAPIC) {
-                  qemu_log_mask(LOG_GUEST_ERROR,
-                                "%s: rejecting machine write from something=
- other that IOPIC (%x)",
-                                __func__, attrs.requester_id);
-                  return MEMTX_ACCESS_ERROR;
-              }
-              break;
-          case MTRT_PCI:
-              /* PCI signalled MSI */
-              break;
-          case MTRT_UNSPECIFIED:
-              qemu_log_mask(LOG_GUEST_ERROR,
-                            "%s: rejecting unspecified write", __func__);
-              return MEMTX_ACCESS_ERROR;
-          case MTRT_CPU:
-              /* can CPU directly trigger MSIs? */
-              break;
-          }
-          MSIMessage msi =3D { .address =3D addr, .data =3D val };
-          apic_send_msi(&msi);
-          return MEMTX_OK;
-      }
-
-      if (attrs.requester_type !=3D MTRT_CPU) {
-          return MEMTX_ACCESS_ERROR;
-      }
-      dev =3D cpu_get_current_apic(attrs.requester_id);
-      s =3D APIC(dev);
-
-      trace_apic_mem_writel(addr, val);
-
-which at least gets things booting properly. Does this seem like a
-better modelling of the APIC behaviour?
-
---=20
-Alex Benn=C3=A9e
 
