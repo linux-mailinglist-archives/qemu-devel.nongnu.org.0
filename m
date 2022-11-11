@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08090625D8B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:54:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CCBF625D93
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:55:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otVPH-0005p7-8H; Fri, 11 Nov 2022 09:53:23 -0500
+	id 1otVRV-00072h-6P; Fri, 11 Nov 2022 09:55:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1otVP7-0005kA-L1
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:53:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1otVP6-0006rX-6Z
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:53:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668178391;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NoeHhGlDmiOo6k1RIC0a1F9yJ3wGGSJDdMsWgiMgJlA=;
- b=fSQtI7epY7789xk0iaYslGL+/UD0iC7GmyStYnjgX2vhRrEl+s/ifB1GAzQv/iNbLLwcx7
- H+uguDPG4mcYYpL0RMzogLFau/D7ao4b63AZlIo+7HrCdbfw9k3z0WiNG9NiRzqCOMBwUu
- mclMozuEPmVD0CdfXsysYGqTy7vMIZI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-463-CEb4gXCmN46traamfOWD7g-1; Fri, 11 Nov 2022 09:53:07 -0500
-X-MC-Unique: CEb4gXCmN46traamfOWD7g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0AC3A185A7AE;
- Fri, 11 Nov 2022 14:53:07 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC70B140EBF5;
- Fri, 11 Nov 2022 14:53:06 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A41F321E6921; Fri, 11 Nov 2022 15:53:05 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,  qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org,  Matthew Rosato <mjrosato@linux.ibm.com>,  Tony
- Krowiak <akrowiak@linux.ibm.com>,  =?utf-8?Q?C=C3=A9dric?= Le Goater
- <clg@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH v2] util/qemu-config: Fix "query-command-line-options"
- to provide the right values
-References: <20221111141323.246267-1-thuth@redhat.com>
-Date: Fri, 11 Nov 2022 15:53:05 +0100
-In-Reply-To: <20221111141323.246267-1-thuth@redhat.com> (Thomas Huth's message
- of "Fri, 11 Nov 2022 15:13:23 +0100")
-Message-ID: <875yflbl0u.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1otVRQ-00070Q-3l
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:38 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1otVRO-0007wV-9S
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:35 -0500
+Received: by mail-wr1-x431.google.com with SMTP id cl5so6774281wrb.9
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 06:55:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=WoZbi8cBi0LVCbzA0Uq6PcCFe6as0+0Acm3KpJ2Ojms=;
+ b=jpsC3gPX5+MYUptuUh/tqIybCkjJ9D5uJn51W9HcY2BkEzqY28ljh00uEGxKyyJGgb
+ i8j46bASZGtcvcYAiaXoe70ou/KLn0Gd+h6NhB1qVD6vN7cboTbglFBv/MsKZXq+BWrv
+ HNTc/EoqC67yFe2FqXVASC+FYkXVqE6xcmLMk6aCLGcy0gwy8IGououEv2EG21kySjUR
+ pYz8Ik0md6J+ECO2VS1XHnSh1X/JY3qCaK22fYGkftRii4Cd/Ol6r/0vSsB+yUIHpnI6
+ ZU+VgX1w1yv+iyP7H0axs5VjbEL02zjdeGaNP5jRbSNzP1jySpZoA1OuOtbupYTd5U5/
+ kkmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WoZbi8cBi0LVCbzA0Uq6PcCFe6as0+0Acm3KpJ2Ojms=;
+ b=RbpW2Qx9FttWdayg+4wsR7+V199xb8jNrPme7SPNBQi2uD5uU/bE3txQrVLL1GoirT
+ fblxWjX/nKu5ZLpNQxGZFlYwAo0Lyv6HGMAzhkx7ZSOlr1e0qQmRMvjLdO2mTBTBccsw
+ Frzg9NgYyLmZ4ZHjtc4UHODRXlqWI9JFZ2cllYykt2ytdEnNcsIMxLnY8DSwzBvjiIOd
+ 9+3JgFDMSvmNBncub4JGWUTTMBZS1rm9AiJZRSvj6TULOsd4Y/KC030izuVqyMQTMZY3
+ Y3SMIIcfSIofXCgLaSKgIA/XKfDuYYdgYZPJtsjK8HSXEz4/yFuLNX/ZvaPCKOCncoXF
+ 5+3w==
+X-Gm-Message-State: ANoB5pme3CwREj1aOX//P+LUmhV9lmwrIvfzCHC9ZE+FaHr9V42sACGm
+ 3uCx5Nuq0LDLh++JH/ps3CK0uA==
+X-Google-Smtp-Source: AA0mqf4uX+NMiru4erPFaSdQXF5Jws8EFZoTC6nsT90KadRof9/++qTITr9SUP7GtVX1iJOpM/wUjA==
+X-Received: by 2002:adf:fa02:0:b0:23e:245b:edf1 with SMTP id
+ m2-20020adffa02000000b0023e245bedf1mr1386538wrr.142.1668178531526; 
+ Fri, 11 Nov 2022 06:55:31 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ q12-20020a05600c46cc00b003b4ac05a8a4sm11740228wmo.27.2022.11.11.06.55.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Nov 2022 06:55:30 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id F3CAA1FFB7;
+ Fri, 11 Nov 2022 14:55:29 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH for 7.2-rc1 v2 00/12] testing, docs, plugins, arm pre-PR
+Date: Fri, 11 Nov 2022 14:55:17 +0000
+Message-Id: <20221111145529.4020801-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,30 +92,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Thomas Huth <thuth@redhat.com> writes:
+Hi,
 
-> The "query-command-line-options" command uses a hand-crafted list
-> of options that should be returned for the "machine" parameter.
-> This is pretty much out of sync with reality, for example settings
-> like "kvm_shadow_mem" or "accel" are not parameters for the machine
-> anymore. Also, there is no distinction between the targets here, so
-> e.g. the s390x-specific values like "loadparm" in this list also
-> show up with the other targets like x86_64.
->
-> Let's fix this now by geting rid of the hand-crafted list and by
-> querying the properties of the machine classes instead to assemble
-> the list.
+This is my pre-PR series for the pull request I'm going to send on
+Monday in time for Tuesday tagging of rc1. Anything not reviewed will
+get dropped from the PR (which probably includes the GICD_IIDR which
+was just an annoyance I noticed while debugging Xen for another
+series). The following still need review:
 
-Do we know what uses this command, and how these users are
-inconvenienced by the flaw you're fixing?
+ - hw/intc: add implementation of GICD_IIDR to Arm GIC
+ - gitlab: integrate coverage report (1 acks, 1 sobs)
+ - tests/plugins: add a new vcpu state tracking plugin
+ - tests/docker: allow user to override check target
 
-I'm asking because the command is pretty much out of sync with reality
-by (mis-)design.
+Alex Bennée (9):
+  tests/avocado: improve behaviour waiting for login prompts
+  tests/docker: allow user to override check target
+  docs/devel: add a maintainers section to development process
+  docs/devel: make language a little less code centric
+  docs/devel: simplify the minimal checklist
+  docs/devel: try and improve the language around patch review
+  tests/plugins: add a new vcpu state tracking plugin
+  gitlab: integrate coverage report
+  hw/intc: add implementation of GICD_IIDR to Arm GIC
 
-> Fixes: 0a7cf217d8 ("fix regression of qmp_query_command_line_options")
+Cédric Le Goater (1):
+  tests/avocado/machine_aspeed.py: Reduce noise on the console for SDK
+    tests
 
-Hah: "We need to find a better fix for 2.4." 
+Peter Maydell (1):
+  tests/avocado: Raise timeout for
+    boot_linux.py:BootLinuxPPC64.test_pseries_tcg
 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Stefan Weil (1):
+  Run docker probe only if docker or podman are available
+
+ docs/devel/code-of-conduct.rst           |   2 +
+ docs/devel/index-process.rst             |   1 +
+ docs/devel/maintainers.rst               | 106 ++++++++++++++++
+ docs/devel/submitting-a-patch.rst        | 101 +++++++++------
+ docs/devel/submitting-a-pull-request.rst |  12 +-
+ configure                                |   2 +-
+ hw/intc/arm_gic.c                        |  44 ++++---
+ tests/plugin/vcpu.c                      | 153 +++++++++++++++++++++++
+ .gitlab-ci.d/buildtest.yml               |  12 +-
+ tests/avocado/avocado_qemu/__init__.py   |  89 ++++++++++++-
+ tests/avocado/boot_linux.py              |   2 +-
+ tests/avocado/machine_aspeed.py          |  17 ++-
+ tests/docker/Makefile.include            |   2 +
+ tests/docker/common.rc                   |   6 +-
+ tests/plugin/meson.build                 |   2 +-
+ 15 files changed, 480 insertions(+), 71 deletions(-)
+ create mode 100644 docs/devel/maintainers.rst
+ create mode 100644 tests/plugin/vcpu.c
+
+-- 
+2.34.1
 
 
