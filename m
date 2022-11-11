@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D1C625924
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 12:15:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92127625926
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 12:15:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otRzV-0005ya-IP; Fri, 11 Nov 2022 06:14:33 -0500
+	id 1otRzi-00062P-UY; Fri, 11 Nov 2022 06:14:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1otRzR-0005xu-UX
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:14:29 -0500
+ id 1otRzh-00061p-3g
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:14:45 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1otRzQ-0000CJ-BH
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:14:29 -0500
+ id 1otRzf-0000FN-4r
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:14:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668165267;
+ s=mimecast20190719; t=1668165281;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sxbA1JOgncvfvrXTq2BG2thTIg/F1ve70VZ1abzqDm4=;
- b=HcPILtJMpf0n/b2Ttz1Q3NvqoBjp8fUdrbbkbcL+KdOJilQ9s4Xmumk9SDykOrnpw1+tSk
- PFlBQqYm5XBd1AeJ9lo+ugP8hd9PxFLzXqEPH2x5EdkveAvFgc6w1sJwfpzf5e/Hjug06t
- fo6W6zFJdylMi/q7i2Uxse1Q/Y1z4jg=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=D1H01AGnJv0RWC5zzDGBMdzNbvJcNwzXhWUVetTk3qs=;
+ b=cjezV2wBqkKhsWof2WHkKRHGeR2srjbBXzGiDr+cR71TduQyfQDQJNp4C3omTUztR4Y2na
+ zuMIrwir+jGFY0fojI6OKTgVrJoSqTH5/qB8OeIgUQESFZGMckDsDpnqUXWJlh6QtozJ0g
+ OvfFMc0tTVWdXdcliHmKfqX1XuaTKOQ=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-465-y9DB6iYTPqyvk2NKhm0qGg-1; Fri, 11 Nov 2022 06:14:25 -0500
-X-MC-Unique: y9DB6iYTPqyvk2NKhm0qGg-1
-Received: by mail-qk1-f199.google.com with SMTP id
- x2-20020a05620a448200b006fa7dad5c1cso4505727qkp.10
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 03:14:25 -0800 (PST)
+ us-mta-657-3U-sQY6_Ngawtr5Rg-_fLg-1; Fri, 11 Nov 2022 06:14:40 -0500
+X-MC-Unique: 3U-sQY6_Ngawtr5Rg-_fLg-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ ff5-20020a05622a4d8500b003a526107477so3387033qtb.9
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 03:14:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sxbA1JOgncvfvrXTq2BG2thTIg/F1ve70VZ1abzqDm4=;
- b=f+FnIZ6wjdCY0rm5C3+LLD+/61Ji38BpWpbzBeXXSZF2N2Czhe//Mc2oM7zCKVcl49
- Ox2cJtvdQw1E3Y0b6U54Y6bMjCmukvUwlPE7dv1hi+AF1XibvoMqHgpTnl8AuIGb+Ui8
- nyBULnvC4PIavnIURV8ku9zpGbYyHdeAbHETitoPEgUUFXGb3PvUJc+939XxZ0kIeNzB
- 29pMNNwuIDWhbSjHQGGAgLFlkcQYGFtKPGlVCi8KiJRMJSaIiHN0b89VXuZfIfvhDHWW
- hp/kr3C+1xZjM3pFd4diLOnGbU4Cp31t2jTXP8cpKvw6uHvY1+93ePmDWyjVxqSOsKn3
- lHsQ==
-X-Gm-Message-State: ANoB5plrRwbDmff9dN8m2j3EdtjVYf1AUoz4lJCT+HXxM0v3voSb/13N
- L5bpltymW8V8gevGFtlKX7ddU8BwYvb20gYS7f0fMC8x4Ksdyg/Izbqe6rc5NVAlvgw/uVBpMry
- IdLFAM5fQEAXAQsc=
-X-Received: by 2002:a0c:c3ca:0:b0:4bb:5c8d:e016 with SMTP id
- p10-20020a0cc3ca000000b004bb5c8de016mr1413982qvi.101.1668165265240; 
- Fri, 11 Nov 2022 03:14:25 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5Vs7TgMRvKELDnRSiEa9tVhF6HrQLkyRJn+Sw7rIZbGcgqEbQcUi81VQIlFQvgurwMIL9Clw==
-X-Received: by 2002:a0c:c3ca:0:b0:4bb:5c8d:e016 with SMTP id
- p10-20020a0cc3ca000000b004bb5c8de016mr1413973qvi.101.1668165265034; 
- Fri, 11 Nov 2022 03:14:25 -0800 (PST)
+ bh=D1H01AGnJv0RWC5zzDGBMdzNbvJcNwzXhWUVetTk3qs=;
+ b=2HdcHbX4KI6mE5fvpG5RbUlSYEFDXaz/CBRIAcamHMFgGwJ4e2qkxT5cyhhFBQ3h+7
+ /IeMMhFGZMkp8TvTVoVCfLFxiYKHHY2GFmeGIWTiX7uadhZmfxbQGXZ0X6D7LMlvd3Tn
+ AimmqLta2TBQ7z6LuEVz6P+oCaQLsLcnPm8dU29jRzJnm/VPcZM4KcU9KHd9SDssDRAf
+ T565qoeJMGdJTSYPu+zOylluHWGa7we5rzfhngqy88vfEMUCRunU/R+VkjvNA0o9Ehtx
+ AeYEiu6wtEGMShM2/0R9pzQObqaPl38XrvVBQeOanNJuPgCO2e8vd/HHMDIToXcQ3QVP
+ 5Hbg==
+X-Gm-Message-State: ANoB5pnjU6vLIJ3s5yYaiKKyNosPur03X4wXqWsLiuuV3NgI9TIvkXkS
+ aYZhjsDwHF5AseGH0+RIEcp7gLOgEw4ZnWJxCo1fA8EuBLdtdNYZb2khVcwyRgKhRMR+lWfJdhM
+ MI/xyns8vyAQ4swM=
+X-Received: by 2002:a37:9402:0:b0:6fa:67fb:4448 with SMTP id
+ w2-20020a379402000000b006fa67fb4448mr590370qkd.351.1668165278945; 
+ Fri, 11 Nov 2022 03:14:38 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5jx1m+hQBQhVPmF94EcK/BrGwou9NII7GRIGBPxDGlZ0xcMK43rEexxikiIgMRuLdKCV+eyg==
+X-Received: by 2002:a37:9402:0:b0:6fa:67fb:4448 with SMTP id
+ w2-20020a379402000000b006fa67fb4448mr590353qkd.351.1668165278730; 
+ Fri, 11 Nov 2022 03:14:38 -0800 (PST)
 Received: from [192.168.149.123]
  (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
  by smtp.gmail.com with ESMTPSA id
- h12-20020a05620a400c00b006b949afa980sm1251920qko.56.2022.11.11.03.14.23
+ az17-20020a05620a171100b006f3e6933bacsm1191252qkb.113.2022.11.11.03.14.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 03:14:24 -0800 (PST)
-Message-ID: <70ac7c62-b536-ffe9-e09d-67493068e458@redhat.com>
-Date: Fri, 11 Nov 2022 12:14:21 +0100
+ Fri, 11 Nov 2022 03:14:38 -0800 (PST)
+Message-ID: <e14a25be-544b-6c50-13e0-2b66c24bf3a5@redhat.com>
+Date: Fri, 11 Nov 2022 12:14:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 01/13] qed: Don't yield in bdrv_qed_co_drain_begin()
+Subject: Re: [PATCH 02/13] test-bdrv-drain: Don't yield in
+ .bdrv_co_drained_begin/end()
 Content-Language: en-US
 To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Cc: stefanha@redhat.com, hreitz@redhat.com, pbonzini@redhat.com,
  qemu-devel@nongnu.org
 References: <20221108123738.530873-1-kwolf@redhat.com>
- <20221108123738.530873-2-kwolf@redhat.com>
+ <20221108123738.530873-3-kwolf@redhat.com>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <20221108123738.530873-2-kwolf@redhat.com>
+In-Reply-To: <20221108123738.530873-3-kwolf@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
@@ -107,17 +108,25 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 Am 08/11/2022 um 13:37 schrieb Kevin Wolf:
-> We want to change .bdrv_co_drained_begin() back to be a non-coroutine
-> callback, so in preparation, avoid yielding in its implementation.
+> We want to change .bdrv_co_drained_begin/end() back to be non-coroutine
+> callbacks, so in preparation, avoid yielding in their implementation.
 >
-> Because we increase bs->in_flight and bdrv_drained_begin() polls, the
-> behaviour is unchanged.
+> This does almost the same as the existing logic in bdrv_drain_invoke(),
+> by creating and entering coroutines internally. However, since the test
+> case is by far the heaviest user of coroutine code in drain callbacks,
+> it is preferable to have the complexity in the test case rather than the
+> drain core, which is already complicated enough without this.
+>
+> The behaviour for bdrv_drain_begin() is unchanged because we increase
+> bs->in_flight and this is still polled. However, bdrv_drain_end()
+> doesn't wait for the spawned coroutine to complete any more. This is
+> fine, we don't rely on bdrv_drain_end() restarting all operations
+> immediately before the next aio_poll().
 >
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 >
 
 
 Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-
 
 
