@@ -2,96 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A88A625ACB
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 14:00:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 828DD625ADA
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 14:01:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otTcx-0002al-11; Fri, 11 Nov 2022 07:59:23 -0500
+	id 1otTeq-0003ez-Ji; Fri, 11 Nov 2022 08:01:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1otTcp-0002YG-Ad
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:59:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1otTcn-0006Dw-8F
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:59:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668171552;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZnBONThViMJVPuuW7wQadL5B0C0ITj2uYBaB3BF9e1w=;
- b=iMqh0AWzC4yxQjt3TvAKPk9bdICP1rJsgzPI8TbM6e3plQMX/esumbHrKIK5UCdXFjuIpd
- WVtcj7nxWEQzzo7uKPGTz97DElzssznIW/mEE3ZdkJH06ae+2Uw3b86kAfZwKEs/3GPpp2
- XYkILjJc1CEpnGDWuRBWQhsHN4xSGTc=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-296-8g_JW2BVMt6pFUaJD6_fpQ-1; Fri, 11 Nov 2022 07:59:08 -0500
-X-MC-Unique: 8g_JW2BVMt6pFUaJD6_fpQ-1
-Received: by mail-pg1-f197.google.com with SMTP id
- r126-20020a632b84000000b004393806c06eso2602879pgr.4
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 04:59:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1otTeV-0003dN-Kn; Fri, 11 Nov 2022 08:00:59 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1otTeQ-0006lZ-JX; Fri, 11 Nov 2022 08:00:59 -0500
+Received: by mail-ej1-x632.google.com with SMTP id y14so12390238ejd.9;
+ Fri, 11 Nov 2022 05:00:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=iQyabMv5ZhmNGGRJ4DpjBVOL7kWK+zzA+rw8oR2wkxw=;
+ b=KICCW9PDbgxZ0raNMmKrZurqTIzjUQ04DXNkcbctkBxy2jW/2YnftlUXCNYdUhJNjR
+ EWdKXe95tnsuUpV2Hlhrap2wa9J61Q1CgUlgxuU7zwzTbDOW1BoJ0HyRnagKArtlFa2W
+ 9Vd+qNtSdfkSBuD6Rp+8uMTuz4RxBeD++SI41tXEWw8eTqCJN28eRZWLiElSYyLIvtmy
+ LY15z4XaKz44sFFtKdZMzp9M7gdYJvjYciksPx31oRBP6gQ/XZDr0/oeVl/Aa0Jhuc83
+ ORUq0GY0MbCynG3ZyUO2J6VM8rqrYiinsKrkrIy6vHYVMaKyVS72yrsbjE8dQiaSo5Of
+ hqoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ZnBONThViMJVPuuW7wQadL5B0C0ITj2uYBaB3BF9e1w=;
- b=c6kQQOd5pEkqIGcsHYiwjQk816GMf7SZv/JxgdJNUnrClfW2aFwNCPd5IS88NbTw4M
- NK1yxKT1NjKDboM2jEXVlrV2iWL2COxvZDSd+AozQ9yHRb4FN1GP5Y520GpvV8KEbJar
- XycQMEGiNzSxvFsxvrqtRhdj1HH1yRZl57U1dTosYqe7AlkD/eApBfEhgvOTN4xru7j7
- o+BJXU/NOtz6QwvzZ+z0sMma8HzHxwAIqeT+ICFymuEweQcLJBgt3y8p5lCXEJswnImI
- YaFAYexOFhM7Uu4HpTBFv/Vmmj9AoelrD1OH652f9h3jvpy0rV4tXPh5h6wwqIp2reE7
- H2Lg==
-X-Gm-Message-State: ANoB5pmG1N28gaw7NBEHWVnV/i/mk6Wi+4wdSvuXqZJ1berleRFeuAhT
- MT8o2VEt1ICyWcQ9GG+QZHeo1o4CdNt7y1whoZqpziZfqgfkBbyZaKhq+pqtK0qvLpnnwo50s2t
- 2aFpRc3h1yXTIDEGe1Os53DOLc+Z3fZc=
-X-Received: by 2002:a17:902:d708:b0:186:5ce5:8022 with SMTP id
- w8-20020a170902d70800b001865ce58022mr2163483ply.62.1668171547727; 
- Fri, 11 Nov 2022 04:59:07 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6U9B0fyld0TkqFb2ToxPEhYhQRwMBoz0NNTbMjmp54qIcAIr9kPIQlZ+1r6wDbHVjq3IvwQVmaMu5Y/G5DzTI=
-X-Received: by 2002:a17:902:d708:b0:186:5ce5:8022 with SMTP id
- w8-20020a170902d70800b001865ce58022mr2163445ply.62.1668171547327; Fri, 11 Nov
- 2022 04:59:07 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iQyabMv5ZhmNGGRJ4DpjBVOL7kWK+zzA+rw8oR2wkxw=;
+ b=UYQ5Q61EeEnWX6vNlXZ0DTzGb+l70QHiAJfJow/38UlnU9Vgq7aywysNCXTAZ3GbpW
+ jXsl+ljjUJlgUX7e26UOH+oOaUkmcYXGA54bGAt6BaBZblgxAdJ/TKQ2YY5Hc44Vxn58
+ W/jtxO7XWrFLf7FbVIkBlKhy9U4L2BAvruCpbmSt5XqI+rR5hnFiBeW7hC/svsRMiGij
+ I9xeMNVNZ/a853VL2ehhpn+9uD3EnnD1Uh5O4ac+CMkmqWZRXVpo4uc043Y+4ILkxvtX
+ OAITigr3PJ8wAOK2n5wTtQCAfZAhnfJPT/9UcvOu+JpTpuKoJdH7oVUK9ljrpRrHuuP3
+ jH5A==
+X-Gm-Message-State: ANoB5plAWl2Z7K49YKMRt2J/Acq70wbS4/BC3Q/k8AJgRdfGSCztij0J
+ pQDVzYwpQvVntnySMShRXdQtfdMhSaqS4Ka8uhblaZoLO88=
+X-Google-Smtp-Source: AA0mqf5jf3v249Co5bmpW2RLWkSVNcMn94ze23w6Ebukh5298VSfvZ5iTRG64dfSnp/xpbaAHGsRI0msYgCv4jdzUKs=
+X-Received: by 2002:a17:906:5fcd:b0:78d:4cb3:f65d with SMTP id
+ k13-20020a1709065fcd00b0078d4cb3f65dmr1825451ejv.79.1668171651059; Fri, 11
+ Nov 2022 05:00:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20221108170755.92768-1-eperezma@redhat.com>
- <20221108170755.92768-6-eperezma@redhat.com>
- <56bfad97-74d2-8570-c391-83ecf9965cfd@redhat.com>
- <CAJaqyWd47QdBoSm9RdF2yx21hKv_=YRp3uvP13Qb9PaVksss7Q@mail.gmail.com>
- <aa82783b-b1f5-a82b-5136-1f7f7725a433@redhat.com>
- <CAJaqyWfmTn1_o2z2S_o=bu2mD=r0+T=1+dh_WOwbpQaYQK0YSQ@mail.gmail.com>
- <CACGkMEvQm_0VqF5q2XtWmaHXmSj0Xjg7br3ydOQVVcHJ0yb_GA@mail.gmail.com>
-In-Reply-To: <CACGkMEvQm_0VqF5q2XtWmaHXmSj0Xjg7br3ydOQVVcHJ0yb_GA@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 11 Nov 2022 13:58:30 +0100
-Message-ID: <CAJaqyWfYN_Y6OQ-ugdH3d4VRGBJufMLBhH47dfB0rLg=MEt47g@mail.gmail.com>
-Subject: Re: [PATCH v6 05/10] vdpa: move SVQ vring features check to net/
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Parav Pandit <parav@mellanox.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>, 
- Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Gautam Dawar <gdawar@xilinx.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- Cindy Lu <lulu@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Cornelia Huck <cohuck@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, kvm@vger.kernel.org, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20221026084836.1819572-1-oro@il.ibm.com>
+In-Reply-To: <20221026084836.1819572-1-oro@il.ibm.com>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Fri, 11 Nov 2022 14:00:39 +0100
+Message-ID: <CAOi1vP8X6xeuYmPwTS=LivU=XeCM-WDERrCOAySWJauvsOs_iA@mail.gmail.com>
+Subject: Re: [PATCH v1] block/rbd: Add support for layered encryption
+To: Or Ozeri <oro@il.ibm.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, dannyh@il.ibm.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=idryomov@gmail.com; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,212 +80,306 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 11, 2022 at 9:07 AM Jason Wang <jasowang@redhat.com> wrote:
+On Wed, Oct 26, 2022 at 10:48 AM Or Ozeri <oro@il.ibm.com> wrote:
 >
-> On Fri, Nov 11, 2022 at 3:56 PM Eugenio Perez Martin
-> <eperezma@redhat.com> wrote:
-> >
-> > On Fri, Nov 11, 2022 at 8:34 AM Jason Wang <jasowang@redhat.com> wrote:
-> > >
-> > >
-> > > =E5=9C=A8 2022/11/10 21:09, Eugenio Perez Martin =E5=86=99=E9=81=93:
-> > > > On Thu, Nov 10, 2022 at 6:40 AM Jason Wang <jasowang@redhat.com> wr=
-ote:
-> > > >>
-> > > >> =E5=9C=A8 2022/11/9 01:07, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > > >>> The next patches will start control SVQ if possible. However, we =
-don't
-> > > >>> know if that will be possible at qemu boot anymore.
-> > > >>
-> > > >> If I was not wrong, there's no device specific feature that is che=
-cked
-> > > >> in the function. So it should be general enough to be used by devi=
-ces
-> > > >> other than net. Then I don't see any advantage of doing this.
-> > > >>
-> > > > Because vhost_vdpa_init_svq is called at qemu boot, failing if it i=
-s
-> > > > not possible to shadow the Virtqueue.
-> > > >
-> > > > Now the CVQ will be shadowed if possible, so we need to check this =
-at
-> > > > device start, not at initialization.
-> > >
-> > >
-> > > Any reason we can't check this at device start? We don't need
-> > > driver_features and we can do any probing to make sure cvq has an uni=
-que
-> > > group during initialization time.
-> > >
-> >
-> > We need the CVQ index to check if it has an independent group. CVQ
-> > index depends on the features the guest's ack:
-> > * If it acks _F_MQ, it is the last one.
-> > * If it doesn't, CVQ idx is 2.
-> >
-> > We cannot have acked features at initialization, and they could
-> > change: It is valid for a guest to ack _F_MQ, then reset the device,
-> > then not ack it.
+> Starting from ceph Reef, RBD has built-in support for layered encryption,
+> where each ancestor image (in a cloned image setting) can be possibly
+> encrypted using a unique passphrase.
 >
-> Can we do some probing by negotiating _F_MQ if the device offers it,
-> then we can know if cvq has a unique group?
+> A new function, rbd_encryption_load2, was added to librbd API.
+> This new function supports an array of passphrases (via "spec" structs).
 >
-
-What if the guest does not ack _F_MQ?
-
-To be completed it would go like:
-
-* Probe negotiate _F_MQ, check unique group,
-* Probe negotiate !_F_MQ, check unique group,
-* Actually negotiate with the guest's feature set.
-* React to failures. Probably the same way as if the CVQ is not
-isolated, disabling SVQ?
-
-To me it seems simpler to specify somehow that the vq must be independent.
-
-Thanks!
-
-> >
-> > >
-> > > >   To store this information at boot
-> > > > time is not valid anymore, because v->shadow_vqs_enabled is not val=
-id
-> > > > at this time anymore.
-> > >
-> > >
-> > > Ok, but this doesn't explain why it is net specific but vhost-vdpa sp=
-ecific.
-> > >
-> >
-> > We can try to move it to a vhost op, but we have the same problem as
-> > the svq array allocation: We don't have the right place in vhost ops
-> > to check this. Maybe vhost_set_features is the right one here?
+> This commit extends the qemu rbd driver API to use this new librbd API,
+> in order to support this new layered encryption feature.
 >
-> If we can do all the probing at the initialization phase, we can do
-> everything there.
+> Signed-off-by: Or Ozeri <oro@il.ibm.com>
+> ---
+>  block/rbd.c          | 134 ++++++++++++++++++++++++++++++++++++++++++-
+>  qapi/block-core.json |  33 ++++++++++-
+>  2 files changed, 163 insertions(+), 4 deletions(-)
 >
-> Thanks
+> diff --git a/block/rbd.c b/block/rbd.c
+> index f826410f40..09953687c9 100644
+> --- a/block/rbd.c
+> +++ b/block/rbd.c
+> @@ -71,6 +71,16 @@ static const char rbd_luks2_header_verification[
+>      'L', 'U', 'K', 'S', 0xBA, 0xBE, 0, 2
+>  };
 >
-> >
-> > Thanks!
-> >
-> > > Thanks
-> > >
-> > >
-> > > >
-> > > > Thanks!
-> > > >
-> > > >> Thanks
-> > > >>
-> > > >>
-> > > >>> Since the moved checks will be already evaluated at net/ to know =
-if it
-> > > >>> is ok to shadow CVQ, move them.
-> > > >>>
-> > > >>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > >>> ---
-> > > >>>    hw/virtio/vhost-vdpa.c | 33 ++-------------------------------
-> > > >>>    net/vhost-vdpa.c       |  3 ++-
-> > > >>>    2 files changed, 4 insertions(+), 32 deletions(-)
-> > > >>>
-> > > >>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > > >>> index 3df2775760..146f0dcb40 100644
-> > > >>> --- a/hw/virtio/vhost-vdpa.c
-> > > >>> +++ b/hw/virtio/vhost-vdpa.c
-> > > >>> @@ -402,29 +402,9 @@ static int vhost_vdpa_get_dev_features(struc=
-t vhost_dev *dev,
-> > > >>>        return ret;
-> > > >>>    }
-> > > >>>
-> > > >>> -static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vh=
-ost_vdpa *v,
-> > > >>> -                               Error **errp)
-> > > >>> +static void vhost_vdpa_init_svq(struct vhost_dev *hdev, struct v=
-host_vdpa *v)
-> > > >>>    {
-> > > >>>        g_autoptr(GPtrArray) shadow_vqs =3D NULL;
-> > > >>> -    uint64_t dev_features, svq_features;
-> > > >>> -    int r;
-> > > >>> -    bool ok;
-> > > >>> -
-> > > >>> -    if (!v->shadow_vqs_enabled) {
-> > > >>> -        return 0;
-> > > >>> -    }
-> > > >>> -
-> > > >>> -    r =3D vhost_vdpa_get_dev_features(hdev, &dev_features);
-> > > >>> -    if (r !=3D 0) {
-> > > >>> -        error_setg_errno(errp, -r, "Can't get vdpa device featur=
-es");
-> > > >>> -        return r;
-> > > >>> -    }
-> > > >>> -
-> > > >>> -    svq_features =3D dev_features;
-> > > >>> -    ok =3D vhost_svq_valid_features(svq_features, errp);
-> > > >>> -    if (unlikely(!ok)) {
-> > > >>> -        return -1;
-> > > >>> -    }
-> > > >>>
-> > > >>>        shadow_vqs =3D g_ptr_array_new_full(hdev->nvqs, vhost_svq_=
-free);
-> > > >>>        for (unsigned n =3D 0; n < hdev->nvqs; ++n) {
-> > > >>> @@ -436,7 +416,6 @@ static int vhost_vdpa_init_svq(struct vhost_d=
-ev *hdev, struct vhost_vdpa *v,
-> > > >>>        }
-> > > >>>
-> > > >>>        v->shadow_vqs =3D g_steal_pointer(&shadow_vqs);
-> > > >>> -    return 0;
-> > > >>>    }
-> > > >>>
-> > > >>>    static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque=
-, Error **errp)
-> > > >>> @@ -461,11 +440,7 @@ static int vhost_vdpa_init(struct vhost_dev =
-*dev, void *opaque, Error **errp)
-> > > >>>        dev->opaque =3D  opaque ;
-> > > >>>        v->listener =3D vhost_vdpa_memory_listener;
-> > > >>>        v->msg_type =3D VHOST_IOTLB_MSG_V2;
-> > > >>> -    ret =3D vhost_vdpa_init_svq(dev, v, errp);
-> > > >>> -    if (ret) {
-> > > >>> -        goto err;
-> > > >>> -    }
-> > > >>> -
-> > > >>> +    vhost_vdpa_init_svq(dev, v);
-> > > >>>        vhost_vdpa_get_iova_range(v);
-> > > >>>
-> > > >>>        if (!vhost_vdpa_first_dev(dev)) {
-> > > >>> @@ -476,10 +451,6 @@ static int vhost_vdpa_init(struct vhost_dev =
-*dev, void *opaque, Error **errp)
-> > > >>>                                   VIRTIO_CONFIG_S_DRIVER);
-> > > >>>
-> > > >>>        return 0;
-> > > >>> -
-> > > >>> -err:
-> > > >>> -    ram_block_discard_disable(false);
-> > > >>> -    return ret;
-> > > >>>    }
-> > > >>>
-> > > >>>    static void vhost_vdpa_host_notifier_uninit(struct vhost_dev *=
-dev,
-> > > >>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > >>> index d3b1de481b..fb35b17ab4 100644
-> > > >>> --- a/net/vhost-vdpa.c
-> > > >>> +++ b/net/vhost-vdpa.c
-> > > >>> @@ -117,9 +117,10 @@ static bool vhost_vdpa_net_valid_svq_feature=
-s(uint64_t features, Error **errp)
-> > > >>>        if (invalid_dev_features) {
-> > > >>>            error_setg(errp, "vdpa svq does not work with features=
- 0x%" PRIx64,
-> > > >>>                       invalid_dev_features);
-> > > >>> +        return false;
-> > > >>>        }
-> > > >>>
-> > > >>> -    return !invalid_dev_features;
-> > > >>> +    return vhost_svq_valid_features(features, errp);
-> > > >>>    }
-> > > >>>
-> > > >>>    static int vhost_vdpa_net_check_device_id(struct vhost_net *ne=
-t)
-> > >
-> >
+> +static const char rbd_layered_luks_header_verification[
+> +        RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {
+> +    'R', 'B', 'D', 'L', 0xBA, 0xBE, 0, 1
+> +};
+> +
+> +static const char rbd_layered_luks2_header_verification[
+> +        RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {
+> +    'R', 'B', 'D', 'L', 0xBA, 0xBE, 0, 2
+> +};
+> +
+>  typedef enum {
+>      RBD_AIO_READ,
+>      RBD_AIO_WRITE,
+> @@ -470,6 +480,9 @@ static int qemu_rbd_encryption_load(rbd_image_t image,
+>      size_t passphrase_len;
+>      rbd_encryption_luks1_format_options_t luks_opts;
+>      rbd_encryption_luks2_format_options_t luks2_opts;
+> +#ifdef LIBRBD_SUPPORTS_ENCRYPTION_LOAD2
+> +    rbd_encryption_luks_format_options_t luks_all_opts;
+> +#endif
+>      rbd_encryption_format_t format;
+>      rbd_encryption_options_t opts;
+>      size_t opts_size;
+> @@ -505,6 +518,23 @@ static int qemu_rbd_encryption_load(rbd_image_t image,
+>              luks2_opts.passphrase_size = passphrase_len;
+>              break;
+>          }
+> +#ifdef LIBRBD_SUPPORTS_ENCRYPTION_LOAD2
+> +        case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS_ALL: {
+> +            memset(&luks_all_opts, 0, sizeof(luks_all_opts));
+> +            format = RBD_ENCRYPTION_FORMAT_LUKS;
+> +            opts = &luks_all_opts;
+> +            opts_size = sizeof(luks_all_opts);
+> +            r = qemu_rbd_convert_luks_options(
+> +                    qapi_RbdEncryptionOptionsLUKSAll_base(&encrypt->u.luks_all),
+> +                    &passphrase, &passphrase_len, errp);
+> +            if (r < 0) {
+> +                return r;
+> +            }
+> +            luks_all_opts.passphrase = passphrase;
+> +            luks_all_opts.passphrase_size = passphrase_len;
+> +            break;
+> +        }
+> +#endif
+>          default: {
+>              r = -ENOTSUP;
+>              error_setg_errno(
+> @@ -522,6 +552,87 @@ static int qemu_rbd_encryption_load(rbd_image_t image,
 >
+>      return 0;
+>  }
+> +
+> +#ifdef LIBRBD_SUPPORTS_ENCRYPTION_LOAD2
+> +static int qemu_rbd_encryption_load2(rbd_image_t image,
+> +                                     RbdEncryptionOptions *encrypt,
+> +                                     Error **errp)
+> +{
+> +    int r = 0;
+> +    int encryption_options_count = 1;
+> +    int spec_count = 0;
+> +    int passphrase_count = 0;
+> +    int i;
+> +    RbdEncryptionOptions *curr_encrypt;
+> +    rbd_encryption_spec_t *specs;
+> +    rbd_encryption_spec_t *curr_spec;
+> +    rbd_encryption_luks_format_options_t* luks_all_opts;
+> +    char **passphrases;
+> +    char **curr_passphrase;
+> +
+> +    /* count encryption options */
+> +    for (curr_encrypt = encrypt; curr_encrypt->has_parent;
+> +         curr_encrypt = curr_encrypt->parent, ++encryption_options_count) {
 
+Hi Or,
+
+I would move the increment into the body because empty body loops can
+be confusing (and might also rename to encrypt_count to match "encrypt"
+and "curr_encrypt" names).
+
+> +    }
+> +
+> +    specs = g_new0(rbd_encryption_spec_t, encryption_options_count);
+> +    passphrases = g_new0(char*, encryption_options_count);
+
+I don't understand the need for this char* array.  Is there a problem
+with putting the blob directly into luks_all_opts->passphrase just like
+the size is put into luks_all_opts->passphrase_size?
+
+> +
+> +    curr_encrypt = encrypt;
+> +    for (i = 0; i < encryption_options_count; ++i) {
+> +        if (curr_encrypt->format != RBD_IMAGE_ENCRYPTION_FORMAT_LUKS_ALL) {
+
+I don't think librbd imposes this restriction.  It's probably fine
+to impose it here to make the implementation simpler but I wanted to
+highlight that.
+
+> +            r = -ENOTSUP;
+> +            error_setg_errno(
+> +                    errp, -r, "unknown image encryption format: %u",
+> +                    curr_encrypt->format);
+> +            goto exit;
+> +        }
+> +
+> +        curr_spec = &specs[i];
+
+curr_spec and curr_passphrase variables seem completely redundant to
+me -- specs[i] is actually shorter to type than curr_spec ;)
+
+> +        curr_passphrase = &passphrases[i];
+> +        curr_spec->format = RBD_ENCRYPTION_FORMAT_LUKS;
+> +        curr_spec->opts_size = sizeof(rbd_encryption_luks_format_options_t);
+> +
+> +        luks_all_opts = g_new0(rbd_encryption_luks_format_options_t, 1);
+> +        curr_spec->opts = luks_all_opts;
+> +        ++spec_count;
+
+What is the purpose of counting specs (and then also, separately,
+passphrases)?  Wouldn't encryption_options_count suffice?
+
+If the only reason is cleanup, it should be much more robust to just
+blast through the entire specs array and call g_free unconditionally on
+both pointers in all slots.
+
+> +        memset(luks_all_opts, 0, sizeof(rbd_encryption_luks_format_options_t));
+
+g_new0 already initializes to zero, so this memset appears to be
+redundant.
+
+> +
+> +        r = qemu_rbd_convert_luks_options(
+> +                qapi_RbdEncryptionOptionsLUKSAll_base(
+> +                        &curr_encrypt->u.luks_all),
+> +                curr_passphrase, &luks_all_opts->passphrase_size,
+> +                errp);
+> +        if (r < 0) {
+> +            goto exit;
+> +        }
+> +
+> +        ++passphrase_count;
+> +        luks_all_opts->passphrase = *curr_passphrase;
+> +
+> +        curr_encrypt = curr_encrypt->parent;
+> +    }
+> +
+> +    r = rbd_encryption_load2(image, specs, spec_count);
+> +    if (r < 0) {
+> +        error_setg_errno(errp, -r, "encryption load (2) fail");
+
+Perhaps "layered encryption load fail"?
+
+> +        goto exit;
+> +    }
+> +
+> +exit:
+> +    for (i = 0; i < spec_count; ++i) {
+> +        luks_all_opts = (rbd_encryption_luks_format_options_t*)(specs[i].opts);
+> +        if (passphrase_count > 0) {
+> +            g_free(passphrases[i]);
+> +            --passphrase_count;
+> +        }
+> +        g_free(luks_all_opts);
+> +    }
+> +    g_free(passphrases);
+> +    g_free(specs);
+> +    return r;
+> +}
+> +#endif
+>  #endif
+>
+>  /* FIXME Deprecate and remove keypairs or make it available in QMP. */
+> @@ -993,7 +1104,18 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
+>
+>      if (opts->has_encrypt) {
+>  #ifdef LIBRBD_SUPPORTS_ENCRYPTION
+> -        r = qemu_rbd_encryption_load(s->image, opts->encrypt, errp);
+> +        if (opts->encrypt->has_parent) {
+> +#ifndef LIBRBD_SUPPORTS_ENCRYPTION_LOAD2
+
+I would flip this to #ifdef to avoid mixing "not supported branch at
+the top" and "not supported branch at the bottom" styles in the same
+function.
+
+> +            r = -ENOTSUP;
+> +            error_setg(errp, "RBD library does not support"
+> +                             " specifying parent encryption");
+> +            goto failed_post_open;
+
+This goto is redundant.
+
+> +#else
+> +            r = qemu_rbd_encryption_load2(s->image, opts->encrypt, errp);
+> +#endif
+> +        } else {
+> +            r = qemu_rbd_encryption_load(s->image, opts->encrypt, errp);
+> +        }
+>          if (r < 0) {
+>              goto failed_post_open;
+>          }
+> @@ -1284,6 +1406,16 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
+>          spec_info->u.rbd.data->encryption_format =
+>                  RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2;
+>          spec_info->u.rbd.data->has_encryption_format = true;
+> +    } else if (memcmp(buf, rbd_layered_luks_header_verification,
+> +               RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN) == 0) {
+> +        spec_info->u.rbd.data->encryption_format =
+> +                RBD_IMAGE_ENCRYPTION_FORMAT_LUKS_LAYERED;
+> +        spec_info->u.rbd.data->has_encryption_format = true;
+> +    } else if (memcmp(buf, rbd_layered_luks2_header_verification,
+> +               RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN) == 0) {
+> +        spec_info->u.rbd.data->encryption_format =
+> +                RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2_LAYERED;
+> +        spec_info->u.rbd.data->has_encryption_format = true;
+>      } else {
+>          spec_info->u.rbd.data->has_encryption_format = false;
+>      }
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 882b266532..81ac58cd8a 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -3753,10 +3753,20 @@
+>  ##
+>  # @RbdImageEncryptionFormat:
+>  #
+> +# luks
+> +#
+> +# luks2
+> +#
+> +# luks-all: Used for opening either luks or luks2. (Since 7.2)
+> +#
+> +# luks-layered: Layered encryption. Only used for info. (Since 7.2)
+> +#
+> +# luks2-layered: Layered encryption. Only used for info. (Since 7.2)
+> +#
+>  # Since: 6.1
+>  ##
+>  { 'enum': 'RbdImageEncryptionFormat',
+> -  'data': [ 'luks', 'luks2' ] }
+> +  'data': [ 'luks', 'luks2', 'luks-all', 'luks-layered', 'luks2-layered' ] }
+
+I would rename luks-all (and RbdEncryptionOptionsLUKSAll, etc) to luks-any.
+
+>
+>  ##
+>  # @RbdEncryptionOptionsLUKSBase:
+> @@ -3798,6 +3808,15 @@
+>    'base': 'RbdEncryptionOptionsLUKSBase',
+>    'data': { } }
+>
+> +##
+> +# @RbdEncryptionOptionsLUKSAll:
+> +#
+> +# Since: 7.2
+> +##
+> +{ 'struct': 'RbdEncryptionOptionsLUKSAll',
+> +  'base': 'RbdEncryptionOptionsLUKSBase',
+> +  'data': { } }
+> +
+>  ##
+>  # @RbdEncryptionCreateOptionsLUKS:
+>  #
+> @@ -3819,13 +3838,21 @@
+>  ##
+>  # @RbdEncryptionOptions:
+>  #
+> +# @format: Encryption format.
+> +#
+> +# @parent: Parent image encryption options (for cloned images).
+> +#          Can be left unspecified if all ancestor images are encrypted
+> +#          the same way as the child image.  (Since 7.2)
+
+I would also add "... or not encrypted" here.
+
+Thanks,
+
+                Ilya
 
