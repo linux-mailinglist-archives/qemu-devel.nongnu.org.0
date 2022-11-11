@@ -2,59 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B86625CB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:15:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A62F9625D2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:37:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otUn8-0002sj-WD; Fri, 11 Nov 2022 09:13:59 -0500
+	id 1otV8P-0006Td-GK; Fri, 11 Nov 2022 09:35:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otUn6-0002bK-5g
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:13:56 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otV8L-0006Rl-Ps
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:35:55 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otUn4-0003aI-5H
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:13:55 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otV8J-0002Lg-Vh
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:35:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668176032;
+ s=mimecast20190719; t=1668177351;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=6CJN9ZDmLYomDUxnJ18ItSlzOOfLd3RY7FrtiC+MpRE=;
- b=DiwSx1MX535Zq3lbMPHJFUPlOJ7+reVezslpS/u6z4Y5vOHa3sXOhHIdnnOusJrLzE7m6h
- lkYhGxsJTAmfo66Hew7Y6Mq1qZoE1fY++sSsvIOCr0XHA2Sw6lHyjQo71fujSy5tZBn7I3
- 4ryLdZu3stdNE7gFE+dt07HsJ4OnoDo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-530-zRz0OMLSOaewTwqN8OV0zQ-1; Fri, 11 Nov 2022 09:13:51 -0500
-X-MC-Unique: zRz0OMLSOaewTwqN8OV0zQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC75C8001B8;
- Fri, 11 Nov 2022 14:13:50 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.194.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D06B1140EBF5;
- Fri, 11 Nov 2022 14:13:36 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, Matthew Rosato <mjrosato@linux.ibm.com>,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2] util/qemu-config: Fix "query-command-line-options" to
- provide the right values
-Date: Fri, 11 Nov 2022 15:13:23 +0100
-Message-Id: <20221111141323.246267-1-thuth@redhat.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tsmCv2BbGsN+hnWYT5US87KLmw0xJJ+vOk8xhTGZwWY=;
+ b=UJ5aN8qwII7ZytqmRvRsY0AbwnjZ2vXz7kAVVkNiZULQjjuLGnPxXlWEt847h8mWI5yKml
+ sb9LTekKK0boKJAA+OSI+8SvIwsfgoDmEUHVD7bYOdSqsP/ntMLQZs7WuCqclr0BNn5Gqo
+ Z1/C0g0mZZloUuAPk786Fc98N9FRizk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-424-sCGanKq4NJeYsr7Lfml-kg-1; Fri, 11 Nov 2022 09:35:49 -0500
+X-MC-Unique: sCGanKq4NJeYsr7Lfml-kg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ j25-20020adfa559000000b0023d5d7f95a2so1070682wrb.21
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 06:35:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tsmCv2BbGsN+hnWYT5US87KLmw0xJJ+vOk8xhTGZwWY=;
+ b=h1N9BztLtEhxGD2LlGaiGIOQYCYrj5Gh5muRppoLBlVXCilLaJRsvVcnPdSKpEnkqH
+ sccd96y8C18sj/6bbGJub8cbhJGV6aJTvUZ0LluDIxBJ7WzxlYEym49lbqRwNY6WKBkC
+ 7jJuIe+XmhPtDT98gMCJf+vpXVU1J70HOnEUQz8V70+I/yxdfRfEdPARQOGZX4FIz+mw
+ MEnKUiAS06XByk3n3QhRXiJx+e35OSnM/hRmXO6XSYpdEYSc4hqhSN9VS+lxSKaHG1U1
+ GTBxFE1fKdwoIFvQnKEjiRfnXUzLLqdmjLP05vJKlYfXamkjZ/ecch9XimRIBQdHMr7a
+ 0BCQ==
+X-Gm-Message-State: ANoB5pl05MVzrbGo0lMF5gM/+HmqQITawVkQ6XKNKHSTO+1jUHDZd/Kg
+ jd3y7QJdRx+D9orbgXI9a8TF26VaW5Qw3nfaB32Zsswel3sUPRd/slpWRaovRtIW33i0rIUv+t3
+ Jp/k2yvPTPaxNQ2w=
+X-Received: by 2002:a5d:61c7:0:b0:22e:39c9:a4a6 with SMTP id
+ q7-20020a5d61c7000000b0022e39c9a4a6mr1445622wrv.170.1668177348766; 
+ Fri, 11 Nov 2022 06:35:48 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf49JD7w5BvVoyuGTTkI3cyOM1Hy/ohchJ4P7Ia/LW+HRWPHJpCr6ft6UQ9NfwZaFhdQ1y9rag==
+X-Received: by 2002:a5d:61c7:0:b0:22e:39c9:a4a6 with SMTP id
+ q7-20020a5d61c7000000b0022e39c9a4a6mr1445610wrv.170.1668177348562; 
+ Fri, 11 Nov 2022 06:35:48 -0800 (PST)
+Received: from redhat.com ([2.52.3.250]) by smtp.gmail.com with ESMTPSA id
+ m3-20020a5d6243000000b0023660f6cecfsm2057721wrv.80.2022.11.11.06.35.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Nov 2022 06:35:48 -0800 (PST)
+Date: Fri, 11 Nov 2022 09:35:44 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Cc: Cleber Rosa <crosa@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2] acpi/tests/avocado/bits: some misc fixes
+Message-ID: <20221111093255-mutt-send-email-mst@kernel.org>
+References: <20221111123108.1231451-1-ani@anisinha.ca>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+In-Reply-To: <20221111123108.1231451-1-ani@anisinha.ca>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,221 +100,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The "query-command-line-options" command uses a hand-crafted list
-of options that should be returned for the "machine" parameter.
-This is pretty much out of sync with reality, for example settings
-like "kvm_shadow_mem" or "accel" are not parameters for the machine
-anymore. Also, there is no distinction between the targets here, so
-e.g. the s390x-specific values like "loadparm" in this list also
-show up with the other targets like x86_64.
+On Fri, Nov 11, 2022 at 06:01:08PM +0530, Ani Sinha wrote:
+> Most of the changes are trivial. The bits test timeout has now been increased
+> to 110 seconds in order to accommodate slower systems and fewer unnecessary
+> failures. Removed of the reference to non-existent README file in docs.
+> 
+> CC: Thomas Huth <thuth@redhat.com>
+> CC: qemu-trivial@nongnu.org
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
 
-Let's fix this now by geting rid of the hand-crafted list and by
-querying the properties of the machine classes instead to assemble
-the list.
+You need to pick a tree through which work on these
+will be merged.
+If it's my pc/pci tree you need to add that to MAINTAINERS
+so I get to see the patches.
 
-Fixes: 0a7cf217d8 ("fix regression of qmp_query_command_line_options")
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- v2: Query properties from all machine classes, not only from the current one
 
- util/qemu-config.c | 168 +++++++++++++++++++++------------------------
- 1 file changed, 77 insertions(+), 91 deletions(-)
-
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index 433488aa56..cf47e8a3d0 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -8,6 +8,7 @@
- #include "qemu/error-report.h"
- #include "qemu/option.h"
- #include "qemu/config-file.h"
-+#include "hw/boards.h"
- 
- static QemuOptsList *vm_config_groups[48];
- static QemuOptsList *drive_config_groups[5];
-@@ -149,97 +150,82 @@ static CommandLineParameterInfoList *get_drive_infolist(void)
-     return head;
- }
- 
--/* restore machine options that are now machine's properties */
--static QemuOptsList machine_opts = {
--    .merge_lists = true,
--    .head = QTAILQ_HEAD_INITIALIZER(machine_opts.head),
--    .desc = {
--        {
--            .name = "type",
--            .type = QEMU_OPT_STRING,
--            .help = "emulated machine"
--        },{
--            .name = "accel",
--            .type = QEMU_OPT_STRING,
--            .help = "accelerator list",
--        },{
--            .name = "kernel_irqchip",
--            .type = QEMU_OPT_BOOL,
--            .help = "use KVM in-kernel irqchip",
--        },{
--            .name = "kvm_shadow_mem",
--            .type = QEMU_OPT_SIZE,
--            .help = "KVM shadow MMU size",
--        },{
--            .name = "kernel",
--            .type = QEMU_OPT_STRING,
--            .help = "Linux kernel image file",
--        },{
--            .name = "initrd",
--            .type = QEMU_OPT_STRING,
--            .help = "Linux initial ramdisk file",
--        },{
--            .name = "append",
--            .type = QEMU_OPT_STRING,
--            .help = "Linux kernel command line",
--        },{
--            .name = "dtb",
--            .type = QEMU_OPT_STRING,
--            .help = "Linux kernel device tree file",
--        },{
--            .name = "dumpdtb",
--            .type = QEMU_OPT_STRING,
--            .help = "Dump current dtb to a file and quit",
--        },{
--            .name = "phandle_start",
--            .type = QEMU_OPT_NUMBER,
--            .help = "The first phandle ID we may generate dynamically",
--        },{
--            .name = "dt_compatible",
--            .type = QEMU_OPT_STRING,
--            .help = "Overrides the \"compatible\" property of the dt root node",
--        },{
--            .name = "dump-guest-core",
--            .type = QEMU_OPT_BOOL,
--            .help = "Include guest memory in  a core dump",
--        },{
--            .name = "mem-merge",
--            .type = QEMU_OPT_BOOL,
--            .help = "enable/disable memory merge support",
--        },{
--            .name = "usb",
--            .type = QEMU_OPT_BOOL,
--            .help = "Set on/off to enable/disable usb",
--        },{
--            .name = "firmware",
--            .type = QEMU_OPT_STRING,
--            .help = "firmware image",
--        },{
--            .name = "iommu",
--            .type = QEMU_OPT_BOOL,
--            .help = "Set on/off to enable/disable Intel IOMMU (VT-d)",
--        },{
--            .name = "suppress-vmdesc",
--            .type = QEMU_OPT_BOOL,
--            .help = "Set on to disable self-describing migration",
--        },{
--            .name = "aes-key-wrap",
--            .type = QEMU_OPT_BOOL,
--            .help = "enable/disable AES key wrapping using the CPACF wrapping key",
--        },{
--            .name = "dea-key-wrap",
--            .type = QEMU_OPT_BOOL,
--            .help = "enable/disable DEA key wrapping using the CPACF wrapping key",
--        },{
--            .name = "loadparm",
--            .type = QEMU_OPT_STRING,
--            .help = "Up to 8 chars in set of [A-Za-z0-9. ](lower case chars"
--                    " converted to upper case) to pass to machine"
--                    " loader, boot manager, and guest kernel",
--        },
--        { /* End of list */ }
-+static CommandLineParameterInfo *objprop_to_cmdline_prop(ObjectProperty *prop)
-+{
-+    CommandLineParameterInfo *info;
-+
-+    info = g_malloc0(sizeof(*info));
-+    info->name = g_strdup(prop->name);
-+
-+    if (g_str_equal(prop->type, "bool") || g_str_equal(prop->type, "OnOffAuto")) {
-+        info->type = COMMAND_LINE_PARAMETER_TYPE_BOOLEAN;
-+    } else if (g_str_equal(prop->type, "int")) {
-+        info->type = COMMAND_LINE_PARAMETER_TYPE_NUMBER;
-+    } else if (g_str_equal(prop->type, "size")) {
-+        info->type = COMMAND_LINE_PARAMETER_TYPE_SIZE;
-+    } else {
-+        info->type = COMMAND_LINE_PARAMETER_TYPE_STRING;
-     }
--};
-+
-+    if (prop->description) {
-+        info->has_help = true;
-+        info->help = g_strdup(prop->description);
-+    }
-+
-+    return info;
-+}
-+
-+static CommandLineParameterInfoList *query_all_machine_properties(void)
-+{
-+    CommandLineParameterInfoList *params = NULL, *clpiter;
-+    CommandLineParameterInfo *info;
-+    GSList *machines, *curr_mach;
-+    ObjectPropertyIterator op_iter;
-+    ObjectProperty *prop;
-+    bool is_new;
-+
-+    machines = object_class_get_list(TYPE_MACHINE, false);
-+    assert(machines);
-+
-+    /* Loop over all machine classes */
-+    for (curr_mach = machines; curr_mach; curr_mach = curr_mach->next) {
-+        object_class_property_iter_init(&op_iter, curr_mach->data);
-+        /* ... and over the properties of each machine: */
-+        while ((prop = object_property_iter_next(&op_iter))) {
-+            if (!prop->set) {
-+                continue;
-+            }
-+            /*
-+             * Check whether the property has already been put into the list
-+             * (via another machine class)
-+             */
-+            is_new = true;
-+            for (clpiter = params; clpiter != NULL; clpiter = clpiter->next) {
-+                if (g_str_equal(clpiter->value->name, prop->name)) {
-+                    is_new = false;
-+                    break;
-+                }
-+            }
-+            /* If it hasn't been added before, add it now to the list */
-+            if (is_new) {
-+                info = objprop_to_cmdline_prop(prop);
-+                QAPI_LIST_PREPEND(params, info);
-+            }
-+        }
-+    }
-+
-+    g_slist_free(machines);
-+
-+    /* Add entry for the "type" parameter */
-+    info = g_malloc0(sizeof(*info));
-+    info->name = g_strdup("type");
-+    info->type = COMMAND_LINE_PARAMETER_TYPE_STRING;
-+    info->has_help = true;
-+    info->help = g_strdup("machine type");
-+    QAPI_LIST_PREPEND(params, info);
-+
-+    return params;
-+}
- 
- CommandLineOptionInfoList *qmp_query_command_line_options(bool has_option,
-                                                           const char *option,
-@@ -266,7 +252,7 @@ CommandLineOptionInfoList *qmp_query_command_line_options(bool has_option,
-     if (!has_option || !strcmp(option, "machine")) {
-         info = g_malloc0(sizeof(*info));
-         info->option = g_strdup("machine");
--        info->parameters = query_option_descs(machine_opts.desc);
-+        info->parameters = query_all_machine_properties();
-         QAPI_LIST_PREPEND(conf_list, info);
-     }
- 
--- 
-2.31.1
+> ---
+>  changed from v1: address Thomas' suggestions.
+> 
+>  docs/devel/acpi-bits.rst   | 7 +++----
+>  tests/avocado/acpi-bits.py | 5 +++--
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
+> index c9564d871a..2c776ab166 100644
+> --- a/docs/devel/acpi-bits.rst
+> +++ b/docs/devel/acpi-bits.rst
+> @@ -38,10 +38,9 @@ Under ``tests/avocado/`` as the root we have:
+>     │ ├── bits-config
+>     │ │ └── bits-cfg.txt
+>     │ ├── bits-tests
+> -   │ │ ├── smbios.py2
+> -   │ │ ├── testacpi.py2
+> -   │ │ └── testcpuid.py2
+> -   │ └── README
+> +   │   ├── smbios.py2
+> +   │   ├── testacpi.py2
+> +   │   └── testcpuid.py2
+>     ├── acpi-bits.py
+>  
+>  * ``tests/avocado``:
+> diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
+> index 8745a58a76..2edc36fc26 100644
+> --- a/tests/avocado/acpi-bits.py
+> +++ b/tests/avocado/acpi-bits.py
+> @@ -385,8 +385,9 @@ def test_acpi_smbios_bits(self):
+>          self._vm.launch()
+>          # biosbits has been configured to run all the specified test suites
+>          # in batch mode and then automatically initiate a vm shutdown.
+> -        # sleep for maximum of one minute
+> -        max_sleep_time = time.monotonic() + 60
+> +        # sleep for maximum of a minute and 50 seconds in order to accommodate
+> +        # even slower test setups.
+> +        max_sleep_time = time.monotonic() + 110
+>          while self._vm.is_running() and time.monotonic() < max_sleep_time:
+>              time.sleep(1)
+>  
+> -- 
+> 2.34.1
+> 
+> 
+> 
 
 
