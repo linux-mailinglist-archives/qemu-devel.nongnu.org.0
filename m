@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC08A625E5D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 16:30:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6BE625E59
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 16:29:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otVwp-00085n-5A; Fri, 11 Nov 2022 10:28:03 -0500
+	id 1otVwr-00086y-1L; Fri, 11 Nov 2022 10:28:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwm-00085C-U2
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:28:00 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwo-00085e-8l
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:28:02 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwl-0000yY-GG
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:28:00 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwm-0000yx-Tt
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:28:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668180478;
+ s=mimecast20190719; t=1668180480;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W7XgNbt2S8/eyl7qmv8YWwuq0Z0Lzt7XMrmLfHXu42I=;
- b=EK3sLVhJA8Ja2MPwXIE+WEDemcUPq07hOZOhTNdNaTane+s5DMZYj2LB1dVE+eI7jMM7i3
- QHlC45v6dksg6f1WRV9fqyaTlmJUq4ik/J3iC1hSrmSA3TZwcOYlg9SER8wmMlsx7qPa0p
- w2GR2amHqOxUogRPUr6LQc5JqDge6Bk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YlEcDUS0WtTGCZHMO5KFfRfilwI3+UUzqQZ4dp9KJRQ=;
+ b=Rh9zSwsLb/YUkObRygRhdjVDs9tq79uoVRBZKoJxNwoi70P+ZKKtCtBjgK2u759WeLIjX8
+ LkcPZ7pl4giKwlHhKZAmVaZx/LTq7/1U9XWAFGgyteCzdlF+OyCl1Pts5hfCfv/uxQ6NJr
+ ttSerCaM0L4u9+/6Zy0qk7SW7wOP9NE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-664-xCDM2iwJPa2TUvDDxc0Yrg-1; Fri, 11 Nov 2022 10:27:57 -0500
-X-MC-Unique: xCDM2iwJPa2TUvDDxc0Yrg-1
+ us-mta-296-bAJbUYnQM16J9m-gz8FdXw-1; Fri, 11 Nov 2022 10:27:59 -0500
+X-MC-Unique: bAJbUYnQM16J9m-gz8FdXw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27519381A72F;
- Fri, 11 Nov 2022 15:27:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B3F43806001;
+ Fri, 11 Nov 2022 15:27:58 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC410C15BA8;
- Fri, 11 Nov 2022 15:27:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B287CC15BA8;
+ Fri, 11 Nov 2022 15:27:57 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 06/11] qapi/block-core: Fix BlockdevOptionsNvmeIoUring @path
- description
-Date: Fri, 11 Nov 2022 16:27:39 +0100
-Message-Id: <20221111152744.261358-7-kwolf@redhat.com>
+Subject: [PULL 07/11] block/blkio: Set BlockDriver::has_variable_length to
+ false
+Date: Fri, 11 Nov 2022 16:27:40 +0100
+Message-Id: <20221111152744.261358-8-kwolf@redhat.com>
 In-Reply-To: <20221111152744.261358-1-kwolf@redhat.com>
 References: <20221111152744.261358-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -80,33 +80,32 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Alberto Faria <afaria@redhat.com>
 
-The nvme-io_uring BlockDriver's path option must point at the character
-device of an NVMe namespace, not at an image file.
+Setting it to true can cause the device size to be queried from libblkio
+in otherwise fast paths, degrading performance. Set it to false and
+require users to refresh the device size explicitly instead.
 
-Fixes: fd66dbd424f5 ("blkio: add libblkio block driver")
-Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
+Fixes: 4c8f4fda0504 ("block/blkio: Tolerate device size changes")
+Suggested-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Alberto Faria <afaria@redhat.com>
-Message-Id: <20221108142347.1322674-1-afaria@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20221108144433.1334074-1-afaria@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/block-core.json | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/blkio.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 6d904004f8..95ac4fa634 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3704,7 +3704,7 @@
- #
- # Driver specific block device options for the nvme-io_uring backend.
- #
--# @path: path to the image file
-+# @path: path to the NVMe namespace's character device (e.g. /dev/ng0n1).
- #
- # Since: 7.2
- ##
+diff --git a/block/blkio.c b/block/blkio.c
+index 620fab28a7..5eae3adfaf 100644
+--- a/block/blkio.c
++++ b/block/blkio.c
+@@ -993,7 +993,6 @@ static void blkio_refresh_limits(BlockDriverState *bs, Error **errp)
+     { \
+         .format_name             = name, \
+         .protocol_name           = name, \
+-        .has_variable_length     = true, \
+         .instance_size           = sizeof(BDRVBlkioState), \
+         .bdrv_file_open          = blkio_file_open, \
+         .bdrv_close              = blkio_close, \
 -- 
 2.38.1
 
