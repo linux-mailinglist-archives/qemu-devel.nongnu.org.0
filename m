@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E02625261
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 05:24:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B2C6252E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 06:00:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otLZ4-0000Rf-2W; Thu, 10 Nov 2022 23:22:50 -0500
+	id 1otM7m-00051x-7I; Thu, 10 Nov 2022 23:58:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1otLYz-0000Jh-4e
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 23:22:45 -0500
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1otLYx-0001VS-2s
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 23:22:44 -0500
-Received: by mail-io1-xd2a.google.com with SMTP id p184so2845092iof.11
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 20:22:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=m425/v1PDzAj8vG9kNvFrl4H4YH1z9KtFZNU6KFaCxE=;
- b=ckwh6FcXPNm3cesyxfC301sP4wPlb8I7MwcU/RBR+lrn5ei0Zq7HVdVcAE4roFPlVx
- bu2QozRCxReM6Zm2IPcvzwjgPu3Bp4hSdFbFgRdXJl5OysV5o5XCK3R3yyEekYZrdRIC
- mTTaQnlux6pwYF/SY6znEV9GkliLEx/O2U8fyFGm7NG3oqacZwgUuvVlAq7yrPCMmsBh
- aZvEMbqlgL9ANxnCrvssOwGMxH6+yEMW/86lwrxsYYm4656Lkn1t+GuubWEAwGvZx3mO
- fG7QT8WSoD/BDl21DfYDHY0mKLPD4jN2hBo+ZOdis7sn584RuiBMyTjznSQj6jYuGJiM
- +aXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=m425/v1PDzAj8vG9kNvFrl4H4YH1z9KtFZNU6KFaCxE=;
- b=XxcWe/0Ng3SOBw23PFUSBGiWb7Ar2ho9M2s5u6xoz5oczsucFu2hRiZFnyCBtR84fi
- NKLzwZYTfAbBBSNuoz37bizDEjlXMw1H8UVZbb1hJ+34z31EEaVuJqKA5aql60qeKOnC
- S0xfyamOcnptOQ3bFFu1yCmmHExZ9CfJJI9f8mNne8NQG/LHC8/WMZsVWlIaVrpLeYyq
- 1foAA0TNG4/Yy6dTkF+S4vCzvxy2JVhOQMzXiBFnHkxtwodLJZnfHRaZzDekVmPDbskc
- 54ay2dOWQwj+Z/zfL0VxVnWvvQn3qVceht5hFJ0wx4hol9uehRpH03qlRERP9sc0/1gz
- Fo8g==
-X-Gm-Message-State: ACrzQf0lERjtN8hr/rAiHPGYCBTHr7ibISCi5tKwshvlWxmH5GgS9sqg
- hG+l/dZv7YEUQVaz4CPA3e6CvstslU0iOEywOqiZ3w==
-X-Google-Smtp-Source: AMsMyM6iwp0zgDMxWFsMGdjT9jK9QtzT/2MTbqpUB8ll4UFfjwxVXKzym8LdgLtB6OlfdkCckfKV11rODjmero/fhcI=
-X-Received: by 2002:a05:6638:3d05:b0:363:a437:e54b with SMTP id
- cl5-20020a0566383d0500b00363a437e54bmr4385671jab.261.1668140560673; Thu, 10
- Nov 2022 20:22:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1otM7k-00051i-M6
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 23:58:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1otM7i-0000EI-Qt
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 23:58:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668142717;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VqIDWdl0ScxTgA2BZ3axl8QvTwXdyWcFms0zMgUXm4Y=;
+ b=b3DYKf/84gFaisD7a7RssnUW90brODLQfDEPavdGd2zv1IqmRrGwdnczciMF0RYKtYWFHy
+ ppOdieJMblHJGF/nzPs+weP4yxejq0ggO7xrsgJOrUloRhlStGLp8JVjzRCEgdN/BGQbZF
+ 4+P4fyMxuroc65QxXzc2qJr4N63l7OU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-444-9ppnEcV7Plqnl037ZMxwnQ-1; Thu, 10 Nov 2022 23:58:31 -0500
+X-MC-Unique: 9ppnEcV7Plqnl037ZMxwnQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E97AD1C05B03;
+ Fri, 11 Nov 2022 04:58:30 +0000 (UTC)
+Received: from [10.64.54.49] (vpn2-54-49.bne.redhat.com [10.64.54.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AA20492B1D;
+ Fri, 11 Nov 2022 04:58:27 +0000 (UTC)
+Subject: Re: [PATCH v3] qapi/qom: Memory backend property prealloc-threads doc
+ fix
+To: Zhenyu Zhang <zhenyzha@redhat.com>, qemu-devel@nongnu.org
+Cc: armbru@redhat.com, philmd@linaro.org, shan.gavin@gmail.com,
+ eric.auger@redhat.com, imammedo@redhat.com, lijin@redhat.com
+References: <20221111030541.191186-1-zhenyzha@redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <dc7f305b-5dc0-999f-8b58-a2c2a4b18828@redhat.com>
+Date: Fri, 11 Nov 2022 12:58:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-References: <CAFn=p-YFQdO+ZfAYVw+T1b16kA2jBVZB7Tpy7J68XYbqgT7UZw@mail.gmail.com>
-In-Reply-To: <CAFn=p-YFQdO+ZfAYVw+T1b16kA2jBVZB7Tpy7J68XYbqgT7UZw@mail.gmail.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Fri, 11 Nov 2022 09:52:29 +0530
-Message-ID: <CAARzgwyzQ-k5Ek-kpFfvLdgD=TLe2EsW6XcBKJqNvUNYN5Qq=g@mail.gmail.com>
-Subject: Re: biosbits test failing on origin/master
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=ani@anisinha.ca; helo=mail-io1-xd2a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20221111030541.191186-1-zhenyzha@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,55 +79,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Nov 10, 2022 at 11:37 PM John Snow <jsnow@redhat.com> wrote:
->
-> Hiya, on today's origin/master
-> (2ccad61746ca7de5dd3e25146062264387e43bd4) I'm finding that "make
-> check-avocado" is failing on the new biosbits test on my local
-> development machine:
->
->  (001/193) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits:
-> FAIL: True is not false : The VM seems to have failed to shutdown in
-> time (83.65 s)
->
-> Is this a known issue, or should I begin to investigate it?
+Hi Zhenyu,
 
-In my test environment it does pass.
+On 11/11/22 11:05 AM, Zhenyu Zhang wrote:
+> Commit ffac16fab3 "hostmem: introduce "prealloc-threads" property"
+> (v5.0.0) changed the default number of threads from number of CPUs
+> to 1.  This was deemed a regression, and fixed in commit f8d426a685
+> "hostmem: default the amount of prealloc-threads to smp-cpus".
+> Except the documentation remained unchanged.  Update it now.
+> 
+> Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
+> ---
+> 
+> v3: Covers historical descriptions                  (Markus)
+> v2: The property is changed to smp-cpus since 5.0   (Phild)
+> 
+> ---
+>   qapi/qom.json | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-$ ./tests/venv/bin/avocado run -t acpi tests/avocado
-Fetching asset from
-tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits
-JOB ID     : 35726df7d3c2e0f41847822620c78195ba45b9b9
-JOB LOG    : /home/anisinha/avocado/job-results/job-2022-11-11T09.42-35726df/job.log
- (1/1) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits:
-PASS (57.57 s)
-RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0
-| CANCEL 0
-JOB TIME   : 63.82 s
+With the following comments addressed:
 
-However, I have seen that on certain slower test machines or when run
-within a virtual machine, the test can take longer to complete and 60
-secs may not always be enough. In those cases raising the maximum
-completion time to 90 secs helps. Perhaps you can try this and let me
-know if it helps:
+Reviewed-by: Gavin Shan <gshan@redhat.com>
 
-diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
-index 8745a58a76..b11fe39350 100644
---- a/tests/avocado/acpi-bits.py
-+++ b/tests/avocado/acpi-bits.py
-@@ -385,8 +385,9 @@ def test_acpi_smbios_bits(self):
-         self._vm.launch()
-         # biosbits has been configured to run all the specified test suites
-         # in batch mode and then automatically initiate a vm shutdown.
--        # sleep for maximum of one minute
--        max_sleep_time = time.monotonic() + 60
-+        # sleep for a maximum of one and half minutes to accommodate
-running this
-+        # even on slower machines.
-+        max_sleep_time = time.monotonic() + 90
-         while self._vm.is_running() and time.monotonic() < max_sleep_time:
-             time.sleep(1)
+---
+
+Please consider amending the commit log to something like below.
+
+The default "prealloc-threads" value is set to 1 when the property is
+added by commit ffac16fab33b ("hostmem: introduce "prealloc-threads"
+property") in v5.0.0. The default value is conflicting with the sugar
+property as the value provided by the sugar property is number of CPUs.
+The conflict has been fixed by commit f8d426a6852c ("hostmem: default
+the amount of prealloc-threads to smp-cpus"). However, 'qapi/qom.json'
+was missed to be updated accordingly in the commit.
+
+Update 'qapi/qom.json' to reflect the change in commit f8d426a6852c.
+
+Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
+
+When a specific commit is mentioned in the commit log, we usually have
+fixed format like below.
+
+commit ffac16fab33b ("hostmem: introduce "prealloc-threads" property")
+commit f8d426a6852c ("hostmem: default the amount of prealloc-threads to smp-cpus")
+
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index 30e76653ad..dfd89bc6d4 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -576,7 +576,7 @@
+>   #
+>   # @prealloc: if true, preallocate memory (default: false)
+>   #
+> -# @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
+> +# @prealloc-threads: number of CPU threads to use for prealloc (default: number of CPUs) (since 5.0)
+>   #
+>   # @prealloc-context: thread context to use for creation of preallocation threads
+>   #                    (default: none) (since 7.2)
+> 
+
+The line seems exceeding 80 characters. It'd better to limit each line in 75 characters.
+So you probably need:
+
+     # @prealloc-threads: number of CPU threads to use for prealloc (default: number of CPUs)
+     #                    (since 5.0)
+
+Thanks,
+Gavin
+
 
