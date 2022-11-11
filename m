@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C4A625E62
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 16:32:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 569FE625E55
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 16:29:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otVwn-000857-A6; Fri, 11 Nov 2022 10:28:01 -0500
+	id 1otVwn-00085M-GB; Fri, 11 Nov 2022 10:28:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwl-00083C-40
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwl-00083f-JZ
  for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:27:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwi-0000wq-PO
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:27:58 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwj-0000xZ-OC
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:27:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668180475;
+ s=mimecast20190719; t=1668180477;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KexTQnl+6A33GC2hKkTugbcIEw8Mco7dXV78tYXJvBM=;
- b=UHEmGUGBhZEZfUfPwJ3qixVXwx1g1i17Rx2uLgXfVR9+QwiE3Eqw2fSCuLmXPZUiGEtL/D
- F7qNw9YBxS2egNAuemm+cfNAhYf7/oMEB0z87ck5FH2QhTv3zID/egWLbfvmdVV52HyFhY
- /fFoT6wEefYIVIvsTzaaCuQ2wpeMEmY=
+ bh=KUZY7kxJfm0fPu1AX6fPBsSEP1XKTHcjM7J628oygpY=;
+ b=XxBHT8LRWn538jcHDMudGG5r7JpcqbHog/WeeN3jCxv5mRUqIRxHidShgSY935c6E99NMd
+ SAFV3xasd/04PwetLVN9fUMtjIOSaf8VQHVquoLOpi0KZL4efnM5WyG+INVhiIKZwYt2I2
+ RESYscE4iiaYHYHWdGdJpUS4Fhri8BM=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-651-1doVwYH7OZuwEhQGNX0rew-1; Fri, 11 Nov 2022 10:27:54 -0500
-X-MC-Unique: 1doVwYH7OZuwEhQGNX0rew-1
+ us-mta-368-3ypbLhsYPSS8_GtjcQiiQA-1; Fri, 11 Nov 2022 10:27:55 -0500
+X-MC-Unique: 3ypbLhsYPSS8_GtjcQiiQA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4B412299E77A;
- Fri, 11 Nov 2022 15:27:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6FD891C07566;
+ Fri, 11 Nov 2022 15:27:55 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85CB8C15BA8;
- Fri, 11 Nov 2022 15:27:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 98477C15BB2;
+ Fri, 11 Nov 2022 15:27:54 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 04/11] iotests/151: Test that active mirror progresses
-Date: Fri, 11 Nov 2022 16:27:37 +0100
-Message-Id: <20221111152744.261358-5-kwolf@redhat.com>
+Subject: [PULL 05/11] iotests/151: Test active requests on mirror start
+Date: Fri, 11 Nov 2022 16:27:38 +0100
+Message-Id: <20221111152744.261358-6-kwolf@redhat.com>
 In-Reply-To: <20221111152744.261358-1-kwolf@redhat.com>
 References: <20221111152744.261358-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,241 +79,118 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Hanna Reitz <hreitz@redhat.com>
 
-Before this series, a mirror job in write-blocking mode would pause
-issuing background requests while active requests are in flight.  Thus,
-if the source is constantly in use by active requests, no actual
-progress can be made.
-
-This series should have fixed that, making the mirror job issue
-background requests even while active requests are in flight.
-
-Have a new test case in 151 verify this.
+Have write requests happen to the source node right when we start a
+mirror job.  The mirror filter node may encounter MirrorBDSOpaque.job
+being NULL, but this should not cause a segfault.
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20221109165452.67927-5-hreitz@redhat.com>
+Message-Id: <20221109165452.67927-6-hreitz@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/151     | 180 ++++++++++++++++++++++++++++++++++++-
- tests/qemu-iotests/151.out |   4 +-
- 2 files changed, 181 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/151     | 53 +++++++++++++++++++++++++++++++++++---
+ tests/qemu-iotests/151.out |  4 +--
+ 2 files changed, 52 insertions(+), 5 deletions(-)
 
 diff --git a/tests/qemu-iotests/151 b/tests/qemu-iotests/151
-index 93d14193d0..0a052e5050 100755
+index 0a052e5050..b4d1bc2553 100755
 --- a/tests/qemu-iotests/151
 +++ b/tests/qemu-iotests/151
-@@ -19,7 +19,10 @@
- # along with this program.  If not, see <http://www.gnu.org/licenses/>.
- #
- 
-+import math
+@@ -22,7 +22,8 @@
+ import math
  import os
-+import subprocess
-+from typing import List
+ import subprocess
+-from typing import List
++import time
++from typing import List, Optional
  import iotests
  from iotests import qemu_img
  
-@@ -50,7 +53,7 @@ class TestActiveMirror(iotests.QMPTestCase):
-         self.vm = iotests.VM()
-         self.vm.add_drive_raw(self.vm.qmp_to_opts(blk_source))
-         self.vm.add_blockdev(self.vm.qmp_to_opts(blk_target))
--        self.vm.add_device('virtio-blk,drive=source')
-+        self.vm.add_device('virtio-blk,id=vblk,drive=source')
-         self.vm.launch()
- 
-     def tearDown(self):
-@@ -192,6 +195,181 @@ class TestActiveMirror(iotests.QMPTestCase):
+@@ -195,12 +196,15 @@ class TestActiveMirror(iotests.QMPTestCase):
          self.potential_writes_in_flight = False
  
  
-+class TestThrottledWithNbdExport(iotests.QMPTestCase):
-+    image_len = 128 * 1024 * 1024  # MB
+-class TestThrottledWithNbdExport(iotests.QMPTestCase):
++class TestThrottledWithNbdExportBase(iotests.QMPTestCase):
+     image_len = 128 * 1024 * 1024  # MB
+-    iops = 16
++    iops: Optional[int] = None
+     background_processes: List['subprocess.Popen[str]'] = []
+ 
+     def setUp(self):
++        # Must be set by subclasses
++        self.assertIsNotNone(self.iops)
++
+         qemu_img('create', '-f', iotests.imgfmt, source_img, '128M')
+         qemu_img('create', '-f', iotests.imgfmt, target_img, '128M')
+ 
+@@ -284,6 +288,10 @@ class TestThrottledWithNbdExport(iotests.QMPTestCase):
+         os.remove(source_img)
+         os.remove(target_img)
+ 
++
++class TestLowThrottledWithNbdExport(TestThrottledWithNbdExportBase):
 +    iops = 16
-+    background_processes: List['subprocess.Popen[str]'] = []
 +
-+    def setUp(self):
-+        qemu_img('create', '-f', iotests.imgfmt, source_img, '128M')
-+        qemu_img('create', '-f', iotests.imgfmt, target_img, '128M')
+     def testUnderLoad(self):
+         '''
+         Throttle the source node, then issue a whole bunch of external requests
+@@ -370,6 +378,45 @@ class TestThrottledWithNbdExport(iotests.QMPTestCase):
+         self.assertGreater(start_remaining - end_remaining, 0)
+ 
+ 
++class TestHighThrottledWithNbdExport(TestThrottledWithNbdExportBase):
++    iops = 1024
 +
-+        self.vm = iotests.VM()
-+        self.vm.launch()
-+
-+        result = self.vm.qmp('object-add', **{
-+            'qom-type': 'throttle-group',
-+            'id': 'thrgr',
-+            'limits': {
-+                'iops-total': self.iops,
-+                'iops-total-max': self.iops
-+            }
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = self.vm.qmp('blockdev-add', **{
-+            'node-name': 'source-node',
-+            'driver': 'throttle',
-+            'throttle-group': 'thrgr',
-+            'file': {
-+                'driver': iotests.imgfmt,
-+                'file': {
-+                    'driver': 'file',
-+                    'filename': source_img
-+                }
-+            }
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = self.vm.qmp('blockdev-add', **{
-+            'node-name': 'target-node',
-+            'driver': iotests.imgfmt,
-+            'file': {
-+                'driver': 'file',
-+                'filename': target_img
-+            }
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        self.nbd_sock = iotests.file_path('nbd.sock',
-+                                          base_dir=iotests.sock_dir)
-+        self.nbd_url = f'nbd+unix:///source-node?socket={self.nbd_sock}'
-+
-+        result = self.vm.qmp('nbd-server-start', addr={
-+            'type': 'unix',
-+            'data': {
-+                'path': self.nbd_sock
-+            }
-+        })
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = self.vm.qmp('block-export-add', id='exp0', type='nbd',
-+                             node_name='source-node', writable=True)
-+        self.assert_qmp(result, 'return', {})
-+
-+    def tearDown(self):
-+        # Wait for background requests to settle
-+        try:
-+            while True:
-+                p = self.background_processes.pop()
-+                while True:
-+                    try:
-+                        p.wait(timeout=0.0)
-+                        break
-+                    except subprocess.TimeoutExpired:
-+                        self.vm.qtest(f'clock_step {1 * 1000 * 1000 * 1000}')
-+        except IndexError:
-+            pass
-+
-+        # Cancel ongoing block jobs
-+        for job in self.vm.qmp('query-jobs')['return']:
-+            self.vm.qmp('block-job-cancel', device=job['id'], force=True)
-+
-+        while True:
-+            self.vm.qtest(f'clock_step {1 * 1000 * 1000 * 1000}')
-+            if len(self.vm.qmp('query-jobs')['return']) == 0:
-+                break
-+
-+        self.vm.shutdown()
-+        os.remove(source_img)
-+        os.remove(target_img)
-+
-+    def testUnderLoad(self):
++    def testActiveOnCreation(self):
 +        '''
-+        Throttle the source node, then issue a whole bunch of external requests
-+        while the mirror job (in write-blocking mode) is running.  We want to
-+        see background requests being issued even while the source is under
-+        full load by active writes, so that progress can be made towards READY.
++        Issue requests on the mirror source node right as the mirror is
++        instated.  It's possible that requests occur before the actual job is
++        created, but after the node has been put into the graph.  Write
++        requests across the node must in that case be forwarded to the source
++        node without attempting to mirror them (there is no job object yet, so
++        attempting to access it would cause a segfault).
++        We do this with a lightly throttled node (i.e. quite high IOPS limit).
++        Using throttling seems to increase reproductivity, but if the limit is
++        too low, all requests allowed per second will be submitted before
++        mirror_start_job() gets to the problematic point.
 +        '''
 +
-+        # Fill the first half of the source image; do not fill the second half,
-+        # that is where we will have active requests occur.  This ensures that
-+        # active mirroring itself will not directly contribute to the job's
-+        # progress (because when the job was started, those areas were not
-+        # intended to be copied, so active mirroring will only lead to not
-+        # losing progress, but also not making any).
-+        self.vm.hmp_qemu_io('source-node',
-+                            f'aio_write -P 1 0 {self.image_len // 2}')
++        # Let qemu-img bench create write requests (enough for two seconds on
++        # the virtual clock)
++        bench_args = ['bench', '-w', '-d', '1024', '-f', 'nbd',
++                      '-c', str(self.iops * 2), self.nbd_url]
++        p = iotests.qemu_tool_popen(iotests.qemu_img_args + bench_args)
++        self.background_processes += [p]
++
++        # Give qemu-img bench time to start up and issue requests
++        time.sleep(1.0)
++        # Flush the request queue, so new requests can come in right as we
++        # start blockdev-mirror
 +        self.vm.qtest(f'clock_step {1 * 1000 * 1000 * 1000}')
 +
-+        # Launch the mirror job
-+        mirror_buf_size = 65536
 +        result = self.vm.qmp('blockdev-mirror',
 +                             job_id='mirror',
-+                             filter_node_name='mirror-node',
 +                             device='source-node',
 +                             target='target-node',
 +                             sync='full',
-+                             copy_mode='write-blocking',
-+                             buf_size=mirror_buf_size)
++                             copy_mode='write-blocking')
 +        self.assert_qmp(result, 'return', {})
-+
-+        # We create the external requests via qemu-io processes on the NBD
-+        # server.  Have their offset start in the middle of the image so they
-+        # do not overlap with the background requests (which start from the
-+        # beginning).
-+        active_request_offset = self.image_len // 2
-+        active_request_len = 4096
-+
-+        # Create enough requests to saturate the node for 5 seconds
-+        for _ in range(0, 5 * self.iops):
-+            req = f'write -P 42 {active_request_offset} {active_request_len}'
-+            active_request_offset += active_request_len
-+            p = iotests.qemu_io_popen('-f', 'nbd', self.nbd_url, '-c', req)
-+            self.background_processes += [p]
-+
-+        # Now advance the clock one I/O operation at a time by the 4 seconds
-+        # (i.e. one less than 5).  We expect the mirror job to issue background
-+        # operations here, even though active requests are still in flight.
-+        # The active requests will take precedence, however, because they have
-+        # been issued earlier than mirror's background requests.
-+        # Once the active requests we have started above are done (i.e. after 5
-+        # virtual seconds), we expect those background requests to be worked
-+        # on.  We only advance 4 seconds here to avoid race conditions.
-+        for _ in range(0, 4 * self.iops):
-+            step = math.ceil(1 * 1000 * 1000 * 1000 / self.iops)
-+            self.vm.qtest(f'clock_step {step}')
-+
-+        # Note how much remains to be done until the mirror job is finished
-+        job_status = self.vm.qmp('query-jobs')['return'][0]
-+        start_remaining = job_status['total-progress'] - \
-+            job_status['current-progress']
-+
-+        # Create a whole bunch of more active requests
-+        for _ in range(0, 10 * self.iops):
-+            req = f'write -P 42 {active_request_offset} {active_request_len}'
-+            active_request_offset += active_request_len
-+            p = iotests.qemu_io_popen('-f', 'nbd', self.nbd_url, '-c', req)
-+            self.background_processes += [p]
-+
-+        # Let the clock advance more.  After 1 second, as noted above, we
-+        # expect the background requests to be worked on.  Give them a couple
-+        # of seconds (specifically 4) to see their impact.
-+        for _ in range(0, 5 * self.iops):
-+            step = math.ceil(1 * 1000 * 1000 * 1000 / self.iops)
-+            self.vm.qtest(f'clock_step {step}')
-+
-+        # Note how much remains to be done now.  We expect this number to be
-+        # reduced thanks to those background requests.
-+        job_status = self.vm.qmp('query-jobs')['return'][0]
-+        end_remaining = job_status['total-progress'] - \
-+            job_status['current-progress']
-+
-+        # See that indeed progress was being made on the job, even while the
-+        # node was saturated with active requests
-+        self.assertGreater(start_remaining - end_remaining, 0)
 +
 +
  if __name__ == '__main__':
      iotests.main(supported_fmts=['qcow2', 'raw'],
                   supported_protocols=['file'])
 diff --git a/tests/qemu-iotests/151.out b/tests/qemu-iotests/151.out
-index 89968f35d7..914e3737bd 100644
+index 914e3737bd..3f8a935a08 100644
 --- a/tests/qemu-iotests/151.out
 +++ b/tests/qemu-iotests/151.out
 @@ -1,5 +1,5 @@
--....
-+.....
+-.....
++......
  ----------------------------------------------------------------------
--Ran 4 tests
-+Ran 5 tests
+-Ran 5 tests
++Ran 6 tests
  
  OK
 -- 
