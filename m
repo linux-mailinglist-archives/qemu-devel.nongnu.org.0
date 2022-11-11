@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C99625E61
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 16:32:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64C02625E58
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 16:29:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otVwo-00085d-FX; Fri, 11 Nov 2022 10:28:02 -0500
+	id 1otVwr-00085j-0u; Fri, 11 Nov 2022 10:28:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwl-00083B-3a
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:27:59 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwj-00082O-2A
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:27:58 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwj-0000xM-Ct
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:27:58 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwg-0000vx-R2
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:27:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668180476;
+ s=mimecast20190719; t=1668180474;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n8sicfw2J9gcj5+M06bwLHmO1mXl9sHz1y6yDWPoIR0=;
- b=T9m/dFplJUAYnbos5frRXvMpc1uRFbH2koCOy1T6Ksvz+F79i7XEkXiUC78Rp9yz3PzuBx
- cWfro3fPlzGDTpq/kVuPD7IBJGmuCzhjAVvSKME9Q9FIhSihqPqQf26CTypJHG34ktu2Y5
- YpjRAKaOzZFI710meAVBsG4M+BFu2wo=
+ bh=rp7H1dgmKr9FdrvE0WkOws7dJn1U4eZgma5bFgOWpKQ=;
+ b=co2SCSBwbNKwBqP1LkSQaULPoqto8BUbjFkOCASCTYnSugQ+DbTK3q8bs05VSAkHElRVCs
+ V16HCbUa6A55JE5d/V/CZhr6dAmRJ0TVK77DPoj0miVgv/OKlhfLYLb+iAkieNyFOXu7F3
+ tYyBTFy5OpsRsMonUxWFjDlohefpGXY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-N8cHkhIAP6e_feyssH6lOw-1; Fri, 11 Nov 2022 10:27:51 -0500
-X-MC-Unique: N8cHkhIAP6e_feyssH6lOw-1
+ us-mta-563-z8bXy-XxPYuAuM6cCmTxaA-1; Fri, 11 Nov 2022 10:27:52 -0500
+X-MC-Unique: z8bXy-XxPYuAuM6cCmTxaA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 33B4D811E67;
- Fri, 11 Nov 2022 15:27:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 45BB480280D;
+ Fri, 11 Nov 2022 15:27:52 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5011EC15BA8;
- Fri, 11 Nov 2022 15:27:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6DED3C15BA8;
+ Fri, 11 Nov 2022 15:27:51 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 01/11] block/mirror: Do not wait for active writes
-Date: Fri, 11 Nov 2022 16:27:34 +0100
-Message-Id: <20221111152744.261358-2-kwolf@redhat.com>
+Subject: [PULL 02/11] block/mirror: Drop mirror_wait_for_any_operation()
+Date: Fri, 11 Nov 2022 16:27:35 +0100
+Message-Id: <20221111152744.261358-3-kwolf@redhat.com>
 In-Reply-To: <20221111152744.261358-1-kwolf@redhat.com>
 References: <20221111152744.261358-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -61,7 +61,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,140 +79,63 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Hanna Reitz <hreitz@redhat.com>
 
-Waiting for all active writes to settle before daring to create a
-background copying operation means that we will never do background
-operations while the guest does anything (in write-blocking mode), and
-therefore cannot converge.  Yes, we also will not diverge, but actually
-converging would be even nicer.
+mirror_wait_for_free_in_flight_slot() is the only remaining user of
+mirror_wait_for_any_operation(), so inline the latter into the former.
 
-It is unclear why we did decide to wait for all active writes to settle
-before creating a background operation, but it just does not seem
-necessary.  Active writes will put themselves into the in_flight bitmap
-and thus properly block actually conflicting background requests.
-
-It is important for active requests to wait on overlapping background
-requests, which we do in active_write_prepare().  However, so far it was
-not documented why it is important.  Add such documentation now, and
-also to the other call of mirror_wait_on_conflicts(), so that it becomes
-more clear why and when requests need to actively wait for other
-requests to settle.
-
-Another thing to note is that of course we need to ensure that there are
-no active requests when the job completes, but that is done by virtue of
-the BDS being drained anyway, so there cannot be any active requests at
-that point.
-
-With this change, we will need to explicitly keep track of how many
-bytes are in flight in active requests so that
-job_progress_set_remaining() in mirror_run() can set the correct number
-of remaining bytes.
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2123297
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20221109165452.67927-2-hreitz@redhat.com>
+Message-Id: <20221109165452.67927-3-hreitz@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/mirror.c | 37 ++++++++++++++++++++++++++++++-------
- 1 file changed, 30 insertions(+), 7 deletions(-)
+ block/mirror.c | 21 ++++++++-------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
 
 diff --git a/block/mirror.c b/block/mirror.c
-index 1a75a47cc3..e5467b0053 100644
+index e5467b0053..5b6f42392c 100644
 --- a/block/mirror.c
 +++ b/block/mirror.c
-@@ -82,6 +82,7 @@ typedef struct MirrorBlockJob {
-     int max_iov;
-     bool initial_zeroing_ongoing;
-     int in_active_write_counter;
-+    int64_t active_write_bytes_in_flight;
-     bool prepared;
-     bool in_drain;
- } MirrorBlockJob;
-@@ -494,6 +495,13 @@ static uint64_t coroutine_fn mirror_iteration(MirrorBlockJob *s)
-     }
-     bdrv_dirty_bitmap_unlock(s->dirty_bitmap);
+@@ -305,19 +305,21 @@ static int mirror_cow_align(MirrorBlockJob *s, int64_t *offset,
+ }
  
-+    /*
-+     * Wait for concurrent requests to @offset.  The next loop will limit the
-+     * copied area based on in_flight_bitmap so we only copy an area that does
-+     * not overlap with concurrent in-flight requests.  Still, we would like to
-+     * copy something, so wait until there are at least no more requests to the
-+     * very beginning of the area.
-+     */
-     mirror_wait_on_conflicts(NULL, s, offset, 1);
+ static inline void coroutine_fn
+-mirror_wait_for_any_operation(MirrorBlockJob *s, bool active)
++mirror_wait_for_free_in_flight_slot(MirrorBlockJob *s)
+ {
+     MirrorOp *op;
  
-     job_pause_point(&s->common.job);
-@@ -988,12 +996,6 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
-         int64_t cnt, delta;
-         bool should_complete;
+     QTAILQ_FOREACH(op, &s->ops_in_flight, next) {
+-        /* Do not wait on pseudo ops, because it may in turn wait on
++        /*
++         * Do not wait on pseudo ops, because it may in turn wait on
+          * some other operation to start, which may in fact be the
+          * caller of this function.  Since there is only one pseudo op
+          * at any given time, we will always find some real operation
+-         * to wait on. */
+-        if (!op->is_pseudo_op && op->is_in_flight &&
+-            op->is_active_write == active)
+-        {
++         * to wait on.
++         * Also, do not wait on active operations, because they do not
++         * use up in-flight slots.
++         */
++        if (!op->is_pseudo_op && op->is_in_flight && !op->is_active_write) {
+             qemu_co_queue_wait(&op->waiting_requests, NULL);
+             return;
+         }
+@@ -325,13 +327,6 @@ mirror_wait_for_any_operation(MirrorBlockJob *s, bool active)
+     abort();
+ }
  
--        /* Do not start passive operations while there are active
--         * writes in progress */
--        while (s->in_active_write_counter) {
--            mirror_wait_for_any_operation(s, true);
--        }
+-static inline void coroutine_fn
+-mirror_wait_for_free_in_flight_slot(MirrorBlockJob *s)
+-{
+-    /* Only non-active operations use up in-flight slots */
+-    mirror_wait_for_any_operation(s, false);
+-}
 -
-         if (s->ret < 0) {
-             ret = s->ret;
-             goto immediate_exit;
-@@ -1010,7 +1012,9 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
-         /* cnt is the number of dirty bytes remaining and s->bytes_in_flight is
-          * the number of bytes currently being processed; together those are
-          * the current remaining operation length */
--        job_progress_set_remaining(&s->common.job, s->bytes_in_flight + cnt);
-+        job_progress_set_remaining(&s->common.job,
-+                                   s->bytes_in_flight + cnt +
-+                                   s->active_write_bytes_in_flight);
- 
-         /* Note that even when no rate limit is applied we need to yield
-          * periodically with no pending I/O so that bdrv_drain_all() returns.
-@@ -1071,6 +1075,10 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
- 
-             s->in_drain = true;
-             bdrv_drained_begin(bs);
-+
-+            /* Must be zero because we are drained */
-+            assert(s->in_active_write_counter == 0);
-+
-             cnt = bdrv_get_dirty_count(s->dirty_bitmap);
-             if (cnt > 0 || mirror_flush(s) < 0) {
-                 bdrv_drained_end(bs);
-@@ -1306,6 +1314,7 @@ do_sync_target_write(MirrorBlockJob *job, MirrorMethod method,
-     }
- 
-     job_progress_increase_remaining(&job->common.job, bytes);
-+    job->active_write_bytes_in_flight += bytes;
- 
-     switch (method) {
-     case MIRROR_METHOD_COPY:
-@@ -1327,6 +1336,7 @@ do_sync_target_write(MirrorBlockJob *job, MirrorMethod method,
-         abort();
-     }
- 
-+    job->active_write_bytes_in_flight -= bytes;
-     if (ret >= 0) {
-         job_progress_update(&job->common.job, bytes);
-     } else {
-@@ -1375,6 +1385,19 @@ static MirrorOp *coroutine_fn active_write_prepare(MirrorBlockJob *s,
- 
-     s->in_active_write_counter++;
- 
-+    /*
-+     * Wait for concurrent requests affecting the area.  If there are already
-+     * running requests that are copying off now-to-be stale data in the area,
-+     * we must wait for them to finish before we begin writing fresh data to the
-+     * target so that the write operations appear in the correct order.
-+     * Note that background requests (see mirror_iteration()) in contrast only
-+     * wait for conflicting requests at the start of the dirty area, and then
-+     * (based on the in_flight_bitmap) truncate the area to copy so it will not
-+     * conflict with any requests beyond that.  For active writes, however, we
-+     * cannot truncate that area.  The request from our parent must be blocked
-+     * until the area is copied in full.  Therefore, we must wait for the whole
-+     * area to become free of concurrent requests.
-+     */
-     mirror_wait_on_conflicts(op, s, offset, bytes);
- 
-     bitmap_set(s->in_flight_bitmap, start_chunk, end_chunk - start_chunk);
+ /* Perform a mirror copy operation.
+  *
+  * *op->bytes_handled is set to the number of bytes copied after and
 -- 
 2.38.1
 
