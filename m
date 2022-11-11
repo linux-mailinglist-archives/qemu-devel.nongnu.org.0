@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3D06256DD
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 10:30:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C7E6256ED
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 10:34:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otQMB-0000kv-7Y; Fri, 11 Nov 2022 04:29:51 -0500
+	id 1otQQW-00026B-PG; Fri, 11 Nov 2022 04:34:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1otQM9-0000eO-3a
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 04:29:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1otQQT-00021m-Or
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 04:34:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1otQM7-00027t-7r
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 04:29:48 -0500
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1otQQS-00040S-1r
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 04:34:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668158978;
+ s=mimecast20190719; t=1668159254;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TL/vAwuOA7FqPis8Bcz0JMeVvs9Oh14b6AjyxWqLuh8=;
- b=BmSQqPnIgfJot+ALVBB5lBLW4bkdTIu/3sjH7cuzDst56lLpkEhRwFPqgY8N6ZXs1McCCt
- Ejp131h8/tic+daKn5rk2KsVsRsVMUPpWtlpyBLBlqnoZgyDfAW9ooVTjxBiAz0lpGY005
- qMjcI3LpK+yIdiad+/m+u41+n0HojWU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AvcYP2cIY2OkqaJn/h4ppD3BPnevV1wj+dJSx9KvoWg=;
+ b=PNWIJruMW66FmdiwPszeDqWIDT8F/ED+6xHsMt9/k1/+ddqnMuJLd2SOkc15uaTVuRvLQI
+ /fl28Xw2guIKaiFbNmJdJJJfZFRWHVYLFD8ixDBDHFR16S9fIWJTB6p9VXUiNNQvK5sj5c
+ BueS7NXHubmLhOOsm9FBuqYMtHewkvY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-193-DnfIOJVxO1GUMD1Cu4QndQ-1; Fri, 11 Nov 2022 04:29:35 -0500
-X-MC-Unique: DnfIOJVxO1GUMD1Cu4QndQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-288-jMyfg9phO-qNXhzND3yc_A-1; Fri, 11 Nov 2022 04:34:13 -0500
+X-MC-Unique: jMyfg9phO-qNXhzND3yc_A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C555885A5A6;
- Fri, 11 Nov 2022 09:29:34 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A25E840E9783;
- Fri, 11 Nov 2022 09:29:32 +0000 (UTC)
-Date: Fri, 11 Nov 2022 09:29:29 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 04/19] osdep.h: Introduce a QEMU file descriptor type
-Message-ID: <Y24V+dXU9x9+CIOl@redhat.com>
-References: <20221111042225.1115931-1-bin.meng@windriver.com>
- <20221111042225.1115931-5-bin.meng@windriver.com>
- <Y24QzpMDpcLnAsPH@redhat.com>
- <CAEUhbmXpeiEGuVXJUStCyOr5otYuGvifN9iFJjnh-GgHx9G6pA@mail.gmail.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9EA80382F654;
+ Fri, 11 Nov 2022 09:34:12 +0000 (UTC)
+Received: from [10.67.24.81] (unknown [10.67.24.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E75081401C29;
+ Fri, 11 Nov 2022 09:34:08 +0000 (UTC)
+Subject: Re: [PATCH v3] qapi/qom: Memory backend property prealloc-threads doc
+ fix
+To: Igor Mammedov <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Zhenyu Zhang <zhenyzha@redhat.com>, qemu-devel@nongnu.org,
+ philmd@linaro.org, shan.gavin@gmail.com, eric.auger@redhat.com,
+ lijin@redhat.com
+References: <20221111030541.191186-1-zhenyzha@redhat.com>
+ <dc7f305b-5dc0-999f-8b58-a2c2a4b18828@redhat.com>
+ <87bkpedm2z.fsf@pond.sub.org>
+ <20221111101310.47bdced9@imammedo.users.ipa.redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <98a4d569-b81e-b3e3-f011-82ef19eeb5df@redhat.com>
+Date: Fri, 11 Nov 2022 17:34:04 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEUhbmXpeiEGuVXJUStCyOr5otYuGvifN9iFJjnh-GgHx9G6pA@mail.gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <20221111101310.47bdced9@imammedo.users.ipa.redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,41 +83,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 11, 2022 at 05:23:58PM +0800, Bin Meng wrote:
-> Hi Daniel,
+On 11/11/22 5:13 PM, Igor Mammedov wrote:
+> On Fri, 11 Nov 2022 07:47:16 +0100
+> Markus Armbruster <armbru@redhat.com> wrote: 
+>> Gavin Shan <gshan@redhat.com> writes:
+>>> On 11/11/22 11:05 AM, Zhenyu Zhang wrote:
+>>>> Commit ffac16fab3 "hostmem: introduce "prealloc-threads" property"
+>>>> (v5.0.0) changed the default number of threads from number of CPUs
+>>>> to 1.  This was deemed a regression, and fixed in commit f8d426a685
+>>>> "hostmem: default the amount of prealloc-threads to smp-cpus".
+>>>> Except the documentation remained unchanged.  Update it now.
+>>>> Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
+>>>> ---
+>>>> v3: Covers historical descriptions                  (Markus)
+>>>> v2: The property is changed to smp-cpus since 5.0   (Phild)
+>>>> ---
+>>>>    qapi/qom.json | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>    
+>>>
+>>> With the following comments addressed:
+>>>
+>>> Reviewed-by: Gavin Shan <gshan@redhat.com>
+>>>
+>>> ---
+>>>
+>>> Please consider amending the commit log to something like below.
+>>>
+>>> The default "prealloc-threads" value is set to 1 when the property is
+>>> added by commit ffac16fab33b ("hostmem: introduce "prealloc-threads"
+>>> property") in v5.0.0. The default value is conflicting with the sugar
+>>> property as the value provided by the sugar property is number of CPUs.
+>>
+>> What is the sugar property?  Can you explain the conflict in a bit more
+>> detail?
 > 
-> On Fri, Nov 11, 2022 at 5:08 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Fri, Nov 11, 2022 at 12:22:10PM +0800, Bin Meng wrote:
-> > > Introduce a new QemuFd_t type to represent a file descriptor for
-> > > different platforms. On POSIX platforms, this is a file descriptor
-> > > On Windows, this is a file handle.
-> >
-> > Can we not use  _open_osfhandle() to obtain a C runtime
-> > file descriptor from the Windows HANDLE.  We do this in
-> > QEMU's socket code, so we don't have to work wit different
-> > types and APIs on Windows, and I think that's much nicer
-> > in general.
-> >
+> my guess is that Gavin means mem_prealloc compat glue in qemu_process_sugar_options()
 > 
-> I am sorry I don't understand your suggestion. I checked
-> qemu-sockets.c and did not see how sockets connect to this change.
+> property value should be set according to following order
+>       default -> compat -> explicit value
+> so I don't see any conflict here.
 > 
-> This change is required to make 9pfs Windows support much easier.
+> PS:
+> if it we up to me, default would have stayed 1,
+> and prealloc-threads fixup to vCPUs number would happen in vl.c
+> similar to what is done in qemu_process_sugar_options(),
+> keeping backend clean of external dependencies.
+> 
 
-I'm just using it as an example to show that we can continue to
-use a plain 'int fd' everywhere, and not invent a QemuFd_t type
-abstraction
+Yes, it's the sugar property I was talking about. I'm not sure if
+we have a more popular name for this property: compat property or
+sugar property.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+When 'mem-prealloc=on' and 'prealloc-threads=xxx' aren't provided,
+the value is 1 before commit f8d426a6852c is applied. It's not
+inconsistent with 'mem-prealloc=on'. It's the conflict I was talking
+about and it's fixed by commit f8d426a6852c
+
+>>
+>>> The conflict has been fixed by commit f8d426a6852c ("hostmem: default
+>>> the amount of prealloc-threads to smp-cpus"). However, 'qapi/qom.json'
+>>> was missed to be updated accordingly in the commit.
+>>>
+>>> Update 'qapi/qom.json' to reflect the change in commit f8d426a6852c.
+>>>
+>>> Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
+>>>
+>>> When a specific commit is mentioned in the commit log, we usually have
+>>> fixed format like below.
+>>>
+>>> commit ffac16fab33b ("hostmem: introduce "prealloc-threads" property")
+>>> commit f8d426a6852c ("hostmem: default the amount of prealloc-threads to smp-cpus")
+>>
+>> This is certainly a common format, but the other one is also in use.
+>>
+>>>> diff --git a/qapi/qom.json b/qapi/qom.json
+>>>> index 30e76653ad..dfd89bc6d4 100644
+>>>> --- a/qapi/qom.json
+>>>> +++ b/qapi/qom.json
+>>>> @@ -576,7 +576,7 @@
+>>>>    #
+>>>>    # @prealloc: if true, preallocate memory (default: false)
+>>>>    #
+>>>> -# @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
+>>>> +# @prealloc-threads: number of CPU threads to use for prealloc (default: number of CPUs) (since 5.0)
+>>>>    #
+>>>>    # @prealloc-context: thread context to use for creation of preallocation threads
+>>>>    #                    (default: none) (since 7.2)
+>>>>    
+>>>
+>>> The line seems exceeding 80 characters. It'd better to limit each line in 75 characters.
+>>> So you probably need:
+>>>
+>>>      # @prealloc-threads: number of CPU threads to use for prealloc (default: number of CPUs)
+>>>      #                    (since 5.0)
+>>
+>> Still exceeds :)
+>>
+>> I suggested
+>>
+>>        # @prealloc-threads: number of CPU threads to use for prealloc
+>>        #                    (default: number of CPUs) (since 5.0)
+>>
+> 
+
+Markus's suggestion works :)
+
+Thanks,
+Gavin
+
 
 
