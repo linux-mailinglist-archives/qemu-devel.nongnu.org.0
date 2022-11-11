@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120F0625AA8
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 13:46:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FEDA625AC8
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 13:58:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otTQ0-0005md-J8; Fri, 11 Nov 2022 07:46:00 -0500
+	id 1otTaj-0001VR-RU; Fri, 11 Nov 2022 07:57:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otTPx-0005lb-9l
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:45:58 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otTah-0001Uw-Mm
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:57:03 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otTPu-0001l5-NU
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:45:56 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- ja4-20020a05600c556400b003cf6e77f89cso5660048wmb.0
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 04:45:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otTaf-0005D9-TJ
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:57:03 -0500
+Received: by mail-wr1-x430.google.com with SMTP id bs21so6385830wrb.4
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 04:57:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=11JiuZW9XczeUDUdrupJ37Xgv3YrtWkVOdT0bjn2y5Y=;
- b=P9SOla0jd7LsuZf8fkyQJP+cyJqwtaLEGxoydVSKrfVbHxgjq5+JdIg2WLRUkxlycA
- khjTYPNV9CpX3Lr8O92gn32sYMhKEo/QObM59lk2W59TGU6O5g6Yy6q1lLfdLwO91U+B
- 159ZR//fIcpmyDGLcpnTZWatrP83j9x0BPjCSw5Jrff9q0oZ59PMHeDwi97nU5rLG0NW
- zRawREgIABz6vDHphGGaWlLBqc8Djyvj5uNB7eT/JEXVhFaFpjXxNibtjlQAvATJgX9M
- Rg1FBKPe2/MAuuRBB4QaTZ41v9MvWJFChBKomtQlxDWCMBlLmkRvCc4WssRvP1XXE4QD
- UHtg==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sz9LtfUlstji8RZ9zKsTjAK6k0o25bxkzLvFDI1uF+Y=;
+ b=Syf1Y4mp3vJdjw3tHL1oz3OtOw7/cm06jRF7MGpmPSXxbjul3uy1LWSAy1XS50Oq7f
+ AHsge7E/mehY6MMXovuKPP4ZFUmKXEbx9z+rO6X89Q6+OgQDKGTP+NXYB3sVY+bjj6HO
+ 9tN3EERYm+hvnrGtkD64ZvGliTG0Kg2fvtDslreLiWGg0ADIg+eEg/5dK46bwAsk4wZA
+ QF/iZy5DZRziHNq/8FyHWpLhcuifIaN6FhmCJ/N1mpOSiwfSgTK51O6aHAMhk3uEm7j5
+ 4hhQ3G4uItEy/6IBfpMin+Ap/FA3bsL3iu+tgTfr9b8r9JRzaWO9KiWOB8zN0JFxtYsj
+ ANgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=11JiuZW9XczeUDUdrupJ37Xgv3YrtWkVOdT0bjn2y5Y=;
- b=QZwJonbWDfkNXC4UTtQYBDiFHjce4mP6C37TOh5yaJZW/5B6+4Ro+w389GhnjYUeQl
- M0OXUTZgSB6oAF41cY9LbztCxAm5OIhCPhUrWSgM8OdvaG3p328jqytKI4gnBRvflVHj
- FIJ/zA9OjMul3eGwCIZc0Y5XZQ1vshEe1t9FrhCNg2RB0OJGdtmO9eVhhy8e44fqbtD+
- gK3GHCuQk0o/TqkoCDVnCYBzCLlmDIo3D5JZENQG/ovio6aA4bZxOOrNpTaOo2I/ap4Z
- FVKUhfyWHolihe5RN1hBNQRGBnsvdiVxZjRnrnzc9U9vZ9CbMbBR8kIJQTxcUAnhTD8J
- ExQA==
-X-Gm-Message-State: ANoB5pnGxBigmAL3+zhSIsNjsX3cx/gkts2NnBmGQ49qtwzTXTrFaZlH
- vgwt5kEf5wo5iHVpLU3F41xsUVAEcdtn1x63cUA=
-X-Google-Smtp-Source: AA0mqf4ZHvvnlVRTnkMCm9EijcN4WONg/sm2bjpjbonlcUx3dgbVvoqtG8c2zr2Wt4+x81kozw6g0A==
-X-Received: by 2002:a05:600c:295:b0:3cf:a457:2d89 with SMTP id
- 21-20020a05600c029500b003cfa4572d89mr1138651wmk.20.1668170752768; 
- Fri, 11 Nov 2022 04:45:52 -0800 (PST)
-Received: from localhost.localdomain
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sz9LtfUlstji8RZ9zKsTjAK6k0o25bxkzLvFDI1uF+Y=;
+ b=gx1ylYvri+4vqAetvMdhOsVJB7PO7Thuy5XLoQVxpz/MVRUKinszuuejvjjepZ92iM
+ FbQ/Tv0amQI16VleFmuesgneLiPIpvUX8VndOqnc776jlvuYF/S3GDKhLwnh3Rr5YabF
+ vkgODxmmy6tABb1EZZIOCfFFmH82RSDj7UnEyW0iSesCSahHqr24tpwFMVYYPH/SuMvE
+ ToqXxUpm0pXlxN3Bl0V5PobCDUFCf12KbksIgUwQu35Sddlqs43YCVbm0wPqlVXBk3bz
+ +3hLQs1/LEgMlqVa1D8ydTdb+JxzgkMoKAP0kFfM3cBsS/4SwOE7YKVrPpix1xV4f/So
+ pnLA==
+X-Gm-Message-State: ANoB5pmsHY8cy5odjehy/EpVud8ewkWYlHdBDr3Qc+4lWPvueGJIPcNt
+ 3ispPBCqyuNqFYKfMt82tAbV/g==
+X-Google-Smtp-Source: AA0mqf6386KppT2YbzQ/KRS3Bt0JLsVmLwhtVZmGc/N1rTaVoygqj826MgAsfyNPT/4cDklQFWGWNA==
+X-Received: by 2002:a5d:4b4e:0:b0:236:6deb:4498 with SMTP id
+ w14-20020a5d4b4e000000b002366deb4498mr1208979wrs.52.1668171420328; 
+ Fri, 11 Nov 2022 04:57:00 -0800 (PST)
+Received: from [10.50.0.10]
  (ec2-54-194-108-71.eu-west-1.compute.amazonaws.com. [54.194.108.71])
  by smtp.gmail.com with ESMTPSA id
- i11-20020a05600c354b00b003b4ff30e566sm3391659wmq.3.2022.11.11.04.45.51
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 11 Nov 2022 04:45:52 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Xie Yongji <xieyongji@bytedance.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>
-Subject: [PATCH-for-7.2 v2] libvduse: Avoid warning about dangerous use of
- strncpy()
-Date: Fri, 11 Nov 2022 13:45:50 +0100
-Message-Id: <20221111124550.35753-1-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
+ n41-20020a05600c502900b003c65c9a36dfsm2783160wmr.48.2022.11.11.04.56.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Nov 2022 04:56:59 -0800 (PST)
+Message-ID: <47bfb5ee-c825-8e04-430f-68e2f0819732@linaro.org>
+Date: Fri, 11 Nov 2022 13:56:57 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PATCH v3 2/2] hw/nvme: cleanup error reporting in nvme_init_pci()
+Content-Language: en-US
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>
+References: <20221110220805.26816-1-its@irrelevant.dk>
+ <20221110220805.26816-3-its@irrelevant.dk>
+ <bfc67412-09ce-793e-49ac-b0af0cf05fbd@linaro.org>
+ <Y25A0Qx95NtrPmA3@cormorant.local>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <Y25A0Qx95NtrPmA3@cormorant.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,62 +96,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 11/11/22 13:32, Klaus Jensen wrote:
+> On Nov 11 12:40, Philippe Mathieu-Daudé wrote:
+>> On 10/11/22 23:08, Klaus Jensen wrote:
+>>> From: Klaus Jensen <k.jensen@samsung.com>
+>>>
+>>> Replace the local Error variable with errp and ERRP_GUARD() and change
+>>> the return value to bool.
+>>>
+>>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>>> ---
+>>>    hw/nvme/ctrl.c | 23 ++++++++++-------------
+>>>    1 file changed, 10 insertions(+), 13 deletions(-)
+>>
+>>
+>>> @@ -7388,14 +7387,12 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+>>>        }
+>>>        ret = msix_init(pci_dev, n->params.msix_qsize,
+>>>                        &n->bar0, 0, msix_table_offset,
+>>> -                    &n->bar0, 0, msix_pba_offset, 0, &err);
+>>> -    if (ret < 0) {
+>>> -        if (ret == -ENOTSUP) {
+>>> -            warn_report_err(err);
+>>> -        } else {
+>>> -            error_propagate(errp, err);
+>>> -            return ret;
+>>> -        }
+>>> +                    &n->bar0, 0, msix_pba_offset, 0, errp);
+>>> +    if (ret == -ENOTSUP) {
+>>> +        warn_report_err(*errp);
+>>
+>> Why only report ENOTSUP in particular?
+>>
+> 
+> Because the error is beneign (it's just a notice that MSI-X isnt
+> available on the platform).
+> 
+>>> +        *errp = NULL;
+>>> +    } else if (ret < 0) {
+>>> +        return false;
+>>
+>> Is that normal to ignore:
+>>
+>> -   error_setg(errp, "The number of MSI-X vectors is invalid");
+>>      return -EINVAL;
+>>
+>> -   error_setg(errp, "table & pba overlap, or they don't fit in BARs,"
+>>                       " or don't align");
+>>      return -EINVAL;
+>>
+>> Or possible future error added in msix_init()?
+> 
+> It is not ignored, it is passed up to the caller. On any other error,
+> returning false will cause device realization to fail and the error
+> (i.e. invalid vectors or overlap) be reported.
 
-GCC 8 added a -Wstringop-truncation warning:
+Indeed, I didn't review carefully enough.
 
-  The -Wstringop-truncation warning added in GCC 8.0 via r254630 for
-  bug 81117 is specifically intended to highlight likely unintended
-  uses of the strncpy function that truncate the terminating NUL
-  character from the source string.
+Maybe in the first case explicit with /* Convert the error as a simple 
+warning */ and in the second /* Propagate to caller */.
 
-Here the next line indeed unconditionally zeroes the last byte, but
-1/ the buffer has been calloc'd, so we don't need to add an extra
-byte, and 2/ we called vduse_name_is_invalid() which checked the
-string length, so we can simply call strcpy().
-
-This fixes when using gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0:
-
-  [42/666] Compiling C object subprojects/libvduse/libvduse.a.p/libvduse.c.o
-  FAILED: subprojects/libvduse/libvduse.a.p/libvduse.c.o
-  cc -m64 -mcx16 -Isubprojects/libvduse/libvduse.a.p -Isubprojects/libvduse -I../../subprojects/libvduse [...] -o subprojects/libvduse/libvduse.a.p/libvduse.c.o -c ../../subprojects/libvduse/libvduse.c
-  In file included from /usr/include/string.h:495,
-                   from ../../subprojects/libvduse/libvduse.c:24:
-  In function ‘strncpy’,
-      inlined from ‘vduse_dev_create’ at ../../subprojects/libvduse/libvduse.c:1312:5:
-  /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error: ‘__builtin_strncpy’ specified bound 256 equals destination size [-Werror=stringop-truncation]
-    106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
-        |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  cc1: all warnings being treated as errors
-  ninja: build stopped: cannot make progress due to previous errors.
-
-Fixes: d9cf16c0be ("libvduse: Replace strcpy() with strncpy()")
-Suggested-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
-Supersedes: <20220919192306.52729-1-f4bug@amsat.org>
-Cc: Xie Yongji <xieyongji@bytedance.com>
-Cc: Kevin Wolf <kwolf@redhat.com>
----
- subprojects/libvduse/libvduse.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/subprojects/libvduse/libvduse.c b/subprojects/libvduse/libvduse.c
-index 1a5981445c..e089d4d546 100644
---- a/subprojects/libvduse/libvduse.c
-+++ b/subprojects/libvduse/libvduse.c
-@@ -1309,8 +1309,8 @@ VduseDev *vduse_dev_create(const char *name, uint32_t device_id,
-         goto err_dev;
-     }
- 
--    strncpy(dev_config->name, name, VDUSE_NAME_MAX);
--    dev_config->name[VDUSE_NAME_MAX - 1] = '\0';
-+    assert(!vduse_name_is_invalid(name));
-+    strcpy(dev_config->name, name);
-     dev_config->device_id = device_id;
-     dev_config->vendor_id = vendor_id;
-     dev_config->features = features;
--- 
-2.38.1
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
