@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E03A626033
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 18:14:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2455762610B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 19:27:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otXaR-00074B-Pg; Fri, 11 Nov 2022 12:13:03 -0500
+	id 1otYiw-00086b-IS; Fri, 11 Nov 2022 13:25:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otXaK-00072a-QW
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 12:12:56 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1otYin-00081N-IE
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:25:45 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otXaG-0004BX-Ue
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 12:12:55 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- t25-20020a1c7719000000b003cfa34ea516so5814185wmi.1
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 09:12:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1otYij-0005Ea-9n
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:25:45 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ a11-20020a05600c2d4b00b003cf6f5fd9f1so3650827wmg.2
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 10:25:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TEkgpn49ZtuQPQtoF3zhxYpc+WzS1jHpsPT4M/c9Bko=;
- b=zaoLZH4XHmqEobG/wF5gK4YoW+gtGDv1iRwT30SurY6ze2PblKqBj05BizX07Q9/OT
- +DsOWNHSSoEE9EY7jsS/JeprzE/UgwV4JH/9btTsdLjR2alNPDQVjuc6h7KXkhNXkHZ3
- DRWvw8dAMZAlpF/ZyqFDmIsDWmRxsJlQCcaKxFziwBRYSATK7/mtdL79z9Az0boKORBR
- +S7qj3lqjrXHEMGIks/Gjdqh1UTZAb93l48eoc+xpp9C1kFnAamfPIs58UlM7FuGiwq+
- 8dOsfYTTWUSNrJZxIsdYKFG0QcXS8mSFMGr56Oz4mpFGe0jiSNndPeswbijfbbEZz2IE
- 15oA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=55oth95sDG5uXLLYP63sU7Rcz0LDLtRXBEC2GWr0LB4=;
+ b=lb8tRJykEVrEvn36XZk3Yv4i1YxM4PpCKqBewx2K+4HeoIG8naaznrmITjin195xEZ
+ 6WCGtsN6MGiSu4pAK1Ltj+qQ2Z5Pnnjs1lYb1PnNnFSEpHhQaL6DkLnhuK3JgtV9vym3
+ 4qKxCZ+shslM1bmKIx9oXRYHbJ0CZAp5Ey8jWISRVK9a2Oh82CPrOkNR6XrP311FxzIH
+ PEeq9Ns0DJe4Ub1i/QbDaQEgwxt1ZfbXDCy6yXfrRc0vqTjtNrBtTUap2FP5tpoLJbXh
+ 9wWS86NyzHUdyPCE1uzHIEoQJ9YZ2ScbRCvpwgOGpW+ZaQzJmylyuqCkkpQwH6yU53ui
+ Cgmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TEkgpn49ZtuQPQtoF3zhxYpc+WzS1jHpsPT4M/c9Bko=;
- b=6ydI8AZi4yJ6qrqMzpc6MLMoyyBWMg3YJfNzeQw7zDBRoKMPc4hKs4pns94yQI4XVt
- EunrV4e9UrPOd47oNKJhjclZjV0pCYcy1y6qZC8tY8BuljlDOwROmTZWZzPt2Shx1lWc
- JeIfNh/GTcxkiXrg7jRA7g7mzusBMlPvvRERVoy3etz+YEocP/q1wb5fRf+w29PJkzzz
- uRSQ37NoWZpW4n/W88hwnBfAI+POrh+IMEzQL3F1Erb3po35Fj28Tc6cuTn9x3zZO0Om
- 2raqFv2WQ1yMz53SecMdtknXvXD+zACLc3nuB2ceIRDwJElGzh/rmkp9UJhlhcQqzPgb
- 0aWA==
-X-Gm-Message-State: ANoB5pkFnWodE054aHtRQHcA11ItNlj7U8eNwQ4VV9RTD7I32J9XfnQ8
- VCi4icuprzb6a2juTxWOEewQjQ==
-X-Google-Smtp-Source: AA0mqf5LmLmqF3bztxQeBUZTnNHfUp1/PnAz23rgKHNndAFyuOaULyOOi4ebrtYCSq5fKQUBb4otOg==
-X-Received: by 2002:a7b:c398:0:b0:3cf:8b22:b567 with SMTP id
- s24-20020a7bc398000000b003cf8b22b567mr1920562wmj.144.1668186762248; 
- Fri, 11 Nov 2022 09:12:42 -0800 (PST)
-Received: from [192.168.7.115] ([109.111.120.167])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=55oth95sDG5uXLLYP63sU7Rcz0LDLtRXBEC2GWr0LB4=;
+ b=oujvnrdBKt7ve0dcj1JWjZHQ0ZzSZi8pEs/gUuT8a5yJ7IVWq64Ucm/J91dMN3sFYr
+ n05gIdSqMFkvw/pjHq+NtnJhKWluDJJZ+pfyu+vkcM+2M+ByieuIp7qwhy1hveHTGxhk
+ XEVUNIqx8sHfjSD8gUEnKWeDW5ro0ZsfwvEipOaubdJrPetvZxexPrqg/70fhN1hpXix
+ /AjpHlr29k4JGNVLrGwvv9U1GNHJopj3sZ240TLfVGBX0QNXy3N301JygnxwyLla0Kib
+ GKiew0n9iPt07ghC3nSRHT4YD7gT1tztPwKZcgaT82wLOSb+B3hXNJGa/gpoxo1APaJ2
+ QL+Q==
+X-Gm-Message-State: ANoB5pnFJHwI0WI5Y1dfhfcXwGATQh7VrXSSFMiqIo5vlV6a3GuCeXNv
+ B9rh7idgyuUvBKrhvlC98ZHQ9g==
+X-Google-Smtp-Source: AA0mqf6CLpHF0EbZcSLGa4Oc9daFjsY6wJYG6ZCDs5LDld4p/VgKCflgBLg0W7R5ZlxJ10psb4hiHw==
+X-Received: by 2002:a05:600c:b55:b0:3cf:6ab3:4a0b with SMTP id
+ k21-20020a05600c0b5500b003cf6ab34a0bmr2089569wmr.91.1668191136366; 
+ Fri, 11 Nov 2022 10:25:36 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- v21-20020a05600c215500b003c6c3fb3cf6sm3344965wml.18.2022.11.11.09.12.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 09:12:41 -0800 (PST)
-Message-ID: <727e8e0a-5624-0e3a-dfca-f3941a8c7446@linaro.org>
-Date: Fri, 11 Nov 2022 18:12:39 +0100
+ w11-20020a5d404b000000b0022ae0965a8asm2481028wrp.24.2022.11.11.10.25.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Nov 2022 10:25:36 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 84E4C1FFB7;
+ Fri, 11 Nov 2022 18:25:35 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: f4bug@amsat.org,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH for 8.0 v5 00/20] use MemTxAttrs to avoid current_cpu in hw/
+Date: Fri, 11 Nov 2022 18:25:15 +0000
+Message-Id: <20221111182535.64844-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH v2 04/12] tests/docker: allow user to override check target
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20221111145529.4020801-1-alex.bennee@linaro.org>
- <20221111145529.4020801-5-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221111145529.4020801-5-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,26 +92,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/11/22 15:55, Alex Bennée wrote:
-> This is useful when trying to bisect a particular failing test behind
-> a docker run. For example:
-> 
->    make docker-test-clang@fedora \
->      TARGET_LIST=arm-softmmu \
->      TEST_COMMAND="meson test qtest-arm/qos-test" \
->      J=9 V=1
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-> ---
-> v1
->   - fix s/target /target./
->   - CHECK_TARGET -> TEST_COMMAND
-> ---
->   tests/docker/Makefile.include | 2 ++
->   tests/docker/common.rc        | 6 +++---
->   2 files changed, 5 insertions(+), 3 deletions(-)
+Hi,
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+This series attempts to improve the modelling of non-CPU writes to
+peripherals by expanding the MemTxAttrs to carry more details about
+the requester. There are only 3 requester types, the CPU, the PCI bus
+and the MACHINE. The last is intended for machine specific buses and
+leaves the details of how to decode that information to machine
+specific code.
+
+I've extended this beyond just being an Arm only experiment and into
+some other machine types. Perhaps the most complicated bit was
+tweaking the modelling of the IOAPIC/APIC which gave me the first use
+of MTRT_MACHINE (although we don't fully validate the source we do now
+correctly drop CPU accesses to the APIC MSI region).
+
+The longer term goal will be to eliminate all the legacy mem
+read/write functions and use MemTxAttrs everywhere.
+
+The final patch deprecates the use of current_cpu in hw/ for new code
+as a comment. What do people think?
+
+Based-on: 20221111145529.4020801-1-alex.bennee@linaro.org
+
+Alex Bennée (20):
+  hw: encode accessing CPU index in MemTxAttrs
+  target/arm: ensure TCG IO accesses set appropriate MemTxAttrs
+  target/arm: ensure HVF traps set appropriate MemTxAttrs
+  target/arm: ensure KVM traps set appropriate MemTxAttrs
+  target/arm: ensure m-profile helpers set appropriate MemTxAttrs
+  qtest: make read/write operation appear to be from CPU
+  hw/intc/gic: use MxTxAttrs to divine accessing CPU
+  hw/timer: convert mptimer access to attrs to derive cpu index
+  hw/arm: remove current_cpu hack from pxa2xx access
+  target/microblaze: initialise MemTxAttrs for CPU access
+  target/sparc: initialise MemTxAttrs for CPU access
+  target/riscv: initialise MemTxAttrs for CPU access
+  target/i386: add explicit initialisation for MexTxAttrs
+  hw/audio: explicitly set .requester_type for intel-hda
+  hw/i386: update vapic_write to use MemTxAttrs
+  include: add MEMTXATTRS_MACHINE helper
+  hw/intc: properly model IOAPIC MSI messages
+  hw/i386: convert apic access to use MemTxAttrs
+  hw/isa: derive CPUState from MemTxAttrs in apm_ioport_writeb
+  include/hw: add commentary to current_cpu export
+
+ include/exec/memattrs.h           |  76 +++++++++++---
+ include/hw/core/cpu.h             |  14 +++
+ include/hw/i386/apic.h            |   2 +-
+ include/hw/i386/ioapic_internal.h |   2 +
+ include/hw/isa/apm.h              |   2 +-
+ target/i386/cpu.h                 |   4 +-
+ hw/acpi/ich9.c                    |   1 -
+ hw/acpi/piix4.c                   |   2 +-
+ hw/arm/pxa2xx.c                   |   2 +-
+ hw/audio/intel-hda.c              |   2 +-
+ hw/i386/amd_iommu.c               |   6 +-
+ hw/i386/intel_iommu.c             |   2 +-
+ hw/i386/kvmvapic.c                |  19 ++--
+ hw/i386/x86.c                     |  11 +--
+ hw/intc/apic.c                    |  62 ++++++++----
+ hw/intc/arm_gic.c                 | 159 +++++++++++++++++++-----------
+ hw/intc/ioapic.c                  |  35 +++++--
+ hw/isa/apm.c                      |  21 +++-
+ hw/isa/lpc_ich9.c                 |   5 +-
+ hw/misc/tz-mpc.c                  |   2 +-
+ hw/misc/tz-msc.c                  |   6 +-
+ hw/pci/pci.c                      |   4 +-
+ hw/timer/arm_mptimer.c            |  49 ++++++---
+ softmmu/qtest.c                   |  26 ++---
+ target/arm/hvf/hvf.c              |   4 +-
+ target/arm/kvm.c                  |   9 +-
+ target/arm/m_helper.c             |  12 +--
+ target/arm/ptw.c                  |   3 +-
+ target/arm/tlb_helper.c           |   2 +-
+ target/i386/hax/hax-all.c         |   2 +-
+ target/i386/nvmm/nvmm-all.c       |   2 +-
+ target/i386/sev.c                 |   2 +-
+ target/i386/whpx/whpx-all.c       |   2 +-
+ target/microblaze/helper.c        |   4 +-
+ target/riscv/cpu_helper.c         |   2 +-
+ target/sparc/mmu_helper.c         |   6 +-
+ 36 files changed, 370 insertions(+), 194 deletions(-)
+
+-- 
+2.34.1
 
 
