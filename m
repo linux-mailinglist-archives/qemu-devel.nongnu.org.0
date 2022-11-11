@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B149626130
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 19:33:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 540A1626167
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 19:37:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otYiy-00087l-3y; Fri, 11 Nov 2022 13:25:56 -0500
+	id 1otYrr-0007oe-0p; Fri, 11 Nov 2022 13:35:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otYir-00085E-JQ
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:25:49 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ id 1otYrg-0007mg-Aj
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:34:56 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otYil-0005GD-Jc
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:25:49 -0500
-Received: by mail-wm1-x333.google.com with SMTP id t4so3376317wmj.5
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 10:25:43 -0800 (PST)
+ id 1otYre-0007Nu-M2
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:34:56 -0500
+Received: by mail-wr1-x436.google.com with SMTP id k8so7556557wrh.1
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 10:34:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cbpO0AZ4Acrg9xoN2SNVugKcaQMd8HDZpSEMLYorBkM=;
- b=OOGKyx/0BE4MxgvcPQ1WNrVIEaeHER6IU7lCfkjYc9Yj2s+JZ4n+tepm+gsnXh7xSI
- 2Hrxb16uAtX7ddYVAmH50aNvsX+DGjH9+5bxc4Q6HKztQuCA4oLKofW052oluWFTJyWo
- SysLNGkkZn9CHXuvK7LEBGsSD9wFIuFKCJB6al537KzWVK4RmRri2OxCWJFMJJLTuS2H
- MCqKfjiEp7CUkyRngOXqGqY/Fr6FgOiyZodRPMzzY0OGawV9AoICy0enQ/iy545MpmEm
- qtuPMJFfDcyWE28wWRUX/6R6Djth6tqq6OEIXIjqomDwxa+9gfpPC9IpQR2XrE12+hGc
- ysHA==
+ bh=D4e6Eni3qQrLsasdgaGetPChuPB8kPgudPLx+PRHc34=;
+ b=GXNd1DgohE14lgLwodrub+y1G5c+qiajvd6NcQKUQC1iP3bvA2j9n7QtNx4aC6Pp2s
+ vPr49Z1UkB+yH5mN9r7kWTPjcADEDqqBgK9NoMhqZPfkfM/bz1OReTJEOHevXgXliPRK
+ n8Pvcl/XRyAO8HD7jGQT7pfMMQMhtwHu38fXiVajMfMgtgAY3BdjYbDw5700bFor15fK
+ mdV67ag1gGLK1ThBdWsekMpkKf+rGo8vKFAgwgv6bUqv75Fb8/4KRPIQiEJY3nmWRbu5
+ 3e57zO7LYRAgWFqcaUglvUf8YMSIRr3LN9xM3NRrBcIr4Bhd+0vtpF5pYTYYuPlAkTRr
+ FyOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cbpO0AZ4Acrg9xoN2SNVugKcaQMd8HDZpSEMLYorBkM=;
- b=QN81uIET2vXIKNkyhHX5JRRp2YzC7XgZxoyj4ULNVm6f6VyxXSUv7MYjF8ITan1LBd
- FY8A/S7Ro1vs9kktnw1ZHj9GqMiq2jpMBhRFQDmCc/l31saTDT4ppqL+/wflfdraPDDe
- r0zeqVfIm2XOg70HBhIKunBOWb+ST+LR/yFjO+n5o/0iH+q6mrIl7ytqrp2U95JTbIOr
- i9h4VB2MSB7pi7Vl1UkYNPFhiPinYfY9vOl5VzELb9kh4XeqIs1vpFy/auodzMYa7oT0
- Bupjig6t4iOeRE4Tg9+9ria5HVXWObwWhCFMZ1wWxGrgdcMKRfOP3uD6c16GZRHfFeAA
- hzCg==
-X-Gm-Message-State: ANoB5pnXyXacML+b9FI04EW9wfm59n5qMxM9fqGi2dedChigU/g7U2KG
- wLE494I4C67sB6vIAV1iufzFEmwCf7juaQ==
-X-Google-Smtp-Source: AA0mqf7IMZNyki7+j4ElIaxVf7WdnrKW8xNs9Q+SQ1u54LqsQnkZn8tmqgsGzp6k4EbINNVBqeG/iw==
-X-Received: by 2002:a7b:c407:0:b0:3cf:9668:e8f8 with SMTP id
- k7-20020a7bc407000000b003cf9668e8f8mr2107979wmi.195.1668191142082; 
- Fri, 11 Nov 2022 10:25:42 -0800 (PST)
+ bh=D4e6Eni3qQrLsasdgaGetPChuPB8kPgudPLx+PRHc34=;
+ b=RAjhicrGfn4Bem+/PYjIJuQwFD22mNCC3bQwWi0UrrAEpljTZUDmRa87E4YGTCeYFK
+ 1Zk/Pt+cx1d8ztI1QFudNjkqhBFEKBKSGm1pdGdZTwl/ONBF52ZzmPsC6VNGgRs47Cp0
+ rusdho4XAHGUjfYdLd3XLQWALiYMN0pf66qqQ9t09FRcUeu5lHLiAWvdDIAAsxLwY4fX
+ mpsTZcM58i4H+LBRwGPC/W/5cQ5ghO7RopQVCTvL+ynQeU8xabuzlie2InEK+aIT2ng9
+ j2PjUUZpffJw0ogcJEdL9BdaWkPGDefhREc0vnQucFvwkB5CSqwh7ocHPLKQJOsrJJNX
+ /csA==
+X-Gm-Message-State: ANoB5plDRIXo28oJNDQMt25bkzKU2tvkpDfzvaXKDydSuTvwt6FI1xXx
+ eaGERFF+RHrxooBM0YauqhiGjg==
+X-Google-Smtp-Source: AA0mqf7xbbsaShLQM4OOziyI5pxrBsX0JdxJhVszye/ecyw9WKkQoXLxPX9viNUyfUZ6DmAcVGXfGQ==
+X-Received: by 2002:adf:a3cb:0:b0:22e:4b62:7ca6 with SMTP id
+ m11-20020adfa3cb000000b0022e4b627ca6mr1892051wrb.441.1668191691793; 
+ Fri, 11 Nov 2022 10:34:51 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m16-20020a05600c3b1000b003a3170a7af9sm4086923wms.4.2022.11.11.10.25.38
+ i9-20020adfefc9000000b00228dbf15072sm2543164wrp.62.2022.11.11.10.34.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 10:25:39 -0800 (PST)
+ Fri, 11 Nov 2022 10:34:51 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A0B011FFC1;
+ by zen.linaroharston (Postfix) with ESMTP id B8E581FFC2;
  Fri, 11 Nov 2022 18:25:36 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: f4bug@amsat.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Subject: [PATCH v5 10/20] target/microblaze: initialise MemTxAttrs for CPU
- access
-Date: Fri, 11 Nov 2022 18:25:25 +0000
-Message-Id: <20221111182535.64844-11-alex.bennee@linaro.org>
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
+Subject: [PATCH  v5 11/20] target/sparc: initialise MemTxAttrs for CPU access
+Date: Fri, 11 Nov 2022 18:25:26 +0000
+Message-Id: <20221111182535.64844-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221111182535.64844-1-alex.bennee@linaro.org>
 References: <20221111182535.64844-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,38 +95,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Both of these functions deal with CPU based access (as is evidenced by
-the secure check straight after). Use the new MEMTXATTRS_CPU
-constructor to ensure the correct CPU id is filled in should it ever
-be needed by any devices later.
+Both of the TLB fill functions and the cpu_sparc_get_phys_page deal
+with CPU based access. Use the new MEMTXATTRS_CPU constructor to
+ensure the correct CPU id is filled in should it ever be needed by any
+devices later.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/microblaze/helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/sparc/mmu_helper.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
-index 98bdb82de8..655be3b320 100644
---- a/target/microblaze/helper.c
-+++ b/target/microblaze/helper.c
-@@ -44,7 +44,7 @@ bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     MicroBlazeMMULookup lu;
-     unsigned int hit;
-     int prot;
+diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
+index 919448a494..eeb52b5ee6 100644
+--- a/target/sparc/mmu_helper.c
++++ b/target/sparc/mmu_helper.c
+@@ -212,7 +212,7 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     target_ulong vaddr;
+     target_ulong page_size;
+     int error_code = 0, prot, access_index;
 -    MemTxAttrs attrs = {};
 +    MemTxAttrs attrs = MEMTXATTRS_CPU(cs);
  
-     attrs.secure = mb_cpu_access_is_secure(cpu, access_type);
+     /*
+      * TODO: If we ever need tlb_vaddr_to_host for this target,
+@@ -771,7 +771,7 @@ bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     target_ulong vaddr;
+     hwaddr paddr;
+     target_ulong page_size;
+-    MemTxAttrs attrs = {};
++    MemTxAttrs attrs = MEMTXATTRS_CPU(cs);
+     int error_code = 0, prot, access_index;
  
-@@ -235,7 +235,7 @@ hwaddr mb_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
-     unsigned int hit;
+     address &= TARGET_PAGE_MASK;
+@@ -890,7 +890,7 @@ static int cpu_sparc_get_phys_page(CPUSPARCState *env, hwaddr *phys,
+ {
+     target_ulong page_size;
+     int prot, access_index;
+-    MemTxAttrs attrs = {};
++    MemTxAttrs attrs = MEMTXATTRS_CPU(env_cpu(env));
  
-     /* Caller doesn't initialize */
--    *attrs = (MemTxAttrs) {};
-+    *attrs = MEMTXATTRS_CPU(cs);
-     attrs->secure = mb_cpu_access_is_secure(cpu, MMU_DATA_LOAD);
- 
-     if (mmu_idx != MMU_NOMMU_IDX) {
+     return get_physical_address(env, phys, &prot, &access_index, &attrs, addr,
+                                 rw, mmu_idx, &page_size);
 -- 
 2.34.1
 
