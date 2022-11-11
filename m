@@ -2,80 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B26625413
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 07:49:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A2B62540C
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 07:48:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otNpE-0006cl-D5; Fri, 11 Nov 2022 01:47:40 -0500
+	id 1otNp1-0006VP-9b; Fri, 11 Nov 2022 01:47:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1otNpA-0006bI-Fh
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 01:47:36 -0500
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1otNp8-0008IF-PP
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 01:47:36 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id q1so3688902pgl.11
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 22:47:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LIesySo8KfoPYYuDv0hxnDo5m8+fU1mYrZHcG45Uhwg=;
- b=DvxJSz3/wEEDnYyPM11np5qTIqJRVVKV5lO4npjlMzcxeJj4dJ/zRUfILwgUoVEVKB
- LC+LJBkEU3ZCyiI3uvRskb/tnKEuEDmpKRrVH0aGitrV2ZDlysDvgZugB3QcGb96vW0Q
- /jy3/aIVq8jyZMfLk18coxAFVLR+b91vSf1u8pTbw3V/ApT1qoGVEUf7U9pAvN8VLTMF
- aPHZrMoBMkrwq6/gMzT5Dc89fanSMq//LxhxIzzhlcwPjOCmbWhJhXAvWDarbYn0sK5z
- pTIHqwkQpD+an9lBK/CUuJnOhaE5nflpoXzNmOMK4u84JTdzydVrvlN9EbtO1QyUtoUt
- 5FFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LIesySo8KfoPYYuDv0hxnDo5m8+fU1mYrZHcG45Uhwg=;
- b=m05BA6LChY90lhUfFJ08GiY+jD1YxoMJTfF0aVBZ4yFyXD8eIK0gCueg3ZdfJySzI7
- bH4IY5rmDbwjWGp0M/uxOOmE415+L12+fVN+kGliHVASJuYmhXop4kFL8GmXUTwjI5CU
- IQPvz4HlZR4A8x9Ff9zEGso2kSvIEysfgaYGp5zYesPK14wlMccMggqGKU9qXW4wn8pc
- ZTcRkWSduj+bSBwD9LNvBW9Ae7UGpxRU+ptp3l9nrlWN9QVqRd2Lth7CFE9Fj+78O8L4
- RYKK2o1paMGOPleSGRrBwKCGHwCA4Q3bakuXWdKPbW70byT8SrNBAxYTiyaZ5KpgmEMZ
- nILQ==
-X-Gm-Message-State: ANoB5pmEe8zfAzig0HAuhsdnKVqIpuLEGlNzv2WtmXJ0zMVgLoobmPYZ
- YdlAnyzpplhyANq2mqSHlY86BA==
-X-Google-Smtp-Source: AA0mqf5/X0Em3V8ifIs2J93d/ILyfxzdwhf2FYzSr+0t/l42WHc+BzTwWqjiJKAQjGRUM7Z3LyomTw==
-X-Received: by 2002:a63:2210:0:b0:458:6031:ba1 with SMTP id
- i16-20020a632210000000b0045860310ba1mr447725pgi.524.1668149253343; 
- Thu, 10 Nov 2022 22:47:33 -0800 (PST)
-Received: from always-x1.bytedance.net ([63.216.146.186])
- by smtp.gmail.com with ESMTPSA id
- u10-20020a170902e5ca00b0017f64ab80e5sm841022plf.179.2022.11.10.22.47.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 22:47:32 -0800 (PST)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: arei.gonglei@huawei.com, dgilbert@redhat.com, mst@redhat.com,
- eblake@redhat.com, armbru@redhat.com, michael.roth@amd.com
-Cc: qemu-devel@nongnu.org,
-	zhenwei pi <pizhenwei@bytedance.com>
-Subject: [PATCH for 8.0 8/8] hmp: add cryptodev info command
-Date: Fri, 11 Nov 2022 14:45:53 +0800
-Message-Id: <20221111064553.246932-9-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20221111064553.246932-1-pizhenwei@bytedance.com>
-References: <20221111064553.246932-1-pizhenwei@bytedance.com>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1otNoa-0006Tv-Jd
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 01:47:01 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.220] helo=chinatelecom.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1otNoW-0008Av-Pk
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 01:46:59 -0500
+HMM_SOURCE_IP: 172.18.0.188:44726.2049033823
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-36.111.64.85 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id 086E82800A9;
+ Fri, 11 Nov 2022 14:46:32 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([36.111.64.85])
+ by app0023 with ESMTP id f07b5f6d6f5a42bab2d582e1952f5d45 for mst@redhat.com; 
+ Fri, 11 Nov 2022 14:46:47 CST
+X-Transaction-ID: f07b5f6d6f5a42bab2d582e1952f5d45
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 36.111.64.85
+X-MEDUSA-Status: 0
+Message-ID: <d1613553-da1f-178c-d90e-1224e3452b99@chinatelecom.cn>
+Date: Fri, 11 Nov 2022 14:46:31 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v3 0/2] Fix the virtio features negotiation flaw
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
+References: <cover.1667136717.git.huangy81@chinatelecom.cn>
+ <20221110135231-mutt-send-email-mst@kernel.org>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <20221110135231-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=42.123.76.220;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,105 +69,201 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Example of this command:
- # virsh qemu-monitor-command vm --hmp info cryptodev
-cryptodev1: service=[akcipher|mac|hash|cipher]
-    queue 0: type=builtin
-cryptodev0: service=[akcipher]
-    queue 0: type=lkcf
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
----
- hmp-commands-info.hx  | 14 ++++++++++++++
- include/monitor/hmp.h |  1 +
- monitor/hmp-cmds.c    | 36 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 51 insertions(+)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 754b1e8408..47d63d26db 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -993,3 +993,17 @@ SRST
-   ``info virtio-queue-element`` *path* *queue* [*index*]
-     Display element of a given virtio queue
- ERST
-+
-+    {
-+        .name       = "cryptodev",
-+        .args_type  = "",
-+        .params     = "",
-+        .help       = "show the crypto devices",
-+        .cmd        = hmp_info_cryptodev,
-+        .flags      = "p",
-+    },
-+
-+SRST
-+  ``info cryptodev``
-+    Show the crypto devices.
-+ERST
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index dfbc0c9a2f..b6b2b49202 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -143,5 +143,6 @@ void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
- void hmp_human_readable_text_helper(Monitor *mon,
-                                     HumanReadableText *(*qmp_handler)(Error **));
- void hmp_info_stats(Monitor *mon, const QDict *qdict);
-+void hmp_info_cryptodev(Monitor *mon, const QDict *qdict);
- 
- #endif
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 01b789a79e..3f1054aa1e 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -33,6 +33,7 @@
- #include "qapi/qapi-commands-block.h"
- #include "qapi/qapi-commands-char.h"
- #include "qapi/qapi-commands-control.h"
-+#include "qapi/qapi-commands-cryptodev.h"
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
-@@ -2761,3 +2762,38 @@ void hmp_virtio_queue_element(Monitor *mon, const QDict *qdict)
- 
-     qapi_free_VirtioQueueElement(e);
- }
-+
-+void hmp_info_cryptodev(Monitor *mon, const QDict *qdict)
-+{
-+    CryptodevInfoList *info_list;
-+    CryptodevInfo *info;
-+    QCryptodevBackendServiceTypeList *service_list;
-+    CryptodevBackendClientList *client_list;
-+    CryptodevBackendClient *client;
-+    char services[128] = {};
-+    int len;
-+
-+    info_list = qmp_query_cryptodev(NULL);
-+    for ( ; info_list; info_list = info_list->next) {
-+        info = info_list->value;
-+
-+        service_list = info->service;
-+        for (len = 0; service_list; service_list = service_list->next) {
-+            len += snprintf(services + len, sizeof(services) - len, "%s|",
-+                QCryptodevBackendServiceType_str(service_list->value));
-+        }
-+        if (len) {
-+            services[len - 1] = '\0'; /* strip last char '|' */
-+        }
-+        monitor_printf(mon, "%s: service=[%s]\n", info->id, services);
-+
-+        client_list = info->client;
-+        for ( ; client_list; client_list = client_list->next) {
-+            client = client_list->value;
-+            monitor_printf(mon, "    queue %ld: type=%s\n", client->queue,
-+                          QCryptodevBackendType_str(client->type));
-+        }
-+    }
-+
-+    qapi_free_CryptodevInfoList(info_list);
-+}
+在 2022/11/11 2:53, Michael S. Tsirkin 写道:
+> On Sun, Oct 30, 2022 at 09:52:37PM +0800, huangy81@chinatelecom.cn wrote:
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>
+>> v3:
+>> -rebase on master
+>> -code clean on [PATCH v2 1/2]: keep the commit self-consistent and
+>>   do not modify the logic of saving acked_features. Just abstract the
+>>   util function.
+>> -modify the [PATCH v2 2/2] logic: change the behavior of saving
+>>   acked_features in chr_closed_bh: saving acked_features only if
+>>   features aren't 0. For the case of 0, we implement it in
+>>   virtio_net_set_features function, which will save the acked_features
+>>   in advance, including assign 0 to acked_features.
+>>
+>> Thanks Michael for the comments and suggestions about the self-consistent
+>> of commits. :)
+> 
+> 
+> This breaks multiple build configs:
+> 
+> https://gitlab.com/mstredhat/qemu/-/pipelines/691382555/failures
+
+Thanks for pointing out the error, i'll add the stub function next version.
+> 
+> 
+>> Please review,
+>>
+>> Yong
+>>
+>> v2:
+>> Fix the typo in subject of [PATCH v2 2/2]
+>>
+>> v1:
+>> This is the version 1 of the series and it is exactly the same as
+>> RFC version, but fixing a typo in subject, which is reported by Michael.
+>>
+>> As for test for the behavior suggested by Michael, IMHO, it could be
+>> post in another series, since i found that testing the negotiation
+>> behavior using QGraph Test Framework requires more work than i thought.
+>>
+>> The test patch may implement the following logic...
+>> 1. Introduce a fresh new qmp command to query netdev info, which show
+>>     the NetClient status including guest features and acked_features.
+>> 2. Using vhost-user QGraph Test to check the behavior of the vhost user
+>>     protocol cmd VHOST_USER_SET_FEATURES.
+>> 3. Adding acked_features into TestServer, which receive the features
+>>     set by QEMU.
+>> 4. Compare the acked_feature in TestServer with the acked_features
+>>     in the output of qmp query command.
+>>
+>> Anyway, idea above can be discussed in the future and any suggestion
+>> are welcom. Let's fix the existing bug first, :)
+>>
+>> Please review,
+>>
+>> Yong
+>>
+>> Patch for RFC can be found in the following:
+>> https://patchew.org/QEMU/20220926063641.25038-1-huangy81@chinatelecom.cn/
+>>
+>> This patchset aim to fix the unexpected negotiation features for
+>> vhost-user netdev interface.
+>>
+>> Steps to reproduce the issue:
+>> Prepare a vm (CentOS 8 in my work scenario) with vhost-user
+>> backend interface and configure qemu as server mode. So dpdk
+>> would connect qemu's unix socket periodically.
+>>
+>> 1. start vm in background and restart openvswitch service
+>>     concurrently and repeatedly in the process of vm start.
+>>
+>> 2. check if negotiated virtio features of port is "0x40000000" at
+>>     dpdk side by executing:
+>>     ovs-vsctl list interface | grep features | grep {port_socket_path}
+>>         
+>> 3. if features equals "0x40000000", go to the vm and check if sending
+>>     arp package works, executing:
+>>     arping {IP_ADDR}
+>>     if vm interface is configured to boot with dhcp protocol, it
+>>     would get no ip.
+>>
+>> After doing above steps, we'll find the arping not work, the ovs on
+>> host side has forwarded unexpected arp packages, which be added 0x0000
+>> in the head of ethenet frame.  Though qemu report some error when
+>> read/write cmd of vhost protocol during the process of vm start,
+>> like the following:
+>>
+>> "Failed to set msg fds"
+>> "vhost VQ 0 ring restore failed: -22: Invalid argument (22)"
+>>
+>> The vm does not stop or report more suggestive error message, it
+>> seems that everthing is ok.
+>>
+>> The root cause is that dpdk port negotiated nothing but only one
+>> VHOST_USER_F_PROTOCOL_FEATURES feature with vhost-user interface at
+>> qemu side, which is an unexpected behavior. qemu only load the
+>> VHOST_USER_F_PROTOCOL_FEATURES when VHOST_USER_SET_FEATURES and loss
+>> the guest features configured by front-end virtio driver using the
+>> VIRTIO_PCI_COMMON_GF addr, which is stored in acked_features field
+>> of struct vhost_dev.
+>>
+>> To explain how the acked_features disappear, we may need to know the
+>> lifecyle of acked_features in vhost_dev during feature negotiation.
+>>
+>> 1. qemu init acked_features field of struct vhost_dev in vhost_net_init()
+>>     by calling vhost_net_ack_features(), the init value fetched from
+>>     acked_features field of struct NetVhostUserState, which is the backup
+>>     role after vhost stopping or unix socket closed.
+>>     In the first time, the acked_features of struct NetVhostUserState is 0
+>>     so the init value of vhost_dev's acked_features also 0.
+>>
+>> 2. when guest virtio driver set features, qemu accept the features and
+>>     call virtio_set_features to store the features as acked_features in
+>>     vhost_dev.
+>>
+>> 3. when unix socket closed or vhost_dev device doesn't work and be
+>>     stopped unexpectedly, qemu will call chr_closed_bh or vhost_user_stop,
+>>     which will copy acked_features from vhost_dev to NetVhostUserState and
+>>     cleanup the vhost_dev. Since virtio driver not allowed to set features
+>>     once status of virtio device changes to VIRTIO_CONFIG_S_FEATURE_OK,
+>>     qemu need to backup it in case of loss.
+>>      
+>> 4. once unix socket return to normal and get connected, qemu will
+>>     call vhost_user_start to restore the vhost_dev and fetch the
+>>     acked_features stored in NetVhostUserState previously.
+>>
+>> The above flow works fine in the normal scenarios, but it doesn't cover
+>> the scenario that openvswitch service restart in the same time of
+>> virtio features negotiation.
+>>
+>> Let's analyze such scenario:
+>>         qemu                                 dpdk
+>>
+>>     vhost_net_init()
+>>           |                      systemctl stop openvswitch.service
+>>     virtio_set_features()                     |
+>>           |                      systemctl start openvswitch.service
+>>     virtio_set_status()
+>>
+>> Ovs stop service before guset setting virtio features, chr_closed_bh()
+>> be called and fetch acked_features in vhost_dev, if may store the
+>> incomplete features to NetVhostUserState since it doesn't include
+>> guest features, eg "0x40000000".
+>>
+>> Guest set virtio features with another features, eg "0x7060a782",
+>> this value will store in acked_features of vhost_dev, which is the
+>> right and up-to-date features.
+>>
+>> After ovs service show up, qemu unix socket get connected and call
+>> vhost_user_start(), which will restore acked_features of vhost_dev
+>> using NetVhostUserState and "0x40000000" be loaded, which is obsolete.
+>>
+>> Guest set virtio device status and therefore qemu call
+>> virtio_net_vhost_status finally, checking if vhost-net device has
+>> started, start it if not, consequently the obsolete acked_features
+>> "0x40000000" be negotiated after calling vhost_dev_set_features().
+>>
+>> So the key point of solving this issue making the acked_features
+>> in NetVhostUserState up-to-date, these patchset provide this
+>> solution.
+>>
+>> [PATCH 1/2]: Abstract the existing code of saving acked_features
+>>               into vhost_user_save_acked_features so the next
+>>               patch seems clean.
+>>
+>> [PATCH 2/2]: Save the acked_features to NetVhostUserState once
+>>               Guest virtio driver configured. This step makes
+>>               acked_features in NetVhostUserState up-to-date.
+>>
+>> Please review, any comments and suggestions are welcome.
+>>
+>> Best regard.
+>>
+>> Yong
+>>
+>> Hyman Huang (2):
+>>    vhost-user: Refactor vhost acked features saving
+>>    vhost-net: Fix the virtio features negotiation flaw
+>>
+>>   hw/net/vhost_net.c       |  9 +++++++++
+>>   hw/net/virtio-net.c      |  5 +++++
+>>   include/net/vhost-user.h |  2 ++
+>>   include/net/vhost_net.h  |  2 ++
+>>   net/vhost-user.c         | 35 +++++++++++++++++++----------------
+>>   5 files changed, 37 insertions(+), 16 deletions(-)
+>>
+>> -- 
+>> 1.8.3.1
+> 
+
 -- 
-2.20.1
+Best regard
 
+Hyman Huang(黄勇)
 
