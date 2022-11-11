@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDDB1625FDF
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 17:54:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E03A626033
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 18:14:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otXIh-0007GC-Os; Fri, 11 Nov 2022 11:54:43 -0500
+	id 1otXaR-00074B-Pg; Fri, 11 Nov 2022 12:13:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otXIb-0007Fg-Lm
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 11:54:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otXIa-0008Fl-3e
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 11:54:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668185673;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BgSMyecpdjcve5jvMTZmGBHWDho5+PadRDOxdWJTFbM=;
- b=B1t5LkvjdiqDLGB5ug7ONjU59j5rY3p5qGdqC0zMI9+xBJh1KMdqyY011UqFg2kdd/6dW5
- fWXcrCyh/qTp9ssW8PvPTBtxRFUBbMY8HTllImR9mKPkmqvfg6IB+lzaOYw1laUC2ZlsGP
- Qxr2V/XZQBcSLF7h26G0Kq5uQFyyxFU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-503-jXvj7D6IPvaO137EDikeWg-1; Fri, 11 Nov 2022 11:54:30 -0500
-X-MC-Unique: jXvj7D6IPvaO137EDikeWg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA9FC101A54E;
- Fri, 11 Nov 2022 16:54:29 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E5101415127;
- Fri, 11 Nov 2022 16:54:28 +0000 (UTC)
-Date: Fri, 11 Nov 2022 17:54:24 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: qemu-block@nongnu.org, eesposit@redhat.com, stefanha@redhat.com,
- hreitz@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH 06/13] block: Drain invidual nodes during reopen
-Message-ID: <Y259Avl8KeoGyB2e@redhat.com>
-References: <20221108123738.530873-1-kwolf@redhat.com>
- <20221108123738.530873-7-kwolf@redhat.com>
- <18167aa9-e9e6-ea2c-ad96-68a7c972a371@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otXaK-00072a-QW
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 12:12:56 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otXaG-0004BX-Ue
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 12:12:55 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ t25-20020a1c7719000000b003cfa34ea516so5814185wmi.1
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 09:12:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=TEkgpn49ZtuQPQtoF3zhxYpc+WzS1jHpsPT4M/c9Bko=;
+ b=zaoLZH4XHmqEobG/wF5gK4YoW+gtGDv1iRwT30SurY6ze2PblKqBj05BizX07Q9/OT
+ +DsOWNHSSoEE9EY7jsS/JeprzE/UgwV4JH/9btTsdLjR2alNPDQVjuc6h7KXkhNXkHZ3
+ DRWvw8dAMZAlpF/ZyqFDmIsDWmRxsJlQCcaKxFziwBRYSATK7/mtdL79z9Az0boKORBR
+ +S7qj3lqjrXHEMGIks/Gjdqh1UTZAb93l48eoc+xpp9C1kFnAamfPIs58UlM7FuGiwq+
+ 8dOsfYTTWUSNrJZxIsdYKFG0QcXS8mSFMGr56Oz4mpFGe0jiSNndPeswbijfbbEZz2IE
+ 15oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TEkgpn49ZtuQPQtoF3zhxYpc+WzS1jHpsPT4M/c9Bko=;
+ b=6ydI8AZi4yJ6qrqMzpc6MLMoyyBWMg3YJfNzeQw7zDBRoKMPc4hKs4pns94yQI4XVt
+ EunrV4e9UrPOd47oNKJhjclZjV0pCYcy1y6qZC8tY8BuljlDOwROmTZWZzPt2Shx1lWc
+ JeIfNh/GTcxkiXrg7jRA7g7mzusBMlPvvRERVoy3etz+YEocP/q1wb5fRf+w29PJkzzz
+ uRSQ37NoWZpW4n/W88hwnBfAI+POrh+IMEzQL3F1Erb3po35Fj28Tc6cuTn9x3zZO0Om
+ 2raqFv2WQ1yMz53SecMdtknXvXD+zACLc3nuB2ceIRDwJElGzh/rmkp9UJhlhcQqzPgb
+ 0aWA==
+X-Gm-Message-State: ANoB5pkFnWodE054aHtRQHcA11ItNlj7U8eNwQ4VV9RTD7I32J9XfnQ8
+ VCi4icuprzb6a2juTxWOEewQjQ==
+X-Google-Smtp-Source: AA0mqf5LmLmqF3bztxQeBUZTnNHfUp1/PnAz23rgKHNndAFyuOaULyOOi4ebrtYCSq5fKQUBb4otOg==
+X-Received: by 2002:a7b:c398:0:b0:3cf:8b22:b567 with SMTP id
+ s24-20020a7bc398000000b003cf8b22b567mr1920562wmj.144.1668186762248; 
+ Fri, 11 Nov 2022 09:12:42 -0800 (PST)
+Received: from [192.168.7.115] ([109.111.120.167])
+ by smtp.gmail.com with ESMTPSA id
+ v21-20020a05600c215500b003c6c3fb3cf6sm3344965wml.18.2022.11.11.09.12.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Nov 2022 09:12:41 -0800 (PST)
+Message-ID: <727e8e0a-5624-0e3a-dfca-f3941a8c7446@linaro.org>
+Date: Fri, 11 Nov 2022 18:12:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <18167aa9-e9e6-ea2c-ad96-68a7c972a371@yandex-team.ru>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PATCH v2 04/12] tests/docker: allow user to override check target
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20221111145529.4020801-1-alex.bennee@linaro.org>
+ <20221111145529.4020801-5-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20221111145529.4020801-5-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,54 +97,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 09.11.2022 um 17:00 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> In subject: individual
+On 11/11/22 15:55, Alex Bennée wrote:
+> This is useful when trying to bisect a particular failing test behind
+> a docker run. For example:
 > 
-> On 11/8/22 15:37, Kevin Wolf wrote:
-> > bdrv_reopen() and friends use subtree drains as a lazy way of covering
-> > all the nodes they touch. Turns out that this lazy way is a lot more
-> > complicated than just draining the nodes individually, even not
-> > accounting for the additional complexity in the drain mechanism itself.
-> > 
-> > Simplify the code by switching to draining the individual nodes that are
-> > already managed in the BlockReopenQueue anyway.
-> > 
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
-> >   block.c             | 11 ++++-------
-> >   block/replication.c |  6 ------
-> >   blockdev.c          | 13 -------------
-> >   3 files changed, 4 insertions(+), 26 deletions(-)
-> > 
+>    make docker-test-clang@fedora \
+>      TARGET_LIST=arm-softmmu \
+>      TEST_COMMAND="meson test qtest-arm/qos-test" \
+>      J=9 V=1
 > 
-> [..]
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > 
-> >       bdrv_reopen_queue_free(queue);
-> > -    for (p = drained; p; p = p->next) {
-> > -        BlockDriverState *bs = p->data;
-> > -        AioContext *ctx = bdrv_get_aio_context(bs);
-> > -
-> > -        aio_context_acquire(ctx);
-> 
-> In bdrv_reopen_queue_free() we don't have this acquire()/release()
-> pair around bdrv_drained_end(). We don't need it anymore?
+> ---
+> v1
+>   - fix s/target /target./
+>   - CHECK_TARGET -> TEST_COMMAND
+> ---
+>   tests/docker/Makefile.include | 2 ++
+>   tests/docker/common.rc        | 6 +++---
+>   2 files changed, 5 insertions(+), 3 deletions(-)
 
-Good catch, I think we do.
-
-Reopen is a bit messy with AioContext locks. I think the rule is
-supposed to be that bdrv_reopen_queue() requires that the lock for
-bs->aio_context is held, and bdrv_reopen_multiple() requires that no
-AioContext lock is held, right?
-
-Because the former is not actually true: qmp_blockdev_reopen() and the
-'replication' block driver do indeed take the lock, but bdrv_reopen()
-drops it for both functions!
-
-So I think we also need an additional fix for bdrv_reopen() to drop the
-lock only after calling bdrv_reopen_queue(). It may not have made a
-difference before, but now that we call bdrv_drained_begin() in it, it
-seems important.
-
-Kevin
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
