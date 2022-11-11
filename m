@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D67625874
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:34:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8CF66258AB
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:49:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otRLy-0001U2-AL; Fri, 11 Nov 2022 05:33:42 -0500
+	id 1otRZY-0007Kd-L6; Fri, 11 Nov 2022 05:47:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1otRLR-0001Lr-Td
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:33:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1otRZM-0007Jn-MX
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:47:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1otRLP-0000ub-Gt
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:33:09 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1otRZK-0007MO-8E
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:47:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668162787;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rCLt9FSqNeXP1wVr2qH6MuZQcIugm0bJHKmlpsp6YCc=;
- b=Jl1zOPVJNB/opvZusoxrY5FMeKlIOFMH12gwV5XryP6iI6WKbZhz48a83H5CDZPPDDV1ZT
- fP6eW8Fxq14uGLwdJx9Mpk84NQuj40maRk3xorAHuVdK3Jh//5rMlLYKsVSGsidYzocjc5
- pAmIX28YSbfmHNZxG2NKq0HLeAdaH3I=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-314-f5tsLfOPPxezpzq3e8Nuxg-1; Fri, 11 Nov 2022 05:33:05 -0500
-X-MC-Unique: f5tsLfOPPxezpzq3e8Nuxg-1
-Received: by mail-qt1-f198.google.com with SMTP id
- gc12-20020a05622a59cc00b003a5444280e1so3372681qtb.13
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 02:33:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rCLt9FSqNeXP1wVr2qH6MuZQcIugm0bJHKmlpsp6YCc=;
- b=cNyigFKDpEJLUM4KpEZrugeX4b6BAXHt/nipYMtGD9DKmdS/mtVgFFkwZrr0XBsvrx
- 2XNM3KGa/LMx2lmgJzjYtVY1piYmxRCGOOCG+Iapvby4yEaGE2Bi8ZHaAnk9KP/NQASG
- hBZP4VP9iaknmLrseYrcSLruphQlwdzAIJm8BJT2678AuTyR1HCpG/OSJJopN+fJRsVH
- wVRyrMG2kxBDw167xgv/cBP9BVuyHCDrk5bU3T+UdkEM5tUsGKi0QTvUtRDmvocKk88U
- /kRwqL5MIy+7Jn9+z6+1HT8w1B6tT+Mssyv51k9D8rqLM023MSkra4OX0VYwhlFSPts8
- Rplw==
-X-Gm-Message-State: ANoB5pkM4C2BZKEVBRQSHzthdGsKrRyc93g0VN8x7wR2xlhsHy+SW9ic
- X8l+4NgM1GFUK2y4dY/KC3IXevjY4Sezn0a2xsi6NodTqnb3iJ85lIITTQCRtSJV/g7mtRKMvIP
- A39Qwln4Wr0BmzJc=
-X-Received: by 2002:a37:a807:0:b0:6ec:5496:4e17 with SMTP id
- r7-20020a37a807000000b006ec54964e17mr466788qke.559.1668162784202; 
- Fri, 11 Nov 2022 02:33:04 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6xQIHCkuOfgFH1un5+bd/qFtjFQPizU2Hwn9IZHVgV1yadnv5h3BN2c6fEhSYOCgjVrvz8gw==
-X-Received: by 2002:a37:a807:0:b0:6ec:5496:4e17 with SMTP id
- r7-20020a37a807000000b006ec54964e17mr466774qke.559.1668162783991; 
- Fri, 11 Nov 2022 02:33:03 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- h12-20020a05620a400c00b006b949afa980sm1205970qko.56.2022.11.11.02.33.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 02:33:03 -0800 (PST)
-Date: Fri, 11 Nov 2022 11:33:00 +0100
-From: Igor Mammedov <imammedo@redhat.com>
+ s=mimecast20190719; t=1668163649;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=GfV8N7nC/lQuUz5YJxhFCpAUXUdcgUMUXjtcFvMMaEA=;
+ b=Y/AIt4AkX1fU6oLoHkpwydiPQ7FnP299DLQqDcN+MXpVUC84pxcYlAym8/uATWtSkPftFH
+ G/UvJnxhXmImsZv+eFwQn+I5DEPv46rpderSGYXlta7EN6IBFKBxnTsG7PyLyE47dFZXDY
+ U+mQRlfmZpbmDZXqk876LtMKfSw+Ayg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-277-Uxe8kQvZNnKarHZQceI5Vg-1; Fri, 11 Nov 2022 05:47:25 -0500
+X-MC-Unique: Uxe8kQvZNnKarHZQceI5Vg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE685185A7A3;
+ Fri, 11 Nov 2022 10:47:24 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C14B2166B26;
+ Fri, 11 Nov 2022 10:47:23 +0000 (UTC)
+Date: Fri, 11 Nov 2022 10:47:20 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Dario Faggioli <dfaggioli@suse.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "eduardo@habkost.net"
- <eduardo@habkost.net>, "mst@redhat.com" <mst@redhat.com>,
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "eduardo@habkost.net" <eduardo@habkost.net>,
+ "mst@redhat.com" <mst@redhat.com>,
  "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
  "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
  "pbonzini@redhat.com" <pbonzini@redhat.com>
 Subject: Re: How about increasing max_cpus for q35 ?
-Message-ID: <20221111113300.7dd39cdd@imammedo.users.ipa.redhat.com>
-In-Reply-To: <c705d0d8d6ed1a520b1ff92cb2f83fef19522d30.camel@suse.com>
+Message-ID: <Y24oOMgmf9QYQkXm@redhat.com>
 References: <c705d0d8d6ed1a520b1ff92cb2f83fef19522d30.camel@suse.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c705d0d8d6ed1a520b1ff92cb2f83fef19522d30.camel@suse.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,12 +80,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 9 Nov 2022 13:36:07 +0000
-Dario Faggioli <dfaggioli@suse.com> wrote:
-
+On Wed, Nov 09, 2022 at 01:36:07PM +0000, Dario Faggioli wrote:
 > Hello,
 > 
 > Sorry for the potentially naive question, but I'm not clear what the
@@ -153,22 +132,29 @@ Dario Faggioli <dfaggioli@suse.com> wrote:
 > And it's included in kernels >= 5.15.
 > 
 > So, what's the correct way of bumping up the limit again? Just changing
-> that assignment in pc_q35_machine_options()
-
-that and preserve 288 limit for existing machine types.
-
-Basically the same as above QEMU commit with difference
-that pc_q35_2_8_machine_options() should be replaced by
-7.2 equivalent.
-
-
-PS:
-we are still missing OVMF support for 1024,
-but it's being worked on.
-
-> ? Or do we want a new
+> that assignment in pc_q35_machine_options() ? Or do we want a new
 > version of the machine type or something like that?
-> 
-> Thanks and Regards
+
+Too late for this release, so we need to wait until the new release
+cycle opens, with thue addition of the 8.0.0 machine types. Then
+just set 'max_cpus' in the new machine type.
+
+In RHEL downstream we've set max_cpus = 710 for x86_64, because this
+is the largest that was possible without hitting SMBIOS limits. The
+problem was the use of the 32-bit entry point on PC machine types.
+
+If we switch Q35 to use the 64-bit entry point, we should be able
+to go straight to 1024 IIUC.  We were blocked changing the entry
+point previously by need to have support in both SeaBIOS and UEFI
+builds. I'm not sure what the status of this is, for the ROMS we
+currently have in QEMU git. If both SeaBIOS and UEFI ROMs now
+support 64-bit SMBIOS, then we can switch Q35 to it.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
