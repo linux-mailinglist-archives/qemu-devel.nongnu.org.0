@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ABF46257A0
+	by mail.lfdr.de (Postfix) with ESMTPS id C82946257A1
 	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:08:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otQwJ-0004n8-GW; Fri, 11 Nov 2022 05:07:11 -0500
+	id 1otQwR-0004wH-75; Fri, 11 Nov 2022 05:07:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1otQwH-0004mR-No; Fri, 11 Nov 2022 05:07:09 -0500
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
+ id 1otQwK-0004qW-4P; Fri, 11 Nov 2022 05:07:12 -0500
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1otQwF-0008Fe-Ou; Fri, 11 Nov 2022 05:07:09 -0500
-Received: by mail-oi1-x22c.google.com with SMTP id h132so4513334oif.2;
- Fri, 11 Nov 2022 02:07:07 -0800 (PST)
+ id 1otQwI-0008G0-BN; Fri, 11 Nov 2022 05:07:11 -0500
+Received: by mail-ot1-x32c.google.com with SMTP id
+ p8-20020a056830130800b0066bb73cf3bcso2539118otq.11; 
+ Fri, 11 Nov 2022 02:07:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=bv+MGsQ1AkP9QhCMpz+ZIevL2OZyKlrEdeDeeJDBCtE=;
- b=AEvrMnhrT8gHEHy3FhkCdJeRVuKqszpK5zCXjSf+0WwpfDindSsanmwd7e+gS6aHkg
- f29uMn48MEVMK7eirkqcwoUZFsGirFp/LwqyPGygTiBMkSPtFJaHj6hPrlXr84MrbeTm
- Yc0kZp59RtAEltGOX/xU59w5ckxfVx3n80AwNLDi39dykUx4n2K5RavmZ6rXtdHeAgAA
- Ozn3UNMGfMRpInuGGSppBlh0Ly7RzdRGzcQVJl2Ya4BVM4brlpvaaJiYZ73JBmxWQ5iM
- uHAhlMqrzefxos1TKrVnuSeyLD63LYWQGqbIbheWbOZ1Ew3JWW1XgZSB6FhOlArd7OiH
- RUoA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NXB1YH3JgzIfHIT7LFrEJsZQg4JFF4mH9uZmTdK5E3s=;
+ b=X9S9UfdjyM1C4GISbBmH4X2RAAFABIwtd6vVhldphmEWBiEG1/p0Sa4IvoHxDvjGlK
+ B8CdIBI6YXAO/mzr/puGHSRzmeHtWVl6Ev4mh2IDaCz5lSQtW/5cW2FkQt/09laNxyIq
+ eVNFbEV8Q46aq9L+v/8+Gkfwanom/cazWA3JNvCo0lAGkQ8pws7wWQPBKGqwc1/KwjvZ
+ lA6QUiQuR8fH4NZc0epynbcHc1VQl6xPAXWrxc4XjeJe0cknUwZEPc7D4YW/4mZmmPDn
+ R+cUjH5aT1FBcvjokDeDP4in0Inl9Ghou53ZwjchZTAezH6gsKBdrqb1QFV2mquXyhVC
+ SFjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bv+MGsQ1AkP9QhCMpz+ZIevL2OZyKlrEdeDeeJDBCtE=;
- b=rLioIWIf+2YaHYMgCJ38T6/AcyIVSFx+ufHPP7d2ib12EqOZ8ABjbJehuU4CFd6aC4
- mfmBG62oiTwOOwKAzgkI9GAHAij4wS2bTTP6GsqgCQ+Pk7bFKtF9hslgW/cDS/zVKQ04
- BGGKbp4dFPvOetDeZqGsYzqViiD+s0kClcBq+PhvcvGXVrDaKy+4lTKZzsf0IzdCnsxe
- hFguvw12tZaB+I5nRgEoTahfbtPTiu96L6hlMKYnGZqTMAx4asKYBP29ELUSKNK2jB/6
- rf4n1168xSDOjpxVPbzNXOv8DcrsOSX5fQCca44Z98UzDwv/DUrNrnEJ0eLSqASq4wnu
- Np7w==
-X-Gm-Message-State: ANoB5pnPcS1kzzYgTMx6ORt3SydWK2S1r0johXyNvJ4AMJEyFCjldl9P
- w+MJgY0eSY3vEKu5f7Ko79L+vDrclwU=
-X-Google-Smtp-Source: AA0mqf69puIUfMbt1UmpyXFp8aIsWFR90WjosP1qtEtu04DUKNEgwNsX/xC4MSldhyzUfe0ESC8ZRA==
-X-Received: by 2002:a05:6808:212a:b0:35a:6153:f608 with SMTP id
- r42-20020a056808212a00b0035a6153f608mr408906oiw.48.1668161225787; 
- Fri, 11 Nov 2022 02:07:05 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NXB1YH3JgzIfHIT7LFrEJsZQg4JFF4mH9uZmTdK5E3s=;
+ b=qXfdWA7CaJ7jdkLQYCBPK5HPqxb38ypWZ9Jki6OKxoms9T3vLnBG0cnJaJhxg328AN
+ Vm9l2PHoZxqAUK79oouKu9kx1KIj/8iEuLOpSH3SshV0AXbDKDa+2t0Nz9swVbofIP0E
+ DIAZOiMKdRYtCCJFopDPlhU/cT5sMNPB7Wqo6S9cNL/ksw/puynFZHR9NMtzTYBjpMs6
+ AS7HCp+ulh70Csjgi7uamdjhxSW2+TvSTcP8vNhVDohE0rCI3HcGivXiSdSstsV4eWMp
+ PBEnT8CWEqD7guAMMMTn0s8QHTYboxSht1ZpKX16EUUTSlXVVUaqmFHdW8fRrfQ+EcLa
+ UI2A==
+X-Gm-Message-State: ANoB5pmdl38YHzEuVbhrLLbjCncHiyXDsgl/Bfxne4h3b7oP9LgogoRM
+ kQhO18oHnn+tltclXlsc2ZSqOmbsa4c=
+X-Google-Smtp-Source: AA0mqf4NPqwtbuGFZ5jBEn1HwOC9hY5Gm806/OrWiOfn9uqyqiKDvydjKQxpOHuw9ri4sPQuyk+Vog==
+X-Received: by 2002:a9d:6c02:0:b0:66c:42d7:7d70 with SMTP id
+ f2-20020a9d6c02000000b0066c42d77d70mr841605otq.98.1668161228542; 
+ Fri, 11 Nov 2022 02:07:08 -0800 (PST)
 Received: from balboa.redhat.com ([187.34.29.120])
  by smtp.gmail.com with ESMTPSA id
- f4-20020a056870898400b0012d130c2fdasm994862oaq.48.2022.11.11.02.07.03
+ f4-20020a056870898400b0012d130c2fdasm994862oaq.48.2022.11.11.02.07.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 02:07:05 -0800 (PST)
+ Fri, 11 Nov 2022 02:07:08 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
+Cc: qemu-ppc@nongnu.org, stefanha@redhat.com, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 0/1] ppc queue
-Date: Fri, 11 Nov 2022 07:05:50 -0300
-Message-Id: <20221111100551.1076171-1-danielhb413@gmail.com>
+Subject: [PULL 1/1] hw/pci-host/pnv_phb: Avoid quitting QEMU if hotplug of
+ pnv-phb-root-port fails
+Date: Fri, 11 Nov 2022 07:05:51 -0300
+Message-Id: <20221111100551.1076171-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221111100551.1076171-1-danielhb413@gmail.com>
+References: <20221111100551.1076171-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32c.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,27 +93,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 2ccad61746ca7de5dd3e25146062264387e43bd4:
+From: Thomas Huth <thuth@redhat.com>
 
-  Merge tag 'pull-tcg-20221109' of https://gitlab.com/rth7680/qemu into staging (2022-11-09 13:26:45 -0500)
+Currently QEMU terminates if you try to hotplug pnv-phb-root-port in
+an environment where it is not supported, e.g. if doing this:
 
-are available in the Git repository at:
+ echo "device_add pnv-phb-root-port" | \
+ ./qemu-system-ppc64 -monitor stdio -M powernv9
 
-  https://gitlab.com/danielhb/qemu.git tags/pull-ppc-20221111
+To avoid this problem, the pnv_phb_root_port_realize() function should
+not use error_fatal when trying to set the properties which might not
+be available.
 
-for you to fetch changes up to ec5651340d445f009db1c2dc507da8cb4df85ad0:
-
-  hw/pci-host/pnv_phb: Avoid quitting QEMU if hotplug of pnv-phb-root-port fails (2022-11-10 18:22:10 -0300)
-
-----------------------------------------------------------------
-ppc patch queue for 2022-11-11:
-
-Short queue with just a single pnv-phb fix from Thomas Huth.
-
-----------------------------------------------------------------
-Thomas Huth (1):
-      hw/pci-host/pnv_phb: Avoid quitting QEMU if hotplug of pnv-phb-root-port fails
-
+Fixes: c2f3f78af5 ("ppc/pnv: set root port chassis and slot using Bus properties")
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20221109122210.115667-1-thuth@redhat.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
  hw/pci-host/pnv_phb.c | 12 ++++++++++--
  1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
+index 7b11f1e8dd..0b26b43736 100644
+--- a/hw/pci-host/pnv_phb.c
++++ b/hw/pci-host/pnv_phb.c
+@@ -241,8 +241,16 @@ static void pnv_phb_root_port_realize(DeviceState *dev, Error **errp)
+      * QOM id. 'chip_id' is going to be used as PCIE chassis for the
+      * root port.
+      */
+-    chip_id = object_property_get_int(OBJECT(bus), "chip-id", &error_fatal);
+-    index = object_property_get_int(OBJECT(bus), "phb-id", &error_fatal);
++    chip_id = object_property_get_int(OBJECT(bus), "chip-id", &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++    index = object_property_get_int(OBJECT(bus), "phb-id", &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
+ 
+     /* Set unique chassis/slot values for the root port */
+     qdev_prop_set_uint8(dev, "chassis", chip_id);
+-- 
+2.37.3
+
 
