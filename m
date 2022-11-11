@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C81A7625546
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 09:29:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02CA662554C
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 09:30:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otP6A-00015a-R1; Fri, 11 Nov 2022 03:09:14 -0500
+	id 1otP6H-0001Fk-8U; Fri, 11 Nov 2022 03:09:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otP5T-0000zi-29
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 03:08:35 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ id 1otP5X-00010G-Fb
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 03:08:38 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otP5Q-0002DP-Rn
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 03:08:30 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- d59-20020a17090a6f4100b00213202d77e1so7138592pjk.2
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 00:08:28 -0800 (PST)
+ id 1otP5T-0002Dp-CV
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 03:08:33 -0500
+Received: by mail-pf1-x430.google.com with SMTP id 130so4274219pfu.8
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 00:08:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=opzHySzfd4h+h3v2676QIsaK3Qpg3HvBCwh7e/m6JPM=;
- b=yLi2fPcY1FYflyKGhTFuo3R8sJBxYoTgQ3BJQwgMLOnLmBf+gS40amshrau9Os6UtM
- FAMlsjRr27LEzufoal4ebGZLUBiHMSdFem68RixBnNu3frMAWEYF20/NOYfPJ/Aqf+50
- e/YMQ2xzQXsXKm2I7eXUuv5XSGINA4KEj7emHjBcsJIhJodJBwuJl7cyUEGQuwjy8p9B
- nA2jjkgXqJvj/fy+D7oN5zthvn9rp434AWbBoWKgj/udDmkKPWhldAdKGMeY4tfGcJXR
- G0wLtwuqmZ+yPtIE/hB5dqT80T6Mhj/mCRMbh/69ph5ZONKOix0RyncbwPb9U4laXId1
- liDA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lE4xtEA+pGCE8llxbq4kNT+2kFoTqQa5IGjt6U1bFuE=;
+ b=KFEOlE5WV6LomtCQx9lDL29ipj4MF8ZZrCnCE6E6sBIEbq8i50IJpqO7HhvjxJLWFM
+ s1sVrkdkBHqeSU+hsauyaIJl5Rg6KuzTD7PgtiWhn8DBJn9tzxHnGfTMqyJJ0evDUv25
+ FRhKCMJqzvfO1B/BhLdgqdXYo/vtxA5ik/94QEVu3IbXMEr3Jbn16SE3OKxN7D0lVp7u
+ DhDmM4JI8sua9R46c9eFpDfFjS2g4teevAjBM7iBRQ0w9ztY01IYeoHat6b2BT+VYNEm
+ O0f/i+ymH+Nzsj0E+1t9x8AMXTi9i6t7WxR8xSZU4gJ6RzXILHd3o0dicQ6Fv59Dpx5A
+ UUtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=opzHySzfd4h+h3v2676QIsaK3Qpg3HvBCwh7e/m6JPM=;
- b=he+yDoqrTk4STNfphdZRsq0G88aZgYtB+DslX1suWSXXfixFQPAOwcy9jJVejSQn7G
- GkOrCZ+/5K/jP51DKeLWVqZrD87dq5HhfRFkAs6uzjqS29+qKvSdtMb7eFlCp4z/TgVg
- QzbmxmvFGzURbGhcq+o/DCjhzvsDEaCr5BN5WLHgRgQfrzAcWUMzjrExdXRdz1RWSrPL
- eV6iM2b4NSK/OasQcCmPCXw+Y1uXib9QLrxHQeG1ZwhPdf8RMUYkMkt3p1xyUzqx7GlC
- G8vCBS/TdvSlDqQxCHFi0V6DJYySiTlLGBy1Tqm+BhmVuHYT+speTiCLmcO8iyNzr60k
- 7Cjw==
-X-Gm-Message-State: ANoB5pkwb/+07dUgL5liesIO1RSY7ljCHsywaMOVu/08Q9NIOhxLp7q1
- OdMrE5rXqHH+atP6Xcn/U3u+t4fRimpZ1gof
-X-Google-Smtp-Source: AA0mqf6NXwTYH1WuJsPGPuq1hBWvpRTsIZW93HpcUbOkNNUqEiRLjx3rMFPVFw+m+B7eSfANcLkDJg==
-X-Received: by 2002:a17:90a:9e9:b0:20a:df72:e61f with SMTP id
- 96-20020a17090a09e900b0020adf72e61fmr750467pjo.87.1668154107119; 
- Fri, 11 Nov 2022 00:08:27 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lE4xtEA+pGCE8llxbq4kNT+2kFoTqQa5IGjt6U1bFuE=;
+ b=yhtQogyo61cZ9Gmlp4nQ4wUpbJX0DJxBNVrLhNxaL6eIqm9L6qDp7Lyv3EHj51SVRM
+ qEW5lOlhMpCMzHOSU7dNFN4so0CCYbiHat6q6QHkOsEfGbJVfR3MWX16E/XXsykYXTcR
+ mCprtkQj4eX/aotCS2OMi5YZC0ftLRaflIXgeZjMbI2ksC0eKt0ZFoJDC7W7bJFuT7iB
+ 5fsQ2SKm286hs1iBCVIGXfySAkNvK77U+clN/M4t0X/fAsDOPbvbwj42Uwe+44sTa+Q4
+ tYjfy2CPjwc2TItBixi8jgabqvtxg8lSoc6ANe5b+SfAq7Xq+F982KSw4n3qzxwkiEoF
+ a1ZA==
+X-Gm-Message-State: ANoB5pk0+wF5vZ4lVtbcRi7M1aN+kCcAmeSvq5rnV/my1TdnGLSQzXSM
+ lgYjWtgny82VBwbWVNG6f6mzzQy1eWyJ7ams
+X-Google-Smtp-Source: AA0mqf69IpPrKr98yheVb77jMnNZutB+fQ+wt0vx6zjdckfGx746PU8BK99mLrlUj06Y8K6QST4onw==
+X-Received: by 2002:a63:4d1c:0:b0:462:e0d0:2582 with SMTP id
+ a28-20020a634d1c000000b00462e0d02582mr740380pgb.48.1668154109891; 
+ Fri, 11 Nov 2022 00:08:29 -0800 (PST)
 Received: from stoup.lan
  (2001-44b8-2176-c800-0aef-59aa-1faf-7e61.static.ipv6.internode.on.net.
  [2001:44b8:2176:c800:aef:59aa:1faf:7e61])
  by smtp.gmail.com with ESMTPSA id
- j4-20020a170902c3c400b00186a2dd3ffdsm1046341plj.15.2022.11.11.00.08.24
+ j4-20020a170902c3c400b00186a2dd3ffdsm1046341plj.15.2022.11.11.00.08.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 00:08:26 -0800 (PST)
+ Fri, 11 Nov 2022 00:08:29 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: iii@linux.ibm.com,
 	david@redhat.com
-Subject: [PATCH for-8.0 v2 00/13] target/s390x: Use TCGv_i128
-Date: Fri, 11 Nov 2022 18:08:07 +1000
-Message-Id: <20221111080820.2132412-1-richard.henderson@linaro.org>
+Subject: [PATCH for-8.0 v2 01/13] tests/tcg/s390x: Add div.c
+Date: Fri, 11 Nov 2022 18:08:08 +1000
+Message-Id: <20221111080820.2132412-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20221111080820.2132412-1-richard.henderson@linaro.org>
+References: <20221111080820.2132412-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,53 +92,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Changes for v2:
-  * Fix the div bugs found by Ilya.
-  * Convert CDSG
-  * Improve CC resolution for CDSG+IPM.
+From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Turned out the best testing so far for TCGv_i128 was CDSG,
-especially for 32-bit x86 host, where we have only 6 regs
-available for 13 parameters.  Whee!
+Add a basic test to prevent regressions.
 
-
-r~
-
-Based-on: 20221111074101.2069454-1-richard.henderson@linaro.org
-("tcg: Support for Int128 with helpers")
-
-Ilya Leoshkevich (2):
-  tests/tcg/s390x: Add div.c
-  tests/tcg/s390x: Add clst.c
-
-Richard Henderson (11):
-  tests/tcg/s390x: Add long-double.c
-  target/s390x: Use a single return for helper_divs32/u32
-  target/s390x: Use a single return for helper_divs64/u64
-  target/s390x: Use Int128 for return from CLST
-  target/s390x: Use Int128 for return from CKSM
-  target/s390x: Use Int128 for return from TRE
-  target/s390x: Copy wout_x1 to wout_x1_P
-  target/s390x: Use Int128 for returning float128
-  target/s390x: Use Int128 for passing float128
-  target/s390x: Use tcg_gen_atomic_cmpxchg_i128 for CDSG
-  target/s390x: Implement CC_OP_NZ in gen_op_calc_cc
-
- target/s390x/helper.h            |  54 ++++----
- target/s390x/tcg/fpu_helper.c    | 103 +++++++--------
- target/s390x/tcg/int_helper.c    |  64 ++++-----
- target/s390x/tcg/mem_helper.c    |  77 ++---------
- target/s390x/tcg/translate.c     | 217 +++++++++++++++++++++----------
- tests/tcg/s390x/clst.c           |  82 ++++++++++++
- tests/tcg/s390x/div.c            |  75 +++++++++++
- tests/tcg/s390x/long-double.c    |  24 ++++
- target/s390x/tcg/insn-data.h.inc |  60 ++++-----
- tests/tcg/s390x/Makefile.target  |   3 +
- 10 files changed, 462 insertions(+), 297 deletions(-)
- create mode 100644 tests/tcg/s390x/clst.c
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Message-Id: <20221101111300.2539919-1-iii@linux.ibm.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tests/tcg/s390x/div.c           | 40 +++++++++++++++++++++++++++++++++
+ tests/tcg/s390x/Makefile.target |  1 +
+ 2 files changed, 41 insertions(+)
  create mode 100644 tests/tcg/s390x/div.c
- create mode 100644 tests/tcg/s390x/long-double.c
 
+diff --git a/tests/tcg/s390x/div.c b/tests/tcg/s390x/div.c
+new file mode 100644
+index 0000000000..5807295614
+--- /dev/null
++++ b/tests/tcg/s390x/div.c
+@@ -0,0 +1,40 @@
++#include <assert.h>
++#include <stdint.h>
++
++static void test_dr(void)
++{
++    register int32_t r0 asm("r0") = -1;
++    register int32_t r1 asm("r1") = -4241;
++    int32_t b = 101, q, r;
++
++    asm("dr %[r0],%[b]"
++        : [r0] "+r" (r0), [r1] "+r" (r1)
++        : [b] "r" (b)
++        : "cc");
++    q = r1;
++    r = r0;
++    assert(q == -41);
++    assert(r == -100);
++}
++
++static void test_dlr(void)
++{
++    register uint32_t r0 asm("r0") = 0;
++    register uint32_t r1 asm("r1") = 4243;
++    uint32_t b = 101, q, r;
++
++    asm("dlr %[r0],%[b]"
++        : [r0] "+r" (r0), [r1] "+r" (r1)
++        : [b] "r" (b)
++        : "cc");
++    q = r1;
++    r = r0;
++    assert(q == 42);
++    assert(r == 1);
++}
++
++int main(void)
++{
++    test_dr();
++    test_dlr();
++}
+diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
+index 07fcc6d0ce..ab7a3bcfb2 100644
+--- a/tests/tcg/s390x/Makefile.target
++++ b/tests/tcg/s390x/Makefile.target
+@@ -24,6 +24,7 @@ TESTS+=trap
+ TESTS+=signals-s390x
+ TESTS+=branch-relative-long
+ TESTS+=noexec
++TESTS+=div
+ 
+ Z13_TESTS=vistr
+ $(Z13_TESTS): CFLAGS+=-march=z13 -O2
 -- 
 2.34.1
 
