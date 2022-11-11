@@ -2,78 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F2A625A81
+	by mail.lfdr.de (Postfix) with ESMTPS id 33579625A82
 	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 13:33:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otTCU-00008u-DF; Fri, 11 Nov 2022 07:32:10 -0500
+	id 1otTCy-0000Wy-3l; Fri, 11 Nov 2022 07:32:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1otTBv-00008Y-9M
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:31:27 -0500
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1otTBt-0004np-Jb
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:31:27 -0500
-Received: by mail-pf1-x430.google.com with SMTP id z26so4806620pff.1
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 04:31:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=LFR6YxEE4rEtvs8RF1SO5pq8xTjjIT/h7YDoNcp+bW0=;
- b=LehIN7KZKl7ndDb50VRFfSUCPlOOhy1J2TXGpzc2L1rTUhIPbaUqoblaCYCLrXqzFW
- 1FbbxCxh/L41gljA0iphUJzF2vKtjdupWOrEk3MqZSEG/8Zc4arsH9sTu0kNcwFw51tR
- B6d0NI80XriJMRQf1jlGJrNOGg52rAoeZUw2J68/C6A1myRCfKYUP2pDo72Bw5gSRxnc
- gbnMcUDudzxz8bepqTovHNWJ9ynS7wNMDDwY9bpAM9/cJ3d4Fr0HYFIKK9WDjRDYRK3o
- 9HNIHV9F1w2Jg/lbvc3KL6bhs52b8KMib3gv+bwdIZI6FW3Qb2E5WRSYWbdMFReEo+Rt
- VlMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LFR6YxEE4rEtvs8RF1SO5pq8xTjjIT/h7YDoNcp+bW0=;
- b=lYbO6foXJaqoHcf5xczv5s7rmJzw5E1nwZy3DMAROZEqm6eCUHd1fr87J+TMtgdxGS
- +WhaLT/r7Gn/D5vgKYbn+IIvCWfrWDywqLqFjg2JEBkF3VlYxOYn+HeMRPzdRexffiaa
- Zi2DSN9r4hCxLKMcbJV7V+bN2npQs1Ny5LEbzFSXKXuc1BKcF+yupR7ayeYURURabI2s
- Dfn+KSnPK0wRwCXOhGReVmqJGquhKli6CElvKbw2cjgUzFZlKxaQtyZh5Wt7Yv4cF21k
- n7g6WPRnKfwawtV6v8ZRh/4MKM3BaMRCzhaMpYOfPPDYrwXKD8stSYRXsUgCdzLAfjsd
- fldA==
-X-Gm-Message-State: ANoB5pm3kWOZHoO4QqRyQ1d9i/VRlBDpTZymwOwdtpqDiCn56xk573bJ
- c8ZekGJrN81AzVCi0kQs8pF7Eg==
-X-Google-Smtp-Source: AA0mqf5nikmw782+/MDCAkLJqXRuTJ3wcpwTUoGBL/HhUDCyGd9DGnkof0IE3byv9YM5e9b3gMFvSg==
-X-Received: by 2002:a05:6a00:10c8:b0:56d:2317:4565 with SMTP id
- d8-20020a056a0010c800b0056d23174565mr2417226pfu.54.1668169883321; 
- Fri, 11 Nov 2022 04:31:23 -0800 (PST)
-Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.143.216])
- by smtp.googlemail.com with ESMTPSA id
- v129-20020a622f87000000b0056bf24f0837sm1465453pfv.166.2022.11.11.04.31.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 04:31:22 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-To: Ani Sinha <ani@anisinha.ca>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org
-Subject: [PATCH v2] acpi/tests/avocado/bits: some misc fixes
-Date: Fri, 11 Nov 2022 18:01:08 +0530
-Message-Id: <20221111123108.1231451-1-ani@anisinha.ca>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1otTCu-0000VR-UP; Fri, 11 Nov 2022 07:32:28 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1otTCr-0004vZ-3x; Fri, 11 Nov 2022 07:32:27 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id AC21E3200094;
+ Fri, 11 Nov 2022 07:32:21 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 11 Nov 2022 07:32:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1668169941; x=1668256341; bh=yD
+ lHkiREP7p3mbeL+xK2DC5DREEutPx747eHlkdzWC8=; b=dzQ69vNsOEsNzeoS3G
+ MdWBf+upD+rRCaBIM1LZ28d6m4uHkzZBM6jrInDCYwaTwxmAneUla/QhNV3uq2RD
+ N4VjD1R1DpI6hx3qmivO6ikR/mHm9X2NmlJImuq64lf2u6baIkTxniiL7ypF2iZ8
+ CexrzCZlPmBkMYVQFqW2U1n3K3mvAIdOBopqeV0VWVu8DrWuxkiJpmApk0iCXtOD
+ 8na4PwUb81HB5ssxBXSXzs/yRELT/7kWBNRK2OSn/5iyqGW9VdWyLwgBj+Z/gxCm
+ d8Wx7nDJjmRBKeli6mlE5b1Ea7oO1fjGA6jfQ8yrVVI+a4F+PvRkaOfoNgQNxs+i
+ EC6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; t=1668169941; x=1668256341; bh=yDlHkiREP7p3mbeL+xK2DC5DREEu
+ tPx747eHlkdzWC8=; b=d9T1M55Xcy8brpiYIy8Sa7WgIaMCuTkffWEIGkb3OpuO
+ UcyAr143a0OuG6pVFkAC/Yc/fvWIxrkJwyb9hxwcoUarjtXWam3gMhDHfWP9s6p0
+ qwo4JP4GhAfiiMfulw6nbtpA3E37GNdjR+ZHvT42d7wI9Kyo5lPTE01umSkKx0o2
+ i6e23/QOEGPYTZ5a4+5OgYOV6HatMGCVu9ZB15TC0OKsTLlu/tzc6fe+InLGGgQv
+ 1VqtqBAZSmzKqkpFxh6OHjWsLej8TVFjmq1andb65xStdi76ZDQOecVrItD29j4X
+ Uehrt/D2ioHoxzPytWr3ETLIuGN3O7aNYcbDQ/Rb2w==
+X-ME-Sender: <xms:1EBuY4vGyFbniTEIJ18cpO3LsXgDnJOA4RUa68BrIDnVk59d7l0BNw>
+ <xme:1EBuY1eH9y_peOKdcCLeNcyvrt8DRBzlrXqT7r9UgxkfW3brqSIiNdha6deGmg1Lr
+ zq00-i9RbF55UiUcsA>
+X-ME-Received: <xmr:1EBuYzwikf1S_sWxvhBLVgKAD4q7mxscgIvqM-4OLNqlFU7yVHyidIsmjnL4CkuY6gJpIoaNlXWmbRSuaN8387O8GDFYmw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeeigdegudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteffffej
+ veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:1EBuY7PnwDeJn2e8jESIMWv_PTJvbnoWbmnpjdtsHVILgzQMWXCoXA>
+ <xmx:1EBuY489lRype4D3NchIaWSABBH-k_KI5BaKrSjH5HxZJWbr-RYk1A>
+ <xmx:1EBuYzVMlIP3n2aE2CQ84mzBCfD_NbRvvW-PKsln347Wk6Ur-ridEQ>
+ <xmx:1UBuY3k67TgaLpdHP69VhNQ3TwwwtfYgNfWN-y53zvROb5YFAweRQA>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 11 Nov 2022 07:32:19 -0500 (EST)
+Date: Fri, 11 Nov 2022 13:32:17 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>
+Subject: Re: [PATCH v3 2/2] hw/nvme: cleanup error reporting in nvme_init_pci()
+Message-ID: <Y25A0Qx95NtrPmA3@cormorant.local>
+References: <20221110220805.26816-1-its@irrelevant.dk>
+ <20221110220805.26816-3-its@irrelevant.dk>
+ <bfc67412-09ce-793e-49ac-b0af0cf05fbd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::430;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x430.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="2dmcRCOFYjQ5X3Pg"
+Content-Disposition: inline
+In-Reply-To: <bfc67412-09ce-793e-49ac-b0af0cf05fbd@linaro.org>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,55 +103,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Most of the changes are trivial. The bits test timeout has now been increased
-to 110 seconds in order to accommodate slower systems and fewer unnecessary
-failures. Removed of the reference to non-existent README file in docs.
 
-CC: Thomas Huth <thuth@redhat.com>
-CC: qemu-trivial@nongnu.org
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
----
- changed from v1: address Thomas' suggestions.
+--2dmcRCOFYjQ5X3Pg
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- docs/devel/acpi-bits.rst   | 7 +++----
- tests/avocado/acpi-bits.py | 5 +++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+On Nov 11 12:40, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 10/11/22 23:08, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > Replace the local Error variable with errp and ERRP_GUARD() and change
+> > the return value to bool.
+> >=20
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > ---
+> >   hw/nvme/ctrl.c | 23 ++++++++++-------------
+> >   1 file changed, 10 insertions(+), 13 deletions(-)
+>=20
+>=20
+> > @@ -7388,14 +7387,12 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice=
+ *pci_dev, Error **errp)
+> >       }
+> >       ret =3D msix_init(pci_dev, n->params.msix_qsize,
+> >                       &n->bar0, 0, msix_table_offset,
+> > -                    &n->bar0, 0, msix_pba_offset, 0, &err);
+> > -    if (ret < 0) {
+> > -        if (ret =3D=3D -ENOTSUP) {
+> > -            warn_report_err(err);
+> > -        } else {
+> > -            error_propagate(errp, err);
+> > -            return ret;
+> > -        }
+> > +                    &n->bar0, 0, msix_pba_offset, 0, errp);
+> > +    if (ret =3D=3D -ENOTSUP) {
+> > +        warn_report_err(*errp);
+>=20
+> Why only report ENOTSUP in particular?
+>=20
 
-diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
-index c9564d871a..2c776ab166 100644
---- a/docs/devel/acpi-bits.rst
-+++ b/docs/devel/acpi-bits.rst
-@@ -38,10 +38,9 @@ Under ``tests/avocado/`` as the root we have:
-    │ ├── bits-config
-    │ │ └── bits-cfg.txt
-    │ ├── bits-tests
--   │ │ ├── smbios.py2
--   │ │ ├── testacpi.py2
--   │ │ └── testcpuid.py2
--   │ └── README
-+   │   ├── smbios.py2
-+   │   ├── testacpi.py2
-+   │   └── testcpuid.py2
-    ├── acpi-bits.py
- 
- * ``tests/avocado``:
-diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
-index 8745a58a76..2edc36fc26 100644
---- a/tests/avocado/acpi-bits.py
-+++ b/tests/avocado/acpi-bits.py
-@@ -385,8 +385,9 @@ def test_acpi_smbios_bits(self):
-         self._vm.launch()
-         # biosbits has been configured to run all the specified test suites
-         # in batch mode and then automatically initiate a vm shutdown.
--        # sleep for maximum of one minute
--        max_sleep_time = time.monotonic() + 60
-+        # sleep for maximum of a minute and 50 seconds in order to accommodate
-+        # even slower test setups.
-+        max_sleep_time = time.monotonic() + 110
-         while self._vm.is_running() and time.monotonic() < max_sleep_time:
-             time.sleep(1)
- 
--- 
-2.34.1
+Because the error is beneign (it's just a notice that MSI-X isnt
+available on the platform).
 
+> > +        *errp =3D NULL;
+> > +    } else if (ret < 0) {
+> > +        return false;
+>=20
+> Is that normal to ignore:
+>=20
+> -   error_setg(errp, "The number of MSI-X vectors is invalid");
+>     return -EINVAL;
+>=20
+> -   error_setg(errp, "table & pba overlap, or they don't fit in BARs,"
+>                      " or don't align");
+>     return -EINVAL;
+>=20
+> Or possible future error added in msix_init()?
+
+It is not ignored, it is passed up to the caller. On any other error,
+returning false will cause device realization to fail and the error
+(i.e. invalid vectors or overlap) be reported.
+
+--2dmcRCOFYjQ5X3Pg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNuQNAACgkQTeGvMW1P
+DemWAQgAkcwQjL80U7j4hGXowwVWooDSUyaVGZBRl1/6zRDnMqw45EQn78CZrN+G
+DYbEP88J147ppmoGyUouSHt84esUJ/z/BOSGspzLx5mWgfng8sLwD3O8T/V3SMT9
+kbm18/pXvZ2+4rrEVTrT9AFhPoGh8TFgj2qouVZtwXpi7XkJzojnsdTVcfxH3MwX
+orKUw+ZMupfU7WZbhhR89/jb9z4MaPHNCVY1NOMzzUPjP44DzxZNgFIJsri7SFWg
+4kpy/+SeOjzWSmqTds4obWeFN0DibB2p0c/LqOg4fLkhjMXyy+npN3mBC19cfU5D
+T6qztd6Xn47swWVAwYGHcERQsd+Trg==
+=T88p
+-----END PGP SIGNATURE-----
+
+--2dmcRCOFYjQ5X3Pg--
 
