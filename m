@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2EE762613B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 19:35:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8865E62617E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 19:38:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otYm0-000393-UC; Fri, 11 Nov 2022 13:29:04 -0500
+	id 1otYux-0004hp-73; Fri, 11 Nov 2022 13:38:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otYle-00031b-Ae
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:28:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otYlc-00067r-8m
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:28:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668191319;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=JYMIntudXB0z/V84fXn2CdlVivkzOb5Aaa8gRfjLzrg=;
- b=dO1hSZnDwABsg9MI6pS0ysfZioql8l4PIhuCAWGmiYF8jE9QDLn8K/QQUEzSu82uS3lgX1
- YwfFwHygd1/HPZSsLtdlbGLWYemxvkdiHZbojIi9f3zYjYfaVlbInlEBfuiwMSKpnrsOIX
- 2GVW8cgH2wmZeN4Ctc4y8K9l1hvXajE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-187--HnX99y3NQi3_zwAp2zv3g-1; Fri, 11 Nov 2022 13:28:34 -0500
-X-MC-Unique: -HnX99y3NQi3_zwAp2zv3g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 993533810D3A;
- Fri, 11 Nov 2022 18:28:33 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 39880202903F;
- Fri, 11 Nov 2022 18:28:31 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, sw@weilnetz.de
-Subject: [PATCH] s390x: Fix spelling errors
-Date: Fri, 11 Nov 2022 19:28:28 +0100
-Message-Id: <20221111182828.282251-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1otYur-0004eW-Df
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:38:14 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219] helo=chinatelecom.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1otYuo-0000FT-K4
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:38:13 -0500
+HMM_SOURCE_IP: 172.18.0.188:54558.627353484
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-171.223.98.254 (unknown [172.18.0.188])
+ by chinatelecom.cn (HERMES) with SMTP id BCB662800BD;
+ Sat, 12 Nov 2022 02:37:55 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([171.223.98.254])
+ by app0023 with ESMTP id 089c878a9ac540f5ab5d24260480877f for mst@redhat.com; 
+ Sat, 12 Nov 2022 02:38:00 CST
+X-Transaction-ID: 089c878a9ac540f5ab5d24260480877f
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 171.223.98.254
+X-MEDUSA-Status: 0
+Message-ID: <d9d76ade-de3d-4295-bfe2-ac669b59c570@chinatelecom.cn>
+Date: Sat, 12 Nov 2022 02:37:54 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v3 2/2] vhost-net: Fix the virtio features negotiation flaw
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Guoyi Tu <tugy@chinatelecom.cn>
+References: <cover.1667136717.git.huangy81@chinatelecom.cn>
+ <2560bb4e8cabc550da07162c520aff3669a8f56f.1667136717.git.huangy81@chinatelecom.cn>
+ <20221110135637-mutt-send-email-mst@kernel.org>
+From: Hyman <huangy81@chinatelecom.cn>
+In-Reply-To: <20221110135637-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=42.123.76.219;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,247 +71,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix typos (discovered with the 'codespell' utility).
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/s390x/ipl.h                      | 2 +-
- pc-bios/s390-ccw/cio.h              | 2 +-
- pc-bios/s390-ccw/iplb.h             | 2 +-
- target/s390x/cpu_models.h           | 4 ++--
- hw/s390x/s390-pci-vfio.c            | 2 +-
- hw/s390x/s390-virtio-ccw.c          | 6 +++---
- target/s390x/ioinst.c               | 2 +-
- target/s390x/tcg/excp_helper.c      | 2 +-
- target/s390x/tcg/fpu_helper.c       | 2 +-
- target/s390x/tcg/misc_helper.c      | 2 +-
- target/s390x/tcg/translate.c        | 4 ++--
- target/s390x/tcg/translate_vx.c.inc | 6 +++---
- pc-bios/s390-ccw/start.S            | 2 +-
- 13 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/hw/s390x/ipl.h b/hw/s390x/ipl.h
-index dfc6dfd89c..7fc86e7905 100644
---- a/hw/s390x/ipl.h
-+++ b/hw/s390x/ipl.h
-@@ -140,7 +140,7 @@ void s390_ipl_clear_reset_request(void);
-  * have an offset of 4 + n * 8 bytes within the struct in order
-  * to keep it double-word aligned.
-  * The total size of the struct must never exceed 28 bytes.
-- * This definition must be kept in sync with the defininition
-+ * This definition must be kept in sync with the definition
-  * in pc-bios/s390-ccw/iplb.h.
-  */
- struct QemuIplParameters {
-diff --git a/pc-bios/s390-ccw/cio.h b/pc-bios/s390-ccw/cio.h
-index 1e5d4e92e1..88a88adfd2 100644
---- a/pc-bios/s390-ccw/cio.h
-+++ b/pc-bios/s390-ccw/cio.h
-@@ -20,7 +20,7 @@ struct pmcw {
-     __u32 intparm;      /* interruption parameter */
-     __u32 qf:1;         /* qdio facility */
-     __u32 w:1;
--    __u32 isc:3;        /* interruption sublass */
-+    __u32 isc:3;        /* interruption subclass */
-     __u32 res5:3;       /* reserved zeros */
-     __u32 ena:1;        /* enabled */
-     __u32 lm:2;         /* limit mode */
-diff --git a/pc-bios/s390-ccw/iplb.h b/pc-bios/s390-ccw/iplb.h
-index 772d5c57c9..cb6ac8a880 100644
---- a/pc-bios/s390-ccw/iplb.h
-+++ b/pc-bios/s390-ccw/iplb.h
-@@ -81,7 +81,7 @@ extern IplParameterBlock iplb __attribute__((__aligned__(PAGE_SIZE)));
- #define QIPL_FLAG_BM_OPTS_ZIPL  0x40
- 
- /*
-- * This definition must be kept in sync with the defininition
-+ * This definition must be kept in sync with the definition
-  * in hw/s390x/ipl.h
-  */
- struct QemuIplParameters {
-diff --git a/target/s390x/cpu_models.h b/target/s390x/cpu_models.h
-index 74d1f87e4f..15c0f0dcfe 100644
---- a/target/s390x/cpu_models.h
-+++ b/target/s390x/cpu_models.h
-@@ -24,13 +24,13 @@ struct S390CPUDef {
-     uint8_t gen;            /* hw generation identification */
-     uint16_t type;          /* cpu type identification */
-     uint8_t ec_ga;          /* EC GA version (on which also the BC is based) */
--    uint8_t mha_pow;        /* Maximum Host Adress Power, mha = 2^pow-1 */
-+    uint8_t mha_pow;        /* Maximum Host Address Power, mha = 2^pow-1 */
-     uint32_t hmfai;         /* hypervisor-managed facilities */
-     /* base/min features, must never be changed between QEMU versions */
-     S390FeatBitmap base_feat;
-     /* used to init base_feat from generated data */
-     S390FeatInit base_init;
--    /* deafault features, QEMU version specific */
-+    /* default features, QEMU version specific */
-     S390FeatBitmap default_feat;
-     /* used to init default_feat from generated data */
-     S390FeatInit default_init;
-diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
-index 2aefa508a0..5f0adb0b4a 100644
---- a/hw/s390x/s390-pci-vfio.c
-+++ b/hw/s390x/s390-pci-vfio.c
-@@ -313,7 +313,7 @@ retry:
- /*
-  * Get the host function handle from the vfio CLP capabilities chain.  Returns
-  * true if a fh value was placed into the provided buffer.  Returns false
-- * if a fh could not be obtained (ioctl failed or capabilitiy version does
-+ * if a fh could not be obtained (ioctl failed or capability version does
-  * not include the fh)
-  */
- bool s390_pci_get_host_fh(S390PCIBusDevice *pbdev, uint32_t *fh)
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 7d80bc1837..2e64ffab45 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -354,7 +354,7 @@ static int s390_machine_protect(S390CcwMachineState *ms)
-     }
- 
-     error_setg(&pv_mig_blocker,
--               "protected VMs are currently not migrateable.");
-+               "protected VMs are currently not migratable.");
-     rc = migrate_add_blocker(pv_mig_blocker, &local_err);
-     if (rc) {
-         ram_block_discard_disable(false);
-@@ -449,7 +449,7 @@ static void s390_machine_reset(MachineState *machine, ShutdownCause reason)
-         break;
-     case S390_RESET_MODIFIED_CLEAR:
-         /*
--         * Susbsystem reset needs to be done before we unshare memory
-+         * Subsystem reset needs to be done before we unshare memory
-          * and lose access to VIRTIO structures in guest memory.
-          */
-         subsystem_reset();
-@@ -462,7 +462,7 @@ static void s390_machine_reset(MachineState *machine, ShutdownCause reason)
-         break;
-     case S390_RESET_LOAD_NORMAL:
-         /*
--         * Susbsystem reset needs to be done before we unshare memory
-+         * Subsystem reset needs to be done before we unshare memory
-          * and lose access to VIRTIO structures in guest memory.
-          */
-         subsystem_reset();
-diff --git a/target/s390x/ioinst.c b/target/s390x/ioinst.c
-index b12f18d346..053aaabb5a 100644
---- a/target/s390x/ioinst.c
-+++ b/target/s390x/ioinst.c
-@@ -285,7 +285,7 @@ void ioinst_handle_stsch(S390CPU *cpu, uint64_t reg1, uint32_t ipb,
-         /*
-          * As operand exceptions have a lower priority than access exceptions,
-          * we check whether the memory area is writable (injecting the
--         * access execption if it is not) first.
-+         * access exception if it is not) first.
-          */
-         if (!s390_cpu_virt_mem_check_write(cpu, addr, ar, sizeof(schib))) {
-             s390_program_interrupt(env, PGM_OPERAND, ra);
-diff --git a/target/s390x/tcg/excp_helper.c b/target/s390x/tcg/excp_helper.c
-index 2cd6d062b9..fe02d82201 100644
---- a/target/s390x/tcg/excp_helper.c
-+++ b/target/s390x/tcg/excp_helper.c
-@@ -553,7 +553,7 @@ try_deliver:
-         /* don't trigger a cpu_loop_exit(), use an interrupt instead */
-         cpu_interrupt(CPU(cpu), CPU_INTERRUPT_HALT);
-     } else if (cs->halted) {
--        /* unhalt if we had a WAIT PSW somehwere in our injection chain */
-+        /* unhalt if we had a WAIT PSW somewhere in our injection chain */
-         s390_cpu_unhalt(cpu);
-     }
- }
-diff --git a/target/s390x/tcg/fpu_helper.c b/target/s390x/tcg/fpu_helper.c
-index 4067205405..be80b2373c 100644
---- a/target/s390x/tcg/fpu_helper.c
-+++ b/target/s390x/tcg/fpu_helper.c
-@@ -89,7 +89,7 @@ static void handle_exceptions(CPUS390XState *env, bool XxC, uintptr_t retaddr)
-     /*
-      * invalid/divbyzero cannot coexist with other conditions.
-      * overflow/underflow however can coexist with inexact, we have to
--     * handle it separatly.
-+     * handle it separately.
-      */
-     if (s390_exc & ~S390_IEEE_MASK_INEXACT) {
-         if (s390_exc & ~S390_IEEE_MASK_INEXACT & env->fpc >> 24) {
-diff --git a/target/s390x/tcg/misc_helper.c b/target/s390x/tcg/misc_helper.c
-index 10dadb002a..71388a7119 100644
---- a/target/s390x/tcg/misc_helper.c
-+++ b/target/s390x/tcg/misc_helper.c
-@@ -333,7 +333,7 @@ uint32_t HELPER(stsi)(CPUS390XState *env, uint64_t a0, uint64_t r0, uint64_t r1)
-             /* same as machine type number in STORE CPU ID, but in EBCDIC */
-             snprintf(type, ARRAY_SIZE(type), "%X", cpu->model->def->type);
-             ebcdic_put(sysib.sysib_111.type, type, 4);
--            /* model number (not stored in STORE CPU ID for z/Architecure) */
-+            /* model number (not stored in STORE CPU ID for z/Architecture) */
-             ebcdic_put(sysib.sysib_111.model, "QEMU            ", 16);
-             ebcdic_put(sysib.sysib_111.sequence, "QEMU            ", 16);
-             ebcdic_put(sysib.sysib_111.plant, "QEMU", 4);
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 2fbdab7252..1e599ac259 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -435,7 +435,7 @@ static void gen_program_exception(DisasContext *s, int code)
- {
-     TCGv_i32 tmp;
- 
--    /* Remember what pgm exeption this was.  */
-+    /* Remember what pgm exception this was.  */
-     tmp = tcg_const_i32(code);
-     tcg_gen_st_i32(tmp, cpu_env, offsetof(CPUS390XState, int_pgm_code));
-     tcg_temp_free_i32(tmp);
-@@ -491,7 +491,7 @@ static TCGv_i64 get_address(DisasContext *s, int x2, int b2, int d2)
- 
-     /*
-      * Note that d2 is limited to 20 bits, signed.  If we crop negative
--     * displacements early we create larger immedate addends.
-+     * displacements early we create larger immediate addends.
-      */
-     if (b2 && x2) {
-         tcg_gen_add_i64(tmp, regs[b2], regs[x2]);
-diff --git a/target/s390x/tcg/translate_vx.c.inc b/target/s390x/tcg/translate_vx.c.inc
-index b69c1a111c..d39ee81cd6 100644
---- a/target/s390x/tcg/translate_vx.c.inc
-+++ b/target/s390x/tcg/translate_vx.c.inc
-@@ -960,7 +960,7 @@ static DisasJumpType op_vpk(DisasContext *s, DisasOps *o)
-         }
-         break;
-     case 0x94:
--        /* If sources and destination dont't overlap -> fast path */
-+        /* If sources and destination don't overlap -> fast path */
-         if (v1 != v2 && v1 != v3) {
-             const uint8_t src_es = get_field(s, m4);
-             const uint8_t dst_es = src_es - 1;
-@@ -2075,7 +2075,7 @@ static DisasJumpType op_vmsl(DisasContext *s, DisasOps *o)
-     l2 = tcg_temp_new_i64();
-     h2 = tcg_temp_new_i64();
- 
--    /* Multipy both even elements from v2 and v3 */
-+    /* Multiply both even elements from v2 and v3 */
-     read_vec_element_i64(l1, get_field(s, v2), 0, ES_64);
-     read_vec_element_i64(h1, get_field(s, v3), 0, ES_64);
-     tcg_gen_mulu2_i64(l1, h1, l1, h1);
-@@ -2084,7 +2084,7 @@ static DisasJumpType op_vmsl(DisasContext *s, DisasOps *o)
-         tcg_gen_add2_i64(l1, h1, l1, h1, l1, h1);
-     }
- 
--    /* Multipy both odd elements from v2 and v3 */
-+    /* Multiply both odd elements from v2 and v3 */
-     read_vec_element_i64(l2, get_field(s, v2), 1, ES_64);
-     read_vec_element_i64(h2, get_field(s, v3), 1, ES_64);
-     tcg_gen_mulu2_i64(l2, h2, l2, h2);
-diff --git a/pc-bios/s390-ccw/start.S b/pc-bios/s390-ccw/start.S
-index 4d5ad21653..6072906df4 100644
---- a/pc-bios/s390-ccw/start.S
-+++ b/pc-bios/s390-ccw/start.S
-@@ -19,7 +19,7 @@ _start:
- 	larl %r2, __bss_start
- 	larl %r3, _end
- 	slgr %r3, %r2		/* get sizeof bss */
--	ltgr	%r3,%r3 	/* bss emtpy? */
-+	ltgr	%r3,%r3 	/* bss empty? */
- 	jz	done
- 	aghi	%r3,-1
- 	srlg	%r4,%r3,8	/* how many 256 byte chunks? */
--- 
-2.31.1
+在 2022/11/11 3:00, Michael S. Tsirkin 写道:
+> On Sun, Oct 30, 2022 at 09:52:39PM +0800, huangy81@chinatelecom.cn wrote:
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>
+>> Save the acked_features once it be configured by guest
+>> virtio driver so it can't miss any features.
+>>
+>> Note that this patch also change the features saving logic
+>> in chr_closed_bh, which originally backup features no matter
+>> whether the features are 0 or not, but now do it only if
+>> features aren't 0.
+> 
+> I'm not sure how is this change even related to what we
+> are trying to do (fix a bug). Explain here?
+> 
+For this series, all we want to do is to making sure acked_features
+in the NetVhostUserState is credible and uptodate in the scenario that 
+virtio features negotiation and openvswitch service restart happens 
+simultaneously.
 
+To make sure that happens, we save the acked_features to 
+NetVhostUserState right after guest setting virtio-net features.
+
+Assume that we do not save acked_features to NetVhostUserState just as 
+it is, the acked_features in NetVhostUserState has chance to be assigned 
+only when chr_closed_bh/vhost_user_stop happen. Note that openvswitch 
+service stop will cause chr_closed_bh happens and acked_features in 
+vhost_dev will be stored into NetVhostUserState, if the acked_features 
+in vhost_dev are out-of-date(may be updated in the next few seconds), so 
+does the acked_features in NetVhostUserState after doing the assignment, 
+this is the bug.
+
+Let's refine the scenario and derive the bug:
+     qemu thread                    		       dpdk
+         |                                               |
+    vhost_net_init()             		    	|
+         |					 	|
+  assign acked_features in vhost_dev                     |
+    with 0x40000000               	                |
+         |                    		       openvswitch.service stop
+    chr_closed_bh                                        |
+         |                                              	|
+  assign acked_features in				|
+  NetVhostUserState with 0x40000000 			|
+         |						|
+    virtio_net_set_features()                     	|
+         |                     				|
+  assign acked_features in vhost_dev			|
+    with 0x7060a782					|
+         |                                      openvswitch.service start
+         |                                               |
+    vhost_user_start                                     |
+         |                                               |
+  assign acked_features in vhost_dev                     |
+    with 0x40000000                                      |
+         |                                               |
+
+As the step shows, if we do not keep the acked_features in 
+NetVhostUserState up-to-date, the acked_features in vhost_dev may be 
+reloaded with the wrong value(eg, 0x40000000) when vhost_user_start happens.
+> 
+> 
+>> As to reset acked_features to 0 if needed, Qemu always
+>> keeping the backup acked_features up-to-date, and save the
+>> acked_features after virtio_net_set_features in advance,
+>> including reset acked_features to 0, so the behavior is
+>> also covered.
+>>
+>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>> Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
+>> ---
+>>   hw/net/vhost_net.c      | 9 +++++++++
+>>   hw/net/virtio-net.c     | 5 +++++
+>>   include/net/vhost_net.h | 2 ++
+>>   net/vhost-user.c        | 6 +-----
+>>   4 files changed, 17 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>> index d28f8b9..2bffc27 100644
+>> --- a/hw/net/vhost_net.c
+>> +++ b/hw/net/vhost_net.c
+>> @@ -141,6 +141,15 @@ uint64_t vhost_net_get_acked_features(VHostNetState *net)
+>>       return net->dev.acked_features;
+>>   }
+>>   
+>> +void vhost_net_save_acked_features(NetClientState *nc)
+>> +{
+>> +    if (nc->info->type != NET_CLIENT_DRIVER_VHOST_USER) {
+>> +        return;
+>> +    }
+>> +
+>> +    vhost_user_save_acked_features(nc, false);
+>> +}
+>> +
+>>   static int vhost_net_get_fd(NetClientState *backend)
+>>   {
+>>       switch (backend->info->type) {
+>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>> index e9f696b..5f8f788 100644
+>> --- a/hw/net/virtio-net.c
+>> +++ b/hw/net/virtio-net.c
+>> @@ -924,6 +924,11 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
+>>               continue;
+>>           }
+>>           vhost_net_ack_features(get_vhost_net(nc->peer), features);
+>> +        /*
+>> +         * keep acked_features in NetVhostUserState up-to-date so it
+>> +         * can't miss any features configured by guest virtio driver.
+>> +         */
+>> +        vhost_net_save_acked_features(nc->peer);
+>>       }
+>>   
+>>       if (virtio_has_feature(features, VIRTIO_NET_F_CTRL_VLAN)) {
+>> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+>> index 387e913..3a5579b 100644
+>> --- a/include/net/vhost_net.h
+>> +++ b/include/net/vhost_net.h
+>> @@ -46,6 +46,8 @@ int vhost_set_vring_enable(NetClientState * nc, int enable);
+>>   
+>>   uint64_t vhost_net_get_acked_features(VHostNetState *net);
+>>   
+>> +void vhost_net_save_acked_features(NetClientState *nc);
+>> +
+>>   int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
+>>   
+>>   #endif
+>> diff --git a/net/vhost-user.c b/net/vhost-user.c
+>> index 74f349c..c512cc9 100644
+>> --- a/net/vhost-user.c
+>> +++ b/net/vhost-user.c
+>> @@ -258,11 +258,7 @@ static void chr_closed_bh(void *opaque)
+>>       s = DO_UPCAST(NetVhostUserState, nc, ncs[0]);
+>>   
+>>       for (i = queues -1; i >= 0; i--) {
+>> -        s = DO_UPCAST(NetVhostUserState, nc, ncs[i]);
+>> -
+>> -        if (s->vhost_net) {
+>> -            s->acked_features = vhost_net_get_acked_features(s->vhost_net);
+>> -        }
+>> +        vhost_user_save_acked_features(ncs[i], false);
+>>       }
+>>   
+>>       qmp_set_link(name, false, &err);
+> 
+> 
+> Split this last chunk into a patch of its own?
+> 
+>> -- 
+>> 1.8.3.1
+> 
 
