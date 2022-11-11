@@ -2,92 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33579625A82
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 13:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E59E625AA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 13:42:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otTCy-0000Wy-3l; Fri, 11 Nov 2022 07:32:32 -0500
+	id 1otTLX-0003vW-ME; Fri, 11 Nov 2022 07:41:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1otTCu-0000VR-UP; Fri, 11 Nov 2022 07:32:28 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1otTLN-0003us-3a
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:41:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1otTCr-0004vZ-3x; Fri, 11 Nov 2022 07:32:27 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id AC21E3200094;
- Fri, 11 Nov 2022 07:32:21 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 11 Nov 2022 07:32:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1668169941; x=1668256341; bh=yD
- lHkiREP7p3mbeL+xK2DC5DREEutPx747eHlkdzWC8=; b=dzQ69vNsOEsNzeoS3G
- MdWBf+upD+rRCaBIM1LZ28d6m4uHkzZBM6jrInDCYwaTwxmAneUla/QhNV3uq2RD
- N4VjD1R1DpI6hx3qmivO6ikR/mHm9X2NmlJImuq64lf2u6baIkTxniiL7ypF2iZ8
- CexrzCZlPmBkMYVQFqW2U1n3K3mvAIdOBopqeV0VWVu8DrWuxkiJpmApk0iCXtOD
- 8na4PwUb81HB5ssxBXSXzs/yRELT/7kWBNRK2OSn/5iyqGW9VdWyLwgBj+Z/gxCm
- d8Wx7nDJjmRBKeli6mlE5b1Ea7oO1fjGA6jfQ8yrVVI+a4F+PvRkaOfoNgQNxs+i
- EC6Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1668169941; x=1668256341; bh=yDlHkiREP7p3mbeL+xK2DC5DREEu
- tPx747eHlkdzWC8=; b=d9T1M55Xcy8brpiYIy8Sa7WgIaMCuTkffWEIGkb3OpuO
- UcyAr143a0OuG6pVFkAC/Yc/fvWIxrkJwyb9hxwcoUarjtXWam3gMhDHfWP9s6p0
- qwo4JP4GhAfiiMfulw6nbtpA3E37GNdjR+ZHvT42d7wI9Kyo5lPTE01umSkKx0o2
- i6e23/QOEGPYTZ5a4+5OgYOV6HatMGCVu9ZB15TC0OKsTLlu/tzc6fe+InLGGgQv
- 1VqtqBAZSmzKqkpFxh6OHjWsLej8TVFjmq1andb65xStdi76ZDQOecVrItD29j4X
- Uehrt/D2ioHoxzPytWr3ETLIuGN3O7aNYcbDQ/Rb2w==
-X-ME-Sender: <xms:1EBuY4vGyFbniTEIJ18cpO3LsXgDnJOA4RUa68BrIDnVk59d7l0BNw>
- <xme:1EBuY1eH9y_peOKdcCLeNcyvrt8DRBzlrXqT7r9UgxkfW3brqSIiNdha6deGmg1Lr
- zq00-i9RbF55UiUcsA>
-X-ME-Received: <xmr:1EBuYzwikf1S_sWxvhBLVgKAD4q7mxscgIvqM-4OLNqlFU7yVHyidIsmjnL4CkuY6gJpIoaNlXWmbRSuaN8387O8GDFYmw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeeigdegudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteffffej
- veenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:1EBuY7PnwDeJn2e8jESIMWv_PTJvbnoWbmnpjdtsHVILgzQMWXCoXA>
- <xmx:1EBuY489lRype4D3NchIaWSABBH-k_KI5BaKrSjH5HxZJWbr-RYk1A>
- <xmx:1EBuYzVMlIP3n2aE2CQ84mzBCfD_NbRvvW-PKsln347Wk6Ur-ridEQ>
- <xmx:1UBuY3k67TgaLpdHP69VhNQ3TwwwtfYgNfWN-y53zvROb5YFAweRQA>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 11 Nov 2022 07:32:19 -0500 (EST)
-Date: Fri, 11 Nov 2022 13:32:17 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: Re: [PATCH v3 2/2] hw/nvme: cleanup error reporting in nvme_init_pci()
-Message-ID: <Y25A0Qx95NtrPmA3@cormorant.local>
-References: <20221110220805.26816-1-its@irrelevant.dk>
- <20221110220805.26816-3-its@irrelevant.dk>
- <bfc67412-09ce-793e-49ac-b0af0cf05fbd@linaro.org>
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1otTLK-0008Ac-RM
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:41:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668170470;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dzLkwk+SySkkKbJawdU+8rf1k4R8WNm2WpqyBieoahk=;
+ b=C8HfGcX2GyqstvDtRRgF4Qbhbo6uUefDhSKZG+ZF5H/5iuIZ+CeJh4V9jG+N14CaL5azjJ
+ wmGUEFFHvZhjmDY3A4qjWRTRLemp6b5GtVXUjso97xT6tRt5lcwI+YeqQz2IuWTRxbHmPD
+ uBVSO/qdWb8sMqwz6Q0Cwjyboeu5nSo=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-9-npLAn2FWNPCYJOMcEaQ1Sw-1; Fri, 11 Nov 2022 07:41:06 -0500
+X-MC-Unique: npLAn2FWNPCYJOMcEaQ1Sw-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ g12-20020a0cfdcc000000b004ad431ceee0so3567376qvs.7
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 04:41:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dzLkwk+SySkkKbJawdU+8rf1k4R8WNm2WpqyBieoahk=;
+ b=aqcInA4zxVOvjeMLenUwA6t7obzs0ONQ6QYVOR13XKvRh7Xjy0UvIJuO5elUwcfKTr
+ LgXwNhsye96pH4hYXe9ETUqQE5KBudhPotNJOaQ8msry8/fiqaY9bqYRAUnx8qJqkxtv
+ vVC7w2g3HQRfxrizE+0wjF0+OA8p9iaeq9vDDfgio2l+Gyl3zLIZne4eeH0tgn2QbFd4
+ wvKGh7nuKwaHTW7kBxtJDBYGnEUuMekNUlraBGTfAjt4OegPBLPvC69Kak1/pGOY9zSq
+ PiviI07GlBZaM8l0WSCYp6DNCDmTNkh5YK5Zv6siGmzOwGY3XhKN05dTFoeBu8pNUKEX
+ ZqVw==
+X-Gm-Message-State: ANoB5plH16P5O8uhE3gMitwPkA3V1hMykGn4D++KeEC6a5HehnJUJFPD
+ C8jC7dai+n8salD3bJjLDEiENEva6h06NYVOfbbY8wfI4tM8jdNGj8pSGql9ZpVk4BPz4CuJX62
+ oPLgV/jOlA8whuxw=
+X-Received: by 2002:a05:622a:5c8c:b0:35b:b250:340c with SMTP id
+ ge12-20020a05622a5c8c00b0035bb250340cmr994922qtb.511.1668170466298; 
+ Fri, 11 Nov 2022 04:41:06 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5/vmYz9P7L2rLeFTCkmGP+3zu1w+aKlAMnBZpmRgmYiMm0XYLMCxjLZUFgwmvAUVUW0b6yhQ==
+X-Received: by 2002:a05:622a:5c8c:b0:35b:b250:340c with SMTP id
+ ge12-20020a05622a5c8c00b0035bb250340cmr994904qtb.511.1668170466052; 
+ Fri, 11 Nov 2022 04:41:06 -0800 (PST)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ gd8-20020a05622a5c0800b003a5430ee366sm1183182qtb.60.2022.11.11.04.41.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Nov 2022 04:41:05 -0800 (PST)
+Message-ID: <449f74e7-7108-337e-b8e5-e21cb3ba8dcc@redhat.com>
+Date: Fri, 11 Nov 2022 13:41:03 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="2dmcRCOFYjQ5X3Pg"
-Content-Disposition: inline
-In-Reply-To: <bfc67412-09ce-793e-49ac-b0af0cf05fbd@linaro.org>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 7/8] virtio-blk: don't acquire AioContext in
+ virtio_blk_handle_vq()
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>
+References: <20221108211930.876142-1-stefanha@redhat.com>
+ <20221108211930.876142-8-stefanha@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <20221108211930.876142-8-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,80 +107,67 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---2dmcRCOFYjQ5X3Pg
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Nov 11 12:40, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 10/11/22 23:08, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >=20
-> > Replace the local Error variable with errp and ERRP_GUARD() and change
-> > the return value to bool.
-> >=20
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > ---
-> >   hw/nvme/ctrl.c | 23 ++++++++++-------------
-> >   1 file changed, 10 insertions(+), 13 deletions(-)
->=20
->=20
-> > @@ -7388,14 +7387,12 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice=
- *pci_dev, Error **errp)
-> >       }
-> >       ret =3D msix_init(pci_dev, n->params.msix_qsize,
-> >                       &n->bar0, 0, msix_table_offset,
-> > -                    &n->bar0, 0, msix_pba_offset, 0, &err);
-> > -    if (ret < 0) {
-> > -        if (ret =3D=3D -ENOTSUP) {
-> > -            warn_report_err(err);
-> > -        } else {
-> > -            error_propagate(errp, err);
-> > -            return ret;
-> > -        }
-> > +                    &n->bar0, 0, msix_pba_offset, 0, errp);
-> > +    if (ret =3D=3D -ENOTSUP) {
-> > +        warn_report_err(*errp);
->=20
-> Why only report ENOTSUP in particular?
->=20
+Am 08/11/2022 um 22:19 schrieb Stefan Hajnoczi:
+> There is no need to acquire AioContext in virtio_blk_handle_vq() because
+> no APIs used in the function require it and nothing else in the
+> virtio-blk code requires mutual exclusion anymore.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  hw/block/virtio-blk.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+> index faea045178..771d87cfbe 100644
+> --- a/hw/block/virtio-blk.c
+> +++ b/hw/block/virtio-blk.c
+> @@ -784,7 +784,6 @@ void virtio_blk_handle_vq(VirtIOBlock *s, VirtQueue *vq)
+>  
+>      IO_CODE();
+>  
+> -    aio_context_acquire(blk_get_aio_context(s->blk));
+>      blk_io_plug(s->blk);
+>  
+>      do {
+> @@ -810,7 +809,6 @@ void virtio_blk_handle_vq(VirtIOBlock *s, VirtQueue *vq)
+>      }
+>  
+>      blk_io_unplug(s->blk);
+> -    aio_context_release(blk_get_aio_context(s->blk));
+>  }
+>  
+>  static void virtio_blk_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+> 
 
-Because the error is beneign (it's just a notice that MSI-X isnt
-available on the platform).
+As already discussed offline, this might be problematic with the work I
+am done.
 
-> > +        *errp =3D NULL;
-> > +    } else if (ret < 0) {
-> > +        return false;
->=20
-> Is that normal to ignore:
->=20
-> -   error_setg(errp, "The number of MSI-X vectors is invalid");
->     return -EINVAL;
->=20
-> -   error_setg(errp, "table & pba overlap, or they don't fit in BARs,"
->                      " or don't align");
->     return -EINVAL;
->=20
-> Or possible future error added in msix_init()?
+Basically I am trying to replace the AioContext lock with a rwlock for
+graph modifications, and in order to use it we must convert all
+BlockDriver IO functions in coroutines, because they traverse the graph
+and must take the read lock (defined as coroutine_fn).
 
-It is not ignored, it is passed up to the caller. On any other error,
-returning false will cause device realization to fail and the error
-(i.e. invalid vectors or overlap) be reported.
+This implies that for now we need to implement blk_* and bdrv_*
+functions in a similar fashion as generated_co_wrapper, therefore
+creating a coroutine and polling waiting for it.
+And polling uses AIO_WAIT_WHILE, which assumes the AioContext lock to be
+taken.
 
---2dmcRCOFYjQ5X3Pg
-Content-Type: application/pgp-signature; name="signature.asc"
+In the future, we will use AIO_WAIT_WHILE_UNLOCKED, as you did in patch
+1, but right now it's definitely too early to do it for a g_c_w function.
 
------BEGIN PGP SIGNATURE-----
+For this specific case, I see that blk_ioplug/unplug is not called in a
+lot of places:
+- here, and it's ok
+- virtio-scsi, and I think you are going to cover this too soon
+- xen-block
 
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNuQNAACgkQTeGvMW1P
-DemWAQgAkcwQjL80U7j4hGXowwVWooDSUyaVGZBRl1/6zRDnMqw45EQn78CZrN+G
-DYbEP88J147ppmoGyUouSHt84esUJ/z/BOSGspzLx5mWgfng8sLwD3O8T/V3SMT9
-kbm18/pXvZ2+4rrEVTrT9AFhPoGh8TFgj2qouVZtwXpi7XkJzojnsdTVcfxH3MwX
-orKUw+ZMupfU7WZbhhR89/jb9z4MaPHNCVY1NOMzzUPjP44DzxZNgFIJsri7SFWg
-4kpy/+SeOjzWSmqTds4obWeFN0DibB2p0c/LqOg4fLkhjMXyy+npN3mBC19cfU5D
-T6qztd6Xn47swWVAwYGHcERQsd+Trg==
-=T88p
------END PGP SIGNATURE-----
+So if you manage to make all callers aiocontext-free, then I can just
+rebase on top of your series and use AIO_WAIT_WHILE_POLL for
+blk_ioplug/unplug when I convert it in coroutine.
 
---2dmcRCOFYjQ5X3Pg--
+Thank you,
+Emanuele
+
 
