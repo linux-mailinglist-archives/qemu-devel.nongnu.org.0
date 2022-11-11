@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54F8625D9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:57:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3373625DA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:58:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otVRd-000761-94; Fri, 11 Nov 2022 09:55:49 -0500
+	id 1otVRa-00072u-4D; Fri, 11 Nov 2022 09:55:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otVRZ-00073e-IO
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:45 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ id 1otVRU-00072j-Vh
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:40 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otVRR-0007wr-E8
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:45 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id o4so6796685wrq.6
+ id 1otVRR-0007ws-EY
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:40 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ t25-20020a1c7719000000b003cfa34ea516so5644537wmi.1
  for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 06:55:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qBC/zqhe+w8c2MXv32aYnBZCDh2hCBt3ueKfoisA7Og=;
- b=gp5Zjrazc6exjxIuGhuX/4RSkoj+jz2xD3mKno/aoPch/sgpDIxGdBR+YQajbE7/aK
- ZfKFqP2UYTyZQ0JSDWshKsSZMrW5s+2a37zEI8H5qHLiRV6y8OjGzkltZEU/CvfiAWPR
- Ji6twZe1TnxjoPRo8GK5pFM0YQEwC+g2e0ZagQYLpcuCa8SoWT/sWUrZXMVoqV7TcyFB
- PR0U0I0+Xxk9AVUg9ZoGHrfh3KZFonUktDUAYZ7FrHZO3eRkQsMy64qnpbXR490dlwYJ
- FOcSv1cDG1IIrS/x5y4C7buh5ZQWzhZUjNrYM2STkc4GT4QAXrgU+trxkkWC4ymFAmur
- X6ag==
+ bh=7uXwU/1og6Y5YFCCkzlXH6mHIAZKAJashuR6BqLq8xE=;
+ b=hISuD/8oCArKVnAiTPxR6SY2cVCunPN/PNrA6NKRnggfjKVi75e841i50s9ERTXpsF
+ OB0Hclo2GKqviJSRwTTR2zd6HZ2cd+GHsCoxHwMJxD/JRHvWmRtgmCbVvmlU/LQnhqWD
+ cPdf2BqLKj7JqAvNUM4iUc1vo0M+hNz/8TvddrlSXDWTUZM4FQLYeVSnRXOaQoREZcSS
+ VjHKGbHG2nqMZjlZa7SBFo4OlC/RoNKcear6xo5O+9qpcqrU5VYGY4C6dif88jfEyZ6+
+ DNrLEs+I2V7FmlAoO9gzddNL55UgnAmV+XEN/FxFwDI7SmCGX2op9JGdIwcyEVJ1lnsH
+ uv6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qBC/zqhe+w8c2MXv32aYnBZCDh2hCBt3ueKfoisA7Og=;
- b=7A8tSvcCAcmXTQQE/1lAxjk5GJtTlBkl4QL9hxhQwcv7hOYTsvkvVpVOEGKTjefbfl
- ybn6EuR2xmAs5tTxfbOac7RYO8Ir+Aaj8cini69dufQufLJgCxQ9oEjOMbEz8u5pW2P9
- sqOGsVfPtWX7VYlQkP8nDuuerEoEajIg+lnFDcVJupuPEchiSDiP6wcqOBMfduGQWHRH
- 8Sg7DD4FkMm7F1dMNARSUdoewa5X/rs4jAxr4zjvi78/cbolxyEhgg5MvcsCJSJZGSI7
- LXicW/J894iUbxPZXsvCwB6vvPWFokll1utaLkMdCzSTf/+3KP93VSlPNXRBqh5JOtX2
- 1m5A==
-X-Gm-Message-State: ANoB5pl9GNfsDk+2TCo6AwikvylnNByk5Hgc4d6JWHxNQQYM0hsgh67T
- SIEhqPl3+Qlugz1uDixXiCn3aQ==
-X-Google-Smtp-Source: AA0mqf5L2v+K9HRA0Z1adYZQEcEA+2TQeICxwg4VU2JWhktztlwFTA3ZhotA4GCq4U3eOa+RjI/QAw==
-X-Received: by 2002:adf:e78c:0:b0:236:704f:29f4 with SMTP id
- n12-20020adfe78c000000b00236704f29f4mr1486225wrm.11.1668178534336; 
+ bh=7uXwU/1og6Y5YFCCkzlXH6mHIAZKAJashuR6BqLq8xE=;
+ b=r9bKdNNDu46NTzvRUPzrXaGE4MRgR91VBTkgJD0SpxpUeW4A6JGm1pRpuWWza0HGBK
+ 6/R/94vnAYBUuIwXXG+vSPlRJcjnU7fsCCNAX8V8KNwjOAg31edJRkUFAz4eM5Eel9iD
+ I4dLXwyTHS3ZMvSVz0znxOcob0+BO10gM0UI6g4NtUSI4rpBDAmsurzXZa9XjBwFhgMi
+ W/HkN2e2+ncQrDX7ggp9DyldUvfhcnak7bQcketoq08FdErqTaKbZucAD8tphdT7a+yA
+ 2c70sgKCkVwUObqt76PfYYAMGyWg0Yyd7O+hGN1AbNzVra/4WNChpzheQuD1E6BHTLtc
+ Gg6A==
+X-Gm-Message-State: ANoB5pnvCEKUU6IC60L7EUbsz2m8Oq6gu9dCNUf4+PJ23aNuF+tcs5aF
+ v2HWHKT/PIKpQVkLJNMcqlK7NQ==
+X-Google-Smtp-Source: AA0mqf6Y9NMwFfRuDv4pB6xWb9WnmoI+YiTAaw0h/hjLNc2DAIxotdHdez2Dn2kcIFY/RGWS1TQUNg==
+X-Received: by 2002:a1c:730a:0:b0:3cf:89c3:3837 with SMTP id
+ d10-20020a1c730a000000b003cf89c33837mr1467779wmb.92.1668178534787; 
  Fri, 11 Nov 2022 06:55:34 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- a26-20020a05600c225a00b003c21ba7d7d6sm2941674wmm.44.2022.11.11.06.55.30
+ cy6-20020a056000400600b002416ecb8c33sm1802202wrb.105.2022.11.11.06.55.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 06:55:31 -0800 (PST)
+ Fri, 11 Nov 2022 06:55:32 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 44DB01FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id 5ECD41FFBC;
  Fri, 11 Nov 2022 14:55:30 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v2 03/12] tests/avocado/machine_aspeed.py: Reduce noise on the
- console for SDK tests
-Date: Fri, 11 Nov 2022 14:55:20 +0000
-Message-Id: <20221111145529.4020801-4-alex.bennee@linaro.org>
+Subject: [PATCH  v2 04/12] tests/docker: allow user to override check target
+Date: Fri, 11 Nov 2022 14:55:21 +0000
+Message-Id: <20221111145529.4020801-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221111145529.4020801-1-alex.bennee@linaro.org>
 References: <20221111145529.4020801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,87 +100,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Cédric Le Goater <clg@kaod.org>
+This is useful when trying to bisect a particular failing test behind
+a docker run. For example:
 
-The Aspeed SDK images are based on OpenBMC which starts a lot of
-services. The output noise on the console can break from time to time
-the test waiting for the logging prompt.
+  make docker-test-clang@fedora \
+    TARGET_LIST=arm-softmmu \
+    TEST_COMMAND="meson test qtest-arm/qos-test" \
+    J=9 V=1
 
-Change the U-Boot bootargs variable to add "quiet" to the kernel
-command line and reduce the output volume. This also drops the test on
-the CPU id which was nice to have but not essential.
-
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20221104075347.370503-1-clg@kaod.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/avocado/machine_aspeed.py | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspeed.py
-index fba6527026..1fc385e1c8 100644
---- a/tests/avocado/machine_aspeed.py
-+++ b/tests/avocado/machine_aspeed.py
-@@ -12,6 +12,7 @@
- from avocado_qemu import wait_for_console_pattern
- from avocado_qemu import exec_command
- from avocado_qemu import exec_command_and_wait_for_pattern
-+from avocado_qemu import interrupt_interactive_console_until_pattern
- from avocado.utils import archive
- from avocado import skipIf
+---
+v1
+ - fix s/target /target./
+ - CHECK_TARGET -> TEST_COMMAND
+---
+ tests/docker/Makefile.include | 2 ++
+ tests/docker/common.rc        | 6 +++---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index c87f14477a..fc7a3b7e71 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -184,6 +184,7 @@ docker:
+ 	@echo '    TARGET_LIST=a,b,c    Override target list in builds.'
+ 	@echo '    EXTRA_CONFIGURE_OPTS="..."'
+ 	@echo '                         Extra configure options.'
++	@echo '    TEST_COMMAND="..."   Override the default `make check` target.'
+ 	@echo '    IMAGES="a b c ..":   Restrict available images to subset.'
+ 	@echo '    TESTS="x y z .."     Restrict available tests to subset.'
+ 	@echo '    J=[0..9]*            Overrides the -jN parameter for make commands'
+@@ -230,6 +231,7 @@ docker-run: docker-qemu-src
+ 			$(if $(NETWORK),$(if $(subst $(NETWORK),,1),--net=$(NETWORK)),--net=none) \
+ 			-e TARGET_LIST=$(subst $(SPACE),$(COMMA),$(TARGET_LIST))	\
+ 			-e EXTRA_CONFIGURE_OPTS="$(EXTRA_CONFIGURE_OPTS)" \
++			-e TEST_COMMAND="$(TEST_COMMAND)" 		\
+ 			-e V=$V -e J=$J -e DEBUG=$(DEBUG)		\
+ 			-e SHOW_ENV=$(SHOW_ENV) 			\
+ 			$(if $(NOUSER),,				\
+diff --git a/tests/docker/common.rc b/tests/docker/common.rc
+index e6f8cee0d6..9a33df2832 100755
+--- a/tests/docker/common.rc
++++ b/tests/docker/common.rc
+@@ -63,12 +63,12 @@ check_qemu()
+ {
+     # default to make check unless the caller specifies
+     if [ $# = 0 ]; then
+-        INVOCATION="check"
++        INVOCATION="${TEST_COMMAND:-make $MAKEFLAGS check}"
+     else
+-        INVOCATION="$@"
++        INVOCATION="make $MAKEFLAGS $@"
+     fi
  
-@@ -182,6 +183,8 @@ def test_arm_ast2600_evb_buildroot(self):
+-    make $MAKEFLAGS $INVOCATION
++    $INVOCATION
+ }
  
- class AST2x00MachineSDK(QemuSystemTest):
- 
-+    EXTRA_BOOTARGS = ' quiet'
-+
-     # FIXME: Although these tests boot a whole distro they are still
-     # slower than comparable machine models. There may be some
-     # optimisations which bring down the runtime. In the meantime they
-@@ -194,7 +197,7 @@ def wait_for_console_pattern(self, success_message, vm=None):
-                                  failure_message='Kernel panic - not syncing',
-                                  vm=vm)
- 
--    def do_test_arm_aspeed_sdk_start(self, image, cpu_id):
-+    def do_test_arm_aspeed_sdk_start(self, image):
-         self.require_netdev('user')
-         self.vm.set_console()
-         self.vm.add_args('-drive', 'file=' + image + ',if=mtd,format=raw',
-@@ -202,9 +205,13 @@ def do_test_arm_aspeed_sdk_start(self, image, cpu_id):
-         self.vm.launch()
- 
-         self.wait_for_console_pattern('U-Boot 2019.04')
--        self.wait_for_console_pattern('## Loading kernel from FIT Image')
-+        interrupt_interactive_console_until_pattern(
-+            self, 'Hit any key to stop autoboot:', 'ast#')
-+        exec_command_and_wait_for_pattern(
-+            self, 'setenv bootargs ${bootargs}' + self.EXTRA_BOOTARGS, 'ast#')
-+        exec_command_and_wait_for_pattern(
-+            self, 'boot', '## Loading kernel from FIT Image')
-         self.wait_for_console_pattern('Starting kernel ...')
--        self.wait_for_console_pattern('Booting Linux on physical CPU ' + cpu_id)
- 
-     @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
-     def test_arm_ast2500_evb_sdk(self):
-@@ -221,7 +228,7 @@ def test_arm_ast2500_evb_sdk(self):
-         archive.extract(image_path, self.workdir)
- 
-         self.do_test_arm_aspeed_sdk_start(
--            self.workdir + '/ast2500-default/image-bmc', '0x0')
-+            self.workdir + '/ast2500-default/image-bmc')
-         self.wait_for_console_pattern('ast2500-default login:')
- 
-     @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
-@@ -243,7 +250,7 @@ def test_arm_ast2600_evb_sdk(self):
-         self.vm.add_args('-device',
-                          'ds1338,bus=aspeed.i2c.bus.5,address=0x32');
-         self.do_test_arm_aspeed_sdk_start(
--            self.workdir + '/ast2600-default/image-bmc', '0xf00')
-+            self.workdir + '/ast2600-default/image-bmc')
-         self.wait_for_console_pattern('ast2600-default login:')
-         exec_command_and_wait_for_pattern(self, 'root', 'Password:')
-         exec_command_and_wait_for_pattern(self, '0penBmc', 'root@ast2600-default:~#')
+ test_fail()
 -- 
 2.34.1
 
