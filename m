@@ -2,90 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10934625729
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 10:45:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBF7625796
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:05:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otQZZ-00058x-AK; Fri, 11 Nov 2022 04:43:41 -0500
+	id 1otQt8-0003N0-OL; Fri, 11 Nov 2022 05:03:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1otQZX-00058p-DO
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 04:43:39 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otQt6-0003MM-Ll
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:03:52 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1otQZV-0007Yn-94
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 04:43:39 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otQt4-0007LK-It
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:03:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668159815;
+ s=mimecast20190719; t=1668161029;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IFjmZY0GLMdbpsNRTZ8jm0EKaEdY2FvWpNTM7khW6Jc=;
- b=aff3ll8Lo5gRboKMxHJI/3fv0Jl+nAdv5en5z04ePx54GLAFKnSuLjGvGNmpxk3vmwNtyh
- RTI5WKxxj3IUxLLaPQAT9rZ3hQAjEN1q+0U4fpeIHgU7r/+q7hySXrLpz5+WjPATz3Xfzi
- r4GEqPKCp2EBW3AdEJDEPdpzg18MlI0=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-516-R5gctIOEOC2WDp_CIGNWCw-1; Fri, 11 Nov 2022 04:43:34 -0500
-X-MC-Unique: R5gctIOEOC2WDp_CIGNWCw-1
-Received: by mail-qv1-f69.google.com with SMTP id
- b2-20020a0cfe62000000b004bbfb15297dso3350272qvv.19
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 01:43:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IFjmZY0GLMdbpsNRTZ8jm0EKaEdY2FvWpNTM7khW6Jc=;
- b=D2Ay788NZn/kcGHcqXzCBAe7r4iRoXq9RAdYyacCI4PCzJJWb7KwiPfbwRgDuQTwAY
- EcQ1GTlTbsm7ij6THN7KSJjXFEPK9JwbXGoCDK8vQVXLeiHauoieVsyswYiOpgsdn0Fj
- RVnYVSQKMkTYREW0zNN+71pV6mvH+mPYOylO4SHZLz1clVAEaTnTw2Ygr1K/xQiiYeWm
- Np4QOWMErxCTDRaNEh+Vcy/RExcs/h5ab0kxF0ByBxVaunsvL/VuM210a+K6424BuVlR
- BGMff60h7zpLOYel5e3ainmCi3TEPUCUaSzcZlXty/n+b8noWFB+YdFI0EI37/4i5bvs
- VUWQ==
-X-Gm-Message-State: ANoB5pkCCKuOobu7wiAmOiI7RJMrxlgmhwAGy1DYpuNwpbyCrdpT5YBn
- SLG84/GPPxNMtNEwathyWEXyK2iHu+zVtMhz7gGqQGyk9NEn2Ghb3V/XH5aHMl43KJ4XZp8yN4V
- TqeNTQMlR1Z+pGgM=
-X-Received: by 2002:ac8:5204:0:b0:3a4:f434:8215 with SMTP id
- r4-20020ac85204000000b003a4f4348215mr573313qtn.114.1668159813910; 
- Fri, 11 Nov 2022 01:43:33 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7AGeTujNzhCn2Psedf3HIMU2pRD6LLLVYKmbOat9cbdHVR8GCsUHxvL4TPZK3IvfDyF/ObWg==
-X-Received: by 2002:ac8:5204:0:b0:3a4:f434:8215 with SMTP id
- r4-20020ac85204000000b003a4f4348215mr573303qtn.114.1668159813687; 
- Fri, 11 Nov 2022 01:43:33 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- r17-20020ae9d611000000b006ee7e223bb8sm1163334qkk.39.2022.11.11.01.43.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 01:43:32 -0800 (PST)
-Date: Fri, 11 Nov 2022 10:43:30 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier
- <lvivier@redhat.com>, qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>,
- Bernhard Beschow <shentey@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PULL v4 44/83] acpi: pc: vga: use AcpiDevAmlIf interface to
- build VGA device descriptors
-Message-ID: <20221111104330.7d735092@imammedo.users.ipa.redhat.com>
-In-Reply-To: <CAFEAcA974tkv531hxgy8cWkOBcxP1WzzHAThAPxUomMbg6ymRg@mail.gmail.com>
-References: <20221107224600.934080-1-mst@redhat.com>
- <20221107224600.934080-45-mst@redhat.com>
- <e491b2fe-5959-4837-fce9-a7d2cb2448e6@redhat.com>
- <20221109162607-mutt-send-email-mst@kernel.org>
- <CAFEAcA974tkv531hxgy8cWkOBcxP1WzzHAThAPxUomMbg6ymRg@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ bh=Vb1MfwwzyPZuzAcDL3n4u0+ueUZRdMSNUq/rnWWnbTU=;
+ b=UTJJPWeA8hkq7PE6MYjtJ1BnGtZdY5dlrwILHzGb3T0gN+yIFjSOwJw8Wp2zCkI/C1E3+Y
+ jlpliiEtNI1bqqFfy66rbFEB6vR0OAz6pjvPj91wq6vEQv4xyQXPAslukH9fyczZjr6b/D
+ M7y2mY52hf2w/hWShdS/BczZgZmw+B4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-44-k2lBlxFCNMilDEhx9eiM9Q-1; Fri, 11 Nov 2022 05:03:47 -0500
+X-MC-Unique: k2lBlxFCNMilDEhx9eiM9Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B03441C006A3;
+ Fri, 11 Nov 2022 10:03:46 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A88212166B26;
+ Fri, 11 Nov 2022 10:03:45 +0000 (UTC)
+Date: Fri, 11 Nov 2022 11:03:44 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH for-7.2] block/blkio: Set
+ BlockDriver::has_variable_length to false
+Message-ID: <Y24eALBuectJVNbF@redhat.com>
+References: <20221108144433.1334074-1-afaria@redhat.com>
+ <CAJSP0QXrPfjJn+KcSTLoED6DGnZZpzDM-F6ZhwHs_08m-zAqBw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJSP0QXrPfjJn+KcSTLoED6DGnZZpzDM-F6ZhwHs_08m-zAqBw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -109,70 +79,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 10 Nov 2022 09:28:44 +0000
-Peter Maydell <peter.maydell@linaro.org> wrote:
-
-> On Wed, 9 Nov 2022 at 21:42, Michael S. Tsirkin <mst@redhat.com> wrote:
-> 
-> > > > diff --git a/hw/display/meson.build b/hw/display/meson.build
-> > > > index adc53dd8b6..7a725ed80e 100644
-> > > > --- a/hw/display/meson.build
-> > > > +++ b/hw/display/meson.build
-> > > > @@ -38,10 +38,21 @@ softmmu_ss.add(when: 'CONFIG_NEXTCUBE', if_true: files('next-fb.c'))
-> > > >   specific_ss.add(when: 'CONFIG_VGA', if_true: files('vga.c'))
-> > > > +if (config_all_devices.has_key('CONFIG_VGA_CIRRUS') or
-> > > > +    config_all_devices.has_key('CONFIG_VGA_PCI') or
-> > > > +    config_all_devices.has_key('CONFIG_VMWARE_VGA') or
-> > > > +    config_all_devices.has_key('CONFIG_ATI_VGA')
-> > > > +   )
-> > > > +  softmmu_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-vga.c'),
-> > > > +                                      if_false: files('acpi-vga-stub.c'))
-> > > > +endif  
+Am 10.11.2022 um 22:01 hat Stefan Hajnoczi geschrieben:
+> On Tue, 8 Nov 2022 at 09:45, Alberto Faria <afaria@redhat.com> wrote:
 > >
-> > Igor what does  CONFIG_ACPI mean? It depends on the target but this
-> > library is target independent. Is this just always built then?  
+> > Setting it to true can cause the device size to be queried from libblkio
+> > in otherwise fast paths, degrading performance. Set it to false and
+> > require users to refresh the device size explicitly instead.
+> >
+> > Fixes: 4c8f4fda0504 ("block/blkio: Tolerate device size changes")
+> > Suggested-by: Kevin Wolf <kwolf@redhat.com>
+> > Signed-off-by: Alberto Faria <afaria@redhat.com>
 > 
-> That kind of config symbol means "some machine we want to build needs
-> ACPI, so build it". So if you build at least one machine that needs
-> ACPI, CONFIG_ACPI gets defined, and the acpi-specific files are built.
-> If your QEMU configure line and possibly any custom config file
-> mean you're not building any ACPI machines, then CONFIG_ACPI is
-> not defined, and we don't need to build in the acpi-specifics,
-> which makes the binary smaller. For instance if you set
-> --target-list=or1k-softmmu then no machine wants ACPI and
-> CONFIG_ACPI won't get set. If you set --target-list=or1k-softmmu,x86_64-softmmu
-> then the PC machine types want ACPI and CONFIG_ACPI is set.
-> 
-> (Essentially we're opting to make the build faster by building the
-> object file once rather than per-target, at the cost of the
-> executables for the target architectures which don't use the
-> feature being a bit bigger with code they aren't going to use.)
-> 
-> Note that this means that for a machine type which does not use ACPI, it
-> may either:
->  (1) be being built in the same build as a machine that does use
->  ACPI, so be linked against the "real" ACPI source files
->  (2) be being built in a build with no ACPI machines, so be
->  linked against the stub files
-> 
-> and it also means that the code in the "real" ACPI source files
-> cannot assume that it's being used in a machine which is actually
-> using ACPI.
+> If it's okay to set it to false then that makes me wonder why this
+> undocumented field exists at all. Can you or Kevin explain and
+> possibly follow up with a patch that documents the field?
 
-Stubs only work because we create per target binaries,
-so I'd expect acpi-vga.o and acpi-vga-stub.o being built and
-linked accordingly.
+It is for removable media backends (only host_cdrom has survived until
+today; there used to be host_floppy, too) where the disk size can change
+without an explicit block_resize when you change the medium.
 
-Even if it were not the case linking 'real' code in this case
-shouldn't have caused issues on machine that do not actually
-invoke it.
+I'm not sure how well this works in practice, but so far we've not
+intentionally broken anything related to it that wasn't always broken.
 
-Michael has already fixed issue removing pixman dependency in stub,
-which I haven't noticed (my machines have the library installed
-and CI at time of posting was green as well).
-
-> thanks
-> -- PMM
-> 
+Kevin
 
 
