@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569FE625E55
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 16:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC08A625E5D
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 16:30:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otVwn-00085M-GB; Fri, 11 Nov 2022 10:28:01 -0500
+	id 1otVwp-00085n-5A; Fri, 11 Nov 2022 10:28:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwl-00083f-JZ
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:27:59 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwm-00085C-U2
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:28:00 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwj-0000xZ-OC
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:27:59 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwl-0000yY-GG
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:28:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668180477;
+ s=mimecast20190719; t=1668180478;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KUZY7kxJfm0fPu1AX6fPBsSEP1XKTHcjM7J628oygpY=;
- b=XxBHT8LRWn538jcHDMudGG5r7JpcqbHog/WeeN3jCxv5mRUqIRxHidShgSY935c6E99NMd
- SAFV3xasd/04PwetLVN9fUMtjIOSaf8VQHVquoLOpi0KZL4efnM5WyG+INVhiIKZwYt2I2
- RESYscE4iiaYHYHWdGdJpUS4Fhri8BM=
+ bh=W7XgNbt2S8/eyl7qmv8YWwuq0Z0Lzt7XMrmLfHXu42I=;
+ b=EK3sLVhJA8Ja2MPwXIE+WEDemcUPq07hOZOhTNdNaTane+s5DMZYj2LB1dVE+eI7jMM7i3
+ QHlC45v6dksg6f1WRV9fqyaTlmJUq4ik/J3iC1hSrmSA3TZwcOYlg9SER8wmMlsx7qPa0p
+ w2GR2amHqOxUogRPUr6LQc5JqDge6Bk=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-368-3ypbLhsYPSS8_GtjcQiiQA-1; Fri, 11 Nov 2022 10:27:55 -0500
-X-MC-Unique: 3ypbLhsYPSS8_GtjcQiiQA-1
+ us-mta-664-xCDM2iwJPa2TUvDDxc0Yrg-1; Fri, 11 Nov 2022 10:27:57 -0500
+X-MC-Unique: xCDM2iwJPa2TUvDDxc0Yrg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6FD891C07566;
- Fri, 11 Nov 2022 15:27:55 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27519381A72F;
+ Fri, 11 Nov 2022 15:27:57 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.152])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 98477C15BB2;
- Fri, 11 Nov 2022 15:27:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC410C15BA8;
+ Fri, 11 Nov 2022 15:27:55 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	stefanha@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PULL 05/11] iotests/151: Test active requests on mirror start
-Date: Fri, 11 Nov 2022 16:27:38 +0100
-Message-Id: <20221111152744.261358-6-kwolf@redhat.com>
+Subject: [PULL 06/11] qapi/block-core: Fix BlockdevOptionsNvmeIoUring @path
+ description
+Date: Fri, 11 Nov 2022 16:27:39 +0100
+Message-Id: <20221111152744.261358-7-kwolf@redhat.com>
 In-Reply-To: <20221111152744.261358-1-kwolf@redhat.com>
 References: <20221111152744.261358-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -77,122 +78,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Hanna Reitz <hreitz@redhat.com>
+From: Alberto Faria <afaria@redhat.com>
 
-Have write requests happen to the source node right when we start a
-mirror job.  The mirror filter node may encounter MirrorBDSOpaque.job
-being NULL, but this should not cause a segfault.
+The nvme-io_uring BlockDriver's path option must point at the character
+device of an NVMe namespace, not at an image file.
 
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20221109165452.67927-6-hreitz@redhat.com>
+Fixes: fd66dbd424f5 ("blkio: add libblkio block driver")
+Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Alberto Faria <afaria@redhat.com>
+Message-Id: <20221108142347.1322674-1-afaria@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/151     | 53 +++++++++++++++++++++++++++++++++++---
- tests/qemu-iotests/151.out |  4 +--
- 2 files changed, 52 insertions(+), 5 deletions(-)
+ qapi/block-core.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/151 b/tests/qemu-iotests/151
-index 0a052e5050..b4d1bc2553 100755
---- a/tests/qemu-iotests/151
-+++ b/tests/qemu-iotests/151
-@@ -22,7 +22,8 @@
- import math
- import os
- import subprocess
--from typing import List
-+import time
-+from typing import List, Optional
- import iotests
- from iotests import qemu_img
- 
-@@ -195,12 +196,15 @@ class TestActiveMirror(iotests.QMPTestCase):
-         self.potential_writes_in_flight = False
- 
- 
--class TestThrottledWithNbdExport(iotests.QMPTestCase):
-+class TestThrottledWithNbdExportBase(iotests.QMPTestCase):
-     image_len = 128 * 1024 * 1024  # MB
--    iops = 16
-+    iops: Optional[int] = None
-     background_processes: List['subprocess.Popen[str]'] = []
- 
-     def setUp(self):
-+        # Must be set by subclasses
-+        self.assertIsNotNone(self.iops)
-+
-         qemu_img('create', '-f', iotests.imgfmt, source_img, '128M')
-         qemu_img('create', '-f', iotests.imgfmt, target_img, '128M')
- 
-@@ -284,6 +288,10 @@ class TestThrottledWithNbdExport(iotests.QMPTestCase):
-         os.remove(source_img)
-         os.remove(target_img)
- 
-+
-+class TestLowThrottledWithNbdExport(TestThrottledWithNbdExportBase):
-+    iops = 16
-+
-     def testUnderLoad(self):
-         '''
-         Throttle the source node, then issue a whole bunch of external requests
-@@ -370,6 +378,45 @@ class TestThrottledWithNbdExport(iotests.QMPTestCase):
-         self.assertGreater(start_remaining - end_remaining, 0)
- 
- 
-+class TestHighThrottledWithNbdExport(TestThrottledWithNbdExportBase):
-+    iops = 1024
-+
-+    def testActiveOnCreation(self):
-+        '''
-+        Issue requests on the mirror source node right as the mirror is
-+        instated.  It's possible that requests occur before the actual job is
-+        created, but after the node has been put into the graph.  Write
-+        requests across the node must in that case be forwarded to the source
-+        node without attempting to mirror them (there is no job object yet, so
-+        attempting to access it would cause a segfault).
-+        We do this with a lightly throttled node (i.e. quite high IOPS limit).
-+        Using throttling seems to increase reproductivity, but if the limit is
-+        too low, all requests allowed per second will be submitted before
-+        mirror_start_job() gets to the problematic point.
-+        '''
-+
-+        # Let qemu-img bench create write requests (enough for two seconds on
-+        # the virtual clock)
-+        bench_args = ['bench', '-w', '-d', '1024', '-f', 'nbd',
-+                      '-c', str(self.iops * 2), self.nbd_url]
-+        p = iotests.qemu_tool_popen(iotests.qemu_img_args + bench_args)
-+        self.background_processes += [p]
-+
-+        # Give qemu-img bench time to start up and issue requests
-+        time.sleep(1.0)
-+        # Flush the request queue, so new requests can come in right as we
-+        # start blockdev-mirror
-+        self.vm.qtest(f'clock_step {1 * 1000 * 1000 * 1000}')
-+
-+        result = self.vm.qmp('blockdev-mirror',
-+                             job_id='mirror',
-+                             device='source-node',
-+                             target='target-node',
-+                             sync='full',
-+                             copy_mode='write-blocking')
-+        self.assert_qmp(result, 'return', {})
-+
-+
- if __name__ == '__main__':
-     iotests.main(supported_fmts=['qcow2', 'raw'],
-                  supported_protocols=['file'])
-diff --git a/tests/qemu-iotests/151.out b/tests/qemu-iotests/151.out
-index 914e3737bd..3f8a935a08 100644
---- a/tests/qemu-iotests/151.out
-+++ b/tests/qemu-iotests/151.out
-@@ -1,5 +1,5 @@
--.....
-+......
- ----------------------------------------------------------------------
--Ran 5 tests
-+Ran 6 tests
- 
- OK
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 6d904004f8..95ac4fa634 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -3704,7 +3704,7 @@
+ #
+ # Driver specific block device options for the nvme-io_uring backend.
+ #
+-# @path: path to the image file
++# @path: path to the NVMe namespace's character device (e.g. /dev/ng0n1).
+ #
+ # Since: 7.2
+ ##
 -- 
 2.38.1
 
