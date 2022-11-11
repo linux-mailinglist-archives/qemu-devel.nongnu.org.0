@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA768626113
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 19:28:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FB1626108
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 19:27:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otYiw-00086t-Sm; Fri, 11 Nov 2022 13:25:54 -0500
+	id 1otYiw-00086X-GW; Fri, 11 Nov 2022 13:25:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otYin-00081j-US
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:25:45 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ id 1otYim-00080R-4N
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:25:44 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otYij-0005Eo-8h
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:25:45 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- ay14-20020a05600c1e0e00b003cf6ab34b61so6109765wmb.2
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 10:25:37 -0800 (PST)
+ id 1otYij-0005F1-8z
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:25:43 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id g12so7493063wrs.10
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 10:25:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wQkeUKm1twXXfPfIsnilZFEt6yWHJgbyKag7n6UlDUg=;
- b=HFOjYdGFAuNM4YZNAUUFHveHGZNzttZNkm8Vl90uGkYyq6mZ+82ZBaNlXYEIwy6w1P
- tjO2ClvJ97Kq/kO8ETndzjhxMplXLBuQCSrgU2L2mexVunoOML53o2FOlf7WAX9YL80W
- /QYK+QoxVKEd/6xytKOBNOAU4v2fP1AQTZTKqS6mtAAbIlguFff7wuEpiR82+KAohspa
- N5267oQaz2YMtgX89KaJ9mhdwdURaakSQ2H5aplNFjevSho3KlrhP7/E3AT2KvQ97fRC
- t6q76/MGyJGC0FymF7bcngAtZqK9oLY0b2b7zIp7KY/SK4+VzWe7c/7KTL/ShcW88P7F
- 7ysw==
+ bh=yY8gyIcqdeUzmVMf2hGXZI0D0ZNZAMDajQW2IAWcs9k=;
+ b=GcI1a7EIhPDPNefAqv6Bpn5eJN01sqhOjR0SfJEfad7YX2YJsulmB6Hry/seZmF5XX
+ XTwOl8pKV2jKlrAQzjfMFFSte0bg14aDRtdm5hVnmKHTY7KYZ460vn+hIRhZSQctQuLI
+ 1AlSrjTYgmg00GvB3fUafvh7V5dqbjF3zu+j/pXhkluRe6/h6tugTEr58j+Bu5dzREmh
+ 8AXlN317ElQjG5yHrt6aG/VxHMhzxMCSw1QExwReaZ/5Eg70GSZkUr/snIUBDwlupQFd
+ 5/zig7tX/eU7ap3fiid3zYArDh2ZvhGgnr9cjU9dRB0YyeLxZx12ycudDTNwRSFcSzWb
+ /ZzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wQkeUKm1twXXfPfIsnilZFEt6yWHJgbyKag7n6UlDUg=;
- b=JuND5P0c+ev+sBoCMPVJ3BA1iWmaL6t1kAdvVVUobnIUUn+9Qw8qdVIzAat/cVzdAV
- Z96ze8Ga2HOvaNn+NNCIvZR0dtIu95JtnC1Tn8J0fp1AHCYD0lHxzJ/U9H0aNWAvRSXv
- qNGkpePL9FR80nuXJwDY+1CqRwdMsYXedj5v/qMcUdooJnHOVlIV2eLpnG60ozkM2TLW
- oEKISr2mAa+TXZR+9TlTv6JahSEnk4LUdVllEyuAKdXrFneD3SI7qrVnR/hIpfI7XLaP
- kerWGkhD1lMukKvTojrNRuWqZvuRh+Wif/gDmxmrX4/smBjetyQG2pgKpBEdZKa80QZK
- YdlQ==
-X-Gm-Message-State: ANoB5pkXp73PBDqzhW3pZJdIOkC0r7DEPxLbL7nwo8eNV0EBOiShBSs/
- C2kqXx80D+U79w722cWbv7F4cg==
-X-Google-Smtp-Source: AA0mqf4GsWBkLPynIrb2kt8CffFWtI3/k8wNv4LSD/NHTsqhOsqF9IkmWUvZgafy8xItu28wDzJWzA==
-X-Received: by 2002:a05:600c:5029:b0:3b4:c00d:2329 with SMTP id
- n41-20020a05600c502900b003b4c00d2329mr2073320wmr.124.1668191136805; 
- Fri, 11 Nov 2022 10:25:36 -0800 (PST)
+ bh=yY8gyIcqdeUzmVMf2hGXZI0D0ZNZAMDajQW2IAWcs9k=;
+ b=dELypGuQxMknkRoegVV4pWg9YfGrUGQW0MyfNwl6/1+pq7hUbiBEOWGr0X2EXwoVFt
+ x+xUyGjI3G00ZfS3mMGNQOCnH2P3QAy4m9c0Ygsy+/Boa2TGfTbx38GHbQ34C83YYCFh
+ gOucqA3oE36tclzwSVjdp+CczA77XndtEXYuozxER84gnPWrUskjlcOMGro+FDyfG9vx
+ gV3BC7+xmZi0wt/E7jkwmo3wMk+lUaAKDHRfixFtVXXl2wj4AXFDsO/zUI4F5bK642cm
+ weLUORjvG3r5e7D8E3UNOT44urSDYMYVf/xyRNhb0z3/bumWhzwVwQt3uaqMu8xHq5CK
+ D2xA==
+X-Gm-Message-State: ANoB5plk8KZ8gMQJhuBBdb2iB5y9AsnWWOZtwFVgvAhMeLhEcm2cSEXy
+ vog0re0rmgQYS4mV2qurYeb+mg==
+X-Google-Smtp-Source: AA0mqf5MEYrMdgFVdncRAuzc10YciFpqdKneBztrXnbfeSaEKAj0yBZQlhUPilyOsieweaGjiMlxpw==
+X-Received: by 2002:adf:e384:0:b0:230:e4e7:b191 with SMTP id
+ e4-20020adfe384000000b00230e4e7b191mr1916023wrm.158.1668191138097; 
+ Fri, 11 Nov 2022 10:25:38 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- a26-20020a05600c225a00b003c21ba7d7d6sm3431498wmm.44.2022.11.11.10.25.36
+ y15-20020a5d614f000000b0022ae401e9e0sm2535857wrt.78.2022.11.11.10.25.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 11 Nov 2022 10:25:36 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AFE121FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id CA61E1FFBA;
  Fri, 11 Nov 2022 18:25:35 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: f4bug@amsat.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org (open list:ARM PrimeCell and...)
-Subject: [PATCH  v5 01/20] hw: encode accessing CPU index in MemTxAttrs
-Date: Fri, 11 Nov 2022 18:25:16 +0000
-Message-Id: <20221111182535.64844-2-alex.bennee@linaro.org>
+ Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org (open list:ARM TCG CPUs)
+Subject: [PATCH v5 02/20] target/arm: ensure TCG IO accesses set appropriate
+ MemTxAttrs
+Date: Fri, 11 Nov 2022 18:25:17 +0000
+Message-Id: <20221111182535.64844-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221111182535.64844-1-alex.bennee@linaro.org>
 References: <20221111182535.64844-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,259 +96,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We currently have hacks across the hw/ to reference current_cpu to
-work out what the current accessing CPU is. This breaks in some cases
-including using gdbstub to access HW state. As we have MemTxAttrs to
-describe details about the access lets extend it so CPU accesses can
-be explicitly marked.
+Both arm_cpu_tlb_fill (for normal IO) and
+arm_cpu_get_phys_page_attrs_debug (for debug access) come through
+get_phys_addr which is setting the other memory attributes for the
+transaction. As these are all by definition CPU accesses we can also
+set the requested_type/index as appropriate.
 
-To achieve this we create a new requester_type which indicates to
-consumers how requester_id it to be consumed. We absorb the existing
-unspecified:1 bitfield into this type and also document a potential
-machine specific encoding which will be useful to (currently)
-out-of-tree extensions.
-
-Places that checked to see if things where unspecified now instead
-check the source if what they expected.
-
-There are a number of places we need to fix up including:
-
-  CPU helpers directly calling address_space_*() fns
-  models in hw/ fishing the data out of current_cpu
-  hypervisors offloading device emulation to QEMU
-
-I'll start addressing some of these in following patches.
+We also have to handle where the attributes are totally reset if we
+call into get_phys_addr_twostage.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 ---
-v2
-  - use separate field cpu_index
-  - bool for requester_is_cpu
 v3
-  - switch to enum MemTxRequesterType
-  - move helper #define to patch
-  - revert to overloading requester_id
-  - mention hypervisors in commit message
-  - drop cputlb tweaks, they will move to target specific code
-v4
-  - merge unspecified:1 into MTRT_UNSPECIFIED
-  - document a MTRT_MACHINE for more complex encoding
-  - ensure existing users of requester_id set MTRT_PCI
-  - ensure existing consumers of requester_id check type is MTRT_PCI
-  - have MEMTXATTRS_CPU take CPUState * directly
+  - reword commit summary
 v5
-  - re-order so MTRT_UNSPECIFIED is zero
-  - fix up comments referring to the difference between empty and unspecified:1
-  - kernel-doc annotations for typedefs
-  - don't impose source type tz-msc during transformation
-  - re-order bitfields so requester_type/id at top
-  - add helper for MEMTXATTRS_PCI
+  - fix for new *result ABI
+  - use MEMTXATTRS_CPU to fill in the initial values
+  - also reset attrs in get_phys_addr_twostage
 ---
- include/exec/memattrs.h | 68 ++++++++++++++++++++++++++++++++---------
- hw/i386/amd_iommu.c     |  6 ++--
- hw/i386/intel_iommu.c   |  2 +-
- hw/misc/tz-mpc.c        |  2 +-
- hw/misc/tz-msc.c        |  6 ++--
- hw/pci/pci.c            |  4 +--
- 6 files changed, 60 insertions(+), 28 deletions(-)
+ target/arm/ptw.c        | 3 ++-
+ target/arm/tlb_helper.c | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
-index 9fb98bc1ef..8359fc448b 100644
---- a/include/exec/memattrs.h
-+++ b/include/exec/memattrs.h
-@@ -14,7 +14,32 @@
- #ifndef MEMATTRS_H
- #define MEMATTRS_H
+diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+index 3745ac9723..4b6683f90d 100644
+--- a/target/arm/ptw.c
++++ b/target/arm/ptw.c
+@@ -2634,6 +2634,7 @@ static bool get_phys_addr_twostage(CPUARMState *env, S1Translate *ptw,
+     s1_lgpgsz = result->f.lg_page_size;
+     cacheattrs1 = result->cacheattrs;
+     memset(result, 0, sizeof(*result));
++    result->f.attrs = MEMTXATTRS_CPU(env_cpu(env));
  
--/* Every memory transaction has associated with it a set of
-+/**
-+ * typedef MemTxRequesterType - source of memory transaction
-+ *
-+ * Every memory transaction comes from a specific place which defines
-+ * how requester_id should be handled if at all.
-+ *
-+ * UNSPECIFIED: the default for otherwise undefined MemTxAttrs
-+ * CPU: requester_id is the global cpu_index
-+ *      This needs further processing if you need to work out which
-+ *      socket or complex it comes from
-+ * PCI: indicates the requester_id is a PCI id
-+ * MACHINE: indicates a machine specific encoding
-+ *          This will require further processing to decode into its
-+ *          constituent parts.
-+ */
-+typedef enum MemTxRequesterType {
-+    MTRT_UNSPECIFIED = 0,
-+    MTRT_CPU,
-+    MTRT_PCI,
-+    MTRT_MACHINE
-+} MemTxRequesterType;
-+
-+/**
-+ * typedef MemTxAttrs - attributes of a memory transaction
-+ *
-+ * Every memory transaction has associated with it a set of
-  * attributes. Some of these are generic (such as the ID of
-  * the bus master); some are specific to a particular kind of
-  * bus (such as the ARM Secure/NonSecure bit). We define them
-@@ -23,13 +48,12 @@
-  * different semantics.
-  */
- typedef struct MemTxAttrs {
--    /* Bus masters which don't specify any attributes will get this
--     * (via the MEMTXATTRS_UNSPECIFIED constant), so that we can
--     * distinguish "all attributes deliberately clear" from
--     * "didn't specify" if necessary.
--     */
--    unsigned int unspecified:1;
--    /* ARM/AMBA: TrustZone Secure access
-+    /* Requester type (e.g. CPU or PCI MSI) */
-+    MemTxRequesterType requester_type:2;
-+    /* Requester ID */
-+    unsigned int requester_id:16;
-+    /*
-+     * ARM/AMBA: TrustZone Secure access
-      * x86: System Management Mode access
-      */
-     unsigned int secure:1;
-@@ -43,8 +67,6 @@ typedef struct MemTxAttrs {
-      * (see MEMTX_ACCESS_ERROR).
-      */
-     unsigned int memory:1;
--    /* Requester ID (for MSI for example) */
--    unsigned int requester_id:16;
-     /* Invert endianness for this page */
-     unsigned int byte_swap:1;
-     /*
-@@ -59,12 +81,28 @@ typedef struct MemTxAttrs {
-     unsigned int target_tlb_bit2 : 1;
- } MemTxAttrs;
+     ret = get_phys_addr_lpae(env, ptw, ipa, access_type, is_el0, result, fi);
+     fi->s2addr = ipa;
+@@ -2872,7 +2873,7 @@ hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
+         .in_secure = arm_is_secure(env),
+         .in_debug = true,
+     };
+-    GetPhysAddrResult res = {};
++    GetPhysAddrResult res = { .f.attrs = MEMTXATTRS_CPU(cs) };
+     ARMMMUFaultInfo fi = {};
+     bool ret;
  
--/* Bus masters which don't specify any attributes will get this,
-- * which has all attribute bits clear except the topmost one
-- * (so that we can distinguish "all attributes deliberately clear"
-- * from "didn't specify" if necessary).
-+/*
-+ * Bus masters which don't specify any attributes will get this which
-+ * indicates none of the attributes can be used.
-+ */
-+#define MEMTXATTRS_UNSPECIFIED ((MemTxAttrs) \
-+                                { .requester_type = MTRT_UNSPECIFIED })
-+
-+/*
-+ * Helper for setting a basic CPU sourced transaction, it expects a
-+ * CPUState *
-+ */
-+#define MEMTXATTRS_CPU(cs) ((MemTxAttrs) \
-+                            {.requester_type = MTRT_CPU, \
-+                             .requester_id = cs->cpu_index})
-+
-+/*
-+ * Helper for setting a basic PCI sourced transaction, it expects a
-+ * PCIDevice *
-  */
--#define MEMTXATTRS_UNSPECIFIED ((MemTxAttrs) { .unspecified = 1 })
-+#define MEMTXATTRS_PCI(dev) ((MemTxAttrs) \
-+                             {.requester_type = MTRT_PCI,   \
-+                             .requester_id = pci_requester_id(dev)})
- 
- /* New-style MMIO accessors can indicate that the transaction failed.
-  * A zero (MEMTX_OK) response means success; anything else is a failure
-diff --git a/hw/i386/amd_iommu.c b/hw/i386/amd_iommu.c
-index 725f69095b..284359c16e 100644
---- a/hw/i386/amd_iommu.c
-+++ b/hw/i386/amd_iommu.c
-@@ -153,9 +153,7 @@ static void amdvi_assign_andq(AMDVIState *s, hwaddr addr, uint64_t val)
- static void amdvi_generate_msi_interrupt(AMDVIState *s)
+diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+index 0f4f4fc809..5960269421 100644
+--- a/target/arm/tlb_helper.c
++++ b/target/arm/tlb_helper.c
+@@ -208,7 +208,7 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                       bool probe, uintptr_t retaddr)
  {
-     MSIMessage msg = {};
--    MemTxAttrs attrs = {
--        .requester_id = pci_requester_id(&s->pci.dev)
--    };
-+    MemTxAttrs attrs = MEMTXATTRS_PCI(&s->pci.dev);
+     ARMCPU *cpu = ARM_CPU(cs);
+-    GetPhysAddrResult res = {};
++    GetPhysAddrResult res = { .f.attrs = MEMTXATTRS_CPU(cs) };
+     ARMMMUFaultInfo local_fi, *fi;
+     int ret;
  
-     if (msi_enabled(&s->pci.dev)) {
-         msg = msi_get_message(&s->pci.dev, 0);
-@@ -1356,7 +1354,7 @@ static MemTxResult amdvi_mem_ir_write(void *opaque, hwaddr addr,
- 
-     trace_amdvi_mem_ir_write_req(addr, value, size);
- 
--    if (!attrs.unspecified) {
-+    if (attrs.requester_type == MTRT_PCI) {
-         /* We have explicit Source ID */
-         sid = attrs.requester_id;
-     }
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index a08ee85edf..12752413eb 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3517,7 +3517,7 @@ static MemTxResult vtd_mem_ir_write(void *opaque, hwaddr addr,
-     from.address = (uint64_t) addr + VTD_INTERRUPT_ADDR_FIRST;
-     from.data = (uint32_t) value;
- 
--    if (!attrs.unspecified) {
-+    if (attrs.requester_type == MTRT_PCI) {
-         /* We have explicit Source ID */
-         sid = attrs.requester_id;
-     }
-diff --git a/hw/misc/tz-mpc.c b/hw/misc/tz-mpc.c
-index 30481e1c90..4beb5daa1a 100644
---- a/hw/misc/tz-mpc.c
-+++ b/hw/misc/tz-mpc.c
-@@ -461,7 +461,7 @@ static int tz_mpc_attrs_to_index(IOMMUMemoryRegion *iommu, MemTxAttrs attrs)
-      * All the real during-emulation transactions from the CPU will
-      * specify attributes.
-      */
--    return (attrs.unspecified || attrs.secure) ? IOMMU_IDX_S : IOMMU_IDX_NS;
-+    return ((attrs.requester_type == MTRT_UNSPECIFIED) || attrs.secure) ? IOMMU_IDX_S : IOMMU_IDX_NS;
- }
- 
- static int tz_mpc_num_indexes(IOMMUMemoryRegion *iommu)
-diff --git a/hw/misc/tz-msc.c b/hw/misc/tz-msc.c
-index acbe94400b..e93bfc7083 100644
---- a/hw/misc/tz-msc.c
-+++ b/hw/misc/tz-msc.c
-@@ -137,11 +137,9 @@ static MemTxResult tz_msc_read(void *opaque, hwaddr addr, uint64_t *pdata,
-         return MEMTX_OK;
-     case MSCAllowSecure:
-         attrs.secure = 1;
--        attrs.unspecified = 0;
-         break;
-     case MSCAllowNonSecure:
-         attrs.secure = 0;
--        attrs.unspecified = 0;
-         break;
-     }
- 
-@@ -179,11 +177,11 @@ static MemTxResult tz_msc_write(void *opaque, hwaddr addr, uint64_t val,
-         return MEMTX_OK;
-     case MSCAllowSecure:
-         attrs.secure = 1;
--        attrs.unspecified = 0;
-+        attrs.requester_type = MTRT_CPU;
-         break;
-     case MSCAllowNonSecure:
-         attrs.secure = 0;
--        attrs.unspecified = 0;
-+        attrs.requester_type = MTRT_CPU;
-         break;
-     }
- 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 2f450f6a72..1d0d8d866f 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -319,9 +319,7 @@ void pci_device_deassert_intx(PCIDevice *dev)
- 
- static void pci_msi_trigger(PCIDevice *dev, MSIMessage msg)
- {
--    MemTxAttrs attrs = {};
--
--    attrs.requester_id = pci_requester_id(dev);
-+    MemTxAttrs attrs = MEMTXATTRS_PCI(dev);
-     address_space_stl_le(&dev->bus_master_as, msg.address, msg.data,
-                          attrs, NULL);
- }
 -- 
 2.34.1
 
