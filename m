@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB6E626146
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 19:36:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C5862610A
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 19:27:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otYsC-0007zE-LB; Fri, 11 Nov 2022 13:35:28 -0500
+	id 1otYiz-00088s-Sq; Fri, 11 Nov 2022 13:25:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otYrl-0007pC-De
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:35:06 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ id 1otYiu-000863-DB
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:25:53 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otYrg-0007OO-4K
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:34:59 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- m7-20020a05600c090700b003cf8a105d9eso3650979wmp.5
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 10:34:55 -0800 (PST)
+ id 1otYim-0005Gl-HN
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:25:51 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ a11-20020a05600c2d4b00b003cf6f5fd9f1so3651001wmg.2
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 10:25:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=K9jGL/FUfAGFTfK5rC1/vlTivx143+0Q3Bji1lhCRr0=;
- b=jV89u6VyjjKDtLneJt5fS9UV2mCgXTocsWf31iKNM2xoZsDGxM5sw6zgwCVqVs6Y2M
- 7E/H/nRgJJ3fEa6DHcxszXDkHLn+h9maEi2NSyalttYU+6JS2xF2TJHgFeXfHx20z0RK
- PxcSozAJ+7GJaToOyiHNOOU1RPSJ76wOk9k3VWXyfLbIHLhFQiuai0uETtR6n1vZXCj6
- aBThDJM9AzHJy3hNaSSci5zjiWyKBx27vmFnCaTzSrUR8QjZ8t3d0yzLB6CLFggVtqMe
- kYIP4nf5rZJAWKkP9G9lIEgbokKjhQi/M8vmLA8dvz/JRUdFNLdEABrn5gofil0kL9vm
- 8OUg==
+ bh=6dm7DBaeF2cZRUQRIT8/o6GsqUIEGkYXBsJF1ojYAj4=;
+ b=AT72/gVzz/G3lnUWXnEtof6ozMWw4x/rYcZ9P5tmEt8Cu6ZfWVbPR4JWiqAOVi0kSF
+ 0ak7KsvpNktUhzJz13lTifofLWxlbO9X4d1qqHUooBLXsFL0hR7hekp1Olg2tR5cilU/
+ b6iXsQt5WBuf6tozUsDooFYYVfGE96zxUHtmFAm3GhhF8htojljSqO2mDIwq8Nl1soof
+ AlHzrb3HjERj8+N/Q7MbcLA0+qNFNrcU53c0MAAjvjkvFSpxkGADOGsIL0dlDR5r5ZkH
+ HS7KEhrd9cniZIJbYVV7xIxugRsPJhb6XOT9LPSK288M1PDN9jDipvN3WExZ1ayAeDid
+ Wi3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=K9jGL/FUfAGFTfK5rC1/vlTivx143+0Q3Bji1lhCRr0=;
- b=b8XfaXgUpawM1k8s0dWaxhc/GZa0xHDJYLsttHCEqzbCOWYkZ99oZ5QU69pggcuKW/
- 5GFe3BI6zCrV93HLtSoP8Un37XRw7nyR6aRybLdJ/kmKfUdq1eEFwz4f1qf6sMl7lCTq
- tErIr0CmqfyVFK45iwRaBpGaZUBQoBylX9RGW8gKc4IuurhT//KCYylbVw3Lk62DYQLG
- CR8cd9Sdm/lNvJQtSNr9NYMCZdd9Uyu0slLSZpnNuVjX3vFCQboW7dQ6OYYRJDOgu1z9
- ZzyqRJitLct+gipm3Dd48xXzCfF9lIEge8bUg3omKQ4xSSVqngFSzCFVGumz3Q2WGRZR
- zmdA==
-X-Gm-Message-State: ANoB5pmBqlE+P/oJlQNh43dw5uKH9IOZ9WIoT0ZN+U7w6zG8BvwtrE5Q
- 93NqckFKyMMWbbjl9MlXVBUx/Q==
-X-Google-Smtp-Source: AA0mqf4HiG+4YkOls4Q5nuipJaZYjXv+TrKFHGyeeAE26LnkqWZCxI4CfMYQjHncYPAqT8bXQezzlw==
-X-Received: by 2002:a05:600c:5022:b0:3cf:96da:3846 with SMTP id
- n34-20020a05600c502200b003cf96da3846mr2103417wmr.10.1668191694600; 
- Fri, 11 Nov 2022 10:34:54 -0800 (PST)
+ bh=6dm7DBaeF2cZRUQRIT8/o6GsqUIEGkYXBsJF1ojYAj4=;
+ b=kHSSr84yotxkQ6hyc+7UIS9kNKCrH5OVuzKBNX7w46gBVh3GTfpNItTFlG7eS7f+jK
+ sku5ePojBcw0rASqc0SRiFQFZOc2Kc2e8Cbx7V9K3HvszylqDRPQrVW7jqrl28rl6tre
+ 0REzoI3ANa7iumMZQAs/46Jg1PwnBXVSO/Sw3g6i5dMkt2D/3sIz2LyaSlly66zvY2L0
+ O8v7IRwM/mvMN611QYbSGDyfzQPJgvQ/6nAqtQYS408S2HnZqDme1S0QBKIDinQhmpNM
+ 6WY33TTLS8xt9VFqBBgTXhW7f0+AckTFC6X1ksYejb3oO0JWgsCclX9eJhtOVSfz9QvN
+ Nx1Q==
+X-Gm-Message-State: ANoB5pnWrRas4mn6YyTsQu6PLs9S+XaM5ifKwJ1i6L34wGaZVJhMkA0q
+ GA95iNVU8iIeyiexRdS0ooTArA==
+X-Google-Smtp-Source: AA0mqf4adk2iYCplPi3wAvPHF1xVMIQj2fVItCLPwnWdOm1lfV0nOh2WKkQbDjmIATX0J8JMy80aDg==
+X-Received: by 2002:a1c:4b0f:0:b0:3cf:4d14:5705 with SMTP id
+ y15-20020a1c4b0f000000b003cf4d145705mr2152063wma.35.1668191143204; 
+ Fri, 11 Nov 2022 10:25:43 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- e1-20020adfe381000000b0023662d97130sm2523569wrm.20.2022.11.11.10.34.51
+ f24-20020a1cc918000000b003b4935f04a4sm4435427wmb.5.2022.11.11.10.25.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 10:34:51 -0800 (PST)
+ Fri, 11 Nov 2022 10:25:39 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 18D891FFC4;
+ by zen.linaroharston (Postfix) with ESMTP id 30F011FFC5;
  Fri, 11 Nov 2022 18:25:37 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: f4bug@amsat.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v5 14/20] hw/audio: explicitly set .requester_type for
- intel-hda
-Date: Fri, 11 Nov 2022 18:25:29 +0000
-Message-Id: <20221111182535.64844-15-alex.bennee@linaro.org>
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ kvm@vger.kernel.org (open list:Overall KVM CPUs)
+Subject: [PATCH  v5 15/20] hw/i386: update vapic_write to use MemTxAttrs
+Date: Fri, 11 Nov 2022 18:25:30 +0000
+Message-Id: <20221111182535.64844-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221111182535.64844-1-alex.bennee@linaro.org>
 References: <20221111182535.64844-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,27 +100,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is simulating a bus master writing data back into system memory.
-Mark it as such.
+This allows us to drop the current_cpu hack and properly model an
+invalid access to the vapic.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/audio/intel-hda.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i386/kvmvapic.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
-index f38117057b..95c28b315c 100644
---- a/hw/audio/intel-hda.c
-+++ b/hw/audio/intel-hda.c
-@@ -345,7 +345,7 @@ static void intel_hda_corb_run(IntelHDAState *d)
+diff --git a/hw/i386/kvmvapic.c b/hw/i386/kvmvapic.c
+index 43f8a8f679..a76ed07199 100644
+--- a/hw/i386/kvmvapic.c
++++ b/hw/i386/kvmvapic.c
+@@ -635,20 +635,21 @@ static int vapic_prepare(VAPICROMState *s)
+     return 0;
+ }
  
- static void intel_hda_response(HDACodecDevice *dev, bool solicited, uint32_t response)
+-static void vapic_write(void *opaque, hwaddr addr, uint64_t data,
+-                        unsigned int size)
++static MemTxResult vapic_write(void *opaque, hwaddr addr, uint64_t data,
++                               unsigned int size, MemTxAttrs attrs)
  {
--    const MemTxAttrs attrs = { .memory = true };
-+    const MemTxAttrs attrs = { .requester_type = MTRT_PCI, .memory = true };
-     HDACodecBus *bus = HDA_BUS(dev->qdev.parent_bus);
-     IntelHDAState *d = container_of(bus, IntelHDAState, codecs);
-     hwaddr addr;
+     VAPICROMState *s = opaque;
++    CPUState *cs;
+     X86CPU *cpu;
+     CPUX86State *env;
+     hwaddr rom_paddr;
+ 
+-    if (!current_cpu) {
+-        return;
++    if (attrs.requester_type != MTRT_CPU) {
++        return MEMTX_ACCESS_ERROR;
+     }
+-
+-    cpu_synchronize_state(current_cpu);
+-    cpu = X86_CPU(current_cpu);
++    cs = qemu_get_cpu(attrs.requester_id);
++    cpu_synchronize_state(cs);
++    cpu = X86_CPU(cs);
+     env = &cpu->env;
+ 
+     /*
+@@ -708,6 +709,8 @@ static void vapic_write(void *opaque, hwaddr addr, uint64_t data,
+         }
+         break;
+     }
++
++    return MEMTX_OK;
+ }
+ 
+ static uint64_t vapic_read(void *opaque, hwaddr addr, unsigned size)
+@@ -716,7 +719,7 @@ static uint64_t vapic_read(void *opaque, hwaddr addr, unsigned size)
+ }
+ 
+ static const MemoryRegionOps vapic_ops = {
+-    .write = vapic_write,
++    .write_with_attrs = vapic_write,
+     .read = vapic_read,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
 -- 
 2.34.1
 
