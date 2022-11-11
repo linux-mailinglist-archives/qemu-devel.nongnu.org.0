@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F7D625486
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 08:42:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B700C625484
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 08:42:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otOfm-00069G-59; Fri, 11 Nov 2022 02:41:58 -0500
+	id 1otOfU-00068s-1a; Fri, 11 Nov 2022 02:41:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otOfS-00068P-Dw
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:41:38 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+ id 1otOfP-00067M-23
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:41:35 -0500
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otOfG-0007UR-0G
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:41:38 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id b29so4205970pfp.13
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 23:41:24 -0800 (PST)
+ id 1otOfL-0007iI-Mh
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:41:34 -0500
+Received: by mail-pg1-x536.google.com with SMTP id 130so3803552pgc.5
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 23:41:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=1fcBWbZUmm5Jnpz4Izudl/A6K0HNswQpl9r23JhxDb4=;
- b=kXndUWUgqAVlTHwlL/ikUyabC/IIR7Gnr869HIupBA2HF+thhZ2+lVbv4bb0DIFX7K
- kKy/2RJB3mQZbeU65aC+dxgY9EcrmJm/KoiNUJX5hRKIabAcRTgPFOVRY9C90zijoVRq
- 3PWpuFhQYgZl1Lkcogoej3/lQ+OMEFp666WY6NB2h3LPjYjV13h5M1fBvDKbHiI13qLd
- +wSkA3WnnynVpock6ltg8XV1MaKkYNzd2UecAj0Cv3TiYXT9j0cyY13+lNeTKhvfxc5Z
- F3vOiHkBcZ2GVtWBjz7FnOOaoUJ+VM+YMWXc7e/7MEnVR/7tbN26J+54MiNkKyObmwl8
- BX8A==
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RqkUbgBv122Thnf546PHquT7r6o6Y94wYiKV+lBMbFo=;
+ b=PpHNoMGglIE6l35a26vO6QEFLrS9huY/qGMMGsQn11cHX2LrJFi7XUVXXKwLbFUWTK
+ iNMhXn/uc4sUkCsyImnML4TJkRDiLZt266I+soJLvTsV4CULxglWdYcrEicaZm/3vOxD
+ 0NJ8ucYKHREDry6Xshcke+xTPMOASW7G8W/wXBijgbeI8ZHjt8+AC73GahijqpIgxxRX
+ zUvq+7JsFqWC8pRDOPWALgQn3sbo3vrHdaneP2YhcDgQiPg6RH3kjOqOI52xJblonXwr
+ OyupodQuaapDOKr7Q9cruVcUQ7WpYFvLv9Yt3lysS0lP/4ib2tdys1g0JeHTOm7K7sm6
+ cmog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1fcBWbZUmm5Jnpz4Izudl/A6K0HNswQpl9r23JhxDb4=;
- b=bey5m4xrzGCj50ZWVrP7ZvfPuMwGJ0FDo7eYz/4kZkPD6pw2VH14Dk4QuFWCP1vGjg
- hFeGWDLhj5a1TeoJcST0HVd9WuFCdKUo28m84xb/CEvzU8VMo2dfLimTemVP85NnC5Lm
- ez+ScEDumIoLuq1yGQuJU7kVRCfeKrx4NBp14ahv2VH/tYXW/0D1ybytzl+qeRoPO10u
- U0Cb0gOxljzn6ZCL5RBsWUkmGL+Iplx0E1n8avWbRPi4uXFaEmeAME++eKhkDgnncYBQ
- 2nfILsGruGCNIdQJAe4nmFT+79k+v115z02vyqLfKsM//KYI8QtACE2oARYNuOGA/udW
- 1h1Q==
-X-Gm-Message-State: ANoB5pl29RpvqBPhtZ2TFLKLgiYPXciYBvXxNiabPIudnKCsv3IHtnjD
- zT5NoUJI1LYghgaWbyJjB/c21Ke4P1fidKaE
-X-Google-Smtp-Source: AA0mqf5FX3iVrGWT5EOSzIH8c7nhtTxJlPyTzC6qvpy0CiQNyCWF2SozS4VC6eUdPoDHzoJdRz18cQ==
-X-Received: by 2002:a63:d802:0:b0:43c:ac7c:ee27 with SMTP id
- b2-20020a63d802000000b0043cac7cee27mr572236pgh.583.1668152483981; 
- Thu, 10 Nov 2022 23:41:23 -0800 (PST)
+ bh=RqkUbgBv122Thnf546PHquT7r6o6Y94wYiKV+lBMbFo=;
+ b=rMvJfMzAivGX2Cm/ed1QNxv+yQFrnsIRLvXfZ+vscgdXsWuz2dt6zSreuahJEbTTq1
+ fFfejfXCuyen9XtNfLzHUdjQ8heTnfKV8Y84IBNTibhBBIKVq+T747pb75Y4SFJrIuOt
+ icGLUa3VfX+y3orU8/+qJ18YZk7f0f4u4E2LiqusSCtPU7bjvhdhJOrDHYqIXm3wz8kQ
+ f4Q66Y0ZD4WRqrYv7V7w043ba5aUCAeMmELgP83PYIfE/6W53fjG3Z5v3JcpWlVC5s6q
+ ptJk6BkKBAmtaJ35oBXL40MmmPaueFt53Q6bwlUBdZ6aIuM24XBkh5LYwu7jFvj7NIJG
+ m2vQ==
+X-Gm-Message-State: ANoB5pnS0m1mtWJyU+Is6BKtbIzK0UGj4Vik0k+aM6YdxYL+aPSuI4lO
+ dPysuXzMob8IAH6KDDfWq2vkNwn9zqJRH1Zo
+X-Google-Smtp-Source: AA0mqf6+PydmS+s1UnhHQnDpzGvSC/h5F0znMlCPy39kuemyubQifAlU/s8KNPtxmapu4FUC8DVbpA==
+X-Received: by 2002:a63:1b17:0:b0:457:dced:8ba9 with SMTP id
+ b23-20020a631b17000000b00457dced8ba9mr653117pgb.221.1668152486597; 
+ Thu, 10 Nov 2022 23:41:26 -0800 (PST)
 Received: from stoup.lan
  (2001-44b8-2176-c800-0aef-59aa-1faf-7e61.static.ipv6.internode.on.net.
  [2001:44b8:2176:c800:aef:59aa:1faf:7e61])
  by smtp.gmail.com with ESMTPSA id
- o15-20020a170902d4cf00b001754fa42065sm976069plg.143.2022.11.10.23.41.22
- for <qemu-devel@nongnu.org>
+ o15-20020a170902d4cf00b001754fa42065sm976069plg.143.2022.11.10.23.41.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 23:41:23 -0800 (PST)
+ Thu, 10 Nov 2022 23:41:26 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-8.0 v3 07/45] accel/tcg: Set cflags_next_tb in
- cpu_common_initfn
-Date: Fri, 11 Nov 2022 17:40:23 +1000
-Message-Id: <20221111074101.2069454-8-richard.henderson@linaro.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: [PATCH for-8.0 v3 08/45] target/sparc: Avoid TCGV_{LOW,HIGH}
+Date: Fri, 11 Nov 2022 17:40:24 +1000
+Message-Id: <20221111074101.2069454-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221111074101.2069454-1-richard.henderson@linaro.org>
 References: <20221111074101.2069454-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,28 +91,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-While we initialize this value in cpu_common_reset, that
-isn't called during startup, so set it as well in init.
-This fixes -singlestep versus the very first TB.
+Use the official extend/extract functions instead of routines
+that will shortly be internal to tcg.
 
-Fixes: 04f5b647ed07 ("accel/tcg: Handle -singlestep in curr_cflags")
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/core/cpu-common.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/sparc/translate.c | 21 ++++-----------------
+ 1 file changed, 4 insertions(+), 17 deletions(-)
 
-diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
-index f9fdd46b9d..6a4022eb14 100644
---- a/hw/core/cpu-common.c
-+++ b/hw/core/cpu-common.c
-@@ -235,6 +235,7 @@ static void cpu_common_initfn(Object *obj)
-     /* the default value is changed by qemu_init_vcpu() for softmmu */
-     cpu->nr_cores = 1;
-     cpu->nr_threads = 1;
-+    cpu->cflags_next_tb = -1;
+diff --git a/target/sparc/translate.c b/target/sparc/translate.c
+index 34858eb95f..150aeecd14 100644
+--- a/target/sparc/translate.c
++++ b/target/sparc/translate.c
+@@ -163,13 +163,6 @@ static inline void gen_update_fprs_dirty(DisasContext *dc, int rd)
+ /* floating point registers moves */
+ static TCGv_i32 gen_load_fpr_F(DisasContext *dc, unsigned int src)
+ {
+-#if TCG_TARGET_REG_BITS == 32
+-    if (src & 1) {
+-        return TCGV_LOW(cpu_fpr[src / 2]);
+-    } else {
+-        return TCGV_HIGH(cpu_fpr[src / 2]);
+-    }
+-#else
+     TCGv_i32 ret = get_temp_i32(dc);
+     if (src & 1) {
+         tcg_gen_extrl_i64_i32(ret, cpu_fpr[src / 2]);
+@@ -177,22 +170,16 @@ static TCGv_i32 gen_load_fpr_F(DisasContext *dc, unsigned int src)
+         tcg_gen_extrh_i64_i32(ret, cpu_fpr[src / 2]);
+     }
+     return ret;
+-#endif
+ }
  
-     qemu_mutex_init(&cpu->work_mutex);
-     QSIMPLEQ_INIT(&cpu->work_list);
+ static void gen_store_fpr_F(DisasContext *dc, unsigned int dst, TCGv_i32 v)
+ {
+-#if TCG_TARGET_REG_BITS == 32
+-    if (dst & 1) {
+-        tcg_gen_mov_i32(TCGV_LOW(cpu_fpr[dst / 2]), v);
+-    } else {
+-        tcg_gen_mov_i32(TCGV_HIGH(cpu_fpr[dst / 2]), v);
+-    }
+-#else
+-    TCGv_i64 t = (TCGv_i64)v;
++    TCGv_i64 t = tcg_temp_new_i64();
++
++    tcg_gen_extu_i32_i64(t, v);
+     tcg_gen_deposit_i64(cpu_fpr[dst / 2], cpu_fpr[dst / 2], t,
+                         (dst & 1 ? 0 : 32), 32);
+-#endif
++    tcg_temp_free_i64(t);
+     gen_update_fprs_dirty(dc, dst);
+ }
+ 
 -- 
 2.34.1
 
