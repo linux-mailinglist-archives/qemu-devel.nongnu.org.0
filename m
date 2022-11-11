@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED393625434
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 08:01:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D772A62542F
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 07:58:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otNyN-0002AT-Qj; Fri, 11 Nov 2022 01:57:07 -0500
+	id 1otNyt-0002Ui-UB; Fri, 11 Nov 2022 01:57:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1otNxA-0001xD-Ss
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 01:56:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1otNwv-0004IU-Vh
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 01:55:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668149729;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LtYc/T8mSG5KndeFV93DsK/S2N+63NJaPbUTWr9qWQk=;
- b=QJR1/mH/xiqoQj9EYoHaIVo5dJIohrybJDN7rmIIFC1dYaSXkWlQkqT+VrEdbILGimKQHA
- 9q5T/so2kFeiM50UICPAKTeMcQ++kRMg0O2jLxGVYXT46tzvRBLasJYMJYa4666VOQKWG1
- dZd0/okLc++nFK0ORqOyFnGmc1wYYsI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-CEqwqh8vNeK-WTAC2OGTzQ-1; Fri, 11 Nov 2022 01:55:26 -0500
-X-MC-Unique: CEqwqh8vNeK-WTAC2OGTzQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D70C29ABA0A;
- Fri, 11 Nov 2022 06:55:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6310E1121330;
- Fri, 11 Nov 2022 06:55:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3044321E6921; Fri, 11 Nov 2022 07:55:24 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: qemu-devel@nongnu.org,  Keith Busch <kbusch@kernel.org>,
- qemu-block@nongnu.org,  Klaus Jensen <k.jensen@samsung.com>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH v3 1/2] hw/nvme: fix incorrect use of errp/local_err
-References: <20221110220805.26816-1-its@irrelevant.dk>
- <20221110220805.26816-2-its@irrelevant.dk>
- <87iljmdmlk.fsf@pond.sub.org> <Y23uiV5Ue2YKaIS7@cormorant.local>
-Date: Fri, 11 Nov 2022 07:55:24 +0100
-In-Reply-To: <Y23uiV5Ue2YKaIS7@cormorant.local> (Klaus Jensen's message of
- "Fri, 11 Nov 2022 07:41:13 +0100")
-Message-ID: <874jv6dlpf.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1otNyL-0002Ji-QY
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 01:57:07 -0500
+Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1otNyJ-0004i1-QW
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 01:57:05 -0500
+Received: by mail-il1-x132.google.com with SMTP id o13so2157556ilc.7
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 22:57:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dwxPKaTKuqFCxlTt0EAmk64pqWsofw6qrkLiqHT60S8=;
+ b=qChbM/esLFzbrLe5hZCuw3Xiw+x6Q4lMtKQPdUL10ovGh7kJPKPzC1td2kpkHawOpq
+ V/XHLoOsgHUy1064VPhApuVVewAhQ6I1qlBHAfkZRDQ5QMmLPTCeX9fomITg5ayxrw8E
+ rshnXZg/G4p0I+pKLaY3zRrhuAuO+ip2ne4c9QqNy/c3TcacuZM+q/ujv0bLwhqx3Aa6
+ tOoCiRvDKuTvjUBP3ZpZoVp9IxY/zGA26eAVmw7NBCFOwxZCkNzWge993P/sVuD/KZoS
+ 4MMWAoUE2SAsgSSDSixaU8trY18TdgIVIIblR2WBxVAxqv2kJpNSNPtn85rOXKRLfsE1
+ nEHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dwxPKaTKuqFCxlTt0EAmk64pqWsofw6qrkLiqHT60S8=;
+ b=WXQQeM6O24v6Zn9krjwI3IYc61Ns49CKi+hGk/RTwWszW7Bb6dcDhwqSPzTck6z/NE
+ cC/mSYr5/ewZHw9iHqxSGvBH3B0CYoGD89ptxIZszBRJcF/sU/6/i4yoLRx5PPzZEKgT
+ YCC+7pQBmnNg0KXMSEzKvpJsJZTkyfdOpk1LLPdA+87eIykcmInWvQNAiTC6ig1EPVlx
+ yDJA40fWHDjXjYyhjW9/iEOBU2C/A2xKWByHwZnYjjTOt4QFhNGWVeKWmV/XzlfyuG9X
+ BfO3egdbtVzWoanFL6qS7KxUsSsiRNtg3M6bhDDLL8S/yCEQ2C+K12yflzxJQo/umJcy
+ GNBA==
+X-Gm-Message-State: ANoB5pmSR05C/mwPo8M4QG9Mni1Ehc0NBoAbg1Y1FYAa1o1+BOi0tqMY
+ MREjBpVI6fVZG8lBLsiyiGztYnGedtMMOPLZGofsNQ==
+X-Google-Smtp-Source: AA0mqf4ChH7QtdIMlwl+RHpzLpPrv1nZa5fw5gzb6V615BmBjwafLZcdbBKZpPoOH+XLBPZS7FN0I1sEOMHcXD2k3vw=
+X-Received: by 2002:a92:c745:0:b0:2f9:8a1e:914b with SMTP id
+ y5-20020a92c745000000b002f98a1e914bmr453814ilp.259.1668149822442; Thu, 10 Nov
+ 2022 22:57:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20221110190825.879620-1-sw@weilnetz.de>
+ <CAARzgwwcXhnUJe0gHLAf7Vb6oGUQ+cGRp82T9qdD3adoWCrnrA@mail.gmail.com>
+In-Reply-To: <CAARzgwwcXhnUJe0gHLAf7Vb6oGUQ+cGRp82T9qdD3adoWCrnrA@mail.gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 11 Nov 2022 12:26:51 +0530
+Message-ID: <CAARzgwzYLccKdJ6tXE3A5bzHNesAo7+8iy6D7BvmitX7dTL8bg@mail.gmail.com>
+Subject: Re: [PATCH for-7.2] Fix several typos in documentation (found by
+ codespell)
+To: Stefan Weil <sw@weilnetz.de>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
+ "Michael S . Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::132;
+ envelope-from=ani@anisinha.ca; helo=mail-il1-x132.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,89 +87,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Klaus Jensen <its@irrelevant.dk> writes:
-
-> On Nov 11 07:36, Markus Armbruster wrote:
->> Klaus Jensen <its@irrelevant.dk> writes:
->>=20
->> > From: Klaus Jensen <k.jensen@samsung.com>
->> >
->> > Remove an unnecessary local Error value in nvme_realize(). In the
->> > process, change nvme_check_constraints() into returning a bool.
->> >
->> > Finally, removing the local Error value also fixes a bug where an error
->> > returned from nvme_init_subsys() would be lost.
->>=20
->> Would it be lost?  It's the hunk below:
->>=20
->> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->> > ---
->> >  hw/nvme/ctrl.c | 48 +++++++++++++++++++++++-------------------------
->> >  1 file changed, 23 insertions(+), 25 deletions(-)
->> >
->> > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->> > index ac3885ce5079..a5c0a5fa6ce2 100644
->> > --- a/hw/nvme/ctrl.c
->> > +++ b/hw/nvme/ctrl.c
->>=20
->> [...]
->>=20
->> > @@ -7586,7 +7585,6 @@ static void nvme_realize(PCIDevice *pci_dev, Err=
-or **errp)
->>    static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->>    {
->>        NvmeCtrl *n =3D NVME(pci_dev);
->>        NvmeNamespace *ns;
->>        Error *local_err =3D NULL;
->>=20
->> @local_err is null.
->>=20
->>        NvmeCtrl *pn =3D NVME(pcie_sriov_get_pf(pci_dev));
->>=20
->>        if (pci_is_vf(pci_dev)) {
->>            /*
->>             * VFs derive settings from the parent. PF's lifespan exceeds
->>             * that of VF's, so it's safe to share params.serial.
->>             */
->>            memcpy(&n->params, &pn->params, sizeof(NvmeParams));
->>            n->subsys =3D pn->subsys;
->>        }
->>=20
->>        nvme_check_constraints(n, &local_err);
->>        if (local_err) {
->>            error_propagate(errp, local_err);
->>            return;
->>        }
->>=20
->> @local_err still is null.
->>=20
->>        qbus_init(&n->bus, sizeof(NvmeBus), TYPE_NVME_BUS,
->> >                &pci_dev->qdev, n->parent_obj.qdev.id);
->> >=20=20
->> >      if (nvme_init_subsys(n, errp)) {
->> > -        error_propagate(errp, local_err);
->>=20
->> Since @local_err is null, this error_propagate() does nothing.  The
->> error from nvme_init_subsys() remains in @errp.
->>=20
+On Fri, Nov 11, 2022 at 10:59 AM Ani Sinha <ani@anisinha.ca> wrote:
 >
-> Oh, right. Thanks.
+> On Fri, Nov 11, 2022 at 12:38 AM Stefan Weil <sw@weilnetz.de> wrote:
+> >
+> > Those typos are in files which are used to generate the QEMU manual.
+> >
+> > Signed-off-by: Stefan Weil <sw@weilnetz.de>
 >
-> I misread the function documentation, getting the impression that it
-> would overwrite dst_errp regardless of the value of local_err.
+> For acpi-bits.rst,
+> Reviewed-by: Ani Sinha <ani@anisinha.ca>
+>
+> > ---
+> >
+> > I did not fix memory_region_init_resizeable_ram. That might be done after 7.2.
+> >
+> > Stefan
+> >
+> >  docs/devel/acpi-bits.rst       | 2 +-
+> >  docs/system/devices/can.rst    | 2 +-
+> >  hw/scsi/esp.c                  | 6 +++---
+> >  include/exec/memory.h          | 6 +++---
+> >  qapi/virtio.json               | 4 ++--
+> >  qemu-options.hx                | 6 +++---
+> >  tests/qtest/libqos/qgraph.h    | 2 +-
+> >  tests/qtest/libqos/virtio-9p.c | 2 +-
+> >  8 files changed, 15 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
+> > index c9564d871a..5e22be8ef6 100644
+> > --- a/docs/devel/acpi-bits.rst
+> > +++ b/docs/devel/acpi-bits.rst
+> > @@ -132,7 +132,7 @@ Under ``tests/avocado/`` as the root we have:
+> >
+> >     (a) They are python2.7 based scripts and not python 3 scripts.
+> >     (b) They are run from within the bios bits VM and is not subjected to QEMU
+> > -       build/test python script maintainance and dependency resolutions.
+> > +       build/test python script maintenance and dependency resolutions.
+> >     (c) They need not be loaded by avocado framework when running tests.
 
-Happens :)
+btw, if we are going to fix this doc file for typo before the release,
+may I also suggest another trivial fix?
 
-If you have suggestions on improving the doc, shoot.
+https://gitlab.com/anisinha/qemu/-/commit/4bd915a7390d799b332c11f23b6d5982efac5dac#9dedb1d2dec506845c6145696c561451a8b4b659_44_44
 
-This commit's message could perhaps be adjusted like
-
-    hw/nvme: Clean up confused use of errp/local_err
-
-    Remove an unnecessary local Error value in nvme_realize(). In the
-    process, change nvme_check_constraints() to return a bool.
-
-What do you think?
-
+(removal of the reference to README from the doc).
 
