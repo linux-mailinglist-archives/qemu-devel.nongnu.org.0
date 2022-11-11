@@ -2,72 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8CF66258AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:49:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B8F6258AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:49:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otRZY-0007Kd-L6; Fri, 11 Nov 2022 05:47:44 -0500
+	id 1otRaW-0007Yb-B5; Fri, 11 Nov 2022 05:48:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1otRZM-0007Jn-MX
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:47:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1otRaP-0007Wm-D9
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:48:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.145.221.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1otRZK-0007MO-8E
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:47:32 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1otRaL-0007RG-89
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:48:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668163649;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=GfV8N7nC/lQuUz5YJxhFCpAUXUdcgUMUXjtcFvMMaEA=;
- b=Y/AIt4AkX1fU6oLoHkpwydiPQ7FnP299DLQqDcN+MXpVUC84pxcYlAym8/uATWtSkPftFH
- G/UvJnxhXmImsZv+eFwQn+I5DEPv46rpderSGYXlta7EN6IBFKBxnTsG7PyLyE47dFZXDY
- U+mQRlfmZpbmDZXqk876LtMKfSw+Ayg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-277-Uxe8kQvZNnKarHZQceI5Vg-1; Fri, 11 Nov 2022 05:47:25 -0500
-X-MC-Unique: Uxe8kQvZNnKarHZQceI5Vg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE685185A7A3;
- Fri, 11 Nov 2022 10:47:24 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.113])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C14B2166B26;
- Fri, 11 Nov 2022 10:47:23 +0000 (UTC)
-Date: Fri, 11 Nov 2022 10:47:20 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Dario Faggioli <dfaggioli@suse.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "eduardo@habkost.net" <eduardo@habkost.net>,
- "mst@redhat.com" <mst@redhat.com>,
- "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>
-Subject: Re: How about increasing max_cpus for q35 ?
-Message-ID: <Y24oOMgmf9QYQkXm@redhat.com>
-References: <c705d0d8d6ed1a520b1ff92cb2f83fef19522d30.camel@suse.com>
+ s=mimecast20190719; t=1668163711;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4xZXYzX//SCthjxfoxPXs7VbypzGHRDY565s7tRX7fI=;
+ b=IyPV51sg6cpPms1II6zA8Zwz14fJg+xDklH1al44QL04iqYn4+1vPUliG2UeehEpz475nL
+ M3Qa07e6cWAEq4GRgSL6e70NOxl7f9Hcq7EkhhvgBqp0FMcMeljPcFDjyPIvh51zPcFjsC
+ MjKnubo3jx2DDq6/zS4yXMNr64ef+FE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-2-4xYpfRJHPo2DWp6TE7XN6A-1; Fri, 11 Nov 2022 05:48:30 -0500
+X-MC-Unique: 4xYpfRJHPo2DWp6TE7XN6A-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i82-20020a1c3b55000000b003cf9bd60855so2388281wma.6
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 02:48:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4xZXYzX//SCthjxfoxPXs7VbypzGHRDY565s7tRX7fI=;
+ b=X98VxM1CXskAZckFq2gA0IjjslRAKY9iFdD8eNRPndWznANHNPuP37HfSZNf0qBbla
+ LggA3rcaGiTtW/RBkfdZt70D9Cq9cM7RiXblOUIxalY90Yz1E706cBkb70EK2jetWweh
+ Rik3zchdQZ9TKTx0K9d4UY0xdhDteu+bwGxSzbYMOB575K02EozkHqPu793oF1ok3SUK
+ x1zxxpAOAwXfD4Cz8VMC/et8ftvg6HABcI4y4yhc8nh6UK2fM+2N+3sMBcGCi73zqKbz
+ tv/IgxUssoc1SIr6Q5602GHkrCXohfkhKpRmXKvYJ8L7Na2rWi/+CaffFgRdXfoDQqGa
+ DSPA==
+X-Gm-Message-State: ANoB5pm4iXHWH4qTe5CJJ3PSwbi6qSJJ3kIqeG3LFdu9ixSbpKSq4Yg+
+ PEINzaUpIijAMTuS7FKGebNz4hN2KDLAEPo3LDnA9vgjVFfMUJXOYAXCtB7bgt4LVn7cgLL6Gom
+ 0uQUxs+rMVdVZdLA=
+X-Received: by 2002:a5d:4c82:0:b0:236:56a6:823e with SMTP id
+ z2-20020a5d4c82000000b0023656a6823emr870610wrs.495.1668163709071; 
+ Fri, 11 Nov 2022 02:48:29 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6UIf/FE35s97C3qgAJi8XmxKJI7BAtYamrbZSPQ2i8PaD7UqbY+0IJoMS/ROo9EGxDaDyUSA==
+X-Received: by 2002:a5d:4c82:0:b0:236:56a6:823e with SMTP id
+ z2-20020a5d4c82000000b0023656a6823emr870595wrs.495.1668163708800; 
+ Fri, 11 Nov 2022 02:48:28 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.googlemail.com with ESMTPSA id
+ bj19-20020a0560001e1300b0022cdb687bf9sm1319651wrb.0.2022.11.11.02.48.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Nov 2022 02:48:28 -0800 (PST)
+Message-ID: <9e6288e1-0c51-bd3f-5cee-c71049ffa684@redhat.com>
+Date: Fri, 11 Nov 2022 11:48:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c705d0d8d6ed1a520b1ff92cb2f83fef19522d30.camel@suse.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v2 1/3] accel: introduce accelerator blocker API
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>, kvm@vger.kernel.org
+References: <20221110164807.1306076-1-eesposit@redhat.com>
+ <20221110164807.1306076-2-eesposit@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20221110164807.1306076-2-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: permerror client-ip=216.145.221.124;
+ envelope-from=pbonzini@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_FAIL=0.001,
+ SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,81 +104,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Nov 09, 2022 at 01:36:07PM +0000, Dario Faggioli wrote:
-> Hello,
-> 
-> Sorry for the potentially naive question, but I'm not clear what the
-> process would be if, say, I'd like to raise the number of maximum CPUs
-> a q35 VM can have.
-> 
-> So, right now we have:
-> 
-> void pc_q35_2_7_machine_options(MachineClass *m) {
->   ...
->   m->max_cpus = 255;
-> }
-> 
-> And:
-> 
-> void pc_q35_machine_options(MachineClass *m)
-> {
->   ...
->   m->max_cpus = 288;
-> }
-> 
-> Focusing on the latter, it comes from this commit:
-> 
-> https://gitlab.com/qemu-project/qemu/-/commit/00d0f9fd6602a27b204f672ef5bc8e69736c7ff1
->   
->   pc: q35: Bump max_cpus to 288
-> 
->   Along with it for machine versions 2.7 and older keep
->   it at 255.
-> 
-> So, it was 255 and is now 288. This seems to me to be there since QEMU
-> 2.8.0.
-> 
-> Now, as far as I understand, KVM can handle 1024, at least since this
-> commit (and a couple of other related ones):
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=074c82c8f7cf8a46c3b81965f122599e3a133450
-> "kvm: x86: Increase MAX_VCPUS to 1024"
-> 
-> Which basically does:
-> 
-> -#define KVM_MAX_VCPUS 288
-> +#define KVM_MAX_VCPUS 1024
-> 
-> And it's included in kernels >= 5.15.
-> 
-> So, what's the correct way of bumping up the limit again? Just changing
-> that assignment in pc_q35_machine_options() ? Or do we want a new
-> version of the machine type or something like that?
+On 11/10/22 17:48, Emanuele Giuseppe Esposito wrote:
+> +/*
+> + * QEMU accel blocker class
 
-Too late for this release, so we need to wait until the new release
-cycle opens, with thue addition of the 8.0.0 machine types. Then
-just set 'max_cpus' in the new machine type.
+"Lock to inhibit accelerator ioctls"
 
-In RHEL downstream we've set max_cpus = 710 for x86_64, because this
-is the largest that was possible without hitting SMBIOS limits. The
-problem was the use of the 32-bit entry point on PC machine types.
+> + *
+> + * Copyright (c) 2014 Red Hat Inc.
 
-If we switch Q35 to use the 64-bit entry point, we should be able
-to go straight to 1024 IIUC.  We were blocked changing the entry
-point previously by need to have support in both SeaBIOS and UEFI
-builds. I'm not sure what the status of this is, for the ROMS we
-currently have in QEMU git. If both SeaBIOS and UEFI ROMs now
-support 64-bit SMBIOS, then we can switch Q35 to it.
+2022, you can also add an Author line.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> +static int accel_in_ioctls(void)
+
+Return bool (and return early if ret becomes true).
+
+> +void accel_ioctl_inhibit_begin(void)
+> +{
+> +    CPUState *cpu;
+> +
+> +    /*
+> +     * We allow to inhibit only when holding the BQL, so we can identify
+> +     * when an inhibitor wants to issue an ioctl easily.
+> +     */
+> +    g_assert(qemu_mutex_iothread_locked());
+> +
+> +    /* Block further invocations of the ioctls outside the BQL.  */
+> +    CPU_FOREACH(cpu) {
+> +        qemu_lockcnt_lock(&cpu->in_ioctl_lock);
+> +    }
+> +    qemu_lockcnt_lock(&accel_in_ioctl_lock);
+> +
+> +    /* Keep waiting until there are running ioctls */
+> +    while (accel_in_ioctls()) {
+> +        /* Reset event to FREE. */
+> +        qemu_event_reset(&accel_in_ioctl_event);
+> +
+> +        if (accel_in_ioctls()) {
+> +
+> +            CPU_FOREACH(cpu) {
+> +                /* exit the ioctl */
+> +                qemu_cpu_kick(cpu);
+
+Only kick if the lockcnt count is > 0? (this is not racy; if it is == 0, 
+it cannot ever become > 0 again while the lock is taken)
+
+> diff --git a/include/sysemu/accel-blocker.h b/include/sysemu/accel-blocker.h
+> new file mode 100644
+> index 0000000000..135ebea566
+> --- /dev/null
+> +++ b/include/sysemu/accel-blocker.h
+> @@ -0,0 +1,45 @@
+> +/*
+> + * Accelerator blocking API, to prevent new ioctls from starting and wait the
+> + * running ones finish.
+> + * This mechanism differs from pause/resume_all_vcpus() in that it does not
+> + * release the BQL.
+> + *
+> + *  Copyright (c) 2014 Red Hat Inc.
+
+2022, you can also add an Author line here too.
+
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +#ifndef ACCEL_BLOCKER_H
+> +#define ACCEL_BLOCKER_H
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/accel.h"
+
+qemu/accel.h not needed?
+
+> +#include "sysemu/cpus.h"
+> +
+> +extern void accel_blocker_init(void);
+> +
+> +/*
+> + * accel_set_in_ioctl/accel_cpu_set_in_ioctl:
+> + * Mark when ioctl is about to run or just finished.
+> + * If @in_ioctl is true, then mark it is beginning. Otherwise marks that it is
+> + * ending.
+> + *
+> + * These functions will block after accel_ioctl_inhibit_begin() is called,
+> + * preventing new ioctls to run. They will continue only after
+> + * accel_ioctl_inibith_end().
+> + */
+> +extern void accel_set_in_ioctl(bool in_ioctl);
+> +extern void accel_cpu_set_in_ioctl(CPUState *cpu, bool in_ioctl);
+
+Why not just
+
+extern void accel_ioctl_begin(void);
+extern void accel_ioctl_end(void);
+extern void accel_cpu_ioctl_begin(CPUState *cpu);
+extern void accel_cpu_ioctl_end(CPUState *cpu);
+
+?
+
+Otherwise it's very nice.
+
+Paolo
 
 
