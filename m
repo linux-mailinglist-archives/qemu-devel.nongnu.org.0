@@ -2,84 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D0C625529
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 09:25:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A996254E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 09:08:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otOmV-0003ud-Ke; Fri, 11 Nov 2022 02:48:55 -0500
+	id 1otOn9-0004FY-NA; Fri, 11 Nov 2022 02:49:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otOmS-0003sO-FJ
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:48:52 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1otOmp-0004DB-TP
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:49:17 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otOmQ-0001Wq-WB
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:48:52 -0500
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1otOmo-0001ag-7Q
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:49:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668152930;
+ s=mimecast20190719; t=1668152953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ei7ij+MwHgbXYfsS46GAtVD7XX+HveDX17t4Oegiksk=;
- b=MjheNt4OBtHbE3LA7UjImwcLHW+5daPDagmes33SYIS+fpu9rgrhFhqtBiM1LjuNV1ldxO
- al/1E/thXnDQ9BC03RbwxCj+hqyDbOl9yMooh1yO4jBKzmlLvaUafAy34QfyHN0UnSYecK
- n6XOaaBPT5DMcCU0EcuiZLfI3J2JOfM=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=lQ2OMg/XDBnbe2LjD68xEzX2Z9rZ/ij03O6xGIiQqzA=;
+ b=ZYCburme1Nih/VarzLX8xIyrpYI4DMtm0mgpSlWJrI7l64Ma+3g7ee/9CDGN697mey6AGK
+ OBaaAhiBGPJ5InkV13F+yrnULWLCHiqftsPYVNbnoCxQSt32D9PTurNjFdJ+tiy+oRyrI9
+ OZ4SEJe8ho5zRoND64fc1DFRHsNSw7k=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-503-s6DsL1TsNrCEGucRj7FoNw-1; Fri, 11 Nov 2022 02:48:48 -0500
-X-MC-Unique: s6DsL1TsNrCEGucRj7FoNw-1
-Received: by mail-qt1-f200.google.com with SMTP id
- f4-20020a05622a114400b003a57f828277so3171132qty.22
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 23:48:48 -0800 (PST)
+ us-mta-663-ILBD6u_nOaGhrwHiGxegZw-1; Fri, 11 Nov 2022 02:49:11 -0500
+X-MC-Unique: ILBD6u_nOaGhrwHiGxegZw-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ z15-20020a170903018f00b0018862d520fbso3098284plg.11
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 23:49:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ei7ij+MwHgbXYfsS46GAtVD7XX+HveDX17t4Oegiksk=;
- b=TVgcuKT+Q0X9Fi/cTal85sgj74ACopgiM4GM28UZvjb5aN4XfgqwVzV63BBAvRyUJx
- KWqZzEeeYMax14V8PH/QNY7r5KWMoKmBgYmgovtkL0z3VHzpkaA9aQo0/PMAqkAZ9V06
- ZnBmEmJfDus94eBC0X3kLzoHbpp6k/y/BvPHVLe4UQJzv2GoF6UV5cSJXevgptbwwayZ
- yJ6HZZg/UGGEEhtETqHEz07dLy+xeIYFHMbqwErIwLbVtaBH/hiJrxsLUFoSS2CeVVf6
- lURc7R3GJuwCLcH7uWbX37lcF/2Z7je+8Pve2A7Fo5Zy/QghPFCILhZCM9fIW5cassfn
- ifYg==
-X-Gm-Message-State: ANoB5pkpOnXh6vlZMpT1vrhjRxqXRdTvPgJ2MnRJ3GXylKZqw7sCImM7
- 8Nfblg3beB6r06YbL01TR96hGNIGof7iFkntxjtgYJzQQWz23r0tRdX5vuavY/L0UQlq5MlhPYA
- 0hXrh7yHPkLibo0A=
-X-Received: by 2002:a05:6214:310a:b0:4bb:7dfa:2717 with SMTP id
- ks10-20020a056214310a00b004bb7dfa2717mr961538qvb.59.1668152928443; 
- Thu, 10 Nov 2022 23:48:48 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7j222SN/r/NEs+/pbHpl1Xl/cnXkPmRPVRt8JPUhY5h6AzNIqpLOErXN7UagEwol69CcKSog==
-X-Received: by 2002:a05:6214:310a:b0:4bb:7dfa:2717 with SMTP id
- ks10-20020a056214310a00b004bb7dfa2717mr961527qvb.59.1668152928204; 
- Thu, 10 Nov 2022 23:48:48 -0800 (PST)
-Received: from [10.33.192.232] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ bh=lQ2OMg/XDBnbe2LjD68xEzX2Z9rZ/ij03O6xGIiQqzA=;
+ b=kR1oC8a6PUPK7kjAg2OuX1nVBcBfW17tGHf76KQxx56VLmwULOZNGWopfuVsj+RAac
+ QXLWm1FVQe4B9T89dDLX/gtQxWN7zwsfcdEbYbU7iNXtQuxc9ipS+DSbeZbff0uOTR8T
+ UkNsmaPLvUwInJhWfGGvVv+waJsLeDpE0zmuJfvjMUG3oAbZOG6hHgCUHIQ4CgDOZ0eG
+ PPxGG92SKl18YXFDeOdeSEhS+m8evmVZgaxXbo8j5qCrMpJMXRYitlkP3Vx9fqpDtoYr
+ c+kceHJN8l+6WWknuX3WQCXVqUIwtURYoGXNhaHIPHeSXGc2mt58Ez2C+WzLuVk66q8I
+ ROKw==
+X-Gm-Message-State: ANoB5pk5bqsJgZ7z75lXVuHbfi3ryeEyi5+rv5i1jSKpQhhyfTAHPfNy
+ +FffPSbked0x1aO/01xQk2QrhPFqLiJcJv5m52nZVpcmbKZDhyp2g8RHP+2Wea9HNAPkA1L6NwC
+ mdfIySOvmDUB6ko0=
+X-Received: by 2002:a17:902:d353:b0:180:be71:6773 with SMTP id
+ l19-20020a170902d35300b00180be716773mr1580522plk.42.1668152950585; 
+ Thu, 10 Nov 2022 23:49:10 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5hugxwU3w8Xl0Dv7S4TgEzgOZHCVEsrDcsWDpBKgH57oQNNCHlxuBgcCknkXEzU/xAGZjPTQ==
+X-Received: by 2002:a17:902:d353:b0:180:be71:6773 with SMTP id
+ l19-20020a170902d35300b00180be716773mr1580496plk.42.1668152950286; 
+ Thu, 10 Nov 2022 23:49:10 -0800 (PST)
+Received: from [10.72.13.217] ([43.228.180.230])
  by smtp.gmail.com with ESMTPSA id
- a4-20020ac85b84000000b0039853b7b771sm890734qta.80.2022.11.10.23.48.46
+ p13-20020a17090b010d00b002009db534d1sm1000708pjz.24.2022.11.10.23.49.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Nov 2022 23:48:47 -0800 (PST)
-Message-ID: <aca6714b-8939-7a73-a9ca-c4cb2a07c1e7@redhat.com>
-Date: Fri, 11 Nov 2022 08:48:45 +0100
+ Thu, 10 Nov 2022 23:49:09 -0800 (PST)
+Message-ID: <be553273-7c06-78f7-4d23-de9f46a210b1@redhat.com>
+Date: Fri, 11 Nov 2022 15:48:58 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 18/19] tests/qtest: virtio-9p-test: Adapt the case for
- win32
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PATCH v6 09/10] vdpa: Add listener_shadow_vq to vhost_vdpa
 Content-Language: en-US
-To: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org
-Cc: Guohuai Shi <guohuai.shi@windriver.com>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20221111042225.1115931-1-bin.meng@windriver.com>
- <20221111042225.1115931-19-bin.meng@windriver.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20221111042225.1115931-19-bin.meng@windriver.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Parav Pandit <parav@mellanox.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
+ Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand
+ <hanand@xilinx.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Cornelia Huck <cohuck@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, kvm@vger.kernel.org,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20221108170755.92768-1-eperezma@redhat.com>
+ <20221108170755.92768-10-eperezma@redhat.com>
+ <CACGkMEsr=fpbbOpUBHawt5DR+nTWcK1uMzXgorEcbijso1wsMQ@mail.gmail.com>
+ <CAJaqyWemKoRNd6_uvFc79qYe+7pbavJSjnZuczxk5uxSZZdZ2Q@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <CAJaqyWemKoRNd6_uvFc79qYe+7pbavJSjnZuczxk5uxSZZdZ2Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,41 +113,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/11/2022 05.22, Bin Meng wrote:
-> From: Guohuai Shi <guohuai.shi@windriver.com>
-> 
-> Windows does not provide the getuid() API. Let's create a local
-> one and return a fixed value 0 as the uid for testing.
-> 
-> Co-developed-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> 
-> ---
-> 
-> Changes in v2:
-> - Move getuid() to virtio-9p-client.h
-> 
->   tests/qtest/libqos/virtio-9p-client.h | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/tests/qtest/libqos/virtio-9p-client.h b/tests/qtest/libqos/virtio-9p-client.h
-> index 78228eb97d..a5c0107580 100644
-> --- a/tests/qtest/libqos/virtio-9p-client.h
-> +++ b/tests/qtest/libqos/virtio-9p-client.h
-> @@ -491,4 +491,11 @@ void v9fs_rlink(P9Req *req);
->   TunlinkatRes v9fs_tunlinkat(TunlinkatOpt);
->   void v9fs_runlinkat(P9Req *req);
->   
-> +#ifdef CONFIG_WIN32
-> +static inline uint32_t getuid(void)
-> +{
-> +    return 0;
-> +}
-> +#endif
-> +
->   #endif
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+在 2022/11/10 21:47, Eugenio Perez Martin 写道:
+> On Thu, Nov 10, 2022 at 7:01 AM Jason Wang <jasowang@redhat.com> wrote:
+>> On Wed, Nov 9, 2022 at 1:08 AM Eugenio Pérez <eperezma@redhat.com> wrote:
+>>> The memory listener that thells the device how to convert GPA to qemu's
+>>> va is registered against CVQ vhost_vdpa. This series try to map the
+>>> memory listener translations to ASID 0, while it maps the CVQ ones to
+>>> ASID 1.
+>>>
+>>> Let's tell the listener if it needs to register them on iova tree or
+>>> not.
+>>>
+>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>>> ---
+>>> v5: Solve conflict about vhost_iova_tree_remove accepting mem_region by
+>>>      value.
+>>> ---
+>>>   include/hw/virtio/vhost-vdpa.h | 2 ++
+>>>   hw/virtio/vhost-vdpa.c         | 6 +++---
+>>>   net/vhost-vdpa.c               | 1 +
+>>>   3 files changed, 6 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+>>> index 6560bb9d78..0c3ed2d69b 100644
+>>> --- a/include/hw/virtio/vhost-vdpa.h
+>>> +++ b/include/hw/virtio/vhost-vdpa.h
+>>> @@ -34,6 +34,8 @@ typedef struct vhost_vdpa {
+>>>       struct vhost_vdpa_iova_range iova_range;
+>>>       uint64_t acked_features;
+>>>       bool shadow_vqs_enabled;
+>>> +    /* The listener must send iova tree addresses, not GPA */
+
+
+Btw, cindy's vIOMMU series will make it not necessarily GPA any more.
+
+
+>>> +    bool listener_shadow_vq;
+>>>       /* IOVA mapping used by the Shadow Virtqueue */
+>>>       VhostIOVATree *iova_tree;
+>>>       GPtrArray *shadow_vqs;
+>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+>>> index 8fd32ba32b..e3914fa40e 100644
+>>> --- a/hw/virtio/vhost-vdpa.c
+>>> +++ b/hw/virtio/vhost-vdpa.c
+>>> @@ -220,7 +220,7 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+>>>                                            vaddr, section->readonly);
+>>>
+>>>       llsize = int128_sub(llend, int128_make64(iova));
+>>> -    if (v->shadow_vqs_enabled) {
+>>> +    if (v->listener_shadow_vq) {
+>>>           int r;
+>>>
+>>>           mem_region.translated_addr = (hwaddr)(uintptr_t)vaddr,
+>>> @@ -247,7 +247,7 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+>>>       return;
+>>>
+>>>   fail_map:
+>>> -    if (v->shadow_vqs_enabled) {
+>>> +    if (v->listener_shadow_vq) {
+>>>           vhost_iova_tree_remove(v->iova_tree, mem_region);
+>>>       }
+>>>
+>>> @@ -292,7 +292,7 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+>>>
+>>>       llsize = int128_sub(llend, int128_make64(iova));
+>>>
+>>> -    if (v->shadow_vqs_enabled) {
+>>> +    if (v->listener_shadow_vq) {
+>>>           const DMAMap *result;
+>>>           const void *vaddr = memory_region_get_ram_ptr(section->mr) +
+>>>               section->offset_within_region +
+>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+>>> index 85a318faca..02780ee37b 100644
+>>> --- a/net/vhost-vdpa.c
+>>> +++ b/net/vhost-vdpa.c
+>>> @@ -570,6 +570,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+>>>       s->vhost_vdpa.index = queue_pair_index;
+>>>       s->always_svq = svq;
+>>>       s->vhost_vdpa.shadow_vqs_enabled = svq;
+>>> +    s->vhost_vdpa.listener_shadow_vq = svq;
+>> Any chance those above two can differ?
+>>
+> If CVQ is shadowed but data VQs are not, shadow_vqs_enabled is true
+> but listener_shadow_vq is not.
+>
+> It is more clear in the next commit, where only shadow_vqs_enabled is
+> set to true at vhost_vdpa_net_cvq_start.
+
+
+Ok, the name looks a little bit confusing. I wonder if it's better to 
+use shadow_cvq and shadow_data ?
+
+Thanks
+
+
+>
+> Thanks!
+>
+>> Thanks
+>>
+>>>       s->vhost_vdpa.iova_tree = iova_tree;
+>>>       if (!is_datapath) {
+>>>           s->cvq_cmd_out_buffer = qemu_memalign(qemu_real_host_page_size(),
+>>> --
+>>> 2.31.1
+>>>
 
 
