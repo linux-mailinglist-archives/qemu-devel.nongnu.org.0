@@ -2,158 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B86B625474
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 08:32:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F7C2625476
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 08:35:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otOW1-0003jM-Aq; Fri, 11 Nov 2022 02:31:53 -0500
+	id 1otOYu-0004WL-F9; Fri, 11 Nov 2022 02:34:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <manish.mishra@nutanix.com>)
- id 1otOVx-0003hp-6q
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:31:51 -0500
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1otOYk-0004Ua-Rq
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:34:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <manish.mishra@nutanix.com>)
- id 1otOVu-0003Je-DL
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:31:48 -0500
-Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 2AB1qHPY015950; Thu, 10 Nov 2022 23:31:44 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=o5qHThHcbUWiepSyKvrLXw71Ug2v2L4RQxUpXz1pKMk=;
- b=ix73oeBOJ2Rt+1Jhqr0OA/b8pEwvw3K6TqfrnBy/KiRlx6y6M/1Uf/rsTvMtqQ1C6pFB
- 0hrWYQIT2BhsZqsn3YVuawRlI7Ikbh+tCACbqPKCNb74qK3KAl9mMs8dqrT23l9Kegsg
- nW0p0o8Jgg8j+gF3pQQaPHt1HuDP5y4ubNkvCeetPp6gKMbBwUU47okAW+jjjyhGzDPv
- PXjLXj3YraUf0twWvyrxAaZLAXzVEvlRhudP2h9/bpTKJguMb43ugFpF93gejBskfcMb
- 0EaxRwL/0G0x2mjP76aQjmIPBmh6nTNoNWQQh1pji+VoEIpU32AUHlSXo0tx96MqzTU2 Lg== 
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2171.outbound.protection.outlook.com [104.47.57.171])
- by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3ksd42gh5r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Nov 2022 23:31:43 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BqvbfAqEv7DfUjgnF6DnBnG9PMU7VKMjSff/5Wqg8uIX9XKNoCfvMouEGMNRWmSmR6FtgkfRO52Tj+BrH5vvE2WC1z3nDuqIAQPziGZXqDve+zohY81eLo3j7z3yQFyPIag899vxent282LdqBlVPESgDof/CgyOCOLQXEjwWP7QB22Jv9vSAOwOFomTXzmNaLiOi67oRu6ZYbtIkDnLKbcDwa9/b6DKfdPbfqACdm6wMJkkFcjEN9dYxvRa8ChvsJSDOdhSlO0SZTLO68A3Ah50ggSYZFdAr3wbGT2on9mAiv9TK8Y0Aj2WO6GpLNrxqbUsYDvw8hnHytnNz3PKdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o5qHThHcbUWiepSyKvrLXw71Ug2v2L4RQxUpXz1pKMk=;
- b=B4GQVuaHeRQfWUVf1X8HIICNKT4xo+cgh6JHa6UrtHGZRmPftc2+Pl5iks+5CVqnXYGi9aL9BnZBdIPAfFhiXG0msKg/5nRj20pBZetJHimtJu5sVtUgdNHKHdU2dhDQik78Bz4jCJ1hT+RTPZuuMO99G6tH53oYeg6HQF0VBOI3kqHnTfL+wJf3fUuNABXLOz6KRJSd2y1KyzQ8ME4kntf2l7lHFR8oCDl+73L5S84+ob2TsCjkbN+IdQLtvvGLlUYxweKOGJusjpn/+dZVGokLRVzwKpA9yld/OLRGeB1cj9FYo7Ee+Z1xMq0Sl5ObLGD7go6GxdtxPKI7MJw7ug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o5qHThHcbUWiepSyKvrLXw71Ug2v2L4RQxUpXz1pKMk=;
- b=T6xPpGv4+Kk8MTgVzTd8Qp8iwHoxjwWcadlTKF9b4D4A6+45NpjKxuhL+g4CI1kT/uli35QQDd+wdx6Lu7qnaopd61zmOiWnwTTkqJldTqNCKvKN++DB4meBGkHaft6PpBvcgUlbdimiODlSBgZI5Gwh1h0xNMaEopdsPGBlnIe1Kzf04XrhMNn3iIwSr2WMhYvhNbcE2RhNhyF5TFKka8ZMmEz5VJ9+28W+Ryh2TQ8yRfQ/RMgZp5tQhcstrFf2Njluk+8Pm57woV/Rls5YTI94HpDA/3Vc0lJhioxqS1vusHltmD9MrlB8aJKMy9TzfkYFuA9wAAuTxn2xOqht/A==
-Received: from PH0PR02MB7384.namprd02.prod.outlook.com (2603:10b6:510:12::12)
- by CH2PR02MB7031.namprd02.prod.outlook.com (2603:10b6:610:88::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5791.25; Fri, 11 Nov
- 2022 07:31:41 +0000
-Received: from PH0PR02MB7384.namprd02.prod.outlook.com
- ([fe80::6900:90d6:f4c2:8509]) by PH0PR02MB7384.namprd02.prod.outlook.com
- ([fe80::6900:90d6:f4c2:8509%6]) with mapi id 15.20.5813.013; Fri, 11 Nov 2022
- 07:31:41 +0000
-Message-ID: <82938e1a-76a1-204e-2718-ac4e2e5b2857@nutanix.com>
-Date: Fri, 11 Nov 2022 13:01:33 +0530
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.1
-Subject: Re: [PATCH v2] migration: check magic value for deciding the mapping
- of channels
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, berrange@redhat.com, prerna.saxena@nutanix.com,
- quintela@redhat.com
-References: <20221107165159.49534-1-manish.mishra@nutanix.com>
- <52579466-e91f-2bea-b39e-b48cc3cb8a24@nutanix.com> <Y21/elPaaiWVNTSI@x1n>
-From: "manish.mishra" <manish.mishra@nutanix.com>
-In-Reply-To: <Y21/elPaaiWVNTSI@x1n>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA1P287CA0022.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a00:35::34) To PH0PR02MB7384.namprd02.prod.outlook.com
- (2603:10b6:510:12::12)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1otOYj-0005Bs-0F
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:34:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668152080;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qGYDSX0Y4IYL9or7FMcFJ9UytPGX9IsysVtxZpm3ad0=;
+ b=CbAs3F8Y3ja+AZDmAKjbnHM51S9C35hm2SN9hxoTj1Tm44+18xcgJPRkK/s5yivDEqMOsm
+ TyDMPzJBFoaBwjQdMWm47TM/x863lcG6Jr/u1sYoJfCAdSNEYzAH2TpPLgnoahxiS/jH0M
+ iLaeOaP2MxxqJStBh7/wrwWzmb2j7a4=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-141-L-abLWC_O0GLiXdFtwDFjw-1; Fri, 11 Nov 2022 02:34:38 -0500
+X-MC-Unique: L-abLWC_O0GLiXdFtwDFjw-1
+Received: by mail-pg1-f197.google.com with SMTP id
+ k71-20020a63844a000000b004701e90da0dso2286946pgd.22
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 23:34:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qGYDSX0Y4IYL9or7FMcFJ9UytPGX9IsysVtxZpm3ad0=;
+ b=o4WunWLxrrwYK/5uNOfSXKCSt+UwwZKwvU6kzxxjnQd371rDWy+hwbHofAgRN14Fza
+ UUylMYfdre8oC24T0v+NBI7k7c/9SQX9EN0l08t1wwGPZDm7P/KHWWQhwAwSohhvldQN
+ 0dLBN9sGFUXA22PuQ8ha4rG7kEypoYXhizK5OzedVX6Yh7efAwfKBBEJ1349nqkR8Aww
+ cOYdO2vG2v+3VTw0NFhUx8pNsw9QFhe+LhS0tubvcO75CVc07UXyUE1STxQsPvS2x5iy
+ 5knIjjNWmusqMRVHdbUv+Swa8jYsGi8vXCPsg3JuQFahztn4SNEtr42a5nK8QShVQqfv
+ UYng==
+X-Gm-Message-State: ANoB5pmVofrF+GXpFD7C/yyqsjjey0QsUPW3ZwyxmZGWgwz8wpv6QArb
+ I3xKDXdf6VPTrOrzGUamsPyxbIU5FjeTOl089PcUrq0k7tGLjByJfS+pFT0Nyrh/9RcPPjATZwZ
+ xuQONlUApBFYUnkE=
+X-Received: by 2002:a17:90b:3145:b0:212:f2be:bc38 with SMTP id
+ ip5-20020a17090b314500b00212f2bebc38mr574451pjb.175.1668152077675; 
+ Thu, 10 Nov 2022 23:34:37 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf43RBsCDrmxjkG9XvIleloJWaJ/Zm4WzbrO3ZsCmosi3TsYDSPMckV8W+AQBMGU+kE2S6nNGA==
+X-Received: by 2002:a17:90b:3145:b0:212:f2be:bc38 with SMTP id
+ ip5-20020a17090b314500b00212f2bebc38mr574415pjb.175.1668152077294; 
+ Thu, 10 Nov 2022 23:34:37 -0800 (PST)
+Received: from [10.72.13.217] ([43.228.180.230])
+ by smtp.gmail.com with ESMTPSA id
+ s18-20020a170903215200b00186a6b6350esm913916ple.268.2022.11.10.23.34.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Nov 2022 23:34:36 -0800 (PST)
+Message-ID: <aa82783b-b1f5-a82b-5136-1f7f7725a433@redhat.com>
+Date: Fri, 11 Nov 2022 15:34:26 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR02MB7384:EE_|CH2PR02MB7031:EE_
-X-MS-Office365-Filtering-Correlation-Id: d0a66022-08af-457b-6652-08dac3b6c6ac
-x-proofpoint-crosstenant: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Aj72CzwHYDRTE4+VSxW/Cy5Uy33evhLMbN01Tojw9JWA36kt7bdXWRsy97gshK53kjlWjGlNP+7Tdc8jdW9fSoiToanwwypBBcGzkJP/ozfi4p/5nURan8hj0mBDUB+rP2z1XIEzdZwJqY/3moltwQ7ML92W3EMXHHHWW/+5gOlNgWe6K9i92waRHhevz1SaYbtzyiuWRHndlzrAeQ2abbZ4rEzAOV4tAeTDAaJauS46Ps0eDuSAb+U5eQ75kfmKCTs/97Qm6unMn/TUKgEJdOfmOL1DGbglucyWcZtaXzC+wctU4piA6r/73cbe5R6fX05AWCxe8pA1Ba0/GciojbogcKZwGDfzlyn0wJKZw+SOs+HT/AczeXxx63URVM3ck0tJxqNpDq1k2jP5uGTEn90zvpCsNoYmfDFYnh+RJLQwAY9pSQxAOzYNO+NqTsCc+PXZPBiLW1t7C4hfZBUBz/gS4X/LhkfLmgI4ftr3vJ7e5tB+FFGAFELHcUTT5RdsK9ZjaxKdBURXqFay4xZ27YTckLY874epLWUL1mEgxn8Qa4szKcEtJW3Eb+4kkSEdvNzMG2qaLnNfgBgfi+fmP5yHFeN/q8eNNsAP0GVaWiV2jsK/naQo5YiBTh2NPQ5CK8ci7M/DA5OW1wqEpwf+eUbPRIcmvgK6INGzaNGjaqnVx6LxEsGalrx8rbFrOE1MryBxAgG1eUupfYhOybyVarT+fs/BP0TdQPm508cnwkRXB5ro9GIyZJgfFtn09fNDXDtiibi3+CVtmcV0X4S7UiuSzQSNxN3/jVvk1fyP2EM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR02MB7384.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(346002)(376002)(396003)(39860400002)(366004)(136003)(451199015)(8676002)(66946007)(66476007)(31686004)(38100700002)(26005)(4326008)(66556008)(36756003)(316002)(6506007)(2906002)(6916009)(4744005)(6512007)(6486002)(31696002)(53546011)(478600001)(86362001)(186003)(8936002)(41300700001)(83380400001)(2616005)(6666004)(5660300002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RTQ3MnRjUGdZaFRwdlZxWFFTcVlzQWFSckNKZUVCUXB6SXZpWkJFTzYxV1Vx?=
- =?utf-8?B?Umg4YmVVUG9MRFlhUm1xRFVXMlcxT2tGM3BnMXh2Zk1mMVlWSTRsd0ZKQTZy?=
- =?utf-8?B?M0VBY0tPMHhlMWZZWS9QMXJlU0FMUis2WDhlS0ZFeFlnVmNxTjFEQ0Q4K0JY?=
- =?utf-8?B?OTRaM3hOUE1ndmcwd1NGOEc2YXBtRG0zQm9JV1htbmNveDdHYXRyakhUdXVn?=
- =?utf-8?B?cVo5U3J4ell3MDFGK0YyU3Nwa2lLbjVSTFBYWnJXYzlFb1RoUk5XVktrVkZl?=
- =?utf-8?B?U1Yra2dpdzIyUVlqY3Z1dVVrdVNRYTZzRmpGMGZvelYrZitiNDRJOEtEOGZq?=
- =?utf-8?B?UkJIZWxCRGYwM3ZkaWF3YlJpVVZ5QTFKcHdvNjV6di91RkNEdU5uVFYyVnhT?=
- =?utf-8?B?QlNmSHgxN1I2WVdGQjByUWN4UktlWGhFejhlU0ZVZ1FlMDZhRldoUXc0cG1M?=
- =?utf-8?B?eUlBQ3JHbEZRL3V1WUtzMlZNeWp5WVJwcGF1OS91TnFqUVdFUzh0ZmF1ZERq?=
- =?utf-8?B?M0JMRHoyOWZJNkFMY1VxaXFlVjhCendSSkJRbG42N3lNWi9ydVFxa3VDMGtX?=
- =?utf-8?B?K0FTeW9jeXVsaXY4bUY0VE0vNkF0dFF5Z3IySzVUdHJVVjROSWlxeHJHZ1or?=
- =?utf-8?B?UlVSY08rY0pFWUthMmRvckxXVFFlVzhuK3BLNWlqQ1Vway9zT1k1YUd0b0dv?=
- =?utf-8?B?VThLWld6SDUvTzF6MndUOWtrOXZydzV6SHN1b2c1Mi9JNlRtMGZaSHpxVi9m?=
- =?utf-8?B?dDhYeGVpbWQxSWNoTFNwUjI5OHdUNk5uSGZYdDNrQmw5MitpRHhvMzNNUFcx?=
- =?utf-8?B?VU04dGZJM0ZKemhSbWNoSWRjbDBYUDJXOHZTNkRmZVhEa1N1SlNUTE9raGJZ?=
- =?utf-8?B?TjVJaE1GWkF6MVJXeGFHMHFHaFY3eERNeXRrc3Vtd2d3UVFPUU9DY01IZEtO?=
- =?utf-8?B?UjBManI0aXhTc2tOVmtsYVd2RHN4dWQzY3JDNjhqSkRDRzdZUHE5ajhkMmp3?=
- =?utf-8?B?aWtQcFRsK2JLcURvWExoczVIS29JK3ZaZG95cGZqOUZIZW1VeDBKSHZQMXNV?=
- =?utf-8?B?ZndrZHFHTG5CV3hxazBPdll5VHZLR3NtZUlFcm9raFhEQ0xrYm9FUVZ5TDU0?=
- =?utf-8?B?V1pkYUhLSVV5d1puUGptMU9KVWZtN1J4eTRlMVJiaklPNUEzM2R0T0ZxSVVS?=
- =?utf-8?B?WEtRcDBzZy9hUElZaGdSK2x5blNoSEZ5WDlJdjhOSXN0MkRlazgwZUptWWE1?=
- =?utf-8?B?dC8vTEIyVURUUkUzeFVrbWJyNnVLNHlSajlFa3IxakN2bGZ2dG1VOVJRbUp5?=
- =?utf-8?B?eVF5R05tbCsxcmxaQTNjVUFyOE1GeUhqNFJqMzVCZmRzT3pJNmdlMzZBb1BU?=
- =?utf-8?B?RjBTZlZwS1JHSkJzR2hwdUxmODBCRGRrQnJWVkFYVmk4dUNZYThDZnRVcGtC?=
- =?utf-8?B?ZlNLQkZnTnUwL1hoUlBhZTQ4blVQUG00WXEzL0RFQWNOMEZCQlVRWVlQODJL?=
- =?utf-8?B?K0JsWkRzMzQzV0xObzVxSlNQT2lIV2ZYbG5xejY5WUlwNVZZeFhseFM2Z0Jq?=
- =?utf-8?B?R0dxcmF2RTNBdmVsSDMxT29aL2phVEFSL0wvdG5oalFEdFFQTlRmai9wdzRs?=
- =?utf-8?B?czdvN2N3T29wWk15dXNTei9odjdORXBkTCs2alRSeDJ4U09WeGlKMjRHaWJr?=
- =?utf-8?B?Q2MvVU51UGlhaUlQQWgzZ3M5VTZ6K2k5MXdkSGNXclkxVUZDM0xKbUxBeHdi?=
- =?utf-8?B?NUlkNnEvQnV6MjFpL1R3RW16MkY0Tk1LRUxuTUJ6U1JuSk95VG45ZGF5RnM2?=
- =?utf-8?B?OVBFd0JOcExKa1FHRzRJNWw5VzdRWWY1L0U1b0lhODVrVjZtMGU3ZkNxbkZt?=
- =?utf-8?B?VHhIMVprakFwNmR1M2RsakFacGlXNFB4VHphN3dSNTh4TXlJaXM4QTVrR0dx?=
- =?utf-8?B?MEF3WlZDRjZSMXI0dlRGQmdaVFIyK0JMODRNSko1RjgxSitIdURhamQ2clli?=
- =?utf-8?B?WTZQMDNWMDFFZUU1NTcxTnNNRmIvRXVZTUdVOW1aZ0IzNThaOS9uQUFiUDBw?=
- =?utf-8?B?T09mNm1ZMHFSUlpNMGQya21TY3YzZnVsWHMzTWFvTEE0RHo5c09WRElSNHFV?=
- =?utf-8?B?allmRFlnSTBmUkg5Z0dxMVNhVnhKWHpxWVpTMXpQQWNEUzNVYmQ2YnVWYWNh?=
- =?utf-8?B?WFE9PQ==?=
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0a66022-08af-457b-6652-08dac3b6c6ac
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR02MB7384.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2022 07:31:41.2716 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: M4jiNYe2gV58Sb0H5JnYvkQ3/1cRXuByv9eWM5Iq52AG9MuQTjR9sII/TlgG+9+wZlzBBxKNShdUZwF9lFYrtBKjG51mJwOtdFwJ2R7hLg0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB7031
-X-Proofpoint-ORIG-GUID: bN5laoErifiYRkMdKgz75rCdbMSrDDAG
-X-Proofpoint-GUID: bN5laoErifiYRkMdKgz75rCdbMSrDDAG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-11_04,2022-11-09_01,2022-06-22_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.151.68;
- envelope-from=manish.mishra@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PATCH v6 05/10] vdpa: move SVQ vring features check to net/
+Content-Language: en-US
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Parav Pandit <parav@mellanox.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
+ Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand
+ <hanand@xilinx.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Cornelia Huck <cohuck@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, kvm@vger.kernel.org,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20221108170755.92768-1-eperezma@redhat.com>
+ <20221108170755.92768-6-eperezma@redhat.com>
+ <56bfad97-74d2-8570-c391-83ecf9965cfd@redhat.com>
+ <CAJaqyWd47QdBoSm9RdF2yx21hKv_=YRp3uvP13Qb9PaVksss7Q@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <CAJaqyWd47QdBoSm9RdF2yx21hKv_=YRp3uvP13Qb9PaVksss7Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -170,15 +114,136 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-On 11/11/22 4:17 am, Peter Xu wrote:
-> On Thu, Nov 10, 2022 at 05:59:45PM +0530, manish.mishra wrote:
->> Hi Everyone, Just a gentle reminder for review. :)
-> Hi, Manish,
+在 2022/11/10 21:09, Eugenio Perez Martin 写道:
+> On Thu, Nov 10, 2022 at 6:40 AM Jason Wang <jasowang@redhat.com> wrote:
+>>
+>> 在 2022/11/9 01:07, Eugenio Pérez 写道:
+>>> The next patches will start control SVQ if possible. However, we don't
+>>> know if that will be possible at qemu boot anymore.
+>>
+>> If I was not wrong, there's no device specific feature that is checked
+>> in the function. So it should be general enough to be used by devices
+>> other than net. Then I don't see any advantage of doing this.
+>>
+> Because vhost_vdpa_init_svq is called at qemu boot, failing if it is
+> not possible to shadow the Virtqueue.
 >
-> I've got a slightly busy week, sorry!  If Daniel and Juan won't have time
-> to look at it I'll have a closer look at it next Monday (holiday tomorrow).
+> Now the CVQ will be shadowed if possible, so we need to check this at
+> device start, not at initialization.
 
-Yes sure Peter, Thank you and Happy Holiday :).
+
+Any reason we can't check this at device start? We don't need 
+driver_features and we can do any probing to make sure cvq has an unique 
+group during initialization time.
+
+
+>   To store this information at boot
+> time is not valid anymore, because v->shadow_vqs_enabled is not valid
+> at this time anymore.
+
+
+Ok, but this doesn't explain why it is net specific but vhost-vdpa specific.
+
+Thanks
+
 
 >
+> Thanks!
+>
+>> Thanks
+>>
+>>
+>>> Since the moved checks will be already evaluated at net/ to know if it
+>>> is ok to shadow CVQ, move them.
+>>>
+>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>>> ---
+>>>    hw/virtio/vhost-vdpa.c | 33 ++-------------------------------
+>>>    net/vhost-vdpa.c       |  3 ++-
+>>>    2 files changed, 4 insertions(+), 32 deletions(-)
+>>>
+>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+>>> index 3df2775760..146f0dcb40 100644
+>>> --- a/hw/virtio/vhost-vdpa.c
+>>> +++ b/hw/virtio/vhost-vdpa.c
+>>> @@ -402,29 +402,9 @@ static int vhost_vdpa_get_dev_features(struct vhost_dev *dev,
+>>>        return ret;
+>>>    }
+>>>
+>>> -static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
+>>> -                               Error **errp)
+>>> +static void vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v)
+>>>    {
+>>>        g_autoptr(GPtrArray) shadow_vqs = NULL;
+>>> -    uint64_t dev_features, svq_features;
+>>> -    int r;
+>>> -    bool ok;
+>>> -
+>>> -    if (!v->shadow_vqs_enabled) {
+>>> -        return 0;
+>>> -    }
+>>> -
+>>> -    r = vhost_vdpa_get_dev_features(hdev, &dev_features);
+>>> -    if (r != 0) {
+>>> -        error_setg_errno(errp, -r, "Can't get vdpa device features");
+>>> -        return r;
+>>> -    }
+>>> -
+>>> -    svq_features = dev_features;
+>>> -    ok = vhost_svq_valid_features(svq_features, errp);
+>>> -    if (unlikely(!ok)) {
+>>> -        return -1;
+>>> -    }
+>>>
+>>>        shadow_vqs = g_ptr_array_new_full(hdev->nvqs, vhost_svq_free);
+>>>        for (unsigned n = 0; n < hdev->nvqs; ++n) {
+>>> @@ -436,7 +416,6 @@ static int vhost_vdpa_init_svq(struct vhost_dev *hdev, struct vhost_vdpa *v,
+>>>        }
+>>>
+>>>        v->shadow_vqs = g_steal_pointer(&shadow_vqs);
+>>> -    return 0;
+>>>    }
+>>>
+>>>    static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+>>> @@ -461,11 +440,7 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+>>>        dev->opaque =  opaque ;
+>>>        v->listener = vhost_vdpa_memory_listener;
+>>>        v->msg_type = VHOST_IOTLB_MSG_V2;
+>>> -    ret = vhost_vdpa_init_svq(dev, v, errp);
+>>> -    if (ret) {
+>>> -        goto err;
+>>> -    }
+>>> -
+>>> +    vhost_vdpa_init_svq(dev, v);
+>>>        vhost_vdpa_get_iova_range(v);
+>>>
+>>>        if (!vhost_vdpa_first_dev(dev)) {
+>>> @@ -476,10 +451,6 @@ static int vhost_vdpa_init(struct vhost_dev *dev, void *opaque, Error **errp)
+>>>                                   VIRTIO_CONFIG_S_DRIVER);
+>>>
+>>>        return 0;
+>>> -
+>>> -err:
+>>> -    ram_block_discard_disable(false);
+>>> -    return ret;
+>>>    }
+>>>
+>>>    static void vhost_vdpa_host_notifier_uninit(struct vhost_dev *dev,
+>>> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+>>> index d3b1de481b..fb35b17ab4 100644
+>>> --- a/net/vhost-vdpa.c
+>>> +++ b/net/vhost-vdpa.c
+>>> @@ -117,9 +117,10 @@ static bool vhost_vdpa_net_valid_svq_features(uint64_t features, Error **errp)
+>>>        if (invalid_dev_features) {
+>>>            error_setg(errp, "vdpa svq does not work with features 0x%" PRIx64,
+>>>                       invalid_dev_features);
+>>> +        return false;
+>>>        }
+>>>
+>>> -    return !invalid_dev_features;
+>>> +    return vhost_svq_valid_features(features, errp);
+>>>    }
+>>>
+>>>    static int vhost_vdpa_net_check_device_id(struct vhost_net *net)
+
 
