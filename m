@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 457D862540F
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 07:49:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B26625413
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 07:49:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otNpC-0006bz-G1; Fri, 11 Nov 2022 01:47:38 -0500
+	id 1otNpE-0006cl-D5; Fri, 11 Nov 2022 01:47:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1otNpA-0006bG-A1
+ id 1otNpA-0006bI-Fh
  for qemu-devel@nongnu.org; Fri, 11 Nov 2022 01:47:36 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1otNp8-0008Hw-Nq
+ id 1otNp8-0008IF-PP
  for qemu-devel@nongnu.org; Fri, 11 Nov 2022 01:47:36 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id v17so3555180plo.1
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 22:47:30 -0800 (PST)
+Received: by mail-pg1-x52a.google.com with SMTP id q1so3688902pgl.11
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 22:47:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=O2Pju8ej4HqpDpyXMdvM9rPS2/OxpZbKPNF6rcjhplM=;
- b=QKOTzlkb85CmuxquvzSVVv/w/JnsMWNtZ5YX93d5ERKjt0AAIWwzFzdpvRXb+BnrLR
- ikLao7ambBtJrG9zsbx6C3Sz4+TUPVmR25l1RBp8IMDQzFMGs9G23Q9czf1Kh9W6Y1y5
- 7tfK699+xB3W9CBSsmVLQ6HT/lklz73PFx9HA0RNJGwHa243fCfvD7hc3S6T0cvVRjUo
- A8UYqSbSIxhDzwH58tz5r151yJmTfr975lCdMiATaRJOVWrMlFZDw5zRc/mXzdO8CSTr
- xfcYdP0A6EgpSl7Ophvh05jxHs+D6AfLN4u63/sBVIaAyeUBT/FgdVtYwyllWSvVTudq
- 4Y3w==
+ bh=LIesySo8KfoPYYuDv0hxnDo5m8+fU1mYrZHcG45Uhwg=;
+ b=DvxJSz3/wEEDnYyPM11np5qTIqJRVVKV5lO4npjlMzcxeJj4dJ/zRUfILwgUoVEVKB
+ LC+LJBkEU3ZCyiI3uvRskb/tnKEuEDmpKRrVH0aGitrV2ZDlysDvgZugB3QcGb96vW0Q
+ /jy3/aIVq8jyZMfLk18coxAFVLR+b91vSf1u8pTbw3V/ApT1qoGVEUf7U9pAvN8VLTMF
+ aPHZrMoBMkrwq6/gMzT5Dc89fanSMq//LxhxIzzhlcwPjOCmbWhJhXAvWDarbYn0sK5z
+ pTIHqwkQpD+an9lBK/CUuJnOhaE5nflpoXzNmOMK4u84JTdzydVrvlN9EbtO1QyUtoUt
+ 5FFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=O2Pju8ej4HqpDpyXMdvM9rPS2/OxpZbKPNF6rcjhplM=;
- b=pzAz4tWDDISpEE4lh/1pXqJChFDDr6oZOUjO2Odp9WBbxLM2h+FhCJE4laH8EwGSym
- f592chB+7feSPBnNerUqxd7onbrsmtbkroFWNleri3nsdBz1dcoECAo0Idjix2AsxB3F
- TgXwj+tB4u3iVGQCZegalAcKcfAeLv0oQuHbAq7Pojddh0Llv0sp+vsw/ZRw7Y4nTJEW
- yMNjtwAOHMse6F+QdQ/U3ne7ULeCYhiwAlX4a/J/+6opjFREpQiRqddDOjDRJFVBGJ7L
- oUMljj0/cq2kiQgiBlB9olT8wIgNiI/feqKXZSHsPWpVK193WHRZKGhCGEs8hn0br3qk
- 7C5A==
-X-Gm-Message-State: ANoB5pmkID3BVSCVPNOo7J0Sv/UbshCkO81XbItZJQR+7hajsM2wXknw
- xVQr+RiNGKl7bNl8f9glBQO6+w==
-X-Google-Smtp-Source: AA0mqf4+aKHxgzk4IWqAF1etpHrCWr60fv9xAIETKRktFLXwF8BaGMtKlx2Ocyq2NkwE6qnwxrEy9w==
-X-Received: by 2002:a17:90b:4ccf:b0:212:dc2f:b987 with SMTP id
- nd15-20020a17090b4ccf00b00212dc2fb987mr410557pjb.173.1668149249833; 
- Thu, 10 Nov 2022 22:47:29 -0800 (PST)
+ bh=LIesySo8KfoPYYuDv0hxnDo5m8+fU1mYrZHcG45Uhwg=;
+ b=m05BA6LChY90lhUfFJ08GiY+jD1YxoMJTfF0aVBZ4yFyXD8eIK0gCueg3ZdfJySzI7
+ bH4IY5rmDbwjWGp0M/uxOOmE415+L12+fVN+kGliHVASJuYmhXop4kFL8GmXUTwjI5CU
+ IQPvz4HlZR4A8x9Ff9zEGso2kSvIEysfgaYGp5zYesPK14wlMccMggqGKU9qXW4wn8pc
+ ZTcRkWSduj+bSBwD9LNvBW9Ae7UGpxRU+ptp3l9nrlWN9QVqRd2Lth7CFE9Fj+78O8L4
+ RYKK2o1paMGOPleSGRrBwKCGHwCA4Q3bakuXWdKPbW70byT8SrNBAxYTiyaZ5KpgmEMZ
+ nILQ==
+X-Gm-Message-State: ANoB5pmEe8zfAzig0HAuhsdnKVqIpuLEGlNzv2WtmXJ0zMVgLoobmPYZ
+ YdlAnyzpplhyANq2mqSHlY86BA==
+X-Google-Smtp-Source: AA0mqf5/X0Em3V8ifIs2J93d/ILyfxzdwhf2FYzSr+0t/l42WHc+BzTwWqjiJKAQjGRUM7Z3LyomTw==
+X-Received: by 2002:a63:2210:0:b0:458:6031:ba1 with SMTP id
+ i16-20020a632210000000b0045860310ba1mr447725pgi.524.1668149253343; 
+ Thu, 10 Nov 2022 22:47:33 -0800 (PST)
 Received: from always-x1.bytedance.net ([63.216.146.186])
  by smtp.gmail.com with ESMTPSA id
- u10-20020a170902e5ca00b0017f64ab80e5sm841022plf.179.2022.11.10.22.47.26
+ u10-20020a170902e5ca00b0017f64ab80e5sm841022plf.179.2022.11.10.22.47.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 22:47:29 -0800 (PST)
+ Thu, 10 Nov 2022 22:47:32 -0800 (PST)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: arei.gonglei@huawei.com, dgilbert@redhat.com, mst@redhat.com,
  eblake@redhat.com, armbru@redhat.com, michael.roth@amd.com
 Cc: qemu-devel@nongnu.org,
 	zhenwei pi <pizhenwei@bytedance.com>
-Subject: [PATCH for 8.0 7/8] cryptodev-builtin: Detect akcipher capability
-Date: Fri, 11 Nov 2022 14:45:52 +0800
-Message-Id: <20221111064553.246932-8-pizhenwei@bytedance.com>
+Subject: [PATCH for 8.0 8/8] hmp: add cryptodev info command
+Date: Fri, 11 Nov 2022 14:45:53 +0800
+Message-Id: <20221111064553.246932-9-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221111064553.246932-1-pizhenwei@bytedance.com>
 References: <20221111064553.246932-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,67 +91,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Rather than exposing akcipher service/RSA algorithm to virtio crypto
-device unconditionally, detect akcipher capability from akcipher
-crypto framework. This avoids unsuccessful requests.
+Example of this command:
+ # virsh qemu-monitor-command vm --hmp info cryptodev
+cryptodev1: service=[akcipher|mac|hash|cipher]
+    queue 0: type=builtin
+cryptodev0: service=[akcipher]
+    queue 0: type=lkcf
 
 Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
- backends/cryptodev-builtin.c | 25 +++++++++++++++++++++----
- 1 file changed, 21 insertions(+), 4 deletions(-)
+ hmp-commands-info.hx  | 14 ++++++++++++++
+ include/monitor/hmp.h |  1 +
+ monitor/hmp-cmds.c    | 36 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 51 insertions(+)
 
-diff --git a/backends/cryptodev-builtin.c b/backends/cryptodev-builtin.c
-index a548c66e39..9e94d2bfcc 100644
---- a/backends/cryptodev-builtin.c
-+++ b/backends/cryptodev-builtin.c
-@@ -59,6 +59,25 @@ struct CryptoDevBackendBuiltin {
-     CryptoDevBackendBuiltinSession *sessions[MAX_NUM_SESSIONS];
- };
- 
-+static void cryptodev_builtin_init_akcipher(CryptoDevBackend *backend)
-+{
-+    QCryptoAkCipherOptions opts;
-+    bool supported = false;
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index 754b1e8408..47d63d26db 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -993,3 +993,17 @@ SRST
+   ``info virtio-queue-element`` *path* *queue* [*index*]
+     Display element of a given virtio queue
+ ERST
 +
-+    opts.alg = QCRYPTO_AKCIPHER_ALG_RSA;
-+    opts.u.rsa.padding_alg = QCRYPTO_RSA_PADDING_ALG_RAW;
-+    if (qcrypto_akcipher_supports(&opts)) {
-+        backend->conf.crypto_services |=
-+                     (1u << QCRYPTODEV_BACKEND_SERVICE_AKCIPHER);
-+        backend->conf.akcipher_algo = 1u << VIRTIO_CRYPTO_AKCIPHER_RSA;
-+        supported = true;
-+    }
++    {
++        .name       = "cryptodev",
++        .args_type  = "",
++        .params     = "",
++        .help       = "show the crypto devices",
++        .cmd        = hmp_info_cryptodev,
++        .flags      = "p",
++    },
 +
-+    if (supported) {
-+        backend->asym_stat = g_new0(QCryptodevBackendAsymStat, 1);
-+    }
-+}
-+
- static void cryptodev_builtin_init(
-              CryptoDevBackend *backend, Error **errp)
- {
-@@ -81,11 +100,9 @@ static void cryptodev_builtin_init(
-     backend->conf.crypto_services =
-                          1u << QCRYPTODEV_BACKEND_SERVICE_CIPHER |
-                          1u << QCRYPTODEV_BACKEND_SERVICE_HASH |
--                         1u << QCRYPTODEV_BACKEND_SERVICE_MAC |
--                         1u << QCRYPTODEV_BACKEND_SERVICE_AKCIPHER;
-+                         1u << QCRYPTODEV_BACKEND_SERVICE_MAC;
-     backend->conf.cipher_algo_l = 1u << VIRTIO_CRYPTO_CIPHER_AES_CBC;
-     backend->conf.hash_algo = 1u << VIRTIO_CRYPTO_HASH_SHA1;
--    backend->conf.akcipher_algo = 1u << VIRTIO_CRYPTO_AKCIPHER_RSA;
-     /*
-      * Set the Maximum length of crypto request.
-      * Why this value? Just avoid to overflow when
-@@ -96,7 +113,7 @@ static void cryptodev_builtin_init(
-     backend->conf.max_auth_key_len = CRYPTODEV_BUITLIN_MAX_AUTH_KEY_LEN;
++SRST
++  ``info cryptodev``
++    Show the crypto devices.
++ERST
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index dfbc0c9a2f..b6b2b49202 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -143,5 +143,6 @@ void hmp_info_vcpu_dirty_limit(Monitor *mon, const QDict *qdict);
+ void hmp_human_readable_text_helper(Monitor *mon,
+                                     HumanReadableText *(*qmp_handler)(Error **));
+ void hmp_info_stats(Monitor *mon, const QDict *qdict);
++void hmp_info_cryptodev(Monitor *mon, const QDict *qdict);
  
-     backend->sym_stat = g_new0(QCryptodevBackendSymStat, 1);
--    backend->asym_stat = g_new0(QCryptodevBackendAsymStat, 1);
-+    cryptodev_builtin_init_akcipher(backend);
+ #endif
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 01b789a79e..3f1054aa1e 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -33,6 +33,7 @@
+ #include "qapi/qapi-commands-block.h"
+ #include "qapi/qapi-commands-char.h"
+ #include "qapi/qapi-commands-control.h"
++#include "qapi/qapi-commands-cryptodev.h"
+ #include "qapi/qapi-commands-machine.h"
+ #include "qapi/qapi-commands-migration.h"
+ #include "qapi/qapi-commands-misc.h"
+@@ -2761,3 +2762,38 @@ void hmp_virtio_queue_element(Monitor *mon, const QDict *qdict)
  
-     cryptodev_backend_set_ready(backend, true);
+     qapi_free_VirtioQueueElement(e);
  }
++
++void hmp_info_cryptodev(Monitor *mon, const QDict *qdict)
++{
++    CryptodevInfoList *info_list;
++    CryptodevInfo *info;
++    QCryptodevBackendServiceTypeList *service_list;
++    CryptodevBackendClientList *client_list;
++    CryptodevBackendClient *client;
++    char services[128] = {};
++    int len;
++
++    info_list = qmp_query_cryptodev(NULL);
++    for ( ; info_list; info_list = info_list->next) {
++        info = info_list->value;
++
++        service_list = info->service;
++        for (len = 0; service_list; service_list = service_list->next) {
++            len += snprintf(services + len, sizeof(services) - len, "%s|",
++                QCryptodevBackendServiceType_str(service_list->value));
++        }
++        if (len) {
++            services[len - 1] = '\0'; /* strip last char '|' */
++        }
++        monitor_printf(mon, "%s: service=[%s]\n", info->id, services);
++
++        client_list = info->client;
++        for ( ; client_list; client_list = client_list->next) {
++            client = client_list->value;
++            monitor_printf(mon, "    queue %ld: type=%s\n", client->queue,
++                          QCryptodevBackendType_str(client->type));
++        }
++    }
++
++    qapi_free_CryptodevInfoList(info_list);
++}
 -- 
 2.20.1
 
