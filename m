@@ -2,86 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE78625ED9
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 16:58:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E019625FA5
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 17:38:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otWPF-0002Au-F0; Fri, 11 Nov 2022 10:57:25 -0500
+	id 1otX1C-0000vN-NF; Fri, 11 Nov 2022 11:36:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1otWPC-0002Ad-Pk
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:57:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otX18-0000v2-Hu
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 11:36:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1otWPB-0000ok-61
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:57:22 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otX10-0003Na-R6
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 11:36:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668182240;
+ s=mimecast20190719; t=1668184585;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=n4DBu4v0mJ6ndEvvgXqGRh2j4Tb0ovlaatvwNCJ5CYM=;
- b=gjyFh7woIyzJn1GvzT4D4vuSqUk+K90q1b/PRzSdmjNzmOwT1CX5LnPpIeMCNkhB9M9CBT
- dP4Gv29pbxweCTxnuM6DaHGL9/7LRL57qEy9SyJpePc5Rx7DVZAUhZRh6M+i04M2raoi9b
- gttsFDiQ4MMIGYgT0r5ae+eIJoakvkk=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pTbfcDDLpQxmLFv8a0I8IiAZHRU61BqnYAlSPVwpo/w=;
+ b=ad+RLtQn0HcsTA7wft47QzVpWEV717kTubVCwv62FJXvdgxAisYk2l1d9L05wGDQfzoE2c
+ RZYCxBijyHzIErlTb2mMZBzPf0LKDLoosyJ+9DwoseaRPeqZz/aEc1UtNmNBhs5vHsF+RP
+ ys+On3oPByCocThZqxaDnyh8PWv6BP4=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-324-OsGqAvvZNdK4b5BkhwYtBA-1; Fri, 11 Nov 2022 10:57:18 -0500
-X-MC-Unique: OsGqAvvZNdK4b5BkhwYtBA-1
-Received: by mail-ua1-f69.google.com with SMTP id
- z44-20020a9f372f000000b00390af225beaso2151572uad.12
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 07:57:18 -0800 (PST)
+ us-mta-75-_1nhd6xUPpugK4Wn_9MamQ-1; Fri, 11 Nov 2022 11:36:23 -0500
+X-MC-Unique: _1nhd6xUPpugK4Wn_9MamQ-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ v7-20020a05620a0f0700b006faffce43b2so5085602qkl.9
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 08:36:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=n4DBu4v0mJ6ndEvvgXqGRh2j4Tb0ovlaatvwNCJ5CYM=;
- b=6D9WHwToE4XiDyIynDEztOHmq9ADWKMqApdCkNKca9P1GnEljN2PF3Znd3tKuLO9sG
- 7FaBQPQOlc17RoNQLPXHKb+UEeVUrF7aw76QIB8poBNROgStFUgf/7jqMu1mrJX1c5Nf
- LZTC02cHrMPpkBTWDegFin43SDY7tL0p/sVUVOr+wzCkWBBAzx+SKg3FtiL39tw0G+hu
- Rr9KKfMBHehpGUTAH+tv+7miEE7HH3bKqfaWdwWQvcFoWGk2jD1VkQIKpYyur7Mz2Zrk
- EZZ6j4EfPVXrzcv60GRMHbX0gu9z3PVsyO+ARaIllKx27NlRY3q1370KYSK3ZjgZNMbg
- vZiA==
-X-Gm-Message-State: ANoB5pm37nlRDDNpGI220NnEW7KAO/W7uYM8or4tT3JWvBMDMCTVFCfG
- BeESJax7m2V02ygstguMNWAOL5MlDm6waLzug3EC2CMqr9+oXrPC0dXjvJEfyxk5fXnKRolSqJg
- 8CVD3SIrskmGOix/L+Q+sMWSAn2Fntvo=
-X-Received: by 2002:a67:d38c:0:b0:3aa:2354:b5d2 with SMTP id
- b12-20020a67d38c000000b003aa2354b5d2mr1207111vsj.16.1668182238134; 
- Fri, 11 Nov 2022 07:57:18 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4Y9exQtjLYYIavJlqiTAOZamEQC2LQIjN+AVPykpodIIew4KfFgULGEVinTVa1mSbhbyANbTDxUi+X2R6VFrI=
-X-Received: by 2002:a67:d38c:0:b0:3aa:2354:b5d2 with SMTP id
- b12-20020a67d38c000000b003aa2354b5d2mr1207090vsj.16.1668182237921; Fri, 11
- Nov 2022 07:57:17 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pTbfcDDLpQxmLFv8a0I8IiAZHRU61BqnYAlSPVwpo/w=;
+ b=GquGNa6ufRnT/ze/Ju5tWW9I6xqd0KSzZ0cvTVmIu+lSryw1Wx4NGkWKsgbFMOtglS
+ 3ft5kyeIjVV+xR1825QVoazWJZ0XdihAJGxO5LkpLLFD1A1nGS0zi3R7JdXDid0EpgNQ
+ y4B7gANNmKV+9fkdohXljHKOM9A1j3n8yPLajbEI0G9NQQHAFeZZKohLyX3xA6Zit66W
+ YeL/AMJXefV3i6IOYw7tDj3QJe0zRcosmCVkbY+ZUBDXSp1J7F5jLZqdOrbP+ySnZaHo
+ PZP5ORGykbYoJlmLeBnIPeqnIZ4QeMghzl3xoIS2pEob/L9eQpliabutxIygsJb9MLqD
+ 4PdQ==
+X-Gm-Message-State: ANoB5pn2uhUCaw4yHhGAswKTjgmyY8tvCiOqcek3zWxlNJiaK3tIKP8O
+ bkTg+SN9lcYhUNGiVcqEUXWZaJpxdlEwlvVfE7vAXpGXbjdQeguUijQySlKixSDX2w+PrFG9nlr
+ VGAPdBiD04D3LHDM=
+X-Received: by 2002:a0c:9a49:0:b0:4bb:7349:14e5 with SMTP id
+ q9-20020a0c9a49000000b004bb734914e5mr2502250qvd.114.1668184583474; 
+ Fri, 11 Nov 2022 08:36:23 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6FhRiW+VRN9BvF3RTxC5mwGUTHeSP8ZSPe/PCjWkPZN0kqsiJfVzgD4jjYhFhG7pgADvpR/A==
+X-Received: by 2002:a0c:9a49:0:b0:4bb:7349:14e5 with SMTP id
+ q9-20020a0c9a49000000b004bb734914e5mr2502224qvd.114.1668184583213; 
+ Fri, 11 Nov 2022 08:36:23 -0800 (PST)
+Received: from [192.168.8.102] (tmo-102-67.customers.d1-online.com.
+ [80.187.102.67]) by smtp.gmail.com with ESMTPSA id
+ k21-20020ac84795000000b003a569a0afcasm1430759qtq.66.2022.11.11.08.36.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Nov 2022 08:36:22 -0800 (PST)
+Message-ID: <b8c5f7c4-cf91-1278-1af4-9449b2043e13@redhat.com>
+Date: Fri, 11 Nov 2022 17:36:18 +0100
 MIME-Version: 1.0
-References: <874jv6enct.fsf@linaro.org> <87zgcyd70g.fsf@linaro.org>
- <Y21+VFqKpF6LGz2C@x1n> <87r0y9d623.fsf@linaro.org>
- <99a89e48-768c-4cc2-ead4-d2014aec7d44@redhat.com>
- <87iljld1vh.fsf@linaro.org>
-In-Reply-To: <87iljld1vh.fsf@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 11 Nov 2022 16:57:07 +0100
-Message-ID: <CABgObfZ0Kd+BRyqi0tnYoafevtkOAaWU6d6jJ-DJJoqHF9tooA@mail.gmail.com>
-Subject: Re: should ioapic_service really be modelling cpu writes?
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: Peter Xu <peterx@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>, 
- "Michael S. Tsirkin" <mst@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philippe.mathieu-daude@linaro.org>, 
- Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000b65cd305ed33f16b"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20221111141323.246267-1-thuth@redhat.com>
+ <875yflbl0u.fsf@pond.sub.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2] util/qemu-config: Fix "query-command-line-options" to
+ provide the right values
+In-Reply-To: <875yflbl0u.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,143 +105,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000b65cd305ed33f16b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 11/11/2022 15.53, Markus Armbruster wrote:
+> Thomas Huth <thuth@redhat.com> writes:
+> 
+>> The "query-command-line-options" command uses a hand-crafted list
+>> of options that should be returned for the "machine" parameter.
+>> This is pretty much out of sync with reality, for example settings
+>> like "kvm_shadow_mem" or "accel" are not parameters for the machine
+>> anymore. Also, there is no distinction between the targets here, so
+>> e.g. the s390x-specific values like "loadparm" in this list also
+>> show up with the other targets like x86_64.
+>>
+>> Let's fix this now by geting rid of the hand-crafted list and by
+>> querying the properties of the machine classes instead to assemble
+>> the list.
+> 
+> Do we know what uses this command, and how these users are
+> inconvenienced by the flaw you're fixing?
+> 
+> I'm asking because the command is pretty much out of sync with reality
+> by (mis-)design.
 
-Il ven 11 nov 2022, 15:03 Alex Benn=C3=A9e <alex.bennee@linaro.org> ha scri=
-tto:
+libvirt apparently queries this data (see the various 
+tests/qemucapabilitiesdata/*.replies files in their repository), but since 
+it's so much out-of-sync with reality, it's not of a big use there yet.
 
->
-> Paolo Bonzini <pbonzini@redhat.com> writes:
->
-> > On 11/11/22 13:26, Alex Benn=C3=A9e wrote:
-> >>       if (addr > 0xfff || !index) {
-> >>           switch (attrs.requester_type) {
-> >>           }
-> >>           MSIMessage msi =3D { .address =3D addr, .data =3D val };
-> >>           apic_send_msi(&msi);
-> >>           return MEMTX_OK;
-> >>       }
-> >
-> >
-> >> which at least gets things booting properly. Does this seem like a
-> >> better modelling of the APIC behaviour?
-> >
-> > Yes and you don't even need the "if", just do MTRT_CPU vs everything
-> > else.
->
-> Can the CPU trigger MSIs by writing to this area of memory?
+See for example here:
 
+https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg00581.html
 
-No, it's a different bus. If it can in QEMU that's a bug.
+If we finally fix this problem with "query-command-line-options" in QEMU, it 
+should be much easier to deprecate -no-hpet in QEMU, too.
 
-I went for
-> the explicit switch for clarity but are you saying:
->
->         if (attrs.requester_type !=3D MTRT_CPU) {
->             MSIMessage msi =3D { .address =3D addr, .data =3D val };
->             apic_send_msi(&msi);
->             return MEMTX_OK;
->         } else {
->             return MEMTX_ACESSS_ERROR;
->         }
->
-> for the MSI range?
->
-
-Yes that would work. It can be tightened even further by removing the "if
-(addr ...)" completely and only checking the requester type (which in turn
-I would do with a function like "return APIC based on txattrs requester
-type and id, or return NULL if requester not MTRT_CPU"), but no need to
-hurry.
-
-Thanks,
-
-Paolo
-
-
->
-> >
-> > Paolo
->
->
-> --
-> Alex Benn=C3=A9e
->
->
-
---000000000000b65cd305ed33f16b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il ven 11 nov 2022, 15:03 Alex Benn=C3=A9e &lt;<a href=
-=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; ha scritt=
-o:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><br>
-Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank" =
-rel=3D"noreferrer">pbonzini@redhat.com</a>&gt; writes:<br>
-<br>
-&gt; On 11/11/22 13:26, Alex Benn=C3=A9e wrote:<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (addr &gt; 0xfff || !index) {<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0switch (attrs.requester_ty=
-pe) {<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MSIMessage msi =3D { .addr=
-ess =3D addr, .data =3D val };<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0apic_send_msi(&amp;msi);<b=
-r>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return MEMTX_OK;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;<br>
-&gt;<br>
-&gt;&gt; which at least gets things booting properly. Does this seem like a=
-<br>
-&gt;&gt; better modelling of the APIC behaviour?<br>
-&gt;<br>
-&gt; Yes and you don&#39;t even need the &quot;if&quot;, just do MTRT_CPU v=
-s everything<br>
-&gt; else.<br>
-<br>
-Can the CPU trigger MSIs by writing to this area of memory?</blockquote></d=
-iv></div><div dir=3D"auto"><br></div><div dir=3D"auto">No, it&#39;s a diffe=
-rent bus. If it can in QEMU that&#39;s a bug.</div><div dir=3D"auto"><br></=
-div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex"> I went for<br>
-the explicit switch for clarity but are you saying:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (attrs.requester_type !=3D MTRT_CPU) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 MSIMessage msi =3D { .address =3D=
- addr, .data =3D val };<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 apic_send_msi(&amp;msi);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return MEMTX_OK;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return MEMTX_ACESSS_ERROR;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-for the MSI range?<br></blockquote></div></div><div dir=3D"auto"><br></div>=
-<div dir=3D"auto">Yes that would work. It can be tightened even further by =
-removing the &quot;if (addr ...)&quot; completely and only checking the req=
-uester type (which in turn I would do with a function like &quot;return API=
-C based on txattrs requester type and id, or return NULL if requester not M=
-TRT_CPU&quot;), but no need to hurry.</div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">Thanks,</div><div dir=3D"auto"><br></div><div dir=3D"auto">Pa=
-olo</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_=
-quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex">
-<br>
-<br>
-&gt;<br>
-&gt; Paolo<br>
-<br>
-<br>
--- <br>
-Alex Benn=C3=A9e<br>
-<br>
-</blockquote></div></div></div>
-
---000000000000b65cd305ed33f16b--
+  Thomas
 
 
