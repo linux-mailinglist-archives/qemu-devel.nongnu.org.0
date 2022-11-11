@@ -2,90 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328AB6258BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:51:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB956258DB
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:55:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otRdI-0000qp-KL; Fri, 11 Nov 2022 05:51:36 -0500
+	id 1otRgT-0004PO-Nw; Fri, 11 Nov 2022 05:54:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1otRdE-0000qJ-Sf
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:51:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1otRgR-0004FQ-Sd
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:54:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1otRdB-0000Ok-W0
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:51:31 -0500
+ id 1otRgQ-0001G8-6m
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:54:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668163889;
+ s=mimecast20190719; t=1668164089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f6qOicsVWEFuMRUDI3g87ppm3RRuKfipWDoA7+vDt8k=;
- b=SoMFreVyB/tYyeY3zasmE8HdamktfodxL/zMdjAScAcHV6lNX++upSohApt+02kwWycoyE
- 59hfyqtwqvGN6Qf1MrIovtCQIVBIVYdPnlu5FTyfGIXorHvGvkHERckiW7YBUlCUjWNOVO
- Jtk4n9DSdWvmqTm/10ulHVMk1yCJO6o=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ahn+7H6+Ymoj/5oH5L5k4H/FuxtMbpM3hwCOJ2Q72VA=;
+ b=Tv7UGYKcWAe8izt+WrBJUV5d9FiuXGaXLmNuLO0LxIiWwUqc0HCrFHQjyEH8TTyl2J9Wmx
+ Mfz0p7TPDrJ6Vu5veupRJHq0IR+2jG+YH8sksDqr7rbfQelBFqz3U+cqq9ER8A7SjpsKNY
+ FhqSr6PpfLA12s4ao0MX5010RMHZVu0=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-189--xpddZQ8P_i6Xdz7ORFUaw-1; Fri, 11 Nov 2022 05:51:27 -0500
-X-MC-Unique: -xpddZQ8P_i6Xdz7ORFUaw-1
-Received: by mail-qk1-f197.google.com with SMTP id
- ay43-20020a05620a17ab00b006fa30ed61fdso4449126qkb.5
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 02:51:27 -0800 (PST)
+ us-mta-444-d5K8QIOZOUOKwJ2I4s9JlA-1; Fri, 11 Nov 2022 05:54:47 -0500
+X-MC-Unique: d5K8QIOZOUOKwJ2I4s9JlA-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ d8-20020a0cfe88000000b004bb65193fdcso3435662qvs.12
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 02:54:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=f6qOicsVWEFuMRUDI3g87ppm3RRuKfipWDoA7+vDt8k=;
- b=5nptM6SMjkeR8mBzMtrFdUYzfz1MOyqdDe0ccUwQJMxM/M3YI+Jza0HA5eNXZz9DaF
- Y/Nnh6dCegvE50wmbHiZ6aML/wxTVUxjfiwlmv1MDvY+nv8Bku23u4AhO8lbkNXpTr4d
- N50x4G2+XkLjxbWcHdca9Yer24jFptaXw4zKSzdhn1UMn87rgSKjkjER39K7pP/TuwhP
- r063+vEASHICPQr/EhAelZjqH6fkBGSZGunHGCfTvXbrFRXAqtIRZ6xQTxyCzuqWSLtn
- pxzO3m4F7VehDygZlceBy5AZLCWp/mHqwQYfosozEQr0kAJ88rzeaMjkUHkWy0kUUuP3
- g2dg==
-X-Gm-Message-State: ANoB5pnolps/9DbYpYaxOpZIi1c1iLYP23hOeNRUEmXQ9pJB+6ZVteAN
- A+TxcBkv9XhtM8Y/tEusYAAU1OlkSMPWmJOG/W2IT7A+OLoW+IY+ltfoK262pt95d88S8+5WJel
- sT3dhzwYfamf+1TU=
-X-Received: by 2002:a05:6214:5c83:b0:4bb:781e:6231 with SMTP id
- lj3-20020a0562145c8300b004bb781e6231mr1297928qvb.106.1668163887498; 
- Fri, 11 Nov 2022 02:51:27 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf7JtwSKvEgmfA00qHUBJi5YLLzr+MU/yo/aCIkxuuCIwJv8syhvMKtrnG8vgid+Cmdz0jMaxw==
-X-Received: by 2002:a05:6214:5c83:b0:4bb:781e:6231 with SMTP id
- lj3-20020a0562145c8300b004bb781e6231mr1297920qvb.106.1668163887120; 
- Fri, 11 Nov 2022 02:51:27 -0800 (PST)
+ bh=Ahn+7H6+Ymoj/5oH5L5k4H/FuxtMbpM3hwCOJ2Q72VA=;
+ b=j1ha3xqf0H7PcQ6WGEDiAjYhA/l6rPXfaDlThoc6f8/pLsNKfGGDK/OhyKE/q3csRY
+ TkKs49TROL0sTtNIAVs/rZ4anAArZijjhVhy4s3G4DQulHGhgg8FaP2Bhqcp6Li0uTgz
+ NVmA1svks858/iF4BTKbsN69hEdf0TEsrWWx9w1nwJdISp5dY8F48T8rtAsCO+x5c7ro
+ 02mMeJz+uqp6g2t05mqBMYkibInxk/K4gNUuVHqTyokTWx+tlAqLMicNlgNgwXG6NkEY
+ rkESOT0TddG1KECIfAeIlJu1cWS8i4+T/7Xi2jsgfZFuoy3K6Ax9hFWZRj16OJZI2MNB
+ Sv9w==
+X-Gm-Message-State: ANoB5pnG/33lzWrTf+2P/+rzWCyr96lURITmRvAsOJ6SKexaKKn+qzZZ
+ ixZjQyie0EpsmGooj1lDNPefyBYOtEE76hdoZBm3Xm9qCOMfzpu44WgNfYmUgdAud1r3nZecYIP
+ 7u7oiZnCL71zwu+A=
+X-Received: by 2002:a05:620a:7ef:b0:6fa:ada7:e565 with SMTP id
+ k15-20020a05620a07ef00b006faada7e565mr527416qkk.208.1668164086917; 
+ Fri, 11 Nov 2022 02:54:46 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7kHiY1ZwKOmv8+yzxpDsnvvYdAjWEMVSJOVJgK1SsJK4WKRL98/N9usW5i2f+8b5gPrDdwMA==
+X-Received: by 2002:a05:620a:7ef:b0:6fa:ada7:e565 with SMTP id
+ k15-20020a05620a07ef00b006faada7e565mr527404qkk.208.1668164086668; 
+ Fri, 11 Nov 2022 02:54:46 -0800 (PST)
 Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
  [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- a14-20020ac8108e000000b003a57004313fsm1097259qtj.3.2022.11.11.02.51.24
+ h12-20020a05620a400c00b006b949afa980sm1229407qko.56.2022.11.11.02.54.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 02:51:26 -0800 (PST)
-Date: Fri, 11 Nov 2022 11:51:23 +0100
+ Fri, 11 Nov 2022 02:54:46 -0800 (PST)
+Date: Fri, 11 Nov 2022 11:54:43 +0100
 From: Igor Mammedov <imammedo@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>, Gregory Price <gourry.memverge@gmail.com>,
- qemu-devel@nongnu.org, mst@redhat.com, marcel.apfelbaum@gmail.com,
- jonathan.cameron@huawei.com, linux-cxl@vger.kernel.org,
- alison.schofield@intel.com, dave@stgolabs.net, a.manzanares@samsung.com,
- bwidawsk@kernel.org, gregory.price@memverge.com,
- hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com
-Subject: Re: [BUG] hw/i386/pc.c: CXL Fixed Memory Window should not reserve
- e820 in bios
-Message-ID: <20221111115123.2f9bc8b6@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20221108112111.czqldmb7wemhqy6f@sirius.home.kraxel.org>
-References: <20221017234001.53297-1-gregory.price@memverge.com>
- <CAARzgwxEO5rr=b_QjiG7RoEdV=9yOgj9gxUxNvuaUnNtUEnhtw@mail.gmail.com>
- <CAD3UvdTWLXf_OecWbtP9wfAvO2+xdWiAUjQHONrgB4AAAjwdHQ@mail.gmail.com>
- <CAARzgwyCTaNoiqtVPS394Nk9LAS05116Dvc2GxifHpO01+ZN4g@mail.gmail.com>
- <20221108112111.czqldmb7wemhqy6f@sirius.home.kraxel.org>
+To: Gavin Shan <gshan@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, Zhenyu Zhang
+ <zhenyzha@redhat.com>, qemu-devel@nongnu.org, philmd@linaro.org,
+ shan.gavin@gmail.com, eric.auger@redhat.com, lijin@redhat.com
+Subject: Re: [PATCH v3] qapi/qom: Memory backend property prealloc-threads
+ doc fix
+Message-ID: <20221111115443.30eec762@imammedo.users.ipa.redhat.com>
+In-Reply-To: <98a4d569-b81e-b3e3-f011-82ef19eeb5df@redhat.com>
+References: <20221111030541.191186-1-zhenyzha@redhat.com>
+ <dc7f305b-5dc0-999f-8b58-a2c2a4b18828@redhat.com>
+ <87bkpedm2z.fsf@pond.sub.org>
+ <20221111101310.47bdced9@imammedo.users.ipa.redhat.com>
+ <98a4d569-b81e-b3e3-f011-82ef19eeb5df@redhat.com>
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -109,48 +106,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 8 Nov 2022 12:21:11 +0100
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Fri, 11 Nov 2022 17:34:04 +0800
+Gavin Shan <gshan@redhat.com> wrote:
 
-> > >> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> > >> > index 566accf7e6..5bf5465a21 100644
-> > >> > --- a/hw/i386/pc.c
-> > >> > +++ b/hw/i386/pc.c
-> > >> > @@ -1061,7 +1061,6 @@ void pc_memory_init(PCMachineState *pcms,
-> > >> >          hwaddr cxl_size = MiB;
-> > >> >
-> > >> >          cxl_base = pc_get_cxl_range_start(pcms);
-> > >> > -        e820_add_entry(cxl_base, cxl_size, E820_RESERVED);  
+> On 11/11/22 5:13 PM, Igor Mammedov wrote:
+> > On Fri, 11 Nov 2022 07:47:16 +0100
+> > Markus Armbruster <armbru@redhat.com> wrote:   
+> >> Gavin Shan <gshan@redhat.com> writes:  
+> >>> On 11/11/22 11:05 AM, Zhenyu Zhang wrote:  
+> >>>> Commit ffac16fab3 "hostmem: introduce "prealloc-threads" property"
+> >>>> (v5.0.0) changed the default number of threads from number of CPUs
+> >>>> to 1.  This was deemed a regression, and fixed in commit f8d426a685
+> >>>> "hostmem: default the amount of prealloc-threads to smp-cpus".
+> >>>> Except the documentation remained unchanged.  Update it now.
+> >>>> Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
+> >>>> ---
+> >>>> v3: Covers historical descriptions                  (Markus)
+> >>>> v2: The property is changed to smp-cpus since 5.0   (Phild)
+> >>>> ---
+> >>>>    qapi/qom.json | 2 +-
+> >>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>      
+> >>>
+> >>> With the following comments addressed:
+> >>>
+> >>> Reviewed-by: Gavin Shan <gshan@redhat.com>
+> >>>
+> >>> ---
+> >>>
+> >>> Please consider amending the commit log to something like below.
+> >>>
+> >>> The default "prealloc-threads" value is set to 1 when the property is
+> >>> added by commit ffac16fab33b ("hostmem: introduce "prealloc-threads"
+> >>> property") in v5.0.0. The default value is conflicting with the sugar
+> >>> property as the value provided by the sugar property is number of CPUs.  
+> >>
+> >> What is the sugar property?  Can you explain the conflict in a bit more
+> >> detail?  
+> > 
+> > my guess is that Gavin means mem_prealloc compat glue in qemu_process_sugar_options()
+> > 
+> > property value should be set according to following order
+> >       default -> compat -> explicit value
+> > so I don't see any conflict here.
+> > 
+> > PS:
+> > if it we up to me, default would have stayed 1,
+> > and prealloc-threads fixup to vCPUs number would happen in vl.c
+> > similar to what is done in qemu_process_sugar_options(),
+> > keeping backend clean of external dependencies.
+> >   
 > 
-> Just dropping it doesn't look like a good plan to me.
+> Yes, it's the sugar property I was talking about. I'm not sure if
+> we have a more popular name for this property: compat property or
+> sugar property.
 > 
-> You can try set etc/reserved-memory-end fw_cfg file instead.  Firmware
-> (both seabios and ovmf) read it and will make sure the 64bit pci mmio
-> window is placed above that address, i.e. this effectively reserves
-> address space.  Right now used by memory hotplug code, but should work
-> for cxl too I think (disclaimer: don't know much about cxl ...).
+> When 'mem-prealloc=on' and 'prealloc-threads=xxx' aren't provided,
+> the value is 1 before commit f8d426a6852c is applied. It's not
+> inconsistent with 'mem-prealloc=on'. It's the conflict I was talking
+> about and it's fixed by commit f8d426a6852c
 
-As far as I know CXL impl. in QEMU isn't using etc/reserved-memory-end
-at all, it' has its own mapping.
+default was not supposed to be consistent with legacy mem-prealloc
+and sugar property takes care of mem-prealloc=on case.
 
-Regardless of that, reserved E820 entries look wrong, and looking at
-commit message OS is right to bailout on them (expected according
-to ACPI spec).
-Also spec says 
+so commit message in its current form looks fine to me.
 
-"
-E820 Assumptions and Limitations
- [...]
- The platform boot firmware does not return a range description for the memory mapping of
- PCI devices, ISA Option ROMs, and ISA Plug and Play cards because the OS has mechanisms
- available to detect them.
-"
-
-so dropping reserved entries looks reasonable from ACPI spec point of view.
-(disclaimer: don't know much about cxl ... either)
+> >>  
+> >>> The conflict has been fixed by commit f8d426a6852c ("hostmem: default
+> >>> the amount of prealloc-threads to smp-cpus"). However, 'qapi/qom.json'
+> >>> was missed to be updated accordingly in the commit.
+> >>>
+> >>> Update 'qapi/qom.json' to reflect the change in commit f8d426a6852c.
+> >>>
+> >>> Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
+> >>>
+> >>> When a specific commit is mentioned in the commit log, we usually have
+> >>> fixed format like below.
+> >>>
+> >>> commit ffac16fab33b ("hostmem: introduce "prealloc-threads" property")
+> >>> commit f8d426a6852c ("hostmem: default the amount of prealloc-threads to smp-cpus")  
+> >>
+> >> This is certainly a common format, but the other one is also in use.
+> >>  
+> >>>> diff --git a/qapi/qom.json b/qapi/qom.json
+> >>>> index 30e76653ad..dfd89bc6d4 100644
+> >>>> --- a/qapi/qom.json
+> >>>> +++ b/qapi/qom.json
+> >>>> @@ -576,7 +576,7 @@
+> >>>>    #
+> >>>>    # @prealloc: if true, preallocate memory (default: false)
+> >>>>    #
+> >>>> -# @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
+> >>>> +# @prealloc-threads: number of CPU threads to use for prealloc (default: number of CPUs) (since 5.0)
+> >>>>    #
+> >>>>    # @prealloc-context: thread context to use for creation of preallocation threads
+> >>>>    #                    (default: none) (since 7.2)
+> >>>>      
+> >>>
+> >>> The line seems exceeding 80 characters. It'd better to limit each line in 75 characters.
+> >>> So you probably need:
+> >>>
+> >>>      # @prealloc-threads: number of CPU threads to use for prealloc (default: number of CPUs)
+> >>>      #                    (since 5.0)  
+> >>
+> >> Still exceeds :)
+> >>
+> >> I suggested
+> >>
+> >>        # @prealloc-threads: number of CPU threads to use for prealloc
+> >>        #                    (default: number of CPUs) (since 5.0)
+> >>  
+> >   
 > 
-> take care & HTH,
->   Gerd
+> Markus's suggestion works :)
+> 
+> Thanks,
+> Gavin
+> 
 > 
 
 
