@@ -2,87 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B671E625D9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:57:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32253625F1F
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 17:09:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otVRb-00074i-Eh; Fri, 11 Nov 2022 09:55:47 -0500
+	id 1otWZi-0004f2-EN; Fri, 11 Nov 2022 11:08:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otVRZ-00073c-Dz
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:45 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otVRW-0007yP-KT
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:45 -0500
-Received: by mail-wr1-x434.google.com with SMTP id l14so6808453wrw.2
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 06:55:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3w4mX1qsjSiPO0pJ/lfZfSTSL+aAl8Bv1zC1N3BSyI8=;
- b=fMTvIFFDCorfBpb/boI/HoBjuSOj1lrwBEdBgCRLf/iRw1+F//eR6oStfvCoMXWMnG
- nO/yAOIb6SctuwUgcLfA2mF1qJZRxigh1NCFKiO2iFYHxW+lvNJwNFbJ2uJ6jSXJwXt2
- 4daJd8KEHWXYfZ4YIRQoQBYlUEQRtSt+vgdlksKrwDiz7XDvGba3/K1BMR8qofMCu6yV
- 19jbbF8xMRPhLYcLGyXv5/LTBs4HsDeu3Z/4v6ypdy99BJ3aHZYa6aC270leKVO40Sli
- cx2RPyvkLN8tRQAZ+Hu2009uUzn2yFJacOvQJkIXZAE3IMj0NaFW/apUtIuU1gV28Hpx
- XIQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=3w4mX1qsjSiPO0pJ/lfZfSTSL+aAl8Bv1zC1N3BSyI8=;
- b=oQBeVnmCtf/mmWDTJgOt8FjXMjiRv9CEyAFkzYRIJ9yHFfiaGU5wlujlJAXBPYJYkU
- 6ce0kYSGtkpO6RUWAJjoxK778ovMHlZPHZ/MKjmjhd09sINoNxjQ3fMxZnVduxKSD0Mo
- OJO1oMaqlDbuLhozYGSmjuhzwjO1yGN/rZhI+sUhdiUNoed/F3vDVUBrBIanUUEGKqmD
- QtprJ9kkkiJSkLz6RRmaQYR0w0Jtp0b3XC6gmv4JIGqB5T5alHlzdqHv6PzIXIzq4Xwq
- GA81ArSwSFSccVCnlpHiQV2GUVsCd6KepWg4gTH0SGanKOGM0P02Uzq6Oudt/x3meQH5
- cPyg==
-X-Gm-Message-State: ANoB5pkj4SPSgaxHjtYyvcQ8B537J43ayp9IcJky1wdmCt4hPFVIvKIV
- +CCyXLy6octubiNFrPKjHFpvPQ==
-X-Google-Smtp-Source: AA0mqf7W+gJDbUZRg7VZLLiC8KBQUwhPhNiKZ+4j/iqQPEHRdHItYqdxHTaYLGg6sEqKYdJRT6FbSg==
-X-Received: by 2002:adf:e70c:0:b0:236:6578:48ad with SMTP id
- c12-20020adfe70c000000b00236657848admr1472896wrm.405.1668178541326; 
- Fri, 11 Nov 2022 06:55:41 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- n19-20020a05600c3b9300b003b4c979e6bcsm9831705wms.10.2022.11.11.06.55.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 06:55:38 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 26F421FFC4;
- Fri, 11 Nov 2022 14:55:31 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
- pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm@nongnu.org (open list:ARM cores)
-Subject: [PATCH v2 12/12] hw/intc: add implementation of GICD_IIDR to Arm GIC
-Date: Fri, 11 Nov 2022 14:55:29 +0000
-Message-Id: <20221111145529.4020801-13-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221111145529.4020801-1-alex.bennee@linaro.org>
-References: <20221111145529.4020801-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1otVac-0000V8-5c
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:05:07 -0500
+Received: from bg4.exmail.qq.com ([43.155.65.254])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <bmeng@tinylab.org>) id 1otVaX-000274-KM
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:05:05 -0500
+X-QQ-mid: bizesmtp71t1668178859tewe27g0
+Received: from pek-vx-bsp2.wrs.com ( [60.247.85.88])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Fri, 11 Nov 2022 23:00:58 +0800 (CST)
+X-QQ-SSF: 00200000002000807000B00A0000000
+X-QQ-FEAT: ILHsT53NKPhm2w4xBYnDGTh4Z4WHAVzU5btVg2EyR+xL4ZIByL15vRuuxKR2e
+ Wf9f3FGkdPxomnth2UjBCQawsBkDPQEsicL3H7+wFNH6y8xsZnC2T+QlmYPpPwmR3In/tS+
+ C1CQfrxkB/eCBOFQcFvKRb51OYwV/Ap9eq3GChqUjJYcxrzOtz8S5+gLj6Z0LD9TpN41ifD
+ Quqpa2Fx347gA0YCMdB8ZG6qgnC2nUTMy8WW6kDZFbObwrCK69iLOVKg1YkiFVjSL1tCuoz
+ AnzNDKKfu1NMnhcrJMYiSJDZ32i01vY6lxxAtLD2YzlxW7L9pBqLBJ/E8rApCPb4nYaF5qb
+ yxQ066a4kqnaugk0ZtzLMBzEundytpIMya+wDBk7hPJPUI9oD0=
+X-QQ-GoodBg: 0
+From: Bin Meng <bmeng@tinylab.org>
+To: philmd@linaro.org
+Cc: armbru@redhat.com, bin.meng@windriver.com, f4bug@amsat.org,
+ kwolf@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ xieyongji@bytedance.com
+Subject: Re: [PATCH-for-7.2 v2] libvduse: Avoid warning about dangerous use of
+ strncpy()
+Date: Fri, 11 Nov 2022 23:00:57 +0800
+Message-Id: <20221111150057.1134462-1-bmeng@tinylab.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20221111124550.35753-1-philmd@linaro.org>
+References: <20221111124550.35753-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:tinylab.org:qybglogicsvr:qybglogicsvr3
+Received-SPF: pass client-ip=43.155.65.254; envelope-from=bmeng@tinylab.org;
+ helo=bg4.exmail.qq.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 11 Nov 2022 11:08:11 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,90 +68,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-a66a24585f (hw/intc/arm_gic: Implement read of GICC_IIDR) implemented
-this for the CPU interface register. The fact we don't implement it
-shows up when running Xen with -d guest_error which is definitely
-wrong because the guest is perfectly entitled to read it.
+> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> GCC 8 added a -Wstringop-truncation warning:
+> 
+>   The -Wstringop-truncation warning added in GCC 8.0 via r254630 for
+>   bug 81117 is specifically intended to highlight likely unintended
+>   uses of the strncpy function that truncate the terminating NUL
+>   character from the source string.
+> 
+> Here the next line indeed unconditionally zeroes the last byte, but
+> 1/ the buffer has been calloc'd, so we don't need to add an extra
+> byte, and 2/ we called vduse_name_is_invalid() which checked the
+> string length, so we can simply call strcpy().
+> 
+> This fixes when using gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0:
+> 
+>   [42/666] Compiling C object subprojects/libvduse/libvduse.a.p/libvduse.c.o
+>   FAILED: subprojects/libvduse/libvduse.a.p/libvduse.c.o
+>   cc -m64 -mcx16 -Isubprojects/libvduse/libvduse.a.p -Isubprojects/libvduse -I../../subprojects/libvduse [...] -o subprojects/libvduse/libvduse.a.p/libvduse.c.o -c ../../subprojects/libvduse/libvduse.c
+>   In file included from /usr/include/string.h:495,
+>                    from ../../subprojects/libvduse/libvduse.c:24:
+>   In function ‘strncpy’,
+>       inlined from ‘vduse_dev_create’ at ../../subprojects/libvduse/libvduse.c:1312:5:
+>   /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error: ‘__builtin_strncpy’ specified bound 256 equals destination size [-Werror=stringop-truncation]
+>     106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
+>         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   cc1: all warnings being treated as errors
+>   ninja: build stopped: cannot make progress due to previous errors.
+> 
+> Fixes: d9cf16c0be ("libvduse: Replace strcpy() with strncpy()")
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+> Supersedes: <20220919192306.52729-1-f4bug@amsat.org>
+> Cc: Xie Yongji <xieyongji@bytedance.com>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  subprojects/libvduse/libvduse.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Lightly re-factor this region of registers and also add a comment to
-the function in case anyway was under the illusion we only return
-bytes from a function called readb.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
----
-v2
-  - checkpatch fixes.
----
- hw/intc/arm_gic.c | 44 ++++++++++++++++++++++++++++++--------------
- 1 file changed, 30 insertions(+), 14 deletions(-)
-
-diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
-index 492b2421ab..65b1ef7151 100644
---- a/hw/intc/arm_gic.c
-+++ b/hw/intc/arm_gic.c
-@@ -941,6 +941,10 @@ static void gic_complete_irq(GICState *s, int cpu, int irq, MemTxAttrs attrs)
-     gic_update(s);
- }
- 
-+/*
-+ * Although this is named a byte read we don't always return bytes and
-+ * rely on the calling function oring bits together.
-+ */
- static uint32_t gic_dist_readb(void *opaque, hwaddr offset, MemTxAttrs attrs)
- {
-     GICState *s = (GICState *)opaque;
-@@ -954,23 +958,35 @@ static uint32_t gic_dist_readb(void *opaque, hwaddr offset, MemTxAttrs attrs)
-     cpu = gic_get_current_cpu(s);
-     cm = 1 << cpu;
-     if (offset < 0x100) {
--        if (offset == 0) {      /* GICD_CTLR */
--            if (s->security_extn && !attrs.secure) {
--                /* The NS bank of this register is just an alias of the
--                 * EnableGrp1 bit in the S bank version.
--                 */
--                return extract32(s->ctlr, 1, 1);
--            } else {
--                return s->ctlr;
-+        if (offset < 0xc) {
-+            switch (offset) {
-+            case 0: /* GICD_CTLR[7:0] */
-+            {
-+                if (s->security_extn && !attrs.secure) {
-+                    /*
-+                     * The NS bank of this register is just an alias of the
-+                     * EnableGrp1 bit in the S bank version.
-+                     */
-+                    return extract32(s->ctlr, 1, 1);
-+                } else {
-+                    return s->ctlr;
-+                }
-             }
--        }
--        if (offset == 4)
--            /* Interrupt Controller Type Register */
--            return ((s->num_irq / 32) - 1)
-+            case 4: /* GIC_TYPER - Interrupt Controller Type Register */
-+            {
-+                return ((s->num_irq / 32) - 1)
-                     | ((s->num_cpu - 1) << 5)
-                     | (s->security_extn << 10);
--        if (offset < 0x08)
--            return 0;
-+            }
-+            case 8: /* GICD_IIDR - Implementer ID Register */
-+            {
-+                return 0x43b; /* Arm JEP106 identity */
-+            }
-+            default:
-+                /* return 0 for high bits of above */
-+                return 0;
-+            }
-+        }
-         if (offset >= 0x80) {
-             /* Interrupt Group Registers: these RAZ/WI if this is an NS
-              * access to a GIC with the security extensions, or if the GIC
--- 
-2.34.1
-
+Tested-by: Bin Meng <bmeng@tinylab.org>
 
