@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4ED62586A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E30625867
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:32:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otRJP-0007XE-D6; Fri, 11 Nov 2022 05:31:03 -0500
+	id 1otRJR-0007dt-5Z; Fri, 11 Nov 2022 05:31:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otRJJ-0007UB-Qw
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:30:57 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otRJM-0007XZ-LI
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:31:01 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otRJI-0000f6-81
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:30:57 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otRJL-0000fb-0T
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:31:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668162655;
+ s=mimecast20190719; t=1668162658;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cwe5B57sWClZbcai1js1rXky9401kBIE+zgEgWTZFcw=;
- b=d/1KZL75IoIddoaIcCysSjTRSeNDSeFFbFvYsRD2RvZzrjICKu1RYkwQtc3fzJ0fS0jI4E
- GT/+fkWzNH3tG99l4Hmd/eXBXlsER4VyooYcUbhY77MrAadOPYYZcWfskZ6Vq8QZzkGS3/
- wN89Nu8kFHpQu45WQOjLbwMU/9eROYg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=23IcRWV2rAzQPynVwCQJJjjYNOpHrcWJYsAarAsyZNs=;
+ b=MGfz4lu6HlHHbzaUiTo3Ofbd/3UmX+00BrxLyrkhY/0pPgs6f+MyVXmstNqOJQ6ztE23yL
+ AH0H2j8fK1Lddl274gcSy4aoYQ/BR6OQcNXv2baUVakT+YchYC8gjazbFNwQUwwsquE+Ht
+ EN/vzOTEy4OYUo+1arMRneV1Fav1SXc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-251-YrGSbagSO8m9TKjx-dnMAA-1; Fri, 11 Nov 2022 05:30:54 -0500
-X-MC-Unique: YrGSbagSO8m9TKjx-dnMAA-1
+ us-mta-255-djzqNPu4PMChqte9bxftKg-1; Fri, 11 Nov 2022 05:30:54 -0500
+X-MC-Unique: djzqNPu4PMChqte9bxftKg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CFBE785A5B6
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 10:30:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2F8029DD985;
+ Fri, 11 Nov 2022 10:30:54 +0000 (UTC)
 Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D93B2023272;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 11A3C2022EA2;
  Fri, 11 Nov 2022 10:30:53 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
-Cc: Miroslav Rezanina <mrezanin@redhat.com>
-Subject: [PULL 4/8] host-libusb: Remove unused variable
-Date: Fri, 11 Nov 2022 11:30:44 +0100
-Message-Id: <20221111103048.202519-5-thuth@redhat.com>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 5/8] libdecnumber/dpd/decimal64: Fix compiler warning from
+ Clang 15
+Date: Fri, 11 Nov 2022 11:30:45 +0100
+Message-Id: <20221111103048.202519-6-thuth@redhat.com>
 In-Reply-To: <20221111103048.202519-1-thuth@redhat.com>
 References: <20221111103048.202519-1-thuth@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
@@ -76,62 +78,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Miroslav Rezanina <mrezanin@redhat.com>
+Clang 15 from Fedora 37 complains:
 
-Variable unconnected used in usb_host_auto_check function is only incremented
-but never read as line where it is read was disabled since introducing the code.
-This causes 'Unused but set variable' warning on Clang 15.0.1 compiler.
+ ../libdecnumber/dpd/decimal64.c:620:8: error: variable 'n' set but
+ not used [-Werror,-Wunused-but-set-variable]
+   Int  n;                     /* output bunch counter */
+        ^
+ 1 error generated.
 
-Removing the variable and disabled code to prevent the warning.
+Remove the unused variable to silence the compiler warning.
 
-Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <00df0db69ff9167d38bac81f6d03281955bd861a.1668009030.git.mrezanin@redhat.com>
+Message-Id: <20221110131112.104283-1-thuth@redhat.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/usb/host-libusb.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+ libdecnumber/dpd/decimal64.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-index 28f8af8941..176868d345 100644
---- a/hw/usb/host-libusb.c
-+++ b/hw/usb/host-libusb.c
-@@ -1837,7 +1837,6 @@ static void usb_host_auto_check(void *unused)
-     struct USBAutoFilter *f;
-     libusb_device **devs = NULL;
-     struct libusb_device_descriptor ddesc;
--    int unconnected = 0;
-     int i, n;
+diff --git a/libdecnumber/dpd/decimal64.c b/libdecnumber/dpd/decimal64.c
+index 4816176410..290dbe8177 100644
+--- a/libdecnumber/dpd/decimal64.c
++++ b/libdecnumber/dpd/decimal64.c
+@@ -617,7 +617,6 @@ static const uInt multies[]={131073, 26215, 5243, 1049, 210};
+ #endif
+ void decDigitsToDPD(const decNumber *dn, uInt *targ, Int shift) {
+   Int  cut;		      /* work */
+-  Int  n;		      /* output bunch counter */
+   Int  digits=dn->digits;     /* digit countdown */
+   uInt dpd;		      /* densely packed decimal value */
+   uInt bin;		      /* binary value 0-999 */
+@@ -676,7 +675,7 @@ void decDigitsToDPD(const decNumber *dn, uInt *targ, Int shift) {
+     bin=0;			   /* [keep compiler quiet] */
+   #endif
  
-     if (usb_host_init() != 0) {
-@@ -1897,9 +1896,6 @@ static void usb_host_auto_check(void *unused)
-         libusb_free_device_list(devs, 1);
- 
-         QTAILQ_FOREACH(s, &hostdevs, next) {
--            if (s->dh == NULL) {
--                unconnected++;
--            }
-             if (s->seen == 0) {
-                 if (s->dh) {
-                     usb_host_close(s);
-@@ -1908,17 +1904,6 @@ static void usb_host_auto_check(void *unused)
-             }
-             s->seen = 0;
-         }
--
--#if 0
--        if (unconnected == 0) {
--            /* nothing to watch */
--            if (usb_auto_timer) {
--                timer_del(usb_auto_timer);
--                trace_usb_host_auto_scan_disabled();
--            }
--            return;
--        }
--#endif
-     }
- 
-     if (!usb_vmstate) {
+-  for(n=0; digits>0; n++) {	   /* each output bunch */
++  while (digits > 0) {             /* each output bunch */
+     #if DECDPUN==3		   /* fast path, 3-at-a-time */
+       bin=*inu;			   /* 3 digits ready for convert */
+       digits-=3;		   /* [may go negative] */
 -- 
 2.31.1
 
