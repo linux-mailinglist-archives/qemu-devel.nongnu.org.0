@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D7B8625541
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 09:28:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB206254FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 09:11:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otP6H-0001F7-0e; Fri, 11 Nov 2022 03:09:21 -0500
+	id 1otP6P-0001Hj-DA; Fri, 11 Nov 2022 03:09:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otP5a-00012y-Io
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 03:08:39 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
+ id 1otP5d-00014C-AG
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 03:08:43 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otP5Z-0002EW-45
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 03:08:38 -0500
-Received: by mail-pl1-x630.google.com with SMTP id u6so3649005plq.12
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 00:08:36 -0800 (PST)
+ id 1otP5b-0002Em-Ke
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 03:08:41 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id b11so3843796pjp.2
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 00:08:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wHZLFNNm0ZFp31ulDF75QeL44+XwFwYbg39T7b6YDuI=;
- b=lrvExQqH1w6XjkIQYK2d419/m7ZliWnB2NPGas5ara0PexBj0NzQQYMqdYn/E2S6qn
- jHyP5QR5vsAypg2dYuKrGPR3FTW/vUtQXiXY2kw5IiwYCXnVM6ZJeBzkzaxQN0qGj7U3
- xCo3HVk20Ht0uihAGa5qv9ASgpUP7AbL+lUjPYmg2ftaGLAaWCXhmuN5EvCoLRcXVNLW
- A+HjPkjQeKxIsDvoY+x15GIXL0sef4dCMvoz4bnBuEsEmVOLv3tnGSW88i2M5rAixeJl
- zruW0MpVDO7SCQrr4AtuEecAhP6Hfp9h+AHLFAhN1HDwBo4EDL6cbJzd7vMlvMEn3N2f
- Wi0Q==
+ bh=AXSkt8Lrp0PeRDPttlqt51NDMAb6lhZkPK4hJZHZsVY=;
+ b=S52OSQ52zdoNk9+2gqUuzQLKYxDE5x505D3pz3saK82OZr6I8oN60po8U2tImfrAH2
+ X/kF4J4RTRX2AlcV2AaJ6oTSdTnYkMOiWh3jfguaX3KLCr9U3h4sfqn3NhUcVXWmird2
+ SrQt+2eQjXy8XQb6IQ8Aok0m0g5kXMPOYdvs4QeQtA38pDXBH6HFSNprk0dzUqRFK4iI
+ ROnB7/mhnGoRmaYDJhfQkyxalUdbBaxUyfzzOv/ogvp3V2A3BFvUP9490ZXBmeJhuwc+
+ 7WAo0jXce7yEId0sf/09frJUcM/lSKiUd4XUdc+RCDKQOBEhHMOtEk0qRp4RX3k7powc
+ XmiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wHZLFNNm0ZFp31ulDF75QeL44+XwFwYbg39T7b6YDuI=;
- b=PWOmsCSBFpob8xdWEa7fTqbb+VU+NgS0rG8gon+r4tpNPJLUBTF5GsHx7rNblHbLDt
- zosl83pFTpbkYBRD0XQpagY8264ugcIKugyKCM3baaf6dxh+fBWqh457VAluDKRK4h+L
- Q4uHuXvLym8QL+fIoHDnkSzb9eeP5QQWwayixJM6NkJLqjX1um3AWk1va7M0Qnzx2LIu
- SiEj4j21XpoLRToYluGjp9UsDbEvBA/VLq8XXh3sowY46CHN43Q+JE5GTBdLhQimnCir
- oLkL+rXY1nuYM+2PJwylNxvXF2kPFvYoXbAdQw43Z0lwkPtIx8UlUC9Fa115smu3kRQi
- Gyxw==
-X-Gm-Message-State: ANoB5pnTNN4m/d9Kh7+HLsQUE1HBxi3XJ7lEVNTxcsatC6rqA4RJ8B2O
- Yh2IDVh0g9vzUYgDdA8wJMT6DUDx9twk/XBa
-X-Google-Smtp-Source: AA0mqf5KE0Oq+9UjrXgdVdBpAwu3qI+eEcC49qAwoV00Je5vKGq/dONtUlXbE2yIq6zgrWpbJP41MA==
-X-Received: by 2002:a17:902:b781:b0:185:40ca:68b8 with SMTP id
- e1-20020a170902b78100b0018540ca68b8mr1541673pls.16.1668154115458; 
- Fri, 11 Nov 2022 00:08:35 -0800 (PST)
+ bh=AXSkt8Lrp0PeRDPttlqt51NDMAb6lhZkPK4hJZHZsVY=;
+ b=KwcqJCttiJisdVvwfuTGw5eAC1X6mdGC7XXaJZzhyI2/tb7mMIFgbSxTYaOSQld6HR
+ l80Kh7SxEH5QCYjK3MKcKeafkW2K5vUvt50dH2EL6N+4V4dMHmzeWALsZ4VeZHeTGIG0
+ ww55ibIZY/uC/KBPELTiUepUuGfZuATNCnk9/pMwNtvG1H/ONzpQar+/FLDhKfPBMJkz
+ SOTZ5aADlJ9fJXRR1aDZsffnVCMk6kgvTzyRwcO9V2LxiBTWxbnuqordolvAH2O7bmbt
+ vVoEFZ1oXBtYKNIsbqGehj1oDS99CGKDDW7vgpXCoYlr259K0tARXvUjzx1VaDtVu6HD
+ dQlA==
+X-Gm-Message-State: ANoB5pkWcYRc44XqtoPEAudRWLzDXxEUybWvRc23GCcBcQTtp5CmsZFj
+ uskmYQFQci/EPooIhfhwrxZprypsNLTbpaPw
+X-Google-Smtp-Source: AA0mqf5Zb369Xov5etuEezcLvhcf3D5N84vaVLOt34jx/SsQd+YewBrexLDytKWoKz1jCrMxWZDstw==
+X-Received: by 2002:a17:90a:8c0c:b0:218:10c0:1afd with SMTP id
+ a12-20020a17090a8c0c00b0021810c01afdmr755932pjo.36.1668154118356; 
+ Fri, 11 Nov 2022 00:08:38 -0800 (PST)
 Received: from stoup.lan
  (2001-44b8-2176-c800-0aef-59aa-1faf-7e61.static.ipv6.internode.on.net.
  [2001:44b8:2176:c800:aef:59aa:1faf:7e61])
  by smtp.gmail.com with ESMTPSA id
- j4-20020a170902c3c400b00186a2dd3ffdsm1046341plj.15.2022.11.11.00.08.33
+ j4-20020a170902c3c400b00186a2dd3ffdsm1046341plj.15.2022.11.11.00.08.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 00:08:35 -0800 (PST)
+ Fri, 11 Nov 2022 00:08:37 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: iii@linux.ibm.com, david@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH for-8.0 v2 03/13] tests/tcg/s390x: Add long-double.c
-Date: Fri, 11 Nov 2022 18:08:10 +1000
-Message-Id: <20221111080820.2132412-4-richard.henderson@linaro.org>
+Cc: iii@linux.ibm.com,
+	david@redhat.com
+Subject: [PATCH for-8.0 v2 04/13] target/s390x: Use a single return for
+ helper_divs32/u32
+Date: Fri, 11 Nov 2022 18:08:11 +1000
+Message-Id: <20221111080820.2132412-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221111080820.2132412-1-richard.henderson@linaro.org>
 References: <20221111080820.2132412-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,57 +93,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Pack the quotient and remainder into a single uint64_t.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/s390x/long-double.c   | 24 ++++++++++++++++++++++++
- tests/tcg/s390x/Makefile.target |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 tests/tcg/s390x/long-double.c
+v2: Fix operand ordering; use tcg_extr32_i64.
+---
+ target/s390x/helper.h         |  2 +-
+ target/s390x/tcg/int_helper.c | 26 +++++++++++++-------------
+ target/s390x/tcg/translate.c  |  8 ++++----
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/tests/tcg/s390x/long-double.c b/tests/tcg/s390x/long-double.c
-new file mode 100644
-index 0000000000..757a6262fd
---- /dev/null
-+++ b/tests/tcg/s390x/long-double.c
-@@ -0,0 +1,24 @@
-+/*
-+ * Perform some basic arithmetic with long double, as a sanity check.
-+ * With small integral numbers, we can cross-check with integers.
-+ */
-+
-+#include <assert.h>
-+
-+int main()
-+{
-+    int i, j;
-+
-+    for (i = 1; i < 5; i++) {
-+        for (j = 1; j < 5; j++) {
-+            long double la = (long double)i + j;
-+            long double lm = (long double)i * j;
-+            long double ls = (long double)i - j;
-+
-+            assert(la == i + j);
-+            assert(lm == i * j);
-+            assert(ls == i - j);
-+        }
-+    }
-+    return 0;
-+}
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 79250f31dd..1d454270c0 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -26,6 +26,7 @@ TESTS+=branch-relative-long
- TESTS+=noexec
- TESTS+=div
- TESTS+=clst
-+TESTS+=long-double
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index bf33d86f74..97a9668eef 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -10,7 +10,7 @@ DEF_HELPER_FLAGS_4(clc, TCG_CALL_NO_WG, i32, env, i32, i64, i64)
+ DEF_HELPER_3(mvcl, i32, env, i32, i32)
+ DEF_HELPER_3(clcl, i32, env, i32, i32)
+ DEF_HELPER_FLAGS_4(clm, TCG_CALL_NO_WG, i32, env, i32, i32, i64)
+-DEF_HELPER_FLAGS_3(divs32, TCG_CALL_NO_WG, s64, env, s64, s64)
++DEF_HELPER_FLAGS_3(divs32, TCG_CALL_NO_WG, i64, env, s64, s64)
+ DEF_HELPER_FLAGS_3(divu32, TCG_CALL_NO_WG, i64, env, i64, i64)
+ DEF_HELPER_FLAGS_3(divs64, TCG_CALL_NO_WG, s64, env, s64, s64)
+ DEF_HELPER_FLAGS_4(divu64, TCG_CALL_NO_WG, i64, env, i64, i64, i64)
+diff --git a/target/s390x/tcg/int_helper.c b/target/s390x/tcg/int_helper.c
+index 954542388a..7260583cf2 100644
+--- a/target/s390x/tcg/int_helper.c
++++ b/target/s390x/tcg/int_helper.c
+@@ -34,45 +34,45 @@
+ #endif
  
- Z13_TESTS=vistr
- $(Z13_TESTS): CFLAGS+=-march=z13 -O2
+ /* 64/32 -> 32 signed division */
+-int64_t HELPER(divs32)(CPUS390XState *env, int64_t a, int64_t b64)
++uint64_t HELPER(divs32)(CPUS390XState *env, int64_t a, int64_t b64)
+ {
+-    int32_t ret, b = b64;
+-    int64_t q;
++    int32_t b = b64;
++    int64_t q, r;
+ 
+     if (b == 0) {
+         tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
+     }
+ 
+-    ret = q = a / b;
+-    env->retxl = a % b;
++    q = a / b;
++    r = a % b;
+ 
+     /* Catch non-representable quotient.  */
+-    if (ret != q) {
++    if (q != (int32_t)q) {
+         tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
+     }
+ 
+-    return ret;
++    return deposit64(q, 32, 32, r);
+ }
+ 
+ /* 64/32 -> 32 unsigned division */
+ uint64_t HELPER(divu32)(CPUS390XState *env, uint64_t a, uint64_t b64)
+ {
+-    uint32_t ret, b = b64;
+-    uint64_t q;
++    uint32_t b = b64;
++    uint64_t q, r;
+ 
+     if (b == 0) {
+         tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
+     }
+ 
+-    ret = q = a / b;
+-    env->retxl = a % b;
++    q = a / b;
++    r = a % b;
+ 
+     /* Catch non-representable quotient.  */
+-    if (ret != q) {
++    if (q != (uint32_t)q) {
+         tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
+     }
+ 
+-    return ret;
++    return deposit64(q, 32, 32, r);
+ }
+ 
+ /* 64/64 -> 64 signed division */
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index 2fbdab7252..9c2ea15c8d 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -2395,15 +2395,15 @@ static DisasJumpType op_diag(DisasContext *s, DisasOps *o)
+ 
+ static DisasJumpType op_divs32(DisasContext *s, DisasOps *o)
+ {
+-    gen_helper_divs32(o->out2, cpu_env, o->in1, o->in2);
+-    return_low128(o->out);
++    gen_helper_divs32(o->out, cpu_env, o->in1, o->in2);
++    tcg_gen_extr32_i64(o->out2, o->out, o->out);
+     return DISAS_NEXT;
+ }
+ 
+ static DisasJumpType op_divu32(DisasContext *s, DisasOps *o)
+ {
+-    gen_helper_divu32(o->out2, cpu_env, o->in1, o->in2);
+-    return_low128(o->out);
++    gen_helper_divu32(o->out, cpu_env, o->in1, o->in2);
++    tcg_gen_extr32_i64(o->out2, o->out, o->out);
+     return DISAS_NEXT;
+ }
+ 
 -- 
 2.34.1
 
