@@ -2,95 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE85625B68
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 14:47:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E80625B29
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 14:29:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otT3z-0004pj-KN; Fri, 11 Nov 2022 07:23:15 -0500
+	id 1otT5k-0007CU-BV; Fri, 11 Nov 2022 07:25:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1otT3x-0004pS-MZ
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:23:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1otT3v-0001lC-TW
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:23:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668169391;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OvRjx5b7isyQ5sLD1BJgcEkm3pMOPIBsGQVY5ORrZ8U=;
- b=L4ItE6pctn7bdqUI6uRurarr/XEJNxUbZH1WDi9fdNhiv3ZAc21hPSTbXc6U2yYakP0OHS
- WO9qoohfocMjt0yW2gSRk3ODY6N3XHbEY/3FSfRN6LmFRm6X0J1xjiZVqpXqcwXXLhlPbp
- BTeXFn/78ipFx7B7MwkzetiU12tngCQ=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-170-ha1WSfj9PRumJoLtqV7LOw-1; Fri, 11 Nov 2022 07:23:09 -0500
-X-MC-Unique: ha1WSfj9PRumJoLtqV7LOw-1
-Received: by mail-qk1-f200.google.com with SMTP id
- j13-20020a05620a410d00b006e08208eb31so4611058qko.3
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 04:23:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OvRjx5b7isyQ5sLD1BJgcEkm3pMOPIBsGQVY5ORrZ8U=;
- b=vLoI4oyRt6qXFwkitknLUaFY2PCbIKzun1uytL6flQqNkxNeem5zAggxqO8Sl9pNnQ
- ykHqTlk0ix+1onigtMfjZAivzwXPBkKXDl5Wf4i00gaRk/nBmQfzCyNwPlpVOBGWJTB9
- RxFI/vHhchId7DJ0WPtr1mmYSrwfj1ptvjXTUW5NYW/GD9An0r72HjkcHDQvaUTlbpJi
- Si2UyumMPFM8DD56GeAvVlc56VOSRaQeqAtvN4QcuB7SBFql7mRhYov0CG0DlKLncCdo
- puwj/nhOVQiIb17egwvDYm7gkcJv0nn6hkc+g/l3pabXLdaaKRKUYxfNaFRfvFVvr0Te
- R29Q==
-X-Gm-Message-State: ANoB5pls4u2nG94UshFyS5Qf6OdGQ55T8KdlWUMRJJlxgAPN+DbvmnOj
- XXUnNH7k+E1V/Dwmi0Xt90tZgaUk3lXGuIF+dTcb3mXNyLn3hjSfJBCHGdPffjRXidXtbFqg7Ot
- N6hz48plJyy3vt1I=
-X-Received: by 2002:ac8:454b:0:b0:3a5:7ba9:704f with SMTP id
- z11-20020ac8454b000000b003a57ba9704fmr970559qtn.331.1668169389432; 
- Fri, 11 Nov 2022 04:23:09 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5KXgzsU+CEzWWHh05vsIXte0N4j8WrYX+vCkRzEhBUqywLtPHPpJrNArpXYo5PQ7NoRMtVUw==
-X-Received: by 2002:ac8:454b:0:b0:3a5:7ba9:704f with SMTP id
- z11-20020ac8454b000000b003a57ba9704fmr970552qtn.331.1668169389226; 
- Fri, 11 Nov 2022 04:23:09 -0800 (PST)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- bl12-20020a05620a1a8c00b006fae7e6204bsm1292809qkb.108.2022.11.11.04.23.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 04:23:08 -0800 (PST)
-Message-ID: <53c4a350-45e6-50a3-7eb7-ee4c3a2ac761@redhat.com>
-Date: Fri, 11 Nov 2022 13:23:06 +0100
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1otT5Y-00074L-3Q
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:24:52 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219] helo=chinatelecom.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1otT5V-00024O-JH
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 07:24:51 -0500
+HMM_SOURCE_IP: 172.18.0.218:54908.1837662507
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-36.111.64.85 (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 8B5112800B4;
+ Fri, 11 Nov 2022 20:24:28 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([36.111.64.85])
+ by app0025 with ESMTP id ac0d8f5007a44dd58aae3adce6e32314 for mst@redhat.com; 
+ Fri, 11 Nov 2022 20:24:38 CST
+X-Transaction-ID: ac0d8f5007a44dd58aae3adce6e32314
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 36.111.64.85
+X-MEDUSA-Status: 0
+Message-ID: <51a568c7-3200-9f37-dfa9-5562415d0167@chinatelecom.cn>
+Date: Fri, 11 Nov 2022 20:24:27 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 6/8] virtio-blk: remove unnecessary AioContext lock from
- function already safe
-Content-Language: en-US
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>
-References: <20221108211930.876142-1-stefanha@redhat.com>
- <20221108211930.876142-7-stefanha@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <20221108211930.876142-7-stefanha@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH v3 1/2] vhost-user: Refactor vhost acked features saving
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Guoyi Tu <tugy@chinatelecom.cn>
+References: <cover.1667136717.git.huangy81@chinatelecom.cn>
+ <2c9618e155b29b6fb811de112fc03d9585c85070.1667136717.git.huangy81@chinatelecom.cn>
+ <20221110135334-mutt-send-email-mst@kernel.org>
+From: Hyman Huang <huangy81@chinatelecom.cn>
+In-Reply-To: <20221110135334-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.219;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,25 +73,91 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-Am 08/11/2022 um 22:19 schrieb Stefan Hajnoczi:
-> From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->
-> AioContext lock was introduced in b9e413dd375 and in this instance
-> it is used to protect these 3 functions:
-> - virtio_blk_handle_rw_error
-> - virtio_blk_req_complete
-> - block_acct_done
->
-> Now that all three of the above functions are protected with
-> their own locks, we can get rid of the AioContext lock.
->
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Message-Id: <20220609143727.1151816-9-eesposit@redhat.com>
->
+在 2022/11/11 2:56, Michael S. Tsirkin 写道:
+> On Sun, Oct 30, 2022 at 09:52:38PM +0800, huangy81@chinatelecom.cn wrote:
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>
+>> Abstract vhost acked features saving into
+>> vhost_user_save_acked_features, export it as util function.
+>>
+>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>> Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
+>> ---
+>>   include/net/vhost-user.h |  2 ++
+>>   net/vhost-user.c         | 29 ++++++++++++++++++-----------
+>>   2 files changed, 20 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/include/net/vhost-user.h b/include/net/vhost-user.h
+>> index 5bcd8a6..00d4661 100644
+>> --- a/include/net/vhost-user.h
+>> +++ b/include/net/vhost-user.h
+>> @@ -14,5 +14,7 @@
+>>   struct vhost_net;
+>>   struct vhost_net *vhost_user_get_vhost_net(NetClientState *nc);
+>>   uint64_t vhost_user_get_acked_features(NetClientState *nc);
+>> +void vhost_user_save_acked_features(NetClientState *nc,
+>> +                                    bool cleanup);
+>>   
+>>   #endif /* VHOST_USER_H */
+>> diff --git a/net/vhost-user.c b/net/vhost-user.c
+>> index b1a0247..74f349c 100644
+>> --- a/net/vhost-user.c
+>> +++ b/net/vhost-user.c
+>> @@ -45,24 +45,31 @@ uint64_t vhost_user_get_acked_features(NetClientState *nc)
+>>       return s->acked_features;
+>>   }
+>>   
+>> -static void vhost_user_stop(int queues, NetClientState *ncs[])
+>> +void vhost_user_save_acked_features(NetClientState *nc, bool cleanup)
+>>   {
+>>       NetVhostUserState *s;
+>> +
+>> +    s = DO_UPCAST(NetVhostUserState, nc, nc);
+>> +    if (s->vhost_net) {
+>> +        uint64_t features = vhost_net_get_acked_features(s->vhost_net);
+>> +        if (features) {
+>> +            s->acked_features = features;
+>> +        }
+>> +
+>> +        if (cleanup) {
+>> +            vhost_net_cleanup(s->vhost_net);
+>> +        }
+>> +    }
+>> +}
+> 
+> I can't figure out what is going on here.  Why is there a cleanup flag?
+> What does cleanup have to do with saving acked features?
+> I suspect it's better to just leave this part in the caller.
+> 
+Indeed, i'll adjust the logic next version.
+>> +
+>> +static void vhost_user_stop(int queues, NetClientState *ncs[])
+>> +{
+>>       int i;
+>>   
+>>       for (i = 0; i < queues; i++) {
+>>           assert(ncs[i]->info->type == NET_CLIENT_DRIVER_VHOST_USER);
+>>   
+>> -        s = DO_UPCAST(NetVhostUserState, nc, ncs[i]);
+>> -
+>> -        if (s->vhost_net) {
+>> -            /* save acked features */
+>> -            uint64_t features = vhost_net_get_acked_features(s->vhost_net);
+>> -            if (features) {
+>> -                s->acked_features = features;
+>> -            }
+>> -            vhost_net_cleanup(s->vhost_net);
+>> -        }
+>> +        vhost_user_save_acked_features(ncs[i], true);
+>>       }
+>>   }
+>>   
+>> -- 
+>> 1.8.3.1
+> 
 
+-- 
+Best regard
 
-Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-
+Hyman Huang(黄勇)
 
