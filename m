@@ -2,78 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31360625E05
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 16:14:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D9C625E5A
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 16:29:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otVj0-0004M3-Jx; Fri, 11 Nov 2022 10:13:46 -0500
+	id 1otVwm-00083w-DM; Fri, 11 Nov 2022 10:28:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1otViQ-0004Iu-E7
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:13:10 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1otViN-0004rY-Ro
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:13:10 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- q1-20020a17090a750100b002139ec1e999so4954627pjk.1
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 07:13:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=wsQMgPCL3TQDu+BSsj4DVMKGoyBZ0jGsQSTxOhUqFD8=;
- b=spv/ev7nfjJvrs2oCMSdZzNtnHZ1ba1zLcyas0+2xpGJV/pQkwoTiywMK39pWKSdsM
- BGjXRTwHkiJdIrEQpkXCj7wOvZxGYDQMF60qGt1Xmb6QIGhPOlBvb/hn2CrM2f23ITEc
- 2gZIAjKvRpvmejemdGTC0bTFHXWi6hIB+nr4wk9Mz0UM2sVxws9UwJTQC1RH5eEWfQZX
- 2FJMdqblaPrwe+bwURBB3o+ZDpg6266BpnfEgJXBAa6x1P9GFubX57MmyyW3nCE0FeKx
- kmDBbnBdB1P+c9LGpOM/0+C8tPP4yoH3zM41NolVFxlUaNhm/OdQ8lvyMKEYHemP1mrI
- WO+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wsQMgPCL3TQDu+BSsj4DVMKGoyBZ0jGsQSTxOhUqFD8=;
- b=FN5L7O4q4q5SrcBDWXzfutng02jMY6MPjMmCmJmHS8f+nNsN/yo1vGtStkt0QILWW3
- WuP2xi1Vxt0d6rLcnAec+zZzu3XP2iRZ1eF784opTNa483ObPucBV9q7zkhIacXGginF
- baB1XxLPAUDDclQoVxkfmiypK6d67uRPdYN0z4d63MyNVEHqhvPvwccq2/OzSal8HBMe
- 5W3uN8rzuwILy+wyOnvfB/rcTPKEbUgJFEkuxNeNRSD7uuuZSuBGy+4RclznjTZSUCit
- H5OUAudLBFHcuJw+G6wjcoyhS4TTJtPvkPaJS4lbhT48slMHFCOwd7Xjp/ITU23BOgHz
- 3AmA==
-X-Gm-Message-State: ANoB5pkD+vlcrYnX4AAXisf8vdAiQBe6G0Dnz5XmFjYEcF/e/DmwKpa4
- yLJx0Ij3oGytq7+SjwimUhnav1Zjbn47OW3i+0A=
-X-Google-Smtp-Source: AA0mqf5fAlgvHUNg+SJdW3fnIL9hCqMGYB1ejfyUjVRBBNK48bAfBalxVuUpADzSyFjqyEkgKIMJRQ==
-X-Received: by 2002:a17:903:410c:b0:186:9fb9:1f84 with SMTP id
- r12-20020a170903410c00b001869fb91f84mr3061865pld.45.1668179584372; 
- Fri, 11 Nov 2022 07:13:04 -0800 (PST)
-Received: from localhost.localdomain ([115.96.143.216])
- by smtp.gmail.com with ESMTPSA id
- p13-20020a17090b010d00b002009db534d1sm1727213pjz.24.2022.11.11.07.13.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 07:13:04 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org
-Cc: Ani Sinha <ani@anisinha.ca>, "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH] MAINTAINERS: add mst to list of biosbits maintainers
-Date: Fri, 11 Nov 2022 20:41:38 +0530
-Message-Id: <20221111151138.36988-1-ani@anisinha.ca>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwh-000814-Mu
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:27:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otVwf-0000uZ-SK
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 10:27:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668180472;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=76QDYYCOLMMkXQ3nP6QfeuH5OEm44b4NHn6H2o7kgEY=;
+ b=Ds2+aujoUzarxVbs6qGMGzUMBRAKK9da/MByR9DwJRkL8b4DbPMRM9KIijcAmNrr+i92JK
+ 5ppTCDWT7dE0POXhgukYvxKWSafeTgg7fN2MGSBcOKruuCbPXEV+yEVPnAw5iBG7L2IE3I
+ jz81NGSrZJd0cHxVzezdt3yVOf2E8Bk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-513-vY08ZEDkM4GEOg8eyiGi_A-1; Fri, 11 Nov 2022 10:27:50 -0500
+X-MC-Unique: vY08ZEDkM4GEOg8eyiGi_A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A7FC1C06EC2;
+ Fri, 11 Nov 2022 15:27:50 +0000 (UTC)
+Received: from merkur.redhat.com (unknown [10.39.193.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E2673C15BA8;
+ Fri, 11 Nov 2022 15:27:48 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: kwolf@redhat.com,
+	stefanha@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [PULL 00/11] Block layer patches
+Date: Fri, 11 Nov 2022 16:27:33 +0100
+Message-Id: <20221111152744.261358-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102b;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,28 +74,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Adding Michael's name to the list of bios bits maintainers so that all changes
-and fixes into biosbits framework can go through his tree and he is notified.
+The following changes since commit 2ccad61746ca7de5dd3e25146062264387e43bd4:
 
-Suggested-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+  Merge tag 'pull-tcg-20221109' of https://gitlab.com/rth7680/qemu into staging (2022-11-09 13:26:45 -0500)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index caba73ec41..c50b15f94d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1865,6 +1865,7 @@ F: hw/acpi/viot.h
- 
- ACPI/AVOCADO/BIOSBITS
- M: Ani Sinha <ani@anisinha.ca>
-+M: Michael S. Tsirkin <mst@redhat.com>
- S: Supported
- F: tests/avocado/acpi-bits/*
- F: tests/avocado/acpi-bits.py
--- 
-2.34.1
+are available in the Git repository at:
+
+  https://repo.or.cz/qemu/kevin.git tags/for-upstream
+
+for you to fetch changes up to b04af371af685c12970ea93027dc6d8bf86265aa:
+
+  tests/stream-under-throttle: New test (2022-11-11 13:02:43 +0100)
+
+----------------------------------------------------------------
+Block layer patches
+
+- Fix deadlock in graph modification with iothreads
+- mirror: Fix non-converging cases for active mirror
+- qapi: Fix BlockdevOptionsNvmeIoUring @path description
+- blkio: Set BlockDriver::has_variable_length to false
+
+----------------------------------------------------------------
+Alberto Faria (2):
+      qapi/block-core: Fix BlockdevOptionsNvmeIoUring @path description
+      block/blkio: Set BlockDriver::has_variable_length to false
+
+Hanna Reitz (9):
+      block/mirror: Do not wait for active writes
+      block/mirror: Drop mirror_wait_for_any_operation()
+      block/mirror: Fix NULL s->job in active writes
+      iotests/151: Test that active mirror progresses
+      iotests/151: Test active requests on mirror start
+      block: Make bdrv_child_get_parent_aio_context I/O
+      block-backend: Update ctx immediately after root
+      block: Start/end drain on correct AioContext
+      tests/stream-under-throttle: New test
+
+ qapi/block-core.json                               |   2 +-
+ include/block/block-global-state.h                 |   1 -
+ include/block/block-io.h                           |   2 +
+ include/block/block_int-common.h                   |   4 +-
+ block.c                                            |   2 +-
+ block/blkio.c                                      |   1 -
+ block/block-backend.c                              |   9 +-
+ block/io.c                                         |   6 +-
+ block/mirror.c                                     |  78 ++++---
+ blockjob.c                                         |   3 +-
+ tests/qemu-iotests/151                             | 227 ++++++++++++++++++++-
+ tests/qemu-iotests/151.out                         |   4 +-
+ tests/qemu-iotests/tests/stream-under-throttle     | 121 +++++++++++
+ tests/qemu-iotests/tests/stream-under-throttle.out |   5 +
+ 14 files changed, 424 insertions(+), 41 deletions(-)
+ create mode 100755 tests/qemu-iotests/tests/stream-under-throttle
+ create mode 100644 tests/qemu-iotests/tests/stream-under-throttle.out
 
 
