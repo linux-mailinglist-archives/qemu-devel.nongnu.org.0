@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A72624F37
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 02:08:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 503E0625148
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 04:07:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otIVp-0002cX-CO; Thu, 10 Nov 2022 20:07:17 -0500
+	id 1otKMf-0001At-Ky; Thu, 10 Nov 2022 22:05:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1otIVl-0002cM-Mx
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 20:07:13 -0500
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1otIVg-0007hy-CB
- for qemu-devel@nongnu.org; Thu, 10 Nov 2022 20:07:13 -0500
-Received: by mail-yb1-xb36.google.com with SMTP id r3so4390655yba.5
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 17:07:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=YCTjhl+IvBB7wv4KSs3k28ipw+0hsnMNXfHHb1Adtq4=;
- b=kLsi5mZj8FfdSmRiksfLDi0cjJeBe/n/GJwh3YEPfT1xE96jDvykSOq/RnNrC/lAQw
- HboBR/xGeGo/8YNd+tUPs0buXMUp5373MSB6FI7+OhQRkFDoT3JYuytFjFM5CWxZKwUM
- CSJXBN5fDn6qNHcfwQRbwSBv4AXoc0sV5XzLS3MDKSxYtc0qCgKqmp7L+MidO/9/+FGD
- jfQnBCwrbGVoo7bErXLkQocgvWsMRhXClDhovSCIW7yYlxeW37oY+ZHZJU7I5t5RF5Y7
- L8r0/xKUo4AEOKmVNKR5coUuko9kh5PvRVNegT506XRQ+q3HZ/k56TvFadKjUhgFSRJ3
- zAbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=YCTjhl+IvBB7wv4KSs3k28ipw+0hsnMNXfHHb1Adtq4=;
- b=F6lhcTrvbyl+9alXDHwFdkVStvObYVoS9aKmWMt7oL7q15hwTKEA79IvmaZnS5kVf8
- hiKUFsVGshqS0nFhXWIYclt53kebFEsnp17F6kc1Sk7WK3nNvn4D96UxHVeCuQDMfaq0
- B74MLBjxD5yEClM33vl7yW648hDSd2qPnDt1lPzS/TgFMszhZumg1bMSUS7wmLeN9pR7
- g12G/uI1H36/AdS2nmCIfpujNe+fxxvzcrE+w8tXv18k2OAnzMxT7H2g+xhT3E4NKMAf
- wAqKLfsuEXC4g4NPai4rKy6YAr539JiIZi9KtCgdbcgIBTGYtkmuTYOCMOvROR4BFXg6
- MI6Q==
-X-Gm-Message-State: ACrzQf0IOQhhnN6vVwFFvpRrZDyo3bWcB6gYIh3NmuuGe2O3h6STDH14
- +p5joq56IaS8sooQGWYhQS15FcIPztij1wHmaxc=
-X-Google-Smtp-Source: AMsMyM6Ewhqw0TNHlMtzbleI8ZzVKtTTzB+ocBsUsHjsHpdxhBBkkWkhTeO3k3eDVx8gUOzp5eP4T9InIJCZW+mv85I=
-X-Received: by 2002:a05:6902:191:b0:6cd:3a43:cda3 with SMTP id
- t17-20020a056902019100b006cd3a43cda3mr53755487ybh.207.1668128827135; Thu, 10
- Nov 2022 17:07:07 -0800 (PST)
-MIME-Version: 1.0
-References: <20221111005214.22764-1-tsimpson@quicinc.com>
-In-Reply-To: <20221111005214.22764-1-tsimpson@quicinc.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 10 Nov 2022 20:06:55 -0500
-Message-ID: <CAJSP0QXYdLGuX=dRUw2y4qn04K-SCn0eWjWfC2T+gnsq2_+OKQ@mail.gmail.com>
-Subject: Re: [PULL 00/11] Hexagon bug fixes and performance improvement
-To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, philmd@linaro.org, 
- peter.maydell@linaro.org, bcain@quicinc.com, quic_mathbern@quicinc.com, 
- stefanha@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <zhenyzha@redhat.com>)
+ id 1otKMe-0001Ak-Kl
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 22:05:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhenyzha@redhat.com>)
+ id 1otKMc-0008HN-JW
+ for qemu-devel@nongnu.org; Thu, 10 Nov 2022 22:05:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668135952;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/Ebtbu7vY+ot3eUAnN0SLhn00mg9X23wEB3kzrJxZRk=;
+ b=AW960GFg7jw91mavhr0On6IZLaEM8vVun0zbs/HTOPylRExQKO2jzVh0XT5L3hU72COtVM
+ ketOsIpceAnJgnkCQWxoExSQKpLCAeBN2GV0o+yfcyKgSoXmvy9xpmtJfXkqAI8Di/gtww
+ Ksx/gryuP3mqZJKhzLM+GaEXabP75Tk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-636-QMnmio0APse23uMUM0aMag-1; Thu, 10 Nov 2022 22:05:45 -0500
+X-MC-Unique: QMnmio0APse23uMUM0aMag-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23B2D86F12E;
+ Fri, 11 Nov 2022 03:05:45 +0000 (UTC)
+Received: from cav-thunderx1s-cn88xx-03.khw4.lab.eng.bos.redhat.com
+ (cav-thunderx1s-cn88xx-03.khw4.lab.eng.bos.redhat.com [10.19.240.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D8D3C40C94AA;
+ Fri, 11 Nov 2022 03:05:44 +0000 (UTC)
+From: Zhenyu Zhang <zhenyzha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: armbru@redhat.com, philmd@linaro.org, shan.gavin@gmail.com,
+ eric.auger@redhat.com, imammedo@redhat.com, zhenyzha@redhat.com,
+ lijin@redhat.com
+Subject: [PATCH v3] qapi/qom: Memory backend property prealloc-threads doc fix
+Date: Thu, 10 Nov 2022 22:05:41 -0500
+Message-Id: <20221111030541.191186-1-zhenyzha@redhat.com>
+MIME-Version: 1.0\nContent-Type: text/plain;
+ charset=UTF-8\nContent-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=zhenyzha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, BOGUS_MIME_VERSION=1,
+ DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,13 +78,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Taylor,
-QEMU is frozen for the 7.2 release cycle. Only bug fixes can be merged
-as the tree is being stabilized. You can find the release schedule
-here:
-https://wiki.qemu.org/Planning/7.2
+Commit ffac16fab3 "hostmem: introduce "prealloc-threads" property"
+(v5.0.0) changed the default number of threads from number of CPUs
+to 1.  This was deemed a regression, and fixed in commit f8d426a685
+"hostmem: default the amount of prealloc-threads to smp-cpus".
+Except the documentation remained unchanged.  Update it now.
 
-Please resend with only the bug fixes needed for the 7.2 release. Thanks!
+Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
+---
 
-Stefan
+v3: Covers historical descriptions                  (Markus) 
+v2: The property is changed to smp-cpus since 5.0   (Phild)
+
+---
+ qapi/qom.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/qapi/qom.json b/qapi/qom.json
+index 30e76653ad..dfd89bc6d4 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -576,7 +576,7 @@
+ #
+ # @prealloc: if true, preallocate memory (default: false)
+ #
+-# @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
++# @prealloc-threads: number of CPU threads to use for prealloc (default: number of CPUs) (since 5.0)
+ #
+ # @prealloc-context: thread context to use for creation of preallocation threads
+ #                    (default: none) (since 7.2)
+-- 
+2.31.1
+
 
