@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA2C625D95
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:56:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01D9E625D9F
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:57:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otVRb-00074m-Hb; Fri, 11 Nov 2022 09:55:47 -0500
+	id 1otVRd-00076T-HF; Fri, 11 Nov 2022 09:55:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otVRZ-00073d-EP
+ id 1otVRY-00073V-89
  for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:45 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otVRW-0007yI-Eq
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:44 -0500
-Received: by mail-wr1-x431.google.com with SMTP id y16so6770377wrt.12
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 06:55:42 -0800 (PST)
+ id 1otVRU-0007xm-Ra
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:43 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ m7-20020a05600c090700b003cf8a105d9eso3285106wmp.5
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 06:55:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xz/+zZudDZVBoYNxMc0z6HI0lRrD/gYGRwz0JYOqFX8=;
- b=wqB85alrjz15FAC8JVT/wxBDv23j8WuRbzxe9zLMGxDeSBmmXDT7uRts4XGwBruhLQ
- ft6gMdJK+nh/xtXIMENVeoxep2iAPqbVA0Wo2ybbejq1aEwgbYuoutwVriBSJ3Sbkm8x
- CCPCH2VqY0xz+7qxYpXSSU4OBer+aWr8CTj569ohuXuezT4oVyOxNzQitkwYmDi0xN+q
- BrojgPcASs215mUy5+2GwIBvbvgHPuSewPqVetdVXpD2bd4TZc3YAfmOJFYjZyyAhBWw
- Fl3lGOJqqp6Bl78R4RcK5lHJDEFbOP+tut3xEB6BYZrl1rZ9VhfWtW3w8PcBS5R7fy7G
- N34Q==
+ bh=WRTLAcdznhrZedskLf6RFnKz3rdvDI3Rrzd5Vwnc2gw=;
+ b=Sh+y+Lb4IUJ8Fl45EFZQNU27hNoNU14n3vGgT+9YA1zz9paCMu7U8Q328Qxef61Wne
+ BC8Flz2WtUfuniXiVvosYsAHoisSVBa88e1noBrKEGl/EzVwQrVY2zOmHQAlxOzWO2Ox
+ WcNu5GMm3crIJJjQtFejExJBAd4oxiafEIvF5fUQ81uNXByuoXh6NfAY/hp+NjL7kikb
+ QpLOsto4U6KDHY2b1JwcZcsHnyPB1ip71v0COt/lhjuCDJMZUtfhMKJ6cwvHQsV/J+nF
+ A6ORYyCEcWfQvDjSW5dMva8RRsTkWvM7fuElJrLSX3LZufQvQbiLL4BCL/rtfMc3LTYL
+ crMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xz/+zZudDZVBoYNxMc0z6HI0lRrD/gYGRwz0JYOqFX8=;
- b=WJep4GYzS2Xa3mfY35oWkcUSN377RWE2cJeMaAHbn18iRgwlRq7DRkTqhLP3ESVz/9
- PT5tT1nj4EezHXtiVVj0GRRaAH7ub50rRudOgdILVkDI62CbuI+D3i2rJ7deb6O6UdQk
- 02gMqbjgQIiadpen1bgR8q5YC0heepku2FF7DKCBoygBqlNgqBO68q0yAxqgzBvrj8KA
- nFQqbpFlY+475GUR6m2tazRSihge7rSnZkRJ5srTMmqeitz3uaeA8TXqCmT12AZi2SFG
- SrFQU407TwHwCrmOJ7lWzEMKx8mHB2Zog7GrmNW8Nmy7+5uogQgS+XP9a00/+RhYiMEv
- nmoA==
-X-Gm-Message-State: ANoB5pm2I38fbBR3YJmXfeyAW4de4GSLm+AKZX1Yytm0HDbpS/ugQkbm
- GcsmFyEre5004ruGdkA2DREQEA==
-X-Google-Smtp-Source: AA0mqf7xDQKsjG5etjne0mle/pimD0J0pFU0JQff5P8T1OU/0Oq+rXEyh2qdFZ8DQIQDQLTwmWKQGg==
-X-Received: by 2002:a05:6000:181a:b0:236:6fc5:e624 with SMTP id
- m26-20020a056000181a00b002366fc5e624mr1449175wrh.110.1668178540953; 
- Fri, 11 Nov 2022 06:55:40 -0800 (PST)
+ bh=WRTLAcdznhrZedskLf6RFnKz3rdvDI3Rrzd5Vwnc2gw=;
+ b=JEzuj3IBXlmKtRF3cFpFRYIHHGpTB0/BbhqTlg6o4Y4LXwu0pZoqWHMtcwAbgLqHrP
+ arYT/bUyJ9PZb6LgTOX7DEtoN5i43IEUyUV54cve/4L/lBp34m5Mydo3dl4tW6Qi0HS9
+ /v0IGGaKBxLJksoGLdEWCplnCFGTawDEa7Y3uont2KKYULcbu0vG7tl3s28aiTqr08xW
+ g71ej3taKSPJ0oYrVyEbUf1SYFdCwgp7C9j95gaU1MIxzpK5fbcl/IJh5w9V2S7ej3/o
+ s4C43F2XRdViO+MySFUP7qN4PYOEV/Io5NMNNtJMJQBppsTYe3ajEhj4Mq+ouNVDj/YO
+ iAdw==
+X-Gm-Message-State: ANoB5pmnPFTTzxFZGXwiRlAgKO82Yh4AriDr89JMLGRAq6n76GNSmq2o
+ SuqS+b84vGaecEJoia6ygfKlTw==
+X-Google-Smtp-Source: AA0mqf6Z0nAh5HsTF4YT/H6c2lNHrZC90sf9jdSv0uZtxAgjDH5Q88L/zZgiv/XFYhVPVWTN3QEEVg==
+X-Received: by 2002:a05:600c:19c7:b0:3cf:7066:cf53 with SMTP id
+ u7-20020a05600c19c700b003cf7066cf53mr1492095wmq.135.1668178539520; 
+ Fri, 11 Nov 2022 06:55:39 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- v23-20020a1cf717000000b003c6c4639ac6sm2993443wmh.34.2022.11.11.06.55.32
+ l22-20020a05600c16d600b003cf4eac8e80sm3614909wmn.23.2022.11.11.06.55.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 11 Nov 2022 06:55:38 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D66B31FFC1;
+ by zen.linaroharston (Postfix) with ESMTP id EDCE81FFC2;
  Fri, 11 Nov 2022 14:55:30 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Idan Horowitz <idan.horowitz@gmail.com>,
- Alexandre Iooss <erdnaxe@crans.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: [PATCH v2 09/12] tests/plugins: add a new vcpu state tracking plugin
-Date: Fri, 11 Nov 2022 14:55:26 +0000
-Message-Id: <20221111145529.4020801-10-alex.bennee@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH v2 10/12] tests/avocado: Raise timeout for
+ boot_linux.py:BootLinuxPPC64.test_pseries_tcg
+Date: Fri, 11 Nov 2022 14:55:27 +0000
+Message-Id: <20221111145529.4020801-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221111145529.4020801-1-alex.bennee@linaro.org>
 References: <20221111145529.4020801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,196 +101,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Although we call qemu_plugin_register_vcpu_idle_cb() in the bb test we
-don't really exercise the rest of the state change callbacks. Add a
-new test that tests the whole API.
+From: Peter Maydell <peter.maydell@linaro.org>
 
-[AJB: I wrote this in an attempt to flush out a reproducer for #1195
-although so far no joy.]
+On my machine, a debug build of QEMU takes about 260 seconds to
+complete this test, so with the current timeout value of 180 seconds
+it always times out.  Double the timeout value to 360 so the test
+definitely has enough time to complete.
 
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Idan Horowitz <idan.horowitz@gmail.com>
-
-----
-v2
-  - and min max tracking
-  - fix { style on get_timestamp
+Message-Id: <20221110142901.3832318-1-peter.maydell@linaro.org>
 ---
- tests/plugin/vcpu.c      | 153 +++++++++++++++++++++++++++++++++++++++
- tests/plugin/meson.build |   2 +-
- 2 files changed, 154 insertions(+), 1 deletion(-)
- create mode 100644 tests/plugin/vcpu.c
+ tests/avocado/boot_linux.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/plugin/vcpu.c b/tests/plugin/vcpu.c
-new file mode 100644
-index 0000000000..f4fa518420
---- /dev/null
-+++ b/tests/plugin/vcpu.c
-@@ -0,0 +1,153 @@
-+/*
-+ * Test plugin for exercising the vcpu event callbacks. These exist
-+ * for when vcpus are created and destroyed (especially in linux-user
-+ * where vcpu ~= thread) and when they pause and restart (generally
-+ * for wfi and the like in system emulation).
-+ *
-+ * Copyright (c) 2022 Linaro Ltd
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include <inttypes.h>
-+#include <assert.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <stdio.h>
-+#include <glib.h>
-+
-+#include <qemu-plugin.h>
-+
-+QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
-+
-+typedef struct {
-+    uint64_t start_time_ns;
-+    uint64_t idle_count;
-+    uint64_t last_idle_ts;
-+    uint64_t min_idle_ns;
-+    uint64_t max_idle_ns;
-+    uint64_t total_idle_ns;
-+    uint64_t exit_time_ns;
-+} VCPUData;
-+
-+static GMutex expand_counts_lock;
-+static GArray *counts; /* array of VCPUData */
-+static bool sys_emu;
-+
-+/*
-+ * Fetch VCPU data for a given index, allocate if required.
-+ */
-+static VCPUData *get_vcpu_data(int cpu_index)
-+{
-+    if (cpu_index >= counts->len) {
-+        g_mutex_lock(&expand_counts_lock);
-+        counts = g_array_set_size(counts, cpu_index + 1);
-+        g_mutex_unlock(&expand_counts_lock);
-+    }
-+    /* race if set size re-allocs? */
-+    return &g_array_index(counts, VCPUData, cpu_index);
-+}
-+
-+static uint64_t get_timestamp(void)
-+{
-+    struct timespec ts;
-+    clock_gettime(CLOCK_MONOTONIC, &ts);
-+    return ts.tv_sec * 1000000000LL + ts.tv_nsec;
-+}
-+
-+static void vcpu_init(qemu_plugin_id_t id, unsigned int cpu_index)
-+{
-+    VCPUData *d = get_vcpu_data(cpu_index);
-+    d->start_time_ns = get_timestamp();
-+    d->min_idle_ns = UINT64_MAX;
-+}
-+
-+static void vcpu_idle(qemu_plugin_id_t id, unsigned int cpu_index)
-+{
-+    VCPUData *d = get_vcpu_data(cpu_index);
-+    d->last_idle_ts = get_timestamp();
-+    d->idle_count++;
-+}
-+
-+static void vcpu_resume(qemu_plugin_id_t id, unsigned int cpu_index)
-+{
-+    VCPUData *d = get_vcpu_data(cpu_index);
-+    uint64_t now = get_timestamp();
-+    uint64_t delta = now - d->last_idle_ts;
-+    d->total_idle_ns += delta;
-+    if (delta > d->max_idle_ns) {
-+        d->max_idle_ns = delta;
-+    } else if (delta < d->min_idle_ns) {
-+        d->min_idle_ns = delta;
-+    }
-+}
-+
-+static void vcpu_exit(qemu_plugin_id_t id, unsigned int cpu_index)
-+{
-+    VCPUData *d = get_vcpu_data(cpu_index);
-+    d->exit_time_ns = get_timestamp();
-+}
-+
-+/*
-+ * Report our final stats
-+ */
-+static void plugin_exit(qemu_plugin_id_t id, void *p)
-+{
-+    g_autoptr(GString) report = g_string_new("");
-+    const char *vcpu_or_thread = sys_emu ? "vcpu" : "thread";
-+    int i;
-+
-+    g_string_printf(report, "Exit: we had a total of %d %ss\n",
-+                    counts->len, vcpu_or_thread);
-+
-+    for (i = 0; i < counts->len; i++) {
-+        VCPUData *d = &g_array_index(counts, VCPUData, i);
-+
-+        /* FIXME: we never see vcpu_exit for the main thread */
-+        if (!d->exit_time_ns) {
-+            d->exit_time_ns = get_timestamp();
-+        }
-+
-+        g_string_append_printf(report, "%s %d: %"PRId64" µs lifetime",
-+                               vcpu_or_thread, i,
-+                               (d->exit_time_ns - d->start_time_ns) / 1000);
-+        if (d->idle_count) {
-+            uint64_t idle_us = d->total_idle_ns / 1000;
-+            uint64_t idle_avg = d->total_idle_ns / d->idle_count;
-+            g_string_append_printf(report, ", %"PRId64" idles, %"
-+                                   PRId64 " µs total idle time, %"
-+                                   PRId64 " ns min, %"
-+                                   PRId64 " ns max, %"
-+                                   PRId64 " ns per idle",
-+                                   d->idle_count, idle_us,
-+                                   d->min_idle_ns, d->max_idle_ns, idle_avg);
-+        }
-+        g_string_append_printf(report, "\n");
-+    }
-+    qemu_plugin_outs(report->str);
-+}
-+
-+
-+QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-+                                           const qemu_info_t *info,
-+                                           int argc, char **argv)
-+{
-+    int entries = 2;
-+
-+    if (info->system_emulation) {
-+        entries = info->system.max_vcpus;
-+        sys_emu = true;
-+    }
-+
-+    counts = g_array_sized_new(true, true, sizeof(VCPUData), entries);
-+    g_mutex_init(&expand_counts_lock);
-+
-+    qemu_plugin_register_vcpu_init_cb(id, vcpu_init);
-+    qemu_plugin_register_vcpu_idle_cb(id, vcpu_idle);
-+    qemu_plugin_register_vcpu_resume_cb(id, vcpu_resume);
-+    qemu_plugin_register_vcpu_exit_cb(id, vcpu_exit);
-+
-+    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
-+    return 0;
-+}
-diff --git a/tests/plugin/meson.build b/tests/plugin/meson.build
-index 2bbfc4b19e..8c6b232183 100644
---- a/tests/plugin/meson.build
-+++ b/tests/plugin/meson.build
-@@ -1,5 +1,5 @@
- t = []
--foreach i : ['bb', 'empty', 'insn', 'mem', 'syscall']
-+foreach i : ['bb', 'empty', 'insn', 'mem', 'syscall', 'vcpu']
-   t += shared_module(i, files(i + '.c'),
-                      include_directories: '../../include/qemu',
-                      dependencies: glib)
+diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
+index 571d33882a..2be4be395d 100644
+--- a/tests/avocado/boot_linux.py
++++ b/tests/avocado/boot_linux.py
+@@ -116,7 +116,7 @@ class BootLinuxPPC64(LinuxTest):
+     :avocado: tags=arch:ppc64
+     """
+ 
+-    timeout = 180
++    timeout = 360
+ 
+     def test_pseries_tcg(self):
+         """
 -- 
 2.34.1
 
