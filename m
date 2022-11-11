@@ -2,96 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE0C62591D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 12:09:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31E462591E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 12:09:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otRu4-0003Jd-9b; Fri, 11 Nov 2022 06:08:56 -0500
+	id 1otRuk-0003p9-RT; Fri, 11 Nov 2022 06:09:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1otRtz-0003Iv-G5
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:08:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1otRtw-0006Te-HK
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:08:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668164923;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JWK7XtYPhxxOJCfn4B6o6kPJ553p8g8+cIof3dTQhwI=;
- b=PNpMAsKIvF/QaXbb1Eof3bZc7ks70th6GoZPzCZoPLtmi9XVYq0XmHmqB4hU4YZ69UNaRf
- ekmNqWKuclFUncQ2MCvPfFwxO/ho/sc+eji+OfhTJMHkHhRCyX7tOh9tTQGQ8G8jo4Jun4
- fCoG3bkOISDVKDrRRUWwMMf7EOvtesA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-183-jYAaZGj1NLuEnOglIeN0Fw-1; Fri, 11 Nov 2022 06:08:42 -0500
-X-MC-Unique: jYAaZGj1NLuEnOglIeN0Fw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- m24-20020adfa3d8000000b00236774fd74aso916649wrb.8
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 03:08:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1otRuj-0003o9-B3
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:09:37 -0500
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1otRuh-0007Mc-Co
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:09:37 -0500
+Received: by mail-io1-xd2c.google.com with SMTP id z3so3342175iof.3
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 03:09:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=UNuSEadWnQJ5rGFfoaQV7TBooqeeRMX+k8NteiB0mqQ=;
+ b=GPJFVTFppXxl84ev//oLvdZl5wUGz20oVRnwS/+fuPWIpnTjp/EBY7nWvqKFhpQiSL
+ zqxHhl+oqAUbYEezR27hr825k4FtfhwBDfkttim/iPH7BYBYSsmn4DOmzKx/Ipy/A6+v
+ pqowvcv/ZtSmborgUyavY7JbgGuwsQ/bjlYUyjdZxqkY/zXla09Zw3NEBrUWiqWUFNK+
+ fpn0YvvpXY2P2GDNWP0cqOrlXg5bEfTI82e7+Cp3jHYITRTET1ihdoGYVY3QXw4BJYjp
+ /Rjl39yNB+AI/tGbVyx2D82VCdZvXq9CI7BKFtwNN/x/PrIdWuQdmvYEb2gl0hv+QXXO
+ gdcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JWK7XtYPhxxOJCfn4B6o6kPJ553p8g8+cIof3dTQhwI=;
- b=OO+hd281KWpOs49RwuovszW1uhAUaxwfH3IZoqh3TcpX4A6Qnb6hkkkOn8llLKoFKS
- n53xtyRMOZwQejmMcP8GCmY22VlHsOU7iHrOIwot3N8Cv80Z6Ggg7IO7K++GfGa1oLBO
- QKeKcS0M8t/FIqzWRYorVh0j+3RuB26ALKoqwfXZqFiSZtzej2fb//sw/3vgZgyoxxhw
- 9sO/+riNhxvWAca2qZqPXPS/LLSp8mcuAj2RoylBGF23USFwAZEasZeuBvKMH9vbzV+/
- g9gQ60SAvX1JE7s2yAMHlXqrdwgnis/1KLtA+5FXs7k6Qyyf6So5HxGP4ac4MGwqTb5X
- WdCw==
-X-Gm-Message-State: ANoB5pmB8brPT9AV1MfRd15SBR4Cf6TKraBPXJox7TAy66wm+gXEfYhd
- nalzdKd3Sdz/FGdU6/swvT6IlDwTTTcJU/MY/XKT5JP4BPKmnJCnr0ZpeLTtv388mAucatvgJej
- rFrvNKiKjWLpB0nw=
-X-Received: by 2002:adf:e289:0:b0:238:55af:b5db with SMTP id
- v9-20020adfe289000000b0023855afb5dbmr936531wri.97.1668164920871; 
- Fri, 11 Nov 2022 03:08:40 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf76nQFC5uHRtXiePU+OoEkgrTQPv3HRf8r6ykzquECZSS6X2fjnHYpmDLKpA8l8sO7Zahqc+A==
-X-Received: by 2002:adf:e289:0:b0:238:55af:b5db with SMTP id
- v9-20020adfe289000000b0023855afb5dbmr936516wri.97.1668164920603; 
- Fri, 11 Nov 2022 03:08:40 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.googlemail.com with ESMTPSA id
- w2-20020adfd4c2000000b00225307f43fbsm1625940wrk.44.2022.11.11.03.08.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 03:08:40 -0800 (PST)
-Message-ID: <022fd97e-3500-5830-9a22-7caadc03d5a0@redhat.com>
-Date: Fri, 11 Nov 2022 12:08:39 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=UNuSEadWnQJ5rGFfoaQV7TBooqeeRMX+k8NteiB0mqQ=;
+ b=fC1dUxkAtyU8Y+5Y7pHMw+S2NOziHEMGQ90q++bh/FsHFlZr0OXpiDcAhC3y337lKJ
+ 3MicfeohUnmS4X9BmEdHQ1JJQowC12SzXo13T8OgvMNPHBCuWc/xBSp+5ss5+OoJNR0I
+ MIXmqfzAo9PlKwRA/6xMO/2Zk7j8bBl2bnf/Xk92ZaPk9KF0k5vAIXjBpT2sXeUmRGes
+ 0AmLusUr/3u9YK+d9dHElAqBlVyLxGzKT3FlUWbAKruNIQym+mgCmfRKQFLx5WJppvcv
+ agywIwTRRl/qMNRem2/UtuDPhWCZc8WJTVWQwJoHCmMAadH0amrWNCii3YhWCLRbtMU2
+ bzIg==
+X-Gm-Message-State: ANoB5pmZR8dNNTxeJWpMlaMF6TyyMjYqqeqUzXGs98H1EjJTWeLixUly
+ dY7/k2XGvsPv5Tfu9MoTFf5TKNWguTOpsz2tfLTXPA==
+X-Google-Smtp-Source: AA0mqf57GtEswpd3MmWH3AQntkYCoKSpQ99OCFT3WJ2ygB3Zb0QogyQUDjgMpTZS7UWM6sQ7eEg2Fbwm/VpcB54cyw8=
+X-Received: by 2002:a02:54ca:0:b0:375:7f39:51d9 with SMTP id
+ t193-20020a0254ca000000b003757f3951d9mr499289jaa.174.1668164973645; Fri, 11
+ Nov 2022 03:09:33 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Subject: Re: should ioapic_service really be modelling cpu writes?
-Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu-daude@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <874jv6enct.fsf@linaro.org> <87zgcyd70g.fsf@linaro.org>
- <Y21+VFqKpF6LGz2C@x1n>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Y21+VFqKpF6LGz2C@x1n>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAFn=p-YFQdO+ZfAYVw+T1b16kA2jBVZB7Tpy7J68XYbqgT7UZw@mail.gmail.com>
+ <CAARzgwyzQ-k5Ek-kpFfvLdgD=TLe2EsW6XcBKJqNvUNYN5Qq=g@mail.gmail.com>
+In-Reply-To: <CAARzgwyzQ-k5Ek-kpFfvLdgD=TLe2EsW6XcBKJqNvUNYN5Qq=g@mail.gmail.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Fri, 11 Nov 2022 16:39:22 +0530
+Message-ID: <CAARzgwxwxk17n4e3e1WAug4CacoX5cjRPSc9YBXpcYQM8ZV9QA@mail.gmail.com>
+Subject: Re: biosbits test failing on origin/master
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=ani@anisinha.ca; helo=mail-io1-xd2c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,47 +81,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/10/22 23:42, Peter Xu wrote:
-> I think it shouldn't?  Normally the irq will be in MSI format (IOAPIC will
-> translate to an MSI in QEMU, per ioapic_entry_parse()).
-> 
-> I had a feeling that it'll just go the shortcut here (MSI always starts
-> with 0xfeeXXXXX so definitely bigger than 0xfff):
+On Fri, Nov 11, 2022 at 9:52 AM Ani Sinha <ani@anisinha.ca> wrote:
+>
+> On Thu, Nov 10, 2022 at 11:37 PM John Snow <jsnow@redhat.com> wrote:
+> >
+> > Hiya, on today's origin/master
+> > (2ccad61746ca7de5dd3e25146062264387e43bd4) I'm finding that "make
+> > check-avocado" is failing on the new biosbits test on my local
+> > development machine:
+> >
+> >  (001/193) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits:
+> > FAIL: True is not false : The VM seems to have failed to shutdown in
+> > time (83.65 s)
+> >
+> > Is this a known issue, or should I begin to investigate it?
+>
+> In my test environment it does pass.
+>
+> $ ./tests/venv/bin/avocado run -t acpi tests/avocado
+> Fetching asset from
+> tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits
+> JOB ID     : 35726df7d3c2e0f41847822620c78195ba45b9b9
+> JOB LOG    : /home/anisinha/avocado/job-results/job-2022-11-11T09.42-35726df/job.log
+>  (1/1) tests/avocado/acpi-bits.py:AcpiBitsTest.test_acpi_smbios_bits:
+> PASS (57.57 s)
+> RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0
+> | CANCEL 0
+> JOB TIME   : 63.82 s
+>
+> However, I have seen that on certain slower test machines or when run
+> within a virtual machine, the test can take longer to complete and 60
+> secs may not always be enough.
 
-Note that QEMU subtracts 0xfee00000 by the time you get to 
-apic_mem_write, but still yes, that's what happens for IOAPIC.  The 
-write is on the PCI bus.
+Here is an interesting data point. I re-ran on a Centos 8 VM running
+on Ubuntu bare metal. Just like the Ubuntu bare metal, it passed fine.
+Next, I tried to run it on a Centos 7.9.2009 VM running on the same
+Ubuntu bare metal. I was able to reproduce this consistently. So I did
+some digging, gdb into qemu and it looked like the VM was just slow
+but not stuck. So I timed the QEMU command line that was being used in
+the test using the same iso that was being generated by the test. Here
+it is:
 
->      if (addr > 0xfff || !index) {
->          /* MSI and MMIO APIC are at the same memory location,
->           * but actually not on the global bus: MSI is on PCI bus
->           * APIC is connected directly to the CPU.
->           * Mapping them on the global bus happens to work because
->           * MSI registers are reserved in APIC MMIO and vice versa. */
->          MSIMessage msi = { .address = addr, .data = val };
->          apic_send_msi(&msi);
->          return;
->      }
-> 
-> apic_send_msi() doesn't need a cpu context.
+# time ./qemu-system-x86_64 -display none -vga none -chardev
+file,path=/var/tmp/debugcon-log.txt,id=debugcon -device
+isa-debugcon,iobase=0x403,chardev=debugcon -cdrom
+/var/tmp/acpi-bits-oogd8wp9.tmp/bits-2020.iso
 
-Alex, perhaps you can change the shortcut to
+real 2m34.052s
+user 2m33.858s
+sys 0m0.467s
 
-     if (size < 4) {
-         return;
-     }
+On bare metal Ubuntu, I see this:
 
-     dev = cpu_get_current_apic(memtxattrs);
-     if (!dev) {
-         /* comment here... */
-         MSIMessage msi = { .address = addr, .data = val };
-         apic_send_msi(&msi);
-         return;
-     }
+$ time ./qemu-system-x86_64 -display none -vga none -chardev
+file,path=/var/tmp/debugcon-log.txt,id=debugcon -device
+isa-debugcon,iobase=0x403,chardev=debugcon -cdrom ~/temp/bits-2020.iso
 
-     s = APIC(dev);
-     ...
+real 1m15.318s
+user 1m15.136s
+sys 0m0.345s
 
-Paolo
+With "-icount auto" added in the command line,  both bare metal and VM
+environments were slower. However, we need this command line for some
+latency tests.
 
+avocado framework has a 2 min timeout for any test. This would
+definitely time out even without my internal timeout check. I verified
+that the test indeed passed by looking into the debug con logs pushed
+out by the test framework. If the system is just slow/overloaded I am
+not sure what we can do.
+
+In those cases raising the maximum
+> completion time to 90 secs helps. Perhaps you can try this and let me
+> know if it helps:
+
+Maybe I will make the timeout 90 secs and hope that this will be enough.
+
+>
+> diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
+> index 8745a58a76..b11fe39350 100644
+> --- a/tests/avocado/acpi-bits.py
+> +++ b/tests/avocado/acpi-bits.py
+> @@ -385,8 +385,9 @@ def test_acpi_smbios_bits(self):
+>          self._vm.launch()
+>          # biosbits has been configured to run all the specified test suites
+>          # in batch mode and then automatically initiate a vm shutdown.
+> -        # sleep for maximum of one minute
+> -        max_sleep_time = time.monotonic() + 60
+> +        # sleep for a maximum of one and half minutes to accommodate
+> running this
+> +        # even on slower machines.
+> +        max_sleep_time = time.monotonic() + 90
+>          while self._vm.is_running() and time.monotonic() < max_sleep_time:
+>              time.sleep(1)
 
