@@ -2,93 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5D0625452
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 08:11:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE99625465
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 08:26:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otOAZ-0008VE-7y; Fri, 11 Nov 2022 02:09:43 -0500
+	id 1otOOt-0001iJ-Gv; Fri, 11 Nov 2022 02:24:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1otOAW-0008SB-8E; Fri, 11 Nov 2022 02:09:40 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29])
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1otOOp-0001hr-AK
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:24:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1otOAU-00020P-7U; Fri, 11 Nov 2022 02:09:39 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 6AD525C02D8;
- Fri, 11 Nov 2022 02:09:36 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Fri, 11 Nov 2022 02:09:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1668150576; x=1668236976; bh=Ji
- CdXLk+tDYcnHwmAYLx+ypwPsQ9VjTOckSiyx/omR0=; b=l846ZXAn3c/MJU5bLw
- +RHluWO3H2TDIDHf5c3tg25IAJ08n+z181N/I89BQW3B1SVgPkhQ/UDI5nvjJJ8d
- V24TGx5sULbi6OyOCzkRAnCwb1dwUru+86uFRQMYFSr1/bxhkiai9ZSBOpjXRu2J
- eusZKIxb4rOgIp1Uz0EAqd4eKCjZTvbOa0S/D0LHivtqGON1iCOeORVkNKkRZ1Eo
- ZNzyIs5U9t5Hta4tx3Th7F6LdjcCUQUJRCCdiopG/un8NVw+e0n3n1cdpLqpmpMI
- WBHyVtP1NxkeoOWgJOxvny80NaSrlCxdcHJmPXnVgeDXOZDQii09812kdc/M7osM
- pXUA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; t=1668150576; x=1668236976; bh=JiCdXLk+tDYcnHwmAYLx+ypwPsQ9
- VjTOckSiyx/omR0=; b=jPTONaTlocWvoC2d87qTDN/ep7nNbc116sgcWZ4wC/Hl
- BJWwbaf0M4cHEj9V8oBmPlc4HuKTh9Ds3DTzvd+JJzdP9tv97Gt04GzJjRS/CS+I
- I7z+uTVF4NZAqUoLUpH37nr9AdVFeYg8yzVF/1g23JafbSUwkKB+TCEFvcefr3mK
- YLUr7QSZVM2QmaEho6lR5EqDnBdXkhcZv6S3tZHJOQMzHMRsUPe+v1R5tSx+TZxb
- 8202B8xcvaerXe6RxG70QZeYAInzmntTOqCx94SHSAWGBh2u/TDQFnJgCUWhLYUd
- u7Rzz/qrV0yU1tqEBNJxElYzfYCSVy48VmuhrMznjg==
-X-ME-Sender: <xms:L_VtY-JQfpssYWNDjZgHpR5NaihXE7ddsemsOCCGbMA3kltttkOGZQ>
- <xme:L_VtY2KYwYWMFDoP1Ng5AqoAnvr-r6sROOmsjxsKONATwaMLCJK5m9TuB8lGCL_wr
- eRy9qeJ6WlK8fz7isM>
-X-ME-Received: <xmr:L_VtY-tFDlAvRCrwTYiJXMg6jnxbbA9eY64LxsF_Z8CECDCtW-E2V-PTadB2Hz7m6520SmQR4ZcthZ4_8ebnApcflvnEqg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrfeehgddutdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhephfejgffggeevkedvueektdelleetueffheeigeduteffudekvdekteekledt
- gfeinecuffhomhgrihhnpehquggvvhdrihgunecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:L_VtYzZTbGzYWGtf6J7fKfhprz24ycu22d75jlzlYKRFJB09ilwlqw>
- <xmx:L_VtY1a27UKpZZOj38CO76ZBDFWMU_yZxAFXNWj4zY1Uc9dXUy3SoQ>
- <xmx:L_VtY_CCNj1N_llbcm1YQxgJkuzxK0MCwrDk__AcIM006bAtKW2_Jg>
- <xmx:MPVtY4w-v8Exn5ljCxiwh5h2uwDZnBtgGLfkNCjytillhZDzYmQgPQ>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 11 Nov 2022 02:09:33 -0500 (EST)
-Date: Fri, 11 Nov 2022 08:09:30 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: Re: [PATCH v3 1/2] hw/nvme: fix incorrect use of errp/local_err
-Message-ID: <Y231KjtTIFwNYFTK@cormorant.local>
-References: <20221110220805.26816-1-its@irrelevant.dk>
- <20221110220805.26816-2-its@irrelevant.dk>
- <87iljmdmlk.fsf@pond.sub.org> <Y23uiV5Ue2YKaIS7@cormorant.local>
- <874jv6dlpf.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1otOOn-0000KT-Hg
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:24:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668151463;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mGF1hqUyS/IuY67TmrVD3p9aLrEy04dzHTj0jnkQqlo=;
+ b=Jqmfg2g37A/GrV7rT2eWtLQ3Pl3NMQ7eFU4/fy0gPdJIt32Wr2WgMtMmicbr5fByQLzoeo
+ YStHeN+Qa/PHsiVuUzuMV742gucJ0Ajo2ftWkRcjRg/gRAxZSH2HW281eCGn06KdZIb0RT
+ 6wjrUNWtW+2YJqMJBqOJCWmyBKW90kY=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-481-cNiJqT6BMr-iyFI8Ts1Lnw-1; Fri, 11 Nov 2022 02:24:21 -0500
+X-MC-Unique: cNiJqT6BMr-iyFI8Ts1Lnw-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ r10-20020a17090a1bca00b002137a500398so2419332pjr.5
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 23:24:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mGF1hqUyS/IuY67TmrVD3p9aLrEy04dzHTj0jnkQqlo=;
+ b=t5yhyuRAYz8hRahLlYjkevrn2cZnQWKuLyAa9h0xlfWZudUeiIBlVOssz6UDLJeOIF
+ fAnM5oBUo5ESjjp5qNL/Tm2QXgjP3JPb/mSjZ1KRWiLlRbDWNTFLYZH8J2RPzo6nJhss
+ fAUSbzS3l75BlCQZsJOkJKHIrpBOeK+NN31zS5cnGWTSR021yS5sDm9DIGKBHP0qscv7
+ dioufoEENdHeyMirjtaBsbyjyr/sfjN7HkimEin54ado71h3aJtMZziVC5s+MeS/qCLB
+ p9YdtepjhxjWOKxjZe2dLDiWJSBGKwrOFDon7OHJ4nqhLzAwSNKbPfjHDNzOjYvA9TTo
+ F8yQ==
+X-Gm-Message-State: ANoB5pl4wv4mrAIONhuAfuu2dmwoMVbaWKLTYwqABr/ePMFaiBwgYxjA
+ /94DTxkMif/ysh8N4I3/vXF4suVPDy8RbRWnQhY7dFONy9pvZkG0I3XNzgj/ah9/jVai1XM2vDu
+ uf3ACc0Sk5MDriWE=
+X-Received: by 2002:a17:90a:8c82:b0:210:c745:2a22 with SMTP id
+ b2-20020a17090a8c8200b00210c7452a22mr611659pjo.36.1668151460357; 
+ Thu, 10 Nov 2022 23:24:20 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf5cQGHmxl3EySgMqHg52aLNTbRSBXk2KymTU9czlvB/0wUg1mXUFWP5ReINRE3uyIggmPX1bA==
+X-Received: by 2002:a17:90a:8c82:b0:210:c745:2a22 with SMTP id
+ b2-20020a17090a8c8200b00210c7452a22mr611628pjo.36.1668151460062; 
+ Thu, 10 Nov 2022 23:24:20 -0800 (PST)
+Received: from [10.72.13.217] ([43.228.180.230])
+ by smtp.gmail.com with ESMTPSA id
+ x10-20020aa7940a000000b0053b723a74f7sm891523pfo.90.2022.11.10.23.24.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Nov 2022 23:24:18 -0800 (PST)
+Message-ID: <259e543e-2ede-e84c-3f3a-1542e072bbb5@redhat.com>
+Date: Fri, 11 Nov 2022 15:24:09 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="eJjrNFHD2/d8qhY0"
-Content-Disposition: inline
-In-Reply-To: <874jv6dlpf.fsf@pond.sub.org>
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PATCH v6 01/10] vdpa: Use v->shadow_vqs_enabled in
+ vhost_vdpa_svqs_start & stop
+Content-Language: en-US
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel@nongnu.org, Parav Pandit <parav@mellanox.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
+ Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand
+ <hanand@xilinx.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Eli Cohen <eli@mellanox.com>, Cornelia Huck <cohuck@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>, kvm@vger.kernel.org,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20221108170755.92768-1-eperezma@redhat.com>
+ <20221108170755.92768-2-eperezma@redhat.com>
+ <CACGkMEtvbSbsNZQV5RB1yyNzpam4QezdJ-f75nh4ToMJU=KYQQ@mail.gmail.com>
+ <CAJaqyWdf-A8xEDVyX9f6y3FZhyp9bYMnuFU2jWFStCCvVNkDTA@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <CAJaqyWdf-A8xEDVyX9f6y3FZhyp9bYMnuFU2jWFStCCvVNkDTA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,116 +115,78 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---eJjrNFHD2/d8qhY0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+在 2022/11/10 20:54, Eugenio Perez Martin 写道:
+> On Thu, Nov 10, 2022 at 6:22 AM Jason Wang <jasowang@redhat.com> wrote:
+>> On Wed, Nov 9, 2022 at 1:08 AM Eugenio Pérez <eperezma@redhat.com> wrote:
+>>> This function used to trust in v->shadow_vqs != NULL to know if it must
+>>> start svq or not.
+>>>
+>>> This is not going to be valid anymore, as qemu is going to allocate svq
+>>> unconditionally (but it will only start them conditionally).
+>> It might be a waste of memory if we did this. Any reason for this?
+>>
+> Well, it's modelled after vhost_vdpa notifier member [1].
 
-On Nov 11 07:55, Markus Armbruster wrote:
-> Klaus Jensen <its@irrelevant.dk> writes:
->=20
-> > On Nov 11 07:36, Markus Armbruster wrote:
-> >> Klaus Jensen <its@irrelevant.dk> writes:
-> >>=20
-> >> > From: Klaus Jensen <k.jensen@samsung.com>
-> >> >
-> >> > Remove an unnecessary local Error value in nvme_realize(). In the
-> >> > process, change nvme_check_constraints() into returning a bool.
-> >> >
-> >> > Finally, removing the local Error value also fixes a bug where an er=
-ror
-> >> > returned from nvme_init_subsys() would be lost.
-> >>=20
-> >> Would it be lost?  It's the hunk below:
-> >>=20
-> >> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> >> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> >> > ---
-> >> >  hw/nvme/ctrl.c | 48 +++++++++++++++++++++++-------------------------
-> >> >  1 file changed, 23 insertions(+), 25 deletions(-)
-> >> >
-> >> > diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> >> > index ac3885ce5079..a5c0a5fa6ce2 100644
-> >> > --- a/hw/nvme/ctrl.c
-> >> > +++ b/hw/nvme/ctrl.c
-> >>=20
-> >> [...]
-> >>=20
-> >> > @@ -7586,7 +7585,6 @@ static void nvme_realize(PCIDevice *pci_dev, E=
-rror **errp)
-> >>    static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-> >>    {
-> >>        NvmeCtrl *n =3D NVME(pci_dev);
-> >>        NvmeNamespace *ns;
-> >>        Error *local_err =3D NULL;
-> >>=20
-> >> @local_err is null.
-> >>=20
-> >>        NvmeCtrl *pn =3D NVME(pcie_sriov_get_pf(pci_dev));
-> >>=20
-> >>        if (pci_is_vf(pci_dev)) {
-> >>            /*
-> >>             * VFs derive settings from the parent. PF's lifespan excee=
-ds
-> >>             * that of VF's, so it's safe to share params.serial.
-> >>             */
-> >>            memcpy(&n->params, &pn->params, sizeof(NvmeParams));
-> >>            n->subsys =3D pn->subsys;
-> >>        }
-> >>=20
-> >>        nvme_check_constraints(n, &local_err);
-> >>        if (local_err) {
-> >>            error_propagate(errp, local_err);
-> >>            return;
-> >>        }
-> >>=20
-> >> @local_err still is null.
-> >>=20
-> >>        qbus_init(&n->bus, sizeof(NvmeBus), TYPE_NVME_BUS,
-> >> >                &pci_dev->qdev, n->parent_obj.qdev.id);
-> >> > =20
-> >> >      if (nvme_init_subsys(n, errp)) {
-> >> > -        error_propagate(errp, local_err);
-> >>=20
-> >> Since @local_err is null, this error_propagate() does nothing.  The
-> >> error from nvme_init_subsys() remains in @errp.
-> >>=20
-> >
-> > Oh, right. Thanks.
-> >
-> > I misread the function documentation, getting the impression that it
-> > would overwrite dst_errp regardless of the value of local_err.
->=20
-> Happens :)
->=20
-> If you have suggestions on improving the doc, shoot.
->=20
-> This commit's message could perhaps be adjusted like
->=20
->     hw/nvme: Clean up confused use of errp/local_err
->=20
->     Remove an unnecessary local Error value in nvme_realize(). In the
->     process, change nvme_check_constraints() to return a bool.
->=20
-> What do you think?
->=20
 
-Sounds good ;)
+Right, this could be optimized in the future as well.
 
---eJjrNFHD2/d8qhY0
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+>
+> But sure we can reduce the memory usage if SVQ is not used. The first
+> function that needs it is vhost_set_vring_kick. But I think it is not
+> a good function to place the delayed allocation.
+>
+> Would it work to move the allocation to vhost_set_features vhost op?
+> It seems unlikely to me to call callbacks that can affect SVQ earlier
+> than that one. Or maybe to create a new one and call it the first on
+> vhost.c:vhost_dev_start?
 
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmNt9SoACgkQTeGvMW1P
-DembKQf+Ldul26JtCTYd6hZmB+apFzMkOX6FSdDkEnTgYJiL4/Kjwgb8Bnuw5wpD
-H0ANn1pjsXYjlKAlXGPHCHDb7LqMuY6khir4MoyI+X998/aut9sp3uxvkQPxYCAz
-F4TQqHyilcSYrJll5QdfMkUhbrX2DkDXRNcTyLKMweMaAhmzY0zQRBJxosxtglKO
-CzPzzZ76IA7AnUPEYGJrthUAlfGSytFfz5tTIS6h8uxddoLMCMkXG7TlL361LHzf
-kvIgUJSA5dyQYFz3Ip/k6D9ZlKdboYWAOzRuJ8Tgm7tQ60Z0VqK+ic7/w+HDabyt
-toss3QxXSOStsP5Lyc7DATv6WHxKkw==
-=BtFa
------END PGP SIGNATURE-----
 
---eJjrNFHD2/d8qhY0--
+Rethink about this, so I think we can leave this in the future.
+
+Thanks
+
+
+>
+> Thanks!
+>
+> [1] The notifier member already allocates VIRTIO_QUEUE_MAX
+> VhostVDPAHostNotifier for each vhost_vdpa, It is easy to reduce at
+> least to the number of virtqueues on a vhost_vdpa. Should I send a
+> patch for this one?
+>
+>
+>> Thanks
+>>
+>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>>> ---
+>>>   hw/virtio/vhost-vdpa.c | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+>>> index 7468e44b87..7f0ff4df5b 100644
+>>> --- a/hw/virtio/vhost-vdpa.c
+>>> +++ b/hw/virtio/vhost-vdpa.c
+>>> @@ -1029,7 +1029,7 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev *dev)
+>>>       Error *err = NULL;
+>>>       unsigned i;
+>>>
+>>> -    if (!v->shadow_vqs) {
+>>> +    if (!v->shadow_vqs_enabled) {
+>>>           return true;
+>>>       }
+>>>
+>>> @@ -1082,7 +1082,7 @@ static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
+>>>   {
+>>>       struct vhost_vdpa *v = dev->opaque;
+>>>
+>>> -    if (!v->shadow_vqs) {
+>>> +    if (!v->shadow_vqs_enabled) {
+>>>           return;
+>>>       }
+>>>
+>>> --
+>>> 2.31.1
+>>>
+
 
