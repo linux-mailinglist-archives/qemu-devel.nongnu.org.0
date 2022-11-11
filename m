@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E2162621E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 20:36:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AEF0626240
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 20:42:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otZoR-0001O3-5u; Fri, 11 Nov 2022 14:35:39 -0500
+	id 1otZtx-0003Yt-MR; Fri, 11 Nov 2022 14:41:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otZoI-0001NP-SO
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 14:35:30 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1otZtv-0003YR-Qy
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 14:41:19 -0500
+Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otZoG-0004R6-Ez
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 14:35:29 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id d9so3009513wrm.13
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 11:35:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=I5xx31uYR0RAeSHjpFEA0WDS28ql/ROYeNKHPsuDwBg=;
- b=M/LeGOtkiLYU6S82vk2yH7J0bMHjSRhDxjIGDkQEmo9uKmMsZqDVltnvybrWSz9cjE
- q2uUrcGcDpmz4jU0ezFyLV4hzbPYuvWwRUmpDJbS75bHYn0XHjUPjwp1zzn53CHa21oa
- t2GqQsWNA9qrB79ym2C3eymYwEsUdVmahExqefRraj/N5x5bPBzU2j+VfEjFHaeHGf2T
- KmSrSYctFbm1gRMfQWNNu+qhyeU2cOFD9LdB80Q5oK1aCWa5uoHHicxs9+eayzpcW9le
- A9O4YLKsVLRQl9ctG/m5LNdn4hDckkRQuK31DTTqkdNSmE8OSfj1l2fitymwQT9HG5wZ
- Y44A==
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1otZtu-0005bg-8Y
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 14:41:19 -0500
+Received: by mail-lj1-x231.google.com with SMTP id z24so5593579ljn.4
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 11:41:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=dFT8Yt9C/yqlxdBIRg1LIe3JaIpdE/jZgbN/tmPpRMw=;
+ b=iWDfEZ+Hc3dAEQLGF3b8RHP7eYSAjnNhpuWph2L7L3DrHcb4yE7F8Wkk3dr5bynwMa
+ GMsOiV0k+jOY8E7WY++5DpMLdFwySwoxbGCQOOI/Kxg7IERawAGwUlkn+r2a4nCvOhfC
+ Q4eUhXK9C7tVemgb2+czdPS4yT4HZyd++yesI9t8feLewJEAzgSYHUo82byhceevjtKa
+ aUMqLbQcizoSWG8snBJftRtoN8twFJKGDbgxsALiMFk/hC+X+LMtuAu/UhJnewbAkCj7
+ 8SYQsFuV/1ZLIWgQ0vcBALvEHHaffHbodJPVGEKO92MID1cOhlTJFyEBCW2gBeCgbmzD
+ DTuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I5xx31uYR0RAeSHjpFEA0WDS28ql/ROYeNKHPsuDwBg=;
- b=Lkhl//pXJzz54RR+KN4/lj6cBwS5aT6Jehds6LtiMC+wPMS0aBR5VYlAhW3NYX5rph
- LgPhHtMeIjiRaUSYM8vq8AdKzyp2ABTrSd6iLXMon1XsP8QP1v41oidRx2N4u1KbAC1L
- cvwRe7Tqo41hWBoGcIGDPcnK4JX2iY0LMSb6GsmGuHrNLIq/29Qv95k7eUEgjnKUzBJ+
- M7+xCOF6yJmqyBv9MZnQManto6y4lSQltNGZvvBaXAWfzhRXR/M9oKTzbEd+pmA/OpCb
- 8dFUH/dzeluK+Z43FSRgBsdBsyCV3bMr3D2Qj/t/AzjgQ+BwezcCFzDPUX2CsrEF2wkY
- +Kiw==
-X-Gm-Message-State: ANoB5pn2fsFo8WqAFlqETzSUm5MaQAoHC2KwL6rwFuy42B62QljIHKG3
- 8mwN8LQ3Fs2Smjgl701Q+V41JQ==
-X-Google-Smtp-Source: AA0mqf48WOzNHw7fJG8TFP2hEdnAG4U/2H/RL9wpvyBa+H+6MXXJU+MOvFWbINh6cp0ERsph1yXofQ==
-X-Received: by 2002:a5d:4807:0:b0:236:599b:d09c with SMTP id
- l7-20020a5d4807000000b00236599bd09cmr2115210wrq.433.1668195326230; 
- Fri, 11 Nov 2022 11:35:26 -0800 (PST)
-Received: from [192.168.7.115] ([109.111.120.167])
+ bh=dFT8Yt9C/yqlxdBIRg1LIe3JaIpdE/jZgbN/tmPpRMw=;
+ b=yitwB3nabi5g21SsPw7T7VLoEzkRzrA2ptgem81b0BKYBVg7sUoTfuk442utAMiUEo
+ 7jstMFy1gejHmHP9TujI7E1g1RwQ+AP8p3WjeMXmOA+WKkL3iyC2sqcREClloQxSZ31/
+ DCTsogQH+bsiBpDOiUkNzYp6HCfHOwNngVhhXS/R9T7kn/5jDG3c+sDtNCwMJUqgw83b
+ JWKMUAqwrCwp5L/vvzCl/0jx80hZd5U8NRIZ7Qgn68/QITc22l9vmHXqIV0e3MIkI4nc
+ aHK0yfLWT4ScKG1gaD9ct+Q7MJZKFgVCiiqTR7jl3AKVsKCNqoLaRKKSA3ZNPuU+qTLA
+ O5sA==
+X-Gm-Message-State: ANoB5pkPHlrAySJt+k1jxhAU877rHLwdQTvRlMe278lsISe+IwKSTuA3
+ 0KcokXPxKeLe0rUZroI+zBM=
+X-Google-Smtp-Source: AA0mqf4dZuoCJMGayzK43sjKYr1x4tGuTOYblqlVnRIMPA+rhMgStW4ygycyttOkiZHMtct0PcvRmw==
+X-Received: by 2002:a2e:8e3b:0:b0:26b:de20:ba89 with SMTP id
+ r27-20020a2e8e3b000000b0026bde20ba89mr1119159ljk.254.1668195675968; 
+ Fri, 11 Nov 2022 11:41:15 -0800 (PST)
+Received: from gmail.com (81-232-4-135-no39.tbcn.telia.com. [81.232.4.135])
  by smtp.gmail.com with ESMTPSA id
- t7-20020a1c7707000000b003cfa80443a0sm3924455wmi.35.2022.11.11.11.35.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 11:35:25 -0800 (PST)
-Message-ID: <b2240740-385b-772e-4342-e19e5cea4092@linaro.org>
-Date: Fri, 11 Nov 2022 20:35:23 +0100
+ n22-20020a05651203f600b004ab98cd5644sm473699lfq.182.2022.11.11.11.41.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Nov 2022 11:41:15 -0800 (PST)
+Date: Fri, 11 Nov 2022 20:41:15 +0100
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, f4bug@amsat.org
+Subject: Re: [PATCH  v5 10/20] target/microblaze: initialise MemTxAttrs for
+ CPU access
+Message-ID: <Y26lWx2rlMn8sYYV@toto>
+References: <20221111182535.64844-1-alex.bennee@linaro.org>
+ <20221111182535.64844-11-alex.bennee@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH v2 11/12] gitlab: integrate coverage report
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
- crosa@redhat.com, Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20221111145529.4020801-1-alex.bennee@linaro.org>
- <20221111145529.4020801-12-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221111145529.4020801-12-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+In-Reply-To: <20221111182535.64844-11-alex.bennee@linaro.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::231;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x231.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,55 +92,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/11/22 15:55, Alex BennÃ©e wrote:
-> This should hopefully give is nice coverage information about what our
-> tests (or at least the subset we are running) have hit. Ideally we
-> would want a way to trigger coverage on tests likely to be affected by
-> the current commit.
+On Fri, Nov 11, 2022 at 06:25:25PM +0000, Alex Bennée wrote:
+> Both of these functions deal with CPU based access (as is evidenced by
+> the secure check straight after). Use the new MEMTXATTRS_CPU
+> constructor to ensure the correct CPU id is filled in should it ever
+> be needed by any devices later.
 
-IIUC per [*] this will not appear in the pipeline but in 
-https://gitlab.com/qemu-project/qemu/-/graphs/master/charts under 'Code 
-coverage statistics', right?
+Looks good to me!
 
-If so, can you document this in this description? Also maybe this can
-be linked in some docs/devel/ci*rst file.
-
-[*] 
-https://docs.gitlab.com/ee/ci/pipelines/settings.html#view-code-coverage-history
+Reviewed-by: Edgar E. Iglesias <edgar@zeroasic.com>
 
 > 
-> Signed-off-by: Alex BennÃ©e <alex.bennee@linaro.org>
-> Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   .gitlab-ci.d/buildtest.yml | 12 +++++++++++-
->   1 file changed, 11 insertions(+), 1 deletion(-)
+>  target/microblaze/helper.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index 7173749c52..d21b4a1fd4 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -494,7 +494,17 @@ check-gprof-gcov:
->       IMAGE: ubuntu2004
->       MAKE_CHECK_ARGS: check
->     after_script:
-> -    - ${CI_PROJECT_DIR}/scripts/ci/coverage-summary.sh
-> +    - cd build
-> +    - gcovr --xml-pretty --exclude-unreachable-branches --print-summary
-> +        -o coverage.xml --root ${CI_PROJECT_DIR} . *.p
-> +  coverage: /^\s*lines:\s*\d+.\d+\%/
-> +  artifacts:
-> +    name: ${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}
-> +    expire_in: 2 days
-
-Hmm do we need the 'name' and 'expire_in' keys? That would be to keep 
-the coverage.xml file?
-
-> +    reports:
-> +      coverage_report:
-> +        coverage_format: cobertura
-> +        path: build/coverage.xml
->   
->   build-oss-fuzz:
->     extends: .native_build_job_template
-
+> diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
+> index 98bdb82de8..655be3b320 100644
+> --- a/target/microblaze/helper.c
+> +++ b/target/microblaze/helper.c
+> @@ -44,7 +44,7 @@ bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>      MicroBlazeMMULookup lu;
+>      unsigned int hit;
+>      int prot;
+> -    MemTxAttrs attrs = {};
+> +    MemTxAttrs attrs = MEMTXATTRS_CPU(cs);
+>  
+>      attrs.secure = mb_cpu_access_is_secure(cpu, access_type);
+>  
+> @@ -235,7 +235,7 @@ hwaddr mb_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
+>      unsigned int hit;
+>  
+>      /* Caller doesn't initialize */
+> -    *attrs = (MemTxAttrs) {};
+> +    *attrs = MEMTXATTRS_CPU(cs);
+>      attrs->secure = mb_cpu_access_is_secure(cpu, MMU_DATA_LOAD);
+>  
+>      if (mmu_idx != MMU_NOMMU_IDX) {
+> -- 
+> 2.34.1
+> 
 
