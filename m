@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D1A62599E
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A95062599F
 	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 12:41:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otSON-0003J3-2A; Fri, 11 Nov 2022 06:40:15 -0500
+	id 1otSP3-0003hN-05; Fri, 11 Nov 2022 06:40:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otSOL-0003Im-Gt
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:40:13 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1otSP0-0003f1-Ab
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:40:54 -0500
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otSOK-00022J-0Y
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:40:13 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- a11-20020a05600c2d4b00b003cf6f5fd9f1so2984592wmg.2
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 03:40:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1otSOy-00026q-Ig
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 06:40:53 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id 130so4213009pgc.5
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 03:40:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UhldJeimvIz6e22Vm9FCacxwOtyiJXQvXaALA553MBs=;
- b=CdLwRTSOGStUjmbuG4pOrvYkjvkTRdGWSBSUEOgSWeG89TWFMKGk4+T9hAutXf0KRl
- dIWgD2r9ALBsQs19ifyPWj4npKAfmAEU2An4Svm7wfqL5dN2A/mINOwKHY73ru6PqhYa
- rbwCR6dK5BfhTqel8JrYNAhj2C9ZvYHwEzMNO141KSn+qAmWL6f3DV4iC/zM/NexKJWU
- zX07wFWP1ytaPdI2G9/KjiAGzLa+px9gkCx2bPpHQUVEy7YrO0ZaCVSnytJCpIrM9g35
- Pmvhn7uBeN4TURyCBk8yTUdmRAEXLtL34EfGF3ea2I0UcUvSwuVuDhgfW1wTiVcL4PEv
- yVBw==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=CdMJMOO61G+WFx7isDknruUTUVOBX6maSgMtVYdlSiw=;
+ b=ciL7q7n8CQCsSgiWEAcxGc7vhrsYcB8BiJuX70tOPwcguAlvwXKSzt37y683cbZVhe
+ 1G/28cHSbKu6hUF0X8et06EsT1U3fWzd57j2bCMH5LcXNt7ZwjH4J5Xp9XuczD9ejOOp
+ 47fU9kOV7z9H4abZhCcqWDlsvTgI+2YkMd8SccIT1uSe946YsHHJOvehq6pPIpSbyUu4
+ JHJLs4mlnYEUPP4Tp2lufR+04G5ipmYM/mZceTb7RJDgLERLcvKHPZeWnNtvZaOG8zku
+ xq7DnHBikSEEOTcH2h1FIQ5403mRUntLfSpqP0l8gU9CnHhKJuFhlpQ610nUc4Wc9zwz
+ sYnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UhldJeimvIz6e22Vm9FCacxwOtyiJXQvXaALA553MBs=;
- b=RY+Sd0n8wE9z5X1c1HB9B5pVKo+8x9XPLoT0pz2HP+EEoT+f/SkuudRubuuDj2fqnY
- c8tmf2YPxGlsmLPySzpaPG8nHJFPWT2+T5f2NGl+hwL6E4X2qiuT05IHpMdnk+/rciSB
- oKIMsdAtvo6BRS2Fv+ORKUHgQLBnuv/YUQSH10VR5j+Fk2bwkdS0ncU+utJEz651aJZP
- 4yHJAKhxLYi+CsF9ztiR9MtkWE8x+zknoxgWFOYhrUoyxXbS5jaDP/tO4UNWTrbIPtSN
- LcKfybFZEKv4JliItOirJOj51HdFoYpaixbDIfJ673WPVtaTvZO+wBB2X2oDT9FL0Zjy
- zacQ==
-X-Gm-Message-State: ANoB5pliYbl1PY68B4hpK4lYFNr80wWnz65zAwtYnKJSzzKZA1wSmW3a
- bj+g5k8PLnkX5KcHhQxAi02TEg==
-X-Google-Smtp-Source: AA0mqf7lFxZa40RyM7lcToVNBcPnlfWCzvKW0ciytfSGYA2oLmq8DEBWOsa6jDi4bJtvxoe1EmH+yw==
-X-Received: by 2002:a1c:f611:0:b0:3c6:b7cc:79d2 with SMTP id
- w17-20020a1cf611000000b003c6b7cc79d2mr1008697wmc.42.1668166809931; 
- Fri, 11 Nov 2022 03:40:09 -0800 (PST)
-Received: from [192.168.7.115] ([109.111.120.167])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CdMJMOO61G+WFx7isDknruUTUVOBX6maSgMtVYdlSiw=;
+ b=iAEQe9WV7VcmvyYGoKnRrZ7zCbUSOH0N2p4cWCqNlYkmHX2DibCJ3EW9DRYKAXJTcb
+ 9PVzpVIvhJt40KMoTfuOmS0UmhdIAEGq7EEvqkKMG2igNsfWJhPTGgv/ghuOu+D4r/9/
+ N70+Q/gGX3bXdac7MrzgwBqvO40jx4txXXxjqEcSNVRzUsQIHnn5KKy3pGGLftPUbywm
+ S84YOsc1oqgBrF/vvzPmkzHMtlHla9VLqa6VyN/XM75hX4zKZAiUb9xHMxR3EN1asmnh
+ B5hT8L58gCnXsPkpNrep/AQtAsACFgG/a80lE8CGBgaIpUUIfvH+YKk+EEwJt9cEJ9hW
+ sI1Q==
+X-Gm-Message-State: ANoB5pmmu7Xc9vSPV3UAmmxY0BrRz2dslLDoLsbaEg0ZlA/fDkw0p4PO
+ iVpPefaAZ5qJFxVJbwFyiVUfNMM3/XFafQ8u
+X-Google-Smtp-Source: AA0mqf5FcN76zRDr5CtAchQBAgKPcWzlXWRgoAtaTErdqRO9WZazsSAf8jsza2Jkers+20/W/zXsjg==
+X-Received: by 2002:aa7:83d5:0:b0:56b:b8d8:f564 with SMTP id
+ j21-20020aa783d5000000b0056bb8d8f564mr2252945pfn.46.1668166851005; 
+ Fri, 11 Nov 2022 03:40:51 -0800 (PST)
+Received: from stoup.lan
+ (2001-44b8-2176-c800-0aef-59aa-1faf-7e61.static.ipv6.internode.on.net.
+ [2001:44b8:2176:c800:aef:59aa:1faf:7e61])
  by smtp.gmail.com with ESMTPSA id
- bg1-20020a05600c3c8100b003cfaae07f68sm8775299wmb.17.2022.11.11.03.40.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 03:40:08 -0800 (PST)
-Message-ID: <bfc67412-09ce-793e-49ac-b0af0cf05fbd@linaro.org>
-Date: Fri, 11 Nov 2022 12:40:07 +0100
+ e29-20020a056a0000dd00b005668b26ade0sm1393933pfj.136.2022.11.11.03.40.48
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Nov 2022 03:40:50 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-7.2 0/2] target/i386: misc tcg patches
+Date: Fri, 11 Nov 2022 21:40:42 +1000
+Message-Id: <20221111114044.2510256-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH v3 2/2] hw/nvme: cleanup error reporting in nvme_init_pci()
-Content-Language: en-US
-To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
-Cc: Keith Busch <kbusch@kernel.org>, Markus Armbruster <armbru@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
-References: <20221110220805.26816-1-its@irrelevant.dk>
- <20221110220805.26816-3-its@irrelevant.dk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221110220805.26816-3-its@irrelevant.dk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,48 +87,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 10/11/22 23:08, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> Replace the local Error variable with errp and ERRP_GUARD() and change
-> the return value to bool.
-> 
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->   hw/nvme/ctrl.c | 23 ++++++++++-------------
->   1 file changed, 10 insertions(+), 13 deletions(-)
+While poking at cmpxchg{8,16}b this week, I remembered there
+was a fix for cmpxchgl floating around.  I pulled these two
+fixes out of Paolo's i386 branch and added a test case.
 
 
-> @@ -7388,14 +7387,12 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
->       }
->       ret = msix_init(pci_dev, n->params.msix_qsize,
->                       &n->bar0, 0, msix_table_offset,
-> -                    &n->bar0, 0, msix_pba_offset, 0, &err);
-> -    if (ret < 0) {
-> -        if (ret == -ENOTSUP) {
-> -            warn_report_err(err);
-> -        } else {
-> -            error_propagate(errp, err);
-> -            return ret;
-> -        }
-> +                    &n->bar0, 0, msix_pba_offset, 0, errp);
-> +    if (ret == -ENOTSUP) {
-> +        warn_report_err(*errp);
+r~
 
-Why only report ENOTSUP in particular?
 
-> +        *errp = NULL;
-> +    } else if (ret < 0) {
- > +        return false;
+Paolo Bonzini (2):
+  target/i386: fix cmpxchg with 32-bit register destination
+  target/i386: hardcode R_EAX as destination register for LAHF/SAHF
 
-Is that normal to ignore:
+ target/i386/tcg/translate.c      | 86 +++++++++++++++++++++-----------
+ tests/tcg/x86_64/cmpxchg.c       | 42 ++++++++++++++++
+ tests/tcg/x86_64/Makefile.target |  1 +
+ 3 files changed, 101 insertions(+), 28 deletions(-)
+ create mode 100644 tests/tcg/x86_64/cmpxchg.c
 
--   error_setg(errp, "The number of MSI-X vectors is invalid");
-     return -EINVAL;
+-- 
+2.34.1
 
--   error_setg(errp, "table & pba overlap, or they don't fit in BARs,"
-                      " or don't align");
-     return -EINVAL;
-
-Or possible future error added in msix_init()?
 
