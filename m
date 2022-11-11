@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9608062586F
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:33:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8813C625865
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:32:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otRJK-0007Tw-AG; Fri, 11 Nov 2022 05:30:58 -0500
+	id 1otRJL-0007VI-3E; Fri, 11 Nov 2022 05:30:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otRJI-0007PH-Ae
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otRJI-0007PJ-DD
  for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:30:56 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otRJF-0000eh-T4
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otRJG-0000en-HP
  for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:30:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668162653;
+ s=mimecast20190719; t=1668162654;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VDTAMSk827dOTAQ9bUd5tW46d8l8Z95h+cAITqQ7Ffw=;
- b=SmAq7YzZqiZduRi+rPXQeAAbHPeB638OK2eXaC/88xi8yUdUQrk/Pn8Qx0Uxrn/xdKCQFo
- 6yNwoVIcaeSs0ggMrq+Zi2FDxmlaYtu4p7NNLkPGyArWIyeu4qlEZLVn228PASN+bKgjfV
- arzkTUyZaG872aLwAfGyczse9L0BO3Q=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Rk+yAcfCg/hWCuNgzgaPwf7I0B8NuWbdL853pXoKmRc=;
+ b=ZHv7/FjIiBAeN+UF+IhnumrVz/+NIMko+L/iGRzFsy1By69F5XtvYy7Ibr6yvvwWHFbM/6
+ ND+egskBCA3xGZaj3llZHmq7jdGRSJ69gCHfjh+X4myPAcPU6xLhoX9nMuuNKoK3X6JqOS
+ 1U4SjdVo99DLyCUjKktVus+m1kxG8cU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-542-C6_HY4nwNteOn7-N6h9X3A-1; Fri, 11 Nov 2022 05:30:51 -0500
-X-MC-Unique: C6_HY4nwNteOn7-N6h9X3A-1
+ us-mta-546-ajBFDbtuMESKTKg1-v48zA-1; Fri, 11 Nov 2022 05:30:52 -0500
+X-MC-Unique: ajBFDbtuMESKTKg1-v48zA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 88F881C05EAF
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 10:30:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C9C7882823
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 10:30:52 +0000 (UTC)
 Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 066B2207B344;
- Fri, 11 Nov 2022 10:30:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BEC23202903F;
+ Fri, 11 Nov 2022 10:30:51 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>,
 	qemu-devel@nongnu.org
 Cc: Miroslav Rezanina <mrezanin@redhat.com>
-Subject: [PULL 1/8] rtl8139: Remove unused variable
-Date: Fri, 11 Nov 2022 11:30:41 +0100
-Message-Id: <20221111103048.202519-2-thuth@redhat.com>
+Subject: [PULL 2/8] tulip: Remove unused variable
+Date: Fri, 11 Nov 2022 11:30:42 +0100
+Message-Id: <20221111103048.202519-3-thuth@redhat.com>
 In-Reply-To: <20221111103048.202519-1-thuth@redhat.com>
 References: <20221111103048.202519-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,40 +78,44 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Miroslav Rezanina <mrezanin@redhat.com>
 
-Variable send_count used in rtl8139_cplus_transmit_one function is only
-incremented but never read. This causes 'Unused but set variable' warning
-on Clang 15.0.1 compiler.
+Variable n used in tulip_idblock_crc function is only incremented but never read.
+This causes 'Unused but set variable' warning on Clang 15.0.1 compiler.
 
 Removing the variable to prevent the warning.
 
 Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <15a32dd06c492216cbf27cd3ddcbe1e9afb8d8f5.1668009030.git.mrezanin@redhat.com>
+Message-Id: <02e1560d115c208df32236df8916fed98429fda1.1668009030.git.mrezanin@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/net/rtl8139.c | 2 --
- 1 file changed, 2 deletions(-)
+ hw/net/tulip.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/hw/net/rtl8139.c b/hw/net/rtl8139.c
-index 6b65823b4b..e6643e3c9d 100644
---- a/hw/net/rtl8139.c
-+++ b/hw/net/rtl8139.c
-@@ -2156,7 +2156,6 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
-                     ip_data_len, saved_size - ETH_HLEN, large_send_mss);
+diff --git a/hw/net/tulip.c b/hw/net/tulip.c
+index b9e42c322a..c2b3b1bdfa 100644
+--- a/hw/net/tulip.c
++++ b/hw/net/tulip.c
+@@ -870,11 +870,10 @@ static const MemoryRegionOps tulip_ops = {
  
-                 int tcp_send_offset = 0;
--                int send_count = 0;
+ static void tulip_idblock_crc(TULIPState *s, uint16_t *srom)
+ {
+-    int word, n;
++    int word;
+     int bit;
+     unsigned char bitval, crc;
+     const int len = 9;
+-    n = 0;
+     crc = -1;
  
-                 /* maximum IP header length is 60 bytes */
-                 uint8_t saved_ip_header[60];
-@@ -2261,7 +2260,6 @@ static int rtl8139_cplus_transmit_one(RTL8139State *s)
-                     /* add transferred count to TCP sequence number */
-                     stl_be_p(&p_tcp_hdr->th_seq,
-                              chunk_size + ldl_be_p(&p_tcp_hdr->th_seq));
--                    ++send_count;
-                 }
- 
-                 /* Stop sending this frame */
+     for (word = 0; word < len; word++) {
+@@ -887,7 +886,6 @@ static void tulip_idblock_crc(TULIPState *s, uint16_t *srom)
+                 srom[len - 1] = (srom[len - 1] & 0xff00) | (unsigned short)crc;
+                 break;
+             }
+-            n++;
+             bitval = ((srom[word] >> bit) & 1) ^ ((crc >> 7) & 1);
+             crc = crc << 1;
+             if (bitval == 1) {
 -- 
 2.31.1
 
