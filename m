@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FBF7625796
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:05:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABF46257A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:08:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otQt8-0003N0-OL; Fri, 11 Nov 2022 05:03:54 -0500
+	id 1otQwJ-0004n8-GW; Fri, 11 Nov 2022 05:07:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otQt6-0003MM-Ll
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:03:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1otQt4-0007LK-It
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:03:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668161029;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Vb1MfwwzyPZuzAcDL3n4u0+ueUZRdMSNUq/rnWWnbTU=;
- b=UTJJPWeA8hkq7PE6MYjtJ1BnGtZdY5dlrwILHzGb3T0gN+yIFjSOwJw8Wp2zCkI/C1E3+Y
- jlpliiEtNI1bqqFfy66rbFEB6vR0OAz6pjvPj91wq6vEQv4xyQXPAslukH9fyczZjr6b/D
- M7y2mY52hf2w/hWShdS/BczZgZmw+B4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-44-k2lBlxFCNMilDEhx9eiM9Q-1; Fri, 11 Nov 2022 05:03:47 -0500
-X-MC-Unique: k2lBlxFCNMilDEhx9eiM9Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B03441C006A3;
- Fri, 11 Nov 2022 10:03:46 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A88212166B26;
- Fri, 11 Nov 2022 10:03:45 +0000 (UTC)
-Date: Fri, 11 Nov 2022 11:03:44 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Alberto Faria <afaria@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH for-7.2] block/blkio: Set
- BlockDriver::has_variable_length to false
-Message-ID: <Y24eALBuectJVNbF@redhat.com>
-References: <20221108144433.1334074-1-afaria@redhat.com>
- <CAJSP0QXrPfjJn+KcSTLoED6DGnZZpzDM-F6ZhwHs_08m-zAqBw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1otQwH-0004mR-No; Fri, 11 Nov 2022 05:07:09 -0500
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1otQwF-0008Fe-Ou; Fri, 11 Nov 2022 05:07:09 -0500
+Received: by mail-oi1-x22c.google.com with SMTP id h132so4513334oif.2;
+ Fri, 11 Nov 2022 02:07:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=bv+MGsQ1AkP9QhCMpz+ZIevL2OZyKlrEdeDeeJDBCtE=;
+ b=AEvrMnhrT8gHEHy3FhkCdJeRVuKqszpK5zCXjSf+0WwpfDindSsanmwd7e+gS6aHkg
+ f29uMn48MEVMK7eirkqcwoUZFsGirFp/LwqyPGygTiBMkSPtFJaHj6hPrlXr84MrbeTm
+ Yc0kZp59RtAEltGOX/xU59w5ckxfVx3n80AwNLDi39dykUx4n2K5RavmZ6rXtdHeAgAA
+ Ozn3UNMGfMRpInuGGSppBlh0Ly7RzdRGzcQVJl2Ya4BVM4brlpvaaJiYZ73JBmxWQ5iM
+ uHAhlMqrzefxos1TKrVnuSeyLD63LYWQGqbIbheWbOZ1Ew3JWW1XgZSB6FhOlArd7OiH
+ RUoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bv+MGsQ1AkP9QhCMpz+ZIevL2OZyKlrEdeDeeJDBCtE=;
+ b=rLioIWIf+2YaHYMgCJ38T6/AcyIVSFx+ufHPP7d2ib12EqOZ8ABjbJehuU4CFd6aC4
+ mfmBG62oiTwOOwKAzgkI9GAHAij4wS2bTTP6GsqgCQ+Pk7bFKtF9hslgW/cDS/zVKQ04
+ BGGKbp4dFPvOetDeZqGsYzqViiD+s0kClcBq+PhvcvGXVrDaKy+4lTKZzsf0IzdCnsxe
+ hFguvw12tZaB+I5nRgEoTahfbtPTiu96L6hlMKYnGZqTMAx4asKYBP29ELUSKNK2jB/6
+ rf4n1168xSDOjpxVPbzNXOv8DcrsOSX5fQCca44Z98UzDwv/DUrNrnEJ0eLSqASq4wnu
+ Np7w==
+X-Gm-Message-State: ANoB5pnPcS1kzzYgTMx6ORt3SydWK2S1r0johXyNvJ4AMJEyFCjldl9P
+ w+MJgY0eSY3vEKu5f7Ko79L+vDrclwU=
+X-Google-Smtp-Source: AA0mqf69puIUfMbt1UmpyXFp8aIsWFR90WjosP1qtEtu04DUKNEgwNsX/xC4MSldhyzUfe0ESC8ZRA==
+X-Received: by 2002:a05:6808:212a:b0:35a:6153:f608 with SMTP id
+ r42-20020a056808212a00b0035a6153f608mr408906oiw.48.1668161225787; 
+ Fri, 11 Nov 2022 02:07:05 -0800 (PST)
+Received: from balboa.redhat.com ([187.34.29.120])
+ by smtp.gmail.com with ESMTPSA id
+ f4-20020a056870898400b0012d130c2fdasm994862oaq.48.2022.11.11.02.07.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Nov 2022 02:07:05 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, stefanha@redhat.com,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PULL 0/1] ppc queue
+Date: Fri, 11 Nov 2022 07:05:50 -0300
+Message-Id: <20221111100551.1076171-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJSP0QXrPfjJn+KcSTLoED6DGnZZpzDM-F6ZhwHs_08m-zAqBw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,28 +87,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 10.11.2022 um 22:01 hat Stefan Hajnoczi geschrieben:
-> On Tue, 8 Nov 2022 at 09:45, Alberto Faria <afaria@redhat.com> wrote:
-> >
-> > Setting it to true can cause the device size to be queried from libblkio
-> > in otherwise fast paths, degrading performance. Set it to false and
-> > require users to refresh the device size explicitly instead.
-> >
-> > Fixes: 4c8f4fda0504 ("block/blkio: Tolerate device size changes")
-> > Suggested-by: Kevin Wolf <kwolf@redhat.com>
-> > Signed-off-by: Alberto Faria <afaria@redhat.com>
-> 
-> If it's okay to set it to false then that makes me wonder why this
-> undocumented field exists at all. Can you or Kevin explain and
-> possibly follow up with a patch that documents the field?
+The following changes since commit 2ccad61746ca7de5dd3e25146062264387e43bd4:
 
-It is for removable media backends (only host_cdrom has survived until
-today; there used to be host_floppy, too) where the disk size can change
-without an explicit block_resize when you change the medium.
+  Merge tag 'pull-tcg-20221109' of https://gitlab.com/rth7680/qemu into staging (2022-11-09 13:26:45 -0500)
 
-I'm not sure how well this works in practice, but so far we've not
-intentionally broken anything related to it that wasn't always broken.
+are available in the Git repository at:
 
-Kevin
+  https://gitlab.com/danielhb/qemu.git tags/pull-ppc-20221111
 
+for you to fetch changes up to ec5651340d445f009db1c2dc507da8cb4df85ad0:
+
+  hw/pci-host/pnv_phb: Avoid quitting QEMU if hotplug of pnv-phb-root-port fails (2022-11-10 18:22:10 -0300)
+
+----------------------------------------------------------------
+ppc patch queue for 2022-11-11:
+
+Short queue with just a single pnv-phb fix from Thomas Huth.
+
+----------------------------------------------------------------
+Thomas Huth (1):
+      hw/pci-host/pnv_phb: Avoid quitting QEMU if hotplug of pnv-phb-root-port fails
+
+ hw/pci-host/pnv_phb.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
