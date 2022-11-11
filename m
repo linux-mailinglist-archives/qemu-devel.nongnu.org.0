@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25EC6254D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 09:02:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29BEF625547
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 09:29:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otOfE-00064r-G4; Fri, 11 Nov 2022 02:41:24 -0500
+	id 1otOfR-00067J-PQ; Fri, 11 Nov 2022 02:41:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otOf5-00063u-J9
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:41:15 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ id 1otOf9-00064c-2d
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:41:21 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otOf3-0007We-VX
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:41:15 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id k7so3625242pll.6
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 23:41:13 -0800 (PST)
+ id 1otOf6-0007X3-Eq
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:41:18 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id d20so3611164plr.10
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 23:41:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YoRGWSyVwaDhXOkYnUdohylcDpSat7ggSbobPWN00CY=;
- b=THrAA1z9LolC0Oj4hDqhX96ux2dnx2y8ZMbCYsmLhJ3w30J0VogMHNdMguNB19o89T
- Vmids42Sok93D8/MVW50WEMDxHGdIwe8YxyM1JT4x0my5NBPTyM3C6cF7T4ISUuIFwLN
- 8/DZ4NFbdtsq1C+sp03RaqEmaaBWidusCRpMA+LV5Zy5Tez1qG6HkyiqeoCV06NEJQHy
- OyqMOdWG50Dk4k2S4ujd5jeIaR78AdwLsr7oa3V0sMmaTwLy54tw7OoMSdAtnFyMeXJK
- VuBuirkYDzlQnyBjmx6Rm9QLUVBWyxU5KMVAEZivtUeavqQIPmJmL387NKW2wYGazu7y
- GDCA==
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=SrZQlvErLRNnhP/RZ2dv32a5apAAfuiIKcrDKQjo1/Q=;
+ b=v7CL6oYWC02mXhQdOQkL4D7QomWeuViS89Aeq/XYDnYIC/jpOb1bZm18GCSfkFTyCs
+ +OGj/8CcjF9nyWpZhus5GN/tI/bZkV/fMSKIYH8KO7c188OntEKBayN4gmUrtTQX21K/
+ 4R1oCsHL+i0mBfsEu2ByEGOv4XW6WmQF6GD/tIiVkGbsAN1QUdl/kUNQZtrezWkmEImp
+ yZKbHCaqZy1fMZeKc9kfXPtlZ8lwvYWAX3zvPkaWKXF8xbZYJNOnwm705fGcZ2oRYtZl
+ 5qZh384iTOqedHzB36eK8HkBAa7clbMCjvktrV3cjaNYyhNOJBShNYbUowKXnQ5XMRyU
+ p6og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YoRGWSyVwaDhXOkYnUdohylcDpSat7ggSbobPWN00CY=;
- b=J6WDpUuXNVsir48q7strodt2ZGMOA/kRbDvJGTvBpED7A+xeIkWhIphXQ9zTXGjCyU
- 5l1ALmVyBN3qYfDoRXDrnL7g6OGamTrnuQh+WjSKkluOqOrpj/0X1Uhwz7MezJvIXfj+
- 2ST4tjJgBMbTPA8OhIJ5JGp3pOGUNl8shhf4igeYBAmxmW4Xxi+bwS70wgJuDR7pFDj7
- 0GBH7zQKMedilxPQNNc/swQ+YAeKRk2icBBYnu92SuJpF5kWGac1A5DWWX1qvhcfz1YH
- /sujuKSaflRs8kjHH9rmBVVDkqfEm6khBkVs4iS/bjOfXHd1UFnRKX7ok9Ipi+dbAu5w
- wVCg==
-X-Gm-Message-State: ANoB5pnfAi3sX2lzR6nksYAx9YGlyPZcDCAxjKObSVqK/tkssNEo7bAk
- sX0e/8n0VT6hWpYzbQR9Ep/uodduyn8vZXq+
-X-Google-Smtp-Source: AA0mqf6ZXlUzTVQISS5yCJ8YUOCCg0xKio01dRaSZ43soZOhvt1PQXjSilETao3W2El4AdHwAsiyhA==
-X-Received: by 2002:a17:902:d145:b0:181:b25e:e7bc with SMTP id
- t5-20020a170902d14500b00181b25ee7bcmr1524109plt.46.1668152472389; 
- Thu, 10 Nov 2022 23:41:12 -0800 (PST)
+ bh=SrZQlvErLRNnhP/RZ2dv32a5apAAfuiIKcrDKQjo1/Q=;
+ b=T+KiHLhTQwLJvgVOKBxqkf3f6nFP887KyVvgHgdcV7a6Kw6xYD5iY8YLoSyNsUFhLj
+ F1H0jm1BRgsq5bbCDn5tKap1udBqCzWGly8v9jRpLfgyfn38Hv6vkEC1aRCCkenu8X0A
+ jd3HhZU9DEtOXAlvORlQ6FwKfdGvu/K1DaOg8BxX1JvhJ8aXCqg5lLKFdBI3cdM9YQZM
+ GKWoonx+GdyBhVgfRxUrjIjyCS0QjIf9TL8lVeJmqtLTI2nIOgyBgG2qWOOFOeM90roh
+ mrX7OGOfHuL3+Satlm3Fssl0J0NTcynuESHDtVH/cjjL535x4CX48fKqC6OehNSUGIVj
+ ddOg==
+X-Gm-Message-State: ANoB5pmeCqgHVSP6LKwpBUG9hizxePhAk14MYDzLvY1kqBDanxSrJOsx
+ 5z03JGNnRH8cSdTXBBhVb5YBts4eQjNG4YyS
+X-Google-Smtp-Source: AA0mqf5t13xMbUihGUseTgqCRE5RK64PdW08zkx7tIOMJYJf3MqFdCKPit8cCj8Y3NQ+fsRiMqxOZg==
+X-Received: by 2002:a17:90b:400e:b0:210:f1f7:575e with SMTP id
+ ie14-20020a17090b400e00b00210f1f7575emr677359pjb.47.1668152474580; 
+ Thu, 10 Nov 2022 23:41:14 -0800 (PST)
 Received: from stoup.lan
  (2001-44b8-2176-c800-0aef-59aa-1faf-7e61.static.ipv6.internode.on.net.
  [2001:44b8:2176:c800:aef:59aa:1faf:7e61])
  by smtp.gmail.com with ESMTPSA id
- o15-20020a170902d4cf00b001754fa42065sm976069plg.143.2022.11.10.23.41.10
+ o15-20020a170902d4cf00b001754fa42065sm976069plg.143.2022.11.10.23.41.12
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 23:41:11 -0800 (PST)
+ Thu, 10 Nov 2022 23:41:14 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH for-8.0 v3 02/45] tcg: Tidy tcg_reg_alloc_op
-Date: Fri, 11 Nov 2022 17:40:18 +1000
-Message-Id: <20221111074101.2069454-3-richard.henderson@linaro.org>
+Subject: [PATCH for-8.0 v3 03/45] tcg: Introduce paired register allocation
+Date: Fri, 11 Nov 2022 17:40:19 +1000
+Message-Id: <20221111074101.2069454-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221111074101.2069454-1-richard.henderson@linaro.org>
 References: <20221111074101.2069454-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,97 +90,613 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Replace goto allocate_in_reg with a boolean.
-Remove o_preferred_regs which isn't used, except to copy.
+There are several instances where we need to be able to
+allocate a pair of registers to related inputs/outputs.
+Add 'p' and 'm' register constraints for this, in order to
+be able to allocate the even/odd register first or second.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 45 +++++++++++++++++++++------------------------
- 1 file changed, 21 insertions(+), 24 deletions(-)
+ include/tcg/tcg.h |   2 +
+ tcg/tcg.c         | 469 ++++++++++++++++++++++++++++++++++++++--------
+ 2 files changed, 393 insertions(+), 78 deletions(-)
 
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index d84bae6e3f..5c2254ce9f 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -951,6 +951,8 @@ typedef struct TCGArgConstraint {
+     unsigned ct : 16;
+     unsigned alias_index : 4;
+     unsigned sort_index : 4;
++    unsigned pair_index : 4;
++    unsigned pair : 2;  /* 0: none, 1: first, 2: second, 3: second alias */
+     bool oalias : 1;
+     bool ialias : 1;
+     bool newreg : 1;
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 436fcf6ebd..c68fa1d564 100644
+index c68fa1d564..f5383bb2b0 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -3606,7 +3606,8 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+@@ -1985,15 +1985,32 @@ static void tcg_dump_ops(TCGContext *s, FILE *f, bool have_prefs)
+ static int get_constraint_priority(const TCGOpDef *def, int k)
+ {
+     const TCGArgConstraint *arg_ct = &def->args_ct[k];
+-    int n;
++    int n = ctpop64(arg_ct->regs);
+ 
+-    if (arg_ct->oalias) {
+-        /* an alias is equivalent to a single register */
+-        n = 1;
+-    } else {
+-        n = ctpop64(arg_ct->regs);
++    /*
++     * Sort constraints of a single register first, which includes output
++     * aliases (which must exactly match the input already allocated).
++     */
++    if (n == 1 || arg_ct->oalias) {
++        return INT_MAX;
+     }
+-    return TCG_TARGET_NB_REGS - n + 1;
++
++    /*
++     * Sort register pairs next, first then second immediately after.
++     * Arbitrarily sort multiple pairs by the index of the first reg;
++     * there shouldn't be many pairs.
++     */
++    switch (arg_ct->pair) {
++    case 1:
++    case 3:
++        return (k + 1) * 2;
++    case 2:
++        return (arg_ct->pair_index + 1) * 2 - 1;
++    }
++
++    /* Finally, sort by decreasing register count. */
++    assert(n > 1);
++    return -n;
+ }
+ 
+ /* sort from highest priority to lowest */
+@@ -2028,7 +2045,8 @@ static void process_op_defs(TCGContext *s)
+     for (op = 0; op < NB_OPS; op++) {
+         TCGOpDef *def = &tcg_op_defs[op];
+         const TCGTargetOpDef *tdefs;
+-        int i, nb_args;
++        bool saw_alias_pair = false;
++        int i, o, i2, o2, nb_args;
+ 
+         if (def->flags & TCG_OPF_NOT_PRESENT) {
+             continue;
+@@ -2050,58 +2068,175 @@ static void process_op_defs(TCGContext *s)
+ 
+         for (i = 0; i < nb_args; i++) {
+             const char *ct_str = tdefs->args_ct_str[i];
++            bool input_p = i >= def->nb_oargs;
++
+             /* Incomplete TCGTargetOpDef entry. */
+             tcg_debug_assert(ct_str != NULL);
+ 
+-            while (*ct_str != '\0') {
+-                switch(*ct_str) {
+-                case '0' ... '9':
+-                    {
+-                        int oarg = *ct_str - '0';
+-                        tcg_debug_assert(ct_str == tdefs->args_ct_str[i]);
+-                        tcg_debug_assert(oarg < def->nb_oargs);
+-                        tcg_debug_assert(def->args_ct[oarg].regs != 0);
+-                        def->args_ct[i] = def->args_ct[oarg];
+-                        /* The output sets oalias.  */
+-                        def->args_ct[oarg].oalias = true;
+-                        def->args_ct[oarg].alias_index = i;
+-                        /* The input sets ialias. */
+-                        def->args_ct[i].ialias = true;
+-                        def->args_ct[i].alias_index = oarg;
+-                    }
+-                    ct_str++;
+-                    break;
+-                case '&':
+-                    def->args_ct[i].newreg = true;
+-                    ct_str++;
+-                    break;
++            switch (*ct_str) {
++            case '0' ... '9':
++                o = *ct_str - '0';
++                tcg_debug_assert(input_p);
++                tcg_debug_assert(o < def->nb_oargs);
++                tcg_debug_assert(def->args_ct[o].regs != 0);
++                tcg_debug_assert(!def->args_ct[o].oalias);
++                def->args_ct[i] = def->args_ct[o];
++                /* The output sets oalias.  */
++                def->args_ct[o].oalias = 1;
++                def->args_ct[o].alias_index = i;
++                /* The input sets ialias. */
++                def->args_ct[i].ialias = 1;
++                def->args_ct[i].alias_index = o;
++                if (def->args_ct[i].pair) {
++                    saw_alias_pair = true;
++                }
++                tcg_debug_assert(ct_str[1] == '\0');
++                continue;
++
++            case '&':
++                tcg_debug_assert(!input_p);
++                def->args_ct[i].newreg = true;
++                ct_str++;
++                break;
++
++            case 'p': /* plus */
++                /* Allocate to the register after the previous. */
++                tcg_debug_assert(i > (input_p ? def->nb_oargs : 0));
++                o = i - 1;
++                tcg_debug_assert(!def->args_ct[o].pair);
++                tcg_debug_assert(!def->args_ct[o].ct);
++                def->args_ct[i] = (TCGArgConstraint){
++                    .pair = 2,
++                    .pair_index = o,
++                    .regs = def->args_ct[o].regs << 1,
++                };
++                def->args_ct[o].pair = 1;
++                def->args_ct[o].pair_index = i;
++                tcg_debug_assert(ct_str[1] == '\0');
++                continue;
++
++            case 'm': /* minus */
++                /* Allocate to the register before the previous. */
++                tcg_debug_assert(i > (input_p ? def->nb_oargs : 0));
++                o = i - 1;
++                tcg_debug_assert(!def->args_ct[o].pair);
++                tcg_debug_assert(!def->args_ct[o].ct);
++                def->args_ct[i] = (TCGArgConstraint){
++                    .pair = 1,
++                    .pair_index = o,
++                    .regs = def->args_ct[o].regs >> 1,
++                };
++                def->args_ct[o].pair = 2;
++                def->args_ct[o].pair_index = i;
++                tcg_debug_assert(ct_str[1] == '\0');
++                continue;
++            }
++
++            do {
++                switch (*ct_str) {
+                 case 'i':
+                     def->args_ct[i].ct |= TCG_CT_CONST;
+-                    ct_str++;
+                     break;
+ 
+                 /* Include all of the target-specific constraints. */
+ 
+ #undef CONST
+ #define CONST(CASE, MASK) \
+-    case CASE: def->args_ct[i].ct |= MASK; ct_str++; break;
++    case CASE: def->args_ct[i].ct |= MASK; break;
+ #define REGS(CASE, MASK) \
+-    case CASE: def->args_ct[i].regs |= MASK; ct_str++; break;
++    case CASE: def->args_ct[i].regs |= MASK; break;
+ 
+ #include "tcg-target-con-str.h"
+ 
+ #undef REGS
+ #undef CONST
+                 default:
++                case '0' ... '9':
++                case '&':
++                case 'p':
++                case 'm':
+                     /* Typo in TCGTargetOpDef constraint. */
+                     g_assert_not_reached();
+                 }
+-            }
++            } while (*++ct_str != '\0');
+         }
+ 
+         /* TCGTargetOpDef entry with too much information? */
+         tcg_debug_assert(i == TCG_MAX_OP_ARGS || tdefs->args_ct_str[i] == NULL);
+ 
++        /*
++         * Fix up output pairs that are aliased with inputs.
++         * When we created the alias, we copied pair from the output.
++         * There are three cases:
++         *    (1a) Pairs of inputs alias pairs of outputs.
++         *    (1b) One input aliases the first of a pair of outputs.
++         *    (2)  One input aliases the second of a pair of outputs.
++         *
++         * Case 1a is handled by making sure that the pair_index'es are
++         * properly updated so that they appear the same as a pair of inputs.
++         *
++         * Case 1b is handled by setting the pair_index of the input to
++         * itself, simply so it doesn't point to an unrelated argument.
++         * Since we don't encounter the "second" during the input allocation
++         * phase, nothing happens with the second half of the input pair.
++         *
++         * Case 2 is handled by setting the second input to pair=3, the
++         * first output to pair=3, and the pair_index'es to match.
++         */
++        if (saw_alias_pair) {
++            for (i = def->nb_oargs; i < nb_args; i++) {
++                /*
++                 * Since [0-9pm] must be alone in the constraint string,
++                 * the only way they can both be set is if the pair comes
++                 * from the output alias.
++                 */
++                if (!def->args_ct[i].ialias) {
++                    continue;
++                }
++                switch (def->args_ct[i].pair) {
++                case 0:
++                    break;
++                case 1:
++                    o = def->args_ct[i].alias_index;
++                    o2 = def->args_ct[o].pair_index;
++                    tcg_debug_assert(def->args_ct[o].pair == 1);
++                    tcg_debug_assert(def->args_ct[o2].pair == 2);
++                    if (def->args_ct[o2].oalias) {
++                        /* Case 1a */
++                        i2 = def->args_ct[o2].alias_index;
++                        tcg_debug_assert(def->args_ct[i2].pair == 2);
++                        def->args_ct[i2].pair_index = i;
++                        def->args_ct[i].pair_index = i2;
++                    } else {
++                        /* Case 1b */
++                        def->args_ct[i].pair_index = i;
++                    }
++                    break;
++                case 2:
++                    o = def->args_ct[i].alias_index;
++                    o2 = def->args_ct[o].pair_index;
++                    tcg_debug_assert(def->args_ct[o].pair == 2);
++                    tcg_debug_assert(def->args_ct[o2].pair == 1);
++                    if (def->args_ct[o2].oalias) {
++                        /* Case 1a */
++                        i2 = def->args_ct[o2].alias_index;
++                        tcg_debug_assert(def->args_ct[i2].pair == 1);
++                        def->args_ct[i2].pair_index = i;
++                        def->args_ct[i].pair_index = i2;
++                    } else {
++                        /* Case 2 */
++                        def->args_ct[i].pair = 3;
++                        def->args_ct[o2].pair = 3;
++                        def->args_ct[i].pair_index = o2;
++                        def->args_ct[o2].pair_index = i;
++                    }
++                    break;
++                default:
++                    g_assert_not_reached();
++                }
++            }
++        }
++
+         /* sort the constraints (XXX: this is just an heuristic) */
+         sort_constraints(def, 0, def->nb_oargs);
+         sort_constraints(def, def->nb_oargs, def->nb_iargs);
+@@ -3197,6 +3332,52 @@ static TCGReg tcg_reg_alloc(TCGContext *s, TCGRegSet required_regs,
+     tcg_abort();
+ }
+ 
++static TCGReg tcg_reg_alloc_pair(TCGContext *s, TCGRegSet required_regs,
++                                 TCGRegSet allocated_regs,
++                                 TCGRegSet preferred_regs, bool rev)
++{
++    int i, j, k, fmin, n = ARRAY_SIZE(tcg_target_reg_alloc_order);
++    TCGRegSet reg_ct[2];
++    const int *order;
++
++    /* Ensure that if I is not in allocated_regs, I+1 is not either. */
++    reg_ct[1] = required_regs & ~(allocated_regs | (allocated_regs >> 1));
++    tcg_debug_assert(reg_ct[1] != 0);
++    reg_ct[0] = reg_ct[1] & preferred_regs;
++
++    order = rev ? indirect_reg_alloc_order : tcg_target_reg_alloc_order;
++
++    /*
++     * Skip the preferred_regs option if it cannot be satisfied,
++     * or if the preference made no difference.
++     */
++    k = reg_ct[0] == 0 || reg_ct[0] == reg_ct[1];
++
++    /*
++     * Minimize the number of flushes by looking for 2 free registers first,
++     * then a single flush, then two flushes.
++     */
++    for (fmin = 2; fmin >= 0; fmin--) {
++        for (j = k; j < 2; j++) {
++            TCGRegSet set = reg_ct[j];
++
++            for (i = 0; i < n; i++) {
++                TCGReg reg = order[i];
++
++                if (tcg_regset_test_reg(set, reg)) {
++                    int f = !s->reg_to_temp[reg] + !s->reg_to_temp[reg + 1];
++                    if (f >= fmin) {
++                        tcg_reg_free(s, reg, allocated_regs);
++                        tcg_reg_free(s, reg + 1, allocated_regs);
++                        return reg;
++                    }
++                }
++            }
++        }
++    }
++    tcg_abort();
++}
++
+ /* Make sure the temporary is in a register.  If needed, allocate the register
+    from DESIRED while avoiding ALLOCATED.  */
+ static void temp_load(TCGContext *s, TCGTemp *ts, TCGRegSet desired_regs,
+@@ -3606,8 +3787,10 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
  
      /* satisfy input constraints */ 
      for (k = 0; k < nb_iargs; k++) {
--        TCGRegSet i_preferred_regs, o_preferred_regs;
-+        TCGRegSet i_preferred_regs;
-+        bool allocate_new_reg;
+-        TCGRegSet i_preferred_regs;
+-        bool allocate_new_reg;
++        TCGRegSet i_preferred_regs, i_required_regs;
++        bool allocate_new_reg, copyto_new_reg;
++        TCGTemp *ts2;
++        int i1, i2;
  
          i = def->args_ct[nb_oargs + k].sort_index;
          arg = op->args[i];
-@@ -3621,9 +3622,12 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
-             continue;
-         }
+@@ -3624,43 +3807,142 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
  
--        i_preferred_regs = o_preferred_regs = 0;
-+        reg = ts->reg;
-+        i_preferred_regs = 0;
-+        allocate_new_reg = false;
+         reg = ts->reg;
+         i_preferred_regs = 0;
++        i_required_regs = arg_ct->regs;
+         allocate_new_reg = false;
++        copyto_new_reg = false;
+ 
+-        if (arg_ct->ialias) {
++        switch (arg_ct->pair) {
++        case 0: /* not paired */
++            if (arg_ct->ialias) {
++                i_preferred_regs = op->output_pref[arg_ct->alias_index];
 +
-         if (arg_ct->ialias) {
--            o_preferred_regs = op->output_pref[arg_ct->alias_index];
-+            i_preferred_regs = op->output_pref[arg_ct->alias_index];
- 
-             /*
-              * If the input is readonly, then it cannot also be an
-@@ -3632,30 +3636,23 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
-              * register and move it.
-              */
-             if (temp_readonly(ts) || !IS_DEAD_ARG(i)) {
--                goto allocate_in_reg;
-+                allocate_new_reg = true;
-+            } else if (ts->val_type == TEMP_VAL_REG) {
 +                /*
-+                 * Check if the current register has already been
-+                 * allocated for another input.
++                 * If the input is readonly, then it cannot also be an
++                 * output and aliased to itself.  If the input is not
++                 * dead after the instruction, we must allocate a new
++                 * register and move it.
 +                 */
-+                allocate_new_reg = tcg_regset_test_reg(i_allocated_regs, reg);
-             }
--
++                if (temp_readonly(ts) || !IS_DEAD_ARG(i)) {
++                    allocate_new_reg = true;
++                } else if (ts->val_type == TEMP_VAL_REG) {
++                    /*
++                     * Check if the current register has already been
++                     * allocated for another input.
++                     */
++                    allocate_new_reg =
++                        tcg_regset_test_reg(i_allocated_regs, reg);
++                }
++            }
++            if (!allocate_new_reg) {
++                temp_load(s, ts, i_required_regs, i_allocated_regs,
++                          i_preferred_regs);
++                reg = ts->reg;
++                allocate_new_reg = !tcg_regset_test_reg(i_required_regs, reg);
++            }
++            if (allocate_new_reg) {
++                /*
++                 * Allocate a new register matching the constraint
++                 * and move the temporary register into it.
++                 */
++                temp_load(s, ts, tcg_target_available_regs[ts->type],
++                          i_allocated_regs, 0);
++                reg = tcg_reg_alloc(s, i_required_regs, i_allocated_regs,
++                                    i_preferred_regs, ts->indirect_base);
++                copyto_new_reg = true;
++            }
++            break;
++
++        case 1:
++            /* First of an input pair; if i1 == i2, the second is an output. */
++            i1 = i;
++            i2 = arg_ct->pair_index;
++
++            /*
++             * It is easier to default to allocating a new pair
++             * and to identify a few cases where it's not required.
++             */
++            allocate_new_reg = true;
++            ts2 = i1 != i2 ? arg_temp(op->args[i2]) : NULL;
++
++            if (arg_ct->ialias) {
++                i_preferred_regs = op->output_pref[arg_ct->alias_index];
++                if (IS_DEAD_ARG(i1) &&
++                    IS_DEAD_ARG(i2) &&
++                    !temp_readonly(ts) &&
++                    ts->val_type == TEMP_VAL_REG &&
++                    ts->reg < TCG_TARGET_NB_REGS - 1 &&
++                    tcg_regset_test_reg(i_required_regs, reg) &&
++                    !tcg_regset_test_reg(i_allocated_regs, reg) &&
++                    !tcg_regset_test_reg(i_allocated_regs, reg + 1) &&
++                    (ts2
++                     ? !temp_readonly(ts2) &&
++                       ts2->val_type == TEMP_VAL_REG &&
++                       ts2->reg == reg + 1
++                     : s->reg_to_temp[reg + 1] == NULL)) {
++                    allocate_new_reg = false;
++                }
++            } else {
++                /* Without aliasing, the pair must also be an input. */
++                tcg_debug_assert(ts2);
++                if (ts->val_type == TEMP_VAL_REG &&
++                    ts2->val_type == TEMP_VAL_REG &&
++                    ts2->reg == reg + 1 &&
++                    tcg_regset_test_reg(i_required_regs, reg)) {
++                    allocate_new_reg = false;
++                }
++            }
++            if (allocate_new_reg) {
++                reg = tcg_reg_alloc_pair(s, i_required_regs, i_allocated_regs,
++                                         0, ts->indirect_base);
++                if (ts->val_type != TEMP_VAL_REG) {
++                    temp_load(s, ts, (TCGRegSet)1 << reg, i_allocated_regs, 0);
++                } else {
++                    copyto_new_reg = true;
++                }
++            }
++            break;
++
++        case 2: /* pair second */
++            reg = new_args[arg_ct->pair_index] + 1;
++            i_required_regs = (TCGRegSet)1 << reg;
++            temp_load(s, ts, i_required_regs, i_allocated_regs, 0);
++            allocate_new_reg = ts->reg != reg;
++            break;
++
++        case 3: /* ialias with second output, no first input */
++            tcg_debug_assert(arg_ct->ialias);
+             i_preferred_regs = op->output_pref[arg_ct->alias_index];
+ 
 -            /*
--             * Check if the current register has already been allocated
--             * for another input aliased to an output.
+-             * If the input is readonly, then it cannot also be an
+-             * output and aliased to itself.  If the input is not
+-             * dead after the instruction, we must allocate a new
+-             * register and move it.
 -             */
--            if (ts->val_type == TEMP_VAL_REG) {
--                reg = ts->reg;
--                for (int k2 = 0; k2 < k; k2++) {
--                    int i2 = def->args_ct[nb_oargs + k2].sort_index;
--                    if (def->args_ct[i2].ialias && reg == new_args[i2]) {
--                        goto allocate_in_reg;
--                    }
--                }
--            }
--            i_preferred_regs = o_preferred_regs;
+-            if (temp_readonly(ts) || !IS_DEAD_ARG(i)) {
+-                allocate_new_reg = true;
+-            } else if (ts->val_type == TEMP_VAL_REG) {
+-                /*
+-                 * Check if the current register has already been
+-                 * allocated for another input.
+-                 */
+-                allocate_new_reg = tcg_regset_test_reg(i_allocated_regs, reg);
++            allocate_new_reg = true;
++            if (IS_DEAD_ARG(i) &&
++                ts->val_type == TEMP_VAL_REG &&
++                reg > 0 &&
++                !s->reg_to_temp[reg - 1] &&
++                tcg_regset_test_reg(i_required_regs, reg) &&
++                !tcg_regset_test_reg(i_allocated_regs, reg) &&
++                !tcg_regset_test_reg(i_allocated_regs, reg - 1)) {
++                tcg_regset_set_reg(i_allocated_regs, reg - 1);
++                allocate_new_reg = false;
+             }
++            if (allocate_new_reg) {
++                reg = tcg_reg_alloc_pair(s, i_required_regs >> 1,
++                                         i_allocated_regs, 0,
++                                         ts->indirect_base);
++                tcg_regset_set_reg(i_allocated_regs, reg);
++                reg += 1;
++                if (ts->val_type != TEMP_VAL_REG) {
++                    temp_load(s, ts, (TCGRegSet)1 << reg, i_allocated_regs, 0);
++                } else {
++                    copyto_new_reg = true;
++                }
++            }
++            break;
++
++        default:
++            g_assert_not_reached();
          }
  
--        temp_load(s, ts, arg_ct->regs, i_allocated_regs, i_preferred_regs);
--        reg = ts->reg;
-+        if (!allocate_new_reg) {
-+            temp_load(s, ts, arg_ct->regs, i_allocated_regs, i_preferred_regs);
-+            reg = ts->reg;
-+            allocate_new_reg = !tcg_regset_test_reg(arg_ct->regs, reg);
-+        }
- 
--        if (!tcg_regset_test_reg(arg_ct->regs, reg)) {
-- allocate_in_reg:
-+        if (allocate_new_reg) {
-             /*
-              * Allocate a new register matching the constraint
-              * and move the temporary register into it.
-@@ -3663,7 +3660,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
-             temp_load(s, ts, tcg_target_available_regs[ts->type],
-                       i_allocated_regs, 0);
-             reg = tcg_reg_alloc(s, arg_ct->regs, i_allocated_regs,
--                                o_preferred_regs, ts->indirect_base);
-+                                i_preferred_regs, ts->indirect_base);
+-        if (!allocate_new_reg) {
+-            temp_load(s, ts, arg_ct->regs, i_allocated_regs, i_preferred_regs);
+-            reg = ts->reg;
+-            allocate_new_reg = !tcg_regset_test_reg(arg_ct->regs, reg);
+-        }
+-
+-        if (allocate_new_reg) {
+-            /*
+-             * Allocate a new register matching the constraint
+-             * and move the temporary register into it.
+-             */
+-            temp_load(s, ts, tcg_target_available_regs[ts->type],
+-                      i_allocated_regs, 0);
+-            reg = tcg_reg_alloc(s, arg_ct->regs, i_allocated_regs,
+-                                i_preferred_regs, ts->indirect_base);
++        if (copyto_new_reg) {
              if (!tcg_out_mov(s, ts->type, reg, ts->reg)) {
                  /*
                   * Cross register class move not supported.  Sync the
+@@ -3675,7 +3957,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+         const_args[i] = 0;
+         tcg_regset_set_reg(i_allocated_regs, reg);
+     }
+-    
++
+     /* mark dead temporaries and free the associated registers */
+     for (i = nb_oargs; i < nb_oargs + nb_iargs; i++) {
+         if (IS_DEAD_ARG(i)) {
+@@ -3703,7 +3985,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+         }
+         
+         /* satisfy the output constraints */
+-        for(k = 0; k < nb_oargs; k++) {
++        for (k = 0; k < nb_oargs; k++) {
+             i = def->args_ct[k].sort_index;
+             arg = op->args[i];
+             arg_ct = &def->args_ct[i];
+@@ -3712,15 +3994,46 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+             /* ENV should not be modified.  */
+             tcg_debug_assert(!temp_readonly(ts));
+ 
+-            if (arg_ct->oalias && !const_args[arg_ct->alias_index]) {
+-                reg = new_args[arg_ct->alias_index];
+-            } else if (arg_ct->newreg) {
+-                reg = tcg_reg_alloc(s, arg_ct->regs,
+-                                    i_allocated_regs | o_allocated_regs,
+-                                    op->output_pref[k], ts->indirect_base);
+-            } else {
+-                reg = tcg_reg_alloc(s, arg_ct->regs, o_allocated_regs,
+-                                    op->output_pref[k], ts->indirect_base);
++            switch (arg_ct->pair) {
++            case 0: /* not paired */
++                if (arg_ct->oalias && !const_args[arg_ct->alias_index]) {
++                    reg = new_args[arg_ct->alias_index];
++                } else if (arg_ct->newreg) {
++                    reg = tcg_reg_alloc(s, arg_ct->regs,
++                                        i_allocated_regs | o_allocated_regs,
++                                        op->output_pref[k], ts->indirect_base);
++                } else {
++                    reg = tcg_reg_alloc(s, arg_ct->regs, o_allocated_regs,
++                                        op->output_pref[k], ts->indirect_base);
++                }
++                break;
++
++            case 1: /* first of pair */
++                tcg_debug_assert(!arg_ct->newreg);
++                if (arg_ct->oalias) {
++                    reg = new_args[arg_ct->alias_index];
++                    break;
++                }
++                reg = tcg_reg_alloc_pair(s, arg_ct->regs, o_allocated_regs,
++                                         op->output_pref[k], ts->indirect_base);
++                break;
++
++            case 2: /* second of pair */
++                tcg_debug_assert(!arg_ct->newreg);
++                if (arg_ct->oalias) {
++                    reg = new_args[arg_ct->alias_index];
++                } else {
++                    reg = new_args[arg_ct->pair_index] + 1;
++                }
++                break;
++
++            case 3: /* first of pair, aliasing with a second input */
++                tcg_debug_assert(!arg_ct->newreg);
++                reg = new_args[arg_ct->pair_index] - 1;
++                break;
++
++            default:
++                g_assert_not_reached();
+             }
+             tcg_regset_set_reg(o_allocated_regs, reg);
+             if (ts->val_type == TEMP_VAL_REG) {
+@@ -3728,12 +4041,12 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
+             }
+             ts->val_type = TEMP_VAL_REG;
+             ts->reg = reg;
++            s->reg_to_temp[reg] = ts;
+             /*
+              * Temp value is modified, so the value kept in memory is
+              * potentially not the same.
+              */
+             ts->mem_coherent = 0;
+-            s->reg_to_temp[reg] = ts;
+             new_args[i] = reg;
+         }
+     }
 -- 
 2.34.1
 
