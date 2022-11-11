@@ -2,75 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C7E6256ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 10:34:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10934625729
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 10:45:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otQQW-00026B-PG; Fri, 11 Nov 2022 04:34:20 -0500
+	id 1otQZZ-00058x-AK; Fri, 11 Nov 2022 04:43:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1otQQT-00021m-Or
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 04:34:17 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1otQZX-00058p-DO
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 04:43:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1otQQS-00040S-1r
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 04:34:17 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1otQZV-0007Yn-94
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 04:43:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668159254;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1668159815;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AvcYP2cIY2OkqaJn/h4ppD3BPnevV1wj+dJSx9KvoWg=;
- b=PNWIJruMW66FmdiwPszeDqWIDT8F/ED+6xHsMt9/k1/+ddqnMuJLd2SOkc15uaTVuRvLQI
- /fl28Xw2guIKaiFbNmJdJJJfZFRWHVYLFD8ixDBDHFR16S9fIWJTB6p9VXUiNNQvK5sj5c
- BueS7NXHubmLhOOsm9FBuqYMtHewkvY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-288-jMyfg9phO-qNXhzND3yc_A-1; Fri, 11 Nov 2022 04:34:13 -0500
-X-MC-Unique: jMyfg9phO-qNXhzND3yc_A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9EA80382F654;
- Fri, 11 Nov 2022 09:34:12 +0000 (UTC)
-Received: from [10.67.24.81] (unknown [10.67.24.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E75081401C29;
- Fri, 11 Nov 2022 09:34:08 +0000 (UTC)
-Subject: Re: [PATCH v3] qapi/qom: Memory backend property prealloc-threads doc
- fix
-To: Igor Mammedov <imammedo@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Cc: Zhenyu Zhang <zhenyzha@redhat.com>, qemu-devel@nongnu.org,
- philmd@linaro.org, shan.gavin@gmail.com, eric.auger@redhat.com,
- lijin@redhat.com
-References: <20221111030541.191186-1-zhenyzha@redhat.com>
- <dc7f305b-5dc0-999f-8b58-a2c2a4b18828@redhat.com>
- <87bkpedm2z.fsf@pond.sub.org>
- <20221111101310.47bdced9@imammedo.users.ipa.redhat.com>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <98a4d569-b81e-b3e3-f011-82ef19eeb5df@redhat.com>
-Date: Fri, 11 Nov 2022 17:34:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ bh=IFjmZY0GLMdbpsNRTZ8jm0EKaEdY2FvWpNTM7khW6Jc=;
+ b=aff3ll8Lo5gRboKMxHJI/3fv0Jl+nAdv5en5z04ePx54GLAFKnSuLjGvGNmpxk3vmwNtyh
+ RTI5WKxxj3IUxLLaPQAT9rZ3hQAjEN1q+0U4fpeIHgU7r/+q7hySXrLpz5+WjPATz3Xfzi
+ r4GEqPKCp2EBW3AdEJDEPdpzg18MlI0=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-516-R5gctIOEOC2WDp_CIGNWCw-1; Fri, 11 Nov 2022 04:43:34 -0500
+X-MC-Unique: R5gctIOEOC2WDp_CIGNWCw-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ b2-20020a0cfe62000000b004bbfb15297dso3350272qvv.19
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 01:43:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IFjmZY0GLMdbpsNRTZ8jm0EKaEdY2FvWpNTM7khW6Jc=;
+ b=D2Ay788NZn/kcGHcqXzCBAe7r4iRoXq9RAdYyacCI4PCzJJWb7KwiPfbwRgDuQTwAY
+ EcQ1GTlTbsm7ij6THN7KSJjXFEPK9JwbXGoCDK8vQVXLeiHauoieVsyswYiOpgsdn0Fj
+ RVnYVSQKMkTYREW0zNN+71pV6mvH+mPYOylO4SHZLz1clVAEaTnTw2Ygr1K/xQiiYeWm
+ Np4QOWMErxCTDRaNEh+Vcy/RExcs/h5ab0kxF0ByBxVaunsvL/VuM210a+K6424BuVlR
+ BGMff60h7zpLOYel5e3ainmCi3TEPUCUaSzcZlXty/n+b8noWFB+YdFI0EI37/4i5bvs
+ VUWQ==
+X-Gm-Message-State: ANoB5pkCCKuOobu7wiAmOiI7RJMrxlgmhwAGy1DYpuNwpbyCrdpT5YBn
+ SLG84/GPPxNMtNEwathyWEXyK2iHu+zVtMhz7gGqQGyk9NEn2Ghb3V/XH5aHMl43KJ4XZp8yN4V
+ TqeNTQMlR1Z+pGgM=
+X-Received: by 2002:ac8:5204:0:b0:3a4:f434:8215 with SMTP id
+ r4-20020ac85204000000b003a4f4348215mr573313qtn.114.1668159813910; 
+ Fri, 11 Nov 2022 01:43:33 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf7AGeTujNzhCn2Psedf3HIMU2pRD6LLLVYKmbOat9cbdHVR8GCsUHxvL4TPZK3IvfDyF/ObWg==
+X-Received: by 2002:ac8:5204:0:b0:3a4:f434:8215 with SMTP id
+ r4-20020ac85204000000b003a4f4348215mr573303qtn.114.1668159813687; 
+ Fri, 11 Nov 2022 01:43:33 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ r17-20020ae9d611000000b006ee7e223bb8sm1163334qkk.39.2022.11.11.01.43.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Nov 2022 01:43:32 -0800 (PST)
+Date: Fri, 11 Nov 2022 10:43:30 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier
+ <lvivier@redhat.com>, qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>,
+ Bernhard Beschow <shentey@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: Re: [PULL v4 44/83] acpi: pc: vga: use AcpiDevAmlIf interface to
+ build VGA device descriptors
+Message-ID: <20221111104330.7d735092@imammedo.users.ipa.redhat.com>
+In-Reply-To: <CAFEAcA974tkv531hxgy8cWkOBcxP1WzzHAThAPxUomMbg6ymRg@mail.gmail.com>
+References: <20221107224600.934080-1-mst@redhat.com>
+ <20221107224600.934080-45-mst@redhat.com>
+ <e491b2fe-5959-4837-fce9-a7d2cb2448e6@redhat.com>
+ <20221109162607-mutt-send-email-mst@kernel.org>
+ <CAFEAcA974tkv531hxgy8cWkOBcxP1WzzHAThAPxUomMbg6ymRg@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20221111101310.47bdced9@imammedo.users.ipa.redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,118 +106,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/11/22 5:13 PM, Igor Mammedov wrote:
-> On Fri, 11 Nov 2022 07:47:16 +0100
-> Markus Armbruster <armbru@redhat.com> wrote: 
->> Gavin Shan <gshan@redhat.com> writes:
->>> On 11/11/22 11:05 AM, Zhenyu Zhang wrote:
->>>> Commit ffac16fab3 "hostmem: introduce "prealloc-threads" property"
->>>> (v5.0.0) changed the default number of threads from number of CPUs
->>>> to 1.  This was deemed a regression, and fixed in commit f8d426a685
->>>> "hostmem: default the amount of prealloc-threads to smp-cpus".
->>>> Except the documentation remained unchanged.  Update it now.
->>>> Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
->>>> ---
->>>> v3: Covers historical descriptions                  (Markus)
->>>> v2: The property is changed to smp-cpus since 5.0   (Phild)
->>>> ---
->>>>    qapi/qom.json | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>    
->>>
->>> With the following comments addressed:
->>>
->>> Reviewed-by: Gavin Shan <gshan@redhat.com>
->>>
->>> ---
->>>
->>> Please consider amending the commit log to something like below.
->>>
->>> The default "prealloc-threads" value is set to 1 when the property is
->>> added by commit ffac16fab33b ("hostmem: introduce "prealloc-threads"
->>> property") in v5.0.0. The default value is conflicting with the sugar
->>> property as the value provided by the sugar property is number of CPUs.
->>
->> What is the sugar property?  Can you explain the conflict in a bit more
->> detail?
+On Thu, 10 Nov 2022 09:28:44 +0000
+Peter Maydell <peter.maydell@linaro.org> wrote:
+
+> On Wed, 9 Nov 2022 at 21:42, Michael S. Tsirkin <mst@redhat.com> wrote:
 > 
-> my guess is that Gavin means mem_prealloc compat glue in qemu_process_sugar_options()
+> > > > diff --git a/hw/display/meson.build b/hw/display/meson.build
+> > > > index adc53dd8b6..7a725ed80e 100644
+> > > > --- a/hw/display/meson.build
+> > > > +++ b/hw/display/meson.build
+> > > > @@ -38,10 +38,21 @@ softmmu_ss.add(when: 'CONFIG_NEXTCUBE', if_true: files('next-fb.c'))
+> > > >   specific_ss.add(when: 'CONFIG_VGA', if_true: files('vga.c'))
+> > > > +if (config_all_devices.has_key('CONFIG_VGA_CIRRUS') or
+> > > > +    config_all_devices.has_key('CONFIG_VGA_PCI') or
+> > > > +    config_all_devices.has_key('CONFIG_VMWARE_VGA') or
+> > > > +    config_all_devices.has_key('CONFIG_ATI_VGA')
+> > > > +   )
+> > > > +  softmmu_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-vga.c'),
+> > > > +                                      if_false: files('acpi-vga-stub.c'))
+> > > > +endif  
+> >
+> > Igor what does  CONFIG_ACPI mean? It depends on the target but this
+> > library is target independent. Is this just always built then?  
 > 
-> property value should be set according to following order
->       default -> compat -> explicit value
-> so I don't see any conflict here.
+> That kind of config symbol means "some machine we want to build needs
+> ACPI, so build it". So if you build at least one machine that needs
+> ACPI, CONFIG_ACPI gets defined, and the acpi-specific files are built.
+> If your QEMU configure line and possibly any custom config file
+> mean you're not building any ACPI machines, then CONFIG_ACPI is
+> not defined, and we don't need to build in the acpi-specifics,
+> which makes the binary smaller. For instance if you set
+> --target-list=or1k-softmmu then no machine wants ACPI and
+> CONFIG_ACPI won't get set. If you set --target-list=or1k-softmmu,x86_64-softmmu
+> then the PC machine types want ACPI and CONFIG_ACPI is set.
 > 
-> PS:
-> if it we up to me, default would have stayed 1,
-> and prealloc-threads fixup to vCPUs number would happen in vl.c
-> similar to what is done in qemu_process_sugar_options(),
-> keeping backend clean of external dependencies.
+> (Essentially we're opting to make the build faster by building the
+> object file once rather than per-target, at the cost of the
+> executables for the target architectures which don't use the
+> feature being a bit bigger with code they aren't going to use.)
 > 
-
-Yes, it's the sugar property I was talking about. I'm not sure if
-we have a more popular name for this property: compat property or
-sugar property.
-
-When 'mem-prealloc=on' and 'prealloc-threads=xxx' aren't provided,
-the value is 1 before commit f8d426a6852c is applied. It's not
-inconsistent with 'mem-prealloc=on'. It's the conflict I was talking
-about and it's fixed by commit f8d426a6852c
-
->>
->>> The conflict has been fixed by commit f8d426a6852c ("hostmem: default
->>> the amount of prealloc-threads to smp-cpus"). However, 'qapi/qom.json'
->>> was missed to be updated accordingly in the commit.
->>>
->>> Update 'qapi/qom.json' to reflect the change in commit f8d426a6852c.
->>>
->>> Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
->>>
->>> When a specific commit is mentioned in the commit log, we usually have
->>> fixed format like below.
->>>
->>> commit ffac16fab33b ("hostmem: introduce "prealloc-threads" property")
->>> commit f8d426a6852c ("hostmem: default the amount of prealloc-threads to smp-cpus")
->>
->> This is certainly a common format, but the other one is also in use.
->>
->>>> diff --git a/qapi/qom.json b/qapi/qom.json
->>>> index 30e76653ad..dfd89bc6d4 100644
->>>> --- a/qapi/qom.json
->>>> +++ b/qapi/qom.json
->>>> @@ -576,7 +576,7 @@
->>>>    #
->>>>    # @prealloc: if true, preallocate memory (default: false)
->>>>    #
->>>> -# @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
->>>> +# @prealloc-threads: number of CPU threads to use for prealloc (default: number of CPUs) (since 5.0)
->>>>    #
->>>>    # @prealloc-context: thread context to use for creation of preallocation threads
->>>>    #                    (default: none) (since 7.2)
->>>>    
->>>
->>> The line seems exceeding 80 characters. It'd better to limit each line in 75 characters.
->>> So you probably need:
->>>
->>>      # @prealloc-threads: number of CPU threads to use for prealloc (default: number of CPUs)
->>>      #                    (since 5.0)
->>
->> Still exceeds :)
->>
->> I suggested
->>
->>        # @prealloc-threads: number of CPU threads to use for prealloc
->>        #                    (default: number of CPUs) (since 5.0)
->>
+> Note that this means that for a machine type which does not use ACPI, it
+> may either:
+>  (1) be being built in the same build as a machine that does use
+>  ACPI, so be linked against the "real" ACPI source files
+>  (2) be being built in a build with no ACPI machines, so be
+>  linked against the stub files
 > 
+> and it also means that the code in the "real" ACPI source files
+> cannot assume that it's being used in a machine which is actually
+> using ACPI.
 
-Markus's suggestion works :)
+Stubs only work because we create per target binaries,
+so I'd expect acpi-vga.o and acpi-vga-stub.o being built and
+linked accordingly.
 
-Thanks,
-Gavin
+Even if it were not the case linking 'real' code in this case
+shouldn't have caused issues on machine that do not actually
+invoke it.
 
+Michael has already fixed issue removing pixman dependency in stub,
+which I haven't noticed (my machines have the library installed
+and CI at time of posting was green as well).
+
+> thanks
+> -- PMM
+> 
 
 
