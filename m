@@ -2,81 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A62F9625D2A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:37:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 356D6625D37
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:38:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otV8P-0006Td-GK; Fri, 11 Nov 2022 09:35:57 -0500
+	id 1otVA3-0007Vb-H6; Fri, 11 Nov 2022 09:37:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otV8L-0006Rl-Ps
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:35:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otV9y-0007V3-K0
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:37:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otV8J-0002Lg-Vh
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:35:53 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1otV9x-0003CY-6n
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:37:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668177351;
+ s=mimecast20190719; t=1668177452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tsmCv2BbGsN+hnWYT5US87KLmw0xJJ+vOk8xhTGZwWY=;
- b=UJ5aN8qwII7ZytqmRvRsY0AbwnjZ2vXz7kAVVkNiZULQjjuLGnPxXlWEt847h8mWI5yKml
- sb9LTekKK0boKJAA+OSI+8SvIwsfgoDmEUHVD7bYOdSqsP/ntMLQZs7WuCqclr0BNn5Gqo
- Z1/C0g0mZZloUuAPk786Fc98N9FRizk=
+ bh=Tw7WXiynU+Ey4ACbtr/TnLshynxlREc4cADZXwl+AQ8=;
+ b=ZTJPgKhFoaUGmzQjSNXHtnOMtLC2D5dgDxLC3Uex3vnEEQAiIN948W0C0EH36lx5ZnKn1I
+ RtwFuPKnkU8nfPPzGJrJjELxZe07aYkStyPNjgLywQPfUao30AAZtY9MlDcBdx3t/buwTr
+ upC46Zrw8VElk7ksdZKYqqrbe2e1ejE=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-424-sCGanKq4NJeYsr7Lfml-kg-1; Fri, 11 Nov 2022 09:35:49 -0500
-X-MC-Unique: sCGanKq4NJeYsr7Lfml-kg-1
+ us-mta-49-qG_nrKtKN5qY-zKyR_vE9g-1; Fri, 11 Nov 2022 09:37:31 -0500
+X-MC-Unique: qG_nrKtKN5qY-zKyR_vE9g-1
 Received: by mail-wr1-f70.google.com with SMTP id
- j25-20020adfa559000000b0023d5d7f95a2so1070682wrb.21
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 06:35:49 -0800 (PST)
+ l16-20020adfc790000000b00230c2505f96so1061541wrg.4
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 06:37:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tsmCv2BbGsN+hnWYT5US87KLmw0xJJ+vOk8xhTGZwWY=;
- b=h1N9BztLtEhxGD2LlGaiGIOQYCYrj5Gh5muRppoLBlVXCilLaJRsvVcnPdSKpEnkqH
- sccd96y8C18sj/6bbGJub8cbhJGV6aJTvUZ0LluDIxBJ7WzxlYEym49lbqRwNY6WKBkC
- 7jJuIe+XmhPtDT98gMCJf+vpXVU1J70HOnEUQz8V70+I/yxdfRfEdPARQOGZX4FIz+mw
- MEnKUiAS06XByk3n3QhRXiJx+e35OSnM/hRmXO6XSYpdEYSc4hqhSN9VS+lxSKaHG1U1
- GTBxFE1fKdwoIFvQnKEjiRfnXUzLLqdmjLP05vJKlYfXamkjZ/ecch9XimRIBQdHMr7a
- 0BCQ==
-X-Gm-Message-State: ANoB5pl05MVzrbGo0lMF5gM/+HmqQITawVkQ6XKNKHSTO+1jUHDZd/Kg
- jd3y7QJdRx+D9orbgXI9a8TF26VaW5Qw3nfaB32Zsswel3sUPRd/slpWRaovRtIW33i0rIUv+t3
- Jp/k2yvPTPaxNQ2w=
-X-Received: by 2002:a5d:61c7:0:b0:22e:39c9:a4a6 with SMTP id
- q7-20020a5d61c7000000b0022e39c9a4a6mr1445622wrv.170.1668177348766; 
- Fri, 11 Nov 2022 06:35:48 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf49JD7w5BvVoyuGTTkI3cyOM1Hy/ohchJ4P7Ia/LW+HRWPHJpCr6ft6UQ9NfwZaFhdQ1y9rag==
-X-Received: by 2002:a5d:61c7:0:b0:22e:39c9:a4a6 with SMTP id
- q7-20020a5d61c7000000b0022e39c9a4a6mr1445610wrv.170.1668177348562; 
- Fri, 11 Nov 2022 06:35:48 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Tw7WXiynU+Ey4ACbtr/TnLshynxlREc4cADZXwl+AQ8=;
+ b=ebg5Qq9hZnCJXvJtCj1p2F1VaFLmptXJV/BgIOcSaSJ6L3L+wRrk8S3/g4iUbY7e/s
+ hpZgV5T5/7kY3wCHU31zjcW9zFL7FTzOt6LlvRLpbowY6L3B8NMvuK6RdkOSgQ31jogO
+ mZrZ9va5U6/g/dNMt7837FsMSRGykOkJ0ZI+xOji1yhkaljK0wjHIGAMy6cGIxuL0H7o
+ 09MIfjA/+dhRAGgxofJjDo1iN4nReWKP6qIdqo+Cur5KFtpSxG1+yo0RjLqt3OpyrXq7
+ EZEZ4PwkR/d3Af+kM08bJtMeJGl+ukkXGof+snWwUCbDztKEofsHa4sJh4Uu3iOj6umW
+ Nk6w==
+X-Gm-Message-State: ANoB5pnckbyC7CE64SoAlE2rADOlPP6gTSiO2tkt/HSIic0vAZ+lg5s2
+ gfvdmz33kOIuKr/aqMYQFIsvqGeYijXDyQAW5qGbIuhpQyEkZJj8qZf4HwvMqX/Sm7cx/oQ7nej
+ PSdqhC9Jpgu67pnM=
+X-Received: by 2002:a05:600c:2306:b0:3cf:6a83:c7a3 with SMTP id
+ 6-20020a05600c230600b003cf6a83c7a3mr1391634wmo.21.1668177449949; 
+ Fri, 11 Nov 2022 06:37:29 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6JcU8GAHalNdLwNufHYrKG7VEnJSyZcKpQH47nBRm7uGkbhRhYG18oyNMWzGusRboh9xrh0g==
+X-Received: by 2002:a05:600c:2306:b0:3cf:6a83:c7a3 with SMTP id
+ 6-20020a05600c230600b003cf6a83c7a3mr1391608wmo.21.1668177449669; 
+ Fri, 11 Nov 2022 06:37:29 -0800 (PST)
 Received: from redhat.com ([2.52.3.250]) by smtp.gmail.com with ESMTPSA id
- m3-20020a5d6243000000b0023660f6cecfsm2057721wrv.80.2022.11.11.06.35.46
+ q12-20020a05600c46cc00b003b4ac05a8a4sm11673796wmo.27.2022.11.11.06.37.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 06:35:48 -0800 (PST)
-Date: Fri, 11 Nov 2022 09:35:44 -0500
+ Fri, 11 Nov 2022 06:37:29 -0800 (PST)
+Date: Fri, 11 Nov 2022 09:37:25 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Cc: Cleber Rosa <crosa@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] acpi/tests/avocado/bits: some misc fixes
-Message-ID: <20221111093255-mutt-send-email-mst@kernel.org>
-References: <20221111123108.1231451-1-ani@anisinha.ca>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Gregory Price <gourry.memverge@gmail.com>, qemu-devel@nongnu.org,
+ marcel.apfelbaum@gmail.com, jonathan.cameron@huawei.com,
+ linux-cxl@vger.kernel.org, alison.schofield@intel.com,
+ dave@stgolabs.net, a.manzanares@samsung.com, bwidawsk@kernel.org,
+ gregory.price@memverge.com, hchkuo@avery-design.com.tw,
+ cbrowy@avery-design.com, ira.weiny@intel.com
+Subject: Re: [BUG] hw/i386/pc.c: CXL Fixed Memory Window should not reserve
+ e820 in bios
+Message-ID: <20221111093704-mutt-send-email-mst@kernel.org>
+References: <20221017234001.53297-1-gregory.price@memverge.com>
+ <CAARzgwxEO5rr=b_QjiG7RoEdV=9yOgj9gxUxNvuaUnNtUEnhtw@mail.gmail.com>
+ <CAD3UvdTWLXf_OecWbtP9wfAvO2+xdWiAUjQHONrgB4AAAjwdHQ@mail.gmail.com>
+ <CAARzgwyCTaNoiqtVPS394Nk9LAS05116Dvc2GxifHpO01+ZN4g@mail.gmail.com>
+ <20221108112111.czqldmb7wemhqy6f@sirius.home.kraxel.org>
+ <20221111115123.2f9bc8b6@imammedo.users.ipa.redhat.com>
+ <20221111114059.4eilz452nmfttp3a@sirius.home.kraxel.org>
+ <20221111142411.41220086@imammedo.users.ipa.redhat.com>
+ <20221111133602.6ixmvy7tu3whg422@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221111123108.1231451-1-ani@anisinha.ca>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20221111133602.6ixmvy7tu3whg422@sirius.home.kraxel.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,66 +109,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 11, 2022 at 06:01:08PM +0530, Ani Sinha wrote:
-> Most of the changes are trivial. The bits test timeout has now been increased
-> to 110 seconds in order to accommodate slower systems and fewer unnecessary
-> failures. Removed of the reference to non-existent README file in docs.
+On Fri, Nov 11, 2022 at 02:36:02PM +0100, Gerd Hoffmann wrote:
+> >     if (pcmc->has_reserved_memory && machine->device_memory->base) {             
+> > [...]
+> >                                                              
+> >         if (pcms->cxl_devices_state.is_enabled) {                                
+> >             res_mem_end = cxl_resv_end;
+> > 
+> > that should be handled by this line
+> > 
+> >         }                                   
+> >                                      
+> >         *val = cpu_to_le64(ROUND_UP(res_mem_end, 1 * GiB));                      
+> >         fw_cfg_add_file(fw_cfg, "etc/reserved-memory-end", val, sizeof(*val));   
+> >     }  
+> > 
+> > so SeaBIOS shouldn't intrude into CXL address space
 > 
-> CC: Thomas Huth <thuth@redhat.com>
-> CC: qemu-trivial@nongnu.org
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> Yes, looks good, so with this in place already everyting should be fine.
+> 
+> > (I assume EDK2 behave similarly here)
+> 
+> Correct, ovmf reads that fw_cfg file too.
+> 
+> > > I suspect the reason for these entries to exist in the first place is to
+> > > inform the firmware that it should not place stuff there, and if we
+> >        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > just to educate me, can you point out what SeaBIOS code does with reservations.
+> 
+> They are added to the e820 map which gets passed on to the OS.  seabios
+> uses (and updateas) the e820 map too, when allocating memory for
+> example.  While thinking about it I'm not fully sure it actually looks
+> at reservations, maybe it only uses (and updates) ram entries when
+> allocating memory.
+> 
+> > > remove that to conform with the spec we need some alternative way for
+> > > that ...
+> > 
+> > with etc/reserved-memory-end set as above,
+> > is E820_RESERVED really needed here?
+> 
+> No.  Setting etc/reserved-memory-end is enough.
+> 
+> So for the original patch:
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> 
+> take care,
+>   Gerd
 
-You need to pick a tree through which work on these
-will be merged.
-If it's my pc/pci tree you need to add that to MAINTAINERS
-so I get to see the patches.
+It's upstream already, sorry I can't add your tag.
 
-
-> ---
->  changed from v1: address Thomas' suggestions.
-> 
->  docs/devel/acpi-bits.rst   | 7 +++----
->  tests/avocado/acpi-bits.py | 5 +++--
->  2 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
-> index c9564d871a..2c776ab166 100644
-> --- a/docs/devel/acpi-bits.rst
-> +++ b/docs/devel/acpi-bits.rst
-> @@ -38,10 +38,9 @@ Under ``tests/avocado/`` as the root we have:
->     │ ├── bits-config
->     │ │ └── bits-cfg.txt
->     │ ├── bits-tests
-> -   │ │ ├── smbios.py2
-> -   │ │ ├── testacpi.py2
-> -   │ │ └── testcpuid.py2
-> -   │ └── README
-> +   │   ├── smbios.py2
-> +   │   ├── testacpi.py2
-> +   │   └── testcpuid.py2
->     ├── acpi-bits.py
->  
->  * ``tests/avocado``:
-> diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
-> index 8745a58a76..2edc36fc26 100644
-> --- a/tests/avocado/acpi-bits.py
-> +++ b/tests/avocado/acpi-bits.py
-> @@ -385,8 +385,9 @@ def test_acpi_smbios_bits(self):
->          self._vm.launch()
->          # biosbits has been configured to run all the specified test suites
->          # in batch mode and then automatically initiate a vm shutdown.
-> -        # sleep for maximum of one minute
-> -        max_sleep_time = time.monotonic() + 60
-> +        # sleep for maximum of a minute and 50 seconds in order to accommodate
-> +        # even slower test setups.
-> +        max_sleep_time = time.monotonic() + 110
->          while self._vm.is_running() and time.monotonic() < max_sleep_time:
->              time.sleep(1)
->  
-> -- 
-> 2.34.1
-> 
-> 
-> 
+-- 
+MST
 
 
