@@ -2,50 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2444F626182
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 19:40:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA6F6261A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 19:51:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otYw1-0006IR-NA; Fri, 11 Nov 2022 13:39:25 -0500
+	id 1otZ5w-0003kK-Fp; Fri, 11 Nov 2022 13:49:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1otYvm-0006CK-6m; Fri, 11 Nov 2022 13:39:10 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]
- helo=mail.v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1otYvg-0000MG-NY; Fri, 11 Nov 2022 13:39:08 -0500
-Received: from [192.168.178.59] (p5b151d14.dip0.t-ipconnect.de [91.21.29.20])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id D450DDA0711;
- Fri, 11 Nov 2022 19:38:59 +0100 (CET)
-Message-ID: <501d0b54-41b6-9b7a-9b15-dc59c1ca0b82@weilnetz.de>
-Date: Fri, 11 Nov 2022 19:38:59 +0100
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1otZ5t-0003jw-Oe
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:49:37 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219] helo=chinatelecom.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1otZ5r-0002gr-7N
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 13:49:37 -0500
+HMM_SOURCE_IP: 172.18.0.48:40844.312957377
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-171.223.98.254 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id E476E2800AF;
+ Sat, 12 Nov 2022 02:49:24 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([171.223.98.254])
+ by app0024 with ESMTP id 8f6948f84d9c432a8cf98f1ad529ea9a for mst@redhat.com; 
+ Sat, 12 Nov 2022 02:49:27 CST
+X-Transaction-ID: 8f6948f84d9c432a8cf98f1ad529ea9a
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 171.223.98.254
+X-MEDUSA-Status: 0
+Message-ID: <c2ad5660-1a3e-ec16-7411-e1e2708aff7a@chinatelecom.cn>
+Date: Sat, 12 Nov 2022 02:49:23 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>
-References: <20221111182828.282251-1-thuth@redhat.com>
-Subject: Re: [PATCH] s390x: Fix spelling errors
-In-Reply-To: <20221111182828.282251-1-thuth@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------J3WRfJI6btdD2R500hkzx33N"
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH v3 2/2] vhost-net: Fix the virtio features negotiation flaw
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Guoyi Tu <tugy@chinatelecom.cn>
+References: <cover.1667136717.git.huangy81@chinatelecom.cn>
+ <2560bb4e8cabc550da07162c520aff3669a8f56f.1667136717.git.huangy81@chinatelecom.cn>
+ <20221110135637-mutt-send-email-mst@kernel.org>
+From: Hyman <huangy81@chinatelecom.cn>
+In-Reply-To: <20221110135637-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.219;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,384 +68,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Stefan Weil <sw@weilnetz.de>
-From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------J3WRfJI6btdD2R500hkzx33N
-Content-Type: multipart/mixed; boundary="------------ngL0r4q3ZVXW9Xq0T9oO0CZ9";
- protected-headers="v1"
-From: Stefan Weil <sw@weilnetz.de>
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <501d0b54-41b6-9b7a-9b15-dc59c1ca0b82@weilnetz.de>
-Subject: Re: [PATCH] s390x: Fix spelling errors
-References: <20221111182828.282251-1-thuth@redhat.com>
-In-Reply-To: <20221111182828.282251-1-thuth@redhat.com>
+The previous reply email has an text format error, please ignore and
 
---------------ngL0r4q3ZVXW9Xq0T9oO0CZ9
-Content-Type: multipart/mixed; boundary="------------CCXXENIf7Q3Egv2dq7T0Munl"
 
---------------CCXXENIf7Q3Egv2dq7T0Munl
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+在 2022/11/11 3:00, Michael S. Tsirkin 写道:
+> On Sun, Oct 30, 2022 at 09:52:39PM +0800, huangy81@chinatelecom.cn wrote:
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>
+>> Save the acked_features once it be configured by guest
+>> virtio driver so it can't miss any features.
+>>
+>> Note that this patch also change the features saving logic
+>> in chr_closed_bh, which originally backup features no matter
+>> whether the features are 0 or not, but now do it only if
+>> features aren't 0.
+> 
+> I'm not sure how is this change even related to what we
+> are trying to do (fix a bug). Explain here?
+> 
+For this series, all we want to do is to making sure acked_features
+in the NetVhostUserState is credible and uptodate in the scenario
+that virtio features negotiation and openvswitch service restart
+happens simultaneously.
 
-QW0gMTEuMTEuMjIgdW0gMTk6Mjggc2NocmllYiBUaG9tYXMgSHV0aDoNCg0KPiBGaXggdHlw
-b3MgKGRpc2NvdmVyZWQgd2l0aCB0aGUgJ2NvZGVzcGVsbCcgdXRpbGl0eSkuDQo+DQo+IFNp
-Z25lZC1vZmYtYnk6IFRob21hcyBIdXRoIDx0aHV0aEByZWRoYXQuY29tPg0KPiAtLS0NCj4g
-ICBody9zMzkweC9pcGwuaCAgICAgICAgICAgICAgICAgICAgICB8IDIgKy0NCj4gICBwYy1i
-aW9zL3MzOTAtY2N3L2Npby5oICAgICAgICAgICAgICB8IDIgKy0NCj4gICBwYy1iaW9zL3Mz
-OTAtY2N3L2lwbGIuaCAgICAgICAgICAgICB8IDIgKy0NCj4gICB0YXJnZXQvczM5MHgvY3B1
-X21vZGVscy5oICAgICAgICAgICB8IDQgKystLQ0KPiAgIGh3L3MzOTB4L3MzOTAtcGNpLXZm
-aW8uYyAgICAgICAgICAgIHwgMiArLQ0KPiAgIGh3L3MzOTB4L3MzOTAtdmlydGlvLWNjdy5j
-ICAgICAgICAgIHwgNiArKystLS0NCj4gICB0YXJnZXQvczM5MHgvaW9pbnN0LmMgICAgICAg
-ICAgICAgICB8IDIgKy0NCj4gICB0YXJnZXQvczM5MHgvdGNnL2V4Y3BfaGVscGVyLmMgICAg
-ICB8IDIgKy0NCj4gICB0YXJnZXQvczM5MHgvdGNnL2ZwdV9oZWxwZXIuYyAgICAgICB8IDIg
-Ky0NCj4gICB0YXJnZXQvczM5MHgvdGNnL21pc2NfaGVscGVyLmMgICAgICB8IDIgKy0NCj4g
-ICB0YXJnZXQvczM5MHgvdGNnL3RyYW5zbGF0ZS5jICAgICAgICB8IDQgKystLQ0KPiAgIHRh
-cmdldC9zMzkweC90Y2cvdHJhbnNsYXRlX3Z4LmMuaW5jIHwgNiArKystLS0NCj4gICBwYy1i
-aW9zL3MzOTAtY2N3L3N0YXJ0LlMgICAgICAgICAgICB8IDIgKy0NCj4gICAxMyBmaWxlcyBj
-aGFuZ2VkLCAxOSBpbnNlcnRpb25zKCspLCAxOSBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAt
-LWdpdCBhL2h3L3MzOTB4L2lwbC5oIGIvaHcvczM5MHgvaXBsLmgNCj4gaW5kZXggZGZjNmRm
-ZDg5Yy4uN2ZjODZlNzkwNSAxMDA2NDQNCj4gLS0tIGEvaHcvczM5MHgvaXBsLmgNCj4gKysr
-IGIvaHcvczM5MHgvaXBsLmgNCj4gQEAgLTE0MCw3ICsxNDAsNyBAQCB2b2lkIHMzOTBfaXBs
-X2NsZWFyX3Jlc2V0X3JlcXVlc3Qodm9pZCk7DQo+ICAgICogaGF2ZSBhbiBvZmZzZXQgb2Yg
-NCArIG4gKiA4IGJ5dGVzIHdpdGhpbiB0aGUgc3RydWN0IGluIG9yZGVyDQo+ICAgICogdG8g
-a2VlcCBpdCBkb3VibGUtd29yZCBhbGlnbmVkLg0KPiAgICAqIFRoZSB0b3RhbCBzaXplIG9m
-IHRoZSBzdHJ1Y3QgbXVzdCBuZXZlciBleGNlZWQgMjggYnl0ZXMuDQo+IC0gKiBUaGlzIGRl
-ZmluaXRpb24gbXVzdCBiZSBrZXB0IGluIHN5bmMgd2l0aCB0aGUgZGVmaW5pbml0aW9uDQo+
-ICsgKiBUaGlzIGRlZmluaXRpb24gbXVzdCBiZSBrZXB0IGluIHN5bmMgd2l0aCB0aGUgZGVm
-aW5pdGlvbg0KPiAgICAqIGluIHBjLWJpb3MvczM5MC1jY3cvaXBsYi5oLg0KPiAgICAqLw0K
-PiAgIHN0cnVjdCBRZW11SXBsUGFyYW1ldGVycyB7DQo+IGRpZmYgLS1naXQgYS9wYy1iaW9z
-L3MzOTAtY2N3L2Npby5oIGIvcGMtYmlvcy9zMzkwLWNjdy9jaW8uaA0KPiBpbmRleCAxZTVk
-NGU5MmUxLi44OGE4OGFkZmQyIDEwMDY0NA0KPiAtLS0gYS9wYy1iaW9zL3MzOTAtY2N3L2Np
-by5oDQo+ICsrKyBiL3BjLWJpb3MvczM5MC1jY3cvY2lvLmgNCj4gQEAgLTIwLDcgKzIwLDcg
-QEAgc3RydWN0IHBtY3cgew0KPiAgICAgICBfX3UzMiBpbnRwYXJtOyAgICAgIC8qIGludGVy
-cnVwdGlvbiBwYXJhbWV0ZXIgKi8NCj4gICAgICAgX191MzIgcWY6MTsgICAgICAgICAvKiBx
-ZGlvIGZhY2lsaXR5ICovDQo+ICAgICAgIF9fdTMyIHc6MTsNCj4gLSAgICBfX3UzMiBpc2M6
-MzsgICAgICAgIC8qIGludGVycnVwdGlvbiBzdWJsYXNzICovDQo+ICsgICAgX191MzIgaXNj
-OjM7ICAgICAgICAvKiBpbnRlcnJ1cHRpb24gc3ViY2xhc3MgKi8NCj4gICAgICAgX191MzIg
-cmVzNTozOyAgICAgICAvKiByZXNlcnZlZCB6ZXJvcyAqLw0KPiAgICAgICBfX3UzMiBlbmE6
-MTsgICAgICAgIC8qIGVuYWJsZWQgKi8NCj4gICAgICAgX191MzIgbG06MjsgICAgICAgICAv
-KiBsaW1pdCBtb2RlICovDQo+IGRpZmYgLS1naXQgYS9wYy1iaW9zL3MzOTAtY2N3L2lwbGIu
-aCBiL3BjLWJpb3MvczM5MC1jY3cvaXBsYi5oDQo+IGluZGV4IDc3MmQ1YzU3YzkuLmNiNmFj
-OGE4ODAgMTAwNjQ0DQo+IC0tLSBhL3BjLWJpb3MvczM5MC1jY3cvaXBsYi5oDQo+ICsrKyBi
-L3BjLWJpb3MvczM5MC1jY3cvaXBsYi5oDQo+IEBAIC04MSw3ICs4MSw3IEBAIGV4dGVybiBJ
-cGxQYXJhbWV0ZXJCbG9jayBpcGxiIF9fYXR0cmlidXRlX18oKF9fYWxpZ25lZF9fKFBBR0Vf
-U0laRSkpKTsNCj4gICAjZGVmaW5lIFFJUExfRkxBR19CTV9PUFRTX1pJUEwgIDB4NDANCj4g
-ICANCj4gICAvKg0KPiAtICogVGhpcyBkZWZpbml0aW9uIG11c3QgYmUga2VwdCBpbiBzeW5j
-IHdpdGggdGhlIGRlZmluaW5pdGlvbg0KPiArICogVGhpcyBkZWZpbml0aW9uIG11c3QgYmUg
-a2VwdCBpbiBzeW5jIHdpdGggdGhlIGRlZmluaXRpb24NCj4gICAgKiBpbiBody9zMzkweC9p
-cGwuaA0KPiAgICAqLw0KPiAgIHN0cnVjdCBRZW11SXBsUGFyYW1ldGVycyB7DQo+IGRpZmYg
-LS1naXQgYS90YXJnZXQvczM5MHgvY3B1X21vZGVscy5oIGIvdGFyZ2V0L3MzOTB4L2NwdV9t
-b2RlbHMuaA0KPiBpbmRleCA3NGQxZjg3ZTRmLi4xNWMwZjBkY2ZlIDEwMDY0NA0KPiAtLS0g
-YS90YXJnZXQvczM5MHgvY3B1X21vZGVscy5oDQo+ICsrKyBiL3RhcmdldC9zMzkweC9jcHVf
-bW9kZWxzLmgNCj4gQEAgLTI0LDEzICsyNCwxMyBAQCBzdHJ1Y3QgUzM5MENQVURlZiB7DQo+
-ICAgICAgIHVpbnQ4X3QgZ2VuOyAgICAgICAgICAgIC8qIGh3IGdlbmVyYXRpb24gaWRlbnRp
-ZmljYXRpb24gKi8NCj4gICAgICAgdWludDE2X3QgdHlwZTsgICAgICAgICAgLyogY3B1IHR5
-cGUgaWRlbnRpZmljYXRpb24gKi8NCj4gICAgICAgdWludDhfdCBlY19nYTsgICAgICAgICAg
-LyogRUMgR0EgdmVyc2lvbiAob24gd2hpY2ggYWxzbyB0aGUgQkMgaXMgYmFzZWQpICovDQo+
-IC0gICAgdWludDhfdCBtaGFfcG93OyAgICAgICAgLyogTWF4aW11bSBIb3N0IEFkcmVzcyBQ
-b3dlciwgbWhhID0gMl5wb3ctMSAqLw0KPiArICAgIHVpbnQ4X3QgbWhhX3BvdzsgICAgICAg
-IC8qIE1heGltdW0gSG9zdCBBZGRyZXNzIFBvd2VyLCBtaGEgPSAyXnBvdy0xICovDQoNCg0K
-VGhpcyBjb21tZW50IGNvdWxkIHVzZSBsb3dlciBjYXNlIHdvcmRzLg0KDQoNCj4gICAgICAg
-dWludDMyX3QgaG1mYWk7ICAgICAgICAgLyogaHlwZXJ2aXNvci1tYW5hZ2VkIGZhY2lsaXRp
-ZXMgKi8NCj4gICAgICAgLyogYmFzZS9taW4gZmVhdHVyZXMsIG11c3QgbmV2ZXIgYmUgY2hh
-bmdlZCBiZXR3ZWVuIFFFTVUgdmVyc2lvbnMgKi8NCj4gICAgICAgUzM5MEZlYXRCaXRtYXAg
-YmFzZV9mZWF0Ow0KPiAgICAgICAvKiB1c2VkIHRvIGluaXQgYmFzZV9mZWF0IGZyb20gZ2Vu
-ZXJhdGVkIGRhdGEgKi8NCj4gICAgICAgUzM5MEZlYXRJbml0IGJhc2VfaW5pdDsNCj4gLSAg
-ICAvKiBkZWFmYXVsdCBmZWF0dXJlcywgUUVNVSB2ZXJzaW9uIHNwZWNpZmljICovDQo+ICsg
-ICAgLyogZGVmYXVsdCBmZWF0dXJlcywgUUVNVSB2ZXJzaW9uIHNwZWNpZmljICovDQo+ICAg
-ICAgIFMzOTBGZWF0Qml0bWFwIGRlZmF1bHRfZmVhdDsNCj4gICAgICAgLyogdXNlZCB0byBp
-bml0IGRlZmF1bHRfZmVhdCBmcm9tIGdlbmVyYXRlZCBkYXRhICovDQo+ICAgICAgIFMzOTBG
-ZWF0SW5pdCBkZWZhdWx0X2luaXQ7DQo+IGRpZmYgLS1naXQgYS9ody9zMzkweC9zMzkwLXBj
-aS12ZmlvLmMgYi9ody9zMzkweC9zMzkwLXBjaS12ZmlvLmMNCj4gaW5kZXggMmFlZmE1MDhh
-MC4uNWYwYWRiMGI0YSAxMDA2NDQNCj4gLS0tIGEvaHcvczM5MHgvczM5MC1wY2ktdmZpby5j
-DQo+ICsrKyBiL2h3L3MzOTB4L3MzOTAtcGNpLXZmaW8uYw0KPiBAQCAtMzEzLDcgKzMxMyw3
-IEBAIHJldHJ5Og0KPiAgIC8qDQo+ICAgICogR2V0IHRoZSBob3N0IGZ1bmN0aW9uIGhhbmRs
-ZSBmcm9tIHRoZSB2ZmlvIENMUCBjYXBhYmlsaXRpZXMgY2hhaW4uICBSZXR1cm5zDQo+ICAg
-ICogdHJ1ZSBpZiBhIGZoIHZhbHVlIHdhcyBwbGFjZWQgaW50byB0aGUgcHJvdmlkZWQgYnVm
-ZmVyLiAgUmV0dXJucyBmYWxzZQ0KPiAtICogaWYgYSBmaCBjb3VsZCBub3QgYmUgb2J0YWlu
-ZWQgKGlvY3RsIGZhaWxlZCBvciBjYXBhYmlsaXRpeSB2ZXJzaW9uIGRvZXMNCj4gKyAqIGlm
-IGEgZmggY291bGQgbm90IGJlIG9idGFpbmVkIChpb2N0bCBmYWlsZWQgb3IgY2FwYWJpbGl0
-eSB2ZXJzaW9uIGRvZXMNCj4gICAgKiBub3QgaW5jbHVkZSB0aGUgZmgpDQo+ICAgICovDQo+
-ICAgYm9vbCBzMzkwX3BjaV9nZXRfaG9zdF9maChTMzkwUENJQnVzRGV2aWNlICpwYmRldiwg
-dWludDMyX3QgKmZoKQ0KPiBkaWZmIC0tZ2l0IGEvaHcvczM5MHgvczM5MC12aXJ0aW8tY2N3
-LmMgYi9ody9zMzkweC9zMzkwLXZpcnRpby1jY3cuYw0KPiBpbmRleCA3ZDgwYmMxODM3Li4y
-ZTY0ZmZhYjQ1IDEwMDY0NA0KPiAtLS0gYS9ody9zMzkweC9zMzkwLXZpcnRpby1jY3cuYw0K
-PiArKysgYi9ody9zMzkweC9zMzkwLXZpcnRpby1jY3cuYw0KPiBAQCAtMzU0LDcgKzM1NCw3
-IEBAIHN0YXRpYyBpbnQgczM5MF9tYWNoaW5lX3Byb3RlY3QoUzM5MENjd01hY2hpbmVTdGF0
-ZSAqbXMpDQo+ICAgICAgIH0NCj4gICANCj4gICAgICAgZXJyb3Jfc2V0ZygmcHZfbWlnX2Js
-b2NrZXIsDQo+IC0gICAgICAgICAgICAgICAicHJvdGVjdGVkIFZNcyBhcmUgY3VycmVudGx5
-IG5vdCBtaWdyYXRlYWJsZS4iKTsNCj4gKyAgICAgICAgICAgICAgICJwcm90ZWN0ZWQgVk1z
-IGFyZSBjdXJyZW50bHkgbm90IG1pZ3JhdGFibGUuIik7DQoNCg0KVGhpcyBtaWdodCBhZ2Fp
-biBiZSBhIGRpZmZlcmVudCBCcml0aXNoIC8gQW1lcmljYW4gc3BlbGxpbmcuDQoNCg0KPiAg
-ICAgICByYyA9IG1pZ3JhdGVfYWRkX2Jsb2NrZXIocHZfbWlnX2Jsb2NrZXIsICZsb2NhbF9l
-cnIpOw0KPiAgICAgICBpZiAocmMpIHsNCj4gICAgICAgICAgIHJhbV9ibG9ja19kaXNjYXJk
-X2Rpc2FibGUoZmFsc2UpOw0KPiBAQCAtNDQ5LDcgKzQ0OSw3IEBAIHN0YXRpYyB2b2lkIHMz
-OTBfbWFjaGluZV9yZXNldChNYWNoaW5lU3RhdGUgKm1hY2hpbmUsIFNodXRkb3duQ2F1c2Ug
-cmVhc29uKQ0KPiAgICAgICAgICAgYnJlYWs7DQo+ICAgICAgIGNhc2UgUzM5MF9SRVNFVF9N
-T0RJRklFRF9DTEVBUjoNCj4gICAgICAgICAgIC8qDQo+IC0gICAgICAgICAqIFN1c2JzeXN0
-ZW0gcmVzZXQgbmVlZHMgdG8gYmUgZG9uZSBiZWZvcmUgd2UgdW5zaGFyZSBtZW1vcnkNCj4g
-KyAgICAgICAgICogU3Vic3lzdGVtIHJlc2V0IG5lZWRzIHRvIGJlIGRvbmUgYmVmb3JlIHdl
-IHVuc2hhcmUgbWVtb3J5DQo+ICAgICAgICAgICAgKiBhbmQgbG9zZSBhY2Nlc3MgdG8gVklS
-VElPIHN0cnVjdHVyZXMgaW4gZ3Vlc3QgbWVtb3J5Lg0KPiAgICAgICAgICAgICovDQo+ICAg
-ICAgICAgICBzdWJzeXN0ZW1fcmVzZXQoKTsNCj4gQEAgLTQ2Miw3ICs0NjIsNyBAQCBzdGF0
-aWMgdm9pZCBzMzkwX21hY2hpbmVfcmVzZXQoTWFjaGluZVN0YXRlICptYWNoaW5lLCBTaHV0
-ZG93bkNhdXNlIHJlYXNvbikNCj4gICAgICAgICAgIGJyZWFrOw0KPiAgICAgICBjYXNlIFMz
-OTBfUkVTRVRfTE9BRF9OT1JNQUw6DQo+ICAgICAgICAgICAvKg0KPiAtICAgICAgICAgKiBT
-dXNic3lzdGVtIHJlc2V0IG5lZWRzIHRvIGJlIGRvbmUgYmVmb3JlIHdlIHVuc2hhcmUgbWVt
-b3J5DQo+ICsgICAgICAgICAqIFN1YnN5c3RlbSByZXNldCBuZWVkcyB0byBiZSBkb25lIGJl
-Zm9yZSB3ZSB1bnNoYXJlIG1lbW9yeQ0KPiAgICAgICAgICAgICogYW5kIGxvc2UgYWNjZXNz
-IHRvIFZJUlRJTyBzdHJ1Y3R1cmVzIGluIGd1ZXN0IG1lbW9yeS4NCj4gICAgICAgICAgICAq
-Lw0KPiAgICAgICAgICAgc3Vic3lzdGVtX3Jlc2V0KCk7DQo+IGRpZmYgLS1naXQgYS90YXJn
-ZXQvczM5MHgvaW9pbnN0LmMgYi90YXJnZXQvczM5MHgvaW9pbnN0LmMNCj4gaW5kZXggYjEy
-ZjE4ZDM0Ni4uMDUzYWFhYmI1YSAxMDA2NDQNCj4gLS0tIGEvdGFyZ2V0L3MzOTB4L2lvaW5z
-dC5jDQo+ICsrKyBiL3RhcmdldC9zMzkweC9pb2luc3QuYw0KPiBAQCAtMjg1LDcgKzI4NSw3
-IEBAIHZvaWQgaW9pbnN0X2hhbmRsZV9zdHNjaChTMzkwQ1BVICpjcHUsIHVpbnQ2NF90IHJl
-ZzEsIHVpbnQzMl90IGlwYiwNCj4gICAgICAgICAgIC8qDQo+ICAgICAgICAgICAgKiBBcyBv
-cGVyYW5kIGV4Y2VwdGlvbnMgaGF2ZSBhIGxvd2VyIHByaW9yaXR5IHRoYW4gYWNjZXNzIGV4
-Y2VwdGlvbnMsDQo+ICAgICAgICAgICAgKiB3ZSBjaGVjayB3aGV0aGVyIHRoZSBtZW1vcnkg
-YXJlYSBpcyB3cml0YWJsZSAoaW5qZWN0aW5nIHRoZQ0KPiAtICAgICAgICAgKiBhY2Nlc3Mg
-ZXhlY3B0aW9uIGlmIGl0IGlzIG5vdCkgZmlyc3QuDQo+ICsgICAgICAgICAqIGFjY2VzcyBl
-eGNlcHRpb24gaWYgaXQgaXMgbm90KSBmaXJzdC4NCj4gICAgICAgICAgICAqLw0KPiAgICAg
-ICAgICAgaWYgKCFzMzkwX2NwdV92aXJ0X21lbV9jaGVja193cml0ZShjcHUsIGFkZHIsIGFy
-LCBzaXplb2Yoc2NoaWIpKSkgew0KPiAgICAgICAgICAgICAgIHMzOTBfcHJvZ3JhbV9pbnRl
-cnJ1cHQoZW52LCBQR01fT1BFUkFORCwgcmEpOw0KPiBkaWZmIC0tZ2l0IGEvdGFyZ2V0L3Mz
-OTB4L3RjZy9leGNwX2hlbHBlci5jIGIvdGFyZ2V0L3MzOTB4L3RjZy9leGNwX2hlbHBlci5j
-DQo+IGluZGV4IDJjZDZkMDYyYjkuLmZlMDJkODIyMDEgMTAwNjQ0DQo+IC0tLSBhL3Rhcmdl
-dC9zMzkweC90Y2cvZXhjcF9oZWxwZXIuYw0KPiArKysgYi90YXJnZXQvczM5MHgvdGNnL2V4
-Y3BfaGVscGVyLmMNCj4gQEAgLTU1Myw3ICs1NTMsNyBAQCB0cnlfZGVsaXZlcjoNCj4gICAg
-ICAgICAgIC8qIGRvbid0IHRyaWdnZXIgYSBjcHVfbG9vcF9leGl0KCksIHVzZSBhbiBpbnRl
-cnJ1cHQgaW5zdGVhZCAqLw0KPiAgICAgICAgICAgY3B1X2ludGVycnVwdChDUFUoY3B1KSwg
-Q1BVX0lOVEVSUlVQVF9IQUxUKTsNCj4gICAgICAgfSBlbHNlIGlmIChjcy0+aGFsdGVkKSB7
-DQo+IC0gICAgICAgIC8qIHVuaGFsdCBpZiB3ZSBoYWQgYSBXQUlUIFBTVyBzb21laHdlcmUg
-aW4gb3VyIGluamVjdGlvbiBjaGFpbiAqLw0KPiArICAgICAgICAvKiB1bmhhbHQgaWYgd2Ug
-aGFkIGEgV0FJVCBQU1cgc29tZXdoZXJlIGluIG91ciBpbmplY3Rpb24gY2hhaW4gKi8NCj4g
-ICAgICAgICAgIHMzOTBfY3B1X3VuaGFsdChjcHUpOw0KPiAgICAgICB9DQo+ICAgfQ0KPiBk
-aWZmIC0tZ2l0IGEvdGFyZ2V0L3MzOTB4L3RjZy9mcHVfaGVscGVyLmMgYi90YXJnZXQvczM5
-MHgvdGNnL2ZwdV9oZWxwZXIuYw0KPiBpbmRleCA0MDY3MjA1NDA1Li5iZTgwYjIzNzNjIDEw
-MDY0NA0KPiAtLS0gYS90YXJnZXQvczM5MHgvdGNnL2ZwdV9oZWxwZXIuYw0KPiArKysgYi90
-YXJnZXQvczM5MHgvdGNnL2ZwdV9oZWxwZXIuYw0KPiBAQCAtODksNyArODksNyBAQCBzdGF0
-aWMgdm9pZCBoYW5kbGVfZXhjZXB0aW9ucyhDUFVTMzkwWFN0YXRlICplbnYsIGJvb2wgWHhD
-LCB1aW50cHRyX3QgcmV0YWRkcikNCj4gICAgICAgLyoNCj4gICAgICAgICogaW52YWxpZC9k
-aXZieXplcm8gY2Fubm90IGNvZXhpc3Qgd2l0aCBvdGhlciBjb25kaXRpb25zLg0KPiAgICAg
-ICAgKiBvdmVyZmxvdy91bmRlcmZsb3cgaG93ZXZlciBjYW4gY29leGlzdCB3aXRoIGluZXhh
-Y3QsIHdlIGhhdmUgdG8NCj4gLSAgICAgKiBoYW5kbGUgaXQgc2VwYXJhdGx5Lg0KPiArICAg
-ICAqIGhhbmRsZSBpdCBzZXBhcmF0ZWx5Lg0KPiAgICAgICAgKi8NCj4gICAgICAgaWYgKHMz
-OTBfZXhjICYgflMzOTBfSUVFRV9NQVNLX0lORVhBQ1QpIHsNCj4gICAgICAgICAgIGlmIChz
-MzkwX2V4YyAmIH5TMzkwX0lFRUVfTUFTS19JTkVYQUNUICYgZW52LT5mcGMgPj4gMjQpIHsN
-Cj4gZGlmZiAtLWdpdCBhL3RhcmdldC9zMzkweC90Y2cvbWlzY19oZWxwZXIuYyBiL3Rhcmdl
-dC9zMzkweC90Y2cvbWlzY19oZWxwZXIuYw0KPiBpbmRleCAxMGRhZGIwMDJhLi43MTM4OGE3
-MTE5IDEwMDY0NA0KPiAtLS0gYS90YXJnZXQvczM5MHgvdGNnL21pc2NfaGVscGVyLmMNCj4g
-KysrIGIvdGFyZ2V0L3MzOTB4L3RjZy9taXNjX2hlbHBlci5jDQo+IEBAIC0zMzMsNyArMzMz
-LDcgQEAgdWludDMyX3QgSEVMUEVSKHN0c2kpKENQVVMzOTBYU3RhdGUgKmVudiwgdWludDY0
-X3QgYTAsIHVpbnQ2NF90IHIwLCB1aW50NjRfdCByMSkNCj4gICAgICAgICAgICAgICAvKiBz
-YW1lIGFzIG1hY2hpbmUgdHlwZSBudW1iZXIgaW4gU1RPUkUgQ1BVIElELCBidXQgaW4gRUJD
-RElDICovDQo+ICAgICAgICAgICAgICAgc25wcmludGYodHlwZSwgQVJSQVlfU0laRSh0eXBl
-KSwgIiVYIiwgY3B1LT5tb2RlbC0+ZGVmLT50eXBlKTsNCj4gICAgICAgICAgICAgICBlYmNk
-aWNfcHV0KHN5c2liLnN5c2liXzExMS50eXBlLCB0eXBlLCA0KTsNCj4gLSAgICAgICAgICAg
-IC8qIG1vZGVsIG51bWJlciAobm90IHN0b3JlZCBpbiBTVE9SRSBDUFUgSUQgZm9yIHovQXJj
-aGl0ZWN1cmUpICovDQo+ICsgICAgICAgICAgICAvKiBtb2RlbCBudW1iZXIgKG5vdCBzdG9y
-ZWQgaW4gU1RPUkUgQ1BVIElEIGZvciB6L0FyY2hpdGVjdHVyZSkgKi8NCj4gICAgICAgICAg
-ICAgICBlYmNkaWNfcHV0KHN5c2liLnN5c2liXzExMS5tb2RlbCwgIlFFTVUgICAgICAgICAg
-ICAiLCAxNik7DQo+ICAgICAgICAgICAgICAgZWJjZGljX3B1dChzeXNpYi5zeXNpYl8xMTEu
-c2VxdWVuY2UsICJRRU1VICAgICAgICAgICAgIiwgMTYpOw0KPiAgICAgICAgICAgICAgIGVi
-Y2RpY19wdXQoc3lzaWIuc3lzaWJfMTExLnBsYW50LCAiUUVNVSIsIDQpOw0KPiBkaWZmIC0t
-Z2l0IGEvdGFyZ2V0L3MzOTB4L3RjZy90cmFuc2xhdGUuYyBiL3RhcmdldC9zMzkweC90Y2cv
-dHJhbnNsYXRlLmMNCj4gaW5kZXggMmZiZGFiNzI1Mi4uMWU1OTlhYzI1OSAxMDA2NDQNCj4g
-LS0tIGEvdGFyZ2V0L3MzOTB4L3RjZy90cmFuc2xhdGUuYw0KPiArKysgYi90YXJnZXQvczM5
-MHgvdGNnL3RyYW5zbGF0ZS5jDQo+IEBAIC00MzUsNyArNDM1LDcgQEAgc3RhdGljIHZvaWQg
-Z2VuX3Byb2dyYW1fZXhjZXB0aW9uKERpc2FzQ29udGV4dCAqcywgaW50IGNvZGUpDQo+ICAg
-ew0KPiAgICAgICBUQ0d2X2kzMiB0bXA7DQo+ICAgDQo+IC0gICAgLyogUmVtZW1iZXIgd2hh
-dCBwZ20gZXhlcHRpb24gdGhpcyB3YXMuICAqLw0KPiArICAgIC8qIFJlbWVtYmVyIHdoYXQg
-cGdtIGV4Y2VwdGlvbiB0aGlzIHdhcy4gICovDQo+ICAgICAgIHRtcCA9IHRjZ19jb25zdF9p
-MzIoY29kZSk7DQo+ICAgICAgIHRjZ19nZW5fc3RfaTMyKHRtcCwgY3B1X2Vudiwgb2Zmc2V0
-b2YoQ1BVUzM5MFhTdGF0ZSwgaW50X3BnbV9jb2RlKSk7DQo+ICAgICAgIHRjZ190ZW1wX2Zy
-ZWVfaTMyKHRtcCk7DQo+IEBAIC00OTEsNyArNDkxLDcgQEAgc3RhdGljIFRDR3ZfaTY0IGdl
-dF9hZGRyZXNzKERpc2FzQ29udGV4dCAqcywgaW50IHgyLCBpbnQgYjIsIGludCBkMikNCj4g
-ICANCj4gICAgICAgLyoNCj4gICAgICAgICogTm90ZSB0aGF0IGQyIGlzIGxpbWl0ZWQgdG8g
-MjAgYml0cywgc2lnbmVkLiAgSWYgd2UgY3JvcCBuZWdhdGl2ZQ0KPiAtICAgICAqIGRpc3Bs
-YWNlbWVudHMgZWFybHkgd2UgY3JlYXRlIGxhcmdlciBpbW1lZGF0ZSBhZGRlbmRzLg0KPiAr
-ICAgICAqIGRpc3BsYWNlbWVudHMgZWFybHkgd2UgY3JlYXRlIGxhcmdlciBpbW1lZGlhdGUg
-YWRkZW5kcy4NCj4gICAgICAgICovDQo+ICAgICAgIGlmIChiMiAmJiB4Mikgew0KPiAgICAg
-ICAgICAgdGNnX2dlbl9hZGRfaTY0KHRtcCwgcmVnc1tiMl0sIHJlZ3NbeDJdKTsNCj4gZGlm
-ZiAtLWdpdCBhL3RhcmdldC9zMzkweC90Y2cvdHJhbnNsYXRlX3Z4LmMuaW5jIGIvdGFyZ2V0
-L3MzOTB4L3RjZy90cmFuc2xhdGVfdnguYy5pbmMNCj4gaW5kZXggYjY5YzFhMTExYy4uZDM5
-ZWU4MWNkNiAxMDA2NDQNCj4gLS0tIGEvdGFyZ2V0L3MzOTB4L3RjZy90cmFuc2xhdGVfdngu
-Yy5pbmMNCj4gKysrIGIvdGFyZ2V0L3MzOTB4L3RjZy90cmFuc2xhdGVfdnguYy5pbmMNCj4g
-QEAgLTk2MCw3ICs5NjAsNyBAQCBzdGF0aWMgRGlzYXNKdW1wVHlwZSBvcF92cGsoRGlzYXND
-b250ZXh0ICpzLCBEaXNhc09wcyAqbykNCj4gICAgICAgICAgIH0NCj4gICAgICAgICAgIGJy
-ZWFrOw0KPiAgICAgICBjYXNlIDB4OTQ6DQo+IC0gICAgICAgIC8qIElmIHNvdXJjZXMgYW5k
-IGRlc3RpbmF0aW9uIGRvbnQndCBvdmVybGFwIC0+IGZhc3QgcGF0aCAqLw0KPiArICAgICAg
-ICAvKiBJZiBzb3VyY2VzIGFuZCBkZXN0aW5hdGlvbiBkb24ndCBvdmVybGFwIC0+IGZhc3Qg
-cGF0aCAqLw0KPiAgICAgICAgICAgaWYgKHYxICE9IHYyICYmIHYxICE9IHYzKSB7DQo+ICAg
-ICAgICAgICAgICAgY29uc3QgdWludDhfdCBzcmNfZXMgPSBnZXRfZmllbGQocywgbTQpOw0K
-PiAgICAgICAgICAgICAgIGNvbnN0IHVpbnQ4X3QgZHN0X2VzID0gc3JjX2VzIC0gMTsNCj4g
-QEAgLTIwNzUsNyArMjA3NSw3IEBAIHN0YXRpYyBEaXNhc0p1bXBUeXBlIG9wX3Ztc2woRGlz
-YXNDb250ZXh0ICpzLCBEaXNhc09wcyAqbykNCj4gICAgICAgbDIgPSB0Y2dfdGVtcF9uZXdf
-aTY0KCk7DQo+ICAgICAgIGgyID0gdGNnX3RlbXBfbmV3X2k2NCgpOw0KPiAgIA0KPiAtICAg
-IC8qIE11bHRpcHkgYm90aCBldmVuIGVsZW1lbnRzIGZyb20gdjIgYW5kIHYzICovDQo+ICsg
-ICAgLyogTXVsdGlwbHkgYm90aCBldmVuIGVsZW1lbnRzIGZyb20gdjIgYW5kIHYzICovDQo+
-ICAgICAgIHJlYWRfdmVjX2VsZW1lbnRfaTY0KGwxLCBnZXRfZmllbGQocywgdjIpLCAwLCBF
-U182NCk7DQo+ICAgICAgIHJlYWRfdmVjX2VsZW1lbnRfaTY0KGgxLCBnZXRfZmllbGQocywg
-djMpLCAwLCBFU182NCk7DQo+ICAgICAgIHRjZ19nZW5fbXVsdTJfaTY0KGwxLCBoMSwgbDEs
-IGgxKTsNCj4gQEAgLTIwODQsNyArMjA4NCw3IEBAIHN0YXRpYyBEaXNhc0p1bXBUeXBlIG9w
-X3Ztc2woRGlzYXNDb250ZXh0ICpzLCBEaXNhc09wcyAqbykNCj4gICAgICAgICAgIHRjZ19n
-ZW5fYWRkMl9pNjQobDEsIGgxLCBsMSwgaDEsIGwxLCBoMSk7DQo+ICAgICAgIH0NCj4gICAN
-Cj4gLSAgICAvKiBNdWx0aXB5IGJvdGggb2RkIGVsZW1lbnRzIGZyb20gdjIgYW5kIHYzICov
-DQo+ICsgICAgLyogTXVsdGlwbHkgYm90aCBvZGQgZWxlbWVudHMgZnJvbSB2MiBhbmQgdjMg
-Ki8NCj4gICAgICAgcmVhZF92ZWNfZWxlbWVudF9pNjQobDIsIGdldF9maWVsZChzLCB2Miks
-IDEsIEVTXzY0KTsNCj4gICAgICAgcmVhZF92ZWNfZWxlbWVudF9pNjQoaDIsIGdldF9maWVs
-ZChzLCB2MyksIDEsIEVTXzY0KTsNCj4gICAgICAgdGNnX2dlbl9tdWx1Ml9pNjQobDIsIGgy
-LCBsMiwgaDIpOw0KPiBkaWZmIC0tZ2l0IGEvcGMtYmlvcy9zMzkwLWNjdy9zdGFydC5TIGIv
-cGMtYmlvcy9zMzkwLWNjdy9zdGFydC5TDQo+IGluZGV4IDRkNWFkMjE2NTMuLjYwNzI5MDZk
-ZjQgMTAwNjQ0DQo+IC0tLSBhL3BjLWJpb3MvczM5MC1jY3cvc3RhcnQuUw0KPiArKysgYi9w
-Yy1iaW9zL3MzOTAtY2N3L3N0YXJ0LlMNCj4gQEAgLTE5LDcgKzE5LDcgQEAgX3N0YXJ0Og0K
-PiAgIAlsYXJsICVyMiwgX19ic3Nfc3RhcnQNCj4gICAJbGFybCAlcjMsIF9lbmQNCj4gICAJ
-c2xnciAlcjMsICVyMgkJLyogZ2V0IHNpemVvZiBic3MgKi8NCj4gLQlsdGdyCSVyMywlcjMg
-CS8qIGJzcyBlbXRweT8gKi8NCj4gKwlsdGdyCSVyMywlcjMgCS8qIGJzcyBlbXB0eT8gKi8N
-Cj4gICAJanoJZG9uZQ0KPiAgIAlhZ2hpCSVyMywtMQ0KPiAgIAlzcmxnCSVyNCwlcjMsOAkv
-KiBob3cgbWFueSAyNTYgYnl0ZSBjaHVua3M/ICovDQoNCg0KVGhhbmtzLg0KDQpSZXZpZXdl
-ZC1ieTogU3RlZmFuIFdlaWwgPHN3QHdlaWxuZXR6LmRlPg0KDQoNCg==
---------------CCXXENIf7Q3Egv2dq7T0Munl
-Content-Type: application/pgp-keys; name="OpenPGP_0xE08C21D5677450AD.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xE08C21D5677450AD.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+To make sure that happens, we save the acked_features to
+NetVhostUserState right after guest setting virtio-net features.
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+Assume that we do not save acked_features to NetVhostUserState just as
+it is, the acked_features in NetVhostUserState has chance to be assigned
+only when chr_closed_bh/vhost_user_stop happen. Note that openvswitch
+service stop will cause chr_closed_bh happens and acked_features in
+vhost_dev will be stored into NetVhostUserState, if the acked_features
+in vhost_dev are out-of-date(may be updated in the next few seconds), so
+does the acked_features in NetVhostUserState after doing the assignment,
+this is the bug.
 
-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
-T7uiC0aTwAsniiln1XFlGBISNLB1HL/gUc9FJj8qmYgvUBZIzUjmm56up6er8ca9
-2tARdBylQF3E9MJ/E4dVrmTyvOlddAb/MG1Ge425mjt0dRfOx8Qc7Pxs+d3UNVSu
-Bm+WtuSgk+JNIT08c+WSXec8mE4hVdrKbAvCo9dcT5Gal2r6FSvRVY5kba3t280x
-utLSp470k3+DO+AgVigbHr3scXlJXZe1m4luqBSkEBDNH2sAQoBrNVwVaCZqZRTN
-TFN0ZWZhbiBXZWlsIChVbml2ZXJzaXTDpHRzYmlibGlvdGhlayBNYW5uaGVpbSkg
-PHN0ZWZhbi53ZWlsQHVuaS1tYW5uaGVpbS5kZT7CwY4EEwEIADgWIQRJI2/qdcld
-aY7Ct4rgjCHVZ3RQrQUCYlMdZAIbAwULCQgHAwUVCgkICwUWAgMBAAIeBQIXgAAK
-CRDgjCHVZ3RQrRo6D/9MSqnSGOjWrcsiXbUsQmNKzI1JZOuabam3P9V/rILU7K4/
-b9E6Bk5Vjo/6A4xMtC9y6L244Upn4MTdUofkBdd9dMG8eZ2oofsMGIeEmr4EFfKb
-/LoZtIUJaNfiwvd3YakEmaAfd+AWIEAVYlVSxWHeCMowTNYxbSW+/M0ExGw1BErt
-oFiz3Ti8iYNfgz2l9cwrKhQEnzZlHUq06AIbzch/nXFFcc3EBDz+J6x//DCclb6Y
-8oLJRerrOJqpcpTYrwr+UDbh8JOqiUWUQ1BrbIZb+J5rU+DghBmNAWpd6yTbxX0T
-I7g2Hu7gPdzhrLLRO+rQsDK3T+JdVQ9xyoWugFIw4YepAad5uo/2e+q38a+h57EK
-Vsy4xfAEV/Mr4hl9KCY2hkiQYMKHvN1EZp72crAiPgDZxh6wTJZ979RHY2apq8XM
-Y41uP5mwdHxFA1Al/5+syajNlTzsNdYB5Ucx5TwNU0TifM13exHw8lQZOaWbDZS4
-QYwzeFWuEFse9ESmCQX5Pggw+ABFXOtPeqEfIO8v3QbT1vFlJ57iFBUiem967/JV
-a0RQyEvAKj0T5124N8Hi1oa8TPk5oSe8id5jSgGD9twbS0HX2KcmwAF/A5MgP7hx
-0X4EfhsJtDxFDy5PnoC8ADE2wcKDsTgqfDS/EQc6OeQCKceR45wyOT0Y3kbEa87B
-TQRV3J49ARAAt9nArtjFnqmRHL0oY5KCrF5ONph6xm3rof74lZ/CTkG0zu9OhmbW
-s6MMNsHgM7lRGIcKou7vUQE8/TEXh3+0eRdCiEYXP9jYTTXosU/+y/hOY33x9Sw/
-tCEHXiz6M+rp74O1P+zqXSlmx8zzNy33dDdXUT+bF1C6Y7WEChIIjlOfLHOBeazN
-dCqDxRDM/CKeI/UWx/wm0z1DNEuD8crUXIgdxY3dBAm1bBK041+3GXP8gYLN4qew
-T1VoG35Ya3PrrTC/zMAumagjiF3/1NCAmH6eSOzw21EloDBR76K1noDGCfRM2dp0
-78rS/BO+QtlN4+UWQLkB+crHxqXWk0u+gka2A7ZBHFYky/oUVIK1/ar6swnTRHj2
-0Ga+rukzcdxQRJ2kwGeRrqLH1JO8p72ptvswMyzVPhk8sE2S9llPrbznj6fc9f5m
-y5x9i5Fh4Mt2z7u+wBSdck2wV5eThEPz7UziXgtbq74Hja7tuoQxUhcpOIBXKl8b
-MLtjxlO7VmH312VzfiBYqQku9fHg3E/Hi+uon2fJaifFbuViZqfZq9bKT/UWG0+0
-cKc2d4os+3uwGcjraUjCFSXmGU27YqiW8jeM7pIa03QoAhWIH9ApAOVBqWF6drFz
-6/oFcSl9qbY/4IneJ/eb0eyjHllegydGEuIShrXYZLiQqSX4yj/3vE8AEQEAAcLB
-XwQYAQgACQUCVdyePQIbDAAKCRDgjCHVZ3RQrWEaEACTrt0WUxL1AT6BarJ3fOPV
-ZjiioO+3LPhw98ci7afeScEK84cGv+KLgxawvOo7dbwEX6VceQvJ0LTZ1oYPuYeZ
-MjiG7Qdf9uwgk3VwHf4S9pNxsqyVxHPotN9RPWwqoH9ihmO/ml7uC3gH0SFiU/RR
-lc3c9X/u+6SbkSEUZrUrPFQKJ3dpfjnA3RCPTI3fTKr8jycA5A5A77Daba3L+MXj
-c71/tn6MZCZmK7unSfpXq4rbGrIgMWnFKMBgeRONUWRFIOm5lReEjLHiABCli8t4
-Txr2ATswA4atmC4JzP8J/WPWe2xDMvsOXu+bGgW5BSO053MQz1JyJf1ExClNTkYu
-Vlm712JFE7Xzc2cg9P796KI3CKGbytTpaTrVx3ZajqHY1xfZy3vHolR8pfGZ8xcY
-XhFtkD71/BSyqpkrPVvbGkLZOm4b/SzWCGCDYx9xBB//m25lfpZ+Du2u91pvC97Z
-6Qty5nRp9kZvAeidmSunItU0Q4jKQlFnn6ZyLhPk4mwuVSUec8dGIdda8cQRaG/J
-lpLUZi2cnhKAnGaAaLGycQ/NEMVjtN8z6ZHCe3eAa1bEPwSZAbRHuCZ+Iqh6gPzn
-K88LhGUr/vzHYKKn25QWYQ7rJi2H1cu8BQ3lQpRunkCIithJ5gwoS0ZFSEM25FdI
-hvjSVVSRyxiu/zrDuO/s6g=3D=3D
-=3DumGL
------END PGP PUBLIC KEY BLOCK-----
+Let's refine the scenario and derive the bug:
+     qemu thread                                        dpdk
+         |                                               |
+    vhost_net_init()                                     |
+         |                                               |
+  assign acked_features in vhost_dev                     |
+    with 0x40000000                                      |
+         |                                   openvswitch.service stop
+    chr_closed_bh                                        |
+         |                                               |
+  assign acked_features in                               |
+  NetVhostUserState with 0x40000000                      |
+         |                                               |
+    virtio_net_set_features()                            |
+         |                                               |
+  assign acked_features in vhost_dev                     |
+    with 0x7060a782                                      |
+         |                                      openvswitch.service start
+         |                                               |
+    vhost_user_start                                     |
+         |                                               |
+  assign acked_features in vhost_dev                     |
+    with 0x40000000                                      |
+         |                                               |
 
---------------CCXXENIf7Q3Egv2dq7T0Munl--
-
---------------ngL0r4q3ZVXW9Xq0T9oO0CZ9--
-
---------------J3WRfJI6btdD2R500hkzx33N
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEESSNv6nXJXWmOwreK4Iwh1Wd0UK0FAmNulsMFAwAAAAAACgkQ4Iwh1Wd0UK0W
-mBAAi01j09UgbqBsQay39R4iySwIoAzCS4+N1PmISnbBNZceRyVdiyvEZf8eLb7/zzXL2Trwrjpj
-c+MD4tewf1ZU+KLvBsT1RXMR+XR/ZNLwu407Xf96WoafTN3gcbg5q8erONy8GmspQJRMfmUZ42ZN
-VbF3RcnKYMRBC2P8KFEzx2/KBozpvSMddaSfUyVST7jR12jO9xtNR+sYwTNasjEqYMv1idFTqwWF
-3YOwjYa2Tqsbthxtfqpqt5pqiMZ+3USq0WPtYlHHeNbYLEWmKdgJsxy0MI9trzbHndHOx39Xg2Ek
-FBnavZzlyxpIbw3DOwk1u/dQ6b5ysLMem0GziW4TNyf1Ae5rkD9U4LG1UqmdSx/2oaNUD2iZFU6d
-2q+WmKHYiTJewl7Ta+uW/YPQIXXNZHSTiCL2XFNRi+8oP7srAjHEXwE2+H/AIkLlpSte267uqcOy
-CrmvHm0AR0rcVan0lPKzgv4ayTKUeHUI/mbQ2zG3ApD/Y46rlEhWOEZiy4uIfuQ4QKjnbnNrILsD
-gDZ8kH01Vx6Aasz64g1Oe5QdWU0apJwqK630M6BrTmbpvXYh+ZP6bDLpvK1oGRAsCIplP385cLyJ
-voxcmrGA8iCH3vx7K8eSQOSjSMoL4ydEAZtD5XSXgWwiGuAqDMzAyuk8zUULGMHh4CM9Za1ajTi2
-jWs=
-=ZhER
------END PGP SIGNATURE-----
-
---------------J3WRfJI6btdD2R500hkzx33N--
+As the step shows, if we do not keep the acked_features in
+NetVhostUserState up-to-date, the acked_features in vhost_dev may be
+reloaded with the wrong value(eg, 0x40000000) when vhost_user_start
+happens.
+> 
+> 
+>> As to reset acked_features to 0 if needed, Qemu always
+>> keeping the backup acked_features up-to-date, and save the
+>> acked_features after virtio_net_set_features in advance,
+>> including reset acked_features to 0, so the behavior is
+>> also covered.
+>>
+>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>> Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
+>> ---
+>>   hw/net/vhost_net.c      | 9 +++++++++
+>>   hw/net/virtio-net.c     | 5 +++++
+>>   include/net/vhost_net.h | 2 ++
+>>   net/vhost-user.c        | 6 +-----
+>>   4 files changed, 17 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>> index d28f8b9..2bffc27 100644
+>> --- a/hw/net/vhost_net.c
+>> +++ b/hw/net/vhost_net.c
+>> @@ -141,6 +141,15 @@ uint64_t vhost_net_get_acked_features(VHostNetState *net)
+>>       return net->dev.acked_features;
+>>   }
+>>   
+>> +void vhost_net_save_acked_features(NetClientState *nc)
+>> +{
+>> +    if (nc->info->type != NET_CLIENT_DRIVER_VHOST_USER) {
+>> +        return;
+>> +    }
+>> +
+>> +    vhost_user_save_acked_features(nc, false);
+>> +}
+>> +
+>>   static int vhost_net_get_fd(NetClientState *backend)
+>>   {
+>>       switch (backend->info->type) {
+>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>> index e9f696b..5f8f788 100644
+>> --- a/hw/net/virtio-net.c
+>> +++ b/hw/net/virtio-net.c
+>> @@ -924,6 +924,11 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
+>>               continue;
+>>           }
+>>           vhost_net_ack_features(get_vhost_net(nc->peer), features);
+>> +        /*
+>> +         * keep acked_features in NetVhostUserState up-to-date so it
+>> +         * can't miss any features configured by guest virtio driver.
+>> +         */
+>> +        vhost_net_save_acked_features(nc->peer);
+>>       }
+>>   
+>>       if (virtio_has_feature(features, VIRTIO_NET_F_CTRL_VLAN)) {
+>> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+>> index 387e913..3a5579b 100644
+>> --- a/include/net/vhost_net.h
+>> +++ b/include/net/vhost_net.h
+>> @@ -46,6 +46,8 @@ int vhost_set_vring_enable(NetClientState * nc, int enable);
+>>   
+>>   uint64_t vhost_net_get_acked_features(VHostNetState *net);
+>>   
+>> +void vhost_net_save_acked_features(NetClientState *nc);
+>> +
+>>   int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
+>>   
+>>   #endif
+>> diff --git a/net/vhost-user.c b/net/vhost-user.c
+>> index 74f349c..c512cc9 100644
+>> --- a/net/vhost-user.c
+>> +++ b/net/vhost-user.c
+>> @@ -258,11 +258,7 @@ static void chr_closed_bh(void *opaque)
+>>       s = DO_UPCAST(NetVhostUserState, nc, ncs[0]);
+>>   
+>>       for (i = queues -1; i >= 0; i--) {
+>> -        s = DO_UPCAST(NetVhostUserState, nc, ncs[i]);
+>> -
+>> -        if (s->vhost_net) {
+>> -            s->acked_features = vhost_net_get_acked_features(s->vhost_net);
+>> -        }
+>> +        vhost_user_save_acked_features(ncs[i], false);
+>>       }
+>>   
+>>       qmp_set_link(name, false, &err);
+> 
+> 
+> Split this last chunk into a patch of its own?
+> 
+>> -- 
+>> 1.8.3.1
+> 
 
