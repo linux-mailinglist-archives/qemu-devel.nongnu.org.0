@@ -2,68 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC21625873
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D67625874
 	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:34:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otRJT-0007gH-C8; Fri, 11 Nov 2022 05:31:07 -0500
+	id 1otRLy-0001U2-AL; Fri, 11 Nov 2022 05:33:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otRJQ-0007du-SG
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:31:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1otRLR-0001Lr-Td
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:33:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otRJO-0000gE-La
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:31:04 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1otRLP-0000ub-Gt
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:33:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668162662;
+ s=mimecast20190719; t=1668162787;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=icEAzRzmbt/5rmtBdtCpGKDeXXzdXYvVMIrXEvAPz5M=;
- b=CSegjrwOgaV6T4YYCzs3Vtj91t2F0pTuwfZWxhitTiqWqWzJT7IHjOWYO6b6En5yRjLIo8
- JHui4aSJCqdji4sEXn3zJsELxd4vKD7YJWvdzqhrU5yP9XZxu5XgUV7zyu7/FNawywNAPl
- 66/6LZ1M2U9ewWtmHS391E1mpQX7xHI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-59-mRrb1HwxMROwIBgKD060Fg-1; Fri, 11 Nov 2022 05:30:58 -0500
-X-MC-Unique: mRrb1HwxMROwIBgKD060Fg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FE0485A583;
- Fri, 11 Nov 2022 10:30:58 +0000 (UTC)
-Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB4042022EA2;
- Fri, 11 Nov 2022 10:30:56 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>,
-	qemu-devel@nongnu.org
-Cc: Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PULL 8/8] Fix several typos in documentation (found by codespell)
-Date: Fri, 11 Nov 2022 11:30:48 +0100
-Message-Id: <20221111103048.202519-9-thuth@redhat.com>
-In-Reply-To: <20221111103048.202519-1-thuth@redhat.com>
-References: <20221111103048.202519-1-thuth@redhat.com>
+ bh=rCLt9FSqNeXP1wVr2qH6MuZQcIugm0bJHKmlpsp6YCc=;
+ b=Jl1zOPVJNB/opvZusoxrY5FMeKlIOFMH12gwV5XryP6iI6WKbZhz48a83H5CDZPPDDV1ZT
+ fP6eW8Fxq14uGLwdJx9Mpk84NQuj40maRk3xorAHuVdK3Jh//5rMlLYKsVSGsidYzocjc5
+ pAmIX28YSbfmHNZxG2NKq0HLeAdaH3I=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-314-f5tsLfOPPxezpzq3e8Nuxg-1; Fri, 11 Nov 2022 05:33:05 -0500
+X-MC-Unique: f5tsLfOPPxezpzq3e8Nuxg-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ gc12-20020a05622a59cc00b003a5444280e1so3372681qtb.13
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 02:33:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=rCLt9FSqNeXP1wVr2qH6MuZQcIugm0bJHKmlpsp6YCc=;
+ b=cNyigFKDpEJLUM4KpEZrugeX4b6BAXHt/nipYMtGD9DKmdS/mtVgFFkwZrr0XBsvrx
+ 2XNM3KGa/LMx2lmgJzjYtVY1piYmxRCGOOCG+Iapvby4yEaGE2Bi8ZHaAnk9KP/NQASG
+ hBZP4VP9iaknmLrseYrcSLruphQlwdzAIJm8BJT2678AuTyR1HCpG/OSJJopN+fJRsVH
+ wVRyrMG2kxBDw167xgv/cBP9BVuyHCDrk5bU3T+UdkEM5tUsGKi0QTvUtRDmvocKk88U
+ /kRwqL5MIy+7Jn9+z6+1HT8w1B6tT+Mssyv51k9D8rqLM023MSkra4OX0VYwhlFSPts8
+ Rplw==
+X-Gm-Message-State: ANoB5pkM4C2BZKEVBRQSHzthdGsKrRyc93g0VN8x7wR2xlhsHy+SW9ic
+ X8l+4NgM1GFUK2y4dY/KC3IXevjY4Sezn0a2xsi6NodTqnb3iJ85lIITTQCRtSJV/g7mtRKMvIP
+ A39Qwln4Wr0BmzJc=
+X-Received: by 2002:a37:a807:0:b0:6ec:5496:4e17 with SMTP id
+ r7-20020a37a807000000b006ec54964e17mr466788qke.559.1668162784202; 
+ Fri, 11 Nov 2022 02:33:04 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6xQIHCkuOfgFH1un5+bd/qFtjFQPizU2Hwn9IZHVgV1yadnv5h3BN2c6fEhSYOCgjVrvz8gw==
+X-Received: by 2002:a37:a807:0:b0:6ec:5496:4e17 with SMTP id
+ r7-20020a37a807000000b006ec54964e17mr466774qke.559.1668162783991; 
+ Fri, 11 Nov 2022 02:33:03 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ h12-20020a05620a400c00b006b949afa980sm1205970qko.56.2022.11.11.02.33.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Nov 2022 02:33:03 -0800 (PST)
+Date: Fri, 11 Nov 2022 11:33:00 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Dario Faggioli <dfaggioli@suse.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "eduardo@habkost.net"
+ <eduardo@habkost.net>, "mst@redhat.com" <mst@redhat.com>,
+ "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
+Subject: Re: How about increasing max_cpus for q35 ?
+Message-ID: <20221111113300.7dd39cdd@imammedo.users.ipa.redhat.com>
+In-Reply-To: <c705d0d8d6ed1a520b1ff92cb2f83fef19522d30.camel@suse.com>
+References: <c705d0d8d6ed1a520b1ff92cb2f83fef19522d30.camel@suse.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,200 +103,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Stefan Weil <sw@weilnetz.de>
+On Wed, 9 Nov 2022 13:36:07 +0000
+Dario Faggioli <dfaggioli@suse.com> wrote:
 
-Those typos are in files which are used to generate the QEMU manual.
+> Hello,
+> 
+> Sorry for the potentially naive question, but I'm not clear what the
+> process would be if, say, I'd like to raise the number of maximum CPUs
+> a q35 VM can have.
+> 
+> So, right now we have:
+> 
+> void pc_q35_2_7_machine_options(MachineClass *m) {
+>   ...
+>   m->max_cpus = 255;
+> }
+> 
+> And:
+> 
+> void pc_q35_machine_options(MachineClass *m)
+> {
+>   ...
+>   m->max_cpus = 288;
+> }
+> 
+> Focusing on the latter, it comes from this commit:
+> 
+> https://gitlab.com/qemu-project/qemu/-/commit/00d0f9fd6602a27b204f672ef5bc8e69736c7ff1
+>   
+>   pc: q35: Bump max_cpus to 288
+> 
+>   Along with it for machine versions 2.7 and older keep
+>   it at 255.
+> 
+> So, it was 255 and is now 288. This seems to me to be there since QEMU
+> 2.8.0.
+> 
+> Now, as far as I understand, KVM can handle 1024, at least since this
+> commit (and a couple of other related ones):
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=074c82c8f7cf8a46c3b81965f122599e3a133450
+> "kvm: x86: Increase MAX_VCPUS to 1024"
+> 
+> Which basically does:
+> 
+> -#define KVM_MAX_VCPUS 288
+> +#define KVM_MAX_VCPUS 1024
+> 
+> And it's included in kernels >= 5.15.
+> 
+> So, what's the correct way of bumping up the limit again? Just changing
+> that assignment in pc_q35_machine_options()
 
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
-Message-Id: <20221110190825.879620-1-sw@weilnetz.de>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-[thuth: update sentence in can.rst as suggested by Peter]
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- docs/devel/acpi-bits.rst       | 2 +-
- docs/system/devices/can.rst    | 5 +++--
- qapi/virtio.json               | 4 ++--
- include/exec/memory.h          | 6 +++---
- tests/qtest/libqos/qgraph.h    | 2 +-
- hw/scsi/esp.c                  | 6 +++---
- tests/qtest/libqos/virtio-9p.c | 2 +-
- qemu-options.hx                | 6 +++---
- 8 files changed, 17 insertions(+), 16 deletions(-)
+that and preserve 288 limit for existing machine types.
 
-diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
-index c9564d871a..5e22be8ef6 100644
---- a/docs/devel/acpi-bits.rst
-+++ b/docs/devel/acpi-bits.rst
-@@ -132,7 +132,7 @@ Under ``tests/avocado/`` as the root we have:
- 
-    (a) They are python2.7 based scripts and not python 3 scripts.
-    (b) They are run from within the bios bits VM and is not subjected to QEMU
--       build/test python script maintainance and dependency resolutions.
-+       build/test python script maintenance and dependency resolutions.
-    (c) They need not be loaded by avocado framework when running tests.
- 
- 
-diff --git a/docs/system/devices/can.rst b/docs/system/devices/can.rst
-index fe37af8223..0af3d9912a 100644
---- a/docs/system/devices/can.rst
-+++ b/docs/system/devices/can.rst
-@@ -169,8 +169,9 @@ and with bitrate switch::
- 
-   cangen can0 -b
- 
--The test can be run viceversa, generate messages in the guest system and capture them
--in the host one and much more combinations.
-+The test can also be run the other way around, generating messages in the
-+guest system and capturing them in the host system. Other combinations are
-+also possible.
- 
- Links to other resources
- ------------------------
-diff --git a/qapi/virtio.json b/qapi/virtio.json
-index 872c7e3623..019d2d1987 100644
---- a/qapi/virtio.json
-+++ b/qapi/virtio.json
-@@ -321,7 +321,7 @@
- #          },
- #          "backend-features": {
- #              "dev-features": [
--#                  "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features negotation supported",
-+#                  "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features negotiation supported",
- #                  "VIRTIO_NET_F_GSO: Handling GSO-type packets supported",
- #                  "VIRTIO_NET_F_CTRL_MAC_ADDR: MAC address set through control channel",
- #                  "VIRTIO_NET_F_GUEST_ANNOUNCE: Driver sending gratuitous packets supported",
-@@ -394,7 +394,7 @@
- #          },
- #          "host-features": {
- #              "dev-features": [
--#                  "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features negotation supported",
-+#                  "VHOST_USER_F_PROTOCOL_FEATURES: Vhost-user protocol features negotiation supported",
- #                  "VIRTIO_NET_F_GSO: Handling GSO-type packets supported",
- #                  "VIRTIO_NET_F_CTRL_MAC_ADDR: MAC address set through control channel",
- #                  "VIRTIO_NET_F_GUEST_ANNOUNCE: Driver sending gratuitous packets supported",
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 80fa75baa1..91f8a2395a 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -561,7 +561,7 @@ typedef void (*ReplayRamDiscard)(MemoryRegionSection *section, void *opaque);
-  * A #RamDiscardManager coordinates which parts of specific RAM #MemoryRegion
-  * regions are currently populated to be used/accessed by the VM, notifying
-  * after parts were discarded (freeing up memory) and before parts will be
-- * populated (consuming memory), to be used/acessed by the VM.
-+ * populated (consuming memory), to be used/accessed by the VM.
-  *
-  * A #RamDiscardManager can only be set for a RAM #MemoryRegion while the
-  * #MemoryRegion isn't mapped yet; it cannot change while the #MemoryRegion is
-@@ -585,7 +585,7 @@ typedef void (*ReplayRamDiscard)(MemoryRegionSection *section, void *opaque);
-  * Listeners are called in multiples of the minimum granularity (unless it
-  * would exceed the registered range) and changes are aligned to the minimum
-  * granularity within the #MemoryRegion. Listeners have to prepare for memory
-- * becomming discarded in a different granularity than it was populated and the
-+ * becoming discarded in a different granularity than it was populated and the
-  * other way around.
-  */
- struct RamDiscardManagerClass {
-@@ -1247,7 +1247,7 @@ void memory_region_init_ram_flags_nomigrate(MemoryRegion *mr,
-                                             Error **errp);
- 
- /**
-- * memory_region_init_resizeable_ram:  Initialize memory region with resizeable
-+ * memory_region_init_resizeable_ram:  Initialize memory region with resizable
-  *                                     RAM.  Accesses into the region will
-  *                                     modify memory directly.  Only an initial
-  *                                     portion of this RAM is actually used.
-diff --git a/tests/qtest/libqos/qgraph.h b/tests/qtest/libqos/qgraph.h
-index 5c0046e989..287022a67c 100644
---- a/tests/qtest/libqos/qgraph.h
-+++ b/tests/qtest/libqos/qgraph.h
-@@ -381,7 +381,7 @@ QOSGraphObject *qos_driver_new(QOSGraphNode *node, QOSGraphObject *parent,
-  * mind: only tests with a path down from the actual test case node (leaf) up
-  * to the graph's root node are actually executed by the qtest framework. And
-  * the qtest framework uses QMP to automatically check which QEMU drivers are
-- * actually currently available, and accordingly qos marks certain pathes as
-+ * actually currently available, and accordingly qos marks certain paths as
-  * 'unavailable' in such cases (e.g. when QEMU was compiled without support for
-  * a certain feature).
-  */
-diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index e5b281e836..e52188d022 100644
---- a/hw/scsi/esp.c
-+++ b/hw/scsi/esp.c
-@@ -515,7 +515,7 @@ static void do_dma_pdma_cb(ESPState *s)
-         } else {
-             /*
-              * Extra message out bytes received: update cmdfifo_cdb_offset
--             * and then switch to commmand phase
-+             * and then switch to command phase
-              */
-             s->cmdfifo_cdb_offset = fifo8_num_used(&s->cmdfifo);
-             s->rregs[ESP_RSTAT] = STAT_TC | STAT_CD;
-@@ -627,7 +627,7 @@ static void esp_do_dma(ESPState *s)
-         } else {
-             /*
-              * Extra message out bytes received: update cmdfifo_cdb_offset
--             * and then switch to commmand phase
-+             * and then switch to command phase
-              */
-             s->cmdfifo_cdb_offset = fifo8_num_used(&s->cmdfifo);
-             s->rregs[ESP_RSTAT] = STAT_TC | STAT_CD;
-@@ -738,7 +738,7 @@ static void esp_do_nodma(ESPState *s)
-         } else {
-             /*
-              * Extra message out bytes received: update cmdfifo_cdb_offset
--             * and then switch to commmand phase
-+             * and then switch to command phase
-              */
-             s->cmdfifo_cdb_offset = fifo8_num_used(&s->cmdfifo);
-             s->rregs[ESP_RSTAT] = STAT_TC | STAT_CD;
-diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-index ae9b0a20e2..7f21028256 100644
---- a/tests/qtest/libqos/virtio-9p.c
-+++ b/tests/qtest/libqos/virtio-9p.c
-@@ -31,7 +31,7 @@
- static QGuestAllocator *alloc;
- static char *local_test_path;
- 
--/* Concatenates the passed 2 pathes. Returned result must be freed. */
-+/* Concatenates the passed 2 paths. Returned result must be freed. */
- static char *concat_path(const char* a, const char* b)
- {
-     return g_build_filename(a, b, NULL);
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 8b8a4a5d01..7f99d15b23 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -139,7 +139,7 @@ SRST
-         interleave requirements before enabling the memory devices.
- 
-         ``targets.X=target`` provides the mapping to CXL host bridges
--        which may be identified by the id provied in the -device entry.
-+        which may be identified by the id provided in the -device entry.
-         Multiple entries are needed to specify all the targets when
-         the fixed memory window represents interleaved memory. X is the
-         target index from 0.
-@@ -362,7 +362,7 @@ SRST
-   \ 
- ``-numa cpu,node-id=node[,socket-id=x][,core-id=y][,thread-id=z]``
-   \ 
--``-numa hmat-lb,initiator=node,target=node,hierarchy=hierarchy,data-type=tpye[,latency=lat][,bandwidth=bw]``
-+``-numa hmat-lb,initiator=node,target=node,hierarchy=hierarchy,data-type=type[,latency=lat][,bandwidth=bw]``
-   \ 
- ``-numa hmat-cache,node-id=node,size=size,level=level[,associativity=str][,policy=str][,line=size]``
-     Define a NUMA node and assign RAM and VCPUs to it. Set the NUMA
-@@ -1785,7 +1785,7 @@ SRST
-     directory on host is made directly accessible by guest as a pass-through
-     file system by using the 9P network protocol for communication between
-     host and guests, if desired even accessible, shared by several guests
--    simultaniously.
-+    simultaneously.
- 
-     Note that ``-virtfs`` is actually just a convenience shortcut for its
-     generalized form ``-fsdev -device virtio-9p-pci``.
--- 
-2.31.1
+Basically the same as above QEMU commit with difference
+that pc_q35_2_8_machine_options() should be replaced by
+7.2 equivalent.
+
+
+PS:
+we are still missing OVMF support for 1024,
+but it's being worked on.
+
+> ? Or do we want a new
+> version of the machine type or something like that?
+> 
+> Thanks and Regards
 
 
