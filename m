@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32D9625DA2
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:58:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F3E625DA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:58:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otVRa-000745-Hn; Fri, 11 Nov 2022 09:55:46 -0500
+	id 1otVRa-00074R-MX; Fri, 11 Nov 2022 09:55:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otVRO-000708-Ls
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:35 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ id 1otVRR-00070h-Ld
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:38 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otVRN-0007wS-3N
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:34 -0500
-Received: by mail-wr1-x433.google.com with SMTP id w14so6773367wru.8
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 06:55:32 -0800 (PST)
+ id 1otVRO-0007wc-T1
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:36 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ i10-20020a1c3b0a000000b003cfd36eff5fso655660wma.3
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 06:55:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XsIUPL4URppAX7w6NGrUdBT/BUmCRhwxzbv6AwfzKCA=;
- b=HtrhliDQn7ww5CSLs9qkjc3/H9NCaHO6AI326r3eZ27wZVABgVxI2mwwi77VAmRWaS
- Ygtb2k/snzSDMeYrPzRSEk4+9pEjIe61a4XzMWmmI8JI0BInwgbH1nMDf0AnfIRWMfFp
- /fGRvFR2lbrPzwG7E4faFgHoojXljvMymXHFBRTR9QoxlbSJuuIuw8rvd0jwT6X3Nhtu
- aO5OoX69iL9nbzkLdwHqpCscjMloH4GXW+lhpYXkQK/nkGtiEZxWHm26bfFaJMxoC6dO
- c4kjHlKpBgdFq1FZKmIvW2N8PH4kxS/YF0lLUtWMx3VmLlBZC/nYZeklhLDct6c/bDOr
- lyVQ==
+ bh=75StTBtdrjatadUr5+DBEpHqiRy77mt4SctT5IRzcL0=;
+ b=ztsHlHrPcLJPcjESV0+FxRD8thgTLVajkWt9MP/FxRxNkGNCmIkcoHCqi7pAYsIs9U
+ YsfOXln2gJ3ELN/ystPLYdmb0NDClSf4/a6kRzDiFTdkKwjeBUk0zqaQyoZ3+QfcHokC
+ tRESEmriBYTdvO+lcCLh5h4BMhuzSlntWKdH1ItJOe7xbWdoL8828Olf88SAQtyA5Ly3
+ WVzMxXB52D9e4sTIj23seyn8GahD1YMymZpZxawMfO8MK8EbfB45Gx0jL/Vs6TlfAJ0e
+ xnXb/XD9o+2mZdSFwPnuRJrO/QKvxj8e7sTky+7ghAvmadLyW2Kk7fjOvmCJwKUOtu3p
+ uZ6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XsIUPL4URppAX7w6NGrUdBT/BUmCRhwxzbv6AwfzKCA=;
- b=j91vbJokMZnpSXfvMOcRYtMcs0/8yZWVPItoXwx0HT23OhqgfmfI0YqhFvdbFxyGKU
- OmJ+sJFYhcfjApspzlIlEGJjiKm/KhdqsT4vnt+HyB1ZIWgGBkxRjxuJ4mkQsZk3w0Yf
- 8sok/cWt2ifh8jX9koVYJfFEgIn1A2NebL7ktXCOaFFuKrcB0/VQDmfR5q9atGqza2Ka
- LB/D7euUD/eIVN6EFYF7GePEsJbpa26iuIEtOLsRDpDpH9ZEzcTU064e+3506+xopu14
- kbcXh9JoZZQOeYmJWY3evtv/iA9GGcKS1HBvPKFTHX9wcn/0OOL2BK9VekSorf5YRC1p
- +L1w==
-X-Gm-Message-State: ANoB5pk/NQ/GfxmzFdXNY11oTWpNQq+6+xiPFpMdhls/seYPnPH58msg
- NDLtqKsZDJQ+gh8s0hzTirGXOw==
-X-Google-Smtp-Source: AA0mqf6an5BShu2rU1uFIofrQtXMOHs5jKhK41eOfk0lNzpwuhE9Q7JEE/qg3ASMawRt3MPiq1ztbg==
-X-Received: by 2002:adf:f211:0:b0:23a:43b7:cdd5 with SMTP id
- p17-20020adff211000000b0023a43b7cdd5mr1445319wro.387.1668178531149; 
- Fri, 11 Nov 2022 06:55:31 -0800 (PST)
+ bh=75StTBtdrjatadUr5+DBEpHqiRy77mt4SctT5IRzcL0=;
+ b=rZeoKNqVEzv8uD+aq7k5EefF8mg/QT1XZrLjFP7sJGij7jWncydSFHqUWP5HePExAC
+ u+ETjp6UZXzaUH1pBB7FxagChVsiDso/FSHAYRsgfNICUcZwEsQs9bir5wMsTT3t4AvW
+ HIt/HwsB85ZRjGf+95euQBM5rP2yYpgrZEYl8g7G4Cir/UtbheYJs51GighOdR5naoKV
+ WVkEDVUToaAeUPJ0pECVw63/LH/Gti2XTV0vQaz58wuRYtqBuI4N/R+SAv6tl/AjzSuJ
+ vK8CYIIYKhDyCvzadgzrux1X4vQ5BxZEIUR7Ega0FW68+FHzbgLhM20/XW4rHfedSkDQ
+ dQOw==
+X-Gm-Message-State: ANoB5pl6yzzxI1HFla5oaP9yua/C68BMc3TYKtjA9KKuWy5M6QA29/ps
+ 0LwctIuyY9SDx/5k7dyrFc504g==
+X-Google-Smtp-Source: AA0mqf5ypihLRxhijYPdPaksSEPtGkMqMazC9GGjV5L4/nW0OlP09sN3sCXKbYYMnU+UaQB0Ne9D8w==
+X-Received: by 2002:a05:600c:358e:b0:3cf:8b53:747f with SMTP id
+ p14-20020a05600c358e00b003cf8b53747fmr1537819wmq.192.1668178532563; 
+ Fri, 11 Nov 2022 06:55:32 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- q12-20020a05600c46cc00b003b4ac05a8a4sm11740229wmo.27.2022.11.11.06.55.30
+ b3-20020adff903000000b002366fb99cdasm2126461wrr.50.2022.11.11.06.55.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 06:55:30 -0800 (PST)
+ Fri, 11 Nov 2022 06:55:31 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 16F6E1FFB8;
+ by zen.linaroharston (Postfix) with ESMTP id 2E41B1FFBA;
  Fri, 11 Nov 2022 14:55:30 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- Stefan Weil <sw@weilnetz.de>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PATCH v2 01/12] Run docker probe only if docker or podman are
- available
-Date: Fri, 11 Nov 2022 14:55:18 +0000
-Message-Id: <20221111145529.4020801-2-alex.bennee@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH v2 02/12] tests/avocado: improve behaviour waiting for login
+ prompts
+Date: Fri, 11 Nov 2022 14:55:19 +0000
+Message-Id: <20221111145529.4020801-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221111145529.4020801-1-alex.bennee@linaro.org>
 References: <20221111145529.4020801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,36 +100,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Stefan Weil <sw@weilnetz.de>
+This attempts to deal with the problem of login prompts not being
+guaranteed to be terminated with a newline. The solution to this is to
+peek at the incoming data looking to see if we see an up-coming match
+before we fall back to the old readline() logic. The reason to mostly
+rely on readline is because I am occasionally seeing the peek stalling
+despite data being there.
 
-The docker probe uses "sudo -n" which can cause an e-mail with a security warning
-each time when configure is run. Therefore run docker probe only if either docker
-or podman are available.
+This seems kinda hacky and gross so I'm open to alternative approaches
+and cleaner python code.
 
-That avoids the problematic "sudo -n" on build environments which have neither
-docker nor podman installed.
-
-Fixes: c4575b59155e2e00 ("configure: store container engine in config-host.mak")
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
-Message-Id: <20221030083510.310584-1-sw@weilnetz.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-diff --git a/configure b/configure
-index 66928692b0..26c7bc5154 100755
---- a/configure
-+++ b/configure
-@@ -1780,7 +1780,7 @@ fi
- # functions to probe cross compilers
+---
+v2
+  - remove superfluous /r/n
+---
+ tests/avocado/avocado_qemu/__init__.py | 89 +++++++++++++++++++++++++-
+ 1 file changed, 88 insertions(+), 1 deletion(-)
+
+diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
+index 910f3ba1ea..20cba57161 100644
+--- a/tests/avocado/avocado_qemu/__init__.py
++++ b/tests/avocado/avocado_qemu/__init__.py
+@@ -131,6 +131,58 @@ def pick_default_qemu_bin(bin_prefix='qemu-system-', arch=None):
+             return path
+     return None
  
- container="no"
--if test $use_containers = "yes"; then
-+if test $use_containers = "yes" && (has "docker" || has "podman"); then
-     case $($python "$source_path"/tests/docker/docker.py probe) in
-         *docker) container=docker ;;
-         podman) container=podman ;;
++def _peek_ahead(console, min_match, success_message):
++    """
++    peek ahead in the console stream keeping an eye out for the
++    success message.
++
++    Returns some message to process or None, indicating the normal
++    readline should occur.
++    """
++    console_logger = logging.getLogger('console')
++    peek_len = 0
++    retries = 0
++
++    while True:
++        try:
++            old_peek_len = peek_len
++            peek_ahead = console.peek(min_match).decode()
++            peek_len = len(peek_ahead)
++
++            # if we get stuck too long lets just fallback to readline
++            if peek_len <= old_peek_len:
++                retries += 1
++                if retries > 10:
++                    return None
++
++            # if we see a newline in the peek we can let safely bail
++            # and let the normal readline() deal with it
++            if peek_ahead.endswith(('\n', '\r')):
++                return None
++
++            # if we haven't seen enough for the whole message but the
++            # first part matches lets just loop again
++            if len(peek_ahead) < min_match and \
++               success_message[:peek_len] in peek_ahead:
++                continue
++
++            # if we see the whole success_message we are done, consume
++            # it and pass back so we can exit to the user
++            if success_message in peek_ahead:
++                return console.read(peek_len).decode()
++
++            # of course if we've seen enough then this line probably
++            # doesn't contain what we are looking for, fallback
++            if peek_len > min_match:
++                return None
++
++        except UnicodeDecodeError:
++            console_logger.log("error in decode of peek")
++            return None
++
++    # we should never get here
++    return None
++
+ 
+ def _console_interaction(test, success_message, failure_message,
+                          send_string, keep_sending=False, vm=None):
+@@ -139,17 +191,52 @@ def _console_interaction(test, success_message, failure_message,
+         vm = test.vm
+     console = vm.console_socket.makefile(mode='rb', encoding='utf-8')
+     console_logger = logging.getLogger('console')
++
++    # Establish the minimum number of bytes we would need to
++    # potentially match against success_message
++    if success_message is not None:
++        min_match = len(success_message)
++    else:
++        min_match = 0
++
++    console_logger.debug("looking for %d:(%s), sending %s (always=%s)",
++                         min_match, success_message, send_string, keep_sending)
++
+     while True:
++        msg = None
++
++        # First send our string, optionally repeating the send next
++        # cycle.
+         if send_string:
+             vm.console_socket.sendall(send_string.encode())
+             if not keep_sending:
+                 send_string = None # send only once
++
++        # If the console has no data to read we briefly
++        # sleep before continuing.
++        if not console.readable():
++            time.sleep(0.1)
++            continue
++
+         try:
+-            msg = console.readline().decode().strip()
++
++            # First we shall peek ahead for a potential match to cover waiting
++            # for lines without any newlines.
++            if min_match > 0:
++                msg = _peek_ahead(console, min_match, success_message)
++
++            # otherwise we block here for a full line
++            if not msg:
++                msg = console.readline().decode().strip()
++
+         except UnicodeDecodeError:
++            console_logger.debug("skipped unicode error")
+             msg = None
++
++        # if nothing came out we continue and try again
+         if not msg:
+             continue
++
+         console_logger.debug(msg)
+         if success_message is None or success_message in msg:
+             break
 -- 
 2.34.1
 
