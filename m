@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8C7625540
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 09:28:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF1496254C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 08:58:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otOgK-0006zc-9N; Fri, 11 Nov 2022 02:42:32 -0500
+	id 1otOgL-000716-Qe; Fri, 11 Nov 2022 02:42:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otOgE-0006tS-Sh
+ id 1otOgH-0006w4-CA
  for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:42:29 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otOgC-0000IZ-UJ
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:42:26 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id q71so3797064pgq.8
- for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 23:42:24 -0800 (PST)
+ id 1otOgF-0000J0-4U
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 02:42:28 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ f5-20020a17090a4a8500b002131bb59d61so7088442pjh.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Nov 2022 23:42:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=CPYxlgCVaE7nzaX4H41USC5VWvqB07xTjuetGSjKU6w=;
- b=ZCsurHcV4WOnzBMJWgUBINjy0ICIO7O1g/SQlAbRn0Se+xuRyMea1coguC831b3qRW
- gTZprRZxMrhH6Icbd5O17UbLysAItMcpxDdh5oVxDwBj2BKjqQLGMgWiPGIwnlvGvyHH
- HE2NyyT3EWQDh7k1MiubhzY0bYLyVP5cc9120RTi07oRxyYtz1V7oNvHM1ZV4ebCmhL+
- GkdyZgE/pFuIJqOy1Hjtq67C/0Xch14Mmh6fI/ji3shZh3fKW+TxUPJC8NoMERT+BAhZ
- +TAQ/h64t5uD1dVRk+ZBik6Sb5bt5scm0EJ9hWwkHHhA7yNGCgWqguYo7E3ZeLK/pF1L
- yemA==
+ :reply-to; bh=L+S0yiDUL5LJhfVfrgX3VxmNsOJpAn5JdOtGMrMcV5s=;
+ b=vN2N9CSliiu//oQ2kbTPwak2X2xQFkWSURzeGlcjAXn14jI7QljU2psxlaBG2t6LgA
+ eLpkhytqGfgOuCK0XS+WiR1L575Tl+B9MrlN2YE8StjCOhF84SoQd5WpEviBxUMJcbv6
+ 9c9OTi0nKEk18y7SEQOq9ENsHd7FVJ5J/49wMSNGm4m29ChKSs2LP6agTkHCPXnxNz2f
+ 81YpLpcMn9cM206tcGebaxP7C3Z3J6lt5H+8bTuXjXkGazMUgL/j/uPMLIKDjJnVyfj4
+ 1dAfJiOjarAgShwLTId5DY2cA7oU+3q4nfQqNS1yA19PqVQ53dELKeSNuiS3bvoilu0D
+ zBDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=CPYxlgCVaE7nzaX4H41USC5VWvqB07xTjuetGSjKU6w=;
- b=ZAmeuOKy6hF60x5l5pBcz+0thooBftsJJmzQyGHBSg5wMNDpq18LOMFQUUDmuU2mPh
- 2wT+mnNDd3fhZIaog3+R/umFI2TiJd3lM2hrvWOLWGwqNN4vQEeWyALzpvJaM7z0syBJ
- i6DGMUzDs0cu1bkNVt3L06yDaDPBg6V6J2QkpnuCr/i2boRVESBp1XPvUgYGw92VRRUA
- NmVytyQ30k9GRZmAVGsHiSCazeZEj8C0yBA3+0+XLNzYge5Hp+r7dVtkJDGDWUEeweKS
- m2uPdnDeBrFQog2H/uwAKTwVw6VCDOGzoTja143CqWtitAQ1UudlXz4WYTIoNQqa7Nxs
- eN5g==
-X-Gm-Message-State: ANoB5pkM/p2IbaE+i1j9N4QR6GcAaf1EcUSaO6LJS5wOwmc57eUBb6Vk
- YcVC9EWTHdOPLmTSUOYNfZmJq85rT+LMWe7c
-X-Google-Smtp-Source: AA0mqf7d6tmA8ZvwDs3iiN/XDQ/dHkBHneA/1EVVa/ds6+pcG5FEgR5o5Wqbh7tXsKojScYA0/36Cg==
-X-Received: by 2002:a65:590b:0:b0:462:8605:7fe7 with SMTP id
- f11-20020a65590b000000b0046286057fe7mr612271pgu.445.1668152543485; 
- Thu, 10 Nov 2022 23:42:23 -0800 (PST)
+ bh=L+S0yiDUL5LJhfVfrgX3VxmNsOJpAn5JdOtGMrMcV5s=;
+ b=Pxn69nXJPZZ/vOA1Y6jzpOwzm+WykCPNWNGjB98n6lHK4zGAilasMq9dqiVIZYctDs
+ 74mnKeK1dgCaZbjvvzOvvpbia5T2jyKMJVr9MrjqmEdOiSrIf6+NX+s8OeeWsEHaDoYE
+ +YZly2R3FTNZc6fzLkCeriaNaoP8XJX73GG/Z6yhI71w2w1845AayXvo7T/rT9KuVEEi
+ wnIwcK1ZXwxFwfGW/YOolS+WfmkUqD/8yeM7hvZ4+8MZ326+TsgNw68hm+TXdLxg/KYv
+ 5QVlgJk/8FUIQg1MaVlJCQenO09JXmS43jQxzz10dF8Tu/3F4ei5sxgB30b0c7lGOP9L
+ Yv2g==
+X-Gm-Message-State: ANoB5pn+fQ1xJQA2OHTvoB6NI3pr7nJ62R8hg9ybepb+rMtVnmNJMsCm
+ ft5PoQphYxTwkymJnbJfRB81o/UofT0EJ7nS
+X-Google-Smtp-Source: AA0mqf66uW258jjH0WHGS9ez6uG7Aq5hrhqjAIWmbLHZEUy389MWYlWDZtDgMV48ToDk742yoEOIGA==
+X-Received: by 2002:a17:903:3111:b0:186:5ef5:bda1 with SMTP id
+ w17-20020a170903311100b001865ef5bda1mr1383257plc.78.1668152545828; 
+ Thu, 10 Nov 2022 23:42:25 -0800 (PST)
 Received: from stoup.lan
  (2001-44b8-2176-c800-0aef-59aa-1faf-7e61.static.ipv6.internode.on.net.
  [2001:44b8:2176:c800:aef:59aa:1faf:7e61])
  by smtp.gmail.com with ESMTPSA id
- o15-20020a170902d4cf00b001754fa42065sm976069plg.143.2022.11.10.23.42.21
+ o15-20020a170902d4cf00b001754fa42065sm976069plg.143.2022.11.10.23.42.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Nov 2022 23:42:23 -0800 (PST)
+ Thu, 10 Nov 2022 23:42:25 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-8.0 v3 33/45] tcg: Add TCG_CALL_{RET,ARG}_BY_REF
-Date: Fri, 11 Nov 2022 17:40:49 +1000
-Message-Id: <20221111074101.2069454-34-richard.henderson@linaro.org>
+Subject: [PATCH for-8.0 v3 34/45] tcg: Introduce tcg_target_call_oarg_reg
+Date: Fri, 11 Nov 2022 17:40:50 +1000
+Message-Id: <20221111074101.2069454-35-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221111074101.2069454-1-richard.henderson@linaro.org>
 References: <20221111074101.2069454-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,245 +91,283 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These will be used by some hosts, both 32 and 64-bit, to pass and
-return i128.  Not yet used, because allocation is not yet enabled.
+Replace the flat array tcg_target_call_oarg_regs[] with
+a function call including the TCGCallReturnKind.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg-internal.h |   3 +
- tcg/tcg.c          | 135 ++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 135 insertions(+), 3 deletions(-)
+ tcg/tcg.c                        |  9 ++++++---
+ tcg/aarch64/tcg-target.c.inc     | 10 +++++++---
+ tcg/arm/tcg-target.c.inc         | 10 +++++++---
+ tcg/i386/tcg-target.c.inc        | 16 ++++++++++------
+ tcg/loongarch64/tcg-target.c.inc | 10 ++++++----
+ tcg/mips/tcg-target.c.inc        | 10 ++++++----
+ tcg/ppc/tcg-target.c.inc         | 10 ++++++----
+ tcg/riscv/tcg-target.c.inc       | 10 ++++++----
+ tcg/s390x/tcg-target.c.inc       |  9 ++++++---
+ tcg/sparc64/tcg-target.c.inc     | 12 ++++++------
+ tcg/tci/tcg-target.c.inc         | 12 ++++++------
+ 11 files changed, 72 insertions(+), 46 deletions(-)
 
-diff --git a/tcg/tcg-internal.h b/tcg/tcg-internal.h
-index 6e50aeba3a..2ec1ea01df 100644
---- a/tcg/tcg-internal.h
-+++ b/tcg/tcg-internal.h
-@@ -36,6 +36,7 @@
-  */
- typedef enum {
-     TCG_CALL_RET_NORMAL,         /* by registers */
-+    TCG_CALL_RET_BY_REF,         /* for i128, by reference */
- } TCGCallReturnKind;
- 
- typedef enum {
-@@ -44,6 +45,8 @@ typedef enum {
-     TCG_CALL_ARG_EXTEND,         /* for i32, as a sign/zero-extended i64 */
-     TCG_CALL_ARG_EXTEND_U,       /*      ... as a zero-extended i64 */
-     TCG_CALL_ARG_EXTEND_S,       /*      ... as a sign-extended i64 */
-+    TCG_CALL_ARG_BY_REF,         /* for i128, by reference, first */
-+    TCG_CALL_ARG_BY_REF_N,       /*       ... by reference, subsequent */
- } TCGCallArgumentKind;
- 
- typedef struct TCGCallArgumentLoc {
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index c276cc87ee..b61551913b 100644
+index b61551913b..97c97158cd 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -103,8 +103,7 @@ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg1,
- static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg);
- static void tcg_out_movi(TCGContext *s, TCGType type,
-                          TCGReg ret, tcg_target_long arg);
--static void tcg_out_addi_ptr(TCGContext *s, TCGReg, TCGReg, tcg_target_long)
--    __attribute__((unused));
-+static void tcg_out_addi_ptr(TCGContext *s, TCGReg, TCGReg, tcg_target_long);
- static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-                        const TCGArg args[TCG_MAX_OP_ARGS],
-                        const int const_args[TCG_MAX_OP_ARGS]);
-@@ -661,6 +660,38 @@ static void layout_arg_normal_n(TCGCumulativeArgs *cum,
-     cum->arg_slot += n;
- }
- 
-+static void layout_arg_by_ref(TCGCumulativeArgs *cum, TCGHelperInfo *info)
-+{
-+    TCGCallArgumentLoc *loc = &info->in[cum->info_in_idx];
-+    int n = 128 / TCG_TARGET_REG_BITS;
-+
-+    /* The first subindex carries the pointer. */
-+    layout_arg_1(cum, info, TCG_CALL_ARG_BY_REF);
-+
-+    /*
-+     * The callee is allowed to clobber memory associated with
-+     * structure pass by-reference.  Therefore we must make copies.
-+     * Allocate space from "ref_slot", which will be adjusted to
-+     * follow the parameters on the stack.
-+     */
-+    loc[0].ref_slot = cum->ref_slot;
-+
-+    /*
-+     * Subsequent words also go into the reference slot, but
-+     * do not accumulate into the regular arguments.
-+     */
-+    for (int i = 1; i < n; ++i) {
-+        loc[i] = (TCGCallArgumentLoc){
-+            .kind = TCG_CALL_ARG_BY_REF_N,
-+            .arg_idx = cum->arg_idx,
-+            .tmp_subindex = i,
-+            .ref_slot = cum->ref_slot + i,
-+        };
-+    }
-+    cum->info_in_idx += n;
-+    cum->ref_slot += n;
-+}
-+
- static void init_call_layout(TCGHelperInfo *info)
- {
-     int max_reg_slots = ARRAY_SIZE(tcg_target_call_iarg_regs);
-@@ -696,6 +727,14 @@ static void init_call_layout(TCGHelperInfo *info)
-         case TCG_CALL_RET_NORMAL:
-             assert(info->nr_out <= ARRAY_SIZE(tcg_target_call_oarg_regs));
-             break;
-+        case TCG_CALL_RET_BY_REF:
-+            /*
-+             * Allocate the first argument to the output.
-+             * We don't need to store this anywhere, just make it
-+             * unavailable for use in the input loop below.
-+             */
-+            cum.arg_slot = 1;
-+            break;
-         default:
-             qemu_build_not_reached();
-         }
-@@ -757,6 +796,9 @@ static void init_call_layout(TCGHelperInfo *info)
-             case TCG_CALL_ARG_NORMAL:
-                 layout_arg_normal_n(&cum, info, 128 / TCG_TARGET_REG_BITS);
-                 break;
-+            case TCG_CALL_ARG_BY_REF:
-+                layout_arg_by_ref(&cum, info);
-+                break;
-             default:
-                 qemu_build_not_reached();
-             }
-@@ -771,7 +813,39 @@ static void init_call_layout(TCGHelperInfo *info)
-     assert(cum.info_in_idx <= ARRAY_SIZE(info->in));
-     /* Validate the backend has enough argument space. */
-     assert(cum.arg_slot <= max_reg_slots + max_stk_slots);
--    assert(cum.ref_slot <= max_stk_slots);
-+
-+    /*
-+     * Relocate the "ref_slot" area to the end of the parameters.
-+     * Minimizing this stack offset helps code size for x86,
-+     * which has a signed 8-bit offset encoding.
-+     */
-+    if (cum.ref_slot != 0) {
-+        int ref_base = 0;
-+
-+        if (cum.arg_slot > max_reg_slots) {
-+            int align = __alignof(Int128) / sizeof(tcg_target_long);
-+
-+            ref_base = cum.arg_slot - max_reg_slots;
-+            if (align > 1) {
-+                ref_base = ROUND_UP(ref_base, align);
-+            }
-+        }
-+        assert(ref_base + cum.ref_slot <= max_stk_slots);
-+
-+        if (ref_base != 0) {
-+            for (int i = cum.info_in_idx - 1; i >= 0; --i) {
-+                TCGCallArgumentLoc *loc = &info->in[i];
-+                switch (loc->kind) {
-+                case TCG_CALL_ARG_BY_REF:
-+                case TCG_CALL_ARG_BY_REF_N:
-+                    loc->ref_slot += ref_base;
-+                    break;
-+                default:
-+                    break;
-+                }
-+            }
-+        }
-+    }
- }
- 
- static int indirect_reg_alloc_order[ARRAY_SIZE(tcg_target_reg_alloc_order)];
-@@ -1697,6 +1771,8 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
- 
-         switch (loc->kind) {
-         case TCG_CALL_ARG_NORMAL:
-+        case TCG_CALL_ARG_BY_REF:
-+        case TCG_CALL_ARG_BY_REF_N:
-             op->args[pi++] = temp_arg(ts);
-             break;
- 
-@@ -4398,6 +4474,27 @@ static void load_arg_normal(TCGContext *s, const TCGCallArgumentLoc *l,
-     }
- }
- 
-+static void load_arg_ref(TCGContext *s, int arg_slot, TCGReg ref_base,
-+                         intptr_t ref_off, TCGRegSet *allocated_regs)
-+{
-+    TCGReg reg;
-+    int stk_slot = arg_slot - ARRAY_SIZE(tcg_target_call_iarg_regs);
-+
-+    if (stk_slot < 0) {
-+        reg = tcg_target_call_iarg_regs[arg_slot];
-+        tcg_reg_free(s, reg, *allocated_regs);
-+        tcg_out_addi_ptr(s, reg, ref_base, ref_off);
-+        tcg_regset_set_reg(*allocated_regs, reg);
-+    } else {
-+        reg = tcg_reg_alloc(s, tcg_target_available_regs[TCG_TYPE_PTR],
-+                            *allocated_regs, 0, false);
-+        tcg_out_addi_ptr(s, reg, ref_base, ref_off);
-+        tcg_out_st(s, TCG_TYPE_PTR, reg, TCG_REG_CALL_STACK,
-+                   TCG_TARGET_CALL_STACK_OFFSET
-+                   + stk_slot * sizeof(tcg_target_long));
-+    }
-+}
-+
- static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
- {
-     const int nb_oargs = TCGOP_CALLO(op);
-@@ -4421,6 +4518,16 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
-         case TCG_CALL_ARG_EXTEND_S:
-             load_arg_normal(s, loc, ts, &allocated_regs);
-             break;
-+        case TCG_CALL_ARG_BY_REF:
-+            load_arg_stk(s, loc->ref_slot, ts, allocated_regs);
-+            load_arg_ref(s, loc->arg_slot, TCG_REG_CALL_STACK,
-+                         TCG_TARGET_CALL_STACK_OFFSET
-+                         + loc->ref_slot * sizeof(tcg_target_long),
-+                         &allocated_regs);
-+            break;
-+        case TCG_CALL_ARG_BY_REF_N:
-+            load_arg_stk(s, loc->ref_slot, ts, allocated_regs);
-+            break;
-         default:
-             g_assert_not_reached();
-         }
-@@ -4452,6 +4559,19 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
-         save_globals(s, allocated_regs);
-     }
- 
-+    /*
-+     * If the ABI passes a pointer to the returned struct as the first
-+     * argument, load that now.  Pass a pointer to the output home slot.
-+     */
-+    if (info->out_kind == TCG_CALL_RET_BY_REF) {
-+        TCGTemp *ts = arg_temp(op->args[0]);
-+
-+        if (!ts->mem_allocated) {
-+            temp_allocate_frame(s, ts);
-+        }
-+        load_arg_ref(s, 0, ts->mem_base->reg, ts->mem_offset, &allocated_regs);
-+    }
-+
-     tcg_out_call(s, tcg_call_func(op), info);
- 
-     /* Assign output registers and emit moves if needed.  */
-@@ -4474,6 +4594,15 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
-             s->reg_to_temp[reg] = ts;
-         }
+@@ -148,6 +148,7 @@ static bool tcg_out_sti(TCGContext *s, TCGType type, TCGArg val,
+                         TCGReg base, intptr_t ofs);
+ static void tcg_out_call(TCGContext *s, const tcg_insn_unit *target,
+                          const TCGHelperInfo *info);
++static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot);
+ static bool tcg_target_const_match(int64_t val, TCGType type, int ct);
+ #ifdef TCG_TARGET_NEED_LDST_LABELS
+ static int tcg_out_ldst_finalize(TCGContext *s);
+@@ -718,14 +719,16 @@ static void init_call_layout(TCGHelperInfo *info)
+     case dh_typecode_s64:
+         info->nr_out = 64 / TCG_TARGET_REG_BITS;
+         info->out_kind = TCG_CALL_RET_NORMAL;
+-        assert(info->nr_out <= ARRAY_SIZE(tcg_target_call_oarg_regs));
++        /* Query the last register now to trigger any assert early. */
++        tcg_target_call_oarg_reg(info->out_kind, info->nr_out - 1);
          break;
+     case dh_typecode_i128:
+         info->nr_out = 128 / TCG_TARGET_REG_BITS;
+         info->out_kind = TCG_CALL_RET_NORMAL; /* TODO */
+         switch (/* TODO */ TCG_CALL_RET_NORMAL) {
+         case TCG_CALL_RET_NORMAL:
+-            assert(info->nr_out <= ARRAY_SIZE(tcg_target_call_oarg_regs));
++            /* Query the last register now to trigger any assert early. */
++            tcg_target_call_oarg_reg(info->out_kind, info->nr_out - 1);
+             break;
+         case TCG_CALL_RET_BY_REF:
+             /*
+@@ -4579,7 +4582,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
+     case TCG_CALL_RET_NORMAL:
+         for (i = 0; i < nb_oargs; i++) {
+             TCGTemp *ts = arg_temp(op->args[i]);
+-            TCGReg reg = tcg_target_call_oarg_regs[i];
++            TCGReg reg = tcg_target_call_oarg_reg(TCG_CALL_RET_NORMAL, i);
+ 
+             /* ENV should not be modified.  */
+             tcg_debug_assert(!temp_readonly(ts));
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index 2279a14c11..dfe569dd8c 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -63,9 +63,13 @@ static const int tcg_target_call_iarg_regs[8] = {
+     TCG_REG_X0, TCG_REG_X1, TCG_REG_X2, TCG_REG_X3,
+     TCG_REG_X4, TCG_REG_X5, TCG_REG_X6, TCG_REG_X7
+ };
+-static const int tcg_target_call_oarg_regs[1] = {
+-    TCG_REG_X0
+-};
 +
-+    case TCG_CALL_RET_BY_REF:
-+        /* The callee has performed a write through the reference. */
-+        for (i = 0; i < nb_oargs; i++) {
-+            TCGTemp *ts = arg_temp(op->args[i]);
-+            ts->val_type = TEMP_VAL_MEM;
-+        }
-+        break;
++static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
++{
++    tcg_debug_assert(kind == TCG_CALL_RET_NORMAL);
++    tcg_debug_assert(slot >= 0 && slot <= 1);
++    return TCG_REG_X0 + slot;
++}
+ 
+ #define TCG_REG_TMP TCG_REG_X30
+ #define TCG_VEC_TMP TCG_REG_V31
+diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+index 2950a29d49..add90ddeb4 100644
+--- a/tcg/arm/tcg-target.c.inc
++++ b/tcg/arm/tcg-target.c.inc
+@@ -79,9 +79,13 @@ static const int tcg_target_reg_alloc_order[] = {
+ static const int tcg_target_call_iarg_regs[4] = {
+     TCG_REG_R0, TCG_REG_R1, TCG_REG_R2, TCG_REG_R3
+ };
+-static const int tcg_target_call_oarg_regs[2] = {
+-    TCG_REG_R0, TCG_REG_R1
+-};
 +
-     default:
-         g_assert_not_reached();
-     }
++static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
++{
++    tcg_debug_assert(kind == TCG_CALL_RET_NORMAL);
++    tcg_debug_assert(slot >= 0 && slot <= 3);
++    return TCG_REG_R0 + slot;
++}
+ 
+ #define TCG_REG_TMP  TCG_REG_R12
+ #define TCG_VEC_TMP  TCG_REG_Q15
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 6a021dda8b..ab6881a4f3 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -109,12 +109,16 @@ static const int tcg_target_call_iarg_regs[] = {
+ #endif
+ };
+ 
+-static const int tcg_target_call_oarg_regs[] = {
+-    TCG_REG_EAX,
+-#if TCG_TARGET_REG_BITS == 32
+-    TCG_REG_EDX
+-#endif
+-};
++static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
++{
++    switch (kind) {
++    case TCG_CALL_RET_NORMAL:
++        tcg_debug_assert(slot >= 0 && slot <= 1);
++        return slot ? TCG_REG_EDX : TCG_REG_EAX;
++    default:
++        g_assert_not_reached();
++    }
++}
+ 
+ /* Constants we accept.  */
+ #define TCG_CT_CONST_S32 0x100
+diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
+index 54b1dcd911..f6b0ed00bb 100644
+--- a/tcg/loongarch64/tcg-target.c.inc
++++ b/tcg/loongarch64/tcg-target.c.inc
+@@ -114,10 +114,12 @@ static const int tcg_target_call_iarg_regs[] = {
+     TCG_REG_A7,
+ };
+ 
+-static const int tcg_target_call_oarg_regs[] = {
+-    TCG_REG_A0,
+-    TCG_REG_A1,
+-};
++static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
++{
++    tcg_debug_assert(kind == TCG_CALL_RET_NORMAL);
++    tcg_debug_assert(slot >= 0 && slot <= 1);
++    return TCG_REG_A0 + slot;
++}
+ 
+ #ifndef CONFIG_SOFTMMU
+ #define USE_GUEST_BASE     (guest_base != 0)
+diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
+index 22b5463f0f..92883176c6 100644
+--- a/tcg/mips/tcg-target.c.inc
++++ b/tcg/mips/tcg-target.c.inc
+@@ -136,10 +136,12 @@ static const TCGReg tcg_target_call_iarg_regs[] = {
+ #endif
+ };
+ 
+-static const TCGReg tcg_target_call_oarg_regs[2] = {
+-    TCG_REG_V0,
+-    TCG_REG_V1
+-};
++static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
++{
++    tcg_debug_assert(kind == TCG_CALL_RET_NORMAL);
++    tcg_debug_assert(slot >= 0 && slot <= 1);
++    return TCG_REG_V0 + slot;
++}
+ 
+ static const tcg_insn_unit *tb_ret_addr;
+ static const tcg_insn_unit *bswap32_addr;
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index d9e4ba8883..781ecfe161 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -186,10 +186,12 @@ static const int tcg_target_call_iarg_regs[] = {
+     TCG_REG_R10
+ };
+ 
+-static const int tcg_target_call_oarg_regs[] = {
+-    TCG_REG_R3,
+-    TCG_REG_R4
+-};
++static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
++{
++    tcg_debug_assert(kind == TCG_CALL_RET_NORMAL);
++    tcg_debug_assert(slot >= 0 && slot <= 1);
++    return TCG_REG_R3 + slot;
++}
+ 
+ static const int tcg_target_callee_save_regs[] = {
+ #ifdef _CALL_DARWIN
+diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+index 6072945ccb..417736cae7 100644
+--- a/tcg/riscv/tcg-target.c.inc
++++ b/tcg/riscv/tcg-target.c.inc
+@@ -113,10 +113,12 @@ static const int tcg_target_call_iarg_regs[] = {
+     TCG_REG_A7,
+ };
+ 
+-static const int tcg_target_call_oarg_regs[] = {
+-    TCG_REG_A0,
+-    TCG_REG_A1,
+-};
++static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
++{
++    tcg_debug_assert(kind == TCG_CALL_RET_NORMAL);
++    tcg_debug_assert(slot >= 0 && slot <= 1);
++    return TCG_REG_A0 + slot;
++}
+ 
+ #define TCG_CT_CONST_ZERO  0x100
+ #define TCG_CT_CONST_S12   0x200
+diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
+index 8663a963a6..50655e9d1d 100644
+--- a/tcg/s390x/tcg-target.c.inc
++++ b/tcg/s390x/tcg-target.c.inc
+@@ -390,9 +390,12 @@ static const int tcg_target_call_iarg_regs[] = {
+     TCG_REG_R6,
+ };
+ 
+-static const int tcg_target_call_oarg_regs[] = {
+-    TCG_REG_R2,
+-};
++static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
++{
++    tcg_debug_assert(kind == TCG_CALL_RET_NORMAL);
++    tcg_debug_assert(slot == 0);
++    return TCG_REG_R2;
++}
+ 
+ #define S390_CC_EQ      8
+ #define S390_CC_LT      4
+diff --git a/tcg/sparc64/tcg-target.c.inc b/tcg/sparc64/tcg-target.c.inc
+index f6a8a8e605..9b5afb8248 100644
+--- a/tcg/sparc64/tcg-target.c.inc
++++ b/tcg/sparc64/tcg-target.c.inc
+@@ -133,12 +133,12 @@ static const int tcg_target_call_iarg_regs[6] = {
+     TCG_REG_O5,
+ };
+ 
+-static const int tcg_target_call_oarg_regs[] = {
+-    TCG_REG_O0,
+-    TCG_REG_O1,
+-    TCG_REG_O2,
+-    TCG_REG_O3,
+-};
++static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
++{
++    tcg_debug_assert(kind == TCG_CALL_RET_NORMAL);
++    tcg_debug_assert(slot >= 0 && slot <= 3);
++    return TCG_REG_O0 + slot;
++}
+ 
+ #define INSN_OP(x)  ((x) << 30)
+ #define INSN_OP2(x) ((x) << 22)
+diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+index 633345d74b..cd53cb6b6b 100644
+--- a/tcg/tci/tcg-target.c.inc
++++ b/tcg/tci/tcg-target.c.inc
+@@ -200,12 +200,12 @@ static const int tcg_target_reg_alloc_order[] = {
+ /* No call arguments via registers.  All will be stored on the "stack". */
+ static const int tcg_target_call_iarg_regs[] = { };
+ 
+-static const int tcg_target_call_oarg_regs[] = {
+-    TCG_REG_R0,
+-#if TCG_TARGET_REG_BITS == 32
+-    TCG_REG_R1
+-#endif
+-};
++static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
++{
++    tcg_debug_assert(kind == TCG_CALL_RET_NORMAL);
++    tcg_debug_assert(slot >= 0 && slot < 64 / TCG_TARGET_REG_BITS);
++    return TCG_REG_R0 + slot;
++}
+ 
+ #ifdef CONFIG_DEBUG_TCG
+ static const char *const tcg_target_reg_names[TCG_TARGET_NB_REGS] = {
 -- 
 2.34.1
 
