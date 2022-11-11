@@ -2,80 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B5862585B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:31:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E37CA625866
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 11:32:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otRIm-0007IX-DF; Fri, 11 Nov 2022 05:30:24 -0500
+	id 1otRJK-0007Tr-9U; Fri, 11 Nov 2022 05:30:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otRIj-0007IJ-KA
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:30:21 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1otRIh-0000GK-VK
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:30:21 -0500
-Received: by mail-wr1-x436.google.com with SMTP id z14so5885296wrn.7
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 02:30:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3tzCq5of27kWvYBqp9SgucldvRR784nX87pVlQEN3+8=;
- b=cZatBe7lCxe4QClz4+syGNTwyPegWTlO0rFt6mAeYNVXF+L0y16g8pqyFLGT4hnppd
- jhjRsalgsEbmcu0wWWnqRb0wQookgvpjwPa/KxeImCQiLinvkd9fr6KnVmQ4Xsh0QUeX
- zJ+JmmGc6J2HbTw674e9c4VU9/X9QUdQDq+2axIX8AqdBKsjmst4czOo0zchnE3n2xmb
- 4ExKL0Z8NBt3HHoihjX/bby6D5CIJ9DHwGTMnEw5Emn41wJVob+vcYQutPgtDMIxrQzH
- XsArBziza6uos0Qy1bw+4BGrSjyTuQtubv2dFiuARCVXwb6zJGWCFMJkastjIW46PGXl
- GGCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3tzCq5of27kWvYBqp9SgucldvRR784nX87pVlQEN3+8=;
- b=4crgf+DDSQfIiOckn+lXm5zV8So5yxsZkXaf00FQcIH1FTbBpG9a4XnN63XXhVcU+s
- 4ta6xELuLgCYZ0vRWHc1WFKMM3Jmfteki08Iowqty712Ytfw0ehr8aim6NaJk1VKmjJr
- RfKx+jxIPHMK6RnQr0rr4XcsFcrvrsvrgZFimCA8enQhMe1VYaRyYPkKqtXqGgrVbjDp
- 1c0oo1qnXExTfF5SfakO0D0b9niSLcuISbTFfS3mldcksoYRdd9uoOJCCyDoC+hki+W5
- Yg+hfsc2Zp+S1CPH71CX6hdUQCf8rQAKfTTN+R7qb9BDwIjKbQHf19Ti7NiCNqohoF/6
- Wtyg==
-X-Gm-Message-State: ANoB5pleeSRrCgYEfoKEVovh7+hA2bYHvUNOA8bRpqqu9twbsaGBn9Hs
- E6NIyKm2dbn18T0Ty9waZcfqlw==
-X-Google-Smtp-Source: AA0mqf4ylO5lFCfTMEzjFspNcfr/Yi3R4WQbyVssAEzPT44mzc9Dbsi1zNt5NHaMbltw0YKRVlG+qw==
-X-Received: by 2002:a5d:63c1:0:b0:236:7af8:9734 with SMTP id
- c1-20020a5d63c1000000b002367af89734mr845825wrw.301.1668162617204; 
- Fri, 11 Nov 2022 02:30:17 -0800 (PST)
-Received: from [192.168.7.115] ([109.111.120.167])
- by smtp.gmail.com with ESMTPSA id
- f24-20020a1cc918000000b003b4935f04a4sm2999957wmb.5.2022.11.11.02.30.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 02:30:16 -0800 (PST)
-Message-ID: <c8d33127-5ea8-5196-09e6-2fb0362fe39c@linaro.org>
-Date: Fri, 11 Nov 2022 11:30:14 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otRJH-0007Ob-6F
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:30:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1otRJF-0000ee-Gy
+ for qemu-devel@nongnu.org; Fri, 11 Nov 2022 05:30:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668162652;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pnGgu3ZpwQdhGfGKC3wZz9u/h0b1aQczFzY4/hPRxKI=;
+ b=SbhWhefW9t9vYCMjhJ5IAy5Gisqkajg6W9+mYOONG179QoFK/hg7d6mERBwPqmz8O8OIeR
+ kMhvjJPQyJPTDFn1d9TjLhVsnRsuLiFfgn60XInDjwqdwwpFiJiTqIaohLJeDHdzRT3fW6
+ X/+gk4+XOMHdycY2m5V/UUK/o2Z+FtI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-437-jLQdUJniNVuq7NioX7CdnQ-1; Fri, 11 Nov 2022 05:30:51 -0500
+X-MC-Unique: jLQdUJniNVuq7NioX7CdnQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C4DD7101A528
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 10:30:50 +0000 (UTC)
+Received: from thuth.com (dhcp-192-232.str.redhat.com [10.33.192.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 56C16207B33D;
+ Fri, 11 Nov 2022 10:30:50 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PULL 0/8] Misc fixes
+Date: Fri, 11 Nov 2022 11:30:40 +0100
+Message-Id: <20221111103048.202519-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH v2 17/19] hw/9pfs: Update synth fs driver for Windows
-Content-Language: en-US
-To: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org
-Cc: Guohuai Shi <guohuai.shi@windriver.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>
-References: <20221111042225.1115931-1-bin.meng@windriver.com>
- <20221111042225.1115931-18-bin.meng@windriver.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20221111042225.1115931-18-bin.meng@windriver.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,21 +73,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/11/22 05:22, Bin Meng wrote:
-> From: Guohuai Shi <guohuai.shi@windriver.com>
-> 
-> Adapt synth fs driver for Windows in preparation to running qtest
-> 9p testing on Windows.
-> 
-> Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
-> 
-> (no changes since v1)
-> 
->   hw/9pfs/9p-synth.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+ Hi Stefan!
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+The following changes since commit 2ccad61746ca7de5dd3e25146062264387e43bd4:
+
+  Merge tag 'pull-tcg-20221109' of https://gitlab.com/rth7680/qemu into staging (2022-11-09 13:26:45 -0500)
+
+are available in the Git repository at:
+
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-11-11
+
+for you to fetch changes up to 2cb40d446fac6a2aeccba7687448a9f48ec6b6c6:
+
+  Fix several typos in documentation (found by codespell) (2022-11-11 09:39:25 +0100)
+
+----------------------------------------------------------------
+* Fix "unused variable" warnings from Clang 15
+* Allow building of guest-agent without emulators or tools
+* White space clean-ups
+* Fixes for typos in the documentation
+
+----------------------------------------------------------------
+Ahmed Abouzied (1):
+      net: Replace TAB indentations with spaces
+
+Miroslav Rezanina (4):
+      rtl8139: Remove unused variable
+      tulip: Remove unused variable
+      qemu-img: remove unused variable
+      host-libusb: Remove unused variable
+
+Stefan Weil (1):
+      Fix several typos in documentation (found by codespell)
+
+Thomas Huth (2):
+      libdecnumber/dpd/decimal64: Fix compiler warning from Clang 15
+      qga: Allow building of the guest agent without system emulators or tools
+
+ docs/devel/acpi-bits.rst       |    2 +-
+ docs/system/devices/can.rst    |    5 +-
+ qapi/virtio.json               |    4 +-
+ hw/net/can/ctu_can_fd_frame.h  |  180 +++---
+ hw/net/can/ctu_can_fd_regs.h   | 1260 ++++++++++++++++++++--------------------
+ hw/net/e1000_regs.h            |   30 +-
+ hw/net/pcnet.h                 |    4 +-
+ include/exec/memory.h          |    6 +-
+ net/tap-linux.h                |   10 +-
+ tests/qtest/libqos/qgraph.h    |    2 +-
+ hw/net/mcf_fec.c               |    8 +-
+ hw/net/ne2000.c                |  138 ++---
+ hw/net/pcnet.c                 |  136 ++---
+ hw/net/rtl8139.c               |    2 -
+ hw/net/tulip.c                 |    4 +-
+ hw/scsi/esp.c                  |    6 +-
+ hw/usb/host-libusb.c           |   15 -
+ libdecnumber/dpd/decimal64.c   |    3 +-
+ qemu-img.c                     |    4 +-
+ tests/qtest/libqos/virtio-9p.c |    2 +-
+ qapi/meson.build               |    2 +-
+ qemu-options.hx                |    6 +-
+ stubs/meson.build              |    2 +-
+ util/meson.build               |   20 +-
+ 24 files changed, 918 insertions(+), 933 deletions(-)
 
 
