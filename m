@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D9E625D9F
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:57:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D77EC625D9D
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Nov 2022 15:57:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otVRd-00076T-HF; Fri, 11 Nov 2022 09:55:49 -0500
+	id 1otVRc-00075A-2u; Fri, 11 Nov 2022 09:55:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otVRY-00073V-89
+ id 1otVRY-00073W-8N
  for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:45 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1otVRU-0007xm-Ra
+ id 1otVRV-0007xo-UU
  for qemu-devel@nongnu.org; Fri, 11 Nov 2022 09:55:43 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- m7-20020a05600c090700b003cf8a105d9eso3285106wmp.5
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 06:55:40 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id
+ p13-20020a05600c468d00b003cf8859ed1bso3300483wmo.1
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 06:55:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WRTLAcdznhrZedskLf6RFnKz3rdvDI3Rrzd5Vwnc2gw=;
- b=Sh+y+Lb4IUJ8Fl45EFZQNU27hNoNU14n3vGgT+9YA1zz9paCMu7U8Q328Qxef61Wne
- BC8Flz2WtUfuniXiVvosYsAHoisSVBa88e1noBrKEGl/EzVwQrVY2zOmHQAlxOzWO2Ox
- WcNu5GMm3crIJJjQtFejExJBAd4oxiafEIvF5fUQ81uNXByuoXh6NfAY/hp+NjL7kikb
- QpLOsto4U6KDHY2b1JwcZcsHnyPB1ip71v0COt/lhjuCDJMZUtfhMKJ6cwvHQsV/J+nF
- A6ORYyCEcWfQvDjSW5dMva8RRsTkWvM7fuElJrLSX3LZufQvQbiLL4BCL/rtfMc3LTYL
- crMg==
+ bh=GVzdQxsHhnuYq5mRH3xtvS6YyI7O0gS+e+/HR5H+7a8=;
+ b=mBcf2KfbKpC5B1l0tpd425lKEVZ7Is3T0ONaIHhl7IzOlxnLCV1nodqvvfc21fvIy2
+ 1IaajB3RE3Yt7gUhpTNJMiJ9BnosOe7hpXeYupli2zenk7lVo2rvD56Ao60HPfifp67m
+ wVQ/ppmXYR/KeD6+6itBrs4a84g5AS3eRz/kpbhbq5AbfHJPKKnU55Qoc5/DgDr4I6Qj
+ NpNoYoz8GcjFoWqtS8ssfPf5FdzADkaCzwwWF+c+r5JEJh5eNk9uoPD1cJOSALT+3Ugu
+ Xjry66L9KJF6toLpbeYRhkPeZaht992LRt0k34H3k/8BHmZwuj9rSCAdf/i6MAgxgVIp
+ 4qRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WRTLAcdznhrZedskLf6RFnKz3rdvDI3Rrzd5Vwnc2gw=;
- b=JEzuj3IBXlmKtRF3cFpFRYIHHGpTB0/BbhqTlg6o4Y4LXwu0pZoqWHMtcwAbgLqHrP
- arYT/bUyJ9PZb6LgTOX7DEtoN5i43IEUyUV54cve/4L/lBp34m5Mydo3dl4tW6Qi0HS9
- /v0IGGaKBxLJksoGLdEWCplnCFGTawDEa7Y3uont2KKYULcbu0vG7tl3s28aiTqr08xW
- g71ej3taKSPJ0oYrVyEbUf1SYFdCwgp7C9j95gaU1MIxzpK5fbcl/IJh5w9V2S7ej3/o
- s4C43F2XRdViO+MySFUP7qN4PYOEV/Io5NMNNtJMJQBppsTYe3ajEhj4Mq+ouNVDj/YO
- iAdw==
-X-Gm-Message-State: ANoB5pmnPFTTzxFZGXwiRlAgKO82Yh4AriDr89JMLGRAq6n76GNSmq2o
- SuqS+b84vGaecEJoia6ygfKlTw==
-X-Google-Smtp-Source: AA0mqf6Z0nAh5HsTF4YT/H6c2lNHrZC90sf9jdSv0uZtxAgjDH5Q88L/zZgiv/XFYhVPVWTN3QEEVg==
-X-Received: by 2002:a05:600c:19c7:b0:3cf:7066:cf53 with SMTP id
- u7-20020a05600c19c700b003cf7066cf53mr1492095wmq.135.1668178539520; 
+ bh=GVzdQxsHhnuYq5mRH3xtvS6YyI7O0gS+e+/HR5H+7a8=;
+ b=vIRmsg5JNNfBiImoEwPKAVN3zloP9b8GGdpGS8qY8hKxh14RqmtZMXjKgYnscwK/Pp
+ 8R+nE8q2HuOb7ANBlqJ9b8E1s2xiZKhWGm8nbg8080qDjN5MihHjgh2zKqizUKLcf4EL
+ mLtgim56yeNSx98g0akdtvSTiMqng1akzpksUzll298qqVfa2KfjhYr8C6xhV818jhny
+ N8SkP3DnTwkDAbm+ve5oXinPTDUi4aSoDcUD/A8sye/nCw3YRjp6OcXiliHQ1R7P2u2s
+ J543fKFuwsN24roiNLB/N78knogxkwwZB7f3QCxCPg/V0Ic1RUzQengI2ZvBIxbLz7y+
+ hCMg==
+X-Gm-Message-State: ANoB5pnAZGYArqZh2sdR5Iq/3aHNyIaZxoEbBpM2mqbz0tfoa81chAGW
+ 7nRM0ICF18qL8H2zEM9GwPhDeg==
+X-Google-Smtp-Source: AA0mqf7A+QjXsWjgukBrVmWYB7PGM4XijjajUxKDGSBWg7GQbMZ5vhIsxk8zjr9tEQ4k3D8Oj3WOZw==
+X-Received: by 2002:a05:600c:43d6:b0:3cf:a18d:39b1 with SMTP id
+ f22-20020a05600c43d600b003cfa18d39b1mr1447850wmn.149.1668178539906; 
  Fri, 11 Nov 2022 06:55:39 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- l22-20020a05600c16d600b003cf4eac8e80sm3614909wmn.23.2022.11.11.06.55.32
+ t67-20020a1c4646000000b003cfa622a18asm8890923wma.3.2022.11.11.06.55.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 11 Nov 2022 06:55:38 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EDCE81FFC2;
- Fri, 11 Nov 2022 14:55:30 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 109141FFC3;
+ Fri, 11 Nov 2022 14:55:31 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v2 10/12] tests/avocado: Raise timeout for
- boot_linux.py:BootLinuxPPC64.test_pseries_tcg
-Date: Fri, 11 Nov 2022 14:55:27 +0000
-Message-Id: <20221111145529.4020801-11-alex.bennee@linaro.org>
+Subject: [PATCH  v2 11/12] gitlab: integrate coverage report
+Date: Fri, 11 Nov 2022 14:55:28 +0000
+Message-Id: <20221111145529.4020801-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20221111145529.4020801-1-alex.bennee@linaro.org>
 References: <20221111145529.4020801-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,33 +100,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Peter Maydell <peter.maydell@linaro.org>
+This should hopefully give is nice coverage information about what our
+tests (or at least the subset we are running) have hit. Ideally we
+would want a way to trigger coverage on tests likely to be affected by
+the current commit.
 
-On my machine, a debug build of QEMU takes about 260 seconds to
-complete this test, so with the current timeout value of 180 seconds
-it always times out.  Double the timeout value to 360 so the test
-definitely has enough time to complete.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20221110142901.3832318-1-peter.maydell@linaro.org>
+Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tests/avocado/boot_linux.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .gitlab-ci.d/buildtest.yml | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/tests/avocado/boot_linux.py b/tests/avocado/boot_linux.py
-index 571d33882a..2be4be395d 100644
---- a/tests/avocado/boot_linux.py
-+++ b/tests/avocado/boot_linux.py
-@@ -116,7 +116,7 @@ class BootLinuxPPC64(LinuxTest):
-     :avocado: tags=arch:ppc64
-     """
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 7173749c52..d21b4a1fd4 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -494,7 +494,17 @@ check-gprof-gcov:
+     IMAGE: ubuntu2004
+     MAKE_CHECK_ARGS: check
+   after_script:
+-    - ${CI_PROJECT_DIR}/scripts/ci/coverage-summary.sh
++    - cd build
++    - gcovr --xml-pretty --exclude-unreachable-branches --print-summary
++        -o coverage.xml --root ${CI_PROJECT_DIR} . *.p
++  coverage: /^\s*lines:\s*\d+.\d+\%/
++  artifacts:
++    name: ${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHA}
++    expire_in: 2 days
++    reports:
++      coverage_report:
++        coverage_format: cobertura
++        path: build/coverage.xml
  
--    timeout = 180
-+    timeout = 360
- 
-     def test_pseries_tcg(self):
-         """
+ build-oss-fuzz:
+   extends: .native_build_job_template
 -- 
 2.34.1
 
