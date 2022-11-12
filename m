@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF3AF62673B
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 06:58:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B82A626746
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 07:04:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otjWR-0000jK-Jf; Sat, 12 Nov 2022 00:57:43 -0500
+	id 1otjbd-0002xE-Qg; Sat, 12 Nov 2022 01:03:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otjWP-0000jA-I0
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:57:41 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ id 1otjbO-0002wd-Uk
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 01:02:53 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otjWN-00071U-OH
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:57:41 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- d13-20020a17090a3b0d00b00213519dfe4aso6362660pjc.2
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 21:57:39 -0800 (PST)
+ id 1otjbN-0007ri-4M
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 01:02:50 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ u8-20020a17090a5e4800b002106dcdd4a0so9464814pji.1
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 22:02:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=MPn5a6x5W6FEqVJuysGvsCZDulMVpGiWR/r9ViAtJHM=;
- b=kD89fmEcMLJNhhoToprrX6KzYz6R9fNP7A+RiCz8J3GablqSAEfHrA1Uy0h5WbEJsb
- N0Y0qx1wd3zB0rgv1Ce2Fz4k5LZn6DETOiZdLheGOTcM/iFt6Qqu/UWuiedur7znaILP
- RkbMIJp9T2oJonrNUaXLpbqHx0p/Lldy96icb4shNJAD16XX0oe05ndymdzR9a/feA87
- 1BVP+sT+tyIJBSKloeff/mm47w6ubMohQUjlmOquPG8ajtAFJi1+7aouo5MN7rK9BHsz
- 2ibT9Wlqqw6EI2fHvGo1rpG10W7axw8gwXAOi6cmR0vZWjQ0dzVNRY+m2F1+AHSHexrS
- hdOA==
+ bh=JOZP8f+8wbzXMKgM2Ozbg1RnNg5GQlZy3GsYpt7lY64=;
+ b=sUrv8NR1x0INJMG2RXuT9ZH//sF+UI9qjxy/tKJs+Ah+kwaMjD+X+CB2NahTct1g3U
+ 0ZKyJFeuR0AISAzpobGQPwno7a6XEA/KAoWsUFnFiiyp340nD3VZFVd4jpYUe2kD0t9i
+ pqzeAQLKdMlE1MARnWHspPIZcgv+SoGh33QXeHA3sYwby91UVY8juUHqQ2XBoccZDdKc
+ vdRhl1YIZ9wRSHDG6P2czzRR7Fm/UCBBcy4d0RTHN02z3vNhlsneU+a4U0qidG+1Kk4o
+ VGMsMEzVBBnIHM8I7vlHDG1mIsviBO7Ja5xMHhQPRb5DUXzwgDcHhbjCAQX0TuvId925
+ k5fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MPn5a6x5W6FEqVJuysGvsCZDulMVpGiWR/r9ViAtJHM=;
- b=24hnGG2CaV+H1HpVxHew4BO2DzQQ9Rqy8Lu+eUZ5Q46u2Z7zjBmfsR9/oIp2c3Yy+z
- 8BjBmg8KxKHMstxiBc0Cavl1tnrghC5ITLWD1FMzsFfHJqHXDcqYRKXwVJOj1glZKRt2
- JkWgfHnZUQqWW9vtqK/rJez5q4tZWV2EoYJX/6ZxlVO9sAj4RBc+8DfMbW2dbAToyuZm
- yfmHvDRb4ewqwZahnLmr0gilRM3Np+G+xexs6bCdlwZYV5ujqhdkWI3Vm5lLDvqlwv4j
- 0vF3ahJmW+6m8LYiY8/xmMl1YAqpg6aMkoGGqZ+xY3YaNrYlgCmIZ5mjSjW352qcnrps
- qj+g==
-X-Gm-Message-State: ANoB5pknt258748QzTb8uEA7vfRHdemMcG0W+3ycPalC+BLm3AnxHw5h
- riFlaHU7UxXoCAV1AKcWD6Ki+w==
-X-Google-Smtp-Source: AA0mqf7Vz49+eUH0h2yekWtBUM2/UOPvrHRmDBnRfi96quQDNuProKKCrxGWvL41zmnGAnRQApC0Dg==
-X-Received: by 2002:a17:90a:de0a:b0:20a:db08:8a8a with SMTP id
- m10-20020a17090ade0a00b0020adb088a8amr5168489pjv.141.1668232658067; 
- Fri, 11 Nov 2022 21:57:38 -0800 (PST)
+ bh=JOZP8f+8wbzXMKgM2Ozbg1RnNg5GQlZy3GsYpt7lY64=;
+ b=HBqndja+aIZ5a7Fd+AYstzL0VA0MAQCgMrrPaYAloVeofAv2pQuKSVGuOA4/bYhv4E
+ TkWEAtbOVpEQxUW61XEVpOKQDq+m8pqMSD33Ik3jsi/07nPaWmcKjpcYtsr18y6FF8LM
+ 35mHJ22CL5YAr3VwinABnbiskbWxsjXqZwomJM/1cVXTgfyQZKFvApfEOCVPJfUBZpqt
+ w3Y0oeWTLFuXw8NBHUodCqao3+qMtgz4+hcfDFsXVNzzaSb0dDaiLE60RfqQ1ZrboMsi
+ 57m+ZEz0+u/ViG4Zk7JFhbx+SAYBb5ET3ojt8wU/C8DjNfMoBmZ1jz5+pw3OhTlilJ2O
+ eSng==
+X-Gm-Message-State: ANoB5pmlzcbGv556Qps2I1DxoG40yooRkhSz30sQmDqDgDxBJKl52l2v
+ n27j364ePlB1ilWwg2DTUssj1g==
+X-Google-Smtp-Source: AA0mqf7KJseiDXiYbMQNEGeNHEvJ9uU7sImjwH9Nh1hAHJl0u48pLWbw5vOOHW5oPpS6GTtr/sIifA==
+X-Received: by 2002:a17:90a:343:b0:213:ba14:3032 with SMTP id
+ 3-20020a17090a034300b00213ba143032mr5250085pjf.111.1668232967235; 
+ Fri, 11 Nov 2022 22:02:47 -0800 (PST)
 Received: from ?IPV6:2001:44b8:2176:c800:8228:b676:fb42:ee07?
  (2001-44b8-2176-c800-8228-b676-fb42-ee07.static.ipv6.internode.on.net.
  [2001:44b8:2176:c800:8228:b676:fb42:ee07])
  by smtp.gmail.com with ESMTPSA id
- w18-20020a170902c79200b001754064ac31sm2681683pla.280.2022.11.11.21.57.33
+ i4-20020a056a00004400b0056b1ecef957sm2556750pfk.37.2022.11.11.22.02.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 21:57:37 -0800 (PST)
-Message-ID: <bc004885-a785-b903-f4c3-03292ea66e60@linaro.org>
-Date: Sat, 12 Nov 2022 15:57:30 +1000
+ Fri, 11 Nov 2022 22:02:46 -0800 (PST)
+Message-ID: <8422b442-bc07-5732-fc02-de31441270b1@linaro.org>
+Date: Sat, 12 Nov 2022 16:02:40 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v5 17/20] hw/intc: properly model IOAPIC MSI messages
+Subject: Re: [PATCH v5 18/20] hw/i386: convert apic access to use MemTxAttrs
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Cc: f4bug@amsat.org, Paolo Bonzini <pbonzini@redhat.com>,
  Peter Xu <peterx@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>
 References: <20221111182535.64844-1-alex.bennee@linaro.org>
- <20221111182535.64844-18-alex.bennee@linaro.org>
+ <20221111182535.64844-19-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221111182535.64844-18-alex.bennee@linaro.org>
+In-Reply-To: <20221111182535.64844-19-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,33 +101,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 11/12/22 04:25, Alex Bennée wrote:
-> On the real HW the IOAPIC is wired directly to the APIC and doesn't
-> really generate memory accesses on the main bus of the system. To
-> model this we can use the MTRT_MACHINE requester type and set the id
-> as a magic number to represent the IOAPIC as the source.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> ---
->   include/hw/i386/ioapic_internal.h |  2 ++
->   hw/intc/ioapic.c                  | 35 ++++++++++++++++++++++++-------
->   2 files changed, 30 insertions(+), 7 deletions(-)
-> 
-> diff --git a/include/hw/i386/ioapic_internal.h b/include/hw/i386/ioapic_internal.h
-> index 9880443cc7..a8c7a1418a 100644
-> --- a/include/hw/i386/ioapic_internal.h
-> +++ b/include/hw/i386/ioapic_internal.h
-> @@ -82,6 +82,8 @@
->   
->   #define IOAPIC_VER_ENTRIES_SHIFT        16
->   
-> +/* Magic number to identify IOAPIC memory transactions */
-> +#define MEMTX_IOAPIC                    0xA71C
+> +        switch (attrs.requester_type) {
+> +        case MTRT_MACHINE: /* MEMTX_IOPIC */
 
-Closing in on 1337 5p34k -- sure you didn't want a '4' there to start?  ;-)
+Not checking the id?
 
+> +        case MTRT_PCI:     /* PCI signalled MSI */
+> +            break;
+> +        default:
+> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: rejecting write from %d",
+> +                          __func__, attrs.requester_id);
+> +            return MEMTX_ACCESS_ERROR;
+> +        }
+
+Logging the requester_id by itself isn't great -- you need the type to know what you're 
+looking at.
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
