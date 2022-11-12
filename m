@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F233D6267D9
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 08:55:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 691976267E0
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 08:57:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otlKl-00051X-IM; Sat, 12 Nov 2022 02:53:47 -0500
+	id 1otlNt-0006A8-PJ; Sat, 12 Nov 2022 02:57:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1otlKg-00050z-Gr
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 02:53:42 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1otlNo-00069h-GT
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 02:56:57 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
- id 1otlKc-0007SJ-8A
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 02:53:40 -0500
-Received: by mail-ej1-x631.google.com with SMTP id y14so17207846ejd.9
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 23:53:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8QonaILVi/MyRJJUYxZtIVkoO4+8psGEIeZkHRY2Jz4=;
- b=DKPbE/acPcpin8bxXRvNeYGC6rqItYTFdCHRGaCFp5tHS/LzKLoSITrL/0C8Lv92g7
- 8xXfmpzfK0Nj9OzzyhH37yton4cO3XXsjY++1tJZh705fHUJ+cGWooDn1z8OVNtc6Jcu
- v1guwBwNcqxx0SQHGoP9QAT/x+S0Yy5CakgF/W/a344PrrtSwoqJIICC/er/xuix8l1w
- fB+GQnFABBgO1FzlrqRq5thoHAKa6ok47gcHMq9QlONE4ndR8AgeY7/5C9GsuN0zzNu7
- C2CRWzcRe3tLFqN4CsWHuUBUW7LiVsWb/mJzcXTiAn2EiHsHDy1fISkxhBVI3nDQMxD0
- ywBg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1otlNm-0008BK-Jd
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 02:56:56 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ m6-20020a17090a5a4600b00212f8dffec9so6523255pji.0
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 23:56:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=C+IVczPK1NNpHrvMuAE6+Vq0yrAS2+1zbxmQrXIiH6Q=;
+ b=cqtMmSnhVUFc6E/Af7TC6wOC+zs39mLxPTf4riOr7x4q9jX0QlYQ8jmrtUrXc1mXb8
+ /mQbNnk4236VOCNetnCghL7bXSFis3D14q/uxIn594IQmyKN3lNtZfL92LQcnVQCFa7w
+ seyTP+Yncet5Lqarkqkux7icvAfUctzl9B3d2jK/ml66kh2m0Ix1ii1vmyVInHtrjsnb
+ hnHZoPxHUG+0To+dbWcCPI9aRTdqOFuKR9hClaIAfXEMSob7U2+NQzken4PK4y+cUMRu
+ eRuWOM/zVmMGVJuusjUzePQC9BCTAth7QcEvUKQ2VoNvr5HzAzrGVRe0NzCn41W59ycw
+ +Zjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8QonaILVi/MyRJJUYxZtIVkoO4+8psGEIeZkHRY2Jz4=;
- b=HponK4VrmxWO4g+yrOwpskSZDDAL3fTFXZ5QRFBl2qT67zOYMVRXbBZJ84OI4KCL9c
- 3KpmAmrM+S3aXIIhfjbkPtfltE70wp6JV7+EudXYtQls175tndEM5L3hOq6OF+v30Owc
- hgVdb5PH8XZLhBKKtCK9c3lrCWMm3MeOHG83iwtuj9mPT11soDf7U25mdSdWd+DzQcd1
- 4dt0nwzrk3cCeCNWDFh36/tJwClqlwpH2ZJ8mMD8YuU7GvPELLjmipmniDtBIBiwf7Gr
- UOcSuQ8RHFdNncPWpvQabIyi+o7jEv+ar6CECOcz2K65iJ1lJ8nCPNwwO9JM6hcLVfHV
- uGQw==
-X-Gm-Message-State: ANoB5pnbfUCtzqs9NGE+jjlJHDAWtj3y9bQlcOcHvjyCE2M8ytLRfA4p
- OzE0oUxeW4JvPtMI8URJ3WmQrXdIva4a9Oq4+riB
-X-Google-Smtp-Source: AA0mqf6+IbChh7QVPBhPSeg6icSYRv7zPV8vwzbxpkuyABDs+8mXQwyy/SbeThPaTHKJA0qWjjY0ELTQzf7vsZO/jvQ=
-X-Received: by 2002:a17:906:7ac6:b0:7ae:6746:f26b with SMTP id
- k6-20020a1709067ac600b007ae6746f26bmr4472659ejo.171.1668239612967; Fri, 11
- Nov 2022 23:53:32 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=C+IVczPK1NNpHrvMuAE6+Vq0yrAS2+1zbxmQrXIiH6Q=;
+ b=TaYFcHAng0V+sC+sEf8Pzd5ZbY9TQO/TyYFXRWBafMpsZ/fxcrWUcuKhXPj3KlP5LE
+ SEMkrIw7ptQbsGQt+KbOPtFnp7kAg8N8qotVEyOK1gnOwHJNsA4MbaEd60UOIHEJIkRE
+ zBWBiE0AQLy1nivSqsaH2yLQH6iAC5WuVllSsFkZYJvJ3F8oKKr+oRPJy2Ec/K8CELKu
+ d2EdrC10XQpCiJ5lUDIXrz+LdhQ8FhZ8JoZqYWxx6PNGd4nhQAcM1+Bi9K4Hn8I8bs2o
+ 6CygxUTpZVK1t6v9meSI37whaA/7asUO0PN5o517NeiDDi08Swz87MmpZcDufoRm8dMj
+ 4HYQ==
+X-Gm-Message-State: ANoB5pneWpvF0PmYMV5CflFZnZgRnNFomMOdPqX7kmT/xYI1hsH67wsY
+ RAi9m5AQAEPNocU9Q14u+Ak+/g9OKy2Ua2mm
+X-Google-Smtp-Source: AA0mqf5o41+/zlwINV58j5+UVrDxLudVAgafMCu0Mo2aBPO+0jtT8rM+qV4tBq7UfTMIDNzeAGFwgw==
+X-Received: by 2002:a17:90a:5e09:b0:212:d299:4758 with SMTP id
+ w9-20020a17090a5e0900b00212d2994758mr5473504pjf.120.1668239811524; 
+ Fri, 11 Nov 2022 23:56:51 -0800 (PST)
+Received: from stoup.lan
+ (2001-44b8-2176-c800-8228-b676-fb42-ee07.static.ipv6.internode.on.net.
+ [2001:44b8:2176:c800:8228:b676:fb42:ee07])
+ by smtp.gmail.com with ESMTPSA id
+ m8-20020a17090a71c800b00213d08fa459sm2743062pjs.17.2022.11.11.23.56.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Nov 2022 23:56:51 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com,
+	eduardo@habkost.net
+Subject: [PATCH for-8.0 0/3] target/i386: cmpxchg8b and cmpxchg16b cleanup
+Date: Sat, 12 Nov 2022 17:56:42 +1000
+Message-Id: <20221112075645.2850679-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20221111124550.35753-1-philmd@linaro.org>
-In-Reply-To: <20221111124550.35753-1-philmd@linaro.org>
-From: Yongji Xie <xieyongji@bytedance.com>
-Date: Sat, 12 Nov 2022 15:53:22 +0800
-Message-ID: <CACycT3s=6uYv2fotr46afh+WE+7N1NcDsRKpURV2RCbKuUoqcw@mail.gmail.com>
-Subject: Re: [PATCH-for-7.2 v2] libvduse: Avoid warning about dangerous use of
- strncpy()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Cc: qemu devel list <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,57 +90,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 11, 2022 at 8:45 PM Philippe Mathieu-Daud=C3=A9
-<philmd@linaro.org> wrote:
->
-> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> GCC 8 added a -Wstringop-truncation warning:
->
->   The -Wstringop-truncation warning added in GCC 8.0 via r254630 for
->   bug 81117 is specifically intended to highlight likely unintended
->   uses of the strncpy function that truncate the terminating NUL
->   character from the source string.
->
-> Here the next line indeed unconditionally zeroes the last byte, but
-> 1/ the buffer has been calloc'd, so we don't need to add an extra
-> byte, and 2/ we called vduse_name_is_invalid() which checked the
-> string length, so we can simply call strcpy().
->
-> This fixes when using gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0:
->
->   [42/666] Compiling C object subprojects/libvduse/libvduse.a.p/libvduse.=
-c.o
->   FAILED: subprojects/libvduse/libvduse.a.p/libvduse.c.o
->   cc -m64 -mcx16 -Isubprojects/libvduse/libvduse.a.p -Isubprojects/libvdu=
-se -I../../subprojects/libvduse [...] -o subprojects/libvduse/libvduse.a.p/=
-libvduse.c.o -c ../../subprojects/libvduse/libvduse.c
->   In file included from /usr/include/string.h:495,
->                    from ../../subprojects/libvduse/libvduse.c:24:
->   In function =E2=80=98strncpy=E2=80=99,
->       inlined from =E2=80=98vduse_dev_create=E2=80=99 at ../../subproject=
-s/libvduse/libvduse.c:1312:5:
->   /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error: =
-=E2=80=98__builtin_strncpy=E2=80=99 specified bound 256 equals destination =
-size [-Werror=3Dstringop-truncation]
->     106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (=
-__dest));
->         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
->   cc1: all warnings being treated as errors
->   ninja: build stopped: cannot make progress due to previous errors.
->
-> Fixes: d9cf16c0be ("libvduse: Replace strcpy() with strncpy()")
-> Suggested-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> ---
-> Supersedes: <20220919192306.52729-1-f4bug@amsat.org>
-> Cc: Xie Yongji <xieyongji@bytedance.com>
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> ---
->  subprojects/libvduse/libvduse.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
+Use the new common functions and avoid rolling our own helpers.
 
-Reviewed-by: Xie Yongji <xieyongji@bytedance.com>
+r~
+
+Based-on: 20221111074101.2069454-1-richard.henderson@linaro.org
+("tcg: Support for Int128 with helpers")
+
+Richard Henderson (3):
+  target/i386: Split out gen_cmpxchg8b, gen_cmpxchg16b
+  target/i386: Inline cmpxchg8b
+  target/i386: Inline cmpxchg16b
+
+ target/i386/helper.h         |   6 --
+ target/i386/tcg/mem_helper.c | 126 -----------------------------------
+ target/i386/tcg/translate.c  | 126 ++++++++++++++++++++++++++++++-----
+ 3 files changed, 109 insertions(+), 149 deletions(-)
+
+-- 
+2.34.1
+
 
