@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D38662672B
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 06:37:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EEC062672C
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 06:38:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otjC8-00082I-Hb; Sat, 12 Nov 2022 00:36:44 -0500
+	id 1otjDH-0000Wk-JE; Sat, 12 Nov 2022 00:37:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otjC6-000821-MM
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:36:42 -0500
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
+ id 1otjDF-0000VJ-OQ
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:37:53 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otjC5-0003A7-6p
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:36:42 -0500
-Received: by mail-pf1-x430.google.com with SMTP id b185so6553801pfb.9
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 21:36:40 -0800 (PST)
+ id 1otjDD-0003EN-8L
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:37:53 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ m14-20020a17090a3f8e00b00212dab39bcdso9454094pjc.0
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 21:37:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=B5CmKZdv20Fh17i8B2oiw0Q96Yjk01rGk8R9YTBKu+8=;
- b=hIoRyTWiPTjHGEOvA267HQsZoRugtSpNhryTnIZ9PgBr+F2EPpAJEF0lGFDtz7FpVf
- oVxwGIcYN8ngbUnHMhf0eKXkII5Ic8mBRjnDLpKWKVf2of++K91lVj+4jw0Bx1R5PYEq
- odsFG8lG1pNYrQxl3SuOUhgndhw8MFs3U3qZzEC4tvF3U0otVQ+b2GGsmX8TSJVRjghy
- CZt6rZhuBQjwluSaO3Nu730cQu76/jxqpCOKpRiAu/zN8RE/MdMc5PMk9GE7LpayghG4
- jqqhQKvjDzw6SB/PL4yWNkcwJo9DF9/4K5cORIPbr2AX591yKUXexV+hXsNPEJ1SUaKq
- oa8A==
+ bh=SfV4Y7/0tmw4GFvMOuH5BwgVZFBMT1pBOulYUOD7s2A=;
+ b=nX9U7VO1O3YSdNYfGo2RfkkcL79FtkHR/1vUZKHlBXdj7sPHmncbmcwKB1foss5lGP
+ w6hfVz1OIlM/vFVgGquAExdPlAQrEupEB4KEEw0VeU0AT9odorAkhpPLkt+AjtvVeY8j
+ XoxK4mQ/vA6T4mg8ymZAu05gQoXTjTX3t7PZYqGBGYrQQ53ubVXD1pCQiMHlSj6Rze2h
+ /vGREMM/zF4U+43A/BWK7t7NANMyIArAumdFD5hqwrQmWN0oOd5E9zLoeSAkkXyOzU38
+ pWzxBJwSZqDxy03UaRgdtIvxh1y11q4FdhOOgqBFkqYcH047mq3ihcIx2bknz/fciCAP
+ HB0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=B5CmKZdv20Fh17i8B2oiw0Q96Yjk01rGk8R9YTBKu+8=;
- b=NgDEAokNfQZNS9+dcR9FhGGKKlDXORzkfM0vj9CwLTjGaVSs6UJK2pZZOYaw/bbIVO
- 4pfnw5NCd0Rstbd449KitPty3RDc3Xrr1alETxHahMcDJwEra5IiA1lZ65XINmk0vAyA
- Ruy1Lx2aCQ3tbjZBHkeAcy9d6CTp02vJMeC9ZhGKeUbZvYe+9nxX20DAVJljOTIaFIe3
- TgM4NHG/WmsnbxJnBPzCfMMWJb2A1FIzlkh+w3x2hoGJxluu2jDB+wKffgaGj3ywOt3n
- Kt6/EqZY9ukALp6bwN2XJZtKYB5ZZxz7eqvBqa0ee7RFgYGDML1As7uS7tTFL7alnLVu
- R+3w==
-X-Gm-Message-State: ANoB5pmt5NxNLD57nNyBfKVs2xS44wwc0qbo+9QSxac1GM+uhZ1u3ux/
- kFzIcYsAXkS7VGudMICIZSzUdg==
-X-Google-Smtp-Source: AA0mqf7RqjGHu1JQdt3NcBOnj8e1kikou3LK87gwrzMIqmrxVr5MvfI+HenHo6mJ1vwALCnmNotEIQ==
-X-Received: by 2002:a63:f0e:0:b0:46e:b0e3:ee46 with SMTP id
- e14-20020a630f0e000000b0046eb0e3ee46mr4193883pgl.622.1668231399798; 
- Fri, 11 Nov 2022 21:36:39 -0800 (PST)
+ bh=SfV4Y7/0tmw4GFvMOuH5BwgVZFBMT1pBOulYUOD7s2A=;
+ b=WGlc39Qmmt3GO5P0maG45JtCvNNW5lKy8ioiHeeflGTDKeCb0HIArPENLO5K/UqS/d
+ G6/5FZIdmPT+JbVS/oZIG+x/DlnpdTB71K/aN2rVv/FgBt0hToSTwYRzqEbG5pxCPWce
+ KNINbbg5q/2YKsaolAIVeYaGNubh+I+Br1sJokumReRnXPesZcA02suzUurH/33j2Vki
+ NzrAo/gqaOtvxd5VJM2X6tk5rQt8RDVE7sf6nyRXcU90/BK4QAtRzwkFqqwN5KtNTpHV
+ ZTa1j1jZhcOfwIsca2GqwwfFVOaHUrMsMIihXDIyWSmzUxovCmQTyvj5l09J0PyWX1Zn
+ RU0A==
+X-Gm-Message-State: ANoB5plgzGYMjTfEOQRdczOrJYQBVcbm4Zb7zcrzcKwvT8SQKuT20umh
+ 5Qec6S9M8bEZ8UCFrgbu7C9Nfw==
+X-Google-Smtp-Source: AA0mqf4Zo+y2OHnDw5Q+5j9Pnx/HDDTusICHHiL7tzyexSPgTI0rhavd7g/k1KO+hH7H2+P5Kt/dpw==
+X-Received: by 2002:a17:90a:bc95:b0:216:cdf6:54c0 with SMTP id
+ x21-20020a17090abc9500b00216cdf654c0mr5171843pjr.34.1668231469656; 
+ Fri, 11 Nov 2022 21:37:49 -0800 (PST)
 Received: from ?IPV6:2001:44b8:2176:c800:8228:b676:fb42:ee07?
  (2001-44b8-2176-c800-8228-b676-fb42-ee07.static.ipv6.internode.on.net.
  [2001:44b8:2176:c800:8228:b676:fb42:ee07])
  by smtp.gmail.com with ESMTPSA id
- q7-20020aa78427000000b0056baca45977sm2490742pfn.21.2022.11.11.21.36.37
+ b191-20020a621bc8000000b00562019b961asm2484035pfb.188.2022.11.11.21.37.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 21:36:39 -0800 (PST)
-Message-ID: <a3d83f6c-a2b6-888c-19be-fe7d6b47017f@linaro.org>
-Date: Sat, 12 Nov 2022 15:36:33 +1000
+ Fri, 11 Nov 2022 21:37:49 -0800 (PST)
+Message-ID: <0d89e091-cd69-8ab0-5c41-e86c796fa286@linaro.org>
+Date: Sat, 12 Nov 2022 15:37:44 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v5 09/20] hw/arm: remove current_cpu hack from pxa2xx
+Subject: Re: [PATCH v5 10/20] target/microblaze: initialise MemTxAttrs for CPU
  access
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Cc: f4bug@amsat.org, Peter Maydell <peter.maydell@linaro.org>,
- "open list:PXA2XX" <qemu-arm@nongnu.org>
+Cc: f4bug@amsat.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 References: <20221111182535.64844-1-alex.bennee@linaro.org>
- <20221111182535.64844-10-alex.bennee@linaro.org>
+ <20221111182535.64844-11-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221111182535.64844-10-alex.bennee@linaro.org>
+In-Reply-To: <20221111182535.64844-11-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,13 +99,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 11/12/22 04:25, Alex Bennée wrote:
-> We can derive the correct CPU from CPUARMState so lets not rely on
-> current_cpu.
+> Both of these functions deal with CPU based access (as is evidenced by
+> the secure check straight after). Use the new MEMTXATTRS_CPU
+> constructor to ensure the correct CPU id is filled in should it ever
+> be needed by any devices later.
 > 
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   hw/arm/pxa2xx.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   target/microblaze/helper.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
