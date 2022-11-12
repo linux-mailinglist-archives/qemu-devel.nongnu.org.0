@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48EE762693E
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 12:42:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57BA26269D9
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 15:17:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otosl-0002lN-6V; Sat, 12 Nov 2022 06:41:07 -0500
+	id 1otrIK-0002Vd-08; Sat, 12 Nov 2022 09:15:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1otosf-0002kn-DK
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 06:41:01 -0500
-Received: from speedy.comstyle.com ([206.51.28.2] helo=mail.comstyle.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1otosd-0008Tf-PW
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 06:41:01 -0500
-Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4N8YY92dB9z8PbP;
- Sat, 12 Nov 2022 06:40:45 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=date:from
- :to:cc:subject:message-id:mime-version:content-type; s=default;
- bh=OQZ5fC2oIGbditZ6PL8HzM4gAgU=; b=Kqnq1C1LGvjr6cobm2s32dhMWHBE
- IlyeI5uAR48dsG7W1gTy2NrqaoonPsGZBbHsm2/nW4b/JYVoh+qNaSBbiGnLrpDo
- kI75btRtTotgsZdxSlXUt06jT1ovsTndsOWMD1GZZ3L1Be6lw6CgiiPJRgs7cZOU
- 7xabq3P8tm64pIk=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=date:from:to
- :cc:subject:message-id:mime-version:content-type; q=dns; s=
- default; b=OrjzkVGru8+F3GpZv9hhaZR2C5B5lupFdcSQw8ZO4vsGqyq4wuyvU
- ySAh3MgavyR2K89T04XEE/CQNT0ckSv5HiK+yeGOSg1WtBY+vo3hlsDsAIj2nQje
- PM+mxEdArmce574/+E+RwfLOXUUYevHMpfymbP92sOMcZsE0GEFTeQ=
-Received: from humpty.home.comstyle.com (unknown
- [IPv6:2001:470:b050:3:6d50:1d1b:ba5e:b2c4])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
- (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4N8YY91hClz8PbN;
- Sat, 12 Nov 2022 06:40:45 -0500 (EST)
-Date: Sat, 12 Nov 2022 06:40:43 -0500
-From: Brad Smith <brad@comstyle.com>
-To: Michael Roth <michael.roth@amd.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: [PATCH] qga: Add initial OpenBSD and NetBSD support
-Message-ID: <Y2+GO5jyd9E2uCT9@humpty.home.comstyle.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1otrIE-0002OR-CC
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 09:15:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1otrIC-0001MO-Fb
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 09:15:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668262529;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WLv9aAgV6DV7arzF1F/D3RwSJHZyVmSOKD74NXUpCg8=;
+ b=cHS/TEfJSfr1cQ9a+qBN8ir2Rv7eZnLBnaosfOtx2Du7VYX+2iDQ8enaXCYhny0HAqnLV0
+ GJi2DGyAt9tQWojTfZVnxr7Hbx7Pc45jtqWEe1CxEUubB0DAoxjhcPzXfZG/OCJ8lOYMf6
+ Q+3cvc03TQxIMMmU35F1zsm0kY4bp64=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-187-9GumWu5oMoen6TRsDImwOQ-1; Sat, 12 Nov 2022 09:15:26 -0500
+X-MC-Unique: 9GumWu5oMoen6TRsDImwOQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 48D4E85A583
+ for <qemu-devel@nongnu.org>; Sat, 12 Nov 2022 14:15:26 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B265E40C2066;
+ Sat, 12 Nov 2022 14:15:25 +0000 (UTC)
+Date: Fri, 11 Nov 2022 21:32:17 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PULL 0/8] Misc fixes
+Message-ID: <Y28FsebouRt72Ty6@fedora>
+References: <20221111103048.202519-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="LvNJvbD37iy6zzma"
 Content-Disposition: inline
-Received-SPF: pass client-ip=206.51.28.2; envelope-from=brad@comstyle.com;
- helo=mail.comstyle.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20221111103048.202519-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
+ DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,101 +78,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-qga: Add initial OpenBSD and NetBSD support
 
-Signed-off-by: Brad Smith <brad@comstyle.com>
----
- meson.build          | 2 +-
- qga/commands-bsd.c   | 5 +++++
- qga/commands-posix.c | 9 +++++++--
- qga/main.c           | 6 +++---
- 4 files changed, 16 insertions(+), 6 deletions(-)
+--LvNJvbD37iy6zzma
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/meson.build b/meson.build
-index cf3e517e56..5556356f14 100644
---- a/meson.build
-+++ b/meson.build
-@@ -75,7 +75,7 @@ have_tools = get_option('tools') \
-   .allowed()
- have_ga = get_option('guest_agent') \
-   .disable_auto_if(not have_system and not have_tools) \
--  .require(targetos in ['sunos', 'linux', 'windows', 'freebsd'],
-+  .require(targetos in ['sunos', 'linux', 'windows', 'freebsd', 'netbsd', 'openbsd'],
-            error_message: 'unsupported OS for QEMU guest agent') \
-   .allowed()
- have_block = have_system or have_tools
-diff --git a/qga/commands-bsd.c b/qga/commands-bsd.c
-index 15cade2d4c..17bddda1cf 100644
---- a/qga/commands-bsd.c
-+++ b/qga/commands-bsd.c
-@@ -21,7 +21,12 @@
- #include <sys/ucred.h>
- #include <sys/mount.h>
- #include <net/if_dl.h>
-+#if defined(__NetBSD__) || defined(__OpenBSD__)
-+#include <net/if_arp.h>
-+#include <netinet/if_ether.h>
-+#else
- #include <net/ethernet.h>
-+#endif
- #include <paths.h>
- 
- #if defined(CONFIG_FSFREEZE) || defined(CONFIG_FSTRIM)
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 32493d6383..86be320a1b 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -45,7 +45,12 @@
- #include <arpa/inet.h>
- #include <sys/socket.h>
- #include <net/if.h>
-+#if defined(__NetBSD__) || defined(__OpenBSD__)
-+#include <net/if_arp.h>
-+#include <netinet/if_ether.h>
-+#else
- #include <net/ethernet.h>
-+#endif
- #include <sys/types.h>
- #ifdef CONFIG_SOLARIS
- #include <sys/sockio.h>
-@@ -2881,7 +2886,7 @@ static int guest_get_network_stats(const char *name,
-     return -1;
- }
- 
--#ifndef __FreeBSD__
-+#ifndef CONFIG_BSD
- /*
-  * Fill "buf" with MAC address by ifaddrs. Pointer buf must point to a
-  * buffer with ETHER_ADDR_LEN length at least.
-@@ -2930,7 +2935,7 @@ bool guest_get_hw_addr(struct ifaddrs *ifa, unsigned char *buf,
-     close(sock);
-     return true;
- }
--#endif /* __FreeBSD__ */
-+#endif /* CONFIG_BSD */
- 
- /*
-  * Build information about guest interfaces
-diff --git a/qga/main.c b/qga/main.c
-index b3580508fa..0865c992f0 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -40,11 +40,11 @@
- #include "commands-common.h"
- 
- #ifndef _WIN32
--#ifdef __FreeBSD__
-+#ifdef CONFIG_BSD
- #define QGA_VIRTIO_PATH_DEFAULT "/dev/vtcon/org.qemu.guest_agent.0"
--#else /* __FreeBSD__ */
-+#else /* CONFIG_BSD */
- #define QGA_VIRTIO_PATH_DEFAULT "/dev/virtio-ports/org.qemu.guest_agent.0"
--#endif /* __FreeBSD__ */
-+#endif /* CONFIG_BSD */
- #define QGA_SERIAL_PATH_DEFAULT "/dev/ttyS0"
- #define QGA_STATE_RELATIVE_DIR  "run"
- #else
--- 
-2.38.1
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.2 for any user-visible changes.
+
+--LvNJvbD37iy6zzma
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmNvBbAACgkQnKSrs4Gr
+c8iT/Qf+LZ4Vw6QgKyPHYXh2y3fmJMxOKzDql8HUrOs731CXLyzpUlLEW6NCa3LO
+18PwlB9Geu0XoCaCkSmLaZMcsgOotGURHomeeHGJqjYTy5Aj/CJmRbSc+wtrhSif
+jJvZJjkf3DvW9FXAntKiXNE2uhXx3Ts4F1CuJkrK5nqI+ezN5VJWs4qqv1+lsR6A
+mhBK3wImRPv/7ODG2YvAxsxLYuZOZKxnhhk70fuXSMjTlJuS7ck3AN40/RJxcftp
+Kvs4fwxq9ykM7lfQn1jiBK0h7V627nanLYoJKZWt2A55MtI6woMhRHegdRpYLl08
+bLCUSCs2v8OY3NOxMGdpFyikB6WHCw==
+=jRVY
+-----END PGP SIGNATURE-----
+
+--LvNJvbD37iy6zzma--
 
 
