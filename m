@@ -2,61 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B500962699D
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 14:36:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26BA626A06
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 15:41:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otqfG-0005mZ-5Z; Sat, 12 Nov 2022 08:35:18 -0500
+	id 1otrgM-0005Ee-M3; Sat, 12 Nov 2022 09:40:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <conor@kernel.org>)
- id 1otqex-0005jh-DF; Sat, 12 Nov 2022 08:35:02 -0500
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1otrgH-0005C2-JG
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 09:40:27 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <conor@kernel.org>)
- id 1otqet-00020S-Nt; Sat, 12 Nov 2022 08:34:58 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id D875BB808C9;
- Sat, 12 Nov 2022 13:34:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 351F0C433C1;
- Sat, 12 Nov 2022 13:34:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668260092;
- bh=vY/wLB6i21MCFKVGQwf0NgPOgWfgkX7OqbmnNQog3X0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Mn0xWlQnG2Q32w1fk/AS/fXU2AOjIqywnmmYggVvHtPIKEeKWAYOFlURLKpkT9ABT
- R8XSH1kVRKttK7g3HeKv+3I5qyHg9cDrd7+PEeUVT9u1FYR/6Y1fkPykXF9BgRe/Ta
- kFhxS/X5kp2FuF63U9alm+Nbn0RnHML+C1wBhCaoP6eN9vuCO8XefRHmJV0T7t0kGM
- G19Ujh29+kJ4aDtj/YEalfWISIVDeL+ElZW9V7fiTA93cOTdziaAXAByhRh9e+Xk5b
- sYgWwBClCb0VGAMbwatwfJsN5wgEKE5YafQTlLHX75pwCrlI0iDqpJgw7UZoYfiwq5
- a5UykWzT6fFsg==
-From: Conor Dooley <conor@kernel.org>
-To: Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v2 3/3] hw/{misc,
- riscv}: pfsoc: add system controller as unimplemented
-Date: Sat, 12 Nov 2022 13:34:15 +0000
-Message-Id: <20221112133414.262448-4-conor@kernel.org>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20221112133414.262448-1-conor@kernel.org>
-References: <20221112133414.262448-1-conor@kernel.org>
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1otrgD-0006PV-Hm
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 09:40:25 -0500
+Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.57])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4N8dSm1CgtzJnCj;
+ Sat, 12 Nov 2022 22:37:12 +0800 (CST)
+Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
+ kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Sat, 12 Nov 2022 22:40:15 +0800
+To: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
+ <sgarzare@redhat.com>
+CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
+ <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
+ <xiehong@huawei.com>, Longpeng <longpeng2@huawei.com>
+Subject: [PATCH v9 0/5] add generic vDPA device support
+Date: Sat, 12 Nov 2022 22:40:08 +0800
+Message-ID: <20221112144013.1349-1-longpeng2@huawei.com>
+X-Mailer: git-send-email 2.25.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=conor@kernel.org; helo=ams.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemi100025.china.huawei.com (7.221.188.158)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189; envelope-from=longpeng2@huawei.com;
+ helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,261 +60,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  "Longpeng(Mike)" <longpeng2@huawei.com>
+From:  "Longpeng(Mike)" via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Conor Dooley <conor.dooley@microchip.com>
+From: Longpeng <longpeng2@huawei.com>
 
-The system controller on PolarFire SoC is access via a mailbox. The
-control registers for this mailbox lie in the "IOSCB" region & the
-interrupt is cleared via write to the "SYSREG" region. It also has a
-QSPI controller, usually connected to a flash chip, that is used for
-storing FPGA bitstreams and used for In-Application Programming (IAP).
+Hi guys,
 
-Linux has an implementation of the system controller, through which the
-hwrng is accessed, leading to load/store access faults.
+With the generic vDPA device, QEMU won't need to touch the device
+types any more, such like vfio.
 
-Add the QSPI as unimplemented and a very basic (effectively
-unimplemented) version of the system controller's mailbox. Rather than
-purely marking the regions as unimplemented, service the mailbox
-requests by reporting failures and raising the interrupt so a guest can
-better handle the lack of support.
+We can use the generic vDPA device as follow:
+  -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-X
+  Or
+  -M microvm -m 512m -smp 2 -kernel ... -initrd ... -device \
+  vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-x
 
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
- hw/misc/mchp_pfsoc_ioscb.c          | 59 ++++++++++++++++++++++++++++-
- hw/misc/mchp_pfsoc_sysreg.c         | 19 ++++++++--
- hw/riscv/microchip_pfsoc.c          |  6 +++
- include/hw/misc/mchp_pfsoc_ioscb.h  |  3 ++
- include/hw/misc/mchp_pfsoc_sysreg.h |  1 +
- include/hw/riscv/microchip_pfsoc.h  |  1 +
- 6 files changed, 83 insertions(+), 6 deletions(-)
+Changes v9 -> v8:
+    - rename vhost-vdpa-device.rst to vhost-vdpa-generic-device.rst [Jason, Stefano]
+    - emphasize the vhost-vDPA generic device in doc [Jason]
 
-diff --git a/hw/misc/mchp_pfsoc_ioscb.c b/hw/misc/mchp_pfsoc_ioscb.c
-index f976e42f72..d7f27b4402 100644
---- a/hw/misc/mchp_pfsoc_ioscb.c
-+++ b/hw/misc/mchp_pfsoc_ioscb.c
-@@ -24,6 +24,7 @@
- #include "qemu/bitops.h"
- #include "qemu/log.h"
- #include "qapi/error.h"
-+#include "hw/irq.h"
- #include "hw/sysbus.h"
- #include "hw/misc/mchp_pfsoc_ioscb.h"
- 
-@@ -34,6 +35,9 @@
- #define IOSCB_WHOLE_REG_SIZE        0x10000000
- #define IOSCB_SUBMOD_REG_SIZE       0x1000
- #define IOSCB_CCC_REG_SIZE          0x2000000
-+#define IOSCB_CTRL_REG_SIZE         0x800
-+#define IOSCB_QSPIXIP_REG_SIZE      0x200
-+
- 
- /*
-  * There are many sub-modules in the IOSCB module.
-@@ -45,6 +49,8 @@
- #define IOSCB_LANE01_BASE           0x06500000
- #define IOSCB_LANE23_BASE           0x06510000
- #define IOSCB_CTRL_BASE             0x07020000
-+#define IOSCB_QSPIXIP_BASE          0x07020100
-+#define IOSCB_MAILBOX_BASE          0x07020800
- #define IOSCB_CFG_BASE              0x07080000
- #define IOSCB_CCC_BASE              0x08000000
- #define IOSCB_PLL_MSS_BASE          0x0E001000
-@@ -143,6 +149,45 @@ static const MemoryRegionOps mchp_pfsoc_io_calib_ddr_ops = {
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
- 
-+#define SERVICES_SR 0x54
-+
-+static uint64_t mchp_pfsoc_ctrl_read(void *opaque, hwaddr offset,
-+                                     unsigned size)
-+{
-+    MchpPfSoCIoscbState *s = opaque;
-+    uint32_t val = 0;
-+
-+    switch (offset) {
-+    case SERVICES_SR:
-+        /*
-+         * Although some services have no error codes, most do. All services
-+         * that do implement errors, begin their error codes at 1. Treat all
-+         * service requests as failures & return 1.
-+         * See the "PolarFire® FPGA and PolarFire SoC FPGA System Services"
-+         * user guide for more information on service error codes.
-+         */
-+        val = 1;
-+        qemu_irq_raise(s->irq);
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "%s: unimplemented device read "
-+                      "(size %d, offset 0x%" HWADDR_PRIx ")\n",
-+                      __func__, size, offset);
-+    }
-+
-+    return val;
-+}
-+
-+/*
-+ * use the dummy write, since we are always going to report a failed message
-+ * and therefore do not care what service is actually requested
-+ */
-+static const MemoryRegionOps mchp_pfsoc_ctrl_ops = {
-+    .read = mchp_pfsoc_ctrl_read,
-+    .write = mchp_pfsoc_dummy_write,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+};
-+
- static void mchp_pfsoc_ioscb_realize(DeviceState *dev, Error **errp)
- {
-     MchpPfSoCIoscbState *s = MCHP_PFSOC_IOSCB(dev);
-@@ -162,10 +207,18 @@ static void mchp_pfsoc_ioscb_realize(DeviceState *dev, Error **errp)
-                           "mchp.pfsoc.ioscb.lane23", IOSCB_SUBMOD_REG_SIZE);
-     memory_region_add_subregion(&s->container, IOSCB_LANE23_BASE, &s->lane23);
- 
--    memory_region_init_io(&s->ctrl, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
--                          "mchp.pfsoc.ioscb.ctrl", IOSCB_SUBMOD_REG_SIZE);
-+    memory_region_init_io(&s->ctrl, OBJECT(s), &mchp_pfsoc_ctrl_ops, s,
-+                          "mchp.pfsoc.ioscb.ctrl", IOSCB_CTRL_REG_SIZE);
-     memory_region_add_subregion(&s->container, IOSCB_CTRL_BASE, &s->ctrl);
- 
-+    memory_region_init_io(&s->qspixip, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
-+                          "mchp.pfsoc.ioscb.qspixip", IOSCB_QSPIXIP_REG_SIZE);
-+    memory_region_add_subregion(&s->container, IOSCB_QSPIXIP_BASE, &s->qspixip);
-+
-+    memory_region_init_io(&s->mailbox, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
-+                          "mchp.pfsoc.ioscb.mailbox", IOSCB_SUBMOD_REG_SIZE);
-+    memory_region_add_subregion(&s->container, IOSCB_MAILBOX_BASE, &s->mailbox);
-+
-     memory_region_init_io(&s->cfg, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
-                           "mchp.pfsoc.ioscb.cfg", IOSCB_SUBMOD_REG_SIZE);
-     memory_region_add_subregion(&s->container, IOSCB_CFG_BASE, &s->cfg);
-@@ -222,6 +275,8 @@ static void mchp_pfsoc_ioscb_realize(DeviceState *dev, Error **errp)
-                           IOSCB_SUBMOD_REG_SIZE);
-     memory_region_add_subregion(&s->container, IOSCB_IO_CALIB_SGMII_BASE,
-                                 &s->io_calib_sgmii);
-+
-+    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
- }
- 
- static void mchp_pfsoc_ioscb_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/misc/mchp_pfsoc_sysreg.c b/hw/misc/mchp_pfsoc_sysreg.c
-index 89571eded5..9822fb05fd 100644
---- a/hw/misc/mchp_pfsoc_sysreg.c
-+++ b/hw/misc/mchp_pfsoc_sysreg.c
-@@ -24,10 +24,12 @@
- #include "qemu/bitops.h"
- #include "qemu/log.h"
- #include "qapi/error.h"
-+#include "hw/irq.h"
- #include "hw/sysbus.h"
- #include "hw/misc/mchp_pfsoc_sysreg.h"
- 
- #define ENVM_CR         0xb8
-+#define MESSAGE_INT     0x118c
- 
- static uint64_t mchp_pfsoc_sysreg_read(void *opaque, hwaddr offset,
-                                        unsigned size)
-@@ -52,10 +54,18 @@ static uint64_t mchp_pfsoc_sysreg_read(void *opaque, hwaddr offset,
- static void mchp_pfsoc_sysreg_write(void *opaque, hwaddr offset,
-                                     uint64_t value, unsigned size)
- {
--    qemu_log_mask(LOG_UNIMP, "%s: unimplemented device write "
--                  "(size %d, value 0x%" PRIx64
--                  ", offset 0x%" HWADDR_PRIx ")\n",
--                  __func__, size, value, offset);
-+    MchpPfSoCSysregState *s = opaque;
-+    qemu_irq_lower(s->irq);
-+    switch (offset) {
-+    case MESSAGE_INT:
-+        qemu_irq_lower(s->irq);
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "%s: unimplemented device write "
-+                      "(size %d, value 0x%" PRIx64
-+                      ", offset 0x%" HWADDR_PRIx ")\n",
-+                      __func__, size, value, offset);
-+    }
- }
- 
- static const MemoryRegionOps mchp_pfsoc_sysreg_ops = {
-@@ -73,6 +83,7 @@ static void mchp_pfsoc_sysreg_realize(DeviceState *dev, Error **errp)
-                           "mchp.pfsoc.sysreg",
-                           MCHP_PFSOC_SYSREG_REG_SIZE);
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->sysreg);
-+    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
- }
- 
- static void mchp_pfsoc_sysreg_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 2a24e3437a..b10321b564 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -306,6 +306,9 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-     sysbus_realize(SYS_BUS_DEVICE(&s->sysreg), errp);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->sysreg), 0,
-                     memmap[MICROCHIP_PFSOC_SYSREG].base);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->sysreg), 0,
-+                       qdev_get_gpio_in(DEVICE(s->plic),
-+                       MICROCHIP_PFSOC_MAILBOX_IRQ));
- 
-     /* AXISW */
-     create_unimplemented_device("microchip.pfsoc.axisw",
-@@ -459,6 +462,9 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-     sysbus_realize(SYS_BUS_DEVICE(&s->ioscb), errp);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->ioscb), 0,
-                     memmap[MICROCHIP_PFSOC_IOSCB].base);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->ioscb), 0,
-+                       qdev_get_gpio_in(DEVICE(s->plic),
-+                       MICROCHIP_PFSOC_MAILBOX_IRQ));
- 
-     /* FPGA Fabric */
-     create_unimplemented_device("microchip.pfsoc.fabricfic3",
-diff --git a/include/hw/misc/mchp_pfsoc_ioscb.h b/include/hw/misc/mchp_pfsoc_ioscb.h
-index 687b213742..a1104862c8 100644
---- a/include/hw/misc/mchp_pfsoc_ioscb.h
-+++ b/include/hw/misc/mchp_pfsoc_ioscb.h
-@@ -29,6 +29,8 @@ typedef struct MchpPfSoCIoscbState {
-     MemoryRegion lane01;
-     MemoryRegion lane23;
-     MemoryRegion ctrl;
-+    MemoryRegion qspixip;
-+    MemoryRegion mailbox;
-     MemoryRegion cfg;
-     MemoryRegion ccc;
-     MemoryRegion pll_mss;
-@@ -41,6 +43,7 @@ typedef struct MchpPfSoCIoscbState {
-     MemoryRegion cfm_sgmii;
-     MemoryRegion bc_sgmii;
-     MemoryRegion io_calib_sgmii;
-+    qemu_irq irq;
- } MchpPfSoCIoscbState;
- 
- #define TYPE_MCHP_PFSOC_IOSCB "mchp.pfsoc.ioscb"
-diff --git a/include/hw/misc/mchp_pfsoc_sysreg.h b/include/hw/misc/mchp_pfsoc_sysreg.h
-index 546ba68f6a..3cebe40ea9 100644
---- a/include/hw/misc/mchp_pfsoc_sysreg.h
-+++ b/include/hw/misc/mchp_pfsoc_sysreg.h
-@@ -28,6 +28,7 @@
- typedef struct MchpPfSoCSysregState {
-     SysBusDevice parent;
-     MemoryRegion sysreg;
-+    qemu_irq irq;
- } MchpPfSoCSysregState;
- 
- #define TYPE_MCHP_PFSOC_SYSREG "mchp.pfsoc.sysreg"
-diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-index 7e7950dd36..69a686b54a 100644
---- a/include/hw/riscv/microchip_pfsoc.h
-+++ b/include/hw/riscv/microchip_pfsoc.h
-@@ -147,6 +147,7 @@ enum {
-     MICROCHIP_PFSOC_MMUART2_IRQ = 92,
-     MICROCHIP_PFSOC_MMUART3_IRQ = 93,
-     MICROCHIP_PFSOC_MMUART4_IRQ = 94,
-+    MICROCHIP_PFSOC_MAILBOX_IRQ = 96,
- };
- 
- #define MICROCHIP_PFSOC_MANAGEMENT_CPU_COUNT    1
+Changes v8 -> v7:
+    - add migration blocker. [Michael]
+
+Changes v6 -> v7:
+    (v6: https://mail.gnu.org/archive/html/qemu-devel/2022-05/msg02821.html)
+    - rebase. [Jason]
+    - add documentation . [Stefan]
+
+Changes v5 -> v6:
+  Patch 2:
+    - Turn to the original approach in the RFC to initialize the
+      virtio_pci_id_info array. [Michael]
+	  https://lore.kernel.org/all/20220105005900.860-2-longpeng2@huawei.com/
+  Patch 3:
+    - Fix logical error of exception handler around the post_init.
+      [Stefano]
+    - Fix some coding style warnings. [Stefano]
+  Patch 4:
+    - Fix some coding style warnings. [Stefano]
+
+Changes v4 -> v5:
+  Patch 3:
+    - remove vhostfd [Jason]
+    - support virtio-mmio [Jason]
+
+Changes v3 -> v4:
+  v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg877015.html
+  - reorganize the series [Stefano]
+  - fix some typos [Stefano]
+  - fix logical error in vhost_vdpa_device_realize [Stefano]
+
+Changes v2 -> v3
+  Patch 4 & 5:
+    - only call vdpa ioctls in vdpa-dev.c [Stefano, Longpeng]
+    - s/VQS_NUM/VQS_COUNT  [Stefano]
+    - check both vdpa_dev_fd and vdpa_dev [Stefano]
+  Patch 6:
+    - move all steps into vhost_vdpa_device_unrealize. [Stefano]
+
+Changes RFC -> v2
+  Patch 1:
+    - rename 'pdev_id' to 'trans_devid'  [Michael]
+    - only use transitional device id for the devices
+      listed in the spec  [Michael]
+    - use macros to make the id_info table clearer  [Longpeng]
+    - add some modern devices in the id_info table  [Longpeng]
+  Patch 2:
+    - remove the GET_VECTORS_NUM command  [Jason]
+  Patch 4:
+    - expose vdpa_dev_fd as a QOM preperty  [Stefan]
+    - introduce vhost_vdpa_device_get_u32 as a common
+      function to make the code clearer  [Stefan]
+    - fix the misleading description of 'dc->desc'  [Stefano]
+  Patch 5:
+    - check returned number of virtqueues  [Stefan]
+  Patch 6:
+    - init s->num_queues  [Stefano]
+    - free s->dev.vqs  [Stefano]
+
+Longpeng (Mike) (5):
+  virtio: get class_id and pci device id by the virtio id
+  vdpa: add vdpa-dev support
+  vdpa: add vdpa-dev-pci support
+  vdpa-dev: mark the device as unmigratable
+  docs: Add generic vhost-vdpa device documentation
+
+ .../devices/vhost-vdpa-generic-device.rst     |  46 +++
+ hw/virtio/Kconfig                             |   5 +
+ hw/virtio/meson.build                         |   2 +
+ hw/virtio/vdpa-dev-pci.c                      | 102 +++++
+ hw/virtio/vdpa-dev.c                          | 377 ++++++++++++++++++
+ hw/virtio/virtio-pci.c                        |  88 ++++
+ include/hw/virtio/vdpa-dev.h                  |  43 ++
+ include/hw/virtio/virtio-pci.h                |   5 +
+ 8 files changed, 668 insertions(+)
+ create mode 100644 docs/system/devices/vhost-vdpa-generic-device.rst
+ create mode 100644 hw/virtio/vdpa-dev-pci.c
+ create mode 100644 hw/virtio/vdpa-dev.c
+ create mode 100644 include/hw/virtio/vdpa-dev.h
+
 -- 
-2.37.2
+2.23.0
 
 
