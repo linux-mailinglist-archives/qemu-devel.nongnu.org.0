@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D44626A07
+	by mail.lfdr.de (Postfix) with ESMTPS id A2403626A03
 	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 15:41:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otrgM-0005Ec-Lj; Sat, 12 Nov 2022 09:40:30 -0500
+	id 1otrgO-0005J0-KH; Sat, 12 Nov 2022 09:40:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1otrgJ-0005Ca-IP
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 09:40:27 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+ id 1otrgM-0005G0-9l
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 09:40:30 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1otrgH-0006Qy-BK
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 09:40:26 -0500
-Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4N8dX31M8qzmVPM;
- Sat, 12 Nov 2022 22:40:03 +0800 (CST)
+ id 1otrgJ-0006RF-OX
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 09:40:30 -0500
+Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4N8dX73WKSzRns9;
+ Sat, 12 Nov 2022 22:40:07 +0800 (CST)
 Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
  kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Sat, 12 Nov 2022 22:40:19 +0800
+ 15.1.2375.31; Sat, 12 Nov 2022 22:40:20 +0800
 To: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
  <sgarzare@redhat.com>
 CC: <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
  <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
  <xiehong@huawei.com>, Longpeng <longpeng2@huawei.com>
-Subject: [PATCH v9 4/5] vdpa-dev: mark the device as unmigratable
-Date: Sat, 12 Nov 2022 22:40:12 +0800
-Message-ID: <20221112144013.1349-5-longpeng2@huawei.com>
+Subject: [PATCH v9 5/5] docs: Add generic vhost-vdpa device documentation
+Date: Sat, 12 Nov 2022 22:40:13 +0800
+Message-ID: <20221112144013.1349-6-longpeng2@huawei.com>
 X-Mailer: git-send-email 2.25.0.windows.1
 In-Reply-To: <20221112144013.1349-1-longpeng2@huawei.com>
 References: <20221112144013.1349-1-longpeng2@huawei.com>
@@ -43,8 +43,8 @@ X-Originating-IP: [10.174.148.223]
 X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
  kwepemi100025.china.huawei.com (7.221.188.158)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
- helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
+ helo=szxga02-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -69,28 +69,64 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Longpeng <longpeng2@huawei.com>
 
-The generic vDPA device doesn't support migration currently, so
-mark it as unmigratable temporarily.
-
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Longpeng <longpeng2@huawei.com>
 ---
- hw/virtio/vdpa-dev.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../devices/vhost-vdpa-generic-device.rst     | 46 +++++++++++++++++++
+ 1 file changed, 46 insertions(+)
+ create mode 100644 docs/system/devices/vhost-vdpa-generic-device.rst
 
-diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
-index 2885d06cbe..62d83d3423 100644
---- a/hw/virtio/vdpa-dev.c
-+++ b/hw/virtio/vdpa-dev.c
-@@ -327,6 +327,7 @@ static Property vhost_vdpa_device_properties[] = {
- 
- static const VMStateDescription vmstate_vhost_vdpa_device = {
-     .name = "vhost-vdpa-device",
-+    .unmigratable = 1,
-     .minimum_version_id = 1,
-     .version_id = 1,
-     .fields = (VMStateField[]) {
+diff --git a/docs/system/devices/vhost-vdpa-generic-device.rst b/docs/system/devices/vhost-vdpa-generic-device.rst
+new file mode 100644
+index 0000000000..d6db9af755
+--- /dev/null
++++ b/docs/system/devices/vhost-vdpa-generic-device.rst
+@@ -0,0 +1,46 @@
++
++=========================
++vhost-vDPA generic device
++=========================
++
++This document explains the usage of the vhost-vDPA generic device.
++
++Description
++-----------
++
++vDPA(virtio data path acceleration) device is a device that uses a datapath
++which complies with the virtio specifications with vendor specific control
++path.
++
++QEMU provides two types of vhost-vDPA devices to enable the vDPA device, one
++is type sensitive which means QEMU needs to know the actual device type
++(e.g. net, blk, scsi) and another is called "vhost-vDPA generic device" which
++is type insensitive.
++
++The vhost-vDPA generic device builds on the vhost-vdpa subsystem and virtio
++subsystem. It is quite small, but it can support any type of virtio device.
++
++Examples
++--------
++
++Prepare the vhost-vDPA backends first:
++
++::
++  host# ls -l /dev/vhost-vdpa-*
++  crw------- 1 root root 236, 0 Nov  2 00:49 /dev/vhost-vdpa-0
++
++Start QEMU with virtio-mmio bus:
++
++::
++  host# qemu-system                                                  \
++      -M microvm -m 512 -smp 2 -kernel ... -initrd ...               \
++      -device vhost-vdpa-device,vhostdev=/dev/vhost-vdpa-0           \
++      ...
++
++Start QEMU with virtio-pci bus:
++
++::
++  host# qemu-system                                                  \
++      -M pc -m 512 -smp 2                                            \
++      -device vhost-vdpa-device-pci,vhostdev=/dev/vhost-vdpa-0       \
++      ...
 -- 
 2.23.0
 
