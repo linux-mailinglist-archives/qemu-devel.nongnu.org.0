@@ -2,79 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ADBC62670D
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 05:56:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D3A626721
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 06:19:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otiXu-00069s-8U; Fri, 11 Nov 2022 23:55:10 -0500
+	id 1otiu4-0001Vu-0A; Sat, 12 Nov 2022 00:18:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1otiXr-00069W-GL
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 23:55:07 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1otitu-0001V3-9M
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:17:54 -0500
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1otiXp-0004R2-Db
- for qemu-devel@nongnu.org; Fri, 11 Nov 2022 23:55:06 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id
- z5-20020a17090a8b8500b00210a3a2364fso9035041pjn.0
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 20:55:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=UADvWtczIU3wsLfk/BaoeMMQt4Cmv3yBrREhGKJqxxc=;
- b=JTIy10R8jHfMVU0EH5IDyAzioOh3qAnfqz4yuEVDd00UBt0lY86thPZUip+GJJOvU+
- 5kB+fR+Q95+xzdOn4q3FP8767Z4uwjCurRsjqgOVqM+RQamIHO/sQrmhSmRlgOvCHasp
- T/61rnrqDEhenjnTduow4nlMVevs7lERAyEAMaScL780TFTABDcE5MYEHTNyCtT2xVtj
- TBnEIMu3ugEbKDfteFkeCDtnDJYbjFCeCRDbxPdYKaBcJRci0f/AaX51qejm89zM70V+
- h0qqzYY4ZWEEy/WbaLjkVrPtfyHhF76zaKE4/y743oKn6IyH+12Bl2YVEnRDxYCzRhl3
- tj3A==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1otits-0008Pn-Nb
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:17:54 -0500
+Received: by mail-pg1-x530.google.com with SMTP id h193so5914655pgc.10
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 21:17:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jdEY5rg2buHnHBYRCJkkkpTIwzLGOL+iRZExmgQ/VuE=;
+ b=KEGgh8EjsIjetegowfDyoSBpkFlAinhlKpNOvU6FwTQaHKRT8UKOxJJjEsa9xObZUI
+ D9BblJ61e4p5Aeo18DHuyaj+KZ+sYA72lKwrbHp6M7EWZeXe3R8OtIdn2whyN5euQ0+P
+ SkR4yfSq0rLrJF5E3CMuxLr42h03ZqnwD7vUlC1OVHacQXZZMhGU27oUEzCuFEgr3tnV
+ 0AdpsCmGEmL1iot4pgSu74RgwYlJjiMCJ0xbddcX8ArCk3jCR1veo9WmUkTeTJEpaGW5
+ oXCGHP22UgnEPaT8fYsU56+u/JRwvy0eDfAzhvoTh9kp18szfZweu4hLKZQ5OrYqn//y
+ aLQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UADvWtczIU3wsLfk/BaoeMMQt4Cmv3yBrREhGKJqxxc=;
- b=SovZPTJ4VGkH5M3Q+P+s1FpeDcrzFLycd5LEGfLBtfy9Fi6rm9Unhnsn27vYjYfJOR
- ADHmUiJWx/PtsOrGVJgb/7uYlehnG4s25irlKZSDLaLgqQz7ogjIUsUmYkVgTe61p698
- IcGulhPi+c/c0vm1VG0dG0WeOTbobWa+WSKx41Gp/xGJHzNQMT7aLPcyNt/UQBb5ZDxM
- 7kGWlZmNXv/KigdtbeJ496vGnvtFkopj2mL1rYxPMzBqtWgsmtskgfee0xr0m/hWHpfA
- kb/3qVb2Bl1LFeZrEaezUSnNugOiMJTGVC5Q9JFiF/b1iTXBaP+LnZxVORcscttX2F/g
- qi1A==
-X-Gm-Message-State: ANoB5pmjEEMwJ5PYPHy1gcmO0bF/yHknNw2w0hWGtx/oJpGYHEJAHVW0
- j2iix5IlXWV4/5u67zL/CBImBw==
-X-Google-Smtp-Source: AA0mqf73BJp3mjKii8i1WjkgQUvUWtdC55Y4ltleXzZAMk8sv/lFeOLREzfvlvXpki7hmlnq26fMLw==
-X-Received: by 2002:a17:902:d145:b0:181:b25e:e7bc with SMTP id
- t5-20020a170902d14500b00181b25ee7bcmr5595135plt.46.1668228903443; 
- Fri, 11 Nov 2022 20:55:03 -0800 (PST)
-Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.112.147])
- by smtp.googlemail.com with ESMTPSA id
- h4-20020a17090a648400b0021358bd24b9sm5618303pjj.21.2022.11.11.20.55.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 20:55:03 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-To: Ani Sinha <ani@anisinha.ca>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v4] acpi/tests/avocado/bits: some misc fixes
-Date: Sat, 12 Nov 2022 10:24:49 +0530
-Message-Id: <20221112045449.1286533-1-ani@anisinha.ca>
-X-Mailer: git-send-email 2.34.1
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jdEY5rg2buHnHBYRCJkkkpTIwzLGOL+iRZExmgQ/VuE=;
+ b=5kEuHmkbwhiZ634hST88VVf8tGQcJQqLzvItZcKqfUkht4F4J6bAH0Ep6dg7oGR8z2
+ 0eQPJ1cM1Ame+4JpSvWs4nEwTBD4kxtLw1RcC/d0yK0BfgcV3nhc23tS3bPFJDTLWVbf
+ gEX+IkChyyJPTFuG9bjjWyU/F9Qe303J6wncLdglkLISzKUpKtLvA7UAYAapsavzaXjd
+ AizGdvKJYwvewSkWIWzGDI+nLAFtEbqwNsks/GNWRd+R6+HRIcZlKLdH9KtZLpYD0hjK
+ O38FRki1DfV1Y4av3nY1QTRdcdtufHBRXzRqZSKRNmrnMnRdX4QgIiyRPmgWpyS60mfW
+ y5gQ==
+X-Gm-Message-State: ANoB5pmd1DHzneK1nxT8BN/KHtmUE/wEyRXNr1joo2XQgxxQe8QuIBMb
+ LBwbi7xruP0+axEsI15bF4HCRw==
+X-Google-Smtp-Source: AA0mqf6PDnANMuyfX2Uw+Vik7eS97xBY/NaHjlja36+SWaLUylFdyrhaebQpM/3nl3uOPO7Wcv1CPw==
+X-Received: by 2002:a65:6e07:0:b0:456:4faa:7645 with SMTP id
+ bd7-20020a656e07000000b004564faa7645mr4234458pgb.264.1668230271070; 
+ Fri, 11 Nov 2022 21:17:51 -0800 (PST)
+Received: from ?IPV6:2001:44b8:2176:c800:8228:b676:fb42:ee07?
+ (2001-44b8-2176-c800-8228-b676-fb42-ee07.static.ipv6.internode.on.net.
+ [2001:44b8:2176:c800:8228:b676:fb42:ee07])
+ by smtp.gmail.com with ESMTPSA id
+ a11-20020aa7970b000000b00560cdb3784bsm2461490pfg.60.2022.11.11.21.17.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Nov 2022 21:17:50 -0800 (PST)
+Message-ID: <ae05eadc-e729-8c8a-a66a-d51d70de471a@linaro.org>
+Date: Sat, 12 Nov 2022 15:17:44 +1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v5 02/20] target/arm: ensure TCG IO accesses set
+ appropriate MemTxAttrs
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+References: <20221111182535.64844-1-alex.bennee@linaro.org>
+ <20221111182535.64844-3-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20221111182535.64844-3-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1033;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,84 +98,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Most of the changes are trivial. The bits test timeout has now been increased
-to 200 seconds in order to accommodate slower systems and fewer unnecessary
-failures. Removed of the reference to non-existent README file in docs. Some
-minor corrections in the doc file.
+On 11/12/22 04:25, Alex Bennée wrote:
+> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
+> index 3745ac9723..4b6683f90d 100644
+> --- a/target/arm/ptw.c
+> +++ b/target/arm/ptw.c
+> @@ -2634,6 +2634,7 @@ static bool get_phys_addr_twostage(CPUARMState *env, S1Translate *ptw,
+>       s1_lgpgsz = result->f.lg_page_size;
+>       cacheattrs1 = result->cacheattrs;
+>       memset(result, 0, sizeof(*result));
+> +    result->f.attrs = MEMTXATTRS_CPU(env_cpu(env));
 
-CC: Thomas Huth <thuth@redhat.com>
-CC: Michael S. Tsirkin <mst@redhat.com>
-CC: qemu-trivial@nongnu.org
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
----
- docs/devel/acpi-bits.rst   | 12 ++++--------
- tests/avocado/acpi-bits.py |  8 ++++++--
- 2 files changed, 10 insertions(+), 10 deletions(-)
+Ouch.  This means that f.secure has been reset too, which would break Secure EL1 running 
+under Secure EL2.  I'll prepare a fix for 7.2...
 
-changes from v1: address Thomas' suggestions.
-changes from v2: more minor corrections in doc, tags added.
-changes from v3: raised timeout to 200 secs overriding the default
-avocado timeout of 120 secs.
+Anyway,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/docs/devel/acpi-bits.rst b/docs/devel/acpi-bits.rst
-index c9564d871a..56e76338c3 100644
---- a/docs/devel/acpi-bits.rst
-+++ b/docs/devel/acpi-bits.rst
-@@ -16,11 +16,8 @@ end user. The other is that we have more control of what we wanted to test
- and how by directly using acpica interpreter on top of the bios on a running
- system. More details on the inspiration for developing biosbits and its real
- life uses can be found in [#a]_ and [#b]_.
--This directory contains tests written in python using avocado framework that
--exercises the QEMU bios components using biosbits and reports test failures.
- For QEMU, we maintain a fork of bios bits in gitlab along with all the
--dependent submodules:
--https://gitlab.com/qemu-project/biosbits-bits
-+dependent submodules here: https://gitlab.com/qemu-project/biosbits-bits
- This fork contains numerous fixes, a newer acpica and changes specific to
- running this avocado QEMU tests using bits. The author of this document
- is the sole maintainer of the QEMU fork of bios bits repo.
-@@ -38,10 +35,9 @@ Under ``tests/avocado/`` as the root we have:
-    │ ├── bits-config
-    │ │ └── bits-cfg.txt
-    │ ├── bits-tests
--   │ │ ├── smbios.py2
--   │ │ ├── testacpi.py2
--   │ │ └── testcpuid.py2
--   │ └── README
-+   │   ├── smbios.py2
-+   │   ├── testacpi.py2
-+   │   └── testcpuid.py2
-    ├── acpi-bits.py
- 
- * ``tests/avocado``:
-diff --git a/tests/avocado/acpi-bits.py b/tests/avocado/acpi-bits.py
-index 8745a58a76..a67d30d583 100644
---- a/tests/avocado/acpi-bits.py
-+++ b/tests/avocado/acpi-bits.py
-@@ -134,6 +134,9 @@ class AcpiBitsTest(QemuBaseTest): #pylint: disable=too-many-instance-attributes
-     :avocado: tags=acpi
- 
-     """
-+    # in slower systems the test can take as long as 3 minutes to complete.
-+    timeout = 210
-+
-     def __init__(self, *args, **kwargs):
-         super().__init__(*args, **kwargs)
-         self._vm = None
-@@ -385,8 +388,9 @@ def test_acpi_smbios_bits(self):
-         self._vm.launch()
-         # biosbits has been configured to run all the specified test suites
-         # in batch mode and then automatically initiate a vm shutdown.
--        # sleep for maximum of one minute
--        max_sleep_time = time.monotonic() + 60
-+        # sleep for maximum of 200 seconds in order to accommodate
-+        # even slower test setups.
-+        max_sleep_time = time.monotonic() + 200
-         while self._vm.is_running() and time.monotonic() < max_sleep_time:
-             time.sleep(1)
- 
--- 
-2.34.1
+
+r~
+
+>   
+>       ret = get_phys_addr_lpae(env, ptw, ipa, access_type, is_el0, result, fi);
+>       fi->s2addr = ipa;
+> @@ -2872,7 +2873,7 @@ hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
+>           .in_secure = arm_is_secure(env),
+>           .in_debug = true,
+>       };
+> -    GetPhysAddrResult res = {};
+> +    GetPhysAddrResult res = { .f.attrs = MEMTXATTRS_CPU(cs) };
+>       ARMMMUFaultInfo fi = {};
+>       bool ret;
+>   
+> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+> index 0f4f4fc809..5960269421 100644
+> --- a/target/arm/tlb_helper.c
+> +++ b/target/arm/tlb_helper.c
+> @@ -208,7 +208,7 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>                         bool probe, uintptr_t retaddr)
+>   {
+>       ARMCPU *cpu = ARM_CPU(cs);
+> -    GetPhysAddrResult res = {};
+> +    GetPhysAddrResult res = { .f.attrs = MEMTXATTRS_CPU(cs) };
+>       ARMMMUFaultInfo local_fi, *fi;
+>       int ret;
+>   
 
 
