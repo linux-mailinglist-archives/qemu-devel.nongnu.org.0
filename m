@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050DB62673A
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 06:52:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3AF62673B
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 06:58:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otjRK-0006Zk-Qs; Sat, 12 Nov 2022 00:52:26 -0500
+	id 1otjWR-0000jK-Jf; Sat, 12 Nov 2022 00:57:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otjRI-0006V3-Gg
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:52:24 -0500
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+ id 1otjWP-0000jA-I0
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:57:41 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otjRG-00063g-VS
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:52:24 -0500
-Received: by mail-pf1-x435.google.com with SMTP id g62so6575261pfb.10
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 21:52:22 -0800 (PST)
+ id 1otjWN-00071U-OH
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:57:41 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ d13-20020a17090a3b0d00b00213519dfe4aso6362660pjc.2
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 21:57:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=pbkUag5pYVsvIB/7NJcShngqlJbeYhXJZQFRqWsYufQ=;
- b=czjCUQqsPJ1N32UjV72IDBUfk/dLldjy6JXPMnw5WKxvS49Cw+G8xC5TW5joWOteDx
- QuKgXv/SfMI5p1Tusb0V+Z8Wo32gaqhYdSMv2ArV7af0hup8ApIxzz7umEK1VBnjkdM9
- ozDzNWjmEY1+eYinV/2bkhfm0hfNQ8sYMGE4gEGV9qt8pQNLu7Pfac0teuJJF9hRZYch
- Y54dIbH62taJb2Bo3HGY3ALKHh7cTeisojsWlYlgU5lvA6mji5g9tuIizWD54OiRKi/v
- ldUw3m7Y+Nu/F99zGkpbWfwdwsOE0Q1vIDk4cy6/4Y3T+0zOFWCU1koDoI30rfo8LqEO
- 2K+g==
+ bh=MPn5a6x5W6FEqVJuysGvsCZDulMVpGiWR/r9ViAtJHM=;
+ b=kD89fmEcMLJNhhoToprrX6KzYz6R9fNP7A+RiCz8J3GablqSAEfHrA1Uy0h5WbEJsb
+ N0Y0qx1wd3zB0rgv1Ce2Fz4k5LZn6DETOiZdLheGOTcM/iFt6Qqu/UWuiedur7znaILP
+ RkbMIJp9T2oJonrNUaXLpbqHx0p/Lldy96icb4shNJAD16XX0oe05ndymdzR9a/feA87
+ 1BVP+sT+tyIJBSKloeff/mm47w6ubMohQUjlmOquPG8ajtAFJi1+7aouo5MN7rK9BHsz
+ 2ibT9Wlqqw6EI2fHvGo1rpG10W7axw8gwXAOi6cmR0vZWjQ0dzVNRY+m2F1+AHSHexrS
+ hdOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pbkUag5pYVsvIB/7NJcShngqlJbeYhXJZQFRqWsYufQ=;
- b=q78L4DSsgy4+1ebM7ob90L8MOv/ktl+wyCyZ8U7HzlnniOOErzt5MOV2Of35nfrAO+
- Q/zDelkbpb+z/fsb1+0RrP8nZzRos5zbBoeCa+48q0gO0Ng8fmWkduFt9Yh5oLmniHuV
- wqWhkdU4COLw6KFfkD8HmvYOJkFY0E8fDui2J9TY6ReGVpnIinHYXuaf5nzc37HpA4pJ
- XfukUH+rEuAt338PAaFDiMKi8tyYOMsrdpMMaF5UqDeQAJfEN7QYRl2bz0la9CF67kIY
- XqK0pxIx+irTsmvlBI3cqBUlL0k+9ZX2korxG2MYYDhWHWH3Wg5pz/p7PnAjAPdqCihB
- lLOg==
-X-Gm-Message-State: ANoB5pkYQWDitOb//53eMEi0YOTBJHzdCLdxmhORDJy9EJ8mcJYfriLN
- Xp+FiyB7xVroafHvnQlbYki9f3/Fl6Fx5U1+
-X-Google-Smtp-Source: AA0mqf6+Q7F/9QSWb0Gg9wyWXi89VYV3cE+9kV4QvfImKMiNRdnCewEHvFoyx5eI/UDIe0610KJoDw==
-X-Received: by 2002:a62:b511:0:b0:56b:801b:5618 with SMTP id
- y17-20020a62b511000000b0056b801b5618mr5779951pfe.62.1668232341451; 
- Fri, 11 Nov 2022 21:52:21 -0800 (PST)
+ bh=MPn5a6x5W6FEqVJuysGvsCZDulMVpGiWR/r9ViAtJHM=;
+ b=24hnGG2CaV+H1HpVxHew4BO2DzQQ9Rqy8Lu+eUZ5Q46u2Z7zjBmfsR9/oIp2c3Yy+z
+ 8BjBmg8KxKHMstxiBc0Cavl1tnrghC5ITLWD1FMzsFfHJqHXDcqYRKXwVJOj1glZKRt2
+ JkWgfHnZUQqWW9vtqK/rJez5q4tZWV2EoYJX/6ZxlVO9sAj4RBc+8DfMbW2dbAToyuZm
+ yfmHvDRb4ewqwZahnLmr0gilRM3Np+G+xexs6bCdlwZYV5ujqhdkWI3Vm5lLDvqlwv4j
+ 0vF3ahJmW+6m8LYiY8/xmMl1YAqpg6aMkoGGqZ+xY3YaNrYlgCmIZ5mjSjW352qcnrps
+ qj+g==
+X-Gm-Message-State: ANoB5pknt258748QzTb8uEA7vfRHdemMcG0W+3ycPalC+BLm3AnxHw5h
+ riFlaHU7UxXoCAV1AKcWD6Ki+w==
+X-Google-Smtp-Source: AA0mqf7Vz49+eUH0h2yekWtBUM2/UOPvrHRmDBnRfi96quQDNuProKKCrxGWvL41zmnGAnRQApC0Dg==
+X-Received: by 2002:a17:90a:de0a:b0:20a:db08:8a8a with SMTP id
+ m10-20020a17090ade0a00b0020adb088a8amr5168489pjv.141.1668232658067; 
+ Fri, 11 Nov 2022 21:57:38 -0800 (PST)
 Received: from ?IPV6:2001:44b8:2176:c800:8228:b676:fb42:ee07?
  (2001-44b8-2176-c800-8228-b676-fb42-ee07.static.ipv6.internode.on.net.
  [2001:44b8:2176:c800:8228:b676:fb42:ee07])
  by smtp.gmail.com with ESMTPSA id
- v20-20020a17090ad59400b00217ce8a9178sm2457345pju.57.2022.11.11.21.52.18
+ w18-20020a170902c79200b001754064ac31sm2681683pla.280.2022.11.11.21.57.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 21:52:20 -0800 (PST)
-Message-ID: <78522f8c-8471-1f49-6a23-c9fb751bed08@linaro.org>
-Date: Sat, 12 Nov 2022 15:52:16 +1000
+ Fri, 11 Nov 2022 21:57:37 -0800 (PST)
+Message-ID: <bc004885-a785-b903-f4c3-03292ea66e60@linaro.org>
+Date: Sat, 12 Nov 2022 15:57:30 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v5 16/20] include: add MEMTXATTRS_MACHINE helper
+Subject: Re: [PATCH v5 17/20] hw/intc: properly model IOAPIC MSI messages
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Cc: f4bug@amsat.org
+Cc: f4bug@amsat.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 References: <20221111182535.64844-1-alex.bennee@linaro.org>
- <20221111182535.64844-17-alex.bennee@linaro.org>
+ <20221111182535.64844-18-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221111182535.64844-17-alex.bennee@linaro.org>
+In-Reply-To: <20221111182535.64844-18-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,18 +100,33 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 11/12/22 04:25, Alex Bennée wrote:
-> We will need this shortly for machine specific transactions for the PC
-> IOAPIC.
+> On the real HW the IOAPIC is wired directly to the APIC and doesn't
+> really generate memory accesses on the main bus of the system. To
+> model this we can use the MTRT_MACHINE requester type and set the id
+> as a magic number to represent the IOAPIC as the source.
 > 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Peter Xu <peterx@redhat.com>
 > ---
->   include/exec/memattrs.h | 8 ++++++++
->   1 file changed, 8 insertions(+)
+>   include/hw/i386/ioapic_internal.h |  2 ++
+>   hw/intc/ioapic.c                  | 35 ++++++++++++++++++++++++-------
+>   2 files changed, 30 insertions(+), 7 deletions(-)
+> 
+> diff --git a/include/hw/i386/ioapic_internal.h b/include/hw/i386/ioapic_internal.h
+> index 9880443cc7..a8c7a1418a 100644
+> --- a/include/hw/i386/ioapic_internal.h
+> +++ b/include/hw/i386/ioapic_internal.h
+> @@ -82,6 +82,8 @@
+>   
+>   #define IOAPIC_VER_ENTRIES_SHIFT        16
+>   
+> +/* Magic number to identify IOAPIC memory transactions */
+> +#define MEMTX_IOAPIC                    0xA71C
 
-Fold into patch 1?  Anyway,
+Closing in on 1337 5p34k -- sure you didn't want a '4' there to start?  ;-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
