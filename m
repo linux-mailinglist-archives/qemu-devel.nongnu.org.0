@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 662C66267B1
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 08:38:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 173436267B4
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 08:40:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otl57-0005Sn-I8; Sat, 12 Nov 2022 02:37:37 -0500
+	id 1otl7Q-0006Ke-3e; Sat, 12 Nov 2022 02:40:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1otl55-0005ST-Ln
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 02:37:35 -0500
+ id 1otl7C-0006K9-4S
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 02:39:46 -0500
 Received: from szxga03-in.huawei.com ([45.249.212.189])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1otl53-0003io-7e
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 02:37:35 -0500
-Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.53])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4N8S4k46RjzJnc0;
- Sat, 12 Nov 2022 15:34:14 +0800 (CST)
+ id 1otl7A-00048o-Cv
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 02:39:45 -0500
+Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.55])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4N8S7S1vw3zJnZ7;
+ Sat, 12 Nov 2022 15:36:36 +0800 (CST)
 Received: from [10.174.148.223] (10.174.148.223) by
  kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Sat, 12 Nov 2022 15:37:18 +0800
-Message-ID: <46ab844b-1dbc-2793-c89d-ffe3c6a95c2f@huawei.com>
-Date: Sat, 12 Nov 2022 15:37:16 +0800
+ 15.1.2375.31; Sat, 12 Nov 2022 15:39:39 +0800
+Message-ID: <946d149f-37e9-0a52-8840-84527de344b7@huawei.com>
+Date: Sat, 12 Nov 2022 15:39:38 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v8 4/5] vdpa-dev: mark the device as unmigratable
+Subject: Re: [PATCH v8 5/5] docs: Add generic vhost-vdpa device documentation
 To: Stefano Garzarella <sgarzare@redhat.com>
-CC: <stefanha@redhat.com>, <mst@redhat.com>, <jasowang@redhat.com>,
+CC: Jason Wang <jasowang@redhat.com>, <stefanha@redhat.com>, <mst@redhat.com>, 
  <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
  <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
  <xiehong@huawei.com>
 References: <20221108004157.1112-1-longpeng2@huawei.com>
- <20221108004157.1112-5-longpeng2@huawei.com>
- <20221108084658.nurokqjcc3lmieet@sgarzare-redhat>
-In-Reply-To: <20221108084658.nurokqjcc3lmieet@sgarzare-redhat>
+ <20221108004157.1112-6-longpeng2@huawei.com>
+ <CACGkMEtPpegJ+GbUseq4Y4=Y6De+trDZ5Ks8UqnTcsyVVPvnaw@mail.gmail.com>
+ <1f9235a3-237f-aa89-f558-838b3f85caae@huawei.com>
+ <20221108084242.ad7aqvhvhpam7vs5@sgarzare-redhat>
+In-Reply-To: <20221108084242.ad7aqvhvhpam7vs5@sgarzare-redhat>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.174.148.223]
@@ -74,45 +76,44 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-在 2022/11/8 16:46, Stefano Garzarella 写道:
-> On Tue, Nov 08, 2022 at 08:41:56AM +0800, Longpeng(Mike) wrote:
->> From: Longpeng <longpeng2@huawei.com>
+在 2022/11/8 16:42, Stefano Garzarella 写道:
+> On Tue, Nov 08, 2022 at 11:30:53AM +0800, Longpeng (Mike, Cloud 
+> Infrastructure Service Product Dept.) wrote:
 >>
->> The generic vDPA device doesn't support migration currently, so
->> mark it as unmigratable temporarily.
 >>
->> Signed-off-by: Longpeng <longpeng2@huawei.com>
->> ---
->> hw/virtio/vdpa-dev.c | 1 +
->> 1 file changed, 1 insertion(+)
+>> 在 2022/11/8 10:42, Jason Wang 写道:
+>>> On Tue, Nov 8, 2022 at 8:42 AM Longpeng(Mike) <longpeng2@huawei.com> 
+>>> wrote:
+>>>>
+>>>> From: Longpeng <longpeng2@huawei.com>
+>>>>
+>>>> Signed-off-by: Longpeng <longpeng2@huawei.com>
+>>>> ---
+>>>>  docs/system/devices/vhost-vdpa-device.rst | 43 +++++++++++++++++++++++
+>>>>  1 file changed, 43 insertions(+)
+>>>>  create mode 100644 docs/system/devices/vhost-vdpa-device.rst
+>>>>
+>>>> diff --git a/docs/system/devices/vhost-vdpa-device.rst 
+>>>> b/docs/system/devices/vhost-vdpa-device.rst
+>>>> new file mode 100644
+>>>> index 0000000000..b758c4fce6
+>>>> --- /dev/null
+>>>> +++ b/docs/system/devices/vhost-vdpa-device.rst
+>>>
+>>> If the doc is for a general vhost-vDPA device, we'd better have a 
+>>> better name?
+>>>
+>>
+>> How about general-vhost-vdpa-device.rst?
+>>
 > 
-> Is there a particular reason why we don't squash this change in the 
-> second patch of this series where we add the hw/virtio/vdpa-dev.c file?
+> I would leave vhost-vdpa as the prefix, how about 
+> vhost-vdpa-generic-device.rst?
 > 
-No, just want to make it noticeable.
+Okay, will do in next version, thanks.
 
-> Anyway, this change LGTM:
-> 
-> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-> 
-Thanks.
-
->>
->> diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
->> index 2885d06cbe..62d83d3423 100644
->> --- a/hw/virtio/vdpa-dev.c
->> +++ b/hw/virtio/vdpa-dev.c
->> @@ -327,6 +327,7 @@ static Property vhost_vdpa_device_properties[] = {
->>
->> static const VMStateDescription vmstate_vhost_vdpa_device = {
->>     .name = "vhost-vdpa-device",
->> +    .unmigratable = 1,
->>     .minimum_version_id = 1,
->>     .version_id = 1,
->>     .fields = (VMStateField[]) {
->> -- 
->> 2.23.0
->>
+> Thanks,
+> Stefano
 > 
 > .
 
