@@ -2,59 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173436267B4
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 08:40:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F233D6267D9
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 08:55:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otl7Q-0006Ke-3e; Sat, 12 Nov 2022 02:40:04 -0500
+	id 1otlKl-00051X-IM; Sat, 12 Nov 2022 02:53:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1otl7C-0006K9-4S
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 02:39:46 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1otl7A-00048o-Cv
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 02:39:45 -0500
-Received: from kwepemi100025.china.huawei.com (unknown [172.30.72.55])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4N8S7S1vw3zJnZ7;
- Sat, 12 Nov 2022 15:36:36 +0800 (CST)
-Received: from [10.174.148.223] (10.174.148.223) by
- kwepemi100025.china.huawei.com (7.221.188.158) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Sat, 12 Nov 2022 15:39:39 +0800
-Message-ID: <946d149f-37e9-0a52-8840-84527de344b7@huawei.com>
-Date: Sat, 12 Nov 2022 15:39:38 +0800
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1otlKg-00050z-Gr
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 02:53:42 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xieyongji@bytedance.com>)
+ id 1otlKc-0007SJ-8A
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 02:53:40 -0500
+Received: by mail-ej1-x631.google.com with SMTP id y14so17207846ejd.9
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 23:53:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8QonaILVi/MyRJJUYxZtIVkoO4+8psGEIeZkHRY2Jz4=;
+ b=DKPbE/acPcpin8bxXRvNeYGC6rqItYTFdCHRGaCFp5tHS/LzKLoSITrL/0C8Lv92g7
+ 8xXfmpzfK0Nj9OzzyhH37yton4cO3XXsjY++1tJZh705fHUJ+cGWooDn1z8OVNtc6Jcu
+ v1guwBwNcqxx0SQHGoP9QAT/x+S0Yy5CakgF/W/a344PrrtSwoqJIICC/er/xuix8l1w
+ fB+GQnFABBgO1FzlrqRq5thoHAKa6ok47gcHMq9QlONE4ndR8AgeY7/5C9GsuN0zzNu7
+ C2CRWzcRe3tLFqN4CsWHuUBUW7LiVsWb/mJzcXTiAn2EiHsHDy1fISkxhBVI3nDQMxD0
+ ywBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8QonaILVi/MyRJJUYxZtIVkoO4+8psGEIeZkHRY2Jz4=;
+ b=HponK4VrmxWO4g+yrOwpskSZDDAL3fTFXZ5QRFBl2qT67zOYMVRXbBZJ84OI4KCL9c
+ 3KpmAmrM+S3aXIIhfjbkPtfltE70wp6JV7+EudXYtQls175tndEM5L3hOq6OF+v30Owc
+ hgVdb5PH8XZLhBKKtCK9c3lrCWMm3MeOHG83iwtuj9mPT11soDf7U25mdSdWd+DzQcd1
+ 4dt0nwzrk3cCeCNWDFh36/tJwClqlwpH2ZJ8mMD8YuU7GvPELLjmipmniDtBIBiwf7Gr
+ UOcSuQ8RHFdNncPWpvQabIyi+o7jEv+ar6CECOcz2K65iJ1lJ8nCPNwwO9JM6hcLVfHV
+ uGQw==
+X-Gm-Message-State: ANoB5pnbfUCtzqs9NGE+jjlJHDAWtj3y9bQlcOcHvjyCE2M8ytLRfA4p
+ OzE0oUxeW4JvPtMI8URJ3WmQrXdIva4a9Oq4+riB
+X-Google-Smtp-Source: AA0mqf6+IbChh7QVPBhPSeg6icSYRv7zPV8vwzbxpkuyABDs+8mXQwyy/SbeThPaTHKJA0qWjjY0ELTQzf7vsZO/jvQ=
+X-Received: by 2002:a17:906:7ac6:b0:7ae:6746:f26b with SMTP id
+ k6-20020a1709067ac600b007ae6746f26bmr4472659ejo.171.1668239612967; Fri, 11
+ Nov 2022 23:53:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v8 5/5] docs: Add generic vhost-vdpa device documentation
-To: Stefano Garzarella <sgarzare@redhat.com>
-CC: Jason Wang <jasowang@redhat.com>, <stefanha@redhat.com>, <mst@redhat.com>, 
- <cohuck@redhat.com>, <pbonzini@redhat.com>, <arei.gonglei@huawei.com>,
- <yechuan@huawei.com>, <huangzhichao@huawei.com>, <qemu-devel@nongnu.org>,
- <xiehong@huawei.com>
-References: <20221108004157.1112-1-longpeng2@huawei.com>
- <20221108004157.1112-6-longpeng2@huawei.com>
- <CACGkMEtPpegJ+GbUseq4Y4=Y6De+trDZ5Ks8UqnTcsyVVPvnaw@mail.gmail.com>
- <1f9235a3-237f-aa89-f558-838b3f85caae@huawei.com>
- <20221108084242.ad7aqvhvhpam7vs5@sgarzare-redhat>
-In-Reply-To: <20221108084242.ad7aqvhvhpam7vs5@sgarzare-redhat>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.148.223]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemi100025.china.huawei.com (7.221.188.158)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189; envelope-from=longpeng2@huawei.com;
- helo=szxga03-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20221111124550.35753-1-philmd@linaro.org>
+In-Reply-To: <20221111124550.35753-1-philmd@linaro.org>
+From: Yongji Xie <xieyongji@bytedance.com>
+Date: Sat, 12 Nov 2022 15:53:22 +0800
+Message-ID: <CACycT3s=6uYv2fotr46afh+WE+7N1NcDsRKpURV2RCbKuUoqcw@mail.gmail.com>
+Subject: Re: [PATCH-for-7.2 v2] libvduse: Avoid warning about dangerous use of
+ strncpy()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu devel list <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=xieyongji@bytedance.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,52 +85,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-From: longpeng2--- via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, Nov 11, 2022 at 8:45 PM Philippe Mathieu-Daud=C3=A9
+<philmd@linaro.org> wrote:
+>
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> GCC 8 added a -Wstringop-truncation warning:
+>
+>   The -Wstringop-truncation warning added in GCC 8.0 via r254630 for
+>   bug 81117 is specifically intended to highlight likely unintended
+>   uses of the strncpy function that truncate the terminating NUL
+>   character from the source string.
+>
+> Here the next line indeed unconditionally zeroes the last byte, but
+> 1/ the buffer has been calloc'd, so we don't need to add an extra
+> byte, and 2/ we called vduse_name_is_invalid() which checked the
+> string length, so we can simply call strcpy().
+>
+> This fixes when using gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0:
+>
+>   [42/666] Compiling C object subprojects/libvduse/libvduse.a.p/libvduse.=
+c.o
+>   FAILED: subprojects/libvduse/libvduse.a.p/libvduse.c.o
+>   cc -m64 -mcx16 -Isubprojects/libvduse/libvduse.a.p -Isubprojects/libvdu=
+se -I../../subprojects/libvduse [...] -o subprojects/libvduse/libvduse.a.p/=
+libvduse.c.o -c ../../subprojects/libvduse/libvduse.c
+>   In file included from /usr/include/string.h:495,
+>                    from ../../subprojects/libvduse/libvduse.c:24:
+>   In function =E2=80=98strncpy=E2=80=99,
+>       inlined from =E2=80=98vduse_dev_create=E2=80=99 at ../../subproject=
+s/libvduse/libvduse.c:1312:5:
+>   /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error: =
+=E2=80=98__builtin_strncpy=E2=80=99 specified bound 256 equals destination =
+size [-Werror=3Dstringop-truncation]
+>     106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (=
+__dest));
+>         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+>   cc1: all warnings being treated as errors
+>   ninja: build stopped: cannot make progress due to previous errors.
+>
+> Fixes: d9cf16c0be ("libvduse: Replace strcpy() with strncpy()")
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> ---
+> Supersedes: <20220919192306.52729-1-f4bug@amsat.org>
+> Cc: Xie Yongji <xieyongji@bytedance.com>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  subprojects/libvduse/libvduse.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
 
-
-在 2022/11/8 16:42, Stefano Garzarella 写道:
-> On Tue, Nov 08, 2022 at 11:30:53AM +0800, Longpeng (Mike, Cloud 
-> Infrastructure Service Product Dept.) wrote:
->>
->>
->> 在 2022/11/8 10:42, Jason Wang 写道:
->>> On Tue, Nov 8, 2022 at 8:42 AM Longpeng(Mike) <longpeng2@huawei.com> 
->>> wrote:
->>>>
->>>> From: Longpeng <longpeng2@huawei.com>
->>>>
->>>> Signed-off-by: Longpeng <longpeng2@huawei.com>
->>>> ---
->>>>  docs/system/devices/vhost-vdpa-device.rst | 43 +++++++++++++++++++++++
->>>>  1 file changed, 43 insertions(+)
->>>>  create mode 100644 docs/system/devices/vhost-vdpa-device.rst
->>>>
->>>> diff --git a/docs/system/devices/vhost-vdpa-device.rst 
->>>> b/docs/system/devices/vhost-vdpa-device.rst
->>>> new file mode 100644
->>>> index 0000000000..b758c4fce6
->>>> --- /dev/null
->>>> +++ b/docs/system/devices/vhost-vdpa-device.rst
->>>
->>> If the doc is for a general vhost-vDPA device, we'd better have a 
->>> better name?
->>>
->>
->> How about general-vhost-vdpa-device.rst?
->>
-> 
-> I would leave vhost-vdpa as the prefix, how about 
-> vhost-vdpa-generic-device.rst?
-> 
-Okay, will do in next version, thanks.
-
-> Thanks,
-> Stefano
-> 
-> .
+Reviewed-by: Xie Yongji <xieyongji@bytedance.com>
 
