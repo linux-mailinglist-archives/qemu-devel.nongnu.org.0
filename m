@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30949626747
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 07:04:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25117626748
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 07:05:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otjd0-0003mK-RR; Sat, 12 Nov 2022 01:04:30 -0500
+	id 1otjdn-0004MX-4s; Sat, 12 Nov 2022 01:05:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otjcy-0003lu-6t
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 01:04:28 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ id 1otjdh-0004MA-Eh
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 01:05:13 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otjcw-000834-KN
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 01:04:27 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id
- m14-20020a17090a3f8e00b00212dab39bcdso9484568pjc.0
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 22:04:25 -0800 (PST)
+ id 1otjdg-0008GX-18
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 01:05:13 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id o7so6134953pjj.1
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 22:05:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=b4usj2d3RGkGMmnnF033TDh+lwHQDGjI1Ichtiuge2o=;
- b=eA06eQpVFBfSK5KuM4KjXbo91zdREnCO0j45eWjQXHAFTN9C4hTg/HibeWG4jMBpUh
- 5OSSgthByqvkxkaYSwy5X01fQzisz2DYbnWGlFdXWeogkFiG3STPWvexOI98iD7ivo2V
- kBJhsaEkfKRAZsvw8KYKqUD4gFuUfQ0ZXEqCB2evzA0e7HrD1/8ihYyOIdJ+x16d/bDD
- Ty0tm5HafQvj0/YP3YKmYLcGoE672vz7hT8rth37/zWJq0hr5vXm2dkCXeB4wwANAIki
- 4RUZvlD1kZjGk/scOZYeEahE6BzhCSTregehnfLXIXfmundQceK5UdBE1ktt2PjS0utI
- eQpQ==
+ bh=FOnM2nrqKLq7YumsePqZYVq5CkNOmeEJdfZVUh0FMnQ=;
+ b=VnTY4IE8bf8/O1J8Psjyzhcowqbcu685/Rx1XRVBkeTyMgET2RtPDQdrQxg4ovJnKX
+ BPgCewzlN+h13CD81hw4FfHQgw42K75iY/BRzb83Egil7a007VNTNyJ8I8ceGBpmi3z6
+ 4ojp50NgCDyvZ80fDENIOc4/mzzkKjE8+cN2wflRCsP0Soq8Zrl2b41CwlqnoDboi0XE
+ 1pJ5Jan35RpOXlUkvvPrrIATMm5cG/qkyjEykZQSX2JvvWj+KJQskhitgHqrGZRKVUar
+ PE343KjBbmA6z0yY6rVBSvDnKRDifbeqbirE46e4lctIvEbjNOken1OYdDOpuVmElkOC
+ Disw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=b4usj2d3RGkGMmnnF033TDh+lwHQDGjI1Ichtiuge2o=;
- b=1zdJ4KNNUUWFBIMGCOvumZuBNlthtUfShQkU9ziBXFn1yqa9fbbHWBzddZTsoEguhy
- kJnRTXsooLJ2eSOYQUkUnMe9RmSq0vX+Tn19jVkV8RU8aUJVh8epYi3AQpdQgfV2tODi
- i6A5i2Q2RaWCX0jB/E7LDFPQA5F99JbRdY0qv3VxnDhtHNHviEq2Ik8VywR7/fdnmzdX
- c7gJA0tUy4L54t13sFz4Vs0EOZH4VpWOX9OsDfwBBtXWJ0U7CqWC1CWeAAqXjXpMrHml
- Ox7UFeIpBOVmg1qpmSjhndGQ9OdDJowjLVDAmKfLQ02vXG/mBsSFVvLMqZrzMSsEHdxK
- leCQ==
-X-Gm-Message-State: ANoB5pk9s2tM750qITE3R1EdJcOQSdkpd3h7tKLlBM2m3uthkRhIwp6D
- cqeyj344qg4v9bvAzrpDXiDckw==
-X-Google-Smtp-Source: AA0mqf5zG3W76GnoNeA1UzMKzsm68SLujtTXblRlNFPp9XvX77M5PMGsrx9TZZr/TMQteT7DdNRkqw==
-X-Received: by 2002:a17:90b:1908:b0:213:90f5:274 with SMTP id
- mp8-20020a17090b190800b0021390f50274mr5006637pjb.182.1668233064650; 
- Fri, 11 Nov 2022 22:04:24 -0800 (PST)
+ bh=FOnM2nrqKLq7YumsePqZYVq5CkNOmeEJdfZVUh0FMnQ=;
+ b=rhnOfSfHXx/vhF6dkeuqBAMQ846kgcGVk0y7R0/Yde5vWg7E284RK3nHk7Rd6cOSos
+ kBFWiUNpCCn+IzhbAKwY+Y1VKNj8cvWgulPZV+5DgIBTUoHqjgka3qHjHtEnF9N7d4gO
+ cjS0fyLxt+jmkZpwYjws6wX4fwSPwpvbT6Zmt9+UHlqL4UbO73/w5lvk2voh4rjjE1pK
+ 0EZdTZkpCxWfTGNa62/UfudJwWOlho3Q9xe98TUYaSWTILT/GJCE0/PnrGKyBiHZHyOL
+ 3q36HZxl+L2ofWjVr42uPPgH0rw6wVLYk/XB6nPXPDSot2oRACOzWMc//PyF5vvBJZxN
+ FtfA==
+X-Gm-Message-State: ANoB5pkT3Ji7LZVONJXfjOUvfPss4JsD5vpFK4o25Qa4kUz9iMZyyk/J
+ J/JoM9f0sIg2vKvahvGh4tWOhQ==
+X-Google-Smtp-Source: AA0mqf6vR5YuVv7oGRsUsXO5vtMZYKJnv3j1oAZV2rSD67Aa77wWY/Fv3RlnNd3k/CK8rGiw/kEnig==
+X-Received: by 2002:a17:902:6b4a:b0:187:1a3f:d54b with SMTP id
+ g10-20020a1709026b4a00b001871a3fd54bmr5882325plt.9.1668233110471; 
+ Fri, 11 Nov 2022 22:05:10 -0800 (PST)
 Received: from ?IPV6:2001:44b8:2176:c800:8228:b676:fb42:ee07?
  (2001-44b8-2176-c800-8228-b676-fb42-ee07.static.ipv6.internode.on.net.
  [2001:44b8:2176:c800:8228:b676:fb42:ee07])
  by smtp.gmail.com with ESMTPSA id
- t12-20020a1709027fcc00b0016d773aae60sm2744435plb.19.2022.11.11.22.04.20
+ h17-20020a170902f7d100b00186b86ed450sm2740543plw.156.2022.11.11.22.05.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 22:04:23 -0800 (PST)
-Message-ID: <271f4c24-cb1c-cd33-0860-dca43791935a@linaro.org>
-Date: Sat, 12 Nov 2022 16:04:17 +1000
+ Fri, 11 Nov 2022 22:05:09 -0800 (PST)
+Message-ID: <41bc7a2f-1f31-611c-29ab-8b60c4b085ef@linaro.org>
+Date: Sat, 12 Nov 2022 16:05:03 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v5 19/20] hw/isa: derive CPUState from MemTxAttrs in
- apm_ioport_writeb
+Subject: Re: [PATCH v5 20/20] include/hw: add commentary to current_cpu export
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Cc: f4bug@amsat.org, "Michael S. Tsirkin" <mst@redhat.com>,
+Cc: f4bug@amsat.org, Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Yanan Wang <wangyanan55@huawei.com>
 References: <20221111182535.64844-1-alex.bennee@linaro.org>
- <20221111182535.64844-20-alex.bennee@linaro.org>
+ <20221111182535.64844-21-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221111182535.64844-20-alex.bennee@linaro.org>
+In-Reply-To: <20221111182535.64844-21-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,17 +100,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 11/12/22 04:25, Alex Bennée wrote:
-> Some of the callbacks need a CPUState so extend the interface so we
-> can pass that down rather than relying on current_cpu hacks.
+> Document the intended use of current_cpu and discourage its use in new
+> HW emulation code. Once we have fully converted the tree we should
+> probably move this extern to another header.
 > 
 > Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   include/hw/isa/apm.h |  2 +-
->   hw/acpi/ich9.c       |  1 -
->   hw/acpi/piix4.c      |  2 +-
->   hw/isa/apm.c         | 21 +++++++++++++++++----
->   hw/isa/lpc_ich9.c    |  5 ++---
->   5 files changed, 21 insertions(+), 10 deletions(-)
+>   include/hw/core/cpu.h | 14 ++++++++++++++
+>   1 file changed, 14 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
