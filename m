@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12DD3626723
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 06:27:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 456AA626724
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 06:27:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otj20-0004ay-27; Sat, 12 Nov 2022 00:26:16 -0500
+	id 1otj2a-0004s4-Ce; Sat, 12 Nov 2022 00:26:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otj1x-0004af-PR
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:26:13 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ id 1otj2W-0004qk-SK
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:26:48 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otj1w-0001Fp-6D
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:26:13 -0500
-Received: by mail-pl1-x629.google.com with SMTP id p21so5816061plr.7
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 21:26:11 -0800 (PST)
+ id 1otj2V-0001II-6d
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:26:48 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id l2so5792595pld.13
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 21:26:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=oqxAa6bNQAZqaxYbDlMe3G00xB2hmssTFTmA+3QlX+Q=;
- b=OnWFM4K/94tqNjVqzjvepa2fP1OvYkAgrPeQoZ4RrZqnGQb6Wxid7iky3pSF/34pxq
- BlEQO9tCn4dh5KyMC78amJ2ZYOCribIrxr4pxhAvfe6fIyGCjZqYsBG/palNb4Eczts7
- KGEXDcP/b1qw106sIx00UpJMtQB0yQcmblHsRxpuRAOYT9atSOJya7dL2rp3M5PPW+E9
- 6RoTZO0akibKmc/2RDuetEGoUsu/c2YwJ0FenX5w5w9QTmwVvEz/FeL1gM7yBmWaI3Av
- 5ArIuK5egpJzmEtNDs/C3KR2s4t6uE30mcdapKhY/Yb77tqHbChGmczQlz+UR4tzUVqc
- h3ig==
+ bh=M4iOABLsvTOfHyIwr3LPLYLCnW0f7X8O3lqFBR8/FJQ=;
+ b=BSh/DBgnWGYMeVMyOSLc/gnMeXPQyB3RqsvDyXc7xPM9ZpYjfIVZ/fmcznc+b0iAte
+ OG78wqrK2URTX3fHw8uTuhpZg0+eax9HjgVUWS9eGG3njvUwHvoPvDJbYb6U/0GErvj9
+ Dzw1eKKVEV17zHMtev3wlgN68aaIPkypnvs1qFZWcDkeGCihtSDWy5d7fn0HQWexNH87
+ XjgiL9ExyOkLDvzktr2eu3/CubjwRKVnY5FDXY0sAarMVezH5kFORIjweyxIppkvWdkq
+ gkJcfcCGuzc7Jh99NyDYyytXKtuOgS9YEbfyIZk6Ap8HkRTNY/vvMCTyodnunw6j7ATV
+ jxaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oqxAa6bNQAZqaxYbDlMe3G00xB2hmssTFTmA+3QlX+Q=;
- b=zOv2/Ld8gNn9b1ZU/jXIMaYAQ3wZXJglpQiw04yUI3uUp1E37N7+zjXD38D8vDTD5k
- JLUmyJ7oqjyiGmu+dN7YK/fy50sQJQgUUcMvx6erOz02LlP3RJmrgaHmzmfEf14GpRYQ
- hcqqCUpLj1BiDNvRKL4K1tLYNJqCjFLCVWWsp1sVgpv1AbWdUDJ62Xf6aItMsv/ThpHB
- 3vuDH7qxwy/LEzhM+f5rMhlsgq0/eKOe4v3/EmHLXA+oMJASUzUjSDk35JYp19xIFuam
- YjEUraXdqpx8FQW/55LTpdqjguwsJG8v/3oDQ6QNUFMNU1zvSWC8MxaCI6yKLlJeN3Hx
- APlg==
-X-Gm-Message-State: ANoB5pkB9FlmO3pt6JYwBJLsSesyZp8G/LAGHkFv1G9vd59lBuwrpHpb
- /WMxKxyrvWecy35SSbL0UP+Q5A==
-X-Google-Smtp-Source: AA0mqf6mU1XYYtaPEVitikyxsS17cQZWIMJJqbkwmkUFB9IwUx729wsrHGFZ3RjH+hzzgwvsgP9gQg==
-X-Received: by 2002:a17:90b:2290:b0:212:dadc:23e3 with SMTP id
- kx16-20020a17090b229000b00212dadc23e3mr5139120pjb.129.1668230770067; 
- Fri, 11 Nov 2022 21:26:10 -0800 (PST)
+ bh=M4iOABLsvTOfHyIwr3LPLYLCnW0f7X8O3lqFBR8/FJQ=;
+ b=kOxmoxHMlhGewbdXbkSnhBAHIAYKTR0/ePgMHyn6Iu8xE/dVnXwddOXYDqpo2Rm0+o
+ YH8p7Ys+0o3Js8WWBUn0FTIka21QJcKZ0b5ybtTmkSpexMxcbsMYr1CUwmPQQofJfgib
+ oqmMkqqrelAcc2Sp6DR+JeLvN5LFbd6FCsjbvAeGT9uDD+mm0UropyyPKZQs1HfxaHKb
+ iDbkLqa0OgA7xcwCPMnvNur8J2REGQElS+0wQLEu8BtdXTI1AkmNw+xON9kHmggMk+Iu
+ yoO2G2fzINPRkkbEFNH+Nq19Jy6B7+jjq8f4KhmgNoKYz3lSiEU1/usxcxs1zpybIM6h
+ HiXg==
+X-Gm-Message-State: ANoB5pkaP1TJSp7Y+dZVoEL9+JTRC90q2qDVTI0YgAwCtKBqVd05CNy6
+ vY7cYFMzsabbQ6o/d4O05ar4SQ==
+X-Google-Smtp-Source: AA0mqf422ww7zjKubGN4XP1zXrrKZOcL3U7mj3uO3dITnrhGwyCZuMGmG5z+apnLfd8xcEkVbXhmqA==
+X-Received: by 2002:a17:90a:6845:b0:212:eb51:85eb with SMTP id
+ e5-20020a17090a684500b00212eb5185ebmr5187636pjm.232.1668230805964; 
+ Fri, 11 Nov 2022 21:26:45 -0800 (PST)
 Received: from ?IPV6:2001:44b8:2176:c800:8228:b676:fb42:ee07?
  (2001-44b8-2176-c800-8228-b676-fb42-ee07.static.ipv6.internode.on.net.
  [2001:44b8:2176:c800:8228:b676:fb42:ee07])
  by smtp.gmail.com with ESMTPSA id
- p13-20020a17090b010d00b002009db534d1sm2459055pjz.24.2022.11.11.21.26.07
+ c4-20020a655a84000000b00473c36ea150sm2086530pgt.92.2022.11.11.21.26.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 21:26:09 -0800 (PST)
-Message-ID: <470381f6-baeb-fac0-2332-d59574291e05@linaro.org>
-Date: Sat, 12 Nov 2022 15:26:04 +1000
+ Fri, 11 Nov 2022 21:26:45 -0800 (PST)
+Message-ID: <64aa311e-efc3-ce6a-c663-10fefb469695@linaro.org>
+Date: Sat, 12 Nov 2022 15:26:38 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v5 02/20] target/arm: ensure TCG IO accesses set
+Subject: Re: [PATCH v5 05/20] target/arm: ensure m-profile helpers set
  appropriate MemTxAttrs
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
@@ -69,13 +69,13 @@ To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
 Cc: f4bug@amsat.org, Peter Maydell <peter.maydell@linaro.org>,
  "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
 References: <20221111182535.64844-1-alex.bennee@linaro.org>
- <20221111182535.64844-3-alex.bennee@linaro.org>
+ <20221111182535.64844-6-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221111182535.64844-3-alex.bennee@linaro.org>
+In-Reply-To: <20221111182535.64844-6-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,32 +99,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 11/12/22 04:25, Alex Bennée wrote:
-> @@ -2872,7 +2873,7 @@ hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
->           .in_secure = arm_is_secure(env),
->           .in_debug = true,
->       };
-> -    GetPhysAddrResult res = {};
-> +    GetPhysAddrResult res = { .f.attrs = MEMTXATTRS_CPU(cs) };
->       ARMMMUFaultInfo fi = {};
->       bool ret;
->   
-> diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
-> index 0f4f4fc809..5960269421 100644
-> --- a/target/arm/tlb_helper.c
-> +++ b/target/arm/tlb_helper.c
-> @@ -208,7 +208,7 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->                         bool probe, uintptr_t retaddr)
->   {
->       ARMCPU *cpu = ARM_CPU(cs);
+> There are a number of helpers for M-profile that deal with CPU
+> initiated access to the vector and stack areas. While it is unlikely
+> these coincided with memory mapped IO devices it is not inconceivable.
+> Embedded targets tend to attract all sorts of interesting code and for
+> completeness we should tag the transaction appropriately.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+> ---
+> v5
+>    - rebase fixes for refactoring
+> ---
+>   target/arm/m_helper.c | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+> index 355cd4d60a..2fb1ef95cd 100644
+> --- a/target/arm/m_helper.c
+> +++ b/target/arm/m_helper.c
+> @@ -184,7 +184,7 @@ static bool v7m_stack_write(ARMCPU *cpu, uint32_t addr, uint32_t value,
+>       CPUState *cs = CPU(cpu);
+>       CPUARMState *env = &cpu->env;
+>       MemTxResult txres;
 > -    GetPhysAddrResult res = {};
 > +    GetPhysAddrResult res = { .f.attrs = MEMTXATTRS_CPU(cs) };
 
-Not the right level for these.
-
-Should be set in get_phys_addr_with_struct, alongside .secure right at the top of the 
-function.
+This entire patch goes away with .attrs set properly in get_phys_addr_with_struct.
 
 
 r~
-
 
