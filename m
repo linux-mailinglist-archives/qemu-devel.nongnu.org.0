@@ -2,57 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460C2626994
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 14:21:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD2D62699A
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 14:36:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otqPx-0001HF-94; Sat, 12 Nov 2022 08:19:29 -0500
+	id 1otqfH-0005nD-SB; Sat, 12 Nov 2022 08:35:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <conor@kernel.org>)
- id 1otqPr-0001Gs-KS; Sat, 12 Nov 2022 08:19:23 -0500
-Received: from ams.source.kernel.org ([145.40.68.75])
+ id 1otqet-0005jJ-LN; Sat, 12 Nov 2022 08:34:57 -0500
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <conor@kernel.org>)
- id 1otqPo-0007Zt-9M; Sat, 12 Nov 2022 08:19:22 -0500
+ id 1otqeq-0001zu-7e; Sat, 12 Nov 2022 08:34:54 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 760EFB80835;
- Sat, 12 Nov 2022 13:19:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4BF3C433C1;
- Sat, 12 Nov 2022 13:19:14 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id C99FBB80835;
+ Sat, 12 Nov 2022 13:34:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6495C433D6;
+ Sat, 12 Nov 2022 13:34:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668259156;
- bh=8CbbZTc1dKmRR7XuKYBTS4aTXWD7UoJaTExxqJCRIOM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ndThsmi7UNSHGF6oxbGaG//Jr8ZA0/Z2/JxhBqAIRzxgp8u2ZBLn96XL3Gs1/8j8e
- +XjZ7i8ijf/v8xLEmpCDqeFIgKhaMQVeL4ggOWoXh+x5Vi5I5Qp+SUmIrpfyG6l1aD
- Eq2OdjZGNbThW4qrgGntoTctvpQ3KyZafoUg5Oba7LYOFkh6Mv06d+GBwsgbTjn8fW
- OOqWDTplI5ygQy6lPC3RtxwUFICGL9M0elVq4qrtJeoMT9YtO+ObNix/B5FHD9dF7v
- 42AlKqIEFkgyBctxq07bjtH2XkAEVEWcLeInaG/CL3bvSTL+kAV4Zilv5rLLhEtH06
- lA9QQC50iEs1g==
-Date: Sat, 12 Nov 2022 13:19:12 +0000
+ s=k20201202; t=1668260087;
+ bh=25htjiXiYVuMtYAGafmaraJrEDTK5skDb8jIY9KhjuM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=m9q4ZVHdDOcHiuDoSmEBm2fqhF0wO8Od4k73J6uANvhWLfbcW+fEkGZ23Yoj95G83
+ 1q+Ud7DkbXHrPM86vTLRdO4jRB3RX5l05btpXpghstv/tUC8rdsUs6g1IytOPsXHF/
+ UyrxKAypLlykykBYQ79tLaj+h0YrDak+n6tNtDzpCN9qwYHrk8hdfrvk1MS21Wgzb+
+ OSJGrnwPHeuA0EH28tz6GAJN3noy2uZYJK50IXQhAQ32MNxCwZqXX1Fwzv9sIrNCOw
+ cDqvknlMy4FJd7kPNsDeVqa4KppVf5/LStlM7oYkFQCO6hc0kzy00wtA9PcW1d713k
+ kMc/MFe+DsHSg==
 From: Conor Dooley <conor@kernel.org>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH] hw/misc/pfsoc: add fabric clocks to ioscb
-Message-ID: <Y2+dUCpd8OP52/DJ@spud>
-References: <20221109190849.1556711-1-conor@kernel.org>
- <84b8985a-6fab-ff76-7058-f702203474c0@linaro.org>
- <Y27pKpA0jo67Ntlz@spud>
- <CAEUhbmUoken26s8n95fn9jdVkCiz-vPrWzt6G-z7Q23AfZ3gWw@mail.gmail.com>
+To: Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v2 0/3] Add (more) missing PolarFire SoC io regions
+Date: Sat, 12 Nov 2022 13:34:12 +0000
+Message-Id: <20221112133414.262448-1-conor@kernel.org>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEUhbmUoken26s8n95fn9jdVkCiz-vPrWzt6G-z7Q23AfZ3gWw@mail.gmail.com>
-Received-SPF: pass client-ip=145.40.68.75; envelope-from=conor@kernel.org;
- helo=ams.source.kernel.org
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=conor@kernel.org; helo=ams.source.kernel.org
 X-Spam_score_int: -70
 X-Spam_score: -7.1
 X-Spam_bar: -------
@@ -75,88 +68,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Nov 12, 2022 at 08:37:38AM +0800, Bin Meng wrote:
-> Hi Conor,
-> 
-> On Sat, Nov 12, 2022 at 8:31 AM Conor Dooley <conor@kernel.org> wrote:
-> >
-> > On Thu, Nov 10, 2022 at 12:18:44AM +0100, Philippe Mathieu-Daudé wrote:
-> > > Hi Conor,
-> > >
-> > > On 9/11/22 20:08, Conor Dooley wrote:
-> > > > From: Conor Dooley <conor.dooley@microchip.com>
-> > > >
-> > > > @@ -168,6 +170,10 @@ static void mchp_pfsoc_ioscb_realize(DeviceState *dev, Error **errp)
-> > > >                             "mchp.pfsoc.ioscb.cfg", IOSCB_SUBMOD_REG_SIZE);
-> > > >       memory_region_add_subregion(&s->container, IOSCB_CFG_BASE, &s->cfg);
-> > > > +    memory_region_init_io(&s->ccc, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
-> > > > +                          "mchp.pfsoc.ioscb.ccc", IOSCB_CCC_REG_SIZE);
-> > > > +    memory_region_add_subregion(&s->container, IOSCB_CCC_BASE, &s->ccc);
-> > >
-> > > Unrelated but using the TYPE_UNIMPLEMENTED_DEVICE would ease tracing all
-> > > these block accesses, as the block name would appear before the
-> > > address/size. See for example aspeed_mmio_map_unimplemented();
-> >
-> > Certainly looks like a nice idea, and I gave it a go but kept running
-> > into issues due to my lack of understanding of QEMU :) I'm going to add
-> > this to my todo pile - while I have a v2 of this lined up, I'd rather
-> > not hold up adding the regions that prevent booting Linux etc as I
-> > fumble around trying to understand the hierarchy of devices required to
-> > set up something similar to your aspeed example.
-> >
-> 
-> Do you plan to bring QEMU support to the latest MSS_LINUX configuration [1]
+From: Conor Dooley <conor.dooley@microchip.com>
 
-"Yes". Our goal is to merge both the LINUX and BAREMETAL configurations
-in an upcoming reference design release. Notably absent from anything
-that I have sent here is any changes to the DDR configuration (and that
-and how the PCI root port is connected to the MSS are the only real
-differences between the two).
+Hey all,
+But of a v2 of what I sent the other day [0]..
+Apart from DDR (see [1]), these should be the last bits needed to get
+recent Linux kernels booting again for Icicle/PolarFire SoC. Previously,
+I had been disabling the hwrng and PCI but I keep forgetting that is
+required and decided to fix that.
 
-Currently, the LINUX one has 2 GiB of DDR at 0x10_0000_0000 & that's
-what the vendor kernel uses. None of upstream Linux, U-Boot or QEMU
-support that configuration. The baremetal one has 1 GiB at 0x8000_0000
-and 1 GiB at 0x10_0000_0000. When the two are merged, it'll be 1 GiB
-at 0x8000_0000 and 1 GiB at 0x10_4000_0000 - there's currently a
-v2022.10 reference design job file on [1] that's got this configuration
-but we are waiting for a corresponding release of Libero to properly
-release the tcl scripts etc. We're upstreaming U-Boot and Linux support
-for that configuration at the moment - but it's just a dts change there
-so no real concern about breaking any backwards compat as the older
-devicetrees will continue to work.
-
-> Currently QEMU is supporting the MSS_BAREMETAL configuration. Do you
-> think it makes sense to support both?
-> [1] https://github.com/polarfire-soc/icicle-kit-reference-design
-
-I was kinda hoping to leave that part of things as-is for now and wait
-for the merged configuration. My main question with that is: do the
-older reference design configurations need to remain supported?
-
-The PCI root port stuff likely doesn't matter since it's not modelled
-(yet) by QEMU anyway but the DDR bit is going to be incompatible.
-The addresses at which DDR lies are controlled by the seg registers.
-These are briefly documented in the TRM (4.5 Segmentation Blocks) but
-IMO pretty badly explained there.
-IIUC, for bare metal applications that's set by the HAL from the XML
-exported by MSS configurator & for anything started via the HSS, the HSS
-does it instead.
-I was thinking something like defaulting the DDR configuration to the
-new, merged configuration & then if someone writes to the seg registers
-(which, IIUC, a bare-metal app does) changing the addresses at which
-QEMU places the DDR at runtime.
-That's what the hardware does, but I have put approximately zero thought
-into how to implement that.
-Without something like that, idk how we'd keep both newer and older
-reference designs working in QEMU.
-
-> Do you plan to bring QEMU support to the latest MSS_LINUX configuration
-
-Either way, any plans are dependant on me finding the time. I'm mostly
-just upstreaming the small changes that I need to make so that QEMU
-remains usable as a debugging tool for Linux stuff.
+I'm not entirely sure if I have done some sort of no-no thing by
+registering the same interrupt with both the IOSCB and SYSREG regions.
+The interrupt is raised after the system controller handles a service
+via the mailbox. The mailbox's status, control and mailbox registers
+are all part of the IOSCB region. It's cleared by a write to a register
+in the SYSREG region.
+Since my goal here is to add the regions/peripherals without actually
+implementing them so that Linux etc, I'm just raising an interrupt
+once a guest requests a service & reporting a status indicating that the
+service request failed.
 
 Thanks,
 Conor.
+
+0 - https://lore.kernel.org/qemu-devel/20221109190849.1556711-1-conor@kernel.org/
+1 - https://lore.kernel.org/all/Y2+dUCpd8OP52%2FDJ@spud/
+
+Conor Dooley (3):
+  hw/misc/pfsoc: add fabric clocks to ioscb
+  hw/riscv: pfsoc: add missing FICs as unimplemented
+  hw/{misc,riscv}: pfsoc: add system controller as unimplemented
+
+ hw/misc/mchp_pfsoc_ioscb.c          |  65 ++++++++++++++-
+ hw/misc/mchp_pfsoc_sysreg.c         |  19 ++++-
+ hw/riscv/microchip_pfsoc.c          | 121 ++++++++++++++++------------
+ include/hw/misc/mchp_pfsoc_ioscb.h  |   4 +
+ include/hw/misc/mchp_pfsoc_sysreg.h |   1 +
+ include/hw/riscv/microchip_pfsoc.h  |   3 +
+ 6 files changed, 155 insertions(+), 58 deletions(-)
+
+-- 
+2.37.2
 
 
