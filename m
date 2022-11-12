@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD2D62699A
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B1E62699B
 	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 14:36:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otqfH-0005nD-SB; Sat, 12 Nov 2022 08:35:19 -0500
+	id 1otqf9-0005ke-Qs; Sat, 12 Nov 2022 08:35:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <conor@kernel.org>)
- id 1otqet-0005jJ-LN; Sat, 12 Nov 2022 08:34:57 -0500
+ id 1otqet-0005jK-LV; Sat, 12 Nov 2022 08:34:57 -0500
 Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <conor@kernel.org>)
- id 1otqeq-0001zu-7e; Sat, 12 Nov 2022 08:34:54 -0500
+ id 1otqer-000200-1w; Sat, 12 Nov 2022 08:34:54 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id C99FBB80835;
- Sat, 12 Nov 2022 13:34:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6495C433D6;
- Sat, 12 Nov 2022 13:34:45 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 63AADB80011;
+ Sat, 12 Nov 2022 13:34:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A11A9C433C1;
+ Sat, 12 Nov 2022 13:34:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1668260087;
- bh=25htjiXiYVuMtYAGafmaraJrEDTK5skDb8jIY9KhjuM=;
- h=From:To:Cc:Subject:Date:From;
- b=m9q4ZVHdDOcHiuDoSmEBm2fqhF0wO8Od4k73J6uANvhWLfbcW+fEkGZ23Yoj95G83
- 1q+Ud7DkbXHrPM86vTLRdO4jRB3RX5l05btpXpghstv/tUC8rdsUs6g1IytOPsXHF/
- UyrxKAypLlykykBYQ79tLaj+h0YrDak+n6tNtDzpCN9qwYHrk8hdfrvk1MS21Wgzb+
- OSJGrnwPHeuA0EH28tz6GAJN3noy2uZYJK50IXQhAQ32MNxCwZqXX1Fwzv9sIrNCOw
- cDqvknlMy4FJd7kPNsDeVqa4KppVf5/LStlM7oYkFQCO6hc0kzy00wtA9PcW1d713k
- kMc/MFe+DsHSg==
+ s=k20201202; t=1668260089;
+ bh=ucZIK505ZtDyzzz0K328UJVnxDQxGSgcDAVeyDd2RLE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=BbKp0hLUzfb6Dqfka2cbrCZhbYg/kAvrC5pNquP6GsU7WWxUK1XBhCtLH9sFQcNBy
+ 7JR9NNogVFyP6Sg9ugyMnc4gZTGT8iTTUkWqsMG8c1OYhd7QMPSS8wizpItUJnfCQB
+ oHktHOdmt1aqxWLNq8AjC6Nr54nMkfr7ex7EIMZqQ9HlbABxrb9cf1NrpijQDQpK7O
+ LRXn9oPwcy/jw7DCbsHSsou0nruyS5V98LvFINBp/I03N/qpx2fHKkwyAvUzlY1E+y
+ 4F2FEnQExbYJ1CqzxdLYELycu8L3k3LerApwBDZ5L0VWEF+p0epolfZjK1gb6vFjPh
+ VmiByHgjCmIZw==
 From: Conor Dooley <conor@kernel.org>
 To: Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>
 Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
  Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v2 0/3] Add (more) missing PolarFire SoC io regions
-Date: Sat, 12 Nov 2022 13:34:12 +0000
-Message-Id: <20221112133414.262448-1-conor@kernel.org>
+Subject: [PATCH v2 1/3] hw/misc/pfsoc: add fabric clocks to ioscb
+Date: Sat, 12 Nov 2022 13:34:13 +0000
+Message-Id: <20221112133414.262448-2-conor@kernel.org>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20221112133414.262448-1-conor@kernel.org>
+References: <20221112133414.262448-1-conor@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2604:1380:4601:e00::1;
@@ -70,43 +72,69 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Conor Dooley <conor.dooley@microchip.com>
 
-Hey all,
-But of a v2 of what I sent the other day [0]..
-Apart from DDR (see [1]), these should be the last bits needed to get
-recent Linux kernels booting again for Icicle/PolarFire SoC. Previously,
-I had been disabling the hwrng and PCI but I keep forgetting that is
-required and decided to fix that.
+On PolarFire SoC, some peripherals (eg the PCI root port) are clocked by
+"Clock Conditioning Circuitry" in the FPGA. The specific clock depends
+on the FPGA bitstream & can be locked to one particular {D,P}LL - in the
+Icicle Kit Reference Design v2022.09 or later this is/will be the case.
 
-I'm not entirely sure if I have done some sort of no-no thing by
-registering the same interrupt with both the IOSCB and SYSREG regions.
-The interrupt is raised after the system controller handles a service
-via the mailbox. The mailbox's status, control and mailbox registers
-are all part of the IOSCB region. It's cleared by a write to a register
-in the SYSREG region.
-Since my goal here is to add the regions/peripherals without actually
-implementing them so that Linux etc, I'm just raising an interrupt
-once a guest requests a service & reporting a status indicating that the
-service request failed.
+Linux v6.1+ will have a driver for this peripheral and devicetrees that
+previously relied on "fixed-frequency" clock nodes have been switched
+over to clock-controller nodes. The IOSCB region is represented in QEMU,
+but the specific region of it that the CCCs occupy has not so v6.1-rcN
+kernels fail to boot in QEMU.
 
-Thanks,
-Conor.
+Add the regions as unimplemented so that the status-quo in terms of boot
+is maintained.
 
-0 - https://lore.kernel.org/qemu-devel/20221109190849.1556711-1-conor@kernel.org/
-1 - https://lore.kernel.org/all/Y2+dUCpd8OP52%2FDJ@spud/
+Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+---
+ hw/misc/mchp_pfsoc_ioscb.c         | 6 ++++++
+ include/hw/misc/mchp_pfsoc_ioscb.h | 1 +
+ 2 files changed, 7 insertions(+)
 
-Conor Dooley (3):
-  hw/misc/pfsoc: add fabric clocks to ioscb
-  hw/riscv: pfsoc: add missing FICs as unimplemented
-  hw/{misc,riscv}: pfsoc: add system controller as unimplemented
-
- hw/misc/mchp_pfsoc_ioscb.c          |  65 ++++++++++++++-
- hw/misc/mchp_pfsoc_sysreg.c         |  19 ++++-
- hw/riscv/microchip_pfsoc.c          | 121 ++++++++++++++++------------
- include/hw/misc/mchp_pfsoc_ioscb.h  |   4 +
- include/hw/misc/mchp_pfsoc_sysreg.h |   1 +
- include/hw/riscv/microchip_pfsoc.h  |   3 +
- 6 files changed, 155 insertions(+), 58 deletions(-)
-
+diff --git a/hw/misc/mchp_pfsoc_ioscb.c b/hw/misc/mchp_pfsoc_ioscb.c
+index f4fd55a0e5..f976e42f72 100644
+--- a/hw/misc/mchp_pfsoc_ioscb.c
++++ b/hw/misc/mchp_pfsoc_ioscb.c
+@@ -33,6 +33,7 @@
+  */
+ #define IOSCB_WHOLE_REG_SIZE        0x10000000
+ #define IOSCB_SUBMOD_REG_SIZE       0x1000
++#define IOSCB_CCC_REG_SIZE          0x2000000
+ 
+ /*
+  * There are many sub-modules in the IOSCB module.
+@@ -45,6 +46,7 @@
+ #define IOSCB_LANE23_BASE           0x06510000
+ #define IOSCB_CTRL_BASE             0x07020000
+ #define IOSCB_CFG_BASE              0x07080000
++#define IOSCB_CCC_BASE              0x08000000
+ #define IOSCB_PLL_MSS_BASE          0x0E001000
+ #define IOSCB_CFM_MSS_BASE          0x0E002000
+ #define IOSCB_PLL_DDR_BASE          0x0E010000
+@@ -168,6 +170,10 @@ static void mchp_pfsoc_ioscb_realize(DeviceState *dev, Error **errp)
+                           "mchp.pfsoc.ioscb.cfg", IOSCB_SUBMOD_REG_SIZE);
+     memory_region_add_subregion(&s->container, IOSCB_CFG_BASE, &s->cfg);
+ 
++    memory_region_init_io(&s->ccc, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
++                          "mchp.pfsoc.ioscb.ccc", IOSCB_CCC_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_CCC_BASE, &s->ccc);
++
+     memory_region_init_io(&s->pll_mss, OBJECT(s), &mchp_pfsoc_pll_ops, s,
+                           "mchp.pfsoc.ioscb.pll_mss", IOSCB_SUBMOD_REG_SIZE);
+     memory_region_add_subregion(&s->container, IOSCB_PLL_MSS_BASE, &s->pll_mss);
+diff --git a/include/hw/misc/mchp_pfsoc_ioscb.h b/include/hw/misc/mchp_pfsoc_ioscb.h
+index 9235523e33..687b213742 100644
+--- a/include/hw/misc/mchp_pfsoc_ioscb.h
++++ b/include/hw/misc/mchp_pfsoc_ioscb.h
+@@ -30,6 +30,7 @@ typedef struct MchpPfSoCIoscbState {
+     MemoryRegion lane23;
+     MemoryRegion ctrl;
+     MemoryRegion cfg;
++    MemoryRegion ccc;
+     MemoryRegion pll_mss;
+     MemoryRegion cfm_mss;
+     MemoryRegion pll_ddr;
 -- 
 2.37.2
 
