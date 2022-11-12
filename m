@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1C1626757
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 07:12:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7AC3626781
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 07:34:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otjju-0005wd-4n; Sat, 12 Nov 2022 01:11:38 -0500
+	id 1otk4j-0005VB-Mp; Sat, 12 Nov 2022 01:33:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otjjs-0005w9-KL
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 01:11:36 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ (Exim 4.90_1) (envelope-from <dhoff749@gmail.com>)
+ id 1otk4i-0005Uu-FE; Sat, 12 Nov 2022 01:33:08 -0500
+Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otjjq-0000vP-LU
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 01:11:36 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id k5so6115860pjo.5
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 22:11:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8/7O54PCNI/+Ud3c/QazP1KtLg4dCRFKQ+DyhJHT2MI=;
- b=ZfVhTHufE7jxiVf53yn1fH9khDK0tkhJYm8jj7Ajvl7uZCEBhbqdaOi+uY2XDacSro
- owVWFEkUioqnHylhcOyVOPDPTQQ/xfB69vWr59JkxRF95GAPS/8GZWw6BioFXCgVkMh6
- lZYIYf+kK7EDXuu8vDZJH6+AimsBjx/ICP0lySRmsDZ3CoIHXg4zIS16hh+Sm0FOBaVO
- a+t3KejKkpuEwZpYD1T5RAkKQcQVed6tmP4xTWlRKRDdw6zAYZGqUJBJFQVmF92W3QPS
- mUxgg4n1zHrrGjA4PRwHGDJ9YZ+q4PO+mtO7fbhOvV+7kaUFzgkWo+eT1pKLdQmUaNVn
- r9oQ==
+ (Exim 4.90_1) (envelope-from <dhoff749@gmail.com>)
+ id 1otk4g-00059c-Fx; Sat, 12 Nov 2022 01:33:08 -0500
+Received: by mail-qk1-x730.google.com with SMTP id k2so4584458qkk.7;
+ Fri, 11 Nov 2022 22:33:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=I6C+9hKQzlN30II8yPCFNcbh3dOvWdnAGRULb/Ai318=;
+ b=GkTbtBiWQarifhWJD1EJoMwsHTmR9j0Q/eiFjXdE/UIRWsNENYhh8XqSl+TaoGHYK3
+ u5IFzE8r1L60oLPXXU8HV4ikX8Wm7TR3xHnEVgTbiaEo1xO2uMbxETrmdhTcmRaSbMlR
+ YyRerzVb4wCYfuMctEsk9ZfET2rfLg52blMjeKFuRjbpq9yJynmFpTZ3FSo+Ya8Mf35F
+ kB/w/YEXc19ZvIo52U5LuHbBbBZRjaq384wSStHXjqICh5Y+yQFphknsM1uv1WpPdA6u
+ COBgcgH5TzBTcBD8e7AKzoQURMG3/QYkmOu55xo37BpAzN4gwvySha+4No8JVpYqNa14
+ NfGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8/7O54PCNI/+Ud3c/QazP1KtLg4dCRFKQ+DyhJHT2MI=;
- b=NN5b0/nzdXfMk7PblH74c7eILLIl+pSLGh/exWJ+gWADU+dsYaZqcKzkNVdoa3gUPh
- /GLoAz6TfAhs478NMFTCcD/p/QK+/1bGthQujII5dKSGLxfNCL5vz9jnizXXqnVw1gzu
- aZJTdZGSAIov7cEU3jhQYDg97IKM3t8+j3GBHEESGVY/4HUvl2IgF892QNMDuiTlFff/
- O3SUBT+rXfdzBN08wenbk+FPqWC8zyyTaIrnk79aRPQFwuxDZZKJjOBFvnlgxpKbbxPf
- CDRrBoFIOnkuLwYLDL1Rjq6wiLN2SsovdySakvexBaR7hP3A0TsjZMCDJt3wHOcMttNg
- TqXw==
-X-Gm-Message-State: ANoB5pl2UsR1jOxbPjeWmX6MchZ7bgJ2pdejSfiU++vx1QHMAE/fqTIm
- TV3NIhyhOik9XHhQbQ9GDrOjzDOdbGDp/8EG
-X-Google-Smtp-Source: AA0mqf5bxUdtb99oUeUwuRsbMboDB2Z5+t9SutWlnR8A5W2LYkq6hWN2/9qSpS7WacyZbAXVnkHVMA==
-X-Received: by 2002:a17:902:b492:b0:186:a97d:6bc8 with SMTP id
- y18-20020a170902b49200b00186a97d6bc8mr5678149plr.101.1668233493271; 
- Fri, 11 Nov 2022 22:11:33 -0800 (PST)
-Received: from stoup.lan
- (2001-44b8-2176-c800-8228-b676-fb42-ee07.static.ipv6.internode.on.net.
- [2001:44b8:2176:c800:8228:b676:fb42:ee07])
- by smtp.gmail.com with ESMTPSA id
- nm13-20020a17090b19cd00b0020087d7e778sm5790163pjb.37.2022.11.11.22.11.29
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=I6C+9hKQzlN30II8yPCFNcbh3dOvWdnAGRULb/Ai318=;
+ b=eQw0QcN0G4V82FJQ5T2f0ZqBdBp3d0bYx5Hxc7zAJofHpYEv30Hj7JNJgCWPQ/lsSn
+ luOrL31RZKYcVla4J+mgosrKAmtrMNf6X4tVVOOYCwjp8CSMBBP/n0WSA5TOUV/5hp1a
+ Nc1i5OCv/u9AOGKqN/mf1N3YlfA4yBcROf6eMojW0oSCvT3x6wMUL50w7T9CbVa3z5g+
+ fEPCdQHdDGmC/0CQf/Y3tlTXlmbT2vU6JhDewzEm5shCzCzyAZd1Vdt8nJalKC2eWIPR
+ q8tUQpQ3QkNDwGc8unDSxtSA95uADkSx17/UhGkoWy/dRqIoyZbUtLoGhdeuK0OMXJci
+ cGxQ==
+X-Gm-Message-State: ANoB5pmZR556W1Z6LU3V8Ejvrn0fnyR/9aWZoLt1wCQ5zCCckXAlTJRE
+ 5RSrS0m82G3JI1Brhjtl9/ojLnMFu4Q=
+X-Google-Smtp-Source: AA0mqf5Vf5HYcdifPGN8BYcZYDd44y5bcWDgkSiXvuLcqIQ/FPRf0fSJMLYcmo/Pf/hopjk15iQNcA==
+X-Received: by 2002:a05:620a:1e9:b0:6fa:4d19:2419 with SMTP id
+ x9-20020a05620a01e900b006fa4d192419mr4027963qkn.61.1668234784580; 
+ Fri, 11 Nov 2022 22:33:04 -0800 (PST)
+Received: from lft-vm.tuyobwrpnb0enbtwqcvs3babjg.cx.internal.cloudapp.net
+ ([20.94.93.94]) by smtp.gmail.com with ESMTPSA id
+ i10-20020ac8488a000000b0039492d503cdsm2408495qtq.51.2022.11.11.22.33.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Nov 2022 22:11:32 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
+ Fri, 11 Nov 2022 22:33:04 -0800 (PST)
+From: Daniel Hoffman <dhoff749@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: david@gibson.dropbear.id.au,
-	danielhb413@gmail.com,
-	qemu-ppc@nongnu.org
-Subject: [PATCH for-8.0 1/1] target/ppc: Use tcg_gen_atomic_cmpxchg_i128 for
- STQCX
-Date: Sat, 12 Nov 2022 16:11:22 +1000
-Message-Id: <20221112061122.2720163-2-richard.henderson@linaro.org>
+Cc: qemu-trivial@nongnu.org,
+	Daniel Hoffman <dhoff749@gmail.com>
+Subject: [PATCH] hw/virtio: added virtio-serial test cases
+Date: Sat, 12 Nov 2022 06:32:41 +0000
+Message-Id: <20221112063241.2190502-1-dhoff749@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221112061122.2720163-1-richard.henderson@linaro.org>
-References: <20221112061122.2720163-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
+ envelope-from=dhoff749@gmail.com; helo=mail-qk1-x730.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,234 +86,329 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Note that the previous direct reference to reserve_val,
+The previous test cases for virtio-serial only tested initialization of
+the device. I've included four new test cases: rx for virtconsole, tx
+for virtconsole, rx for virtserialport, tx for virtserialport. It
+follows the general pattern of virtio-net (i.e. chardev file descriptor
+backend with a socketpair connected via fork-exec).
 
--   tcg_gen_ld_i64(t1, cpu_env, (ctx->le_mode
--                                ? offsetof(CPUPPCState, reserve_val2)
--                                : offsetof(CPUPPCState, reserve_val)));
-
-was incorrect because all references should have gone through
-cpu_reserve_val.  Create a cpu_reserve_val2 tcg temp to fix this.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Daniel Hoffman <dhoff749@gmail.com>
 ---
- target/ppc/helper.h     |   2 -
- target/ppc/mem_helper.c |  44 -----------------
- target/ppc/translate.c  | 102 ++++++++++++++++++----------------------
- 3 files changed, 47 insertions(+), 101 deletions(-)
+ tests/qtest/libqos/virtio-serial.c |  51 +++++++++
+ tests/qtest/libqos/virtio-serial.h |   2 +
+ tests/qtest/virtio-serial-test.c   | 177 ++++++++++++++++++++++++++++-
+ 3 files changed, 228 insertions(+), 2 deletions(-)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 8dd22a35e4..0beaca5c7a 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -818,6 +818,4 @@ DEF_HELPER_FLAGS_5(stq_le_parallel, TCG_CALL_NO_WG,
-                    void, env, tl, i64, i64, i32)
- DEF_HELPER_FLAGS_5(stq_be_parallel, TCG_CALL_NO_WG,
-                    void, env, tl, i64, i64, i32)
--DEF_HELPER_5(stqcx_le_parallel, i32, env, tl, i64, i64, i32)
--DEF_HELPER_5(stqcx_be_parallel, i32, env, tl, i64, i64, i32)
- #endif
-diff --git a/target/ppc/mem_helper.c b/target/ppc/mem_helper.c
-index d1163f316c..1578887a8f 100644
---- a/target/ppc/mem_helper.c
-+++ b/target/ppc/mem_helper.c
-@@ -413,50 +413,6 @@ void helper_stq_be_parallel(CPUPPCState *env, target_ulong addr,
-     val = int128_make128(lo, hi);
-     cpu_atomic_sto_be_mmu(env, addr, val, opidx, GETPC());
- }
--
--uint32_t helper_stqcx_le_parallel(CPUPPCState *env, target_ulong addr,
--                                  uint64_t new_lo, uint64_t new_hi,
--                                  uint32_t opidx)
--{
--    bool success = false;
--
--    /* We will have raised EXCP_ATOMIC from the translator.  */
--    assert(HAVE_CMPXCHG128);
--
--    if (likely(addr == env->reserve_addr)) {
--        Int128 oldv, cmpv, newv;
--
--        cmpv = int128_make128(env->reserve_val2, env->reserve_val);
--        newv = int128_make128(new_lo, new_hi);
--        oldv = cpu_atomic_cmpxchgo_le_mmu(env, addr, cmpv, newv,
--                                          opidx, GETPC());
--        success = int128_eq(oldv, cmpv);
--    }
--    env->reserve_addr = -1;
--    return env->so + success * CRF_EQ_BIT;
--}
--
--uint32_t helper_stqcx_be_parallel(CPUPPCState *env, target_ulong addr,
--                                  uint64_t new_lo, uint64_t new_hi,
--                                  uint32_t opidx)
--{
--    bool success = false;
--
--    /* We will have raised EXCP_ATOMIC from the translator.  */
--    assert(HAVE_CMPXCHG128);
--
--    if (likely(addr == env->reserve_addr)) {
--        Int128 oldv, cmpv, newv;
--
--        cmpv = int128_make128(env->reserve_val2, env->reserve_val);
--        newv = int128_make128(new_lo, new_hi);
--        oldv = cpu_atomic_cmpxchgo_be_mmu(env, addr, cmpv, newv,
--                                          opidx, GETPC());
--        success = int128_eq(oldv, cmpv);
--    }
--    env->reserve_addr = -1;
--    return env->so + success * CRF_EQ_BIT;
--}
- #endif
+diff --git a/tests/qtest/libqos/virtio-serial.c b/tests/qtest/libqos/virtio-serial.c
+index 1d689c3e38..8723bffe1b 100644
+--- a/tests/qtest/libqos/virtio-serial.c
++++ b/tests/qtest/libqos/virtio-serial.c
+@@ -22,6 +22,10 @@
+ #include "qgraph.h"
+ #include "virtio-serial.h"
  
- /*****************************************************************************/
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 19c1d17cb0..85f95a9045 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -72,6 +72,7 @@ static TCGv cpu_cfar;
- static TCGv cpu_xer, cpu_so, cpu_ov, cpu_ca, cpu_ov32, cpu_ca32;
- static TCGv cpu_reserve;
- static TCGv cpu_reserve_val;
-+static TCGv cpu_reserve_val2;
- static TCGv cpu_fpscr;
- static TCGv_i32 cpu_access_type;
- 
-@@ -141,8 +142,11 @@ void ppc_translate_init(void)
-                                      offsetof(CPUPPCState, reserve_addr),
-                                      "reserve_addr");
-     cpu_reserve_val = tcg_global_mem_new(cpu_env,
--                                     offsetof(CPUPPCState, reserve_val),
--                                     "reserve_val");
-+                                         offsetof(CPUPPCState, reserve_val),
-+                                         "reserve_val");
-+    cpu_reserve_val2 = tcg_global_mem_new(cpu_env,
-+                                          offsetof(CPUPPCState, reserve_val2),
-+                                          "reserve_val2");
- 
-     cpu_fpscr = tcg_global_mem_new(cpu_env,
-                                    offsetof(CPUPPCState, fpscr), "fpscr");
-@@ -3979,78 +3983,66 @@ static void gen_lqarx(DisasContext *ctx)
- /* stqcx. */
- static void gen_stqcx_(DisasContext *ctx)
++#include "qemu/iov.h"
++
++static QGuestAllocator *alloc;
++
+ static void *qvirtio_serial_get_driver(QVirtioSerial *v_serial,
+                                        const char *interface)
  {
-+    TCGLabel *lab_fail, *lab_over;
-     int rs = rS(ctx->opcode);
--    TCGv EA, hi, lo;
-+    TCGv EA, t0, t1;
-+    TCGv_i128 cmp, val;
- 
-     if (unlikely(rs & 1)) {
-         gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);
-         return;
-     }
- 
-+    lab_fail = gen_new_label();
-+    lab_over = gen_new_label();
-+
-     gen_set_access_type(ctx, ACCESS_RES);
-     EA = tcg_temp_new();
-     gen_addr_reg_index(ctx, EA);
- 
-+    tcg_gen_brcond_tl(TCG_COND_NE, EA, cpu_reserve, lab_fail);
-+    tcg_temp_free(EA);
-+
-+    cmp = tcg_temp_new_i128();
-+    val = tcg_temp_new_i128();
-+
-+    tcg_gen_concat_i64_i128(cmp, cpu_reserve_val2, cpu_reserve_val);
-+
-     /* Note that the low part is always in RS+1, even in LE mode.  */
--    lo = cpu_gpr[rs + 1];
--    hi = cpu_gpr[rs];
-+    tcg_gen_concat_i64_i128(val, cpu_gpr[rs + 1], cpu_gpr[rs]);
- 
--    if (tb_cflags(ctx->base.tb) & CF_PARALLEL) {
--        if (HAVE_CMPXCHG128) {
--            TCGv_i32 oi = tcg_const_i32(DEF_MEMOP(MO_128) | MO_ALIGN);
--            if (ctx->le_mode) {
--                gen_helper_stqcx_le_parallel(cpu_crf[0], cpu_env,
--                                             EA, lo, hi, oi);
--            } else {
--                gen_helper_stqcx_be_parallel(cpu_crf[0], cpu_env,
--                                             EA, lo, hi, oi);
--            }
--            tcg_temp_free_i32(oi);
--        } else {
--            /* Restart with exclusive lock.  */
--            gen_helper_exit_atomic(cpu_env);
--            ctx->base.is_jmp = DISAS_NORETURN;
--        }
--        tcg_temp_free(EA);
--    } else {
--        TCGLabel *lab_fail = gen_new_label();
--        TCGLabel *lab_over = gen_new_label();
--        TCGv_i64 t0 = tcg_temp_new_i64();
--        TCGv_i64 t1 = tcg_temp_new_i64();
-+    tcg_gen_atomic_cmpxchg_i128(val, cpu_reserve, cmp, val, ctx->mem_idx,
-+                                DEF_MEMOP(MO_128 | MO_ALIGN));
-+    tcg_temp_free_i128(cmp);
- 
--        tcg_gen_brcond_tl(TCG_COND_NE, EA, cpu_reserve, lab_fail);
--        tcg_temp_free(EA);
-+    t0 = tcg_temp_new();
-+    t1 = tcg_temp_new();
-+    tcg_gen_extr_i128_i64(t1, t0, val);
-+    tcg_temp_free_i128(val);
- 
--        gen_qemu_ld64_i64(ctx, t0, cpu_reserve);
--        tcg_gen_ld_i64(t1, cpu_env, (ctx->le_mode
--                                     ? offsetof(CPUPPCState, reserve_val2)
--                                     : offsetof(CPUPPCState, reserve_val)));
--        tcg_gen_brcond_i64(TCG_COND_NE, t0, t1, lab_fail);
-+    tcg_gen_xor_tl(t1, t1, cpu_reserve_val2);
-+    tcg_gen_xor_tl(t0, t0, cpu_reserve_val);
-+    tcg_gen_or_tl(t0, t0, t1);
-+    tcg_temp_free(t1);
- 
--        tcg_gen_addi_i64(t0, cpu_reserve, 8);
--        gen_qemu_ld64_i64(ctx, t0, t0);
--        tcg_gen_ld_i64(t1, cpu_env, (ctx->le_mode
--                                     ? offsetof(CPUPPCState, reserve_val)
--                                     : offsetof(CPUPPCState, reserve_val2)));
--        tcg_gen_brcond_i64(TCG_COND_NE, t0, t1, lab_fail);
-+    tcg_gen_setcondi_tl(TCG_COND_EQ, t0, t0, 0);
-+    tcg_gen_shli_tl(t0, t0, CRF_EQ_BIT);
-+    tcg_gen_or_tl(t0, t0, cpu_so);
-+    tcg_gen_trunc_tl_i32(cpu_crf[0], t0);
-+    tcg_temp_free(t0);
- 
--        /* Success */
--        gen_qemu_st64_i64(ctx, ctx->le_mode ? lo : hi, cpu_reserve);
--        tcg_gen_addi_i64(t0, cpu_reserve, 8);
--        gen_qemu_st64_i64(ctx, ctx->le_mode ? hi : lo, t0);
-+    tcg_gen_br(lab_over);
-+    gen_set_label(lab_fail);
- 
--        tcg_gen_trunc_tl_i32(cpu_crf[0], cpu_so);
--        tcg_gen_ori_i32(cpu_crf[0], cpu_crf[0], CRF_EQ);
--        tcg_gen_br(lab_over);
-+    /*
-+     * Address mismatch implies failure.  But we still need to provide
-+     * the memory barrier semantics of the instruction.
-+     */
-+    tcg_gen_mb(TCG_MO_ALL | TCG_BAR_STRL);
-+    tcg_gen_trunc_tl_i32(cpu_crf[0], cpu_so);
- 
--        gen_set_label(lab_fail);
--        tcg_gen_trunc_tl_i32(cpu_crf[0], cpu_so);
--
--        gen_set_label(lab_over);
--        tcg_gen_movi_tl(cpu_reserve, -1);
--        tcg_temp_free_i64(t0);
--        tcg_temp_free_i64(t1);
--    }
-+    gen_set_label(lab_over);
-+    tcg_gen_movi_tl(cpu_reserve, -1);
+@@ -43,6 +47,33 @@ static void *qvirtio_serial_device_get_driver(void *object,
+     return qvirtio_serial_get_driver(&v_serial->serial, interface);
  }
- #endif /* defined(TARGET_PPC64) */
  
++static void virtio_serial_setup(QVirtioSerial *interface)
++{
++    QVirtioDevice *vdev = interface->vdev;
++    qvirtio_set_features(vdev, (1ULL << 1) | (1ULL << 32));
++
++    interface->n_queues = 6;
++    interface->queues = g_new(QVirtQueue*, interface->n_queues);
++
++    for (int i = 0; i < interface->n_queues; i++) {
++        interface->queues[i] = qvirtqueue_setup(interface->vdev, alloc, i);
++    }
++
++    qvirtio_set_driver_ok(vdev);
++}
++
++static void qvirtio_serial_device_destructor(QOSGraphObject *obj)
++{
++}
++
++static void qvirtio_serial_device_start_hw(QOSGraphObject *obj)
++{
++    QVirtioSerialDevice *v_serial = (QVirtioSerialDevice *)obj;
++    QVirtioSerial *interface = &v_serial->serial;
++
++    virtio_serial_setup(interface);
++}
++
+ static void *virtio_serial_device_create(void *virtio_dev,
+                                          QGuestAllocator *t_alloc,
+                                          void *addr)
+@@ -51,13 +82,30 @@ static void *virtio_serial_device_create(void *virtio_dev,
+     QVirtioSerial *interface = &virtio_device->serial;
+ 
+     interface->vdev = virtio_dev;
++    alloc = t_alloc;
+ 
++    virtio_device->obj.destructor = qvirtio_serial_device_destructor;
++    virtio_device->obj.start_hw = qvirtio_serial_device_start_hw;
+     virtio_device->obj.get_driver = qvirtio_serial_device_get_driver;
+ 
+     return &virtio_device->obj;
+ }
+ 
+ /* virtio-serial-pci */
++static void qvirtio_serial_pci_destructor(QOSGraphObject *obj)
++{
++}
++
++static void qvirtio_serial_pci_start_hw(QOSGraphObject *obj)
++{
++    QVirtioSerialPCI *v_serial = (QVirtioSerialPCI *) obj;
++    QVirtioSerial *interface = &v_serial->serial;
++    QOSGraphObject *pci_vobj = &v_serial->pci_vdev.obj;
++
++    qvirtio_pci_start_hw(pci_vobj);
++    virtio_serial_setup(interface);
++}
++
+ static void *qvirtio_serial_pci_get_driver(void *object, const char *interface)
+ {
+     QVirtioSerialPCI *v_serial = object;
+@@ -76,7 +124,10 @@ static void *virtio_serial_pci_create(void *pci_bus, QGuestAllocator *t_alloc,
+ 
+     virtio_pci_init(&virtio_spci->pci_vdev, pci_bus, addr);
+     interface->vdev = &virtio_spci->pci_vdev.vdev;
++    alloc = t_alloc;
+ 
++    obj->destructor = qvirtio_serial_pci_destructor;
++    obj->start_hw = qvirtio_serial_pci_start_hw;
+     obj->get_driver = qvirtio_serial_pci_get_driver;
+ 
+     return obj;
+diff --git a/tests/qtest/libqos/virtio-serial.h b/tests/qtest/libqos/virtio-serial.h
+index 3db43b2bb8..ce6ae164cb 100644
+--- a/tests/qtest/libqos/virtio-serial.h
++++ b/tests/qtest/libqos/virtio-serial.h
+@@ -29,6 +29,8 @@ typedef struct QVirtioSerialDevice QVirtioSerialDevice;
+ 
+ struct QVirtioSerial {
+     QVirtioDevice *vdev;
++    int n_queues;
++    QVirtQueue **queues;
+ };
+ 
+ struct QVirtioSerialPCI {
+diff --git a/tests/qtest/virtio-serial-test.c b/tests/qtest/virtio-serial-test.c
+index 2541034822..190075d6f5 100644
+--- a/tests/qtest/virtio-serial-test.c
++++ b/tests/qtest/virtio-serial-test.c
+@@ -11,6 +11,36 @@
+ #include "libqtest-single.h"
+ #include "qemu/module.h"
+ #include "libqos/virtio-serial.h"
++#include "standard-headers/linux/virtio_console.h"
++#include "qemu/iov.h"
++
++static void virtio_serial_test_cleanup(void *sockets)
++{
++    int *sv = sockets;
++
++    close(sv[0]);
++    qos_invalidate_command_line();
++    close(sv[1]);
++    g_free(sv);
++}
++
++static void *virtio_serial_test_setup(GString *cmd_line, void *arg)
++{
++    int ret;
++    int *sv = g_new(int, 3);
++
++    ret = socketpair(PF_UNIX, SOCK_STREAM, 0, sv);
++    g_assert_cmpint(ret, !=, -1);
++
++    g_string_append_printf(
++        cmd_line,
++        " -chardev socket,fd=%d,id=virtioserial0",
++        sv[1]);
++
++    sv[2] = arg ? 1 : 0;
++    g_test_queue_destroy(virtio_serial_test_cleanup, sv);
++    return sv;
++}
+ 
+ /* Tests only initialization so far. TODO: Replace with functional tests */
+ static void virtio_serial_nop(void *obj, void *data, QGuestAllocator *alloc)
+@@ -18,6 +48,132 @@ static void virtio_serial_nop(void *obj, void *data, QGuestAllocator *alloc)
+     /* no operation */
+ }
+ 
++static void tx_test(
++    QVirtioDevice *dev,
++    QGuestAllocator *alloc,
++    QVirtQueue *vq,
++    int socket)
++{
++    QTestState *qts = global_qtest;
++    uint64_t req_addr;
++    uint64_t free_head;
++    char test[] = "TEST";
++    char buffer[5];
++    struct iovec iov[] = {
++        {
++            .iov_base = buffer,
++            .iov_len = strlen(test)
++        }
++    };
++    int ret;
++
++    req_addr = guest_alloc(alloc, 4);
++    qtest_memwrite(qts, req_addr, test, strlen(test));
++
++    free_head = qvirtqueue_add(qts, vq, req_addr, 4, false, false);
++    qvirtqueue_kick(qts, dev, vq, free_head);
++
++    ret = iov_recv(socket, iov, 1, 0, strlen(test));
++    g_assert_cmpint(ret, ==, strlen(test));
++
++    buffer[strlen(test)] = '\0';
++    g_assert_cmpstr(buffer, ==, test);
++
++    guest_free(alloc, req_addr);
++}
++
++static void rx_test(
++    QVirtioDevice *dev,
++    QGuestAllocator *alloc,
++    QVirtQueue *vq,
++    int socket)
++{
++    QTestState *qts = global_qtest;
++    uint64_t req_addr;
++    uint64_t free_head;
++    char test[] = "TEST";
++    char buffer[5];
++    struct iovec iov[] = {
++        {
++            .iov_base = test,
++            .iov_len = strlen(test)
++        }
++    };
++    int ret;
++
++    req_addr = guest_alloc(alloc, 4);
++
++    free_head = qvirtqueue_add(qts, vq, req_addr, 4, true, false);
++    qvirtqueue_kick(qts, dev, vq, free_head);
++
++    ret = iov_send(socket, iov, 1, 0, strlen(test));
++    g_assert_cmpint(ret, ==, strlen(test));
++
++    qvirtio_wait_used_elem(qts, dev, vq, free_head, NULL, 5 * 1000 * 1000);
++    qtest_memread(qts, req_addr, buffer, strlen(test));
++
++    buffer[strlen(test)] = '\0';
++    g_assert_cmpstr(buffer, ==, test);
++
++    guest_free(alloc, req_addr);
++}
++
++static void send_recv_test(void *obj, void *data, QGuestAllocator *alloc)
++{
++    QVirtioSerial *serial_if = obj;
++    QVirtioDevice *dev = serial_if->vdev;
++    uint32_t port_open_addr, port_open_free_head;
++    int *sv = data;
++
++    /*
++     * the first port is always virtconsole due to backwards compatibility
++     * consideraitons so we must use the multiport feature to add the correct
++     * port
++     */
++    QVirtQueue *rx = serial_if->queues[sv[2] == 0 ? 0 : 4];
++    QVirtQueue *tx = serial_if->queues[sv[2] == 0 ? 1 : 5];
++    QVirtQueue *control_tx = serial_if->queues[3];
++
++    port_open_addr = guest_alloc(alloc, 8);
++
++    qtest_writel(global_qtest, port_open_addr + 0, sv[2]);
++    qtest_writew(global_qtest, port_open_addr + 4, VIRTIO_CONSOLE_PORT_READY);
++    qtest_writew(global_qtest, port_open_addr + 6, 1);
++    port_open_free_head = qvirtqueue_add(
++        global_qtest,
++        control_tx,
++        port_open_addr,
++        8,
++        false,
++        false);
++    qvirtqueue_kick(
++        global_qtest,
++        dev,
++        control_tx,
++        port_open_free_head);
++
++    qtest_writel(global_qtest, port_open_addr + 0, sv[2]);
++    qtest_writew(global_qtest, port_open_addr + 4, VIRTIO_CONSOLE_PORT_OPEN);
++    qtest_writew(global_qtest, port_open_addr + 6, 1);
++    port_open_free_head = qvirtqueue_add(
++        global_qtest,
++        control_tx,
++        port_open_addr,
++        8,
++        false,
++        false);
++    qvirtqueue_kick(
++        global_qtest,
++        dev,
++        control_tx,
++        port_open_free_head);
++
++    guest_free(alloc, port_open_addr);
++
++    tx_test(dev, alloc, tx, sv[0]);
++    rx_test(dev, alloc, rx, sv[0]);
++}
++
+ static void serial_hotplug(void *obj, void *data, QGuestAllocator *alloc)
+ {
+     qtest_qmp_device_add(global_qtest, "virtserialport", "hp-port", "{}");
+@@ -28,12 +184,29 @@ static void register_virtio_serial_test(void)
+ {
+     QOSGraphTestOptions opts = { };
+ 
+-    opts.edge.before_cmd_line = "-device virtconsole,bus=vser0.0";
++    opts.before = virtio_serial_test_setup;
++
++    opts.arg = (gpointer)0;
++    opts.edge.before_cmd_line =
++        "-device virtconsole,bus=vser0.0,chardev=virtioserial0";
+     qos_add_test("console-nop", "virtio-serial", virtio_serial_nop, &opts);
++    qos_add_test(
++        "console-send-recv",
++        "virtio-serial",
++        send_recv_test,
++        &opts);
+ 
+-    opts.edge.before_cmd_line = "-device virtserialport,bus=vser0.0";
++    opts.arg = (gpointer)1;
++    opts.edge.before_cmd_line =
++        "-device virtserialport,bus=vser0.0,chardev=virtioserial0";
+     qos_add_test("serialport-nop", "virtio-serial", virtio_serial_nop, &opts);
+ 
++    qos_add_test(
++        "serialport-send-recv",
++        "virtio-serial",
++        send_recv_test,
++        &opts);
++
+     qos_add_test("hotplug", "virtio-serial", serial_hotplug, NULL);
+ }
+ libqos_init(register_virtio_serial_test);
 -- 
 2.34.1
 
