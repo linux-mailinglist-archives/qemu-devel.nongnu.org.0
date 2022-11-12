@@ -2,87 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456AA626724
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 06:27:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B90626725
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 06:29:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otj2a-0004s4-Ce; Sat, 12 Nov 2022 00:26:52 -0500
+	id 1otj4q-0006az-9k; Sat, 12 Nov 2022 00:29:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otj2W-0004qk-SK
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:26:48 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ id 1otj4n-0006aL-Ph
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:29:09 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1otj2V-0001II-6d
- for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:26:48 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id l2so5792595pld.13
- for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 21:26:46 -0800 (PST)
+ id 1otj4m-0001dp-AU
+ for qemu-devel@nongnu.org; Sat, 12 Nov 2022 00:29:09 -0500
+Received: by mail-pf1-x430.google.com with SMTP id y203so6568813pfb.4
+ for <qemu-devel@nongnu.org>; Fri, 11 Nov 2022 21:29:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=M4iOABLsvTOfHyIwr3LPLYLCnW0f7X8O3lqFBR8/FJQ=;
- b=BSh/DBgnWGYMeVMyOSLc/gnMeXPQyB3RqsvDyXc7xPM9ZpYjfIVZ/fmcznc+b0iAte
- OG78wqrK2URTX3fHw8uTuhpZg0+eax9HjgVUWS9eGG3njvUwHvoPvDJbYb6U/0GErvj9
- Dzw1eKKVEV17zHMtev3wlgN68aaIPkypnvs1qFZWcDkeGCihtSDWy5d7fn0HQWexNH87
- XjgiL9ExyOkLDvzktr2eu3/CubjwRKVnY5FDXY0sAarMVezH5kFORIjweyxIppkvWdkq
- gkJcfcCGuzc7Jh99NyDYyytXKtuOgS9YEbfyIZk6Ap8HkRTNY/vvMCTyodnunw6j7ATV
- jxaQ==
+ bh=q5gU8ipiRrz8dtkFTDLWFTjOXTZAEzfd68uklGNyxIQ=;
+ b=EsTcS/5gFSUpcGEYuuw2MGupOY8zjopRu0ktKqja7Dj6kFaFr5ZxZTsgNGVL3TDH3O
+ T0D8Y5J/QHqver1RNfGmBRzlhyh0xOFhQk750LXsWEdMMIPXC70dvKJQqX31E0/UyTzR
+ AXdS6eSb5jXwkpUwNrbjQUKFlXmN6y9vLRrF8dVI1cSmyHiYvrSCoCTMeDd70zZ1Tft6
+ jHQAIqIgfZv0TkafOOVqQqlbaKviSfFh3eMjElAWFmKOqIFfdE7IY0HqqmQ/WMS4SGG3
+ cOstR0jkru4i8Csf/UNpYQBFT9FpSElmEAMXG3mmJVaevLcJKiS6wG1VV+2kkinQOQzj
+ RG4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=M4iOABLsvTOfHyIwr3LPLYLCnW0f7X8O3lqFBR8/FJQ=;
- b=kOxmoxHMlhGewbdXbkSnhBAHIAYKTR0/ePgMHyn6Iu8xE/dVnXwddOXYDqpo2Rm0+o
- YH8p7Ys+0o3Js8WWBUn0FTIka21QJcKZ0b5ybtTmkSpexMxcbsMYr1CUwmPQQofJfgib
- oqmMkqqrelAcc2Sp6DR+JeLvN5LFbd6FCsjbvAeGT9uDD+mm0UropyyPKZQs1HfxaHKb
- iDbkLqa0OgA7xcwCPMnvNur8J2REGQElS+0wQLEu8BtdXTI1AkmNw+xON9kHmggMk+Iu
- yoO2G2fzINPRkkbEFNH+Nq19Jy6B7+jjq8f4KhmgNoKYz3lSiEU1/usxcxs1zpybIM6h
- HiXg==
-X-Gm-Message-State: ANoB5pkaP1TJSp7Y+dZVoEL9+JTRC90q2qDVTI0YgAwCtKBqVd05CNy6
- vY7cYFMzsabbQ6o/d4O05ar4SQ==
-X-Google-Smtp-Source: AA0mqf422ww7zjKubGN4XP1zXrrKZOcL3U7mj3uO3dITnrhGwyCZuMGmG5z+apnLfd8xcEkVbXhmqA==
-X-Received: by 2002:a17:90a:6845:b0:212:eb51:85eb with SMTP id
- e5-20020a17090a684500b00212eb5185ebmr5187636pjm.232.1668230805964; 
- Fri, 11 Nov 2022 21:26:45 -0800 (PST)
+ bh=q5gU8ipiRrz8dtkFTDLWFTjOXTZAEzfd68uklGNyxIQ=;
+ b=YlFBivuRwpSttko0NuhWnat0MovFVViEBgZiWRBOTUlNsEgMLCXaw9tGnllsfed+Kg
+ 1kKu+OtK5uCBOqIrh87J18Az0nXEqvcCD2DNg5vNWQS2To1ysSvpQ0LW95BO1EYmVooA
+ uwb2pLnbqtPpfckd3dfkgkTrFtmGc5B/BE+rN7+xTtZT5WTaIrVAQyHZWbJuucK0Sr34
+ V0U+I4WWI9DSFTUXTw+3D1oGom4ign+BbZVhM17cZdLLsl9adzKj9x3kC1LPDQR378kn
+ 9uzcn9q7A+jLPRlGS+TNueEoyND2x698DMmFgtM2ZXER+JOGTTE3U1EzrUBg5bY0EJiD
+ ChLQ==
+X-Gm-Message-State: ANoB5pmlWz6W3rXE12J5R3SF08JWRsIiMRl0hDt4D/jwDIh/yMQy6FB8
+ o6rwIXvfjsY2BlGnV+9RQwZ/07R2hk/esHxN
+X-Google-Smtp-Source: AA0mqf5nYyjlASOS9piFe90wdi4YeHxP3ydP5US24xV2Sg8mf4qxnEKSccJW83HBVHf8OxSdOh9xkw==
+X-Received: by 2002:a63:e00d:0:b0:464:45b5:745c with SMTP id
+ e13-20020a63e00d000000b0046445b5745cmr4430453pgh.118.1668230946854; 
+ Fri, 11 Nov 2022 21:29:06 -0800 (PST)
 Received: from ?IPV6:2001:44b8:2176:c800:8228:b676:fb42:ee07?
  (2001-44b8-2176-c800-8228-b676-fb42-ee07.static.ipv6.internode.on.net.
  [2001:44b8:2176:c800:8228:b676:fb42:ee07])
  by smtp.gmail.com with ESMTPSA id
- c4-20020a655a84000000b00473c36ea150sm2086530pgt.92.2022.11.11.21.26.42
+ a4-20020aa795a4000000b0056d7cc80ea4sm2476240pfk.110.2022.11.11.21.29.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Nov 2022 21:26:45 -0800 (PST)
-Message-ID: <64aa311e-efc3-ce6a-c663-10fefb469695@linaro.org>
-Date: Sat, 12 Nov 2022 15:26:38 +1000
+ Fri, 11 Nov 2022 21:29:06 -0800 (PST)
+Message-ID: <97d50924-66c3-80d7-30cf-f157da6477aa@linaro.org>
+Date: Sat, 12 Nov 2022 15:29:00 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v5 05/20] target/arm: ensure m-profile helpers set
- appropriate MemTxAttrs
+Subject: Re: [PATCH v5 04/20] target/arm: ensure KVM traps set appropriate
+ MemTxAttrs
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Cc: f4bug@amsat.org, Peter Maydell <peter.maydell@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "open list:ARM KVM CPUs" <qemu-arm@nongnu.org>,
+ "open list:Overall KVM CPUs" <kvm@vger.kernel.org>
 References: <20221111182535.64844-1-alex.bennee@linaro.org>
- <20221111182535.64844-6-alex.bennee@linaro.org>
+ <20221111182535.64844-5-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20221111182535.64844-6-alex.bennee@linaro.org>
+In-Reply-To: <20221111182535.64844-5-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,33 +101,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 11/12/22 04:25, Alex Bennée wrote:
-> There are a number of helpers for M-profile that deal with CPU
-> initiated access to the vector and stack areas. While it is unlikely
-> these coincided with memory mapped IO devices it is not inconceivable.
-> Embedded targets tend to attract all sorts of interesting code and for
-> completeness we should tag the transaction appropriately.
+> Although most KVM users will use the in-kernel GIC emulation it is
+> perfectly possible not to. In this case we need to ensure the
+> MemTxAttrs are correctly populated so the GIC can divine the source
+> CPU of the operation.
 > 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > 
 > ---
+> v3
+>    - new for v3
 > v5
->    - rebase fixes for refactoring
+>    - tags
+>    - use MEMTXATTRS_PCI
 > ---
->   target/arm/m_helper.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-> index 355cd4d60a..2fb1ef95cd 100644
-> --- a/target/arm/m_helper.c
-> +++ b/target/arm/m_helper.c
-> @@ -184,7 +184,7 @@ static bool v7m_stack_write(ARMCPU *cpu, uint32_t addr, uint32_t value,
->       CPUState *cs = CPU(cpu);
->       CPUARMState *env = &cpu->env;
->       MemTxResult txres;
-> -    GetPhysAddrResult res = {};
-> +    GetPhysAddrResult res = { .f.attrs = MEMTXATTRS_CPU(cs) };
 
-This entire patch goes away with .attrs set properly in get_phys_addr_with_struct.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
