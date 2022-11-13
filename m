@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331BA626D7B
+	by mail.lfdr.de (Postfix) with ESMTPS id 2249D626D7A
 	for <lists+qemu-devel@lfdr.de>; Sun, 13 Nov 2022 03:36:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ou2q9-00037l-62; Sat, 12 Nov 2022 21:35:21 -0500
+	id 1ou2qF-000391-So; Sat, 12 Nov 2022 21:35:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ou2q3-000350-I6; Sat, 12 Nov 2022 21:35:15 -0500
+ id 1ou2q7-00037s-9p; Sat, 12 Nov 2022 21:35:20 -0500
 Received: from smtp21.cstnet.cn ([159.226.251.21] helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1ou2q0-0006UE-9S; Sat, 12 Nov 2022 21:35:15 -0500
+ id 1ou2q4-0006Uo-Fm; Sat, 12 Nov 2022 21:35:19 -0500
 Received: from localhost.localdomain (unknown [180.165.240.202])
- by APP-01 (Coremail) with SMTP id qwCowABH6GnNV3BjuIN9CQ--.57556S7;
- Sun, 13 Nov 2022 10:35:07 +0800 (CST)
+ by APP-01 (Coremail) with SMTP id qwCowABH6GnNV3BjuIN9CQ--.57556S8;
+ Sun, 13 Nov 2022 10:35:10 +0800 (CST)
 From: Weiwei Li <liweiwei@iscas.ac.cn>
 To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
  Weiwei Li <liweiwei@iscas.ac.cn>
-Subject: [PATCH v2 5/8] target/riscv: add support for Zcmp extension
-Date: Sun, 13 Nov 2022 10:32:48 +0800
-Message-Id: <20221113023251.11047-6-liweiwei@iscas.ac.cn>
+Subject: [PATCH v2 6/8] target/riscv: add support for Zcmt extension
+Date: Sun, 13 Nov 2022 10:32:49 +0800
+Message-Id: <20221113023251.11047-7-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221113023251.11047-1-liweiwei@iscas.ac.cn>
 References: <20221113023251.11047-1-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowABH6GnNV3BjuIN9CQ--.57556S7
-X-Coremail-Antispam: 1UD129KBjvJXoW3Zr18WF18WFWfJr43Kr48WFg_yoWkZw45pF
- 4rCrW7GrWkAFWxAayxKF1rAw15trs3Wr4UAa4fKwn7Aw43KFWfAr1Dt3y3tF45GFWkur4j
- ka98Zayjk3y5XFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9K14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID: qwCowABH6GnNV3BjuIN9CQ--.57556S8
+X-Coremail-Antispam: 1UD129KBjvJXoW3uFy3KrWDAF4xtw1Uuw4rZrb_yoWDury3pr
+ 4rCay3GrWrJrWxAa1ftF45trn8Jws3G3y2kan3Jw4kJay3GFW5Jrs8tw13KFZ8XF95ury2
+ 9a1YyFy5CrWUZFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9E14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
  kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
  z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
@@ -46,9 +46,9 @@ X-Coremail-Antispam: 1UD129KBjvJXoW3Zr18WF18WFWfJr43Kr48WFg_yoWkZw45pF
  JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vIr4
  1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
  67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
- 8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAv
- wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
- v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOBTYUUUUU
+ 8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6xAIw20E
+ Y4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
+ AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbmZX7UUUUU==
 X-Originating-IP: [180.165.240.202]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
@@ -73,464 +73,374 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add encode, trans* functions and helper functions support for Zcmp
-instructions
+Add encode, trans* functions and helper functions support for Zcmt
+instrutions
+Add support for jvt csr
 
 Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 ---
- target/riscv/helper.h                     |   6 +
- target/riscv/insn16.decode                |  16 ++
- target/riscv/insn_trans/trans_rvzce.c.inc | 107 ++++++++++-
- target/riscv/meson.build                  |   3 +-
- target/riscv/translate.c                  |   5 +
- target/riscv/zce_helper.c                 | 210 ++++++++++++++++++++++
- 6 files changed, 345 insertions(+), 2 deletions(-)
- create mode 100644 target/riscv/zce_helper.c
+ target/riscv/cpu.h                        |  2 ++
+ target/riscv/cpu_bits.h                   |  7 +++++
+ target/riscv/csr.c                        | 35 +++++++++++++++++++++++
+ target/riscv/helper.h                     |  1 +
+ target/riscv/insn16.decode                |  6 ++++
+ target/riscv/insn_trans/trans_rvf.c.inc   |  8 +++---
+ target/riscv/insn_trans/trans_rvzce.c.inc | 29 ++++++++++++++++++-
+ target/riscv/insn_trans/trans_rvzfh.c.inc |  6 ++--
+ target/riscv/machine.c                    | 19 ++++++++++++
+ target/riscv/zce_helper.c                 | 34 ++++++++++++++++++++++
+ 10 files changed, 139 insertions(+), 8 deletions(-)
 
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 6e915b6937..0f9fffab2f 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -181,6 +181,8 @@ struct CPUArchState {
+ 
+     uint32_t features;
+ 
++    target_ulong jvt;
++
+ #ifdef CONFIG_USER_ONLY
+     uint32_t elf_flags;
+ #endif
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 8b0d7e20ea..ce347e5575 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -319,6 +319,7 @@
+ #define SMSTATEEN_MAX_COUNT 4
+ #define SMSTATEEN0_CS       (1ULL << 0)
+ #define SMSTATEEN0_FCSR     (1ULL << 1)
++#define SMSTATEEN0_JVT      (1ULL << 2)
+ #define SMSTATEEN0_HSCONTXT (1ULL << 57)
+ #define SMSTATEEN0_IMSIC    (1ULL << 58)
+ #define SMSTATEEN0_AIA      (1ULL << 59)
+@@ -523,6 +524,9 @@
+ /* Crypto Extension */
+ #define CSR_SEED            0x015
+ 
++/* Zcmt Extension */
++#define CSR_JVT             0x017
++
+ /* mstatus CSR bits */
+ #define MSTATUS_UIE         0x00000001
+ #define MSTATUS_SIE         0x00000002
+@@ -894,4 +898,7 @@ typedef enum RISCVException {
+ #define MHPMEVENT_IDX_MASK                 0xFFFFF
+ #define MHPMEVENT_SSCOF_RESVD              16
+ 
++/* JVT CSR bits */
++#define JVT_MODE                           0x3F
++#define JVT_BASE                           (~0x3F)
+ #endif
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 8b25f885ec..901da42b53 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -167,6 +167,24 @@ static RISCVException ctr32(CPURISCVState *env, int csrno)
+     return ctr(env, csrno);
+ }
+ 
++static RISCVException zcmt(CPURISCVState *env, int csrno)
++{
++    RISCVCPU *cpu = env_archcpu(env);
++
++    if (!cpu->cfg.ext_zcmt) {
++        return RISCV_EXCP_ILLEGAL_INST;
++    }
++
++#if !defined(CONFIG_USER_ONLY)
++    RISCVException ret = smstateen_acc_ok(env, 0, SMSTATEEN0_JVT);
++    if (ret != RISCV_EXCP_NONE) {
++        return ret;
++    }
++#endif
++
++    return RISCV_EXCP_NONE;
++}
++
+ #if !defined(CONFIG_USER_ONLY)
+ static RISCVException mctr(CPURISCVState *env, int csrno)
+ {
+@@ -3987,6 +4005,20 @@ RISCVException riscv_csrrw_debug(CPURISCVState *env, int csrno,
+     return ret;
+ }
+ 
++static RISCVException read_jvt(CPURISCVState *env, int csrno,
++                               target_ulong *val)
++{
++    *val = env->jvt;
++    return RISCV_EXCP_NONE;
++}
++
++static RISCVException write_jvt(CPURISCVState *env, int csrno,
++                                target_ulong val)
++{
++    env->jvt = val;
++    return RISCV_EXCP_NONE;
++}
++
+ /* Control and Status Register function table */
+ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     /* User Floating-Point CSRs */
+@@ -4024,6 +4056,9 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     /* Crypto Extension */
+     [CSR_SEED] = { "seed", seed, NULL, NULL, rmw_seed },
+ 
++    /* Zcmt Extension */
++    [CSR_JVT] = {"jvt", zcmt, read_jvt, write_jvt},
++
+ #if !defined(CONFIG_USER_ONLY)
+     /* Machine Timers and Counters */
+     [CSR_MCYCLE]    = { "mcycle",    any,   read_hpmcounter,
 diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 227c7122ef..048ccf6ac3 100644
+index 048ccf6ac3..4862fc422e 100644
 --- a/target/riscv/helper.h
 +++ b/target/riscv/helper.h
-@@ -1136,3 +1136,9 @@ DEF_HELPER_FLAGS_1(aes64im, TCG_CALL_NO_RWG_SE, tl, tl)
- 
- DEF_HELPER_FLAGS_3(sm4ed, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
- DEF_HELPER_FLAGS_3(sm4ks, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
-+
-+/* Zce helper */
-+DEF_HELPER_4(cm_pop, tl, env, tl, tl, tl)
-+DEF_HELPER_4(cm_push, void, env, tl, tl, tl)
-+DEF_HELPER_4(cm_popret, tl, env, tl, tl, tl)
-+DEF_HELPER_4(cm_popretz, tl, env, tl, tl, tl)
+@@ -1142,3 +1142,4 @@ DEF_HELPER_4(cm_pop, tl, env, tl, tl, tl)
+ DEF_HELPER_4(cm_push, void, env, tl, tl, tl)
+ DEF_HELPER_4(cm_popret, tl, env, tl, tl, tl)
+ DEF_HELPER_4(cm_popretz, tl, env, tl, tl, tl)
++DEF_HELPER_3(cm_jalt, tl, env, tl, tl)
 diff --git a/target/riscv/insn16.decode b/target/riscv/insn16.decode
-index 2c1ae4d92e..941146633d 100644
+index 941146633d..25e274d582 100644
 --- a/target/riscv/insn16.decode
 +++ b/target/riscv/insn16.decode
-@@ -21,6 +21,8 @@
- %rs1_3     7:3                !function=ex_rvc_register
- %rs2_3     2:3                !function=ex_rvc_register
- %rs2_5     2:5
-+%sreg1     7:3                !function=ex_sreg_register
-+%sreg2     2:3                !function=ex_sreg_register
- 
- # Immediates:
- %imm_ci        12:s1 2:5
-@@ -45,6 +47,8 @@
- 
- %zcb_b_uimm  5:1 6:1
+@@ -49,6 +49,7 @@
  %zcb_h_uimm  5:1                     !function=ex_shift_1
-+%zcmp_spimm  2:2                     !function=ex_shift_4
-+%zcmp_rlist  4:4
+ %zcmp_spimm  2:2                     !function=ex_shift_4
+ %zcmp_rlist  4:4
++%zcmt_index  2:8
  
  # Argument sets imported from insn32.decode:
  &empty                  !extern
-@@ -56,7 +60,9 @@
- &u         imm rd       !extern
- &shift     shamt rs1 rd !extern
- &r2        rd rs1       !extern
-+&r2_s      rs1 rs2      !extern
+@@ -63,6 +64,7 @@
+ &r2_s      rs1 rs2      !extern
  
-+&zcmp      zcmp_rlist zcmp_spimm
+ &zcmp      zcmp_rlist zcmp_spimm
++&zcmt      zcmt_index
  
  # Formats 16:
  @cr        ....  ..... .....  .. &r      rs2=%rs2_5       rs1=%rd     %rd
-@@ -96,6 +102,8 @@
- @zcb_binary   ... ...  ... .. ... ..  &r  rs2=%rs2_3       rs1=%rs1_3 rd=%rs1_3
- @zcb_b        ... . .. ... .. ... ..  &i  imm=%zcb_b_uimm  rs1=%rs1_3 rd=%rs2_3
+@@ -104,6 +106,7 @@
  @zcb_h        ... . .. ... .. ... ..  &i  imm=%zcb_h_uimm  rs1=%rs1_3 rd=%rs2_3
-+@zcmp         ... ...  ........   ..  &zcmp  %zcmp_rlist   %zcmp_spimm
-+@cm_mv        ... ...  ... .. ... ..  &r2_s  rs2=%sreg2    rs1=%sreg1
+ @zcmp         ... ...  ........   ..  &zcmp  %zcmp_rlist   %zcmp_spimm
+ @cm_mv        ... ...  ... .. ... ..  &r2_s  rs2=%sreg2    rs1=%sreg1
++@zcmt_jt      ... ...  ........   ..  &zcmt  %zcmt_index
  
  # *** RV32/64C Standard Extension (Quadrant 0) ***
  {
-@@ -175,6 +183,14 @@ slli              000 .  .....  ..... 10 @c_shift2
- {
-   sq              101  ... ... .. ... 10 @c_sqsp
-   c_fsd           101   ......  ..... 10 @c_sdsp
+@@ -191,6 +194,9 @@ slli              000 .  .....  ..... 10 @c_shift2
+   cm_popretz      101  11100  .... .. 10 @zcmp
+   cm_mva01s       101  011 ... 11 ... 10 @cm_mv
+   cm_mvsa01       101  011 ... 01 ... 10 @cm_mv
 +
-+  # *** RV64 and RV32 Zcmp Extension ***
-+  cm_push         101  11000  .... .. 10 @zcmp
-+  cm_pop          101  11010  .... .. 10 @zcmp
-+  cm_popret       101  11110  .... .. 10 @zcmp
-+  cm_popretz      101  11100  .... .. 10 @zcmp
-+  cm_mva01s       101  011 ... 11 ... 10 @cm_mv
-+  cm_mvsa01       101  011 ... 01 ... 10 @cm_mv
++  # *** RV64 and RV32 Zcmt Extension ***
++  cm_jalt         101  000   ........ 10 @zcmt_jt
  }
  sw                110 .  .....  ..... 10 @c_swsp
  
+diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
+index 93657680c6..1616ce663d 100644
+--- a/target/riscv/insn_trans/trans_rvf.c.inc
++++ b/target/riscv/insn_trans/trans_rvf.c.inc
+@@ -25,7 +25,7 @@
+ } while (0)
+ 
+ #ifndef CONFIG_USER_ONLY
+-static inline bool smstateen_fcsr_check(DisasContext *ctx, int index)
++static inline bool smstateen_check(DisasContext *ctx, int index, uint64_t bit)
+ {
+     CPUState *cpu = ctx->cs;
+     CPURISCVState *env = cpu->env_ptr;
+@@ -43,7 +43,7 @@ static inline bool smstateen_fcsr_check(DisasContext *ctx, int index)
+         stateen &= env->sstateen[index];
+     }
+ 
+-    if (!(stateen & SMSTATEEN0_FCSR)) {
++    if (!(stateen & bit)) {
+         if (ctx->virt_enabled) {
+             ctx->virt_inst_excp = true;
+         }
+@@ -53,7 +53,7 @@ static inline bool smstateen_fcsr_check(DisasContext *ctx, int index)
+     return true;
+ }
+ #else
+-#define smstateen_fcsr_check(ctx, index) (true)
++#define smstateen_check(ctx, index, bit) (true)
+ #endif
+ 
+ #define REQUIRE_ZFINX_OR_F(ctx) do { \
+@@ -61,7 +61,7 @@ static inline bool smstateen_fcsr_check(DisasContext *ctx, int index)
+         if (!ctx->cfg_ptr->ext_zfinx) { \
+             return false; \
+         } \
+-        if (!smstateen_fcsr_check(ctx, 0)) { \
++        if (!smstateen_check(ctx, 0, SMSTATEEN0_FCSR)) { \
+             return false; \
+         } \
+     } \
 diff --git a/target/riscv/insn_trans/trans_rvzce.c.inc b/target/riscv/insn_trans/trans_rvzce.c.inc
-index 0947190f2d..b0055934ed 100644
+index b0055934ed..bde6e1f904 100644
 --- a/target/riscv/insn_trans/trans_rvzce.c.inc
 +++ b/target/riscv/insn_trans/trans_rvzce.c.inc
 @@ -1,5 +1,5 @@
  /*
-- * RISC-V translation routines for the Zcb Standard Extension.
-+ * RISC-V translation routines for the Zc[b,mp] Standard Extension.
+- * RISC-V translation routines for the Zc[b,mp] Standard Extension.
++ * RISC-V translation routines for the Zc[b,mp,mt] Standard Extension.
   *
   * Copyright (c) 2021-2022 PLCT Lab
   *
-@@ -21,6 +21,11 @@
-         return false;           \
+@@ -26,6 +26,15 @@
+         return false;            \
  } while (0)
  
-+#define REQUIRE_ZCMP(ctx) do {   \
-+    if (!ctx->cfg_ptr->ext_zcmp) \
-+        return false;            \
++#define REQUIRE_ZCMT(ctx) do {                       \
++    if (!ctx->cfg_ptr->ext_zcmt) {                   \
++        return false;                                \
++    }                                                \
++    if (!smstateen_check(ctx, 0, SMSTATEEN0_JVT)) {  \
++        return false;                                \
++    }                                                \
 +} while (0)
 +
  static bool trans_c_zext_b(DisasContext *ctx, arg_c_zext_b *a)
  {
      REQUIRE_ZCB(ctx);
-@@ -131,3 +136,103 @@ static bool trans_c_sh(DisasContext *ctx, arg_c_sh *a)
-     MemOp memop = MO_UW;
-     return gen_zce_store(ctx, a, memop);
+@@ -236,3 +245,21 @@ static bool trans_cm_mvsa01(DisasContext *ctx, arg_cm_mvsa01 *a)
+ 
+     return true;
  }
 +
-+static bool gen_zcmp_check(DisasContext *ctx, arg_zcmp *a)
++static bool trans_cm_jalt(DisasContext *ctx, arg_cm_jalt *a)
 +{
-+    /* rlist 0 to 3 are reserved for a future EABI variant called cm.popret.e */
-+    if (a->zcmp_rlist < 4) {
-+        return false;
-+    }
++    REQUIRE_ZCMT(ctx);
 +
-+    /* rlist <= 6 when RV32E/RV64E */
-+    if (ctx->cfg_ptr->ext_e && a->zcmp_rlist > 6) {
-+        return false;
-+    }
++    TCGv index = tcg_const_tl(a->zcmt_index);
++    TCGv next_pc = tcg_const_tl(ctx->pc_succ_insn);
 +
++    gen_helper_cm_jalt(cpu_pc, cpu_env, index, next_pc);
++
++    tcg_gen_lookup_and_goto_ptr();
++
++    ctx->base.is_jmp = DISAS_NORETURN;
++
++    tcg_temp_free(index);
++    tcg_temp_free(next_pc);
 +    return true;
 +}
-+
-+static bool gen_pop(DisasContext *ctx, arg_zcmp *a, bool ret,
-+                    void (*func)(TCGv, TCGv_env, TCGv, TCGv, TCGv))
-+{
-+    if (!gen_zcmp_check(ctx, a)) {
-+        return false;
-+    }
-+
-+    TCGv sp = get_gpr(ctx, xSP, EXT_NONE);
-+    TCGv rlist = tcg_const_tl(a->zcmp_rlist);
-+    TCGv spimm = tcg_const_tl(a->zcmp_spimm);
-+
-+    func(cpu_pc, cpu_env, sp, spimm, rlist);
-+
-+    if (ret) {
-+        gen_set_pc(ctx, cpu_pc);
-+        tcg_gen_lookup_and_goto_ptr();
-+        ctx->base.is_jmp = DISAS_NORETURN;
-+    }
-+    tcg_temp_free(spimm);
-+    tcg_temp_free(rlist);
-+    return true;
-+}
-+
-+static bool trans_cm_push(DisasContext *ctx, arg_cm_push *a)
-+{
-+    REQUIRE_ZCMP(ctx);
-+
-+    if (!gen_zcmp_check(ctx, a)) {
-+        return false;
-+    }
-+
-+    TCGv sp = get_gpr(ctx, xSP, EXT_NONE);
-+    TCGv rlist = tcg_const_tl(a->zcmp_rlist);
-+    TCGv spimm = tcg_const_tl(a->zcmp_spimm);
-+    gen_helper_cm_push(cpu_env, sp, spimm, rlist);
-+
-+    tcg_temp_free(spimm);
-+    tcg_temp_free(rlist);
-+    return true;
-+}
-+
-+static bool trans_cm_pop(DisasContext *ctx, arg_cm_pop *a)
-+{
-+    REQUIRE_ZCMP(ctx);
-+    return gen_pop(ctx, a, false, gen_helper_cm_pop);
-+}
-+
-+static bool trans_cm_popret(DisasContext *ctx, arg_cm_popret *a)
-+{
-+    REQUIRE_ZCMP(ctx);
-+    return gen_pop(ctx, a, true, gen_helper_cm_popret);
-+}
-+
-+static bool trans_cm_popretz(DisasContext *ctx, arg_cm_popret *a)
-+{
-+    REQUIRE_ZCMP(ctx);
-+    return gen_pop(ctx, a, true, gen_helper_cm_popretz);
-+}
-+
-+static bool trans_cm_mva01s(DisasContext *ctx, arg_cm_mva01s *a)
-+{
-+    REQUIRE_ZCMP(ctx);
-+
-+    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-+    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
-+
-+    gen_set_gpr(ctx, xA0, src1);
-+    gen_set_gpr(ctx, xA1, src2);
-+
-+    return true;
-+}
-+
-+static bool trans_cm_mvsa01(DisasContext *ctx, arg_cm_mvsa01 *a)
-+{
-+    REQUIRE_ZCMP(ctx);
-+
-+    TCGv a0 = get_gpr(ctx, xA0, EXT_NONE);
-+    TCGv a1 = get_gpr(ctx, xA1, EXT_NONE);
-+
-+    gen_set_gpr(ctx, a->rs1, a0);
-+    gen_set_gpr(ctx, a->rs2, a1);
-+
-+    return true;
-+}
-diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-index ba25164d74..4bf9c9e632 100644
---- a/target/riscv/meson.build
-+++ b/target/riscv/meson.build
-@@ -18,7 +18,8 @@ riscv_ss.add(files(
-   'bitmanip_helper.c',
-   'translate.c',
-   'm128_helper.c',
--  'crypto_helper.c'
-+  'crypto_helper.c',
-+  'zce_helper.c'
- ))
- riscv_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
+diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/insn_trans/trans_rvzfh.c.inc
+index 6c2e338c0a..a1c513bc8c 100644
+--- a/target/riscv/insn_trans/trans_rvzfh.c.inc
++++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
+@@ -29,7 +29,7 @@
+     if (!ctx->cfg_ptr->ext_zhinx && !ctx->cfg_ptr->ext_zfh) { \
+         return false;                  \
+     }                                  \
+-    if (!smstateen_fcsr_check(ctx, 0)) { \
++    if (!smstateen_check(ctx, 0, SMSTATEEN0_FCSR)) { \
+         return false; \
+     } \
+ } while (0)
+@@ -38,7 +38,7 @@
+     if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin)) { \
+         return false;                         \
+     }                                         \
+-    if (!smstateen_fcsr_check(ctx, 0)) { \
++    if (!smstateen_check(ctx, 0, SMSTATEEN0_FCSR)) { \
+         return false; \
+     } \
+ } while (0)
+@@ -48,7 +48,7 @@
+           ctx->cfg_ptr->ext_zhinx || ctx->cfg_ptr->ext_zhinxmin)) {     \
+         return false;                                        \
+     }                                                        \
+-    if (!smstateen_fcsr_check(ctx, 0)) { \
++    if (!smstateen_check(ctx, 0, SMSTATEEN0_FCSR)) { \
+         return false; \
+     } \
+ } while (0)
+diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+index 65a8549ec2..ee3a2deab6 100644
+--- a/target/riscv/machine.c
++++ b/target/riscv/machine.c
+@@ -331,6 +331,24 @@ static const VMStateDescription vmstate_pmu_ctr_state = {
+     }
+ };
  
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 7cd35058d3..90e9ea1136 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -738,6 +738,11 @@ static int ex_rvc_register(DisasContext *ctx, int reg)
-     return 8 + reg;
- }
- 
-+static int ex_sreg_register(DisasContext *ctx, int reg)
++static bool jvt_needed(void *opaque)
 +{
-+    return reg < 2 ? reg + 8 : reg + 16;
++    RISCVCPU *cpu = opaque;
++
++    return cpu->cfg.ext_zcmt;
 +}
 +
- static int ex_rvc_shiftli(DisasContext *ctx, int imm)
- {
-     /* For RV128 a shamt of 0 means a shift by 64. */
++static const VMStateDescription vmstate_jvt = {
++    .name = "cpu/jvt",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = jvt_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINTTL(env.jvt, RISCVCPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ const VMStateDescription vmstate_riscv_cpu = {
+     .name = "cpu",
+     .version_id = 5,
+@@ -400,6 +418,7 @@ const VMStateDescription vmstate_riscv_cpu = {
+         &vmstate_envcfg,
+         &vmstate_debug,
+         &vmstate_smstateen,
++        &vmstate_jvt,
+         NULL
+     }
+ };
 diff --git a/target/riscv/zce_helper.c b/target/riscv/zce_helper.c
-new file mode 100644
-index 0000000000..1346de1367
---- /dev/null
+index 1346de1367..f687c6fc85 100644
+--- a/target/riscv/zce_helper.c
 +++ b/target/riscv/zce_helper.c
-@@ -0,0 +1,210 @@
-+/*
-+ * RISC-V Zc* extension Helpers for QEMU.
-+ *
-+ * Copyright (c) 2021-2022 PLCT Lab
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
+@@ -208,3 +208,37 @@ target_ulong HELPER(cm_popretz)(CPURISCVState *env, target_ulong sp,
+ #undef X_Sn
+ #undef ZCMP_POP
+ #undef ZCMP_PUSH
 +
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "exec/exec-all.h"
-+#include "exec/helper-proto.h"
-+#include "exec/cpu_ldst.h"
-+
-+#define X_S0    8
-+#define X_S1    9
-+#define X_Sn    16
-+#define X_RA    1
-+#define X_A0    10
-+#define X_S4_E  7
-+#define X_S3_E  6
-+#define X_S2_E  14
-+
-+static inline void update_push_pop_list(target_ulong rlist, bool *xreg_list)
++target_ulong HELPER(cm_jalt)(CPURISCVState *env, target_ulong index,
++                             target_ulong next_pc)
 +{
-+    switch (rlist) {
-+    case 15:
-+        xreg_list[X_Sn + 11] = true;
-+        xreg_list[X_Sn + 10] = true;
-+        /* FALL THROUGH */
-+    case 14:
-+        xreg_list[X_Sn + 9] = true;
-+        /* FALL THROUGH */
-+    case 13:
-+        xreg_list[X_Sn + 8] = true;
-+        /* FALL THROUGH */
-+    case 12:
-+        xreg_list[X_Sn + 7] = true;
-+        /* FALL THROUGH */
-+    case 11:
-+        xreg_list[X_Sn + 6] = true;
-+        /* FALL THROUGH */
-+    case 10:
-+        xreg_list[X_Sn + 5] = true;
-+        /* FALL THROUGH */
-+    case 9:
-+        xreg_list[X_Sn + 4] = true;
-+        /* FALL THROUGH */
-+    case 8:
-+        xreg_list[X_Sn + 3] = true;
-+        /* FALL THROUGH */
-+    case 7:
-+        xreg_list[X_Sn + 2] = true;
-+        /* FALL THROUGH */
-+    case 6:
-+        xreg_list[X_S1] = true;
-+        /* FALL THROUGH */
-+    case 5:
-+        xreg_list[X_S0] = true;
-+        /* FALL THROUGH */
-+    case 4:
-+        xreg_list[X_RA] = true;
-+        break;
-+    }
-+}
++    target_ulong target = next_pc;
++    target_ulong val = 0;
++    int xlen = riscv_cpu_xlen(env);
 +
-+static inline target_ulong caculate_stack_adj(int bytes, target_ulong rlist,
-+                                              target_ulong spimm)
-+{
-+    target_ulong stack_adj_base = 0;
-+    switch (rlist) {
-+    case 15:
-+        stack_adj_base = bytes == 4 ? 64 : 112;
-+        break;
-+    case 14:
-+        stack_adj_base = bytes == 4 ? 48 : 96;
-+        break;
-+    case 13:
-+    case 12:
-+        stack_adj_base = bytes == 4 ? 48 : 80;
-+        break;
-+    case 11:
-+    case 10:
-+        stack_adj_base = bytes == 4 ? 32 : 64;
-+        break;
-+    case 9:
-+    case 8:
-+        stack_adj_base = bytes == 4 ? 32 : 48;
-+        break;
-+    case 7:
-+    case 6:
-+        stack_adj_base = bytes == 4 ? 16 : 32;
-+        break;
-+    case 5:
-+    case 4:
-+        stack_adj_base = 16;
-+        break;
++    val = env->jvt;
++
++    uint8_t mode = get_field(val, JVT_MODE);
++    target_ulong base = get_field(val, JVT_BASE);
++
++    target_ulong t0;
++
++    if (mode != 0) {
++        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
 +    }
 +
-+    return stack_adj_base + spimm;
-+}
-+
-+static inline target_ulong zcmp_pop(CPURISCVState *env, target_ulong sp,
-+                                    target_ulong rlist, target_ulong spimm,
-+                                    bool ret_val, bool ret)
-+{
-+    bool xreg_list[32] = {false};
-+    target_ulong addr;
-+    target_ulong stack_adj;
-+    int bytes = riscv_cpu_xlen(env) == 32 ? 4 : 8;
-+    int i;
-+
-+    update_push_pop_list(rlist, xreg_list);
-+    stack_adj = caculate_stack_adj(bytes, rlist, spimm);
-+    addr = sp + stack_adj - bytes;
-+    for (i = 31; i >= 0; i--) {
-+        if (xreg_list[i]) {
-+            switch (bytes) {
-+            case 4:
-+                env->gpr[i] = cpu_ldl_le_data(env, addr);
-+                break;
-+            case 8:
-+                env->gpr[i] = cpu_ldq_le_data(env, addr);
-+                break;
-+            default:
-+                break;
-+            }
-+            addr -= bytes;
-+        }
-+    }
-+
-+    if (ret_val) {
-+        env->gpr[xA0] = 0;
-+    }
-+
-+    env->gpr[xSP] = sp + stack_adj;
-+    if (ret) {
-+        return env->gpr[xRA];
++    if (xlen == 32) {
++        t0 = base + (index << 2);
++        target = cpu_ldl_code(env, t0);
 +    } else {
-+        return env->pc;
++        t0 = base + (index << 3);
++        target = cpu_ldq_code(env, t0);
 +    }
-+}
 +
-+static inline void zcmp_push(CPURISCVState *env, target_ulong sp,
-+                             target_ulong rlist, target_ulong spimm)
-+{
-+    target_ulong addr = sp;
-+    bool xreg_list[32] = {false};
-+    target_ulong stack_adj;
-+    int bytes = riscv_cpu_xlen(env) == 32 ? 4 : 8;
-+    int i;
-+
-+    update_push_pop_list(rlist, xreg_list);
-+    stack_adj = caculate_stack_adj(bytes, rlist, spimm);
-+    addr -= bytes;
-+    for (i = 31; i >= 0; i--) {
-+        if (xreg_list[i]) {
-+            switch (bytes) {
-+            case 4:
-+                cpu_stl_le_data(env, addr, env->gpr[i]);
-+                break;
-+            case 8:
-+                cpu_stq_le_data(env, addr, env->gpr[i]);
-+                break;
-+            default:
-+                break;
-+            }
-+            addr -= bytes;
-+        }
++    /* index >= 32 for cm.jalt, otherwise for cm.jt */
++    if (index >= 32) {
++        env->gpr[1] = next_pc;
 +    }
-+    env->gpr[xSP] = sp - stack_adj;
-+}
 +
-+void HELPER(cm_push)(CPURISCVState *env, target_ulong sp, target_ulong spimm,
-+                     target_ulong rlist)
-+{
-+    return zcmp_push(env, sp, rlist, spimm);
++    return target & ~0x1;
 +}
-+
-+target_ulong HELPER(cm_pop)(CPURISCVState *env, target_ulong sp,
-+                            target_ulong spimm, target_ulong rlist)
-+{
-+    return zcmp_pop(env, sp, rlist, spimm, false, false);
-+}
-+
-+target_ulong HELPER(cm_popret)(CPURISCVState *env, target_ulong sp,
-+                               target_ulong spimm, target_ulong rlist)
-+{
-+    return zcmp_pop(env, sp, rlist, spimm, false, true);
-+}
-+
-+target_ulong HELPER(cm_popretz)(CPURISCVState *env, target_ulong sp,
-+                                target_ulong spimm, target_ulong rlist)
-+{
-+    return zcmp_pop(env, sp, rlist, spimm, true, true);
-+}
-+#undef X_S0
-+#undef X_Sn
-+#undef ZCMP_POP
-+#undef ZCMP_PUSH
 -- 
 2.25.1
 
