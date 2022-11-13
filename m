@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2586A627241
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Nov 2022 20:33:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC99627243
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Nov 2022 20:44:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouIis-0003H5-Aj; Sun, 13 Nov 2022 14:32:54 -0500
+	id 1ouIsr-00068a-Ix; Sun, 13 Nov 2022 14:43:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouIio-0003CU-LK
- for qemu-devel@nongnu.org; Sun, 13 Nov 2022 14:32:51 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouIsp-00068I-P0
+ for qemu-devel@nongnu.org; Sun, 13 Nov 2022 14:43:11 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouIim-00007F-Pq
- for qemu-devel@nongnu.org; Sun, 13 Nov 2022 14:32:50 -0500
-Received: by mail-wm1-x330.google.com with SMTP id t4so6013807wmj.5
- for <qemu-devel@nongnu.org>; Sun, 13 Nov 2022 11:32:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouIso-0001oI-9s
+ for qemu-devel@nongnu.org; Sun, 13 Nov 2022 14:43:11 -0500
+Received: by mail-wr1-x434.google.com with SMTP id a14so13882324wru.5
+ for <qemu-devel@nongnu.org>; Sun, 13 Nov 2022 11:43:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=jkF5HQ4Azubjwy6qw0TJUQmQK1TPUq7mpHrLa7sbBzk=;
- b=kMhXdJFFG3egdmLaSfOc1Q6Cga9oXrouRh9E35CE9r4e1I2gHDI4lRkdExVTJNn8oO
- ppQO78Zpe7RgbAEK/l1QT450xvhc6AnlZcIrjtBd4SiBIf3RlnhjTLbM57Nsw3ttwRSK
- DKOJkMhMsYWL8jhlDG+g4zXCg4+fDxGPCjNewXtJJvdbnoOdDQ3a2zB8yWRz0GeVCS0o
- WiaZciTAnbkPFgNjVldVQqdmNUCDZf8iz+nDnrVGNVAbZFYVJwVnmJfs9vv0mevkHSkY
- DktdjzDtVJvBNT9rokYVlEnHLaGiKarjX0Od6XLW4d04feEuLTxzUcj33jKBUuUKllqr
- TTNA==
+ bh=6L9jPYcz7ct8alLyJuxfORWnDzbFO03+CMn7zI/QyvQ=;
+ b=vxq8DKORJrOWTw7xsAduMLfKii8CMJHHUvMRt6USZEfjHwChqcAH659rArQnc0tMR1
+ Mu5P1mWjn6+jYcn+DUhxQLMTm1pqFcnhyrvmRij00/lBWZgAvcyX1K1XaGot5Vox4oSv
+ S+MQMXOb19gLYizz8suTL0JxmpWY3ilaYk7IcHKTxBXo8QD9bTEzotusOlfAgkZkKuzh
+ b3vPbEvWfr530LIk0kFtUKs3TA7eTjkkQ+0JSrPp4H3DdEjxgPTHn+nG7P5wAA/evOJ5
+ OwvjqM95P3whwxiAX0b1RDwsWgdapnjOOji8RD5nukDrhRZxYY837jqz230YUoz0GbmN
+ s3KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jkF5HQ4Azubjwy6qw0TJUQmQK1TPUq7mpHrLa7sbBzk=;
- b=7bx6EO9ynk+sRG8GRpoSSZiCtt3wcVJUD0G31W73gtY7INa4yVs3MNaTPVgSO35SoZ
- SC7YteMA+u9tI4C5I8JxwSFhcbiNZuJaJZwXSnAZSMNrLBJBcL2aXZdwoYgznlpTo8X8
- niOWuFSDl1YMagoZTUneMS1vqWydor6lQGVgOeGO/MHPGBxioWA3bXhZmE5And8zh8oe
- XHl5m1N3uZSxk583pOAuMXNxmVK8oqePx8YZY7e8/+I1MF9dG07B/Gryt6LaROsgqG4f
- LjaVCbnLOLh+e6saNJm2KfZcIZMXAKRRXIhDeT4E00CkvU1cH+ZXtq08aXqVlGb6iFOD
- +Xpg==
-X-Gm-Message-State: ANoB5plpIxEOUvRzOMS7+/Gg4MS4/xhlOZN3nK5oeZx45Y5cC6xBtwp7
- doMZlVKcOresTM1HK5VtDp4ZDg==
-X-Google-Smtp-Source: AA0mqf7kOJAAxnlvdhuEv5a46zW7MknBg+fbhjMxt0YLeAgisspiOLG8G30gb4TzELp2M0Mrk5g/Hg==
-X-Received: by 2002:a05:600c:1d19:b0:3b4:be28:d800 with SMTP id
- l25-20020a05600c1d1900b003b4be28d800mr6311777wms.170.1668367967097; 
- Sun, 13 Nov 2022 11:32:47 -0800 (PST)
+ bh=6L9jPYcz7ct8alLyJuxfORWnDzbFO03+CMn7zI/QyvQ=;
+ b=VplP5mRoAVsZDQmB3WettOLxBuO1cURgHoygKehL9iJS2GWYzbdxq9ObHQuOdy3OL8
+ EdrHw+BPQMewpPlylnhZmjKn5hkUkn1fOCmscDKCGw6xoEI23mfY1ZIqkM3+l5tIout7
+ /TRDywGllKET+C2kn77XkOs4amwv/iSQtbyw1Ub3G+7VMuZoT6rhbXbOfUBrR3nzN+To
+ ElJ4tSdHZqfwHcEi/hQEk7RojF8paYueug8FJFUkIYo4kdvPg4N1wvPfBlM4BHYuFo2H
+ JLE0WPPKeDG9Yri7YFBP8e9xDYN+LLFiYwoihmmCco3SvvKimfdY93wLqyikHqfyu5pK
+ gahg==
+X-Gm-Message-State: ANoB5pldjOlQSDjuEGO95bzFk2sWI/YhSrulhOBAiznPWIL1Xolp0dWP
+ RrUZy3k15z/N0HvSyu4o8MC2eQ==
+X-Google-Smtp-Source: AA0mqf4aesVuJ5L/Ev/ZKMy+Gf/W3Y04MQHW8aAxVj8OlhPr2GXnHf1N0KqhrNKZw3hQo7EhVZtg9Q==
+X-Received: by 2002:a5d:4809:0:b0:238:3fd0:dbe2 with SMTP id
+ l9-20020a5d4809000000b002383fd0dbe2mr5703991wrq.347.1668368588520; 
+ Sun, 13 Nov 2022 11:43:08 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- g16-20020a7bc4d0000000b003cf75f56105sm11659961wmk.41.2022.11.13.11.32.45
+ z15-20020a056000110f00b0022a3a887ceasm7572816wrw.49.2022.11.13.11.43.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 13 Nov 2022 11:32:46 -0800 (PST)
-Message-ID: <56ef5603-523f-f180-55e4-12c9a0b4d02a@linaro.org>
-Date: Sun, 13 Nov 2022 20:32:44 +0100
+ Sun, 13 Nov 2022 11:43:07 -0800 (PST)
+Message-ID: <d45cf92b-06bc-ab47-51e9-55a0126edbea@linaro.org>
+Date: Sun, 13 Nov 2022 20:43:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.4.2
-Subject: Re: [PATCH] qga: Add initial OpenBSD and NetBSD support
+Subject: Re: [PATCH v5 09/20] hw/arm: remove current_cpu hack from pxa2xx
+ access
 Content-Language: en-US
-To: Brad Smith <brad@comstyle.com>, Michael Roth <michael.roth@amd.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>
-Cc: qemu-devel@nongnu.org
-References: <Y2+GO5jyd9E2uCT9@humpty.home.comstyle.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, Peter Maydell <peter.maydell@linaro.org>,
+ "open list:PXA2XX" <qemu-arm@nongnu.org>
+References: <20221111182535.64844-1-alex.bennee@linaro.org>
+ <20221111182535.64844-10-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <Y2+GO5jyd9E2uCT9@humpty.home.comstyle.com>
+In-Reply-To: <20221111182535.64844-10-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,16 +94,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/11/22 12:40, Brad Smith wrote:
-> qga: Add initial OpenBSD and NetBSD support
+On 11/11/22 19:25, Alex Bennée wrote:
+> We can derive the correct CPU from CPUARMState so lets not rely on
+> current_cpu.
 > 
-> Signed-off-by: Brad Smith <brad@comstyle.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   meson.build          | 2 +-
->   qga/commands-bsd.c   | 5 +++++
->   qga/commands-posix.c | 9 +++++++--
->   qga/main.c           | 6 +++---
->   4 files changed, 16 insertions(+), 6 deletions(-)
+>   hw/arm/pxa2xx.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
