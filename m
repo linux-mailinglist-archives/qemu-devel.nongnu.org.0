@@ -2,95 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0B2F626EEA
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Nov 2022 11:18:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1C6626F4A
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Nov 2022 12:32:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouA3k-00083g-SM; Sun, 13 Nov 2022 05:17:52 -0500
+	id 1ouBD3-0007Or-MH; Sun, 13 Nov 2022 06:31:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <oro@il.ibm.com>)
- id 1ouA3h-0007zj-Vz; Sun, 13 Nov 2022 05:17:50 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <oro@il.ibm.com>)
- id 1ouA3f-0006M3-4k; Sun, 13 Nov 2022 05:17:48 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.5) with ESMTP id
- 2ADAEoU0015064; Sun, 13 Nov 2022 10:17:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=GDYJpMWHj0MhQxk9e1ngrGk0gK552jw76TbPdA0aqp8=;
- b=iOjDW2/9a9Fr6uM022SkRvEl3rxBY/gCbAYMhqYxAcFDm/frSbesyIeGCOUzPzZaC32/
- AecvMCzAH5W64qQtyAOWf/QDM9e2t/LA1lduXADDqh4+qoHvRNO6NdGvh7BYWXbc56FK
- +LKJpT5Q5n3z0SodhRUBt7xlYTOU4XYwLx0J/kC6tScMmJ+Cq0Jn1GZrQfqpjzYKCz0n
- 3clLlji/Ha85xVHMKmeAa7mHoiJwHiugYaVndMIB7gUDedSk8ku5Sf/b6lzabLeILVR4
- l3SjJAQW2t2vytBnt7lPxJWcnysXAaAoKdgyGe+QSzMrSQIHRigQ39bG9ATDOSPlZFnE UQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ktxnkg1qb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 13 Nov 2022 10:17:44 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2ADAGHLQ022236;
- Sun, 13 Nov 2022 10:17:44 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ktxnkg1q6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 13 Nov 2022 10:17:44 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2ADA6hoR009207;
- Sun, 13 Nov 2022 10:17:43 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma05wdc.us.ibm.com with ESMTP id 3kt349ffp1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 13 Nov 2022 10:17:43 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com ([9.208.128.113])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2ADAHfQQ4981368
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 13 Nov 2022 10:17:42 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7C29C5804B;
- Sun, 13 Nov 2022 10:17:41 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9501E58055;
- Sun, 13 Nov 2022 10:17:40 +0000 (GMT)
-Received: from oro.sl.cloud9.ibm.com (unknown [9.59.192.176])
- by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Sun, 13 Nov 2022 10:17:40 +0000 (GMT)
-From: Or Ozeri <oro@il.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, oro@il.ibm.com, dannyh@il.ibm.com,
- idryomov@gmail.com
-Subject: [PATCH v2] block/rbd: Add support for layered encryption
-Date: Sun, 13 Nov 2022 04:17:27 -0600
-Message-Id: <20221113101727.2801739-1-oro@il.ibm.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ouBD1-0007ON-PZ
+ for qemu-devel@nongnu.org; Sun, 13 Nov 2022 06:31:31 -0500
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1ouBD0-000115-9K
+ for qemu-devel@nongnu.org; Sun, 13 Nov 2022 06:31:31 -0500
+Received: by mail-yb1-xb29.google.com with SMTP id b131so9809069yba.11
+ for <qemu-devel@nongnu.org>; Sun, 13 Nov 2022 03:31:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gJnPxMPDc1EYFaYKwnp3Ke9/sH986XpvODnaexHyXUk=;
+ b=FRsB89+8wI270p31WJSjTFbW43iDuILACS5urdi++jFD4xzMYKIidVy53Wm903j9SG
+ zYSBirLzdfnCECcg7Z+1nII2PD1/9EH3Llz+eceFVxSya9or89ox4OuPQsdDartDjjya
+ tPJlbLkKYP5jsgeZqo9QdFvtuqwq0zI7MoYl2N+62TDzenbg0t4HwfXdLuEfXIfIaoBx
+ 7ZONAQ6oJY5Urm77YPISGsQsH3OCxBRUXJwbsWBD0T1fmNEJLTcIUEZ27hsfHRONK+2f
+ Kxq2CbapQZZZGbSmSTh+Fszm+itkP9ioF6Ex7AEg8YA03Ik4ySVmx9D5wpBxCap+L0Xj
+ FTHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gJnPxMPDc1EYFaYKwnp3Ke9/sH986XpvODnaexHyXUk=;
+ b=RvkcY7/OYiblH2bgOVixLW1/gWn0zrvFvDcx9LncCWFkT0U/8WirU3ZQ5hrmB+lhBl
+ ZpY53JRRt6tVy5bjt5xCow7XKBVO4SI5aWmxr5hoXePvE+03G2/upRbBmqJddN97IO1s
+ DH5gEba8Qucr5oc+mTzkoXG0cTXaZI2jQwoFUtDibxsUAqDYPCHB0JmvwzE/japAkRn8
+ sJJjzHfpeA2JacjQIj9y9ncGCJw/mgcHlKm+jd/Woytt9/FiCt1Z1xB8QBbH/j/GJLvU
+ 3bEuSW2ydOZEAbuHNIpJfcQwM1JpPUJgk9g3Dg+gzkkX+Ct/b7x0OzEiQOVbVYlzxL0v
+ pbJQ==
+X-Gm-Message-State: ANoB5plk7MpeLfaPTStr16DxukH7MUUmTdZNF171x2ZJXmEmImdryCFj
+ b1QOQ5+2NqLu86csDvLzWMjtxOaTxxA3HaeH4YU=
+X-Google-Smtp-Source: AA0mqf4wJSo0PJ1RdQpVMK6OItALo3tBxZk3ZS48UxqI0d+iRh17dDv7AuVm5suSo/bH7D2xT3z5ytwSIFw0FAIysCY=
+X-Received: by 2002:a25:d2c3:0:b0:6dc:e3ee:3e60 with SMTP id
+ j186-20020a25d2c3000000b006dce3ee3e60mr8521349ybg.58.1668339089006; Sun, 13
+ Nov 2022 03:31:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: wgwv3ilruEXh0Ivz7QFVeFQ5fGlKCsLz
-X-Proofpoint-ORIG-GUID: gYqIySdL4n_hRl6OlD7fjZxUkqyOyGsd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-13_07,2022-11-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 mlxlogscore=825 suspectscore=0 phishscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 bulkscore=0 mlxscore=0 impostorscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211130066
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=oro@il.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20221111124550.35753-1-philmd@linaro.org>
+In-Reply-To: <20221111124550.35753-1-philmd@linaro.org>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Sun, 13 Nov 2022 06:31:17 -0500
+Message-ID: <CAJSP0QXBi=gRjecKaPQhQk+Q_70CDGimKkFZVRYwz+v2EW4c4g@mail.gmail.com>
+Subject: Re: [PATCH-for-7.2 v2] libvduse: Avoid warning about dangerous use of
+ strncpy()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Xie Yongji <xieyongji@bytedance.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>, Bin Meng <bin.meng@windriver.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,259 +88,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Starting from ceph Reef, RBD has built-in support for layered encryption,
-where each ancestor image (in a cloned image setting) can be possibly
-encrypted using a unique passphrase.
+On Fri, 11 Nov 2022 at 07:46, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.or=
+g> wrote:
+>
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> GCC 8 added a -Wstringop-truncation warning:
+>
+>   The -Wstringop-truncation warning added in GCC 8.0 via r254630 for
+>   bug 81117 is specifically intended to highlight likely unintended
+>   uses of the strncpy function that truncate the terminating NUL
+>   character from the source string.
+>
+> Here the next line indeed unconditionally zeroes the last byte, but
+> 1/ the buffer has been calloc'd, so we don't need to add an extra
+> byte, and 2/ we called vduse_name_is_invalid() which checked the
+> string length, so we can simply call strcpy().
+>
+> This fixes when using gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0:
+>
+>   [42/666] Compiling C object subprojects/libvduse/libvduse.a.p/libvduse.=
+c.o
+>   FAILED: subprojects/libvduse/libvduse.a.p/libvduse.c.o
+>   cc -m64 -mcx16 -Isubprojects/libvduse/libvduse.a.p -Isubprojects/libvdu=
+se -I../../subprojects/libvduse [...] -o subprojects/libvduse/libvduse.a.p/=
+libvduse.c.o -c ../../subprojects/libvduse/libvduse.c
+>   In file included from /usr/include/string.h:495,
+>                    from ../../subprojects/libvduse/libvduse.c:24:
+>   In function =E2=80=98strncpy=E2=80=99,
+>       inlined from =E2=80=98vduse_dev_create=E2=80=99 at ../../subproject=
+s/libvduse/libvduse.c:1312:5:
+>   /usr/include/x86_64-linux-gnu/bits/string_fortified.h:106:10: error: =
+=E2=80=98__builtin_strncpy=E2=80=99 specified bound 256 equals destination =
+size [-Werror=3Dstringop-truncation]
+>     106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (=
+__dest));
+>         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+>   cc1: all warnings being treated as errors
+>   ninja: build stopped: cannot make progress due to previous errors.
+>
+> Fixes: d9cf16c0be ("libvduse: Replace strcpy() with strncpy()")
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> ---
+> Supersedes: <20220919192306.52729-1-f4bug@amsat.org>
+> Cc: Xie Yongji <xieyongji@bytedance.com>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  subprojects/libvduse/libvduse.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-A new function, rbd_encryption_load2, was added to librbd API.
-This new function supports an array of passphrases (via "spec" structs).
+Applied to qemu.git/master.
 
-This commit extends the qemu rbd driver API to use this new librbd API,
-in order to support this new layered encryption feature.
-
-Signed-off-by: Or Ozeri <oro@il.ibm.com>
----
-v2: nit fixes suggested by @idryomov
----
- block/rbd.c          | 122 ++++++++++++++++++++++++++++++++++++++++++-
- qapi/block-core.json |  33 ++++++++++--
- 2 files changed, 151 insertions(+), 4 deletions(-)
-
-diff --git a/block/rbd.c b/block/rbd.c
-index f826410f40..bde0326bfd 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -71,6 +71,16 @@ static const char rbd_luks2_header_verification[
-     'L', 'U', 'K', 'S', 0xBA, 0xBE, 0, 2
- };
- 
-+static const char rbd_layered_luks_header_verification[
-+        RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {
-+    'R', 'B', 'D', 'L', 0xBA, 0xBE, 0, 1
-+};
-+
-+static const char rbd_layered_luks2_header_verification[
-+        RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {
-+    'R', 'B', 'D', 'L', 0xBA, 0xBE, 0, 2
-+};
-+
- typedef enum {
-     RBD_AIO_READ,
-     RBD_AIO_WRITE,
-@@ -470,6 +480,9 @@ static int qemu_rbd_encryption_load(rbd_image_t image,
-     size_t passphrase_len;
-     rbd_encryption_luks1_format_options_t luks_opts;
-     rbd_encryption_luks2_format_options_t luks2_opts;
-+#ifdef LIBRBD_SUPPORTS_ENCRYPTION_LOAD2
-+    rbd_encryption_luks_format_options_t luks_any_opts;
-+#endif
-     rbd_encryption_format_t format;
-     rbd_encryption_options_t opts;
-     size_t opts_size;
-@@ -505,6 +518,23 @@ static int qemu_rbd_encryption_load(rbd_image_t image,
-             luks2_opts.passphrase_size = passphrase_len;
-             break;
-         }
-+#ifdef LIBRBD_SUPPORTS_ENCRYPTION_LOAD2
-+        case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS_ANY: {
-+            memset(&luks_any_opts, 0, sizeof(luks_any_opts));
-+            format = RBD_ENCRYPTION_FORMAT_LUKS;
-+            opts = &luks_any_opts;
-+            opts_size = sizeof(luks_any_opts);
-+            r = qemu_rbd_convert_luks_options(
-+                    qapi_RbdEncryptionOptionsLUKSAny_base(&encrypt->u.luks_any),
-+                    &passphrase, &passphrase_len, errp);
-+            if (r < 0) {
-+                return r;
-+            }
-+            luks_any_opts.passphrase = passphrase;
-+            luks_any_opts.passphrase_size = passphrase_len;
-+            break;
-+        }
-+#endif
-         default: {
-             r = -ENOTSUP;
-             error_setg_errno(
-@@ -522,6 +552,76 @@ static int qemu_rbd_encryption_load(rbd_image_t image,
- 
-     return 0;
- }
-+
-+#ifdef LIBRBD_SUPPORTS_ENCRYPTION_LOAD2
-+static int qemu_rbd_encryption_load2(rbd_image_t image,
-+                                     RbdEncryptionOptions *encrypt,
-+                                     Error **errp)
-+{
-+    int r = 0;
-+    int encrypt_count = 1;
-+    int i;
-+    RbdEncryptionOptions *curr_encrypt;
-+    rbd_encryption_spec_t *specs;
-+    rbd_encryption_luks_format_options_t* luks_any_opts;
-+    char **passphrases;
-+
-+    /* count encryption options */
-+    for (curr_encrypt = encrypt; curr_encrypt->has_parent;
-+         curr_encrypt = curr_encrypt->parent) {
-+        ++encrypt_count;
-+    }
-+
-+    specs = g_new0(rbd_encryption_spec_t, encrypt_count);
-+    passphrases = g_new0(char*, encrypt_count);
-+
-+    curr_encrypt = encrypt;
-+    for (i = 0; i < encrypt_count; ++i) {
-+        if (curr_encrypt->format != RBD_IMAGE_ENCRYPTION_FORMAT_LUKS_ANY) {
-+            r = -ENOTSUP;
-+            error_setg_errno(
-+                    errp, -r, "unknown image encryption format: %u",
-+                    curr_encrypt->format);
-+            goto exit;
-+        }
-+
-+        specs[i].format = RBD_ENCRYPTION_FORMAT_LUKS;
-+        specs[i].opts_size = sizeof(rbd_encryption_luks_format_options_t);
-+
-+        luks_any_opts = g_new0(rbd_encryption_luks_format_options_t, 1);
-+        specs[i].opts = luks_any_opts;
-+
-+        r = qemu_rbd_convert_luks_options(
-+                qapi_RbdEncryptionOptionsLUKSAny_base(
-+                        &curr_encrypt->u.luks_any),
-+                &passphrases[i], &luks_any_opts->passphrase_size,
-+                errp);
-+        if (r < 0) {
-+            goto exit;
-+        }
-+
-+        luks_any_opts->passphrase = passphrases[i];
-+
-+        curr_encrypt = curr_encrypt->parent;
-+    }
-+
-+    r = rbd_encryption_load2(image, specs, encrypt_count);
-+    if (r < 0) {
-+        error_setg_errno(errp, -r, "layered encryption load fail");
-+        goto exit;
-+    }
-+
-+exit:
-+    for (i = 0; i < encrypt_count; ++i) {
-+        luks_any_opts = (rbd_encryption_luks_format_options_t*)(specs[i].opts);
-+        g_free(luks_any_opts);
-+        g_free(passphrases[i]);
-+    }
-+    g_free(passphrases);
-+    g_free(specs);
-+    return r;
-+}
-+#endif
- #endif
- 
- /* FIXME Deprecate and remove keypairs or make it available in QMP. */
-@@ -993,7 +1093,17 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
- 
-     if (opts->has_encrypt) {
- #ifdef LIBRBD_SUPPORTS_ENCRYPTION
--        r = qemu_rbd_encryption_load(s->image, opts->encrypt, errp);
-+        if (opts->encrypt->has_parent) {
-+#ifdef LIBRBD_SUPPORTS_ENCRYPTION_LOAD2
-+            r = qemu_rbd_encryption_load2(s->image, opts->encrypt, errp);
-+#else
-+            r = -ENOTSUP;
-+            error_setg(errp, "RBD library does not support"
-+                             " specifying parent encryption");
-+#endif
-+        } else {
-+            r = qemu_rbd_encryption_load(s->image, opts->encrypt, errp);
-+        }
-         if (r < 0) {
-             goto failed_post_open;
-         }
-@@ -1284,6 +1394,16 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
-         spec_info->u.rbd.data->encryption_format =
-                 RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2;
-         spec_info->u.rbd.data->has_encryption_format = true;
-+    } else if (memcmp(buf, rbd_layered_luks_header_verification,
-+               RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN) == 0) {
-+        spec_info->u.rbd.data->encryption_format =
-+                RBD_IMAGE_ENCRYPTION_FORMAT_LUKS_LAYERED;
-+        spec_info->u.rbd.data->has_encryption_format = true;
-+    } else if (memcmp(buf, rbd_layered_luks2_header_verification,
-+               RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN) == 0) {
-+        spec_info->u.rbd.data->encryption_format =
-+                RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2_LAYERED;
-+        spec_info->u.rbd.data->has_encryption_format = true;
-     } else {
-         spec_info->u.rbd.data->has_encryption_format = false;
-     }
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 882b266532..c8f0ad56b8 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3753,10 +3753,20 @@
- ##
- # @RbdImageEncryptionFormat:
- #
-+# luks
-+#
-+# luks2
-+#
-+# luks-any: Used for opening either luks or luks2. (Since 7.2)
-+#
-+# luks-layered: Layered encryption. Only used for info. (Since 7.2)
-+#
-+# luks2-layered: Layered encryption. Only used for info. (Since 7.2)
-+#
- # Since: 6.1
- ##
- { 'enum': 'RbdImageEncryptionFormat',
--  'data': [ 'luks', 'luks2' ] }
-+  'data': [ 'luks', 'luks2', 'luks-any', 'luks-layered', 'luks2-layered' ] }
- 
- ##
- # @RbdEncryptionOptionsLUKSBase:
-@@ -3798,6 +3808,15 @@
-   'base': 'RbdEncryptionOptionsLUKSBase',
-   'data': { } }
- 
-+##
-+# @RbdEncryptionOptionsLUKSAny:
-+#
-+# Since: 7.2
-+##
-+{ 'struct': 'RbdEncryptionOptionsLUKSAny',
-+  'base': 'RbdEncryptionOptionsLUKSBase',
-+  'data': { } }
-+
- ##
- # @RbdEncryptionCreateOptionsLUKS:
- #
-@@ -3819,13 +3838,21 @@
- ##
- # @RbdEncryptionOptions:
- #
-+# @format: Encryption format.
-+#
-+# @parent: Parent image encryption options (for cloned images).
-+#          Can be left unspecified if all ancestor images are encrypted
-+#          the same way as the child image or not encrypted.  (Since 7.2)
-+#
- # Since: 6.1
- ##
- { 'union': 'RbdEncryptionOptions',
--  'base': { 'format': 'RbdImageEncryptionFormat' },
-+  'base': { 'format': 'RbdImageEncryptionFormat',
-+            '*parent': 'RbdEncryptionOptions' },
-   'discriminator': 'format',
-   'data': { 'luks': 'RbdEncryptionOptionsLUKS',
--            'luks2': 'RbdEncryptionOptionsLUKS2' } }
-+            'luks2': 'RbdEncryptionOptionsLUKS2',
-+            'luks-any': 'RbdEncryptionOptionsLUKSAny'} }
- 
- ##
- # @RbdEncryptionCreateOptions:
--- 
-2.25.1
-
+Thanks,
+Stefan
 
