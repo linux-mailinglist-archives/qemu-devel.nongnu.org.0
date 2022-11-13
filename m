@@ -2,78 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C87E4626C19
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Nov 2022 22:55:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3482C626D7C
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Nov 2022 03:36:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1otySN-00060b-Dr; Sat, 12 Nov 2022 16:54:31 -0500
+	id 1ou2q5-00036w-UW; Sat, 12 Nov 2022 21:35:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1otyNK-0003jJ-UG; Sat, 12 Nov 2022 16:49:19 -0500
-Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
- id 1otyNI-0004VO-Vz; Sat, 12 Nov 2022 16:49:18 -0500
-Received: by mail-lf1-x136.google.com with SMTP id b3so13453195lfv.2;
- Sat, 12 Nov 2022 13:49:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=S02TEjm/GNmKagyXn2JhGIZKxmhzbozJizt32g80yec=;
- b=HRVT02FJqjGYFuhDxJebzEiT+ptV7UaOXWPPKWNSzG3b90U61iBqLnyJ3c66gZ719b
- Lsam2ZMfWB+c0vImeFrM/qb3h39bUnt6cOBVRdD58j66cwkFWYvpbIDv5pYUaESYkK3u
- WRLInkxLj+ofQi21XfF1qREB5eb8x6EV+vrOA8GImToxu9uUc56UBPEt45btrm28sQaI
- hrXC2rIaDRgiEZpvNYEBQAXpd3qoI1nkLKtgCY1HYlP0315RlmWVNKSD+x5Jxb2JE1j8
- S96d/1YQqhJEfIMaDEdFns7qjBh4XG6nSWtxLbQFQyGqPFD88uRuCcrIUsL94aDS8xUM
- UyDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=S02TEjm/GNmKagyXn2JhGIZKxmhzbozJizt32g80yec=;
- b=GXI+Cw9q2sUq3qaVlhrX9zAOJYURQPP3nG1TqwSFmKeAXcM+45wpcJQ5qqY5LiH6VX
- 3h9z9Gx4jsYd7TuClYa91QecuGcSyRParKnkaVN1KVWUIxngqN4cpR+VriQh3/ixfuS4
- 0kPYo3MZaXwKxPKy44meZrI40kWiUGd0+JOCHygcVghBtTrc1nvyCK0vSEBj7W/cNPvD
- X73qlTSQgeQZQRMl+tb8OQOlEGLHjBRJ2LqC0qxt4kCQCZpyTwoOKPDqlbjfgQkHU5dy
- wAmhmBybmqQU26A7CEsNBh/99F73aiCz2cv2jfSuHSNpTOtJMs2hvovJXD/bBewLTgY8
- l1Hw==
-X-Gm-Message-State: ANoB5pkFqS06nVUdErd+Zv0QVH+5koBJDkbCPTlcbqM4OBFKjz1FBwb2
- o71M2GURUIF8u6D8Fg3BGo7qY9XeztLAJXWgbT0=
-X-Google-Smtp-Source: AA0mqf7+dAR7lrXTmbgJlwtHxZkXM+UO7mQDRl68/DzlQNzGSXdghJFkwYdHEykK0mLFl2fdXn7xKQ==
-X-Received: by 2002:a05:6512:3a96:b0:4a2:2bac:e4fb with SMTP id
- q22-20020a0565123a9600b004a22bace4fbmr2835071lfu.297.1668289752362; 
- Sat, 12 Nov 2022 13:49:12 -0800 (PST)
-Received: from penguin.lxd (213-67-202-254-no43.tbcn.telia.com.
- [213.67.202.254]) by smtp.googlemail.com with ESMTPSA id
- p11-20020a2ea4cb000000b002770473d813sm1083435ljm.140.2022.11.12.13.49.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Nov 2022 13:49:11 -0800 (PST)
-From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
-X-Google-Original-From: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
-Subject: [PATCH] hw/sd: Fix sun4i allwinner-sdhost for U-Boot
-Date: Sat, 12 Nov 2022 22:49:00 +0100
-Message-Id: <20221112214900.24152-1-strahinja.p.jankovic@gmail.com>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ou2q2-000344-L8; Sat, 12 Nov 2022 21:35:14 -0500
+Received: from smtp21.cstnet.cn ([159.226.251.21] helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1ou2py-0006I7-W7; Sat, 12 Nov 2022 21:35:14 -0500
+Received: from localhost.localdomain (unknown [180.165.240.202])
+ by APP-01 (Coremail) with SMTP id qwCowABH6GnNV3BjuIN9CQ--.57556S2;
+ Sun, 13 Nov 2022 10:34:57 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: [PATCH v2 0/8] support subsets of code size reduction extension
+Date: Sun, 13 Nov 2022 10:32:43 +0800
+Message-Id: <20221113023251.11047-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::136;
- envelope-from=strahinjapjankovic@gmail.com; helo=mail-lf1-x136.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CM-TRANSID: qwCowABH6GnNV3BjuIN9CQ--.57556S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7urWUAF1UZry3ArW5WrWfKrg_yoW8uF4rpr
+ 4rC3yakrZ8tFWxJw4ftF1DJw15Ars5WrW5Awn7twn5Ja13ArW5JrsrKw13K3WxJF18WrnF
+ 93WUCr13uw45JFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
+ 4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxG
+ rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+ vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+ x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+ xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+ wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-Originating-IP: [180.165.240.202]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 12 Nov 2022 16:54:29 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,179 +70,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Trying to run U-Boot for Cubieboard (Allwinner A10) fails because it cannot
-access SD card. The problem is that FIFO register in current
-allwinner-sdhost implementation is at the address corresponding to
-Allwinner H3, but not A10.
-Linux kernel is not affected since Linux driver uses DMA access and does
-not use FIFO register for reading/writing.
+This patchset implements RISC-V Zc* extension v1.0.0.RC5.7 version instructions. 
 
-This patch adds new class parameter `is_sun4i` and based on that
-parameter uses register at offset 0x100 either as FIFO register (if
-sun4i) or as threshold register (if not sun4i; in this case register at
-0x200 is FIFO register).
+Specification:
+https://github.com/riscv/riscv-code-size-reduction/tree/main/Zc-specification
 
-Tested with U-Boot and Linux kernel image built for Cubieboard and
-OrangePi PC.
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-zce-upstream-v2
 
-Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
----
- hw/sd/allwinner-sdhost.c         | 67 ++++++++++++++++++++++----------
- include/hw/sd/allwinner-sdhost.h |  1 +
- 2 files changed, 47 insertions(+), 21 deletions(-)
+To test Zc* implementation, specify cpu argument with 'x-zca=true,x-zcb=true,x-zcf=true,f=true" and "x-zcd=true,d=true" (or "x-zcmp=true,x-zcmt=true" with c or d=false) to enable Zca/Zcb/Zcf and Zcd(or Zcmp,Zcmt) extension support. 
 
-diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
-index 455d6eabf6..51e5e90830 100644
---- a/hw/sd/allwinner-sdhost.c
-+++ b/hw/sd/allwinner-sdhost.c
-@@ -65,7 +65,7 @@ enum {
-     REG_SD_DLBA       = 0x84,  /* Descriptor List Base Address */
-     REG_SD_IDST       = 0x88,  /* Internal DMA Controller Status */
-     REG_SD_IDIE       = 0x8C,  /* Internal DMA Controller IRQ Enable */
--    REG_SD_THLDC      = 0x100, /* Card Threshold Control */
-+    REG_SD_THLDC      = 0x100, /* Card Threshold Control / FIFO (sun4i only)*/
-     REG_SD_DSBD       = 0x10C, /* eMMC DDR Start Bit Detection Control */
-     REG_SD_RES_CRC    = 0x110, /* Response CRC from card/eMMC */
-     REG_SD_DATA7_CRC  = 0x114, /* CRC Data 7 from card/eMMC */
-@@ -415,10 +415,29 @@ static void allwinner_sdhost_dma(AwSdHostState *s)
-     }
- }
- 
-+static uint32_t allwinner_sdhost_fifo_read(AwSdHostState *s)
-+{
-+    uint32_t res = 0;
-+
-+    if (sdbus_data_ready(&s->sdbus)) {
-+        sdbus_read_data(&s->sdbus, &res, sizeof(uint32_t));
-+        le32_to_cpus(&res);
-+        allwinner_sdhost_update_transfer_cnt(s, sizeof(uint32_t));
-+        allwinner_sdhost_auto_stop(s);
-+        allwinner_sdhost_update_irq(s);
-+    } else {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: no data ready on SD bus\n",
-+                      __func__);
-+    }
-+
-+    return res;
-+}
-+
- static uint64_t allwinner_sdhost_read(void *opaque, hwaddr offset,
-                                       unsigned size)
- {
-     AwSdHostState *s = AW_SDHOST(opaque);
-+    AwSdHostClass *sc = AW_SDHOST_GET_CLASS(s);
-     uint32_t res = 0;
- 
-     switch (offset) {
-@@ -508,8 +527,12 @@ static uint64_t allwinner_sdhost_read(void *opaque, hwaddr offset,
-     case REG_SD_IDIE:      /* Internal DMA Controller Interrupt Enable */
-         res = s->dmac_irq;
-         break;
--    case REG_SD_THLDC:     /* Card Threshold Control */
--        res = s->card_threshold;
-+    case REG_SD_THLDC:     /* Card Threshold Control or FIFO register (sun4i) */
-+        if (sc->is_sun4i) {
-+            res = allwinner_sdhost_fifo_read(s);
-+        } else {
-+            res = s->card_threshold;
-+        }
-         break;
-     case REG_SD_DSBD:      /* eMMC DDR Start Bit Detection Control */
-         res = s->startbit_detect;
-@@ -531,16 +554,7 @@ static uint64_t allwinner_sdhost_read(void *opaque, hwaddr offset,
-         res = s->status_crc;
-         break;
-     case REG_SD_FIFO:      /* Read/Write FIFO */
--        if (sdbus_data_ready(&s->sdbus)) {
--            sdbus_read_data(&s->sdbus, &res, sizeof(uint32_t));
--            le32_to_cpus(&res);
--            allwinner_sdhost_update_transfer_cnt(s, sizeof(uint32_t));
--            allwinner_sdhost_auto_stop(s);
--            allwinner_sdhost_update_irq(s);
--        } else {
--            qemu_log_mask(LOG_GUEST_ERROR, "%s: no data ready on SD bus\n",
--                          __func__);
--        }
-+        res = allwinner_sdhost_fifo_read(s);
-         break;
-     default:
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: out-of-bounds offset %"
-@@ -553,11 +567,20 @@ static uint64_t allwinner_sdhost_read(void *opaque, hwaddr offset,
-     return res;
- }
- 
-+static void allwinner_sdhost_fifo_write(AwSdHostState *s, uint64_t value)
-+{
-+    uint32_t u32 = cpu_to_le32(value);
-+    sdbus_write_data(&s->sdbus, &u32, sizeof(u32));
-+    allwinner_sdhost_update_transfer_cnt(s, sizeof(u32));
-+    allwinner_sdhost_auto_stop(s);
-+    allwinner_sdhost_update_irq(s);
-+}
-+
- static void allwinner_sdhost_write(void *opaque, hwaddr offset,
-                                    uint64_t value, unsigned size)
- {
-     AwSdHostState *s = AW_SDHOST(opaque);
--    uint32_t u32;
-+    AwSdHostClass *sc = AW_SDHOST_GET_CLASS(s);
- 
-     trace_allwinner_sdhost_write(offset, value, size);
- 
-@@ -657,18 +680,18 @@ static void allwinner_sdhost_write(void *opaque, hwaddr offset,
-         s->dmac_irq = value;
-         allwinner_sdhost_update_irq(s);
-         break;
--    case REG_SD_THLDC:     /* Card Threshold Control */
--        s->card_threshold = value;
-+    case REG_SD_THLDC:     /* Card Threshold Control or FIFO (sun4i) */
-+        if (sc->is_sun4i) {
-+            allwinner_sdhost_fifo_write(s, value);
-+        } else {
-+            s->card_threshold = value;
-+        }
-         break;
-     case REG_SD_DSBD:      /* eMMC DDR Start Bit Detection Control */
-         s->startbit_detect = value;
-         break;
-     case REG_SD_FIFO:      /* Read/Write FIFO */
--        u32 = cpu_to_le32(value);
--        sdbus_write_data(&s->sdbus, &u32, sizeof(u32));
--        allwinner_sdhost_update_transfer_cnt(s, sizeof(u32));
--        allwinner_sdhost_auto_stop(s);
--        allwinner_sdhost_update_irq(s);
-+        allwinner_sdhost_fifo_write(s, value);
-         break;
-     case REG_SD_RES_CRC:   /* Response CRC from card/eMMC */
-     case REG_SD_DATA7_CRC: /* CRC Data 7 from card/eMMC */
-@@ -834,12 +857,14 @@ static void allwinner_sdhost_sun4i_class_init(ObjectClass *klass, void *data)
- {
-     AwSdHostClass *sc = AW_SDHOST_CLASS(klass);
-     sc->max_desc_size = 8 * KiB;
-+    sc->is_sun4i = true;
- }
- 
- static void allwinner_sdhost_sun5i_class_init(ObjectClass *klass, void *data)
- {
-     AwSdHostClass *sc = AW_SDHOST_CLASS(klass);
-     sc->max_desc_size = 64 * KiB;
-+    sc->is_sun4i = false;
- }
- 
- static const TypeInfo allwinner_sdhost_info = {
-diff --git a/include/hw/sd/allwinner-sdhost.h b/include/hw/sd/allwinner-sdhost.h
-index bfe08ff4ef..30c1e60404 100644
---- a/include/hw/sd/allwinner-sdhost.h
-+++ b/include/hw/sd/allwinner-sdhost.h
-@@ -130,6 +130,7 @@ struct AwSdHostClass {
- 
-     /** Maximum buffer size in bytes per DMA descriptor */
-     size_t max_desc_size;
-+    bool   is_sun4i;
- 
- };
- 
+This implementation can pass the basic zc tests from https://github.com/yulong-plct/zc-test
+
+v2:
+* add check for relationship between Zca/Zcf/Zcd with C/F/D based on related discussion in review of Zc* spec
+* separate c.fld{sp}/fsd{sp} with fld{sp}/fsd{sp} before support of zcmp/zcmt
+
+Weiwei Li (8):
+  target/riscv: add cfg properties for Zc* extension
+  target/riscv: add support for Zca and Zcf extensions
+  target/riscv: add support for Zcd extension
+  target/riscv: add support for Zcb extension
+  target/riscv: add support for Zcmp extension
+  target/riscv: add support for Zcmt extension
+  target/riscv: expose properties for Zc* extension
+  disas/riscv.c: add disasm support for Zc*
+
+ disas/riscv.c                             | 287 +++++++++++++++++++++-
+ target/riscv/cpu.c                        |  56 +++++
+ target/riscv/cpu.h                        |   8 +
+ target/riscv/cpu_bits.h                   |   7 +
+ target/riscv/csr.c                        |  35 +++
+ target/riscv/helper.h                     |   7 +
+ target/riscv/insn16.decode                |  52 +++-
+ target/riscv/insn_trans/trans_rvd.c.inc   |  18 ++
+ target/riscv/insn_trans/trans_rvf.c.inc   |   8 +-
+ target/riscv/insn_trans/trans_rvi.c.inc   |   4 +-
+ target/riscv/insn_trans/trans_rvzce.c.inc | 265 ++++++++++++++++++++
+ target/riscv/insn_trans/trans_rvzfh.c.inc |   6 +-
+ target/riscv/machine.c                    |  19 ++
+ target/riscv/meson.build                  |   3 +-
+ target/riscv/translate.c                  |  23 +-
+ target/riscv/zce_helper.c                 | 244 ++++++++++++++++++
+ 16 files changed, 1025 insertions(+), 17 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvzce.c.inc
+ create mode 100644 target/riscv/zce_helper.c
+
 -- 
-2.30.2
+2.25.1
 
 
