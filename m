@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA44628D65
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:27:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECDE628E4F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:28:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouiek-0004Wj-Em; Mon, 14 Nov 2022 18:14:22 -0500
+	id 1ouig3-0006BA-PE; Mon, 14 Nov 2022 18:15:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ouie1-0001hU-SC
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:13:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ouhT8-0003v8-CM
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 16:58:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668463097;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kZzW4AgZbMmxrsBOBTOhV6/gULQ2dQ1fNvnQET4mXFA=;
- b=I27TqvSUjfUgnOUtQovHqrcIu7MI2qi80eBIwlzifjMczVivIG3HrHqPpZ8FD4P3y3mUsF
- mNa/edtd3kWmukVXqyrHtNT8O8gyZ8T/IcGEvey5BGVJ0wkyQLMPmM/rp3opzz3KoOMRyM
- N63GzhxzBOzarbuQRnNoMDtrQ8zlwq4=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-427-a1uci68UMLi2HqQp-PhdMA-1; Mon, 14 Nov 2022 16:58:15 -0500
-X-MC-Unique: a1uci68UMLi2HqQp-PhdMA-1
-Received: by mail-io1-f72.google.com with SMTP id
- w27-20020a05660205db00b006dbce8dc263so6421879iox.16
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 13:58:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouie0-0001eb-2z
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:13:36 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1ouhjs-0006NC-Ek
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 17:15:38 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id o4so20850703wrq.6
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 14:15:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Xu8qw4w9t7T/qBA8yUsMaO04+1Z1VFGPow3Zh6Wxt2U=;
+ b=wGA5HyI1TEruwIN8+Pv/E8KSz4Yfk8RhKKIvi5Mw1szntQiPrvAOdCdOS2yLRTqI/x
+ hW7zIMUGSLvla1zA0eRvBeCtMOPV2UJBProiSMKK4oqO5SwTlh1A/VoVJYcjI6N57uuX
+ FSodX9zEsOc1bUT36Xfr64lzLYOw0e1r3qCfehbEubcW1U5nZeEdIVUWIKytSNCz1CCL
+ EWFixzM7shm4wfxSG+siLMe1k+GhaRwIx9O8TBBRD3PETY2qckcly2JQrdwsp6X5Iv12
+ T9QfmNYD6aKFTdgskyALrmI81wynLIpkoIic++vxo+O9fcJITiwBEG4pHmW4elp0txUc
+ sHMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kZzW4AgZbMmxrsBOBTOhV6/gULQ2dQ1fNvnQET4mXFA=;
- b=4l+cAZXv7TtN7gXJJPSskrumkqkxyf03IrrIJQYE+vWUq9YcHejGt0CHJW6fXoZCcw
- ITckZ5B2jGJ6vK27iKPHmUlRqLPv2E5MM2fGctjWpcppjy1aGtMIbzPT+xr88uMuOofX
- 8Rs4VIxZfrYfcNnIbW85HIB3P2nLfIA/V87v0N37fPW67dY9C4WnbhDqezzMNTaOKJ7p
- EYRlNLpFx/PTwk1DXuKoFjEOhesQHI9TB4MfUwBUToltykcnlgIsYlD9NOo3zxUNheAx
- 3o6vcRUQd0AEURPTuIVH6L40y1yq5mB6XQOCPAfN7ZwtA5S/6CZnGDaRW8IuxM1UZFWU
- evMQ==
-X-Gm-Message-State: ANoB5pmLph6nK5eFYaTVJeUcnUQg4muETxmUzEq57MtBmP4+qrAcko7/
- jtsU99WIPjLF4zPmdjuCQwzUXZ4qTUffFgushFEoa8t22d0adxngKW6KsBGa8yRJKPWSFABdo9i
- aLR7KHD6eXML5xUQ=
-X-Received: by 2002:a05:6638:3cc3:b0:363:cdfd:3b94 with SMTP id
- bc3-20020a0566383cc300b00363cdfd3b94mr6584129jab.254.1668463095013; 
- Mon, 14 Nov 2022 13:58:15 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5ipJfUVcJn0WCqLOtKomK2JTy4DYOo2InkQIoTXzwGcxxThlBV//EiKeE4zN6kMSaQr8b7xQ==
-X-Received: by 2002:a05:6638:3cc3:b0:363:cdfd:3b94 with SMTP id
- bc3-20020a0566383cc300b00363cdfd3b94mr6584119jab.254.1668463094740; 
- Mon, 14 Nov 2022 13:58:14 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- w11-20020a056602034b00b006d276f4e01csm4512639iou.20.2022.11.14.13.58.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Nov 2022 13:58:14 -0800 (PST)
-Date: Mon, 14 Nov 2022 14:58:12 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: quintela@redhat.com
-Cc: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
-Subject: Re: KVM call for 2022-11-15
-Message-ID: <20221114145812.1740308b.alex.williamson@redhat.com>
-In-Reply-To: <87o7t969lv.fsf@secure.mitica>
-References: <87o7t969lv.fsf@secure.mitica>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Xu8qw4w9t7T/qBA8yUsMaO04+1Z1VFGPow3Zh6Wxt2U=;
+ b=sqb7HNHeE/4hClpNpDAOZJ8wmdqLphqYWiCQWynzjvUtGIipnN2vZRaJ2G3iRn+TP2
+ V7qraobSBP4O3k4T/pZWXNY67Ssfp53kxK/8tHIyoqAsv6DqONOGTPoA630DGwMRrhF1
+ PJcNP/nKT7Ps1whvlHk4jsdOlcqkFBo1Oxa/qvblTvhbtL1i6/oo6R1lQWxh3sCIyzIS
+ dnCxsOP05iFODI3NlY/xs8+KxGVvEebC7j430reHApTpUPscEsYXjgPlEI9Lvnuwrdv4
+ q5hSkK7+xZxfVsH6l67z5RLlZ2OJJLl3Sjt3erTCcS211PBfgPkR9y8V84NbwuZI5KEH
+ zjBQ==
+X-Gm-Message-State: ANoB5pnT9k5aKDt44snjoj34WiQCfwI4mzE+iB/fari41ZnIwIw+D6qY
+ cyWv81MXvrXMjJpa2ONHM0LOxQ==
+X-Google-Smtp-Source: AA0mqf5rwSRDJOf0FFYvFznGZYQjTZ4r7I5mVjPHUD73BD//8sxsFfTRy/ZzftmEUtxV1nITf+ZzEw==
+X-Received: by 2002:a5d:674a:0:b0:22e:35e3:4427 with SMTP id
+ l10-20020a5d674a000000b0022e35e34427mr8761489wrw.44.1668464134111; 
+ Mon, 14 Nov 2022 14:15:34 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ e8-20020adffc48000000b00236863c02f5sm10378169wrs.96.2022.11.14.14.15.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Nov 2022 14:15:33 -0800 (PST)
+Message-ID: <6dbc1126-cdae-1ae2-f04e-659d37c58ecf@linaro.org>
+Date: Mon, 14 Nov 2022 23:15:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PATCH v2 02/12] tests/avocado: improve behaviour waiting for
+ login prompts
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, fam@euphon.net, berrange@redhat.com,
+ f4bug@amsat.org, aurelien@aurel32.net, pbonzini@redhat.com,
+ stefanha@redhat.com, crosa@redhat.com,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20221111145529.4020801-1-alex.bennee@linaro.org>
+ <20221111145529.4020801-3-alex.bennee@linaro.org>
+ <CAFEAcA_dv=iDyi8ubMsP9dEvP=71x3ns8ykT3gDnqqr8FS0dqw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAFEAcA_dv=iDyi8ubMsP9dEvP=71x3ns8ykT3gDnqqr8FS0dqw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,39 +98,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 14 Nov 2022 12:47:40 +0100
-quintela@redhat.com wrote:
+On 14/11/22 17:28, Peter Maydell wrote:
+> On Fri, 11 Nov 2022 at 14:58, Alex Bennée <alex.bennee@linaro.org> wrote:
+>>
+>> This attempts to deal with the problem of login prompts not being
+>> guaranteed to be terminated with a newline. The solution to this is to
+>> peek at the incoming data looking to see if we see an up-coming match
+>> before we fall back to the old readline() logic. The reason to mostly
+>> rely on readline is because I am occasionally seeing the peek stalling
+>> despite data being there.
+>>
+>> This seems kinda hacky and gross so I'm open to alternative approaches
+>> and cleaner python code.
+>>
+>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> 
+> With this patch, the evb_sdk test fails:
+> 
+> Fetching asset from
+> ./build/arm-clang/tests/avocado/machine_aspeed.py:AST2x00MachineSDK.test_arm_ast2500_evb_sdk
+> JOB ID     : 542e050c4f7e1ddd6d5cdd350e4c26e1bdfcdee4
+> JOB LOG    : /home/petmay01/avocado/job-results/job-2022-11-14T16.21-542e050/job.log
+>   (1/1) ./build/arm-clang/tests/avocado/machine_aspeed.py:AST2x00MachineSDK.test_arm_ast2500_evb_sdk:
+> ERROR: log() missing 1 required positional argument: 'msg' (82.57 s)
+> RESULTS    : PASS 0 | ERROR 1 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0
+> | CANCEL 0
+> JOB TIME   : 84.09 s
+> 
+> The avocado log reports a traceback where Python has thrown a
+> UnicodeDecodeError, and then subsequently an attempted debug
+> message in the error-handling path has a syntax error
+> ("log() missing 1 required positional argument"):
 
-> Hi
-> 
-> Please, send any topic that you are interested in covering.
-> 
-> We already have some topics:
-> Re agenda, see below topics our team would like to discuss:
-> 
->    - QEMU support for kernel/vfio V2 live migration patches
->    - acceptance of changes required for Grace/Hopper passthrough and vGPU
->    support
->       - the migration support is now looking like it will converge on the
->       6.2 kernel
->    - tuning GPU migration performance on QEMU/vfio, beyond what the V2 work
->    delivers
-> 
-> 
->  Call details:
-> 
-> By popular demand, a google calendar public entry with it
-> 
->   https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
-> 
-> (Let me know if you have any problems with the calendar entry.  I just
-> gave up about getting right at the same time CEST, CET, EDT and DST).
+> _console_interaction(test, success_message, failure_message, None,
+> vm=vm)
+> 2022-11-14 16:22:48,573 stacktrace       L0045 ERROR|   File
+> "/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/tests/avocad
+> o/avocado_qemu/__init__.py", line 226, in _console_interaction
+> 2022-11-14 16:22:48,573 stacktrace       L0045 ERROR|     msg =
+> _peek_ahead(console, min_match, success_message)
+> 2022-11-14 16:22:48,573 stacktrace       L0045 ERROR|   File
+> "/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/tests/avocad
+> o/avocado_qemu/__init__.py", line 180, in _peek_ahead
+> 2022-11-14 16:22:48,573 stacktrace       L0045 ERROR|
+> console_logger.log("error in decode of peek")
+> 2022-11-14 16:22:48,573 stacktrace       L0045 ERROR| TypeError: log()
+> missing 1 required positional argument: 'msg'
 
-This url doesn't work for me, but the one embedded in your previous
-call for agenda[1] does.  Thanks,
+Indeed, log() expects a Level as first argument. Here we simply want to
+report the exception as a warning and continue:
 
-Alex
-
-[1]https://lore.kernel.org/all/87tu3nvrzo.fsf@secure.mitica/
-
+-- >8 --
+          except UnicodeDecodeError:
+-            console_logger.log("error in decode of peek")
++            console_logger.warning("error in decode of peek")
+              return None
+---
 
