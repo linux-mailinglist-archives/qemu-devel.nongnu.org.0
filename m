@@ -2,62 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4857628E4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:27:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF808628EC6
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:58:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouinO-0007aZ-DH; Mon, 14 Nov 2022 18:23:18 -0500
+	id 1ouilI-0005yX-Vk; Mon, 14 Nov 2022 18:21:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ouifd-0002E1-2Z
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ouifY-0005mI-W5
  for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:15:19 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1ouY9e-0002dQ-8e
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 07:01:35 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ouYRk-0002Zp-Li
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 07:20:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668427292;
+ s=mimecast20190719; t=1668428414;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ZTe2u3nPv41zOdZiuII3ib/dq56dqwWZ9nCF9HyHqkw=;
- b=X1AwG2pUIbvHSLf4Fw6VOlHqoCNZKudEyTuBRKKNjPCO+nAS68idxRUBtac/EYVkTpVIOl
- Oju/KK9ZXE91wv/x63yG/92xTKbYF+5OqEG+9vhbGvN7KPT1hC6o5AcVGFiYicPspaBXNl
- Tcf/0P5rdKRpI5q5cELXM93s1dj1MhQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-20-NiDAMouyPrOk8-lSXxNSYw-1; Mon, 14 Nov 2022 07:01:28 -0500
-X-MC-Unique: NiDAMouyPrOk8-lSXxNSYw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6BD8838164C6;
- Mon, 14 Nov 2022 12:01:28 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.135])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C924492B05;
- Mon, 14 Nov 2022 12:01:27 +0000 (UTC)
-Date: Mon, 14 Nov 2022 12:01:22 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2] capstone: use <capstone/capstone.h> instead of
- <capstone.h>
-Message-ID: <Y3IuEntg2gZmRzfe@redhat.com>
-References: <20221113200942.18882-1-mjt@msgid.tls.msk.ru>
- <CAFEAcA_aGiukDWQBAjj=Ln_u02wEbMNxOsHRZcBOm+jOz6HU2Q@mail.gmail.com>
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cXksFFNqekAjLmIqLGi4i2jGTj/7KAmbHj0/CbPskaw=;
+ b=fE/3dlJRiH34jWsEexvzCqp9he7XxisF3ZEmI5dqXeQBZl92s5hCt3XN6tNydmOFYjuJz0
+ X9UCjMDlYPYHq8M//z+452cKhw1K2gMQiLMbyrJnCZpqdbLgTkzOUvPRLTsK3gy9L/nwQg
+ 8kRv6nLfoLJ144HuUo1/JOksuq2cCvw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-616-pKssxB74MOirdV0RF29sUQ-1; Mon, 14 Nov 2022 07:20:12 -0500
+X-MC-Unique: pKssxB74MOirdV0RF29sUQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ i12-20020adfaacc000000b0023cd08e3b56so1936750wrc.12
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 04:20:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cXksFFNqekAjLmIqLGi4i2jGTj/7KAmbHj0/CbPskaw=;
+ b=jLwmrILiZowxCoFpl+lTFMp8j0sTbrnsfgTV+Vbuw3OUgkGCREnZf4T3kAjlzuEjzG
+ F7081vJEbxHUoLbBEf3XA86477x4o2pkMJlZahpQEKBRY6crfC3gglB3gRshBuM07eZl
+ twcSNFT33g4F+NOnvZZWpvamB+Irby6ssCEcb3oJXIj6jhNCGKSafrkC4Y7+WL2KgeyL
+ rR7wIVrJ5kAwdDM6jJJT2VecoM3ACfo4hmClgf+4iniDe17ZY1uLpPnE2YZoBoPn0/ro
+ JNjo2NQ3kJ8KKPfkxJH2yGK2Vx7tqyOi6FJkkpv279hxykYmHci//BKkHkdhhNjEh70+
+ apqQ==
+X-Gm-Message-State: ANoB5pn0PkZ0sPXyYC9HpFlEWVTzr8hgdqiLo+vd+WiRwk7M4mUPoFnH
+ kB+I2onDy5YDqYZeNjqoHcrX0kjTiRo8NbEStAxlKsdtFFsbf07EH4XSHvtf3xkzNLDoQj9kk4R
+ 5QqmOALEfqvOeVHU=
+X-Received: by 2002:a05:600c:1d9a:b0:3cf:6a83:bd19 with SMTP id
+ p26-20020a05600c1d9a00b003cf6a83bd19mr7668687wms.29.1668428411783; 
+ Mon, 14 Nov 2022 04:20:11 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4k+KYOpDaC5MGr2VhwbBl7hmy+xHrAS8lx5kXwZKl0I4VWm67YMg/pMeEVBVV29Y2m94867g==
+X-Received: by 2002:a05:600c:1d9a:b0:3cf:6a83:bd19 with SMTP id
+ p26-20020a05600c1d9a00b003cf6a83bd19mr7668668wms.29.1668428411481; 
+ Mon, 14 Nov 2022 04:20:11 -0800 (PST)
+Received: from localhost ([31.4.176.155]) by smtp.gmail.com with ESMTPSA id
+ c7-20020a1c3507000000b003c6f1732f65sm17125095wma.38.2022.11.14.04.20.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Nov 2022 04:20:11 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Leonardo =?utf-8?Q?Br=C3=A1s?= <leobras@redhat.com>
+Cc: qemu-devel@nongnu.org,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  Peter Xu
+ <peterx@redhat.com>,  Eric Blake <eblake@redhat.com>,  Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,  Yanan Wang
+ <wangyanan55@huawei.com>,
+ Markus Armbruster <armbru@redhat.com>,  Eduardo Habkost
+ <eduardo@habkost.net>
+Subject: Re: [PATCH v7 11/12] multifd: Zero pages transmission
+In-Reply-To: <a422638b88db67dc0bc26526578ee5be3880b6a8.camel@redhat.com>
+ ("Leonardo =?utf-8?Q?Br=C3=A1s=22's?= message of "Fri, 02 Sep 2022 10:27:32
+ -0300")
+References: <20220802063907.18882-1-quintela@redhat.com>
+ <20220802063907.18882-12-quintela@redhat.com>
+ <a422638b88db67dc0bc26526578ee5be3880b6a8.camel@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Mon, 14 Nov 2022 13:20:07 +0100
+Message-ID: <878rkd683s.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_aGiukDWQBAjj=Ln_u02wEbMNxOsHRZcBOm+jOz6HU2Q@mail.gmail.com>
-User-Agent: Mutt/2.2.7 (2022-08-07)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,91 +106,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Nov 14, 2022 at 11:59:31AM +0000, Peter Maydell wrote:
-> On Sun, 13 Nov 2022 at 20:10, Michael Tokarev <mjt@tls.msk.ru> wrote:
-> >
-> > The upcoming capstone 5.0 drops support for the old way
-> > of including its header, due to this change:
-> > https://github.com/capstone-engine/capstone/commit/6656bcb63ab4e87dc6079bd6b6b12cc8dd9b2ad8
-> > The official way is to use <capstone/capstone.h>
-> >
-> > This change has already been proposed before, see
-> > https://patchwork.kernel.org/project/qemu-devel/patch/20180215173539.11033-1-f4bug@amsat.org/
-> > but it didn't find its way into qemu at that time.
-> >
-> > On current systems, using <capstone/capstone.h> works
-> > now (despite the pkg-config-supplied -I/usr/include/capstone) -
-> > since on all systems capstone headers are put into capstone/
-> > subdirectory of a system include dir. So this change is
-> > compatible with both the obsolete way of including it
-> > and the only future way.
-> 
-> That's only true if capstone happened to be installed
-> into a system include directory subdirectory. That
-> is probably true for most distros, but it isn't
-> necessarily true when an end user has built and
-> installed capstone locally themselves.
-> 
-> In other words, this is a breaking non-back-compatible
-> change by capstone upstream, which we now need to work
-> around somehow :-(
-> 
-> 
-> > diff --git a/include/disas/capstone.h b/include/disas/capstone.h
-> > index e29068dd97..d8fdc5d537 100644
-> > --- a/include/disas/capstone.h
-> > +++ b/include/disas/capstone.h
-> > @@ -3,7 +3,7 @@
-> >
-> >  #ifdef CONFIG_CAPSTONE
-> >
-> > -#include <capstone.h>
-> > +#include <capstone/capstone.h>
-> >
-> >  #else
-> >
-> > diff --git a/meson.build b/meson.build
-> > index cf3e517e56..6f34c963f7 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -2680,12 +2680,7 @@ if not get_option('capstone').auto() or have_system or have_user
-> >    capstone = dependency('capstone', version: '>=3.0.5',
-> >                          kwargs: static_kwargs, method: 'pkg-config',
-> >                          required: get_option('capstone'))
-> > -
-> > -  # Some versions of capstone have broken pkg-config file
-> > -  # that reports a wrong -I path, causing the #include to
-> > -  # fail later. If the system has such a broken version
-> > -  # do not use it.
-> > -  if capstone.found() and not cc.compiles('#include <capstone.h>',
-> > +  if capstone.found() and not cc.compiles('#include <capstone/capstone.h>',
-> >                                            dependencies: [capstone])
-> >      capstone = not_found
-> >      if get_option('capstone').enabled()
-> 
-> We can do something like
-> 
-> config_host_data.set('HAVE_CAPSTONE_CAPSTONE_H',
-> cc.has_header('capstone/capstone.h', depedencies: [capstone])
-> 
-> to check that this capstone really does have capstone/capstone.h,
-> for instance.
-> 
-> Dan: is there a reason why in commit 8f4aea712ffc4 you wrote
-> the "check that capstone.h really exists" check with cc.compiles
-> rather than cc.has_header ?
+Leonardo Br=C3=A1s <leobras@redhat.com> wrote:
+> On Tue, 2022-08-02 at 08:39 +0200, Juan Quintela wrote:
+>> This implements the zero page dection and handling.
+>>=20
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
 
-I was probably just unaware of 'has_header' existing
+>> @@ -358,6 +365,18 @@ static int multifd_recv_unfill_packet(MultiFDRecvPa=
+rams *p, Error **errp)
+>>          p->normal[i] =3D offset;
+>>      }
+>>=20=20
+>> +    for (i =3D 0; i < p->zero_num; i++) {
+>> +        uint64_t offset =3D be64_to_cpu(packet->offset[p->normal_num + =
+i]);
+>> +
+>> +        if (offset > (block->used_length - p->page_size)) {
+>> +            error_setg(errp, "multifd: offset too long %" PRIu64
+>> +                       " (max " RAM_ADDR_FMT ")",
+>> +                       offset, block->used_length);
+>> +            return -1;
+>> +        }
+>> +        p->zero[i] =3D offset;
+>> +    }
+>> +
+>>      return 0;
+>>  }
+>
+> IIUC ram_addr_t is supposed to be the address size for the architecture, =
+mainly
+> being 32 or 64 bits. So packet->offset[i] is always u64, and p->zero[i] p=
+ossibly
+> being u32 or u64.
+>
+> Since both local variables and packet->offset[i] are 64-bit, there is no =
+issue.
+>
+> But on=C2=A0'p->zero[i] =3D offset' we can have 'u32 =3D u64', and this s=
+hould raise a
+> warning (or am I missing something?).
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+I don't really know what to do here.
+The problem is only theoretical (in the long, long past, we have
+supported migrating between different architectures, but we aren't
+testing anymore).
+
+And because it was a pain in the ass, we define it as:
+
+/* address in the RAM (different from a physical address) */
+#if defined(CONFIG_XEN_BACKEND)
+typedef uint64_t ram_addr_t;
+#  define RAM_ADDR_MAX UINT64_MAX
+#  define RAM_ADDR_FMT "%" PRIx64
+#else
+typedef uintptr_t ram_addr_t;
+#  define RAM_ADDR_MAX UINTPTR_MAX
+#  define RAM_ADDR_FMT "%" PRIxPTR
+#endif
+
+So I am pretty sure that almost nothing uses 32bits for it now (I
+haven't checked lately, but I guess that nobody is really using/testing
+xen on 32 bits).
+
+I don't really know.  But it could only happens when you are migrating
+from Xen 64 bits to Xen 32 bits, I don't really know if that even work.
+
+I will give it a try to change normal/zero to u64.
+
+Thanks, Juan.
 
 
