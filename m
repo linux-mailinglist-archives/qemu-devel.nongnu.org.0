@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6446628E30
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:20:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64830628E4D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:27:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouipi-0002GG-HC; Mon, 14 Nov 2022 18:25:42 -0500
+	id 1ouirS-0004nK-KT; Mon, 14 Nov 2022 18:27:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1ouigG-0001X6-1E; Mon, 14 Nov 2022 18:16:05 -0500
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ouihF-0004k1-3b
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:16:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1ouWnT-0004Qu-Uy; Mon, 14 Nov 2022 05:34:38 -0500
-Received: from mailhub.u-ga.fr (mailhub-1.u-ga.fr [129.88.178.98])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id CC30D403F0;
- Mon, 14 Nov 2022 11:34:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=univ-grenoble-alpes.fr; s=2020; t=1668422068;
- bh=WSOzBUSV/CWjDcrXGLGVVdfyVgrNlEgzhxamtMiFqr0=;
- h=Date:To:References:From:Subject:In-Reply-To:From;
- b=3oUXqqrFsT4ma2t0S+xOJVDQXnn0YzdmX0JFWMvb+dNXpN5J2IKr8qx1aKWmAVnhp
- mfzWDPIR212Q3kcyMzhaLDR+9/R2+i8sakSTTMp3oH1UxRi6loU0E+nqDf3i2TltYY
- Z93Z9p0h1C1BxyP2ccblOto8T4IbPvcC7MutoRF6gMf5T7oGCPPaKtIgI+qyIBJXoY
- ++EMsQeIQXbtKoD9Mm2eK9PrXGbP6AJPjK3rhI4qCfD+81NhVcOrQg87uh72sA8pUM
- 14uo+EZ1Zr03umEaZQIOkXZ/fnDy8UwlOkSkKmhGnhclngA8nEvGT8kUwopuxiivR0
- LKUSEx/STko9A==
-Received: from smtps.univ-grenoble-alpes.fr (smtps3.u-ga.fr [195.83.24.62])
- by mailhub.u-ga.fr (Postfix) with ESMTP id C980F10005A;
- Mon, 14 Nov 2022 11:34:28 +0100 (CET)
-Received: from [147.171.132.208] (palmier.tima.u-ga.fr [147.171.132.208])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1ouX8r-0002wM-0d
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 05:56:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668423399;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=g7PO7dvelaaBhZ6lKYjRM8WatYv5b1iKZpXDU6NL7TE=;
+ b=XETT+w969+LRSp8/TEbKMyHGYM9AEFta6xkb1vCNB8xVa0NJkICKXdu0BW1OFWnZcAJWjq
+ lfYi4nMIjfeoGp2FxZofLwOKzBxL4CsQENrCeVwjUj+4iHfcPYptWWlJVX9yBwoq+MQCQX
+ lwNiFpttoayi6Csege0l5Fx08/mOtVw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-597-wP3yZ6U_Mh-sEA_5grqWJw-1; Mon, 14 Nov 2022 05:56:38 -0500
+X-MC-Unique: wP3yZ6U_Mh-sEA_5grqWJw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 2292C40050;
- Mon, 14 Nov 2022 11:34:28 +0100 (CET)
-Message-ID: <d87890a7-023f-ba7c-4a61-aa085d0134de@univ-grenoble-alpes.fr>
-Date: Mon, 14 Nov 2022 11:34:27 +0100
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CED1D29AB3EE;
+ Mon, 14 Nov 2022 10:56:37 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CB60B40C83EE;
+ Mon, 14 Nov 2022 10:56:36 +0000 (UTC)
+Date: Mon, 14 Nov 2022 11:56:33 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ stefanha@redhat.com, qemu-devel@nongnu.org, jsnow@redhat.com
+Subject: Re: [PULL 00/11] Block layer patches
+Message-ID: <Y3Ie4aH6Da4qgWbU@redhat.com>
+References: <20221111152744.261358-1-kwolf@redhat.com>
+ <CAJSP0QVgzEAEdzrBd2Q3KsPBmCPTwzdO1dOb6KrY729esKLkZA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.0
-Content-Language: fr
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-References: <20221111121913.1531030-1-frederic.petrot@univ-grenoble-alpes.fr>
- <48729f3f-80eb-8c7b-7bbb-7cd6bfa65a3e@linaro.org>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-Subject: Re: [PATCH] hw/intc: sifive_plic: Renumber the S irqs for numa support
-In-Reply-To: <48729f3f-80eb-8c7b-7bbb-7cd6bfa65a3e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
- via submission-587 ACL (41)
-Received-SPF: pass client-ip=152.77.200.56;
- envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
- helo=zm-mta-out-3.u-ga.fr
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJSP0QVgzEAEdzrBd2Q3KsPBmCPTwzdO1dOb6KrY729esKLkZA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,86 +77,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 14/11/2022 à 09:40, Philippe Mathieu-Daudé a écrit :
-> On 11/11/22 13:19, Frédéric Pétrot wrote:
->> Commit 40244040 changed the way the S irqs are numbered. This breaks when
+Am 11.11.2022 um 20:20 hat Stefan Hajnoczi geschrieben:
+> > Hanna Reitz (9):
+> >       block/mirror: Do not wait for active writes
+> >       block/mirror: Drop mirror_wait_for_any_operation()
+> >       block/mirror: Fix NULL s->job in active writes
+> >       iotests/151: Test that active mirror progresses
+> >       iotests/151: Test active requests on mirror start
+> >       block: Make bdrv_child_get_parent_aio_context I/O
+> >       block-backend: Update ctx immediately after root
+> >       block: Start/end drain on correct AioContext
+> >       tests/stream-under-throttle: New test
 > 
-> 40244040a7 in case?
+> Hi Hanna,
+> This test is broken, probably due to the minimum Python version:
+> https://gitlab.com/qemu-project/qemu/-/jobs/3311521303
 
-   Seems reasonnable, indeed, I'll even align with what git blame shows
-   (11 chars, so 40244040a7a).
+This is exactly the problem I saw with running linters in a gating CI,
+but not during 'make check'. And of course, we're hitting it during the
+-rc phase now. :-(
 
->> using numa configuration, e.g.:
->> ./qemu-system-riscv64 -nographic -machine virt,dumpdtb=numa-tree.dtb \
->>                        -m 2G -smp cpus=16 \
->>               -object memory-backend-ram,id=mem0,size=512M \
->>               -object memory-backend-ram,id=mem1,size=512M \
->>               -object memory-backend-ram,id=mem2,size=512M \
->>               -object memory-backend-ram,id=mem3,size=512M \
->>               -numa node,cpus=0-3,memdev=mem0,nodeid=0 \
->>               -numa node,cpus=4-7,memdev=mem1,nodeid=1 \
->>               -numa node,cpus=8-11,memdev=mem2,nodeid=2 \
->>               -numa node,cpus=12-15,memdev=mem3,nodeid=3
->> leads to:
->> Unexpected error in object_property_find_err() at ../qom/object.c:1304:
->> qemu-system-riscv64: Property 'riscv.sifive.plic.unnamed-gpio-out[8]' not
->> found
->>
->> This patch makes the nubering of the S irqs identical to what it was before.
->>
->> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
->> ---
->>   hw/intc/sifive_plic.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
->> index c2dfacf028..89d2122742 100644
->> --- a/hw/intc/sifive_plic.c
->> +++ b/hw/intc/sifive_plic.c
->> @@ -480,7 +480,7 @@ DeviceState *sifive_plic_create(hwaddr addr, char 
->> *hart_config,
->>                                     qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
->>           }
->>           if (plic->addr_config[i].mode == PLICMode_S) {
->> -            qdev_connect_gpio_out(dev, cpu_num,
->> +            qdev_connect_gpio_out(dev, cpu_num - plic->hartid_base,
->>                                     qdev_get_gpio_in(DEVICE(cpu), IRQ_S_EXT));
->>           }
->>       }
-> 
-> Oops. >
-> Eventually we could unify the style:
-> 
-> -- >8 --
-> @@ -476,11 +476,11 @@ DeviceState *sifive_plic_create(hwaddr addr, char 
-> *hart_config,
->           CPUState *cpu = qemu_get_cpu(cpu_num);
-> 
->           if (plic->addr_config[i].mode == PLICMode_M) {
-> -            qdev_connect_gpio_out(dev, num_harts - plic->hartid_base + cpu_num,
-> +            qdev_connect_gpio_out(dev, cpu_num - hartid_base + num_harts,
->                                     qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
->           }
->           if (plic->addr_config[i].mode == PLICMode_S) {
-> -            qdev_connect_gpio_out(dev, cpu_num,
-> +            qdev_connect_gpio_out(dev, cpu_num - hartid_base,hartid_base
->                                     qdev_get_gpio_in(DEVICE(cpu), IRQ_S_EXT));
->           }
->       }
-> ---
+But yes, it seems that asyncio.TimeoutError should be used instead of
+asyncio.exceptions.TimeoutError, and Python 3.6 has only the former.
+I'll fix this up and send a v2 if it fixes check-python-pipenv.
 
-   IIUC hartid_base is used to set plic->hartid_base, so agreed, along with the
-   style unification.
-   I'll send a v2, then.
-   Since Alistair already queued the patch, how shall I proceed?
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> 
+Kevin
 
--- 
-+---------------------------------------------------------------------------+
-| Frédéric Pétrot,                            Pr. Grenoble INP-Ensimag/TIMA |
-| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
-| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
-+---------------------------------------------------------------------------+
 
