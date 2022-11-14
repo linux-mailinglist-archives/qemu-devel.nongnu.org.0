@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8528628E25
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:17:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D6F4628E36
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:22:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouinJ-0007Ri-Kl; Mon, 14 Nov 2022 18:23:13 -0500
+	id 1ouinO-0007aS-AF; Mon, 14 Nov 2022 18:23:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ouif7-0002B8-Nm
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:45 -0500
+ id 1ouif9-00039s-JG
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:50 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oub57-0005xp-Ct
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 10:09:07 -0500
+ id 1oub5k-0006qu-DH
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 10:09:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668438544;
+ s=mimecast20190719; t=1668438583;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=2ZpUDuYJ/L4e1j+qY7D2l85d8vr7hHS+OWDSmn5LGbk=;
- b=AWSdiFyMxKn6eU/4c0abM+sdJpOWtFQfMX/XFFszw8DWVi+HxSZWSTmNB60BARmWlpOpYJ
- 0R8YCEfdg6eNHYVV3AlqhMPOmdc0dBRHrj1UC6Ei3I2I/+Mkg2JfHhoZMs/F5D4X2Zpo21
- 4FqBhDi+lLSO1Sr5Le5U6fl6ZmDc7/4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=a+UaLhWETl2WiMSsgvgr0af0adv3SAGL74JU7I8RYkI=;
+ b=RuwAZpfo5URRPyBo5CMku660mjZ3oJhGDDMDvuXy4HYiRVeXhDSScOgABdrm2xrkcrOIcj
+ 3EGDh+QTuhBRZ9QQNs7SxYeVeNAO2S5yz/STeYLTzyBgByce/1DhK/5/oWwdYlaFlAYOJa
+ QJ3AzcBqJM1CUwT81LiJ6BEX0v6eWXM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-351-SjoQrZugO5eMiQLNrRPafA-1; Mon, 14 Nov 2022 10:09:02 -0500
-X-MC-Unique: SjoQrZugO5eMiQLNrRPafA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- w23-20020adf8bd7000000b002358f733307so2102289wra.17
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 07:09:02 -0800 (PST)
+ us-mta-655-FcB6paDoM12EFQqcd8mbrA-1; Mon, 14 Nov 2022 10:09:42 -0500
+X-MC-Unique: FcB6paDoM12EFQqcd8mbrA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c10-20020a7bc84a000000b003cf81c2d3efso2999272wml.7
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 07:09:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2ZpUDuYJ/L4e1j+qY7D2l85d8vr7hHS+OWDSmn5LGbk=;
- b=ntTmBmPklrWRQGe9EGJrlUhco4bG7cVOlNYsu3J/3oeVwxlBZqlU/sKPcIozqDJAyK
- 7Mca+qXQMtKhBt3A8qSIl0O+yc1h+yy0cGSVlORPf3wJoorK9tL7Vea4GB+S5Ld4AiLw
- 3g/8NWbd4GRsn/c0oC2MugEgzbgoxtCB8nN87pw7TTkzphILvKdHN2OZU5Um6yVJN13K
- BmSvTn11mvSkZig4Te1unRdoXeJtL6QT+3WiD2jxpfpXVjiWR9lBoQKSMRU93vG4DrrI
- FWrANq2pRR5Xhra/2qGvXs5HzQxm5LeU3gUsu7bcIYGC96ZKRYd26FY+Ztf2jb575R75
- sSeQ==
-X-Gm-Message-State: ANoB5pkUxX6HyrkIwKqN9av/dFnJKltgz8NyDe+qg7hb5JbUSkYWO1GX
- g0drdgSNgwzzQzlzIam/lCIhxNARl24XuhuwcvP6DYESBcq63STy5VYjssg3JUFllQB0LeMyxu6
- fNmLJ0ysYcu2PQWE=
-X-Received: by 2002:a5d:4c44:0:b0:236:c45d:e268 with SMTP id
- n4-20020a5d4c44000000b00236c45de268mr8160822wrt.74.1668438541730; 
- Mon, 14 Nov 2022 07:09:01 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5JKyBnykj9t2z0ailC8XcVSKHooOvL8Hjke1DLBXBPS4Or+6WWLxUGWvZhU4+NerGLwx4ZcQ==
-X-Received: by 2002:a5d:4c44:0:b0:236:c45d:e268 with SMTP id
- n4-20020a5d4c44000000b00236c45de268mr8160801wrt.74.1668438541545; 
- Mon, 14 Nov 2022 07:09:01 -0800 (PST)
+ bh=a+UaLhWETl2WiMSsgvgr0af0adv3SAGL74JU7I8RYkI=;
+ b=vWyCGxvzb4Qq1Mf2Y4KXzlOV4b5ee3acBHaBXnWuspUmAWNDqgJIgRJ/BikVtC32Ve
+ IpXZISmCYHTU+eao693QBtUKgrp/E4RNgglCodjWH0jLq0bb+mAAs+yXR5/5oclIa5rI
+ Dq1+59OSaYtDCfJ/9brYjJ+c8Fm7XFukDal0oHpP4p1UIosRivmQhmk88c76uPe72LYi
+ xkG71r7ObacJgDHD4nAsKdKBcDx68BS2cDOo4HXPaPLO9oxcqxDTJfAVUw/92ScQX526
+ tHvKsLOiKWFcAVbqdSkkJrOgCZqiibY4Ik63OYLZBd/0jmsPOkbRAe5mIx2nJxnZuBH+
+ Pm6w==
+X-Gm-Message-State: ANoB5pl7gDl3UjTtJi8xF4T1Bq6/jcstW5K2D7f9thxjKEd6lhi7SN1c
+ i//fHiFn6URMSHoyNX897S7/z9RRB1Jzi7hF6RQHrm7SMw1yTq/reydQF2iwCSro1c3iwxXA01s
+ pyNJGfYPu2Eqvy5M=
+X-Received: by 2002:a5d:63c3:0:b0:241:5d1d:955b with SMTP id
+ c3-20020a5d63c3000000b002415d1d955bmr7861295wrw.254.1668438580893; 
+ Mon, 14 Nov 2022 07:09:40 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6oPH4cSox6gvMPt/Op0/P+am3ZcK9Ec26lIyl6VMbHQkY/0oaYJeCFGGCRelh9BNAqYKG7/w==
+X-Received: by 2002:a5d:63c3:0:b0:241:5d1d:955b with SMTP id
+ c3-20020a5d63c3000000b002415d1d955bmr7861274wrw.254.1668438580644; 
+ Mon, 14 Nov 2022 07:09:40 -0800 (PST)
 Received: from localhost ([31.4.176.155]) by smtp.gmail.com with ESMTPSA id
- j7-20020a5d4527000000b00236545edc91sm9942056wra.76.2022.11.14.07.09.00
+ k3-20020adfd223000000b00236e834f050sm9691093wrh.35.2022.11.14.07.09.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Nov 2022 07:09:01 -0800 (PST)
+ Mon, 14 Nov 2022 07:09:40 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Peter Xu <peterx@redhat.com>
 Cc: qemu-devel@nongnu.org,  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  "Daniel P . Berrange" <berrange@redhat.com>,  ani@anisinha.ca,  Leonardo
  Bras Soares Passos <lsoaresp@redhat.com>,  Manish Mishra
  <manish.mishra@nutanix.com>
-Subject: Re: [PATCH v2 04/15] migration: Trivial cleanup save_page_header()
- on same block check
-In-Reply-To: <20221011215559.602584-5-peterx@redhat.com> (Peter Xu's message
- of "Tue, 11 Oct 2022 17:55:48 -0400")
+Subject: Re: [PATCH v2 05/15] migration: Remove RAMState.f references in
+ compression code
+In-Reply-To: <20221011215559.602584-6-peterx@redhat.com> (Peter Xu's message
+ of "Tue, 11 Oct 2022 17:55:49 -0400")
 References: <20221011215559.602584-1-peterx@redhat.com>
- <20221011215559.602584-5-peterx@redhat.com>
+ <20221011215559.602584-6-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Mon, 14 Nov 2022 16:08:59 +0100
-Message-ID: <871qq5bmk4.fsf@secure.mitica>
+Date: Mon, 14 Nov 2022 16:09:38 +0100
+Message-ID: <87wn7xa7yl.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
@@ -104,8 +104,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Peter Xu <peterx@redhat.com> wrote:
-> The 2nd check on RAM_SAVE_FLAG_CONTINUE is a bit redundant.  Use a boolean
-> to be clearer.
+> Removing referencing to RAMState.f in compress_page_with_multi_thread() and
+> flush_compressed_data().
+>
+> Compression code by default isn't compatible with having >1 channels (or it
+> won't currently know which channel to flush the compressed data), so to
+> make it simple we always flush on the default to_dst_file port until
+> someone wants to add >1 ports support, as rs->f right now can really
+> change (after postcopy preempt is introduced).
+>
+> There should be no functional change at all after patch applied, since as
+> long as rs->f referenced in compression code, it must be to_dst_file.
 >
 > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > Signed-off-by: Peter Xu <peterx@redhat.com>
