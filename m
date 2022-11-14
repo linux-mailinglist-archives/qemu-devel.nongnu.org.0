@@ -2,89 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5DD628DD6
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:59:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAE6A628E0E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:13:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouinR-0007fW-5D; Mon, 14 Nov 2022 18:23:21 -0500
+	id 1ouinQ-0007eI-L2; Mon, 14 Nov 2022 18:23:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1ouifD-0004o9-IU
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oua5I-0003iN-2r
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 09:05:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668434711;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=U71c3z8K8Db3X+cou7P5QmMRyJft39xYE6Fkua1C0ks=;
- b=Ftz18WKcbagEGc3F4mCFUmrmSrMuIouwQ5A0ypZY6l8uDL/SrZFdf2Qe+smUuwIlp9LVi9
- uWxapZt1I8NNZdiJKVtjhfcdQAWcH1A+SZ+65Tr2Hh/cFodHM9WXhXpZIvt2M9tAc1/qrN
- CbTbCEkkUs6bfBGqmLHvCn6GKlR5AGk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-228-yBV0ltzHM3ucV4PNKgJw0Q-1; Mon, 14 Nov 2022 09:05:06 -0500
-X-MC-Unique: yBV0ltzHM3ucV4PNKgJw0Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h9-20020a1c2109000000b003cfd37aec58so4254670wmh.1
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 06:05:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ouifB-0002B8-Ib
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:50 -0500
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ouagE-0003lw-Pa
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 09:43:24 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id o7so10517938pjj.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 06:43:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=MI3hWpAlTSXb1CTab+SpOhfxMGEgiBbmwNtFXQkfI4w=;
+ b=CkooyQJyDhPJEOMYiocMxWVcEYb1+eEZ+7o6w6HQ6LolK0bYh7NTcZbMWGMTJR7A5l
+ PZEzo3W0vDB+cl4Zvq+vq6pWodGkKMCNkFvJrgTmbTMcSIy5Ga5eQx+TZ12H4K3f03C0
+ OsBHxkAop1/CQE+fUQQ7uz+p1KL7s1C14XZpGpAhwt+dJ16DIo6/Cp1a2w8Eqyz0yxC3
+ hfv5w/n2XtbAWv40tJ9U6GvAC+Rv1bCESaKd1bjkGvFtzFQWOJdia2Wp/P+g4HFwW92D
+ xttiPwlqGK8Bial3vVa5FmZ70EjI2+TsW5FItAmCOF08Ak1dGKBVth8UwVvn5YO8WZjQ
+ I2Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=U71c3z8K8Db3X+cou7P5QmMRyJft39xYE6Fkua1C0ks=;
- b=evV1dS397UHtdO4L82HIgdiSk/4Y+22HdB90m+yangrl9Akk1P24fAn+ur7A4gO7CM
- nEt/AdCv5EeizftAX8h5sSvArVviBn8Q7i/9F2sjiI+t8sBhh1Rcw6JRIkYNn/RchSgs
- HnviUkpuXkyngSZd3L8DrtO4IOzJDktTuuadj3j7sbPj0mLdpJSEPjvnQ0N1WFGLO/2j
- blcfJkUXOdWmYUJyhGaXe8zuiYvr/XYnsAFn8PLRy6RG//veoq9PYFYC5Vh4mbmWmmaJ
- j3R8QiR5dyL2MJaRyet0CZhDuRspBwwJ7fqS0FLW8qEjcToqoLkk9KYdmWWjzWA2EE1y
- 3Bxg==
-X-Gm-Message-State: ANoB5pljURBhirMrXI3DehtnCp8+iZwnFLN4xdJUI7LtpbC3Mf5W9epJ
- hyLy+A5BumgbB1rSYBtuFhN0uw2tmLtmW3nRvQx4CkuES7++SGjluyUmCShZTshvWJyLttdjMAj
- 9hmmtkDGyeBAgibA=
-X-Received: by 2002:a5d:69cc:0:b0:236:8cc6:b76b with SMTP id
- s12-20020a5d69cc000000b002368cc6b76bmr8040317wrw.339.1668434697486; 
- Mon, 14 Nov 2022 06:04:57 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf40tdPlL3G/eKPfd93Wwt9PrV+DCjavU7J47keeiK/r5VCN47ga45QEz+bLMnru+KQVBV1vHg==
-X-Received: by 2002:a5d:69cc:0:b0:236:8cc6:b76b with SMTP id
- s12-20020a5d69cc000000b002368cc6b76bmr8039826wrw.339.1668434689082; 
- Mon, 14 Nov 2022 06:04:49 -0800 (PST)
-Received: from localhost ([31.4.176.155]) by smtp.gmail.com with ESMTPSA id
- j7-20020a05600c190700b003b47e8a5d22sm21112779wmq.23.2022.11.14.06.04.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Nov 2022 06:04:48 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org,  "Daniel P . Berrange" <berrange@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,  "Dr . David Alan
- Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 5/5] migration: Disable multifd explicitly with
- compression
-In-Reply-To: <20221004182430.97638-6-peterx@redhat.com> (Peter Xu's message of
- "Tue, 4 Oct 2022 14:24:30 -0400")
-References: <20221004182430.97638-1-peterx@redhat.com>
- <20221004182430.97638-6-peterx@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Mon, 14 Nov 2022 15:04:47 +0100
-Message-ID: <87iljhbpj4.fsf@secure.mitica>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=MI3hWpAlTSXb1CTab+SpOhfxMGEgiBbmwNtFXQkfI4w=;
+ b=VI+bz2pZoj1RhhmCsS8SX7/1VjkKoMtbPvkVIrHvn4uXpWddERwRY9uBEc60FGRqkQ
+ HlifctV6XCGkjECJSTo6hne9HQN1SE9TfCwhKKprYLjJf7Vj8VJABabYnVoGpNzp8+d5
+ N0O4LqJ8zfUvdJsqk8msftR16nUchA7Y9ImhWKt5yb3P7BswDI3bkjw2boQvsaFWtkUj
+ emKjiFtd4J8m4pKoo03jzbrfNL7duxUb9Ev3GmqK8hD+GAmmkBeWDhqpLfFP+z1+yf+r
+ W7ehdeUeced4BUhMVLI+YG1ns5YTWysr19W0OQ1FMEka34BdPthvyou84pgVe9kEgrOq
+ FPvQ==
+X-Gm-Message-State: ANoB5pmJvFKHAazyz7S5uq9PtS+bmr4nbL8AC9Lpy/95IPWrdvH8C7sd
+ VqJale1xKQzp2VhOsrVVinv3ALMX1QbFP0BPZJsNIQ==
+X-Google-Smtp-Source: AA0mqf4ZhPvwHl7OR4a845xJ54VcIpysf8nWeb7KwbXXYgJ9ipOfgkdU8O3A8qyh9L6xqUUD0k2CFw4mxVu6xICHVg4=
+X-Received: by 2002:a17:902:ea91:b0:185:4ec3:c708 with SMTP id
+ x17-20020a170902ea9100b001854ec3c708mr14044369plb.60.1668437000916; Mon, 14
+ Nov 2022 06:43:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221114133257.1752176-1-jens.wiklander@linaro.org>
+In-Reply-To: <20221114133257.1752176-1-jens.wiklander@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Nov 2022 14:43:09 +0000
+Message-ID: <CAFEAcA-ECwzbojxcjbbAketMa8NkJXg=0xsqPWisKKfiuZGPNg@mail.gmail.com>
+Subject: Re: [PATCH] hw/intc/arm_gicv3: fix prio masking on pmr write
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,28 +79,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Xu <peterx@redhat.com> wrote:
-> Multifd thread model does not work for compression, explicitly disable it.
+On Mon, 14 Nov 2022 at 13:33, Jens Wiklander <jens.wiklander@linaro.org> wrote:
 >
-> Note that previuosly even we can enable both of them, nothing will go
-> wrong, because the compression code has higher priority so multifd feature
-> will just be ignored.  Now we'll fail even earlier at config time so the
-> user should be aware of the consequence better.
+> With commit 39f29e599355 ("hw/intc/arm_gicv3: Use correct number of
+> priority bits for the CPU") the number of priority bits was changed from
+> the maximum value 8 to typically 5. As a consequence a few of the lowest
+> bits in ICC_PMR_EL1 becomes RAZ/WI. However prior to this patch one of
+> these bits was still used since the supplied priority value is masked
+> before it's eventually right shifted with one bit. So the bit is not
+> lost as one might expect when the register is read again.
 >
-> Note that there can be a slight chance of breaking existing users, but
-> let's assume they're not majority and not serious users, or they should
-> have found that multifd is not working already.
+> The Linux kernel depends on lowest valid bit to be reset to zero, see
+> commit 33625282adaa ("irqchip/gic-v3: Probe for SCR_EL3 being clear
+> before resetting AP0Rn") for details.
 >
-> With that, we can safely drop the check in ram_save_target_page() for using
-> multifd, because when multifd=on then compression=off, then the removed
-> check on save_page_use_compression() will also always return false too.
+> So fix this by masking the priority value after it may have been right
+> shifted by one bit.
 >
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+> Fixes: 39f29e599355 ("hw/intc/arm_gicv3: Use correct number of priority bits for the CPU")
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Thanks for the fix; applied to target-arm.next for 7.2.
 
+> I've only tested this patch on top of v7.1.0 since I couldn't get current
+> to run in my test setup.
+>
+> In case anyone wonders what I'm testing, it's a setup with Hafnium at
+> S-EL2, OP-TEE at S-EL1 and the Linux kernel at NS-EL1 (no NS-EL2 for
+> simplicity).
+
+Now is a good time to figure out what's not working with current
+QEMU, so that if it's a bug in QEMU we can fix it before the
+7.2 release. Could you try a bisect of QEMU to see where it broke?
+Alternatively, if you have repro instructions and prebuilt image
+files I can have a look.
+
+thanks
+-- PMM
 
