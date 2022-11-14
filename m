@@ -2,101 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013EE628F60
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:35:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B91A628EE5
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:06:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouir4-0004AY-Pa; Mon, 14 Nov 2022 18:27:06 -0500
+	id 1ouirD-0004Wd-7R; Mon, 14 Nov 2022 18:27:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1ouih4-0008L7-LK; Mon, 14 Nov 2022 18:16:46 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ouih5-00073t-Ls
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:16:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1ouRhs-0003KQ-3z; Mon, 14 Nov 2022 00:08:29 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.5) with ESMTP id
- 2AE51WdO020878; Mon, 14 Nov 2022 05:08:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=d57PbqwwnyIUlM8xuhK36MDGlSryMj3kInYosYZV2Kg=;
- b=XwZrzz0IFX4YFKeNWuoFqOWrqw/314KDMDLbI+uX0BvRxqCKIqf9m9yP+Jlz4obw20uY
- gMHLVxcToKXl7HOd2AOHc2psrGUFllMHUmyJWuanI2bCad0SWpCZQzekoPrjYY8Ie+iK
- NsDHffun5mpDjCsH86nHstXJPzz1dvrHQlL9oSJvMEF93dRvhHHNWScSzvEtoUb/ffaD
- CcbNTlzzHR3VUSJ6Q6+/cTzZ3oQVzUjMDL7sdCQAd+gOZS8AIVDVteFXfehlDgOu5GTM
- yCh5XNkkDdbLBrR3r4pF7yfetUGFCYHMVWaonOXGjbNAOT0hjx07kWPDdDYQcYGvaBQE /w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kuf5s05dg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Nov 2022 05:08:21 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2AE541tt030998;
- Mon, 14 Nov 2022 05:08:20 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3kuf5s05cc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Nov 2022 05:08:20 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2AE55oIk004505;
- Mon, 14 Nov 2022 05:08:18 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06fra.de.ibm.com with ESMTP id 3kt2rj1fb1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Nov 2022 05:08:18 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2AE58FxQ50659764
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 14 Nov 2022 05:08:15 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E9AFC4C044;
- Mon, 14 Nov 2022 05:08:14 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7563D4C040;
- Mon, 14 Nov 2022 05:08:14 +0000 (GMT)
-Received: from heavy (unknown [9.171.39.72])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Mon, 14 Nov 2022 05:08:14 +0000 (GMT)
-Date: Mon, 14 Nov 2022 06:08:13 +0100
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, sw@weilnetz.de
-Subject: Re: [PATCH] s390x: Fix spelling errors
-Message-ID: <20221114050813.6aegy5ishny25r3h@heavy>
-References: <20221111182828.282251-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1ouU72-0007Vj-DE
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 02:42:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668411753;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FhqynJVBrmZL+Rez8gTq/bSdvjFw3OOuVTJVpbq0oB0=;
+ b=VEXmC0pIYM+eE/cofF2EKtukr/rEZqHA7KmGSHrZLM/OqjbBlBbsrRuHDW9h6UIj8r3IT5
+ Nemb8RjkpGL2D8NBauly02j0hJWIqwp7iDEgkKRwCBIwvLPUiRi/KDSWiZ39p+M/cPIp2s
+ u+yE3Qh+ymox4Xia14+iWpzLgzMKU+s=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-22-1hHk5E01MoO-So8UL3NkQQ-1; Mon, 14 Nov 2022 02:42:24 -0500
+X-MC-Unique: 1hHk5E01MoO-So8UL3NkQQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EE77385A5A6
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 07:42:23 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.193.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C38EC492B12;
+ Mon, 14 Nov 2022 07:42:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 935AA21E6921; Mon, 14 Nov 2022 08:42:20 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Zhenyu Zhang <zhenyzha@redhat.com>
+Cc: qemu-devel@nongnu.org,  gshan@redhat.com,  imammedo@redhat.com
+Subject: Re: [PATCH v4] qapi/qom: Memory backend property prealloc-threads
+ doc fix
+References: <20221114032431.195098-1-zhenyzha@redhat.com>
+Date: Mon, 14 Nov 2022 08:42:20 +0100
+In-Reply-To: <20221114032431.195098-1-zhenyzha@redhat.com> (Zhenyu Zhang's
+ message of "Sun, 13 Nov 2022 22:24:31 -0500")
+Message-ID: <87o7ta3rtv.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221111182828.282251-1-thuth@redhat.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: PJW-nT69_4V7s4_q9QyElxvmhLwiGBFK
-X-Proofpoint-ORIG-GUID: aEoRKnHbwKgVbiUCIBQvu3Qk6ynXvJL0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
- definitions=2022-11-14_04,2022-11-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- bulkscore=0 mlxscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
- spamscore=0 mlxlogscore=749 impostorscore=0 clxscore=1011
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2210170000 definitions=main-2211140035
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,25 +79,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Nov 11, 2022 at 07:28:28PM +0100, Thomas Huth wrote:
-> Fix typos (discovered with the 'codespell' utility).
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  hw/s390x/ipl.h                      | 2 +-
->  pc-bios/s390-ccw/cio.h              | 2 +-
->  pc-bios/s390-ccw/iplb.h             | 2 +-
->  target/s390x/cpu_models.h           | 4 ++--
->  hw/s390x/s390-pci-vfio.c            | 2 +-
->  hw/s390x/s390-virtio-ccw.c          | 6 +++---
->  target/s390x/ioinst.c               | 2 +-
->  target/s390x/tcg/excp_helper.c      | 2 +-
->  target/s390x/tcg/fpu_helper.c       | 2 +-
->  target/s390x/tcg/misc_helper.c      | 2 +-
->  target/s390x/tcg/translate.c        | 4 ++--
->  target/s390x/tcg/translate_vx.c.inc | 6 +++---
->  pc-bios/s390-ccw/start.S            | 2 +-
->  13 files changed, 19 insertions(+), 19 deletions(-)
+Zhenyu Zhang <zhenyzha@redhat.com> writes:
 
-Reviewed-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> Commit ffac16fab3 "hostmem: introduce "prealloc-threads" property"
+> (v5.0.0) changed the default number of threads from number of CPUs
+> to 1.  This was deemed a regression, and fixed in commit f8d426a685
+> "hostmem: default the amount of prealloc-threads to smp-cpus".
+> Except the documentation remained unchanged.
+>
+> Update 'qapi/qom.json' to reflect the change in commit f8d426a6852c.
+>
+> Signed-off-by: Zhenyu Zhang <zhenyzha@redhat.com>
+> ---
+>
+> v4: Fix the line exceeding 80 characters limitation issue  (Gavin)
+> v3: Covers historical descriptions                         (Markus)
+> v2: The property is changed to smp-cpus since 5.0          (Phild)
+>
+> ---
+>  qapi/qom.json | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index 30e76653ad..f4a7917f3d 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -576,7 +576,8 @@
+>  #
+>  # @prealloc: if true, preallocate memory (default: false)
+>  #
+> -# @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
+> +# @prealloc-threads: number of CPU threads to use for prealloc 
+
+Could drop "CPU" while there.  Not worth a respin by itself, but perhaps
+the maintainer can drop it for you.
+
+> +#                    (default: number of CPUs) (since 5.0)
+>  #
+>  # @prealloc-context: thread context to use for creation of preallocation threads
+>  #                    (default: none) (since 7.2)
+
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+
 
