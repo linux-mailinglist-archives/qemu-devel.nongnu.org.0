@@ -2,98 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2B6628E70
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:33:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 685F5628E79
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:35:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouiir-0002Pr-Jp; Mon, 14 Nov 2022 18:18:37 -0500
+	id 1ouii9-0001lZ-9o; Mon, 14 Nov 2022 18:17:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marmarek@invisiblethingslab.com>)
- id 1ouieP-0001df-L1
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:14:02 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marmarek@invisiblethingslab.com>)
- id 1ouf0h-0005gJ-4H
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 14:20:49 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 9EF3D32009B0;
- Mon, 14 Nov 2022 14:20:45 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 14 Nov 2022 14:20:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- invisiblethingslab.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1668453645; x=1668540045; bh=oqI/+sgvZ2
- OKVRaSTG42v6mrCeoTzSNksNPbobAHtyw=; b=nZQvOB/3uWzHry1FZf0mIgSsio
- TvpqbQFtXxVW9joxJ7lW/EuPyJU8PRYnedTs4mAqvG/tc5l1Pc1970/9Sbmg/t7p
- EZbllWG966ciU059asbn53Ip6E5nQhynPE7mvJUIsUC1sE5Fq/a7sbfEeozLuBaX
- InUaggTqErhrhpqDFMNyjV230YOSnrWTr2INMzE0wER/nUXhoDk0pFCTSGt8wh7A
- aRacxuWdLD6BxgGXfCh+q4OobrVRWwh+byCc0+yxwFJ291Mcqs/Ki2GebVEzzNvH
- jMjMEDVDqF/PytoU0LwsFEY/maS8b5g5gBgzr5yc7qs8mQGAdd/kYEKhNzLw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1668453645; x=
- 1668540045; bh=oqI/+sgvZ2OKVRaSTG42v6mrCeoTzSNksNPbobAHtyw=; b=D
- 2P5sBpbEsNu6MaRLAFp5J8quqclpPDdJRkMM1LI903pFADdgAXtiEoVTcOPQ4wiZ
- otXWafF8iM8VcODK7xQr8K1sDHD0Tn2tT30tIcdEI4zpAWSONS/yhRA4nCi5M+SI
- ff+gcGkeMBKFvKLbcqJE2wfQ5BC6oY20wLOpmPyQRfJwmxeBoOE+1S9H9FRgpJtY
- MNFl+H44gOFYLbmjtngCof2icNN0cnIY8sE5HCYsA+ucYZYdXMTbs3KYwfQxuRGN
- T15Vv6pUYKJdLeOTNp/W3yJVX6QWzlfDA1iRFQGW5VT/7ICnw9WcV1IBk+RDneFa
- 4tLIoK+iUNeySmtbZYEtg==
-X-ME-Sender: <xms:DJVyY4_9WND8N8kud-egLwPvnfn7p8X-MLxvNFn4HChtwiUQWcEgtA>
- <xme:DJVyYwuMfLMSKXGPMaXIt2RyvJatdxvgiOI37DtxS_BFoYeiWNDDpATJp-4SW-Ttp
- YgBPLLNC0Fhyg>
-X-ME-Received: <xmr:DJVyY-DaXe1oVwj3132y_FPogz0fraQ3Ek4HhBlVQg0M_WrSzgwW6Fj900mDdqhEIaxC46kteITdWFVF633Z86MqsMxzqMQQvrPbwRTUHzHuTtI5AYo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrgedvgdeliecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrrhgv
- khcuofgrrhgtiiihkhhofihskhhiqdfikphrvggtkhhiuceomhgrrhhmrghrvghksehinh
- hvihhsihgslhgvthhhihhnghhslhgrsgdrtghomheqnecuggftrfgrthhtvghrnhepgfeu
- udehgfdvfeehhedujeehfeduveeugefhkefhheelgeevudetueeiudfggfffnecuvehluh
- hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrrhhmrghrvghk
- sehinhhvihhsihgslhgvthhhihhnghhslhgrsgdrtghomh
-X-ME-Proxy: <xmx:DJVyY4fd_q5AQwTm8hfu-hGHGrUNa_NlaV4rNF8TeQU52MGTSsFV-w>
- <xmx:DJVyY9NgQwTd329JmW5qWZTk05Qq7r0tvs4QN72MR45RUA-dxY-g7Q>
- <xmx:DJVyYyloGBdI6D-m55EDEBVtvNSSKMX1Cd4O7iwaOy2jEWTl27oiMA>
- <xmx:DZVyY-pJbI2V7IAOSZyqH7pBd8HJyDFQeEeLigbZ7oB8NPERytrZJQ>
-Feedback-ID: i1568416f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Nov 2022 14:20:43 -0500 (EST)
-From: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
- <marmarek@invisiblethingslab.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
- <marmarek@invisiblethingslab.com>, 
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- xen-devel@lists.xenproject.org (open list:X86 Xen CPUs)
-Subject: [PATCH 2/2] Do not access /dev/mem in MSI-X PCI passthrough on Xen
-Date: Mon, 14 Nov 2022 20:20:11 +0100
-Message-Id: <20221114192011.1539233-2-marmarek@invisiblethingslab.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20221114192011.1539233-1-marmarek@invisiblethingslab.com>
-References: <20221114192011.1539233-1-marmarek@invisiblethingslab.com>
+ (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
+ id 1ouieP-0003Lu-1r; Mon, 14 Nov 2022 18:14:01 -0500
+Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <strahinjapjankovic@gmail.com>)
+ id 1ouf2Y-0006zE-Dd; Mon, 14 Nov 2022 14:22:44 -0500
+Received: by mail-vs1-xe29.google.com with SMTP id i2so8061252vsc.1;
+ Mon, 14 Nov 2022 11:22:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dEQhebuTndEE7Cg0DMsZsBTNOVRFeHqEvwguQLO1hH0=;
+ b=cDPIzlCy80ojTjij/kbVPfM6wsfK7LzNryjZHuPIth0aaERd6+wALQQugAhmgcqSoT
+ dPfTdy4u29Yo3iUMaW3TfQy13FtJdyT4TFzUUMYJkdQCNvdkfGWvnfKhxVi6hZK3Xh7C
+ 8nOktiqwSuIXWiqHi46YTEVzP6RiWXTob841om6F+f/OvHMQC0BpT4m6bouOvfWfOS+I
+ RXqySzj4jzH9uRv94+D/w2FeZg3pOvMb66qGs7YVt6UntGOvY+JCNYVl3nc7Mz3/bse/
+ NX0eELOPy/vId5Qscddkj5XbeM8D61H0xhL2zdAdZsRW4l4POcniSCSAcQ13uTPhpGDp
+ 2/eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dEQhebuTndEE7Cg0DMsZsBTNOVRFeHqEvwguQLO1hH0=;
+ b=dikCGIlx8j+gjcMzqLezAZdx4YXwJJb2W3A0lB/0+spt/Af2TA9LeagoOAWYkT06Xv
+ XM9JGpsBCIDbCkghXW0U4xFx/bHQ6lJsLJQl9EtMwTb/15CrNnfNC7ZcUXUIRKMBhqRM
+ q+DTpmUGueuDEsyyFNRn+j16Il/ap/Cf3O4kEmnlR9XOKkLXwy2LJgoZ/5rF/K/5vBmE
+ lttT07pDzHEKfW3R56bgf8c68VLJkXrtI7DiLxmZOhWYQWXfypCN4lMmmBmvclpaMmV8
+ vFnFfxMzSlXki4LWTtWOotVxre2vcgr+dSDbKiSEU/ZzJ+pfBSRkz6N5zeRF8/dNyle5
+ +f4Q==
+X-Gm-Message-State: ANoB5pkDiDROSF6NdJNpEqtktfFyKVOxFME66xIK3pS2ESrvDYRg5Vfo
+ VoLD29HNafL2ld6lwv/sYDyX+6XyC9pBCNtW1hc=
+X-Google-Smtp-Source: AA0mqf55GFDDM7hGuAg1WfD5jwEMn5J1cCEbDedQSPME7BhOZtFtG1pxd7vpyCVoCTfXlDKZZqEZh96PbEnjZWA7Jzo=
+X-Received: by 2002:a67:ea4e:0:b0:3aa:1249:73d3 with SMTP id
+ r14-20020a67ea4e000000b003aa124973d3mr6238224vso.5.1668453759967; Mon, 14 Nov
+ 2022 11:22:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=64.147.123.25;
- envelope-from=marmarek@invisiblethingslab.com;
- helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20221112214900.24152-1-strahinja.p.jankovic@gmail.com>
+ <CAFEAcA_F0jcjviRGjgmb4J_Kos22+UE0vPbcXoTbPCP7xz-nXA@mail.gmail.com>
+ <CABtshVRnwQiTypOFaOqVE69+1wbVoVJEy_x7ELez8Mo6aXT=Yg@mail.gmail.com>
+ <CAFEAcA-s9a2zCy6O0j6=OXZOcYbj=_mS=aa2vxbKbuSMKNjMoQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA-s9a2zCy6O0j6=OXZOcYbj=_mS=aa2vxbKbuSMKNjMoQ@mail.gmail.com>
+From: Strahinja Jankovic <strahinjapjankovic@gmail.com>
+Date: Mon, 14 Nov 2022 20:22:28 +0100
+Message-ID: <CABtshVRjHMwoN+itKsty-==J8OpZFzuGUB5SsJ+UFPrZ97d6uw@mail.gmail.com>
+Subject: Re: [PATCH] hw/sd: Fix sun4i allwinner-sdhost for U-Boot
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ Beniamino Galvani <b.galvani@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e29;
+ envelope-from=strahinjapjankovic@gmail.com; helo=mail-vs1-xe29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,132 +84,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The /dev/mem is used for two purposes:
- - reading PCI_MSIX_ENTRY_CTRL_MASKBIT
- - reading Pending Bit Array (PBA)
+On Mon, Nov 14, 2022 at 6:36 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Mon, 14 Nov 2022 at 17:29, Strahinja Jankovic
+> <strahinjapjankovic@gmail.com> wrote:
+> >
+> > Hi,
+> >
+> > Thank you for your reply.
+> >
+> > On Mon, Nov 14, 2022 at 4:42 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> > >
+> > > On Sat, 12 Nov 2022 at 21:49, Strahinja Jankovic
+> > > <strahinjapjankovic@gmail.com> wrote:
+> > > >
+> > > > Trying to run U-Boot for Cubieboard (Allwinner A10) fails because it cannot
+> > > > access SD card. The problem is that FIFO register in current
+> > > > allwinner-sdhost implementation is at the address corresponding to
+> > > > Allwinner H3, but not A10.
+> > > > Linux kernel is not affected since Linux driver uses DMA access and does
+> > > > not use FIFO register for reading/writing.
+> > > >
+> > > > This patch adds new class parameter `is_sun4i` and based on that
+> > > > parameter uses register at offset 0x100 either as FIFO register (if
+> > > > sun4i) or as threshold register (if not sun4i; in this case register at
+> > > > 0x200 is FIFO register).
+> > > >
+> > > > Tested with U-Boot and Linux kernel image built for Cubieboard and
+> > > > OrangePi PC.
+> > > >
+> > > > Signed-off-by: Strahinja Jankovic <strahinja.p.jankovic@gmail.com>
+> > > > ---
+> > > >  hw/sd/allwinner-sdhost.c         | 67 ++++++++++++++++++++++----------
+> > > >  include/hw/sd/allwinner-sdhost.h |  1 +
+> > > >  2 files changed, 47 insertions(+), 21 deletions(-)
+> > > >
+> > > > diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
+> > > > index 455d6eabf6..51e5e90830 100644
+> > > > --- a/hw/sd/allwinner-sdhost.c
+> > > > +++ b/hw/sd/allwinner-sdhost.c
+> > > > @@ -65,7 +65,7 @@ enum {
+> > > >      REG_SD_DLBA       = 0x84,  /* Descriptor List Base Address */
+> > > >      REG_SD_IDST       = 0x88,  /* Internal DMA Controller Status */
+> > > >      REG_SD_IDIE       = 0x8C,  /* Internal DMA Controller IRQ Enable */
+> > > > -    REG_SD_THLDC      = 0x100, /* Card Threshold Control */
+> > > > +    REG_SD_THLDC      = 0x100, /* Card Threshold Control / FIFO (sun4i only)*/
+> > > >      REG_SD_DSBD       = 0x10C, /* eMMC DDR Start Bit Detection Control */
+> > > >      REG_SD_RES_CRC    = 0x110, /* Response CRC from card/eMMC */
+> > > >      REG_SD_DATA7_CRC  = 0x114, /* CRC Data 7 from card/eMMC */
+> > > > @@ -415,10 +415,29 @@ static void allwinner_sdhost_dma(AwSdHostState *s)
+> > > >      }
+> > > >  }
+> > > >
+> > > > +static uint32_t allwinner_sdhost_fifo_read(AwSdHostState *s)
+> > > > +{
+> > > > +    uint32_t res = 0;
+> > > > +
+> > > > +    if (sdbus_data_ready(&s->sdbus)) {
+> > > > +        sdbus_read_data(&s->sdbus, &res, sizeof(uint32_t));
+> > > > +        le32_to_cpus(&res);
+> > > > +        allwinner_sdhost_update_transfer_cnt(s, sizeof(uint32_t));
+> > > > +        allwinner_sdhost_auto_stop(s);
+> > > > +        allwinner_sdhost_update_irq(s);
+> > > > +    } else {
+> > > > +        qemu_log_mask(LOG_GUEST_ERROR, "%s: no data ready on SD bus\n",
+> > > > +                      __func__);
+> > > > +    }
+> > > > +
+> > > > +    return res;
+> > > > +}
+> > > > +
+> > > >  static uint64_t allwinner_sdhost_read(void *opaque, hwaddr offset,
+> > > >                                        unsigned size)
+> > > >  {
+> > > >      AwSdHostState *s = AW_SDHOST(opaque);
+> > > > +    AwSdHostClass *sc = AW_SDHOST_GET_CLASS(s);
+> > > >      uint32_t res = 0;
+> > > >
+> > > >      switch (offset) {
+> > > > @@ -508,8 +527,12 @@ static uint64_t allwinner_sdhost_read(void *opaque, hwaddr offset,
+> > > >      case REG_SD_IDIE:      /* Internal DMA Controller Interrupt Enable */
+> > > >          res = s->dmac_irq;
+> > > >          break;
+> > > > -    case REG_SD_THLDC:     /* Card Threshold Control */
+> > > > -        res = s->card_threshold;
+> > > > +    case REG_SD_THLDC:     /* Card Threshold Control or FIFO register (sun4i) */
+> > > > +        if (sc->is_sun4i) {
+> > > > +            res = allwinner_sdhost_fifo_read(s);
+> > > > +        } else {
+> > > > +            res = s->card_threshold;
+> > > > +        }
+> > > >          break;
+> > > >      case REG_SD_DSBD:      /* eMMC DDR Start Bit Detection Control */
+> > > >          res = s->startbit_detect;
+> > > > @@ -531,16 +554,7 @@ static uint64_t allwinner_sdhost_read(void *opaque, hwaddr offset,
+> > > >          res = s->status_crc;
+> > > >          break;
+> > > >      case REG_SD_FIFO:      /* Read/Write FIFO */
+> > > > -        if (sdbus_data_ready(&s->sdbus)) {
+> > > > -            sdbus_read_data(&s->sdbus, &res, sizeof(uint32_t));
+> > > > -            le32_to_cpus(&res);
+> > > > -            allwinner_sdhost_update_transfer_cnt(s, sizeof(uint32_t));
+> > > > -            allwinner_sdhost_auto_stop(s);
+> > > > -            allwinner_sdhost_update_irq(s);
+> > > > -        } else {
+> > > > -            qemu_log_mask(LOG_GUEST_ERROR, "%s: no data ready on SD bus\n",
+> > > > -                          __func__);
+> > > > -        }
+> > > > +        res = allwinner_sdhost_fifo_read(s);
+> > >
+> > > Does the sun4i really have the FIFO at both addresses, or should
+> > > this one do something else for sun4i ?
+> >
+> > The sun4i sdhost actually has no registers with offset higher than
+> > 0x100 (offset of REG_SD_THLDC in patch), so REG_SD_DSBD, all
+> > REG_SD_*_CRC, REG_SD_CRC_STA and REG_SD_FIFO@0x200 should not be
+> > accessed from application code meant to run on sun4i. That is why I
+> > only changed the FIFO/THLDC (offset 0x100) register behavior, since
+> > that change makes U-Boot work.
+> >
+> > I could update the patch so all of these registers with offset bigger
+> > than 0x100 log error if sun4i is selected, so that is more clear.
+> > Would that be ok?
+>
+> Yes, I think that's a good idea, but let's do that change as a
+> separate patch, so we can keep this one as it is as the bugfix.
+>
+> For this patch,
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>
 
-The first one was originally done because when Xen did not send all
-vector ctrl writes to the device model, so QEMU might have outdated old
-register value. This has been changed in Xen, so QEMU can now use its
-cached value of the register instead.
+Ok, I will start preparing that separate patch for error logging for sun4i.
 
-The Pending Bit Array (PBA) handling is for the case where it lives on
-the same page as the MSI-X table itself. Xen has been extended to handle
-this case too (as well as other registers that may live on those pages),
-so QEMU handling is not necessary anymore.
+Since this is my first time submitting a patch, is there anything else
+I need to do with this one? Thanks!
 
-Removing /dev/mem access is useful to work within stubdomain, and
-necessary when dom0 kernel runs in lockdown mode.
+Best regards,
+Strahinja
 
-Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
----
- hw/xen/xen_pt.h     |  1 -
- hw/xen/xen_pt_msi.c | 51 ++++-----------------------------------------
- 2 files changed, 4 insertions(+), 48 deletions(-)
 
-diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
-index e7c4316a7d..de4094e7ec 100644
---- a/hw/xen/xen_pt.h
-+++ b/hw/xen/xen_pt.h
-@@ -206,7 +206,6 @@ typedef struct XenPTMSIX {
-     uint32_t table_offset_adjust; /* page align mmap */
-     uint64_t mmio_base_addr;
-     MemoryRegion mmio;
--    void *phys_iomem_base;
-     XenPTMSIXEntry msix_entry[];
- } XenPTMSIX;
- 
-diff --git a/hw/xen/xen_pt_msi.c b/hw/xen/xen_pt_msi.c
-index b71563f98a..a8a75dff66 100644
---- a/hw/xen/xen_pt_msi.c
-+++ b/hw/xen/xen_pt_msi.c
-@@ -460,15 +460,7 @@ static void pci_msix_write(void *opaque, hwaddr addr,
-         entry->updated = true;
-     } else if (msix->enabled && entry->updated &&
-                !(val & PCI_MSIX_ENTRY_CTRL_MASKBIT)) {
--        const volatile uint32_t *vec_ctrl;
--
--        /*
--         * If Xen intercepts the mask bit access, entry->vec_ctrl may not be
--         * up-to-date. Read from hardware directly.
--         */
--        vec_ctrl = s->msix->phys_iomem_base + entry_nr * PCI_MSIX_ENTRY_SIZE
--            + PCI_MSIX_ENTRY_VECTOR_CTRL;
--        xen_pt_msix_update_one(s, entry_nr, *vec_ctrl);
-+        xen_pt_msix_update_one(s, entry_nr, entry->latch(VECTOR_CTRL));
-     }
- 
-     set_entry_value(entry, offset, val);
-@@ -493,7 +485,9 @@ static uint64_t pci_msix_read(void *opaque, hwaddr addr,
-         return get_entry_value(&msix->msix_entry[entry_nr], offset);
-     } else {
-         /* Pending Bit Array (PBA) */
--        return *(uint32_t *)(msix->phys_iomem_base + addr);
-+        XEN_PT_LOG(&s->dev, "reading PBA, addr %#lx, offset %#lx\n",
-+                   addr, addr - msix->total_entries * PCI_MSIX_ENTRY_SIZE);
-+        return 0xFFFFFFFF;
-     }
- }
- 
-@@ -529,7 +523,6 @@ int xen_pt_msix_init(XenPCIPassthroughState *s, uint32_t base)
-     int i, total_entries, bar_index;
-     XenHostPCIDevice *hd = &s->real_device;
-     PCIDevice *d = &s->dev;
--    int fd = -1;
-     XenPTMSIX *msix = NULL;
-     int rc = 0;
- 
-@@ -576,34 +569,6 @@ int xen_pt_msix_init(XenPCIPassthroughState *s, uint32_t base)
-     msix->table_base = s->real_device.io_regions[bar_index].base_addr;
-     XEN_PT_LOG(d, "get MSI-X table BAR base 0x%"PRIx64"\n", msix->table_base);
- 
--    fd = open("/dev/mem", O_RDWR);
--    if (fd == -1) {
--        rc = -errno;
--        XEN_PT_ERR(d, "Can't open /dev/mem: %s\n", strerror(errno));
--        goto error_out;
--    }
--    XEN_PT_LOG(d, "table_off = 0x%x, total_entries = %d\n",
--               table_off, total_entries);
--    msix->table_offset_adjust = table_off & 0x0fff;
--    msix->phys_iomem_base =
--        mmap(NULL,
--             total_entries * PCI_MSIX_ENTRY_SIZE + msix->table_offset_adjust,
--             PROT_READ,
--             MAP_SHARED | MAP_LOCKED,
--             fd,
--             msix->table_base + table_off - msix->table_offset_adjust);
--    close(fd);
--    if (msix->phys_iomem_base == MAP_FAILED) {
--        rc = -errno;
--        XEN_PT_ERR(d, "Can't map physical MSI-X table: %s\n", strerror(errno));
--        goto error_out;
--    }
--    msix->phys_iomem_base = (char *)msix->phys_iomem_base
--        + msix->table_offset_adjust;
--
--    XEN_PT_LOG(d, "mapping physical MSI-X table to %p\n",
--               msix->phys_iomem_base);
--
-     memory_region_add_subregion_overlap(&s->bar[bar_index], table_off,
-                                         &msix->mmio,
-                                         2); /* Priority: pci default + 1 */
-@@ -624,14 +589,6 @@ void xen_pt_msix_unmap(XenPCIPassthroughState *s)
-         return;
-     }
- 
--    /* unmap the MSI-X memory mapped register area */
--    if (msix->phys_iomem_base) {
--        XEN_PT_LOG(&s->dev, "unmapping physical MSI-X table from %p\n",
--                   msix->phys_iomem_base);
--        munmap(msix->phys_iomem_base, msix->total_entries * PCI_MSIX_ENTRY_SIZE
--               + msix->table_offset_adjust);
--    }
--
-     memory_region_del_subregion(&s->bar[msix->bar_index], &msix->mmio);
- }
- 
--- 
-2.37.3
-
+> thanks
+> -- PMM
 
