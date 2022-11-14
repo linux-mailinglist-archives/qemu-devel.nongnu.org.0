@@ -2,104 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724E4628DB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 00:45:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C396628E0F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 01:13:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouiof-0000bn-O6; Mon, 14 Nov 2022 18:24:37 -0500
+	id 1ouiob-0000Zx-By; Mon, 14 Nov 2022 18:24:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ouifd-0004xE-1K
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:15:19 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ouY2d-0007Wc-1c
- for qemu-devel@nongnu.org; Mon, 14 Nov 2022 06:54:21 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id p16so7294337wmc.3
- for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 03:54:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UFrv/gZh3M5M+GHa7rgQfMzZBcJfOT6Htd7GIwYXDjY=;
- b=EUoeLavTVlHYdJZCNph9EHvSI+oEmosznJ6f/upKgsdxBCVKAD+wKTTxF2HefZF4aJ
- +voBzLkimQpEK0QSkfAiC1ct7gmCt04TDRoYbiQk2+ZrURn8qyzn7B8NaLHEY4CnDGm6
- 2jfadRSEAwkAURqUwVqJzHS0olixUeaFGq8/b2tw1FpYy5tfyimf03hvtmiBkAGD8Dwl
- b0COvNcSFazcgu2nDWFiq0ZFNQbDFye/UqRwXqYAyjzv+ihl5HvLX0qY0nWmYQKPF5Em
- ZwJAftOJ9dK9vLfL3ce4f68mG7VbwAJZ0JD+C1zsDfb08VanEK8T+D9r6Jo/S49b7wiV
- j91A==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ouifk-0004ws-2q
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:15:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1ouXwm-0005Bc-0c
+ for qemu-devel@nongnu.org; Mon, 14 Nov 2022 06:48:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1668426494;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type; bh=ucfH+X8twl2Ws47Bs6a6DYYXobksfor7Ckp6hH8bzJw=;
+ b=Gf/oSEzzP2RjEKks9ZgN8LF7YrFy54y++0O0vef6KYkKYGyG5DlU8lblCtw/Wyao1WoAp3
+ RS7zVHmeyFsOl1b5zL4yF4AZXSTomyYjh6f9Vrl+FCMcT/cB7OH2kSVuJTLOOI5SkD7CJy
+ MGoL6wCcdfRkxhkD3vCuT9uq2JxlqtQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-232-z7Uya3PuP1mAYxLM7oMysA-1; Mon, 14 Nov 2022 06:48:13 -0500
+X-MC-Unique: z7Uya3PuP1mAYxLM7oMysA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ c10-20020a7bc84a000000b003cf81c2d3efso2833957wml.7
+ for <qemu-devel@nongnu.org>; Mon, 14 Nov 2022 03:48:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=UFrv/gZh3M5M+GHa7rgQfMzZBcJfOT6Htd7GIwYXDjY=;
- b=KMkjD7Trt/RRq5YiwczXUmRzT6wLcPcGYVYbKasLtE2CeTo1IFSFxHC3q1IbUxGncD
- nXLmR2Dkgw1FGeR/y8/UAvmPOrA5dgWUyF+ouZvEqX9CBKQiR2o5L/NMF9g++/AAF2qD
- dhtscB47h4aEoXrAHMRz+mKOg1O6OoKz1w1RTY+8YcgxGuLody2kw6mbTE+2+zMTjJ9J
- vHfzcTYk5+X1l7qT5Ci2Ru/U32CHL6OZw2AZbaL7/r1R7J3LI5Hb5sbJz6BTSNMC8m0K
- VwMiMA195IW6wUlqQ0ftFICVIN1SBy84WCxIcLTnOy233dVY9Wv1qXZge67o7iNW/9JI
- Bitg==
-X-Gm-Message-State: ANoB5pn8+61SuheIOdsYMu/skHeLD30XGZ5WnLcuSUK6HlBWTUb9qzvx
- 04H6S/BFS9JwSi5ulTMwn7X+YA==
-X-Google-Smtp-Source: AA0mqf403V0vwqaE+mnyncg76u8ir3wUv9Nm7KTIlaElnQNtqjHebbBnqedRs9sCRLI9w2BMk0/32Q==
-X-Received: by 2002:a05:600c:2315:b0:3cf:ae53:918f with SMTP id
- 21-20020a05600c231500b003cfae53918fmr7727329wmo.131.1668426851811; 
- Mon, 14 Nov 2022 03:54:11 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- c17-20020adffb11000000b002417f35767asm6097766wrr.40.2022.11.14.03.54.10
+ h=mime-version:message-id:date:reply-to:user-agent:subject:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ucfH+X8twl2Ws47Bs6a6DYYXobksfor7Ckp6hH8bzJw=;
+ b=xLoq4in9sc/F+neVCrd2BhHZaHrmYu7du+Y/FZN65yISxrQXJ0tlwadx3b5XjRA0WE
+ FJJy686DykkbChhceemfw5pE1EN5tGV8HkH1QltrZ4UC5YHXjBejSOJujTmaUUVQF5oR
+ s+vi1SL70JnF/U7ubc4PKxqPd1/uhW/Y/Ibp+vjEydYGHSyJYBvrOLaakXtioJFxOTrq
+ UNFEZGnr7hDH41Ekj9w46V1bpVcDM8s8EomtXY/PdBEjXyf9iZ1OvFlWGx/QTXdrUVX4
+ z9qeZZD2x0+CrLLMFenbwKDm+DAsrGTWpG5n9PmXxXJqvsPqaJDIU+xwrRqmclwaeGyQ
+ rZ4g==
+X-Gm-Message-State: ANoB5pnkygRkwPO8vdpjxzI/OkwO+adsZmjE8oN0tObViGUb357m84dN
+ JIGNIFvZZRD6YsVr5Xs0fJnom5EQ7SKmXBRpgEwu2WzcONMucZzyA/ywm2dY0fPwIo3uZWqoC5l
+ f5Kyy5CFGoI3WTRk=
+X-Received: by 2002:adf:e70e:0:b0:22c:d758:6fcb with SMTP id
+ c14-20020adfe70e000000b0022cd7586fcbmr7229535wrm.542.1668426492455; 
+ Mon, 14 Nov 2022 03:48:12 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf70T+oDUKXKgT3/zn6chPDyqo6Da2/XgYL1A0ufFkEJaA2cqrJ6CIz9B9Su0cIS62L6m6VueQ==
+X-Received: by 2002:adf:e70e:0:b0:22c:d758:6fcb with SMTP id
+ c14-20020adfe70e000000b0022cd7586fcbmr7229527wrm.542.1668426492262; 
+ Mon, 14 Nov 2022 03:48:12 -0800 (PST)
+Received: from localhost ([31.4.176.155]) by smtp.gmail.com with ESMTPSA id
+ q9-20020a5d61c9000000b0023c508a1c24sm9245591wrv.26.2022.11.14.03.48.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Nov 2022 03:54:11 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5E6971FFB7;
- Mon, 14 Nov 2022 11:54:10 +0000 (GMT)
-References: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
-User-agent: mu4e 1.9.2; emacs 28.2.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, Vitaly
- Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>, Jim
- Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>, Thomas
- Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav
- Petkov <bp@alien8.de>, x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>, "J .
- Bruce Fields" <bfields@fieldses.org>, Andrew Morton
- <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Steven Price <steven.price@arm.com>, "Maciej S .
- Szmigiero" <mail@maciej.szmigiero.name>, Vlastimil Babka <vbabka@suse.cz>,
- Vishal Annapurve <vannapurve@google.com>, Yu Zhang
- <yu.c.zhang@linux.intel.com>, "Kirill A . Shutemov"
- <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- tabba@google.com, Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>, wei.w.wang@intel.com, Viresh Kumar
- <viresh.kumar@linaro.org>, Mathieu Poirier <mathieu.poirier@linaro.org>,
- AKASHI Takahiro <takahiro.akashi@linaro.org>
-Subject: Re: [PATCH v9 0/8] KVM: mm: fd-based approach for supporting KVM
-Date: Mon, 14 Nov 2022 11:43:37 +0000
-In-reply-to: <20221025151344.3784230-1-chao.p.peng@linux.intel.com>
-Message-ID: <87k03xbvkt.fsf@linaro.org>
+ Mon, 14 Nov 2022 03:48:11 -0800 (PST)
+From: quintela@redhat.com
+X-Google-Original-From: Juan Quintela <quintela@redhat.com>, Andre Beausoleil
+ <abeausol@redhat.com>
+To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
+Subject: KVM call for 2022-11-15
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Mon, 14 Nov 2022 12:47:40 +0100
+Message-ID: <87o7t969lv.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,115 +90,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Chao Peng <chao.p.peng@linux.intel.com> writes:
+Hi
 
-<snip>
-> Introduction
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> KVM userspace being able to crash the host is horrible. Under current
-> KVM architecture, all guest memory is inherently accessible from KVM
-> userspace and is exposed to the mentioned crash issue. The goal of this
-> series is to provide a solution to align mm and KVM, on a userspace
-> inaccessible approach of exposing guest memory.=20
->
-> Normally, KVM populates secondary page table (e.g. EPT) by using a host
-> virtual address (hva) from core mm page table (e.g. x86 userspace page
-> table). This requires guest memory being mmaped into KVM userspace, but
-> this is also the source where the mentioned crash issue can happen. In
-> theory, apart from those 'shared' memory for device emulation etc, guest
-> memory doesn't have to be mmaped into KVM userspace.
->
-> This series introduces fd-based guest memory which will not be mmaped
-> into KVM userspace. KVM populates secondary page table by using a
-> fd/offset pair backed by a memory file system. The fd can be created
-> from a supported memory filesystem like tmpfs/hugetlbfs and KVM can
-> directly interact with them with newly introduced in-kernel interface,
-> therefore remove the KVM userspace from the path of accessing/mmaping
-> the guest memory.=20
->
-> Kirill had a patch [2] to address the same issue in a different way. It
-> tracks guest encrypted memory at the 'struct page' level and relies on
-> HWPOISON to reject the userspace access. The patch has been discussed in
-> several online and offline threads and resulted in a design document [3]
-> which is also the original proposal for this series. Later this patch
-> series evolved as more comments received in community but the major
-> concepts in [3] still hold true so recommend reading.
->
-> The patch series may also be useful for other usages, for example, pure
-> software approach may use it to harden itself against unintentional
-> access to guest memory. This series is designed with these usages in
-> mind but doesn't have code directly support them and extension might be
-> needed.
+Please, send any topic that you are interested in covering.
 
-There are a couple of additional use cases where having a consistent
-memory interface with the kernel would be useful.
+We already have some topics:
+Re agenda, see below topics our team would like to discuss:
 
-  - Xen DomU guests providing other domains with VirtIO backends
+   - QEMU support for kernel/vfio V2 live migration patches
+   - acceptance of changes required for Grace/Hopper passthrough and vGPU
+   support
+      - the migration support is now looking like it will converge on the
+      6.2 kernel
+   - tuning GPU migration performance on QEMU/vfio, beyond what the V2 work
+   delivers
 
-  Xen by default doesn't give other domains special access to a domains
-  memory. The guest can grant access to regions of its memory to other
-  domains for this purpose.=20
 
-  - pKVM on ARM
+ Call details:
 
-  Similar to Xen, pKVM moves the management of the page tables into the
-  hypervisor and again doesn't allow those domains to share memory by
-  default.
+By popular demand, a google calendar public entry with it
 
-  - VirtIO loopback
+  https://www.google.com/calendar/embed?src=dG9iMXRqcXAzN3Y4ZXZwNzRoMHE4a3BqcXNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ
 
-  This allows for VirtIO devices for the host kernel to be serviced by
-  backends running in userspace. Obviously the memory userspace is
-  allowed to access is strictly limited to the buffers and queues
-  because giving userspace unrestricted access to the host kernel would
-  have consequences.
+(Let me know if you have any problems with the calendar entry.  I just
+gave up about getting right at the same time CEST, CET, EDT and DST).
 
-All of these VirtIO backends work with vhost-user which uses memfds to
-pass references to guest memory from the VMM to the backend
-implementation.
+If you need phone number details,  contact me privately
 
-> mm change
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Introduces a new memfd_restricted system call which can create memory
-> file that is restricted from userspace access via normal MMU operations
-> like read(), write() or mmap() etc and the only way to use it is
-> passing it to a third kernel module like KVM and relying on it to
-> access the fd through the newly added restrictedmem kernel interface.
-> The restrictedmem interface bridges the memory file subsystems
-> (tmpfs/hugetlbfs etc) and their users (KVM in this case) and provides
-> bi-directional communication between them.=20
->
->
-> KVM change
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Extends the KVM memslot to provide guest private (encrypted) memory from
-> a fd. With this extension, a single memslot can maintain both private
-> memory through private fd (restricted_fd/restricted_offset) and shared
-> (unencrypted) memory through userspace mmaped host virtual address
-> (userspace_addr). For a particular guest page, the corresponding page in
-> KVM memslot can be only either private or shared and only one of the
-> shared/private parts of the memslot is visible to guest. For how this
-> new extension is used in QEMU, please refer to kvm_set_phys_mem() in
-> below TDX-enabled QEMU repo.
->
-> Introduces new KVM_EXIT_MEMORY_FAULT exit to allow userspace to get the
-> chance on decision-making for shared <-> private memory conversion. The
-> exit can be an implicit conversion in KVM page fault handler or an
-> explicit conversion from guest OS.
->
-> Extends existing SEV ioctls KVM_MEMORY_ENCRYPT_{UN,}REG_REGION to
-> convert a guest page between private <-> shared. The data maintained in
-> these ioctls tells the truth whether a guest page is private or shared
-> and this information will be used in KVM page fault handler to decide
-> whether the private or the shared part of the memslot is visible to
-> guest.
->
-<snip>
+Thanks, Juan.
 
---=20
-Alex Benn=C3=A9e
 
