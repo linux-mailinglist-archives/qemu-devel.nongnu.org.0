@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C69AB628EF6
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:13:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA1C3628EF8
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Nov 2022 02:14:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1ouidp-0001lr-2Z; Mon, 14 Nov 2022 18:13:25 -0500
+	id 1ouidp-0001lq-3H; Mon, 14 Nov 2022 18:13:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouidl-0001X6-Oh
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouidl-0001X6-AU
  for qemu-devel@nongnu.org; Mon, 14 Nov 2022 18:13:21 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouiJP-00036i-E0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ouiJP-00037n-LI
  for qemu-devel@nongnu.org; Mon, 14 Nov 2022 17:52:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1668466334;
+ s=mimecast20190719; t=1668466339;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5xwarWq7IS97eQgNFs7g0Lw+/taGHjpDs4Ete5qDg2U=;
- b=QEMnzOSrNnDXTyylgMiWUilA9Tzy1CMsFzogC9U9n2GhlXor0K/yX5/jnn63dv/Zau2HmR
- h1zTYvFmNHRqMxQ/on9ZTAHrAMvlQqua4DAaR885f/9PytYOxEfElRRVFvc/Bkyfd88o+K
- rli9FC3mVWglRgY1FfNVOmQ2Wx2p1L0=
+ bh=rcnm5aMG/LUSV6x9rNqQu6bpIiyneV26ZG6lhU9ZMh4=;
+ b=CRDAnxw0S/pi0R0B+/5L91ot8F2rRy30m5lZM+d19Ld1bFDbshJkv6CkKn/FL/v/5gMDpB
+ SW6n6wxA2otf0jF9Yp2Xm2IwldsVCp+2riLYuVO5av+zWJAejOTr/R8BkcnUmQ3X0J4VD3
+ CKYWIVhlYwOMnAryK6hEHfa2EFfc7IE=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-300-RlTzK5bCNRemScTiMHoUDw-1; Mon, 14 Nov 2022 17:52:11 -0500
-X-MC-Unique: RlTzK5bCNRemScTiMHoUDw-1
+ us-mta-148-YsK2a6_mOtqnkpn016mR8Q-1; Mon, 14 Nov 2022 17:52:15 -0500
+X-MC-Unique: YsK2a6_mOtqnkpn016mR8Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1216F857D0E;
- Mon, 14 Nov 2022 22:52:11 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F29D2811E81;
+ Mon, 14 Nov 2022 22:52:14 +0000 (UTC)
 Received: from green.redhat.com (unknown [10.2.16.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A259940E9786;
- Mon, 14 Nov 2022 22:52:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E02540E9786;
+ Mon, 14 Nov 2022 22:52:14 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: libguestfs@redhat.com
 Cc: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org,
 	nbd@other.debian.org
-Subject: [libnbd PATCH v2 16/23] examples: Update copy-libev to use 64-bit
- block status
-Date: Mon, 14 Nov 2022 16:51:51 -0600
-Message-Id: <20221114225158.2186742-17-eblake@redhat.com>
+Subject: [libnbd PATCH v2 23/23] RFC: pread: Accept 64-bit holes
+Date: Mon, 14 Nov 2022 16:51:58 -0600
+Message-Id: <20221114225158.2186742-24-eblake@redhat.com>
 In-Reply-To: <20221114225158.2186742-1-eblake@redhat.com>
 References: <20221114224141.cm5jgyxfmvie5xb5@redhat.com>
  <20221114225158.2186742-1-eblake@redhat.com>
@@ -80,86 +79,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Although our use of "base:allocation" doesn't require the use of the
-64-bit API for flags, we might perform slightly faster for a server
-that does give us 64-bit extent lengths and honors larger nbd_zero
-lengths.
+Even though we don't currently allow the user to request NBD_CMD_READ
+with more than 64M (and even if we did, our API signature caps us at
+SIZE_MAX, which is 32 bits on a 32-bit machine), upstream NBD commit
+XXX[*] states that for symmetry with 64-bit requests, extended header
+clients must be prepared for a server response with a 64-bit hole,
+even if the client never makes a read request that large.  Note that
+we don't have to change the signature of the callback for
+nbd_pread_structured; nor is it worth adding a 64-bit counterpart to
+LIBNBD_READ_HOLE, because it is unlikely that a user callback will
+ever need to distinguish between which size was sent over the wire,
+when the value is always less than 32 bits.  Also note that the recent
+NBD spec changes to add 64-bits did state that servers may allow
+clients to request a read of larger than the max block size, but if
+such read is not rejected with EOVERFLOW or EINVAL, then the reply
+will be divided into chunks so that no chunk sends more than a max
+block size payload.
+
+While we cannot guarantee which size structured reply the server will
+use, it is easy enough to handle both sizes, but tag the read with
+EPROTO for a non-compliant server that sends wide replies when
+extended headers were not negotiated.  A more likely reason that a
+server may choose to send 64-bit hole chunks even for a 32-bit hole is
+because the extended hole payload has nicer power-of-2 sizing.
+
 ---
- examples/copy-libev.c | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/examples/copy-libev.c b/examples/copy-libev.c
-index 418d99f1..d8b45d87 100644
---- a/examples/copy-libev.c
-+++ b/examples/copy-libev.c
-@@ -94,7 +94,7 @@ struct request {
- };
+[*] FIXME: Update this with the actual commit id, if upstream NBD even
+goes with this option.
+---
+ lib/internal.h                      |  1 +
+ lib/nbd-protocol.h                  |  6 +++++
+ generator/states-reply-structured.c | 36 ++++++++++++++++++++++++-----
+ 3 files changed, 37 insertions(+), 6 deletions(-)
 
- struct extent {
--    uint32_t length;
-+    uint64_t length;
-     bool zero;
- };
+diff --git a/lib/internal.h b/lib/internal.h
+index ac8d99c4..64d1941c 100644
+--- a/lib/internal.h
++++ b/lib/internal.h
+@@ -250,6 +250,7 @@ struct nbd_handle {
+       union {
+         struct nbd_structured_reply_offset_data offset_data;
+         struct nbd_structured_reply_offset_hole offset_hole;
++        struct nbd_structured_reply_offset_hole_ext offset_hole_ext;
+         struct nbd_structured_reply_block_status_hdr bs_hdr;
+         struct nbd_structured_reply_block_status_ext_hdr bs_ext_hdr;
+         struct {
+diff --git a/lib/nbd-protocol.h b/lib/nbd-protocol.h
+index 2d1fabd0..2d1a3202 100644
+--- a/lib/nbd-protocol.h
++++ b/lib/nbd-protocol.h
+@@ -247,6 +247,11 @@ struct nbd_structured_reply_offset_hole {
+   uint32_t length;              /* Length of hole. */
+ } NBD_ATTRIBUTE_PACKED;
 
-@@ -182,7 +182,7 @@ get_events(struct connection *c)
-
- static int
- extent_callback (void *user_data, const char *metacontext, uint64_t offset,
--                 uint32_t *entries, size_t nr_entries, int *error)
-+                 nbd_extent *entries, size_t nr_entries, int *error)
++struct nbd_structured_reply_offset_hole_ext {
++  uint64_t offset;
++  uint64_t length;              /* Length of hole. */
++} NBD_ATTRIBUTE_PACKED;
++
+ /* NBD_REPLY_TYPE_BLOCK_STATUS block descriptor. */
+ struct nbd_block_descriptor {
+   uint32_t length;              /* length of block */
+@@ -292,6 +297,7 @@ struct nbd_structured_reply_error {
+ #define NBD_REPLY_TYPE_NONE             0
+ #define NBD_REPLY_TYPE_OFFSET_DATA      1
+ #define NBD_REPLY_TYPE_OFFSET_HOLE      2
++#define NBD_REPLY_TYPE_OFFSET_HOLE_EXT  3
+ #define NBD_REPLY_TYPE_BLOCK_STATUS     5
+ #define NBD_REPLY_TYPE_BLOCK_STATUS_EXT 6
+ #define NBD_REPLY_TYPE_ERROR            NBD_REPLY_TYPE_ERR (1)
+diff --git a/generator/states-reply-structured.c b/generator/states-reply-structured.c
+index 7e313b5a..e338bf74 100644
+--- a/generator/states-reply-structured.c
++++ b/generator/states-reply-structured.c
+@@ -28,15 +28,16 @@
+  * requesting command.
+  */
+ static bool
+-structured_reply_in_bounds (uint64_t offset, uint32_t length,
++structured_reply_in_bounds (uint64_t offset, uint64_t length,
+                             const struct command *cmd)
  {
-     struct request *r = user_data;
+   if (offset < cmd->offset ||
+       offset >= cmd->offset + cmd->count ||
+-      offset + length > cmd->offset + cmd->count) {
++      length > cmd->offset + cmd->count ||
++      offset > cmd->offset + cmd->count - length) {
+     set_error (0, "range of structured reply is out of bounds, "
+                "offset=%" PRIu64 ", cmd->offset=%" PRIu64 ", "
+-               "length=%" PRIu32 ", cmd->count=%" PRIu64 ": "
++               "length=%" PRIu64 ", cmd->count=%" PRIu64 ": "
+                "this is likely to be a bug in the NBD server",
+                offset, cmd->offset, length, cmd->count);
+     return false;
+@@ -141,6 +142,21 @@  REPLY.STRUCTURED_REPLY.CHECK:
+     SET_NEXT_STATE (%RECV_OFFSET_HOLE);
+     break;
 
-@@ -197,22 +197,21 @@ extent_callback (void *user_data, const char *metacontext, uint64_t offset,
-         return 1;
-     }
++  case NBD_REPLY_TYPE_OFFSET_HOLE_EXT:
++    if (cmd->type != NBD_CMD_READ ||
++        length != sizeof h->sbuf.reply.payload.offset_hole_ext)
++      goto resync;
++    if (!h->extended_headers) {
++      debug (h, "unexpected 64-bit hole without extended headers, "
++             "this is probably a server bug");
++      if (cmd->error == 0)
++        cmd->error = EPROTO;
++    }
++    h->rbuf = &h->sbuf.reply.payload.offset_hole_ext;
++    h->rlen = sizeof h->sbuf.reply.payload.offset_hole_ext;
++    SET_NEXT_STATE (%RECV_OFFSET_HOLE);
++    break;
++
+   case NBD_REPLY_TYPE_BLOCK_STATUS:
+     if (cmd->type != NBD_CMD_BLOCK_STATUS ||
+         length < 12 || ((length-4) & 7) != 0)
+@@ -406,7 +422,8 @@  REPLY.STRUCTURED_REPLY.RECV_OFFSET_DATA_DATA:
+  REPLY.STRUCTURED_REPLY.RECV_OFFSET_HOLE:
+   struct command *cmd = h->reply_cmd;
+   uint64_t offset;
+-  uint32_t length;
++  uint64_t length;
++  uint16_t type;
 
--    /* Libnbd returns uint32_t pair (length, flags) for each extent. */
--    extents_len = nr_entries / 2;
-+    extents_len = nr_entries;
+   switch (recv_into_rbuf (h)) {
+   case -1: SET_NEXT_STATE (%.DEAD); return 0;
+@@ -416,10 +433,14 @@  REPLY.STRUCTURED_REPLY.RECV_OFFSET_HOLE:
+     return 0;
+   case 0:
+     offset = be64toh (h->sbuf.reply.payload.offset_hole.offset);
+-    length = be32toh (h->sbuf.reply.payload.offset_hole.length);
++    type = be16toh (h->sbuf.reply.hdr.structured.type);
++
++    if (type == NBD_REPLY_TYPE_OFFSET_HOLE)
++      length = be32toh (h->sbuf.reply.payload.offset_hole.length);
++    else
++      length = be64toh (h->sbuf.reply.payload.offset_hole_ext.length);
 
-     extents = malloc (extents_len * sizeof *extents);
-     if (extents == NULL)
-         FAIL ("Cannot allocated extents: %s", strerror (errno));
+     assert (cmd); /* guaranteed by CHECK */
+-
+     assert (cmd->data && cmd->type == NBD_CMD_READ);
 
-     /* Copy libnbd entries to extents array. */
--    for (int i = 0, j = 0; i < extents_len; i++, j=i*2) {
--        extents[i].length = entries[j];
-+    for (int i = 0; i < extents_len; i++) {
-+        extents[i].length = entries[i].length;
-
-         /* Libnbd exposes both ZERO and HOLE flags. We care only about
-          * ZERO status, meaning we can copy this extent using efficinet
-          * zero method.
-          */
--        extents[i].zero = (entries[j + 1] & LIBNBD_STATE_ZERO) != 0;
-+        extents[i].zero = (entries[i].flags & LIBNBD_STATE_ZERO) != 0;
-     }
-
-     DEBUG ("r%zu: received %zu extents for %s",
-@@ -284,10 +283,10 @@ start_extents (struct request *r)
-     DEBUG ("r%zu: start extents offset=%" PRIi64 " count=%zu",
-            r->index, offset, count);
-
--    cookie = nbd_aio_block_status (
-+    cookie = nbd_aio_block_status_64 (
-         src.nbd, count, offset,
--        (nbd_extent_callback) { .callback=extent_callback,
--                                .user_data=r },
-+        (nbd_extent64_callback) { .callback=extent_callback,
-+                                  .user_data=r },
-         (nbd_completion_callback) { .callback=extents_completed,
-                                     .user_data=r },
-         0);
-@@ -322,7 +321,7 @@ next_extent (struct request *r)
-         limit = MIN (REQUEST_SIZE, size - offset);
-
-     while (length < limit) {
--        DEBUG ("e%zu: offset=%" PRIi64 " len=%" PRIu32 " zero=%d",
-+        DEBUG ("e%zu: offset=%" PRIi64 " len=%" PRIu64 " zero=%d",
-                extents_pos, offset, extents[extents_pos].length, is_zero);
-
-         /* If this extent is too large, steal some data from it to
+     /* Is the data within bounds? */
+@@ -435,7 +456,10 @@  REPLY.STRUCTURED_REPLY.RECV_OFFSET_HOLE:
+     /* The spec states that 0-length requests are unspecified, but
+      * 0-length replies are broken. Still, it's easy enough to support
+      * them as an extension, and this works even when length == 0.
++     * Although length is 64 bits, the bounds check above ensures that
++     * it is no larger than the 64M cap we put on NBD_CMD_READ.
+      */
++    assert (length <= SIZE_MAX);
+     if (!cmd->initialized)
+       memset ((char *) cmd->data + offset, 0, length);
+     if (CALLBACK_IS_NOT_NULL (cmd->cb.fn.chunk)) {
 -- 
 2.38.1
 
